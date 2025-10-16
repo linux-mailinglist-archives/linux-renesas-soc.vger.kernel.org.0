@@ -1,300 +1,298 @@
-Return-Path: <linux-renesas-soc+bounces-23181-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23182-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD006BE5082
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Oct 2025 20:20:20 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6326BE5088
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Oct 2025 20:20:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B0D004857AE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Oct 2025 18:20:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 54E0C3B3260
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Oct 2025 18:20:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5D082264C9;
-	Thu, 16 Oct 2025 18:20:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B18B225760;
+	Thu, 16 Oct 2025 18:20:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yqj7lL4b"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="oNAgFMTc";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="YOM0GlfU"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EB27223DD1;
-	Thu, 16 Oct 2025 18:20:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760638814; cv=fail; b=bBQryt4OWnpLPRzYpTUgsjJjkES4i9j/hbPW5wqqhLZJGTAqxl00OEdVcT93tCdE850ufqk7O3KcVBuJ4LtNttGH9F8D2mf8972RQSuYF9Xfx8k4VY8aSlfZbuUa9+4w5C0Gv0oM5JgchgBZ4gk+WxPwIo4ZkEiCSjA4ugiX8Ug=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760638814; c=relaxed/simple;
-	bh=5weqk+GAPUT5qXc+Oq88JXIE8LWtHlWsiqc0vo9x7bI=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Dmq6IrMpZ+p4gUduNbcsANAwEg/SQrSZcEvtnCK7zQOVq3Lzh6SvoM9oSIvcWVGBGLiZW/8AS7esBcZqS6txnZDY8nUWC32IOpNApfP6gRTukTmUMNNWKfYfCmRu0DBjFd8f1VX2qkt3PJZLd3yGzSSgIYvIw5RcCVRk/fUludI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yqj7lL4b; arc=fail smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760638814; x=1792174814;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:mime-version;
-  bh=5weqk+GAPUT5qXc+Oq88JXIE8LWtHlWsiqc0vo9x7bI=;
-  b=Yqj7lL4bHScpwrUPhgBUeRYUydvaV5RqSRHAzAQ3xLWbMSIaKD4T1EZj
-   SNeR3WVQOowo5E8kmX7sODgvxi7SnYOvNVbqxLGRZyHZYw2G5HWS4JO4L
-   s3A7pvTeSbN1gterSVzm+E0CE39XfOyXCH5ouGxXlTi6HxYh2+sQe0EWf
-   UA2LsFbLlBR8ovkJjd6vVIXjDtrNxD5kqA2Qt/nMxsPoG6StCfK2puVcg
-   DLzIzd+yA4E9dIJEn+uS6c4cKcr4ps2nCHFoOpeLsC1WabOsg8gWXiP3E
-   P04pDiNPkCt7dOYnZvV5jYosvvEpuuYYuDSIDjUCyf3QxOvX/bCUaYIEB
-   w==;
-X-CSE-ConnectionGUID: i2Fm92G+R6abKXBfNrvr4A==
-X-CSE-MsgGUID: VkSWrVj2R7Cg2p3N3wp6NQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="73959374"
-X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
-   d="asc'?scan'208";a="73959374"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 11:20:13 -0700
-X-CSE-ConnectionGUID: jfwuIHDxSUuJYlN7VL9rFw==
-X-CSE-MsgGUID: oRd4nAoLTAufraJrpmoycA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
-   d="asc'?scan'208";a="219681763"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
-  by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 11:20:12 -0700
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Thu, 16 Oct 2025 11:20:11 -0700
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Thu, 16 Oct 2025 11:20:11 -0700
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (40.93.195.22)
- by edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Thu, 16 Oct 2025 11:20:11 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=A8mtAHMJ5YbN0hfSelUT1+mwKALb6U7mn9OQsy/plT86dy1uf1fWDrD4yZOKKvP2x0rTKpSK2ctm3NQnfKr3rJPkXuaOv/gs4y5n/hH/pVI38xJD/bRT92xZKsddsNUSldko2HB1OxWEO6N7mso+6lPx+hfl2mjGsqlKetchOV8Yj38uIQFge9LackBsL1NtUmV1psOIJ7kyHpNQaYfygh7wr/xieKxw48/XiRglaq5T7mOvcWuU/7Zq0M9gBCxGIpVONj0ENc8uNx5Zls7+GORpS9EXG3vthVikRo+w5P/nfDc1v3NINltOyHv/kUMBYOrynVFMllp5R4plvBd0GA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pMicJtXaVu1Oxp9xp6+SoJ9z9DLg4L9q0MUiuSCK8LE=;
- b=s+vVvhnHCLcUSRqPWlCEurrAuKkxzjn3PMrRvEuYDwBD/oq6bQsadMdbbDwc42eEq5IBvZposCo99qfl5RAysnFKlLpoyVza6HwygIkSQBFFIt54QqXS34LeDhR0npImdWy5vf6bKi8WccHSLLhMf3bCvY9nVbiz3ZEgu431hv8nYe6BZgtI7xXoETBWRrU0JuPHoRBMnLvwjHUHmOn90OhO0nOrTUr5vB89GghG48GW8Pf25GIxQur+W1tXReGck1ch+xP4dhqeE0cXWmidc9z4o98Ukjruarx8mD5xWNUgFjRTUN+Teznh7GEP83D3AP3q8UZ8gkFvFxcEiMB1/w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CO1PR11MB5089.namprd11.prod.outlook.com (2603:10b6:303:9b::16)
- by SA1PR11MB8375.namprd11.prod.outlook.com (2603:10b6:806:38b::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.11; Thu, 16 Oct
- 2025 18:20:08 +0000
-Received: from CO1PR11MB5089.namprd11.prod.outlook.com
- ([fe80::81f7:c6c0:ca43:11c3]) by CO1PR11MB5089.namprd11.prod.outlook.com
- ([fe80::81f7:c6c0:ca43:11c3%4]) with mapi id 15.20.9228.010; Thu, 16 Oct 2025
- 18:20:08 +0000
-Message-ID: <c55e030b-e42e-4589-968c-e1cbb8218aca@intel.com>
-Date: Thu, 16 Oct 2025 11:20:05 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 0/6] convert net drivers to ndo_hwtstamp API part
- 2
-To: Vadim Fedorenko <vadim.fedorenko@linux.dev>, Jian Shen
-	<shenjian15@huawei.com>, Salil Mehta <salil.mehta@huawei.com>, Jijie Shao
-	<shaojijie@huawei.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, "Jakub
- Kicinski" <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Sunil Goutham
-	<sgoutham@marvell.com>, Geetha sowjanya <gakula@marvell.com>, "Subbaraya
- Sundeep" <sbhatta@marvell.com>, Bharat Bhushan <bbhushan2@marvell.com>,
-	"Tariq Toukan" <tariqt@nvidia.com>, Brett Creeley <brett.creeley@amd.com>,
-	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, "Paul
- Barker" <paul@pbarker.dev>, Yoshihiro Shimoda
-	<yoshihiro.shimoda.uh@renesas.com>
-CC: <linux-renesas-soc@vger.kernel.org>, Richard Cochran
-	<richardcochran@gmail.com>, Russell King <linux@armlinux.org.uk>, "Vladimir
- Oltean" <vladimir.oltean@nxp.com>, Simon Horman <horms@kernel.org>,
-	<netdev@vger.kernel.org>
-References: <20251016180727.3511399-1-vadim.fedorenko@linux.dev>
-Content-Language: en-US
-From: Jacob Keller <jacob.e.keller@intel.com>
-Autocrypt: addr=jacob.e.keller@intel.com; keydata=
- xjMEaFx9ShYJKwYBBAHaRw8BAQdAE+TQsi9s60VNWijGeBIKU6hsXLwMt/JY9ni1wnsVd7nN
- J0phY29iIEtlbGxlciA8amFjb2IuZS5rZWxsZXJAaW50ZWwuY29tPsKTBBMWCgA7FiEEIEBU
- qdczkFYq7EMeapZdPm8PKOgFAmhcfUoCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AA
- CgkQapZdPm8PKOiZAAEA4UV0uM2PhFAw+tlK81gP+fgRqBVYlhmMyroXadv0lH4BAIf4jLxI
- UPEL4+zzp4ekaw8IyFz+mRMUBaS2l+cpoBUBzjgEaFx9ShIKKwYBBAGXVQEFAQEHQF386lYe
- MPZBiQHGXwjbBWS5OMBems5rgajcBMKc4W4aAwEIB8J4BBgWCgAgFiEEIEBUqdczkFYq7EMe
- apZdPm8PKOgFAmhcfUoCGwwACgkQapZdPm8PKOjbUQD+MsPBANqBUiNt+7w0dC73R6UcQzbg
- cFx4Yvms6cJjeD4BAKf193xbq7W3T7r9BdfTw6HRFYDiHXgkyoc/2Q4/T+8H
-In-Reply-To: <20251016180727.3511399-1-vadim.fedorenko@linux.dev>
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature";
-	boundary="------------4ZP4bYemm1yklCpJAJZL8pZR"
-X-ClientProxiedBy: SJ0PR13CA0037.namprd13.prod.outlook.com
- (2603:10b6:a03:2c2::12) To CO1PR11MB5089.namprd11.prod.outlook.com
- (2603:10b6:303:9b::16)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03A91223DD1;
+	Thu, 16 Oct 2025 18:20:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.159
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760638835; cv=none; b=oth7kAZe2IwDy7X6hX2wNxHHakgxTmg0gMq+89D5dC3nVENExwJeEB6IlaRxRd3axhumOoU/iKj421yWdWeyP7YbZdoYnTbOdKgbTb/codJcy1q8nh3j2xvoY8Ibk8FuVV0d/U/W52TmW5QU/yfEN2W3sgd/HyOp8zmiJRJvOY4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760638835; c=relaxed/simple;
+	bh=3m61dWDLGWKI3TZh45zGRYqUpX7Z+UCeUHpbBmxa6YU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gwKXIxpH/EfalUF7UkcBZMxd/Ox9xSKrA3KUXkpiD3UnPmvNFrBMVduXey9n89pfJWtZDCjGMFyPno/wBPQ35c5KktWgKeMVtP1kQ4X9e3sn0BcbgIVA/0So7DDvloq/1mL4UNmQoXAII3xGXhJN7hVJHwEOb0mdC1fEB7KCyXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=oNAgFMTc; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=YOM0GlfU; arc=none smtp.client-ip=202.12.124.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 10D717A009F;
+	Thu, 16 Oct 2025 14:20:32 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-10.internal (MEProxy); Thu, 16 Oct 2025 14:20:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm1; t=1760638831; x=1760725231; bh=WA
+	ZjVgfWykFsgaH4ofSXsLVke538TxveX//qoFJqRqs=; b=oNAgFMTc5AUYwfc3iN
+	/eLWkA26A7kaDRL1zOr4Ci383sg+dqPokihreYjqD+VYGOfX5AU6P0t0Niqz55Gp
+	exXhInnvUJlsEOIVRbY12HFF7e35yBhyRMKGdwmg9z1labT31IehNhTDPsl9MwvG
+	87QoEXu5VCfjqE+ERFd8TlEff0EpKCPWhZM0e69FPO430KxI6m/LeI8mGOYF5Y4I
+	mu+tGntsTx8dCC2tKwxlHXPhPyt22MLgXq4EnNMKvUb+veoGERC0UIDRaGdmpWd7
+	XQiyDEQjiYxr1VBz3qQpV5NNtrf8bnmsxLb0BP0VoVpMYhmvGjyKftHZrYkyA8oQ
+	DpNw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1760638831; x=1760725231; bh=WAZjVgfWykFsgaH4ofSXsLVke538
+	TxveX//qoFJqRqs=; b=YOM0GlfUPxynpFboxXYGTpii7rmo3Vwo6vSpsGo0Am3D
+	eoD5cp7nPw0M2YuY+fpaC6B02SzgEN8GwXG0ElfNTwvG3wAvgdWeiO0hthutvOdO
+	gv8+SmNEX7Tt2iFono0aC6QkzNAN/kOh7+ZgW4tzm8EPmaJNcwy5BT/umFY0sqUj
+	spzwv5eTr+VWLnDFcNOCldnfDg/3fwjXQtZitOXoziLW0qjAYW9BLMVnghqmyVfQ
+	NnQ/Ch2KvKOJAl4u0Vdw4FnQbTDZpmrxTTO0hbq1QmQsj6fxHt+hr+bmsaNO+QzG
+	yu1+OpKdSLtghKh0f4AdCHY0ez2xbQFoKMRxhrJJaQ==
+X-ME-Sender: <xms:bzfxaA5_L4S1Xo-oh4BhO-SfDIPHUlsaCm5MoRmUdJIp2No1TodRWw>
+    <xme:bzfxaCkb98f5mBUtrRZZ0mioXe1N1eGSFgAYzBdnK1qYJMHFvdw3VelepxKiLfNH_
+    KQKLry4dF-iMzM9_xjPOrqD0cZHPftezxDp6ZolkCCszgnT8XneouCT>
+X-ME-Received: <xmr:bzfxaNo6HgaZzSC_Z9D_FRFTmmDe83rmXy61Osus3XACn-6pT9JxeR-xHwrFjnILwBL0SYTXBj6xCDijXP5HsgpW>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduvdeileelucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhephffvvefufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpefpihhklhgrshcu
+    ufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrsh
+    esrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeehudelteetkefgffef
+    udefuedvjeeivdekhfevieefgeffheeltddvvefhfeetgeenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhn
+    ugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopeejpdhmohguvgepshhmth
+    hpohhuthdprhgtphhtthhopegurghnihgvlhdrlhgviigtrghnoheslhhinhgrrhhordho
+    rhhgpdhrtghpthhtohepthhglhigsehlihhnuhhtrhhonhhigidruggvpdhrtghpthhtoh
+    epghgvvghrtheslhhinhhugidqmheikehkrdhorhhgpdhrtghpthhtoheplhhinhhugidq
+    khgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugi
+    dqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthho
+    pehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthh
+    drshgvpdhrtghpthhtohepghgvvghrthdorhgvnhgvshgrshesghhlihguvghrrdgsvg
+X-ME-Proxy: <xmx:bzfxaJtKBGMUfifco9-Fw4sGahhYK20U2kK7ExDeBxh9URO05Xwbmw>
+    <xmx:bzfxaKFhmagvwTouBWloCoWK5DWJianf_bvmEpC1g4oA28q14vvujQ>
+    <xmx:bzfxaKYy2sOsCdlWJTTGSt93SN-YO9ACcoYprqN28_xj4SmpHNG5FQ>
+    <xmx:bzfxaKVy_aVMytEuv8ynaXIWvP36-PgkoM3gPmT78pE3Zyqvd2ZotQ>
+    <xmx:bzfxaEkDg_ldNTyH7GY3h5ZnSJoMTetqd5bpW1DKAdWAuv7h2-TMdxPx>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 16 Oct 2025 14:20:30 -0400 (EDT)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2] clocksource/drivers/sh_cmt: Always leave device running after probe
+Date: Thu, 16 Oct 2025 20:20:22 +0200
+Message-ID: <20251016182022.1837417-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PR11MB5089:EE_|SA1PR11MB8375:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0c983e64-6a4a-47ac-b71e-08de0ce0a2f3
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|366016|1800799024|376014|921020;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?MlE0RUxjZzZzcmc1M0cxTldNSjBqdzRlTjNxc0MydmhLYW1YeFk2N3hNSUNl?=
- =?utf-8?B?SnJvcEZ5OUJuOStZK1M1UHJXRUI4MEVKOFY2c1RBdzRYVEZDOWJKZE10d3FU?=
- =?utf-8?B?ZVMzdFZLcStvdzNJTnh1TlpqVUlhaFZqWUdwWTJvc01TU0h4QWxqWEt1TVlT?=
- =?utf-8?B?ZElHODZla0l3U0FjTVVJcGVRUVJmeFd3ZUwzLzgvRlg2c3ZPRjJRbzhESVEz?=
- =?utf-8?B?NGZWa1VFQ1JKK3pZK3gvUFN6TjgvOTB5UkV2L0dPaEM0SHJsOS83VDE3TXJS?=
- =?utf-8?B?NlRSL1Z4djMvR0ZxaUdzU3praXAwUG5zNXZTU3VLejJFbVAwSGV2aXJSdWZ2?=
- =?utf-8?B?OVVoSU1yMTdIUmtYbC9sdnA3WEg2ZkFqLzhDNTBrZTRQbzFhdkxkR1JLOTFo?=
- =?utf-8?B?SXlHb28vUGJXMnY0aFlsTXpMUDE5NE1mVkhEVVNYRGoyNE5tbVNOL3VqNm9h?=
- =?utf-8?B?aXNLU1Z5bmZQVVEzdjZXNmJPUW95UGVzMU5lN2wzTEtBd1RMbnBPYWs2aTFX?=
- =?utf-8?B?Szk1RHNKMjdnNDdhc3I4YWhqOEFDaWpHcWVFTzJoWmVKeGxoaXpJdkxLUXpL?=
- =?utf-8?B?YUpQSWVXUkc0c29vOC9rdzJTZUZXNm1QcldlamVOQWY2elBqYTFUVmdLZHBt?=
- =?utf-8?B?b25BNlpZYnRjRktuSUhQdnNxR2ZIT1N2Q0hBMCtDS2ZWVDlHb25NQ1lTN3hP?=
- =?utf-8?B?TG8rYnVpcUhaTU5mWFk4QWpob3hybU4zcXZFL1FVelQ1WU5MOGpnZ01CTHZD?=
- =?utf-8?B?eVZDUnB4MmxwdDdxZkVqa0NZQ0w0b2RZKzE5Z2FGVS9oOHhNK2hPZ3ZCUWZq?=
- =?utf-8?B?SGdnM3kwdUx4MStxR1hVaUJrSTlORGZ4dWdlQlBWUmhZbS9sSkdNdFY4K2ZR?=
- =?utf-8?B?em9xRUNEWjluWjFqYVdyN3BjV2Z5bURPc0ZDd0JJb1p4WFl1cENHWE9ibUNl?=
- =?utf-8?B?NzkrWlMzUDczMjllOEI4bFRjT3BSY3ZjbmE2b0NnWno4WHJhaFpiRnIzeFFy?=
- =?utf-8?B?QTdGb0Mva1NOdi9rZkhaYWk0NEQvdjhGQkt5YkxVMS9hSGJHSSs0NTdBUEF5?=
- =?utf-8?B?T2RWVVFtU2lFN1dQN0syMDlwbzFDcUNhNFptV2Y3ZkozUUdjZ3ZvazFDRDNF?=
- =?utf-8?B?L2trUi9ieFpEZ0hiL3NwRGlWQXgzWEtTRkx3MUd2VitDRW50UGZiNDhNdWND?=
- =?utf-8?B?M1ZLSXgwQThhME1RMC9JbFJWSEE3VUJnQk91dTFDRWZ4QmxsUnNFNmRqWG5v?=
- =?utf-8?B?WHlRelBScExuV0VZYkhsWGhRcmltNWxQTmZEcktOc0xWeDJRcEw4ZTlCRldk?=
- =?utf-8?B?S3hJL0xQUUN3N0tIZHZNSHhaZ3VZVGJ1ZnBrZ2RZWm1kcFVjTWdlOENVZEVL?=
- =?utf-8?B?ZS8xYlRIZ1o1VFd0K3c2bU5QdmV2RytnbldTd2dJL1VlOUlHVTZVOGt5eDhF?=
- =?utf-8?B?ajNFSk9VWm5sNU1OTGlaNEhNVGYvb0ZJSVVOK09XRzhOSVhmZFFSWWd1QnJQ?=
- =?utf-8?B?Yit5c3FrTnZkeXZtcWRybHJCb0lOaWcvdG1INUtqQjRpak1XaUljeG00a05Z?=
- =?utf-8?B?VUtvbnlTa3JaY1ZHOG5Gd0RZeFd1OS92YnF2Tmx6TkcvQ09QdkwwZThCN3RU?=
- =?utf-8?B?MHNTQTBxVUVVS1UxOUc4WHBidHFtS2E5RlVHV05qSGwxazEzMytWOWQrZTlu?=
- =?utf-8?B?cUxMZWpFTXJqR0NFN0Y1NVJqSks2M042cEJBZXNwRVA2SXpOMjQ5blBmZ3Nk?=
- =?utf-8?B?a1pNT01VODRqSEpST3FGR05mYnhvM1FCR093TlBwV2VaT0l3MlZpdWh6SDMz?=
- =?utf-8?B?MzQwVmV2MXcrdk9Jb0ZsVUtJRFZxQ2tXMGd4NG1MZ1BRZHJTZHhpMnRJdHVa?=
- =?utf-8?B?bmYvdFoxWlliZXMxOVU0RTVoUW9OVWpUY1pabFJxUFpBZEwvU0dhRDdZMTcr?=
- =?utf-8?B?ejlIRVJFbDBtUGZKd2U5VFVGNjFvb1FMb1FDclFNWjVSMVFxNWV2ekhxVm1N?=
- =?utf-8?Q?fy5mYw7Yy+bXHDljqMZZbetJlUWi7o=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5089.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(1800799024)(376014)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SFBaN0RmcnYyZDh3Z2ROd2ZCdTJTRG10VGU3cm8xUXpHZjV6TFRhWWV4YXgz?=
- =?utf-8?B?NGtiMHpQWEtFS2orY2RIaStvbXRmYWFGdkQrZ2VoYXNYSG9RTStlajdRSjMw?=
- =?utf-8?B?VFJEdjBHemRSREN6d0oxKzl5TmNQMEFtN01HRDZYcDA2SEhQcnFXN2pKdFdW?=
- =?utf-8?B?eWJIZDgvM1FKUzRHRWFpSGZiNUllbDYwZFA4T2h0amI0RFZ1VmdHem9Nb0Er?=
- =?utf-8?B?UVlad0FIYTByZ1pIVEJ6cWpaU0JSVjNWQTh5ektKam5lN01FUXFJc2xlaDc4?=
- =?utf-8?B?WlBINmRJMnRLZDUrdGdiM2FtaVpLZVBZS0FCMzdORzQ0bForb1N0dnM0MjNK?=
- =?utf-8?B?OStsVFNuS2xsL01Qc3hUYm5iYmJxNWlIY09HRzlMR25wUkh4VlZSY1pyRUF1?=
- =?utf-8?B?dHB4aFM4SUg0ZU5IMlhNd3FPTmJoLzh2VEo4OHI4eW0yZ09KTFJsR1lSc2Vt?=
- =?utf-8?B?Qkg1UStENVBEcTRBYUw3SXE5R1BTSnF3NTU2Tm8zKzc5ZVRVNWcwdU9lK0Ji?=
- =?utf-8?B?K0t0NHptS3kwejdFMDdwYU9KeHhoK1VZd2Y0TWlpcHRyMTJtQW9oVUJOYWV4?=
- =?utf-8?B?cEdDSkp2S0hlSHl3V1ROd0NSeXd5K201ZzFjNHNaWEVYdnJsREtQcDhRcTBE?=
- =?utf-8?B?dTFqTU9may9CRGR6dkFadVVqSlN6MWRUeHZZdnZWQVozUWRZS3lrNmF0NUd5?=
- =?utf-8?B?aFJYT3RnUEdQQ2ZNdHFFQ01JYnNHQXh2VldBeGFOWW82bXMrMHFtVlJLNWVo?=
- =?utf-8?B?enhOYlVwZEZJN2ZRUUh4ZmtvRE41QXN2aUprRkpWc3RzVFUvdjNocWRYdVhi?=
- =?utf-8?B?MUY2QUM5WXVkLzRKZy9sS25uanljcGcwN2YyQW15cmNNY0tZdzRUUE4yRm1P?=
- =?utf-8?B?QS9xUXkrVy9WUHRzUHdQQm5mNEJyWW9TYnpkeWNMSGZzZUZpdks2cGY0elZl?=
- =?utf-8?B?R3d2aUhtZjhjSnNTNmowR2RQSGxhaEtnMkxhTExDNXAwRmRNZVdoRzNQMXJu?=
- =?utf-8?B?WTBFWE42U0FYVFM0RDlSbjVYOXRmMk5jM2hBYVlJYy9mekNNb3JRRU9USmhT?=
- =?utf-8?B?dXZhZGpkN2d3MHFsSW50RkdCYlRreHhtbW0xa04rVDk5RGJoc1pId2E5Wm1k?=
- =?utf-8?B?ZlFMTlV3UDVnVEVjSXlwMlp2L1VGYTZYbTJoUmQ3anBRT24wRjNwTjlDaVls?=
- =?utf-8?B?VnVCaTlDVTR2a3gxbXZ3SkVvZHRpU1ZpbHRNYXI4Y2pyNTRzS2ZjMmdheVRk?=
- =?utf-8?B?ZkE4ZWR5OENzM1ZDc1FxaDZBb240SzRScHNVUlZFcDdickZZNlRLQkxXdWE3?=
- =?utf-8?B?Z2hzSXRmTFliUG9PcklTZFBnbUJOUWpZU1prT3RkNStNTW9meS9USnF4REpn?=
- =?utf-8?B?RWRpcldWN2RIWFVQaFAzdmY2cGtWZ1FRSGNYZlU5VWtlREQybUs0TUdodXB6?=
- =?utf-8?B?Z1FyQURKMEJnZWR4WmlvUUowbnN4S1lSMVNqSEJjOTFwQmdLZmYvZER4OVNa?=
- =?utf-8?B?TG1DVC9QY0V0MkNBTTI5V2ZSWmRMTE02dHVORjRKejVpc2kyV1huQjZ3c0p3?=
- =?utf-8?B?MWFZcDZkYnYzYytVZUYxRDNBZzJUd3Z4UHRraWZiQTVsakR1RUhMV0J1Qjhi?=
- =?utf-8?B?UHlZZE04RXJFMldQanhYYW50ZEVSMkdDbFAwK1k2dklFKy9XVFZ4MWlPZlh4?=
- =?utf-8?B?OGRvWlFrRW1HWWphc25IVzRNQmYzMER5V09qZDhVeEdoTkEwbURwWmt6QjJy?=
- =?utf-8?B?QkFiZU5hWE42c051T1RSY0ltTHZVNjBHK1FzTzNxL0VUemtkU29PaG51dmla?=
- =?utf-8?B?TUZaOWpIbWxBeFhncGdBYWpTdXliTWRXd1EwMUZrRUR3SEpWUkRwTkFqaE5X?=
- =?utf-8?B?emkvUXM0OE1tY0ZKTzV1YjZLYUwvUUdpa294bmhEZU04RVEwUDVGUU92VWxq?=
- =?utf-8?B?WjQzaGRURzJnNjJHNitSNlRNQ2tGQmJWYlBhVGgrSVFiSFJaTjhnNTRuYTNp?=
- =?utf-8?B?RGRWV1dwM01YQmh5WEFHeU5GUDdhM2tWU3U1T2grVEpBQWJMZi9UZFplWGdy?=
- =?utf-8?B?MWwxZGZMTkw2bGxqSUg1azBSLzdST2VvNmpidHNvcklTaEZtODhST0EzZUlI?=
- =?utf-8?B?dXVIRzA5WXhzcGcvZ2ZHdCtpN1FnbTcrMHp2RUNOSy9mR3B2NEJKQWt5UG9w?=
- =?utf-8?B?Znc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0c983e64-6a4a-47ac-b71e-08de0ce0a2f3
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5089.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2025 18:20:08.0693
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NXGEH2GMCig8XBLWL3xuSekznWxQaHQiVR9vgtFIO48F1E3StU7pHv2EvUppmgIRyg5xKS/bdLg/lUScYkyOK4CvaJNIQ3TMzvQfZSmwUV8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8375
-X-OriginatorOrg: intel.com
-
---------------4ZP4bYemm1yklCpJAJZL8pZR
-Content-Type: multipart/mixed; boundary="------------sxOSnptBocBO6ofKoyra7NS3";
- protected-headers="v1"
-From: Jacob Keller <jacob.e.keller@intel.com>
-To: Vadim Fedorenko <vadim.fedorenko@linux.dev>,
- Jian Shen <shenjian15@huawei.com>, Salil Mehta <salil.mehta@huawei.com>,
- Jijie Shao <shaojijie@huawei.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Sunil Goutham <sgoutham@marvell.com>, Geetha sowjanya <gakula@marvell.com>,
- Subbaraya Sundeep <sbhatta@marvell.com>,
- Bharat Bhushan <bbhushan2@marvell.com>, Tariq Toukan <tariqt@nvidia.com>,
- Brett Creeley <brett.creeley@amd.com>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
- Paul Barker <paul@pbarker.dev>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: linux-renesas-soc@vger.kernel.org,
- Richard Cochran <richardcochran@gmail.com>,
- Russell King <linux@armlinux.org.uk>,
- Vladimir Oltean <vladimir.oltean@nxp.com>, Simon Horman <horms@kernel.org>,
- netdev@vger.kernel.org
-Message-ID: <c55e030b-e42e-4589-968c-e1cbb8218aca@intel.com>
-Subject: Re: [PATCH net-next 0/6] convert net drivers to ndo_hwtstamp API part
- 2
-References: <20251016180727.3511399-1-vadim.fedorenko@linux.dev>
-In-Reply-To: <20251016180727.3511399-1-vadim.fedorenko@linux.dev>
-
---------------sxOSnptBocBO6ofKoyra7NS3
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
+The CMT device can be used as both a clocksource and a clockevent
+provider. The driver tries to be smart and power itself on and off, as
+well as enabling and disabling its clock when it's not in operation.
+This behavior is slightly altered if the CMT is used as an early
+platform device in which case the device is left powered on after probe,
+but the clock is still enabled and disabled at runtime.
 
+This has worked for a long time, but recent improvements in PREEMPT_RT
+and PROVE_LOCKING have highlighted an issue. As the CMT registers itself
+as a clockevent provider, clockevents_register_device(), it needs to use
+raw spinlocks internally as this is the context of which the clockevent
+framework interacts with the CMT driver. However in the context of
+holding a raw spinlock the CMT driver can't really manage its power
+state or clock with calls to pm_runtime_*() and clk_*() as these calls
+end up in other platform drivers using regular spinlocks to control
+power and clocks.
 
-On 10/16/2025 11:07 AM, Vadim Fedorenko wrote:
-> This is part 2 of patchset to convert drivers which support HW=20
-> timestamping to use .ndo_hwtstamp_get()/.ndo_hwtstamp_set() callbacks.
-> The new API uses netlink to communicate with user-space and have some
-> test coverage.
->=20
-> Vadim Fedorenko (6):
->   octeontx2: convert to ndo_hwtstamp API
->   mlx4: convert to ndo_hwtstamp API
->   ionic: convert to ndo_hwtstamp API
->   net: ravb: convert to ndo_hwtstamp API
->   net: renesas: rswitch: convert to ndo_hwtstamp API
->   net: hns3: add hwtstamp_get/hwtstamp_set ops
->=20
-Thanks for doing this (often under appreciated) skunk work to follow
-through on cleanup of the old interface.
+This mix of spinlock contexts trips a lockdep warning.
 
-Regards,
-Jake
+    =============================
+    [ BUG: Invalid wait context ]
+    6.17.0-rc3-arm64-renesas-03071-gb3c4f4122b28-dirty #21 Not tainted
+    -----------------------------
+    swapper/1/0 is trying to lock:
+    ffff00000898d180 (&dev->power.lock){-...}-{3:3}, at: __pm_runtime_resume+0x38/0x88
+    ccree e6601000.crypto: ARM CryptoCell 630P Driver: HW version 0xAF400001/0xDCC63000, Driver version 5.0
+    other info that might help us debug this:
+    ccree e6601000.crypto: ARM ccree device initialized
+    context-{5:5}
+    2 locks held by swapper/1/0:
+     #0: ffff80008173c298 (tick_broadcast_lock){-...}-{2:2}, at: __tick_broadcast_oneshot_control+0xa4/0x3a8
+     #1: ffff0000089a5858 (&ch->lock){....}-{2:2}
+    usbcore: registered new interface driver usbhid
+    , at: sh_cmt_start+0x30/0x364
+    stack backtrace:
+    CPU: 1 UID: 0 PID: 0 Comm: swapper/1 Not tainted 6.17.0-rc3-arm64-renesas-03071-gb3c4f4122b28-dirty #21 PREEMPT
+    Hardware name: Renesas Salvator-X 2nd version board based on r8a77965 (DT)
+    Call trace:
+     show_stack+0x14/0x1c (C)
+     dump_stack_lvl+0x6c/0x90
+     dump_stack+0x14/0x1c
+     __lock_acquire+0x904/0x1584
+     lock_acquire+0x220/0x34c
+     _raw_spin_lock_irqsave+0x58/0x80
+     __pm_runtime_resume+0x38/0x88
+     sh_cmt_start+0x54/0x364
+     sh_cmt_clock_event_set_oneshot+0x64/0xb8
+     clockevents_switch_state+0xfc/0x13c
+     tick_broadcast_set_event+0x30/0xa4
+     __tick_broadcast_oneshot_control+0x1e0/0x3a8
+     tick_broadcast_oneshot_control+0x30/0x40
+     cpuidle_enter_state+0x40c/0x680
+     cpuidle_enter+0x30/0x40
+     do_idle+0x1f4/0x26c
+     cpu_startup_entry+0x34/0x40
+     secondary_start_kernel+0x11c/0x13c
+     __secondary_switched+0x74/0x78
 
---------------sxOSnptBocBO6ofKoyra7NS3--
+For non-PREEMPT_RT builds this is not really an issue, but for
+PREEMPT_RT builds where normal spinlocks can sleep this might be an
+issue. Be cautious and always leave the power and clock running after
+probe.
 
---------------4ZP4bYemm1yklCpJAJZL8pZR
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+* Changes since RFC
+- Simplify a ret = -ETIMEDOUT; return ret; to return -ETIMEDOUT;.
+- Remove { } for single if-statement bodies created by this patch.
+- Update spelling in commit message.
+---
+ drivers/clocksource/sh_cmt.c | 36 +++---------------------------------
+ 1 file changed, 3 insertions(+), 33 deletions(-)
 
------BEGIN PGP SIGNATURE-----
+diff --git a/drivers/clocksource/sh_cmt.c b/drivers/clocksource/sh_cmt.c
+index 385eb94bbe7c..791b298c995b 100644
+--- a/drivers/clocksource/sh_cmt.c
++++ b/drivers/clocksource/sh_cmt.c
+@@ -355,14 +355,6 @@ static int sh_cmt_enable(struct sh_cmt_channel *ch)
+ 
+ 	dev_pm_syscore_device(&ch->cmt->pdev->dev, true);
+ 
+-	/* enable clock */
+-	ret = clk_enable(ch->cmt->clk);
+-	if (ret) {
+-		dev_err(&ch->cmt->pdev->dev, "ch%u: cannot enable clock\n",
+-			ch->index);
+-		goto err0;
+-	}
+-
+ 	/* make sure channel is disabled */
+ 	sh_cmt_start_stop_ch(ch, 0);
+ 
+@@ -384,19 +376,12 @@ static int sh_cmt_enable(struct sh_cmt_channel *ch)
+ 	if (ret || sh_cmt_read_cmcnt(ch)) {
+ 		dev_err(&ch->cmt->pdev->dev, "ch%u: cannot clear CMCNT\n",
+ 			ch->index);
+-		ret = -ETIMEDOUT;
+-		goto err1;
++		return -ETIMEDOUT;
+ 	}
+ 
+ 	/* enable channel */
+ 	sh_cmt_start_stop_ch(ch, 1);
+ 	return 0;
+- err1:
+-	/* stop clock */
+-	clk_disable(ch->cmt->clk);
+-
+- err0:
+-	return ret;
+ }
+ 
+ static void sh_cmt_disable(struct sh_cmt_channel *ch)
+@@ -407,9 +392,6 @@ static void sh_cmt_disable(struct sh_cmt_channel *ch)
+ 	/* disable interrupts in CMT block */
+ 	sh_cmt_write_cmcsr(ch, 0);
+ 
+-	/* stop clock */
+-	clk_disable(ch->cmt->clk);
+-
+ 	dev_pm_syscore_device(&ch->cmt->pdev->dev, false);
+ }
+ 
+@@ -583,8 +565,6 @@ static int sh_cmt_start_clocksource(struct sh_cmt_channel *ch)
+ 	int ret = 0;
+ 	unsigned long flags;
+ 
+-	pm_runtime_get_sync(&ch->cmt->pdev->dev);
+-
+ 	raw_spin_lock_irqsave(&ch->lock, flags);
+ 
+ 	if (!(ch->flags & (FLAG_CLOCKEVENT | FLAG_CLOCKSOURCE)))
+@@ -619,8 +599,6 @@ static void sh_cmt_stop_clocksource(struct sh_cmt_channel *ch)
+ 		sh_cmt_disable(ch);
+ 
+ 	raw_spin_unlock_irqrestore(&ch->lock, flags);
+-
+-	pm_runtime_put(&ch->cmt->pdev->dev);
+ }
+ 
+ static int sh_cmt_start_clockevent(struct sh_cmt_channel *ch)
+@@ -630,10 +608,8 @@ static int sh_cmt_start_clockevent(struct sh_cmt_channel *ch)
+ 
+ 	raw_spin_lock_irqsave(&ch->lock, flags);
+ 
+-	if (!(ch->flags & (FLAG_CLOCKEVENT | FLAG_CLOCKSOURCE))) {
+-		pm_runtime_get_sync(&ch->cmt->pdev->dev);
++	if (!(ch->flags & (FLAG_CLOCKEVENT | FLAG_CLOCKSOURCE)))
+ 		ret = sh_cmt_enable(ch);
+-	}
+ 
+ 	if (ret)
+ 		goto out;
+@@ -656,10 +632,8 @@ static void sh_cmt_stop_clockevent(struct sh_cmt_channel *ch)
+ 
+ 	ch->flags &= ~FLAG_CLOCKEVENT;
+ 
+-	if (f && !(ch->flags & (FLAG_CLOCKEVENT | FLAG_CLOCKSOURCE))) {
++	if (f && !(ch->flags & (FLAG_CLOCKEVENT | FLAG_CLOCKSOURCE)))
+ 		sh_cmt_disable(ch);
+-		pm_runtime_put(&ch->cmt->pdev->dev);
+-	}
+ 
+ 	/* adjust the timeout to maximum if only clocksource left */
+ 	if (ch->flags & FLAG_CLOCKSOURCE)
+@@ -1134,8 +1108,6 @@ static int sh_cmt_setup(struct sh_cmt_device *cmt, struct platform_device *pdev)
+ 		mask &= ~(1 << hwidx);
+ 	}
+ 
+-	clk_disable(cmt->clk);
+-
+ 	platform_set_drvdata(pdev, cmt);
+ 
+ 	return 0;
+@@ -1183,8 +1155,6 @@ static int sh_cmt_probe(struct platform_device *pdev)
+  out:
+ 	if (cmt->has_clockevent || cmt->has_clocksource)
+ 		pm_runtime_irq_safe(&pdev->dev);
+-	else
+-		pm_runtime_idle(&pdev->dev);
+ 
+ 	return 0;
+ }
+-- 
+2.51.0
 
-wnsEABYIACMWIQQgQFSp1zOQVirsQx5qll0+bw8o6AUCaPE3VQUDAAAAAAAKCRBqll0+bw8o6LLC
-AQDV94+nY6msm3ev6aaMqhKbQ88Hf6rjfppbzMvw3DBfRwEA3wRTu2sCvNoNm/gRJwW3nrcOEXRk
-w5Cmkw58TVQRlw4=
-=SsHV
------END PGP SIGNATURE-----
-
---------------4ZP4bYemm1yklCpJAJZL8pZR--
 
