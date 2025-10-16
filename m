@@ -1,341 +1,404 @@
-Return-Path: <linux-renesas-soc+bounces-23132-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23133-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCD52BE238E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Oct 2025 10:49:28 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48619BE25A0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Oct 2025 11:24:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8A606485E4D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Oct 2025 08:49:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 03EEE3ACBD0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Oct 2025 09:24:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE52B2ED16C;
-	Thu, 16 Oct 2025 08:49:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 470AE317702;
+	Thu, 16 Oct 2025 09:24:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=imgtec.com header.i=@imgtec.com header.b="iWkQU8rr";
-	dkim=pass (1024-bit key) header.d=IMGTecCRM.onmicrosoft.com header.i=@IMGTecCRM.onmicrosoft.com header.b="p1qSs+Kk"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VEpy0kNm"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx08-00376f01.pphosted.com (mx08-00376f01.pphosted.com [91.207.212.86])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08D573254B8;
-	Thu, 16 Oct 2025 08:49:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=91.207.212.86
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760604564; cv=fail; b=Cys0OIv+Fn5Ki9TNCj1/wmsfRmvnuRzv6hw4DSbj3L0XqVLuv56R0DcG+DHkkS6CHjtwrt4PaJRtvSzf494tF1S1/r8rZIYEatdxRTcJna1OEZkQl9/eIrLbQkkfHfejd4BVMZLg1Xw3dUwYu1bwxNVS04i/TEpkxEcxjjBsWQ8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760604564; c=relaxed/simple;
-	bh=X9fJH6S9WCHBgGfjKIJIV7/+lePWckFV8b2xeQ/qXFc=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=cbMqJHT8pFLREwDZZaQJYd9dIN2gqpRyIURtsZvR69ZaY5IZSIB8PINbHFjGptr7mppc5+q6oX1U7wLwjX0ECBaSItx+Gof3wr0FwyDAT3DVArnsZpykPtlKbWx4XR+NJlrlQv/3sMbI9JeX/wp8mwHmVbcngBGRT6vlTqQw0kU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=imgtec.com; spf=pass smtp.mailfrom=imgtec.com; dkim=pass (2048-bit key) header.d=imgtec.com header.i=@imgtec.com header.b=iWkQU8rr; dkim=pass (1024-bit key) header.d=IMGTecCRM.onmicrosoft.com header.i=@IMGTecCRM.onmicrosoft.com header.b=p1qSs+Kk; arc=fail smtp.client-ip=91.207.212.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=imgtec.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=imgtec.com
-Received: from pps.filterd (m0168888.ppops.net [127.0.0.1])
-	by mx08-00376f01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59G5fQjJ1004344;
-	Thu, 16 Oct 2025 09:48:43 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=dk201812; bh=X9fJH6S9WCHBgGfjKIJIV7/+l
-	ePWckFV8b2xeQ/qXFc=; b=iWkQU8rrjh3E5aNDdIE5JvuvEF/P3m+1dy2PBaaM8
-	nA9nUM4XdWrXqIbLlJkJ1OK5kcMwJSrYmJopNvSQe/oOL6v2mFxIAzlrC9TXRU7Q
-	qajnoFzm3JF4miJmGYzojqdjioNto2F5qx1FqYmkSffjzyBzGYGqpvr5YJUilSrg
-	rHT5gCcaDz+C7NEB8PWzKQzp/DbrXnEw3TjP0HCNQs0S3edeZHnKs5FetYqhbBVb
-	/Cm/iwR+gjJlyDtcxFb0yTj5jsKkS5iwNKeHMLsvNRDFvKYHu0Y/RDkFJxP+w1Xm
-	HjZjvNAGdouRZavL7JqrZFtU68w1LW+RMyYRqWa/amyfQ==
-Received: from lo2p265cu024.outbound.protection.outlook.com (mail-uksouthazon11021083.outbound.protection.outlook.com [52.101.95.83])
-	by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 49qdgn4q8x-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 16 Oct 2025 09:48:42 +0100 (BST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ylq+rWjEX8ZOYUpOCFfToiw9xDIPAkY0+KRxd+xqCcBRVfSVXuZpG8fIsMMGp3waJgMIk+EOHDy6NBUsU1/JXVaiXslTAKsapu46kmM4mqPg/gCfh7LcW/eeFK42Qs+VAS0dyrLICL975lAnP2dv8iMbnF1bqY2W40L2KdkQfkHuPa7Inook/9mmf9hvJrNwBaMk0TAw600MOfDT85yGPNCXzBjCS8SSyxVCdVRrHKnwqXv/VTo0GO3hXeCbEeH918C9ltF6v4mWQfY8nPML1VGSxBXzYKoMZdKmujaEVlfx4SQ+eMSny/F66j1R5phXkZv7UE3ftliR74oo04xLxQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=X9fJH6S9WCHBgGfjKIJIV7/+lePWckFV8b2xeQ/qXFc=;
- b=mEzisEsDRHVAUOhF1nLJwl5KLGnsmQ9hssT75a7oc8IRXyDLofBVIFptY80ItLQ8IgH/euYd2n6JVnrhcH092vq6xj86K42Zl/bxfryY8c9L5I/yegSoqf9rRbS9mTvW8WUkX02xG1k4evqWrWRhel5HG/gNGEQ/8t/8asH06MHUzAJ/LZcUAHVZAYIqRopiG5h1yZ/iFeDprP7vWFbEELdi+fnW3wNoICVKToP6tNZ5qsYiLwhr/0mWiLKk8ZolqQVmI5nrtmjLzDBuTsvMUbR+sjRIQ23+qBNUXIGjkeLglVE65BtcGCsQG0S8jLoZycxcs8CQVRh1rntvX4W7Ng==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
- dkim=pass header.d=imgtec.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35DC230F556
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Oct 2025 09:24:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760606650; cv=none; b=Ena2O5euNO6b6JlJPaj79qJGQYP/frloe3kWC2pM1orCtBeE+b5oELw5FPr01U2Y42mSqFRJVVDhNMYmKncoq9WpYFY/kt2+VpU+UyTM8ned2+rcq6H7Rcc3qtNSqO7K1aHBeb5dfXOjqkdjJrV45NhB4BjVkqQbwQ2e8pN8aG0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760606650; c=relaxed/simple;
+	bh=dtdYSFzxl4ZLf2m3mmaBJjWZIDIL1b9t2J/uPFgCe9M=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=rawPJhlDTqEqEB9HOAVTa2NJYy/xBOLudzVmhuO6gQZBQ3YY5PLqI/iXzOzMBryZpcnyyCsTSGAmtm1aHu8YM+PeTSR4TVufsRnQ6qP270m3TR5r/ifwS+ukEQ1CZJpM3vxLHphbUdasx4i4pZXr21nsFZ683V4XIHk8YlkP/+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VEpy0kNm; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-46e384dfde0so5530695e9.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Oct 2025 02:24:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=X9fJH6S9WCHBgGfjKIJIV7/+lePWckFV8b2xeQ/qXFc=;
- b=p1qSs+Kkm3GIXzbozqSwZc4x1hi5kTHhK11QBxIRqMdt/ByTA880HVvkKrUU785ikO+Jx2VzVgJJZNLgS+vuqpTn7t20E9fABUEoVMvexWoqxm06U13tyqMZ5NIQ+3I/w4Qsw3r5S7TU5mjHIEK2ACNUfu4l205unl7SgDklCqc=
-Received: from CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:e7::8) by
- LO7P265MB7752.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:40e::15) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9228.12; Thu, 16 Oct 2025 08:48:39 +0000
-Received: from CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
- ([fe80::8e9d:6b2f:9881:1e15]) by CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
- ([fe80::8e9d:6b2f:9881:1e15%5]) with mapi id 15.20.9228.012; Thu, 16 Oct 2025
- 08:48:39 +0000
-From: Matt Coster <Matt.Coster@imgtec.com>
-To: Marek Vasut <marek.vasut@mailbox.org>
-CC: Conor Dooley <conor.dooley@microchip.com>, Adam Ford <aford173@gmail.com>,
-        Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
-        Frank
- Binns <Frank.Binns@imgtec.com>,
-        Alessio Belle <Alessio.Belle@imgtec.com>,
-        Alexandru Dadu <Alexandru.Dadu@imgtec.com>,
-        Geert Uytterhoeven
-	<geert+renesas@glider.be>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Kuninori
- Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Maarten Lankhorst
-	<maarten.lankhorst@linux.intel.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
-        Simona
- Vetter <simona@ffwll.ch>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>,
-        "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v2 1/3] dt-bindings: gpu: img,powervr-rogue: Document
- GX6250 GPU in Renesas R-Car M3-W/M3-W+
-Thread-Topic: [PATCH v2 1/3] dt-bindings: gpu: img,powervr-rogue: Document
- GX6250 GPU in Renesas R-Car M3-W/M3-W+
-Thread-Index: AQHcPnmqdKn41davJ0GdMV4WlBIP8Q==
-Date: Thu, 16 Oct 2025 08:48:39 +0000
-Message-ID: <2392f257-2551-43a0-be7b-2e1f4a0d8c50@imgtec.com>
-References: <20251015153952.185249-1-marek.vasut+renesas@mailbox.org>
- <807d4d4d-f1dd-4776-9543-2e8d997071e1@imgtec.com>
- <cf7ebf8a-01e5-44fb-920b-5e21c05e568a@mailbox.org>
-In-Reply-To: <cf7ebf8a-01e5-44fb-920b-5e21c05e568a@mailbox.org>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: yes
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CWXP265MB3397:EE_|LO7P265MB7752:EE_
-x-ms-office365-filtering-correlation-id: 8547d520-f4f2-4207-7245-08de0c90cd73
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|7416014|376014|366016|38070700021|4053099003;
-x-microsoft-antispam-message-info:
- =?utf-8?B?SXViVVQ3SjRTMkdPcngweWQxWUFZdEhCekFmd0tYZkdISG84UE5lOURCcnFB?=
- =?utf-8?B?ckZWR09BcjBnaisxRE9BbTQ3WmFGdUozWnhOUFVEcEVocTgxYkNubWhnZU90?=
- =?utf-8?B?SVY2WjhJQmQrOC9kZDIxdFBXQU5KRElFRTlhSGZHRXphOGF6NTVYRXZrZ2RG?=
- =?utf-8?B?ZG1maUJTVWg3ZXdTbzc4c2RIVEhGa1RiMm4yY2FvNWoxZmlsYjNjU0pHTzND?=
- =?utf-8?B?UWpaMnFwbWp0dGRSaDZEazVOWEMwVGhpYkJ1d0U0T2pIdkRiMUVGUDJJRWQ2?=
- =?utf-8?B?NFY4NEhKN29nZEN6NmlxOWViUUdpNHViWm1jaXh3MkVSZmpISlNwRXlCL0hM?=
- =?utf-8?B?am1EQ3QrNUF3emZWUFNjYTZ4SEV6RmZxbGJWakNUcXdlZytPaHpZNDR5Slhp?=
- =?utf-8?B?bmJjZ1JRWGs1bkdYL0thc3VrMUV6ekpicnBMaE94SExqbGl0ZXB4RXdSbmJ4?=
- =?utf-8?B?NHdDMVI1c1lHbXFIRGVoeDQwcjlzVlJwK0Fwd0pDQUxzdjRscW5BaEVxREdx?=
- =?utf-8?B?dSs0NXV6T3JqY0tBS1gxRDBpczlJK0R2VUpFZ0tGZU01M2M2L0ZFQ1U4L1JV?=
- =?utf-8?B?QnEzaUxhWkd0a2hBYXp4Y3d2OG02RStnMzMwa2hyRVdqSzZtN1dGZURUYkFW?=
- =?utf-8?B?SW1VUDZjbzFTRXlVOXQ2UnhNNHJ0dlhZUDhrTHluZTBienRPVEQ4TWI1NHkz?=
- =?utf-8?B?Q1ZPVi9CaHRPVHVJUitKMUt3NVRtM1BBQnA2STVsNlNISlRwRnNPRjRvMmZN?=
- =?utf-8?B?d0xBYkxJV1h4dUtsZThRVjZkMUM2MndHUlkydmZPZ0hXdWNNcXd4SUgyYjhr?=
- =?utf-8?B?d1pFU3p3eFl3aVBNdlNDSlpsdXEzUDZGbklhQTVBNXNRMnVUczl6ajVuZUg5?=
- =?utf-8?B?SE9zb1BoL0I5bStta2dyK3ZWa1BWdVNLV2d4RzgrWUEzdXQxdE1xUzYyZnpI?=
- =?utf-8?B?ZTl1RTVlbVJYQ2dSOGhCUlpuSWFNS0crMk5SWU5jK0xGMkp6clRZbTYvK3Ru?=
- =?utf-8?B?UEJ3Z01Va2FIY2l2Skp2WTNoSk5JNVNXcGxvVFllOVlyaWNTdmJaRzVQNzhj?=
- =?utf-8?B?RFc3Y2ZuMGI4bitVSXF3aWt5ZGV6TUlEUUZONmkxTmxVWXVnMFZTR1dQZEQx?=
- =?utf-8?B?dlZZTlJ3RWM1TkJjMzY5a0o0c1RKcVlUeGJxMmdKR0NTUlNsV1JVdXNKY01y?=
- =?utf-8?B?TlVwM2loNHEzVWVVTGh3dWFCT21tZW44dnJYZjEwNE41RFM3YnZ0ZjZxN3F5?=
- =?utf-8?B?OXZqbHoyYTYrVXZ3Z0ZpbGtGcTFjdXVsU0NUNXlrQ2FMQmpiUmRxM0Y2OFpH?=
- =?utf-8?B?Z1A5VDlhTGRlWWpzaFN2aDZpY0l4RmpQb2ZlTFNXNUk4dXNuK3FWWW5FRnB4?=
- =?utf-8?B?ZmZSdGJ5enRkb2dqODY2ald5WG1oS29NL05DZ1FTS3RwQTBMcVlYQkY1ZE93?=
- =?utf-8?B?a2NtMUFSaDhCdnVCSU0vbk1TNmRFQ1lPS1UzeGZveWt0WFZOL0ZVVU9waHZY?=
- =?utf-8?B?OUtia3dMc3NkZXlibW8rK2tjZk1uT2trWEQ2V3c4SnJ5MGV3YnlvZFlJNUpw?=
- =?utf-8?B?K2FaaDZiYi94VHJ2dit0R1RxNDBkQ1VTSElaejQ2aGlXOFVaeExJNFM0TjNQ?=
- =?utf-8?B?dGZKWVNpZnBVRXRXTWkzdEI3WEdReVd5RlBJY2FyakpWL3YvOFBQYll2Mmw0?=
- =?utf-8?B?ZkhPNUI0N1U1Tm5sNThiUVVqK2FmWTNIWWp6aGhFR213V3ZsUkZyU1dmUHZP?=
- =?utf-8?B?QzVrbGlwWVFrSUppQ0hROHk3azMyeTFMV3V2aXdzWjBGdDhEbXM3bDBuN1lu?=
- =?utf-8?B?aHNwY2QvQXkzSjVYTDVsd0MxSEJvUGl2cW1TY1FnVnkreTg4Ryt6dWwwYkFT?=
- =?utf-8?B?TVNwRUl2MzBYUmtvZFMrU0lKRm9acC91SWZqOFd3Z1lPeCtIVkRGdjZocUcr?=
- =?utf-8?B?N1dXOTNlRlFSZFBXb25zTkRkU2dLNDNjZjdPZ2pudWJzYkd2VVdQbHJNT1pR?=
- =?utf-8?B?RCtET3krUFk5OEYrWTc2V2xya1BMcTc3QytZQ3hJYXdYTHA1YVkxSFBJeEpX?=
- =?utf-8?Q?PQWyVB?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(38070700021)(4053099003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?dkZZTzhNRGtoVTBsOXRjczVxQ2FUc2lheXJudzEyK0F2M2FrdlVOL21XU09G?=
- =?utf-8?B?cmtOZzZDUzRPNlpsMStLWForLytGbFQzMTJlNncvZER5OVcrMTYwTWkyQ0hE?=
- =?utf-8?B?bzBCR1dudnF5NFVFY3o0TUVmQ2xjUUNWeHBWdTNwUXlQQk9OcjRub1MweEZv?=
- =?utf-8?B?WTdWY3hCcjdRSHh1WFFFZWpsSmJRU3IzMXJvd1poU1pNOUg3c3lxVG1wSTEz?=
- =?utf-8?B?V1VJWkx0M3JBYzltS1Zray9HZGQzeFN0Z1JZYStkMnh0U253bW1ZdzRlb0wx?=
- =?utf-8?B?TmtFNGovdVBlUjRRdVdZbnI2TER0bzBQQmsrWnZ3ZlRFYjJuQmlIUDE4c2xQ?=
- =?utf-8?B?REZRM1QwT3piOHpmRGcxU2RyTms1UUF1K255UVBMdWlXZjY0WERndis4RkRK?=
- =?utf-8?B?YnBIQ1RCeHBEcVJ6Y0ppWEVIZHhtVzdjUmJSck1yQTZzd1Ywdy82OHRIdUw1?=
- =?utf-8?B?U2xtTHJrWk0wbFBVQUNYdUcxNlF5dlBPU2hEVWN4b3IrcVlkK0gyOWUvTWZh?=
- =?utf-8?B?R1NzdFZESklGYWpmeEg4TUtENW9ZaUp6Zjh4cDl3MEU4Q0FPdEl2Nk5yQXdl?=
- =?utf-8?B?VmphTGoyQ3JDZGZLdFJuaHY4Rm5adGVWSnBJQjZCa2xVMnhlMFVscUZQRzlL?=
- =?utf-8?B?OTlVVk5kWnQ1cDluc2dTYjgycTRJaERpTkhmdTd0MTRPVHQyVmlLQUxWbjVP?=
- =?utf-8?B?dmdIbmdEeW5qVnM5TnkrZjNYblNSc2t5d2pjTUVBRkJoNUxBQ1ozeUdvZmlH?=
- =?utf-8?B?YVRVNnM1Q3hlOUxuYnNZeHlYYmdNZitSZnoyVEZxbXpqM1BjS3FiV2ZPZHFH?=
- =?utf-8?B?c0ovMVlCclJmSFFoVlZBWVA0cnlKTFNNaWlJdHBhQXorWmI3cElwVHgwbDRu?=
- =?utf-8?B?T25rNzVNSDQyTnFOM3JZaS9wTG4wTk9OMEYzQXlUMU15UjFoam1seHZwMG52?=
- =?utf-8?B?ZGRTSHVqVkE3TEl3UHZKalJ4VC9RWXo2dFFPNVl6aTV2M0VxcC90cjUwQldV?=
- =?utf-8?B?QTlDQ0xUdm5uOGQ4aFQ5UnhRb1Bzd1dEVHhLazdqcDVWd21oK2NvOTZvRVpR?=
- =?utf-8?B?bXQ2YWNnZWtoSTJxOEt0N2ZsTTZJYnU3Y1VIdzVwb3k4UFVCeTBlc25hdDlY?=
- =?utf-8?B?WVRTWDBvUWlUa09CcEg4dnYwWEpZWWVnMm92YVFFSmY5NzhFL1NIOCtxTXhw?=
- =?utf-8?B?R3pHQWpTT3RacHhLbzVGdGFvbE80MkNzRktqSE0yRlRRWVFaTXR4RVFUeHNw?=
- =?utf-8?B?bTRaSDFaQkEzZ3ZUNDhWYzFybDdsUlJham5xNVoydE9RQ0NCOHo0aFJLd1Fh?=
- =?utf-8?B?RkpRUXZScTc2VThtK01HUTlNNTN3R21UNzZIb0RxYmNFbU9SRko2WWk4eGFr?=
- =?utf-8?B?bTNGdVNKWGlycG9BOVZBdSs4czBEaVR2V1FPUWg3WURkRnVOK0lhTkMwTWV5?=
- =?utf-8?B?S0dRclZGeEVGT3hzRGNMUC9ZV24rbGc3VE1JYURYSjV1K2NCcUFNYmxkSTlk?=
- =?utf-8?B?UDREaW1ZQjM5elhTT3VLYkRuMmdDWXZjSkJyeGNzOEk3bHZOVkQybzljdmp3?=
- =?utf-8?B?eHlqM2RYeExVUnlENUZtcnFTZDhZNGhVUkkyNVJ3TG01aHFXODl4MGI4SUFE?=
- =?utf-8?B?VTZXK1ZSSU1WUXhmSnphRVBmTThrVnZxQ2l6eVhDdGtuSXpJNk9EbTA0WW85?=
- =?utf-8?B?ck8wMTROZEd2eUlpV01JMWhhU1lGcDVVNGlxbzErQURJNGVPLzJNbXFVMUI4?=
- =?utf-8?B?aHdaOU5sOFhNUDNQc0tNVm9CRXRIUmxKRWFvd2NWbnhkK05SR2NaWWZFQnE3?=
- =?utf-8?B?dFVyVm1ScTRhMUFwMWJmMTZVNGU2QUZ3VVR3K1A1UWRsSytDU2NqSWdBZ1E0?=
- =?utf-8?B?ZHhsVnRaeG9GMU8zNk9ZS3pURlE2MHJIMzVUR3RSNkhYRXE2OStRYXhZKzI4?=
- =?utf-8?B?V292anRRbXlob2NYaTVpaVFOeDJtYlF4N1JqNnZpMVJkUkRKNE5PejJXYUZM?=
- =?utf-8?B?d3VIKzBXdnhxb0UyVTkvUmF4Q2pzTXdQYlFlbVFtSkVOemJ4MUVnODcyeDNm?=
- =?utf-8?B?a0k2SjlpcjE2NGNkaFo0S0sxcFpYRmRaWk9IUFRNZmsvTDczd0s5Tk1FK21w?=
- =?utf-8?B?ZVZab2lOdXRyR1BJWnpsZUE1Q3luYU9TbWNQVEhrajRyRVlpZUVQOW5nNlBp?=
- =?utf-8?B?YkE9PQ==?=
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature";
-	boundary="------------fQYA0ISWVkEJlsr2d4oi63R9"
+        d=gmail.com; s=20230601; t=1760606645; x=1761211445; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=wN5GriOc5joXaZ2V++iE2SjCJaPtC87zNIqvbkuQmbs=;
+        b=VEpy0kNmDouy4Xnbmr+9VNMHxYXnxEj6hFs9v3DbW7CBRDn+TstTbQpIRNKEwVvcp1
+         vbu+HX0tYA59GalQ84mifK8eeLIdcJ1fkFbT4X3oKwyuyagy/T0x40ilBbgI0Tmbp0SP
+         +7ZFqLaVxU4nUVe+ECRlCkskVVM5nU2+KRLYkYVmsBRZ9WisdG0gZJS4IYQYakK2H8PC
+         7YYG9knKjDTnakYZYyrDdscFiIyCrBwRR5g9dZjPMSxYYgIrgahhJB3oDHVOGFVodQFx
+         muAXdy2eIrPuVJwJyI6GPZ+1sbGGJl+/scdLN0XXeEelrC6SlXKv6tnpKOkOm3ohbLSC
+         qKlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760606645; x=1761211445;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wN5GriOc5joXaZ2V++iE2SjCJaPtC87zNIqvbkuQmbs=;
+        b=OcBl/fXNQK6udGq+C0JJ28/Q60nsuKQnkdWzG8afCI/LIPQUIpsTeWXWWz0OAYtWaR
+         aAidK2hzFVL7+fm0+xEaOqeno3ms/PJmX2LvKyEenmzm6gplFmX1duOfv9clGpnGYKep
+         QGAewW4kX7/U81KxcyVn7KihzI7VpMsJowtS9S/BTx4o4PGoOpgjWIaJhONrP8Fn3qE/
+         1PRq7OMvdyx5dvjg31YkyejfJ/ZwHTp4sp7PnrBPKPMI7UF9fDyoWs+rjQOX1c5qgYNZ
+         pR3TWxaLfBXuDjeOjH94cYUkfyCy5KgXOF4OhFsQs3vNzP+wqpMxI0qZqtMobVQF8bYw
+         Nx+g==
+X-Forwarded-Encrypted: i=1; AJvYcCVyVtD26veQ9zwhm7YPQB5Sz01KVonLxY2l6aZFjqyoCXilzeIKwi5yeQOnnkTrVvb1x7lVpfUr/g+BPbpN/cOeJA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyPai87RC1vshpynh95QGeDzdQBBMWcqJVkcLnO0ALe+3LBauV6
+	akJFIzJHJeq/Ao6WV8u0Eic4rRS6GDq3ALqXKlxWa+nssGf7ltVIkCNi
+X-Gm-Gg: ASbGncsj1YzmwDkiVB4yKJIcybkuN4qm6aHGQjg5LhH72S5VfmPU9W6bRlWpro5jGP8
+	WL5mZ7quWFje7i4FTnEYjVgTzLfbVjiFcoebxQkBRgN/clnu58pNDl5TCA6Xl27zNbGjJfJYyh+
+	/7K8lVunJ+yCU0jJIJzfmmHoEdP+eY2+deeJoFYN+D8avkevtA/Vz///foMonQcgrZr6A5ggG71
+	Q74L+puVydmezpMF/eriSdmGUDifnDwT2MQqMFfjUEm8l4SK2WllaK3AvqnHl7DMBpX4z2PzIOc
+	MhcAehlroItczboxt2FTwieWymMNqu1UPIKQSVCHBYuTpKOOwV2YvfIWAPcMa3vi84wBMvTr8oN
+	5x75BB0h1tBmxF4FCmWOsxeANC19KspPQYP9F+RPCCLipq9tnZIPIyHWF/QmvCjUfoKtiJJF7VW
+	rhyCjNxvNS
+X-Google-Smtp-Source: AGHT+IFM/eDs5DimbOjgvhNjhvWS6XPVfEwodHiPhgaUg+nD8JwAoHYzOT5T+xC5UzBHiITSk+szgw==
+X-Received: by 2002:a05:600c:5028:b0:46e:428a:b4c7 with SMTP id 5b1f17b1804b1-46fa9af2ff1mr222490415e9.23.1760606645180;
+        Thu, 16 Oct 2025 02:24:05 -0700 (PDT)
+Received: from [192.168.1.187] ([161.230.67.253])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-471144b5c91sm13762335e9.11.2025.10.16.02.24.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Oct 2025 02:24:04 -0700 (PDT)
+Message-ID: <de57f5274b2fe0aac3621dc10cb6d4d0d98d3063.camel@gmail.com>
+Subject: Re: [PATCH 2/4] iio: adc: Add support for the Renesas RZ/N1 ADC
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Herve Codina <herve.codina@bootlin.com>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, Jonathan Cameron	
+ <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, Nuno
+ =?ISO-8859-1?Q?S=E1?=	 <nuno.sa@analog.com>, Andy Shevchenko
+ <andy@kernel.org>, Rob Herring	 <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley	 <conor+dt@kernel.org>, Geert
+ Uytterhoeven <geert+renesas@glider.be>, Magnus Damm
+ <magnus.damm@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown	
+ <broonie@kernel.org>, linux-iio@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Pascal Eberhard <pascal.eberhard@se.com>, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>
+Date: Thu, 16 Oct 2025 10:24:36 +0100
+In-Reply-To: <20251015211420.031c61fa@bootlin.com>
+References: <20251015142816.1274605-1-herve.codina@bootlin.com>
+	 <20251015142816.1274605-3-herve.codina@bootlin.com>
+	 <1e8d7c96cdfaa93bcc0f581103dc0e13dfee17b7.camel@gmail.com>
+	 <20251015211420.031c61fa@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.1 
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: imgtec.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8547d520-f4f2-4207-7245-08de0c90cd73
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Oct 2025 08:48:39.4162
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: oCMCQfzA6wh0sncUOoH6K53Rfio/Dac2nVHzVobYkDCWy9WEdcHpcwklOtGVzCZTTTneuTjFJ4hcUwMtvpumNQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO7P265MB7752
-X-Proofpoint-ORIG-GUID: 7knDciCIziMy707p4WwdaoEUBJdqxp7G
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE2MDA2NyBTYWx0ZWRfX2JDBkVS4a/Ie
- fVgnHfPsD1h0nNoW589AsNij9RbPmNyZCj/GQ4EIFDKQmx2qDfjfT5uHrisQ9JhbITYL6XUfpvU
- arrRTOqR9p0adWHDVe/ORDK4gpto/kU6urnS0Mzaj3TbY31NfIMWIWCoDu7SQ6fpflFrwqQZo2R
- a/AjvZLY8MvHKFvAErAPTnmePEk/Ext7x2rsAskBmNP3dfpuryQHH0+Uqv4d6DV3xDFGIa3zeoJ
- LcxNbs3uDvvcPRxzU6XJ7Iln473qNYIFbN47T42mtFDw9Oy3WkwTwaiOBb6mbb42CWPpO8ozRww
- lI0qVNTXS+478G0ZJpac/WCkDUacJ6BTk2CBNbSrIYEQKovBRlvWf43iMyDkJNvLmOq7CVMYcof
- MiwRCdHFgcPFHOX8csR+Z/06OZQQfQ==
-X-Authority-Analysis: v=2.4 cv=H5PWAuYi c=1 sm=1 tr=0 ts=68f0b16b cx=c_pps
- a=KhLWtWQbQ/x1DB0ev6mPaw==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=x6icFKpwvdMA:10
- a=NgoYpvdbvlAA:10 a=VkNPw1HP01LnGYTKEx00:22 a=r_1tXGB3AAAA:8
- a=lN1f-_usmRWJRs0BweUA:9 a=QEXdDO2ut3YA:10 a=-oHaDJZ2kUOOos9LyhAA:9
- a=FfaGCDsud1wA:10 a=t8nPyN_e6usw4ciXM-Pk:22 a=cPQSjfK2_nFv0Q5t_7PE:22
-X-Proofpoint-GUID: 7knDciCIziMy707p4WwdaoEUBJdqxp7G
 
---------------fQYA0ISWVkEJlsr2d4oi63R9
-Content-Type: multipart/mixed; boundary="------------6bqQmrdO0EspBgUBH8ZOZ4bk";
- protected-headers="v1"
-From: Matt Coster <matt.coster@imgtec.com>
-To: Marek Vasut <marek.vasut@mailbox.org>
-Cc: Conor Dooley <conor.dooley@microchip.com>, Adam Ford
- <aford173@gmail.com>, Conor Dooley <conor+dt@kernel.org>,
- David Airlie <airlied@gmail.com>, Frank Binns <Frank.Binns@imgtec.com>,
- Alessio Belle <Alessio.Belle@imgtec.com>,
- Alexandru Dadu <Alexandru.Dadu@imgtec.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Rob Herring <robh@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org
-Message-ID: <2392f257-2551-43a0-be7b-2e1f4a0d8c50@imgtec.com>
-Subject: Re: [PATCH v2 1/3] dt-bindings: gpu: img,powervr-rogue: Document
- GX6250 GPU in Renesas R-Car M3-W/M3-W+
-References: <20251015153952.185249-1-marek.vasut+renesas@mailbox.org>
- <807d4d4d-f1dd-4776-9543-2e8d997071e1@imgtec.com>
- <cf7ebf8a-01e5-44fb-920b-5e21c05e568a@mailbox.org>
-In-Reply-To: <cf7ebf8a-01e5-44fb-920b-5e21c05e568a@mailbox.org>
-
---------------6bqQmrdO0EspBgUBH8ZOZ4bk
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-Hi Marek,
-
-On 15/10/2025 19:38, Marek Vasut wrote:
-> On 10/15/25 6:50 PM, Matt Coster wrote:
+On Wed, 2025-10-15 at 21:14 +0200, Herve Codina wrote:
+> Hi Nuno,
 >=20
-> Hello Matt,
+> On Wed, 15 Oct 2025 16:21:09 +0100
+> Nuno S=C3=A1 <noname.nuno@gmail.com> wrote:
 >=20
->> Would you mind splitting this conditional block up? We already have a
->> constraint for 2 power-domains (see img,img-bxs-4-64), which should be=
+> ...
+> >=20
+> > > +static int rzn1_adc_enable(struct rzn1_adc *rzn1_adc)
+> > > +{
+> > > +	int ret;
+> > > +
+> > > +	ret =3D rzn1_adc_core_power_on(&rzn1_adc->adc_core[0]);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	ret =3D rzn1_adc_core_power_on(&rzn1_adc->adc_core[1]);
+> > > +	if (ret)
+> > > +		goto poweroff_adc_core0;
+> > > +
+> > > +	ret =3D clk_prepare_enable(rzn1_adc->pclk);
+> > > +	if (ret)
+> > > +		goto poweroff_adc_core1;
+> > > +
+> > > +	ret =3D clk_prepare_enable(rzn1_adc->adc_clk);
+> > > +	if (ret)
+> > > +		goto disable_pclk;
+> > > +
+> > > +	ret =3D rzn1_adc_power(rzn1_adc, true);
+> > > +	if (ret)
+> > > +		goto disable_adc_clk;=C2=A0=20
+> >=20
+> > Can we use devm_actions() on the above to avoid the complex error path =
+plus
+> > the
+> > .remove() callback?
+>=20
+> rzn1_adc_enable() is used by the driver pm_runtime_resume() function.
+>=20
+> I don't think that devm_add_actions_or_reset() will help here.
+>=20
+> In my understanding, devm_* functions are use to perform some operations
+> automatically on device removal.
+>=20
+> The purpose of the error path here is to restore a correct state if
+> rzn1_adc_enable() failed when it is called from pm_runtime_resume().
+>=20
+> In that case no device removal is involved to trig any action set by
+> devm_add_actions_or_reset().
+>=20
+> Maybe I am wrong. Did I miss something?
 
->> applied to the entire img,img-gx6250 compatible.
->=20
-> I will add a patch into V3 which splits the allOf section up such,
-> that clocks and power-domains limits are limited separately. That will
-> make this addition of GX6250 easy.
->=20
->> As for the clocks, for the currently supported GPUs, we have "mem" and=
-
->> "sys" clocks that are optional at integration time, so those
->> conditionals are based on the vendor compatible strings (ti,... etc).
->> However, these older GPUs always require all three clocks, so it
->> probably makes sense to create the properties:clock{,-name}s:minItems:=
-3
->> constraint on the img,img-gx6250 compatible as well, rather than the
->> renesas,r8... ones.
->=20
-> OK
->=20
->> You shouldn't need to explicit list the power-domain descriptions at t=
-he
->> constraint level at all; if there's a build warning that they're missi=
-ng
->> I guess the correct place to add them would be on the top-level
->> power-domains entry, but I don't really think they contribute anything=
-
->> meaningful.
-> The descriptions basically emulate minItems/maxItems: 2 here. I can
-> also just set minItems:2 ?
-
-I think that's probably much cleaner! We can add maxItems:2 back in
-later if/when we add additional power domains at the top level.
+Nope, I see now what's your intent.
 
 >=20
-> I have one more question -- does GX6250 _always_ have two power
-> domains, i.e. the constrains always set minItems:2 for
-> "img,img-gx6250" "power-domains" property ?
+> >=20
+> > > +
+> > > +	return 0;
+> > > +
+> > > +disable_adc_clk:
+> > > +	clk_disable_unprepare(rzn1_adc->adc_clk);
+> > > +disable_pclk:
+> > > +	clk_disable_unprepare(rzn1_adc->pclk);
+> > > +poweroff_adc_core1:
+> > > +	rzn1_adc_core_power_off(&rzn1_adc->adc_core[1]);
+> > > +poweroff_adc_core0:
+> > > +	rzn1_adc_core_power_off(&rzn1_adc->adc_core[0]);
+> > > +	return ret;
+> > > +}
+> > > +
+>=20
+> ...
+>=20
+> > > +static int rzn1_adc_set_iio_dev_channels(struct rzn1_adc *rzn1_adc,
+> > > +					 struct iio_dev *indio_dev)
+> > > +{
+> > > +	int adc_used;
+> > > +
+> > > +	adc_used =3D rzn1_adc->adc_core[0].is_used ? 0x01 : 0x00;
+> > > +	adc_used |=3D rzn1_adc->adc_core[1].is_used ? 0x02 : 0x00;
+> > > +
+> > > +	switch (adc_used) {
+> > > +	case 0x01:
+> > > +		indio_dev->channels =3D rzn1_adc1_channels;
+> > > +		indio_dev->num_channels =3D ARRAY_SIZE(rzn1_adc1_channels);
+> > > +		return 0;
+> > > +	case 0x02:
+> > > +		indio_dev->channels =3D rzn1_adc2_channels;
+> > > +		indio_dev->num_channels =3D ARRAY_SIZE(rzn1_adc2_channels);
+> > > +		return 0;
+> > > +	case 0x03:
+> > > +		indio_dev->channels =3D rzn1_adc1_adc2_channels;
+> > > +		indio_dev->num_channels =3D
+> > > ARRAY_SIZE(rzn1_adc1_adc2_channels);
+> > > +		return 0;
+> > > +	default:
+> > > +		break;
+> > > +	}
+> > > +
+> > > +	dev_err(rzn1_adc->dev, "Failed to set IIO channels, no ADC core
+> > > used\n");
+> > > +	return -ENODEV;=C2=A0=20
+> >=20
+> > dev_err_probe()?
+>=20
+> Why? the error returned is a well known value: -ENODEV.
+>=20
+> dev_err_probe() should be involved when -EPROBE_DEFER is a potential erro=
+r
+> code.
+>=20
+> IMHO, dev_err() here is correct.
 
-Yes, that's correct. All PowerVR GPUs have the number of power domains
-defined in the IP. Even where the SoC does not expose control of these
-to the OS, the GPU still communicates with the SoC power controller
-directly to gate them on and off during normal operation.
+If I'm not missing nothing this function is called during probe so I do thi=
+nk
+dev_err_probe() should be used. Not only unifies logging style during probe=
+ it
+also has the small benefit of doing:
 
-Cheers,
-Matt
+return dev_err_probe(...) saving a line of code.
 
---=20
-Matt Coster
-E: matt.coster@imgtec.com
+You can see that, at least in IIO, we even have some patches just convertin=
+g
+drivers probe() to use dev_err_probe().
 
---------------6bqQmrdO0EspBgUBH8ZOZ4bk--
+>=20
+> >=20
+> > > +}
+> > > +
+> > > +static int rzn1_adc_probe(struct platform_device *pdev)
+> > > +{
+> > > +	struct device *dev =3D &pdev->dev;
+> > > +	struct iio_dev *indio_dev;
+> > > +	struct rzn1_adc *rzn1_adc;
+> > > +	int ret;
+> > > +
+> > > +	indio_dev =3D devm_iio_device_alloc(dev, sizeof(*rzn1_adc));
+> > > +	if (!indio_dev)
+> > > +		return -ENOMEM;
+> > > +
+> > > +	rzn1_adc =3D iio_priv(indio_dev);
+> > > +	rzn1_adc->dev =3D dev;
+> > > +	mutex_init(&rzn1_adc->lock);=C2=A0=20
+> >=20
+> > devm_mutex_init()
+>=20
+> Yes, I will update in the next iteration.
+>=20
+> >=20
+> > > +
+> > > +	rzn1_adc->regs =3D devm_platform_ioremap_resource(pdev, 0);
+> > > +	if (IS_ERR(rzn1_adc->regs))
+> > > +		return PTR_ERR(rzn1_adc->regs);
+> > > +
+> > > +	rzn1_adc->pclk =3D devm_clk_get(dev, "pclk");
+> > > +	if (IS_ERR(rzn1_adc->pclk))
+> > > +		return dev_err_probe(dev, PTR_ERR(rzn1_adc->pclk),
+> > > "Failed to
+> > > get pclk\n");
+> > > +
+> > > +	rzn1_adc->adc_clk =3D devm_clk_get(dev, "adc-clk");
+> > > +	if (IS_ERR(rzn1_adc->pclk))
+> > > +		return dev_err_probe(dev, PTR_ERR(rzn1_adc->pclk),
+> > > "Failed to
+> > > get adc-clk\n");
+> > > +
+> > > +	ret =3D rzn1_adc_core_get_regulators(rzn1_adc, &rzn1_adc-
+> > > >adc_core[0],
+> > > +					=C2=A0=C2=A0 "adc1-avdd", "adc1-vref");
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	ret =3D rzn1_adc_core_get_regulators(rzn1_adc, &rzn1_adc-
+> > > >adc_core[1],
+> > > +					=C2=A0=C2=A0 "adc2-avdd", "adc2-vref");
+> > > +	if (ret)
+> > > +		return ret;=C2=A0=20
+> >=20
+> > Hmm, is avdd really an optional regulator? I mean can the ADC power up =
+at
+> > all
+> > without a supply in AVDD? Even vref seems to be mandatory as we can't
+> > properly
+> > scale the sample without it.
+>=20
+> Where do you see that avdd is an optional regulator?
 
---------------fQYA0ISWVkEJlsr2d4oi63R9
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+You are using devm_regulator_get_optional(). That's for optional regulators=
+.
 
------BEGIN PGP SIGNATURE-----
+>=20
+> >=20
+> > Also, can't we have getting and enabling the regulator together? Then, =
+we
+> > could
+> > use some of the modern helpers to simplify the code (ok I see you use t=
+hem
+> > in
+> > the PM callbacks).
+>=20
+> Yes, I rely on PM callbacks to handle those regulators.
+>=20
+> >=20
+> > > +
+> > > +	platform_set_drvdata(pdev, indio_dev);
+> > > +
+> > > +	indio_dev->name =3D dev_name(dev);=C2=A0=20
+> >=20
+> > dev_name() should not be used for the above. It's typically the part na=
+me so
+> > I
+> > guess in here "rzn1-adc" would be the appropriate one.
+>=20
+> I thought it was more related to the instance and so having a different n=
+ame
+> for each instance was better.
+>=20
+> Some other IIO drivers use dev_name() here.
+>=20
+> But well, if you confirm that a fixed string should be used and so all
+> instances have the same string, no problem, I will update my indio_dev->n=
+ame.
 
-wnsEABYIACMWIQS4qDmoJvwmKhjY+nN5vBnz2d5qsAUCaPCxZwUDAAAAAAAKCRB5vBnz2d5qsIna
-AQDBSpSYmr56oW4ILagjCNDtj5Kwagnt4Dx4Yut6uTpFgwEA9qbEZkRsI2sXi5TPWuF5k/AFcPED
-XgHlWAL5DW4UHQo=
-=gLTq
------END PGP SIGNATURE-----
+It is a fixed string, typically the part name. David Lechner not that long =
+ago
+actually sent some patch or documented somewhere why not to use dev_name().=
+ To
+identify different instances we have a 'label' property.
 
---------------fQYA0ISWVkEJlsr2d4oi63R9--
+>=20
+> >=20
+> > > +	indio_dev->info =3D &rzn1_adc_info;
+> > > +	indio_dev->modes =3D INDIO_DIRECT_MODE;
+> > > +	ret =3D rzn1_adc_set_iio_dev_channels(rzn1_adc, indio_dev);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	ret =3D rzn1_adc_enable(rzn1_adc);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	pm_runtime_set_autosuspend_delay(dev, 500);
+> > > +	pm_runtime_use_autosuspend(dev);
+> > > +	pm_runtime_get_noresume(dev);
+> > > +	pm_runtime_set_active(dev);
+> > > +	pm_runtime_enable(dev);=C2=A0=20
+> >=20
+> > There's a devm_pm_runtime_enable() API now.
+>=20
+> Will look to use it in the next iteration.
+>=20
+> >=20
+> > > +
+> > > +	ret =3D devm_iio_device_register(dev, indio_dev);
+> > > +	if (ret)
+> > > +		goto disable;
+> > > +
+> > > +	pm_runtime_mark_last_busy(dev);
+> > > +	pm_runtime_put_autosuspend(dev);
+> > > +
+> > > +	return 0;
+> > > +
+> > > +disable:
+> > > +	pm_runtime_disable(dev);
+> > > +	pm_runtime_put_noidle(dev);
+> > > +	pm_runtime_set_suspended(dev);
+> > > +	pm_runtime_dont_use_autosuspend(dev);
+> > > +
+> > > +	rzn1_adc_disable(rzn1_adc);
+> > > +	return ret;
+> > > +}
+> > > +
+> > > +static void rzn1_adc_remove(struct platform_device *pdev)
+> > > +{
+> > > +	struct iio_dev *indio_dev =3D platform_get_drvdata(pdev);
+> > > +	struct rzn1_adc *rzn1_adc =3D iio_priv(indio_dev);
+> > > +
+> > > +	pm_runtime_disable(rzn1_adc->dev);
+> > > +	pm_runtime_set_suspended(rzn1_adc->dev);
+> > > +	pm_runtime_dont_use_autosuspend(rzn1_adc->dev);
+> > > +
+> > > +	rzn1_adc_disable(rzn1_adc);
+> > > +}=C2=A0=20
+> >=20
+> > I'm fairly confident we can sanely go without .remove().
+>=20
+> Will see what I can be do for the next iteration.
+>=20
+> Maybe I will ask some questions if I need some clarification around
+> pm_runtime but let me first try to go further in that direction.
+
+Yeah, maybe you can come up with something but given how you use pm to
+enable/disable stuff I'm also not sure the above is easily doable.
+
+- Nuno S=C3=A1
 
