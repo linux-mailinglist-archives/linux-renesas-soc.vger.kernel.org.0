@@ -1,214 +1,160 @@
-Return-Path: <linux-renesas-soc+bounces-23162-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23163-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA5FCBE4585
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Oct 2025 17:50:09 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4776BE47EA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Oct 2025 18:14:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 1CA79359EFD
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Oct 2025 15:50:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 51C04188C9D4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Oct 2025 16:14:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A76934F46B;
-	Thu, 16 Oct 2025 15:49:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E33C732D0EF;
+	Thu, 16 Oct 2025 16:14:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r216waoA"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="fu7olJuS";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="KFmO3Lo2"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 491E71FC110;
-	Thu, 16 Oct 2025 15:49:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78D4A32D0C2;
+	Thu, 16 Oct 2025 16:14:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760629780; cv=none; b=aHzR1WxS3NQBKffX5gTH91cO0CtlyXVyHfkhkmeCtJHd2/S8aM3sI5vJyI+PgDagFlHugJ9c0/aHAIRqwjQsuFJneKJl9OXpkCswD8eJLiIuoCf5q7JnTCfzXZh/mpZrEE7S96D4tJIGp5XV/Ur+pSJn4Bqk6s0BlwtMGy8dmzw=
+	t=1760631269; cv=none; b=PVPXByxKhwxkbDJLvI1yTfmH9hHSYqHSN4ZlXQKf5J+WwxpohyGOvih4vLs1tVCcuVKJRLRYYvbTuynHX8OivzRhufta2TBAu5zFBjt6RGNIJ+AyFUbkyqaxAIKKVwr+VggnLQm7xwdOMn7/vaFMvuknX91dPb4zJRb0B8KXo5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760629780; c=relaxed/simple;
-	bh=NFYIkBLM3OEB8SQa5m+C+i2IctqueXEd07opv0q3Ha8=;
+	s=arc-20240116; t=1760631269; c=relaxed/simple;
+	bh=ZQA9o+uAF31oOxVjp3T2xOh21bRwgZoPsMAC0doyIdg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MfTN+0zWStjQyJNk+mdcrX2vA6+dfZDJtEdMkPLAzYwQmSYZug719AMgiHluWVTA98Lyte4GEHGbYgOI9CHNo6An3R2FQGlLvtk/PWsNF4Axikd9HaONU6des3kgjZpAVazzKf8GssUTuBxUZjmYJBjT5VaPSLU8PJYFTeZtLZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r216waoA; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7ED5EC4CEFB;
-	Thu, 16 Oct 2025 15:49:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760629779;
-	bh=NFYIkBLM3OEB8SQa5m+C+i2IctqueXEd07opv0q3Ha8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=r216waoA3F8fSYJdMEObu+or/nHQKg/gtyqN4IaCbsuXeNKnEXx3+xucAB8pCbOUZ
-	 DRDVjPYOs3l9nZTvJVHRm6rs/mUKbsix5GIz3TC20qAL0hVzXP29yuR9Ku3vYEGR7i
-	 b1XXLaNyg1kAXCewuEHk9b2IMIfjjgOx01ouNk5Im2/UG48QCaIzhh/bu2Y+/ieo0M
-	 KUaMNoid/pJuX3ORjZ5D+7KCH1sLLzLpXaFecFyAcXOMbCDihu1nb0xJCDacLL+/3t
-	 gFVuyW6JW4u0NjLpKRgIgH0XS+n2sNeGDnsLQ6njCo3LVh23+gfnL946BNdWnQwFUH
-	 pwTWKPPF0JW5w==
-Message-ID: <57def480-6f42-4f84-a9ff-3452520b3c3f@kernel.org>
-Date: Thu, 16 Oct 2025 17:49:33 +0200
+	 In-Reply-To:Content-Type; b=LKzTyWeu/NJylsmhmBV9WG9Q9YepQ6S886YOONDMxXCCb80Fy1ISIp93hroLzpcaWlJ1+HIOVOmDUS1Xy1stLLlo1JIyP2JP0xKGZqNhJmX4pr4w11ntHB+b1w6amuaSKU4Yj5kK694VxAlNtUDs0MHV71xhXUghnzTPAAezHr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=fu7olJuS; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=KFmO3Lo2; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4cnY1R4MhVz9srX;
+	Thu, 16 Oct 2025 18:14:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1760631259;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b4ykQPoNMW41qiAsFsicD8C4SKvlQSjn0d21wbxQ5rE=;
+	b=fu7olJuST6n9YNiEoqd9FexuEwzz5nkj+1juIcrE5dMI8JojVpEpojRf6RltRDP2agSfFY
+	zvYWm7C4lkhO4spprolalrsg3z5kxSXdN1sc5NLTk1XGFx6d4ty6lartGXaLf6xxEu8JWG
+	QMGBhHoXuX6MGf3g0Ui0zuQTh4RYqWEj/3HuHoLIsbwrzHoBbrvbHX8hamJ8ACF4+tevBP
+	Brf+eXUeVoDcvA3FAXYW+mzqmoyH79SaRPyHOTOE38fBmgSbRzH0uUqei5IyxZadct2qz4
+	qb2v4S+SvaFgStGkoeDJdnYOEzCMd90qPYg+AXHjGFvgmL1QSjP3Q0uUfzA64A==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=KFmO3Lo2;
+	spf=pass (outgoing_mbo_mout: domain of marek.vasut@mailbox.org designates 2001:67c:2050:b231:465::2 as permitted sender) smtp.mailfrom=marek.vasut@mailbox.org
+Message-ID: <a35c1db3-eba1-4f42-9821-0b7924665a18@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1760631257;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b4ykQPoNMW41qiAsFsicD8C4SKvlQSjn0d21wbxQ5rE=;
+	b=KFmO3Lo2UlgRT8eSRmdbTTKuasRfcTzYQKBG212ZYUKIEkqVU0lJ5QhYAqYMoh1r2zEct4
+	dBPT1HhTTPCGg1/m8lvS5h+1qTJQTuwfV7BYSG/rVTBF/kqSLA9KrhMiPZ0DCbHg4m9/Gl
+	by8BC2fLJpLidos8giD96WgZr4f389n6q7k3oUW40HJVcM5y7o4Cc1coTYFB27IgbNUW3A
+	occw+6WVAQJULnnY5xcFUcyfnhHCx3np1nAsOWexlr2x3Bd4DeRABTM5wKQ1epjDw3zleP
+	ZaSAWMH19j7u/4/6E5Zv+/7JKeZaoeAQlQgxoR2VBI/UNUrbUopdeaT0KuwQQA==
+Date: Thu, 16 Oct 2025 18:14:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] dt-bindings: iio: adc: Add the Renesas RZ/N1 ADC
-To: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>,
- =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>
-Cc: linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Pascal Eberhard <pascal.eberhard@se.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-References: <20251015142816.1274605-1-herve.codina@bootlin.com>
- <20251015142816.1274605-2-herve.codina@bootlin.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v2 2/3] arm64: dts: renesas: r8a77960: Add GX6250 GPU node
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ linux-arm-kernel@lists.infradead.org,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ Adam Ford <aford173@gmail.com>, Conor Dooley <conor+dt@kernel.org>,
+ David Airlie <airlied@gmail.com>, Frank Binns <frank.binns@imgtec.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Matt Coster <matt.coster@imgtec.com>,
+ Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org
+References: <20251015153952.185249-1-marek.vasut+renesas@mailbox.org>
+ <20251015153952.185249-2-marek.vasut+renesas@mailbox.org>
+ <CAMuHMdVdW+tMA1=g9D+BQV0fk0kis8FzyQgf7BpN-u=pi5eQfA@mail.gmail.com>
+ <51ff107d-126d-4481-b94a-f614f31c7bb8@mailbox.org>
+ <CAMuHMdW+_1NZYdXrGsNcHkuvh_ym9148BRB+d0Wbz1oZrpWCdg@mail.gmail.com>
+ <6f29d7af-a2e5-4412-9575-6368621c1178@mailbox.org>
+ <CAMuHMdU9xSeFtLB-jUSUnJb1JHxYDXLe91GhZbT7QVGzYCXkRw@mail.gmail.com>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251015142816.1274605-2-herve.codina@bootlin.com>
-Content-Type: text/plain; charset=UTF-8
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <CAMuHMdU9xSeFtLB-jUSUnJb1JHxYDXLe91GhZbT7QVGzYCXkRw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: 8748bc98df86c3278a5
+X-MBO-RS-META: 7rmbx5z3ycuwfy7mjqpcgkai5ob6r7g9
+X-Rspamd-Queue-Id: 4cnY1R4MhVz9srX
 
-On 15/10/2025 16:28, Herve Codina (Schneider Electric) wrote:
-> +  clocks:
-> +    items:
-> +      - description: APB internal bus clock
-> +      - description: ADC clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: pclk
-> +      - const: adc-clk
+On 10/16/25 4:32 PM, Geert Uytterhoeven wrote:
 
-Just 'adc'
+Hello Geert,
 
-clk is redundant
+> On Thu, 16 Oct 2025 at 16:13, Marek Vasut <marek.vasut@mailbox.org> wrote:
+>> On 10/16/25 12:14 PM, Geert Uytterhoeven wrote:
+>>>> which are also never disabled, do we want to disable the GPU by default
+>>>> and enable per-board ?
+>>>
+>>> Yes please. We do the same with renesas,*-mali GPU nodes.
+>>> The board may not even have graphical output.
+>>> Or do you envision using the GPU for more general and headless operation?
+>>
+>> The GPU does have GP-GPU compute shader, so even headless system can do
+>> compute on the GPU.
+> 
+> How is this handled on other SoCs?
 
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  adc1-avdd-supply:
-> +    description:
-> +      ADC1 analog power supply.
-> +
-> +  adc1-vref-supply:
-> +    description:
-> +      ADC1 reference voltage supply.
-> +
-> +  adc2-avdd-supply:
-> +    description:
-> +      ADC2 analog power supply.
-> +
-> +  adc2-vref-supply:
-> +    description:
-> +      ADC2 reference voltage supply.
-> +
-> +  '#io-channel-cells':
-> +    const: 1
-> +    description: |
-> +      Channels numbers available:
-> +        if ADC1 is used (i.e. adc1-{avdd,vref}-supply present):
-> +          - 0: ADC1 IN0
-> +          - 1: ADC1 IN1
-> +          - 2: ADC1 IN2
-> +          - 3: ADC1 IN3
-> +          - 4: ADC1 IN4
-> +          - 5: ADC1 IN6
-> +          - 6: ADC1 IN7
-> +          - 7: ADC1 IN8
-> +        if ADC2 is used (i.e. adc2-{avdd,vref}-supply present):
-> +          - 8: ADC2 IN0
-> +          - 9: ADC2 IN1
-> +          - 10: ADC2 IN2
-> +          - 11: ADC2 IN3
-> +          - 12: ADC2 IN4
-> +          - 13: ADC2 IN6
-> +          - 14: ADC2 IN7
-> +          - 15: ADC2 IN8
-> +
-> +additionalProperties: false
+I did a quick measurement to get some statistics from next-20251016 :
 
-This goes just before example
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - power-domains
-> +  - '#io-channel-cells'
-> +
-> +dependencies:
-> +  # None or both adc1-avdd-supply / adc1-vref-supply should be present
-> +  adc1-avdd-supply: [ adc1-vref-supply ]
-> +  adc1-vref-supply: [ adc1-avdd-supply ]
-> +  # None or both adc2-avdd-supply / adc2-vref-supply should be present
-> +  adc2-avdd-supply: [ adc2-vref-supply ]
-> +  adc2-vref-supply: [ adc2-avdd-supply ]
+$ sed -n '/gpu@.*{/,/}/ { /compatible/ s@.*compatible =.*@compatible@p ; 
+/status / s@^[ \t]\+@@p }' $( git grep -l 'gpu@' arch ) | sort | uniq -c
+     152 compatible
+      66 status = "disabled";
+       8 status = "okay";
 
-Above seems unnecessary. The anyOf below should already enforce that, no?
+It seems there are 152 GPU nodes, 66 are explicitly disabled, the rest 
+are enabled, so about 3/5 of the GPU nodes are default enabled. But my 
+measurement is crude.
 
-> +
-> +# At least one of avvd/vref supplies
-> +anyOf:
-> +  - required:
-> +      - adc1-vref-supply
-> +      - adc1-avdd-supply
-> +  - required:
-> +      - adc2-vref-supply
-> +      - adc2-avdd-supply
-> +
+>>>> I would argue the GPU should be enabled by default, so the GPU driver
+>>>> can do a proper power management of the GPU. If firmware is missing, at
+>>>> least power it off on failed probe, if nothing else.
+>>>
+>>> The *_PD_3DG_* domains are powered down anyway when unused.
+>>
+>> If the driver was bound to the GPU node, then the domain would be surely
+>> powered down in control of the Linux kernel driver, without depending on
+>> the prior stage to leave it powered down.
+>>
+>> I think it is in fact better to bind the GPU driver to the GPU IP and
+>> let the GPU driver power manage the GPU in a well defined manner,
+>> instead of depending on the prior stage to leave the GPU in some
+>> specific state ?
+> 
+> The domains are powered down by the rcar-sysc PM Domain driver,
+> hence the system does not rely on any prior stage taking care of that.
 
+OK
 
-
+-- 
 Best regards,
-Krzysztof
+Marek Vasut
 
