@@ -1,147 +1,128 @@
-Return-Path: <linux-renesas-soc+bounces-23183-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23184-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB792BE5379
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Oct 2025 21:22:18 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B7E1BE5612
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Oct 2025 22:25:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B2AE040346C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Oct 2025 19:22:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CBB1A1AA0862
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Oct 2025 20:26:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDD272D97B7;
-	Thu, 16 Oct 2025 19:22:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B48632DCF51;
+	Thu, 16 Oct 2025 20:25:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HGhzUPvp"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z/qiCvfE"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D93923346AF;
-	Thu, 16 Oct 2025 19:22:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FD6828CF49
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Oct 2025 20:25:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760642533; cv=none; b=Ktn78t6qPI5IeqP62OuW7vfRd09dBHa2JP9TUi8fbwfxY+UemxR1ABr2QQuk44J0bIFbMXgqIrSF0WATkvlZkCBGOXIwmpaEXeTfpXPhN7mVylZ3slS9zU/wUVhIbUPXEd/h3BLiIzLC/U/jrxhcHVfnI/Q5lPJ5vrITQYw7F3Q=
+	t=1760646345; cv=none; b=sPNz9W7/afUz5lon6sJeO9D6XUmkyJdBlORYCGYj/xRgAAfBSphIC5R9Nznb9WfhGJttRNQOZ5nS08n1FVmtsnSzyw+qRF6ccNm1UMfYe1Aqo3evFbOi4JU9AbDyBkiDlfZQF6KYPTsN0zKuCpQu43TgSDiy5oSJpT8sGkdt0aA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760642533; c=relaxed/simple;
-	bh=70CHvEmZWEz+900ZJiNa3jXRD54PcFWARg2uD+iSNUs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kzKsZ6HI5Zz1T0dG9KjxCwvfbEwgNheGP0nHjusWg7BeZLT9F2+wi6vQDLuzW8WSPRCt/FNEOHJ/F9y/1I8DqC4m3THmv1dAnxmRocuT30gpFggrIJd2QjRPxU9yseCJ0oh5aG46UbUKoFfk684wA0OXjqhxc78JlB8MOTLqZNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HGhzUPvp; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760642531; x=1792178531;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=70CHvEmZWEz+900ZJiNa3jXRD54PcFWARg2uD+iSNUs=;
-  b=HGhzUPvpWL40GT0HcNWBLlYVjFS9FkZ0DeQAtw1s9Z5CO81GoAMwtzUb
-   dE3Rc5IbPY1jWg54gI1YM4eDinCJxIBpQPv80o6NG3TTfwWuyd0BnG2bF
-   mtA3kx/B4fvYxUr5K612B8W2zwmzzydIV44L4qFUiDp0hisxEHT80HQ6t
-   iIDgv9RmYLHDXI9iW9G+ecpRKWusaxKu+zbv8U36hH3Uw3araZKfClEBz
-   my+KgEdbWG/tZpCb8zI4o895nzbR/abP/+V84x+vESIjt4qN5KxWYUkhB
-   qNXLxgtjgix3xUQhrqLpQJv4lBk1D0zPnZfjT/+kEkjLTtAEWg36mwgr4
-   Q==;
-X-CSE-ConnectionGUID: 7GGiTkBzSgOMazNgzFvpDg==
-X-CSE-MsgGUID: oxuD5VyQTiCQgCcQBsCsnw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="66714822"
-X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
-   d="scan'208";a="66714822"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 12:22:10 -0700
-X-CSE-ConnectionGUID: jOJEvLFnQfOU96ZQuLGYWA==
-X-CSE-MsgGUID: ATJwx4GHQi6qptwFDH+2lg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
-   d="scan'208";a="187816513"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.31])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 12:22:09 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 936D312023C;
-	Thu, 16 Oct 2025 22:22:06 +0300 (EEST)
-Date: Thu, 16 Oct 2025 22:22:06 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Leon Luo <leonl@leopardimaging.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Jacopo Mondi <jacopo+renesas@jmondi.org>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Julien Massot <julien.massot@collabora.com>,
-	Jacopo Mondi <jacopo@jmondi.org>,
-	Daniel Scally <djrscally@gmail.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Yong Zhi <yong.zhi@intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Tiffany Lin <tiffany.lin@mediatek.com>,
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-	Yunfei Dong <yunfei.dong@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Martin Kepplinger <martink@posteo.de>,
-	Purism Kernel Team <kernel@puri.sm>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Dafna Hirschfeld <dafna@fastmail.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Yemike Abhilash Chandra <y-abhilashchandra@ti.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, imx@lists.linux.dev,
-	linux-renesas-soc@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 00/32] media: Use %pe format specifier
-Message-ID: <aPFF3n-e7pAUDH5x@kekkonen.localdomain>
-References: <20251013-ptr_err-v1-0-2c5efbd82952@chromium.org>
+	s=arc-20240116; t=1760646345; c=relaxed/simple;
+	bh=xzMCfBofaf4XHkgbk8F4fMxam7uappNgmG0GSVXRwoY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kGjswnVUfbChlv5bo4LD7mySBDK9AxwHtXWkB8nMiPTfuL0vyKf9N97iEp4Jf9ybIbCYPvT6RkEoUUWZMnkCqI2V47Mh04cvB0CeARkZ1MneKiiSdDXqXxdMrhdSbAPgO6p2r9avhEKs9LtafY+dRlflP9VTTIxg+0VU8mB3938=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z/qiCvfE; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-26a0a694ea8so9257675ad.3
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Oct 2025 13:25:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760646343; x=1761251143; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5sM2OUSBW/7DJRiuJ3co/xCNYS5XBVYrFpTjYZpSMgI=;
+        b=Z/qiCvfESzFYw2aUKPefxj7bcpBv14QsgXpKcLUPIQ+zM6H3eq8UXMPqBVQGUZpIho
+         4UZL8+ecSkwlALhAaH3It57NCB46Na0V3ZgPzHV3aluhDKrO9Ud4EntXZr8vbZTYUwva
+         Ar+Jgj13OKLaag7hRXyHyNsxgOrmSOg1S20JOZ6NgTmJ6jqN70O6UFitb6rCf4rhdLE0
+         ygMP8muMfMS7qKQrEb1owCGGrn9QFBpLC1oYLXjUKfHP8ZpltvtL9xBpnswTQ/HSL5zN
+         Ww+Eo1pUzmQy6tltZzYiGmjgJZoMmW8l1moCPUdxJFBpkUJ1ZnDEGOoKJctt5CrP9NHS
+         Bv9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760646343; x=1761251143;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5sM2OUSBW/7DJRiuJ3co/xCNYS5XBVYrFpTjYZpSMgI=;
+        b=aQ6b/EVY+sSI7ObIJHsHm9Zz7GqERhgFsJU0vSAAWJ1pc1VpKPnwFKBwKZGjO5tO0S
+         +huFka7T3Fco8d6t8SFOc6rCdggNNJ2T+hdX43F2xY2pHAga+NBt27ypaCnJcI1U00TI
+         r/vN+MhGRemQc56ALwlFEAGM7nZusbdgXxJ8a6LEucQyC9qDhPnnK51xN7VOhxHFJiTb
+         i6grIaY7FMlJElOsXnUeiL2fk4I3sPQqjCYyRXG6Dau9h35iuYW+kLwdxu1SZlLJ28IM
+         o2p+/veMbwwShQRyqIRlGvBWqzo7woT1PQoNass+B5HOPVJpQbaJkiX7i36Oeo6C3elM
+         Q11Q==
+X-Gm-Message-State: AOJu0YwPF+tzSYM8SdxWtVV0K65OFDyl80TIXN9yy6ZdWvB81Vn+bLIK
+	zU4SI/jLkI5RX8Srp4cvGkp7de2aGqP45mkafFaCWTUo7XgjklJ/K2UD
+X-Gm-Gg: ASbGncvtxQ9qVRbi1wm95qM87IatrsM7/7YdczYGEHdIe3fJUJRmIpo3Ej3vshu0Vnw
+	aWvNxnhTD6lurX6fl6rOk/JSRgTQU1TmovHqHEfsu/aLCmmZXSFZwthE0eHSgTR3prF0CTP35nw
+	SJOYda9kQb7ijt+vTIRC1VbPUSib3XUm+DNVKGZoEcLze1/GWo8xrO53sKxUc6PYlxRCU8WYH3a
+	uikxjfC5sTqnrnvYXvgZdM9BWXV8xdSm5PG02GcXNWgs3HfFPXFH9yHnxQ6RYWcSu3f9KfkdrVD
+	avW7B2ZhXLkfsSogEDN1K6yy+/8hQpL/RgUWQo2zNhzv5cyDHdR6run0L6itCcKddCgUoHpFZN3
+	GaxFmtb4DdUrX8hpZnv7j+5wwvm86FEjj0FLuvOIy4A6G4ovbWsKc57+3tktshf//rCDfSa2QPP
+	+a0Ic+hJvoLIBMvVc+Ex9ThQ==
+X-Google-Smtp-Source: AGHT+IGs54Upiel/Ao5NcK/hfJnpT2pOUEtODPp/RACbAL82uRfTJvEpomnmEP81ZtMTAH9e6PZGeg==
+X-Received: by 2002:a17:902:fc44:b0:26d:58d6:3fb2 with SMTP id d9443c01a7336-290c9c89697mr14011435ad.12.1760646343364;
+        Thu, 16 Oct 2025 13:25:43 -0700 (PDT)
+Received: from iku.. ([2401:4900:1c07:c7d3:a396:54ac:a48f:c314])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29099af9131sm39577735ad.103.2025.10.16.13.25.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Oct 2025 13:25:42 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 0/5] Enable Ethernet support for RZ/T2H and RZ/N2H SoCs
+Date: Thu, 16 Oct 2025 21:21:24 +0100
+Message-ID: <20251016202129.157614-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251013-ptr_err-v1-0-2c5efbd82952@chromium.org>
+Content-Transfer-Encoding: 8bit
 
-Hi Ricardo,
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On Mon, Oct 13, 2025 at 02:14:40PM +0000, Ricardo Ribalda wrote:
-> The %pe format specifier is designed to print error pointers. It prints
-> a symbolic error name (eg. -EINVAL) and it makes the code simpler by
-> omitting PTR_ERR().
-> 
-> The recently introduced test scripts/coccinelle/misc/ptr_err_to_pe.cocci
-> checks that we use %pe. Let's make it happy.
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+Hi all,
+This series of patches adds support for Ethernet on the RZ/T2H (R9A09G077)
+and RZ/N2H (R9A09G087) SoCs. It includes the addition of the MII Converter
+(ETHSS) node, GMAC nodes, and enables Ethernet support in the
+RZ/T2H-N2H-EVK board DTS.
 
-Thanks for the set.
+Cheers,
+Prabhakar
 
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Lad Prabhakar (5):
+  arm64: dts: renesas: r9a09g077: Add ETHSS node
+  arm64: dts: renesas: r9a09g087: Add ETHSS node
+  arm64: dts: renesas: r9a09g077: Add GMAC nodes
+  arm64: dts: renesas: r9a09g087: Add GMAC nodes
+  arm64: dts: renesas: rzt2h-n2h-evk: Enable Ethernet support
+
+ arch/arm64/boot/dts/renesas/r9a09g077.dtsi    | 482 +++++++++++++++++
+ .../dts/renesas/r9a09g077m44-rzt2h-evk.dts    |  70 +++
+ arch/arm64/boot/dts/renesas/r9a09g087.dtsi    | 485 ++++++++++++++++++
+ .../dts/renesas/r9a09g087m44-rzn2h-evk.dts    |  79 +++
+ .../dts/renesas/rzt2h-n2h-evk-common.dtsi     |  94 ++++
+ 5 files changed, 1210 insertions(+)
 
 -- 
-Kind regards,
+2.43.0
 
-Sakari Ailus
 
