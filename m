@@ -1,136 +1,130 @@
-Return-Path: <linux-renesas-soc+bounces-23137-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23135-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7476BE2D1B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Oct 2025 12:33:32 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21836BE2A57
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Oct 2025 12:08:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E4705484A50
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Oct 2025 10:16:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DD0BD19C0442
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Oct 2025 10:08:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B031C328605;
-	Thu, 16 Oct 2025 10:11:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E0282FFFAD;
+	Thu, 16 Oct 2025 09:59:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="LQ85WnW/"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="aipIkr55";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="rBDQanJ3"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2E03328606;
-	Thu, 16 Oct 2025 10:11:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7658D2DFF3F;
+	Thu, 16 Oct 2025 09:59:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760609479; cv=none; b=OouLRU0+FnE5p7ppwVtA/nPPHxZUhZ4MJXJq7bt35QShsr7ncTOCVMdZF9B+Bg+3OAfoDm2xSTqLnmhEOUnfADMGkxvk7Ls5ZXGQZjC/TcOpv3bWjw3flJdtYkLsb1MY/r1FUN2K2e/sbCP3ssDqRMauCVDIErY+J/+eU/DlF+0=
+	t=1760608742; cv=none; b=eG0yoUahcp/U4gN67+CKvmhklrbt/6hMBPfizdbu6r8UXId2zOEMWUzwqIUVfiQaTX0KiuLVJYcAYgb2+PzyQ3045jPpFmM1wzjIP+0mnTkFxzW47EewC7vSXXB2esiFstH19w0fEaeQi6qqFoxiZ4zSz8eb8ZTAlw892GJVOgE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760609479; c=relaxed/simple;
-	bh=uuvrRixyRF8v8fGyJZjVR1ZFEWMRtA/GPhl+xl8CvVc=;
+	s=arc-20240116; t=1760608742; c=relaxed/simple;
+	bh=0myl7+eecFYC3uJ49S5/p1O8sOxw27NoGrlpR4pgihw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=a3VBhFJbRKUiRLgjVK4UcjYN0ZarLdh7mKOrL8O/O2t0DmmEha8oRHxDqv6Tkb8sn6WqdRh91qoWBXAr1AfJVtwwlLLI6I1+UwEPIOCYXNIqcmVXXfk5LuHtFF8xsax6yzp0Seq0CpTix3l+CFZU/tpk2jCgr5wRBrV3IDMlU84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=LQ85WnW/; arc=none smtp.client-ip=80.241.56.161
+	 In-Reply-To:Content-Type; b=HzD/nd9UYfDtGI5VfPGb19MU13w6pwCZLn8iTPVgzV3EwY9tRhOvSKjPXwhnmsB/Uvi8wJEX/u/idIfrLFpCJMPYhZiecI3+UvjVilkhi2mgNtnwfNabPk0K40Opd7m4uxBSlB8tyKoDr7wSujqAC+sHDfZQlGnHR5Sfi58CGio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=aipIkr55; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=rBDQanJ3; arc=none smtp.client-ip=80.241.56.161
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4cnNyT6mbXz9snK;
-	Thu, 16 Oct 2025 12:11:13 +0200 (CEST)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4cnNhL3bSzz9tkC;
+	Thu, 16 Oct 2025 11:58:58 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1760609474;
+	t=1760608738;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=5XEkHO0Qp+G5qiHbC61D2twuNKFoICnhB602ktEQ9pg=;
-	b=LQ85WnW/giG/wNYUMGjaCpnEWsvmiu3le36bj7e1dlLUvFaY5qdXIN78mHJ+zGuk3IApJ7
-	dAx9mklKSK0MAA4YwN5NocvIlPI7q86NbDz86wW/5xL389vr9hCOVqmn6MMfvN+mJ/b1tr
-	HSE2bhtI9wtL0aMUfA/Yvr+avuxDSzXSHxMOPN/Xb/ZkkQwBATiflC92Lo18bJBBuLnLzQ
-	8kRf2J/NMOX/JyC7UxwSL7SjW5WNBG+Z24M+Nyqwuo/u+zE+pBfbRbQr8SsMHyZMrfs+9+
-	C3vFDd4YGvfPv7iyPn3m/N5zME1AT9wlfITX2w3GbLiGbHQ6CcpLW0TbIK1a+A==
-Message-ID: <921ac611-63b0-460b-86b5-67340eeb5dba@mailbox.org>
-Date: Thu, 16 Oct 2025 11:55:19 +0200
+	bh=++h923KP06/abXCubB4DCzwM+QM2ZyYkkutYj5Xm0mM=;
+	b=aipIkr557wDgKdcxlJtiwabVjYX5XYR3qmP6pV0VMl8kTSm+3dTH2XSIYuJBofZCLxQv0P
+	NvNbjlWys5jojHvSP3wBU6D6nAEvxgnKUd2oNRGdN+F7MyUaZSfscUvyDG33afhyN3KIsy
+	USV2bWCSvtGXUiZMVUVmqm24QwYyuTv0BhOPr+Dw7sRd7WKwU7yJTTpzP30qGIPVCHfr7f
+	EGrwTHsJ5IYAbLNDVmH7QqSsjncFAKAZ0wOrdFCt1RZcAuQymMIkWuWweg3R47ctf49u7J
+	gY64nUL8Fjl803VBwButUSwWNZ8WrjrIVshis+QArZyUCrKM8OigcuS+rwjt/w==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=rBDQanJ3;
+	spf=pass (outgoing_mbo_mout: domain of marek.vasut@mailbox.org designates 2001:67c:2050:b231:465::102 as permitted sender) smtp.mailfrom=marek.vasut@mailbox.org
+Message-ID: <23421cce-4873-4439-b68b-0f3bd8b72692@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1760608736;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=++h923KP06/abXCubB4DCzwM+QM2ZyYkkutYj5Xm0mM=;
+	b=rBDQanJ3GKnpN5CiWhNp3rB5JVCP30t+kiOEVQ++vRUg6lZ5XJrdFIcr658K95C1OCIm8y
+	FUMeEEkupEPhZvajCrNK4K2OMQdYTexoqP8e1r9mqt3Iwe3VTaIkkmufSzIotmMQntNlwF
+	t9wMESMAkAYQtQe7ubo1FWYpaFrjdXBjLquxOz3CDM/2BIk73Hs+ODka7oRQ1eAZ3KO6j+
+	DOTO3xH3zKaG9REum0uogmKsJrsEJVr2th/WIyloM16qsLUBKg98iyPfNw3HNeWO5uI3d6
+	Zc4Mgp7ryfWvJT6KWOrizeMXNDyYNUXDTjBBrtv1qHnaGK7d5mxrW3SgT2MGEQ==
+Date: Thu, 16 Oct 2025 11:58:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 1/3] dt-bindings: gpu: img,powervr-rogue: Document
- GX6250 GPU in Renesas R-Car M3-W/M3-W+
-To: Matt Coster <Matt.Coster@imgtec.com>
-Cc: Conor Dooley <conor.dooley@microchip.com>, Adam Ford
- <aford173@gmail.com>, Conor Dooley <conor+dt@kernel.org>,
- David Airlie <airlied@gmail.com>, Frank Binns <Frank.Binns@imgtec.com>,
- Alessio Belle <Alessio.Belle@imgtec.com>,
- Alexandru Dadu <Alexandru.Dadu@imgtec.com>,
+Subject: Re: [PATCH v2] thermal/drivers/rcar_gen3: Document R-Car Gen4 and
+ RZ/G2 support in driver comment
+To: wsa+renesas <wsa+renesas@sang-engineering.com>,
+ Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+ "niklas.soderlund" <niklas.soderlund@ragnatech.se>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
  Geert Uytterhoeven <geert+renesas@glider.be>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Rob Herring <robh@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
+ Lukasz Luba <lukasz.luba@arm.com>, "magnus.damm" <magnus.damm@gmail.com>,
+ Zhang Rui <rui.zhang@intel.com>,
  "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-References: <20251015153952.185249-1-marek.vasut+renesas@mailbox.org>
- <807d4d4d-f1dd-4776-9543-2e8d997071e1@imgtec.com>
- <cf7ebf8a-01e5-44fb-920b-5e21c05e568a@mailbox.org>
- <2392f257-2551-43a0-be7b-2e1f4a0d8c50@imgtec.com>
+References: <20251015155905.186612-1-marek.vasut+renesas@mailbox.org>
+ <aO_eLEFLAnjc8n4G@shikoro> <62670d89-56f2-419e-8f80-0536858415f3@mailbox.org>
+ <aPCmZp8sM5oV2jPa@shikoro>
+ <TY3PR01MB113468C08443256EC6D99209386E9A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <aPCqtn3OwY1NRCD5@shikoro>
 Content-Language: en-US
 From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <2392f257-2551-43a0-be7b-2e1f4a0d8c50@imgtec.com>
+In-Reply-To: <aPCqtn3OwY1NRCD5@shikoro>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: 1e2d7ddbfc98dbd254b
-X-MBO-RS-META: 48n3zgsbymmnn5ca9mfuipkjb6dxnd4w
+X-MBO-RS-META: x6bhsh5uok8xrdufhdzrk55cp8oukry9
+X-MBO-RS-ID: ab838ff85d1ed314f83
+X-Rspamd-Queue-Id: 4cnNhL3bSzz9tkC
 
-On 10/16/25 10:48 AM, Matt Coster wrote:
-
-Hello Matt,
-
->>> Would you mind splitting this conditional block up? We already have a
->>> constraint for 2 power-domains (see img,img-bxs-4-64), which should be
->>> applied to the entire img,img-gx6250 compatible.
->>
->> I will add a patch into V3 which splits the allOf section up such,
->> that clocks and power-domains limits are limited separately. That will
->> make this addition of GX6250 easy.
->>
->>> As for the clocks, for the currently supported GPUs, we have "mem" and
->>> "sys" clocks that are optional at integration time, so those
->>> conditionals are based on the vendor compatible strings (ti,... etc).
->>> However, these older GPUs always require all three clocks, so it
->>> probably makes sense to create the properties:clock{,-name}s:minItems:3
->>> constraint on the img,img-gx6250 compatible as well, rather than the
->>> renesas,r8... ones.
->>
->> OK
->>
->>> You shouldn't need to explicit list the power-domain descriptions at the
->>> constraint level at all; if there's a build warning that they're missing
->>> I guess the correct place to add them would be on the top-level
->>> power-domains entry, but I don't really think they contribute anything
->>> meaningful.
->> The descriptions basically emulate minItems/maxItems: 2 here. I can
->> also just set minItems:2 ?
+On 10/16/25 10:20 AM, wsa+renesas wrote:
 > 
-> I think that's probably much cleaner! We can add maxItems:2 back in
-> later if/when we add additional power domains at the top level.
-
-OK, will do.
-
->> I have one more question -- does GX6250 _always_ have two power
->> domains, i.e. the constrains always set minItems:2 for
->> "img,img-gx6250" "power-domains" property ?
+>>>>> I am not opposed to the patch. Just want to mention that such
+>>>>> information gets stale all the time, so I would suggest:
+>>>>>
+>>>>> + R-Car Gen3 THS and compatible thermal sensor driver
+>>>> This won't cover RZ/G2 which something else, and Gen5 seems like it
+>>>> will be also a bit different, so maybe the list is now exhaustive?
+>>>
+>>> Sorry, I don't understand: If RZ/xx THS is compatible with R-Car Gen3 THS, why is this not covered?
+>>
+>> RZ/G2{H,M,N,E} thermal sensors should be compatible with R-Car Gen3{H,M3W,M3N,E}
+>> But RZ/{G2L,G2LC,G2UL,V2L} uses different compatible.
 > 
-> Yes, that's correct. All PowerVR GPUs have the number of power domains
-> defined in the IP. Even where the SoC does not expose control of these
-> to the OS, the GPU still communicates with the SoC power controller
-> directly to gate them on and off during normal operation.
-Understood, thank you for the clarification.
+> I do understand this.
+> 
+> But if I say "this driver supports R-Car Gen3 THS and all THS instances
+> compatible with it", this includes all RZ which are, well, compatible
+> with it. And not those which are, well, not compatible with it?
+> 
+> Where is the misunderstanding? I am feeling a little awkward here...
+I think the only misunderstanding is, that if I spell the list of 
+supported devices fully, it is easier for the reader. Gen3 and 
+compatible pushes the onus of looking up whether their SoC has THS 
+compatible with Gen3 onto the reader. It seems no other entries will be 
+added in the foreseeable future, so the list is currently likely 
+exhaustive for a while.
 
