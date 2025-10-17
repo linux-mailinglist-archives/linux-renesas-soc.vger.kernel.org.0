@@ -1,94 +1,82 @@
-Return-Path: <linux-renesas-soc+bounces-23235-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23236-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38F94BE8745
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 13:51:50 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5A7EBE87AE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 13:55:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EBF93408186
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 11:51:48 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id BA2944EB205
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 11:55:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFBA02676DE;
-	Fri, 17 Oct 2025 11:51:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE2E22D73B4;
+	Fri, 17 Oct 2025 11:54:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="jHvFOOyW"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="kc7V9LSZ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E11D22D7A5
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Oct 2025 11:51:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1931425B1DA;
+	Fri, 17 Oct 2025 11:54:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760701906; cv=none; b=dtjh/ZEmA0lP6gfZaEgMddPwVFMBzkzVSdiD2FuQNsHoyiPVeFzHymM2sHGJOGb83N90m6SfsDoAgR36JUETlxLUtZ+ghifKoxzML8BAco50e4sxZxooacMoll5UtbmKGARGnwyvuOjscMaXN2DH0rbjXupMnCF4XSFawY3tFDE=
+	t=1760702098; cv=none; b=bYEBsevCOF6AoqT9g3g/mv1iK7dH/scddztjJ4zcO6JubxUgQWOr3S0oYNipkP6sPQtLQR6HRMIARjMb1fljOkItnU562t9UFDZneBGhO6g50FbxZ471xOTb7qTpPJoQO1TiZolkzJclZVu1TASHdj6BF0Wrp9hMzjpp3F0gQzQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760701906; c=relaxed/simple;
-	bh=BuBLsf7HKrPMO6TDqjOygFjIMQrypaxScr3nn1khTmY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Bn2DtYHWbnZiBnBVBKCK5TPVCGyR90x8pDwe6mNchegl9+2Ylw00XGzjv+vBxuazpRclwRwfSVmYEEfFizqQB7c7JSbKzcaM+LnB+bt9CVDLgIco0tDqotUhB5APnjORiwyyi9RQxuP/QSBq/FK306MCDce5c8H5lpaz/fFxUUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=jHvFOOyW; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=Q2AGX8dnNvvzvw
-	hpP7d+pi03iieJsU41slbnOSPvwOE=; b=jHvFOOyWZOJ8Q4l9pxtCge3L8R1/6x
-	6Qfhyvi6/38c6cAGY+ZgUS1J3x5/MN5nPB6RFBMvgoT5IbgqEMBPBok+jbY63n8s
-	M8Uel3BuAXh9NSi2uqq7pBK6govFS7yBaJUihEQFSk5y++UPAZWe8h10UuPM9Wx+
-	QiT9ICoYSOE2rb5Dbxl3f1hJkLHnpwbA4VS2nHd5FvbyMa/Y3qxlSkVgsapANAt9
-	3FyEZ3uk8uC0rBcKwLUQrMRad7OoZ8EZaVAl9JAxPdeSZMU+YHurne/J8dAddxy5
-	rBNJ4i6ozEaVZC9kfz0ehtIe3K/uSNtSypAS72WXPwEaYqqFt/UUJM3g==
-Received: (qmail 17832 invoked from network); 17 Oct 2025 13:51:35 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 Oct 2025 13:51:35 +0200
-X-UD-Smtp-Session: l3s3148p1@ndr0WllB2OYgAwDPXwQHAL/S9V79e5yL
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Marek Vasut <marek.vasut@mailbox.org>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	devicetree@vger.kernel.org
-Subject: [PATCH] arm64: dts: renesas: sparrow-hawk: don't reserve SWDT
-Date: Fri, 17 Oct 2025 13:51:11 +0200
-Message-ID: <20251017115123.3438-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.47.2
+	s=arc-20240116; t=1760702098; c=relaxed/simple;
+	bh=JdAbJBpF9zCBoKvtDSDBNLnvobggDoj7c0HLygpXH/w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=k5P1mycXolFJvx1dwQbCa3k67q4AyUJBEHorY/Uc4pMsMrPX/a5lKZuF6hD3tZhPbKIoSIQRb1eRoLWC7A2HL7iAl6xtS1ZDGfGv7WlFBzYaVTcB1cLHuer/OmKHYlu1TYHM8hmENCsCbMXkgavEli0pbqVaK2Zidq+X/zfsONA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=kc7V9LSZ; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4cp3Cc1h0Tz9skc;
+	Fri, 17 Oct 2025 13:54:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1760702092;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JdAbJBpF9zCBoKvtDSDBNLnvobggDoj7c0HLygpXH/w=;
+	b=kc7V9LSZo66ir7JcUJFGhlBxzRvoxPLTR/Knz7XjYFfumcTY67TphUakUXv+pg4pPI6Ztr
+	wp9vtz7K7OqorSNIb+gSfD3Khbcj4V7y0F/hSrcviyYCCbvNqUJD1XnAWjm1254eDOYFHg
+	U585Kul+RscurBTHevxOSO1Y6iYbnJFEMGhKyKL1gOnVqQ9vFYXyBdDAoaIJ4WR36xCvm7
+	6M8wFCdncpGW10Uz6CIwQnD5+NDOB/NY/kged5JcXBdwattx3GY99s3SzmRuvAi/f/Dbsg
+	9EFzwmZzL4doUaYTjtkHBaamAXC7Qywz5xldLzMPJaHmRtCU4uMVLQPQkTXG7Q==
+Message-ID: <dfef29e0-ac4b-49c6-acc0-dacce63696de@mailbox.org>
+Date: Fri, 17 Oct 2025 13:54:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] arm64: dts: renesas: sparrow-hawk: don't reserve SWDT
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ linux-renesas-soc@vger.kernel.org
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, devicetree@vger.kernel.org
+References: <20251017115123.3438-2-wsa+renesas@sang-engineering.com>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <20251017115123.3438-2-wsa+renesas@sang-engineering.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-META: t9jbm8gacfmjx31xweo6zfzwxoc1fcfg
+X-MBO-RS-ID: 7befe648c9dbbe42869
 
-SparrowHawk may run without ATF but with U-Boot SPL which does not
-reserve the SWDT. Remove the default "reserved" marking.
+On 10/17/25 1:51 PM, Wolfram Sang wrote:
+> SparrowHawk may run without ATF
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+Nitpick: It is abbreviated "TFA" now.
 
-Tested it by using the SWDT on my board.
-
- arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts | 5 -----
- 1 file changed, 5 deletions(-)
-
-diff --git a/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts
-index 161c083241f9..1da8e476b219 100644
---- a/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts
-@@ -942,8 +942,3 @@ &sensor_thermal_cr52 {
- &sensor_thermal_ddr1 {
- 	critical-action = "shutdown";
- };
--
--/* Firmware should reserve it but sadly doesn't */
--&swdt {
--	status = "reserved";
--};
--- 
-2.47.2
-
+Reviewed-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
