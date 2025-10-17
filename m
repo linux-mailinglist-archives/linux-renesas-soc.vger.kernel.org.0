@@ -1,174 +1,133 @@
-Return-Path: <linux-renesas-soc+bounces-23207-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23208-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 526C5BE79F4
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 11:22:41 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 820A0BE7C65
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 11:34:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0FFAC62610A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 09:22:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4181E1898612
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 09:29:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06E8832ED3C;
-	Fri, 17 Oct 2025 09:11:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C6C9322A3E;
+	Fri, 17 Oct 2025 09:15:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="ZCfAQq1z"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P2G/drdh"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB86C32ED28
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Oct 2025 09:11:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62F002040B6;
+	Fri, 17 Oct 2025 09:15:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760692313; cv=none; b=JTF/Zcs/GMOQeczbJkyXxSh4GRr576aLnP0PuTqGsR+ii55yphHPu/Z+amnek7+y6+45FmmWDZnvlcYbkXhEMlSXJGqy56Bx3uuyyW7qp+ow746qlB4jd7k3xwCM9T7r6Jy8ZllRYSoto4VdeJSPMWIz+psVIeOnXu8DS0XDQXA=
+	t=1760692521; cv=none; b=u7oes2rsbMdLoWN4i4VoVGe5IY2NnMteWfRX70BEpwkRdrIoeS4sbeK5SSXWmUYoS6JOSZLscM+tbyS2SRLIEeu/uTUtTb9qIqq4PpPiXzc6T4OeEmCguPJdsZ6VjtliyDbsUPQ5NbEJ16srrVndKA80CsxVIMA27AEDYPFT5ec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760692313; c=relaxed/simple;
-	bh=0hgg194Q/ekxMWTEcaeVe7kZCiTUQT1i7oIY+ktAtx0=;
+	s=arc-20240116; t=1760692521; c=relaxed/simple;
+	bh=Q5JTxNyJdR4mSqYaTrrvOC7Y1wr49c6ncBCKQKsLssM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YbzVBhkQRO3m1sBHtc5Z+1Swvmo9X55y5L4g8Qr9hU32Hom94IjugDOw0JCPta6f6ZwcBUNSS/2oSzxgg0YWsby2/DmItoK2VbU4QZRUPZfmDtZFd5AYTKoU/EdvHEVfXwE1u7GvO7AITimDG21KHt6ZwMJMLJDuk4GNnclkIY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=ZCfAQq1z; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=XU38
-	XK8Y5L6BI7SVZs41SwdmXYWo1x2J+raJQ3DofEg=; b=ZCfAQq1zIgwN/KtLQOSM
-	yk5JZGhvWc9FLwm5gWFXwH+PPqsLRx6E96vxP+X9FAC7D32Dg+mX8zx8I1olBM4m
-	dj5mIKBm9E+cLTywGIFHIRdoI+CKaOwqkCKnolxCsP2e2cLUR6nFnvYgCOVaSPCc
-	z+Jhoj/q5PpSF5G2kyeH80MV5NKdfwHTpaQBfPrLSsqyPgl3LIHT+/Sj+rYbr8pI
-	6Gz49Ublwpo5/8mxU6AXWrkwxRPil+sAombQWLtSRTbGnYQ7hhICnheP4/+0SyG1
-	Oq/BYmD4oVw9Fii1ttNN6Y1Vc5z81G4VYtEAZPiJi5njgN4Ou0m6TE2vAd8tVSqC
-	jA==
-Received: (qmail 4163213 invoked from network); 17 Oct 2025 11:11:49 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 Oct 2025 11:11:49 +0200
-X-UD-Smtp-Session: l3s3148p1@p+emH1dBON0gAwDPXwQHAL/S9V79e5yL
-Date: Fri, 17 Oct 2025 11:11:49 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
-Cc: Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, linux-iio@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Pascal Eberhard <pascal.eberhard@se.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH 2/4] iio: adc: Add support for the Renesas RZ/N1 ADC
-Message-ID: <aPIIVUlHnvi0BXtN@shikoro>
-References: <20251015142816.1274605-1-herve.codina@bootlin.com>
- <20251015142816.1274605-3-herve.codina@bootlin.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=YXGXmOZPkjTSKM6YEt0nqw/gLH+QL/JR+JtYXSS2V2yot60NNtogngBEIj8cizlP0NCq0CQYx9Rcsq14w9bD0NahidcZRPK8itcR1BihWSthO8idKXTd1xvrzgcsTc6xkL2mHQYvyCEdU6Z5gCVpJ6IG+neyYzj6SRKyKQSG6FU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P2G/drdh; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CB40C4CEFE;
+	Fri, 17 Oct 2025 09:15:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760692521;
+	bh=Q5JTxNyJdR4mSqYaTrrvOC7Y1wr49c6ncBCKQKsLssM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=P2G/drdhwo80zFf04Y6OqVEhkcMPt8X81ww4Z/d0gSuDPDLgGCS+UyV/UTJK8DeoO
+	 ydZSlKgHkbzV6zezwKRjwZJ/iFW4LmBwYCuOYNfMvbdXm1fbBhgyZATDZNgAW7Telu
+	 M5Ch9bvw13xk7iD9iExX2L2ng3iSigVv0bfaaicudpJ7JH7ahccLtxPYxKXJlLBiQ9
+	 rGIkJ75TGfojZe7reKbt8TNPPx6rXb6jGqP4RF96uVXUWyIVTjKzWOMsIcdOtSthHq
+	 KTcEA11NQo0XJDvdhqctS0BxGTy0u3fVebgRYllK2tUkdM66xkCdLgdgRdoI6wdTD0
+	 udLn1t0VRsWZw==
+Date: Fri, 17 Oct 2025 10:15:14 +0100
+From: Simon Horman <horms@kernel.org>
+To: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+Cc: Jian Shen <shenjian15@huawei.com>, Salil Mehta <salil.mehta@huawei.com>,
+	Jijie Shao <shaojijie@huawei.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Sunil Goutham <sgoutham@marvell.com>,
+	Geetha sowjanya <gakula@marvell.com>,
+	Subbaraya Sundeep <sbhatta@marvell.com>,
+	Bharat Bhushan <bbhushan2@marvell.com>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Brett Creeley <brett.creeley@amd.com>,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	Paul Barker <paul@pbarker.dev>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	linux-renesas-soc@vger.kernel.org,
+	Richard Cochran <richardcochran@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Jacob Keller <jacob.e.keller@intel.com>, netdev@vger.kernel.org
+Subject: Re: [PATCH net-next 6/6] net: hns3: add hwtstamp_get/hwtstamp_set ops
+Message-ID: <aPIJIhSXUPODqfZH@horms.kernel.org>
+References: <20251016180727.3511399-1-vadim.fedorenko@linux.dev>
+ <20251016180727.3511399-7-vadim.fedorenko@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="/EqJJDSnotcPcZ45"
-Content-Disposition: inline
-In-Reply-To: <20251015142816.1274605-3-herve.codina@bootlin.com>
-
-
---/EqJJDSnotcPcZ45
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251016180727.3511399-7-vadim.fedorenko@linux.dev>
 
+On Thu, Oct 16, 2025 at 06:07:27PM +0000, Vadim Fedorenko wrote:
 
-> +static int rzn1_adc_read_raw_ch(struct rzn1_adc *rzn1_adc, unsigned int chan, int *val)
+...
+
+> diff --git a/drivers/net/ethernet/hisilicon/hns3/hns3_enet.c b/drivers/net/ethernet/hisilicon/hns3/hns3_enet.c
+> index bfa5568baa92..1e9388f1115c 100644
+> --- a/drivers/net/ethernet/hisilicon/hns3/hns3_enet.c
+> +++ b/drivers/net/ethernet/hisilicon/hns3/hns3_enet.c
+> @@ -2419,6 +2419,35 @@ static int hns3_nic_do_ioctl(struct net_device *netdev,
+>  	return h->ae_algo->ops->do_ioctl(h, ifr, cmd);
+>  }
+>  
+> +static int hns3_nic_hwtstamp_get(struct net_device *netdev,
+> +				 struct kernel_hwtstamp_config *config)
 > +{
-> +	u32 *adc1_data, *adc2_data;
-> +	int adc1_ch, adc2_ch;
-> +	u32 adc_data;
-> +	int ret;
+> +	struct hnae3_handle *h = hns3_get_handle(netdev);
 > +
-> +	if (chan < 8) {
-> +		/* chan 0..7 used to get ADC1 ch 0..7 */
-> +		adc1_ch = chan;
-> +		adc1_data = &adc_data;
-> +		adc2_ch = -1;
-> +		adc2_data = NULL;
-> +	} else if (chan < 16) {
-> +		/* chan 8..15 used to get ADC2 ch 0..7 */
-> +		adc1_ch = -1;
-> +		adc1_data = NULL;
-> +		adc2_ch = chan - 8;
-> +		adc2_data = &adc_data;
-> +	} else {
+> +	if (!netif_running(netdev))
 > +		return -EINVAL;
-> +	}
-
-How about putting part of the logic into the setup function? So, here
-only:
-
-	if (chan >= 16)
-		return -EINVAL
-
 > +
-> +	ret = pm_runtime_resume_and_get(rzn1_adc->dev);
-> +	if (ret < 0)
-> +		return ret;
+> +	if (!h->ae_algo->ops->hwtstamp_get)
+> +		return -EOPNOTSUPP;
 > +
-> +	mutex_lock(&rzn1_adc->lock);
-> +
-> +	rzn1_adc_vc_setup_conversion(rzn1_adc, chan, adc1_ch, adc2_ch);
-
-	rzn1_adc_vc_setup_conversion(rzn1_adc, chan);
-
-And in that function:
-
-> +static void rzn1_adc_vc_setup_conversion(struct rzn1_adc *rzn1_adc, u32 ch,
-> +					 int adc1_ch, int adc2_ch)
-> +{
-> +	u32 vc = 0;
-> +
-> +	if (adc1_ch != -1)
-> +		vc |= RZN1_ADC_VC_ADC1_ENABLE | RZN1_ADC_VC_ADC1_CHANNEL_SEL(adc1_ch);
-> +
-> +	if (adc2_ch != -1)
-> +		vc |= RZN1_ADC_VC_ADC2_ENABLE | RZN1_ADC_VC_ADC2_CHANNEL_SEL(adc2_ch);
-> +
-> +	writel(vc, rzn1_adc->regs + RZN1_ADC_VC_REG(ch));
+> +	return h->ae_algo->ops->hwtstamp_get(h, config);
 > +}
+> +
+> +static int hns3_nic_hwtstamp_set(struct net_device *netdev,
+> +				 struct kernel_hwtstamp_config *config,
+> +				 struct netlink_ext_ack *extack)
+> +{
+> +	struct hnae3_handle *h = hns3_get_handle(netdev);
+> +
+> +	if (!netif_running(netdev))
+> +		return -EINVAL;
+> +
+> +	if (!h->ae_algo->ops->hwtstamp_set)
+> +		return -EOPNOTSUPP;
+> +
+> +	return h->ae_algo->ops->hwtstamp_set(h, config, extack);
+> +}
+> +
+>  static int hns3_nic_set_features(struct net_device *netdev,
+>  				 netdev_features_t features)
+>  {
 
-	if (ch < 8)
-		vc |= RZN1_ADC_VC_ADC1_ENABLE | RZN1_ADC_VC_ADC1_CHANNEL_SEL(ch);
-	else
-		vc |= RZN1_ADC_VC_ADC2_ENABLE | RZN1_ADC_VC_ADC2_CHANNEL_SEL(ch - 8);
+Hi Vadim,
 
-And a similar simplification for rzn1_adc_vc_wait_conversion().
+I'm sorry to raise this topic again.
+But I see the functions above flagged as unused with
+this patch applied (for allmodconfig builds).
 
-Should work and the code is even more readable, I'd say. And has less
-lines.
-
-
---/EqJJDSnotcPcZ45
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmjyCFUACgkQFA3kzBSg
-Kbb9xA//REppm1IeO+V8SP2avOxXXGrd9frH85ALT8nxSvi6YqgB/MxFXnSC0RcW
-z1aA/t8QwAMHDote89j8jlpRaugXvcgNNxMvn4JVheYyU4aNZwu/IcyJ/qhhQkd9
-dlXUfhUIM2hvowXEMagYfz85aOtev0rCl9FmWwS81RlQ6K8oKZZTU03m3R3r6sUb
-3QhCkyP9UrzZgZxTm8euT+W4jU2ZCglrbEwqHEw+5k9zVc60un5TV+3a1tFzhFM2
-FoGPv3Srpew1KmgUahaDcIzUXFczrwjR5S/CZRftI4KKWL1mP70gX/7pFwOZmGIt
-RohyF7Aa4c56+ACb7BHi395BYpCofoPq9tN48+7C/SleydJLvNcuhvZR5cp6QMhZ
-98Jd7jgRqYqEY7R7JLewFeitt4qJN+55fd5IVgKrTIaKfLXWeBKjw/V2AESIzzJQ
-v2wDgcMOa2ssIveyDnb4Q982yNk1pzcVabyTRn4fkEweuauvzwj2L4CPDcne8acl
-EFvv/QkxR1uV1Al7IkMqJ2LORT8GGb80XMpn7uZpIY8UwdyZYDTf5Nc6r0SOmNDe
-tv8N0XSgQhSUFq0S7eNR1R0n4KpwzD+VkpMrWHGyX3vpiqO51Vnh0oVE3Tf74CaN
-jR4mhnjf+BAZW8AVE6CFUxTwCjizamtvFirx/lUlCtOgli95bB4=
-=x7ej
------END PGP SIGNATURE-----
-
---/EqJJDSnotcPcZ45--
+...
 
