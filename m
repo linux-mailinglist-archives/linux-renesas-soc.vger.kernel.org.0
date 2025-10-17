@@ -1,140 +1,170 @@
-Return-Path: <linux-renesas-soc+bounces-23231-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23232-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D251DBE8423
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 13:11:43 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEFCEBE8469
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 13:19:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6EAFB406D9E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 11:10:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7768D1A61BD7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 11:20:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E648322523;
-	Fri, 17 Oct 2025 11:10:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21F1034320F;
+	Fri, 17 Oct 2025 11:19:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="cIzL5Ck/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="itt0bQ4p"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EA473321B0
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Oct 2025 11:09:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CE1731986F;
+	Fri, 17 Oct 2025 11:19:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760699400; cv=none; b=CAnMRUj6q3MY7nK9zrT7ayc6aqmtbx+HlNQwnlPcwS1RGe3ajt3fMpTpqpHtQmJQeO2Z0Oc27Nh5OBj2YFuuhwzPYka6rRRJp+nQLGZWTGEImI7KcHs2h96JOlOrp7ZOe16nOk6NDDNz7ykjMj0Y4wn75iUYJO+a1eITo8WMSWc=
+	t=1760699974; cv=none; b=a4X1+WvHyf2jeNdyO9sXXqeFrak+D2S+xvt5BRMbkcBfKRuo1dEFyYzOv28BQbHOyt3HOLhdq4b4ZENPesrFdoKlsEeOhUGNT5fpj25Xu+9JsejTiTsNrssWNGk4x0xhlyP/Rzj+S+ykSRL+nTsLoNb/IZf67np9denMmFlk3GA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760699400; c=relaxed/simple;
-	bh=jJ3sJSfGGDZPPWMFLprjMHiW/EllfBTeLQIZoh/ZyxI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uZuUWxLfzY9PzW/wxY/TPWD7ki0S8KekG41uZFgWb09KTBecZuHXt0oT++KZdmtxONHPQwDPD0gH91bsJ0C/8/LnQZBUdHK1fEu8n/MxOPLLw3Kv31BJ1SsI42aTdMK8a7TecJbc2yowtZ8vMUXhJqEjD1aqXwfg/fRSr9VhiCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=cIzL5Ck/; arc=none smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-59093250aabso2352642e87.2
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Oct 2025 04:09:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1760699396; x=1761304196; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jJ3sJSfGGDZPPWMFLprjMHiW/EllfBTeLQIZoh/ZyxI=;
-        b=cIzL5Ck/8wNnAqKxninMiulfKB+lAxTj8XIrxSS+iiRAcsawulROWtwlmJks4eMX9H
-         atmf234J/YT3RmK7vU6F8DHOb661sc5v1x6O27o/8H5Ud4eJ+uKzOUoLd3SiHzsDSoiD
-         Kw7nffjX5GxU3YxFgGapg00/9VfD5zTt3HlBXmYSa2FVUHznEGuu6Dapc53yohmiHPZu
-         cMYJ0nbkoanZnpgE+Dl2sbronm9lea2LLe2sp5JI6TyEdED8TZYU+cnNbW+geOKTtnlS
-         PXfPn0ctDbcz87Yg8BZWOxVmmbHqtg5vALxJcsXpl75RYQCV6NhyXHVMcII87hMVt6zs
-         T2ew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760699396; x=1761304196;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jJ3sJSfGGDZPPWMFLprjMHiW/EllfBTeLQIZoh/ZyxI=;
-        b=VjP8v0cdZRSlb7VvNVSKkp7YD8YWyoMfRmupj5x6OpYv1K4o0wjzKJ4EyFHdMUOX06
-         qOy43elAtR/gwhVeuk5jJMWV5GacXNtbnO8/z3jPUxdN02viTCjgBG2PrXTU0AKo4YYf
-         MjotmZMSJy/gUiSFVJxEnVQdnqrNjJbMYUzHGO91aBey7VU50Td4auNXRn/p/Zs4KBOd
-         UmEI+zRjzSdkp7NK3r30TOvEeYB20krqvd5cz30uBq0Xngq3o+mOl1K4EiYgV8sv/T6J
-         pJyd4z6sdKCnJI0MnoLuQJ1IabSccE7VyTqqbw/q6U7CIzamWxgAXumF84ZwfmzF0KEL
-         DxwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWnjBT26/wsusmYjwvs6IV/qkNYQfFmnT4zOgAngOGUUzDYC4cRR7TUm1vSryWm7ozEGTKhTpstGomJi9SsOj9rYw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzZkYPCi0T9Yg9LCOCNcMRWtxd19atDhFXOLOxvxIkFezg4S7lY
-	FqhUIrBqVKocPlAwr440ZN+8DO28QewJGUvdJ/vhUVzQYF4QFGfe7pp2rruzbdxniDPKb6xKSjx
-	mXFEsNchKfD59tx2sBVcav7cUrgd0CKUbf3zHfkQNCQ==
-X-Gm-Gg: ASbGncs9kQnQYOYr1+Vus6bSUrcG/XqWSl8tOuiOAkiQz0kkKQ4g6A9kQmM3BZSf/2e
-	rApEHmdLJKCw4UTh67x5LZaciIF5Cb2wvmOQBj+jH7H+cTy/z5yA3Uj56VZEerqGMTv3GjicU/C
-	CNlGRb9CSCdkUgbkEO4pJaTU8Ri7Qm+tHHxH2Wv9mJTArOWYPtOiSJ7tUo99WTgALx/iJ3e2eZW
-	UfVxbPXEkST6SvDPjT1upEPw7bfDmGYFeuDODSWKzsyyihuiiYjjFaXG3UIOhTBFd7syHstJ+kp
-	JUJwlrMzePUtv7BK
-X-Google-Smtp-Source: AGHT+IHAQb+PujZ3FlhVbP/5obfB82tUK18MuZgZkVjEsCxRPkQtT5FNrzDdnND37AsMEzZd7iYSCgmCJUb3JOw9GHc=
-X-Received: by 2002:a05:6512:1324:b0:563:3ac3:1ec1 with SMTP id
- 2adb3069b0e04-591d857942amr1167284e87.54.1760699396306; Fri, 17 Oct 2025
- 04:09:56 -0700 (PDT)
+	s=arc-20240116; t=1760699974; c=relaxed/simple;
+	bh=8MsOM03pXc7Ax5q0mCwysYrX9pm4sTnoctwX/A8aheI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Gm1lxSBLBMSvEkSUsOUBSuuT8Y612tA5BCfiHMu3PHV0u2q/oAg8/H3PgVBxIdD0Ovc50XYIjtyL6/ejnsiGPQ7Eo9mE/Pw0pKLleYN/rPVYoqwXt0Xgkns+J/S+2uebpMVDPZv+cGyFPswcylkuooAcw/7+vJHFo2qqp9uAb7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=itt0bQ4p; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760699973; x=1792235973;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8MsOM03pXc7Ax5q0mCwysYrX9pm4sTnoctwX/A8aheI=;
+  b=itt0bQ4py/aJ97eQaMy3f9PLloM2yb7JMqNV3rnIlCdt8YRi3bl95bey
+   kX6oD7u9I1k0EEdUt5qYyIyWAA4kolM7emW27+SkeMA9LLh69rux1ndmD
+   0TxBMmGmUpKzzOeXdun1BSvcVZPCkaynb+EWA+aUC+nSLCW0hrWsh0YW8
+   R8RjvW2K44QqRFrxniUFToSrpDXdPZA17LXH9uOKLOhWgbyqszThN+zFC
+   FTmVHVo8Z0jzBJPhCjaOlprqjTcKElBZXb0IDf9JW7mf9B37ZiIwyssHs
+   kbjKvWQLOicNZqG82sP8ExG6rjfpN+9rylgi0VJvpcmho/PvQr5LwipLK
+   Q==;
+X-CSE-ConnectionGUID: SU4O98oyQs2c3DL9PbjiUA==
+X-CSE-MsgGUID: k/jp+p4VQOa1JDjJDvwmjw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="66555803"
+X-IronPort-AV: E=Sophos;i="6.19,236,1754982000"; 
+   d="scan'208";a="66555803"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2025 04:19:31 -0700
+X-CSE-ConnectionGUID: fWzu1B5mRIW0L/ehNOHJdw==
+X-CSE-MsgGUID: HgYRS2rJToewAFu3pfjVbQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,236,1754982000"; 
+   d="scan'208";a="213679277"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 17 Oct 2025 04:19:25 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v9iUV-0005uF-0R;
+	Fri, 17 Oct 2025 11:19:23 +0000
+Date: Fri, 17 Oct 2025 19:19:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Jian Shen <shenjian15@huawei.com>,
+	Salil Mehta <salil.mehta@huawei.com>,
+	Jijie Shao <shaojijie@huawei.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Sunil Goutham <sgoutham@marvell.com>,
+	Geetha sowjanya <gakula@marvell.com>,
+	Subbaraya Sundeep <sbhatta@marvell.com>,
+	Bharat Bhushan <bbhushan2@marvell.com>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Brett Creeley <brett.creeley@amd.com>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
+	Paul Barker <paul@pbarker.dev>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Richard Cochran <richardcochran@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Simon Horman <horms@kernel.org>,
+	Jacob Keller <jacob.e.keller@intel.com>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>
+Subject: Re: [PATCH net-next 6/6] net: hns3: add hwtstamp_get/hwtstamp_set ops
+Message-ID: <202510171940.xIqxEaCD-lkp@intel.com>
+References: <20251016180727.3511399-7-vadim.fedorenko@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251015205919.12678-4-wsa+renesas@sang-engineering.com>
- <20251015205919.12678-6-wsa+renesas@sang-engineering.com> <CAMuHMdXqHncXxBZ00mxV=pzdgQEU4ju2F9XMejnibbu=QnLfDg@mail.gmail.com>
- <aPEAx8ZGHBcWZKJF@shikoro> <CAMRc=McsbAirEYjoo455mbKU495VEvPmMEqBmZCq2hw113YHOg@mail.gmail.com>
- <aPIfF-3SgzW5V_gs@shikoro>
-In-Reply-To: <aPIfF-3SgzW5V_gs@shikoro>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Fri, 17 Oct 2025 13:09:44 +0200
-X-Gm-Features: AS18NWA8jH3FhagHn3D8_Lt6AEhdFJCJ9BjuVsTGnGPGq3eRCDcchI99tLK0230
-Message-ID: <CAMRc=MfVPO292xmnXBWJzWuhNADA_u1yvpJ4kkK8TgZyQgaP+A@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] reset: always include RESET_GPIO driver if possible
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, linux-renesas-soc@vger.kernel.org, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, linux-kernel@vger.kernel.org, 
-	Philipp Zabel <p.zabel@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251016180727.3511399-7-vadim.fedorenko@linux.dev>
 
-On Fri, Oct 17, 2025 at 12:48=E2=80=AFPM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
->
->
-> > > Interesting topic. In fact, I think we should make RESET_GPIO bool. I
-> > > think the fallback mechanism of the core should work without any modu=
-le
-> > > loading infrastructure. It should be there whenever possible.
-> > >
-> >
-> > You have not said *why*. How is this different from any other device
-> > whose driver is only loaded when actually needed?
->
-> ? I just did that, but let me repeat:
->
-> I think the fallback mechanism of the core should work without any
-> module loading infrastructure. It should be there whenever possible.
->
+Hi Vadim,
 
-It's not really a fallback, is it? This is the path we'll always take
-if the driver requests a reset control on a firmware node which has a
-reset-gpios property. If the driver goes with the gpiod API, it will
-get a regular descriptor. It's deterministic enough to not warrant the
-term "fallback".
+kernel test robot noticed the following build warnings:
 
-> I might add that module loading infrastructure might be broken in
-> userspace. Been there. Also, some drivers might need their reset early?
->
+[auto build test WARNING on net-next/main]
 
-Then I believe the platform's config should make sure the driver is
-built-in. I don't think it makes sense to just cram it into the kernel
-image for the few users it currently has.
+url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/octeontx2-convert-to-ndo_hwtstamp-API/20251017-021210
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20251016180727.3511399-7-vadim.fedorenko%40linux.dev
+patch subject: [PATCH net-next 6/6] net: hns3: add hwtstamp_get/hwtstamp_set ops
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20251017/202510171940.xIqxEaCD-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251017/202510171940.xIqxEaCD-lkp@intel.com/reproduce)
 
-> Looking more into it, I can't find any 'request_module'. Am I
-> overlooking something? The fallback feature is only present if the user
-> loads the driver manually? If that is true, it would make it rather
-> useless IMHO because consumer drivers cannot rely on it. I must be
-> missing something...
->
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510171940.xIqxEaCD-lkp@intel.com/
 
-The reset-gpio driver has a MODULE_DEVICE_TABLE().
+All warnings (new ones prefixed by >>):
 
-Bart
+>> drivers/net/ethernet/hisilicon/hns3/hns3_enet.c:2436:12: warning: 'hns3_nic_hwtstamp_set' defined but not used [-Wunused-function]
+    2436 | static int hns3_nic_hwtstamp_set(struct net_device *netdev,
+         |            ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/hisilicon/hns3/hns3_enet.c:2422:12: warning: 'hns3_nic_hwtstamp_get' defined but not used [-Wunused-function]
+    2422 | static int hns3_nic_hwtstamp_get(struct net_device *netdev,
+         |            ^~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/hns3_nic_hwtstamp_set +2436 drivers/net/ethernet/hisilicon/hns3/hns3_enet.c
+
+  2421	
+> 2422	static int hns3_nic_hwtstamp_get(struct net_device *netdev,
+  2423					 struct kernel_hwtstamp_config *config)
+  2424	{
+  2425		struct hnae3_handle *h = hns3_get_handle(netdev);
+  2426	
+  2427		if (!netif_running(netdev))
+  2428			return -EINVAL;
+  2429	
+  2430		if (!h->ae_algo->ops->hwtstamp_get)
+  2431			return -EOPNOTSUPP;
+  2432	
+  2433		return h->ae_algo->ops->hwtstamp_get(h, config);
+  2434	}
+  2435	
+> 2436	static int hns3_nic_hwtstamp_set(struct net_device *netdev,
+  2437					 struct kernel_hwtstamp_config *config,
+  2438					 struct netlink_ext_ack *extack)
+  2439	{
+  2440		struct hnae3_handle *h = hns3_get_handle(netdev);
+  2441	
+  2442		if (!netif_running(netdev))
+  2443			return -EINVAL;
+  2444	
+  2445		if (!h->ae_algo->ops->hwtstamp_set)
+  2446			return -EOPNOTSUPP;
+  2447	
+  2448		return h->ae_algo->ops->hwtstamp_set(h, config, extack);
+  2449	}
+  2450	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
