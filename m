@@ -1,54 +1,53 @@
-Return-Path: <linux-renesas-soc+bounces-23206-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23207-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 983DFBE75DD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 11:06:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 526C5BE79F4
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 11:22:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3DDB36E0B83
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 09:03:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0FFAC62610A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 09:22:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A06612D29CF;
-	Fri, 17 Oct 2025 09:03:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06E8832ED3C;
+	Fri, 17 Oct 2025 09:11:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="a7/OjAeo"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="ZCfAQq1z"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 986FE2D3EE0
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Oct 2025 09:03:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB86C32ED28
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Oct 2025 09:11:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760691822; cv=none; b=Z4Xza5I4vD4y3ooDNU9h0VfiYl1kl2Fiibn0SXVxzFA75GG9LSj6VXixIrNIxNK2jjj4QDPV59WahiFJrYbmBU+t3CuH1GM5sWAJE5F/F7U/QNp2QKpmV0ZORuExkTI4nCR/p6vV7gsUgKW/2rNo7iSPYiiOwkcG+LVGHLJNCDs=
+	t=1760692313; cv=none; b=JTF/Zcs/GMOQeczbJkyXxSh4GRr576aLnP0PuTqGsR+ii55yphHPu/Z+amnek7+y6+45FmmWDZnvlcYbkXhEMlSXJGqy56Bx3uuyyW7qp+ow746qlB4jd7k3xwCM9T7r6Jy8ZllRYSoto4VdeJSPMWIz+psVIeOnXu8DS0XDQXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760691822; c=relaxed/simple;
-	bh=o0euswfbAFBhsCKZA32krNWdrQ5q8hFRTdiPW3SpL6M=;
+	s=arc-20240116; t=1760692313; c=relaxed/simple;
+	bh=0hgg194Q/ekxMWTEcaeVe7kZCiTUQT1i7oIY+ktAtx0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RxmRyT27eetmqt9h376NPNeslgG9BF2iGpye9OAHf3b0HbjgjOtwLw9H5p9EsvonCMnC2NkZI9Qrw/KgkUcHplguw6TH2LREYh3lsmxdk/EBUdVGoGffJ7ycnHcHVu+6FiLvIxXwqZ2RgH00awvGFPfZHloD7ZOoh0kSzWNw/0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=a7/OjAeo; arc=none smtp.client-ip=194.117.254.33
+	 Content-Type:Content-Disposition:In-Reply-To; b=YbzVBhkQRO3m1sBHtc5Z+1Swvmo9X55y5L4g8Qr9hU32Hom94IjugDOw0JCPta6f6ZwcBUNSS/2oSzxgg0YWsby2/DmItoK2VbU4QZRUPZfmDtZFd5AYTKoU/EdvHEVfXwE1u7GvO7AITimDG21KHt6ZwMJMLJDuk4GNnclkIY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=ZCfAQq1z; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=o0eu
-	swfbAFBhsCKZA32krNWdrQ5q8hFRTdiPW3SpL6M=; b=a7/OjAeobmnub/WrEJ3v
-	wzSQcS6J8Tlasu1hooHVYi1E509a9XaZaxln5eOqF/YOUwQfoDJDzQ/gsoaQE0Tn
-	e9XzNuwrhZTAH5U6vy/W1SiqNzimuYNEiNSXPdLZqfpFEkQRF7MRjrcspKJi5r78
-	5JppnQ3jdDEealFCOYBSMRrET9Kg2mDrRfQynR7qNYXpQL73ZcC2IPdRk9QKFDg9
-	2LalSTxGR5SkgWZonZK9RlmG+f8vqBQleBPY/G7e56nJsOQwrm9BJtORMeoEVa46
-	Aecs2CKfquHBJ3VOX988b+LLPL9MEWuElXyxtzvxPfX+54D4XPiARbUSUh2z+F5q
-	BA==
-Received: (qmail 4160496 invoked from network); 17 Oct 2025 11:03:33 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 Oct 2025 11:03:33 +0200
-X-UD-Smtp-Session: l3s3148p1@ngAaAldBwrUgAwDPXwQHAL/S9V79e5yL
-Date: Fri, 17 Oct 2025 11:03:33 +0200
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=XU38
+	XK8Y5L6BI7SVZs41SwdmXYWo1x2J+raJQ3DofEg=; b=ZCfAQq1zIgwN/KtLQOSM
+	yk5JZGhvWc9FLwm5gWFXwH+PPqsLRx6E96vxP+X9FAC7D32Dg+mX8zx8I1olBM4m
+	dj5mIKBm9E+cLTywGIFHIRdoI+CKaOwqkCKnolxCsP2e2cLUR6nFnvYgCOVaSPCc
+	z+Jhoj/q5PpSF5G2kyeH80MV5NKdfwHTpaQBfPrLSsqyPgl3LIHT+/Sj+rYbr8pI
+	6Gz49Ublwpo5/8mxU6AXWrkwxRPil+sAombQWLtSRTbGnYQ7hhICnheP4/+0SyG1
+	Oq/BYmD4oVw9Fii1ttNN6Y1Vc5z81G4VYtEAZPiJi5njgN4Ou0m6TE2vAd8tVSqC
+	jA==
+Received: (qmail 4163213 invoked from network); 17 Oct 2025 11:11:49 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 Oct 2025 11:11:49 +0200
+X-UD-Smtp-Session: l3s3148p1@p+emH1dBON0gAwDPXwQHAL/S9V79e5yL
+Date: Fri, 17 Oct 2025 11:11:49 +0200
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Herve Codina <herve.codina@bootlin.com>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
-	Jonathan Cameron <jic23@kernel.org>,
+To: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
+Cc: Jonathan Cameron <jic23@kernel.org>,
 	David Lechner <dlechner@baylibre.com>,
 	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>,
 	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
@@ -64,13 +63,9 @@ Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
 	Miquel Raynal <miquel.raynal@bootlin.com>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
 Subject: Re: [PATCH 2/4] iio: adc: Add support for the Renesas RZ/N1 ADC
-Message-ID: <aPIGZQfUzT_X4swp@shikoro>
+Message-ID: <aPIIVUlHnvi0BXtN@shikoro>
 References: <20251015142816.1274605-1-herve.codina@bootlin.com>
  <20251015142816.1274605-3-herve.codina@bootlin.com>
- <aPHiAObA61OVf8mY@ninjato>
- <20251017093649.2d5549e4@bootlin.com>
- <CAMuHMdV0As4XKG0P0y+pJpTT82Bq8qpq2rHufeX4_q0j-eOPPA@mail.gmail.com>
- <20251017095936.71cb318b@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -78,42 +73,102 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="RPf07tWMtjOA6ssA"
+	protocol="application/pgp-signature"; boundary="/EqJJDSnotcPcZ45"
 Content-Disposition: inline
-In-Reply-To: <20251017095936.71cb318b@bootlin.com>
+In-Reply-To: <20251015142816.1274605-3-herve.codina@bootlin.com>
 
 
---RPf07tWMtjOA6ssA
+--/EqJJDSnotcPcZ45
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 
-> The specific RZN1_ADC_NO_CHANNEL value looks good to me meaning "No channel
-> to use".
+> +static int rzn1_adc_read_raw_ch(struct rzn1_adc *rzn1_adc, unsigned int chan, int *val)
+> +{
+> +	u32 *adc1_data, *adc2_data;
+> +	int adc1_ch, adc2_ch;
+> +	u32 adc_data;
+> +	int ret;
+> +
+> +	if (chan < 8) {
+> +		/* chan 0..7 used to get ADC1 ch 0..7 */
+> +		adc1_ch = chan;
+> +		adc1_data = &adc_data;
+> +		adc2_ch = -1;
+> +		adc2_data = NULL;
+> +	} else if (chan < 16) {
+> +		/* chan 8..15 used to get ADC2 ch 0..7 */
+> +		adc1_ch = -1;
+> +		adc1_data = NULL;
+> +		adc2_ch = chan - 8;
+> +		adc2_data = &adc_data;
+> +	} else {
+> +		return -EINVAL;
+> +	}
 
-I think I have an even better idea, will respond to the original patch
-for context.
+How about putting part of the logic into the setup function? So, here
+only:
+
+	if (chan >= 16)
+		return -EINVAL
+
+> +
+> +	ret = pm_runtime_resume_and_get(rzn1_adc->dev);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	mutex_lock(&rzn1_adc->lock);
+> +
+> +	rzn1_adc_vc_setup_conversion(rzn1_adc, chan, adc1_ch, adc2_ch);
+
+	rzn1_adc_vc_setup_conversion(rzn1_adc, chan);
+
+And in that function:
+
+> +static void rzn1_adc_vc_setup_conversion(struct rzn1_adc *rzn1_adc, u32 ch,
+> +					 int adc1_ch, int adc2_ch)
+> +{
+> +	u32 vc = 0;
+> +
+> +	if (adc1_ch != -1)
+> +		vc |= RZN1_ADC_VC_ADC1_ENABLE | RZN1_ADC_VC_ADC1_CHANNEL_SEL(adc1_ch);
+> +
+> +	if (adc2_ch != -1)
+> +		vc |= RZN1_ADC_VC_ADC2_ENABLE | RZN1_ADC_VC_ADC2_CHANNEL_SEL(adc2_ch);
+> +
+> +	writel(vc, rzn1_adc->regs + RZN1_ADC_VC_REG(ch));
+> +}
+
+	if (ch < 8)
+		vc |= RZN1_ADC_VC_ADC1_ENABLE | RZN1_ADC_VC_ADC1_CHANNEL_SEL(ch);
+	else
+		vc |= RZN1_ADC_VC_ADC2_ENABLE | RZN1_ADC_VC_ADC2_CHANNEL_SEL(ch - 8);
+
+And a similar simplification for rzn1_adc_vc_wait_conversion().
+
+Should work and the code is even more readable, I'd say. And has less
+lines.
 
 
---RPf07tWMtjOA6ssA
+--/EqJJDSnotcPcZ45
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmjyBmEACgkQFA3kzBSg
-KbbQSQ/9HkuWz2hGzN7v2g3+mUylDo+w2oeqfNFBwpPHIUpNNcw00wE0VOGY0pZr
-DbwNw6CIDqX9lA6CsJZm2GUy86A/faJKvBq1z+ebEg8FjR1Qe98r2DvdahUvSdKG
-GBfndc0jC9ZLgOfkxiUQFHnqfmGND+AmPWkZWrVTfG9JczQUM5FhG9wHNRocmiSa
-K2DweznSlBOjdlclQJLn24lyXxOYedDMjV6UqOX8id5wlq3K0Ip+yv8UkgoALWne
-PexFqyxPPZ/JqPoidZiPc/aoEG/gscDcRNMyJUzqRhf9gc1WzMmLR/WVq9GZVPWx
-jbQMKNwm5a23ZHwAI34cgEwPPCbLL5W94ro3zKVN6c6PcuXhGE6WYVOPHQMlhd8+
-1KyXldwzSIET9Dl4pap8NiPH8d4+g0K8z5mj/70qqAi+VROQzK42cag8nvlfD7sj
-Gk01LSfCLOKDCVL4oLBN9mwDyuNYQsFnuzE45EgX4ihgsbHLcKV6sME791i5pY7k
-tYl+WJSaRzUTfYXg+WaaZoLyqe5YVeXfDNFM8RLLRXk2OO3fkjXX0raltNjaDdHe
-ilpKMhj5UTNG40jeq65MZpPipOohPxffnmMDojgPe6a9D8MAkTuIKGcnHFKLE8xK
-M+TFqNSfYKy/Cahg48JUJW4ZTH0oVNvECKNvkxOXM6Px2O0rjO8=
-=mzqA
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmjyCFUACgkQFA3kzBSg
+Kbb9xA//REppm1IeO+V8SP2avOxXXGrd9frH85ALT8nxSvi6YqgB/MxFXnSC0RcW
+z1aA/t8QwAMHDote89j8jlpRaugXvcgNNxMvn4JVheYyU4aNZwu/IcyJ/qhhQkd9
+dlXUfhUIM2hvowXEMagYfz85aOtev0rCl9FmWwS81RlQ6K8oKZZTU03m3R3r6sUb
+3QhCkyP9UrzZgZxTm8euT+W4jU2ZCglrbEwqHEw+5k9zVc60un5TV+3a1tFzhFM2
+FoGPv3Srpew1KmgUahaDcIzUXFczrwjR5S/CZRftI4KKWL1mP70gX/7pFwOZmGIt
+RohyF7Aa4c56+ACb7BHi395BYpCofoPq9tN48+7C/SleydJLvNcuhvZR5cp6QMhZ
+98Jd7jgRqYqEY7R7JLewFeitt4qJN+55fd5IVgKrTIaKfLXWeBKjw/V2AESIzzJQ
+v2wDgcMOa2ssIveyDnb4Q982yNk1pzcVabyTRn4fkEweuauvzwj2L4CPDcne8acl
+EFvv/QkxR1uV1Al7IkMqJ2LORT8GGb80XMpn7uZpIY8UwdyZYDTf5Nc6r0SOmNDe
+tv8N0XSgQhSUFq0S7eNR1R0n4KpwzD+VkpMrWHGyX3vpiqO51Vnh0oVE3Tf74CaN
+jR4mhnjf+BAZW8AVE6CFUxTwCjizamtvFirx/lUlCtOgli95bB4=
+=x7ej
 -----END PGP SIGNATURE-----
 
---RPf07tWMtjOA6ssA--
+--/EqJJDSnotcPcZ45--
 
