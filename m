@@ -1,185 +1,261 @@
-Return-Path: <linux-renesas-soc+bounces-23248-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23249-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26940BEA9BC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 18:19:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE2D9BEA99B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 18:18:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 62C06940CC4
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 15:36:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E81A07C5AFB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 15:44:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54D40335063;
-	Fri, 17 Oct 2025 15:34:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C37DC330B15;
+	Fri, 17 Oct 2025 15:43:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d4h0h4Uk"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="PVWvx2vm"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6252B33290F
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Oct 2025 15:34:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10EF22F12C2
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Oct 2025 15:43:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760715267; cv=none; b=KFnlcr6dC3q5W9NzAmJisXAS403rxDjAMSyoMo2grVBAj7dIYghyz7wPMzMTDroI+QBINdeojuH0wf1lk07FTMwFhkaOH62EZO4RtLOPJd1EsTBYE9CfUfjVBjiiKmFmbEcf5IEpCezG8I/8dfQeeg08smM/sRuDc9i2sAdfC6g=
+	t=1760715822; cv=none; b=bZgDg/5EYR41C8xjUdk6C0r4mM58SzllVWgvcI4uBDmQaKVU6u5uLBR2Y4Isx92147AgwvTFrnpMTKyC2Qevj100xQhzVc3ucMJNvK6QMMG90J8Ku8UyDQ+FTkrsT7slaINmbLcyUkDKrgpng+BNp+UoTaXS89FHb3wfDK4zhdA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760715267; c=relaxed/simple;
-	bh=UTHjW/toYsIDFb60IqVuORUHKF64xvgXUjf946jP9sk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BZuy10+X9iTP9CzvujvxI5IdDfJDK87Vl074KLfTYUqevH5XuBiQt3xaldL2exdgrLU38lpM+ePIbg08/NqdxdY1mH+OTwqUPLV/YpCgBcbBQ/pR0cqDCypGir4f+ObhnYCY55XTtJLs5M9ZzdNORN12jjRGd9UF1653meM/aog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d4h0h4Uk; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3f0ae439bc3so1043096f8f.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Oct 2025 08:34:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760715264; x=1761320064; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=favt1IDI3QNdxE7vKo/4IJP+8NRTOtxfK/UHHLad8Y4=;
-        b=d4h0h4UkQUBi9RG84ziDxhlIlsh3UxB7sn9MR7Yj6W3bbda/QIgbac9Nxjc/PKohD6
-         OUfpeEO2D9/VbtZquhIw0u3j/oyBvlYMN5TvwKJBBw064OEmk6YJiddpsAk2KZV/Dcty
-         Sr04ODUnmqod/jqWfeYdeefjGE6NhMxOyfKuZnzhXhnm6wHt9VBMuPuh6YUGcSffY7vn
-         o4MmEpGYsKQJAoAowELN6harvqe3BvL5v37+1nQ7QgJZESDGGd8Z+4n0M4CpB6njudCz
-         iUeig9cBju+kKMttbtS1dpexh15pnseMLKqEeA4ZERcEplzCLQNQwMmJfzjOc5pYTz5M
-         juYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760715264; x=1761320064;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=favt1IDI3QNdxE7vKo/4IJP+8NRTOtxfK/UHHLad8Y4=;
-        b=ly0u6H0R3x3GuaGUuvDmwycLH53clmEHQuFiU71Jz1see6q26axlpo5dA16xxg3nkp
-         VEE74Up5j93Qi+FvCl/NOQ44Dv8U6UgPrUbgUKxH1FPnhRIpYlB7UZy582weuDwHWG2j
-         JAGfe+C6SxMq5IX2kXrxo16MfvJRnW+HgtRY7wUcbg8mfdpbdMzdZU/XEGRYyRtxPppz
-         BGNhe5N7N7eEdtIPlc8BiBFZdIOA7kWZc6soJBB3lWC22v5YGfX7POZU1TA/Rfu5Gk7b
-         8OukDQjb/eshwf07VN/yeWzxO45nJMRFLj+ZyieC8lorcNPFDR2aIsK9ljpkPJIlZmv/
-         F6kg==
-X-Forwarded-Encrypted: i=1; AJvYcCX979Aq7vZQljExWBIg8PmDa8qYmLLustLpvESw6FRBo0Z+UtS0qFVD9O+/HlmFiqIqxZ6BcqIFF8aNsHlTwOswhg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YydCLa1ebdBUh7EHvM4umsSz+SWg3w0giWF7vkF/OtQA0TwDS2C
-	t6BFahkrOQkr7HgA33HUTRwr1CXeU4K0VVeSdFD/5W+docz1W9uWObufkX/7ytyjuRqRd/y5OUm
-	cC8VQiZWS8w9ZbFBEXelcpoiZnB5/zO4=
-X-Gm-Gg: ASbGncsDSHJnfA2zzIevCuDTN1ga8Pm24FamC0sAE7ZODYDgHo8+70PSp5yO2VyhTSj
-	7XPSi3Nu+oUXXsKnEss+Gz7dD4vhQatbCyPSK+0AXlOk6glPCq7YRKWF88aR3LXDxTDwD+QaUIR
-	2Zh4kwTdfEQAzTrUPk5FCUpDgglBasGkc7xHkJ76FNUOSyjIdmWqq96AQVa2wWD0Gc/GiS7yRUx
-	WNi8sI+WPmUDJt6JlYUU1FPm0KJD7uGvL/3nw9hPhZ7zS+/AK/9zsniJJUVBQ==
-X-Google-Smtp-Source: AGHT+IHfpHgBVmETg3KYRZoAGy7Gg8QhvZwh2b+3jlFtVYjceIivbm2b7FrweI3TQHdE8Iw08/NlAQfWRcgPGmGMoFI=
-X-Received: by 2002:a05:6000:4313:b0:3d7:2284:b20 with SMTP id
- ffacd0b85a97d-42704d9cf76mr3237097f8f.3.1760715263625; Fri, 17 Oct 2025
- 08:34:23 -0700 (PDT)
+	s=arc-20240116; t=1760715822; c=relaxed/simple;
+	bh=IBzm0BkIQZZsdt4xJw7y+O0Sm5/LFDw6hjYa1sV6J7M=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NdpJxT/othZHSIKaVtr/dNKaIrdOMwEqLXAFfb39gxlVzBwEQNWzakrH+b/lyVxqycKMHuCd1ML7Ok7kaTul2LsSdr8ZWzuHCL8e8hjluGUlUrwvz5rN1rrITBkX8Iv8/1EuwQNDtQDWohK4FyES0OJjYkbu7R9U2cwWqcM2FLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=PVWvx2vm; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 549ED1A1483;
+	Fri, 17 Oct 2025 15:43:38 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 1E02F606DB;
+	Fri, 17 Oct 2025 15:43:38 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 34268102F2326;
+	Fri, 17 Oct 2025 17:43:23 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1760715816; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=T3sgtYckKNpZfrVMfRULcu2lLGe70YFSspAezpijEXk=;
+	b=PVWvx2vmTlWIvYh5BJEJwIeglCvikRUVYwmfYiDqyDUGT0g22W9Dz9279iBM9hEHSqEx/X
+	LwhMRobtn4HcGtIcNlimhAkTTqiARlgQ1jyJ+vEaBQFPkSNXBzsXW6axUuOWNMSbKcBv3g
+	Pbl3bQJ0KyNTNRN8Gz92zA7lC4fK47UUIuN3iTbbLGxSfSygnHOrx/ULz/RxfU1iDhWBVH
+	JydHsoDBSks4pvHd9Vwt3Nv/lmUZ74yAkfTudbQtRPhKKcenvHlVXLyUwsWUio8EBONSqC
+	QTJC4Lv0gR63T/NgZyWZwemAAIrRo4eE3LZVJkSB9owqhtMmpfQwqZsdrPiCrw==
+Date: Fri, 17 Oct 2025 17:43:22 +0200
+From: Herve Codina <herve.codina@bootlin.com>
+To: Nuno =?UTF-8?B?U8Oh?= <noname.nuno@gmail.com>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, Jonathan Cameron	
+ <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, Nuno
+ =?UTF-8?B?U8Oh?=	 <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
+ Rob Herring	 <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley	 <conor+dt@kernel.org>, Geert Uytterhoeven
+ <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, Liam
+ Girdwood <lgirdwood@gmail.com>, Mark Brown	 <broonie@kernel.org>,
+ linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Pascal Eberhard
+ <pascal.eberhard@se.com>, Miquel Raynal <miquel.raynal@bootlin.com>, Thomas
+ Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH 2/4] iio: adc: Add support for the Renesas RZ/N1 ADC
+Message-ID: <20251017174322.07997789@bootlin.com>
+In-Reply-To: <10e119ee5a76f1c47d7eb6a15989c8ffc00ffc5f.camel@gmail.com>
+References: <20251015142816.1274605-1-herve.codina@bootlin.com>
+	<20251015142816.1274605-3-herve.codina@bootlin.com>
+	<1e8d7c96cdfaa93bcc0f581103dc0e13dfee17b7.camel@gmail.com>
+	<20251015211420.031c61fa@bootlin.com>
+	<de57f5274b2fe0aac3621dc10cb6d4d0d98d3063.camel@gmail.com>
+	<20251016160202.3d4d0a5e@bootlin.com>
+	<d7576a0bb9a8d5326d77ae434131540b4359bd2a.camel@gmail.com>
+	<20251017085904.07e40e37@bootlin.com>
+	<10e119ee5a76f1c47d7eb6a15989c8ffc00ffc5f.camel@gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251014191121.368475-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20251014191121.368475-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <20251016-dimmed-affidavit-90bae7e162aa@spud>
-In-Reply-To: <20251016-dimmed-affidavit-90bae7e162aa@spud>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Fri, 17 Oct 2025 16:33:56 +0100
-X-Gm-Features: AS18NWBguR9F654YWkASexXoMxk8B54Vyccl4usuxCXhdtptJoKlKHlfL85bFOo
-Message-ID: <CA+V-a8un1cF=acNjG=79_v7oaR8gzBQ+3z1As8AqrJnOnk-OUw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: pinctrl: renesas,r9a09g077: Document pin
- configuration properties
-To: Conor Dooley <conor@kernel.org>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Linus Walleij <linus.walleij@linaro.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Conor,
+I Nuno,
 
-Thank you for the review.
+On Fri, 17 Oct 2025 09:26:26 +0100
+Nuno Sá <noname.nuno@gmail.com> wrote:
 
-On Thu, Oct 16, 2025 at 5:41=E2=80=AFPM Conor Dooley <conor@kernel.org> wro=
-te:
->
-> On Tue, Oct 14, 2025 at 08:11:20PM +0100, Prabhakar wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Document the pin configuration properties supported by the RZ/T2H pinct=
-rl
-> > driver. The RZ/T2H SoC supports configuring various electrical properti=
-es
-> > through the DRCTLm (I/O Buffer Function Switching) registers.
-> >
-> > Add documentation for the following standard properties:
-> > - bias-disable, bias-pull-up, bias-pull-down: Control internal
-> >   pull-up/pull-down resistors (3 options: no pull, pull-up, pull-down)
-> > - input-schmitt-enable, input-schmitt-disable: Control Schmitt trigger
-> >   input
-> > - slew-rate: Control output slew rate (2 options: slow/fast)
-> >
-> > Add documentation for the custom property:
-> > - renesas,drive-strength: Control output drive strength using discrete
-> >   levels (0-3) representing low, medium, high, and ultra high strength.
-> >   This custom property is needed because the hardware uses fixed discre=
-te
-> >   levels rather than configurable milliamp values.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >  .../bindings/pinctrl/renesas,r9a09g077-pinctrl.yaml | 13 +++++++++++++
-> >  1 file changed, 13 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/pinctrl/renesas,r9a09g07=
-7-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/renesas,r9a09g07=
-7-pinctrl.yaml
-> > index 36d665971484..9085d5cfb1c8 100644
-> > --- a/Documentation/devicetree/bindings/pinctrl/renesas,r9a09g077-pinct=
-rl.yaml
-> > +++ b/Documentation/devicetree/bindings/pinctrl/renesas,r9a09g077-pinct=
-rl.yaml
-> > @@ -72,6 +72,19 @@ definitions:
-> >        input: true
-> >        input-enable: true
-> >        output-enable: true
-> > +      bias-disable: true
-> > +      bias-pull-down: true
-> > +      bias-pull-up: true
-> > +      input-schmitt-enable: true
-> > +      input-schmitt-disable: true
-> > +      slew-rate:
-> > +        enum: [0, 1]
->
-> What are the meanings of "0" and "1" for slew rate? Why isn't this given
-I'll add a description for it (0 =3D slow, 1 =3D fast) and the same values
-are programmed in the register to configure the slew rate.
+> On Fri, 2025-10-17 at 08:59 +0200, Herve Codina wrote:
+> > Hi Nuno,
+> > 
+> > On Thu, 16 Oct 2025 16:26:28 +0100
+> > Nuno Sá <noname.nuno@gmail.com> wrote:
+> > 
+> > ...
+> > 
+> > ...  
+> > > > > > > > +
+> > > > > > > > +	ret = rzn1_adc_core_get_regulators(rzn1_adc, &rzn1_adc-
+> > > > > > > >       
+> > > > > > > > > adc_core[0],      
+> > > > > > > > +					   "adc1-avdd", "adc1-
+> > > > > > > > vref");
+> > > > > > > > +	if (ret)
+> > > > > > > > +		return ret;
+> > > > > > > > +
+> > > > > > > > +	ret = rzn1_adc_core_get_regulators(rzn1_adc, &rzn1_adc-
+> > > > > > > >       
+> > > > > > > > > adc_core[1],      
+> > > > > > > > +					   "adc2-avdd", "adc2-
+> > > > > > > > vref");
+> > > > > > > > +	if (ret)
+> > > > > > > > +		return ret;        
+> > > > > > > 
+> > > > > > > Hmm, is avdd really an optional regulator? I mean can the ADC power
+> > > > > > > up
+> > > > > > > at
+> > > > > > > all
+> > > > > > > without a supply in AVDD? Even vref seems to be mandatory as we
+> > > > > > > can't
+> > > > > > > properly
+> > > > > > > scale the sample without it.      
+> > > > > > 
+> > > > > > Where do you see that avdd is an optional regulator?      
+> > > > > 
+> > > > > You are using devm_regulator_get_optional(). That's for optional
+> > > > > regulators.
+> > > > >     
+> > > > 
+> > > > Indeed I use devm_regulator_get_optional().
+> > > > 
+> > > > We have two similar function to get regulators:
+> > > > - devm_regulator_get() and
+> > > > - devm_regulator_get_optional().
+> > > > 
+> > > > devm_regulator_get() returns a dummy regulator if the regulator is not
+> > > > described in the device-tree. The calling code has no way to known if
+> > > > the regulator was present or not.    
+> > > 
+> > > Yeah because it's mandatory and the part cannot work without power :). So we
+> > > should not be allowed to operate without a regulator.
+> > >   
+> > > > 
+> > > > On the other hand, devm_regulator_get_optional() returns -ENODEV when the
+> > > > regulator is not described.
+> > > > 
+> > > > That's pretty confusing but it is the reality.
+> > > > 
+> > > > I use devm_regulator_get_optional() but check for -ENODEV to see if the
+> > > > regulator is provided or not.
+> > > > 
+> > > > In order to use the ADC core (is_used flag), I need both the AVDD and the
+> > > > VREF regulator available.    
+> > > 
+> > > And that is why I don't get why are we allowed to proceed if there's no
+> > > regulators? That seems wrong to me. 
+> > > 
+> > > So I think the regulators should be mandatory in the bindings and a dummy
+> > > regulator should also not be allowed in this case because that should get
+> > > you 
+> > > -EINVAL when calling regulator_get_voltage().
+> > >   
+> > 
+> > I have 4 regulators: avdd1, vref1, avvd2, vref2.
+> > 
+> > The ADC controller can work with 2 internal ADC core (adc_core[0] and
+> > adc_core[1])
+> > in the driver. Those internal core are not directly accessed by the driver.
+> > Only
+> > the ADC controller is accesses.
+> > 
+> > Those cores have an AVDD and a VREF power supply.
+> > 
+> > We can use either adc_core[0] only, adc_core[1] only or both adc cores.
+> > 
+> > Depending on regulator described, the driver uses one or two adc cores.
+> > 
+> > This choice is done by:
+> > --- 8< ---
+> > static int rzn1_adc_set_iio_dev_channels(struct rzn1_adc *rzn1_adc,
+> > 					 struct iio_dev *indio_dev)
+> > {
+> > 	int adc_used;
+> > 
+> > 	adc_used = rzn1_adc->adc_core[0].is_used ? 0x01 : 0x00;
+> > 	adc_used |= rzn1_adc->adc_core[1].is_used ? 0x02 : 0x00;
+> > 
+> > 	switch (adc_used) {
+> > 	case 0x01:
+> > 		indio_dev->channels = rzn1_adc1_channels;
+> > 		indio_dev->num_channels = ARRAY_SIZE(rzn1_adc1_channels);
+> > 		return 0;
+> > 	case 0x02:
+> > 		indio_dev->channels = rzn1_adc2_channels;
+> > 		indio_dev->num_channels = ARRAY_SIZE(rzn1_adc2_channels);
+> > 		return 0;
+> > 	case 0x03:
+> > 		indio_dev->channels = rzn1_adc1_adc2_channels;
+> > 		indio_dev->num_channels =
+> > ARRAY_SIZE(rzn1_adc1_adc2_channels);
+> > 		return 0;
+> > 	default:
+> > 		break;
+> > 	}
+> > --- 8< ---
+> > 
+> > In rzn1_adc_core_get_regulators(), looking at one core I do the
+> > following:
+> >  - Try to get AVDD (using get_optional)
+> >  - Try to get VREF (using get_optional)
+> >  - Core is used only if both regulators are present.
+> > 
+> > For one core to be used, both regulators have to be present.
+> > 
+> > Regulators are mandatory but adc core usage is optional.
+> > 
+> > This optional usage depends on related regulator presence.
+> >   
+> 
+> Ok, then we could flip the logic and have boolean properties for the adc core
+> usage and depending on that, requesting the regulators. To me, the intent would
+> be more clear (at the expense of more FW properties).
 
-> as the actual rates? The docs surely give more detail than just "slow"
-> and "fast".
-You mean to represent slew-rate in some sort of a unit?
+This introduces a new property and duplicates the information:
+- flag to tell if adc core is used
+- regulators described only if used
 
->
-> > +      renesas,drive-strength:
-> > +        description:
-> > +          Drive strength configuration value. Valid values are 0 to 3,=
- representing
-> > +          increasing drive strength from low, medium, high and ultra h=
-igh.
->
-> I see what you wrote in the commit message, but I don't really get why
-> you need a custom property. I would imagine most devices only have some
-> some small set of "fixed discrete levels", yet manage with milli- or
-> micro-amps fine. Converting from mA to register values in a driver is
-> not difficult, and I figure the documentation for the device probably
-> doesn't just give vague strengths like "medium" or "ultra high", but
-> probably provides currents?
->
-> I dunno, I am just confused by the need to shove register values into
-> these properties, rather than using the actual units.
->
-I'm checking this with the HW team. I'll get back on this once I have
-some feedback.
+And so, the possible flag set to "adc core used" but regulators not
+described. This is error prone.
 
-Cheers,
-Prabhakar
+
+I have chosen to rely only on regulators description to avoid the
+information redundancy.
+  - regulators described -> adc core used
+  - regulators not described -> adc core not used
+
+> 
+> Having said that, the above helps a lot in understanding what's going on and
+> explains the get_optional() usage. I'm not still 100% convinced but bah, fine :)
+> 
+> I would still argue that you should have a comment (likely in get_regulators())
+> explaining the logic and the optional usage.
+> 
+> Given the above I think you could also remove:
+> 
+> if (!adc_core->vref)
+> 	return -ENODEV;
+> 
+> from rzn1_adc_core_get_vref_mv() since the channels are only exposed in case the
+> regulators are present.
+
+Yes indeed, I will remove the adc_core->vref check.
+
+Best regards,
+Hervé
 
