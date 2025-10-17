@@ -1,315 +1,295 @@
-Return-Path: <linux-renesas-soc+bounces-23265-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23266-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 283B6BEB346
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 20:23:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1E59BEB466
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 20:52:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8A6CC746281
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 18:23:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5C79C6E2FA0
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 18:51:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10CCB3314BF;
-	Fri, 17 Oct 2025 18:22:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5E49332910;
+	Fri, 17 Oct 2025 18:51:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="IA8jcD/c"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YlifDMN/"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1916A3328EB
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Oct 2025 18:22:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A0A632E15B
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Oct 2025 18:51:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760725339; cv=none; b=DZhIOkBwb2ZB2J+PrIYJZhZOEvGs1NeCjszchCzE3NI/KmI8n5bMf2sVYC5M1+SKZYkDesQEjOgp2FmaZ8bixQ+YUggRNhVHASilSve/ojfwJ7eDgGXlIElaBpECgGCnXBDTGAP7rdEwlZxYTSvQPbEioCIjijBevx8R0d9Is44=
+	t=1760727104; cv=none; b=Tl1UQeL97nRUzQr5yR1eue1IN8up4JH2ALsRIlZGtbhQg6B3/uDuOO56ymWwpEjLJ8pPsjk1rdCK4M3io+Vr+5QvRuCq8Rqqul61HL7Le161zI+gwJR+vHAPTLOv9/FFETBQNNwiv8Q1bkkpWdYgRHZku1Oy0dnfresPO8+IpmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760725339; c=relaxed/simple;
-	bh=9UsS6mIuNGUybn+55H6XYwiWL/c9WxvcoUx8g1fiI2o=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=D33J0epuD0msLvPbqj2rmF0kMX+ki/OjQtPjsnQ2KfcL/JpvqqqodQ8Evo8g9TNz7xwLkDZNq3oCYtVPJZZY700Y0Tbd0wGyl/EiAFN069XnAEjdS2ahBd4KiNfMBatNMdvUicq0WJd3TMCjY/65TcQcKiuH9ftBm2ko1AFzKmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=IA8jcD/c; arc=none smtp.client-ip=95.215.58.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1760725334;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6wo3nj/zxzvVrb9F1mL7tiVrPghBLGsa5J5UbXQ5UdE=;
-	b=IA8jcD/ce2RsVkrbq0IkY+uYei55f01ts4mm0bTn9VkbTfbcl357lbAgq3SamYdNb0gOby
-	Oi4SuAjFG/+T5e4nlhdBBZMiSp9Hs7FMpk4UtxB/efsApHZmESHgGvUql2f/Zgf4Qquejg
-	4pxU/gbpr940oa9PDPpZwu4PYnqNNH8=
-From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-To: Jian Shen <shenjian15@huawei.com>,
-	Salil Mehta <salil.mehta@huawei.com>,
-	Jijie Shao <shaojijie@huawei.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Sunil Goutham <sgoutham@marvell.com>,
-	Geetha sowjanya <gakula@marvell.com>,
-	Subbaraya Sundeep <sbhatta@marvell.com>,
-	Bharat Bhushan <bbhushan2@marvell.com>,
-	Tariq Toukan <tariqt@nvidia.com>,
-	Brett Creeley <brett.creeley@amd.com>,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-	Paul Barker <paul@pbarker.dev>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	Richard Cochran <richardcochran@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Simon Horman <horms@kernel.org>,
-	Jacob Keller <jacob.e.keller@intel.com>,
-	netdev@vger.kernel.org,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>
-Subject: [PATCH net-next v2 6/6] net: hns3: add hwtstamp_get/hwtstamp_set ops
-Date: Fri, 17 Oct 2025 18:21:28 +0000
-Message-ID: <20251017182128.895687-7-vadim.fedorenko@linux.dev>
-In-Reply-To: <20251017182128.895687-1-vadim.fedorenko@linux.dev>
-References: <20251017182128.895687-1-vadim.fedorenko@linux.dev>
+	s=arc-20240116; t=1760727104; c=relaxed/simple;
+	bh=gXqMz+CcZKPeGt9WvOXq76EJR6tDE24GCMGXdrKpDu0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E49VT3YFgWFyKstKnLBbc0Yj5iHSVxAXCTvv9SxBbMbyFp6hUI4dlApTNGxHzEoXfO9+Ve8ti/Youau2+OEmCs5N5UJyN19Fx5GKDg70vXzT78RWQ3xwryQPTMOVDXvIHRK8DADQUniH8C8+Odx7hk2T7lkwQtZ+qLZ3InWTH34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YlifDMN/; arc=none smtp.client-ip=209.85.222.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-7f04816589bso343968485a.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Oct 2025 11:51:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760727101; x=1761331901; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=kcMHrjvb7aW8dOEyGXLP26k9PcHppfS2rsN7ygfXW0s=;
+        b=YlifDMN/c6vzWfG76u/120EPvwuMWFthOAow4pFmcd4wRErr+JpLRZql/RdI3ZFvcB
+         i/kn+nu5cNXXW48slMOD4L6lHLVy3FA4mmGcR3j7sUmM/LE4seQpds7VwSE9vlLwVh3o
+         X1HTtMLfOIpOJyJOjUCEWK8GwEwrWZX/JQPe4/ixsO1syLpRFZhVfUI0Ov235fj/Q76A
+         WJZ59va+96A/5qkKYYeqeNYf62Q9XkdErfCxy9xNt6llZj9JDoLeCM2K0Ze4Yd+TiJPv
+         A6K/xxN5jA/qgnJr3ePqiE3FHyhC5XCOvqxac3E8yeWImyX2jvnjQPJXoRM1N0UQNxHH
+         rODQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760727101; x=1761331901;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kcMHrjvb7aW8dOEyGXLP26k9PcHppfS2rsN7ygfXW0s=;
+        b=E9sK2B/7nYQ7aqmB4J7BvTSFmcU3KW1rASnFCsGjP4VrNscaykkz+VrsWnojaCq+io
+         gQgw2EHcq9uEmUTFS90LTZ7mUX49TJEXJuQZ/ll2bSHtom6XOIzi1jH2j+mViWHS2jcP
+         WHNYYw+xFtOI4CF8a9OZoCHGfXnwHJhjml9y8/ABdHfexMvTCI9NQZogrvQYI+EpfcLH
+         mon04s4/XFDtEoOD1E/o4R/3fDbVJ2+SbM5XD/hGF7ojYW/v6XyQC+v8UD0YOrtkiekt
+         vEe32SvNpi0kK22kzU4zZO5LI6E/puHfyFa0o/gXySrE9KgS9uhcKg8z9pHjuUJxHd+1
+         p7WA==
+X-Forwarded-Encrypted: i=1; AJvYcCXNkgXrn4V7iYzrdhtzutIlptkf6R9seLQJ0O3TSI1ia3DAMhHp0IEvO4zp2rJ9yOfAyaosYQL9yFH/yZvOjM8BQg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YztI2HOsA19IHIi5RjGvNX9UWrICgMadlcsHOOSaXGcMD4iZDDS
+	0g2DztJ0eFAMzIzvN6Hfl/FjBStw86r11IyiZqaGYyjjGAShHq28CJ+c
+X-Gm-Gg: ASbGnctkwlqjI5pno1hq+ylewf/rJt9J0cjPc9Em7OVMv9du70s/zP03dT9l3OlRYHn
+	o9C5eXZpbvld/ehxexg0aXrxKB+MYTsiqQShJFb8OksZDt2Hm0yc28SltIM0PGBP7B8P74rwPHW
+	BbTM55NEbmTSyxEa0j6XStonIjJqf1qaNJWCrowEzIP6Txa/+FOErNHx0gaCEzvDy1KNU0Uij/8
+	1ZJHs5tXkRcGjidFwY1nFUmHr3owNtaJAtA8IYJIrKtZuYKWHSKUWn5Q3OW0vbAnnqyrcqGYf6G
+	rl4Ngir5A504sKMPpqAxvydbz6bCFYEzlnTmzsbbZg8IsUKkjm0TfirECeht3ASgYJa58GPpBoK
+	xx2/k7oiVHhyoZus2zE5CkXzMpWx9C0B8Bm/4nVRmP69jdSq8dqJwlfWAu6aKzXe7R59jJdDLMZ
+	ZMCQbKZGE=
+X-Google-Smtp-Source: AGHT+IGgZXVqJ39mGvceINRef9aDCQGOzv3U5h5nFkBRWec10RvkxHjWCypd6ooOxs18G5q6X1BFng==
+X-Received: by 2002:ac8:7f48:0:b0:4e8:910a:ad95 with SMTP id d75a77b69052e-4e89d20f6cdmr65322091cf.6.1760727100900;
+        Fri, 17 Oct 2025 11:51:40 -0700 (PDT)
+Received: from localhost ([12.22.141.131])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4e8aaf87ecdsm3689291cf.16.2025.10.17.11.51.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Oct 2025 11:51:40 -0700 (PDT)
+Date: Fri, 17 Oct 2025 14:51:38 -0400
+From: Yury Norov <yury.norov@gmail.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	David Miller <davem@davemloft.net>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Crt Mori <cmo@melexis.com>, Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Jacky Huang <ychuang3@nuvoton.com>,
+	Shan-Chun Hung <schung@nuvoton.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jakub Kicinski <kuba@kernel.org>, Alex Elder <elder@ieee.org>,
+	David Laight <david.laight.linux@gmail.com>,
+	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+	Jason Baron <jbaron@akamai.com>, Borislav Petkov <bp@alien8.de>,
+	Tony Luck <tony.luck@intel.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Kim Seer Paller <kimseer.paller@analog.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Richard Genoud <richard.genoud@bootlin.com>,
+	Cosmin Tanislav <demonsingur@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Jianping Shen <Jianping.Shen@de.bosch.com>,
+	linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org, linux-crypto@vger.kernel.org,
+	linux-edac@vger.kernel.org, qat-linux@intel.com,
+	linux-gpio@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+	linux-iio@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH v4 2/4] bitfield: Add non-constant field_{prep,get}()
+ helpers
+Message-ID: <aPKQMdyMO-vrb30X@yury>
+References: <cover.1760696560.git.geert+renesas@glider.be>
+ <67c1998f144b3a21399672c8e4d58d3884ae2b3c.1760696560.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <67c1998f144b3a21399672c8e4d58d3884ae2b3c.1760696560.git.geert+renesas@glider.be>
 
-And .ndo_hwtstamp_get()/.ndo_hwtstamp_set() callbacks to HNS3 framework
-to support HW timestamp configuration via netlink and adopt hns3pf to
-use .ndo_hwtstamp_get()/.ndo_hwtstamp_set() callbacks.
+On Fri, Oct 17, 2025 at 12:54:10PM +0200, Geert Uytterhoeven wrote:
+> The existing FIELD_{GET,PREP}() macros are limited to compile-time
+> constants.  However, it is very common to prepare or extract bitfield
+> elements where the bitfield mask is not a compile-time constant.
+> 
+> To avoid this limitation, the AT91 clock driver and several other
+> drivers already have their own non-const field_{prep,get}() macros.
+> Make them available for general use by consolidating them in
+> <linux/bitfield.h>, and improve them slightly:
+>   1. Avoid evaluating macro parameters more than once,
+>   2. Replace "ffs() - 1" by "__ffs()",
+>   3. Support 64-bit use on 32-bit architectures.
+> 
+> This is deliberately not merged into the existing FIELD_{GET,PREP}()
+> macros, as people expressed the desire to keep stricter variants for
+> increased safety, or for performance critical paths.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Acked-by: Crt Mori <cmo@melexis.com>
+> ---
+> v4:
+>   - Add Acked-by,
+>   - Rebase on top of commit 7c68005a46108ffa ("crypto: qat - relocate
+>     power management debugfs helper APIs") in v6.17-rc1,
+>   - Convert more recently introduced upstream copies:
+>       - drivers/edac/ie31200_edac.c
+>       - drivers/iio/dac/ad3530r.c
 
-Reviewed-by: Jacob Keller <jacob.e.keller@intel.com>
-Signed-off-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
----
-v1 -> v2:
-- actually assign ndo_tstamp callbacks
----
- drivers/net/ethernet/hisilicon/hns3/hnae3.h   |  5 +++
- .../net/ethernet/hisilicon/hns3/hns3_enet.c   | 31 ++++++++++++++++++
- .../hisilicon/hns3/hns3pf/hclge_main.c        | 13 +++-----
- .../hisilicon/hns3/hns3pf/hclge_ptp.c         | 32 +++++++++++--------
- .../hisilicon/hns3/hns3pf/hclge_ptp.h         |  9 ++++--
- 5 files changed, 64 insertions(+), 26 deletions(-)
+Can you split out the part that actually introduces the new API?
 
-diff --git a/drivers/net/ethernet/hisilicon/hns3/hnae3.h b/drivers/net/ethernet/hisilicon/hns3/hnae3.h
-index 3b548f71fa8a..d7c3df1958f3 100644
---- a/drivers/net/ethernet/hisilicon/hns3/hnae3.h
-+++ b/drivers/net/ethernet/hisilicon/hns3/hnae3.h
-@@ -804,6 +804,11 @@ struct hnae3_ae_ops {
- 	int (*dbg_get_read_func)(struct hnae3_handle *handle,
- 				 enum hnae3_dbg_cmd cmd,
- 				 read_func *func);
-+	int (*hwtstamp_get)(struct hnae3_handle *handle,
-+			    struct kernel_hwtstamp_config *config);
-+	int (*hwtstamp_set)(struct hnae3_handle *handle,
-+			    struct kernel_hwtstamp_config *config,
-+			    struct netlink_ext_ack *extack);
- };
- 
- struct hnae3_dcb_ops {
-diff --git a/drivers/net/ethernet/hisilicon/hns3/hns3_enet.c b/drivers/net/ethernet/hisilicon/hns3/hns3_enet.c
-index bfa5568baa92..7a0654e2d3dd 100644
---- a/drivers/net/ethernet/hisilicon/hns3/hns3_enet.c
-+++ b/drivers/net/ethernet/hisilicon/hns3/hns3_enet.c
-@@ -2419,6 +2419,35 @@ static int hns3_nic_do_ioctl(struct net_device *netdev,
- 	return h->ae_algo->ops->do_ioctl(h, ifr, cmd);
- }
- 
-+static int hns3_nic_hwtstamp_get(struct net_device *netdev,
-+				 struct kernel_hwtstamp_config *config)
-+{
-+	struct hnae3_handle *h = hns3_get_handle(netdev);
-+
-+	if (!netif_running(netdev))
-+		return -EINVAL;
-+
-+	if (!h->ae_algo->ops->hwtstamp_get)
-+		return -EOPNOTSUPP;
-+
-+	return h->ae_algo->ops->hwtstamp_get(h, config);
-+}
-+
-+static int hns3_nic_hwtstamp_set(struct net_device *netdev,
-+				 struct kernel_hwtstamp_config *config,
-+				 struct netlink_ext_ack *extack)
-+{
-+	struct hnae3_handle *h = hns3_get_handle(netdev);
-+
-+	if (!netif_running(netdev))
-+		return -EINVAL;
-+
-+	if (!h->ae_algo->ops->hwtstamp_set)
-+		return -EOPNOTSUPP;
-+
-+	return h->ae_algo->ops->hwtstamp_set(h, config, extack);
-+}
-+
- static int hns3_nic_set_features(struct net_device *netdev,
- 				 netdev_features_t features)
- {
-@@ -3048,6 +3077,8 @@ static const struct net_device_ops hns3_nic_netdev_ops = {
- 	.ndo_set_vf_rate	= hns3_nic_set_vf_rate,
- 	.ndo_set_vf_mac		= hns3_nic_set_vf_mac,
- 	.ndo_select_queue	= hns3_nic_select_queue,
-+	.ndo_hwtstamp_get	= hns3_nic_hwtstamp_get,
-+	.ndo_hwtstamp_set	= hns3_nic_hwtstamp_set,
- };
- 
- bool hns3_is_phys_func(struct pci_dev *pdev)
-diff --git a/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c b/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c
-index 9d34d28ff168..81d3bdc098e6 100644
---- a/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c
-+++ b/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c
-@@ -9445,15 +9445,8 @@ static int hclge_do_ioctl(struct hnae3_handle *handle, struct ifreq *ifr,
- 	struct hclge_vport *vport = hclge_get_vport(handle);
- 	struct hclge_dev *hdev = vport->back;
- 
--	switch (cmd) {
--	case SIOCGHWTSTAMP:
--		return hclge_ptp_get_cfg(hdev, ifr);
--	case SIOCSHWTSTAMP:
--		return hclge_ptp_set_cfg(hdev, ifr);
--	default:
--		if (!hdev->hw.mac.phydev)
--			return hclge_mii_ioctl(hdev, ifr, cmd);
--	}
-+	if (!hdev->hw.mac.phydev)
-+		return hclge_mii_ioctl(hdev, ifr, cmd);
- 
- 	return phy_mii_ioctl(hdev->hw.mac.phydev, ifr, cmd);
- }
-@@ -12901,6 +12894,8 @@ static const struct hnae3_ae_ops hclge_ops = {
- 	.get_dscp_prio = hclge_get_dscp_prio,
- 	.get_wol = hclge_get_wol,
- 	.set_wol = hclge_set_wol,
-+	.hwtstamp_get = hclge_ptp_get_cfg,
-+	.hwtstamp_set = hclge_ptp_set_cfg,
- };
- 
- static struct hnae3_ae_algo ae_algo = {
-diff --git a/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_ptp.c b/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_ptp.c
-index 4bd52eab3914..0081c5281455 100644
---- a/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_ptp.c
-+++ b/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_ptp.c
-@@ -204,13 +204,17 @@ static int hclge_ptp_adjtime(struct ptp_clock_info *ptp, s64 delta)
- 	return 0;
- }
- 
--int hclge_ptp_get_cfg(struct hclge_dev *hdev, struct ifreq *ifr)
-+int hclge_ptp_get_cfg(struct hnae3_handle *handle,
-+		      struct kernel_hwtstamp_config *config)
- {
-+	struct hclge_vport *vport = hclge_get_vport(handle);
-+	struct hclge_dev *hdev = vport->back;
-+
- 	if (!test_bit(HCLGE_STATE_PTP_EN, &hdev->state))
- 		return -EOPNOTSUPP;
- 
--	return copy_to_user(ifr->ifr_data, &hdev->ptp->ts_cfg,
--		sizeof(struct hwtstamp_config)) ? -EFAULT : 0;
-+	*config = hdev->ptp->ts_cfg;
-+	return 0;
- }
- 
- static int hclge_ptp_int_en(struct hclge_dev *hdev, bool en)
-@@ -269,7 +273,7 @@ static int hclge_ptp_cfg(struct hclge_dev *hdev, u32 cfg)
- 	return ret;
- }
- 
--static int hclge_ptp_set_tx_mode(struct hwtstamp_config *cfg,
-+static int hclge_ptp_set_tx_mode(struct kernel_hwtstamp_config *cfg,
- 				 unsigned long *flags, u32 *ptp_cfg)
- {
- 	switch (cfg->tx_type) {
-@@ -287,7 +291,7 @@ static int hclge_ptp_set_tx_mode(struct hwtstamp_config *cfg,
- 	return 0;
- }
- 
--static int hclge_ptp_set_rx_mode(struct hwtstamp_config *cfg,
-+static int hclge_ptp_set_rx_mode(struct kernel_hwtstamp_config *cfg,
- 				 unsigned long *flags, u32 *ptp_cfg)
- {
- 	int rx_filter = cfg->rx_filter;
-@@ -332,7 +336,7 @@ static int hclge_ptp_set_rx_mode(struct hwtstamp_config *cfg,
- }
- 
- static int hclge_ptp_set_ts_mode(struct hclge_dev *hdev,
--				 struct hwtstamp_config *cfg)
-+				 struct kernel_hwtstamp_config *cfg)
- {
- 	unsigned long flags = hdev->ptp->flags;
- 	u32 ptp_cfg = 0;
-@@ -359,9 +363,12 @@ static int hclge_ptp_set_ts_mode(struct hclge_dev *hdev,
- 	return 0;
- }
- 
--int hclge_ptp_set_cfg(struct hclge_dev *hdev, struct ifreq *ifr)
-+int hclge_ptp_set_cfg(struct hnae3_handle *handle,
-+		      struct kernel_hwtstamp_config *config,
-+		      struct netlink_ext_ack *extack)
- {
--	struct hwtstamp_config cfg;
-+	struct hclge_vport *vport = hclge_get_vport(handle);
-+	struct hclge_dev *hdev = vport->back;
- 	int ret;
- 
- 	if (!test_bit(HCLGE_STATE_PTP_EN, &hdev->state)) {
-@@ -369,16 +376,13 @@ int hclge_ptp_set_cfg(struct hclge_dev *hdev, struct ifreq *ifr)
- 		return -EOPNOTSUPP;
- 	}
- 
--	if (copy_from_user(&cfg, ifr->ifr_data, sizeof(cfg)))
--		return -EFAULT;
--
--	ret = hclge_ptp_set_ts_mode(hdev, &cfg);
-+	ret = hclge_ptp_set_ts_mode(hdev, config);
- 	if (ret)
- 		return ret;
- 
--	hdev->ptp->ts_cfg = cfg;
-+	hdev->ptp->ts_cfg = *config;
- 
--	return copy_to_user(ifr->ifr_data, &cfg, sizeof(cfg)) ? -EFAULT : 0;
-+	return 0;
- }
- 
- int hclge_ptp_get_ts_info(struct hnae3_handle *handle,
-diff --git a/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_ptp.h b/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_ptp.h
-index 61faddcc3dd0..0162fa5ac146 100644
---- a/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_ptp.h
-+++ b/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_ptp.h
-@@ -62,7 +62,7 @@ struct hclge_ptp {
- 	unsigned long flags;
- 	void __iomem *io_base;
- 	struct ptp_clock_info info;
--	struct hwtstamp_config ts_cfg;
-+	struct kernel_hwtstamp_config ts_cfg;
- 	spinlock_t lock;	/* protects ptp registers */
- 	u32 ptp_cfg;
- 	u32 last_tx_seqid;
-@@ -133,8 +133,11 @@ bool hclge_ptp_set_tx_info(struct hnae3_handle *handle, struct sk_buff *skb);
- void hclge_ptp_clean_tx_hwts(struct hclge_dev *hdev);
- void hclge_ptp_get_rx_hwts(struct hnae3_handle *handle, struct sk_buff *skb,
- 			   u32 nsec, u32 sec);
--int hclge_ptp_get_cfg(struct hclge_dev *hdev, struct ifreq *ifr);
--int hclge_ptp_set_cfg(struct hclge_dev *hdev, struct ifreq *ifr);
-+int hclge_ptp_get_cfg(struct hnae3_handle *handle,
-+		      struct kernel_hwtstamp_config *config);
-+int hclge_ptp_set_cfg(struct hnae3_handle *handle,
-+		      struct kernel_hwtstamp_config *config,
-+		      struct netlink_ext_ack *extack);
- int hclge_ptp_init(struct hclge_dev *hdev);
- void hclge_ptp_uninit(struct hclge_dev *hdev);
- int hclge_ptp_get_ts_info(struct hnae3_handle *handle,
--- 
-2.47.3
+...
 
+> diff --git a/include/linux/bitfield.h b/include/linux/bitfield.h
+> index 7ff817bdae19b468..c999fe70076f6684 100644
+> --- a/include/linux/bitfield.h
+> +++ b/include/linux/bitfield.h
+> @@ -220,4 +220,40 @@ __MAKE_OP(64)
+>  #undef __MAKE_OP
+>  #undef ____MAKE_OP
+>  
+> +/**
+> + * field_prep() - prepare a bitfield element
+> + * @mask: shifted mask defining the field's length and position
+> + * @val:  value to put in the field
+> + *
+> + * field_prep() masks and shifts up the value.  The result should be
+> + * combined with other fields of the bitfield using logical OR.
+> + * Unlike FIELD_PREP(), @mask is not limited to a compile-time constant.
+> + */
+> +#define field_prep(mask, val)						\
+> +	({								\
+> +		__auto_type __mask = (mask);				\
+> +		typeof(mask) __val = (val);				\
+> +		unsigned int __shift = sizeof(mask) <= 4 ?		\
+> +				       __ffs(__mask) : __ffs64(__mask);	\
+> +		(__val << __shift) & __mask;	\
+
+__ffs(0) is undef. The corresponding comment in
+include/asm-generic/bitops/__ffs.h explicitly says: "code should check
+against 0 first".
+
+I think mask = 0 is a sign of error here. Can you add a code catching
+it at compile time, and maybe at runtime too? Something like:
+
+ #define __field_prep(mask, val)
+ ({
+	unsigned __shift = sizeof(mask) <= 4 ? __ffs(mask) : __ffs64(mask);
+        (val << __shift) & mask;
+ })
+
+ #define field_prep(mask, val)
+ ({
+        unsigned int __shift;
+	__auto_type __mask = (mask), __ret = 0;
+	typeof(mask) __val = (val);				
+
+        BUILD_BUG_ON_ZERO(const_true(mask == 0));
+
+        if (WARN_ON_ONCE(mask == 0))
+                goto out;
+        
+        __ret = __field_prep(__mask, __val);
+ out:
+        ret;
+ })
+
+> +
+> +/**
+> + * field_get() - extract a bitfield element
+> + * @mask: shifted mask defining the field's length and position
+> + * @reg:  value of entire bitfield
+> + *
+> + * field_get() extracts the field specified by @mask from the
+> + * bitfield passed in as @reg by masking and shifting it down.
+> + * Unlike FIELD_GET(), @mask is not limited to a compile-time constant.
+> + */
+> +#define field_get(mask, reg)						\
+> +	({								\
+> +		__auto_type __mask = (mask);				\
+> +		typeof(mask) __reg =  (reg);				\
+
+This would trigger Wconversion warning. Consider
+        unsigned reg = 0xfff;
+        field_get(0xf, reg);
+
+<source>:6:26: warning: conversion to 'int' from 'unsigned int' may change the sign of the result [-Wsign-conversion]
+    6 |     typeof(mask) __reg = reg;
+      |                          ^~~
+
+Notice, the __auto_type makes the __mask to be int, while the reg is
+unsigned int. You need to do:
+
+        typeof(mask) __reg = (typeof(mask))(reg); 
+
+Please enable higher warning levels for the next round.
+
+Also, because for numerals __auto_type is int, when char is enough - are
+you sure that the macro generates the optimal code? User can workaround it
+with:
+        
+        field_get((u8)0xf, reg)
+
+but it may not be trivial. Can you add an example and explanation please?
+
+> +		unsigned int __shift = sizeof(mask) <= 4 ?		\
+> +				       __ffs(__mask) : __ffs64(__mask);	\
+
+Can you use BITS_PER_TYPE() here?
+
+> +		(__reg & __mask) >> __shift;	\
+> +	})
+> +
+
+When mask == 0, we shouldn't touch 'val' at all. Consider
+
+        field_get(0, get_user(ptr))
+
+In this case, evaluating 'reg' is an error, similarly to memcpy().
+
+Thanks,
+Yury
+
+>  #endif
+> diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
+> index 828af3095b86ee0a..6eee89cbc0867f2b 100644
+> --- a/sound/usb/mixer_quirks.c
+> +++ b/sound/usb/mixer_quirks.c
+> @@ -3311,10 +3311,6 @@ static int snd_bbfpro_controls_create(struct usb_mixer_interface *mixer)
+>  #define RME_DIGIFACE_REGISTER(reg, mask) (((reg) << 16) | (mask))
+>  #define RME_DIGIFACE_INVERT BIT(31)
+>  
+> -/* Nonconst helpers */
+> -#define field_get(_mask, _reg) (((_reg) & (_mask)) >> (ffs(_mask) - 1))
+> -#define field_prep(_mask, _val) (((_val) << (ffs(_mask) - 1)) & (_mask))
+> -
+>  static int snd_rme_digiface_write_reg(struct snd_kcontrol *kcontrol, int item, u16 mask, u16 val)
+>  {
+>  	struct usb_mixer_elem_list *list = snd_kcontrol_chip(kcontrol);
+> -- 
+> 2.43.0
 
