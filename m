@@ -1,132 +1,96 @@
-Return-Path: <linux-renesas-soc+bounces-23267-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23268-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7CE2BEB5F2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 21:16:56 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18451BEBB1E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 22:34:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 617506E084C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 19:16:55 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D16B34E2418
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 20:34:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED06D33F8B7;
-	Fri, 17 Oct 2025 19:16:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCEA825743D;
+	Fri, 17 Oct 2025 20:34:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Anm8vNe/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OSijbWam"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67E2933F8A5
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Oct 2025 19:16:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.177.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CA0A354AFA;
+	Fri, 17 Oct 2025 20:34:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760728613; cv=none; b=s4I8egSXZ8ik48D2DPfBMhx+ch4A2yHT3lQd8m+9cFCjqv51uwwxXa6rDyGbJjj1r0JxoTH9SFjm2IZPWuPcqr7MGEoOLxoSwnYolPWaZMO50IKnYfjqnFdXNo8qnkB/TL0kbsM/GNT5sNOS2ZiPjgL3UtYdOWaxuV/zZBSi1nk=
+	t=1760733290; cv=none; b=J5eT76RZOJ+G8CycNqXyR4cVMZHIKnEwfyNhbZ+PVofLyVi+be56pwdC4eqAzj4lLhG9eNF42ndUcIQwlUlhzzS1CNZGDS1nxqS8o9ERDrnMBINlzRQKStxKR4xT1lfvJNd+i+/ECMBvAlBG9idzxRrMGLfa2nsDsNl6G7D6ahg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760728613; c=relaxed/simple;
-	bh=btZU5MwfaGgYP7/+s6SjyOQuE+97Qee9QTlpd4WyfyM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=l62AbSz6CALxfLU7ERDXGo3uvoW5oCjY61XzEcQY0q/Yz33cKjwwNKYIuaeEOvnwP55dFBg38sMV9LiD6sb1xRhCgyRrV610getXt5dkn0r4fxq0w2TSbtmZzekhRi925OeddS9yp1y8LDwQjGOHKB/kMyDr08vORsAT+6JXCA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=Anm8vNe/; arc=none smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59HCdhMl030408;
-	Fri, 17 Oct 2025 19:16:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=corp-2025-04-25; bh=V+icTy3tzcd03YExIPZhZp9rgkUAs
-	FIbErp7/q/7OB8=; b=Anm8vNe/XhnAkQ4kDuCxeHdPyftJpIYq9hL6oZ7exX2oV
-	JZEqXbYWaU/Vp4D+Z78l16/2coG32Bu5xcW7s7A1HOpXwXFoO0HwLd7tmZsNs2Hu
-	1pJJ4q65Ix9ogwmZjF3kHvB2CfeB3yvTdtaFRNg4nBS40GoGcHQqo5KUg5nd5ove
-	3Q580FfCEaxvrobbFE420kYqLrqCjoUNDSv8ACowuE8C6ARZpFtQo0gWalel1xTs
-	0ResGTK4xoklx23TSSf/17WrMRrdMJZG8Z3ks3bOhkJ7PyPMjshmztTH2fHxte4E
-	PfYvVBxp3xhX6q+4hovChoFvg0n0b/RLuMA64iAqQ==
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 49qdncbj4a-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 17 Oct 2025 19:16:39 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 59HHxumo025845;
-	Fri, 17 Oct 2025 19:16:38 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 49qdpkg87x-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 17 Oct 2025 19:16:38 +0000
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 59HJ7xen032553;
-	Fri, 17 Oct 2025 19:16:38 GMT
-Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com [10.129.136.47])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 49qdpkg87a-1;
-	Fri, 17 Oct 2025 19:16:37 +0000
-From: Alok Tiwari <alok.a.tiwari@oracle.com>
-To: laurent.pinchart+renesas@ideasonboard.com,
-        tomi.valkeinen+renesas@ideasonboard.com,
-        kieran.bingham+renesas@ideasonboard.com,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
-        geert+renesas@glider.be, magnus.damm@gmail.com,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        alok.a.tiwari@oracle.com
-Cc: alok.a.tiwarilinux@gmail.com
-Subject: [PATCH next] drm: rcar-du: fix incorrect return in rcar_du_crtc_cleanup()
-Date: Fri, 17 Oct 2025 12:16:21 -0700
-Message-ID: <20251017191634.1454201-1-alok.a.tiwari@oracle.com>
-X-Mailer: git-send-email 2.50.1
+	s=arc-20240116; t=1760733290; c=relaxed/simple;
+	bh=fWvHCw6nIOZqg4sbQwQpfdMHsmBtlYkdr7cGLgSJTz8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C0AD10Yu3qTokywBIYXFjdr6gAAPgtel20PZbUrhRQjkbQmCJcy7uMZMU/hCk9o7MjugPv1l2Jt3v0S0B3/T1XauRQ430iCmUQWirqVHgDng1VXBk8J2cWQwXrrFzVWC7+FVSXDLF1Q4g/uSJ7ycuhpjIT2lo1lqj3A2XrN2txo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OSijbWam; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC9ABC4CEE7;
+	Fri, 17 Oct 2025 20:34:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760733290;
+	bh=fWvHCw6nIOZqg4sbQwQpfdMHsmBtlYkdr7cGLgSJTz8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OSijbWam3hRjP9xhyo7k2xlflu0yI5XcINS12zqZIYKtlCbE3s8d6/dV3AD58EbYh
+	 S5JU2wd45aW4PJj2tcl3WzaWkylzoJzNmrW7xUBUYJaGcs8AT51m6pArpwnnvHEw9W
+	 Qfd2Vz/FrMc+AGejLwdBmJQDUT3pfRmvdktt3KAvC82nz01+e9Pp8Be2GlzqEaGKSX
+	 wQinvo8tecu/+kQ4RPODC/1heR1HtgAsfL/vpm9iCchL9NoL/hfnccFbTgm+iNJg3i
+	 ttBuUG2qzKUftY6X+tP27M2tJfGw31DdEiZIjImM3Di8CMxbuvZGKFVXMfcGH1jcYx
+	 /zAU561rN6sCA==
+Date: Fri, 17 Oct 2025 15:34:47 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Guenter Roeck <linux@roeck-us.net>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	linux-watchdog@vger.kernel.org,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: watchdog: Add Renesas WWDT
+Message-ID: <176073328372.47864.18309535932587493216.robh@kernel.org>
+References: <20251014112953.25712-4-wsa+renesas@sang-engineering.com>
+ <20251014112953.25712-5-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-17_06,2025-10-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 mlxlogscore=999
- malwarescore=0 mlxscore=0 spamscore=0 suspectscore=0 phishscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2510020000 definitions=main-2510170146
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAwNiBTYWx0ZWRfXyfUlmv73rWFI
- FLsFVpn/0BP20drFc3uXW37wMwkq/BzKgHpUFHWaBe13woM9ecYZTx4WvXuvghuHNi65YBvZiOD
- Pxx/vHUmxtgsoM2hxz0BbIDP7XkMMKC7LC9zaJ6lhKQeJTMoko99AjJnPtl79wQqTEUV98R15D2
- QCpeoP/025pgpYzd79p8gfOhKuYbYVl9rAY/ntqu7OJEIuXwpdGZkRJ+e5ghMEsCLGoeu/uU9/t
- E/zvQFvngHwsi9TDdAVlGOzs8/IHFXAffo8in/unHdx0v0wkKSIXrnP1OflfLF0eDDwoqkaZ5/i
- vePZi3CZk21ZTUks9pE+2EQ9JfNM5iaHxbd3LUiXAF3A5gAQxxY+fBB0LyYzfOC4m63p1Y496qN
- 1EKZm/W4dpTpN4lKh41OrPBvNpTVbxJKevJ0phkjMqMaQBkfnLs=
-X-Proofpoint-GUID: -79bYQyYjDcP-3Xy89Za8R8hoOcnIjUv
-X-Authority-Analysis: v=2.4 cv=ReCdyltv c=1 sm=1 tr=0 ts=68f29617 b=1 cx=c_pps
- a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17
- a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=yPCof4ZbAAAA:8
- a=FgpMwCVgqWoq9Yy4Z-AA:9 cc=ntf awl=host:12091
-X-Proofpoint-ORIG-GUID: -79bYQyYjDcP-3Xy89Za8R8hoOcnIjUv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251014112953.25712-5-wsa+renesas@sang-engineering.com>
 
-The rcar_du_crtc_cleanup() function has a void return type, but
-incorrectly uses a return statement with a call to drm_crtc_cleanup(),
-which also returns void.
 
-Remove the return statement to ensure proper function semantics.
-No functional change intended.
+On Tue, 14 Oct 2025 13:29:53 +0200, Wolfram Sang wrote:
+> Describe the Window Watchdog Timer found on Renesas R-Car SoCs from late
+> Gen3 onwards.
+> 
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+> 
+> Note: Despite the name, V3U is considered to be a Gen4 SoC.
+> 
+> Changes since v1:
+> 
+> * support not only V4H but all Gen3/4 SoCs having this WWDT
+> * handle the two-resets exception for V3U and S4
+> * switch order of clocks, so it is the same as for the resets
+>   (for resets, "cnt" is always present and "bus" is optional)
+> * rename the file to match the base compatible
+> * require interrupts and resets
+> * drop unneeded label from the example
+> 
+>  .../watchdog/renesas,rcar-gen3-wwdt.yaml      | 114 ++++++++++++++++++
+>  1 file changed, 114 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/watchdog/renesas,rcar-gen3-wwdt.yaml
+> 
 
-Signed-off-by: Alok Tiwari <alok.a.tiwari@oracle.com>
----
- drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c
-index 7e175dbfd892..22bcd7db4195 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c
-@@ -993,7 +993,7 @@ static void rcar_du_crtc_cleanup(struct drm_crtc *crtc)
- 
- 	rcar_du_crtc_crc_cleanup(rcrtc);
- 
--	return drm_crtc_cleanup(crtc);
-+	drm_crtc_cleanup(crtc);
- }
- 
- static void rcar_du_crtc_reset(struct drm_crtc *crtc)
--- 
-2.50.1
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
 
