@@ -1,170 +1,137 @@
-Return-Path: <linux-renesas-soc+bounces-23232-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23233-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEFCEBE8469
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 13:19:37 +0200 (CEST)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 440B5BE8505
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 13:26:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7768D1A61BD7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 11:20:01 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id E43CF35CA8A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 11:26:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21F1034320F;
-	Fri, 17 Oct 2025 11:19:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9572A343D6D;
+	Fri, 17 Oct 2025 11:25:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="itt0bQ4p"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="fABidgn9"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CE1731986F;
-	Fri, 17 Oct 2025 11:19:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CB7F343D64
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Oct 2025 11:25:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760699974; cv=none; b=a4X1+WvHyf2jeNdyO9sXXqeFrak+D2S+xvt5BRMbkcBfKRuo1dEFyYzOv28BQbHOyt3HOLhdq4b4ZENPesrFdoKlsEeOhUGNT5fpj25Xu+9JsejTiTsNrssWNGk4x0xhlyP/Rzj+S+ykSRL+nTsLoNb/IZf67np9denMmFlk3GA=
+	t=1760700358; cv=none; b=dvtV/GlAsN9WIkIRoUmrMc1J8c/pWkYFB01fwKNCJIvnGmGvb3u/9kkxqSCfksjpnDuFQTN/kL8lcp7Wc88XOrfSp/pQItGStLYrI/ERI0NLffv3SRN+l9DUUKMebFxRt2kbhiFIJDgVCtOz7tNF83DhG0WwqvTU2psvklti7WU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760699974; c=relaxed/simple;
-	bh=8MsOM03pXc7Ax5q0mCwysYrX9pm4sTnoctwX/A8aheI=;
+	s=arc-20240116; t=1760700358; c=relaxed/simple;
+	bh=aWvD+LLrLF9YK8GnZm5gsYiNIJjDuBqyzw6Mr1QGTag=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Gm1lxSBLBMSvEkSUsOUBSuuT8Y612tA5BCfiHMu3PHV0u2q/oAg8/H3PgVBxIdD0Ovc50XYIjtyL6/ejnsiGPQ7Eo9mE/Pw0pKLleYN/rPVYoqwXt0Xgkns+J/S+2uebpMVDPZv+cGyFPswcylkuooAcw/7+vJHFo2qqp9uAb7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=itt0bQ4p; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760699973; x=1792235973;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8MsOM03pXc7Ax5q0mCwysYrX9pm4sTnoctwX/A8aheI=;
-  b=itt0bQ4py/aJ97eQaMy3f9PLloM2yb7JMqNV3rnIlCdt8YRi3bl95bey
-   kX6oD7u9I1k0EEdUt5qYyIyWAA4kolM7emW27+SkeMA9LLh69rux1ndmD
-   0TxBMmGmUpKzzOeXdun1BSvcVZPCkaynb+EWA+aUC+nSLCW0hrWsh0YW8
-   R8RjvW2K44QqRFrxniUFToSrpDXdPZA17LXH9uOKLOhWgbyqszThN+zFC
-   FTmVHVo8Z0jzBJPhCjaOlprqjTcKElBZXb0IDf9JW7mf9B37ZiIwyssHs
-   kbjKvWQLOicNZqG82sP8ExG6rjfpN+9rylgi0VJvpcmho/PvQr5LwipLK
-   Q==;
-X-CSE-ConnectionGUID: SU4O98oyQs2c3DL9PbjiUA==
-X-CSE-MsgGUID: k/jp+p4VQOa1JDjJDvwmjw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="66555803"
-X-IronPort-AV: E=Sophos;i="6.19,236,1754982000"; 
-   d="scan'208";a="66555803"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2025 04:19:31 -0700
-X-CSE-ConnectionGUID: fWzu1B5mRIW0L/ehNOHJdw==
-X-CSE-MsgGUID: HgYRS2rJToewAFu3pfjVbQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,236,1754982000"; 
-   d="scan'208";a="213679277"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 17 Oct 2025 04:19:25 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v9iUV-0005uF-0R;
-	Fri, 17 Oct 2025 11:19:23 +0000
-Date: Fri, 17 Oct 2025 19:19:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Jian Shen <shenjian15@huawei.com>,
-	Salil Mehta <salil.mehta@huawei.com>,
-	Jijie Shao <shaojijie@huawei.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Sunil Goutham <sgoutham@marvell.com>,
-	Geetha sowjanya <gakula@marvell.com>,
-	Subbaraya Sundeep <sbhatta@marvell.com>,
-	Bharat Bhushan <bbhushan2@marvell.com>,
-	Tariq Toukan <tariqt@nvidia.com>,
-	Brett Creeley <brett.creeley@amd.com>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
-	Paul Barker <paul@pbarker.dev>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	 Content-Type:Content-Disposition:In-Reply-To; b=DFxqPMePwFCDf0pfN/3U2oMXwbVoKvUkVpp+0P5TJXusmZvzEunKFCgXPLfRBmBRDmN9CjRM5dUqlQUJL5Qq8qJCWqMAKExyrW9tGD1GGOPjmsEvQi253aNegH5cdfqbIDq3uDYhLSIpBU7DVhkxCeazNDyuUlrUkxe5sqTAdr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=fABidgn9; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=aWvD
+	+LLrLF9YK8GnZm5gsYiNIJjDuBqyzw6Mr1QGTag=; b=fABidgn93jmvg9ZisEcP
+	Lk0H3NKOriPyUAhNiEmb58pFrcorfCMfQCUMisFcIOxaOAfeC8ca5aPhgKHlI73H
+	ZbohZ53gjJFEx7ICJXdFwuVvksx6wULWJlyZaTYn+nRxgg97PEWBhke66ygKhUU7
+	yX8tFG3uV82GmDaCNoCte9P4g8jP2a2cKsOnkx1kBKwtJUhPRWp05rKtQro/4GkV
+	USplM4Y3eTLFR49U57Pww26JZjQ0BSmuZtNHWWAKw2JF8QABzrVa+RiqvsTEN2Ei
+	lp8jXMtsK6MG8Y3dxCNAHIHFKOgw3AZUw5D4EjBN6NuTbTiJXtlqkkTuf3jm33ZC
+	sQ==
+Received: (qmail 11438 invoked from network); 17 Oct 2025 13:25:51 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 Oct 2025 13:25:51 +0200
+X-UD-Smtp-Session: l3s3148p1@NTwB/1hB/uMgAwDPXwQHAL/S9V79e5yL
+Date: Fri, 17 Oct 2025 13:25:51 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
 	linux-renesas-soc@vger.kernel.org,
-	Richard Cochran <richardcochran@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Simon Horman <horms@kernel.org>,
-	Jacob Keller <jacob.e.keller@intel.com>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>
-Subject: Re: [PATCH net-next 6/6] net: hns3: add hwtstamp_get/hwtstamp_set ops
-Message-ID: <202510171940.xIqxEaCD-lkp@intel.com>
-References: <20251016180727.3511399-7-vadim.fedorenko@linux.dev>
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	linux-kernel@vger.kernel.org,
+	Philipp Zabel <p.zabel@pengutronix.de>
+Subject: Re: [PATCH v2 2/2] reset: always include RESET_GPIO driver if
+ possible
+Message-ID: <aPInv9NELU7N9QDn@shikoro>
+References: <20251015205919.12678-4-wsa+renesas@sang-engineering.com>
+ <20251015205919.12678-6-wsa+renesas@sang-engineering.com>
+ <CAMuHMdXqHncXxBZ00mxV=pzdgQEU4ju2F9XMejnibbu=QnLfDg@mail.gmail.com>
+ <aPEAx8ZGHBcWZKJF@shikoro>
+ <CAMRc=McsbAirEYjoo455mbKU495VEvPmMEqBmZCq2hw113YHOg@mail.gmail.com>
+ <aPIfF-3SgzW5V_gs@shikoro>
+ <CAMRc=MfVPO292xmnXBWJzWuhNADA_u1yvpJ4kkK8TgZyQgaP+A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="mXhh8XpVdeKHr1Bl"
+Content-Disposition: inline
+In-Reply-To: <CAMRc=MfVPO292xmnXBWJzWuhNADA_u1yvpJ4kkK8TgZyQgaP+A@mail.gmail.com>
+
+
+--mXhh8XpVdeKHr1Bl
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251016180727.3511399-7-vadim.fedorenko@linux.dev>
-
-Hi Vadim,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/octeontx2-convert-to-ndo_hwtstamp-API/20251017-021210
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20251016180727.3511399-7-vadim.fedorenko%40linux.dev
-patch subject: [PATCH net-next 6/6] net: hns3: add hwtstamp_get/hwtstamp_set ops
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20251017/202510171940.xIqxEaCD-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251017/202510171940.xIqxEaCD-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510171940.xIqxEaCD-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/net/ethernet/hisilicon/hns3/hns3_enet.c:2436:12: warning: 'hns3_nic_hwtstamp_set' defined but not used [-Wunused-function]
-    2436 | static int hns3_nic_hwtstamp_set(struct net_device *netdev,
-         |            ^~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/hisilicon/hns3/hns3_enet.c:2422:12: warning: 'hns3_nic_hwtstamp_get' defined but not used [-Wunused-function]
-    2422 | static int hns3_nic_hwtstamp_get(struct net_device *netdev,
-         |            ^~~~~~~~~~~~~~~~~~~~~
+Content-Transfer-Encoding: quoted-printable
 
 
-vim +/hns3_nic_hwtstamp_set +2436 drivers/net/ethernet/hisilicon/hns3/hns3_enet.c
+> > I think the fallback mechanism of the core should work without any
+> > module loading infrastructure. It should be there whenever possible.
+> >
+>=20
+> It's not really a fallback, is it? This is the path we'll always take
+> if the driver requests a reset control on a firmware node which has a
+> reset-gpios property. If the driver goes with the gpiod API, it will
+> get a regular descriptor. It's deterministic enough to not warrant the
+> term "fallback".
 
-  2421	
-> 2422	static int hns3_nic_hwtstamp_get(struct net_device *netdev,
-  2423					 struct kernel_hwtstamp_config *config)
-  2424	{
-  2425		struct hnae3_handle *h = hns3_get_handle(netdev);
-  2426	
-  2427		if (!netif_running(netdev))
-  2428			return -EINVAL;
-  2429	
-  2430		if (!h->ae_algo->ops->hwtstamp_get)
-  2431			return -EOPNOTSUPP;
-  2432	
-  2433		return h->ae_algo->ops->hwtstamp_get(h, config);
-  2434	}
-  2435	
-> 2436	static int hns3_nic_hwtstamp_set(struct net_device *netdev,
-  2437					 struct kernel_hwtstamp_config *config,
-  2438					 struct netlink_ext_ack *extack)
-  2439	{
-  2440		struct hnae3_handle *h = hns3_get_handle(netdev);
-  2441	
-  2442		if (!netif_running(netdev))
-  2443			return -EINVAL;
-  2444	
-  2445		if (!h->ae_algo->ops->hwtstamp_set)
-  2446			return -EOPNOTSUPP;
-  2447	
-  2448		return h->ae_algo->ops->hwtstamp_set(h, config, extack);
-  2449	}
-  2450	
+I dunno for how many drivers this is really applicable, but I really
+liked the cleanup of the pca954x driver. Don't handle GPIOs internally,
+just get a reset, and it might be a GPIO. I think it is very useful and
+I would like to see it wherever possible.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+We could now make these drivers depend on RESET_GPIO. This would make
+sense in a way but is uncomfortable for the user who has not RESET_GPIO
+enabled before. The driver would just disappear because of unmet
+dependencies. Yes, this can happen all the time because we always find
+new dependencies and describe them. I just hoped it could be avoided in
+this case.
+
+> Then I believe the platform's config should make sure the driver is
+> built-in. I don't think it makes sense to just cram it into the kernel
+> image for the few users it currently has.
+
+For Morimoto-san, the PCA954x update resulted in a regression. It is
+worth thinking how to avoid that. The driver is so small, I wouldn't
+mind the extra space if it saves users from disappearing devices. But
+mileages vary...
+
+
+--mXhh8XpVdeKHr1Bl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmjyJ7sACgkQFA3kzBSg
+KbZEbxAAqiaXS9a0L9TGTMWpxJnVJeLQf+9Ge06OCtpjIwWdYJ5SGNRCSSqXLEiN
+oM8lShGPB/27ENIRZPujguWRsXyDII/fqYuPcGpnF5UIaEhfj8HbVUN+gSZzUDA9
+hdlxQJ9v7Ewf5ng1w4oWzOdqh3giuXMQ/2jKeCeY71hfIfsj2g687r9UH0JY6vg6
+mHD9hJzl9atAhB9F1931utvhQhZSC5Hk+gm4Lvce7I/qOtiPLtZ7UJUCo7s/gXlv
+w7C0qalLlU7bKFYldQzJCwzZmYE62JHWTCv353agnE20Vt5TqFf0446RjNnVJBvw
+7CRWPuLSunNNFXRwIUQibnT7EM/2yy1GrdbdRMr8wN57y7T2DBGuNR/Esa66nsJ6
+CtH5LeE5Yezk3f4rAiVOjLNnxh+bSpSLmwdb20bgJ6NmoUP3QI+OZZot3XjfcudT
+anXQaMgQAGnC4yCL3ILENQbSemFpMMmbWBiA1+Wtj6p7dVFl+7gvw5T5vZjrFjjr
+pwYoqZqHmx+QSfDSpDBr5PFqxhWCS5gXRgY/WrU1EsTt5Vx7H+oh/pM+hqW9Korq
+rXRy3BE8VF/mO9cyhoWQ1mJ/kTN1jLIwRnOqzhrfnr4ycdapAOB3ehZovh07GJgX
+IJhnLl0/9n/8RpxRtW5dUBd8TsJ6nJTC9WHJoV6gtwB4prYkvLM=
+=1Ev6
+-----END PGP SIGNATURE-----
+
+--mXhh8XpVdeKHr1Bl--
 
