@@ -1,187 +1,191 @@
-Return-Path: <linux-renesas-soc+bounces-23250-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23252-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42414BEA792
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 18:08:02 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 211B2BEAD70
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 18:45:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5F5B3744D59
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 15:45:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F37266E5236
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 16:06:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E1DE330B28;
-	Fri, 17 Oct 2025 15:45:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X0KTt603"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF3751A0728;
+	Fri, 17 Oct 2025 16:06:05 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E3C330B0D;
-	Fri, 17 Oct 2025 15:45:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F072F189F20
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Oct 2025 16:06:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760715948; cv=none; b=YLuLYD0wmy0Qajw+9vgOx2kq+MfhSCZD5//abyBJIjXSKknNfercZXaADg+BruygjhqVRnWsMgg6K7pHoWlHQZ7dfGRQMhrFj27wG7bda49HFkkEAmLBavIgi6+4vEaHUvU2+AUmFqNOlnS1KKG15/CvyrX2xMEiaTbiBwuGygg=
+	t=1760717165; cv=none; b=FDlp3JYiDZkgu9R6+s48oCOvf2Jwqj/NFGdTFHO8xEZsWfkWRdr85M3Hi/4oe6/zPOn4fi3Ph0DzQWNwIevtypr9/zDmQVeW94mB+KHUKmF1oSg/uWHr9WaIPUgwpVcUpCEVGSafCGgANQmzXjl2OdY2Wa1nLW3BmVSDR0DcGLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760715948; c=relaxed/simple;
-	bh=e40RiWetjsxLvkNuwYGmbCfc+JdkI+evIoSOLsfzX5E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=evr+/Gf00xFS0v+It682cXzMGoCPwZw0E9whfgpedENqHJESt9Fi+4rVMjXCGMmlFMTV2tNEHg2GBKFYCFvt9jebLF9D9DiIBmrVwgPlCRMmi+rdo+P70jHs/wBDj/7XXHkZTPnjQ/Y5cuH9ucGVebloL9X0lFeZXTVPJVmSkkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X0KTt603; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B41AC4CEFE;
-	Fri, 17 Oct 2025 15:45:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760715947;
-	bh=e40RiWetjsxLvkNuwYGmbCfc+JdkI+evIoSOLsfzX5E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=X0KTt603Yf31FFgAAhASvEZ2oNQ58Cji9gxknQ4KWZAlwFKi3LL31v8VC6QOHOAj+
-	 M6gtZL8qw7AEBY6RAvHQjLJW281SB4TIovX0ilHly2zJL4syQ8wjekpq3K7tmPwbGb
-	 aIQKYsncha82wYQiSq6tQdMJtbTYAqC2eQWi2T8vv99nvjvI1WzSx/L5EQmAvAvkhQ
-	 YRF91VJNtvzVCXjm8hcac6oT8qz5yUP3tI04KEl66zMMTvB3jOBOUOTK5VYumvXI29
-	 h2yiEUPE0IamV2CAT3s7TE4as1f205bSvXF+R8EGxR0ciekXaZ31B7LiWNgOgOGwOc
-	 L9hp0005Z0WCA==
-Date: Fri, 17 Oct 2025 16:45:43 +0100
-From: Conor Dooley <conor@kernel.org>
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH 1/2] dt-bindings: pinctrl: renesas,r9a09g077: Document
- pin configuration properties
-Message-ID: <20251017-anthem-duplicity-c96e4253d986@spud>
-References: <20251014191121.368475-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20251014191121.368475-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20251016-dimmed-affidavit-90bae7e162aa@spud>
- <CA+V-a8un1cF=acNjG=79_v7oaR8gzBQ+3z1As8AqrJnOnk-OUw@mail.gmail.com>
+	s=arc-20240116; t=1760717165; c=relaxed/simple;
+	bh=5UuF/HjwkQMRQp3toEpBUcYrHBj825aq+Tc6Itk11zY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kvBie0LcBzwPzBsfy1znLP20OxKQTP8WtVZhLt1qDLoEH5sTZ/P2n0vAFJDKXVCozvZ1IMW5ZGgRlvQeRceB3+G1tQ916QMvztzUuw2xXP1T21VRqtJDv6+STO8bQv2OJoIxb6BR7H2Zxx394DRW4yZNAo8Fj+0rBJ4SFnoBXzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-7c2730d8fb0so1195215a34.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Oct 2025 09:06:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760717163; x=1761321963;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=D4mf9FdrvOGmLornKgNki0gXD9BcM6SCmzEl3gfV4Zs=;
+        b=KZ34iIX+l7dV57o/OFm1U4gqWLbpxzpXI91F0yNRI0yqlYO3ITIXhueHH4Dc13aOzq
+         nujBIW6EhW8iBFDxKbzXUlRJq+7aI9zEbVEQjo1VTi9wWHAmJIiqShm1EOkHEgKbdoC6
+         cEByMOxr+5uDTKoHl6AfKxK8PcIDPW8keS4ZcS3jeIOdfIIRctcRnlrWmuCnwcr+NriS
+         PTd98nrM0TfOTpIQz2/To8azZrBhaVjOhm3NBC8C7prIgDnOsHgM6LOfjNKBHI09jDv8
+         pdNNv5gA9t0ruaiz8ZFORrnzBbzUQRXy6/7q9JwTpa1Lk78G4fzLcReU8+j2Ltq++Mxi
+         Q73A==
+X-Forwarded-Encrypted: i=1; AJvYcCWv4FK2jy6GL3sIGW5AfpkC1v/YYGAxOPJVLDOjSFh8ak1ICUeExNm7Ipj8x3FjsJdWjsBMDcUW+QYYBNcCzWJqzQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxSyRhSXbJCtoS27XsICIUTg6dq7FLmBp1uM1FJCX7Q9T/2r6kO
+	yys+zFZ3VyNT2GdSomnXG9cfIda1LCTbhNL7ILOz4yWHk3jPxPG860KmRj3UUOio
+X-Gm-Gg: ASbGncvNJjie+dq2rCKFWU+PSytUqp0rILXc/t6jXyV/+qCSYQ+cqmyqk8UhsSVi5QD
+	1PZdFZNvSu3bqLZy+r8QIFVhzSu5Opa6w13HjBxlstSbMzF0RpIOdPyFPLV1yyXONijDgzQbinq
+	kUbWK7bZPv8A45gqLXM620ijSTyfd2RB+tBG6g4trEH/yHJLi+dXLt7UK5GFc+jtsDwP+Dvh9Ea
+	vcXHqDavc8BD42hyZiAhn6r2QAqtxmxtgWmGHSQFkbQDVrd5vfDzRcJhB7zN0ZyLTYIXJTw6ibO
+	QH2X9ADJTCkliRWXrabjMhInlt8L3w7oHeQmCPWgzIY0pS/yixhJrQW4fatXyz8AFlZvXUUoKtY
+	cuLAHThKWG4SspfmeOjr4vWeL0rQe8uH+IT8wH/EAcfXXWutDN+5rnWI06QtG/+mCL5VBGNgvAS
+	7DslE8vxA5Z11ChPXpmO7I8aXdMDYGeynD4fxS3g==
+X-Google-Smtp-Source: AGHT+IFxPj5p7VgYVLcr6gO2ryC5/2/QsvrVMWVrGWT5DicrAadUZdJQqPMMMqpApp88L7qROtp53A==
+X-Received: by 2002:a05:6808:1a23:b0:43f:7287:a5ca with SMTP id 5614622812f47-443a30d31c9mr1738528b6e.43.1760717162585;
+        Fri, 17 Oct 2025 09:06:02 -0700 (PDT)
+Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com. [209.85.160.41])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-4430f370405sm901206b6e.5.2025.10.17.09.06.02
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 17 Oct 2025 09:06:02 -0700 (PDT)
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-3c978f55367so1021260fac.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Oct 2025 09:06:02 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXytcjsSd6wzEWMWOLTtO+z4jhuGoqKC7I/ZufwQ3H8i4RR4EteEMz/ABocAuYnZaQ6fweD/6D6xzS2xgd1/SJqCw==@vger.kernel.org
+X-Received: by 2002:a05:6102:40c6:10b0:5d7:dec6:389a with SMTP id
+ ada2fe7eead31-5d7dec64177mr1309355137.9.1760716852567; Fri, 17 Oct 2025
+ 09:00:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="E/tp+y/c9Usv3Xlg"
-Content-Disposition: inline
-In-Reply-To: <CA+V-a8un1cF=acNjG=79_v7oaR8gzBQ+3z1As8AqrJnOnk-OUw@mail.gmail.com>
+References: <cover.1739540679.git.geert+renesas@glider.be> <2d30e5ffe70ce35f952b7d497d2959391fbf0580.1739540679.git.geert+renesas@glider.be>
+ <20251017081912.2ad26705@kernel.org>
+In-Reply-To: <20251017081912.2ad26705@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 17 Oct 2025 18:00:41 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVS5KmVkv_pmc+R-EXik-Z1_7nuiHM=vm1Cu8v91wmLBQ@mail.gmail.com>
+X-Gm-Features: AS18NWD4CQztq7yi6j63q-9XtnW0otWo2wOw8z0_Fp7R-6z_qrlZWB5IqFYEbBg
+Message-ID: <CAMuHMdVS5KmVkv_pmc+R-EXik-Z1_7nuiHM=vm1Cu8v91wmLBQ@mail.gmail.com>
+Subject: Re: [PATCH treewide v3 2/4] bitfield: Add non-constant
+ field_{prep,get}() helpers
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	David Miller <davem@davemloft.net>, Linus Walleij <linus.walleij@linaro.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>, 
+	Andrew Jeffery <andrew@codeconstruct.com.au>, Crt Mori <cmo@melexis.com>, 
+	Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Jacky Huang <ychuang3@nuvoton.com>, 
+	Shan-Chun Hung <schung@nuvoton.com>, Yury Norov <yury.norov@gmail.com>, 
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Johannes Berg <johannes@sipsolutions.net>, Alex Elder <elder@ieee.org>, 
+	David Laight <david.laight.linux@gmail.com>, Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
+	linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-renesas-soc@vger.kernel.org, linux-crypto@vger.kernel.org, 
+	qat-linux@intel.com, linux-gpio@vger.kernel.org, 
+	linux-aspeed@lists.ozlabs.org, linux-iio@vger.kernel.org, 
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Jakub,
 
---E/tp+y/c9Usv3Xlg
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Oct 17, 2025 at 04:33:56PM +0100, Lad, Prabhakar wrote:
-> Hi Conor,
->=20
-> Thank you for the review.
->=20
-> On Thu, Oct 16, 2025 at 5:41=E2=80=AFPM Conor Dooley <conor@kernel.org> w=
-rote:
+On Fri, 17 Oct 2025 at 17:19, Jakub Kicinski <kuba@kernel.org> wrote:
+> On Fri, 14 Feb 2025 14:55:51 +0100 Geert Uytterhoeven wrote:
+> > The existing FIELD_{GET,PREP}() macros are limited to compile-time
+> > constants.  However, it is very common to prepare or extract bitfield
+> > elements where the bitfield mask is not a compile-time constant.
 > >
-> > On Tue, Oct 14, 2025 at 08:11:20PM +0100, Prabhakar wrote:
-> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > >
-> > > Document the pin configuration properties supported by the RZ/T2H pin=
-ctrl
-> > > driver. The RZ/T2H SoC supports configuring various electrical proper=
-ties
-> > > through the DRCTLm (I/O Buffer Function Switching) registers.
-> > >
-> > > Add documentation for the following standard properties:
-> > > - bias-disable, bias-pull-up, bias-pull-down: Control internal
-> > >   pull-up/pull-down resistors (3 options: no pull, pull-up, pull-down)
-> > > - input-schmitt-enable, input-schmitt-disable: Control Schmitt trigger
-> > >   input
-> > > - slew-rate: Control output slew rate (2 options: slow/fast)
-> > >
-> > > Add documentation for the custom property:
-> > > - renesas,drive-strength: Control output drive strength using discrete
-> > >   levels (0-3) representing low, medium, high, and ultra high strengt=
-h.
-> > >   This custom property is needed because the hardware uses fixed disc=
-rete
-> > >   levels rather than configurable milliamp values.
-> > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > ---
-> > >  .../bindings/pinctrl/renesas,r9a09g077-pinctrl.yaml | 13 +++++++++++=
-++
-> > >  1 file changed, 13 insertions(+)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/pinctrl/renesas,r9a09g=
-077-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/renesas,r9a09g=
-077-pinctrl.yaml
-> > > index 36d665971484..9085d5cfb1c8 100644
-> > > --- a/Documentation/devicetree/bindings/pinctrl/renesas,r9a09g077-pin=
-ctrl.yaml
-> > > +++ b/Documentation/devicetree/bindings/pinctrl/renesas,r9a09g077-pin=
-ctrl.yaml
-> > > @@ -72,6 +72,19 @@ definitions:
-> > >        input: true
-> > >        input-enable: true
-> > >        output-enable: true
-> > > +      bias-disable: true
-> > > +      bias-pull-down: true
-> > > +      bias-pull-up: true
-> > > +      input-schmitt-enable: true
-> > > +      input-schmitt-disable: true
-> > > +      slew-rate:
-> > > +        enum: [0, 1]
+> > To avoid this limitation, the AT91 clock driver and several other
+> > drivers already have their own non-const field_{prep,get}() macros.
+> > Make them available for general use by consolidating them in
+> > <linux/bitfield.h>, and improve them slightly:
+> >   1. Avoid evaluating macro parameters more than once,
+> >   2. Replace "ffs() - 1" by "__ffs()",
+> >   3. Support 64-bit use on 32-bit architectures.
 > >
-> > What are the meanings of "0" and "1" for slew rate? Why isn't this given
-> I'll add a description for it (0 =3D slow, 1 =3D fast) and the same values
-> are programmed in the register to configure the slew rate.
->=20
-> > as the actual rates? The docs surely give more detail than just "slow"
-> > and "fast".
-> You mean to represent slew-rate in some sort of a unit?
+> > This is deliberately not merged into the existing FIELD_{GET,PREP}()
+> > macros, as people expressed the desire to keep stricter variants for
+> > increased safety, or for performance critical paths.
+>
+> We already have helpers for this, please just don't know they exist :/
+>
+> The "const" version of the helpers are specifically defined to work
+> on masks generated with BIT() and GENMASK(). If the mask is not
+> constant we should expect it to have a well defined width.
+>
+> I strongly prefer that we do this instead and convert the users to
+> the fixed-width version:
+>
+> ---->8----------------
+>
+> Subject: bitfield: open code the fixed-width non-const helpers so that people see them
+>
+> There is a number of useful helpers defined in bitfield.h but
+> they are mostly invisible to the reader because they are all
+> generated by macros. Open code the 32b versions (which are
+> most commonly used) to give developers a chance to discover them.
+>
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 
-Usually slew-rate is measured in a unit derived from volts per second.
-What rates do "slow" and "fast" actually represent?
+Thanks, but this is more or less the same code which you suggested
+before [1], and to which I just replied[2] after looking at the
+generated assembler output on various architectures.
 
-> > > +      renesas,drive-strength:
-> > > +        description:
-> > > +          Drive strength configuration value. Valid values are 0 to =
-3, representing
-> > > +          increasing drive strength from low, medium, high and ultra=
- high.
-> >
-> > I see what you wrote in the commit message, but I don't really get why
-> > you need a custom property. I would imagine most devices only have some
-> > some small set of "fixed discrete levels", yet manage with milli- or
-> > micro-amps fine. Converting from mA to register values in a driver is
-> > not difficult, and I figure the documentation for the device probably
-> > doesn't just give vague strengths like "medium" or "ultra high", but
-> > probably provides currents?
-> >
-> > I dunno, I am just confused by the need to shove register values into
-> > these properties, rather than using the actual units.
-> >
-> I'm checking this with the HW team. I'll get back on this once I have
-> some feedback.
->=20
-> Cheers,
-> Prabhakar
+> @@ -188,6 +193,81 @@ static __always_inline u64 field_mask(u64 field)
+>         return field / field_multiplier(field);
+>  }
+>  #define field_max(field)       ((typeof(field))field_mask(field))
+> +
+> +/**
+> + * u32_encode_bits() - prepare a u32 bitfield element (non-const)
+> + * @v: value to put in the field
+> + * @field: shifted mask defining the field's length and position
+> + *
+> + * Equivalent of FIELD_PREP() for u32, field does not have to be constant.
+> + *
+> + * Note that the helper is available for other field widths (generated below).
+> + */
+> +static __always_inline __u32 u32_encode_bits(u32 v, u32 field)
+> +{
+> +       if (__builtin_constant_p(v) && (v & ~field_mask(field)))
+> +               __field_overflow();
+> +       return ((v & field_mask(field)) * field_multiplier(field));
 
---E/tp+y/c9Usv3Xlg
-Content-Type: application/pgp-signature; name="signature.asc"
+Unfortunately gcc emits actual divisions or __*div*() calls, and
+multiplications in the non-constant case.
 
------BEGIN PGP SIGNATURE-----
+So I don't think this is suitable as-is.
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaPJkpgAKCRB4tDGHoIJi
-0s3MAP9YizOciJUJl7rtAmgZ0KBowiJDC/FYFB0FeHTK47UjkQEA8ndu2smIcIZJ
-nOSy5kNBMpmDRVIhroG4JLyImSz1Bg0=
-=VFiF
------END PGP SIGNATURE-----
+> +}
 
---E/tp+y/c9Usv3Xlg--
+[1] https://lore.kernel.org/all/20250214073402.0129e259@kernel.org
+[2] https://lore.kernel.org/all/CAMuHMdU+0HGG22FbO3wNmXtbUm9RhTopYrGghF6UrkFu-iww2A@mail.gmail.com
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
