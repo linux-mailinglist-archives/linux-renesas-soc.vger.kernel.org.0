@@ -1,175 +1,124 @@
-Return-Path: <linux-renesas-soc+bounces-23240-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23241-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC997BE9802
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 17:09:00 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1026BE9A36
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 17:17:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9BB00626AD1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 15:01:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 288D21AA48D6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 15:16:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8896833033D;
-	Fri, 17 Oct 2025 15:01:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80F20330333;
+	Fri, 17 Oct 2025 15:14:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="VWZ2lb80"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="aeEPF5Zg"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D89932C946;
-	Fri, 17 Oct 2025 15:01:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64D5032E14C
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Oct 2025 15:14:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760713274; cv=none; b=LY/UmGcVf9UG3ngXEbXF/J1V3U7HQw+Jf7U/B/PndjBO0dUbOb56ehVHkeO2/UEeou6K2jU1f4vyRHrFtUqZe8L5TwqnxpmTq4qVQnAx6LkbldWJ9xcvUOSMJ6RuRz3XZf35Y7vTlqALIqCg1pqOB+2q/xjutvEwYLRhXkHNZnc=
+	t=1760714083; cv=none; b=Ayiqxx/fGXeYwfolvQeCGA6VJphgAg2fnLCPi+cq9wGtAoqLVa3haUqvN8ZP+dTPsoXi0aKpRnp2Grfh17LqG4YtZ8WZvZ3LDCvPbNozDbxqLRImTfHEyIkEOLNV4qUzGuEHUdmq8EQ/Gio/4MBJjLz2EH8XhQt8ciSIMWP+5Fo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760713274; c=relaxed/simple;
-	bh=fu1rgFg6zFERmWrukTHtScTFU9VI+YSEm3Jqr3a3rqk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=J07JHeDck/7Uov7sbn9jM7+3ziAro6YmO2DSLBk3HPesz21L/5kmfcbyeNI460nllP46/XVk7DTCH15sIZPQga9JlkjWZkZI3pyAM8/zxbhlUr3+IeZGUZuflmaNhOYFcNN9RGIh8Gt4n/QA9s9Mt1NUFG8MpjzFYWnABdNwT/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=VWZ2lb80; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id E464EC041F6;
-	Fri, 17 Oct 2025 15:00:46 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 28795606DB;
-	Fri, 17 Oct 2025 15:01:06 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 53F01102F2363;
-	Fri, 17 Oct 2025 17:00:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1760713265; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=b9g9x9l+TGh+Jz6FtSUgUJKPZ2bmCq5GDO9amdTb+jU=;
-	b=VWZ2lb805RvAcMpu2w7GsmG4qPzHEvrmTXEmSf8bLkdyqv8tELrbP1N9GAyxwhuevB6DOy
-	ZqLha3EVHs7C3aY05GsxzDYApneZKZroDf1OnCtTXktlSpyHTuHIzyiT2dBcYisbYJ/f7T
-	JjroPIiENIUsrrrjgkPAU1zfgNM5V990gaiQRXv265R9Ht/4SIcK6lfOUNPhmIEqJHYDG0
-	mVJLKaoYho9vY3N3HdSWjsf+FUAkElIPSoSpFZ7JcYofHz0UTYpB6tzfJP75sHyGiOhmcq
-	UMkhtwb88dZwI94C0APecwjz124C0yM9cmIq7lZILPj1skAr+Jf7/L5H4YtUBA==
-Date: Fri, 17 Oct 2025 17:00:54 +0200
-From: Herve Codina <herve.codina@bootlin.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Jonathan Cameron <jic23@kernel.org>, David Lechner
- <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy
- Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Geert
- Uytterhoeven <geert+renesas@glider.be>, Magnus Damm
- <magnus.damm@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
- <broonie@kernel.org>, linux-iio@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Pascal Eberhard <pascal.eberhard@se.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>
+	s=arc-20240116; t=1760714083; c=relaxed/simple;
+	bh=p7IYtu7Nv3p1Va76BbrP2fjM79zbzZp0jh60+HNRPDg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QSO3ts7gAgLiquC8sfdOnozfb3/FJCf+Y7EC2e8c3rc02jodrtQwn/9r+ZkyaUAvH74gFrwlYW288wANdPT0t5iUylBKNGujUTmISEwXGUntaFwPAU9AR7u3pJMp/gbWU/ZTk3dpMLjtIbRehYTEIlz8GVmwb2eoSER5ioJ/xoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=aeEPF5Zg; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=p7IY
+	tu7Nv3p1Va76BbrP2fjM79zbzZp0jh60+HNRPDg=; b=aeEPF5ZgjRxf5ivMgEP6
+	a96riYOhKW+hG5UdPLqdTcfe5FTjmV3OHJf/2Ai2VKwYSbJR0wC1/D/r8xB5FKy1
+	GFimrI814BL0MTkU/q5p8zRzfWMG6Fh/yESpyCgDfhMxlF/mSz/Ds6P/J4yWCMPU
+	C8BsAzABRdLNnWBwUNATSxNK7QV1NUB3MoVqJCJqA/+jshpLIV4ExS7o2LGkzWWC
+	rCepcfyhftSIouKjY3EEfHbBetJ0pbMGdjvkFgrOMTXjpe0sUGCFCa12GpnpDxYV
+	4xWw2HIu1NJLb35qNr9bhseQdJasRiHRPSgoKT4f7btxD0vJSxw1zciG1ENQqpL+
+	fw==
+Received: (qmail 79180 invoked from network); 17 Oct 2025 17:14:33 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 Oct 2025 17:14:33 +0200
+X-UD-Smtp-Session: l3s3148p1@AS3dMFxBjs4gAwDPXwQHAL/S9V79e5yL
+Date: Fri, 17 Oct 2025 17:14:32 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Herve Codina <herve.codina@bootlin.com>
+Cc: Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, linux-iio@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Pascal Eberhard <pascal.eberhard@se.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
 Subject: Re: [PATCH 2/4] iio: adc: Add support for the Renesas RZ/N1 ADC
-Message-ID: <20251017170054.7a7a6d5f@bootlin.com>
-In-Reply-To: <aPIIVUlHnvi0BXtN@shikoro>
+Message-ID: <aPJdWHjjwYW5VECZ@shikoro>
 References: <20251015142816.1274605-1-herve.codina@bootlin.com>
-	<20251015142816.1274605-3-herve.codina@bootlin.com>
-	<aPIIVUlHnvi0BXtN@shikoro>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+ <20251015142816.1274605-3-herve.codina@bootlin.com>
+ <aPIIVUlHnvi0BXtN@shikoro>
+ <20251017170054.7a7a6d5f@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="eU16krwebNarsjsY"
+Content-Disposition: inline
+In-Reply-To: <20251017170054.7a7a6d5f@bootlin.com>
 
-Hi Wolfram,
 
-On Fri, 17 Oct 2025 11:11:49 +0200
-Wolfram Sang <wsa+renesas@sang-engineering.com> wrote:
+--eU16krwebNarsjsY
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> > +static int rzn1_adc_read_raw_ch(struct rzn1_adc *rzn1_adc, unsigned int chan, int *val)
-> > +{
-> > +	u32 *adc1_data, *adc2_data;
-> > +	int adc1_ch, adc2_ch;
-> > +	u32 adc_data;
-> > +	int ret;
-> > +
-> > +	if (chan < 8) {
-> > +		/* chan 0..7 used to get ADC1 ch 0..7 */
-> > +		adc1_ch = chan;
-> > +		adc1_data = &adc_data;
-> > +		adc2_ch = -1;
-> > +		adc2_data = NULL;
-> > +	} else if (chan < 16) {
-> > +		/* chan 8..15 used to get ADC2 ch 0..7 */
-> > +		adc1_ch = -1;
-> > +		adc1_data = NULL;
-> > +		adc2_ch = chan - 8;
-> > +		adc2_data = &adc_data;
-> > +	} else {
-> > +		return -EINVAL;
-> > +	}  
-> 
-> How about putting part of the logic into the setup function? So, here
-> only:
-> 
-> 	if (chan >= 16)
-> 		return -EINVAL
-> 
-> > +
-> > +	ret = pm_runtime_resume_and_get(rzn1_adc->dev);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	mutex_lock(&rzn1_adc->lock);
-> > +
-> > +	rzn1_adc_vc_setup_conversion(rzn1_adc, chan, adc1_ch, adc2_ch);  
-> 
-> 	rzn1_adc_vc_setup_conversion(rzn1_adc, chan);
-> 
-> And in that function:
-> 
-> > +static void rzn1_adc_vc_setup_conversion(struct rzn1_adc *rzn1_adc, u32 ch,
-> > +					 int adc1_ch, int adc2_ch)
-> > +{
-> > +	u32 vc = 0;
-> > +
-> > +	if (adc1_ch != -1)
-> > +		vc |= RZN1_ADC_VC_ADC1_ENABLE | RZN1_ADC_VC_ADC1_CHANNEL_SEL(adc1_ch);
-> > +
-> > +	if (adc2_ch != -1)
-> > +		vc |= RZN1_ADC_VC_ADC2_ENABLE | RZN1_ADC_VC_ADC2_CHANNEL_SEL(adc2_ch);
-> > +
-> > +	writel(vc, rzn1_adc->regs + RZN1_ADC_VC_REG(ch));
-> > +}  
-> 
-> 	if (ch < 8)
-> 		vc |= RZN1_ADC_VC_ADC1_ENABLE | RZN1_ADC_VC_ADC1_CHANNEL_SEL(ch);
-> 	else
-> 		vc |= RZN1_ADC_VC_ADC2_ENABLE | RZN1_ADC_VC_ADC2_CHANNEL_SEL(ch - 8);
-> 
-> And a similar simplification for rzn1_adc_vc_wait_conversion().
-> 
-> Should work and the code is even more readable, I'd say. And has less
-> lines.
-> 
 
-That was what I did on my first driver draft before sending this first
-iteration. I moved to adc1 and adc2 channel numbers in parameters to avoid
-adding this logic here.
+> IMHO, I think the solution you proposed is similar in term of complexity
+> to the RZN1_ADC_NO_CHANNEL approach. On my side, I would prefer the
+> RZN1_ADC_NO_CHANNEL approach to keep the decoupling between IIO chan and
+> ADC core chans.
+>=20
+> That's said, I am still open to move in your direction if you still think
+> it is more relevant than the RZN1_ADC_NO_CHANNEL approach. Just tell me.
 
-I think it was better to decouple the IIO chan number from the adc core
-channel used.
+Well, in deed, I like "my" approach a tad better, but I am not demanding
+it. It is your driver and you have reasons to do it like you implemented
+it - you chose the way, I am fine with both. But maybe add a comment
+(mention the decoupling) why it was decided this way.
 
-I don't know if it will be relevant but we can image a future improvement
-where new IIO chans use both the ADC core 1 and 2. It could make sense.
 
-IMHO, I think the solution you proposed is similar in term of complexity
-to the RZN1_ADC_NO_CHANNEL approach. On my side, I would prefer the
-RZN1_ADC_NO_CHANNEL approach to keep the decoupling between IIO chan and
-ADC core chans.
+--eU16krwebNarsjsY
+Content-Type: application/pgp-signature; name="signature.asc"
 
-That's said, I am still open to move in your direction if you still think
-it is more relevant than the RZN1_ADC_NO_CHANNEL approach. Just tell me.
+-----BEGIN PGP SIGNATURE-----
 
-Best regards,
-Hervé
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmjyXVUACgkQFA3kzBSg
+KbYeug/+MzLs0kUyOuNPsQ7uDp6nj5Vb9AevnkxgNb/eAHHlOb8lEDyatQmbZExt
+i2W1xVVBsqr10n7IpC7ygrrEpaM3PiV4i0a37ppAxoac6wFH01OlewpRS1L61t7W
+c/kPt/7xkdy/emhe5/mGTW4CH3lYK8IkzQtSkxLEdHW4Ku6BGsh/KTjrL05FV1VG
+M2UG20Wp42YyflxdG/U9NAjYpA2g+8zgDI7txX52GNwkoekEX4/cIk1Z0da/fKTo
+jGdeSNu1U4VupTEDap5TGafGledZQZPKuOAdSCu2JHhqXhhxkBWUJZRORbX2ztqR
+VM0o5kCgejDDLhPWijtT2UNTLKf4K36IBQDhjBju7pmfHMypXDCQ+hI6pm46v9+c
+UhraHkPsBG1z8Qez4MVgtXUPUmCjUjCq3pbIMub/ZY18EzadptQmjvGZfZ+D5Iot
+xfTMwGhbpzQNqJ1yQyC1djszbaBWp4t9U6eUE2CLyluu9Vgpw/jvPifCnzLOue0T
+Qi3RES0lAWHw8ttqY8fr04vdAh77Di/z2NNK1cYerlO1E243uPoqru8NWLWkm/OL
+H+lgDLQUFTrO4T+FiJNsp29p8nMACv6S1XAPx3NZc5i+WrulcLaGbPqOgm+Miny5
+qHybCE5xUm+c5tkKc+5jzG6akgft5TEHDkgmRCaVtcE/CpbgV0g=
+=eQ6v
+-----END PGP SIGNATURE-----
+
+--eU16krwebNarsjsY--
 
