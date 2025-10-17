@@ -1,116 +1,117 @@
-Return-Path: <linux-renesas-soc+bounces-23258-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23262-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7924EBEB188
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 19:39:46 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C338BEB34D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 20:23:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 909A35E6299
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 17:39:42 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 8C46E4FCB2D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Oct 2025 18:23:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9653D3081AD;
-	Fri, 17 Oct 2025 17:39:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01CFA32E15B;
+	Fri, 17 Oct 2025 18:22:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NT0kk5AT"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="KAvP7j6T"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com [95.215.58.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5134F221726;
-	Fri, 17 Oct 2025 17:39:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34625336EC8
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Oct 2025 18:22:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760722779; cv=none; b=PQGu7n8ZdD4ihx0s5glaaCJFel3VMqjLGzW53ri17yteryRvIFu95dNnO0ieQEkXlaDjMGY5tkGsRJ+g5gDaZNksy+YZLuwAXD4nGRjMs+07UlFzLneaIrrFWxNfWSxUX/4SZEBkduM3nvylKIbD+RAgydXTjJ4lpKjRh6CjKAI=
+	t=1760725324; cv=none; b=mJ0MoFpErq/x61+lZKLi5gbDJdF84bLlsiA7ao0Soowa1CYC625GiJgjxV0/kXQf9nDNikcezXeHqxs+nOftSdPGGe/lnJDFap2DYYlhn180PNF4I2RKwLsu79D4AHkF+BzgdH/18BHCVa1atL14JyCWpzstDHL+13V6+yPnTaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760722779; c=relaxed/simple;
-	bh=RLpFlKj0oX6F2FHmvB6odL7qjqFC0HmExWxoVhIdU1A=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UvyS4bxtzcEfUO//Ezexi0Lj5QwG1MlYxsOIhUXmMBcMTbUGQMRLLucauGlguhJmARoqgaaw9cvBQuaGzY6+1CJ7LGjpuSGtvzaKhpsDJxtbctyDTNik1DvncTA4wlJzPPMQ55YholeG9ClBGfmsU5+bk4hjvR8zmgtANWNmdog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NT0kk5AT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BD47C4CEE7;
-	Fri, 17 Oct 2025 17:39:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760722779;
-	bh=RLpFlKj0oX6F2FHmvB6odL7qjqFC0HmExWxoVhIdU1A=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=NT0kk5AT8tFG1ex9SS8EUtqaH3MN+k/hRFCGSaqU55hscTm9YrecMaHll0u79zNw6
-	 sIBNy7OA9YnQH8zcWJvaMly7J6UxVErlApIMtWqqtxuCay5hHv3uxPVR74IQZH7Eo7
-	 POgxmUZCozpR5oUMwioI8150ALcQrPO9kadHLQDIRlSHNVEt+zPMCklNd1E0+Dvk0M
-	 FLUc8epgBZ5fXzgVrxCcc2oNTqFhlAuQ56P5auW6pS+BXbjn0jHuPDkH8FdSsJSL4W
-	 uFicrrFA5Ph3zrKxR/crhBXdSf97NMqd7lwWACFyVrsYLycFeAVJesTkco7Sb8QbzJ
-	 h9rvU97EVVwQg==
-Date: Fri, 17 Oct 2025 10:39:36 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre
- Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea
- <claudiu.beznea@tuxon.dev>, Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, David Miller
- <davem@davemloft.net>, Linus Walleij <linus.walleij@linaro.org>, Bartosz
- Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery
- <andrew@codeconstruct.com.au>, Crt Mori <cmo@melexis.com>, Jonathan Cameron
- <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Jacky Huang
- <ychuang3@nuvoton.com>, Shan-Chun Hung <schung@nuvoton.com>, Yury Norov
- <yury.norov@gmail.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Johannes
- Berg <johannes@sipsolutions.net>, Alex Elder <elder@ieee.org>, David Laight
- <david.laight.linux@gmail.com>, Vincent Mailhol
- <mailhol.vincent@wanadoo.fr>, linux-clk@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- linux-crypto@vger.kernel.org, qat-linux@intel.com,
- linux-gpio@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- linux-iio@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, Jonathan Cameron
- <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH treewide v3 2/4] bitfield: Add non-constant
- field_{prep,get}() helpers
-Message-ID: <20251017103936.49fbafdd@kernel.org>
-In-Reply-To: <CAMuHMdVS5KmVkv_pmc+R-EXik-Z1_7nuiHM=vm1Cu8v91wmLBQ@mail.gmail.com>
-References: <cover.1739540679.git.geert+renesas@glider.be>
-	<2d30e5ffe70ce35f952b7d497d2959391fbf0580.1739540679.git.geert+renesas@glider.be>
-	<20251017081912.2ad26705@kernel.org>
-	<CAMuHMdVS5KmVkv_pmc+R-EXik-Z1_7nuiHM=vm1Cu8v91wmLBQ@mail.gmail.com>
+	s=arc-20240116; t=1760725324; c=relaxed/simple;
+	bh=OvBfAz//MCbSBSFwz2xWepM7aqCupZGBk0P2IATZSYM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=leWcqO8fvAX/HK8bW7bZM75bVg5PZBGsOVmtW/Obw0ah9iuX8Pxwmn5A8fcno035Wj9p28E/yywhs5dpoYLWaeRUlAODm3X6jAGXix6N9fh3zoq1WDjwCxViuZMu7/iAHoUDSZ32aFrqqb+xV5cUkA6BYTLeQxMgkz2t2+3J5po=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=KAvP7j6T; arc=none smtp.client-ip=95.215.58.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1760725311;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=mrPIpmJ6AK4mUuQYiaKYnEdxAsrvIfLi9Hq8csrJlP8=;
+	b=KAvP7j6TUVrJPnooxgW/IxPguRGgktTou30ejmjHXLJIL9uFuHYN5VNuj2W7gBk7Ops89O
+	Ee6gnf2kHwjwsb2aVBNw1O+CQ2kSl4AgyUP+ueV8TYCjvqm9M7DyXNZbvIBBCd62zfxYZu
+	uDBu1q8Et03O/gLl6peiIjky35GPhD0=
+From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+To: Jian Shen <shenjian15@huawei.com>,
+	Salil Mehta <salil.mehta@huawei.com>,
+	Jijie Shao <shaojijie@huawei.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Sunil Goutham <sgoutham@marvell.com>,
+	Geetha sowjanya <gakula@marvell.com>,
+	Subbaraya Sundeep <sbhatta@marvell.com>,
+	Bharat Bhushan <bbhushan2@marvell.com>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Brett Creeley <brett.creeley@amd.com>,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	Paul Barker <paul@pbarker.dev>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+	Richard Cochran <richardcochran@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Simon Horman <horms@kernel.org>,
+	Jacob Keller <jacob.e.keller@intel.com>,
+	netdev@vger.kernel.org,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>
+Subject: [PATCH net-next v2 0/6] convert net drivers to ndo_hwtstamp API part 2
+Date: Fri, 17 Oct 2025 18:21:22 +0000
+Message-ID: <20251017182128.895687-1-vadim.fedorenko@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Fri, 17 Oct 2025 18:00:41 +0200 Geert Uytterhoeven wrote:
-> > +/**
-> > + * u32_encode_bits() - prepare a u32 bitfield element (non-const)
-> > + * @v: value to put in the field
-> > + * @field: shifted mask defining the field's length and position
-> > + *
-> > + * Equivalent of FIELD_PREP() for u32, field does not have to be constant.
-> > + *
-> > + * Note that the helper is available for other field widths (generated below).
-> > + */
-> > +static __always_inline __u32 u32_encode_bits(u32 v, u32 field)
-> > +{
-> > +       if (__builtin_constant_p(v) && (v & ~field_mask(field)))
-> > +               __field_overflow();
-> > +       return ((v & field_mask(field)) * field_multiplier(field));  
-> 
-> Unfortunately gcc emits actual divisions or __*div*() calls, and
-> multiplications in the non-constant case.
-> 
-> So I don't think this is suitable as-is.
+This is part 2 of patchset to convert drivers which support HW 
+timestamping to use .ndo_hwtstamp_get()/.ndo_hwtstamp_set() callbacks.
+The new API uses netlink to communicate with user-space and have some
+test coverage.
 
-Sorry I missed or forgot that you replied :(
+v1 -> v2: 
+ hns3: actually set up new ndo callbacks
+ ionic: remove _lif_ portion from name to align with other ndo callbacks
 
-The inline helpers exist already have have a lot of uses. If __ffs is
-more optimal then why not make existing helpers use it as well? 
-It'd be far more beneficial:
+Vadim Fedorenko (6):
+  octeontx2: convert to ndo_hwtstamp API
+  mlx4: convert to ndo_hwtstamp API
+  ionic: convert to ndo_hwtstamp API
+  net: ravb: convert to ndo_hwtstamp API
+  net: renesas: rswitch: convert to ndo_hwtstamp API
+  net: hns3: add hwtstamp_get/hwtstamp_set ops
 
-$ git grep u32_encode_bits | wc -l
-391
+ drivers/net/ethernet/hisilicon/hns3/hnae3.h   |  5 ++
+ .../net/ethernet/hisilicon/hns3/hns3_enet.c   | 31 ++++++++++
+ .../hisilicon/hns3/hns3pf/hclge_main.c        | 13 ++--
+ .../hisilicon/hns3/hns3pf/hclge_ptp.c         | 32 +++++-----
+ .../hisilicon/hns3/hns3pf/hclge_ptp.h         |  9 ++-
+ .../marvell/octeontx2/nic/otx2_common.h       |  9 ++-
+ .../ethernet/marvell/octeontx2/nic/otx2_pf.c  | 56 ++++++++---------
+ .../ethernet/marvell/octeontx2/nic/otx2_vf.c  |  3 +-
+ .../net/ethernet/mellanox/mlx4/en_netdev.c    | 61 ++++++++-----------
+ drivers/net/ethernet/mellanox/mlx4/mlx4_en.h  |  6 +-
+ .../net/ethernet/pensando/ionic/ionic_lif.c   | 17 +-----
+ .../net/ethernet/pensando/ionic/ionic_lif.h   | 11 ++--
+ .../net/ethernet/pensando/ionic/ionic_phc.c   | 59 +++++++++++-------
+ drivers/net/ethernet/renesas/ravb_main.c      | 61 ++++++-------------
+ drivers/net/ethernet/renesas/rswitch_main.c   | 53 ++++++----------
+ 15 files changed, 208 insertions(+), 218 deletions(-)
 
-Sorry if I'm being slow..
+-- 
+2.47.3
 
