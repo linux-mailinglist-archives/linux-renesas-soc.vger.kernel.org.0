@@ -1,215 +1,84 @@
-Return-Path: <linux-renesas-soc+bounces-23272-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23273-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0867BED003
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 18 Oct 2025 15:02:26 +0200 (CEST)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67EADBED052
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 18 Oct 2025 15:19:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0E54F1A606B4
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 18 Oct 2025 13:02:50 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 14ADB34BB07
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 18 Oct 2025 13:19:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3B602C08BC;
-	Sat, 18 Oct 2025 13:02:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 445FA1D9A54;
+	Sat, 18 Oct 2025 13:19:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="azNoBMwz";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="YuwkxWBi"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EQMktIMq"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70AFC288C2B;
-	Sat, 18 Oct 2025 13:02:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15E9410FD;
+	Sat, 18 Oct 2025 13:19:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760792539; cv=none; b=rMhK9TTbNtY6Nu/rHZ69vgrmliuIldLjCxOYF8TgcCcVmkbOm9xLKO3u8yU2rT/cZYkrsNaQJMD7FL184IpyfeVDaRYxtMUoQ7r43L9ZH6Lbxy1B/SE8lNvRfUsJfLCuVd6ko9T9lEggnA3f8ynZhL8HyH/jGB4T+iOI+s6OKMc=
+	t=1760793549; cv=none; b=bJva1xl33nCZETmQyAOzdE8ALfnvgVon35AkLLCM82aewKYCkkg/WxqxYvd0CO4A1I8YqKhLJaj9u0wYjH9cNXtRYJExfUxRApoHbZIkWNzksKpoSkLV47xsY+txaX5QHKCFNAWKArtQGswXLLyCmMY44CukYy5y+o7fKTs9PBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760792539; c=relaxed/simple;
-	bh=/rL+3BTZu9uEaoAoVTUDP1vXHRA3oH2xmzzRwaGE18U=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BtQSnK75jE/UoCoc3UUnbSu1XEx726UL1VJ5Nffd5RttcdzRGSXZtQlv0PCJMVTDPCamgp0JMkFJTOmeT56IHJ3ugZ868wI6EmekXV2BBusTGRqT2uxj6N4H5OHzuMGbciGIsxkdgti93PX12SJYJWpuamyQgIxcl4dg8b0vh5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=azNoBMwz; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=YuwkxWBi; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4cphft12WMz9sd7;
-	Sat, 18 Oct 2025 15:02:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1760792534;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=h3qGVfK2SD/LkkPK6FoWnj+YJVjMv068rDYD19OUT+E=;
-	b=azNoBMwzDYu7YN3k2fzHDQECdIcyHRn1mcQ1dycC/bGPFw5P05ux39ntTX5TQHMikSkFah
-	/vJKgnkiGYB7JNODQvYInPlSZYSLt87QOUYxCsStZDyyBc864rS/ZIBvoOh5jlqUn8s2ir
-	XSn2VLSq8aighuR84NTb+5eLSNDoYMSC98CW/LcXT1rbqaozXij6jTpS/4ozMFfpwO2jAo
-	3gIM3+cnsyAMfYxdN9Ddz1iQcaB83twqcBu8ggTxT4ijdQ4hpUJF8XSk0ICTTJZWKX78Ut
-	f1iQrI0xEuQQXDaxCF8NZ0yI/bjfqAvDSnqj8wT8qFm5n8AvFHxQcNcwCEQ/Ig==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=YuwkxWBi;
-	spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org designates 2001:67c:2050:b231:465::102 as permitted sender) smtp.mailfrom=marek.vasut+renesas@mailbox.org
-From: Marek Vasut <marek.vasut+renesas@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1760792532;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=h3qGVfK2SD/LkkPK6FoWnj+YJVjMv068rDYD19OUT+E=;
-	b=YuwkxWBiRhkh8yRcvWWEHupD2fZ2TeXeldsxk9WeMX+VcsQhw2EVjvMsZEUyPlnVTRFCsn
-	yiYDbEJUaPIHNboCJSiGEzZ2UHbQVFNh3psjYCsROa26oPCdnCneeEDtyXykU9EjxL65BE
-	2mIrCojKIJcSzIP2VJwihxJBV3tRNakRZPrf8Okgyx4r5zUWw8KFB+Fj/XtPoZqHEn1HAI
-	f1kgooxj1LESFXoOmbjpUbBU0jFEaaLW4XYuECDa1KLhcxusxZpe5g180I1Bg+UwHFwkRn
-	hM+zbCd7GxmSxKJNQYjj47jefN1JGhTdUSxlX7fZBW34FXNWmjlO4fVBwTRuXw==
-To: linux-arm-kernel@lists.infradead.org
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	Adam Ford <aford173@gmail.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	David Airlie <airlied@gmail.com>,
-	Frank Binns <frank.binns@imgtec.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Matt Coster <matt.coster@imgtec.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Simona Vetter <simona@ffwll.ch>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	devicetree@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 2/2] dt-bindings: gpu: img,powervr-rogue: Rework the allOf section
-Date: Sat, 18 Oct 2025 15:00:59 +0200
-Message-ID: <20251018130147.12831-2-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20251018130147.12831-1-marek.vasut+renesas@mailbox.org>
-References: <20251018130147.12831-1-marek.vasut+renesas@mailbox.org>
+	s=arc-20240116; t=1760793549; c=relaxed/simple;
+	bh=UY91JhhPw0u6d7gOpg0TeYX2WO7c0xr+Gf9oHU3hIzw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=SCcJ8Q53Al+CZu/J8KIcMD8/4iWFQtxiBP4QxqpnQYSR+ONkVONDIixOozPVmyhtwY3MG2atzrZ3oDczhH+wDVe+0tD1GdAJfBMUvwk+EQR3FIDrrZl29gzK2wTJ4q52sNAyFVsHWB4h6G53EC+p8Ezuiury1GYUloDBjZFtgM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EQMktIMq; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5414AC4CEF8;
+	Sat, 18 Oct 2025 13:19:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760793548;
+	bh=UY91JhhPw0u6d7gOpg0TeYX2WO7c0xr+Gf9oHU3hIzw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=EQMktIMq9m5s0nPtlD8PtLVnR13w/4qKrR4ngjq85p2BLU3D0JBjZslzCS1QCTQZb
+	 O26QQOVLZqjtxD2vjS5tR0UUchAy1/S+2elkMmEmn6ob94+NGZYPYEubelUt1rmcqd
+	 Al2Zb9lOZ8aWNSCwL4FyyTk//MhPBBZNsWrFzffW9IfR1qb0WtNDKxK2CAthdAzKL6
+	 F+VBrAhVj1LDJqXCFSaExxWr1Zmg2TJ67ykG1/bCzKiQOV8nhe9mU1NiQs76QGTIYj
+	 Cel5neErNn0N3EKfPqfk3EyM5P2Buy5r86ywB+ODjocAM00l39xhcmY/qrcMNGW6aE
+	 wqg5eWNlzChyw==
+Date: Sat, 18 Oct 2025 14:19:01 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Conor Dooley <conor@kernel.org>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ linux-renesas-soc@vger.kernel.org, Geert Uytterhoeven
+ <geert+renesas@glider.be>, Lars-Peter Clausen <lars@metafoo.de>, Michael
+ Hennerich <Michael.Hennerich@analog.com>, David Lechner
+ <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy
+ Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2] dt-bindings: iio: accel: adxl345: document second
+ interrupt
+Message-ID: <20251018141901.4c989cc6@jic23-huawei>
+In-Reply-To: <20251013-reexamine-sniff-55195ddb2254@spud>
+References: <20251011210513.3253-2-wsa+renesas@sang-engineering.com>
+	<20251013-reexamine-sniff-55195ddb2254@spud>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: 8auxodwaynckaux3p717ss91np4c8kp5
-X-MBO-RS-ID: 6f19813b49d4405774b
-X-Rspamd-Queue-Id: 4cphft12WMz9sd7
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Rework the current allOf: section such that all handling of
-clocks/clock-names properties happens first, and all handling
-of power-domains/power-domain-names happens second.
+On Mon, 13 Oct 2025 20:51:05 +0100
+Conor Dooley <conor@kernel.org> wrote:
 
-This allows the allOf section to limit various GPU models to
-matching clocks count in the first half, and apply the same
-for power-domains count in the second half, without conflating
-the two limits together.
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> pw-bot: not-applicable
 
-This makes addition of GPU models with different clocks and
-power-domains count easier. No functional change intended.
+Applied to the togreg branch of iio.git. I'll push that out as
+testing for now as there are a few build issues that need fixing
+before I mess up next.
 
-Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
----
-Cc: Adam Ford <aford173@gmail.com>
-Cc: Conor Dooley <conor+dt@kernel.org>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Frank Binns <frank.binns@imgtec.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Magnus Damm <magnus.damm@gmail.com>
-Cc: Matt Coster <matt.coster@imgtec.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Rob Herring <robh@kernel.org>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: devicetree@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-renesas-soc@vger.kernel.org
----
- .../bindings/gpu/img,powervr-rogue.yaml       | 40 +++++++++++--------
- 1 file changed, 24 insertions(+), 16 deletions(-)
+Thanks,
 
-diff --git a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-index bee4ab1a1f805..829febd8e0f40 100644
---- a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-+++ b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-@@ -86,16 +86,13 @@ allOf:
-       properties:
-         compatible:
-           contains:
--            const: img,img-axe-1-16m
-+            enum:
-+              - ti,am62-gpu
-+              - ti,j721s2-gpu
-     then:
-       properties:
--        power-domains:
--          maxItems: 1
--        power-domain-names:
-+        clocks:
-           maxItems: 1
--      required:
--        - power-domains
--        - power-domain-names
- 
-   - if:
-       properties:
-@@ -108,13 +105,21 @@ allOf:
-           minItems: 3
-         clock-names:
-           minItems: 3
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: img,img-axe-1-16m
-+    then:
-+      properties:
-         power-domains:
--          items:
--            - description: The single, unified power domain for the GPU on the
--                TH1520 SoC, integrating all internal IP power domains.
--        power-domain-names: false
-+          maxItems: 1
-+        power-domain-names:
-+          maxItems: 1
-       required:
-         - power-domains
-+        - power-domain-names
- 
-   - if:
-       properties:
-@@ -135,13 +140,16 @@ allOf:
-       properties:
-         compatible:
-           contains:
--            enum:
--              - ti,am62-gpu
--              - ti,j721s2-gpu
-+            const: thead,th1520-gpu
-     then:
-       properties:
--        clocks:
--          maxItems: 1
-+        power-domains:
-+          items:
-+            - description: The single, unified power domain for the GPU on the
-+                TH1520 SoC, integrating all internal IP power domains.
-+        power-domain-names: false
-+      required:
-+        - power-domains
- 
- examples:
-   - |
--- 
-2.51.0
-
+Jonathan
 
