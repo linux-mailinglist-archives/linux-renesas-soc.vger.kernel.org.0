@@ -1,417 +1,291 @@
-Return-Path: <linux-renesas-soc+bounces-23276-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23277-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E6D6BED57A
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 18 Oct 2025 19:34:20 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 498E6BED7C5
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 18 Oct 2025 20:31:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 26A514E3BDB
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 18 Oct 2025 17:34:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A241D189E80D
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 18 Oct 2025 18:32:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64401257858;
-	Sat, 18 Oct 2025 17:34:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30CD5263F44;
+	Sat, 18 Oct 2025 18:31:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CN9MLKxk"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TyxW1um6"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99D5F16F288;
-	Sat, 18 Oct 2025 17:34:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEB541A8F84;
+	Sat, 18 Oct 2025 18:31:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760808855; cv=none; b=gydpl9D8RrTd6uT0fB/9WlyNoWmGjFyXYkOEoI1Eujkf+cDtyn1ORV1g/o5KynBY6NZObV62ndDSzP50tJhgGD47G5TWAuXV7roSIQJTskgC/nXk3IQl6XuH+lpV/1UJU/HoYG5OTWGJ2wLWLSBas5BZ1k8rWWhtV+3JHgo0e6o=
+	t=1760812298; cv=none; b=oP111H03BxxImhMR0XHMzrt05kw/9u96TSm8JabTKCwGmhKrscmLv6LZTN42ex2CtJAil7NeZ3v0agsU6FGdwn48X37ziNw1y1NM1n40wLjGgJA4NMsO0ZhYILcxTtz3AjjWTBcpwGvcCmGuVX07+RAYMFhZOFcDe3NsyIktWWA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760808855; c=relaxed/simple;
-	bh=nHoTrqYFaKW8NNAmMWR6D+P7bywiSiWIvgb9YI2McWE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gEdWTYNGfe1MWhNxpz3UWBHshJHuo6cVvawvux7WAOY/2nUZLVdYyoF6tHasVGIQGcZZJg7/WcDXx2tbKYLGoC501FXPqX9YEc5rM3g0rRyLy28cWAN3WC01nPMDFDjLHrX/VofSsDZ9W9m6lUMbZChkHu7Qzearyba1accme2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CN9MLKxk; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760808854; x=1792344854;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nHoTrqYFaKW8NNAmMWR6D+P7bywiSiWIvgb9YI2McWE=;
-  b=CN9MLKxkoXm9MyduGVaF1J4esvo8jkjJlUDiyWQ/xYCkCx9Q9bu0h9Be
-   vTLZEdzJ1Nm7eQV9k0eD8EkKp9Q95YRrKzaZ6Jd+tyIdK6uhvru2R9DAs
-   vJd/XiBBh0NxhU/Q8hLTqQNsYt23CYUF36ZaOIoUdJDvZ3Z5E+l4gegQo
-   GoxIFG/HtF0B1UHZL5JndDMoQA0lHAWv7B3wsnEyQkrWf2EiEcW53iTS3
-   T1KW364GIOJ6uwe2q/pEbT8tho1gylwrehbwsv1xQpEaA/vg9VCytMDZ2
-   IPZrkDHCRgysgXDFPdEzm10+0uVPX6XIAfutlZrthyKYt8tWHr+i3RLCY
-   g==;
-X-CSE-ConnectionGUID: fL0xe26BTm6IZWhbZ0HqvA==
-X-CSE-MsgGUID: uK8FMVaMRmeEwNMw2Cq8nQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="65614251"
-X-IronPort-AV: E=Sophos;i="6.19,239,1754982000"; 
-   d="scan'208";a="65614251"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 10:34:13 -0700
-X-CSE-ConnectionGUID: vQwJsY48R3WuVzqEsjMvSA==
-X-CSE-MsgGUID: +IcFpLG2RvWeQvNyM8IYgw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,239,1754982000"; 
-   d="scan'208";a="187237737"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO ashevche-desk.local) ([10.245.244.194])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 10:34:08 -0700
-Received: from andy by ashevche-desk with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1v92ug-00000000L2n-2bEP;
-	Wed, 15 Oct 2025 17:55:38 +0300
-Date: Wed, 15 Oct 2025 17:55:38 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, linux-iio@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Pascal Eberhard <pascal.eberhard@se.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+	s=arc-20240116; t=1760812298; c=relaxed/simple;
+	bh=RFUGt6wFf1CTHw/GUMp0FvTbQDXkUw9yH0yJJHo+PiU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=COth+hNYo9TvvNDCLK0lthUgt+cgbn0/3DUxIx2vZnHx3kq2Sso3jvIAszIRvzDytHOSReo8XQwVmG2BUFkR+uEPvGQtoeb1g2QoSI7otkSb3Y+EtsD+nH11KCUtjn+Fm1RrxdH8uJVx9PsXw8nKZBdfMmpEq4C15xly/kO7cHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TyxW1um6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0240DC4CEF8;
+	Sat, 18 Oct 2025 18:31:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760812297;
+	bh=RFUGt6wFf1CTHw/GUMp0FvTbQDXkUw9yH0yJJHo+PiU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=TyxW1um6M2aXpQzSvSleD+4nh2+ni9MqDlNeqbdLmckWg3PZZyrwh8hMgrq5KAtW+
+	 RjAaXOVhMWHj2QnfZ6pMDazZnwlmPF5dW8FLum6wmzDdceiFrCnFxjolciIGQwRYMt
+	 2rkvVDKmqOl9AOEDLDJygV2w8iQ1pLKnx5fUFhDlb4UzCABApHQmGWoMT/4MV66OBr
+	 AIJfDAoj4mBOqriz+jLTyV/0lAT1vknOS1kA46hzgMl8DdCJBQF/yr8zJctXq+a6t2
+	 dvLrDv4Y2A9HX9VHBwgslB1gCJ5y8gO4Xs6dDN30HQ8H04QdUbY2g8Q6SSPBMLMDfB
+	 5iSP5J3Fe6MPQ==
+Date: Sat, 18 Oct 2025 19:31:28 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Nuno =?UTF-8?B?U8Oh?= <noname.nuno@gmail.com>
+Cc: Herve Codina <herve.codina@bootlin.com>, Wolfram Sang
+ <wsa+renesas@sang-engineering.com>, David Lechner <dlechner@baylibre.com>,
+ Nuno =?UTF-8?B?U8Oh?=	 <nuno.sa@analog.com>, Andy Shevchenko
+ <andy@kernel.org>, Rob Herring	 <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley	 <conor+dt@kernel.org>, Geert
+ Uytterhoeven <geert+renesas@glider.be>, Magnus Damm
+ <magnus.damm@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown	
+ <broonie@kernel.org>, linux-iio@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Pascal Eberhard <pascal.eberhard@se.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>
 Subject: Re: [PATCH 2/4] iio: adc: Add support for the Renesas RZ/N1 ADC
-Message-ID: <aO-16hC5r7-FB9Pw@smile.fi.intel.com>
+Message-ID: <20251018193128.799490fa@jic23-huawei>
+In-Reply-To: <f73f73e6b2aae53fa6bdae7c9d2970ba1caed7e5.camel@gmail.com>
 References: <20251015142816.1274605-1-herve.codina@bootlin.com>
- <20251015142816.1274605-3-herve.codina@bootlin.com>
+	<20251015142816.1274605-3-herve.codina@bootlin.com>
+	<1e8d7c96cdfaa93bcc0f581103dc0e13dfee17b7.camel@gmail.com>
+	<20251015211420.031c61fa@bootlin.com>
+	<de57f5274b2fe0aac3621dc10cb6d4d0d98d3063.camel@gmail.com>
+	<20251016160202.3d4d0a5e@bootlin.com>
+	<d7576a0bb9a8d5326d77ae434131540b4359bd2a.camel@gmail.com>
+	<20251017085904.07e40e37@bootlin.com>
+	<10e119ee5a76f1c47d7eb6a15989c8ffc00ffc5f.camel@gmail.com>
+	<20251017174322.07997789@bootlin.com>
+	<f73f73e6b2aae53fa6bdae7c9d2970ba1caed7e5.camel@gmail.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251015142816.1274605-3-herve.codina@bootlin.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
-
-On Wed, Oct 15, 2025 at 04:28:14PM +0200, Herve Codina (Schneider Electric) wrote:
-
-Thanks for the contribution, my comments below.
-
-TL;DR: seems like somebody just submitted a driver without doing an internal
-review with the kernel developers familiar with the upstream (and I believe
-there are such in your company). This is not good. You, guys, should try your
-best and not put a burden on the maintainer's/reviewers' shoulders.
-
-> The Renesas RZ/N1 ADC controller is the ADC controller available in the
-> Renesas RZ/N1 SoCs family. It can use up to two internal ACD cores (ADC1
-> and ADC2) those internal cores are not directly accessed but are handled
-> through ADC controller virtual channels.
-
-...
-
-> +#include <linux/kernel.h>
-
-Definitely big no for this one.
-
-> +#include <linux/slab.h>
-> +#include <linux/module.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/mutex.h>
-> +#include <linux/completion.h>
-> +#include <linux/iio/iio.h>
-> +#include <linux/iio/machine.h>
-> +#include <linux/iio/driver.h>
-> +#include <linux/io.h>
-> +#include <linux/iopoll.h>
-> +#include <linux/clk.h>
-> +#include <linux/delay.h>
-> +#include <linux/bits.h>
-
-> +#include <linux/of.h>
-
-And simple "no" to this one.
-
-> +#include <linux/regulator/consumer.h>
-> +#include <linux/pm_runtime.h>
-
-In IIO we do
-1) follow IWYU principle;
-2) keep headers ordered (with possible grouping of iio/* ones or others if more
-than one and specific to a domain);
-
-...
-
-> +#define RZN1_ADC_CONTROL_REG	0x2c
-> +#define RZN1_ADC_CONTROL_ADC_BUSY	BIT(6)
-> +#define RZN1_ADC_FORCE_REG		0x30
-> +#define RZN1_ADC_SET_FORCE_REG		0x34
-> +#define RZN1_ADC_CLEAR_FORCE_REG	0x38
-> +#define RZN1_ADC_FORCE_VC(_n)		BIT(_n)
-
-Please, make sure _REG definition values are on the column, same for bitfield
-defs (some people like indent them slightly differently to the regs).
-
-> +#define RZN1_ADC_CONFIG_REG	0x40
-> +#define RZN1_ADC_CONFIG_ADC_POWER_DOWN	BIT(3)
-
-...
-
-> +#define RZN1_ADC_VC_REG(_n)	(0xc0 + 0x4 * (_n))
-
-0x4 --> 4 as it's just a stride. Same for the rest of the similar cases.
-
-...
-
-> +struct rzn1_adc_core {
-> +	int is_used;
-> +	struct regulator *avdd;
-> +	struct regulator *vref;
-
-Possible waste of 4 bytes on some architectures. Please, run `pahole` and see
-the opportunities to improve all data structure types in the driver.
-
-> +};
-
-...
-
-> +static int rzn1_adc_core_power_on(struct rzn1_adc_core *adc_core)
-> +{
-> +	int ret;
-> +
-> +	if (!adc_core->is_used)
-> +		return 0;
-> +
-> +	ret = regulator_enable(adc_core->avdd);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = regulator_enable(adc_core->vref);
-> +	if (ret) {
-> +		regulator_disable(adc_core->avdd);
-> +		return ret;
-> +	}
-
-Don't we have bulk API? Can't it be used here? Why?
-
-> +	return 0;
-> +}
-
-...
-
-> +static int rzn1_adc_core_get_regulators(struct rzn1_adc *rzn1_adc,
-> +					struct rzn1_adc_core *adc_core,
-> +					const char *avdd_name, const char *vref_name)
-> +{
-> +	struct device *dev = rzn1_adc->dev;
-> +	int ret;
-> +
-> +	adc_core->avdd = devm_regulator_get_optional(dev, avdd_name);
-
-	ret = PTR_ERR_OR_ZERO(...);
-
-might simplify the below.
-
-> +	if (IS_ERR(adc_core->avdd)) {
-> +		ret = PTR_ERR(adc_core->avdd);
-> +		if (ret != -ENODEV)
-> +			return dev_err_probe(dev, ret,
-> +					     "Failed to get '%s' regulator\n",
-> +					     avdd_name);
-> +		adc_core->avdd = NULL;
-> +	}
-
-Like
-	if (ret == -ENODEV)
-		...
-	else if (ret)
-		return dev_err_probe(...);
-
-> +	adc_core->vref = devm_regulator_get_optional(dev, vref_name);
-> +	if (IS_ERR(adc_core->vref)) {
-> +		ret = PTR_ERR(adc_core->vref);
-> +		if (ret != -ENODEV)
-> +			return dev_err_probe(dev, ret,
-> +					     "Failed to get '%s' regulator\n",
-> +					     vref_name);
-> +		adc_core->vref = NULL;
-> +	}
-
-Ditto. (However see above about bulk API)
-
-I'm so much wondering when somebody provides a wrapper that _optional() for
-regulator will be optional from device source code pattern so we won't see
-anymore these checks for ENODEV (with chance > 0 of a mistake in some cases as
-it's usually an unintuitive for use API if you need to test for the specific
-error code).
-
-> +	/*
-> +	 * Both regulators (avdd and vref) need to be available to have the
-> +	 * related adc_core used.
-> +	 */
-> +	adc_core->is_used = adc_core->vref && adc_core->avdd;
-> +	return 0;
-> +}
-
-...
-
-> +static int rzn1_adc_core_get_vref_mv(struct rzn1_adc_core *adc_core)
-> +{
-> +	int vref_uv;
-
-_uV ?
-
-> +
-> +	if (!adc_core->vref)
-> +		return -ENODEV;
-> +
-> +	vref_uv = regulator_get_voltage(adc_core->vref);
-> +	if (vref_uv < 0)
-> +		return vref_uv;
-> +
-> +	return vref_uv / 1000;
-
-Hmm... (MICRO/MILLI) ?
-
-> +}
-
-...
-
-> +static int rzn1_adc_power(struct rzn1_adc *rzn1_adc, bool power)
-> +{
-> +	u32 v;
-> +
-> +	writel(power ? 0 : RZN1_ADC_CONFIG_ADC_POWER_DOWN,
-> +	       rzn1_adc->regs + RZN1_ADC_CONFIG_REG);
-> +
-> +	/*
-> +	 * Wait for the ADC_BUSY to clear.
-
-> +	 * On timeout, ret is -ETIMEDOUT, otherwise it will be 0.
-
-Useless comment. It might be something else in some cases, we don't need to
-explain this in every caller.
-
-> +	 */
-> +	return readl_poll_timeout_atomic(rzn1_adc->regs + RZN1_ADC_CONTROL_REG,
-> +					 v, !(v & RZN1_ADC_CONTROL_ADC_BUSY),
-> +					 0, 500);
-> +}
-
-...
-
-> +static void rzn1_adc_vc_setup_conversion(struct rzn1_adc *rzn1_adc, u32 ch,
-> +					 int adc1_ch, int adc2_ch)
-> +{
-> +	u32 vc = 0;
-> +
-> +	if (adc1_ch != -1)
-
-The >= 0 is more robust in case the value gets an error pointer or -err code.
-
-> +		vc |= RZN1_ADC_VC_ADC1_ENABLE | RZN1_ADC_VC_ADC1_CHANNEL_SEL(adc1_ch);
-> +
-> +	if (adc2_ch != -1)
-> +		vc |= RZN1_ADC_VC_ADC2_ENABLE | RZN1_ADC_VC_ADC2_CHANNEL_SEL(adc2_ch);
-> +
-> +	writel(vc, rzn1_adc->regs + RZN1_ADC_VC_REG(ch));
-> +}
-
-> +static int rzn1_adc_vc_wait_conversion(struct rzn1_adc *rzn1_adc, u32 ch,
-> +				       u32 *adc1_data, u32 *adc2_data)
-> +{
-> +	u32 data_reg;
-> +	int ret;
-> +	u32 v;
-> +
-> +	/*
-> +	 * When a VC is selected, it needs 20 ADC clocks to perform the
-> +	 * conversion.
-> +	 *
-> +	 * The worst case is when the 16 VCs need to perform a conversion and
-> +	 * our VC is the lowest in term of priority.
-> +	 *
-> +	 * In that case, the conversion is performed in 16 * 20 ADC clocks.
-> +	 *
-> +	 * The ADC clock can be set from 4MHz to 20MHz. This leads to a worst
-> +	 * case of  16 * 20 * 1/4Mhz = 80us.
-> +	 *
-> +	 * Round it up to 100us
-
-Missing period.
-
-> +	 */
-> +
-> +	/*
-> +	 * Wait for the ADC_FORCE_VC(n) to clear.
-> +	 *
-> +	 * On timeout, ret is -ETIMEDOUT, otherwise it will be 0.
-> +	 */
-> +	ret = readl_poll_timeout_atomic(rzn1_adc->regs + RZN1_ADC_FORCE_REG,
-> +					v, !(v & RZN1_ADC_FORCE_VC(ch)),
-> +					0, 100);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (adc1_data) {
-> +		data_reg = readl(rzn1_adc->regs + RZN1_ADC_ADC1_DATA_REG(ch));
-> +		*adc1_data = RZN1_ADC_ADCX_GET_DATA(data_reg);
-> +	}
-> +
-> +	if (adc2_data) {
-> +		data_reg = readl(rzn1_adc->regs + RZN1_ADC_ADC2_DATA_REG(ch));
-> +		*adc2_data = RZN1_ADC_ADCX_GET_DATA(data_reg);
-> +	}
-> +
-> +	return 0;
-> +}
-
-I almost stopped here, see TL;DR above why.
-
-...
-
-> +static const struct of_device_id rzn1_adc_of_match[] = {
-> +	{ .compatible = "renesas,rzn1-adc" },
-> +	{ /* sentinel */ },
-
-No comments, no commas in terminator entry. This is a common style in IIO.
-
-> +};
-
-> +
-
-Unneeded blank line.
-
-> +MODULE_DEVICE_TABLE(of, rzn1_adc_of_match);
-
-...
-
-> +static struct platform_driver rzn1_adc_driver = {
-> +	.probe = rzn1_adc_probe,
-> +	.remove = rzn1_adc_remove,
-> +	.driver = {
-> +		.name = "rzn1-adc",
-> +		.of_match_table = of_match_ptr(rzn1_adc_of_match),
-
-New code shouldn't use of_match_ptr().
-
-> +		.pm = pm_ptr(&rzn1_adc_pm_ops),
-> +	},
-> +};
-
-> +
-
-Unneeded blank line.
-
-> +module_platform_driver(rzn1_adc_driver);
-
--- 
-With Best Regards,
-Andy Shevchenko
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, 17 Oct 2025 17:29:34 +0100
+Nuno S=C3=A1 <noname.nuno@gmail.com> wrote:
+
+> On Fri, 2025-10-17 at 17:43 +0200, Herve Codina wrote:
+> > I Nuno,
+> >=20
+> > On Fri, 17 Oct 2025 09:26:26 +0100
+> > Nuno S=C3=A1 <noname.nuno@gmail.com> wrote:
+> >  =20
+> > > On Fri, 2025-10-17 at 08:59 +0200, Herve Codina wrote: =20
+> > > > Hi Nuno,
+> > > >=20
+> > > > On Thu, 16 Oct 2025 16:26:28 +0100
+> > > > Nuno S=C3=A1 <noname.nuno@gmail.com> wrote:
+> > > >=20
+> > > > ...
+> > > >=20
+> > > > ...=C2=A0  =20
+> > > > > > > > > > +
+> > > > > > > > > > +	ret =3D rzn1_adc_core_get_regulators(rzn1_adc,
+> > > > > > > > > > &rzn1_adc-
+> > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0  =20
+> > > > > > > > > > > adc_core[0],=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0  =20
+> > > > > > > > > > +					=C2=A0=C2=A0 "adc1-avdd",
+> > > > > > > > > > "adc1-
+> > > > > > > > > > vref");
+> > > > > > > > > > +	if (ret)
+> > > > > > > > > > +		return ret;
+> > > > > > > > > > +
+> > > > > > > > > > +	ret =3D rzn1_adc_core_get_regulators(rzn1_adc,
+> > > > > > > > > > &rzn1_adc-
+> > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0  =20
+> > > > > > > > > > > adc_core[1],=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0  =20
+> > > > > > > > > > +					=C2=A0=C2=A0 "adc2-avdd",
+> > > > > > > > > > "adc2-
+> > > > > > > > > > vref");
+> > > > > > > > > > +	if (ret)
+> > > > > > > > > > +		return ret;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0  =20
+> > > > > > > > >=20
+> > > > > > > > > Hmm, is avdd really an optional regulator? I mean can the=
+ ADC
+> > > > > > > > > power
+> > > > > > > > > up
+> > > > > > > > > at
+> > > > > > > > > all
+> > > > > > > > > without a supply in AVDD? Even vref seems to be mandatory=
+ as we
+> > > > > > > > > can't
+> > > > > > > > > properly
+> > > > > > > > > scale the sample without it.=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0  =20
+> > > > > > > >=20
+> > > > > > > > Where do you see that avdd is an optional regulator?=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0  =20
+> > > > > > >=20
+> > > > > > > You are using devm_regulator_get_optional(). That's for optio=
+nal
+> > > > > > > regulators.
+> > > > > > > =C2=A0=C2=A0=C2=A0  =20
+> > > > > >=20
+> > > > > > Indeed I use devm_regulator_get_optional().
+> > > > > >=20
+> > > > > > We have two similar function to get regulators:
+> > > > > > - devm_regulator_get() and
+> > > > > > - devm_regulator_get_optional().
+> > > > > >=20
+> > > > > > devm_regulator_get() returns a dummy regulator if the regulator=
+ is not
+> > > > > > described in the device-tree. The calling code has no way to kn=
+own if
+> > > > > > the regulator was present or not.=C2=A0=C2=A0=C2=A0  =20
+> > > > >=20
+> > > > > Yeah because it's mandatory and the part cannot work without powe=
+r :).
+> > > > > So we
+> > > > > should not be allowed to operate without a regulator.
+> > > > > =C2=A0  =20
+> > > > > >=20
+> > > > > > On the other hand, devm_regulator_get_optional() returns -ENODE=
+V when
+> > > > > > the
+> > > > > > regulator is not described.
+> > > > > >=20
+> > > > > > That's pretty confusing but it is the reality.
+> > > > > >=20
+> > > > > > I use devm_regulator_get_optional() but check for -ENODEV to se=
+e if
+> > > > > > the
+> > > > > > regulator is provided or not.
+> > > > > >=20
+> > > > > > In order to use the ADC core (is_used flag), I need both the AV=
+DD and
+> > > > > > the
+> > > > > > VREF regulator available.=C2=A0=C2=A0=C2=A0  =20
+> > > > >=20
+> > > > > And that is why I don't get why are we allowed to proceed if ther=
+e's no
+> > > > > regulators? That seems wrong to me.=C2=A0
+> > > > >=20
+> > > > > So I think the regulators should be mandatory in the bindings and=
+ a
+> > > > > dummy
+> > > > > regulator should also not be allowed in this case because that sh=
+ould
+> > > > > get
+> > > > > you=C2=A0
+> > > > > -EINVAL when calling regulator_get_voltage().
+> > > > > =C2=A0  =20
+> > > >=20
+> > > > I have 4 regulators: avdd1, vref1, avvd2, vref2.
+> > > >=20
+> > > > The ADC controller can work with 2 internal ADC core (adc_core[0] a=
+nd
+> > > > adc_core[1])
+> > > > in the driver. Those internal core are not directly accessed by the
+> > > > driver.
+> > > > Only
+> > > > the ADC controller is accesses.
+> > > >=20
+> > > > Those cores have an AVDD and a VREF power supply.
+> > > >=20
+> > > > We can use either adc_core[0] only, adc_core[1] only or both adc co=
+res.
+> > > >=20
+> > > > Depending on regulator described, the driver uses one or two adc co=
+res.
+> > > >=20
+> > > > This choice is done by:
+> > > > --- 8< ---
+> > > > static int rzn1_adc_set_iio_dev_channels(struct rzn1_adc *rzn1_adc,
+> > > > 					 struct iio_dev *indio_dev)
+> > > > {
+> > > > 	int adc_used;
+> > > >=20
+> > > > 	adc_used =3D rzn1_adc->adc_core[0].is_used ? 0x01 : 0x00;
+> > > > 	adc_used |=3D rzn1_adc->adc_core[1].is_used ? 0x02 : 0x00;
+> > > >=20
+> > > > 	switch (adc_used) {
+> > > > 	case 0x01:
+> > > > 		indio_dev->channels =3D rzn1_adc1_channels;
+> > > > 		indio_dev->num_channels =3D ARRAY_SIZE(rzn1_adc1_channels);
+> > > > 		return 0;
+> > > > 	case 0x02:
+> > > > 		indio_dev->channels =3D rzn1_adc2_channels;
+> > > > 		indio_dev->num_channels =3D ARRAY_SIZE(rzn1_adc2_channels);
+> > > > 		return 0;
+> > > > 	case 0x03:
+> > > > 		indio_dev->channels =3D rzn1_adc1_adc2_channels;
+> > > > 		indio_dev->num_channels =3D
+> > > > ARRAY_SIZE(rzn1_adc1_adc2_channels);
+> > > > 		return 0;
+> > > > 	default:
+> > > > 		break;
+> > > > 	}
+> > > > --- 8< ---
+> > > >=20
+> > > > In rzn1_adc_core_get_regulators(), looking at one core I do the
+> > > > following:
+> > > > =C2=A0- Try to get AVDD (using get_optional)
+> > > > =C2=A0- Try to get VREF (using get_optional)
+> > > > =C2=A0- Core is used only if both regulators are present.
+> > > >=20
+> > > > For one core to be used, both regulators have to be present.
+> > > >=20
+> > > > Regulators are mandatory but adc core usage is optional.
+> > > >=20
+> > > > This optional usage depends on related regulator presence.
+> > > > =C2=A0  =20
+> > >=20
+> > > Ok, then we could flip the logic and have boolean properties for the =
+adc
+> > > core
+> > > usage and depending on that, requesting the regulators. To me, the in=
+tent
+> > > would
+> > > be more clear (at the expense of more FW properties). =20
+> >=20
+> > This introduces a new property and duplicates the information:
+> > - flag to tell if adc core is used
+> > - regulators described only if used
+> >=20
+> > And so, the possible flag set to "adc core used" but regulators not
+> > described. This is error prone.
+> >=20
+> >=20
+> > I have chosen to rely only on regulators description to avoid the
+> > information redundancy.
+> > =C2=A0 - regulators described -> adc core used
+> > =C2=A0 - regulators not described -> adc core not used =20
+>=20
+> I'll leave it up to you but while I know it introduces new properties, yo=
+u could
+> still do it in a way that minimizes errors:
+>=20
+>  - In the bindings, if the property is set, then the regulators are a
+> __required__;
+>  - In the driver, if the boolean is true, then use devm_regulator_get()
+>=20
+> - Nuno S=C3=A1
+
+I'd add a question on this under the --- in the next version of the binding
+doc. This is a fairly unusual situation. I think the regulators presence is
+sufficient but it may surprise people enough to make it worth calling out.
+
+Jonathan
 
 
 
