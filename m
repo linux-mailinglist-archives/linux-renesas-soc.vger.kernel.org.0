@@ -1,158 +1,107 @@
-Return-Path: <linux-renesas-soc+bounces-23312-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23313-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2009CBEFF85
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Oct 2025 10:32:38 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97833BEFFAC
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Oct 2025 10:35:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E82CD188971C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Oct 2025 08:33:00 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 7F31A4E392B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Oct 2025 08:35:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83B712EBBB2;
-	Mon, 20 Oct 2025 08:32:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22F3F2DF156;
+	Mon, 20 Oct 2025 08:35:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="wkfYZFYm"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D6882EB873
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Oct 2025 08:32:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB3AB33993;
+	Mon, 20 Oct 2025 08:35:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760949154; cv=none; b=scbvHx2IqGZv95tcavOq5pWBsUQr533tQU+1sIlmZFXWNVCFPbIjQ82e6KJmZyq7DJmGakghqVFFy9penqehi6aaUiZR2filtLAhPPFP/HRlxASzGmGxsr4Ul61VkqcU3LgOTZB4NxGTjrXXkFNdPXKEHVu7Jtaf7K2YGkxJU00=
+	t=1760949344; cv=none; b=mwKKETPzTXe70VJs3LoAOrgK0s8FsFym8rcA5S0PA7AvH9irD2tjhLsjjmNViqeF/knbR+EiYnvB/cqE7Q+p6/f5uNNqpoE0UFQ/TWmHxHGfXZBMPuaUhD98WUCxAEecIjPmWITXRwx/wtWIcnq4ngo04y4YZcLOLhFMNqcRaHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760949154; c=relaxed/simple;
-	bh=2Zxi1uzwcNMLMP/BnWqBgmCsQY6hstGNmVrbM1QaAG8=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=sHBZwAxgI6jpZH0+PmTMndVX9ITncuQPz1cVtxqdIrVfjVad+Qh6M1wjeZRBcvVtAt6DOBUT4B9UlQ96wyFUCPWUpyXAJX02qEAuiaXKxQAJ3RZ4JMfq8fqb4HMvUjh3drBGRSQHBxl6PvA+bAfOtf+SBaWG4TS0bp9mCXIUR5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1vAlJG-0004CL-QY; Mon, 20 Oct 2025 10:32:06 +0200
-Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1vAlJF-004VyN-1v;
-	Mon, 20 Oct 2025 10:32:05 +0200
-Received: from pza by lupine with local (Exim 4.98.2)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1vAlJF-000000004Ju-23bC;
-	Mon, 20 Oct 2025 10:32:05 +0200
-Message-ID: <d6956eba2f99faedf7e6e28cb23d95a36101e6a9.camel@pengutronix.de>
-Subject: Re: [PATCH 5/6] arm64: dts: renesas: r9a09g057: Add RTC node
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Ovidiu Panait <ovidiu.panait.rb@renesas.com>, Biju Das	
- <biju.das.jz@bp.renesas.com>, Claudiu Beznea
- <claudiu.beznea.uj@bp.renesas.com>,  "alexandre.belloni@bootlin.com"	
- <alexandre.belloni@bootlin.com>, "robh@kernel.org" <robh@kernel.org>, 
- "krzk+dt@kernel.org"	 <krzk+dt@kernel.org>, "conor+dt@kernel.org"
- <conor+dt@kernel.org>,  "geert+renesas@glider.be"	
- <geert+renesas@glider.be>, "magnus.damm" <magnus.damm@gmail.com>, 
- "mturquette@baylibre.com"	 <mturquette@baylibre.com>, "sboyd@kernel.org"
- <sboyd@kernel.org>
-Cc: "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>, 
- "linux-renesas-soc@vger.kernel.org"
-	 <linux-renesas-soc@vger.kernel.org>, "devicetree@vger.kernel.org"
-	 <devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	 <linux-kernel@vger.kernel.org>, "linux-clk@vger.kernel.org"
-	 <linux-clk@vger.kernel.org>
-Date: Mon, 20 Oct 2025 10:32:05 +0200
-In-Reply-To: <TY7PR01MB14910BB6AD621CC7BA42D56D4D3F5A@TY7PR01MB14910.jpnprd01.prod.outlook.com>
-References: <20251019092106.5737-1-ovidiu.panait.rb@renesas.com>
-	 <20251019092106.5737-6-ovidiu.panait.rb@renesas.com>
-	 <TY3PR01MB11346CBE1C135CBEF82E3E7BE86F4A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-	 <TY7PR01MB14910BB6AD621CC7BA42D56D4D3F5A@TY7PR01MB14910.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.1-1 
+	s=arc-20240116; t=1760949344; c=relaxed/simple;
+	bh=vmQbyDz0qoPP+fUeUlVChAg17zYAvrtDgUE6LZ0MBsw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=KXIHWB+trxBrQGr+n+yDkJ69A1Wg8LYeSC6jnsNyAjsCSmldxhp/Z5j0o/ddayK+flz3WWoA6heLoCAfwKCq3fx3/Ez19IwR3+BDXEtI3B3ZPZcTId582BRjtHMQdawHqZV4NFw5tRY1UQmltmxzwpGgrsIQrwhvs6K/OFopC3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=wkfYZFYm; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 7B458C0AFD7;
+	Mon, 20 Oct 2025 08:35:20 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 07333606D5;
+	Mon, 20 Oct 2025 08:35:40 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D8E79102F2380;
+	Mon, 20 Oct 2025 10:35:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1760949335; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=eYsZarm5XDz2C3FmlRNVCBIQTw/bhVlzjG8MTAL1fRI=;
+	b=wkfYZFYmutmD0eFc2XaqJZtq80XePi2gWLpyOc8cIHeFJk//IgZ4Xpv4qzaRGJyHcVBYup
+	HpOjiBZx+wLtFgvyu9R1W/8x3zm767yZmadimIRJmoGo/euspyDQUKnxcdSmEkXzxqWjcn
+	kcSiyu8ViKikZf98SD1jP/bkF2t3hMrW1QpAuQ0ZHbbbWqgAo8rS0jYOQjtp/slNsD8Z18
+	0TTDcH8tXiBitM8zeS+bFkcLaEwa3eOLGOSnNHQfpP4pZBTc6qXrByq0puK3udqP37nguE
+	VmtE7eGGiFN15UxQCSph3D8N/nJEEg13REATwcohAhLalHGG+srz4tHa/Z70Ew==
+Date: Mon, 20 Oct 2025 10:35:29 +0200
+From: Herve Codina <herve.codina@bootlin.com>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, Geert Uytterhoeven
+ <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, devicetree@vger.kernel.org
+Subject: Re: [RFC PATCH] ARM: dts: renesas: r9a06g032-rzn1d400-db: use
+ interrupt for Micrel PHYs
+Message-ID: <20251020103529.0f948c67@bootlin.com>
+In-Reply-To: <20251001104312.40771-2-wsa+renesas@sang-engineering.com>
+References: <20251001104312.40771-2-wsa+renesas@sang-engineering.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Mo, 2025-10-20 at 08:13 +0000, Ovidiu Panait wrote:
-> Hi Biju,
->=20
-> > -----Original Message-----
-> > From: Biju Das <biju.das.jz@bp.renesas.com>
-> > Sent: Sunday, October 19, 2025 1:16 PM
-> > To: Ovidiu Panait <ovidiu.panait.rb@renesas.com>; Claudiu Beznea
-> > <claudiu.beznea.uj@bp.renesas.com>; alexandre.belloni@bootlin.com;
-> > robh@kernel.org; krzk+dt@kernel.org; conor+dt@kernel.org;
-> > geert+renesas@glider.be; magnus.damm <magnus.damm@gmail.com>;
-> > mturquette@baylibre.com; sboyd@kernel.org; p.zabel@pengutronix.de
-> > Cc: linux-rtc@vger.kernel.org; linux-renesas-soc@vger.kernel.org;
-> > devicetree@vger.kernel.org; linux-kernel@vger.kernel.org; linux-
-> > clk@vger.kernel.org
-> > Subject: RE: [PATCH 5/6] arm64: dts: renesas: r9a09g057: Add RTC node
-> >=20
-> >=20
-> >=20
-> > > -----Original Message-----
-> > > From: Ovidiu Panait <ovidiu.panait.rb@renesas.com>
-> > > Sent: 19 October 2025 10:21
-> > > Subject: [PATCH 5/6] arm64: dts: renesas: r9a09g057: Add RTC node
-> > >=20
-> > > Add RTC node to Renesas RZ/V2H ("R9A09G057") SoC DTSI.
-> > >=20
-> > > Signed-off-by: Ovidiu Panait <ovidiu.panait.rb@renesas.com>
-> > > ---
-> > >  arch/arm64/boot/dts/renesas/r9a09g057.dtsi | 14 ++++++++++++++
-> > >  1 file changed, 14 insertions(+)
-> > >=20
-> > > diff --git a/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
-> > b/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
-> > > index 40b15f1db930..e426b9978e22 100644
-> > > --- a/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
-> > > +++ b/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
-> > > @@ -591,6 +591,20 @@ wdt3: watchdog@13000400 {
-> > >  			status =3D "disabled";
-> > >  		};
-> > >=20
-> > > +		rtc: rtc@11c00800 {
-> > > +			compatible =3D "renesas,r9a09g057-rtca3", "renesas,rz-
-> > rtca3";
-> > > +			reg =3D <0 0x11c00800 0 0x400>;
-> > > +			interrupts =3D <GIC_SPI 524 IRQ_TYPE_EDGE_RISING>,
-> > > +				     <GIC_SPI 525 IRQ_TYPE_EDGE_RISING>,
-> > > +				     <GIC_SPI 526 IRQ_TYPE_EDGE_RISING>;
-> > > +			interrupt-names =3D "alarm", "period", "carry";
-> > > +			clocks =3D <&cpg CPG_MOD 0x53>, <&rtxin_clk>;
-> > > +			clock-names =3D "bus", "counter";
-> > > +			power-domains =3D <&cpg>;
-> > > +			resets =3D <&cpg 0x79>, <&cpg 0x7a>;
-> >=20
-> > Missing reset-names??
-> >=20
->=20
-> The resets are retrieved using devm_reset_control_array_get_shared(),
+Hi Wolfram,
 
-The device tree bindings should be designed independently from the
-driver implementation.
+On Wed,  1 Oct 2025 12:38:06 +0200
+Wolfram Sang <wsa+renesas@sang-engineering.com> wrote:
 
-> which does not rely on named reset entries. This keeps the
-> implementation minimal and keeps it in sync with RZ/G3S, which also
-> does not take the RTC reset by its name.
->=20
-> For this reason, I kept the rtca3 bindings without a reset-names property=
-.
+> Make use of the interrupts wired to the Micrel PHYs via the GPIO IRQ
+> mux.
+> 
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+> 
+> Works nicely and kinda out-of-the-box for the Micrel PHYs, couldn't get
+> it to work (reliably?) with the Marvell PHYs on the EB. Leaving this for
+> later (if ever), no more bandwidth currently. But at least we have an
+> upstream user for the gpioirqmux now.
+> 
+> RFC because Hervé's patches are still in-flight.
 
-There is no need to use the reset names in the driver if they are just
-toggled all at once, but unless you can guarantee that there will never
-be a need to tell them apart, it would be safer to give them a name.
+Yes and v5 has been sent:
+  https://lore.kernel.org/lkml/20251020080648.13452-1-herve.codina@bootlin.com/
 
-regards
-Philipp
+This v5 iteration should impact modification done in this RFC.
+
+> 
+>  .../dts/renesas/r9a06g032-rzn1d400-db.dts     | 21 +++++++++++++++++++
+>  1 file changed, 21 insertions(+)
+> 
+
+Reviewed-by: Herve Codina <herve.codina@bootlin.com>
+
+Best regards,
+Hervé
 
