@@ -1,107 +1,92 @@
-Return-Path: <linux-renesas-soc+bounces-23313-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23314-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97833BEFFAC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Oct 2025 10:35:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53FEABF0003
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Oct 2025 10:41:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 7F31A4E392B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Oct 2025 08:35:46 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 425044E14D0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Oct 2025 08:41:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22F3F2DF156;
-	Mon, 20 Oct 2025 08:35:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 521752E8DEF;
+	Mon, 20 Oct 2025 08:41:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="wkfYZFYm"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hgZdw4eU"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB3AB33993;
-	Mon, 20 Oct 2025 08:35:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D8DD1F1517
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Oct 2025 08:41:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760949344; cv=none; b=mwKKETPzTXe70VJs3LoAOrgK0s8FsFym8rcA5S0PA7AvH9irD2tjhLsjjmNViqeF/knbR+EiYnvB/cqE7Q+p6/f5uNNqpoE0UFQ/TWmHxHGfXZBMPuaUhD98WUCxAEecIjPmWITXRwx/wtWIcnq4ngo04y4YZcLOLhFMNqcRaHM=
+	t=1760949689; cv=none; b=u1UHb+qlN0Qg1Ciqqesdsr8mNV+I6VkUV5RA4THNHrDBeNUzSU0Xke750tUsP0hYM7DtOXcuY0JsxJe4TO9gfMS5PQsJ4rF+7AGKJusi5vFph1c+4F0cdxHprkns2IX7ftl751LxQ6YpFROrrO1aFR+Uqq4B7xLTWauHExHMsxc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760949344; c=relaxed/simple;
-	bh=vmQbyDz0qoPP+fUeUlVChAg17zYAvrtDgUE6LZ0MBsw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KXIHWB+trxBrQGr+n+yDkJ69A1Wg8LYeSC6jnsNyAjsCSmldxhp/Z5j0o/ddayK+flz3WWoA6heLoCAfwKCq3fx3/Ez19IwR3+BDXEtI3B3ZPZcTId582BRjtHMQdawHqZV4NFw5tRY1UQmltmxzwpGgrsIQrwhvs6K/OFopC3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=wkfYZFYm; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 7B458C0AFD7;
-	Mon, 20 Oct 2025 08:35:20 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 07333606D5;
-	Mon, 20 Oct 2025 08:35:40 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D8E79102F2380;
-	Mon, 20 Oct 2025 10:35:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1760949335; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=eYsZarm5XDz2C3FmlRNVCBIQTw/bhVlzjG8MTAL1fRI=;
-	b=wkfYZFYmutmD0eFc2XaqJZtq80XePi2gWLpyOc8cIHeFJk//IgZ4Xpv4qzaRGJyHcVBYup
-	HpOjiBZx+wLtFgvyu9R1W/8x3zm767yZmadimIRJmoGo/euspyDQUKnxcdSmEkXzxqWjcn
-	kcSiyu8ViKikZf98SD1jP/bkF2t3hMrW1QpAuQ0ZHbbbWqgAo8rS0jYOQjtp/slNsD8Z18
-	0TTDcH8tXiBitM8zeS+bFkcLaEwa3eOLGOSnNHQfpP4pZBTc6qXrByq0puK3udqP37nguE
-	VmtE7eGGiFN15UxQCSph3D8N/nJEEg13REATwcohAhLalHGG+srz4tHa/Z70Ew==
-Date: Mon, 20 Oct 2025 10:35:29 +0200
-From: Herve Codina <herve.codina@bootlin.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, Geert Uytterhoeven
- <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [RFC PATCH] ARM: dts: renesas: r9a06g032-rzn1d400-db: use
- interrupt for Micrel PHYs
-Message-ID: <20251020103529.0f948c67@bootlin.com>
-In-Reply-To: <20251001104312.40771-2-wsa+renesas@sang-engineering.com>
-References: <20251001104312.40771-2-wsa+renesas@sang-engineering.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1760949689; c=relaxed/simple;
+	bh=FIzajP3Xh/ZD3iJ4uhLNKVYf5RzQrLepZboUlQtY4DA=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=SlBJ/IHdMqEhPsrUWMLjPn0zJLVXeCFNyC1p+jDfQOxPbop4FKxhNtX7Xiic948CKlMml2fMjOsuOIRqTvtUWGLQi4ggj+VZus9VfCI/SPrO7YjEI5qfXARoBUdnseiiP2YgKzMu/uaAbRcZMaxKjxwQPzHLD3GQBYahrOolpMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hgZdw4eU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADEC8C4CEF9
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Oct 2025 08:41:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760949688;
+	bh=FIzajP3Xh/ZD3iJ4uhLNKVYf5RzQrLepZboUlQtY4DA=;
+	h=Subject:From:Date:To:From;
+	b=hgZdw4eUqo3Jq/nb5RDeaofOC9G/a3ZNStteVUTB4O9vdwa8jp/FY6lx/MLHQ6a+G
+	 rWQPMScvhXAGzHRlvooIiViJ339stS9k4aELDCq9ZrGK6hdsdS1ybbydsUKeVi/tKc
+	 +JusmoG/cS6oblxMXh49a/Mtoyc50ocMg2wWZq4UQmVWgwCr8ggkx88tbnL7aVGVOu
+	 QcGpL/a+J6HvWN/mH/V5Sl8sdtj6J2WdQQzOsgNaAKOpUEHJBFKUa4/R83DnLEHJHc
+	 exSHhqitcuCLs9WPoGpfkZF79oOEn+HwBbQKtZxgp8pWc2BFJ9l6foyVgj/nJLM8LR
+	 2MH0vjdPPkRqg==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id EED2A3A40FDB
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Oct 2025 08:41:11 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Subject: Patchwork summary for: linux-renesas-soc
+From: patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: 
+ <176094967036.87244.4160510429955079496.git-patchwork-summary@kernel.org>
+Date: Mon, 20 Oct 2025 08:41:10 +0000
+To: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+Hello:
 
-On Wed,  1 Oct 2025 12:38:06 +0200
-Wolfram Sang <wsa+renesas@sang-engineering.com> wrote:
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-> Make use of the interrupts wired to the Micrel PHYs via the GPIO IRQ
-> mux.
-> 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
-> 
-> Works nicely and kinda out-of-the-box for the Micrel PHYs, couldn't get
-> it to work (reliably?) with the Marvell PHYs on the EB. Leaving this for
-> later (if ever), no more bandwidth currently. But at least we have an
-> upstream user for the gpioirqmux now.
-> 
-> RFC because Hervé's patches are still in-flight.
+Patch: [PATCH/LOCAL] arm64: renesas: defconfig: Refresh for v6.18-rc1
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=1011841
+  Lore link: https://lore.kernel.org/r/4458f6e978684ce5a298c55d8a95edf9e611ca9d.1760530547.git.geert+renesas@glider.be
 
-Yes and v5 has been sent:
-  https://lore.kernel.org/lkml/20251020080648.13452-1-herve.codina@bootlin.com/
+Patch: ARM: shmobile: defconfig: Refresh for v6.18-rc1
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=1011840
+  Lore link: https://lore.kernel.org/r/d0fcc82fb294021bf96f8a490234165e15aadb43.1760530468.git.geert+renesas@glider.be
 
-This v5 iteration should impact modification done in this RFC.
+Patch: [PATCH/LOCAL] riscv: rzfive: defconfig: Refresh for v6.18-rc1
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=1011842
+  Lore link: https://lore.kernel.org/r/c33e8d0a4102ea2a2758b855372f23bc2dc3abf7.1760530600.git.geert+renesas@glider.be
 
-> 
->  .../dts/renesas/r9a06g032-rzn1d400-db.dts     | 21 +++++++++++++++++++
->  1 file changed, 21 insertions(+)
-> 
 
-Reviewed-by: Herve Codina <herve.codina@bootlin.com>
+Total patches: 3
 
-Best regards,
-Hervé
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
 
