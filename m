@@ -1,115 +1,158 @@
-Return-Path: <linux-renesas-soc+bounces-23335-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23336-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E264BF2B8A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Oct 2025 19:31:35 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 377E1BF2C9B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Oct 2025 19:45:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 61ED34F0F7E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Oct 2025 17:31:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C896E4630EC
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Oct 2025 17:44:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62A04330B15;
-	Mon, 20 Oct 2025 17:31:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D06A93328E1;
+	Mon, 20 Oct 2025 17:44:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KVf/5gWI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kO35s21X"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C0C829AB1D;
-	Mon, 20 Oct 2025 17:31:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AAE13328F2;
+	Mon, 20 Oct 2025 17:44:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760981492; cv=none; b=IOFGSNpGyAb1CPLP/+iaNjFUXF5Kin/tNv+JUnz/SQ+VcIlAfbOM+f12+SR/7BRsfq/N+WCHZyrIfWAZAH1ZAlwXB9tR3MLrkfvBRWuBDmVf53yR3pyvShungpDEPNR1sBNffER3Dh4TCnIi+vaUwsRquRhZ6xdT/7Merl7jLGY=
+	t=1760982269; cv=none; b=cWOoRBmMxIu1zDZAYLUh0FR4w7rYIITNSz3IsViM8NV7TV3sdySEWjLTlRwmKAnweGWcQwDGmWq7YCTp5FLRW2DGW5QvPqaUDXaqQu8hLIqSdIW0J5Q0q0snLsKZIifAlAqUmyE71bg2i0kXxEeA2CYQdb7QBTONTOi0wrgzD+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760981492; c=relaxed/simple;
-	bh=Rj8TnVP8wPWGT2UvO9eiDZL3aqksBHrM83YzLn2wHRI=;
+	s=arc-20240116; t=1760982269; c=relaxed/simple;
+	bh=32dtGpNdyTdYO53P8P14PmChbZsJYUzhABFWKdzmSx8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y67J+SGMsXI/ZO5Wu+JUtqKWZVY/H8VwK3jCDcYrQ/qtwvz/RKOXZmCj4/cHjTiriLqGUwc6ofaPUVp6+9Y6EjszZFnuZNGqAddIa3/LH/FnTZ1xO8KYqyDa0K0/qXl3FTrgvLYj9NQtHuXIXWAztK21+g5pP1UytiQcoaSfECU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KVf/5gWI; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFDDFC4CEF9;
-	Mon, 20 Oct 2025 17:31:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760981490;
-	bh=Rj8TnVP8wPWGT2UvO9eiDZL3aqksBHrM83YzLn2wHRI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KVf/5gWInfOxWLr9UCSHl+uXjgtqZ+92BuMAJPEsB+6mbaoMKbY5mks735Na5ATlB
-	 yZMr3d96jcLPL9mbv9/p5XtJTtpHaRDaow9e0Tl+uKnZljkNc0QoBvBztpcJPaJ4nt
-	 fWaRGHiruJAl3HCL18abEJHPCgSdeJclmLzacOHSqDo6JW2LmQ4HfIADjEBJmvUg2o
-	 wXR1e5GfNtWKdIIQTsjY5l185wyD4rJPThNJM2RRHYYv0ut+SC/7JGRhILjbKxYirJ
-	 qrKNxzMHBjDmmg512MlFcrlRXZVrV3EIBGDha8dKCAeIP0+v5P9uJoIgdnVhMLaL6Z
-	 z+5BGuKDHz3hA==
-Date: Mon, 20 Oct 2025 18:31:24 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Matt Coster <Matt.Coster@imgtec.com>
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	Adam Ford <aford173@gmail.com>, Conor Dooley <conor+dt@kernel.org>,
-	David Airlie <airlied@gmail.com>,
-	Frank Binns <Frank.Binns@imgtec.com>,
-	Alessio Belle <Alessio.Belle@imgtec.com>,
-	Alexandru Dadu <Alexandru.Dadu@imgtec.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
-	Simona Vetter <simona@ffwll.ch>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 1/2] dt-bindings: gpu: img,powervr-rogue: Drop useless
- power domains items
-Message-ID: <20251020-freebee-asleep-702062240cbd@spud>
-References: <20251018130147.12831-1-marek.vasut+renesas@mailbox.org>
- <855fdfad-1df7-43de-8a86-a938cc56a202@imgtec.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=p+dgwQy67AeCg00YUN3ldEP+Bcl7/TnfLO6ouS9u7vtttEbA+CddG98xDEXKu7f2IjpML8nOYYE0TJYUgK8pJB0RUxxOVe8f+HEIUX8YldXjKz7sO0ttTuP58p6qvsGeMtT42RYCmMYWXCZDFOyT+lupKMzIdANFpY0+W4Zkp2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kO35s21X; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760982268; x=1792518268;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=32dtGpNdyTdYO53P8P14PmChbZsJYUzhABFWKdzmSx8=;
+  b=kO35s21XLoYP/hK1xhuZgzLT+KINBWOevuRqd13LIb4QYLEfbqOUWNXM
+   fa7ciWsIWYVl2PGgQih2D/TMsRHjG5eFpfj5LbycRlWwu9XJdYj6qjqet
+   39AOyU0i7F3gNFrOYUREQhQZditJJSzOPBIHHfGJPD0ENVHKQ78pW11kq
+   3B0wKIPoXJsL3XSpbys4PAwmdTeRv41I8F1nfvYtW9rdwALbXCa20OaKz
+   HN9rd8FBz8Q8C9AQSTaw2pwSEsjzkgsh73GSlbFaUW3L2xUFOzHxfEdJk
+   BBquH/WJB1xwu9TdzHekdbB+GO7M5azK7vJlwf/DV2C5EIABNn5vAJExk
+   A==;
+X-CSE-ConnectionGUID: tsa/rKgzSfyhXWm54aLZcA==
+X-CSE-MsgGUID: E+zX9kvmTiuKohPM/Z3w7A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="73393954"
+X-IronPort-AV: E=Sophos;i="6.19,243,1754982000"; 
+   d="scan'208";a="73393954"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 10:44:27 -0700
+X-CSE-ConnectionGUID: 7A32v3lvRQKiBSJuiVID3w==
+X-CSE-MsgGUID: kT+dY9Y6QqaYWgRNUUk8/g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,243,1754982000"; 
+   d="scan'208";a="184156966"
+Received: from smoticic-mobl1.ger.corp.intel.com (HELO ashevche-desk.local) ([10.245.245.62])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 10:44:24 -0700
+Received: from andy by ashevche-desk.local with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1vAtvh-00000001Leh-3wxZ;
+	Mon, 20 Oct 2025 20:44:21 +0300
+Date: Mon, 20 Oct 2025 20:44:21 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Kai-Heng Feng <kaihengf@nvidia.com>, Rob Herring <robh@kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH 2/3] PCI: Do not coalesce host bridge resource structs in
+ place
+Message-ID: <aPZ09UZMfKhYSUZE@smile.fi.intel.com>
+References: <20251010144231.15773-1-ilpo.jarvinen@linux.intel.com>
+ <20251010144231.15773-3-ilpo.jarvinen@linux.intel.com>
+ <aO-vtdECWNpYpo6f@smile.fi.intel.com>
+ <8401388b-2957-0853-d80b-4479e02c47f0@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Pg9U5fLbI3MpnTw5"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <855fdfad-1df7-43de-8a86-a938cc56a202@imgtec.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <8401388b-2957-0853-d80b-4479e02c47f0@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
+
+On Mon, Oct 20, 2025 at 08:21:50PM +0300, Ilpo Järvinen wrote:
+> On Wed, 15 Oct 2025, Andy Shevchenko wrote:
+> > On Fri, Oct 10, 2025 at 05:42:30PM +0300, Ilpo Järvinen wrote:
+
+...
+
+> > > +/**
+> > > + * resource_mergeable - Test if resources are contiguous and can be merged
+> > > + * @r1: first resource
+> > > + * @r2: second resource
+> > > + *
+> > > + * Tests @r1 is followed by @r2 contiguously and share the metadata.
+> > 
+> > This needs an additional explanation about name equivalence that's not only by
+> > pointers, but by a content.
+> 
+> Okay. The point was to check names are the same, the pointer check was 
+> just an optimization as these resources are expected to carry the same 
+> name even on the pointer level.
+> 
+> > > + * Return: %true if resources are mergeable non-destructively.
+> > > + */
+> > > +static bool resource_mergeable(struct resource *r1, struct resource *r2)
+> > > +{
+> > > +	if ((r1->flags != r2->flags) ||
+> > > +	    (r1->desc != r2->desc) ||
+> > > +	    (r1->parent != r2->parent) ||
+> > > +	    (r1->end + 1 != r2->start))
+> > > +		return false;
+> > 
+> > > +	if (r1->name == r2->name)
+> > > +		return true;
+> > > +
+> > > +	if (r1->name && r2->name && !strcmp(r1->name, r2->name))
+> > > +		return true;
+> > > +
+> > > +	return false;
+> > 
+> > Hmm... Can we keep the logic more straight as in returning false cases as soon
+> > as possible?
+> > 
+> > I think of something like this:
+> > 
+> > 	if (r1->name && r2->name)
+> > 		return strcmp(r1->name, r2->name) == 0;
+> > 
+> > 	return r1->name == r2->name;
+> 
+> But the point the order above was to avoid strcmp() when the pointer 
+> itself is same which I think is quite common case. I don't think strcmp() 
+> itself checks whether the pointer is the same.
+
+On the second thought I think comparing by the content is quite a behavioural
+change here. Perhaps we may start without doing that first? Theoretically it
+might be the case when the content of names is different, but resources are
+the same. The case when name is the same (by content, but pointers) with the
+idea of having different resources sounds to me quite an awkward case. TL;
+DR: What are the cases that we have in practice now?
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
---Pg9U5fLbI3MpnTw5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Oct 20, 2025 at 03:15:14PM +0000, Matt Coster wrote:
-> Hi Marek,
->=20
-> On 18/10/2025 14:00, Marek Vasut wrote:
-> > The power-domains items: list is not very informative, replace it
-> > with plain minItems/maxItems instead.
-> >=20
-> > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
->=20
-> I would R-b this, but I want to wait for feedback from a dt maintainer
-> to make sure this is an approach they're happy with. In the meantime:
-
-I mean, yeah - they literally provide zero value over the names.
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-pw-bot: not-applicable
-
---Pg9U5fLbI3MpnTw5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaPZx7AAKCRB4tDGHoIJi
-0skAAQDWz7xM6sOMHi+9ICDux0to/OJRLITPWezXMx6MAzC0wgD9EGjMakpX6pVN
-XvM7QU3Rz7z4I2zFS+awmJOC0RKSOAE=
-=btcv
------END PGP SIGNATURE-----
-
---Pg9U5fLbI3MpnTw5--
 
