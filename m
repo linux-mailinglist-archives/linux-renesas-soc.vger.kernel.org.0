@@ -1,107 +1,222 @@
-Return-Path: <linux-renesas-soc+bounces-23330-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23331-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id B48DDBF21A7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Oct 2025 17:29:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4101CBF25FF
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Oct 2025 18:22:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id A25224F8BEC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Oct 2025 15:26:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9F36D3A412A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Oct 2025 16:20:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A366266B6C;
-	Mon, 20 Oct 2025 15:25:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7174283FC5;
+	Mon, 20 Oct 2025 16:20:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="DgsHzTC8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DpW983TR"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3024266581;
-	Mon, 20 Oct 2025 15:25:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5C931A00CE;
+	Mon, 20 Oct 2025 16:20:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760973937; cv=none; b=ZaJh4cPP/2sKaWXZfF6sqx6YbYBbsv+P2S/nOPjt7UfWwi+z58Zh9F3raCrru5a5O7sYUVYaA7eKVr2l35Z9jXMYYQv/lV8kaMkeaNHoM7qFaMQmMEnqtxAFKndygEm/bENYhwpWzJghRW2qbI1hbDasIZV99bvNyunKwkXXBg0=
+	t=1760977220; cv=none; b=LMwYP5YLBalU+8+V3MTpG3srHctgfjXxJ/lBkfhPOWsExSWUCo+pghZApkoWPDqis+DnHdQ4346qp6JPpvLQwyaQklaoBYguu27hrZkoTIuDEGwtjTJn64OI+gG5btR5Cp+094YE7mupcbbF9+iY9gaEOac69nEMEgocZv/D8dw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760973937; c=relaxed/simple;
-	bh=YIMnYLiXyGoQJdrCsNPRieKK98fVQhstnDhRU3hZ8/4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p6oA49Qk3578hvNfOHLt7A7/X7LIsQa8yCN35GOgVhAoLeR6B2DHko20FJ/E92jPpr2ZuF7TIDvt/R0X2x3HiPLyzEEOBYrO7jZAZX5Q50aWthTwRzuRdcTfytc4G5HHFDdDRx7kE7wEOkbmAPP7A3FBGrSzk5P9pP7mL0w3nBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=DgsHzTC8; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4cqzlB5141z9spn;
-	Mon, 20 Oct 2025 17:25:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1760973926;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PC4va8ieZUTwiJKFjsYUc7GcnfemHB6ncy9oeGC6/CI=;
-	b=DgsHzTC8vUoQttocqBG7Rb3P6fORbPUaL1HS+TClgbD4WCuDuScV1SUv6EeodBiOHdzCov
-	ABI9ec3z2KkzHVIUpO29I9NVD+HkLoeyLwfqGKDQErvlvrl35szgbbUWn92JT1LyFblCHI
-	+Aiy1I4AGs0lO4CeUsjyFynwV30IsExl7xh6cx0JImy36XG8fsJ94iCUz8URzMc1nu9y2m
-	rxD/2CHMHBvgbE6xkw5774ibSJtGA3a37+NiHPYM8iOZxRehpKq8GugWVERhRUR4/ZxrGm
-	xmJ30rAd3gNpTz1OoZcy9MzuiS1EtXJk0lwui5e0L5rGl38CqU2zGxwHTBA4uQ==
-Message-ID: <2e12fed7-21c0-48bf-94c4-a3d2850a3f0c@mailbox.org>
-Date: Mon, 20 Oct 2025 17:25:22 +0200
+	s=arc-20240116; t=1760977220; c=relaxed/simple;
+	bh=KyW2o+Tj9sebaDNyh1EThKqKgscZxyrq2W+eHFrQOgk=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=uBkaWHTwIbRuLSymQK/n4Er21mwIsRlYLP02Qv8LXJoDG1OL2Hgu5ry8638FwCyr28X5uJRBcVO5dS+iPDS5Gcfy4NPL9uVNo6Kkfs8vcQAomZm6WMnGHPrD3n+mPOgjjhuCGRtFMgkqjs/8UaJpHJrqUVri08StufQDAa3p1h8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DpW983TR; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760977219; x=1792513219;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=KyW2o+Tj9sebaDNyh1EThKqKgscZxyrq2W+eHFrQOgk=;
+  b=DpW983TR6ueUVqwIFxSQqoCpPhLUDhmXCgn3XhgX5o3GlIp0IXD9egGH
+   VvTEG1Ya42L1ho4+d6KlxDvGHvE8h2q7fCQtwvbTA3omyy97CLaEaPBCR
+   zw4hWGmqnDzNleUgfl2JVtRRXRe4BUef5b69wepBTS5RtveDVFtEIwiuJ
+   bd+GsP1ULuNIEIpolnkkmdUEvndpD9w4Npr3beNWvd1Zj4Jssyyfwgsxy
+   4/gDe8L9aQ0gbHykXhBO1+7K0U14FKGKSpfeqwTJfKxwvRbLAMeEQGUlx
+   OVi/Ilfpfx2Wt6Dhz50izYnJjrJNJ/0sAhhzFa6+EHULgrBtQcC0O9jkN
+   Q==;
+X-CSE-ConnectionGUID: 778CSw9zQkmuuofMCmTajQ==
+X-CSE-MsgGUID: FAhrmyhmQ7eoUO2gWIpsbg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63134988"
+X-IronPort-AV: E=Sophos;i="6.19,242,1754982000"; 
+   d="scan'208";a="63134988"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 09:20:19 -0700
+X-CSE-ConnectionGUID: Jjc3xpeZQduSfzcVUyMMzA==
+X-CSE-MsgGUID: pJOdJr1JRNq9XsLDFww+Fw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,242,1754982000"; 
+   d="scan'208";a="213982188"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.76])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 09:20:14 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Mon, 20 Oct 2025 19:20:10 +0300 (EEST)
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+cc: linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>, 
+    Kai-Heng Feng <kaihengf@nvidia.com>, Rob Herring <robh@kernel.org>, 
+    LKML <linux-kernel@vger.kernel.org>, 
+    Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+    =?ISO-8859-2?Q?Krzysztof_Wilczy=F1ski?= <kw@linux.com>, 
+    Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
+    Linux-Renesas <linux-renesas-soc@vger.kernel.or>
+Subject: Re: [PATCH 0/3] PCI & resource: Make coalescing host bridge windows
+ safer
+In-Reply-To: <CAMuHMdVwAkC0XOU_SZ0HeH0+oT-j5SvKyRcFcJbbes624Yu9uQ@mail.gmail.com>
+Message-ID: <89a20c14-dd0f-22ae-d998-da511a94664a@linux.intel.com>
+References: <20251010144231.15773-1-ilpo.jarvinen@linux.intel.com> <CAMuHMdVwAkC0XOU_SZ0HeH0+oT-j5SvKyRcFcJbbes624Yu9uQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/2] dt-bindings: gpu: img,powervr-rogue: Rework the allOf
- section
-To: Matt Coster <Matt.Coster@imgtec.com>
-Cc: Adam Ford <aford173@gmail.com>, Conor Dooley <conor+dt@kernel.org>,
- David Airlie <airlied@gmail.com>, Frank Binns <Frank.Binns@imgtec.com>,
- Alessio Belle <Alessio.Belle@imgtec.com>,
- Alexandru Dadu <Alexandru.Dadu@imgtec.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Rob Herring <robh@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-References: <20251018130147.12831-1-marek.vasut+renesas@mailbox.org>
- <20251018130147.12831-2-marek.vasut+renesas@mailbox.org>
- <a6d42c7e-1146-4bda-baf6-be04f3185c5a@imgtec.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <a6d42c7e-1146-4bda-baf6-be04f3185c5a@imgtec.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: a475670c6e47efa9a9d
-X-MBO-RS-META: 36hnykyaspk5t54jm87kde8k79k5kbzw
+Content-Type: multipart/mixed; boundary="8323328-499737811-1760977210=:976"
 
-On 10/20/25 5:12 PM, Matt Coster wrote:
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Hello Matt,
+--8323328-499737811-1760977210=:976
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 
-> On 18/10/2025 14:00, Marek Vasut wrote:
->> Rework the current allOf: section such that all handling of
->> clocks/clock-names properties happens first, and all handling
->> of power-domains/power-domain-names happens second.
-> 
-> The original layout of the allOf: section was power-domains first, then
-> clock-domains. The actual ordering really doesn't matter, but I wonder
-> if it would make for a slightly cleaner patch to do it that way round?
+On Mon, 20 Oct 2025, Geert Uytterhoeven wrote:
+> On Fri, 10 Oct 2025 at 16:42, Ilpo J=C3=A4rvinen
+> <ilpo.jarvinen@linux.intel.com> wrote:
+> > Here's a series for Geert to test if this fixes the improper coalescing
+> > of resources as was experienced with the pci_add_resource() change (I
+> > know the breaking change was pulled before 6.18 main PR but I'd want to
+> > retry it later once the known issues have been addressed). The expected
+> > result is there'll be two adjacent host bridge resources in the
+> > resource tree as the different name should disallow coalescing them
+> > together, and therefore BAR0 has a window into which it belongs to.
+> >
+> > Generic info for the series:
+> >
+> > PCI host bridge windows were coalesced in place into one of the structs
+> > on the resources list. The host bridge window coalescing code does not
+> > know who holds references and still needs the struct resource it's
+> > coalescing from/to so it is safer to perform coalescing into entirely
+> > a new struct resource instead and leave the old resource addresses as
+> > they were.
+> >
+> > The checks when coalescing is allowed are also made stricter so that
+> > only resources that have identical the metadata can be coalesced.
+> >
+> > As a bonus, there's also a bit of framework to easily create kunit
+> > tests for resource tree functions (beyond just resource_coalesce()).
+> >
+> > Ilpo J=C3=A4rvinen (3):
+> >   PCI: Refactor host bridge window coalescing loop to use prev
+> >   PCI: Do not coalesce host bridge resource structs in place
+> >   resource, kunit: add test case for resource_coalesce()
+>=20
+> Thanks for your series!
+>=20
+> I have applied this on top of commit 06b77d5647a4d6a7 ("PCI:
+> Mark resources IORESOURCE_UNSET when outside bridge windows"), and
+> gave it a a try on Koelsch (R-Car M2-W).
 
-It would, but I also wanted to sort this DT part alphabetically.
+So the pci_bus_add_resource() patch to rcar_pci_probe() was not included?
+No coalescing would be attempted without that change.
 
-If you want, I can split this patch in two, one which does this 
-splitting, and one which does alphabetical sorting.
+With the pci_bus_add_resource() patch, the resource name is different, I=20
+think, so even then it should abort coalescing the ranges with this=20
+series.
 
-[...]
+> Impact on dmesg (for the first PCI/USB) instance:
+>=20
+>      pci-rcar-gen2 ee090000.pci: host bridge /soc/pci@ee090000 ranges:
+>      pci-rcar-gen2 ee090000.pci:      MEM 0x00ee080000..0x00ee08ffff
+> -> 0x00ee080000
+>      pci-rcar-gen2 ee090000.pci: PCI: revision 11
+>      pci-rcar-gen2 ee090000.pci: PCI host bridge to bus 0000:00
+>      pci_bus 0000:00: root bus resource [bus 00]
+>      pci_bus 0000:00: root bus resource [mem 0xee080000-0xee08ffff]
+>      pci 0000:00:00.0: [1033:0000] type 00 class 0x060000 conventional
+> PCI endpoint
+>     -pci 0000:00:00.0: BAR 0 [mem 0xee090800-0xee090bff]: no initial
+> claim (no window)
+>      pci 0000:00:00.0: BAR 0 [mem size 0x00000400]
+>     -pci 0000:00:00.0: BAR 1 [mem 0x40000000-0x7fffffff pref]: no
+> initial claim (no window)
+>      pci 0000:00:00.0: BAR 1 [mem size 0x40000000 pref]
+>      pci 0000:00:01.0: [1033:0035] type 00 class 0x0c0310 conventional
+> PCI endpoint
+>     -pci 0000:00:01.0: BAR 0 [mem 0x00000000-0x00000fff]: no initial
+> claim (no window)
+>      pci 0000:00:01.0: BAR 0 [mem size 0x00001000]
+>      pci 0000:00:01.0: supports D1 D2
+>      pci 0000:00:01.0: PME# supported from D0 D1 D2 D3hot
+>      pci 0000:00:02.0: [1033:00e0] type 00 class 0x0c0320 conventional
+> PCI endpoint
+>     -pci 0000:00:02.0: BAR 0 [mem 0x00000000-0x000000ff]: no initial
+> claim (no window)
+>      pci 0000:00:02.0: BAR 0 [mem size 0x00000100]
+>      pci 0000:00:02.0: supports D1 D2
+>      pci 0000:00:02.0: PME# supported from D0 D1 D2 D3hot
+>      PCI: bus0: Fast back to back transfers disabled
+>      pci 0000:00:01.0: BAR 0 [mem 0xee080000-0xee080fff]: assigned
+>      pci 0000:00:02.0: BAR 0 [mem 0xee081000-0xee0810ff]: assigned
+>      pci_bus 0000:00: resource 4 [mem 0xee080000-0xee08ffff]
+>      pci 0000:00:01.0: enabling device (0140 -> 0142)
+>      pci 0000:00:02.0: enabling device (0140 -> 0142)
+>=20
+> I.e. the "no initial claim (no window)" messages introduced by commit
+> 06b77d5647a4d6a7 are no longer seen.
+
+Is that perhaps again because of pci_dbg() vs pci_info()?
+
+> The BARs still show "mem size <n>" instead of the "mem <start>-<end>"
+> before commit 06b77d5647a4d6a7, though.
+
+To me this looks like UNSET was still set for these resources. Missing the=
+=20
+pci_bus_add_resource() patch would explain that and if the pci_dbg()=20
+wasn't printed, it would explain both symptoms.
+
+Once these questions are resolved, I'll ask Rob what is the preferred=20
+solution here, a) driver doing pci_bus_add_resource() or b) including it=20
+into the DT ranges (if we could fix the ranges).
+
+We likely need to go with a) to preserve backwards compatibility but I=20
+also want to understand how those ranges are supposed to be used if we=20
+wouldn't have historical baggage.
+
+
+(I appreciate following through even if the original series is now=20
+reverted!)
+
+> This series has not impact on /proc/iomem, or on the output of
+> "lspci -v" (commit 06b77d5647a4d6a7 also had no impact here).
+> I.e. the part of /proc/iomem related to the first PCI/USB instance
+> still looks like:
+>=20
+>     ee080000-ee08ffff : pci@ee090000
+>       ee080000-ee080fff : 0000:00:01.0
+>         ee080000-ee080fff : ohci_hcd
+>       ee081000-ee0810ff : 0000:00:02.0
+>         ee081000-ee0810ff : ehci_hcd
+>     ee090000-ee090bff : ee090000.pci pci@ee090000
+>
+> I hope this matches your expectation.s
+>=20
+> Gr{oetje,eeting}s,
+>=20
+>                         Geert
+>=20
+>=20
+
+--=20
+ i.
+
+--8323328-499737811-1760977210=:976--
 
