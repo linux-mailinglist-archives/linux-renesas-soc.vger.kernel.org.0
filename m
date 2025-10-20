@@ -1,245 +1,251 @@
-Return-Path: <linux-renesas-soc+bounces-23310-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23311-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C683BEFD9C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Oct 2025 10:14:09 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A35E9BEFF3D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Oct 2025 10:30:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7AD18189D2CC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Oct 2025 08:14:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 509F53E3732
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Oct 2025 08:28:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A17AF2EAB63;
-	Mon, 20 Oct 2025 08:13:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62F762ED87C;
+	Mon, 20 Oct 2025 08:26:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="NeMe+DIY"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011039.outbound.protection.outlook.com [40.107.74.39])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B8C12E8881
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Oct 2025 08:13:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760948016; cv=none; b=rViGw+Dmsa39SjvFFqWpcHvvOwxWYD3tB4ltKsqxCoR25U2LD63ST0mufrMrWaNnYUWtY0mkw6+qR3oPLwKkmDR3/jN3GPB3iKUlxYWX3GaO/W1xSLppaGKPIyHf+jA3jcclZwm+TpE60O+Br2n0NAngC/taZ3pAurLzkBmVfcU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760948016; c=relaxed/simple;
-	bh=pBOe2oj4HPen9NXEf4tPmq1Jfw0IEwwy/FGaDyb3WRQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cmLy1ig/n63H85nrdWyK1BVhNSfreTwpmUTglve+k2DYG9n/gjOIt/+XAOMhK0tiHUfbTYXmndaO2sKXFy2NUMaxv3BRSdWeklqj5a3Fz8mtLSgPwSy0YrMUjW/1rTt95JpjRY8jfpQHLwN0Bi3ZRbiDzRMjmUJN/kC+q6bsEok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-5d3fb34ba53so3516218137.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Oct 2025 01:13:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760948013; x=1761552813;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DO2kQ54ctZ1GJPCFblCj0sw6xchdhfUc4nyLHbZc/QQ=;
-        b=XvgW1P8GwSUM6CT6NJL0dbRo0wK/SiS2pD8/oOxp7JHUb2qiZ8bt5R7GzNQGLmdjWn
-         pxpu46d/IXOZpQE1KVFejHtHMHcoY+DjpESeV+WitX6U8oWwikwtnDUXeDeb3XzaYt12
-         csJ73F2HGIm8X7sQ8ltQ5LLe6lMnH82hPlZYicZHb18Ob97SB6BJsemTRj14LL4lxpoz
-         j9YCh7dMSBE+DRU6t2DNo9kkj23B8z4KDJ7vNGgDesfbj5F8/q2hB0a+Z7e4JfTaxz4o
-         iaRT4dVSI7RtS53IbkIi/HjA8a/xpqlE9Klu5C6UWxHEI3KOsIOywZrskmQ/EeYuk1Li
-         YG+w==
-X-Forwarded-Encrypted: i=1; AJvYcCVL2ULVyIriEWl9OVvJFVowzJk3Nh8qvPlxHXOtgcNAdHLs6HcE6qlc6Wdeczh5qWAbLaQFbkVFN4fgv+H6+b70Ng==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzF9dB0ZgTo05omv9QHtelwATPfOR9Vh2pIvVHvqCAZ3n+AINem
-	P2ICwI+JziM7NeAYKaNzuRye9HNEbwx+yNJYo1bqHrhyoPe7cJMn6LZzBl4PqguU
-X-Gm-Gg: ASbGncuvJ14PbHcam3YBwzDz1s1AGyFQZSfOhVx9+7Jr3HpmnUhVm52BPw0SJUwWyjz
-	DgH8z7rxjnfJRSVvVXv/IkAfmuCTj9qC7vFQd6E5WMLJWWPHG5ucamXlXxJNvS3AYsU0WCHmnwX
-	5Yocko7cvGBOkNAtqh1kAh6vpSM0+m6PrigViaK1b9kyrs7OpNZ2gB/WkqsNm+Tz1gW26s1cF/O
-	+r2gfZBjpTOkbbgryYGNIbZIuHv3w50K7OzhhXbaBSh11o38s6ctneAFFG7Fac5I+b3R+q1Bew8
-	3sj26VFgyN+BsHhPvypEHVvXWz+Dk91kmB0x3U4kl8GbkGY5NrPp+lxKY/YpF8GnTmMaFDU4dMB
-	OBSyBifAB2oykdysHFQF8Crt1Lcl1stUrATer5s9xT2qdRTpC/4i5sCZPDlnbzA49Ht+vmb8DU8
-	k1Z0Z+WLH/caIvS1WvAJuJI7Vt0EvWL+sU7mQrX0AdPxwAYgX8
-X-Google-Smtp-Source: AGHT+IEg6YCfyhgeEwf2rDcnf0sHpAmhqct1Krlu309sTYO1+uBA/E0FU6LqM+J59kOc7qhf+x27Hw==
-X-Received: by 2002:a05:6102:2ad4:b0:5d6:1011:42a4 with SMTP id ada2fe7eead31-5d7dd6a4469mr4180340137.27.1760948012816;
-        Mon, 20 Oct 2025 01:13:32 -0700 (PDT)
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com. [209.85.217.50])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-932c3da29f5sm2318954241.6.2025.10.20.01.13.30
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Oct 2025 01:13:31 -0700 (PDT)
-Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-5d3fb34ba53so3516180137.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Oct 2025 01:13:30 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXmCG69EQUFcgqx6YqdIlnzr4gLpUFjeAlPtcAq5/Rsjwjddoo5vfgUftRt5kxNOE44kwIej9awfkyqU2xwtM1btg==@vger.kernel.org
-X-Received: by 2002:a05:6102:1456:20b0:5d7:e0ea:8d25 with SMTP id
- ada2fe7eead31-5d7e0ea9044mr2796129137.38.1760948010271; Mon, 20 Oct 2025
- 01:13:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FE1E2EC559;
+	Mon, 20 Oct 2025 08:26:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.39
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760948770; cv=fail; b=thvT1AwSDQHGjj8UcTVJYTAnMZjibyWVhMCH5o4rT0QB21v2oj+KoZ7HXx0eXYy34uIzNd0+1hiFypz5uGOOzeu/MccaHEeKNlQkQXHLR/6p2nkZCo5qONdjFHax0V/mKS3RuaLGDIQXkgdB9V1WGkelKl2yZjs82UXVSX0AHD0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760948770; c=relaxed/simple;
+	bh=w70zj8XoRaE701vZ/d9Q2LRh1uuTn78tozI0x3txN0s=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=KImU2khlhecRUYq6q/6QkhsXeTULR1t8Lf0r9fKU6JAO1UQOj8X+KN8oLqwHBoRZdzt8jNjhc5TgNJncRdBX1gInzkNnxw92Y1WMorwKNS3rXxlclHx7zPjwushD78lCyxsDd7+UKh+qbSX/jJQJMSIYq6YURoydajxqb0VsHMI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=NeMe+DIY; arc=fail smtp.client-ip=40.107.74.39
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RFr655xnS0ln3emfv2bL/knKqfuBLJMIvIBkN93iUcsafQw0WKIj9Nej0SieL7A8Na/eC4HdOso1BhbFzbo9F8mtVPzSPi0r0ds5IXM84IxMKa8PxW7Ed2fSxYlOPRJMzYSKoksYQMnNuBSmxi+Pjt9JmyDOEUjIv0ab2l15+qEBZYxptDpAL0cjJvNBLCgSaBAFq0WoNGiwYSGaa6G0ULaZV5lfY9H90ff2k5zBhZRwDaDQd7PDc/fX50XrEtaiwlR/KyPUkNoiOL2dSz7HISz6ANFs8cG/HHg3RkvOGpLBnbgr1+ZRJYORDwf5P3aaItnTo2vv4sFkJBxEDULnqA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YeFW08K6I0sAPnH91vi0zmMmOwMZMYPokMxkNrVH/eU=;
+ b=Bty3eJOEUDpQyPoVpsI6QcUugTniFMeeogXvrGGYT0YlbJdl5jub8a33UxmpI+pigjXLN27CsQbUs5Av2bvr3d5fxYt7gB7C9FMJvxrRyq2t4VZaPxgdzI/zxe4cy69gtfVKIUyOJy75kINp4Qjp/NbVClNWsLrkuu6B2m3h/QaC6A2/iQ96f5qyfD4uH9exN74Q39vpQ1y7uEXAL0/Qsu6vkcdO19uVo6VXkz5NAivv8FNsyvEmaNzqD23u6KNAOpQQL4CTOR2D8rB5EkCknA6yYtFdzyWPyavBPF5rNYiEROFMSBRxVagmdywNjp/6f5CURF4Jw4LPay2pcjDfEA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YeFW08K6I0sAPnH91vi0zmMmOwMZMYPokMxkNrVH/eU=;
+ b=NeMe+DIYQBi6bcilfmURZ6HB9D+2QJVVkew0UgIH8odXT3hPyhn52cwF36lG2ah3vygFzPWjtFZ/Oe1HAxWmtmlIN6XK7KBiM5QSBONz/VO4tjmvwrNJAYsit+qxbhMvEuwTSVBbJ9NBIPT4TcJabe/gG9XPNoJmc3Nh/fnowyY=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by TY3PR01MB9713.jpnprd01.prod.outlook.com (2603:1096:400:223::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.11; Mon, 20 Oct
+ 2025 08:26:02 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1%4]) with mapi id 15.20.9253.010; Mon, 20 Oct 2025
+ 08:25:55 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Ovidiu Panait <ovidiu.panait.rb@renesas.com>, Claudiu Beznea
+	<claudiu.beznea.uj@bp.renesas.com>, "alexandre.belloni@bootlin.com"
+	<alexandre.belloni@bootlin.com>, "robh@kernel.org" <robh@kernel.org>,
+	"krzk+dt@kernel.org" <krzk+dt@kernel.org>, "conor+dt@kernel.org"
+	<conor+dt@kernel.org>, "geert+renesas@glider.be" <geert+renesas@glider.be>,
+	magnus.damm <magnus.damm@gmail.com>, "mturquette@baylibre.com"
+	<mturquette@baylibre.com>, "sboyd@kernel.org" <sboyd@kernel.org>,
+	"p.zabel@pengutronix.de" <p.zabel@pengutronix.de>
+CC: "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>
+Subject: RE: [PATCH 5/6] arm64: dts: renesas: r9a09g057: Add RTC node
+Thread-Topic: [PATCH 5/6] arm64: dts: renesas: r9a09g057: Add RTC node
+Thread-Index: AQHcQNnpD+MZABpK50GyV5pRHAKx9bTJQMBwgAFjJ6CAABCSMA==
+Date: Mon, 20 Oct 2025 08:25:55 +0000
+Message-ID:
+ <TY3PR01MB11346C43D1C7B52B2E8580AD686F5A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20251019092106.5737-1-ovidiu.panait.rb@renesas.com>
+ <20251019092106.5737-6-ovidiu.panait.rb@renesas.com>
+ <TY3PR01MB11346CBE1C135CBEF82E3E7BE86F4A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <TY7PR01MB14910BB6AD621CC7BA42D56D4D3F5A@TY7PR01MB14910.jpnprd01.prod.outlook.com>
+In-Reply-To:
+ <TY7PR01MB14910BB6AD621CC7BA42D56D4D3F5A@TY7PR01MB14910.jpnprd01.prod.outlook.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TY3PR01MB9713:EE_
+x-ms-office365-filtering-correlation-id: 014ad684-9893-48ab-d50f-08de0fb24a08
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|376014|7416014|1800799024|38070700021|921020|7053199007;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?asXvmZ1oFJWsrjXDYFNdqObzuQXneULlNOlOV/9wnRc8b44pzJQwVew881Yq?=
+ =?us-ascii?Q?JQ8NP8xVq20Bgx4r59SLT2dS+yJcIuN7Nbzbzfy/DOpvY9+coVSirhsEzjKb?=
+ =?us-ascii?Q?oVl9/RNlenJf128P78cpeN1UelHb6wUOtiRU+LHIckmYPp1ieVIW4VTbxkX6?=
+ =?us-ascii?Q?PoTh0LorBZK5Na3BkPDW0x+lYct5wj/Wq1MFSYmR74WopCm2H0/YTbLdFFC3?=
+ =?us-ascii?Q?FY1GZ6oPdVfg+NfbkSmoDWvR03fqKW+ssm6EOwCIxXc9lvpGVyH/Ny+RS0RP?=
+ =?us-ascii?Q?kqu5VIJTfcJwKm0Kyb7TS/1dGtAIZZ4pvVH4rc0jN3WaJwhliJJs5Uc9Xllv?=
+ =?us-ascii?Q?543/eDad9IECp2FIRToaTqYrJaL1icapUxLlsu7UpmAitIFYSPva9XPhTmk6?=
+ =?us-ascii?Q?B9IDWvQ5151pcILxewk32KrdiCaWI9ZDcS9r3RikyS0pFjbbR1IxVeaJimB4?=
+ =?us-ascii?Q?VzBnhPm/Ii5E87kw8LE9kyPBpO/hn/hGewmKXz1BI5AcYxwq3WW4aUs5gXQ8?=
+ =?us-ascii?Q?NPE7W+tkev34lphpgeQTeikj85Fn5htd51VF9a5yR1G90J6u4F4CoOZ4Fo3F?=
+ =?us-ascii?Q?3Sd8ZRcH1NIvmAqrSF3zei9SbiwKJI6LSzGzgHwLvRdxJuBhIDXUHu/WSjKU?=
+ =?us-ascii?Q?UgkM+i6MHymH+kVGBlbCnwyrXyRHDwcg/uPURRGYQmboPzjRErD708bNboZZ?=
+ =?us-ascii?Q?o5+EpHG1glCWFhnpV333tOxQgiL9AJAi8nk6jDdflpZjutvZLWwpYrCpZF+L?=
+ =?us-ascii?Q?uZRn6M73s1IkpI1nFVY+g5fLTKmKdFwGxX3yQMU7a6iknqp/R71NP7P6AMCB?=
+ =?us-ascii?Q?f5WjCIcY7k3Z2fqm50DktEjRSM54inyQsFKx2IfMVs5gdtVSZG6fETzmSsd0?=
+ =?us-ascii?Q?ItBr3NL8/OXxtSRBDSz/1yNr5O5yV6YVPnsaokYyxI/EXdFFKL+9RBWRTiFd?=
+ =?us-ascii?Q?Hl2wFsQ7Rn5Rz71lUF715bUfgyvtL99qn1z1rdBIxJ4Vrb0/IWI83J56cACl?=
+ =?us-ascii?Q?iFbu1NDsrs2TrU6O603KeJjB31dwERdBow/b39ygziA8CJtcp/uOZjYzCdVY?=
+ =?us-ascii?Q?uDtiplX87I34PfgmwFOVq2UnmcLsIhfwXRhqrNe2roLaM83jIi3/wqwuJKi7?=
+ =?us-ascii?Q?3xSLi14fSR3gL+Gu8t56aBMqvJnp6NaOe+FKxN6MEmwBq9GK+JQH6S1EqInw?=
+ =?us-ascii?Q?MuZObABPTSdqkeffJmitovjBxJoJdT+qQVK5qnI6WKrXSfklnjbt1xvPgxo6?=
+ =?us-ascii?Q?1H32qavYWKHRBmEIeTqPpOveo600mOlNGWGHrd2w8ewe+JrcyuP2GwIY4IRp?=
+ =?us-ascii?Q?Btt0ujXHTFiKmvxk96xBjfprJTUHOPG7SaVIZj6hlaivGHBNAd7c/ZajyV/q?=
+ =?us-ascii?Q?kidvm8vPZCHxzc0Qizz/0YBNMqsgROsEQ0L9wr2lE2PNU+hHzmZ1p4xntYdB?=
+ =?us-ascii?Q?hTweoIGb76iP7vCbznU7bSEBhN/MHBFUgZh9989BqPUjd63wBbmOYabdq2+n?=
+ =?us-ascii?Q?zKO6V0Mi+HLzeIQv6J6vZVA4OJ0YwVNDpgmZh7uOqrmWMmiCumsdXR8I9A?=
+ =?us-ascii?Q?=3D=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(38070700021)(921020)(7053199007);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?chqzZY01bKnCFq02C8p1dFITvIFcX/dSeB1Xw90uD9ioHP8r3xPU6hVHGNPe?=
+ =?us-ascii?Q?QioXdsmiATMsTeJRA6o5dSK9JlMSYpi05JAA4ldHsKgIBGTBWFsD3TH5TfoY?=
+ =?us-ascii?Q?AvO8M8zziANcEADGZ5POB9hk1KC3EMRRnfFcdqes88lu+2tm1ltTnmRtU9Ba?=
+ =?us-ascii?Q?79T77P21KMBc/7nn3qhI8r609H+fdfUODGqIEGbuyfT/L/Q51Pwb3LhU+IJy?=
+ =?us-ascii?Q?+5hIMNQYQ3twk7aLH35X3riZ952ckpnQ7WOKHUFEEJ2CS2y6k3eaPBoRQ188?=
+ =?us-ascii?Q?TArBCW113vdeWOzOVqbav79nU50+NCs4Nq8aBBBHRZZDx7j9e/pfXLZDbhbA?=
+ =?us-ascii?Q?y61d11VHZ9uRR+IH3AmR4nxz7xBp8F1+anj35qmd5dS6u0EPB1vWezLt1056?=
+ =?us-ascii?Q?4x1qGjtrpirXjFjKXiFl4yy3u9Z69wnk/3LSWpJMwcUQiPSeO/gt5G75K+0n?=
+ =?us-ascii?Q?+JMFf2rD8635F8z3qQ9m8GPmL3NtS6nznxdZXH/2nObrPKAT090H4ho3E0nK?=
+ =?us-ascii?Q?LEgAprBOiDlZm83pPXiznXeKavpT0ec6A4GEr+KJn5lE0XgKknfYejMB+KjH?=
+ =?us-ascii?Q?Xb1HHBHzK/h6FiZp4kn4gKuZ3kMKnndLmhDBvw3+fMzc5+QFxcwRfLunh6Cy?=
+ =?us-ascii?Q?ZIY2O0atgGvWd61Smf3ObzQZTnsYz5uJCGVhq1I8DNxLx5AlSp+cfS5hevqi?=
+ =?us-ascii?Q?o2U/N37O58BOt6p8/zsfAI5+/7DnoWN9m9B/FPnKknt8PdveLEvg6qhE/Ib/?=
+ =?us-ascii?Q?XhCnqinI4oRJ3XSMQEGku38d68/kA3RlftfqJCzKsnaSux9J1sZD6Y3k+NAD?=
+ =?us-ascii?Q?ylO4eOhllGsnfJAVNLB74MIW6XCgazccFB9NW/6m+d99nB94hIieQE9vzgib?=
+ =?us-ascii?Q?HS36YktJHMDdD4Ny4xdGXxcLGElF5u3lxe6XWu7S+nT4b+/X6/SZDQjly4+H?=
+ =?us-ascii?Q?ZudOF+ecoaMmQbm0qH09nnj5mF8D4SDCxt/J8W4ufEWJkLclZIQoSCvwoRGW?=
+ =?us-ascii?Q?9gdtcOvUkSYNzoF8cx8VHpqEaXquY/gvuGF/uMK+KgHiHKFrz1UoLs7kCS3b?=
+ =?us-ascii?Q?8yueDB1gjgSjeasiL/67mCSVImReLbiV9Z0r1+xuKeOvXimTcx7HugTCT6Bh?=
+ =?us-ascii?Q?bH9/pRbFvFUa/iMw4mwTQ0IwqQbGF1KbqDBJxd9uRdrStpq/LnXBJharnz15?=
+ =?us-ascii?Q?O7U4c9SoeyqUOq1n6xalY1T6xt1ylflGidGnlhOmVlfijpXhFnyDbcvqNwbl?=
+ =?us-ascii?Q?VcD/nBJpBmzQGNL9Yc8Ye8Jn2ookZGghbknoRwxbRbYYoPs57YhGPX7BtYf+?=
+ =?us-ascii?Q?IpYD4ORl774iNyNt6G3daePtOzKwvmtd7948PGT/uBhVwyLEscPqFwOduUht?=
+ =?us-ascii?Q?DNvIjz4iU7zzO0RcG+vku84bX0bWP5ssa76Yf48rYlBx5ORTxvCc56b6NJTQ?=
+ =?us-ascii?Q?/IUDOF8bVr1QoS+6X9ZHP0F7NxaOHSzLB0iX0CcbTbQU8MCoQubNzMlRT/mh?=
+ =?us-ascii?Q?hmcWqd5mqdlwSGeEteYfj/0zJMtk1CJS4MOKYvt1k1EXAWcTDqb1Cw9tWCSi?=
+ =?us-ascii?Q?QIZ6wv5x5wwz3RR6etr1QZ17ipw9+CjoMIPWFifI9+gwUCFGB3unL+TxSq4h?=
+ =?us-ascii?Q?ZQ=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250929112324.3622148-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdXz0ThdhjeeurjE6TLXjVLXUy-ie-PqXHrTYExQ6TpeLA@mail.gmail.com>
- <CA+V-a8urG_e4yZXg9VH-cOPeK62qPGR1L2Zbbc3O97WB22hcRw@mail.gmail.com>
- <CAMuHMdWNnmmXPxPiuO4r66Mc78gPQ7ticuKt3y5pJ_DqRu_aLQ@mail.gmail.com> <86cdb51d3eb7414cb1665836175e3ea32ed687dd.camel@pengutronix.de>
-In-Reply-To: <86cdb51d3eb7414cb1665836175e3ea32ed687dd.camel@pengutronix.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 20 Oct 2025 10:13:18 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWuPoCun=cj1TEY1B6nm4mgvphXDSvRtcWSMpZZxOa95g@mail.gmail.com>
-X-Gm-Features: AS18NWAVc6svVYRmDE_ImJ0vS-dMbd7rwpy0E67grCEhNIDyCvbpxgqEnUMj_K4
-Message-ID: <CAMuHMdWuPoCun=cj1TEY1B6nm4mgvphXDSvRtcWSMpZZxOa95g@mail.gmail.com>
-Subject: Re: [PATCH v4] clk: renesas: cpg-mssr: Add module reset support for RZ/T2H
-To: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, linux-renesas-soc@vger.kernel.org, 
-	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 014ad684-9893-48ab-d50f-08de0fb24a08
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Oct 2025 08:25:55.3769
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ziu00daz+bBQbXo1GUUm0IENaozCMjBG0TeqHMWxMSMj2AoiC/Zl0RYhkWns/Ur/MJsGTjARWkf+4RUqnxgDcHvIAO6oSBs76HomaGTc5vc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB9713
 
-Hi Philipp,
 
-On Tue, 14 Oct 2025 at 18:37, Philipp Zabel <p.zabel@pengutronix.de> wrote:
-> On Di, 2025-10-14 at 08:46 +0200, Geert Uytterhoeven wrote:
-> > On Mon, 13 Oct 2025 at 18:45, Lad, Prabhakar <prabhakar.csengg@gmail.co=
-m> wrote:
-> > > On Mon, Oct 13, 2025 at 4:46=E2=80=AFPM Geert Uytterhoeven <geert@lin=
-ux-m68k.org> wrote:
-> > > > On Mon, 29 Sept 2025 at 13:23, Prabhakar <prabhakar.csengg@gmail.co=
-m> wrote:
-> > > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > >
-> > > > > Add support for module reset handling on the RZ/T2H SoC. Unlike e=
-arlier
-> > > > > CPG/MSSR variants, RZ/T2H uses a unified set of Module Reset Cont=
-rol
-> > > > > Registers (MRCR) where both reset and deassert actions are done v=
-ia
-> > > > > read-modify-write (RMW) to the same register.
-> > > > >
-> > > > > Introduce a new MRCR offset table (mrcr_for_rzt2h) for RZ/T2H and=
- assign
-> > > > > it to reset_regs. For this SoC, the number of resets is based on =
-the
-> > > > > number of MRCR registers rather than the number of module clocks.=
- Also
-> > > > > add cpg_mrcr_reset_ops to implement reset, assert, and deassert u=
-sing RMW
-> > > > > while holding the spinlock. This follows the RZ/T2H requirements,=
- where
-> > > > > processing after releasing a module reset must be secured by perf=
-orming
-> > > > > seven dummy reads of the same register, and where a module that i=
-s reset
-> > > > > and released again must ensure the target bit in the Module Reset=
- Control
-> > > > > Register is set to 1.
-> > > > >
-> > > > > Update the reset controller registration to select cpg_mrcr_reset=
-_ops for
-> > > > > RZ/T2H, while keeping the existing cpg_mssr_reset_ops for other S=
-oCs.
-> > > > >
-> > > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas=
-.com>
-> > > > > ---
-> > > > > v3->v4:
-> > > > > - Renamed cpg_mrcr_set_bit() to cpg_mrcr_set_reset_state() for cl=
-arity.
-> > > > > - Updated the parameters in cpg_mrcr_set_reset_state().
-> > > >
-> > > > Thanks for the update!
-> > > >
-> > > > > --- a/drivers/clk/renesas/renesas-cpg-mssr.c
-> > > > > +++ b/drivers/clk/renesas/renesas-cpg-mssr.c
-> > > > > @@ -736,6 +754,72 @@ static int cpg_mssr_status(struct reset_cont=
-roller_dev *rcdev,
-> > > > >         return !!(readl(priv->pub.base0 + priv->reset_regs[reg]) =
-& bitmask);
-> > > > >  }
-> > > > >
-> > > > > +static int cpg_mrcr_set_reset_state(struct reset_controller_dev =
-*rcdev,
-> > > > > +                                   unsigned long id, bool set)
-> > > > > +{
-> > > > > +       struct cpg_mssr_priv *priv =3D rcdev_to_priv(rcdev);
-> > > > > +       unsigned int reg =3D id / 32;
-> > > > > +       unsigned int bit =3D id % 32;
-> > > > > +       u32 bitmask =3D BIT(bit);
-> > > > > +       void __iomem *reg_addr;
-> > > > > +       unsigned long flags;
-> > > > > +       unsigned int i;
-> > > > > +       u32 val;
-> > > > > +
-> > > > > +       dev_dbg(priv->dev, "%s %u%02u\n", set ? "assert" : "deass=
-ert", reg, bit);
-> > > > > +
-> > > > > +       spin_lock_irqsave(&priv->pub.rmw_lock, flags);
-> > > > > +
-> > > > > +       reg_addr =3D priv->pub.base0 + priv->reset_regs[reg];
-> > > > > +       /* Read current value and modify */
-> > > > > +       val =3D readl(reg_addr);
-> > > > > +       if (set)
-> > > > > +               val |=3D bitmask;
-> > > > > +       else
-> > > > > +               val &=3D ~bitmask;
-> > > > > +       writel(val, reg_addr);
-> > > > > +
-> > > > > +       /*
-> > > > > +        * For secure processing after release from a module rese=
-t, dummy read
-> > > > > +        * the same register at least seven times.
-> > > >
-> > > > This comment is waiting to become out-of-sync with the actual value=
-...
-> > > >
-> > > For the reset operation no, for this I would like to keep this as is.
-> > > But for the MSTP registers I will be adding a delay. Or did I
-> > > misunderstand something?
+
+> -----Original Message-----
+> From: Ovidiu Panait <ovidiu.panait.rb@renesas.com>
+> Sent: 20 October 2025 09:13
+> Subject: RE: [PATCH 5/6] arm64: dts: renesas: r9a09g057: Add RTC node
+>=20
+> Hi Biju,
+>=20
+> > -----Original Message-----
+> > From: Biju Das <biju.das.jz@bp.renesas.com>
+> > Sent: Sunday, October 19, 2025 1:16 PM
+> > To: Ovidiu Panait <ovidiu.panait.rb@renesas.com>; Claudiu Beznea
+> > <claudiu.beznea.uj@bp.renesas.com>; alexandre.belloni@bootlin.com;
+> > robh@kernel.org; krzk+dt@kernel.org; conor+dt@kernel.org;
+> > geert+renesas@glider.be; magnus.damm <magnus.damm@gmail.com>;
+> > mturquette@baylibre.com; sboyd@kernel.org; p.zabel@pengutronix.de
+> > Cc: linux-rtc@vger.kernel.org; linux-renesas-soc@vger.kernel.org;
+> > devicetree@vger.kernel.org; linux-kernel@vger.kernel.org; linux-
+> > clk@vger.kernel.org
+> > Subject: RE: [PATCH 5/6] arm64: dts: renesas: r9a09g057: Add RTC node
 > >
-> > How to make sure both "#define RZT2H_RESET_REG_READ_COUNT 7" and
-> > "seven" are updated together?
 > >
-> >     /*
-> >      * For secure processing after release from a module reset, one mus=
-t
-> >      * perform multiple dummy reads of the same register.
-> >      */
 > >
+> > > -----Original Message-----
+> > > From: Ovidiu Panait <ovidiu.panait.rb@renesas.com>
+> > > Sent: 19 October 2025 10:21
+> > > Subject: [PATCH 5/6] arm64: dts: renesas: r9a09g057: Add RTC node
 > > >
-> > > > > +        */
-> > > > > +       for (i =3D 0; !set && i < RZT2H_RESET_REG_READ_COUNT; i++=
-)
-> > > > > +               readl(reg_addr);
-> > > > > +
-> > > > > +       /* Verify the operation */
-> > > > > +       val =3D readl(reg_addr);
-> > > > > +       if ((set && !(bitmask & val)) || (!set && (bitmask & val)=
-)) {
-> > > >
-> > > > Perhaps just "set =3D=3D !(bitmask & val)"? Or is that too obscure?
-> > > >
-> > > Ok, I will update it to the above in v5.
+> > > Add RTC node to Renesas RZ/V2H ("R9A09G057") SoC DTSI.
+> > >
+> > > Signed-off-by: Ovidiu Panait <ovidiu.panait.rb@renesas.com>
+> > > ---
+> > >  arch/arm64/boot/dts/renesas/r9a09g057.dtsi | 14 ++++++++++++++
+> > >  1 file changed, 14 insertions(+)
+> > >
+> > > diff --git a/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
+> > b/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
+> > > index 40b15f1db930..e426b9978e22 100644
+> > > --- a/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
+> > > +++ b/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
+> > > @@ -591,6 +591,20 @@ wdt3: watchdog@13000400 {
+> > >  			status =3D "disabled";
+> > >  		};
+> > >
+> > > +		rtc: rtc@11c00800 {
+> > > +			compatible =3D "renesas,r9a09g057-rtca3", "renesas,rz-
+> > rtca3";
+> > > +			reg =3D <0 0x11c00800 0 0x400>;
+> > > +			interrupts =3D <GIC_SPI 524 IRQ_TYPE_EDGE_RISING>,
+> > > +				     <GIC_SPI 525 IRQ_TYPE_EDGE_RISING>,
+> > > +				     <GIC_SPI 526 IRQ_TYPE_EDGE_RISING>;
+> > > +			interrupt-names =3D "alarm", "period", "carry";
+> > > +			clocks =3D <&cpg CPG_MOD 0x53>, <&rtxin_clk>;
+> > > +			clock-names =3D "bus", "counter";
+> > > +			power-domains =3D <&cpg>;
+> > > +			resets =3D <&cpg 0x79>, <&cpg 0x7a>;
 > >
-> > No need to resend yet, I could make these changes while applying
-> > (when Philipp is happy).
->
-> Consider me happy and feel free to add
->
-> Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
->
-> , set =3D=3D !(bitmask & val) and all.
+> > Missing reset-names??
+> >
+>=20
+> The resets are retrieved using devm_reset_control_array_get_shared(),
+> which does not rely on named reset entries. This keeps the implementation=
+ minimal and keeps it in sync
+> with RZ/G3S, which also does not take the RTC reset by its name.
+>=20
+> For this reason, I kept the rtca3 bindings without a reset-names property=
+.
 
-Thanks, will queue in renesas-clk for v6.19.
+Thanks for the explanation.
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Cheers,
+Biju
 
