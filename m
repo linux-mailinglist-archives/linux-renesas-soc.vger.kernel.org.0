@@ -1,328 +1,193 @@
-Return-Path: <linux-renesas-soc+bounces-23378-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23379-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56D00BF5F53
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Oct 2025 13:10:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 236AEBF6579
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Oct 2025 14:10:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id BCE634E59B5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Oct 2025 11:10:50 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B834F503114
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Oct 2025 12:08:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18F5A2E0B69;
-	Tue, 21 Oct 2025 11:10:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E73B32E692;
+	Tue, 21 Oct 2025 11:54:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="VgP8tDro"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A51CNLfJ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from canpmsgout02.his.huawei.com (canpmsgout02.his.huawei.com [113.46.200.217])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C912B18DB1F;
-	Tue, 21 Oct 2025 11:10:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.217
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A27DB32E751;
+	Tue, 21 Oct 2025 11:54:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761045047; cv=none; b=Aatz2uK0QnB4530BRgCgEMCnE64uZ6rzDrkHTJsBPGojDou4pe90SxGJpK07nXoHUYFXQfnmXhy5g6BnUEDZUGi4kfHR7gJsCrKU48QSjW3Txffj+85sKKpHw3jyTHs7T5IPY3eUQQsVDDvcNXbOucNJHePSdk2ZZCrclVwESWc=
+	t=1761047654; cv=none; b=EGsk2FylYcQT9oz0jex7hESusIj+AQuGikaeDhqoa4fUjvNJUnznkPVJc40bd8zzuziJeVJP+VQxqGqCwHSqM9VU9CzbJTO/Wz0lnjGI4P8dRVf3uhCKltv/rpb1xpUU6Y6kQd2IlT1m5U9Lynt233yms7jFYppIzAzfdkmLOfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761045047; c=relaxed/simple;
-	bh=UfJq61DKagR7Y4eoi5Qz7VbUBewMbUFUmWr3g/wQGJk=;
-	h=Message-ID:Date:MIME-Version:CC:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=o+pUHHisRZY4Qf9i4q4KeRT/ukf90TXmkggt1BejR3Zb4CoIlxLY+1j4mQs6HvPkP/eTHrZ9yYePSgLyx+8obvfYu7jLwVowBuKuODPbwJxhw+Ipm6qh9/2tVjrxDedvMx7dJ0zFC+xnVkg7Fh2hBNivUj1hZ3SgXvfvLr7hA+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=VgP8tDro; arc=none smtp.client-ip=113.46.200.217
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=WJcn+jtv3zfpLZOllZgoSrDx/sfvBonvFh9zG6PUGO4=;
-	b=VgP8tDro55lLQXyLMoUE3J6g+yL2mTit4BOaPuph9f1ASIuBnobiuEP6AwDJ13kU+rvDljtPI
-	gDqDNhk1f55yhLqCHQ2NAVfYLD6QzahpHw6bcBiBsQ9HNANGwgwRwyqiTKnm9v9qC1d+bYP50RJ
-	pLxUtilADuRbZLQcoabPXdY=
-Received: from mail.maildlp.com (unknown [172.19.163.174])
-	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4crV1R5KJBzcb23;
-	Tue, 21 Oct 2025 19:09:31 +0800 (CST)
-Received: from kwepemk100013.china.huawei.com (unknown [7.202.194.61])
-	by mail.maildlp.com (Postfix) with ESMTPS id 27D82140156;
-	Tue, 21 Oct 2025 19:10:41 +0800 (CST)
-Received: from [10.67.120.192] (10.67.120.192) by
- kwepemk100013.china.huawei.com (7.202.194.61) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Tue, 21 Oct 2025 19:10:40 +0800
-Message-ID: <c5c44697-b6d4-4e6d-9e4f-8e5a57504232@huawei.com>
-Date: Tue, 21 Oct 2025 19:10:39 +0800
+	s=arc-20240116; t=1761047654; c=relaxed/simple;
+	bh=NZk6FzYyPgktN8AE2X0boqJh/igLJoMr8CzDe5TE4gc=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=sZHOKoCAAukDAXwNmFQBUR3dayn8clb0CpKX1oJ03IkdDUI3uOftnXQnAH90P17DKnxxhY5YIw6IiNvsF/ZYEDiOzK2TI2fd39gRVqdr4/x3k7wGFxrg4YlH6SFUaZIqgiuDOglfVedghlRB6jRP98uUS8FjXVZDxLlTeuanEFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A51CNLfJ; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761047653; x=1792583653;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version:content-id;
+  bh=NZk6FzYyPgktN8AE2X0boqJh/igLJoMr8CzDe5TE4gc=;
+  b=A51CNLfJZSOF0CzIixiPsTF2hZrO8Yhi9JxbHauP6S5W6w6N3icosVra
+   XJAKtliPmtnB9iyHycXJFUH/4ou8ZrqOf/LlUkHN+QwpyiurYOEmUr0Hf
+   MmaBB1OSMRuKlKl1yPll822DDe16P7SPfkZtm3ns8lJciEgjT5AQVQP4M
+   mRXgBq5limGSI6TK0ykDvxLTpAh1A8g7h8ImRnFpMFjeKAxcIeVNnwYdj
+   6j5bMguydmGbGcWDXow5uHNzrz4ykXdsQSCqpRvj9moHtpZ6TJFwVkkEv
+   GwITo6bNunPbOwi7tnUBVISVmoKlBcC80n4y5rJitDcSNzg4EUBSwO1g4
+   Q==;
+X-CSE-ConnectionGUID: Aiyqt2GaTp+Wt5a1e56Ihw==
+X-CSE-MsgGUID: PnX00FIwT/ieXkH9mtkvhg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="67034159"
+X-IronPort-AV: E=Sophos;i="6.19,244,1754982000"; 
+   d="scan'208";a="67034159"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 04:54:11 -0700
+X-CSE-ConnectionGUID: EQOowvvQT1GyHOysqBCiOA==
+X-CSE-MsgGUID: aRI1h1gMSgm5XxtDU1tgkw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,244,1754982000"; 
+   d="scan'208";a="188858336"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.189])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 04:54:07 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Tue, 21 Oct 2025 14:54:03 +0300 (EEST)
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+cc: linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>, 
+    Kai-Heng Feng <kaihengf@nvidia.com>, Rob Herring <robh@kernel.org>, 
+    LKML <linux-kernel@vger.kernel.org>, 
+    Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+    =?ISO-8859-2?Q?Krzysztof_Wilczy=F1ski?= <kw@linux.com>, 
+    Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH 0/3] PCI & resource: Make coalescing host bridge windows
+ safer
+In-Reply-To: <CAMuHMdUbseFEY8AGOxm2T8W-64qT9OSvfmvu+hyTJUT+WE2cVw@mail.gmail.com>
+Message-ID: <20844374-d3df-cc39-a265-44a3008a3bcb@linux.intel.com>
+References: <20251010144231.15773-1-ilpo.jarvinen@linux.intel.com> <CAMuHMdVwAkC0XOU_SZ0HeH0+oT-j5SvKyRcFcJbbes624Yu9uQ@mail.gmail.com> <89a20c14-dd0f-22ae-d998-da511a94664a@linux.intel.com>
+ <CAMuHMdUbseFEY8AGOxm2T8W-64qT9OSvfmvu+hyTJUT+WE2cVw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-CC: <shaojijie@huawei.com>, <linux-renesas-soc@vger.kernel.org>, Richard
- Cochran <richardcochran@gmail.com>, Russell King <linux@armlinux.org.uk>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>, Simon Horman <horms@kernel.org>,
-	Jacob Keller <jacob.e.keller@intel.com>, <netdev@vger.kernel.org>
-Subject: Re: [PATCH net-next v3 6/6] net: hns3: add hwtstamp_get/hwtstamp_set
- ops
-To: Vadim Fedorenko <vadim.fedorenko@linux.dev>, Jian Shen
-	<shenjian15@huawei.com>, Salil Mehta <salil.mehta@huawei.com>, Andrew Lunn
-	<andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, Sunil Goutham <sgoutham@marvell.com>, Geetha sowjanya
-	<gakula@marvell.com>, Subbaraya Sundeep <sbhatta@marvell.com>, Bharat Bhushan
-	<bbhushan2@marvell.com>, Tariq Toukan <tariqt@nvidia.com>, Brett Creeley
-	<brett.creeley@amd.com>, =?UTF-8?Q?Niklas_S=C3=B6derlund?=
-	<niklas.soderlund@ragnatech.se>, Paul Barker <paul@pbarker.dev>, Yoshihiro
- Shimoda <yoshihiro.shimoda.uh@renesas.com>
-References: <20251021094751.900558-1-vadim.fedorenko@linux.dev>
- <20251021094751.900558-7-vadim.fedorenko@linux.dev>
-From: Jijie Shao <shaojijie@huawei.com>
-In-Reply-To: <20251021094751.900558-7-vadim.fedorenko@linux.dev>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
- kwepemk100013.china.huawei.com (7.202.194.61)
+Content-Type: multipart/mixed; BOUNDARY="8323328-761772981-1761047235=:1018"
+Content-ID: <be4122cc-61a7-0fd5-7aee-a1b39006f834@linux.intel.com>
 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-on 2025/10/21 17:47, Vadim Fedorenko wrote:
-> And .ndo_hwtstamp_get()/.ndo_hwtstamp_set() callbacks to HNS3 framework
-> to support HW timestamp configuration via netlink and adopt hns3pf to
-> use .ndo_hwtstamp_get()/.ndo_hwtstamp_set() callbacks.
->
-> Signed-off-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-> Reviewed-by: Jacob Keller <jacob.e.keller@intel.com>
->
-> v1 -> v2:
-> - actually assign ndo_tstamp callbacks
->
-> Reviewed-by: Jijie Shao <shaojijie@huawei.com>
-> ---
+--8323328-761772981-1761047235=:1018
+Content-Type: text/plain; CHARSET=ISO-8859-15
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-ID: <06826fd2-8c64-87f6-cce8-f57e075e7dc6@linux.intel.com>
 
-This shuould like this:
+On Tue, 21 Oct 2025, Geert Uytterhoeven wrote:
+> On Mon, 20 Oct 2025 at 18:20, Ilpo J=E4rvinen
+> <ilpo.jarvinen@linux.intel.com> wrote:
+> > On Mon, 20 Oct 2025, Geert Uytterhoeven wrote:
+> > > On Fri, 10 Oct 2025 at 16:42, Ilpo J=E4rvinen
+> > > <ilpo.jarvinen@linux.intel.com> wrote:
+> > > > Here's a series for Geert to test if this fixes the improper coales=
+cing
+> > > > of resources as was experienced with the pci_add_resource() change =
+(I
+> > > > know the breaking change was pulled before 6.18 main PR but I'd wan=
+t to
+> > > > retry it later once the known issues have been addressed). The expe=
+cted
+> > > > result is there'll be two adjacent host bridge resources in the
+> > > > resource tree as the different name should disallow coalescing them
+> > > > together, and therefore BAR0 has a window into which it belongs to.
+> > > >
+> > > > Generic info for the series:
+> > > >
+> > > > PCI host bridge windows were coalesced in place into one of the str=
+ucts
+> > > > on the resources list. The host bridge window coalescing code does =
+not
+> > > > know who holds references and still needs the struct resource it's
+> > > > coalescing from/to so it is safer to perform coalescing into entire=
+ly
+> > > > a new struct resource instead and leave the old resource addresses =
+as
+> > > > they were.
+> > > >
+> > > > The checks when coalescing is allowed are also made stricter so tha=
+t
+> > > > only resources that have identical the metadata can be coalesced.
+> > > >
+> > > > As a bonus, there's also a bit of framework to easily create kunit
+> > > > tests for resource tree functions (beyond just resource_coalesce())=
+=2E
+> > > >
+> > > > Ilpo J=E4rvinen (3):
+> > > >   PCI: Refactor host bridge window coalescing loop to use prev
+> > > >   PCI: Do not coalesce host bridge resource structs in place
+> > > >   resource, kunit: add test case for resource_coalesce()
+> > >
+> > > Thanks for your series!
+> > >
+> > > I have applied this on top of commit 06b77d5647a4d6a7 ("PCI:
+> > > Mark resources IORESOURCE_UNSET when outside bridge windows"), and
+> > > gave it a a try on Koelsch (R-Car M2-W).
+> >
+> > So the pci_bus_add_resource() patch to rcar_pci_probe() was not include=
+d?
+> > No coalescing would be attempted without that change.
+>=20
+> Sorry, I didn't realize you wanted that (and anything else) to be
+> included, too.  Please tell me the exact base I should use for testing,
+> and I will give it another run.
 
-Signed-off-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-Reviewed-by: Jacob Keller <jacob.e.keller@intel.com>
-Reviewed-by: Jijie Shao <shaojijie@huawei.com>
+I'm sorry, it's indeed a bit confusing as some of these patches never=20
+have been in Linus' tree.
 
----
-v1 -> v2:
-- actually assign ndo_tstamp callbacks
----
+So I'm interested on what's the result with these changes/series together:
 
->   drivers/net/ethernet/hisilicon/hns3/hnae3.h   |  5 +++
->   .../net/ethernet/hisilicon/hns3/hns3_enet.c   | 31 ++++++++++++++++++
->   .../hisilicon/hns3/hns3pf/hclge_main.c        | 13 +++-----
->   .../hisilicon/hns3/hns3pf/hclge_ptp.c         | 32 +++++++++++--------
->   .../hisilicon/hns3/hns3pf/hclge_ptp.h         |  9 ++++--
->   5 files changed, 64 insertions(+), 26 deletions(-)
->
-> diff --git a/drivers/net/ethernet/hisilicon/hns3/hnae3.h b/drivers/net/ethernet/hisilicon/hns3/hnae3.h
-> index 3b548f71fa8a..d7c3df1958f3 100644
-> --- a/drivers/net/ethernet/hisilicon/hns3/hnae3.h
-> +++ b/drivers/net/ethernet/hisilicon/hns3/hnae3.h
-> @@ -804,6 +804,11 @@ struct hnae3_ae_ops {
->   	int (*dbg_get_read_func)(struct hnae3_handle *handle,
->   				 enum hnae3_dbg_cmd cmd,
->   				 read_func *func);
-> +	int (*hwtstamp_get)(struct hnae3_handle *handle,
-> +			    struct kernel_hwtstamp_config *config);
-> +	int (*hwtstamp_set)(struct hnae3_handle *handle,
-> +			    struct kernel_hwtstamp_config *config,
-> +			    struct netlink_ext_ack *extack);
->   };
->   
->   struct hnae3_dcb_ops {
-> diff --git a/drivers/net/ethernet/hisilicon/hns3/hns3_enet.c b/drivers/net/ethernet/hisilicon/hns3/hns3_enet.c
-> index bfa5568baa92..7a0654e2d3dd 100644
-> --- a/drivers/net/ethernet/hisilicon/hns3/hns3_enet.c
-> +++ b/drivers/net/ethernet/hisilicon/hns3/hns3_enet.c
-> @@ -2419,6 +2419,35 @@ static int hns3_nic_do_ioctl(struct net_device *netdev,
->   	return h->ae_algo->ops->do_ioctl(h, ifr, cmd);
->   }
->   
-> +static int hns3_nic_hwtstamp_get(struct net_device *netdev,
-> +				 struct kernel_hwtstamp_config *config)
-> +{
-> +	struct hnae3_handle *h = hns3_get_handle(netdev);
-> +
-> +	if (!netif_running(netdev))
-> +		return -EINVAL;
-> +
-> +	if (!h->ae_algo->ops->hwtstamp_get)
-> +		return -EOPNOTSUPP;
-> +
-> +	return h->ae_algo->ops->hwtstamp_get(h, config);
-> +}
-> +
-> +static int hns3_nic_hwtstamp_set(struct net_device *netdev,
-> +				 struct kernel_hwtstamp_config *config,
-> +				 struct netlink_ext_ack *extack)
-> +{
-> +	struct hnae3_handle *h = hns3_get_handle(netdev);
-> +
-> +	if (!netif_running(netdev))
-> +		return -EINVAL;
-> +
-> +	if (!h->ae_algo->ops->hwtstamp_set)
-> +		return -EOPNOTSUPP;
-> +
-> +	return h->ae_algo->ops->hwtstamp_set(h, config, extack);
-> +}
-> +
->   static int hns3_nic_set_features(struct net_device *netdev,
->   				 netdev_features_t features)
->   {
-> @@ -3048,6 +3077,8 @@ static const struct net_device_ops hns3_nic_netdev_ops = {
->   	.ndo_set_vf_rate	= hns3_nic_set_vf_rate,
->   	.ndo_set_vf_mac		= hns3_nic_set_vf_mac,
->   	.ndo_select_queue	= hns3_nic_select_queue,
-> +	.ndo_hwtstamp_get	= hns3_nic_hwtstamp_get,
-> +	.ndo_hwtstamp_set	= hns3_nic_hwtstamp_set,
->   };
->   
->   bool hns3_is_phys_func(struct pci_dev *pdev)
-> diff --git a/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c b/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c
-> index 9d34d28ff168..81d3bdc098e6 100644
-> --- a/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c
-> +++ b/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c
-> @@ -9445,15 +9445,8 @@ static int hclge_do_ioctl(struct hnae3_handle *handle, struct ifreq *ifr,
->   	struct hclge_vport *vport = hclge_get_vport(handle);
->   	struct hclge_dev *hdev = vport->back;
->   
-> -	switch (cmd) {
-> -	case SIOCGHWTSTAMP:
-> -		return hclge_ptp_get_cfg(hdev, ifr);
-> -	case SIOCSHWTSTAMP:
-> -		return hclge_ptp_set_cfg(hdev, ifr);
-> -	default:
-> -		if (!hdev->hw.mac.phydev)
-> -			return hclge_mii_ioctl(hdev, ifr, cmd);
-> -	}
-> +	if (!hdev->hw.mac.phydev)
-> +		return hclge_mii_ioctl(hdev, ifr, cmd);
->   
->   	return phy_mii_ioctl(hdev->hw.mac.phydev, ifr, cmd);
->   }
-> @@ -12901,6 +12894,8 @@ static const struct hnae3_ae_ops hclge_ops = {
->   	.get_dscp_prio = hclge_get_dscp_prio,
->   	.get_wol = hclge_get_wol,
->   	.set_wol = hclge_set_wol,
-> +	.hwtstamp_get = hclge_ptp_get_cfg,
-> +	.hwtstamp_set = hclge_ptp_set_cfg,
->   };
->   
->   static struct hnae3_ae_algo ae_algo = {
-> diff --git a/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_ptp.c b/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_ptp.c
-> index 4bd52eab3914..0081c5281455 100644
-> --- a/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_ptp.c
-> +++ b/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_ptp.c
-> @@ -204,13 +204,17 @@ static int hclge_ptp_adjtime(struct ptp_clock_info *ptp, s64 delta)
->   	return 0;
->   }
->   
-> -int hclge_ptp_get_cfg(struct hclge_dev *hdev, struct ifreq *ifr)
-> +int hclge_ptp_get_cfg(struct hnae3_handle *handle,
-> +		      struct kernel_hwtstamp_config *config)
->   {
-> +	struct hclge_vport *vport = hclge_get_vport(handle);
-> +	struct hclge_dev *hdev = vport->back;
-> +
->   	if (!test_bit(HCLGE_STATE_PTP_EN, &hdev->state))
->   		return -EOPNOTSUPP;
->   
-> -	return copy_to_user(ifr->ifr_data, &hdev->ptp->ts_cfg,
-> -		sizeof(struct hwtstamp_config)) ? -EFAULT : 0;
-> +	*config = hdev->ptp->ts_cfg;
-> +	return 0;
->   }
->   
->   static int hclge_ptp_int_en(struct hclge_dev *hdev, bool en)
-> @@ -269,7 +273,7 @@ static int hclge_ptp_cfg(struct hclge_dev *hdev, u32 cfg)
->   	return ret;
->   }
->   
-> -static int hclge_ptp_set_tx_mode(struct hwtstamp_config *cfg,
-> +static int hclge_ptp_set_tx_mode(struct kernel_hwtstamp_config *cfg,
->   				 unsigned long *flags, u32 *ptp_cfg)
->   {
->   	switch (cfg->tx_type) {
-> @@ -287,7 +291,7 @@ static int hclge_ptp_set_tx_mode(struct hwtstamp_config *cfg,
->   	return 0;
->   }
->   
-> -static int hclge_ptp_set_rx_mode(struct hwtstamp_config *cfg,
-> +static int hclge_ptp_set_rx_mode(struct kernel_hwtstamp_config *cfg,
->   				 unsigned long *flags, u32 *ptp_cfg)
->   {
->   	int rx_filter = cfg->rx_filter;
-> @@ -332,7 +336,7 @@ static int hclge_ptp_set_rx_mode(struct hwtstamp_config *cfg,
->   }
->   
->   static int hclge_ptp_set_ts_mode(struct hclge_dev *hdev,
-> -				 struct hwtstamp_config *cfg)
-> +				 struct kernel_hwtstamp_config *cfg)
->   {
->   	unsigned long flags = hdev->ptp->flags;
->   	u32 ptp_cfg = 0;
-> @@ -359,9 +363,12 @@ static int hclge_ptp_set_ts_mode(struct hclge_dev *hdev,
->   	return 0;
->   }
->   
-> -int hclge_ptp_set_cfg(struct hclge_dev *hdev, struct ifreq *ifr)
-> +int hclge_ptp_set_cfg(struct hnae3_handle *handle,
-> +		      struct kernel_hwtstamp_config *config,
-> +		      struct netlink_ext_ack *extack)
->   {
-> -	struct hwtstamp_config cfg;
-> +	struct hclge_vport *vport = hclge_get_vport(handle);
-> +	struct hclge_dev *hdev = vport->back;
->   	int ret;
->   
->   	if (!test_bit(HCLGE_STATE_PTP_EN, &hdev->state)) {
-> @@ -369,16 +376,13 @@ int hclge_ptp_set_cfg(struct hclge_dev *hdev, struct ifreq *ifr)
->   		return -EOPNOTSUPP;
->   	}
->   
-> -	if (copy_from_user(&cfg, ifr->ifr_data, sizeof(cfg)))
-> -		return -EFAULT;
-> -
-> -	ret = hclge_ptp_set_ts_mode(hdev, &cfg);
-> +	ret = hclge_ptp_set_ts_mode(hdev, config);
->   	if (ret)
->   		return ret;
->   
-> -	hdev->ptp->ts_cfg = cfg;
-> +	hdev->ptp->ts_cfg = *config;
->   
-> -	return copy_to_user(ifr->ifr_data, &cfg, sizeof(cfg)) ? -EFAULT : 0;
-> +	return 0;
->   }
->   
->   int hclge_ptp_get_ts_info(struct hnae3_handle *handle,
-> diff --git a/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_ptp.h b/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_ptp.h
-> index 61faddcc3dd0..0162fa5ac146 100644
-> --- a/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_ptp.h
-> +++ b/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_ptp.h
-> @@ -62,7 +62,7 @@ struct hclge_ptp {
->   	unsigned long flags;
->   	void __iomem *io_base;
->   	struct ptp_clock_info info;
-> -	struct hwtstamp_config ts_cfg;
-> +	struct kernel_hwtstamp_config ts_cfg;
->   	spinlock_t lock;	/* protects ptp registers */
->   	u32 ptp_cfg;
->   	u32 last_tx_seqid;
-> @@ -133,8 +133,11 @@ bool hclge_ptp_set_tx_info(struct hnae3_handle *handle, struct sk_buff *skb);
->   void hclge_ptp_clean_tx_hwts(struct hclge_dev *hdev);
->   void hclge_ptp_get_rx_hwts(struct hnae3_handle *handle, struct sk_buff *skb,
->   			   u32 nsec, u32 sec);
-> -int hclge_ptp_get_cfg(struct hclge_dev *hdev, struct ifreq *ifr);
-> -int hclge_ptp_set_cfg(struct hclge_dev *hdev, struct ifreq *ifr);
-> +int hclge_ptp_get_cfg(struct hnae3_handle *handle,
-> +		      struct kernel_hwtstamp_config *config);
-> +int hclge_ptp_set_cfg(struct hnae3_handle *handle,
-> +		      struct kernel_hwtstamp_config *config,
-> +		      struct netlink_ext_ack *extack);
->   int hclge_ptp_init(struct hclge_dev *hdev);
->   void hclge_ptp_uninit(struct hclge_dev *hdev);
->   int hclge_ptp_get_ts_info(struct hnae3_handle *handle,
+[PATCH 1/2] PCI: Setup bridge resources earlier=20
+[PATCH 2/2] PCI: Resources outside their window must set IORESOURCE_UNSET=
+=20
+[PATCH 1/1] PCI: rcar-gen2: Add BAR0 into host bridge resources
+[PATCH 1/3] PCI: Refactor host bridge window coalescing loop to use prev=20
+[PATCH 2/3] PCI: Do not coalesce host bridge resource structs in place
+[PATCH 3/3] resource, kunit: add test case for resource_coalesce()
+
+You might also want to change that pci_dbg() in the IORESOURCE_UNSET patch=
+=20
+to pci_info() (as otherwise dyndbg is necessary to make it visible).
+
+Lore links to these series/patches:
+
+https://lore.kernel.org/linux-pci/20250924134228.1663-1-ilpo.jarvinen@linux=
+=2Eintel.com/
+https://lore.kernel.org/linux-pci/7640a03e-dfea-db9c-80f5-d80fa2c505b7@linu=
+x.intel.com/
+https://lore.kernel.org/linux-pci/20251010144231.15773-1-ilpo.jarvinen@linu=
+x.intel.com/
+
+The expected result is that those usb resources are properly parented and=
+=20
+the ee080000-ee08ffff and ee090000-ee090bff are not coalesced together (as=
+=20
+that would destroy information). So something along the lines of:
+
+    ee080000-ee08ffff : pci@ee090000
+      ee080000-ee080fff : 0000:00:01.0
+        ee080000-ee080fff : ohci_hcd
+      ee081000-ee0810ff : 0000:00:02.0
+        ee081000-ee0810ff : ehci_hcd
+    ee090000-ee090bff : ee090000.pci pci@ee090000
+
+--=20
+ i.
+--8323328-761772981-1761047235=:1018--
 
