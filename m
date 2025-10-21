@@ -1,42 +1,42 @@
-Return-Path: <linux-renesas-soc+bounces-23357-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23358-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCF89BF525B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Oct 2025 10:05:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D94B0BF5264
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Oct 2025 10:06:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 127CE4683FA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Oct 2025 08:04:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EBE1C3A37D6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Oct 2025 08:06:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74C332EBDEB;
-	Tue, 21 Oct 2025 08:04:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 381CD2E9EB2;
+	Tue, 21 Oct 2025 08:06:10 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58CED29BDAC;
-	Tue, 21 Oct 2025 08:04:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BDBA2E8E0C;
+	Tue, 21 Oct 2025 08:06:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761033841; cv=none; b=ST70bSVPjVT49S/PyZO319Cw5F4ZyvyRds6u5pvYYbBk11GCcmi5/ohP+q6eVkv0u5KxkNRkWIZhbhd/zyvwnzERALWsDuZXEn8v4qi9ghYCKvuP+IHdlcFLiWwTmH7/yoVfcnoxM5Q9a51SYyTKV7CRjzvqzJ9OZI/Wufmp5Gc=
+	t=1761033970; cv=none; b=TiUVJP2LOzOiVMk1RXknX2wK94qKXDCLHka4JskFeT35VPZX9F6cbosADLnhiSOG3UPLFvWBaCiFVU5iRHb3ExKuqtoqeSBLwFXfKRQcJH7oQbHtoF4msu5FISwUvfLloN8VQ0oKzyAAFrlnohBGrHBC0Tkr/Rg+eH65ghd/H5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761033841; c=relaxed/simple;
-	bh=2gHaaqXyKyG2dX+elCvrKh1JmB9OH4MXLU/Yn2bFckE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=X98FPX8o0r0O8QMsKBr4ILztARQvkkUAt5CUZ7M7nRiAfBPGC/bV2PO0X3+WoY5U5MVUGf/m5wGbBMfeWp2vQYUG1QZ16kuj4yLKTV0CzzqzYArecu+eUGjC+BoYoU4q6rVqqQSbiy0kxEtvmNC/hLs8N2QVaCWDpinuAjr6LgU=
+	s=arc-20240116; t=1761033970; c=relaxed/simple;
+	bh=N+UBxgEfFV4F2I/XWA9Ic1gx8435iNi6PR+Q4ZVk2wI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Sy8xLq97HjnEKODmwm2x19EfU44lbggi/OGj7f8f3pGxSLtoHEz4swWbYe0sTv2WT/sCMDKoKCcd9I4jw19xZIoAkXNVCxn86yoV5/hRd2aRRHulE8pM2l8bdfYd71F7TOpDiRLDNCJ9aHC4KiyqwMHOEs4yXyb7tvQdiDFLktI=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDA3FC4CEF1;
-	Tue, 21 Oct 2025 08:03:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94EE2C4CEF1;
+	Tue, 21 Oct 2025 08:06:08 +0000 (UTC)
 From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>
+To: Linus Walleij <linus.walleij@linaro.org>
 Cc: linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] clk: renesas: cpg-mssr: Spelling s/offets/offsets/
-Date: Tue, 21 Oct 2025 10:03:56 +0200
-Message-ID: <47bf5186c3a234f6a6e53d8fdc81fafd2e981534.1761033805.git.geert+renesas@glider.be>
+	linux-gpio@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v2] pinctrl: renesas: rza1: Make mux_conf const in rza1_pin_mux_single()
+Date: Tue, 21 Oct 2025 10:06:05 +0200
+Message-ID: <168e06bc57081aa3c42ff9aa2740a0a108df7d34.1761033950.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -44,30 +44,56 @@ List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Fix a misspelling of "offsets".
+The rza1_mux_conf object pointed to by the mux_conf parameter of
+rza1_pin_mux_single() is never modified.  Make it const.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
-To be queued in renesas-clk for v6.19.
----
- drivers/clk/renesas/renesas-cpg-mssr.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+To be queued in renesas-pinctrl for v6.19.
 
-diff --git a/drivers/clk/renesas/renesas-cpg-mssr.c b/drivers/clk/renesas/renesas-cpg-mssr.c
-index a3d171ddaab9923b..9e61abcba6c852da 100644
---- a/drivers/clk/renesas/renesas-cpg-mssr.c
-+++ b/drivers/clk/renesas/renesas-cpg-mssr.c
-@@ -41,7 +41,7 @@
- #endif
+v2:
+  - Add Reviewed-by,
+  - Rebase on top of commit fbba4a9e368f6ec5 ("pinctrl: constify
+    pinmux_generic_get_function()") in v6.18-rc1.
+---
+ drivers/pinctrl/renesas/pinctrl-rza1.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/pinctrl/renesas/pinctrl-rza1.c b/drivers/pinctrl/renesas/pinctrl-rza1.c
+index 4c7326e3de07ce38..3cfa4c8be80eafd5 100644
+--- a/drivers/pinctrl/renesas/pinctrl-rza1.c
++++ b/drivers/pinctrl/renesas/pinctrl-rza1.c
+@@ -668,7 +668,7 @@ static inline int rza1_pin_get(struct rza1_port *port, unsigned int pin)
+  * @mux_conf: pin multiplexing descriptor
+  */
+ static int rza1_pin_mux_single(struct rza1_pinctrl *rza1_pctl,
+-			       struct rza1_mux_conf *mux_conf)
++			       const struct rza1_mux_conf *mux_conf)
+ {
+ 	struct rza1_port *port = &rza1_pctl->ports[mux_conf->port];
+ 	unsigned int pin = mux_conf->pin;
+@@ -1118,7 +1118,7 @@ static int rza1_set_mux(struct pinctrl_dev *pctldev, unsigned int selector,
+ 			   unsigned int group)
+ {
+ 	struct rza1_pinctrl *rza1_pctl = pinctrl_dev_get_drvdata(pctldev);
+-	struct rza1_mux_conf *mux_confs;
++	const struct rza1_mux_conf *mux_confs;
+ 	const struct function_desc *func;
+ 	struct group_desc *grp;
+ 	int i;
+@@ -1131,7 +1131,7 @@ static int rza1_set_mux(struct pinctrl_dev *pctldev, unsigned int selector,
+ 	if (!func)
+ 		return -EINVAL;
  
- /*
-- * Module Standby and Software Reset register offets.
-+ * Module Standby and Software Reset register offsets.
-  *
-  * If the registers exist, these are valid for SH-Mobile, R-Mobile,
-  * R-Car Gen2, R-Car Gen3, and RZ/G1.
+-	mux_confs = (struct rza1_mux_conf *)func->data;
++	mux_confs = (const struct rza1_mux_conf *)func->data;
+ 	for (i = 0; i < grp->grp.npins; ++i) {
+ 		int ret;
+ 
 -- 
 2.43.0
 
