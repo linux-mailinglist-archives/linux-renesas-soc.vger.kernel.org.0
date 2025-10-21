@@ -1,124 +1,86 @@
-Return-Path: <linux-renesas-soc+bounces-23346-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23347-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3C54BF442A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Oct 2025 03:35:06 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75B5BBF44DE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Oct 2025 03:47:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8AC5118A6810
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Oct 2025 01:35:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3031C4051B2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Oct 2025 01:47:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D11015687D;
-	Tue, 21 Oct 2025 01:35:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6F942D838C;
+	Tue, 21 Oct 2025 01:45:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Oj4OdW2/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LYWtAMwa"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73B5015D1
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Oct 2025 01:35:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EDA92D6E5C;
+	Tue, 21 Oct 2025 01:45:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761010503; cv=none; b=tUaU7Tpwcu+S/G/V8ONme3v8XWXwWYD83cYLeEUkqga5grg8h/8mDoldKtZrv0KzzW3xYQfrdMrSlpT1EaclSYm/Stp11JO8lFPRzz9WaIUw6fMUw+gmtBINMV4/eKa/4wmE7ZnuMpdHlgJ6fwgcF9uLRdXx2RAYUhWjtKCIUzI=
+	t=1761011139; cv=none; b=YhUqHrO1E+B6yuw4KLJqL0m1vwIUgO4qXaqxWxVWnJexLuhW4D+5KqThLNTk30CVj3NprQ9y/6gDnCOSBm3riifK7uLW7fySG5qCfA4nc+GzO4jWtcGwfaQSKY0xWUTZdBzhxJHQe8HovO3IB68XiQpwncOd8ViGXTgT24/6r6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761010503; c=relaxed/simple;
-	bh=zcCa3PPu9/jhKYV9BJJfd0NHAwfz9sx2iURZnnhClOs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=TYPPvOU4/P8xMrh7mHjw/XKfHQETJBQQT+IPiw0pqoxsYxV9dAlvirCPukPFgVCUGgZKeoAjQpYSdyAW16RZ1KcLLDhY+CuAd3ZERy2rLaVRog4DLou/kJpbbws8theSTHf4YEIiacuCHILz1t6ENoqaaum+LGEMd69a9W2iXO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Oj4OdW2/; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761010501; x=1792546501;
-  h=date:from:to:cc:subject:message-id;
-  bh=zcCa3PPu9/jhKYV9BJJfd0NHAwfz9sx2iURZnnhClOs=;
-  b=Oj4OdW2/Ig4vJ8hSNkkKy0jQ+3cW2vvGtc7VuNqeTEf1JaF3QoopnpiD
-   Px7xaX4G3Ht2yykTACiQZ96lNXJtyvNa0aHm4ttt34qJ3TkISsNAmeNdZ
-   hXllbOzPUPjRX6MTTja16IWmGT/Vsz5U2RAXzMyl10Psf8d6ZU7BzZxuV
-   Gs/mv8FQBi0W1p8xirCHvRPsX1YcQvO/+WniYrAYcYxwnM5huZWU3Q/04
-   oa1RVomWPpAbTZBn4bkAfQGiOd/GCsgxchHqKqjMuNMg+5KFueJdGnX3H
-   SO2ofitsfR3/MKClqLa0VsqWdRktbxBEEm4KSmfzBPmtYNpSQqaAXMQGc
-   Q==;
-X-CSE-ConnectionGUID: CL/hG7NwRPWDVR1lA+guAA==
-X-CSE-MsgGUID: ZSFYEppaQwSeeggDrZnrIw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="66996227"
-X-IronPort-AV: E=Sophos;i="6.19,243,1754982000"; 
-   d="scan'208";a="66996227"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 18:35:00 -0700
-X-CSE-ConnectionGUID: 4URtJMB+Rd6v+a+JehOz1g==
-X-CSE-MsgGUID: Gl2NzFY9SLu58QMKu82g3Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,243,1754982000"; 
-   d="scan'208";a="183318918"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 20 Oct 2025 18:34:58 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vB1H6-000ALl-2B;
-	Tue, 21 Oct 2025 01:34:56 +0000
-Date: Tue, 21 Oct 2025 09:34:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:renesas-arm-defconfig-for-v6.19] BUILD
- SUCCESS a73b6603b42859f82c6d6f863691803bd24fb11c
-Message-ID: <202510210924.e7C2Z37u-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1761011139; c=relaxed/simple;
+	bh=h31EBvV8csPhsup4AJXlixdin0clBjDe0xtnGV4uVn8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Fo0t/lkj7cKk5jH3yjnLUwG3WpvFCgCU+P0pIZtfUXkotWANpJ71aomwml2bZCz+5rdmOM4qwjgRI9t6T361QWIv0MLiRYP8wQQsdwQPODOswwkg2QKXJz2POmzy4wkTwsxzW1g/ZSFzbIRIXhUBDVIwb8kpxBMxs96SzOXaM4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LYWtAMwa; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27B5CC4CEFB;
+	Tue, 21 Oct 2025 01:45:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761011139;
+	bh=h31EBvV8csPhsup4AJXlixdin0clBjDe0xtnGV4uVn8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=LYWtAMwaRAP5wym98g8ezvDR6ZPHEt6rN9AQDcJW/Hunj7AIjTmpHNmqMt1zikfjF
+	 hWon9ZVrwPSsP4CwlErkVCDLxSUDl3Fz1XAHZCa7H2CtwuHtxiqmX+B53mleqz62fI
+	 47ygV3V0Q+TJKwjQkaVVGQKMf4tslY1T4ky8nOb8M8iAwYJ/1JLmlT2ijSz/bKOKqB
+	 3HmzNrLgTuUS0d7+CNeNjrwQGXWFQxFmLwr3HRvXs4/GF3b7AaFbBP8ss/ox9MzypD
+	 mAqhyT1ND7yZxIMF/6dMRkNK8Uol8Ljl/rpEvSJpM/unnE87edm+HLOK4XPhVo1+SO
+	 dAw2SAb7+gGew==
+Date: Mon, 20 Oct 2025 18:45:37 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+Cc: Jian Shen <shenjian15@huawei.com>, Salil Mehta <salil.mehta@huawei.com>,
+ Jijie Shao <shaojijie@huawei.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Sunil Goutham
+ <sgoutham@marvell.com>, Geetha sowjanya <gakula@marvell.com>, Subbaraya
+ Sundeep <sbhatta@marvell.com>, Bharat Bhushan <bbhushan2@marvell.com>,
+ Tariq Toukan <tariqt@nvidia.com>, Brett Creeley <brett.creeley@amd.com>,
+ Niklas =?UTF-8?B?U8O2ZGVybHVuZA==?= <niklas.soderlund@ragnatech.se>, Paul
+ Barker <paul@pbarker.dev>, Yoshihiro Shimoda
+ <yoshihiro.shimoda.uh@renesas.com>, linux-renesas-soc@vger.kernel.org,
+ Richard Cochran <richardcochran@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, Vladimir Oltean <vladimir.oltean@nxp.com>, Simon
+ Horman <horms@kernel.org>, Jacob Keller <jacob.e.keller@intel.com>,
+ netdev@vger.kernel.org
+Subject: Re: [PATCH net-next v2 1/6] octeontx2: convert to ndo_hwtstamp API
+Message-ID: <20251020184537.711e3ebc@kernel.org>
+In-Reply-To: <20251017182128.895687-2-vadim.fedorenko@linux.dev>
+References: <20251017182128.895687-1-vadim.fedorenko@linux.dev>
+	<20251017182128.895687-2-vadim.fedorenko@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-arm-defconfig-for-v6.19
-branch HEAD: a73b6603b42859f82c6d6f863691803bd24fb11c  ARM: shmobile: defconfig: Refresh for v6.18-rc1
+On Fri, 17 Oct 2025 18:21:23 +0000 Vadim Fedorenko wrote:
+> +		if (!test_bit(CN10K_PTP_ONESTEP, &pfvf->hw.cap_flag)) {
+> +			NL_SET_ERR_MSG(extack,
+> +				       "One-step time stamping is not supported");
+>  			return -ERANGE;
+> +		}
 
-elapsed time: 947m
-
-configs tested: 31
-configs skipped: 119
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                   allnoconfig    clang-22
-arc                     allnoconfig    clang-22
-arm                    allmodconfig    gcc-15.1.0
-arm                     allnoconfig    clang-22
-arm                    allyesconfig    gcc-15.1.0
-arm         randconfig-001-20251020    gcc-14.3.0
-arm         randconfig-002-20251020    clang-22
-arm         randconfig-003-20251020    clang-22
-arm         randconfig-004-20251020    clang-22
-arm64                   allnoconfig    clang-22
-arm64                   allnoconfig    gcc-15.1.0
-arm64       randconfig-001-20251020    clang-22
-arm64       randconfig-002-20251020    gcc-12.5.0
-arm64       randconfig-003-20251020    gcc-8.5.0
-arm64       randconfig-004-20251020    gcc-10.5.0
-csky                    allnoconfig    clang-22
-hexagon                 allnoconfig    clang-22
-loongarch               allnoconfig    clang-22
-m68k                    allnoconfig    gcc-15.1.0
-microblaze              allnoconfig    gcc-15.1.0
-mips                    allnoconfig    gcc-15.1.0
-nios2                   allnoconfig    gcc-15.1.0
-openrisc                allnoconfig    clang-22
-parisc                  allnoconfig    clang-22
-powerpc                 allnoconfig    clang-22
-riscv                   allnoconfig    clang-22
-s390                    allnoconfig    clang-22
-sh                      allnoconfig    gcc-15.1.0
-sparc                   allnoconfig    gcc-15.1.0
-um                      allnoconfig    clang-22
-xtensa                  allnoconfig    gcc-15.1.0
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+You're adding quite a few extacks in this series.
+Drivers should generally used the _MOD() flavor of the extack helpers
+-- 
+pw-bot: cr
 
