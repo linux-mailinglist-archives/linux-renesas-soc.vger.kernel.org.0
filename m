@@ -1,127 +1,117 @@
-Return-Path: <linux-renesas-soc+bounces-23350-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23351-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id B273DBF4EB7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Oct 2025 09:21:43 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3034FBF5019
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Oct 2025 09:41:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 031AF50537C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Oct 2025 07:14:37 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 03AFC188C6B1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Oct 2025 07:42:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE85F2749C9;
-	Tue, 21 Oct 2025 07:13:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="b8z9VVcO"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E5A827FD4A;
+	Tue, 21 Oct 2025 07:41:47 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A2B325A2AE
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Oct 2025 07:13:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8CE428000F
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Oct 2025 07:41:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761030831; cv=none; b=sjqSfQX0p6XotPkMJ+50ETfd40DfSVNfl7LpbwEXyv+dW0b0pTrmyPL5+gZ+dRY/cP6pbM8H0irgxnp0JMNw1c+LxDlAlZrbV+i2V7tELzVhhkQZSGzIuXlxKz3TaPEPEPcVuGSS7/siWAboRaVM6KLnyqvN557d2J2DQ20z680=
+	t=1761032507; cv=none; b=Ff5H/BOQBRMFUJaCrAZJXc39LxMj+tLpRWYbM2xSdrCPaZ4+K2znQW1lcC/3NwPzr/horKPBVvlX0W3RBMNGYg4eDiei8EyKxXbsbdC4p3JOmf8bR0DqZ5WVLZyw8N3uyR/tszPcVHiDm1Ea5FYidTtuFbvkm5VQsp3ps0yvqPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761030831; c=relaxed/simple;
-	bh=shnocEozDkLvjkbbYpfPCYmb3LZ8IOs5v0zgxrtXZUA=;
+	s=arc-20240116; t=1761032507; c=relaxed/simple;
+	bh=otiHuP8MqcFl29NGiXitYRoawdX0AzQvSYjXcRF3MuY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NRwp1ScNC52PE2LhKVG1qEuh8/KrKqfI5QFGM6eP1mOZvu/0XJow0+28cv74IbiV92cIVMimjcmXOKzy1aasbRvyFMNzLaU3xo4Bq6BkiyWH6soR/TWpmiZvYqfxwYXIAAn1WN7tvzF/wGg8b+DxVYqba8+ke8iz4K46m1hFpxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=b8z9VVcO; arc=none smtp.client-ip=209.85.208.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-371e4858f74so62625651fa.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Oct 2025 00:13:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1761030827; x=1761635627; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AuafyjGQlDm3fykSpNADHjSfG+tYdvPkfZzAXtiw/Co=;
-        b=b8z9VVcOmmTUtezm8NH6uyAlUgkYd3nhzDiMQfBc/a998Q55CuP4YskghZ3rr4OyPp
-         VvvPx+pfflk55QdmUM0iHBu3FCkLjWVluHP+tDFR9iJpGREP6ViN392s37StstEM2285
-         aWbrzFcrCfPqB5peC7ChUkk5UkIgR1pfiAasAALOD571jgXg1THRB7ij65LHN8glO/Dp
-         MIQQ3DIXB4onaD8yTFFNoaLaW2kReUXR/rDBqQ5ate2w7NQFDtfy//w2Icphk8eXkDtb
-         iA1wla7kmHEZSEjcNzt/14DmXufVALtH4WUZ0gceiTCl7zwnWmL2sb9flC98dsNwsiqB
-         x9wA==
+	 To:Cc:Content-Type; b=ZBO4fn/VygteE6buCQmwoctAjTaWhPoIMqK4vGpVL1IChDQ060OOWKZyYyWaW1QDw3B4NYo/miIsLrZq6f6woj4GYZcKKVc8aL5L5HjYhRtUhuqQks9NGLnPcHx64iDI/fyT4qt28QXNAdZgcJLS+JoDrGqjBa+l86zuyKk2MLk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-54bc6356624so5343647e0c.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Oct 2025 00:41:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761030827; x=1761635627;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AuafyjGQlDm3fykSpNADHjSfG+tYdvPkfZzAXtiw/Co=;
-        b=jxsQFueIZGBn3mVezQeoUYn+9Ww7mV4ELAZsUvXk2WDximw7qx7A+8D9fGflOAQpJH
-         O2QNexCt48zge7Cj7iFcFmYkva7WL/GLt//zd6bVliHNowclFLalbRENo08+trKizVuY
-         F3aduLx4odT2E0KNtqRBIrGqE5xYKGV2HPlTAfWG7mwGKNJLSN5guz8OM4UY7hUxyd/L
-         +Fx7uI709qaOJjCUEDR3upfCMkDdy6svfzWjkh+lnkUj7sKnZyO6s3/kyR0OpcezPo7S
-         DDlnP8VOMNo7Eua8Tqk3AWqKLFR0j4hqkUv4VQ16pt6i9TiRQaWtImZ3w9n6tIBWqwmQ
-         L+zw==
-X-Forwarded-Encrypted: i=1; AJvYcCU7SKRFzxuKGp22kjsE/sf7Cb4pybWabM7Eqsb/R1aVnWSGIa/e7vZiIP3Nga09CRpwGvkdf+/so2ba+ppOq0j4cQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzEogbl72qgzk6Dz3bn6dDK33kXGCeowSTpgPJYxjDz1CPiecbB
-	dQZ4OjmZU3eV+bFs+czr9rNH55A5Vjesvtrs5Sc49XGYr//AUcxSmysH/z9n2QsQ8KMblgZyiIH
-	bKQGlngDNYRbXAy//Xi9CSvYJufawRYl88DHHxfdSzg==
-X-Gm-Gg: ASbGncvalgc1dbuMsneyR1RolYIcS95cUrjCfoYPG6K5L88CdFY2nreK177K97/21W/
-	pqIGWYnOl6lR2+opxX6yAv1a/WuxMfOx3eiAb9detPQv7X7ncydFi2xq4s4X2BrLkDfjgUunJH3
-	Dp8hvNVVyLsRu0x2EgUi433sgZqHH8brV7SvlIJhqMkVsGrDLMloBrKiUP7v89JXydEY6sYmhOZ
-	zNxaYDikJgjQlD2Bb0FI4ubmLWarBYO+YZvzqgkvM0oH5+eZTKRlSKeX88dWi91O07SNsg=
-X-Google-Smtp-Source: AGHT+IFXewE5inD7CgvvKJbWyXxMNEGciqb/dhdvor+BMXV8b4ojerJafcr1lFElVmRq6Yah9RSUyGHsXMPY7mK9Yhs=
-X-Received: by 2002:a05:651c:1118:10b0:376:2802:84c2 with SMTP id
- 38308e7fff4ca-377822498eemr50953931fa.23.1761030827133; Tue, 21 Oct 2025
- 00:13:47 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1761032503; x=1761637303;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vHtLwELKBpjOgubljJO79MPJCLiaPMgxYrlfZQau14o=;
+        b=UI/fr7Ju2Qh2kj6+PseOIWbvkIbH9ubRnBbldZLGawUd/CkSZajFGPFlFSOUmMBDTn
+         pq7QA4A+a1odAiy03RK2E6EmNM8eEqjf+XT2qHEgxw3FXncjQVGZGyj+LoybhgjVownP
+         6yb7mD55kjDHcItZ+YbdHscF0v+nRkC4NEIclHvf0eQwGhm4cuF5CzJgC30ps7CKRDn+
+         GOu2QDQ5c8CaF2NS/cn8kLEGszIb/aFyvYZ++9h2AxZ1v7dT/1mzw3bWb562HlD8kfBc
+         /ZGqiiy+Zp+Q5Yqz9EF3guUS9+bQFEpMwzGMat13cIkzZk4b4QAMTxbjf7OgIgORKn4r
+         J6rg==
+X-Gm-Message-State: AOJu0YxQIt6Ys5+OM9zsVmWQms/tzIYxiL2hC63tYDOK6ChcnorPhV6E
+	oWGtSWYsz65DA+r4V7IPY2d94C35/8XThMV/W2wAHKziQYoCV3v0hX/blAfAbhMv
+X-Gm-Gg: ASbGncu5Qnn2PgfQy+RkHBTXTrW3bdiIKhJeCekBK0asnGvxp1XgvGfWxXOgbWJwmnj
+	DVTSoxwon09UgmUvsshScBUwYxMCC0wiTUdJ5I9CZID65m2OgaOLQ2+MnBPupjFG0PIOx/rQA9V
+	IjTrt1FmUCVY7tHOQ1gpo4A/Dax2UJge1QcSqYb6oPOVVnNsz3tXT7Bfrmbh5SY/s2a+Qwz4HE9
+	smF1CzyjuYD6K8iopcigJU6FvxaHFKUY4IVt6wvHEWsHgsay+KLCBzu5A895Xtnaqf7KA8FcFn7
+	XqdTxdOGNdyfbiM2TwQXrcbksk5Num9NtfwPw7gyuLjBrCVK6btdH8l9hlX8nvfNpEqak4kvf9q
+	WUEJ211aAuG0FUuZPe2xpoLYOStDxKkskHuvZG2aE2r70gYmg+vs2cD+jpS5GNSQrWHxF69KYIr
+	pUKzWNe5sYrseaRH8Dv91dpHUZSmtmQ5WzSAikmA==
+X-Google-Smtp-Source: AGHT+IE5eTK3vwXq2u57V5t1c8TZPTiAcJE0vvBEAEx8Vx1By+oRmWQe8rfc523w+6tCLjHUGI+yQA==
+X-Received: by 2002:a05:6122:2194:b0:556:40b4:b65d with SMTP id 71dfb90a1353d-5564eeffa6dmr4945848e0c.8.1761032503331;
+        Tue, 21 Oct 2025 00:41:43 -0700 (PDT)
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com. [209.85.222.43])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-55661f99893sm3088610e0c.6.2025.10.21.00.41.42
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Oct 2025 00:41:42 -0700 (PDT)
+Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-932e88546a8so472034241.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Oct 2025 00:41:42 -0700 (PDT)
+X-Received: by 2002:a05:6102:c02:b0:5a5:57f0:f426 with SMTP id
+ ada2fe7eead31-5d7ce418dcamr6320226137.5.1761032502495; Tue, 21 Oct 2025
+ 00:41:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251020080648.13452-1-herve.codina@bootlin.com>
-In-Reply-To: <20251020080648.13452-1-herve.codina@bootlin.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 21 Oct 2025 09:13:36 +0200
-X-Gm-Features: AS18NWCX83cFiM9B--nMGIfUIvsXguic5HJGZGgd7PDtP7ogZyhxvv6xui0ko10
-Message-ID: <CACRpkdYwG_rQn7eF9QNfApo+h-BGuC8Q_nPyeAKvcuUh+Bf=Xg@mail.gmail.com>
-Subject: Re: [PATCH v5 0/8] gpio: renesas: Add support for GPIO and related
- interrupts in RZ/N1 SoC
-To: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Hoan Tran <hoan@os.amperecomputing.com>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Saravana Kannan <saravanak@google.com>, Serge Semin <fancer.lancer@gmail.com>, 
-	Phil Edworthy <phil.edworthy@renesas.com>, linux-gpio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, Pascal Eberhard <pascal.eberhard@se.com>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+References: <20251017114234.2968-2-wsa+renesas@sang-engineering.com>
+ <CAMuHMdUFFprx2HPT9oyF_Yer_zG3yoajzFUcTyDephCOA2yz_g@mail.gmail.com> <aPaRjKJVx6jvWP58@shikoro>
+In-Reply-To: <aPaRjKJVx6jvWP58@shikoro>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 21 Oct 2025 09:41:31 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXExfhBMtO7cf5Otcge6CD7QzypPCQ1NH9Pd4AoOZxmSg@mail.gmail.com>
+X-Gm-Features: AS18NWBmiYB5p2haag9w7bjC-WdQ8ezCB0bEPtScPtUlZdyG1SgUatrNDYHLwgA
+Message-ID: <CAMuHMdXExfhBMtO7cf5Otcge6CD7QzypPCQ1NH9Pd4AoOZxmSg@mail.gmail.com>
+Subject: Re: [PATCH] soc: renesas: rcar-rst: keep RESBAR2S in default state
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Herve,
+Hi Wolfram,
 
-On Mon, Oct 20, 2025 at 10:07=E2=80=AFAM Herve Codina (Schneider Electric)
-<herve.codina@bootlin.com> wrote:
-
-> The first patches in this series are related to a new helper introduced
-> to parse an interrupt-map property.
->   - patch 1: Introduce the helper (for_each_of_imap_item)
->   - patch 2: Add a unittest for the new helper
->   - patch 3 and 4: convert existing drivers to use this new helper
+On Mon, 20 Oct 2025 at 21:46, Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> > BTW, did you experience any ill effects from accidentally clearing
+> > this bit? IIRC Falcon (and Spider) still rebooted fine before.
+> > Perhaps you need it to make subsequent reboots work?
 >
-> Patch 5 adds support for GPIO (device-tree description)
->
-> The last patches (6, 7 and 8) of the series are related to GPIO
-> interrupts and GPIO IRQ multiplexer.
->
-> In the RZ/N1 SoCs, GPIO interrupts are wired to a GPIO IRQ multiplexer.
->
-> This multiplexer does nothing but select 8 GPIO IRQ lines out of the 96
-> available to wire them to the GIC input lines.
+> I didn't experience problems, found it in the datasheets while working
+> with S4 and watchdogs. I'd think a likely issue is that
+> MD-switch-changes might not be detected after a soft reboot?
 
-I had my worries about the multiplexer but seeing the whole picture
-and the nice refactoring with for_each_of_imap_item() I have to
-say the patch series looks very nice.
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Thanks, I also see no ill effects on the remote Gray Hawk Single
+that has old firmware and thus relies on commit accde57f464304cf
+("[TEST] soc: renesas: rcar-rst: Enable WDT reset on early R-Car V4M")
+in renesas-drivers.
 
-Yours,
-Linus Walleij
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.19.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
