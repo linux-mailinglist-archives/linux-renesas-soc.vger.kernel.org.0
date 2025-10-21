@@ -1,42 +1,57 @@
-Return-Path: <linux-renesas-soc+bounces-23358-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23359-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D94B0BF5264
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Oct 2025 10:06:56 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9158BF5273
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Oct 2025 10:07:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EBE1C3A37D6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Oct 2025 08:06:11 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 042FB4F37D2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Oct 2025 08:07:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 381CD2E9EB2;
-	Tue, 21 Oct 2025 08:06:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B09E2E0909;
+	Tue, 21 Oct 2025 08:07:16 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BDBA2E8E0C;
-	Tue, 21 Oct 2025 08:06:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73F2B26CE39;
+	Tue, 21 Oct 2025 08:07:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761033970; cv=none; b=TiUVJP2LOzOiVMk1RXknX2wK94qKXDCLHka4JskFeT35VPZX9F6cbosADLnhiSOG3UPLFvWBaCiFVU5iRHb3ExKuqtoqeSBLwFXfKRQcJH7oQbHtoF4msu5FISwUvfLloN8VQ0oKzyAAFrlnohBGrHBC0Tkr/Rg+eH65ghd/H5U=
+	t=1761034036; cv=none; b=K8jr+nLSRHmbIzdF2hHa7poQoTAEwMwmllU8feastLbLGl85HbHCNOtRSfJjhGNRVqvngWzfS2AtpEiHggFrYTk0m5Ikyu90NJVlqhkAWEbKyHA7Kvy/73CwC/TNQvvQw3wJMwhMPTA7/dcEFwEJ2xJ5wMo1xwSc3rHmBy29lKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761033970; c=relaxed/simple;
-	bh=N+UBxgEfFV4F2I/XWA9Ic1gx8435iNi6PR+Q4ZVk2wI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Sy8xLq97HjnEKODmwm2x19EfU44lbggi/OGj7f8f3pGxSLtoHEz4swWbYe0sTv2WT/sCMDKoKCcd9I4jw19xZIoAkXNVCxn86yoV5/hRd2aRRHulE8pM2l8bdfYd71F7TOpDiRLDNCJ9aHC4KiyqwMHOEs4yXyb7tvQdiDFLktI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94EE2C4CEF1;
-	Tue, 21 Oct 2025 08:06:08 +0000 (UTC)
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v2] pinctrl: renesas: rza1: Make mux_conf const in rza1_pin_mux_single()
-Date: Tue, 21 Oct 2025 10:06:05 +0200
-Message-ID: <168e06bc57081aa3c42ff9aa2740a0a108df7d34.1761033950.git.geert+renesas@glider.be>
+	s=arc-20240116; t=1761034036; c=relaxed/simple;
+	bh=4kb2HYMejoySv9w9Q1uqYRANRQcyxQHbsxi04sg7A6A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Gy8aX6US54lJWQUOyLcSOiDIdotsNJrDuJYCpP+vSu+KLdSE2y+8KuwMIDertuBEgOM3QYNYPol9S9V2hhVTFN8/NstU9Z4JPcRSQ5XEaFqy5ga9OjLgAF4yj6IvMwgQdDQjytdhAg6MyzXqXqJV7XlmLxLILVe0mdjCWj4l6sY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+X-CSE-ConnectionGUID: bir40SgjT8iYeXF1XOMc2A==
+X-CSE-MsgGUID: HbllEn4QR+m06bUdj35H6Q==
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 21 Oct 2025 17:07:12 +0900
+Received: from vm01.adwin.renesas.com (unknown [10.226.92.145])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 5F6724141C98;
+	Tue, 21 Oct 2025 17:07:07 +0900 (JST)
+From: Ovidiu Panait <ovidiu.panait.rb@renesas.com>
+To: claudiu.beznea.uj@bp.renesas.com,
+	alexandre.belloni@bootlin.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	geert+renesas@glider.be,
+	magnus.damm@gmail.com,
+	mturquette@baylibre.com,
+	sboyd@kernel.org,
+	p.zabel@pengutronix.de
+Cc: linux-rtc@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-clk@vger.kernel.org
+Subject: [PATCH v2 0/6] Add RTC support for the Renesas RZ/V2H SoC
+Date: Tue, 21 Oct 2025 08:06:59 +0000
+Message-ID: <20251021080705.18116-1-ovidiu.panait.rb@renesas.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -44,57 +59,41 @@ List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The rza1_mux_conf object pointed to by the mux_conf parameter of
-rza1_pin_mux_single() is never modified.  Make it const.
+Hi,
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
-To be queued in renesas-pinctrl for v6.19.
+This series adds RTC support for the Renesas RZ/V2H SoC.
+
+The Renesas RZ/V2H RTC IP is based on the same RTCA3 IP as RZ/G3S
+(r9a08g045), with the following differences:
+- it lacks the time capture functionality
+- the maximum supported periodic interrupt frequency is 128Hz instead
+  of 256Hz
+- it requires two reset lines instead of one
+
+Best regards,
+Ovidiu
 
 v2:
-  - Add Reviewed-by,
-  - Rebase on top of commit fbba4a9e368f6ec5 ("pinctrl: constify
-    pinmux_generic_get_function()") in v6.18-rc1.
----
- drivers/pinctrl/renesas/pinctrl-rza1.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+- Updated bindings and RTC dts node with "reset-names" property.
 
-diff --git a/drivers/pinctrl/renesas/pinctrl-rza1.c b/drivers/pinctrl/renesas/pinctrl-rza1.c
-index 4c7326e3de07ce38..3cfa4c8be80eafd5 100644
---- a/drivers/pinctrl/renesas/pinctrl-rza1.c
-+++ b/drivers/pinctrl/renesas/pinctrl-rza1.c
-@@ -668,7 +668,7 @@ static inline int rza1_pin_get(struct rza1_port *port, unsigned int pin)
-  * @mux_conf: pin multiplexing descriptor
-  */
- static int rza1_pin_mux_single(struct rza1_pinctrl *rza1_pctl,
--			       struct rza1_mux_conf *mux_conf)
-+			       const struct rza1_mux_conf *mux_conf)
- {
- 	struct rza1_port *port = &rza1_pctl->ports[mux_conf->port];
- 	unsigned int pin = mux_conf->pin;
-@@ -1118,7 +1118,7 @@ static int rza1_set_mux(struct pinctrl_dev *pctldev, unsigned int selector,
- 			   unsigned int group)
- {
- 	struct rza1_pinctrl *rza1_pctl = pinctrl_dev_get_drvdata(pctldev);
--	struct rza1_mux_conf *mux_confs;
-+	const struct rza1_mux_conf *mux_confs;
- 	const struct function_desc *func;
- 	struct group_desc *grp;
- 	int i;
-@@ -1131,7 +1131,7 @@ static int rza1_set_mux(struct pinctrl_dev *pctldev, unsigned int selector,
- 	if (!func)
- 		return -EINVAL;
- 
--	mux_confs = (struct rza1_mux_conf *)func->data;
-+	mux_confs = (const struct rza1_mux_conf *)func->data;
- 	for (i = 0; i < grp->grp.npins; ++i) {
- 		int ret;
- 
+Ovidiu Panait (6):
+  clk: renesas: r9a09g057: Add clock and reset entries for RTC
+  dt-bindings: rtc: renesas,rz-rtca3: Add RZ/V2H support
+  rtc: renesas-rtca3: Use OF data for configuration
+  rtc: renesas-rtca3: Add support for RZ/V2H SoC
+  arm64: dts: renesas: r9a09g057: Add RTC node
+  arm64: dts: renesas: r9a09g057h44-rzv2h-evk: Enable RTC
+
+ .../bindings/rtc/renesas,rz-rtca3.yaml        | 45 ++++++++++++++++---
+ arch/arm64/boot/dts/renesas/r9a09g057.dtsi    | 15 +++++++
+ .../dts/renesas/r9a09g057h44-rzv2h-evk.dts    |  4 ++
+ drivers/clk/renesas/r9a09g057-cpg.c           |  4 ++
+ drivers/rtc/rtc-renesas-rtca3.c               | 27 +++++++++--
+ 5 files changed, 87 insertions(+), 8 deletions(-)
+
 -- 
-2.43.0
+2.51.0
 
 
