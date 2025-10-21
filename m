@@ -1,142 +1,127 @@
-Return-Path: <linux-renesas-soc+bounces-23389-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23390-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7BB1BF7813
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Oct 2025 17:52:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCDA7BF7952
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Oct 2025 18:07:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 628373AF210
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Oct 2025 15:50:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 818964060DD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Oct 2025 16:07:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEF64341AC1;
-	Tue, 21 Oct 2025 15:49:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91F35341AC1;
+	Tue, 21 Oct 2025 16:07:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O8ob5zPF"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="aI5oFskQ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB8F13451C1;
-	Tue, 21 Oct 2025 15:49:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBFAD3451B7;
+	Tue, 21 Oct 2025 16:07:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761061756; cv=none; b=Jk7olvlIBJ2t9psNLdvhZB29A8yXOjE4xyNX4XpcvqBLHiUWGY/7zwUNTxBkNexO9g7U3z3GJkeW/UQyQUhlBIuQgta3ScCtGknY53T1GuY2EX9yp15v9+V3fiA+YAY3+FIn5aLiMTGz9FLTX1KgKtV/BTEhAf/ph240LZ8aDHE=
+	t=1761062832; cv=none; b=Tp2s0hHks0t5zMhFZGvp64qN3DJAGL+vHP5AZcFHMXb+868YlzATc0f9HpkqAFKIuPkRYxRqdpRpu5uX5WyiH3Btn0ZSseManLON/zuk6+h37uULO6deU/gcbPwhoFXdZcWDIDVWMW09PRE2XSjJ8ENiLulHzkbTiXQ8RiUbxK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761061756; c=relaxed/simple;
-	bh=mHhFCYFocr+dCFDykT+y2zWggmj42wEC+1dQea38glQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W7lOB5WR6Cq2XdzVUxuGecWQU9m0DWCpKIY+FV8k8yQIKOGD5RS61E7Ww2sbPPwX5tgzyyRcSukAvcTOxoDImSFkb1XfIpQ2+ZPtqOMo6Q+S3wZL5zVWx6if+IG8Lp3Rt8WE+dJjU2NJCuUq4fTAkk1wTbX9nJxj2Fy22DQkyag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O8ob5zPF; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761061755; x=1792597755;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=mHhFCYFocr+dCFDykT+y2zWggmj42wEC+1dQea38glQ=;
-  b=O8ob5zPFtZC+I3ZB+PTqeqsy97+di/W6UNjnyEgwrUh9vZRNsoAUPj3X
-   TIpXwOwT0M6b9sLM+Uh20s6faI7Yf2lz2TLPlRLhYdKkYwWhTO9nYd6DG
-   qGF5OIK5ypDRAngWwYOvZrnpQwes/Xjfp7UixfXA0doxc0HkahaxnbwaI
-   tuks8Kr+DzKFUa1mVarVy1+igW4go+TuEFit0QeZqvHC8GJx+oGZt5AqO
-   yQUu+C4tfdaFgWkv9oPuGVvxP+aJrcyaviactjzxqeGXBg2y+DP2C1slb
-   mjjVC6I0Eo9DRfTvluCib/mkMsvkQ8MrHEr63DUlDTPp4WbyxWeZ+6qSM
-   A==;
-X-CSE-ConnectionGUID: 0g8k7xB/SyOmcawCtKuAFA==
-X-CSE-MsgGUID: o93dCX2iTxmt84niowzjqA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="88659475"
-X-IronPort-AV: E=Sophos;i="6.19,245,1754982000"; 
-   d="scan'208";a="88659475"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 08:49:14 -0700
-X-CSE-ConnectionGUID: OxZFyNKdRZ+Nybx76W3mmg==
-X-CSE-MsgGUID: mhaXEPUiSDOqEh84c3xYcA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,245,1754982000"; 
-   d="scan'208";a="187889819"
-Received: from fpallare-mobl4.ger.corp.intel.com (HELO ashevche-desk.local) ([10.245.245.148])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 08:49:12 -0700
-Received: from andy by ashevche-desk.local with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1vBEbl-00000001XBs-08tG;
-	Tue, 21 Oct 2025 18:49:09 +0300
-Date: Tue, 21 Oct 2025 18:49:08 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, linux-pci@vger.kernel.org,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Kai-Heng Feng <kaihengf@nvidia.com>, Rob Herring <robh@kernel.org>,
-	LKML <linux-kernel@vger.kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 0/3] PCI & resource: Make coalescing host bridge windows
- safer
-Message-ID: <aPerdPErjXANiBOl@smile.fi.intel.com>
-References: <20251010144231.15773-1-ilpo.jarvinen@linux.intel.com>
- <CAMuHMdVwAkC0XOU_SZ0HeH0+oT-j5SvKyRcFcJbbes624Yu9uQ@mail.gmail.com>
- <89a20c14-dd0f-22ae-d998-da511a94664a@linux.intel.com>
- <CAMuHMdUbseFEY8AGOxm2T8W-64qT9OSvfmvu+hyTJUT+WE2cVw@mail.gmail.com>
- <20844374-d3df-cc39-a265-44a3008a3bcb@linux.intel.com>
+	s=arc-20240116; t=1761062832; c=relaxed/simple;
+	bh=Z8Z45Yh74qlqoROn/D5Z7pkE63DX4wDr9y145M3BGmk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iZ2PFrmsqzC/QYUOp3SNZu/O1OySYoUUdmc5txvw8AYmIVjHfDCo97Md0gBb03r8xwSt72jRPDdpw9KD03ttdTR9XApViLeZKU1bye3N+Sm9JiAU00GEHvod2y9nGYxQgymBgsxXpZLuTVHEdTD0HOXslptN4pcF9RSq64EO3lw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=aI5oFskQ; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4crccq0klBz9svN;
+	Tue, 21 Oct 2025 18:07:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1761062827;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=58QwQ0d6ddlVQwt1yt7loHo/bKQZqW/rus6AD7Mcw1E=;
+	b=aI5oFskQEXHIokraiqSrvW7Ekjoagz5LsJQY6WsooS2ZwIykHaSu11XjktEApNQt0e9RPk
+	3YWU+2RiEnmUaKTCgrSvlzFK6k/gvvPZHZSndJg++AkjdNX1YwAXapufyWyiEw7+niger0
+	hc90/ZnMqlirxLuSgwE9Phga/2iNNgLD6rp0ZBU11mKZIuOx7gTNdQZAaJu9q03o1Rs+61
+	tFctkbfq4ilfUcPZMDTZUXBbzaod89pb6h4GHNf4XCdUubnLOrEmS0t6mLlZ4kQaxn62K/
+	NfbMjBr4dfXaYzXqxVvhKAVYRf88V2Ec13YQ2iDf1hfY3c6LYtmU3dJOGHJcXg==
+Message-ID: <0e81437f-a13f-4605-b7f7-6e6640411f30@mailbox.org>
+Date: Tue, 21 Oct 2025 18:07:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20844374-d3df-cc39-a265-44a3008a3bcb@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Subject: Re: [PATCH] arm64: dts: renesas: sparrow-hawk: don't reserve SWDT
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ linux-renesas-soc@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
+References: <20251017115123.3438-2-wsa+renesas@sang-engineering.com>
+ <CAMuHMdUCSRKAbD=DfJxfFGpfKTRkt=a2BO+HnwTqALBeeECOkA@mail.gmail.com>
+ <aPaSF2lokJ748cTx@shikoro>
+ <CAMuHMdXv_R6POTQe=MEcEOraKhjhzwrW5skkWnzgvijF2qAykw@mail.gmail.com>
+ <fba13116-2495-49a3-a1b5-2eecb33bb448@mailbox.org>
+ <CAMuHMdUP_bH5WW3=3J1H=6SocKzQXPdP7PFfYDrgaj4EhYTaYQ@mail.gmail.com>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <CAMuHMdUP_bH5WW3=3J1H=6SocKzQXPdP7PFfYDrgaj4EhYTaYQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: a0008dc800233e8b927
+X-MBO-RS-META: iaems8tq65apnwufqpu5oy6gkh6kz5jw
 
-On Tue, Oct 21, 2025 at 02:54:03PM +0300, Ilpo Järvinen wrote:
-> On Tue, 21 Oct 2025, Geert Uytterhoeven wrote:
+On 10/21/25 3:22 PM, Geert Uytterhoeven wrote:
 
-...
+Hello Geert,
 
-> I'm sorry, it's indeed a bit confusing as some of these patches never 
-> have been in Linus' tree.
+> On Tue, 21 Oct 2025 at 15:14, Marek Vasut <marek.vasut@mailbox.org> wrote:
+>> On 10/21/25 9:09 AM, Geert Uytterhoeven wrote:
+>>> On Mon, 20 Oct 2025 at 21:48, Wolfram Sang
+>>> <wsa+renesas@sang-engineering.com> wrote:
+>>>>> Or better: drop all these swdt = reserved commits?
+>>>>
+>>>> Maybe. Since Marek is maybe interested in fixing FW...
+>>>>
+>>>>> TBH, I always had my doubts about making them reserved in the upstream
+>>>>> DTS, and there does not seem to be much gain in doing so...
+>>>>
+>>>> No strong opinion here. With "reserved" I think I followed your
+>>>> suggestion but I personally don't mind.
+>>>
+>>> Well, the proper mechanism would be that firmware using SWDT would
+>>> override the status to reserved, preventing the user from using it if
+>>> it was enabled in the DTB passed by the user.  But (a) the current
+>>> firmware doesn't do that, and (b) we currently do not have a use-case
+>>> for enabling SWDT in the DTB.
+>>
+>> Upstream TFA does enable SWDT for R-Car Gen3, but not for Gen4.
 > 
-> So I'm interested on what's the result with these changes/series together:
-> 
-> [PATCH 1/2] PCI: Setup bridge resources earlier 
-> [PATCH 2/2] PCI: Resources outside their window must set IORESOURCE_UNSET 
-> [PATCH 1/1] PCI: rcar-gen2: Add BAR0 into host bridge resources
-> [PATCH 1/3] PCI: Refactor host bridge window coalescing loop to use prev 
-> [PATCH 2/3] PCI: Do not coalesce host bridge resource structs in place
-> [PATCH 3/3] resource, kunit: add test case for resource_coalesce()
-> 
-> You might also want to change that pci_dbg() in the IORESOURCE_UNSET patch 
-> to pci_info() (as otherwise dyndbg is necessary to make it visible).
-> 
-> Lore links to these series/patches:
-> 
-> https://lore.kernel.org/linux-pci/20250924134228.1663-1-ilpo.jarvinen@linux.intel.com/
-> https://lore.kernel.org/linux-pci/7640a03e-dfea-db9c-80f5-d80fa2c505b7@linux.intel.com/
-> https://lore.kernel.org/linux-pci/20251010144231.15773-1-ilpo.jarvinen@linux.intel.com/
-> 
-> The expected result is that those usb resources are properly parented and 
-> the ee080000-ee08ffff and ee090000-ee090bff are not coalesced together (as 
-> that would destroy information). So something along the lines of:
-> 
->     ee080000-ee08ffff : pci@ee090000
+> Oh, so this is a "generic" R-Car Gen4 issue?
+> Does that mean we can use SWDT in Linux on R-Car Gen4 with TF-A,
+> or does TF-A still block access to it?
 
-For my pedantic eye, the naming is a bit confusing here. Is this a mistake in
-the code or in the example?
+I think this can be tested on Sparrow Hawk easily , with and without 
+TFA. Wolfram, how do I test the SWDT ?
 
->       ee080000-ee080fff : 0000:00:01.0
->         ee080000-ee080fff : ohci_hcd
->       ee081000-ee0810ff : 0000:00:02.0
->         ee081000-ee0810ff : ehci_hcd
->     ee090000-ee090bff : ee090000.pci pci@ee090000
+>> I can pass SWDT node from upstream TFA to next stage on Gen3 if you
+>> would like that ?
+> 
+> I guess that would be a good thing to do.  But I am afraid it is a bit
+> late in the product life cycle.  Ideally, everything that is used by
+> firmware should be marked reserved...
 
+It seems SWDT is not used by upstream TFA, but maybe it is used by 
+downstream one (or downstream loader). I can enable SWDT in either TFA 
+or U-Boot if that would be preferable, or leave it available for Linux.
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Best regards,
+Marek Vasut
 
