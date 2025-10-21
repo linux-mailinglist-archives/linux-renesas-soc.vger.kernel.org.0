@@ -1,139 +1,211 @@
-Return-Path: <linux-renesas-soc+bounces-23398-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23399-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B1C1BF8228
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Oct 2025 20:45:24 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EB6EBF8234
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Oct 2025 20:46:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B44054EAE76
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Oct 2025 18:45:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C03A6188D060
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Oct 2025 18:47:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 173A734A3B7;
-	Tue, 21 Oct 2025 18:45:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64D9B34A3AD;
+	Tue, 21 Oct 2025 18:46:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pbxPVS6j"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xf4eCt2f"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5187324A047;
-	Tue, 21 Oct 2025 18:45:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A7D52E65D;
+	Tue, 21 Oct 2025 18:46:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761072321; cv=none; b=QKzsiUjp7LqINt2h8wdrd8SpoIgOXzbeof6uk2QC19GlnoWZmPaNwgMZPq1WhKNxaYiRdZdd+l6YMokknk5dfwTSW7jDQ2678Lfc4al16nFQ+Ad0nQWw0g0zVSaKKZZyJuFzgwMHS5pUc6+mELWUXTao78ImhIqiwrj7rQ+OHeM=
+	t=1761072393; cv=none; b=R64HWk9NzJzEWhJ1ZvAFSpnMpRSBuuk3dVmqDte751hXk8+tEp9MG2sry5s7rEIf8f3OPArWWpj/OlYL7eq5vZKKB8X29OAYnWTq/oN7xqhauv3wFpHilEN6fpgdpBt0dccngA3Gm3T1xjPbzQjP0k4HTApGxWslqknCsLCC3LA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761072321; c=relaxed/simple;
-	bh=aH/M0s0TmS9qF38cCeaZcFrAvocjovEuJFK7OoMK6O0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UUOS6NeHF8AWXHCGf0cdSNjTg43x5aqYclccXIhUiNGYs/SBuNZ1qYSMGAOvldZ4D4XbTq3LYQoddTjWrHKipWM/scCH6LUW3Nav9k2rmGPWa6nDumStz/5oL1p7QjdZaigC+hK5Otm34t9D42KStrnR423KchIUuMGgK+0Q9PE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=pbxPVS6j; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (87-94-110-32.bb.dnainternet.fi [87.94.110.32])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id C4FF76F9;
-	Tue, 21 Oct 2025 20:43:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1761072211;
-	bh=aH/M0s0TmS9qF38cCeaZcFrAvocjovEuJFK7OoMK6O0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pbxPVS6jQ0rfLjSiePkJXl7XPQyVFWALWQfImlL7BQCI1oQv5EOfFNx5wQHlexnML
-	 BM2cLy2b5d5RAXqNOCSN3Q/hrJG1W25LjZl+iHY38y0Cv8GmmhOXSG4fQdk8y7XSZY
-	 17gkCqffNUtPEskzn2WlQWCgJNBpSy2GBlsTsFqU=
-Date: Tue, 21 Oct 2025 21:45:02 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v11 0/7] Add support for DU/DSI clocks and DSI driver
- support for the Renesas RZ/V2H(P) SoC
-Message-ID: <20251021184502.GD19043@pendragon.ideasonboard.com>
-References: <20251015192611.241920-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdW1B7Yk1hUU9MSJsiL8wSmjAUGN7Qd_wgBHv8Ct=-wi4Q@mail.gmail.com>
- <CA+V-a8uY11uWoQ_en5QC=W4HPHRwT6rKQQJ-knT8Gi-+czm05w@mail.gmail.com>
+	s=arc-20240116; t=1761072393; c=relaxed/simple;
+	bh=shnXUaoW8wb8T/DLKvXfDvvO7GZxjBiC7NeFGmueOzU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Bf6yIDUTtcOyHs3gPWL6Kwx6zlM5/TzYkU39qdYrkSxUS5/WlKvaMrFIqkIPv8bsHwoBXvzufN0NNsr+tn2upiYbHXB5U61x/8GylrybqAbuXkN+8SLHj1sqbrjkYT4an0X6fYMimKz7x8OplfDwB/OVr0rdWBTUC1OtNvffVd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xf4eCt2f; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 896F1C4CEF1;
+	Tue, 21 Oct 2025 18:46:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761072391;
+	bh=shnXUaoW8wb8T/DLKvXfDvvO7GZxjBiC7NeFGmueOzU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Xf4eCt2fkRulM7vNoyvMUvkX3+RR4sU0x0cHaCDvLis01VhUn1mHEtq9RtiSu7Phq
+	 fxS5i1g8EI8nitLDBCdq+3mR95CqiBqMe7yQGphXEE8y4Ol9LrMvivDTqkPmytBHDm
+	 tiA/bQSKaSbj3NdZchl2xWPppYGlKRaVTyESuS+9dAkXy2OCHGH450uQGY5Q+LOlAV
+	 Thk6ixfbzRM1dheF965YufZkURvdRgWZXELSVxcTkwhYF3dGmIInMMFLFbuo/DCu3W
+	 +XvxjokmwwTBHpGJ/mBUzyCUKIftx1kMujcgeZXXrL9T6G18n1pA6oTm9VVPxNQqCM
+	 JJycpIQPtXGiA==
+From: Sasha Levin <sashal@kernel.org>
+To: stable@vger.kernel.org
+Cc: Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+	Wolfram Sang <wsa@the-dreams.de>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	linux-renesas-soc@vger.kernel.org,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 5.15.y 1/2] PCI: rcar: Finish transition to L1 state in rcar_pcie_config_access()
+Date: Tue, 21 Oct 2025 14:46:27 -0400
+Message-ID: <20251021184628.2530506-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <2025101648-abruptly-poncho-afdd@gregkh>
+References: <2025101648-abruptly-poncho-afdd@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+V-a8uY11uWoQ_en5QC=W4HPHRwT6rKQQJ-knT8Gi-+czm05w@mail.gmail.com>
 
-On Tue, Oct 21, 2025 at 07:26:49PM +0100, Lad, Prabhakar wrote:
-> On Tue, Oct 21, 2025 at 11:26 AM Geert Uytterhoeven wrote:
-> >
-> > Hi Prabhakar et al,
-> >
-> > On Wed, 15 Oct 2025 at 21:26, Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> > > This patch series adds DU/DSI clocks and provides support for the
-> > > MIPI DSI interface on the RZ/V2H(P) SoC.
-> > >
-> > > v10->v11:
-> > > - Split CPG_PLL_CLK1_K/M/PDIV macro change into separate patch
-> > > - Updated rzv2h_cpg_plldsi_div_determine_rate()
-> > >   while iterating over the divider table
-> > > - Added Acked-by tag from Tomi for patch 2/7 and 3/7
-> > > - Added Reviewed-by tag from Geert for patch 2/7 and 3/7
-> >
-> > I think this series is ready for merging.
-> 
-> \o/
-> 
-> > > Lad Prabhakar (7):
-> > >   clk: renesas: rzv2h-cpg: Add instance field to struct pll
-> > >   clk: renesas: rzv2h-cpg: Use GENMASK for PLL fields
-> > >   clk: renesas: rzv2h-cpg: Add support for DSI clocks
-> > >   clk: renesas: r9a09g057: Add clock and reset entries for DSI and LCDC
-> > >   dt-bindings: display: bridge: renesas,dsi: Document RZ/V2H(P) and
-> > >     RZ/V2N
-> > >   drm: renesas: rz-du: mipi_dsi: Add LPCLK clock support
-> > >   drm: renesas: rz-du: mipi_dsi: Add support for RZ/V2H(P) SoC
-> >
-> > As this touches both clk and drm, let's discuss the merge strategy.
-> > My proposal:
-> >   1. I queue patches 1-3 in an immutable branch with a signed tag,
-> >      to be used as a base for the remaining patches,
-> >   2. I queue patch 4 on top of 1 in renesas-clk for v6.19,
-> >   3. The DRM people queue patches 5-7 on top of 1.
-> >
-> > Does that sound fine for you?
-> Sounds good to me.
-> 
-> Biju/Tomi, are you OK with the above?
+From: Marek Vasut <marek.vasut+renesas@gmail.com>
 
-The plan seems good to me. Note that you won't be able to push this
-yourself to drm-misc as committers are limited to pushing linear
-branches. We need an ack from the drm-misc maintainers, and one of them
-will need to merge the branch (either branch 1. as prepared by Geert, on
-top of which you can them push patches 5-7 yourself, or a branch you'll
-prepare on top of 1. with patches 5-7).
+[ Upstream commit 84b576146294c2be702cfcd174eaa74167e276f9 ]
 
+In case the controller is transitioning to L1 in rcar_pcie_config_access(),
+any read/write access to PCIECDR triggers asynchronous external abort. This
+is because the transition to L1 link state must be manually finished by the
+driver. The PCIe IP can transition back from L1 state to L0 on its own.
+
+Avoid triggering the abort in rcar_pcie_config_access() by checking whether
+the controller is in the transition state, and if so, finish the transition
+right away. This prevents a lot of unnecessary exceptions, although not all
+of them.
+
+Link: https://lore.kernel.org/r/20220312212349.781799-1-marek.vasut@gmail.com
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
+Signed-off-by: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Krzysztof Wilczyński <kw@linux.com>
+Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Cc: Wolfram Sang <wsa@the-dreams.de>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: linux-renesas-soc@vger.kernel.org
+Stable-dep-of: 0a8f173d9dad ("PCI: rcar-host: Drop PMSR spinlock")
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/pci/controller/pcie-rcar-host.c | 76 +++++++++++++++----------
+ 1 file changed, 45 insertions(+), 31 deletions(-)
+
+diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
+index bfb13f358d073..afcfc4218a52c 100644
+--- a/drivers/pci/controller/pcie-rcar-host.c
++++ b/drivers/pci/controller/pcie-rcar-host.c
+@@ -67,6 +67,42 @@ struct rcar_pcie_host {
+ 	int			(*phy_init_fn)(struct rcar_pcie_host *host);
+ };
+ 
++static DEFINE_SPINLOCK(pmsr_lock);
++
++static int rcar_pcie_wakeup(struct device *pcie_dev, void __iomem *pcie_base)
++{
++	unsigned long flags;
++	u32 pmsr, val;
++	int ret = 0;
++
++	spin_lock_irqsave(&pmsr_lock, flags);
++
++	if (!pcie_base || pm_runtime_suspended(pcie_dev)) {
++		ret = -EINVAL;
++		goto unlock_exit;
++	}
++
++	pmsr = readl(pcie_base + PMSR);
++
++	/*
++	 * Test if the PCIe controller received PM_ENTER_L1 DLLP and
++	 * the PCIe controller is not in L1 link state. If true, apply
++	 * fix, which will put the controller into L1 link state, from
++	 * which it can return to L0s/L0 on its own.
++	 */
++	if ((pmsr & PMEL1RX) && ((pmsr & PMSTATE) != PMSTATE_L1)) {
++		writel(L1IATN, pcie_base + PMCTLR);
++		ret = readl_poll_timeout_atomic(pcie_base + PMSR, val,
++						val & L1FAEG, 10, 1000);
++		WARN(ret, "Timeout waiting for L1 link state, ret=%d\n", ret);
++		writel(L1FAEG | PMEL1RX, pcie_base + PMSR);
++	}
++
++unlock_exit:
++	spin_unlock_irqrestore(&pmsr_lock, flags);
++	return ret;
++}
++
+ static struct rcar_pcie_host *msi_to_host(struct rcar_msi *msi)
+ {
+ 	return container_of(msi, struct rcar_pcie_host, msi);
+@@ -87,6 +123,14 @@ static int rcar_pcie_config_access(struct rcar_pcie_host *host,
+ {
+ 	struct rcar_pcie *pcie = &host->pcie;
+ 	unsigned int dev, func, reg, index;
++	int ret;
++
++	/* Wake the bus up in case it is in L1 state. */
++	ret = rcar_pcie_wakeup(pcie->dev, pcie->base);
++	if (ret) {
++		PCI_SET_ERROR_RESPONSE(data);
++		return PCIBIOS_SET_FAILED;
++	}
+ 
+ 	dev = PCI_SLOT(devfn);
+ 	func = PCI_FUNC(devfn);
+@@ -1054,40 +1098,10 @@ static struct platform_driver rcar_pcie_driver = {
+ };
+ 
+ #ifdef CONFIG_ARM
+-static DEFINE_SPINLOCK(pmsr_lock);
+ static int rcar_pcie_aarch32_abort_handler(unsigned long addr,
+ 		unsigned int fsr, struct pt_regs *regs)
+ {
+-	unsigned long flags;
+-	u32 pmsr, val;
+-	int ret = 0;
+-
+-	spin_lock_irqsave(&pmsr_lock, flags);
+-
+-	if (!pcie_base || pm_runtime_suspended(pcie_dev)) {
+-		ret = 1;
+-		goto unlock_exit;
+-	}
+-
+-	pmsr = readl(pcie_base + PMSR);
+-
+-	/*
+-	 * Test if the PCIe controller received PM_ENTER_L1 DLLP and
+-	 * the PCIe controller is not in L1 link state. If true, apply
+-	 * fix, which will put the controller into L1 link state, from
+-	 * which it can return to L0s/L0 on its own.
+-	 */
+-	if ((pmsr & PMEL1RX) && ((pmsr & PMSTATE) != PMSTATE_L1)) {
+-		writel(L1IATN, pcie_base + PMCTLR);
+-		ret = readl_poll_timeout_atomic(pcie_base + PMSR, val,
+-						val & L1FAEG, 10, 1000);
+-		WARN(ret, "Timeout waiting for L1 link state, ret=%d\n", ret);
+-		writel(L1FAEG | PMEL1RX, pcie_base + PMSR);
+-	}
+-
+-unlock_exit:
+-	spin_unlock_irqrestore(&pmsr_lock, flags);
+-	return ret;
++	return !!rcar_pcie_wakeup(pcie_dev, pcie_base);
+ }
+ 
+ static const struct of_device_id rcar_pcie_abort_handler_of_match[] __initconst = {
 -- 
-Regards,
+2.51.0
 
-Laurent Pinchart
 
