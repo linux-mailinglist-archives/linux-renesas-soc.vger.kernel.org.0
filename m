@@ -1,161 +1,131 @@
-Return-Path: <linux-renesas-soc+bounces-23415-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23416-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0A41BFB310
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Oct 2025 11:39:03 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1165BFB313
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Oct 2025 11:39:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 781BA5637EF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Oct 2025 09:39:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 845381A0247D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Oct 2025 09:39:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D91030F54C;
-	Wed, 22 Oct 2025 09:38:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5D7428DB71;
+	Wed, 22 Oct 2025 09:39:00 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C261D2F39DA
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Oct 2025 09:38:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FB68295DB8
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Oct 2025 09:38:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761125929; cv=none; b=JV/0wrFfuZXFWW0QVR02fhDZNU5Zl2W/pBDjHTJmCtCNlU86ZTi1LEENUlkw0dkfyWZZRl2P7eejjCDMMU3nOuvlTrduXpgFlmRprshu7346UH92Dbu4Q51pZz9gMy1rRKf9+9U8GsooUwVTVWu+uQ5R+wovWyzHVBKRV23ZZjM=
+	t=1761125940; cv=none; b=Q07U8J2rxgFIEbQSf+51tsNN645VvNgd8aLXmGS74MstnOVr81J6GtDBHkp9SzYfzhmvxomLdNOGDzoRdny/7foNgEZLFL3LOXswKbwnGpPaxsip6/eTj6cyjzhvc/+Qvyv3IjXWXjwImDSKxrC3GfYW1RS2EEWvFBbN7YAUP1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761125929; c=relaxed/simple;
-	bh=RXI86dWsUOVLWMDkiSyvCC8/ZeCCo4YfEijOuemfgj0=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=VOVxN6DGKsNRKy6QTrOXGqsclzjs+eW4rGtRP5TP8i9vYDcaUVxZVdRv5eEUEfZacShjqfPlH1JgMsj10aBPi/TtPxs2cWlF/YaEt33y3yco28IOdZCk724Qid50nB0xc09Qe6Xqay1bmsHaRbLwjrEJNLs9IVl2mVUaFGTXFYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1vBVIQ-00004t-1Z; Wed, 22 Oct 2025 11:38:18 +0200
-Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1vBVIO-004rvs-3B;
-	Wed, 22 Oct 2025 11:38:17 +0200
-Received: from pza by lupine with local (Exim 4.98.2)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1vBVIO-000000004t5-3n5a;
-	Wed, 22 Oct 2025 11:38:16 +0200
-Message-ID: <08fbb2fc1a2e581010b6b28cd1a544053a4f1fb0.camel@pengutronix.de>
-Subject: Re: [PATCH v7 4/7] reset: rzg2l-usbphy-ctrl: Add support for USB
- PWRRDY
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Claudiu Beznea <claudiu.beznea@tuxon.dev>, vkoul@kernel.org, 
-	kishon@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, 	geert+renesas@glider.be, magnus.damm@gmail.com,
- yoshihiro.shimoda.uh@renesas.com, 	biju.das.jz@bp.renesas.com
-Cc: linux-phy@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Claudiu
- Beznea	 <claudiu.beznea.uj@bp.renesas.com>, Wolfram Sang	
- <wsa+renesas@sang-engineering.com>
-Date: Wed, 22 Oct 2025 11:38:16 +0200
-In-Reply-To: <dc27ae49-d60b-447e-971c-6b5b51ab9f29@tuxon.dev>
-References: <20250925100302.3508038-1-claudiu.beznea.uj@bp.renesas.com>
-	 <20250925100302.3508038-5-claudiu.beznea.uj@bp.renesas.com>
-	 <c7fc31f1247332196516394a22f6feef9733a0b4.camel@pengutronix.de>
-	 <66d85e70-efb8-4a45-9164-55b123691b70@tuxon.dev>
-	 <bcf6113b0025777db1cb2ace1618fed8fac2dfc6.camel@pengutronix.de>
-	 <cca1061e-df67-4b5b-99bd-9721c72a0f88@tuxon.dev>
-	 <6d4bc69c-1571-4d98-b0d4-214c68be118e@tuxon.dev>
-	 <c1099a8e422abbc5d12bf3f325cb9f2140c8c006.camel@pengutronix.de>
-	 <77678dd6-071b-4911-a5c5-f1519c92e91a@tuxon.dev>
-	 <6ba1fd1f07753c9b98a57c87bffbbee16971da7a.camel@pengutronix.de>
-	 <19746f65-bf10-4687-9e2b-b259220a9ea8@tuxon.dev>
-	 <dc27ae49-d60b-447e-971c-6b5b51ab9f29@tuxon.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.1-1 
+	s=arc-20240116; t=1761125940; c=relaxed/simple;
+	bh=dFJgqQh2BXhnHzS6LSg7icRKRTpEo7skpwGo1v2sTjo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=osYfq+RUqOAqh13gPVd+E5tdbeRbvXmIiSo1q1AYuyaWKIqHDWL1B64nrIcwZe3WvUb2gn4xKilDfHh1JNy3jKNsDSHQAoPTphxMZrcbb+EDHQXi60gepdH7XAaoGQiz6L2fqCB1Dpma4VuC1mrC0cKihgOTFAD/kLdygLNYtz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-930ff50d181so4408767241.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Oct 2025 02:38:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761125938; x=1761730738;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XWYnqPsGR/+m0VSRYyHFTH5ffcOTH5Kpd/uIr+BQaho=;
+        b=w5CWrIclzIrV59GsJijZ7RkX+R/SyNhlvFIkyzpvnm2i9CaX+RMxp8YKzsIjSM465D
+         26HMyRLwJ1ffH3/Jsi73qvWGe7MeAXWyZTfEBJWzXwC71lBI2cgZI31C2HZMggKK20Bh
+         q2agEt+TV2SB8tD+jVDzqFbs6sxxMi02Ib1YWyAxVepp/nOvY1swsBj/h9TlZQ9z4bUL
+         ukgIJ84Y96Ftz4XX/2XT7HQ4d/AnpSd3AGlWxZfmpZso2Uid755IzRBBAclBXtgMuaAC
+         X+9wy94CwzdL30BAL3AhuAt/y1b0bBcQ5GHtLiQpCzK2D/UiAQjc3D9lE2Ns5fGzxIGg
+         LFeQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVY86z/VNqhB/w/3ldENY35iGWsJ1Lv1IWJ2x1YnDWI+Vsh5Q543SnkLrbv/PfuSaDQ6npgyP3o1fhdlV335raQAA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+u6YLFb9rfOs/31Vr3Wr3r920YQDeXPqQK/t75LhtNEntLFIp
+	+QeCaP07baZfPzUTxXE1XwVVFfGxUSA+PInrE3pJfPVKxY/iNVppoVsiUA+Lpazj
+X-Gm-Gg: ASbGncs56IcY57InG4IuTkrfKyeIWZ+S5BWLl4cS9L6JFUU8wFS8RBi3Xk/IWu5fX5B
+	dMxqoKdmUHccds8IahWJlKzEjZlKB6pkSfDKAasFu+AYKASAEJsxNxHKidhY9x9lbXVLvcjsLy9
+	ILYjyNG2iVI6G/5qfbw6GtfdGPiWUUD5mNfFMEq/Jiy9OdlzC9ByYH9h3IUAVhZ6jl7cjABh3Dt
+	5bH3Z6SVrcN9ufiG1Sx77ITXhqqbgb/0BYgt7Jss2JI4O/lWOhtmikcwejpmzgqyhIs1nwaU4MY
+	j8n/xvEeFFwoxBoWwbjcmU8WM3RCIudDQHIhguiLccBqyClCs3G+g98TTMK5Ob9evS2lr9bPksP
+	W0iokvM0DUXjQDjP53qsRO6p3D/2fNFTZb5B59XP7IO6Z5KlMxJktxypbPhzj7lhUrB869a022o
+	QJPKyNiLgFEGaHDr4TX9DVxBE/jbEamfLoF8hAdkxcl5iq3fsl
+X-Google-Smtp-Source: AGHT+IFgcxi3QtBes/jBiDykT7ZOsX7VpBnQgtbj2rPzsukMzga0X4MT9ofVqxTY+VO4mBDTsS2bUA==
+X-Received: by 2002:a05:6122:8c03:b0:554:b927:c76f with SMTP id 71dfb90a1353d-5564eca4526mr5637348e0c.0.1761125937662;
+        Wed, 22 Oct 2025 02:38:57 -0700 (PDT)
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com. [209.85.217.53])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-556a31eb8cbsm120211e0c.21.2025.10.22.02.38.56
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Oct 2025 02:38:56 -0700 (PDT)
+Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-5db221488bfso359392137.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Oct 2025 02:38:56 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXVepm2Pr5E1/o53+MhzDVOH8cUp0x4HJ6HLGzaKa+dHpIiHI60Ar5xTszE0U+04YfATdY/55xVfEkABAiY6588fA==@vger.kernel.org
+X-Received: by 2002:a05:6102:a4c:b0:529:e9a5:c216 with SMTP id
+ ada2fe7eead31-5d7dd42f318mr6592013137.4.1761125935974; Wed, 22 Oct 2025
+ 02:38:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+References: <20251022033847.471106-1-marek.vasut+renesas@mailbox.org> <20251022033847.471106-2-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20251022033847.471106-2-marek.vasut+renesas@mailbox.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 22 Oct 2025 11:38:44 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXrFTnJcQgVaCZWeMEHVCg3PbHd=oxzTQnDCixc-NDvwA@mail.gmail.com>
+X-Gm-Features: AS18NWCUxVmbBX5A4GWgkcFHdLZ81csYvV48uizjGHlywJaqitAbOBSEWovXEnU
+Message-ID: <CAMuHMdXrFTnJcQgVaCZWeMEHVCg3PbHd=oxzTQnDCixc-NDvwA@mail.gmail.com>
+Subject: Re: [PATCH v3 2/3] arm64: dts: renesas: r8a77960: Add GX6250 GPU node
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-arm-kernel@lists.infradead.org, Matt Coster <matt.coster@imgtec.com>, 
+	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+	Adam Ford <aford173@gmail.com>, Conor Dooley <conor+dt@kernel.org>, 
+	David Airlie <airlied@gmail.com>, Frank Binns <frank.binns@imgtec.com>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Magnus Damm <magnus.damm@gmail.com>, 
+	Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Claudiu,
+Hi Marek,
 
-On Di, 2025-10-21 at 11:48 +0300, Claudiu Beznea wrote:
-> Hi, Philipp,
->=20
-> On 10/15/25 11:19, Claudiu Beznea wrote:
-> > > > > > > > I see v2 and v3 tried to control the bit from the PHY drive=
-rs, and in
-> > > > > > > > v4 we were are already back to the reset driver.
-> > > > > > > v2 passed the system controller (SYSC) phandle to the USB PHY=
-s only (though
-> > > > > > > renesas,sysc-signals DT property) where the PWRRDY bit was se=
-t. The PWRRDY
-> > > > > > > bit was referenced counted in the SYSC driver though regmap A=
-PIs.
-> > > > > > >=20
-> > > > > > > v3 used the approach from v2 but passed the renesas,sysc-sign=
-als to all the
-> > > > > > > USB related drivers.
-> > > > > > >=20
-> > > > > > > Then, in v4, the PWRRDY refcounting was dropped and passed
-> > > > > > > renesas,sysc-signals only to the USB PHY CTRL DT node in the =
-idea that this
-> > > > > > > is the node that will always be probed first as all the other=
- USB blocks
-> > > > > > > need it and request resets from it.
-> > > > > > >=20
-> > > > > > > v5 and v6 kept the approach from v4 and only addressed misc c=
-omments or
-> > > > > > > things that I noticed.
-> > > > > > Could you please let me know if you are OK with the approach pr=
-oposed in
-> > > > > > v7, so that I can start preparing a new version addressing your=
- comments?
-> > > > > If the PWRRDY signal is an input to the USB2PHY control block, an=
-d not
-> > > > > only to the PHY blocks, I have no issue with this being handled i=
-n the
-> > > > > usb2phy reset driver -
-> > > > Yes, this is how the Renesas HW team confirmed they are related.
-> > > Ok, understood. I concur that usb2phy-ctrl is the right place for the
-> > > sysc property then.
-> > >=20
-> > > > > iff it is not sensible to just control the
-> > > > > signal from the power domain driver.
-> > > > As mentioned above, that can be done as well but, passing a SYSC ph=
-andle to
-> > > > the CPG DT node will not be valid from the HW description point of =
-view.
-> > > >=20
-> > > > > If we have to handle it in the reset driver, I'd prefer to see th=
-is
-> > > > > controlled with a dev_pm_genpd_add_notifier(). If that is not pos=
-sible,
-> > > > > I'd like to understand why.
-> > > > From the code inspection I did, that can be done. From what I can t=
-ell at
-> > > > the moment, I'll have to register a gepnd notifier from
-> > > > reset-rzg2l-usbphy-ctrl, before runtime resuming the device and con=
-trol the
-> > > > SYSC PWRRDY from it.
-> > > I'd like that.
-> > Now, that we found the genpd notifier is not a solution, could you plea=
-se
-> > let me know how would you like me to proceed?
->=20
-> After discussing all the possible (known) solutions, could you please let
-> me know if you are OK with the approach in this series?
+On Wed, 22 Oct 2025 at 05:39, Marek Vasut
+<marek.vasut+renesas@mailbox.org> wrote:
+> Describe Imagination Technologies PowerVR Rogue GX6250 BNVC 4.45.2.58
+> present in Renesas R-Car R8A77960 M3-W SoC.
+>
+> Acked-by: Matt Coster <matt.coster@imgtec.com>
+> Reviewed-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.se=
+>
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
-Yes, I don't have a better idea. Let's revisit the issue of ordering
-guarantees when suspend/resume is implemented.
+> V3: - Add AB from Matt
+>     - Disable the GPU by default
 
-regards
-Philipp
+Thanks for the update!
+
+My
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+on v2 is still valid, will queue in renesas-devel for v6.19.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
