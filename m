@@ -1,161 +1,109 @@
-Return-Path: <linux-renesas-soc+bounces-23406-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23407-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98B77BFA6AD
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Oct 2025 09:02:08 +0200 (CEST)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 064E8BFA807
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Oct 2025 09:19:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 10BE03A32A1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Oct 2025 07:01:54 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id A72B4346A97
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Oct 2025 07:19:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC6B12F39DD;
-	Wed, 22 Oct 2025 07:01:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 964142F5A24;
+	Wed, 22 Oct 2025 07:19:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Q6JsdRRV"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="VGidfkyF"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCB142F362A
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Oct 2025 07:01:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF1A12F3C26;
+	Wed, 22 Oct 2025 07:19:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761116510; cv=none; b=RaC3lpIMFEhDXwg2hthyEoOR0YhpbVoZ6IGT/yoloIm/2QOVmLH1h6dWN0miSK3gijnOOve0/yLfA7ZALu6vt9iYsnFNgQ0ymQ0ks943TxDZfiTK2H7HSvFSWKD0Z8CuRm2LthbyB8TyojY9AyGO9KSvykGB36ZvNUcWSYuxnyk=
+	t=1761117564; cv=none; b=sE/dYYVmLdY9WNSfeSSN7lAKXfZ/daYw73A7W0SiikJY6jLZI5/mpwb7HGfQIm3AZ550FTokf0pC99YWTeRNxtipxVgjZEL1gRTYnY/eJM/SHpeZnwU6I/FB9qtb9oJR1uW5SDBErVzs6qYBpakuKa3tUnjfvNVt9hQi0489ji8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761116510; c=relaxed/simple;
-	bh=xYBzTkkDJCWTjFk+vwV4Ph9IB+akx3BABNKVQ1En2YI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uq5e1KDPLimJKEjOpD3I+WOgOLjSA4HgVrLGlkLNIxIzJJyMX6n8Y41l2P6GJgwNdLZlQysoxYyi6d+3Ql9ph4Y54SbqDUQ+8/InuDRVsl46keAcFcwoZqkbN9OMFRVjPOpVlKyxh+mHqmd54t0A40dxAybELGVtUfVjoKB7o/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Q6JsdRRV; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=rll3
-	M1pGAWsrf5pLEqz7xhA2M7kxNOl+FsQ+039H8pQ=; b=Q6JsdRRVhMs7Ev+Igivp
-	WiT75oMtxUmwMyHutTvMnvkSgEPBxDsb7sncUZSLSkgS9kfq0weUdMkEgjRhnWNO
-	UJ/eAe19UP/ZSEFl0PkHOKsIA/sciMPuXo22UkjWuIdCk4KTlDTcqBlgNnat9nLE
-	Bij3ovwWaPpreONLe+RFy9/DQ+rw9wj8R5+jJWkzukBY1+Be+fHOEmwUOIXSQh7v
-	5FAntYnW8dSu5q4g+6EbWHfdM/azRwhAcJGlL708TJxcdSV75+F4AD3Xcsu0ut9X
-	7Y6f+kEFB2HQbDbo3TN5ELvSTvSiW9+n2heK3UkbBib/pD7Nyj3PoUvL4eagA5WY
-	9w==
-Received: (qmail 1724248 invoked from network); 22 Oct 2025 09:01:38 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 22 Oct 2025 09:01:38 +0200
-X-UD-Smtp-Session: l3s3148p1@YABF47lBq3ttKPJN
-Date: Wed, 22 Oct 2025 09:01:37 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Marek Vasut <marek.vasut@mailbox.org>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
-	linux-renesas-soc@vger.kernel.org,
-	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH] arm64: dts: renesas: sparrow-hawk: don't reserve SWDT
-Message-ID: <aPiBUaTQZcFK8UF_@shikoro>
-References: <20251017115123.3438-2-wsa+renesas@sang-engineering.com>
- <CAMuHMdUCSRKAbD=DfJxfFGpfKTRkt=a2BO+HnwTqALBeeECOkA@mail.gmail.com>
- <aPaSF2lokJ748cTx@shikoro>
- <CAMuHMdXv_R6POTQe=MEcEOraKhjhzwrW5skkWnzgvijF2qAykw@mail.gmail.com>
- <fba13116-2495-49a3-a1b5-2eecb33bb448@mailbox.org>
- <CAMuHMdUP_bH5WW3=3J1H=6SocKzQXPdP7PFfYDrgaj4EhYTaYQ@mail.gmail.com>
- <0e81437f-a13f-4605-b7f7-6e6640411f30@mailbox.org>
+	s=arc-20240116; t=1761117564; c=relaxed/simple;
+	bh=Z8ZwCkSX/8/aiTv9fav6N9vdybzcbu6o+Lr/dVyzBMA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DhfeWhbRmLcrH/HPObjZMlPJjo3mMGbooBM8sKSkdY36rAfEaSAhS802RTjdU6MLozKljzO/0kPlDeTY7j179XVO22fuyELPlrHyyXg9iB11jcn5RoCnBAU98aVnOle7+DY6DsK7cfXvqpJ2/4qg89otXZFYSU//ti+PcpAl9gU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=VGidfkyF; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 51037557;
+	Wed, 22 Oct 2025 09:17:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1761117457;
+	bh=Z8ZwCkSX/8/aiTv9fav6N9vdybzcbu6o+Lr/dVyzBMA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=VGidfkyFdjQs4Xkqali8Z5l5zRQs85bEr4mlwVU2ttknMtDtwguMjyeHSHG0X1eeD
+	 wvT4Av+FK9CL54YTcg8DLc+L0sXV9bvh2LV8Lmqk0KgDMEkEnYtrwfc364QUzjgNzX
+	 0HBBULOj+w71ZBqFRWGz47VyKZDCtESJPW7L0HQo=
+Message-ID: <626acab8-46ae-44cf-b9ef-0ac78d0954c9@ideasonboard.com>
+Date: Wed, 22 Oct 2025 10:19:17 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="91kMum7yq5u02O6O"
-Content-Disposition: inline
-In-Reply-To: <0e81437f-a13f-4605-b7f7-6e6640411f30@mailbox.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/4] dt-bindings: display: bridge: renesas,dsi-csi2-tx:
+ Allow panel@ subnode
+To: Marek Vasut <marek.vasut@mailbox.org>, dri-devel@lists.freedesktop.org
+Cc: Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
+ Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+References: <20250904210147.186728-1-marek.vasut+renesas@mailbox.org>
+ <20250904210147.186728-4-marek.vasut+renesas@mailbox.org>
+ <4ffcf4fc-17a9-4669-af07-f81ddb46aee9@ideasonboard.com>
+ <d76ff19c-7b0f-4aa9-8ae2-d08c82d70410@mailbox.org>
+ <aebc10ec-73ed-4843-95c5-9ba5a2759ccb@ideasonboard.com>
+ <b4c0e78a-eecb-4a18-9199-18ea91c8df31@mailbox.org>
+ <2da374d1-7557-4f7e-9160-86945b73731a@ideasonboard.com>
+ <14e5da7c-c6ce-4bb6-884b-08629f5a5788@mailbox.org>
+ <7a159b09-d957-4d9b-9460-adf62df9a440@mailbox.org>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+In-Reply-To: <7a159b09-d957-4d9b-9460-adf62df9a440@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+Hi,
 
---91kMum7yq5u02O6O
-Content-Type: multipart/mixed; boundary="GYrNZo38pT6+z9Vn"
-Content-Disposition: inline
+On 15/10/2025 17:09, Marek Vasut wrote:
+> On 9/19/25 7:08 PM, Marek Vasut wrote:
+> 
+> Hello Tomi,
+> 
+>>>>> Ok. My point was just that the dsi-controller.yaml doesn't allow
+>>>>> "bridge" node (you can just rename the panel to bridge to test). I
+>>>>> thought someone (I just can't remember who was it =) will send a patch
+>>>>> for it, but I think that hasn't happened.
+>>>> Do you want me to drop the bridge part from the commit message (I
+>>>> assume
+>>>> yes) ?
+>>>>
+>>>> Any other change I should do before sending a V3 ?
+>>>
+>>> As we found out, this has been fixed in linux-next. For this, and the
+>>> rest in this series:
+>>>
+>>> Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>>
+>> Understood, thank you.
+> Do you think this 4/4 can now be applied ? The rest already is.
 
+Pushed to drm-misc-next.
 
---GYrNZo38pT6+z9Vn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+ Tomi
 
-Hi Marek,
-
-sorry for the late reply. I am on holiday this week with only limited
-time for work and net access.
-
-> I think this can be tested on Sparrow Hawk easily , with and without TFA.
-> Wolfram, how do I test the SWDT ?
-
-1) enable the node in DT
-2) apply the patch "[PATCH] soc: renesas: rcar-rst: keep RESBAR2S in default state"
-3) apply the diff attached to this mail (untested but quite sure that's
-   what i did a few days ago) which allows SWDT to reset
-4) access it like any other watchdog. IIRC I did this to enforce a reset
-   # watchdog -T1 -t3 /dev/watchdog1
-   (with busybox watchdog)
-
-I think that's it. It uses the same driver as the RWDT, so you probably
-have this activated already.
-
-Happy hacking,
-
-   Wolfram
-
-
---GYrNZo38pT6+z9Vn
-Content-Type: text/x-diff; charset=us-ascii
-Content-Disposition: attachment; filename="v4h_allow_swdt_to_reset.diff"
-Content-Transfer-Encoding: quoted-printable
-
-diff --git a/drivers/soc/renesas/rcar-rst.c b/drivers/soc/renesas/rcar-rst.c
-index 0541990901fc..a78ea77dba16 100644
---- a/drivers/soc/renesas/rcar-rst.c
-+++ b/drivers/soc/renesas/rcar-rst.c
-@@ -12,7 +12,7 @@
-=20
- #define WDTRSTCR_RESET		0xA55A0002
- #define WDTRSTCR		0x0054
--#define GEN4_WDTRSTCR_RESET	0xA55A8002
-+#define GEN4_WDTRSTCR_RESET	0xA55A8000
- #define GEN4_WDTRSTCR		0x0010
-=20
- #define CR7BAR			0x0070
-@@ -117,7 +117,7 @@ static const struct of_device_id rcar_rst_matches[] __i=
-nitconst =3D {
- 	/* R-Car Gen4 */
- 	{ .compatible =3D "renesas,r8a779a0-rst", .data =3D &rcar_rst_v3u },
- 	{ .compatible =3D "renesas,r8a779f0-rst", .data =3D &rcar_rst_gen4 },
--	{ .compatible =3D "renesas,r8a779g0-rst", .data =3D &rcar_rst_gen4 },
-+	{ .compatible =3D "renesas,r8a779g0-rst", .data =3D &rcar_rst_v3u },
- 	{ .compatible =3D "renesas,r8a779h0-rst", .data =3D &rcar_rst_gen4 },
- 	{ /* sentinel */ }
- };
-
---GYrNZo38pT6+z9Vn--
-
---91kMum7yq5u02O6O
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmj4gU0ACgkQFA3kzBSg
-KbaH4BAAjuRJJnIdLCeewNfEatsM73wse8E8huOHm70DJSIfeKTJzxbV4jQqNxtc
-THY9gOJSQ0Wn7qFBn/PqvmcTJbpcempdV8Z5kRYXB5ITMTO9H7GsTqEUoP2ZwoUW
-kmjlu35Sx4fZpNuPeAS9yRds0F4OsVvfgzMKHAZyO7AlbC5WARd0ZF+vuKvgrNoU
-gQQZ6yT6d5tfBqdFfm3kOdO7FsTWQB3rV+ofCBYcofNHw4nGLT4ReIOe34GsCk1J
-+XO9v4kjXAG2tdjI5hfoKvmWnhIwMZxOhUNWKcKFEsD+owxUs8kqecCpcHFLEu+9
-uNT7Wp0/iFLfp1LaqFSnr/fsZ8HtbguFRDLIapwRYFYst5s18RH7ywdpXe6lpRJu
-gidvOcGaTwM6KYefn+l+9KXyxhzOfjJ+VD+TrgKlPkWvAp6BQ8XxERnM7EA/5r28
-RB0i+tNUJeZpg5lghOAA/Zdf91dCkS/+cX7yS14MagbEnWuNZSarUiWteFFNCtw5
-TSquoIWEgoXbr3YvRimXO1sxJb7LpqPy4e+d3aJUICxskxuM1G28hrjN93nZ/vi0
-nt07kkjaAefepGJvFSrg9i3Rt5fUu+OhdqMZxM/us77VzB8fXtHhIbdgo6/+wrm7
-Z0C5OSqVEL2OZ5FAgWLbAfLVRciCgORDi1wjtGAm4w/hW9Ob9jI=
-=zw1z
------END PGP SIGNATURE-----
-
---91kMum7yq5u02O6O--
 
