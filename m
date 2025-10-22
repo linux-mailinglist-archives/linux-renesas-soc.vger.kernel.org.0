@@ -1,185 +1,120 @@
-Return-Path: <linux-renesas-soc+bounces-23432-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23433-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26FEABFBCEB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Oct 2025 14:16:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43E7FBFBE76
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Oct 2025 14:46:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 77B84188348F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Oct 2025 12:16:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1709119A647D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Oct 2025 12:46:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FC5030DD19;
-	Wed, 22 Oct 2025 12:16:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C89834402E;
+	Wed, 22 Oct 2025 12:46:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="iSyD2eAC";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="gkayi/hY"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="ELfdDuMb"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21634285074;
-	Wed, 22 Oct 2025 12:16:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E1C9344039;
+	Wed, 22 Oct 2025 12:45:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761135379; cv=none; b=hYUj3UbPZvpVBzAx4ruUb26YbVIYmNeCzVgUg3BEpjQEYcBrykKsxw+BitKnfnAWaB7QsivCtcqn6QYfnFX5thB+JCtzaCcpUgZARQnyiG1eHJKtr7iel/LzbfVkAYtGuwWGXelV5s96Rl2Mh2IHjvpmeS+bGvWF3Dc+txKMdiY=
+	t=1761137162; cv=none; b=uC85ACuIsslFZFolNhuK5ynyvDW6799xtgtF03qWa5gZElk6jBDQmSbVDE0N5D1VZiBFY6IGNwntp1MtHI/ngLZfyKTF0TEG6KUZlWAE/r9MsWVnQ+ZcayPt+wF6mL8lWqwXbYft74+bZYAR78+7AXCA2eW4IHgTW7/1cTcERV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761135379; c=relaxed/simple;
-	bh=cgt7CLQjSoyB4oOe7l2CcWFiQDCWV6sN2Ax5llb7nBI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iJ4zY2Pk/2jpSHEqvIujYTzWuz1r7a2i5w3kJMduQdl2d4T4GwEx2BGSALdZBEg9a3Pqlw13oGTBNn5zfXihW4yf5/IZEnN86B6yFuwnLPG9A/AQJ9nXcVooRMOoIhUs5t19kpvdKYLUu4/C+mWHKqmixRMpINwFH31gkIMuu0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=iSyD2eAC; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=gkayi/hY; arc=none smtp.client-ip=103.168.172.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.phl.internal (Postfix) with ESMTP id 2694EEC0064;
-	Wed, 22 Oct 2025 08:16:16 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Wed, 22 Oct 2025 08:16:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1761135376;
-	 x=1761221776; bh=FajAkPMbd4+2ubuOtdzYe8+OKPtN1c8032SY+wXAvDY=; b=
-	iSyD2eACEzRF6VDWame1A5MHviX4LWMvaxRqBmr1pgb33aceXZfLqHU/ISr5i+tT
-	qtN+n5sP9ZZLSCDiVRU/Rc/k2+esSNRKCCGraLclmrAIc0BzjfbCT8/H0wWyN+NU
-	pCR7Qm9yQfThGY2m2HmIbKfbaCKGNCOv8uDoM/3B8Bg1hyMYoWzxVzsgNHQeJeFX
-	7rl3VNuUXA+BzDkiI35MxMqKTLZRwN6jD08HR3ZSwiB2nipZ5wPaum+6GZpL/2LO
-	ppg5li9qCS/IKHmEogzNRTf/tLuErnsrepjDxyRqSWJSla+jG0W2JyIG02cU3xqa
-	kXYfAcKae9/KGNh3oPXcjQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1761135376; x=
-	1761221776; bh=FajAkPMbd4+2ubuOtdzYe8+OKPtN1c8032SY+wXAvDY=; b=g
-	kayi/hYyHMifyC8iIhm4lQ/zTyJ4NhXv/m8BY0gEuzF7k3rfbZAcGrOFHuX03Gwd
-	OIYyKa+y0Q3i6PUO3Zvc/YH+/4FMYjB/cjlxwY1gK1TgyiYx+MpDdAMgw+GqUYtp
-	nd5XF9aMlgG+L4L8jgzUc8nd3r9plXaZWukysSoB7pS/5tj+PRvhv+tTDbF7YLnt
-	y/MkurKZM25GaKVrS566CI/vApKIa6PW+1zI8d4KuNVK9KkYWcX01XMw9bN9SjUO
-	BIEq/K0nFf8oWhkR/5TW1OcP+bdFQV8VVX6mvk2UHP7jsvQQNvf9SbNMdt7ZkV+Z
-	QqRjrhKHaa6mDO5Gp74ew==
-X-ME-Sender: <xms:D8v4aNEdLghyyTWWIoz-fduLwSRHBg1W-HyvnhTS0oyTE3-6Yd7l2Q>
-    <xme:D8v4aDT2UOHVhQdxPd29RQimS1qQ552-p95GhdSlCVF-vCgSGh_xpP6yxtq1zwbDy
-    YcDKyeYtTQPSVBsghwA6P-cQjQDR2O5W4crG8a0qAo8h3tQdZEWlQ4>
-X-ME-Received: <xmr:D8v4aPeRSJv-GU6Sus5cMAVIbRKRq0j5Zl0lffpZ6IEwsQijlgfoLP9jTNZ4l4WsrmoRd9NP2k3dqJQJAICPRQ61LbaCzrc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddugeefheeiucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhklhgr
-    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrg
-    htvggthhdrshgvqeenucggtffrrghtthgvrhhnpeevteegtddvvdfhtdekgefhfeefheet
-    heekkeegfeejudeiudeuleegtdehkeekteenucevlhhushhtvghrufhiiigvpedtnecurf
-    grrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhn
-    rghtvggthhdrshgvpdhnsggprhgtphhtthhopeduiedpmhhouggvpehsmhhtphhouhhtpd
-    hrtghpthhtohepphhrrggshhgrkhgrrhdrtghsvghnghhgsehgmhgrihhlrdgtohhmpdhr
-    tghpthhtohepphgruhhlsehpsggrrhhkvghrrdguvghvpdhrtghpthhtoheprghnughrvg
-    ifodhnvghtuggvvheslhhunhhnrdgthhdprhgtphhtthhopegurghvvghmsegurghvvghm
-    lhhofhhtrdhnvghtpdhrtghpthhtohepvgguuhhmrgiivghtsehgohhoghhlvgdrtghomh
-    dprhgtphhtthhopehkuhgsrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphgrsggv
-    nhhisehrvgguhhgrthdrtghomhdprhgtphhtthhopehgvggvrhhtodhrvghnvghsrghsse
-    hglhhiuggvrhdrsggvpdhrtghpthhtohepmhhithhsuhhhihhrohdrkhhimhhurhgrrdhk
-    tgesrhgvnhgvshgrshdrtghomh
-X-ME-Proxy: <xmx:D8v4aBjaP8DysEkFTY6jndxGe_WRCn6GI6dMIPMGeL34M4BWQ26okA>
-    <xmx:D8v4aKION9Fh9EbRfbc9m-QiGIHmbd-iRS0GQDbpoaG-hOiVj1WMTQ>
-    <xmx:D8v4aOGFM86KB_ajjLJsW8NLemQsDZ-3zi36hUbXEViRApSedQ-__g>
-    <xmx:D8v4aA3DhWIAmcR5qaV8zGi49T_gFZlBVTDlcCQ5ew_yxAEI4eqokg>
-    <xmx:EMv4aNy87RC6RJe0MigPyc-lHMrxy5gYkhDiktWYQfk8Ads_XrkqA7y5>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 22 Oct 2025 08:16:15 -0400 (EDT)
-Date: Wed, 22 Oct 2025 14:16:14 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Paul Barker <paul@pbarker.dev>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Mitsuhiro Kimura <mitsuhiro.kimura.kc@renesas.com>,
-	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2 4/4] net: ravb: Ensure memory write completes before
- ringing TX doorbell
-Message-ID: <20251022121614.GE1694476@ragnatech.se>
-References: <20251017151830.171062-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20251017151830.171062-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	s=arc-20240116; t=1761137162; c=relaxed/simple;
+	bh=TWVBJSR27VrZO563R6LdgUNSYxVGYyYGNVaSfbLxPRE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mAuTAC5JMr6HAx55uPHr+mVl0hasuVVLILaMk+qStTRR2VPY7vYpTJ41hAXocJsVZsgwZft1srN7xJJdXEXbXkkr+HpKPGdTlm2fcHDEcQOkYmg8L7kaK4fdz9l3Y375iCO0wrueAKTU46L12FWbIWg15DXRNRyEh2Vw1zKH9gU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=ELfdDuMb; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4cs86C1w6Pz9tTc;
+	Wed, 22 Oct 2025 14:45:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1761137155;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WzUax9fdH9Q+7uhR0AVunlAerrb+3qRgdTcqDjLZB2U=;
+	b=ELfdDuMbVQr6UZ5kbpXZAF+BVE6RjH4j9m4CisJh3pb2vVCFxQFGIpp16uUrQwTr6BpmDs
+	ssXDNc83GNFWOmxcGJ1WJEVXvcM2pDHVNIKI530jYVrfUJ1m2pLiuDKD/Nv9OYrc/404k5
+	Fh6AkndoEnddGsDVA5Q1XkBHFf71rQHX+i7HWPbgNPYuHEl2zhQZzT5SFxo079tPfe9Z6x
+	y21+8dUG040OfvnBRH1/664SKwdWaMWhWmS7LtPoHoF8Dwz936aurNsKlXDQRTtgM1pd7E
+	bs/9jdApzngHo3hbeVsuXXZTzbhjUc1KAVrBLPVGtE3rsnmXbB8gcEatxvsb5g==
+Message-ID: <0d809766-36bb-478e-a77b-ed786bfc84d9@mailbox.org>
+Date: Wed, 22 Oct 2025 14:45:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251017151830.171062-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v2 4/4] dt-bindings: display: bridge: renesas,dsi-csi2-tx:
+ Allow panel@ subnode
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
+Cc: Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
+ Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+References: <20250904210147.186728-1-marek.vasut+renesas@mailbox.org>
+ <20250904210147.186728-4-marek.vasut+renesas@mailbox.org>
+ <4ffcf4fc-17a9-4669-af07-f81ddb46aee9@ideasonboard.com>
+ <d76ff19c-7b0f-4aa9-8ae2-d08c82d70410@mailbox.org>
+ <aebc10ec-73ed-4843-95c5-9ba5a2759ccb@ideasonboard.com>
+ <b4c0e78a-eecb-4a18-9199-18ea91c8df31@mailbox.org>
+ <2da374d1-7557-4f7e-9160-86945b73731a@ideasonboard.com>
+ <14e5da7c-c6ce-4bb6-884b-08629f5a5788@mailbox.org>
+ <7a159b09-d957-4d9b-9460-adf62df9a440@mailbox.org>
+ <626acab8-46ae-44cf-b9ef-0ac78d0954c9@ideasonboard.com>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <626acab8-46ae-44cf-b9ef-0ac78d0954c9@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-META: ggjpzsuj5xs3yrwikn5cwggs4wcxzw1r
+X-MBO-RS-ID: 6a1016291c5f2f21ca7
 
-Hello Lad,
+On 10/22/25 9:19 AM, Tomi Valkeinen wrote:
 
-Thanks for your work.
+Hello Tomi,
 
-On 2025-10-17 16:18:30 +0100, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>>>>>> Ok. My point was just that the dsi-controller.yaml doesn't allow
+>>>>>> "bridge" node (you can just rename the panel to bridge to test). I
+>>>>>> thought someone (I just can't remember who was it =) will send a patch
+>>>>>> for it, but I think that hasn't happened.
+>>>>> Do you want me to drop the bridge part from the commit message (I
+>>>>> assume
+>>>>> yes) ?
+>>>>>
+>>>>> Any other change I should do before sending a V3 ?
+>>>>
+>>>> As we found out, this has been fixed in linux-next. For this, and the
+>>>> rest in this series:
+>>>>
+>>>> Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>>>
+>>> Understood, thank you.
+>> Do you think this 4/4 can now be applied ? The rest already is.
 > 
-> Add a final dma_wmb() barrier before triggering the transmit request
-> (TCCR_TSRQ) to ensure all descriptor and buffer writes are visible to
-> the DMA engine.
-> 
-> According to the hardware manual, a read-back operation is required
-> before writing to the doorbell register to guarantee completion of
-> previous writes. Instead of performing a dummy read, a dma_wmb() is
-> used to both enforce the same ordering semantics on the CPU side and
-> also to ensure completion of writes.
-> 
-> Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
-> Cc: stable@vger.kernel.org
-> Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Pushed to drm-misc-next.
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-> ---
-> v1->v2:
-> - New patch added to separate out the memory barrier change
->   before ringing the doorbell.
-> ---
->  drivers/net/ethernet/renesas/ravb_main.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> index 0e40001f64b4..c3fc15f9ec85 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> @@ -2232,6 +2232,14 @@ static netdev_tx_t ravb_start_xmit(struct sk_buff *skb, struct net_device *ndev)
->  		dma_wmb();
->  		desc->die_dt = DT_FSINGLE;
->  	}
-> +
-> +	/* Before ringing the doorbell we need to make sure that the latest
-> +	 * writes have been committed to memory, otherwise it could delay
-> +	 * things until the doorbell is rang again.
-> +	 * This is in replacement of the read operation mentioned in the HW
-
-nit: I would spell out hardware here, if you do a v3.
-
-> +	 * manuals.
-> +	 */
-> +	dma_wmb();
->  	ravb_modify(ndev, TCCR, TCCR_TSRQ0 << q, TCCR_TSRQ0 << q);
->  
->  	priv->cur_tx[q] += num_tx_desc;
-> -- 
-> 2.43.0
-> 
+Thank you
 
 -- 
-Kind Regards,
-Niklas Söderlund
+Best regards,
+Marek Vasut
 
