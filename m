@@ -1,95 +1,80 @@
-Return-Path: <linux-renesas-soc+bounces-23419-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23420-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5A1FBFB47A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Oct 2025 12:02:41 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE471BFB483
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Oct 2025 12:03:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8396C3AA9E1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Oct 2025 10:02:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5FEA03BDE1E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Oct 2025 10:03:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F03930B521;
-	Wed, 22 Oct 2025 10:02:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2207D3164AF;
+	Wed, 22 Oct 2025 10:03:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="NpyqG8GP"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="BVFUV85U"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0A8930ACE3;
-	Wed, 22 Oct 2025 10:02:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8A6E316183;
+	Wed, 22 Oct 2025 10:03:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761127358; cv=none; b=Maw/7y2F497xJpShCLvzL5ZWWED1vPvbqIsVPN1JLSOa90dmmn8nGV+Eg+uOeleh0BDa2ROp7o/vBlAKbOHp67LckBpbrpyOh8Vm3SiAUZ18+0TjDEUbQY30XyNae95RlbclB/l/4RY1ga1LyNdFmWL2QxMi3f8T/aF+4UwuTpg=
+	t=1761127416; cv=none; b=hUEEBinvF1cN1v7RPb1d8D0m/LbDhWOgKmOdz6gQo9nxrZ31KOeMhw8ennpUN5hyt3UClxxrDjiOWrOcyMo2pwxtcwx6sBpZXHS0D7K+aXyTsfnfZwCx40Dj6jSAQEa3iovuVFnQJpS9ir7gCEi6w6v0YgeE6V59GBjmHZJaOHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761127358; c=relaxed/simple;
-	bh=aFu5pOgW/QXL5FSBZwccCI0J+8OS8Z/7m8YYt0QKzQw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=EkGF7kVwouSawBjdo/E4yghAkmItFLeNZ7a6G/0fXWGLqTYA12knM5LkKNcSTa21nrfTE/qP8lT3+fkvZp2u+PkisP943BNbViVUBbG3Vwepcr9TBQrBrb2CFBdGTSfh8N4FWxbXrpZQhw4irPL0y+HpdY5UPlwZ5+E+gPzhzlw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=NpyqG8GP; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 4019F4E41270;
-	Wed, 22 Oct 2025 10:02:34 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 122CB606DC;
-	Wed, 22 Oct 2025 10:02:34 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CA036102F2393;
-	Wed, 22 Oct 2025 12:02:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1761127353; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=hQxx/KluC/+d3m4FrK0wA2hEdaOutnyxgsFe7NpoS3U=;
-	b=NpyqG8GPS3jm4yxonp42vl4Ry0tGC45F6XfYs1a5Ew8l7wYjqtSGnA9SXf384EEz3qA380
-	Dm9YOFIPfX56DKFm+/i9/75CR0Imkea6nrNtrDoKmZQ9xjh65MIV+DWry3E5GXGLr8LI1m
-	E8o4jF7POwrN+nG6AYnNwAN0HZSsYX0Kmp2QpUa2j6r5ABqlVILy0zbcK3g/dUDEsSXnK9
-	I/jyrvuYDJwWowyK8EJfJp/6e1US5wQpvK3oUk9G/GY14yAhCldyxWExLqC2e8d/tHVvFS
-	MiYz+1eqSfD+K73TOQmYWqUtr2ujw+rLgonZQTwWz5pmGxAwxAnsKbUZpYX2tw==
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: linux-renesas-soc@vger.kernel.org, 
- Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, linux-arm-kernel@lists.infradead.org, 
- linux-mtd@lists.infradead.org, devicetree@vger.kernel.org
-In-Reply-To: <20251002142639.17082-2-wsa+renesas@sang-engineering.com>
-References: <20251002142639.17082-2-wsa+renesas@sang-engineering.com>
-Subject: Re: [PATCH] dt-bindings: mtd: physmap: add 'clocks' and
- 'power-domains'
-Message-Id: <176112734652.141620.5938048164419652638.b4-ty@bootlin.com>
-Date: Wed, 22 Oct 2025 12:02:26 +0200
+	s=arc-20240116; t=1761127416; c=relaxed/simple;
+	bh=L1+j8RX7kL4RDrHxpt668Gkr4PjDEjHbhO5EJyaRbTE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iPlHu6ucvTCvB/8uiqHhc/mexDt1uz+Fe+kDXDTw0WYmgcrK2p3syUKZXpkCLRJ3+yby7rCCuUla8jIUxpupJ4KdR6qLnx+/44Yz9SirWgmPEa5xMLgZbmMjoDQXHWLgmMd+u8KGUryodG0vQ9564tdLWQ3sPkMvWfXIVgvhUsM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=BVFUV85U; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9C8FC4CEE7;
+	Wed, 22 Oct 2025 10:03:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1761127415;
+	bh=L1+j8RX7kL4RDrHxpt668Gkr4PjDEjHbhO5EJyaRbTE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BVFUV85UotPXx7J96BhPo8ADZu/FoAhlMWMsluuyrlKbAzEjQ3o1CTuGxfuueJCmk
+	 d0NcMLMmxKxlSXXwDKFzGunvr28rco66pZGgr126O+EdKo4QlES6OCd/QHc8d/hADv
+	 wDzsUfwibDe5U+Jv+JPFyGgtmhzAGm9jn3zaAKFM=
+Date: Wed, 22 Oct 2025 12:03:32 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Jiri Slaby <jirislaby@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH] serial: sh-sci: Merge sh-sci.h into sh-sci.c
+Message-ID: <2025102218-blinker-babbling-5fcb@gregkh>
+References: <20250923115120.75685-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.14.2
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250923115120.75685-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On Thu, 02 Oct 2025 16:23:11 +0200, Wolfram Sang wrote:
-> Physmap supports minimal PM since commit 0bc448b49e8a017e ("mtd: maps:
-> physmap: Add minimal Runtime PM support"), so support it also when used
-> in DT configurations.
+On Tue, Sep 23, 2025 at 12:51:20PM +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
+> Inline the contents of sh-sci.h into sh-sci.c and remove the
+> header file. The header only contained register definitions
+> and macros used exclusively by the sh-sci driver, making the
+> separate header unnecessary.
 > 
+> While at it, sort the includes in alphabetical order.
 
-Applied to nand/next, thanks!
+That's two different things, should be two different patches :)
 
-[1/1] dt-bindings: mtd: physmap: add 'clocks' and 'power-domains'
-      commit: 4e7a83ed83120858f676007706197aa5594d4dd9
+thanks,
 
-Patche(s) should be available on mtd/linux.git and will be
-part of the next PR (provided that no robot complains by then).
-
-Kind regards,
-Miquèl
-
+greg k-h
 
