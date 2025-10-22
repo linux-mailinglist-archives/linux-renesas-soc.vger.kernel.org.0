@@ -1,139 +1,323 @@
-Return-Path: <linux-renesas-soc+bounces-23442-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23443-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54A88BFCE65
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Oct 2025 17:32:43 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F5ACBFCF6D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Oct 2025 17:50:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 3AD8F4E1D14
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Oct 2025 15:31:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 800673A9A07
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Oct 2025 15:50:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F8AD244679;
-	Wed, 22 Oct 2025 15:31:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E67B2475CF;
+	Wed, 22 Oct 2025 15:50:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="YmHnorag";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="cTlsc+K6"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PDDu7gNP"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87337221FBF
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Oct 2025 15:31:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9A0324677A
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Oct 2025 15:50:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761147073; cv=none; b=Gh2Cac0+yfmf1rlaj5y+StVNk5B/Iy9y9xb+jZ8A5ZOOzajdwIF/u5m/S35Jo0TD02RTIzmiuGG0vGVHexPnAJCiCPATsUu1tGz0aW7fB2QGBrZQKlsszAHSk1gQrZjDlq++w3b3nPDfDocKOMvMpp3Gfptw/BQ5ygz8aosVrfA=
+	t=1761148251; cv=none; b=djzw9TT6r42Sc7NrZDCm+a2VXg22dtjkgMWc5XHroJAmzmjmTx3tnCU5P5OcftlimkCtm94WX+PrzNn55oIPhFJ4x+z8qtmSn0tlQMlIR8mSGXZJOBCl6vA07Ms68hg0/GRivQxeM+aBnqz9ASzKbCVDqtDWlaEQOjG5yvJ7KyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761147073; c=relaxed/simple;
-	bh=KNUHSbQHwFH02TqqaOqwuyXOANB6Nta4nLYXj6NXGek=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uPVVAQP8Pd7j9pP0orrtN6p/AlcP8dtkuofuyDCOb0F/ytn6gDH+eQz3AvPzS4pfaVAhy50pxYBIdoNTTQVksb6vF6JomB+YDWw222WO9py8gtO+DlpngUrLT7TVNwe7M/Op3d7q2UGnIXbz4VKaucaQPpMk5yLaM+EnVJ70ZCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=YmHnorag; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=cTlsc+K6; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4csCmr3MLMz9tV8;
-	Wed, 22 Oct 2025 17:31:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1761147068;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kiPkQKpRLn9qqzIMVh1MRyshBmTUJXqAhlHjPgEk0jA=;
-	b=YmHnoragkzLHzDGdOn64ahPb4h1231HNOqpcVm0Cliwqj5AwpW3e7PIqhXQNo9Gt9g+q/u
-	7OBSVTLLWbUw/diU6mxJ07h3h1usyehv9mbHbYsrBxuWXuzWijmrZU5PyH4GjqAH++Qbo3
-	DZNxFGI4sOo5rS7840zIxefgZNVL7GcsCyVPLGiktcKWAdCtkCBxhe0De2crbNC7vVvbHd
-	IuvgBboAzIlIkqVl7L2lJwx449/t/SklErnm4plJ0x/3vTK3LR2T/MLQsONN+qo67vmE/6
-	kxuR6l+zs56a15rfh6eOe5Jnxdx7/OoOd8iIOD/t94TVSUz0VOm1q75o26vy7A==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=cTlsc+K6;
-	spf=pass (outgoing_mbo_mout: domain of marek.vasut@mailbox.org designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=marek.vasut@mailbox.org
-Message-ID: <b0f1a0a3-31be-4ebe-9bbc-fe25a0dc8059@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1761147066;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kiPkQKpRLn9qqzIMVh1MRyshBmTUJXqAhlHjPgEk0jA=;
-	b=cTlsc+K6ra2nU36Io1lxrwSmIVqq5ldIZvlrSZk2e/9jYye8cZZ4rt3bT8T8aP9pPQJ5k9
-	6bI49k9gb2TlIFLGcRWfovDzKF2IYjYFRAF7r7MJ27wxipE7k4Q7jJIS9udWEJG7EZ+cK2
-	E5GsoVmLgORkZu7LEFgHddCcM0D3lbqVVIh3lXtt0Kwsqz8ZX3stmtpDiCCRQHPHN08nwT
-	jUAgIe8AUfuO/Y9x0fVfRsIQMRMATY0OpLj0c0mpqlwQNuQg0CZVi3B+e04Bavi4ENoGrY
-	lnxZHKPnjpcUlB0eKxMLPOIjmxcAm6Fj8Hq5f1a6T7jPij3GUhYWwRrQi4g5Qg==
-Date: Wed, 22 Oct 2025 17:31:04 +0200
+	s=arc-20240116; t=1761148251; c=relaxed/simple;
+	bh=QB4SfuURmF0iWUdw/nwKqx87mibMXzZNnU/tV+VTflc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=niLHkIVr9mgxd1BST0qQ66QkeCCoII1XTQB4846EjlQbENDBwWaG+OvTG3KgovkYtM7qxKT5NgsHwm/REWkSyiRuPAPIb5JJ4VQAPg8dkeBfrik4vFkxypAiLJzrzWdUu54UT1iPnr/6jEb/BenF8HOfEtOaNkX2rJax/QDNut8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PDDu7gNP; arc=none smtp.client-ip=209.85.222.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-892d1443e48so940097985a.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Oct 2025 08:50:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761148249; x=1761753049; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=M3oPL/TT2sCXS1NwLSM7rbWcVKVCBogVovmIALCF75E=;
+        b=PDDu7gNP+RCUzIQmZOQJK1qv35WyTpVYbtLZLmFSfywQDTG5R3T5gN41I7crHWRj2K
+         b5VQS09X5/96bxNUOMrO6FjixFoSqkFBkS3Ouv8k9MR6zr3GxbH/6moBzM3yEYPgD3jM
+         L4Q0xRTW6vh4ZfEIMEGVsqsk014lbD46/iUfRaUYt0vvuJHUXILq7NRkrnlsZLYCYre9
+         a2hXNyjBpCzoIJ+Nxhfai7xYyEZMrGzcM3kQZ/inOcx0EcPYqg+4Bi3mTFtogn8/Qqch
+         d8TFrDD11/JDwYgCmLgalmJB+MNlNKUbqqs0EzUk83DeDRFZUW61uSqjNo3UsEcspc+o
+         t+uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761148249; x=1761753049;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=M3oPL/TT2sCXS1NwLSM7rbWcVKVCBogVovmIALCF75E=;
+        b=L59nDKwdmfkEHzzULZ22TzpMOBbn7JK0kWcnyHPiiFe+VeyElWQrNN7eWNjXvH7fwW
+         0WL97n3ZuPs6t5ltEx4i/SmDJEoHGjzOLqHfBP4tkL6GNOZfTGZGldxCymmX2pGFcPzI
+         Lgm0PoXbALROMmX6BDa8u92+xPYgvJlTr466smJWYqVUlslyGzwN+2YBSnkY08ejNXK4
+         K5m2xEvv3DrdU8C6M8DiwchyBpeopL8JSB4PDDp+sb5ms5tnNeUskmuuMWDcjLjQ5GUZ
+         C5Zcme5+KXAfEznLOsK6ndD7NTUVpxsG8MKlFMY11vih9bnW1pkLMQPz71TIqCWWZbAF
+         gHUQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWWgA/gs0vTwe39VfPv9Btapv0fq8jrEWXGY6rqPMCEis+vai46MVJ1NJeqkF4zXMro2xJnAqMZJ/VSAhqpZcc2aA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxf1RvRUYHF9lZHmYtfiK/Cu0HvHjo336rUPoDD5JR8pUOuw9nW
+	TejRkV7WjV9vQhoXU4f6Wa5eE4FvaWHD/T07daNo1JxvfitKCPEmFB9Z
+X-Gm-Gg: ASbGncuzCeL6ZwzgDiGFf/WUvDnQVhV+TQZmUZ2ze639/DkJHkTArMAVzfjeAgoqEFr
+	wcZMY43scBOcbTGl3YiA62jS482/9fI5PN3BfVKNnUuni6cxctKNu7gjKPqjj0KneiMV6kJOfU+
+	k6mcH5QxiQ7tPET/f2zJUMAJWf2H2u+ZJwS1TXieoAbKBH66rNtFghHvbwyFWOaYEVNVQm7FMY+
+	XuVGF+B0IfaCoS5oEeERZ3aPKAw71EkJPjI1RcTX2lCV0JDVIOwKgIXDiEqgkRdV0tg7K3MV1HZ
+	ADOjZ4Az90XrFZv7MYwySnwlf4GBqm/VwE2fpau7izRmz/WR8dT7DQRRwU2BGvxyat+MWBlFqYp
+	abET3wC2x8do0H3dd0yW0zXsvwxohrEiy6gn3qZ+iSMQclF1PH4KWGwVe1NbyqDficxAhfaymre
+	Q7vHz1Lgc=
+X-Google-Smtp-Source: AGHT+IFhU1/qxPcwG4iditd/DSbX/hwAr8IdRWU46wkqo60rCt6GN/oHrv/6ROXraOwUylmwPpHHaA==
+X-Received: by 2002:a05:620a:1984:b0:84f:f3bb:e464 with SMTP id af79cd13be357-8906fd1953cmr2828961185a.50.1761148248418;
+        Wed, 22 Oct 2025 08:50:48 -0700 (PDT)
+Received: from localhost ([12.22.141.131])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-891cd098328sm1000034585a.17.2025.10.22.08.50.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Oct 2025 08:50:47 -0700 (PDT)
+Date: Wed, 22 Oct 2025 11:50:46 -0400
+From: Yury Norov <yury.norov@gmail.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	David Miller <davem@davemloft.net>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Crt Mori <cmo@melexis.com>, Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Jacky Huang <ychuang3@nuvoton.com>,
+	Shan-Chun Hung <schung@nuvoton.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jakub Kicinski <kuba@kernel.org>, Alex Elder <elder@ieee.org>,
+	David Laight <david.laight.linux@gmail.com>,
+	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+	Jason Baron <jbaron@akamai.com>, Borislav Petkov <bp@alien8.de>,
+	Tony Luck <tony.luck@intel.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Kim Seer Paller <kimseer.paller@analog.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Richard Genoud <richard.genoud@bootlin.com>,
+	Cosmin Tanislav <demonsingur@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Jianping Shen <Jianping.Shen@de.bosch.com>,
+	linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org, linux-crypto@vger.kernel.org,
+	linux-edac@vger.kernel.org, qat-linux@intel.com,
+	linux-gpio@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+	linux-iio@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH v4 2/4] bitfield: Add non-constant field_{prep,get}()
+ helpers
+Message-ID: <aPj9Tu75OFenm7U0@yury>
+References: <cover.1760696560.git.geert+renesas@glider.be>
+ <67c1998f144b3a21399672c8e4d58d3884ae2b3c.1760696560.git.geert+renesas@glider.be>
+ <aPKQMdyMO-vrb30X@yury>
+ <CAMuHMdXq7xubX4a6SZWcC1HX+_TsKeQigDVQrWvA=js5bhaUiQ@mail.gmail.com>
+ <aPhbhQEWAel4aD9t@yury>
+ <CAMuHMdUOX=ToDU_44fHrqKWUtee1LKpgisfTKOe4R33er9g+DA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] arm64: guard AMU register access with ARM64_HAS_AMU_EXTN
-To: Catalin Marinas <catalin.marinas@arm.com>, Marc Zyngier <maz@kernel.org>
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
- linux-arm-kernel@lists.infradead.org,
- Anshuman Khandual <anshuman.khandual@arm.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Ryan Roberts <ryan.roberts@arm.com>, Will Deacon <will@kernel.org>,
- Yicong Yang <yangyicong@hisilicon.com>, linux-renesas-soc@vger.kernel.org
-References: <20251022133621.178546-1-marek.vasut+renesas@mailbox.org>
- <86347bvx0f.wl-maz@kernel.org>
- <07391913-aab6-4d92-b75f-278506f51397@mailbox.org>
- <861pmvvv2g.wl-maz@kernel.org> <aPj2DA2FwYVSmLVc@arm.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <aPj2DA2FwYVSmLVc@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: 04cf09bdf2be20dd59c
-X-MBO-RS-META: 1nkfh5jx737ewmoei1nspqmr99y98xsi
-X-Rspamd-Queue-Id: 4csCmr3MLMz9tV8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdUOX=ToDU_44fHrqKWUtee1LKpgisfTKOe4R33er9g+DA@mail.gmail.com>
 
-On 10/22/25 5:19 PM, Catalin Marinas wrote:
-
-Hello Catalin,
-
->>>> We ensure that the AMU is available in the macro itself by checking
->>>> for ID_AA64PFR0_EL1.AMU. If the AMu isn't present on this CPU, we skip
->>>> the offending sysreg access. This is similar to what we do for the
->>>> PMU.
->>>>
->>>> Does your HW advertise an AMU, but doesn't actually have one?
->>>
->>> The hardware does have AMU, but it is currently blocked in old TFA
->>> version and access to this AMU register here causes a fault. That's
->>> why I have to disable ARM64_HAS_AMU_EXTN until the TFA is updated and
->>> the AMU access is made available on this hardware. But even if I do
->>> disable ARM64_HAS_AMU_EXTN=n , I get a fault.
->>
->> Well, I would tend to say that you are trying to update the wrong
->> piece of SW here. Crashing kernels should be a good incentive for the
->> board manufacturer to update their firmware pronto, specially when we
->> are talking of code that has been in the tree for over 5 years...
+On Wed, Oct 22, 2025 at 12:01:37PM +0200, Geert Uytterhoeven wrote:
+> Hi Yury,
 > 
-> I agree.
+> On Wed, 22 Oct 2025 at 06:20, Yury Norov <yury.norov@gmail.com> wrote:
+> > On Mon, Oct 20, 2025 at 03:00:24PM +0200, Geert Uytterhoeven wrote:
+> > > On Fri, 17 Oct 2025 at 20:51, Yury Norov <yury.norov@gmail.com> wrote:
+> > > > On Fri, Oct 17, 2025 at 12:54:10PM +0200, Geert Uytterhoeven wrote:
+> > > > > The existing FIELD_{GET,PREP}() macros are limited to compile-time
+> > > > > constants.  However, it is very common to prepare or extract bitfield
+> > > > > elements where the bitfield mask is not a compile-time constant.
+> > > > >
+> > > > > To avoid this limitation, the AT91 clock driver and several other
+> > > > > drivers already have their own non-const field_{prep,get}() macros.
+> > > > > Make them available for general use by consolidating them in
+> > > > > <linux/bitfield.h>, and improve them slightly:
+> > > > >   1. Avoid evaluating macro parameters more than once,
+> > > > >   2. Replace "ffs() - 1" by "__ffs()",
+> > > > >   3. Support 64-bit use on 32-bit architectures.
+> > > > >
+> > > > > This is deliberately not merged into the existing FIELD_{GET,PREP}()
+> > > > > macros, as people expressed the desire to keep stricter variants for
+> > > > > increased safety, or for performance critical paths.
+> > > > >
+> > > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > > > Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> > > > > Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > > > > Acked-by: Crt Mori <cmo@melexis.com>
+> > > > > ---
+> > > > > v4:
+> > > > >   - Add Acked-by,
+> > > > >   - Rebase on top of commit 7c68005a46108ffa ("crypto: qat - relocate
+> > > > >     power management debugfs helper APIs") in v6.17-rc1,
+> > > > >   - Convert more recently introduced upstream copies:
+> > > > >       - drivers/edac/ie31200_edac.c
+> > > > >       - drivers/iio/dac/ad3530r.c
+> > > >
+> > > > Can you split out the part that actually introduces the new API?
+> > >
+> > > Unfortunately not, as that would cause build warnings/failures due
+> > > to conflicting redefinitions.
+> > > That is a reason why I want to apply this patch ASAP: new copies show
+> > > up all the time.
+> >
+> > In a preparation patch, for each driver:
+> >
+> >  +#ifndef field_prep
+> >  #define field_prep() ...
+> >  +#endif
+> >
+> > Or simply
+> >
+> >  +#undef field_prep
+> >  #define field_prep() ...
+> >
+> > Then add the generic field_prep() in a separate patch. Then you can drop
+> > ifdefery in the drivers.
+> >
+> > Yeah, more patches, but the result is cleaner.
 > 
->>> This patch is mainly meant to prevent a surprise in case someone does
->>> set ARM64_HAS_AMU_EXTN=n , and the system still faults on AMU register
->>> access.
->>
->> But that doesn't really fix anything if you have a buggy firmware,
->> because you can't tell which CPUs have been correctly configured, and
->> which have not. I also don't really get why this hack works for you,
->> because the feature will be set as soon as one CPU advertises the
->> feature.
+> And we need 3 kernel releases, as the addition of the macros to
+> the header file now has a hard dependency on adding the #undefs?
+> Unless I still apply all of them to an immutable branch, but then what
+> is the point?
+
+Not sure what do you mean. You can do it in a single series, and you
+don't need and should not split the series across releases. Consider
+my recent cpumask_next_wrap() rework as an example:
+
+https://lore.kernel.org/all/20250128164646.4009-1-yury.norov@gmail.com/
+
+1. #1-4 switch kernel users to alternative functions;
+2. #5 deprecates cpumask_next_wrap(), making sure it's a pure renaming,
+   i.e. no-op.
+3. #6 introduces the new nice implementation. It's the core-only patch,
+   no drivers are touched.
+4. #7-12 switch the rest of codebase from old version to new.
+5. #13 drops deprecated old function.
+
+This is the most common scheme. In you case you can cut the corners.
+
+The goals here are:
+
+ - keep core patches free of non-core code;
+ - switch drivers to the new functionality one-by-one in sake of
+   bisectability.
+ 
+> > > > > --- a/include/linux/bitfield.h
+> > > > > +++ b/include/linux/bitfield.h
+> > > > > @@ -220,4 +220,40 @@ __MAKE_OP(64)
+> > > > >  #undef __MAKE_OP
+> > > > >  #undef ____MAKE_OP
+> > > > >
+> > > > > +/**
+> > > > > + * field_prep() - prepare a bitfield element
+> > > > > + * @mask: shifted mask defining the field's length and position
+> > > > > + * @val:  value to put in the field
+> > > > > + *
+> > > > > + * field_prep() masks and shifts up the value.  The result should be
+> > > > > + * combined with other fields of the bitfield using logical OR.
+> > > > > + * Unlike FIELD_PREP(), @mask is not limited to a compile-time constant.
+> > > > > + */
+> > > > > +#define field_prep(mask, val)                                                \
+> > > > > +     ({                                                              \
+> > > > > +             __auto_type __mask = (mask);                            \
+> > > > > +             typeof(mask) __val = (val);                             \
+> > > > > +             unsigned int __shift = sizeof(mask) <= 4 ?              \
+> > > > > +                                    __ffs(__mask) : __ffs64(__mask); \
+> > > > > +             (__val << __shift) & __mask;    \
+> > > >
+> > > > __ffs(0) is undef. The corresponding comment in
+> > > > include/asm-generic/bitops/__ffs.h explicitly says: "code should check
+> > > > against 0 first".
+> > >
+> > > An all zeroes mask is a bug in the code that calls field_{get,prep}().
+> >
+> > It's a bug in FIELD_GET() - for sure. Because it's enforced in
+> > __BF_FIELD_CHECK(). field_get() doesn't enforce it, doesn't even
+> > mention that in the comment.
+> >
+> > I'm not fully convinced that empty runtime mask should be a bug.
 > 
-> I think Marek also disables the config option and the feature won't be
-> turned on.
+> Getting (and using) data from nowhere is a bug.
+> Storing data where there is no space to store is also a bug.
+> 
+> I will add a comment.
+> 
+> > Consider memcpy(dst, src, 0). This is a no-op, but not a bug as
+> > soon as the pointers are valid. If you _think_ it's a bug - please
+> > enforce it.
+> 
+> memcpy() with a fixed size of zero is probably a bug.
+> memcpy() with a variable size is usually used to copy "as much as is
+> needed", so zero is usually not a bug.
 
-Correct.
+5 lines above you say: "Getting (and using) data from nowhere is a bug".
+Now you're saying: "so zero is usually not a bug". So, is it a bug or
+not?
 
--- 
-Best regards,
-Marek Vasut
+Consider this example:
+        
+        unsigned a = field_get(mask, get_user(ptr));
+
+Conceptually it's the same as per-bit copy_from_user().
+
+The copy_from_user 
+1. allows size == 0;
+2. does not dereference pointers in that case, i.e. doesn't call
+   get_user().
+
+Can we make sure that field_get() provides the same guarantees?
+ 
+> > > > I think mask = 0 is a sign of error here. Can you add a code catching
+> > > > it at compile time, and maybe at runtime too? Something like:
+> > > >
+> > > >  #define __field_prep(mask, val)
+> > > >  ({
+> > > >         unsigned __shift = sizeof(mask) <= 4 ? __ffs(mask) : __ffs64(mask);
+> > > >         (val << __shift) & mask;
+> > > >  })
+> > > >
+> > > >  #define field_prep(mask, val)
+> > > >  ({
+> > > >         unsigned int __shift;
+> > > >         __auto_type __mask = (mask), __ret = 0;
+> > > >         typeof(mask) __val = (val);
+> > > >
+> > > >         BUILD_BUG_ON_ZERO(const_true(mask == 0));
+> > >
+> > > Futile, as code with a constant mask should use FIELD_PREP() instead.
+> >
+> > It's a weak argument. Sometimes compiler is smart enough to realize
+> > that something is a constant, while people won't. Sometimes code gets
+> > refactored. Sometimes people build complex expressions that should
+> > work both in run-time and compile time cases. Sometimes variables are
+> > compile- or run-time depending on config (nr_cpu_ids is an example).
+> >
+> > The field_prep() must handle const case just as good as capitalized
+> > version does.
+> 
+> OK, I will add the (build-time) check.
+
+If mask is compile-time, you can wire field_prep() to FIELD_PREP(), so
+it will do the work for you.
+ 
+Thanks,
+Yury
 
