@@ -1,109 +1,138 @@
-Return-Path: <linux-renesas-soc+bounces-23407-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23408-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 064E8BFA807
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Oct 2025 09:19:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 356C1BFA819
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Oct 2025 09:20:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id A72B4346A97
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Oct 2025 07:19:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 154741A01E1D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Oct 2025 07:20:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 964142F5A24;
-	Wed, 22 Oct 2025 07:19:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="VGidfkyF"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AD792F6160;
+	Wed, 22 Oct 2025 07:20:13 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF1A12F3C26;
-	Wed, 22 Oct 2025 07:19:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F45C2F6171
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Oct 2025 07:20:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761117564; cv=none; b=sE/dYYVmLdY9WNSfeSSN7lAKXfZ/daYw73A7W0SiikJY6jLZI5/mpwb7HGfQIm3AZ550FTokf0pC99YWTeRNxtipxVgjZEL1gRTYnY/eJM/SHpeZnwU6I/FB9qtb9oJR1uW5SDBErVzs6qYBpakuKa3tUnjfvNVt9hQi0489ji8=
+	t=1761117613; cv=none; b=oSqAepxmpk89MDPZK2ynZXSnkD+BTlS3Gig5+/SgcpZ1zk8YWbvkYDXEE6gZycS/j8zzlVhxJHrtmfgUB+BKFTyrjADQkoXqB6jJog1CMt8y8k03emjvLMnkyXiGlDE1ui/83vKkdg/IwrvQ6rByX1AG2TxtjSMFJDNeWxUvWCE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761117564; c=relaxed/simple;
-	bh=Z8ZwCkSX/8/aiTv9fav6N9vdybzcbu6o+Lr/dVyzBMA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DhfeWhbRmLcrH/HPObjZMlPJjo3mMGbooBM8sKSkdY36rAfEaSAhS802RTjdU6MLozKljzO/0kPlDeTY7j179XVO22fuyELPlrHyyXg9iB11jcn5RoCnBAU98aVnOle7+DY6DsK7cfXvqpJ2/4qg89otXZFYSU//ti+PcpAl9gU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=VGidfkyF; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 51037557;
-	Wed, 22 Oct 2025 09:17:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1761117457;
-	bh=Z8ZwCkSX/8/aiTv9fav6N9vdybzcbu6o+Lr/dVyzBMA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=VGidfkyFdjQs4Xkqali8Z5l5zRQs85bEr4mlwVU2ttknMtDtwguMjyeHSHG0X1eeD
-	 wvT4Av+FK9CL54YTcg8DLc+L0sXV9bvh2LV8Lmqk0KgDMEkEnYtrwfc364QUzjgNzX
-	 0HBBULOj+w71ZBqFRWGz47VyKZDCtESJPW7L0HQo=
-Message-ID: <626acab8-46ae-44cf-b9ef-0ac78d0954c9@ideasonboard.com>
-Date: Wed, 22 Oct 2025 10:19:17 +0300
+	s=arc-20240116; t=1761117613; c=relaxed/simple;
+	bh=oj2g+iXtUrFUuNWS7IxNGMMhQzbaj0lpzDuF73afwdk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RKmC/1EItzXiISFIBj9HiLJFkD4UqGESK59oTd9HgS4lsOjB/cNpJjaHNbgPZxJ6eONKakUnLl8oqOZygmSNOh52gAbimjrSrmuwpIpYNzsJc4gkePWk/5JhHL4F8WoVzIS3N+708xXDWhxMNYixjlGwPSn9/Z4xQ+cyhlLRtVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-5d758dba570so3223460137.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Oct 2025 00:20:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761117607; x=1761722407;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LB4UmnebrIV6VHjidh9rexno3FG0/9sLJFVzFv+0Cqk=;
+        b=E/QqhDMoCPmrI5JS9K7TvcS8f7MVk9VVbi11D92ABKh1tJ9sI6j6fNoiV0R1wjuBGG
+         6rZgON1r6GoRxdi6qEBxVliGOJPt1RXccJLFDdWI6T7TdjtMqWk8X1fVpPYyBqphvQ46
+         01SBPuDQkPhafLaJEpdFlHs3+8K0X5IFldkrxitfoUhud+WZS+z5tHZx8aDOi3MjuEL2
+         CanYjY/4zYA6QSAbkq+miPUQSzxv63ClHlRqkxX24tz+SM19tkhX8t+YAYLnhYhKDUWv
+         kjozN/cWfEFfzY99cWQavzoVmizCKIxJw+ElY6sMfAlxJb3cm9ak3H/crRR/21nIj4nJ
+         WH6g==
+X-Forwarded-Encrypted: i=1; AJvYcCXBlZb7U4l6wpvnVuYP8gHbRb6uzymDNtoq/RpFZdZol1BqExGRwA8hkgkLvy3GT86UvMqjy2fP8YNQ3xR25fK+Ew==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx/T6eHgr3d1hbSxS1q57cMKODgHWAZ4dY63RRmXt1mowj3dSW5
+	IyCG2JY8IYOB7cnYnkpEF6lVKz4Evvvq86EjgT8xEmMZ8wZkZHiYJBUtynZT+Nh1
+X-Gm-Gg: ASbGncu7MTUJjVLrd0/KOsYyL+skrJhBpaEKnlNaJnX1v1g4mY8hmgVnxnP4aYNPejP
+	8Fad/qaRWgHqBQNFfkJEYwHnmo5LV3UIYweqzkL8FkzkGG6J/LVncqDFRUezZJGgb8a2sPLNZlv
+	eKH8lGQVusDnPOXBlgajfqvKulIHDZZLDFz8dwtNjBazBY0hY9CVTVSsWu0p4aDj+vRRKbBkTIr
+	M96DPcNNN7KY/X5FakfjqrstiPt6xK9tBl1tJdlREJHuaIe64JLEvJHIWFYlPdBD+gptTO9uaKN
+	nXVmvdu8MxsCt4MG1QKyF9o1Qtri5AAPAT67j2jMymfkQyAOQNDKSkN9TOnmXUVzmFxEr05ZpoW
+	wmCEU8bXx3zNkNhYT2HEl7i7jadOXQg4/GuCQeob7/q1PNQNJCzt/Avn5OqKpIspMDISg/SCoeD
+	avOYjEDh74AKJmI3iMKI8qbmi9z9Da/fN3RMrEMGw89WbV2UbM
+X-Google-Smtp-Source: AGHT+IGuRfsOqIEi8dnluywzTNHLA4n9djxz+0oqNv9cZBCfswoxI3P28Oa6yqNIQqF7utuUtNUQYw==
+X-Received: by 2002:a05:6102:ccf:b0:5d5:dcfb:e39 with SMTP id ada2fe7eead31-5d7dd67cdecmr5854635137.29.1761117607053;
+        Wed, 22 Oct 2025 00:20:07 -0700 (PDT)
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com. [209.85.217.43])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-932c3cd56d4sm4412218241.0.2025.10.22.00.20.06
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Oct 2025 00:20:06 -0700 (PDT)
+Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-5d980e08e06so1557520137.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Oct 2025 00:20:06 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXKJB4V5l5x0JnpbYjThgGJTII66GDG52LnEhnrzKVqW7Ng1Pp69H4EXTfKu4lX8J7w+FjK/Ugzhejf4uDSPWj4og==@vger.kernel.org
+X-Received: by 2002:a05:6102:419f:b0:5d5:ff0f:aea1 with SMTP id
+ ada2fe7eead31-5d7dd634d15mr5387817137.22.1761117605738; Wed, 22 Oct 2025
+ 00:20:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/4] dt-bindings: display: bridge: renesas,dsi-csi2-tx:
- Allow panel@ subnode
-To: Marek Vasut <marek.vasut@mailbox.org>, dri-devel@lists.freedesktop.org
-Cc: Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
- Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org
-References: <20250904210147.186728-1-marek.vasut+renesas@mailbox.org>
- <20250904210147.186728-4-marek.vasut+renesas@mailbox.org>
- <4ffcf4fc-17a9-4669-af07-f81ddb46aee9@ideasonboard.com>
- <d76ff19c-7b0f-4aa9-8ae2-d08c82d70410@mailbox.org>
- <aebc10ec-73ed-4843-95c5-9ba5a2759ccb@ideasonboard.com>
- <b4c0e78a-eecb-4a18-9199-18ea91c8df31@mailbox.org>
- <2da374d1-7557-4f7e-9160-86945b73731a@ideasonboard.com>
- <14e5da7c-c6ce-4bb6-884b-08629f5a5788@mailbox.org>
- <7a159b09-d957-4d9b-9460-adf62df9a440@mailbox.org>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-In-Reply-To: <7a159b09-d957-4d9b-9460-adf62df9a440@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20251010144231.15773-1-ilpo.jarvinen@linux.intel.com>
+ <CAMuHMdVwAkC0XOU_SZ0HeH0+oT-j5SvKyRcFcJbbes624Yu9uQ@mail.gmail.com>
+ <89a20c14-dd0f-22ae-d998-da511a94664a@linux.intel.com> <CAMuHMdUbseFEY8AGOxm2T8W-64qT9OSvfmvu+hyTJUT+WE2cVw@mail.gmail.com>
+ <20844374-d3df-cc39-a265-44a3008a3bcb@linux.intel.com> <aPerdPErjXANiBOl@smile.fi.intel.com>
+In-Reply-To: <aPerdPErjXANiBOl@smile.fi.intel.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 22 Oct 2025 09:19:54 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWjty_fzRp9r8bet7G_YTwAvGRdW73-uxn7Dp8WsFmEEQ@mail.gmail.com>
+X-Gm-Features: AS18NWBTgmWnrLRZQpcXx7nybYEdoprYZTPpfACzWUOBzMWL72E1MPEt5nuaQyU
+Message-ID: <CAMuHMdWjty_fzRp9r8bet7G_YTwAvGRdW73-uxn7Dp8WsFmEEQ@mail.gmail.com>
+Subject: Re: [PATCH 0/3] PCI & resource: Make coalescing host bridge windows safer
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>, 
+	Kai-Heng Feng <kaihengf@nvidia.com>, Rob Herring <robh@kernel.org>, 
+	LKML <linux-kernel@vger.kernel.org>, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Hi Andy,
 
-On 15/10/2025 17:09, Marek Vasut wrote:
-> On 9/19/25 7:08 PM, Marek Vasut wrote:
-> 
-> Hello Tomi,
-> 
->>>>> Ok. My point was just that the dsi-controller.yaml doesn't allow
->>>>> "bridge" node (you can just rename the panel to bridge to test). I
->>>>> thought someone (I just can't remember who was it =) will send a patch
->>>>> for it, but I think that hasn't happened.
->>>> Do you want me to drop the bridge part from the commit message (I
->>>> assume
->>>> yes) ?
->>>>
->>>> Any other change I should do before sending a V3 ?
->>>
->>> As we found out, this has been fixed in linux-next. For this, and the
->>> rest in this series:
->>>
->>> Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
->>
->> Understood, thank you.
-> Do you think this 4/4 can now be applied ? The rest already is.
+On Tue, 21 Oct 2025 at 17:49, Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+> On Tue, Oct 21, 2025 at 02:54:03PM +0300, Ilpo J=C3=A4rvinen wrote:
+> > The expected result is that those usb resources are properly parented a=
+nd
+> > the ee080000-ee08ffff and ee090000-ee090bff are not coalesced together =
+(as
+> > that would destroy information). So something along the lines of:
+> >
+> >     ee080000-ee08ffff : pci@ee090000
+>
+> For my pedantic eye, the naming is a bit confusing here. Is this a mistak=
+e in
+> the code or in the example?
+>
+> >       ee080000-ee080fff : 0000:00:01.0
+> >         ee080000-ee080fff : ohci_hcd
+> >       ee081000-ee0810ff : 0000:00:02.0
+> >         ee081000-ee0810ff : ehci_hcd
+> >     ee090000-ee090bff : ee090000.pci pci@ee090000
 
-Pushed to drm-misc-next.
+A platform device instantiated from DT is named after the node name
+and unit address of the corresponding DT node.  If the device has
+multiple register banks, all its register banks are still claimed by
+the same device, so all but the first (in DT) register bank show a
+non-matching address in the device name.
 
- Tomi
+Gr{oetje,eeting}s,
 
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
