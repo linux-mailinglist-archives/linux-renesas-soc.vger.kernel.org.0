@@ -1,310 +1,314 @@
-Return-Path: <linux-renesas-soc+bounces-23434-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23435-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A93ABFBF7E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Oct 2025 14:54:30 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EBC3BFC2BE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Oct 2025 15:34:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 48410341332
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Oct 2025 12:54:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9A0B65E62EB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Oct 2025 13:10:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80FFF348868;
-	Wed, 22 Oct 2025 12:51:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3BF434844B;
+	Wed, 22 Oct 2025 13:03:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kx5EUM3B"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="CRb9AjB4"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8714C3446D0;
-	Wed, 22 Oct 2025 12:51:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9848A347BBA
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Oct 2025 13:03:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761137506; cv=none; b=JzY3L7F9PCyzx9xMRQ6ojrelSkklRfVUAyLQhSX8SBaq964X5hu+4Gv5R1rX8CEEsbcg3WjoLcFNh1E/59xkQgCkqpTZF967G6Qt6KAEbNS54brPt6pbIlJtXcNmWihO/jAB0vRu1pftqQdypuU0XjwhQ0tEX60/nsY9hdzy57M=
+	t=1761138238; cv=none; b=K0VHybW2wCxiKSZXl1RsGirFmpejeXxNnEnmSlWTH8ohtD25nEm3ANtlPdiycFjOPbW/ld2+rTW3z9rS4AbUu8Wxmy1NrCkmnImSDpiysGEzKnqKDL3py07z/3WXJoSHMgzpfKp8kASbuB85bSYjri+yjfKOviX7KaNdR4P39x4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761137506; c=relaxed/simple;
-	bh=bHPmLF606PNrmC/BDhMWc7wjODFoA5AoV2UCEhL4p1I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lfyBMKK5qA1oeWx8JB0gOybK3d2ku3dFPcMQgNnOsgndyUF+gfv31Zn9KHf0TWJ9zOrK6nFC6rGzZ3aFAFG7tn6kdo/MNY1NJp2ConAcSeZUMuvhP5LlaFsLvHdYit4ZfYgB3F6FEIjc4bGMAOlQp2ZnBQ2+TNPvUmZ5mXx6dJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kx5EUM3B; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38600C4CEE7;
-	Wed, 22 Oct 2025 12:51:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761137505;
-	bh=bHPmLF606PNrmC/BDhMWc7wjODFoA5AoV2UCEhL4p1I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kx5EUM3Bl7+cHbDhRu3D+AndD08JXZz0dV2QDh0PLC9RYlPukFipWreKS21Vs8uIg
-	 SqpwY8P75hFNTudrf9+h1y/GdDVKma3OFPBEooAQYUEQ30UnWVUvpwW/wSjk9wDP/e
-	 7C6yl05qs5QxY8qiJMJoChMKdQNVx9WbNqbMMV7QhJi3QJ7bDOf02SUItEBe48S1AW
-	 SjdmkRH9h0CIbKDUx7CYANoZFOF8t/90cgsI8KyLQMdnR1suYVkVnkkjRJlPi95J5v
-	 uttMiwzeU1rFguVVuF59bWryoSId7MyUQhFI6UB7tLTH5U7zodTcmQaBAk8txM5I0z
-	 xcKNH5lmiRb/g==
-Date: Wed, 22 Oct 2025 07:51:43 -0500
-From: Rob Herring <robh@kernel.org>
-To: Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Kai-Heng Feng <kaihengf@nvidia.com>,
-	LKML <linux-kernel@vger.kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 0/3] PCI & resource: Make coalescing host bridge windows
- safer
-Message-ID: <20251022125143.GA3266913-robh@kernel.org>
-References: <20251010144231.15773-1-ilpo.jarvinen@linux.intel.com>
- <CAMuHMdVwAkC0XOU_SZ0HeH0+oT-j5SvKyRcFcJbbes624Yu9uQ@mail.gmail.com>
- <89a20c14-dd0f-22ae-d998-da511a94664a@linux.intel.com>
- <CAMuHMdUbseFEY8AGOxm2T8W-64qT9OSvfmvu+hyTJUT+WE2cVw@mail.gmail.com>
- <20844374-d3df-cc39-a265-44a3008a3bcb@linux.intel.com>
- <CAMuHMdWD_GJ0hpJODBNKeR77UhKMW2CuWWf-xJo2kuL514_Tpw@mail.gmail.com>
- <efebb809-cbd4-4644-750f-4b42d85102f2@linux.intel.com>
+	s=arc-20240116; t=1761138238; c=relaxed/simple;
+	bh=qQz3ga9qmBR9R9/nc53usRDAIqxyK3MS0UKBQkFP8Is=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GfygXnffN4O6e0doQogzoxBlwJFrZr5jB64fV8vSrBucpEZEHKTxGgIUHx84fxl8qHV+G8aJNBUBQceoD+PKQP5OKAHd4XKuNqJbkhLRM+xR9eaGelp4gWiQjT6hGasvbBwLfutjEsuLMs0arr+x6XmKwTl7biIP6gMz0dBpoEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=CRb9AjB4; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id C022A1A15CF;
+	Wed, 22 Oct 2025 13:03:53 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 80384606DC;
+	Wed, 22 Oct 2025 13:03:53 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 74172102F23A9;
+	Wed, 22 Oct 2025 15:03:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1761138232; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=4bhiUbDPLaZq5ohRkNEUuLoQCCw3DEdqJYfVZiHrwgE=;
+	b=CRb9AjB4eNLdX6Ehta3j5uPzuWX9Fuh38h2Y2zeA5ekGe6TdyVf1jn+IxMhk+3y5azpn1z
+	mZLKLx68sft8yfWwDS26Ozawkxm6kPkv/Z7MEw1n2uvq7UJLRWESdGue3fWycHNX3KXw+B
+	2ahFDQfQFzCqiNA9oa0hbY8wFKbf1NONU+IXeC/n5bYsC/jQHkYxKclTNfsEgNM/T100Ri
+	gkIIhY4x00Sqt/nQu8m5lTXyS17zMbFIoNf0liqIwwnECsm7vQXd9kqriH86nDBAcC0olk
+	xJR/fzUq0aJwjR3diCL4Ed+l15MWIw8H9lTWe5BTfiJR1+Gu6PoId3h9P7Nq2w==
+Date: Wed, 22 Oct 2025 15:03:39 +0200
+From: Herve Codina <herve.codina@bootlin.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Wolfram Sang
+ <wsa+renesas@sang-engineering.com>, Hoan Tran
+ <hoan@os.amperecomputing.com>, Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, Saravana Kannan
+ <saravanak@google.com>, Serge Semin <fancer.lancer@gmail.com>, Phil
+ Edworthy <phil.edworthy@renesas.com>, linux-gpio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, Pascal Eberhard
+ <pascal.eberhard@se.com>, Miquel Raynal <miquel.raynal@bootlin.com>, Thomas
+ Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v5 7/8] soc: renesas: Add support for Renesas RZ/N1 GPIO
+ Interrupt Multiplexer
+Message-ID: <20251022150339.4c48649e@bootlin.com>
+In-Reply-To: <CAMuHMdV03D_3b_JA2vzW4tE_QbkkT1bN1dm+zLLLX24oDHMj0Q@mail.gmail.com>
+References: <20251020080648.13452-1-herve.codina@bootlin.com>
+	<20251020080648.13452-8-herve.codina@bootlin.com>
+	<CAMuHMdV03D_3b_JA2vzW4tE_QbkkT1bN1dm+zLLLX24oDHMj0Q@mail.gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <efebb809-cbd4-4644-750f-4b42d85102f2@linux.intel.com>
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Wed, Oct 22, 2025 at 03:14:12PM +0300, Ilpo Järvinen wrote:
-> On Wed, 22 Oct 2025, Geert Uytterhoeven wrote:
-> > On Tue, 21 Oct 2025 at 13:54, Ilpo Järvinen
-> > <ilpo.jarvinen@linux.intel.com> wrote:
-> > > On Tue, 21 Oct 2025, Geert Uytterhoeven wrote:
-> > > > On Mon, 20 Oct 2025 at 18:20, Ilpo Järvinen
-> > > > <ilpo.jarvinen@linux.intel.com> wrote:
-> > > > > On Mon, 20 Oct 2025, Geert Uytterhoeven wrote:
-> > > > > > On Fri, 10 Oct 2025 at 16:42, Ilpo Järvinen
-> > > > > > <ilpo.jarvinen@linux.intel.com> wrote:
-> > > > > > > Here's a series for Geert to test if this fixes the improper coalescing
-> > > > > > > of resources as was experienced with the pci_add_resource() change (I
-> > > > > > > know the breaking change was pulled before 6.18 main PR but I'd want to
-> > > > > > > retry it later once the known issues have been addressed). The expected
-> > > > > > > result is there'll be two adjacent host bridge resources in the
-> > > > > > > resource tree as the different name should disallow coalescing them
-> > > > > > > together, and therefore BAR0 has a window into which it belongs to.
-> > > > > > >
-> > > > > > > Generic info for the series:
-> > > > > > >
-> > > > > > > PCI host bridge windows were coalesced in place into one of the structs
-> > > > > > > on the resources list. The host bridge window coalescing code does not
-> > > > > > > know who holds references and still needs the struct resource it's
-> > > > > > > coalescing from/to so it is safer to perform coalescing into entirely
-> > > > > > > a new struct resource instead and leave the old resource addresses as
-> > > > > > > they were.
-> > > > > > >
-> > > > > > > The checks when coalescing is allowed are also made stricter so that
-> > > > > > > only resources that have identical the metadata can be coalesced.
-> > > > > > >
-> > > > > > > As a bonus, there's also a bit of framework to easily create kunit
-> > > > > > > tests for resource tree functions (beyond just resource_coalesce()).
-> > > > > > >
-> > > > > > > Ilpo Järvinen (3):
-> > > > > > >   PCI: Refactor host bridge window coalescing loop to use prev
-> > > > > > >   PCI: Do not coalesce host bridge resource structs in place
-> > > > > > >   resource, kunit: add test case for resource_coalesce()
-> > > > > >
-> > > > > > Thanks for your series!
-> > > > > >
-> > > > > > I have applied this on top of commit 06b77d5647a4d6a7 ("PCI:
-> > > > > > Mark resources IORESOURCE_UNSET when outside bridge windows"), and
-> > > > > > gave it a a try on Koelsch (R-Car M2-W).
-> > > > >
-> > > > > So the pci_bus_add_resource() patch to rcar_pci_probe() was not included?
-> > > > > No coalescing would be attempted without that change.
-> > > >
-> > > > Sorry, I didn't realize you wanted that (and anything else) to be
-> > > > included, too.  Please tell me the exact base I should use for testing,
-> > > > and I will give it another run.
-> > >
-> > > I'm sorry, it's indeed a bit confusing as some of these patches never
-> > > have been in Linus' tree.
-> > >
-> > > So I'm interested on what's the result with these changes/series together:
-> > >
-> > > [PATCH 1/2] PCI: Setup bridge resources earlier
-> > > [PATCH 2/2] PCI: Resources outside their window must set IORESOURCE_UNSET
-> > > [PATCH 1/1] PCI: rcar-gen2: Add BAR0 into host bridge resources
-> > > [PATCH 1/3] PCI: Refactor host bridge window coalescing loop to use prev
-> > > [PATCH 2/3] PCI: Do not coalesce host bridge resource structs in place
-> > > [PATCH 3/3] resource, kunit: add test case for resource_coalesce()
-> > >
-> > > You might also want to change that pci_dbg() in the IORESOURCE_UNSET patch
-> > > to pci_info() (as otherwise dyndbg is necessary to make it visible).
-> > 
-> > Thanks, all done:
-> > 
-> >     $ git cherry -v --abbrev=1 v6.18-rc2^
-> >     + 211ddde0 Linux 6.18-rc2
-> >     + 3fdaf2 PCI: Setup bridge resources earlier
-> >     + 5be02e5 PCI: Resources outside their window must set IORESOURCE_UNSET
-> >     + adf6f11 PCI: rcar-gen2: Add BAR0 into host bridge resources
-> >     + eecb500 PCI: Refactor host bridge window coalescing loop to use prev
-> >     + 60470b3 PCI: Do not coalesce host bridge resource structs in place
-> >     + afe3ec resource, kunit: add test case for resource_coalesce()
-> >     + 487c98 Use dev_info() in drivers/pci/probe.c:__pci_read_base()
-> > IORESOURCE_UNSET path
-> > 
-> > Compared to v6.18-rc2, dmesg changed (for the first PCI/USB instance)
-> > like:
-> > 
-> >      pci-rcar-gen2 ee090000.pci: host bridge /soc/pci@ee090000 ranges:
-> >      pci-rcar-gen2 ee090000.pci:      MEM 0x00ee080000..0x00ee08ffff
-> > -> 0x00ee080000
-> >      pci-rcar-gen2 ee090000.pci: PCI: revision 11
-> >      pci-rcar-gen2 ee090000.pci: PCI host bridge to bus 0000:00
-> >      pci_bus 0000:00: root bus resource [bus 00]
-> >      pci_bus 0000:00: root bus resource [mem 0xee080000-0xee08ffff]
-> >     +pci_bus 0000:00: root bus resource [mem 0xee090000-0xee090bff]
-> >      pci 0000:00:00.0: [1033:0000] type 00 class 0x060000 conventional
-> > PCI endpoint
-> >      pci 0000:00:00.0: BAR 0 [mem 0xee090800-0xee090bff]
-> >     -pci 0000:00:00.0: BAR 1 [mem 0x40000000-0x7fffffff pref]
-> >     +pci 0000:00:00.0: BAR 1 [mem 0x40000000-0x7fffffff pref]: no
-> > initial claim (no window)
-> >     +pci 0000:00:00.0: BAR 1 [mem size 0x40000000 pref]
-> >      pci 0000:00:01.0: [1033:0035] type 00 class 0x0c0310 conventional
-> > PCI endpoint
-> >     -pci 0000:00:01.0: BAR 0 [mem 0x00000000-0x00000fff]
-> >     +pci 0000:00:01.0: BAR 0 [mem 0x00000000-0x00000fff]: no initial
-> > claim (no window)
-> >     +pci 0000:00:01.0: BAR 0 [mem size 0x00001000]
-> >      pci 0000:00:01.0: supports D1 D2
-> >      pci 0000:00:01.0: PME# supported from D0 D1 D2 D3hot
-> >      pci 0000:00:02.0: [1033:00e0] type 00 class 0x0c0320 conventional
-> > PCI endpoint
-> >     -pci 0000:00:02.0: BAR 0 [mem 0x00000000-0x000000ff]
-> >     +pci 0000:00:02.0: BAR 0 [mem 0x00000000-0x000000ff]: no initial
-> > claim (no window)
-> >     +pci 0000:00:02.0: BAR 0 [mem size 0x00000100]
-> >      pci 0000:00:02.0: supports D1 D2
-> >      pci 0000:00:02.0: PME# supported from D0 D1 D2 D3hot
-> >      PCI: bus0: Fast back to back transfers disabled
-> >      pci 0000:00:01.0: BAR 0 [mem 0xee080000-0xee080fff]: assigned
-> >      pci 0000:00:02.0: BAR 0 [mem 0xee081000-0xee0810ff]: assigned
-> >      pci_bus 0000:00: resource 4 [mem 0xee080000-0xee08ffff]
-> >     +pci_bus 0000:00: resource 5 [mem 0xee090000-0xee090bff]
-> >      pci 0000:00:01.0: enabling device (0140 -> 0142)
-> >      pci 0000:00:02.0: enabling device (0140 -> 0142)
-> > 
-> > > The expected result is that those usb resources are properly parented and
-> > > the ee080000-ee08ffff and ee090000-ee090bff are not coalesced together (as
-> > > that would destroy information). So something along the lines of:
-> > >
-> > >     ee080000-ee08ffff : pci@ee090000
-> > >       ee080000-ee080fff : 0000:00:01.0
-> > >         ee080000-ee080fff : ohci_hcd
-> > >       ee081000-ee0810ff : 0000:00:02.0
-> > >         ee081000-ee0810ff : ehci_hcd
-> > >     ee090000-ee090bff : ee090000.pci pci@ee090000
-> > 
-> > Compared to v6.18-rc2, the output of "lspci -v" or "cat /proc/iomem"
-> > did not change.  Hence for the two PCI/USB instances:
-> > 
-> >     ee080000-ee08ffff : pci@ee090000
-> >       ee080000-ee080fff : 0000:00:01.0
-> >         ee080000-ee080fff : ohci_hcd
-> >       ee081000-ee0810ff : 0000:00:02.0
-> >         ee081000-ee0810ff : ehci_hcd
-> >     ee090000-ee090bff : ee090000.pci pci@ee090000
-> >     ee0c0000-ee0cffff : pci@ee0d0000
-> >       ee0c0000-ee0c0fff : 0001:01:01.0
-> >         ee0c0000-ee0c0fff : ohci_hcd
-> >       ee0c1000-ee0c10ff : 0001:01:02.0
-> >         ee0c1000-ee0c10ff : ehci_hcd
-> >     ee0d0000-ee0d0bff : ee0d0000.pci pci@ee0d0000
-> 
-> Hi Rob,
-> 
-> I'd want to hear your opinion on the solutions me and Geert tried and
-> discussed in the subthread starting from this:
-> 
-> https://lore.kernel.org/linux-pci/CAMuHMdVtVzcL3AX0uetNhKr-gLij37Ww+fcWXxnYpO3xRAOthA@mail.gmail.com/
->    
-> A short history/summary of the problem and solution space:
-> 
-> I made "PCI: Resources outside their window must set IORESOURCE_UNSET"
-> change that checks at the init time whether BARs belong to an upstream
-> window or not. If not, the resource is marked wit IORESOURCE_UNSET to 
-> indicate FW/platform didn't provide working addressing for those BARs.
-> 
-> On Geert's R-Car M2-W, it caused some BARs to be detected as not having a
-> an upstream window where they belong to:
-> 
->      pci-rcar-gen2 ee090000.pci: host bridge /soc/pci@ee090000 ranges:
->      pci-rcar-gen2 ee090000.pci:      MEM 0x00ee080000..0x00ee08ffff -> 0x00ee080000
->      pci-rcar-gen2 ee090000.pci: PCI: revision 11
->      pci-rcar-gen2 ee090000.pci: PCI host bridge to bus 0000:00
->      pci_bus 0000:00: root bus resource [bus 00]
->      pci_bus 0000:00: root bus resource [mem 0xee080000-0xee08ffff]
->      pci 0000:00:00.0: [1033:0000] type 00 class 0x060000 conventional PCI endpoint
->     -pci 0000:00:00.0: BAR 0 [mem 0xee090800-0xee090bff]
->     -pci 0000:00:00.0: BAR 1 [mem 0x40000000-0x7fffffff pref]
->     +pci 0000:00:00.0: BAR 0 [mem 0xee090800-0xee090bff]: no initial claim (no window)
->     +pci 0000:00:00.0: BAR 0 [mem size 0x00000400]
->     +pci 0000:00:00.0: BAR 1 [mem 0x40000000-0x7fffffff pref]: no initial claim (no window)
->     +pci 0000:00:00.0: BAR 1 [mem size 0x40000000 pref]
-> 
-> ...In the log above, there's no root bus resource that covers
-> BAR0's 0xee090800-0xee090bff address range (which itself comes from DT 
-> "reg"), and thus it got marked IORESOURCE_UNSET with as it does not 
-> have window where it belongs to.
-> 
-> It's unclear to me whether DT ranges should have included BAR0 so that 
-> the root bus resources would cover that range?
+Hi Geert,
 
-I think it should. Otherwise, how do you know if the region is 32 or 64 
-bit or prefetchable or not?
+On Tue, 21 Oct 2025 15:05:35 +0200
+Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+
+> Hi HervÃ©,
+> 
+> On Mon, 20 Oct 2025 at 10:08, Herve Codina (Schneider Electric)
+> <herve.codina@bootlin.com> wrote:
+> > On the Renesas RZ/N1 SoC, GPIOs can generate interruptions. Those
+> > interruption lines are multiplexed by the GPIO Interrupt Multiplexer in
+> > order to map 32 * 3 GPIO interrupt lines to 8 GIC interrupt lines.
+> >
+> > The GPIO interrupt multiplexer IP does nothing but select 8 GPIO
+> > IRQ lines out of the 96 available to wire them to the GIC input lines.
+> >
+> > Signed-off-by: Herve Codina (Schneider Electric) <herve.codina@bootlin.com>  
+> 
+> Thanks for your patch!
+> 
+> > --- a/drivers/soc/renesas/Makefile
+> > +++ b/drivers/soc/renesas/Makefile
+> > @@ -14,4 +14,5 @@ obj-$(CONFIG_SYS_R9A09G057)   += r9a09g057-sys.o
+> >  # Family
+> >  obj-$(CONFIG_PWC_RZV2M)                += pwc-rzv2m.o
+> >  obj-$(CONFIG_RST_RCAR)         += rcar-rst.o
+> > +obj-$(CONFIG_RZN1_IRQMUX)              += rzn1_irqmux.o  
+> 
+> One TAB too much.
+
+Yes indeed, will be removed.
 
 > 
-> I was then told the updaing ranges now will not be enough due to DT 
-> backwards compatibility requirements so it looks we have to resort to a 
-> change like this:
+> > --- /dev/null
+> > +++ b/drivers/soc/renesas/rzn1_irqmux.c
+> > @@ -0,0 +1,150 @@
+> > +// SPDX-License-Identifier: GPL-2.0-only
+> > +/*
+> > + * RZ/N1 GPIO Interrupt Multiplexer
+> > + *
+> > + * Copyright 2025 Schneider Electric
+> > + * Author: Herve Codina <herve.codina@bootlin.com>
+> > + */
+> > +
+> > +#include <linux/bitops.h>
+> > +#include <linux/build_bug.h>
+> > +#include <linux/mod_devicetable.h>
+> > +#include <linux/module.h>
+> > +#include <linux/of.h>
+> > +#include <linux/of_irq.h>
+> > +#include <linux/platform_device.h>
+> > +#include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +
+> > +/*
+> > + * The array index is the output line index, the value at the index is the
+> > + * GIC SPI interrupt number the output line is connected to.
+> > + */
+> > +static const u32 rzn1_irqmux_output_lines[] = {
+> > +       103, 104, 105, 106, 107, 108, 109, 110
+> > +};  
 > 
-> https://lore.kernel.org/linux-pci/7640a03e-dfea-db9c-80f5-d80fa2c505b7@linux.intel.com/
+> I did read the discussion with Wolfram, but the flexibility (and
+> overhead) provided by this array sounds a bit overkill to me.
+> 
+> What about just defining:
+> 
+>     #define RZN1_IRQMUX_SPI_BASE    103
+>     #define RZN1_IRQMUX_NUM_IRQS    8
+> 
+> ?
+> 
+> If/when a new SoC with a similar setup ever arrives, you can probably
+> just replace the constants above by variables inside SoC-specific
+> match data.  And if the new mapping would be non-contiguous, you can
+> still revive this array ;-)
 
-You aren't adding 'BAR0 region', but something else. Based on the name, 
-cfg_res, that is config space? That seems wrong both in requiring it to 
-be registered and that you would assign BAR0 to config space. How would 
-that device operate when config space is not memory mapped?
+I have in mind a use case that can lead to a non-contiguous mapping.
 
-For compatibility, the change itself doesn't look so bad. However, we 
-could also fixup the DT itself. That's not done too much on Arm systems, 
-but there's all sorts of fixups in powerpc. I have some initial 
-infrastructure to support that if we need to go down that path.
+The RZ/N1 SoC embeds a Cortex-M3 CPU. This CPU can use GPIOs and
+some of them for interrupt purpose. In that case, those GPIOs have
+to be routed to the interrupt line expected by the Cortex-M3.
+
+And so, we have some interrupts reserved for CPUs running Linux and
+some others for the Cortex-M3.
+
+Among those reserved interrupts may some are not used.
+
+for instance:
+  Interrupt 103, 102: Reserved and used by Linux
+  Interrupt 103: Reserved for Linux but not used -> Hole in the mapping
+  Interrupt 104: Reserved and used my Cortex-M3 (need to be routed by Linux)
+
+I don't know if this use case is relevant but I think we should be too restrictive
+on the mapping and so accept holes.
+
+With that in mind, I let you confirm that you still prefer to have a mapping
+without any holes. A future patch to support that is always possible.
 
 > 
-> (+ a few supporting changes as that change exposed brokenness in PCI core.)
+> More about this below...
 > 
-> Does that look correct solution? That is, should these be added on 
-> case-by-case basis as additional root bus resources or should there be 
-> something more generic in the OF PCI code to do it?
+> > +
+> > +static int rzn1_irqmux_parent_args_to_line_index(struct device *dev,
+> > +                                                const struct of_phandle_args *parent_args,
+> > +                                                const u32 output_lines[],
+> > +                                                unsigned int output_lines_count)
+> > +{
+> > +       unsigned int i;
+> > +
+> > +       /*
+> > +        * The parent interrupt should be one of the GIC controller.
+> > +        * Three arguments must be provided.
+> > +        *  - args[0]: GIC_SPI
+> > +        *  - args[1]: The GIC interrupt number
+> > +        *  - args[2]: The interrupt flags
+> > +        *
+> > +        * We retrieve the line index based on the GIC interrupt number
+> > +        * provided and rzn1_irqmux_output_line[] mapping array.
+> > +        */
+> > +
+> > +       if (parent_args->args_count != 3 ||
+> > +           parent_args->args[0] != GIC_SPI) {
+> > +               dev_err(dev, "Invalid interrupt-map item\n");
+> > +               return -EINVAL;
+> > +       }
+> > +
+> > +       for (i = 0; i < output_lines_count; i++) {
+> > +               if (parent_args->args[1] == output_lines[i])
+> > +                       return i;
+> > +       }  
 > 
-> There's also that BAR1 which seems to be related to dma_ranges and I don't 
-> know what to make of it. This resource comes with the added complication 
-> that this same address appears more than once (in the full log there's 
-> more than one PCI/USB instance). Again, this BAR1 is not covered by any 
-> root bus resource and thus gets flagged with IORESOURCE_UNSET. 
+> ... then this loop can be replaced by two simple comparisons.
 > 
-> So I'm interested what is the "correct" solution for these resources that 
-> appear as BARs but do not have a backing root bus resource, is it having 
-> DT "ranges" cover them (I'm ignoring backwards compatibility aspect here) 
-> or something else?
+> > +
+> > +       dev_err(dev, "Invalid GIC interrupt %u\n", parent_args->args[1]);
+> > +       return -EINVAL;
+> > +}
+> > +
+> > +static int rzn1_irqmux_setup(struct device *dev, struct device_node *np, u32 __iomem *regs)
+> > +{
+> > +       struct of_imap_parser imap_parser;
+> > +       struct of_imap_item imap_item;
+> > +       unsigned long index_done = 0;  
+> 
+> Perhaps "DECLARE_BITMAP(index_done, RZN1_IRQMUX_NUM_IRQS)",
+> so the BITS_PER_LONG limit can be lifted, without any cost?
 
-If it is config space, no, I don't think ranges should cover that. 
-'ranges' should have all the memory and io spaces.
+Yes.
 
-> In addition, is there something special/non-ordinary with these BARs and 
-> PCI core should treat them somehow differently? If that's the case, how 
-> can I identify such BARs from "normal" ones to avoid messing with them?
+> 
+> > +       int index;
+> > +       int ret;
+> > +       u32 tmp;
+> > +
+> > +       /* We support only #interrupt-cells = <1> and #address-cells = <0> */
+> > +       ret = of_property_read_u32(np, "#interrupt-cells", &tmp);
+> > +       if (ret)
+> > +               return ret;
+> > +       if (tmp != 1)
+> > +               return -EINVAL;
+> > +
+> > +       ret = of_property_read_u32(np, "#address-cells", &tmp);
+> > +       if (ret)
+> > +               return ret;
+> > +       if (tmp != 0)
+> > +               return -EINVAL;
+> > +
+> > +       ret = of_imap_parser_init(&imap_parser, np, &imap_item);
+> > +       if (ret)
+> > +               return ret;
+> > +
+> > +       /* 8 output lines are available */
+> > +       BUILD_BUG_ON(ARRAY_SIZE(rzn1_irqmux_output_lines) != 8);  
+> 
+> ... then this check can be removed, too.
+> 
+> > +
+> > +       /*
+> > +        * index_done is an unsigned long integer. Be sure that no buffer
+> > +        * overflow can occur.
+> > +        */
+> > +       BUILD_BUG_ON(ARRAY_SIZE(rzn1_irqmux_output_lines) > BITS_PER_LONG);  
+> 
+> Currently this is less strict than the check above, so a bit useless?
 
-You've exceeded my PCI knowledge on this...
+Yes. My first intention was to explicitly check both constraints:
+  - The number of output lines which lead to the maximum index value used to
+    index register addresses (i.e. writel(imap_item.child_imap[0], regs + index)
+    below).
 
-Rob
+  - The number of output lines to the maximum index value used to
+    index register addresses which which lead to the maximum index value used
+    for testing and setting the "index_done" flags.
+
+But yes, I can keep the stricter one.
+
+Also, if RZN1_IRQMUX_NUM_IRQS is introduced and related DECLARE_BITMAP(index_done,
+RZN1_IRQMUX_NUM_IRQS), a single check against RZN1_IRQMUX_NUM_IRQS will be enough
+for both cases
+
+> 
+> > +
+> > +       for_each_of_imap_item(&imap_parser, &imap_item) {
+> > +               index = rzn1_irqmux_parent_args_to_line_index(dev,
+> > +                                                             &imap_item.parent_args,
+> > +                                                             rzn1_irqmux_output_lines,
+> > +                                                             ARRAY_SIZE(rzn1_irqmux_output_lines));
+> > +               if (index < 0) {
+> > +                       of_node_put(imap_item.parent_args.np);
+> > +                       return index;
+> > +               }
+> > +
+> > +               if (test_and_set_bit(index, &index_done)) {
+> > +                       of_node_put(imap_item.parent_args.np);
+> > +                       dev_err(dev, "Mux output line already defined\n");
+> > +                       return -EINVAL;
+> > +               }
+> > +
+> > +               /*
+> > +                * The child #address-cells is 0 (already checked). The first
+> > +                * value in imap item is the src hwirq.
+> > +                */
+> > +               writel(imap_item.child_imap[0], regs + index);
+> > +       }
+> > +
+> > +       return 0;
+> > +}  
+> 
+
 
