@@ -1,128 +1,161 @@
-Return-Path: <linux-renesas-soc+bounces-23405-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23406-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57802BFA0D4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Oct 2025 07:26:11 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98B77BFA6AD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Oct 2025 09:02:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 0487D352EFB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Oct 2025 05:26:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 10BE03A32A1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Oct 2025 07:01:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FD3C2EA729;
-	Wed, 22 Oct 2025 05:26:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC6B12F39DD;
+	Wed, 22 Oct 2025 07:01:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b9B2gomS"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Q6JsdRRV"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E11F2E9EC3
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Oct 2025 05:26:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCB142F362A
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Oct 2025 07:01:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761110764; cv=none; b=mgnjk/njPzn8Cm9Vh21x3SnusMUtbLcH0j/eLkkyAjEBrWu10Z+Jwg/a0LoAEkVapTpLR640hM37qv3AjGeqCgHQOwaX6KcmIrYFYwn0ndwPYuKAEHuaN+f6Tad9lQqCGitSzIgwxNm4TqqOL9ugb976HiPKFTjZw8YDgVbOEmc=
+	t=1761116510; cv=none; b=RaC3lpIMFEhDXwg2hthyEoOR0YhpbVoZ6IGT/yoloIm/2QOVmLH1h6dWN0miSK3gijnOOve0/yLfA7ZALu6vt9iYsnFNgQ0ymQ0ks943TxDZfiTK2H7HSvFSWKD0Z8CuRm2LthbyB8TyojY9AyGO9KSvykGB36ZvNUcWSYuxnyk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761110764; c=relaxed/simple;
-	bh=5LyT/ygpo0Y8+c57YACqJVq8xSHL/5CSEdw5mQ9FPeI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=E1pq5DqnTj8Vv/8pkw3tJ+oJkfTjbi84pRnXM/p6yKy8zccX3EyefGp1Fj9jaSosBsByFQrwdfaGmzJpMPdSdUY9BOqJVwOy0S9fzacm3r4CX3liC6imij+07ocFcTlVjYl09M40D4V/RoN4+aqtpk7j6bFhO8nYP6D7utKZ028=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b9B2gomS; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-471bde1e8f8so15563595e9.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Oct 2025 22:26:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761110761; x=1761715561; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=PTK9xnrabjHdfOVmac+35vVYjvqf9gcnY89/qorWOFk=;
-        b=b9B2gomSHtw47A/Zp21c30PJIcOMUt9SznOdWBRuXmF2WCl3RvfimUPyPey9qwZGD8
-         5gUEF7jwiJXeeLKA8XcyzL68o0vZgynqcioiXHrso4R7vC+rAFwkMHD4gdT4zUOGEJVH
-         eBslxgOf2SVkGFu0Aa+R1rJxw3DNq7bL6/F0Y52u1c4WG1H2HBxXijXcfY7jbQOpa8fA
-         RnkZk08s8KTybfUcHlkF/L4B+Uf8r+q34YPqJ5H8FZNv9QRR1br1SJmmuNXEjp+Inui3
-         Q4hOWerQSdt7JQP2NO0iVVzDyJXGdFPqzZuiLcyhrcRtbovZCydULv12hAl7no6bGIPG
-         JhMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761110761; x=1761715561;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PTK9xnrabjHdfOVmac+35vVYjvqf9gcnY89/qorWOFk=;
-        b=pcpw95slqbPtHDq2mPQNb+gXEiCLyVLY9CJMdcttuUNmmka/P+HxVDzEDP/F0kIP8C
-         Yw/chACD/GTPiduIe2xjggxyFIXMpNrfk56quTctSSb348MkITVw3g+l8vO6LnW/BMyL
-         4UFzIpzcZ0aqAPIereRDGr/CShZpgJOzYjLD1kiDh4gJlTmhV9XaxB7N54KxVVhGZfnj
-         OK9dquScJU+lo1mQg7a4eDL03crZdd3nN3uLcpPnNIz/3AXTaUban+mRlDi7VWtH1j9+
-         I84y4MgEJkiPSZ4JmotQSfA9ktPzei8uo8xUYN5QKKqW+9mdMToIdFxHMrxLXoDUhFJG
-         pPBw==
-X-Gm-Message-State: AOJu0YzwBPsOV3Gj+zjv9asEUKLK/2z6oAmKmjjid02aCjPc/vGc0R1B
-	iZ2D6SXlzwDqralNDmQ4eVEWqpMYMvvsZUPXIPvDsdw+htAoMk+TzDJO
-X-Gm-Gg: ASbGnct6QeAhrvsAg1L4jPPX5jsKYm5L34FE2e+V9a8Uc0oV8BEMpQmvNl38/uQMY9l
-	K/dLIJUTIKwELbhp0KcwJ/F8X8oyvc/x4LovReh/boyITwkuANAxEkMYwH0WzjqGwM7gNPU6i+X
-	9RtlIgS15Og2Yk3Hr9YmHd7VaxfwQzKy+ZTwdbfVZmUMWfwyktMc5xI7TKgk5vQkCqPyM9mK+e+
-	qrKfkfuOMW25g8/z95jKYF4KkDyXU/greWScUPi+s0r3HJY7D/oZ6AkYrSzDzekkMQjz7UhgJhC
-	8WqT6tVeVqYzdOl1dFU2lwOeXyFC1MUXuQ4xxSHyI1KLpHW2HD4gRXGqP2vo2s0/CQ17ALNgB8a
-	Gv5pKXuePNBCnrpwGmdNgEnQ/8bCnGSdfp3yhB4tSTTVCAGvTRPER+UX3xt+JgDq2j77jA2erQR
-	VspBF59kXz51r3f6XkmNSHcHAOrPw=
-X-Google-Smtp-Source: AGHT+IHr6AAOVc1hGvm6Z9gPnF7KZM4WzTsoKOYTkLOkDaFciIKzqCnei8AODqBvkLwaQ/AOvpj3Tw==
-X-Received: by 2002:a05:600c:470d:b0:45f:2cd5:5086 with SMTP id 5b1f17b1804b1-4711786d5a3mr136631615e9.3.1761110760405;
-        Tue, 21 Oct 2025 22:26:00 -0700 (PDT)
-Received: from [10.80.3.86] ([72.25.96.18])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-427f009a7dasm25521821f8f.25.2025.10.21.22.25.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Oct 2025 22:26:00 -0700 (PDT)
-Message-ID: <5c6c1157-b056-4417-b969-ba501f1baa21@gmail.com>
-Date: Wed, 22 Oct 2025 08:25:58 +0300
+	s=arc-20240116; t=1761116510; c=relaxed/simple;
+	bh=xYBzTkkDJCWTjFk+vwV4Ph9IB+akx3BABNKVQ1En2YI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uq5e1KDPLimJKEjOpD3I+WOgOLjSA4HgVrLGlkLNIxIzJJyMX6n8Y41l2P6GJgwNdLZlQysoxYyi6d+3Ql9ph4Y54SbqDUQ+8/InuDRVsl46keAcFcwoZqkbN9OMFRVjPOpVlKyxh+mHqmd54t0A40dxAybELGVtUfVjoKB7o/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Q6JsdRRV; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=rll3
+	M1pGAWsrf5pLEqz7xhA2M7kxNOl+FsQ+039H8pQ=; b=Q6JsdRRVhMs7Ev+Igivp
+	WiT75oMtxUmwMyHutTvMnvkSgEPBxDsb7sncUZSLSkgS9kfq0weUdMkEgjRhnWNO
+	UJ/eAe19UP/ZSEFl0PkHOKsIA/sciMPuXo22UkjWuIdCk4KTlDTcqBlgNnat9nLE
+	Bij3ovwWaPpreONLe+RFy9/DQ+rw9wj8R5+jJWkzukBY1+Be+fHOEmwUOIXSQh7v
+	5FAntYnW8dSu5q4g+6EbWHfdM/azRwhAcJGlL708TJxcdSV75+F4AD3Xcsu0ut9X
+	7Y6f+kEFB2HQbDbo3TN5ELvSTvSiW9+n2heK3UkbBib/pD7Nyj3PoUvL4eagA5WY
+	9w==
+Received: (qmail 1724248 invoked from network); 22 Oct 2025 09:01:38 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 22 Oct 2025 09:01:38 +0200
+X-UD-Smtp-Session: l3s3148p1@YABF47lBq3ttKPJN
+Date: Wed, 22 Oct 2025 09:01:37 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Marek Vasut <marek.vasut@mailbox.org>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+	linux-renesas-soc@vger.kernel.org,
+	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
+Subject: Re: [PATCH] arm64: dts: renesas: sparrow-hawk: don't reserve SWDT
+Message-ID: <aPiBUaTQZcFK8UF_@shikoro>
+References: <20251017115123.3438-2-wsa+renesas@sang-engineering.com>
+ <CAMuHMdUCSRKAbD=DfJxfFGpfKTRkt=a2BO+HnwTqALBeeECOkA@mail.gmail.com>
+ <aPaSF2lokJ748cTx@shikoro>
+ <CAMuHMdXv_R6POTQe=MEcEOraKhjhzwrW5skkWnzgvijF2qAykw@mail.gmail.com>
+ <fba13116-2495-49a3-a1b5-2eecb33bb448@mailbox.org>
+ <CAMuHMdUP_bH5WW3=3J1H=6SocKzQXPdP7PFfYDrgaj4EhYTaYQ@mail.gmail.com>
+ <0e81437f-a13f-4605-b7f7-6e6640411f30@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v3 2/6] mlx4: convert to ndo_hwtstamp API
-To: Vadim Fedorenko <vadim.fedorenko@linux.dev>,
- Jian Shen <shenjian15@huawei.com>, Salil Mehta <salil.mehta@huawei.com>,
- Jijie Shao <shaojijie@huawei.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Sunil Goutham <sgoutham@marvell.com>, Geetha sowjanya <gakula@marvell.com>,
- Subbaraya Sundeep <sbhatta@marvell.com>,
- Bharat Bhushan <bbhushan2@marvell.com>, Tariq Toukan <tariqt@nvidia.com>,
- Brett Creeley <brett.creeley@amd.com>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
- Paul Barker <paul@pbarker.dev>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: linux-renesas-soc@vger.kernel.org,
- Richard Cochran <richardcochran@gmail.com>,
- Russell King <linux@armlinux.org.uk>,
- Vladimir Oltean <vladimir.oltean@nxp.com>, Simon Horman <horms@kernel.org>,
- Jacob Keller <jacob.e.keller@intel.com>, netdev@vger.kernel.org
-References: <20251021094751.900558-1-vadim.fedorenko@linux.dev>
- <20251021094751.900558-3-vadim.fedorenko@linux.dev>
-Content-Language: en-US
-From: Tariq Toukan <ttoukan.linux@gmail.com>
-In-Reply-To: <20251021094751.900558-3-vadim.fedorenko@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="91kMum7yq5u02O6O"
+Content-Disposition: inline
+In-Reply-To: <0e81437f-a13f-4605-b7f7-6e6640411f30@mailbox.org>
 
 
+--91kMum7yq5u02O6O
+Content-Type: multipart/mixed; boundary="GYrNZo38pT6+z9Vn"
+Content-Disposition: inline
 
-On 21/10/2025 12:47, Vadim Fedorenko wrote:
-> Convert driver to use .ndo_hwtstamp_get()/.ndo_hwtstamp_set() callbacks.
-> mlx4_en_ioctl() becomes empty, remove it.
-> 
-> Reviewed-by: Jacob Keller <jacob.e.keller@intel.com>
-> Signed-off-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-> ---
->   .../net/ethernet/mellanox/mlx4/en_netdev.c    | 62 ++++++++-----------
->   drivers/net/ethernet/mellanox/mlx4/mlx4_en.h  |  6 +-
->   2 files changed, 29 insertions(+), 39 deletions(-)
-> 
 
-Reviewed-by: Tariq Toukan <tariqt@nvidia.com>
+--GYrNZo38pT6+z9Vn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Thanks.
+Hi Marek,
+
+sorry for the late reply. I am on holiday this week with only limited
+time for work and net access.
+
+> I think this can be tested on Sparrow Hawk easily , with and without TFA.
+> Wolfram, how do I test the SWDT ?
+
+1) enable the node in DT
+2) apply the patch "[PATCH] soc: renesas: rcar-rst: keep RESBAR2S in default state"
+3) apply the diff attached to this mail (untested but quite sure that's
+   what i did a few days ago) which allows SWDT to reset
+4) access it like any other watchdog. IIRC I did this to enforce a reset
+   # watchdog -T1 -t3 /dev/watchdog1
+   (with busybox watchdog)
+
+I think that's it. It uses the same driver as the RWDT, so you probably
+have this activated already.
+
+Happy hacking,
+
+   Wolfram
+
+
+--GYrNZo38pT6+z9Vn
+Content-Type: text/x-diff; charset=us-ascii
+Content-Disposition: attachment; filename="v4h_allow_swdt_to_reset.diff"
+Content-Transfer-Encoding: quoted-printable
+
+diff --git a/drivers/soc/renesas/rcar-rst.c b/drivers/soc/renesas/rcar-rst.c
+index 0541990901fc..a78ea77dba16 100644
+--- a/drivers/soc/renesas/rcar-rst.c
++++ b/drivers/soc/renesas/rcar-rst.c
+@@ -12,7 +12,7 @@
+=20
+ #define WDTRSTCR_RESET		0xA55A0002
+ #define WDTRSTCR		0x0054
+-#define GEN4_WDTRSTCR_RESET	0xA55A8002
++#define GEN4_WDTRSTCR_RESET	0xA55A8000
+ #define GEN4_WDTRSTCR		0x0010
+=20
+ #define CR7BAR			0x0070
+@@ -117,7 +117,7 @@ static const struct of_device_id rcar_rst_matches[] __i=
+nitconst =3D {
+ 	/* R-Car Gen4 */
+ 	{ .compatible =3D "renesas,r8a779a0-rst", .data =3D &rcar_rst_v3u },
+ 	{ .compatible =3D "renesas,r8a779f0-rst", .data =3D &rcar_rst_gen4 },
+-	{ .compatible =3D "renesas,r8a779g0-rst", .data =3D &rcar_rst_gen4 },
++	{ .compatible =3D "renesas,r8a779g0-rst", .data =3D &rcar_rst_v3u },
+ 	{ .compatible =3D "renesas,r8a779h0-rst", .data =3D &rcar_rst_gen4 },
+ 	{ /* sentinel */ }
+ };
+
+--GYrNZo38pT6+z9Vn--
+
+--91kMum7yq5u02O6O
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmj4gU0ACgkQFA3kzBSg
+KbaH4BAAjuRJJnIdLCeewNfEatsM73wse8E8huOHm70DJSIfeKTJzxbV4jQqNxtc
+THY9gOJSQ0Wn7qFBn/PqvmcTJbpcempdV8Z5kRYXB5ITMTO9H7GsTqEUoP2ZwoUW
+kmjlu35Sx4fZpNuPeAS9yRds0F4OsVvfgzMKHAZyO7AlbC5WARd0ZF+vuKvgrNoU
+gQQZ6yT6d5tfBqdFfm3kOdO7FsTWQB3rV+ofCBYcofNHw4nGLT4ReIOe34GsCk1J
++XO9v4kjXAG2tdjI5hfoKvmWnhIwMZxOhUNWKcKFEsD+owxUs8kqecCpcHFLEu+9
+uNT7Wp0/iFLfp1LaqFSnr/fsZ8HtbguFRDLIapwRYFYst5s18RH7ywdpXe6lpRJu
+gidvOcGaTwM6KYefn+l+9KXyxhzOfjJ+VD+TrgKlPkWvAp6BQ8XxERnM7EA/5r28
+RB0i+tNUJeZpg5lghOAA/Zdf91dCkS/+cX7yS14MagbEnWuNZSarUiWteFFNCtw5
+TSquoIWEgoXbr3YvRimXO1sxJb7LpqPy4e+d3aJUICxskxuM1G28hrjN93nZ/vi0
+nt07kkjaAefepGJvFSrg9i3Rt5fUu+OhdqMZxM/us77VzB8fXtHhIbdgo6/+wrm7
+Z0C5OSqVEL2OZ5FAgWLbAfLVRciCgORDi1wjtGAm4w/hW9Ob9jI=
+=zw1z
+-----END PGP SIGNATURE-----
+
+--91kMum7yq5u02O6O--
 
