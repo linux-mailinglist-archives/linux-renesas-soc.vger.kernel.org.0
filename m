@@ -1,116 +1,147 @@
-Return-Path: <linux-renesas-soc+bounces-23412-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23413-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73709BFB060
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Oct 2025 11:00:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D296BFB129
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Oct 2025 11:08:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EDA8B1A04BFB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Oct 2025 09:00:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 52DCB188B11C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Oct 2025 09:08:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD14630F52B;
-	Wed, 22 Oct 2025 09:00:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="fEMx8uIM"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6304309F1D;
+	Wed, 22 Oct 2025 09:07:58 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D439530DED5
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Oct 2025 09:00:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85BFE3126A6
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Oct 2025 09:07:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761123614; cv=none; b=YInkXKbGDxG8Him/vBneW3b7Jwig+3r6hx5yu2gQFMnXXxkDyBbH5WzKTYKbaP1VYwc8u1cqIAoNNKnBeqUG4ijqgYuQmvbhrF2Vi6VLRBf1uaxu7r1JO4UTVFIXcYcLxoDavpaP1dAZ4LPIxIATTw+iEqmyIu3w6g91nTAla/I=
+	t=1761124078; cv=none; b=TLcZCXG3JbFIJwpV9vaXcoJ/J6D/ZHbrSRYQCaV32VYQaQIyF5nY4AaoqQ/Xcyi9hct14AA60xMciCMCQ1j+M8+ryUHjvJU+7a/uu6UbxROBkDOwuyFkd8ejn4uQtftulNYxXRwZ0K6UIGu9sAd7wUUgTUzGOA+MTZlDx7nQ4Yc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761123614; c=relaxed/simple;
-	bh=nyHMc68wsGGwLDug/tIHbcAo1CB08oUJBliYMKzONHI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t4upUcWG0ZrY63FOcQHCa046RbeQcnW4WbzSslqq51l9svCEhZSSaHqoXb8ZyQF4ifxISPhkpDQbL9F3gFp064g2c8d2bZlcmW1ZmOnS7p2qDnRuUAAlzNn1dnaUVKYCLesZQBlU4H2vWlR0Ea0I5Pc2IKKALakB/YSjtydywUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=fEMx8uIM; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=nyHM
-	c68wsGGwLDug/tIHbcAo1CB08oUJBliYMKzONHI=; b=fEMx8uIMpiTZEBIeYB0c
-	l1qs0tu979S2+e8KbLdfW/ZPdfDPVMB8eEN7nRFvKoLDGlF6yXgZe3Bf6qRGSMA2
-	fkObS2ScDsi4o8S28nWeWfngH0q11zXv9KESrbImb1ZOAkXEhTaEHdCIL1G7NQWu
-	F47fpfnTlS9GmOVp+E/T0AiLNyiEbdGjd42NBxk3M38YeGaBa+OvHsoyypQQhk8r
-	ShJL25QJgg+wcFt7FP9LgzgVbkk5KuR89Q6KNL24b6lxg8udf781U/gHReMgqFG9
-	nEwSQfjjB/D2qTy8MHPWx02OQwMhvf5VihIUne6i1fINmtgrCdR85B8VjftOvBFt
-	ag==
-Received: (qmail 1759633 invoked from network); 22 Oct 2025 11:00:10 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 22 Oct 2025 11:00:10 +0200
-X-UD-Smtp-Session: l3s3148p1@Jfowi7tBLBJtKPGR
-Date: Wed, 22 Oct 2025 11:00:09 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>,
-	Hoan Tran <hoan@os.amperecomputing.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Serge Semin <fancer.lancer@gmail.com>,
-	Phil Edworthy <phil.edworthy@renesas.com>,
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Pascal Eberhard <pascal.eberhard@se.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v5 0/8] gpio: renesas: Add support for GPIO and related
- interrupts in RZ/N1 SoC
-Message-ID: <aPidGU_4NattHKKG@shikoro>
-References: <20251020080648.13452-1-herve.codina@bootlin.com>
+	s=arc-20240116; t=1761124078; c=relaxed/simple;
+	bh=DFFRjTGp6HQBk2r6PDkD+Pq+QGDwTablWuJ4zetvp6g=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=JvXB7EHuVa6U4Vuga8SUWuJNRA3CQFyEA1+3k3+kVaUKI4AFCcvWrT0N7fjV4zYxfjo9g3fPa347gRnJSlMpF62jR/2gcBBmrsMrHnKvUOnbd+p5CTUiZ3InMBL4LIlHj5GXyrJIkptPd2pSwtkN2XsExowwCS8JANWgz+Y1Hck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1vBUov-0004KN-J0; Wed, 22 Oct 2025 11:07:49 +0200
+Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1vBUou-004rc3-2A;
+	Wed, 22 Oct 2025 11:07:48 +0200
+Received: from pza by lupine with local (Exim 4.98.2)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1vBUou-000000004Eq-2RKz;
+	Wed, 22 Oct 2025 11:07:48 +0200
+Message-ID: <5c9761d5a6a14d4c250df6cc4201bca72d963133.camel@pengutronix.de>
+Subject: Re: [PATCH v2 2/2] reset: always include RESET_GPIO driver if
+ possible
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Bartosz Golaszewski <brgl@bgdev.pl>, Wolfram Sang
+	 <wsa+renesas@sang-engineering.com>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>, 
+	linux-renesas-soc@vger.kernel.org, Kuninori Morimoto
+	 <kuninori.morimoto.gx@renesas.com>, Krzysztof Kozlowski
+	 <krzysztof.kozlowski@linaro.org>, linux-kernel@vger.kernel.org
+Date: Wed, 22 Oct 2025 11:07:48 +0200
+In-Reply-To: <CAMRc=MdWS2OSeJAkTRnAFMtXcVukwQ=JAWwJ3OHxogmgZnan6g@mail.gmail.com>
+References: <20251015205919.12678-4-wsa+renesas@sang-engineering.com>
+	 <20251015205919.12678-6-wsa+renesas@sang-engineering.com>
+	 <CAMuHMdXqHncXxBZ00mxV=pzdgQEU4ju2F9XMejnibbu=QnLfDg@mail.gmail.com>
+	 <aPEAx8ZGHBcWZKJF@shikoro>
+	 <CAMRc=McsbAirEYjoo455mbKU495VEvPmMEqBmZCq2hw113YHOg@mail.gmail.com>
+	 <aPIfF-3SgzW5V_gs@shikoro>
+	 <CAMRc=MfVPO292xmnXBWJzWuhNADA_u1yvpJ4kkK8TgZyQgaP+A@mail.gmail.com>
+	 <aPInv9NELU7N9QDn@shikoro>
+	 <CAMRc=MdWS2OSeJAkTRnAFMtXcVukwQ=JAWwJ3OHxogmgZnan6g@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.1-1 
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="0AwDRnA12mcMm4ja"
-Content-Disposition: inline
-In-Reply-To: <20251020080648.13452-1-herve.codina@bootlin.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 
+On Fr, 2025-10-17 at 19:02 +0200, Bartosz Golaszewski wrote:
+> On Fri, Oct 17, 2025 at 1:25=E2=80=AFPM Wolfram Sang
+> <wsa+renesas@sang-engineering.com> wrote:
+> >=20
+> >=20
+> > > > I think the fallback mechanism of the core should work without any
+> > > > module loading infrastructure. It should be there whenever possible=
+.
+> > > >=20
+> > >=20
+> > > It's not really a fallback, is it? This is the path we'll always take
+> > > if the driver requests a reset control on a firmware node which has a
+> > > reset-gpios property. If the driver goes with the gpiod API, it will
+> > > get a regular descriptor. It's deterministic enough to not warrant th=
+e
+> > > term "fallback".
+> >=20
+> > I dunno for how many drivers this is really applicable, but I really
+> > liked the cleanup of the pca954x driver.
 
---0AwDRnA12mcMm4ja
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+That cleanup might have been a little premature, given that the reset-
+gpio driver currently only works on OF-based platforms, and even there
+only with gpio controllers with #gpio-cells =3D <2>.
 
-On Mon, Oct 20, 2025 at 10:06:36AM +0200, Herve Codina (Schneider Electric) wrote:
+> >  Don't handle GPIOs internally,
+> > just get a reset, and it might be a GPIO. I think it is very useful and
+> > I would like to see it wherever possible.
+> >=20
+> > We could now make these drivers depend on RESET_GPIO. This would make
+> > sense in a way but is uncomfortable for the user who has not RESET_GPIO
+> > enabled before. The driver would just disappear because of unmet
+> > dependencies. Yes, this can happen all the time because we always find
+> > new dependencies and describe them. I just hoped it could be avoided in
+> > this case.
 
-> This series adds support for GPIO and GPIO IRQ mux available in the
-> RZ/N1 SoCs.
+How about selecting RESET_GPIO from I2C_MUX_PCA954x? It already depends
+on GPIOLIB. Although I don't like the idea of drivers being converted
+en masse, all selecting RESET_GPIO ...
 
-I definitely want to review and test this series. But I can do this on
-Friday earliest, more likely next Monday.
+> >=20
+> > > Then I believe the platform's config should make sure the driver is
+> > > built-in. I don't think it makes sense to just cram it into the kerne=
+l
+> > > image for the few users it currently has.
+> >=20
+> > For Morimoto-san, the PCA954x update resulted in a regression. It is
+> > worth thinking how to avoid that. The driver is so small, I wouldn't
+> > mind the extra space if it saves users from disappearing devices. But
+> > mileages vary...
+> >=20
+>=20
+> It's up to Philipp but I'd personally go with "default m if GPIOLIB".
 
+To be honest, I don't like either very much.
 
---0AwDRnA12mcMm4ja
-Content-Type: application/pgp-signature; name="signature.asc"
+Yes, the reset-gpio driver is only about three pages in size, but
+force-enabling it for nearly everyone, just because some hardware
+designs like to share resets a little too much, feels wrong to me,
+especially in its current state.
 
------BEGIN PGP SIGNATURE-----
+And just default-enabling it doesn't solve the regression problem when
+updating preexisting configs.
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmj4nRkACgkQFA3kzBSg
-KbYW0g/+NG2O5U/YAwoYvkAQdUeheX+WSMqYJFXS8N+FL8/cnvU1sNI1CB6M250P
-dEvvUKicMpNX4+KQ6Kf1ofQ0h6e4nbNRtwLTP8Ztqh7u8ZpNsn96lcRiw7p3Mc7V
-VzeIMAY5kPugu251q6iale3EX2OQiSQmezybDxftGZeHc/PmjhJyllbi9QStbgLB
-f/IVKO2HS9g2jhC+rzRhfpuO7/fpWMkY2fiF5pQPHO7BbO2AhhwkeXaPEqS/OXwl
-FPaYyFyrWLrBIngRLO93xQsqePENC02T1AwY3u5/D2e3XQHhR2hQ04rqvdFydTzN
-A8ogtE/yh8AI191TDAkqcCZFtUhdkIg/1F2u7o4m9jCvkQTo1KZX2oS1OMuvoql+
-xQzCZVxMdYJ4y0uiPmCf7J65E5A9S8JpSMjr5zs4F/fTe2cqoAVJe5YGLKUytDtp
-aBBS0iO30iE+PYZEfvLr7Ola872oevzZJ9xaY2dhDV9FQZxYquza+axVddsaV6nu
-2+VneRPvqr0BPGhFbCN0BGZO0oHy4kH7FlKp0v0ie5PVZuOjrIvQXo/4ZTbJvRM4
-2KnxdS/z4ERRoStCST1gKFGfoKE/EZWAZdfnGdMQqUb1+1UDvpe7pI/8CJR7vWmS
-zFOAhsj1sZZUrENfCCgJGR5I1+rTiXSCer2rFajCN3sa9nrs/sU=
-=3GeV
------END PGP SIGNATURE-----
-
---0AwDRnA12mcMm4ja--
+regards
+Philipp
 
