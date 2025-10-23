@@ -1,374 +1,183 @@
-Return-Path: <linux-renesas-soc+bounces-23539-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23540-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0D1FC03028
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 20:35:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C05CC03390
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 21:50:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D3FCE3A92F6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 18:34:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6D3A83B2BDE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 19:50:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2282299AB5;
-	Thu, 23 Oct 2025 18:31:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D45234D934;
+	Thu, 23 Oct 2025 19:50:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b="p7FWOdK0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jXAlWtw9"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF452989A2;
-	Thu, 23 Oct 2025 18:31:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.120.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E05C1347BC3;
+	Thu, 23 Oct 2025 19:50:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761244317; cv=none; b=QGwCYdt5dVh/TjDn6X4G9pSX8k3cp0A0YqcFx6KBU7qXl/WdY56duEl9JvSvtsmIfKDaWaM87yTrgFYhtG1tbXYj9FPUvv1VEvrhoM1T+JGTr/AbxrR1TMJMptZxj9hd17XElvTOn9DebRLTpMQlhWvaRDZI1AaaAzw19mnedbw=
+	t=1761249018; cv=none; b=bmzR8Jk0gQ0yJ7cglNwYNaCP0oHy/W56HaPbx0I+u7d1zW1CLOWLRR8IT9kLVV+4x/GHN7AW8oQf1pAmvovUhU16acgYyGoOY3koHdzd+ZGaaPjWxHNbWsbLvH3c/HlHJHuK93nVhzR2LBexwx8MuvJpUMEP+N81fj9jDo89Dz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761244317; c=relaxed/simple;
-	bh=bPWAUar+b4N/tkJYSvsGSbCM5N5KPPVUtMjbjagC2mQ=;
-	h=Date:From:To:Cc:Message-Id:In-Reply-To:References:Mime-Version:
-	 Content-Type:Subject; b=pHb2VjxSKXLR2fAcq2EJMOZmbgrHgbglMM2KoP19iZ9OZQwPsglTDWkclrqZRuuYdeuh8IZoMm4CbLyLbJF7NQz+BYpVfYTMOC2GVeZF1zB0G9c3QqQURgOgeWhBwz9+3zpyriGdT6cnn1GX5DLciWsdXpwWpuuZjzu0JUmJSTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com; spf=pass smtp.mailfrom=hugovil.com; dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b=p7FWOdK0; arc=none smtp.client-ip=162.243.120.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hugovil.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
-	; s=x; h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
-	:Date:subject:date:message-id:reply-to;
-	bh=N8OwZF05ONeAMEm4PJ6y8hqux3gt6ZGZAzMS1k+UvV4=; b=p7FWOdK0vNjYLq4cnFZWadvUHd
-	KRqp26zeh9fW6InTNO7bIPZcYJlv1FXMPetXYTjPIJVSBEK+VWXDE4GDL2qw0YFfpNgeR1fv6bixL
-	iq30kxHVz2shQXqmpwAMXfQsLi1VbofovIvsCw8ERInmDQT219ivNheJ4AWCKjFdxP9U=;
-Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:60432 helo=pettiford)
-	by mail.hugovil.com with esmtpa (Exim 4.92)
-	(envelope-from <hugo@hugovil.com>)
-	id 1vC069-0006cp-Vs; Thu, 23 Oct 2025 14:31:42 -0400
-Date: Thu, 23 Oct 2025 14:31:41 -0400
-From: Hugo Villeneuve <hugo@hugovil.com>
-To: Chris Brandt <chris.brandt@renesas.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette
- <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Biju Das
- <biju.das.jz@bp.renesas.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Hien Huynh <hien.huynh.px@renesas.com>,
- Nghia Vo <nghia.vo.zn@renesas.com>, linux-renesas-soc@vger.kernel.org,
- linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org
-Message-Id: <20251023143141.a1a274104e3704dd8680f901@hugovil.com>
-In-Reply-To: <20251022235903.1091453-2-chris.brandt@renesas.com>
-References: <20251022235903.1091453-1-chris.brandt@renesas.com>
-	<20251022235903.1091453-2-chris.brandt@renesas.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1761249018; c=relaxed/simple;
+	bh=4GgD8rXzGcd0V4eTBPz9wgSl28VHshWZ5xyM0DTjwes=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Agj28hBn8ZFu7KxSAxtrIFyddWe9ITutUCv+f5Nuy+Fyv1vPxe4y7uqxeI8W1DaRP8s1T2SDf3fVgtmuijebcZgD39yUZiyoAEv23pA3ylRvL65CqtXxgmTkq6V6JVmphM40v9fklRcgI9n8u+YZ1qXXb2YM0a8InxMoK0bvlMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jXAlWtw9; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761249018; x=1792785018;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4GgD8rXzGcd0V4eTBPz9wgSl28VHshWZ5xyM0DTjwes=;
+  b=jXAlWtw9O1N/hmdHP+L6wWgUhmkaWFuEuN9Kde5UxKP5wrlD6s3uR42G
+   98jGWMvh2440X9mEjqFSfj7JLC8WBg2QX9vMX01fxM1qSGcM+SWD5luCP
+   5TWsddfm1QtsA7h/rRDhA9RQY5PMXisDftNsRwwImXGceKQWzRD3KRBSq
+   fEJsyDF7xCWjTOMOVnz4POp5+82H0rTwKQcLf0MmpQ8uB1MrlQ7nSyjM2
+   xui5XTI4aRXXCATW68mv0Ndy3r9BZuz40O1PXgWsHT2wi7ZkRYr82skeq
+   I64mXwT0kiVl09c3lU7edGf4LeUT7xUcuM6sQLJuMK6MWTk6Yweh1dHTm
+   Q==;
+X-CSE-ConnectionGUID: PVSor8bLSGa/APeyslzlHg==
+X-CSE-MsgGUID: KRJa+DPAQwOeYq5yeY3Sag==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="73719734"
+X-IronPort-AV: E=Sophos;i="6.19,250,1754982000"; 
+   d="scan'208";a="73719734"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2025 12:50:17 -0700
+X-CSE-ConnectionGUID: QqnZZascSZOxoU53Pwz9pA==
+X-CSE-MsgGUID: utWaX7cHQSidqSJVHTZSqw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,250,1754982000"; 
+   d="scan'208";a="183950468"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by fmviesa007.fm.intel.com with ESMTP; 23 Oct 2025 12:50:10 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vC1Jt-000Dp9-2V;
+	Thu, 23 Oct 2025 19:50:00 +0000
+Date: Fri, 24 Oct 2025 03:49:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Jian Shen <shenjian15@huawei.com>,
+	Salil Mehta <salil.mehta@huawei.com>,
+	Jijie Shao <shaojijie@huawei.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Sunil Goutham <sgoutham@marvell.com>,
+	Geetha sowjanya <gakula@marvell.com>,
+	Subbaraya Sundeep <sbhatta@marvell.com>,
+	Bharat Bhushan <bbhushan2@marvell.com>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Brett Creeley <brett.creeley@amd.com>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
+	Paul Barker <paul@pbarker.dev>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	Richard Cochran <richardcochran@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Simon Horman <horms@kernel.org>,
+	Jacob Keller <jacob.e.keller@intel.com>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>
+Subject: Re: [PATCH net-next v4 3/6] ionic: convert to ndo_hwtstamp API
+Message-ID: <202510240344.2MuPn70o-lkp@intel.com>
+References: <20251022104900.901973-4-vadim.fedorenko@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 70.80.174.168
-X-SA-Exim-Mail-From: hugo@hugovil.com
-X-Spam-Level: 
-X-Spam-Report: 
-	* -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-	* -1.6 NICE_REPLY_A Looks like a legit reply (A)
-Subject: Re: [PATCH v3 1/2] clk: renesas: rzg2l: Remove DSI clock rate
- restrictions
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251022104900.901973-4-vadim.fedorenko@linux.dev>
 
-Hi Chris,
+Hi Vadim,
 
-On Wed, 22 Oct 2025 19:59:02 -0400
-Chris Brandt <chris.brandt@renesas.com> wrote:
+kernel test robot noticed the following build errors:
 
-> Convert the limited MIPI clock calculations to a full range of settings
-> based on math including H/W limitation validation.
-> Since the required DSI division setting must be specified from external
-> sources before calculations, expose a new API to set it.
-> 
-> Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
-> Signed-off-by: hienhuynh <hien.huynh.px@renesas.com>
-> Signed-off-by: Nghia Vo <nghia.vo.zn@renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Tested-by: Biju Das <biju.das.jz@bp.renesas.com>
-> 
-> ---
-> v1->v2:
-> - Remove unnecessary parentheses
-> - Add target argument to new API
-> - DPI mode has more restrictions on DIV_A and DIV_B
-> 
-> v2->v3:
-> - Removed Empty lines (Hugo)
-> - Add dummy for compile-testing CONFIG_CLK_RZG2L=n case (Geert)
-> - Renamed label found_dsi_div to calc_pll_clk (Hugo)
-> - Renamed label found_clk to clk_valid (Hugo)
-> - Removed 'found' var because not needed
-> - Move 'foutpostdiv_rate =' after if(foutvco_rate > 1500000000) (Hugo)
-> - Move PLL5_TARGET_* for new API to renesas.h (Hugo,Geert)
-> - Convert #define macros PLL5_TARGET_* to enum (Geert)
-> - static {unsigned} int dsi_div_ab; (Geert)
-> - {unsigned} int a, b;  (Geert)
-> - Change "((1 << a) * (b + 1))" to "(b + 1) << a"  (Geert)
-> - Change "foutvco_rate = rate * (1 << xxx ) * ..." to " = rate * ... * << xxx (Geert)
-> - Move (u64) outside of modulo operation to avoid helper on 32-bit compiles (Geert)
-> - Change DIV_ROUND_CLOSEST_ULL() to DIV_ROUND_CLOSEST() (Geert)
-> - void rzg2l_cpg_dsi_div_set_divider({unsinged} int divider, int target)
-> - Change "dsi_div_ab = (1 << AAA) * (BBB + 1)" to " = (BBB + 1) << AAA (Geert)
-> - Added Reviewed-by and Tested-by (Biju)
-> ---
->  drivers/clk/renesas/rzg2l-cpg.c | 129 +++++++++++++++++++++++++++++---
->  include/linux/clk/renesas.h     |  11 +++
->  2 files changed, 130 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-cpg.c
-> index 07909e80bae2..0e9362c2ca95 100644
-> --- a/drivers/clk/renesas/rzg2l-cpg.c
-> +++ b/drivers/clk/renesas/rzg2l-cpg.c
-> @@ -74,6 +74,19 @@
->  #define MSTOP_OFF(conf)		FIELD_GET(GENMASK(31, 16), (conf))
->  #define MSTOP_MASK(conf)	FIELD_GET(GENMASK(15, 0), (conf))
->  
-> +#define PLL5_FOUTVCO_MIN	800000000
-> +#define PLL5_FOUTVCO_MAX	3000000000
-> +#define PLL5_POSTDIV_MIN	1
-> +#define PLL5_POSTDIV_MAX	7
-> +#define PLL5_POSTDIV_DEF	1
-> +#define PLL5_REFDIV_MIN		1
-> +#define PLL5_REFDIV_MAX		2
-> +#define PLL5_REFDIV_DEF		1
-> +#define PLL5_INTIN_MIN		20
-> +#define PLL5_INTIN_MAX		320
-> +#define PLL5_INTIN_DEF		125
-> +#define PLL5_FRACIN_DEF		0
-> +
->  /**
->   * struct clk_hw_data - clock hardware data
->   * @hw: clock hw
-> @@ -129,6 +142,12 @@ struct rzg2l_pll5_param {
->  	u8 pl5_spread;
->  };
->  
-> +/* PLL5 output will be used for DPI or MIPI-DSI */
-> +static int dsi_div_target = PLL5_TARGET_DPI;
-> +
-> +/* Required division ratio for MIPI D-PHY clock changes depending on resolution and lanes. */
-> +static unsigned int dsi_div_ab;
-> +
->  struct rzg2l_pll5_mux_dsi_div_param {
->  	u8 clksrc;
->  	u8 dsi_div_a;
-> @@ -557,23 +576,104 @@ rzg2l_cpg_sd_mux_clk_register(const struct cpg_core_clk *core,
->  }
->  
->  static unsigned long
-> -rzg2l_cpg_get_foutpostdiv_rate(struct rzg2l_pll5_param *params,
-> +rzg2l_cpg_get_foutpostdiv_rate(struct rzg2l_cpg_priv *priv,
-> +			       struct rzg2l_pll5_param *params,
->  			       unsigned long rate)
->  {
->  	unsigned long foutpostdiv_rate, foutvco_rate;
-> +	u8 div = 1;
-> +	unsigned int a, b;
-> +
-> +	if (priv->mux_dsi_div_params.clksrc)
-> +		div = 2;
-> +
-> +	/* Calculate the DIV_DSI_A and DIV_DSI_B based on the final DIV DSI */
-> +	for (a = 0; a < 4; a++) {
-> +		if (dsi_div_target == PLL5_TARGET_DPI && a == 0)
-> +			continue;	/* 1/1 div not supported for DIV_DSI_A for DPI */
-> +
-> +		for (b = 0; b < 16; b++) {
-> +			if (dsi_div_target == PLL5_TARGET_DPI && b != 0)
-> +				continue;	/* Only 1/1 div supported for DIV_DSI_B in DPI */
->  
-> -	params->pl5_intin = rate / MEGA;
-> -	params->pl5_fracin = div_u64(((u64)rate % MEGA) << 24, MEGA);
-> -	params->pl5_refdiv = 2;
-> -	params->pl5_postdiv1 = 1;
-> -	params->pl5_postdiv2 = 1;
-> +			if ((b + 1) << a == dsi_div_ab) {
-> +				priv->mux_dsi_div_params.dsi_div_a = a;
-> +				priv->mux_dsi_div_params.dsi_div_b = b;
-> +
-> +				goto calc_pll_clk;
-> +			}
-> +		}
-> +	}
+[auto build test ERROR on net-next/main]
 
-If we arrive at this point, it seems that these values:
-    priv->mux_dsi_div_params.dsi_div_a
-    priv->mux_dsi_div_params.dsi_div_b
+url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/octeontx2-convert-to-ndo_hwtstamp-API/20251022-185103
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20251022104900.901973-4-vadim.fedorenko%40linux.dev
+patch subject: [PATCH net-next v4 3/6] ionic: convert to ndo_hwtstamp API
+config: x86_64-randconfig-001-20251024 (https://download.01.org/0day-ci/archive/20251024/202510240344.2MuPn70o-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251024/202510240344.2MuPn70o-lkp@intel.com/reproduce)
 
-were not initialised by the previous loop. Is this expected? If yes,
-maybe a comment would help?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510240344.2MuPn70o-lkp@intel.com/
 
-> +
-> +calc_pll_clk:
-> +	/*
-> +	 * Below conditions must be set for PLL5 parameters:
-> +	 * - REFDIV must be between 1 and 2.
+All errors (new ones prefixed by >>):
 
-I am assuming this means PLL5_POSTDIV_MIN and PLL5_POSTDIV_MAX? If
-these macros change, then that mean you would also need to change your
-comment, not very practical and error-prone. I would suggest to remove
-this comment altogether.
+>> drivers/net/ethernet/pensando/ionic/ionic_lif.c:2821:22: error: use of undeclared identifier 'ionic_hwstamp_get'; did you mean 'ionic_lif_hwstamp_get'?
+    2821 |         .ndo_hwtstamp_get       = ionic_hwstamp_get,
+         |                                   ^~~~~~~~~~~~~~~~~
+         |                                   ionic_lif_hwstamp_get
+   drivers/net/ethernet/pensando/ionic/ionic_lif.h:384:19: note: 'ionic_lif_hwstamp_get' declared here
+     384 | static inline int ionic_lif_hwstamp_get(struct ionic_lif *lif, struct ifreq *ifr)
+         |                   ^
+>> drivers/net/ethernet/pensando/ionic/ionic_lif.c:2822:22: error: use of undeclared identifier 'ionic_hwstamp_set'; did you mean 'ionic_lif_hwstamp_set'?
+    2822 |         .ndo_hwtstamp_set       = ionic_hwstamp_set,
+         |                                   ^~~~~~~~~~~~~~~~~
+         |                                   ionic_lif_hwstamp_set
+   drivers/net/ethernet/pensando/ionic/ionic_lif.h:379:19: note: 'ionic_lif_hwstamp_set' declared here
+     379 | static inline int ionic_lif_hwstamp_set(struct ionic_lif *lif, struct ifreq *ifr)
+         |                   ^
+>> drivers/net/ethernet/pensando/ionic/ionic_lif.c:2821:22: error: incompatible function pointer types initializing 'int (*)(struct net_device *, struct kernel_hwtstamp_config *)' with an expression of type 'int (struct ionic_lif *, struct ifreq *)' [-Wincompatible-function-pointer-types]
+    2821 |         .ndo_hwtstamp_get       = ionic_hwstamp_get,
+         |                                   ^~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/pensando/ionic/ionic_lif.c:2822:22: error: incompatible function pointer types initializing 'int (*)(struct net_device *, struct kernel_hwtstamp_config *, struct netlink_ext_ack *)' with an expression of type 'int (struct ionic_lif *, struct ifreq *)' [-Wincompatible-function-pointer-types]
+    2822 |         .ndo_hwtstamp_set       = ionic_hwstamp_set,
+         |                                   ^~~~~~~~~~~~~~~~~
+   4 errors generated.
 
-> +	 * - POSTDIV1/2 must be between 1 and 7.
-> +	 * - INTIN must be between 20 and 320.
-> +	 * - FOUTVCO must be between 800MHz and 3000MHz.
 
-Same here.
+vim +2821 drivers/net/ethernet/pensando/ionic/ionic_lif.c
 
-> +	 */
-> +	for (params->pl5_postdiv1 = PLL5_POSTDIV_MIN;
-> +	     params->pl5_postdiv1 < PLL5_POSTDIV_MAX + 1;
-> +	     params->pl5_postdiv1++) {
-> +		for (params->pl5_postdiv2 = PLL5_POSTDIV_MIN;
-> +		     params->pl5_postdiv2 < PLL5_POSTDIV_MAX + 1;
-> +		     params->pl5_postdiv2++) {
-> +			foutvco_rate = rate * (priv->mux_dsi_div_params.dsi_div_b + 1) * div *
-> +				       params->pl5_postdiv1 * params->pl5_postdiv2 <<
-> +				       priv->mux_dsi_div_params.dsi_div_a;
-> +
-> +			if (foutvco_rate < PLL5_FOUTVCO_MIN + 1 ||
-> +			    foutvco_rate > PLL5_FOUTVCO_MAX - 1)
-> +				continue;
-> +
-> +			for (params->pl5_refdiv = PLL5_REFDIV_MIN;
-> +			     params->pl5_refdiv < PLL5_REFDIV_MAX + 1;
-> +			     params->pl5_refdiv++) {
-> +				params->pl5_intin = (foutvco_rate * params->pl5_refdiv) /
-> +						    (EXTAL_FREQ_IN_MEGA_HZ * MEGA);
-> +				if (params->pl5_intin < PLL5_INTIN_MIN + 1 ||
-> +				    params->pl5_intin > PLL5_INTIN_MAX - 1)
-> +					continue;
-> +				params->pl5_fracin = div_u64(((u64)
-> +						     (foutvco_rate * params->pl5_refdiv) %
-> +						     (EXTAL_FREQ_IN_MEGA_HZ * MEGA)) << 24,
-> +						     EXTAL_FREQ_IN_MEGA_HZ * MEGA);
-> +
-> +				params->pl5_fracin = div_u64((u64)
-> +						     ((foutvco_rate * params->pl5_refdiv) %
-> +						     (EXTAL_FREQ_IN_MEGA_HZ * MEGA)) << 24,
-> +						     EXTAL_FREQ_IN_MEGA_HZ * MEGA);
-> +
-> +				goto clk_valid;
-> +			}
-> +		}
-> +	}
-> +
-> +	/* Set defaults since valid clock was not found */
-> +	params->pl5_intin = PLL5_INTIN_DEF;
-> +	params->pl5_fracin = PLL5_FRACIN_DEF;
-> +	params->pl5_refdiv = PLL5_REFDIV_DEF;
-> +	params->pl5_postdiv1 = PLL5_POSTDIV_DEF;
-> +	params->pl5_postdiv2 = PLL5_POSTDIV_DEF;
-> +
-> +clk_valid:
->  	params->pl5_spread = 0x16;
->  
->  	foutvco_rate = div_u64(mul_u32_u32(EXTAL_FREQ_IN_MEGA_HZ * MEGA,
->  					   (params->pl5_intin << 24) + params->pl5_fracin),
->  			       params->pl5_refdiv) >> 24;
-> -	foutpostdiv_rate = DIV_ROUND_CLOSEST_ULL(foutvco_rate,
-> -						 params->pl5_postdiv1 * params->pl5_postdiv2);
-> +
-> +	/* If foutvco is above 1.5GHz, change parent and recalculate */
-
-Similar suggestion for hardcoded values in comments, maybe replace
-"above 1.5GHz" with "too high"...
-
-> +	if (priv->mux_dsi_div_params.clksrc && foutvco_rate > 1500000000) {
-
-Define a macro for 1500000000?
-
-> +		priv->mux_dsi_div_params.clksrc = 0;
-> +		dsi_div_ab *= 2;
-> +		dsi_div_target = PLL5_TARGET_DSI;	/* Assume MIPI-DSI */
-> +		return rzg2l_cpg_get_foutpostdiv_rate(priv, params, rate);
-> +	}
-> +
-> +	foutpostdiv_rate = DIV_ROUND_CLOSEST(foutvco_rate,
-> +					     params->pl5_postdiv1 * params->pl5_postdiv2);
->  
->  	return foutpostdiv_rate;
->  }
-> @@ -607,7 +707,7 @@ static unsigned long rzg2l_cpg_get_vclk_parent_rate(struct clk_hw *hw,
->  	struct rzg2l_pll5_param params;
->  	unsigned long parent_rate;
->  
-> -	parent_rate = rzg2l_cpg_get_foutpostdiv_rate(&params, rate);
-> +	parent_rate = rzg2l_cpg_get_foutpostdiv_rate(priv, &params, rate);
->  
->  	if (priv->mux_dsi_div_params.clksrc)
->  		parent_rate /= 2;
-> @@ -626,6 +726,13 @@ static int rzg2l_cpg_dsi_div_determine_rate(struct clk_hw *hw,
->  	return 0;
->  }
->  
-> +void rzg2l_cpg_dsi_div_set_divider(unsigned int divider, int target)
-> +{
-> +	dsi_div_ab = divider;
-> +	dsi_div_target = target;
-> +}
-> +EXPORT_SYMBOL_GPL(rzg2l_cpg_dsi_div_set_divider);
-> +
->  static int rzg2l_cpg_dsi_div_set_rate(struct clk_hw *hw,
->  				      unsigned long rate,
->  				      unsigned long parent_rate)
-> @@ -858,7 +965,7 @@ static int rzg2l_cpg_sipll5_set_rate(struct clk_hw *hw,
->  
->  	vclk_rate = rzg2l_cpg_get_vclk_rate(hw, rate);
->  	sipll5->foutpostdiv_rate =
-> -		rzg2l_cpg_get_foutpostdiv_rate(&params, vclk_rate);
-> +		rzg2l_cpg_get_foutpostdiv_rate(priv, &params, vclk_rate);
->  
->  	/* Put PLL5 into standby mode */
->  	writel(CPG_SIPLL5_STBY_RESETB_WEN, priv->base + CPG_SIPLL5_STBY);
-> @@ -948,6 +1055,8 @@ rzg2l_cpg_sipll5_register(const struct cpg_core_clk *core,
->  	priv->mux_dsi_div_params.clksrc = 1; /* Use clk src 1 for DSI */
->  	priv->mux_dsi_div_params.dsi_div_a = 1; /* Divided by 2 */
->  	priv->mux_dsi_div_params.dsi_div_b = 2; /* Divided by 3 */
-> +	dsi_div_ab = (priv->mux_dsi_div_params.dsi_div_b + 1) <<
-> +		     priv->mux_dsi_div_params.dsi_div_a;
->  
->  	return clk_hw->clk;
->  }
-> diff --git a/include/linux/clk/renesas.h b/include/linux/clk/renesas.h
-> index 0ebbe2f0b45e..f2edd1f4a6d9 100644
-> --- a/include/linux/clk/renesas.h
-> +++ b/include/linux/clk/renesas.h
-> @@ -16,6 +16,11 @@ struct device;
->  struct device_node;
->  struct generic_pm_domain;
->  
-> +enum {
-> +	PLL5_TARGET_DPI,
-> +	PLL5_TARGET_DSI
-> +};
-> +
->  void cpg_mstp_add_clk_domain(struct device_node *np);
->  #ifdef CONFIG_CLK_RENESAS_CPG_MSTP
->  int cpg_mstp_attach_dev(struct generic_pm_domain *unused, struct device *dev);
-> @@ -32,4 +37,10 @@ void cpg_mssr_detach_dev(struct generic_pm_domain *unused, struct device *dev);
->  #define cpg_mssr_attach_dev	NULL
->  #define cpg_mssr_detach_dev	NULL
->  #endif
-> +
-> +#ifdef CONFIG_CLK_RZG2L
-> +void rzg2l_cpg_dsi_div_set_divider(unsigned int divider, int target);
-> +#else
-> +#define rzg2l_cpg_dsi_div_set_divider	NULL
-> +#endif
->  #endif
-> -- 
-> 2.50.1
-> 
-> 
-
+  2797	
+  2798	static const struct net_device_ops ionic_netdev_ops = {
+  2799		.ndo_open               = ionic_open,
+  2800		.ndo_stop               = ionic_stop,
+  2801		.ndo_start_xmit		= ionic_start_xmit,
+  2802		.ndo_bpf		= ionic_xdp,
+  2803		.ndo_xdp_xmit		= ionic_xdp_xmit,
+  2804		.ndo_get_stats64	= ionic_get_stats64,
+  2805		.ndo_set_rx_mode	= ionic_ndo_set_rx_mode,
+  2806		.ndo_set_features	= ionic_set_features,
+  2807		.ndo_set_mac_address	= ionic_set_mac_address,
+  2808		.ndo_validate_addr	= eth_validate_addr,
+  2809		.ndo_tx_timeout         = ionic_tx_timeout,
+  2810		.ndo_change_mtu         = ionic_change_mtu,
+  2811		.ndo_vlan_rx_add_vid    = ionic_vlan_rx_add_vid,
+  2812		.ndo_vlan_rx_kill_vid   = ionic_vlan_rx_kill_vid,
+  2813		.ndo_set_vf_vlan	= ionic_set_vf_vlan,
+  2814		.ndo_set_vf_trust	= ionic_set_vf_trust,
+  2815		.ndo_set_vf_mac		= ionic_set_vf_mac,
+  2816		.ndo_set_vf_rate	= ionic_set_vf_rate,
+  2817		.ndo_set_vf_spoofchk	= ionic_set_vf_spoofchk,
+  2818		.ndo_get_vf_config	= ionic_get_vf_config,
+  2819		.ndo_set_vf_link_state	= ionic_set_vf_link_state,
+  2820		.ndo_get_vf_stats       = ionic_get_vf_stats,
+> 2821		.ndo_hwtstamp_get	= ionic_hwstamp_get,
+> 2822		.ndo_hwtstamp_set	= ionic_hwstamp_set,
+  2823	};
+  2824	
 
 -- 
-Hugo Villeneuve
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
