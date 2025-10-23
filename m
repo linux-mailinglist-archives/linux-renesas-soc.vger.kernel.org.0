@@ -1,186 +1,170 @@
-Return-Path: <linux-renesas-soc+bounces-23524-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23523-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25AD4C01CC8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 16:34:03 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 488F5C01BD2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 16:23:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CB4543A1173
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 14:28:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 25291189E9D8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 14:22:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB1933126BB;
-	Thu, 23 Oct 2025 14:28:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 073A4329C51;
+	Thu, 23 Oct 2025 14:21:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S428L3Bk"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BA031DFDA1
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 14:28:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D665F2C08BA
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 14:21:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761229731; cv=none; b=MucmsXwEbsvYntIZuJ1NKN8qlEml49/M5RQKM5ZdeMkTWhiO0+nUd9hWTNk01kO4TUhEut2Kc48WFJNzh5BBBspA61YxBZGal8iIs3y4zxrysHFGk7m8sf66wXEf1PfulroBiA55LJckTC1fd//1hy3F56sWnZxuOumxt+CkgXY=
+	t=1761229318; cv=none; b=Jvz8L0DN7HY4QfhAezDi/UJeceeD1CrI4mZDiVphf+LaweoixiT4k7/QXm9sJ0pcaJGF0BL9DG+HJbbNXjmWl/oK2MMSkDEHZj1lAW39aGW+o9s+Dl9BRuxE6PSL5GQlimkciVSFkgS+h/KXNic/V1cMMbw/jChICEHXCgU1kYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761229731; c=relaxed/simple;
-	bh=TR7zlOg9lSlA9ANoIApwm25S9VrQTmkZ7BlIZp3yWzs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=soapkRGw9VMjbBZqavIVqhZt/Lp0PohunEjjmIwOHLVsIz5nlaWb28tnpnVFcnFSa4z9DWI8b3RddcY0z7tTV8QPg5+efcfAnZ5FTYvQh3sYO09lCpW4+QEFMS8UczeKTwL1LfxA4fdPvWPCKGHg2LBOcjkIgwecNf9VwiHT/7w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.160.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-3c94deb7c7cso473685fac.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 07:28:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761229728; x=1761834528;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pUiJSOGezbV9/gcxRXe7vCcpv1VybDaME+fAsfjpYbw=;
-        b=ixu2wKbfuVLH6bsXX5ZlFzuVdA4lChzvTvtetm/+9j12yYHhk2gntodnWgls1py60W
-         78mrKAjXF8Vo/fgUyjU9sBkEyzQEbnDcz+yToztCRPXG111f5G+90S6K4WkYUQVywM/+
-         K8+uJWCpsIFAx+x4JDa20UWAdqTTgDEjIya4gtbhJatxfIn25UYuziW7QS6ASjphM/6j
-         T+XZqSBwff9wMr8fhyV2TKsvV2iiBB4eLIbruqJrA0SvllvSiPhJv9Zw6YVSuH+IpbBS
-         nGELhrA1GN79VjYkhcsqLtdDeZxgElsLP95DsKuvYj3yUxko9syGik8yLbR9BALBlAtv
-         /l2A==
-X-Forwarded-Encrypted: i=1; AJvYcCU/iVeAiVNwi1ruvg1sYAZ0a/76HIHA8an1XC94RT90FqwMS2iQwZq890CBLpyMvtmUCFSJMAU9LenYOw98BAXH3A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyewKlHxAKAp+VodXPjyThQRZqPNc38tHAQgdUMmyzg5KSoI168
-	fi4dia8yIC6ks7GjRKXYqvsf7tcC9qKm0oNISj4lscRVslnCZxYBEVEbVIjj6YU9
-X-Gm-Gg: ASbGncsidc1XwVAo1yQo8p7agDEbgOwEK61b4guL+1ltyerE8DfhTto+hpMhIiMqKvZ
-	TAth1k44pYlg/DcncXwYGM69lpINTwtn7skP/slGWO4U+B/AQOxGg10ciAhHhDMFR8Trmq1p1pl
-	+QgswJswqKVAHXeULNlyvul8AtrmJXHjPmGY4dNZxJPkeiOFp1Mrup27t2KOC268cpeLdiwpOzg
-	Mn2xFmEd92iJiitJYjlg5oVzviSjZm9bGKuXyb9UsnsxrZhpNfIDLe5Y/mLqXFz1XObFOL0odYN
-	NwhttcomyjuioFoBVcpzDLeQK1WWibLKOcnAbA1eFUtBOrjVND62jGNHEtCixrotfDgW4wj78A7
-	JcI8aZRtEgsexOCIAMDb54GW5gI2W17R9T44jmoHACZ1AZHuU/p6F8jhDvvLNqDt2HxBqqPNP/r
-	kPZAiwrxwMf67rDufsBmM2MiHf9CYJnnk+Oy9RrA==
-X-Google-Smtp-Source: AGHT+IGzbULl6jSBf3ubyMbEai0qEQdbpPUmAubHYz5KpNB+3CyuB60NKax1Re4DsfqFTvQ8FXAqZg==
-X-Received: by 2002:a05:6870:248b:b0:387:3c81:ee9 with SMTP id 586e51a60fabf-3c98d1460aamr10364807fac.51.1761229727990;
-        Thu, 23 Oct 2025 07:28:47 -0700 (PDT)
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com. [209.85.160.51])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-3cdc4e0c78fsm738207fac.12.2025.10.23.07.28.47
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Oct 2025 07:28:47 -0700 (PDT)
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-36f13d00674so624012fac.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 07:28:47 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW3la6w+gi28gJT0O4x6ww5jodwkEoZcTfjaZ+R4ljRCHrKQtqn3mxxUPugzmD7p1f6kE2jXQklaWE2cxs6J7St6w==@vger.kernel.org
-X-Received: by 2002:a05:6102:5106:b0:5a8:4256:1f14 with SMTP id
- ada2fe7eead31-5d7dd5eb057mr7937173137.35.1761229283909; Thu, 23 Oct 2025
- 07:21:23 -0700 (PDT)
+	s=arc-20240116; t=1761229318; c=relaxed/simple;
+	bh=Cg8X9zCcHh0XZYuwWRJDuEQoaZUgfI3iONaxAqyi2xk=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=c1dA5p33qthC3qMnTaXPV55ZY8IPyNdIEuMYWhi/dI9Lx20wrLZEZ7En5le/mqPJYyVkjW7w+ULI+PT7Nihj3O2//TZk16DuCLmizj5IX3dMluWa59dKAJhY95ERAEweFn/B/ryYXjaTxT5P+FnDqG81DjnY7XSwAaSrH0669Z0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S428L3Bk; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 404DCC4CEE7;
+	Thu, 23 Oct 2025 14:21:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761229318;
+	bh=Cg8X9zCcHh0XZYuwWRJDuEQoaZUgfI3iONaxAqyi2xk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=S428L3Bk8p7+d0dpiXGJxlLFK2FjustCMjwWbOZNUHA2EC6tF4PVZKrQ2hoJOYYI4
+	 UqVS/AuFlK6GCdFnK1hTMIAWC0LnJ74usES2Y206HKYafzAiQFSHB4TJOKTV3sUBve
+	 O6vGcR1YGGHtEBz0Irw+VAp7g/FfFXmnQ/P5ScD8OA1pHfndffKxKj0MjiLm0jIafv
+	 hgCd3xJMqghAnXJFs86pb+B4gcQl1txnvEpkPsbwlbPdCdKnpDJBbwK+clK6nRlZHR
+	 /V1ahbx5T9XrhqDv2gpDhOD7JqL9NofvoHdYKuC079FGXhbC3eWd4d6HacAOSsSmfm
+	 kQwYSvSUjVoeA==
+Received: from 158.46.66.37.rev.sfr.net ([37.66.46.158] helo=lobster-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1vBwCR-0000000GYKV-3yGj;
+	Thu, 23 Oct 2025 14:21:56 +0000
+Date: Thu, 23 Oct 2025 15:21:55 +0100
+Message-ID: <87wm4l3dh8.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Yicong Yang <yangyccccc@gmail.com>
+Cc: Marek Vasut <marek.vasut@mailbox.org>,
+	Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	linux-arm-kernel@lists.infradead.org,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Yicong Yang <yangyicong@hisilicon.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] arm64: guard AMU register access with ARM64_HAS_AMU_EXTN
+In-Reply-To: <632d6afe-40d3-4632-99c7-b098967bd649@gmail.com>
+References: <20251022133621.178546-1-marek.vasut+renesas@mailbox.org>
+	<86347bvx0f.wl-maz@kernel.org>
+	<07391913-aab6-4d92-b75f-278506f51397@mailbox.org>
+	<632d6afe-40d3-4632-99c7-b098967bd649@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20251007133657.390523-1-claudiu.beznea.uj@bp.renesas.com>
- <20251007133657.390523-3-claudiu.beznea.uj@bp.renesas.com>
- <CAMuHMdXF14x68Wk5YdOBS2D2N6LtnQjfGzrsMdSJegX-gc3faQ@mail.gmail.com>
- <6c69d2a2-5dfe-450f-8a39-2ef6e7a6dbea@tuxon.dev> <CAMuHMdXLiN0kUVJtdEYVnsmnCEbN4hSs5KEhMXJhf7p29xv=0Q@mail.gmail.com>
- <f09bf940-3d45-49b1-8d7f-9c1a96acb187@tuxon.dev>
-In-Reply-To: <f09bf940-3d45-49b1-8d7f-9c1a96acb187@tuxon.dev>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 23 Oct 2025 16:21:11 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXx=5YQSmSsw1+3otw9S_Hf+Tv+N1Y1iHiU0OOTyz4bjw@mail.gmail.com>
-X-Gm-Features: AWmQ_bntosPEVOR4ph6dmWLKdA_CbWSKXTDRFcmNnJAAp9ekneiOOs4jYqpQulM
-Message-ID: <CAMuHMdXx=5YQSmSsw1+3otw9S_Hf+Tv+N1Y1iHiU0OOTyz4bjw@mail.gmail.com>
-Subject: Re: [PATCH v5 2/6] PCI: rzg3s-host: Add Renesas RZ/G3S SoC host driver
-To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Cc: lpieralisi@kernel.org, kwilczynski@kernel.org, mani@kernel.org, 
-	robh@kernel.org, bhelgaas@google.com, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	magnus.damm@gmail.com, p.zabel@pengutronix.de, linux-pci@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-SA-Exim-Connect-IP: 37.66.46.158
+X-SA-Exim-Rcpt-To: yangyccccc@gmail.com, marek.vasut@mailbox.org, marek.vasut+renesas@mailbox.org, linux-arm-kernel@lists.infradead.org, anshuman.khandual@arm.com, catalin.marinas@arm.com, geert+renesas@glider.be, ryan.roberts@arm.com, will@kernel.org, yangyicong@hisilicon.com, linux-renesas-soc@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-Hi Claudiu,
-
-On Thu, 23 Oct 2025 at 16:13, Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
-> On 10/23/25 14:02, Geert Uytterhoeven wrote:
-> > On Thu, 23 Oct 2025 at 12:54, Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
-> >> On 10/23/25 11:00, Geert Uytterhoeven wrote:
-> >>> On Tue, 7 Oct 2025 at 15:37, Claudiu <claudiu.beznea@tuxon.dev> wrote:
-> >>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >>>>
-> >>>> The Renesas RZ/G3S features a PCIe IP that complies with the PCI Express
-> >>>> Base Specification 4.0 and supports speeds of up to 5 GT/s. It functions
-> >>>> only as a root complex, with a single-lane (x1) configuration. The
-> >>>> controller includes Type 1 configuration registers, as well as IP
-> >>>> specific registers (called AXI registers) required for various adjustments.
-> >>>>
-> >>>> Hardware manual can be downloaded from the address in the "Link" section.
-> >>>> The following steps should be followed to access the manual:
-> >>>> 1/ Click the "User Manual" button
-> >>>> 2/ Click "Confirm"; this will start downloading an archive
-> >>>> 3/ Open the downloaded archive
-> >>>> 4/ Navigate to r01uh1014ej*-rzg3s-users-manual-hardware -> Deliverables
-> >>>> 5/ Open the file r01uh1014ej*-rzg3s.pdf
-> >>>>
-> >>>> Link: https://www.renesas.com/en/products/rz-g3s?queryID=695cc067c2d89e3f271d43656ede4d12
-> >>>> Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> >>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+On Thu, 23 Oct 2025 13:01:52 +0100,
+Yicong Yang <yangyccccc@gmail.com> wrote:
+>=20
+> On 2025/10/22 22:33, Marek Vasut wrote:
+> > On 10/22/25 4:20 PM, Marc Zyngier wrote:
+> >> On Wed, 22 Oct 2025 14:35:28 +0100,
+> >> Marek Vasut <marek.vasut+renesas@mailbox.org> wrote:
 > >>>
-> >>> Thanks for your patch!
+> >>> The AMU configuration register access may fault and prevent successful
+> >>> kernel boot. This can occur for example in case the firmware does not
+> >>> allow AMU counter access from EL1. Guard the AMU configuration regist=
+er
+> >>> access with ARM64_HAS_AMU_EXTN to prevent this fault if ARM64_HAS_AMU=
+_EXTN
+> >>> Kconfig option is explicitly disabled. Other interaction with the AMU=
+ is
+> >>> already guarded by similar ifdeffery.
 > >>>
-> >>>> --- /dev/null
-> >>>> +++ b/drivers/pci/controller/pcie-rzg3s-host.c
+> >>> Fixes: 87a1f063464a ("arm64: trap to EL1 accesses to AMU counters fro=
+m EL0")
+> >>> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> >>> ---
+> >>> Cc: Anshuman Khandual <anshuman.khandual@arm.com>
+> >>> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> >>> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> >>> Cc: Marc Zyngier <maz@kernel.org>
+> >>> Cc: Ryan Roberts <ryan.roberts@arm.com>
+> >>> Cc: Will Deacon <will@kernel.org>
+> >>> Cc: Yicong Yang <yangyicong@hisilicon.com>
+> >>> Cc: linux-arm-kernel@lists.infradead.org
+> >>> Cc: linux-renesas-soc@vger.kernel.org
+> >>> ---
+> >>> =C2=A0 arch/arm64/mm/proc.S | 4 ++++
+> >>> =C2=A0 1 file changed, 4 insertions(+)
 > >>>
-> >>>> +static void rzg3s_pcie_irq_compose_msi_msg(struct irq_data *data,
-> >>>> +                                          struct msi_msg *msg)
-> >>>> +{
-> >>>> +       struct rzg3s_pcie_msi *msi = irq_data_get_irq_chip_data(data);
-> >>>> +       struct rzg3s_pcie_host *host = rzg3s_msi_to_host(msi);
-> >>>> +       u32 drop_mask = RZG3S_PCI_MSIRCVWADRL_ENA |
-> >>>> +                       RZG3S_PCI_MSIRCVWADRL_MSG_DATA_ENA;
-> >>>
-> >>> This should include bit 2 (which is hardwired to zero (for now)),
-> >>> so I think you better add
-> >>>
-> >>>     #define RZG3S_PCI_MSIRCVWADRL_ADDR  GENMASK(31, 3)
-> >>>
-> >>>> +       u32 lo, hi;
-> >>>> +
-> >>>> +       /*
-> >>>> +        * Enable and msg data enable bits are part of the address lo. Drop
-> >>>> +        * them.
-> >>>> +        */
-> >>>> +       lo = readl_relaxed(host->axi + RZG3S_PCI_MSIRCVWADRL) & ~drop_mask;
-> >>>
-> >>> ... and use FIELD_GET() with the new definition here.
+> >>> diff --git a/arch/arm64/mm/proc.S b/arch/arm64/mm/proc.S
+> >>> index 86818511962b6..123538ffeda6b 100644
+> >>> --- a/arch/arm64/mm/proc.S
+> >>> +++ b/arch/arm64/mm/proc.S
+> >>> @@ -145,7 +145,9 @@ SYM_FUNC_START(cpu_do_resume)
+> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ubfx=C2=A0=C2=A0=C2=A0 x11, x11, #1, #1
+> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 msr=C2=A0=C2=A0=C2=A0 oslar_el1, x11
+> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 reset_pmuserenr_el0 x0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // Disable PMU access f=
+rom EL0
+> >>> +alternative_if ARM64_HAS_AMU_EXTN
+> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 reset_amuserenr_el0 x0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // Disable AMU access f=
+rom EL0
+> >>> +alternative_else_nop_endif
 > >>
-> >> Bits 31..3 of RZG3S_PCI_MSIRCVWADRL contains only bits 31..3 of the MSI
-> >> receive window address low, AFAIU. Using FIELD_GET() for bits 31..3 on the
-> >> value read from RZG3S_PCI_MSIRCVWADRL and passing this value to
-> >> msg->address_lo will lead to an NVMe device not working.
+> >> Why?
+> >>
+> >> We ensure that the AMU is available in the macro itself by checking
+> >> for ID_AA64PFR0_EL1.AMU. If the AMu isn't present on this CPU, we skip
+> >> the offending sysreg access. This is similar to what we do for the
+> >> PMU.
+> >>
+> >> Does your HW advertise an AMU, but doesn't actually have one?
+> > The hardware does have AMU, but it is currently blocked in old TFA vers=
+ion and access to this AMU register here causes a fault. That's why I have =
+to disable ARM64_HAS_AMU_EXTN until the TFA is updated and the AMU access i=
+s made available on this hardware. But even if I do disable ARM64_HAS_AMU_E=
+XTN=3Dn , I get a fault.
 > >
-> > Oops, yes you are right, I went a bit too far with the FIELD_GET()
-> > suggestion. But replacing drop_mask by RZG3S_PCI_MSIRCVWADRL_ADDR
-> > would still be worthwhile, IMHO.
->
-> OK, you mean updating it like:
->
-> +#define RZG3S_PCI_MSIRCVWADRL_ADDR  GENMASK(31, 3)
->
-> // ...
->
->
-> -    lo = readl_relaxed(host->axi + RZG3S_PCI_MSIRCVWADRL) & ~drop_mask;
-> +    lo = readl_relaxed(host->axi + RZG3S_PCI_MSIRCVWADRL) &
->           RZG3S_PCI_MSIRCVWADRL_ADDR;
+> > This patch is mainly meant to prevent a surprise in case someone does s=
+et ARM64_HAS_AMU_EXTN=3Dn , and the system still faults on AMU register acc=
+ess.
+> >
+>=20
+> then I think it's more proper to guard it with CONFIG_ARM64_AMU_EXTN
+> (I think you mean this above?)  rathter than the cpu cap. then with
+> the patch kernel won't touch the AMU registers here if the kconfig
+> is disabled on you AMU supported hardware and AMU unsupported
+> firmware.
 
-Exactly.
-Thanks!
+No. Not preventing EL0 from accessing the register is a data leak to
+userspace. This must be acted upon irrespective of the kernel being
+AMU-enabled or not.
 
-Gr{oetje,eeting}s,
+	M.
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--=20
+Jazz isn't dead. It just smells funny.
 
