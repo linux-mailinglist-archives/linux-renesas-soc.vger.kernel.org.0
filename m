@@ -1,120 +1,143 @@
-Return-Path: <linux-renesas-soc+bounces-23487-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23488-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31524C00AD4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 13:19:02 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9974FC00AFF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 13:21:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 655AA4E756F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 11:18:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7823D18921B6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 11:21:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 138E430ACEC;
-	Thu, 23 Oct 2025 11:18:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB2D630CDB7;
+	Thu, 23 Oct 2025 11:21:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Tn+wXoL6"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZTH3qzor"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6985130B53A
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 11:18:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55DF2309F1F
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 11:21:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761218338; cv=none; b=i+uIN6oF4oTCaeyTXAZgxD/UD/rMvGs6m1W0hs5BwkMUo7Jyj9QnE5FEXy4ir/ZrNmTyA1nJEq1RjsT1AEu+GZPKndT9yZihREX/GNTwfZOgERj7YZnRU/b/eF3Z9qbQU2mhtoxFP7tkjHhLtpCAGYvFyxCpXBBNN1G/SkffwI4=
+	t=1761218489; cv=none; b=O1WuWzWPB8zzhUKW4jx6kEB2UOdDZDCza7bCuPIiamcLfUu++0zXF8FBPu/AclhBS8Sv8EDdwp9sGSTEUGG5tlonpcEg5H1Z60bNEIO37v4m6A5l24tQPJuJx27Sa27ZX49+dAMcN0GFDjyq1dx1SVimxaRrYycAflEpQk6vP9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761218338; c=relaxed/simple;
-	bh=c2Z0ZAfHOTIX/VnV8rwDoyuTKbIGnlTQvCu+31TN4jw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZMpsRmhZwsSJZYxbGDmFofuRGyMGRirbDSZoXoDpMh5KL+aJiXCwBkuxMSXekYq6O0uzjwf49cPff8alGuaqjNDDUw5Iqf/X+0fXpHisxdv6nXsSC61TH9Wb+12autFbGSzaP8IgzOgm94KY5LJfnxd3as6cwLsPCMIRMXUdqlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Tn+wXoL6; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=c2Z0
-	ZAfHOTIX/VnV8rwDoyuTKbIGnlTQvCu+31TN4jw=; b=Tn+wXoL6aRkQMSYpVLua
-	PI5yY8vZ3roZGa2Kw5R8pm0G/NG1B0IdZC96Chl7p446AeeL82PgAFGNHmIbWsDq
-	TD7cTTtpKh493L61d8lDzV39HNZwQh8AAZ3Dw8Pqc34MUWs2Ugq3nW9tQjv+fosi
-	Ta8llDWsMnRdCgJSNZ3HvC7F9Ot79GiPc8ZxzRhmnZlVOZiQ+Ht8WFOjfRjk3d7Z
-	JaF4BCxRBSS4wYyDooPxScrNCZRicdyaamedK9EYrvZ996CzKiYpRZof+BiSP2f6
-	3zYcmlXiupDMpGJxFTJIxs3dItaJ/RBFsapgD8OLsCIIUvWjW/6VZzSvnARswcFe
-	+w==
-Received: (qmail 2182918 invoked from network); 23 Oct 2025 13:18:50 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 23 Oct 2025 13:18:50 +0200
-X-UD-Smtp-Session: l3s3148p1@oLrumNFBKQltKPAY
-Date: Thu, 23 Oct 2025 13:18:49 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
+	s=arc-20240116; t=1761218489; c=relaxed/simple;
+	bh=GRKxdnG6EAwEEwZaN9kIsS0ShqlDa1LWlfGj40dNoY4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Nt2egNfQmxnTbPk8CU8GamnZ96UoypF8SsbciOwi3WCI+72ZwEZ6aVzHiYlgh4XxGzQ9yK8FE9rmxq6laOyDFfQ7aouIYOWe1ep8SAw3obk+cqlI7XKKs0Hpi/iwSpUtZ3/vZRCpHi6FboF6GI4NVqwvraOJePuIzHKWpqsjfhk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZTH3qzor; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-290a3a4c7ecso7920105ad.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 04:21:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761218487; x=1761823287; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vlgvmBPLgehoAq+qXl2/qSo9ZfDpQHfJlMq911IhmcY=;
+        b=ZTH3qzorLlyhg44IF0SOwB0byWrHK8kkx+CksB6NauiL5t/ela9vS6vR6OK4wsstYo
+         H3xVVad1c+6FYVg6ufgtgpHpIMufPOTfJ9FHSs3IG/vIu2QLfVpMBuz8RHWWDH3B6XLj
+         GAQ4GrOmkc9j/CLj61mG9HyL5Lqanl8mnen3mJUMfY8uuS/BRlvxpb/fAA5XzS5A8DzQ
+         Z86KK9/+pBGDcemyD5CmY8fQOqxK6xxUW0yYqgMAmpLaNPfg1mz7GC3wbW+dlEDQ/oEF
+         wPMeVTkTIuQ106PxEL66EkYoMqEpqo88kcN1r9Sik0X6NMKZKaBVgAp3Q5k72mtXJ8JR
+         xwhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761218487; x=1761823287;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vlgvmBPLgehoAq+qXl2/qSo9ZfDpQHfJlMq911IhmcY=;
+        b=JtZcFh9/jipTOHTNdiDwHdCbnFjkgcRas5S/1J75R8Gp5MbJWpPchsyMpKHeeiQkkJ
+         eG/JmdydoM9mjFtwlXrTg20GpDyKOJxr7I9dFVXAIuBMeWIMvqW2MHYoanGxVRD1BQ7E
+         +LxSym/uwqIX4GdJlMYQJeyjbxw/ENcBCQFmZUwfMZLtJ3CjKfkswXfRTDYIQxb3xrzR
+         qm85oKYi/999ke5DiWDIc/PDlJF53H2wg7G/adXK+eHmEmg8YsPf9tCcW1BYVcQ98S8k
+         wEFufu6NRXZpntipX81lHn84qv9MO4/NbKShyR00M5fTlP7GDoUd8jy5AEaiu+ETATUy
+         r5oQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUYu2YjtfigIBOQQ9lud2Y9rFLF9Q+ae9CvRkuLSCGz9jTXtYzmlfT4rkkw2qvUcpO12jd+RAEUIIwCd5F2R8RzsQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxKrv7MzCZYwOXbVW3uLlKR1lnpC3x7nilxQeGWMMlMg/5uIboT
+	QJK09wb4qX0UkMNny9hsJkdj7d/D1u91rs18olXRkmFdEegt0rWnHbY7
+X-Gm-Gg: ASbGnctA4AnolRTeCqTcei/I7q4EeiR/Ma0Vj1uPUXkyjd1rNNHeMm2o1wvGoGtJXCW
+	Ow9+7DxKWiS3cdAjypOCXRxtGIjWsWwPkQp51Hboxw/n8pB8e5OQleNCdqzBlR4u9z088sWkK8U
+	kGbFjFaIQiXYVcctsJwpVWlJh85FtgAMOeq4ia6WKy89MnLr6w04FZM+CLU1b0VDjVMKrWeqsrA
+	+6yb9a3bOKnN2OMYwv38BI8E5rGfbUhbUj265vZIfmESQntJTAGGkQwew1a9tX+/5C9KnZs+CXK
+	jV9SSrTkFTIJsWzInFMT6R8XFEewAkYi+W/Ki+MnbEGkyv1e2fMu/y1JZgjPVM8DURdAueknyDY
+	fz3+gbdPuj7dCv8Bzz+3uKQieNDm2/sbGXyBRJe3+y5ks8fNFvEoiSjIkZ2bN7caM9unz0Dv34n
+	mCua/uTN0W0/5gsdx8Ang=
+X-Google-Smtp-Source: AGHT+IFqM1qThq8uRjoxvPG6LNB2Te+R9PY3nw4Tc7SvEuUzlsBFl9YlVcL0VToRy2HrIgcsKyGcVA==
+X-Received: by 2002:a17:902:d503:b0:290:91b0:def4 with SMTP id d9443c01a7336-290ca21635emr336955825ad.29.1761218487485;
+        Thu, 23 Oct 2025 04:21:27 -0700 (PDT)
+Received: from iku.. ([2401:4900:1c06:ef2:36b5:9454:6fa:e888])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2946dded613sm20226885ad.37.2025.10.23.04.21.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Oct 2025 04:21:26 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	Paul Barker <paul@pbarker.dev>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>
+Cc: netdev@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] reset: always include RESET_GPIO driver if
- possible
-Message-ID: <aPoPGauSQCoaonl8@shikoro>
-References: <CAMuHMdXqHncXxBZ00mxV=pzdgQEU4ju2F9XMejnibbu=QnLfDg@mail.gmail.com>
- <aPEAx8ZGHBcWZKJF@shikoro>
- <CAMRc=McsbAirEYjoo455mbKU495VEvPmMEqBmZCq2hw113YHOg@mail.gmail.com>
- <aPIfF-3SgzW5V_gs@shikoro>
- <CAMRc=MfVPO292xmnXBWJzWuhNADA_u1yvpJ4kkK8TgZyQgaP+A@mail.gmail.com>
- <aPInv9NELU7N9QDn@shikoro>
- <CAMRc=MdWS2OSeJAkTRnAFMtXcVukwQ=JAWwJ3OHxogmgZnan6g@mail.gmail.com>
- <5c9761d5a6a14d4c250df6cc4201bca72d963133.camel@pengutronix.de>
- <aPnz6U-fcodRoobU@shikoro>
- <CAMRc=MejA6DsnOW3hS+aFtecXn38UypJU2TUrAWPoo9Ly341uw@mail.gmail.com>
+	linux-kernel@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH net-next v3 0/2] net: ravb: Fix SoC-specific configuration
+Date: Thu, 23 Oct 2025 12:21:09 +0100
+Message-ID: <20251023112111.215198-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cgsYnhUh+Js5TNzp"
-Content-Disposition: inline
-In-Reply-To: <CAMRc=MejA6DsnOW3hS+aFtecXn38UypJU2TUrAWPoo9Ly341uw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
---cgsYnhUh+Js5TNzp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi All,
 
+This series addresses several issues in the Renesas Ethernet AVB (ravb)
+driver related to SoC-specific resource configuration.
 
-> > I see. That kind of spoils my assumption that it is a fallback supported
-> > by the core. Darn, I would still like to have it, but it seems more
-> > complicated than I have time for it :(
-> >
->=20
-> As soon as my two other reset series land in next, I will finish my
-> work on converting the reset core to fwnode which should help.
+The series includes the following changes:
 
-Cool! Then you bring back my argument, that it should be always compiled
-in because it is a core feature ;)
+- Make DBAT entry count configurable per SoC
+The number of descriptor base address table (DBAT) entries is not uniform
+across all SoCs. Pass this information via the hardware info structure and
+allocate resources accordingly.
 
+- Allocate correct number of queues based on SoC support
+Use the per-SoC configuration to determine whether a network control queue
+is available, and allocate queues dynamically to match the SoC's
+capability.
 
---cgsYnhUh+Js5TNzp
-Content-Type: application/pgp-signature; name="signature.asc"
+Note, these patches were posted previously [0] as fixes but based on the
+discussion there, I've reworked them based on feedback from Jakub and
+dropped the fixes tag and Cc to stable, hence sending them for net-next.
 
------BEGIN PGP SIGNATURE-----
+[0] https://lore.kernel.org/all/20251017151830.171062-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmj6DxUACgkQFA3kzBSg
-KbaHeQ/+MdvUnPLHM1qIlXU0X2n93eV3DFZ+c/jh6eNu8/4O/FtjF3sV3pOXDkKL
-ZkbycBv9jHaKmmUFv9cGd6cEIoxnyb9cQZs9/CD0IvTORqwqWtMPS6pMf3/mqYgt
-9tKvt4qqbVsoUosLt/2OdWymNk99TQ9M9hZ2BjKZ0ER7aCwXJAVA0DmMX2XkgBcp
-q1sIPfxtFaw+FxoJYhHxE7XllfPmBmnh6gsrV+ZhaPhGxuwB6QVukdOgURB5AB2j
-icDtwhRIbGo2mudv2F5JIfeKVLGA5dTKOVrKXjwRnJYoTqzwedpm1FQ76v/3J01X
-RxLsX0EVoJCZX1x9jg79tRbTx0qPDPk87R3DHAFRdl6r39kwY/wb0kwVmOPTQlnu
-U58BJ77X7I/owXUnUKa4dSu0uTyDvs36MX5riw1FwrAXKDUKtRhz1N0CwhbNrpOB
-+EYpqZ8VtfyF4pBen3J5xYfMuD61Crp/dgYs3c06wIGq1zG2bbSiJUGOy95diFMX
-uZGDYbVgbVjOcj/XnAnV7ptGv/uP7IFc4OBjBDitYmnNnZM5Xoqel7BGm5mQ9brp
-0fc8w6DSVfMMfTow10RA1yHiijynKChqB8iKk5ryygBX6Ckv8nvbW2bAdbLABnZz
-BI0SYHRWZauj/uVGy5KNONVIaMW00MRkIMXxIFg2FMKQwzjNho0=
-=OvuC
------END PGP SIGNATURE-----
+Cheers,
+Prabhakar
 
---cgsYnhUh+Js5TNzp--
+Lad Prabhakar (2):
+  net: ravb: Make DBAT entry count configurable per-SoC
+  net: ravb: Allocate correct number of queues based on SoC support
+
+ drivers/net/ethernet/renesas/ravb.h      |  2 +-
+ drivers/net/ethernet/renesas/ravb_main.c | 16 +++++++++++-----
+ 2 files changed, 12 insertions(+), 6 deletions(-)
+
+-- 
+2.43.0
+
 
