@@ -1,183 +1,133 @@
-Return-Path: <linux-renesas-soc+bounces-23471-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23475-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 083D7BFFDE7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 10:22:28 +0200 (CEST)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2659C00081
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 10:55:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 11E89189A0FA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 08:22:49 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id E406B345068
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 08:55:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 045BD2FCBE1;
-	Thu, 23 Oct 2025 08:20:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 357B53043BF;
+	Thu, 23 Oct 2025 08:55:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Dh+noOqF"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F8472FB619
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 08:20:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF5182FB632;
+	Thu, 23 Oct 2025 08:55:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761207658; cv=none; b=hxSFvw0aarpz4HX2XvQoL9KLVxYlLeshd9X+g6WrOHMQs8pJvBlG3i9U4NZrTj69b2kwsecYVGu93Y/E8oEkuczzxa87Mt431na8EUXC/GEeEwzPonL+FCElwlLdklg/+243CqE3gaIlQNSxw6xioG0okMQ9w9xJeO0+UFTsLdk=
+	t=1761209713; cv=none; b=jQpCXn5BC4m3v41MRO7TWqyj7IIxkW/OuI5bJUAerZDZNRzqTPcApbKL4P3pVdoIJpSEQbtblVWEgP7grFRIaEh1Wdr4kE2DY1X2dS76oV2lB/w8zvoOYqz6iND6rWTs/ixZR6hsrmrgpdeO16yIP+wdq2XTEZX6h/wSl2q35tc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761207658; c=relaxed/simple;
-	bh=riOWBoniluYmZkJSNiPD51TALJtz2J5b6wiQtNSND7U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=o5ahb9X4hqnbDGmh0easHVPhx7Nk8/yqYmbfKzI6Z11HaM4dXIwuLKfKaOGyl2w6KSFy8OGnbeqK59Ug/dJZD3P8n3cY6YbbCj2BPuC2hx6jeUJBUjvvIAOCh7JkGoiiCPkC3EO2rp4Q+lbF1OqHeER9hrGJMxNjiNTRJdeWoDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-54a86cc950dso61127e0c.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 01:20:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761207654; x=1761812454;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ECYIxuT82Q/NafhPkuUWEytQEjZXJcXQfJX7HoJHHBY=;
-        b=qjB1/2hgMJs86s66NZPPC/huqQvEmoA2DsrQOvXK1qF7DgDAnmXIx/GJTmM71VSS79
-         RkQy3E4AdKGO63wy1/JDfFEgNM4mgxzZDpSwsrSB2pouk2HyDLuVKepuxlomsSq7pehS
-         8n6bvuslgr1gkFXU4zlZjUzNXprSluEqdObuLi4M0sMiZa0Lohb7vsmFfsiuKyUOcgLs
-         5Zxj3dddl4RgkOYObBBa6q4CseMNfvkvbS8O82uQGrsRD+8Ukdz/XDAVuSV/XG/iWkLN
-         PiDwoW44XZlr3nAuzOJTjsK0LScBYA6q0ydA+y6/MtS6MBxJGLZz3LkBnvEjT7OBtay5
-         2nkA==
-X-Forwarded-Encrypted: i=1; AJvYcCUurtqR6KC9zO3U1SbdXlgw/3kuU0/GWPKJPltH5TM/Xn0wF7v2AkfUQdlo+9+9EZw9S8dhcfBbzyNvgDm0irlRrg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxg08eFJXrMCyY7BKlVagBOvui51FeGwAJbh6iLAOSJdI1pCFmG
-	AoS/HeXSQRfiiq6OIcQ9ybQk26GiXfgmO60uVn9DzFIWIyKaEnY9xLsI+jeyuOI0
-X-Gm-Gg: ASbGncv6kAQ/Q1ofHd7tJLiEu2ArIdu0tyoSr+vXIaLCZcz/fQzNdw6H8PUhAZWf6VA
-	vDvZWyYDTPUCynYegvXJFnDvBt3gjmckSYdb3SJnnBd0jYybtxz055ycp2xeGO6a4kB/Svex+r3
-	9lvlIJgQyTy6BdUp1k8HkR7hiodijXn/gHNRYH//CTJB+o2rIU07TTAFeffc55N3NKmywpub4W6
-	nJuc5lwsZWh5dN0nf4MSTfOpGjno4+Y46771QrJrdud9jY8LqiAHpC8OsdD6st1gkEbp66SYSwp
-	o3eKMeIZKbmRw+vPv0MukV94BXxJYk2cceZ3YRrBOPhupN9QZh+g7e0gbg2+QUb7bEP8j34FEqA
-	fD+V1n7k+IN9y7d7XZIRC9E9XbRQf4p1qsBPhOcsL0Egh+R1RvKnllR6J74BrUy0zo0BaE581yq
-	RIXQ+FMN9L7LrjyyOoOs4mPEyTWsUYkRiCZjO5pA==
-X-Google-Smtp-Source: AGHT+IGVC7dlAVyZn+soLZ+epRsFU6BJFokP8zEnsPztqznn1deVNtm0dgfIa+F4A4s1DzusfMUYRg==
-X-Received: by 2002:a05:6122:e1d9:b0:556:95a1:1a44 with SMTP id 71dfb90a1353d-55695a11cc7mr1547585e0c.13.1761207653547;
-        Thu, 23 Oct 2025 01:20:53 -0700 (PDT)
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com. [209.85.217.50])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-557bd8e11a3sm547953e0c.10.2025.10.23.01.20.52
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Oct 2025 01:20:52 -0700 (PDT)
-Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-5db2d2030bbso220184137.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 01:20:52 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWmMh5MRqwm633yyScJ+ClFk0DiELpTKvRK40n1iW1G3MiUyMYFbEkTHH8y+n/9xMe0tPBAF/fBzmWXyKzaW91iyA==@vger.kernel.org
-X-Received: by 2002:a05:6102:5110:b0:5db:27e9:933e with SMTP id
- ada2fe7eead31-5db27e9988cmr1196188137.38.1761207652096; Thu, 23 Oct 2025
- 01:20:52 -0700 (PDT)
+	s=arc-20240116; t=1761209713; c=relaxed/simple;
+	bh=vnI0o5WV/8375Q9X3ezTYN6ydp49H3sIrzgEDjPS0M0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=SSlPzAybM0+t6qeSOeiSQ3e7A/xgqhGYRDEf7hHM/DKWtx34NlC7TbNZ7afw5Z4PiwAmOyBDTOrI3aDyw7/d5OWVU7ljeeX0aOmOe3yAxoGLZZtvjxvrha8rpUeaLxXOfXsRZBgWsD01akQmyDquiIoAbS5cbPXEMPiwzONOabs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Dh+noOqF; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 2014E4E4129D;
+	Thu, 23 Oct 2025 08:55:09 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id D88146062C;
+	Thu, 23 Oct 2025 08:55:08 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4431B102F2459;
+	Thu, 23 Oct 2025 10:55:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1761209707; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=JJYzWRervYd6xbaGyN0P+R856qBpgbVlxMHKNl9v3HA=;
+	b=Dh+noOqF8/+jpFrrF36/6zTmuFM+BcOLEgl7rR5koN0gDqES3Y9Vc4aTxVof+1szs0h4+Z
+	j8yzHp/1NOYNXyXi18QELWmyZvXr/sjZJeDoJHLlqkFh4CyWMx96xXiiBQJIX6iPQN0utc
+	y77gPkWk7nIjkfwB7ernZXMvUHH9W1o6cScnw3NcwUPb4QolxQF9DXE5ZFl4sWrwUOJ3k7
+	gRVAK6PVW8nl8XEh8mWdv4OXamJzB/DVAPzr1N5o0808HrN80pDz+KM9ZredUFsUvL3dgF
+	8j4X0axfYUa2MmZ/IS1QWxI8V1B3kZyIyXSfxgK3E00sLHJeIFnF3vJKQRGYfA==
+Date: Thu, 23 Oct 2025 10:55:03 +0200
+From: Herve Codina <herve.codina@bootlin.com>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>, Geert Uytterhoeven
+ <geert+renesas@glider.be>
+Cc: Jonathan Cameron <jic23@kernel.org>, David Lechner
+ <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy
+ Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Magnus
+ Damm <magnus.damm@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark
+ Brown <broonie@kernel.org>, linux-iio@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Pascal Eberhard <pascal.eberhard@se.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH 1/4] dt-bindings: iio: adc: Add the Renesas RZ/N1 ADC
+Message-ID: <20251023105445.1adb2e86@bootlin.com>
+In-Reply-To: <20251017090742.49f2d628@bootlin.com>
+References: <20251015142816.1274605-1-herve.codina@bootlin.com>
+	<20251015142816.1274605-2-herve.codina@bootlin.com>
+	<aPEoqkdatl4G82co@shikoro>
+	<20251017090742.49f2d628@bootlin.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251015192611.241920-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdW1B7Yk1hUU9MSJsiL8wSmjAUGN7Qd_wgBHv8Ct=-wi4Q@mail.gmail.com>
- <CA+V-a8uY11uWoQ_en5QC=W4HPHRwT6rKQQJ-knT8Gi-+czm05w@mail.gmail.com> <20251021184502.GD19043@pendragon.ideasonboard.com>
-In-Reply-To: <20251021184502.GD19043@pendragon.ideasonboard.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 23 Oct 2025 10:20:41 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUU-2ugmA-VcRuYOsriUKtAEQXmWEwJSwuCsSTa3ySTZg@mail.gmail.com>
-X-Gm-Features: AS18NWACo5Ab6gaObSrlb5u0ift86EnuHySc5nm6Ey8p5bDoFaPy9DC0cq8vSBg
-Message-ID: <CAMuHMdUU-2ugmA-VcRuYOsriUKtAEQXmWEwJSwuCsSTa3ySTZg@mail.gmail.com>
-Subject: Re: [PATCH v11 0/7] Add support for DU/DSI clocks and DSI driver
- support for the Renesas RZ/V2H(P) SoC
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Laurent,
+Hi Wolfram, Geert,
 
-On Tue, 21 Oct 2025 at 20:45, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Tue, Oct 21, 2025 at 07:26:49PM +0100, Lad, Prabhakar wrote:
-> > On Tue, Oct 21, 2025 at 11:26=E2=80=AFAM Geert Uytterhoeven wrote:
-> > > On Wed, 15 Oct 2025 at 21:26, Prabhakar <prabhakar.csengg@gmail.com> =
-wrote:
-> > > > This patch series adds DU/DSI clocks and provides support for the
-> > > > MIPI DSI interface on the RZ/V2H(P) SoC.
-> > > >
-> > > > v10->v11:
-> > > > - Split CPG_PLL_CLK1_K/M/PDIV macro change into separate patch
-> > > > - Updated rzv2h_cpg_plldsi_div_determine_rate()
-> > > >   while iterating over the divider table
-> > > > - Added Acked-by tag from Tomi for patch 2/7 and 3/7
-> > > > - Added Reviewed-by tag from Geert for patch 2/7 and 3/7
-> > >
-> > > I think this series is ready for merging.
-> >
-> > \o/
-> >
-> > > > Lad Prabhakar (7):
-> > > >   clk: renesas: rzv2h-cpg: Add instance field to struct pll
-> > > >   clk: renesas: rzv2h-cpg: Use GENMASK for PLL fields
-> > > >   clk: renesas: rzv2h-cpg: Add support for DSI clocks
-> > > >   clk: renesas: r9a09g057: Add clock and reset entries for DSI and =
-LCDC
-> > > >   dt-bindings: display: bridge: renesas,dsi: Document RZ/V2H(P) and
-> > > >     RZ/V2N
-> > > >   drm: renesas: rz-du: mipi_dsi: Add LPCLK clock support
-> > > >   drm: renesas: rz-du: mipi_dsi: Add support for RZ/V2H(P) SoC
-> > >
-> > > As this touches both clk and drm, let's discuss the merge strategy.
-> > > My proposal:
-> > >   1. I queue patches 1-3 in an immutable branch with a signed tag,
-> > >      to be used as a base for the remaining patches,
-> > >   2. I queue patch 4 on top of 1 in renesas-clk for v6.19,
-> > >   3. The DRM people queue patches 5-7 on top of 1.
-> > >
-> > > Does that sound fine for you?
-> > Sounds good to me.
-> >
-> > Biju/Tomi, are you OK with the above?
->
-> The plan seems good to me. Note that you won't be able to push this
-> yourself to drm-misc as committers are limited to pushing linear
-> branches. We need an ack from the drm-misc maintainers, and one of them
+On Fri, 17 Oct 2025 09:07:42 +0200
+Herve Codina <herve.codina@bootlin.com> wrote:
 
-Do you mean new commits must be in a single branch, or drm-misc
-itself must be linear? In case of the former, 5-7 can be applied on top of
-my immutable branch, without involving a merge?
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    items:
+> > > +      - enum:
+> > > +          - renesas,r9a06g032-adc   # RZ/N1D
+> > > +      - const: renesas,rzn1-adc    
+> > 
+> > Do you know of other SoCs with this IP core? If it is only RZ/N for now,
+> > we could go with const for N1D. All other N1 variants cannot run Linux
+> > because of no SDRAM controller.
+> >   
+> 
+> I know only about RZ/N1 family.
+> 
+> I will keep only "renesas,r9a06g032-adc" in the next iteration.
+> 
 
-> will need to merge the branch (either branch 1. as prepared by Geert, on
-> top of which you can them push patches 5-7 yourself, or a branch you'll
-> prepare on top of 1. with patches 5-7).
+May be I misunderstood.
 
-Note that another change to include/linux/clk/renesas.h,
-and thus a dependency of drm on clk, is coming in
-"[PATCH v3 0/2] Remove hard coded values for MIPI-DSI"
-https://lore.kernel.org/20251022235903.1091453-1-chris.brandt@renesas.com
+Most of other bindings related to rzn1d have the both r9a06g032 and
+rzn1 compatible string.
 
-Would it be worthwhile to wait on/speed up review of the latter?
-Thanks!
 
-Gr{oetje,eeting}s,
+Would you expect:
 
-                        Geert
+  - a) renesas,r9a06g032-adc and renesas,rzn1-adc
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+    compatible:
+      items:
+        - const: renesas,r9a06g032-adc   # RZ/N1D
+        - const: renesas,rzn1-adc
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+or
+
+ - b) renesas,r9a06g032-adc only
+
+    compatible:
+      const: renesas,r9a06g032-adc
+
+Can you confirm your expectation?
+
+Best regards,
+Hervé
 
