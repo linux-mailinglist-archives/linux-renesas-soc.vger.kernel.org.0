@@ -1,160 +1,151 @@
-Return-Path: <linux-renesas-soc+bounces-23477-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23478-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A2C1C001B6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 11:08:37 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C5CBC003C1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 11:25:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C204D3A829C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 09:08:35 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 3AD9A4FF54B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 09:22:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E07D2FE57C;
-	Thu, 23 Oct 2025 09:06:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD5083019A7;
+	Thu, 23 Oct 2025 09:22:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HJuEu9io"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="NfiqOg+/"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A52952FE04F;
-	Thu, 23 Oct 2025 09:06:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D641C23D7D1
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 09:22:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761210409; cv=none; b=hztcON4S2MxQ08Nd1gwgpUPM3mZLnb/C5tfxJM7gCbKzOI8T77Zi4Ck2rsSiQDRI7Na7hSlYO/wUh14nDoiJZ5t6aTw+hQZvaan/ItekZ4LDEc3mlVOlmlGdUqIkOGMmHOusOkVYMlesYadxQfiNc0oIn2I2E2nSt75aZUpXt+Y=
+	t=1761211374; cv=none; b=cqU5VWq+ZvivTRCvkEy5O8WQpkRRlsuFZoeoGb7ddHi2cMylFramSc8yb9Hns9a7LZZVnwT6WqmNO6/8PopLZALHih0QMuAXapI1gHj66+fXCKQjff4KNlykUyK+NgmUJlQ+uUWzxd8JZf8i8pLHtgTD4LB47VrMG+pk6geI2lg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761210409; c=relaxed/simple;
-	bh=xKFWE3FP8zQxD/fKvD/Su/ZNtr3Ujowi8h/zfAe1GQg=;
+	s=arc-20240116; t=1761211374; c=relaxed/simple;
+	bh=MmxmGHctKx7kK+Uo36QkuOd3XsUhd7hcJDU/dGKBmRo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WvqskD099BMPWhDWN/NeON00SVs5sLdHZc78cqS4azyUBylYzOvCtJfALHOkaiYEOhcY83DMxUV6EF6ajVOQhp4msIqFrfJi0JrB+KP4RaBjlWiOdlZbT69Ik12fKr45vUaKxBhFZMX0UAWtLVP0WzzFysh4oWvn7eBLayFttuI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=HJuEu9io; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (82-203-161-16.bb.dnainternet.fi [82.203.161.16])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 494FC4C7;
-	Thu, 23 Oct 2025 11:04:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1761210297;
-	bh=xKFWE3FP8zQxD/fKvD/Su/ZNtr3Ujowi8h/zfAe1GQg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HJuEu9ioEFGCzueDKZ6jv6koSl/y7Hot56lpH2Up1vH0lU3Oq7SDd5ek3180SdnU6
-	 tmFiLdIK58Z8yRjqO3zeMpRDXfxPETJEuy3Y0ZOiIS86jDQwSLC6ZwVv+YhuYn49QN
-	 WXZ/t/dPj7RGbaBPLNYNoEfquKXZF6cdc6bl+1WI=
-Date: Thu, 23 Oct 2025 12:06:28 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v11 0/7] Add support for DU/DSI clocks and DSI driver
- support for the Renesas RZ/V2H(P) SoC
-Message-ID: <20251023090628.GF727@pendragon.ideasonboard.com>
-References: <20251015192611.241920-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdW1B7Yk1hUU9MSJsiL8wSmjAUGN7Qd_wgBHv8Ct=-wi4Q@mail.gmail.com>
- <CA+V-a8uY11uWoQ_en5QC=W4HPHRwT6rKQQJ-knT8Gi-+czm05w@mail.gmail.com>
- <20251021184502.GD19043@pendragon.ideasonboard.com>
- <CAMuHMdUU-2ugmA-VcRuYOsriUKtAEQXmWEwJSwuCsSTa3ySTZg@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=HUi+XlUbb35d06hnZhViwLcMwfk0ocWHRd++PmCU/Wkv60QJNWo/VZjxdAW3xYcsj+j96GLMfr1W5hg4zHdzXpPAMxSRK9m3iSJofyom5bBfioU2tU98aglZl+ppIatV9X4KYeLK5zZ2ssukfiyy90sE1Wa/ktG7AMfD3KYuAz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=NfiqOg+/; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=uaeh
+	pVOpUf/cS5+cRmy5O8nlh0SiDkHpiLE/Lc4/G3k=; b=NfiqOg+/Cg8RKkmcycE3
+	CHVR1V020X5xIQRnVa/mJrEdgWuF0MNIIqk/8lFWAISva0LOoOQg2BhIprjv1mV6
+	riOlmdmAWtMgVD+f+bAtQvb3v2/5u3xAKs92HpZQuCpWlVXwnL1xWH/3kFm6c1hv
+	Qnrr35FwH86g04JHAK+Wyf3U7HcWlZJWuTel9PUH8zoihBWiR1h9E/onAqmoxBdC
+	Pjhe8cbVZ4AIoHS+/mOVWMkZxI3wYmbAE94iyZjtX6eQmZ973nfi0TfWDFoM6THf
+	bM+2t8aojoXktOJsQ+KfzJONnieAJSHMYfAIbdP9lodmMcN3L+/coh14yoVRRojX
+	rQ==
+Received: (qmail 2145142 invoked from network); 23 Oct 2025 11:22:50 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 23 Oct 2025 11:22:50 +0200
+X-UD-Smtp-Session: l3s3148p1@Z84b+s9BYlptKPAY
+Date: Thu, 23 Oct 2025 11:22:49 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Bartosz Golaszewski <brgl@bgdev.pl>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	linux-renesas-soc@vger.kernel.org,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] reset: always include RESET_GPIO driver if
+ possible
+Message-ID: <aPnz6U-fcodRoobU@shikoro>
+References: <20251015205919.12678-4-wsa+renesas@sang-engineering.com>
+ <20251015205919.12678-6-wsa+renesas@sang-engineering.com>
+ <CAMuHMdXqHncXxBZ00mxV=pzdgQEU4ju2F9XMejnibbu=QnLfDg@mail.gmail.com>
+ <aPEAx8ZGHBcWZKJF@shikoro>
+ <CAMRc=McsbAirEYjoo455mbKU495VEvPmMEqBmZCq2hw113YHOg@mail.gmail.com>
+ <aPIfF-3SgzW5V_gs@shikoro>
+ <CAMRc=MfVPO292xmnXBWJzWuhNADA_u1yvpJ4kkK8TgZyQgaP+A@mail.gmail.com>
+ <aPInv9NELU7N9QDn@shikoro>
+ <CAMRc=MdWS2OSeJAkTRnAFMtXcVukwQ=JAWwJ3OHxogmgZnan6g@mail.gmail.com>
+ <5c9761d5a6a14d4c250df6cc4201bca72d963133.camel@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="mKofs96cu7kGmLt9"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdUU-2ugmA-VcRuYOsriUKtAEQXmWEwJSwuCsSTa3ySTZg@mail.gmail.com>
+In-Reply-To: <5c9761d5a6a14d4c250df6cc4201bca72d963133.camel@pengutronix.de>
 
-On Thu, Oct 23, 2025 at 10:20:41AM +0200, Geert Uytterhoeven wrote:
-> Hi Laurent,
-> 
-> On Tue, 21 Oct 2025 at 20:45, Laurent Pinchart
-> <laurent.pinchart@ideasonboard.com> wrote:
-> > On Tue, Oct 21, 2025 at 07:26:49PM +0100, Lad, Prabhakar wrote:
-> > > On Tue, Oct 21, 2025 at 11:26 AM Geert Uytterhoeven wrote:
-> > > > On Wed, 15 Oct 2025 at 21:26, Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> > > > > This patch series adds DU/DSI clocks and provides support for the
-> > > > > MIPI DSI interface on the RZ/V2H(P) SoC.
-> > > > >
-> > > > > v10->v11:
-> > > > > - Split CPG_PLL_CLK1_K/M/PDIV macro change into separate patch
-> > > > > - Updated rzv2h_cpg_plldsi_div_determine_rate()
-> > > > >   while iterating over the divider table
-> > > > > - Added Acked-by tag from Tomi for patch 2/7 and 3/7
-> > > > > - Added Reviewed-by tag from Geert for patch 2/7 and 3/7
-> > > >
-> > > > I think this series is ready for merging.
-> > >
-> > > \o/
-> > >
-> > > > > Lad Prabhakar (7):
-> > > > >   clk: renesas: rzv2h-cpg: Add instance field to struct pll
-> > > > >   clk: renesas: rzv2h-cpg: Use GENMASK for PLL fields
-> > > > >   clk: renesas: rzv2h-cpg: Add support for DSI clocks
-> > > > >   clk: renesas: r9a09g057: Add clock and reset entries for DSI and LCDC
-> > > > >   dt-bindings: display: bridge: renesas,dsi: Document RZ/V2H(P) and
-> > > > >     RZ/V2N
-> > > > >   drm: renesas: rz-du: mipi_dsi: Add LPCLK clock support
-> > > > >   drm: renesas: rz-du: mipi_dsi: Add support for RZ/V2H(P) SoC
-> > > >
-> > > > As this touches both clk and drm, let's discuss the merge strategy.
-> > > > My proposal:
-> > > >   1. I queue patches 1-3 in an immutable branch with a signed tag,
-> > > >      to be used as a base for the remaining patches,
-> > > >   2. I queue patch 4 on top of 1 in renesas-clk for v6.19,
-> > > >   3. The DRM people queue patches 5-7 on top of 1.
-> > > >
-> > > > Does that sound fine for you?
-> > > Sounds good to me.
-> > >
-> > > Biju/Tomi, are you OK with the above?
-> >
-> > The plan seems good to me. Note that you won't be able to push this
-> > yourself to drm-misc as committers are limited to pushing linear
-> > branches. We need an ack from the drm-misc maintainers, and one of them
-> 
-> Do you mean new commits must be in a single branch, or drm-misc
-> itself must be linear? In case of the former, 5-7 can be applied on top of
-> my immutable branch, without involving a merge?
 
-drm-misc must be linear, committers must rebase patches on the
-drm-misc-next branch before pushing.
+--mKofs96cu7kGmLt9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> > will need to merge the branch (either branch 1. as prepared by Geert, on
-> > top of which you can them push patches 5-7 yourself, or a branch you'll
-> > prepare on top of 1. with patches 5-7).
-> 
-> Note that another change to include/linux/clk/renesas.h,
-> and thus a dependency of drm on clk, is coming in
-> "[PATCH v3 0/2] Remove hard coded values for MIPI-DSI"
-> https://lore.kernel.org/20251022235903.1091453-1-chris.brandt@renesas.com
-> 
-> Would it be worthwhile to wait on/speed up review of the latter?
+Hi Philipp,
 
-Nobody will complain about reviews being sped up :-)
+> > > I dunno for how many drivers this is really applicable, but I really
+> > > liked the cleanup of the pca954x driver.
+>=20
+> That cleanup might have been a little premature, given that the reset-
+> gpio driver currently only works on OF-based platforms, and even there
+> only with gpio controllers with #gpio-cells =3D <2>.
 
--- 
-Regards,
+I see. That kind of spoils my assumption that it is a fallback supported
+by the core. Darn, I would still like to have it, but it seems more
+complicated than I have time for it :(
 
-Laurent Pinchart
+> How about selecting RESET_GPIO from I2C_MUX_PCA954x? It already depends
+> on GPIOLIB. Although I don't like the idea of drivers being converted
+> en masse, all selecting RESET_GPIO ...
+
+Well, on top of that, reset is optional with this driver, so selecting
+it doesn't feel proper.
+
+> To be honest, I don't like either very much.
+>=20
+> Yes, the reset-gpio driver is only about three pages in size, but
+> force-enabling it for nearly everyone, just because some hardware
+> designs like to share resets a little too much, feels wrong to me,
+> especially in its current state.
+
+I understand the argument of 'too limited in the current state'. I don't
+get the 'share too much' argument? The fallback would remove open-coded
+"reset-gpios" handling and sync it with generic reset handling?
+
+> And just default-enabling it doesn't solve the regression problem when
+> updating preexisting configs.
+
+Yes.
+
+Well, at least patch 1 seems okay, so users at least get notified of the
+problem...
+
+All the best,
+
+   Wolfram
+
+
+--mKofs96cu7kGmLt9
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmj58+UACgkQFA3kzBSg
+KbaifQ//Q3wcCTFzd3BHSUa+0++ku3/boJCNnTrasBVNJeGvrUsI0HblrxxqB+D0
+oSfi7y2UvH8DyeARLoBd6nKDZlE+KEbG0PEcZXSkkKlqrMpNpH9X0eWBLO3PCWBh
+zlI73MIirI3/PBDwi/5YPkkuynw5A7OgyGnxHy5xxj8obnIa70h5w/DpdSMNgSD8
+KaCVFhAHUb3hNNOW8IyQxgkYTijj0zFs2bbdj4Heat9v0dtsiuKKChY+RazaeBMM
+4u13pzuxyrTFSl3yQ6EDxZcmn3tkkZW+HTMBrhPFnmf1SNEpKGgGOEsGOraLqmhe
+lOqB2I+H43T9+IVhcTsFwAd0vRvQrz6sVYrYmicLJt1WzBf/6gFmaYtLSPCUo9ju
+zSvp1vEqqyaHdkAcjT/DDRtWljKxU59JXHSdeROKld+maRLUdHsmU8dJviutAfUB
+QhRw9mja7q3ahBsHoCBoSBdQ+Sb2UM6D1uLq+o6ugd7f+/1X8OFMXe358Ym+5QYT
+fbAqp5CddWDLVJNA/po2dFL6uTZu4+y+zjYLr+lb6AlNi04ppS5N9Xnliz3Duuul
+nHMwqgU0cVerXdjqecDeC2vTyJoG5fcDty75jR5RGAFYkBspQvSwLCCYN9cLt2CQ
+mNVWYKUmf2cidYWLAIhVrdLg/MxcIMA6XwLjhohdwEoZ8qHV7xk=
+=CZiO
+-----END PGP SIGNATURE-----
+
+--mKofs96cu7kGmLt9--
 
