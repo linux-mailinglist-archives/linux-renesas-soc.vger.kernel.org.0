@@ -1,128 +1,90 @@
-Return-Path: <linux-renesas-soc+bounces-23449-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23450-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C9FBBFEA1D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 02:00:01 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 469D5BFED14
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 03:13:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9FF431A05C14
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 00:00:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 174BA19A023F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 01:13:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DC612D5A0C;
-	Wed, 22 Oct 2025 23:59:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AC931D5174;
+	Thu, 23 Oct 2025 01:13:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t90ryWUD"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D3EB2F1FEC;
-	Wed, 22 Oct 2025 23:59:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF4E217A305;
+	Thu, 23 Oct 2025 01:13:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761177599; cv=none; b=Wrpve7cg/kpXMQQ3u6UQMUpx8dihlj5GSIJRppQFNcUoiIJWDdehlu3Ykip9/Z02PcGRS8brkyYje7yth1r3vxQ0WYjTlrwC61gL0do9J57M/NMTSQuT+5B5mKgMAfjU7yhXTU92h9XOzhLHAWjK7lqohmUOQy8GmodjgQFGHQY=
+	t=1761181986; cv=none; b=mBdLdQjzA0CHYI5wBnzAyNJE4Th6R//5d8yfsuLKQ6ua/k2Ak1mSPG/r2r/hZyDuEZsvuFvoohwGqjkPuYWLrXZHvP0Cp2BrHLGH1ZWlZLlBanzPozjtxAdQkC117k/Wr4sSMOoEfx9nCR9Ry9mLRYLORm43SS244UTASVug07g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761177599; c=relaxed/simple;
-	bh=gnJIvBFi7ZJJwNI/2XNu0t39DNmcGZE20tAkocMgY1s=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GrqshQ26mGm6nIic5Tf37dAdIzIAEqmbTxIWhPNOn1rpF3YP2G7Jr1Et0IkWjGeJ1gtlepyc4FPeqoHrCwjMqLGGVHUT7CDy/c6p4/oXvstHUnHdroUJI//xzbaEABknW98vNd0InoV1WNm6eFQ++4/JUQoalOoSaQh3qmf+NM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-X-CSE-ConnectionGUID: aqTRmPl1R0WZnHEVicak4w==
-X-CSE-MsgGUID: Y5BA4fmkSy2BKEfZ7Ud2rA==
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 23 Oct 2025 08:59:56 +0900
-Received: from lenovo-p330 (unknown [132.158.152.96])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id BBA3E4017D81;
-	Thu, 23 Oct 2025 08:59:52 +0900 (JST)
-From: Chris Brandt <chris.brandt@renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Hien Huynh <hien.huynh.px@renesas.com>,
-	Nghia Vo <nghia.vo.zn@renesas.com>,
-	Hugo Villeneuve <hugo@hugovil.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	Chris Brandt <chris.brandt@renesas.com>
-Subject: [PATCH v3 2/2] drm: renesas: rz-du: Set DSI divider based on target MIPI device
-Date: Wed, 22 Oct 2025 19:59:03 -0400
-Message-ID: <20251022235903.1091453-3-chris.brandt@renesas.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20251022235903.1091453-1-chris.brandt@renesas.com>
-References: <20251022235903.1091453-1-chris.brandt@renesas.com>
+	s=arc-20240116; t=1761181986; c=relaxed/simple;
+	bh=jd2RQXnIrWi/0UPAGodHVow/J7/N5lZwqIISJWkzUls=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=brdoRNgll7z/nk5p+N/zgEDr0e4hFD1YX0SXH4IL5xFRcZIWELY0gGkSju9mRJAcSlPJYAb3CVqWhDQA3EcxFZ3heo1M3lymgPI4d+vhBTuFr6G+Hnaq/43mWZSlj5E+X1AGp7ectFjoZ7v5mgt3hnm02Z1YkURk1dVnHIisdXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t90ryWUD; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9C58C4CEE7;
+	Thu, 23 Oct 2025 01:13:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761181985;
+	bh=jd2RQXnIrWi/0UPAGodHVow/J7/N5lZwqIISJWkzUls=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=t90ryWUDFgo0LESriCzY7nJDdQkw1zsv4O+AOoHLLyx+eNhQZiLYiuYFR16M3dZSZ
+	 xHWZEt/YY/MjnJ0xypJHjpyvGI5ao9PNccPkLtu73sx2Yzpm5Va4L0Z6w6oGdrdNcy
+	 Q9xGS5hpWKo40CDJG6ivcVrmgYb4/bLZeZu7MlrrYHJtnwu2crV7PC1fOJWQ8c0o69
+	 peOmPLZl/qvzKCBxm9khXMC8xTl9jd/2C7K3ZvblIlckjgmwKLJ3HCJtsacjB43Ahp
+	 iy3Y1sGPD64qBJJIXSI+2xXhFwNOg0ViN8+gf1pDI+/yhesx6dZ6J5Vqwv3S8UwzLJ
+	 KFWp/A9WPn+Kg==
+Date: Wed, 22 Oct 2025 18:13:03 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Niklas =?UTF-8?B?U8O2ZGVybHVuZA==?= <niklas.soderlund@ragnatech.se>,
+ Paul Barker <paul@pbarker.dev>, Andrew Lunn <andrew+netdev@lunn.ch>, "David
+ S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
+ Abeni <pabeni@redhat.com>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ Mitsuhiro Kimura <mitsuhiro.kimura.kc@renesas.com>, netdev@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, Biju Das
+ <biju.das.jz@bp.renesas.com>, Fabrizio Castro
+ <fabrizio.castro.jz@renesas.com>, Lad Prabhakar
+ <prabhakar.mahadev-lad.rj@bp.renesas.com>, stable@vger.kernel.org, Niklas
+ =?UTF-8?B?U8O2ZGVybHVuZA==?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: Re: [PATCH v2 1/4] net: ravb: Make DBAT entry count configurable
+ per-SoC
+Message-ID: <20251022181303.3dc4f41c@kernel.org>
+In-Reply-To: <20251017151830.171062-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20251017151830.171062-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	<20251017151830.171062-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Before the MIPI DSI clock source can be configured, the target divide
-ratio needs to be known.
+On Fri, 17 Oct 2025 16:18:27 +0100 Prabhakar wrote:
+> The number of CDARq (Current Descriptor Address Register) registers is not
+> fixed to 22 across all SoC variants. For example, the GBETH implementation
+> uses only two entries. Hardcoding the value leads to incorrect resource
+> allocation on such platforms.
 
-Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
-Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-Tested-by: Biju Das <biju.das.jz@bp.renesas.com>
+What is the user-visible problem? "Incorrect resource allocation" could
+mean anything from slight waste of system memory to the device falling
+over.
 
----
-v1->v2:
-- Add spaces around '/' in comments
-- Add target argument in new API
+If it's the former this is not a fix..
 
-v2->v3:
-- Add missing period in comment (Hugo)
-- Changed '1' to 'PLL5_TARGET_DSI' (Hugo)
-- Added Reviewed-by and Tested-by (Biju)
----
- .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
-
-diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-index 3b52dfc0ea1e..c9c5510bdd3e 100644
---- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-+++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-@@ -7,6 +7,7 @@
- 
- #include <linux/bitfield.h>
- #include <linux/clk.h>
-+#include <linux/clk/renesas.h>
- #include <linux/delay.h>
- #include <linux/dma-mapping.h>
- #include <linux/io.h>
-@@ -732,6 +733,24 @@ static int rzg2l_mipi_dsi_host_attach(struct mipi_dsi_host *host,
- 
- 	drm_bridge_add(&dsi->bridge);
- 
-+	/*
-+	 * Report required division ratio setting for the MIPI clock dividers.
-+	 * Assume the default clock source is FOUTPOSTDIV (PLL/2) being fed to the DSI-PHY, but also
-+	 * the DSI-PHY must be 16x the MIPI-DSI HS clock.
-+	 *
-+	 * pllclk / 2 = vclk * DSI divider
-+	 * pllclk = vclk * DSI divider * 2
-+	 *
-+	 * hsclk = (vclk * DSI divider * 2) / 16
-+	 *
-+	 * vclk * bpp = hsclk * 8 * num_lanes
-+	 * vclk * bpp = ((vclk * DSI divider * 2) / 16) * 8 * num_lanes
-+	 *   which simplifies to...
-+	 * DSI divider = bpp / num_lanes
-+	 */
-+	rzg2l_cpg_dsi_div_set_divider(mipi_dsi_pixel_format_to_bpp(dsi->format) / dsi->lanes,
-+				      PLL5_TARGET_DSI);
-+
- 	return 0;
- }
- 
--- 
-2.50.1
-
+> Pass the DBAT entry count through the per-SoC hardware info struct and use
+> it during probe instead of relying on a fixed constant. This ensures
+> correct descriptor table sizing and initialization across different SoCs.
+> 
+> Fixes: feab85c7ccea ("ravb: Add support for RZ/G2L SoC")
+> Cc: stable@vger.kernel.org
 
