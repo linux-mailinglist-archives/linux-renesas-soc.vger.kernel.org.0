@@ -1,129 +1,153 @@
-Return-Path: <linux-renesas-soc+bounces-23461-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23462-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4575BFFBD0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 09:56:33 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5040BFFC1C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 10:00:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 94A663A9162
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 07:56:16 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 93BDA4EFDF5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 08:00:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D51482E1EF8;
-	Thu, 23 Oct 2025 07:55:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A70AD2E764E;
+	Thu, 23 Oct 2025 08:00:37 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53])
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 085582E0411
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 07:55:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08F942E6CA1
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 08:00:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761206139; cv=none; b=jbj5ILk+VyLjSFcisQpFEHsgnLJrjphXL+CqIaQp0XZABP29t13/fIB2GPe5PW4WeN4JG77wi4RnWK0S1GyKf1hZSbAEgRGOGNDwJKQyWD102mJHqbCcAFxyR8oOr0lcIg/9kxPXxaLDhkSTkEAi35XfDoJIJuRcADRZAORq0ak=
+	t=1761206437; cv=none; b=t/zi9Q5qssAyxyjXi67o3DxjV5v4T6xIuKO4QxQLKW7sLX6VTfpRbMjQr1O1B9lBuld39OMqHmjtWpgYxw6/cCzCG+4qKU5lDA4YSimTmDZw622QJOE0R/p65KxenfKIH6zs1C9we80kuTXiKxfQeHa4YCm2ng4cKwYWcMpXCrc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761206139; c=relaxed/simple;
-	bh=+fB56hRZm4s/9A94T+9AsJSw3DZkXg6RPZ3NqE6zskM=;
+	s=arc-20240116; t=1761206437; c=relaxed/simple;
+	bh=KpSaMjSEZziIYn4V8EA3oAQHYYGym/G8ks3Kmoko+Q4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AU/uOiWrLaLr0D9iFBzaDAhiXie68WIHqtpr2yEiaW06quQ39jEfJB1R3YMM8CC9h3mtO4vW9nSNn9Jk7BaCxBXEmJUDctDqqDw4ote8VL+yfPXSRLAxgSgpUnNYRX4ZirAsZPCAa4PWeWiHyDy8sWI3ZM5f4cwaNEIKq2BpUkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.53
+	 To:Cc:Content-Type; b=hbOyhwOGN5xt5ifho9x6T9GpHo/L2l6MQdMZ9V6feViZGy/VTGgZK6pfPpo8IeOEvJoHxmkOoBKGLwESWagZ/fQnfN5T2x4NBDUJcxJEolfXzCt9G3nMF7YZi1DwdGPy3emm/ls+5X+IS1GWrt82+xTOdINLQUW1zdYF+usGvbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-932e885467cso411091241.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 00:55:37 -0700 (PDT)
+Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-54aa4b86b09so254832e0c.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 01:00:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761206137; x=1761810937;
+        d=1e100.net; s=20230601; t=1761206435; x=1761811235;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=e1VWeQnGLaqOMfwGg5f7EVJzLAyxDuT3Je9LnDxvdps=;
-        b=cqWgeplmu+bqWEGaYDWxz9BjsKS9M7ZRqYjZFJC0Ndg1FOCVU2K+JVShCcxER+JmPj
-         Ui0HdyJyVf8N2f3vfOqeXvTip5qGwYkhppmqb2zkvZAbmPcEOZtz62lTR6JFhS+H1BYd
-         msivt8MG6Ddqhew/Ih3dgAQMMdJjLKJIUe/fz9SFtAYZDSP5I4HpUtmn5ILYbG89/yd3
-         amQAaphlRucBbZ/RGCSSoI9SCh9fKvFwS0HxfuCzATJfxXFLD0l27T74zPbWK9YXL/sL
-         aJmiNRQZttK+UuU48EHu5bpP3Rs9S8xpvzo3dnH3cL6w6yXYQpdFFZEyarFY5XG7pj4m
-         BzxA==
-X-Forwarded-Encrypted: i=1; AJvYcCW1gUdv8CVyp1OhNt/eg/Jls1+2mB0AdsCROtsaw5n8eILvBXDNe7qygCNEd1FR3ZP3DymMqAl+HZDfB4VV1cDS2w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzLUz7Kirl6diHtoLI9A3TrXDINjV9erZ9oa9Jb2RLAWfKpqZ1z
-	iniyedj2bg9YEwtojog6p2+0VL5MeIXqFIwhgOfirQ8z2eyUXHWYveeOC6lTfuM9
-X-Gm-Gg: ASbGncujjLtSpQjM7mjE7f+XTq50CTYtRPc1C13wcCzRvQ4XsA2bh7yNZIsjsifGi7h
-	QsSkkuOBg5Za6cWf2KEhX9dv+4eRRQJbaxv9Yi51wwodsDV/61zSYTttiZSjmiAXFehZOIwp1qm
-	ylhbUNKbxRYabkhsPl3PLtfHp/0/U4KGY0fp5uLX7N+gBL5XxwxrXqagxY0uTJi/PCp+ejOvtuO
-	1eyGDvFVMPDo1drTKHuFXVOVyeGgk2SMHwamMkx5BS54ZChfmHUbo+SCmP93dxwufnUHb/k8SKU
-	RQNzEBl1JBn5AR99cLbgl83nuoCANbAGVyzP+/ndXVC1PDuOxfrBOHMbZlzbkgo/1hy26hfPFtE
-	3xb5PyWaHD7G/U3TQAujbHRRRjLH273mpcguXA6301WWqskWw3NAYHBe4LldD0kcawcNFKdT67v
-	vwyudW6HTjDtXRRUl2ldDjLZ/bjLTc/nICoN/Z5A==
-X-Google-Smtp-Source: AGHT+IFwJ7Lz3ny27DqJg9GHYfXZvkIeXPaI2IMFVuS+IGcERe8B+f0gPtSiekNH4JV+pL4N5TdNhg==
-X-Received: by 2002:a05:6102:c08:b0:5db:2917:3652 with SMTP id ada2fe7eead31-5db29173f2emr1194175137.35.1761206136669;
-        Thu, 23 Oct 2025 00:55:36 -0700 (PDT)
+        bh=XF9ym20BXQJuQdpG7CWrlv8nMa2KXEsJ8BzTyt5Bosk=;
+        b=K2nfM3VuKm0b+oU0sZr/gtEOXMXsJebFLagQOfTD0DPhrYRThxh4GhofMtfTh21Tsm
+         a63D+DSFEubLSoKnzAqrys/kQaMA3vYU+6GhzvQTqII4WFBf7p8y+kc7Q5TJOl090LDM
+         r48k3u13QHAN9Sp6trY+wT1rWBluoKn/zbjecsScIFO7fZFkQ0Yx25H77AmA7iJx34my
+         4Juz7qwybcmUpRdiKHfpw4UzK9r+nnLlL97yzWiZA6yUYdpB2s7hwxVKoM7hX2gzVyzQ
+         qP0X+bzb50J5dLhdpoe1pn8pL6H8/Fwn7qBZa5/csyhl24SLbvmXf8ylOzw/U5dg3RA7
+         XDrw==
+X-Forwarded-Encrypted: i=1; AJvYcCXbTR4JfChoNr/2hde/+rwPm8zgtBufLsK/zppxHQS+94anMqg+GecdxYJsbw2mqBneoqmC21PL6WpR574pybcduw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+ElkDpfCKx1Gp/ZNQC2K7mER4msHb80OYP1DI/ZrSQqRTbBaa
+	3T/xijyWSs5ADEciLdDafO/DxeI6+JJGLIS0BXDvMTDzb383e8q1xqsa3k/QOpeZ
+X-Gm-Gg: ASbGncspMptG4u11sjen3kEEq8TB3ohmYGekOEXzL5J36tVnNPDRyZ1URlj8YYW08L6
+	jcDYd8saB4A2IKoQu1QXZ1qF5DqXeg/RnfO+qPDyQFOZWD+MhdiX7ZcBJ5wDg9KK9KuG53Ulrod
+	b33jMO9Jde5+jORIW3HOvX67nHGjA/jh+TMrwo6JjWVkt9Kj/KlVfJYGjejf5yIhJbhajnScCho
+	L3/sMy+qeK9K4XkAlCr4pN+xh8Zdoo8rv0q/NpiX2u4FDSTAhGqeV8BRksJnqlzlblATubzLQYI
+	iqohkMja8HbM8WOQF7rglZvJ0ooORSp4MIjfCPCZ6p66I/flAteOJZmVbS0JHWDwXzTE4WgXDjb
+	Q9vofXf+wchkq6tdrVeaB5akVRA0rQf8F61qptGZ5z+cKpSxf04gePCTM9DiNjophOXQlcdMG6v
+	rn5KPUjMLe50RmOt+u+Crq5tE+zMPprlPJqmlArknlmg5jlFco9KhImwiP0S0=
+X-Google-Smtp-Source: AGHT+IFuG/DplVZ1PiZkHRqNY3B+01e9m8yzp4T4IUP8iJJ1L6+O52IYHNDaivaAndhqaZowS/tBXQ==
+X-Received: by 2002:a05:6122:2008:b0:557:c3b1:a28a with SMTP id 71dfb90a1353d-557c3b1a746mr93519e0c.5.1761206434663;
+        Thu, 23 Oct 2025 01:00:34 -0700 (PDT)
 Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com. [209.85.217.46])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5db2c7c995asm631451137.5.2025.10.23.00.55.36
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-557bd8c4f15sm546118e0c.8.2025.10.23.01.00.33
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Oct 2025 00:55:36 -0700 (PDT)
-Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-5d28f9b4c8cso545102137.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 00:55:36 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVrgGkm1YHtDQj62i3e41IWOpp+QV2gvQ49SE+I5xOE83c1+xamThukJPAgheDcwf9QvdY9j+DfXXVLvAWu8Lm0iw==@vger.kernel.org
-X-Received: by 2002:a05:6102:38cb:b0:5db:337d:65c6 with SMTP id
- ada2fe7eead31-5db337d6988mr173700137.23.1761206136224; Thu, 23 Oct 2025
- 00:55:36 -0700 (PDT)
+        Thu, 23 Oct 2025 01:00:34 -0700 (PDT)
+Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-5db1e29eed0so202531137.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 01:00:33 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVf5HOlcMvJy94H4ZB5lG/DmSjfNsTePUXZNucNVUMKSCEz0kwE2nrFiWN/KgeD4wDY4wS6Ik0/Ftwsq9QD6TX8sw==@vger.kernel.org
+X-Received: by 2002:a05:6102:32d3:b0:5d5:f40a:4cf1 with SMTP id
+ ada2fe7eead31-5d7dd6a4e59mr6656672137.24.1761206432910; Thu, 23 Oct 2025
+ 01:00:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251007133657.390523-3-claudiu.beznea.uj@bp.renesas.com> <20251022194939.GA1223383@bhelgaas>
-In-Reply-To: <20251022194939.GA1223383@bhelgaas>
+References: <20251007133657.390523-1-claudiu.beznea.uj@bp.renesas.com> <20251007133657.390523-3-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20251007133657.390523-3-claudiu.beznea.uj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 23 Oct 2025 09:55:25 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVLXd-eVX0UBPYtrzVPbA6VkdD1rHBAWMKgrYKE+Aa2bw@mail.gmail.com>
-X-Gm-Features: AS18NWCwdsxUw7zogPqVrxEDzYqaWGHMFOcHzYZ5pvVfO4qa6VaOrBUa-VfGcUI
-Message-ID: <CAMuHMdVLXd-eVX0UBPYtrzVPbA6VkdD1rHBAWMKgrYKE+Aa2bw@mail.gmail.com>
+Date: Thu, 23 Oct 2025 10:00:21 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXF14x68Wk5YdOBS2D2N6LtnQjfGzrsMdSJegX-gc3faQ@mail.gmail.com>
+X-Gm-Features: AS18NWB9_OOBrClG3W5gj81JVaeCg1e2FLiq_rBpovw0Id2oH40EKE5zSy4p5SM
+Message-ID: <CAMuHMdXF14x68Wk5YdOBS2D2N6LtnQjfGzrsMdSJegX-gc3faQ@mail.gmail.com>
 Subject: Re: [PATCH v5 2/6] PCI: rzg3s-host: Add Renesas RZ/G3S SoC host driver
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Claudiu <claudiu.beznea@tuxon.dev>, lpieralisi@kernel.org, kwilczynski@kernel.org, 
-	mani@kernel.org, robh@kernel.org, bhelgaas@google.com, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, magnus.damm@gmail.com, p.zabel@pengutronix.de, 
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: lpieralisi@kernel.org, kwilczynski@kernel.org, mani@kernel.org, 
+	robh@kernel.org, bhelgaas@google.com, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	geert+renesas@glider.be, magnus.damm@gmail.com, p.zabel@pengutronix.de, 
 	linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
 	Wolfram Sang <wsa+renesas@sang-engineering.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Bjorn,
+Hi Claudiu,
 
-On Wed, 22 Oct 2025 at 21:49, Bjorn Helgaas <helgaas@kernel.org> wrote:
-> On Tue, Oct 07, 2025 at 04:36:53PM +0300, Claudiu wrote:
-> > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >
-> > The Renesas RZ/G3S features a PCIe IP that complies with the PCI Express
-> > Base Specification 4.0 and supports speeds of up to 5 GT/s. It functions
-> > only as a root complex, with a single-lane (x1) configuration. The
-> > controller includes Type 1 configuration registers, as well as IP
-> > specific registers (called AXI registers) required for various adjustments.
-
-> > +++ b/drivers/pci/controller/pcie-rzg3s-host.c
+On Tue, 7 Oct 2025 at 15:37, Claudiu <claudiu.beznea@tuxon.dev> wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 >
-> > +#define RZG3S_PCI_MSIRCVWMSKL                        0x108
-> > +#define RZG3S_PCI_MSIRCVWMSKL_MASK           GENMASK(31, 2)
+> The Renesas RZ/G3S features a PCIe IP that complies with the PCI Express
+> Base Specification 4.0 and supports speeds of up to 5 GT/s. It functions
+> only as a root complex, with a single-lane (x1) configuration. The
+> controller includes Type 1 configuration registers, as well as IP
+> specific registers (called AXI registers) required for various adjustments.
 >
-> Unfortunate to have to add _MASK here when none of the other GENMASKs
-
-Actually the unused RZG3S_PCI_MSIRCVWMSKU below would
-need one, too:
-
-    #define RZG3S_PCI_MSIRCVWMSKU_MASK   GENMASK(30, 0)
-
-> need it.  Can't think of a better name though.
-
-MASK is a good name, as the register bits actually specify (part of) the
-window mask.
-
+> Hardware manual can be downloaded from the address in the "Link" section.
+> The following steps should be followed to access the manual:
+> 1/ Click the "User Manual" button
+> 2/ Click "Confirm"; this will start downloading an archive
+> 3/ Open the downloaded archive
+> 4/ Navigate to r01uh1014ej*-rzg3s-users-manual-hardware -> Deliverables
+> 5/ Open the file r01uh1014ej*-rzg3s.pdf
 >
-> > +#define RZG3S_PCI_MSIRCVWMSKU                        0x10c
->
-> Unused.
+> Link: https://www.renesas.com/en/products/rz-g3s?queryID=695cc067c2d89e3f271d43656ede4d12
+> Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+
+Thanks for your patch!
+
+> --- /dev/null
+> +++ b/drivers/pci/controller/pcie-rzg3s-host.c
+
+> +static void rzg3s_pcie_irq_compose_msi_msg(struct irq_data *data,
+> +                                          struct msi_msg *msg)
+> +{
+> +       struct rzg3s_pcie_msi *msi = irq_data_get_irq_chip_data(data);
+> +       struct rzg3s_pcie_host *host = rzg3s_msi_to_host(msi);
+> +       u32 drop_mask = RZG3S_PCI_MSIRCVWADRL_ENA |
+> +                       RZG3S_PCI_MSIRCVWADRL_MSG_DATA_ENA;
+
+This should include bit 2 (which is hardwired to zero (for now)),
+so I think you better add
+
+    #define RZG3S_PCI_MSIRCVWADRL_ADDR  GENMASK(31, 3)
+
+> +       u32 lo, hi;
+> +
+> +       /*
+> +        * Enable and msg data enable bits are part of the address lo. Drop
+> +        * them.
+> +        */
+> +       lo = readl_relaxed(host->axi + RZG3S_PCI_MSIRCVWADRL) & ~drop_mask;
+
+... and use FIELD_GET() with the new definition here.
+
+> +       hi = readl_relaxed(host->axi + RZG3S_PCI_MSIRCVWADRU);
+> +
+> +       msg->address_lo = lo;
+> +       msg->address_hi = hi;
+> +       msg->data = data->hwirq;
+> +}
 
 Gr{oetje,eeting}s,
 
