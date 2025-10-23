@@ -1,77 +1,79 @@
-Return-Path: <linux-renesas-soc+bounces-23513-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23514-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFECBC01A21
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 16:06:17 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF11AC01A96
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 16:11:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E13885644E8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 13:58:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B63013AE57A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 13:58:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07EA8319848;
-	Thu, 23 Oct 2025 13:58:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7039431AF22;
+	Thu, 23 Oct 2025 13:58:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="Bc8m/GIH"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="pg1y0IDU"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88CFE313E04
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 13:58:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8969D2FD69D
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 13:58:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761227907; cv=none; b=dIJhRwrNVs4AxPcX6Lwtc6DLX0M9EAZzl/j7cV1RqfmHjwsgRhrS2XjO54u2ldPaOpXNV/pS2+L4E+hdu/FbY0EwhrN6oJ+QkWJxiTCN3yLUtaN1WZa1hQTPLGoCXfiXWRdm25+VDQUY3SQ+xn/i3UyicYi0XrFhRV1wBZ0Fgz4=
+	t=1761227909; cv=none; b=fzferNSZ/CjsZi9HNTJ7VvRVCzf7jpZQjK0Q2MSaSdFR3zHnvJOcVvz26EkbPEMvG2H3Zd6zXo0jdHLVo/7M/X2TkUSBemMZh+Us+FUdLIDDE0Rn7cfSVMMGgUWUb+AebuZTPQSY8UBOHp621lNlMTTVJXD5j093grLEAF/p4EA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761227907; c=relaxed/simple;
-	bh=g6CVHaLMWorkE5f1oYDzlb1AnPkj/bZHP6uxaos3Agw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Q3nJ/gf3R82G7Y3jLdfi6vlXnnnqe2XL2lMcNiBI8YAXcaD/kZbjE9VYH6QbYdbAhLSZ4Vs2mUtuhZjDiLPKyC/T9DB3LUFRfNcHq0uVCRFuyQcgPQE9skGnJgnn7ZkYrWhRE67qmy/+LWKtdudZmR+v1RupaVNgzjzP1tkOctA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=Bc8m/GIH; arc=none smtp.client-ip=209.85.218.52
+	s=arc-20240116; t=1761227909; c=relaxed/simple;
+	bh=/jPm6jH+d13noCe9SKn4mrnwnuDsNjdGPU/d9Ul9H6k=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=kjDvk5HOzaxXxP5F3Hc0FS8UHKzysT2c0mWreb3gwjmRz3tNkBtH6mZYJxwW/i23COzAHLQfwBoFbsTpYEA1EW9RF8PyDmw6LWjN8en2bCIuGr6GZIbjKDl0+zSO4/mRWiHOKNarn48KLWX/KPKkFel4rdMaFkl/IyU15bf5UDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=pg1y0IDU; arc=none smtp.client-ip=209.85.218.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b457d93c155so180286666b.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 06:58:25 -0700 (PDT)
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-b6d3340dc2aso101252166b.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 06:58:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1761227904; x=1761832704; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=k+CJA/yttcEWE329t4x7y0QQYUGKS/VYwA6kfJw1v8Y=;
-        b=Bc8m/GIHnwyfAe05Dp6YyE2KakhhboVIynG6z+RIURwWiOXcvbE8rYAdlo1hRdXqIg
-         gR0+3tSqTIi8Qhv5GYNxjcZ8LBiyNDbCsFyP874p1LMusTpibwVyKwlKPQZ8lKXe9ZCS
-         NeZkvxA7H0w9x03m4jkI7weTPiQIwo5pDs357+6EeO/dEU9hNWdXv7AbR99uFhyzYOpk
-         b2Ri5TV7M/aPhtUpqqw/xRcGW+3RDqKmMJt55aNIw08Vut5SS/Pv7LYOafMlcU4O8AaE
-         ySLwUC+MZOK6Sz+mQQYUaSmC8P25Wt8yxacORWaFtXeHobxvlGAA5Okd7bUtX8ICABq8
-         gJbw==
+        d=tuxon.dev; s=google; t=1761227906; x=1761832706; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mcs7Y+EttDztrEgb0m4AiPh1csnrxylUuqHzrjAxJgY=;
+        b=pg1y0IDU42Q63ySQjK8xYqBMTr+J+75fH3VLzWrgauSbvcV1Nm62SDXq8SKumILzks
+         WE3K3r/8FdZpx0Tc9Ojiob8wqG1jKbKpPdeleKKo72e+zWH4KQg+nbGkeIxXyg4Xmejm
+         tTfGubpGPwBOdLRttoVKOfy4M4iDUcRpeoCYc84Gu3KTyLw/i0pJTzGR3Au60Kn4mDv+
+         VfsZUy3nxn4wdcUj2UmU0e4NSKhPvb/vsZdVS+D4ANWNzCdUaF/rsOww/dTyp3Dyx6Yi
+         vbnvAD4dLAfavtq6mJJA5chHn7QWiJQB7rvsOmfpixshc01bU5hOZmSVfhene/SNLpCF
+         1fPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761227904; x=1761832704;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=k+CJA/yttcEWE329t4x7y0QQYUGKS/VYwA6kfJw1v8Y=;
-        b=p2y8XvtsWvwF/gGEDI/yR2trfFTtWz6TPmtAoJbDbTHawoE3pNAd5LdnRvM8+eZ5TB
-         t4Rbdwpp5sXfWX6yPb3p2aLIVgyy8FJVoc7G2rrjPdfmzM7Z3JZqe7ZMGec7ukmOBYli
-         zemycwFgTSEJL0N2xratBoTUFlD4MqNGOzvZ0Klm347iYykJ+bmvlVsZdctem9DjWhsG
-         LPTugM72lUz4qEBzJnDm3jbqjL6O6y/pIN218CcpQK+WsWoQyAte27bU9mQVupyGcFMi
-         +97QUNCnLt9B7f2h7LORMASWnb11wdp90U0xCD/XBiIUmqGuR4XgRmbMV4pIF/rFgUEI
-         ZxFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUuCYm9zZWWgp0rtBTSVsZVqvVQb7bVsadfWu66nBf0Vis7pQJFrVSnOAkeToL/FD3WLnEgtuZyIYwn+rsnPsMbzA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwzNN0fFwvC3yeS19H2gv1GIVZDzhwCkVVbztbe9aeOJfzLA5gC
-	c9GflYC/Eues0xGsvBmYGr6QYHQqry8mNTBF2OefR9hwdxQ1j7K7hxahTicVGlcg9Sg=
-X-Gm-Gg: ASbGncsVsWuomgMxD6nCys+f2qDmw/w7YnzDuFdnJfEEW6ZsMofW8nQUa7x5WY5jFJT
-	k5Ub0rR+atbejhJBT+qLZcBJQkciflmh8GwP9oB4r4gVPkNd2PU8a/CczN9R26Pn9t+AGHKGmzS
-	rsGjcXY3owoKEbVDG43xTKdXuhArSA3oIeglzQwM7DPPsjP6upDronboQinm5MdXLwriWVwYYsR
-	L/FDpocOUNwXdiVN2c3MlHE88VxoA17tiWy83dj/qLwfDXJNhkj3De8TRHadspw5vVppr0pp3jV
-	+G4BBlAumHzzI7KXCZTK5Ur3UHrttwxmS4T2pacBQ4AYstnLxw9xpmoVwpakn7z+qHA4cieJXUA
-	4T/UIDm0AeJpzPJDWbzN7E8fBpUdu8zAXoyiEtz0nq9rj98sglh7njnQW4g4GIO3J9mnq5IsAjq
-	V1wJu1F4JGjqEw2Q6eZIM+zDJ+E4fs1JeHwqyisEXi
-X-Google-Smtp-Source: AGHT+IE0HOq8wtrB6PmzEqA/w7kF+MiVvfd/RggY6M/Zy5oz6h4QHBB/DlWWt/YaXvmWMvKZptSp0Q==
-X-Received: by 2002:a17:907:9622:b0:b6d:55ee:506d with SMTP id a640c23a62f3a-b6d55ee5232mr231552866b.65.1761227902719;
-        Thu, 23 Oct 2025 06:58:22 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1761227906; x=1761832706;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mcs7Y+EttDztrEgb0m4AiPh1csnrxylUuqHzrjAxJgY=;
+        b=j+ufuetff3tjh1WaXFBQqTNgdmk2rca5IObYdhUQvdCr6xHYQylVwn0vDUxHzVUfb/
+         tanrItQad4VXeaBlVFCffn5UwOOz+waGhaHlvZRBc4+kuSC31pSeWAJyYQUTZBKTkP/T
+         mr8CbR+3JF/qMu3/fO6Y6EqMxSNBhc24/f/23NrV2ZTUCVyhZ1xuPtyRlkvI5mkJI9eG
+         QA9lSiiB83rZTEfV+eMY9UYYaLHQpBIP4zVxbinpa3sKQTIhbKzWA/MXRu+/g6+OFi4I
+         +tSj31tEez+1L5NO3hXMC7ILk5FE4L1NfzRM+txOtt0mh7M5/g7FgoUmjxhTZpjUDhnb
+         ferg==
+X-Forwarded-Encrypted: i=1; AJvYcCVv5gJmDUlM+O5elQkCjhEcLsbxMY2aqXIFB5Br+aCEuVsqGWvx4iVNr6a7i1I6hP/I/NL5lvuIXEtyx+bD6hmS1w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDi9LtFipFzLqksV0FqsAe1pw9o0D0ccUzznT6ej0TGL7D9zKM
+	DIpQ5LfNZJhf0Jwhczmd/ogtbpm6TliD1+sWif2N32Je4UqcmCTK6xt2DECryHjxiFI=
+X-Gm-Gg: ASbGncsbARboWOEmnGQNfWhSYbq8XH8Bkqkd6SXFal2oauLiqsqOnimsWoNJeMoBmY/
+	GvILyFDm+ta1yq2pUjYK66Nd2QxqQeuJzuYAMbWbnGGrcbSgXz9odGkwcZMP2I6i2Yu6N7UBaTy
+	/Hi2yLqn98GtDng4QSmN6uSiiUrKd58hOI8r5YJt8HwFGPmlwPdSK5bzxZ4cg9rI8MxLFEVpPRd
+	xZ8b5r3ErX+KscCmRUEnAg/Thued8Ow+wIVN77BgPGVyA5csIxYId4kU+zzV/6CYg4zacGEtub9
+	A2B0QiiuYOMd9zkTESYcesClM1bcRXZ4hE2JBolGKvzacrgmDpTQ8D6IhezeVawAJbukfdYEx8N
+	CR1s6Kw6AZAqR70lAJ3sx+wodyx7rsIeD6gZ3K7ekwKe5VzZxPUxa7Ktx47glmbGMqErd/L0y/W
+	hr8wR/SG4Q2wUU5vwt5R8a/c1UjKXS0AHDaaWF+bF/
+X-Google-Smtp-Source: AGHT+IErl4KxFsPoyMcgmYdHQ18H8eQgx+LzGITPImiQSgQDh6xe3/IOiWXni9Y5LKEyJSLxqP3qGQ==
+X-Received: by 2002:a17:907:72c4:b0:b29:57b0:617f with SMTP id a640c23a62f3a-b6d2c6df653mr921330166b.1.1761227905751;
+        Thu, 23 Oct 2025 06:58:25 -0700 (PDT)
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.151])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b6d511f8634sm226114066b.29.2025.10.23.06.58.21
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b6d511f8634sm226114066b.29.2025.10.23.06.58.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Oct 2025 06:58:22 -0700 (PDT)
+        Thu, 23 Oct 2025 06:58:24 -0700 (PDT)
 From: Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To: vkoul@kernel.org,
@@ -89,178 +91,72 @@ Cc: claudiu.beznea@tuxon.dev,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH v8 0/7] Add initial USB support for the Renesas RZ/G3S SoC
-Date: Thu, 23 Oct 2025 16:58:03 +0300
-Message-ID: <20251023135810.1688415-1-claudiu.beznea.uj@bp.renesas.com>
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: [PATCH v8 1/7] dt-bindings: phy: renesas,usb2-phy: Mark resets as required for RZ/G3S
+Date: Thu, 23 Oct 2025 16:58:04 +0300
+Message-ID: <20251023135810.1688415-2-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20251023135810.1688415-1-claudiu.beznea.uj@bp.renesas.com>
+References: <20251023135810.1688415-1-claudiu.beznea.uj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Hi,
+The reset lines are mandatory for the Renesas RZ/G3S platform and must be
+explicitly defined in device tree.
 
-Series adds initial USB support for the Renesas RZ/G3S SoC.
-
-Series is split as follows:
-- patches 1-2/7		- fixes on bindings and driver for USB PHY
-- patches 3-5/7		- updates the rzg2l-usbphy-ctrl driver and documentation
-			  with support for setting PWRRDY though SYSC
-- patches 6-7/7		- add device tree support
-
-Merge strategy, if any:
-- patches 1-2/7 can go through the PHY tree
-- patches 3-5/7 can go through the reset tree
-- patches 6-7/7 can go through Renesas tree
-
-Thank you,
-Claudiu Beznea
+Fixes: f3c849855114 ("dt-bindings: phy: renesas,usb2-phy: Document RZ/G3S phy bindings")
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+---
 
 Changes in v8:
-- use regmap_field in patch 4/7; as a result of this the support was
-  simplified
-- per-patch changes are described in each individual patch
+- none
 
 Changes in v7:
-- used proper regmap update value for PWRRDY
-- collected tags
-- dropped Tb tags from dt-bindings
+- dropped Tb tag as it was reported that it is not valid on bindings
 
 Changes in v6:
-- in patch 2/7 dropped the struct rcar_gen3_chan::rstc as it is not
-  used anymore
-- in patch 4/7 used syscon_regmap_lookup_by_phandle_args()
 - collected tags
 
 Changes in v5:
-- dropped patch "soc: renesas: rz-sysc: Add syscon/regmap support" as it
-  already modified and pubished also at [2] with the latest review comments
-  addressed
-- fixed the documentation
+- none
 
 Changes in v4:
-- replaced "renesas,sysc-signals" DT property with "renesas,sysc-pwrrdy"
-- dropped the "renesas,sysc-signals" property from USB PHY (as proposed
-  in v3) and let only the USB PHY CTRL driver to handle it as on RZ/G3S
-  the USB PHY CTRL driver needs to be probed before any other USB driver
-- dropped the signal abstraction from SYSC driver as there is no need
-  for reference counting it now
-- adjusted the "soc: renesas: rz-sysc: Add syscon/regmap support" to
-  comply with the latest review comments
+- none
 
 Changes in v3:
-- as the basics of the SYSC driver was integrated, only the signal support
-  was preserved in this series, in a separate patch; patch 01/12 was
-  adjusted (by addressing the review comments received at [1]) as it is
-  necessary to build the signal support on top of it
-- after long discussions with the internal HW team it has been confirmed
-  that the relation b/w individual USB specific HW blocks and signals
-  is like:
-
-                                   ┌──────────────────────────────┐
-                                   │                              │◄── CPG_CLKON_USB.CLK0_ON
-                                   │     USB CH0                  │
-    ┌──────────────────────────┐   │┌───────────────────────────┐ │◄── CPG_CLKON_USB.CLK2_ON
-    │                 ┌────────┐   ││host controller registers  │ │
-    │                 │        │   ││function controller registers│
-    │                 │ PHY0   │◄──┤└───────────────────────────┘ │
-    │     USB PHY     │        │   └────────────▲─────────────────┘
-    │                 └────────┘                │
-    │                          │    CPG_BUS_PERI_COM_MSTOP.MSTOP{6, 5}_ON
-    │┌──────────────┐ ┌────────┐
-    ││USBPHY control│ │        │
-    ││  registers   │ │ PHY1   │   ┌──────────────────────────────┐
-    │└──────────────┘ │        │◄──┤     USB CH1                  │
-    │                 └────────┘   │┌───────────────────────────┐ │◄── CPG_CLKON_USB.CLK1_ON
-    └─▲───────▲─────────▲──────┘   ││ host controller registers │ │
-      │       │         │          │└───────────────────────────┘ │
-      │       │         │          └────────────▲─────────────────┘
-      │       │         │                       │
-      │       │         │           CPG_BUS_PERI_COM_MSTOP.MSTOP7_ON
-      │PWRRDY │         │
-      │       │   CPG_CLK_ON_USB.CLK3_ON
-      │       │
-      │  CPG_BUS_PERI_COM_MSTOP.MSTOP4_ON
-      │
-    ┌────┐
-    │SYSC│
-    └────┘
-
-  where:
-  - CPG_CLKON_USB.CLK.CLKX_ON is the register bit controlling the clock X
-      of different USB blocks, X in {0, 1, 2, 3}
-  - CPG_BUS_PERI_COM_MSTOP.MSTOPX_ON is the register bit controlling the
-    MSTOP of different USB blocks, X in {4, 5, 6, 7}
-  - USB PHY is the USB PHY block exposing 2 ports, port0 and port1, used
-    by the USB CH0, USB CH1
-  - SYSC is the system controller block controlling the PWRRDY signal
-  - USB CHx are individual USB block with host and function capabilities
-    (USB CH0 have both host and function capabilities, USB CH1 has only
-    host capabilities)
-
-  Due to this, the PWRRDY signal was also passed to the reset-rzg2l-usbphy-ctrl
-  reset driver (as it controls the USBPHY control registers) and these
-  are in the USB PHY block controlled by PWRRDY signal.
-
-  The PWRRDY signal need to be de-asserted on probe before enabling the module
-  clocks and the module MSTOP. To avoid any violation of this configuration
-  sequence, the PWRRDY signal is now controlled by USB PHY driver and the
-  reset-rzg2l-usbphy-ctrl driver.
-
-  As the PHYs gets reset signals from the USB reset controller driver, the
-  reset-rzg2l-usbphy-ctrl is probed before the USB PHY driver and thus,
-  in theory, we can drop the signal support (reference counting of the
-  USB PWRRDY) and configure the USB PWRRDY just in the reset-rzg2l-usbphy-ctrl.
-
-  However, to have a proper description of the diagram described above in 
-  device tree and ensure the configuration sequence b/w PRWRDY, CLK and MSTOP
-  is preserved, the PWRRDY signal is controlled in this series in all the
-  drivers that work with registers from the USB PHY block.
-
-  Please provide your feedback on this solution.
-
-Thank you,
-Claudiu
-
-[1] https://lore.kernel.org/all/20250330214945.185725-2-john.madieu.xa@bp.renesas.com/
-[2] https://lore.kernel.org/all/20250818162859.9661-2-john.madieu.xa@bp.renesas.com/
+- collected tags
+- rebased on top of latest version of renesas,usb2-phy.yaml;
+  Conor, Geert: I kept your tags; please let me know if you consider it
+  otherwise
 
 Changes in v2:
-- dropped v1 patches already applied
-- added fixes patches (07/14 and 09/14)
-- dropped the approach of handling the USB PWRRDY though a reset controller
-  driver and introduced the signal concept for the SYSC driver; because
-  of this, most of the work done in v1 was dropped
-- per patch changes are listed in individual patches, if any
+- none; this patch is new
 
-Christophe JAILLET (1):
-  phy: renesas: rcar-gen3-usb2: Fix an error handling path in
-    rcar_gen3_phy_usb2_probe()
+ Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-Claudiu Beznea (6):
-  dt-bindings: phy: renesas,usb2-phy: Mark resets as required for RZ/G3S
-  dt-bindings: reset: renesas,rzg2l-usbphy-ctrl: Document RZ/G3S support
-  reset: rzg2l-usbphy-ctrl: Add support for USB PWRRDY
-  reset: rzg2l-usbphy-ctrl: Add support for RZ/G3S SoC
-  arm64: dts: renesas: r9a08g045: Add USB support
-  arm64: dts: renesas: rzg3s-smarc: Enable USB support
-
- .../bindings/phy/renesas,usb2-phy.yaml        |   1 +
- .../reset/renesas,rzg2l-usbphy-ctrl.yaml      |  41 +++++-
- arch/arm64/boot/dts/renesas/r9a08g045.dtsi    | 118 ++++++++++++++++++
- arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi  |  57 +++++++++
- drivers/phy/renesas/phy-rcar-gen3-usb2.c      |  20 ++-
- drivers/reset/Kconfig                         |   1 +
- drivers/reset/reset-rzg2l-usbphy-ctrl.c       |  60 +++++++++
- 7 files changed, 286 insertions(+), 12 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml b/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
+index 179cb4bfc424..2bbec8702a1e 100644
+--- a/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
++++ b/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
+@@ -118,6 +118,7 @@ allOf:
+           contains:
+             enum:
+               - renesas,usb2-phy-r9a09g057
++              - renesas,usb2-phy-r9a08g045
+               - renesas,rzg2l-usb2-phy
+     then:
+       properties:
 -- 
 2.43.0
 
