@@ -1,116 +1,131 @@
-Return-Path: <linux-renesas-soc+bounces-23508-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23509-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59586C01804
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 15:42:59 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDC08C0185E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 15:47:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1EE7B1A6455D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 13:38:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8FC54188B480
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 13:42:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF71B30BF6D;
-	Thu, 23 Oct 2025 13:34:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0689E30595D;
+	Thu, 23 Oct 2025 13:42:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sNraloUD"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="o9+wlKtp";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="AV+NJSsT"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76C4D311C22
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 13:34:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4525D7262D;
+	Thu, 23 Oct 2025 13:42:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761226452; cv=none; b=krZfC3wvCta8b0m5ahyg3mb3fWNOP8yXJK0Nq/tqYNMJVngE0wI49oQ7A1Je5kKSIoX26ZPFJdOjGzBFXgih5UBjr0XajNssymhrCxYkBdyz/qsLqcUBOV5bteXLMyMYfGqouDDjaQEnyG8dcZ0qm+BqR7LzC8L4cRg9f/PcNdI=
+	t=1761226932; cv=none; b=HNMVm69puw7iPp1tK6o0H6Sn8+P1Y+bnAYUHiBEoCyEedT/J3xRyiWDeQhj7/7m9PoPcCzwRdYmcFX6KMRbALcn+CNnt+8nSP5pkt5A++TJ178aqVfLZS7OvNOggsagldsOURa8CSGe6+cgIOitdeDJimBCPtn8kbWCvoCNSsw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761226452; c=relaxed/simple;
-	bh=bSW7rfgtDQGPDS4VUfy3VAbqzFM7dWBO3YRWYHobxFc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=IkX+pGPeDcohA1/2oeKTpv5jZTtH8muwrgR+slBxRdpzHFDdBPmF9GNmuu6JGM7ha9W5vcku69aOzyPPCMH4IS7nQ/Q1S+aBmwa9NEMmrUaNOB6d+muG/cyk4M813iD53n++xBnajusIH6wo0rNd2pL/hgNmY+NfoKMv8K6SS5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sNraloUD; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-471d83da4d1so365475e9.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 06:34:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1761226448; x=1761831248; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Kn0n93gjogjSKpUc9SVWlrCOjCRjVkd4BQ8C0NGtc/U=;
-        b=sNraloUDRIzWKp8sxjib3o25Il9pF5s2T6luMBW0HkSEQO9LYLKQe6J/rPkchDMZVF
-         /Q8yutidAOZIvJoQJQdfqk5EsgV2sGcnikR34ydDoOwZf+lHQwnwAOsda+0yTM/x4WS3
-         wfblT56+vjC85mPcRecZJRDGurNkawgeKu/eO7tUej1smVHuVBKl9OGjtpyYZK+zAuvr
-         D6QFyI+J+TYDUL5YkhejmyAAmFsgVBHOHz61dkIH0xkIlxkpqlX7xdAaGq+6jeCLg7ZM
-         EIFNhQbyGewxiXieYw59xhvJx7Eky1ZcF5fpfyJMBuZmubu/sdDBlMYyprnc3BLnURp1
-         Ktyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761226448; x=1761831248;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Kn0n93gjogjSKpUc9SVWlrCOjCRjVkd4BQ8C0NGtc/U=;
-        b=SctR7f2HTeluTkwJkaJSCLYU73GHqkiLtvkTDt+DXfaN9IQnqF/aQMPOom53+IYERe
-         dZlEYq+Wm2zbtbTup0wczQacSPlSbyrGjIYWWRp74irdnjKXbDpcrvV6gIy+h8YMBspw
-         CpVW6g/xhqTtyidDPoTQFy3iSPjG9w8jRYXYTKE1NSa/2In4mMyolJMvrvmkKdwbNN7t
-         aiXuV+wcpKDbFI2k0mXnfXPkOeSMHO7ahxNCkkLSGtxIoDOmJUTrt7fdEeuE5P9HZhjd
-         QTl20yobOW80/FjMZTokNH3WAE4Aozo8YJLDPcXbwZvrKXcXPk1+zjAtTwhCq5gTRJAk
-         QoLA==
-X-Forwarded-Encrypted: i=1; AJvYcCVTRSBtDr4koojILqRH3NLGxPSGpYQXxERVDp5X6cbOG9OYK5pxvIjBy9GZBkA2j+q63KaHhPtGq6JJhdKF6Er6tA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywvv/XB3q0HC/MsduzGZccdUN7kliOblTfDJO1dIBBjJhYktfEu
-	oLKvyAwpl7ZhgKV8m9cWd/5N1+d4pTIo2f3RdUAvMdwyZEx0Y13x0HvVuXid6wT+5wd7y8sSE4g
-	nLKm6
-X-Gm-Gg: ASbGncvcdoZGBLE19pSuua550J/0FVJ4O1BajeohpWVOx6szPawUuVDQgqi2E+pXCvt
-	Xo5ZAxhUPxtu2hwEiiEbgQkI7QISGqUILytZ+WxHczjaZ7ZCsXXS+vX5tdhq2ydvzyWg99+LdBg
-	4XQ3IokjXk3Z8BgrFjP5OzF8yTAVXN3Qm3qIUMngdeRAcbFBKV1iKKyFqgjSQcc24a1s+lKpbHI
-	N8Xsvt5RymLx4vmhTRol0KL+YEP7E0Vze96Y5bI6Ev7G0wFx3d63OrgI4j7Wtb++QITnYNcpfeh
-	ZqBNln8hqQ3peYBvjMPbPhK1eH6OMxh3xIgwxKYwnuBJs56o72uRf+GBgFqa2Hk9QGYWsj6oQ83
-	QenTXPQWHVPwhzqsO48WyvdjFT1sfXY28O2FJakOEVjz54YRoSY1iwCuMeLJC6g1Nnt6dcCFHZ/
-	FAcvu89gXsn8e6Q0f3dji5OxgLAkY=
-X-Google-Smtp-Source: AGHT+IFsde65CJFTvtkSZupSMvUZM0RX7wQDUIPA6gojMigbtbuO0hwv7Ss3zHX5Cl6STVOTHym5aw==
-X-Received: by 2002:a05:600c:350d:b0:471:3b6:e24 with SMTP id 5b1f17b1804b1-474944c2050mr39159615e9.8.1761226448360;
-        Thu, 23 Oct 2025 06:34:08 -0700 (PDT)
-Received: from [127.0.1.1] ([178.197.219.123])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429897e75a0sm4037198f8f.5.2025.10.23.06.34.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Oct 2025 06:34:07 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>, 
- Biju Das <biju.das.jz@bp.renesas.com>
-Cc: linux-kernel@vger.kernel.org, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
- Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
-In-Reply-To: <20251019180940.157088-1-biju.das.jz@bp.renesas.com>
-References: <20251019180940.157088-1-biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v3] memory: renesas-rpc-if: Add suspend/resume support
-Message-Id: <176122644698.70962.12759967875481339805.b4-ty@linaro.org>
-Date: Thu, 23 Oct 2025 15:34:06 +0200
+	s=arc-20240116; t=1761226932; c=relaxed/simple;
+	bh=GTtIYbhf+1LHFMd9CePCzCzU/48vsFFXnqOuRt14OHY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cX0wzh/+PER2Q+PdbZ/CFj5Qv2VkC9678ujJHxfHrIPbgCUW7rQ2oSzt+RNvEYJbZlKgbwHUHHV76VWDxBNq8sMP8y8z/fRsNsls8xlTpiEpq6QwaDiZ6ZFRmPa1UGR7QjqRm0hdqgVTx98wg4hxAfDSZzWh/6hg9yNCtEU3E9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=o9+wlKtp; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=AV+NJSsT; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4csnJc1Cmgz9slM;
+	Thu, 23 Oct 2025 15:42:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1761226928;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=liOfj+w7oQQHQDinbActumCxZ7ts8b1PR9+ClEG2E04=;
+	b=o9+wlKtp+2kDP0Zbjrkwnbw8gWzh21UrNc2ucsM9ov4omiyPctnbOnoSsjI0i/mc93P2K7
+	Fotzk1NrnxIas6RJz6KAKgbKUfVWbPN2RXt91urKFmxXVDolED2nwYLqtussQQnOyjIl1/
+	gZ6dtn6k83cUX+d3j4SmOriLX4GMLtpgabRBkDQnvaD4jPXt5b8Qh8bbGcnXQRKkeEtt0X
+	tYJYT17NeaBBxiVEQhMJyl4L74bfRJzjQRDGyy6wGqYbYXRdpkR55ER3cz38+1PpCEB9BT
+	hOm4II+4u95AUPJQztPhy0q076I/ktLAtnSXS4BCudy4m5+pBjZ6i1w+W8rSrg==
+Message-ID: <066449c8-4bca-41f1-990e-53d7672e3c0a@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1761226926;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=liOfj+w7oQQHQDinbActumCxZ7ts8b1PR9+ClEG2E04=;
+	b=AV+NJSsTsrmJu2xpIi8b3X4WAqCpmXBK6i7v/WDnXuzr7Gg4IKoUADsAAhOCN4rWt9UrIq
+	aeIBV4emYzweIn7+H16S3dLe1TyA6HXoLfuffCUu5mSSIxvgbF12gIx5X0pE24bwHuHrZ3
+	q4kaZTEt9S8/VybcH7XmQJRr9P0T3j/SDO8b/yKUll37QKvLoe4hfBUXwv0IXur9Rbmc5m
+	SQVLqGyGyAT8OrUEvdENH4xHFWg0vAITTgU/Mb7kOtQ6jQtTi0pLaVcIcg/7N884H9ULy0
+	VGLaHH+WAMlmevcfutwJh3GqNKUgogPGfisdha+YbyBdXzJ2s5SSPuCoLtIUBw==
+Date: Thu, 23 Oct 2025 15:42:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3
+Subject: Re: [PATCH 1/2] dt-bindings: firmware: arm,scmi: Document
+ arm,poll-transport property
+To: Sudeep Holla <sudeep.holla@arm.com>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: arm-scmi@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Cristian Marussi <cristian.marussi@arm.com>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-renesas-soc@vger.kernel.org
+References: <20251023123644.8730-1-marek.vasut+renesas@mailbox.org>
+ <20251023-able-fervent-tortoise-e7a6df@sudeepholla>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <20251023-able-fervent-tortoise-e7a6df@sudeepholla>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 2b7b03ec44f958831f6
+X-MBO-RS-META: d7cbac4yirg6dmrd4f7ehr3mnryd66c3
 
+On 10/23/25 3:16 PM, Sudeep Holla wrote:
 
-On Sun, 19 Oct 2025 19:09:38 +0100, Biju Das wrote:
-> On RZ/G3E using PSCI, s2ram powers down the SoC. Add suspend/resume
-> callbacks to control spi/spix2 clocks.
+Hello Sudeep,
+
+>> +  arm,poll-transport:
+>> +    type: boolean
+>> +    description:
+>> +      An optional property which unconditionally forces polling in all transports.
+>> +      This is mainly mean to work around uncooperative SCP, which does not generate
+>> +      completion interrupts.
+>> +
 > 
-> 
+> Could you please clarify which platform and transport this change pertains to?
 
-Applied, thanks!
+Renesas X5H with older SCP firmware , accessible via mailbox.
 
-[1/1] memory: renesas-rpc-if: Add suspend/resume support
-      https://git.kernel.org/krzk/linux-mem-ctrl/c/42ec0bc61f052beb0d9a6a889fe746591de74508
+> Introducing a property that enforces unconditional polling across all
+> platforms is not ideal - particularly if this is intended as a workaround
+> for a platform- or firmware- specific issue. Such implementations often get
+> replicated across platforms without addressing the root cause, leading to
+> wider inconsistencies.
 
-Best regards,
+The root cause is being addressed already, this is meant to keep the 
+older SCP version operable.
+
+> It would be preferable to scope this behavior using the platform’s compatible
+> string. This approach ensures the workaround is applied only to the affected
+> platform and prevents it from being inadvertently enabled elsewhere, unless
+> another platform intentionally uses the same compatible string (which seems
+> unlikely).
+
+This is not platform-specific issue. SCMI provider which fails to 
+generate interrupts can appear on any platform, using either transport, 
+that is why I made the property generic.
+
 -- 
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
+Best regards,
+Marek Vasut
 
