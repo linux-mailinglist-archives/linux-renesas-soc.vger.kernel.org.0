@@ -1,146 +1,259 @@
-Return-Path: <linux-renesas-soc+bounces-23549-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23550-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E352C038DF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 23:34:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A45F1C039CF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 23:50:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4329219A2788
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 21:34:37 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2664B1A6198A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 21:50:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E29F82356D9;
-	Thu, 23 Oct 2025 21:34:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3ED8231836;
+	Thu, 23 Oct 2025 21:50:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="So2QKNNg"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F1SEwrjh"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EFBE1E5B95
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 21:34:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1293E191F91
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 21:50:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761255248; cv=none; b=tDzMIGiERn0dYoDwseG1B6lCIsNPvCz1wFKTEOC5eUWu6Yc1CYh3vmt//WRuALTBYuG50mYRoEULOyFFfo+AKA/vAXzrj1He/rk31uWaaYT+Ypiwj11DztH8QrWOZTB7tDKu4FSSqEnAIxLj9gWlfMFrY0DEmAEmK/r3GZLLdjM=
+	t=1761256219; cv=none; b=UGXxhh2zKsDWKKPMOkZjXjcHOf44iaK4e4anFgJmmgE8ZlO7i6sLVumYQOicxrL5sIxHXRzOMbPDJyFsgNkO0GShCvGcU4fbUggJETstsXuRbdgrwnYSnduONlaFQsucOMb0Lbm+cN/V7mcBx1cXY/JUEynOxohWdP80n6A2HuQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761255248; c=relaxed/simple;
-	bh=QrDsumBR7XmAXhTajPbH62vMSoYGzD7KDyrcNpl1qMM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MWABuylczVgZDuDJ1PiQjA+X6ix4CmB053VC0eF6g9VqkG6soxGVDjxHqN/XeDCAMvGAtBFzLRw+pQz9O6VqIDKgBargTOPw2vWcGKvqxPoauWyfY7GPXe9Oz5KWAdpI2zcjInFL/kdILVCR3tx3iXhaqADLRPz/YU4dkqsFsDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=So2QKNNg; arc=none smtp.client-ip=209.85.216.51
+	s=arc-20240116; t=1761256219; c=relaxed/simple;
+	bh=0crdkRWL2i52N8DjaLjPGWqZ+qR9vnRSb8AxmG3G5jk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tTl26+fF0LePIul1uVI9WAncBOQPJsOM8B8BfKMyLbcTOKcPRwv2JulI6f2vhvK+c+Pr2scsov2K/oB6rByhGQ7UNaOskSVUoPnu+Psv6c9eNL6BXyqt3dAKdXUMPhHJaK1WPzErPW+V9M81Ukhq1EE0xzsAlntuqEaXHBbQ42U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F1SEwrjh; arc=none smtp.client-ip=209.85.208.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-33bb1701ca5so1319886a91.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 14:34:07 -0700 (PDT)
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-63c4b5a1b70so2531580a12.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 14:50:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761255246; x=1761860046; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=q2pvfpdVDgSz+tiqLq0LEmu6krJe5n3X3t1r06M3DaI=;
-        b=So2QKNNgz1ATgQrl3e+Xr+vCfYF4tbJFsCV59f6j7YDRjo8X0dLnSlx9t0fJ9uU7wB
-         7EHYYEb43mJQE7tOb0kSOJq5hZ+kWqzMm3MhNWODf7guMHEvD/CQuiL0AjpSDfQ/HaSW
-         uUHqdP6kMCzAYu+4/LpgtJoX8fTB44dtcFVMzln1ARY91IgbdnmYUTH6iAtKRzxpAmOx
-         Bt6ZVekrDR25uInq/85hfm6t0dOPXaYBGGwFWfv0NqOH6uSapGweTcOBG73gohUsPz0E
-         pN1dunbOSeA28W8SYxO3fY4MUsGpYkauwgyyq2VmHU/jt1h66U2xzAbcDQ5FbVoWwK1C
-         fPXw==
+        d=gmail.com; s=20230601; t=1761256216; x=1761861016; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mTxd0N4ykd7gve6I0VI6xvQpfS9jPjV5mFGiKktW21o=;
+        b=F1SEwrjh3GuuKfLFMQdbvKrV+ETF04xlvaypgRB84tFPaVh24wshsL4yLG9sLLj1uq
+         K4Ca+UWdrgvxQuLcu8SApM1nfHdHWQdUuqMiEnDKKVUf5CezdyIn75Rqb4qd3MRUBRox
+         wUKLDbT8b+hxUSourq2iAL/4ergYPhH2+s9WrxRhhM3+B4UtXjdrMcoBv2EsVxgncfvV
+         YXuBylJFcF7b7oti0WAGzv9UIXgp3p5jhR3hNDk4wOUJgB2eINVFvRd0jTvFbp+C/OgA
+         jDIMCWVaWfVhFGtIdPK66ZzzSl6tEM0pXOLE795FW+Aava05xgsLBkEQvQHz5zwCI2Js
+         ZGEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761255246; x=1761860046;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=q2pvfpdVDgSz+tiqLq0LEmu6krJe5n3X3t1r06M3DaI=;
-        b=mr4kjjJZ+hh2Eav8BSWjuybW6XorDXQbIk97a5kgn66p7gLSyHmoBIEv/gIG27pQx9
-         OTJtpVA1OqIT8u9DmQUcrsPjsB41aI67GzE35mRNN8MewgIpq1oL2oY7udI2bL1gfFfR
-         cD7SGhI1FjmOMwrULXR5IPclgKmhoVwahpnVILELZUJ9LMbSLxFBqPn1CWedaoJYjYra
-         rMoAI8h+fuZvGsnDHn+8v0og9vXqm8+Lq4mVWZzNO2oos0th24RPFiieOB932zWXvdqY
-         ynWhHx7Fs6JqUWdzFxoAvKIWF4fj8DU5i/FYkKUCK5CastWuNP/Ssmk0wOAYxaVw1bzT
-         8tMQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVkkzIUBH3CiuC81uaIkJzgwf0mWE2kgbyOfHeYUKEe6M3oRXG2pLGT8abncn91r577mFMTR0pPxihTm60GX0E7fg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwSnmO7x9N0h5Wrk4Yx45+NTP6XW+bnsE/vZqQYtu7bYc4W0+H5
-	IcEBaIvBQH87AjXMDy6YR8B7ApvqK2nYTB7VFazaUBhIr3FpJSsBFUPz
-X-Gm-Gg: ASbGncuuBYJJWNbUEtcQiFn8o60pniFyzmTeCwKZ0tZxjp67RWuWAsxOaND/CIPUWJ9
-	STcQK2nIDEFtbvPb+/Btkf86A0cDjOLg06fo/8U4WKeduTEYNqkJxoAdtoLVdZfDG+w1BcEkYyx
-	BhhqoP+T2hoVodh20OGuF9p+ceNMkGJfvVj0uzk1+nD9EFCzXxsfBZ8IyX6Rp765JsvHS+scwmD
-	aPtcN9ZxFFtmR1rL3XG2gTdFIkLFYNs8ovpzUZt0TrjzodJOtiX2UjC9zHGReViI9R1FFvUbKre
-	UR3Mh5K+DRtTnzlcb3YrPUXIplcgP3x8eQOuJPBplVSKt1L2OffPIgn2YLFrrB5bjE89dGYA4bH
-	boM2uywzGdT0N8yvjZO8rb0MFGy4ALg04oJjDu6lcBe+0bzpNl6bvYdavUmcfvDjifmOVQ3ETbA
-	UMdEyH42n4edepoc7Cbz5KWHvMh+5bNA==
-X-Google-Smtp-Source: AGHT+IF3YGWDNWYMokVO+WXERUpBjg0IQ+EhQnmcd8t7unNBGwlJ5PPtm2xykzvuMO9uNrjZL1vC5Q==
-X-Received: by 2002:a17:90b:3e43:b0:339:cece:a99 with SMTP id 98e67ed59e1d1-33bcf86c699mr37737123a91.13.1761255246585;
-        Thu, 23 Oct 2025 14:34:06 -0700 (PDT)
-Received: from iku.. ([2401:4900:1c06:ef2:36b5:9454:6fa:e888])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33fb017249asm3450734a91.14.2025.10.23.14.34.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Oct 2025 14:34:05 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc: dri-devel@lists.freedesktop.org,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: [PATCH v2] dt-bindings: display: renesas,rzg2l-du: Add support for RZ/V2N SoC
-Date: Thu, 23 Oct 2025 22:33:50 +0100
-Message-ID: <20251023213350.681602-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1761256216; x=1761861016;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mTxd0N4ykd7gve6I0VI6xvQpfS9jPjV5mFGiKktW21o=;
+        b=PrzYEuHQJvsrUXCr2I8cock631KEm90sWWeOeX8AVvKOow45ASInPEwdpH4tNbI8WJ
+         hPZ4mgGz0HcrjoBA0ILNIP7wjQ9Ll1XDLKgQbc2eeKifPwecN4AAaXhQirKiwZMhqxk1
+         6/g7G6DtM0Nh8kfGYQut/3dqWd8EiCwUBA5tNeYySIypEGQqAMfhvFTz3tWSECTLC+Q8
+         Pz66Iu2AkIACM/OTtdUVkJZ6ynUx3nWnaLsWTDjbslfbFIx4hKn7EUHvB1NaQw0Q3Tjk
+         vJDDkpxMz8dRG6g0LKU/2ToiHClnBbHJVzrUTWTSKOb0rauvYaQJb7uyDFPA2b6SjfA6
+         kp7A==
+X-Forwarded-Encrypted: i=1; AJvYcCVQO7lETxYlZJXu9IAMCfc9IIcjOCCjq7E92kdv6255x0Yu7cZ2taOnpix521ueyuIFTN8TmRuNo8kNbvuy2kRZlQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyznPORYu9hbW8JwKFk7MXDVk3Z0HsbjaIMfX00541EQmPdShZV
+	EO3FURaELKvrfVgsb7uus4K9aB3/ByAbe/7uTTt8fRL4lqXbY+vvXX9PzPwnfEKnNR5SLXRQY2R
+	0+CmkMIwaPZkCzQIXjH+OmB8lu/Zr4ag=
+X-Gm-Gg: ASbGncvqZAZUnT38UvVuw+B1nlsQYM8jo1G8A7d3pfu3GlS/cRsRIIyvR58b6EoExQW
+	1QFCQK8qsUmnEIY8lGxGHRyF3COKN38vFAyAM4N52Zs1PEBcSmlnjlf5HGt3IfXgilMuzkX0ssH
+	H288b+yffuCWR6D56xAKnMChIpzqSCF64DFLz8jWikAcbmTE1SNI6sFLOZEqTewra2EATSi41X7
+	dC6+fOymJLdKWkW46jvodh3lO/0TiV22jyZbhxpr9FQFybYV//sjRX9v/giOQ==
+X-Google-Smtp-Source: AGHT+IE6DRq0G5t3WynJX8AdK871ej0FvwPBp17WZkIlAW429pCOMu5FAtpCqnXjVceYtZYEL30EdgTdYQqDcgDyYOw=
+X-Received: by 2002:a05:6402:2787:b0:637:ab6d:71c0 with SMTP id
+ 4fb4d7f45d1cf-63c1f62af92mr23616460a12.7.1761256216068; Thu, 23 Oct 2025
+ 14:50:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251002-ivc-v5-0-192c663fa70b@ideasonboard.com> <20251002-ivc-v5-1-192c663fa70b@ideasonboard.com>
+In-Reply-To: <20251002-ivc-v5-1-192c663fa70b@ideasonboard.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Thu, 23 Oct 2025 22:49:49 +0100
+X-Gm-Features: AWmQ_blarlbB60Z8ciGxdUOyDe13AFqtYqI4foOh96GGz7YXVmq0KoeyJzdQ_-4
+Message-ID: <CA+V-a8sCvhepEL1RnsemN_84U9gcLLoGBnOUtY0zLsZO+kcu7Q@mail.gmail.com>
+Subject: Re: [PATCH v5 1/3] dt-bindings: media: Add bindings for the RZ/V2H(P)
+ IVC block
+To: Daniel Scally <dan.scally@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, jacopo.mondi@ideasonboard.com, 
+	biju.das.jz@bp.renesas.com, laurent.pinchart@ideasonboard.com, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Hi Daniel,
 
-Document support for the DU IP found on the Renesas RZ/V2N (R9A09G056) SoC.
-The DU IP is functionally identical to that on the RZ/V2H(P) SoC, so no
-driver changes are needed. The existing `renesas,r9a09g057-du` compatible
-will be used as a fallback for the RZ/V2N SoC.
+Thank you for the patch.
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-v1->v2
-- Added Reviewed-by and Acked-by tags.
+On Thu, Oct 2, 2025 at 11:38=E2=80=AFAM Daniel Scally
+<dan.scally@ideasonboard.com> wrote:
+>
+> The RZ/V2H(P) SoC has a block called the Input Video Control block which
+> feeds image data into the Image Signal Processor. Add dt bindings to
+> describe the IVC.
+>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
+> ---
+> Changes in v5:
+>
+>         - Rename RZ/V2H to RZ/V2H(P)
+>
+> Changes in v3:
+>
+>         - Rename from rzv2h-ivc.yaml to r9a09g057-ivc.yaml
+>         - Update clock and reset names
+>
+> Changes in v2:
+>
+>         - compatible matches filename
+>         - Added power-domains
+>         - Aligned clock and reset entries on opening "<"
+>         - Removed status =3D "okay"; from example
+> ---
+>  .../bindings/media/renesas,r9a09g057-ivc.yaml      | 103 +++++++++++++++=
+++++++
+>  1 file changed, 103 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/media/renesas,r9a09g057-iv=
+c.yaml b/Documentation/devicetree/bindings/media/renesas,r9a09g057-ivc.yaml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..8e236e46882668b2660d175e8=
+b2cffe204aa781c
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/renesas,r9a09g057-ivc.yaml
+> @@ -0,0 +1,103 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/renesas,r9a09g057-ivc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas RZ/V2H(P) Input Video Control Block
+> +
+> +maintainers:
+> +  - Daniel Scally <dan.scally@ideasonboard.com>
+> +
+> +description:
+> +  The IVC block is a module that takes video frames from memory and feed=
+s them
+> +  to the Image Signal Processor for processing.
+> +
+> +properties:
+> +  compatible:
+> +    const: renesas,r9a09g057-ivc
+Nit, `const: renesas,r9a09g057-ivc # RZ/V2H(P)` as done for the rest
+of the Renesas bindings.
 
-v1: https://lore.kernel.org/all/20250609231905.511904-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
----
- .../devicetree/bindings/display/renesas,rzg2l-du.yaml          | 3 +++
- 1 file changed, 3 insertions(+)
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: Input Video Control block register access clock
+> +      - description: Video input data AXI bus clock
+> +      - description: ISP system clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: reg
+> +      - const: axi
+> +      - const: isp
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    items:
+> +      - description: Input Video Control block register access reset
+> +      - description: Video input data AXI bus reset
+> +      - description: ISP core reset
+> +
+> +  reset-names:
+> +    items:
+> +      - const: reg
+> +      - const: axi
+> +      - const: isp
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/properties/port
+> +    description: Output parallel video bus
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: /schemas/graph.yaml#/properties/endpoint
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - power-domains
+> +  - resets
+> +  - reset-names
+> +  - port
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/renesas,r9a09g057-cpg.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    isp-input@16040000 {
+> +      compatible =3D "renesas,r9a09g057-ivc";
+> +      reg =3D <0x16040000 0x230>;
+> +
+> +      clocks =3D <&cpg CPG_MOD 0xe3>,
+> +               <&cpg CPG_MOD 0xe4>,
+> +               <&cpg CPG_MOD 0xe5>;
+> +      clock-names =3D "reg", "axi", "isp";
+> +
+> +      power-domains =3D <&cpg>;
+> +
+> +      resets =3D <&cpg 0xd4>,
+> +               <&cpg 0xd1>,
+> +               <&cpg 0xd3>;
+> +      reset-names =3D "reg", "axi", "isp";
+> +
+> +      interrupts =3D <GIC_SPI 861 IRQ_TYPE_EDGE_RISING>;
+I understand we split this up from ISP, there are other interrupts for
+ISP for example 860 which is similar to 861 where it outputs signal on
+rising instead of falling. Do you foresee this interrupt being used
+for IVC?  Rest LGTM.
 
-diff --git a/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-index 1e32d14b6edb..2cc66dcef870 100644
---- a/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-+++ b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-@@ -25,6 +25,9 @@ properties:
-           - enum:
-               - renesas,r9a07g054-du    # RZ/V2L
-           - const: renesas,r9a07g044-du # RZ/G2L fallback
-+      - items:
-+          - const: renesas,r9a09g056-du # RZ/V2N
-+          - const: renesas,r9a09g057-du # RZ/V2H(P) fallback
- 
-   reg:
-     maxItems: 1
--- 
-2.43.0
+Cheers,
+Prabhakar
 
+> +
+> +      port {
+> +        ivc_out: endpoint {
+> +          remote-endpoint =3D <&isp_in>;
+> +        };
+> +      };
+> +    };
+> +...
+>
+> --
+> 2.43.0
+>
+>
 
