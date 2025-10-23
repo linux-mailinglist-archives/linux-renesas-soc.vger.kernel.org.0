@@ -1,233 +1,179 @@
-Return-Path: <linux-renesas-soc+bounces-23520-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23522-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32194C01A5D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 16:09:07 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38BD8C01C17
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 16:27:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A1C063B9588
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 13:59:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 794EC3B7014
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 14:19:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D675C32B997;
-	Thu, 23 Oct 2025 13:58:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1EC032AADD;
+	Thu, 23 Oct 2025 14:19:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="jPwUFSeg"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JR9qfnto"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B678632B99C
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 13:58:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDD7432B983
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 14:19:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761227922; cv=none; b=UpwIgJKiudZmVSiiy5RdSGw8iucl6ZB41dLSqG3JYe2pazlZZK8LMdh0tLg33X/iflsQuCdDQYjOBfE1612bewbjv5uJt1k6T4Wpjp8Ko2q1Mbwa38rOIKdQac4Y/qRNZhcETnqUk4VHne2tEtYYLRn1wJQB7ugH1Nv5vYBEnj8=
+	t=1761229171; cv=none; b=gN2iOGmx5bpEGIdydH3mZ6mxDZz1oYKgt408JfSh6ZJ1dd6/exoR0NSBgLnILqf261uDY/MEvjkdZRlzLhsNVAMF71epFieTUIoAgebQeBU6850aov8Pk6r+yDX3nlKuiVb2hn0Usw9LXpt2Sz0F5sl3MgNYzWr8vJPmHZrFyBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761227922; c=relaxed/simple;
-	bh=50hw/72TpRU+0O/DF7+aRtgAC5bIC3qKK0GLCIJ0bWY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Vl+KrfJeQ+pjts6eZ+104qBlTAN2Uhz8Vugf8I6zVE0g40RkBmik+rcgOkNEF41GnK9w34jeaH+3TwEvv2tRar7ZqJOTw3AO+36Jq0/78MLrPI43jrS/A3fHW1n3oNkqmQEj/FaKplMGkmp0ybbli6giNELHhf+kemZQKBSkx7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=jPwUFSeg; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b3b3a6f4dd4so182031166b.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 06:58:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1761227919; x=1761832719; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EDOk3wzJ/Csdlnb+sDEwzVll8zo5EaNbS49j4wNtazc=;
-        b=jPwUFSegNA5zL2D0GbNPVyGJVe5ioYTQn6Gb66hqPUcR24NIenJE3WyW+y0WmCbicr
-         GNMwqksrzBLZDyhC5Zp/XFiC3X5I1M+DOHjAehpuHTNqH3awHZEFTMKYKz9UCXNAiayI
-         nWJRMT5Ou4R9ICg20A/Gcrz4JVr5s4YKgXyT8Lk8kncrXkfmciT6InsvRvrWm3YckICB
-         5Ep8Im8wdDFr5oB1tyIWTBVkFexPo8rRSzZ/wqaXXsGjSY11Ggenu8OroN3waldp58wv
-         Rx0GmGLmSBVBM8JsUUijJOpEHPJb9eSDA8Ka5h7uzsXVo0sxUfoJQQiZ9xPHfaOUREZq
-         UeXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761227919; x=1761832719;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EDOk3wzJ/Csdlnb+sDEwzVll8zo5EaNbS49j4wNtazc=;
-        b=LDC0lpixf89IesrhxRPz2pbWD/1QaapIboqGW9tWDAdMHr6Kr4C5PkAv+oK5QBC7V3
-         Di7PYi8Fbuv+/PgtiSuR+vDf8rcVz62Yp2bmPfpJVbtyEHTeoo30wUuzNPQU9sGnlHPi
-         z2I05to0Lp41peYVNNjkTv+cJbiACFqPcmgwj9T5JHdBWgsxR/3285mmTa5hOoNDISl9
-         DjmsHiHvtzcOIbZip0J5COkIh69Y20CJVUX6Zb/DsxmfHEtIfU1PE6ySigZGy7xViP68
-         KeqMfd2G4qEICvxTMPs6KVzGmuoyO9QKQ3FSujtQLoq9KltuwdZVNUH8jX4DcwOQjayc
-         QnkQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWdG66j+TH1o+BBSL8iIH7mzaqHIkDkoWLgw2Y7Zafa9vh4heMYsbggWEL0H+rm+kkvkO5z8aFTM4vVOKyAwj37jQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxtWcn4Mq+nWgIRj0hqLnBorQMUo8BZh0op4UcS8EvPMMZugl7b
-	zFaXTMuEXOmb9JmLn/M1BcHNKjq6GFHkDBvcGd6dHajc1r5a/CowVzeydVNg/pQmd28=
-X-Gm-Gg: ASbGnctB56DYyquOZ0djk5gTAQ9eN9EATtYRQHK5XRJLaDvtB6Hyy3eosmTfAafSlEp
-	5/I8FYCyp3zlCojiBplbv5XnI2GOBNwoSlRquboLeXny5ZmKO5Xri/BrKjFixA5p50AbYpYoaHX
-	s4fXHxI4zNNybq+7p7l0zYoD6gCHWKcz8W+PVNdc2jJnp0Yps2J3H6kHb+ScM1pfamM1KYY80yS
-	fL0zLPVsU66uM6uasc6hSc6ryZex0tkab3ss/iuTc0Y12Bw1mQxNpmr4Xyu7kuOqEHA+InnP7f1
-	lq3k0u+ENOgMjMRz69F6w5rQpWQNs9x+mf0ToRluv1FewgHk4Y7aehGqDku2Gk3Erf35tH3Sslb
-	NBTb3vRomuoq5BlumCstO85w+FnFbOaRHQWHMkkxiWnLVac8qQPXPcUCAMxXkPg84mcYK11mtV0
-	Qy2CCAl998jg8GMXg+Z3/rU7JeDSe9pElIGz9C/jVq
-X-Google-Smtp-Source: AGHT+IFBx3dgJXH4lEpxnlJJFwOwoH+u/MOZe+M6OK+FLRB/x3UWGEvHv5qUZS/pYvr0WhrpOqUmSg==
-X-Received: by 2002:a17:907:3d9e:b0:b3e:3c1c:d301 with SMTP id a640c23a62f3a-b64769cb8cfmr2888032566b.61.1761227918932;
-        Thu, 23 Oct 2025 06:58:38 -0700 (PDT)
-Received: from claudiu-X670E-Pro-RS.. ([82.78.167.151])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b6d511f8634sm226114066b.29.2025.10.23.06.58.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Oct 2025 06:58:38 -0700 (PDT)
-From: Claudiu <claudiu.beznea@tuxon.dev>
-X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
-To: vkoul@kernel.org,
-	kishon@kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	p.zabel@pengutronix.de,
-	geert+renesas@glider.be,
-	magnus.damm@gmail.com,
-	yoshihiro.shimoda.uh@renesas.com,
-	biju.das.jz@bp.renesas.com
-Cc: claudiu.beznea@tuxon.dev,
-	linux-phy@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH v8 7/7] arm64: dts: renesas: rzg3s-smarc: Enable USB support
-Date: Thu, 23 Oct 2025 16:58:10 +0300
-Message-ID: <20251023135810.1688415-8-claudiu.beznea.uj@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251023135810.1688415-1-claudiu.beznea.uj@bp.renesas.com>
-References: <20251023135810.1688415-1-claudiu.beznea.uj@bp.renesas.com>
+	s=arc-20240116; t=1761229171; c=relaxed/simple;
+	bh=ohcVgQwUVBiVR8Z7bhBKhH0NsN3EdMIF8XRJoa13eW4=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UKFvqDUqUqDgHfM86TTPdKkhiFzNTVQ5v0zdjQSb5i2RbNBChGdgXCNsQlfgjAQlbXl8KyiBAcYq/+x8jpmz1BACfnZH6Z4HwVF/m+JAr1lSLFtrZP0WMXGdvCd4LE4q+kKRJ8o7cOnU6kI7QDACjwA/FILIHc5RNtjhZrWSMdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JR9qfnto; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38645C4CEE7;
+	Thu, 23 Oct 2025 14:19:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761229171;
+	bh=ohcVgQwUVBiVR8Z7bhBKhH0NsN3EdMIF8XRJoa13eW4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=JR9qfntoK3AV0wTJ86NGDv0xTgMfnsuda9kjOKTBQTPoBmWd9MHI/WymV9k3S0wGW
+	 Ip5FgPuHV8ioW2YVY7jIiD+D2KNgSt9PsbgTN01hAgydAXdFInOfJfG/Y+oYQ2RTBZ
+	 OMHB9uXB2Dly9mKcWYCK/ki/Om7TnxvBXWQ8a0o4pQIbf/pP38ase6sHsViRm4pLXU
+	 e5WSMgYfaipitFtti6gBvUaPtnLEaEs7WaIwJiCsulXli+0Qryo5SnmUKerqzPLQ6J
+	 UzzJoVQBauKhng0z96GwUGSDDtmtSYAcrZ0KVCLlA/giT2CrzmSgtcbFAgRREeyViX
+	 6sgvX1xotvR4Q==
+Received: from 158.46.66.37.rev.sfr.net ([37.66.46.158] helo=lobster-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1vBwA4-0000000GYEE-3gqS;
+	Thu, 23 Oct 2025 14:19:29 +0000
+Date: Thu, 23 Oct 2025 15:19:22 +0100
+Message-ID: <87y0p13dlh.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Marek Vasut <marek.vasut@mailbox.org>
+Cc: linux-arm-kernel@lists.infradead.org,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Yicong Yang <yangyicong@hisilicon.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] arm64: guard AMU register access with ARM64_HAS_AMU_EXTN
+In-Reply-To: <24c8da41-37db-4e69-b9aa-e33b2154acb0@mailbox.org>
+References: <20251022133621.178546-1-marek.vasut+renesas@mailbox.org>
+	<86347bvx0f.wl-maz@kernel.org>
+	<07391913-aab6-4d92-b75f-278506f51397@mailbox.org>
+	<861pmvvv2g.wl-maz@kernel.org>
+	<24c8da41-37db-4e69-b9aa-e33b2154acb0@mailbox.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 37.66.46.158
+X-SA-Exim-Rcpt-To: marek.vasut@mailbox.org, linux-arm-kernel@lists.infradead.org, anshuman.khandual@arm.com, catalin.marinas@arm.com, geert+renesas@glider.be, ryan.roberts@arm.com, will@kernel.org, yangyicong@hisilicon.com, linux-renesas-soc@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+On Wed, 22 Oct 2025 16:29:55 +0100,
+Marek Vasut <marek.vasut@mailbox.org> wrote:
+> 
+> On 10/22/25 5:02 PM, Marc Zyngier wrote:
+> 
+> Hello Marc,
+> 
+> >>> We ensure that the AMU is available in the macro itself by checking
+> >>> for ID_AA64PFR0_EL1.AMU. If the AMu isn't present on this CPU, we skip
+> >>> the offending sysreg access. This is similar to what we do for the
+> >>> PMU.
+> >>> 
+> >>> Does your HW advertise an AMU, but doesn't actually have one?
+> >> 
+> >> The hardware does have AMU, but it is currently blocked in old TFA
+> >> version and access to this AMU register here causes a fault. That's
+> >> why I have to disable ARM64_HAS_AMU_EXTN until the TFA is updated and
+> >> the AMU access is made available on this hardware. But even if I do
+> >> disable ARM64_HAS_AMU_EXTN=n , I get a fault.
+> > 
+> > Well, I would tend to say that you are trying to update the wrong
+> > piece of SW here. Crashing kernels should be a good incentive for the
+> > board manufacturer to update their firmware pronto, specially when we
+> > are talking of code that has been in the tree for over 5 years...
+> 
+> I do agree with this, and the update already exists. The upstream TFA
+> MR for this platform also has this fixed.
+> 
+> >> This patch is mainly meant to prevent a surprise in case someone does
+> >> set ARM64_HAS_AMU_EXTN=n , and the system still faults on AMU register
+> >> access.
+> > 
+> > But that doesn't really fix anything if you have a buggy firmware,
+> > because you can't tell which CPUs have been correctly configured, and
+> > which have not.
+> 
+> I also agree.
+> 
+> > I also don't really get why this hack works for you,
+> > because the feature will be set as soon as one CPU advertises the
+> > feature.
+> 
+> For this old firmware, during development, ARM64_HAS_AMU_EXTN is
+> disabled in kernel config to avoid triggering the AMU faults.
+> 
+> Except right now, I still trigger the AMU faults even with
+> ARM64_HAS_AMU_EXTN=n , which I think should not happen ?
 
-Enable USB support (host, device, USB PHYs).
+ARM64_HAS_AMU_EXTN is a *capability*, not a configuration.
+CONFIG_ARM64_AMU_EXTN is the configuration. I have the feeling you're
+mixing the two.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
----
+Irrespective of the configuration, we access the AMU registers
+depending on the what is advertised, because we *must* make these
+registers inaccessible from EL0, no matter what.
 
-Changes in v8:
-- none
+> > In any case, this sort of terminally broken stuff should be handled as
+> > an IDreg override, for which we have a whole infrastructure already.
+> > There are countless examples in the tree already for similar purposes.
+> 
+> I would much rather not support the old firmware for this new platform
+> in upstream and pollute the kernel with unnecessary workarounds.
+>
+> I would much rather be able to disable ARM64_HAS_AMU_EXTN in kernel
+> config for the old devices with old firmware, without triggering the
+> faults ... and say that everything which is going to be upstream will
+> always use new firmware that has proper working AMU support.
 
-Changes in v7:
-- none
+No, that's the wrong approach. If you leave the AMU accessible to EL0,
+you're leaking data to userspace, and that's pretty wrong, no matter
+how you look at it.
 
-Changes in v6:
-- collected tags
+I also think your hack works by pure luck, because at the point where
+your CPUs are booting, the alternatives are yet not in place (the
+kernel patching happens much later). In short, this breaks
+*everything*.
 
-Changes in v5:
-- none
+As I indicated before, you have two options:
 
-Changes in v4:
-- none
+- either you update your firmware and leave the kernel alone
 
-Changes in v3:
-- collected tags
+- or you implement the workaround as ID register override so that you
+  *must* pass something on the kernel command line to boot, and by
+  then accept that you will leak critical timing information to
+  userspace.
 
-Changes in v2:
-- this was patch 15/16 in v1:
-- dropped sysc enablement as it is now done in SoC dtsi file
+Any other option, including guarding the macro with a config option is
+*not* acceptable.
 
- arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi | 57 ++++++++++++++++++++
- 1 file changed, 57 insertions(+)
+Thanks,
 
-diff --git a/arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi b/arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi
-index 5e044a4d0234..5586dd43c4d5 100644
---- a/arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi
-@@ -92,6 +92,20 @@ &audio_clk2 {
- 	clock-frequency = <12288000>;
- };
- 
-+&ehci0 {
-+	dr_mode = "otg";
-+	status = "okay";
-+};
-+
-+&ehci1 {
-+	status = "okay";
-+};
-+
-+&hsusb {
-+	dr_mode = "otg";
-+	status = "okay";
-+};
-+
- &i2c0 {
- 	status = "okay";
- 
-@@ -132,6 +146,15 @@ power-monitor@44 {
- 	};
- };
- 
-+&ohci0 {
-+	dr_mode = "otg";
-+	status = "okay";
-+};
-+
-+&ohci1 {
-+	status = "okay";
-+};
-+
- &pinctrl {
- 	audio_clock_pins: audio-clock {
- 		pins = "AUDIO_CLK1", "AUDIO_CLK2";
-@@ -207,6 +230,27 @@ ssi3_pins: ssi3 {
- 			 <RZG2L_PORT_PINMUX(18, 4, 8)>, /* TXD */
- 			 <RZG2L_PORT_PINMUX(18, 5, 8)>; /* RXD */
- 	};
-+
-+	usb0_pins: usb0 {
-+		peri {
-+			pinmux = <RZG2L_PORT_PINMUX(5, 0, 1)>, /* VBUS */
-+				 <RZG2L_PORT_PINMUX(5, 2, 1)>; /* OVC */
-+		};
-+
-+		otg {
-+			pinmux = <RZG2L_PORT_PINMUX(5, 3, 1)>; /* OTG_ID */
-+			bias-pull-up;
-+		};
-+	};
-+
-+	usb1_pins: usb1 {
-+		pinmux = <RZG2L_PORT_PINMUX(5, 4, 5)>, /* OVC */
-+			 <RZG2L_PORT_PINMUX(6, 0, 1)>; /* VBUS */
-+	};
-+};
-+
-+&phyrst {
-+	status = "okay";
- };
- 
- &scif0 {
-@@ -242,3 +286,16 @@ &ssi3 {
- 	pinctrl-0 = <&ssi3_pins>, <&audio_clock_pins>;
- 	status = "okay";
- };
-+
-+&usb2_phy0 {
-+	pinctrl-0 = <&usb0_pins>;
-+	pinctrl-names = "default";
-+	vbus-supply = <&usb0_vbus_otg>;
-+	status = "okay";
-+};
-+
-+&usb2_phy1 {
-+	pinctrl-0 = <&usb1_pins>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+};
+	M.
+
 -- 
-2.43.0
-
+Jazz isn't dead. It just smells funny.
 
