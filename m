@@ -1,82 +1,368 @@
-Return-Path: <linux-renesas-soc+bounces-23452-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23453-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6452BFED2D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 03:19:20 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05E24BFEDFC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 03:49:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 637274E79CE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 01:19:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BBD9F18C6C97
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 01:49:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88B7117A305;
-	Thu, 23 Oct 2025 01:19:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A2111B4156;
+	Thu, 23 Oct 2025 01:49:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XaVahkNP"
+	dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b="G8tWGQrn"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59F153B2BA;
-	Thu, 23 Oct 2025 01:19:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD23619D07E;
+	Thu, 23 Oct 2025 01:49:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.120.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761182357; cv=none; b=CFCHOFUJXXHaa7DaHDwaPALhUlvD/muREq/WMYgIaIfjFcSJmEZvnKB6vB70IDJemCqC/5hIZeK1/HVmMdmdNRD8NvFS8gza+NLohFBfUrYK+7Pg0BXSff9e2/yfkcLFc6ipZM8mwhfRokDRLETDbNQpsZTa1zyV3qK7WQMOZaQ=
+	t=1761184169; cv=none; b=NXI90KwuQ123Fw/VjRklu6Hk5gozsmLd4zFi8ltyYOcXv7jhjvGlac3h/JSTd7k1Szc6hcCe13uHs+Fadg/GvtKkgzWwB0ORPs3MLf8V+HIHgaaGsvqr81t0D/06/ZEVaKwaGFnxxqPirark07vLQOs/TA0rJ958z5cPL4W0A7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761182357; c=relaxed/simple;
-	bh=+YkaZfL0WPND0FxlYC1OWrM+e7Xv79vbmngIIAsj+ps=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Z4VqTjR0Wptql5tMVDXzRsKhkxeaIeFfmm0Uj0Vknb5cR1MxcDrUVqqpmnW559h2Dgdl2s57XBT5V/DX67Jxyigf0Kk4/BG9/rs2ro/NghSFab2WvGVm61q1Hl4Tu1SNzlNdPDRw8slHq5F0FFK+wBrPCwlK1iPNYss94Ko99cY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XaVahkNP; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B960C4CEE7;
-	Thu, 23 Oct 2025 01:19:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761182355;
-	bh=+YkaZfL0WPND0FxlYC1OWrM+e7Xv79vbmngIIAsj+ps=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=XaVahkNPtEhsJFTQHXMkL/ibF2CxczvDlbb2cX3F6ZucmpRWSzzdMiYf/IeG2GVys
-	 0zAbKTRZhpyNclUp+Xt7H0S+fcBi9fv5yqkusQ33X3to9ZqpIIs6pQHhdAv9krcpYC
-	 oKmkVDQLDEZ4kY/Jj8gQ3nw8xRzkJ0Tqx4SpL2tgdJydu2QDyp4SI1t/5z7eOclluQ
-	 lMhiEoLmFiNNWSTEXVUwcbK6y8n00Bj5brvq+/kE8EYPrfdJW4ncvNp+n896vbUOv/
-	 xc9ZkDLBW5ZuwkC6PBZON+OMVwDy8+0VlP6pUyNtP0XGeNuQ6Oi9FQWSlK3Kf2iHRq
-	 4FEAs11lMzdQA==
-Date: Wed, 22 Oct 2025 18:19:14 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Niklas =?UTF-8?B?U8O2ZGVybHVuZA==?= <niklas.soderlund@ragnatech.se>,
- Paul Barker <paul@pbarker.dev>, Andrew Lunn <andrew+netdev@lunn.ch>, "David
- S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
- Abeni <pabeni@redhat.com>, Geert Uytterhoeven <geert+renesas@glider.be>,
- Mitsuhiro Kimura <mitsuhiro.kimura.kc@renesas.com>, netdev@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, Biju Das
- <biju.das.jz@bp.renesas.com>, Fabrizio Castro
- <fabrizio.castro.jz@renesas.com>, Lad Prabhakar
- <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v2 0/4] net: ravb: Fix SoC-specific configuration and
- descriptor handling issues
-Message-ID: <20251022181914.5bb4f228@kernel.org>
-In-Reply-To: <20251017151830.171062-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20251017151830.171062-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	s=arc-20240116; t=1761184169; c=relaxed/simple;
+	bh=ykr7xuHALs1SJROv7FakIdnavKKMHRuMoC8mVCCvCmo=;
+	h=Date:From:To:Cc:Message-Id:In-Reply-To:References:Mime-Version:
+	 Content-Type:Subject; b=slISy9eGe5d7wy8+e6nxOckdwiK5kaNw5et5fCbEBdDk9lpd/B/sEkH1bHlgOLrYPNbPLXeCnYFxjwiTvKY3bWTcrbXFXEWzZzOxMIHPO3YxHpkIbD5poNG4TQPs5FxfgCcKgH13YRYFz1gVO7QmCTrlTbgI4evfayxyXBnmDn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com; spf=pass smtp.mailfrom=hugovil.com; dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b=G8tWGQrn; arc=none smtp.client-ip=162.243.120.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hugovil.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
+	; s=x; h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
+	:Date:subject:date:message-id:reply-to;
+	bh=OurBdy+jJtwUOmUwZsoVEKYdpRuW3wucKK76RscZ9O8=; b=G8tWGQrnp/aEaUWdyVXhneQ+sf
+	WbqCXP5oLrJT8Nqz8rZSLHb4vxvgVThzwaEolL0ieVfxPk8uU8njgf5e5eihfnI3L7vaPztelF7gQ
+	no3lxubpPv4+VmQMHzrO6CPJETOBHQQ3oLelLkrYhmuqObZ6BXp7MC09eRMOga7G/cqw=;
+Received: from [70.80.174.168] (port=53296 helo=pettiford)
+	by mail.hugovil.com with esmtpa (Exim 4.92)
+	(envelope-from <hugo@hugovil.com>)
+	id 1vBkRv-0004r9-0r; Wed, 22 Oct 2025 21:49:08 -0400
+Date: Wed, 22 Oct 2025 21:49:06 -0400
+From: Hugo Villeneuve <hugo@hugovil.com>
+To: Chris Brandt <chris.brandt@renesas.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette
+ <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Biju Das
+ <biju.das.jz@bp.renesas.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Hien Huynh <hien.huynh.px@renesas.com>,
+ Nghia Vo <nghia.vo.zn@renesas.com>, linux-renesas-soc@vger.kernel.org,
+ linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org
+Message-Id: <20251022214906.eaf123bd740ac9e396a65570@hugovil.com>
+In-Reply-To: <20251022235903.1091453-2-chris.brandt@renesas.com>
+References: <20251022235903.1091453-1-chris.brandt@renesas.com>
+	<20251022235903.1091453-2-chris.brandt@renesas.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+Mime-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 70.80.174.168
+X-SA-Exim-Mail-From: hugo@hugovil.com
+X-Spam-Level: 
+X-Spam-Report: 
+	* -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+	* -1.9 NICE_REPLY_A Looks like a legit reply (A)
+Subject: Re: [PATCH v3 1/2] clk: renesas: rzg2l: Remove DSI clock rate
+ restrictions
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
 
-On Fri, 17 Oct 2025 16:18:26 +0100 Prabhakar wrote:
->   net: ravb: Make DBAT entry count configurable per-SoC
->   net: ravb: Allocate correct number of queues based on SoC support
+Hi Chris,
 
-These need a better commit message underlining the severity of the
-issue. Failing that they should lose the Fixes and stable tags and
-get reposted for net-next.
+On Wed, 22 Oct 2025 19:59:02 -0400
+Chris Brandt <chris.brandt@renesas.com> wrote:
 
->   net: ravb: Enforce descriptor type ordering
->   net: ravb: Ensure memory write completes before ringing TX doorbell
+> Convert the limited MIPI clock calculations to a full range of settings
+> based on math including H/W limitation validation.
+> Since the required DSI division setting must be specified from external
+> sources before calculations, expose a new API to set it.
+> 
+> Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
+> Signed-off-by: hienhuynh <hien.huynh.px@renesas.com>
+> Signed-off-by: Nghia Vo <nghia.vo.zn@renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Tested-by: Biju Das <biju.das.jz@bp.renesas.com>
+> 
+> ---
+> v1->v2:
+> - Remove unnecessary parentheses
+> - Add target argument to new API
+> - DPI mode has more restrictions on DIV_A and DIV_B
+> 
+> v2->v3:
+> - Removed Empty lines (Hugo)
+> - Add dummy for compile-testing CONFIG_CLK_RZG2L=n case (Geert)
+> - Renamed label found_dsi_div to calc_pll_clk (Hugo)
+> - Renamed label found_clk to clk_valid (Hugo)
+> - Removed 'found' var because not needed
+> - Move 'foutpostdiv_rate =' after if(foutvco_rate > 1500000000) (Hugo)
+> - Move PLL5_TARGET_* for new API to renesas.h (Hugo,Geert)
+> - Convert #define macros PLL5_TARGET_* to enum (Geert)
+> - static {unsigned} int dsi_div_ab; (Geert)
+> - {unsigned} int a, b;  (Geert)
+> - Change "((1 << a) * (b + 1))" to "(b + 1) << a"  (Geert)
+> - Change "foutvco_rate = rate * (1 << xxx ) * ..." to " = rate * ... * << xxx (Geert)
+> - Move (u64) outside of modulo operation to avoid helper on 32-bit compiles (Geert)
+> - Change DIV_ROUND_CLOSEST_ULL() to DIV_ROUND_CLOSEST() (Geert)
+> - void rzg2l_cpg_dsi_div_set_divider({unsinged} int divider, int target)
+> - Change "dsi_div_ab = (1 << AAA) * (BBB + 1)" to " = (BBB + 1) << AAA (Geert)
+> - Added Reviewed-by and Tested-by (Biju)
+> ---
+>  drivers/clk/renesas/rzg2l-cpg.c | 129 +++++++++++++++++++++++++++++---
+>  include/linux/clk/renesas.h     |  11 +++
+>  2 files changed, 130 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-cpg.c
+> index 07909e80bae2..0e9362c2ca95 100644
+> --- a/drivers/clk/renesas/rzg2l-cpg.c
+> +++ b/drivers/clk/renesas/rzg2l-cpg.c
+> @@ -74,6 +74,19 @@
+>  #define MSTOP_OFF(conf)		FIELD_GET(GENMASK(31, 16), (conf))
+>  #define MSTOP_MASK(conf)	FIELD_GET(GENMASK(15, 0), (conf))
+>  
+> +#define PLL5_FOUTVCO_MIN	800000000
+> +#define PLL5_FOUTVCO_MAX	3000000000
+> +#define PLL5_POSTDIV_MIN	1
+> +#define PLL5_POSTDIV_MAX	7
+> +#define PLL5_POSTDIV_DEF	1
+> +#define PLL5_REFDIV_MIN		1
+> +#define PLL5_REFDIV_MAX		2
+> +#define PLL5_REFDIV_DEF		1
+> +#define PLL5_INTIN_MIN		20
+> +#define PLL5_INTIN_MAX		320
+> +#define PLL5_INTIN_DEF		125
+> +#define PLL5_FRACIN_DEF		0
+> +
+>  /**
+>   * struct clk_hw_data - clock hardware data
+>   * @hw: clock hw
+> @@ -129,6 +142,12 @@ struct rzg2l_pll5_param {
+>  	u8 pl5_spread;
+>  };
+>  
+> +/* PLL5 output will be used for DPI or MIPI-DSI */
+> +static int dsi_div_target = PLL5_TARGET_DPI;
+> +
+> +/* Required division ratio for MIPI D-PHY clock changes depending on resolution and lanes. */
+> +static unsigned int dsi_div_ab;
+> +
+>  struct rzg2l_pll5_mux_dsi_div_param {
+>  	u8 clksrc;
+>  	u8 dsi_div_a;
+> @@ -557,23 +576,104 @@ rzg2l_cpg_sd_mux_clk_register(const struct cpg_core_clk *core,
+>  }
+>  
+>  static unsigned long
+> -rzg2l_cpg_get_foutpostdiv_rate(struct rzg2l_pll5_param *params,
+> +rzg2l_cpg_get_foutpostdiv_rate(struct rzg2l_cpg_priv *priv,
+> +			       struct rzg2l_pll5_param *params,
+>  			       unsigned long rate)
+>  {
+>  	unsigned long foutpostdiv_rate, foutvco_rate;
+> +	u8 div = 1;
+> +	unsigned int a, b;
+> +
+> +	if (priv->mux_dsi_div_params.clksrc)
+> +		div = 2;
+> +
+> +	/* Calculate the DIV_DSI_A and DIV_DSI_B based on the final DIV DSI */
+> +	for (a = 0; a < 4; a++) {
+> +		if (dsi_div_target == PLL5_TARGET_DPI && a == 0)
+> +			continue;	/* 1/1 div not supported for DIV_DSI_A for DPI */
+> +
+> +		for (b = 0; b < 16; b++) {
+> +			if (dsi_div_target == PLL5_TARGET_DPI && b != 0)
+> +				continue;	/* Only 1/1 div supported for DIV_DSI_B in DPI */
+>  
+> -	params->pl5_intin = rate / MEGA;
+> -	params->pl5_fracin = div_u64(((u64)rate % MEGA) << 24, MEGA);
+> -	params->pl5_refdiv = 2;
+> -	params->pl5_postdiv1 = 1;
+> -	params->pl5_postdiv2 = 1;
+> +			if ((b + 1) << a == dsi_div_ab) {
+> +				priv->mux_dsi_div_params.dsi_div_a = a;
+> +				priv->mux_dsi_div_params.dsi_div_b = b;
+> +
+> +				goto calc_pll_clk;
+> +			}
+> +		}
+> +	}
+> +
+> +calc_pll_clk:
+> +	/*
+> +	 * Below conditions must be set for PLL5 parameters:
+> +	 * - REFDIV must be between 1 and 2.
+> +	 * - POSTDIV1/2 must be between 1 and 7.
+> +	 * - INTIN must be between 20 and 320.
+> +	 * - FOUTVCO must be between 800MHz and 3000MHz.
+> +	 */
+> +	for (params->pl5_postdiv1 = PLL5_POSTDIV_MIN;
+> +	     params->pl5_postdiv1 < PLL5_POSTDIV_MAX + 1;
 
-This are not controversial, I picked them up to net. Thanks
+I think it would be easier to read/understand like this:
+    params->pl5_postdiv1 <= PLL5_POSTDIV_MAX;
+
+> +	     params->pl5_postdiv1++) {
+> +		for (params->pl5_postdiv2 = PLL5_POSTDIV_MIN;
+> +		     params->pl5_postdiv2 < PLL5_POSTDIV_MAX + 1;
+
+Ditto
+
+> +		     params->pl5_postdiv2++) {
+> +			foutvco_rate = rate * (priv->mux_dsi_div_params.dsi_div_b + 1) * div *
+> +				       params->pl5_postdiv1 * params->pl5_postdiv2 <<
+> +				       priv->mux_dsi_div_params.dsi_div_a;
+> +
+> +			if (foutvco_rate < PLL5_FOUTVCO_MIN + 1 ||
+> +			    foutvco_rate > PLL5_FOUTVCO_MAX - 1)
+
+Similar:
+
+    if (foutvco_rate <= PLL5_FOUTVCO_MIN ||
+        foutvco_rate >= PLL5_FOUTVCO_MAX)
+
+etc...
+
+> +				continue;
+> +
+> +			for (params->pl5_refdiv = PLL5_REFDIV_MIN;
+> +			     params->pl5_refdiv < PLL5_REFDIV_MAX + 1;
+> +			     params->pl5_refdiv++) {
+> +				params->pl5_intin = (foutvco_rate * params->pl5_refdiv) /
+> +						    (EXTAL_FREQ_IN_MEGA_HZ * MEGA);
+> +				if (params->pl5_intin < PLL5_INTIN_MIN + 1 ||
+> +				    params->pl5_intin > PLL5_INTIN_MAX - 1)
+> +					continue;
+> +				params->pl5_fracin = div_u64(((u64)
+> +						     (foutvco_rate * params->pl5_refdiv) %
+> +						     (EXTAL_FREQ_IN_MEGA_HZ * MEGA)) << 24,
+> +						     EXTAL_FREQ_IN_MEGA_HZ * MEGA);
+> +
+> +				params->pl5_fracin = div_u64((u64)
+> +						     ((foutvco_rate * params->pl5_refdiv) %
+> +						     (EXTAL_FREQ_IN_MEGA_HZ * MEGA)) << 24,
+> +						     EXTAL_FREQ_IN_MEGA_HZ * MEGA);
+
+Remove second identical block?
+
+> +
+> +				goto clk_valid;
+> +			}
+> +		}
+> +	}
+> +
+> +	/* Set defaults since valid clock was not found */
+> +	params->pl5_intin = PLL5_INTIN_DEF;
+> +	params->pl5_fracin = PLL5_FRACIN_DEF;
+> +	params->pl5_refdiv = PLL5_REFDIV_DEF;
+> +	params->pl5_postdiv1 = PLL5_POSTDIV_DEF;
+> +	params->pl5_postdiv2 = PLL5_POSTDIV_DEF;
+> +
+> +clk_valid:
+>  	params->pl5_spread = 0x16;
+>  
+>  	foutvco_rate = div_u64(mul_u32_u32(EXTAL_FREQ_IN_MEGA_HZ * MEGA,
+>  					   (params->pl5_intin << 24) + params->pl5_fracin),
+>  			       params->pl5_refdiv) >> 24;
+> -	foutpostdiv_rate = DIV_ROUND_CLOSEST_ULL(foutvco_rate,
+> -						 params->pl5_postdiv1 * params->pl5_postdiv2);
+> +
+> +	/* If foutvco is above 1.5GHz, change parent and recalculate */
+> +	if (priv->mux_dsi_div_params.clksrc && foutvco_rate > 1500000000) {
+> +		priv->mux_dsi_div_params.clksrc = 0;
+> +		dsi_div_ab *= 2;
+> +		dsi_div_target = PLL5_TARGET_DSI;	/* Assume MIPI-DSI */
+> +		return rzg2l_cpg_get_foutpostdiv_rate(priv, params, rate);
+> +	}
+> +
+> +	foutpostdiv_rate = DIV_ROUND_CLOSEST(foutvco_rate,
+> +					     params->pl5_postdiv1 * params->pl5_postdiv2);
+>  
+>  	return foutpostdiv_rate;
+>  }
+> @@ -607,7 +707,7 @@ static unsigned long rzg2l_cpg_get_vclk_parent_rate(struct clk_hw *hw,
+>  	struct rzg2l_pll5_param params;
+>  	unsigned long parent_rate;
+>  
+> -	parent_rate = rzg2l_cpg_get_foutpostdiv_rate(&params, rate);
+> +	parent_rate = rzg2l_cpg_get_foutpostdiv_rate(priv, &params, rate);
+>  
+>  	if (priv->mux_dsi_div_params.clksrc)
+>  		parent_rate /= 2;
+> @@ -626,6 +726,13 @@ static int rzg2l_cpg_dsi_div_determine_rate(struct clk_hw *hw,
+>  	return 0;
+>  }
+>  
+> +void rzg2l_cpg_dsi_div_set_divider(unsigned int divider, int target)
+> +{
+> +	dsi_div_ab = divider;
+> +	dsi_div_target = target;
+> +}
+> +EXPORT_SYMBOL_GPL(rzg2l_cpg_dsi_div_set_divider);
+> +
+>  static int rzg2l_cpg_dsi_div_set_rate(struct clk_hw *hw,
+>  				      unsigned long rate,
+>  				      unsigned long parent_rate)
+> @@ -858,7 +965,7 @@ static int rzg2l_cpg_sipll5_set_rate(struct clk_hw *hw,
+>  
+>  	vclk_rate = rzg2l_cpg_get_vclk_rate(hw, rate);
+>  	sipll5->foutpostdiv_rate =
+> -		rzg2l_cpg_get_foutpostdiv_rate(&params, vclk_rate);
+> +		rzg2l_cpg_get_foutpostdiv_rate(priv, &params, vclk_rate);
+>  
+>  	/* Put PLL5 into standby mode */
+>  	writel(CPG_SIPLL5_STBY_RESETB_WEN, priv->base + CPG_SIPLL5_STBY);
+> @@ -948,6 +1055,8 @@ rzg2l_cpg_sipll5_register(const struct cpg_core_clk *core,
+>  	priv->mux_dsi_div_params.clksrc = 1; /* Use clk src 1 for DSI */
+>  	priv->mux_dsi_div_params.dsi_div_a = 1; /* Divided by 2 */
+>  	priv->mux_dsi_div_params.dsi_div_b = 2; /* Divided by 3 */
+> +	dsi_div_ab = (priv->mux_dsi_div_params.dsi_div_b + 1) <<
+> +		     priv->mux_dsi_div_params.dsi_div_a;
+>  
+>  	return clk_hw->clk;
+>  }
+> diff --git a/include/linux/clk/renesas.h b/include/linux/clk/renesas.h
+> index 0ebbe2f0b45e..f2edd1f4a6d9 100644
+> --- a/include/linux/clk/renesas.h
+> +++ b/include/linux/clk/renesas.h
+> @@ -16,6 +16,11 @@ struct device;
+>  struct device_node;
+>  struct generic_pm_domain;
+>  
+> +enum {
+> +	PLL5_TARGET_DPI,
+> +	PLL5_TARGET_DSI
+> +};
+> +
+>  void cpg_mstp_add_clk_domain(struct device_node *np);
+>  #ifdef CONFIG_CLK_RENESAS_CPG_MSTP
+>  int cpg_mstp_attach_dev(struct generic_pm_domain *unused, struct device *dev);
+> @@ -32,4 +37,10 @@ void cpg_mssr_detach_dev(struct generic_pm_domain *unused, struct device *dev);
+>  #define cpg_mssr_attach_dev	NULL
+>  #define cpg_mssr_detach_dev	NULL
+>  #endif
+> +
+> +#ifdef CONFIG_CLK_RZG2L
+> +void rzg2l_cpg_dsi_div_set_divider(unsigned int divider, int target);
+> +#else
+> +#define rzg2l_cpg_dsi_div_set_divider	NULL
+> +#endif
+>  #endif
+> -- 
+> 2.50.1
+> 
+> 
+
+
+-- 
+Hugo Villeneuve
 
