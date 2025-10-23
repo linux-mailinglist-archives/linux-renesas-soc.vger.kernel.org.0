@@ -1,151 +1,187 @@
-Return-Path: <linux-renesas-soc+bounces-23478-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23479-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C5CBC003C1
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 11:25:05 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0C83C00451
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 11:35:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 3AD9A4FF54B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 09:22:56 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 9BC2C4FEBFE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 09:35:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD5083019A7;
-	Thu, 23 Oct 2025 09:22:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62A8A3090CD;
+	Thu, 23 Oct 2025 09:35:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="NfiqOg+/"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="LAGjg/LN"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D641C23D7D1
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 09:22:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7928C308F2B
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 09:35:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761211374; cv=none; b=cqU5VWq+ZvivTRCvkEy5O8WQpkRRlsuFZoeoGb7ddHi2cMylFramSc8yb9Hns9a7LZZVnwT6WqmNO6/8PopLZALHih0QMuAXapI1gHj66+fXCKQjff4KNlykUyK+NgmUJlQ+uUWzxd8JZf8i8pLHtgTD4LB47VrMG+pk6geI2lg=
+	t=1761212105; cv=none; b=mQzeu59nBU845zasg2dEPraHq9tao+gWFtvClZyi04ISxrDck5C7LAkrK+XRkRrVXndncra3CzbK7qb6+qBNhJE3hg9dikQxawCd7W+l7OcSWv0WC5SYkU1iqFWU9f5owZgv7atksQ9vI0vd/HpOvvpI6wKzOFmLE0On5U+3phk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761211374; c=relaxed/simple;
-	bh=MmxmGHctKx7kK+Uo36QkuOd3XsUhd7hcJDU/dGKBmRo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HUi+XlUbb35d06hnZhViwLcMwfk0ocWHRd++PmCU/Wkv60QJNWo/VZjxdAW3xYcsj+j96GLMfr1W5hg4zHdzXpPAMxSRK9m3iSJofyom5bBfioU2tU98aglZl+ppIatV9X4KYeLK5zZ2ssukfiyy90sE1Wa/ktG7AMfD3KYuAz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=NfiqOg+/; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=uaeh
-	pVOpUf/cS5+cRmy5O8nlh0SiDkHpiLE/Lc4/G3k=; b=NfiqOg+/Cg8RKkmcycE3
-	CHVR1V020X5xIQRnVa/mJrEdgWuF0MNIIqk/8lFWAISva0LOoOQg2BhIprjv1mV6
-	riOlmdmAWtMgVD+f+bAtQvb3v2/5u3xAKs92HpZQuCpWlVXwnL1xWH/3kFm6c1hv
-	Qnrr35FwH86g04JHAK+Wyf3U7HcWlZJWuTel9PUH8zoihBWiR1h9E/onAqmoxBdC
-	Pjhe8cbVZ4AIoHS+/mOVWMkZxI3wYmbAE94iyZjtX6eQmZ973nfi0TfWDFoM6THf
-	bM+2t8aojoXktOJsQ+KfzJONnieAJSHMYfAIbdP9lodmMcN3L+/coh14yoVRRojX
-	rQ==
-Received: (qmail 2145142 invoked from network); 23 Oct 2025 11:22:50 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 23 Oct 2025 11:22:50 +0200
-X-UD-Smtp-Session: l3s3148p1@Z84b+s9BYlptKPAY
-Date: Thu, 23 Oct 2025 11:22:49 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Bartosz Golaszewski <brgl@bgdev.pl>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	linux-renesas-soc@vger.kernel.org,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] reset: always include RESET_GPIO driver if
- possible
-Message-ID: <aPnz6U-fcodRoobU@shikoro>
-References: <20251015205919.12678-4-wsa+renesas@sang-engineering.com>
- <20251015205919.12678-6-wsa+renesas@sang-engineering.com>
- <CAMuHMdXqHncXxBZ00mxV=pzdgQEU4ju2F9XMejnibbu=QnLfDg@mail.gmail.com>
- <aPEAx8ZGHBcWZKJF@shikoro>
- <CAMRc=McsbAirEYjoo455mbKU495VEvPmMEqBmZCq2hw113YHOg@mail.gmail.com>
- <aPIfF-3SgzW5V_gs@shikoro>
- <CAMRc=MfVPO292xmnXBWJzWuhNADA_u1yvpJ4kkK8TgZyQgaP+A@mail.gmail.com>
- <aPInv9NELU7N9QDn@shikoro>
- <CAMRc=MdWS2OSeJAkTRnAFMtXcVukwQ=JAWwJ3OHxogmgZnan6g@mail.gmail.com>
- <5c9761d5a6a14d4c250df6cc4201bca72d963133.camel@pengutronix.de>
+	s=arc-20240116; t=1761212105; c=relaxed/simple;
+	bh=gr0dkUJNASEf8ceLwJeoMt7S2QkV0+GSeA/fQen8xEU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TzmtzsLth6pFtkt49JHp53Oiqfd9XJuRXUGudOBkX5LxfHbvXSF9ALHx8KCOqPCY0iMPClmy7iYFEZPDXXa83VT12A1flUC/QUOScwua0RFxABatnan46pXXJ4x+Lgnoef/wQShpWBOQ+3I8ZJ6W88Lnhd8ias1X6vAUIAmonHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=LAGjg/LN; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-63e0cec110eso970493a12.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 02:35:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1761212102; x=1761816902; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qmowm21Hpqw+4/AYI01vQqCJ4eLpZHCFp6rzVE34vCo=;
+        b=LAGjg/LNsoWublYuwHxkxpNFpknkztEzAr0LhtkVk32FiWJV9qFe9T4hwgdeDzKtYi
+         jyJTMSakaeDWslKxd1155GbWPJz+SvC5eOiUj9oGArG2xZtz7IY5fugwY/e9fSy/0fqY
+         6ZgKlU0NI5iXmek23gEk/997gf72XHcMRloSnaCiO+UaKe/GUrk0JFzD2nFAssIqWrC8
+         UodTRZbcUnUF6UQDzyTWV4mz+GXS/bL5PQIcS1EIb8zsdryjVcdlvn9sy5j2bl4Ayjty
+         peWYlZ2YO/rJ/8f+/GrEhMITQp3xxAYoVQKph4j/wVAzOGisIoXBA7EtevR/VFGK8Kon
+         1gEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761212102; x=1761816902;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qmowm21Hpqw+4/AYI01vQqCJ4eLpZHCFp6rzVE34vCo=;
+        b=DKxiZhBk5LnZkzMRS5IQp5iJJ1FcIaWVoKPgvLqQrHn+pBrKDLLta4pJeLHUsCbVT8
+         7l5hOVxTNGx00c4LoMMkZPeePk+O90LUCgTZmFuBMS10+Xb0jxKktexBNQ8Oh2J3qbDQ
+         9nbHdfgHoc69j4Tz0+uOL8gDuZnX+kg+oUQwHsl3m3sggicsCTy7VMCSrAfqqG5ccqCa
+         dQzTUvpPt/16BdW7/hd6sU6p0iwBeuga/2SsZeHL3ZMRqmP2c11lz82/k4rgif7EMckQ
+         w2YAzOIL49SENmY/qA5DJFE+IllQlazV3khnEAPDjjcVFTp1oCmbRT8v1yT38mJcyukJ
+         vX7g==
+X-Forwarded-Encrypted: i=1; AJvYcCVNNezS04ae1ib5/uR7B+3RFJwa5iBZ7/tQG6nHbUghe0nX2HaNbk4/QXBjy45qzH++UyEO4Y5iaZqb59O4RNS6hA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4xD+/yv6wnMSbyjg0k4mYADdFXSGCqSeWegMCT2fnu9QnpR4Z
+	JgQY4bMUYfpuVBU3eHZSmwcYVThDJHELMfPt/3lRweWcMwiHKx33y9uiWJn7h5+lqVM=
+X-Gm-Gg: ASbGnct21GqBoCUMQK6MrYEe8rtO/rXKvV75IthF0n7ZrIa3xKsM2GaqXYFuS6BlcPq
+	wzGnoF50zT9Wp/bFEJyDuCHlp6mezc+fMBfOslBIAa6nu3IVd+/0FhEY34KZxnILkFKjqLOUaU/
+	HZzYVhs8/h68ytdDuffGwrdQKDUrAGzNh6JVV1H89jc1Qqu6V59kVJnnxg/asJflXg4X7Iwx2sv
+	besO5JojJ+Tg6y3Wyfp12axq0lcOIVmtQMULbZaq+AqeC4C874mm+q79vCO+rkVphkV1n1kaDtQ
+	E3RL7aJOb6o+k90iR3ryxLAVu2BzgcdupuQ84F55IongyxFCKynnr8UXWMVWVMWA9LT6MFYiGEM
+	owSyeH/YfktyopLf5YlUTVExMfz0t29GLz303v+h5Vd4XZfV7kYMW8zHG26oW1e9aOrXcHsszaX
+	H4PCe3sTz3SJ/2wGVYRyPcHIcpOjPGUA==
+X-Google-Smtp-Source: AGHT+IFGTq4/7TP6ZCRMZYcsJ7erefXsS1HrT5neWmXnbi7qAKyTavrz98f5qajkgOWdme7WJ3OhAA==
+X-Received: by 2002:a05:6402:510b:b0:639:dd3f:f25d with SMTP id 4fb4d7f45d1cf-63c1f631b53mr22474619a12.7.1761212101707;
+        Thu, 23 Oct 2025 02:35:01 -0700 (PDT)
+Received: from [192.168.50.4] ([82.78.167.151])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-63e3f32366csm1257905a12.30.2025.10.23.02.34.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Oct 2025 02:35:01 -0700 (PDT)
+Message-ID: <6c69d2a2-5dfe-450f-8a39-2ef6e7a6dbea@tuxon.dev>
+Date: Thu, 23 Oct 2025 12:34:59 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="mKofs96cu7kGmLt9"
-Content-Disposition: inline
-In-Reply-To: <5c9761d5a6a14d4c250df6cc4201bca72d963133.camel@pengutronix.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 2/6] PCI: rzg3s-host: Add Renesas RZ/G3S SoC host
+ driver
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: lpieralisi@kernel.org, kwilczynski@kernel.org, mani@kernel.org,
+ robh@kernel.org, bhelgaas@google.com, krzk+dt@kernel.org,
+ conor+dt@kernel.org, geert+renesas@glider.be, magnus.damm@gmail.com,
+ p.zabel@pengutronix.de, linux-pci@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>
+References: <20251007133657.390523-1-claudiu.beznea.uj@bp.renesas.com>
+ <20251007133657.390523-3-claudiu.beznea.uj@bp.renesas.com>
+ <CAMuHMdXF14x68Wk5YdOBS2D2N6LtnQjfGzrsMdSJegX-gc3faQ@mail.gmail.com>
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Content-Language: en-US
+In-Reply-To: <CAMuHMdXF14x68Wk5YdOBS2D2N6LtnQjfGzrsMdSJegX-gc3faQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+Hi, Geert,
 
---mKofs96cu7kGmLt9
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 10/23/25 11:00, Geert Uytterhoeven wrote:
+> Hi Claudiu,
+> 
+> On Tue, 7 Oct 2025 at 15:37, Claudiu <claudiu.beznea@tuxon.dev> wrote:
+>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>
+>> The Renesas RZ/G3S features a PCIe IP that complies with the PCI Express
+>> Base Specification 4.0 and supports speeds of up to 5 GT/s. It functions
+>> only as a root complex, with a single-lane (x1) configuration. The
+>> controller includes Type 1 configuration registers, as well as IP
+>> specific registers (called AXI registers) required for various adjustments.
+>>
+>> Hardware manual can be downloaded from the address in the "Link" section.
+>> The following steps should be followed to access the manual:
+>> 1/ Click the "User Manual" button
+>> 2/ Click "Confirm"; this will start downloading an archive
+>> 3/ Open the downloaded archive
+>> 4/ Navigate to r01uh1014ej*-rzg3s-users-manual-hardware -> Deliverables
+>> 5/ Open the file r01uh1014ej*-rzg3s.pdf
+>>
+>> Link: https://www.renesas.com/en/products/rz-g3s?queryID=695cc067c2d89e3f271d43656ede4d12
+>> Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> 
+> Thanks for your patch!
+> 
+>> --- /dev/null
+>> +++ b/drivers/pci/controller/pcie-rzg3s-host.c
+> 
+>> +static void rzg3s_pcie_irq_compose_msi_msg(struct irq_data *data,
+>> +                                          struct msi_msg *msg)
+>> +{
+>> +       struct rzg3s_pcie_msi *msi = irq_data_get_irq_chip_data(data);
+>> +       struct rzg3s_pcie_host *host = rzg3s_msi_to_host(msi);
+>> +       u32 drop_mask = RZG3S_PCI_MSIRCVWADRL_ENA |
+>> +                       RZG3S_PCI_MSIRCVWADRL_MSG_DATA_ENA;
+> 
+> This should include bit 2 (which is hardwired to zero (for now)),
+> so I think you better add
+> 
+>     #define RZG3S_PCI_MSIRCVWADRL_ADDR  GENMASK(31, 3)
+> 
+>> +       u32 lo, hi;
+>> +
+>> +       /*
+>> +        * Enable and msg data enable bits are part of the address lo. Drop
+>> +        * them.
+>> +        */
+>> +       lo = readl_relaxed(host->axi + RZG3S_PCI_MSIRCVWADRL) & ~drop_mask;
+> 
+> ... and use FIELD_GET() with the new definition here.
 
-Hi Philipp,
+Bits 31..3 of RZG3S_PCI_MSIRCVWADRL contains only bits 31..3 of the MSI
+receive window address low, AFAIU. Using FIELD_GET() for bits 31..3 on the
+value read from RZG3S_PCI_MSIRCVWADRL and passing this value to
+msg->address_lo will lead to an NVMe device not working.
 
-> > > I dunno for how many drivers this is really applicable, but I really
-> > > liked the cleanup of the pca954x driver.
->=20
-> That cleanup might have been a little premature, given that the reset-
-> gpio driver currently only works on OF-based platforms, and even there
-> only with gpio controllers with #gpio-cells =3D <2>.
+The documentation of RZG3S_PCI_MSIRCVWADRL on bits 31..3 specifies: "Set
+the MSI receiving window's Start Address [31:3]. However, they must be aligned
+ to the size set by the MSI Receive Window Mask"
 
-I see. That kind of spoils my assumption that it is a fallback supported
-by the core. Darn, I would still like to have it, but it seems more
-complicated than I have time for it :(
+The RZG3S_PCI_MSIRCVWMSKL have the last 2 bits set to 0x3, always, as of
+the current documentation.
 
-> How about selecting RESET_GPIO from I2C_MUX_PCA954x? It already depends
-> on GPIOLIB. Although I don't like the idea of drivers being converted
-> en masse, all selecting RESET_GPIO ...
+The value written to RZG3S_PCI_MSIRCVWADRL in rzg3s_pcie_msi_hw_setup() is
+aligned to 128 (RZG3S_PCI_MSI_INT_NR * sizeof(u32)) and thus bits 2..0 will
+be zero, and so, these bits are used by HW to allow us, e.g., to enable the
+MSI window.
 
-Well, on top of that, reset is optional with this driver, so selecting
-it doesn't feel proper.
+RZ/G3E have 64 MSI interrupts and this will be aligned to 256, thus, the
+last 3 LSB bits of the address written to RZG3S_PCI_MSIRCVWADRL will always
+be zero (at least with the current known setups) and we can use the
+register RZG3S_PCI_MSIRCVWADRL as proposed in this patch.
 
-> To be honest, I don't like either very much.
->=20
-> Yes, the reset-gpio driver is only about three pages in size, but
-> force-enabling it for nearly everyone, just because some hardware
-> designs like to share resets a little too much, feels wrong to me,
-> especially in its current state.
+Due to these I haven't added more alignment constraints on the value set in
+RZG3S_PCI_MSIRCVWADRL.
 
-I understand the argument of 'too limited in the current state'. I don't
-get the 'share too much' argument? The fallback would remove open-coded
-"reset-gpios" handling and sync it with generic reset handling?
-
-> And just default-enabling it doesn't solve the regression problem when
-> updating preexisting configs.
-
-Yes.
-
-Well, at least patch 1 seems okay, so users at least get notified of the
-problem...
-
-All the best,
-
-   Wolfram
-
-
---mKofs96cu7kGmLt9
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmj58+UACgkQFA3kzBSg
-KbaifQ//Q3wcCTFzd3BHSUa+0++ku3/boJCNnTrasBVNJeGvrUsI0HblrxxqB+D0
-oSfi7y2UvH8DyeARLoBd6nKDZlE+KEbG0PEcZXSkkKlqrMpNpH9X0eWBLO3PCWBh
-zlI73MIirI3/PBDwi/5YPkkuynw5A7OgyGnxHy5xxj8obnIa70h5w/DpdSMNgSD8
-KaCVFhAHUb3hNNOW8IyQxgkYTijj0zFs2bbdj4Heat9v0dtsiuKKChY+RazaeBMM
-4u13pzuxyrTFSl3yQ6EDxZcmn3tkkZW+HTMBrhPFnmf1SNEpKGgGOEsGOraLqmhe
-lOqB2I+H43T9+IVhcTsFwAd0vRvQrz6sVYrYmicLJt1WzBf/6gFmaYtLSPCUo9ju
-zSvp1vEqqyaHdkAcjT/DDRtWljKxU59JXHSdeROKld+maRLUdHsmU8dJviutAfUB
-QhRw9mja7q3ahBsHoCBoSBdQ+Sb2UM6D1uLq+o6ugd7f+/1X8OFMXe358Ym+5QYT
-fbAqp5CddWDLVJNA/po2dFL6uTZu4+y+zjYLr+lb6AlNi04ppS5N9Xnliz3Duuul
-nHMwqgU0cVerXdjqecDeC2vTyJoG5fcDty75jR5RGAFYkBspQvSwLCCYN9cLt2CQ
-mNVWYKUmf2cidYWLAIhVrdLg/MxcIMA6XwLjhohdwEoZ8qHV7xk=
-=CZiO
------END PGP SIGNATURE-----
-
---mKofs96cu7kGmLt9--
+Thank you for your review,
+Claudiu
 
