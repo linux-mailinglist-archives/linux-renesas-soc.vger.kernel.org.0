@@ -1,100 +1,125 @@
-Return-Path: <linux-renesas-soc+bounces-23504-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23505-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA8ABC014F0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 15:16:48 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18894C014F6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 15:17:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 66D4A35A7DC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 13:16:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0AED11A03CBC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 13:17:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49D7B314D14;
-	Thu, 23 Oct 2025 13:16:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="E9V3DDoU"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40C81314B9D;
+	Thu, 23 Oct 2025 13:16:47 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71C92314D11
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 13:16:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDD47314D25;
+	Thu, 23 Oct 2025 13:16:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761225398; cv=none; b=d/5l39SnJNoUHuAS88lirMBQ8dY/kRvJNqQcestdx7vTtkN04nQAntcJStGtdWFkzc9MWt9rjtS+0bno4gSmw4P5X2yQ2WQ76nhL7oGxJdJmUQ7hsuFOPwmtf4MI+VwpTjG9JW4P3I7VYy1R3L4sFXajPi55Lyxa9ikjcPXDvpA=
+	t=1761225407; cv=none; b=KE/lmHpFZ4BmZmEbJrH2N0pVl/xyVgu0mrYOtIjrot+yccQ8unT2wd0PaZ+63wVsLIQybXQh1tzvNtGBJnMk42XBpRVOrv+1mije8aeandQfQ1coLgKF2C/MAlfpUCpp7eK6ij8Lq8p9NR7YkFz6ZDO5X+q2941i/lpOlM3zK0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761225398; c=relaxed/simple;
-	bh=qvBMS8bg69d5eHOUXQwEsxEbPD9sTtfrO3mvpqHTcGU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cWyOxP2pLF6m13d2Tu+BijwJ6so7cW98T6p6Tf+vgSJXfCpfda3c9ODKKr85lBhfomZjLnEWj1aYQrGOmnm5KhLeED0sPV+TZuWW26KLdMBtMprdf+0kWZrqmMFarz+AcA0SfqM8ws34jwszvec+mY/XkqvGdQv3O/AtRmzD9Os=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=E9V3DDoU; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4csml444B3z9t5M;
-	Thu, 23 Oct 2025 15:16:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1761225392;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jMer0xijIl2lTL04iKtshfq8Fg2YOiTXFJyKnSPzMUc=;
-	b=E9V3DDoUbx5FyYIvx8G0YsATqH4+QGhWhoITs6hxMCrVxpIePSXEWX1IAeEtscxZ8/o3Vu
-	qc6QJLHcNQTyx1KcX9vWm28ws92IlFu5xHDlSYR74CvwqQdix6gemneKwmbVIcqAKFZs3A
-	/+LRBjFg1CqnH7UAZqWUOHhqDLtjcgRkqPR9WzZhWWr1VU9qCoFDUGW2aEy+NbJzZGaXEH
-	wfAuNoKpgAKNzWx0EMAihlpV905pbEkJOT9ZWh57WkF3wryBneMBz/cjktegXHncIwwCuw
-	E5Mf7T7VWp1d+6RNQbY2Rh495/kVz14Nek+o7SGWTdvlj/lxsQtO7u7CKCQOPA==
-Message-ID: <31e56a8b-bfc2-4516-9c3c-2377a8e316ce@mailbox.org>
-Date: Thu, 23 Oct 2025 15:16:28 +0200
+	s=arc-20240116; t=1761225407; c=relaxed/simple;
+	bh=tDdnpRe5Vq/u0lp23dS08SYJsjLD1GQpIfr9QR5sovg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZTVSJ3GuTVFE5DeHoSOav/3QtTqpwn6USfdpASoly8rU5z0oW/gKnGs6C6p/8wfEwSRgEFeZ050jqA8Yiaiaa4lRkZShhlaeExu782yVF8Ivqg1SSNnzBXR3VLZhwPznvC55fgpFqKPhyVyujhMD8m4BN99GL3bFyHMKNYbODM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com; spf=none smtp.mailfrom=foss.arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=foss.arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 489C71516;
+	Thu, 23 Oct 2025 06:16:36 -0700 (PDT)
+Received: from bogus (e133711.arm.com [10.1.196.55])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3DB983F63F;
+	Thu, 23 Oct 2025 06:16:42 -0700 (PDT)
+Date: Thu, 23 Oct 2025 14:16:39 +0100
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: arm-scmi@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: firmware: arm,scmi: Document
+ arm,poll-transport property
+Message-ID: <20251023-able-fervent-tortoise-e7a6df@sudeepholla>
+References: <20251023123644.8730-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] arm64: guard AMU register access with ARM64_HAS_AMU_EXTN
-To: Yicong Yang <yangyccccc@gmail.com>
-Cc: Marc Zyngier <maz@kernel.org>, linux-arm-kernel@lists.infradead.org,
- Anshuman Khandual <anshuman.khandual@arm.com>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Ryan Roberts <ryan.roberts@arm.com>, Will Deacon <will@kernel.org>,
- Yicong Yang <yangyicong@hisilicon.com>, linux-renesas-soc@vger.kernel.org
-References: <20251022133621.178546-1-marek.vasut+renesas@mailbox.org>
- <86347bvx0f.wl-maz@kernel.org>
- <07391913-aab6-4d92-b75f-278506f51397@mailbox.org>
- <632d6afe-40d3-4632-99c7-b098967bd649@gmail.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <632d6afe-40d3-4632-99c7-b098967bd649@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: a1aa58c112299b2b393
-X-MBO-RS-META: gynmh6oujheewxi6h5cfeo7xnzz34ci7
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251023123644.8730-1-marek.vasut+renesas@mailbox.org>
 
-On 10/23/25 2:01 PM, Yicong Yang wrote:
-
-Hello Yicong,
-
->> This patch is mainly meant to prevent a surprise in case someone does set ARM64_HAS_AMU_EXTN=n , and the system still faults on AMU register access.
->>
+On Thu, Oct 23, 2025 at 02:35:57PM +0200, Marek Vasut wrote:
+> Document new property arm,poll-transport, which sets all SCMI operation into
+> poll mode. This is meant to work around uncooperative SCP implementations,
+> which do not generate completion interrupts. This applies primarily on mbox
+> based implementations, but does also cover SMC and VirtIO ones.
 > 
-> then I think it's more proper to guard it with CONFIG_ARM64_AMU_EXTN (I think you mean this above?)
-> rathter than the cpu cap. then with the patch kernel won't touch the AMU registers here if the kconfig is
-> disabled on you AMU supported hardware and AMU unsupported firmware.
+> With this property set, such implementations which do not generate interrupts
+> can be interacted with, until they are fixed to generate interrupts properly.
 > 
-> move the guard into reset_amuserenr_el0 macro will be neater here (personally I think).
+> Note that, because the original base protocol exchange also requires some
+> sort of completion mechanism, it is not possible to query SCMI itself for
+> this property and it must be described in DT. While this does look a bit
+> like policy, the SCMI provider is part of the hardware, hence DT.
+> 
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> ---
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: Cristian Marussi <cristian.marussi@arm.com>
+> Cc: Florian Fainelli <florian.fainelli@broadcom.com>
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Sudeep Holla <sudeep.holla@arm.com>
+> Cc: arm-scmi@vger.kernel.org
+> Cc: devicetree@vger.kernel.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> ---
+>  Documentation/devicetree/bindings/firmware/arm,scmi.yaml | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+> index be817fd9cc34b..b53754a318ea1 100644
+> --- a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+> +++ b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+> @@ -146,6 +146,13 @@ properties:
+>        this platform. If set, the value should be non-zero.
+>      minimum: 1
+>  
+> +  arm,poll-transport:
+> +    type: boolean
+> +    description:
+> +      An optional property which unconditionally forces polling in all transports.
+> +      This is mainly mean to work around uncooperative SCP, which does not generate
+> +      completion interrupts.
+> +
 
-I can update the patch this way, sure.
+Could you please clarify which platform and transport this change pertains to?
 
-If this is also OK with ARM people, I can send a V2 like that ?
+Introducing a property that enforces unconditional polling across all
+platforms is not ideal - particularly if this is intended as a workaround
+for a platform- or firmware- specific issue. Such implementations often get
+replicated across platforms without addressing the root cause, leading to
+wider inconsistencies.
+
+It would be preferable to scope this behavior using the platform’s compatible
+string. This approach ensures the workaround is applied only to the affected
+platform and prevents it from being inadvertently enabled elsewhere, unless
+another platform intentionally uses the same compatible string (which seems
+unlikely).
 
 -- 
-Best regards,
-Marek Vasut
+Regards,
+Sudeep
 
