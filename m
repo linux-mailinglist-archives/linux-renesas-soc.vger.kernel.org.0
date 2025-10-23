@@ -1,101 +1,116 @@
-Return-Path: <linux-renesas-soc+bounces-23457-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23458-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BC69BFF75A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 09:08:01 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68884BFF879
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 09:24:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B991E4F46E9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 07:07:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 508A11A025B4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 07:25:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6A7B2BDC29;
-	Thu, 23 Oct 2025 07:07:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2D2B2F60BC;
+	Thu, 23 Oct 2025 07:19:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Nz9r7kuG"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BSjgc91f"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89E69292918
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 07:07:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A99A2F5319
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 07:19:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761203276; cv=none; b=PaIEt0avT/GswPe8k/FmJWTwzHosqHBJsIO2vaCHzcTojSjvgdf5MsQ0ujTqgr3FNqxgf0Usyq8ap8F2YYq2CnuUfkhbvzaccO8mlo6WwNxNEzwbdq31cBUlF4zaf3+uJlM1vanoMR6AMQWt2o/k+Z86+GTSKIjxNacNoJ3BRXc=
+	t=1761203987; cv=none; b=GnvWqcldzffHnsduaktjealsSEG3mNrawfkj1DZp+xj9IYnws5F2vrErbpeAHCBXNFT6/38KT/SuVbpwPulEBrfdtKvL2t8BgUKxoUqtXrt/vYq77fmtB1nYBxrxXkUdDIxi09mZZMjG43/EFK2E8WWxlk0NVHZ54NUdPzaidIU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761203276; c=relaxed/simple;
-	bh=ILCfqgDT0pnO9jTKvNAzKXyV01WDX65aW3M+27Sl1vA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MxtRX5v6MW9oU0vmLQbB0mBt519+7Zxy1P1ymjL4sRX2O/O5fAmXeEwS/eQPvx7TwPg0QXIEXgPxk17fwKh0OHdlJdWe3vccFPI0c+LjWiiFPXRVJIsxEAjdQuUo/AvhA033hEsYzFyE/OgDkUVC30nss4FDXVQ+kgF95pFRnvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Nz9r7kuG; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=ILCf
-	qgDT0pnO9jTKvNAzKXyV01WDX65aW3M+27Sl1vA=; b=Nz9r7kuGtfMybkz11dcJ
-	pdOd4gO7C4rZRdrxvn5cJAt9eCQFvOAC+1nKIC8o+4A2u5FYIoh8LdgEfd68oOmo
-	IUewTw37y2VVOypg+epEEUSwPSBUf1uI9A35H9FFuIUKDGH4RmdSx5h8zVfB37Tl
-	kybA418RmuVBNPBy4e+Zi+3Xp++w7GPEJCX8eR8nHCp2XAyCioP76UMpAEYisk4l
-	cW+jLMcvpufjgwkyL/oVvsx2ZWoZyg/nBEsH/TYp19x6L6VYcg++XeG4Ym80zX4I
-	Ueh9QIs5aqO0uWaDLtJj5mkc9aYxya6LiSjW46LPCbOzz0rgyv4HbQklj+ng6j9P
-	QQ==
-Received: (qmail 2101982 invoked from network); 23 Oct 2025 09:07:47 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 23 Oct 2025 09:07:47 +0200
-X-UD-Smtp-Session: l3s3148p1@DOcUF85BBjVtKPAY
-Date: Thu, 23 Oct 2025 09:07:46 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2] ARM: dts: renesas: kzm9g: name interrupts for
- accelerometer
-Message-ID: <aPnUQtJECB9k5D41@shikoro>
-References: <20251011212358.3347-2-wsa+renesas@sang-engineering.com>
+	s=arc-20240116; t=1761203987; c=relaxed/simple;
+	bh=eKKGOO+EUYU7mFuj7z5lwhNA8rPS+bCTcsDg6/XrPM4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dtydUNmWNij+IgTR7S+FbliPWAUsS6EEj7tsuLkhXHnSMmnGTeyW0iYRnvBg99AvDhMsWgHqO+NaqgBGosvLJPIfdz179uyGsu89z8Cg/PWTcg/j+rAUOLrO5oJhTNdeNwLlkw/5WTjxoFBjPmVGHlrWeKf2C8Dd2GW7y7cf8xE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BSjgc91f; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-47117f92e32so3698975e9.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 00:19:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761203984; x=1761808784; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eKKGOO+EUYU7mFuj7z5lwhNA8rPS+bCTcsDg6/XrPM4=;
+        b=BSjgc91fYRnfjP3+xsBySkpSzz9DZ1sMPXXH9X9a00asjdgtPR7K/hh+Cg2vaZhg27
+         K9x8IYoIaV4CZUGZ3vkgebNOwUPr196exu/6EZ27zwPbRA8aMrvKXuUOYm0glikKkX3j
+         bRkafoxKnnhJ8XoOfrhfFxs7Y+RLZOBXpIl4pc3JJld8q13x4j/9he7cjjz5Ui5JOWkV
+         KN6sG25N+ohacgKEXaQgnSELyYW2RMbEvqSY6tW0IuF0TAF7OucvK1C/Mje5/CnnjGOq
+         Z5c6dwdYlX44Zu1jEAoyWw1F3GTUac/rRPH96DrGvnIgqSyVAxkv+q3ZiLH3hmfBUsmb
+         9Wpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761203984; x=1761808784;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=eKKGOO+EUYU7mFuj7z5lwhNA8rPS+bCTcsDg6/XrPM4=;
+        b=d08UKUdKKwXErQtKbaxEGzuj9ntIvLcFlawihJwOniUyzdbtXdx9ovh5R4GAJXAVYP
+         bWXBk8nvqflMj/ZdTR+vLQ0gzU/30T6DMvX3fUJO4DnIcJIIlgbdl+kQxhZiHqThvVLu
+         Yd/tsR5bxkmLTxhRYL3nvhLNXVem/oFYetM7mQeahzCDaPF1siODPV4cs9vmvC3eWw8+
+         gdB4wWQ49p5vHXMjjBgwLpxPdfWWiE2Fd9vKclEt2qL3y1gnG2Ys/MpYy34A5OyxGuy1
+         orypFiOI6724dvifSksXzmF6GCOcKjgZet/P+yTPqDBrS1lPNobJPiHSOEqpDdJpxzpX
+         uYNw==
+X-Forwarded-Encrypted: i=1; AJvYcCVRZEd0cNzDsPvFMNkvUyWEQTBY3gHF6ZnVKvlVXvU7MI7b2L1VyZ9K8BG1DpR1OZNV6PlpCvY8OFwmt+6gQv08EA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzvekJwaahqEOOt4S/caAyCVPrlhbBCFPYdjIS0IcEGL81gHXlf
+	rRq8nfmZd6Wl5cm2ISUWzyzsG6f5fFkkTwfZ6gb06eMpHU/1OYXfBJkS2UeFYfDERhdSF7VLyS3
+	pfXNC2zWCZSrssK/6UDnTzDTsWeZDrc4=
+X-Gm-Gg: ASbGncvKc0hv1tedg3gEx5Jhrj7kovQJuZiCGdoysp5T2h2he6KxxKrkY3WZsj1D4DE
+	wLyZt8t7uYeqaoX8xKcqCznrsjXhQmr+Qj+16AIZrpImjTUIiqjyC04/j3LkHp9AwLj2/QZFe08
+	QrWuc19ef0jZSLzuWjlXhio+vbJo85vxdG3+NXNlrHGMspIhTPBeeQbgjFLL99ICr1Z/huH9AYJ
+	ReOIbQQzeEs+LzUV3y/TPF34jsudJJlQe9I6a9jIDi6CP3alnitcv3ihBLaT44Pjknj9YdI
+X-Google-Smtp-Source: AGHT+IH/mkmYloWSl+N3GeTRYAq7ya3Ct20DnnSTnKTWUDECJMSJuulDknWTBXri6ZT9mQCzclYrezLV30aAJPqFoCY=
+X-Received: by 2002:a05:6000:22c6:b0:3eb:5ff:cb2e with SMTP id
+ ffacd0b85a97d-42704d945afmr16411155f8f.29.1761203983713; Thu, 23 Oct 2025
+ 00:19:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Xqgng3i+xl4NPO/Y"
-Content-Disposition: inline
-In-Reply-To: <20251011212358.3347-2-wsa+renesas@sang-engineering.com>
+References: <20250923115120.75685-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <2025102218-blinker-babbling-5fcb@gregkh>
+In-Reply-To: <2025102218-blinker-babbling-5fcb@gregkh>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Thu, 23 Oct 2025 08:19:13 +0100
+X-Gm-Features: AWmQ_bmLla7MkDZZGpNbPEINbL9Ov2BbNibp0fEZqdf2JnlACZ-DZdND2GSrAnI
+Message-ID: <CA+V-a8tOqZ-1KKgkEtoMnFpYghY+8wpnyr2T6XZFvPY9zG2Byg@mail.gmail.com>
+Subject: Re: [PATCH] serial: sh-sci: Merge sh-sci.h into sh-sci.c
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Jiri Slaby <jirislaby@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, linux-kernel@vger.kernel.org, 
+	linux-serial@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Greg,
 
---Xqgng3i+xl4NPO/Y
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Wed, Oct 22, 2025 at 11:03=E2=80=AFAM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Tue, Sep 23, 2025 at 12:51:20PM +0100, Prabhakar wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Inline the contents of sh-sci.h into sh-sci.c and remove the
+> > header file. The header only contained register definitions
+> > and macros used exclusively by the sh-sci driver, making the
+> > separate header unnecessary.
+> >
+> > While at it, sort the includes in alphabetical order.
+>
+> That's two different things, should be two different patches :)
+>
+Ok, I will split them up and send a new version.
 
-
-> I'd think we can apply this before my binding update patch goes in.
-
-Binding update is in -next now.
-
-
---Xqgng3i+xl4NPO/Y
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmj51D4ACgkQFA3kzBSg
-KbbP5BAAgijmBnCG+g81QVnCtJSJ+O9xHzs3YLWHSIyuxzbeRGdKqH8dzMlcNrCk
-IsKXAe2w9Lv+Mc/DFtM0G/umxRfQMDbFyD1eCA2eGfW+YZjjkCy7v1AlEC0e7gts
-IzrA3MqWhHMm3ik9OJvSzOy/K+9ifWuaGUYfwFZ3L+Rt/cwVcK/KWaxnTOCiWzCF
-F829VPdOH0yqJANCmrOesZrUwZxwV6bBLnvNxpn70p0QD98TcpLPLlMnHbOa86j3
-sPoNH7vSUKj89HPwP/rPkO217y7qrvQddEWYB0ubFH5Ulbu/tKwMHecXsONZ5+D7
-1iuysWxZslGNDsaUaf2QRzwlxL9Iqa5sCIRny55K0x9KFTQke5smnkyDC3Nu0Ayc
-awYoLmhbnTHK9L5UVQP/l1oItczl4pdZo8sQuyRVOwTiSiZH1wz8XQlxn5SsOALc
-FBeht00ICHB8kM+gA+gg1JmfykJTzQt9NV7qOmjF5DcD0LRaIaq6pGgdXLMP+cyx
-LWFyYWlrnFdlYlpKYduED+Uz8tTUQOtKzdSINxwXnHeJUnluNK1T5S9EF+VGCBma
-8ybo91zzp1bXL/wAC4BL6HvbM0uhohI6MQqJYTbu96KM7vcUsfhJxZTu7/UtnJQ2
-uHsx/O/SJrnRxY3iyu9mIMzgCsNSq6wm/JZbjIXMQMzneWzw2cI=
-=07LI
------END PGP SIGNATURE-----
-
---Xqgng3i+xl4NPO/Y--
+Cheers,
+Prabhakar
 
