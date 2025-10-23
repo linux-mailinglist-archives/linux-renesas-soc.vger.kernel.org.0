@@ -1,211 +1,141 @@
-Return-Path: <linux-renesas-soc+bounces-23530-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23531-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7634DC0242E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 17:55:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDC19C0245B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 17:59:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 35D931AA2420
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 15:55:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 734B419A19B9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 15:59:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F9B1246793;
-	Thu, 23 Oct 2025 15:55:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B54462561D4;
+	Thu, 23 Oct 2025 15:58:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nv6vZYDI"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="W5GrnDcb"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 713A223CF12;
-	Thu, 23 Oct 2025 15:55:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16A4B24C669
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 15:58:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761234915; cv=none; b=p+EFQs4O86fykYmF6kIrXdSlzI5WA3JqIfoK9dWo4XBjDGCZBLvZefSMO6bvzeZdoQt3+ssiwpPKVaq/OjsLeqq1qPhFuMmocc8yOx/aql37tpmX4juO/s8OcTwFZCZ7u7YOCWPQV/YC7tRxUdnmosaIeFDPmhrc0KQAvMV1ivs=
+	t=1761235138; cv=none; b=CKOzbKbz5pXlsjoJSb3uaSrcicVawy/Hp0uW8Fz3pvuzzw32yTeLdaxv8QDu1fJkhLjiXP18COat/qkBXYrIFq6cNzSGesWtaqnWRY7EzxdZefvnsvMiXjrLIkPGaWeO5EKJvf8E1AibRIeZJNRa6L6OAIIdElAL9stlFkm6T3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761234915; c=relaxed/simple;
-	bh=1QpoQFpPQ94aZbwr72YQxHT323Coj8A+g67bYc56XnI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=EU53Vjba8tun13ayIUMqjJ6759Yq7LzBi2Dfq55dctPdP+NCA4EGdObDtsBMtTzUe/pBwqHNYglFWYCMDjS9YEyPtAxKzLB9vSKtUHtdzfbY8WM+Zbr7muMPCzEy5yUWxSHpFWK/kTGGDC5rkifqI6BrjoCu+fhRr2KmBxHcaLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nv6vZYDI; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA69EC4CEE7;
-	Thu, 23 Oct 2025 15:55:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761234914;
-	bh=1QpoQFpPQ94aZbwr72YQxHT323Coj8A+g67bYc56XnI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=nv6vZYDIq4am/DtLED1qWXVAd2mLG+N0czCN9jA1x9/ayvMuLkUTjlElJaRnzJLDw
-	 UQH6d8lBkhDAVuswDv9zAPnGQkloIBAAkB/6LDzgYKOV0bX290FLLvIRbqdKiLDZFe
-	 Gl7OqgIWM9Ode8EkIGfu1ABY127HikycA/qKBnJLiwFeYH3R8paBUlK6taUvhjAn2z
-	 6/OjnBAwkxM1pO+Cdkpew56iPnH/MZyWqW1nRnKGCYSSgR+M7g1XBASKosE/6todZf
-	 RzDMnjS2StUDsoaQ+8U9xvG1zBiyWu1SuUoSQuCQbfhkqgEzeqLGXxNJjJmE+Er1D6
-	 IaA8F+Mhiuk5g==
-Date: Thu, 23 Oct 2025 10:55:13 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Cc: lpieralisi@kernel.org, kwilczynski@kernel.org, mani@kernel.org,
-	robh@kernel.org, bhelgaas@google.com, krzk+dt@kernel.org,
-	conor+dt@kernel.org, geert+renesas@glider.be, magnus.damm@gmail.com,
-	p.zabel@pengutronix.de, linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: Re: [PATCH v5 2/6] PCI: rzg3s-host: Add Renesas RZ/G3S SoC host
- driver
-Message-ID: <20251023155513.GA1292722@bhelgaas>
+	s=arc-20240116; t=1761235138; c=relaxed/simple;
+	bh=NIGLzWGhgBLdawfYFaGFmpGQAY7Krd2udIiYsKPNXx4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SgF7gj0U+IhkfZzhr2Q2OVWwgIaQIPZK7EvBHOBmmoNuKQh8DT8GKc681qjscRX3wKXc2/1V+U7rmcV/JO/Xot4sa80WhkRY8C71G86ch3kKAQVa+CADHuCEIjV2C7yRk4GSRaguf8YZWDP+3Yu0OBlLleRWcweQiozhWOP7FkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=W5GrnDcb; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4csrLP0GnTz9smP;
+	Thu, 23 Oct 2025 17:58:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1761235133;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DFJOfVdkWJHRulD8HfD61vkF8//SbVsJWE5Pa+v76dg=;
+	b=W5GrnDcbXg1dREAbAcjJ1Wt7/WmhgXyx+Hj+HHYDdcOpfiiiJhLIVMbe/C/sOR0XOHrqLl
+	0Z7TJG/FLOmH7PiW8JAY/9aqiuoAoXASwb2B/dMdU2V24HNZdUz37K5u3IhMegIpkZdIKB
+	YodUfnbAmanb0GDHUwMD+wmyJGQC3duu8ZQkLmgA6esRvo33HcgTIzXipi2aJDzXE1RDBP
+	LOKQ/bCaBy8GBEWdfvq2XVY/YHmiDXYwvGxx4Sw4naKwybeazhiFh6DO5i4oNPM4cH86si
+	xObNgqj9JWbvHUCYskpUz3YhafKn/90VTJyjEaS9PdMbjstDPOuOmTY5U3WuIQ==
+Message-ID: <adefdb3e-7a10-42a2-b2fc-8c1490762454@mailbox.org>
+Date: Thu, 23 Oct 2025 17:58:49 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <51af454f-6322-47c3-9e93-4fc07efc2b8d@tuxon.dev>
+Subject: Re: [PATCH] arm64: guard AMU register access with ARM64_HAS_AMU_EXTN
+To: Marc Zyngier <maz@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org,
+ Anshuman Khandual <anshuman.khandual@arm.com>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Ryan Roberts <ryan.roberts@arm.com>, Will Deacon <will@kernel.org>,
+ Yicong Yang <yangyicong@hisilicon.com>, linux-renesas-soc@vger.kernel.org
+References: <20251022133621.178546-1-marek.vasut+renesas@mailbox.org>
+ <86347bvx0f.wl-maz@kernel.org>
+ <07391913-aab6-4d92-b75f-278506f51397@mailbox.org>
+ <861pmvvv2g.wl-maz@kernel.org>
+ <24c8da41-37db-4e69-b9aa-e33b2154acb0@mailbox.org>
+ <87y0p13dlh.wl-maz@kernel.org>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <87y0p13dlh.wl-maz@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-META: c7wrdi8qspfi44q66t5f7171c9wa659k
+X-MBO-RS-ID: e2587fe32a5827e83b1
 
-On Thu, Oct 23, 2025 at 08:11:17AM +0300, Claudiu Beznea wrote:
-> On 10/22/25 22:49, Bjorn Helgaas wrote:
-> > On Tue, Oct 07, 2025 at 04:36:53PM +0300, Claudiu wrote:
-> >> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >>
-> >> The Renesas RZ/G3S features a PCIe IP that complies with the PCI Express
-> >> Base Specification 4.0 and supports speeds of up to 5 GT/s. It functions
-> >> only as a root complex, with a single-lane (x1) configuration. The
-> >> controller includes Type 1 configuration registers, as well as IP
-> >> specific registers (called AXI registers) required for various adjustments.
+On 10/23/25 4:19 PM, Marc Zyngier wrote:
 
-> >> +++ b/drivers/pci/controller/pcie-rzg3s-host.c
-> > 
-> >> +#define RZG3S_PCI_MSIRCVWMSKL			0x108
-> >> +#define RZG3S_PCI_MSIRCVWMSKL_MASK		GENMASK(31, 2)
-> > 
-> > Unfortunate to have to add _MASK here when none of the other GENMASKs
-> > need it.  Can't think of a better name though.
+Hello Marc,
+
+>> Except right now, I still trigger the AMU faults even with
+>> ARM64_HAS_AMU_EXTN=n , which I think should not happen ?
 > 
-> Most of the register offsets and fields defines tried to use the naming
-> from the HW manual. ...
-
-It's OK as-is.
-
-> >> +static int rzg3s_pcie_msi_enable(struct rzg3s_pcie_host *host)
-> >> +{
-> >> +	struct platform_device *pdev = to_platform_device(host->dev);
-> >> +	struct rzg3s_pcie_msi *msi = &host->msi;
-> >> +	struct device *dev = host->dev;
-> >> +	const char *devname;
-> >> +	int irq, ret;
-> >> +
-> >> +	ret = devm_mutex_init(dev, &msi->map_lock);
-> >> +	if (ret)
-> >> +		return ret;
-> >> +
-> >> +	msi->irq = platform_get_irq_byname(pdev, "msi");
-> >> +	if (msi->irq < 0)
-> >> +		return dev_err_probe(dev, irq ? irq : -EINVAL,
-> >> +				     "Failed to get MSI IRQ!\n");
-> >> +
-> >> +	devname = devm_kasprintf(dev, GFP_KERNEL, "%s-msi", dev_name(dev));
-> >> +	if (!devname)
-> >> +		return -ENOMEM;
-> >> +
-> >> +	ret = rzg3s_pcie_msi_allocate_domains(msi);
-> >> +	if (ret)
-> >> +		return ret;
-> >> +
-> >> +	ret = request_irq(msi->irq, rzg3s_pcie_msi_irq, 0, devname, host);
-> > 
-> > Should this be devm_request_irq()?  Most drivers use it, although
-> > pci-tegra.c and pcie-apple.c do not.  Maybe there's some special
-> > rule about using request_irq() even though the driver uses devm in
-> > general?  I dunno.
+> ARM64_HAS_AMU_EXTN is a *capability*, not a configuration.
+> CONFIG_ARM64_AMU_EXTN is the configuration. I have the feeling you're
+> mixing the two.
 > 
-> In general is not good to mix devm cleanups with driver specific
-> one.
+> Irrespective of the configuration, we access the AMU registers
+> depending on the what is advertised, because we *must* make these
+> registers inaccessible from EL0, no matter what.
+
+Ahhh, I was missing this part, thank you for clarifying.
+
+>> I would much rather be able to disable ARM64_HAS_AMU_EXTN in kernel
+>> config for the old devices with old firmware, without triggering the
+>> faults ... and say that everything which is going to be upstream will
+>> always use new firmware that has proper working AMU support.
 > 
-> As it was requested to drop the devm cleanups from this driver
-> (especially devm_pm_runtime_enable() which enables the also the
-> clocks) I switched the initial devm_request_irq() to request_irq()
-> to avoid keeping the interrupt requested on error path, after
-> driver's probed was executed, until devm cleanups are called, and
-> potentially having it firing w/o hardware resourced being enabled
-> (e.g. clocks), and potentially reading HW registers.
-
-I couldn't find that request to drop devm, and I don't see where
-devm_pm_runtime_enable() enables clocks.
-
-> E.g., accessing the HW registers while clocks are disabled on the
-> SoC I'm working with leads to synchronous aborts.
+> No, that's the wrong approach. If you leave the AMU accessible to EL0,
+> you're leaking data to userspace, and that's pretty wrong, no matter
+> how you look at it.
 > 
-> So, I only kept the devm helpers for memory allocations, resets
-> assert/de-assert and the mutex initialization.
-
-I'm OK with request_irq() here since you have a good reason.  This
-problem of accessing registers while clocks are disabled sounds
-familiar, so I think other hardware has a similar issue.  It would be
-nice if everybody handled it the same way.
-
-I don't know enough to identify other similar hardware and see how
-they handled it (or identify drivers that *don't* handle it).  It
-might be worth a one-line comment here to help future code readers.
-
-> >> +static int rzg3s_pcie_intx_setup(struct rzg3s_pcie_host *host)
-> >> +{
-> >> +	struct device *dev = host->dev;
-> >> +
-> >> +	for (int i = 0; i < PCI_NUM_INTX; i++) {
-> >> +		struct platform_device *pdev = to_platform_device(dev);
-> > 
-> > Looks like this should be outside the loop.
+> I also think your hack works by pure luck, because at the point where
+> your CPUs are booting, the alternatives are yet not in place (the
+> kernel patching happens much later). In short, this breaks
+> *everything*.
 > 
-> OK, I kept it here as it is used only inside this block.
+> As I indicated before, you have two options:
+> 
+> - either you update your firmware and leave the kernel alone
+> 
+> - or you implement the workaround as ID register override so that you
+>    *must* pass something on the kernel command line to boot, and by
+>    then accept that you will leak critical timing information to
+>    userspace.
+> 
+> Any other option, including guarding the macro with a config option is
+> *not* acceptable.
 
-Ah, I see the motivation.  I suppose the compiler is smarter than I am
-and hoists it out of the loop anyway, but I think it is easier for
-humans to read if the loop only contains things that change for each
-iteration.
+Since I am getting an exception when I access the AMU register, would it 
+be possible to trap that exception, and report something to the user 
+instead of outright crashing with no output ?
 
-> >> +		char irq_name[5] = {0};
-> >> +		int irq;
-> >> +
-> >> +		scnprintf(irq_name, ARRAY_SIZE(irq_name), "int%c", 'a' + i);
-> >> +
-> >> +		irq = platform_get_irq_byname(pdev, irq_name);
-> >> +		if (irq < 0)
-> >> +			return dev_err_probe(dev, -EINVAL,
-> >> +					     "Failed to parse and map INT%c IRQ\n",
-> >> +					     'A' + i);
-> >> +
-> >> +		host->intx_irqs[i] = irq;
-> >> +		irq_set_chained_handler_and_data(irq,
-> >> +						 rzg3s_pcie_intx_irq_handler,
-> >> +						 host);
-> >> +	}
+Similar to what Linux already does on the various speculative execution 
+bugs on x86, something like this?
 
-> +     host->intx_domain = irq_domain_create_linear(of_fwnode_handle(dev->of_node),
-> +                                                  PCI_NUM_INTX,
-> +                                                  &rzg3s_pcie_intx_domain_ops,
-> +                                                  host);
-> ...
-> +     irq_domain_update_bus_token(host->intx_domain, DOMAIN_BUS_WIRED);
-> +
+"
+MDS CPU bug present and SMT on, data leak possible. See 
+https://www.kernel.org/doc/html/latest/admin-guide/hw-vuln/mds.html for 
+more details.
+"
 
-Can we use dev_fwnode(dev) here instead of of_fwnode_handle() so it
-matches the one in rzg3s_pcie_msi_allocate_domains()?
-
-I think irq_domain_update_bus_token() is needed here because
-host->intx_domain and msi->domain are identified by the same fwnode,
-and this will be easier to see if we get the fwnode the same way.
-
-(See 61d0a000b774 ("genirq/irqdomain: Add irq_domain_update_bus_token
-helper").  I wish irq_domain_update_bus_token() had a function comment
-to this effect.  Maybe even a mention in Documentation/.)
-
-It would also help code readers if we could use function names similar
-to other drivers.  For instance, rzg3s_pcie_intx_setup() creates the
-INTx IRQ domain, but no other driver uses a name like *_intx_setup().
-The general consensus seems to be *_pcie_init_irq_domain().
-
-Bjorn
+-- 
+Best regards,
+Marek Vasut
 
