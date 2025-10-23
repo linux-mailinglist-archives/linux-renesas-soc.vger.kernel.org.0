@@ -1,77 +1,79 @@
-Return-Path: <linux-renesas-soc+bounces-23481-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23482-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35743C008CB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 12:43:42 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id E70A5C008DC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 12:43:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 16F434FC8EA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 10:43:34 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B17F6500815
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 10:43:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6A502DF134;
-	Thu, 23 Oct 2025 10:43:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0ADB230ACFD;
+	Thu, 23 Oct 2025 10:43:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GgtmlB1Q"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ijc52sfu"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 490A42D978A
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 10:43:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72C8519F115
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 10:43:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761216209; cv=none; b=WTXAIBF+Vp1pFi1juJ0ONNz91rvvqzVZcDxbEcRqG2r5vbB/T7i9FJJOuc35vCUK9JC8zGpUb7GYVcbtzJty6XxgWopEbdKWSMVFHXSA7h4FmAcuEa5xVzI6rXp4Ms7+cmIMWQl4CdWyrBExAduqna8zF1AfswwJFvTzg4+/wF4=
+	t=1761216214; cv=none; b=E0cJ24RAODggkHyNikaU8Xs4ozFsWEwXuf+0WVnv2jZT/Pvq/U7Q9VIBmdEg5QxLRDMZvqg3fHIBams4JLThXyYxByyjzPFEgKMMoUFWervGdv5/6Ib7ebfR7GO0eY3XpNUfiqtoLeOeKBV7FfSen1MRXttkmlXSHvV6wGDd+5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761216209; c=relaxed/simple;
-	bh=yfiZ/v4sjNEPealFn/6obw9kLQ8DcjpygkxhwfB5aQs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Iun23wa69ES5fU0e7AcBks2+6I7NHbDHYcnAH5KMZE7b0JAEvcBE8Cyixyw1qn7933WHzjRm0Ze9OwreDo5+Nz5l79EpSEToC4J7Jp16zpZgHLiBbhsltRggTtkMGUXc6cZD1OWyye429lxzo6UWa8l26pPXmp4B/yAdo07zwfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GgtmlB1Q; arc=none smtp.client-ip=209.85.214.180
+	s=arc-20240116; t=1761216214; c=relaxed/simple;
+	bh=XZ0aa4iCUybd6QVov9sY+LCzyX4cdv1qdWS9ztcgdcs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=pU9DuxrnMQWSszlEU29yURSYUH9Qo3mOYUL8xMXbkwSo6511Pw4mqHfftETJn5G15B+9BCQDaXN1/GZAzwEzqfPn7gHJ9LVkZ/PVVXzSP9V3JhA4RpQD2E1M3cLBB96Y45J+O3IbWk73qQmSmtUp+TjR6Q50tpIXicZOcarVjqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ijc52sfu; arc=none smtp.client-ip=209.85.214.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-290d14e5c9aso8454805ad.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 03:43:28 -0700 (PDT)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-290ab379d48so6387025ad.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 03:43:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761216207; x=1761821007; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=oimtdy4jzaui5mD86nBtASLISt4Nnfmett/2NBvJrk4=;
-        b=GgtmlB1QZQNg5PWJMc9C5LDGB0XRumfVb4tvMDijqYHJyexYH3wNrYJ3bzl2x1SMTC
-         WHo5wca33LktR9OPfq6PYwLanBverSSm89YgO3hho44cKK2v1/6jRmkDfw8osCDItn7E
-         ZSqkHnkqUAH4yl/j1RuUKl3fMggBu5UBNuOpvMoJiqshxujT1whbl7DJCX8vvRXcbR9Q
-         wOVT6oWJROy/nMeAfgY6/Af/1OFTCMGrXuFfqNrrNQhBIx2zifmpVmwvqX4Kz5rUGCQW
-         y0ve86SzAYMBkbVGfp3BxUa1eAjSKmoVFPxpMWjhqJKQUd5CAh//PXjpNg0NORtcnI8E
-         ARiA==
+        d=gmail.com; s=20230601; t=1761216212; x=1761821012; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5qYNWh7ObOQ58yx7yZwE/kCO34/ItQPE82ZLhZuHfPE=;
+        b=ijc52sfurz9DvcCoSBvjQo4z14YVGiisIKM5ccSsXDT+GWY2d1ltLWtui074IiLOQV
+         EebONfUrrXPJSo9genyPRxnxzBgZu5DPOeMyMirh+E0DDHTd8a+NNe3XqwH3FKVRXD2c
+         SS9a/JQ5V9pcTrcOSGzNucde3/saMFRTp3UKBe+Amx+YTJZaF1F3ivDZLchNzihj1G6k
+         ofVAFZgY3yQCplH19j/DuyEC4UoUGkn7eOf/hAQZoAtNlofGaINR3p76YmIkiVKLIkQB
+         Z4tvX3VKs8wuZcdEl9hEBoxwB8rOr75wTdLqdY6VmOr1uFr/uIbvdhjitwyUwL+BHx3N
+         v2rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761216207; x=1761821007;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=oimtdy4jzaui5mD86nBtASLISt4Nnfmett/2NBvJrk4=;
-        b=mWEI12sDH4KusSih2TzVdY5rylGGEOa7gNZYa6vnZgE4lp/E9qdvs0PG5f3Dq/QY26
-         3MnVScHM4Rccuv2bWCWNuhIp1aihwdbQ7l7LCdXI156WamWp/s71y14JXUmpPrSEotPw
-         atVqKSWm6wQsIo7rrRGMFMMyG8BDpEKpmuoIYTEIKwSnjTsUh/Sq+aJCJz8s4d3m7Wx4
-         oGC8rldNOescnrkKOygIlDIxut+M6w478xWeU3f8d1wA9SwIUMbU3srjeT9yxYcL3XLu
-         nWpfyx7nOKSTJV0fB1HurRLHxWJiVfzbsSQPVPnod3BEBSBPM2p9WIPpDGN/U7GfKyH1
-         sZCA==
-X-Forwarded-Encrypted: i=1; AJvYcCX7uKhMipXniYpCu8SKsPkt/LiDU/Hdd5uxcNVvItLv+8bdntGKFn4y6autgQj8PdT0hhPpAuIxXbK336goiDe4BQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyY56s99ECtmPrwLVJ9ExstYiE8cEYzas6qLd2mLD+a6QN7V7v9
-	RqBgPYmR7d1ZF5LXFjNSHJQvxd/eQQY+e9hGGB9GV+ZV+4eKZN1nyTk4
-X-Gm-Gg: ASbGncsbpgZEUwDnZvaQHseC2oUpT1ry8KjABhw7MxGD/3C4nCZvs0++cANG0T1YlZ3
-	zRwIW+PRQ2LDsLU0QDrzcyQ56hFOdu5BwHC8/ErWl6cEDtS2bOFHzVuzdmAotXNlOXwYYMnl9Dp
-	+2rgf+TvSBZiRvu8y97DZ33ZQmLBD4H/xXis1U66natUUuboKI7IzmEqTlxpn/Zur/FJAOgQMy5
-	YGVeEXGtSA5AfGcW3GNoxdd7VdDrrx5FGlB1L+75xmq2RaX6+asVzovPBoJf/qOVsa8mYeSUSWm
-	fbBlfPW8UlcUsBYBqu6jNBL3ZyYtOU0ljfVbmymOYKG2p4AtZm9dXdMXPfKSs0LF0mqn18sigOh
-	bddf3kJ4s6TUDvgf51zJ82oImzMpne7LL4ZmnvDUfo+3jNkUd/pXHSeJDYI7KulAfT44Gj6nr4E
-	ibr9qGSOYEoFZwIJS5EVU=
-X-Google-Smtp-Source: AGHT+IH/gs6+8CFlO2G87tCtAtLvUgrD/2n3++PXEeHzzYkJTjhzcKeN8bij7zgjnMAfHtOTCePOQg==
-X-Received: by 2002:a17:903:19e6:b0:267:d0fa:5f75 with SMTP id d9443c01a7336-290c9c8a5b0mr338020675ad.1.1761216207465;
-        Thu, 23 Oct 2025 03:43:27 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1761216212; x=1761821012;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5qYNWh7ObOQ58yx7yZwE/kCO34/ItQPE82ZLhZuHfPE=;
+        b=R+K/fe8oKhHj2dD5L6xEKHBOcnaEaALJSZkeSBmYiqImqur1Sb88X0D+ZTPW0yUsoH
+         Y3f8r8GNFpiF2wdd9jwocNFpRnRq7F5vpHDFMJ4k4Qq9Ds3SGHW3Y9VSBT8EE3N//Mnt
+         6ocrVbB4iUDDqI607tUgHQcZWVM+1XmYlPZpUkG0JfhLy4caallPzkhhTkfEG3kEpi9M
+         ty7eyfYnBT2hXRGL7IaoBARSDYRcOW5n0hmK3zLsvDg1Y5eXsz/Ff4FRy69DhtqhXs/l
+         EkTXQpppoFO9XqCEkqW41pX/ytQz+EAgl2TNfu07KzsQdO9hXkkgsg3H3+TUL/HvU0ss
+         8AtA==
+X-Forwarded-Encrypted: i=1; AJvYcCXGKezHftRxueBcLdtRrPrrVdA4kwhdQHrcmRtrr8JSW0y1beyBVwUN5Hh08Q8NOnuyC/QQ+DC0bO0gRc2b8jUiLw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwvOMuvmelKccZIzk+1jokcBd4JLti4UPv7yE2P/Vx62ZwGkCvg
+	GxOYJWscUUEmiIDFfUjEGcw/hsoZNl2gEop4HvjUb9sWLNPQSevxROad
+X-Gm-Gg: ASbGnctYp983IxfGHI6MD9u7H3j3gacXZskX1TDliB6/EP4kIW/JLPJeP8qUNiURkGz
+	jzq/tBFK4Ng4+i/Xdd752o03D7FxZhpN0/9ZtrSNP2vt0Q0VQYZfqE9+14OpUTcMHjBMtBa2QDL
+	qSVhZ8+DUNaBPeFh/ctLoXXISogfYfI4XPRU00yxSJPYdZoG7Euu+PXgsEI6DC/X0yA+j00Fffk
+	6wnToHBxQf8FPl+KqudCoxu3tbrM+PcbIf93x94GiBSpcITr1efEeuYfFqNKlhEPp7sINlOSDi+
+	Pw/HAiDczSJk2muvDdUcmwvb1DNErf3lEj2xow8wOsDpkkvJtY9D9Bvz8O39SWZPdlAXHbvDFVv
+	zYSbYFDrr4VMjbaSq3ZujJCYGPN61968dCzjEOdhQuDK7gH7u6TQNMMbE1nSFizi00WQScOr2Bb
+	syTlnFt4I4lHD9b15077E=
+X-Google-Smtp-Source: AGHT+IH8b5u4HtoHpKR/2HVfpSINg790zeUEcpfE3gcodr+5+Gk0kA3xe0PaMdH6w5uN7f9EIubR3g==
+X-Received: by 2002:a17:902:c942:b0:264:a34c:c6d with SMTP id d9443c01a7336-290ca121a65mr282957195ad.37.1761216211772;
+        Thu, 23 Oct 2025 03:43:31 -0700 (PDT)
 Received: from iku.. ([2401:4900:1c06:ef2:36b5:9454:6fa:e888])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2946ddec426sm19240945ad.34.2025.10.23.03.43.23
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2946ddec426sm19240945ad.34.2025.10.23.03.43.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Oct 2025 03:43:26 -0700 (PDT)
+        Thu, 23 Oct 2025 03:43:31 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -85,10 +87,12 @@ Cc: linux-kernel@vger.kernel.org,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 0/2] SH-SCI serial driver code cleanup
-Date: Thu, 23 Oct 2025 11:43:11 +0100
-Message-ID: <20251023104313.210989-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 1/2] serial: sh-sci: Sort include files alphabetically
+Date: Thu, 23 Oct 2025 11:43:12 +0100
+Message-ID: <20251023104313.210989-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20251023104313.210989-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20251023104313.210989-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -99,28 +103,61 @@ Content-Transfer-Encoding: 8bit
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Hi all,
+Sort the include lines alphabetically, no impact on code behavior.
 
-This patch series contains two patches for the SH-SCI serial driver.
-The first patch sorts the include files alphabetically, which has no
-impact on code behavior. The second patch merges the contents of sh-sci.h
-into sh-sci.c to reduce file clutter and improve maintainability.
-
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
 v1->v2:
-- Sorted the include files alphabetically in the first patch.
+- New patch
+---
+ drivers/tty/serial/sh-sci.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Cheers,
-Prabhakar
-
-Lad Prabhakar (2):
-  serial: sh-sci: Sort include files alphabetically
-  serial: sh-sci: Merge sh-sci.h into sh-sci.c
-
- drivers/tty/serial/sh-sci.c | 184 +++++++++++++++++++++++++++++++++++-
- drivers/tty/serial/sh-sci.h | 178 ----------------------------------
- 2 files changed, 179 insertions(+), 183 deletions(-)
- delete mode 100644 drivers/tty/serial/sh-sci.h
-
+diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
+index 62bb62b82cbe..125a56d47924 100644
+--- a/drivers/tty/serial/sh-sci.c
++++ b/drivers/tty/serial/sh-sci.c
+@@ -19,11 +19,11 @@
+ 
+ #include <linux/clk.h>
+ #include <linux/console.h>
+-#include <linux/ctype.h>
+ #include <linux/cpufreq.h>
++#include <linux/ctype.h>
+ #include <linux/delay.h>
+-#include <linux/dmaengine.h>
+ #include <linux/dma-mapping.h>
++#include <linux/dmaengine.h>
+ #include <linux/err.h>
+ #include <linux/errno.h>
+ #include <linux/init.h>
+@@ -32,8 +32,8 @@
+ #include <linux/ktime.h>
+ #include <linux/major.h>
+ #include <linux/minmax.h>
+-#include <linux/module.h>
+ #include <linux/mm.h>
++#include <linux/module.h>
+ #include <linux/of.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+@@ -50,14 +50,14 @@
+ #include <linux/tty_flip.h>
+ 
+ #ifdef CONFIG_SUPERH
+-#include <asm/sh_bios.h>
+ #include <asm/platform_early.h>
++#include <asm/sh_bios.h>
+ #endif
+ 
+ #include "rsci.h"
+ #include "serial_mctrl_gpio.h"
+-#include "sh-sci.h"
+ #include "sh-sci-common.h"
++#include "sh-sci.h"
+ 
+ #define SCIx_IRQ_IS_MUXED(port)			\
+ 	((port)->irqs[SCIx_ERI_IRQ] ==	\
 -- 
 2.43.0
 
