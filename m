@@ -1,170 +1,134 @@
-Return-Path: <linux-renesas-soc+bounces-23523-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23525-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 488F5C01BD2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 16:23:26 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id A77BFC01C47
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 16:30:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 25291189E9D8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 14:22:31 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B44CF4E39F3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 14:30:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 073A4329C51;
-	Thu, 23 Oct 2025 14:21:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S428L3Bk"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 847EE30F55A;
+	Thu, 23 Oct 2025 14:30:26 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D665F2C08BA
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 14:21:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAD2220A5DD;
+	Thu, 23 Oct 2025 14:30:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761229318; cv=none; b=Jvz8L0DN7HY4QfhAezDi/UJeceeD1CrI4mZDiVphf+LaweoixiT4k7/QXm9sJ0pcaJGF0BL9DG+HJbbNXjmWl/oK2MMSkDEHZj1lAW39aGW+o9s+Dl9BRuxE6PSL5GQlimkciVSFkgS+h/KXNic/V1cMMbw/jChICEHXCgU1kYc=
+	t=1761229826; cv=none; b=Rufi6LcfUS1rFA2iOyuiYQi+VqUcXHA/Hi35NL6DEDfZalU6RehLRaESLZOmmfC6tljUGwMMs67DrhOVZvWPOp6HY2RwH5sATYuXEC92b5PGAcwEYBVxCc5b7DwSy2OVDZUigoQk4nTdWlYJD4K+NfjAXVsWiULmVhvNni7z7o4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761229318; c=relaxed/simple;
-	bh=Cg8X9zCcHh0XZYuwWRJDuEQoaZUgfI3iONaxAqyi2xk=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=c1dA5p33qthC3qMnTaXPV55ZY8IPyNdIEuMYWhi/dI9Lx20wrLZEZ7En5le/mqPJYyVkjW7w+ULI+PT7Nihj3O2//TZk16DuCLmizj5IX3dMluWa59dKAJhY95ERAEweFn/B/ryYXjaTxT5P+FnDqG81DjnY7XSwAaSrH0669Z0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S428L3Bk; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 404DCC4CEE7;
-	Thu, 23 Oct 2025 14:21:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761229318;
-	bh=Cg8X9zCcHh0XZYuwWRJDuEQoaZUgfI3iONaxAqyi2xk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=S428L3Bk8p7+d0dpiXGJxlLFK2FjustCMjwWbOZNUHA2EC6tF4PVZKrQ2hoJOYYI4
-	 UqVS/AuFlK6GCdFnK1hTMIAWC0LnJ74usES2Y206HKYafzAiQFSHB4TJOKTV3sUBve
-	 O6vGcR1YGGHtEBz0Irw+VAp7g/FfFXmnQ/P5ScD8OA1pHfndffKxKj0MjiLm0jIafv
-	 hgCd3xJMqghAnXJFs86pb+B4gcQl1txnvEpkPsbwlbPdCdKnpDJBbwK+clK6nRlZHR
-	 /V1ahbx5T9XrhqDv2gpDhOD7JqL9NofvoHdYKuC079FGXhbC3eWd4d6HacAOSsSmfm
-	 kQwYSvSUjVoeA==
-Received: from 158.46.66.37.rev.sfr.net ([37.66.46.158] helo=lobster-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1vBwCR-0000000GYKV-3yGj;
-	Thu, 23 Oct 2025 14:21:56 +0000
-Date: Thu, 23 Oct 2025 15:21:55 +0100
-Message-ID: <87wm4l3dh8.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Yicong Yang <yangyccccc@gmail.com>
-Cc: Marek Vasut <marek.vasut@mailbox.org>,
+	s=arc-20240116; t=1761229826; c=relaxed/simple;
+	bh=JFCOZUQbUQD4h1HJbFOHVh6F3/wFgQQ9DWQRvQIlVhg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mlq6LD9gYT2bJeN2WZ50eJB8Zi5y/Glzpb5N88lkanKRh/edZb/fMHbYzBawWL+OK1PuJvbYIq0IL0YXv3YDBSQ13wYJJm/aPd5yt76jjG2sA9f3M1EzHnRKwZsWzEKtJYapMcKC/rSWG26vNxDyW6j7uFUd1o4t4B+BQlbzuak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2D13C1516;
+	Thu, 23 Oct 2025 07:30:16 -0700 (PDT)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C11683F59E;
+	Thu, 23 Oct 2025 07:30:21 -0700 (PDT)
+Date: Thu, 23 Oct 2025 15:30:18 +0100
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Marek Vasut <marek.vasut@mailbox.org>
+Cc: Sudeep Holla <sudeep.holla@arm.com>,
 	Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	arm-scmi@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Yicong Yang <yangyicong@hisilicon.com>,
 	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] arm64: guard AMU register access with ARM64_HAS_AMU_EXTN
-In-Reply-To: <632d6afe-40d3-4632-99c7-b098967bd649@gmail.com>
-References: <20251022133621.178546-1-marek.vasut+renesas@mailbox.org>
-	<86347bvx0f.wl-maz@kernel.org>
-	<07391913-aab6-4d92-b75f-278506f51397@mailbox.org>
-	<632d6afe-40d3-4632-99c7-b098967bd649@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+Subject: Re: [PATCH 1/2] dt-bindings: firmware: arm,scmi: Document
+ arm,poll-transport property
+Message-ID: <aPo7-oQq6RskSZ96@pluto>
+References: <20251023123644.8730-1-marek.vasut+renesas@mailbox.org>
+ <20251023-able-fervent-tortoise-e7a6df@sudeepholla>
+ <066449c8-4bca-41f1-990e-53d7672e3c0a@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-SA-Exim-Connect-IP: 37.66.46.158
-X-SA-Exim-Rcpt-To: yangyccccc@gmail.com, marek.vasut@mailbox.org, marek.vasut+renesas@mailbox.org, linux-arm-kernel@lists.infradead.org, anshuman.khandual@arm.com, catalin.marinas@arm.com, geert+renesas@glider.be, ryan.roberts@arm.com, will@kernel.org, yangyicong@hisilicon.com, linux-renesas-soc@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <066449c8-4bca-41f1-990e-53d7672e3c0a@mailbox.org>
 
-On Thu, 23 Oct 2025 13:01:52 +0100,
-Yicong Yang <yangyccccc@gmail.com> wrote:
->=20
-> On 2025/10/22 22:33, Marek Vasut wrote:
-> > On 10/22/25 4:20 PM, Marc Zyngier wrote:
-> >> On Wed, 22 Oct 2025 14:35:28 +0100,
-> >> Marek Vasut <marek.vasut+renesas@mailbox.org> wrote:
-> >>>
-> >>> The AMU configuration register access may fault and prevent successful
-> >>> kernel boot. This can occur for example in case the firmware does not
-> >>> allow AMU counter access from EL1. Guard the AMU configuration regist=
-er
-> >>> access with ARM64_HAS_AMU_EXTN to prevent this fault if ARM64_HAS_AMU=
-_EXTN
-> >>> Kconfig option is explicitly disabled. Other interaction with the AMU=
- is
-> >>> already guarded by similar ifdeffery.
-> >>>
-> >>> Fixes: 87a1f063464a ("arm64: trap to EL1 accesses to AMU counters fro=
-m EL0")
-> >>> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-> >>> ---
-> >>> Cc: Anshuman Khandual <anshuman.khandual@arm.com>
-> >>> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> >>> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> >>> Cc: Marc Zyngier <maz@kernel.org>
-> >>> Cc: Ryan Roberts <ryan.roberts@arm.com>
-> >>> Cc: Will Deacon <will@kernel.org>
-> >>> Cc: Yicong Yang <yangyicong@hisilicon.com>
-> >>> Cc: linux-arm-kernel@lists.infradead.org
-> >>> Cc: linux-renesas-soc@vger.kernel.org
-> >>> ---
-> >>> =C2=A0 arch/arm64/mm/proc.S | 4 ++++
-> >>> =C2=A0 1 file changed, 4 insertions(+)
-> >>>
-> >>> diff --git a/arch/arm64/mm/proc.S b/arch/arm64/mm/proc.S
-> >>> index 86818511962b6..123538ffeda6b 100644
-> >>> --- a/arch/arm64/mm/proc.S
-> >>> +++ b/arch/arm64/mm/proc.S
-> >>> @@ -145,7 +145,9 @@ SYM_FUNC_START(cpu_do_resume)
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ubfx=C2=A0=C2=A0=C2=A0 x11, x11, #1, #1
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 msr=C2=A0=C2=A0=C2=A0 oslar_el1, x11
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 reset_pmuserenr_el0 x0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // Disable PMU access f=
-rom EL0
-> >>> +alternative_if ARM64_HAS_AMU_EXTN
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 reset_amuserenr_el0 x0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // Disable AMU access f=
-rom EL0
-> >>> +alternative_else_nop_endif
-> >>
-> >> Why?
-> >>
-> >> We ensure that the AMU is available in the macro itself by checking
-> >> for ID_AA64PFR0_EL1.AMU. If the AMu isn't present on this CPU, we skip
-> >> the offending sysreg access. This is similar to what we do for the
-> >> PMU.
-> >>
-> >> Does your HW advertise an AMU, but doesn't actually have one?
-> > The hardware does have AMU, but it is currently blocked in old TFA vers=
-ion and access to this AMU register here causes a fault. That's why I have =
-to disable ARM64_HAS_AMU_EXTN until the TFA is updated and the AMU access i=
-s made available on this hardware. But even if I do disable ARM64_HAS_AMU_E=
-XTN=3Dn , I get a fault.
-> >
-> > This patch is mainly meant to prevent a surprise in case someone does s=
-et ARM64_HAS_AMU_EXTN=3Dn , and the system still faults on AMU register acc=
-ess.
-> >
->=20
-> then I think it's more proper to guard it with CONFIG_ARM64_AMU_EXTN
-> (I think you mean this above?)  rathter than the cpu cap. then with
-> the patch kernel won't touch the AMU registers here if the kconfig
-> is disabled on you AMU supported hardware and AMU unsupported
-> firmware.
+On Thu, Oct 23, 2025 at 03:42:02PM +0200, Marek Vasut wrote:
+> On 10/23/25 3:16 PM, Sudeep Holla wrote:
+> 
+> Hello Sudeep,
 
-No. Not preventing EL0 from accessing the register is a data leak to
-userspace. This must be acted upon irrespective of the kernel being
-AMU-enabled or not.
+Hi Marek,
 
-	M.
+> 
+> > > +  arm,poll-transport:
+> > > +    type: boolean
+> > > +    description:
+> > > +      An optional property which unconditionally forces polling in all transports.
+> > > +      This is mainly mean to work around uncooperative SCP, which does not generate
+> > > +      completion interrupts.
+> > > +
+> > 
+> > Could you please clarify which platform and transport this change pertains to?
+> 
+> Renesas X5H with older SCP firmware , accessible via mailbox.
+> 
+> > Introducing a property that enforces unconditional polling across all
+> > platforms is not ideal - particularly if this is intended as a workaround
+> > for a platform- or firmware- specific issue. Such implementations often get
+> > replicated across platforms without addressing the root cause, leading to
+> > wider inconsistencies.
+> 
+> The root cause is being addressed already, this is meant to keep the older
+> SCP version operable.
+> 
 
---=20
-Jazz isn't dead. It just smells funny.
+If this is the case, at first I would have tempted to say why not use the SCMI
+Quirk framework (with needed changes/evolutions), BUT then I realized that being
+the Quirk to be applied on the transport there is no way to gather SCMI
+Vendor info and versions from the platform, so you would have to match on the
+compatible, which is essentially similar approach of having a new DT
+prop...just less flexible so I understand the need of your new-prop approach...
+
+...BUT...(maybe a weird idea)...what if we think about enabling:
+
+ - one Quirk EARLY-ON based on the current potentially affected compatibles
+   with such a quirk forcing polling ONLY for the BASE Protocol SCMI queries
+   so that the SCMI core can gather Vendor Info and versions in any case..
+   (this would need the Quirk frmwk to be evolved to support such
+    'early-quirks' based on compatibles only)
+
+ - a second regular Quirk, filtered by the just retrieved Vendor INFO and FW
+   version to finally decide if the system needs force-polling to be really
+   enabled for all the following messages...
+
+... this was you dint even need to ship any new DT
+
+> > It would be preferable to scope this behavior using the platform’s compatible
+> > string. This approach ensures the workaround is applied only to the affected
+> > platform and prevents it from being inadvertently enabled elsewhere, unless
+> > another platform intentionally uses the same compatible string (which seems
+> > unlikely).
+> 
+> This is not platform-specific issue. SCMI provider which fails to generate
+> interrupts can appear on any platform, using either transport, that is why I
+> made the property generic.
+> 
+
+So the deployment scenario would be to update new machines with a fully
+working SCP FW with completion-IRQ while updating ONLY the DTBs with the
+new force-polling property in the older machines with the older
+poll-only SCP fw ? (to understand)
+
+Thanks,
+Cristian
 
