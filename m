@@ -1,72 +1,69 @@
-Return-Path: <linux-renesas-soc+bounces-23521-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23512-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E95B6C019B2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 16:01:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E92CC01A48
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 16:08:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6288F1A66A26
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 14:01:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A2EBD3B8A4D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 13:58:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7D3A31A050;
-	Thu, 23 Oct 2025 14:00:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F054E315D46;
+	Thu, 23 Oct 2025 13:58:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="j4ynUv4c";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="g+S6XF76"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="HaVABwHm";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="PEiveaMw"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07AE63164B0;
-	Thu, 23 Oct 2025 14:00:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9268E2EC0A7;
+	Thu, 23 Oct 2025 13:57:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761228033; cv=none; b=esdAG+bh83Dlpg1er6pMOm1bvjhTiTEtYalBtcp7eB4EXwcEe0JJ/g/NNOC6xUG+ZbfAAX3dtTgIFxLG748D/ZVFxJBjMiFDxVZO8Uhiy8qxU9UkB2g7BqXoaKIe70tWQRhqUX/XpKu9A9OQGmRjMFZqJLvCuV1cfj0Y30jBq9E=
+	t=1761227880; cv=none; b=uLSKhVsAxfQV/jSmeM+2ruMK94jdruQSYiq7cLwPuhJ7+SQW4lPHdfeFDrZq6lqVVrij5i727DKO/6eHA0/4xtmFwwRnvP3JIt/pZk+44qf5xdLQQ+jpefl+e4ukA84WjQEQMgJ5E3udjdNEOeJyij3CgHfUNHOSSpp6d6ESMfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761228033; c=relaxed/simple;
-	bh=g0rv/Wl54UIN84iFZird78P17+22MiP7FBTVamkdA6g=;
+	s=arc-20240116; t=1761227880; c=relaxed/simple;
+	bh=DYroCMjw9XCPjel3CU+YSBNAO2XxycQfnKMx4IfoDeg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ixdL0ZXdW08n41yLn9pWunUdylD5NyGmyX6bx910jDKjOdtZVrq0w8edxy2yi66mI9nHw5aFPjZgNm/Lub0gdcqg7yrK8JHt1ddFZZN2/uEVLhwywm9pONLFcj5CQkAFObvHMjZumu8aYDncgMhhlN2Vqz5Gl/paiytBzeAVWcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=j4ynUv4c; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=g+S6XF76; arc=none smtp.client-ip=80.241.56.152
+	 In-Reply-To:Content-Type; b=Aq9WmwWm4S/2A7zoxLiqkPKBt0azit0Rn14mDMr/cXZ6UKh8Q9Mob+TpPEBq6F04eP5X9cF08ojnHVATde1At2s5BdHcNX8mtSmaHQ+hc327W6JQR9chstdBoDiNaYJlOCpSwNiZwbxpCnWdtge8j+ixZBRHdGs+NwXIkXGOTXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=HaVABwHm; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=PEiveaMw; arc=none smtp.client-ip=80.241.56.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4csnjn6y8Lz9sWh;
-	Thu, 23 Oct 2025 16:00:29 +0200 (CEST)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4csnfr3cgdz9slx;
+	Thu, 23 Oct 2025 15:57:56 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1761228030;
+	t=1761227876;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Z+ZZiNFpfo795JzyW1U+Amyk/9XvcQWSem6gcToDr+s=;
-	b=j4ynUv4c+hkeEzlSosmR194vZWb0Fdr0vD8ariJEQuViaQ2jbcsfyGrruvx2A9TijA6PYb
-	ZHDDAXA/ahvyEMf3UDaaHPQErvSvycVz3OV2oQ6D2TbnR9+7ANj6b1MPDHSBzbs8e4bpTg
-	4SYq/NQypjJLK385LZysbRcyTDQ6Uquu9i9c4AJxqrTRK6LF7FruskUxudUq8ZeAfUHGI+
-	6CW97s0HexEQMx1dWO4d3Ca2JN5pTh5JMSdmtq6H5/6BScpftK1GNRzPcfklW+8nRRQkHk
-	pJviiO9qcGpHxl34oJK5tUK6QI3ln8U/ljegOIv4Ag/w3OsKyTQX/0gX23HMHA==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=g+S6XF76;
-	spf=pass (outgoing_mbo_mout: domain of marek.vasut@mailbox.org designates 2001:67c:2050:b231:465::1 as permitted sender) smtp.mailfrom=marek.vasut@mailbox.org
-Message-ID: <70554674-7020-4582-a4e7-dbee34907096@mailbox.org>
+	bh=JvDw3KVRz7KvchjxSHR2cOozGBUZnt7khP7Ju+BwHEs=;
+	b=HaVABwHmhZOUxy8QugCfn+LoF0N0PRvzMLWoJZ4nggrZqO2Z630mpKgmMiie33/QvpWpRY
+	3pk2p45Bxhe3w4zKnrjwHqPxMQVo3YvAi03PZurgtocgJY+2cIGbqsNyId4d6DDLPIFrLi
+	I2+MlZ4Rxv71k+Zh6I8uT9fgtsq1yao7w+A60rhCh8/Oss36NQEYvbyawe2nyCG7awZa8j
+	dRxIyHn9L52N9H/jRrZZUUCWQbB6iCx+k4/K6paI862xs8n8LKgVF6CkTuJ/i2nNepU71F
+	T2j90/aklKGfqvBhzTna3TbGr3/qVLJ3oHeab/rXljrRXY2GlZgFg6sB7hHHfA==
+Message-ID: <98ce2726-ab58-447a-bcb5-23b6347fa4fb@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1761228028;
+	t=1761227874;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Z+ZZiNFpfo795JzyW1U+Amyk/9XvcQWSem6gcToDr+s=;
-	b=g+S6XF76RadfsTIRYoIuugAO45PbkGlYNXpuEd7ASeoTlGOBKBhay0nf37U/4TVEiOa8r+
-	rZOoibxEn7k26j2OfE8/3znmepCmeZojymvyyNVEXPrPM/4bHdInrDbY4eaWqUr6I6lKr2
-	DcJO1NeZv4qLsvPt4JisM7w+gmacYqySTdcp6vNkKyl2XoLguWTXiN5bHUleRpdmJ/Mlw0
-	gDw/V/LvZ3FbLRZ5q3iVpZ3E4L1A2k+CS3E45LTEv+HK6z0PloZoMsaEdqC6a506TfGUBn
-	4qnXfHrgCk/5RGoxdacf525cyI3iVFkZH4NeBbqOaeP8Y9ln4xnGrjKfLvPo7g==
-Date: Thu, 23 Oct 2025 16:00:18 +0200
+	bh=JvDw3KVRz7KvchjxSHR2cOozGBUZnt7khP7Ju+BwHEs=;
+	b=PEiveaMwtZEcej3rfaw7BGWVnPSXvrzU0PHYP2sM8/v2LF7DLswJgbgvzer/jQwpvWJLJc
+	JBrOk59mwKuf0lZU4aj2pU0NTIFPfmUEA4UBAwOqsKxSxSvfp7ZHyjHkojmIuiT6z7hfy6
+	jddWSdpleDdryGqnsFYuG/0mN6aepCiRdJOGlqAnFKlNMM9EO8d4B92wLMt/90NUzbvSjG
+	R3ynh161xa74jgFy49R1W3wRcpXsVgWosawDKZ3qBaoTZLq9GTlR56q4PPPNYXd0Ovj+B3
+	no65cQOxnU1U/fBAqcjJYHF5S6BUlyErdKDk/HyEgqcKDIbBrbJrigUbPl+OMg==
+Date: Thu, 23 Oct 2025 15:57:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -75,55 +72,61 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Subject: Re: [PATCH 1/2] dt-bindings: firmware: arm,scmi: Document
  arm,poll-transport property
-To: Cristian Marussi <cristian.marussi@arm.com>,
+To: Sudeep Holla <sudeep.holla@arm.com>,
  Marek Vasut <marek.vasut+renesas@mailbox.org>
 Cc: arm-scmi@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Cristian Marussi <cristian.marussi@arm.com>,
  Florian Fainelli <florian.fainelli@broadcom.com>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
- Sudeep Holla <sudeep.holla@arm.com>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-renesas-soc@vger.kernel.org
 References: <20251023123644.8730-1-marek.vasut+renesas@mailbox.org>
- <aPoxfH_TLrsMxMVQ@pluto>
+ <20251023-able-fervent-tortoise-e7a6df@sudeepholla>
+ <20251023-active-blue-collie-2978ea@sudeepholla>
 Content-Language: en-US
 From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <aPoxfH_TLrsMxMVQ@pluto>
+In-Reply-To: <20251023-active-blue-collie-2978ea@sudeepholla>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: jp916jjbwe3rtwcy3pk4agiykqi564ug
-X-MBO-RS-ID: eaba31ded376d5d287d
-X-Rspamd-Queue-Id: 4csnjn6y8Lz9sWh
+X-MBO-RS-META: dusg5ipbwggidpzsepg36osiph8xjhnt
+X-MBO-RS-ID: 30b98b26cec28366837
 
-On 10/23/25 3:45 PM, Cristian Marussi wrote:
+On 10/23/25 3:42 PM, Sudeep Holla wrote:
 
-Hello Cristian,
+Hello Sudeep,
 
-> On Thu, Oct 23, 2025 at 02:35:57PM +0200, Marek Vasut wrote:
->> Document new property arm,poll-transport, which sets all SCMI operation into
->> poll mode. This is meant to work around uncooperative SCP implementations,
->> which do not generate completion interrupts. This applies primarily on mbox
->> based implementations, but does also cover SMC and VirtIO ones.
+>>> diff --git a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+>>> index be817fd9cc34b..b53754a318ea1 100644
+>>> --- a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+>>> +++ b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+>>> @@ -146,6 +146,13 @@ properties:
+>>>         this platform. If set, the value should be non-zero.
+>>>       minimum: 1
+>>>   
+>>> +  arm,poll-transport:
+>>> +    type: boolean
+>>> +    description:
+>>> +      An optional property which unconditionally forces polling in all transports.
+>>> +      This is mainly mean to work around uncooperative SCP, which does not generate
+>>> +      completion interrupts.
+>>> +
+>>
+>> Could you please clarify which platform and transport this change pertains to?
+>>
+>> Introducing a property that enforces unconditional polling across all
+>> platforms is not ideal - particularly if this is intended as a workaround
+>> for a platform- or firmware- specific issue. Such implementations often get
+>> replicated across platforms without addressing the root cause, leading to
+>> wider inconsistencies.
+>>
 > 
-> Hi,
-> 
-> ..indeed I was thinking a while ago about exposing the existing force-polling
-> switch but in my case it was purely a testing-scenario configuration, so a
-> no-no for the DT, things are different if you have to describe an HW that has
-> no completion IRQ also on the a2p channel...
+> Just to clarify what I mean by "enforces unconditional polling" is with the
+> added DT property only. I understand this is new property and it much be
+> present in DT to enforce polling, but it can be misused initially for testing
+> in absence of interrupt support and forgotten in DT. Hence my concern.
 
-Correct, at least until the SCP on this hardware is updated.
-
-> ...having said that, though, usually polling-mode is reserved to a few
-> selected commands in a few chosen scenarios (as you may have seen),
-> 'carpet-polling' non-for-testing for all the commands on A2P seems a lot
-> inefficient and heavy...is it really a viable solution ? or these
-> systems use such a low rate of SCMI messages that polling after each and
-> every message is negligible ?
-> 
-> ..just to understand the context...
-
-These systems are early in development and it is likely that the SCP 
-will be updated to generate interrupts properly. Currently, this is not 
-the case, hence the carpet-polling, until this is resolved.
+I would argue about the "mis" part of "misused" . It can be both "used" 
+and "misused". I can add stronger warning into the description ?
 
 -- 
 Best regards,
