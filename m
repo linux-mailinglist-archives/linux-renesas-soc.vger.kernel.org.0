@@ -1,141 +1,213 @@
-Return-Path: <linux-renesas-soc+bounces-23531-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23532-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDC19C0245B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 17:59:01 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE8DBC027D1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 18:47:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 734B419A19B9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 15:59:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EEE683AE61E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 16:47:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B54462561D4;
-	Thu, 23 Oct 2025 15:58:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D059833C529;
+	Thu, 23 Oct 2025 16:47:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="W5GrnDcb"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="Akg/Ica9"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011041.outbound.protection.outlook.com [40.107.74.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16A4B24C669
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 15:58:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761235138; cv=none; b=CKOzbKbz5pXlsjoJSb3uaSrcicVawy/Hp0uW8Fz3pvuzzw32yTeLdaxv8QDu1fJkhLjiXP18COat/qkBXYrIFq6cNzSGesWtaqnWRY7EzxdZefvnsvMiXjrLIkPGaWeO5EKJvf8E1AibRIeZJNRa6L6OAIIdElAL9stlFkm6T3g=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761235138; c=relaxed/simple;
-	bh=NIGLzWGhgBLdawfYFaGFmpGQAY7Krd2udIiYsKPNXx4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SgF7gj0U+IhkfZzhr2Q2OVWwgIaQIPZK7EvBHOBmmoNuKQh8DT8GKc681qjscRX3wKXc2/1V+U7rmcV/JO/Xot4sa80WhkRY8C71G86ch3kKAQVa+CADHuCEIjV2C7yRk4GSRaguf8YZWDP+3Yu0OBlLleRWcweQiozhWOP7FkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=W5GrnDcb; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4csrLP0GnTz9smP;
-	Thu, 23 Oct 2025 17:58:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1761235133;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DFJOfVdkWJHRulD8HfD61vkF8//SbVsJWE5Pa+v76dg=;
-	b=W5GrnDcbXg1dREAbAcjJ1Wt7/WmhgXyx+Hj+HHYDdcOpfiiiJhLIVMbe/C/sOR0XOHrqLl
-	0Z7TJG/FLOmH7PiW8JAY/9aqiuoAoXASwb2B/dMdU2V24HNZdUz37K5u3IhMegIpkZdIKB
-	YodUfnbAmanb0GDHUwMD+wmyJGQC3duu8ZQkLmgA6esRvo33HcgTIzXipi2aJDzXE1RDBP
-	LOKQ/bCaBy8GBEWdfvq2XVY/YHmiDXYwvGxx4Sw4naKwybeazhiFh6DO5i4oNPM4cH86si
-	xObNgqj9JWbvHUCYskpUz3YhafKn/90VTJyjEaS9PdMbjstDPOuOmTY5U3WuIQ==
-Message-ID: <adefdb3e-7a10-42a2-b2fc-8c1490762454@mailbox.org>
-Date: Thu, 23 Oct 2025 17:58:49 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBD7C30ACFF;
+	Thu, 23 Oct 2025 16:47:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761238044; cv=fail; b=DayD3+s/yYyVPGPVUebYYob6vv7xh477Mt6ogpHkAMjTbQpMmvL9pxsHW6PLdw/iUVrMmY5qXm7nvNrLDFadfxEV4nHx5kuZW6fTDnPqhmgi9cY4OD28mSqHKGWfr5t5wEmQQFRUHKmpSf2DYr1w+dXYnuAiZuPbkZugYom2eEM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761238044; c=relaxed/simple;
+	bh=PH0l0xXIGcpntsv81ExJhL+41E4AgF9RP39zhVMv6/E=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=BNLdGu0oQMzVw9mn7y2Uh4pAeRFHHPRKicuQJSwYpiWz9d50WHnhKpGYLBxCzL7f5thL34VFPd2UQK0Qsj/Ms3BCxjYYm2FfgzlV4d5LJoPY6bXXWHZhKDGLZKBPiYEWcuEznLtRp0YId2Sqy+QdGf5sABovZPXw2dlXe9kyqQA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=Akg/Ica9; arc=fail smtp.client-ip=40.107.74.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UeIgM41w4Ghc38oRMyhg+QA/uXADjRMpi3GDtEpTjGJzXrFwkoeLCeLw3gYvmEuZT9g+t8QEgnvDW5DLuSD5Jr+hZS8XKT4A3C6HK8hspFjgozA849tH89/CLxk4L1AI6pqUvtBOcRJddzBFHQ7r6gWkd1hROAXtFLqQHf7MV8oDaOynP7bfCVV1d38P4cK8hGqMRzl+MoTGiz/YzQYqM8u1BuSKWGaTmMMUghW2gBFYRIuhOHTeiATNOp8u2D0FH/rB89rb1yHEZi9LAw40Jue0nnB8qsDVj0fVTbNkQe5e16XrgVrnRbNzPQi0mBT/WiQJkTYreItQ1E98Wq9dhQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fFbItsdMRNKtnhkgLborDD6DaCcPGZXF1Ff6iWYiyrw=;
+ b=S9Xuk3sVEnH1KbpX+Schfrujpkd4EEzDpJwseQWf/Mgo5zRN50BR/xj5V40mBpOza+u98J48HNm+rR/B9kF43PCV2t3s0pF5Xm4nwPHzjNFrb+KLB7PSuL/E25EooMsg4qz3k/AAeTNYdxB2oINz36MYvuEYv6cS0LU0Z1E4InHUB2vbB7kZrCAz8mgtqsLTgRx+ZZmhVQTC/IuvcYgLZYaRDVHovn0thumaq2BPPvacURCG4rajeIFtHy1xv/eS6Vxvi890nYZc0uDi27DC3ysymGThYHeDyD35pXspSOmKFqZoF3s5Wk6ZnMWu2If4AVOzCSjpB6i/z3rJY1cTGQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fFbItsdMRNKtnhkgLborDD6DaCcPGZXF1Ff6iWYiyrw=;
+ b=Akg/Ica9Fm/uiiJ5i9xnCyEAVdV5LO/lYvdQbaKq5IheNRswNcXy9mViFaA/ig6qvkJItOaTdC3z/bSfwxIZiqWEjFvhIEaR9sv5dSNVXnqO9/no9r0wUWuQKXks/jfXZkJwPdh3of1d8Vf+xL/zl3sXB7IwOibGgx4GRHNENxY=
+Received: from OS3PR01MB8319.jpnprd01.prod.outlook.com (2603:1096:604:1a2::11)
+ by TYCPR01MB11621.jpnprd01.prod.outlook.com (2603:1096:400:3b8::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.13; Thu, 23 Oct
+ 2025 16:47:17 +0000
+Received: from OS3PR01MB8319.jpnprd01.prod.outlook.com
+ ([fe80::6473:1660:bdc2:c983]) by OS3PR01MB8319.jpnprd01.prod.outlook.com
+ ([fe80::6473:1660:bdc2:c983%6]) with mapi id 15.20.9253.011; Thu, 23 Oct 2025
+ 16:47:17 +0000
+From: Chris Brandt <Chris.Brandt@renesas.com>
+To: Hugo Villeneuve <hugo@hugovil.com>
+CC: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette
+	<mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Biju Das
+	<biju.das.jz@bp.renesas.com>, Maarten Lankhorst
+	<maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>, Hien Huynh <hien.huynh.px@renesas.com>,
+	Nghia Vo <nghia.vo.zn@renesas.com>, "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>, "linux-clk@vger.kernel.org"
+	<linux-clk@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+	<dri-devel@lists.freedesktop.org>
+Subject: RE: [PATCH v3 1/2] clk: renesas: rzg2l: Remove DSI clock rate
+ restrictions
+Thread-Topic: [PATCH v3 1/2] clk: renesas: rzg2l: Remove DSI clock rate
+ restrictions
+Thread-Index: AQHcQ6/1iluAkL2rhkmyfDQl5Q3u3rTO9w4AgADrIhA=
+Date: Thu, 23 Oct 2025 16:47:17 +0000
+Message-ID:
+ <OS3PR01MB8319C5F67878677D380EC53D8AF0A@OS3PR01MB8319.jpnprd01.prod.outlook.com>
+References: <20251022235903.1091453-1-chris.brandt@renesas.com>
+	<20251022235903.1091453-2-chris.brandt@renesas.com>
+ <20251022214906.eaf123bd740ac9e396a65570@hugovil.com>
+In-Reply-To: <20251022214906.eaf123bd740ac9e396a65570@hugovil.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OS3PR01MB8319:EE_|TYCPR01MB11621:EE_
+x-ms-office365-filtering-correlation-id: 7d76da6e-00a8-43bc-605c-08de1253d37d
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|7416014|376014|366016|1800799024|38070700021;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?xwREsFSVMWQX2MRCkqkv3FRZ4APYPk/MQANwKCBIyEa6cjx+lHXuAB1AJzFm?=
+ =?us-ascii?Q?JpTFysCwATZpcuM5O0walrBqXhZD6p0yE8CDgrBc5F9ijGTsiiHN4LduDsfo?=
+ =?us-ascii?Q?VyOOT6CTzeiMfPXW3c6w+e8UwkkABbIGCQgVlDlERB51pywR+8F3YpzMXyAx?=
+ =?us-ascii?Q?LXVOiH+2DrIXNrAmeTOnOdXAhBQ+R8o24y5ljyZACASqdaYiXwR5RjpYF9G9?=
+ =?us-ascii?Q?RajD1Xq11iRmn2psc0ywYpbLtFYh8+/dtABWKVVi0/MReHslFnCzJevsKhvU?=
+ =?us-ascii?Q?WIzOq6Inh25KOr+FfdKNHTWSrIjTMivLiC2omNtZJzOueMDMe0rmHEMD+hot?=
+ =?us-ascii?Q?5KC8RHBaX/1Muc7bN1dqmPSfrgmqg0S3AI99FzH+DyjP5lkFvjI/K5SrPk+O?=
+ =?us-ascii?Q?tfEtaPC4sg+PTIMgt6YG3D0sr238/ZBDNFWStAcMGgEKFcPR9Vz1pv060zo5?=
+ =?us-ascii?Q?+Tc7AZN0uL9VQ7WERY+J1Cbw1X9Css9hTLNrNfQ92W73paMHES+aa/Wvj8TW?=
+ =?us-ascii?Q?RN1hKfZSeHb3hJzZGV4TjCrT8VwPscxDEuLyjE1HsTZJ9+xMY10DQ5TM/cEY?=
+ =?us-ascii?Q?JbJfujTrUGr8ao1DZMOT49os/6uY4nX6WVJKDC8K36R8hCtpwTqlFL9K0WsM?=
+ =?us-ascii?Q?2sOwc7133x922oSGs0sUc11GVFe8Oi+loOZTkOHdCLKDRhqb8dOWoFGs5ozl?=
+ =?us-ascii?Q?6cREDhJck9hn+WZ8ad35/PkQSZz2/0cXjLADLAaoI0grM9Vfddib2XgYfYSR?=
+ =?us-ascii?Q?6ZpOb+eQmFGHmvNwJrgPcOpQu9gOR4rt4VII8YvdMRXFmOHWzBpbuKLeIbPY?=
+ =?us-ascii?Q?oSYrHwxYc+pC82hNYcBmCRbqnQeYu1Q6gU2BOk1Ycg3qfLNX3vI6GvV5/G0A?=
+ =?us-ascii?Q?t1G3Jtvk6goAm6zZYEL9h7PgY6wLU6BpDPati/E8GtpzLE50Y6g78uVttMgp?=
+ =?us-ascii?Q?rQOD9MlZV88ilTQzxVK1tTe+sPcoxrPanpEEB5LsrQxXawmhEURK/rWcrN3x?=
+ =?us-ascii?Q?Fu9df20Gsqc16e+WX0NSNH/qY1B7UUj5uhd7Dyw08o5n+jvtTFjjJ/91KIPc?=
+ =?us-ascii?Q?Vlq9Xrg6Ysp06LcVnhVx7D0xjl5a9UgYGCjMEIg9N8OiKSQQppSlg8rUCQA6?=
+ =?us-ascii?Q?cfcphGM/45s9kME85R3WUtzN5xyi1j4ke/AJ3UtqqSXPdsqOCX6lc1ewLL+1?=
+ =?us-ascii?Q?qLr9x1q+hWjHyg+sa7Vl+Je7SX2PJz0sXLSwP5Hf32OQI2mV96ufIpIFUKQF?=
+ =?us-ascii?Q?9YHoxf70y9K4FMx7EFa77GUX9jXIV//LyNBYgFNzcyrrK9gMtlmO2kLqPZUm?=
+ =?us-ascii?Q?CxwI1R3kty9/mHYpbZ04FIiV+2bgjR/OoaWrMUZKvHJ8udP5yrwkpQ2P1btg?=
+ =?us-ascii?Q?7jAjT1+p7PdYPNKvg/vMA4gk9VhEhJ/n/5Ye+tFxAzo7aG15ONuP6Sf3/hoo?=
+ =?us-ascii?Q?IOruoUWv/5sNEG3nbcEFK/AAAnbOpKcQPxkWBn0mjK+bpzXoybVKrrZCVvG6?=
+ =?us-ascii?Q?y1P+iXOWNh33o21OVit61qwUrm9v1FDKWUB7?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS3PR01MB8319.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?k/a6P5bj5O2CAE0tYX1IL6b5c8w3vuOAYit3XdKciiuhDcLIl/dUWTYhSaAw?=
+ =?us-ascii?Q?CJHtnmmvdcZ1lpyVT3keKBNtd72zP1Zs7Dol0gHxEUdvfzqbHX16NrO8384Q?=
+ =?us-ascii?Q?prR0A4qQYeafD8t3unSgdfgHLbYRGt72g4IReJCeVRWyK+kqxgkJT6jb4ZDD?=
+ =?us-ascii?Q?p8wa2TH3X6aKhR+uLAtYA0AWCXV9t9o0DDGz/jB1EQYjThCIb/9qd3tW+FQ/?=
+ =?us-ascii?Q?CZgpcziTQemIhbGmC8QMzpfJMKxBLOIykhSoocs6pu4TKN/COjprSs+SX7SY?=
+ =?us-ascii?Q?D5baUcXr57kK3kjloHqaJhtH6O6xfjN/ov3bj++X2hscqUdQB2fzUtFhv4LZ?=
+ =?us-ascii?Q?SnhSi2PYobm32umNFCgFMhvguqgQSPKZm0eEyKJU+L9JsDdGqq+9cVEHEK/k?=
+ =?us-ascii?Q?dNYoslv0R3mNfWUgbsac6cA6R0NwYR5DyOjRl4lWWdEjrqjokNtSk8dMl98K?=
+ =?us-ascii?Q?Yjcjop3IZQuObX7tV8idb7GthMk3jn8pHjUNYmIh8D9iGhOJxzUJGV8LmKOp?=
+ =?us-ascii?Q?9GRl5Yx7PVOIu+vA74+cGZK1DCWgDi1/yIqhHUP17soAhc3Ms9iTNT1erWlg?=
+ =?us-ascii?Q?HjN7MQMq19FeLe1zDpY9FT8bgCHJfoIaQSBG+Shw4CmYkDSU+Z6x7ztplGND?=
+ =?us-ascii?Q?St/NELLFOtK6FBHp8hS1fGB5mcWn+oRhpv1m0WXpDm5ZvN1ElwAlgqLgQY0x?=
+ =?us-ascii?Q?5iITPB921nUf1DrcWAT7hnAz0BWyMvZJPPb8BGpFw1Jwz9yl2r2jyG/iaOH3?=
+ =?us-ascii?Q?Z7BMSemzzv7c9n7T6QyOASPjJbsm4soM6SRL0ikcbuF1ZhSMkGR6u8QbghxB?=
+ =?us-ascii?Q?nBTCeiXYk5oqCKug04zyS6p8KKnbb1vsvEdiZZAjkQBrZw2+xUlC6GIQhpvd?=
+ =?us-ascii?Q?6Q090/Z3bOxLsOTP6r+Oybgn1Oss78M9/xByCCleBingdrS0JH6Wu3LGa15K?=
+ =?us-ascii?Q?elOc76fpCPK5Ir+2BhbuNML9paudLVnHNLK7UYHZxjdef2N3GutB1+WpXeIC?=
+ =?us-ascii?Q?PirU3Q35WEIvKXz4GZGukavM3SCuUiPli8fZ4ZUrpryuPrMyszF7at9AsSRb?=
+ =?us-ascii?Q?bRg5P3V86DPOjwk7icaMu+9FQSBHXwXNh2/fy9p6XzJnwxLnAF+ttXJ8pDAI?=
+ =?us-ascii?Q?csEXMrIPkWqNzX3sssUkyWM/jvjIjH00BgLsE/mw8Ga/1o18/WBPTdRbJRxD?=
+ =?us-ascii?Q?twkxHmeUVBKmxpQ+2iHsS8nzeu+aDum9wh9URB0woij/2noJL7Y94+RV7454?=
+ =?us-ascii?Q?dsxb8qf0qfgwQ5dKZlKii6Y1a3Yjev/gVAxPTH9TGpzxGm93jAcvkBdptGoU?=
+ =?us-ascii?Q?HbBLIbFthubrSAuNcJPuM0kZoBMB81H5WzRIgOexngT1v9O+AjsQec01sLti?=
+ =?us-ascii?Q?iHHMENU2UlGqkD4htBag8UvIGl2EYbwWe/rK7LwsXZ9SHzEOR5p3Aj50lxmA?=
+ =?us-ascii?Q?Dbd5/l0OI/xdvQRuJf2mDpbXy1m+iJ520c6ZA/k4uL8y67p6BWGCFJJL35Yr?=
+ =?us-ascii?Q?4tD2cGE8zlAC5w5r7zy1aMpE8pPxCz+QPinPt/Go5GAp6IuWfXWFVVOQR+X6?=
+ =?us-ascii?Q?D21QVyubvaucF6sXXO3F4A6WzRa/ZWcK18EIrSGy?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] arm64: guard AMU register access with ARM64_HAS_AMU_EXTN
-To: Marc Zyngier <maz@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org,
- Anshuman Khandual <anshuman.khandual@arm.com>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Ryan Roberts <ryan.roberts@arm.com>, Will Deacon <will@kernel.org>,
- Yicong Yang <yangyicong@hisilicon.com>, linux-renesas-soc@vger.kernel.org
-References: <20251022133621.178546-1-marek.vasut+renesas@mailbox.org>
- <86347bvx0f.wl-maz@kernel.org>
- <07391913-aab6-4d92-b75f-278506f51397@mailbox.org>
- <861pmvvv2g.wl-maz@kernel.org>
- <24c8da41-37db-4e69-b9aa-e33b2154acb0@mailbox.org>
- <87y0p13dlh.wl-maz@kernel.org>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <87y0p13dlh.wl-maz@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: c7wrdi8qspfi44q66t5f7171c9wa659k
-X-MBO-RS-ID: e2587fe32a5827e83b1
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS3PR01MB8319.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7d76da6e-00a8-43bc-605c-08de1253d37d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Oct 2025 16:47:17.2843
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: EBUf7H7adx8FZh83qs0Ov4AbsQrtlwMAOnAzUwWrSAVrqcweemfjS0KflPVSsu3PXiap9jsivs1PJ2M7dWQyFWSync3VzAZDsIZJHo+P9+Q=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB11621
 
-On 10/23/25 4:19 PM, Marc Zyngier wrote:
+Hi Hugo,
 
-Hello Marc,
+On Wed, Oct 22, 2025 9:49 PM, Hugo Villeneuve wrote:
 
->> Except right now, I still trigger the AMU faults even with
->> ARM64_HAS_AMU_EXTN=n , which I think should not happen ?
-> 
-> ARM64_HAS_AMU_EXTN is a *capability*, not a configuration.
-> CONFIG_ARM64_AMU_EXTN is the configuration. I have the feeling you're
-> mixing the two.
-> 
-> Irrespective of the configuration, we access the AMU registers
-> depending on the what is advertised, because we *must* make these
-> registers inaccessible from EL0, no matter what.
+> > +	for (params->pl5_postdiv1 =3D PLL5_POSTDIV_MIN;
+> > +	     params->pl5_postdiv1 < PLL5_POSTDIV_MAX + 1;
+>
+> I think it would be easier to read/understand like this:
+>     params->pl5_postdiv1 <=3D PLL5_POSTDIV_MAX;
+>
+> > +	     params->pl5_postdiv1++) {
+> > +		for (params->pl5_postdiv2 =3D PLL5_POSTDIV_MIN;
+> > +		     params->pl5_postdiv2 < PLL5_POSTDIV_MAX + 1;
+>
+> Ditto
 
-Ahhh, I was missing this part, thank you for clarifying.
+OK. I can agree with that.
 
->> I would much rather be able to disable ARM64_HAS_AMU_EXTN in kernel
->> config for the old devices with old firmware, without triggering the
->> faults ... and say that everything which is going to be upstream will
->> always use new firmware that has proper working AMU support.
-> 
-> No, that's the wrong approach. If you leave the AMU accessible to EL0,
-> you're leaking data to userspace, and that's pretty wrong, no matter
-> how you look at it.
-> 
-> I also think your hack works by pure luck, because at the point where
-> your CPUs are booting, the alternatives are yet not in place (the
-> kernel patching happens much later). In short, this breaks
-> *everything*.
-> 
-> As I indicated before, you have two options:
-> 
-> - either you update your firmware and leave the kernel alone
-> 
-> - or you implement the workaround as ID register override so that you
->    *must* pass something on the kernel command line to boot, and by
->    then accept that you will leak critical timing information to
->    userspace.
-> 
-> Any other option, including guarding the macro with a config option is
-> *not* acceptable.
 
-Since I am getting an exception when I access the AMU register, would it 
-be possible to trap that exception, and report something to the user 
-instead of outright crashing with no output ?
+> > +				params->pl5_fracin =3D div_u64(((u64)
+> > +						     (foutvco_rate * params->pl5_refdiv) %
+> > +						     (EXTAL_FREQ_IN_MEGA_HZ * MEGA)) << 24,
+> > +						     EXTAL_FREQ_IN_MEGA_HZ * MEGA);
+> > +
+> > +				params->pl5_fracin =3D div_u64((u64)
+> > +						     ((foutvco_rate * params->pl5_refdiv) %
+> > +						     (EXTAL_FREQ_IN_MEGA_HZ * MEGA)) << 24,
+> > +						     EXTAL_FREQ_IN_MEGA_HZ * MEGA);
+>
+> Remove second identical block?
 
-Similar to what Linux already does on the various speculative execution 
-bugs on x86, something like this?
+Wow! How did that get in there????
 
-"
-MDS CPU bug present and SMT on, data leak possible. See 
-https://www.kernel.org/doc/html/latest/admin-guide/hw-vuln/mds.html for 
-more details.
-"
+Thanks !
 
--- 
-Best regards,
-Marek Vasut
+I'll wait a little to see if there are any other comments, then I'll send V=
+4
+
+
+Chris
 
