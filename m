@@ -1,45 +1,47 @@
-Return-Path: <linux-renesas-soc+bounces-23551-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23552-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD2DFC03A1C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Oct 2025 00:05:19 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F375C03A1F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Oct 2025 00:05:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9930B1A67341
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 22:05:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 36F283B6861
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 22:05:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 698A325A2BB;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BF2F86340;
 	Thu, 23 Oct 2025 22:05:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="P0kF10TU"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="VwfsI74l"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from out-181.mta1.migadu.com (out-181.mta1.migadu.com [95.215.58.181])
+Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34D6686340
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 22:05:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F02B248F73
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 22:05:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761257114; cv=none; b=geh/F1uJakIKxEXFgjUPZFPv5mCeBlhWQHNNo1KVW8VYUNIuz8OOxIMpl3uNTsrru76B32WpUhXHSCLyGNYdY/e47aBbzbpSR8qAaFLKSUMwkd4vjA6ajnzYbQgYw3snFHzl/mh9sR4gDGafSfMyzq3pyqG7W15j6UMuIvBs5Tg=
+	t=1761257114; cv=none; b=Y7UlIpsjcruWLRaS5m9RHiEK36fRnTxeqaehpAeS/vALlpsiFdtHkhyqWAynrz2YZaeM0jmnkwVqLNEC+s+Pvuj77AjA8FUKFJmjmuNZyWVGlOX33b9jYqFcH09II0OJcDiOa9kkMwgevi9WHfwlJYtGyH6hTgBFWqOROjvBeqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1761257114; c=relaxed/simple;
-	bh=ioTHWtZyicX1PYcq8lbYFsuMxeiqnC8bmB5v9dSqr9c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=CdOt/7xc/DkCBoJDOveMjGa5XnVElLrHlSffzz1kgnZNrHXx03JF8PHh6HV9wqTf1T+y9Ww2I3E9E8AEh7/tgb13ZWDw3j7e94IlmFP9wlTzMTeELWN3wc8ESctJIEB7YyrasYUB6lIc6aCt3zjEa5nqXuQk3BUWsxDlPEAs/O0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=P0kF10TU; arc=none smtp.client-ip=95.215.58.181
+	bh=CAFqdWfSLjS8BZ1+ZHhVFkTS4+LFjYeamlw/9adsvk0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=WhCOO1QjyRKAr+RhuGgvMEhIGI50wc2pN4ZgXUAffMSj3DTOZ7W5g4mbK7UIbT5RNCAutzFqnkmuuiLglfBQ0hBGDdAOFCVGIMcm5jHlkbxf7jNuRa8W+e0C7HSJ1n7zctQhleTdA6DRzfn8lqpJ5rCgVV61nLCmwD+JQZyXWUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=VwfsI74l; arc=none smtp.client-ip=95.215.58.187
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1761257108;
+	t=1761257110;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=jUraxx9cStQCMPeHEMKbx7/f+zLUBLbKTBMMk1wDwRw=;
-	b=P0kF10TUMP487hqqvuMRpxhEGqSHb5jDZ6kYceRYufBnYypsGJo43Xl1yrIB/iEkzPrdaB
-	QOpMo2TrA1H1dOAbf6fFd0H3YNgEYZkU5qlVt8QKn+2XPXRzWnqfOnZqJ1akgPRBhjkH9U
-	EPOgsPXp79HjmtuTesnNxcmPwS4haa8=
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VNu7LifUxSEnJav5ZiNmulMkCNYdAESN1aWG7TtYj48=;
+	b=VwfsI74lnggT0cP0Bz8WlvelvjMBdod93Ykj6LXqxWBvftCgmAb7caTFWM0wfgrdH0q5EL
+	KAait7UBY2yvJQ5ExcpJmvAkeRzIqMBcpa6e/n3PrEGGjrbNNPiDvVuXaCRAILMCGqTgJk
+	mlY2GElhFV7kDwuwPMp2a7n9oitztUs=
 From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
 To: Jian Shen <shenjian15@huawei.com>,
 	Salil Mehta <salil.mehta@huawei.com>,
@@ -66,60 +68,190 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	Jacob Keller <jacob.e.keller@intel.com>,
 	netdev@vger.kernel.org,
 	Vadim Fedorenko <vadim.fedorenko@linux.dev>
-Subject: [PATCH net-next v5 0/6] convert net drivers to ndo_hwtstamp API part 2
-Date: Thu, 23 Oct 2025 22:04:51 +0000
-Message-ID: <20251023220457.3201122-1-vadim.fedorenko@linux.dev>
+Subject: [PATCH net-next v5 1/6] octeontx2: convert to ndo_hwtstamp API
+Date: Thu, 23 Oct 2025 22:04:52 +0000
+Message-ID: <20251023220457.3201122-2-vadim.fedorenko@linux.dev>
+In-Reply-To: <20251023220457.3201122-1-vadim.fedorenko@linux.dev>
+References: <20251023220457.3201122-1-vadim.fedorenko@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
-This is part 2 of patchset to convert drivers which support HW 
-timestamping to use .ndo_hwtstamp_get()/.ndo_hwtstamp_set() callbacks.
-The new API uses netlink to communicate with user-space and have some
-test coverage.
+Convert driver to use .ndo_hwtstamp_get()/.ndo_hwtstamp_set() callbacks.
+otx2_ioctl() becomes empty, remove it.
 
-v4 -> v5:
- fix ionic dirver build with CONFIG_PTP_1588_CLOCK=n
-v3 -> v4:
- fix commit message in patch 6
-v2 -> v3:
- use NL_SET_ERR_MSG_MOD() variant to report errors back to user-space
-v1 -> v2: 
- hns3: actually set up new ndo callbacks
- ionic: remove _lif_ portion from name to align with other ndo callbacks
-
-
-Vadim Fedorenko (6):
-  octeontx2: convert to ndo_hwtstamp API
-  mlx4: convert to ndo_hwtstamp API
-  ionic: convert to ndo_hwtstamp API
-  net: ravb: convert to ndo_hwtstamp API
-  net: renesas: rswitch: convert to ndo_hwtstamp API
-  net: hns3: add hwtstamp_get/hwtstamp_set ops
-
- drivers/net/ethernet/hisilicon/hns3/hnae3.h   |  5 ++
- .../net/ethernet/hisilicon/hns3/hns3_enet.c   | 31 ++++++++++
- .../hisilicon/hns3/hns3pf/hclge_main.c        | 13 ++--
- .../hisilicon/hns3/hns3pf/hclge_ptp.c         | 32 +++++-----
- .../hisilicon/hns3/hns3pf/hclge_ptp.h         |  9 ++-
+Reviewed-by: Jacob Keller <jacob.e.keller@intel.com>
+Signed-off-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+---
  .../marvell/octeontx2/nic/otx2_common.h       |  9 ++-
- .../ethernet/marvell/octeontx2/nic/otx2_pf.c  | 56 ++++++++---------
+ .../ethernet/marvell/octeontx2/nic/otx2_pf.c  | 56 +++++++++----------
  .../ethernet/marvell/octeontx2/nic/otx2_vf.c  |  3 +-
- .../net/ethernet/mellanox/mlx4/en_netdev.c    | 62 ++++++++-----------
- drivers/net/ethernet/mellanox/mlx4/mlx4_en.h  |  6 +-
- .../net/ethernet/pensando/ionic/ionic_lif.c   | 17 +----
- .../net/ethernet/pensando/ionic/ionic_lif.h   | 18 ++++--
- .../net/ethernet/pensando/ionic/ionic_phc.c   | 61 +++++++++++-------
- drivers/net/ethernet/renesas/ravb_main.c      | 61 ++++++------------
- drivers/net/ethernet/renesas/rswitch_main.c   | 53 ++++++----------
- 15 files changed, 216 insertions(+), 220 deletions(-)
+ 3 files changed, 33 insertions(+), 35 deletions(-)
 
+diff --git a/drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h b/drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h
+index 1c8a3c078a64..ec26d1b6c789 100644
+--- a/drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h
++++ b/drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h
+@@ -527,7 +527,7 @@ struct otx2_nic {
+ 	u32			nix_lmt_size;
+ 
+ 	struct otx2_ptp		*ptp;
+-	struct hwtstamp_config	tstamp;
++	struct kernel_hwtstamp_config tstamp;
+ 
+ 	unsigned long		rq_bmap;
+ 
+@@ -1098,8 +1098,11 @@ int otx2_open(struct net_device *netdev);
+ int otx2_stop(struct net_device *netdev);
+ int otx2_set_real_num_queues(struct net_device *netdev,
+ 			     int tx_queues, int rx_queues);
+-int otx2_ioctl(struct net_device *netdev, struct ifreq *req, int cmd);
+-int otx2_config_hwtstamp(struct net_device *netdev, struct ifreq *ifr);
++int otx2_config_hwtstamp_get(struct net_device *netdev,
++			     struct kernel_hwtstamp_config *config);
++int otx2_config_hwtstamp_set(struct net_device *netdev,
++			     struct kernel_hwtstamp_config *config,
++			     struct netlink_ext_ack *extack);
+ 
+ /* MCAM filter related APIs */
+ int otx2_mcam_flow_init(struct otx2_nic *pf);
+diff --git a/drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c b/drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c
+index e808995703cf..a7feb4c392b3 100644
+--- a/drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c
++++ b/drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c
+@@ -2445,18 +2445,26 @@ static int otx2_config_hw_tx_tstamp(struct otx2_nic *pfvf, bool enable)
+ 	return 0;
+ }
+ 
+-int otx2_config_hwtstamp(struct net_device *netdev, struct ifreq *ifr)
++int otx2_config_hwtstamp_get(struct net_device *netdev,
++			     struct kernel_hwtstamp_config *config)
++{
++	struct otx2_nic *pfvf = netdev_priv(netdev);
++
++	*config = pfvf->tstamp;
++	return 0;
++}
++EXPORT_SYMBOL(otx2_config_hwtstamp_get);
++
++int otx2_config_hwtstamp_set(struct net_device *netdev,
++			     struct kernel_hwtstamp_config *config,
++			     struct netlink_ext_ack *extack)
+ {
+ 	struct otx2_nic *pfvf = netdev_priv(netdev);
+-	struct hwtstamp_config config;
+ 
+ 	if (!pfvf->ptp)
+ 		return -ENODEV;
+ 
+-	if (copy_from_user(&config, ifr->ifr_data, sizeof(config)))
+-		return -EFAULT;
+-
+-	switch (config.tx_type) {
++	switch (config->tx_type) {
+ 	case HWTSTAMP_TX_OFF:
+ 		if (pfvf->flags & OTX2_FLAG_PTP_ONESTEP_SYNC)
+ 			pfvf->flags &= ~OTX2_FLAG_PTP_ONESTEP_SYNC;
+@@ -2465,8 +2473,11 @@ int otx2_config_hwtstamp(struct net_device *netdev, struct ifreq *ifr)
+ 		otx2_config_hw_tx_tstamp(pfvf, false);
+ 		break;
+ 	case HWTSTAMP_TX_ONESTEP_SYNC:
+-		if (!test_bit(CN10K_PTP_ONESTEP, &pfvf->hw.cap_flag))
++		if (!test_bit(CN10K_PTP_ONESTEP, &pfvf->hw.cap_flag)) {
++			NL_SET_ERR_MSG_MOD(extack,
++					   "One-step time stamping is not supported");
+ 			return -ERANGE;
++		}
+ 		pfvf->flags |= OTX2_FLAG_PTP_ONESTEP_SYNC;
+ 		schedule_delayed_work(&pfvf->ptp->synctstamp_work,
+ 				      msecs_to_jiffies(500));
+@@ -2478,7 +2489,7 @@ int otx2_config_hwtstamp(struct net_device *netdev, struct ifreq *ifr)
+ 		return -ERANGE;
+ 	}
+ 
+-	switch (config.rx_filter) {
++	switch (config->rx_filter) {
+ 	case HWTSTAMP_FILTER_NONE:
+ 		otx2_config_hw_rx_tstamp(pfvf, false);
+ 		break;
+@@ -2497,35 +2508,17 @@ int otx2_config_hwtstamp(struct net_device *netdev, struct ifreq *ifr)
+ 	case HWTSTAMP_FILTER_PTP_V2_SYNC:
+ 	case HWTSTAMP_FILTER_PTP_V2_DELAY_REQ:
+ 		otx2_config_hw_rx_tstamp(pfvf, true);
+-		config.rx_filter = HWTSTAMP_FILTER_ALL;
++		config->rx_filter = HWTSTAMP_FILTER_ALL;
+ 		break;
+ 	default:
+ 		return -ERANGE;
+ 	}
+ 
+-	memcpy(&pfvf->tstamp, &config, sizeof(config));
++	pfvf->tstamp = *config;
+ 
+-	return copy_to_user(ifr->ifr_data, &config,
+-			    sizeof(config)) ? -EFAULT : 0;
+-}
+-EXPORT_SYMBOL(otx2_config_hwtstamp);
+-
+-int otx2_ioctl(struct net_device *netdev, struct ifreq *req, int cmd)
+-{
+-	struct otx2_nic *pfvf = netdev_priv(netdev);
+-	struct hwtstamp_config *cfg = &pfvf->tstamp;
+-
+-	switch (cmd) {
+-	case SIOCSHWTSTAMP:
+-		return otx2_config_hwtstamp(netdev, req);
+-	case SIOCGHWTSTAMP:
+-		return copy_to_user(req->ifr_data, cfg,
+-				    sizeof(*cfg)) ? -EFAULT : 0;
+-	default:
+-		return -EOPNOTSUPP;
+-	}
++	return 0;
+ }
+-EXPORT_SYMBOL(otx2_ioctl);
++EXPORT_SYMBOL(otx2_config_hwtstamp_set);
+ 
+ static int otx2_do_set_vf_mac(struct otx2_nic *pf, int vf, const u8 *mac)
+ {
+@@ -2942,7 +2935,6 @@ static const struct net_device_ops otx2_netdev_ops = {
+ 	.ndo_set_features	= otx2_set_features,
+ 	.ndo_tx_timeout		= otx2_tx_timeout,
+ 	.ndo_get_stats64	= otx2_get_stats64,
+-	.ndo_eth_ioctl		= otx2_ioctl,
+ 	.ndo_set_vf_mac		= otx2_set_vf_mac,
+ 	.ndo_set_vf_vlan	= otx2_set_vf_vlan,
+ 	.ndo_get_vf_config	= otx2_get_vf_config,
+@@ -2951,6 +2943,8 @@ static const struct net_device_ops otx2_netdev_ops = {
+ 	.ndo_xdp_xmit           = otx2_xdp_xmit,
+ 	.ndo_setup_tc		= otx2_setup_tc,
+ 	.ndo_set_vf_trust	= otx2_ndo_set_vf_trust,
++	.ndo_hwtstamp_get	= otx2_config_hwtstamp_get,
++	.ndo_hwtstamp_set	= otx2_config_hwtstamp_set,
+ };
+ 
+ int otx2_wq_init(struct otx2_nic *pf)
+diff --git a/drivers/net/ethernet/marvell/octeontx2/nic/otx2_vf.c b/drivers/net/ethernet/marvell/octeontx2/nic/otx2_vf.c
+index 25381f079b97..f4fdbfba8667 100644
+--- a/drivers/net/ethernet/marvell/octeontx2/nic/otx2_vf.c
++++ b/drivers/net/ethernet/marvell/octeontx2/nic/otx2_vf.c
+@@ -534,8 +534,9 @@ static const struct net_device_ops otx2vf_netdev_ops = {
+ 	.ndo_set_features = otx2vf_set_features,
+ 	.ndo_get_stats64 = otx2_get_stats64,
+ 	.ndo_tx_timeout = otx2_tx_timeout,
+-	.ndo_eth_ioctl	= otx2_ioctl,
+ 	.ndo_setup_tc = otx2_setup_tc,
++	.ndo_hwtstamp_get = otx2_config_hwtstamp_get,
++	.ndo_hwtstamp_set = otx2_config_hwtstamp_set,
+ };
+ 
+ static int otx2_vf_wq_init(struct otx2_nic *vf)
 -- 
 2.47.3
+
 
