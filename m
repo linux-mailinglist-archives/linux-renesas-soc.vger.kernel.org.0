@@ -1,120 +1,137 @@
-Return-Path: <linux-renesas-soc+bounces-23499-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23501-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53738C00FFA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 14:09:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF862C012A9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 14:37:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 80D2E4FCB22
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 12:07:51 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 7F0524E72F3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 12:37:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D9F6298CA6;
-	Thu, 23 Oct 2025 12:07:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61992313E11;
+	Thu, 23 Oct 2025 12:37:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="f7S/AOfU";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Wn5Nl7G6"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B3F02FD66F
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 12:07:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A737B2F1FE6;
+	Thu, 23 Oct 2025 12:37:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761221268; cv=none; b=ciC+UVTRSOrJh32/+qJMyQIAlXKhDOYzguXU7MLCAmSRScu2qqrRzsRaL3bRhVF/Sg5dm+DqY13dMoz5P94zg9JMkTEq1baoXaLEEmWAUCgs7A8NvZQljvIc2w/iuLAOeGU91jiTH/g2NbNCMugd7wwFsra5zuIWzubHoBGbizM=
+	t=1761223035; cv=none; b=ib6U5TaFNCScCNKYKh/z5KWIydnvJwh7cKOklF6VkvYIkYrDS+oNAUwBD8nBhxB0rouV8vL3qppmMHcmLTJeGysDg//3gmVlanrRSgIZgkxoRdFW9312oHnz0c+ss2zxGmOQxFmUBgSCvmHe8jqcDflrROYAe5yxR/6zHv5NhtU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761221268; c=relaxed/simple;
-	bh=QhbN8r+FeVInBIo/fiJrSFPH7EhpLOxaAVWY0WLSBSM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qRJDXj3KX2OO8ouTC3rQ0aaZaJCXz0Gkk/gScKnUwejwKWXpLFZ10AjmNC+3ptdAsolRcb41p9I5btvCpsd++OL5CO+i+al97z+HhK/Tdf27FxF1ZjOoKkBu3197KnKzkU5U8kZqzIExRQeyeSugCSm1drXs0lWQSipWIyuIu+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-932bced8519so557898241.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 05:07:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761221266; x=1761826066;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=oBc63QGd7BXhtM+lMELJZmBYVxWnaM+uPvhZT/wm8AQ=;
-        b=Vb7zWI/tgcPG6wdrwaivLyhUKuxE0fEitkgmzbwAi2XNWcNDAdUDBeIdaFNy/mh2uF
-         UmD159oWybV+v4WplCnD1ip5tlRGonPDTywqWnDjUMVQqNV6okQdNBVaFakeBbKf+sce
-         bzeldjGRpBcpAoyxhi//rpNxoBxNJ1kHyrL6cUxK2dU2jKvgFmZMTO4QgAOUWEFGs/JK
-         5HR8EPKgfDjYw4XonI+kzswZplJYsJafFSs/Pbc2qRzOEaXMYbAkj+89rMDA+ItVEhiM
-         qVCOmdwtd/fm3j++VUcOO+G5DHI0eyjbMoy5FCYr2Vy3ovDKmj7+lknkKJIl4G3ILSLD
-         mWWw==
-X-Forwarded-Encrypted: i=1; AJvYcCWDaNZ/6j6YzCiPbmB04klOGILemqTceI5aE9d1JNGibsmto6+b2hh15GcUFyXxY6gzMtRCWXzVyCx55R7R50xDuA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywlasm6w9a9V2hK7NABQwrz1SldQ8Aebah1jAnMj8MePApj7do5
-	Y6JyiUaFDIQ07HE4rxnd85ze+uLiT4Owci0SNFvpLPD5ainrnAHmI6AxogtpGkzm
-X-Gm-Gg: ASbGncvH+svbeSTqsL931Momyhbd63e2dd8Cw1DQPq2Eu+ABfLEsBb+etq+bMlOZpeJ
-	rDvF4eiW5Fqsj3RMyfopCZI4UExSsrWkopQEi3l54+mbFoy6jmilRrmnxT6BBqfp/+QgJ9mFP6Z
-	ACE9l/sWFArryigb4wLqsEUCFVrAN05cv2bPtjFyILrHW/4SmskYQDfmREYZJOMcNbdAtMTW5o6
-	S+pm1c9r6fDnK3+T4wEp46HeL0Vdd8ulkGX/Zn7wp/nxBIVkAsLPBEdXYTGWaZztPTksYbJi8+U
-	tCj+lRyXjdn9BaTslbYzMQQQ7MMVfcX641TI7eNeX76yIZ6Sjb/UIJbUpmTU+Bb/vIgcsquws4c
-	KItQmJS3hCr9q+NEKqs3I5LpaTzyJOzXXXaMlf8Fw4zt6KhSa0lLIq5XORzHiJ2xLYuHFyTWufw
-	JPoxM7IAzG2MxMBST6WZGtdjSA7wBu7EQg0PaVGg==
-X-Google-Smtp-Source: AGHT+IEOb634vvv5anrP4Qamt5Nt7XNTdNy2uVPkt2EgZKDhupc1JDlT7RMlX+E2/eHdl4lzW1cOlg==
-X-Received: by 2002:a05:6102:3f52:b0:5be:d04d:d2c6 with SMTP id ada2fe7eead31-5d7dd423a07mr7808611137.9.1761221265657;
-        Thu, 23 Oct 2025 05:07:45 -0700 (PDT)
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com. [209.85.222.44])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5db2c7c93b7sm780767137.4.2025.10.23.05.07.45
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Oct 2025 05:07:45 -0700 (PDT)
-Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-932bced8519so557885241.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 05:07:45 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVSu+VUDGPcOuMuZCZo4QcWnnVEKEV79zoZV9sqlp1GMZEJU+vrRNmQ4lNZWR0iSzMyA9vs/opnef0lGuvil3CQeg==@vger.kernel.org
-X-Received: by 2002:a05:6102:292a:b0:5db:27e9:934a with SMTP id
- ada2fe7eead31-5db27e997aemr1516331137.42.1761221265052; Thu, 23 Oct 2025
- 05:07:45 -0700 (PDT)
+	s=arc-20240116; t=1761223035; c=relaxed/simple;
+	bh=0sUfSSI7p/RnLWbtiSW3BgdQi/kAat/k6I+2C86hC6Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TNYvYuPNI0B9yp6zMmNYoZhW5XclMlkNi1YCE87wcE75BXI4mDVXBwp2UC7VvHZ0AwCOBCiYlnuBHYWnkUl+oGk34YeLeqYE8ijrkMduiPmaU929IvsGMTooLr2g7LAGbweORJTcBH2Zi720qmYHrLlNQtGjmsktxrhODWlgm7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=f7S/AOfU; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Wn5Nl7G6; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4cslsY3Nthz9sqg;
+	Thu, 23 Oct 2025 14:37:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1761223025;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=6WkBUEsZXrdSrWtDBY0p0szZixzCZ3r/xfDV1TsjmXc=;
+	b=f7S/AOfUym2WSQJD+wd5aCNm4AcP9LB01v9Bhh58ON7xu620sLvUk5ROwnxbwmbLhN1Z2+
+	uBKqjPaqP6E/0fLu5zEEqrzO1NTJL9dQCffwu6oeCeKaT7B5aflKzAVxujWNjk/vLa3d6N
+	JvSp20fGFIlPFVwuj4qeenp8qfF7l8Xp4YfTI0DIQ1swq/yyQPf+wR54F/h7zrE7CLLvMH
+	GseK5unRSS1qw1gy1npHN7x9ojq1YT1pjYTJduGGBJ4VBhIdpdOVXqIhFyoUZ4t3inBk8M
+	WVTxFLE4zcZTaIaEcO4TcEZXZBPwHw2v1W0DgJDZpMB3IxqYPjTi1uLyACnrhA==
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1761223023;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=6WkBUEsZXrdSrWtDBY0p0szZixzCZ3r/xfDV1TsjmXc=;
+	b=Wn5Nl7G6hP6vmCoD+qRaXIEZCLFqbYiHMmh50h/DCfCsq0FFf77PcNErjp1nsPCPWtK0bD
+	60bl5kL+31jADa0JwZOhQJNr3xg/aw0oBdNPn8eUocT2IPmjsw+3XuzxJ2In4m9AqpIqsc
+	DxAITUnhaly7YVw9rEQELxPUWmtYChtKxEW7sHbtjWO7cO9mnYARLYsQEKFWtII/hHLab9
+	0L5bF7OrZ3XjrGmTbLVTyrlHVXvYx1C1FlzAQeMOZ020fOuhz2iZwyroE8FiA7cm6HhdAB
+	hnApM0vnLoHJulQXoP/lP3Z9mQgTPLqBQ/XFfBQIxx33WLjNAD1/Mn+qzbAz4g==
+To: arm-scmi@vger.kernel.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH 1/2] dt-bindings: firmware: arm,scmi: Document arm,poll-transport property
+Date: Thu, 23 Oct 2025 14:35:57 +0200
+Message-ID: <20251023123644.8730-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <87h5wsa3h5.wl-kuninori.morimoto.gx@renesas.com> <87ecrwa3fj.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87ecrwa3fj.wl-kuninori.morimoto.gx@renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 23 Oct 2025 14:07:33 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVuyDSS+zhQV69MK_SXfDpJRrKYvxsdgB8Qvuz+Q8770Q@mail.gmail.com>
-X-Gm-Features: AS18NWCv1q8YpauasJP8nKtI5LMvjuBV_rVOoXFhH4VLXbtRUw8eyo-JmHWN1v8
-Message-ID: <CAMuHMdVuyDSS+zhQV69MK_SXfDpJRrKYvxsdgB8Qvuz+Q8770Q@mail.gmail.com>
-Subject: Re: [PATCH v6 2/2] arm64: dts: renesas: R8A78000: Add initial
- Ironhide support
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: ur38htuptdf9d77rhncyiu8mnbh67gm1
+X-MBO-RS-ID: 946e3c1781cf93a3546
 
-On Wed, 24 Sept 2025 at 06:18, Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> From: Hai Pham <hai.pham.ud@renesas.com>
->
-> Add the initial support for Renesas X5H Ironhide board.
->
-> [Kuninori: tidyup for upstreaming]
->
-> Signed-off-by: Hai Pham <hai.pham.ud@renesas.com>
-> Signed-off-by: Vinh Nguyen <vinh.nguyen.xz@renesas.com>
-> Signed-off-by: Takeshi Kihara <takeshi.kihara.df@renesas.com>
-> Signed-off-by: Khanh Le <khanh.le.xr@renesas.com>
-> Signed-off-by: Huy Bui <huy.bui.wm@renesas.com>
-> Signed-off-by: Phong Hoang <phong.hoang.wz@renesas.com>
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Document new property arm,poll-transport, which sets all SCMI operation into
+poll mode. This is meant to work around uncooperative SCP implementations,
+which do not generate completion interrupts. This applies primarily on mbox
+based implementations, but does also cover SMC and VirtIO ones.
 
-Thanks, will queue in renesas-devel for v6.19.
+With this property set, such implementations which do not generate interrupts
+can be interacted with, until they are fixed to generate interrupts properly.
 
-Gr{oetje,eeting}s,
+Note that, because the original base protocol exchange also requires some
+sort of completion mechanism, it is not possible to query SCMI itself for
+this property and it must be described in DT. While this does look a bit
+like policy, the SCMI provider is part of the hardware, hence DT.
 
-                        Geert
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+---
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: Cristian Marussi <cristian.marussi@arm.com>
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Sudeep Holla <sudeep.holla@arm.com>
+Cc: arm-scmi@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-renesas-soc@vger.kernel.org
+---
+ Documentation/devicetree/bindings/firmware/arm,scmi.yaml | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
+diff --git a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+index be817fd9cc34b..b53754a318ea1 100644
+--- a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
++++ b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+@@ -146,6 +146,13 @@ properties:
+       this platform. If set, the value should be non-zero.
+     minimum: 1
+ 
++  arm,poll-transport:
++    type: boolean
++    description:
++      An optional property which unconditionally forces polling in all transports.
++      This is mainly mean to work around uncooperative SCP, which does not generate
++      completion interrupts.
++
+   arm,smc-id:
+     $ref: /schemas/types.yaml#/definitions/uint32
+     description:
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.51.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
