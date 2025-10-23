@@ -1,131 +1,126 @@
-Return-Path: <linux-renesas-soc+bounces-23509-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23510-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDC08C0185E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 15:47:09 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4C15C01861
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 15:47:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8FC54188B480
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 13:42:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 957B11899974
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Oct 2025 13:43:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0689E30595D;
-	Thu, 23 Oct 2025 13:42:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="o9+wlKtp";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="AV+NJSsT"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B33D3019DA;
+	Thu, 23 Oct 2025 13:42:58 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4525D7262D;
-	Thu, 23 Oct 2025 13:42:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AE2D2797B5;
+	Thu, 23 Oct 2025 13:42:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761226932; cv=none; b=HNMVm69puw7iPp1tK6o0H6Sn8+P1Y+bnAYUHiBEoCyEedT/J3xRyiWDeQhj7/7m9PoPcCzwRdYmcFX6KMRbALcn+CNnt+8nSP5pkt5A++TJ178aqVfLZS7OvNOggsagldsOURa8CSGe6+cgIOitdeDJimBCPtn8kbWCvoCNSsw4=
+	t=1761226978; cv=none; b=M8iOwWE/bBGQNyF4pNRaUV+QSvVwLktBJhpMvZdXO3tWmjVB3bocM1rQINvHYadjX9l1rqhcRAoEEW/h1UDYio8R3Nt76+rYco3dbo1ryP2LaMdvJ5sTAHJWuQDaZl5yU/hSYBDxvTRPYdaGzhh+y/4o5mUvJK1gI0bFrHTUrKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761226932; c=relaxed/simple;
-	bh=GTtIYbhf+1LHFMd9CePCzCzU/48vsFFXnqOuRt14OHY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cX0wzh/+PER2Q+PdbZ/CFj5Qv2VkC9678ujJHxfHrIPbgCUW7rQ2oSzt+RNvEYJbZlKgbwHUHHV76VWDxBNq8sMP8y8z/fRsNsls8xlTpiEpq6QwaDiZ6ZFRmPa1UGR7QjqRm0hdqgVTx98wg4hxAfDSZzWh/6hg9yNCtEU3E9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=o9+wlKtp; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=AV+NJSsT; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4csnJc1Cmgz9slM;
-	Thu, 23 Oct 2025 15:42:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1761226928;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=liOfj+w7oQQHQDinbActumCxZ7ts8b1PR9+ClEG2E04=;
-	b=o9+wlKtp+2kDP0Zbjrkwnbw8gWzh21UrNc2ucsM9ov4omiyPctnbOnoSsjI0i/mc93P2K7
-	Fotzk1NrnxIas6RJz6KAKgbKUfVWbPN2RXt91urKFmxXVDolED2nwYLqtussQQnOyjIl1/
-	gZ6dtn6k83cUX+d3j4SmOriLX4GMLtpgabRBkDQnvaD4jPXt5b8Qh8bbGcnXQRKkeEtt0X
-	tYJYT17NeaBBxiVEQhMJyl4L74bfRJzjQRDGyy6wGqYbYXRdpkR55ER3cz38+1PpCEB9BT
-	hOm4II+4u95AUPJQztPhy0q076I/ktLAtnSXS4BCudy4m5+pBjZ6i1w+W8rSrg==
-Message-ID: <066449c8-4bca-41f1-990e-53d7672e3c0a@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1761226926;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=liOfj+w7oQQHQDinbActumCxZ7ts8b1PR9+ClEG2E04=;
-	b=AV+NJSsTsrmJu2xpIi8b3X4WAqCpmXBK6i7v/WDnXuzr7Gg4IKoUADsAAhOCN4rWt9UrIq
-	aeIBV4emYzweIn7+H16S3dLe1TyA6HXoLfuffCUu5mSSIxvgbF12gIx5X0pE24bwHuHrZ3
-	q4kaZTEt9S8/VybcH7XmQJRr9P0T3j/SDO8b/yKUll37QKvLoe4hfBUXwv0IXur9Rbmc5m
-	SQVLqGyGyAT8OrUEvdENH4xHFWg0vAITTgU/Mb7kOtQ6jQtTi0pLaVcIcg/7N884H9ULy0
-	VGLaHH+WAMlmevcfutwJh3GqNKUgogPGfisdha+YbyBdXzJ2s5SSPuCoLtIUBw==
-Date: Thu, 23 Oct 2025 15:42:02 +0200
+	s=arc-20240116; t=1761226978; c=relaxed/simple;
+	bh=/xsg0TLHzvgxYs5HRoOUbMcS5K25bglQZR+MM/BiWvA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SMgY3JjeuVZtIm1/uVDCbxRwWym2sapstDFwnBBmNAoGt8HDomoktqrwK/WDUmcWGSlWffmMwN6X8rM+SmnDt+BsbGIcXUamoLQ39pElHkn/CO7jXsQeDd0Ogf0Ps7KY9Q8QDe4eDbrAMKvDPUrOlPMH/9PdF6RS/JLyCIFmxKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com; spf=none smtp.mailfrom=foss.arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=foss.arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B56271516;
+	Thu, 23 Oct 2025 06:42:47 -0700 (PDT)
+Received: from bogus (e133711.arm.com [10.1.196.55])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A791E3F63F;
+	Thu, 23 Oct 2025 06:42:53 -0700 (PDT)
+Date: Thu, 23 Oct 2025 14:42:50 +0100
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: <arm-scmi@vger.kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>,
+	<linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH 1/2] dt-bindings: firmware: arm,scmi: Document
+ arm,poll-transport property
+Message-ID: <20251023-active-blue-collie-2978ea@sudeepholla>
+References: <20251023123644.8730-1-marek.vasut+renesas@mailbox.org>
+ <20251023-able-fervent-tortoise-e7a6df@sudeepholla>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/2] dt-bindings: firmware: arm,scmi: Document
- arm,poll-transport property
-To: Sudeep Holla <sudeep.holla@arm.com>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: arm-scmi@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Cristian Marussi <cristian.marussi@arm.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org
-References: <20251023123644.8730-1-marek.vasut+renesas@mailbox.org>
- <20251023-able-fervent-tortoise-e7a6df@sudeepholla>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <20251023-able-fervent-tortoise-e7a6df@sudeepholla>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 2b7b03ec44f958831f6
-X-MBO-RS-META: d7cbac4yirg6dmrd4f7ehr3mnryd66c3
 
-On 10/23/25 3:16 PM, Sudeep Holla wrote:
-
-Hello Sudeep,
-
->> +  arm,poll-transport:
->> +    type: boolean
->> +    description:
->> +      An optional property which unconditionally forces polling in all transports.
->> +      This is mainly mean to work around uncooperative SCP, which does not generate
->> +      completion interrupts.
->> +
+On Thu, Oct 23, 2025 at 02:16:39PM +0100, Sudeep Holla wrote:
+> On Thu, Oct 23, 2025 at 02:35:57PM +0200, Marek Vasut wrote:
+> > Document new property arm,poll-transport, which sets all SCMI operation into
+> > poll mode. This is meant to work around uncooperative SCP implementations,
+> > which do not generate completion interrupts. This applies primarily on mbox
+> > based implementations, but does also cover SMC and VirtIO ones.
+> > 
+> > With this property set, such implementations which do not generate interrupts
+> > can be interacted with, until they are fixed to generate interrupts properly.
+> > 
+> > Note that, because the original base protocol exchange also requires some
+> > sort of completion mechanism, it is not possible to query SCMI itself for
+> > this property and it must be described in DT. While this does look a bit
+> > like policy, the SCMI provider is part of the hardware, hence DT.
+> > 
+> > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> > ---
+> > Cc: Conor Dooley <conor+dt@kernel.org>
+> > Cc: Cristian Marussi <cristian.marussi@arm.com>
+> > Cc: Florian Fainelli <florian.fainelli@broadcom.com>
+> > Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> > Cc: Rob Herring <robh@kernel.org>
+> > Cc: Sudeep Holla <sudeep.holla@arm.com>
+> > Cc: arm-scmi@vger.kernel.org
+> > Cc: devicetree@vger.kernel.org
+> > Cc: linux-arm-kernel@lists.infradead.org
+> > Cc: linux-renesas-soc@vger.kernel.org
+> > ---
+> >  Documentation/devicetree/bindings/firmware/arm,scmi.yaml | 7 +++++++
+> >  1 file changed, 7 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+> > index be817fd9cc34b..b53754a318ea1 100644
+> > --- a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+> > +++ b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+> > @@ -146,6 +146,13 @@ properties:
+> >        this platform. If set, the value should be non-zero.
+> >      minimum: 1
+> >  
+> > +  arm,poll-transport:
+> > +    type: boolean
+> > +    description:
+> > +      An optional property which unconditionally forces polling in all transports.
+> > +      This is mainly mean to work around uncooperative SCP, which does not generate
+> > +      completion interrupts.
+> > +
 > 
 > Could you please clarify which platform and transport this change pertains to?
-
-Renesas X5H with older SCP firmware , accessible via mailbox.
-
+> 
 > Introducing a property that enforces unconditional polling across all
 > platforms is not ideal - particularly if this is intended as a workaround
 > for a platform- or firmware- specific issue. Such implementations often get
 > replicated across platforms without addressing the root cause, leading to
 > wider inconsistencies.
+> 
 
-The root cause is being addressed already, this is meant to keep the 
-older SCP version operable.
-
-> It would be preferable to scope this behavior using the platform’s compatible
-> string. This approach ensures the workaround is applied only to the affected
-> platform and prevents it from being inadvertently enabled elsewhere, unless
-> another platform intentionally uses the same compatible string (which seems
-> unlikely).
-
-This is not platform-specific issue. SCMI provider which fails to 
-generate interrupts can appear on any platform, using either transport, 
-that is why I made the property generic.
+Just to clarify what I mean by "enforces unconditional polling" is with the
+added DT property only. I understand this is new property and it much be
+present in DT to enforce polling, but it can be misused initially for testing
+in absence of interrupt support and forgotten in DT. Hence my concern.
 
 -- 
-Best regards,
-Marek Vasut
+Regards,
+Sudeep
 
