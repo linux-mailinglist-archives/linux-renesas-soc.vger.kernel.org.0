@@ -1,199 +1,280 @@
-Return-Path: <linux-renesas-soc+bounces-23571-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23573-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5163EC04F36
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Oct 2025 10:06:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA691C05059
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Oct 2025 10:20:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 86C8B3BE6B9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Oct 2025 08:01:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DD8443AAFB1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Oct 2025 08:12:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DEBB12FC88C;
-	Fri, 24 Oct 2025 08:01:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A7qP6rLC"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A49B22ECD27;
+	Fri, 24 Oct 2025 08:12:40 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4A1F2FC00C;
-	Fri, 24 Oct 2025 08:01:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE9BB3019BD
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Oct 2025 08:12:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761292875; cv=none; b=dEYrixpNiCtzEaOyedJ7sY5bpcZReymiri2514/V5zVWJKEyR3cDi5e4Lz2ZG6535UKI3qPDRNmwHyYYaJu1lTfDfVC0YbOJoT8GKHqqNmsYauDUYTn4hJJKpsl7bFXUlhZ4W6CHjdwP+4PQIDEkxXlQbwafa+FjBAQ9iAx4imY=
+	t=1761293560; cv=none; b=RBV1B/N1rxGWGrEPQ282jJTkZriD9ZcC/Pc52ht4g3Et9Mqgd/1FHUpXxzAoDXOusa5FIGGIEo9PDmNvHDR3XZwrsTgWBJUxbuC6b0GxxbbJpmd5PLHymjsp+xfYoxG0F5HOe4ih3uPiyV9/j7/Jkd4J9XslSRr0dgTuLxGZwGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761292875; c=relaxed/simple;
-	bh=imYWE30EwvooA7wZhBK5yJ/SI6g+oo31jrrGEHQc6uY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=G5reZBlEoZB/jzG9kJp9ZxQXQ9fn/l8BaFIn7xdJs87uht7cySbHiMaMWCFUqHbJpWrmQBEatXCpbZpo61dhvbap4qDkiAzPSvuaRXOEBGNPIXUz3OiU5WpJA7MlQILT43k4ARYLAJOBF1KqKzMiNgISa4scmIctRHeQOvybRng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A7qP6rLC; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DAD6C4CEF1;
-	Fri, 24 Oct 2025 08:01:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761292875;
-	bh=imYWE30EwvooA7wZhBK5yJ/SI6g+oo31jrrGEHQc6uY=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=A7qP6rLC06+sM+pj9RtHJYfG79POQU9lqcMbG4FlD666C7AwvBF3VQueMQzHlCZDT
-	 sA5t+zRe9G5WsWIyCmDu3SPAhX1GCeSScYGko+AxFpdDGeNlCQC90T95k5dEhdEmb7
-	 SCQkCBq9hSt3DYAYWZf7PBiSJAWzMB7Pvq0ZqzOHoVgMBoEXgsfc48RhcxAUPvz3f5
-	 IIAIvZ0hb6sEBzSQIq3eXSVO7UkDXt84TjSDa9bmo+qrC616P9s20XZjL9tit6YFrb
-	 e+ovGwzAeN8MCuTmK+gOcZJYyu0oIFQ2fpKPoH7l9FkLbJ+grmXDCGNy0gbtANTciD
-	 lcwhxM35dFBbA==
-Message-ID: <110548d0-8c2c-48d6-bb28-c075bf0e8799@kernel.org>
-Date: Fri, 24 Oct 2025 10:01:11 +0200
+	s=arc-20240116; t=1761293560; c=relaxed/simple;
+	bh=hpgcKlVV2a7usVfzDLt1zVdxgZvPff7TYeBH4JVUr2I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pp0vlwzKJvJm/VpMXSpbfWFdpLLYd5g3Oc2HVuAU04YDrqZtWNrqpTWh+QiOpMQA9hiJtrGTvehAdt+g2LE4pPBzr93ca69msIw1Xv3Ac/7T5fqbhI9Wu8ZOMAsJHaPqdCsxCE5rSbuDjo8B8Vnxuk2qFdDKTBRWz81V4A9qYiI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-54a880e2858so426611e0c.2
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Oct 2025 01:12:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761293558; x=1761898358;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nY48OolfC3m/XFrWtTQOSs1xiOIwkF1W9X+4X3p3eqE=;
+        b=Ba2wBRkUkXcXOsI4zcLasUCk5C9e5haIvONMzADNDAs6dN8/Ym0m3P8dZD3Um2GZTs
+         GY+piUWoqLvWScKzACzY1DOjU6SkgPy1VCaxjm+6m08qn5D/1wNcO3zNzMBxrgJVgfYW
+         5Z/bRTdWPTdJSoPx/fF5mkblGy9YQnz2dgfeph49F6Jm9iNVspCVxGn2t9Y6kgr4j3FD
+         fBeO+X262q5jBME9VYif9V8+xyF/rMRqt838CTDj8AQQw18d1xQrdt2rHBy0QIS8nqTp
+         FhN1/LGJafK+lIj/8OxNRXICPBK4oui/x04X3Pq1MoZrSYJ0n39yGhCPpYMKflyrCpxM
+         IOvA==
+X-Forwarded-Encrypted: i=1; AJvYcCWXxODd/JGaHvJzGTg01kTsyc0KFItVyEDZipgXmfaipfOctMl2f5i7oLd0npIjm6Zb7N2feXxJa1mctWaiA6GBeg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxIvgHqIWIGQXf212H4EjZRAcefaG9auswtBa5SdsInBS3QqYNw
+	HT/LAl0syBHUypx+TYzS6s3Zx/9xy+TLZ3ZLD5VxLd4Aqbj2tRIOD/c/usCoTOEM
+X-Gm-Gg: ASbGncvsTUrPacBxt8wrCs5tAQ1ndMPJK4YxIkuZ559xFl/WSyy7wM7/Fxc2LLGRDAt
+	LREog/I81KrhATZRbDtdK5tAQGcxQfPEC9vgN5yzdftAJYle8i9uUVcEl1+YVkZsZ0iUFGTPMWt
+	/qrHCMd3M1GabT38IaM/ll4qZ5uA0QtG0eAmArNcm4r0ZEEMR5KcgFAzRkYVH5eMhepB9Skz/IJ
+	qohrifxge7u+MjlQLhXigNuD7Nw9MtsKxlRrX8+i96cjAuutnGVUA5g6DiUl+IjUxkVk4cH69fC
+	GrY+ZrARy6BABCh2+V9phxnVgyPjzAdgFgJru/aZP+g4hZwicHLIQr/2LsqThO0+wyboUBrzv+u
+	hSwBJfa3Z/gYs9zFPqR/pRZeOcA3b4yoJXAUOiZpKaLjf9rhnzwx7l1Kh8AFHD6dP7VJ7o5A73+
+	DK68zuVetSrTZzALtMohWxUWNQp4LrkwogZmBYCQ==
+X-Google-Smtp-Source: AGHT+IHTMUM9h8ZshaiGb81PFM9LW6cYwMYJzLZ/6X5abnvaixG6F8qtqCYjwfjVK40z5nxmWPL6sQ==
+X-Received: by 2002:a05:6122:2399:b0:542:59a2:731a with SMTP id 71dfb90a1353d-557cf1508d2mr375704e0c.16.1761293557609;
+        Fri, 24 Oct 2025 01:12:37 -0700 (PDT)
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com. [209.85.217.41])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-557bef1a1fcsm1834580e0c.22.2025.10.24.01.12.36
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Oct 2025 01:12:36 -0700 (PDT)
+Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-5c7fda918feso2126232137.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Oct 2025 01:12:36 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUI+ogjJVW10LroYyfvNcvX7buNtINNASI7tDCxUenzOqNXQ8zEOyJ5GiZGIlS5n5FMjPuzt622ce/+Z53RGuh8KQ==@vger.kernel.org
+X-Received: by 2002:a05:6102:b0f:b0:5d5:f6ae:38ee with SMTP id
+ ada2fe7eead31-5db3fa38842mr411609137.37.1761293556608; Fri, 24 Oct 2025
+ 01:12:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] dt-bindings: mailbox: Add Renesas MFIS Mailbox
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Jassi Brar <jassisinghbrar@gmail.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
- devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <87frb8n7kl.wl-kuninori.morimoto.gx@renesas.com>
- <87bjlwn7j9.wl-kuninori.morimoto.gx@renesas.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <87bjlwn7j9.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <87frb8n7kl.wl-kuninori.morimoto.gx@renesas.com> <87cy6cn7jg.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87cy6cn7jg.wl-kuninori.morimoto.gx@renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 24 Oct 2025 10:12:25 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU4nkLesGhPp+_RqsgWv02v=egLeH_1HNLKHC5yXPbvZw@mail.gmail.com>
+X-Gm-Features: AWmQ_blHf3Lx7IusOtNYbKWAzZe9vKkY7XTZ8MHPSP2bH9Nd9dITHkmeD1XsiZs
+Message-ID: <CAMuHMdU4nkLesGhPp+_RqsgWv02v=egLeH_1HNLKHC5yXPbvZw@mail.gmail.com>
+Subject: Re: [PATCH 2/3] mailbox: renesas: Support MFIS mailbox driver
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Conor Dooley <conor+dt@kernel.org>, Jassi Brar <jassisinghbrar@gmail.com>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 24/10/2025 08:22, Kuninori Morimoto wrote:
-> Add device tree bindings for the Renesas Multifunctional Interface
-> (MFIS) a mailbox controller.
-> 
+Hi Morimoto-san,
+
+On Fri, 24 Oct 2025 at 08:22, Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+> From: Masashi Ozaki <masashi.ozaki.te@renesas.com>
+>
+> Add Renesas MFIS mailbox driver for R8A78000 (X5H)
+>
+> Signed-off-by: Masashi Ozaki <masashi.ozaki.te@renesas.com>
+> Signed-off-by: Vinh Nguyen <vinh.nguyen.xz@renesas.com>
 > Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
->  .../mailbox/renesas,mfis-mailbox.yaml         | 49 +++++++++++++++++++
->  1 file changed, 49 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/mailbox/renesas,mfis-mailbox.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/mailbox/renesas,mfis-mailbox.yaml b/Documentation/devicetree/bindings/mailbox/renesas,mfis-mailbox.yaml
-> new file mode 100644
-> index 0000000000000..b9b6e6d440d79
+
+Thanks for your patch!
+
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mailbox/renesas,mfis-mailbox.yaml
-
-Filename must match compatible. See writing bindings.
-
-> @@ -0,0 +1,49 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/mailbox/renesas,mfis-mailbox.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +++ b/drivers/mailbox/rcar-mfis-mailbox.c
+> @@ -0,0 +1,137 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Renesas MFIS (Multifunctional Interface) Mailbox Driver
+> + *
+> + * Copyright (c) 2025, Renesas Electronics Corporation. All rights reserved.
+> + */
 > +
-> +title: Renesas MFIS (Multifunctional Interface) Mailbox Driver
+> +#include <linux/device.h>
+> +#include <linux/of_address.h>
+> +#include <linux/of_irq.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/mailbox_controller.h>
+> +#include <linux/module.h>
+> +#include <linux/platform_device.h>
+> +
+> +static int mfis_send_data(struct mbox_chan *link, void *data)
+> +{
+> +       void __iomem *reg = link->con_priv;
+> +
+> +       /*Trigger interrupt request to firmware(SCP)*/
+> +       iowrite32(0x1, reg);
+> +
+> +       return 0;
+> +}
+> +
+> +static irqreturn_t mfis_rx_interrupt(int irq, void *data)
+> +{
+> +       struct mbox_chan *link = data;
+> +       void __iomem *reg = link->con_priv;
+> +
+> +       mbox_chan_received_data(link, 0);
+> +
+> +       /* Clear interrupt register */
+> +       iowrite32(0x0, reg);
+> +
+> +       return IRQ_HANDLED;
+> +}
+> +
+> +static int mfis_startup(struct mbox_chan *link)
+> +{
+> +       struct mbox_controller *mbox = link->mbox;
+> +       struct device *dev = mbox->dev;
+> +       int irq;
+> +       int ret;
+> +
+> +       irq = of_irq_get(dev->of_node, 0);
+> +
+> +       ret = request_irq(irq, mfis_rx_interrupt,
+> +                         IRQF_SHARED, "mfis-mbox", link);
+> +       if (ret) {
+> +               dev_err(dev,
+> +                       "Unable to acquire IRQ %d\n", irq);
+> +               return ret;
+> +       }
 
-Driver as Linux driver? No, please describe hardware.
+This looks a bit expensive to do on each and every client request ...
+
+> +       return 0;
+> +}
+> +
+> +static void mfis_shutdown(struct mbox_chan *link)
+> +{
+> +       struct mbox_controller *mbox = link->mbox;
+> +       struct device *dev = mbox->dev;
+> +       int irq;
+> +
+> +       irq = of_irq_get(dev->of_node, 0);
+
+... and release.  Just store and request the irq in .probe().
 
 > +
-> +maintainers:
-> +  - Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> +       free_irq(irq, link);
+> +}
 > +
-> +description: |
-
-Drop |
-
-> +    The R-Car multifunctional interface (MFIS) provides an interface between
-> +    the different CPU Cores, such as AP System Core domain and the Realtime
-> +    Core domain, SCP Core domain and AP System Core domain or Realtime Core
-> +    domain and AP System Core domain or Realtime Core domain.
-> +    The MFIS supports the issuing of interrupts for each CPU core domain.
+> +static bool mfis_last_tx_done(struct mbox_chan *link)
+> +{
+> +       return true;
+> +}
 > +
-> +properties:
-> +  compatible:
-> +    const: renesas,mfis-mbox
+> +static const struct mbox_chan_ops mfis_chan_ops = {
+> +       .send_data      = mfis_send_data,
+> +       .startup        = mfis_startup,
+> +       .shutdown       = mfis_shutdown,
+> +       .last_tx_done   = mfis_last_tx_done
+> +};
+> +
+> +static int mfis_mbox_probe(struct platform_device *pdev)
+> +{
+> +       struct device *dev = &pdev->dev;
+> +       struct mbox_controller *mbox;
+> +       void __iomem *reg;
+> +       int ret, count = 2, i;
 
-You need SoC specific compatibles, unless this is not SoC...
+unsigned int i (and count, but I doubt you need it)
 
 > +
-> +  reg:
-> +    maxItems: 1
+> +       mbox = devm_kzalloc(dev, sizeof(*mbox), GFP_KERNEL);
+> +       if (!mbox)
+> +               return -ENOMEM;
 > +
-> +  interrupts:
-> +    description: the irq line
+> +       mbox->chans = devm_kcalloc(dev, count, sizeof(*mbox->chans), GFP_KERNEL);
+> +       if (!mbox->chans)
+> +               return -ENOMEM;
 
-Drop, redundant. Can it be not a irq line?
+You can combine this into a single allocation, and provide space for
+driver-specific data (e.g. irq), by using a driver-private structure:
 
-> +    maxItems: 1
+    struct mfis_priv {
+            struct mbox_controller mbox;
+            struct mbox_chan channels[2];
+            int irq;
+    };
+
+Where needed, you can convert from a struct mbox_controller pointer
+to a struct mfis_priv pointer using containter_of().
+
 > +
-> +  "#mbox-cells":
-> +    const: 1
+> +       reg = devm_platform_ioremap_resource(pdev, i);
+> +       if (IS_ERR(reg))
+> +               return PTR_ERR(reg);
 > +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - "#mbox-cells"
+> +       for (i = 0; i < count; i++) {
+> +               mbox->chans[i].mbox     = mbox;
+> +               mbox->chans[i].con_priv = reg + ((1 - i) * 4);
+> +       }
 > +
-> +additionalProperties: false
+> +       mbox->txdone_poll       = true;
+> +       mbox->txdone_irq        = false;
+> +       mbox->txpoll_period     = 1;
+> +       mbox->num_chans         = count;
+> +       mbox->ops               = &mfis_chan_ops;
+> +       mbox->dev               = dev;
 > +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    mailbox: mfis_mbox@18842000  {
+> +       ret = mbox_controller_register(mbox);
+> +       if (ret)
+> +               return ret;
+> +
+> +       platform_set_drvdata(pdev, mbox);
+> +       dev_info(dev, "MFIS mailbox is probed\n");
+> +
+> +       return 0;
+> +}
+> +
+> +static const struct of_device_id mfis_mbox_of_match[] = {
+> +       { .compatible = "renesas,mfis-mbox", },
+> +       {},
 
+Please no trailing comma after the sentinel.
 
-Please follow carefully DTS coding style. Also drop unnecessary label.
+> +};
+> +MODULE_DEVICE_TABLE(of, mfis_mbox_of_match);
+> +
+> +static struct platform_driver mfis_mbox_driver = {
+> +       .driver = {
+> +               .name = "renesas-mfis-mbox",
+> +               .of_match_table = mfis_mbox_of_match,
+> +       },
+> +       .probe  = mfis_mbox_probe,
+> +};
+> +module_platform_driver(mfis_mbox_driver);
+> +MODULE_DESCRIPTION("Renesas MFIS mailbox driver");
+> +MODULE_LICENSE("GPL v2");
 
-> +        compatible = "renesas,mfis-mbox";
-> +        reg = <0x18842000 0x8>;
-> +        interrupts = <GIC_SPI 4362 IRQ_TYPE_LEVEL_HIGH>;
-> +        #mbox-cells = <1>;
-> +    };
+Gr{oetje,eeting}s,
 
+                        Geert
 
-Best regards,
-Krzysztof
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
