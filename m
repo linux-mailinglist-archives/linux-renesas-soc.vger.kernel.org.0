@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-23570-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23571-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27332C04EEA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Oct 2025 10:05:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5163EC04F36
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Oct 2025 10:06:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C689C405350
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Oct 2025 07:58:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 86C8B3BE6B9
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Oct 2025 08:01:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC6822F83DB;
-	Fri, 24 Oct 2025 07:58:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DEBB12FC88C;
+	Fri, 24 Oct 2025 08:01:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UKCBUcnz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A7qP6rLC"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A31721F03C5;
-	Fri, 24 Oct 2025 07:58:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4A1F2FC00C;
+	Fri, 24 Oct 2025 08:01:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761292730; cv=none; b=fkcmfFOuFb09PEVIInamdFlSgMpZ7eyWEPkhWlbNSfDX3T95S6ncJAvF6O3f77tvoLJ9qOTp7KYBEgop4rWGl1PsabFF23UFzMYXKN8cHjEgcD952U7d27Azw+4bb7fY+h0+G+yRhctpZyIUSCcYPTP163hM73q6T111e7OdV9M=
+	t=1761292875; cv=none; b=dEYrixpNiCtzEaOyedJ7sY5bpcZReymiri2514/V5zVWJKEyR3cDi5e4Lz2ZG6535UKI3qPDRNmwHyYYaJu1lTfDfVC0YbOJoT8GKHqqNmsYauDUYTn4hJJKpsl7bFXUlhZ4W6CHjdwP+4PQIDEkxXlQbwafa+FjBAQ9iAx4imY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761292730; c=relaxed/simple;
-	bh=ujRgliuJ9opWyA1dA8HvH6KZTXat+2uy7+UPCFas1j0=;
+	s=arc-20240116; t=1761292875; c=relaxed/simple;
+	bh=imYWE30EwvooA7wZhBK5yJ/SI6g+oo31jrrGEHQc6uY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=Xl762dTzDHsaJJkVb6zDfnYESbZN7UYwE5Zlp2G5UHbztRquPvu+CEETBdqF9PUjH1QL6tX6NMY1C1WW/sQHJo6GZEOwjdz/kJsaOL0W0k/MixmBaFtp+gmUbHe0Uuvez2sdisij6oMcHBuzhKrXk03xc6a/olP5+CvVIJmPS1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UKCBUcnz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26EF2C4CEF1;
-	Fri, 24 Oct 2025 07:58:47 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=G5reZBlEoZB/jzG9kJp9ZxQXQ9fn/l8BaFIn7xdJs87uht7cySbHiMaMWCFUqHbJpWrmQBEatXCpbZpo61dhvbap4qDkiAzPSvuaRXOEBGNPIXUz3OiU5WpJA7MlQILT43k4ARYLAJOBF1KqKzMiNgISa4scmIctRHeQOvybRng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A7qP6rLC; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DAD6C4CEF1;
+	Fri, 24 Oct 2025 08:01:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761292730;
-	bh=ujRgliuJ9opWyA1dA8HvH6KZTXat+2uy7+UPCFas1j0=;
+	s=k20201202; t=1761292875;
+	bh=imYWE30EwvooA7wZhBK5yJ/SI6g+oo31jrrGEHQc6uY=;
 	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=UKCBUcnzJQr76xTGhoIzETFC5ITuiydigeyH8N/rw4KB4W6JdbSQnUERuSlthla5Z
-	 f8QW/EYHzNyY2+by/N2dXpA/TyML6BT95DdHTwTjER+6WV+NeEjvdTT/u7IOIrpDWt
-	 RnDcvWNZ7H7A5ov4EG1rjXH6+AUqeGVMQGwCBwsfoze/E53KunnICvGtjC27tY4uKk
-	 qTCjv9Spb7y+DNGhpa/bMZ+f98K9ICt3i1L3dNwtdsvz/5wuYPJvJmqaiN/MZKRRA5
-	 aKlmZirHKa5leHEzSb/oaw5GMrEMUGcx/nUFLyXSbOQIhj9zS/4lYWEzmhTcMNlHeH
-	 4inoakiXP0KyA==
-Message-ID: <17ebfe0f-ec3b-4f93-9146-f191d9c6a7fc@kernel.org>
-Date: Fri, 24 Oct 2025 09:58:46 +0200
+	b=A7qP6rLC06+sM+pj9RtHJYfG79POQU9lqcMbG4FlD666C7AwvBF3VQueMQzHlCZDT
+	 sA5t+zRe9G5WsWIyCmDu3SPAhX1GCeSScYGko+AxFpdDGeNlCQC90T95k5dEhdEmb7
+	 SCQkCBq9hSt3DYAYWZf7PBiSJAWzMB7Pvq0ZqzOHoVgMBoEXgsfc48RhcxAUPvz3f5
+	 IIAIvZ0hb6sEBzSQIq3eXSVO7UkDXt84TjSDa9bmo+qrC616P9s20XZjL9tit6YFrb
+	 e+ovGwzAeN8MCuTmK+gOcZJYyu0oIFQ2fpKPoH7l9FkLbJ+grmXDCGNy0gbtANTciD
+	 lcwhxM35dFBbA==
+Message-ID: <110548d0-8c2c-48d6-bb28-c075bf0e8799@kernel.org>
+Date: Fri, 24 Oct 2025 10:01:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,7 +50,7 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] mailbox: renesas: Support MFIS mailbox driver
+Subject: Re: [PATCH 3/3] dt-bindings: mailbox: Add Renesas MFIS Mailbox
 To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
  Conor Dooley <conor+dt@kernel.org>,
  Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -58,7 +58,7 @@ To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
  devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 References: <87frb8n7kl.wl-kuninori.morimoto.gx@renesas.com>
- <87cy6cn7jg.wl-kuninori.morimoto.gx@renesas.com>
+ <87bjlwn7j9.wl-kuninori.morimoto.gx@renesas.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -104,117 +104,94 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <87cy6cn7jg.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87bjlwn7j9.wl-kuninori.morimoto.gx@renesas.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 24/10/2025 08:22, Kuninori Morimoto wrote:
-> From: Masashi Ozaki <masashi.ozaki.te@renesas.com>
+> Add device tree bindings for the Renesas Multifunctional Interface
+> (MFIS) a mailbox controller.
 > 
-> Add Renesas MFIS mailbox driver for R8A78000 (X5H)
-> 
-> Signed-off-by: Masashi Ozaki <masashi.ozaki.te@renesas.com>
-> Signed-off-by: Vinh Nguyen <vinh.nguyen.xz@renesas.com>
 > Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 > ---
->  drivers/mailbox/Kconfig             |  10 +-
->  drivers/mailbox/Makefile            |   2 +
->  drivers/mailbox/rcar-mfis-mailbox.c | 137 ++++++++++++++++++++++++++++
->  3 files changed, 148 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/mailbox/rcar-mfis-mailbox.c
+>  .../mailbox/renesas,mfis-mailbox.yaml         | 49 +++++++++++++++++++
+>  1 file changed, 49 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/mailbox/renesas,mfis-mailbox.yaml
 > 
-> diff --git a/drivers/mailbox/Kconfig b/drivers/mailbox/Kconfig
-> index e47cb68989267..07e6bf06effe3 100644
-> --- a/drivers/mailbox/Kconfig
-> +++ b/drivers/mailbox/Kconfig
-> @@ -379,6 +379,15 @@ config BCM74110_MAILBOX
->  	  processor and coprocessor that handles various power management task
->  	  and more.
->  
-> +config RCAR_MFIS_MBOX
-> +	bool "Renesas R-Car Multifunctional Interface Mailbox Support"
-> +	depends on ARM_SCMI_PROTOCOL && ARCH_RENESAS
+> diff --git a/Documentation/devicetree/bindings/mailbox/renesas,mfis-mailbox.yaml b/Documentation/devicetree/bindings/mailbox/renesas,mfis-mailbox.yaml
+> new file mode 100644
+> index 0000000000000..b9b6e6d440d79
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mailbox/renesas,mfis-mailbox.yaml
 
-I don't see any build restrictions, why no compile test?
+Filename must match compatible. See writing bindings.
 
-> +	help
-> +	  This driver provides support for SCMI interface transport with
-> +	  MFIS(Multifunctional Interface).
-> +	  It is used to send short message between CPU cores and
-> +	  SCP(System Control Processor).
+> @@ -0,0 +1,49 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mailbox/renesas,mfis-mailbox.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
->  config RISCV_SBI_MPXY_MBOX
->  	tristate "RISC-V SBI Message Proxy (MPXY) Mailbox"
->  	depends on RISCV_SBI
-> @@ -389,5 +398,4 @@ config RISCV_SBI_MPXY_MBOX
->  	  remote processor through the SBI implementation (M-mode firmware
->  	  or HS-mode hypervisor). Say Y here if you want to have this support.
->  	  If unsure say N.
-> -
+> +title: Renesas MFIS (Multifunctional Interface) Mailbox Driver
 
-
-Does not look as intended change.
-
-...
+Driver as Linux driver? No, please describe hardware.
 
 > +
-> +static int mfis_startup(struct mbox_chan *link)
-> +{
-> +	struct mbox_controller *mbox = link->mbox;
-> +	struct device *dev = mbox->dev;
-> +	int irq;
-> +	int ret;
+> +maintainers:
+> +  - Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 > +
-> +	irq = of_irq_get(dev->of_node, 0);
+> +description: |
+
+Drop |
+
+> +    The R-Car multifunctional interface (MFIS) provides an interface between
+> +    the different CPU Cores, such as AP System Core domain and the Realtime
+> +    Core domain, SCP Core domain and AP System Core domain or Realtime Core
+> +    domain and AP System Core domain or Realtime Core domain.
+> +    The MFIS supports the issuing of interrupts for each CPU core domain.
 > +
-> +	ret = request_irq(irq, mfis_rx_interrupt,
-> +			  IRQF_SHARED, "mfis-mbox", link);
-> +	if (ret) {
-> +		dev_err(dev,
-> +			"Unable to acquire IRQ %d\n", irq);
+> +properties:
+> +  compatible:
+> +    const: renesas,mfis-mbox
 
-Please don't wrap lines when not necessary. This only hurts readability.
-
-
-> +		return ret;
-> +	}
-
-
+You need SoC specific compatibles, unless this is not SoC...
 
 > +
-> +	ret = mbox_controller_register(mbox);
-> +	if (ret)
-> +		return ret;
+> +  reg:
+> +    maxItems: 1
 > +
-> +	platform_set_drvdata(pdev, mbox);
-> +	dev_info(dev, "MFIS mailbox is probed\n");
+> +  interrupts:
+> +    description: the irq line
+
+Drop, redundant. Can it be not a irq line?
+
+> +    maxItems: 1
+> +
+> +  "#mbox-cells":
+> +    const: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - "#mbox-cells"
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    mailbox: mfis_mbox@18842000  {
 
 
-This does not look like useful printk message. Drivers should be silent
-on success:
-https://elixir.bootlin.com/linux/v6.15-rc7/source/Documentation/process/coding-style.rst#L913
-https://elixir.bootlin.com/linux/v6.15-rc7/source/Documentation/process/debugging/driver_development_debugging_guide.rst#L79
+Please follow carefully DTS coding style. Also drop unnecessary label.
 
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id mfis_mbox_of_match[] = {
-> +	{ .compatible = "renesas,mfis-mbox", },
-> +	{},
-> +};
-> +MODULE_DEVICE_TABLE(of, mfis_mbox_of_match);
-> +
-> +static struct platform_driver mfis_mbox_driver = {
-> +	.driver = {
-> +		.name = "renesas-mfis-mbox",
-> +		.of_match_table = mfis_mbox_of_match,
-> +	},
-> +	.probe	= mfis_mbox_probe,
-> +};
-> +module_platform_driver(mfis_mbox_driver);
-> +MODULE_DESCRIPTION("Renesas MFIS mailbox driver");
-> +MODULE_LICENSE("GPL v2");
+> +        compatible = "renesas,mfis-mbox";
+> +        reg = <0x18842000 0x8>;
+> +        interrupts = <GIC_SPI 4362 IRQ_TYPE_LEVEL_HIGH>;
+> +        #mbox-cells = <1>;
+> +    };
 
 
 Best regards,
