@@ -1,305 +1,176 @@
-Return-Path: <linux-renesas-soc+bounces-23561-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23562-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EF30C0479E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Oct 2025 08:19:18 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F8B9C047BC
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Oct 2025 08:21:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 292083A9BE3
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Oct 2025 06:19:17 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E3F544E46DB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Oct 2025 06:21:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBBC4266565;
-	Fri, 24 Oct 2025 06:19:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEF5926CE04;
+	Fri, 24 Oct 2025 06:21:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="TJS7Eppy"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="jEM7Xd3c"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011048.outbound.protection.outlook.com [40.107.74.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF29625A640
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Oct 2025 06:19:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761286754; cv=none; b=nR9E1Iv8Z5+oPHHNoN4FkLnDqgsNnRZSxILyEFPqb8NrJThENM36TU+60nIXsbkuMVwjE2P+9Ypgew8IZjtyt3yIwQGAVKX5hHb8Mbr5YvqnjQIz8cqz33k/TD+NadFg1MXlFOh/g7ecKgs3EC1f2jk9e7HPeQSAX+8MujDGKI0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761286754; c=relaxed/simple;
-	bh=uFBRlYn4H/hc4UUtKo/Zl3Wbu/SALrjPSrHjuWs//RI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lPvB6sAzzc8+nq/6ZycFzaMe4OfRXXZth6yD68xSr5iCAOAyzNCs+GvrEeh0xCPMt5hppeyKIxV37CCkicNHWnO0yJqZQh5baiCuKKozdRHGjfnBsEpEOkMsCD/or1sVV8RymfNaYE/Zy0oCcsKWmEJ9hgIiB7271kSNBs53WOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=TJS7Eppy; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3ee64bc6b85so1588483f8f.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Oct 2025 23:19:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1761286751; x=1761891551; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=rQi3eyYMx2IoRux5VExRaiY1WH0rhtxyzuItrffu2M0=;
-        b=TJS7EppyDKLtII6Sz5O7rFol+WL0XwBOnwm2ZBvvj6N0HjHJ3dDtMyApvp3L0UBSjg
-         6mNdj/q6Sdh4FLNgntssvLr6ca46lWQ9+4mb4zbaj+pp9TDY7+30KJBiA3TDDTz4n1B5
-         FIJyCU93hGVcZ5jm9JV2D7gEJU9ljpqkFWw448RIre+QF8qaQX408bgzrtjjCSIH7lNc
-         CeghnirWa/Ub1O+3SYrpspq2lH8r32ZsqsDllLUZ9f2vIVU+Q/JXsFt9iU9sX+RlViwK
-         FC+vxTUMVqXB19ZMhJFsRYF2RuwE3K6a54siFl1bCEl888LE4GS146PJRrJQUMCnJGGs
-         MP9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761286751; x=1761891551;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rQi3eyYMx2IoRux5VExRaiY1WH0rhtxyzuItrffu2M0=;
-        b=wdiQO7IJgf4ALBiis6y9ZGzsB59THEmip+lGwxX0h/Lpxr/v/sl9FvrCXDH6Y/QR3t
-         gsXxu9+DljWONwd8lBXTipL0Qt5HfP4j4uTrZv5wupyKj6DyNxdGtSynf4KiYsD3vvkg
-         hCIwFy4nubrSh3qkla5QTkusYlMdj/GRi+19RPh2ffSePWOfkZGse4I9xAfd1yUtyfxE
-         DM1sda2o5UehUK7vht83nE3cvm+5V9E2g4XplzXMIU0wkrP/dkmpdlP/DfXpP2oOVsyM
-         Ynyq93Yy14FYCp/Q+rUlOkhyOguSC49Ttl1P8AkLcMCIffNrk5KSpkAA6GzVR637Er+t
-         bJSw==
-X-Forwarded-Encrypted: i=1; AJvYcCVDr8iXqZwj7uo3DQP1IDA/zSB57sisLOMpuKle80MQlNuoau5H2ZfAd7qT+77RGmVPekB5p+tdd+KrDdYnRyL7Kw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwSiK8TnRQpZEZfu1gaYNenaArIDYWI1XoKbOWyxms+m0lqr0UG
-	Tqyby2DHQDq+yW5r6vKnZh6CJA3MiI+KjqLmBqhmsTOOKYCoQTYQlsv9MHrNH2TbOyo=
-X-Gm-Gg: ASbGncspRaoDzbW2ttKcGZmJdD08AgfuHVvN4scSmsz1YGAPsoZT5V6i0Tp8vKabZRk
-	v8lnzMHVCH/Q5rvRHRcF6SJcxowZmhhJ7LN1W4fQ4XjLJXhnazQbJeOnNGcYweIuGcSkmq7DNnF
-	tdMRRV4neDXZFiRx1H6tE9Xgt5JPANK6BMCXJo/E/b3bfRgdZQQc0yzy9ym/KiNA+Atj5P10xqu
-	83MJpDR8F00vwTlUIaNQdS/7EYLYdij096rtPaw6OdxzQPc9yuKqOs3gA+zDsJ82hPbJJSXoY/e
-	3yUwjSKL3YLMeF5QBpc/XviaZO3nhxGRoau1vb4UojClycEPWjNzTgRt4Z38E1x2AQoUSo1bKMk
-	8Da3FXEvwnaY+j4p+bPh1DBAugDm7hh8pgT0JON3tubdNUAOJKJxxUG8Lm+9DJ4BYVAdmwQPPLc
-	Kh6N5bj0DC
-X-Google-Smtp-Source: AGHT+IFRhch1nCNU+qHaY6mVuosWDZbzD+ZNCNBYwS1WBUru2/g0gETbNGkAMA76mLySN+rutX1oyg==
-X-Received: by 2002:a05:6000:186d:b0:425:76e3:81c5 with SMTP id ffacd0b85a97d-42704d86bb1mr17597369f8f.17.1761286750563;
-        Thu, 23 Oct 2025 23:19:10 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.151])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429897ff3f5sm7733618f8f.22.2025.10.23.23.19.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Oct 2025 23:19:09 -0700 (PDT)
-Message-ID: <67f386ad-62d6-4ad7-8906-face362b5ef0@tuxon.dev>
-Date: Fri, 24 Oct 2025 09:18:54 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64C241E51FA;
+	Fri, 24 Oct 2025 06:21:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761286897; cv=fail; b=BH60yPrQ/NGt3dXUOTXTFewBdt9LNTloD6LUyqLpUlnCDHqUAesibYP6O54FX96iE/07b+T9+Gn7fFSE/pFE2qEfRXNGloOB7aOJnT43VdGUwmsTmn3BxSizrCwcb8xl3EQ7GMV3MLXf+Tkm9RagOOZ1u6FgAmyamgdenm/6b7o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761286897; c=relaxed/simple;
+	bh=BnkGnQr8qyXEA78tlIBMias1UBjDGL1CEU1+kH+D1Zc=;
+	h=Message-ID:To:From:Subject:Content-Type:Date:MIME-Version; b=Mr0YnPfx6F1mxzNREhcfgKKSmcKJF3uxf0E/Jv6It0f4ogr4rCPiwH/9Utt5is/Fuo3xbH4aaTYzZ1yOabFJBstIGFD25RkOpm7Fu+bcPBz7wLmCU66Fk08Ovc1BeKG6ZD/5KQGkg4jLOmkHIEAcsmxR6b6we9WOFRuMPw1UIBc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=jEM7Xd3c; arc=fail smtp.client-ip=40.107.74.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZsGdM8ZaO7kTZ5GmI72DRvrBZF9twCHVWnbVFoNLg0hwoyx4aDIdix8ImQZFxp0SPzJNGc7CHrRdDinT4TzAw3UEyOVZz5D4Ziaf9I2Js0E/Ea7uAAE4YrUMPdI8aZ+mJw5tgj9cjmPqQwEdiAtw46teM7ZeVt+mfbhWXugGd+xMlrOdKeLBWzP1dTmiBEa1CBqUIyvtuW2X1OarYUCMpcJ1T1jqJrqAoMKgtbMh58NFfpp0LIszHZI6y3nHjo820pak/7Usf10rqYsuCf0dzo0gK/3jS5oDsTcvQj7qtNAGMcjOMUycmcHbZJaePxQnyh/elIKwOy9C6mPgu21osg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zLO5nuRfMKsohVeveafiEAOxTcdxOx1NFVCRJ46ukBk=;
+ b=e6AduQjIuo1YEQaUZj24SijPkz4SqEXG8St9ozkDUiZJUsps9+7gIE2HdbicJcxWhP6D630cV/EwoJYyS8BS2k75e4zP+W4beegADSZQFjGkx8Z1+af4FeTb13Y3+zyC84Vnnz5fxikRlhmtJUJp0Crv018ODLXDp58A33+jYsoEZhBsT3ZvqXdwfxvk6Crslb6U7CssFWJeUIqa6xo8qm0LwAhifXr2pu+gBlGEVVt2ZYaDnXw5tBQAKT4qEd2o9+PVFb3yFmwenESej6zb8DjGzVYgMgz8R7nZ+vDsQUdix3WfTAvMZ3VfwXGb9fMtahE6YQ/ueFZphJEfSKmMKA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zLO5nuRfMKsohVeveafiEAOxTcdxOx1NFVCRJ46ukBk=;
+ b=jEM7Xd3cWWWxVG1QgZK0kxZY5Mhf65yITprJ0zeIHIICE+uS8w67c6W7ZtSQOS7pyDmdjH/nHo4BzZz/XWnlEOK+sQCAIHak9PfhWNlNhI3BcZxSDqAR9NodpzWxMBjqbA2G4hKLxFvsORdoIrPdNuEVX1GJqrHBKrNuUI2rkqM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by TYWPR01MB10774.jpnprd01.prod.outlook.com
+ (2603:1096:400:2a6::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.13; Fri, 24 Oct
+ 2025 06:21:31 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11%3]) with mapi id 15.20.9253.011; Fri, 24 Oct 2025
+ 06:21:30 +0000
+Message-ID: <87frb8n7kl.wl-kuninori.morimoto.gx@renesas.com>
+To: Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, Jassi Brar <jassisinghbrar@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: [PATCH 0/3] mailbox: renesas: Support MFIS mailbox driver
+Content-Type: text/plain; charset=US-ASCII
+Date: Fri, 24 Oct 2025 06:21:30 +0000
+X-ClientProxiedBy: TYCPR01CA0074.jpnprd01.prod.outlook.com
+ (2603:1096:405:3::14) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/6] PCI: rzg3s-host: Add Renesas RZ/G3S SoC host
- driver
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: lpieralisi@kernel.org, kwilczynski@kernel.org, mani@kernel.org,
- robh@kernel.org, bhelgaas@google.com, krzk+dt@kernel.org,
- conor+dt@kernel.org, geert+renesas@glider.be, magnus.damm@gmail.com,
- p.zabel@pengutronix.de, linux-pci@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>
-References: <20251023155513.GA1292722@bhelgaas>
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Content-Language: en-US
-In-Reply-To: <20251023155513.GA1292722@bhelgaas>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-Hi, Bjorn,
-
-On 10/23/25 18:55, Bjorn Helgaas wrote:
-> On Thu, Oct 23, 2025 at 08:11:17AM +0300, Claudiu Beznea wrote:
->> On 10/22/25 22:49, Bjorn Helgaas wrote:
->>> On Tue, Oct 07, 2025 at 04:36:53PM +0300, Claudiu wrote:
->>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>>
->>>> The Renesas RZ/G3S features a PCIe IP that complies with the PCI Express
->>>> Base Specification 4.0 and supports speeds of up to 5 GT/s. It functions
->>>> only as a root complex, with a single-lane (x1) configuration. The
->>>> controller includes Type 1 configuration registers, as well as IP
->>>> specific registers (called AXI registers) required for various adjustments.
-> 
->>>> +++ b/drivers/pci/controller/pcie-rzg3s-host.c
->>>
->>>> +#define RZG3S_PCI_MSIRCVWMSKL			0x108
->>>> +#define RZG3S_PCI_MSIRCVWMSKL_MASK		GENMASK(31, 2)
->>>
->>> Unfortunate to have to add _MASK here when none of the other GENMASKs
->>> need it.  Can't think of a better name though.
->>
->> Most of the register offsets and fields defines tried to use the naming
->> from the HW manual. ...
-> 
-> It's OK as-is.
-> 
->>>> +static int rzg3s_pcie_msi_enable(struct rzg3s_pcie_host *host)
->>>> +{
->>>> +	struct platform_device *pdev = to_platform_device(host->dev);
->>>> +	struct rzg3s_pcie_msi *msi = &host->msi;
->>>> +	struct device *dev = host->dev;
->>>> +	const char *devname;
->>>> +	int irq, ret;
->>>> +
->>>> +	ret = devm_mutex_init(dev, &msi->map_lock);
->>>> +	if (ret)
->>>> +		return ret;
->>>> +
->>>> +	msi->irq = platform_get_irq_byname(pdev, "msi");
->>>> +	if (msi->irq < 0)
->>>> +		return dev_err_probe(dev, irq ? irq : -EINVAL,
->>>> +				     "Failed to get MSI IRQ!\n");
->>>> +
->>>> +	devname = devm_kasprintf(dev, GFP_KERNEL, "%s-msi", dev_name(dev));
->>>> +	if (!devname)
->>>> +		return -ENOMEM;
->>>> +
->>>> +	ret = rzg3s_pcie_msi_allocate_domains(msi);
->>>> +	if (ret)
->>>> +		return ret;
->>>> +
->>>> +	ret = request_irq(msi->irq, rzg3s_pcie_msi_irq, 0, devname, host);
->>>
->>> Should this be devm_request_irq()?  Most drivers use it, although
->>> pci-tegra.c and pcie-apple.c do not.  Maybe there's some special
->>> rule about using request_irq() even though the driver uses devm in
->>> general?  I dunno.
->>
->> In general is not good to mix devm cleanups with driver specific
->> one.
->>
->> As it was requested to drop the devm cleanups from this driver
->> (especially devm_pm_runtime_enable() which enables the also the
->> clocks) I switched the initial devm_request_irq() to request_irq()
->> to avoid keeping the interrupt requested on error path, after
->> driver's probed was executed, until devm cleanups are called, and
->> potentially having it firing w/o hardware resourced being enabled
->> (e.g. clocks), and potentially reading HW registers.
-> 
-> I couldn't find that request to drop devm,
-
-In v3 and v4 it was requested to drop the devm_add_action_or_reset() who's
-purpose was to allow using the currently generalized devm helpers (like
-devm_request_threaded_irq()) and don't mix devm cleanup with driver
-specific cleanup:
-
-v4 -
-https://lore.kernel.org/all/pnph54wv3736lemzren64ig4karlulffkvmc3dzgrhgyv2cpwu@2mcgvlqdr6wu/
-v3 -
-https://lore.kernel.org/all/ddxayjj5wcuuish4kvyluzrujkes5seo7zlusmomyjfjcgzcyj@xe3zzzmy2zaj/
-
-> and I don't see where
-> devm_pm_runtime_enable() enables clocks.
-
-Sorry, I wanted to refer to pm_runtime_resume_and_get() and its devm
-cleanup helper implemented in v3, v4:
-
-+	/*
-+	 * Controller clocks are part of a clock power domain. Enable them
-+	 * through runtime PM.
-+	 */
-+	ret = pm_runtime_resume_and_get(dev);
-+	if (ret)
-+		return ret;
-+
-+	ret = devm_add_action_or_reset(dev, rzg3s_pcie_pm_runtime_put, dev);
-+	if (ret)
-+		return ret;
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYWPR01MB10774:EE_
+X-MS-Office365-Filtering-Correlation-Id: 51816c31-ae5c-46ed-30fa-08de12c59259
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|52116014|376014|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?/c19B7CTxAnYreOC3i+egEjqwIc5lCtm6NiTgw6rsLyQ8HkLqAtxp+j7uImk?=
+ =?us-ascii?Q?E+w9U+6URF+Qz73LxISAn/xsxvDfN9conxhS5O/nY8YsltVzG7jBc9arhDBJ?=
+ =?us-ascii?Q?eQSqN5cPXS7B79A0uK5uT5IiGJ8qhCBOfZSN/KPBsxPiZWUWpDQiT7v1zFdB?=
+ =?us-ascii?Q?nlABgPGml9JdchmKNVcvPYqL1gihxsw7UMDf+HkvDJQBLd1+Rrq83TfjiDBs?=
+ =?us-ascii?Q?2gu+IC5TWkMiDJjf1nzJu2HmS2IeHSYqlJasxi4noqC4omD1oGSUtDFHQ4I6?=
+ =?us-ascii?Q?VAKiGjzqs9G3hOekxzVPq6DzYmkRf3HprCHDLdO7DipX+JA0ITVbYkaQPbcS?=
+ =?us-ascii?Q?72caU00JSbkNx/pMAlaYqmHCCojvMb68PE/04B0DppmN217ZYpPiFZeqAFZV?=
+ =?us-ascii?Q?9zyh5OQtAX9SIUd4KrDTUsA4rBhrrwLjGNXo/AosA7RuJkpekaYidiOKvYqh?=
+ =?us-ascii?Q?fdWS5k6/lgVbS7T7nmoN3ZppGcX05Z4v2IRf8pbFlHIPlhg0fQXcVxcFT7vf?=
+ =?us-ascii?Q?eydsrwz5bL28y+M2N3mv5DqKlM3YlYr082+r1Zt3pDL9DU18imtFu+6PYIHE?=
+ =?us-ascii?Q?xAjINKF0uGkdJ32c70uESnrj7IlpjOn5eDXXIx7T9BMrSHmug9xJGGc6bBb5?=
+ =?us-ascii?Q?S3I1shtjvEFdvE9ljHqrPUzgHUc6ukkDZoJX8a/vmUGLms87P0Y4HBqi2uY5?=
+ =?us-ascii?Q?WmiU5svcw1C6QcLhoWaHyIIma2wi/bd+07NNwyNTxCV1T4pcMnRDgvBS/Wkb?=
+ =?us-ascii?Q?1mYa/+08Nw+g4IGtlsifN7fC0kbYEEJGFp7IrlJyFigqpqXp4gSX2qIg1Ecz?=
+ =?us-ascii?Q?Eor6i6QnSCP4ehDToN5AHhjp9AmYnjVDXckmp7fliHte8XeXmd+NmoWRmDJH?=
+ =?us-ascii?Q?22ndE69+FB+sDHT4oBl3Ym+ahQ5ALTpbzNCgQFAifJjSY5jo7qo9oHmtJaJj?=
+ =?us-ascii?Q?rYejv5ogRnux4lAmw0Nn3pLejBRHUyH0i11+jRYI5H+ah8Y09PawmWzOHwez?=
+ =?us-ascii?Q?JLzp29HaA7dUxMziaaLDaC6U2bK4+7NXh+CH9dDbbncT7RrEDuRVDnG7r2gr?=
+ =?us-ascii?Q?rfR7xJHUEU7K2rlESffvdtbDDWPK6uxsb3AduiO4YsO+RuBHdo/7G0tKzxXN?=
+ =?us-ascii?Q?jE3jabnWBpH94w3l+fRNtJXnMhkY3Xr3idXsevu5c/8JgLnC7sFU2Kh/86z2?=
+ =?us-ascii?Q?1hYKD8Z0cEmD6uo/O2njgFYtP4yaOYwxBqMW8pcb0XPwsc8BfhkLjC1S9lAb?=
+ =?us-ascii?Q?mOO3coGARd/+cBCqULFKlF3uvWlcXaa01e7QB7+JQThPCirjqGdKui0ZMzIA?=
+ =?us-ascii?Q?ADtCHa2HoeRLoD2ijXwaTsHkZE8IK62xfqrmigzkN764/hHUZUS2/Xe322bj?=
+ =?us-ascii?Q?NVc46ZOynGjaboMNSa6Ep47qtNLEvFOr0MTxcWH51OV0MCIPk4Sy9z3fyp61?=
+ =?us-ascii?Q?CNabljwU2AzITvwygh7AjmeVeIqlb55r7EPLmSNCtUhtqxC94gz4yBmW71IE?=
+ =?us-ascii?Q?8eiNm9IhsNxzRSpehvCX/Gk6WYFmrlQwwUHO?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(376014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?wBDSoc9zF12Djz/r8Mts2SC3B/Vw7yTwNnX5P7hZrqw6OePTt4ozvwEpMtnW?=
+ =?us-ascii?Q?UX7lcJxUa77VOmG/+oZ0Hu0kRogXXwX8qME8TfP2LvroxcesuNj27GeE5v5H?=
+ =?us-ascii?Q?oWm11mMfwa9xoWCEfiZSK+FP7YJ1IhwF7WjAQzcE/YdeowgiSSi3w44VXVyS?=
+ =?us-ascii?Q?qZEghy2rFXGXXr+Idx/HXuxIAiyx2xxsFgla6PLHfq0AZ8DZmh7zY/9K/wN3?=
+ =?us-ascii?Q?6SylIc/tQwmlZnyKpj8jmKdQpaRUt2HRyJZHwr5tiISFD9PmSwhFV6D3YkXj?=
+ =?us-ascii?Q?XPM4oLRntwTVFq8fZy7n2HyBVQFryEl5j+tUjsi45PoCi+3+46dm7YZjK699?=
+ =?us-ascii?Q?4baIphk4b42wyJcSGsWTqjH5DAKAGRnW+6FXFtgqA+IJd1S8gkq6kjn3E9GG?=
+ =?us-ascii?Q?Uo1clW2gqZTWCmfaKmPscr0QSCSKRItbeoHaDrLDLAY0RnjamXsKTgSaB1dC?=
+ =?us-ascii?Q?zQihf+vKxrmtoG3laoqGC0dFFrKCYT5LzXRdGRdfT/nBT4PBjMva0bHkQxGV?=
+ =?us-ascii?Q?A5LeH0jkcAa2o2xD1+zKVGR5U7axerHrTRMIY+JeIWOTb+vl+UYXXqqBvJjm?=
+ =?us-ascii?Q?ait/BrQqhrwgWdtYDH9bpIuoo3vDqOvcQP5OXDcXE9lB+mFDvukUPahUN2R4?=
+ =?us-ascii?Q?uSsOvFMrVZoGs8spf49M2rXsS/G+/AbMiSVngb7/SXaiH+Y5wI0PdHJN6NoF?=
+ =?us-ascii?Q?fP3hMte7Ap/uMO+0QwxZHhVC9YRqQLP9p/493ugjf0XHDqRkGcKMGkXwxqmm?=
+ =?us-ascii?Q?E4wJqAlGQNAnd90BLpihWI8WxqlMSXHDzHSLBgvT5nEnxoYLLROhwlaB4ugl?=
+ =?us-ascii?Q?kU3psZb5oI5VmdNgny5xcACPkm/DGU3KfUlijeXP3LfuXIr50YO+LFijN7km?=
+ =?us-ascii?Q?+SyVoxGWK9fQDxHr5On3agCOnARRM0D0HacAV1ytGSYno1Db81BdRB5Rr7Zp?=
+ =?us-ascii?Q?WRlkPnvCJSdNtY6g804cbjj9/cMlBm3lAyrUDLf2CsqWcP++81IR9fZjpNXm?=
+ =?us-ascii?Q?cYK5M9DS10ZexcwPEYhttdslQYWhcc/AoK0GV9uo83ItWMVuRmoTDPwULq36?=
+ =?us-ascii?Q?1tZSZRUhqiMHeGZynfhuRLjY/C/26rdswK48DepTheVOLVe3aJz/dpkQ6OrL?=
+ =?us-ascii?Q?ePlBYdROC9kez/sPfU8JB/zoXYzSGGk/pNH3izvv0/LUgXj7Wp9uiI+TFC28?=
+ =?us-ascii?Q?gBvrx17K6sMPL00pTpmyt+zPW9tdIPNW1qCMkFsXIUgoN9z/gdbuoTQzpyML?=
+ =?us-ascii?Q?xchja5b/ujB739uq20K/bzIweMIrvn9Nj8VmS5XdxTqTzyefnqcu9QIX7wlJ?=
+ =?us-ascii?Q?2iQqr4fWh/JHxpmqjzjpKRqjkk1Hrsy/mzgTbOEoDE/MYvrdXHAk0SHuFzcs?=
+ =?us-ascii?Q?NvGhXHkSkfoEACYwKn3cpQHaitzjRuiWpYuuSeI2xrX7HeP3xCnmi8JwO3fi?=
+ =?us-ascii?Q?+3yJvc2pgMg2IzAjA3W8PTzfWT+uFEqpDvRP40/gELu3p6rqos0LP16af0vQ?=
+ =?us-ascii?Q?zTumrQ+CZAtWUgzR7GFf69d53ICphFLdRuGmplxlniq6FAKbVkFqGKyI2OAz?=
+ =?us-ascii?Q?tPSyEJOF9XDlYgYV0Upb1m7qPBvKvQwQQkB+uFnH5zATwosyrAxX83Xl0ii3?=
+ =?us-ascii?Q?0JjSxgakckMbprtT/5VAoIo=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 51816c31-ae5c-46ed-30fa-08de12c59259
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2025 06:21:30.8445
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FQ52V1teM6t1jNl1j05kxpudkbeB2x8c2LoWIpIxtyLvHHp+j/+uurf+U6u1L0gt1BuF9AE9QjzqCLQ8nDVQ3Pbcz5ZfSDJE366BXNLNHZDB0Ss1hiBerRcKzHXoeMlE
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB10774
 
 
-> 
->> E.g., accessing the HW registers while clocks are disabled on the
->> SoC I'm working with leads to synchronous aborts.
->>
->> So, I only kept the devm helpers for memory allocations, resets
->> assert/de-assert and the mutex initialization.
-> 
-> I'm OK with request_irq() here since you have a good reason.  This
-> problem of accessing registers while clocks are disabled sounds
-> familiar, so I think other hardware has a similar issue.  It would be
-> nice if everybody handled it the same way.
-> 
-> I don't know enough to identify other similar hardware and see how
-> they handled it (or identify drivers that *don't* handle it).  It
-> might be worth a one-line comment here to help future code readers.
+Hi
 
-OK, I'll add a comment on top of request_irq() call.
+This patch-set adds Renesas MFIS Mailbox driver.
+[PATCH 1/3] is cleanup patch for Kconfig
 
-> 
->>>> +static int rzg3s_pcie_intx_setup(struct rzg3s_pcie_host *host)
->>>> +{
->>>> +	struct device *dev = host->dev;
->>>> +
->>>> +	for (int i = 0; i < PCI_NUM_INTX; i++) {
->>>> +		struct platform_device *pdev = to_platform_device(dev);
->>>
->>> Looks like this should be outside the loop.
->>
->> OK, I kept it here as it is used only inside this block.
-> 
-> Ah, I see the motivation.  I suppose the compiler is smarter than I am
-> and hoists it out of the loop anyway, but I think it is easier for
-> humans to read if the loop only contains things that change for each
-> iteration.
+Kuninori Morimoto (2):
+  mailbox: remove unneeded double quotation
+  dt-bindings: mailbox: Add Renesas MFIS Mailbox
 
-OK, I'll move pdev out of this block.
+Masashi Ozaki (1):
+  mailbox: renesas: Support MFIS mailbox driver
 
-> 
->>>> +		char irq_name[5] = {0};
->>>> +		int irq;
->>>> +
->>>> +		scnprintf(irq_name, ARRAY_SIZE(irq_name), "int%c", 'a' + i);
->>>> +
->>>> +		irq = platform_get_irq_byname(pdev, irq_name);
->>>> +		if (irq < 0)
->>>> +			return dev_err_probe(dev, -EINVAL,
->>>> +					     "Failed to parse and map INT%c IRQ\n",
->>>> +					     'A' + i);
->>>> +
->>>> +		host->intx_irqs[i] = irq;
->>>> +		irq_set_chained_handler_and_data(irq,
->>>> +						 rzg3s_pcie_intx_irq_handler,
->>>> +						 host);
->>>> +	}
-> 
->> +     host->intx_domain = irq_domain_create_linear(of_fwnode_handle(dev->of_node),
->> +                                                  PCI_NUM_INTX,
->> +                                                  &rzg3s_pcie_intx_domain_ops,
->> +                                                  host);
->> ...
->> +     irq_domain_update_bus_token(host->intx_domain, DOMAIN_BUS_WIRED);
->> +
-> 
-> Can we use dev_fwnode(dev) here instead of of_fwnode_handle() so it
-> matches the one in rzg3s_pcie_msi_allocate_domains()?
+ .../mailbox/renesas,mfis-mailbox.yaml         |  49 +++++++
+ drivers/mailbox/Kconfig                       |  12 +-
+ drivers/mailbox/Makefile                      |   2 +
+ drivers/mailbox/rcar-mfis-mailbox.c           | 137 ++++++++++++++++++
+ 4 files changed, 198 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/mailbox/renesas,mfis-mailbox.yaml
+ create mode 100644 drivers/mailbox/rcar-mfis-mailbox.c
 
-Sure, I'll update it next time.
+-- 
+2.43.0
 
-> 
-> I think irq_domain_update_bus_token() is needed here because
-> host->intx_domain and msi->domain are identified by the same fwnode,
-> and this will be easier to see if we get the fwnode the same way.
-> 
-> (See 61d0a000b774 ("genirq/irqdomain: Add irq_domain_update_bus_token
-> helper").  I wish irq_domain_update_bus_token() had a function comment
-> to this effect.  Maybe even a mention in Documentation/.)
-> 
-> It would also help code readers if we could use function names similar
-> to other drivers.  For instance, rzg3s_pcie_intx_setup() creates the
-> INTx IRQ domain, but no other driver uses a name like *_intx_setup().
-> The general consensus seems to be *_pcie_init_irq_domain().
-
-I tried initially to align all the function name with the patterns I found
-though the tree as you suggested.
-
-With the pattern for MSI/INTx configuration I wanted to re-use the same
-probe code on resume path. My point was to re-use the
-rzg3s_pcie_host_setup() on resume, and on resume to configure only the HW
-registers for MSI, INTx (as the rest is not necessary) by passing different
-MSI, INTx setup functions along with their correspondent cleanup functions
-for failures.
-
-For the function names rzg3s_pcie_intx_setup(), rzg3s_pcie_msi_setup() I
-took as reference (probably) tegra_pcie_msi_setup().
-
-I'll try to switch to *_pcie_init_irq_domain() pattern if this is the
-preferred one.
-
-Thank you for your review,
-Claudiu
 
