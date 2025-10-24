@@ -1,176 +1,170 @@
-Return-Path: <linux-renesas-soc+bounces-23576-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23577-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99569C055A2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Oct 2025 11:33:37 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17D33C05575
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Oct 2025 11:30:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9BF40401D8D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Oct 2025 09:28:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0BB7D1B84CBF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Oct 2025 09:30:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12A3526CE37;
-	Fri, 24 Oct 2025 09:27:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lEV6Vnql"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FD5A30AD0E;
+	Fri, 24 Oct 2025 09:30:21 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E224B30AACB
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Oct 2025 09:27:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAA3330B52A
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Oct 2025 09:30:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761298074; cv=none; b=j++cBz6UW/Sbbf27BYPQFVYWLtzrocDlG+gocnzszLCA2MnptyELyBrCIAT5WiWVsUaxpRVNekXc0my8RlQr2O9AWZqKdB7Vkf7l7/Ro9Q21XYSQx5DHQeeZHbMMd3MlrdOVRcmCiT7AUvqlNzvgMbuZwQQDvdepaIXaxtTiH6o=
+	t=1761298221; cv=none; b=AMiLxd3v/wVGJqeoTc3ckGWuVam5WjyEzohIgdYrDR41OrthMtS0iHiI7KU9LrLgTA7QXdp9Ugjh9x0vTPbuzpfFLZoLcNnwr826GPdpyMNJj1T/1Syb7RioJna2fVfqBIqxjWMWh6kyWXN3RYOnyW8XXA2fwWenYEefHJPufIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761298074; c=relaxed/simple;
-	bh=JtAgQYabJoYpbAKikJiDKcmhcEvLDKqLOeVG9wlYeU8=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NSmQkyUfjITqhkaoO2spKuCdREqHhClfIZYL4aoARf7z/HbCr7plhZa5sVYKIpp7epMpgYap4b4jOL9MyvoV2bS5T2J6+EUMpwhrIkSO6pmQ0RYXQw7cxPMFKfu7px2hXng79rk1gTSv7c0vRD63vRKHUhXtAAd7mrv6DCJtlk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lEV6Vnql; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F7B8C4CEF1;
-	Fri, 24 Oct 2025 09:27:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761298073;
-	bh=JtAgQYabJoYpbAKikJiDKcmhcEvLDKqLOeVG9wlYeU8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=lEV6Vnqlk63vvYBY5YiNwCxLV2t046WuVTH0bJu7v0NPJTvyR5bdMD+46tN94eZs7
-	 E9i6wVfS/wnke+C7L5ar3jT+19O+7l60IXYUQLIi+AAMHINtBAatKW1sXvCCeiVJjq
-	 JcJ8uu+/YM9j8WmVMNTGQGl1Pk9sR8bLRHY1XoQEvedObLFXLnWTVkFv6aH7nKuwJ5
-	 TqS4v10GhIDA5tJoQ3vA1s2WyW+mENZwQw0Yqvfv3wjVXSblIPlZI3ddacF/OqYoLa
-	 GAVYXGOUtOnadjlx9UKQvvNNfvHkP+jBJ26GBkUxZM53y53ddjS2wJ63VMQvr9TV3p
-	 fXEr7mt+9mLQg==
-Received: from 91-165-189-16.subs.proxad.net ([91.165.189.16] helo=lobster-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1vCE5O-0000000GnSj-3WVw;
-	Fri, 24 Oct 2025 09:27:51 +0000
-Date: Fri, 24 Oct 2025 10:27:50 +0100
-Message-ID: <87sef83azt.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Marek Vasut <marek.vasut@mailbox.org>
-Cc: linux-arm-kernel@lists.infradead.org,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Yicong Yang <yangyicong@hisilicon.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] arm64: guard AMU register access with ARM64_HAS_AMU_EXTN
-In-Reply-To: <adefdb3e-7a10-42a2-b2fc-8c1490762454@mailbox.org>
-References: <20251022133621.178546-1-marek.vasut+renesas@mailbox.org>
-	<86347bvx0f.wl-maz@kernel.org>
-	<07391913-aab6-4d92-b75f-278506f51397@mailbox.org>
-	<861pmvvv2g.wl-maz@kernel.org>
-	<24c8da41-37db-4e69-b9aa-e33b2154acb0@mailbox.org>
-	<87y0p13dlh.wl-maz@kernel.org>
-	<adefdb3e-7a10-42a2-b2fc-8c1490762454@mailbox.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	s=arc-20240116; t=1761298221; c=relaxed/simple;
+	bh=yOBvVv5Rv22dnRru+lUh4w3HbXnnSwjZp5nksIyknMs=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=R8LUfFeH/RHjo51gfDt1yNzHrvTyzI4gin886/LbPXLT/w+anEyZGYxpbrdIsG+aqsxRCll1mJayA93GxrLS2/Kt8pyukNNx9/v21e/1TRRFb9UM+X4uJimQaEFBMap/a4C1hBhH2/6+kPP3Q1j5MeZ4CFZqR+8EaxnnBLIJ5+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1vCE7X-0004KG-Vw; Fri, 24 Oct 2025 11:30:04 +0200
+Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1vCE7W-005CdB-2l;
+	Fri, 24 Oct 2025 11:30:02 +0200
+Received: from pza by lupine with local (Exim 4.98.2)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1vCE7W-000000004wL-3Ejt;
+	Fri, 24 Oct 2025 11:30:02 +0200
+Message-ID: <55ddd10fca3d40a3b628eff419e0a8dc33613c9b.camel@pengutronix.de>
+Subject: Re: [PATCH v8 4/7] reset: rzg2l-usbphy-ctrl: Add support for USB
+ PWRRDY
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Claudiu <claudiu.beznea@tuxon.dev>, vkoul@kernel.org, kishon@kernel.org,
+ 	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ geert+renesas@glider.be, 	magnus.damm@gmail.com,
+ yoshihiro.shimoda.uh@renesas.com, 	biju.das.jz@bp.renesas.com
+Cc: linux-phy@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Claudiu
+ Beznea	 <claudiu.beznea.uj@bp.renesas.com>, Wolfram Sang	
+ <wsa+renesas@sang-engineering.com>
+Date: Fri, 24 Oct 2025 11:30:02 +0200
+In-Reply-To: <20251023135810.1688415-5-claudiu.beznea.uj@bp.renesas.com>
+References: <20251023135810.1688415-1-claudiu.beznea.uj@bp.renesas.com>
+	 <20251023135810.1688415-5-claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.56.1-1 
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 91.165.189.16
-X-SA-Exim-Rcpt-To: marek.vasut@mailbox.org, linux-arm-kernel@lists.infradead.org, anshuman.khandual@arm.com, catalin.marinas@arm.com, geert+renesas@glider.be, ryan.roberts@arm.com, will@kernel.org, yangyicong@hisilicon.com, linux-renesas-soc@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 
-On Thu, 23 Oct 2025 16:58:49 +0100,
-Marek Vasut <marek.vasut@mailbox.org> wrote:
-> 
-> On 10/23/25 4:19 PM, Marc Zyngier wrote:
-> 
-> Hello Marc,
-> 
-> >> Except right now, I still trigger the AMU faults even with
-> >> ARM64_HAS_AMU_EXTN=n , which I think should not happen ?
-> > 
-> > ARM64_HAS_AMU_EXTN is a *capability*, not a configuration.
-> > CONFIG_ARM64_AMU_EXTN is the configuration. I have the feeling you're
-> > mixing the two.
-> > 
-> > Irrespective of the configuration, we access the AMU registers
-> > depending on the what is advertised, because we *must* make these
-> > registers inaccessible from EL0, no matter what.
-> 
-> Ahhh, I was missing this part, thank you for clarifying.
-> 
-> >> I would much rather be able to disable ARM64_HAS_AMU_EXTN in kernel
-> >> config for the old devices with old firmware, without triggering the
-> >> faults ... and say that everything which is going to be upstream will
-> >> always use new firmware that has proper working AMU support.
-> > 
-> > No, that's the wrong approach. If you leave the AMU accessible to EL0,
-> > you're leaking data to userspace, and that's pretty wrong, no matter
-> > how you look at it.
-> > 
-> > I also think your hack works by pure luck, because at the point where
-> > your CPUs are booting, the alternatives are yet not in place (the
-> > kernel patching happens much later). In short, this breaks
-> > *everything*.
-> > 
-> > As I indicated before, you have two options:
-> > 
-> > - either you update your firmware and leave the kernel alone
-> > 
-> > - or you implement the workaround as ID register override so that you
-> >    *must* pass something on the kernel command line to boot, and by
-> >    then accept that you will leak critical timing information to
-> >    userspace.
-> > 
-> > Any other option, including guarding the macro with a config option is
-> > *not* acceptable.
-> 
-> Since I am getting an exception when I access the AMU register, would
-> it be possible to trap that exception, and report something to the
-> user instead of outright crashing with no output ?
+T24gRG8sIDIwMjUtMTAtMjMgYXQgMTY6NTggKzAzMDAsIENsYXVkaXUgd3JvdGU6Cj4gRnJvbTog
+Q2xhdWRpdSBCZXpuZWEgPGNsYXVkaXUuYmV6bmVhLnVqQGJwLnJlbmVzYXMuY29tPgo+IAo+IE9u
+IHRoZSBSZW5lc2FzIFJaL0czUyBTb0MsIHRoZSBVU0IgUEhZIGJsb2NrIGhhcyBhbiBpbnB1dCBz
+aWduYWwgY2FsbGVkCj4gUFdSUkRZLiBUaGlzIHNpZ25hbCBpcyBtYW5hZ2VkIGJ5IHRoZSBzeXN0
+ZW0gY29udHJvbGxlciBhbmQgbXVzdCBiZQo+IGRlLWFzc2VydGVkIGFmdGVyIHBvd2VyaW5nIG9u
+IHRoZSBhcmVhIHdoZXJlIFVTQiBQSFkgcmVzaWRlcyBhbmQgYXNzZXJ0ZWQKPiBiZWZvcmUgcG93
+ZXJpbmcgaXQgb2ZmLgo+IAo+IE9uIHBvd2VyLW9uL3Jlc3VtZSB0aGUgVVNCIFBXUlJEWSBzaWdu
+YWwgbmVlZCB0byBiZSBkZS1hc3NlcnRlZCBiZWZvcmUKPiBlbmFibGluZyBjbG9jayBhbmQgc3dp
+dGNoaW5nIHRoZSBtb2R1bGUgdG8gbm9ybWFsIHN0YXRlICh0aHJvdWdoIE1TVE9QCj4gc3VwcG9y
+dCkuIFRoZSBwb3dlci1vbi9yZXN1bWUgY29uZmlndXJhdGlvbiBzZXF1ZW5jZSBtdXN0IGJlOgo+
+IAo+IDEvIFBXUlJEWT0wCj4gMi8gQ0xLX09OPTEKPiAzLyBNU1RPUD0wCj4gCj4gT24gcG93ZXIt
+b2ZmL3N1c3BlbmQgdGhlIGNvbmZpZ3VyYXRpb24gc2VxdWVuY2Ugc2hvdWxkIGJlOgo+IAo+IDEv
+IE1TVE9QPTEKPiAyLyBDTEtfT049MAo+IDMvIFBXUlJEWT0xCj4gCj4gVGhlIENMS19PTiBhbmQg
+TVNUT1AgZnVuY3Rpb25hbGl0aWVzIGFyZSBjb250cm9sbGVkIGJ5IGNsb2NrIGRyaXZlcnMuCj4g
+VGhlIHN1c3BlbmQvcmVzdW1lIHN1cHBvcnQgd2lsbCBiZSBoYW5kbGVkIGJ5IGRpZmZlcmVudCBw
+YXRjaGVzLgo+IAo+IEFmdGVyIGxvbmcgZGlzY3Vzc2lvbnMgd2l0aCB0aGUgaW50ZXJuYWwgSFcg
+dGVhbSwgaXQgaGFzIGJlZW4gY29uZmlybWVkCj4gdGhhdCB0aGUgSFcgY29ubmVjdGlvbiBiL3cg
+VVNCIFBIWSBibG9jaywgdGhlIFVTQiBjaGFubmVscywgdGhlIHN5c3RlbQo+IGNvbnRyb2xsZXIs
+IGNsb2NrLCBNU1RPUCwgUFdSUkRZIHNpZ25hbCBpcyBhcyBmb2xsb3dzOgo+IAo+ICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICDilIzilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDi
+lIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDi
+lIDilJAKPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg4pSCICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAg4pSC4peE4pSA4pSAIENQR19DTEtPTl9VU0IuQ0xLMF9PTgo+ICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICDilIIgICAgIFVTQiBDSDAgICAgICAgICAgICAgICAg
+ICDilIIKPiDilIzilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDi
+lIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilJAgICDilILilIzilIDilIDilIDilIDi
+lIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDi
+lIDilIDilIDilIDilJAg4pSC4peE4pSA4pSAIENQR19DTEtPTl9VU0IuQ0xLMl9PTgo+IOKUgiAg
+ICAgICAgICAgICAgICAg4pSM4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSQICAg4pSC4pSCaG9z
+dCBjb250cm9sbGVyIHJlZ2lzdGVycyAg4pSCIOKUggo+IOKUgiAgICAgICAgICAgICAgICAg4pSC
+ICAgICAgICDilIIgICDilILilIJmdW5jdGlvbiBjb250cm9sbGVyIHJlZ2lzdGVyc+KUggo+IOKU
+giAgICAgICAgICAgICAgICAg4pSCIFBIWTAgICDilILil4TilIDilIDilKTilJTilIDilIDilIDi
+lIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDi
+lIDilIDilIDilIDilIDilJgg4pSCCj4g4pSCICAgICBVU0IgUEhZICAgICDilIIgICAgICAgIOKU
+giAgIOKUlOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKWsuKUgOKUgOKUgOKU
+gOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUmAo+IOKUgiAgICAgICAg
+ICAgICAgICAg4pSU4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSYICAgICAgICAgICAgICAgIOKU
+ggo+IOKUgiAgICAgICAgICAgICAgICAgICAgICAgICAg4pSCICAgIENQR19CVVNfUEVSSV9DT01f
+TVNUT1AuTVNUT1B7NiwgNX1fT04KPiDilILilIzilIDilIDilIDilIDilIDilIDilIDilIDilIDi
+lIDilIDilIDilIDilIDilJAg4pSM4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSQCj4g4pSC4pSC
+VVNIUEhZIGNvbnRyb2zilIIg4pSCICAgICAgICDilIIKPiDilILilIIgIHJlZ2lzdGVycyAgIOKU
+giDilIIgUEhZMSAgIOKUgiAgIOKUjOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
+gOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
+kAo+IOKUguKUlOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUmCDi
+lIIgICAgICAgIOKUguKXhOKUgOKUgOKUpCAgICAgVVNCIENIMSAgICAgICAgICAgICAgICAgIOKU
+ggo+IOKUgiAgICAgICAgICAgICAgICAg4pSU4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSYICAg
+4pSC4pSM4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA
+4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSQIOKUguKXhOKUgOKUgCBDUEdfQ0xLT05f
+VVNCLkNMSzFfT04KPiDilJTilIDilrLilIDilIDilIDilIDilIDilIDilIDilrLilIDilIDilIDi
+lIDilIDilIDilIDilIDilIDilrLilIDilIDilIDilIDilIDilIDilJggICDilILilIIgaG9zdCBj
+b250cm9sbGVyIHJlZ2lzdGVycyDilIIg4pSCCj4gICDilIIgICAgICAg4pSCICAgICAgICAg4pSC
+ICAgICAgICAgIOKUguKUlOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
+gOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUmCDilIIKPiAgIOKUgiAg
+ICAgICDilIIgICAgICAgICDilIIgICAgICAgICAg4pSU4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA
+4pSA4pSA4pSA4pSA4pay4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA
+4pSA4pSA4pSA4pSYCj4gICDilIIgICAgICAg4pSCICAgICAgICAg4pSCICAgICAgICAgICAgICAg
+ICAgICAgICDilIIKPiAgIOKUgiAgICAgICDilIIgICAgICAgICDilIIgICAgICAgICAgIENQR19C
+VVNfUEVSSV9DT01fTVNUT1AuTVNUT1A3X09OCj4gICDilIJQV1JSRFkg4pSCICAgICAgICAg4pSC
+Cj4gICDilIIgICAgICAg4pSCICAgQ1BHX0NMS19PTl9VU0IuQ0xLM19PTgo+ICAg4pSCICAgICAg
+IOKUggo+ICAg4pSCICBDUEdfQlVTX1BFUklfQ09NX01TVE9QLk1TVE9QNF9PTgo+ICAg4pSCCj4g
+4pSM4pSA4pSA4pSA4pSA4pSQCj4g4pSCU1lTQ+KUggo+IOKUlOKUgOKUgOKUgOKUgOKUmAo+IAo+
+IHdoZXJlOgo+IC0gQ1BHX0NMS09OX1VTQi5DTEsuQ0xLWF9PTiBpcyB0aGUgcmVnaXN0ZXIgYml0
+IGNvbnRyb2xsaW5nIHRoZSBjbG9jayBYCj4gICBvZiBkaWZmZXJlbnQgVVNCIGJsb2NrcywgWCBp
+biB7MCwgMSwgMiwgM30KPiAtIENQR19CVVNfUEVSSV9DT01fTVNUT1AuTVNUT1BYX09OIGlzIHRo
+ZSByZWdpc3RlciBiaXQgY29udHJvbGxpbmcgdGhlCj4gICBNU1RPUCBvZiBkaWZmZXJlbnQgVVNC
+IGJsb2NrcywgWCBpbiB7NCwgNSwgNiwgN30KPiAtIFVTQiBQSFkgaXMgdGhlIFVTQiBQSFkgYmxv
+Y2sgZXhwb3NpbmcgMiBwb3J0cywgcG9ydDAgYW5kIHBvcnQxLCB1c2VkCj4gICBieSB0aGUgVVNC
+IENIMCwgVVNCIENIMQo+IC0gU1lTQyBpcyB0aGUgc3lzdGVtIGNvbnRyb2xsZXIgYmxvY2sgY29u
+dHJvbGxpbmcgdGhlIFBXUlJEWSBzaWduYWwKPiAtIFVTQiBDSHggYXJlIGluZGl2aWR1YWwgVVNC
+IGJsb2NrIHdpdGggaG9zdCBhbmQgZnVuY3Rpb24gY2FwYWJpbGl0aWVzCj4gICAoVVNCIENIMCBo
+YXZlIGJvdGggaG9zdCBhbmQgZnVuY3Rpb24gY2FwYWJpbGl0aWVzLCBVU0IgQ0gxIGhhcyBvbmx5
+Cj4gICBob3N0IGNhcGFiaWxpdGllcykKPiAKPiBUaGUgVVNCUEhZIGNvbnRyb2wgcmVnaXN0ZXJz
+IGFyZSBjb250cm9sbGVkIHRob3VnaCB0aGUKPiByZXNldC1yemcybC11c2JwaHktY3RybCBkcml2
+ZXIuIFRoZSBVU0IgUEhZIHBvcnRzIGFyZSBjb250cm9sbGVkIGJ5Cj4gcGh5X3JjYXJfZ2VuM191
+c2IyIChkcml2ZXJzL3BoeS9yZW5lc2FzL3BoeS1yY2FyLWdlbjMtdXNiMi5jIGZpbGUpLiBUaGUK
+PiBVU0IgUEhZIHBvcnRzIHJlcXVlc3QgcmVzZXRzIGZyb20gdGhlIHJlc2V0LXJ6ZzJsLXVzYnBo
+eS1jdHJsIGRyaXZlci4KPiAKPiBUaGUgY29ubmVjdGlvbiBiL3cgdGhlIHN5c3RlbSBjb250cm9s
+bGVyIGFuZCB0aGUgVVNCIFBIWSBDVFJMIGRyaXZlciBpcwo+IGltcGxlbWVudGVkIHRocm91Z2gg
+dGhlIHJlbmVzYXMsc3lzYy1wd3JyZHkgZGV2aWNlIHRyZWUgcHJvcGVydHkKPiBwcm9wb3NlZCBp
+biB0aGlzIHBhdGNoLiBUaGlzIHByb3BlcnR5IHNwZWNpZmllcyB0aGUgcmVnaXN0ZXIgb2Zmc2V0
+IGFuZCB0aGUKPiBiaXRtYXNrIHJlcXVpcmVkIHRvIGNvbnRyb2wgdGhlIFBXUlJEWSBzaWduYWwu
+Cj4gCj4gU2luY2UgdGhlIFVTQiBQSFkgQ1RSTCBkcml2ZXIgbmVlZHMgdG8gYmUgcHJvYmVkIGJl
+Zm9yZSBhbnkgb3RoZXIKPiBVU0Itc3BlY2lmaWMgZHJpdmVyIG9uIFJaL0czUywgY29udHJvbCBv
+ZiBQV1JSRFkgaXMgcGFzc2VkIGV4Y2x1c2l2ZWx5Cj4gdG8gaXQuIFRoaXMgZ3VhcmFudGVlcyB0
+aGUgY29ycmVjdCBjb25maWd1cmF0aW9uIHNlcXVlbmNlIGJldHdlZW4gY2xvY2tzLAo+IE1TVE9Q
+IGJpdHMsIGFuZCB0aGUgUFdSUkRZIGJpdCBvbiBwcm9iZS9yZXN1bWUgYW5kIHJlbW92ZS9zdXNw
+ZW5kLiBBdCB0aGUKPiBzYW1lIHRpbWUsIGNoYW5nZXMgYXJlIGtlcHQgbWluaW1hbCBieSBhdm9p
+ZGluZyBtb2RpZmljYXRpb25zIHRvIHRoZSBVU0IKPiBQSFkgZHJpdmVyIHRvIGFsc28gaGFuZGxl
+IHRoZSBQV1JSRFkgaXRzZWxmLgo+IAo+IFRlc3RlZC1ieTogV29sZnJhbSBTYW5nIDx3c2ErcmVu
+ZXNhc0BzYW5nLWVuZ2luZWVyaW5nLmNvbT4KPiBTaWduZWQtb2ZmLWJ5OiBDbGF1ZGl1IEJlem5l
+YSA8Y2xhdWRpdS5iZXpuZWEudWpAYnAucmVuZXNhcy5jb20+CgpSZXZpZXdlZC1ieTogUGhpbGlw
+cCBaYWJlbCA8cC56YWJlbEBwZW5ndXRyb25peC5kZT4KCnJlZ2FyZHMKUGhpbGlwcAo=
 
-The trap exists, and the exception is being routed to EL3. There is
-nothing you can do about that if running at EL2, and if at EL1, you'd
-need to take the trap to EL2 to handle it. And if you can do that,
-what do you do?  Not doing anything is wrong, and doing something will
-nuke your machine.
-
-> Similar to what Linux already does on the various speculative
-> execution bugs on x86, something like this?
-> 
-> "
-> MDS CPU bug present and SMT on, data leak possible. See
-> https://www.kernel.org/doc/html/latest/admin-guide/hw-vuln/mds.html
-> for more details.
-> "
-
-You're completely off base. The problem at hand has nothing to do with
-speculation, and everything to do with access permission to counter
-registers.
-
-I also wouldn't be surprised if you could take your whole machine down
-from userspace just by ticking some of the AM*_EL0 registers (the
-pseudocode clearly shows that there is a route to EL3 in this case).
-
-Honestly, I think you should stop trying to papering over this issue
-behind the user's back. If you want this addressed, do it so that the
-user knows their machine is fsck'd, and that they are OK with that. Do
-it by implementing an ID register override that requires a kernel
-command-line argument.
-
-Do I sound like a stuck record? Probably. But that's IMO the only
-acceptable solution for what you have. I'm looking forward to
-reviewing a patch implementing that suggestion, but I'll stop even
-thinking of how to paper over this in the way you suggest.
-
-Thanks,
-
-	M.
-
--- 
-Jazz isn't dead. It just smells funny.
 
