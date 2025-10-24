@@ -1,153 +1,176 @@
-Return-Path: <linux-renesas-soc+bounces-23575-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23576-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6041BC05484
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Oct 2025 11:15:42 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99569C055A2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Oct 2025 11:33:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B62C94E3D19
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Oct 2025 09:15:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9BF40401D8D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Oct 2025 09:28:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA0D3306B08;
-	Fri, 24 Oct 2025 09:15:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12A3526CE37;
+	Fri, 24 Oct 2025 09:27:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lEV6Vnql"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A67126ED37
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Oct 2025 09:15:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E224B30AACB
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Oct 2025 09:27:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761297334; cv=none; b=mBgdMn+ohWQTEL6SEOerOTaPV7nrED8Gc5mysXd7+c0RjXgmTkesT63Fu3aKnWKDH+itmW0LgpDUUIS6bLyRHm3xfG9Od433aMVUPU2o+YHVPOI/NiiCXC9pjV9j7vZm0GFqB8X4Za9zTheagh5UYpp/H1+g0gbMrX65NbWaZJQ=
+	t=1761298074; cv=none; b=j++cBz6UW/Sbbf27BYPQFVYWLtzrocDlG+gocnzszLCA2MnptyELyBrCIAT5WiWVsUaxpRVNekXc0my8RlQr2O9AWZqKdB7Vkf7l7/Ro9Q21XYSQx5DHQeeZHbMMd3MlrdOVRcmCiT7AUvqlNzvgMbuZwQQDvdepaIXaxtTiH6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761297334; c=relaxed/simple;
-	bh=J8mSVI/f12nth1gkWB8k+uvzYuiJaePL/O3be6q4RNY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FClxn2CDQzgmwNk0kq6WIw7a4Ef1hlu9kMAXQbwT3GPCwdBZz0VN1wcJeW5JpUOJ6fNjQKGzVjSAJlxWb5LYbJUpgIeYbLwfhCSnXvf9nyIluxMGR+7fF32XiPGYDdxtl5OkvEMWmWh5E6TrWWqYFEGvO9yXdrd2Z0fz4on/6e0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-930ff50d181so1539999241.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Oct 2025 02:15:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761297332; x=1761902132;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BrBpEYe9bLey+4S4JjtKCcOIac4hS6dnR1uT91EPVAM=;
-        b=f3Wb6xqWAsnXPdwFvteJU5Yzt0abJXhmykHZjv/xr9Cn6PEyhd9OIgSR7ZsDwgFJzW
-         iA3q6hEqJSLXINbzyACpp7z0HiqyQPsuCTathzoSmfjUQBGUNiK9nmtA04WAihZ8hYKF
-         XsJW5pFzUpQsRU9PzoK2gBHZh8xiY9UiEoKHOb+y1XEjwOlEIWR6g24KtayBjVVp4P8L
-         gVg6HgpfTeh769AQTBXNAsdiW5zsOG/LeNjVyueAauKpRxUhVmuVUNpixv19WM1RuX5B
-         d/oosQClIHQzqJ+loVtZ4hzkDq0awFSgubOPv5gnyBrbq7AaMrIuAttdKiwPCfmXcbbH
-         ISww==
-X-Forwarded-Encrypted: i=1; AJvYcCVGm8zRyTKoaHSHfGgWuwYXQV9tj4iUDpB5T+o3v17nQAXcPrsdpc0Ta6s75rxEztj1qlIDLyY4MIpBhv6eqp6+/A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyVZGIqQf3lSHsU4EWUBLxzQoxvXt5JkKSUJzh4f8nAmPEHEIKr
-	ZPH/qbQtCvZmWGoJwoTqXqjrHrqOBh2jRGnU70H7WX3tvjjH3SEz2ALMr5EuXggH
-X-Gm-Gg: ASbGncvFqMLmorRw3KdzL4zOyxxFCTmYc7FYpy2INtIYTRh59NVKDHEZI3zbPgXM8Eo
-	cqC9LmngVegOxim7UPfoMnYYbMXUPNOHR5ZFyxr68erlUjBiUgO1bdSFRbpmZ6YFe/1SLvW/Nh7
-	DQklHvIIK/zT8mQQZ5kicdgU3FkkSnmI3ohia92rjBJOqChXVF1bjII4P/gkOn3ZpMdOBmxO+sC
-	OkpeH8wuU0mSw9QJeCd7Z3E6B60xonHsKtxoDNzITvnJ17mHdKGgeAhcErGRXi7MUSrtpDcWwyt
-	odRyOBFsPDzhjbuXYDNUt1fr+YIQVmdZvdH7yDs7YD1vxavILSb9jk2UUNgPsF4ZgKW/ERoKhAD
-	FZkO7KwX1BhEhTJV0kzMxBYehULeeiOOoe1dzyLMC0VtjAAeSajoyKGgPiF2F5G5guxgJzN/BfC
-	UJ2cNhUiSxBzGD9cWKlkpcfxU8fY//F7Q7B0jbaw==
-X-Google-Smtp-Source: AGHT+IEULu6XB3AU4ER0jb//7Nd0hgGHIKJ+g+PfgCMHXnRO9vLoFuInhyDQo3EMhPUknEYfaYqa9g==
-X-Received: by 2002:a05:6122:1807:b0:556:9cb9:65cd with SMTP id 71dfb90a1353d-557cef9363emr349418e0c.6.1761297331910;
-        Fri, 24 Oct 2025 02:15:31 -0700 (PDT)
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com. [209.85.217.54])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-557bdbe57c5sm1848332e0c.19.2025.10.24.02.15.31
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Oct 2025 02:15:31 -0700 (PDT)
-Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-5db221488bfso2122209137.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Oct 2025 02:15:31 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXV2tehgGRguJMn10dG4YD5eG+jpbXUBX6P4ApTdyWwo5YMSkbcuLbCvvsW54FbU2vNcNP/byciiA9pTCQcXZTYbw==@vger.kernel.org
-X-Received: by 2002:a05:6102:12d4:b0:59e:a2d5:2945 with SMTP id
- ada2fe7eead31-5db3f88a5f3mr252149137.8.1761297331043; Fri, 24 Oct 2025
- 02:15:31 -0700 (PDT)
+	s=arc-20240116; t=1761298074; c=relaxed/simple;
+	bh=JtAgQYabJoYpbAKikJiDKcmhcEvLDKqLOeVG9wlYeU8=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NSmQkyUfjITqhkaoO2spKuCdREqHhClfIZYL4aoARf7z/HbCr7plhZa5sVYKIpp7epMpgYap4b4jOL9MyvoV2bS5T2J6+EUMpwhrIkSO6pmQ0RYXQw7cxPMFKfu7px2hXng79rk1gTSv7c0vRD63vRKHUhXtAAd7mrv6DCJtlk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lEV6Vnql; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F7B8C4CEF1;
+	Fri, 24 Oct 2025 09:27:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761298073;
+	bh=JtAgQYabJoYpbAKikJiDKcmhcEvLDKqLOeVG9wlYeU8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=lEV6Vnqlk63vvYBY5YiNwCxLV2t046WuVTH0bJu7v0NPJTvyR5bdMD+46tN94eZs7
+	 E9i6wVfS/wnke+C7L5ar3jT+19O+7l60IXYUQLIi+AAMHINtBAatKW1sXvCCeiVJjq
+	 JcJ8uu+/YM9j8WmVMNTGQGl1Pk9sR8bLRHY1XoQEvedObLFXLnWTVkFv6aH7nKuwJ5
+	 TqS4v10GhIDA5tJoQ3vA1s2WyW+mENZwQw0Yqvfv3wjVXSblIPlZI3ddacF/OqYoLa
+	 GAVYXGOUtOnadjlx9UKQvvNNfvHkP+jBJ26GBkUxZM53y53ddjS2wJ63VMQvr9TV3p
+	 fXEr7mt+9mLQg==
+Received: from 91-165-189-16.subs.proxad.net ([91.165.189.16] helo=lobster-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1vCE5O-0000000GnSj-3WVw;
+	Fri, 24 Oct 2025 09:27:51 +0000
+Date: Fri, 24 Oct 2025 10:27:50 +0100
+Message-ID: <87sef83azt.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Marek Vasut <marek.vasut@mailbox.org>
+Cc: linux-arm-kernel@lists.infradead.org,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Yicong Yang <yangyicong@hisilicon.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] arm64: guard AMU register access with ARM64_HAS_AMU_EXTN
+In-Reply-To: <adefdb3e-7a10-42a2-b2fc-8c1490762454@mailbox.org>
+References: <20251022133621.178546-1-marek.vasut+renesas@mailbox.org>
+	<86347bvx0f.wl-maz@kernel.org>
+	<07391913-aab6-4d92-b75f-278506f51397@mailbox.org>
+	<861pmvvv2g.wl-maz@kernel.org>
+	<24c8da41-37db-4e69-b9aa-e33b2154acb0@mailbox.org>
+	<87y0p13dlh.wl-maz@kernel.org>
+	<adefdb3e-7a10-42a2-b2fc-8c1490762454@mailbox.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20251023135810.1688415-1-claudiu.beznea.uj@bp.renesas.com> <20251023135810.1688415-8-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20251023135810.1688415-8-claudiu.beznea.uj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 24 Oct 2025 11:15:20 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV7ScKUw7bGFW4v0wS9caXKDeT02MXkLWpk2LZfYw8GfQ@mail.gmail.com>
-X-Gm-Features: AS18NWAoeA07bJLB0nX88rm2l0IWTdjwxg2U5L-RZOoaf-8oTt8PVHt9R1PDCKg
-Message-ID: <CAMuHMdV7ScKUw7bGFW4v0wS9caXKDeT02MXkLWpk2LZfYw8GfQ@mail.gmail.com>
-Subject: Re: [PATCH v8 7/7] arm64: dts: renesas: rzg3s-smarc: Enable USB support
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: vkoul@kernel.org, kishon@kernel.org, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, p.zabel@pengutronix.de, magnus.damm@gmail.com, 
-	yoshihiro.shimoda.uh@renesas.com, biju.das.jz@bp.renesas.com, 
-	linux-phy@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 91.165.189.16
+X-SA-Exim-Rcpt-To: marek.vasut@mailbox.org, linux-arm-kernel@lists.infradead.org, anshuman.khandual@arm.com, catalin.marinas@arm.com, geert+renesas@glider.be, ryan.roberts@arm.com, will@kernel.org, yangyicong@hisilicon.com, linux-renesas-soc@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-Hi Claudiu,
+On Thu, 23 Oct 2025 16:58:49 +0100,
+Marek Vasut <marek.vasut@mailbox.org> wrote:
+> 
+> On 10/23/25 4:19 PM, Marc Zyngier wrote:
+> 
+> Hello Marc,
+> 
+> >> Except right now, I still trigger the AMU faults even with
+> >> ARM64_HAS_AMU_EXTN=n , which I think should not happen ?
+> > 
+> > ARM64_HAS_AMU_EXTN is a *capability*, not a configuration.
+> > CONFIG_ARM64_AMU_EXTN is the configuration. I have the feeling you're
+> > mixing the two.
+> > 
+> > Irrespective of the configuration, we access the AMU registers
+> > depending on the what is advertised, because we *must* make these
+> > registers inaccessible from EL0, no matter what.
+> 
+> Ahhh, I was missing this part, thank you for clarifying.
+> 
+> >> I would much rather be able to disable ARM64_HAS_AMU_EXTN in kernel
+> >> config for the old devices with old firmware, without triggering the
+> >> faults ... and say that everything which is going to be upstream will
+> >> always use new firmware that has proper working AMU support.
+> > 
+> > No, that's the wrong approach. If you leave the AMU accessible to EL0,
+> > you're leaking data to userspace, and that's pretty wrong, no matter
+> > how you look at it.
+> > 
+> > I also think your hack works by pure luck, because at the point where
+> > your CPUs are booting, the alternatives are yet not in place (the
+> > kernel patching happens much later). In short, this breaks
+> > *everything*.
+> > 
+> > As I indicated before, you have two options:
+> > 
+> > - either you update your firmware and leave the kernel alone
+> > 
+> > - or you implement the workaround as ID register override so that you
+> >    *must* pass something on the kernel command line to boot, and by
+> >    then accept that you will leak critical timing information to
+> >    userspace.
+> > 
+> > Any other option, including guarding the macro with a config option is
+> > *not* acceptable.
+> 
+> Since I am getting an exception when I access the AMU register, would
+> it be possible to trap that exception, and report something to the
+> user instead of outright crashing with no output ?
 
-On Thu, 23 Oct 2025 at 20:41, Claudiu <claudiu.beznea@tuxon.dev> wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->
-> Enable USB support (host, device, USB PHYs).
->
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+The trap exists, and the exception is being routed to EL3. There is
+nothing you can do about that if running at EL2, and if at EL1, you'd
+need to take the trap to EL2 to handle it. And if you can do that,
+what do you do?  Not doing anything is wrong, and doing something will
+nuke your machine.
 
-Thanks for your patch!
+> Similar to what Linux already does on the various speculative
+> execution bugs on x86, something like this?
+> 
+> "
+> MDS CPU bug present and SMT on, data leak possible. See
+> https://www.kernel.org/doc/html/latest/admin-guide/hw-vuln/mds.html
+> for more details.
+> "
 
-> --- a/arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi
+You're completely off base. The problem at hand has nothing to do with
+speculation, and everything to do with access permission to counter
+registers.
 
->  &pinctrl {
->         audio_clock_pins: audio-clock {
->                 pins = "AUDIO_CLK1", "AUDIO_CLK2";
-> @@ -207,6 +230,27 @@ ssi3_pins: ssi3 {
->                          <RZG2L_PORT_PINMUX(18, 4, 8)>, /* TXD */
->                          <RZG2L_PORT_PINMUX(18, 5, 8)>; /* RXD */
->         };
-> +
-> +       usb0_pins: usb0 {
-> +               peri {
-> +                       pinmux = <RZG2L_PORT_PINMUX(5, 0, 1)>, /* VBUS */
-> +                                <RZG2L_PORT_PINMUX(5, 2, 1)>; /* OVC */
-> +               };
-> +
-> +               otg {
-> +                       pinmux = <RZG2L_PORT_PINMUX(5, 3, 1)>; /* OTG_ID */
-> +                       bias-pull-up;
-> +               };
-> +       };
-> +
-> +       usb1_pins: usb1 {
-> +               pinmux = <RZG2L_PORT_PINMUX(5, 4, 5)>, /* OVC */
-> +                        <RZG2L_PORT_PINMUX(6, 0, 1)>; /* VBUS */
-> +       };
-> +};
-> +
-> +&phyrst {
-> +       status = "okay";
->  };
+I also wouldn't be surprised if you could take your whole machine down
+from userspace just by ticking some of the AM*_EL0 registers (the
+pseudocode clearly shows that there is a route to EL3 in this case).
 
-This node should be located before pinctrl.
-No need to resend just for this.
+Honestly, I think you should stop trying to papering over this issue
+behind the user's back. If you want this addressed, do it so that the
+user knows their machine is fsck'd, and that they are OK with that. Do
+it by implementing an ID register override that requires a kernel
+command-line argument.
 
-Gr{oetje,eeting}s,
+Do I sound like a stuck record? Probably. But that's IMO the only
+acceptable solution for what you have. I'm looking forward to
+reviewing a patch implementing that suggestion, but I'll stop even
+thinking of how to paper over this in the way you suggest.
 
-                        Geert
+Thanks,
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+	M.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-- 
+Jazz isn't dead. It just smells funny.
 
