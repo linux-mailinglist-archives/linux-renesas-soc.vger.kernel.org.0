@@ -1,220 +1,174 @@
-Return-Path: <linux-renesas-soc+bounces-23569-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23568-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 724A9C04B9F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Oct 2025 09:31:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA460C04B99
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Oct 2025 09:31:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 5CCA24E31FC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Oct 2025 07:31:54 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B4C604E8F27
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Oct 2025 07:31:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E9FF2E22BF;
-	Fri, 24 Oct 2025 07:31:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 963FE2DEA71;
+	Fri, 24 Oct 2025 07:31:19 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74DAD2C3251
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Oct 2025 07:31:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 991782DECA0
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Oct 2025 07:31:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761291112; cv=none; b=t6QmWk9rQAfJO8l4rrMw10GurjrvDYh9WCgJvphsPGH1bE8rg7I718n44fxuidC4WJZkCw5Ld2RaTJ03zWbxDissEAI8duNKVew4qaemSSWdoizmv1yJ7hL2H8/hrKPq6kUShGL0xJ3AfVwspjfgHTtxrLMbWjM1yfqRhh9GMHQ=
+	t=1761291079; cv=none; b=RpuhHtlsvV3BXUMovrOnf1oBJJVqJ0hTzWYuLmB6kJLGF1e1aQr6ir9qxxgwf4Nl0py9p+YMPBGDYfRDgltOtgXYt1GP8YIegwzX6WwG5ecxE5eqyV0qSeoRkD2K4sOAx8DA0IKa0saKvKWjAmXkaF12ljRNa8qttWp4rUb2xsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761291112; c=relaxed/simple;
-	bh=TYYDo+7DxkUKjmm+P+3sxJh+gjqzjUwg71o/dX7xBWQ=;
+	s=arc-20240116; t=1761291079; c=relaxed/simple;
+	bh=gUGiB1llxABWmePU3+TscZZyVisC3oSIs+3uF6fFgTc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=W8VQW1xpcS8GiDh2wXS6/hLXN6sqnHI5+flZ2+CkeqEpcT9x3KGZW8Hcd44NSUC/WdnO5vm+4blmTNnP2tGQ3wT3EG1D76j2cAlmPT3+6aq4PJ4ERjaxkxBkn9vJmbdhnczqr0xNdTIGmCK1xWlefWAnFj5PMGkYWceDb9xhEjc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.160.181
+	 To:Cc:Content-Type; b=Ocfii9poFxCmNbYpzwTmPm3Cl0y8stDSEhjKMrupwl64TCwni4M5xKrRqcN/4a07rMpkhzWTSu+sUZgxCzYLWqqU672HVqgIse0BRLbZ3Fubdbs1BzQ5fq+U0cpJDlULrUwH20ZcnL97Ainlnzck/QPBLvekyHk8Wt29vTfp7pM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-4e89d4f0e8bso16263601cf.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Oct 2025 00:31:50 -0700 (PDT)
+Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-932bc48197bso780605241.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Oct 2025 00:31:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761291109; x=1761895909;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=O3WV+VoszRFKObS+2w1jR5z8x4F6hvRxXouyKsJGXVw=;
-        b=A808AeVL8uBtmaqV65LyJJo/NbFnzd6tve3pROREp4IoIvvnTiYpgYZIhGTIh5OhsW
-         SSLhSaYtJIJiUgSOZZwG+RKbIhiTj85Eyx6Gbaf3qJ9y4ULVqMCfcFMpk5/bZj3pKP7f
-         08Mqcpu9WkRTcEBWHIZX9YMk/wV2RkCgbPjMPyBerqXSC5TuQdChVFD0r0H3vaOF/KbJ
-         XidOzSxgMaZzGAyIOr/MiKAyGI4SmEm5f2SBWs5NNsYutosMQaA5OWabXKGxxx29QTJi
-         291D3xouPzy3KajfjTFghHNiQP7cD8c/KqFKApYo6upZWKPNYRcgef04no6bjBE8YIuo
-         Z0Ww==
-X-Forwarded-Encrypted: i=1; AJvYcCWSy5Y9f6Y2grWN12X0lfNZrgjFslabus/iXq0Gcas1xoI9augON4Q9DlVAclKRshO/UAy9+8f589e3uEABZomM2w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzIrgtMtBiDI9miIqO3XKxBUxvllJVTWlPIrYgpfVLIAu3ZkPMR
-	lhVMY9y330pUBQkHdnyoOnhmhXxrNa3q92gUHTmZvJczF7KueiMqej1/gXAzvxyl
-X-Gm-Gg: ASbGnctZNU8XlopWlP2d0kUCZPnJbwKEExaS8XHHrt+2vbndN1xFv6oBUjRUVU8XakY
-	lCeSDXbnZSv5GhL0JWdRezoNtHs8MFYXPwylxuAUbLgc3cicizwwfkyV8BnSDisf0QGmu5YCMO3
-	7arGYSbkMrcuwBBH+EoSDGKepU4ecG0knVNiyjsNWrj8XarWyXbRFjwiEJrgvL7oW5+GSQqyCaj
-	ycJ0C37/W+lEOGb9YnkYzob5hahzjbTwYeQLPk4PttloIqpbVe6CZR4vYP5ib7IkFFp7Whx23yw
-	9wp+Fvw4XrNMmiJMcgfp74KlWcQ5NXxoEoXRfQn/vO4JGOUDIp4pCUN92va7nVXagIpcx6BTwds
-	59rr9mHu19/UKNMdxMqzR8s8fXEk9t3KqUXpV8S1ARnTuTuiOaUK7YUnAhq8H4OVgF2QnfzAaHe
-	BQ/vE4xmHe/nqiJjTynl+mEXYCs0FravcsCiBOoC1C6A==
-X-Google-Smtp-Source: AGHT+IGkXnNHKZ+Tk0f607Rbul/drTlrIGZ+qs3ENZpRQ1gxGfzegducY/ydWO92D3jyfOwq22WHwA==
-X-Received: by 2002:a05:622a:392:b0:4b0:6205:d22b with SMTP id d75a77b69052e-4eb9436029bmr14691301cf.52.1761291109147;
-        Fri, 24 Oct 2025 00:31:49 -0700 (PDT)
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com. [209.85.160.175])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-89c0e688d64sm331605885a.21.2025.10.24.00.31.48
+        d=1e100.net; s=20230601; t=1761291076; x=1761895876;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gbjF3fYBru7mg7PwcFMgCH2adsCiWE8jEZcxNXnQxiE=;
+        b=QNmrLEFRrI0QCFsM43GYAgKRpJKFCrjEc/ncJV0o80fumJ5Nd5zq+NjbAIEeMGKjXY
+         G+4lcPjtKxW+KABVzYizaRJWl3zEz1wyP/lIE8JGMNjfNDrf9u+4G42mQoYr6BC4S4Uu
+         LO+Ok/PMWNnS3M38jndym2U2hun0lqkLLdxdJnpv64LRwd/blVaNjHaOWmuwGmQ1CnGh
+         AJ9RwMMHjSArgnBt4hULGpWiLCyMHZO+NFkYEInj9wfNdSmZcsA4iO4VzcFMc8n5ruP4
+         79buAsCMO7P8Nwc3caAa6IsY07FWfKACG9VXoPBnyIj6xpKQpR8ybfJP9cjLUjs430Lh
+         5k9g==
+X-Forwarded-Encrypted: i=1; AJvYcCVsuELpFn3hhJYQAgaOBWTHGCnPKtiH/8AcCDA+9UXZUkoGPqzw2c6O0eTTHzzDKi9xh0y7yHq8LJxUTQHkotMCXA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzys/VM55h87qDI1TDagwqSRzb0o0J5zPRnezItlRcnvTW/x2Ia
+	O00kR9p1pH6fbyu1EExPUo0a++JDsjBG6o9dJqPTgxKR+DcVIJohgsAv4NvSYxco
+X-Gm-Gg: ASbGncueA+URZnKPRn57SOrWoQWzQNnWyBndlL/HokFzqPTnWPsV+HONx81OyvlAXt4
+	CieThwnJcXZD7t5i58CxmWWn7P44dqa/UvBYIOsuJXD6fFLHHFNsSK+UmZFEZSGhm82Eqr99rEJ
+	RKd19zLD1jxIab/vKk9cAl6yD2QMQhGAVUzEVmpAfcleUCK/+z4viIVc+rK4sh9M5xcxRiE1aEW
+	zkK3I31QT5RRVXtL58xhbdCUWMQhzuzycYVWlYIcfVYPlLvog4s1y0ZqNi00QuTS79JwHw/j7yA
+	KoV0PkwlJ7a3Ioj8zJErK+VmZYenGAnVflQhzU9ficVRG7NnuG6TW2ezHOEduxkyWaEMzbWTwVN
+	tJ2RcbAvuhlWX+fuUrT1Vwf5GRsoqXwS3p+QScuPHsXhrBmFiJo14Ydl/eYsJ+RknpFc6g2mQPb
+	zibuBVIr/xg15eh1fP/OE150XNabrtib58g77LNw==
+X-Google-Smtp-Source: AGHT+IHtVA+0DuWwFZ68RqXrYSB6bl40FRTeC6LV6zDsgL/lI2UtgGXRZXdUWVUNahm0AK8uuGBoKg==
+X-Received: by 2002:a05:6102:374b:b0:5db:3552:6de9 with SMTP id ada2fe7eead31-5db35527593mr1381314137.43.1761291076162;
+        Fri, 24 Oct 2025 00:31:16 -0700 (PDT)
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com. [209.85.217.54])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-934abaae96asm1768914241.8.2025.10.24.00.31.15
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Oct 2025 00:31:48 -0700 (PDT)
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4e89d4f0e8bso16263481cf.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Oct 2025 00:31:48 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXSK7FclyGpUFa91iUtCIhhqyK6Kt9/kZ4EQTyYTPKOZGuONmvGAbyuQyWbKqyX3meGhZocH5Moe62f+nXhrvcb9A==@vger.kernel.org
-X-Received: by 2002:a05:6102:3581:b0:5d7:dec5:a464 with SMTP id
- ada2fe7eead31-5db3f8bbd6dmr232329137.10.1761290676888; Fri, 24 Oct 2025
- 00:24:36 -0700 (PDT)
+        Fri, 24 Oct 2025 00:31:15 -0700 (PDT)
+Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-5db2d2030bbso753229137.1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Oct 2025 00:31:15 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU+ub5XK9RZkSky82f1r66Zyrf0lBg05kHUpkR59MRlpZftUK8AMEuGAFfjvjjsIIDF6pZ3XraHwk6sISeMTRv4ug==@vger.kernel.org
+X-Received: by 2002:a05:6102:c08:b0:5db:2b3c:eb9e with SMTP id
+ ada2fe7eead31-5db2b3cf1b1mr2162722137.37.1761291075525; Fri, 24 Oct 2025
+ 00:31:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251020080648.13452-1-herve.codina@bootlin.com>
- <20251020080648.13452-8-herve.codina@bootlin.com> <CAMuHMdV03D_3b_JA2vzW4tE_QbkkT1bN1dm+zLLLX24oDHMj0Q@mail.gmail.com>
- <20251022150339.4c48649e@bootlin.com> <CAMuHMdWY=FbO6YG1jrd0OWfrpPpBzrqmBVcWnw7TnnsKPGgr8A@mail.gmail.com>
- <20251023152048.0e70a362@bootlin.com>
-In-Reply-To: <20251023152048.0e70a362@bootlin.com>
+References: <20251022235903.1091453-1-chris.brandt@renesas.com> <20251022235903.1091453-2-chris.brandt@renesas.com>
+In-Reply-To: <20251022235903.1091453-2-chris.brandt@renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 24 Oct 2025 09:24:25 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX=_6MGgti2NEL6FaChBhefFLBdjeam5Zts3+Yf-Ps3Gg@mail.gmail.com>
-X-Gm-Features: AWmQ_bkc6C0U89yGzgj449WFrjiYqIBguZky57fXbpHAfhiWelGeFgRG-a9YogQ
-Message-ID: <CAMuHMdX=_6MGgti2NEL6FaChBhefFLBdjeam5Zts3+Yf-Ps3Gg@mail.gmail.com>
-Subject: Re: [PATCH v5 7/8] soc: renesas: Add support for Renesas RZ/N1 GPIO
- Interrupt Multiplexer
-To: Herve Codina <herve.codina@bootlin.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Hoan Tran <hoan@os.amperecomputing.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, Saravana Kannan <saravanak@google.com>, 
-	Serge Semin <fancer.lancer@gmail.com>, Phil Edworthy <phil.edworthy@renesas.com>, 
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Pascal Eberhard <pascal.eberhard@se.com>, Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Date: Fri, 24 Oct 2025 09:31:04 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWONtGp=jdaDYzU1D4WO7KO-zU8zLX--5fQOAiKDpNw=g@mail.gmail.com>
+X-Gm-Features: AWmQ_bl2d7bwxn3o_AI0y5I2A2WSBvgxEYlOh2d7MohygC2Sb449e6tQyb1BgRI
+Message-ID: <CAMuHMdWONtGp=jdaDYzU1D4WO7KO-zU8zLX--5fQOAiKDpNw=g@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] clk: renesas: rzg2l: Remove DSI clock rate restrictions
+To: Chris Brandt <chris.brandt@renesas.com>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Hien Huynh <hien.huynh.px@renesas.com>, Nghia Vo <nghia.vo.zn@renesas.com>, 
+	Hugo Villeneuve <hugo@hugovil.com>, linux-renesas-soc@vger.kernel.org, 
+	linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Herv=C3=A9,
+Hi Chris,
 
-On Thu, 23 Oct 2025 at 15:21, Herve Codina <herve.codina@bootlin.com> wrote=
-:
-> On Thu, 23 Oct 2025 13:30:53 +0200
-> Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > I have in mind a use case that can lead to a non-contiguous mapping.
-> > >
-> > > The RZ/N1 SoC embeds a Cortex-M3 CPU. This CPU can use GPIOs and
-> > > some of them for interrupt purpose. In that case, those GPIOs have
-> > > to be routed to the interrupt line expected by the Cortex-M3.
-> > >
-> > > And so, we have some interrupts reserved for CPUs running Linux and
-> > > some others for the Cortex-M3.
-> > >
-> > > Among those reserved interrupts may some are not used.
-> > >
-> > > for instance:
-> > >   Interrupt 103, 102: Reserved and used by Linux
-> > >   Interrupt 103: Reserved for Linux but not used -> Hole in the mappi=
-ng
-> > >   Interrupt 104: Reserved and used my Cortex-M3 (need to be routed by=
- Linux)
-> >
-> > 102 does not seem to  be correct?
+On Thu, 23 Oct 2025 at 01:59, Chris Brandt <chris.brandt@renesas.com> wrote:
+> Convert the limited MIPI clock calculations to a full range of settings
+> based on math including H/W limitation validation.
+> Since the required DSI division setting must be specified from external
+> sources before calculations, expose a new API to set it.
 >
-> My bad, my example was wrong.
->    Interrupt 103, 104: Reserved and used by Linux
->    Interrupt 105: Reserved for Linux but not used -> Hole in the mapping
->    Interrupt 106: Reserved and used my Cortex-M3 (need to be routed by Li=
-nux)
+> Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
+> Signed-off-by: hienhuynh <hien.huynh.px@renesas.com>
+> Signed-off-by: Nghia Vo <nghia.vo.zn@renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Tested-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-OK, much better!
+> v2->v3:
+> - Removed Empty lines (Hugo)
+> - Add dummy for compile-testing CONFIG_CLK_RZG2L=n case (Geert)
+> - Renamed label found_dsi_div to calc_pll_clk (Hugo)
+> - Renamed label found_clk to clk_valid (Hugo)
+> - Removed 'found' var because not needed
+> - Move 'foutpostdiv_rate =' after if(foutvco_rate > 1500000000) (Hugo)
+> - Move PLL5_TARGET_* for new API to renesas.h (Hugo,Geert)
+> - Convert #define macros PLL5_TARGET_* to enum (Geert)
+> - static {unsigned} int dsi_div_ab; (Geert)
+> - {unsigned} int a, b;  (Geert)
+> - Change "((1 << a) * (b + 1))" to "(b + 1) << a"  (Geert)
+> - Change "foutvco_rate = rate * (1 << xxx ) * ..." to " = rate * ... * << xxx (Geert)
+> - Move (u64) outside of modulo operation to avoid helper on 32-bit compiles (Geert)
+> - Change DIV_ROUND_CLOSEST_ULL() to DIV_ROUND_CLOSEST() (Geert)
+> - void rzg2l_cpg_dsi_div_set_divider({unsinged} int divider, int target)
+> - Change "dsi_div_ab = (1 << AAA) * (BBB + 1)" to " = (BBB + 1) << AAA (Geert)
+> - Added Reviewed-by and Tested-by (Biju)'
 
-> > > I don't know if this use case is relevant but I think we should be to=
-o restrictive
-> > > on the mapping and so accept holes.
-> > >
-> > > With that in mind, I let you confirm that you still prefer to have a =
-mapping
-> > > without any holes. A future patch to support that is always possible.
-> >
-> > While that would indeed be a non-discontiguous mapping, I do not see ho=
-w
-> > it is related to rzn1_irqmux_output_lines[] in the driver.  That array
-> > would still contain the same contiguous values 103..110, right?
->
-> The array rzn1_irqmux_output_lines is still contiguous yes but the mappin=
-g
-> defined in irq-map property no.
->
-> Looking back again at your proposal, indeed I can remove the following lo=
-op:
->         for (i =3D 0; i < output_lines_count; i++) {
->                if (parent_args->args[1] =3D=3D output_lines[i])
->                        return i;
->         }
->
-> With just
->         if (parent_args->args[1] >=3D RZN1_IRQMUX_SPI_BASE &&
->             parent_args->args[1] < RZN1_IRQMUX_SPI_BASE + RZN1_IRQMUX_NUM=
-_IRQS) {
->                 return parent_args->args[1] - RZN1_IRQMUX_SPI_BASE;
->
->         dev_err(dev, "Invalid GIC interrupt %u\n", parent_args->args[1]);
->         return -EINVAL;
+Thanks for the update!
 
-Good. I like simpler code ;-)
+> --- a/include/linux/clk/renesas.h
+> +++ b/include/linux/clk/renesas.h
+> @@ -16,6 +16,11 @@ struct device;
+>  struct device_node;
+>  struct generic_pm_domain;
+>
+> +enum {
+> +       PLL5_TARGET_DPI,
+> +       PLL5_TARGET_DSI
+> +};
+> +
+>  void cpg_mstp_add_clk_domain(struct device_node *np);
+>  #ifdef CONFIG_CLK_RENESAS_CPG_MSTP
+>  int cpg_mstp_attach_dev(struct generic_pm_domain *unused, struct device *dev);
+> @@ -32,4 +37,10 @@ void cpg_mssr_detach_dev(struct generic_pm_domain *unused, struct device *dev);
+>  #define cpg_mssr_attach_dev    NULL
+>  #define cpg_mssr_detach_dev    NULL
+>  #endif
+> +
+> +#ifdef CONFIG_CLK_RZG2L
+> +void rzg2l_cpg_dsi_div_set_divider(unsigned int divider, int target);
+> +#else
+> +#define rzg2l_cpg_dsi_div_set_divider  NULL
 
-BTW, please invert the logic, i.e. bail out early in case of error.
+static inline void rzg2l_cpg_dsi_div_set_divider(int divider, int target) { }
 
-> > Sorry, I haven't been following the development of this driver that
-> > closely (RZ/N1 is completely different from e.g. R-Car, and I never
-> > had access to an RZ/N1 platform), so perhaps I am missing something.
-> > Why does the user have to specify an interrupt-map in DT? Can't the
-> > driver create the mapping dynamically, based actual usage of the
-> > GPIOs? I.e. the first 8 GPIOs that ask for interrupt functionality
-> > receive it, and are mapped to an available GIC interrupt?
-> > I believe this is how rzg2l-irqc works, mapping up to 32 GPIO interrupt=
-s
-> > to 32 GIC (TINT) interrupts.
->
-> I think the main difference with rzg2l-irqc is that the RZ/N1 irq mux is
-> clearly not an interrupt controller.
->
-> It is just a mux with 96 inputs (GPIO lines coming from several GPIO
-> controller) and 8 outputs (connected to the GIC).
->
-> It is represented as an interrupt nexus node and has an interrupt-map pro=
-perty.
-> to describe the routing.
->
-> The interrupt-map property cannot be dynamically created.
->
-> Also, the routing is necessary even if the related GPIO is not used by Li=
-nux.
-> This GPIO can be used as a GPIO input interrupt line by the Cortex M3.
->
-> If the irq mux driver performs the routing only on Linux GPIO usage, it w=
-ill
-> not route GPIOs depending on Cortex M3 internal usage.
+For cpg_mssr_attach_dev and friends, NULL is suitable because these
+are only used to populate function pointers.
 
-Thanks, makes sense!
+> +#endif
+
+Blank line please.
+
+>  #endif
 
 Gr{oetje,eeting}s,
 
                         Geert
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
                                 -- Linus Torvalds
 
