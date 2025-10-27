@@ -1,98 +1,104 @@
-Return-Path: <linux-renesas-soc+bounces-23652-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23653-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3A3FC0F01B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Oct 2025 16:39:54 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38374C0F0C0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Oct 2025 16:51:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2CCBB18861FE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Oct 2025 15:40:18 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id D367F34ECA9
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Oct 2025 15:51:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC9F330BBBF;
-	Mon, 27 Oct 2025 15:39:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="tam5WpRc"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02FBC30C635;
+	Mon, 27 Oct 2025 15:46:32 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23C9A158545;
-	Mon, 27 Oct 2025 15:39:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6064F2620E4;
+	Mon, 27 Oct 2025 15:46:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761579587; cv=none; b=sbw1AOaDiHSsnDhzFAaW6sLK7lOqXTuwLZoKc+L6/CQru+bggefvzDwdh1PFLx3tjSTHy2krxTSZF5lwIC/8v6X/ljT9+RJVs/WlPKe09sSuAg6Lw6uOxpsXChLgx0/dNWStPq0PwyB3PsXJ7TMmbLZubBCXu0TYldVauATH6kA=
+	t=1761579991; cv=none; b=KjSmKgvu9k6PF2Zb9AZcTHA99PGGR2ACJ2OP5P1/WZ9EtJb5n0/LwKVMIhQJVPJXSeJa2MOB4mWQMurj8DxE8ecBKDPEn9QY3fPiLqbvTIRDGAgddzJjciF0pIR3IShDvenq+y66F3u9D077vk1km233TngO3steNAQOCId/5nE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761579587; c=relaxed/simple;
-	bh=6/ET+471hNYv512nd52lPnng3Az3u5HXWsjlK/2SSkU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=N+w3gAVAulVGdR5eE1Tbq/TOQMdtC5AcPwHbZISTXonMq6bzkucLQZ/LiqE46z3re4jF9AGbkAMeRj3oydzfIqapOq9UJmOdm/CcZJDwHUC9ADpGvHjxoPtMtuyCH2TOn4D0WttbEVzgUHKCJzX9TMUhb9iq2BBk5VNloPYbYtc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=tam5WpRc; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4cwHkP0p64z9ssx;
-	Mon, 27 Oct 2025 16:39:41 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1761579581;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6/ET+471hNYv512nd52lPnng3Az3u5HXWsjlK/2SSkU=;
-	b=tam5WpRc+zzWVZV4PbTXOzPSo3dL811nvFxYUwwU/uZDmSL/DXOsQncZ3r2ldGd0sZIYYx
-	BLThdTJMrogxTkEJCimnO3hExPdrcoorOr/mSfghdXJ/FBeilKM9xzLMTzstRB4TltLD1A
-	z+UNT5uK50CGJJ7bsGCARHVGRPOiULBWIP/FmBpnaJdclKOJ7ksmvqITgk3DNtyST0rcKW
-	eOH0CyDJNwimw8PnQcrOSAGzlf6g0qDrLgnJw7f4wr3cVCiZPLUl+eIMTlhyssOZ6AyhUc
-	2nJZRHrWOpMQ6pqApTB2D+bG2JrfC5lBcRe6KhsUDhGrchpniBFyjWJkRagZhQ==
-Message-ID: <86de57c6-94e9-43b7-8e6a-d301ce73b0ba@mailbox.org>
-Date: Mon, 27 Oct 2025 16:39:33 +0100
+	s=arc-20240116; t=1761579991; c=relaxed/simple;
+	bh=+R8Fsz9b7HwEmtTFzrmf82rkmoqpGC3iY/+mfGTaS6I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VN9nktlLmVfgstzgkSGq4I49HZKn8YwZLSfR1LLUyqBP6f+6dD2vf5nReBMmPak4Q9ItQK9rBt6aGWnU/0OpUwIN5rmNkaSCfKDA8uzuId+4gVsaQLT5hSSSxc1PfyvS+BsbcEML3z8F3YhBlRaHPVhmEhdfxQwRTE2+6OiM7cQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-CSE-ConnectionGUID: hSyxVqzPRR+ycZ0we476xA==
+X-CSE-MsgGUID: G0eqT3DaTD2btkYnuvHU4Q==
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 28 Oct 2025 00:46:22 +0900
+Received: from localhost.localdomain (unknown [10.226.93.103])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 4184E4003EA1;
+	Tue, 28 Oct 2025 00:46:18 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	Nam Cao <namcao@linutronix.de>,
+	linux-kernel@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	Biju Das <biju.das.au@gmail.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH 00/19] Add RZ/G3E RSCI support
+Date: Mon, 27 Oct 2025 15:45:47 +0000
+Message-ID: <20251027154615.115759-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v3 1/3] dt-bindings: gpu: img,powervr-rogue: Document
- GX6250 GPU in Renesas R-Car M3-W/M3-W+
-To: Matt Coster <Matt.Coster@imgtec.com>
-Cc: Conor Dooley <conor.dooley@microchip.com>, Adam Ford
- <aford173@gmail.com>, Conor Dooley <conor+dt@kernel.org>,
- David Airlie <airlied@gmail.com>, Frank Binns <Frank.Binns@imgtec.com>,
- Alessio Belle <Alessio.Belle@imgtec.com>,
- Alexandru Dadu <Alexandru.Dadu@imgtec.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Rob Herring <robh@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-References: <20251022033847.471106-1-marek.vasut+renesas@mailbox.org>
- <6bc264c2-0c1c-492b-ba58-8c7609cfc565@imgtec.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <6bc264c2-0c1c-492b-ba58-8c7609cfc565@imgtec.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 0afc5b27525a69b226e
-X-MBO-RS-META: dd664fa9dm8z1eoh4j8a8wtz7xqgzsi8
 
-On 10/27/25 3:08 PM, Matt Coster wrote:
-> Hi Marek,
+Add RZ/G3E RSCI support for FIFO and non-FIFO mode. RSCI IP found on
+RZ/G3E SoC is similar to one on RZ/T2H, but has 32-stage fifo. RZ/G3E has
+5 module clocks compared to 2 on RZ/T2H, and it has multiple resets.
+Add support for hardware flow control.
 
-Hello Matt,
+Biju Das (19):
+  clk: renesas: r9a09g047: Add RSCI clocks/resets
+  dt-bindings: serial: rsci: Drop "uart-has-rtscts: false"
+  dt-bindings: serial: renesas,rsci: Document RZ/G3E support
+  serial: sh-sci: Fix deadlock during RSCI FIFO overrun error
+  serial: rsci: Drop rsci_clear_CFC()
+  serial: sh-sci: Drop extra line
+  serial: rsci: Drop unused macro DCR
+  serial: rsci: Drop unused TDR register
+  serial: sh-sci: Use devm_reset_control_array_get_exclusive()
+  serial: sh-sci: Add RSCI_PORT_{SCI,SCIF} port IDs
+  serial: sh-sci: Add sci_is_rsci_type()
+  serial: sh-sci: Add support for RZ/G3E RSCI clks
+  serial: sh-sci: Make sci_scbrr_calc() public
+  serial: sh-sci: Add finish_console_write() callback
+  serial: sh-sci: Add support for RZ/G3E RSCI SCIF
+  serial: sh-sci: Add support for RZ/G3E RSCI SCI
+  arm64: dts: renesas: r9a09g047: Add RSCI nodes
+  arm64: dts: renesas: renesas-smarc2: Move aliases to board DTS
+  arm64: dts: renesas: renesas-smarc2: Enable rsci{2,4,9} nodes
 
-> Apologies for the delayed response, I was on holiday for the rest of
-> last week – I'll apply this to drm-misc-next now.
-No worries. Thank you for your help !
+ .../bindings/serial/renesas,rsci.yaml         |  84 +++-
+ arch/arm64/boot/dts/renesas/r9a09g047.dtsi    | 190 ++++++++
+ .../boot/dts/renesas/r9a09g047e57-smarc.dts   |  46 ++
+ .../boot/dts/renesas/renesas-smarc2.dtsi      |  18 +-
+ drivers/clk/renesas/r9a09g047-cpg.c           | 126 ++++++
+ drivers/tty/serial/rsci.c                     | 413 +++++++++++++++---
+ drivers/tty/serial/rsci.h                     |   2 +
+ drivers/tty/serial/sh-sci-common.h            |  10 +
+ drivers/tty/serial/sh-sci.c                   |  65 ++-
+ 9 files changed, 869 insertions(+), 85 deletions(-)
+
+-- 
+2.43.0
+
 
