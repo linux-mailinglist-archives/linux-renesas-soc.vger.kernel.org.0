@@ -1,181 +1,147 @@
-Return-Path: <linux-renesas-soc+bounces-23700-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23701-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id E44F3C1135A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Oct 2025 20:42:24 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E288C1169A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Oct 2025 21:37:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 31EE55656D0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Oct 2025 19:32:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 61445460FE6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Oct 2025 20:37:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E62D3233ED;
-	Mon, 27 Oct 2025 19:30:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31A9831B81C;
+	Mon, 27 Oct 2025 20:37:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="mrYv1MBo";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Zwb4x3c/"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="D0FvDvo6"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 977CE2C15A9;
-	Mon, 27 Oct 2025 19:30:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D3C73054FA;
+	Mon, 27 Oct 2025 20:37:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761593413; cv=none; b=ehpbEc8fh6diqeVi/YbD6u3KzYpvQ1SEnpp6JWMz8BYcPhfyF1r6VE+UCbjz88Mgf7T4fEmFRkktFNjhSLZ3gigLc+p31a4NE6LkC7YqzWvnBhekM9nvSiQjUK7ifpiZsLaa+fpkH5V+az1MChZ7+EM3Ty6qabGe8aTM3W6VgeU=
+	t=1761597457; cv=none; b=nUMj47UFRN84F7LSYpJKZ+5h/03rxDtrnLczOeo60GDa14LI+nNVc7Ygi/FwceYxNaFELyvFqlJKhiNAGZgu4qHXwp/RYrtLAI1cqwRhHQGMkyYiZL0yR6cEyoktCfsqZbdRLE8S+UsxWrrEqEQ9aY1PJQKnnz8fTuVazmHKEzw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761593413; c=relaxed/simple;
-	bh=9m44Y/IwGGg4Kx8N1Z/QNcq/n+0sr9kSoUTvjAUqXvw=;
+	s=arc-20240116; t=1761597457; c=relaxed/simple;
+	bh=5m1IrsDTkf+F/nhzqJRjiWrZIfJDK8f7MvjheZ4CUKk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I2g762pkRIW9R/IXT9FSUCYRxhtinCg0uJn+CbP10zPEpl80BEJ3ORrixCxNaFJCL1z5BiIl5t+76tekGFZbJ+u1fB2Ki6AriuNAIWdt83AjgK2RH7Axj9dS99XVTmnv5jEQ9ghTyMTSQKoi4ET9XhfSPtLsz1j7GbQrjfVNWn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=mrYv1MBo; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Zwb4x3c/; arc=none smtp.client-ip=103.168.172.156
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 9B92A14003D2;
-	Mon, 27 Oct 2025 15:30:09 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Mon, 27 Oct 2025 15:30:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1761593409;
-	 x=1761679809; bh=KH51SDLV05//kaF4c9OyIlbgbmFjlPSc2TV/0Yjx49w=; b=
-	mrYv1MBoyeJvc3XqFuzkS444IPaHMBVl5l6XC9shpyJwV2GoXc8Gz5idklsumjt/
-	qXnPkaiPzGGy2Fg/GjnkG6KKVsmF9hO2qq1zWui/uUUVJ1RiJ9RoP4m3byXE/vFO
-	00CtXIzLcHOLsP536s8e/iT8Z/o7auEDRQV7xE/HQIS7MKnvfJLUgNeFadRBHJW1
-	B8tOp0tWEGD3J7btJ1V6YqEk9e1+zXbliDF+1h/fbbDb4ONs3RnTjPNZrL4geyC4
-	CwcWHK9cfG6egRx2V3wpTteMeQ/DQIpp6qxDX8LvWS6BLTXrhhGoOndKxVRfbQT0
-	s9xQbnxTFp8sWh99Lwn28Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1761593409; x=
-	1761679809; bh=KH51SDLV05//kaF4c9OyIlbgbmFjlPSc2TV/0Yjx49w=; b=Z
-	wb4x3c/Nk9uOCRQc0r4nXJqpTNVpKcE6/y1jIrWdXLdiO95rFxX2QZnCc1j6E4JA
-	9Rl/DwW5CJtGLFOuv08PRPGXZbXrUHtzNA/BSaDFCKbUVUsejYiV+x4LgC6H5Xhw
-	QJP1Om0CTS3Qnc3iVO6zukz+MmmnNoUIjKPkcr4Dq49MrqXiK/TjgqIT5Z/o1t+x
-	+EGvJp+QM503Ksm4w2UjQZE5WoSyuYkYQky8nXbePou8pSVIi1QmMHi/mVNvUgLH
-	nL1ZH+4/SsswKieKINIgj/R5pILTj+Hlr9dgGUm3cdiNKe6lKHPCdTPTiJnY1bC3
-	zwpyawhfPn3hHr/IS/EZg==
-X-ME-Sender: <xms:Qcj_aIczRwkjoau1-ChC5BTK-TrmjbKLmJA9zFLBmAm_y9V-WsBSlw>
-    <xme:Qcj_aKrwsY9hLrQDti-eVZhPjZigWcj_Ik8xDlfw3iR-QzeQiUiDZatgMN3Bwe-Y0
-    N8cQKaUjUCVBZO2r8oN5M3HqNjH3PpfbcvzWnhuodM514Pyf1VQ4Qw>
-X-ME-Received: <xmr:Qcj_aKMwux4lsIOnU7ug8dHh6JCLz5yVqtA8Lv3FkeJzRZVZs6Y6WI-VNuZAyelUw4BnvFdWF4wyhQjt4soBkEID41J6eIs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduheekkeduucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhklhgr
-    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrg
-    htvggthhdrshgvqeenucggtffrrghtthgvrhhnpeevteegtddvvdfhtdekgefhfeefheet
-    heekkeegfeejudeiudeuleegtdehkeekteenucevlhhushhtvghrufhiiigvpedtnecurf
-    grrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhn
-    rghtvggthhdrshgvpdhnsggprhgtphhtthhopeelpdhmohguvgepshhmthhpohhuthdprh
-    gtphhtthhopehmrghrvghkrdhvrghsuhhtodhrvghnvghsrghssehmrghilhgsohigrdho
-    rhhgpdhrtghpthhtoheplhhinhhugidqrghrmhdqkhgvrhhnvghlsehlihhsthhsrdhinh
-    hfrhgruggvrggurdhorhhgpdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdr
-    ohhrghdprhgtphhtthhopehgvggvrhhtodhrvghnvghsrghssehglhhiuggvrhdrsggvpd
-    hrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgr
-    ghhnuhhsrdgurghmmhesghhmrghilhdrtghomhdprhgtphhtthhopehrohgshheskhgvrh
-    hnvghlrdhorhhgpdhrtghpthhtohepuggvvhhitggvthhrvggvsehvghgvrhdrkhgvrhhn
-    vghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvg
-    hrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:Qcj_aFgOduvt8YIcUhKHFZ1SrVsy2RzdcpLFRdrdIVI6jmqj1MiODw>
-    <xmx:Qcj_aFtk7U5NoCF2gQBxzEgq9WA_KYj8c5gJyRNK5niezG5OivzfWw>
-    <xmx:Qcj_aBh-loHtjVPEg2r7lPgQqpOr859WFeu9e9sbbNN_8g9YI2Rnow>
-    <xmx:Qcj_aDYYm8xyi91aqWbSjGnzH_B6zDZkbuhHGLwYq-cj-6OxHp_dzw>
-    <xmx:Qcj_aD-W74irlF7IuokXH8n5wqyezPQ6I4oiuVxLzFz_p9vigMpq6S8w>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 27 Oct 2025 15:30:08 -0400 (EDT)
-Date: Mon, 27 Oct 2025 20:30:06 +0100
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-arm-kernel@lists.infradead.org,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] arm64: dts: renesas: sparrow-hawk: Fix full-size DP
- connector node name and labels
-Message-ID: <20251027193006.GB365372@ragnatech.se>
-References: <20251027184604.34550-1-marek.vasut+renesas@mailbox.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=CP/dmW+0WfJj5gL3EzZQNEGCMci9r4BvFTFa9PUQCi+rnzXaStbsVHZAH1xgaIDLUE88y44xzIbzmmrZkeS4J0Bhz7GmzGC1gjqFCMOZeSiKM4sHu9G+2iOFTBecMbrqKm8pZySH/FRab3/ipu2oxGIYDHNqf4vfwSvR/thYWAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=D0FvDvo6; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 199381A16C2;
+	Mon, 27 Oct 2025 20:37:31 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id D91106062C;
+	Mon, 27 Oct 2025 20:37:30 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B6F94102F2494;
+	Mon, 27 Oct 2025 21:36:42 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1761597449; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=ivu3nqaTqww2kM8ddgXsb86XR8Ecjso6qu9XWZHw9NQ=;
+	b=D0FvDvo6wBdzyM4yGf/Mo92JGsnDp3FEhnzQXToKT1lTmRgmCAobeQwwgIerEldSavB9Wj
+	8Fa1YqUSJN1a+KiX1LsgxoTiLAWFpjtTkZ/psXHq539twWXUsfVfZ1tOA47yFwLd40ImsE
+	G9WDXQxl4673JnnqnSaS0aJnztT1jPuWGeK5RQylZ1VZl0DiiBjKRSdLHbVPGru9aMBn/L
+	/NPFjf5YF1MLpjQf7UlDDcAIkfmZHS4oVHjAeodKNVAVJDdwuc8RjEgecO9ymeKN374J5m
+	aI0g1qxMk56Vwb3LCXgHJanQvqdAAA00oe5CNpFNb2x5v0Y/CqIa0frpfHITdQ==
+Date: Mon, 27 Oct 2025 21:36:40 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	David Miller <davem@davemloft.net>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Crt Mori <cmo@melexis.com>, Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Jacky Huang <ychuang3@nuvoton.com>,
+	Shan-Chun Hung <schung@nuvoton.com>,
+	Yury Norov <yury.norov@gmail.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jakub Kicinski <kuba@kernel.org>, Alex Elder <elder@ieee.org>,
+	David Laight <david.laight.linux@gmail.com>,
+	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+	Jason Baron <jbaron@akamai.com>, Borislav Petkov <bp@alien8.de>,
+	Tony Luck <tony.luck@intel.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Kim Seer Paller <kimseer.paller@analog.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Richard Genoud <richard.genoud@bootlin.com>,
+	Cosmin Tanislav <demonsingur@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Jianping Shen <Jianping.Shen@de.bosch.com>,
+	linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org, linux-crypto@vger.kernel.org,
+	linux-edac@vger.kernel.org, qat-linux@intel.com,
+	linux-gpio@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+	linux-iio@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 01/23] clk: at91: pmc: #undef field_{get,prep}()
+ before definition
+Message-ID: <20251027203640291d726b@mail.local>
+References: <cover.1761588465.git.geert+renesas@glider.be>
+ <a26cfb39f4ac309ffbff339ffa5f54db12bd8c12.1761588465.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251027184604.34550-1-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <a26cfb39f4ac309ffbff339ffa5f54db12bd8c12.1761588465.git.geert+renesas@glider.be>
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Marek,
-
-Thanks for your work.
-
-On 2025-10-27 19:45:53 +0100, Marek Vasut wrote:
-> The DisplayPort connector on Retronix R-Car V4H Sparrow Hawk board
-> is a full-size DisplayPort connector. Fix the copy-paste error and
-> update the DT node name and labels accordingly. No functional change.
+On 27/10/2025 19:41:35+0100, Geert Uytterhoeven wrote:
+> Prepare for the advent of globally available common field_get() and
+> field_prep() macros by undefining the symbols before defining local
+> variants.  This prevents redefinition warnings from the C preprocessor
+> when introducing the common macros later.
 > 
-> Fixes: a719915e76f2 ("arm64: dts: renesas: r8a779g3: Add Retronix R-Car V4H Sparrow Hawk board support")
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> Suggested-by: Yury Norov <yury.norov@gmail.com>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 
+> --
+> v5:
+>   - New.
 > ---
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Magnus Damm <magnus.damm@gmail.com>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: devicetree@vger.kernel.org
-> Cc: linux-renesas-soc@vger.kernel.org
-> ---
->  arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  drivers/clk/at91/pmc.h | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> diff --git a/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts
-> index 0e36a1b96b83a..f4181f6020203 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts
-> +++ b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts
-> @@ -119,13 +119,13 @@ memory@600000000 {
->  	};
+> diff --git a/drivers/clk/at91/pmc.h b/drivers/clk/at91/pmc.h
+> index 5daa32c4cf2540d7..78a87d31463e98b0 100644
+> --- a/drivers/clk/at91/pmc.h
+> +++ b/drivers/clk/at91/pmc.h
+> @@ -117,7 +117,9 @@ struct at91_clk_pms {
+>  	unsigned int parent;
+>  };
 >  
->  	/* Page 27 / DSI to Display */
-> -	mini-dp-con {
-> +	dp-con {
->  		compatible = "dp-connector";
->  		label = "CN6";
->  		type = "full-size";
+> +#undef field_get
+>  #define field_get(_mask, _reg) (((_reg) & (_mask)) >> (ffs(_mask) - 1))
+> +#undef field_prep
+>  #define field_prep(_mask, _val) (((_val) << (ffs(_mask) - 1)) & (_mask))
 >  
->  		port {
-> -			mini_dp_con_in: endpoint {
-> +			dp_con_in: endpoint {
->  				remote-endpoint = <&sn65dsi86_out>;
->  			};
->  		};
-> @@ -412,7 +412,7 @@ sn65dsi86_in: endpoint {
->  					port@1 {
->  						reg = <1>;
->  						sn65dsi86_out: endpoint {
-> -							remote-endpoint = <&mini_dp_con_in>;
-> +							remote-endpoint = <&dp_con_in>;
->  						};
->  					};
->  				};
+>  #define ndck(a, s) (a[s - 1].id + 1)
 > -- 
-> 2.51.0
-> 
+> 2.43.0
 > 
 
 -- 
-Kind Regards,
-Niklas Söderlund
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
