@@ -1,184 +1,106 @@
-Return-Path: <linux-renesas-soc+bounces-23645-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23646-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94F99C0D9F3
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Oct 2025 13:41:57 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 004EBC0E2DB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Oct 2025 14:53:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DD4C918964AE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Oct 2025 12:39:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 474E43AB1CD
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Oct 2025 13:45:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 911C731194C;
-	Mon, 27 Oct 2025 12:36:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8FD72F6912;
+	Mon, 27 Oct 2025 13:45:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="mwEN3QEb"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="ojxWCtje"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95A753115B1
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Oct 2025 12:36:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCB8D2F1FE4
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Oct 2025 13:45:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761568611; cv=none; b=cdsKpC21GTy7TCZftMMXNG1xmRT3yKIkbO6VcvMa2agvwcnfkAoW2nxCgw3i+Ez+YTQOrJG6IICgA9oiLgg3nrif/n9K8Yhsd8idkdR8FpO5Fh5h53b+xrTHJfRNyD5HXWohY0RRdLbJhbcQXeP+BFVGFbEnUhah/0voMJpD8M8=
+	t=1761572740; cv=none; b=rtSlkwRDwkanz4LEyqpk5i8XpJMDUy+r3SE9E/+hYGg/MIK/kljfyN+4kkTv3OmLwq6GORBbtWi6WnGf/kKTSzybkuh33se73Y8BKs9Nlrb4twm+Pf8Oa13a99xNrsb6Jw5PhG4Pq/LMdaidt8JVtclz1nyTnLGI1gRu8KX0/F0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761568611; c=relaxed/simple;
-	bh=2L21Qopfly/U4b9yKtsDB4jlN3j5TDLRZmMl98kJ+LM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Zk31inMaPSdNpQhjmmPZLY5pyoRCxjoTu3EJSvISMyBTOQUaqkg4WTkC50iMs8CrYwLtAuFXoPVSSdSQhiAHSfhOYmkHTXodVt2uUBfO7ugPBb/PaFdekW5Ex/mXghO3604NYA0r3ig/iAm6MqW7H0bxKJGzRS4F+oxbpBbBBoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=mwEN3QEb; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 4901B4E41365;
-	Mon, 27 Oct 2025 12:36:48 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 1E78D6062C;
-	Mon, 27 Oct 2025 12:36:48 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D4ED0102F24F1;
-	Mon, 27 Oct 2025 13:36:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1761568606; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=+v8XTZeq0pOdpvOANy27ZmijoxF+wc+fMdKurB1Y/rc=;
-	b=mwEN3QEbaR1sVd6IE9qAiYG8m2pXn+mFP5RqyGYHe+7L/tjL6Y37fQuX46y5an7o0XP+tP
-	rEu8e3cjNG7loWcsZrih58a/nBGOcPUKDQEghfVWpJHJa3vb8jIj4bH/kUS6usgAexhG6s
-	+dCe18ghI+N8qA7zRnH5i2jAc5o9+JpG5ITJ/cuoiFE78oWjjg7rYKv6KH9XJB+3oBASaE
-	MrHSPbJ81QjcZDhVOXrnfKrGB0tcsW6OePyCSUqtfyKXPgTaN+c7sxcHo7PbX70YpAmSmv
-	GEiXC+0Uga+l3lxNstQnkt4XwbEFCSItPeJjFa7qkAEBUHRE1Cwdb8PAeZtMGA==
-From: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
-To: Thomas Gleixner <tglx@linutronix.de>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Hoan Tran <hoan@os.amperecomputing.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Serge Semin <fancer.lancer@gmail.com>,
-	Herve Codina <herve.codina@bootlin.com>
-Cc: Phil Edworthy <phil.edworthy@renesas.com>,
-	linux-gpio@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Pascal Eberhard <pascal.eberhard@se.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: [PATCH v6 8/8] ARM: dts: r9a06g032: Add support for GPIO interrupts
-Date: Mon, 27 Oct 2025 13:36:00 +0100
-Message-ID: <20251027123601.77216-9-herve.codina@bootlin.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251027123601.77216-1-herve.codina@bootlin.com>
-References: <20251027123601.77216-1-herve.codina@bootlin.com>
+	s=arc-20240116; t=1761572740; c=relaxed/simple;
+	bh=loMIeXD9u0c5qc9PoWOMVHFVI5oMxGG1imanKqchD4U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Oz72/rIKvMbSdcS2eLmLv96/nKPD9DOc+aCCbNiKCHdLvmkWNx9yygE6/xtuuMUiEvLtDeFODkDG3BVqKSS4uks38D/FBItIwvGBBIaDqOksAnJU8JGDy1XfsN2E78inQ5AMVWTIpanxFiGBTnUz1MGal8+5B6A+PNvKCxoaKXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=ojxWCtje; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4cwFBl1FbMz9stG;
+	Mon, 27 Oct 2025 14:45:35 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1761572735;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BnB21FDiwxmVcyKyiTqv1p4dgJtK06tH8IXDXJKcNbc=;
+	b=ojxWCtjeIWSwCsxtp3H318kobeaHbB3qtciVrqHeFsWcYY4bsMiJARvSkLRHQgLjAx/HdX
+	D4k9MgsLuD4kc81TXybRsvYu/ITfDKmsad/7VCdb+60DWL65gqWE4S+7r4j3cEqZaDtAtf
+	uAryfWhx97Hbe9yLTQ5WdL9feFmoYAXvTAbEjo3mBV1k35m9e/qsrx4xSRc/O0i5jvWeMy
+	r131ei0P2sj1jEw/jkpxe3CKskYMQecvyPSvek7htctvwnlX6ShSYP92KcvqWYtdMOnv8+
+	lB7INreFeFvgUOd8nV9VCxbMCeqAcyVZIGH1iCNCq8cOFUTLPHl7c46LwOnJiw==
+Message-ID: <59645a9a-69f3-4a81-8983-1594956958ea@mailbox.org>
+Date: Mon, 27 Oct 2025 14:45:30 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Subject: Re: [PATCH v3 00/11] drm/rcar-du: dsi: Convert register bits to
+ BIT()/GENMASK() macros
+To: dri-devel@lists.freedesktop.org,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc: David Airlie <airlied@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-renesas-soc@vger.kernel.org
+References: <20251005030355.202242-1-marek.vasut+renesas@mailbox.org>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <20251005030355.202242-1-marek.vasut+renesas@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-META: 3cfnicdoe113ynxgenp1tw58wqeu4ww3
+X-MBO-RS-ID: 6bf091ff043e94b4015
 
-In the RZ/N1 SoC, the GPIO interrupts are multiplexed using the GPIO
-Interrupt Multiplexer.
-
-Add the multiplexer node and connect GPIO interrupt lines to the
-multiplexer.
-
-The interrupt-map available in the multiplexer node has to be updated in
-dts files depending on the GPIO usage. Indeed, the usage of an interrupt
-for a GPIO is board dependent.
-
-Up to 8 GPIOs can be used as an interrupt line (one per multiplexer
-output interrupt).
-
-Signed-off-by: Herve Codina (Schneider Electric) <herve.codina@bootlin.com>
-Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
----
- arch/arm/boot/dts/renesas/r9a06g032.dtsi | 41 ++++++++++++++++++++++++
- 1 file changed, 41 insertions(+)
-
-diff --git a/arch/arm/boot/dts/renesas/r9a06g032.dtsi b/arch/arm/boot/dts/renesas/r9a06g032.dtsi
-index da977cdd8487..c7196e720c6c 100644
---- a/arch/arm/boot/dts/renesas/r9a06g032.dtsi
-+++ b/arch/arm/boot/dts/renesas/r9a06g032.dtsi
-@@ -534,6 +534,14 @@ gpio0a: gpio-port@0 {
- 				#gpio-cells = <2>;
- 				snps,nr-gpios = <32>;
- 				reg = <0>;
-+
-+				interrupt-controller;
-+				interrupt-parent = <&gpioirqmux>;
-+				interrupts = < 0  1  2  3  4  5  6  7
-+					       8  9 10 11 12 13 14 15
-+					      16 17 18 19 20 21 22 23
-+					      24 25 26 27 28 29 30 31 >;
-+				#interrupt-cells = <2>;
- 			};
- 
- 			/* GPIO0b[0..1]   connected to pins GPIO1..2   */
-@@ -576,6 +584,14 @@ gpio1a: gpio-port@0 {
- 				#gpio-cells = <2>;
- 				snps,nr-gpios = <32>;
- 				reg = <0>;
-+
-+				interrupt-controller;
-+				interrupt-parent = <&gpioirqmux>;
-+				interrupts = < 32 33 34 35 36 37 38 39
-+					       40 41 42 43 44 45 46 47
-+					       48 49 50 51 52 53 54 55
-+					       56 57 58 59 60 61 62 63 >;
-+				#interrupt-cells = <2>;
- 			};
- 
- 			/* GPIO1b[0..1]   connected to pins GPIO55..56 */
-@@ -608,6 +624,14 @@ gpio2a: gpio-port@0 {
- 				#gpio-cells = <2>;
- 				snps,nr-gpios = <32>;
- 				reg = <0>;
-+
-+				interrupt-controller;
-+				interrupt-parent = <&gpioirqmux>;
-+				interrupts = < 64 65 66 67 68 69 70 71
-+					       72 73 74 75 76 77 78 79
-+					       80 81 82 83 84 85 86 87
-+					       88 89 90 91 92 93 94 95 >;
-+				#interrupt-cells = <2>;
- 			};
- 
- 			/* GPIO2b[0..9] connected to pins GPIO160..169 */
-@@ -620,6 +644,23 @@ gpio2b: gpio-port@1 {
- 			};
- 		};
- 
-+		gpioirqmux: interrupt-controller@51000480 {
-+			compatible = "renesas,r9a06g032-gpioirqmux", "renesas,rzn1-gpioirqmux";
-+			reg = <0x51000480 0x20>;
-+			#interrupt-cells = <1>;
-+			#address-cells = <0>;
-+			interrupt-map-mask = <0x7f>;
-+
-+			/*
-+			 * Example mapping entry. Board DTs need to overwrite
-+			 * 'interrupt-map' with their specific mapping. Check
-+			 * the irqmux binding documentation for details.
-+			 */
-+			interrupt-map = <0 &gic GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
-+
-+			status = "disabled";
-+		};
-+
- 		can0: can@52104000 {
- 			compatible = "renesas,r9a06g032-sja1000", "renesas,rzn1-sja1000";
- 			reg = <0x52104000 0x800>;
--- 
-2.51.0
-
+On 10/5/25 5:02 AM, Marek Vasut wrote:
+> Convert register bits to BIT() macro and bitfields to GENMASK()/FIELD_PREP() macros.
+> Most of this patchset is boring mechanical conversion.
+> 
+> Noteworthy patches are 6 and 7 , those introduce handling of DSI mode flags
+> and convert use of DRM_MODE_FLAG_P.SYNC into DRM_MODE_FLAG_N.SYNC, but that
+> should not have any adverse effect on existing hardware.
+> 
+> Marek Vasut (11):
+>    drm/rcar-du: dsi: Fix missing parameter in RXSETR_...EN macros
+>    drm/rcar-du: dsi: Document TXVMSETR PIXWDTH as bitfield
+>    drm/rcar-du: dsi: Document PHTR TESTDOUT as bitfield
+>    drm/rcar-du: dsi: Deduplicate mipi_dsi_pixel_format_to_bpp() usage
+>    drm/rcar-du: dsi: Clean up VCLKSET register macros
+>    drm/rcar-du: dsi: Clean up CLOCKSET1 CLKINSEL macros
+>    drm/rcar-du: dsi: Clean up TXVMPSPHSETR DT macros
+>    drm/rcar-du: dsi: Respect DSI mode flags
+>    drm/rcar-du: dsi: Clean up handling of DRM mode flags
+>    drm/rcar-du: dsi: Convert register bits to BIT() macro
+>    drm/rcar-du: dsi: Convert register bitfields to GENMASK() macro
+> 
+>   .../gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c   |  50 ++-
+>   .../drm/renesas/rcar-du/rcar_mipi_dsi_regs.h  | 387 +++++++++---------
+>   2 files changed, 237 insertions(+), 200 deletions(-)
+How can we proceed with this series ?
 
