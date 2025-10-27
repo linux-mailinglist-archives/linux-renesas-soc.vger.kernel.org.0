@@ -1,135 +1,215 @@
-Return-Path: <linux-renesas-soc+bounces-23698-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23699-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F65FC1038F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Oct 2025 19:52:26 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03FFAC10B56
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Oct 2025 20:16:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 809EC1A242DF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Oct 2025 18:51:33 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id DA6B65044F0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Oct 2025 19:10:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D72BE3314D2;
-	Mon, 27 Oct 2025 18:46:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD6C62DAFC3;
+	Mon, 27 Oct 2025 19:08:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Mxon/2Nq";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="vsVHmfg8"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="txkk2Y7H"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F3BA328634;
-	Mon, 27 Oct 2025 18:46:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2F3A1662E7;
+	Mon, 27 Oct 2025 19:08:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761590779; cv=none; b=u+JiY0zN8nlLzzzLxGdLnrb8uWrC9z18TVBmCjNNVZEmyo4mS8N9Rimss8WKqlDwwrN5YVRkkK83Z32aEphaMfzW2KSV0NcxkJkQGIhEzd6FLh54sQP53V1szX90UE/i6htUWklvi36Q8OOiN5TOu7dVuoMbaoxXNqLt+tldH2I=
+	t=1761592082; cv=none; b=L70JfE1ASv04zONFnMdG2jRHXOw7KfF4ubM3d572py9mVGZL36s/uBCfsyoK/l71D9D809qSSLMBZPdWQZlqCIeze+oXMN9njRzxoysJkON4tT9jfhUB+uBQG1X8nOTE+H2nD2+27VM3YtaA+S/r65iJW5zSm4J8GxAPtFyuvwU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761590779; c=relaxed/simple;
-	bh=vznUNVKhDqJTLoyUatzrE3BXzXq4iimkK72KfDB4488=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uSztMgFg4da6T3UbSE9fwcaH6k5KrNX41dQm7QwE6ehQMnsbojrKz+Jo1CRFl3RbhxS7qEqUEd1GHmaXrpdkUwXYgwVfOMy7hEovJrGImoebWrip0/+MsTa1m0p05s29PrmtN6VtZqWCs92S6JG9rj5wZU347Y0jJcRsxduFBu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Mxon/2Nq; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=vsVHmfg8; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4cwMsg0bsvz9sQJ;
-	Mon, 27 Oct 2025 19:46:15 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1761590775;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=SSdcMt8QLFSkKLYqTrSr4WGRCehiRklAAWxzKvWYKCM=;
-	b=Mxon/2Nq1YWy+zSVRs/eVW89dD2gFeQWBy+dHfi5G9jYwymoxm5vDKnJJWQsy1VCoMYcEv
-	P7t1sCf+Nt56yD1/CeBznN6hwhGBEKFsmltIeMsnSMOSn2H1LuUFmncXjarrZbq8ysj+6W
-	/wgLqVv0HERXmOcqbbPnLQIEwmxRDlytYdUin2dzPGDHxsvPrX1s/sGMhj7tFHHMJvUO0J
-	qkTX2Gmuly0U2Jd89pO0IerdQ+PD/Uw/SRrhWS0E9mirkInw0GAQ/3aXeHqFS73qyhL4MH
-	k4y9hWcSJi3AWB/AF5pZgXlnsBTSGsS2pCJAgbxaDU7btV89VSIiQvyK6AsECg==
-From: Marek Vasut <marek.vasut+renesas@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1761590773;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=SSdcMt8QLFSkKLYqTrSr4WGRCehiRklAAWxzKvWYKCM=;
-	b=vsVHmfg8KX/1tyPf86mHAubkNuBhaA6ePfVT6amTgHEKTBXNPXhY+CnspJ1x2J959Eos1P
-	YFC/ITDmHCQsRkLoFYSCY8X2RdqDSKo87i4tNbW+RNmyukE4UE9ME8yl5kLiMn/tIN0uMP
-	7pzzOIKca5Akhc2VJIOKl6I1h24n/6Otxi1NUr9hEKNyY8z/OuQBM7HKotw0KKoj0KhR+6
-	8A09tkfdfXUxslKSO9itiRIcRc2nIQAFDkxmLi1uF43w9+Eqt72M2uDGhkPJ+1EK0PWfE8
-	vIQ0g40e5WN0ylw7tWwqPQ5XA31WNYe1SdQ7eh3HZJtAQjQ9rnfZhLhWanTV+A==
-To: linux-arm-kernel@lists.infradead.org
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+	s=arc-20240116; t=1761592082; c=relaxed/simple;
+	bh=u/E0OqAWtKgcnl1sh5RO7jvaD8pclSNqq+9K9L0hgqA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=KzHwckSNPA/FsbjsDug+AqhIhzzZo72kF5UsbzmLhRUwfZm9HbrV7PE4HB1mLXECjojaYa5Xv4IyqBEvOJMkxyCbz+KGZ/qgXon0nHWS1YLfT8P40ayDodD3l84TJEtC2o2Tryn7VtzkBGordqciw0tNV4q8d+66KDCX9HlXN04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=txkk2Y7H; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15AFBC4CEF1;
+	Mon, 27 Oct 2025 19:08:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1761592082;
+	bh=u/E0OqAWtKgcnl1sh5RO7jvaD8pclSNqq+9K9L0hgqA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=txkk2Y7HJnh+qa0VKJe8C1x9i1EZX6LpduT6WY7dsx0fAYzXc5XjJw5ARz4R+ENjd
+	 6jH0eG3yyqD7Awolmh2khEJhusADZTbr68YKzqVAdgy9ijwMvEqet56ih1+xflgyTg
+	 dXvOSSr3LvTmXtwAvVUXPUFcqVMIJiJJUTjZ1Gxs=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	patches@lists.linux.dev,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] arm64: dts: renesas: sparrow-hawk: Fix full-size DP connector node name and labels
-Date: Mon, 27 Oct 2025 19:45:53 +0100
-Message-ID: <20251027184604.34550-1-marek.vasut+renesas@mailbox.org>
+	Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+	Wolfram Sang <wsa@the-dreams.de>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	linux-renesas-soc@vger.kernel.org,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 5.15 111/123] PCI: rcar: Finish transition to L1 state in rcar_pcie_config_access()
+Date: Mon, 27 Oct 2025 19:36:31 +0100
+Message-ID: <20251027183449.358690519@linuxfoundation.org>
+X-Mailer: git-send-email 2.51.1
+In-Reply-To: <20251027183446.381986645@linuxfoundation.org>
+References: <20251027183446.381986645@linuxfoundation.org>
+User-Agent: quilt/0.69
+X-stable: review
+X-Patchwork-Hint: ignore
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: x4q7fii5z44mhgk4fkog53ugrzf6ugap
-X-MBO-RS-ID: a54833429e75fd65622
 
-The DisplayPort connector on Retronix R-Car V4H Sparrow Hawk board
-is a full-size DisplayPort connector. Fix the copy-paste error and
-update the DT node name and labels accordingly. No functional change.
+5.15-stable review patch.  If anyone has any objections, please let me know.
 
-Fixes: a719915e76f2 ("arm64: dts: renesas: r8a779g3: Add Retronix R-Car V4H Sparrow Hawk board support")
-Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
----
-Cc: Conor Dooley <conor+dt@kernel.org>
+------------------
+
+From: Marek Vasut <marek.vasut+renesas@gmail.com>
+
+[ Upstream commit 84b576146294c2be702cfcd174eaa74167e276f9 ]
+
+In case the controller is transitioning to L1 in rcar_pcie_config_access(),
+any read/write access to PCIECDR triggers asynchronous external abort. This
+is because the transition to L1 link state must be manually finished by the
+driver. The PCIe IP can transition back from L1 state to L0 on its own.
+
+Avoid triggering the abort in rcar_pcie_config_access() by checking whether
+the controller is in the transition state, and if so, finish the transition
+right away. This prevents a lot of unnecessary exceptions, although not all
+of them.
+
+Link: https://lore.kernel.org/r/20220312212349.781799-1-marek.vasut@gmail.com
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
+Signed-off-by: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Bjorn Helgaas <bhelgaas@google.com>
 Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Magnus Damm <magnus.damm@gmail.com>
-Cc: Rob Herring <robh@kernel.org>
-Cc: devicetree@vger.kernel.org
+Cc: Krzysztof Wilczyński <kw@linux.com>
+Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Cc: Wolfram Sang <wsa@the-dreams.de>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 Cc: linux-renesas-soc@vger.kernel.org
+Stable-dep-of: 0a8f173d9dad ("PCI: rcar-host: Drop PMSR spinlock")
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/pci/controller/pcie-rcar-host.c |   76 ++++++++++++++++++--------------
+ 1 file changed, 45 insertions(+), 31 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts
-index 0e36a1b96b83a..f4181f6020203 100644
---- a/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dts
-@@ -119,13 +119,13 @@ memory@600000000 {
- 	};
+--- a/drivers/pci/controller/pcie-rcar-host.c
++++ b/drivers/pci/controller/pcie-rcar-host.c
+@@ -67,6 +67,42 @@ struct rcar_pcie_host {
+ 	int			(*phy_init_fn)(struct rcar_pcie_host *host);
+ };
  
- 	/* Page 27 / DSI to Display */
--	mini-dp-con {
-+	dp-con {
- 		compatible = "dp-connector";
- 		label = "CN6";
- 		type = "full-size";
++static DEFINE_SPINLOCK(pmsr_lock);
++
++static int rcar_pcie_wakeup(struct device *pcie_dev, void __iomem *pcie_base)
++{
++	unsigned long flags;
++	u32 pmsr, val;
++	int ret = 0;
++
++	spin_lock_irqsave(&pmsr_lock, flags);
++
++	if (!pcie_base || pm_runtime_suspended(pcie_dev)) {
++		ret = -EINVAL;
++		goto unlock_exit;
++	}
++
++	pmsr = readl(pcie_base + PMSR);
++
++	/*
++	 * Test if the PCIe controller received PM_ENTER_L1 DLLP and
++	 * the PCIe controller is not in L1 link state. If true, apply
++	 * fix, which will put the controller into L1 link state, from
++	 * which it can return to L0s/L0 on its own.
++	 */
++	if ((pmsr & PMEL1RX) && ((pmsr & PMSTATE) != PMSTATE_L1)) {
++		writel(L1IATN, pcie_base + PMCTLR);
++		ret = readl_poll_timeout_atomic(pcie_base + PMSR, val,
++						val & L1FAEG, 10, 1000);
++		WARN(ret, "Timeout waiting for L1 link state, ret=%d\n", ret);
++		writel(L1FAEG | PMEL1RX, pcie_base + PMSR);
++	}
++
++unlock_exit:
++	spin_unlock_irqrestore(&pmsr_lock, flags);
++	return ret;
++}
++
+ static struct rcar_pcie_host *msi_to_host(struct rcar_msi *msi)
+ {
+ 	return container_of(msi, struct rcar_pcie_host, msi);
+@@ -87,6 +123,14 @@ static int rcar_pcie_config_access(struc
+ {
+ 	struct rcar_pcie *pcie = &host->pcie;
+ 	unsigned int dev, func, reg, index;
++	int ret;
++
++	/* Wake the bus up in case it is in L1 state. */
++	ret = rcar_pcie_wakeup(pcie->dev, pcie->base);
++	if (ret) {
++		PCI_SET_ERROR_RESPONSE(data);
++		return PCIBIOS_SET_FAILED;
++	}
  
- 		port {
--			mini_dp_con_in: endpoint {
-+			dp_con_in: endpoint {
- 				remote-endpoint = <&sn65dsi86_out>;
- 			};
- 		};
-@@ -412,7 +412,7 @@ sn65dsi86_in: endpoint {
- 					port@1 {
- 						reg = <1>;
- 						sn65dsi86_out: endpoint {
--							remote-endpoint = <&mini_dp_con_in>;
-+							remote-endpoint = <&dp_con_in>;
- 						};
- 					};
- 				};
--- 
-2.51.0
+ 	dev = PCI_SLOT(devfn);
+ 	func = PCI_FUNC(devfn);
+@@ -1054,40 +1098,10 @@ static struct platform_driver rcar_pcie_
+ };
+ 
+ #ifdef CONFIG_ARM
+-static DEFINE_SPINLOCK(pmsr_lock);
+ static int rcar_pcie_aarch32_abort_handler(unsigned long addr,
+ 		unsigned int fsr, struct pt_regs *regs)
+ {
+-	unsigned long flags;
+-	u32 pmsr, val;
+-	int ret = 0;
+-
+-	spin_lock_irqsave(&pmsr_lock, flags);
+-
+-	if (!pcie_base || pm_runtime_suspended(pcie_dev)) {
+-		ret = 1;
+-		goto unlock_exit;
+-	}
+-
+-	pmsr = readl(pcie_base + PMSR);
+-
+-	/*
+-	 * Test if the PCIe controller received PM_ENTER_L1 DLLP and
+-	 * the PCIe controller is not in L1 link state. If true, apply
+-	 * fix, which will put the controller into L1 link state, from
+-	 * which it can return to L0s/L0 on its own.
+-	 */
+-	if ((pmsr & PMEL1RX) && ((pmsr & PMSTATE) != PMSTATE_L1)) {
+-		writel(L1IATN, pcie_base + PMCTLR);
+-		ret = readl_poll_timeout_atomic(pcie_base + PMSR, val,
+-						val & L1FAEG, 10, 1000);
+-		WARN(ret, "Timeout waiting for L1 link state, ret=%d\n", ret);
+-		writel(L1FAEG | PMEL1RX, pcie_base + PMSR);
+-	}
+-
+-unlock_exit:
+-	spin_unlock_irqrestore(&pmsr_lock, flags);
+-	return ret;
++	return !!rcar_pcie_wakeup(pcie_dev, pcie_base);
+ }
+ 
+ static const struct of_device_id rcar_pcie_abort_handler_of_match[] __initconst = {
+
 
 
