@@ -1,193 +1,135 @@
-Return-Path: <linux-renesas-soc+bounces-23773-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23774-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4056DC158F5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Oct 2025 16:44:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDAB8C15A5D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Oct 2025 17:01:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 1DEA0544834
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Oct 2025 15:38:32 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 3AB09543974
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Oct 2025 15:53:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7E8934403C;
-	Tue, 28 Oct 2025 15:37:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b="HU+eZliQ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1E7433FE0A;
+	Tue, 28 Oct 2025 15:51:45 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1812345725;
-	Tue, 28 Oct 2025 15:37:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.120.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97C6E165F16
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Oct 2025 15:51:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761665876; cv=none; b=R1XliWH4ivMC5TyEPimlZYNXOtq+B8YM3XYy0s+fIDUUljrOlzJaje+1GcjxRZEW2n+Gry/iXUcTyhkyBxS8i+zaJBP7cTR8+7dROsUzUEVaQdZPyIrHHMdrwFRv2JCtKSbm3/x4W2fw5+gi2p4LPGfZyQ45KpfxKGo574xhfYE=
+	t=1761666705; cv=none; b=ah7Lte+xHBZ8jt7ctp5BTOrTWieNdIGihm/BmUT919sJNqhvd+7HPyKUI750AiK1kRtlH4vDFTEaG9bpp+WlWlgrzSmtLOLlXW9YQKAgySmReVxgPFfKwf1eFe4cZRY/yoegPt/nP7Wn6W1601tpmUS/UKvL8iOnt3AQI0oNAno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761665876; c=relaxed/simple;
-	bh=YiDL4UsJb50r2ifBXEf7YKxbCTXY2QcCUMFAbc1//UY=;
-	h=Date:From:To:Cc:Message-Id:In-Reply-To:References:Mime-Version:
-	 Content-Type:Subject; b=Sw0VEc1IptPW0jxf1Ib4d0PCcCj6SmUki/a6idGlrMWgnAewd7gx527mPsgrWXbf8pZNcwPGPDiqB8AghM5DLQKdV+G0irACN1kYUPUsR6wfY16nksdkaBEOFgPWXNURAMNUg0zZjsPcJJlUJtb3Pi5E6UzJ2y5CBuPWOtK4MyI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com; spf=pass smtp.mailfrom=hugovil.com; dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b=HU+eZliQ; arc=none smtp.client-ip=162.243.120.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hugovil.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
-	; s=x; h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
-	:Date:subject:date:message-id:reply-to;
-	bh=rQCkM+LhOLwLdgmWX34eWVh/KFSAjRx1HdzAE3MV9gU=; b=HU+eZliQ3xuK8KOK10CU7n8aZw
-	6yaRXhbdR7WAjzwEkEdjaxg87ha7cQPHyY1KDzXJXJVnwDSjjeQRCfwkFvXEAIFVw16Gbtr5+qHMM
-	xmBwCkPaJvQGikSZ2jY2SsnLVmS/d2MQo3xdCa6e0zxHGvQWxMBQ8un44D7d8XN0fC70=;
-Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:39646 helo=pettiford)
-	by mail.hugovil.com with esmtpa (Exim 4.92)
-	(envelope-from <hugo@hugovil.com>)
-	id 1vDllW-0007rJ-Lh; Tue, 28 Oct 2025 11:37:43 -0400
-Date: Tue, 28 Oct 2025 11:37:42 -0400
-From: Hugo Villeneuve <hugo@hugovil.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby
- <jirislaby@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- wsa+renesas <wsa+renesas@sang-engineering.com>, Claudiu Beznea
- <claudiu.beznea.uj@bp.renesas.com>, Nam Cao <namcao@linutronix.de>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>, biju.das.au
- <biju.das.au@gmail.com>, "linux-renesas-soc@vger.kernel.org"
- <linux-renesas-soc@vger.kernel.org>
-Message-Id: <20251028113742.7ad84146ecb9a2c7f2c6b4e9@hugovil.com>
-In-Reply-To: <TY3PR01MB113462A9E19F5AF62DB26CA5E86FDA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20251027154615.115759-1-biju.das.jz@bp.renesas.com>
-	<20251027154615.115759-13-biju.das.jz@bp.renesas.com>
-	<20251028105111.b0363ccd0eac7691191b6afe@hugovil.com>
-	<TY3PR01MB113462A9E19F5AF62DB26CA5E86FDA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1761666705; c=relaxed/simple;
+	bh=VvDtRPDDQzWEW1DmND9DMlhNVTHKZlTG5zQG5PGaqw4=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=Zz7bL+XIhPXN94fJaAyqu4kmcOZzsg0BgPIHvKzhVVRk531kheNfzcEdr8FY7TskNJwBflgn6BvgYfUd87bzcvdmw63h6VJ87Uf3OYyfDr6jHRKUveSEhuDKsHpNwpfZe381CL/tbRsh4nN/BfNBNbr6FGTwu7jxJyT6m3b5jdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9935C4CEE7
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Oct 2025 15:51:44 +0000 (UTC)
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: linux-renesas-soc@vger.kernel.org
+Subject: renesas-drivers-2025-10-28-v6.18-rc3
+Date: Tue, 28 Oct 2025 16:51:42 +0100
+Message-ID: <20251028155142.2599824-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 70.80.174.168
-X-SA-Exim-Mail-From: hugo@hugovil.com
-X-Spam-Level: 
-X-Spam-Report: 
-	* -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-	* -3.2 NICE_REPLY_A Looks like a legit reply (A)
-Subject: Re: [PATCH 12/19] serial: sh-sci: Add support for RZ/G3E RSCI clks
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Hi Biju,
+I have pushed renesas-drivers-2025-10-28-v6.18-rc3 to
+https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
 
-On Tue, 28 Oct 2025 15:08:50 +0000
-Biju Das <biju.das.jz@bp.renesas.com> wrote:
+This tree is meant to ease development of platform support and drivers
+for Renesas ARM and RISC-V SoCs.  It is created by merging (a) the
+for-next branches of various subsystem trees and (b) branches with
+driver code submitted or planned for submission to maintainers into the
+master branch of my renesas-devel.git tree.
 
-> Hi Hugo,
-> 
-> Thanks for the feedback.
-> 
-> > -----Original Message-----
-> > From: Hugo Villeneuve <hugo@hugovil.com>
-> > Sent: 28 October 2025 14:51
-> > Subject: Re: [PATCH 12/19] serial: sh-sci: Add support for RZ/G3E RSCI clks
-> > 
-> > Hi Biju,
-> > 
-> > On Mon, 27 Oct 2025 15:45:59 +0000
-> > Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > 
-> > > RZ/G3E RSCI has 5 module clocks. Add support for these clocks.
-> > 
-> > In "[PATCH 03/19] dt-bindings: serial: renesas,rsci: Document RZ/G3E support", you mention that
-> > "...RZ/G3E has 6 clocks...", and here 5?
-> 
-> 5 module clocks + 1 external clock = 6 clocks.
+Today's version is based on renesas-devel-2025-10-28-v6.18-rc3.
 
-Ok, maybe add this precision in your cover letter (and possibly
-other commits) to remove any ambiguity...
+Included branches with driver code:
+  - renesas-clk-for-v6.19
+  - renesas-pinctrl-for-v6.19
 
-> 
-> I just omitted external clock here as it is available on both G3E and T2H.
-> 
-> Cheers,
-> Biju
-> 
-> > 
-> > 
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > ---
-> > >  drivers/tty/serial/sh-sci-common.h |  3 +++
-> > >  drivers/tty/serial/sh-sci.c        | 14 ++++++++++++++
-> > >  2 files changed, 17 insertions(+)
-> > >
-> > > diff --git a/drivers/tty/serial/sh-sci-common.h
-> > > b/drivers/tty/serial/sh-sci-common.h
-> > > index ef1d94ae8b5c..f730ff9add60 100644
-> > > --- a/drivers/tty/serial/sh-sci-common.h
-> > > +++ b/drivers/tty/serial/sh-sci-common.h
-> > > @@ -17,6 +17,9 @@ enum SCI_CLKS {
-> > >  	SCI_SCK,		/* Optional External Clock */
-> > >  	SCI_BRG_INT,		/* Optional BRG Internal Clock Source */
-> > >  	SCI_SCIF_CLK,		/* Optional BRG External Clock Source */
-> > > +	SCI_FCK_DIV64,		/* Optional Functional Clock frequency-divided by 64 */
-> > > +	SCI_FCK_DIV16,		/* Optional Functional Clock frequency-divided by 16 */
-> > > +	SCI_FCK_DIV4,		/* Optional Functional Clock frequency-divided by 4 */
-> > 
-> > I see 6 clocks here?
-> > 
-> > >  	SCI_NUM_CLKS
-> > >  };
-> > >
-> > > diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
-> > > index 5f5913410df9..d45bdda2b6c1 100644
-> > > --- a/drivers/tty/serial/sh-sci.c
-> > > +++ b/drivers/tty/serial/sh-sci.c
-> > > @@ -2994,6 +2994,9 @@ static int sci_init_clocks(struct sci_port *sci_port, struct device *dev)
-> > >  		[SCI_SCK] = "sck",
-> > >  		[SCI_BRG_INT] = "brg_int",
-> > >  		[SCI_SCIF_CLK] = "scif_clk",
-> > > +		[SCI_FCK_DIV64] = "tclk_div64",
-> > > +		[SCI_FCK_DIV16] = "tclk_div16",
-> > > +		[SCI_FCK_DIV4] = "tclk_div4",
-> > >  	};
-> > >  	struct clk *clk;
-> > >  	unsigned int i;
-> > > @@ -3003,6 +3006,9 @@ static int sci_init_clocks(struct sci_port *sci_port, struct device *dev)
-> > >  	} else if (sci_port->type == SCI_PORT_RSCI) {
-> > >  		clk_names[SCI_FCK] = "operation";
-> > >  		clk_names[SCI_BRG_INT] = "bus";
-> > > +	} else if (sci_port->type == RSCI_PORT_SCI || sci_port->type == RSCI_PORT_SCIF) {
-> > > +		clk_names[SCI_FCK] = "tclk";
-> > > +		clk_names[SCI_BRG_INT] = "bus";
-> > >  	}
-> > >
-> > >  	for (i = 0; i < SCI_NUM_CLKS; i++) { @@ -3018,6 +3024,14 @@ static
-> > > int sci_init_clocks(struct sci_port *sci_port, struct device *dev)
-> > >  					     name);
-> > >  		}
-> > >
-> > > +		if (!clk && (sci_port->type == RSCI_PORT_SCI ||
-> > > +			     sci_port->type == RSCI_PORT_SCIF) &&
-> > > +		    (i == SCI_FCK || i == SCI_BRG_INT || i == SCI_FCK_DIV64 ||
-> > > +		     i == SCI_FCK_DIV16 || i == SCI_FCK_DIV4)) {
-> > > +			return dev_err_probe(dev, -ENODEV, "failed to get %s\n",
-> > > +					     name);
-> > > +		}
-> > > +
-> > >  		if (!clk && i == SCI_FCK) {
-> > >  			/*
-> > >  			 * Not all SH platforms declare a clock lookup entry
-> > > --
-> > > 2.43.0
-> > >
-> > >
-> > 
-> > --
-> > Hugo Villeneuve
-> 
+Included fixes:
+  - Revert "drm/display: bridge_connector: get/put the stored bridges"
+  - drm/display: bridge_connector: get/put the stored bridges
+  - drm/display: bridge_connector: get/put the panel_bridge
+  - [TEST] soc: renesas: rcar-rst: Enable WDT reset on early R-Car V4M
+  - ARM: shmobile: defconfig: Update for renesas-drivers
+  - [LOCAL] arm64: renesas: defconfig: Update for renesas-drivers
+  - [LOCAL] riscv: rzfive: defconfig: Update for renesas-drivers
 
+Included subsystem trees:
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git#gpio/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git#main
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git#i2c/i2c-host-fixes
+  - git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git#i2c/i2c-host
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
+  - https://gitlab.freedesktop.org/drm/kernel.git#drm-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/iommu/linux.git#next
+  - git://linuxtv.org/media_tree.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git#pwm/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/daniel.lezcano/linux.git#timers/drivers/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rmk/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
+  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/drivers
+  - git://git.kernel.org/pub/scm/linux/kernel/git/libata/linux#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
+  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
+  - https://gitlab.freedesktop.org/drm/misc/kernel.git#for-linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git#thermal/linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git#driver-core-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/glaubitz/sh-linux.git#for-next
+  - https://git.pengutronix.de/git/pza/linux#reset/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#fixes
+  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/linux-pm.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/andy/linux-auxdisplay.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/srini/nvmem.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.git#char-misc-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git#togreg
 
--- 
-Hugo Villeneuve
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
 
