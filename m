@@ -1,109 +1,101 @@
-Return-Path: <linux-renesas-soc+bounces-23735-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23736-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A9F1C1452A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Oct 2025 12:19:45 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52992C146A1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Oct 2025 12:41:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 927FD19C33A9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Oct 2025 11:17:52 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id F3ED13524D8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Oct 2025 11:41:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44E392F49FB;
-	Tue, 28 Oct 2025 11:17:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56DC7307ADA;
+	Tue, 28 Oct 2025 11:41:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d5H4tEaX"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="XgoTuCBP"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14371263889;
-	Tue, 28 Oct 2025 11:17:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C87EF303A38;
+	Tue, 28 Oct 2025 11:41:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761650246; cv=none; b=mcSuPaHMEyv12Po6paXb6VvMuvX6RyoJRGyI5EF7Zv65rCt3tyk5DhpU6/aE6RYUfqyX2IlaSTGVvV6tKgtZw32Jbd65WymZWUlL3x7NqzUu2RIkx83MM1wgLZBIyG6VnLbgDNE/ZneKEnEIXM9NdyYnGaN81ec+wHJL/vjwpLg=
+	t=1761651682; cv=none; b=HviiWf+fTK99LNsT984V00Zk3eqEZpolf9kHebaZcsBgQekOCpC2GZEOzuYluc8k42A/HQJSxY07fQp/lp978CPlvUPoxXXyspZninmMX8wb/1c7YJNaOEoL3toMerP2rc3ePXVeiYB1L5Oa9hIevRlL/5tXtCmB9cjrYMfJeMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761650246; c=relaxed/simple;
-	bh=KFHmoskfEoZUtq2ZnSkL6BqQjR0sDUKkeQJSEpcbWG4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=jHBGouf382MWGWpyPkWeJn95OOceQQEdeWI1A4aIjRimE/w6BdKnzVHZdw5TB/ucnnh/VtSDDiYpeggh2txPqNOb4lSyMM+nACzuct0HG2SC4cSwLdzkOamU9ivbPTGc5HIBbPSV3xFjx5Zwd4jWJWg9dsdTSVL8TLUCtJsdJOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d5H4tEaX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0770CC4CEE7;
-	Tue, 28 Oct 2025 11:17:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761650245;
-	bh=KFHmoskfEoZUtq2ZnSkL6BqQjR0sDUKkeQJSEpcbWG4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=d5H4tEaXQrvd+/Y4j0wURACpp3nMe07KwZk54dIDeBcKWhE9HWhZmzNo0PnK1+EiS
-	 hJcoXhuEu82RkY/LBYlmU6CGVCqa0OjIfsBNFJSSSpj/Gonx9nez5zk4hXGjKbpC6L
-	 5Fm3tFWuQVn45OPd5/UMeMW4e9BaOWwxTz98sf3qSLwE7zhm+dYBlKRDR8iecHmVkl
-	 NR12rU7DJf1NtZH2nCXox5iYdaghUfvlIECuRZYtrZD/f+c72WoyEElvG+TRONEFNK
-	 tpFFjc+KLOgZqLUozAf6jAd+c96poOIZ1JGicC6va+F9bfDxq5F29h8gwjKs/RzEuk
-	 77OL8NEAvglfQ==
-From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org, 
- linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-In-Reply-To: <88ca34df9006b74a7596b91714e700bcff666c4b.1761507792.git.christophe.jaillet@wanadoo.fr>
-References: <88ca34df9006b74a7596b91714e700bcff666c4b.1761507792.git.christophe.jaillet@wanadoo.fr>
-Subject: Re: [PATCH] ASoC: renesas: fsi: Constify struct fsi_stream_handler
-Message-Id: <176165024378.34272.12649082972979023920.b4-ty@kernel.org>
-Date: Tue, 28 Oct 2025 11:17:23 +0000
+	s=arc-20240116; t=1761651682; c=relaxed/simple;
+	bh=lIWN/uXXnZE+dReywDZ+dfXq6VnLncSyo8Te6h8L9T0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=cCwAeA/XYWAACo9fgW88Mn2kLOsyXCDBZBDYXFhyfwiTyJE+/BABfuptOHGTxtuvecGUsvzdZaQwmfiCKey8cSPxMonBx186eoX5esYpsZw36DTMmQ1DQs8cM9RUj1AxYHSJuoXV5Pxtt4Wasv/zs1fsrKl/QEZdLNbW1ABKuRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=XgoTuCBP; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id EBDFC4E41392;
+	Tue, 28 Oct 2025 11:41:17 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id A7CD8606AB;
+	Tue, 28 Oct 2025 11:41:17 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 90117102F250E;
+	Tue, 28 Oct 2025 12:41:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1761651677; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=L6ull9AD4o1okfpG3ooOsDENdDp5Rr6itgIS/m4js9w=;
+	b=XgoTuCBPmINONXuItzm0D/pt4I/NfGx1p7Qrp4gAAjr8UFCzQwqe09avOM0JuJQYerRsg5
+	6XTxIVGzrlFo4byQ5oy2og4gng4AuBfY6lI5fsz2A/AZ+/HPfVqq10t388FBNM59zPthdv
+	tB3DVKVEa/J6bM/N46xjc22iNe2sLwLdUN/dTnDfx54Qv4gVHyZv8csLcZk4eJNplddIFZ
+	pDBEehKqI8gZGq5gOmD8axOupsmjvTd9/RFhvcZVewjHPFHae3Nty/VQ3Msib/zRA2DjtH
+	5NHsgmwlGU+yNhzL3rPUoYNoX3DFF/XDt82n7CA5ybdvaFiaqpevgFe1MggqYQ==
+Date: Tue, 28 Oct 2025 12:41:09 +0100
+From: Herve Codina <herve.codina@bootlin.com>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, Geert Uytterhoeven
+ <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, devicetree@vger.kernel.org
+Subject: Re: [RFC PATCH] ARM: dts: renesas: r9a06g032-rzn1d400-db: use
+ interrupt for Micrel PHYs
+Message-ID: <20251028124109.3fa9cb36@bootlin.com>
+In-Reply-To: <aQCIJrKKM34FH3C3@ninjato>
+References: <20251001104312.40771-2-wsa+renesas@sang-engineering.com>
+	<20251020103529.0f948c67@bootlin.com>
+	<aQCIJrKKM34FH3C3@ninjato>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-88d78
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Sun, 26 Oct 2025 20:43:36 +0100, Christophe JAILLET wrote:
-> 'struct fsi_stream_handler' is not modified in this driver.
+On Tue, 28 Oct 2025 10:08:54 +0100
+Wolfram Sang <wsa+renesas@sang-engineering.com> wrote:
+
+> Hi Herve,
 > 
-> Constifying this structure moves some data to a read-only section, so
-> increases overall security, especially when the structure holds some
-> function pointers.
+> > This v5 iteration should impact modification done in this RFC.  
 > 
-> On a x86_64, with allmodconfig:
-> Before:
-> ======
->    text	   data	    bss	    dec	    hex	filename
->   51837	  12312	     64	  64213	   fad5	sound/soc/renesas/fsi.o
-> 
-> [...]
+> What do you mean with "impact"? The patch works fine with your v6
+> series.
 
-Applied to
+Oups,
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+s/should/should not/
 
-Thanks!
+Sorry for the noise.
 
-[1/1] ASoC: renesas: fsi: Constify struct fsi_stream_handler
-      commit: d29479abaded34b2b1dab2e17efe96a65eba3d61
+Best regards,
+Hervé
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+-- 
+Hervé Codina, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
