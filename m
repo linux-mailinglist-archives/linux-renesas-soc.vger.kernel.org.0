@@ -1,385 +1,344 @@
-Return-Path: <linux-renesas-soc+bounces-23784-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23785-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B328DC1601A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Oct 2025 17:58:57 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id D99C8C160B4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Oct 2025 18:05:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A83CE1A64ABE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Oct 2025 16:54:40 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 198BE4E82AF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Oct 2025 17:05:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8809522A1D5;
-	Tue, 28 Oct 2025 16:52:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 147A9347FF6;
+	Tue, 28 Oct 2025 17:05:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IxWNFNEY"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="B+nth2tu"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F4013469F4
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Oct 2025 16:52:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7447347FF7
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Oct 2025 17:05:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761670339; cv=none; b=chtD/imj0Rg+1aK6p5qAkDYxtrnYmrxpEbKDPGhTNJHCNEVXJTecN3HEVwSJTtSf+r/T6qsqcGoTyO9E578KsgqyY5oxFyfa4LkkG6BLzm9zcq1CkGjpQezUota691qm8Yt3Q6k63PXtCDpcPiUy0r5BI3nEwAyJYS2Lrvo+OuQ=
+	t=1761671127; cv=none; b=MdnsWr3mEvnRyFOlXtQsx+4zTduSKS011xXTJThKfYqesdiyQSajOc/IjzT409gv2u8Vyi2nnyT7xxN34hofaPQmdD3Mu6M4X8rNRom28MM0M1zQ/87IUFOsmJ4orBhKututvYBYYf5+PUNPH2dVn96Z5P3z31lPw9aXqYP8Mck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761670339; c=relaxed/simple;
-	bh=WFew7RLc9Zd+tpZCR+smsad3xkEUOcASLxfJhKIGvy4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tkfv6OGrlkOuZ4/fvulGIa2F2CGah+YWXs9Dw3ihaFhrQusRgFlpIcyRVx1Ny8Ws8TvI7K7HsOzkm9AynPNkDLJU7OVHKS9zNa8YziCPsooW1y3MRFe3L5kULBofD3iwaVRzOtlSpyoDOqp7GPperRNIpif0BH/VbDrG2Bz4qG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IxWNFNEY; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-29292eca5dbso82173505ad.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Oct 2025 09:52:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761670337; x=1762275137; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=b2Zr7HjUEXtUzytWwmBSdtq4q5NXObpurWZ+b8YgjWQ=;
-        b=IxWNFNEYxhQTCM2rMYn9CW50pF1EGoNavVi50nn8nqXEI7ayg8E3DmJDMY/+5dk+D/
-         S7fLZNaC+GdqZwCCojlM6FelFlmo5/IBmObTjSMlYFn30Zv7+e3v06wUawTlBndVajPp
-         1PzwKDkts6rHMUv2NGYzVIq0WcsZRoMmuHnrelmVBPp2+PBT7LXUs/jOql2QWiDtPTs/
-         ow0VgzyvUdJtTwuJJYCJXPoczTq8nR8/WHOEs183cBdDFztPATx7tos7SEYDRKD01lS2
-         R5P6tVl9QnJb2bj/MOAgOYA6IQiB7dkqVWpejmpOe9fUmCMK3sHkUHGs1LHwtckac1RS
-         /CcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761670337; x=1762275137;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=b2Zr7HjUEXtUzytWwmBSdtq4q5NXObpurWZ+b8YgjWQ=;
-        b=a7cBuWKPRD3dgoTikGcX243GD7Q8Rl4onvzckmP0q3wYHMMZbuJAQC2V8kP6zBAwiT
-         i1uRYsMuQQCUgk5p4TnwLytAKpTOgccahsuUrwaOvoD7UcwnmzFL1XH8z37ZtSQ5fGLE
-         HuSN0IOOL1Gl9fknH8a60TguatNri8NCulMA7eSAGxg4HvrGB/VBKVrYMf5gxp2NTyn3
-         zjl5i0UF9V45nFGBUOa26TqIzTrTnCJxOLH6Ic5loKIFp7DxlYAm+ObGHgXZV47a+ZCM
-         Y8Cy2eyKAdzPDvnp/mhAQdWJq/A+qoNzJGES260HgBA3iVhTWxlknZn3eypnKxnjIc0d
-         WoTg==
-X-Gm-Message-State: AOJu0YxvLJ/REe5rsrUK0L2ooRevKllIJCuMewRqbAxqE0lO8W+JGmGz
-	KsAyRFPQpGKQnGJIzzsbn+bIfM4ZM/lO1lTTiVHWzebSXaz5jblraTex1jIiPsV6
-X-Gm-Gg: ASbGncuBhxVneltnwPs4TJVlotNA7BcmHVNhJmLNUzSCnGn+n3dRXprQha+wQ3v2ba4
-	pPNpS3zXKyigXkNr/PnS05Pyg19V+QR1tbe3DPWw+AOH9Wh8+Mrz6hj6VIlfHAtLHrYq6wnkzeh
-	zkARdV+6aXPbyj6sTNfJJUvoyXL1/nqFEmsQ8WpucPwY2tZhg62EfOx6VGnRArosPnM+uA/xbr6
-	1QgR4R+uG/3FCulFxvr/phwPeVNXXQdQErUUjSiZ5quI1Zzrz4v5wqP1Iwp9M5ZhjdNHzslOwcg
-	9ELPBz32JJHttWx30jCtiuTg1onLTKjE9s6gNrRgJxNnxNX32c0V8zs+ShFn8uswzshPGA3eWUt
-	beYLVChDFKVn+xuevA7Z1DzSfYmKgbKcNrVrDB7v6KcMlJighRoQQjxPn0K+Lv2/slwhrErJI0O
-	r7e0JNtxd/3ZAl1ypPpYd1tw==
-X-Google-Smtp-Source: AGHT+IEgwFJI5NAIzF94P9PLCgQBGcLOI50Ks257zb4cT6sx/wW+6XXdpe9DB0mcBPoFARxUuU9xfg==
-X-Received: by 2002:a17:902:f68f:b0:26f:f489:bba6 with SMTP id d9443c01a7336-294cb540d36mr54558825ad.50.1761670336773;
-        Tue, 28 Oct 2025 09:52:16 -0700 (PDT)
-Received: from iku.. ([2401:4900:1c06:77f0:168f:479e:bf92:ce93])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498f0be0esm122123665ad.96.2025.10.28.09.52.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Oct 2025 09:52:16 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 5/5] clk: renesas: r9a09g077: Add xSPI core and module clocks
-Date: Tue, 28 Oct 2025 16:51:27 +0000
-Message-ID: <20251028165127.991351-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251028165127.991351-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20251028165127.991351-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	s=arc-20240116; t=1761671127; c=relaxed/simple;
+	bh=kkppzk8321aC2pZGF/Q7CmPed5ZyAWvNr5FDmpSMHEI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IO3I7YOAm27k3I/YtofElEX80n/d4+XfLOeCOM3TtHcCr3fxDx5iEzdv+XU7kC9hDtJpHlWFgYdOihhzmK4BX7fyiz5CG+6O7eUOoOgRStnAePQLs5zXq5OL8AnjPvq2T5/6Sw4dc603L5aCFNz4btschFFPVRvgD7TjaDQ48lo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=B+nth2tu; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1D40AAD0;
+	Tue, 28 Oct 2025 18:03:33 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1761671013;
+	bh=kkppzk8321aC2pZGF/Q7CmPed5ZyAWvNr5FDmpSMHEI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=B+nth2tuqFE5vfUWAUDp9/+d525AFMDA5iWAUbKcxzBD4IcNHx7W5m6WNBTAN9tNq
+	 QA6BsU5wkMiblUqENaTbpoXf6eUI3SIIa5840khSAM0DkcGeTucr1lOrvzhBc6AXa8
+	 LMEG1ez8w/1p+ckrcId1Op7UERRlWolxoRneGhGU=
+Message-ID: <03d5bdcb-eb48-4544-9fe6-68cdcbfecbf5@ideasonboard.com>
+Date: Tue, 28 Oct 2025 19:05:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 11/11] drm/rcar-du: dsi: Convert register bitfields to
+ GENMASK() macro
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-renesas-soc@vger.kernel.org
+References: <20251005030355.202242-1-marek.vasut+renesas@mailbox.org>
+ <20251005030355.202242-12-marek.vasut+renesas@mailbox.org>
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Content-Language: en-US
+In-Reply-To: <20251005030355.202242-12-marek.vasut+renesas@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Hi,
 
-Add core clocks and module clock definitions required by the xSPI
-(Expanded SPI) IP on the R9A09G077 SoC.
+On 05/10/2025 06:02, Marek Vasut wrote:
+> Convert register bitfields to GENMASK() macro where applicable.
+> Use FIELD_PREP() throughout the driver.
+> 
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> ---
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Magnus Damm <magnus.damm@gmail.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> ---
+> V2: No change
+> V3: Use GENMASK_U32() and inline FIELD_PREP()
+> ---
+>  .../drm/renesas/rcar-du/rcar_mipi_dsi_regs.h  | 118 +++++++++++-------
+>  1 file changed, 70 insertions(+), 48 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
+> index 431a107ba54d8..79684184b3b0b 100644
+> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
+> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
+> @@ -13,7 +13,7 @@
+>  #define LINKSR_HSBUSY			BIT_U32(0)
+>  
+>  #define TXSETR				0x100
+> -#define TXSETR_LANECNT_MASK		GENMASK(1, 0)
+> +#define TXSETR_LANECNT_MASK		GENMASK_U32(1, 0)
+>  
+>  /*
+>   * DSI Command Transfer Registers
+> @@ -40,18 +40,22 @@
+>  #define TXCMADDRSET0R			0x140
+>  #define TXCMPHDR			0x150
+>  #define TXCMPHDR_FMT			BIT_U32(24)	/* 0:SP 1:LP */
+> -#define TXCMPHDR_VC(n)			(((n) & 0x3) << 22)
+> -#define TXCMPHDR_DT(n)			(((n) & 0x3f) << 16)
+> -#define TXCMPHDR_DATA1(n)		(((n) & 0xff) << 8)
+> -#define TXCMPHDR_DATA0(n)		(((n) & 0xff) << 0)
+> +#define TXCMPHDR_VC_MASK		GENMASK_U32(23, 22)
+> +#define TXCMPHDR_VC(n)			FIELD_PREP(TXCMPHDR_VC_MASK, (n))
+> +#define TXCMPHDR_DT_MASK		GENMASK_U32(21, 16)
+> +#define TXCMPHDR_DT(n)			FIELD_PREP(TXCMPHDR_DT_MASK, (n))
+> +#define TXCMPHDR_DATA1_MASK		GENMASK_U32(15, 8)
+> +#define TXCMPHDR_DATA1(n)		FIELD_PREP(TXCMPHDR_DATA1_MASK, (n))
+> +#define TXCMPHDR_DATA0_MASK		GENMASK_U32(7, 0)
+> +#define TXCMPHDR_DATA0(n)		FIELD_PREP(TXCMPHDR_DATA0_MASK, (n))
+>  #define TXCMPPD0R			0x160
+>  #define TXCMPPD1R			0x164
+>  #define TXCMPPD2R			0x168
+>  #define TXCMPPD3R			0x16c
+>  
+>  #define RXSETR				0x200
+> -#define RXSETR_CRCEN(n)			(((n) & 0xf) << 24)
+> -#define RXSETR_ECCEN(n)			(((n) & 0xf) << 16)
+> +#define RXSETR_CRCEN_MASK		GENMASK_U32(27, 24)
+> +#define RXSETR_ECCEN_MASK		GENMASK_U32(19, 16)
+>  #define RXPSETR				0x210
+>  #define RXPSETR_LPPDACC			BIT_U32(0)
+>  #define RXPSR				0x220
+> @@ -107,21 +111,21 @@
+>  #define RXPIER_BTAREQEND		BIT_U32(0)
+>  #define RXPADDRSET0R			0x230
+>  #define RXPSIZESETR			0x238
+> -#define RXPSIZESETR_SIZE(n)		(((n) & 0xf) << 3)
+> +#define RXPSIZESETR_SIZE_MASK		GENMASK_U32(6, 3)
+>  #define RXPHDR				0x240
+>  #define RXPHDR_FMT			BIT_U32(24)	/* 0:SP 1:LP */
+> -#define RXPHDR_VC(n)			(((n) & 0x3) << 22)
+> -#define RXPHDR_DT(n)			(((n) & 0x3f) << 16)
+> -#define RXPHDR_DATA1(n)			(((n) & 0xff) << 8)
+> -#define RXPHDR_DATA0(n)			(((n) & 0xff) << 0)
+> +#define RXPHDR_VC_MASK			GENMASK_U32(23, 22)
+> +#define RXPHDR_DT_MASK			GENMASK_U32(21, 16)
+> +#define RXPHDR_DATA1_MASK		GENMASK_U32(15, 8)
+> +#define RXPHDR_DATA0_MASK		GENMASK_U32(7, 0)
+>  #define RXPPD0R				0x250
+>  #define RXPPD1R				0x254
+>  #define RXPPD2R				0x258
+>  #define RXPPD3R				0x25c
+>  #define AKEPR				0x300
+> -#define AKEPR_VC(n)			(((n) & 0x3) << 22)
+> -#define AKEPR_DT(n)			(((n) & 0x3f) << 16)
+> -#define AKEPR_ERRRPT(n)			(((n) & 0xffff) << 0)
+> +#define AKEPR_VC_MASK			GENMASK_U32(23, 22)
+> +#define AKEPR_DT_MASK			GENMASK_U32(21, 16)
+> +#define AKEPR_ERRRPT_MASK		GENMASK_U32(15, 0)
+>  #define RXRESPTOSETR			0x400
+>  #define TACR				0x500
+>  #define TASR				0x510
+> @@ -142,7 +146,7 @@
+>  #define TXVMSETR			0x180
+>  #define TXVMSETR_SYNSEQ_EVENTS		BIT_U32(16) /* 0:Pulses 1:Events */
+>  #define TXVMSETR_VSTPM			BIT_U32(15)
+> -#define TXVMSETR_PIXWDTH_MASK		GENMASK(10, 8)
+> +#define TXVMSETR_PIXWDTH_MASK		GENMASK_U32(10, 8)
+>  #define TXVMSETR_PIXWDTH		BIT_U32(8) /* Only allowed value */
+>  #define TXVMSETR_VSEN			BIT_U32(4)
+>  #define TXVMSETR_HFPBPEN		BIT_U32(2)
+> @@ -174,32 +178,40 @@
+>  #define TXVMVPRMSET0R_HSPOL_LOW		BIT_U32(17) /* 0:High 1:Low */
+>  #define TXVMVPRMSET0R_VSPOL_LOW		BIT_U32(16) /* 0:High 1:Low */
+>  #define TXVMVPRMSET0R_CSPC_YCbCr	BIT_U32(4) /* 0:RGB 1:YCbCr */
+> -#define TXVMVPRMSET0R_BPP_MASK		GENMASK(2, 0)
+> +#define TXVMVPRMSET0R_BPP_MASK		GENMASK_U32(2, 0)
+>  #define TXVMVPRMSET0R_BPP_16		FIELD_PREP(TXVMVPRMSET0R_BPP_MASK, 0)
+>  #define TXVMVPRMSET0R_BPP_18		FIELD_PREP(TXVMVPRMSET0R_BPP_MASK, 1)
+>  #define TXVMVPRMSET0R_BPP_24		FIELD_PREP(TXVMVPRMSET0R_BPP_MASK, 2)
+>  
+>  #define TXVMVPRMSET1R			0x1d4
+> -#define TXVMVPRMSET1R_VACTIVE(x)	(((x) & 0x7fff) << 16)
+> -#define TXVMVPRMSET1R_VSA(x)		(((x) & 0xfff) << 0)
+> +#define TXVMVPRMSET1R_VACTIVE_MASK	GENMASK_U32(30, 16)
+> +#define TXVMVPRMSET1R_VACTIVE(n)	FIELD_PREP(TXVMVPRMSET1R_VACTIVE_MASK, (n))
+> +#define TXVMVPRMSET1R_VSA_MASK		GENMASK_U32(11, 0)
+> +#define TXVMVPRMSET1R_VSA(n)		FIELD_PREP(TXVMVPRMSET1R_VSA_MASK, (n))
+>  
+>  #define TXVMVPRMSET2R			0x1d8
+> -#define TXVMVPRMSET2R_VFP(x)		(((x) & 0x1fff) << 16)
+> -#define TXVMVPRMSET2R_VBP(x)		(((x) & 0x1fff) << 0)
+> +#define TXVMVPRMSET2R_VFP_MASK		GENMASK_U32(28, 16)
+> +#define TXVMVPRMSET2R_VFP(n)		FIELD_PREP(TXVMVPRMSET2R_VFP_MASK, (n))
+> +#define TXVMVPRMSET2R_VBP_MASK		GENMASK_U32(12, 0)
+> +#define TXVMVPRMSET2R_VBP(n)		FIELD_PREP(TXVMVPRMSET2R_VBP_MASK, (n))
+>  
+>  #define TXVMVPRMSET3R			0x1dc
+> -#define TXVMVPRMSET3R_HACTIVE(x)	(((x) & 0x7fff) << 16)
+> -#define TXVMVPRMSET3R_HSA(x)		(((x) & 0xfff) << 0)
+> +#define TXVMVPRMSET3R_HACTIVE_MASK	GENMASK_U32(30, 16)
+> +#define TXVMVPRMSET3R_HACTIVE(n)	FIELD_PREP(TXVMVPRMSET3R_HACTIVE_MASK, (n))
+> +#define TXVMVPRMSET3R_HSA_MASK		GENMASK_U32(11, 0)
+> +#define TXVMVPRMSET3R_HSA(n)		FIELD_PREP(TXVMVPRMSET3R_HSA_MASK, (n))
+>  
+>  #define TXVMVPRMSET4R			0x1e0
+> -#define TXVMVPRMSET4R_HFP(x)		(((x) & 0x1fff) << 16)
+> -#define TXVMVPRMSET4R_HBP(x)		(((x) & 0x1fff) << 0)
+> +#define TXVMVPRMSET4R_HFP_MASK		GENMASK_U32(28, 16)
+> +#define TXVMVPRMSET4R_HFP(n)		FIELD_PREP(TXVMVPRMSET4R_HFP_MASK, (n))
+> +#define TXVMVPRMSET4R_HBP_MASK		GENMASK_U32(12, 0)
+> +#define TXVMVPRMSET4R_HBP(n)		FIELD_PREP(TXVMVPRMSET4R_HBP_MASK, (n))
+>  
+>  /*
+>   * PHY-Protocol Interface (PPI) Registers
+>   */
+>  #define PPISETR				0x700
+> -#define PPISETR_DLEN_MASK		GENMASK(3, 0)
+> +#define PPISETR_DLEN_MASK		GENMASK_U32(3, 0)
+>  #define PPISETR_CLEN			BIT_U32(8)
+>  
+>  #define PPICLCR				0x710
+> @@ -221,49 +233,52 @@
+>  #define PPIDL0SR_STPST			BIT_U32(6)
+>  
+>  #define PPIDLSR				0x760
+> -#define PPIDLSR_STPST			GENMASK(3, 0)
+> +#define PPIDLSR_STPST			GENMASK_U32(3, 0)
+>  
+>  /*
+>   * Clocks registers
+>   */
+>  #define LPCLKSET			0x1000
+>  #define LPCLKSET_CKEN			BIT_U32(8)
+> -#define LPCLKSET_LPCLKDIV(x)		(((x) & 0x3f) << 0)
+> +#define LPCLKSET_LPCLKDIV_MASK		GENMASK_U32(5, 0)
+>  
+>  #define CFGCLKSET			0x1004
+>  #define CFGCLKSET_CKEN			BIT_U32(8)
+> -#define CFGCLKSET_CFGCLKDIV(x)		(((x) & 0x3f) << 0)
+> +#define CFGCLKSET_CFGCLKDIV_MASK	GENMASK_U32(5, 0)
+>  
+>  #define DOTCLKDIV			0x1008
+>  #define DOTCLKDIV_CKEN			BIT_U32(8)
+> -#define DOTCLKDIV_DOTCLKDIV(x)		(((x) & 0x3f) << 0)
+> +#define DOTCLKDIV_DOTCLKDIV_MASK	GENMASK_U32(5, 0)
+>  
+>  #define VCLKSET				0x100c
+>  #define VCLKSET_CKEN			BIT_U32(16)
+>  #define VCLKSET_COLOR_YCC		BIT_U32(8) /* 0:RGB 1:YCbCr */
+> -#define VCLKSET_DIV_V3U(x)		(((x) & 0x3) << 4)
+> -#define VCLKSET_DIV_V4H(x)		(((x) & 0x7) << 4)
+> -#define VCLKSET_BPP_MASK		GENMASK(3, 2)
+> +#define VCLKSET_DIV_V3U_MASK		GENMASK_U32(5, 4)
+> +#define VCLKSET_DIV_V3U(n)		FIELD_PREP(VCLKSET_DIV_V3U_MASK, (n))
+> +#define VCLKSET_DIV_V4H_MASK		GENMASK_U32(6, 4)
+> +#define VCLKSET_DIV_V4H(n)		FIELD_PREP(VCLKSET_DIV_V4H_MASK, (n))
+> +#define VCLKSET_BPP_MASK		GENMASK_U32(3, 2)
+>  #define VCLKSET_BPP_16			FIELD_PREP(VCLKSET_BPP_MASK, 0)
+>  #define VCLKSET_BPP_18			FIELD_PREP(VCLKSET_BPP_MASK, 1)
+>  #define VCLKSET_BPP_18L			FIELD_PREP(VCLKSET_BPP_MASK, 2)
+>  #define VCLKSET_BPP_24			FIELD_PREP(VCLKSET_BPP_MASK, 3)
+> -#define VCLKSET_LANE(x)			(((x) & 0x3) << 0)
+> +#define VCLKSET_LANE_MASK		GENMASK_U32(1, 0)
+> +#define VCLKSET_LANE(n)			FIELD_PREP(VCLKSET_LANE_MASK, (n))
+>  
+>  #define VCLKEN				0x1010
+>  #define VCLKEN_CKEN			BIT_U32(0)
+>  
+>  #define PHYSETUP			0x1014
+> -#define PHYSETUP_HSFREQRANGE(x)		(((x) & 0x7f) << 16)
+> -#define PHYSETUP_HSFREQRANGE_MASK	GENMASK(22, 16)
+> -#define PHYSETUP_CFGCLKFREQRANGE(x)	(((x) & 0x3f) << 8)
+> +#define PHYSETUP_HSFREQRANGE_MASK	GENMASK_U32(22, 16)
+> +#define PHYSETUP_HSFREQRANGE(n)		FIELD_PREP(PHYSETUP_HSFREQRANGE_MASK, (n))
+> +#define PHYSETUP_CFGCLKFREQRANGE_MASK	GENMASK_U32(13, 8)
+>  #define PHYSETUP_SHUTDOWNZ		BIT_U32(1)
+>  #define PHYSETUP_RSTZ			BIT_U32(0)
+>  
+>  #define CLOCKSET1			0x101c
+>  #define CLOCKSET1_LOCK_PHY		BIT_U32(17)
+>  #define CLOCKSET1_CLKSEL		BIT_U32(8)
+> -#define CLOCKSET1_CLKINSEL_MASK		GENMASK(3, 2)
+> +#define CLOCKSET1_CLKINSEL_MASK		GENMASK_U32(3, 2)
+>  #define CLOCKSET1_CLKINSEL_EXTAL	FIELD_PREP(CLOCKSET1_CLKINSEL_MASK, 0)
+>  #define CLOCKSET1_CLKINSEL_DIG		FIELD_PREP(CLOCKSET1_CLKINSEL_MASK, 1)
+>  #define CLOCKSET1_CLKINSEL_DU		FIELD_PREP(CLOCKSET1_CLKINSEL_MASK, 2)
+> @@ -271,24 +286,31 @@
+>  #define CLOCKSET1_UPDATEPLL		BIT_U32(0)
+>  
+>  #define CLOCKSET2			0x1020
+> -#define CLOCKSET2_M(x)			(((x) & 0xfff) << 16)
+> -#define CLOCKSET2_VCO_CNTRL(x)		(((x) & 0x3f) << 8)
+> -#define CLOCKSET2_N(x)			(((x) & 0xf) << 0)
+> +#define CLOCKSET2_M_MASK		GENMASK_U32(27, 16)
+> +#define CLOCKSET2_M(n)			FIELD_PREP(CLOCKSET2_M_MASK, (n))
+> +#define CLOCKSET2_VCO_CNTRL_MASK	GENMASK_U32(13, 8)
+> +#define CLOCKSET2_VCO_CNTRL(n)		FIELD_PREP(CLOCKSET2_VCO_CNTRL_MASK, (n))
+> +#define CLOCKSET2_N_MASK		GENMASK_U32(3, 0)
+> +#define CLOCKSET2_N(n)			FIELD_PREP(CLOCKSET2_N_MASK, (n))
+>  
+>  #define CLOCKSET3			0x1024
+> -#define CLOCKSET3_PROP_CNTRL(x)		(((x) & 0x3f) << 24)
+> -#define CLOCKSET3_INT_CNTRL(x)		(((x) & 0x3f) << 16)
+> -#define CLOCKSET3_CPBIAS_CNTRL(x)	(((x) & 0x7f) << 8)
+> -#define CLOCKSET3_GMP_CNTRL(x)		(((x) & 0x3) << 0)
+> +#define CLOCKSET3_PROP_CNTRL_MASK	GENMASK_U32(29, 24)
+> +#define CLOCKSET3_PROP_CNTRL(n)	FIELD_PREP(CLOCKSET3_PROP_CNTRL_MASK, (n))
+> +#define CLOCKSET3_INT_CNTRL_MASK	GENMASK_U32(21, 16)
+> +#define CLOCKSET3_INT_CNTRL(n)		FIELD_PREP(CLOCKSET3_INT_CNTRL_MASK, (n))
+> +#define CLOCKSET3_CPBIAS_CNTRL_MASK	GENMASK_U32(14, 8)
+> +#define CLOCKSET3_CPBIAS_CNTRL(n)	FIELD_PREP(CLOCKSET3_CPBIAS_CNTRL_MASK, (n))
+> +#define CLOCKSET3_GMP_CNTRL_MASK	GENMASK_U32(1, 0)
+> +#define CLOCKSET3_GMP_CNTRL(n)		FIELD_PREP(CLOCKSET3_GMP_CNTRL_MASK, (n))
+>  
+>  #define PHTW				0x1034
+>  #define PHTW_DWEN			BIT_U32(24)
+> -#define PHTW_TESTDIN_DATA(x)		(((x) & 0xff) << 16)
+> +#define PHTW_TESTDIN_DATA_MASK		GENMASK_U32(23, 16)
+>  #define PHTW_CWEN			BIT_U32(8)
+> -#define PHTW_TESTDIN_CODE(x)		(((x) & 0xff) << 0)
+> +#define PHTW_TESTDIN_CODE_MASK		GENMASK_U32(15, 0)
 
-Define the new SCKCR fields FSELXSPI0/FSELXSPI1 and DIVSEL_XSPI0/1 and
-add two new core clocks XSPI_CLK0 and XSPI_CLK1. The xSPI block uses
-PCLKH as its bus clock (use as module clock parent) while the operation
-clock (XSPI_CLKn) is derived from PLL4. To support this arrangement
-provide mux/div selectors and divider tables for the supported
-XSPI operating rates.
+Is PHTW_TESTDIN_CODE_MASK correct?
 
-Add CLK_TYPE_RZT2H_FSELXSPI to implement a custom divider/mux clock
-where the determine_rate() callback enforces the hardware constraint:
-when the parent output is 600MHz only dividers 8 and 16 are valid,
-whereas for 800MHz operation the full divider set (6,8,16,32,64) may
-be used. The custom determine_rate() picks the best parent/divider pair
-to match the requested rate and programs the appropriate SCKCR fields.
+ Tomi
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-v1->v2:
-- Added custom divider clock type for XSPI clocks to enforce hardware
-  constraints on supported operating rates.
----
- drivers/clk/renesas/r9a09g077-cpg.c | 155 +++++++++++++++++++++++++++-
- 1 file changed, 154 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/clk/renesas/r9a09g077-cpg.c b/drivers/clk/renesas/r9a09g077-cpg.c
-index b46167d42084..678dc36461c0 100644
---- a/drivers/clk/renesas/r9a09g077-cpg.c
-+++ b/drivers/clk/renesas/r9a09g077-cpg.c
-@@ -11,6 +11,8 @@
- #include <linux/device.h>
- #include <linux/init.h>
- #include <linux/kernel.h>
-+#include <linux/math.h>
-+#include <linux/types.h>
- 
- #include <dt-bindings/clock/renesas,r9a09g077-cpg-mssr.h>
- #include <dt-bindings/clock/renesas,r9a09g087-cpg-mssr.h>
-@@ -54,12 +56,19 @@
- #define DIVSCI3ASYNC	CONF_PACK(SCKCR3, 12, 2)
- #define DIVSCI4ASYNC	CONF_PACK(SCKCR3, 14, 2)
- 
-+#define FSELXSPI0	CONF_PACK(SCKCR, 0, 3)
-+#define FSELXSPI1	CONF_PACK(SCKCR, 8, 3)
-+#define DIVSEL_XSPI0	CONF_PACK(SCKCR, 6, 1)
-+#define DIVSEL_XSPI1	CONF_PACK(SCKCR, 14, 1)
- #define SEL_PLL		CONF_PACK(SCKCR, 22, 1)
- 
-+#define DIVSELXSPI_RATE_600MHZ		600000000UL
-+#define DIVSELXSPI_RATE_800MHZ		800000000UL
- 
- enum rzt2h_clk_types {
- 	CLK_TYPE_RZT2H_DIV = CLK_TYPE_CUSTOM,	/* Clock with divider */
- 	CLK_TYPE_RZT2H_MUX,			/* Clock with clock source selector */
-+	CLK_TYPE_RZT2H_FSELXSPI,
- };
- 
- #define DEF_DIV(_name, _id, _parent, _conf, _dtable) \
-@@ -69,10 +78,13 @@ enum rzt2h_clk_types {
- 	DEF_TYPE(_name, _id, CLK_TYPE_RZT2H_MUX, .conf = _conf, \
- 		 .parent_names = _parent_names, .num_parents = _num_parents, \
- 		 .flag = 0, .mux_flags = _mux_flags)
-+#define DEF_DIV_FSELXSPI(_name, _id, _parent, _conf, _dtable) \
-+	DEF_TYPE(_name, _id, CLK_TYPE_RZT2H_FSELXSPI, .conf = _conf, \
-+		 .parent = _parent, .dtable = _dtable, .flag = 0)
- 
- enum clk_ids {
- 	/* Core Clock Outputs exported to DT */
--	LAST_DT_CORE_CLK = R9A09G077_ETCLKE,
-+	LAST_DT_CORE_CLK = R9A09G077_XSPI_CLK1,
- 
- 	/* External Input Clocks */
- 	CLK_EXTAL,
-@@ -88,12 +100,16 @@ enum clk_ids {
- 	CLK_SEL_CLK_PLL2,
- 	CLK_SEL_CLK_PLL4,
- 	CLK_PLL4D1,
-+	CLK_PLL4D1_DIV3,
-+	CLK_PLL4D1_DIV4,
- 	CLK_SCI0ASYNC,
- 	CLK_SCI1ASYNC,
- 	CLK_SCI2ASYNC,
- 	CLK_SCI3ASYNC,
- 	CLK_SCI4ASYNC,
- 	CLK_SCI5ASYNC,
-+	CLK_DIVSELXSPI0_SCKCR,
-+	CLK_DIVSELXSPI1_SCKCR,
- 
- 	/* Module Clocks */
- 	MOD_CLK_BASE,
-@@ -105,6 +121,15 @@ static const struct clk_div_table dtable_1_2[] = {
- 	{0, 0},
- };
- 
-+static const struct clk_div_table dtable_6_8_16_32_64[] = {
-+	{6, 64},
-+	{5, 32},
-+	{4, 16},
-+	{3, 8},
-+	{2, 6},
-+	{0, 0},
-+};
-+
- static const struct clk_div_table dtable_24_25_30_32[] = {
- 	{0, 32},
- 	{1, 30},
-@@ -119,6 +144,7 @@ static const char * const sel_clk_pll0[] = { ".loco", ".pll0" };
- static const char * const sel_clk_pll1[] = { ".loco", ".pll1" };
- static const char * const sel_clk_pll2[] = { ".loco", ".pll2" };
- static const char * const sel_clk_pll4[] = { ".loco", ".pll4" };
-+static const char * const sel_clk_pll4d1_div3_div4[] = { ".pll4d1_div3", ".pll4d1_div4" };
- 
- static const struct cpg_core_clk r9a09g077_core_clks[] __initconst = {
- 	/* External Clock Inputs */
-@@ -154,6 +180,15 @@ static const struct cpg_core_clk r9a09g077_core_clks[] __initconst = {
- 	DEF_DIV(".sci5async", CLK_SCI5ASYNC, CLK_PLL4D1, DIVSCI5ASYNC,
- 		dtable_24_25_30_32),
- 
-+	DEF_FIXED(".pll4d1_div3", CLK_PLL4D1_DIV3, CLK_PLL4D1, 3, 1),
-+	DEF_FIXED(".pll4d1_div4", CLK_PLL4D1_DIV4, CLK_PLL4D1, 4, 1),
-+	DEF_MUX(".divselxspi0", CLK_DIVSELXSPI0_SCKCR, DIVSEL_XSPI0,
-+		sel_clk_pll4d1_div3_div4,
-+		ARRAY_SIZE(sel_clk_pll4d1_div3_div4), 0),
-+	DEF_MUX(".divselxspi1", CLK_DIVSELXSPI1_SCKCR, DIVSEL_XSPI1,
-+		sel_clk_pll4d1_div3_div4,
-+		ARRAY_SIZE(sel_clk_pll4d1_div3_div4), 0),
-+
- 	/* Core output clk */
- 	DEF_DIV("CA55C0", R9A09G077_CLK_CA55C0, CLK_SEL_CLK_PLL0, DIVCA55C0,
- 		dtable_1_2),
-@@ -178,9 +213,15 @@ static const struct cpg_core_clk r9a09g077_core_clks[] __initconst = {
- 	DEF_FIXED("ETCLKC", R9A09G077_ETCLKC, CLK_SEL_CLK_PLL1, 10, 1),
- 	DEF_FIXED("ETCLKD", R9A09G077_ETCLKD, CLK_SEL_CLK_PLL1, 20, 1),
- 	DEF_FIXED("ETCLKE", R9A09G077_ETCLKE, CLK_SEL_CLK_PLL1, 40, 1),
-+	DEF_DIV_FSELXSPI("XSPI_CLK0", R9A09G077_XSPI_CLK0, CLK_DIVSELXSPI0_SCKCR,
-+			 FSELXSPI0, dtable_6_8_16_32_64),
-+	DEF_DIV_FSELXSPI("XSPI_CLK1", R9A09G077_XSPI_CLK1, CLK_DIVSELXSPI1_SCKCR,
-+			 FSELXSPI1, dtable_6_8_16_32_64),
- };
- 
- static const struct mssr_mod_clk r9a09g077_mod_clks[] __initconst = {
-+	DEF_MOD("xspi0", 4, R9A09G077_CLK_PCLKH),
-+	DEF_MOD("xspi1", 5, R9A09G077_CLK_PCLKH),
- 	DEF_MOD("sci0fck", 8, CLK_SCI0ASYNC),
- 	DEF_MOD("sci1fck", 9, CLK_SCI1ASYNC),
- 	DEF_MOD("sci2fck", 10, CLK_SCI2ASYNC),
-@@ -264,6 +305,116 @@ r9a09g077_cpg_mux_clk_register(struct device *dev,
- 	return clk_hw->clk;
- }
- 
-+static int r9a09g077_cpg_fselxspi_determine_rate(struct clk_hw *hw,
-+						 struct clk_rate_request *req)
-+{
-+	struct clk_divider *divider = to_clk_divider(hw);
-+	unsigned long parent_rate, best = 0, now;
-+	const struct clk_div_table *clkt;
-+	unsigned long rate = req->rate;
-+	int div = 0;
-+
-+	if (!rate)
-+		rate = 1;
-+
-+	for (clkt = divider->table; clkt->div; clkt++) {
-+		parent_rate = clk_hw_round_rate(req->best_parent_hw, rate * clkt->div);
-+		/*
-+		 * DIVSELXSPIx supports 800MHz and 600MHz operation.
-+		 * When the parent_rate is 600MHz, only dividers of 8 and 16
-+		 * are supported otherwise dividers of 6, 8, 16, 32, 64 are supported.
-+		 * This check ensures that FSELXSPIx is set correctly.
-+		 */
-+		if (parent_rate == DIVSELXSPI_RATE_600MHZ &&
-+		    (clkt->div != 8 && clkt->div != 16))
-+			continue;
-+		now = DIV_ROUND_UP_ULL((u64)parent_rate, clkt->div);
-+		if (abs(rate - now) < abs(rate - best)) {
-+			div = clkt->div;
-+			best = now;
-+			req->best_parent_rate = parent_rate;
-+		}
-+	}
-+
-+	if (!div) {
-+		u8 maxdiv = 0;
-+
-+		req->best_parent_rate = clk_hw_round_rate(req->best_parent_hw, 1);
-+		/*
-+		 * If DIVSELXSPIx is set to 800MHz set the maximum divider
-+		 * or else fall back to divider of 16 which is a maximum
-+		 * supported divider for 600MHz operation.
-+		 */
-+		if (req->best_parent_rate == DIVSELXSPI_RATE_800MHZ) {
-+			for (clkt = divider->table; clkt->div; clkt++) {
-+				if (clkt->div > maxdiv)
-+					maxdiv = clkt->div;
-+			}
-+			div = maxdiv;
-+		} else {
-+			div = 16;
-+		}
-+	}
-+
-+	req->rate = DIV_ROUND_UP_ULL((u64)req->best_parent_rate, div);
-+
-+	return 0;
-+}
-+
-+static struct clk * __init
-+r9a09g077_cpg_fselxspi_div_clk_register(struct device *dev,
-+					const struct cpg_core_clk *core,
-+					void __iomem *addr,
-+					struct cpg_mssr_pub *pub)
-+{
-+	static struct clk_ops *xspi_div_ops;
-+	struct clk_init_data init = {};
-+	const struct clk *parent;
-+	const char *parent_name;
-+	struct clk_divider *div;
-+	struct clk_hw *hw;
-+	int ret;
-+
-+	parent = pub->clks[core->parent];
-+	if (IS_ERR(parent))
-+		return ERR_CAST(parent);
-+
-+	div = devm_kzalloc(dev, sizeof(*div), GFP_KERNEL);
-+	if (!div)
-+		return ERR_PTR(-ENOMEM);
-+
-+	if (!xspi_div_ops) {
-+		xspi_div_ops = devm_kzalloc(dev, sizeof(*xspi_div_ops), GFP_KERNEL);
-+		if (!xspi_div_ops)
-+			return  ERR_PTR(-ENOMEM);
-+		memcpy(xspi_div_ops, &clk_divider_ops,
-+		       sizeof(const struct clk_ops));
-+		xspi_div_ops->determine_rate = r9a09g077_cpg_fselxspi_determine_rate;
-+	}
-+
-+	parent_name = __clk_get_name(parent);
-+	init.name = core->name;
-+	init.ops = xspi_div_ops;
-+	init.flags = CLK_SET_RATE_PARENT;
-+	init.parent_names = &parent_name;
-+	init.num_parents = 1;
-+
-+	div->reg = addr;
-+	div->shift = GET_SHIFT(core->conf);
-+	div->width = GET_WIDTH(core->conf);
-+	div->flags = core->flag;
-+	div->lock = &pub->rmw_lock;
-+	div->hw.init = &init;
-+	div->table = core->dtable;
-+
-+	hw = &div->hw;
-+	ret = devm_clk_hw_register(dev, hw);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	return hw->clk;
-+}
-+
- static struct clk * __init
- r9a09g077_cpg_clk_register(struct device *dev, const struct cpg_core_clk *core,
- 			   const struct cpg_mssr_info *info,
-@@ -278,6 +429,8 @@ r9a09g077_cpg_clk_register(struct device *dev, const struct cpg_core_clk *core,
- 		return r9a09g077_cpg_div_clk_register(dev, core, addr, pub);
- 	case CLK_TYPE_RZT2H_MUX:
- 		return r9a09g077_cpg_mux_clk_register(dev, core, addr, pub);
-+	case CLK_TYPE_RZT2H_FSELXSPI:
-+		return r9a09g077_cpg_fselxspi_div_clk_register(dev, core, addr, pub);
- 	default:
- 		return ERR_PTR(-EINVAL);
- 	}
--- 
-2.43.0
+>  #define PHTR				0x1038
+> -#define PHTW_TESTDOUT			GENMASK(23, 16)
+> +#define PHTW_TESTDOUT			GENMASK_U32(23, 16)
+>  #define PHTR_TESTDOUT_TEST		BIT_U32(16)
+>  
+>  #define PHTC				0x103c
 
 
