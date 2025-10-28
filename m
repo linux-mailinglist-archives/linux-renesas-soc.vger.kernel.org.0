@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-23786-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23787-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C27EAC16198
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Oct 2025 18:18:54 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09C73C161B2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Oct 2025 18:19:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 191B41C23D8B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Oct 2025 17:16:26 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id F07094E25B9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Oct 2025 17:19:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 012022882D0;
-	Tue, 28 Oct 2025 17:15:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A00F1D5CFE;
+	Tue, 28 Oct 2025 17:19:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SSZJVuch"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="WZB0Vgti"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBCC57262E
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Oct 2025 17:15:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3710B23C505
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Oct 2025 17:19:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761671758; cv=none; b=utH6hVufn3PopHAzypn5prpCHLX8kknxyj09SYKxp0oIO9tikAaVd2yKgZCjFu9GMZUHwjFxkpR+cPpoKzydtYHnhdjCEqBIN3whimwPyLRGYEHXfWDWf64bQjQiEtzQoAhgEkqRyo+A2hEUY0UHf2SWu533rDg1CaZRW6htD1g=
+	t=1761671992; cv=none; b=jYFv2+ICGqYyM+xP95/vgyoNet35l+S6DNgPpUcujQVT/Y3T808cx/MjE28Fvm7f+aRaAMo+gzCOcuwmx+AaBxRRjAZCeZOXxyah+KoWVkjteRiaDkRAKAg5FF5SvHW5g0H+DnOh10dIs0aYfRtN5cq27+3OaTebkgnA85sStXo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761671758; c=relaxed/simple;
-	bh=oV13qCNMhdQsYIt1US1XMzQqld9yzEtOiywD8jDHGh0=;
+	s=arc-20240116; t=1761671992; c=relaxed/simple;
+	bh=rozXxNS8mX4eTCpT7j98yacmLPk7DwfKXcRX3sfR5PM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fj4il/JuHWk7BT4/fZUazjIA3owZwh9yRxEiFVnuUX1D7l0o4ejI7u0Ps8ZhOxVNvvwULyOL3R3aCLIznfJyqRwh5BcoyKMSTSTiaShNPxXc7xA13FUbKNCn5oUuyydovLVX94JvUg9T6hZOaenlvzFFDb9EwDeDDJ7LFA4oy1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SSZJVuch; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=Ip8WaYqXS06ymR7ZT8kPXPB6uhyfm/8+OkoZvCFBR+qjzJUDcriKZ+DyaEnVXa5oKMC3DoYMk7aF9yGvV5LOv/WA+9Ut6rOnKANxeOFwZ38YLEp8L/1eniRgTrOdNsXZx1CUP6rFJyB+rcyB0ql88RQnbOUgRMWDmSVpe3fWYxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=WZB0Vgti; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CD07416A7;
-	Tue, 28 Oct 2025 18:14:03 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BD405E77;
+	Tue, 28 Oct 2025 18:17:58 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1761671644;
-	bh=oV13qCNMhdQsYIt1US1XMzQqld9yzEtOiywD8jDHGh0=;
+	s=mail; t=1761671879;
+	bh=rozXxNS8mX4eTCpT7j98yacmLPk7DwfKXcRX3sfR5PM=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=SSZJVuchdt6vwnuSuMLFyzO5Qy/zP0DL9YvgEMvLGxVJrenciauZGnIAAjRxHVN6I
-	 jwgW4AlHOg/FTUi60q9X6JUBw5aKByBgw9JHmPn5ArNHm7wFCwj6TADWMNxQDtaMs3
-	 CMx5qrKVbAFZdVQK5l6XoZeOaDwSf2IouhSjTbig=
-Message-ID: <2666bd0f-b2a3-49b4-9458-1b362d9d1b4e@ideasonboard.com>
-Date: Tue, 28 Oct 2025 19:15:49 +0200
+	b=WZB0VgtiNGkPrxGJpfeVBVjh7KA5MR8+mCecfG3KN7Oq+oIHwgHP4zVDK2FOjjRXY
+	 hDqcv1hwV66Wzsz8aWwegEyrtwoYZeC0PJ4gZx7EiLAkELVVSu4iuYCifkka8iOoeG
+	 lh/5TG2dGEcUGXH2ToO86zydSocK+Rk+98CxKSnQ=
+Message-ID: <af50732c-07d1-4f03-a9d4-dcbf4bbf6582@ideasonboard.com>
+Date: Tue, 28 Oct 2025 19:19:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,8 +50,8 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 05/11] drm/rcar-du: dsi: Clean up VCLKSET register
- macros
+Subject: Re: [PATCH v3 03/11] drm/rcar-du: dsi: Document PHTR TESTDOUT as
+ bitfield
 To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
  dri-devel@lists.freedesktop.org
 Cc: David Airlie <airlied@gmail.com>,
@@ -63,23 +63,19 @@ Cc: David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
  linux-renesas-soc@vger.kernel.org
 References: <20251005030355.202242-1-marek.vasut+renesas@mailbox.org>
- <20251005030355.202242-6-marek.vasut+renesas@mailbox.org>
+ <20251005030355.202242-4-marek.vasut+renesas@mailbox.org>
 From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 Content-Language: en-US
-In-Reply-To: <20251005030355.202242-6-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20251005030355.202242-4-marek.vasut+renesas@mailbox.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi,
+
 
 On 05/10/2025 06:02, Marek Vasut wrote:
-> Introduce VCLKSET_BPP_MASK macro and use FIELD_PREP() to generate
-> appropriate bitfield from mask and value without bitshift. Remove
-> VCLKSET_COLOR_RGB which is never used, replace it with code comment.
-> 
-> Do not convert bits and bitfields to BIT() and GENMASK() yet, to be
-> consisten with the current style. Conversion to BIT() and GENMASK()
-> macros is done at the very end of this series in the last two patches.
+> The register PHTR bitfield TESTDOUT is not a single bit, but a
+> bitfield. Add a MASK macro and a _TEST bitfield value, which is
+> used by the driver to poll for completion. No functional change.
 > 
 > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 > ---
@@ -96,74 +92,43 @@ On 05/10/2025 06:02, Marek Vasut wrote:
 > Cc: dri-devel@lists.freedesktop.org
 > Cc: linux-renesas-soc@vger.kernel.org
 > ---
-> NOTE: No functional change expected, this is a preparatory patch which
-> partly removes macros which evaluate to zeroes from rcar_mipi_dsi_regs.h .
-> The other patches in this series proceed with that job, piece by piece,
-> to make it all reviewable.
+> V3: New patch
 > ---
-> V2: Move FIELD_PREP() back into rcar_mipi_dsi_regs.h
-> V3: Include linux/bitfield.h which contains the FIELD_PREP() macro
-> ---
->  drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c      |  4 +++-
->  drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h | 12 ++++++------
->  2 files changed, 9 insertions(+), 7 deletions(-)
+>  drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c      | 4 ++--
+>  drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h | 3 ++-
+>  2 files changed, 4 insertions(+), 3 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-> index e13249e0134b4..f6427476feb72 100644
+> index 5c73a513f678e..c24721a1eddf2 100644
 > --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
 > +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-> @@ -5,6 +5,7 @@
->   * Copyright (C) 2020 Renesas Electronics Corporation
->   */
+> @@ -316,8 +316,8 @@ rcar_mipi_dsi_post_init_phtw_v4h(struct rcar_mipi_dsi *dsi,
+>  		WRITE_PHTW(0x01020100, 0x00000180);
 >  
-> +#include <linux/bitfield.h>
->  #include <linux/clk.h>
->  #include <linux/delay.h>
->  #include <linux/io.h>
-> @@ -624,6 +625,7 @@ static int rcar_mipi_dsi_startup(struct rcar_mipi_dsi *dsi,
->  	vclkset = VCLKSET_CKEN;
->  	rcar_mipi_dsi_write(dsi, VCLKSET, vclkset);
->  
-> +	/* Output is always RGB, never YCbCr */
->  	if (dsi_format == 24)
->  		vclkset |= VCLKSET_BPP_24;
->  	else if (dsi_format == 18)
-> @@ -635,7 +637,7 @@ static int rcar_mipi_dsi_startup(struct rcar_mipi_dsi *dsi,
->  		return -EINVAL;
->  	}
->  
-> -	vclkset |= VCLKSET_COLOR_RGB | VCLKSET_LANE(dsi->lanes - 1);
-> +	vclkset |= VCLKSET_LANE(dsi->lanes - 1);
->  
->  	switch (dsi->info->model) {
->  	case RCAR_DSI_V3U:
+>  		ret = read_poll_timeout(rcar_mipi_dsi_read, status,
+> -					status & PHTR_TEST, 2000, 10000, false,
+> -					dsi, PHTR);
+> +					status & PHTR_TESTDOUT_TEST,
+> +					2000, 10000, false, dsi, PHTR);
+>  		if (ret < 0) {
+>  			dev_err(dsi->dev, "failed to test PHTR\n");
+>  			return ret;
 > diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-> index 90e8e3de3e580..468f84cd1325e 100644
+> index b8a719a13c006..90e8e3de3e580 100644
 > --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
 > +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-> @@ -246,14 +246,14 @@
+> @@ -293,7 +293,8 @@
+>  #define PHTW_TESTDIN_CODE(x)		(((x) & 0xff) << 0)
 >  
->  #define VCLKSET				0x100c
->  #define VCLKSET_CKEN			(1 << 16)
-> -#define VCLKSET_COLOR_RGB		(0 << 8)
-> -#define VCLKSET_COLOR_YCC		(1 << 8)
-> +#define VCLKSET_COLOR_YCC		(1 << 8) /* 0:RGB 1:YCbCr */
->  #define VCLKSET_DIV_V3U(x)		(((x) & 0x3) << 4)
->  #define VCLKSET_DIV_V4H(x)		(((x) & 0x7) << 4)
-> -#define VCLKSET_BPP_16			(0 << 2)
-> -#define VCLKSET_BPP_18			(1 << 2)
-> -#define VCLKSET_BPP_18L			(2 << 2)
-> -#define VCLKSET_BPP_24			(3 << 2)
-> +#define VCLKSET_BPP_MASK		(3 << 2)
-> +#define VCLKSET_BPP_16			FIELD_PREP(VCLKSET_BPP_MASK, 0)
-> +#define VCLKSET_BPP_18			FIELD_PREP(VCLKSET_BPP_MASK, 1)
-> +#define VCLKSET_BPP_18L			FIELD_PREP(VCLKSET_BPP_MASK, 2)
-> +#define VCLKSET_BPP_24			FIELD_PREP(VCLKSET_BPP_MASK, 3)
->  #define VCLKSET_LANE(x)			(((x) & 0x3) << 0)
-It probably doesn't matter, but just wanted to mention: here FIELD_PREP
-is used with, e.g., (3 << 2). GENMASK returns an unsigned value, whereas
-(3 << 2) is signed.
+>  #define PHTR				0x1038
+> -#define PHTR_TEST			(1 << 16)
+> +#define PHTW_TESTDOUT			(0xff << 16)
 
- Tomi
+Should this be PHTR_TESTDOUT?
+
+> +#define PHTR_TESTDOUT_TEST		(1 << 16)
+>  
+>  #define PHTC				0x103c
+>  #define PHTC_TESTCLR			(1 << 0)
 
 
