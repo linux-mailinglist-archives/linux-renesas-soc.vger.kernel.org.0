@@ -1,199 +1,263 @@
-Return-Path: <linux-renesas-soc+bounces-23776-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23777-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97BCAC15BEA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Oct 2025 17:20:07 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8037C15CAA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Oct 2025 17:27:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9258F1C268C0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Oct 2025 16:14:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B2B021C61192
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Oct 2025 16:21:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C514346788;
-	Tue, 28 Oct 2025 16:13:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 778EB28C035;
+	Tue, 28 Oct 2025 16:18:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HtMDbF8r";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ytJTULRp";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HtMDbF8r";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ytJTULRp"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="kKTcNNpz"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010004.outbound.protection.outlook.com [52.101.229.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77BBB34575A
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Oct 2025 16:13:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761668028; cv=none; b=FKr6VYVu7wqbJmFrKg7ZV/itpiEfj4xB8ZbqjmRXnnmEIwKS5DDZyyCL4s8akkxARN0XmpcxKTPj81R65yb4zIsUoVLbGNvsuiPJhzvI6R1HCl4SxECDW5CbJbmKU0CBrmXzH+5YmLAkyUrtc0T4VOmEGCVWz2kB4bBcNeqAt/I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761668028; c=relaxed/simple;
-	bh=t3buJ2ysQkdol3q5rs3qBMfbIGRLgldMKJXCive1rt8=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FXcNHDhz97/zT+74MeV8ukEqxx2YsYJBIiKfOujhZDtNGGRdYQraIEWQUSVKgiBBcgrgvOCC9iuI60AS5Co82CGErwz/3WYTj+LH4UXV3lbQvh3UQE2RiRrNqBAaLwQ5kji2EF7v19hiG2Yu4sDpH9FN2uv6n0iMupKbmzdgdeo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HtMDbF8r; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ytJTULRp; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HtMDbF8r; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ytJTULRp; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 71D431F46E;
-	Tue, 28 Oct 2025 16:13:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1761668022; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aIkfaA109e058juxrbARLnbhnw+30Zzst1672lVORwA=;
-	b=HtMDbF8r2wRWDGifnv9gYxSNAhmS0ojzB1YP8QtBcy8ubsAT3ZsONof3Bhi32jnCH/lw5z
-	Hq6v+a16uHNBw7YVLG0EXbD607lh+hXWEV2szjXMyw6CmEW2DhnqmsfmuG+WL6eiBIJi6S
-	EIT708Ji0KWfCPRQ6wSJTudLeMIbq9Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1761668022;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aIkfaA109e058juxrbARLnbhnw+30Zzst1672lVORwA=;
-	b=ytJTULRp9UW/jr9bzPTDO3cAAmBQor2fn8ie0J+jiQytAqY1LFwxRRsg/XxfPqgAg/w4Xj
-	zB2K4ve4Da2VOpCw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1761668022; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aIkfaA109e058juxrbARLnbhnw+30Zzst1672lVORwA=;
-	b=HtMDbF8r2wRWDGifnv9gYxSNAhmS0ojzB1YP8QtBcy8ubsAT3ZsONof3Bhi32jnCH/lw5z
-	Hq6v+a16uHNBw7YVLG0EXbD607lh+hXWEV2szjXMyw6CmEW2DhnqmsfmuG+WL6eiBIJi6S
-	EIT708Ji0KWfCPRQ6wSJTudLeMIbq9Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1761668022;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aIkfaA109e058juxrbARLnbhnw+30Zzst1672lVORwA=;
-	b=ytJTULRp9UW/jr9bzPTDO3cAAmBQor2fn8ie0J+jiQytAqY1LFwxRRsg/XxfPqgAg/w4Xj
-	zB2K4ve4Da2VOpCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 22B2113A7D;
-	Tue, 28 Oct 2025 16:13:41 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id h0gZB7XrAGm0CAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 28 Oct 2025 16:13:41 +0000
-Date: Tue, 28 Oct 2025 17:13:40 +0100
-Message-ID: <87ms5bf1hn.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Michael Turquette <mturquette@baylibre.com>,	Stephen Boyd
- <sboyd@kernel.org>,	Nicolas Ferre <nicolas.ferre@microchip.com>,	Alexandre
- Belloni <alexandre.belloni@bootlin.com>,	Claudiu Beznea
- <claudiu.beznea@tuxon.dev>,	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,	David Miller
- <davem@davemloft.net>,	Linus Walleij <linus.walleij@linaro.org>,	Bartosz
- Golaszewski <brgl@bgdev.pl>,	Joel Stanley <joel@jms.id.au>,	Andrew Jeffery
- <andrew@codeconstruct.com.au>,	Crt Mori <cmo@melexis.com>,	Jonathan Cameron
- <jic23@kernel.org>,	Lars-Peter Clausen <lars@metafoo.de>,	Jacky Huang
- <ychuang3@nuvoton.com>,	Shan-Chun Hung <schung@nuvoton.com>,	Yury Norov
- <yury.norov@gmail.com>,	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Jaroslav Kysela <perex@perex.cz>,	Takashi Iwai <tiwai@suse.com>,	Johannes
- Berg <johannes@sipsolutions.net>,	Jakub Kicinski <kuba@kernel.org>,	Alex
- Elder <elder@ieee.org>,	David Laight <david.laight.linux@gmail.com>,
-	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,	Jason Baron
- <jbaron@akamai.com>,	Borislav Petkov <bp@alien8.de>,	Tony Luck
- <tony.luck@intel.com>,	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Kim Seer Paller <kimseer.paller@analog.com>,	David Lechner
- <dlechner@baylibre.com>,	Nuno =?ISO-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,	Richard Genoud
- <richard.genoud@bootlin.com>,	Cosmin Tanislav <demonsingur@gmail.com>,	Biju
- Das <biju.das.jz@bp.renesas.com>,	Jianping Shen
- <Jianping.Shen@de.bosch.com>,	linux-clk@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,	linux-renesas-soc@vger.kernel.org,
-	linux-crypto@vger.kernel.org,	linux-edac@vger.kernel.org,
-	qat-linux@intel.com,	linux-gpio@vger.kernel.org,
-	linux-aspeed@lists.ozlabs.org,	linux-iio@vger.kernel.org,
-	linux-sound@vger.kernel.org,	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 20/23] ALSA: usb-audio: Convert to common field_{get,prep}() helpers
-In-Reply-To: <91f957d8857d64df9eae33824203cc770b0182b3.1761588465.git.geert+renesas@glider.be>
-References: <cover.1761588465.git.geert+renesas@glider.be>
-	<91f957d8857d64df9eae33824203cc770b0182b3.1761588465.git.geert+renesas@glider.be>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98B4A288C25;
+	Tue, 28 Oct 2025 16:18:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.4
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761668290; cv=fail; b=npr2rHdTBK20Og5XKaNJ5S9bt1wxLvqYYWWpZJNPgtTidhlKJQcJNnaYJBaA4TLEDWShyRxh5wUJeSg7IoJAOXDff8oWGQMNm+hmIGqsYvzTsRxi192jJHn1vzhGi/xLltRWCzzoHRb9yes/+qixd3xphjgtvsReo0uU15sZKqE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761668290; c=relaxed/simple;
+	bh=AHDUERRuP8OUJfYb1L7KZsq8IZs57iKNPUKvPENejnw=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=pHkPKzOiSz6w2g0DUPqxcGNkV3QzZUubSggJxrabnjfOJPMAVDacnzmfeS3C06C/mN0yOAjtwle+jB/3+JEjZZRL8dV7/RA5l89HoTNttQ3C1aygF74GudsZIQnj+xczDR971BDJwdpKiVIu65L54/khofQNjgegrrCIcZxtLi8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=kKTcNNpz; arc=fail smtp.client-ip=52.101.229.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RDu2pOvL++EIFAwmhENaeyOfD9tYQ53bgj5IYQCrGlYXP3shANmM5u7WbKrAe8dHdVGM8iXtFcW1psRNQhIU4MOmo1uKhFHSlX0bRoHfmk/7YwECe3nqauntx70S17DaxikNJaieRwiX5+99maOfN4ZD49Oufn4jJkv7Op/4KO2N1E1YUOD+2bl1Y9bZNLS6ijfk1mrT2oQSrCAivn48FUE+UFQq1LNLsuwdjAeLgCZPvpE53ZCk7W2hOH1GahF0Hw3oP9h7d0Z5iXMmf9+SnDI+m0OE4UNRKVcFvVCzSRxrSTEGuMu75Ok3UI1irIyDC2Ctnct3YzKTl3JEtv8aKg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gelfl7/OFPiISTymFBhugEuM3KrrTV6Rsf2OorJi0Q4=;
+ b=k09mpXznUYTcdJH/cmkDnNvuxCs74Jda91J21qL8ayg3gQwxprH0Esz49flTMcCMNZGVsy2ieBx61XTORq++eAF1ZThxDQiO+hRH0I3bq+wn9ao8w1RlxNQA7u2IH6D/rm8PeWT0xTkQVpyBKgIM6qKimRJhzN612y5BDYZgRAbKCTefIpaIaKPO0QvbLVC3OEOlQQ/W9cdO/nw2xMytsyjOoLOMnGGIcruj8ZUzSb0QvRGOan1ztw9gRKw9YsKnC2zqPamdWZiSfTWuyFZLI+Y4Vp53wb6IitUy8P8u2yYPC/To1Xskw+aR/+tMGyrWz9srr+Bn2z44QE9v6SnDHA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gelfl7/OFPiISTymFBhugEuM3KrrTV6Rsf2OorJi0Q4=;
+ b=kKTcNNpzwPYnJJgStD3jn/Slf2N9D/6cTJw9/c3bjkyIWCXODY4TgL0d9+kjRUdflv6UCa+9VCllGEwYjksdEXGqUFT/UZVmG7RqVff+e07L7zsDA8HOzFXLOLhc24v4HrEEH+LdjoP2ptsUCQtSY6ewDiALlahZT4AYb0cYYIY=
+Received: from TYCPR01MB8327.jpnprd01.prod.outlook.com (2603:1096:400:15c::5)
+ by TYRPR01MB12664.jpnprd01.prod.outlook.com (2603:1096:405:1b1::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.13; Tue, 28 Oct
+ 2025 16:17:59 +0000
+Received: from TYCPR01MB8327.jpnprd01.prod.outlook.com
+ ([fe80::483a:c2dc:6c8a:420a]) by TYCPR01MB8327.jpnprd01.prod.outlook.com
+ ([fe80::483a:c2dc:6c8a:420a%5]) with mapi id 15.20.9275.013; Tue, 28 Oct 2025
+ 16:17:51 +0000
+From: Chris Brandt <Chris.Brandt@renesas.com>
+To: Hugo Villeneuve <hugo@hugovil.com>
+CC: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette
+	<mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Biju Das
+	<biju.das.jz@bp.renesas.com>, Maarten Lankhorst
+	<maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>, Hien Huynh <hien.huynh.px@renesas.com>,
+	Nghia Vo <nghia.vo.zn@renesas.com>, "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>, "linux-clk@vger.kernel.org"
+	<linux-clk@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+	<dri-devel@lists.freedesktop.org>
+Subject: RE: [PATCH v3 1/2] clk: renesas: rzg2l: Remove DSI clock rate
+ restrictions
+Thread-Topic: [PATCH v3 1/2] clk: renesas: rzg2l: Remove DSI clock rate
+ restrictions
+Thread-Index: AQHcQ6/1iluAkL2rhkmyfDQl5Q3u3rTQDy2AgAej4YA=
+Date: Tue, 28 Oct 2025 16:17:51 +0000
+Message-ID:
+ <TYCPR01MB83278181C69129D2283C7AC38AFDA@TYCPR01MB8327.jpnprd01.prod.outlook.com>
+References: <20251022235903.1091453-1-chris.brandt@renesas.com>
+	<20251022235903.1091453-2-chris.brandt@renesas.com>
+ <20251023143141.a1a274104e3704dd8680f901@hugovil.com>
+In-Reply-To: <20251023143141.a1a274104e3704dd8680f901@hugovil.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYCPR01MB8327:EE_|TYRPR01MB12664:EE_
+x-ms-office365-filtering-correlation-id: b8de1f36-517b-4eed-2b76-08de163d8b20
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|7416014|366016|376014|38070700021;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?9g5OCUw/FQdzZGsUDmUuyUs8Ru0izqxLIC4tl0aeoq6P4gMqJ/d5Ow4bcxDg?=
+ =?us-ascii?Q?Xks8zVdUDgfR+E/QYUNXA6r/QuqMTBy+z6dEMtai1QnmaJWrexxM39ONjvry?=
+ =?us-ascii?Q?jnlBSu9YezvlFlLuDYMrAMv9ld6a6yV5fTU6pw/YpeGuY5gpew4ivAhFUlDO?=
+ =?us-ascii?Q?2fBCcVNNvPItCgU+FDCb/lsqNcqt1Ddh0BP1MHDMc67nOopXoCEAC0yT3Bg8?=
+ =?us-ascii?Q?7O5q46Wv8JHeRr+HVG1CEiym8Y5NdF7TFP9HP1arovTKVAN48ek3SyvWHNvt?=
+ =?us-ascii?Q?CDGhdrpEe02vu3+hq+OItRl4g+K6fCtVv6LUxksGBbmT8WmwS/BkY1Vb/65/?=
+ =?us-ascii?Q?TnQWKIdJoCrCLXkbdeKctgWWcgNQu5COUk/lQXbMVVnw7WCQEwAAAP7m7+od?=
+ =?us-ascii?Q?yhLYldntb8HvGBTJVXmkozyoGlMUQF2D7rrUOEe1u33uz48ejRwmRYMH2zni?=
+ =?us-ascii?Q?zswx0teR9JQJttEz/WKdIQeVfgdDlpnb8Xmb2vcFlflNYgxejdejRnHdQehI?=
+ =?us-ascii?Q?imAmjvDIBycarJwkdTuXLVizg5lYKOnzieZguxlwLmY0CCnKo4xWFHLG4qvo?=
+ =?us-ascii?Q?X03hSIA5gvy9buVii+ksGshwbvSTQTb0D6W0iEShjah7SHApr/nWVnHUQcNt?=
+ =?us-ascii?Q?kheEzl/jCZhm6NKxas4jv3/MaHX9IyGW4ZGscEtEUB3X9l/B8DJbNGvbqV8r?=
+ =?us-ascii?Q?LzaKrLHu+DqPe7JZhyDxrtpdwY0830TQnCSNVKEd+WQL8Asp3+DCYu6wocMe?=
+ =?us-ascii?Q?T7cHPSElWzfTNaHPtiOTFB/hCBdfsZysVgUfZqlIMm3kP/zoksfaO6MYmvmQ?=
+ =?us-ascii?Q?/QIhGeVuzH0/WbD0oTU6AKBONBvdmSHMGb3uiufcN87k0CPspy4XJY5Y0ON0?=
+ =?us-ascii?Q?Aq0CP2MWi3Z0dDHTTbJlcq2VKFAUidNyUBTy9mwGaqStniLbelz8HMEiUJwq?=
+ =?us-ascii?Q?wCt6e5SOopbxV/i5gCV5ZahSDlaScUeBelyIlRMtXnOdO+uydCQ2NAh/ylV0?=
+ =?us-ascii?Q?Rc3JIuxvbV8/mvNB1kRrjD06BjMTuNr7d1Yjuguod5kYneJ84xzlk5z6N6vd?=
+ =?us-ascii?Q?Y73c4BdXvXGTLtDieMjOmJ9jQIvrjhfZGa0wcLjoTkUOuCj9lFiDhn/odMdw?=
+ =?us-ascii?Q?NVsKFsLoas4rFaBCY1s9WoLHS/YVZqyquiKvoMdnfPMbdZa6gu+5BA7XdnWd?=
+ =?us-ascii?Q?2OrKxpanzOqiNMnSILWzuJjJU3ndjCGHg8gYmieS4xwWfqwsnDp8EjNzL9Mv?=
+ =?us-ascii?Q?xLuJRl7LKgc4Gv/QJpQqo4QVTEEM9flzDCvJgI2n0x2DKJ44m/C6qpH6bbUH?=
+ =?us-ascii?Q?KSzK8sli+YY12umLUuECuHo1HvkljG7C+vXpApkfhPEaG7Mk1u/KdqKDSnk3?=
+ =?us-ascii?Q?O9kQ4RQw8wz8twwLUSx3x7vCYMgkSFDmJkgk1xpjPsB4EQeq7Fh3uB00B5Z0?=
+ =?us-ascii?Q?BP/OKKKzrCritE47eDMzs0qZu8N61NX3U6GdhLvHUuCgMjg0dzVeORV+FHJt?=
+ =?us-ascii?Q?M5VuYJWri9nOcwGft5CugZyWnUgZ0wXBBM6t?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB8327.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(366016)(376014)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?D91UkD1hp338JQbJ1mXGe2QlzF9OUXnjHiww5W+CmI6M2V7Gb5uyBdlk+up1?=
+ =?us-ascii?Q?12V55h9lvTHGQbB82CW/vUZww49rUqg5PBxBftBp9X5YNRGZGs73W/33vTLo?=
+ =?us-ascii?Q?RvKxgY2yS9C/cVUQhWrrv7PqJG/GO6YzK2zO33LDy6Sb97QyffaAoTRgUbtV?=
+ =?us-ascii?Q?gF0B9kWwd88fzuDis9RcOywspyoiCJsRz/wcffWwPaV7ErW0Z2IMiY7mAPof?=
+ =?us-ascii?Q?I+e+NmTB4GPS4lp3M+w5eoo7Xyk59K12vXtugGzAjK55ajq6Wnsh/tBiUIWG?=
+ =?us-ascii?Q?0yybgPkcDfEfQYgBwRips2RmJYlGNVh7lQul5Nl2L2vAW1mReOki4GbUlBWM?=
+ =?us-ascii?Q?gqAsMOWYwgBa5DkDS+Fz78eYTG6kCKYTfXsucdiqWd2xZiIA+k5JhvKCXd8D?=
+ =?us-ascii?Q?EZqIY3yvHTddiQIp8a7uaFt0MnvTQFZ0ZoIuCxTiHcC0Bw0ZwRNvwFXfIlEz?=
+ =?us-ascii?Q?BQQxOgZCSTPXffcV8yoR5aSb09Sv/xxzpSGvfW1BRin4IoissCSM43lfwNRN?=
+ =?us-ascii?Q?57D3byl/AHAs87N/S3uto5loZISqSZXneEzKub2SSQI0AHDxOW8AE4l6zrb/?=
+ =?us-ascii?Q?zDXYZoBZW4EJEgUMcDi4+kIZq10b9n8mbTf6tk2DRkQvEr4EpgTxDb4iXiVC?=
+ =?us-ascii?Q?pHCTFo1te4QjjiLftSGESC3ooJG1h4QsGQvu5zg6BIwhf+IS4L3RVzk+WGTf?=
+ =?us-ascii?Q?dBw2+KEmyZpb3O3I8JZg6z22QYEVhAAZH3OtQAy7Hc5qLGzb3iAvecbSe1aa?=
+ =?us-ascii?Q?dimScqs7gjnlSRzT9YSnt2nlLukCiwRqbZOWaFqYmnIqC3zRgY7+E8lXUDtt?=
+ =?us-ascii?Q?D/NQkrTiaQ3IAkxaN5nv9llTY9C21/UOC1qZNJryTEY7zce6uKOgDbU47/XR?=
+ =?us-ascii?Q?hu04FxXJXuz1bU7KGG/CuhOmXJ0nnfS3QGh6zote4L3ihSLYA7RnpuY30wDO?=
+ =?us-ascii?Q?xyVUg7egQ9t0stXChTHxCTJsLQJh7kifNMhDtBA5rre6TZGQsx3FAtnJrcs3?=
+ =?us-ascii?Q?4HUqB0wkR3B54epwMUtwp+s0k6oQFK+2/aiQFEhPJRdsU6WohdAk1p67L9GX?=
+ =?us-ascii?Q?0VS2g6mKVN9gVMdUtfeWBIXpyb3raZXSCxHD1njrqbiaEqYOYQztCl7qsuhZ?=
+ =?us-ascii?Q?jsTkD5TkEtBCB45r/SRFT9RF6HrE9G98Yobr95a/jqNUNHhTwl6rkD3a3B0F?=
+ =?us-ascii?Q?daGvigyxxsPpZOrhbRfXcmOo8IRkfQUNBG0Js7ZS11MFbxkIQkKjTcDj3fNu?=
+ =?us-ascii?Q?yvHw24V6up7rxWxA8Qgo5vDQ+rOFdUm8fXtIRNy4pZCkVekWSVMyKR0MBzye?=
+ =?us-ascii?Q?C8t9W2xfPfz7OaZg77P3QUYxU7+knH1Xk09fcl7pPFOybYSqZsxXW4xWLzdl?=
+ =?us-ascii?Q?lYo1Zntxfj5RpUbAkWo42KCJ23d+EUauiNzXBwQyd4amITJvNstHtS/4yY1H?=
+ =?us-ascii?Q?KhDLemBVnHvmdxm3+fhm8FEoqj0XXIP3ALn+M5/vVFDLvcl3rARdaRo6lN2C?=
+ =?us-ascii?Q?XSVNCUlZWh4paU10cuK73/r4xKKogt1tm+jPutTpJAcV3wymL81b2tlbfEoR?=
+ =?us-ascii?Q?b/6BLJ5h3IXjaYDcPWJIt/QohpZ4o58dftUl/Jil?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TAGGED_RCPT(0.00)[renesas];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,wanadoo.fr];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[baylibre.com,kernel.org,microchip.com,bootlin.com,tuxon.dev,intel.com,gondor.apana.org.au,davemloft.net,linaro.org,bgdev.pl,jms.id.au,codeconstruct.com.au,melexis.com,metafoo.de,nuvoton.com,gmail.com,rasmusvillemoes.dk,perex.cz,suse.com,sipsolutions.net,ieee.org,wanadoo.fr,akamai.com,alien8.de,analog.com,bp.renesas.com,de.bosch.com,vger.kernel.org,lists.infradead.org,lists.ozlabs.org];
-	R_RATELIMIT(0.00)[to_ip_from(RLr5uiezb5xkkwytzfr8x566qh)];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[50];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email]
-X-Spam-Flag: NO
-X-Spam-Score: -1.80
-X-Spam-Level: 
+MIME-Version: 1.0
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB8327.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b8de1f36-517b-4eed-2b76-08de163d8b20
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Oct 2025 16:17:51.5639
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Fz2JQk47tx0uik9lN0w8BJ3JI14p6qnE23LLZ2wS0y3gE/GyvJrFswzYk9jaJdThUWEkNcjcrrATOhoLldZAOZzjBKRN3EprbrfB/K05xIM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYRPR01MB12664
 
-On Mon, 27 Oct 2025 19:41:54 +0100,
-Geert Uytterhoeven wrote:
-> 
-> Drop the driver-specific field_get() and field_prep() macros, in favor
-> of the globally available variants from <linux/bitfield.h>.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> v5:
->   - Extracted from "bitfield: Add non-constant field_{prep,get}()
->     helpers".
-> ---
->  sound/usb/mixer_quirks.c | 6 ------
->  1 file changed, 6 deletions(-)
-> 
-> diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
-> index 713a8498b975e1ac..6eee89cbc0867f2b 100644
-> --- a/sound/usb/mixer_quirks.c
-> +++ b/sound/usb/mixer_quirks.c
-> @@ -3311,12 +3311,6 @@ static int snd_bbfpro_controls_create(struct usb_mixer_interface *mixer)
->  #define RME_DIGIFACE_REGISTER(reg, mask) (((reg) << 16) | (mask))
->  #define RME_DIGIFACE_INVERT BIT(31)
->  
-> -/* Nonconst helpers */
-> -#undef field_get
-> -#define field_get(_mask, _reg) (((_reg) & (_mask)) >> (ffs(_mask) - 1))
-> -#undef field_prep
-> -#define field_prep(_mask, _val) (((_val) << (ffs(_mask) - 1)) & (_mask))
-> -
->  static int snd_rme_digiface_write_reg(struct snd_kcontrol *kcontrol, int item, u16 mask, u16 val)
->  {
->  	struct usb_mixer_elem_list *list = snd_kcontrol_chip(kcontrol);
+Hi Hugo,
 
-Acked-by: Takashi Iwai <tiwai@suse.de>
+Thank you again for the review.
+:)
 
 
-thanks,
+On Thu, Oct 23, 2025 2:32 PM, Hugo Villeneuve wrote:
+> > +			if ((b + 1) << a =3D=3D dsi_div_ab) {
+> > +				priv->mux_dsi_div_params.dsi_div_a =3D a;
+> > +				priv->mux_dsi_div_params.dsi_div_b =3D b;
+> > +
+> > +				goto calc_pll_clk;
+> > +			}
+> > +		}
+> > +	}
+>
+> If we arrive at this point, it seems that these values:
+>     priv->mux_dsi_div_params.dsi_div_a
+>     priv->mux_dsi_div_params.dsi_div_b
+>
+> were not initialised by the previous loop. Is this expected? If yes, mayb=
+e a comment would help?
 
-Takashi
+Actually, I think I want to print out a warning.
 
+dev_warn(priv->dev, "Failed to calculate DIV_DSI A,B\n");
+
+I could not find a monitor that would cause this, but it's possible.
+So to be kind to the users, I will print out a message so if something does=
+ not work, at least
+they will have an idea what is wrong.
+
+
+> > +calc_pll_clk:
+> > +	/*
+> > +	 * Below conditions must be set for PLL5 parameters:
+> > +	 * - REFDIV must be between 1 and 2.
+>
+> I am assuming this means PLL5_POSTDIV_MIN and PLL5_POSTDIV_MAX? If these =
+macros change, then that mean you would also need to change your comment, n=
+ot very practical and error-prone. I would suggest to remove this comment a=
+ltogether.
+
+"REFDIV" is the term used in the hardware manual to reference the signal.
+
+> > +	 * - POSTDIV1/2 must be between 1 and 7.
+> > +	 * - INTIN must be between 20 and 320.
+> > +	 * - FOUTVCO must be between 800MHz and 3000MHz.
+>
+> Same here.
+
+While I doubt the hardware design will change, your point is valid that I'm=
+ not giving the reader
+any more info than they could get from the code.
+
+Kind of like the classic source code comment:
+
+    value =3D 5;   /* Set value to 5 */
+
+I'll remove it.
+
+> +	/* Set defaults since valid clock was not found */
+> +	params->pl5_intin =3D PLL5_INTIN_DEF;
+> +	params->pl5_fracin =3D PLL5_FRACIN_DEF;
+> +	params->pl5_refdiv =3D PLL5_REFDIV_DEF;
+> +	params->pl5_postdiv1 =3D PLL5_POSTDIV_DEF;
+> +	params->pl5_postdiv2 =3D PLL5_POSTDIV_DEF;
+
+I'm going to print out a warning here too.
+
+dev_warn(priv->dev, "Failed to calculate exact PLL5 settings\n");
+
+
+> > -	foutpostdiv_rate =3D DIV_ROUND_CLOSEST_ULL(foutvco_rate,
+> > -						 params->pl5_postdiv1 * params->pl5_postdiv2);
+> > +
+> > +	/* If foutvco is above 1.5GHz, change parent and recalculate */
+>
+> Similar suggestion for hardcoded values in comments, maybe replace "above=
+ 1.5GHz" with "too high"...
+
+This one I'm OK with because that's the design specification of the hardwar=
+e IP that's used in all the devices.
+If for some reason they re-design the hardware in future devices, something=
+ going to have to change and
+the driver will need to be updated. So we'll deal with it at that point.
+
+Cheers
+
+Chris
 
