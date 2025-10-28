@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-23785-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23786-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id D99C8C160B4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Oct 2025 18:05:53 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C27EAC16198
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Oct 2025 18:18:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 198BE4E82AF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Oct 2025 17:05:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 191B41C23D8B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Oct 2025 17:16:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 147A9347FF6;
-	Tue, 28 Oct 2025 17:05:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 012022882D0;
+	Tue, 28 Oct 2025 17:15:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="B+nth2tu"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SSZJVuch"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7447347FF7
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Oct 2025 17:05:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBCC57262E
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Oct 2025 17:15:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761671127; cv=none; b=MdnsWr3mEvnRyFOlXtQsx+4zTduSKS011xXTJThKfYqesdiyQSajOc/IjzT409gv2u8Vyi2nnyT7xxN34hofaPQmdD3Mu6M4X8rNRom28MM0M1zQ/87IUFOsmJ4orBhKututvYBYYf5+PUNPH2dVn96Z5P3z31lPw9aXqYP8Mck=
+	t=1761671758; cv=none; b=utH6hVufn3PopHAzypn5prpCHLX8kknxyj09SYKxp0oIO9tikAaVd2yKgZCjFu9GMZUHwjFxkpR+cPpoKzydtYHnhdjCEqBIN3whimwPyLRGYEHXfWDWf64bQjQiEtzQoAhgEkqRyo+A2hEUY0UHf2SWu533rDg1CaZRW6htD1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761671127; c=relaxed/simple;
-	bh=kkppzk8321aC2pZGF/Q7CmPed5ZyAWvNr5FDmpSMHEI=;
+	s=arc-20240116; t=1761671758; c=relaxed/simple;
+	bh=oV13qCNMhdQsYIt1US1XMzQqld9yzEtOiywD8jDHGh0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IO3I7YOAm27k3I/YtofElEX80n/d4+XfLOeCOM3TtHcCr3fxDx5iEzdv+XU7kC9hDtJpHlWFgYdOihhzmK4BX7fyiz5CG+6O7eUOoOgRStnAePQLs5zXq5OL8AnjPvq2T5/6Sw4dc603L5aCFNz4btschFFPVRvgD7TjaDQ48lo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=B+nth2tu; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=fj4il/JuHWk7BT4/fZUazjIA3owZwh9yRxEiFVnuUX1D7l0o4ejI7u0Ps8ZhOxVNvvwULyOL3R3aCLIznfJyqRwh5BcoyKMSTSTiaShNPxXc7xA13FUbKNCn5oUuyydovLVX94JvUg9T6hZOaenlvzFFDb9EwDeDDJ7LFA4oy1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SSZJVuch; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1D40AAD0;
-	Tue, 28 Oct 2025 18:03:33 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CD07416A7;
+	Tue, 28 Oct 2025 18:14:03 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1761671013;
-	bh=kkppzk8321aC2pZGF/Q7CmPed5ZyAWvNr5FDmpSMHEI=;
+	s=mail; t=1761671644;
+	bh=oV13qCNMhdQsYIt1US1XMzQqld9yzEtOiywD8jDHGh0=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=B+nth2tuqFE5vfUWAUDp9/+d525AFMDA5iWAUbKcxzBD4IcNHx7W5m6WNBTAN9tNq
-	 QA6BsU5wkMiblUqENaTbpoXf6eUI3SIIa5840khSAM0DkcGeTucr1lOrvzhBc6AXa8
-	 LMEG1ez8w/1p+ckrcId1Op7UERRlWolxoRneGhGU=
-Message-ID: <03d5bdcb-eb48-4544-9fe6-68cdcbfecbf5@ideasonboard.com>
-Date: Tue, 28 Oct 2025 19:05:18 +0200
+	b=SSZJVuchdt6vwnuSuMLFyzO5Qy/zP0DL9YvgEMvLGxVJrenciauZGnIAAjRxHVN6I
+	 jwgW4AlHOg/FTUi60q9X6JUBw5aKByBgw9JHmPn5ArNHm7wFCwj6TADWMNxQDtaMs3
+	 CMx5qrKVbAFZdVQK5l6XoZeOaDwSf2IouhSjTbig=
+Message-ID: <2666bd0f-b2a3-49b4-9458-1b362d9d1b4e@ideasonboard.com>
+Date: Tue, 28 Oct 2025 19:15:49 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,8 +50,8 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 11/11] drm/rcar-du: dsi: Convert register bitfields to
- GENMASK() macro
+Subject: Re: [PATCH v3 05/11] drm/rcar-du: dsi: Clean up VCLKSET register
+ macros
 To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
  dri-devel@lists.freedesktop.org
 Cc: David Airlie <airlied@gmail.com>,
@@ -63,18 +63,23 @@ Cc: David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
  linux-renesas-soc@vger.kernel.org
 References: <20251005030355.202242-1-marek.vasut+renesas@mailbox.org>
- <20251005030355.202242-12-marek.vasut+renesas@mailbox.org>
+ <20251005030355.202242-6-marek.vasut+renesas@mailbox.org>
 From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 Content-Language: en-US
-In-Reply-To: <20251005030355.202242-12-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20251005030355.202242-6-marek.vasut+renesas@mailbox.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
 On 05/10/2025 06:02, Marek Vasut wrote:
-> Convert register bitfields to GENMASK() macro where applicable.
-> Use FIELD_PREP() throughout the driver.
+> Introduce VCLKSET_BPP_MASK macro and use FIELD_PREP() to generate
+> appropriate bitfield from mask and value without bitshift. Remove
+> VCLKSET_COLOR_RGB which is never used, replace it with code comment.
+> 
+> Do not convert bits and bitfields to BIT() and GENMASK() yet, to be
+> consisten with the current style. Conversion to BIT() and GENMASK()
+> macros is done at the very end of this series in the last two patches.
 > 
 > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 > ---
@@ -91,254 +96,74 @@ On 05/10/2025 06:02, Marek Vasut wrote:
 > Cc: dri-devel@lists.freedesktop.org
 > Cc: linux-renesas-soc@vger.kernel.org
 > ---
-> V2: No change
-> V3: Use GENMASK_U32() and inline FIELD_PREP()
+> NOTE: No functional change expected, this is a preparatory patch which
+> partly removes macros which evaluate to zeroes from rcar_mipi_dsi_regs.h .
+> The other patches in this series proceed with that job, piece by piece,
+> to make it all reviewable.
 > ---
->  .../drm/renesas/rcar-du/rcar_mipi_dsi_regs.h  | 118 +++++++++++-------
->  1 file changed, 70 insertions(+), 48 deletions(-)
+> V2: Move FIELD_PREP() back into rcar_mipi_dsi_regs.h
+> V3: Include linux/bitfield.h which contains the FIELD_PREP() macro
+> ---
+>  drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c      |  4 +++-
+>  drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h | 12 ++++++------
+>  2 files changed, 9 insertions(+), 7 deletions(-)
 > 
+> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
+> index e13249e0134b4..f6427476feb72 100644
+> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
+> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
+> @@ -5,6 +5,7 @@
+>   * Copyright (C) 2020 Renesas Electronics Corporation
+>   */
+>  
+> +#include <linux/bitfield.h>
+>  #include <linux/clk.h>
+>  #include <linux/delay.h>
+>  #include <linux/io.h>
+> @@ -624,6 +625,7 @@ static int rcar_mipi_dsi_startup(struct rcar_mipi_dsi *dsi,
+>  	vclkset = VCLKSET_CKEN;
+>  	rcar_mipi_dsi_write(dsi, VCLKSET, vclkset);
+>  
+> +	/* Output is always RGB, never YCbCr */
+>  	if (dsi_format == 24)
+>  		vclkset |= VCLKSET_BPP_24;
+>  	else if (dsi_format == 18)
+> @@ -635,7 +637,7 @@ static int rcar_mipi_dsi_startup(struct rcar_mipi_dsi *dsi,
+>  		return -EINVAL;
+>  	}
+>  
+> -	vclkset |= VCLKSET_COLOR_RGB | VCLKSET_LANE(dsi->lanes - 1);
+> +	vclkset |= VCLKSET_LANE(dsi->lanes - 1);
+>  
+>  	switch (dsi->info->model) {
+>  	case RCAR_DSI_V3U:
 > diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-> index 431a107ba54d8..79684184b3b0b 100644
+> index 90e8e3de3e580..468f84cd1325e 100644
 > --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
 > +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-> @@ -13,7 +13,7 @@
->  #define LINKSR_HSBUSY			BIT_U32(0)
->  
->  #define TXSETR				0x100
-> -#define TXSETR_LANECNT_MASK		GENMASK(1, 0)
-> +#define TXSETR_LANECNT_MASK		GENMASK_U32(1, 0)
->  
->  /*
->   * DSI Command Transfer Registers
-> @@ -40,18 +40,22 @@
->  #define TXCMADDRSET0R			0x140
->  #define TXCMPHDR			0x150
->  #define TXCMPHDR_FMT			BIT_U32(24)	/* 0:SP 1:LP */
-> -#define TXCMPHDR_VC(n)			(((n) & 0x3) << 22)
-> -#define TXCMPHDR_DT(n)			(((n) & 0x3f) << 16)
-> -#define TXCMPHDR_DATA1(n)		(((n) & 0xff) << 8)
-> -#define TXCMPHDR_DATA0(n)		(((n) & 0xff) << 0)
-> +#define TXCMPHDR_VC_MASK		GENMASK_U32(23, 22)
-> +#define TXCMPHDR_VC(n)			FIELD_PREP(TXCMPHDR_VC_MASK, (n))
-> +#define TXCMPHDR_DT_MASK		GENMASK_U32(21, 16)
-> +#define TXCMPHDR_DT(n)			FIELD_PREP(TXCMPHDR_DT_MASK, (n))
-> +#define TXCMPHDR_DATA1_MASK		GENMASK_U32(15, 8)
-> +#define TXCMPHDR_DATA1(n)		FIELD_PREP(TXCMPHDR_DATA1_MASK, (n))
-> +#define TXCMPHDR_DATA0_MASK		GENMASK_U32(7, 0)
-> +#define TXCMPHDR_DATA0(n)		FIELD_PREP(TXCMPHDR_DATA0_MASK, (n))
->  #define TXCMPPD0R			0x160
->  #define TXCMPPD1R			0x164
->  #define TXCMPPD2R			0x168
->  #define TXCMPPD3R			0x16c
->  
->  #define RXSETR				0x200
-> -#define RXSETR_CRCEN(n)			(((n) & 0xf) << 24)
-> -#define RXSETR_ECCEN(n)			(((n) & 0xf) << 16)
-> +#define RXSETR_CRCEN_MASK		GENMASK_U32(27, 24)
-> +#define RXSETR_ECCEN_MASK		GENMASK_U32(19, 16)
->  #define RXPSETR				0x210
->  #define RXPSETR_LPPDACC			BIT_U32(0)
->  #define RXPSR				0x220
-> @@ -107,21 +111,21 @@
->  #define RXPIER_BTAREQEND		BIT_U32(0)
->  #define RXPADDRSET0R			0x230
->  #define RXPSIZESETR			0x238
-> -#define RXPSIZESETR_SIZE(n)		(((n) & 0xf) << 3)
-> +#define RXPSIZESETR_SIZE_MASK		GENMASK_U32(6, 3)
->  #define RXPHDR				0x240
->  #define RXPHDR_FMT			BIT_U32(24)	/* 0:SP 1:LP */
-> -#define RXPHDR_VC(n)			(((n) & 0x3) << 22)
-> -#define RXPHDR_DT(n)			(((n) & 0x3f) << 16)
-> -#define RXPHDR_DATA1(n)			(((n) & 0xff) << 8)
-> -#define RXPHDR_DATA0(n)			(((n) & 0xff) << 0)
-> +#define RXPHDR_VC_MASK			GENMASK_U32(23, 22)
-> +#define RXPHDR_DT_MASK			GENMASK_U32(21, 16)
-> +#define RXPHDR_DATA1_MASK		GENMASK_U32(15, 8)
-> +#define RXPHDR_DATA0_MASK		GENMASK_U32(7, 0)
->  #define RXPPD0R				0x250
->  #define RXPPD1R				0x254
->  #define RXPPD2R				0x258
->  #define RXPPD3R				0x25c
->  #define AKEPR				0x300
-> -#define AKEPR_VC(n)			(((n) & 0x3) << 22)
-> -#define AKEPR_DT(n)			(((n) & 0x3f) << 16)
-> -#define AKEPR_ERRRPT(n)			(((n) & 0xffff) << 0)
-> +#define AKEPR_VC_MASK			GENMASK_U32(23, 22)
-> +#define AKEPR_DT_MASK			GENMASK_U32(21, 16)
-> +#define AKEPR_ERRRPT_MASK		GENMASK_U32(15, 0)
->  #define RXRESPTOSETR			0x400
->  #define TACR				0x500
->  #define TASR				0x510
-> @@ -142,7 +146,7 @@
->  #define TXVMSETR			0x180
->  #define TXVMSETR_SYNSEQ_EVENTS		BIT_U32(16) /* 0:Pulses 1:Events */
->  #define TXVMSETR_VSTPM			BIT_U32(15)
-> -#define TXVMSETR_PIXWDTH_MASK		GENMASK(10, 8)
-> +#define TXVMSETR_PIXWDTH_MASK		GENMASK_U32(10, 8)
->  #define TXVMSETR_PIXWDTH		BIT_U32(8) /* Only allowed value */
->  #define TXVMSETR_VSEN			BIT_U32(4)
->  #define TXVMSETR_HFPBPEN		BIT_U32(2)
-> @@ -174,32 +178,40 @@
->  #define TXVMVPRMSET0R_HSPOL_LOW		BIT_U32(17) /* 0:High 1:Low */
->  #define TXVMVPRMSET0R_VSPOL_LOW		BIT_U32(16) /* 0:High 1:Low */
->  #define TXVMVPRMSET0R_CSPC_YCbCr	BIT_U32(4) /* 0:RGB 1:YCbCr */
-> -#define TXVMVPRMSET0R_BPP_MASK		GENMASK(2, 0)
-> +#define TXVMVPRMSET0R_BPP_MASK		GENMASK_U32(2, 0)
->  #define TXVMVPRMSET0R_BPP_16		FIELD_PREP(TXVMVPRMSET0R_BPP_MASK, 0)
->  #define TXVMVPRMSET0R_BPP_18		FIELD_PREP(TXVMVPRMSET0R_BPP_MASK, 1)
->  #define TXVMVPRMSET0R_BPP_24		FIELD_PREP(TXVMVPRMSET0R_BPP_MASK, 2)
->  
->  #define TXVMVPRMSET1R			0x1d4
-> -#define TXVMVPRMSET1R_VACTIVE(x)	(((x) & 0x7fff) << 16)
-> -#define TXVMVPRMSET1R_VSA(x)		(((x) & 0xfff) << 0)
-> +#define TXVMVPRMSET1R_VACTIVE_MASK	GENMASK_U32(30, 16)
-> +#define TXVMVPRMSET1R_VACTIVE(n)	FIELD_PREP(TXVMVPRMSET1R_VACTIVE_MASK, (n))
-> +#define TXVMVPRMSET1R_VSA_MASK		GENMASK_U32(11, 0)
-> +#define TXVMVPRMSET1R_VSA(n)		FIELD_PREP(TXVMVPRMSET1R_VSA_MASK, (n))
->  
->  #define TXVMVPRMSET2R			0x1d8
-> -#define TXVMVPRMSET2R_VFP(x)		(((x) & 0x1fff) << 16)
-> -#define TXVMVPRMSET2R_VBP(x)		(((x) & 0x1fff) << 0)
-> +#define TXVMVPRMSET2R_VFP_MASK		GENMASK_U32(28, 16)
-> +#define TXVMVPRMSET2R_VFP(n)		FIELD_PREP(TXVMVPRMSET2R_VFP_MASK, (n))
-> +#define TXVMVPRMSET2R_VBP_MASK		GENMASK_U32(12, 0)
-> +#define TXVMVPRMSET2R_VBP(n)		FIELD_PREP(TXVMVPRMSET2R_VBP_MASK, (n))
->  
->  #define TXVMVPRMSET3R			0x1dc
-> -#define TXVMVPRMSET3R_HACTIVE(x)	(((x) & 0x7fff) << 16)
-> -#define TXVMVPRMSET3R_HSA(x)		(((x) & 0xfff) << 0)
-> +#define TXVMVPRMSET3R_HACTIVE_MASK	GENMASK_U32(30, 16)
-> +#define TXVMVPRMSET3R_HACTIVE(n)	FIELD_PREP(TXVMVPRMSET3R_HACTIVE_MASK, (n))
-> +#define TXVMVPRMSET3R_HSA_MASK		GENMASK_U32(11, 0)
-> +#define TXVMVPRMSET3R_HSA(n)		FIELD_PREP(TXVMVPRMSET3R_HSA_MASK, (n))
->  
->  #define TXVMVPRMSET4R			0x1e0
-> -#define TXVMVPRMSET4R_HFP(x)		(((x) & 0x1fff) << 16)
-> -#define TXVMVPRMSET4R_HBP(x)		(((x) & 0x1fff) << 0)
-> +#define TXVMVPRMSET4R_HFP_MASK		GENMASK_U32(28, 16)
-> +#define TXVMVPRMSET4R_HFP(n)		FIELD_PREP(TXVMVPRMSET4R_HFP_MASK, (n))
-> +#define TXVMVPRMSET4R_HBP_MASK		GENMASK_U32(12, 0)
-> +#define TXVMVPRMSET4R_HBP(n)		FIELD_PREP(TXVMVPRMSET4R_HBP_MASK, (n))
->  
->  /*
->   * PHY-Protocol Interface (PPI) Registers
->   */
->  #define PPISETR				0x700
-> -#define PPISETR_DLEN_MASK		GENMASK(3, 0)
-> +#define PPISETR_DLEN_MASK		GENMASK_U32(3, 0)
->  #define PPISETR_CLEN			BIT_U32(8)
->  
->  #define PPICLCR				0x710
-> @@ -221,49 +233,52 @@
->  #define PPIDL0SR_STPST			BIT_U32(6)
->  
->  #define PPIDLSR				0x760
-> -#define PPIDLSR_STPST			GENMASK(3, 0)
-> +#define PPIDLSR_STPST			GENMASK_U32(3, 0)
->  
->  /*
->   * Clocks registers
->   */
->  #define LPCLKSET			0x1000
->  #define LPCLKSET_CKEN			BIT_U32(8)
-> -#define LPCLKSET_LPCLKDIV(x)		(((x) & 0x3f) << 0)
-> +#define LPCLKSET_LPCLKDIV_MASK		GENMASK_U32(5, 0)
->  
->  #define CFGCLKSET			0x1004
->  #define CFGCLKSET_CKEN			BIT_U32(8)
-> -#define CFGCLKSET_CFGCLKDIV(x)		(((x) & 0x3f) << 0)
-> +#define CFGCLKSET_CFGCLKDIV_MASK	GENMASK_U32(5, 0)
->  
->  #define DOTCLKDIV			0x1008
->  #define DOTCLKDIV_CKEN			BIT_U32(8)
-> -#define DOTCLKDIV_DOTCLKDIV(x)		(((x) & 0x3f) << 0)
-> +#define DOTCLKDIV_DOTCLKDIV_MASK	GENMASK_U32(5, 0)
+> @@ -246,14 +246,14 @@
 >  
 >  #define VCLKSET				0x100c
->  #define VCLKSET_CKEN			BIT_U32(16)
->  #define VCLKSET_COLOR_YCC		BIT_U32(8) /* 0:RGB 1:YCbCr */
-> -#define VCLKSET_DIV_V3U(x)		(((x) & 0x3) << 4)
-> -#define VCLKSET_DIV_V4H(x)		(((x) & 0x7) << 4)
-> -#define VCLKSET_BPP_MASK		GENMASK(3, 2)
-> +#define VCLKSET_DIV_V3U_MASK		GENMASK_U32(5, 4)
-> +#define VCLKSET_DIV_V3U(n)		FIELD_PREP(VCLKSET_DIV_V3U_MASK, (n))
-> +#define VCLKSET_DIV_V4H_MASK		GENMASK_U32(6, 4)
-> +#define VCLKSET_DIV_V4H(n)		FIELD_PREP(VCLKSET_DIV_V4H_MASK, (n))
-> +#define VCLKSET_BPP_MASK		GENMASK_U32(3, 2)
->  #define VCLKSET_BPP_16			FIELD_PREP(VCLKSET_BPP_MASK, 0)
->  #define VCLKSET_BPP_18			FIELD_PREP(VCLKSET_BPP_MASK, 1)
->  #define VCLKSET_BPP_18L			FIELD_PREP(VCLKSET_BPP_MASK, 2)
->  #define VCLKSET_BPP_24			FIELD_PREP(VCLKSET_BPP_MASK, 3)
-> -#define VCLKSET_LANE(x)			(((x) & 0x3) << 0)
-> +#define VCLKSET_LANE_MASK		GENMASK_U32(1, 0)
-> +#define VCLKSET_LANE(n)			FIELD_PREP(VCLKSET_LANE_MASK, (n))
->  
->  #define VCLKEN				0x1010
->  #define VCLKEN_CKEN			BIT_U32(0)
->  
->  #define PHYSETUP			0x1014
-> -#define PHYSETUP_HSFREQRANGE(x)		(((x) & 0x7f) << 16)
-> -#define PHYSETUP_HSFREQRANGE_MASK	GENMASK(22, 16)
-> -#define PHYSETUP_CFGCLKFREQRANGE(x)	(((x) & 0x3f) << 8)
-> +#define PHYSETUP_HSFREQRANGE_MASK	GENMASK_U32(22, 16)
-> +#define PHYSETUP_HSFREQRANGE(n)		FIELD_PREP(PHYSETUP_HSFREQRANGE_MASK, (n))
-> +#define PHYSETUP_CFGCLKFREQRANGE_MASK	GENMASK_U32(13, 8)
->  #define PHYSETUP_SHUTDOWNZ		BIT_U32(1)
->  #define PHYSETUP_RSTZ			BIT_U32(0)
->  
->  #define CLOCKSET1			0x101c
->  #define CLOCKSET1_LOCK_PHY		BIT_U32(17)
->  #define CLOCKSET1_CLKSEL		BIT_U32(8)
-> -#define CLOCKSET1_CLKINSEL_MASK		GENMASK(3, 2)
-> +#define CLOCKSET1_CLKINSEL_MASK		GENMASK_U32(3, 2)
->  #define CLOCKSET1_CLKINSEL_EXTAL	FIELD_PREP(CLOCKSET1_CLKINSEL_MASK, 0)
->  #define CLOCKSET1_CLKINSEL_DIG		FIELD_PREP(CLOCKSET1_CLKINSEL_MASK, 1)
->  #define CLOCKSET1_CLKINSEL_DU		FIELD_PREP(CLOCKSET1_CLKINSEL_MASK, 2)
-> @@ -271,24 +286,31 @@
->  #define CLOCKSET1_UPDATEPLL		BIT_U32(0)
->  
->  #define CLOCKSET2			0x1020
-> -#define CLOCKSET2_M(x)			(((x) & 0xfff) << 16)
-> -#define CLOCKSET2_VCO_CNTRL(x)		(((x) & 0x3f) << 8)
-> -#define CLOCKSET2_N(x)			(((x) & 0xf) << 0)
-> +#define CLOCKSET2_M_MASK		GENMASK_U32(27, 16)
-> +#define CLOCKSET2_M(n)			FIELD_PREP(CLOCKSET2_M_MASK, (n))
-> +#define CLOCKSET2_VCO_CNTRL_MASK	GENMASK_U32(13, 8)
-> +#define CLOCKSET2_VCO_CNTRL(n)		FIELD_PREP(CLOCKSET2_VCO_CNTRL_MASK, (n))
-> +#define CLOCKSET2_N_MASK		GENMASK_U32(3, 0)
-> +#define CLOCKSET2_N(n)			FIELD_PREP(CLOCKSET2_N_MASK, (n))
->  
->  #define CLOCKSET3			0x1024
-> -#define CLOCKSET3_PROP_CNTRL(x)		(((x) & 0x3f) << 24)
-> -#define CLOCKSET3_INT_CNTRL(x)		(((x) & 0x3f) << 16)
-> -#define CLOCKSET3_CPBIAS_CNTRL(x)	(((x) & 0x7f) << 8)
-> -#define CLOCKSET3_GMP_CNTRL(x)		(((x) & 0x3) << 0)
-> +#define CLOCKSET3_PROP_CNTRL_MASK	GENMASK_U32(29, 24)
-> +#define CLOCKSET3_PROP_CNTRL(n)	FIELD_PREP(CLOCKSET3_PROP_CNTRL_MASK, (n))
-> +#define CLOCKSET3_INT_CNTRL_MASK	GENMASK_U32(21, 16)
-> +#define CLOCKSET3_INT_CNTRL(n)		FIELD_PREP(CLOCKSET3_INT_CNTRL_MASK, (n))
-> +#define CLOCKSET3_CPBIAS_CNTRL_MASK	GENMASK_U32(14, 8)
-> +#define CLOCKSET3_CPBIAS_CNTRL(n)	FIELD_PREP(CLOCKSET3_CPBIAS_CNTRL_MASK, (n))
-> +#define CLOCKSET3_GMP_CNTRL_MASK	GENMASK_U32(1, 0)
-> +#define CLOCKSET3_GMP_CNTRL(n)		FIELD_PREP(CLOCKSET3_GMP_CNTRL_MASK, (n))
->  
->  #define PHTW				0x1034
->  #define PHTW_DWEN			BIT_U32(24)
-> -#define PHTW_TESTDIN_DATA(x)		(((x) & 0xff) << 16)
-> +#define PHTW_TESTDIN_DATA_MASK		GENMASK_U32(23, 16)
->  #define PHTW_CWEN			BIT_U32(8)
-> -#define PHTW_TESTDIN_CODE(x)		(((x) & 0xff) << 0)
-> +#define PHTW_TESTDIN_CODE_MASK		GENMASK_U32(15, 0)
-
-Is PHTW_TESTDIN_CODE_MASK correct?
+>  #define VCLKSET_CKEN			(1 << 16)
+> -#define VCLKSET_COLOR_RGB		(0 << 8)
+> -#define VCLKSET_COLOR_YCC		(1 << 8)
+> +#define VCLKSET_COLOR_YCC		(1 << 8) /* 0:RGB 1:YCbCr */
+>  #define VCLKSET_DIV_V3U(x)		(((x) & 0x3) << 4)
+>  #define VCLKSET_DIV_V4H(x)		(((x) & 0x7) << 4)
+> -#define VCLKSET_BPP_16			(0 << 2)
+> -#define VCLKSET_BPP_18			(1 << 2)
+> -#define VCLKSET_BPP_18L			(2 << 2)
+> -#define VCLKSET_BPP_24			(3 << 2)
+> +#define VCLKSET_BPP_MASK		(3 << 2)
+> +#define VCLKSET_BPP_16			FIELD_PREP(VCLKSET_BPP_MASK, 0)
+> +#define VCLKSET_BPP_18			FIELD_PREP(VCLKSET_BPP_MASK, 1)
+> +#define VCLKSET_BPP_18L			FIELD_PREP(VCLKSET_BPP_MASK, 2)
+> +#define VCLKSET_BPP_24			FIELD_PREP(VCLKSET_BPP_MASK, 3)
+>  #define VCLKSET_LANE(x)			(((x) & 0x3) << 0)
+It probably doesn't matter, but just wanted to mention: here FIELD_PREP
+is used with, e.g., (3 << 2). GENMASK returns an unsigned value, whereas
+(3 << 2) is signed.
 
  Tomi
-
->  #define PHTR				0x1038
-> -#define PHTW_TESTDOUT			GENMASK(23, 16)
-> +#define PHTW_TESTDOUT			GENMASK_U32(23, 16)
->  #define PHTR_TESTDOUT_TEST		BIT_U32(16)
->  
->  #define PHTC				0x103c
 
 
