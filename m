@@ -1,100 +1,98 @@
-Return-Path: <linux-renesas-soc+bounces-23828-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23829-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2CCCC1913E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 09:36:15 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 986C5C19277
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 09:47:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id CFD1B5655DD
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 08:29:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 48E041C81C8E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 08:41:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D47D31812F;
-	Wed, 29 Oct 2025 08:21:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2948A318131;
+	Wed, 29 Oct 2025 08:40:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GHp/1Kca"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fc1b2abA"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DF08313260
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 08:21:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33236313265
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 08:40:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761726070; cv=none; b=Djt/6yuoulyH76ZJmuFi5JagwBkWbHzi/lIvhq/e0QQr/3T2T7Oq/Ly/gmyIqq3l+kJOG+31VJKzSOcQn/laCAr8+cokczOekoA6tsF8cP0w69h9Y2oCjLMAUf6SDS3yfTfRCPFs/yYI0nU23c7aqSP7TNP/ZgNk5xbrM7mhhRU=
+	t=1761727243; cv=none; b=fMiwxq4QyjZXR5KUef6AJr5Vnq+U/u/FreUhVIdKXrnvRrvfNzN6BGmT6DaF0jx5TZ6XVai0F77gpoVKAkqTKL5wRAmUIR+j8B53/q5JnFhChsn1a8yFRj4JZNm7sTn/TDLCGngPKfZswqkg1t/+UW2luKJSDVQhHR/n+2tjT0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761726070; c=relaxed/simple;
-	bh=YvpqraNS2DmQtSqvMgvUzfp+mnUD4shcDi4PHRgBkBc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZunHsco7ULoFNTR3jCtaSMNviA0QoG53mAzfEfTvR2bDl6drQu1HsFFG09C7DR1qBtndO1FEmqo74GQdnjNPDBGCuCosSkQCPO9uIpBCUdulpP0WMBpOutOqSWdABNA5Z8xqbUjijJ1Q3z3cXFAkJJXyyDBEifN65SAA3bZqkYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GHp/1Kca; arc=none smtp.client-ip=209.85.221.50
+	s=arc-20240116; t=1761727243; c=relaxed/simple;
+	bh=ByNPBZVkQaRvvDMo6YDk7cXzzfRGMjEtnqu+EzYfgyw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nlhOPkkxtzmmMXhIVQ0oclupzT0Qc76yDxibY3sE8wZtoca29xz3X9w80SM/nRGGN8QnbEBkICoYsPNAhu6BDSXYaluoMSonxQCiiAQulgSsJ7NmICftyr+WTEr50Lya3KPSWUAjIbloznjdiQJcC2RBnhN7gWXE3MwpJIVifxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fc1b2abA; arc=none smtp.client-ip=209.85.128.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-427015003eeso6072278f8f.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 01:21:06 -0700 (PDT)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-47721293fd3so1991355e9.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 01:40:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761726065; x=1762330865; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wW6IRdIBhUetAuPh0pBdlfNENv4jvRassCxbHPsKnSI=;
-        b=GHp/1Kca+8QVrQvvY5v+eC3dCBGNkHN8H1RbyNEhKFsYhMYpYxTstLVWH7kUp+FTF0
-         XeDzseGBieUYbEZROaqeGscVcras6JAAEmX3Jqtepcuq31WkAs60QOs1+AQZ2NzmpDsA
-         MTjlfRTtUvwN2GBOHrL2mS6VwY1ltydUDy/4VVFVo8/iH0GMImRfiBeFlueu1mRuICjI
-         wMNqvcnZXgfYfWzUusIc+M8iNWnBrx0i8tYmbgz6RERf1te9mWw+GREstNC6TsjP9GiC
-         i67cpxBMfgvEik/SxgpY4CuXVKCgsjj0ui2oXhsoAZC//7jaFBYtDE5z6skQTNB7CUab
-         QGKg==
+        d=gmail.com; s=20230601; t=1761727239; x=1762332039; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BWxjeRjOEhcNVgfP/QkxqsBAhufcjSTlJ37Z8hpahuU=;
+        b=fc1b2abACXsGrYVYbOoRbk1aU9GwCAixenwSUb+70ZEoEYVI2UMcVw5og8SrRI0hWm
+         plD5ndoxhZictdq0i0DZIF1V01lDGUBRxVuv9sRjJueikVmP/R8uIX/8HfoyX6OkpYyU
+         QZbBksKXPNNsMHtzS0TeoBWBAbzdP9ZuExuT1QNinz08ElqYYqLvKyGSPeZdoawBwNAl
+         mYP7LgpEaFLgXEXvo2p+vMr0HAkm38ncqI6CdNVYO1n761/olzxn92pRlPrAJCfyz7UK
+         ARGQKzkJrHWfY9E/ABBd5sYbiW+xtvI4G6rLF4bhvdiGTgB0/NCaPzlz7y0bjBls+MsU
+         Ki3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761726065; x=1762330865;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wW6IRdIBhUetAuPh0pBdlfNENv4jvRassCxbHPsKnSI=;
-        b=uj0jataIbgrfpQRsRjIEi1s7LLl+ZFuhB5vL+GCSHHhinCUnY4/ZtZwtuqPUPtSUtZ
-         Ou9kMUjR8rUg2WUEdresFgAtH0+hDq0T5u0DFcCb1S/L5qY64Xbkm/w2F519p4m6jLST
-         HTDdX/QsBpH2LRRJcFFkt4TUaujI7prDMxBpueBYzldOz3yNL+lT6oB79cuACrM7Bw/i
-         VSADEyRPGz/x7ANPA8++nrobsWW3s2ME0vzZhgDjgIEK4cXz6qxJwxvv+WwpTHPFOMs8
-         vN7KMVPAcRQalE/a3LCcBKAb7bSE6P/9dYnrZSSzsfIc58bO+ZZPRUATPh7+GYwpkWz+
-         eDWg==
-X-Forwarded-Encrypted: i=1; AJvYcCVYjLsVFMjAHKhd9N3lBWgsrdosDIlXpwRMQqFVFEe31wHX71cUr+8o/WyAn8Cwofgo/5FBNXzfS0fwb4TRES6u7A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQb52CoX8vkmrRhQQFtEHvKvF0E+6ztNQGG53JvgfngqZo5ei4
-	x1r2LnE1q/FaltkhRCxQjVElVoNd2zkAncgP5xNx2870Z8bLqyF11HVa
-X-Gm-Gg: ASbGnctTYBcdKKc5m2Y7byjHa6Tjf/RMkeM6qUEBkEta+JefxpJ4OR8FmCe0UQBx/+t
-	FJHJQjC/3tcwkXBzPZuHziPJKItIemDXuoBi6lMyfhn2kpEIhjE/y+DneUIK6adF9RhAqXSpczg
-	AP2MTEIrudZgxE1lQdjEUs+w27hWkutg9tUjYETx11nc9iB05EU0BcMClnkkpBZwO6BEn2JiL9l
-	kA3EOnlH9sUtimwGZzvGSFEyYVK/dmkyyQozDqsRspCHR0zbVWuECz9jU7KLzcl0sGnw7FIdkR8
-	WV3pezZ8BEaEhknIlPGGa8T1b9H5d9uItaGeBAgwl+5qALysfGQvB3IyXLS9iX0R2s/JlZddvsK
-	HvGIs1VSVDkKCJYtE5XgYHy7YhanuDoLW+xQlKQHs0bZ0vGg4nQBrioB1FAd1M64VWJNqktgbKZ
-	G2cHjSnRVWcIM7gPdb4vaS44EDPyGd9DkWr/fKFP336wzDtbKj6uBSC0N+InfH
-X-Google-Smtp-Source: AGHT+IFe0RPTgcm6P2nkvsmiEiNCMG16kADfs4KIy98NqJ2br7YI+TqzdQIPzDxNgFJX1lZZcKgPQw==
-X-Received: by 2002:a05:6000:26d1:b0:429:8b47:2f35 with SMTP id ffacd0b85a97d-429aef80db3mr1787632f8f.26.1761726064580;
-        Wed, 29 Oct 2025 01:21:04 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1761727239; x=1762332039;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BWxjeRjOEhcNVgfP/QkxqsBAhufcjSTlJ37Z8hpahuU=;
+        b=Avzygay5SAuU/2vhp/nWaxNma/f4PI4/fPZ2kQVhFlF7zgQdyqRqMQENRk4Csm2xV2
+         kICz/qeZhPk1u7gurAc8L9bzOnvAuuUWVnbZhbu4m0DQUM2z8XmOsu3nymWQKmUFjyDs
+         t/OkDppXVqGaNvICfxqnVjgDTQUes82dgFFUyo+o65XfMUZ9SOTneiwuS91tLe3MH6y4
+         a7XfxQ68tSGd3ZqYhviOPYj5Hwuq3T+5qhvhzJtomgEKKDW/xWAZ8MhlFU2rpKnIQwn7
+         0fqAS51r6KeaylEqBFHO22n9PtwPi+5Y5sfJIhJoGb7oESLwFL1u/rSD0Ke2QKcEEjzZ
+         TiWg==
+X-Forwarded-Encrypted: i=1; AJvYcCX1FCg3Cc0zqfdj+MvUVrvfUWHNshAUZzFMK0d2Iiil3KI31fXZPUZ19Z/89nEDxFdXo+7a0Tb0PIRDXn96lsGslA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YykRB44sbpM/mHcf+AsVcOb1wfgagcvU9Uh9smMCKOQPNmgc71l
+	gAzxXVX3oFgqr/Hw6Q4FatCOvQ9BPXhZTbUnuCq8zr/AYl+ZH1YbXYJD
+X-Gm-Gg: ASbGnctaDDJ/yJbpkK96o09dSUvnQSOqAm0xSrpDSdE2TDb527OVEk/uWQLtdi5sVwZ
+	MFphdkupSrhHEfui1HS/w9hqeokJjYFVg0qV16O5eRsRY/mtkq2qWfTaVaHpRwa54B6iPK1crGg
+	c0jUeXOOdFigq5q4u7klaAEslqaCkg4eOJeHkVms6UXOYcYJcccGnPn8xIMwqdX3SaChaFiwoWu
+	AfRVtxP3zx7mmh4Fuy/c4c8dgWXKLQSyhVz865JGJEuNYBtdzXLqNMl31nPJrK/7cgNuMig6yNN
+	UD8ZXYtEGrrCDbZF21y6bcf+E8831Z/5xJU/a5Cn6wLJJpkKpXL14JJjxsmjY6GEaUeU1KlSaek
+	aJv+NbxYpoed2oClJ4oYtE3gM4C/+TqqQwl2VIW1Qs39Yt+vcbXzYlG13FyIgDTvdJjUjZ2+VbM
+	UmHBoXTZqvn80676bJozQrjHfSFI/NumQr3YbfY8T9VARMw6d/ZfOaxIGoZ1KT
+X-Google-Smtp-Source: AGHT+IHzDG9SBUzGPViM4O6XUORkMfXDOjYXSdJLjQD/Nfqn6/OKgCqHeLDZcWlwFIAoLgO8gs3hzQ==
+X-Received: by 2002:a05:600c:4450:b0:46f:b42e:e38f with SMTP id 5b1f17b1804b1-4771e6a188bmr20563075e9.19.1761727239422;
+        Wed, 29 Oct 2025 01:40:39 -0700 (PDT)
 Received: from biju.lan (host86-162-200-138.range86-162.btcentralplus.com. [86.162.200.138])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4771e196a22sm35191915e9.5.2025.10.29.01.21.04
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4771e3a88fdsm39485785e9.10.2025.10.29.01.40.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Oct 2025 01:21:04 -0700 (PDT)
+        Wed, 29 Oct 2025 01:40:39 -0700 (PDT)
 From: Biju <biju.das.au@gmail.com>
 X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+To: Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Nam Cao <namcao@linutronix.de>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	linux-phy@lists.infradead.org,
+	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	Biju Das <biju.das.au@gmail.com>,
 	linux-renesas-soc@vger.kernel.org,
-	stable@kernel.org
-Subject: [PATCH v2 2/2] serial: sh-sci: Fix deadlock during RSCI FIFO overrun error
-Date: Wed, 29 Oct 2025 08:20:57 +0000
-Message-ID: <20251029082101.92156-3-biju.das.jz@bp.renesas.com>
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH v4 0/2] Add Renesas RZ/G3E USB3.0 PHY driver
+Date: Wed, 29 Oct 2025 08:40:32 +0000
+Message-ID: <20251029084037.108610-1-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251029082101.92156-1-biju.das.jz@bp.renesas.com>
-References: <20251029082101.92156-1-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -105,64 +103,32 @@ Content-Transfer-Encoding: 8bit
 
 From: Biju Das <biju.das.jz@bp.renesas.com>
 
-On RSCI IP, a deadlock occurs during a FIFO overrun error, as it uses a
-different register to clear the FIFO overrun error status.
+This patch series aims to add Renesas RZ/G3E USB3.0 PHY driver support.
+This module is connected between USB3 Host and PHY module. The main
+functions of this module are:
+ 1) Reset control
+ 2) Control of PHY input pins
+ 3) Monitoring of PHY output pins
 
-Cc: stable@kernel.org
-Fixes: 0666e3fe95ab ("serial: sh-sci: Add support for RZ/T2H SCI")
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v1->v2:
- * Split the fixes patches from original series.
----
- drivers/tty/serial/rsci.c          | 1 +
- drivers/tty/serial/sh-sci-common.h | 1 +
- drivers/tty/serial/sh-sci.c        | 8 ++++++--
- 3 files changed, 8 insertions(+), 2 deletions(-)
+v3->v4:
+ * This patch series split from[1] as this series can be merged
+   without any issues.
+ * Collected tag from Geert.
+ 
+[1] https://lore.kernel.org/all/20250916150255.4231-1-biju.das.jz@bp.renesas.com/
 
-diff --git a/drivers/tty/serial/rsci.c b/drivers/tty/serial/rsci.c
-index b3c48dc1e07d..3e1f4b3c4e59 100644
---- a/drivers/tty/serial/rsci.c
-+++ b/drivers/tty/serial/rsci.c
-@@ -414,6 +414,7 @@ static const struct sci_port_params_bits rsci_port_param_bits = {
- 	.rxtx_enable = CCR0_RE | CCR0_TE,
- 	.te_clear = CCR0_TE | CCR0_TEIE,
- 	.poll_sent_bits = CSR_TDRE | CSR_TEND,
-+	.overrun_clr = CFCLR_ORERC,
- };
- 
- static const struct sci_port_params rsci_port_params = {
-diff --git a/drivers/tty/serial/sh-sci-common.h b/drivers/tty/serial/sh-sci-common.h
-index e3c028df14f1..bcdb41ddc15d 100644
---- a/drivers/tty/serial/sh-sci-common.h
-+++ b/drivers/tty/serial/sh-sci-common.h
-@@ -51,6 +51,7 @@ struct sci_port_params_bits {
- 	unsigned int rxtx_enable;
- 	unsigned int te_clear;
- 	unsigned int poll_sent_bits;
-+	unsigned int overrun_clr;
- };
- 
- struct sci_common_regs {
-diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
-index 62bb62b82cbe..b33894d0273b 100644
---- a/drivers/tty/serial/sh-sci.c
-+++ b/drivers/tty/serial/sh-sci.c
-@@ -1024,8 +1024,12 @@ static int sci_handle_fifo_overrun(struct uart_port *port)
- 
- 	status = s->ops->read_reg(port, s->params->overrun_reg);
- 	if (status & s->params->overrun_mask) {
--		status &= ~s->params->overrun_mask;
--		s->ops->write_reg(port, s->params->overrun_reg, status);
-+		if (s->type == SCI_PORT_RSCI) {
-+			s->ops->clear_SCxSR(port, s->params->param_bits->overrun_clr);
-+		} else {
-+			status &= ~s->params->overrun_mask;
-+			s->ops->write_reg(port, s->params->overrun_reg, status);
-+		}
- 
- 		port->icount.overrun++;
- 
+Biju Das (2):
+  dt-bindings: phy: renesas: Document Renesas RZ/G3E USB3.0 PHY
+  phy: renesas: Add Renesas RZ/G3E USB3.0 PHY driver
+
+ .../bindings/phy/renesas,rzg3e-usb3-phy.yaml  |  63 +++++
+ drivers/phy/renesas/Kconfig                   |   7 +
+ drivers/phy/renesas/Makefile                  |   1 +
+ drivers/phy/renesas/phy-rzg3e-usb3.c          | 259 ++++++++++++++++++
+ 4 files changed, 330 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/phy/renesas,rzg3e-usb3-phy.yaml
+ create mode 100644 drivers/phy/renesas/phy-rzg3e-usb3.c
+
 -- 
 2.43.0
 
