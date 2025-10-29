@@ -1,109 +1,137 @@
-Return-Path: <linux-renesas-soc+bounces-23873-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23878-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3259DC1BA7C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 16:29:55 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D43AC1BC46
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 16:47:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D35AB5862FE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 14:57:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B80296224FA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 15:25:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF5A01F12E9;
-	Wed, 29 Oct 2025 14:53:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16967314B90;
+	Wed, 29 Oct 2025 15:25:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="xdMGHRXF";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="HX5Xism4"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com [209.85.222.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 618752EA172
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 14:53:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DDCF311C06
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 15:25:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761749602; cv=none; b=g0VDm5GXnTTE8wJu/riL426UaItZxt6Lbj/soku5tW9zgkad6kBRlz6JLR3TSUTAk2ayrFbZvcg6TO2LSM6VkSsIJqxoSrndoxZEv4wmgMS4cv7j+y81fK+th9jy55RCXlz3EnWFS8OOUuvvuSs9hllnQ4UOgHPFiLShINdmLqc=
+	t=1761751542; cv=none; b=dUJFhzepbliq5Xly1wkF/gaHGbiDfpNUpXl7wY5mVgf9DJ8j6J+st6StskyAbVs5L23SzNoK365wYjCEqjjDt0cFB7GxZ5w7ysgPUiWdkhW2jn23bss8hwJXeOIt+LkFcH5oh97d4QzNa+INHCVaBBMfhwIuYQ6iP/nihKgGDSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761749602; c=relaxed/simple;
-	bh=Bn3qdBMVV94+OQl3u4N/QcPiKWcf2tpN8VQjFewuPHs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ucPcb+WeRhO3frkYfotIudiQ2uU70TvgXHlP+8Qn1h+v8JFxUMOSB0AMDT2H8N60x060vxjE+gSgIp8giDqOGZ4RaJzGVaB0EBxjwRVDdhrjFpqzTe3n23W7CgwcxHbqIiMkdSZRCi3/pYLn6Y53ClPVLpkHptFpAqgUm3y/VQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-932dfe14b2eso6098963241.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 07:53:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761749595; x=1762354395;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fq7cfrs8fVaBcc2FW3QUnIn+7UcMac5CdGnA5tYXOqc=;
-        b=vw/iqnlLlsYLM5fZSxygrRIOVQgYF5kin0vMed3ATzlaeFt0V5m24Z9fcsca97J8nx
-         synTJ78QeCQXZ6T51PAraGCBPcjjV7hTCFH/MMrVMlS7UOeQ5iZLy000DQhioovLYJ2+
-         zx3xH6tj0bd/Ac++OUUHwELIqWIOdJSmZl824ESifAeIk9xMGugasgQycanagMdp7610
-         pUnqq+OPiRNyz9qLElyHYD2NICOouOomSo/yF1adQtsQDizco8XIf3S0ogMifshzZ1aY
-         Bjd+RBgAIWJ88H6sjObjxIne13SzdZI9BAjY49SDUNatcI2U1bQckiV8689TOqE3Zzgp
-         sPIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVmCHMjvYN43ns8v69mgamiEqUncRex65KGo1oWWJN1VaF1sdt0Vc8UJtnI4iVU8mSDRZhgwweVV0IXBgjM5XIyRQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz6UtrX7WCiMjri+CxWcwZumr7eXgKgqc/heqJjmKlGWhlSqn9n
-	/LStFj6/s/OcJpuQ5xp3mi07a7dnOMxZDnqSKp8mvx4ZAjQCdbBN+g96lqwSmfTQ
-X-Gm-Gg: ASbGnctoPgPTCTX22TY0a2Ms5qxacceHQney+YmLKe6LX6UXXqLcVnG90yL2kxzQsz5
-	HmTh3VY4PBmsaU4OCM8YJr2Jg6WZuBjWIjq/hHpZPUy2n3SYT7rr8xbFmxPQbwy2/829fHSvxe/
-	R7vFpnFUqtBlh22bXhcHqksqjKEJlr+q1fCBGO8Yusmt4oyFbqeka69KOwn/bfLTdks+HMbKKMp
-	a7XzWfO1MDnMZb1mi0F9ZZjJrYt4Dv1kRJKPdp2sojIRItFj2nFnni+kgz7Dlysy2t54bZiR6Ni
-	xX+5CcKisO8C0pux5+bNJvnavah3EusKSnTlKCBZMW82Fx8Q7kMPDSZla8M+R+3xtKUYZQbULuE
-	IxqIvsoQ1tj3d7JaU9xkKV81bClcuqAl3n7cIjzrGLz51XBOFrun5NzuBn6346QgL7xjRs3dnDB
-	QiPXbzv6afMxXD98aXsexh+D+WgM3dNENEL86c0aWsg/CyTqFgRegB
-X-Google-Smtp-Source: AGHT+IGxLZWmwdgivZzvoKrLqDKqhB96L7ElMkScFYhtR2aRViRJ10Xqa1up63xAlA8NEYKr8R3GSQ==
-X-Received: by 2002:a05:6102:3911:b0:5ba:4f5c:874e with SMTP id ada2fe7eead31-5db906700e0mr1053673137.31.1761749594913;
-        Wed, 29 Oct 2025 07:53:14 -0700 (PDT)
-Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com. [209.85.217.53])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-934c404f64dsm5222818241.11.2025.10.29.07.53.14
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Oct 2025 07:53:14 -0700 (PDT)
-Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-5db308cddf0so7598286137.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 07:53:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVW9WK5M1f/maP0onU19Jognhq4tdcW2AnL6TwOEF0CltP8kJ4zj3BoZvw5sRf3KWSUHwKBrp2pYDgZ2hVqZOfBGw==@vger.kernel.org
-X-Received: by 2002:a05:6102:c13:b0:5d6:221c:3dab with SMTP id
- ada2fe7eead31-5db9068d4abmr1045322137.39.1761749594055; Wed, 29 Oct 2025
- 07:53:14 -0700 (PDT)
+	s=arc-20240116; t=1761751542; c=relaxed/simple;
+	bh=r1fzBvCJYglkcA14ri1jqLim8Cr/hRY4P1gvELMESt8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YlZiBD+7oOmR6Ewjw0WkPeM0ETF6RHU0trnJEUOtAIRNUCwTI51bvgTPp8m+1mmBVfSk9dWYoYsxNYNAz1DO7FNgW9LOuW+e8JdxuX3AnUx+zcuG8l7/BHt8yXKinwovGMO/2IE1WrXEK3ZBjttim/1o3BMUkSTqEO1XjZisRTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=xdMGHRXF; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=HX5Xism4; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4cxWKG5zztz9tCG;
+	Wed, 29 Oct 2025 16:25:38 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1761751538;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RhUcv1IL0upcpQTK944Koz2Faz/o5idxFnloyVhGwxs=;
+	b=xdMGHRXFuQZ4tPB/JkOuSmnPC1BHNi8/kXGpzw0qXhuzihdhNzq4rQo4Etfb0tw0tYboUT
+	yPDECIM5iA7/qnBTcc1PTcz7EANJ50YnzXHCa7Db+QkcdZdiErWrQaKGaadV+wTOeeXEMm
+	MX/oD0b8I4zbBl7b5wlRbqX+PMtmgLEzcFomj5AnPeWBAoQWuavjW+6RouIWOfdOvcUb6o
+	EjNQy4pSQadd0dJvQU2eLGVrwkSsOz+uH9c6jiJkQZRdtT3KRyoxPBOgG2AxwE3wPDBaP/
+	0jaym0nkr0vRFURnsQmjme1tOzq8IGjhRB09eCMfMZ3J6QQlhKV/qzNLnXzjOg==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=HX5Xism4;
+	spf=pass (outgoing_mbo_mout: domain of marek.vasut@mailbox.org designates 2001:67c:2050:b231:465::1 as permitted sender) smtp.mailfrom=marek.vasut@mailbox.org
+Message-ID: <795893ce-c7b1-4128-a28c-1b5b5633f400@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1761751537;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RhUcv1IL0upcpQTK944Koz2Faz/o5idxFnloyVhGwxs=;
+	b=HX5Xism4Va6eRcYVj7xQJMUjIFIB+n+XxbjoVF6s7S4cREdpmrlNnOXz9FT4T1zFjagXbm
+	It18d29BVDl1FhUaUJAximO+r8e1B8iqGMeqwKLgH2RG3Uw1eiSlR+JfVmuROKWxMJ4SlE
+	BXIuta68O+DAJsv55pPiZ4aFG5Rb7BJtSuKWKr+VcylTBbqVmVEHMhsaUYjks7j+KjT9md
+	c4Lp3IU4Y9T0BwwwKWl7rUHtCpiQqVlWFPyJm1k1efB5HNmlgg18M7qkdaTLu3hDWpMT7N
+	OZlaWoha3TmfzZY+ZiWbqwOJyo8gkqmanJrN6kqrTzf8Pv+yl1AQHmVFvDaRuA==
+Date: Wed, 29 Oct 2025 16:18:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251027211249.95826-1-marek.vasut+renesas@mailbox.org> <20251027211249.95826-4-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20251027211249.95826-4-marek.vasut+renesas@mailbox.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 29 Oct 2025 15:53:02 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU+vkj4KEyxmvSSi=Zw5KSXqJK=-7ZEYm4q_odn0sYv3Q@mail.gmail.com>
-X-Gm-Features: AWmQ_bkbcCJ5bca1fjv3psAbJaIosav5q9yqJotFzCTEHDUGlkGiEkRijKAzyWQ
-Message-ID: <CAMuHMdU+vkj4KEyxmvSSi=Zw5KSXqJK=-7ZEYm4q_odn0sYv3Q@mail.gmail.com>
-Subject: Re: [PATCH 4/5] arm64: dts: renesas: r8a77961-ulcb: Enable GPU support
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-arm-kernel@lists.infradead.org, Conor Dooley <conor+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
-	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v4 00/11] drm/rcar-du: dsi: Convert register bits to
+ BIT()/GENMASK() macros
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-renesas-soc@vger.kernel.org
+References: <20251028232959.109936-1-marek.vasut+renesas@mailbox.org>
+ <b44112ed-2c41-4e33-953b-8031fd29a97d@ideasonboard.com>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <b44112ed-2c41-4e33-953b-8031fd29a97d@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: db20519cf3726ca7137
+X-MBO-RS-META: 7b1gu4eoscuir7wtezqeeiqmuq9in5ke
+X-Rspamd-Queue-Id: 4cxWKG5zztz9tCG
 
-On Mon, 27 Oct 2025 at 22:13, Marek Vasut
-<marek.vasut+renesas@mailbox.org> wrote:
-> Enable GPU on M3ULCB with R-Car M3-W+.
->
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+On 10/29/25 10:38 AM, Tomi Valkeinen wrote:
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Hello Tomi,
 
-Gr{oetje,eeting}s,
+> On 29/10/2025 01:28, Marek Vasut wrote:
+>> Convert register bits to BIT() macro and bitfields to GENMASK()/FIELD_PREP() macros.
+>> Most of this patchset is boring mechanical conversion.
+>>
+>> Noteworthy patches are 8 and 9 , those introduce handling of DSI mode flags
+>> and convert use of DRM_MODE_FLAG_P.SYNC into DRM_MODE_FLAG_N.SYNC, but that
+>> should not have any adverse effect on existing hardware.
+>>
+>> Marek Vasut (11):
+>>    drm/rcar-du: dsi: Fix missing parameter in RXSETR_...EN macros
+>>    drm/rcar-du: dsi: Document TXVMSETR PIXWDTH as bitfield
+>>    drm/rcar-du: dsi: Document PHTR TESTDOUT as bitfield
+>>    drm/rcar-du: dsi: Deduplicate mipi_dsi_pixel_format_to_bpp() usage
+>>    drm/rcar-du: dsi: Clean up VCLKSET register macros
+>>    drm/rcar-du: dsi: Clean up CLOCKSET1 CLKINSEL macros
+>>    drm/rcar-du: dsi: Clean up TXVMPSPHSETR DT macros
+>>    drm/rcar-du: dsi: Respect DSI mode flags
+>>    drm/rcar-du: dsi: Clean up handling of DRM mode flags
+>>    drm/rcar-du: dsi: Convert register bits to BIT() macro
+>>    drm/rcar-du: dsi: Convert register bitfields to GENMASK() macro
+>>
+>>   .../gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c   |  50 ++-
+>>   .../drm/renesas/rcar-du/rcar_mipi_dsi_regs.h  | 387 +++++++++---------
+>>   2 files changed, 237 insertions(+), 200 deletions(-)
+>>
+> 
+> Thanks, pushed to drm-misc-next.
 
-                        Geert
+Thank you
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Best regards,
+Marek Vasut
 
