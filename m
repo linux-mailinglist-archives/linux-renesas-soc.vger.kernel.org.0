@@ -1,169 +1,132 @@
-Return-Path: <linux-renesas-soc+bounces-23880-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23881-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB254C1BFD2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 17:15:14 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0ED3C1C786
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 18:35:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5EDA619C032F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 16:11:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7C9BF6E4D60
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 16:15:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B8A134AB04;
-	Wed, 29 Oct 2025 16:08:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E883D33CEA3;
+	Wed, 29 Oct 2025 16:15:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QjE37pNN"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3C2F347FEE
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 16:08:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BACD12ECE86;
+	Wed, 29 Oct 2025 16:15:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761754104; cv=none; b=sIrNqJRP8ey84y6KePyVAMBdbPVFsJqvcKB0XOwSF1YTfXQan4d2xNBoDeibrNvz+jWoBtBCuVfm+4+T+NPod7EcRygRA4x4MR/dwGj31xCCso3ncz2qJ5C52cS4jr4kGvsO5n1La6f9OSmDG7Tg7uLrPfOqOUIbqIl0O+yowkU=
+	t=1761754500; cv=none; b=g/VWG6+1pIIq89KorSbW6mRnHS+rFojA/GGZ5dUcPmY6xJYUvgtQwryVU9KeDX1BJviO0FHPgVe+g19UoEBlGJq7NSjw0cL1eJu3YBj7nDfLJetoZKcg/wKGOdszBqZsdSybnzj/n0KjPJ6yHJnqOQ2qVfyAGacRwZuS0EisxyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761754104; c=relaxed/simple;
-	bh=x7hF+/Cp6WC101sN6xlMTM+BgF2Pmoe9fIFD9LQyyDE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lpAa2tdDySAUI3JCFIptdNsIq8zVYI3+8/RKmP3nfxMIQef206jGZKUT8umrHsjrCND1fRaROEvpV/LdJ/tc1Ks015I+5GfScVWL86UnNZ35vdrh4PoOpIfTfhmFjFmE77MIjH4MkrqMkj2YewcthI/T+FwfHJdV+EX1CkW/7Ag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-54bc08ef45dso3877e0c.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 09:08:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761754101; x=1762358901;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=N/ipYGthC0MioeorbLHvDmgjrqF5uNCNGBSSRMGKMZ4=;
-        b=XljJHd31pUdg0VWfkNhBp8IQOdVsq1UHyCU0acbGylfyPJuVQabt2jPnHdk+z/X0w5
-         83sbgl0wvBZkiOOm0qMZqjpYfn+lUgGapN4C7mGw0DBQJ99GjfK8CckZWR/E9JDT4Hls
-         W5LWe346XrLY4bB8XrwrYE7FXVPMKFZrPpf3LwKanuD3MAMgZn2ElHomyI2xDcrPInNk
-         NuTPLr21K3DZ44zwyvG3qBLqAyye6eWivGKBrd67DSmWpKFnkPiHZ0ZCZpkYrwqm39je
-         rSA60oxNWBPkEfQ5JJP2xsdZdYeuwKLMyvl7h4zPU5OY18+HM89unN7hIhvsyzdUmcQs
-         3+cw==
-X-Forwarded-Encrypted: i=1; AJvYcCWYXzRGfweA3DHFUXG+MUjHd5rXGsXeYiAcFO7hdTgIKtGXo/L2eJR3MvnuwaGGA7+kUBS1JKNC47BBV5mIhtuKNA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzQ7hx9ygK5OGOsc+t1ZA4PshwmfuL6SL+oJSLZtB1uEoPs2ryI
-	uJJLMb/BHzl6lZHgPE1E086A3qoSZMNW+jYqUABnzL4nDFAv4k/z/T5CbEIkJBeP
-X-Gm-Gg: ASbGncsehISFdoQf0TUkkb9SM/1imzw04r7ckpeFLQHYcb+euEQtFYurBVvIwGvNiaF
-	XL0vrxel83YwgJlNjjTJwkBRJtOPquH3ga8p1iGTkaGjeFIgyU6PstJLgpXtjUMcYkvV21/GY9R
-	NBK8uKnPPyDQCU+XTuVWjPENqK0/rt6XCj8ZJR8GheGMZ46mKTOPDnpFKEboHm3aJN9rWZcMqZy
-	q/hJ29hwTx3Qea7ONy+RHC+kkPJQbYoYMjTlkcjrvz9MX049RbipDKY08m1xxeNQ/oLH1y9wMNv
-	Em3VO+XhfStyT7dkuKStrh4bb3C+R++Ho+/eMJnc0aRl7dmbckAUOET0LmT5YHsuuNn34Zr+VLb
-	JFQZiKPHNKn6fiNcvzwoLKabWMhtk+ASHfQgJNTedvpoJoEThOHNII7EdmLGnLmF2Mmp/cmnFkI
-	osTkfpHEMQU5gvzsc83uCGJRVcK1MNa4D1dQyXbckhAghN/JLNG2mu
-X-Google-Smtp-Source: AGHT+IE3WTRH2mIos0L4HYcUGEM0aah6qJQEiETNyF+W3xa8B2PrPOMx4PgSFXBPxOM1RovD7a8dKw==
-X-Received: by 2002:a05:6122:32c9:b0:556:3bd1:85aa with SMTP id 71dfb90a1353d-5581412697amr1148958e0c.8.1761754100717;
-        Wed, 29 Oct 2025 09:08:20 -0700 (PDT)
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com. [209.85.217.49])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-557ddb08b9bsm5597135e0c.6.2025.10.29.09.08.18
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Oct 2025 09:08:18 -0700 (PDT)
-Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-5db3b074f58so55445137.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 09:08:18 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUoyT6PLfDcHiHJdDQpCc45pPKFD0FP9kgAP9rjyt50+1GrKM+8xYDV25CveYm5DqCXY/PjTjFmdgrzpQ57aMSIlQ==@vger.kernel.org
-X-Received: by 2002:a05:6102:4a89:b0:5d6:1564:d7f1 with SMTP id
- ada2fe7eead31-5db906b8f37mr1467931137.36.1761754098557; Wed, 29 Oct 2025
- 09:08:18 -0700 (PDT)
+	s=arc-20240116; t=1761754500; c=relaxed/simple;
+	bh=MzDiNBwjOd5bG+qpBunqHUPL5TbDLkEqeHNOr5ncI3U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KIZs+SS4rpvGAtrximgLZwMy3Pf1+tPfenLl49vM9sMw7i6EXaa/n1wKkIvNRbkUm/zBDwT9poLyxsc3DhE2TADlHOsI5iyaqaEEq+3SxlRi9Ztn3jwwsy/awY0wLaW3+yeYIbgqVpYEFOKS6CQ4UViCN5LV9bD/hArWKh/TJkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QjE37pNN; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E76FC4CEF7;
+	Wed, 29 Oct 2025 16:14:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761754500;
+	bh=MzDiNBwjOd5bG+qpBunqHUPL5TbDLkEqeHNOr5ncI3U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QjE37pNN/L94+0MLl21IS08uJ68If0bQz6Nldnoci1SWL74a5JkjwbGiXLqZBK6Cv
+	 3f77yW0B2+xKct/DP4OFLB6B/MDEmlMZJ/Im+RzJYLT7Kxdl4EoItpZcu9WEUPbjhx
+	 7wbSgeOp1IkG6gqY0wLC7QitMyN6pUXzJyty7urTyi/C/Tf0XE+Oqo0he9Es0uUo0J
+	 zycg7LRL6yN2spgA6gBOiOrBjQNRhTULUdvrG/w90LDoVakhV9uaEXZr7VTRwHwDNi
+	 KQUmoMx/Ltsm/rjj8vJLGIsdCh6fg0SSt8YuQMnKSHtniDuiP+KHFwPR4X8Tc4wyZ1
+	 CvdB7/RRxn4xg==
+Date: Wed, 29 Oct 2025 16:14:55 +0000
+From: Mark Brown <broonie@kernel.org>
+To: claudiu beznea <claudiu.beznea@tuxon.dev>
+Cc: support.opensource@diasemi.com, lgirdwood@gmail.com, perex@perex.cz,
+	tiwai@suse.com, biju.das.jz@bp.renesas.com,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH 1/2] ASoC: codecs: Use component driver suspend/resume
+Message-ID: <56911e0e-0f25-4134-92fd-f89cb47fd9b6@sirena.org.uk>
+References: <20251029141134.2556926-1-claudiu.beznea.uj@bp.renesas.com>
+ <20251029141134.2556926-2-claudiu.beznea.uj@bp.renesas.com>
+ <bdb14543-e611-42d0-a603-300c0ea17335@sirena.org.uk>
+ <70362ac1-244b-43c5-97cb-ebe8f5b90c3f@tuxon.dev>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251027004816.562965-1-den@valinux.co.jp>
-In-Reply-To: <20251027004816.562965-1-den@valinux.co.jp>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 29 Oct 2025 17:08:07 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVtR_8OZG2XrD5PHY+ybaH4dudya4VXNXD3iHktdDyF8w@mail.gmail.com>
-X-Gm-Features: AWmQ_blrV7P_F3R16HOIrRem1UqE4h3nEa2JhxUtyuN9Q8vEJnpLXJhqDTLYNJo
-Message-ID: <CAMuHMdVtR_8OZG2XrD5PHY+ybaH4dudya4VXNXD3iHktdDyF8w@mail.gmail.com>
-Subject: Re: [PATCH] iommu: ipmmu-vmsa: Add DMA controllers to devices_allowlist
-To: Koichiro Den <den@valinux.co.jp>
-Cc: iommu@lists.linux.dev, linux-renesas-soc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, joro@8bytes.org, will@kernel.org, 
-	robin.murphy@arm.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="JpTtvZk+/JgRadlt"
+Content-Disposition: inline
+In-Reply-To: <70362ac1-244b-43c5-97cb-ebe8f5b90c3f@tuxon.dev>
+X-Cookie: Goes (Went) over like a lead balloon.
 
-Hi Den-san,
 
-On Mon, 27 Oct 2025 at 02:26, Koichiro Den <den@valinux.co.jp> wrote:
-> Add Renesas DMA controller devices to the devices_allowlist to enable
-> their use with the IPMMU. This allows DMA channels to operate through
-> the IOMMU when enabled.
->
-> Signed-off-by: Koichiro Den <den@valinux.co.jp>
+--JpTtvZk+/JgRadlt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Thanks for your patch!
+On Wed, Oct 29, 2025 at 05:22:26PM +0200, claudiu beznea wrote:
+> On 10/29/25 16:37, Mark Brown wrote:
 
-> --- a/drivers/iommu/ipmmu-vmsa.c
-> +++ b/drivers/iommu/ipmmu-vmsa.c
-> @@ -741,7 +741,9 @@ static const char * const devices_allowlist[] = {
->         "ee100000.mmc",
->         "ee120000.mmc",
->         "ee140000.mmc",
-> -       "ee160000.mmc"
-> +       "ee160000.mmc",
-> +       "e7350000.dma-controller",
-> +       "e7351000.dma-controller"
+> > The theory here is that the power management core uses the device
+> > instantiation order for both suspend and resume (reversed on suspend) so
+> > the fact that we use probe deferral to make sure that the card
+> > components are ready should ensure that the card suspends before
+> > anything in the card.  If that is no longer the case then we need to
+> > ensure that all drivers have system PM ops which trigger the card, this
+> > won't be a driver specific issue.
 
-While your change looks correct to me, it causes DMA mapping failures on
-Gray Hawk Single and Sparrow Hawk when IPMMU support is enabled
-(on renesas-drivers-2025-10-28-v6.18-rc3 with renesas_defconfig
-+ CONFIG_IPMMU_VMSA=y):
+> I also saw the behavior described in this commit with the rz-ssi.c driver as
+> well. The fix there was commit c1b0f5183a44 ("ASoC: renesas: rz-ssi: Use
+> NOIRQ_SYSTEM_SLEEP_PM_OPS()").
 
-    rcar-dmac e7351000.dma-controller: chan1: failed to map 1@0x00000000e656000c
-    sh-sci e6560000.serial: Failed preparing Tx DMA descriptor
+> In case of this this codec, I saw the code in da7213_runtime_resume() and
+> soc_resume_deferred() racing each other on system resume.
 
-0xe656000c = HSCIF2 Transmit FIFO data register.
+So I guess we need the more general fix then, with everything calling
+into the core to suspend the cards.
 
-With "#define DEBUG" added to drivers/dma/sh/rcar-dmac.c:
+> > If the device actually lost power during a runtime
+> > suspend then we'll end up having a bad time.  There was also no mention
+> > of runtime PM in the patch description...
 
-    rcar-dmac e7351000.dma-controller: chan1: failed to map 1@0x00000000e656000c
-    sh-sci e6560000.serial: Failed preparing Tx DMA descriptor
-    rcar-dmac e7351000.dma-controller: chan2: map 1@0x00000000e6560014
-to 0x00000000fff82014 dir: DMA_TO_DEVICE
-    rcar-dmac e7351000.dma-controller: chan2: chunk
-00000000e5110c20/000000005e0ede90 sgl 0@000000000d8c5440, 256/256
-0x00000000fff82014 -> 0x00000000ffed6000
-    rcar-dmac e7351000.dma-controller: chan2: submit #2@000000005e0ede90
-    rcar-dmac e7351000.dma-controller: chan2: chunk
-0000000025f2f66c/00000000e5f0dd15 sgl 0@0000000064f1067f, 256/256
-0x00000000fff82014 -> 0x00000000ffed6100
-    rcar-dmac e7351000.dma-controller: chan2: submit #3@00000000e5f0dd15
-    rcar-dmac e7351000.dma-controller: chan2: queue chunk
-00000000e5110c20: 256@0x00000000fff82014 -> 0x00000000ffed6000
+> I had no issues with runtime PM, but only with suspend to RAM, when this
+> function was called though
+> struct dev_pm_ops::resume = pm_runtime_force_resume().
 
-0xe6560014 = HSCIF2 Receive FIFO data register
+Calling regulator_disable() doesn't guarantee the regulator will be
+disabled, the constraints or other devices can ensure that the device
+retains power so there's no effect on the actual hardware.
 
-Comparing to the CONFIG_IPMMU_VMSA=n case:
+> Would keeping the regcache_cache_only() + regcache_sync() here along with
+> populating the struct snd_soc_component_driver::{suspend, resume} be an
+> acceptable solution for you? I think that will work as well.
 
-    rcar-dmac e7351000.dma-controller: chan1: map 1@0x00000000e656000c
-to 0x00000000e656000c dir: DMA_FROM_DEVICE
-    rcar-dmac e7351000.dma-controller: chan1: chunk
-0000000096396eb4/00000000f35357b6 sgl 0@0000000013546bf6, 74/74
-0x0000000489ab5000 -> 0x00000000e656000c
-    rcar-dmac e7351000.dma-controller: chan1: submit #2@00000000f35357b6
-    rcar-dmac e7351000.dma-controller: chan1: queue chunk
-0000000096396eb4: 74@0x0000000489ab5000 -> 0x00000000e656000c
+I'm not sure what you're intending to populate the component with there.
 
-This confuses me even more: why no DMA_TO_DEVICE mapping in the
-latter case?
+--JpTtvZk+/JgRadlt
+Content-Type: application/pgp-signature; name="signature.asc"
 
->  };
->
->  static bool ipmmu_device_is_allowed(struct device *dev)
+-----BEGIN PGP SIGNATURE-----
 
-Gr{oetje,eeting}s,
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmkCPX4ACgkQJNaLcl1U
+h9DVIAf/cAd0aKUG7ztZYiPY/cyhA7SyqjfnlvJMZkM4AqWOp+nc2Lq76IWOKckx
+esVqlDB71tZI+wtddbYyDVc8G4OQUAFnftjSyFl97/CYACADQ9FjUzWpUgbaUo0h
+9KbIQUFejzoao8zsg6jIfMgeh8F90M9JaxoMjNjpTfpLfpGw0XHGZZPfRq7z1v41
+B1Oxl52EIMC9enrkF8sKEOJ3WQwNK9w6XjAY9vctTbSgkAdb/twf0BQEmWOxcOkU
+U1zK/LTjNfbBtl3ZMhXcupoyLVBXOuYdNxT76ZH2ziGhB3hGvl6UYVorkXf9+kzY
+foTIXsTVHNwWQz6ZpmpwcgZmwCzIhw==
+=MYlh
+-----END PGP SIGNATURE-----
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--JpTtvZk+/JgRadlt--
 
