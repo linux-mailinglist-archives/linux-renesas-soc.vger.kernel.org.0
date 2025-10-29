@@ -1,223 +1,135 @@
-Return-Path: <linux-renesas-soc+bounces-23883-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23884-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E110C1CAA6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 19:05:07 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F6E8C1CD06
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 19:44:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 852FD627B32
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 17:59:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6A994188F794
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 18:45:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B100354AEC;
-	Wed, 29 Oct 2025 17:58:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA1B83563EB;
+	Wed, 29 Oct 2025 18:44:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MW48nfcn"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sfi8bWiO"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2395333F394;
-	Wed, 29 Oct 2025 17:58:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 957342BE7DF
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 18:44:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761760734; cv=none; b=Rm4Qw004WKuTTY1qOQMTGrB29lEJh1bvFbqY4RQOrzY6zUMPD6I/xEjAEENvK5VBRqDrtd99RNOlqsreXy/uD3EETjfKK0k9ioE3OJLUqlZ1F5u8tNYjS8JtM5tptVXcRElHKVrst2Toh1aVm01pxrM0R2BZSpYUYC9KJRRVqeg=
+	t=1761763472; cv=none; b=o+iOIsdjzqMDulVMuCnrwh+slBhPUYeUwvoXjZXXdXrDzT17tIRr8HDNpYYdOAB+033QT8HUoPiTEnaxAwlBe2b8F5f92ZcH3zrbGGcEygvea/g0BVdNp0VczfNq6pfScBWw60D4nqwtFBNzF5uFBunQBtw1QJPs+Zw4onXN6DA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761760734; c=relaxed/simple;
-	bh=ZTqNfE12/OY2hJBlOM+SDakOKIOgcInVy8P7IwXldec=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TeIPspRRhu6/RxK2p7y2kuRKfYlvU4R/ZwFW+zwA2aYQgHYOLJNTDZK8Xg3aQKkDm0o36lq5VWtJmb8OlXR+0M9OeKHNtdm7P50AP0krFJVwbHfoAkormsDImurY1JO4DX7ANigsjX/k9d9Rthw6RTj8ZsFnvD2gRBdNadoxj1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MW48nfcn; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C137DC4CEF7;
-	Wed, 29 Oct 2025 17:58:50 +0000 (UTC)
+	s=arc-20240116; t=1761763472; c=relaxed/simple;
+	bh=X5SGW0P3JJzrz7DuS3Cd280Zktggm7aD62MiExGdpDk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YrGfNMpVgxDnWWCIxx62WMyzAu5C/mWlIoQSGVec8hATsAi4xpSAh7A79UhGUY4HA4O35jDRpmnF/doP68f2cm8WHWiMGLNf+OwLbRQGWuuY2/1Ms7KpEQ9JVJBdPkPMRZLcDjUK2UEJIPOzk1TKj+zNHuNMxfpXTf/Rbb68rWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sfi8bWiO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30FC8C19423
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 18:44:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761760733;
-	bh=ZTqNfE12/OY2hJBlOM+SDakOKIOgcInVy8P7IwXldec=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MW48nfcnhyPke7+bwVWNs4hq0w1hddXCPFQBiJGapm/WvzmP90voWL2BCmSFCVz9Q
-	 kJ7nfZH0bmYJUy9xLw+A72lHekoe+TqVkhIhFrg74+PtBufx+GCF1e1nuNR2W9mRw2
-	 n/SNJ7loGvcQdkpKVoYrCnZhu0qKWHM1toNSznvV4J4R3aDuKZPQAkZy9ifJcDcHGb
-	 oj/6X25NOIE/IRJI3OTS7nb4IDQuVFAbLb1lvdxG60eF5MNFMqUF26S2Gt+QsOV8fY
-	 fgLr+kB9wbO0lOpChRjhJC3WNA0PUBSPrUUDmeLhtR4xMnHWqEI00CwG4EJ/2h7dL8
-	 fvCXCGW9Api7Q==
-Date: Wed, 29 Oct 2025 17:58:48 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>, linux-spi@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: Re: [PATCH 11/14] dt-bindings: spi: renesas,rzv2h-rspi: document
- RZ/T2H and RZ/N2H
-Message-ID: <20251029-relieving-prude-c097e63f368e@spud>
-References: <20251028133151.1487327-1-cosmin-gabriel.tanislav.xa@renesas.com>
- <20251028133151.1487327-12-cosmin-gabriel.tanislav.xa@renesas.com>
+	s=k20201202; t=1761763472;
+	bh=X5SGW0P3JJzrz7DuS3Cd280Zktggm7aD62MiExGdpDk=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Sfi8bWiON9HRF9blSn1oQwIKJT3qMkaLlwJnpxCCdnX2wwdtHHcnM/J3lTJjezMkk
+	 2izcN7ddBROoABgF3+5RBcSkh7UqHnWrXqKH19MxJfIiD9wh4Ts47gOHYsh6+0JFQ1
+	 1IxNCGX8qx/H/ICLsKNwAit/8zdM7T6GdqoIJG/N0LxSguA0q9YlnH4Q8cLTOpSJIL
+	 +8QPzUMfOJ0eJ4F+BRs3FvVXrkg6oCLwR5aCe/HX5XTEhbYgpsu49Oibmwf2w2osr4
+	 F0q+5hx1r5d8pEM0CYW6sVGXywrzQkPiRn7+SyvdWKHs7GOl8jenowmmgyMg9+p0Yt
+	 FlyEMlqx5sCGQ==
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-63c31c20b64so187363a12.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 11:44:32 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVL8O6WENopq5EOIlRp5eH87J2m+kUfhg2tYcaU8UFFlcodU0hJ5KjpOze3J5bJMsD+cNyF+fLjzDDSN2ngieO6ig==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyrCJNiWXS7YcdT4E31BAbLuQNTVmC+ojMeGlFftLJK+0teV2A7
+	btqFEp8P9kDVYFr6HwDq2jXW4Qok8AYNMawEdvCkORyeMEX1ukx5vWGaDWgn4ntwzr2Ffwp0y3a
+	axS6/eJn4mdcOj0eBIoqG2BPYw0uzzw==
+X-Google-Smtp-Source: AGHT+IHlozFQ+JQwVLKlwquKBWRdEGQaGh+w5cVLhOZx4kgBjIYxdNW+akeS9KdA3nUYZn7uCdUcWJ8myW0EIgqemA0=
+X-Received: by 2002:a05:6402:3041:20b0:637:e271:8087 with SMTP id
+ 4fb4d7f45d1cf-64061a5a3e0mr188103a12.18.1761763470629; Wed, 29 Oct 2025
+ 11:44:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="FWiBg5MDrLC1yaeJ"
-Content-Disposition: inline
-In-Reply-To: <20251028133151.1487327-12-cosmin-gabriel.tanislav.xa@renesas.com>
-
-
---FWiBg5MDrLC1yaeJ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20250904210147.186728-1-marek.vasut+renesas@mailbox.org>
+ <20250904210147.186728-4-marek.vasut+renesas@mailbox.org> <4ffcf4fc-17a9-4669-af07-f81ddb46aee9@ideasonboard.com>
+ <d76ff19c-7b0f-4aa9-8ae2-d08c82d70410@mailbox.org> <aebc10ec-73ed-4843-95c5-9ba5a2759ccb@ideasonboard.com>
+ <b4c0e78a-eecb-4a18-9199-18ea91c8df31@mailbox.org> <2da374d1-7557-4f7e-9160-86945b73731a@ideasonboard.com>
+ <14e5da7c-c6ce-4bb6-884b-08629f5a5788@mailbox.org> <7a159b09-d957-4d9b-9460-adf62df9a440@mailbox.org>
+ <626acab8-46ae-44cf-b9ef-0ac78d0954c9@ideasonboard.com>
+In-Reply-To: <626acab8-46ae-44cf-b9ef-0ac78d0954c9@ideasonboard.com>
+From: Rob Herring <robh@kernel.org>
+Date: Wed, 29 Oct 2025 13:44:19 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqKFs=vwYDnRgj3YJ66Y8ktSWOUY-kkUVHFZKa4MBj8-+g@mail.gmail.com>
+X-Gm-Features: AWmQ_bmStg1mWI38sVfvCoid1e3VOtjQKHHZzU438WGxmHA8RrCOgTgf3EJykGs
+Message-ID: <CAL_JsqKFs=vwYDnRgj3YJ66Y8ktSWOUY-kkUVHFZKa4MBj8-+g@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] dt-bindings: display: bridge: renesas,dsi-csi2-tx:
+ Allow panel@ subnode
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+	Marek Vasut <marek.vasut@mailbox.org>
+Cc: dri-devel@lists.freedesktop.org, Conor Dooley <conor+dt@kernel.org>, 
+	David Airlie <airlied@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 28, 2025 at 03:31:42PM +0200, Cosmin Tanislav wrote:
-> The Renesas RZ/T2H (R9A09G077) and RZ/N2H (R9A09G087) SoCs have four SPI
-> peripherals.
->=20
-> Compared to the previously supported RZ/V2H, these SoCs have a smaller
-> FIFO, no resets, and only two clocks: PCLKSPIn and PCLK. PCLKSPIn,
-> being the clock from which the SPI transfer clock is generated, is the
-> equivalent of the TCLK from V2H.
->=20
-> Document them, and use RZ/T2H as a fallback for RZ/N2H as the SPIs are
-> entirely compatible.
->=20
-> Signed-off-by: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-> Reviewed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> ---
->  .../bindings/spi/renesas,rzv2h-rspi.yaml      | 62 ++++++++++++++++---
->  1 file changed, 52 insertions(+), 10 deletions(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/spi/renesas,rzv2h-rspi.yam=
-l b/Documentation/devicetree/bindings/spi/renesas,rzv2h-rspi.yaml
-> index ab27fefc3c3a..65ba120a6b23 100644
-> --- a/Documentation/devicetree/bindings/spi/renesas,rzv2h-rspi.yaml
-> +++ b/Documentation/devicetree/bindings/spi/renesas,rzv2h-rspi.yaml
-> @@ -9,12 +9,15 @@ title: Renesas RZ/V2H(P) Renesas Serial Peripheral Inte=
-rface (RSPI)
->  maintainers:
->    - Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> =20
-> -allOf:
-> -  - $ref: spi-controller.yaml#
-> -
->  properties:
->    compatible:
-> -    const: renesas,r9a09g057-rspi # RZ/V2H(P)
-> +    oneOf:
-> +      - enum:
-> +          - renesas,r9a09g057-rspi # RZ/V2H(P)
-> +          - renesas,r9a09g077-rspi # RZ/T2H
-> +      - items:
-> +          - const: renesas,r9a09g087-rspi # RZ/N2H
-> +          - const: renesas,r9a09g077-rspi # RZ/T2H
-> =20
->    reg:
->      maxItems: 1
-> @@ -36,13 +39,12 @@ properties:
->        - const: tx
-> =20
->    clocks:
-> +    minItems: 2
->      maxItems: 3
-> =20
->    clock-names:
-> -    items:
-> -      - const: pclk
-> -      - const: pclk_sfr
-> -      - const: tclk
-> +    minItems: 2
-> +    maxItems: 3
-> =20
->    resets:
->      maxItems: 2
-> @@ -62,12 +64,52 @@ required:
->    - interrupt-names
->    - clocks
->    - clock-names
-> -  - resets
-> -  - reset-names
->    - power-domains
->    - '#address-cells'
->    - '#size-cells'
-> =20
-> +allOf:
-> +  - $ref: spi-controller.yaml#
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - renesas,r9a09g057-rspi
-> +    then:
-> +      properties:
-> +        clocks:
-> +          minItems: 3
-> +          maxItems: 3
-> +
-> +        clock-names:
-> +          items:
-> +            - const: pclk
-> +            - const: pclk_sfr
-> +            - const: tclk
-> +
-> +      required:
-> +        - resets
-> +        - reset-names
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - renesas,r9a09g077-rspi
-> +              - renesas,r9a09g087-rspi
+On Wed, Oct 22, 2025 at 2:19=E2=80=AFAM Tomi Valkeinen
+<tomi.valkeinen+renesas@ideasonboard.com> wrote:
+>
+> Hi,
+>
+> On 15/10/2025 17:09, Marek Vasut wrote:
+> > On 9/19/25 7:08 PM, Marek Vasut wrote:
+> >
+> > Hello Tomi,
+> >
+> >>>>> Ok. My point was just that the dsi-controller.yaml doesn't allow
+> >>>>> "bridge" node (you can just rename the panel to bridge to test). I
+> >>>>> thought someone (I just can't remember who was it =3D) will send a =
+patch
+> >>>>> for it, but I think that hasn't happened.
+> >>>> Do you want me to drop the bridge part from the commit message (I
+> >>>> assume
+> >>>> yes) ?
+> >>>>
+> >>>> Any other change I should do before sending a V3 ?
+> >>>
+> >>> As we found out, this has been fixed in linux-next. For this, and the
+> >>> rest in this series:
+> >>>
+> >>> Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> >>
+> >> Understood, thank you.
+> > Do you think this 4/4 can now be applied ? The rest already is.
+>
+> Pushed to drm-misc-next.
 
-Do these platforms have optional resets? If they do not, please add
-"resets: false" & "reset-names: false" below. If they do have optional
-resets,
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-pw-bot: not-applicable
-If they don't, you can apply the tag when you add the ": false"s.
+And now a warning in linux-next:
 
-Cheers,
-Conor.
+/builds/robherring/linux-dt/Documentation/devicetree/bindings/display/bridg=
+e/renesas,dsi-csi2-tx.example.dtb:
+panel@0 (raspberrypi,dsi-7inch): compatible: ['raspberrypi,dsi-7inch']
+is too short
+        from schema $id:
+http://devicetree.org/schemas/display/panel/ilitek,ili9881c.yaml
+/builds/robherring/linux-dt/Documentation/devicetree/bindings/display/bridg=
+e/renesas,dsi-csi2-tx.example.dtb:
+panel@0 (raspberrypi,dsi-7inch): 'power-supply' is a required property
+        from schema $id:
+http://devicetree.org/schemas/display/panel/ilitek,ili9881c.yaml
 
-> +    then:
-> +      properties:
-> +        clocks:
-> +          minItems: 2
-> +          maxItems: 2
-> +
-> +        clock-names:
-> +          items:
-> +            - const: pclk
-> +            - const: pclkspi
-> +
->  unevaluatedProperties: false
-> =20
->  examples:
-> --=20
-> 2.51.1
->=20
+Please revert or figure out the fix.
 
---FWiBg5MDrLC1yaeJ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaQJV2AAKCRB4tDGHoIJi
-0nFGAQDSmQ4OK0aex2kkGKOPqcTZtWEKmOCHzGqia+7z1QcHGgD/VQwGjfiKeEGv
-C0Sz7D4lzzgi1XrCQm0Ulwe35AHLLgY=
-=LqV+
------END PGP SIGNATURE-----
-
---FWiBg5MDrLC1yaeJ--
+Rob
 
