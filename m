@@ -1,102 +1,116 @@
-Return-Path: <linux-renesas-soc+bounces-23839-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23840-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C54FC19916
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 11:04:43 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9845AC19DA2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 11:49:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AE6E11898132
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 10:04:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1605D1C63B3C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 10:42:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7CDD2E541F;
-	Wed, 29 Oct 2025 10:03:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AB1F31D742;
+	Wed, 29 Oct 2025 10:37:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G9d5BRph"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JDklBsjE"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D5E22DEA7E
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 10:03:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4CCA32E15A
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 10:37:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761732217; cv=none; b=usy+Fcoe5/oJcWX3K+hpnFC8PgXR73w/SYF7RQZhwjPzOM8w0M3LgOVBSfE1uSTaI+cE0h5veSwJr4qKE8Mmgt/IRh3m0WD28ijNoSwwUDzUH9nLuPZ1JvgnI2U4xmEuA+3M9rrfhy8xUnyKB5CSTJnmYrscACceOHvJmANcvTI=
+	t=1761734251; cv=none; b=eVQhDSVY88XJuXl+CoImWVHl2KBTUKB34Ro+6yGOOTNpL9igLLXfqITyU2tq+a8kvZKZ5C/JNamlHP/MevROItf5c1exKEg224GZKM2qB0Jn/3pL8afmSEUUvbD6BCKargzYYXqLWvFDIUTRLwHfLSa0DVlJUhCbmzI/4iP1iNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761732217; c=relaxed/simple;
-	bh=hgKPLF9/Dz4+aIpew6IzPxQzQb+Esci7i2oveGxItAg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=QRHgwuq4w52cX32EoCKOy/bNIv3VfIGCpUX4VC4oh+p2MgK75rm1PtVJr5k35g97emSbrlP8v670XVeVGcz9ENmF28+cxU16IbaqjLebVGzg8sfWqPZ7jzq6LLlwGmdPk0vXO9uslyw9YdqNQ5hftUJdAOZgx7fmPXs7EH0M/ck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G9d5BRph; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761732215; x=1793268215;
-  h=date:from:to:cc:subject:message-id;
-  bh=hgKPLF9/Dz4+aIpew6IzPxQzQb+Esci7i2oveGxItAg=;
-  b=G9d5BRphTHICkyLmSL6YusnurOSdZ0OmMwe5iB9eFWnVFRrYsF7d+Q2Z
-   dmG9DckKzi3DTQfycwd9jYNeSLGk+6QBSDqNAyJLc2rKZJwuoL4+diz1m
-   jrn8JAjHYmUVarhf5hDfTZWflBrlekQGKup7WWaIgMU+ODgH9QzEx73gC
-   r9WRGIoIJWabUFLHYPliLBa76UtZxZSNk0UqWlhRHAE6AVSJWU5yiKpeT
-   yL8hVQ8I6LdtysRErDn2WXj4PFH0YyWIr4KHVkA7oX5TnqKmOnWgsYgyG
-   e4hiruLJuL1C16h3yTDPiLezbeOZMZZ1IH2PWiduT0kmaSHGad6zURrEQ
-   w==;
-X-CSE-ConnectionGUID: rsO2HLe6TMWCSM91x6pVHQ==
-X-CSE-MsgGUID: fK9YnvGQTka/9RtCt2Rleg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11596"; a="63550152"
-X-IronPort-AV: E=Sophos;i="6.19,263,1754982000"; 
-   d="scan'208";a="63550152"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 03:03:34 -0700
-X-CSE-ConnectionGUID: ELpowLAST3eeoeeq47HTxA==
-X-CSE-MsgGUID: RmpRFoNJTceHOrXKxDq78w==
-X-ExtLoop1: 1
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 29 Oct 2025 03:03:33 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vE31f-000KUb-1r;
-	Wed, 29 Oct 2025 10:03:31 +0000
-Date: Wed, 29 Oct 2025 18:02:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:renesas-dts-for-v6.19] BUILD SUCCESS
- 6e20a9d94a459b4eac436ba2e8d4717a0c496842
-Message-ID: <202510291852.fzxrMweJ-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1761734251; c=relaxed/simple;
+	bh=jwBaQzKjV6kpwsoIVph1wfQsut1xxi1eIsjuYFMBtGA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nfyJ1yGh+MhEqrXXRv9iuDst7Zzdmv1him8IpEpIQXZEtweqKcv8omUbfzOsW8Av2BsNjjB+9814W2iEGOMEybvcQvQxvEAPqb315UG7lWTOQwXDtFbhpoGHrYBGHHOeJ2vIa2wYvG/HTLIgGJXCRe9yRrlX0UVXRAD+eMeVu/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JDklBsjE; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C8E7AC73;
+	Wed, 29 Oct 2025 11:35:37 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1761734138;
+	bh=jwBaQzKjV6kpwsoIVph1wfQsut1xxi1eIsjuYFMBtGA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=JDklBsjEu2Rkzm2oIzg+Dx4K5WBpo7qCadmF0vXxMxy/z1Ik/VhVX1CfZOXFQE92M
+	 KtXGGdOnkd5tlmCbB8h349avBLO2PQP/Zee3SMEcIFiMru/0tah20/oJHqknpiBrH5
+	 iNp7YNeoQxyOxCXNycfSzjLz/ZpW8AqQCRl590jo=
+Message-ID: <a8e2a977-0bf7-476c-9a45-da7f38954465@ideasonboard.com>
+Date: Wed, 29 Oct 2025 12:37:23 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 05/11] drm/rcar-du: dsi: Clean up VCLKSET register
+ macros
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-renesas-soc@vger.kernel.org
+References: <20251005030355.202242-1-marek.vasut+renesas@mailbox.org>
+ <20251005030355.202242-6-marek.vasut+renesas@mailbox.org>
+ <2666bd0f-b2a3-49b4-9458-1b362d9d1b4e@ideasonboard.com>
+ <CAMuHMdX0gPyMNF1vwnkEcJRc99MbqXW_5SqSwrdy8BL0Nyugkg@mail.gmail.com>
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Content-Language: en-US
+In-Reply-To: <CAMuHMdX0gPyMNF1vwnkEcJRc99MbqXW_5SqSwrdy8BL0Nyugkg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-dts-for-v6.19
-branch HEAD: 6e20a9d94a459b4eac436ba2e8d4717a0c496842  arm64: dts: renesas: r8a77961: Add GX6250 GPU node
+On 29/10/2025 11:57, Geert Uytterhoeven wrote:
+> Hi Tomi,
+> 
+> On Tue, 28 Oct 2025 at 18:15, Tomi Valkeinen
+> <tomi.valkeinen+renesas@ideasonboard.com> wrote:
+>> On 05/10/2025 06:02, Marek Vasut wrote:
+>>> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
+>>> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
+>>> @@ -246,14 +246,14 @@
+>>>
+>>>  #define VCLKSET                              0x100c
+>>>  #define VCLKSET_CKEN                 (1 << 16)
+>>> -#define VCLKSET_COLOR_RGB            (0 << 8)
+>>> -#define VCLKSET_COLOR_YCC            (1 << 8)
+>>> +#define VCLKSET_COLOR_YCC            (1 << 8) /* 0:RGB 1:YCbCr */
+>>>  #define VCLKSET_DIV_V3U(x)           (((x) & 0x3) << 4)
+>>>  #define VCLKSET_DIV_V4H(x)           (((x) & 0x7) << 4)
+>>> -#define VCLKSET_BPP_16                       (0 << 2)
+>>> -#define VCLKSET_BPP_18                       (1 << 2)
+>>> -#define VCLKSET_BPP_18L                      (2 << 2)
+>>> -#define VCLKSET_BPP_24                       (3 << 2)
+>>> +#define VCLKSET_BPP_MASK             (3 << 2)
+>>> +#define VCLKSET_BPP_16                       FIELD_PREP(VCLKSET_BPP_MASK, 0)
+>>> +#define VCLKSET_BPP_18                       FIELD_PREP(VCLKSET_BPP_MASK, 1)
+>>> +#define VCLKSET_BPP_18L                      FIELD_PREP(VCLKSET_BPP_MASK, 2)
+>>> +#define VCLKSET_BPP_24                       FIELD_PREP(VCLKSET_BPP_MASK, 3)
+>>>  #define VCLKSET_LANE(x)                      (((x) & 0x3) << 0)
+>> It probably doesn't matter, but just wanted to mention: here FIELD_PREP
+>> is used with, e.g., (3 << 2). GENMASK returns an unsigned value, whereas
+>> (3 << 2) is signed.
+> 
+> Huh?
+> 
+> Either you use the unshifted value "(define for) 3" with FIELD_PREP(),
+> or you use the shifted value "(define for) (3 << 2)" without FIELD_PREP()?
+Sure. My point was, VCLKSET_BPP_MASK is a signed value, but GENMASK()
+would produce an unsigned value. Normally FIELD_PREP() is used with
+GENMASK, i.e. with unsigned mask, but here FIELD_PREP is used with a
+signed mask. Does it matter? I don't know, most likely not.
 
-elapsed time: 1463m
+ Tomi
 
-configs tested: 11
-configs skipped: 167
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-arm                allnoconfig    clang-22
-arm    randconfig-001-20251028    clang-22
-arm    randconfig-002-20251028    clang-22
-arm    randconfig-003-20251028    clang-22
-arm    randconfig-004-20251028    gcc-8.5.0
-arm64              allnoconfig    gcc-15.1.0
-arm64             allyesconfig    clang-22
-arm64  randconfig-001-20251028    clang-22
-arm64  randconfig-002-20251028    clang-22
-arm64  randconfig-003-20251028    gcc-11.5.0
-arm64  randconfig-004-20251028    gcc-8.5.0
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
