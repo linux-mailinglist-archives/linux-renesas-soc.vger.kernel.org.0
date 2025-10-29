@@ -1,127 +1,169 @@
-Return-Path: <linux-renesas-soc+bounces-23879-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23880-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69EA5C1BCD9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 16:52:38 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB254C1BFD2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 17:15:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 675A15A4297
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 15:29:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5EDA619C032F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 16:11:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2789232A3F9;
-	Wed, 29 Oct 2025 15:29:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="Qgvfddvi"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B8A134AB04;
+	Wed, 29 Oct 2025 16:08:24 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5190723D2A1
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 15:29:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3C2F347FEE
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 16:08:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761751761; cv=none; b=RoYLPpLQqzeTUljFREtAzIPZr0v0RtdDbaXcA5zyLbRSlWTgbD46ps8BJCViyAoLShrlswzJ5HUXQsbCPlMnXDdixchR4UK4HDL1XWauUQhoz72mJTYag5RBlNkczchSp3RX17mVq8Zr2pSJZikvx49gq+5jVoDytilxw8JjzSM=
+	t=1761754104; cv=none; b=sIrNqJRP8ey84y6KePyVAMBdbPVFsJqvcKB0XOwSF1YTfXQan4d2xNBoDeibrNvz+jWoBtBCuVfm+4+T+NPod7EcRygRA4x4MR/dwGj31xCCso3ncz2qJ5C52cS4jr4kGvsO5n1La6f9OSmDG7Tg7uLrPfOqOUIbqIl0O+yowkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761751761; c=relaxed/simple;
-	bh=TmGjDwl2biFKFoDG5SxYDx3zPkhg2VZY+lBriMDwGx0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rTerltXzj7ghn3OCEDhnfupsX6tsKMwBR9gXWNcGuq4bVeKyStVC9VTrKVdU/Eg0VljBT/ZBe3eYPgvGxIveR6xUYK8hm1vkI1HAa9aMHVyZDZcpki3Ch4KzFYMrRfEVou48ss9MeqG7XaIbyDmkTngoFnPg6tsButnSmnZdLtw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=Qgvfddvi; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-4298b865f84so4015489f8f.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 08:29:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1761751758; x=1762356558; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ctrvyyDmJlg0kkSAOlpyChaeCX1qtmxwTU/oEiWOUXQ=;
-        b=QgvfddviuL4U1MV5cXmGqID6ZQRTMgk/pKJAyTedB4yKgt/5I7fYI3uX2K28xRIB1f
-         niJcAZwrL8bGENW0ANzIaHDk6lt7dEYnHlidgcroyHA5fvQPekk7AUVysieHtMK29Mfy
-         nbwyR790XFJp3ZQK1xKKIY1IpWQq2TsTgtJUNbtY9+JdEoUwPUz2IDOFLVP/Kvu1rNOh
-         /Xr/XrD3Q3QHDgHwF0MVAFuVK9oiiZWAcI9t/oM9LAOfGhiBNE4ock+UeXE4t0Sr/ZHL
-         MQsOzXr3W/C7B9HqiV1HKo6+ItlZlJSkLZzgClPUyqfGkUpXBBMeOeaUsvEfzzS57SIG
-         9/7Q==
+	s=arc-20240116; t=1761754104; c=relaxed/simple;
+	bh=x7hF+/Cp6WC101sN6xlMTM+BgF2Pmoe9fIFD9LQyyDE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lpAa2tdDySAUI3JCFIptdNsIq8zVYI3+8/RKmP3nfxMIQef206jGZKUT8umrHsjrCND1fRaROEvpV/LdJ/tc1Ks015I+5GfScVWL86UnNZ35vdrh4PoOpIfTfhmFjFmE77MIjH4MkrqMkj2YewcthI/T+FwfHJdV+EX1CkW/7Ag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-54bc08ef45dso3877e0c.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 09:08:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761751758; x=1762356558;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ctrvyyDmJlg0kkSAOlpyChaeCX1qtmxwTU/oEiWOUXQ=;
-        b=O13B3gtwoMTXN7hwMsY50hloqG0VhV71yY5jvQN1+oNraqfbBpDN4srY8qBSD4KKSz
-         4phjV5JgvM+7nKSUgm1n6Hq4U3drAV3j2pHUlo67nV5JleQai7+Qfeo1T/e/A2ATwheV
-         z+tgcXuuJjhB6cR3KiCwPxVpHFVvBYTsFmNkXpiOL8dBK82s1D3WBW+8qc0IpLqGs47m
-         eWdQYly3WbtSv99jSFdQCLst4tslxOebvB4plxVYraZkqQUuDzu8adhGjHZP9cqICtE6
-         JFvVBofl+tL83yP1nfH/q7H7vtktj2XLeOeYp2YWK6UScYtvhOuEcDoJ1kf91BH6wzp+
-         cMsA==
-X-Forwarded-Encrypted: i=1; AJvYcCWJp2UjNRCsVcW+K+39Bogr2KLEO+kJAvq6voMXo/reuqH0GoKLOodwyfxJPnAsMu7xjcFqTPsyDCJ3qD+Til0U2w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyB3oTmJwTLNKlO8Y5wLr+I6/m4pxuMH81Gk79qg89zwOlAiO10
-	3a3LIBmKAZBWqUkaf/g8zmkN7JzDwKUWe4ULANSLOOwUPO1HvK3yhxhKLMonEKHYSFk=
-X-Gm-Gg: ASbGncuHQCtZMqiPCG3rBzSg+G5EaxImQ2nMNH2wkdARPqBVpLoSyJEKH60CoWl0brG
-	9KUeFwzNagwirGaZzf2XAbMPIGTCLOpFt8mSsNJZDR51VzELhIKuVV6+eXzTrnsaSJR6xPsU9XE
-	xMYV7bbN0xPRRRpNnJdaW3nKIZ7RBdDY/MhcTzN5Sa4frSXSza4QFMXitMpgfUFXXlnwtLg2HSY
-	LtMXm+HJ91XNtbMJx5Ji32YaJh32pbsOKws0CE9yoTyB5rlH43o16gtVLchU/xbsGdjYNAOudyx
-	UJt0hr5VHaCuzZvo4kX6WWeP/vrb48UYf8vi0RAZL9NnP0im4yemMNH43Jyim6B2TA8PGjkUuV9
-	o4nWSg399vwh94GLGE4ZKfEZN7Y0IEmO9R89OFBccR2wiTPi6BQBd+SrHfX1y1Oaxnmk0uzJWFH
-	2xpzomGZQLDVZJ9FHf8QpLytTb21g+GAfzmGJderWXkxQw3cQFFX9v86gal3i61rGzYA==
-X-Google-Smtp-Source: AGHT+IGzKqIEUwGf7yC1EsnKLvYTprAHG5oxW1NDlfiVKv2vlfeP0rhWW9WukDhz1d/BkHuM2+I88A==
-X-Received: by 2002:a05:6000:1787:b0:40f:5eb7:f24a with SMTP id ffacd0b85a97d-429aef77707mr2833160f8f.12.1761751757674;
-        Wed, 29 Oct 2025 08:29:17 -0700 (PDT)
-Received: from ?IPV6:2a02:2f04:6302:7900:aafe:5712:6974:4a42? ([2a02:2f04:6302:7900:aafe:5712:6974:4a42])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429952cb55asm26959094f8f.17.2025.10.29.08.29.16
+        d=1e100.net; s=20230601; t=1761754101; x=1762358901;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=N/ipYGthC0MioeorbLHvDmgjrqF5uNCNGBSSRMGKMZ4=;
+        b=XljJHd31pUdg0VWfkNhBp8IQOdVsq1UHyCU0acbGylfyPJuVQabt2jPnHdk+z/X0w5
+         83sbgl0wvBZkiOOm0qMZqjpYfn+lUgGapN4C7mGw0DBQJ99GjfK8CckZWR/E9JDT4Hls
+         W5LWe346XrLY4bB8XrwrYE7FXVPMKFZrPpf3LwKanuD3MAMgZn2ElHomyI2xDcrPInNk
+         NuTPLr21K3DZ44zwyvG3qBLqAyye6eWivGKBrd67DSmWpKFnkPiHZ0ZCZpkYrwqm39je
+         rSA60oxNWBPkEfQ5JJP2xsdZdYeuwKLMyvl7h4zPU5OY18+HM89unN7hIhvsyzdUmcQs
+         3+cw==
+X-Forwarded-Encrypted: i=1; AJvYcCWYXzRGfweA3DHFUXG+MUjHd5rXGsXeYiAcFO7hdTgIKtGXo/L2eJR3MvnuwaGGA7+kUBS1JKNC47BBV5mIhtuKNA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQ7hx9ygK5OGOsc+t1ZA4PshwmfuL6SL+oJSLZtB1uEoPs2ryI
+	uJJLMb/BHzl6lZHgPE1E086A3qoSZMNW+jYqUABnzL4nDFAv4k/z/T5CbEIkJBeP
+X-Gm-Gg: ASbGncsehISFdoQf0TUkkb9SM/1imzw04r7ckpeFLQHYcb+euEQtFYurBVvIwGvNiaF
+	XL0vrxel83YwgJlNjjTJwkBRJtOPquH3ga8p1iGTkaGjeFIgyU6PstJLgpXtjUMcYkvV21/GY9R
+	NBK8uKnPPyDQCU+XTuVWjPENqK0/rt6XCj8ZJR8GheGMZ46mKTOPDnpFKEboHm3aJN9rWZcMqZy
+	q/hJ29hwTx3Qea7ONy+RHC+kkPJQbYoYMjTlkcjrvz9MX049RbipDKY08m1xxeNQ/oLH1y9wMNv
+	Em3VO+XhfStyT7dkuKStrh4bb3C+R++Ho+/eMJnc0aRl7dmbckAUOET0LmT5YHsuuNn34Zr+VLb
+	JFQZiKPHNKn6fiNcvzwoLKabWMhtk+ASHfQgJNTedvpoJoEThOHNII7EdmLGnLmF2Mmp/cmnFkI
+	osTkfpHEMQU5gvzsc83uCGJRVcK1MNa4D1dQyXbckhAghN/JLNG2mu
+X-Google-Smtp-Source: AGHT+IE3WTRH2mIos0L4HYcUGEM0aah6qJQEiETNyF+W3xa8B2PrPOMx4PgSFXBPxOM1RovD7a8dKw==
+X-Received: by 2002:a05:6122:32c9:b0:556:3bd1:85aa with SMTP id 71dfb90a1353d-5581412697amr1148958e0c.8.1761754100717;
+        Wed, 29 Oct 2025 09:08:20 -0700 (PDT)
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com. [209.85.217.49])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-557ddb08b9bsm5597135e0c.6.2025.10.29.09.08.18
+        for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Oct 2025 08:29:17 -0700 (PDT)
-Message-ID: <9d254e18-2e2f-49ce-b785-ef0f16117550@tuxon.dev>
-Date: Wed, 29 Oct 2025 17:29:15 +0200
+        Wed, 29 Oct 2025 09:08:18 -0700 (PDT)
+Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-5db3b074f58so55445137.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 09:08:18 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUoyT6PLfDcHiHJdDQpCc45pPKFD0FP9kgAP9rjyt50+1GrKM+8xYDV25CveYm5DqCXY/PjTjFmdgrzpQ57aMSIlQ==@vger.kernel.org
+X-Received: by 2002:a05:6102:4a89:b0:5d6:1564:d7f1 with SMTP id
+ ada2fe7eead31-5db906b8f37mr1467931137.36.1761754098557; Wed, 29 Oct 2025
+ 09:08:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] ASoC: codecs: Use component driver suspend/resume
-To: Mark Brown <broonie@kernel.org>
-Cc: support.opensource@diasemi.com, lgirdwood@gmail.com, perex@perex.cz,
- tiwai@suse.com, biju.das.jz@bp.renesas.com,
- prabhakar.mahadev-lad.rj@bp.renesas.com, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, stable@vger.kernel.org
-References: <20251029141134.2556926-1-claudiu.beznea.uj@bp.renesas.com>
- <20251029141134.2556926-2-claudiu.beznea.uj@bp.renesas.com>
- <84aabf5e-c782-4e40-8e34-c8e7101188fb@sirena.org.uk>
-Content-Language: en-US
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <84aabf5e-c782-4e40-8e34-c8e7101188fb@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20251027004816.562965-1-den@valinux.co.jp>
+In-Reply-To: <20251027004816.562965-1-den@valinux.co.jp>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 29 Oct 2025 17:08:07 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVtR_8OZG2XrD5PHY+ybaH4dudya4VXNXD3iHktdDyF8w@mail.gmail.com>
+X-Gm-Features: AWmQ_blrV7P_F3R16HOIrRem1UqE4h3nEa2JhxUtyuN9Q8vEJnpLXJhqDTLYNJo
+Message-ID: <CAMuHMdVtR_8OZG2XrD5PHY+ybaH4dudya4VXNXD3iHktdDyF8w@mail.gmail.com>
+Subject: Re: [PATCH] iommu: ipmmu-vmsa: Add DMA controllers to devices_allowlist
+To: Koichiro Den <den@valinux.co.jp>
+Cc: iommu@lists.linux.dev, linux-renesas-soc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, joro@8bytes.org, will@kernel.org, 
+	robin.murphy@arm.com
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Den-san,
 
+On Mon, 27 Oct 2025 at 02:26, Koichiro Den <den@valinux.co.jp> wrote:
+> Add Renesas DMA controller devices to the devices_allowlist to enable
+> their use with the IPMMU. This allows DMA channels to operate through
+> the IOMMU when enabled.
+>
+> Signed-off-by: Koichiro Den <den@valinux.co.jp>
 
-On 10/29/25 16:37, Mark Brown wrote:
-> On Wed, Oct 29, 2025 at 04:11:33PM +0200, Claudiu wrote:
->> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>
->> Since snd_soc_suspend() is invoked through snd_soc_pm_ops->suspend(),
->> and snd_soc_pm_ops is associated with the soc_driver (defined in
->> sound/soc/soc-core.c), and there is no parent-child relationship between
->> the soc_driver and the DA7213 codec driver, the power management subsystem
->> does not enforce a specific suspend/resume order between the DA7213 driver
->> and the soc_driver.
-> 
-> Oh, also:
-> 
-> Please submit patches using subject lines reflecting the style for the
-> subsystem, this makes it easier for people to identify relevant patches.
-> Look at what existing commits in the area you're changing are doing and
-> make sure your subject lines visually resemble what they're doing.
-> There's no need to resubmit to fix this alone.
+Thanks for your patch!
 
-I messed this up. I'll be more careful next time.
+> --- a/drivers/iommu/ipmmu-vmsa.c
+> +++ b/drivers/iommu/ipmmu-vmsa.c
+> @@ -741,7 +741,9 @@ static const char * const devices_allowlist[] = {
+>         "ee100000.mmc",
+>         "ee120000.mmc",
+>         "ee140000.mmc",
+> -       "ee160000.mmc"
+> +       "ee160000.mmc",
+> +       "e7350000.dma-controller",
+> +       "e7351000.dma-controller"
 
-Thank you,
-Claudiu
+While your change looks correct to me, it causes DMA mapping failures on
+Gray Hawk Single and Sparrow Hawk when IPMMU support is enabled
+(on renesas-drivers-2025-10-28-v6.18-rc3 with renesas_defconfig
++ CONFIG_IPMMU_VMSA=y):
+
+    rcar-dmac e7351000.dma-controller: chan1: failed to map 1@0x00000000e656000c
+    sh-sci e6560000.serial: Failed preparing Tx DMA descriptor
+
+0xe656000c = HSCIF2 Transmit FIFO data register.
+
+With "#define DEBUG" added to drivers/dma/sh/rcar-dmac.c:
+
+    rcar-dmac e7351000.dma-controller: chan1: failed to map 1@0x00000000e656000c
+    sh-sci e6560000.serial: Failed preparing Tx DMA descriptor
+    rcar-dmac e7351000.dma-controller: chan2: map 1@0x00000000e6560014
+to 0x00000000fff82014 dir: DMA_TO_DEVICE
+    rcar-dmac e7351000.dma-controller: chan2: chunk
+00000000e5110c20/000000005e0ede90 sgl 0@000000000d8c5440, 256/256
+0x00000000fff82014 -> 0x00000000ffed6000
+    rcar-dmac e7351000.dma-controller: chan2: submit #2@000000005e0ede90
+    rcar-dmac e7351000.dma-controller: chan2: chunk
+0000000025f2f66c/00000000e5f0dd15 sgl 0@0000000064f1067f, 256/256
+0x00000000fff82014 -> 0x00000000ffed6100
+    rcar-dmac e7351000.dma-controller: chan2: submit #3@00000000e5f0dd15
+    rcar-dmac e7351000.dma-controller: chan2: queue chunk
+00000000e5110c20: 256@0x00000000fff82014 -> 0x00000000ffed6000
+
+0xe6560014 = HSCIF2 Receive FIFO data register
+
+Comparing to the CONFIG_IPMMU_VMSA=n case:
+
+    rcar-dmac e7351000.dma-controller: chan1: map 1@0x00000000e656000c
+to 0x00000000e656000c dir: DMA_FROM_DEVICE
+    rcar-dmac e7351000.dma-controller: chan1: chunk
+0000000096396eb4/00000000f35357b6 sgl 0@0000000013546bf6, 74/74
+0x0000000489ab5000 -> 0x00000000e656000c
+    rcar-dmac e7351000.dma-controller: chan1: submit #2@00000000f35357b6
+    rcar-dmac e7351000.dma-controller: chan1: queue chunk
+0000000096396eb4: 74@0x0000000489ab5000 -> 0x00000000e656000c
+
+This confuses me even more: why no DMA_TO_DEVICE mapping in the
+latter case?
+
+>  };
+>
+>  static bool ipmmu_device_is_allowed(struct device *dev)
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
