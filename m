@@ -1,89 +1,89 @@
-Return-Path: <linux-renesas-soc+bounces-23857-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23874-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50FDAC1B355
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 15:28:58 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F198C1B774
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 15:57:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 954741A2531B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 14:22:17 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 00B9634A83D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 14:57:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9AFE42641FB;
-	Wed, 29 Oct 2025 14:21:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="iPmuKBsz"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B05C02E3AEA;
+	Wed, 29 Oct 2025 14:53:22 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D73F31DF994
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 14:21:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 999FD33DEFF
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 14:53:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761747708; cv=none; b=Ei4Wq0j7vTbjx1HZIJ+I+uD2+0yWMu1t3ew7g2Hu4POS/RyFjYMynVACUX1M3vBXunT2FhZzgGHikzFYeMKcqAtkJcy95zDrh/rMGbtASKUKixqYbObrbCkcO+tCrHTxXqhC8YEyhRmarhl3uQPbu5cDvjS0EZbZpx9PCXXRGf0=
+	t=1761749602; cv=none; b=nLSTI6NW3RbXRWxif8wY3GV2nntO/vmH+S0oSXiLaPJj3fH1SgDVFhkJpZrNPvRcKNcy6yDM/89bOiwhBom1dbskBcUcJYsW0o0Sj0ccJYzxSlkS6V79jc0st0kw8XFy+tyNdA0YORpBaKC10NkzL8PW916TyykiWBpCOYaMJVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761747708; c=relaxed/simple;
-	bh=W2MmcX2vCweI9Q0W0BLZEPy3CkT01KpRkvvdhb0j4RU=;
+	s=arc-20240116; t=1761749602; c=relaxed/simple;
+	bh=RiCdWEkCDNsJiKATmU0RbHd3Kb5B/0yb//UgjVnVdPE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OfgSwpSlkEuvf7RrZXKHFC/kBtpFgF+iS/SdX8SPnv7xXO3EUiPprmISUQE9RHiKF6nmvQaXvd11hRQnMiwnYsBTa3IIlvRlchrUXWnMr7IspbywsdFt9g8Q4VFLcX7B3chTk9bCrnQMiKRz7QnjJb3nmsMBQUlkZKbjIAp0adk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=iPmuKBsz; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-58b025fce96so6254139e87.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 07:21:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1761747705; x=1762352505; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LVuX2dWoAgb7QHLLOTB16BwhmwEzZ8jO6zQdan0Y+2I=;
-        b=iPmuKBszqzRuJQbXmV7ZqrHkGQ7zzFPI5fCiy2pzoDtPjlRPUxn/iBGENRd/ptR9K7
-         3VBKIZJP1O0yUFj7/fCcbOwJ6Jrfg+aPV8Qe6xEI+yJbt3zW5MFm2vbkHPWUEusZbsG9
-         9pDt6yHUt7It5usEE7V6f8zm2g/wPOsuVhT8wJtzZZCpNR5pe56ZlKHI8y6UiF8K+aW0
-         6QnQ2mRi0kkStXvJzZuY7GofiTxN0n9PLm4/uCs5Swf6Aq4grVIHoojnEHTsOwvkPK9h
-         byUFAKzmTHWTLC+KE+CJwCtlAzXP6ZbY547Jy05lqxEPqw1USDxJedUjrktORkWq++Nc
-         KPLw==
+	 To:Cc:Content-Type; b=D1oY3+F1nttbbt7HXiylQsc0P7i1Bh6NC1qwxq1uoPXDtP8f8x+BGuhGkfJMC0gLT2FDE5t7ss9GiqaUC0Oh7l6Lt9I3l7/gGigePI1crKfxVSBneEh73s87ps7Fy7taIc7P9ndjACeZblP6sTwhVQFhkOECOFcH4lvfdjNaXrU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-89f4779fe03so502656585a.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 07:53:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761747705; x=1762352505;
+        d=1e100.net; s=20230601; t=1761749599; x=1762354399;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=LVuX2dWoAgb7QHLLOTB16BwhmwEzZ8jO6zQdan0Y+2I=;
-        b=H6NOuEp4NFl+pj+9gtSv/NkBAPeCWQO/2ECzoT9SKsh4uR7eoUUn3Iddm/01e8v2+k
-         c1+RKyw7xNp5rGCdXM+nwqsPEhHbIwpMGamYEVY6FCXuL9d/uBZLQaa0PtF3yIVeZSdg
-         zmAzyTeJ2E/K1+dQTadngpb4MbzKqY1HvDuDFvd9i6+PCpXriwtnqYcvkgX4aARS44GQ
-         I9R+lIexG+FZfkzNwiQoe1aB2PH8KhBJAfBq1d3Qh/iD1GP+5LsESli7qkpzRXxzzpTY
-         VGKWLG2ZpUc2vonipkhrvYVoZYdlJsnC9W+b7d4yKndkTtxnV+gh4RmW41to3RlSUme6
-         WDXw==
-X-Forwarded-Encrypted: i=1; AJvYcCXN4C3rVdri19A5vKfqEikIsdFDu+qQp3f2HgpZZNOSKt0ihdsBipI+ZRx59xDsvYcDZrMa+3b4ogzBp3g5MXqZgw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyw2xpczKPf+DucVyn4fV9iWTpmGbWkfTSjZTq0+G0Cj2rug4H1
-	ALfEbhPs1vca1kiQ8xQxqOvCew4ic9g7TlfyWSGdgksMNRmk05uxl32QKRCqaBcenN0UlXdu4GN
-	vzSKnzGTx5yptNWbCNXZWubJfZxzvxJGfXdKJHE5whg==
-X-Gm-Gg: ASbGncv7sYfDm4ExTcuwMva2XxSYaUrJ0ORcvD75h4rvkTR2LW7T1xfZJ9MoHpKFM3R
-	j9k8ncOGpoNr51JsXR1PP+OmiWd9lHi5K8xethh2odsmfOuFCTB+MSrfisaEGlBUAerSEBr43cp
-	p6rNflzpfJ3HTb78CnCYRRtFzeUf3inVzyv1/hX9XzEcm5fcXHi+swEaw4qXl2Sk39AeKCBL71t
-	QI6W2+biOgJzPZYa8OlkQxFHC0U1xeVyKaJ7czRG+8iK7b+veCJ0/mPbLxd
-X-Google-Smtp-Source: AGHT+IH/WV9TTRDue/YlQPKqZJ/rOmSLCumqELYgQ//HXfU7luOPdKKEVQrj3vn51BUY/zZkRojEs9B5VMPxZwJpOnE=
-X-Received: by 2002:a05:6512:238f:b0:592:f814:3852 with SMTP id
- 2adb3069b0e04-594128b7bd8mr1157709e87.20.1761747703432; Wed, 29 Oct 2025
- 07:21:43 -0700 (PDT)
+        bh=UmTxX9Lp/E6iQMSfd9sSFodFiE1yd68ZDUJdx86zE5s=;
+        b=YzW8KZWPjYr+/c4SVmD3CD1XKO7Ad6YqoL9guAeUFYPMCBR33cF7b/8cVkHVNnf09u
+         Grl5R8z5QKuyZ+8uixz/oqoVGIWEe6aMDemgDQsP7FsR+i51BqplEfaezvx2WzYu4aDl
+         rPpIkomOFSjCxwYfUOsbEPNIC673YlInU8atu6UpzvFiQcyMP4GUh4XPZ+PuOr69QO9U
+         qJxq5OM59gN4wxO7KLRzK6p/uqjaGiR61ouZQ9lZDuIZVa4f5HBjHcOTNnAoiKp7ZFXS
+         M0sGjes3xmFsK2Nda9rud7aetLfqNmKoRO4wsOY6JJ/WcJ6JOoFVCkBrmBWtygZJHbid
+         VRzg==
+X-Forwarded-Encrypted: i=1; AJvYcCU9GElj7c/jaQEm02hymXow2JepnzFIyW/S/JtkmS/BLbW8NJUfipgA3vtBrJbFjKCx+ELO7sWHQMfOsI8QMiTiuQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzMVIYNQF88ID4PdUOGluv/EgN0G+f4C+7ipxU3ijeIr++Ee6/c
+	zTbQWnvvZECvG+mHOuw3OIxNijp0PsNLjQo+vMlP3XeZP5uyu87hCY/mAomVD32P
+X-Gm-Gg: ASbGncvRETl/F58/fAaRqN6QFp5T5q1ER39Hzrr4GYv+FI1YZP8zwBX7slHG6A2rCp1
+	OCgBdB9JRXUbmCi2Y51h37xOiiFLI8W2Qk359x+8Kga2w5DlWTc6ryH7vyr1HXd0JY7lDQLAiOj
+	6GG42E9klZwoVLqLfjN2Sif8MQKbamSr0e4PwP1xMKR1H2iz5F2sfDptCK1N5NUqDd+8EHxifIk
+	xPPdUw9Qaw9HFwjhu3wTGqsCiyR3It7ReHVA8mP8Hu6dCpyeP39Xa0aTTcb5FhZT3qrrt8tQ4MS
+	2aK0EACcRYZOJFjciQ8KbHsl1/Gu9MBft8rNEDCAKtR6BHyoOcu1FvSfAZE62DergRglG+GIO8f
+	bzDfXkGNngAjoRkmfelf2apRsLkTYDOOoOU781OHA8duX+iikYlfVf2F/auaFe8Q+Da0y4Mbzvo
+	4SMRgyHdsS9Myo+dE1uUcTQ7h1ZX47baAiSZdlDuQ5VqF6EDOKNMjVhnj4
+X-Google-Smtp-Source: AGHT+IFI1QkOWBU124cW5biKS6R6q1LBvEaDx5iYXOGJ2gmDSwPwfQDka5u9w9lBBuqWc+CaJNTJhQ==
+X-Received: by 2002:a05:620a:4009:b0:89f:5057:9761 with SMTP id af79cd13be357-8a8e15616cdmr408115685a.0.1761749598821;
+        Wed, 29 Oct 2025 07:53:18 -0700 (PDT)
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com. [209.85.222.169])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-89f243142b5sm1080542985a.8.2025.10.29.07.53.18
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Oct 2025 07:53:18 -0700 (PDT)
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-88f8f346c2cso717297985a.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 07:53:18 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXbLI/CtI8l2Zkk+1xVw3ZSkO0frEIALgfcMIUB5LFwIP3kzGlO+J2aYhAwSlyfB++DURfnEVLn8LI1M5zpJpwiBA==@vger.kernel.org
+X-Received: by 2002:a05:6102:3e95:b0:5db:38a1:213b with SMTP id
+ ada2fe7eead31-5db90656011mr932905137.27.1761748238614; Wed, 29 Oct 2025
+ 07:30:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1761588465.git.geert+renesas@glider.be> <ac3e718c5de6a23375055dd3c2e4ed6daf7542d5.1761588465.git.geert+renesas@glider.be>
-In-Reply-To: <ac3e718c5de6a23375055dd3c2e4ed6daf7542d5.1761588465.git.geert+renesas@glider.be>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 29 Oct 2025 15:21:32 +0100
-X-Gm-Features: AWmQ_bn0qj1HdhGI-E5owVSGvqmNxBgXc48MF5-9CHRtkVWKXcvNelNuCdps5kE
-Message-ID: <CACRpkdYMv+R-NJ5R4+UyhK1+DJia0z72kZgt45+0eubXMuGpEw@mail.gmail.com>
-Subject: Re: [PATCH v5 18/23] pinctrl: ma35: Convert to common
- field_{get,prep}() helpers
-To: Geert Uytterhoeven <geert+renesas@glider.be>
+References: <cover.1761588465.git.geert+renesas@glider.be> <03a492c8af84a41e47b33c9a974559805d070d8d.1761588465.git.geert+renesas@glider.be>
+ <CACRpkda6ykSZ0k9q4ChBW5NuPZvmjVjH2LPxyp3RB-=fJLBPFg@mail.gmail.com>
+In-Reply-To: <CACRpkda6ykSZ0k9q4ChBW5NuPZvmjVjH2LPxyp3RB-=fJLBPFg@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 29 Oct 2025 15:30:27 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWriu9eUHMSKcv7ojSqbquP3=z2oaquQZLx5nmN0EcGaA@mail.gmail.com>
+X-Gm-Features: AWmQ_blleyKJMjc4oETFxToQhJJ0bdzSdD1fdMmRWAHt71coVgn8wIHcAFgDdM8
+Message-ID: <CAMuHMdWriu9eUHMSKcv7ojSqbquP3=z2oaquQZLx5nmN0EcGaA@mail.gmail.com>
+Subject: Re: [PATCH v5 07/23] pinctrl: ma35: #undef field_{get,prep}() before
+ local definition
+To: Linus Walleij <linus.walleij@linaro.org>
 Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
 	Nicolas Ferre <nicolas.ferre@microchip.com>, 
 	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
@@ -109,22 +109,39 @@ Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 27, 2025 at 7:44=E2=80=AFPM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
+Hi Linus,
 
-> Drop the driver-specific field_get() and field_prep() macros, in favor
-> of the globally available variants from <linux/bitfield.h>.
+On Wed, 29 Oct 2025 at 15:20, Linus Walleij <linus.walleij@linaro.org> wrot=
+e:
+> On Mon, Oct 27, 2025 at 7:43=E2=80=AFPM Geert Uytterhoeven
+> <geert+renesas@glider.be> wrote:
 >
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> v5:
->   - Extracted from "bitfield: Add non-constant field_{prep,get}()
->     helpers".
+> > Prepare for the advent of globally available common field_get() and
+> > field_prep() macros by undefining the symbols before defining local
+> > variants.  This prevents redefinition warnings from the C preprocessor
+> > when introducing the common macros later.
+> >
+> > Suggested-by: Yury Norov <yury.norov@gmail.com>
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>
+> Do you want me to just merge this patch to the pinctrl tree or do
+> you have other plans?
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+My plan (cfr. cover letter) was to take it myself, as this is a hard
+dependency for 11/23.
+Thanks!
 
-I guess this needs to go with the rest of the patches?
+Gr{oetje,eeting}s,
 
-Yours,
-Linus Walleij
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
