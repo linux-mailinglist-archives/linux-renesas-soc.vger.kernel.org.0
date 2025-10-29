@@ -1,124 +1,104 @@
-Return-Path: <linux-renesas-soc+bounces-23833-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23834-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC939C1973C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 10:46:19 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAF71C196B8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 10:41:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id DAF574E5944
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 09:39:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 798D6464E73
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 09:40:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B785C32BF5B;
-	Wed, 29 Oct 2025 09:36:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9298A2F619D;
+	Wed, 29 Oct 2025 09:38:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qSEUtqdy"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2658632BF3D
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 09:36:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37F26253F39
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 09:38:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761730615; cv=none; b=TpgSi0Clo/ROAU25vG3iBQFL2Xysw9kmiWiPYbgPm1MGJbVs7jXtNcf626p4cVe4NfA/F/pCdNN0lPUn8HI70P3x3TG1IProu6iwacrh66QEg7qIMdWczPxgEca20qfT9OkECy28HkhSSUMbz54zWqZfftz95/QOeISJ+9A/0ZI=
+	t=1761730700; cv=none; b=liKlc06o3Npy3NB3VsmZo+eQ7zP9lgKwf5UTTGxLiE8/QBzPQRlXvTQB/HVH9jfo3xsCfGmL6gyHxbkjZ457GMi1C2P0N/+BxFcyfJSYYN2Q04ZtunuV8IDkmaUlGlBiRWP43Xpw4tpoF4PET4djQZbJYzzKqUO/4SdCQbeWIVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761730615; c=relaxed/simple;
-	bh=Xpk2JeOgvEuSwfbH0jnkEUut5F1XxgoqjewZULVDRXw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GlujkmHwTln4HFIx56k9XpMHDkqiLPCHsyUas79wbIi0v+TWkGaRfVaSCsEXeQtjv+vMOsSaJTtV9oOk7GtFCNq06zixJil9J+ye2Vzm4FPE7bWXXWvGTBAY+hMhJc4QK1oGxFeUfUFhrfNNsaD/bZIyd/f+oO4q/KTEjUCZYNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-932c2071cf5so736932241.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 02:36:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761730613; x=1762335413;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XxTxfpohQi98v1awh6L14qg+YEAlD21qoa2xt+/HNfc=;
-        b=CPLS3fWriIeCOtMhbkzp+tsJL1OSNZy7lqDEWZSlrQX/IYKiPbCrCMofHmMeH1m8AH
-         ufBMmguZtr5ZCCLZufS7DJ/Bt1Fqv5LmAh51zjvFRBAjV1Q9obI+/aBsXmA2sYl71Tvk
-         CCn643NTQfxjhXVUCL9mPaVRhyRR1nha6JgHxyZw2PyZhjH85wTecRv6mHc04o/y3cQk
-         pL/4ILjACZB/+zI0QVZjiv/msNaWPMiZRa0nCPgWOy8EEaAeflqwSXSHspDpdc9v2EbO
-         mB+DAB9/eojU14U4EmJS2pRAy04KuK4mPPxGBLufIuJmcri2SRprURUQnXEbryr9+Iio
-         HvkA==
-X-Forwarded-Encrypted: i=1; AJvYcCWPhuTAXVseKu2UrofkimUWqUnug6GSUBPUF0I0xZ5YcZ7CIcq2f/nRG8rytChR+AJke/M3t4O0dmlt9BGxOgvuNw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxOZZJnS5g28NIAYCpy7vt0M9XqOFWa7McMHQ+P+1Gv1VVkf4em
-	w9GKjqGqX0PRtQKDiwRhJ5eO2kabhG5Uy1/cKfuU3G3UZGtIMfo3cf12pVXMXn+z
-X-Gm-Gg: ASbGnct5l5XGpA5fXlL0aW1x7fFJK5tF7tYmllk5AeluYTRtLrONjg8vKgdEP/K/k9P
-	jCXui8tOOrgkCRryhOvBXFtwxkNagXElpkyQ88wtatAIe8gApZ9ttbI+rkUUSSdhMXKppBK35IR
-	HVnFtC1dwuFe2OkRmh49cWOsnyaQ3udeZSiha80CcCLJIRnBGQJnvR6qZzpRYJDgo/IMqBrGRHg
-	PRoulUXHJw8Vrqa2lyXZyfouorYc2LPuzqKKDPBTQyOCk9YJbORFwE39P8TukdivpxOA4mx0DMw
-	K43o+a0XUwWkEXNrE/qUffSKYF1RS6x3eHKbmhASCiZ85f351whqbvCrQCWuaQ8/xTE4sZLX0dV
-	5bvdlzL9TkdNrU4lWUM7f+EciOSYMmLPGBjJFW/1tTdMmsC6k33AmGpSHbFuq3z43ZTGzCQJIvW
-	fXFeWMDPPutTgNrRapqLk2p9NqWaQ5moVXv1ThJX9Uy2tEDX7w
-X-Google-Smtp-Source: AGHT+IHgowrV7l2Ki7iyAXbmF1NS2UJP11ZY7Knm+yTFjUhUhuNSTlOskghVU0c9GycCK6NP7XSB2g==
-X-Received: by 2002:a05:6122:896:b0:54a:a2a3:b16b with SMTP id 71dfb90a1353d-55803d5bcb5mr2416630e0c.3.1761730612631;
-        Wed, 29 Oct 2025 02:36:52 -0700 (PDT)
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com. [209.85.217.54])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-557ddac18dbsm5285488e0c.2.2025.10.29.02.36.51
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Oct 2025 02:36:52 -0700 (PDT)
-Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-5d5fbfca7e2so1019409137.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 02:36:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXhnj90GhB45X8vNhuNOj87DeDzW/4KYBvNc1rzFlXDtsT5Sv0tBljibpbUu3CY0XdKZBZjELaabrmgKef6+C6aUA==@vger.kernel.org
-X-Received: by 2002:a05:6102:83ce:20b0:5d4:1499:99a4 with SMTP id
- ada2fe7eead31-5db7e20513amr1674857137.13.1761730611332; Wed, 29 Oct 2025
- 02:36:51 -0700 (PDT)
+	s=arc-20240116; t=1761730700; c=relaxed/simple;
+	bh=cRIf+e/n3q6TwK3NBgQC1vfGqYEGytuJACJoL4HVTkk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hKM3QvpxxhHuX+sLPkwef9dj4FX38aIPyuCS0b9eIuGX0D+eUO7fIVRskQTj45v7Disu5289wTuFZAWnfJvOFdG1/lFtMGAhRFTJfc25PwWnph1nzV6Ck0av01L8OEgAid3yA0BZ8M5fBCXujhNTZLWAofCHTTCQP3pJVQn6ls0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qSEUtqdy; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8C3E311DD;
+	Wed, 29 Oct 2025 10:36:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1761730581;
+	bh=cRIf+e/n3q6TwK3NBgQC1vfGqYEGytuJACJoL4HVTkk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=qSEUtqdymPPbyqmJDUNNfJQowDBQZNd5B1Txsf1N7qdK7qh03E6Mk37iJJl0/p0l0
+	 iTxg5X7jYVSpJaHJtiWtjG7Tq+xKFXuNPlMMqB1iE3MGhokk9NPEyMEUoWBY27V0o5
+	 q23e1dMbkYlhTdsPx+z+ERdmZoZiyb+g8E7Qgkeo=
+Message-ID: <b44112ed-2c41-4e33-953b-8031fd29a97d@ideasonboard.com>
+Date: Wed, 29 Oct 2025 11:38:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <87o6prsl2z.wl-kuninori.morimoto.gx@renesas.com>
- <87jz0fsl0u.wl-kuninori.morimoto.gx@renesas.com> <20251028-pastoral-efficient-mandrill-c4e9ca@kuoka>
- <878qguv8fh.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <878qguv8fh.wl-kuninori.morimoto.gx@renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 29 Oct 2025 10:36:40 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW9sEcKprPjiA50QOWm7b_fwoEkuJcLLKg-srQxwJX43A@mail.gmail.com>
-X-Gm-Features: AWmQ_bn4zl8I96oXq4Jv_hdb9Wh8qZxVBEYArLHYY_ExCYgsyZeCKhK1SbmQU34
-Message-ID: <CAMuHMdW9sEcKprPjiA50QOWm7b_fwoEkuJcLLKg-srQxwJX43A@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] dt-bindings: mailbox: Add Renesas MFIS Mailbox
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Jassi Brar <jassisinghbrar@gmail.com>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 00/11] drm/rcar-du: dsi: Convert register bits to
+ BIT()/GENMASK() macros
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-renesas-soc@vger.kernel.org
+References: <20251028232959.109936-1-marek.vasut+renesas@mailbox.org>
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Content-Language: en-US
+In-Reply-To: <20251028232959.109936-1-marek.vasut+renesas@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Morimoto-san,
+Hi,
 
-On Wed, 29 Oct 2025 at 01:49, Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/mailbox/rcar,mfis-mailbox.yaml
-> >
-> > Filename matching fallback compatible. See writing bindings.
->
-> I think I rename the filename again, and it will be
->
->         filename: renesas,mfis-mailbox
->
->         compatible = "renesas,r8a78000-mfis-mailbox",
->                      "renesas,rcar-gen5-mfis-mailbox",
->                      "renesas,mfis-mailbox";
+On 29/10/2025 01:28, Marek Vasut wrote:
+> Convert register bits to BIT() macro and bitfields to GENMASK()/FIELD_PREP() macros.
+> Most of this patchset is boring mechanical conversion.
+> 
+> Noteworthy patches are 8 and 9 , those introduce handling of DSI mode flags
+> and convert use of DRM_MODE_FLAG_P.SYNC into DRM_MODE_FLAG_N.SYNC, but that
+> should not have any adverse effect on existing hardware.
+> 
+> Marek Vasut (11):
+>   drm/rcar-du: dsi: Fix missing parameter in RXSETR_...EN macros
+>   drm/rcar-du: dsi: Document TXVMSETR PIXWDTH as bitfield
+>   drm/rcar-du: dsi: Document PHTR TESTDOUT as bitfield
+>   drm/rcar-du: dsi: Deduplicate mipi_dsi_pixel_format_to_bpp() usage
+>   drm/rcar-du: dsi: Clean up VCLKSET register macros
+>   drm/rcar-du: dsi: Clean up CLOCKSET1 CLKINSEL macros
+>   drm/rcar-du: dsi: Clean up TXVMPSPHSETR DT macros
+>   drm/rcar-du: dsi: Respect DSI mode flags
+>   drm/rcar-du: dsi: Clean up handling of DRM mode flags
+>   drm/rcar-du: dsi: Convert register bits to BIT() macro
+>   drm/rcar-du: dsi: Convert register bitfields to GENMASK() macro
+> 
+>  .../gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c   |  50 ++-
+>  .../drm/renesas/rcar-du/rcar_mipi_dsi_regs.h  | 387 +++++++++---------
+>  2 files changed, 237 insertions(+), 200 deletions(-)
+> 
 
-Please no more generic compatible values like "renesas,mfis-mailbox".
-Especially in this case, as we know the MFIS mailbox on e.g. R-Car
-Gen3 is not compatible with the one on R-Car Gen5.
+Thanks, pushed to drm-misc-next.
 
-Gr{oetje,eeting}s,
+ Tomi
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
