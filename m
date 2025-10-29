@@ -1,150 +1,221 @@
-Return-Path: <linux-renesas-soc+bounces-23849-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23850-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D7C1C1B741
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 15:56:17 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B28CC1B31E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 15:26:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 48AEC568476
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 13:47:37 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C6D411C26652
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 14:12:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E01D3563DA;
-	Wed, 29 Oct 2025 13:37:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="KjsO/YA9"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 418DF2E5B2E;
+	Wed, 29 Oct 2025 14:08:23 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D163343D6C
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 13:37:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8C4B2E5D17
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 14:08:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761745055; cv=none; b=UAiOFWrtvi5/+dmFTXyt6skj1JsCgB8foQQ4XIOzVTz5bZ28MA3d2iqmCKYAZIOZtgnI8bON1/Pd2F9xMTGbZ5hfkbAMP3t74yxBOU2pi1AciCm2ZAXKeyXBq2jFiTjiHPzl+eaG3/P8GumSoN8Lr53ncXNRIFsgTCOw3dGNySQ=
+	t=1761746903; cv=none; b=AGjNOKrJyutGvsKkpTbB5lduQFBldGbzFfjvXaDWVar93a0gXEoCdQiXoEITOqI791rBMLDy/LCjD8EvKu6O2pDltlCK2cJzgGUfg2KKiY1P8WwnlnrQm9IhDnCG3uMWzv+m1w+AIpE3rpXe/RRv8rU3+5S/JqNwTnYqmJTOtcA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761745055; c=relaxed/simple;
-	bh=t7G8Jycuz8+wzAu2xCWQPBZrSzG9Z8VIdsvKbiXuUuk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cH8Z271tuYsQ9LSB0VvYo8uoxyb7AxdJRGYhZHKa+s36BHYPGaG3pYpaphdK3Zz2CSZfKMhTIOK8pfkjKeMxSkfBTzgV79PKT3iiyUpgG6GhSvwhXCic1e8b1Yxru5LW9OnUGVP1aZv4GX8IpHkpK0VZ+3PBY2wFhd/L392CZuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=KjsO/YA9; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-47117f92e32so67340645e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 06:37:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1761745052; x=1762349852; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ri5sAKlO3KnC2SWKs6OABcUyoM7Qv96rgwkPvQx4cuk=;
-        b=KjsO/YA9MG6WQzHJwhKGsQsWI9xGrV7ICzsWm+5fSdiGt8oPOl0CiMP+cOruXtMPMc
-         mr3ygzSxIsSia9E932EHbkwS2fRzksawDCgFJCQZmV75NRY1Ld4ZTlg4fbRTJrKMoqde
-         OSFURz8CKUdWaOL0Euf3jjfSayOGnG2q7pLF6k8Mhn9d5e6vx8RBm0r5o3ayDo8N5Xjx
-         CQLlC/ZXE9nnE+hAiYkthbt6wt35c37hNwA1I1egDnIKuuE8thHQV0LfDetp+EeKI5Pv
-         6f5HrsUnOg+xp+MC/zmvKTCDuxj6s79frWmyNWLyGBDBhTbG8/bYhe2O/86uHbhi8lDC
-         7Uag==
+	s=arc-20240116; t=1761746903; c=relaxed/simple;
+	bh=wRjdY7ZG2QLMLshIoHWPsaZXMglT8RAa2hPK7jmpnJQ=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=QRNO5rebfO6obOwANiDO/zhty30zXNGitKy1f+xF4Ka/pvO4IK/j7F0m5mQtQt9wjJbytenayTS4NgfsMhgO3WnnMK4nFVWaJSlxaJtH0sNlnmxDRCBp0+G2Z+r4q6+kHCt66cYaTQTlU0RejsCAnP54R6NtkKDDcRUfg+CtfIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-5db3b074f58so7340061137.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 07:08:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761745052; x=1762349852;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ri5sAKlO3KnC2SWKs6OABcUyoM7Qv96rgwkPvQx4cuk=;
-        b=MbiOyxN7LkCM/dJKdyeTC2bC+mDVQyneabUERWkCKWYg45psUK3pJ1lEpv8gOHIWxn
-         7dpIAQcnmz8/7W0wdhcatVhyd2XV3Be6Pphrn0VNB9S4gxCy4ncO1LnhGg09qIHR21tS
-         mGgwBMF04No6ERaALIb7xU6kZFRsYUcZMIJdSK6HEriPi+akSyndQbaYSRsH5Fj4PsAv
-         73cH5nqpTcNz+sqr3Sfb/s62BxPkWzxF+EGeE6hRu+7S56bIou66pDjj/dT/6S72vI/h
-         h2/x8evmyCWZFY9Vm3TWS7rx9eF6pAi0p6lzKwIAw/odQoSAjCWuGDyPY4DqqQojL5Em
-         V2Cw==
-X-Forwarded-Encrypted: i=1; AJvYcCXf279xREdDv0aM76HXB6BqS3Eprv6ghxVQQdOieHZ10OLnwYh7nzZdxM55fS+u5IYpYRkWWC8WFfm7mJL82LYP5A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyFi3/emXzyjCobvFoINw0ydoiKeXiWVY9fkosZ9g1WzqI67kHh
-	RME2gK7FxDVlVoZa++HsugY2tRuuKGyg+Pt3rzhuXE2zuPPcINgqNGPEPSpMluipDx4=
-X-Gm-Gg: ASbGnctwUGaGfjpJB4Ccp94FpbDyEvKjM6Y4gRzW8ZFkV4zCUbEz2wxZSfRtlcQ1kiz
-	NUJfbXvfOn+Ve3hmcaFKa0ExDyIN3RTyspuTpn7E50paFvW52PoMY/wl61ap3ahThLKe9eURMZW
-	oDTD9r2lKAMsbDsCgJwjvyc4NbDOfDhnWg1a8PRrfw3NJ8B/3FSPOhYcMHjAYFQOvJRHHYm4vl3
-	3wtiFDF4T3rOlOqSXvMpxKJD+LPk4iXKCYuhkfai4BNM3KO5DuK/RYLwTasVXvbCUkx6bTy6qOu
-	5IzqJtTsEM36Erd/3nDb0WSMlZWdqEHZ0wt/1x8jzhRQBtk7X/jwD5GerFBSZozYfBsWSTR/oy0
-	Cf+fHmDkQgExru5oSsNDNogrjD2KO1WHcAQ5Jx6+269VA4PNbGnTNtqFW1AVGXm8nDahGbI5XQP
-	mV/xiW93/t3uLIWcaQNi5y/rLNNx5d0fHMgyhy3Wu3hwGT8V6RB5vCBfOEzQJT
-X-Google-Smtp-Source: AGHT+IEJDplrheJ48QLqfg/pR+eu4ZCGROUq/p3ZBNkawUoNXH7zM1oOgMgH4Xfw2VwWuaEypaznsQ==
-X-Received: by 2002:a05:600c:3506:b0:46e:345d:dfde with SMTP id 5b1f17b1804b1-4771e333bbbmr23167265e9.16.1761745051964;
-        Wed, 29 Oct 2025 06:37:31 -0700 (PDT)
-Received: from claudiu-TUXEDO-InfinityBook-Pro-AMD-Gen9.. ([2a02:2f04:6302:7900:aafe:5712:6974:4a42])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4771e22280fsm49774795e9.14.2025.10.29.06.37.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Oct 2025 06:37:31 -0700 (PDT)
-From: Claudiu <claudiu.beznea@tuxon.dev>
-X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
-To: lpieralisi@kernel.org,
-	kwilczynski@kernel.org,
-	mani@kernel.org,
-	robh@kernel.org,
-	bhelgaas@google.com,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	geert+renesas@glider.be,
-	magnus.damm@gmail.com,
-	p.zabel@pengutronix.de
-Cc: claudiu.beznea@tuxon.dev,
-	linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH v6 6/6] arm64: defconfig: Enable PCIe for the Renesas RZ/G3S SoC
-Date: Wed, 29 Oct 2025 15:36:53 +0200
-Message-ID: <20251029133653.2437024-7-claudiu.beznea.uj@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251029133653.2437024-1-claudiu.beznea.uj@bp.renesas.com>
-References: <20251029133653.2437024-1-claudiu.beznea.uj@bp.renesas.com>
+        d=1e100.net; s=20230601; t=1761746899; x=1762351699;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=OOPVCmUJ4ZNRYV3mHvcjLSYwchRBNgJJbT+F/028/Ck=;
+        b=Q35Thszdrq795G3ggESL9nO4u2NYQd+WYqK2Yc/aLDoIMN+xIExBmduOoIc4h5ow2/
+         K5dCtBko0GaKmGF6nBLQysl01RM7Fe4Rp2Dure8Gyt0lXWDeTXpmpHFmFHNsQvATZ3dy
+         bxLd2ozEP3J9emKZiEjkz123YQF7KpLBFKcLbggFUkorcw3bHxE1NINa69IrY7koDP/a
+         HyqylC9IiQuEIyadUKseYWVMnpBSG1cB585KovGAsoxOqwjS9KLrS4M40YG1hA/spAoI
+         jHvr0hm7u/xH5MXXb6TlWURYZ8tq9qPKy4OdjEBvbRN55Rc023qWJooyWkRdiWRmM7lv
+         dLBQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWBgZKHvIUUuawlKkeEwfzAwTLs3agg8nejIbu7mjMsNglLepIqCoep392XQz4Pp5rGYjmGpUnAdH4OT8vrc87awA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy7Sh6P7lJkcHnR8tBXUe+PKDS0ZjCP4ys0dSHCYEKAokcePvDo
+	RKKAonRjXpV+OwCqfaEz5WOfXqrA3fuUIQ2udk5OxGoVWGMGsdms4B+rXrXPGwHg
+X-Gm-Gg: ASbGnct3u1AnwYlYlrOFhLzQrizyGIsHCCBUVt3hqkC2PF/rI1xwkMgc2g03PHTP3gS
+	FGpK5UZf8CI1lv8keG16jMwjaReo492SmQGeNJvEHZfoCFjfjGRyLkwy2GnbG5FZlR1JdTBEv2S
+	ipE9de8yqJ/YB8c7/fGWEWUr8ujqLMkcObtmgDfoT7kGQUhG1uMLJvm7kzi4own+mFVwNjnlwkw
+	+WkJ+ATCN5bLEc2IFSmSEKr074E0Bl8RJ0rtlYdRajwNBENueeCvGyLTxvfUvlEWHeOgObJcOOL
+	JKwQUdv5KMVg8bv/ZuXhjybvjO/0L7ah8YzEDS6VkQjYJ0SbBZjTXNipj3vSPh0fEFO99IcG5iW
+	zHpaboPXF24aQS/ZjJIF3AVnAqvXRyiDZRYNK+VPGsyPbEO/PH7PE3oiLIsMhVq/ZWhTQuIeSud
+	PE9MMhnwh4anKkyUu/Mhr95MJQwSzXN9i7+zKoixIOXsOfvUnpsGDw
+X-Google-Smtp-Source: AGHT+IGfrvlvXAz91ezcnnhTA8J07BCKx15nbP+TP7gT2b8Y0tcGGNRqDC3JkH5U77tzkoJIZvUMbw==
+X-Received: by 2002:a05:6102:3fab:b0:5d5:f766:75f1 with SMTP id ada2fe7eead31-5db90601534mr1043833137.11.1761746899372;
+        Wed, 29 Oct 2025 07:08:19 -0700 (PDT)
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com. [209.85.217.48])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5db4e5922a9sm5032699137.12.2025.10.29.07.08.19
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Oct 2025 07:08:19 -0700 (PDT)
+Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-5db7dcab01bso1921866137.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 07:08:19 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXkm34hb/4jGdQ4IjaGCmSXyTUtOwYW/QQ4n3Qzb/U7iUdt1xfYpirrjyC2E6b5bYzJGN1N8V2XOTD9Gz7jVyb+cA==@vger.kernel.org
+X-Received: by 2002:a05:6102:e0f:b0:5d5:d1e1:73e8 with SMTP id
+ ada2fe7eead31-5db9060234amr888440137.13.1761746898835; Wed, 29 Oct 2025
+ 07:08:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 29 Oct 2025 15:08:06 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWapT40hV3c+CSBqFOW05aWcV1a6v_NiJYgoYi0i9_PDQ@mail.gmail.com>
+X-Gm-Features: AWmQ_bnMfLsD6ckHkiLwQYsmzX9C30w05ySYiahP4F0MOeUnduw0r08f34AHIpM
+Message-ID: <CAMuHMdWapT40hV3c+CSBqFOW05aWcV1a6v_NiJYgoYi0i9_PDQ@mail.gmail.com>
+Subject: drm/imagination: genpd_runtime_suspend() crash
+To: Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>, 
+	Ulf Hansson <ulf.hansson@linaro.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: DRI Development <dri-devel@lists.freedesktop.org>, 
+	Linux PM list <linux-pm@vger.kernel.org>, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Hi all,
 
-Enable PCIe for the Renesas RZ/G3S SoC.
+While playing with the PowerVR driver on various R-Car SoCs, I ran into
+a crash/race condition on Gray Hawk Single (R-Car V4M).  After adding
+the GPU device node to DTS, the driver fails to probe due to lack of
+suitable firmware, as expected:
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
----
+    powervr fd000000.gpu: Direct firmware load for
+powervr/rogue_36.53.104.796_v1.fw failed with error -2
+    powervr fd000000.gpu: [drm] *ERROR* failed to load firmware
+powervr/rogue_36.53.104.796_v1.fw (err=-2)
 
-Changes in v6:
-- collected tags
+However, after that it crashes:
 
-Changes in v5:
-- dropped Tb tag
+    Unable to handle kernel NULL pointer dereference at virtual
+address 0000000000000040
+    Mem abort info:
+    PM: GENPD_STATE_OFF
+      ESR = 0x0000000096000004
+    PM: sd_count 19
+      EC = 0x25: DABT (current EL), IL = 32 bits
+      SET = 0, FnV = 0
+      EA = 0, S1PTW = 0
+      FSC = 0x04: level 0 translation fault
+    Data abort info:
+      ISV = 0, ISS = 0x00000004, ISS2 = 0x00000000
+      CM = 0, WnR = 0, TnD = 0, TagAccess = 0
+      GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
+    [0000000000000040] user address but active_mm is swapper
+    Internal error: Oops: 0000000096000004 [#1]  SMP
+    CPU: 2 UID: 0 PID: 46 Comm: kworker/u16:2 Tainted: G        W
+     6.18.0-rc3-arm64-renesas-04934-g585255656363-dirty #3296 PREEMPT
+    Tainted: [W]=WARN
+    Hardware name: Renesas Gray Hawk Single board based on r8a779h0 (DT)
+    Workqueue: pm pm_runtime_work
+    pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+    pc : default_suspend_ok+0xb4/0x20c
+    lr : default_suspend_ok+0x9c/0x20c
+    sp : ffff800081e23bc0
+    x29: ffff800081e23bd0 x28: ffff800080e2d240 x27: ffff0004402d8bc0
+    x26: ffff0004402e2900 x25: ffff000440b554e4 x24: ffff80008108bb70
+    x23: 0000000000000001 x22: ffff80008108bb88 x21: ffff800080e2c568
+    x20: ffff800080e2d258 x19: ffff000440b55400 x18: 0000000000000006
+    x17: 2030683937376138 x16: 72206e6f20646573 x15: ffff800081e23510
+    x14: 0000000000000000 x13: 3035616234383138 x12: 3030303866666666
+    x11: 0000000000000533 x10: 000000000000005d x9 : 000000000001b64f
+    x8 : 7f7f7f7f7f7f7f7f x7 : 205d373032323131 x6 : 0000000000000000
+    x5 : 0000000000000030 x4 : 0000000000000000 x3 : 0000000000000043
+    x2 : ffff800080e2d258 x1 : ffff80008108bb70 x0 : ffff000440b55400
+    Call trace:
+     default_suspend_ok+0xb4/0x20c (P)
+     genpd_runtime_suspend+0x11c/0x4e0
+     __rpm_callback+0x44/0x1cc
+     rpm_callback+0x6c/0x78
+     rpm_suspend+0x108/0x564
+     pm_runtime_work+0xb8/0xbc
+     process_one_work+0x144/0x280
+     worker_thread+0x2c8/0x3d0
+     kthread+0x128/0x1e0
+     ret_from_fork+0x10/0x20
+    Code: aa1303e0 52800863 b0005661 912dc021 (f9402095)
+    ---[ end trace 0000000000000000 ]---
 
-Changes in v4:
-- made it builtin
+This driver uses manual PM Domain handling for multiple PM Domains.  In
+my case, pvr_power_domains_fini() calls dev_pm_domain_detach() (twice),
+which calls dev_pm_put_subsys_data(), and sets dev->power.subsys_data to
+NULL when psd->refcount reaches zero.
 
-Changes in v3:
-- collected tags
+Later/in parallel, default_suspend_ok() calls dev_gpd_data():
 
-Changes in v2:
-- none
+    static inline struct generic_pm_domain_data *dev_gpd_data(struct
+device *dev)
+    {
+            return to_gpd_data(dev->power.subsys_data->domain_data);
+    }
 
- arch/arm64/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
+triggering the NULL pointer dereference.  Depending on timing, it may
+crash earlier or later in genpd_runtime_suspend(), or not crash at all
+(initially, I saw it only with extra debug prints in the genpd subsystem).
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index 1d2d1458bef0..ad314b82423b 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -232,6 +232,7 @@ CONFIG_PCIE_MEDIATEK_GEN3=m
- CONFIG_PCI_TEGRA=y
- CONFIG_PCIE_RCAR_HOST=y
- CONFIG_PCIE_RCAR_EP=y
-+CONFIG_PCIE_RENESAS_RZG3S_HOST=y
- CONFIG_PCIE_ROCKCHIP_HOST=m
- CONFIG_PCI_XGENE=y
- CONFIG_PCIE_XILINX=y
+As the driver mixes automatic (devm_*()) and manual cleanup, my first
+guess was that devm_pm_runtime_enable() would keep Runtime PM enabled
+too long after the manual call to pvr_power_domains_fini(), but
+replacing that by manual cleanup:
+
+    --- a/drivers/gpu/drm/imagination/pvr_drv.c
+    +++ b/drivers/gpu/drm/imagination/pvr_drv.c
+    @@ -1424,7 +1424,7 @@ pvr_probe(struct platform_device *plat_dev)
+            if (err)
+                    goto err_context_fini;
+
+    -       devm_pm_runtime_enable(&plat_dev->dev);
+    +       pm_runtime_enable(&plat_dev->dev);
+            pm_runtime_mark_last_busy(&plat_dev->dev);
+
+            pm_runtime_set_autosuspend_delay(&plat_dev->dev, 50);
+    @@ -1450,6 +1450,9 @@ pvr_probe(struct platform_device *plat_dev)
+     err_watchdog_fini:
+            pvr_watchdog_fini(pvr_dev);
+
+    +       pm_runtime_dont_use_autosuspend(&plat_dev->dev);
+    +       pm_runtime_disable(&plat_dev->dev);
+    +
+            pvr_queue_device_fini(pvr_dev);
+
+     err_context_fini:
+    @@ -1475,6 +1478,8 @@ static void pvr_remove(struct
+platform_device *plat_dev)
+            pvr_device_fini(pvr_dev);
+            drm_dev_unplug(drm_dev);
+            pvr_watchdog_fini(pvr_dev);
+    +       pm_runtime_dont_use_autosuspend(&plat_dev->dev);
+    +       pm_runtime_disable(&plat_dev->dev);
+            pvr_queue_device_fini(pvr_dev);
+            pvr_context_device_fini(pvr_dev);
+            pvr_power_domains_fini(pvr_dev);
+
+did not fix the issue.  Calling pm_runtime_force_suspend() instead of
+pm_runtime_dont_use_autosuspend() also didn't help.
+
+Do you have a clue?
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.43.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
