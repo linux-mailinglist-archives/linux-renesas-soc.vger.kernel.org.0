@@ -1,216 +1,109 @@
-Return-Path: <linux-renesas-soc+bounces-23866-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23872-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76D31C1B7B2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 15:58:59 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FF43C1B759
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 15:56:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 081491883FA6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 14:54:35 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id BD57134A4F4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 14:56:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BDE23491E8;
-	Wed, 29 Oct 2025 14:47:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="XXzWV4ja"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10E0F2C0261;
+	Wed, 29 Oct 2025 14:52:54 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com [209.85.222.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3D1C325707
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 14:47:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 738FB2620D2
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 14:52:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761749235; cv=none; b=XvPDfbcLU8qZNSvz3cPlDVkmueMPk5Xr4uq+JsUV+JFAijxoOddsPiSqCyV11oztGNatGWnjhKpVCWw9h3r4MI8EfqPCTusiRfwFqNUv0TXKiJogdLIxeo8w0sBlgNtEzShplQVuO0ytxfO+aYGWsoERRk1Tf/wKHpa61eDsR4w=
+	t=1761749573; cv=none; b=Np0+DxQk64QN1Sq03KWw2krxdYHpjApCuoGs/50AmTL4kjJBD2oc4tyLeEKIMdGLQ4l83MUo9T9NLaeiJE9C4AsJfx9Y3Wg/id/DzjBC6JhBQagtIURhrmYJ2W4OaPoMMPt86OTBkT3bVB85RvBV2w2CyaUNtKYJllAOGSvchiw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761749235; c=relaxed/simple;
-	bh=b243boCCaTbSMrqckzOBVcc5N40k8Nqv3axAi+ugjIU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SpckSBV33MFfWNIfHYZHwujC43mehuGjA6k7jB/7ke5ztGDnxiMl5e1ABBm8mVvu0TpRHuTmVPKQdNH4eCFpEE+lOaM/XV7MeQ7FdtrgXHxqpzo3mgJOdSylFEOOH5Jkitiw01JZd88e0q8L0Drkf9nIbqbmYTReqVWD6WYnbYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=XXzWV4ja; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id E435CC0DA84;
-	Wed, 29 Oct 2025 14:46:51 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 43FA7606E8;
-	Wed, 29 Oct 2025 14:47:12 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 30B1B117F81D9;
-	Wed, 29 Oct 2025 15:47:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1761749231; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=fm/+HpeO68MBCP6BcE/IdTzwkeA3DkIILyT2jptsYkQ=;
-	b=XXzWV4jarvRgdIdVxhjeaqgO+ujGNnl1bGEAJRnhevh7HP8QBPlOah3EoED79UqvixVmMo
-	VCooERib60ZQbimKQj6aVxbX3+NgDousfqRI7lJ9fork9UJ1SIczrv4xDKZ4ZVOPjXLZB+
-	Kh9zNbs7Iby7bf5WksKz0MMg4mT07KkSHB5bjuRYyrVH61iZDLv7fhonYyCkiLGUqIZgZH
-	KjB+KnafPNs62NJesSLfCN9e6RBDkFHCFtH1NFQLwd2z9n1i+Q6w4ZIFWema98Qx1TLuGT
-	1Ree+S74B8Mgm6aYHwOgwJArUMyT0cTDg91Hc4JGNuizNHh7m+cV37kxedbASA==
-From: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Herve Codina <herve.codina@bootlin.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: linux-iio@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Pascal Eberhard <pascal.eberhard@se.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH v2 1/4] dt-bindings: iio: adc: Add the Renesas RZ/N1 ADC
-Date: Wed, 29 Oct 2025 15:46:41 +0100
-Message-ID: <20251029144644.667561-2-herve.codina@bootlin.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251029144644.667561-1-herve.codina@bootlin.com>
-References: <20251029144644.667561-1-herve.codina@bootlin.com>
+	s=arc-20240116; t=1761749573; c=relaxed/simple;
+	bh=9zqV6jhB56NFXTaKlUcgOIVmNv3vcWwq2ciUZhAwPaA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hOv04mTBSBgugh9z1DYK5ncCaXKS1VCQy2Mfl2IXr87TTU9Bh3xNDxAl0WSgSoIgH+ilPc8PgIsFDFPFlIVZbnWg93q0zVZRopWSRITAlaAiW1Q+Wp9DJw8L8eNJv+/eTFrJd/q6A/lyGD2CjM75FhkV3f4LpxcOi5PYSADDMiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-89018ea5625so3067408241.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 07:52:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761749571; x=1762354371;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iQvv7exwOArMoYZGDke0hdGiWbyAHG9S2KTmO/d6Kf0=;
+        b=pi0Y7f0LfhyfAbJMFL7lYrlMB2x4tkpORiL7RJYToNAiZugZgmXA1HF6U1cVatzan8
+         KhQb/HJN/CeypHEZjyzR7EiLQ5r4Uyry8uGsDG6L4npKs+bRriwFOPJ3KgOjvFbrsC3k
+         2LTSLuKDTVxFkBeCAKv+UOHYPA80EUBDn3UhkqV0TVscKhGxcB90AhwKIbNkcAQVCjda
+         rL+6mW3zyNLrCLQw6u7u/PwH3h1Qh202mcQu9WDKG3tHNSRFaJ9hFaLfXbjesP6druqH
+         KRL2LzI6+jESdqV9OxFTRfwwMOkXeOMCo1W3NfvVFJTAbQURq5A8lOLSH0d5jo3yNoGK
+         Ea7Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXVPDRqfzFeYevKINX8ICgvn6ekh7hhtWjvLBrxvn0tpwuqmDJO+npSrTZT/CDDbLmTzPY3gJCwn8AyBzs0Q9vAgA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4UTYo01ax5xF+eTwPJnxukZz+cbHooXV3py3l19mQoE1JOmhC
+	2bdxFlLNZizzNGuPY15AnEjaey63wKwxJyA5j4ExFFKMuZ9mBlmcOMfWLnySkaag
+X-Gm-Gg: ASbGncvvv5XIs5/MPsTUE4vT2kB+r7e1OufgumfnW4wRJVU7qYweub3+qwE4pJ1TxUW
+	AQ1w5D6WbpsrkWGVJbgpRpbeHgmWI3w12T8NuJbuGoU4Xx0qxC1wM04Q6wIcq5TRjtyq7A1KCRE
+	2i+PHR6T4b2Pn0kpTPV4+TQZyACoepCUvT0TaBveandsmvZLwmjsbNaaKLGJt0jRW25jikbC1Gy
+	uuwMnBojtLkuCAxSth8Kg81E8qjE+BLsZ6hUUCBAbzjH4u5K6OpPLJg3OvgswwhNnibmvrUzwR7
+	EG0z09N0vWk8YApNM6EMPH0hODBO9yLfnB6jMBZUEsAuc44K+qfoiqdIYSkQHmGI3qYK5JsxKz9
+	zrqs3TDWl3WUE7Gh1S8t1N5q++hjG1X4fwPAzKJv2ph0bDCtJogEixGrWGyhKjm2XGZ4IqG0fUC
+	sU6ENVQ/B55uRjoi59J4V/v9UjezkdyEQgr9YVHe9G3B5YFzb+EVGS2mOJSAJsDVM=
+X-Google-Smtp-Source: AGHT+IGAGda6XH4skLOTtHzXgoDqKdG+5T5zC11gNexlFw5JpKjBu6Uw2x4PWV6HtJ8N6Jv8v3+IsA==
+X-Received: by 2002:a05:6122:311e:b0:549:f04a:6ea8 with SMTP id 71dfb90a1353d-558141a45d0mr1009265e0c.9.1761749571074;
+        Wed, 29 Oct 2025 07:52:51 -0700 (PDT)
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com. [209.85.217.52])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-557ddb33507sm5276507e0c.14.2025.10.29.07.52.49
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Oct 2025 07:52:50 -0700 (PDT)
+Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-5db39d2ce9fso3475924137.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 07:52:49 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUgSwhQRCgdAQ5VQ3Q5viDWDu/dEvCW9Cl14zf1KEPYqlvz/8fSEyuClABNCojfLAFSTlpiYQ4tjZWYsi03KxSgqg==@vger.kernel.org
+X-Received: by 2002:a05:6102:1624:b0:5d5:d1ba:439b with SMTP id
+ ada2fe7eead31-5db905d8f89mr990736137.11.1761749569699; Wed, 29 Oct 2025
+ 07:52:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+References: <20251027211249.95826-1-marek.vasut+renesas@mailbox.org> <20251027211249.95826-3-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20251027211249.95826-3-marek.vasut+renesas@mailbox.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 29 Oct 2025 15:52:38 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdV_9nSn1M8MA3K_trWW2niB21Tj3+VSQgg0zrNOd166iA@mail.gmail.com>
+X-Gm-Features: AWmQ_bmu-VsyNsgrWByxIwZ6BxxZOq0ku33A5vZwj4heK_7OuwvDxVVNAt1ifsw
+Message-ID: <CAMuHMdV_9nSn1M8MA3K_trWW2niB21Tj3+VSQgg0zrNOd166iA@mail.gmail.com>
+Subject: Re: [PATCH 3/5] arm64: dts: renesas: r8a77960-salvator-xs: Enable GPU support
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-arm-kernel@lists.infradead.org, Conor Dooley <conor+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
+	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-The Renesas RZ/N1 ADC controller is the ADC controller available in the
-Renesas RZ/N1 SoCs family.
+On Mon, 27 Oct 2025 at 22:13, Marek Vasut
+<marek.vasut+renesas@mailbox.org> wrote:
+> Enable GPU on Salvator-X 2nd version with R-Car M3-W.
+>
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
-Signed-off-by: Herve Codina (Schneider Electric) <herve.codina@bootlin.com>
----
- .../bindings/iio/adc/renesas,rzn1-adc.yaml    | 111 ++++++++++++++++++
- 1 file changed, 111 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/iio/adc/renesas,rzn1-adc.yaml
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-diff --git a/Documentation/devicetree/bindings/iio/adc/renesas,rzn1-adc.yaml b/Documentation/devicetree/bindings/iio/adc/renesas,rzn1-adc.yaml
-new file mode 100644
-index 000000000000..1a40352165fb
---- /dev/null
-+++ b/Documentation/devicetree/bindings/iio/adc/renesas,rzn1-adc.yaml
-@@ -0,0 +1,111 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/iio/adc/renesas,rzn1-adc.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Renesas RZ/N1 Analog to Digital Converter (ADC)
-+
-+maintainers:
-+  - Herve Codina <herve.codina@bootlin.com>
-+
-+description:
-+  The Renesas RZ/N1 ADC controller available in the Renesas RZ/N1 SoCs family
-+  can use up to two internal ADC cores (ADC1 and ADC2) those internal cores are
-+  handled through ADC controller virtual channels.
-+
-+properties:
-+  compatible:
-+    items:
-+      - const: renesas,r9a06g032-adc   # RZ/N1D
-+      - const: renesas,rzn1-adc
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    items:
-+      - description: APB internal bus clock
-+      - description: ADC clock
-+
-+  clock-names:
-+    items:
-+      - const: pclk
-+      - const: adc
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  adc1-avdd-supply:
-+    description:
-+      ADC1 analog power supply.
-+
-+  adc1-vref-supply:
-+    description:
-+      ADC1 reference voltage supply.
-+
-+  adc2-avdd-supply:
-+    description:
-+      ADC2 analog power supply.
-+
-+  adc2-vref-supply:
-+    description:
-+      ADC2 reference voltage supply.
-+
-+  '#io-channel-cells':
-+    const: 1
-+    description: |
-+      Channels numbers available:
-+        if ADC1 is used (i.e. adc1-{avdd,vref}-supply present):
-+          - 0: ADC1 IN0
-+          - 1: ADC1 IN1
-+          - 2: ADC1 IN2
-+          - 3: ADC1 IN3
-+          - 4: ADC1 IN4
-+          - 5: ADC1 IN6
-+          - 6: ADC1 IN7
-+          - 7: ADC1 IN8
-+        if ADC2 is used (i.e. adc2-{avdd,vref}-supply present):
-+          - 8: ADC2 IN0
-+          - 9: ADC2 IN1
-+          - 10: ADC2 IN2
-+          - 11: ADC2 IN3
-+          - 12: ADC2 IN4
-+          - 13: ADC2 IN6
-+          - 14: ADC2 IN7
-+          - 15: ADC2 IN8
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+  - power-domains
-+  - '#io-channel-cells'
-+
-+# At least one of avvd/vref supplies
-+anyOf:
-+  - required:
-+      - adc1-vref-supply
-+      - adc1-avdd-supply
-+  - required:
-+      - adc2-vref-supply
-+      - adc2-avdd-supply
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/r9a06g032-sysctrl.h>
-+
-+    adc: adc@40065000 {
-+      compatible = "renesas,r9a06g032-adc", "renesas,rzn1-adc";
-+      reg = <0x40065000 0x200>;
-+      clocks = <&sysctrl R9A06G032_HCLK_ADC>, <&sysctrl R9A06G032_CLK_ADC>;
-+      clock-names = "pclk", "adc";
-+      power-domains = <&sysctrl>;
-+      adc1-avdd-supply = <&adc1_avdd>;
-+      adc1-vref-supply = <&adc1_vref>;
-+      #io-channel-cells = <1>;
-+    };
-+...
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.51.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
