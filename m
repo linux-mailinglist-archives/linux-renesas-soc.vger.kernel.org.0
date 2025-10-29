@@ -1,143 +1,217 @@
-Return-Path: <linux-renesas-soc+bounces-23876-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23853-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0C9FC1B880
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 16:04:39 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1381C1B9D4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 16:22:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 58C381886A17
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 14:59:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 71103565011
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 14:12:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 243492E0938;
-	Wed, 29 Oct 2025 14:58:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0921C288C3D;
+	Wed, 29 Oct 2025 14:11:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="aLF0q0Oz"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E237B2E091B
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 14:58:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF22C283682
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 14:11:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761749909; cv=none; b=tIR9SxVJIXLsiZj4X+fuTLcPme463/lWhfPqvLoC+R7xwx7ux/adQ7Sqz3ZCgHBiVzoeQCTzPCysZ7avDYYXBOBDaMS43OxQZZeutiQ383ljtsntXFUOqWyGWriut8rhu9zPgDutVb5KZM0OWp2eGguX3dsulXqzdiF+7yLUcRI=
+	t=1761747115; cv=none; b=ngZD1C73pwoSw20impYEHuvniWfL/9g0HGRzdolX/UYdotsQ81HpD1EAp2x9Tx7QMBphqgkwvSQP+SCiUP3Eudti2Gf/MPmFDZgsx3YJQ9GKWnQ7riaD2mzSjiQ79zIiatc+7ghLR6bqQeYYP2E8hDDESPCV+nHXSNALPyvs4h4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761749909; c=relaxed/simple;
-	bh=hSYrwqd1mkixtFP54xQA+PcDnrci1mz4DAuMcvpZcs0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=r1J8+gfJ6kgbdcXRBBg57OPISSxNONMjJnbdGqEiG/IPD5HSfanwjmOjoNEVM5wG4t8cP5SXuKR4CdyEDhXtpxhO+N8Uzw/7YDIaOJPax1PrroF3BFHCbaa1f5wyUe7Kr7coMbc78BY9GU/VpH3CXppghqCnqYw8LwqBM5D0tF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-5d6266f1a33so4638956137.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 07:58:26 -0700 (PDT)
+	s=arc-20240116; t=1761747115; c=relaxed/simple;
+	bh=syzyZO/mJBKfFjprlnJbjqObQo3iQm+ErRfFxq3DXAg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=guPvz05M4n165YXl31B1871OpKs6Dadp8gpdsHjkGtVB4GvzSB1xCDAPeCHu1opwv9oMa+EXpFZf1aDEJpxVa0IhxjQBX/SB+OcNDkbSla/wiBi0QgUvibnzWySAGaZ5NFLWDriX1TIAX/T5AZkfkBhfw7OgB48Rrr5syNEmlv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=aLF0q0Oz; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-42701b29a7eso601293f8f.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 07:11:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1761747112; x=1762351912; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Mp6r0mmEiz+yEn07q0vDicoMrtrxWqGLSLuaBkcXGQs=;
+        b=aLF0q0OzTId9NZLe36VsKpLHpZnT+JaFchqNfRd5UQeMwitv/AqoFAPIcCuYyEkplI
+         eXyv/kAWNvzcjVD0JA/DVzbLAKp52WrUC/CmrXgPIMMPA2ElFZ0OvSKp3euqSOZy3kul
+         xdHCGHtt+UyBxS/LJ82aWqmy0l0mE5B0/QTTeJxsD0cheCJV+3tuE3bd2/1r8qdzINk+
+         OCuQH6OqRrMY8NoJcvY9QwEyIdFRxTXqOsBLNLtHQZkoTFoVEWkhhxlfAiCGzuiIHJNx
+         2Pv5j6Gu3tpApdoWKor4/Fxd18DLWof6x5139r2gKQODR9ryHW/BnTGJALSSljyNneK+
+         pL8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761749905; x=1762354705;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fd/ArEYxAAEUYhnoA0Oh/vNlB/6p6wwqYSN+YEbBwcA=;
-        b=dqSZ/au/NDciyAKXqbLCl50rCqALK6lAL464Sc8PAxYSASrAq5ZGkY55ZcMMIrpCQJ
-         T59VLqvEtXaFLUHVM/MgCLv1bLDS6xFLZR1lmsLznR8bPnHi75H5JHTdwqNrBlm2L/L0
-         5UWhOj2WqkWuybWBTTINlYFatV+4N8MHyYaiU+efC6W/I9Ke6xD4V3OHaKFJk+R1BKYt
-         QcF/WQXr4whMDD9R3Mj/z/cv2coVAuAlPF9bCpp005GwFX9HdzaxpPyOhj9pXCudHZYc
-         oQzi+n1VbdXrnu1XKjI1fJJObfjePQ92uGJZcww5SQQFWUfuEBB+ew33R/oKHoQ0kjmB
-         5ulA==
-X-Forwarded-Encrypted: i=1; AJvYcCWtonli4/qJl5eBe/RNU8T5ldObPiwFZAeUxHdylMD74jneX/8hWV5I65Kt1ecT4yYCpgI+qhLR7J22xkKY7G6QQA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwVvr2+FcP1YoQyY60idtGUx42z5pbAiUqHsn87jmfX+hoJbd92
-	vQidjYHYWIXMU9Ngl3h0OQt2MJvPIQx1ZLxyAngAGn6mgdKc8YX0s4/MLC7rItfX
-X-Gm-Gg: ASbGncvUu6oPBfpAbY97lGasL5LzRcCbZwFm68cM8m0tHbXPpVRRTrUGVJ73la7oaeC
-	71mUmzswqTunhiRaF7/8m66cT7aplJnV8sdP+oMUJtJAnnNKytXirmM9NFRsJy2TwNg7r9LRmGU
-	JezB27i6cDKsWEG1XJBw93zdZ6GZYU54tHlqdQMFA9jzymb/kpKAZ5RwRRM0YZGMtgPWyvuxHt0
-	2DAU36Dr4NQ/0hVayO+ZXR1BSm6AjO/2m49BbVnc7niz3VMxuYNOfURQ/VrayFj8/FK9hItxRAq
-	XsKpYTSxMeobXvs9Ydd0bwndli2+lNBqgc/WMFgjl9nHhXrMB8PnEPR4UkxdG4sxJ3j2bB+eQjg
-	SPcb2w/bBaTyB8nBSQYPTOXSvMN9/kA2n/mIj6JIWfsIbTRnE4MtLzrRfK2qihyoG7jVKyJMaxR
-	SZrErVGKEyLPMU8ktuW4qFvY/nUmATssWX0sKBisKSH57xEDjxVm+u
-X-Google-Smtp-Source: AGHT+IHyuVdnZrsoVZ0/+vEnS4v47QI1cByXlKwV0RKdFhxNUYnC3mn+TPKTOVZMzUQND2ATXXgKaA==
-X-Received: by 2002:a05:6102:3f05:b0:5db:38a1:1f1d with SMTP id ada2fe7eead31-5db906becf0mr823031137.35.1761749905273;
-        Wed, 29 Oct 2025 07:58:25 -0700 (PDT)
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com. [209.85.217.44])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-934c3ecfbb3sm5235817241.1.2025.10.29.07.58.24
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Oct 2025 07:58:24 -0700 (PDT)
-Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-5d758dba570so5532003137.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 07:58:24 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVt04iKdtyQqPg4nPmLJj58R9oLiiOgvw0HCNrAbwJZ59SXg+rbeWS0hHuerBntWWjw8hIwrUzdzLy9eqOFYrwZmw==@vger.kernel.org
-X-Received: by 2002:a05:6102:290d:b0:4f7:d553:3cfa with SMTP id
- ada2fe7eead31-5db90606601mr813077137.12.1761749904411; Wed, 29 Oct 2025
- 07:58:24 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1761747112; x=1762351912;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Mp6r0mmEiz+yEn07q0vDicoMrtrxWqGLSLuaBkcXGQs=;
+        b=Q5s3lUQCA/LdRNpcs7TxaNImdqde4NjYXVKekK4UiXMuMB6APKWjNV6J4SGd06MMAx
+         Iefzh5oLCwZiV3Athyk14SilTkcFtHqCJd9yb3a1i3mxY8GyW1j6L5ZiRHC+TszGS8rW
+         o4gTdglk9k1qJY6rPJEhPNFx5PjNN6QyUIws+jVXpDo9mvyhK20W9Q9hTfTVl0wqVan+
+         pUqgN1KNW29yAA7ycAqXMRnP3Lj24Onra+31L/F/U9CN7hf0hTANbfvtq4EUw+ps2e5c
+         0Vlm0INokIETFJu83lMJ7hqjlPM0kXiO+0gCgpi1OcGNzGrMgGGPLDiHWTj4VJR6FkgQ
+         RF9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXdQhXp3MN15MU5D0w5GxhCylZEZr9RguOe9vnfAPx8ibCZXXQwhAdf8lBhNkXdRZcLPoqalk0qZBuZ0lL/nfP6FA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzUTQfLA5YAAkdzRi2asNKie+HZ58aoAvImiIJJ1FcadNg2+cYs
+	SaDuruXZgRksGi4cSj8Mztc8svYh/OCSnbg2EO6hXd/Xuo0FWvaX8YZjRfI7wcx50BMXo91mZqD
+	l5SSm
+X-Gm-Gg: ASbGncvYG7Ly/8+WsEeJxSWrKanzYY2yUnIHVzsWuwXz4Lo8KOqHvI0bAYF3YxBVB4k
+	hsbj7OUbvYvKVkZhGrlNmGlMHKHDudgbHm99vESvAJcWPR0pc8DcHaGC5Rws/RIQsdCpX4H85Qw
+	zHjJqGaO+mDty0v/MA12uIpFem0ng07AxT/SO1cYwrBWQ568lqYVrB9Mr+tIaVmIDHkYVuVUM8b
+	S5CwkSpevSELkS3Vj3LxMIIfK/6q+mBR3Uh9SctyN6zx55OunBgnXyYqZ47tC4gpgGbLL/wuBX5
+	1XWzQYbSCo1i2e9CSAFhzI31mY8tGBje/QhH/OEsALAOVagukq4cbS9jYAWhmFSn/4QO+eJzvan
+	wWMoBbnZC0sVsF0eoeYdBo4yxJ3XZMmM8Sm+1EUQ9vG6/xGqulRN86q0aHWhkew7U0P0NTO0CxZ
+	spQPUJIW15+J6DvWJUfETQn3Y1jRzQz3A9xttLIYdluYgRvKmeeIzfL5uKjp3s
+X-Google-Smtp-Source: AGHT+IF0Hr0vldeCHlMvpdjLo7kANvDVUkMSknePlPVoEwlL5eF+LbbvELXIRDurzNHdmZ/2Jwl5Lw==
+X-Received: by 2002:a05:6000:401e:b0:411:3c14:3ad9 with SMTP id ffacd0b85a97d-429aeb09960mr3002731f8f.21.1761747112092;
+        Wed, 29 Oct 2025 07:11:52 -0700 (PDT)
+Received: from claudiu-TUXEDO-InfinityBook-Pro-AMD-Gen9.. ([2a02:2f04:6302:7900:aafe:5712:6974:4a42])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429952db9c6sm27076286f8f.36.2025.10.29.07.11.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Oct 2025 07:11:51 -0700 (PDT)
+From: Claudiu <claudiu.beznea@tuxon.dev>
+X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
+To: support.opensource@diasemi.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	biju.das.jz@bp.renesas.com,
+	prabhakar.mahadev-lad.rj@bp.renesas.com
+Cc: claudiu.beznea@tuxon.dev,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	stable@vger.kernel.org
+Subject: [PATCH 2/2] ASoC: renesas: rz-ssi: Use proper dma_buffer_pos after resume
+Date: Wed, 29 Oct 2025 16:11:34 +0200
+Message-ID: <20251029141134.2556926-3-claudiu.beznea.uj@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20251029141134.2556926-1-claudiu.beznea.uj@bp.renesas.com>
+References: <20251029141134.2556926-1-claudiu.beznea.uj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251027211249.95826-1-marek.vasut+renesas@mailbox.org>
- <20251027211249.95826-2-marek.vasut+renesas@mailbox.org> <CAMuHMdV2Kr4WcYRERHCYR1zGAh0n2N3D=LYbRSYLJnRTYDB4+w@mail.gmail.com>
-In-Reply-To: <CAMuHMdV2Kr4WcYRERHCYR1zGAh0n2N3D=LYbRSYLJnRTYDB4+w@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 29 Oct 2025 15:58:13 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWyKeQq31GEK+-y4BoaZFcCxJNac63S7NoocMj1cYKniw@mail.gmail.com>
-X-Gm-Features: AWmQ_bkK_riw2DJ8GdGhH8UFTwbp-0GBHO60gLWdbse1YNVgueoQrpv6rrq65Pk
-Message-ID: <CAMuHMdWyKeQq31GEK+-y4BoaZFcCxJNac63S7NoocMj1cYKniw@mail.gmail.com>
-Subject: Re: [PATCH 2/5] arm64: dts: renesas: r8a77960-salvator-x: Enable GPU support
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-arm-kernel@lists.infradead.org, Conor Dooley <conor+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
-	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Marek,
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-On Wed, 29 Oct 2025 at 15:52, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Mon, 27 Oct 2025 at 22:13, Marek Vasut
-> <marek.vasut+renesas@mailbox.org> wrote:
-> > Enable GPU on Salvator-X with R-Car M3-W.
-> >
-> > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
->
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+When the driver supports DMA, it enqueues four DMA descriptors per
+substream before the substream is started. New descriptors are enqueued in
+the DMA completion callback, and each time a new descriptor is queued, the
+dma_buffer_pos is incremented.
 
-(no cover letter, so just replying here)
+During suspend, the DMA transactions are terminated. There might be cases
+where the four extra enqueued DMA descriptors are not completed and are
+instead canceled on suspend. However, the cancel operation does not take
+into account that the dma_buffer_pos was already incremented.
 
-I am a bit reluctant to queue this, as apparently there is a bug/race
-condition in the PowerVR driver: if the firmware is not available,
-the kernel may crash during boot due to a NULL pointer dereference.
-I could trigger this on Salvator-X with R-Car M3-W after applying your
-series to renesas-drivers-2025-10-28, and adding two debug prints:
+Previously, the suspend code reinitialized dma_buffer_pos to zero, but this
+is not always correct.
 
---- a/drivers/pmdomain/core.c
-+++ b/drivers/pmdomain/core.c
-@@ -256,12 +256,14 @@ struct device *dev_to_genpd_dev(struct device *dev)
- static int genpd_stop_dev(const struct generic_pm_domain *genpd,
-                          struct device *dev)
- {
-+pr_info("==== %s/%s: stop\n", genpd->name, dev_name(dev));
-        return GENPD_DEV_CALLBACK(genpd, int, stop, dev);
+To avoid losing any audio periods during suspend/resume and to prevent
+clip sound, save the completed DMA buffer position in the DMA callback and
+reinitialize dma_buffer_pos on resume.
+
+Cc: stable@vger.kernel.org
+Fixes: 1fc778f7c833a ("ASoC: renesas: rz-ssi: Add suspend to RAM support")
+Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+---
+ sound/soc/renesas/rz-ssi.c | 25 ++++++++++++-------------
+ 1 file changed, 12 insertions(+), 13 deletions(-)
+
+diff --git a/sound/soc/renesas/rz-ssi.c b/sound/soc/renesas/rz-ssi.c
+index e00940814157..81b883e8ac92 100644
+--- a/sound/soc/renesas/rz-ssi.c
++++ b/sound/soc/renesas/rz-ssi.c
+@@ -85,6 +85,7 @@ struct rz_ssi_stream {
+ 	struct snd_pcm_substream *substream;
+ 	int fifo_sample_size;	/* sample capacity of SSI FIFO */
+ 	int dma_buffer_pos;	/* The address for the next DMA descriptor */
++	int completed_dma_buf_pos; /* The address of the last completed DMA descriptor. */
+ 	int period_counter;	/* for keeping track of periods transferred */
+ 	int sample_width;
+ 	int buffer_pos;		/* current frame position in the buffer */
+@@ -215,6 +216,7 @@ static void rz_ssi_stream_init(struct rz_ssi_stream *strm,
+ 	rz_ssi_set_substream(strm, substream);
+ 	strm->sample_width = samples_to_bytes(runtime, 1);
+ 	strm->dma_buffer_pos = 0;
++	strm->completed_dma_buf_pos = 0;
+ 	strm->period_counter = 0;
+ 	strm->buffer_pos = 0;
+ 
+@@ -437,6 +439,10 @@ static void rz_ssi_pointer_update(struct rz_ssi_stream *strm, int frames)
+ 		snd_pcm_period_elapsed(strm->substream);
+ 		strm->period_counter = current_period;
+ 	}
++
++	strm->completed_dma_buf_pos += runtime->period_size;
++	if (strm->completed_dma_buf_pos >= runtime->buffer_size)
++		strm->completed_dma_buf_pos = 0;
  }
-
- static int genpd_start_dev(const struct generic_pm_domain *genpd,
-                           struct device *dev)
- {
-+pr_info("==== %s/%s: start\n", genpd->name, dev_name(dev));
-        return GENPD_DEV_CALLBACK(genpd, int, start, dev);
+ 
+ static int rz_ssi_pio_recv(struct rz_ssi_priv *ssi, struct rz_ssi_stream *strm)
+@@ -778,10 +784,14 @@ static int rz_ssi_dma_request(struct rz_ssi_priv *ssi, struct device *dev)
+ 	return -ENODEV;
  }
-
-See also my original report "drm/imagination: genpd_runtime_suspend()
-crash"[1] on Gray Hawk Single.
-
-[1] https://lore.kernel.org/all/CAMuHMdWapT40hV3c+CSBqFOW05aWcV1a6v_NiJYgoYi0i9_PDQ@mail.gmail.com
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+ 
+-static int rz_ssi_trigger_resume(struct rz_ssi_priv *ssi)
++static int rz_ssi_trigger_resume(struct rz_ssi_priv *ssi, struct rz_ssi_stream *strm)
+ {
++	struct snd_pcm_substream *substream = strm->substream;
++	struct snd_pcm_runtime *runtime = substream->runtime;
+ 	int ret;
+ 
++	strm->dma_buffer_pos = strm->completed_dma_buf_pos + runtime->period_size;
++
+ 	if (rz_ssi_is_stream_running(&ssi->playback) ||
+ 	    rz_ssi_is_stream_running(&ssi->capture))
+ 		return 0;
+@@ -794,16 +804,6 @@ static int rz_ssi_trigger_resume(struct rz_ssi_priv *ssi)
+ 				ssi->hw_params_cache.channels);
+ }
+ 
+-static void rz_ssi_streams_suspend(struct rz_ssi_priv *ssi)
+-{
+-	if (rz_ssi_is_stream_running(&ssi->playback) ||
+-	    rz_ssi_is_stream_running(&ssi->capture))
+-		return;
+-
+-	ssi->playback.dma_buffer_pos = 0;
+-	ssi->capture.dma_buffer_pos = 0;
+-}
+-
+ static int rz_ssi_dai_trigger(struct snd_pcm_substream *substream, int cmd,
+ 			      struct snd_soc_dai *dai)
+ {
+@@ -813,7 +813,7 @@ static int rz_ssi_dai_trigger(struct snd_pcm_substream *substream, int cmd,
+ 
+ 	switch (cmd) {
+ 	case SNDRV_PCM_TRIGGER_RESUME:
+-		ret = rz_ssi_trigger_resume(ssi);
++		ret = rz_ssi_trigger_resume(ssi, strm);
+ 		if (ret)
+ 			return ret;
+ 
+@@ -852,7 +852,6 @@ static int rz_ssi_dai_trigger(struct snd_pcm_substream *substream, int cmd,
+ 
+ 	case SNDRV_PCM_TRIGGER_SUSPEND:
+ 		rz_ssi_stop(ssi, strm);
+-		rz_ssi_streams_suspend(ssi);
+ 		break;
+ 
+ 	case SNDRV_PCM_TRIGGER_STOP:
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.43.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
