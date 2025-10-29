@@ -1,89 +1,88 @@
-Return-Path: <linux-renesas-soc+bounces-23855-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23857-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4B08C1B548
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 15:45:07 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50FDAC1B355
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 15:28:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 7FD404F31CA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 14:20:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 954741A2531B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Oct 2025 14:22:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AECBB265CC2;
-	Wed, 29 Oct 2025 14:20:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9AFE42641FB;
+	Wed, 29 Oct 2025 14:21:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="STdMHBQT"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="iPmuKBsz"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8380D263F5E
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 14:19:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D73F31DF994
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 14:21:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761747601; cv=none; b=R+S38srF4ydEkgEGYo6p6rdPadmtxE/k/yc/SIXnFUQ2Ibh3eTqBijf9l9l1M3yiIEIl79GhNMYp1fiBPGxhttcfoNsV9GmMKsv4laeUnGW8UblbroQ0ue6cRo2ttxlMMteM2V3Z15Hr2iI0V3l1eelV7KWTCGqMVQ0fZNleGfw=
+	t=1761747708; cv=none; b=Ei4Wq0j7vTbjx1HZIJ+I+uD2+0yWMu1t3ew7g2Hu4POS/RyFjYMynVACUX1M3vBXunT2FhZzgGHikzFYeMKcqAtkJcy95zDrh/rMGbtASKUKixqYbObrbCkcO+tCrHTxXqhC8YEyhRmarhl3uQPbu5cDvjS0EZbZpx9PCXXRGf0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761747601; c=relaxed/simple;
-	bh=1CX+8+kOSf10qsVFbiIqXKLPwxKNZKPK3M5tdY2U3zQ=;
+	s=arc-20240116; t=1761747708; c=relaxed/simple;
+	bh=W2MmcX2vCweI9Q0W0BLZEPy3CkT01KpRkvvdhb0j4RU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WzEVhWx9ocJyvok37aOqojmrF+dFzlelBdHQStltXNPCD2xw0Ztc/YhpVyOplcehcnioW9xVitImG7uMcx1Ktt/rhUDLTkghCDm/RGd+PxWgrRQdbtkPbK5R+4zJMiAsY7xiFLNr+jVV3djqWudtDsa1L7metkUg5x2CEUTYVpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=STdMHBQT; arc=none smtp.client-ip=209.85.167.47
+	 To:Cc:Content-Type; b=OfgSwpSlkEuvf7RrZXKHFC/kBtpFgF+iS/SdX8SPnv7xXO3EUiPprmISUQE9RHiKF6nmvQaXvd11hRQnMiwnYsBTa3IIlvRlchrUXWnMr7IspbywsdFt9g8Q4VFLcX7B3chTk9bCrnQMiKRz7QnjJb3nmsMBQUlkZKbjIAp0adk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=iPmuKBsz; arc=none smtp.client-ip=209.85.167.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-59303607a3aso5631256e87.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 07:19:59 -0700 (PDT)
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-58b025fce96so6254139e87.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Oct 2025 07:21:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1761747598; x=1762352398; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1761747705; x=1762352505; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=oOeCj7atBm+jp74qXquxytnJSCplsW/eyoN4u7SHchg=;
-        b=STdMHBQT12yVVhenBH9kjtzktzfxhBOPKOo9apSlTLueZcsupwgg31te2NoZ1MYB8V
-         MSCDsKHm3FOvPOU5eIBCDfHMdlRjXQ/WaIfGw7guwrNmTT3BzH6WS72IQ0rngTeIuIKG
-         geIpbGtk9/KkbvqJ4ys0/EumZ1gCsCKUv+qxxEKzmywlju+PTnHhCdTYr2IGsTbcyPmT
-         1dv7mnHne5W/9nCZuPRS5MOiokEytiREtrQcf4/hBmfAUMtMcLusUKfTMKcUvAn01g/8
-         YYl2+QIB5DhWKuvrDaYdcUxOB+ZWEQK/1a4i5MEDu6ruYYw7g+OmbE5blhnTFS7GFVRk
-         77Mg==
+        bh=LVuX2dWoAgb7QHLLOTB16BwhmwEzZ8jO6zQdan0Y+2I=;
+        b=iPmuKBszqzRuJQbXmV7ZqrHkGQ7zzFPI5fCiy2pzoDtPjlRPUxn/iBGENRd/ptR9K7
+         3VBKIZJP1O0yUFj7/fCcbOwJ6Jrfg+aPV8Qe6xEI+yJbt3zW5MFm2vbkHPWUEusZbsG9
+         9pDt6yHUt7It5usEE7V6f8zm2g/wPOsuVhT8wJtzZZCpNR5pe56ZlKHI8y6UiF8K+aW0
+         6QnQ2mRi0kkStXvJzZuY7GofiTxN0n9PLm4/uCs5Swf6Aq4grVIHoojnEHTsOwvkPK9h
+         byUFAKzmTHWTLC+KE+CJwCtlAzXP6ZbY547Jy05lqxEPqw1USDxJedUjrktORkWq++Nc
+         KPLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761747598; x=1762352398;
+        d=1e100.net; s=20230601; t=1761747705; x=1762352505;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=oOeCj7atBm+jp74qXquxytnJSCplsW/eyoN4u7SHchg=;
-        b=k9Wqc/dsuZQM8TQreDdBjphEWrBLZz/i4NkOZDzBPsjKPxJrCUUWwqyXruI2A9oyD7
-         LlHYeSZnm9FNh5k0fz7ZoouEa4fDBv+D29mw1hdLcyWsBcgwg7jVJr4VkNXJFjFsPDN5
-         n5QWZ9a9Wi4IS9Pxw8zR6/sCETY0v6eTEaTfkcn4fHg5bQCRfmKUwvlAc7lSXBkGtDHt
-         Q+AzK8HX5QVtD6ffRrsFpgE5MBsB/2Mx2xTG2qYRdv4zAUAWjQo6XHQZTWMuQ/A1viw2
-         biQgnVMp0b8Kn6JJdHi7BJ/b7Rq8XS0tatG6y5NnFHcrRwedIgmiL3fncPNuw2txe+/z
-         hJLg==
-X-Forwarded-Encrypted: i=1; AJvYcCXc09i2nbKwWPrW7zLF3obPpsIh3MKc81/0uwJVnFy4KQGngJhccxFh0I0iAyEeNwK/RCsiMCydicgadU5ahRlRgw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwmJ2LoGg9V8trvJcecW+CGG0RTZJY009yRrrKO2+n6aKkrfJBf
-	ftu0TYHQEUrb/mNiEdmx/R1A1Oz3Z+jT8Y8mqzoEKA5LnK0EOsF5oJtgkimg2SDH3cLQPdK4cy6
-	WLSUwiZZo8ctDV2Ogl7yUZXpV02D8hPEuEsuMvN4Tbg==
-X-Gm-Gg: ASbGncvwYS8QB7Yrr6+2gce3SGbSs2o419r4PTA1+9ZTDSFcRPDLkMPr6W1q0i/gdwD
-	cUMjwdXhMdQ2uQlV0dQAmXgW6TANRPidTAX5rybvjcGuZ2N7sz2+27YMvbuB0n6V6lJ4YryP4H5
-	wmsecwvbD5SOl08e3oCbr2BD79JKKC6FPrEff6MALCBUAIS/wObuzKhSH3AkNhLRAswww9wmiyo
-	0QWUjcQzrAsiM2/Og/YSk1wPmZvIDuNDbPMqwrGs9RjGOkZEKEy8FuRdhTQXqgJGS3l77bFMW5T
-	Xwi2dA==
-X-Google-Smtp-Source: AGHT+IG59+bQUerf6uihfCFWCYSjQICr8Xo4ZbiwSS1E65/x2rl3ls+2t5ioYCJKzMBcQXa5Sk43LYjN69G8TJb8SWg=
-X-Received: by 2002:a05:6512:3055:b0:592:fc68:5b9d with SMTP id
- 2adb3069b0e04-594128623cfmr1174582e87.10.1761747597543; Wed, 29 Oct 2025
- 07:19:57 -0700 (PDT)
+        bh=LVuX2dWoAgb7QHLLOTB16BwhmwEzZ8jO6zQdan0Y+2I=;
+        b=H6NOuEp4NFl+pj+9gtSv/NkBAPeCWQO/2ECzoT9SKsh4uR7eoUUn3Iddm/01e8v2+k
+         c1+RKyw7xNp5rGCdXM+nwqsPEhHbIwpMGamYEVY6FCXuL9d/uBZLQaa0PtF3yIVeZSdg
+         zmAzyTeJ2E/K1+dQTadngpb4MbzKqY1HvDuDFvd9i6+PCpXriwtnqYcvkgX4aARS44GQ
+         I9R+lIexG+FZfkzNwiQoe1aB2PH8KhBJAfBq1d3Qh/iD1GP+5LsESli7qkpzRXxzzpTY
+         VGKWLG2ZpUc2vonipkhrvYVoZYdlJsnC9W+b7d4yKndkTtxnV+gh4RmW41to3RlSUme6
+         WDXw==
+X-Forwarded-Encrypted: i=1; AJvYcCXN4C3rVdri19A5vKfqEikIsdFDu+qQp3f2HgpZZNOSKt0ihdsBipI+ZRx59xDsvYcDZrMa+3b4ogzBp3g5MXqZgw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyw2xpczKPf+DucVyn4fV9iWTpmGbWkfTSjZTq0+G0Cj2rug4H1
+	ALfEbhPs1vca1kiQ8xQxqOvCew4ic9g7TlfyWSGdgksMNRmk05uxl32QKRCqaBcenN0UlXdu4GN
+	vzSKnzGTx5yptNWbCNXZWubJfZxzvxJGfXdKJHE5whg==
+X-Gm-Gg: ASbGncv7sYfDm4ExTcuwMva2XxSYaUrJ0ORcvD75h4rvkTR2LW7T1xfZJ9MoHpKFM3R
+	j9k8ncOGpoNr51JsXR1PP+OmiWd9lHi5K8xethh2odsmfOuFCTB+MSrfisaEGlBUAerSEBr43cp
+	p6rNflzpfJ3HTb78CnCYRRtFzeUf3inVzyv1/hX9XzEcm5fcXHi+swEaw4qXl2Sk39AeKCBL71t
+	QI6W2+biOgJzPZYa8OlkQxFHC0U1xeVyKaJ7czRG+8iK7b+veCJ0/mPbLxd
+X-Google-Smtp-Source: AGHT+IH/WV9TTRDue/YlQPKqZJ/rOmSLCumqELYgQ//HXfU7luOPdKKEVQrj3vn51BUY/zZkRojEs9B5VMPxZwJpOnE=
+X-Received: by 2002:a05:6512:238f:b0:592:f814:3852 with SMTP id
+ 2adb3069b0e04-594128b7bd8mr1157709e87.20.1761747703432; Wed, 29 Oct 2025
+ 07:21:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1761588465.git.geert+renesas@glider.be> <03a492c8af84a41e47b33c9a974559805d070d8d.1761588465.git.geert+renesas@glider.be>
-In-Reply-To: <03a492c8af84a41e47b33c9a974559805d070d8d.1761588465.git.geert+renesas@glider.be>
+References: <cover.1761588465.git.geert+renesas@glider.be> <ac3e718c5de6a23375055dd3c2e4ed6daf7542d5.1761588465.git.geert+renesas@glider.be>
+In-Reply-To: <ac3e718c5de6a23375055dd3c2e4ed6daf7542d5.1761588465.git.geert+renesas@glider.be>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 29 Oct 2025 15:19:45 +0100
-X-Gm-Features: AWmQ_bk2MMp0FQz04qrj-8hmhOAMRkHeQZjiqCVvFpO75M_-67m5zTnOfqmkGUQ
-Message-ID: <CACRpkda6ykSZ0k9q4ChBW5NuPZvmjVjH2LPxyp3RB-=fJLBPFg@mail.gmail.com>
-Subject: Re: [PATCH v5 07/23] pinctrl: ma35: #undef field_{get,prep}() before
- local definition
+Date: Wed, 29 Oct 2025 15:21:32 +0100
+X-Gm-Features: AWmQ_bn0qj1HdhGI-E5owVSGvqmNxBgXc48MF5-9CHRtkVWKXcvNelNuCdps5kE
+Message-ID: <CACRpkdYMv+R-NJ5R4+UyhK1+DJia0z72kZgt45+0eubXMuGpEw@mail.gmail.com>
+Subject: Re: [PATCH v5 18/23] pinctrl: ma35: Convert to common
+ field_{get,prep}() helpers
 To: Geert Uytterhoeven <geert+renesas@glider.be>
 Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
 	Nicolas Ferre <nicolas.ferre@microchip.com>, 
@@ -110,23 +109,21 @@ Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Geert,
-
-thanks for your patch!
-
-On Mon, Oct 27, 2025 at 7:43=E2=80=AFPM Geert Uytterhoeven
+On Mon, Oct 27, 2025 at 7:44=E2=80=AFPM Geert Uytterhoeven
 <geert+renesas@glider.be> wrote:
 
-> Prepare for the advent of globally available common field_get() and
-> field_prep() macros by undefining the symbols before defining local
-> variants.  This prevents redefinition warnings from the C preprocessor
-> when introducing the common macros later.
+> Drop the driver-specific field_get() and field_prep() macros, in favor
+> of the globally available variants from <linux/bitfield.h>.
 >
-> Suggested-by: Yury Norov <yury.norov@gmail.com>
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> v5:
+>   - Extracted from "bitfield: Add non-constant field_{prep,get}()
+>     helpers".
 
-Do you want me to just merge this patch to the pinctrl tree or do
-you have other plans?
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+
+I guess this needs to go with the rest of the patches?
 
 Yours,
 Linus Walleij
