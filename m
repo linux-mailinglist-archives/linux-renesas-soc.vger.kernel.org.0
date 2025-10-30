@@ -1,77 +1,77 @@
-Return-Path: <linux-renesas-soc+bounces-23913-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23914-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A0DBC2194E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Oct 2025 18:56:27 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66470C21957
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Oct 2025 18:56:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 7A9B54EB00B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Oct 2025 17:55:52 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 32ADD4EEA30
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Oct 2025 17:55:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5901636CE03;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B68836CE12;
 	Thu, 30 Oct 2025 17:55:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J82MttpW"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XR9NB8fi"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A82C36C256
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E99E36C257
 	for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Oct 2025 17:55:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761846935; cv=none; b=cNZlFkocJ2QrhdlV+4pDvKym5CEe+ugYGC2dBhGGb53UuvfIKvgvkb3lDZ3xWJ0IpNrNLVhzJZKxXXS9sJgRUr3hzj6ZYha9zNQqyBFenzfOIf1X8MZ4hgFV+cFj9WkLsLph8Vin2SevcF7fFYg6pXLQ154S3Y18nl/mtaWfnoI=
+	t=1761846936; cv=none; b=ZNB24XiCZnBPnRlKfQsGlCWlUczdxiQsQMyZzUsYfH0+PI10eQYiUUsO6/u3UB44dy5cpAIbR0m+4/FRBla9YHS4TH5Ap0eDC3r7ojkgpK7T79M6uaYms1nS6fUJeIgvg0rZo0NzdF20sdAiFUQ03ETZ6WwMloklO60a9eLYcwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761846935; c=relaxed/simple;
-	bh=9jcJ345rfMMIxdlmZfAg0y+exXpCpE0R+jvegxv2zm4=;
+	s=arc-20240116; t=1761846936; c=relaxed/simple;
+	bh=h/WB+hR/anHyT+SzoBQFwmDv8A8kpm7m3RVwaDTL2qk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=h1rX45w5lyzs2CNOSZeRd0lEX+BjEE7dV1LyLF8/uFIY479SvCLtzbzvhBbxl5bA1ii4qS28ByibwAzziBhk9m+xJfbzTB/K2tPB1hhOAxOs0CrCUNDxShhnweW43AL6TtsqKaZYMhGdwDZ2YbCkJRTUOxkOHvX+tmz12qFB3ww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J82MttpW; arc=none smtp.client-ip=209.85.221.45
+	 MIME-Version; b=KD5xUk8niLrfvQ3AZa8AAJx1h4zXVlNEz8nHxupsRr7sH9Fno4PiBfTqKWZt8JwR0oXpZKumlVpElQkiO2MFrO1ZiR806NxvLNLuZtHCbQVi0X7tKfuMMqsN2k1YE7xuf2np/RR0tzS5pWra7U7EtJcQTCVaneB6ZQf+pqy26xs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XR9NB8fi; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3ece0e4c5faso1408952f8f.1
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3f0ae439b56so844727f8f.3
         for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Oct 2025 10:55:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761846931; x=1762451731; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1761846932; x=1762451732; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=GbIsB+JA33Gj1io+1AAFvPQwYHrrul7tUKhFdp8JQ+s=;
-        b=J82MttpWIRLzbNEEfH+3Ncrsg/jYUIIN1lQ9nT3qpprSyfwFZTx+k292qSqPOp0GRc
-         BNmSaBB/F5m3Cb4K83iM2sAVIfjfN5+ofA+IPFv2CuSQlTzy2IV7sLV4W2Zm9Hwsai0x
-         XmHQhD4zkjKv7FLeStCGweTQp4ynd6ZJvJHVJTIqRrC5jN5YOiQTWHJmakoBFJX9iQyG
-         5b8GCp1sm4Wz5+A31X5yZqFW4v9nJvILLctnkZBTeR1ibpFO4DCiLnNB0nmTA+3Qbs74
-         llsdnhZoFd0CYI30Wi08BmbQL7bzSPJxAeBTSmJCmM3kcMNkV4vKwxU/9Sj0n+4wiYpY
-         qQ2Q==
+        bh=fpqM7R8t1LjT1e31UVuLTSZ7tEVjNoHsGLOYlh8Q1Lk=;
+        b=XR9NB8fi7Ziaui3V5/Wqg92z4H6KHvGsDgot4efrfCicu4b6E9JG1GunqqicPpbytQ
+         DBUDXRK58bzGbLWo+u51FfhthD7497PQP7KznEHsxfpeQZ2/iSdQAjkqQNScZpjrX6wa
+         oUcmFGGNxhQeu3w2n5Zh1wrpcDl8OR0Hz17wmo0jdxG5br8CMWU21e1CyVaxTE/RYnIb
+         b+SJnM0aO9D1LGztZ4TcBlGmagL5Z5suBfCQIOu2Jk+90Mwr4ZJ6zdH8u++q9rE18OIH
+         T73s4BmFauPBN5nf5kczm7A+DG33vS32inm9lKDZnD1jgWvKIADflChcN0NJqZL4VduA
+         nJXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761846931; x=1762451731;
+        d=1e100.net; s=20230601; t=1761846932; x=1762451732;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GbIsB+JA33Gj1io+1AAFvPQwYHrrul7tUKhFdp8JQ+s=;
-        b=NGDQdXOGpUtyEygiv2OC5OfQwiDoEJvqWKY7pDvrC3yHFa0eC6Xoca81joDMBs6WeW
-         ng2MBwe48sj2LDxw0pVonf4JyhVYVnalgSt/PPQt/pLeygf4oy/SzVk1tz/Bp6l9Dv29
-         XCBPtwlCRxdKxRyHVexuGKVQ765VyxVqMMP1UCJE+0DfM+COiELiRy+J67rlWFM3tVZx
-         N7bdzrGiK17Sx6q+1fyO+SSewzNfe5FsXkRnrOI1tyEA8cXXGW4/X4WNJh4i6uoCBgFz
-         dMiRYaEQUj3SlvfsAKO0hdWLNI4R5zKjvxb0noMyNZ8k38oZ+NeZhi+pybA7rBUoFxwf
-         rjAA==
-X-Forwarded-Encrypted: i=1; AJvYcCW5TwiUb12vcYdBG/d5XFUw5EPxqnjStafhMKqVJLjhIYaFQuGG8yjm/oDTJMYaoSN1+OE+3yvQWDqFaEoXzRZyGw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy022Wkqxv2IvKbGOYuTrbkEaJiFW6nV1m1rulkGUkjbwrkkXL+
-	LDMGCLgAHiJgefSohRSxnpktZW6P8pRy1dbXdfhgc3vRqof2iyf9x27t
-X-Gm-Gg: ASbGncs9CjpjLfflaYzuTfTZ+lC0Q3Jasd6L4+qP8XxvmOsfsja96fHr4S52fzlnHyJ
-	Keo359CE8DEPAd/h1j5cJ89/f49tsR+SY11L8TJi5mmBxojs9BeKw+ymj4EM+cfv7zUqYAzWFXF
-	6ma+pnslKXsZPduPGAJHPgMu7tfWm6myAZVGg6lg9UlXtvM46qzAlSSI4tmoBAJHavATImGiUR0
-	tslvRYmDjUAocNYFHZguRkK0L01PMb+JnufgG/SyJ+WhICPrYFnJ490dXeqULlaJt7hJQRwLkXE
-	4MMtIpJRU1WpV894WZRD03H9xTmq57GNKzPNWeNLjSMeJpLb1Mv/aQ65niCGlNmC8X9uNaHWgds
-	OryhJJaSC+09dYp4ZzmLSrSdh6kLmbjpjsXyzF3N2RV+99soLMQnupYfrNvPgqsWmu2ZWXT+c2n
-	N5y4J1Enp6f58usX7VNVqgVDwePXEL1WeWCc94K6B4/NHlY2Llvg2Wfge7gTle1EBQHqC4khw=
-X-Google-Smtp-Source: AGHT+IEF2L0p91EN9iLwnGMihS3zlarLJMg1F5IRe+iNrL7LAp7ExKgFdBKaDNHl4ZjJyQD8OKHXaQ==
-X-Received: by 2002:a05:6000:25c2:b0:429:b718:167c with SMTP id ffacd0b85a97d-429bd68847fmr429373f8f.28.1761846931270;
+        bh=fpqM7R8t1LjT1e31UVuLTSZ7tEVjNoHsGLOYlh8Q1Lk=;
+        b=ObUF0s1GSOKbTne5YSPkORV5tRrRNnQ3rj2OUe3OqTcj0aiN5trqKSpAX8PQo5naF6
+         uB7cFWfXfgh54bZ0dgR6m0c4ga8p55/g4NnsDYDs80mqqgsPRdKkjsmmyM5mwRzXoMOo
+         6n0hIqZAR589q+22eiasSh+fjJEdXl/Kbj38OQOgMdyk4LB9vM95CWJKRj2XtlZpH1Vf
+         O/o4IC1d5ovpnJCkfCWWsZTl77adwB+/L/AOJKA4wYkYSKJvM76YZ/DLrvrB/Wp3qsyG
+         etMLWcZW4WxP8i+lkozroacsTBFy6mnDOg1GeF3p63JfNTOvHVHmdiZqtLzJ0OxxESh9
+         yx5w==
+X-Forwarded-Encrypted: i=1; AJvYcCVskzRmIKDW+fftd2p4jVSrfMO31UHIW1xxHBd6oH8r3sWhVLRP3ZECW5qhsHW/5/53iI8bIufUu1Iuyn9Okuw+sQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw9P023FVjrfXaVk0AcHW0MYhi65XrPQaE5EGdZMOxFmaoJ8cGX
+	u0qSTRwnsa7V+nlntiiw3zq9BCo7tn3O0GvP9J+rJN/mooOUahtiLIw+1HqqNfWH
+X-Gm-Gg: ASbGncsSCfsZeZQfpZD0nn5clyYgDt+qqepdymLYDlTzRG7PqoUoHKcv2h6i74x9KjQ
+	TXSWFL0LuOkx4Q6LMjsTHFkWYyd/K/Cvb8r2wJpV9zXZkYbDOKgD9xVy4hugCCGOcAq2TnoSfXg
+	xrAA2uqtufh+l2aNCbveK8dluXnV/Y0DclViOKQHKpdPqs6RXz0E9Nu4zZbSz+QC36xfSEvC56h
+	rLVOgqAFMqDiyTqNcH68glui70d/dpuUxpssfONU1QDafy9jmMkErWACyzYbBBCzTwGKnL8/a6+
+	XBKNtXT6uivfSqMGXpLFj1MKuaYS/xINkUuKy7ca1HT2wjcBMnCB95HngDX45Yr4ou/nWK5519b
+	JjwugPwosHIqnXvJYG3lSuZP0HlFxKUZOnkDYDeQ5wwCbsDauG2vBESZmNyw0yf5J5iqfXE95KM
+	eKhzPOmJOob6hZ29aPaxFcXFmLU6zXfBbhYAUzG7qSFUOwWxfTEJr+HWjLdAd4LovFiTKIFLE=
+X-Google-Smtp-Source: AGHT+IFB4CtW/QHwxBewuQQ+kfNYXHph8zhhcP0AJhTDvVbB8Po9WDTizjGc7lFwCMRyRyZ8mFCw8Q==
+X-Received: by 2002:a05:6000:24c3:b0:3e8:ee5d:f31e with SMTP id ffacd0b85a97d-429bd68376cmr479687f8f.25.1761846931811;
         Thu, 30 Oct 2025 10:55:31 -0700 (PDT)
 Received: from biju.lan (host86-162-200-138.range86-162.btcentralplus.com. [86.162.200.138])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429952de5f9sm33384041f8f.38.2025.10.30.10.55.30
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429952de5f9sm33384041f8f.38.2025.10.30.10.55.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 30 Oct 2025 10:55:31 -0700 (PDT)
 From: Biju <biju.das.au@gmail.com>
@@ -86,9 +86,9 @@ Cc: Biju Das <biju.das.jz@bp.renesas.com>,
 	linux-serial@vger.kernel.org,
 	Biju Das <biju.das.au@gmail.com>,
 	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 05/13] serial: rsci: Drop unused TDR register
-Date: Thu, 30 Oct 2025 17:55:09 +0000
-Message-ID: <20251030175526.607006-6-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v2 06/13] serial: sh-sci: Use devm_reset_control_array_get_exclusive()
+Date: Thu, 30 Oct 2025 17:55:10 +0000
+Message-ID: <20251030175526.607006-7-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251030175526.607006-1-biju.das.jz@bp.renesas.com>
 References: <20251030175526.607006-1-biju.das.jz@bp.renesas.com>
@@ -102,33 +102,30 @@ Content-Transfer-Encoding: 8bit
 
 From: Biju Das <biju.das.jz@bp.renesas.com>
 
-Drop the unused TDR register-related macros.
+Replace devm_*_get_exclusive()->devm_*_array_get_exclusive() to support
+existing SoCs along with RZ/G3E as RZ/G3E has 2 resets.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
 v1->v2:
  * No change.
 ---
- drivers/tty/serial/rsci.c | 6 ------
- 1 file changed, 6 deletions(-)
+ drivers/tty/serial/sh-sci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/tty/serial/rsci.c b/drivers/tty/serial/rsci.c
-index 470b5701cd67..ade5ee479e99 100644
---- a/drivers/tty/serial/rsci.c
-+++ b/drivers/tty/serial/rsci.c
-@@ -35,12 +35,6 @@ MODULE_IMPORT_NS("SH_SCI");
- #define RDR_FPER		BIT(11) /* FIFO Parity Error */
- #define RDR_RDAT_MSK		GENMASK(8, 0)
+diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
+index e9345f898224..d07424caeeab 100644
+--- a/drivers/tty/serial/sh-sci.c
++++ b/drivers/tty/serial/sh-sci.c
+@@ -3533,7 +3533,7 @@ static struct plat_sci_port *sci_parse_dt(struct platform_device *pdev,
  
--/* TDR (Transmit Data Register) */
--#define TDR_MPBT		BIT(9)	/* Multiprocessor Transfer */
--#define TDR_TDAT_9BIT_LSHIFT	0
--#define TDR_TDAT_9BIT_VAL	0x1FF
--#define TDR_TDAT_9BIT_MSK	(TDR_TDAT_9BIT_VAL << TDR_TDAT_9BIT_LSHIFT)
--
- /* CCR0 (Common Control Register 0) */
- #define CCR0_SSE		BIT(24)	/* SSn# Pin Function Enable */
- #define CCR0_TEIE		BIT(21)	/* Transmit End Interrupt Enable */
+ 	data = of_device_get_match_data(&pdev->dev);
+ 
+-	rstc = devm_reset_control_get_optional_exclusive(&pdev->dev, NULL);
++	rstc = devm_reset_control_array_get_optional_exclusive(&pdev->dev);
+ 	if (IS_ERR(rstc))
+ 		return ERR_PTR(dev_err_probe(&pdev->dev, PTR_ERR(rstc),
+ 					     "failed to get reset ctrl\n"));
 -- 
 2.43.0
 
