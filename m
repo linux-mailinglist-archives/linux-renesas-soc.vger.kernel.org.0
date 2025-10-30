@@ -1,98 +1,94 @@
-Return-Path: <linux-renesas-soc+bounces-23910-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23911-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC83DC21942
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Oct 2025 18:56:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62F6AC2194B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Oct 2025 18:56:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CC2581A629F6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Oct 2025 17:56:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5B5CE1AA06E3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Oct 2025 17:56:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2609A36CA9D;
-	Thu, 30 Oct 2025 17:55:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26E5436CA8B;
+	Thu, 30 Oct 2025 17:55:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GUoK0DHw"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="llu4AxCb"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3405A36CA6F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B577936CA7C
 	for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Oct 2025 17:55:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761846933; cv=none; b=pOxLSeOPy1SoM4paJeitF0UVfShFBAst1S+LCScKNesxruz5h/duKrN6bJk7V2V5S/YjJ3giIi92L1GJ/zgNp4+ZTVunolJwvdRax+SVhnBhdaQCctDggV7FcqaOw94Lvo4GPjOn0BJLvCZs107x30Kd/J00B5vOekcWdEAb0JU=
+	t=1761846935; cv=none; b=gvXH+QOnjfDAfrSz5F7n6ocPmKnPkY06uoNepRSOC1A5Fzc/sxoWdRaFnV166bTkZefQG7jQDFqIPpEtTC3AZhra1CkYSiUsP3pgQCM8u1Cq6phbov4K6526IQ/ahBR+2Z1pIgrL1hacCv/gqo8l8OEMG4Lnik/M1wjU2/nFbdo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761846933; c=relaxed/simple;
-	bh=3z2mhzRxyfQNv1R0hi7ZTnOWImB9S2k6FugjQXRhwUY=;
+	s=arc-20240116; t=1761846935; c=relaxed/simple;
+	bh=CGCGb9V5eBipiJiyKGzWDh8EBRU+yWeR3nCYNAfd3C0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MxNViQs24XOoh/VSt5mxMS/qH+h+WfTyO9i7u+cStfvqCxp+7kCnwI795RExEOqd+9bOQgBw1WxCYMcczgK+Ib4qrOgC6SD/t67ou3k5fTO1ey6JnFF+UGaQJ28bCWrgZNxxG14Jc4aKRydI1qhH0S387bUkUbsmCRimpkcmMjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GUoK0DHw; arc=none smtp.client-ip=209.85.221.51
+	 MIME-Version; b=WcXqhA1UGU/SOi0KkKLWmi7rSWs6SMzdG1CvwVC0pH0mVZTamPivdsSd1erOibXpEyWURSbZgV6qdO68Q6SBxy5mZUj0Yz24Lcunfz3Ew7RYbdHLMR7tL2G7IFUxHF6PL9SZllyFPEcawUqKbUk2OUCx/y3IriapL80P6WJ8nE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=llu4AxCb; arc=none smtp.client-ip=209.85.221.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-421851bca51so1210603f8f.1
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-4270491e9easo1199848f8f.2
         for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Oct 2025 10:55:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761846929; x=1762451729; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1761846930; x=1762451730; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=m8YnOhLYa4+B1Ekt7MbimeIIDg/J8LnZDYbx9DRe05Y=;
-        b=GUoK0DHwVAUvfYncsyPHQ72jouRM6y4QLN89pB/okT/41amSnBd+vsfTFaw8vbp/gV
-         QCxmrN1Tj67ZnkHnXfXzfju2lPdWJFXhyJKaAsoCJmGXqlAa6hwK30H9mf3wovxQDyEM
-         QSrl0oVmomV8DWZgmsDSHSIFZ+u1s9uLXZiyEi4Ai1JiwjfoSR7hveCuKCU31d/dEJMR
-         TjPZjqQDo9UH60X5fFZ+o6cHQ9u8VGB5zSsfKvFhadggIBuck1qIpmTRYWNfn0PG54ED
-         CoxtcI9TY2Gt6lXSN607U+UsyO/wdJR5S/jbYcmGEjSwx9Uxgls/sdWNAAtPUtjsSndp
-         LO0g==
+        bh=yttjZeqTXK9cHrnm5+lJ6shcRMBRq57/tMzXtPds7Io=;
+        b=llu4AxCbYEFeFmperq2HYGcElsxZtbHyCqW0L5UMacOds+BzpLFfE4RaM9nkFnlafC
+         Y5dbIK8ueAplhvdOH2i1GZ5vKwa25+YQiWMmKClCg85yeRVGmfXhe+leyIyi4dOucgEb
+         tRsMsgdQYAgpb4MW2eZZq7TaKNG/YraYHkzJBOivurrCtyiunJlirRb3a0kJT0q+/unf
+         c25eCHAyf391GeUKNcIUpt9NNUUeFJnaY2jn8oA+qDoGA5nsFZXzyazAFa3JNhFC+XgX
+         VMEL2EL89IAl8NhQ3wRS1bpZn/RpTUQEe24TnsLSIKnoKOVJNowktykzuKcAJZmN4JTA
+         mY6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761846929; x=1762451729;
+        d=1e100.net; s=20230601; t=1761846930; x=1762451730;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=m8YnOhLYa4+B1Ekt7MbimeIIDg/J8LnZDYbx9DRe05Y=;
-        b=kl2asc/9J4NcQm4zYODa0rPWU+aA4fGHiNPdXf8uZpBMBlpOQGfYYYBQRitUV0dB6/
-         i9vJMA6gElvCrZC6yUBukNXQpkS8S5sHHdoZZFH8y8fo0Of/9BpQAaz8i1jTup3jYAGh
-         h8x2k0uk/hY58WLtoXw+71k0lrT2vRaJp4eI+NyilRJ4bAox5PtfGamS++lUHCJ/tcoY
-         5C0BMwBQE5I7a7JMm9ujWc4BTMz8ZB9c4mz/za3kgmq4F3MpT7fbPEtubgc/X5rf4SbO
-         idzoOa2VPovPYjjOAOES54fGoZuexg++nN2mavP41jvm74NsGUowkbqkvweMleAS8TkO
-         CcDA==
-X-Forwarded-Encrypted: i=1; AJvYcCUvftT1nNn6MQeN1KJaHsO8C9iGAjBKtjvsaKXHYghyEWKxc2qX3zzWexFRqYE0Zn6/alwF+rk1WD/XkuaUvkfHCA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyMMXGmeBO4HgjRTAtFG19/SDzr6T+SibIQQ+qrtV25t9utn3zg
-	HLVkLm5/G49mPKrA+JG4zU1nbv+XV0WY9v3Kx0UBYHhEprD6wiANHePP
-X-Gm-Gg: ASbGnctNO7nIM2fudqPZzxDLt/3WXHAGGn54Acte+upWvj+nPl+bxnD0iAnIOdk7FNM
-	IOg6fDCtvl+A63msnqffgk0OdNgN/dQVIQ3Vm7zC7o6jGwwUvS9mY/8UTutoaC49z6z4ApfBXgS
-	fjl861EAg3IkBYOVCyKn2BTYrSUtBKGCPSGRNUpoKw9RJVoTPvLFlwPId0fcNFJbaH2jOJe1Urh
-	aIhxb2FcYpnggDj3XCWnTo6t0l8K+WxVaQ64ukdKK26o8h4xCZQ8D7hMY5QJNwr6sSxg2ge9GxD
-	RzlqpzTvxaIPy3YoTMCr6aLObu5v1elxfsGRsN6BgeaKkhvWgmlZiha2MaQby3/zFEuFv9yXWUV
-	aP5h9SLa6KImhpekMI5ZLm9aLTyei/O25It4O8SkVjL/M/lroFkED/uzl9ibxvnjiWlvrzmgwwi
-	KA8RxI2X/TvXEMQ/CXiJbhBxad1nb2caaOBusWCtPePiOTWRl8U5/ztEOAjgHj
-X-Google-Smtp-Source: AGHT+IFwc9rIFO7apqC3XmXhkXUpx2h1S3c6wGBMHk4QlRiJ5KyIleWF8cbqLDTxKoIV//tw2zW3AQ==
-X-Received: by 2002:a5d:5846:0:b0:3fb:9950:b9eb with SMTP id ffacd0b85a97d-429bd683f6cmr459520f8f.28.1761846929243;
+        bh=yttjZeqTXK9cHrnm5+lJ6shcRMBRq57/tMzXtPds7Io=;
+        b=O8jpbKPG4h7ZTjxlfZkGZeZDAMFIdp0LNckwpVss8luXuWoxkwA2bQkGIzEJruxqD9
+         a4wq9IMA2z3XMlQZTlHRlZD4Uf+6PLG8jF7KdOqIphQ+Tinnj1MzeLsrbZ49Tb9NS8vk
+         0rTZO2CBRhc/50/2FTH1wUjFu6VCA2rv5QlevvUrt0olFO72A9B15zxkDrHE4nIoOPq7
+         BoAnInyklXSzEwqTbaPuM2rnTBZ6JtO43gy+/bBadYvX2JhDVC+8V9Vwt9uDDmZ9bdGP
+         CQeKeri5uwtswoyYiU0qV/dBEZ/WCuk9h7Fsw6G90v8+4GO9WlyZ2JEapHAW0poz6uJV
+         K4Yw==
+X-Forwarded-Encrypted: i=1; AJvYcCXYivnF8HsBWd2Idc2axAWV5L5Tj5/3eJNYAah9yKgG1M3osWmgt5btSPy3KDNhEhv+4NPx1nvwyQYUobozxbPOYw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyEUpktDlXm5Bac6K7ezkDYU379Vg50SLdJ4HEvN/JIrYLVoQjs
+	Ly2LNU5nNIs2c4XDWDtsXbiblbThF8fEMZe/2+zYd0ERvf53tL7qhhoT
+X-Gm-Gg: ASbGncs1SYt4v0X66QgV3XU8eB+Dl1XxtNtrKlF1dYq/19GtIt+a9++g+RW0OKpuxLI
+	YLGXKSa3sgEOrWCeqLB1trJzzzL/Cjw1FpO7z2+plDKcFDIhF6jr9bLi9wxlTr/BN0CjxxVP/nf
+	pgUe2K4lH6S9mpKZRX+UKpcxO1zC81JiYwveljfEPU4PJYUfzh3IrkUxyoKr5sUlTW/iuk2LRVX
+	4brXkoXKuoMmuF2XK5jo5pmtDmyiALukIMTSrg/DtBh08AuZFz8beXYhJbaweg1xO16k7C7UVFA
+	6/RRK3OaVxZBWG5oBEHQopMVVVT9hce+8+w9aiM15rRSguhWiu1rtNt5hSuM8LM7/75cKS8QvQD
+	J9OcNlF8jGu61Xv3tfrwJQ9OKeQ8Jpl/90csnFkP0vkXxSfBc0ZOFUiybaaG4Cyo4WXYTwPujD0
+	7gC1qieqOZlLWvnP18WuujfFHDoTFrs7hlpEWUd6NPNVcBbbsYpJkdSnfRWZUNwZ/KBO2fZX8=
+X-Google-Smtp-Source: AGHT+IGYIITVqCReHtNAX7+uLzQsVs5gAndiYBJ77Fh5G2SnarCvdls7gc0J2+Oyf01J33C9+PqrNg==
+X-Received: by 2002:a05:6000:24c2:b0:427:6c4:f165 with SMTP id ffacd0b85a97d-429bd6aa1c5mr412181f8f.35.1761846929744;
         Thu, 30 Oct 2025 10:55:29 -0700 (PDT)
 Received: from biju.lan (host86-162-200-138.range86-162.btcentralplus.com. [86.162.200.138])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429952de5f9sm33384041f8f.38.2025.10.30.10.55.28
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429952de5f9sm33384041f8f.38.2025.10.30.10.55.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 30 Oct 2025 10:55:29 -0700 (PDT)
 From: Biju <biju.das.au@gmail.com>
 X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>
+	Jiri Slaby <jirislaby@kernel.org>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
 	linux-kernel@vger.kernel.org,
 	linux-serial@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH v2 01/13] dt-bindings: serial: renesas,rsci: Document RZ/G3E support
-Date: Thu, 30 Oct 2025 17:55:05 +0000
-Message-ID: <20251030175526.607006-2-biju.das.jz@bp.renesas.com>
+	Biju Das <biju.das.au@gmail.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2 02/13] serial: rsci: Drop rsci_clear_CFC()
+Date: Thu, 30 Oct 2025 17:55:06 +0000
+Message-ID: <20251030175526.607006-3-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251030175526.607006-1-biju.das.jz@bp.renesas.com>
 References: <20251030175526.607006-1-biju.das.jz@bp.renesas.com>
@@ -106,140 +102,42 @@ Content-Transfer-Encoding: 8bit
 
 From: Biju Das <biju.das.jz@bp.renesas.com>
 
-Add documentation for the serial communication interface (RSCI) found on
-the Renesas RZ/G3E (R9A09G047) SoC. The RSCI IP on this SoC is identical
-to that on the RZ/T2H (R9A09G077) SoC, but it has a 32-stage FIFO compared
-to 16 on RZ/T2H. It supports both FIFO and non-FIFO mode operation. RZ/G3E
-has 6 clocks(5 module clocks + 1 external clock) compared to 3 clocks
-(2 module clocks + 1 external clock) on RZ/T2H, and it has multiple resets.
+Drop rsci_clear_CFC() by reusing rsci_clear_SCxSR() as the contents of
+both functions are the same.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
 v1->v2:
- * Updated commit message
- * Added resets:false for non RZ/G3E SoCs.
+ * No change.
 ---
- .../bindings/serial/renesas,rsci.yaml         | 85 ++++++++++++++++---
- 1 file changed, 74 insertions(+), 11 deletions(-)
+ drivers/tty/serial/rsci.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/serial/renesas,rsci.yaml b/Documentation/devicetree/bindings/serial/renesas,rsci.yaml
-index 6b1f827a335b..1c2ed4cd58fd 100644
---- a/Documentation/devicetree/bindings/serial/renesas,rsci.yaml
-+++ b/Documentation/devicetree/bindings/serial/renesas,rsci.yaml
-@@ -10,17 +10,16 @@ maintainers:
-   - Geert Uytterhoeven <geert+renesas@glider.be>
-   - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+diff --git a/drivers/tty/serial/rsci.c b/drivers/tty/serial/rsci.c
+index 3e1f4b3c4e59..504361ed5ecc 100644
+--- a/drivers/tty/serial/rsci.c
++++ b/drivers/tty/serial/rsci.c
+@@ -199,11 +199,6 @@ static unsigned int rsci_get_mctrl(struct uart_port *port)
+ 	return 0;
+ }
  
--allOf:
--  - $ref: serial.yaml#
+-static void rsci_clear_CFC(struct uart_port *port, unsigned int mask)
+-{
+-	rsci_serial_out(port, CFCLR, mask);
+-}
 -
- properties:
-   compatible:
-     oneOf:
--      - items:
--          - const: renesas,r9a09g087-rsci # RZ/N2H
--          - const: renesas,r9a09g077-rsci # RZ/T2H
-+      - enum:
-+          - renesas,r9a09g047-rsci # RZ/G3E non FIFO mode
-+          - renesas,r9a09g047-rscif # RZ/G3E FIFO mode
-+          - renesas,r9a09g077-rsci # RZ/T2H
+ static void rsci_start_tx(struct uart_port *port)
+ {
+ 	struct sci_port *sp = to_sci_port(port);
+@@ -275,7 +270,7 @@ static void rsci_transmit_chars(struct uart_port *port)
+ 			break;
+ 		}
  
-       - items:
-+          - const: renesas,r9a09g087-rsci # RZ/N2H
-           - const: renesas,r9a09g077-rsci # RZ/T2H
+-		rsci_clear_CFC(port, CFCLR_TDREC);
++		rsci_clear_SCxSR(port, CFCLR_TDREC);
+ 		rsci_serial_out(port, TDR, c);
  
-   reg:
-@@ -42,14 +41,40 @@ properties:
- 
-   clocks:
-     minItems: 2
--    maxItems: 3
-+    maxItems: 6
- 
-   clock-names:
--    minItems: 2
-+    oneOf:
-+      - items:
-+          - const: operation
-+          - const: bus
-+      - items:
-+          - const: operation
-+          - const: bus
-+          - const: sck # optional external clock input
-+      - items:
-+          - const: bus
-+          - const: tclk
-+          - const: tclk_div64
-+          - const: tclk_div16
-+          - const: tclk_div4
-+      - items:
-+          - const: bus
-+          - const: tclk
-+          - const: tclk_div64
-+          - const: tclk_div16
-+          - const: tclk_div4
-+          - const: sck # optional external clock input
-+
-+  resets:
-+    items:
-+      - description: Input for resetting the APB clock
-+      - description: Input for resetting TCLK
-+
-+  reset-names:
-     items:
--      - const: operation
--      - const: bus
--      - const: sck # optional external clock input
-+      - const: presetn
-+      - const: tresetn
- 
-   power-domains:
-     maxItems: 1
-@@ -62,6 +87,44 @@ required:
-   - clock-names
-   - power-domains
- 
-+allOf:
-+  - $ref: serial.yaml#
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: renesas,r9a09g077-rsci
-+    then:
-+      properties:
-+        clocks:
-+          maxItems: 3
-+
-+        clock-names:
-+          maxItems: 3
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - renesas,r9a09g047-rsci
-+              - renesas,r9a09g047-rscif
-+    then:
-+      properties:
-+        clocks:
-+          minItems: 5
-+
-+        clock-names:
-+          minItems: 5
-+
-+      required:
-+        - resets
-+        - reset-names
-+    else:
-+      properties:
-+        resets: false
-+
- unevaluatedProperties: false
- 
- examples:
+ 		port->icount.tx++;
 -- 
 2.43.0
 
