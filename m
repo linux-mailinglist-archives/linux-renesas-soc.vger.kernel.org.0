@@ -1,42 +1,41 @@
-Return-Path: <linux-renesas-soc+bounces-23958-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23959-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16B6DC248FB
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9991C24901
 	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Oct 2025 11:45:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id F2A2F4F0279
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Oct 2025 10:45:01 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 75B8034D6B7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Oct 2025 10:45:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C097E33E37C;
-	Fri, 31 Oct 2025 10:44:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F99033FE13;
+	Fri, 31 Oct 2025 10:44:09 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9750233DEE9;
-	Fri, 31 Oct 2025 10:44:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54A8F33556C;
+	Fri, 31 Oct 2025 10:44:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761907441; cv=none; b=Y+2GmgJw+JU1Kdz+hCxw7AUWRrBRMgRCgYC8nSLeAaaDsMHaPiS1pyzrYTmkeSkVSUDnknuqDTHUFd6vJ84tT7DlmZP4kjmXadwpoG87VBaR8Na+ZrQ6MG75thRGB+W+l49goBLAKKfbSIz/CTzXcABFfa+w80RIiRm6AcXm5a4=
+	t=1761907449; cv=none; b=SqLIvdvdU0sD4u0qbbMEpxxB7PLGR3feJoSAxr9f9QAgBOQV/a50ms9wXSElj8RLgbFlh3htkjlmCvejXfzoEfS8QggBYEbBZ+UwHITFOdHgWLc6SuYeo8Um4Q9ZaUX9O4qGfO5f0HPGqzsqcBQsvduucvvndlPDD251kdPLOR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761907441; c=relaxed/simple;
-	bh=POWscKc56oOgEfXEl8SSi8BMadwVxaM+2XZTda17o8c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=j12TTq0MZQBBxM7nnE5+aI9n3j4fhkEmxCOYrXjqTJ4Evsw0stEUSzASElWmnhddmA02oub+EVKYoZxfGPouM7qBT3D1hfMdFtYM29ZYHGrHhsoTQ598GWiWCqvKvvf2He8aluyNH6aNgnVU0sezjVIAIdwFXTr8YOzojftnlK8=
+	s=arc-20240116; t=1761907449; c=relaxed/simple;
+	bh=iGzi6n3bdVibVDwlYvloApCytwY9MAH9hW+h9Olq8gQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sWsARjdSHYZOycVcRhC4NL8gh8o47TeKf8/tpH6t6Iri5nhQiUXSv6mMhY/kn6BAbvo5AncDoFFF9yHKL++2SuHrLGzhIkJ47H/5wJ5qity4+VSJDAGlPSdMapVIwQ1cijzPKZtk6WMfChL9nIPocI6AJMBcp+RcBPNih1pZ96A=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03B91C116B1;
-	Fri, 31 Oct 2025 10:43:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FF6EC4CEE7;
+	Fri, 31 Oct 2025 10:44:08 +0000 (UTC)
 From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>
-Cc: linux-clk@vger.kernel.org,
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: linux-gpio@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL] clk: renesas: Updates for v6.19
-Date: Fri, 31 Oct 2025 11:43:56 +0100
-Message-ID: <cover.1761906750.git.geert+renesas@glider.be>
+Subject: [GIT PULL] pinctrl: renesas: Updates for v6.19
+Date: Fri, 31 Oct 2025 11:44:05 +0100
+Message-ID: <cover.1761906880.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -46,7 +45,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-	Hi Mike, Stephen,
+	Hi Linus,
 
 The following changes since commit 3a8660878839faadb4f1a6dd72c3179c1df56787:
 
@@ -54,83 +53,59 @@ The following changes since commit 3a8660878839faadb4f1a6dd72c3179c1df56787:
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-clk-for-v6.19-tag1
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-pinctrl-for-v6.19-tag1
 
-for you to fetch changes up to 07525a693a5ff6592668a0fd647153e4b4933cae:
+for you to fetch changes up to a5fad3aeff41f89ac94230d66ee5f9c1526cb3ce:
 
-  clk: renesas: r9a09g056: Add clock and reset entries for ISP (2025-10-27 12:15:00 +0100)
+  pinctrl: renesas: rzg2l: Remove useless wrappers (2025-10-27 11:53:27 +0100)
 
 ----------------------------------------------------------------
-clk: renesas: Updates for v6.19
+pinctrl: renesas: Updates for v6.19
 
-  - Various fixes for the module reset procedure on R-Car Gen4 SoCs,
-  - Add ADC and thermal (TSU) clocks on RZ/T2H and RZ/N2H,
-  - Add USB clocks and resets on RZ/G3E,
-  - Add ISP and display (DSI, LCDC) clocks and resets on RZ/V2H and RZ/V2N,
-  - Add thermal (TSU) and RTC clocks and resets on RZ/V2H,
-  - Add reset support on RZ/T2H and RZ/N2H,
-  - Fix the module stop disable procedure on RZ/T2H and RZ/N2H,
-  - Add camera (CRU) clocks and resets on RZ/V2N,
+  - Fix interrupt configuration and port mode after resume on RZ/G2L
+    family SoCs,
   - Miscellaneous fixes and improvements.
-
-Note that this includes:
-  1. DT binding definition updates for the RZ/G3E SoC, which are shared
-     by clock driver and DT source files,
-  2. The RZ/V2H Clock Pulse Generator PLLDSI API, which is shared by
-     clock and MIPI DSI driver source files.
 
 Thanks for pulling!
 
 ----------------------------------------------------------------
+Biju Das (2):
+      pinctrl: renesas: rzg2l: Drop unnecessary pin configurations
+      pinctrl: renesas: rzg2l: Fix PMC restore
+
+Claudiu Beznea (1):
+      pinctrl: renesas: rzg2l: Fix ISEL restore on resume
+
 Cosmin Tanislav (2):
-      clk: renesas: r9a09g077: Add ADC module clocks
-      clk: renesas: r9a09g077: Add TSU module clock
+      pinctrl: renesas: rzg2l: Remove extra semicolons
+      pinctrl: renesas: rzg2l: Remove useless wrappers
 
-Daniel Scally (1):
-      clk: renesas: r9a09g057: Add clock and reset entries for ISP
+Geert Uytterhoeven (2):
+      pinctrl: renesas: Remove unneeded semicolons
+      pinctrl: renesas: rza1: Make mux_conf const in rza1_pin_mux_single()
 
-Geert Uytterhoeven (5):
-      clk: renesas: cpg-lib: Remove unneeded semicolon
-      clk: renesas: Use IS_ERR() for pointers that cannot be NULL
-      Merge tag 'renesas-r9a09g047-dt-binding-defs-tag5' into renesas-clk-for-v6.19
-      clk: renesas: cpg-mssr: Spelling s/offets/offsets/
-      Merge tag 'clk-renesas-rzv2h-plldsi-tag' into renesas-clk-for-v6.19
+Marek Vasut (1):
+      pinctrl: renesas: Drop duplicate newlines
 
-Lad Prabhakar (9):
-      clk: renesas: cpg-mssr: Add module reset support for RZ/T2H
-      clk: renesas: cpg-mssr: Add read-back and delay handling for RZ/T2H MSTP
-      clk: renesas: rzv2h: Add instance field to struct pll
-      clk: renesas: rzv2h: Use GENMASK for PLL fields
-      clk: renesas: rzv2h: Add support for DSI clocks
-      clk: renesas: r9a09g057: Add clock and reset entries for DSI and LCDC
-      clk: renesas: r9a09g056: Add clocks and resets for DSI and LCDC modules
-      clk: renesas: r9a09g056: Add support for PLLVDO, CRU clocks, and resets
-      clk: renesas: r9a09g056: Add clock and reset entries for ISP
-
-Marek Vasut (2):
-      clk: renesas: cpg-mssr: Add missing 1ms delay into reset toggle callback
-      clk: renesas: cpg-mssr: Read back reset registers to assure values latched
-
-Ovidiu Panait (2):
-      clk: renesas: r9a09g057: Add clock and reset entries for TSU
-      clk: renesas: r9a09g057: Add clock and reset entries for RTC
-
-Tommaso Merciai (2):
-      dt-bindings: clock: renesas,r9a09g047-cpg: Add USB2 PHY core clocks
-      clk: renesas: r9a09g047: Add clock and reset entries for USB2
-
- drivers/clk/renesas/r9a09g047-cpg.c               |  18 +-
- drivers/clk/renesas/r9a09g056-cpg.c               | 109 +++++
- drivers/clk/renesas/r9a09g057-cpg.c               |  86 ++++
- drivers/clk/renesas/r9a09g077-cpg.c               |   4 +
- drivers/clk/renesas/rcar-cpg-lib.c                |   2 +-
- drivers/clk/renesas/renesas-cpg-mssr.c            | 181 ++++++--
- drivers/clk/renesas/rzg2l-cpg.c                   |   2 +-
- drivers/clk/renesas/rzv2h-cpg.c                   | 514 +++++++++++++++++++++-
- drivers/clk/renesas/rzv2h-cpg.h                   |  31 +-
- include/dt-bindings/clock/renesas,r9a09g047-cpg.h |   2 +
- include/linux/clk/renesas.h                       | 145 ++++++
- 11 files changed, 1047 insertions(+), 47 deletions(-)
+ drivers/pinctrl/renesas/pfc-emev2.c     |   1 -
+ drivers/pinctrl/renesas/pfc-r8a73a4.c   |   2 -
+ drivers/pinctrl/renesas/pfc-r8a7778.c   |   1 -
+ drivers/pinctrl/renesas/pfc-r8a77951.c  |   1 -
+ drivers/pinctrl/renesas/pfc-r8a7796.c   |   1 -
+ drivers/pinctrl/renesas/pfc-r8a77965.c  |   1 -
+ drivers/pinctrl/renesas/pfc-r8a77970.c  |   1 -
+ drivers/pinctrl/renesas/pfc-r8a77980.c  |   1 -
+ drivers/pinctrl/renesas/pfc-r8a77995.c  |   2 -
+ drivers/pinctrl/renesas/pfc-r8a779f0.c  |   1 -
+ drivers/pinctrl/renesas/pfc-r8a779h0.c  |   1 -
+ drivers/pinctrl/renesas/pfc-sh7723.c    |   1 -
+ drivers/pinctrl/renesas/pfc-sh7724.c    |   1 -
+ drivers/pinctrl/renesas/pfc-sh7734.c    |   1 -
+ drivers/pinctrl/renesas/pinctrl-rza1.c  |   7 +-
+ drivers/pinctrl/renesas/pinctrl-rzg2l.c | 122 +++++++++++++++++++-------------
+ drivers/pinctrl/renesas/pinctrl-rzt2h.c |   4 +-
+ drivers/pinctrl/renesas/pinctrl-rzv2m.c |  10 +--
+ 18 files changed, 83 insertions(+), 76 deletions(-)
 
 Gr{oetje,eeting}s,
 
