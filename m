@@ -1,56 +1,56 @@
-Return-Path: <linux-renesas-soc+bounces-23973-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23974-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 117D0C274C9
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 01 Nov 2025 01:46:47 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3A34C274D4
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 01 Nov 2025 01:46:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 75D4D4E22DC
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  1 Nov 2025 00:46:23 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 5F1714ED917
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  1 Nov 2025 00:46:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1497923FC41;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE3A8246763;
 	Sat,  1 Nov 2025 00:45:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="rYNbK0i1"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="AkQ5uQ3E"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A05B2376FC;
-	Sat,  1 Nov 2025 00:45:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A67423C4F3
+	for <linux-renesas-soc@vger.kernel.org>; Sat,  1 Nov 2025 00:45:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761957922; cv=none; b=fK/qCOpsM0iHkff5UgCnbv4pkMB/Jf914M9t+xiILQnZzgdCpPJ07sd7KKX0zsSG3pOSE0DntFeNrSy1m++pW5/MnII1EQ2Wyyn7bqaScR9o0mt5H1BEZJw2M1Sh81KhjjgNM8BL5RMAwz44M3qfVJNi2kog72PtQH50lsMBCpI=
+	t=1761957922; cv=none; b=f6umUZsk79BZMThjsVpRgbm3X3VZM+WO30Ym/lV2BrdDSkZZRJw8oJlUb6i+qx95769adnuXr9QeCPmYsZTt8Kar43394xk8PXSr3V0Wmjo+xDRJdrCpF3gr5snJ67o89hhF8KJTUrlPi+2tYoaheH+BpRuWg6e7O5F7EA76iI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1761957922; c=relaxed/simple;
-	bh=xnoN+bZ7BzR8Qts48YavtXOfkoBwhFeOsUT1FTtebOk=;
+	bh=1f6MR0MiAHQdxR7gpnJkL5A1h0+6bW3LcsOnk0DeMKE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=QN+AZFrW1PvYIJ35XA/rrWhT9/GwG/HefmMAtZTAcfBGnRVQ+CbjmwGnlQnuOlT+xVkAOsyfgkfA8GJ0aH9xhEMOdHhQto65LoMWERQFcrQvR7A/3zlbGFjgCzCYQ4I6GPeA2Aqa/PcLpitvdx7jwNjtb1U4XL7fjjEkPhhHofs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=rYNbK0i1; arc=none smtp.client-ip=185.246.84.56
+	 In-Reply-To:To:Cc; b=ssyJvPB1zofmO9+oVwQPzrOKzMOUSmJJhl9xaTV6HcndZ6uAoc/ih0apDy4qsr5UZp166CmEWifUmAVUjkW7W91IuhFdI/0ZYlXCpIsIQ/oQIow9s4HcDq9ax0hTQ2dLauR++fPKcdNyVzY3N+SMgArZE6PSOBYVU06CSCqJHbw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=AkQ5uQ3E; arc=none smtp.client-ip=185.171.202.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id ADA4C1A17C5;
-	Sat,  1 Nov 2025 00:45:18 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 28351C0E963;
+	Sat,  1 Nov 2025 00:44:59 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 85F686070B;
-	Sat,  1 Nov 2025 00:45:18 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 940AD1181ABB0;
-	Sat,  1 Nov 2025 01:45:17 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id B30A86070B;
+	Sat,  1 Nov 2025 00:45:19 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id BA1911181ABB0;
+	Sat,  1 Nov 2025 01:45:18 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1761957918; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1761957919; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=WqPUvAWPFRuEPa0v7vatFRnWyFkHeKpRcwMEpG002Cc=;
-	b=rYNbK0i14AFE5mma5sHvOClLxJ1EWM/ZOAxkfMReGoRjxYUNkCrNDnltfxELOHRB6X+zci
-	5CM28++tyuJFG5TtyzDB03VWEvGWkJRgUw5GoJqDxx87cPnUCKOHNfX0cHhiFmxqCfag/X
-	ulqKTMEElXgDGVaO4XeBnIHNHdPiJoWoKT4n4dWsDUVPjFhjMgjbFqPUk4p/VdLonbTDzw
-	p/hTVBrl3A880XnsoLIYKTCcAmWJvIhOWgKi1PK+oKlZ/gBg3MmNg+b1u/W2rtcMO2LNes
-	aF6aQOS3DsFgzwx2eHL2N9qHKHnHlCAuUjWVD07g1SSwfHWTgo3VYgv8AtDyCw==
+	bh=plz341VcZ204tSoODz8pylkp/qt2TMoiA4BDjs1J680=;
+	b=AkQ5uQ3EP8GULGLHklk7NASbY0MWH4a2cDxolDspFTAoPNxHo+TIHljnR0368xOCs3Ee7Q
+	eoFlhMdMupUYsyP9KEmVmj8GZcagZ/kZxqGBs9x1qCe6bBrHin+RVSTlTlO04mMAXSRzpU
+	GeSUmtR7AGiiFnepfXR5p7rdY6kcRHxz+S9r3qHal3TsOIkF6PAi6tLZgA9n7mc51KR2JK
+	UU2f3wFedca7X1azAYbyo5GLrEA+CeAMFV31HMhcRjLWxbefMnDjeVp/sUzcz0xAw9/40+
+	yCxI2oPjKlGyu0Jb6zBYqOKHPiC6HoUKLCi2XiS8A9RGJTxbJJoJI35WBgViVg==
 From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Date: Sat, 01 Nov 2025 01:45:11 +0100
-Subject: [PATCH 09/11] rtc: rx8010: stop setting max_user_freq
+Date: Sat, 01 Nov 2025 01:45:12 +0100
+Subject: [PATCH 10/11] rtc: rx8025: stop setting max_user_freq
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -59,7 +59,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251101-max_user_freq-v1-9-c9a274fd6883@bootlin.com>
+Message-Id: <20251101-max_user_freq-v1-10-c9a274fd6883@bootlin.com>
 References: <20251101-max_user_freq-v1-0-c9a274fd6883@bootlin.com>
 In-Reply-To: <20251101-max_user_freq-v1-0-c9a274fd6883@bootlin.com>
 To: Joshua Kinard <linux@kumba.dev>, 
@@ -77,20 +77,21 @@ setting it from individual driver to avoid confusing new contributors.
 
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 ---
- drivers/rtc/rtc-rx8010.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/rtc/rtc-rx8025.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/rtc/rtc-rx8010.c b/drivers/rtc/rtc-rx8010.c
-index 2b6198d1cf81..171240e50f48 100644
---- a/drivers/rtc/rtc-rx8010.c
-+++ b/drivers/rtc/rtc-rx8010.c
-@@ -412,7 +412,6 @@ static int rx8010_probe(struct i2c_client *client)
+diff --git a/drivers/rtc/rtc-rx8025.c b/drivers/rtc/rtc-rx8025.c
+index aabe62c283a1..07119985fa83 100644
+--- a/drivers/rtc/rtc-rx8025.c
++++ b/drivers/rtc/rtc-rx8025.c
+@@ -565,8 +565,6 @@ static int rx8025_probe(struct i2c_client *client)
+ 			clear_bit(RTC_FEATURE_ALARM, rx8025->rtc->features);
  	}
  
- 	rx8010->rtc->ops = &rx8010_rtc_ops;
--	rx8010->rtc->max_user_freq = 1;
- 	rx8010->rtc->range_min = RTC_TIMESTAMP_BEGIN_2000;
- 	rx8010->rtc->range_max = RTC_TIMESTAMP_END_2099;
+-	rx8025->rtc->max_user_freq = 1;
+-
+ 	set_bit(RTC_FEATURE_ALARM_RES_MINUTE, rx8025->rtc->features);
+ 	clear_bit(RTC_FEATURE_UPDATE_INTERRUPT, rx8025->rtc->features);
  
 
 -- 
