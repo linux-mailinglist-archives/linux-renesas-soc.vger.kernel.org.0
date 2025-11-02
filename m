@@ -1,82 +1,67 @@
-Return-Path: <linux-renesas-soc+bounces-23990-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-23991-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8161EC28D72
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 02 Nov 2025 11:43:48 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2737CC28E57
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 02 Nov 2025 12:42:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 394023AB1A2
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  2 Nov 2025 10:43:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CE558188B391
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  2 Nov 2025 11:42:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55721258EC1;
-	Sun,  2 Nov 2025 10:43:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9306E2D8DD0;
+	Sun,  2 Nov 2025 11:42:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YojVFjn8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I4QlC+D/"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E62534D3BA;
-	Sun,  2 Nov 2025 10:43:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60730210F59;
+	Sun,  2 Nov 2025 11:42:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762080222; cv=none; b=sFzI8Z+HtEjM7X8/nqWKH+K4KW/D5eaCFMBBNnJJRJy4BQZSkoGjbePVurm1YsQvWvLG9zwXvb4A9bpC8iiIMM3x3xtpFzpLL4u65KXRG+k6SUZrPlOQIISM4GZW7EjqUMP/1nL4MwDqxh7Wby2FFLAkkIelHaRea+aiE2fRNQE=
+	t=1762083733; cv=none; b=Es2A7EK4EU3FhJC2CUHsIo1VxL0VepFJOyDeAoFenS621vOYK85x/6ndHZoC9vONd2ZnMWrf/uMw7NRs3EQE1iUyWzao5yD0PaRAbbsFLCKrpFalq9fNyAXfs2lwDww1YjLQVwGFHtUcqbSAGTPQJyxK+xV5yN6EXtIqY5t/iN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762080222; c=relaxed/simple;
-	bh=4u8d6QQgjLsALEyZL0hM355ahA8pgo9Ke2RDvhyV/FU=;
+	s=arc-20240116; t=1762083733; c=relaxed/simple;
+	bh=Qhv1WcJSX0Gbo4sykFz90BCNTR/3+y4I0vbbjKSkLtg=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YcRFsyeTdzBB1FAc1+kdF1Xx7mYh/iBAnsBPke+spVFGtOJ+Gkruz8olYvwD2uH8e2GYs4NZsXIbo78AIOwtQQm3cNGb2fppvj45jwPpY1DtLjJZ7GOsFeR1Wb3QNs7xf/rWr5NNhNsUzTDJb6TmFsmLg1bCJQyC3cXcthsqb3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YojVFjn8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E047CC4CEF7;
-	Sun,  2 Nov 2025 10:43:30 +0000 (UTC)
+	 MIME-Version:Content-Type; b=YabJw9FLRN+GKaASU3s6WkJqkBzOZMrcauGkXNrKjaQQFwGD8aN1q9diMAR0RcXAB+bubncDgSAfDnFu9hd27dzbraTuHPI2H1HuyFDR0d+d0fEytZL6YPVg/T+bi113iim8uo/uz3af3TJmmhs6sZeve0GXDzJA7IME1RN4X8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I4QlC+D/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB6AEC4CEF7;
+	Sun,  2 Nov 2025 11:42:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762080221;
-	bh=4u8d6QQgjLsALEyZL0hM355ahA8pgo9Ke2RDvhyV/FU=;
+	s=k20201202; t=1762083733;
+	bh=Qhv1WcJSX0Gbo4sykFz90BCNTR/3+y4I0vbbjKSkLtg=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=YojVFjn8WsOc90BQ7IjaCvSpawTY/iFM2EPhYDD5dnGWRgy1V9yvL/MEqZ0TtAlR7
-	 bOb/fXVYiil59qXvBq/U3REBPlb5nBkGwDqRIYMBz5I0KEBRnvT5ZEiaYzNyd6y9Zf
-	 5IIUOWr69e6TstOOUFAcseA/Uh3WnpVn2+gfAVjCfVQRnOUA5ypJyOfrOHReuHp7Sg
-	 WGYh/9kMA2mX62kCZYu70IxtgYDcwIcClH+HreNxArWG+BioiWd94cJCtOu6NOrbBI
-	 1yerwBgfvmBsmLmV1VasI237/BiNNQOhrrQMTL8p3/eC2uQh+6fEkO+1LfX3YVL0KT
-	 1QsxP0qktpdJg==
-Date: Sun, 2 Nov 2025 10:43:26 +0000
+	b=I4QlC+D/DJDloLzGjxK4Jb0n/9/nQwvjgzj9izK7P5mND1VdNTPJDaxo9GhZA9GNF
+	 m/tCpoOk3TC0/vApvUsXzLOf2YzgmtxjBHZoskSRBy2QISs14lRgK9RxfK7po/Xl+l
+	 OEoIVX13MfjaXuLCsyR8u0PXSt9LTswz4H9WqRmooQr22H8ZBBgVDIpuVeI4DKjwTP
+	 blJeI+KPsphuESXnhn5qGlVPwfCxpU446P59b/jMfk0NOSlVxa53m6uAPvyGEeqCXd
+	 ZJT6H2Jt5ZTXkixzJJ4fMY6oM5yRUXdGCPu9v7Uj3fmYLRccCJhmOy3Ug/Ar+jzTTv
+	 vfK94GofqlylA==
+Date: Sun, 2 Nov 2025 11:42:06 +0000
 From: Jonathan Cameron <jic23@kernel.org>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre
- Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea
- <claudiu.beznea@tuxon.dev>, Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, David Miller
- <davem@davemloft.net>, Linus Walleij <linus.walleij@linaro.org>, Bartosz
- Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery
- <andrew@codeconstruct.com.au>, Crt Mori <cmo@melexis.com>, Lars-Peter
- Clausen <lars@metafoo.de>, Jacky Huang <ychuang3@nuvoton.com>, Shan-Chun
- Hung <schung@nuvoton.com>, Yury Norov <yury.norov@gmail.com>, Rasmus
- Villemoes <linux@rasmusvillemoes.dk>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Johannes Berg <johannes@sipsolutions.net>,
- Jakub Kicinski <kuba@kernel.org>, Alex Elder <elder@ieee.org>, David Laight
- <david.laight.linux@gmail.com>, Vincent Mailhol
- <mailhol.vincent@wanadoo.fr>, Jason Baron <jbaron@akamai.com>, Borislav
- Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>, Michael Hennerich
- <Michael.Hennerich@analog.com>, Kim Seer Paller
- <kimseer.paller@analog.com>, David Lechner <dlechner@baylibre.com>, Nuno
- =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
- Richard Genoud <richard.genoud@bootlin.com>, Cosmin Tanislav
- <demonsingur@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, Jianping
- Shen <Jianping.Shen@de.bosch.com>, linux-clk@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- linux-crypto@vger.kernel.org, linux-edac@vger.kernel.org,
- qat-linux@intel.com, linux-gpio@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org, linux-iio@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH -next v5 10/23] iio: imu: smi330: #undef
- field_{get,prep}() before definition
-Message-ID: <20251102104326.0f1db96a@jic23-huawei>
-In-Reply-To: <97549838f28a1bb7861cfb42ee687f832942b13a.1761588465.git.geert+renesas@glider.be>
-References: <cover.1761588465.git.geert+renesas@glider.be>
-	<97549838f28a1bb7861cfb42ee687f832942b13a.1761588465.git.geert+renesas@glider.be>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>, Wolfram
+ Sang <wsa+renesas@sang-engineering.com>, David Lechner
+ <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy
+ Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Geert
+ Uytterhoeven <geert+renesas@glider.be>, Magnus Damm
+ <magnus.damm@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+ <broonie@kernel.org>, linux-iio@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Pascal Eberhard <pascal.eberhard@se.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v2 2/4] iio: adc: Add support for the Renesas RZ/N1 ADC
+Message-ID: <20251102114206.37b3bbf5@jic23-huawei>
+In-Reply-To: <aQMpHDwCqcrNrnT9@smile.fi.intel.com>
+References: <20251029144644.667561-1-herve.codina@bootlin.com>
+	<20251029144644.667561-3-herve.codina@bootlin.com>
+	<aQMpHDwCqcrNrnT9@smile.fi.intel.com>
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -87,45 +72,18 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Mon, 27 Oct 2025 19:41:44 +0100
-Geert Uytterhoeven <geert+renesas@glider.be> wrote:
+On Thu, 30 Oct 2025 11:00:12 +0200
+Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
 
-> Prepare for the advent of globally available common field_get() and
-> field_prep() macros by undefining the symbols before defining local
-> variants.  This prevents redefinition warnings from the C preprocessor
-> when introducing the common macros later.
+> On Wed, Oct 29, 2025 at 03:46:42PM +0100, Herve Codina (Schneider Electric) wrote:
+> > The Renesas RZ/N1 ADC controller is the ADC controller available in the
+> > Renesas RZ/N1 SoCs family. It can use up to two internal ADC cores (ADC1
+> > and ADC2) those internal cores are not directly accessed but are handled
+> > through ADC controller virtual channels.  
 > 
-> Suggested-by: Yury Norov <yury.norov@gmail.com>
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Looks much better, thanks! My comments below.
+FWIW I took a look as well but found the only things I noticed were a small
+subset of Andy's much more thorough review ;)
 
-So this is going to make a mess of merging your series given this is
-queued up for next merge window.
-
-I can pick this one up perhaps and we loop back to the replacement of
-these in a future patch?  Or perhaps go instead with a rename
-of these two which is probably nicer in the intermediate state than
-undefs.
-
-> --
-> v5:
->   - New.
-> ---
->  drivers/iio/imu/smi330/smi330_core.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/iio/imu/smi330/smi330_core.c b/drivers/iio/imu/smi330/smi330_core.c
-> index d9178725ade3da83..a79964fe68fadf47 100644
-> --- a/drivers/iio/imu/smi330/smi330_core.c
-> +++ b/drivers/iio/imu/smi330/smi330_core.c
-> @@ -68,7 +68,9 @@
->  #define SMI330_SOFT_RESET_DELAY 2000
->  
->  /* Non-constant mask variant of FIELD_GET() and FIELD_PREP() */
-> +#undef field_get
->  #define field_get(_mask, _reg) (((_reg) & (_mask)) >> (ffs(_mask) - 1))
-> +#undef field_prep
->  #define field_prep(_mask, _val) (((_val) << (ffs(_mask) - 1)) & (_mask))
->  
->  #define SMI330_ACCEL_CHANNEL(_axis) {					\
-
+Jonathan
 
