@@ -1,216 +1,158 @@
-Return-Path: <linux-renesas-soc+bounces-24050-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24051-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1494EC2DFB3
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 03 Nov 2025 21:05:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19503C2E004
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 03 Nov 2025 21:09:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id DC4644EE2D6
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Nov 2025 20:05:12 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 5A1FF4F5129
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Nov 2025 20:08:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5070A2C08CB;
-	Mon,  3 Nov 2025 20:04:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4065129A300;
+	Mon,  3 Nov 2025 20:08:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D0Mpr3v6"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="X5Y+8ilo";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="xI66H01M"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B038022D9F7
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  3 Nov 2025 20:04:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B32E245005;
+	Mon,  3 Nov 2025 20:08:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762200280; cv=none; b=ERAqFw3E2eRqv2u5jQ3pwy7h4AmsfBzrBfi130PUIG0W0O1EynDPP194on5i9okhynotkmfZf2lWBQDMcsLha41QqRarxFFZO+y9dPY7KF8pIKXZq9PCKQpGFuOq8jDra0OeDtl1j4sCdjzqALf7gJCmK440Xpj9JGh7LedGnXI=
+	t=1762200512; cv=none; b=LMf/Ejk9JTRTu4a2dcdnUJlD/VnbQ68EicQm72qIA9t8QtmEMH9aGoRzXZTgdJQ+7JZJQ/9fOdlfcanlayrT7bEIKOux/rH0E/DBLok+SUnjafr4f1+noekuknkdzY2xYuqZWmt1lE8DMI63DidDNSFNu2EUjj/WgTej3hc/8ls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762200280; c=relaxed/simple;
-	bh=AZdYyx6RpwPUgCLeQLU11abdKBjIkYuZ0XaZ7R6y/uQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZFKxaBjzu7xJBWmYKvE7cAjaxZaiZx/QQJlsWJDu3+G2vNd37fsXo0zuTXwKg2rYdLqUCaNb4jsPnakVLhDRJcyv4SAcefsMLxmtF/LenRfzzCHjMhItXZHu8o9O9DPPoTQafTc6jLZQSF+4w/eliwDNRx+EmHeQsIFd7K5+Kxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D0Mpr3v6; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-29524abfba3so33901635ad.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 03 Nov 2025 12:04:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762200278; x=1762805078; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1KU8vOhsYeve0BAEDeA29AU6RRX8D+x4TzBHh/hEXcc=;
-        b=D0Mpr3v6ChDffqntNNMvpdenMYNIBb0SXNXQPp/gayn18vMtMDioKMoA0+KOBc4SXd
-         tEN609gMwyxBhF0aRnc4HqSQpWHT/fWCqSU0v9BSl/aTNpzZFmgcGwx4+K6KQ97lCuew
-         UqpguQxgJGUiw9/s+t3vw+mB4vRgxk+J2dePSR8v6mJ/EWxIRZ6jqT1x9fPRWFsrek3r
-         gl8qdUcy0JZxCngDy9aijM2KOYdCy0rjUq5KpfCvEf2MbV9/qtUhBOhz0MLONEMrPlAz
-         n0EWr7gxmrlHnz4iRDNW5UE4XtK9xV7fi8xmQ0Ubsc2CEBdhNONcOgc93eus9unevxk/
-         ROHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762200278; x=1762805078;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1KU8vOhsYeve0BAEDeA29AU6RRX8D+x4TzBHh/hEXcc=;
-        b=Zl4sG+CU3po2MkvABa1BTJ/fO3zeo0FKe08yP3Ja/OPcSeyDY++6jEKCTZX4ORBQUL
-         5+N5uWM6lu8lw85JnmGc/CKoS3xVfOOoctXKpIdyqFLrRE+wOmkDJmybPlglaA0appw1
-         r3lCeQ9rP9YBD4GQIWfa11ux+ay3+mO4NJHqgejPekAprTcrxTKYpQ5MEsCFt5s/105Y
-         msDYF5PMQfqiTO7WHmWDye23p44OvhkuosuQXS5z+fYFmZIRZ7GT6h8EMjjpSvq/zFwi
-         9aGrG+Nfozaqfbt2RB3O8wXeKpgLeeqK9V97NQZM8bgRMV1VpAGRDHNRa1IU5GrNZShl
-         BGng==
-X-Gm-Message-State: AOJu0YwBSivU0tdlHgjDgMZa3Y4uTmIKAHt9nu4lUImwnahFYEjbvKmB
-	p5iD0s+cDS3giXQHyQ8yRmR06+lbrw1sftvVf6B2RSc2jcTJkZUlBCfF
-X-Gm-Gg: ASbGnctdZmAAmMc6VpGaq3YgnHBpPxakGMK1ZsEgAvZbiBI0HijvUOKhwyT3bTwWcDr
-	LVEFLowSEd66ktnVhQlkWK6at+t9OOgBJN+O5ydf8WcZt/F6pOeNHALUGs+qZUTx57NgoftctKr
-	YieE7vi6UUa10UaqpmaoXMdToH7+FimAUp9RMVFVMVyTUbSy6pI94qLDE06LqF8zutf2WWLuBHm
-	Y8w+0/FsiEY1Y/2J8LO0CcwBXjbbbLz9vaZDvEWLPT+Kd1OKU18GCPVr1hhif+dfQXl751UgBAH
-	mlJdD20HpF028wLQ5LvA4qJmd4seW5CT8wz/nuQaTdx4j7voK/FxZkUK+o1oEyEEd2ph/mrEWbG
-	nee2fZ7PY3DKZvL+KQHLSdDam3OmeFmCfjCJZ21mZJBSWBFNRimfg4fsFbJPOYl6M5/o2O/37j8
-	5qgOG36ZNZGUbndG3UysCPM22fSEd4rXs=
-X-Google-Smtp-Source: AGHT+IFaGFmj5djONFtqpiguTfM//9A4h/IvZW11bx86sItz9BafR6a9BGtxwXan7fS5UfrTlhSXbw==
-X-Received: by 2002:a17:902:e5cf:b0:295:7b8c:661c with SMTP id d9443c01a7336-2957b8c67cbmr97452575ad.26.1762200277157;
-        Mon, 03 Nov 2025 12:04:37 -0800 (PST)
-Received: from iku.. ([2401:4900:1c06:600d:df45:8e1:7a61:1482])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2952774570bsm127494895ad.99.2025.11.03.12.04.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Nov 2025 12:04:36 -0800 (PST)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh@kernel.org>,
+	s=arc-20240116; t=1762200512; c=relaxed/simple;
+	bh=c+VsxSrmkWoKnik2zsmOhuOIx2KYrxYMd+GV8ubfBH0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Qsk9TW+nXibkPPn4fRrffSMhsk7cKTlX7MVtInNHeKYgZ9RP75kiYshdsv8X5tA57NZCf9LqomBnMrvvtK3Ub5zMSQqNyv9xDiDU7sd0icYEDR6jr+yHC39Op5VxoqU70PE437LrXn9TFzFwSok756XGSspcXp966FaAxik0Ziw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=X5Y+8ilo; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=xI66H01M; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4d0jMB4JpDz9sxJ;
+	Mon,  3 Nov 2025 21:08:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1762200502;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=gO1uJlhV6oM64fVpq/0JHSVRxjQ7sLQnALSTsOIjYT8=;
+	b=X5Y+8ilodsOL4HoPbZhGRipcGdvgrg5A+4S0GGWdKrlzaSe+/pB790XiCyHIJH/iTol3cj
+	yR0r4fGRm9EiaSSs2PtK59Qjdq1IMlxks4i7AsZRRZCJ+3vX6qvpUX1Lbaz5iQkkrL0Nft
+	uCgQbew9IhSOaJxs/63ofIVZDa735q6VlAuhgapYiqwM/oGpz04UG1oATZAKD6p6739Ext
+	EF2cteoqnWTCkU1eOvqHk+v3ZxBcQDlv9dq5mnArLcjKKbN6OvsUsuR0gkO+j7JribmxBK
+	QCP8Ka4C/2eUIi4YuoMEHQoQy4a8e9GL7N5EK4/mfinCEPTWdStbT4thtekNYQ==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=xI66H01M;
+	spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org designates 2001:67c:2050:b231:465::2 as permitted sender) smtp.mailfrom=marek.vasut+renesas@mailbox.org
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1762200500;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=gO1uJlhV6oM64fVpq/0JHSVRxjQ7sLQnALSTsOIjYT8=;
+	b=xI66H01MM1/fv0z0izQzVRJQPMuP3I6bz+TAuuAPKQPlnq7DvVRC0CVYwJxQk2HDLQSyyy
+	13Fbr9xPflk3Xh6E55W8oiVfhcTqOzWB40Dl3d3BqKUa5nJW6W7+ZDHdiUPfFj69jdxJ3S
+	aBNUP4NZYCbHz3jMMOq6dsRbwrL2Ub/iknkPRiG5/Ujp4cCvxRacPEwmwWJvpI8c0/gENM
+	CG/5HD2tI1SEURI/MPo4BtItGb/1fP1g9+1Y/eLADF6+KifszQl1FG8EZD4j3qCeVxIq9Q
+	lHM2YsDliF2FIb7zypw5ZGOPNyEAksRlWLIIJHuQuG6qZtONPPXYvsIQJFA30A==
+To: linux-arm-kernel@lists.infradead.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	David Airlie <airlied@gmail.com>,
+	Frank Binns <frank.binns@imgtec.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: linux-renesas-soc@vger.kernel.org,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Matt Coster <matt.coster@imgtec.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	Rob Herring <robh@kernel.org>,
+	Simona Vetter <simona@ffwll.ch>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
 	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 3/3] arm64: dts: renesas: r9a09g056n48-rzv2n-evk: Enable DU and DSI
-Date: Mon,  3 Nov 2025 20:03:49 +0000
-Message-ID: <20251103200349.62087-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251103200349.62087-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20251103200349.62087-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	dri-devel@lists.freedesktop.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH 1/2] dt-bindings: gpu: img,powervr-rogue: Document GE7800 GPU in Renesas R-Car M3-N
+Date: Mon,  3 Nov 2025 21:07:35 +0100
+Message-ID: <20251103200800.173440-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: khrd3qq4o39hm5ydwj6crqdebybxex5s
+X-MBO-RS-ID: 914238a6db457e3aa3b
+X-Rspamd-Queue-Id: 4d0jMB4JpDz9sxJ
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Document Imagination Technologies PowerVR Rogue GE7800 BNVC 15.5.1.64
+present in Renesas R-Car R8A77965 M3-N SoC.
 
-Enable DU, DSI and adv7535 HDMI encoder on RZ/V2N Evaluation Kit.
-
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 ---
- .../dts/renesas/r9a09g056n48-rzv2n-evk.dts    | 69 +++++++++++++++++++
- 1 file changed, 69 insertions(+)
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Frank Binns <frank.binns@imgtec.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>
+Cc: Matt Coster <matt.coster@imgtec.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: "Niklas Söderlund" <niklas.soderlund@ragnatech.se>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: devicetree@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-renesas-soc@vger.kernel.org
+---
+ .../devicetree/bindings/gpu/img,powervr-rogue.yaml          | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dts b/arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dts
-index 066e66b5d51a..5459465b81f5 100644
---- a/arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dts
-+++ b/arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dts
-@@ -33,6 +33,17 @@ chosen {
- 		stdout-path = "serial0:115200n8";
- 	};
- 
-+	hdmi-out {
-+		compatible = "hdmi-connector";
-+		type = "d";
-+
-+		port {
-+			hdmi_con_out: endpoint {
-+				remote-endpoint = <&adv7535_out>;
-+			};
-+		};
-+	};
-+
- 	memory@48000000 {
- 		device_type = "memory";
- 		/* first 128MB is reserved for secure area. */
-@@ -82,12 +93,36 @@ x6: x6-clock {
- 		#clock-cells = <0>;
- 		clock-frequency = <32768>;
- 	};
-+
-+	/* 12MHz oscillator for ADV7535 */
-+	y1: y1-clock {
-+		compatible = "fixed-clock";
-+		#clock-cells = <0>;
-+		clock-frequency = <12000000>;
-+	};
- };
- 
- &audio_extal_clk {
- 	clock-frequency = <22579200>;
- };
- 
-+&du {
-+	status = "okay";
-+};
-+
-+&dsi {
-+	status = "okay";
-+
-+	ports {
-+		port@1 {
-+			dsi_out: endpoint {
-+				data-lanes = <1 2 3 4>;
-+				remote-endpoint = <&adv7535_in>;
-+			};
-+		};
-+	};
-+};
-+
- &ehci0 {
- 	dr_mode = "otg";
- 	status = "okay";
-@@ -145,6 +180,40 @@ &i2c3 {
- 	pinctrl-names = "default";
- 	clock-frequency = <400000>;
- 	status = "okay";
-+
-+	adv7535: hdmi@3d {
-+		compatible = "adi,adv7535";
-+		reg = <0x3d>, <0x3f>, <0x3c>, <0x38>;
-+		reg-names = "main", "edid", "cec", "packet";
-+		clocks = <&y1>;
-+		clock-names = "cec";
-+		avdd-supply = <&reg_1p8v>;
-+		dvdd-supply = <&reg_1p8v>;
-+		pvdd-supply = <&reg_1p8v>;
-+		a2vdd-supply = <&reg_1p8v>;
-+		v3p3-supply = <&reg_3p3v>;
-+		v1p2-supply = <&reg_1p8v>;
-+		adi,dsi-lanes = <4>;
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@0 {
-+				reg = <0>;
-+				adv7535_in: endpoint {
-+					remote-endpoint = <&dsi_out>;
-+				};
-+			};
-+
-+			port@1 {
-+				reg = <1>;
-+				adv7535_out: endpoint {
-+					remote-endpoint = <&hdmi_con_out>;
-+				};
-+			};
-+		};
-+	};
- };
- 
- &i2c6 {
+diff --git a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
+index a7ca6d3fdf10..c03efbedc397 100644
+--- a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
++++ b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
+@@ -19,6 +19,10 @@ properties:
+               - renesas,r8a77961-gpu
+           - const: img,img-gx6250
+           - const: img,img-rogue
++      - items:
++          - const: renesas,r8a77965-gpu
++          - const: img,img-ge7800
++          - const: img,img-rogue
+       - items:
+           - enum:
+               - ti,am62-gpu
+@@ -105,6 +109,7 @@ allOf:
+         compatible:
+           contains:
+             enum:
++              - img,img-ge7800
+               - img,img-gx6250
+               - thead,th1520-gpu
+     then:
+@@ -134,6 +139,7 @@ allOf:
+         compatible:
+           contains:
+             enum:
++              - img,img-ge7800
+               - img,img-gx6250
+               - img,img-bxs-4-64
+     then:
 -- 
-2.43.0
+2.51.0
 
 
