@@ -1,82 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-24041-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24042-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9504FC2D099
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 03 Nov 2025 17:15:58 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06C46C2CF5E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 03 Nov 2025 17:03:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A91113AA713
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Nov 2025 15:33:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 90A0C460FB0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Nov 2025 15:39:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F16963CF;
-	Mon,  3 Nov 2025 15:26:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1516023AB8D;
+	Mon,  3 Nov 2025 15:34:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vB+NiSrJ"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="CesO5XO4"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D3CC2BE7C2
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  3 Nov 2025 15:26:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69B3B1E3DED;
+	Mon,  3 Nov 2025 15:34:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762183599; cv=none; b=tGUFlZF7eCq8uu0QKKdwiqIt5+8CDg+rLXw1r7+tfnKc0KVSKfLNXRhw0c0Ma7E1GtqBhVm1WkihqRdsazarBiEgaM9YahtQqs1HzDNXshtYggtNpgEhRdYGyYWy1PQyygsA9F/cABpKMR47OMyMHiy7CSqr7w7UGqWpBFQ1B7I=
+	t=1762184078; cv=none; b=UYR64Oe1lJgNJTgVJ/Vhp3RXkzSD6SsvGzeajR9n0jarg0714F9sFdifZFme1Egpby1oTYZ9r3z/Uww97mh0Ac0UzVWgrmc8TdIBBnQwCGT/QpgfHf3HWNIyw+69hAMwwGIHoEd5VPZUlaxMyDFoSw18ixd2CKECwloYjYQhBsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762183599; c=relaxed/simple;
-	bh=+7gZH5dM1CyDXyb/S0b17uF6cHLi/U992sd20U7pa/M=;
+	s=arc-20240116; t=1762184078; c=relaxed/simple;
+	bh=lysJftpz+IO4ZKExVW7pj1W42TMJiZpVuJsy6nHQIK8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=e/wLMiTAZaH0vIcj7R8NP2ovXjLloI2aJk6fMt1sjibN87ogaW7HDliWJrPi9Vgt2QN9p7YFD1j7qEMgfVMRnvS33tYCcYQVqjbQFYbFbSzVmRBnL1GYcpJtbLUa68ITZkwZ1Y2BUzs316WomvDZ9M4ljugt1eNx2ezHESX29SU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vB+NiSrJ; arc=none smtp.client-ip=209.85.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-633b4861b79so1027664a12.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 03 Nov 2025 07:26:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1762183597; x=1762788397; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=cvbV9bnnHq3TInGKYCNMpxj4N2pXQIeZi96vII/uw4U=;
-        b=vB+NiSrJzqKQubDPDMmDCRKqtWd2tRpqeMoOtLsOlLNgo3V4YmiRrobxn2ekMksFFe
-         38oMm/t1pvi9gGwc6k8wE7iv/d6DU7/m2EFF8Q+FzwzpWRTPjLA+wcRL3f4NW5mB5Tm2
-         qBthNyJLZHG0W2TBLej1CAZESZk1B8kq5F5soB6sEsOjqOhhCvfTmb/qJ2vFYC8NW9py
-         nResaqb0/c/1rATRgQSZDeXHrIdpMeRLf4ht8O2u7JKfxt+5Qm92+rriulZSTv9JG0Eh
-         wJcYUGS41zrqSf662wxLyw32/TIWaUb7K2N0Vf2n91G3ZX73iEctSNeXHgXiXLsHAW6f
-         j8Ow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762183597; x=1762788397;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cvbV9bnnHq3TInGKYCNMpxj4N2pXQIeZi96vII/uw4U=;
-        b=qLrY7gF6mYJ4xZUZc6y7B5GcW0XKLVXCtSLw+z3P9LWjXyF82dLcGSH6VLzEIBaKzr
-         oIhRq8xfMOXM8I8dVKAfOVujJGGleFa5ciSzJv28GdxA61MI+lGyMji/YeHfH3DRThEc
-         PGHguqPrPKUphahAGlTgw0ZKBfUe0/ZhUfNm/uPc3QRPzvc9TO7NDd4uH+d8PD4zh/RE
-         MEY4KdnkM4ZsxweV13qerBlAWDPVLmJHMJOBfYvT7ERW4jwvAR5Dj4fXJPI1MtC2v7IU
-         3cqX2n5OIUxJZv19Suwpc1lBZAtqQGI93rBmfVitYAfp3Mmf8Gbk4A9z5jMM0vU/WEJY
-         9mAg==
-X-Forwarded-Encrypted: i=1; AJvYcCVD02It6papx58O7OxTmWKbJrJLkO5zjIsmB+iX4Qp1YBfK01+O1ji5bcEPRaFVi9QB/ReDxFTAHbkrPu8yiD7ITQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwUu0nhV8+XnTWMNsZQSSgf9QZwVzCKAMKiM9UaCc/ywQKD2kWm
-	NIfpdHgGXsdCL1t0ncjI94D8IDscW+HYW6lBqZnXsdcbuAPsyY53uX3/VTjluNdYkcU=
-X-Gm-Gg: ASbGncsBjqJ9P+ZcmpoZQUM6wb3YRxsvi3HVbjCG8jv4M9/+p0DgSlqpyZfAuNgtPbt
-	qx7zXZmcuHjbO0NfzoUfH6wYgXZHNndBn52XkNvvWiYH9BdH3yr+4uotyDhEGAP3+dSVe3weYSj
-	aSVRkh1cWHRGTcLggxH1jKTmKKf6Ur4Dey6k0f4CG8599nZb8ycJu0nRxru8lnWVU7SMpfgA8Fa
-	Rc2dMfvGHSIeLZAZK7aBphrUe7PQ2TXbtyPeON37PqsATB00hpQ8eVQYc3PrHp6TsdJvky1lWKw
-	WLGRLeOCroagIOLJOGHn4stIOhoUuIIJimmTwFenLVbY8OjVgl2eHlBWuJ4ffdMIpucWG7p6XH3
-	VWc4ITGyRhGLnhtwJQC9YcP7YV+iLkrMCGoTxKMV0nPg3Q3DWAxzFNSUdUyM9oEKb6mUjm/xzze
-	/Kfzl//AuCGnuxwL93rC4S
-X-Google-Smtp-Source: AGHT+IGpJ8usQHZBgC7OYhA0eA7SADFYgG3LCPRSw8LpYHx5BaMGo7SkXhMDK7PnACMPoFZSd07w2w==
-X-Received: by 2002:a05:6402:27d3:b0:640:9eb3:3683 with SMTP id 4fb4d7f45d1cf-6409eb34460mr3916536a12.1.1762183596687;
-        Mon, 03 Nov 2025 07:26:36 -0800 (PST)
-Received: from [192.168.1.29] ([178.197.219.123])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6407b438b05sm9728264a12.27.2025.11.03.07.26.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Nov 2025 07:26:36 -0800 (PST)
-Message-ID: <30f56029-49ef-4a74-97c9-9ee2ea0495be@linaro.org>
-Date: Mon, 3 Nov 2025 16:26:35 +0100
+	 In-Reply-To:Content-Type; b=TCQlz4bY9D44VzUKtlxLvtcTN7kiAwFr6DZPtyZdicV0GTY4gNnkzv29KSqreoYLPFnL6B3CGBLIk7DijlMuESfXvyhpNz3lITdkPnN1ITSAJUjFrX3syP/UkIcwm5lUGRjCzrnm0mOZ1CKRChTKszh7aRR13P+nX6JZ0CmZXdw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=CesO5XO4; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 051E4C73;
+	Mon,  3 Nov 2025 16:32:39 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1762183960;
+	bh=lysJftpz+IO4ZKExVW7pj1W42TMJiZpVuJsy6nHQIK8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=CesO5XO4lfEF9mRUECys9JUjPdwDrlM3JXuqcf86n3XNE7QOsrTLG2OaRFZkWKoMA
+	 i/pIEY3T4EV0FvO5kHRuY6KQA1ftzBBWCIjdn4Kufu1uwvrKMAC1kuCiBryA/tGTVB
+	 TFZ2ruhfrU0KtlnDXNlkFPHBEz5kr8T5eRoP128A=
+Message-ID: <1b60470f-c93e-4681-aab4-fdbda2057407@ideasonboard.com>
+Date: Mon, 3 Nov 2025 15:34:30 +0000
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -84,76 +50,105 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/2] reset: handle RESET_GPIO better to provide the
- fallback
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Philipp Zabel <p.zabel@pengutronix.de>
-References: <20251015205919.12678-4-wsa+renesas@sang-engineering.com>
- <874irz3e8m.wl-kuninori.morimoto.gx@renesas.com>
- <61c8e3fc-af35-432f-9bb9-300c953819e4@linaro.org> <aQjJTQK6Dgsx63YT@shikoro>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH] arm64: dts: renesas: r9a09g057h48-kakip: Enable eth0
+To: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, linux-renesas-soc@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20251010-kakip_eth0-v1-1-0d8fdcbceb9a@ideasonboard.com>
+ <CAMuHMdWZD1m6t8MnYTA83RV=h9G9o6M3KSZjO32rRjOpz6px+w@mail.gmail.com>
+ <bcdc9a86-bda1-4646-9ccc-1dc00a710b44@ideasonboard.com>
+ <CAMuHMdUDuuXncX4sbd6oa+8KcS8x+1Sp-ahmvyh8fRdQt1GqKA@mail.gmail.com>
+ <8b984f13-0498-4cc6-a64e-e2b6b147c346@ideasonboard.com>
+ <CABMQnV+z=8-ORRGTjxM=6iP+6+qbJa-N_C0csi8K53wpFwLp_A@mail.gmail.com>
+ <CABMQnVJu-rVHSYcSU271sVeVvuHN=+h8YOAMkDXW--MWfxguuA@mail.gmail.com>
+ <9a9b2fc0-81ca-445c-981c-104d7ed9043c@ideasonboard.com>
+ <CABMQnV+bR1bteABAWOS_tYd3LZqg190tE-=_kqzZYe95fTQttg@mail.gmail.com>
 Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzTRLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+wsGUBBMBCgA+AhsD
- BQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAFiEEm9B+DgxR+NWWd7dUG5NDfTtBYpsFAmgXUEoF
- CRaWdJoACgkQG5NDfTtBYpudig/+Inb3Kjx1B7w2IpPKmpCT20QQQstx14Wi+rh2FcnV6+/9
- tyHtYwdirraBGGerrNY1c14MX0Tsmzqu9NyZ43heQB2uJuQb35rmI4dn1G+ZH0BD7cwR+M9m
- lSV9YlF7z3Ycz2zHjxL1QXBVvwJRyE0sCIoe+0O9AW9Xj8L/dmvmRfDdtRhYVGyU7fze+lsH
- 1pXaq9fdef8QsAETCg5q0zxD+VS+OoZFx4ZtFqvzmhCs0eFvM7gNqiyczeVGUciVlO3+1ZUn
- eqQnxTXnqfJHptZTtK05uXGBwxjTHJrlSKnDslhZNkzv4JfTQhmERyx8BPHDkzpuPjfZ5Jp3
- INcYsxgttyeDS4prv+XWlT7DUjIzcKih0tFDoW5/k6OZeFPba5PATHO78rcWFcduN8xB23B4
- WFQAt5jpsP7/ngKQR9drMXfQGcEmqBq+aoVHobwOfEJTErdku05zjFmm1VnD55CzFJvG7Ll9
- OsRfZD/1MKbl0k39NiRuf8IYFOxVCKrMSgnqED1eacLgj3AWnmfPlyB3Xka0FimVu5Q7r1H/
- 9CCfHiOjjPsTAjE+Woh+/8Q0IyHzr+2sCe4g9w2tlsMQJhixykXC1KvzqMdUYKuE00CT+wdK
- nXj0hlNnThRfcA9VPYzKlx3W6GLlyB6umd6WBGGKyiOmOcPqUK3GIvnLzfTXR5DOwU0EVUNc
- NAEQAM2StBhJERQvgPcbCzjokShn0cRA4q2SvCOvOXD+0KapXMRFE+/PZeDyfv4dEKuCqeh0
- hihSHlaxTzg3TcqUu54w2xYskG8Fq5tg3gm4kh1Gvh1LijIXX99ABA8eHxOGmLPRIBkXHqJY
- oHtCvPc6sYKNM9xbp6I4yF56xVLmHGJ61KaWKf5KKWYgA9kfHufbja7qR0c6H79LIsiYqf92
- H1HNq1WlQpu/fh4/XAAaV1axHFt/dY/2kU05tLMj8GjeQDz1fHas7augL4argt4e+jum3Nwt
- yupodQBxncKAUbzwKcDrPqUFmfRbJ7ARw8491xQHZDsP82JRj4cOJX32sBg8nO2N5OsFJOcd
- 5IE9v6qfllkZDAh1Rb1h6DFYq9dcdPAHl4zOj9EHq99/CpyccOh7SrtWDNFFknCmLpowhct9
- 5ZnlavBrDbOV0W47gO33WkXMFI4il4y1+Bv89979rVYn8aBohEgET41SpyQz7fMkcaZU+ok/
- +HYjC/qfDxT7tjKXqBQEscVODaFicsUkjheOD4BfWEcVUqa+XdUEciwG/SgNyxBZepj41oVq
- FPSVE+Ni2tNrW/e16b8mgXNngHSnbsr6pAIXZH3qFW+4TKPMGZ2rZ6zITrMip+12jgw4mGjy
- 5y06JZvA02rZT2k9aa7i9dUUFggaanI09jNGbRA/ABEBAAHCwXwEGAEKACYCGwwWIQSb0H4O
- DFH41ZZ3t1Qbk0N9O0FimwUCaBdQXwUJFpZbKgAKCRAbk0N9O0Fim07TD/92Vcmzn/jaEBcq
- yT48ODfDIQVvg2nIDW+qbHtJ8DOT0d/qVbBTU7oBuo0xuHo+MTBp0pSTWbThLsSN1AuyP8wF
- KChC0JPcwOZZRS0dl3lFgg+c+rdZUHjsa247r+7fvm2zGG1/u+33lBJgnAIH5lSCjhP4VXiG
- q5ngCxGRuBq+0jNCKyAOC/vq2cS/dgdXwmf2aL8G7QVREX7mSl0x+CjWyrpFc1D/9NV/zIWB
- G1NR1fFb+oeOVhRGubYfiS62htUQjGLK7qbTmrd715kH9Noww1U5HH7WQzePt/SvC0RhQXNj
- XKBB+lwwM+XulFigmMF1KybRm7MNoLBrGDa3yGpAkHMkJ7NM4iSMdSxYAr60RtThnhKc2kLI
- zd8GqyBh0nGPIL+1ZVMBDXw1Eu0/Du0rWt1zAKXQYVAfBLCTmkOnPU0fjR7qVT41xdJ6KqQM
- NGQeV+0o9X91X6VBeK6Na3zt5y4eWkve65DRlk1aoeBmhAteioLZlXkqu0pZv+PKIVf+zFKu
- h0At/TN/618e/QVlZPbMeNSp3S3ieMP9Q6y4gw5CfgiDRJ2K9g99m6Rvlx1qwom6QbU06ltb
- vJE2K9oKd9nPp1NrBfBdEhX8oOwdCLJXEq83vdtOEqE42RxfYta4P3by0BHpcwzYbmi/Et7T
- 2+47PN9NZAOyb771QoVr8A==
-In-Reply-To: <aQjJTQK6Dgsx63YT@shikoro>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Dan Scally <dan.scally@ideasonboard.com>
+In-Reply-To: <CABMQnV+bR1bteABAWOS_tYd3LZqg190tE-=_kqzZYe95fTQttg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 03/11/2025 16:25, Wolfram Sang wrote:
-> 
->> Started to work? So was it broken? By what?
-> 
-> I explained all this in the RFC version of the patch which was linked in
-> the cover letter of this series.
-> 
+Hello Nobuhiro
 
-Should be explained here. That's the reason why you are doing change.
-The most important information.
+On 01/11/2025 07:20, Nobuhiro Iwamatsu wrote:
+> Hi Dan,
+> 
+> 2025年10月28日(火) 19:56 Dan Scally <dan.scally@ideasonboard.com>:
+>>
+>> Good morning Nobuhiro - thanks for your comments
+>>
+>> On 26/10/2025 03:54, Nobuhiro Iwamatsu wrote:
+>>> Hi all,
+>>>
+>>> 2025年10月26日(日) 10:06 Nobuhiro Iwamatsu <iwamatsu@nigauri.org>:
+>>>
+>>>
+>>>>>
+>>>>> Indeed, I couldn't find it anywhere either so resorted to phytool.
+>>>>>
+>>>>>>
+>>>>>> Which PHY is actually mounted on the board you have?
+>>>>>> Can you inspect it visually?
+>>>>>
+>>>>> It says LAN8830, plus a couple of other strings.
+>>>>>
+>>>>
+>>>> Yes, this board has a LAN9930 chip.
+>>
+>> Sorry; is that a typo? Should that be LAN8830?
+> 
+> Sorry, it is typo, LAN8830 is correct.
+> 
+>>
+>>>> Since this chip's PHY_ID is 0x22165X, I believe the PHY driver needs
+>>>> to be modified.
+>>>
+>>> I have confirmed that this IC is supported by micrel.c, not microchip.c.
+>>
+>> Excuse my ignorance; I have no experience with phys really. The driver that claims the phy is indeed
+>> micrel.c, and with the phy id set to 0x00221652 it's picked up as "Microchip LAN8841 Gigabit PHY".
+>> When I take a look at that the PHY_ID_LAN8841 (0x00551650) and MICREL_PHY_ID_MASK (0x00fffff0) seem
+>> like they're appropriate already. What needs to be modified?
+>>
+> 
+> Sorry for not explaining well.
+> We need to update compatible from ethernet-phy-id0022.1640 to
+> ethernet-phy-id0022.1650".
+> Because this chip's ID is 0055165X.
 
-Best regards,
-Krzysztof
+Ack - ok, thanks very much!
+
+Dan
+
+> 
+> --- a/arch/arm64/boot/dts/renesas/r9a09g057h48-kakip.dts
+> +++ b/arch/arm64/boot/dts/renesas/r9a09g057h48-kakip.dts
+> @@ -70,7 +70,7 @@ &eth0 {
+> 
+>   &mdio0 {
+>          phy3: ethernet-phy@3 {
+> -               compatible = "ethernet-phy-id0022.1640",
+> "ethernet-phy-ieee802.3-c22";
+> +               compatible = "ethernet-phy-id0022.1650",
+> "ethernet-phy-ieee802.3-c22";
+>                  reg = <3>;
+>                  rxc-skew-psec = <0>;
+>                  txc-skew-psec = <0>;
+> 
+> Best regards,
+>    Nobuhiro
+> 
+> 
+> 
+> 
+> 
+> --
+> Nobuhiro Iwamatsu
+>     iwamatsu at {nigauri.org / debian.org / kernel.org}
+>     GPG ID: 32247FBB40AD1FA6
+
 
