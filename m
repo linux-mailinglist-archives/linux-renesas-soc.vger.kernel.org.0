@@ -1,98 +1,184 @@
-Return-Path: <linux-renesas-soc+bounces-24025-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24026-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C07DC2C3F6
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 03 Nov 2025 14:51:14 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0C63C2C5D7
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 03 Nov 2025 15:19:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id ACFAE349868
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Nov 2025 13:51:13 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 66F044E1389
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Nov 2025 14:19:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFAF8274B2E;
-	Mon,  3 Nov 2025 13:51:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDA4130FF32;
+	Mon,  3 Nov 2025 14:19:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="JZw19uBW"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="pXn7t8Sa"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE74E24729D;
-	Mon,  3 Nov 2025 13:51:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F58530E827;
+	Mon,  3 Nov 2025 14:19:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762177868; cv=none; b=QfOu5rhIZ44r3dzKxoKbeGlTIICEwxuvBF3nXndj7mBlYw4Jls1w1+Lej4aNoj3RgfAO03x5/8aTdu4NzGmPqMvhXe3I2LWyQTf47R2UjRxikR1gWoewN38OmFsEtvoUjXmvk6lSMijCg5GcTOr4uLMLL5Pj2Hy08Ny5qnggSFI=
+	t=1762179580; cv=none; b=V5dT9KFOGC7Kfn7nlQWQDNIen/no/Wh4YYCLmtH5DrSiWbcjlYKnFEHHkUEFnppuu0P6zMOCXr2Ok/QRQv3ueVuvwDuT3lScNKjeIVGyJbCwnBNU2WurCZu7Hx/U4kfq0zrF4uufWzmSAc0aAsBsZbq9du2N4zf9NO3HPElRfWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762177868; c=relaxed/simple;
-	bh=TxvgFbg/Vb1N8ju1lnv4lDKIlNnF76z1sLY8MZjKXBQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TXBIUZsGH54nKQJBmKdb8mMX5wLyuVhrF7/XvyssPi5JbT5NGqBk57CFKNjxhKrvPzMLa44KmzCxnBJ7q3eR1xdU1qJElBcSdmMI7ZGRjUGN4yUbPT2S62/jFcztnrseLL9oXCpnX85IEbiLnwaITnmsSIusGJ/GbDxkOAlponk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=JZw19uBW; arc=none smtp.client-ip=185.246.85.4
+	s=arc-20240116; t=1762179580; c=relaxed/simple;
+	bh=9NiifvQJi8D1KvjCjQtiU4LSXpQp9V0YKrqUXTw7HDE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=iYM6/RM/BdhdbW4buYjA/3mxZSoac5kgcii+9tqxblvUlksRiYDdBvn3UK1GTpmAPJbSC1YTOwyfR+6hYg+vglbhHPJSz41Q1bDlmuEZirh0iJdqsRFjsQipsfbflQA2SxX5WWkTPXkYdaL9cYqtnhubd965jRj9F6JRO7q0ps4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=pXn7t8Sa; arc=none smtp.client-ip=185.171.202.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id ED2A94E414C6;
-	Mon,  3 Nov 2025 13:51:01 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id E63F5C0D7AB;
+	Mon,  3 Nov 2025 14:19:14 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id B41A560628;
-	Mon,  3 Nov 2025 13:51:01 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4AE5710B500C8;
-	Mon,  3 Nov 2025 14:50:58 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id A20EE60628;
+	Mon,  3 Nov 2025 14:19:35 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4068310B50120;
+	Mon,  3 Nov 2025 15:19:29 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1762177860; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=/m8rdeLKaA4WSLoHrSxLT8BCucA4Ov5kAuCE4vkVBmg=;
-	b=JZw19uBWN9H93Zlsnaefmm1F3+OYAFHdSbmgwNCA+91R26VmQzMnCXVehwgiPLqCAmiJi2
-	vppKyryVq4Bntsq6+sFD7VY119Q5rbRRUf4fvRljrlRqj/v4/dszd8A0vf5QEOmkJG9Uk0
-	XuqNWp4spnvX2W2PXRczW1d/uYV1iE7kDrrzpJ54WVg3lnCeXb1R9YQVa3/vcaVFEDAD1I
-	KBmNwg+ruYPk9iAIjju4tDk0lllhBs9ogOeUTESd+Dix/EJbwRqI1vAwcu/hf88AOFQSH5
-	FErrvO24KOlB522dg/CgtSOS+t/fM5ndhrvfAwcIEbBLb/h6VRl/KP+Oz6C5wg==
-Date: Mon, 3 Nov 2025 14:50:58 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: claudiu.beznea.uj@bp.renesas.com, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, geert+renesas@glider.be, magnus.damm@gmail.com,
-	p.zabel@pengutronix.de,
-	Ovidiu Panait <ovidiu.panait.rb@renesas.com>
-Cc: linux-rtc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: (subset) [PATCH v3 0/4] Add RTC support for the Renesas RZ/V2H
- SoC
-Message-ID: <176217780890.386697.14373281518311620724.b4-ty@bootlin.com>
-References: <20251103121848.6539-1-ovidiu.panait.rb@renesas.com>
+	t=1762179574; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=IUwcGtE/38Ac68OwdWyQjp0g7+BDVo54gGgBsB+Ixrc=;
+	b=pXn7t8SaZk1pj8aMpOpnGjVSQpfL/F0eUznTpgzzpQHiAoNq1AQtoEjsA8C3XvxNPcKo2U
+	NG+kkHKUyr48pQ15jPdyKHKnww7OyGH12JYV3auzyG8dGDX9jGrh50sRoZWb0ab+6kxqkO
+	5r6G08UwbV58XZTYP281dKE51UgIP0fSQN+US5V9Ve1FWgMevB7udPkJX5LVtF66OKIjBH
+	9wgXfnMm5UNETRXl12BgyJtx/7K8lE2uOzhIBP/wa4guqe+sOd2Qx/bNdraAfQGdBaJtc8
+	4NkQ+mUlOOErOk/XcUDxACY8OZqU0G0Z+S8FVm3SRmT1jNwjcqu+JW72tdrRgA==
+From: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Herve Codina <herve.codina@bootlin.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: linux-iio@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Pascal Eberhard <pascal.eberhard@se.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: [PATCH v3 0/4] Add support for the Renesas RZ/N1 ADC
+Date: Mon,  3 Nov 2025 15:18:30 +0100
+Message-ID: <20251103141834.71677-1-herve.codina@bootlin.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251103121848.6539-1-ovidiu.panait.rb@renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-On Mon, 03 Nov 2025 12:18:44 +0000, Ovidiu Panait wrote:
-> This series adds RTC support for the Renesas RZ/V2H SoC.
-> 
-> The Renesas RZ/V2H RTC IP is based on the same RTCA3 IP as RZ/G3S
-> (r9a08g045), with the following differences:
-> - it lacks the time capture functionality
-> - the maximum supported periodic interrupt frequency is 128Hz instead
->   of 256Hz
-> - it requires two reset lines instead of one
-> 
-> [...]
+Hi,
 
-Applied, thanks!
+The Renesas RZ/N1 ADC controller is the ADC controller available in the
+Renesas RZ/N1 SoCs family.
 
-[1/4] dt-bindings: rtc: renesas,rz-rtca3: Add RZ/V2H support
-      https://git.kernel.org/abelloni/c/8056f175606a
-[2/4] rtc: renesas-rtca3: Add support for multiple reset lines
-      https://git.kernel.org/abelloni/c/d034c9ca6a47
+It can use up to two internal ADC cores (ADC1 and ADC2) those internal
+cores are handled through ADC controller virtual channels.
 
 Best regards,
+Herve Codina
+
+Changes v2 -> v3:
+
+v2: https://lore.kernel.org/lkml/20251029144644.667561-1-herve.codina@bootlin.com/
+
+  Patch 1:
+    - Add 'Reviewed-by: Rob Herring'.
+
+  Patch 2:
+    - Add missing header files.
+    - Use fixed-width values for register definitions.
+    - Split comments and remove a redundant 'else'.
+    - Return the error in the 'switch case' default statement.
+    - Leave a trailing comma in struct iio_info.
+    - Move *_vref_mv to *_vref_mV.
+    - Split the DEFINE_RUNTIME_DEV_PM_OPS().
+    - Update error code handling in rzn1_adc_core_get_regulators().
+    - Pass rzn1_adc in platform_set_drvdata(), update suspend/resume
+      function accordingly.
+    - Add 'Reviewed-by: Nuno Sá'
+
+  Patches 3 and 4:
+    No change.
+
+Changes v1 -> v2:
+
+v1: https://lore.kernel.org/lkml/20251015142816.1274605-1-herve.codina@bootlin.com/
+
+  Rebase on top of v6.18-rc3 to have commit db82b8dbf5f0 ("PM: runtime:
+  Fix conditional guard definitions")
+
+  Patch 1:
+    - Remove unneeded 'dependencies' part.
+    - Rename "adc-clk" clock to "adc".
+    - Move 'additionalProperties: false' just before the example.
+    - Use const instead of enum for the "renesas,r9a06g032-adc"
+      compatible string.
+    - Fix the ACD typo.
+
+  Patch 2:
+    - Fix the ACD typo.
+    - Rename "adc-clk" clock to "adc".
+    - Update included headers and sort them.
+    - Align register definitions at the same column.
+    - Inline the FIELD_GET() instead of having macros.
+    - Introduce RZN1_ADC_NO_CHANNEL
+    - Get Vref voltage value at probe().
+    - Remove the bitmap in rzn1_adc_set_iio_dev_channels().
+    - Use dev_err_probe() in rzn1_adc_set_iio_dev_channels().
+    - Use auto-cleanup variant for PM runtime "resume and get".
+    - Use scoped_guard() for mutex.
+    - Use devm_mutex_init().
+    - Use the fixed "rzn1-adc" string for indio_dev->name.
+    - Use DEFINE_RUNTIME_DEV_PM_OPS().
+    - Fix rzn1_adc_of_match table and remove of_match_ptr().
+    - Add a comment related to decoupling between IIO chans and ADC1 or
+      ADC2 core chans
+    - Update and add several comments related to ADC core usage and the
+      relationship with ADC core regulator presence.
+    - Remove clocks and regulators handling from PM runtime
+      suspend()/remove().
+    - Simplify the driver removing the no more relevant struct
+      rzn1_adc_core.
+
+  Patch 3:
+    - Rename "adc-clk" clock to "adc".
+    - Add 'Reviewed-by: Wolfram Sang'
+
+  Patch 4
+    - Removed the linux-iio list
+
+Herve Codina (Schneider Electric) (4):
+  dt-bindings: iio: adc: Add the Renesas RZ/N1 ADC
+  iio: adc: Add support for the Renesas RZ/N1 ADC
+  ARM: dts: renesas: r9a06g032: Add the ADC device
+  MAINTAINERS: Add the Renesas RZ/N1 ADC driver entry
+
+ .../bindings/iio/adc/renesas,rzn1-adc.yaml    | 111 ++++
+ MAINTAINERS                                   |   7 +
+ arch/arm/boot/dts/renesas/r9a06g032.dtsi      |  10 +
+ drivers/iio/adc/Kconfig                       |  10 +
+ drivers/iio/adc/Makefile                      |   1 +
+ drivers/iio/adc/rzn1-adc.c                    | 490 ++++++++++++++++++
+ 6 files changed, 629 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/iio/adc/renesas,rzn1-adc.yaml
+ create mode 100644 drivers/iio/adc/rzn1-adc.c
 
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.51.0
+
 
