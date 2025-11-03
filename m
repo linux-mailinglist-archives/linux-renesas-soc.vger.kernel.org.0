@@ -1,82 +1,82 @@
-Return-Path: <linux-renesas-soc+bounces-24040-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24041-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F23CAC2CCF6
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 03 Nov 2025 16:39:58 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9504FC2D099
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 03 Nov 2025 17:15:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 24A6A189FBF6
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Nov 2025 15:33:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A91113AA713
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Nov 2025 15:33:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 434E5313E01;
-	Mon,  3 Nov 2025 15:26:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F16963CF;
+	Mon,  3 Nov 2025 15:26:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="B8cwaqOJ"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vB+NiSrJ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FBB4320A34
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  3 Nov 2025 15:26:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D3CC2BE7C2
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  3 Nov 2025 15:26:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762183572; cv=none; b=UmqD+qEVQ2DVnAp07S8Hoh0AoCvWo0rzivYC6C7FHCjTUcGWfzlQfYmgwfML6gIPh/aC4U0MR/YXJK54MTai0JVs8ybP7HnXqJhk85VaxVpBX0yiRzkEOEDSHXqo692n9dJvumKlcq+L+xGgzISAyMvzgALC7/aqo3miEpRR9OA=
+	t=1762183599; cv=none; b=tGUFlZF7eCq8uu0QKKdwiqIt5+8CDg+rLXw1r7+tfnKc0KVSKfLNXRhw0c0Ma7E1GtqBhVm1WkihqRdsazarBiEgaM9YahtQqs1HzDNXshtYggtNpgEhRdYGyYWy1PQyygsA9F/cABpKMR47OMyMHiy7CSqr7w7UGqWpBFQ1B7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762183572; c=relaxed/simple;
-	bh=D3ds/ErQYUeUim9iowe0yUVn+i3cOriaf5Ex8lux6pQ=;
+	s=arc-20240116; t=1762183599; c=relaxed/simple;
+	bh=+7gZH5dM1CyDXyb/S0b17uF6cHLi/U992sd20U7pa/M=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=R63vb8evUNyObNOlmJI4uaxsq9T2Z9wB9/eoUXhb/uRRuTgWyYq2n+Qm67iJIzoCdiIkqW3WaIiySaMDN8cTC2Oq7CJN+Po8d8LdwBIbulP3UNF8f7VCQxxxhJE3+0B1d8ah8PO8xaC7W2ot1HX+n1iOthFyvgbJt9F7yvd3l9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=B8cwaqOJ; arc=none smtp.client-ip=209.85.208.42
+	 In-Reply-To:Content-Type; b=e/wLMiTAZaH0vIcj7R8NP2ovXjLloI2aJk6fMt1sjibN87ogaW7HDliWJrPi9Vgt2QN9p7YFD1j7qEMgfVMRnvS33tYCcYQVqjbQFYbFbSzVmRBnL1GYcpJtbLUa68ITZkwZ1Y2BUzs316WomvDZ9M4ljugt1eNx2ezHESX29SU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vB+NiSrJ; arc=none smtp.client-ip=209.85.208.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6409cb34fe0so427183a12.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 03 Nov 2025 07:26:09 -0800 (PST)
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-633b4861b79so1027664a12.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 03 Nov 2025 07:26:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1762183568; x=1762788368; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1762183597; x=1762788397; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=VdUAOQ9UfYb10NpKHLkwpV3JaSley4T2F3ae70K4wwQ=;
-        b=B8cwaqOJ0ENcNb6RN0kA/DvDkwiyBcC/MsvhznfdWZZszrieoVyz5Rc9Fg/q2YO1zu
-         2jsT1Z48ryYe909d6l7k8+5ZnmCq8oExDNZs+zUUeVFadqV644UsV3d2Gnsk0YTU1u2I
-         4QgZdHWjIUOcRDjzhauhFmY1VEWgAE/x3vguozQQ+fMXqyIW5gYMm2RSjSD/cZ1E42v4
-         AWdvWS+iqsWTD30aLzlvyml2UzEIVAAHs1OA+1+MTze/LxDW5YAT5XQASS+b1BbWHhrb
-         VcGXCB8mPrVCM3nWFHy0Jnk08wUIOK8b0QQJ+FAzy/Tjiq2hcBy7S9qF+PTNQ3/I/e1r
-         2OgQ==
+        bh=cvbV9bnnHq3TInGKYCNMpxj4N2pXQIeZi96vII/uw4U=;
+        b=vB+NiSrJzqKQubDPDMmDCRKqtWd2tRpqeMoOtLsOlLNgo3V4YmiRrobxn2ekMksFFe
+         38oMm/t1pvi9gGwc6k8wE7iv/d6DU7/m2EFF8Q+FzwzpWRTPjLA+wcRL3f4NW5mB5Tm2
+         qBthNyJLZHG0W2TBLej1CAZESZk1B8kq5F5soB6sEsOjqOhhCvfTmb/qJ2vFYC8NW9py
+         nResaqb0/c/1rATRgQSZDeXHrIdpMeRLf4ht8O2u7JKfxt+5Qm92+rriulZSTv9JG0Eh
+         wJcYUGS41zrqSf662wxLyw32/TIWaUb7K2N0Vf2n91G3ZX73iEctSNeXHgXiXLsHAW6f
+         j8Ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762183568; x=1762788368;
+        d=1e100.net; s=20230601; t=1762183597; x=1762788397;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=VdUAOQ9UfYb10NpKHLkwpV3JaSley4T2F3ae70K4wwQ=;
-        b=bsv2lDTobpdry7KtF/z0xfIIXdKiTn5XzzJ7IEv3qqxIbbhuUiyxnd/3sOAMwHnUOF
-         q/xNapYMK/z6kplzIqSBPFY68SgutRt0y2MEuFNF+Z01iGSNF01B+nPRwlwlsnmNgpam
-         nmnCLSvbuSKV7hgS/DkX+d9yD3TtU6JbY9MhcP1Ul8E8ypqe2x7ZeqFCAyRYBmOw5J4K
-         xfiwfI1YHmnpf0/jzzfGLobI94z7+UW6NT1897hj/Mq0Nvx3OgSVulsNs/anVYYd5Z11
-         /nxmCsOezZ1lEYswMHfQxjKigyf6m+wGNr0/WVUXCNg4cHyDj0v4S3SbPDhMuXA6oM1m
-         x4mw==
-X-Gm-Message-State: AOJu0YznHB4hAKKjg3m2FAOqkHeR48uYb56nv4ILTo216C/CD/CWUq+e
-	8GyPU7CFxOQKBsfIyzunk3JqPUsJAss28Q5rFASlGmGnr1ho4Pz+r2ETnvgG5mBPe+cuvBacv4D
-	DNXzp
-X-Gm-Gg: ASbGncstdFsOcAb3uUaN8Upp/UKT2EMgA5GWy+XvvrmH8Ou+q80gXu/US9Dujru35pa
-	3gZ2uWRbL/hT6GPotNE6PfhfX+IOWLf+h1iKDePrLYz8jl2ty/x866asf4jtpJyiTMV8obghDuH
-	On+P7Deck+JUr2TPVcmHfteqqgo4UoEfYNDxQwQAh9xMcheJNwdgyZrS8kQtDJCmDwkY5aSTnh3
-	yrrdwVPTepuEtMd6iNsoInfXaUL8NJdClRJc6Rn9ilNKAHoB7b2lUaa8NBKaD0VSGa3ENFbjc6W
-	N/gaomvv6myBABf7y6rz5T4R6sLzUXn1N6eMflubIPW8AAWyQz6tUUVwBtiHoAs13zXOiYsE6RQ
-	WTw+qTW+s1fw4uhi4UO+XMFJd91q3Ub2WTM4GqIy84WEXOik6bR0AUTZ63o5gJvrscZUHIIZNdV
-	r2PucdIT34KZqnhzDJT5B6
-X-Google-Smtp-Source: AGHT+IEy5eZgEtJamv4eN74TVUTPfYhXuXEbyjSf3Zgujp3MHg9SizhKmfU6gaqx4CLBvmHZq4yLNA==
-X-Received: by 2002:a05:6402:26c2:b0:640:acc8:eff6 with SMTP id 4fb4d7f45d1cf-640acc8f300mr3184665a12.0.1762183568505;
-        Mon, 03 Nov 2025 07:26:08 -0800 (PST)
+        bh=cvbV9bnnHq3TInGKYCNMpxj4N2pXQIeZi96vII/uw4U=;
+        b=qLrY7gF6mYJ4xZUZc6y7B5GcW0XKLVXCtSLw+z3P9LWjXyF82dLcGSH6VLzEIBaKzr
+         oIhRq8xfMOXM8I8dVKAfOVujJGGleFa5ciSzJv28GdxA61MI+lGyMji/YeHfH3DRThEc
+         PGHguqPrPKUphahAGlTgw0ZKBfUe0/ZhUfNm/uPc3QRPzvc9TO7NDd4uH+d8PD4zh/RE
+         MEY4KdnkM4ZsxweV13qerBlAWDPVLmJHMJOBfYvT7ERW4jwvAR5Dj4fXJPI1MtC2v7IU
+         3cqX2n5OIUxJZv19Suwpc1lBZAtqQGI93rBmfVitYAfp3Mmf8Gbk4A9z5jMM0vU/WEJY
+         9mAg==
+X-Forwarded-Encrypted: i=1; AJvYcCVD02It6papx58O7OxTmWKbJrJLkO5zjIsmB+iX4Qp1YBfK01+O1ji5bcEPRaFVi9QB/ReDxFTAHbkrPu8yiD7ITQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwUu0nhV8+XnTWMNsZQSSgf9QZwVzCKAMKiM9UaCc/ywQKD2kWm
+	NIfpdHgGXsdCL1t0ncjI94D8IDscW+HYW6lBqZnXsdcbuAPsyY53uX3/VTjluNdYkcU=
+X-Gm-Gg: ASbGncsBjqJ9P+ZcmpoZQUM6wb3YRxsvi3HVbjCG8jv4M9/+p0DgSlqpyZfAuNgtPbt
+	qx7zXZmcuHjbO0NfzoUfH6wYgXZHNndBn52XkNvvWiYH9BdH3yr+4uotyDhEGAP3+dSVe3weYSj
+	aSVRkh1cWHRGTcLggxH1jKTmKKf6Ur4Dey6k0f4CG8599nZb8ycJu0nRxru8lnWVU7SMpfgA8Fa
+	Rc2dMfvGHSIeLZAZK7aBphrUe7PQ2TXbtyPeON37PqsATB00hpQ8eVQYc3PrHp6TsdJvky1lWKw
+	WLGRLeOCroagIOLJOGHn4stIOhoUuIIJimmTwFenLVbY8OjVgl2eHlBWuJ4ffdMIpucWG7p6XH3
+	VWc4ITGyRhGLnhtwJQC9YcP7YV+iLkrMCGoTxKMV0nPg3Q3DWAxzFNSUdUyM9oEKb6mUjm/xzze
+	/Kfzl//AuCGnuxwL93rC4S
+X-Google-Smtp-Source: AGHT+IGpJ8usQHZBgC7OYhA0eA7SADFYgG3LCPRSw8LpYHx5BaMGo7SkXhMDK7PnACMPoFZSd07w2w==
+X-Received: by 2002:a05:6402:27d3:b0:640:9eb3:3683 with SMTP id 4fb4d7f45d1cf-6409eb34460mr3916536a12.1.1762183596687;
+        Mon, 03 Nov 2025 07:26:36 -0800 (PST)
 Received: from [192.168.1.29] ([178.197.219.123])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b71a332a9f9sm115987266b.38.2025.11.03.07.26.07
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6407b438b05sm9728264a12.27.2025.11.03.07.26.35
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Nov 2025 07:26:07 -0800 (PST)
-Message-ID: <ee8db6df-76e2-497d-8718-b0ce5affff05@linaro.org>
-Date: Mon, 3 Nov 2025 16:26:06 +0100
+        Mon, 03 Nov 2025 07:26:36 -0800 (PST)
+Message-ID: <30f56029-49ef-4a74-97c9-9ee2ea0495be@linaro.org>
+Date: Mon, 3 Nov 2025 16:26:35 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -87,11 +87,12 @@ User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2 0/2] reset: handle RESET_GPIO better to provide the
  fallback
 To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- linux-kernel@vger.kernel.org, Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Philipp Zabel <p.zabel@pengutronix.de>
 References: <20251015205919.12678-4-wsa+renesas@sang-engineering.com>
- <e1fd975c-56ef-442b-8617-d63237bf795a@linaro.org> <aQjI1m0yYs2t1hYq@shikoro>
+ <874irz3e8m.wl-kuninori.morimoto.gx@renesas.com>
+ <61c8e3fc-af35-432f-9bb9-300c953819e4@linaro.org> <aQjJTQK6Dgsx63YT@shikoro>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Language: en-US
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -138,46 +139,20 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  h0At/TN/618e/QVlZPbMeNSp3S3ieMP9Q6y4gw5CfgiDRJ2K9g99m6Rvlx1qwom6QbU06ltb
  vJE2K9oKd9nPp1NrBfBdEhX8oOwdCLJXEq83vdtOEqE42RxfYta4P3by0BHpcwzYbmi/Et7T
  2+47PN9NZAOyb771QoVr8A==
-In-Reply-To: <aQjI1m0yYs2t1hYq@shikoro>
+In-Reply-To: <aQjJTQK6Dgsx63YT@shikoro>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 03/11/2025 16:23, Wolfram Sang wrote:
+On 03/11/2025 16:25, Wolfram Sang wrote:
 > 
->> You removed RFC and entire rationale. Your earlier commit - 690de2902dca
->> - is broken. You must not do that.
+>> Started to work? So was it broken? By what?
 > 
-> Wojciech was told to do exactly what he did. Dunno by whom, I trusted
-> that after seeing the handling code in reset core. Is the required
-> fallback documented somewhere?
-
-Yes, by stable ABI document and by standard rule - we never break the users.
-
-That commit for which I sent revert effectively breaks that rule -
-affects the users.
-
+> I explained all this in the RFC version of the patch which was linked in
+> the cover letter of this series.
 > 
->> Broken 690de2902dca leads to this broken patchset, but that is not a
->> correct fix. You need to fix the source - revert 690de2902dca, because
->> it is obviously wrong. You MUST ave fallback to reset-gpios, that was
->> the entire concept how this driver was written.
-> 
-> What is the benefit of having reset-gpios handling in the reset core
-> optionally and required as a fallback?
 
-Stable ABI rules require that, it is not about "benefits". Please send
-email to Linus and ask him: "can I make a change which breaks users of ABI".
-
-
-> 
-> What is the drawback of having this tiny driver in the core and provide
-
-If you have squashed the patchset, instead of making this non-bisectable
-mess, it would be fine. But because you made it non-bisectable and only
-one part got to the kernel - ALL USERS are affected and their boards broken.
-
-See four reports from Marek Szyprowski.
-
+Should be explained here. That's the reason why you are doing change.
+The most important information.
 
 Best regards,
 Krzysztof
