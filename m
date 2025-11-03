@@ -1,100 +1,83 @@
-Return-Path: <linux-renesas-soc+bounces-24045-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24046-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39745C2DEF6
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 03 Nov 2025 20:46:39 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id B62B0C2DF7A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 03 Nov 2025 21:04:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 59E0B3AA1A7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Nov 2025 19:46:36 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 5E32D4E9058
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Nov 2025 20:03:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 289CC299A85;
-	Mon,  3 Nov 2025 19:46:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15D1F28D84F;
+	Mon,  3 Nov 2025 20:03:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JA4Fxuhs"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Q2vteOr/";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="MJegUCeu"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D77128DB49
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  3 Nov 2025 19:46:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 668902BDC14
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  3 Nov 2025 20:03:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762199175; cv=none; b=RmjgPXQ/fI1hqj3qzDTlLIRP4NO37p+Dz9RykQcUiQXhjBVEwtBCAodSBQo7n/L9aE4LwPFEstbroPwF4Y9Qsw4fga8CHCmnMm030ZbIbwyRY9C0B9bW9DnVQ5kl9AuXSxJAnTu2Rd8msfWlvpsxpQ2E1MAzOljM2QwjVyImiFY=
+	t=1762200209; cv=none; b=Bv4pFjuqFd4PO5zyN37U1DB8wNPPSgqDFIJnO7XxlNtSIPg6Z81DNxVR0JrTK0X7sZR6cCCvVuKY5/ruq2DseveGFDDzXcb8a4fylpgENUmn7RYBv/gjMC36At5jRkDZyRcKi+YgmTNIoUcK8cGad/snlNR5P4K1wbMhi3/Tdto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762199175; c=relaxed/simple;
-	bh=MRXE7DT9OxccPI5TsXsQ7xdXXyvKUg7JkhqyAg18Mhc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ffBBFoBsPJk79/bOYY8oFrXPnWDEGv4xOZDOO9jHHpuos+r5yNBi41aZY0mgAGTY+piZFTHaSb7AVUnvGapyu55PNcIvqz9nAI3tEQsrOy70Dtcnn9ip9MHZdtmm2hqDniUj9Jc2XPRNj3IoZnDrf5D96g3XD2n5SLQd2145EOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JA4Fxuhs; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-76e2ea933b7so4817024b3a.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 03 Nov 2025 11:46:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762199172; x=1762803972; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=RMKjToI1cPGuPb6glfsZd8eb+wK7aS/JWYDCdguKThc=;
-        b=JA4Fxuhsu6ZXDHA6opaJhTNwhG5h/qFlKv/l/LW6sX+a2Vj7u+GrHQmeAVpQ8k8Gdr
-         uE9szcQCqIJAJ9g0CAz2Vkn5j4HRLDF9/0nlAhmlfPQVCF+Z7ZcKsvl2NkpL2Grlkrvu
-         VqlPPkZiTWnhfxeM3R3Asibqk/TbJeDnsNdFCTSg3FIHDI4BcK5v8op4sAzSREHyDra7
-         rGZGVbyh9Vmhu1aLohoXm2qrADG6TFthned2XSoEtgGa5QITAsBVsSMAm3n670aSb8Pq
-         wjWe1r4+yCidXvyEKBKmH1pHUFwTNNN/DUU2t009KsWoVKidUckfJ53xLqSDWb58lfT3
-         zBGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762199172; x=1762803972;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RMKjToI1cPGuPb6glfsZd8eb+wK7aS/JWYDCdguKThc=;
-        b=STWZpa4ekX0QuYBKkvoD0vJOv05zl5fW8GeulZmESkL9nx7r/MbjBPCGXD3QN38NH4
-         qhJFX6hFNcUcBy7sZSOjr/BA8TFUHlY59gs8M8nMz6XBhk1FQiyo3lSCva17L+QGs6e0
-         y05rC6NhnmDFRQdaEFAfRLBtnMwv9uzui5nWnDaQ29QFTUoQkAkq5Axq40TRZ0yEb/L9
-         o0n3QTJ9FMloOe7xwPiyuOUV9KANcMCjfQN4Iuq+koJSnOh4pGJFqTPGW78C5mv11m05
-         PA2RqLjEDz6o85FDraFNBx1PDYhbbUGzb3kNeNRfxqGrPGR2bI851YiyPdQeKSjgQQZC
-         9glw==
-X-Forwarded-Encrypted: i=1; AJvYcCWG1z1q0zGlcgpTeE4d4r9saMxq8tzxCzuaa1lc3kcGnDu/BmWYSYcLxVvpf0YLgVqTTKffQzCPaey2GH27abfIMg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxWoFClpl212Vpf0b6+Yw3RnnX+w/kjzm9Q9lgVheP3yq3BgSb+
-	pf+/AdCSIqY6sxcz6fc7oUJBd0N85X4YLAMI3K2CX7OoEUH0KPTHUQUo
-X-Gm-Gg: ASbGnctJ8AqAxep5avg2Vlq8zLH9t5wOTu+ekgqz4ztRR2MAH3X/a8va1aE7nMhSviD
-	Nr5ZoCtARHclla+ufljN/qj0NhSSIHwhi99+8vrZNeVQaRyVK9GlKvqg6OkGRssjb7UHPMFy7Y6
-	cxaLoFCOoTkEhmag4Ih5LvL25KWjOkXf+AEq54wliY/gmvtrbFPYgp6AKNZ0sxY1ziT2Qvuz9Gi
-	6yyTOoIJTDWkASc/154AqO2RDJH1hUxDPKr4OwgQSxi/502fgTIB98zynuNHFJkXMz1eYEJcLpa
-	Sg0j1ksjsfQKIthYTrTxbZXMxs1wlFJcWxuyIcq4R73iwfPm6wWfIopu/vbRaRevoVKkP5h6RNd
-	au/m/+5MC3LvWmy0dHUmP3SWsGcRiAr8NomsZl3JaXSrkXmIjxI95Y2mCGRe0o9Me8oTmx9IosL
-	qyuEbZaVyERMq4mbEzzuqYhSGFsKXGJi0=
-X-Google-Smtp-Source: AGHT+IGs/phsqHMf7vgqUydH/kHUo9Pu6wt15y2CjfYpOAPnQUisNU2Uqoapi6ssdQv3N85Tdviw+A==
-X-Received: by 2002:a05:6a00:c96:b0:781:1110:f175 with SMTP id d2e1a72fcca58-7acc1a2d907mr700653b3a.14.1762199171727;
-        Mon, 03 Nov 2025 11:46:11 -0800 (PST)
-Received: from iku.. ([2401:4900:1c06:600d:df45:8e1:7a61:1482])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7acd586bf62sm199588b3a.48.2025.11.03.11.46.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Nov 2025 11:46:10 -0800 (PST)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Hans Verkuil <hverkuil@kernel.org>
-Cc: linux-media@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] media: dt-bindings: media: renesas,fcp: Allow three clocks for RZ/V2N SoC
-Date: Mon,  3 Nov 2025 19:45:54 +0000
-Message-ID: <20251103194554.54313-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1762200209; c=relaxed/simple;
+	bh=qO8itCPEYrvIN3wSlRV8UyPbaPltWeO0MCsy4JgggUg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jOf8oyt5pYTVNyF2XdgXBn8JNeKQAA+oCOljgPl6hN2DC7Is6Ge8CrHgSJldptQ/suk4K2Ozzd4iKfglucnmLITH+UG7IoZBU/WdY/75SnthDv/horLIxu7zKC1EmmgsQMlNX0a7/PSxrxM2rMHuCvTPOUlMJlaNy5I4yi6Un2U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Q2vteOr/; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=MJegUCeu; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4d0jFS1cGNz9stX;
+	Mon,  3 Nov 2025 21:03:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1762200204;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=vrjUyrfTRhi5Iu9e4CkRP+k8MoshUCQjKNp114FeCjI=;
+	b=Q2vteOr/czT7mMh7W8slR7W8knJiiMTSmvQOUFMcRiLn3M+7MPx8SuJ4r2GMOuWTp8pdhY
+	Sr/S2LcFd20REnIDP0WAUXZW9Hb2p6v8N+dTGnjjI69E06dO0rHAJVJZ3ObVSj7wGRAUaQ
+	R1SBdkXkSrYJOmwWVZFDibH1I45NULVMuWsBU5NLsUWiGsbwCH+09iM+p+G8Wbhhdvcvxy
+	9bIi50zxGBWa/Fjjg6FGuIa1FsjAZ7jSnLXih6vYh9V00Xen4o1d8zIiKluCbItrb0QVwk
+	v3KqMbCugvSBO1NuQle+94DF+ZpkVqG2y2IAeZOaNG2N34wayqadsHGJoq8n+g==
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1762200202;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=vrjUyrfTRhi5Iu9e4CkRP+k8MoshUCQjKNp114FeCjI=;
+	b=MJegUCeunOH9BaOx5mrFfIcqdDx0/UI+wZ0ebhtqhmxoLALuaZcWj2coG/4JNpAXsdQ22q
+	a9Xyx+Eo2bqRxMes9xaJVn18bU4kPRQLY8RxEBWiNg9dN3Fk2SwVA4Mn3KjNWu2w1mqhIF
+	slAD62E/CILQHysdr3kzPfSGbsHEn9Mq0m1Xg//ERKj6RizSlpYnsRnAS1WxaTwfhjxUwZ
+	ggKINS8NFlQnJOAdWzSciaCsJVd5LGLM7kbxq8/0CYLTeiBkKGS4nPI/A/v/RlTl/IF+4w
+	+mD17XCaKtewDRHBOeZOka91+1eiiK5hj7lx/adPJ6ht29/iBjiqRfZ1F9QRNA==
+To: dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	David Airlie <airlied@gmail.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Simona Vetter <simona@ffwll.ch>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] drm/display: bridge_connector: Assign bridge_connector->bridge_hdmi_cec before drmm_connector_hdmi_cec_register()
+Date: Mon,  3 Nov 2025 21:02:54 +0100
+Message-ID: <20251103200316.172531-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -102,35 +85,75 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: 5y4kg1edw4i4dxf8ih5fsnb5d48jkaiz
+X-MBO-RS-ID: 942780d85c2a4d9cee3
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Set valid bridge_connector->bridge_hdmi_cec pointer before calling
+possibly calling drmm_connector_hdmi_cec_register(), because
+drmm_connector_hdmi_cec_register() directory calls
+drm_bridge_connector_hdmi_cec_funcs .init callback,
+which does access and use bridge_connector->bridge_hdmi_cec
+and expects a valid pointer there.
 
-Update the FCP DT schema to permit three clock inputs for the RZ/V2N SoC.
-The FCP block on this SoC requires three separate clocks, unlike other
-variants which use only one.
+Without this fix, on Renesas R-Car E3 R8A77990 , the system
+crashes on NULL pointer dereference.
 
-Fixes: f42eddf44fbf ("media: dt-bindings: media: renesas,fcp: Document RZ/V2N SoC")
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Fixes: 2be300f9a0b6 ("drm/display: bridge_connector: get/put the stored bridges")
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 ---
-Note, there are no current users of the RZ/V2N FCP compatible string in
-the kernel tree.
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Jonas Karlman <jonas@kwiboo.se>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Robert Foss <rfoss@kernel.org>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-renesas-soc@vger.kernel.org
 ---
- Documentation/devicetree/bindings/media/renesas,fcp.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/display/drm_bridge_connector.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/media/renesas,fcp.yaml b/Documentation/devicetree/bindings/media/renesas,fcp.yaml
-index cf92dfe69637..b5eff6fec8a9 100644
---- a/Documentation/devicetree/bindings/media/renesas,fcp.yaml
-+++ b/Documentation/devicetree/bindings/media/renesas,fcp.yaml
-@@ -77,6 +77,7 @@ allOf:
-               - renesas,r9a07g043u-fcpvd
-               - renesas,r9a07g044-fcpvd
-               - renesas,r9a07g054-fcpvd
-+              - renesas,r9a09g056-fcpvd
-               - renesas,r9a09g057-fcpvd
-     then:
-       properties:
+diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu/drm/display/drm_bridge_connector.c
+index 7b18be3ff9a3..6b9d9694d959 100644
+--- a/drivers/gpu/drm/display/drm_bridge_connector.c
++++ b/drivers/gpu/drm/display/drm_bridge_connector.c
+@@ -855,14 +855,16 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+ 		ret = drmm_connector_hdmi_cec_notifier_register(connector,
+ 								NULL,
+ 								bridge->hdmi_cec_dev);
+ 		if (ret)
+ 			return ERR_PTR(ret);
+ 	}
+ 
++	bridge_connector->bridge_hdmi_cec   = drm_bridge_get(bridge_hdmi_cec);
++
+ 	if (bridge_hdmi_cec &&
+ 	    bridge_hdmi_cec->ops & DRM_BRIDGE_OP_HDMI_CEC_ADAPTER) {
+ 		struct drm_bridge *bridge = bridge_hdmi_cec;
+ 
+ 		ret = drmm_connector_hdmi_cec_register(connector,
+ 						       &drm_bridge_connector_hdmi_cec_funcs,
+ 						       bridge->hdmi_cec_adapter_name,
+@@ -890,12 +892,11 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+ 	bridge_connector->bridge_edid       = drm_bridge_get(bridge_edid);
+ 	bridge_connector->bridge_hpd        = drm_bridge_get(bridge_hpd);
+ 	bridge_connector->bridge_detect     = drm_bridge_get(bridge_detect);
+ 	bridge_connector->bridge_modes      = drm_bridge_get(bridge_modes);
+ 	bridge_connector->bridge_hdmi       = drm_bridge_get(bridge_hdmi);
+ 	bridge_connector->bridge_hdmi_audio = drm_bridge_get(bridge_hdmi_audio);
+ 	bridge_connector->bridge_dp_audio   = drm_bridge_get(bridge_dp_audio);
+-	bridge_connector->bridge_hdmi_cec   = drm_bridge_get(bridge_hdmi_cec);
+ 
+ 	return connector;
+ }
+ EXPORT_SYMBOL_GPL(drm_bridge_connector_init);
 -- 
-2.43.0
+2.51.0
 
 
