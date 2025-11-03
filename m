@@ -1,92 +1,111 @@
-Return-Path: <linux-renesas-soc+bounces-24014-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24015-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 211D6C2B03F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 03 Nov 2025 11:21:34 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D917EC2B0F6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 03 Nov 2025 11:30:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0E7763AB588
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Nov 2025 10:20:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 02C323B8D08
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Nov 2025 10:29:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55F362FD679;
-	Mon,  3 Nov 2025 10:20:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E9A82FDC55;
+	Mon,  3 Nov 2025 10:29:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DzQHLV6+"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="udK4TPwN"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2817F2E62A2;
-	Mon,  3 Nov 2025 10:20:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CE1E2FD665;
+	Mon,  3 Nov 2025 10:29:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762165240; cv=none; b=VK83yjbZHh2cyng0fXHrKQvWCylW6qPueYi9pBrNvCyTRcFEPGjYysKLyhfny2VA28c1OeKiqchOeh5Av/bajtzn2pp6HTaQmfFosLlblo+Zo93zxIUjP8RFNUwHw/kTvKDiqunaQQQczvReFraCXZUGvzt74K4W9gtaQFIK1nk=
+	t=1762165755; cv=none; b=RwCxBqQeZ4mPEvrtxB46tWgK29aKFaxW+Nk0dJP00PMw6aNN8teOqHoBbdndRmfCTFIk8MtwFw6vrmO/FO+PK7KQePolN9fmKjoXN3lObvNpbBTXYgYkIO2Rzq8g3cgN2cQ3XmWobJ+oJ7bo577O4jgB3cxFsYm0t1X0z4IQQ5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762165240; c=relaxed/simple;
-	bh=ObPhYtxLEFCRJdL3TzzK7cHNAWLFBFSOqEVsLoRN/yQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EATVtRPDXHpIYy8a2srG6U8pb6NJyYMHBoPg9cfvfAiRUUOAYki/oegV81cPIbJlwRxBnjLMerdQhNP8l/KkBTWgvjzT6PtwRTqWTc7deNslJIiKIbIxz2FWTJ6p6XGEAR34LivD8VR+J4dC3M/ojFwdRqkflJbt0SaeOVmgdsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DzQHLV6+; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 841F1C4CEE7;
-	Mon,  3 Nov 2025 10:20:39 +0000 (UTC)
+	s=arc-20240116; t=1762165755; c=relaxed/simple;
+	bh=Nbx4jNGtndYSzelN2f3hPMbPkOF9Gg5x+1ly90843YQ=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=DzzYtmNoUb6/8h+vqYQTQ7pWv4vgsPSjpdDOGiiNA7DlrBMDfxKqvMPgyZkqdmPhuNN1GUQZl7Zlt1C5GrqjlUnVW+YzH8WCrlXm7EjKpN6dFo63PIBwS6Wc0fnn8rPTfWhkWlQG7d7XWS79R/fE6hhV2Cj/Afrt3VELG7u84Sc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=udK4TPwN; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EBADC4CEFD;
+	Mon,  3 Nov 2025 10:29:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762165239;
-	bh=ObPhYtxLEFCRJdL3TzzK7cHNAWLFBFSOqEVsLoRN/yQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DzQHLV6+pLdtIvJtVgh5twpfjs0l51RZpkCWnRdD81586xyoC/RlpdRcoJPqxt53U
-	 a2p6rVg24/uv4zKBpYDx/TuyduvNy6cvZjkoR4dxGONZfjus2ZcCy1dGLxeKnsE/m/
-	 zeciFN9xV0+Snf6QXcanZxq0zrErAkDjHNDsz0F0ATz/HK4gLCkiGJvvzngt6vi9KC
-	 IOcNBeWF4H+dZGxlUu21HqSoHQmqqAjY59boiENnvQT47bTMVweSh5s5fH2iftCui5
-	 ZPn5829ugSE6usM+eYmksJwrlvw+LinXykKsb8Xci7Teh/4/OHC8YwIfKSpBlLCEOi
-	 6m1nrQHt3v7Kg==
-Date: Mon, 3 Nov 2025 11:20:37 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, linux-usb@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH] dt-bindings: usb: renesas,rzg3e-xhci: Add RZ/V2H(P) and
- RZ/V2N support
-Message-ID: <20251103-thankful-jackal-from-saturn-5deef9@kuoka>
-References: <20251101042440.648321-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	s=k20201202; t=1762165754;
+	bh=Nbx4jNGtndYSzelN2f3hPMbPkOF9Gg5x+1ly90843YQ=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+	b=udK4TPwN/ksIoBwdrHsqjQELjlcpcINFzrOi5uYABT4QycI3hkBmkBKKDFldffJl/
+	 p9dqOW/eLy2VJL19H9izAY1gnXPxW4UAq1tBuSTqt8oAT74ZByXDFi4BzoGiGrtVc4
+	 Vk7MUuIIMhxDSbNRnBXi/n4U2jdZY1S4f+1HzyajJVK3ZD5ZEAwCOqtSflYfrw5yI0
+	 4vt3AlOud83bPipijIU+DTPawq6NphAAhngvkMHO+9Owz3xiYf2wrXDi+i5Ln90uoI
+	 4L0jj7U/dFePBBWSq22YdgAHZTHTfIIGcA/kjZIpFWYiLNmnL9BbnJipYVETO+3bwz
+	 HTgcwGM9jwaCA==
+Message-ID: <a9abc4c6-5b23-4165-9932-5e587a49e439@kernel.org>
+Date: Mon, 3 Nov 2025 11:29:10 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20251101042440.648321-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: Re: [PATCH] media: renesas: rcar_drif: fix device node reference leak
+ in rcar_drif_bond_enabled
+To: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Miaoqian Lin <linmq006@gmail.com>
+Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Ramesh Shanmugasundaram <ramesh.shanmugasundaram@bp.renesas.com>,
+ Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20250903133729.2523130-1-linmq006@gmail.com>
+ <CAMuHMdWBXv+vKqBXOWeFqsy0R8-3__oBFWnm4rUx1kqSq5ZUgQ@mail.gmail.com>
+Content-Language: en-US, nl
+In-Reply-To: <CAMuHMdWBXv+vKqBXOWeFqsy0R8-3__oBFWnm4rUx1kqSq5ZUgQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, Nov 01, 2025 at 04:24:40AM +0000, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On 03/09/2025 17:09, Geert Uytterhoeven wrote:
+> On Wed, 3 Sept 2025 at 15:37, Miaoqian Lin <linmq006@gmail.com> wrote:
+>> The function calls of_parse_phandle() which returns
+>> a device node with an incremented reference count. When the bonded device
+>> is not available, the function
+>> returns NULL without releasing the reference, causing a reference leak.
+>>
+>> Add of_node_put(np) to release the device node reference.
+>> The of_node_put function handles NULL pointers.
+>>
+>> Found through static analysis by reviewing the doc of of_parse_phandle()
+>> and cross-checking its usage patterns across the codebase.
+>>
+>> Fixes: 7625ee981af1 ("[media] media: platform: rcar_drif: Add DRIF support")
+>> Cc: stable@vger.kernel.org
+>> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
 > 
-> Add device tree binding support for the USB3.2 Gen2 controller on Renesas
-> RZ/V2H(P) and RZ/V2N SoCs. The USB3.2 IP on these SoCs is identical to
-> that found on the RZ/G3E SoC.
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > 
-> Add new compatible strings "renesas,r9a09g056-xhci" for RZ/V2N and
-> "renesas,r9a09g057-xhci" for RZ/V2H(P). Both variants use
-> "renesas,r9a09g047-xhci" as a fallback compatible to indicate hardware
-> compatibility with the RZ/G3E implementation.
+> Note that this is a duplicate of "[PATCH] media: rcar_drif: Fix an OF
+> node leak in rcar_drif_bond_enabled()", which was never applied.
+> 
+> [1] https://lore.kernel.org/20250105111050.3859712-1-joe@pf.is.s.u-tokyo.ac.jp
 
-We can read patches. Don't explain that. Explain the hardware, which DT
-maintainers cannot read because we do not have datasheets.
+Ah, that patch was never CC-ed to linux-media, so never ended up in our patchwork
+instance. That's why that wasn't picked up.
 
-You almost never need to explain in 50% of commit msg (that's the
-biggest paragraph here) WHAT you are doing in the patch. What you should
-always focus is WHY you are doing and that's the feedback I already gave
-you for sure.
+I'll take this patch instead.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Regards,
 
-Best regards,
-Krzysztof
+	Hans
+
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
 
 
