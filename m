@@ -1,63 +1,61 @@
-Return-Path: <linux-renesas-soc+bounces-24043-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24044-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95546C2CF09
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 03 Nov 2025 16:58:56 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20F7CC2D647
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 03 Nov 2025 18:13:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E27FC1882104
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Nov 2025 15:52:50 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id AB7C64F0E7E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Nov 2025 17:11:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 614453093BA;
-	Mon,  3 Nov 2025 15:52:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90E0231A7F7;
+	Mon,  3 Nov 2025 17:11:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="iRRS8gfs"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="DuRRNwLF"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC7CF262FF3
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  3 Nov 2025 15:52:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED1723191D6
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  3 Nov 2025 17:11:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762185143; cv=none; b=CSo5z75T+lLt5jpZT1CE7oW/c8mm9Qf+uKTxzhioONtKyQ4K75HniBixjtlqOABObM5mxhDQfBuj30gFY9x/+aatoS0CIKW/r6M8n/BI9qTWBJDQ2Imla8wt0ENPTiCaNmbUwaVGxVypKognShkDMkzETRwbNr327o2nhAzayYQ=
+	t=1762189865; cv=none; b=ZB+Fvg8gnyBmSJnnv0t5zdYHCft6NHkHGmg56GxS1tk80t8qsc+bjdKQreYd4iu1d/v980B4MF4CVEkrv7MDUIhxIBokjscDMqzGZC8ZLSqc6Di2RQUk6rTohg9eIyPMfTCfK86mVMUqiDPhi97eMLeFjbLOLq9Vme6zcLOf1Xo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762185143; c=relaxed/simple;
-	bh=GFGhaUZJyrvrIgmV4wq856CHbNrM+2+0U0at0vp4zoc=;
+	s=arc-20240116; t=1762189865; c=relaxed/simple;
+	bh=Lk0U6aOZYGKiX3lx5Z6agRssiK8ITNGCvi4Ct5xiygg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R2YjaEpKTkpKbVdLf2huSVfj3iKRzbT1E9l9zV7dpMX52YrsAmHsGpULkofyYyz/4PUcztI4FkBo+166BLqE0eyHkytPgfLWuv2fecHVJoprO47NLpbzGzy5l1wsxG/9EqAMeGsrcfZTI9W2cbyuvC2rdoOQbOy0KuX025qugEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=iRRS8gfs; arc=none smtp.client-ip=194.117.254.33
+	 Content-Type:Content-Disposition:In-Reply-To; b=GMUSqnWRP6QgjBAlN9TlhMvhJGTV5FRD6nFHM0QjC0hqnipfy7by1rlrExr75OrUdnOx2Yzhx/F4rb1iXKEd9k8OFfyhSlzeJ38sPFDvsWHNA6dsQoa7kPYcacOyeCwgHsFu9ztdCgStP75mEF63Zi8/+aq/HEoJRCbE1LxldZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=DuRRNwLF; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=GFGh
-	aUZJyrvrIgmV4wq856CHbNrM+2+0U0at0vp4zoc=; b=iRRS8gfsuk1zhhQ4TkBI
-	Et3wHq360OboKy+GdJzn+6VDv4TYbMZTi/QAJo+LkGi7pJQmKmvMob6aTQGbdXIm
-	jfNm/6Of+rD2io2SPpudrk6c79/2o0+EBt04Si1xT3TzPlm7mz4s29Ui4lIDTkYP
-	+GACKkVsm+7evliZrMf1D7R7lm9I/peF0HV2wYbn3IKwPutP0ar6atMCKP6OwK3+
-	FDgLzzxU+dlKi1iNAS+oszbcFj7FQhN7dpHE/c1aRiTiWSCylwDrK4EAK/Rp1t9b
-	u3XnYElp6pGWCzWv7beVB4UCOmmb5hOCINKUDCi2cwM0iV/FQ6RtrIR6Nv/Ong42
-	sw==
-Received: (qmail 2278200 invoked from network); 3 Nov 2025 16:52:18 +0100
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 3 Nov 2025 16:52:18 +0100
-X-UD-Smtp-Session: l3s3148p1@vbAys7JCb0VtKPNt
-Date: Mon, 3 Nov 2025 16:52:18 +0100
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=Lk0U
+	6aOZYGKiX3lx5Z6agRssiK8ITNGCvi4Ct5xiygg=; b=DuRRNwLF8AqXgMM2n1iT
+	tRw95UkHX7+wU01ZDvS3P/hmazXatG8RL6xXtq2k3G1aHH0QOoFvBozk/bJGxPXD
+	5O7ZMlheCmOLs1H5MBqjJOde4xh0PSpJ08B8wqNInLP15CPUdBNRc0QcUEIN4iAX
+	/+QMC1U2s3xy92dgtV78b8wtonXTauYYip/0r242/Shg9YhChc5Njxq0BH4JjRN8
+	s3owMj6ciFvvXSzBGTprmG7LMpxCZrNpbjdrLXYkAlI7VHpKsQN89Bw3oogji9rD
+	nMSCITfDTKUf1fwLybh7euYFxZwGITcX+K/xA/fiujl/Yqb9A3JlhFiA34+kEc3T
+	lA==
+Received: (qmail 2308169 invoked from network); 3 Nov 2025 18:10:59 +0100
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 3 Nov 2025 18:10:59 +0100
+X-UD-Smtp-Session: l3s3148p1@XGiazLNCrpgujnuf
+Date: Mon, 3 Nov 2025 18:10:59 +0100
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: linux-renesas-soc@vger.kernel.org,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+To: linux-renesas-soc@vger.kernel.org
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
 	linux-kernel@vger.kernel.org,
 	Philipp Zabel <p.zabel@pengutronix.de>
-Subject: Re: [PATCH v2 0/2] reset: handle RESET_GPIO better to provide the
- fallback
-Message-ID: <aQjPstQanpn5zUnf@shikoro>
+Subject: Re: [PATCH v2 1/2] reset: always bail out on missing RESET_GPIO
+ driver
+Message-ID: <aQjiIx8yD8ON4Epu@shikoro>
 References: <20251015205919.12678-4-wsa+renesas@sang-engineering.com>
- <e1fd975c-56ef-442b-8617-d63237bf795a@linaro.org>
- <aQjI1m0yYs2t1hYq@shikoro>
- <ee8db6df-76e2-497d-8718-b0ce5affff05@linaro.org>
+ <20251015205919.12678-5-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -65,53 +63,49 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="3TRfjdltoJ8uicu+"
+	protocol="application/pgp-signature"; boundary="L7RcH5EEZxf/gIvk"
 Content-Disposition: inline
-In-Reply-To: <ee8db6df-76e2-497d-8718-b0ce5affff05@linaro.org>
+In-Reply-To: <20251015205919.12678-5-wsa+renesas@sang-engineering.com>
 
 
---3TRfjdltoJ8uicu+
+--L7RcH5EEZxf/gIvk
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-
-> > What is the benefit of having reset-gpios handling in the reset core
-> > optionally and required as a fallback?
+On Wed, Oct 15, 2025 at 10:59:21PM +0200, Wolfram Sang wrote:
+> Optional GPIOs mean they can be omitted. If they are described, a
+> failure in acquiring them still needs to be reported. When the
+> RESET_GPIO is not enabled (so the reset core cannot provide its assumed
+> fallback), the user should be informed about it. So, not only bail out
+> but also give a hint how to fix the situation. This means the check has
+> to be moved after ensuring the GPIO is really described.
 >=20
-> Stable ABI rules require that, it is not about "benefits". Please send
-> email to Linus and ask him: "can I make a change which breaks users of AB=
-I".
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-I don't get it. If a driver already depends on RESET, then only the
-handling code is moved from the driver to the reset core. Where is an
-ABI breakage there?
-
-> See four reports from Marek Szyprowski.
-
-I am talking about the original i2c-mux patch here. Not the failed
-attempt to get it working.
+Philipp, I reverted the offending commit in i2c-mux. You can revert this
+one as well.
 
 
---3TRfjdltoJ8uicu+
+--L7RcH5EEZxf/gIvk
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmkIz7IACgkQFA3kzBSg
-KbaltA/9GKzhL3qkZj0RoT5qugCSKlt1K5EDvF7G8xdImLJJJH6xBRPCzS5stVhn
-zbmImtbLmk0+1zp4ZZhWd5OFudWDTj1RKSV++wViyaal9fJVFYtTCfO+ILlhfL87
-TzN3qVz4+yOXivMSk8yq1aSPHOQjQveBj4HAtv45K0igH02nHeMSIwARVPjd8LLR
-Bk9uKZWVgQ4RaHAsVyweSt0Gz83b5AKOQHsO0KPbrR8px/a2uBpag5N+LNfqq33j
-HzNGtWlOextJdJV13EwX9a1VcrDgDLdkKsKztKUPQLba56wzHFQikLUGGUmW20Ex
-ZB3Yc3q8YFvrrfA08Nki3OmENjOaf/VTPDE79bliEUVilim4E0hqPs2hVhGw/94D
-O7GwnpY3DNF9eN5eJfWMKbQmV5s/zqAfRnEqhRlm3kjGm4kMrhHoJ0EQWRv7cELE
-DAysB+hLA14dRB146edA24W2pB5p1dYCYk0ZF6vqHoatJ3tcg7pH1EIFghSnppl6
-zzQ9AmEq395INpw351uHXVMQaVAgUmV2Ug8KZomtYeTTpAI46scEkskT251VDddb
-YfxXvQFEP8sgdpDXi4C6XsftRkQPk4j92ZmRsW9q/MhN7ftmsqh58/CM/QJuEcv4
-+BWG+ZUf/R1U3YoJLt/jfifhsIt9XkNJcQbgskQnCGbFJyEhU2I=
-=uNyf
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmkI4iMACgkQFA3kzBSg
+KbZXmQ//bG2i5PSvLcNFK2YO6xT4DJkcFY1jnUprzJaSnk120TaXPYve5mGBoKfh
+wUL47R6GPV4Wi3y+44BIZQICBj7CEVsVSqQv/qcrzCdmpJWUjbGEVDe5pqsSPsZ4
+6Lsi3O2Racrd78sSlSfL3dcHE3Dkv4RxvA3BgrY7YfKe8pq0M1mfj5NX5bOJFRSU
+KP8ijPjR5N7oTATovTiYyxCUPe0ZMRyDX/iyyNwyEzrS3wDqZojYmeUslpjF0gIl
+HSwRBNnTz8swY5fEtTLghyCtrXc40XxT+Dr6PzzpOyb3kkuVKxVnAbSnWo2Z/fTY
+hIVUnXj+BmL9Jm39iKlJziBE3zIDYAbhGz7zBOJF5lCSljxZqIsFA4r4xP4P3XRE
+nTPPtNERud16F2x5Bb/gf6Vaqu02bmcV9zlJE2nzwkq9Uv8NtYV2ADtF6WY9Ezc4
+duRr2DJ80gVrR02qmZS9oA/53H3wFs1XMretVU7pQhuuiNG7Ybg+4kBirLWDGxQd
+p3+iZoZQyeezgcc/SC6rhtAAYur6QIH8TBOm9yskgRj7CRe24DBrade8R3YbHEIL
+k1Z3LgZfZel6EY0JOQLPfWjp5/quS5pHZffmzk6uYJaapd5JosFZ9jVgZIriy0Pc
+vNsmsOshyExUppgT0NwxwsJn6iNRjTDZXrFCAQe/cteOqXDcrL0=
+=Ui3s
 -----END PGP SIGNATURE-----
 
---3TRfjdltoJ8uicu+--
+--L7RcH5EEZxf/gIvk--
 
