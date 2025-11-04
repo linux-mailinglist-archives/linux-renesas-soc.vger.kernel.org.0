@@ -1,255 +1,122 @@
-Return-Path: <linux-renesas-soc+bounces-24087-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24088-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA1DAC31B46
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 04 Nov 2025 16:04:31 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63ADDC31CDF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 04 Nov 2025 16:21:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id CFCF04FD064
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Nov 2025 14:58:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 105961895F43
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Nov 2025 15:22:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E44C732F74E;
-	Tue,  4 Nov 2025 14:56:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05F58256C71;
+	Tue,  4 Nov 2025 15:21:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=beims.me header.i=@beims.me header.b="nFRzSInh";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="INg0Fv5F"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="AMQBiX6x";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="DNTl9Vzb"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fout-b4-smtp.messagingengine.com (fout-b4-smtp.messagingengine.com [202.12.124.147])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 107B032E752;
-	Tue,  4 Nov 2025 14:56:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC76C2566E2;
+	Tue,  4 Nov 2025 15:21:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762268219; cv=none; b=VBLB5M7qWxASLxJovvQdcyywKsWnp6cicsGL+Muw1JbmA2tyK3y5uJ6ztg/gCV37JIcL+/lBa3XqL3FZfS24E60zoOuPLyoThma+SnPu4Eao9HbmF9y4w4pDmKjYrSnD40ZXSR1r0DPiFC5alT2+2pBOEsl3ttj8DATxVl5pIJA=
+	t=1762269691; cv=none; b=Hei4jCmpQTONpfO8CgSWR0Xw8sIxdvQ/NnAgAGgrzm74npWMQ/+6Ln9oU4/+wGv4cKjjShD9kUHAq4m9MXl6WN9NkDId76+9l/sr/41dfql8vW4qUm54Fs07Llro/Xajnbk+3yN8EDXzS5BdHXnVoqQ3qPdMnlSKxYXJvKbbL1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762268219; c=relaxed/simple;
-	bh=eHxg8ZsRjH/BRZAiuRt7eW0oNlsFTsrzYRWmF67yJtg=;
+	s=arc-20240116; t=1762269691; c=relaxed/simple;
+	bh=hAwQ+RV6pwUUPD+i9r5PmVExxMNB0uXYamh90bxbKiI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WAHqqe+eKZginhRRhWg7hbtNOwQdOV2BqVGrELuvzSpAd+yd6AqUvgeveaFddAgupPpKdTmcW7LwzXzeqR5bWwUqI9P+xxnb4GbkmwzGVOGdrtBRxNTqCVWQQEOswyVvtEKzZAmwPlj6xFTBsdqY8VV4gFjufyboteeDWlgL160=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=beims.me; spf=pass smtp.mailfrom=beims.me; dkim=pass (2048-bit key) header.d=beims.me header.i=@beims.me header.b=nFRzSInh; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=INg0Fv5F; arc=none smtp.client-ip=202.12.124.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=beims.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=beims.me
-Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
-	by mailfout.stl.internal (Postfix) with ESMTP id 717C91D003C4;
-	Tue,  4 Nov 2025 09:56:55 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-07.internal (MEProxy); Tue, 04 Nov 2025 09:56:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=beims.me; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1762268215;
-	 x=1762354615; bh=ScOHtHoNH0OZnUklGMPQKXt2S33rJYO0/8ZwF3X5VgQ=; b=
-	nFRzSInhPyp5FiUMkm4+73BQ2sx4JN7LuLUgRRwjkvS95Weh39rUIx4vJq9HaGB0
-	U8wYHU+a5fMwZNQODV2786yBjdmH212vRxjDrsb2AWtbx7uT9jMkPpsf634NZJyz
-	j3YaOWDS9fvR8WnDRWC8pm3xUbeFpslFPdhQbRcXyjkLqcR7Ua5ExsP0vtEyiG0d
-	hIEA89qEb0EtSmqEOwnlMdKByRaaUsUoaUICPmWV1v5Xn4LqwKjS9sBsCCR2YPog
-	o+BYb46beomSSQf9LlmIrPPnAzpdIm7k88XYHjWpo7P99qKmJruJaQDeERMCh+XK
-	xws7uFhxcY89HIB6UcgLjQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1762268215; x=
-	1762354615; bh=ScOHtHoNH0OZnUklGMPQKXt2S33rJYO0/8ZwF3X5VgQ=; b=I
-	Ng0Fv5FLlxoLQEQbstoUPDBMUMn/02OaVxQkOTocO0uqaHHhg/sQ7KmdYi6RneyJ
-	DgbWPaztGLPPw+2NKXscUsPrsMfzwirl98yYbiMTxv/3tDl5+dwXeQjjnXzuYQqO
-	f5b7cLxsCUEBPPADU2OqH7qyncsnCUCmDc9+kdEz/1E75EByZjuY6ClMVvhouy3r
-	w5HlKyHVbcmgQtvy8mp0X/4QlYJQNmaMArpIoT9GuRKqH0Bk0IfGEB6Xfww91m2J
-	RNXvJRI8FRtp2o0maJOaDGNkA2ysNAGcKfjCXG97uQP1Ux3hylJo6Bd8iNtfIy0m
-	uXr6WLJjEfKTh1PuMmXeg==
-X-ME-Sender: <xms:NhQKaei8KvjT3Y_rEv1iEHiL4ImkOxHBPMR7vtyszwssp044HhGeuA>
-    <xme:NhQKabZeq6Yn25HMvg7avs0djhi2UUx0Er65oRPdjvDJrjE9KIklQSofpazs6B6LV
-    ENxyh0Y1bmno2kiW_o7-9rEY30ExUMJ6vV1VzUhsRJ5Yp-ICtv6LTaR>
-X-ME-Received: <xmr:NhQKaahoklQacy1o6qMdXLFaHkUn8fpBWL_dZaskzZYwoQ6eisImoB8FLDorA7t34PpE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddukedufedvucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtvdejnecuhfhrohhmpeftrghfrggv
-    lhcuuegvihhmshcuoehrrghfrggvlhessggvihhmshdrmhgvqeenucggtffrrghtthgvrh
-    hnpedutdfgjeeitddtkedthffhvdevteefgedutdefhfelueeiledviefhffefudelffen
-    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehrrghfrg
-    gvlhessggvihhmshdrmhgvpdhnsggprhgtphhtthhopedugedpmhhouggvpehsmhhtphho
-    uhhtpdhrtghpthhtohepghgvvghrtheslhhinhhugidqmheikehkrdhorhhgpdhrtghpth
-    htohepsggvnhdrughoohhkshestghouggvthhhihhnkhdrtghordhukhdprhgtphhtthho
-    pegrnhgurhgvfidonhgvthguvghvsehluhhnnhdrtghhpdhrtghpthhtohepuggrvhgvmh
-    esuggrvhgvmhhlohhfthdrnhgvthdprhgtphhtthhopegvughumhgriigvthesghhoohhg
-    lhgvrdgtohhmpdhrtghpthhtohepkhhusggrsehkvghrnhgvlhdrohhrghdprhgtphhtth
-    hopehprggsvghnihesrhgvughhrghtrdgtohhmpdhrtghpthhtohepkhhriihkodguthes
-    khgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdroh
-    hrgh
-X-ME-Proxy: <xmx:NhQKaVaUcj4gbWGCBPLWqlGn9olVt0LpeAZZskJVgElax_sHv6pEXg>
-    <xmx:NhQKaYMMHYgJgOChfgtXupkJHipD3JLfkhU5UoRoLn9Jw6Mbi0876Q>
-    <xmx:NhQKaeYpx0suDXFA19CHwOWhptHG-tRrCH2QjWlGH0pKfXXQdETRuw>
-    <xmx:NhQKaQWApNvYfW2j9ZGT26WLoX-WxVMFrAdbM5UFGKcrLeNyXeYctA>
-    <xmx:NxQKaewaOcKDcPqsh6gftyar4iAplbMuE9EgYfyz_uuJoZJRXZ24VBn1>
-Feedback-ID: idc214666:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 4 Nov 2025 09:56:51 -0500 (EST)
-Message-ID: <b7d039b1-7554-47bb-93f4-98d2b08a5882@beims.me>
-Date: Tue, 4 Nov 2025 11:56:49 -0300
+	 In-Reply-To:Content-Type; b=OkKHHXv9RboW9lw7E86exOjtrycMi639e/XJkHpNzVWrcPck4/ARQ4/+hhnYBxEAZXviXcZwA22DvfFgJiSzaucI6Y7c7wZmdA/VMOmseRZChJQMhow4qvOhStdSn/lskOeIj4IPVrxA0XCtYuTR08j/u96ZYSqmDy0tnL7Tef4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=AMQBiX6x; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=DNTl9Vzb; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4d1BxY5y00z9tsS;
+	Tue,  4 Nov 2025 16:21:21 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1762269681;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Iyw2a6XGrVsDBi+ogcdblT77R4F5a2qgkSqZJ6Q4CEk=;
+	b=AMQBiX6xFZmcOncbHcyQ7z5bWygUWTzLAQc9ScI5DoR8WB2yM7OVRybP4riyHquQeTzRrd
+	mnNWOFAeyEOX1wrRHd0J9ZNlnghIuLmwFmQJNdNlftDV7nye3dGWJzAvqtrMy/igEDDSh8
+	7awOjrvcYo5jGPEamJZq4VTs2p7qxIhk8VZyspINdyhWvhFDPzZsrxne9aQ52giWq26bP9
+	aDkfm2DFbHBirF8aJq+rqeOm5eMzQYR42D+6DN4rvHFmb49lJMDPblJxCmiZUidac2pGQO
+	yerbz7/AttZb+yUXo9KK70V6eSfeQ5iJpes4ltktGO0iSSIFN3xtzawuy1BJ1g==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=DNTl9Vzb;
+	spf=pass (outgoing_mbo_mout: domain of marek.vasut@mailbox.org designates 2001:67c:2050:b231:465::2 as permitted sender) smtp.mailfrom=marek.vasut@mailbox.org
+Message-ID: <d37adc12-4ba8-4f0d-aa9a-9071e153917f@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1762269679;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Iyw2a6XGrVsDBi+ogcdblT77R4F5a2qgkSqZJ6Q4CEk=;
+	b=DNTl9VzbnMDKEG5USWEmX8/muXmK0aVd1LEOgDS+SbEUWHnql/Ft1diJV4ig6Z0VoDwoQ/
+	D0HWfETWpmc6NcmUeWfhyHV56Ls2or9E35CX9vQFRMp4AV190d703EuO8BPHB3bApp4I4y
+	77HD78UA849bddwVTApTilR5PJ6bNsFwZlhzhHVOfEqTMLiJpf7rXTgWTbta+bvAmyIrcH
+	NivudVHkKiKDhbBVwkt9Ojh2sMk1RjobQU6HnyCtqfvuUe2UVSDmUXvyU/dwHpPydvnAx2
+	jk8COqU7wpQd8fwJL7/oa7DVwGVfwh1yWXTP+PZuaVNmJcFLOHcKB8jyIchnXQ==
+Date: Tue, 4 Nov 2025 15:23:08 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] [RFC] dt-bindings: net: micrel: Convert to json-schema
-Content-Language: pt-BR
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Ben Dooks <ben.dooks@codethink.co.uk>, Andrew Lunn
- <andrew+netdev@lunn.ch>, "David S . Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, netdev@vger.kernel.org,
- devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- Rafael Beims <rafael.beims@toradex.com>, Rob Herring <robh@kernel.org>
-References: <943cb31d01d0da3a63911326e24fbf9b328f7206.1731580776.git.geert+renesas@glider.be>
- <20241115150210.GA2680735-robh@kernel.org>
- <CAMuHMdV01hv-riCFEBD024pX6jL37C6hp7Cjjy1rtaUnrhvK3w@mail.gmail.com>
-From: Rafael Beims <rafael@beims.me>
-In-Reply-To: <CAMuHMdV01hv-riCFEBD024pX6jL37C6hp7Cjjy1rtaUnrhvK3w@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] dt-bindings: gpu: img,powervr-rogue: Document
+ GE7800 GPU in Renesas R-Car M3-N
+To: Matt Coster <Matt.Coster@imgtec.com>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Frank Binns <Frank.Binns@imgtec.com>,
+ Alessio Belle <Alessio.Belle@imgtec.com>,
+ Alexandru Dadu <Alexandru.Dadu@imgtec.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ Rob Herring <robh@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+References: <20251104135716.12497-1-marek.vasut+renesas@mailbox.org>
+ <20251104135716.12497-2-marek.vasut+renesas@mailbox.org>
+ <5e2ea623-1e41-4cf3-a81e-2ab7d288c013@imgtec.com>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <5e2ea623-1e41-4cf3-a81e-2ab7d288c013@imgtec.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-META: fy383rnxybucsoo939z786g6im7yf389
+X-MBO-RS-ID: 3280eb3815e7cec32ef
+X-Rspamd-Queue-Id: 4d1BxY5y00z9tsS
 
-Hello Gert,
-
-On 11/18/24 07:39, Geert Uytterhoeven wrote:
-> Hi Rob,
->
-> On Fri, Nov 15, 2024 at 4:02 PM Rob Herring <robh@kernel.org> wrote:
->> On Thu, Nov 14, 2024 at 11:42:50AM +0100, Geert Uytterhoeven wrote:
->>> Convert the Micrel PHY Device Tree binding documentation to json-schema.
->>>
->>> Add a simple example.
->>>
->>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
->>> ---
->>> Notes:
->>>    1. I specified Ben Dooks as the maintainer, as he wrote the original
->>>       bindings. Ben, are you OK with that?
->>>    2. This schema is never applied, as there is no compatible value or
->>>       select statement. Adding
->>>
->>>        select:
->>>          properties:
->>>            $nodename:
->>>              pattern: "^ethernet-phy(@[a-f0-9]+)?$"
->>>
->>>          required:
->>>            - $nodename
->>>
->>>       and changing
->>>
->>>        -unevaluatedProperties: false
->>>        +additionalProperties: true
->>>
->>>       would fix that, and is mostly harmless, except for possible
->>>       conflicts with other Ethernet PHYs having more than one clock, or
->>>       using different clock-names.
->>>       Documentation/devicetree/bindings/net/qca,ar803x.yaml has the same
->>>       issue.
->>>       Is there a proper way to handle this?  Are there other options than
->>>       mandating specific compatible values for Ethernet PHYs?
->> The proper way is simply, if you need to describe your phy in DT, it
->> needs a compatible string. MDIO phys are not special.
-> So that's gonna be a bunch of "ethernet-phy-id0022.*" values,
-> especially as the least significant nibble is the revision number...
->
->> We really need to split ethernet-phy.yaml into common properties and a
->> specific schema for the compatibles it contains so that we can change
->> 'additionalProperties: true'. That's one reason why all these properties
->> and typos didn't get flagged.
+On 11/4/25 3:06 PM, Matt Coster wrote:
+> On 04/11/2025 13:56, Marek Vasut wrote:
+>> Document Imagination Technologies PowerVR Rogue GE7800 BNVC 15.5.1.64
+>> present in Renesas R-Car R8A77965 M3-N SoC.
 >>
->> If you don't want to retro-actively add a compatible, you can also do
->> something like this:
->>
->> select:
->>    anyOf:
->>      - required: ['micrel,led-mode']
->>      - required: ['micrel,rmii-reference-clock-select-25-mhz']
->>      - required: ['micrel,fiber-mode']
->>      - required: ['coma-mode-gpios']
->>
->> That doesn't catch every case nor if you have a typo in the property
->> names.
-> Indeed.
->
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/net/micrel,phy.yaml
->>> +  micrel,rmii-reference-clock-select-25-mhz:
->>> +    description: |
->>> +      RMII Reference Clock Select bit selects 25 MHz mode
->>> +
->>> +      Setting the RMII Reference Clock Select bit enables 25 MHz rather
->>> +      than 50 MHz clock mode.
->>> +
->>> +      Note that this option in only needed for certain PHY revisions with a
->>> +      non-standard, inverted function of this configuration bit.
->>> +      Specifically, a clock reference ("rmii-ref" below) is always needed to
->>> +      actually select a mode.
->>> +
->>> +  clocks:
->>> +    maxItems: 1
->>> +
->>> +  clock-names:
->>> +    const: rmii-ref
->>> +    description: |
->>> +      supported clocks:
->>> +        - KSZ8021, KSZ8031, KSZ8081, KSZ8091: "rmii-ref": The RMII reference
->>> +          input clock. Used to determine the XI input clock.
->> Don't repeat the clock name in the description.
-> Actually I kept it on purpose, as the driver treats the "rmii-ref" clock
-> differently than any other (unnamed) clock.  Obviously I failed to
-> relay that information, so I should enhance the description ;-)
->
->>> +  coma-mode-gpios:
->>> +    description: |
->>> +      If present the given gpio will be deasserted when the PHY is probed.
->>> +
->>> +      Some PHYs have a COMA mode input pin which puts the PHY into
->>> +      isolate and power-down mode. On some boards this input is connected
->>> +      to a GPIO of the SoC.
->>> +
->>> +      Supported on the LAN8814.
->> Another reason to add compatible. You have per device properties.
-> So I have to increase my datasheet library first, to discover all
-> the PHY IDs.
->
-> Gr{oetje,eeting}s,
->
->                          Geert
-
-I would like to add a new property to the micrel dt-bindings. I 
-understand that
-the conversion to json-schema has to be finished before new properties 
-are added.
-
-You had this patch posted a while back, and reading the feedback, I'm 
-not sure how to proceed.
-It seems that forcing the use of compatible strings could be a bit 
-risky. At least the "micrel,led-mode"
-is used in many device-trees. If I understand the requirement correctly, 
-it means we would have to find out
-the exact PHY model that every one of these boards uses to not create a 
-breaking change.
-Other flags like "micrel,rmii-reference-clock-select-25-mhz" or 
-"coma-mode-gpios" are more contained
-and should be easier, but there would still be some risk to do this 
-change without testing on actual hardware.
-I couldn't find any use of the "micrel,fiber-mode"  flag in current 
-device trees.
-
-Did you find other issues that prevented you from moving forward with 
-this? Is my thinking correct regarding
-this, or am I missing something?
-
-I appreciate any insight you could give me on this,
-
-Rafael
-
+>> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> 
+> Reviewed-by: Matt Coster <matt.coster@imgtec.com>
+> 
+> I'll take this and P1 via drm-misc-next later today.
+Thank you
 
