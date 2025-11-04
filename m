@@ -1,134 +1,185 @@
-Return-Path: <linux-renesas-soc+bounces-24060-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24061-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBF48C30408
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 04 Nov 2025 10:26:31 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BE62C307C3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 04 Nov 2025 11:24:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9AB19188C3D6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Nov 2025 09:23:10 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 081E84E14C8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Nov 2025 10:24:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12389223DDA;
-	Tue,  4 Nov 2025 09:19:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2ABD3316187;
+	Tue,  4 Nov 2025 10:24:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="uwu7EiHC"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6684E31E0FF
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  4 Nov 2025 09:19:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B1142D541E
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  4 Nov 2025 10:24:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762247982; cv=none; b=c2jgkDAhR5YKswkX9wT3jc0dw+5yBntn0n5RztyY6HEIciK98F2swjX1X0OpqgyQ/j9sNAcnifK+AXsOBGd3UVbpXldMfSlokamBRnsy2IJ+q0AN2FVa0lRZ03CS/OkHZNPN1I4e9flafAtZMm2UogX6jQdwXt2Wd439Y7vf2Bw=
+	t=1762251871; cv=none; b=CNon3Jzc23ptDBBEFAuh4UHhbY8iAW7jyOB5GTByfD10zagl7pHcWcmvMkvP4pC0KLzRzuoZOXe3FlS79YV+AbFub2ILqkBjrh7HL1+hklZ28/1k0Vq0apmlRN010I/wkFZ6knPrUK17rKt5BIWjD4bGlif9FnyDE4Q/dcYoqqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762247982; c=relaxed/simple;
-	bh=HU5OQOFVith8pNfDFYvJqOTzkqv6yvLsvqAc7VZiXKE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KYkFRVOByLYooxk3XXYt6pPXH+YmDN6nwhNG7zQtxfGPkvWweWAiebevBn5A5oWzT2/gweK7dj2Le8NEjLwYicDVh2bqDag74lGwU/0Ewdsm8gnN3Kh5qmQj+y4fJcms7sQWvCmptL/ZMY2K/jDEKjqLZpXdhlXoHki/q3cJAzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.161.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-653652a4256so2507472eaf.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 04 Nov 2025 01:19:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762247979; x=1762852779;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6Rhdb+Q/JnShH/beTKgwAN0mc3vq4HcuoW0J6c97au4=;
-        b=CHM2g0rltUeUZdzkKj9YVtCsx1SQmz7QQKkU9f5VtcF6ixDisb8n4YR5MTu/ecEvEF
-         bzYd0FdDMzHN9kiTicngLH1/d6jaxCtRZ6w0ylZBJeRfZLi3/b6/c4bAqVKMSZcCvfOA
-         sntIGoImfILmfRj81truruLUpB1GM0t1CechFWXkWPbYBJFAdMjt6pegYFvDafr9kLsF
-         mhZNXkXgB0Roofbo7Py+rqNqv8zPTyB1ShyCVvfGs0kpv3XtLJnxZQCb+tEULwv2HTG0
-         KJSzmwKgWCxykKfLcMSzlcbXdXMdLaglIsJTGAjHx8ZmzzIgCujDlI1pDDPmrp0Pkr3y
-         YYBQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVETNkm7NGG46J015bMuz78AVFtJCfLB6avz4h/gTgIGbb5SGpr+S9BLikKoSZs3Dz5ktLJu9Riep5gZW48cVH6Kg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxUzOuBYVNEyFh1GGl+CGVt7EujeZun5fzU6Z9aM44mdiKUSPQA
-	qrzKljlBuKYiEqw2EeF20dbSUxgYRGft83yiAynYU4HpZkB+d819Jy+2vQNriS5G
-X-Gm-Gg: ASbGncvH/V14xMcp47WpJrWo8ljtZpMxL9d+P6fuqmv9V6bYbkLcAyGEk52ZwfM6TlX
-	THj8xOltM8I4+QDFPioOmFYnEZn71SlNSqcD4KwHhqJLM7ccSIr/AmZkhJyym1fnVmOL2YQjRRI
-	DYcoGbNUp4j3WLo0rLjxjfXz+hPCYT7sMRt+Zx8F8y7xYd6QIdUNKo91O7/iTvMH7l5WKYQZTyg
-	PRPMGVYtuY4mCruowzmC+pDlS1ee21jaWVWs09M3ptRzAW5M6fksVY5rNNCG2w634LIqWABlsnh
-	xx4n18efeBr0MOUxnvcF1vl4Lvr8nejUJCD0USbk2YeRxUJdtC//zgMZazXTLazGgbEGaPHq7H5
-	hn4VfFksTJSr85lv5245akkAQuTVAntl1KenPDcmdDCNZyyWaUaMteXt6uyg+Yqbx1S6i3RCYiE
-	D+zJO7IEpULkThYP/MxPC43cFXTQ8h0lRiuB69QS5SJpp46qTNLwlRCEItcDU=
-X-Google-Smtp-Source: AGHT+IHpVc9VMsnGYwd8s5r5/hacyqmtVvs4+5S6Pth2N115afBzRJLd60/P7mX8HPaaUygo+tWQ1Q==
-X-Received: by 2002:a05:6820:1846:b0:650:73:b922 with SMTP id 006d021491bc7-6568a6941dfmr7148687eaf.6.1762247979159;
-        Tue, 04 Nov 2025 01:19:39 -0800 (PST)
-Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com. [209.85.160.43])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-656ad0617c8sm775632eaf.4.2025.11.04.01.19.38
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Nov 2025 01:19:38 -0800 (PST)
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-3d2ea93836bso3061903fac.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 04 Nov 2025 01:19:38 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVb1vBSEd0podiK4RPaFrkebYOG4YBuAX8bSBsauxp+4VjpxiEMNbr49aNMm/EgjaJvdgCnSY4eAqwkyQk0rZUvQg==@vger.kernel.org
-X-Received: by 2002:a05:6102:c03:b0:5db:f424:5b9f with SMTP id
- ada2fe7eead31-5dbf42466b1mr1343933137.25.1762247655617; Tue, 04 Nov 2025
- 01:14:15 -0800 (PST)
+	s=arc-20240116; t=1762251871; c=relaxed/simple;
+	bh=TFaGxltno5WwV2KBpCBbRWY3IyHfrcyUkCjGl96saNM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Nq69lm5F+wGRNu9zqb4ejj4s9U5GkDfeVHFPWGVHsWXHh3ekXBVKablAVJA90NyfcsBqBRy3pF7ICPbtQj5W2a3EB/Us7xtwSmgKhjsS1AMz5YOAkwIRRPJ9157X9pFyeoKI5mjI9F5ZMWaCIFEikqKGhQVW9GRYMgfFEEmUmao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=uwu7EiHC; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 7463A4E414EA;
+	Tue,  4 Nov 2025 10:24:26 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 30128606EF;
+	Tue,  4 Nov 2025 10:24:26 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id F3E03102F1CE8;
+	Tue,  4 Nov 2025 11:24:17 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1762251864; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references:autocrypt;
+	bh=Yh/SOsjRqtgPLuq8QRVnn/lrGryn5Z5zYSTW9+Wd1lE=;
+	b=uwu7EiHCDvkOi+ZlaNqDmWa7sDjt1+KNUXllXXwIo7BBazhl8rSoPx6BVnpH9z+jfnu3AN
+	M704y1JCBh8jUjN0L1cESmxgAsuL/HG1dpnA8pkxVWp+V+NUYpIsRVSEdL1KPdP6GhPMtM
+	NMZcL50+dzYfv1YP7uz27gLG9O83Kv4TwoM5Vz1q/0Sgwyl5sDhiNrZVhWiFwVL0miKigv
+	QCIJ805towdU/JbBzlnj80L6OK/kU++DuYG/iG4h/SXHDnQjUn8N2K6QbLxM9f6YFvJw65
+	6/5Bic3PvCFetE3+rKQiGGPaLwxTnrpCFS0pnzFfB44qrYnmLbrU8KLeS4N4vg==
+Message-ID: <d6545844-f7f6-4714-927f-cf985dc50a54@bootlin.com>
+Date: Tue, 4 Nov 2025 11:24:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251103200316.172531-1-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20251103200316.172531-1-marek.vasut+renesas@mailbox.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 4 Nov 2025 10:14:03 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdX29=a2RWEp2-s9VqAdOt==wA8+Nm7ZrgKNpKzE1G7wHg@mail.gmail.com>
-X-Gm-Features: AWmQ_bkAARguUxuCuAtORfzfuH5zx7dwTjZKFID94CY-bRv0DDhFBhuCd2nuPuw
-Message-ID: <CAMuHMdX29=a2RWEp2-s9VqAdOt==wA8+Nm7ZrgKNpKzE1G7wHg@mail.gmail.com>
-Subject: Re: [PATCH] drm/display: bridge_connector: Assign bridge_connector->bridge_hdmi_cec
- before drmm_connector_hdmi_cec_register()
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	David Airlie <airlied@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Jonas Karlman <jonas@kwiboo.se>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
-	Luca Ceresoli <luca.ceresoli@bootlin.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/7] drm: writeback: Refactor drm_writeback_connector
+ structure
+To: Suraj Kandpal <suraj.kandpal@intel.com>, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ kernel-list@raspberrypi.com, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Cc: dmitry.baryshkov@oss.qualcomm.com, ankit.k.nautiyal@intel.com,
+ arun.r.murthy@intel.com, uma.shankar@intel.com, jani.nikula@intel.com,
+ harry.wentland@amd.com, siqueira@igalia.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
+ liviu.dudau@arm.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ robin.clark@oss.qualcomm.com, abhinav.kumar@linux.dev, tzimmermann@suse.de,
+ jessica.zhang@oss.qualcomm.com, sean@poorly.run,
+ marijn.suijten@somainline.org, laurent.pinchart+renesas@ideasonboard.com,
+ mcanal@igalia.com, dave.stevenson@raspberrypi.com,
+ tomi.valkeinen+renesas@ideasonboard.com,
+ kieran.bingham+renesas@ideasonboard.com
+References: <20251007054528.2900905-1-suraj.kandpal@intel.com>
+ <20251007054528.2900905-2-suraj.kandpal@intel.com>
+Content-Language: en-US, fr
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
+ 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
+In-Reply-To: <20251007054528.2900905-2-suraj.kandpal@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Marek,
 
-On Mon, 3 Nov 2025 at 21:04, Marek Vasut
-<marek.vasut+renesas@mailbox.org> wrote:
-> Set valid bridge_connector->bridge_hdmi_cec pointer before calling
-> possibly calling drmm_connector_hdmi_cec_register(), because
-> drmm_connector_hdmi_cec_register() directory calls
-> drm_bridge_connector_hdmi_cec_funcs .init callback,
-> which does access and use bridge_connector->bridge_hdmi_cec
-> and expects a valid pointer there.
->
-> Without this fix, on Renesas R-Car E3 R8A77990 , the system
-> crashes on NULL pointer dereference.
 
-Thanks for your patch!
+Le 07/10/2025 à 07:45, Suraj Kandpal a écrit :
+> Some drivers cannot work with the current design where the connector
+> is embedded within the drm_writeback_connector such as Intel and
+> some drivers that can get it working end up adding a lot of checks
+> all around the code to check if it's a writeback conenctor or not,
+> this is due to the limitation of inheritance in C.
+> To solve this move the drm_writeback_connector within the
+> drm_connector and remove the drm_connector base which was in
+> drm_writeback_connector. Make this drm_writeback_connector
+> a union with hdmi connector to save memory and since a connector can
+> never be both writeback and hdmi it should serve us well.
+> Do all other required modifications that come with these changes
+> along with addition of new function which returns the drm_connector
+> when drm_writeback_connector is present.
+> Modify drivers using the drm_writeback_connector to
+> allow them to use this connector without breaking them.
+> The drivers modified here are amd, komeda, mali, vc4, vkms,
+> rcar_du, msm
+> 
+> Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
+> ---
+> V1 -> V2: Use &connector->writeback, make commit message imperative (Dmitry)
+> ---
 
-See "[PATCH v2 0/3] drm/display: bridge_connector:
-get/put the stored bridges: fix NULL pointer regression"
-(https://lore.kernel.org/all/20251017-drm-bridge-alloc-getput-bridge-connector-fix-hdmi_cec-v2-0-667abf6d47c0@bootlin.com/)
-I even took it into renesas-drivers-2025-10-28-v6.18-rc3 when I ran into it ;-)
+[...]
 
-> Fixes: 2be300f9a0b6 ("drm/display: bridge_connector: get/put the stored bridges")
+>   drivers/gpu/drm/vkms/vkms_composer.c          |  2 +-
+>   drivers/gpu/drm/vkms/vkms_drv.h               |  2 +-
+>   drivers/gpu/drm/vkms/vkms_writeback.c         | 13 ++--
 
-Following the Link:-tag in that commit would have found the posted fix...
-But I agree it is problematic that the fix is still not in linux-next, almost
-3 weeks after the first bug report.
+For the VKMS part:
 
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
-Gr{oetje,eeting}s,
+Thanks,
+Louis Chauvet
 
-                        Geert
+--
+Louis Chauvet, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
