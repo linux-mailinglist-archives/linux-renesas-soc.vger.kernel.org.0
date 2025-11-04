@@ -1,110 +1,104 @@
-Return-Path: <linux-renesas-soc+bounces-24098-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24101-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 414BEC32E52
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 04 Nov 2025 21:21:04 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2E8CC3317E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 04 Nov 2025 22:41:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 7E13E4E501E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Nov 2025 20:21:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9A71E423A67
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Nov 2025 21:41:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72727267B94;
-	Tue,  4 Nov 2025 20:21:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 371123090C5;
+	Tue,  4 Nov 2025 21:41:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="vbIrFJbF"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="UVf5Ug77";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="d6ee5Rp/"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8D87221FB2;
-	Tue,  4 Nov 2025 20:20:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50FEA308F25;
+	Tue,  4 Nov 2025 21:41:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762287660; cv=none; b=kMwZg+cQHWvAwiEsvrvkP2uvmZh5wT1zpsN8w9aU7ltTp0ABwlnns5zenNfzQ1pdDwcR+qSphudXLkBNXLGMyRx57lRFE0hC9Ia8Te8vbeT/4TTRoK1iM7PdnKftswY2Y56J0KrQjIdx2gndrOJ5qNfOWtFIH2mCIHUgw3EcMns=
+	t=1762292483; cv=none; b=W9+dpDSuJc0pEIH3lsZpvz2RKOpj9HYm7BGXsRtxl3zM87Q/+TNHvNAC8SEkQm7wMomnZKVeSnhAcC/CDi2DjcsXjOZmEik84qF48+5fmvXrMIPGNx1F36KvxB4uqsHTe8qKwZDqhIUoYCr7vbqZPDDIhVhz7/zy2lZ2+BikDY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762287660; c=relaxed/simple;
-	bh=qPGkxIjDXW5zpPissyVoIhvHyG6+0/+i76vtrzIzZa0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VBrax3BiuY7KwEiwAndJP+rAxjHDR5HLarbXtzfeWonRRHJnoALtaXEGVZEInVofwbj6MszZWv2uPSJm8lXF9nHORnN0lMkU+sWqrrODs3qE/RIa/1anvHC6I45tG/DPzDigsvMHwC+wX1siEJBjKoOFURBk2PueO5FrwcDJkLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=vbIrFJbF; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id DC4DF4E41503;
-	Tue,  4 Nov 2025 20:20:53 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id B029D606EF;
-	Tue,  4 Nov 2025 20:20:53 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6008410B510B0;
-	Tue,  4 Nov 2025 21:20:50 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1762287653; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=5f5xDTfPirdrX9sDwHxGK4skY8bI+7AmuogtBOTygLY=;
-	b=vbIrFJbFD/q/Hf+yINbSGoNb3XQ1+wLAY2HK47tI/CLpijQ7zs/mUHCYy1BHjMQlcU0OXd
-	6fAtSIdVvgSadyceeSTEr5VGgOHIQq6y3xYcROkVTi9FzVIdA8zwookDU37CN3oDItDHv/
-	8vyymSjp8zg0+y+3Mv/G8nvXw22nxeSimesJgJk4Gm5kgmhBZYziTkV33m9qzKLftxgYDx
-	aEf1v/TFkRHQ9AJDTVj4XAFM9tnP3XL/zLwijqVT5zcX5t7O4KHZicvHA+Q/sdklDyvTev
-	l2uLwlPlF72qXJaEONN0yJr1SFMlzYML7VXdPqA6FfFeQHsD3noib1mtCBzo1w==
-Date: Tue, 4 Nov 2025 21:20:49 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Conor Dooley <conor@kernel.org>
-Cc: Ovidiu Panait <ovidiu.panait.rb@renesas.com>,
-	claudiu.beznea.uj@bp.renesas.com, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, geert+renesas@glider.be,
-	magnus.damm@gmail.com, p.zabel@pengutronix.de,
-	linux-rtc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/4] dt-bindings: rtc: renesas,rz-rtca3: Add RZ/V2H
- support
-Message-ID: <2025110420204948103c2f@mail.local>
-References: <20251103121848.6539-1-ovidiu.panait.rb@renesas.com>
- <20251103121848.6539-2-ovidiu.panait.rb@renesas.com>
- <20251104-magnitude-deodorant-be607e3ff4be@spud>
+	s=arc-20240116; t=1762292483; c=relaxed/simple;
+	bh=R+uXzZS7et8jtPMvIVza2OCwfCozinUmID4WDU8hp0Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SKTuB6SfBYfmNxTfYYeZio4ECIiowXNOQ80Yl4RTblHc3T5+Sl17Utrs4kmGDDFEdQcu5ciYYlr/tAeV94a52F0Mp3slYjO0OpKGFmuqWSbuQW2ElTSsmXgG2Tq+Cm+eDw8MwvMoJFEUBhMkhGeT4zeU+izjuk7hGaqhSoYz3vw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=UVf5Ug77; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=d6ee5Rp/; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4d1MMs1gBcz9twj;
+	Tue,  4 Nov 2025 22:41:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1762292473;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3ga8pA6Z9Y8RsqRmUs7aEnRqbWo8RnG+Y/E84d6N1WU=;
+	b=UVf5Ug772hy4P602BqQMOVNtOJHwWZ5W4j3V/lE6h2tnbCSNKevLPhvFaF/KWMB3/5VE9z
+	i/Gx4HCVSQBmEZXw7+7ZiHOnZHdb+3DiJrHtP1LCKDb07E125ZfxH/MiAIOzEjvcj2g+qT
+	UwQBHxmq5ZAF0UyX8FR+bIriuyGSYo6P7qhDFZgSOL9mGaENfMXGvXfvcZPaXEvGD2GZV1
+	6a8egOE4Mi6VqokSKCv1FDcs3ReN3l/oHwpIUY7GMSPohiXQjX9J9QqqkcdFYToxSW8k5h
+	07p+kkyMR/wgujS3YXU97qS9gr0sY1AfigePBSD+PFQQb+6lfgl9E3QiHep5hQ==
+Message-ID: <c9646952-1789-42eb-b7d9-b12915f77f07@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1762292471;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3ga8pA6Z9Y8RsqRmUs7aEnRqbWo8RnG+Y/E84d6N1WU=;
+	b=d6ee5Rp/Dlq6aDqgb7F2BsMXFaj37I3Z6oGRxMw0cgtnAz9y69mqLJQheAoQ1HR4VZH9s/
+	H9U3LuB7yn1ha44mVMnI54ahL7xNe9l1NIY9H7mxLxfsFTqdc0YCa8Af6bg9qev9v3r2sv
+	I8CNj4E1Uur2E865wu5jpKpz5iZgcfGpBp2kKeGKMD3sSDJm52U+uJNEBMpiAkZm//Rf0x
+	wUEzKJQOPdLm65K3HCTEb8KGs5PBgLWRIhg5IIbomApzbCAj1aojswQKubMEVzYMOJzUbI
+	xAO+Vo1SRcaADzLXVGq1MuNgR3deK123AdqlnoSoKmAgOoD85UI/adsGyrV8xA==
+Date: Tue, 4 Nov 2025 22:27:47 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251104-magnitude-deodorant-be607e3ff4be@spud>
-X-Last-TLS-Session-Version: TLSv1.3
+Subject: Re: [PATCH 2/5] pinctrl: renesas: r8a779g0: Remove CC5_OSCOUT
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+ huybui2 <huy.bui.wm@renesas.com>
+References: <cover.1762274384.git.geert+renesas@glider.be>
+ <77f9efe5388f2801ace945b7793d4823618eeec8.1762274384.git.geert+renesas@glider.be>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <77f9efe5388f2801ace945b7793d4823618eeec8.1762274384.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: 75cdxuguoagtef9ipr9ahgr3i6498trq
+X-MBO-RS-ID: 6c0607277e073a5143f
 
-On 04/11/2025 17:28:27+0000, Conor Dooley wrote:
-> On Mon, Nov 03, 2025 at 12:18:45PM +0000, Ovidiu Panait wrote:
-> > The Renesas RZ/V2H RTC IP is based on the same RTCA3 IP as RZ/G3S
-> > (r9a08g045), with the following differences:
-> > - It lacks the time capture functionality
-> > - The maximum supported periodic interrupt frequency is 128Hz instead
-> >   of 256Hz
-> > - It requires two reset lines instead of one
-> > 
-> > Add new compatible string "renesas,r9a09g057-rtca3" for RZ/V2H and update
-> > the binding accordingly:
-> > - Allow "resets" to contain one or two entries depending on the SoC.
-> > - Add "reset-names" property, but make it required only for RZ/V2H.
-> > 
-> > Signed-off-by: Ovidiu Panait <ovidiu.panait.rb@renesas.com>
-> > +        reset-names:
-> > +          items:
-> > +            - const: rtc
-> > +            - const: rtc_rtest
+On 11/4/25 5:59 PM, Geert Uytterhoeven wrote:
+> From: huybui2 <huy.bui.wm@renesas.com>
 > 
-> If you respin, just make this second one rtest.
-
-I already applied it as it had your ack but I can still change it
-
+> Rev.1.30 of the R-Car V4H Series Hardware User’s Manual removed the
+> "CC5_OSCOUT" signal from the pin control register tables.  As this is
+> further unused in the pin control driver, it can be removed safely.
 > 
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
-> pw-bot: not-applicable
+> Signed-off-by: huybui2 <huy.bui.wm@renesas.com>
 
+The real name is 'Huy Bui' instead of huybui2 login name.
 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Also, matches U-Boot patch, thanks !
 
