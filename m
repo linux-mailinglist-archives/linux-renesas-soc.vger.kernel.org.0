@@ -1,145 +1,115 @@
-Return-Path: <linux-renesas-soc+bounces-24057-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24059-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09115C30163
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 04 Nov 2025 09:57:07 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6E1AC302C3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 04 Nov 2025 10:09:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 703624F70D7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Nov 2025 08:49:34 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 13A8834D1A9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Nov 2025 09:09:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DEDB23F412;
-	Tue,  4 Nov 2025 08:49:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B8C3XyMb"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8AF12BE658;
+	Tue,  4 Nov 2025 09:09:20 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D47F519CCF5
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  4 Nov 2025 08:49:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98DD42FDC57
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  4 Nov 2025 09:09:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762246170; cv=none; b=XPBGJQe989htpdMFWJ1PMqMaPFV96STnMvsF9zn+bPFYYBC7AulemKSLkkE4icgxIx5g2DUBhNz+vx5OCTkQIJJA8R1UXve0sjJSXjrJY23n/9vti0y9bcDGo3edVxPOpX6rWTf5gzfdSnWSgwcWr03qJxPkjHGUzGpkUZkGiT8=
+	t=1762247360; cv=none; b=LNEBJ3wGb3uQk9OrRgyCAVWjK2vsj/v7CvoHA5ViKMJPQdUxQffpXYLcrm1SWK6YeOVJJWE+QUEYJtqwT/4uYcMZIfer6nDXxBvXH57tVqwwkXk3wxsNdi4+j4XIXSQm1otk+rY9pqFuEEUUzRhv+Izg57rGB0pjI90wiQKOkrQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762246170; c=relaxed/simple;
-	bh=bwGYumF3/kIIW+zzveEhCKzNJ0ATBCRDR2j8OQO/23Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DhzmW261LiFxhVQSeLd0zPFg4In+cc88Ld0Mv1j3A4aw73zpXzwBI07lr/Aie8ctQqIjn70ovsWnb5BpVpvRB1UBniOO2y9gNcADrS51SQS8YqSnNBTWD1F5u+LYf+O/PJo/lkFQYuR/nlsZ7WWSiEExdx5EzogGLVgAnVHdEM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B8C3XyMb; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1762247360; c=relaxed/simple;
+	bh=Bs6qu82kza3J6Kn5aAW34CDe1TfQ63KLMwuu3FVhd1k=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sK1qug4Q91ANA8IyA1Fj4ATqkfn2i9Y8UzShubUA+2Cc0RM7DsdI+31jE4nUpccNVO4FwdMwgyz5v0mC+MqOuVXPlB06j0/PDWd5WW6uVS9/6jaQGz0jlh3I0Uy8+tjTInE1osVHDInuVpmO7HiuKPthHvS4mIVe6sIVxxJxxGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.160.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-294fb21b160so37321155ad.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 04 Nov 2025 00:49:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762246168; x=1762850968; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vZzjlCCT3j9j2Nd7pQrTgnxvKhulGcz35Gruny6M5Bw=;
-        b=B8C3XyMb9sztvNGcLQuH6oELUi82MwvYPXNmWWwVZIXfJq8n/xMbwV71TvTKuLCkJZ
-         xhN1jiesHsMzW3f5vJ5e/b/BdlT36STvsi2Pz9VXlkWjzW28wHdkMaGfdW4prBvnhyDS
-         MnBB0MWpzyg0WAbTKOcRL0HEqKKGGILWd1tYLmmM9mltkl2NNjAMKWQQu+5GQ4dZkI/v
-         LFfZUOu3NcG6JQhKzcrj4R1hnhUnY1lN9PJLWHKdhJY97SOZQKbSJg/lRiPjkrecRkot
-         Uqpm7EI7EdWWIfftAaBZjndccgCh+JhKr1Zy6PsTyIwKgLM4nLR67MZ8H00wsYwfKZIe
-         Jqvg==
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-3c9c379af8aso3591803fac.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 04 Nov 2025 01:09:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762246168; x=1762850968;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vZzjlCCT3j9j2Nd7pQrTgnxvKhulGcz35Gruny6M5Bw=;
-        b=M1ZXPnGmvv4xXVQuBSBbToL2XkOJekCGIl+GyuHegImXOBFMNG0Xxq+APUudQQcD50
-         Vn7NY7A7jEF8bi7nr3PhaWwm0U++0yF3MQ0VEgNzkzgOYUiYkUbQeeo1lFxYAi2DjRKw
-         L6r3jMW+jjuXnQRfv9xVpXruilCCG0MKTNkFrxqhDHBkai7nqI+5cOh+Er5075xfzzfU
-         /iKExW1SLtQ1XwXWs0AfL1pC/LR+2+cn7sF2xXB4qTvMEQ9qD/lHTjA54fy2oVF+Pko6
-         IdD7b2ZYPB4br8K1O23SzymEtKb8T7waPkLZBQSTzT1a4jUznXLr7mpgm0AFTPQC1QSv
-         FWuQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU13W04MxFsX08mjcYHpFs3W5r5Rn8kwJ44gtvg8UBMw2xiYXzt9FiTJ9A7jDVJ2R7vG8fXP3nMjTiR0r8v52Wl4g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzZ/w5ZRv5GKSXtdXCaqleoA5oEkzSv6/P9NbxQqL0jHx4iQPr1
-	5ALOJv51tLJ5KOdrFO522cZhbk3nPjfaKOKeUcw0F7DVvZDr+SEZbcug
-X-Gm-Gg: ASbGncsaPbHHFqHy0+r7KH7DFf0J38gtu6+SjaUXszGV73A2j4gBhZXbfDyQrz/sIIK
-	Ggr/AVIR0+grEmBKg3PBTK2449bcQgaWjsjsRa3akuDG0C8Ob1ZdEeUm3a8c1yldwfww4IJCZcc
-	cRPWLCGq+QfeisHIQ5UvTWPlgNeTX3YcayAdV8/rv8eUzQGNAD7z/FJ8NYhWIRIhuBW2CBlZhyH
-	wjNPtfJh1S7dXXGe6xtckP/13Q0dowuOwkyBNFpEdMjKUNAEjwImNDzE9AByWZm8SpyAn9r7ZkQ
-	YjRSbOHKCEEQk4BfNGCcTcIpnEWBQUeq1eq1DjfLFfvEoNtosZbvjvFAnRkuNxY3vybe3A/RxX/
-	L3rZgHfd3E5chKFTgBFYjKSc1leRGRRX07OP2yghSRo/cmZbdpcMfPS8jSxCr2fIHe9siCktr69
-	2/1RWe1LArA1Sh3VAyvSPWPg==
-X-Google-Smtp-Source: AGHT+IEjMIiSe0x3JjyWJftYAjRTnLk4yj1+5guJH64mFdGd5LprT3gQcg1E9FYpKQf1UnNjUVPGcA==
-X-Received: by 2002:a17:902:e801:b0:295:7f3f:b943 with SMTP id d9443c01a7336-2957f3fd4d1mr114855785ad.28.1762246167913;
-        Tue, 04 Nov 2025 00:49:27 -0800 (PST)
-Received: from iku.. ([2401:4900:1c06:600d:d663:3d9f:b9aa:53e6])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3415c8b5cc1sm3692393a91.18.2025.11.04.00.49.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Nov 2025 00:49:27 -0800 (PST)
-From: Lad Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: thomas.weissschuh@linutronix.de
-Cc: Jason@zx2c4.com,
-	agordeev@linux.ibm.com,
-	andreas@gaisler.com,
-	arnd@arndb.de,
-	borntraeger@linux.ibm.com,
-	catalin.marinas@arm.com,
-	chenhuacai@kernel.org,
-	christophe.leroy@csgroup.eu,
-	davem@davemloft.net,
-	glaubitz@physik.fu-berlin.de,
-	gor@linux.ibm.com,
-	hca@linux.ibm.com,
-	jstultz@google.com,
-	kernel@xen0n.name,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-mips@vger.kernel.org,
-	linux-s390@vger.kernel.org,
-	linux@armlinux.org.uk,
-	linuxppc-dev@lists.ozlabs.org,
-	loongarch@lists.linux.dev,
-	luto@kernel.org,
-	maddy@linux.ibm.com,
-	mpe@ellerman.id.au,
-	nagarathnam.muthusamy@oracle.com,
-	nick.alcock@oracle.com,
-	npiggin@gmail.com,
-	sboyd@kernel.org,
-	shuah@kernel.org,
-	sln@onemain.com,
-	sparclinux@vger.kernel.org,
-	svens@linux.ibm.com,
-	tglx@linutronix.de,
-	tsbogend@alpha.franken.de,
-	tytso@mit.edu,
-	vincenzo.frascino@arm.com,
-	will@kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [tip: timers/vdso] vdso/datastore: Allocate data pages dynamically
-Date: Tue,  4 Nov 2025 08:49:11 +0000
-Message-ID: <20251104084911.6961-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251014-vdso-sparc64-generic-2-v4-24-e0607bf49dea@linutronix.de>
-References: <20251014-vdso-sparc64-generic-2-v4-24-e0607bf49dea@linutronix.de>
+        d=1e100.net; s=20230601; t=1762247357; x=1762852157;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=H67jLGC2+nP+gJvVX0MRHo5Sws7Lcd+OKCPJPF9TIMI=;
+        b=IbzGSv+U2zvc/jMvuS1fbZ4t/qVvxvB6Klaz2DXGFnKMgTyEd8MK3TRkB7WW8hetM8
+         +fqr6dxNUKVF2aRR7gchHZp7PztykM1Qyuf0zteiOtyF3xaD7wBahelJo0+gOd2sC2mx
+         XCe0PL3ey0lWhsl/l2WCZcMqVuuv6uhTjmGLsrOSWI3+VeLjG+Kp3Pm+eMzR/IszFMJX
+         ekT7v6OZf39UUK8wQS6tSqr4wSJ4z8KZC2Sj9M+cAtHy4zrZrfGF1ayssVvp+HtQsTN/
+         1wngFAkT8AOv6qQ1zlN0/dOBKQfel21R6eLOqjTEYX7VYxIxWfM03j3QZYOUokA2FolN
+         hkgQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXYNYduDGSSCS28Bovoz47r23VWypHJubjg0ScgCXA27sBPsd8Ztc5LiDa39UkPfmvt1koE6WowhcUQxHIvdTYprw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJBb40uDInZZ6vI/9mdntxcSaADTokqBRZY5pvRZ1wvqwIG82w
+	XN+Aib6iYtsaqBKIQ8E0ittidpslwSWoH3Lrk5u/KOYR7iJtpf2pd5mAtkMHOstV
+X-Gm-Gg: ASbGnctWw7rUMx+6WajtMZ+8AmoZScSK19pVADMxcoTkPXSJ5/3AemoQD6jvPON1IDk
+	olKKaE5EDIW1eeBK6eJHk4hCnM1thyjFjj82rIayJ4YLtClOCepgWtpUSqXMNLYpXqkU42ojJWO
+	R16/OZDhsSB4qSiT28bjyhtNxUuhS6LT3WK7y+F5S/QuKEO9S17N1goBTmEcAdpG5ICJjNwVZBp
+	xxRASj0J8wbgCO5ozobX1v+elkaQx77o8NTIY5ReP3SoWEqEVSslkRNThJo7xQghmj0Hdhg9pm7
+	7V1HPslOrDcwHZ76JsJbwH97WKmtw7CBwQzLrAmTFTwuQg6AlAwQtPldoxvF7yd8pPil627lPKP
+	dfFVLvXQeGmquC1FTycwiNB9GmgowZ6Rd7w8G1Gq2G4RTW/VWXQADidj1wI5ckm8FQMDxt8L+oq
+	akGCErCPy07jV4YVR5k52nvfSdccAbsVf6xdHWaw==
+X-Google-Smtp-Source: AGHT+IGTeESCTZgZ2GQ/eiPJwsPEM73vVqqBp60aOpD/G6BU5X2vyCRVxxoc821P7IAAXgkYzKBiiQ==
+X-Received: by 2002:a05:6871:8908:b0:3c9:a286:fb1c with SMTP id 586e51a60fabf-3e03c7ce8fdmr1619740fac.24.1762247357363;
+        Tue, 04 Nov 2025 01:09:17 -0800 (PST)
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com. [209.85.160.53])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-3dff46fa604sm895115fac.2.2025.11.04.01.09.16
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 04 Nov 2025 01:09:16 -0800 (PST)
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-3d47192e99bso3806769fac.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 04 Nov 2025 01:09:16 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVGaDx39oS+H17BHa9xU6oV1iL6RZLo1fnvqVyKnxIs4lk33d/Y1fKODiAOMnbtLOzdLUtBnI16EfzIrOGzjCDxnw==@vger.kernel.org
+X-Received: by 2002:a05:6102:442c:b0:5b8:e08f:eb38 with SMTP id
+ ada2fe7eead31-5dbf7d63c3bmr753205137.14.1762246928045; Tue, 04 Nov 2025
+ 01:02:08 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251103200800.173440-1-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20251103200800.173440-1-marek.vasut+renesas@mailbox.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 4 Nov 2025 10:01:56 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUoVrMCcN0yY6BNrgXxFFPP-uJSAssZVrSWBSPtTr9DwQ@mail.gmail.com>
+X-Gm-Features: AWmQ_bnnwTsbga4_ceAKrw3IqMNP5c9B4ptZmLIuqnx7fLogJkKsw0-FT6vmR8I
+Message-ID: <CAMuHMdUoVrMCcN0yY6BNrgXxFFPP-uJSAssZVrSWBSPtTr9DwQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: gpu: img,powervr-rogue: Document GE7800
+ GPU in Renesas R-Car M3-N
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-arm-kernel@lists.infradead.org, Conor Dooley <conor+dt@kernel.org>, 
+	David Airlie <airlied@gmail.com>, Frank Binns <frank.binns@imgtec.com>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Magnus Damm <magnus.damm@gmail.com>, Matt Coster <matt.coster@imgtec.com>, 
+	Maxime Ripard <mripard@kernel.org>, =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+	Rob Herring <robh@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-This commit breaks boot on Renesas arm64 RZ/V2H and RZ/V2N platforms.
+On Mon, 3 Nov 2025 at 21:08, Marek Vasut
+<marek.vasut+renesas@mailbox.org> wrote:
+> Document Imagination Technologies PowerVR Rogue GE7800 BNVC 15.5.1.64
+> present in Renesas R-Car R8A77965 M3-N SoC.
+>
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
-The boot process doesn't complete anymore with no obvious error logs to
-indicate the cause of the failure.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Reverting the following two commits fixes the boot issue:
-  10d91dac2ea5 ("vdso/datastore: Allocate data pages dynamically")
-  6a011a228293 ("vdso/datastore: Map pages through struct page")
+Gr{oetje,eeting}s,
 
-Cheers,
-Prabhakar
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
