@@ -1,80 +1,102 @@
-Return-Path: <linux-renesas-soc+bounces-24118-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24119-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3E41C34997
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 05 Nov 2025 09:54:40 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id B21DCC34C48
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 05 Nov 2025 10:21:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E461F18C8F10
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Nov 2025 08:52:55 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E77204FDBE5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Nov 2025 09:16:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED72D2DC77A;
-	Wed,  5 Nov 2025 08:51:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oTAj8Sd+"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 267482FF173;
+	Wed,  5 Nov 2025 09:14:51 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5ED22DC346;
-	Wed,  5 Nov 2025 08:51:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 617272FF164;
+	Wed,  5 Nov 2025 09:14:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762332666; cv=none; b=s4yopiCjOl8/KkakPxo7ousiPASCWVnMmCNhDcZX0I+uzNIm4jP7yBzvczoBmVfQeCV8mCKNBy9eoVYrsnLWjA6IHE6Z5yZt3wfZZM/9hYIc7l/67/YVt/jYaiDo7JUMagzPHruohRjiwqKbcKOWfrDxsY+VZDIyTAb8TDu+H0I=
+	t=1762334091; cv=none; b=RNWpXcNB1rTaZoTsrSbqX5jaa7JD5Apz3f4T5MO0D5JN2m5AA9xBAD7joCZ3NeQZmXXBQEnRvXDFEzOQPAvteFsRy2JE6upp3XfMUFrjs9NttxIh5czPc3tfP2yGokGKJiA02kn+3WtoQOKK7YS4KI5gtLosGWxi6JA4c9mtr80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762332666; c=relaxed/simple;
-	bh=bqAeZIBrgDEYsoUKavOSuZR1RUcIXXU179muk25cQ8o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JWQ68+W2wPVeSioAV8sOJBVR1uEpwFHSuDsqsyGK7aOqCHdwGdZ/+58pCWUSLeGh4/p7IC601VpH5EheLYP9/FH44/ov8HVSObDAVy7/3fiptW4CXgupsBZYTgCv7UHjYTHjoVsvbS3x4QnlbOx5e8pJMHG0P/6UDS1ARFXYeG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oTAj8Sd+; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2245CC116B1;
-	Wed,  5 Nov 2025 08:51:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762332666;
-	bh=bqAeZIBrgDEYsoUKavOSuZR1RUcIXXU179muk25cQ8o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oTAj8Sd+o5/noh9v7+A1raHbMoeBVWhksX+j/sOANpEjwXXNmjkcAaEOYSlUnQAn1
-	 nQ1/vHYYeYmU47XRl9IjnoGnH351Ly1OsR/MaNHnK9V1VxyKFON1gN4iz77h5hkg5p
-	 n0Se9zuxuAXAkJBP1/Qy1QqI9R6hrPa4pEMOSqMAFLNnZ5QmlCxVQ5ZiqbTIfP+fiq
-	 i4U2wZuqQsu/fPzsngCeDq9XGoelwp78rHpuMmB1uheuV8+n9IwlyWlRwXE77D/qMy
-	 d/nDTA9bUkWsaiXRL1sOqAf0daUWd6h6Q1WQNLGl+MshSK1s6icSY5ChD/2SrMl4B4
-	 LPIEtizFPyiDg==
-Date: Wed, 5 Nov 2025 09:51:04 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-arm-kernel@lists.infradead.org, 
-	Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>, 
-	Frank Binns <frank.binns@imgtec.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Magnus Damm <magnus.damm@gmail.com>, Matt Coster <matt.coster@imgtec.com>, 
-	Maxime Ripard <mripard@kernel.org>, 
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, Rob Herring <robh@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] dt-bindings: gpu: img,powervr-rogue: Keep lists
- sorted alphabetically
-Message-ID: <20251105-robust-aquamarine-tench-c71fd3@kuoka>
-References: <20251104135716.12497-1-marek.vasut+renesas@mailbox.org>
+	s=arc-20240116; t=1762334091; c=relaxed/simple;
+	bh=eL0wacU/2NLr6zm6Ej+O3DjycwAJ/fCpJmPu54OPFlI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=n/Bo5mremd04QIi8EDk/8XVyw+c91EETC8ff7k7h6yuks5SWso6TpdbpB5xQd0LS00L3chZ6Inh7yGRrwoI6GSIt3tiEEdKWeTQhE4KCu1eU12Qwtg81VrOvS5CuI7y6Ot67hRURwjBPjENpx7VoNt4ipD6kV5hJP8prgPCQWKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+X-CSE-ConnectionGUID: DLeC+zhwSTOm5VfOxc1wQQ==
+X-CSE-MsgGUID: ocVJPaBrS3yveVlD/YAymA==
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 05 Nov 2025 18:14:41 +0900
+Received: from demon-pc.localdomain (unknown [10.226.92.38])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 686E44175EC6;
+	Wed,  5 Nov 2025 18:14:36 +0900 (JST)
+From: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+To: 
+Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	linux-spi@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+Subject: [PATCH 00/14] Add RSPI support for RZ/T2H and RZ/N2H
+Date: Wed,  5 Nov 2025 11:13:44 +0200
+Message-ID: <20251105091401.1462985-1-cosmin-gabriel.tanislav.xa@renesas.com>
+X-Mailer: git-send-email 2.51.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20251104135716.12497-1-marek.vasut+renesas@mailbox.org>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 04, 2025 at 02:56:05PM +0100, Marek Vasut wrote:
-> Sort the enum: list alphabetically. No functional change.
-> 
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Compared to the previously supported RZ/V2H, the Renesas RZ/T2H
+(R9A09G077) and RZ/N2H (R9A09G087) SoCs have a smaller FIFO, no resets,
+and only two clocks: PCLKSPIn and PCLK. PCLKSPIn, being the clock from
+which the SPI transfer clock is generated, is the equivalent of the TCLK
+from V2H. They also support generating the SPI transfer clock from PCLK.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+V2:
+ * fix missing unwind goto quit_resets
+ * add resets: false and reset-names: false
 
-Best regards,
-Krzysztof
+Cosmin Tanislav (14):
+  clk: renesas: r9a09g077: add SPI module clocks
+  spi: rzv2h-rspi: make resets optional
+  spi: rzv2h-rspi: make FIFO size chip-specific
+  spi: rzv2h-rspi: make clocks chip-specific
+  spi: rzv2h-rspi: move register writes out of rzv2h_rspi_setup_clock()
+  spi: rzv2h-rspi: avoid recomputing transfer frequency
+  spi: rzv2h-rspi: make transfer clock rate finding chip-specific
+  spi: rzv2h-rspi: add support for using PCLK for transfer clock
+  spi: rzv2h-rspi: add support for variable transfer clock
+  spi: rzv2h-rspi: add support for loopback mode
+  dt-bindings: spi: renesas,rzv2h-rspi: document RZ/T2H and RZ/N2H
+  spi: rzv2h-rspi: add support for RZ/T2H and RZ/N2H
+  arm64: dts: renesas: r9a09g077: Add SPIs support
+  arm64: dts: renesas: r9a09g087: Add SPIs support
+
+ .../bindings/spi/renesas,rzv2h-rspi.yaml      |  65 +++-
+ arch/arm64/boot/dts/renesas/r9a09g077.dtsi    |  72 ++++
+ arch/arm64/boot/dts/renesas/r9a09g087.dtsi    |  72 ++++
+ drivers/clk/renesas/r9a09g077-cpg.c           |  22 ++
+ drivers/spi/spi-rzv2h-rspi.c                  | 339 +++++++++++++++---
+ 5 files changed, 501 insertions(+), 69 deletions(-)
+
+-- 
+2.51.2
 
 
