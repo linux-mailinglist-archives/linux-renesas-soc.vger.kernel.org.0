@@ -1,221 +1,272 @@
-Return-Path: <linux-renesas-soc+bounces-24277-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24278-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4859C3D053
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 06 Nov 2025 19:07:51 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF97DC3D1CE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 06 Nov 2025 19:49:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4B4623B9189
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Nov 2025 18:03:27 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id A21774E0636
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Nov 2025 18:49:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7126134C127;
-	Thu,  6 Nov 2025 18:02:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 039F32E2850;
+	Thu,  6 Nov 2025 18:49:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="Gla/VtRy"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="KUNi74DC";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="WXiWl6hP"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010060.outbound.protection.outlook.com [52.101.229.60])
+Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7DEE204F8B;
-	Thu,  6 Nov 2025 18:02:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.60
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762452130; cv=fail; b=nnQf+CSQzjHk+lY7EQJJFxbU2ONHW0D6huwxoVrBb/gL8SZJiwXLQYjQHhBibAolMlTtF3KaBImHWq9cT9Pt46UhzBAxdCkrJPcYnzL3LJVc4Ex8g8F7h2GhotNB4XC/QarAdotdS874n8Xrnq5sUpVxizpNTbEF9hUJVZaE5W0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762452130; c=relaxed/simple;
-	bh=VEZ6yoASyuYmWaJuXJjPQPdgQGs2MoEUlY4qe1SUBLs=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=KuGXxnby7YD2FZddhPHQ8rxLeX6wUyHuOHDEIPznAYyDkbQkROYnTnBgTVyxq6m6kuqhqcp5Awe0gNIov1Et+9u7StPFfyUy9w69tzg/b/KF0ip7HODcKff+UL3GVF3FunIHSkEQZ3BlMNt1JOLy6rD3p+zdbQndz3PRaGaKdhY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=Gla/VtRy; arc=fail smtp.client-ip=52.101.229.60
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AdOxVhs79gPzwnqYHpKy8o0hNkF4jalTlVx2OffQRo3bpFA8mHlH7frRzOyXp7Yf1QuOwUDA5hq4UdQ2DOQj6YnqnoEEYFdKPihpl6ZoV9pOeE3aSH+oq08SQUteM5K0fzsJH56s7IXsTA9MZjlWegRgDfR5fn7azeNg8EB3F+BSaJDyw203cQRAhKHzfheSf1b1IIx9Ebv1xqUQWTjo5oAjvnCIYgqPhU5XTRNgNQG6sf7/dhOB5bfVKkIVzuOvrJf46+1o0ve6MfEF21Y0GCY2lgpoEMUHWdtPblISGf+QysBSsWmZjcm8U0WMK1GcgNtTaeyP+4QuC6+qT2LpNQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VEZ6yoASyuYmWaJuXJjPQPdgQGs2MoEUlY4qe1SUBLs=;
- b=YGmQFMtAE+TeGT5NLe2punYKQqc2YveQl7OoxeUyjtNqMtRp9Sf4c/z0gJwwKrdN90V0fByCRcbCK5L4SlO53zO01NtrFuCO4yWbvMOfhDjQ0+wX9zQlH2rOuqcDDcu2FIVPotkQpie+eAC9zlSv5u/+5OQJkOGnR224RVHTu3GzZ8lu/FaxVy245KINeKAgrJ3vSfwjmuiOl6cbVUKx+gRt7PL8PCAPHBK+tku/kqYNW9+JKlWwbvAzrEa194Hwtl1hlm1PbN+Jrr+y+WGUtVKLnrqfcgAECqnd9MTMLKRLT7iEZMAIYRd5mT2WHq1cbS5YCsz2XK7eC4reHt6Vrw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VEZ6yoASyuYmWaJuXJjPQPdgQGs2MoEUlY4qe1SUBLs=;
- b=Gla/VtRyC5R22CyXig0XcMx1/SOX5DbTElVXNPiuegrwIWrUVw7A2m1lad2PO6Uno83cK9WXP0XXdV6yyyiInM9jl/Lr/K7skWjOz9w+1KUsw62IpTKJWXfMFsyVbfVmkCWmEHHkBd/WhG0zQ90yVTa1Lz1/KvOPlTn/bXU1gHk=
-Received: from TYYPR01MB10512.jpnprd01.prod.outlook.com
- (2603:1096:400:2f6::13) by OSCPR01MB14532.jpnprd01.prod.outlook.com
- (2603:1096:604:3a5::5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.12; Thu, 6 Nov
- 2025 18:02:02 +0000
-Received: from TYYPR01MB10512.jpnprd01.prod.outlook.com
- ([fe80::ab64:c8fe:d19e:1686]) by TYYPR01MB10512.jpnprd01.prod.outlook.com
- ([fe80::ab64:c8fe:d19e:1686%5]) with mapi id 15.20.9298.007; Thu, 6 Nov 2025
- 18:02:01 +0000
-From: Cosmin-Gabriel Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-To: Conor Dooley <conor@kernel.org>
-CC: Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Mark Brown
-	<broonie@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
-	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven
-	<geert+renesas@glider.be>, magnus.damm <magnus.damm@gmail.com>, Michael
- Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Philipp
- Zabel <p.zabel@pengutronix.de>, "linux-spi@vger.kernel.org"
-	<linux-spi@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-clk@vger.kernel.org"
-	<linux-clk@vger.kernel.org>, Conor Dooley <conor.dooley@microchip.com>
-Subject: RE: [PATCH 11/14] dt-bindings: spi: renesas,rzv2h-rspi: document
- RZ/T2H and RZ/N2H
-Thread-Topic: [PATCH 11/14] dt-bindings: spi: renesas,rzv2h-rspi: document
- RZ/T2H and RZ/N2H
-Thread-Index: AQHcTjTIdWNta6y5E0GwjMRvj5rlDrTl8VWAgAAARFA=
-Date: Thu, 6 Nov 2025 18:02:01 +0000
-Message-ID:
- <TYYPR01MB10512F74C2D89BFE757AC7E0C85C2A@TYYPR01MB10512.jpnprd01.prod.outlook.com>
-References: <20251105091401.1462985-1-cosmin-gabriel.tanislav.xa@renesas.com>
- <20251105091401.1462985-12-cosmin-gabriel.tanislav.xa@renesas.com>
- <20251106-anchovy-font-33e9a3b4efe8@spud>
-In-Reply-To: <20251106-anchovy-font-33e9a3b4efe8@spud>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYYPR01MB10512:EE_|OSCPR01MB14532:EE_
-x-ms-office365-filtering-correlation-id: 69078e78-0ee8-4a8a-bdea-08de1d5e962a
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|376014|7416014|366016|38070700021;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?DTm/QELTZNJidnNEJ+eqYqSDK1+liFVJ5R6if57lnDNrknk1Xa/07A2idPq/?=
- =?us-ascii?Q?eHO2flf0SU1NWHGlabQWKrvjEypSds6qGfegMDCp/nDKHg/HYWFItoPQ8qz+?=
- =?us-ascii?Q?fkb3MrYTrj8DivLb3zlOf8UMG8kX3AlG4sojV1VRE7s6cHc2marCFn1Tzs9P?=
- =?us-ascii?Q?zcGVWuxVG/CWV9FEOkebzgJq5dpIRJ+Xo2YMUtAylSazaLV19CqHvXJ43IJ2?=
- =?us-ascii?Q?0tPMlLXMI2eWkFONxlLINoYA8EPBgz5FiLuLejuf8rHqLwjUgP1mTL+Nd4b0?=
- =?us-ascii?Q?BpeoM8naST+zRi7oTjmR7vL2pluJs5G+trP9irhb7IobVHBZR50v2tkCs2ny?=
- =?us-ascii?Q?4usfr/JgOdkcwS+SWfWnfvrfuqZ5b9gK2JZwGsb1RTC0JmIlkm+grn+UnAma?=
- =?us-ascii?Q?tamzGL67oy/hZb9zHvGom7C38/f/lujdiGQTA96nu2/X3YJLbrVfAc/NDoZT?=
- =?us-ascii?Q?M1kvcp03iUyf1k2WSK9MT3Nlsm7UXRAj9mzFPKSZ46pURjW/+QdjkKWwt8wR?=
- =?us-ascii?Q?4Sy5bQoSn7ZYLsRJQ2yq+0ohOXAqOX70C4kFjungeBcxqC1NQ12UOoxqDvTW?=
- =?us-ascii?Q?RolW/FPfJthJaEQgocWoCqqpOwEIzJBykguGGOtTKM5KA72ZCzhmi4axUEed?=
- =?us-ascii?Q?xhHXQrCgU6N2bb7D9/R2o/gHDWW3/fiMG1uLjcyRiAFy/RwDDITzInKEShAI?=
- =?us-ascii?Q?1zUOxcent08hfUbbMTS7HOPs8XzgwsS6Y6v9vs2BqyvFlKDiti+0gxkU+B9T?=
- =?us-ascii?Q?iiA5HDIJMYdnQuzD7rQozjYmS6gsYpwmi71SLitUIk9sqpzEmOqIoSzp4yMc?=
- =?us-ascii?Q?je0KFX9aFewhbE2he5FrZSGv1uvP+ttEDI2c2ATzKaDLWNqmH962iPZ5GOZr?=
- =?us-ascii?Q?QZcKb4BvYJrNvMWrIYRp3ue0EXtv5+ETz5bYkV7tpwPTq6qx3O6sPv/mwTbe?=
- =?us-ascii?Q?n7IXhdxs0jt7nid8OZtfMWhtLoZnwfliX5DTVn48LfNmz9S4vm6h+/yf8eO5?=
- =?us-ascii?Q?pOkSimih7+VfV7+9k/t5mt5grPRuWbvV5g/IhH6pLOPpJevKVr+/MGVV00Yv?=
- =?us-ascii?Q?jf2HnAbfYywaHXzUxEsQMHA5zEqXYQuVTRkNud79f8Zv2mDGmQzPyNK3riA9?=
- =?us-ascii?Q?1qPmLoZUmYLCdwnasGRxkybBpKERl55NeZSrbGirgjOYSzP1R+lgZEJkmO1G?=
- =?us-ascii?Q?LaB3jbWnPXvE1cQLuhYnFumd80B+wucwht9D2gHI5SqSTBGXMJRvfINIxQQZ?=
- =?us-ascii?Q?bnFcYnV7OfHatTwUoyDE5P/hZxh6uRNNRN9wwEcPCtWDYwMzTD3W/uRkzw/i?=
- =?us-ascii?Q?l7soLwsI0d0CNbyRgIsH61aBgsPOrHz8S8MPSmPXrvfmCmCr7mu5MTOs/57b?=
- =?us-ascii?Q?Dl+9mMa9GzFwy+WpBSHvJo87is3fCNVyRWydQJE6BRu1K1/Uiv60EIdCw+2r?=
- =?us-ascii?Q?nnw5moACKeqIAVpEG/DS7KKc1crb1Rk9ejpE9dJou5XoRtfXYw3I21LdAmRE?=
- =?us-ascii?Q?+t1DuW0pEOSKeqpF+tuem8J1vhYb9lyQ6ZRN?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYYPR01MB10512.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?WDRNxZdMQVpbciHFAcLyWIR6fU9/HNUQCC5sySuJogFQwHacC6OqviprO+wi?=
- =?us-ascii?Q?pB7kQ7c7nHIPAOaDochPO2YYDrGzXfQmLAgO1HwWaez/J+Q12nejgvwCQhiz?=
- =?us-ascii?Q?i/0VK2ylFdGqm6B5a88HOyS6Nw0w8EoS9Kq2iGoVajRonS5+oAFrJqs6ZPe/?=
- =?us-ascii?Q?kr1fTapLeQiG7ukzn9oxNp8xdDufpxI6bFe7Y6Fyqg0EC0t7gMsTnWgwNIHb?=
- =?us-ascii?Q?rvajzo7EKhp/LiSeSwuXh6e9/kOOcvEuyeRvOh/6INiIHZJ3lp3HKpZoPcLw?=
- =?us-ascii?Q?4ZWcD4Hddwl0bgw6Q1A27HOXQ3dLPKOq7BRvKRa/ijY+530JDEkd6X3oV8aY?=
- =?us-ascii?Q?qWlLwDecIT3wv0km5CQl9t7ab7J5CbBBDa8ulMQOZZTZXaUlz6ku7Goisu4G?=
- =?us-ascii?Q?AQweTf+Tb7POOMFk6dhJi9kwx0UimLFg+178h2Pphc9iWCn7vlYuaZZuSNOZ?=
- =?us-ascii?Q?Daw3i7XC13H9VblErJL3o09lXj40cpqvzPxUV0IJt/hOWDlZP0hEW1JVxyhu?=
- =?us-ascii?Q?LhJLkhU4X11kiqrQS+lSX9YoZRAINqj4Pz6KkbfRKhYUC2Uk28QwqqwwJMEN?=
- =?us-ascii?Q?bVgSGni2aCL+MI0y8c+Lou3Zot9q1qJy12nVstCfukiw9nlb/HZOfPVwwiqt?=
- =?us-ascii?Q?DShFpHouGyAT2GiTSoPwCyBz14Z5v9ZqSgPQ4lr29lSqSsPiNWcLi9bB1S5n?=
- =?us-ascii?Q?qOvOMK6qiuivXLIxo9XCfS1EO4/5LzVikZMWtydixDqBnXDtxvmvREm48x5Y?=
- =?us-ascii?Q?C52JCkICYdbCtjzxB8wtBfl6cY4kTfF4yrygiVLKHDhs+9lWf2bx0Pr97vW5?=
- =?us-ascii?Q?B0WHbNCjH4b2/2v8Giowmzmy2rkb8AOWN7TP3l7tjkvEvyMdsqvJAF0gUGN6?=
- =?us-ascii?Q?jFAjYhTGJDwmjTohn+n/vgyytnfBLwNJ0LWhnro6hh5PQa39criNBjM+37+h?=
- =?us-ascii?Q?d2MxR8NJRdHIti+LWgF1XZRMBYxHXc/hLwVu8iCbQgCLb1510IyPsmAZDzUY?=
- =?us-ascii?Q?/kINQdaXgNgphjb0HpvvorFl7+2DOMF+k4Sah3JkWTK9SRQWTz5YzyY0csqN?=
- =?us-ascii?Q?ovtp1/Rpe8UrL9JK1KS4F3DyFU0JbZubCECZMUZqvhZbN17CpvthSE6Sqgk/?=
- =?us-ascii?Q?kmooijyP7sLn8dcjjAvK8pLClT9kdx20T4mCxCMYXBlmRzdpxOteSSiaVsgg?=
- =?us-ascii?Q?4V8mLMkM+vzHARcO1cMCzuHRNxfrvz9KR8udSjd28dJCE5ZigHYmNaKmznWB?=
- =?us-ascii?Q?IryGu29lCQ3qcqqkgOEwZYlouA61Aa2F2KLJ1aIQmWJk2ZVsXCrnQc+kGvJw?=
- =?us-ascii?Q?pSx7vIqCqgybZwIphMdwKEgWLET2M6Mtbq14oeQBQVVvYlVT1aZtfknP44op?=
- =?us-ascii?Q?a8422/7KyddrQOiHkxL+ARpBH/GBR0B3OAXtoYXT9OSXCj4ZF9OL6jeNa0Y+?=
- =?us-ascii?Q?IzIe3vn3nJsEQaF1NBFFpzchKEdT5/oCxbM8CEUQ0AkOB6mkQsT3T5lXy3U8?=
- =?us-ascii?Q?BQBkGNi3NCJTJRLuo9kY9tfFialBqXlsDaPDMCYH3lC1Pdu416CQvdEpfPkY?=
- =?us-ascii?Q?Fthi/vOp4A4xIV2QTnHpbDMNZYPJSo1/mrfTvNe+E/+8VELHR/Pr8Y9OYFZ4?=
- =?us-ascii?Q?BKJ0fMTkxqc4jTtUHmYgKNM=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8689E23817D;
+	Thu,  6 Nov 2025 18:49:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762454975; cv=none; b=g5HX+BR39cmgQclaQBrBFFdTPxTg1PDbWKI+k6d+fDsemtTA2MgykTEncb4QajTe4uVOqDtDitRUj/RIfHbdTrtYLFoM/aGVzl9f4lvTdn7Eqhi7+EWBe2vQwCLMhVs0eZR6YhWYnACIizd58iY8/O9DvXx3xP6ivXkHp7vrkCY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762454975; c=relaxed/simple;
+	bh=P/v2puJTeFOS4Cx7G7AjYjc04y9VfRr4XRP9UV+JjN4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PnREMS3hRxHFano2SWGzlHc88KCDi5uelR46crnSuT9igoAkGzGikEn703x1nUariTNf8PQ918eWIXwFt/UAJS8ICay4TOsJymi1Yswk3G4oQ/B3sBaqd4kNlMmeeYPwBVHbGqHm/Ijvq2wPXaYfW4Wmt6ASJa2DIVJ2/lUlJsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=KUNi74DC; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=WXiWl6hP; arc=none smtp.client-ip=103.168.172.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfout.phl.internal (Postfix) with ESMTP id 7D484EC0294;
+	Thu,  6 Nov 2025 13:49:32 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-03.internal (MEProxy); Thu, 06 Nov 2025 13:49:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1762454972;
+	 x=1762541372; bh=3cDr0QtwUEUjzMnC5ZAIYokuX0/jaaVt0uuSfNP4Tkg=; b=
+	KUNi74DCyt5ngXutgWBeTfW15X5i50IQYpsd9Vrq56EphDF70ILKf+RlSPj4qqRc
+	IwKWBTFT4Qonn/GnvLM8VF7p6ge06mxqbNPDUD4QaYhZfbRFzjEdgvAffFFgLc0q
+	cwMPq1DqzesgroJNDaD6eFJs6+4wb38vMahle8KvxDMcT3aA0Vkbu5isTSkCIw0A
+	dY1sqRBV46F6bIQ4mhLQB/3VmEVdJpwI1ojmGUBZ4tJMUgm3hkLxqN933j+Mz0Gl
+	RISLSOcgeEP/zYS2ghJ8cXX2xnMROf1IP/AetXmE+G9vz1988cK+/wPIkAF3Awex
+	zuE1ZYZ4w1gMMtjpFVt13w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1762454972; x=
+	1762541372; bh=3cDr0QtwUEUjzMnC5ZAIYokuX0/jaaVt0uuSfNP4Tkg=; b=W
+	XiWl6hPKV9aGFEI4ji8aylfXPQ1RNkHZjenLyVZlIrHZ26++U4sEb0LA5HU+5Fh2
+	oJouFjsHWFUYs3fK2ArlS5/MmQvx6etI4cieqnaUv40YEHsC3bda5echfXNPmgZT
+	brCJFcr+qyAzHMZBbfZZS62AOretbi1jstSy9SdJERFhcjo8bmfoTTy9VMkjM2Tc
+	Wbj+5r7fBr1Jvh9sd9ausD7BzhC+Qb3ugnPSn4UX/o7Ue2VkbC+ciy4F8Fg1OG7o
+	P2PtVo1gM9QXLxvtxdwHInnL+PacU/X8FNneaxR6+X71FaFis491NHeHlBE0MGlW
+	hfUyLKf2bpac5FcoPbvmw==
+X-ME-Sender: <xms:u-0MafPWQsTP_zlHIul8NRS1GcD8FwLFsgaw8V3IRdNJr-8n0cu5Cg>
+    <xme:u-0MaStzwByYbrv69mDe4sLJZ8wzd9TeIIahxqdz4YgH4iyy_GXQ1aKYtLMWM3YbS
+    0rEye1sN31DdevVv0A8RLi8eBcX2FatzisaUxvBPn8bLFPgBDLBXg>
+X-ME-Received: <xmr:u-0Mac_KrOUCx1fpv1enSDegooE1cvgOzPQEIC_I-TwAMYrYdhSSUunLb_hxdYaqR5sd7aZpqsV_AK-WII4rokw_3cDvZgY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddukeejheegucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhklhgr
+    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvsh
+    grshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeffkefgudekgefh
+    hfejtedviedtgeetieekffeiudfhgeevteejvedtffdvkefftdenucffohhmrghinhepkh
+    gvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghi
+    lhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrghgnh
+    grthgvtghhrdhsvgdpnhgspghrtghpthhtohepudekpdhmohguvgepshhmthhpohhuthdp
+    rhgtphhtthhopehmrghtthdrtghoshhtvghrsehimhhgthgvtgdrtghomhdprhgtphhtth
+    hopehmrghrvghkrdhvrghsuhhtodhrvghnvghsrghssehmrghilhgsohigrdhorhhgpdhr
+    tghpthhtohepghgvvghrthdorhgvnhgvshgrshesghhlihguvghrrdgsvgdprhgtphhtth
+    hopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghirhhlihgv
+    ugesghhmrghilhdrtghomhdprhgtphhtthhopehfrhgrnhhkrdgsihhnnhhssehimhhgth
+    gvtgdrtghomhdprhgtphhtthhopegrlhgvshhsihhordgsvghllhgvsehimhhgthgvtgdr
+    tghomhdprhgtphhtthhopegrlhgvgigrnhgurhhurdgurgguuhesihhmghhtvggtrdgtoh
+    hmpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:u-0MaWHrtuPHdKc8pfye-AYKUnTIJ2Izh8K-LDrXpNb-m23a78X21Q>
+    <xmx:u-0MabQdfgNsXYZbF4yIc2Kb2ICly05SxfUSWn-vMpoukJDPhQIjsQ>
+    <xmx:u-0MaUsUSUm5DH8ssKhY7Bp-3gGOXjiZfsemKxKTojRC6b5W__9qEg>
+    <xmx:u-0MaYAPI7FmII9cboxsgHHTWRiTIhIsi8fLfcTon8zoxRCX_rBaiA>
+    <xmx:vO0MaV03Ogz1Hw4L_bCT90F8PIld3CeYI5KQiotOcy2i3JurT_isaXdo>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 6 Nov 2025 13:49:30 -0500 (EST)
+Date: Thu, 6 Nov 2025 19:49:28 +0100
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Matt Coster <Matt.Coster@imgtec.com>
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Conor Dooley <conor+dt@kernel.org>,
+	David Airlie <airlied@gmail.com>,
+	Frank Binns <Frank.Binns@imgtec.com>,
+	Alessio Belle <Alessio.Belle@imgtec.com>,
+	Alexandru Dadu <Alexandru.Dadu@imgtec.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
+	Simona Vetter <simona@ffwll.ch>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH 2/2] arm64: dts: renesas: r8a779a0: Add GE7800 GPU node
+Message-ID: <20251106184928.GF3684509@ragnatech.se>
+References: <20251105232737.1933437-1-niklas.soderlund+renesas@ragnatech.se>
+ <20251105232737.1933437-3-niklas.soderlund+renesas@ragnatech.se>
+ <c1c5a3ee-f5c9-46e4-8095-104d25d4621c@imgtec.com>
+ <20251106103904.GD3684509@ragnatech.se>
+ <e0373514-04ea-418c-a721-d694b816fa56@imgtec.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYYPR01MB10512.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 69078e78-0ee8-4a8a-bdea-08de1d5e962a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Nov 2025 18:02:01.6527
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: yFPoZEgHkQOlpu46qOJcblNexrOwCSvb8NB21v0nqIQWQsKDQBVvIpsEf54pKNeYFsxP+YXyDg5EnQE7odhSs/EgPZTKiMGfcvKd3vIf6oEwbrcM8UoBpR5ulwlECcvD
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSCPR01MB14532
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <e0373514-04ea-418c-a721-d694b816fa56@imgtec.com>
+
+Hi Matt,
+
+On 2025-11-06 13:04:19 +0000, Matt Coster wrote:
+> Hi Niklas,
+> 
+> On 06/11/2025 10:39, Niklas Söderlund wrote:
+> > Hi Matt,
+> > 
+> > Thanks for your feedback.
+> > 
+> > On 2025-11-06 10:19:13 +0000, Matt Coster wrote:
+> >> Hi Niklas,
+> >>
+> >> On 05/11/2025 23:27, Niklas Söderlund wrote:
+> >>> Describe Imagination Technologies PowerVR Rogue GE7800 BNVC 15.5.1.64
+> >>> present in Renesas R-Car R8A779A0 V3U SoC.
+> >>>
+> >>> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> >>> ---
+> >>>  arch/arm64/boot/dts/renesas/r8a779a0.dtsi | 17 +++++++++++++++++
+> >>>  1 file changed, 17 insertions(+)
+> >>>
+> >>> diff --git a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+> >>> index b08865841476..aa347b699340 100644
+> >>> --- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+> >>> +++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+> >>> @@ -338,6 +338,23 @@ cmt3: timer@e6148000 {
+> >>>  			status = "disabled";
+> >>>  		};
+> >>>  
+> >>> +		gsx: gsx@fd000000 {
+> >>
+> >> Why gsx? Marek's equivalent patch for r8a77965-gpu[1] used gpu (as we do
+> >> for every dt so far).
+> > 
+> > Wops, will fix.
+> > 
+> >>
+> >>> +			compatible = "renesas,r8a779a0-gpu",
+> >>> +				     "img,img-ge7800",
+> >>> +				     "img,img-rogue";
+> >>> +			reg = <0 0xfd000000 0 0x40000>;
+> >>> +			interrupts = <GIC_SPI 223 IRQ_TYPE_LEVEL_HIGH>;
+> >>> +			clocks = <&cpg CPG_CORE R8A779A0_CLK_ZG>,
+> >>> +				 <&cpg CPG_CORE R8A779A0_CLK_S3D1>,
+> >>> +				 <&cpg CPG_MOD 0>;
+> >>
+> >> I don't have access to a TRM for V3U (it's too new apparently, despite
+> >> already being obsolete), but I believe the GPU integration should be
+> >> similar to the M3N in [1]. In that case, the TRM (v2.40, fig 23.3) shows
+> >> S2D1 and 112 in place of S3D1 and 0 – are these definitely correct? The
+> >> 0 especially feels wrong (see also 8A.2.1.2 MSTPSR1).
+> > 
+> > Yea the V3U doc I have is not the latest. The diagram in the GPU chapter 
+> > list the same as you say here (S2D1 and 112), however the diagram seems 
+> > to just be a copy-past of the Gen3 document. Looking elsewhere in the 
+> > document I see:
+> > 
+> > - In the clock chapter the GPU is list as MSTP0 and not MSTP112.  
+> >   Comparing with the Gen3 doc this looks correct so MSTP0 is good IMHO.
+> 
+> Sounds reasonable. Just to cross-reference that, does 3DGE appear in the
+> 0-bit row of the table under the register definition of MSTPSR0? I see
+> from renesas-cpg-mssr.c that these registers have moved for gen4 though,
+> so this could be a blind alley.
+
+It do appear on the 0-bit row of MSTPSR0. But on V3U the bit is called 
+RGX not 3DGE as in Gen3.
+
+> 
+> A similar thought – is a new entry in r8a779a0_mod_clks (defined in
+> r8a779a0-cpg-mssr.c) required? The equivalent table for r8a77965 has a
+> "3dge" entry at 112.
+
+Yes. Both for MSTP112 module clock and the ZG core clock. Patches 
+posted. Will try to do the v2 of that series at the same time as the 
+fixes for this one.
+
+https://lore.kernel.org/linux-renesas-soc/20251105231815.1927239-1-niklas.soderlund%2Brenesas@ragnatech.se/
+
+> 
+> > 
+> > - The V3U don't have a S2D1 clock... but the GPU chapter lists it in the 
+> >   (assumed) copy-pasted diagram...  What I did was track which clocks 
+> >   where S2D1 on Gen3 and compared that to what those IP where using on 
+> >   V3U. The overlap was the DU and that uses S3D1 on V3U so I just 
+> >   followed that.
+> 
+> There's a top-level clock diagram near the top of the CPG chapter in the
+> TRM I have (fig 8.1d for M3N) that annotates S2D1 as being an AXI-bus
+> clock.
+
+I see the M3-N S2D1 clock in the Gen3 doc.
+
+> Is there a similar annotation on S3D1 for V3U in your TRM? If
+> not, I'm happy to just follow your logic and ack this patch :)
+
+I do not see the S3D1 in the same diagram for V3U, only S3. I do however 
+see S3D1 a few pages below in the table below the diagram. In the Gen3 
+doc that would be the equivalent of table Table 8.2d.
+
+> 
+> Cheers,
+> Matt
+> 
+> > 
+> >>
+> >>> +			clock-names = "core", "mem", "sys";
+> >>> +			power-domains = <&sysc R8A779A0_PD_3DG_A>,
+> >>> +					<&sysc R8A779A0_PD_3DG_B>;
+> >>> +			power-domain-names = "a", "b";
+> >>> +			resets = <&cpg 0>;
+> >>
+> >> Same 0 concern as above.
+> >>
+> >> Cheers,
+> >> Matt
+> >>
+> >> [1]: https://lore.kernel.org/r/20251104135716.12497-3-marek.vasut+renesas@mailbox.org/ 
+> >>
+> >>> +			status = "disabled";
+> >>> +		};
+> >>> +
+> >>>  		cpg: clock-controller@e6150000 {
+> >>>  			compatible = "renesas,r8a779a0-cpg-mssr";
+> >>>  			reg = <0 0xe6150000 0 0x4000>;
+> >>
+> >> -- 
+> >> Matt Coster
+> >> E: matt.coster@imgtec.com
+> 
+> -- 
+> Matt Coster
+> E: matt.coster@imgtec.com
 
 
 
-> -----Original Message-----
-> From: Conor Dooley <conor@kernel.org>
-> Sent: Thursday, November 6, 2025 7:58 PM
-> To: Cosmin-Gabriel Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-> Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>; Mark Brown <broonie=
-@kernel.org>; Rob Herring
-> <robh@kernel.org>; Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor Dooley=
- <conor+dt@kernel.org>; Geert
-> Uytterhoeven <geert+renesas@glider.be>; magnus.damm <magnus.damm@gmail.co=
-m>; Michael Turquette
-> <mturquette@baylibre.com>; Stephen Boyd <sboyd@kernel.org>; Philipp Zabel=
- <p.zabel@pengutronix.de>;
-> linux-spi@vger.kernel.org; linux-renesas-soc@vger.kernel.org; devicetree@=
-vger.kernel.org; linux-
-> kernel@vger.kernel.org; linux-clk@vger.kernel.org; Conor Dooley <conor.do=
-oley@microchip.com>
-> Subject: Re: [PATCH 11/14] dt-bindings: spi: renesas,rzv2h-rspi: document=
- RZ/T2H and RZ/N2H
->=20
-> On Wed, Nov 05, 2025 at 11:13:55AM +0200, Cosmin Tanislav wrote:
-> > The Renesas RZ/T2H (R9A09G077) and RZ/N2H (R9A09G087) SoCs have four SP=
-I
-> > peripherals.
-> >
-> > Compared to the previously supported RZ/V2H, these SoCs have a smaller
-> > FIFO, no resets, and only two clocks: PCLKSPIn and PCLK. PCLKSPIn,
-> > being the clock from which the SPI transfer clock is generated, is the
-> > equivalent of the TCLK from V2H.
-> >
-> > Document them, and use RZ/T2H as a fallback for RZ/N2H as the SPIs are
-> > entirely compatible.
-> >
-> > Signed-off-by: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-> > Acked-by: Conor Dooley <conor.dooley@microchip.com>
->=20
-> Why is this a v1 with my ack?
 
-I forgot to bump the version to V2. I've sent V3 afterwards to amend it.
-I applied resets: false & reset-names: false as you've asked and you said
-I can apply your Ack afterwards.
-
-
-
+-- 
+Kind Regards,
+Niklas Söderlund
 
