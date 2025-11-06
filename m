@@ -1,43 +1,43 @@
-Return-Path: <linux-renesas-soc+bounces-24212-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24213-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF7B0C3B259
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 06 Nov 2025 14:17:09 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20114C3B168
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 06 Nov 2025 14:09:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C9F46565012
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Nov 2025 13:01:29 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id CA6DD506147
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Nov 2025 13:01:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54939333731;
-	Thu,  6 Nov 2025 12:55:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B18C33030F;
+	Thu,  6 Nov 2025 12:56:01 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D63E332904;
-	Thu,  6 Nov 2025 12:55:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4080632F753;
+	Thu,  6 Nov 2025 12:55:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762433756; cv=none; b=Fq7bJnRtR8Y1EVMeGuejPzJSSym6FtKFgFdOIQnlJ12CqnVQ+di2y7HvsEPV2ZAPnP4Sdbcrzk4HZCbCND/stBRqyp7IsEIPEBEC4aAHIRh6axSuzNOdOeQlqeb+gQtmgb0mSjsvlpFOy0H2FGzW62eVqoFtKWsTZV+2UxXAPkI=
+	t=1762433761; cv=none; b=FFl3q/Xb/lUhCoNoaWSJcUINFbI67lj6xCHm8hPKfiYGxiTANFFlvhJ5WVA/LxCTYFTdaTYeOO1quUauPfU0TRX+P+WdnMcW76sc1P39xgpioCPMrJowxbTdMpq7nh843twiuLx5UX9KxsZ1DNpJhAlTiZJ3eu8ENYWAMyJmOso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762433756; c=relaxed/simple;
-	bh=P5ykCsS4neKkHcse8At/FgJZGg++oPtsWxyb/EcxV0w=;
+	s=arc-20240116; t=1762433761; c=relaxed/simple;
+	bh=QMoa/oRZJb40LO++811SohRkXFZF5YydLKs+awgn4cA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=TmlgsOx0bDIfNGbuUZkSkl6bb6ln8O4K/ucGKpwP85EqD3/77lpsYQj0XYwoGT5l3u8L7qsIiJAgZvGpDDa5cws/fIcXHelN6iV6LooSx50kBDGl5QrbzrXRJuxMGM+7pcJMEazf1b2WVYRwlPEvA6VCd8jUpE9CiCiSriiYl14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.171
+	 In-Reply-To:To:Cc; b=j1w9bqmCWxSO2tw7XIT/0ER/lPkqNMkFWataRg3AC0RPJv5kND0W51lyUtqY4hGAHstOMKh8wF6n6lepinvMzvcxV3ENdBnJS2mw8L6EbtLq0keauvQE0IGBnLvCmfY19qtBvhJHq9aHcwgY0Cu1RYiOSyr3AQjqS4wSuFH6t/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-X-CSE-ConnectionGUID: SYYgdZdVRBKGMqg+AuNxDA==
-X-CSE-MsgGUID: 2MNJV6XMTzeN9igS/RzZpw==
+X-CSE-ConnectionGUID: u3BxgNbQSaW+TXNJr5IKyA==
+X-CSE-MsgGUID: 8N6ZCC10Te+bHiuKeHEPlw==
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 06 Nov 2025 21:55:53 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 06 Nov 2025 21:55:59 +0900
 Received: from [127.0.1.1] (unknown [10.226.78.121])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id AD68D4006DE3;
-	Thu,  6 Nov 2025 21:55:47 +0900 (JST)
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 8EDF44006DE3;
+	Thu,  6 Nov 2025 21:55:53 +0900 (JST)
 From: Michael Dege <michael.dege@renesas.com>
-Date: Thu, 06 Nov 2025 13:55:26 +0100
-Subject: [PATCH net-next 02/10] net: renesas: rswitch: enable Phy link
- status pin
+Date: Thu, 06 Nov 2025 13:55:27 +0100
+Subject: [PATCH net-next 03/10] dt-bindings: net:
+ renesas,r8a779f0-ether-switch.yaml: add optional property link-pin
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -46,7 +46,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251106-add_l3_routing-v1-2-dcbb8368ca54@renesas.com>
+Message-Id: <20251106-add_l3_routing-v1-3-dcbb8368ca54@renesas.com>
 References: <20251106-add_l3_routing-v1-0-dcbb8368ca54@renesas.com>
 In-Reply-To: <20251106-add_l3_routing-v1-0-dcbb8368ca54@renesas.com>
 To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
@@ -66,65 +66,35 @@ Cc: netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
  Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
  Michael Dege <michael.dege@renesas.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1762433735; l=2181;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1762433735; l=754;
  i=michael.dege@renesas.com; s=20251023; h=from:subject:message-id;
- bh=P5ykCsS4neKkHcse8At/FgJZGg++oPtsWxyb/EcxV0w=;
- b=kupTc1dcqo7Gscg/7hWgN9ofgE3oaGVTwphqPjOIdAJtRlsz3t9p/dpDjjbHkqb9nR7gWMR/d
- SyqK7vk23o8CaHtOMlZIcBQdNciQbFA0YJo4s4QPu3jlSvUi3T1jRik
+ bh=QMoa/oRZJb40LO++811SohRkXFZF5YydLKs+awgn4cA=;
+ b=fHI+aZkv/zDDRA4mW3R0SbF2/rn3CsRo4Qvq9HXfRNFUtirxecP4FVdBLOONRNLmuCMeRhTWU
+ 1Fx+2R8kZACDnZsw2n/poqHU3d+wTq94PWWNxC+ADKwUg0E+b/X9L3M
 X-Developer-Key: i=michael.dege@renesas.com; a=ed25519;
  pk=gu1rwIcCrAxNMv2I8fIfiQvt51xzZwnQy4Ua/DscQt8=
 
-Enable Phy link status pin for boards which support this feature.
+Add optional ether-port property link-pin <empty>
 
 Signed-off-by: Michael Dege <michael.dege@renesas.com>
 ---
- drivers/net/ethernet/renesas/rswitch.h      |  1 +
- drivers/net/ethernet/renesas/rswitch_main.c | 12 ++++++++++--
- 2 files changed, 11 insertions(+), 2 deletions(-)
+ .../devicetree/bindings/net/renesas,r8a779f0-ether-switch.yaml         | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/net/ethernet/renesas/rswitch.h b/drivers/net/ethernet/renesas/rswitch.h
-index 8168c4cc83fe..a65ba10ae435 100644
---- a/drivers/net/ethernet/renesas/rswitch.h
-+++ b/drivers/net/ethernet/renesas/rswitch.h
-@@ -960,6 +960,7 @@ struct rswitch_etha {
- 	u8 mac_addr[MAX_ADDR_LEN];
- 	int link;
- 	int speed;
-+	bool link_pin;
+diff --git a/Documentation/devicetree/bindings/net/renesas,r8a779f0-ether-switch.yaml b/Documentation/devicetree/bindings/net/renesas,r8a779f0-ether-switch.yaml
+index e933a1e48d67..54cd427d8ae5 100644
+--- a/Documentation/devicetree/bindings/net/renesas,r8a779f0-ether-switch.yaml
++++ b/Documentation/devicetree/bindings/net/renesas,r8a779f0-ether-switch.yaml
+@@ -126,6 +126,9 @@ properties:
+           - phys
+           - mdio
  
- 	/* This hardware could not be initialized twice so that marked
- 	 * this flag to avoid multiple initialization.
-diff --git a/drivers/net/ethernet/renesas/rswitch_main.c b/drivers/net/ethernet/renesas/rswitch_main.c
-index 8d8acc2124b8..dd9a0e7a9d74 100644
---- a/drivers/net/ethernet/renesas/rswitch_main.c
-+++ b/drivers/net/ethernet/renesas/rswitch_main.c
-@@ -1192,9 +1192,15 @@ static void rswitch_rmac_setting(struct rswitch_etha *etha, const u8 *mac)
- 
- static void rswitch_etha_enable_mii(struct rswitch_etha *etha)
- {
--	rswitch_modify(etha->addr, MPIC, MPIC_PSMCS | MPIC_PSMHT,
-+	/* PSMCT: PHY station Management capture adjustment in clk cycles */
-+	/* PSMHT: PHY Station Management Hold Time adjustment in clk cycles */
-+	/* PSMCS: PHY Station Management Clock selection (clk divider) */
-+	/* PLSPP: PHY Link Status Pin Plugged */
++	optional:
++	  - link-pin
 +
-+	rswitch_modify(etha->addr, MPIC, MPIC_PSMCS | MPIC_PSMHT | MPIC_PLSPP,
- 		       FIELD_PREP(MPIC_PSMCS, etha->psmcs) |
--		       FIELD_PREP(MPIC_PSMHT, 0x06));
-+		       FIELD_PREP(MPIC_PSMHT, 0x06) |
-+		       FIELD_PREP(MPIC_PLSPP, etha->link_pin));
- }
- 
- static int rswitch_etha_hw_init(struct rswitch_etha *etha, const u8 *mac)
-@@ -1338,6 +1344,8 @@ static int rswitch_etha_get_params(struct rswitch_device *rdev)
- 	if (err)
- 		return err;
- 
-+	rdev->etha->link_pin = of_property_read_bool(rdev->np_port, "link-pin");
-+
- 	err = of_property_read_u32(rdev->np_port, "max-speed", &max_speed);
- 	if (!err) {
- 		rdev->etha->speed = max_speed;
+ required:
+   - compatible
+   - reg
 
 -- 
 2.43.0
