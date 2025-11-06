@@ -1,81 +1,81 @@
-Return-Path: <linux-renesas-soc+bounces-24262-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24263-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74A7CC3C1FF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 06 Nov 2025 16:42:06 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE8F3C3C1C6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 06 Nov 2025 16:40:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 22B5A3AB952
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Nov 2025 15:36:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D0B601A43B7C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Nov 2025 15:40:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 385B929B204;
-	Thu,  6 Nov 2025 15:36:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FF2F29E0ED;
+	Thu,  6 Nov 2025 15:40:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="RCBBHmI5"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="kevjdNmR"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F25A727FD56
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  6 Nov 2025 15:36:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B4A429ACF0
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  6 Nov 2025 15:40:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762443409; cv=none; b=gLfohk4KpNmBdCG+YsqmhE2FYTZdOTPtOKgxpR6imQke/ZztM/LAPN/zDBTEgsHiK+/r7c+IgbYq8TgSSgSH81ENTijgR7UD5n6CQV2FTAVxkf7+9R1dFFat8E36lywZGoRtpMAHF3iUJJ8u6OQ998sS5RvnBMlxLIvofhHTu90=
+	t=1762443603; cv=none; b=JjZvrvUsU5lE1JtgrgDYGIipUUJguDmezId+uSEH7s7vy/1aWch3OgLgRcR8JiiReAvO2uTjka/1PYU1y59XQyQo5PQFVby3r6L974lgI4CRfGV47dyjI7ZvUUahpGLvW96Im5gnFpuoqLs1LTaA259lxeefiy3VwTYxB0M9kLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762443409; c=relaxed/simple;
-	bh=xk6l2WOOOp6czqXIg1WfykCAiMAdHCUw6VSHs/tqjfg=;
+	s=arc-20240116; t=1762443603; c=relaxed/simple;
+	bh=OvVab99hJjNyRIYEydBN0V5gIv2r0yCOEdtFZCKRP7A=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qn5DjbKiRBEKKLQYFYkR6AMGyIgfkNv0z+CIDXtN8e6yAkE2Hnne4aSH8qmhknGBDVW06q4hWcT283oI+3SDGCFnT3jUZqUkGQmAmTmgG7UNMZlw+FtodHoj5/bEE7WOZIo5Irz31doY8r8KofzISGplhxm1cMbh+mL9Z6WbmIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=RCBBHmI5; arc=none smtp.client-ip=209.85.128.50
+	 In-Reply-To:Content-Type; b=LFSlAdUH7U3D8bsc7yQo9/wkxt5MfhHHuHhWzP28Rx2OPK94hl8WFmZA9vnXk98j0BoP/UPRRGP7YT6b1ho03JWVP98q7DTHV/45W/5izrne430XHrqIVEU96TVR7S5BbV67hZAMw+tDGv66wLo+ljyPHuURFvNga+9MDy/ZR4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=kevjdNmR; arc=none smtp.client-ip=209.85.221.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4775ae77516so13202535e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 06 Nov 2025 07:36:45 -0800 (PST)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3ee130237a8so788801f8f.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 06 Nov 2025 07:40:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1762443404; x=1763048204; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1762443599; x=1763048399; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=NoiFfWZaW31Ma9mD3WuZZQSDOEMD5VY8nTTYH6Ca1fs=;
-        b=RCBBHmI5NJuL/b0QMZqwJKF7ud8TA4ryMo59VDUQpnay3XsUAvEHe9LO/fOzuRpsZT
-         Jx1NFanVf4S6AnMyYzJCnljlJyN6jxlel+V/rblI5B/Ke6DaEPf+ndUzWrqDMCP+HdnB
-         uDl16AbXtCY5QarJXQGxMW4weytJLsYo/hhgWgTWp6oEXUmaIM9yVLpkAXqAknXGbXx1
-         QuqO79EbjR+FpS9ROH8ywiCYKLR1Vo0TveRfPl4UAmhu6xulcIFSO5a0/1OJf0Rjev67
-         yegxuQY82ZCP4p/4NvCgTDGdk/lzzVLD1htvb51kbSpM+eaB4whicLPwz/DWF4glUFn4
-         0IHQ==
+        bh=NCImS8vAPGN6LTIAPQAR8IZZ+CU8X+89zO49Z6Ixv/M=;
+        b=kevjdNmRx/vPItHpbAA8Fj/gaSq9j+ClmImM0Wu41WWm99Io6fzx1WKICnV2NjGuga
+         7IPYAskhRW4/AmYolW7YBPO5Us9+jZsIrLHiG60JwBHYXnsUkPauVfjnTaE7HaGJ2vb9
+         YGNWemlzo8c5S8XaxIUhpJdfzy1o0vDVeYDzanJ7FEzuwIBnVjTH+A2WC6Akerw0Ujh9
+         XdXdYQ+U6S1KSzGZWRK+gDlIUg3OtdsU6dsVGLp7OZhbTOU7VORIj2VozYwXtAmuFWWY
+         NHgSOcI4vnO0JmiT4KN7GSGhmyfgV6CH/JaOMA9Vvl/ijiQ7GjMFxUmDrbMY5N/29B7v
+         jW6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762443404; x=1763048204;
+        d=1e100.net; s=20230601; t=1762443599; x=1763048399;
         h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NoiFfWZaW31Ma9mD3WuZZQSDOEMD5VY8nTTYH6Ca1fs=;
-        b=TLbTmzyBtfVXkS2w3OvRfj7QA07vAyrPPWzYb38Os8pYd6YvZ4ObIc9/E8yvfq5X0W
-         Q/mNclz9X/26ASgUKiqsxU2seP+ZGYYVRTtjJHf6B/ckVdolBdlkkRiL1LFZ29dILB7O
-         Ug7aSJxEIrxGioMIlI5TRYDdHFNfFgojm5uG3Id3U4/SHqp67sBOLjuN6EFXwAasHrtq
-         BIAyQzViBPq+/P11fYPETrNo1S8Q7QsnYcxjCOYWVyOpztlHR2clypKDvhC9kCRxkOAf
-         jpSCBzYgJEtGOau6vyy9OtIg3kCv1pgaEQ9vI1wDPlhfAjVM4r5vov0dINKAmp85LhJy
-         K+Rw==
-X-Forwarded-Encrypted: i=1; AJvYcCX2sLBOlPMdxxXVBkn8jtQ4TM1W87isjzFt2svKQGBeJwCkh9mmC5/r6olgkb5/kYGqHMTGKi/DCquY9OUkLFXitg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywa9jvqF9fjs6BoQv5GOgB4am3qDXaXhSb00aRW+PTnrkbK+J6X
-	+TumZQKCT8InV7S8kwC5Bso+4NEaTAOkcGWg/zpRterRYuFEZx6esN+s+L/l4m5wy0U=
-X-Gm-Gg: ASbGnct8Yiz91g2x+0tVhgVtYppQwh6KDBADL6Gw0N6x6h7CxaS2lsKvWoDa6rwKqbW
-	jqYZmSLYCjdwrQwiXemwFXetX72S3V26gJ6Jr/zeQlwraoycXqnW0Np+1FVdyVuPxfxkjAPmTFh
-	tuge01swEXFirstrXzpeltAosoKELvcZlyYWJdZqlSm3KPgCjyn9/f4mYxqMIZhtef7GsUldTsH
-	496Ht2ju27B4DY/b0RaS3slouV9TeKPMbjQca8zOdqumVhg6pPtyraEwyGjP7BGoVNZNaiXkXuE
-	lEhwaOG/rDR3NE1UVQ5CM/gjfUmZ/C4hAgkTlX1V3wY7z5rVh3g2Kt9OJBYd1pKT347TDM1yfgq
-	ElJz0pi3wCkCuHw5TUrpgmyPIhhep+BGTK0dJ1H09V9q17H1g8V9r80idwfNXXUET9OUunPCF8V
-	vGjNm6RCSNVZ5pCX88xn0=
-X-Google-Smtp-Source: AGHT+IHm/6/RnHvUQpqjyEKIYZGBSjHuPRp5b3DBLGbL1GoDEzCDZheRRGUhzX2BHAHpgilQLx/Q7g==
-X-Received: by 2002:a05:600c:621a:b0:471:14f5:126f with SMTP id 5b1f17b1804b1-4775ce206f3mr59734595e9.33.1762443404278;
-        Thu, 06 Nov 2025 07:36:44 -0800 (PST)
+        bh=NCImS8vAPGN6LTIAPQAR8IZZ+CU8X+89zO49Z6Ixv/M=;
+        b=LyqQE/8amFrYpFlyyFp4zppxeYvxXK7n0KWPqKH9P1Acshv7o1ldsGtwpGUcrbcnpr
+         S1Oc3Vf9ZMY6svI0IrX9HriNQ0zhnmYQLoX9Mr8rQomqPP5MooI6GFsJ3XHR/yhtKFIO
+         1TjBRBilUu/xmWf1BOyAvkHvKDks2IzmOrKlVA/+zCK455UGgpGmSND3EhmTVGpJ2AUv
+         pBDaILfF6fLKAqwgeIQRmlkyo1yUWrE75i+f13l4PHXLJP5/yqCDc6d8zVBQBSvABsH7
+         XPCMKH3VZDYuU7sqy0ogom9MjHdOiPxATjdtFQ0ck0CkHzXOdVsxR5SQ7nmY+6Q6/hav
+         LcKw==
+X-Forwarded-Encrypted: i=1; AJvYcCWSrURx3anMUz16AlUT0MhtB7s3/Fci2EpLGBvAijCJzSNsfjL5iLkYud/Ht5nUSMZqiEwG09btw4CB0U5j3qkYMg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxqnOEiiCAaUr/AKCn+25tyqUXX4N0HOZY8kE2TCHEeq2qQK/7G
+	TH6dParbCIZxadw4Kg/eoml7Pnm27LRijyr6nqSFkA4KEuzXrbQrq8rpVf29xIJ5STA=
+X-Gm-Gg: ASbGncvSSrBojooqesH79RbCAKCcMrwbv58QgmSHgqEwEwHoQinorvwW+32XBzPQS/B
+	Tt6GHCeE4RlmqpCgvuVmSsiLy750iDGZUmjHCSEuYnPGmuSot1Lzu+mwHzMaQ/tKyh2uh+s3CWJ
+	p9xEUhjoySUAnMEqZsYuRBddi1Ogdo0aNgxIr1xQ9d0cg4rfXGl4IiBVOY8pT11sodTJcHLWiHu
+	SWYAGPW39hmlbrszYgBkfmWAXM+xKBM6zuX5x5VwUsRjG3DfRlVDFbN3vfULj4S/mzmkrzOcZ7C
+	pgC5VtykoSUPLPwC4txVoIvFVc0e175qTQi2sRJj7XgxUN0TysX+yHHfHAT058Ab8+6X4mBPYzk
+	+2Rkwj5C7ESBQ15Q/wZpVGS2g3wBc5htV15E6eiUQySJbw/wROIShtXdyhvG5Jz6uYOJkPWaHrW
+	2mB8vLFRg5
+X-Google-Smtp-Source: AGHT+IEnd90RJHx7ZuzW87zs5Q4EEB4nWgY3Vtjy9fpk248/BemBXzC7fRUumPfx0M4xpvI1GCS0qw==
+X-Received: by 2002:a05:6000:2510:b0:429:d0b8:3850 with SMTP id ffacd0b85a97d-429e330b68dmr6675168f8f.48.1762443599342;
+        Thu, 06 Nov 2025 07:39:59 -0800 (PST)
 Received: from [192.168.50.4] ([82.78.167.134])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477622f42a5sm98437525e9.1.2025.11.06.07.36.41
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429eb4772basm6489913f8f.26.2025.11.06.07.39.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Nov 2025 07:36:43 -0800 (PST)
-Message-ID: <d1b02488-7722-4b39-bb8e-f7e5c8e11b1e@tuxon.dev>
-Date: Thu, 6 Nov 2025 17:36:40 +0200
+        Thu, 06 Nov 2025 07:39:58 -0800 (PST)
+Message-ID: <181cb561-4fdf-49c0-aeb0-85844411a6ad@tuxon.dev>
+Date: Thu, 6 Nov 2025 17:39:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -83,8 +83,8 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 01/26] clk: at91: pmc: #undef field_{get,prep}() before
- definition
+Subject: Re: [PATCH v6 08/26] soc: renesas: rz-sysc: #undef field_get() before
+ local definition
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
  Yury Norov <yury.norov@gmail.com>,
  Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
@@ -123,24 +123,24 @@ Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sound@vger.kernel.org, linux-mtd@lists.infradead.org,
  linux-kernel@vger.kernel.org
 References: <cover.1762435376.git.geert+renesas@glider.be>
- <939d8c6da1f468026b1bb201413ba08b1d0751fd.1762435376.git.geert+renesas@glider.be>
+ <7feec8e9cf823dd365d6e0f21004f943964e52a0.1762435376.git.geert+renesas@glider.be>
 From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
 Content-Language: en-US
-In-Reply-To: <939d8c6da1f468026b1bb201413ba08b1d0751fd.1762435376.git.geert+renesas@glider.be>
+In-Reply-To: <7feec8e9cf823dd365d6e0f21004f943964e52a0.1762435376.git.geert+renesas@glider.be>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
 On 11/6/25 15:33, Geert Uytterhoeven wrote:
-> Prepare for the advent of globally available common field_get() and
-> field_prep() macros by undefining the symbols before defining local
-> variants.  This prevents redefinition warnings from the C preprocessor
-> when introducing the common macros later.
+> Prepare for the advent of a globally available common field_get() macro
+> by undefining the symbol before defining a local variant.  This prevents
+> redefinition warnings from the C preprocessor when introducing the common
+> macro later.
 > 
 > Suggested-by: Yury Norov <yury.norov@gmail.com>
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 
-Acked-by: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Reviewed-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+
 
