@@ -1,153 +1,119 @@
-Return-Path: <linux-renesas-soc+bounces-24252-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24253-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1A14C3BA60
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 06 Nov 2025 15:17:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04BE7C3BBDF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 06 Nov 2025 15:30:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B39FC56305C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Nov 2025 14:09:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C6E524639A7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Nov 2025 14:25:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB1C0303A12;
-	Thu,  6 Nov 2025 14:09:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31FB334166C;
+	Thu,  6 Nov 2025 14:19:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OWRTaCdo"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 166AA230D0F
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  6 Nov 2025 14:09:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04F0932C938;
+	Thu,  6 Nov 2025 14:19:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762438149; cv=none; b=R/xVnC4MMWzhs0bbNezV3vJwgU8BijDJ8xKtYcnHtcgX9dMDRZIa2/tg/c+i3v4Jzxpx886C9Chq0nWfoYWhf+oEBH8T1C6hUE37ERTRCUdnYMvPTKIQC614bSUv1IyddOt6pdMBvOHF2cWTovjorWMbgxhiViguiDQbPPzq2HY=
+	t=1762438788; cv=none; b=iRKFI1s7AmPjaVEFqb9edlgVLDHAghgJmcgetrj3z0ivi6bO5rJb/YabD+EyzjYZ1pKgkHOeuohI+W+ZTL5Td8Qm8byTsDZa47ubBJldnyneAPK2e87q3AkcaH2DB5drQ/GlC3L1fWVU0c/A0XKNjZYBhYDIsfxLIDyQRr/gb48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762438149; c=relaxed/simple;
-	bh=mHmb1VB9qB/vGEkXjmWNrkSJpxIgCAhoKTnr817fja0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cQ0wmwrIriUdXzu8Pq2ZNmcL1uwlogAr+LhyavcmpAfqZmypeUzfmETamT10+EZ0Gx3NCuCtk/8DM49kxCxg8nyEZjHqzfrZ0QG7K4UiplFOQi78MxZfn5ZoD93N+bPJGMkTNocQmvKjcUaftwC7t3JnOQBazCm+MhqWM6caWLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b729f239b39so69161866b.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 06 Nov 2025 06:09:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762438143; x=1763042943;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lizrVusrsLOAQyowXz5s1Qp7I158lhdEAu4sLj0s0D8=;
-        b=TKBoz5SrgeUyINHwwlztIjig7Tk4zTLIVB96UdzYA+wdY8u0hSrsoU5EXatwk6+w/b
-         RNH0TygMtkuTlPPvFdpXUBPsc9KcU5fiF5UBuw8YCXXxCIvf3kmyDiwyoQYJ2yeC04vZ
-         EjKqTxiL5Th8dlYP17LlAfgaFVY0f+DMAV77cO0LP0IM0tTqWwOMDiOaPdLutlYMtrve
-         FuQkZjKmQptHJVdinwxt85/U4UoDX+XZqcX3yI+QszueQBw38ktrJNdfvjIpBjC7+gDm
-         TVk7/Qu1LzhiskY0gPsKVbrzLtej9u3oXpuFyoSfSj6SWrJK9/pyAaGphT9xuKF9OXQF
-         sGOA==
-X-Forwarded-Encrypted: i=1; AJvYcCU0fnsf82Fj7Tf6zCfkwHDKI2Cp/H+dhbbys/JM1jAKL/oiqz0JXOT9ZhUDdMtYpuHrP8VgtSVjmiLGjVB7XyoMRg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxzs2JbwtHEnI7H7FxRUyz80LxdjrdELDLRC/CSfZH4zulTHjWq
-	zOCNNJq5ynMQ4Th0dRoieLEryDMYhh5+GhASJcy7JkR4HC8NFIYbSH0JlXpCKv+4w8A=
-X-Gm-Gg: ASbGnctqli9OsFYSxXwV3on4OUrt42crUPzbLH8BOU2VHMnmAdtJgXS0+ivL3tfkEYu
-	KEaRZjpRiZiWruD/UofqdCFidcKjfqgqy+tLf6eQyHR5KYnj0T45xogCBvBOVej9JEGu3e05hQq
-	3OSRAm7L6wbrOmv9OXnn3bCCcNqSxfF86VaKFNuJiR4XNRZfuiFdfnBgntoTRGV3+yJ0Tql7FOt
-	QEEi4jRComIrlZ5OvsEiTAizKkpWD8G7EkjRHhXO/jXgussHubIi2DNPlzJMpptDXdYJgIAA1+X
-	L6wcKYrRu7PmpylZWVGEfV1r/tuWoEfb4Cd5Kz63uQ+8A6499t+OKFPm/q696oKo2OO9HaxV88J
-	EVX2dhX9BeNbELDXqGXK27n+frWIUTq+UY+N2xtH530sprrviVlyhaXbaHCRtcqjYqcZe39QJc7
-	7IUkdvXC3PKRf2/vX86lIdhIjJLCiM2fg5ADeLxw==
-X-Google-Smtp-Source: AGHT+IFYDbLuBJrg/0sDHETbhpNPRw6BEH/jhUQR/3bFQs38xmIt9gtPMAwuEZ+bjKIZkbjzwyzK1Q==
-X-Received: by 2002:a17:907:3d4c:b0:b4a:e7c9:84c1 with SMTP id a640c23a62f3a-b72893578ecmr403088866b.7.1762438143286;
-        Thu, 06 Nov 2025 06:09:03 -0800 (PST)
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com. [209.85.208.49])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b72896453adsm221105366b.44.2025.11.06.06.09.00
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Nov 2025 06:09:00 -0800 (PST)
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6407e617ad4so2096481a12.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 06 Nov 2025 06:09:00 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWJ96BjFllhqI5WtXJqPd/c2kC2+aVhUe84Xow15ofNRb0bIf5r3rlHbQbFwCjgZXpoxPj+vlnoEYCS9lzcFBP66A==@vger.kernel.org
-X-Received: by 2002:aa7:d343:0:b0:640:931e:ccac with SMTP id
- 4fb4d7f45d1cf-6411d17972dmr2555913a12.7.1762438140350; Thu, 06 Nov 2025
- 06:09:00 -0800 (PST)
+	s=arc-20240116; t=1762438788; c=relaxed/simple;
+	bh=6/ZGdnzJaXeG4LJH21ap7huLV2905EhUDReKUZnFLL8=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=ulX88GnH1oTU/7ycQHOACI2CGn//2bIysfoQ430NuEQSdbLJm4Wq0fHXPt761xdlaXNM1FbFyOZl+4iFLfJKZlwC3UIYZKU0daOrmDTW9wurKS7Uz3tTDXO0nBPSaP7c5XjZLfhVC7xN3hbMseNQIU1wrCDkHRjdgeM9yExr0Mk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OWRTaCdo; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6942BC4CEFB;
+	Thu,  6 Nov 2025 14:19:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762438787;
+	bh=6/ZGdnzJaXeG4LJH21ap7huLV2905EhUDReKUZnFLL8=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=OWRTaCdo9THGQ2HFVtNpwa5bZKWlzoNE+zgTGnk/I+k7KTX6/1uqXBBTL0oqemgnt
+	 YTWIuhYdthPpYXIB1J6GLaNgcL81CbylGJwF2iYwyZXaRk3X/RRzmcQcQpKNHuehTO
+	 d7VnIO3sCONwKmRHaqinVhEZIPuMspz3lX7YKleF3yjw2BNoVBJA4lVQ+myqkGj3yR
+	 80wf3OMQOWEyDCZ7hjBqGf0jipZeva4Aete0X+TleatgeCW99wHtaRuIZ0VTWu6uoL
+	 d/I57WwPsDmmwckSeRTB3Sh47AbGkYf87Z7MKudrSjc0OciWT8LQaGQka4QpkQ91Ba
+	 ziD+FQHH9LdLA==
+Date: Thu, 06 Nov 2025 08:19:45 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251105232737.1933437-1-niklas.soderlund+renesas@ragnatech.se> <20251105232737.1933437-3-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20251105232737.1933437-3-niklas.soderlund+renesas@ragnatech.se>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 6 Nov 2025 15:08:45 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWGZa6E_Yu-hF9O6yi3rRemWnFdkUeKg3SucqmmLFUUAg@mail.gmail.com>
-X-Gm-Features: AWmQ_bmyVoqHrTmXlpr1ElP362H1OrWvK3sMuHRjQlEwD_rKvK_e3yJJeGhG1Kc
-Message-ID: <CAMuHMdWGZa6E_Yu-hF9O6yi3rRemWnFdkUeKg3SucqmmLFUUAg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] arm64: dts: renesas: r8a779a0: Add GE7800 GPU node
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>, Conor Dooley <conor+dt@kernel.org>, 
-	David Airlie <airlied@gmail.com>, Frank Binns <frank.binns@imgtec.com>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Magnus Damm <magnus.damm@gmail.com>, Matt Coster <matt.coster@imgtec.com>, 
-	Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ Nikita Yushchenko <nikita.yoush@cogentembedded.com>, 
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
+ Richard Cochran <richardcochran@gmail.com>, 
+ "David S. Miller" <davem@davemloft.net>, devicetree@vger.kernel.org, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
+ Paolo Abeni <pabeni@redhat.com>, Paul Barker <paul@pbarker.dev>, 
+ Jakub Kicinski <kuba@kernel.org>, Eric Dumazet <edumazet@google.com>, 
+ netdev@vger.kernel.org, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+ Magnus Damm <magnus.damm@gmail.com>
+To: Michael Dege <michael.dege@renesas.com>
+In-Reply-To: <20251106-add_l3_routing-v1-3-dcbb8368ca54@renesas.com>
+References: <20251106-add_l3_routing-v1-0-dcbb8368ca54@renesas.com>
+ <20251106-add_l3_routing-v1-3-dcbb8368ca54@renesas.com>
+Message-Id: <176243878562.3711967.3338841205330431312.robh@kernel.org>
+Subject: Re: [PATCH net-next 03/10] dt-bindings: net:
+ renesas,r8a779f0-ether-switch.yaml: add optional property link-pin
 
-Hi Niklas,
 
-On Thu, 6 Nov 2025 at 00:28, Niklas S=C3=B6derlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> Describe Imagination Technologies PowerVR Rogue GE7800 BNVC 15.5.1.64
-> present in Renesas R-Car R8A779A0 V3U SoC.
->
-> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
-se>
+On Thu, 06 Nov 2025 13:55:27 +0100, Michael Dege wrote:
+> Add optional ether-port property link-pin <empty>
+> 
+> Signed-off-by: Michael Dege <michael.dege@renesas.com>
+> ---
+>  .../devicetree/bindings/net/renesas,r8a779f0-ether-switch.yaml         | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
 
-Thanks for your patch!
+My bot found errors running 'make dt_binding_check' on your patch:
 
-> --- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-> @@ -338,6 +338,23 @@ cmt3: timer@e6148000 {
->                         status =3D "disabled";
->                 };
->
-> +               gsx: gsx@fd000000 {
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/net/renesas,r8a779f0-ether-switch.yaml:129:1: [error] syntax error: found character '\t' that cannot start any token (syntax)
 
-Please preserve sort order (by unit address).
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/net/renesas,r8a779f0-ether-switch.yaml: ignoring, error parsing file
+./Documentation/devicetree/bindings/net/renesas,r8a779f0-ether-switch.yaml:129:1: found character '\t' that cannot start any token
+make[2]: *** Deleting file 'Documentation/devicetree/bindings/net/renesas,r8a779f0-ether-switch.example.dts'
+Documentation/devicetree/bindings/net/renesas,r8a779f0-ether-switch.yaml:129:1: found character '\t' that cannot start any token
+make[2]: *** [Documentation/devicetree/bindings/Makefile:26: Documentation/devicetree/bindings/net/renesas,r8a779f0-ether-switch.example.dts] Error 1
+make[2]: *** Waiting for unfinished jobs....
+make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1547: dt_binding_check] Error 2
+make: *** [Makefile:248: __sub-make] Error 2
 
-> +                       compatible =3D "renesas,r8a779a0-gpu",
-> +                                    "img,img-ge7800",
-> +                                    "img,img-rogue";
-> +                       reg =3D <0 0xfd000000 0 0x40000>;
-> +                       interrupts =3D <GIC_SPI 223 IRQ_TYPE_LEVEL_HIGH>;
-> +                       clocks =3D <&cpg CPG_CORE R8A779A0_CLK_ZG>,
-> +                                <&cpg CPG_CORE R8A779A0_CLK_S3D1>,
-> +                                <&cpg CPG_MOD 0>;
-> +                       clock-names =3D "core", "mem", "sys";
-> +                       power-domains =3D <&sysc R8A779A0_PD_3DG_A>,
-> +                                       <&sysc R8A779A0_PD_3DG_B>;
-> +                       power-domain-names =3D "a", "b";
-> +                       resets =3D <&cpg 0>;
-> +                       status =3D "disabled";
-> +               };
-> +
->                 cpg: clock-controller@e6150000 {
->                         compatible =3D "renesas,r8a779a0-cpg-mssr";
->                         reg =3D <0 0xe6150000 0 0x4000>;
+doc reference errors (make refcheckdocs):
 
-The rest LGTM, so with the node name and sort order fixed:
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20251106-add_l3_routing-v1-3-dcbb8368ca54@renesas.com
 
-Gr{oetje,eeting}s,
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
 
-                        Geert
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+pip3 install dtschema --upgrade
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
 
