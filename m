@@ -1,272 +1,423 @@
-Return-Path: <linux-renesas-soc+bounces-24278-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24279-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF97DC3D1CE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 06 Nov 2025 19:49:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28619C3D521
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 06 Nov 2025 21:03:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id A21774E0636
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Nov 2025 18:49:38 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id A9F7D4E6BA2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Nov 2025 20:03:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 039F32E2850;
-	Thu,  6 Nov 2025 18:49:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DEB02355058;
+	Thu,  6 Nov 2025 20:03:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="KUNi74DC";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="WXiWl6hP"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NPUeQ6Lj"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8689E23817D;
-	Thu,  6 Nov 2025 18:49:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D59DD33CEAE
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  6 Nov 2025 20:03:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762454975; cv=none; b=g5HX+BR39cmgQclaQBrBFFdTPxTg1PDbWKI+k6d+fDsemtTA2MgykTEncb4QajTe4uVOqDtDitRUj/RIfHbdTrtYLFoM/aGVzl9f4lvTdn7Eqhi7+EWBe2vQwCLMhVs0eZR6YhWYnACIizd58iY8/O9DvXx3xP6ivXkHp7vrkCY=
+	t=1762459411; cv=none; b=qiVODPJmVoUajYUkcm5o80UhB3D66AmLzN/3Vcc8p0P6oTX9zgKqiuo8zqMk4hr6rrQRgsZI71YLCHIYgn0ZwuQHFE2s9MscYy0l5u7rh4wg9QuT4UqWzNaNBthDAxBTn96M00Rj6yNzFOMktgdME5pD9QINbF4DdkkaI1rrYQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762454975; c=relaxed/simple;
-	bh=P/v2puJTeFOS4Cx7G7AjYjc04y9VfRr4XRP9UV+JjN4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PnREMS3hRxHFano2SWGzlHc88KCDi5uelR46crnSuT9igoAkGzGikEn703x1nUariTNf8PQ918eWIXwFt/UAJS8ICay4TOsJymi1Yswk3G4oQ/B3sBaqd4kNlMmeeYPwBVHbGqHm/Ijvq2wPXaYfW4Wmt6ASJa2DIVJ2/lUlJsw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=KUNi74DC; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=WXiWl6hP; arc=none smtp.client-ip=103.168.172.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfout.phl.internal (Postfix) with ESMTP id 7D484EC0294;
-	Thu,  6 Nov 2025 13:49:32 -0500 (EST)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-03.internal (MEProxy); Thu, 06 Nov 2025 13:49:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1762454972;
-	 x=1762541372; bh=3cDr0QtwUEUjzMnC5ZAIYokuX0/jaaVt0uuSfNP4Tkg=; b=
-	KUNi74DCyt5ngXutgWBeTfW15X5i50IQYpsd9Vrq56EphDF70ILKf+RlSPj4qqRc
-	IwKWBTFT4Qonn/GnvLM8VF7p6ge06mxqbNPDUD4QaYhZfbRFzjEdgvAffFFgLc0q
-	cwMPq1DqzesgroJNDaD6eFJs6+4wb38vMahle8KvxDMcT3aA0Vkbu5isTSkCIw0A
-	dY1sqRBV46F6bIQ4mhLQB/3VmEVdJpwI1ojmGUBZ4tJMUgm3hkLxqN933j+Mz0Gl
-	RISLSOcgeEP/zYS2ghJ8cXX2xnMROf1IP/AetXmE+G9vz1988cK+/wPIkAF3Awex
-	zuE1ZYZ4w1gMMtjpFVt13w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1762454972; x=
-	1762541372; bh=3cDr0QtwUEUjzMnC5ZAIYokuX0/jaaVt0uuSfNP4Tkg=; b=W
-	XiWl6hPKV9aGFEI4ji8aylfXPQ1RNkHZjenLyVZlIrHZ26++U4sEb0LA5HU+5Fh2
-	oJouFjsHWFUYs3fK2ArlS5/MmQvx6etI4cieqnaUv40YEHsC3bda5echfXNPmgZT
-	brCJFcr+qyAzHMZBbfZZS62AOretbi1jstSy9SdJERFhcjo8bmfoTTy9VMkjM2Tc
-	Wbj+5r7fBr1Jvh9sd9ausD7BzhC+Qb3ugnPSn4UX/o7Ue2VkbC+ciy4F8Fg1OG7o
-	P2PtVo1gM9QXLxvtxdwHInnL+PacU/X8FNneaxR6+X71FaFis491NHeHlBE0MGlW
-	hfUyLKf2bpac5FcoPbvmw==
-X-ME-Sender: <xms:u-0MafPWQsTP_zlHIul8NRS1GcD8FwLFsgaw8V3IRdNJr-8n0cu5Cg>
-    <xme:u-0MaStzwByYbrv69mDe4sLJZ8wzd9TeIIahxqdz4YgH4iyy_GXQ1aKYtLMWM3YbS
-    0rEye1sN31DdevVv0A8RLi8eBcX2FatzisaUxvBPn8bLFPgBDLBXg>
-X-ME-Received: <xmr:u-0Mac_KrOUCx1fpv1enSDegooE1cvgOzPQEIC_I-TwAMYrYdhSSUunLb_hxdYaqR5sd7aZpqsV_AK-WII4rokw_3cDvZgY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddukeejheegucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhklhgr
-    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvsh
-    grshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeffkefgudekgefh
-    hfejtedviedtgeetieekffeiudfhgeevteejvedtffdvkefftdenucffohhmrghinhepkh
-    gvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghi
-    lhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrghgnh
-    grthgvtghhrdhsvgdpnhgspghrtghpthhtohepudekpdhmohguvgepshhmthhpohhuthdp
-    rhgtphhtthhopehmrghtthdrtghoshhtvghrsehimhhgthgvtgdrtghomhdprhgtphhtth
-    hopehmrghrvghkrdhvrghsuhhtodhrvghnvghsrghssehmrghilhgsohigrdhorhhgpdhr
-    tghpthhtohepghgvvghrthdorhgvnhgvshgrshesghhlihguvghrrdgsvgdprhgtphhtth
-    hopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghirhhlihgv
-    ugesghhmrghilhdrtghomhdprhgtphhtthhopehfrhgrnhhkrdgsihhnnhhssehimhhgth
-    gvtgdrtghomhdprhgtphhtthhopegrlhgvshhsihhordgsvghllhgvsehimhhgthgvtgdr
-    tghomhdprhgtphhtthhopegrlhgvgigrnhgurhhurdgurgguuhesihhmghhtvggtrdgtoh
-    hmpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:u-0MaWHrtuPHdKc8pfye-AYKUnTIJ2Izh8K-LDrXpNb-m23a78X21Q>
-    <xmx:u-0MabQdfgNsXYZbF4yIc2Kb2ICly05SxfUSWn-vMpoukJDPhQIjsQ>
-    <xmx:u-0MaUsUSUm5DH8ssKhY7Bp-3gGOXjiZfsemKxKTojRC6b5W__9qEg>
-    <xmx:u-0MaYAPI7FmII9cboxsgHHTWRiTIhIsi8fLfcTon8zoxRCX_rBaiA>
-    <xmx:vO0MaV03Ogz1Hw4L_bCT90F8PIld3CeYI5KQiotOcy2i3JurT_isaXdo>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 6 Nov 2025 13:49:30 -0500 (EST)
-Date: Thu, 6 Nov 2025 19:49:28 +0100
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Matt Coster <Matt.Coster@imgtec.com>
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	s=arc-20240116; t=1762459411; c=relaxed/simple;
+	bh=d5XB6lXi+SqfD7FMBczFovauT0tkT3Zo89Lydc4vel4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Xx38DOEkxCWT3Vd1s+TpRCr4OIzKCk9AjTSZDlv51ST4gVzxAQIhqSsUyPrHlzp3bH1yAK4djOBG7NURHUB7iNCBuhHbZmpx1XmZN/coh9itC28SO5S2jhP7WlK9pTGuz6zaNTk3jmfUG6f92yCFTWnpPZmrnBsjHgldDitbNOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NPUeQ6Lj; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7acd9a03ba9so31971b3a.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 06 Nov 2025 12:03:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762459408; x=1763064208; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ib31VxAF5IlM6SIObcVU8XyhJIAvv4GQL1AJev9y2TI=;
+        b=NPUeQ6LjchlUGFfFA27PRq2PjWlmenTvh/hKkzTPlCdgt+y9vyNZTR9ur9czSJluAk
+         KjfsxNbY+LlfxiEYuFuRnSvy2h7XKSxC31zYIF9aNC2wDxwfIKtcUQHFZpM87GyPlWVJ
+         SIBJ27dcC+wFEBf7axrUxh/R/0k6iFwSXjkTBrsERorG02g+Bsk7PIbaNWbQIPCt1zsZ
+         17rBG3iE5Vo5gank913d8cMYP/dTLyVBvi/HiBv/1ObpZeMeGIjCkzM8yia6v4BYsVBj
+         ZVTOL9OUnmxYqoQ0T385Lz4lxq/Qan8NcCMmig/iq5/3q6idvW8/TaSD0gvPrnsZP/wy
+         jVGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762459408; x=1763064208;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ib31VxAF5IlM6SIObcVU8XyhJIAvv4GQL1AJev9y2TI=;
+        b=fWzlcX9L2z8tVi+LvnhfZC8AoZRyJ5dt83RSlWeckl/e2gTjTcwykiiaA78p72j9Qt
+         3KW48K96dlVbso7vIYwjzxxw39iHNgAB2vcfSOtmUOvVs6hyxMUW+zH+QS4ft5PFgZXd
+         H/tOq8LWdd1iCEeqehqxRyFrPmoUOybfpnbtsRjefKVuIynzIyo9iWNxx6xrnuoWIDmY
+         Y9PN8biU6DkjTHGcxe8N9OLKEdpytWLxgN8zAe/OzPCiIcDsTkz70L8NMjmnX1L/WplS
+         w78/kVYXBqJy6EdC9s4U7cQFQgL98ZdNDd4VcGhNjvaTJrohgIgYLF1wE2xNJm65NWvl
+         dqCg==
+X-Forwarded-Encrypted: i=1; AJvYcCVLJpbFZzZk915CrSbq34zpf3EIsgl2QgfBZHLsuN2+0C5LTT/wjf9rYgb6o6m2cpGRhukiSrvH9jiSPiqGQJpvhQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwgO0dyVwTEGdaqW+dVG2544Wbkd+7NeQSXc5G9l51RNCcrGUN6
+	rdFlLL0yyfVxp11HJQ27iYBXPojiDfRhp/buP6p/AW5r8homD52X0FzYhrlOdSr+CeQ=
+X-Gm-Gg: ASbGncuWR2lMaCwAZbsdSmH5ym1t5p4WRDY5WwVtlb+a2sTmjcsvsKME5s18QXkfvNK
+	uruLDXxUvZBw+YnT9wqe4rFDSAGzPTfutwgQb9G+lbGM+sKZmKZ1jpWuBDwXrox9kG3ttQxG4VA
+	LVRgQp8pU09hcRP9isg7pnuO/h9H4oTJ2pDY7bXB6URt6JUua5jyIWtgeulcyvNZqjrksFPi9Ua
+	uDEmQiG8xFpWmIazOUaZMMpVboY7tnKGi1xoOIrX2rb4JDGB7Wc2/JgpkFVa1UmxSqpzYcnYqf8
+	fJFxSMpi2TsR7PMPMNgFYiLvuv8U4T0I0L/N+iryC6buc3yL/nwtFA8ahlAqJil/7O/2vZWDe5n
+	KKZKjV/e9giZo9nx577rbZ4mHTF+r2xlmzNlI6Dqei8k9d6V70zShfC7UxwDdSf2+exH9V6aPRM
+	shpMRRj8Dy6BL+rUlRUEB/GWO1pf4TRWry
+X-Google-Smtp-Source: AGHT+IEAyHzkTRkADJLdNmwr0EjaV8PsIqtOruX2xP2Xhx7l7trbwf4bACqzu+hOl3JwuNDTRlMk3Q==
+X-Received: by 2002:a05:6a00:3d4f:b0:7ac:6c3e:e918 with SMTP id d2e1a72fcca58-7b0bbb0a58fmr926453b3a.11.1762459407863;
+        Thu, 06 Nov 2025 12:03:27 -0800 (PST)
+Received: from iku.. ([2401:4900:1c07:5fe8:c1fb:f9bb:4f6d:dc88])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b0ccb5c674sm360930b3a.59.2025.11.06.12.03.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Nov 2025 12:03:26 -0800 (PST)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Horatiu Vultur <horatiu.vultur@microchip.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Conor Dooley <conor+dt@kernel.org>,
-	David Airlie <airlied@gmail.com>,
-	Frank Binns <Frank.Binns@imgtec.com>,
-	Alessio Belle <Alessio.Belle@imgtec.com>,
-	Alexandru Dadu <Alexandru.Dadu@imgtec.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
-	Simona Vetter <simona@ffwll.ch>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 2/2] arm64: dts: renesas: r8a779a0: Add GE7800 GPU node
-Message-ID: <20251106184928.GF3684509@ragnatech.se>
-References: <20251105232737.1933437-1-niklas.soderlund+renesas@ragnatech.se>
- <20251105232737.1933437-3-niklas.soderlund+renesas@ragnatech.se>
- <c1c5a3ee-f5c9-46e4-8095-104d25d4621c@imgtec.com>
- <20251106103904.GD3684509@ragnatech.se>
- <e0373514-04ea-418c-a721-d694b816fa56@imgtec.com>
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>
+Cc: netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH net-next] net: phy: mscc: Add support for PHY LEDs on VSC8541
+Date: Thu,  6 Nov 2025 20:03:09 +0000
+Message-ID: <20251106200309.1096131-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <e0373514-04ea-418c-a721-d694b816fa56@imgtec.com>
 
-Hi Matt,
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On 2025-11-06 13:04:19 +0000, Matt Coster wrote:
-> Hi Niklas,
-> 
-> On 06/11/2025 10:39, Niklas Söderlund wrote:
-> > Hi Matt,
-> > 
-> > Thanks for your feedback.
-> > 
-> > On 2025-11-06 10:19:13 +0000, Matt Coster wrote:
-> >> Hi Niklas,
-> >>
-> >> On 05/11/2025 23:27, Niklas Söderlund wrote:
-> >>> Describe Imagination Technologies PowerVR Rogue GE7800 BNVC 15.5.1.64
-> >>> present in Renesas R-Car R8A779A0 V3U SoC.
-> >>>
-> >>> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> >>> ---
-> >>>  arch/arm64/boot/dts/renesas/r8a779a0.dtsi | 17 +++++++++++++++++
-> >>>  1 file changed, 17 insertions(+)
-> >>>
-> >>> diff --git a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-> >>> index b08865841476..aa347b699340 100644
-> >>> --- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-> >>> +++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-> >>> @@ -338,6 +338,23 @@ cmt3: timer@e6148000 {
-> >>>  			status = "disabled";
-> >>>  		};
-> >>>  
-> >>> +		gsx: gsx@fd000000 {
-> >>
-> >> Why gsx? Marek's equivalent patch for r8a77965-gpu[1] used gpu (as we do
-> >> for every dt so far).
-> > 
-> > Wops, will fix.
-> > 
-> >>
-> >>> +			compatible = "renesas,r8a779a0-gpu",
-> >>> +				     "img,img-ge7800",
-> >>> +				     "img,img-rogue";
-> >>> +			reg = <0 0xfd000000 0 0x40000>;
-> >>> +			interrupts = <GIC_SPI 223 IRQ_TYPE_LEVEL_HIGH>;
-> >>> +			clocks = <&cpg CPG_CORE R8A779A0_CLK_ZG>,
-> >>> +				 <&cpg CPG_CORE R8A779A0_CLK_S3D1>,
-> >>> +				 <&cpg CPG_MOD 0>;
-> >>
-> >> I don't have access to a TRM for V3U (it's too new apparently, despite
-> >> already being obsolete), but I believe the GPU integration should be
-> >> similar to the M3N in [1]. In that case, the TRM (v2.40, fig 23.3) shows
-> >> S2D1 and 112 in place of S3D1 and 0 – are these definitely correct? The
-> >> 0 especially feels wrong (see also 8A.2.1.2 MSTPSR1).
-> > 
-> > Yea the V3U doc I have is not the latest. The diagram in the GPU chapter 
-> > list the same as you say here (S2D1 and 112), however the diagram seems 
-> > to just be a copy-past of the Gen3 document. Looking elsewhere in the 
-> > document I see:
-> > 
-> > - In the clock chapter the GPU is list as MSTP0 and not MSTP112.  
-> >   Comparing with the Gen3 doc this looks correct so MSTP0 is good IMHO.
-> 
-> Sounds reasonable. Just to cross-reference that, does 3DGE appear in the
-> 0-bit row of the table under the register definition of MSTPSR0? I see
-> from renesas-cpg-mssr.c that these registers have moved for gen4 though,
-> so this could be a blind alley.
+Add a minimal LED controller implementation supporting common use cases
+with the 'netdev' trigger.
 
-It do appear on the 0-bit row of MSTPSR0. But on V3U the bit is called 
-RGX not 3DGE as in Gen3.
+The driver now defaults to VSC8531_LINK_ACTIVITY at initialization and
+allows users to configure LED behavior through the LED subsystem. Support
+for controlling LED behavior is also added.
 
-> 
-> A similar thought – is a new entry in r8a779a0_mod_clks (defined in
-> r8a779a0-cpg-mssr.c) required? The equivalent table for r8a77965 has a
-> "3dge" entry at 112.
+The LED Behavior (register 30) bits [0:1] control the combine feature:
+0: Combine enabled (link/activity, duplex/collision)
+1: Combine disabled (link only, duplex only)
 
-Yes. Both for MSTP112 module clock and the ZG core clock. Patches 
-posted. Will try to do the v2 of that series at the same time as the 
-fixes for this one.
+This feature is now managed based on the RX/TX rules. If both RX and TX
+are disabled, the combine feature is turned off; otherwise, it remains
+enabled.
 
-https://lore.kernel.org/linux-renesas-soc/20251105231815.1927239-1-niklas.soderlund%2Brenesas@ragnatech.se/
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+ drivers/net/phy/mscc/mscc.h      |   4 +
+ drivers/net/phy/mscc/mscc_main.c | 223 ++++++++++++++++++++++++++++++-
+ 2 files changed, 222 insertions(+), 5 deletions(-)
 
-> 
-> > 
-> > - The V3U don't have a S2D1 clock... but the GPU chapter lists it in the 
-> >   (assumed) copy-pasted diagram...  What I did was track which clocks 
-> >   where S2D1 on Gen3 and compared that to what those IP where using on 
-> >   V3U. The overlap was the DU and that uses S3D1 on V3U so I just 
-> >   followed that.
-> 
-> There's a top-level clock diagram near the top of the CPG chapter in the
-> TRM I have (fig 8.1d for M3N) that annotates S2D1 as being an AXI-bus
-> clock.
-
-I see the M3-N S2D1 clock in the Gen3 doc.
-
-> Is there a similar annotation on S3D1 for V3U in your TRM? If
-> not, I'm happy to just follow your logic and ack this patch :)
-
-I do not see the S3D1 in the same diagram for V3U, only S3. I do however 
-see S3D1 a few pages below in the table below the diagram. In the Gen3 
-doc that would be the equivalent of table Table 8.2d.
-
-> 
-> Cheers,
-> Matt
-> 
-> > 
-> >>
-> >>> +			clock-names = "core", "mem", "sys";
-> >>> +			power-domains = <&sysc R8A779A0_PD_3DG_A>,
-> >>> +					<&sysc R8A779A0_PD_3DG_B>;
-> >>> +			power-domain-names = "a", "b";
-> >>> +			resets = <&cpg 0>;
-> >>
-> >> Same 0 concern as above.
-> >>
-> >> Cheers,
-> >> Matt
-> >>
-> >> [1]: https://lore.kernel.org/r/20251104135716.12497-3-marek.vasut+renesas@mailbox.org/ 
-> >>
-> >>> +			status = "disabled";
-> >>> +		};
-> >>> +
-> >>>  		cpg: clock-controller@e6150000 {
-> >>>  			compatible = "renesas,r8a779a0-cpg-mssr";
-> >>>  			reg = <0 0xe6150000 0 0x4000>;
-> >>
-> >> -- 
-> >> Matt Coster
-> >> E: matt.coster@imgtec.com
-> 
-> -- 
-> Matt Coster
-> E: matt.coster@imgtec.com
-
-
-
-
+diff --git a/drivers/net/phy/mscc/mscc.h b/drivers/net/phy/mscc/mscc.h
+index 2eef5956b9cc..65c9d7bd9315 100644
+--- a/drivers/net/phy/mscc/mscc.h
++++ b/drivers/net/phy/mscc/mscc.h
+@@ -85,6 +85,10 @@ enum rgmii_clock_delay {
+ #define LED_MODE_SEL_MASK(x)		  (GENMASK(3, 0) << LED_MODE_SEL_POS(x))
+ #define LED_MODE_SEL(x, mode)		  (((mode) << LED_MODE_SEL_POS(x)) & LED_MODE_SEL_MASK(x))
+ 
++#define MSCC_PHY_LED_BEHAVIOR		  30
++#define LED_COMBINE_DIS_MASK(x)		  BIT(x)
++#define LED_COMBINE_DIS(x, dis)		  (((dis) ? 1 : 0) << (x))
++
+ #define MSCC_EXT_PAGE_CSR_CNTL_17	  17
+ #define MSCC_EXT_PAGE_CSR_CNTL_18	  18
+ 
+diff --git a/drivers/net/phy/mscc/mscc_main.c b/drivers/net/phy/mscc/mscc_main.c
+index 8678ebf89cca..0c4e368527b5 100644
+--- a/drivers/net/phy/mscc/mscc_main.c
++++ b/drivers/net/phy/mscc/mscc_main.c
+@@ -173,23 +173,43 @@ static void vsc85xx_get_stats(struct phy_device *phydev,
+ 		data[i] = vsc85xx_get_stat(phydev, i);
+ }
+ 
+-static int vsc85xx_led_cntl_set(struct phy_device *phydev,
+-				u8 led_num,
+-				u8 mode)
++static int vsc85xx_led_cntl_set_lock_unlock(struct phy_device *phydev,
++					    u8 led_num,
++					    u8 mode, bool lock)
+ {
+ 	int rc;
+ 	u16 reg_val;
+ 
+-	mutex_lock(&phydev->lock);
++	if (lock)
++		mutex_lock(&phydev->lock);
+ 	reg_val = phy_read(phydev, MSCC_PHY_LED_MODE_SEL);
+ 	reg_val &= ~LED_MODE_SEL_MASK(led_num);
+ 	reg_val |= LED_MODE_SEL(led_num, (u16)mode);
+ 	rc = phy_write(phydev, MSCC_PHY_LED_MODE_SEL, reg_val);
+-	mutex_unlock(&phydev->lock);
++	if (lock)
++		mutex_unlock(&phydev->lock);
+ 
+ 	return rc;
+ }
+ 
++static int vsc85xx_led_cntl_set(struct phy_device *phydev, u8 led_num,
++				u8 mode)
++{
++	return vsc85xx_led_cntl_set_lock_unlock(phydev, led_num, mode, true);
++}
++
++static int vsc8541_led_combine_disable_set(struct phy_device *phydev, u8 led_num,
++					   bool combine_disable)
++{
++	u16 reg_val;
++
++	reg_val = phy_read(phydev, MSCC_PHY_LED_BEHAVIOR);
++	reg_val &= ~LED_COMBINE_DIS_MASK(led_num);
++	reg_val |= LED_COMBINE_DIS(led_num, combine_disable);
++
++	return phy_write(phydev, MSCC_PHY_LED_BEHAVIOR, reg_val);
++}
++
+ static int vsc85xx_mdix_get(struct phy_device *phydev, u8 *mdix)
+ {
+ 	u16 reg_val;
+@@ -2218,6 +2238,174 @@ static int vsc85xx_config_inband(struct phy_device *phydev, unsigned int modes)
+ 				reg_val);
+ }
+ 
++static int vsc8541_led_brightness_set(struct phy_device *phydev,
++				      u8 index, enum led_brightness value)
++{
++	struct vsc8531_private *vsc8531 = phydev->priv;
++
++	if (index >= vsc8531->nleds)
++		return -EINVAL;
++
++	return vsc85xx_led_cntl_set_lock_unlock(phydev, index, value == LED_OFF ?
++				    VSC8531_FORCE_LED_OFF : VSC8531_FORCE_LED_ON, false);
++}
++
++static int vsc8541_led_hw_is_supported(struct phy_device *phydev, u8 index,
++				       unsigned long rules)
++{
++	struct vsc8531_private *vsc8531 = phydev->priv;
++	static const unsigned long supported = BIT(TRIGGER_NETDEV_LINK) |
++					       BIT(TRIGGER_NETDEV_LINK_1000) |
++					       BIT(TRIGGER_NETDEV_LINK_100) |
++					       BIT(TRIGGER_NETDEV_LINK_10) |
++					       BIT(TRIGGER_NETDEV_RX) |
++					       BIT(TRIGGER_NETDEV_TX);
++
++	if (index >= vsc8531->nleds)
++		return -EINVAL;
++
++	if (rules & ~supported)
++		return -EOPNOTSUPP;
++
++	return 0;
++}
++
++static int vsc8541_led_hw_control_get(struct phy_device *phydev, u8 index,
++				      unsigned long *rules)
++{
++	struct vsc8531_private *vsc8531 = phydev->priv;
++	u16 reg;
++
++	if (index >= vsc8531->nleds)
++		return -EINVAL;
++
++	reg = phy_read(phydev, MSCC_PHY_LED_MODE_SEL) & LED_MODE_SEL_MASK(index);
++	reg >>= LED_MODE_SEL_POS(index);
++	switch (reg) {
++	case VSC8531_LINK_ACTIVITY:
++		*rules = BIT(TRIGGER_NETDEV_LINK) |
++			 BIT(TRIGGER_NETDEV_RX) |
++			 BIT(TRIGGER_NETDEV_TX);
++		break;
++
++	case VSC8531_LINK_1000_ACTIVITY:
++		*rules = BIT(TRIGGER_NETDEV_LINK) |
++			 BIT(TRIGGER_NETDEV_LINK_1000) |
++			 BIT(TRIGGER_NETDEV_RX) |
++			 BIT(TRIGGER_NETDEV_TX);
++		break;
++
++	case VSC8531_LINK_100_ACTIVITY:
++		*rules = BIT(TRIGGER_NETDEV_LINK) |
++			 BIT(TRIGGER_NETDEV_LINK_100) |
++			 BIT(TRIGGER_NETDEV_RX) |
++			 BIT(TRIGGER_NETDEV_TX);
++		break;
++
++	case VSC8531_LINK_10_ACTIVITY:
++		*rules = BIT(TRIGGER_NETDEV_LINK) |
++			 BIT(TRIGGER_NETDEV_LINK_10) |
++			 BIT(TRIGGER_NETDEV_RX) |
++			 BIT(TRIGGER_NETDEV_TX);
++		break;
++
++	case VSC8531_LINK_100_1000_ACTIVITY:
++		*rules = BIT(TRIGGER_NETDEV_LINK) |
++			 BIT(TRIGGER_NETDEV_LINK_100) |
++			 BIT(TRIGGER_NETDEV_LINK_1000) |
++			 BIT(TRIGGER_NETDEV_RX) |
++			 BIT(TRIGGER_NETDEV_TX);
++		break;
++
++	case VSC8531_LINK_10_1000_ACTIVITY:
++		*rules = BIT(TRIGGER_NETDEV_LINK) |
++			 BIT(TRIGGER_NETDEV_LINK_10) |
++			 BIT(TRIGGER_NETDEV_LINK_1000) |
++			 BIT(TRIGGER_NETDEV_RX) |
++			 BIT(TRIGGER_NETDEV_TX);
++		break;
++
++	case VSC8531_LINK_10_100_ACTIVITY:
++		*rules = BIT(TRIGGER_NETDEV_LINK) |
++			 BIT(TRIGGER_NETDEV_LINK_10) |
++			 BIT(TRIGGER_NETDEV_LINK_100) |
++			 BIT(TRIGGER_NETDEV_RX) |
++			 BIT(TRIGGER_NETDEV_TX);
++		break;
++
++	case VSC8531_ACTIVITY:
++		*rules = BIT(TRIGGER_NETDEV_LINK) |
++			 BIT(TRIGGER_NETDEV_RX) |
++			 BIT(TRIGGER_NETDEV_TX);
++		break;
++
++	default:
++		*rules = 0;
++		break;
++	}
++
++	return 0;
++}
++
++static int vsc8541_led_hw_control_set(struct phy_device *phydev, u8 index,
++				      unsigned long rules)
++{
++	struct vsc8531_private *vsc8531 = phydev->priv;
++	bool combine_disable = false;
++	u16 mode = VSC8531_LINK_ACTIVITY;
++	bool has_rx, has_tx;
++	int ret;
++
++	if (index >= vsc8531->nleds)
++		return -EINVAL;
++
++	if (rules & BIT(TRIGGER_NETDEV_LINK))
++		mode = VSC8531_LINK_ACTIVITY;
++
++	if (rules & BIT(TRIGGER_NETDEV_LINK_10))
++		mode = VSC8531_LINK_10_ACTIVITY;
++
++	if (rules & BIT(TRIGGER_NETDEV_LINK_100))
++		mode = VSC8531_LINK_100_ACTIVITY;
++
++	if (rules & BIT(TRIGGER_NETDEV_LINK_1000))
++		mode = VSC8531_LINK_1000_ACTIVITY;
++
++	if (rules & BIT(TRIGGER_NETDEV_LINK_100) &&
++	    rules & BIT(TRIGGER_NETDEV_LINK_1000))
++		mode = VSC8531_LINK_100_1000_ACTIVITY;
++
++	if (rules & BIT(TRIGGER_NETDEV_LINK_10) &&
++	    rules & BIT(TRIGGER_NETDEV_LINK_1000))
++		mode = VSC8531_LINK_10_1000_ACTIVITY;
++
++	if (rules & BIT(TRIGGER_NETDEV_LINK_10) &&
++	    rules & BIT(TRIGGER_NETDEV_LINK_100))
++		mode = VSC8531_LINK_10_100_ACTIVITY;
++
++	/*
++	 * The VSC8541 PHY provides an option to control LED behavior. By
++	 * default, the LEDx combine function is enabled, meaning the LED
++	 * will be on when there is link/activity or duplex/collision. If
++	 * the combine function is disabled, the LED will be on only for
++	 * link or duplex.
++	 *
++	 * To control this behavior, we check the selected rules. If both
++	 * RX and TX activity are not selected, the LED combine function
++	 * is disabled; otherwise, it remains enabled.
++	 */
++	has_rx = !!(rules & BIT(TRIGGER_NETDEV_RX));
++	has_tx = !!(rules & BIT(TRIGGER_NETDEV_TX));
++	if (!has_rx && !has_tx)
++		combine_disable = true;
++
++	ret = vsc8541_led_combine_disable_set(phydev, index, combine_disable);
++	if (ret < 0)
++		return ret;
++
++	return vsc85xx_led_cntl_set_lock_unlock(phydev, index, mode, false);
++}
++
+ static int vsc8514_probe(struct phy_device *phydev)
+ {
+ 	struct vsc8531_private *vsc8531;
+@@ -2322,6 +2510,7 @@ static int vsc85xx_probe(struct phy_device *phydev)
+ 	int rate_magic;
+ 	u32 default_mode[2] = {VSC8531_LINK_1000_ACTIVITY,
+ 	   VSC8531_LINK_100_ACTIVITY};
++	int phy_id;
+ 
+ 	rate_magic = vsc85xx_edge_rate_magic_get(phydev);
+ 	if (rate_magic < 0)
+@@ -2343,6 +2532,26 @@ static int vsc85xx_probe(struct phy_device *phydev)
+ 	if (!vsc8531->stats)
+ 		return -ENOMEM;
+ 
++	phy_id = phydev->drv->phy_id & phydev->drv->phy_id_mask;
++	if (phy_id == PHY_ID_VSC8541) {
++		struct device_node *np;
++
++		/*
++		 * Check for LED configuration in device tree if available
++		 * or fall back to default `vsc8531,led-x-mode` DT properties.
++		 */
++		np = of_get_child_by_name(phydev->mdio.dev.of_node, "leds");
++		if (np) {
++			of_node_put(np);
++
++			/* default to link activity */
++			for (unsigned int i = 0; i < vsc8531->nleds; i++)
++				vsc8531->leds_mode[i] = VSC8531_LINK_ACTIVITY;
++
++			return 0;
++		}
++	}
++
+ 	return vsc85xx_dt_led_modes_get(phydev, default_mode);
+ }
+ 
+@@ -2548,6 +2757,10 @@ static struct phy_driver vsc85xx_driver[] = {
+ 	.get_sset_count = &vsc85xx_get_sset_count,
+ 	.get_strings    = &vsc85xx_get_strings,
+ 	.get_stats      = &vsc85xx_get_stats,
++	.led_brightness_set = vsc8541_led_brightness_set,
++	.led_hw_is_supported = vsc8541_led_hw_is_supported,
++	.led_hw_control_get = vsc8541_led_hw_control_get,
++	.led_hw_control_set = vsc8541_led_hw_control_set,
+ },
+ {
+ 	.phy_id		= PHY_ID_VSC8552,
 -- 
-Kind Regards,
-Niklas Söderlund
+2.43.0
+
 
