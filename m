@@ -1,112 +1,117 @@
-Return-Path: <linux-renesas-soc+bounces-24285-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24286-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA736C3D76A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 06 Nov 2025 22:16:46 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED3D3C3D7C8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 06 Nov 2025 22:24:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id C9F644E30AA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Nov 2025 21:16:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 942793A12A6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Nov 2025 21:24:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DEC9D30597D;
-	Thu,  6 Nov 2025 21:16:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFC21305E2D;
+	Thu,  6 Nov 2025 21:24:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="XeltaKq8";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="a655zFtt"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="DggvZJ/h";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Nqd1d4pV"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
+Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24E2D3019A9;
-	Thu,  6 Nov 2025 21:16:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00DC41D432D;
+	Thu,  6 Nov 2025 21:24:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762463801; cv=none; b=VqAd/ZsIfBp0TGdF0XpXxu9poDyOu2dtG1QD3pw7XiJW/hkbinagECMQod1KmkoQjR4ZBm5W9gKnSn8oeR6A83ZN/IvfDKtuc8EXeY6ieR4AvqMUANWotgzNz7/AfsrKDaP61OJdT8nyhyolaF7pzCGDc9jEJ48pDw6oMH713W0=
+	t=1762464243; cv=none; b=ZP0zIsYLg95UVAOZqcapSb08GNJmiU3VKZjSmyC1mApLVGcvpb53SeSfSKMk3V5J12egtfEFFPWvrhBE+jrPgBHB98eqpjZK4AQRdRb0qH+++e5iRf3J007VjZmkptg1u1qpyYuk20ihKqP15uP2XDiBcBw7YvkhNiPiDWldWbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762463801; c=relaxed/simple;
-	bh=1+pvFbZsXWCO3prIxD+XvomMTr3ux2NETaMn4tOXkUs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=H8UluZ5oNAe542ZRnTNUWjC2+0z5KSz21u/FEwrmPMmOmhUj5fHlvWgQTcBYFLWfgh0bCMqHPz8Bi0VgMVRcoN63Yk73EQdvKg1Xm/v4kb87vmXWtWSTLfio3IN8WDcYOXQJq6c2LDIM3KiO5GYvxhNlePnlKJluPz9noxtvb1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=XeltaKq8; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=a655zFtt; arc=none smtp.client-ip=103.168.172.152
+	s=arc-20240116; t=1762464243; c=relaxed/simple;
+	bh=p2xau01hRs9hoR0x0YIsEe+pwi6P7QOymZtA/Xuc+yQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ho6ies5yiN2/NxM18t7zoWrL5kDyuDQt24ewJV4xpvGW6UxoN4a2EiFGahIBMLrL1f7PDaiDm1CxCgQkNp9dgXZcwrR519j05hovR/nI+rTWVL1aHsWNuuryyJLf5jTYUiX+7kl0noc8AbtiMFOAv4gdQHZFyAfcaSL9qzyPwZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=DggvZJ/h; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Nqd1d4pV; arc=none smtp.client-ip=103.168.172.149
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 3C47F1400055;
-	Thu,  6 Nov 2025 16:16:39 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Thu, 06 Nov 2025 16:16:39 -0500
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfout.phl.internal (Postfix) with ESMTP id E51B7EC0469;
+	Thu,  6 Nov 2025 16:24:00 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-06.internal (MEProxy); Thu, 06 Nov 2025 16:24:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1762463799;
-	 x=1762550199; bh=+8VhVhBIM0aOLPpcUjRu9hCflXf/VQC4NfIF1MrwwSY=; b=
-	XeltaKq86y/SLvAWKmdVuMw0/BaGMqHhNXXgSMIL7bn0pL31x8KcJYFzeJVqklhT
-	ViuwvnMgFDs/VVZCkTxNpLP0H86wppSFExxAlNZlsLbvRsedSn1Xje/svtjLxwli
-	IQq6pnXbJ27vyywzT55/eWLkbqpM5xyVpGFD7KKN8E8cEh+tlKvKTOvLc89UdccV
-	HBHbSzCWj24yZwirEnrI9u+JbptD2TP3MnbjltdiOZjXu0XZY6v0aYvkSvHWhiat
-	7w2kSQk2Y74LnFxxKu3vJ7gt74ZzZbbf0XFcJ6ydgUqNJ72u/Y8/V14TVQZh+Cjm
-	nRPxwzGmrQ0OhMquf1DzwQ==
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm2; t=1762464240; x=1762550640; bh=9o
+	KQwTXEDExuDpePu4/IiryecEusRNGDeOjxnQACPII=; b=DggvZJ/hbuQo/reuDP
+	VgGrqgOoLIz7h2VTLuw3a8tLqjmqYsvcKxykOhB8vWU7aDjPMALXsIw3+9JoJY1N
+	OHB5APzbun/ATYquFKRFQGB1u0/omVBCfaWFA1cC2ZJ688hVPK8Ptwbpk48Iu3jX
+	murHM19Hy6SWrsb/V7TaLTmjF+Qkdu04o57RVI3uIELNLRCYX1oaCWEacEVXcR8T
+	Qk+C4hdwb3uLkJX5agPGtfPKKUIBAPC2mY+VYjw2xxdU3X9QuMYbsoegpH9t5rV8
+	QhIaV9pdNr2yIIFRQa9m6onh7TIMfJdn6XTTiT8VynNKT1A/xWYsl5Y+mgCMJjn4
+	qQXQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1762463799; x=
-	1762550199; bh=+8VhVhBIM0aOLPpcUjRu9hCflXf/VQC4NfIF1MrwwSY=; b=a
-	655zFttyUvzUqpJAsVGl6oKs7QAX7Np4RmgTKEieNgwWXts36ak3n7qYK0TssNNo
-	5+fZ7tlN+yDK7MxaHAWaEMLQI1En45L1+lgf/KRnoCjSChZAbV/ciwndIvKllF68
-	CCij6I62PdN2ty5eXPEoRZCZ+8/dBuZy2VV8j7uozls3fxBsK28EvlhqlgJvYBHp
-	J1Z3sktaG9vcSx33lpnSui40yLq2POtJyjahSrNscYBLg5IhA1XUY17eEhRYK/kp
-	9Tn2MkitV1HlOvJpCrtrJqRe5qKbtyNOfgrn1ozqBSaMpi1l9Mu+oyeNxuFi8c5U
-	urWnVv+XTjIZxXpXO8r4Q==
-X-ME-Sender: <xms:NhANadOu-i_CBFEZn05r6F91JnOX_kTFg4bRSpOPtJUAYbueXeY0mg>
-    <xme:NhANaV95VKS7Kp_Eog2DhQHaLIVA5W70YbyQNJszoF6AKyU7THOQpFXAm4LErn9gR
-    rtoCnoIrJKGU5i2rpvhwIOnAdnFFLqlV7NoeLsxNnn4Tkhbava0Mxk>
-X-ME-Received: <xmr:NhANaXFwV7ZjALNBPt8GMo_IbzQcNGNzhwEHXwaOQHtBjm27QxXK3beC7l8t3D0lNHoHv31ivXNQT6BwWsLq9Aas>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddukeejkeegucetufdoteggodetrf
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1762464240; x=1762550640; bh=9oKQwTXEDExuDpePu4/IiryecEus
+	RNGDeOjxnQACPII=; b=Nqd1d4pV5/FRV397u72ol8ZZHdnXjE5Lif3sFBr738Tr
+	0AtV0FvimsKscOlMIaRgvEXE3V1XhnbWjH2rLO95fUHqekgcP/8TmMrxuFX2yzCT
+	5ivXHG1s1aim7SADs489sYLIQeiL+tmi7+eNurKd6h/8Cwol2SL6Qj+yJo+rd3lY
+	ruMQSd9pel9QCxw+21mFay0h2Xl5cZcm34HGGQbbwPD+EZZNjqJ751cQskakvaJC
+	pjCxO6jdyWlkpMFu3b6CXTb3TOOqH+LhU0ITMpxCCdjS+QmE0qZ3oGSITnym0oNh
+	1Us5ngAc9wQjIiCtJzF4mm488bTvcNhpRllFd1Uutg==
+X-ME-Sender: <xms:7xENaZKDQ-f0H8dipz7LmuqHyDvsvBVXBn1vUtZMY_l9C6rft_2VQg>
+    <xme:7xENaRf7DbT9_Fibb6JPXsQ4PFBHpYTr4b6UywKuv5NE7971hNpC1WiUMALSRo_EA
+    dnD5yiv8UnEF5Wfu8ffrhYT7sZz6QI1PaGniPuoW4dgHtZZJqaaw8U>
+X-ME-Received: <xmr:7xENaTU1tF6Q8lqvbuA1NHqKONFerS-Xlmi6xK-Cg0a4w2m1IdbGc39C-WX4XFCkhZGedQkWqfqlQ54Si2lYaCeo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddukeejkeehucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhephffvvefufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpefpihhklhgr
-    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvsh
-    grshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeehiefgueevuedt
-    fefhheegkeevtdelueeukeevfeduhefhhfejfffggeffleefgeenucevlhhushhtvghruf
-    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhl
-    uhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopedutddpmhhouggvpe
-    hsmhhtphhouhhtpdhrtghpthhtohepghgvvghrthdorhgvnhgvshgrshesghhlihguvghr
-    rdgsvgdprhgtphhtthhopehmthhurhhquhgvthhtvgessggrhihlihgsrhgvrdgtohhmpd
-    hrtghpthhtohepshgsohihugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprhhosghh
-    sehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdroh
-    hrghdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthht
-    oheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-    dprhgtphhtthhopehlihhnuhigqdgtlhhksehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhr
-    tghpthhtohepuggvvhhitggvthhrvggvsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:NhANach23pq2CEgAPw14PP8N7SGVrGGKBmem-0yIVYQ3RojFDziXxg>
-    <xmx:NxANaUsFS0nCobnXIBeZqPVGEPaF7fpaW_Nigyb2s2qadf9DKps5Lg>
-    <xmx:NxANafsoT-kWiYzpUpQOEK3M1QP8fTpJqh6Wgk_D0qNs6K8bUdLM4Q>
-    <xmx:NxANaZE4ON7k_RKY03WPllN5CwG9lb4ptktQvYeFMbSTYlt6oGYK3w>
-    <xmx:NxANadJPuoGqZAm3ZI8b6vdwal4qeqEGHgmj6B1jEBxdEYz5m8991J0r>
+    gurhephffvvefufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpefpihhklhgrshcu
+    ufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrsh
+    esrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpedtheevfeeitddvkeeh
+    ffdvtdfgffeigfduffeiveduvdefleeifeetkeegveegteenucffohhmrghinhepkhgvrh
+    hnvghlrdhorhhgpdhfrhgvvgguvghskhhtohhprdhorhhgnecuvehluhhsthgvrhfuihii
+    vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhunh
+    gusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpthhtohepudejpdhmohguvgepshhm
+    thhpohhuthdprhgtphhtthhopehmrghrvghkrdhvrghsuhhtodhrvghnvghsrghssehmrg
+    hilhgsohigrdhorhhgpdhrtghpthhtohepghgvvghrthdorhgvnhgvshgrshesghhlihgu
+    vghrrdgsvgdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtg
+    hpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehfrhgrnhhk
+    rdgsihhnnhhssehimhhgthgvtgdrtghomhdprhgtphhtthhopehkrhiikhdoughtsehkvg
+    hrnhgvlhdrohhrghdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehl
+    ihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmhgrghhnuhhsrdgurghmmhesgh
+    hmrghilhdrtghomhdprhgtphhtthhopehmrghtthdrtghoshhtvghrsehimhhgthgvtgdr
+    tghomh
+X-ME-Proxy: <xmx:7xENaXgEqYayuUJsvDwpDXQjhsJ35rE8ywSxpnEExcn3FrlIwWLD7g>
+    <xmx:7xENaVhTfCFYfal8ykPc769Q9kIaKGlI6PrdPIYMVHE7NyXWsvpyIw>
+    <xmx:7xENaUtlljyWtdtu-hPN0kojZbiUf4acGChKgndGy1KlkWf3oAis-Q>
+    <xmx:7xENabs17mKqp3bZBnZBW-Iub0rf3vrbG_oJMKDHoSzCHiXEIa3evA>
+    <xmx:8BENaed0UvF0zQMsFzkA12fZkJueziqw9hu30RYi3qBYcaOIPZZ7EdUO>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 6 Nov 2025 16:16:38 -0500 (EST)
+ 6 Nov 2025 16:23:59 -0500 (EST)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Conor Dooley <conor+dt@kernel.org>,
-	linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org
+	David Airlie <airlied@gmail.com>,
+	Frank Binns <frank.binns@imgtec.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Matt Coster <matt.coster@imgtec.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Simona Vetter <simona@ffwll.ch>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-renesas-soc@vger.kernel.org
 Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v2 4/4] clk: renesas: r8a779a0: Add 3dge module clock
-Date: Thu,  6 Nov 2025 22:16:04 +0100
-Message-ID: <20251106211604.2766465-5-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v2 0/2] arm64: dts: renesas: Describe GPU on V3U
+Date: Thu,  6 Nov 2025 22:23:40 +0100
+Message-ID: <20251106212342.2771579-1-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.51.1
-In-Reply-To: <20251106211604.2766465-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20251106211604.2766465-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -116,26 +121,106 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Describe the 3DGE module clock needed to operate the PowerVR GPU.
+Hello,
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- drivers/clk/renesas/r8a779a0-cpg-mssr.c | 1 +
- 1 file changed, 1 insertion(+)
+This series adds the needed bindings to operate the PowerVR GPU on R-Car
+V3U SoCs. The works build on the efforts of Marek in [1], and patch 1/2
+depends that series. While patch 2/2 depends on the new clock id for the 
+ZG clock posted [2].
 
-diff --git a/drivers/clk/renesas/r8a779a0-cpg-mssr.c b/drivers/clk/renesas/r8a779a0-cpg-mssr.c
-index 449611432059..d67dff05d9f4 100644
---- a/drivers/clk/renesas/r8a779a0-cpg-mssr.c
-+++ b/drivers/clk/renesas/r8a779a0-cpg-mssr.c
-@@ -142,6 +142,7 @@ static const struct cpg_core_clk r8a779a0_core_clks[] __initconst = {
- };
- 
- static const struct mssr_mod_clk r8a779a0_mod_clks[] __initconst = {
-+	DEF_MOD("3dge",		  0,	R8A779A0_CLK_ZG),
- 	DEF_MOD("isp0",		 16,	R8A779A0_CLK_S1D1),
- 	DEF_MOD("isp1",		 17,	R8A779A0_CLK_S1D1),
- 	DEF_MOD("isp2",		 18,	R8A779A0_CLK_S1D1),
+I'm able to load the firmware from [3].
+
+    powervr fd000000.gsx: [drm] loaded firmware powervr/rogue_15.5.1.64_v1.fw
+    powervr fd000000.gsx: [drm] FW version v1.0 (build 6889268 OS)
+    powervr fd000000.gsx: [drm] Unsupported quirks in firmware image
+    [drm] Initialized powervr 1.0.0 for fd000000.gsx on minor 1
+
+I can get run vulkaninfo from mesa.
+
+    # PVR_I_WANT_A_BROKEN_VULKAN_DRIVER=1 meson devenv -C builddir vulkaninfo --summary
+    'DISPLAY' environment variable not set... skipping surface info
+    WARNING: powervr is not a conformant Vulkan implementation, testing use only.
+    MESA: warning: ../src/imagination/vulkan/pvr_job_context.c:73: FINISHME: Missing reset support for brn58839
+    MESA: warning: ../src/imagination/vulkan/pvr_job_context.c:521: FINISHME: Missing support for brn62269
+    MESA: warning: ../src/imagination/vulkan/pvr_border.c:117: FINISHME: Devices without tpu_border_colour_enhanced require entries for compressed formats to be stored in the table pre-compressed.
+    ==========
+    VULKANINFO
+    ==========
+
+    Vulkan Instance Version: 1.4.328
+
+
+    Instance Extensions: count = 20
+    -------------------------------
+    VK_EXT_debug_report                    : extension revision 10
+    VK_EXT_debug_utils                     : extension revision 2
+    VK_EXT_headless_surface                : extension revision 1
+    VK_EXT_surface_maintenance1            : extension revision 1
+    VK_EXT_swapchain_colorspace            : extension revision 5
+    VK_KHR_device_group_creation           : extension revision 1
+    VK_KHR_display                         : extension revision 23
+    VK_KHR_external_fence_capabilities     : extension revision 1
+    VK_KHR_external_memory_capabilities    : extension revision 1
+    VK_KHR_external_semaphore_capabilities : extension revision 1
+    VK_KHR_get_display_properties2         : extension revision 1
+    VK_KHR_get_physical_device_properties2 : extension revision 2
+    VK_KHR_get_surface_capabilities2       : extension revision 1
+    VK_KHR_portability_enumeration         : extension revision 1
+    VK_KHR_surface                         : extension revision 25
+    VK_KHR_surface_protected_capabilities  : extension revision 1
+    VK_KHR_wayland_surface                 : extension revision 6
+    VK_KHR_xcb_surface                     : extension revision 6
+    VK_KHR_xlib_surface                    : extension revision 6
+    VK_LUNARG_direct_driver_loading        : extension revision 1
+
+    Instance Layers:
+    ----------------
+
+    Devices:
+    ========
+    GPU0:
+            apiVersion         = 1.2.330
+            driverVersion      = 25.99.99
+            vendorID           = 0x1010
+            deviceID           = 0x15001064
+            deviceType         = PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU
+            deviceName         = PowerVR Rogue GE7800
+            driverID           = DRIVER_ID_IMAGINATION_OPEN_SOURCE_MESA
+            driverName         = Imagination open-source Mesa driver
+            driverInfo         = Mesa 26.0.0-devel (git-8fb0621f2d)
+            conformanceVersion = 1.3.8.4
+            deviceUUID         = 10131290-a76c-6b0d-6850-cdf5a340a60d
+            driverUUID         = 2e8b7d4b-71a8-3b5a-e19f-86a7a450b7ab
+    GPU1:
+            apiVersion         = 1.4.330
+            driverVersion      = 25.99.99
+            vendorID           = 0x10005
+            deviceID           = 0x0000
+            deviceType         = PHYSICAL_DEVICE_TYPE_CPU
+            deviceName         = llvmpipe (LLVM 21.1.4, 128 bits)
+            driverID           = DRIVER_ID_MESA_LLVMPIPE
+            driverName         = llvmpipe
+            driverInfo         = Mesa 26.0.0-devel (git-8fb0621f2d) (LLVM 21.1.4)
+            conformanceVersion = 1.3.1.1
+            deviceUUID         = 6d657361-3236-2e30-2e30-2d6465766500
+
+And test applications such as gears work as they should.
+
+See individual patch for changelog.
+
+1. https://lore.kernel.org/linux-renesas-soc/20251104135716.12497-1-marek.vasut+renesas@mailbox.org/
+2. https://lore.kernel.org/linux-renesas-soc/20251106211604.2766465-1-niklas.soderlund%2Brenesas@ragnatech.se/
+3. https://gitlab.freedesktop.org/imagination/linux-firmware/-/issues/13
+
+Niklas Söderlund (2):
+  dt-bindings: gpu: img,powervr-rogue: Document GE7800 GPU in Renesas
+    R-Car V3U
+  arm64: dts: renesas: r8a779a0: Add GE7800 GPU node
+
+ .../bindings/gpu/img,powervr-rogue.yaml         |  4 +++-
+ arch/arm64/boot/dts/renesas/r8a779a0.dtsi       | 17 +++++++++++++++++
+ 2 files changed, 20 insertions(+), 1 deletion(-)
+
 -- 
 2.51.1
 
