@@ -1,172 +1,151 @@
-Return-Path: <linux-renesas-soc+bounces-24288-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24289-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44C98C3D7D7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 06 Nov 2025 22:24:11 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEE73C3DD19
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 07 Nov 2025 00:25:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B526A18857E6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Nov 2025 21:24:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2B1FE18816AE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Nov 2025 23:25:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A77613064A4;
-	Thu,  6 Nov 2025 21:24:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDAF73043A9;
+	Thu,  6 Nov 2025 23:24:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="N+mbpBjY";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="o6m80hTS"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="cfPsFuj1";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Wjc1uQ3x"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D4461D432D;
-	Thu,  6 Nov 2025 21:24:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D927306B35
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  6 Nov 2025 23:24:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762464248; cv=none; b=JgWdo/bKR4dZBQQ8ZDC4wAJte1YZz0KaPjFmzVcYW4dDSY7Gt6XKyZQr4doFUrIacsRF+WLTXQUDmY1YcykMu6X6IIPVfNh4ycbvbAR9lkwO0kBVi5BGLvAsOxMhnD2ubn/7vfPkEDrMvOF4ZZXWxJNRr5Pxx3zsYRTd3M4SKYs=
+	t=1762471478; cv=none; b=FysEh197hVZjHVkC6wJ93bPHi/h3sR8zDDLPOKubSM5pb0MprN1SkBt1PvhL3E8Henio0NtqScgsFqVT1eQthVcmmT1PQuiZZIu730Lx/F0cCk6wOj5kdhQFDuIMt8GiA4Vy2h2lCWszhDsTOLMHafmZSOXOCbP1m1CPSdAtbR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762464248; c=relaxed/simple;
-	bh=puiD/4ZEBjST7gJqWbkY1uXiGwyD6zCxlCA7VZI1q4E=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZQwTT8TBwuZfYg3smdhwMbykIqaewdHLn/AbPPxPsPQDkEeIUMwhtNl/2Hg8QUHXW86Stoj+oUf5dkvA3xqhiy1pCVtQ7A86cWjRDUdKulF6NFHz92JX5wyWcgTyWzWvEIhyVis4HC40shRMU7ztH9dt1xEhBFLlf5WoR9hUH+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=N+mbpBjY; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=o6m80hTS; arc=none smtp.client-ip=103.168.172.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 0F85314000B8;
-	Thu,  6 Nov 2025 16:24:06 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Thu, 06 Nov 2025 16:24:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1762464246;
-	 x=1762550646; bh=2qCxCx4mvL7O/F6l6ezZJaJhcFM77/ZI3N0lNRey/ec=; b=
-	N+mbpBjYFRsEm0UuUP8YwUM3n/gqbSVI4Vx6GO/1MB+wIm6Lcy5IhTyS8g9mYrKs
-	h3HaL4qcV5Gw5mgs1C7yOpuwIrN84+L5Eb1hiPyH4e96jbXbLIjfLuTODMvAZ/JB
-	QVCwbbE02qd/mlSPgHzS9kMJhVw5PQUdAplbyptHmLmFQOK39agXpZ1U+FvV4eqs
-	z86yQ8zZFiTN2e4ynQP6VhWj60pui2/PsXpE8jkgfU8uU4Ti1e8QBt6zot/48tWz
-	m4q4dNkctivMIHX6WS3So7xo1CU33EQRzsWCr1pNVDAO8M/VqhcaJv5jP+rDHU1K
-	SJHUKalc6XVHsrs+tOOmuA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1762464246; x=
-	1762550646; bh=2qCxCx4mvL7O/F6l6ezZJaJhcFM77/ZI3N0lNRey/ec=; b=o
-	6m80hTSO1G/ORwRCSPiCJ6WnUZXuoCedH8y6XA2Uo1m/NX6zswXW3UjKujc5vdgV
-	df0oiPgPDNqqYVxEmCDD07+CN+nhHga8mImSyayUc0iYErLyjp9VjRtn7EZA4iI0
-	Bsc6wESEpcEsaGeOaCVwi7sH5WL+Z9vkSakl6fZbb0w+1shhDh2ZVmSuYyIqeoiE
-	EoegcxEXt+w2bqE1eCinW6+BUFJU+RxBHAiiHl9oas8ui0E6ZP6UU7r4f0NdIPwC
-	BV4aHDpCQIKjjdiss53ngWueMIrQlB/1Cc2jG4NAa0QLwmWDpci2FX3FLAtlvrah
-	aTWzunb8EaBtcKBtNhnqg==
-X-ME-Sender: <xms:9RENaQFYMzRn7vLlEK5XlnyxD5TTmMfs9ZTvo1dx66Y2UsggXaDOrg>
-    <xme:9RENadcAzxNBHuD1t3UVnUZAO2TWUUdTciLGmNhBU7ko8RnpUjepc1gHslA1ZBJkx
-    sUE_vCx2VznSLrnzPJUtkmGQdfsebYGv_EALy43E6fmzo0-VLOX65Y>
-X-ME-Received: <xmr:9RENaXJEXeujiVM9oflzJbZg8X1yi4UvhTs6MOIlzyMn-Rjz0pUAmpCBbE4WG2RNDRjCZaFY8AMwrvPeOugW2SBX>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddukeejkeehucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhephffvvefufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpefpihhklhgr
-    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvsh
-    grshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeehiefgueevuedt
-    fefhheegkeevtdelueeukeevfeduhefhhfejfffggeffleefgeenucevlhhushhtvghruf
-    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhl
-    uhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopedujedpmhhouggvpe
-    hsmhhtphhouhhtpdhrtghpthhtohepmhgrrhgvkhdrvhgrshhuthdorhgvnhgvshgrshes
-    mhgrihhlsghogidrohhrghdprhgtphhtthhopehgvggvrhhtodhrvghnvghsrghssehglh
-    hiuggvrhdrsggvpdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdp
-    rhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepfhhrrg
-    hnkhdrsghinhhnshesihhmghhtvggtrdgtohhmpdhrtghpthhtohepkhhriihkodguthes
-    khgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhsth
-    eslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrghgnhhushdruggrmhhm
-    sehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhgrthhtrdgtohhsthgvrhesihhmghhtvg
-    gtrdgtohhm
-X-ME-Proxy: <xmx:9RENacosLrqqO02nJ-dhObQn-dbVlCnU7q1e1xyJ-iOh5NDuiYlSLg>
-    <xmx:9RENadVmxFqQGEpj_Rjyv6ipGw38L6OInEXIYDPRtRDpRw4f5_8y8Q>
-    <xmx:9RENaX3ZHql4dpv3gKIgmubnsSu3GZO_zuOtvhGCMYkkeH8xGxpE5Q>
-    <xmx:9RENae2D7Tt1DVXsfKXxEUSuQTNsgDOUZlSppVxRMJsQ9WJU5JFzLg>
-    <xmx:9hENaSbmNKkqppbwiATQYPCZovbhlKUDAWWvtybIwQuXH88xRXrJOOAM>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 6 Nov 2025 16:24:04 -0500 (EST)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Conor Dooley <conor+dt@kernel.org>,
+	s=arc-20240116; t=1762471478; c=relaxed/simple;
+	bh=G6OwdFjIhXZA8LAbVSp+Bte8NSL9Q2beev0KE65r4Qo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jWXIxacroinCLRWgD1xnoQRcaeilP8+0Plzs90pgv8nsSLDkbRgcN7Zl+KVtcT8OqBN2SjieI2sjKpRKVtMWiWFWYculkYRgteGiPkuQm3BMmPUTRMbGsO93uHvPxInqqP1zEUHCKYqK3eyQ657HOIOCvpH87C7vC6QzfdIjbHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=cfPsFuj1; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Wjc1uQ3x; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4d2dZ53GBMz9tPr;
+	Fri,  7 Nov 2025 00:24:29 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1762471469;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=2RVNypdI0ZL+nFsFit0WdhuxHLthDwL94DW+f0yYzT8=;
+	b=cfPsFuj1qz/2bL3Bbvnn3Vux6lixTi1sKSptwHwcJXq+hYCWGQ7JqSBGg3D2tsgM1IRSUn
+	HQLFHn/7kglaMpceZoGTRkLidDjMJMKCVGE7nGZNs2w8fUZAJRFb2NXrYPjdkbLTwgdbRu
+	6FfmT8kb/SeWYn19t+9qrmSeR9P0DJT5q9M1bUGBZIN0A2wJpMltxl5BA1dHclz4DraYuD
+	HR7VK1WIwjFjbHYy7mvWk1m4X6xgip7pVLIV7m8KLJERvqQ6fNgshjBOgbf88txkRtV0KO
+	/IPFMvA+wm0/n4UASjqfmEFrwzlh/kRCrlsB1w8IIB4IPbw8KFGWlN4+kQuZzg==
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1762471467;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=2RVNypdI0ZL+nFsFit0WdhuxHLthDwL94DW+f0yYzT8=;
+	b=Wjc1uQ3xUu0qKKzL/d6MdEJLgXMT1Ve2EU2g7MGQLZ04fYzSepHhxr3kjgQrTssYJDJZIk
+	L58sE/2xP1j1cKTmPWbYowz0AsLwZfugroBiwAcbgpRQeKGOATOX1seySZMdYd89v46gMJ
+	Ic23tezdWYnMZjmhim8Im4fc316pKnejYnZS6rtHt/YquOKEacVn/3Rp+kSrxnY1mwebmB
+	w6Kd2xQCRn5WNvgP88Z9dH2PkSGC3NlE7A1YFv8eSPiSgH++bdIDvKjhZ7jeSmFPuDWVbJ
+	LJivme8pCX0OaSdAFFka7Klfguf526vpNg1PD7FadS3/BzPviJEtHWaIio3RHg==
+To: dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
 	David Airlie <airlied@gmail.com>,
 	Frank Binns <frank.binns@imgtec.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
 	Matt Coster <matt.coster@imgtec.com>,
 	Maxime Ripard <mripard@kernel.org>,
-	Rob Herring <robh@kernel.org>,
 	Simona Vetter <simona@ffwll.ch>,
 	Thomas Zimmermann <tzimmermann@suse.de>,
-	devicetree@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
 	linux-renesas-soc@vger.kernel.org
-Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v2 2/2] arm64: dts: renesas: r8a779a0: Add GE7800 GPU node
-Date: Thu,  6 Nov 2025 22:23:42 +0100
-Message-ID: <20251106212342.2771579-3-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.51.1
-In-Reply-To: <20251106212342.2771579-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20251106212342.2771579-1-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH] drm/imagination: Fix build on 32bit systems
+Date: Fri,  7 Nov 2025 00:24:07 +0100
+Message-ID: <20251106232413.465995-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 05b42a57da46a4b2821
+X-MBO-RS-META: 4x5ig8zttjwc3y8dmymrjcb889rurnmx
 
-Describe Imagination Technologies PowerVR Rogue GE7800 BNVC 15.5.1.64
-present in Renesas R-Car R8A779A0 V3U SoC.
+Fix support for build on 32bit systems. Include linux/io-64-nonatomic-hi-lo.h
+to provide non-atomic readq()/writeq()/ioread64()/iowrite64() accessors, and
+use __ffs64() instead of plain ffs() on 64bit number SZ_1T.
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Reviewed-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+This allows this driver to bind on Renesas R-Car H2 which contains
+Rogue G6400 BVNC 1.39.4.1 .
+
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 ---
-* Changes since v1
-- Rename node gpu from gsx.
-- Fix sort order (by unit address) in DTS file.
+Cc: David Airlie <airlied@gmail.com>
+Cc: Frank Binns <frank.binns@imgtec.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Matt Coster <matt.coster@imgtec.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-renesas-soc@vger.kernel.org
 ---
- arch/arm64/boot/dts/renesas/r8a779a0.dtsi | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ drivers/gpu/drm/imagination/Kconfig      | 2 +-
+ drivers/gpu/drm/imagination/pvr_device.h | 1 +
+ drivers/gpu/drm/imagination/pvr_mmu.h    | 2 +-
+ 3 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-index b08865841476..4b101a6dc49d 100644
---- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-@@ -2337,6 +2337,23 @@ gic: interrupt-controller@f1000000 {
- 			interrupts = <GIC_PPI 9 IRQ_TYPE_LEVEL_HIGH>;
- 		};
+diff --git a/drivers/gpu/drm/imagination/Kconfig b/drivers/gpu/drm/imagination/Kconfig
+index 0482bfcefdde..6d177f0568cd 100644
+--- a/drivers/gpu/drm/imagination/Kconfig
++++ b/drivers/gpu/drm/imagination/Kconfig
+@@ -3,7 +3,7 @@
  
-+		gpu: gpu@fd000000 {
-+			compatible = "renesas,r8a779a0-gpu",
-+				     "img,img-ge7800",
-+				     "img,img-rogue";
-+			reg = <0 0xfd000000 0 0x40000>;
-+			interrupts = <GIC_SPI 223 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_CORE R8A779A0_CLK_ZG>,
-+				 <&cpg CPG_CORE R8A779A0_CLK_S3D1>,
-+				 <&cpg CPG_MOD 0>;
-+			clock-names = "core", "mem", "sys";
-+			power-domains = <&sysc R8A779A0_PD_3DG_A>,
-+					<&sysc R8A779A0_PD_3DG_B>;
-+			power-domain-names = "a", "b";
-+			resets = <&cpg 0>;
-+			status = "disabled";
-+		};
-+
- 		fcpvd0: fcp@fea10000 {
- 			compatible = "renesas,fcpv";
- 			reg = <0 0xfea10000 0 0x200>;
+ config DRM_POWERVR
+ 	tristate "Imagination Technologies PowerVR (Series 6 and later) & IMG Graphics"
+-	depends on (ARM64 || RISCV && 64BIT)
++	depends on ARM || ARM64 || RISCV
+ 	depends on DRM
+ 	depends on MMU
+ 	depends on PM
+diff --git a/drivers/gpu/drm/imagination/pvr_device.h b/drivers/gpu/drm/imagination/pvr_device.h
+index ab8f56ae15df..efdd355005c0 100644
+--- a/drivers/gpu/drm/imagination/pvr_device.h
++++ b/drivers/gpu/drm/imagination/pvr_device.h
+@@ -20,6 +20,7 @@
+ #include <linux/compiler_types.h>
+ #include <linux/device.h>
+ #include <linux/io.h>
++#include <linux/io-64-nonatomic-hi-lo.h>
+ #include <linux/iopoll.h>
+ #include <linux/kernel.h>
+ #include <linux/math.h>
+diff --git a/drivers/gpu/drm/imagination/pvr_mmu.h b/drivers/gpu/drm/imagination/pvr_mmu.h
+index a8ecd460168d..6431e4314735 100644
+--- a/drivers/gpu/drm/imagination/pvr_mmu.h
++++ b/drivers/gpu/drm/imagination/pvr_mmu.h
+@@ -85,7 +85,7 @@ struct sg_table;
+  *    notes on that constant apply here.
+  */
+ #define PVR_PAGE_TABLE_ADDR_SPACE_SIZE SZ_1T
+-#define PVR_PAGE_TABLE_ADDR_BITS __ffs(PVR_PAGE_TABLE_ADDR_SPACE_SIZE)
++#define PVR_PAGE_TABLE_ADDR_BITS __ffs64(PVR_PAGE_TABLE_ADDR_SPACE_SIZE)
+ #define PVR_PAGE_TABLE_ADDR_MASK (PVR_PAGE_TABLE_ADDR_SPACE_SIZE - 1)
+ 
+ void pvr_mmu_flush_request_all(struct pvr_device *pvr_dev);
 -- 
-2.51.1
+2.51.0
 
 
