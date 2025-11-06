@@ -1,70 +1,67 @@
-Return-Path: <linux-renesas-soc+bounces-24274-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24275-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47DD4C3CCBE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 06 Nov 2025 18:22:57 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47980C3CE43
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 06 Nov 2025 18:40:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 75C56625E7C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Nov 2025 17:16:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DFAFB1882C0D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Nov 2025 17:41:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4976334DCFD;
-	Thu,  6 Nov 2025 17:16:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0556B346A18;
+	Thu,  6 Nov 2025 17:40:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WBXSnnF9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WbVAZQip"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A6842D8364;
-	Thu,  6 Nov 2025 17:16:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D03F533030C;
+	Thu,  6 Nov 2025 17:40:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762449409; cv=none; b=Tou9weQEohSMUpATOkW8bX//RnjID8PK1umSIzJqK60bkyHcwx44leSldLLYBUev7RA14EB1Ba9+yNkBVq7lb4qVqd7TEl7cp0+oJwwik/Zu0BGQIr7rRYVwmzStLTyotOG1Dz0ACt1PKNMn8rVSJjEbe6e8aY/CC0rNVmhONrY=
+	t=1762450832; cv=none; b=kXjE2JtXImt27IwSIJp71/XaueocyJGfUos33xYLnNnPvjVv0RvoGsTwjcxI1P4MbHHrofuF4Adejeo8TUghjU7pQ7d/I/Wv8dhmIje9gqECI4zfk0fhJDBcP+3YyjIJoptI3apJIM8QRtm94r9J42o2geeGQHTWvun+EwEjmI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762449409; c=relaxed/simple;
-	bh=m2R6rCvNW5OaSjGYhwlRezMk4Up1eORABKGwhXYzmkc=;
+	s=arc-20240116; t=1762450832; c=relaxed/simple;
+	bh=5p+0b8Clnp2p5Xtmd2HAgDF9wUuv2mhGSLMgm4qPzSg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MTn6X+ZCtQMdAvHfXHLv8r0yyKt8X1h3VADLK1ui8rI+Fs5tN+m2NxO1uQs/NIw2YWMnOc621hZsyjgr6SpF6wDkMtpIr3k3FbzvQvxLXQcBhjw4KoNixmlncEp0+gibo+wq7hrarCs9m9JSwtZXphOTh1TjtPY8mhkFia4RzFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WBXSnnF9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F685C4CEFB;
-	Thu,  6 Nov 2025 17:16:45 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=D4+tDKjaiJ2Y//9MltjmybFWeMFJ3myR1hFV2xUYiVS0H3CJ214gXFntB7SWUdeOrIxc3WrrTZ7wnUTIFiFNCjkBR7FWdV+j9+zhtQhH3qiOfPv5R1IMWOgk/4K7OumjGJ7ibZH0B22YwgokJKpyJAF3SP3QsAqJVQbwnpnlSQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WbVAZQip; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61498C4CEF7;
+	Thu,  6 Nov 2025 17:40:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762449408;
-	bh=m2R6rCvNW5OaSjGYhwlRezMk4Up1eORABKGwhXYzmkc=;
+	s=k20201202; t=1762450832;
+	bh=5p+0b8Clnp2p5Xtmd2HAgDF9wUuv2mhGSLMgm4qPzSg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WBXSnnF9W5vKavhDwgGuHzbE3prgSH7iJhiScZwimP5W/oBKLACeVHIUUeBjrv7ws
-	 GxsgN0bp3CF7lD0o4BpXql8NYOTcoH8PGzczGp2mNPBgBLtjW4sR3mOZij4KQ9G6dK
-	 8GtAe5plrOTzdoRHNREXUHaRBSTtxmH4qUWk8eMYxHBdMOmqWAp+eQkcnWu/4ZygyH
-	 /Yin43oaNzuiBwcrmmW4HaW5ym81Q3B1bCfmeWIDWwCMak0upGr4W4kRvMiPzLlJK+
-	 mYURV6HaVUklalFX/RXFXCfyVcGSNPTRJbiDKJoDPQRL7qPspwNLdnKgtQPzPciiP2
-	 nWcxhxx8naCHg==
-Date: Thu, 6 Nov 2025 17:16:42 +0000
+	b=WbVAZQipRy2EOOC/+c4YnyS5CnGncofhBgcTLtxgo57Vi7S2g6t8qmZFAWLYZX/F2
+	 /0AOOa9hsy4dEf43OgNMW3JNI6AY8xpKxci0/GF4QNnlUUEUcPG55l2/Tx+PtCwLmr
+	 eat0Hxn776b2QtDXjfjeEf5TeYI7QanWe3gut+fFOzewH+59DwCl7z+nGTLOM4CHTV
+	 oTIhRG/0q+c7v3g4EAdeh8JYCuDtCq8mhu2H1jTxMzHNdfOt48HN5GHQUagdiT5b1w
+	 yMygHch6XapHLUSu881s3yoauCoKF7pqh4XKN2HIyh/zQiNcIdpB3F2ErnccTTCvYB
+	 f/t2xr/4mx+vA==
+Date: Thu, 6 Nov 2025 17:40:27 +0000
 From: Conor Dooley <conor@kernel.org>
-To: Michael Dege <michael.dege@renesas.com>
-Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
-	Paul Barker <paul@pbarker.dev>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>, netdev@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: Re: [PATCH net-next 03/10] dt-bindings: net:
- renesas,r8a779f0-ether-switch.yaml: add optional property link-pin
-Message-ID: <20251106-finisher-fame-8ec10b3d09f7@spud>
-References: <20251106-add_l3_routing-v1-0-dcbb8368ca54@renesas.com>
- <20251106-add_l3_routing-v1-3-dcbb8368ca54@renesas.com>
+	Conor Dooley <conor+dt@kernel.org>,
+	David Airlie <airlied@gmail.com>,
+	Frank Binns <frank.binns@imgtec.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Matt Coster <matt.coster@imgtec.com>,
+	Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
+	Simona Vetter <simona@ffwll.ch>,
+	Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: gpu: img,powervr-rogue: Document GE7800
+ GPU in Renesas R-Car V3U
+Message-ID: <20251106-tint-thicken-c1144805dbe4@spud>
+References: <20251105232737.1933437-1-niklas.soderlund+renesas@ragnatech.se>
+ <20251105232737.1933437-2-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -72,67 +69,28 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cwPvpkMHZjNpCD3l"
+	protocol="application/pgp-signature"; boundary="nug6ibDGNUNHBi09"
 Content-Disposition: inline
-In-Reply-To: <20251106-add_l3_routing-v1-3-dcbb8368ca54@renesas.com>
+In-Reply-To: <20251105232737.1933437-2-niklas.soderlund+renesas@ragnatech.se>
 
 
---cwPvpkMHZjNpCD3l
+--nug6ibDGNUNHBi09
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 06, 2025 at 01:55:27PM +0100, Michael Dege wrote:
-> Add optional ether-port property link-pin <empty>
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+pw-bot: not-applicable
 
-Whats this <empty> about?
-
-> Signed-off-by: Michael Dege <michael.dege@renesas.com>
-> ---
->  .../devicetree/bindings/net/renesas,r8a779f0-ether-switch.yaml         |=
- 3 +++
->  1 file changed, 3 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/net/renesas,r8a779f0-ether=
--switch.yaml b/Documentation/devicetree/bindings/net/renesas,r8a779f0-ether=
--switch.yaml
-> index e933a1e48d67..54cd427d8ae5 100644
-> --- a/Documentation/devicetree/bindings/net/renesas,r8a779f0-ether-switch=
-=2Eyaml
-> +++ b/Documentation/devicetree/bindings/net/renesas,r8a779f0-ether-switch=
-=2Eyaml
-> @@ -126,6 +126,9 @@ properties:
->            - phys
->            - mdio
-> =20
-> +	optional:
-> +	  - link-pin
-
-Missing a definition for the property. "optional:" isn't a thing,
-anything not required is optional. Clearly you didn't test this. Please
-look at what every other binding does for (what I assume is) a "boolean"
-or "flag" property.
-pw-bot: changes-requested
-
-> +
->  required:
->    - compatible
->    - reg
->=20
-> --=20
-> 2.43.0
->=20
-
---cwPvpkMHZjNpCD3l
+--nug6ibDGNUNHBi09
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaQzX+gAKCRB4tDGHoIJi
-0tEuAQCWq4RbckuVsJIWA5+9HT/0p63wpkODzDl+RSZ6QSkQ4QEAmJaQNRgoql/p
-uGtYFpurnwbUPfWrRuHTMD+NcnmEngM=
-=+9B/
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaQzdiwAKCRB4tDGHoIJi
+0q5zAQDQO3HU4rBHEYYaA6op6DN3b+E6VTQEq+5YjfFxJtsiDQEAqJ3q5tQGcerO
+A41x5Hh8DasWQ9gqFNN1XGWaoCJ8fg0=
+=ba9X
 -----END PGP SIGNATURE-----
 
---cwPvpkMHZjNpCD3l--
+--nug6ibDGNUNHBi09--
 
