@@ -1,160 +1,391 @@
-Return-Path: <linux-renesas-soc+bounces-24332-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24333-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0549BC40385
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 07 Nov 2025 14:57:17 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50DF6C40E56
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 07 Nov 2025 17:33:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 7E27534E100
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Nov 2025 13:57:16 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 132D14EDA10
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Nov 2025 16:31:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0AC21EB9FA;
-	Fri,  7 Nov 2025 13:57:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 681CE330316;
+	Fri,  7 Nov 2025 16:31:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="QycylM6I"
+	dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b="BzOuFLI6"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7BDF31A57A
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  7 Nov 2025 13:57:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A20C5329C68;
+	Fri,  7 Nov 2025 16:31:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.120.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762523831; cv=none; b=myz6aj5zxgzD9ikc53DD3+mExyB1qO87ipQ2tlv1ATqKqEPMfaZ02JfIPqTnNeH4en+wGmHpgNxXM2hC/Ir8m72fUkPleuj1g9+OVCIjXXlbAu79iiEYMfalw7FiwVxRvTc8I/AfhzSHxIqIU59WW8H6mgVD6C8dNnfJ+bMUEQ8=
+	t=1762533083; cv=none; b=C8W8Bih6RW7891Xv2TP4mFgRpBIOWJZ7uxkDxUvALhlYAjM4mqOxHvex9D6HRivayo9OfDyr206I9XrngGRh1AXcTyKU0XXah7sYkd/PLBcJLfD/hGw+mepVdpHvwvlVvQydlVFzgYjznmGRsISdZCRz7D0MoyAFFjzCkgydPhc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762523831; c=relaxed/simple;
-	bh=QoBqVvIiyHtnCp25Mw2hvk506AGeXtu5mv1PB1IFNPw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kYHvLuyTJ3iLQmHjwVdGafzevj5gHrq5Q1SLccN11EV3X/syJ1VvWWlcCc4cZrsbkMjrGhZ78c73A5jBr6FQVdXlkrtuJl3wveMz8T80UNUs3WSBT68E3L6zX+xAHBjvF2GpUfLK5m29r+5Vjpa/UIXpXQlBBf7WlBS2508om1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=QycylM6I; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-429c8632fcbso529480f8f.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 07 Nov 2025 05:57:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1762523827; x=1763128627; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=0VmLd4TmbWi3pO02EMtCFDzEjoTj9D3vtdZ20gnZz7k=;
-        b=QycylM6IV3vlSBs3ffqDZbMQYZ+h8EuUpSC0HPoqXRLv1X2UwC0rOJQF/+BYdv6M/Q
-         L3vA5UcP80iEobz/PQwMgLpSGR3TX+SInvCTHvr1g4senuhikcN5EtYUfKuhTTe8Rawb
-         /BwNR26aHifPcFhZ9WDjUmUE9S2Ys3Y5a0UAXG2XQIcfEYX+kSTMIehCsatYFN6zJR/e
-         JhNavQAS1NgHyLq+xioyWDMm9Ko3E4ncpre/2NSEivE6HZmY5nvEjFQZrfZeRa4B05my
-         YuO/tidm74w+O5fHZO1Hlin43o2L77m2jS/pToY62yFhmD51QA72qTpu5579uXCT7cur
-         CWww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762523827; x=1763128627;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0VmLd4TmbWi3pO02EMtCFDzEjoTj9D3vtdZ20gnZz7k=;
-        b=rPLlWLIQB4gsG08F4NbzgaidVOfohg04N2So9A6JeuaAy7+fe+xtugnzxyjTMX/rLb
-         cwQ0Ejr0fkmO7NL4xAy7eSwi5ybpPpLlEyOU7AClXLhAHiRdmHDAlYn20DjC6FrjgzGi
-         Jd179dCotN356tH3YolspC1N4COsTfo+IoeKS9yugTO1gkE4UXBykcExmZj+N6r0CExZ
-         EMptU1WWzP2PPIMJ1C3MP6oRosv4KDPy/iYTCbCzFrrKP9IWyAf+v/jThExcCFc1HLVK
-         yhHpkv27N+I2POT33nzZRhsgk0VQglA52GCSh8BwGDlZ1P67NgYz5Bzo49VtIOEm747M
-         PB7A==
-X-Gm-Message-State: AOJu0YzNkbo6qg/j1+YEpE+kRNaAnLRhyjdKyMY+NHg31qrKuV8DZuGI
-	LAWrrPAogV4Scea5HJbCpnM/KVqFVVs8P9O2XzQ4ZB7LnDKA4cg6tZL7wTZ8oILhKA4=
-X-Gm-Gg: ASbGncsGEFC/zY/mndv23QA3rNwu4vvfDlG6q7rysVeMmX0bVvf5l+qVmd/FV4S6SLc
-	Cnuy8XJCNEIIjp2mnMXJHFQJ8uQXvOUXXtQ48aiXZ1SuMJnLgBglK89zbOc3kGVrJplRSB4Vlxj
-	hNH47+lH+WG8MHPbvD9Xbo9i2cEPAPa42CEmWQCzPmIFzSgZuzJPWuUiwDFP3Rlpmxwv1ApRw5z
-	aqHJ9XHOkDdhpfjYDCl+zq+2kMdknL9sChhqBctG2FvVGgjlzCaD7SNopLEUBMUxUJcqwe2H3E4
-	FGX/RAS3kETixjYoxvLW+vN8paz58N51KhxBEaEr4S9xgzVpiLL4KmoxmsI5ycx4yTCGCCE9jz/
-	UrG/Qzsgy8ZN2FjMCMYKPmQmFDY5fxXaqlxU4d1wgIYY43KiiKbbEz4TUJSJVrh11JpPPuA84nm
-	TSnKU/7dju/LsWSh1IsA0=
-X-Google-Smtp-Source: AGHT+IFNzArdXf4t2UMfnEZWESUdXXctRnrmk/7xD6bx06Tvd9y55mF7J5akLngfxZPSTKwQ2TazAw==
-X-Received: by 2002:a05:6000:656:b0:429:c2fb:48db with SMTP id ffacd0b85a97d-42aefb43675mr2340006f8f.49.1762523827006;
-        Fri, 07 Nov 2025 05:57:07 -0800 (PST)
-Received: from [192.168.50.4] ([82.78.167.134])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42ac675ca10sm5489263f8f.26.2025.11.07.05.57.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 07 Nov 2025 05:57:04 -0800 (PST)
-Message-ID: <a7f28253-b4c4-4965-a292-e4ab9dcc7f81@tuxon.dev>
-Date: Fri, 7 Nov 2025 15:57:02 +0200
+	s=arc-20240116; t=1762533083; c=relaxed/simple;
+	bh=2/Vsh86b3T7V2QfXWZuZEsWe1o8Tfu0WiGt1UI83ROc=;
+	h=Date:From:To:Cc:Message-Id:In-Reply-To:References:Mime-Version:
+	 Content-Type:Subject; b=PvVM1bHJuTiFmSb8MY0cB+fQ2JZxTLGBexXvzoe8ge6SXx22oi2dnS/9psiOLBFFCb5IDKisanT+UPJQH7OtEKcaVPuirH7YH/ln2SA7jOqrLFLdcCMrCHPxUpnmUhXbfAtnxKQ9vPaL3a28cxs35e77yLhCPyBuNHvRhnOxLAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com; spf=pass smtp.mailfrom=hugovil.com; dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b=BzOuFLI6; arc=none smtp.client-ip=162.243.120.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hugovil.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
+	; s=x; h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
+	:Date:subject:date:message-id:reply-to;
+	bh=zMKhJG1K1xlLlbs49/vRAdrd++Uf98my/gqCV3VP4m8=; b=BzOuFLI6O9wpo3w2M+GKssjD94
+	XqKPqDCoXRdYZRUlaNkRypcL7iZRkok/zJkGsiW9mrdEymqm0jTvRIpYKjyB1wbUwkGcNPUVp0ukv
+	KZ7NrhDPhp1EcUHRlrauZGNUouUiC1gbEm7h82fDi9dBrjEkoWa8+yXQT3RB/Q1s2LKc=;
+Received: from modemcable061.19-161-184.mc.videotron.ca ([184.161.19.61]:53684 helo=debian-lenovo)
+	by mail.hugovil.com with esmtpa (Exim 4.92)
+	(envelope-from <hugo@hugovil.com>)
+	id 1vHPMZ-0008NK-MP; Fri, 07 Nov 2025 11:31:00 -0500
+Date: Fri, 7 Nov 2025 11:30:58 -0500
+From: Hugo Villeneuve <hugo@hugovil.com>
+To: Chris Brandt <chris.brandt@renesas.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette
+ <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Biju Das
+ <biju.das.jz@bp.renesas.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Hien Huynh <hien.huynh.px@renesas.com>,
+ Nghia Vo <nghia.vo.zn@renesas.com>, linux-renesas-soc@vger.kernel.org,
+ linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org
+Message-Id: <20251107113058.f334957151d1a8dd94dd740b@hugovil.com>
+In-Reply-To: <20251105222530.979537-2-chris.brandt@renesas.com>
+References: <20251105222530.979537-1-chris.brandt@renesas.com>
+	<20251105222530.979537-2-chris.brandt@renesas.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] reset: rzg2l-usbphy-ctrl: Add suspend/resume support
-To: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20251106143327.3049052-1-claudiu.beznea.uj@bp.renesas.com>
- <20251106143327.3049052-3-claudiu.beznea.uj@bp.renesas.com>
- <575b271790b267ac4cbbb190b26341656e2c7e0c.camel@pengutronix.de>
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Content-Language: en-US
-In-Reply-To: <575b271790b267ac4cbbb190b26341656e2c7e0c.camel@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 184.161.19.61
+X-SA-Exim-Mail-From: hugo@hugovil.com
+X-Spam-Level: 
+X-Spam-Report: 
+	* -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+	* -1.8 NICE_REPLY_A Looks like a legit reply (A)
+Subject: Re: [PATCH v4 1/2] clk: renesas: rzg2l: Remove DSI clock rate
+ restrictions
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
 
-Hi, Philipp,
+Hi Chris,
 
-On 11/7/25 15:50, Philipp Zabel wrote:
-> On Do, 2025-11-06 at 16:33 +0200, Claudiu wrote:
->> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>
->> The RZ/G2L USBPHY control driver is also used on the RZ/G3S SoC.
->> The RZ/G3S SoC supports a power-saving mode in which power to most USB
->> components (including the USBPHY control block) is turned off. Because of
->> this, the USBPHY control block needs to be reconfigured when returning
->> from power-saving mode.
->>
->> Add suspend/resume support to handle runtime suspend/resume of the device,
->> assert/deassert the reset signal, and reinitialize the USBPHY control
->> block.
->>
->> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->> ---
->>  drivers/reset/reset-rzg2l-usbphy-ctrl.c | 94 +++++++++++++++++++++----
->>  1 file changed, 79 insertions(+), 15 deletions(-)
->>
->> diff --git a/drivers/reset/reset-rzg2l-usbphy-ctrl.c b/drivers/reset/reset-rzg2l-usbphy-ctrl.c
->> index 9ce0c1f5d465..8ba65839f6e4 100644
->> --- a/drivers/reset/reset-rzg2l-usbphy-ctrl.c
->> +++ b/drivers/reset/reset-rzg2l-usbphy-ctrl.c
-> [...]
->> @@ -266,10 +273,67 @@ static void rzg2l_usbphy_ctrl_remove(struct platform_device *pdev)
->>  	reset_control_assert(priv->rstc);
->>  }
->>  
->> +static int rzg2l_usbphy_ctrl_suspend(struct device *dev)
->> +{
->> +	struct rzg2l_usbphy_ctrl_priv *priv = dev_get_drvdata(dev);
->> +	int ret;
->> +
->> +	pm_runtime_put(dev);
+On Wed,  5 Nov 2025 17:25:29 -0500
+Chris Brandt <chris.brandt@renesas.com> wrote:
+
+> Convert the limited MIPI clock calculations to a full range of settings
+> based on math including H/W limitation validation.
+> Since the required DSI division setting must be specified from external
+> sources before calculations, expose a new API to set it.
 > 
-> Should this be pm_runtime_put_sync(dev)?
+> Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Tested-by: Biju Das <biju.das.jz@bp.renesas.com>
 > 
->> +
->> +	ret = reset_control_assert(priv->rstc);
->> +	if (ret)
->> +		goto rpm_resume;
->> +
->> +	ret = rzg2l_usbphy_ctrl_set_pwrrdy(priv->pwrrdy, false);
+> ---
+> v1->v2:
+> - Remove unnecessary parentheses
+> - Add target argument to new API
+> - DPI mode has more restrictions on DIV_A and DIV_B
 > 
-> This sets PWRRDY=1, and needs to be set after MSTOP=1,CLK_ON=0,
-> according to 58128aa88867 ("reset: rzg2l-usbphy-ctrl: Add support for
-> USB PWRRDY"). I assume MSTOP/CLK_ON refer to the PHY clock in that
-> description,
+> v2->v3:
+> - Removed Empty lines (Hugo)
+> - Add dummy for compile-testing CONFIG_CLK_RZG2L=n case (Geert)
+> - Renamed label found_dsi_div to calc_pll_clk (Hugo)
+> - Renamed label found_clk to clk_valid (Hugo)
+> - Removed 'found' var because not needed
+> - Move 'foutpostdiv_rate =' after if(foutvco_rate > 1500000000) (Hugo)
+> - Move PLL5_TARGET_* for new API to renesas.h (Hugo,Geert)
+> - Convert #define macros PLL5_TARGET_* to enum (Geert)
+> - static {unsigned} int dsi_div_ab; (Geert)
+> - {unsigned} int a, b;  (Geert)
+> - Change "((1 << a) * (b + 1))" to "(b + 1) << a"  (Geert)
+> - Change "foutvco_rate = rate * (1 << xxx ) * ..." to " = rate * ... * << xxx (Geert)
+> - Move (u64) outside of modulo operation to avoid helper on 32-bit compiles (Geert)
+> - Change DIV_ROUND_CLOSEST_ULL() to DIV_ROUND_CLOSEST() (Geert)
+> - void rzg2l_cpg_dsi_div_set_divider({unsinged} int divider, int target)
+> - Change "dsi_div_ab = (1 << AAA) * (BBB + 1)" to " = (BBB + 1) << AAA (Geert)
+> - Added Reviewed-by and Tested-by (Biju)
+> 
+> v3->v4:
+> - Changed <,> to <=,>=  (Hugo)
+> - Removed duplicate code bock (copy/paste mistake) (Hugo)
+> - Fix dummy for rzg2l_cpg_dsi_div_set_divider when CONFIG_CLK_RZG2L=n (Geert)
+> - Remove comment "Below conditions must be set.." (Hugo)
+> - Remove +1,-1 from pl5_intin comparison math (kernel test robot)
+> - Remove default register settings (PLL5_xxx_DEF) because makes no sense
+> - If any calcualtion error, print a message and return a rate of 0
+> - Rename global var "dsi_div_ab" to "dsi_div_ab_desired"
+> - Check the range of hsclk
+> - The correct clock parent is determined by if the divider is even/odd
+> - Add in all the restrictions from DIV A,B from the hardware manual
+> - No more need to be a recursive function
+> - DPI settings must have DSI_DIV_B be '0' (divide 1/1)
+> ---
+>  drivers/clk/renesas/rzg2l-cpg.c | 147 +++++++++++++++++++++++++++++---
+>  include/linux/clk/renesas.h     |  12 +++
+>  2 files changed, 146 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-cpg.c
+> index 07909e80bae2..1a552ea1c535 100644
+> --- a/drivers/clk/renesas/rzg2l-cpg.c
+> +++ b/drivers/clk/renesas/rzg2l-cpg.c
+> @@ -74,6 +74,17 @@
+>  #define MSTOP_OFF(conf)		FIELD_GET(GENMASK(31, 16), (conf))
+>  #define MSTOP_MASK(conf)	FIELD_GET(GENMASK(15, 0), (conf))
+>  
+> +#define PLL5_FOUTVCO_MIN	800000000
+> +#define PLL5_FOUTVCO_MAX	3000000000
+> +#define PLL5_POSTDIV_MIN	1
+> +#define PLL5_POSTDIV_MAX	7
+> +#define PLL5_REFDIV_MIN		1
+> +#define PLL5_REFDIV_MAX		2
+> +#define PLL5_INTIN_MIN		20
+> +#define PLL5_INTIN_MAX		320
+> +#define PLL5_HSCLK_MIN		10000000
+> +#define PLL5_HSCLK_MAX		187500000
+> +
+>  /**
+>   * struct clk_hw_data - clock hardware data
+>   * @hw: clock hw
+> @@ -129,6 +140,12 @@ struct rzg2l_pll5_param {
+>  	u8 pl5_spread;
+>  };
+>  
+> +/* PLL5 output will be used for DPI or MIPI-DSI */
+> +static int dsi_div_target = PLL5_TARGET_DPI;
+> +
+> +/* Required division ratio for MIPI D-PHY clock depending on number of lanes and bpp. */
+> +static unsigned int dsi_div_ab_desired;
+> +
+>  struct rzg2l_pll5_mux_dsi_div_param {
+>  	u8 clksrc;
+>  	u8 dsi_div_a;
+> @@ -557,23 +574,118 @@ rzg2l_cpg_sd_mux_clk_register(const struct cpg_core_clk *core,
+>  }
+>  
+>  static unsigned long
+> -rzg2l_cpg_get_foutpostdiv_rate(struct rzg2l_pll5_param *params,
+> +rzg2l_cpg_get_foutpostdiv_rate(struct rzg2l_cpg_priv *priv,
+> +			       struct rzg2l_pll5_param *params,
+>  			       unsigned long rate)
+>  {
+>  	unsigned long foutpostdiv_rate, foutvco_rate;
+> +	unsigned long hsclk;
+> +	unsigned int a, b, odd;
+> +	unsigned int dsi_div_ab_calc;
+> +
+> +	if (dsi_div_target == PLL5_TARGET_DSI) {
+> +		/*
+> +		 * VCO-->[POSTDIV1,2]--FOUTPOSTDIV-->|   |-->[1/(DSI DIV A * B)]--> MIPI_DSI_VCLK
+> +		 *            |                      |-->|
+> +		 *            |-->[1/2]---FOUT1PH0-->|   |-->[1/16]---------------> hsclk (MIPI-PHY)
+> +		 */
+> +
+> +		/* Check hsclk */
+> +		hsclk = rate * dsi_div_ab_desired / 16;
+> +		if (hsclk < PLL5_HSCLK_MIN || hsclk > PLL5_HSCLK_MAX) {
+> +			dev_err(priv->dev, "hsclk out of range\n");
+> +			return 0;
+> +		}
+> +
+> +		/* Determine the correct clock source based on even/odd of the divider */
+> +		odd = dsi_div_ab_desired & 1;
+> +		if (odd) {
+> +			/* divider is odd */
+> +			priv->mux_dsi_div_params.clksrc = 0;	/* FOUTPOSTDIV */
+> +			dsi_div_ab_calc = dsi_div_ab_desired;
+> +		} else {
+> +			/* divider is even */
+> +			priv->mux_dsi_div_params.clksrc = 1;	/*  FOUT1PH0 */
+> +			dsi_div_ab_calc = dsi_div_ab_desired / 2;
+> +		}
+> +
+> +		/* Calculate the DIV_DSI_A and DIV_DSI_B based on the desired divider */
+> +		for (a = 0; a < 4; a++) {
+> +			/* FOUT1PH0: Max output of DIV_DSI_A is 750MHz so at least 1/2 to be safe */
+> +			if (!odd && a == 0)
+> +				continue;
+> +
+> +			/* FOUTPOSTDIV: DIV_DSI_A must always be 1/1 */
+> +			if (odd && a != 0)
+> +				continue;
+> +
+> +			for (b = 0; b < 16; b++) {
+> +				/* FOUTPOSTDIV: DIV_DSI_B must always be odd divider 1/(b+1) */
+> +				if (odd && b & 1)
+> +					continue;
+> +
+> +				if ((b + 1) << a == dsi_div_ab_calc) {
+> +					priv->mux_dsi_div_params.dsi_div_a = a;
+> +					priv->mux_dsi_div_params.dsi_div_b = b;
+> +					goto calc_pll_clk;
+> +				}
+> +			}
+> +		}
+>  
+> -	params->pl5_intin = rate / MEGA;
+> -	params->pl5_fracin = div_u64(((u64)rate % MEGA) << 24, MEGA);
+> -	params->pl5_refdiv = 2;
+> -	params->pl5_postdiv1 = 1;
+> -	params->pl5_postdiv2 = 1;
+> +		dev_err(priv->dev, "Failed to calculate DIV_DSI_A,B\n");
+> +		return 0;
+> +	}
+> +
+> +	if (dsi_div_target == PLL5_TARGET_DPI) {
+> +		/* Fixed settings for DPI */
+> +		priv->mux_dsi_div_params.clksrc = 0;
+> +		priv->mux_dsi_div_params.dsi_div_a = 3; /* Divided by 8 */
+> +		priv->mux_dsi_div_params.dsi_div_b = 0; /* Divided by 1 */
+> +		dsi_div_ab_desired = 8;			/* (1 << a) * (b + 1) */
+> +	}
+> +
+> +calc_pll_clk:
+> +	/* PLL5 (MIPI_DSI_PLLCLK) = VCO / POSTDIV1 / POSTDIV2 */
+> +	for (params->pl5_postdiv1 = PLL5_POSTDIV_MIN;
+> +	     params->pl5_postdiv1 <= PLL5_POSTDIV_MAX;
+> +	     params->pl5_postdiv1++) {
+> +		for (params->pl5_postdiv2 = PLL5_POSTDIV_MIN;
+> +		     params->pl5_postdiv2 <= PLL5_POSTDIV_MAX;
+> +		     params->pl5_postdiv2++) {
+> +			foutvco_rate = rate * params->pl5_postdiv1 * params->pl5_postdiv2 *
+> +				       dsi_div_ab_desired;
+> +			if (foutvco_rate <= PLL5_FOUTVCO_MIN || foutvco_rate >= PLL5_FOUTVCO_MAX)
+> +				continue;
+> +
+> +			for (params->pl5_refdiv = PLL5_REFDIV_MIN;
+> +			     params->pl5_refdiv <= PLL5_REFDIV_MAX;
+> +			     params->pl5_refdiv++) {
+> +				params->pl5_intin = (foutvco_rate * params->pl5_refdiv) /
+> +						    (EXTAL_FREQ_IN_MEGA_HZ * MEGA);
+> +				if (params->pl5_intin < PLL5_INTIN_MIN ||
+> +				    params->pl5_intin > PLL5_INTIN_MAX)
 
-It refers to the MSTOP/CLK_ON of the USB block. USB PHY CTRL and USB PHYs
-are all part of the USB block.
+Your patch comments indicate that you removed +1 and -1 for kernel test robot issue, but I do not understand why.
 
-> so the pm_runtime_put() above is required to have taken
-> effect here.
+pl5_intin is still defined as u8 (max 255), and therefore the result of "params->pl5_intin > PLL5_INTIN_MAX" will always be false because PLL5_INTIN_MAX is 320.
 
-You're right. I'll use pm_runtime_put_sync().
+It seems to me that pl5_intin type should be modified to account for its maximum value (u16?), and this should probably goes into a separate patch (with a Fixed: tag), that can be backported (if necessary).
 
-Thank you for your review,
-Claudiu
+And if you want the same behavior as before, shouldn't the comparison be with "<=" and ">=" ?
+
+> +					continue;
+> +				params->pl5_fracin = div_u64(((u64)
+> +						     (foutvco_rate * params->pl5_refdiv) %
+> +						     (EXTAL_FREQ_IN_MEGA_HZ * MEGA)) << 24,
+> +						     EXTAL_FREQ_IN_MEGA_HZ * MEGA);
+> +				goto clk_valid;
+> +			}
+> +		}
+> +	}
+> +
+> +	dev_err(priv->dev, "Failed to calculate PLL5 settings\n");
+> +	return 0;
+> +
+> +clk_valid:
+>  	params->pl5_spread = 0x16;
+>  
+>  	foutvco_rate = div_u64(mul_u32_u32(EXTAL_FREQ_IN_MEGA_HZ * MEGA,
+>  					   (params->pl5_intin << 24) + params->pl5_fracin),
+>  			       params->pl5_refdiv) >> 24;
+> -	foutpostdiv_rate = DIV_ROUND_CLOSEST_ULL(foutvco_rate,
+> -						 params->pl5_postdiv1 * params->pl5_postdiv2);
+> +
+> +	foutpostdiv_rate = DIV_ROUND_CLOSEST(foutvco_rate,
+> +					     params->pl5_postdiv1 * params->pl5_postdiv2);
+>  
+>  	return foutpostdiv_rate;
+>  }
+> @@ -607,7 +719,7 @@ static unsigned long rzg2l_cpg_get_vclk_parent_rate(struct clk_hw *hw,
+>  	struct rzg2l_pll5_param params;
+>  	unsigned long parent_rate;
+>  
+> -	parent_rate = rzg2l_cpg_get_foutpostdiv_rate(&params, rate);
+> +	parent_rate = rzg2l_cpg_get_foutpostdiv_rate(priv, &params, rate);
+>  
+>  	if (priv->mux_dsi_div_params.clksrc)
+>  		parent_rate /= 2;
+> @@ -626,6 +738,13 @@ static int rzg2l_cpg_dsi_div_determine_rate(struct clk_hw *hw,
+>  	return 0;
+>  }
+>  
+> +void rzg2l_cpg_dsi_div_set_divider(unsigned int divider, int target)
+> +{
+> +	dsi_div_ab_desired = divider;
+> +	dsi_div_target = target;
+> +}
+> +EXPORT_SYMBOL_GPL(rzg2l_cpg_dsi_div_set_divider);
+> +
+>  static int rzg2l_cpg_dsi_div_set_rate(struct clk_hw *hw,
+>  				      unsigned long rate,
+>  				      unsigned long parent_rate)
+> @@ -858,7 +977,7 @@ static int rzg2l_cpg_sipll5_set_rate(struct clk_hw *hw,
+>  
+>  	vclk_rate = rzg2l_cpg_get_vclk_rate(hw, rate);
+>  	sipll5->foutpostdiv_rate =
+> -		rzg2l_cpg_get_foutpostdiv_rate(&params, vclk_rate);
+> +		rzg2l_cpg_get_foutpostdiv_rate(priv, &params, vclk_rate);
+>  
+>  	/* Put PLL5 into standby mode */
+>  	writel(CPG_SIPLL5_STBY_RESETB_WEN, priv->base + CPG_SIPLL5_STBY);
+> @@ -945,9 +1064,11 @@ rzg2l_cpg_sipll5_register(const struct cpg_core_clk *core,
+>  	if (ret)
+>  		return ERR_PTR(ret);
+>  
+> -	priv->mux_dsi_div_params.clksrc = 1; /* Use clk src 1 for DSI */
+> -	priv->mux_dsi_div_params.dsi_div_a = 1; /* Divided by 2 */
+> -	priv->mux_dsi_div_params.dsi_div_b = 2; /* Divided by 3 */
+> +	/* Default settings for DPI */
+> +	priv->mux_dsi_div_params.clksrc = 0;
+> +	priv->mux_dsi_div_params.dsi_div_a = 3; /* Divided by 8 */
+> +	priv->mux_dsi_div_params.dsi_div_b = 0; /* Divided by 1 */
+> +	dsi_div_ab_desired = 8;			/* (1 << a) * (b + 1) */
+>  
+>  	return clk_hw->clk;
+>  }
+> diff --git a/include/linux/clk/renesas.h b/include/linux/clk/renesas.h
+> index 0ebbe2f0b45e..dc8ae83460f4 100644
+> --- a/include/linux/clk/renesas.h
+> +++ b/include/linux/clk/renesas.h
+> @@ -16,6 +16,11 @@ struct device;
+>  struct device_node;
+>  struct generic_pm_domain;
+>  
+> +enum {
+> +	PLL5_TARGET_DPI,
+> +	PLL5_TARGET_DSI
+> +};
+> +
+>  void cpg_mstp_add_clk_domain(struct device_node *np);
+>  #ifdef CONFIG_CLK_RENESAS_CPG_MSTP
+>  int cpg_mstp_attach_dev(struct generic_pm_domain *unused, struct device *dev);
+> @@ -32,4 +37,11 @@ void cpg_mssr_detach_dev(struct generic_pm_domain *unused, struct device *dev);
+>  #define cpg_mssr_attach_dev	NULL
+>  #define cpg_mssr_detach_dev	NULL
+>  #endif
+> +
+> +#ifdef CONFIG_CLK_RZG2L
+> +void rzg2l_cpg_dsi_div_set_divider(unsigned int divider, int target);
+> +#else
+> +static inline void rzg2l_cpg_dsi_div_set_divider(int divider, int target) { }
+> +#endif
+> +
+>  #endif
+> -- 
+> 2.50.1
+> 
+> 
+
+
+-- 
+Hugo Villeneuve <hugo@hugovil.com>
 
