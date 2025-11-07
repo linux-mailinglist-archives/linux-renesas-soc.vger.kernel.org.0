@@ -1,203 +1,131 @@
-Return-Path: <linux-renesas-soc+bounces-24340-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24341-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B246C4162D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 07 Nov 2025 20:08:10 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B1B2C4162F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 07 Nov 2025 20:08:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4BDC43B19AE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Nov 2025 19:08:09 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id CAA2C4E3C5F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Nov 2025 19:08:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 709302C15BB;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95FB62D3EDC;
 	Fri,  7 Nov 2025 19:08:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KBOoZTIl"
+	dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b="knlbwKss"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86D0F287257
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  7 Nov 2025 19:08:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C151F2877D2;
+	Fri,  7 Nov 2025 19:08:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.120.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762542485; cv=none; b=EWyAs3Z/PZwOJ581CbbHUT6G0AWavzHoC6u74OD8j2L0XielNOUczcW2icJy6S2w/71sKCQdq8ejYVDZDiYotbnEBUShmfIaU6jy0QlardJbTR2muCgcYtAjKddxNU6pW0jSbBY8fmvJfkJXKDc2MC3vMpUHxztWF50M/x2wJNg=
+	t=1762542485; cv=none; b=gBumPV20xwXJ07e5Fns0toyBcf90GBvP/211jhVmGpLBnxRzg2+yxuGeF8/ER/oggoMQB/NLP3IS31YoSmCOpJF8M4rbAT9RccyhB0obsMmlWmY1Kc/kYO2hjMDsgq2Eji1tgt5og43mGJVros9YYf5F4ItOVx2DXrny+RC4+QU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1762542485; c=relaxed/simple;
-	bh=MuBZP8MilDi4Gj2oBSNAsYRQG+qSraPH+CQlzY8+SX0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ExFzdTWXz39XIeHLl+oXBFKZbMpFadLBADGJkDKrxlMK3X6blorivN0j/aqbMwA5CRNaWH2673LIfBgnU4aAuzpv+zx+zO54pIACCH5EXfQWjkz8sM37YRSjK6Xmtk10xReDOh1IZ6fwcxysPu9AdDdTBFirmKpNPH/cxpd9pns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KBOoZTIl; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-429c48e05aeso671741f8f.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 07 Nov 2025 11:08:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762542482; x=1763147282; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=98zvSpFCtfYwCinbIUvtgjWS4ALtY9Ez5M7RcM4hjuI=;
-        b=KBOoZTIlt0sBXlcrgIFcBW3T/mCeiIHTuomyYB9F66PALpzgNoSilVBG7HHnkyDbNi
-         w/n9ow+WBQFNV/lqJEgfqVM1uFSvkFLD5V2KWN4b7Cm/ah0IMmsCxboeEk1V/T1/uP7I
-         O98+4ZjWnjkB7ky9mXO9E4YLaGpP6e79IShrYplD/UDnu9nsdZ3hXEEh3/cqhTMxBQXw
-         zobx96IImIypPTH94H0hG4QCwxngxNw4XJ7BNTG2LyCYvZES17l4yNtgFLEymFXQiyer
-         hXZlurfClMkqixTaU0T4wKrFlkQXteeMWB0kiIZlDgLQ/UwBiqBUAQeA1VNmUtrNJaC3
-         p8ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762542482; x=1763147282;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=98zvSpFCtfYwCinbIUvtgjWS4ALtY9Ez5M7RcM4hjuI=;
-        b=RSX96C4FnYAO/4DpnBrhWc58oOEVeJLafvbKS+TrrC3+HYYMsrK3uJT49MtjmNI5Nj
-         GJcT5EFUCGteFq5bA7BZGG+VWSbrIBgO1pbZltvufhqyEjGNTP7oLNxxToOt66oU1eDn
-         AU2nXkrcDQh3CpITwWc4K5ww48FMOPanLRvAEKOgIFYLBSstkJxVQpXqPm4kM9Bc/jB9
-         9zIz4hRZbGujJqTvd6Z/DRobBrq9FQIxrwhBiKsYoN+yA64BIRgQhOEz/6VE8IGDy+4x
-         ZEP0fzdlonLxvBt3ypb1VV87Xfp7BvHh/WyHp5Ko39/8gMzZ9Y78v/BQsZlCtolakFfi
-         2TwA==
-X-Forwarded-Encrypted: i=1; AJvYcCVuM8CB7PgSyijfkpDbcwI7hTqu9EUU+WgS+nPlUvb3I+eNHH+GkREcv9bDVSqZfP6/QFW4/uAdMe+AjlI0LN74Ig==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzLemPQw+WUYdGtmZvKq/2q6vu8IiaL2Me7MP/91I84l7ezB/jP
-	DyuygaCj3QPay0TUf4g5WOkbTbpGGO6EnEzvm4PVftpK1tZmc4eCKtGDGVhZ9kSdCULzOgA+MfQ
-	xzAEwdZOof+m8Jtu7J/QgLGsoHruuDk0=
-X-Gm-Gg: ASbGncsxjxc9tZL3LaC51EwssQC0geUR/7Aoz4rXz8FhSYw35bHVZrs98w0B3MUPIRu
-	IzEjStcABm7ZaEQSvFnHuy4RcTQisRcBguOc9StXMLRuXu6tiT6TQgEjpcP2A8AAXJUEF7/L4sa
-	CvjLTthVIAwEeV8DUeZnQjGFK9HRIjg2jRKBlm8dZbVYPVMuyoVIHDepSwEkpDb3oqCErDrH/NP
-	cmrW8RS8/By/dkAbV0GvQThABBVFnN8D10OYuMPDLD1pPyPogV+aN47ZZ5hFDNX9Zf5FH4=
-X-Google-Smtp-Source: AGHT+IGeu/C5nKxUEoqKP5CHhmYruwz+Zclh/0ohVNpebUeE+OB52cvd+J6tlYQsRrJkRSHRmix1kjqDzuIObLwa6pU=
-X-Received: by 2002:a5d:598b:0:b0:429:ca7f:8d5b with SMTP id
- ffacd0b85a97d-42b2c6722a4mr481943f8f.14.1762542481691; Fri, 07 Nov 2025
- 11:08:01 -0800 (PST)
+	bh=pDkgsq6PK6UH+iz6ColUvj0tCRATe+ASfJkhfla7JoY=;
+	h=Date:From:To:Cc:Message-Id:In-Reply-To:References:Mime-Version:
+	 Content-Type:Subject; b=VK5grzdkU5o2+VV8Vi3zxMCu5A5Ir7FHkv+nLg51jvXqTcmyx50gKYA+o29ZR1gSbDbTWXAnSCAqsag2o/0R1lexB78f3UsLxcdXeig10xPfVjtwRX3SgTW8JRsUBjPLU77XKH/nHDtkOzJ8LKnH3M/ReojjoM87El2Nw1VHZbA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com; spf=pass smtp.mailfrom=hugovil.com; dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b=knlbwKss; arc=none smtp.client-ip=162.243.120.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hugovil.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
+	; s=x; h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
+	:Date:subject:date:message-id:reply-to;
+	bh=B2YvgcCMt5tmIfe2GmRK2C3L8OlLTXrg19Buak8KA50=; b=knlbwKssPG5AATNsNp46rCIOBr
+	/cn57zM9ph+2/4AuASu1k2Y1pz6EI7j6/hIkaRskLp50DvDDA6x/YalQTU+dpT/ygCfZ1m9jR80or
+	eSIo/zZOzM11sLzGFGIekkfQJQQlYYONIpZcxhq9B35HPHj6EIQ1Me/LInMG/wY5V4b8=;
+Received: from modemcable061.19-161-184.mc.videotron.ca ([184.161.19.61]:59072 helo=debian-lenovo)
+	by mail.hugovil.com with esmtpa (Exim 4.92)
+	(envelope-from <hugo@hugovil.com>)
+	id 1vHRoN-0003uW-Ne; Fri, 07 Nov 2025 14:07:52 -0500
+Date: Fri, 7 Nov 2025 14:07:50 -0500
+From: Hugo Villeneuve <hugo@hugovil.com>
+To: Chris Brandt <Chris.Brandt@renesas.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette
+ <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Biju Das
+ <biju.das.jz@bp.renesas.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Hien Huynh <hien.huynh.px@renesas.com>,
+ Nghia Vo <nghia.vo.zn@renesas.com>, "linux-renesas-soc@vger.kernel.org"
+ <linux-renesas-soc@vger.kernel.org>, "linux-clk@vger.kernel.org"
+ <linux-clk@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>
+Message-Id: <20251107140750.00bf68e4b2f5354015e65ad4@hugovil.com>
+In-Reply-To: <OS3PR01MB83195AF3F1964548E1512FBE8AC3A@OS3PR01MB8319.jpnprd01.prod.outlook.com>
+References: <20251105222530.979537-1-chris.brandt@renesas.com>
+	<20251105222530.979537-2-chris.brandt@renesas.com>
+	<20251107113058.f334957151d1a8dd94dd740b@hugovil.com>
+	<OS3PR01MB83195AF3F1964548E1512FBE8AC3A@OS3PR01MB8319.jpnprd01.prod.outlook.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20251106200309.1096131-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <ee6a79ae-4857-44e4-b8e9-29cdd80d828f@lunn.ch> <CA+V-a8vFEHr+3yR7=JAki3YDe==dAUv3m4PrD-nWhVg8hXgJcQ@mail.gmail.com>
- <2dabb0d5-f28f-4fdc-abeb-54119ab1f2cf@lunn.ch> <CA+V-a8uk-9pUrpXF3GDjwuDJBxpASpW8g5pHNBkd44JhF8AEew@mail.gmail.com>
- <caef6e6e-b81e-45d7-ac92-ed6adc652aa2@lunn.ch>
-In-Reply-To: <caef6e6e-b81e-45d7-ac92-ed6adc652aa2@lunn.ch>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Fri, 7 Nov 2025 19:07:34 +0000
-X-Gm-Features: AWmQ_bk5YqHCcSmLZVSPz9ezwcQ4t-xeg_QDOZGrptN0Qnu8s-fuKHyuOslw6UI
-Message-ID: <CA+V-a8vj7d1wsTVYMrh2KpAoOjvF+1-WPNijsOLQ--DwPQG-og@mail.gmail.com>
-Subject: Re: [PATCH net-next] net: phy: mscc: Add support for PHY LEDs on VSC8541
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Horatiu Vultur <horatiu.vultur@microchip.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Vladimir Oltean <vladimir.oltean@nxp.com>, Vadim Fedorenko <vadim.fedorenko@linux.dev>, 
-	Maxime Chevallier <maxime.chevallier@bootlin.com>, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 184.161.19.61
+X-SA-Exim-Mail-From: hugo@hugovil.com
+X-Spam-Level: 
+X-Spam-Report: 
+	* -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+	* -1.8 NICE_REPLY_A Looks like a legit reply (A)
+Subject: Re: [PATCH v4 1/2] clk: renesas: rzg2l: Remove DSI clock rate
+ restrictions
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
 
-Hi Andrew,
+Hi Chris,
 
-On Fri, Nov 7, 2025 at 7:01=E2=80=AFPM Andrew Lunn <andrew@lunn.ch> wrote:
->
-> > Certainly the probes can be simplified into a single function. I'll
-> > create a patch for this.
->
-> Please do make sure of each device having its own .probe
-> pointer. Don't have one probe function with lots of if/else
-> clauses. Put what is device specific into a device specific probe, and
-> what is common into helpers.
->
-I was thinking of having a cfg struct  for common probe, something
-like below and each phy would populate its config and pass it to
-vsc85xx_probe_common().
+On Fri, 7 Nov 2025 18:36:24 +0000
+Chris Brandt <Chris.Brandt@renesas.com> wrote:
 
-struct vsc85xx_probe_config {
-    const struct vsc85xx_hw_stat *hw_stats;
-    u8 nleds;
-    u16 supp_led_modes;
-    size_t nstats;
-    bool use_package;
-    size_t shared_size;
-    bool has_ptp;
-    bool check_rate_magic;
-};
+> Hi Hugo,
+> 
+> Thank you for your review.
+> 
+> On Fri, Nov 7, 2025 11:31 AM, Hugo Villeneuve wrote:
+> > > +				if (params->pl5_intin < PLL5_INTIN_MIN ||
+> > > +				    params->pl5_intin > PLL5_INTIN_MAX)
+> >
+> > Your patch comments indicate that you removed +1 and -1 for kernel test robot issue, but I do not understand why.
+> >
+> > pl5_intin is still defined as u8 (max 255), and therefore the result of "params->pl5_intin > PLL5_INTIN_MAX" will always be false because PLL5_INTIN_MAX is 320.
+> >
+> > It seems to me that pl5_intin type should be modified to account for its maximum value (u16?), and this should probably goes into a separate patch (with a Fixed: tag), that can be backported (if necessary).
+> 
+> You are totally right!
+> INTIN is a 12-bit register value.
+> It's a bug.
+> 
+> Good catch.
+> 
+> I'll make that a separate patch so I can CC stable.
 
-static int vsc85xx_probe_common(struct phy_device *phydev,
-                const struct vsc85xx_probe_config *cfg,
-                const u32 *default_led_mode)
-{
-    struct vsc8531_private *vsc8531;
-    int ret;
+You can add the "Fixes" tag (not "Fixed" as I incorrectly stated):
 
-    /* Check rate magic if needed (only for non-package PHYs) */
-    if (cfg->check_rate_magic) {
-        ret =3D vsc85xx_edge_rate_magic_get(phydev);
-        if (ret < 0)
-            return ret;
-    }
+    Fixes: 1561380ee72f ("clk: renesas: rzg2l: Add FOUTPOSTDIV clk support")
 
-    vsc8531 =3D devm_kzalloc(&phydev->mdio.dev, sizeof(*vsc8531), GFP_KERNE=
-L);
-    if (!vsc8531)
-        return -ENOMEM;
+This is the commit that added the pl5_intin field.
 
-    phydev->priv =3D vsc8531;
+Original Kernel test robot message also suggested adding:
 
-    /* Store rate magic if it was checked */
-    if (cfg->check_rate_magic)
-        vsc8531->rate_magic =3D ret;
+    Reported-by: kernel test robot <lkp@intel.com>
 
-    /* Set up package if needed */
-    if (cfg->use_package) {
-        vsc8584_get_base_addr(phydev);
-        devm_phy_package_join(&phydev->mdio.dev, phydev,
-                      vsc8531->base_addr, cfg->shared_size);
-    }
+(See https://lore.kernel.org/oe-kbuild-all/202510240111.DvVTqUEp-lkp@intel.com/)
 
-    /* Configure LED settings */
-    vsc8531->nleds =3D cfg->nleds;
-    vsc8531->supp_led_modes =3D cfg->supp_led_modes;
+Hugo.
 
-    /* Configure hardware stats */
-    vsc8531->hw_stats =3D cfg->hw_stats;
-    vsc8531->nstats =3D cfg->nstats;
-    vsc8531->stats =3D devm_kcalloc(&phydev->mdio.dev, vsc8531->nstats,
-                      sizeof(u64), GFP_KERNEL);
-    if (!vsc8531->stats)
-        return -ENOMEM;
+> Chris
+> 
+> 
 
-    /* PTP setup for VSC8584 */
-    if (cfg->has_ptp) {
-        if (phy_package_probe_once(phydev)) {
-            ret =3D vsc8584_ptp_probe_once(phydev);
-            if (ret)
-                return ret;
-        }
 
-        ret =3D vsc8584_ptp_probe(phydev);
-        if (ret)
-            return ret;
-    }
-
-    /* Parse LED modes from device tree */
-    return vsc85xx_dt_led_modes_get(phydev, default_led_mode);
-}
-
-> > > Also, is the LED handling you are adding here specific to the 8541? I=
-f
-> > > you look at the datasheets for the other devices, are any the same?
-> > >
-> > Looking at the below datasheets the LED handlings seem to be the same.
->
-> That is common. So yes, please add it to them all. It does not matter
-> if you can only test one device.
->
-Ok, thanks.
-
-Cheers,
-Prabhakar
+-- 
+Hugo Villeneuve <hugo@hugovil.com>
 
