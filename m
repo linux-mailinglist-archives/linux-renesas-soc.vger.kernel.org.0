@@ -1,34 +1,34 @@
-Return-Path: <linux-renesas-soc+bounces-24290-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24291-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39D4AC3E1A5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 07 Nov 2025 02:16:37 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CF65C3E1B2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 07 Nov 2025 02:18:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id A26EA34D63B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Nov 2025 01:16:36 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 130B74E0644
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Nov 2025 01:18:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F4C72E88AE;
-	Fri,  7 Nov 2025 01:16:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C13442F5307;
+	Fri,  7 Nov 2025 01:18:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="HVTN6yAR"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="pc2o/WBY"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 714E03D6F;
-	Fri,  7 Nov 2025 01:16:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23CF6258EC1;
+	Fri,  7 Nov 2025 01:18:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762478194; cv=none; b=pLXeUMMsA6jZuP7CYMfKxGN1+n0DpePWbgcGjOo2/XzBtKh2gqVL0GmObbRYZ2x3953KOQMbf0LKTUqTkdugkTkCVp6nR4NBmhle1kiBohu3ylTBglNbbrhNpoOmfxzuUaz87BNRRebIf9iFp7AaEggJvwFFApBBnNJX3fVsVa4=
+	t=1762478312; cv=none; b=o3/2eL+x88sBwlMsujuk0lWmH9WvRWyDLemOq1TwLvnpJKP1KdFHu6PzkvwXOWTD7NkGygQkXb8zPOI6J7hwZtp17pt5blVABVXThkxaatAb20PNhy0dj3k1W+xVkBmWHkXbzcIYOQrWtu/lRYfV3JYiGiDBrlhRaCWKQ55z8mQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762478194; c=relaxed/simple;
-	bh=oRGd3RtIX3gjEjwMa7vHSaMXXF8+AcujGJswpuabMIk=;
+	s=arc-20240116; t=1762478312; c=relaxed/simple;
+	bh=/XUQcLX/DssFEYToi8ATQRAgC0ocRUSMxXEws7yFSrU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ImDOHrHYTn+4rIC/ku1WkyatDpbh+rr0SZ5gxB6Dka36gBxYbV1kLDykkiaGXiadApYZSgDmrS6HmZlPF5db1m3j9H5FiQevyzIRkskEgfh193Co+yHladi7YsvdFWpGkgKXym1D6CijjdLw1KOODk/MWRrGKPwWW80S6s1U2iY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=HVTN6yAR; arc=none smtp.client-ip=156.67.10.101
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZfteWQ9zrIMYa1GPbETYyKsrcTicmX4C0Pke6BQbmpDpLI9wuu2zRlzKZoN9YfD4KxizASSSKUHn6MqEUJxbC/ned4P5jly2VMFzb2QxGNeuIdYbVVfE+GXf5ez7Q6YGdgraDiVqjcHCXf8FhRTXc3xhg73zb/Kbeaf0zEf4RzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=pc2o/WBY; arc=none smtp.client-ip=156.67.10.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
 	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
 	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=xSn6sQyEp8F+TSgDXArYJ+Bzx7HU8Abi3PsklIJKrZU=; b=HVTN6yARUqOvNDNIamnQo9XtuJ
-	CZ7YBhqW5xGq1vLjJIhwNwmXifyvkmM2f+LfalgjL2tSp8TPOxs0FXWTAy1Ik9RI1qrgmEfjFavle
-	uVfp+RVy8BJ1P5pzbZlLcevpo6Molc0REMC2yCP6KuW9O8ZFMwG5pYxitdkatmTaeH0c=;
+	bh=25TG0nkSoZM06L8ojtd4p89MV096ynikw4UCVzYnK+8=; b=pc2o/WBYexNYxkS5/JYR99/NCt
+	8ViTIBUa5zf5gUtik31d4coztpUTRzQvJLtm1EdsajhqGzU+vcmtj3DQlbliolZ2+3d/4i37Uqspa
+	EC6/saxxsaBRrOurFfPDnN1B+tQWcSO9u9QwTFuuOsVCWFbe9SGI/C3QsvZhP5r6fPt0=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
 	(envelope-from <andrew@lunn.ch>)
-	id 1vHB5N-00DAie-4v; Fri, 07 Nov 2025 02:16:17 +0100
-Date: Fri, 7 Nov 2025 02:16:17 +0100
+	id 1vHB7N-00DAjh-5I; Fri, 07 Nov 2025 02:18:21 +0100
+Date: Fri, 7 Nov 2025 02:18:21 +0100
 From: Andrew Lunn <andrew@lunn.ch>
 To: Michael Dege <michael.dege@renesas.com>
 Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
@@ -61,11 +61,11 @@ Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
 	devicetree@vger.kernel.org,
 	Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
 	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: Re: [PATCH net-next 02/10] net: renesas: rswitch: enable Phy link
- status pin
-Message-ID: <eda96e9b-2a35-42e8-b1dd-ffde39644fbf@lunn.ch>
+Subject: Re: [PATCH net-next 06/10] net: renesas: rswitch: add MAC address
+ filtering
+Message-ID: <8144664b-1c84-4e1a-8758-f4fd2eb9c9ff@lunn.ch>
 References: <20251106-add_l3_routing-v1-0-dcbb8368ca54@renesas.com>
- <20251106-add_l3_routing-v1-2-dcbb8368ca54@renesas.com>
+ <20251106-add_l3_routing-v1-6-dcbb8368ca54@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -74,14 +74,18 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251106-add_l3_routing-v1-2-dcbb8368ca54@renesas.com>
+In-Reply-To: <20251106-add_l3_routing-v1-6-dcbb8368ca54@renesas.com>
 
-On Thu, Nov 06, 2025 at 01:55:26PM +0100, Michael Dege wrote:
-> Enable Phy link status pin for boards which support this feature.
+On Thu, Nov 06, 2025 at 01:55:30PM +0100, Michael Dege wrote:
+> Enable MAC address filtering in Rswitch HW.
 
-Probably repeating what others have said. Please zoom out and give us
-an idea what a link-status pin is? I don't remember seeing this term
-used before.
+Please try to answer the question "Why?" in the commit message, not
+"What?". Why would i want MAC address filtering? Why is it being
+enabled now, when it was not enabled before?
 
-	Andrew
+
+    Andrew
+
+---
+pw-bot: cr
 
