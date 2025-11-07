@@ -1,191 +1,134 @@
-Return-Path: <linux-renesas-soc+bounces-24356-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24357-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB8B2C41E87
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 08 Nov 2025 00:05:37 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 775C2C41F17
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 08 Nov 2025 00:23:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4C5793B9332
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Nov 2025 23:05:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 364CC3B55D2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Nov 2025 23:23:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06FC92E040D;
-	Fri,  7 Nov 2025 23:05:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF2EA30FF2E;
+	Fri,  7 Nov 2025 23:23:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="yMFO3eL4";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="YCBwyK8p"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="p8UyO+at"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EBF36A33B
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  7 Nov 2025 23:05:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3117E30FC24;
+	Fri,  7 Nov 2025 23:23:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762556726; cv=none; b=l4p3BONJfAEURkxdqNn0A9jW9lzR7EfASX1qFox97mFy66iEUw8xPzPnEuNyhClAu1CCqjmUklPRxTgzsjQmgcHPQJnoima7X070hMgDBfNAICFcM/rkTFUvsaqbZNYfaYX3pbYIVfqRQ3YgrjQst2o8PLAEL6m9pknUPOXLm3I=
+	t=1762557818; cv=none; b=LCitBVSlXvtklNeJ7V3ut/c6YT5G1qAXi/pFnHHwwjrkGO+17Jg2C/V0BA9Zt1mp0XxEglbmz9XRxIcJadQPrXkrYvkjRaAdVF8/qzIs60a+HA/uLlcl8OWoMJNNkxiYv09Y7Rze8aNHx8ghS8WBVk22HbyBNQH87qxoeG6gmmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762556726; c=relaxed/simple;
-	bh=ari8UhD/d+WX382VHHvjaAJzfjGooWDyMkcGlZ2JiAE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FXZIEJh11SOLSqLgw85mKX+0e773HMQJdeYsWtUrsYnbLBdZfdHBJwXDLw75tlFi01KSu7PPS/MJdFEPzX7oXkOaWG8JwE27wYrCU4e/nGSbFPcrnArmLzmbBbiOz8WCa0Q2JJSG+Fj/nSIJR7tJfBFAhaWFSGjndt6+n2tpQv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=yMFO3eL4; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=YCBwyK8p; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4d3F5b13wlz9sy9;
-	Sat,  8 Nov 2025 00:05:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1762556723;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=0evSFeD56GOAdAv0d5qxmcVH10/osVKRuYfNE0zbx2k=;
-	b=yMFO3eL4LdEpjEeH5PAGf2HrYHzUkariUy78jeRpTAgfoDSMNGBRWiGftmqeC/uM4h/Sq2
-	KuPyedfq3RSSJP/Ra+EHsScDQl4pcEz2OgRw97JULSV84ZFZtVkmAPS/8FPNmS/xxYfgiH
-	Jc6Jks16og7y6ByS1q1jYQiPRXTjzLtAGjfTW/uTXZc4CqnEClVkqjpHNZ+uceP9l/j+QX
-	Tsjbm8K/oT/a+Zx3pPWQ0os8gN2npYn+X2GUbf3LZQmJE5xIIfMsoEp2ET6upXfqAGvKQI
-	yl/wk8tqKvS3EpnG8WOq6vQ4PbEklU0urPiEAVwPkmflYBe/n2EjFZHCDdkwzA==
-From: Marek Vasut <marek.vasut+renesas@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1762556721;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=0evSFeD56GOAdAv0d5qxmcVH10/osVKRuYfNE0zbx2k=;
-	b=YCBwyK8prdPevXGX4RqHyLiz9leNmnxmte3271rI5BtkzumGo29GHKVX/d1sCyQdVieisD
-	JxJINhRO1FMr6kxiB+np5/ZBA/ZFji3KGSP24Io+GQdX9wOYHWg7De1P4dtVfY5Ob43fI7
-	ciXvnVkd68xkAIl7jcY/hy8PsVLixPZOsg88R0mKDXBnu50TuMyoe+942MaBHWYW2Q7/i6
-	liib6Bkrv8tKcSOWcQmzFhVOAgQWyGl8cjLyh5A+Nfnd1v62iInsZM2pRYGHdHrs8nz2ol
-	9Hqc7xcnYEK+1Zw+vXEf1eQUEknXksii7dAupLBZ2fUvSxqprGzfNLz2gmWLDQ==
-To: dri-devel@lists.freedesktop.org
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	Aradhya Bhatia <a-bhatia1@ti.com>,
-	David Airlie <airlied@gmail.com>,
+	s=arc-20240116; t=1762557818; c=relaxed/simple;
+	bh=ckYpq461PfsLtpuZRSdnO1Hpr8pG5yQGPSwPZgGzK/Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eSJFbY5/2JCMWN3RbOBldITVt3SOXYe43/9KC0lRrTBiFZ8lf/plWB9m5WuN1XkM+DXzTRmbIuhlxXgLCC036NVFjzfDn7bs0doOCY23uYQpbrKF1rr6EiUzXFA3VSVy0teslRssHs8V2ELd/S6JrTsq9KiQiCh5K1+l2npJ+xA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=p8UyO+at; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (82-203-161-95.bb.dnainternet.fi [82.203.161.95])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 641187E4;
+	Sat,  8 Nov 2025 00:21:38 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1762557698;
+	bh=ckYpq461PfsLtpuZRSdnO1Hpr8pG5yQGPSwPZgGzK/Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=p8UyO+atuJKTkeCoAICUyTPcilTtuIckKBlivjMAwUSQ/Q0C8T0T1Z7aZ8zCk3CaU
+	 0nt+f6cZ9nDryYzBbkXlr5hOLc+bVRQ9kJNfdhccwGYWgaIVLaHZ5DBJucROqkwjrA
+	 6ckisRlHFq5A5SNvaHGl/LtUFZz1tfTez0ce2JnA=
+Date: Sat, 8 Nov 2025 01:23:29 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
 	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Magnus Damm <magnus.damm@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Simona Vetter <simona@ffwll.ch>,
+	Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
 	Thomas Zimmermann <tzimmermann@suse.de>,
 	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] drm/atomic-helper: rcar-du: Enable CRTC early on R-Car DU
-Date: Sat,  8 Nov 2025 00:04:26 +0100
-Message-ID: <20251107230517.471894-1-marek.vasut+renesas@mailbox.org>
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] drm/rcar-du: dsi: Handle both DRM_MODE_FLAG_N.SYNC and
+ !DRM_MODE_FLAG_P.SYNC
+Message-ID: <20251107232329.GI5558@pendragon.ideasonboard.com>
+References: <20251107230419.471866-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 597f3ce88561df07777
-X-MBO-RS-META: iihdrhx1drn6nxepuj4bmxeibeej3iba
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251107230419.471866-1-marek.vasut+renesas@mailbox.org>
 
-Introduce a variant of drm_atomic_helper_commit_modeset_enables()
-which enables CRTC before encoder/bridge. This is needed on R-Car DU,
-where the CRTC provides clock to LVDS and DSI, and has to be started
-before a bridge may call .prepare , which may trigger e.g. DSI transfer.
+On Sat, Nov 08, 2025 at 12:04:10AM +0100, Marek Vasut wrote:
+> Since commit 94fe479fae96 ("drm/rcar-du: dsi: Clean up handling of DRM mode flags")
+> the driver does not set TXVMVPRMSET0R_VSPOL_LOW and TXVMVPRMSET0R_HSPOL_LOW
+> for modes which set neither DRM_MODE_FLAG_[PN].SYNC.
 
-This specifically fixes the case where ILI9881C is connected to R-Car
-DU DSI. The ILI9881C panel driver does DSI command transfer in its
-struct drm_panel_funcs .prepare function, which is currently called
-before R-Car DU rcar_du_crtc_atomic_enable() rcar_mipi_dsi_pclk_enable()
-and the DSI command transfer times out.
+Could you please explain what broke ? What panel are you using ?
 
-Fix this by restoring the enable ordering introduced in commit
-c9b1150a68d9 ("drm/atomic-helper: Re-order bridge chain pre-enable
-and post-disable"), to enable CRTC early.
+> The previous behavior
+> was to assume that neither flag means DRM_MODE_FLAG_N.SYNC . Restore the
+> previous behavior for maximum compatibility.
+> 
+> Fixes: 94fe479fae96 ("drm/rcar-du: dsi: Clean up handling of DRM mode flags")
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> ---
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Magnus Damm <magnus.damm@gmail.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> ---
+>  drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
+> index 9413b76d0bfce..98bd7f40adbea 100644
+> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
+> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
+> @@ -492,9 +492,11 @@ static void rcar_mipi_dsi_set_display_timing(struct rcar_mipi_dsi *dsi,
+>  
+>  	/* Configuration for Video Parameters, input is always RGB888 */
+>  	vprmset0r = TXVMVPRMSET0R_BPP_24;
+> -	if (mode->flags & DRM_MODE_FLAG_NVSYNC)
+> +	if ((mode->flags & DRM_MODE_FLAG_NVSYNC) ||
+> +	    !(mode->flags & DRM_MODE_FLAG_PVSYNC))
+>  		vprmset0r |= TXVMVPRMSET0R_VSPOL_LOW;
 
-Fixes: c9b1150a68d9 ("drm/atomic-helper: Re-order bridge chain pre-enable and post-disable")
-Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
----
-Cc: Aradhya Bhatia <a-bhatia1@ti.com>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Magnus Damm <magnus.damm@gmail.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-renesas-soc@vger.kernel.org
----
- drivers/gpu/drm/drm_atomic_helper.c           | 24 +++++++++++++++++++
- drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c |  2 +-
- include/drm/drm_atomic_helper.h               |  2 ++
- 3 files changed, 27 insertions(+), 1 deletion(-)
+I don't think this restores the previous behaviour. You would need to
+write
 
-diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index 5a473a274ff06..c0cdd36a03df1 100644
---- a/drivers/gpu/drm/drm_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -1692,6 +1692,30 @@ void drm_atomic_helper_commit_modeset_enables(struct drm_device *dev,
- }
- EXPORT_SYMBOL(drm_atomic_helper_commit_modeset_enables);
- 
-+/**
-+ * drm_atomic_helper_commit_modeset_enables_crtc_early - modeset commit to enable outputs, start CRTC early
-+ * @dev: DRM device
-+ * @state: atomic state object being committed
-+ *
-+ * This function is a variant of drm_atomic_helper_commit_modeset_enables()
-+ * which enables CRTC before encoder/bridge. This is needed on R-Car DU,
-+ * where the CRTC provides clock to LVDS and DSI, and has to be started
-+ * before a bridge may call .prepare , which may trigger e.g. DSI transfer.
-+ */
-+void
-+drm_atomic_helper_commit_modeset_enables_crtc_early(struct drm_device *dev,
-+						    struct drm_atomic_state *state)
-+{
-+	crtc_enable(dev, state);
-+
-+	encoder_bridge_pre_enable(dev, state);
-+
-+	encoder_bridge_enable(dev, state);
-+
-+	drm_atomic_helper_commit_writebacks(dev, state);
-+}
-+EXPORT_SYMBOL(drm_atomic_helper_commit_modeset_enables_crtc_early);
-+
- /*
-  * For atomic updates which touch just a single CRTC, calculate the time of the
-  * next vblank, and inform all the fences of the deadline.
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
-index 116ad9605704b..b7e2a735a03ae 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
-@@ -547,7 +547,7 @@ static void rcar_du_atomic_commit_tail(struct drm_atomic_state *old_state)
- 	drm_atomic_helper_commit_modeset_disables(dev, old_state);
- 	drm_atomic_helper_commit_planes(dev, old_state,
- 					DRM_PLANE_COMMIT_ACTIVE_ONLY);
--	drm_atomic_helper_commit_modeset_enables(dev, old_state);
-+	drm_atomic_helper_commit_modeset_enables_crtc_early(dev, old_state);
- 
- 	drm_atomic_helper_commit_hw_done(old_state);
- 	drm_atomic_helper_wait_for_flip_done(dev, old_state);
-diff --git a/include/drm/drm_atomic_helper.h b/include/drm/drm_atomic_helper.h
-index 53382fe93537b..d7fb473db3431 100644
---- a/include/drm/drm_atomic_helper.h
-+++ b/include/drm/drm_atomic_helper.h
-@@ -93,6 +93,8 @@ void drm_atomic_helper_commit_modeset_disables(struct drm_device *dev,
- 					       struct drm_atomic_state *state);
- void drm_atomic_helper_commit_modeset_enables(struct drm_device *dev,
- 					  struct drm_atomic_state *old_state);
-+void drm_atomic_helper_commit_modeset_enables_crtc_early(struct drm_device *dev,
-+							 struct drm_atomic_state *old_state);
- 
- int drm_atomic_helper_prepare_planes(struct drm_device *dev,
- 				     struct drm_atomic_state *state);
+	if (!(mode->flags & DRM_MODE_FLAG_PVSYNC))
+		vprmset0r |= TXVMVPRMSET0R_VSPOL_LOW;
+
+> -	if (mode->flags & DRM_MODE_FLAG_NHSYNC)
+> +	if ((mode->flags & DRM_MODE_FLAG_NHSYNC) ||
+> +	    !(mode->flags & DRM_MODE_FLAG_PHSYNC))
+>  		vprmset0r |= TXVMVPRMSET0R_HSPOL_LOW;
+
+Same here.
+
+>  
+>  	vprmset1r = TXVMVPRMSET1R_VACTIVE(mode->vdisplay)
+
 -- 
-2.51.0
+Regards,
 
+Laurent Pinchart
 
