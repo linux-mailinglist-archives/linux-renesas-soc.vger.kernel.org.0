@@ -1,199 +1,102 @@
-Return-Path: <linux-renesas-soc+bounces-24348-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24349-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76E9BC41BD9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 07 Nov 2025 22:13:17 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 902E9C41BE2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 07 Nov 2025 22:13:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 96AD7561E5D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Nov 2025 21:10:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 25182561F4E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Nov 2025 21:10:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E90D433A014;
-	Fri,  7 Nov 2025 21:07:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="P6KmBn1d"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74D8B33F391;
+	Fri,  7 Nov 2025 21:07:21 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010036.outbound.protection.outlook.com [52.101.228.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1512A267B00;
-	Fri,  7 Nov 2025 21:07:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.36
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762549627; cv=fail; b=PpudMH0ustvw7XI2MVY5KZwUkJFRUMszXSX/aLJKhSMkyB1laKSavvbOUIbC0KtxVsLJ0g88qy79Y0aZjf1nVo9HNlj6ahm5Hy9E8ScgnwqoqXNxv037f/lXqLS+fRRIM8Bh9hLV20cwlfJdY6sVphZubv/3CBi5EI8QASBDn7s=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762549627; c=relaxed/simple;
-	bh=lAUjQ2u/8OivjqssBRr8w9Mywq4ez6vgWFe3m899Zxs=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=AAqtzh04epvIfelqedwqD51yIop02qOESphxviO33MMD5YrB8NbyC25L/NAm9YhGZEoB1Sqi8WZvXf1seUoY28WddM2hrYFTx3xclwdsVYu/1LIi4wVy6yYFHAEOw46xPkLvmVa++rJW9MEVrn81705xEP2XkSLCW5nLEspSQgY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=P6KmBn1d; arc=fail smtp.client-ip=52.101.228.36
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CC392BEC3A;
+	Fri,  7 Nov 2025 21:07:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762549641; cv=none; b=MqLVev4gZXqJK+rxzgI2emupz6DcPq8z+wVVXbRuGq0LfJY0nfHvsd79vUsU/vKW4qwyApIxl+r1CzoMoCEjKbTuYWq2kUKzilTR5ag5ZiGxXu7JEBIsoUAWm/N8zbWbiNvBfyNQCZweViAdItboyJ9Sk6CAdwewoAv3bqKikr8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762549641; c=relaxed/simple;
+	bh=UdLLYJqoBd1wJ9IwbXQoVeuKaNp7Qz1xUYPzexc1gEY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IHWY2gOzK4Pm4/a7xu29FHmFoKmjcPQPyIXC7ML5eRx+CiMSvEa8liVBRmjihYzX4RcRcmSzr2RW3RcBMtDy24vur7OzfgVSZYnX8ctSmv2oRBlOfbgHs47y21uc8hyhHgPNomI3j4zODHCCTghxD3K5hWvit/q99e/qjqUK2GM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZTkDeA9XAtS8s+Sb5qlSY9dpjnJFJhKymis4CN3wlZsC4FGobtM2Jv0lm+RDULbuzx0Fz34cCEsqSURj5bEmpoZkamcDtJjsGSLiqwqYoSWiqUidEBbmQbj/sFWuFdoVBm2vHif7bthoTRo4Q1i4JBLx0z50gr6m4gzcStvoWjZ25ykAuHgdZnU1c+AroOSOy7ZpRLHw6m8Fnnw9USoCjQQGOMujgF1l3n1HvThUdsqcmA55H8KrpMn24PNAHBQj+4vqnJ8HDT22UrUAy83zl3DqCaNnvTf1SIcmkz5GnVvlxE4B3AiPveQGkfTPwCqMEZFR8k+Izhpue/HOcUZ1og==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cMT3TWEhVwKHWy2zkrjYsM5R/aW8ddEgr/WVJC8n6gw=;
- b=bCIicIGcu/RtlPP+fAE5zJ0zH4IHNrfb0PvVW+fbaUrQzX2IO7KCXJQPB3Wy04aeejarIjwSAIpxc3GYvg57uEcvHRS1jZwkc6Iam64la9UuCrsy1iNxPbByyXUiKCMtmW3RH3BJXwXj4rrPN0H5LZLDPrJLRpANz4GsBlQdw/mh7ekogiRMy/JiUmTumEHiGdoN1fVdErtIo0uG6LGlOpz5QskIwDWiNq7hsmqMcJhwGxjNLNNSeXIcnuAqYtSWZ7fLQo2bSfs7moOCfsBkoJhaqrfHq9cBpYg0ykhRwShDyj4YpsuGHgQInQTwybIrT6LxZLCF2Y8EFNIz5rNa2g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cMT3TWEhVwKHWy2zkrjYsM5R/aW8ddEgr/WVJC8n6gw=;
- b=P6KmBn1dEIdSzezrmoP5RK1xremjIzW+i736kr6fLxGRpOPI25+5E7W7skvDIWwkBN+qNUOGPlZ1PA8FiGH6JLvyCRPP23guZXd+wEWiZtJvavucJJzFMmfvXRegsPfbI1yfaEqAMwQvn6FjQPDa0zd4WJPWz6ZTyPwN5N2TDXk=
-Received: from OS3PR01MB8319.jpnprd01.prod.outlook.com (2603:1096:604:1a2::11)
- by TY4PR01MB14830.jpnprd01.prod.outlook.com (2603:1096:405:25b::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.11; Fri, 7 Nov
- 2025 21:07:00 +0000
-Received: from OS3PR01MB8319.jpnprd01.prod.outlook.com
- ([fe80::6473:1660:bdc2:c983]) by OS3PR01MB8319.jpnprd01.prod.outlook.com
- ([fe80::6473:1660:bdc2:c983%6]) with mapi id 15.20.9298.010; Fri, 7 Nov 2025
- 21:07:00 +0000
-From: Chris Brandt <Chris.Brandt@renesas.com>
-To: Hugo Villeneuve <hugo@hugovil.com>
-CC: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette
-	<mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Biju Das
-	<biju.das.jz@bp.renesas.com>, Maarten Lankhorst
-	<maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>, Hien Huynh <hien.huynh.px@renesas.com>,
-	Nghia Vo <nghia.vo.zn@renesas.com>, "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>, "linux-clk@vger.kernel.org"
-	<linux-clk@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
-	<dri-devel@lists.freedesktop.org>
-Subject: RE: [PATCH v4 1/2] clk: renesas: rzg2l: Remove DSI clock rate
- restrictions
-Thread-Topic: [PATCH v4 1/2] clk: renesas: rzg2l: Remove DSI clock rate
- restrictions
-Thread-Index: AQHcTqM02+OCahzeqkGZBdprKCVrd7TnaoQAgAAejkCAAA1GAIAAHs9Q
-Date: Fri, 7 Nov 2025 21:07:00 +0000
-Message-ID:
- <OS3PR01MB8319E496A32EDBF5719BAB478AC3A@OS3PR01MB8319.jpnprd01.prod.outlook.com>
-References: <20251105222530.979537-1-chris.brandt@renesas.com>
-	<20251105222530.979537-2-chris.brandt@renesas.com>
-	<20251107113058.f334957151d1a8dd94dd740b@hugovil.com>
-	<OS3PR01MB83195AF3F1964548E1512FBE8AC3A@OS3PR01MB8319.jpnprd01.prod.outlook.com>
- <20251107140750.00bf68e4b2f5354015e65ad4@hugovil.com>
-In-Reply-To: <20251107140750.00bf68e4b2f5354015e65ad4@hugovil.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS3PR01MB8319:EE_|TY4PR01MB14830:EE_
-x-ms-office365-filtering-correlation-id: 76d3edea-dd9e-4307-5c4a-08de1e41981d
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|7416014|376014|366016|1800799024|38070700021;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?i3WKUZ0KHSfs3MiVpaKH49+2EBR71rkeMo+opGw41thhdqPrRtexpnQw0f93?=
- =?us-ascii?Q?U2HqOwWRwLy6ttU+ZMQoFoPBYAbuCUfSiI7aYqur10Jn7sjZWDu781eS6XSW?=
- =?us-ascii?Q?cIsRCSm6YeHYerx3YVxFpTR6c2qF/I4F7GJrWh+W7oMvI3Tyo70AWt2EQzd/?=
- =?us-ascii?Q?dOXgUCsoJE4GnziDNkODMmYgkgJZRm1pFKrcdKleHnI0MedK7Zg/q2esiuGY?=
- =?us-ascii?Q?JUXsVjmqW+pFhhcWPkSrUDB4u05VoSxPmrh4rSEELjRMI08Fgumurs22fbDG?=
- =?us-ascii?Q?0hMlAXQWlOkRERG/yVuWMyHmh24oJZbN7I9jIoW60ZG5XYedwhoZZU/rkJJD?=
- =?us-ascii?Q?lzTOzER5bdSRCwIctRKe8WTebBBFbvLdwSRT7O1rBhvHADues0t4s3VhlaWz?=
- =?us-ascii?Q?oQRB0ds2c/uz8jmk2ZOdHphqW2ZMJ/fqbTIbqSxfjAoHtBd38q02OlE4G8IC?=
- =?us-ascii?Q?kuwEf5ebj59F0/HK1MGYfO7H/oqMZtqmczpOpqTp7slKQvcjvixM5PmyNDC+?=
- =?us-ascii?Q?RoI5tCGVIJssJ8VUsQY9Jd5zIlG1u6IpLDTYKP87U+Y+ysG9lTx2tP/3G/HO?=
- =?us-ascii?Q?qU2ogK9Ycq7TkCHDYGsBBzk4nb8SXfcjGGx/uWvyI2f2us6q73JWqDH827Bj?=
- =?us-ascii?Q?c9J8US6ENHzsQTurw2mf5Li5UeK2FVVFqHrQQcjNrpJ8bdXfEKzVAStW1RPj?=
- =?us-ascii?Q?ybVwlt+lpdzVh4HtROUFsQGItKT3+lzBRsdxDL82vPTZ1hoqCk/4UztoNgoG?=
- =?us-ascii?Q?eTq93qnHhP63UCbjfOa6gt06lbMpTWs+Bz2/4WcwJFXjKxhnny+ofk12irrA?=
- =?us-ascii?Q?qbz6kKf7fh+0kLWVXWOg+ZejuKPiUB7rUJfnR86JF2xq0d2ARWZz/vOvSyzX?=
- =?us-ascii?Q?WaXBNmSZDQLC9Z6myftNWx4A2eGL9r1eXH7Mr3aN5KvUJdupdx+5IQ796ejr?=
- =?us-ascii?Q?j1L8bcbN8zqNI/O0wbbYAxB3cDrpri5ejEgB2H7tMTXknChVavuaWgi7UceG?=
- =?us-ascii?Q?d8av6dtL6t/mqzhVX0Gt9IJ15Cn5W91t36+MA2zVSnQh7is+Hl0OrBuMiH+c?=
- =?us-ascii?Q?vY/JwHTe/N8QW4Xol1ToGvnHfnZpwxKkxmgCzU1YAsh8rIcUT5Rit3PJwmY8?=
- =?us-ascii?Q?HExyyVWgl9YQ0WbLBVL26cwm+ViCAW9AdbxtCW8nQmfScNNzYiVmLo10BXZT?=
- =?us-ascii?Q?0YZAvKnJd/Bv5mgMKuPOwv0G/xKljrjcOC7tSlhvqCJBjsOZM3/muP2540TT?=
- =?us-ascii?Q?KSkY/ulpSzhrlytsYvHb1m8FduOCA8LWO/UzHDsyakbzU4F3OMex00ciJg/b?=
- =?us-ascii?Q?5Dyksiaj89CcUU2m4lDJdKKKIyrGp7VPHSIcGuo3/YMzGpSM5XMwAmygIE0E?=
- =?us-ascii?Q?alYGWqLN999YAnmE1FhaEYlyRqmWuCIiz9cKGnKQQkyLixP29tZSw307rVEN?=
- =?us-ascii?Q?GyodsQwSXwiW5do59XbaIGoVFH0oQ4do+PzwvGR/mOqgx5aDyJXhIfzxJ7ol?=
- =?us-ascii?Q?suIEMcGz8KjekmTEg1iUun1AuSs/RWhvXz8f?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS3PR01MB8319.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?mSAJY405eYcxCz/KbclMSNxLZYyGb3TzBjmuNq+KMY/+YC8uKghMlrmEBBOO?=
- =?us-ascii?Q?OWyYduikIIxjrM4qvsyoaUzuitMzwSMU9YtZFCwb0ZW+rilQ5WN8OfWRPoNT?=
- =?us-ascii?Q?HCS9Q/HA30mOLkqQVtS1r1O2FpgAv9mXjCD0bPEMprCgul7cZd2m5VfoIv0L?=
- =?us-ascii?Q?0zpsIthKTTrEdDogTn26cgD443UgEkgzPji/WEyHsXXMBwOVhXqAsZl9Y+kN?=
- =?us-ascii?Q?2SZ1nNXGZ25LTsfWaT80SLp87GPe/i0Jwo8bGDdHbDCdgcIkc+qAoWjsSOW/?=
- =?us-ascii?Q?FP/ImYjGI2XyNwQi3rsYJJssdmPnlqKe0YWMKFrzSJwUPhqzwKK1/WeeD5bK?=
- =?us-ascii?Q?c+HITs5mNidpJfA0l+Q5H5t4vaR76JKtvNe9UKc+iU8F0wfFCo03cm+ONU47?=
- =?us-ascii?Q?rRj6ukfQfwQPUjGW70C8+eDgAOQPTqa8f/ufbgcVRD6ZiM/b5uCaKoI5vlhG?=
- =?us-ascii?Q?8GAQ9Y90ZxySuDEAcxPUyU9tU5tnZy+Vf0nQ7yEc8bttgpvdnXfcsU8lX9Cb?=
- =?us-ascii?Q?QORv5+VD3pZhQkvCnwHXwuz42q9MSBu9gQv8fWfGX/wZVvYab4Ve5W5OXDT4?=
- =?us-ascii?Q?vMOM28CO+xok3QxNat5R6Yj6HtJMgGD2CcvmyM5tVfaz24pAfMyLm3n0ASmB?=
- =?us-ascii?Q?jarcGaCNfTjGktSwzmT1S7DZklPpDlcPQvZ61fVL+Mp0C2CWAufqzIuIf8n9?=
- =?us-ascii?Q?9RZLH3xx0xXVq9miK5+jPKT3kXkivJVueRO5XGa5fg08InbZ5R/2QbuEytI8?=
- =?us-ascii?Q?ADamV70l9lg6GAuBReOqcTPm7AUEaPZUp2POxUUnke2Llq5mlwd3sgB29kf0?=
- =?us-ascii?Q?aHUf7jhxPkEPdMCBLRl94Yy+L5DwUHnuy/uuUleaWlwyu8UQHOX2XruxrS8k?=
- =?us-ascii?Q?s2n0FZZr59G4IkrUXpN4JNnbOODS05L/dJ14Kh6GNNz3xYZcFRpe6tVdIImL?=
- =?us-ascii?Q?zyEmH3MXHkTja7AJv6nVKc21FMUKn/svvtDmKMQW/TxqyAmBXsJEj6+WiJ3J?=
- =?us-ascii?Q?QNfIDBm1k0rfjg+nEj8+gP4oCsn4k/LJJZ/0XRuzYSjNDLWmN8+jIzRFpvHR?=
- =?us-ascii?Q?GBl8lPUCjMI9Ty6pySldfOnwwb6naN4Dv30AOvBxhOiANPIbQKVQ2Upj5lK0?=
- =?us-ascii?Q?iP89x+otHM2dHprTXi88LOiJhFLd/W7i0hlUesdS2thyb1ypMh3yNvw6esWJ?=
- =?us-ascii?Q?WXfEqWQv8THB4pvi4RS2gQPu29+sOQ7cL2W2Hg/EIQJIwwXgOCPICfVroeiU?=
- =?us-ascii?Q?bIhXbsew5Tz+jfmz2ZYRO4Us5Q7KJnG3SpBOp8+eJfOlr7HLb68YpHF/BELN?=
- =?us-ascii?Q?FX9u1/SNny1tjal3Ruw/Y1T4feLiTm24qYIp3r5uRmsNCpuhp/bYvczdduyA?=
- =?us-ascii?Q?4vWuGro+ggbSi82VdJoHc+AWF8hEU4RI9kdzkYxXXqrMLkWgCiYATqzgca7W?=
- =?us-ascii?Q?yUHW0vomGva+WC+qmU5fASMmqspol8MyD+NkngNDabm8/lwGW+xW3McHs+AC?=
- =?us-ascii?Q?9qfR66eT9Nttu68xhzHp5lFEkwawp0pxbsO1ICzI+q6D0LF7loOlj9s6KkLr?=
- =?us-ascii?Q?Y+4xOZmTwLJ/AV4JxXdMg8NLWRvB88AsF9ozUz75?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-CSE-ConnectionGUID: VgEgaSSpSkiLI6Fb3d4ypw==
+X-CSE-MsgGUID: ql3Yg56uQpiNYom+6Hxkqw==
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 08 Nov 2025 06:07:12 +0900
+Received: from vm01.adwin.renesas.com (unknown [10.226.93.123])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id A8D6A4007D1A;
+	Sat,  8 Nov 2025 06:07:07 +0900 (JST)
+From: Ovidiu Panait <ovidiu.panait.rb@renesas.com>
+To: claudiu.beznea.uj@bp.renesas.com,
+	alexandre.belloni@bootlin.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	geert+renesas@glider.be,
+	magnus.damm@gmail.com,
+	p.zabel@pengutronix.de
+Cc: linux-rtc@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/4] Add RTC support for the Renesas RZ/V2H SoC
+Date: Fri,  7 Nov 2025 21:07:02 +0000
+Message-ID: <20251107210706.45044-1-ovidiu.panait.rb@renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS3PR01MB8319.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 76d3edea-dd9e-4307-5c4a-08de1e41981d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Nov 2025 21:07:00.6469
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: z9Gx+FyqbtHWjN6ErG3eI/3v7zHsALThCGqXgZOA2WG7C9HFh6w6tEsDoMj4Dqze+8YjHzp+7XqpUQIABuBBVsia3PAGnP2LnE6FalRCQVU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY4PR01MB14830
+Content-Transfer-Encoding: 8bit
 
-Hi Hugo,
+Hi,
 
-On Fri, Nov 7, 2025 2:08 PM, Hugo Villeneuve wrote:
-> You can add the "Fixes" tag (not "Fixed" as I incorrectly stated):
->
->     Fixes: 1561380ee72f ("clk: renesas: rzg2l: Add FOUTPOSTDIV clk suppor=
-t")
+This series adds RTC support for the Renesas RZ/V2H SoC.
 
-Thanks for looking it up.
+The Renesas RZ/V2H RTC IP is based on the same RTCA3 IP as RZ/G3S
+(r9a08g045), with the following differences:
+- it lacks the time capture functionality
+- the maximum supported periodic interrupt frequency is 128Hz instead
+  of 256Hz
+- it requires two reset lines instead of one
 
-I'll also add you with a Reported-by
+Best regards,
+Ovidiu
 
-I'll see if there are any other comments, then I'll resubmit the patch seri=
-es by adding this new patch at the beginning.
+v4:
+- Renamed reset "rtc_rtest" -> "rtest".
+- Added "vbattb" reset name to example node.
 
-If nothing else, this review was good because it forced me to go back and r=
-eview internally what the hardware manual
-says as compared to the driver that we have been using for the last couple =
-years.
+v3:
+- Dropped all changes related to "max_user_freq", as it was removed from
+  all drivers by:
+  https://lore.kernel.org/all/20251101-max_user_freq-v1-0-c9a274fd6883@bootlin.com/
 
-Cheers
+v2:
+- Updated bindings and RTC dts node with "reset-names" property.
 
-Chris
+Ovidiu Panait (4):
+  dt-bindings: rtc: renesas,rz-rtca3: Add RZ/V2H support
+  rtc: renesas-rtca3: Add support for multiple reset lines
+  arm64: dts: renesas: r9a09g057: Add RTC node
+  arm64: dts: renesas: r9a09g057h44-rzv2h-evk: Enable RTC
+
+ .../bindings/rtc/renesas,rz-rtca3.yaml        | 46 +++++++++++++++++--
+ arch/arm64/boot/dts/renesas/r9a09g057.dtsi    | 15 ++++++
+ .../dts/renesas/r9a09g057h44-rzv2h-evk.dts    |  4 ++
+ drivers/rtc/rtc-renesas-rtca3.c               |  2 +-
+ 4 files changed, 61 insertions(+), 6 deletions(-)
+
+-- 
+2.51.0
 
 
