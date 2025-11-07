@@ -1,177 +1,117 @@
-Return-Path: <linux-renesas-soc+bounces-24322-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24323-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C968C3FB6B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 07 Nov 2025 12:22:26 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0103C3FE48
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 07 Nov 2025 13:29:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id C1119346A03
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Nov 2025 11:22:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2C69D1890F0B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Nov 2025 12:29:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56D6F322550;
-	Fri,  7 Nov 2025 11:22:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 162BA2D063A;
+	Fri,  7 Nov 2025 12:29:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rImSqDdr"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="NUgdNTea"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0406F320A38;
-	Fri,  7 Nov 2025 11:22:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1FDF2417F0;
+	Fri,  7 Nov 2025 12:29:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762514541; cv=none; b=YcoJ9TDgV9D8m/Ed3E4aXgDvZ0hiGCk8UfSeqiRmfE8C+cxESbq+4sSYpy3K2l9spQLwVGbvXkHw1IJrYbZIjwQOzrhZgyYFFOEHvZYOv7S09DxZHBBEhAsbLnHywSUqhU+zghyARghSQyFnO8zn+Ao/utW3B5bAZngg5eBFThE=
+	t=1762518554; cv=none; b=f671yYKnfrsSK3QAkkXKmur6495D5dcFYWTSNr7342T8RSiykeZ4QfKKYcpuPxFwMMCzIXKQq0rFz1GesShUYM3QL8bkeU+u4ssWZ153fFsFi2v8tsNmmGjVxMPdAnunUI3gHruR9l8DSiUH+fBn815Zi17/7us0fmxpe0MV4XQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762514541; c=relaxed/simple;
-	bh=WqJuyrothph0jJUBiuUUbS1FvhvPkDqkS2NhaeN0xV0=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=QredjCOU8zlUyJ/7Joi7+QKVPC9ei+fvD3PXcAJJJxuUsxNT4uCPqOj9sMVPA6Zjk912FkRg2N2CLgTK0h5HiDZfB4/bR2h9z4MIlCt32NTPLoKD/ckNI6ig35/s1nS05XBUJh5Kd6aL7LdD6svEEe2xkFLsV0d2vEmyOddL3cc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rImSqDdr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45321C4CEF7;
-	Fri,  7 Nov 2025 11:22:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762514540;
-	bh=WqJuyrothph0jJUBiuUUbS1FvhvPkDqkS2NhaeN0xV0=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=rImSqDdr0csAuwceoiZMORIrJXnobUCP+yoqx199IwW4RPtIeHWgGg8yhQ45V/D7R
-	 HxCBJlEMisUSTZWQ74AkbgFanp3OacerkO8+FsunvIN8Qv1PJjoKvEhbkIBisz2yNh
-	 fHEnA2G6Z+rnjMkyoYcahxv0PRsrM8NiFmSYDw5XFjOljLa3mMJnwZAikRLma8aHey
-	 0V3PWYoagJTX1nuIdJ2Oom+6PchZMhCgWc6c354u4h/wXc/BosroSeZA0hazMf3txS
-	 iSFPT4TBGUlSnwuvzF4pqevVMyluivzg/6sz2Tim0ZSb22VBqsrJyyImM6xekisJtj
-	 QhXJiXhB/cEDw==
-Date: Fri, 07 Nov 2025 05:22:18 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=arc-20240116; t=1762518554; c=relaxed/simple;
+	bh=18N4H57Jk1epoG9Sh676fcKQoOXWTEOLpm928Dvv4gI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QNFOfKq/zTBVW4Y1fT//edV6nfe0LkGjalBVm16YOd29mRgkQ/gDU9qdyZRwXGFc0zDqVZ3bhflNGDEUHO1lg3CqUSHgzlPvAfeob9xtEWqOlSaSW4hxm1ED5+GzWnvQl09QgqALHbybXkH7a5cSGJVBCyKjKd/5jVc1G8WnP24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=NUgdNTea; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=OS9TgP69ehGD5yxqH90DzusdYBQmnfuojUpTp9rV3No=; b=NUgdNTeaodv4jwVg4hVhaAiaHQ
+	vlcyccwtXQVEGVb21aWZWqpiKW3/7l9PPgBGkM6aAqkzybjLgMMZ2nW7khhRqweETKL2hD9dNdtD8
+	HsYpzbiMHPaxd5emfuuYtbXuOmDYdc+es62/fvVyBqB4iO57dnNWhFFpG80OFd1ylsbIlYL554j/5
+	+COzmUHBw+ZWi5EOlmJVtRt1fYRcJzQva7JAeXh2OWysg5weLO8zfByMpFLoyhccDjWUTnhgn+X5b
+	m74wrGtuig7jl6mtZSVdengTJgV0klMvP+0bHPlr7efd/2y+SkewwXMfc0Lp1e6/8fH06v++H46qe
+	8KixF+fg==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:55958)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1vHLaJ-000000006Ti-3yNM;
+	Fri, 07 Nov 2025 12:28:56 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1vHLaF-000000007Zu-06g1;
+	Fri, 07 Nov 2025 12:28:51 +0000
+Date: Fri, 7 Nov 2025 12:28:50 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Horatiu Vultur <horatiu.vultur@microchip.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH net-next] net: phy: mscc: Add support for PHY LEDs on
+ VSC8541
+Message-ID: <aQ3mAhaZQa8_99Ah@shell.armlinux.org.uk>
+References: <20251106200309.1096131-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <ee6a79ae-4857-44e4-b8e9-29cdd80d828f@lunn.ch>
+ <CA+V-a8vFEHr+3yR7=JAki3YDe==dAUv3m4PrD-nWhVg8hXgJcQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: linux-stm32@st-md-mailman.stormreply.com, 
- Eric Dumazet <edumazet@google.com>, Fabio Estevam <festevam@gmail.com>, 
- David Wu <david.wu@rock-chips.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Samin Guo <samin.guo@starfivetech.com>, linux-amlogic@lists.infradead.org, 
- netdev@vger.kernel.org, imx@lists.linux.dev, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- linux-renesas-soc@vger.kernel.org, Clark Wang <xiaoning.wang@nxp.com>, 
- Jerome Brunet <jbrunet@baylibre.com>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Guo Ren <guoren@kernel.org>, 
- Jose Abreu <joabreu@synopsys.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- "G. Jaya Kumaran" <vineetha.g.jaya.kumaran@intel.com>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Shuang Liang <liangshuang@eswincomputing.com>, 
- Nobuhiro Iwamatsu <nobuhiro.iwamatsu.x90@mail.toshiba>, 
- Swathi K S <swathi.ks@samsung.com>, linux-arm-msm@vger.kernel.org, 
- Giuseppe Cavallaro <peppe.cavallaro@st.com>, 
- linux-rockchip@lists.infradead.org, Frank Li <Frank.Li@nxp.com>, 
- Emil Renner Berthing <kernel@esmil.dk>, 
- Shangjuan Wei <weishangjuan@eswincomputing.com>, 
- Vinod Koul <vkoul@kernel.org>, Richard Cochran <richardcochran@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Maxime Ripard <mripard@kernel.org>, linux-arm-kernel@lists.infradead.org, 
- Jan Petrous <jan.petrous@oss.nxp.com>, 
- Drew Fustini <dfustini@tenstorrent.com>, s32@nxp.com, 
- Conor Dooley <conor+dt@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>, 
- devicetree@vger.kernel.org, Chen-Yu Tsai <wens@kernel.org>, 
- linux-mips@vger.kernel.org, Konrad Dybcio <konradybcio@kernel.org>, 
- Matthew Gerlach <matthew.gerlach@altera.com>, 
- Zhi Li <lizhi2@eswincomputing.com>, linux-sunxi@lists.linux.dev, 
- Heiko Stuebner <heiko@sntech.de>, 
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
- Fu Wei <wefu@redhat.com>, Linux Team <linux-imx@nxp.com>, 
- Christophe Roullier <christophe.roullier@foss.st.com>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Keguang Zhang <keguang.zhang@gmail.com>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Romain Gantois <romain.gantois@bootlin.com>, 
- Magnus Damm <magnus.damm@gmail.com>, Drew Fustini <fustini@kernel.org>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Shawn Guo <shawnguo@kernel.org>, 
- linux-kernel@vger.kernel.org, Inochi Amaoto <inochiama@gmail.com>, 
- Jakub Kicinski <kuba@kernel.org>, sophgo@lists.linux.dev, 
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
- Minda Chen <minda.chen@starfivetech.com>, linux-riscv@lists.infradead.org, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Chen Wang <unicorn_wang@outlook.com>
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-In-Reply-To: <20251107-qcom-sa8255p-emac-v5-1-01d3e3aaf388@linaro.org>
-References: <20251107-qcom-sa8255p-emac-v5-0-01d3e3aaf388@linaro.org>
- <20251107-qcom-sa8255p-emac-v5-1-01d3e3aaf388@linaro.org>
-Message-Id: <176251453854.1709481.17350672291824662534.robh@kernel.org>
-Subject: Re: [PATCH v5 1/8] dt-bindings: net: qcom: document the ethqos
- device for SCMI-based systems
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+V-a8vFEHr+3yR7=JAki3YDe==dAUv3m4PrD-nWhVg8hXgJcQ@mail.gmail.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
+On Fri, Nov 07, 2025 at 10:34:32AM +0000, Lad, Prabhakar wrote:
+> On Thu, Nov 6, 2025 at 8:45 PM Andrew Lunn <andrew@lunn.ch> wrote:
+> > > +static int vsc85xx_led_cntl_set_lock_unlock(struct phy_device *phydev,
+> > > +                                         u8 led_num,
+> > > +                                         u8 mode, bool lock)
+> > >  {
+> > >       int rc;
+> > >       u16 reg_val;
+> > >
+> > > -     mutex_lock(&phydev->lock);
+> > > +     if (lock)
+> > > +             mutex_lock(&phydev->lock);
+> > >       reg_val = phy_read(phydev, MSCC_PHY_LED_MODE_SEL);
+> > >       reg_val &= ~LED_MODE_SEL_MASK(led_num);
+> > >       reg_val |= LED_MODE_SEL(led_num, (u16)mode);
+> > >       rc = phy_write(phydev, MSCC_PHY_LED_MODE_SEL, reg_val);
+> > > -     mutex_unlock(&phydev->lock);
+> > > +     if (lock)
+> > > +             mutex_unlock(&phydev->lock);
 
-On Fri, 07 Nov 2025 11:29:51 +0100, Bartosz Golaszewski wrote:
-> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> 
-> Describe the firmware-managed variant of the QCom DesignWare MAC. As the
-> properties here differ a lot from the HLOS-managed variant, lets put it
-> in a separate file. Since we need to update the maximum number of power
-> domains, let's update existing bindings referencing the top-level
-> snps,dwmac.yaml and limit their maxItems for power-domains to 1.
-> 
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> ---
->  .../bindings/net/allwinner,sun7i-a20-gmac.yaml     |  3 +
->  .../bindings/net/altr,socfpga-stmmac.yaml          |  3 +
->  .../bindings/net/amlogic,meson-dwmac.yaml          |  3 +
->  .../devicetree/bindings/net/eswin,eic7700-eth.yaml |  3 +
->  .../devicetree/bindings/net/intel,dwmac-plat.yaml  |  3 +
->  .../bindings/net/loongson,ls1b-gmac.yaml           |  3 +
->  .../bindings/net/loongson,ls1c-emac.yaml           |  3 +
->  .../devicetree/bindings/net/nxp,dwmac-imx.yaml     |  3 +
->  .../devicetree/bindings/net/nxp,lpc1850-dwmac.yaml |  3 +
->  .../devicetree/bindings/net/nxp,s32-dwmac.yaml     |  3 +
->  .../devicetree/bindings/net/qcom,ethqos.yaml       |  3 +
->  .../bindings/net/qcom,sa8255p-ethqos.yaml          | 98 ++++++++++++++++++++++
->  .../devicetree/bindings/net/renesas,rzn1-gmac.yaml |  3 +
->  .../bindings/net/renesas,rzv2h-gbeth.yaml          |  3 +
->  .../devicetree/bindings/net/rockchip-dwmac.yaml    |  3 +
->  .../devicetree/bindings/net/snps,dwmac.yaml        |  5 +-
->  .../bindings/net/sophgo,cv1800b-dwmac.yaml         |  3 +
->  .../bindings/net/sophgo,sg2044-dwmac.yaml          |  3 +
->  .../bindings/net/starfive,jh7110-dwmac.yaml        |  3 +
->  .../devicetree/bindings/net/stm32-dwmac.yaml       |  3 +
->  .../devicetree/bindings/net/tesla,fsd-ethqos.yaml  |  3 +
->  .../devicetree/bindings/net/thead,th1520-gmac.yaml |  3 +
->  .../bindings/net/toshiba,visconti-dwmac.yaml       |  3 +
->  MAINTAINERS                                        |  1 +
->  24 files changed, 166 insertions(+), 1 deletion(-)
-> 
+If you used the provided helpers rather than open-coding a read-modify-
+write, then you wouldn't even need this lock. Please use phy_modify().
 
-My bot found errors running 'make dt_binding_check' on your patch:
-
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/net/qcom,sa8255p-ethqos.yaml: $id: Cannot determine base path from $id, relative path/filename doesn't match actual path or filename
- 	 $id: http://devicetree.org/schemas/net/qcom,ethqos-scmi.yaml
- 	file: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/net/qcom,sa8255p-ethqos.yaml
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20251107-qcom-sa8255p-emac-v5-1-01d3e3aaf388@linaro.org
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
 
