@@ -1,108 +1,210 @@
-Return-Path: <linux-renesas-soc+bounces-24293-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24294-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64B88C3E299
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 07 Nov 2025 02:50:46 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE7E1C3E403
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 07 Nov 2025 03:32:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 20B593AC603
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Nov 2025 01:50:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 22AF6188A8BC
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Nov 2025 02:32:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7408E2EC097;
-	Fri,  7 Nov 2025 01:50:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD4572D7DDB;
+	Fri,  7 Nov 2025 02:32:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="afxGjvyD"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="GH3vDB/y"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49CF820C037;
-	Fri,  7 Nov 2025 01:50:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFD8118DB1E;
+	Fri,  7 Nov 2025 02:32:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762480242; cv=none; b=LQSDBPU7tup/zGivPLTZbMZ5KWDSh+xJh5IZ2Vw4/TbpgaPVKSBL18YhfGw1iIPr2YrQ8fygm7t5+Z8y8CRF4jgWTS71CYJ4hYtDyyajyzs4CKZWhh0c8utCjNMyue7+xIQu3ieMmlOUSEzpJDJSqmQPi/bP5XK+CZ8wWBPxTps=
+	t=1762482751; cv=none; b=imppQYcaqp8TGrlpoeENHoXZKrC+UbgyZZMWMmFqJvSOI8JyLEgJhG+PgejWr4SquhN+WQrIAbrC/AtUzMJswWBtzQYcJW7xjFH2ZCVA0g1uCjX4jkaWK6UWI4WJpkYP8gttgW/owYu5I5ssNwVytcEpzUbx1GJqnH8rK59m0+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762480242; c=relaxed/simple;
-	bh=Xq51Z/9D2fZDatgMXKL0KxpS0FoLycB7VoFYeF3j0NQ=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=a0f2dTIWP7V5YNweYCnyLr4Lg5qW1m2jRQLfHcZwFDdjuwdN1hr+sTv733RDzwcntseFLd+kUp5ADVoHj03mkY+sBQbZNy5oHGhHJ9eVxxwpDcUdXzxfNe22G1BTW+G2qrQQW4ZrUMwGZqJh2wZxq2soV9BI2FoPvvFbOMiNDRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=afxGjvyD; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3C40C4CEF7;
-	Fri,  7 Nov 2025 01:50:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762480241;
-	bh=Xq51Z/9D2fZDatgMXKL0KxpS0FoLycB7VoFYeF3j0NQ=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=afxGjvyDQkcynlOHFmuYaA8bA0ELkiZO3OVHeiI/ZLaV8Evb1QgXFOF/OjvpUirpI
-	 VkSjiHKXJNqt1SnlNx5z+VeRALHg6Pf4sZTaQlyncsjgUoW5Su7Hp+9CdrOxAPoKDb
-	 gIEc6auI/rkDePtrCvDlxcyR6M80MbbYQNy9KhffhJG3Bi/ICodlsn7aKaq/DCcUfo
-	 OtEL7kj1eMp2NUbqVZFKvf1oe3xmKKUMMe0x7EPs4MNIVpm0psL7xvMd6ADdrtso7O
-	 UKwGUbLeKyE2bBc9OehxwgahyYK0llr8eM34Lvg01KG1jQJYzNS6zj8wrv/nLDRr7V
-	 ZmsQL344pMLDQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id ADDA539EF976;
-	Fri,  7 Nov 2025 01:50:15 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1762482751; c=relaxed/simple;
+	bh=8AZUtJSjZbIu0bdghP1eunb4IxNIfI0QWmogY0q3qP8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NJmzlcqkqDd5+KbZp+cz6cpsqh9i+xyWxPuB20b63y//Rxqp7B+Qvl5AQfQ5ECEMIrzDBsTP0t6aIpB3ZLHpboreFLatncXHPEdbJzTDp2+wy9VDaUJkcbgpR2h06sMZTtw4rVW5KZI1WE7PIWHiOBtx2cfNKTlFdnwE/pXSU6c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=GH3vDB/y; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=oqZYRwITV1tIClSNKZT4kQ9NDRETBwvBumZWmmbLSGo=; b=GH3vDB/yuN2m28NbUXVt3k3Fad
+	MN5iO/zI4OfUmGuyudGhXiyYoL4uZtFJaA4Cus7/uEiVhlOikdWi41Se+SvzuXmruq/5g93CTh+4f
+	jWpoYrw4ZUn4OpD6vq20GhbFyo5bwpQpqZnfeVgVqJ5VvC0e4K9iJRz/cRJPqqNO8Qzs=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1vHCGu-00DB5C-Fb; Fri, 07 Nov 2025 03:32:16 +0100
+Date: Fri, 7 Nov 2025 03:32:16 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Michael Dege <michael.dege@renesas.com>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
+	Paul Barker <paul@pbarker.dev>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, netdev@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH net-next 09/10] net: renesas: rswitch: add simple l3
+ routing
+Message-ID: <06213fb1-12dc-4045-803e-d2a65c7e9fc6@lunn.ch>
+References: <20251106-add_l3_routing-v1-0-dcbb8368ca54@renesas.com>
+ <20251106-add_l3_routing-v1-9-dcbb8368ca54@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [net-next,v2 0/7] net: renesas: Cleanup usage of gPTP flags
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <176248021450.451816.5444160112650392345.git-patchwork-notify@kernel.org>
-Date: Fri, 07 Nov 2025 01:50:14 +0000
-References: <20251104222420.882731-1-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20251104222420.882731-1-niklas.soderlund+renesas@ragnatech.se>
-To: =?utf-8?q?Niklas_S=C3=B6derlund_=3Cniklas=2Esoderlund+renesas=40ragnatech=2E?=@codeaurora.org,
-	=?utf-8?q?se=3E?=@codeaurora.org
-Cc: paul@pbarker.dev, andrew+netdev@lunn.ch, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
- yoshihiro.shimoda.uh@renesas.com, geert+renesas@glider.be,
- magnus.damm@gmail.com, richardcochran@gmail.com, netdev@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251106-add_l3_routing-v1-9-dcbb8368ca54@renesas.com>
 
-Hello:
+> +void rswitch_update_l3_offload(struct rswitch_private *priv)
+> +{
+> +	u32 all_ports_mask = GENMASK(RSWITCH_NUM_AGENTS - 1, 0);
+> +	struct rswitch_device *rdev;
+> +	bool l3_offload_enable_cond;
+> +	u32 l3_rdev_count;
+> +	u32 l3_ports_mask;
+> +
+> +	l3_ports_mask = all_ports_mask;
+> +
+> +	l3_rdev_count = 0;
+> +	rswitch_for_all_ports(priv, rdev) {
+> +		if (rdev_for_l3_offload(rdev)) {
+> +			l3_rdev_count++;
+> +			l3_ports_mask &= ~BIT(rdev->port);
+> +		}
+> +	}
+> +
+> +	l3_offload_enable_cond = (l3_rdev_count >= 2);
+> +
+> +#define FWPC0_L3_MASK (FWPC0_LTHTA | FWPC0_IP4UE | FWPC0_IP4TE | FWPC0_IP4OE)
+> +	rswitch_for_all_ports(priv, rdev) {
+> +		if (rdev_for_l3_offload(rdev) && l3_offload_enable_cond) {
+> +			/* Update allowed offload destinations even for ports
+> +			 * with l3 offload enabled earlier.
+> +			 *
+> +			 * Allow offload routing to self for hw port.
+> +			 */
+> +			rswitch_modify(priv->addr, FWPC1(rdev->port),
+> +				       FWPC1_LTHFW_MASK,
+> +				       FIELD_PREP(FWPC1_LTHFW_MASK, l3_ports_mask));
+> +			if (!rdev->l3_offload_enabled) {
+> +				rswitch_modify(priv->addr, FWPC0(rdev->port),
+> +					       0,
+> +					       FWPC0_L3_MASK);
+> +				rdev->l3_offload_enabled = 1;
+> +				netdev_info(rdev->ndev, "starting l3 offload\n");
 
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+This, and the other netdev_info calls should probably be debug.
 
-On Tue,  4 Nov 2025 23:24:13 +0100 you wrote:
-> Hello,
-> 
-> This series aim is to prepare for future work that will enable the use
-> of gPTP on R-Car RAVB on Gen4. Currently RAVB have a dedicated gPTP
-> implementation supported on Gen2 and Gen3 (ravb_ptp.c). For Gen4 a new
-> implementation that is already upstream (rcar_gen4_ptp.c) and used by
-> other Gen4 devices such as RTSN and RSWITCH is needed.
-> 
-> [...]
+> +static bool rswitch_l23update_hw_op(struct rswitch_private *priv,
+> +				    struct rswitch_l23update *update,
+> +				    bool install)
+> +{
+> +	u8 *dst_mac = update->spec.dst_mac;
+> +	u32 val;
+> +	int ret;
+> +
+> +	val = FIELD_PREP(FWL23URL0_RN, update->index) |
+> +	      FIELD_PREP(FWL23URL0_PV,
+> +			 install ? GENMASK(RSWITCH_NUM_AGENTS - 1, 0) : 0);
+> +	iowrite32(val, priv->addr + FWL23URL0);
+> +
+> +	val = FWL23URL1_TTLU |
+> +	      FWL23URL1_MSAU |
+> +	      FWL23URL1_MDAU |
+> +	      (dst_mac[0] << 8) | (dst_mac[1] << 0);
+> +	iowrite32(val, priv->addr + FWL23URL1);
+> +
+> +	val = (dst_mac[2] << 24) | (dst_mac[3] << 16) |
+> +	      (dst_mac[4] << 8)  | (dst_mac[5] << 0);
+> +	iowrite32(val, priv->addr + FWL23URL2);
+> +
+> +	iowrite32(0, priv->addr + FWL23URL3);
+> +
+> +	/* Rule write starts after writing to FWL23URL3 */
+> +
+> +	ret = rswitch_reg_wait(priv->addr, FWL23URLR, FWL23URLR_L, 0);
+> +	if (ret) {
+> +		dev_err(&priv->pdev->dev, "timeout writing l23_update\n");
+> +		return false;
 
-Here is the summary with links:
-  - [net-next,v2,1/7] net: rswitch: Move definition of S4 gPTP offset
-    https://git.kernel.org/netdev/net-next/c/e98d8792929d
-  - [net-next,v2,2/7] net: rcar_gen4_ptp: Move control fields to users
-    https://git.kernel.org/netdev/net-next/c/50ab1c6becde
-  - [net-next,v2,3/7] net: rswitch: Use common defines for time stamping control
-    https://git.kernel.org/netdev/net-next/c/b314e4f7a9d9
-  - [net-next,v2,4/7] net: rtsn: Use common defines for time stamping control
-    https://git.kernel.org/netdev/net-next/c/e43791f40b81
-  - [net-next,v2,5/7] net: rcar_gen4_ptp: Remove unused defines
-    https://git.kernel.org/netdev/net-next/c/3614d249d1da
-  - [net-next,v2,6/7] net: ravb: Break out Rx hardware timestamping
-    https://git.kernel.org/netdev/net-next/c/5ce97b8d6132
-  - [net-next,v2,7/7] net: ravb: Use common defines for time stamping control
-    https://git.kernel.org/netdev/net-next/c/16e2e6cf75e6
+Why not make this an int function and return -ETIMEDOUT?
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+> +static bool rmon_ipv4_dst_offload_hw_op(struct rswitch_route_monitor *rmon,
+> +					struct rmon_ipv4_dst_offload *offload,
+> +					u8 frame_type, bool install)
 
+Why all this bool functions? Especially when you have calls returning
+error codes you are throwing away.
 
+> +static struct rswitch_l23update *rswitch_get_l23update(struct rswitch_private *priv,
+> +						       struct rswitch_l23update_spec *spec)
+> +{
+> +	struct rswitch_l23update *update;
+> +
+> +	spin_lock(&priv->l3_lock);
+> +
+> +	list_for_each_entry(update, &priv->l23_update_list, list) {
+> +		if (rswitch_l23update_matches_spec(update, spec)) {
+> +			update->use_count++;
+> +			goto out;
+> +		}
+> +	}
+> +
+> +	update = kzalloc(sizeof(*update), GFP_ATOMIC);
+> +	if (!update)
+> +		goto out;
+> +
+> +	update->use_count = 1;
+> +	update->spec = *spec;
+> +	update->index = find_first_zero_bit(priv->l23_update_bitmap,
+> +					    RSWITCH_MAX_NUM_RRULE);
+> +	if (update->index == RSWITCH_MAX_NUM_RRULE) {
+> +		dev_err_ratelimited(&priv->pdev->dev,
+> +				    "out of l23_update entries\n");
+> +		/* FIXME: trigger expire? */
+> +		goto no_free_bit;
+> +	}
+> +	set_bit(update->index, priv->l23_update_bitmap);
+> +
+> +	if (!rswitch_l23update_hw_op(priv, update, true))
+> +		goto hw_op_failed;
+> +
+> +	list_add(&update->list, &priv->l23_update_list);
+> +out:
+> +	spin_unlock(&priv->l3_lock);
+> +
+> +	return update;
+> +
+> +hw_op_failed:
+> +	clear_bit(update->index, priv->l23_update_bitmap);
+> +no_free_bit:
+> +	kfree(update);
+> +	update = NULL;
+> +	goto out;
+
+It is pretty unusual to have a backwards goto, especially in error
+handling. This is one case where a scoped_guard() might make sense.
+
+	Andrew
 
