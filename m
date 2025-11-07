@@ -1,225 +1,202 @@
-Return-Path: <linux-renesas-soc+bounces-24336-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24337-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 482EFC4126F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 07 Nov 2025 18:50:12 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F2E6C414C8
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 07 Nov 2025 19:36:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F0BD7188D8B1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Nov 2025 17:50:34 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 0037F4E368F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Nov 2025 18:36:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67A55331A6E;
-	Fri,  7 Nov 2025 17:50:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41E8032860F;
+	Fri,  7 Nov 2025 18:36:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mwN0/2co"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="bN94bPUy"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010064.outbound.protection.outlook.com [52.101.229.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F156207A22;
-	Fri,  7 Nov 2025 17:50:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762537808; cv=none; b=MIXi2F0SvLGrLibJtu/Qe5XbmmPLaoItA08eCL0d0Fz6qvHgVE3gz8XbkHVJ/vQYAZlkw12J3zFq1Zlv6a7A+vKPoTuudt8M/7TSfHGdjZcaWe2r1wQgCMFZS/+IuWh6tlD1uM8bbhyH1EjlFWaazpGjKKB0a2ZNL8V2L+j5v60=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762537808; c=relaxed/simple;
-	bh=qwOodP/5x1cLJTKNu9BoI3+Z+jnZGDSbAh6AAftJ9EU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MDCRO7DNIPalo81ekbX9KpE+2U2V85NXYIlD4f6FpCFtWGhpi9B+oRwI57Ii+hvRqxR1+utdDiuUQvCINfLzn9MF2Ho5b9kYe8Uum6A4AYpePLnpUKUAlWH67F2fTk0Tfpr1F8Y7wG0eT+Hpt9jSIjf6skHpIfGymtjUPxJB/+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mwN0/2co; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A598C19423;
-	Fri,  7 Nov 2025 17:50:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762537807;
-	bh=qwOodP/5x1cLJTKNu9BoI3+Z+jnZGDSbAh6AAftJ9EU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mwN0/2coA4Qf/IpWvb+0v8FoX9cr8GFvrLJJe+4Bbi7LwojS9l7Hq8FLSt9FgqQwb
-	 3vxKFGdOfW7lT3Pu+/gjHvTJl7G9V6z2jPT2YqogO5dyFosHVYpgi16S/SfoPjLXJK
-	 R5jsdf7vbg+ykR0caNdoUkYtABaHVQyKTYf6Rq2lsn2PKzz4Obq3//flygKqSKwwh0
-	 WU+rBGCDZAPCucxy3Qu0jiStshzGLUL5ug3ebSFozrS9mRcvGQhDotlZ/RxBkiW992
-	 pmikayXdT2Dd+1z2nw8KDHski2STK+282bf8MvOOHPOg5HHnVggAmAGppTVK+jIq+D
-	 +zKAhWz5NNXIw==
-Date: Fri, 7 Nov 2025 17:50:02 +0000
-From: Simon Horman <horms@kernel.org>
-To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Paul Barker <paul@pbarker.dev>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Richard Cochran <richardcochran@gmail.com>, netdev@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [net-next,v2 7/7] net: ravb: Use common defines for time
- stamping control
-Message-ID: <aQ4xSv9629XF-Bt3@horms.kernel.org>
-References: <20251104222420.882731-1-niklas.soderlund+renesas@ragnatech.se>
- <20251104222420.882731-8-niklas.soderlund+renesas@ragnatech.se>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3419191;
+	Fri,  7 Nov 2025 18:36:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.64
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762540593; cv=fail; b=LHJYEfbUgkYA3aHBl7100j+Y7By0ULsIhzX0EpBoALX5aGh5rgv8qneDTghSk3OXy6D6go/OvHVFhDysLIM5UjgkZQnineZlleWhN5hpJ3qLO5uHDLWpXNWjMYZCwKBG6olUG2fuDgCbsOwLFTUHZLEd+KP5vr0H58p2qt0MPi4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762540593; c=relaxed/simple;
+	bh=y1cs/6dRHCjC5YvFhRaOvXKCnHnqbQk0Ov5tD44P7Z0=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=WDjizajGX6ZO6uJzllRen6EVM2G5/Xu7lTTiSe1gCels7Iu30PbWbYpnS9bDjJJqnrQLEHMj67/kE3rISv4BXXKef6ezipKVf7lEJwNOuSR9OtVKJLAa6P1yd+JMlikwGVPmbJChMy1RhZrgPMEH6gxxiBuvlqV4cRxX3HzZV/c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=bN94bPUy; arc=fail smtp.client-ip=52.101.229.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=wudqs+MePM4sIZJn47zKQt44CQXAXoE8k7U6ivfPRflBX4FVLY/QWIYWQe5YEMRrRFad3wV9wjoXX2fGDM9GZQAMu7uaIZcCtwwa66DvmE3EloQ3meSo7XxRw1WARh7AmOlV1yqzl4vavYjaCd0y0IufWgcsio/OFkztSa7VtC4dwK7GOusVpJSZ7fQO0yYOF366r7ebbtJ3LO4GK8YJfDWzFkGVFRPEE5INLq0WBN0KdIZPoyyYgjCr5sPUkkdBkpPHTgv7yadbQWXnqnSJ9B0mJeN66P6/IdaTPLACA30Dcv5PieqiYJzPg8K3FPKcqXno8U4k/lScIVpiKryBDA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6Orjbl6mg1SauwWtFKxjBhDErvaWz6wN8d7K0Rq6eS4=;
+ b=arhobDIwq43/BwZtWvJ76Fp55U3EZ5i1H9H3ONGJPWSzbE+oGbqmMGu7b37R/PwGM2pUX99TYGYLBhrqy1HApIjBu0V89zMkSw21B7hX+ZjT6aIW6vDXChWJr9TfCb1eyABUNjyZR5atanxVe5pgCdamVUeeEx89j+QSlqBa68MsmuXKVwKYfIcim46kJuaZ73s1Sf6dzfH3UpL6ewzv2m98zr9ZknPoGHUCafbqEPKH7p/9uvA0y0KkzY9uU/kHxg8Unc/sIyFVkLCbBiJ4qW8rshaHSMU4HNRAnoZDgRsOBPJQM43fX8SXbikp3AEUQR9qZUdGIinDLnHK3UCZdQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6Orjbl6mg1SauwWtFKxjBhDErvaWz6wN8d7K0Rq6eS4=;
+ b=bN94bPUyQGyJd+LJvKogBrn439PCIephVe74LH7EZ2Oa1hB3AWiEtacBsTd+ecJRLhtwWoeGJNw+2nreTlNZLVcSZfylkhQqAkd0xuiePMNV6rRqpulQBhnmKGoBJ4cHclqiCBsYSDzqEDndxIzSGr9AZbSG6yi++yQGMmJQP8A=
+Received: from OS3PR01MB8319.jpnprd01.prod.outlook.com (2603:1096:604:1a2::11)
+ by TYVPR01MB10797.jpnprd01.prod.outlook.com (2603:1096:400:2ae::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.12; Fri, 7 Nov
+ 2025 18:36:25 +0000
+Received: from OS3PR01MB8319.jpnprd01.prod.outlook.com
+ ([fe80::6473:1660:bdc2:c983]) by OS3PR01MB8319.jpnprd01.prod.outlook.com
+ ([fe80::6473:1660:bdc2:c983%6]) with mapi id 15.20.9298.010; Fri, 7 Nov 2025
+ 18:36:25 +0000
+From: Chris Brandt <Chris.Brandt@renesas.com>
+To: Hugo Villeneuve <hugo@hugovil.com>
+CC: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette
+	<mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Biju Das
+	<biju.das.jz@bp.renesas.com>, Maarten Lankhorst
+	<maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>, Hien Huynh <hien.huynh.px@renesas.com>,
+	Nghia Vo <nghia.vo.zn@renesas.com>, "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>, "linux-clk@vger.kernel.org"
+	<linux-clk@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+	<dri-devel@lists.freedesktop.org>
+Subject: RE: [PATCH v4 1/2] clk: renesas: rzg2l: Remove DSI clock rate
+ restrictions
+Thread-Topic: [PATCH v4 1/2] clk: renesas: rzg2l: Remove DSI clock rate
+ restrictions
+Thread-Index: AQHcTqM02+OCahzeqkGZBdprKCVrd7TnaoQAgAAejkA=
+Date: Fri, 7 Nov 2025 18:36:24 +0000
+Message-ID:
+ <OS3PR01MB83195AF3F1964548E1512FBE8AC3A@OS3PR01MB8319.jpnprd01.prod.outlook.com>
+References: <20251105222530.979537-1-chris.brandt@renesas.com>
+	<20251105222530.979537-2-chris.brandt@renesas.com>
+ <20251107113058.f334957151d1a8dd94dd740b@hugovil.com>
+In-Reply-To: <20251107113058.f334957151d1a8dd94dd740b@hugovil.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OS3PR01MB8319:EE_|TYVPR01MB10797:EE_
+x-ms-office365-filtering-correlation-id: 21108085-a75b-4e20-dfff-08de1e2c8e67
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|7416014|376014|366016|1800799024|38070700021;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?6I1s69n1xt4RJevxVZQdkcf+LWs4HFtRlaCr8HDR5UDkVnFHJs90ZOup7iMD?=
+ =?us-ascii?Q?un8QAJ6lWxbP4++asa0Dst7SjLb0u2RsQQjVXMNvOj3Rocn7lBJp7DszCX9F?=
+ =?us-ascii?Q?fWsWs/M6lvciL22I5XwVEEwqzhEzSUjib+Ln89/+g2ZCTCIXeqDY51ouOyu0?=
+ =?us-ascii?Q?C7pmkdFpwpzqr1YLqtKKbATLf0YabiJznSznVg/UKEn0rcG9yRQQddIALFpt?=
+ =?us-ascii?Q?GaeQ5ucTvKFaDFxTMNUoTNdZ0ZZBBFdLCyYytclegmWlI+m/tvPQf+DUuvoj?=
+ =?us-ascii?Q?Hegm51wUHY8ayd02FKsQVrvxtETM5QJ8zJvDNMIiZLcDiZZueEbz5XniAIEg?=
+ =?us-ascii?Q?pr4AtUKxiJ7ib2wsX8GbMx5sk5+SwLO1eiaM2BcJmNYJMx2x0yzOmScoJW0K?=
+ =?us-ascii?Q?w0r+pPOYPOCBFM3hRRLlTnvGXlS8MaxzYPctzhDkbXwMT0dzrBomk8mhfcNJ?=
+ =?us-ascii?Q?6g4ZTsIPGTgPyx8hd/W1ZzXhoiQ+cGmn6PPg83BQyl5s5WPJ8ztBIRY+60dN?=
+ =?us-ascii?Q?4FEq8r2v9osWAqAdQNeC1bIsWz8O+Q8cx3xt8CuquXmBLLU/FX3aJeKKqbrw?=
+ =?us-ascii?Q?I376FJpMdVHSpdiObtf31mCbK9cCDlkeVgB+13xKTjpxnTErPL40K8+6ITvy?=
+ =?us-ascii?Q?PFQSjyYezjFJ2Os47lmOjqDTPvFdQN3YjQjhyh4Xw3pvxTTx7d1Lx0e4TrUC?=
+ =?us-ascii?Q?SjDMUU7IagBXzCkyBvUrp5Dj38wuulSW03/N2OblRvE1s+FY/Sweq+NllBEA?=
+ =?us-ascii?Q?X5k9C+SPJZ/hThuDQ93U41eTIwO86CKTG32BAgJ4tgIIvreFb2331+ZjLWLI?=
+ =?us-ascii?Q?yCdhWvWGDYCWFiR+sY8fK5311RIjnq/L0Zz19WkrifFUY1cyC+2PRzNK/YWj?=
+ =?us-ascii?Q?ikEEH2TlVlJGGc6BghFblmi+JGxIH800VDEhtJ23Gi/71COyqT8ocpiIkZim?=
+ =?us-ascii?Q?UMS7TW+GgWoiIQmf6u3l/GgxXlwcSHBfzOZpJeS+OSaaVhr8iiU6ZWDvHK1q?=
+ =?us-ascii?Q?rAHYf3B/7w5lqOdg615zdbVPY19Ovm1IflktJRuP1AP1LgRCYVlkTu908AID?=
+ =?us-ascii?Q?3sscHo2p01F7EmKmQrPhHz/x2FdN6gCggPvIo9wXsyjTT2qploQcDmuNMQ2J?=
+ =?us-ascii?Q?crBIpH22YA51LvqKNbs+3GwbuEHTatx5keR8Eaz7JPwn8Te5TxzwLw6z7Ves?=
+ =?us-ascii?Q?wRDNxb5JNt31bNPtUSZKtBfNSfUKM7IlPHTUl1RXiMsXLXm7DLlRw0Aedidm?=
+ =?us-ascii?Q?PTTjSOs8hreP+vlQG8TcnIASzdYHITGtsKDctf6BLlaQxhWUroid3kVKAjkA?=
+ =?us-ascii?Q?5CMtxLau30XFQfW+bBvwIASNAivCRSjKN5QxETGqkUcINi+WQkZEXEOv2ULk?=
+ =?us-ascii?Q?XCj5w8/kU+J0Ias9Z24GV+Xjv8N0ckOw+WzgqidIzUpE75bIT2BQbKemLdv4?=
+ =?us-ascii?Q?MKM/1ngdsECM6Xlz1bSItUuZzy88BpCq8Vg/EqK1uetaPxnNN7mpdf8hdoVm?=
+ =?us-ascii?Q?ZJbMVehni+Hupjq1AAda2VFZYwubvS83mBvf?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS3PR01MB8319.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?FKlGfEhWd6l+JlEZMpyjvFbVkqWzCN/Da8dQw5/65wP41gHwFL5/bKApxDs/?=
+ =?us-ascii?Q?e3dmN5WedZ0pqZjSnpglb27R7T9jHg/EkL8mT4TmdOE24o57jfVoJK7B0tp3?=
+ =?us-ascii?Q?H4T4Yrd2V2RAVxSsoNZXeUFE0XiHpSOqE45digFb3BrdSubUQXxWdrfZITSI?=
+ =?us-ascii?Q?/DftAwwfR9wirpTXilWK0LbMyM3AZxofc5yGx4GflO3Mm28B65+RUIsyOui8?=
+ =?us-ascii?Q?L7nHIzz59xGPhb5ZoUzu43n5AeKfMJlVp/j+rXagCt+CQnSo7jLWFWcTimCi?=
+ =?us-ascii?Q?yAPLRcONMsLqghMMEFgqJnS/sWAtLHCqO+UhXVI54qHSbUEZz5rtAmpkZxg/?=
+ =?us-ascii?Q?xP71vKR3IwiHDn5aN/p8AletnRs8WFDZEz8Gu0vgwvESlOOz9ppyRxiNXxv2?=
+ =?us-ascii?Q?ivRhUkLu5yquggdkmByZUkuR90jlNO4kGeNGKdVmS2U4atiGC46NBz0VDf1+?=
+ =?us-ascii?Q?NFWJWtD9R5JTJcfUApHQxVig2dawYt2FzbHGfQK0vepecic/5VP9LMHfLVk2?=
+ =?us-ascii?Q?9SO30r+I8ZvOLOzLI748O3+F0ZsSvu+76sLn+4QG7UJRTGMLFkGbLzeXZYmV?=
+ =?us-ascii?Q?UmeeivCVS/CFgh2L2GeAtraGzH6UGDYYUxJ8SCIzfwh25dVEzr6tZAYWSMVl?=
+ =?us-ascii?Q?NmTULPlQ+UaR3vdm89qRyyNmY9JYons2Wn9HvLmLfSwz3fontCfYMYkgE/bG?=
+ =?us-ascii?Q?sSOyDS0cv3aTjmduqg/vdbWMVPLQ+g/FlGQQAv4Ck1MV3nQ+c95Jte70sibw?=
+ =?us-ascii?Q?6q+XHUfUR7nDjQ5bXxT/xTlB6qVqy+rr57vA2EPXc6e05rMeCB9Rkq5mjse1?=
+ =?us-ascii?Q?687SyRaW3ZlB+bPHoPUtZ6Pk3xNWyHVxuHJGoxyX0PaD6OXfsiIoyy883AcM?=
+ =?us-ascii?Q?rLfS2d8i2MWfNwoo0ny7OCGeEJdyvcxiJWwbEcN5vAQs1ccd2anMOO0DRHLN?=
+ =?us-ascii?Q?p3AyELqpKEFJPnyaPxYT0ut0enlcAb1EDp2eipc0nLwgfjwK7jomZFkhgigW?=
+ =?us-ascii?Q?e68i+4TbgC/JN7GlUtGqR+hTejkVeiAxZElq1KCOKOpWTkz6PxZz6dJj0ePN?=
+ =?us-ascii?Q?v6xMfEuJFfK1uI5oNeL/9z/4fm6a4DE4NDnnbwefeUufRzcqtH8PuTYxtjjz?=
+ =?us-ascii?Q?bQ3xTkbtV+DgiSx32Cif4m1utTZbNJOsXCp3lpx3sp43BUYjck3OVBskrCKz?=
+ =?us-ascii?Q?/By96qiUWr7Ker9eUnmdTWHxxC3IYJJVxvIRuzaTguoqLhWptKU/xn6m3Cxh?=
+ =?us-ascii?Q?l1SG0Z/5lQmt00pP4o8Vnp9uXqO0+bjn+lcG4VjUjlf/rjHEH7yp+AvJnqHz?=
+ =?us-ascii?Q?LtGCCFCgbc1bsvKRrOWrgtyK35VjMDuA29jNi1ii4YIVXR0EpYZGEsj4KIBa?=
+ =?us-ascii?Q?32+EujdHf31vbu6h7Pw4Lw6iRFpPkuFKzDB5KDT/Cbx/z5lSn2HtE9T1IbKk?=
+ =?us-ascii?Q?kDu2PZ7dE6pyFUIDAFI0/wx9721imhpSPfe1D3eV+rypw42YhzhFxWp5SLxa?=
+ =?us-ascii?Q?bIFr26dyTVn+TOI0qM1eIXFj+QskFJL0hCJhwQyzttnsaqF3yJcVJ9r+qRIq?=
+ =?us-ascii?Q?yp6qIoQcStHYIzOcM4+Yapzaav7E5DcwKE6piuAY?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251104222420.882731-8-niklas.soderlund+renesas@ragnatech.se>
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS3PR01MB8319.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 21108085-a75b-4e20-dfff-08de1e2c8e67
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Nov 2025 18:36:24.9343
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: hSFylHwYMAd1Jmi2K1kZJZDzpAYlWOQnN2ppt/w/pGJDo7ddcEO9bWQxH0LSx1rQ7cmb6H/YDrhxgEeauRl03iA2Sac0AfR3VOEN7/zMmqs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYVPR01MB10797
 
-On Tue, Nov 04, 2025 at 11:24:20PM +0100, Niklas Söderlund wrote:
-> Instead of translating to/from driver specific flags for packet time
-> stamp control use the common flags directly. This simplifies the driver
-> as the translating code can be removed while at the same time making it
-> clear the flags are not flags written to hardware registers.
-> 
-> The change from a device specific bit-field track variable to the common
-> enum datatypes forces us to touch the ravb_rx_rcar_hwstamp() in a non
-> trivial way. To make this cleaner and easier to understand expand the
-> nested conditions.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Hi Hugo,
 
-...
+Thank you for your review.
 
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> index 5477bb5c69ae..1680e94b9242 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> @@ -950,13 +950,14 @@ static void ravb_rx_rcar_hwstamp(struct ravb_private *priv, int q,
->  				 struct ravb_ex_rx_desc *desc,
->  				 struct sk_buff *skb)
->  {
-> -	u32 get_ts = priv->tstamp_rx_ctrl & RAVB_RXTSTAMP_TYPE;
->  	struct skb_shared_hwtstamps *shhwtstamps;
->  	struct timespec64 ts;
-> +	bool get_ts;
->  
-> -	get_ts &= (q == RAVB_NC) ?
-> -		RAVB_RXTSTAMP_TYPE_V2_L2_EVENT :
-> -		~RAVB_RXTSTAMP_TYPE_V2_L2_EVENT;
-> +	if (q == RAVB_NC)
-> +		get_ts = priv->tstamp_rx_ctrl == HWTSTAMP_FILTER_PTP_V2_L2_EVENT;
-> +	else
-> +		get_ts = priv->tstamp_rx_ctrl != HWTSTAMP_FILTER_PTP_V2_L2_EVENT;
->  
->  	if (!get_ts)
->  		return;
+On Fri, Nov 7, 2025 11:31 AM, Hugo Villeneuve wrote:
+> > +				if (params->pl5_intin < PLL5_INTIN_MIN ||
+> > +				    params->pl5_intin > PLL5_INTIN_MAX)
+>
+> Your patch comments indicate that you removed +1 and -1 for kernel test r=
+obot issue, but I do not understand why.
+>
+> pl5_intin is still defined as u8 (max 255), and therefore the result of "=
+params->pl5_intin > PLL5_INTIN_MAX" will always be false because PLL5_INTIN=
+_MAX is 320.
+>
+> It seems to me that pl5_intin type should be modified to account for its =
+maximum value (u16?), and this should probably goes into a separate patch (=
+with a Fixed: tag), that can be backported (if necessary).
 
-Hi Niklas,
+You are totally right!
+INTIN is a 12-bit register value.
+It's a bug.
 
-It is Friday evening and I'm exercising a new tool, so please forgive me if
-this analysis is wrong. But it seems that there are cases where there old
-bit-based logic and the new integer equality based logic don't match.
+Good catch.
 
-1. If q == RAVB_NC then previously timestamping would occur
-   for HWTSTAMP_FILTER_ALL, because:
+I'll make that a separate patch so I can CC stable.
 
-   (RAVB_TXTSTAMP_ENABLED | RAVB_RXTSTAMP_TYPE_ALL) &
-    RAVB_RXTSTAMP_TYPE & RAVB_RXTSTAMP_TYPE_V2_L2_EVENT =
-   (0x10 | 0x6) & 0x06 & 0x02 = 0x2, which is non-zero.
+Chris
 
-   But with the new logic timestamping does not occur because:
-
-   HWTSTAMP_FILTER_ALL == HWTSTAMP_FILTER_PTP_V2_L2_EVENT is false
-
-2. If q != RAVB_NC then previously timestamping would not occur
-   for HWTSTAMP_FILTER_NONE because:
-
-   0 & RAVB_RXTSTAMP_TYPE & RAVB_RXTSTAMP_TYPE_V2_L2_EVENT = 0
-
-   But with the new logic timestamping does occur because:
-
-   HWTSTAMP_FILTER_NONE != HWTSTAMP_FILTER_PTP_V2_L2_EVENT is true
-
-I came across this by chance because this patch is currently
-the most recent patch in net-next that touches C code. And I was
-exercising Claude Code with https://github.com/masoncl/review-prompts
-It reported the above and after significantly
-more thinking I've come to agree with it.
-
-But it is Friday evening, so YMMV.
-
-For reference, I've provided the text generated by Claude Code at the end of
-this email.
-
-...
-
-> @@ -2446,15 +2437,13 @@ static int ravb_hwtstamp_set(struct net_device *ndev,
->  			     struct netlink_ext_ack *extack)
->  {
->  	struct ravb_private *priv = netdev_priv(ndev);
-> -	u32 tstamp_rx_ctrl = RAVB_RXTSTAMP_ENABLED;
-> -	u32 tstamp_tx_ctrl;
-> +	enum hwtstamp_rx_filters tstamp_rx_ctrl;
-> +	enum hwtstamp_tx_types tstamp_tx_ctrl;
->  
->  	switch (config->tx_type) {
->  	case HWTSTAMP_TX_OFF:
-> -		tstamp_tx_ctrl = 0;
-> -		break;
->  	case HWTSTAMP_TX_ON:
-> -		tstamp_tx_ctrl = RAVB_TXTSTAMP_ENABLED;
-> +		tstamp_tx_ctrl = config->tx_type;
->  		break;
->  	default:
->  		return -ERANGE;
-> @@ -2462,14 +2451,12 @@ static int ravb_hwtstamp_set(struct net_device *ndev,
->  
->  	switch (config->rx_filter) {
->  	case HWTSTAMP_FILTER_NONE:
-> -		tstamp_rx_ctrl = 0;
-> -		break;
->  	case HWTSTAMP_FILTER_PTP_V2_L2_EVENT:
-> -		tstamp_rx_ctrl |= RAVB_RXTSTAMP_TYPE_V2_L2_EVENT;
-> +		tstamp_rx_ctrl = config->rx_filter;
->  		break;
->  	default:
->  		config->rx_filter = HWTSTAMP_FILTER_ALL;
-> -		tstamp_rx_ctrl |= RAVB_RXTSTAMP_TYPE_ALL;
-> +		tstamp_rx_ctrl = HWTSTAMP_FILTER_ALL;
->  	}
->  
->  	priv->tstamp_tx_ctrl = tstamp_tx_ctrl;
-> -- 
-> 2.51.1
-> 
-> 
-
-Text generated by Claude Code:
-
-Is this logic translation correct? Looking at the old bit-field
-operations and new enum comparisons, the behavior seems to change in
-two cases:
-
-Old behavior (from ravb_hwtstamp_set):
-  - FILTER_NONE stored as 0
-  - FILTER_PTP_V2_L2_EVENT stored as 0x12 (ENABLED | TYPE_V2_L2)
-  - FILTER_ALL stored as 0x16 (ENABLED | TYPE_ALL)
-
-Old ravb_rx_rcar_hwstamp for RAVB_NC queue:
-  get_ts = (0x12 & 0x06) & 0x02 = 0x02 & 0x02 = 0x02 (timestamp)
-  get_ts = (0x16 & 0x06) & 0x02 = 0x06 & 0x02 = 0x02 (timestamp)
-
-So the old code timestamps RAVB_NC queue packets for both
-FILTER_PTP_V2_L2_EVENT and FILTER_ALL.
-
-New ravb_rx_rcar_hwstamp for RAVB_NC queue with FILTER_ALL:
-  get_ts = (HWTSTAMP_FILTER_ALL == HWTSTAMP_FILTER_PTP_V2_L2_EVENT)
-  get_ts = (1 == 9) = false (no timestamp)
-
-Similarly for non-RAVB_NC queue, old behavior with FILTER_NONE:
-  get_ts = (0 & 0x06) & ~0x02 = 0 & ~0x02 = 0 (no timestamp)
-
-New behavior for non-RAVB_NC queue with FILTER_NONE:
-  get_ts = (HWTSTAMP_FILTER_NONE != HWTSTAMP_FILTER_PTP_V2_L2_EVENT)
-  get_ts = (0 != 9) = true (timestamp)
-
-Can the refactoring introduce these two behavior changes?
-
-1. RAVB_NC queue with FILTER_ALL: old code timestamps, new code doesn't
-2. Non-RAVB_NC queue with FILTER_NONE: old code doesn't timestamp, new
-   code does
 
