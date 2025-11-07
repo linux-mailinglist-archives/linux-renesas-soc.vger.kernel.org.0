@@ -1,91 +1,108 @@
-Return-Path: <linux-renesas-soc+bounces-24291-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24293-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CF65C3E1B2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 07 Nov 2025 02:18:36 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64B88C3E299
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 07 Nov 2025 02:50:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 130B74E0644
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Nov 2025 01:18:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 20B593AC603
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Nov 2025 01:50:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C13442F5307;
-	Fri,  7 Nov 2025 01:18:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7408E2EC097;
+	Fri,  7 Nov 2025 01:50:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="pc2o/WBY"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="afxGjvyD"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23CF6258EC1;
-	Fri,  7 Nov 2025 01:18:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49CF820C037;
+	Fri,  7 Nov 2025 01:50:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762478312; cv=none; b=o3/2eL+x88sBwlMsujuk0lWmH9WvRWyDLemOq1TwLvnpJKP1KdFHu6PzkvwXOWTD7NkGygQkXb8zPOI6J7hwZtp17pt5blVABVXThkxaatAb20PNhy0dj3k1W+xVkBmWHkXbzcIYOQrWtu/lRYfV3JYiGiDBrlhRaCWKQ55z8mQ=
+	t=1762480242; cv=none; b=LQSDBPU7tup/zGivPLTZbMZ5KWDSh+xJh5IZ2Vw4/TbpgaPVKSBL18YhfGw1iIPr2YrQ8fygm7t5+Z8y8CRF4jgWTS71CYJ4hYtDyyajyzs4CKZWhh0c8utCjNMyue7+xIQu3ieMmlOUSEzpJDJSqmQPi/bP5XK+CZ8wWBPxTps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762478312; c=relaxed/simple;
-	bh=/XUQcLX/DssFEYToi8ATQRAgC0ocRUSMxXEws7yFSrU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZfteWQ9zrIMYa1GPbETYyKsrcTicmX4C0Pke6BQbmpDpLI9wuu2zRlzKZoN9YfD4KxizASSSKUHn6MqEUJxbC/ned4P5jly2VMFzb2QxGNeuIdYbVVfE+GXf5ez7Q6YGdgraDiVqjcHCXf8FhRTXc3xhg73zb/Kbeaf0zEf4RzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=pc2o/WBY; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=25TG0nkSoZM06L8ojtd4p89MV096ynikw4UCVzYnK+8=; b=pc2o/WBYexNYxkS5/JYR99/NCt
-	8ViTIBUa5zf5gUtik31d4coztpUTRzQvJLtm1EdsajhqGzU+vcmtj3DQlbliolZ2+3d/4i37Uqspa
-	EC6/saxxsaBRrOurFfPDnN1B+tQWcSO9u9QwTFuuOsVCWFbe9SGI/C3QsvZhP5r6fPt0=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1vHB7N-00DAjh-5I; Fri, 07 Nov 2025 02:18:21 +0100
-Date: Fri, 7 Nov 2025 02:18:21 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Michael Dege <michael.dege@renesas.com>
-Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
-	Paul Barker <paul@pbarker.dev>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>, netdev@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: Re: [PATCH net-next 06/10] net: renesas: rswitch: add MAC address
- filtering
-Message-ID: <8144664b-1c84-4e1a-8758-f4fd2eb9c9ff@lunn.ch>
-References: <20251106-add_l3_routing-v1-0-dcbb8368ca54@renesas.com>
- <20251106-add_l3_routing-v1-6-dcbb8368ca54@renesas.com>
+	s=arc-20240116; t=1762480242; c=relaxed/simple;
+	bh=Xq51Z/9D2fZDatgMXKL0KxpS0FoLycB7VoFYeF3j0NQ=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=a0f2dTIWP7V5YNweYCnyLr4Lg5qW1m2jRQLfHcZwFDdjuwdN1hr+sTv733RDzwcntseFLd+kUp5ADVoHj03mkY+sBQbZNy5oHGhHJ9eVxxwpDcUdXzxfNe22G1BTW+G2qrQQW4ZrUMwGZqJh2wZxq2soV9BI2FoPvvFbOMiNDRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=afxGjvyD; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3C40C4CEF7;
+	Fri,  7 Nov 2025 01:50:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762480241;
+	bh=Xq51Z/9D2fZDatgMXKL0KxpS0FoLycB7VoFYeF3j0NQ=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=afxGjvyDQkcynlOHFmuYaA8bA0ELkiZO3OVHeiI/ZLaV8Evb1QgXFOF/OjvpUirpI
+	 VkSjiHKXJNqt1SnlNx5z+VeRALHg6Pf4sZTaQlyncsjgUoW5Su7Hp+9CdrOxAPoKDb
+	 gIEc6auI/rkDePtrCvDlxcyR6M80MbbYQNy9KhffhJG3Bi/ICodlsn7aKaq/DCcUfo
+	 OtEL7kj1eMp2NUbqVZFKvf1oe3xmKKUMMe0x7EPs4MNIVpm0psL7xvMd6ADdrtso7O
+	 UKwGUbLeKyE2bBc9OehxwgahyYK0llr8eM34Lvg01KG1jQJYzNS6zj8wrv/nLDRr7V
+	 ZmsQL344pMLDQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id ADDA539EF976;
+	Fri,  7 Nov 2025 01:50:15 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251106-add_l3_routing-v1-6-dcbb8368ca54@renesas.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [net-next,v2 0/7] net: renesas: Cleanup usage of gPTP flags
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <176248021450.451816.5444160112650392345.git-patchwork-notify@kernel.org>
+Date: Fri, 07 Nov 2025 01:50:14 +0000
+References: <20251104222420.882731-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20251104222420.882731-1-niklas.soderlund+renesas@ragnatech.se>
+To: =?utf-8?q?Niklas_S=C3=B6derlund_=3Cniklas=2Esoderlund+renesas=40ragnatech=2E?=@codeaurora.org,
+	=?utf-8?q?se=3E?=@codeaurora.org
+Cc: paul@pbarker.dev, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ yoshihiro.shimoda.uh@renesas.com, geert+renesas@glider.be,
+ magnus.damm@gmail.com, richardcochran@gmail.com, netdev@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
 
-On Thu, Nov 06, 2025 at 01:55:30PM +0100, Michael Dege wrote:
-> Enable MAC address filtering in Rswitch HW.
+Hello:
 
-Please try to answer the question "Why?" in the commit message, not
-"What?". Why would i want MAC address filtering? Why is it being
-enabled now, when it was not enabled before?
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Tue,  4 Nov 2025 23:24:13 +0100 you wrote:
+> Hello,
+> 
+> This series aim is to prepare for future work that will enable the use
+> of gPTP on R-Car RAVB on Gen4. Currently RAVB have a dedicated gPTP
+> implementation supported on Gen2 and Gen3 (ravb_ptp.c). For Gen4 a new
+> implementation that is already upstream (rcar_gen4_ptp.c) and used by
+> other Gen4 devices such as RTSN and RSWITCH is needed.
+> 
+> [...]
+
+Here is the summary with links:
+  - [net-next,v2,1/7] net: rswitch: Move definition of S4 gPTP offset
+    https://git.kernel.org/netdev/net-next/c/e98d8792929d
+  - [net-next,v2,2/7] net: rcar_gen4_ptp: Move control fields to users
+    https://git.kernel.org/netdev/net-next/c/50ab1c6becde
+  - [net-next,v2,3/7] net: rswitch: Use common defines for time stamping control
+    https://git.kernel.org/netdev/net-next/c/b314e4f7a9d9
+  - [net-next,v2,4/7] net: rtsn: Use common defines for time stamping control
+    https://git.kernel.org/netdev/net-next/c/e43791f40b81
+  - [net-next,v2,5/7] net: rcar_gen4_ptp: Remove unused defines
+    https://git.kernel.org/netdev/net-next/c/3614d249d1da
+  - [net-next,v2,6/7] net: ravb: Break out Rx hardware timestamping
+    https://git.kernel.org/netdev/net-next/c/5ce97b8d6132
+  - [net-next,v2,7/7] net: ravb: Use common defines for time stamping control
+    https://git.kernel.org/netdev/net-next/c/16e2e6cf75e6
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
-    Andrew
-
----
-pw-bot: cr
 
