@@ -1,140 +1,253 @@
-Return-Path: <linux-renesas-soc+bounces-24362-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24363-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5852EC42EB4
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 08 Nov 2025 15:57:57 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35BBDC4346D
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 08 Nov 2025 21:13:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 1AA8E4E690D
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  8 Nov 2025 14:57:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BFF57188AA6D
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  8 Nov 2025 20:13:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4866C1E47B7;
-	Sat,  8 Nov 2025 14:57:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5955426C399;
+	Sat,  8 Nov 2025 20:13:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b="X3+/1ntP"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HZKqHcdq"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AB581F7910;
-	Sat,  8 Nov 2025 14:57:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.120.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3B58212548
+	for <linux-renesas-soc@vger.kernel.org>; Sat,  8 Nov 2025 20:13:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762613869; cv=none; b=Fl8SuM4TWXg/w4JGI2O0K81fZHFmWvVKMWpz64qSbvhFEgKc31oNKnAImBWCxv4MS0197+XNP9YpdvuJc11JQqFGZPjqirfKHdr9JFE1JxvlKsanv75BVNpGTYz98TWT7KipVy9ivN/AwSzWDX5HqKajFWEz2424cMoR20pXdG8=
+	t=1762632799; cv=none; b=tLshF9BN/Gn/AerdGw3NC2ukLyL1lA2UTD5Y7CfOely2+xlq1u3SyafM/oLb8SJaekIBsCqR62e2Wf9RKnu1eB0szezZtt6CoscRN/wXIFkTxrE713WCPD4AHeOmLFykUPQ6sO03DL6ZiElevIt68YKIykIL6Rj1EQvu2Fvhn44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762613869; c=relaxed/simple;
-	bh=8HlDZj4Jp7gn8u+9Z14GdJCiPGrKol8DDr4U05JS4bI=;
-	h=Date:From:To:Cc:Message-Id:In-Reply-To:References:Mime-Version:
-	 Content-Type:Subject; b=ihq5yJy0qAka30qW03yO+GZQxVHukijd7VS7aPqQ6/nuxLfMqMYoJlqbIFk8yXBNmi25jA5Zb0T0CLsW//+lmNEwgPvvY5pEox2q09Ja3MKG1hz8hiYkzsf7WnlDAE7zdWdFH8Tpn8FCpk7/t2a2GCRu/tm7WSiKULgSqXrnmZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com; spf=pass smtp.mailfrom=hugovil.com; dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b=X3+/1ntP; arc=none smtp.client-ip=162.243.120.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hugovil.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
-	; s=x; h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
-	:Date:subject:date:message-id:reply-to;
-	bh=dCqeDCHVTC0aJCIbqAO3XCT0AXxUyonF5z42GFLUBzk=; b=X3+/1ntPtv5AqOsrrJKVPTy2/w
-	91S4tWzHAZp4/UdZhK/V82I1cqfw1A8X9dT3SiWcGVQZFF7Jial6nQDHjIRw8G1+bd6rMmgx0eJWy
-	+/MOLLoInivmDPnQEzhRx/KcqkI7iQKVaKDr/i/wOuV/cmk7fkR0McvpF0knev2A7Jg0=;
-Received: from modemcable061.19-161-184.mc.videotron.ca ([184.161.19.61]:32796 helo=debian-lenovo)
-	by mail.hugovil.com with esmtpa (Exim 4.92)
-	(envelope-from <hugo@hugovil.com>)
-	id 1vHkNk-0006C6-Ry; Sat, 08 Nov 2025 09:57:37 -0500
-Date: Sat, 8 Nov 2025 09:57:35 -0500
-From: Hugo Villeneuve <hugo@hugovil.com>
-To: Chris Brandt <Chris.Brandt@renesas.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette
- <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Biju Das
- <biju.das.jz@bp.renesas.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Hien Huynh <hien.huynh.px@renesas.com>,
- Nghia Vo <nghia.vo.zn@renesas.com>, "linux-renesas-soc@vger.kernel.org"
- <linux-renesas-soc@vger.kernel.org>, "linux-clk@vger.kernel.org"
- <linux-clk@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-Message-Id: <20251108095735.fbd3db3e3d24f3f7baacb1b6@hugovil.com>
-In-Reply-To: <TYCPR01MB832759A2410465D46E7095DC8AC3A@TYCPR01MB8327.jpnprd01.prod.outlook.com>
-References: <20251105222530.979537-1-chris.brandt@renesas.com>
-	<20251105222530.979537-2-chris.brandt@renesas.com>
-	<20251107113058.f334957151d1a8dd94dd740b@hugovil.com>
-	<OS3PR01MB83195AF3F1964548E1512FBE8AC3A@OS3PR01MB8319.jpnprd01.prod.outlook.com>
-	<20251107140750.00bf68e4b2f5354015e65ad4@hugovil.com>
-	<OS3PR01MB8319E496A32EDBF5719BAB478AC3A@OS3PR01MB8319.jpnprd01.prod.outlook.com>
-	<20251107171809.6033526ffe5e57ec72bd4f96@hugovil.com>
-	<TYCPR01MB832759A2410465D46E7095DC8AC3A@TYCPR01MB8327.jpnprd01.prod.outlook.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1762632799; c=relaxed/simple;
+	bh=u6gUIdJdx24w/j5VX7rURyjLpSVH8rPvCAr8lvNbkt8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=p4KFEEbHAH1x8kPwHF4ersStRwNUhzEVFpDIxRQbEW7y/pJXI0jD56H38cO3Vv9waSG8b1RSHn+0oMBgesXOdnUjIEfLs0yHq2tzedCD1bO8gRWSg00CgLIAyMxm2vnNDaNzDs8ZO9A8IsFQPfOJGD3D+K05HuGwm9H2L5scdHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HZKqHcdq; arc=none smtp.client-ip=209.85.167.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-45038ffac4fso132180b6e.2
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 08 Nov 2025 12:13:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762632797; x=1763237597; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pEdudkL2kc7QARkjaYyvncHlSqrfhL4PbiW2/JH8KU4=;
+        b=HZKqHcdqorwnJH9k3wm1w8ioBf7cP9hktbgG0Kd55Wa0ezaC9y13w27EKvOXZGbRWI
+         B7PApFsrmcwQKYQRKjkOQfvt7NslpDGEqEPrsBxwgDle9MjkUCt7LaXN5if4kVBa6yLw
+         m/F3mph6bqlfAWRtd4GW6rxWzu9DtMUA7tqNS6vjF0rcjBpusWxDEC8nY5Iv8L/Z76hD
+         g5hQ+KvgwoeZnhndiZlvsJM4SnJzZQyVXo8GMLQPE2YOGLxq30DZ0RS44LHlb/CNzvG4
+         RtBRvlKBp139ZzlA7uEJbYuGLa9B+WN7ndCzfkCW4YmQWVrVbpqurL2GQhP4UWKjUdsy
+         ms1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762632797; x=1763237597;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=pEdudkL2kc7QARkjaYyvncHlSqrfhL4PbiW2/JH8KU4=;
+        b=RkmuaFdzz7IoZ5RGdnUBRJZxdL91L3lKrXh5sIsA8RHDMz54sh7rd0rnPnz0zyyQic
+         LNJSVP416IOxoT+sNWRG7/oZKVvvANP05AryMqzFEmJaMheuGl1iQeY9k3U41mwZRa2u
+         oDdUCXn2KCyOeeUthVIev/b9+pH9TgjkOVBeY8HgDLGTmkUMIH+CoGnVzTGiGvlwdnlM
+         SUhLQjIvYXJOdFcZgj1D3CDPhlcv8apEGDa6POsQW8mauc1R4WYj3Yaz9kn1mxjGYpww
+         sEYjTvHD5L/5/NGygfUZBIhS5X5MwkPDydy1b1lHOYqH2fPvqsqC2kvNXfLjXlRL2zKE
+         X8Ig==
+X-Forwarded-Encrypted: i=1; AJvYcCURy5EdKtY3FOBPG15ZwCQj3wbmdwafz+weBPsnVwIU1+xat/5WrSUnX5HIh1AS9HDsRKRv1ro5jMlQ1rvjHqih9g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxXtbmDqrBZvqS7RLmqdlfhR6ATq98AhDJ/E13Dz6WoIGBe772V
+	gDQ1jHJI8VF29uDFvaixvggYfMWw8sGMBlTb66wesSwT/dcgl5ze3UPv/5tuADm7Ge0A2YYcgma
+	53kDyx0KEkFpgtUcr+dnr1j3eZJV8IWQ=
+X-Gm-Gg: ASbGnct86IFiRQDS5olEDw96Rc9H6lBEoSDRPvaLBbQ4Ku6pxKTH8DoSDDaHQFRcVVH
+	ySOYewYt2syj19x2aMPhqPO2QsJEZ6GV7xil0gd1jYp62BR1JVmlk15la9ZFv2WdyFNxxU2ILDb
+	4+HCM/6fuCSvaUt8lWBKmPNNHGgCZGgN6pYxXRoteLrFj08RMs5PEhpo7yWQCiSJz5/z/SGo4W6
+	CMIorsNp55laellfbFyq4ybe+796++L6yGM7Dd25qFkfPXCLmI89g5+Yq9Jww==
+X-Google-Smtp-Source: AGHT+IGtVh7XphEEfVzyYzviQ+KwKH36M7uAI97zbQOxPxmSILVQQaYAZPAZr1WA7OFCdnVTl7Slm2MztlpFABZ60L4=
+X-Received: by 2002:a05:6808:191f:b0:450:1d78:f54c with SMTP id
+ 5614622812f47-4502a31c889mr1472980b6e.6.1762632796691; Sat, 08 Nov 2025
+ 12:13:16 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 184.161.19.61
-X-SA-Exim-Mail-From: hugo@hugovil.com
-X-Spam-Level: 
-X-Spam-Report: 
-	* -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-	* -1.8 NICE_REPLY_A Looks like a legit reply (A)
-Subject: Re: [PATCH v4 1/2] clk: renesas: rzg2l: Remove DSI clock rate
- restrictions
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
+MIME-Version: 1.0
+References: <87o6prsl2z.wl-kuninori.morimoto.gx@renesas.com> <87ldkvsl1k.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87ldkvsl1k.wl-kuninori.morimoto.gx@renesas.com>
+From: Jassi Brar <jassisinghbrar@gmail.com>
+Date: Sat, 8 Nov 2025 14:13:05 -0600
+X-Gm-Features: AWmQ_blUvAfVDWzMYNNZhZTTiZYL8DmeHAdZ1NjKMPm7Hz2JNBXEG3eHsnhVUTA
+Message-ID: <CABb+yY2C32cTwh=8pFGGZijwd1KbpAA5=FfFzp_u1OOo8XPn1w@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] mailbox: renesas: Support MFIS mailbox driver
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 7 Nov 2025 23:25:40 +0000
-Chris Brandt <Chris.Brandt@renesas.com> wrote:
+On Mon, Oct 27, 2025 at 11:32=E2=80=AFPM Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
 
-> Hi Hugo,
-> 
-> On Fri, Nov 7, 2025 5:18 PM, Hugo Villeneuve wrote:
-> 
-> > > > +				if (params->pl5_intin < PLL5_INTIN_MIN ||
-> > > > +				    params->pl5_intin > PLL5_INTIN_MAX)
-> > >
-> > >
-> > > And if you want the same behavior as before, shouldn't the comparison be with "<=" and ">=" ?
-> 
-> > I didn't see an answer to my question/comment about comparison with "<=" and ">=" ?
-> 
-> The hardware manual says:
-> 
-> INTIN		20 to 320
-> 
-> So, both 20 and 320 are valid values.
-> 
-> Meaning I only want to 'continue' (ie, skip)   if ( x <=19 || x >= 321 )
-> 
-> or rather
-> 
-> if ( x < 20 || x > 320 )
-> 
-> So the original code of...
-> 
-> +				params->pl5_intin = (foutvco_rate * params->pl5_refdiv) /
-> +						    (EXTAL_FREQ_IN_MEGA_HZ * MEGA);
-> +				if (params->pl5_intin < PLL5_INTIN_MIN + 1 ||
-> +				    params->pl5_intin > PLL5_INTIN_MAX - 1)
-> +					continue;
-> 
-> ....was wrong.
-> 
-> I forgot to mention that in the patch.     :)
+> diff --git a/drivers/mailbox/rcar-mfis-mailbox.c b/drivers/mailbox/rcar-m=
+fis-mailbox.c
+> new file mode 100644
+> index 0000000000000..c2de4eb03f578
+> --- /dev/null
+> +++ b/drivers/mailbox/rcar-mfis-mailbox.c
+> @@ -0,0 +1,168 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +//
+> +// Renesas MFIS (Multifunctional Inferface) Mailbox Driver
+> +//
+> +// Copyright (C) 2025, Renesas Electronics Corporation.
+> +//
+> +
+> +#include <linux/device.h>
+> +#include <linux/of_address.h>
+> +#include <linux/of_irq.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/mailbox_controller.h>
+> +#include <linux/module.h>
+> +#include <linux/platform_device.h>
+> +
+> +enum direction {
+> +       TX,
+> +       RX,
+> +       NUM_DIRECTION,
+> +};
+> +
+> +struct mfis_chan {
+> +       u32 __iomem *reg;
+> +       bool active;
+> +};
+> +
+> +struct mfis_priv {
+> +       struct mbox_controller mbox;
+> +       spinlock_t lock;
+> +       struct mbox_chan  chan[NUM_DIRECTION];
+> +       struct mfis_chan mchan[NUM_DIRECTION];
+> +};
+> +
+> +#define mfis_chan_to_priv(ch) chan->con_priv
+>
+this should be called 'mbox_chan_to_priv' instead, but why at all?
+Maybe preset
+   chan[i].con_priv =3D &mchan[i]
 
-Hi Chris,
-thank you, that is clearer now.
+> +#define mfis_chan_to_mchan(priv, ch) (priv->mchan + (ch - priv->chan))
+> +
+> +static int mfis_send_data(struct mbox_chan *chan, void *data)
+> +{
+> +       struct mfis_priv *priv  =3D mfis_chan_to_priv(chan);
+> +       struct mfis_chan *mchan =3D mfis_chan_to_mchan(priv, chan);
+> +
+> +       iowrite32(0x1, mchan->reg);
+> +
+> +       return 0;
+> +}
+> +
+> +static irqreturn_t mfis_interrupt(int irq, void *data)
+> +{
+> +       struct mfis_priv *priv =3D data;
+> +
+> +       guard(spinlock)(&priv->lock);
+> +
+> +       for (int i =3D 0; i < NUM_DIRECTION; i++) {
+> +               struct mbox_chan *chan  =3D priv->chan  + i;
+> +               struct mfis_chan *mchan =3D priv->mchan + i;
+> +
+> +               if (mchan->active)
+> +                       mbox_chan_received_data(chan, 0);
+> +
+> +               iowrite32(0x0, mchan->reg);
+> +       }
+> +
+> +       return IRQ_HANDLED;
+> +}
+> +
+> +static int mfis_chan_set_active(struct mbox_chan *chan, bool active)
+> +{
+> +       struct mfis_priv *priv  =3D mfis_chan_to_priv(chan);
+> +       struct mfis_chan *mchan =3D mfis_chan_to_mchan(priv, chan);
+> +
+> +       guard(spinlock_irqsave)(&priv->lock);
+> +
+> +       mchan->active =3D active;
+> +
+> +       return 0;
+> +}
+> +
+> +static int mfis_startup(struct mbox_chan *chan)
+> +{
+> +       return mfis_chan_set_active(chan, true);
+> +}
+> +
+> +static void mfis_shutdown(struct mbox_chan *chan)
+> +{
+> +       mfis_chan_set_active(chan, false);
+> +}
+> +
+> +static bool mfis_last_tx_done(struct mbox_chan *chan)
+> +{
+> +       return true;
+> +}
+> +
+> +static const struct mbox_chan_ops mfis_chan_ops =3D {
+> +       .send_data      =3D mfis_send_data,
+> +       .startup        =3D mfis_startup,
+> +       .shutdown       =3D mfis_shutdown,
+> +       .last_tx_done   =3D mfis_last_tx_done
+> +};
+> +
+> +static int mfis_mbox_probe(struct platform_device *pdev)
+> +{
+> +       struct mfis_priv *priv;
+> +       struct device *dev =3D &pdev->dev;
+> +       struct mbox_controller *mbox;
+> +       void __iomem *reg;
+> +       int ret, irq;
+> +
+> +       irq =3D of_irq_get(dev->of_node, 0);
+> +       if (irq < 0)
+> +               return irq;
+> +
+> +       priv =3D devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> +       if (!priv)
+> +               return -ENOMEM;
+> +
+> +       ret =3D devm_request_irq(dev, irq, mfis_interrupt, 0, dev_name(de=
+v), priv);
+> +       if (ret < 0)
+> +               return ret;
+> +
+> +       reg =3D devm_platform_ioremap_resource(pdev, 0);
+> +       if (IS_ERR(reg))
+> +               return PTR_ERR(reg);
+> +
+> +       spin_lock_init(&priv->lock);
+> +
+> +       priv->mchan[TX].reg     =3D reg + 0x4;
+> +       priv->mchan[RX].reg     =3D reg;
+> +
+> +       mbox =3D &priv->mbox;
+> +
+> +       mbox->chans                     =3D priv->chan;
+> +       mbox->chans[TX].mbox            =3D
+> +       mbox->chans[RX].mbox            =3D mbox;
+> +       mbox->chans[TX].con_priv        =3D
+> +       mbox->chans[RX].con_priv        =3D priv;
+> +       mbox->txdone_poll               =3D true;
+> +       mbox->txdone_irq                =3D false;
+> +       mbox->txpoll_period             =3D 1;
+> +       mbox->num_chans                 =3D NUM_DIRECTION;
+> +       mbox->ops                       =3D &mfis_chan_ops;
+> +       mbox->dev                       =3D dev;
+> +
+Please fix whitespaces, here and elsewhere.
 
-Hugo.
-
-> 
-> Thanks,
-> Chris
-> 
-> 
-
-
--- 
-Hugo Villeneuve <hugo@hugovil.com>
+thanks
 
