@@ -1,200 +1,180 @@
-Return-Path: <linux-renesas-soc+bounces-24359-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24360-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7637CC4279F
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 08 Nov 2025 06:15:02 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BADDDC4297C
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 08 Nov 2025 09:34:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 309CF3A46B9
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  8 Nov 2025 05:15:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4850C18880B7
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  8 Nov 2025 08:34:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 115C32D8DBD;
-	Sat,  8 Nov 2025 05:14:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 034542DECB2;
+	Sat,  8 Nov 2025 08:34:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="lsllRyvt";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="AL74nnfV"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hA8LpOsK"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A11EF2D8379;
-	Sat,  8 Nov 2025 05:14:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2412927F015
+	for <linux-renesas-soc@vger.kernel.org>; Sat,  8 Nov 2025 08:34:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762578899; cv=none; b=oxb4exFbAS2OmYZZXq6rGLsda+kwP3XqtPnbyGnl8KBQd6+rEXVnT1gb4IaT7CoS+waVxFEViuJIeSV0aynYu+Hy2FmxRiEFhioAjTMNimAJSX4Jv9wbbmqRc9lTL/qnocWwvFQ8eYfzTxBp3PuA57vc4AzTi6tzD7Q19WDL0JM=
+	t=1762590847; cv=none; b=ENOvgdklNagjb0+NaM9NdXzvkJ5lrcGIZ//adATKlLs+lFt3en411OpVoLh/yO1sB4tz8zhpSIbmruARbOaggO4SaSBNFjln4RcCt28DD/mdTT8RQLcan4wdcR3FAVuTma+5IJFR8JvnrEjz6USDOAiRfVBB+4zHmX4gXr6lCkc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762578899; c=relaxed/simple;
-	bh=HCWf3aw6V1YHro9x3O2o188F1PO4Bqmo9fXfj2g37Dk=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TkePgrXzICpDoRfVLNPDsynR0ObkPeirueYIo7EuZvwrDKqoviujHDRu7RvY3JMPEUnNuVBoEUtJFmJNMHB/b9trbeAP/FBdmSeCn1cKFQZmD7NpBIEYqUNx/0u9iDNv6aqILTKHQElc5WqM59SD4jmui4ngkGx+RoCaytWKF2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=lsllRyvt; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=AL74nnfV; arc=none smtp.client-ip=103.168.172.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 7D60014001FD;
-	Sat,  8 Nov 2025 00:14:55 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Sat, 08 Nov 2025 00:14:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:content-transfer-encoding:content-type:content-type:date:date
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1762578895;
-	 x=1762665295; bh=0/wONxyUKuX4HQLFjAlRnfYHTz/pLJ+qj99NYeBdvlc=; b=
-	lsllRyvt066/9Bs47DSVjIycDGfkEaJjoKIFJIMjeA8K5eKRUAoGoxXuCP6e9P3J
-	0X8KrQ77KqSLs5W6Zh9Hzo+xAjqEpIbF+8JMPswDMwh3F4WutZY/BlFbK/S6L6nO
-	yQj9tGZGEAfhWSZyiK5epGrWa5eXGenEWfHcxUdBVda5cCCaWtE+fMgZzurzmZz2
-	18AlZaoomd1ky4tWzbJ2dub/DLwyMmKeeEDzrV6eo/LyU9dFp/sqp6yhHSY2jUvU
-	kGpNVTEuLDd0kmg+5bdQ2ehoVJi+QvOVV+2+Mwrl6HlEXqEN1nknXZ+7K88uTTtc
-	4sKXt1IfwsZHG4CH/b68EQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm3; t=1762578895; x=1762665295; bh=0
-	/wONxyUKuX4HQLFjAlRnfYHTz/pLJ+qj99NYeBdvlc=; b=AL74nnfVCwbtSURyK
-	ae8npVeZu0nl9o+jkt6kV2cihzzmGjMWAu8T0VWC/W6TVg/gU6FG5CAbdtxI/Nxu
-	Yzc4poV//gd713hLEWILBZ7TESp358m/OGKd5dpZdaIsJym4k0blAWrpfp7CwNRz
-	lugENqwLRgV1hj5N3Q8VfUZ3Xf7WwgcC1DedD3ddChEzjGjTr5XpcgemI6kR1fxu
-	RgO74FnF5tO/ejZ+Rts0yMmSJ7w+tWayDBO6lfOJvI853XODgtIH+xdZ4qN+nhrs
-	4pekJPFBVBUhPhi6aqgtIXQTMa1F/5cYyV9WC++AEsMLLaf9+NnSUI8qU6hxxnb7
-	uOSCA==
-X-ME-Sender: <xms:ztEOaY8FG_tUFWa2cY5ESeZo1ABWqH89Z7QIEXl0ficGah4s3F1C6g>
-    <xme:ztEOaXN3wbhS4GQnZ0qLn5bu_Ern7-PXqXfyh_44igbObaP4mkZmZKMfitFh-FUNB
-    8LP2rlurLoEW5he3P--9X4O-3ZmHaQI6F44uJC96GCOSdEZigrGHUma>
-X-ME-Received: <xmr:ztEOacA4n-yTLcRNtKcANtM1ktIb3WJcEapcwDIN3U0OGLO26oSktaI_Yloh1kCbVRfAGm1ZEL4l_brJaWyT_pfyF_FTXMI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduleduieejucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvffukfhfgggtugfgjgesthekredttddtjeenucfhrhhomheppfhikhhlrghs
-    ucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrg
-    hssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepudetkeejhffghfel
-    uedtvedvfefgleeufeeigedvgeetteefveelfeeiheelkeevnecuffhomhgrihhnpehkvg
-    hrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhl
-    fhhrohhmpehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrg
-    htvggthhdrshgvpdhnsggprhgtphhtthhopedufedpmhhouggvpehsmhhtphhouhhtpdhr
-    tghpthhtohephhhorhhmsheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphgruhhlse
-    hpsggrrhhkvghrrdguvghvpdhrtghpthhtoheprghnughrvgifodhnvghtuggvvheslhhu
-    nhhnrdgthhdprhgtphhtthhopegurghvvghmsegurghvvghmlhhofhhtrdhnvghtpdhrtg
-    hpthhtohepvgguuhhmrgiivghtsehgohhoghhlvgdrtghomhdprhgtphhtthhopehkuhgs
-    rgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphgrsggvnhhisehrvgguhhgrthdrtg
-    homhdprhgtphhtthhopeihohhshhhihhhirhhordhshhhimhhouggrrdhuhhesrhgvnhgv
-    shgrshdrtghomhdprhgtphhtthhopehgvggvrhhtodhrvghnvghsrghssehglhhiuggvrh
-    drsggv
-X-ME-Proxy: <xmx:ztEOabP1cavz2lyBgYhrNv0fswFLm_E06Mub0XGGDckEHTT5ZpX1fQ>
-    <xmx:ztEOaTdSNpdZIDYBe8JU4VUAknpicK7YXzMeTUmGjUun2zh6mPe2ow>
-    <xmx:ztEOac5eeEqnZlQUPkNrTYa2Wv6gVttDmySfNxd23hd3YVs8iQFivg>
-    <xmx:ztEOaVK_zKueLffvBp3yU9C-vhGUIHp42DIqZkSN1GJLJfhtsXDDtA>
-    <xmx:z9EOaSkmcwzKjQHst08zQmAHbf5rDvF76IZDhGgYmKQZqYv-8qUDNmle>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 8 Nov 2025 00:14:53 -0500 (EST)
-Date: Sat, 8 Nov 2025 06:14:51 +0100
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Simon Horman <horms@kernel.org>, Paul Barker <paul@pbarker.dev>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Richard Cochran <richardcochran@gmail.com>, netdev@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] net: ravb: Correct bad check of timestamp control flags
-Message-ID: <20251108051451.GC4126953@ragnatech.se>
-References: <20251107200100.3637869-1-niklas.soderlund+renesas@ragnatech.se>
+	s=arc-20240116; t=1762590847; c=relaxed/simple;
+	bh=HnNwRPXSXIr3vPDeNssiY+D+lEiNX4tnPtl5uSUQBAU=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=Pz0JhTa7xi5TuV6tnMxlKPFHqkMNsU7qJtVlIE08c0MmoNTWeccyw3751lJFFg4EzUE5IROnV043+JIBJ9c46un9ojRnBwaMEufeGb/7TgnoEsXfCTwaak0K7DIDenKSvIPP033SNyqEh1QBEseuB8V9ytev9JU0eHxnmg3JOi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hA8LpOsK; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-641458f71ffso2273506a12.3
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 08 Nov 2025 00:34:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762590844; x=1763195644; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=S2bAn/z92LSkt2g9/ex7wXFtatjYpsStSn9cf/zplSc=;
+        b=hA8LpOsKe/gvz4kYfgxkwVMkNzYfJMY/xcOQxvHuOQAR6qJPTDRcbY7K5Bd0ef4ctH
+         amSYwBozQikGXBDEVQTQQeT9PtM9lt+SVO2A3UMiHsiVDT2IylhEhjmxQPEkjXP1mDTt
+         I23uK/RtiqC1Vm11L466ObJWVcbP/5B52Skq4dxYhQFR+5QOACjTo/WSbflr4RfVo7FT
+         bKjKclVC+qXAF6uOZyK5Sn8x2LZrEAD3Dxna46ZzFOxJm+Hnnkh8wpOmrioNrrQOrtmk
+         8ryPLtf3rN2B0GZ+RVXZ4jgTTL4z4pw6ZJW/iNi5knqrxFWEzTkLYWkF26Ms6MqJrI8T
+         kr/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762590844; x=1763195644;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=S2bAn/z92LSkt2g9/ex7wXFtatjYpsStSn9cf/zplSc=;
+        b=P3PvS7c6ZMTtV10XXC4G6QBq2hZCxLAeXi0KQ82FqCHLdn9uffan9q3S5jDRAqCMmz
+         iGq76hQFiNp7oh6gCiw1cAQRtt3/C0zFphwmYFpHVPj47fDJ332C1b7NlXZfXXUNF2ay
+         y1lFF0RDI+LjOQ3SzN1hJr3wlG9j/uh+sIZP8u5piadcpcG/91FIiI8mR/I+PHH8D4dt
+         SU4+8hsvJJuf0hZReY5WcaMCaDRA2JoXeKEm7g5kRkpGKwVu9Fb5m4A5WETJpSF59PYk
+         xVHWAtENhD23naWew8467k31UCwV1O4lciT+CG3n5xF7u1EVcdHRCOwlj2tMhg8fDrKN
+         QNsg==
+X-Forwarded-Encrypted: i=1; AJvYcCXlZkl2t8PmrKbTknUCD7wkXhX3qpimtlikrhp71QbJpnmwnU7ZUFav0bKB95pD/ENN1ZMjJWChjRGpOahspz0kuw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy5r+D6XNqN/Zttu/HE5jdOsjFC6pSfR2FI4eNK7b9RuwALGG8F
+	wYoOI7io4FKjKNBpuPhWun7X3fke1uVdR0xT33c0LUusVJ9/11BcfGEeOsrzmyEOaaxqSqTpJvz
+	3roYi/CDO5oWDTiHyWztZJA7XQhIQYa0=
+X-Gm-Gg: ASbGncu8VrePsV1S0t45ide7UigikChaxDbYB0EJvW+wNnV10dYBAfyfw2CYC4znrNC
+	RfH3meFlLf0fb6L5yktT5FimH8pEhurEb1tjS2aWJVtSmJGQz/uVwAwrq1rEsx1e+iOrPJnLtVA
+	5SIiTYdc5v1WenwM4U73hgatuU7Ry9kq9KaPF2GalHcnUxXVcKKATn/ZiitJk5fVJuoiTm6o851
+	DIlcqkI1Rn3PTWUh0CqBkSf0wLUOTDJNZn0ZrAVflFNOvlyoup9kxePZTdYYQ==
+X-Google-Smtp-Source: AGHT+IFbr8D70I5Hh0mnS7XVwXHbLqUGTeP+fYZpSbGy0noG5yKzFl2DcNr86SrLZ7RYVuNvP7KnNxLcSVBXZ7AYddg=
+X-Received: by 2002:a17:907:2daa:b0:b46:6718:3f30 with SMTP id
+ a640c23a62f3a-b72e04c75bcmr186480266b.51.1762590844332; Sat, 08 Nov 2025
+ 00:34:04 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251107200100.3637869-1-niklas.soderlund+renesas@ragnatech.se>
+From: Biju Das <biju.das.au@gmail.com>
+Date: Sat, 8 Nov 2025 08:33:53 +0000
+X-Gm-Features: AWmQ_bmFChOZ2gWu0OVmeSTfILZt9gLDEULm0nND2RwOlaUkwhuiTXJouqHTspM
+Message-ID: <CADT+UeB9_as1=Prxsx+DWJLCrdH=tGG9OfW4_5foXzte=6f=Ug@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] clk: renesas: rzg2l: Remove DSI clock rate restrictions
+To: "chris.brandt@renesas.com" <chris.brandt@renesas.com>
+Cc: "airlied@gmail.com" <airlied@gmail.com>, 
+	"biju.das.jz@bp.renesas.com" <biju.das.jz@bp.renesas.com>, 
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+	"geert+renesas@glider.be" <geert+renesas@glider.be>, 
+	"hien.huynh.px@renesas.com" <hien.huynh.px@renesas.com>, "hugo@hugovil.com" <hugo@hugovil.com>, 
+	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
+	"maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>, 
+	"mripard@kernel.org" <mripard@kernel.org>, "mturquette@baylibre.com" <mturquette@baylibre.com>, 
+	"nghia.vo.zn@renesas.com" <nghia.vo.zn@renesas.com>, "sboyd@kernel.org" <sboyd@kernel.org>, 
+	"simona@ffwll.ch" <simona@ffwll.ch>, "tzimmermann@suse.de" <tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+On Wed,  5 Nov 2025 17:25:29 -0500
+Chris Brandt <chris.brandt@renesas.com> wrote:
 
-Obviously this should have been tagged to target net-next. Will wait a 
-few days and resend.
-
-On 2025-11-07 21:01:00 +0100, Niklas Söderlund wrote:
-> When converting the Renesas network drivers to use flags from enum
-> hwtstamp_rx_filters to control when to timestamp packages instead of a
-> driver specific schema with bit-wise flags an error was made.
-> 
-> The bit-wise driver specific flags correct logic to set get_ts was:
-> 
->   q: RAVB_BE + tstamp_rx_ctrl: 0 => 0
->   q: RAVB_NC + tstamp_rx_ctrl: 0 => 0
->   q: RAVB_BE + tstamp_rx_ctrl: RAVB_RXTSTAMP_TYPE_V2_L2_EVENT => 0
->   q: RAVB_NC + tstamp_rx_ctrl: RAVB_RXTSTAMP_TYPE_V2_L2_EVENT => 1
->   q: RAVB_BE + tstamp_rx_ctrl: RAVB_RXTSTAMP_TYPE_ALL => 1
->   q: RAVB_NC + tstamp_rx_ctrl: RAVB_RXTSTAMP_TYPE_ALL => 1
-> 
-> The converted logic to use enum flags mapped tstamp_rx_ctrl as
-> 
->   0 to HWTSTAMP_FILTER_NONE
->   RAVB_RXTSTAMP_TYPE_V2_L2_EVENT to HWTSTAMP_FILTER_PTP_V2_L2_EVENT
->   RAVB_RXTSTAMP_TYPE_ALL to HWTSTAMP_FILTER_ALL
-> 
-> But the logic was incorrectly changed to:
-> 
->   q: RAVB_BE + tstamp_rx_ctrl: HWTSTAMP_FILTER_NONE => 1 (error)
->   q: RAVB_NC + tstamp_rx_ctrl: HWTSTAMP_FILTER_NONE => 0
->   q: RAVB_BE + tstamp_rx_ctrl: HWTSTAMP_FILTER_PTP_V2_L2_EVENT => 0
->   q: RAVB_NC + tstamp_rx_ctrl: HWTSTAMP_FILTER_PTP_V2_L2_EVENT => 1
->   q: RAVB_BE + tstamp_rx_ctrl: HWTSTAMP_FILTER_ALL => 1
->   q: RAVB_NC + tstamp_rx_ctrl: HWTSTAMP_FILTER_ALL => 0 (error)
-> 
-> This change restores the converted flag check to the correct logic of
-> the bit-wise driver specific flags.
-> 
-> Reported-by: Simon Horman <horms@kernel.org>
-> Closes: https://lore.kernel.org/linux-renesas-soc/aQ4xSv9629XF-Bt3@horms.kernel.org/
-> Fixes: 16e2e6cf75e6 ("net: ravb: Use common defines for time stamping control")
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Convert the limited MIPI clock calculations to a full range of settings
+> based on math including H/W limitation validation.
+> Since the required DSI division setting must be specified from external
+> sources before calculations, expose a new API to set it.
+>
+> Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Tested-by: Biju Das <biju.das.jz@bp.renesas.com>
+>
 > ---
-> Hi,
-> 
-> See link in the closes tag for details on how this was found.
-> 
-> I added a fixes tag to this patch, however the patch that introduces the
-> error is in net-next, so there is no stable tree to port this fix to.
-> 
-> I'm sorry I made such a clumsy mistake. I'm happy Simon happened to try
-> out a new tool on this one commit so this issue could be fixed quickly.
-> 
-> Thanks Simon!
+> v1->v2:
+> - Remove unnecessary parentheses
+> - Add target argument to new API
+> - DPI mode has more restrictions on DIV_A and DIV_B
+>
+> v2->v3:
+> - Removed Empty lines (Hugo)
+> - Add dummy for compile-testing CONFIG_CLK_RZG2L=n case (Geert)
+> - Renamed label found_dsi_div to calc_pll_clk (Hugo)
+> - Renamed label found_clk to clk_valid (Hugo)
+> - Removed 'found' var because not needed
+> - Move 'foutpostdiv_rate =' after if(foutvco_rate > 1500000000) (Hugo)
+> - Move PLL5_TARGET_* for new API to renesas.h (Hugo,Geert)
+> - Convert #define macros PLL5_TARGET_* to enum (Geert)
+> - static {unsigned} int dsi_div_ab; (Geert)
+> - {unsigned} int a, b;  (Geert)
+> - Change "((1 << a) * (b + 1))" to "(b + 1) << a"  (Geert)
+> - Change "foutvco_rate = rate * (1 << xxx ) * ..." to " = rate * ... * << xxx (Geert)
+> - Move (u64) outside of modulo operation to avoid helper on 32-bit compiles (Geert)
+> - Change DIV_ROUND_CLOSEST_ULL() to DIV_ROUND_CLOSEST() (Geert)
+> - void rzg2l_cpg_dsi_div_set_divider({unsinged} int divider, int target)
+> - Change "dsi_div_ab = (1 << AAA) * (BBB + 1)" to " = (BBB + 1) << AAA (Geert)
+> - Added Reviewed-by and Tested-by (Biju)
+>
+> v3->v4:
+> - Changed <,> to <=,>=  (Hugo)
+> - Removed duplicate code bock (copy/paste mistake) (Hugo)
+> - Fix dummy for rzg2l_cpg_dsi_div_set_divider when CONFIG_CLK_RZG2L=n (Geert)
+> - Remove comment "Below conditions must be set.." (Hugo)
+> - Remove +1,-1 from pl5_intin comparison math (kernel test robot)
+> - Remove default register settings (PLL5_xxx_DEF) because makes no sense
+> - If any calcualtion error, print a message and return a rate of 0
+> - Rename global var "dsi_div_ab" to "dsi_div_ab_desired"
+> - Check the range of hsclk
+> - The correct clock parent is determined by if the divider is even/odd
+> - Add in all the restrictions from DIV A,B from the hardware manual
+> - No more need to be a recursive function
+> - DPI settings must have DSI_DIV_B be '0' (divide 1/1)
 > ---
->  drivers/net/ethernet/renesas/ravb_main.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> index 1680e94b9242..57b0db314fb5 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> @@ -955,9 +955,9 @@ static void ravb_rx_rcar_hwstamp(struct ravb_private *priv, int q,
->  	bool get_ts;
->  
->  	if (q == RAVB_NC)
-> -		get_ts = priv->tstamp_rx_ctrl == HWTSTAMP_FILTER_PTP_V2_L2_EVENT;
-> +		get_ts = priv->tstamp_rx_ctrl != HWTSTAMP_FILTER_NONE;
->  	else
-> -		get_ts = priv->tstamp_rx_ctrl != HWTSTAMP_FILTER_PTP_V2_L2_EVENT;
-> +		get_ts = priv->tstamp_rx_ctrl == HWTSTAMP_FILTER_ALL;
->  
->  	if (!get_ts)
->  		return;
-> -- 
-> 2.51.1
-> 
+>  drivers/clk/renesas/rzg2l-cpg.c | 147 +++++++++++++++++++++++++++++---
+>  include/linux/clk/renesas.h     |  12 +++
+>  2 files changed, 146 insertions(+), 13 deletions(-)
+>
+> diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-cpg.c
+> index 07909e80bae2..1a552ea1c535 100644
+> --- a/drivers/clk/renesas/rzg2l-cpg.c
+> +++ b/drivers/clk/renesas/rzg2l-cpg.c
+> @@ -74,6 +74,17 @@
+>  #define MSTOP_OFF(conf)          FIELD_GET(GENMASK(31, 16), (conf))
+>  #define MSTOP_MASK(conf)      FIELD_GET(GENMASK(15, 0), (conf))
+>
 
--- 
-Kind Regards,
-Niklas Söderlund
+>
+
+> +       if (dsi_div_target == PLL5_TARGET_DPI) {
+> +               /* Fixed settings for DPI */
+> +             priv->mux_dsi_div_params.clksrc = 0;
+> +             priv->mux_dsi_div_params.dsi_div_a = 3; /* Divided by 8 */
+> +         priv->mux_dsi_div_params.dsi_div_b = 0; /* Divided by 1 */
+> +             dsi_div_ab_desired = 8;                   /* (1 << a) * (b + 1) */
+This block is duplicated may be add a helper function(), if you are
+planning to send another series.
+> +       }
+
+> +      /* Default settings for DPI */
+> +  priv->mux_dsi_div_params.clksrc = 0;
+> +  priv->mux_dsi_div_params.dsi_div_a = 3; /* Divided by 8 */
+> +      priv->mux_dsi_div_params.dsi_div_b = 0; /* Divided by 1 */
+> +  dsi_div_ab_desired = 8;                        /* (1 << a) * (b + 1) */
+>
+
+Cheers,
+Biju
 
