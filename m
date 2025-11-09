@@ -1,226 +1,182 @@
-Return-Path: <linux-renesas-soc+bounces-24369-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24370-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C671BC44058
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 09 Nov 2025 15:37:21 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF683C44146
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 09 Nov 2025 16:08:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E5AC6188BAA4
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  9 Nov 2025 14:37:45 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 50B704E1774
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  9 Nov 2025 15:08:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0372D2DF149;
-	Sun,  9 Nov 2025 14:37:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08FD82F1FD1;
+	Sun,  9 Nov 2025 15:08:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="JOMxotIX";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="hwohoQHX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jVgzaT62"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45E8B18027;
-	Sun,  9 Nov 2025 14:37:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.156
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB2C71C84DC;
+	Sun,  9 Nov 2025 15:08:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762699037; cv=none; b=o6dT1hU1T8vFnnuBXn71UD68U+aFSoC5yo/vMYqtDUqLerqlNnDEi89aWMiZpIYddhrt7UC34msAQC6fp7+XHbK7bhSUCD7SpgpMZtKAnDtkBngH2Rbv38L4BEW3Cz3N5vWDbfrC5IBF3SdKGuftS1fjhymTJqrDHgbGPX4+9Fw=
+	t=1762700934; cv=none; b=MOwzVuL3kbnSUslvfwYOm5rYfvmwUblsbxXNt+l9VrwU7br0S0XRQQDL0RGRCLOGJIodZfjz/BlUo00xOXjsz5QIPt0y0Vns8dG0ObesTDyXFQ42pwd5TSKOIUQR5nLM+JADoNFYrJBkF2cmHtPvN7zrkyWKHSNX+O5k8ZP0c4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762699037; c=relaxed/simple;
-	bh=y1XzxB4cxLOtgqM9iW/1pwq4IajwoALOAC6J6EHxfq8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fmuw0TvDv30Dklh5Tj8YpI+TH96miAm7xKg0RWnQ+2ZWMlEK69WtkVfWwhCnteG1z9DWJ8erZHCSK/4IQCzDBQsnoCIqQwsCs4IE0oc0ATtZjuDff1ck/gkC6kqE6Tcploqus6rybvY4y5Rx1h/dqrfWwCYG1HzgzAd+GlrjmVo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=JOMxotIX; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=hwohoQHX; arc=none smtp.client-ip=202.12.124.156
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-11.internal (phl-compute-11.internal [10.202.2.51])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 0143E7A0091;
-	Sun,  9 Nov 2025 09:37:11 -0500 (EST)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-11.internal (MEProxy); Sun, 09 Nov 2025 09:37:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1762699031;
-	 x=1762785431; bh=Co862sBr7FxEy0IOO1grCt0h3yVF3T4y2yphEC5DydM=; b=
-	JOMxotIXbwd1gW7ipHxll8LopLXbQ1q8WDOZj/I2nP1Ki/NvZwoYVWVu/JyV75zA
-	W6m7RbuhBEW7dkvLIpY5J9MmOm96ap4GiiijRU9W1PlcX5dmDOkt3z7fWcJkrQBe
-	ichFwfm7b8/dlNZiKpgit01T0xMH5coyyBAAEt9Rgcnt5OjbOOvEnWnf2wthY+8e
-	khMosXvMdSYdbaUCkZ50itfw8WJtUywVKHRmzyvsM4W4WxK8DoRhpOzBh1ZNlw9k
-	6CgdBU3w6icacCesECiNWwzQlQlz0WJAUNN5iDFXeYFbw733xavKZgNB2nDQrCnS
-	9378y7KmxMWW3Bv6T6Uxxg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1762699031; x=
-	1762785431; bh=Co862sBr7FxEy0IOO1grCt0h3yVF3T4y2yphEC5DydM=; b=h
-	wohoQHX//ETZURmSoe1XPqSPa+DHwQKVNYA2GRuAXu6GMnt/y7CsOTea86uZhowX
-	czGqiXLyJTBeGPgsK3iny7/ZhI7WcZAUrmaIhTtTwDSQV1zyYD+IjMYKTkbILJgG
-	fiBvotG7BNzG5/UbYy7rKeuGihrauUQNAY6WWlZvbjyOq272ImnGbaAq6ll0PNSV
-	N9LimnO7bG61Mk8aLKSv3u61hQL29n/LznR+Wh2KazpjGkTBOPZGwydmT5VGWkvm
-	is3QUL4svgHw82QYrEm9NpJE75t0nyB9J4NgqCcqyL6fTMJfCnJ2SOR5HLycoAjC
-	Jvc8pZYm2yIMskmhI8Y9w==
-X-ME-Sender: <xms:F6cQaUNB5w-SzXJmXWoXOlndJs5NMWimOe3hHLbrFzmUj7atOpr2uA>
-    <xme:F6cQaURryrHBIyqEl74N3sNyINH-dP5NqZg2xygTPdZ8iy7lCm0h9gAIogfsEPbG-
-    stmhD1WE-w-H80P3pALrV5vDD7jhoX5cyaDzTWMGwcuBpon4wH6Xg>
-X-ME-Received: <xmr:F6cQaSiTtNCOObU45dLpJBgVodRdGEFMT3BmmqKhScmXAKM6ZtNZ3E5HMXKSPKRqQMevNsbdq6SRCPcmFTn7vj0B365IE8M>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduleehieekucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhklhgr
-    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvsh
-    grshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeejveehuddtgfet
-    uedtffefheehtdefleejgeffudettddtveffudevudelvddugeenucffohhmrghinheplh
-    hinhgrrhhordhorhhgpdhfrggtvggsohhokhdrtghomhdpthifihhtthgvrhdrtghomhen
-    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklh
-    grshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvpdhn
-    sggprhgtphhtthhopeeipdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegurghnih
-    gvlhdrlhgviigtrghnoheslhhinhgrrhhordhorhhgpdhrtghpthhtohepthhglhigsehl
-    ihhnuhhtrhhonhhigidruggvpdhrtghpthhtohepghgvvghrtheslhhinhhugidqmheike
-    hkrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhn
-    vghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvg
-    hrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehgvggvrhhtodhrvghnvghsrghssehg
-    lhhiuggvrhdrsggv
-X-ME-Proxy: <xmx:F6cQad-2KAEjouHkJAeOj4NF6ibmVLNjinbp20U2nWk_HAc7gWvMIw>
-    <xmx:F6cQaZGtPhin_DWOD187YHctEHstsdVLZ2isJmkczA9mG6KOQ2pBvw>
-    <xmx:F6cQaQkxGmFnOoAnxnfwKEM1HjT5ZB_x6-NCDiZ_FnGPvbybDUOASA>
-    <xmx:F6cQadbSxM2s3xpvYez9EE1lLQ-JsAtxHI3F_dqyBMHu6lpiqtjTMw>
-    <xmx:F6cQaRzCX80OZwPqlnoWtHFxf_kjERE0crmU4Zn_TzIX-03DO3LEgIl_>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 9 Nov 2025 09:37:10 -0500 (EST)
-Date: Sun, 9 Nov 2025 15:37:08 +0100
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH v2] clocksource/drivers/sh_cmt: Always leave device
- running after probe
-Message-ID: <20251109143708.GD4126953@ragnatech.se>
-References: <20251016182022.1837417-1-niklas.soderlund+renesas@ragnatech.se>
- <c07ae384-4042-43f4-b876-7207b72260f7@linaro.org>
- <20251105160627.GA3684509@ragnatech.se>
- <ae167c7f-c32f-422b-9eb2-72889cbafef0@linaro.org>
- <20251105183242.GB3684509@ragnatech.se>
- <c4377971-173a-4af9-8566-24e5860787ae@linaro.org>
+	s=arc-20240116; t=1762700934; c=relaxed/simple;
+	bh=UsiRGVkkiN8UxPf6zagckvEmaIPz91rtZ6xa8MBMRjY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=MsjJHKjtsEV9UQbpQxr26V+ki+sTbZ+n+C3LITkVvpFH8co3tcBshHjBkljRRCh3vjPKNXZ0VYKLq8KMtPO9O7MzfebUtxnSF0DMoDgq5bKdP+D+hb6O6ReuwJrxtCyH1x+FVAQ3A5ndIDnxsLw/LGfVkjCGtMSW8nnE3mjRLcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jVgzaT62; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB105C4CEF8;
+	Sun,  9 Nov 2025 15:08:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762700934;
+	bh=UsiRGVkkiN8UxPf6zagckvEmaIPz91rtZ6xa8MBMRjY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=jVgzaT62BeuiE95+q8cRtVX4MIDhLS9H6ljBrxfe3qu9H+iBS1l+wUEtg1/iswda9
+	 G+KU5hSe8K/3WxiPDrO3qwu+JZuUrXdaIZGViZ1fzSHXTAdUY/ycwmWQtTG/cDLJmj
+	 3anF6J/o9puA6SJsUp9CWTirxoBOjRbZmLTC6g5pqrMG55AlaeBrLjlRBVwjqsdWQR
+	 w5eLT65XDwRbf49W5ur8qyhR6skr85b5h+tWn084DEStI/TeQGzTyN1GWDwRBPXWve
+	 9w7558vYs6anJWhkd3Cds3QhAkjYqGQ3M37IO/Dd6AaqsOLxjkRodYUetYr03E2vc5
+	 knFK9VkoxwFKg==
+Date: Sun, 9 Nov 2025 15:08:46 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, David Lechner
+ <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy
+ Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Geert
+ Uytterhoeven <geert+renesas@glider.be>, Magnus Damm
+ <magnus.damm@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+ <broonie@kernel.org>, linux-iio@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Pascal Eberhard <pascal.eberhard@se.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v3 0/4] Add support for the Renesas RZ/N1 ADC
+Message-ID: <20251109150846.25c7ae49@jic23-huawei>
+In-Reply-To: <20251103141834.71677-1-herve.codina@bootlin.com>
+References: <20251103141834.71677-1-herve.codina@bootlin.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c4377971-173a-4af9-8566-24e5860787ae@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Daniel,
+On Mon,  3 Nov 2025 15:18:30 +0100
+"Herve Codina (Schneider Electric)" <herve.codina@bootlin.com> wrote:
 
-On 2025-11-07 10:53:41 +0100, Daniel Lezcano wrote:
-> On 11/5/25 19:32, Niklas Söderlund wrote:
-> > Hi Daniel,
-> > 
-> > Thanks for your feedback.
-> > 
-> > On 2025-11-05 17:39:14 +0100, Daniel Lezcano wrote:
-> > > On 11/5/25 17:06, Niklas Söderlund wrote:
-> > > > On 2025-11-05 16:36:15 +0100, Daniel Lezcano wrote:
-> > > > > On 10/16/25 20:20, Niklas Söderlund wrote:
-> > > > > > The CMT device can be used as both a clocksource and a clockevent
-> > > > > > provider. The driver tries to be smart and power itself on and off, as
-> > > > > > well as enabling and disabling its clock when it's not in operation.
-> > > > > > This behavior is slightly altered if the CMT is used as an early
-> > > > > > platform device in which case the device is left powered on after probe,
-> > > > > > but the clock is still enabled and disabled at runtime.
-> > > > > > 
-> > > > > > This has worked for a long time, but recent improvements in PREEMPT_RT
-> > > > > > and PROVE_LOCKING have highlighted an issue. As the CMT registers itself
-> > > > > > as a clockevent provider, clockevents_register_device(), it needs to use
-> > > > > > raw spinlocks internally as this is the context of which the clockevent
-> > > > > > framework interacts with the CMT driver. However in the context of
-> > > > > > holding a raw spinlock the CMT driver can't really manage its power
-> > > > > > state or clock with calls to pm_runtime_*() and clk_*() as these calls
-> > > > > > end up in other platform drivers using regular spinlocks to control
-> > > > > > power and clocks.
-> > > > > 
-> > > > > So the fix is to remove PM management in the driver ?
-> > > > 
-> > > > Yes. As I understand it we can't do runtime pm in these drivers as the
-> > > > core calls into the functions with the raw spinlock held. I hope we can
-> > > > improve this in future.
-> > > 
-> > > 
-> > > IIUC, the changes done for PREEMPT_RT prevent to use pm_runtime by functions
-> > > running in atomic context because the spinlocks are actually mutexes.
-> > 
-> > My understanding is that the core issue is that the clockevent core uses
-> > raw spinlocks, so all operations done from the callbacks in drivers need
-> > to use them too.
-> > 
-> > The Renesas CMT and TMU (which I intend to fix too once we find a way
-> > forward for CMT) are the only clockenvet drivers attempting to do
-> > runtime pm.
-> > 
-> >      $ git grep -l pm_runtime_get -- drivers/clocksource
-> >      drivers/clocksource/sh_cmt.c
-> >      drivers/clocksource/sh_mtu2.c
-> >      drivers/clocksource/sh_tmu.c
-> >      drivers/clocksource/timer-ti-dm.c
-> > 
-> > The timer-ti-dm.c driver do not register a clockevent device.
-> > 
-> > > 
-> > > But if PREEMPT_RT is not set, then everything is running as usual.
-> > 
-> > I still get LOCKDEP warnings.
-> 
-> Ah ok, you get the LOCKDEP warning because it identifies the called code to
-> be invalid in case the PREEMPT_RT is compiled-in but does not reflect a real
-> problem with !PREEMPT_RT.
-> 
-> [ ... ]
-> 
-> > The problem is not really PREEMPT_RT. The problem is the clockevents
-> > core require drivers to use raw spinlocks as itself uses them.
-> > 
-> > I would prefer to get the driver in a state without splats, warnings and
-> > potential PREEMPT_RT issues. Especially if the cost is to disable
-> > runtime pm.
-> > 
-> > As I understand it most systems where CMT exists, who don't use it, keep
-> > them disabled in DT. And the devices that use them have
-> > is_sh_early_platform_device() set so they already disable runtime pm.
-> > 
-> > Once we have that fixed we can work on enabling it without the quirks.
-> > In your opinion am I missing something where this approach is a bad idea?
-> 
-> If you prefer to remove the PM in the driver, I'm fine with that.
+> Hi,
+>=20
+> The Renesas RZ/N1 ADC controller is the ADC controller available in the
+> Renesas RZ/N1 SoCs family.
+>=20
+> It can use up to two internal ADC cores (ADC1 and ADC2) those internal
+> cores are handled through ADC controller virtual channels.
+>=20
+> Best regards,
+> Herve Codina
+>=20
+> Changes v2 -> v3:
+>=20
+Applied 1-2,4 to the togreg branch of iio.git.
+A little bit of merge noise due to another Renesas ADC driver being
+added recently, but only in Makefile / Kconfig so hopefully I didn't mess
+up merging them.
 
-I'm not super fond of removing it, but for now I think it is the best 
-way to ensure correct operation in all cases. If anybody have ideas I'm 
-all ears. Specially as I will need to do a similar fix for the TMU 
-driver once we have found a acceptable way for CMT.
 
-Once we I'm out of the woods and not worried about whats currently in 
-tree can have issues I think it's time to start thinking, if and how we 
-can improve tings in the core so we can enable some or all of the PM CMT 
-and TMU.
+> v2: https://lore.kernel.org/lkml/20251029144644.667561-1-herve.codina@boo=
+tlin.com/
+>=20
+>   Patch 1:
+>     - Add 'Reviewed-by: Rob Herring'.
+>=20
+>   Patch 2:
+>     - Add missing header files.
+>     - Use fixed-width values for register definitions.
+>     - Split comments and remove a redundant 'else'.
+>     - Return the error in the 'switch case' default statement.
+>     - Leave a trailing comma in struct iio_info.
+>     - Move *_vref_mv to *_vref_mV.
+>     - Split the DEFINE_RUNTIME_DEV_PM_OPS().
+>     - Update error code handling in rzn1_adc_core_get_regulators().
+>     - Pass rzn1_adc in platform_set_drvdata(), update suspend/resume
+>       function accordingly.
+>     - Add 'Reviewed-by: Nuno S=C3=A1'
+>=20
+>   Patches 3 and 4:
+>     No change.
+>=20
+> Changes v1 -> v2:
+>=20
+> v1: https://lore.kernel.org/lkml/20251015142816.1274605-1-herve.codina@bo=
+otlin.com/
+>=20
+>   Rebase on top of v6.18-rc3 to have commit db82b8dbf5f0 ("PM: runtime:
+>   Fix conditional guard definitions")
+>=20
+>   Patch 1:
+>     - Remove unneeded 'dependencies' part.
+>     - Rename "adc-clk" clock to "adc".
+>     - Move 'additionalProperties: false' just before the example.
+>     - Use const instead of enum for the "renesas,r9a06g032-adc"
+>       compatible string.
+>     - Fix the ACD typo.
+>=20
+>   Patch 2:
+>     - Fix the ACD typo.
+>     - Rename "adc-clk" clock to "adc".
+>     - Update included headers and sort them.
+>     - Align register definitions at the same column.
+>     - Inline the FIELD_GET() instead of having macros.
+>     - Introduce RZN1_ADC_NO_CHANNEL
+>     - Get Vref voltage value at probe().
+>     - Remove the bitmap in rzn1_adc_set_iio_dev_channels().
+>     - Use dev_err_probe() in rzn1_adc_set_iio_dev_channels().
+>     - Use auto-cleanup variant for PM runtime "resume and get".
+>     - Use scoped_guard() for mutex.
+>     - Use devm_mutex_init().
+>     - Use the fixed "rzn1-adc" string for indio_dev->name.
+>     - Use DEFINE_RUNTIME_DEV_PM_OPS().
+>     - Fix rzn1_adc_of_match table and remove of_match_ptr().
+>     - Add a comment related to decoupling between IIO chans and ADC1 or
+>       ADC2 core chans
+>     - Update and add several comments related to ADC core usage and the
+>       relationship with ADC core regulator presence.
+>     - Remove clocks and regulators handling from PM runtime
+>       suspend()/remove().
+>     - Simplify the driver removing the no more relevant struct
+>       rzn1_adc_core.
+>=20
+>   Patch 3:
+>     - Rename "adc-clk" clock to "adc".
+>     - Add 'Reviewed-by: Wolfram Sang'
+>=20
+>   Patch 4
+>     - Removed the linux-iio list
+>=20
+> Herve Codina (Schneider Electric) (4):
+>   dt-bindings: iio: adc: Add the Renesas RZ/N1 ADC
+>   iio: adc: Add support for the Renesas RZ/N1 ADC
+>   ARM: dts: renesas: r9a06g032: Add the ADC device
+>   MAINTAINERS: Add the Renesas RZ/N1 ADC driver entry
+>=20
+>  .../bindings/iio/adc/renesas,rzn1-adc.yaml    | 111 ++++
+>  MAINTAINERS                                   |   7 +
+>  arch/arm/boot/dts/renesas/r9a06g032.dtsi      |  10 +
+>  drivers/iio/adc/Kconfig                       |  10 +
+>  drivers/iio/adc/Makefile                      |   1 +
+>  drivers/iio/adc/rzn1-adc.c                    | 490 ++++++++++++++++++
+>  6 files changed, 629 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/iio/adc/renesas,rzn=
+1-adc.yaml
+>  create mode 100644 drivers/iio/adc/rzn1-adc.c
+>=20
 
-I really appreciate you pushed back on this, I agree removing runtime PM 
-support is kind of a last resort here. But I see no other path.
-> 
-> 
-> -- 
-> <http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
-> 
-> Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-> <http://twitter.com/#!/linaroorg> Twitter |
-> <http://www.linaro.org/linaro-blog/> Blog
-
--- 
-Kind Regards,
-Niklas Söderlund
 
