@@ -1,422 +1,477 @@
-Return-Path: <linux-renesas-soc+bounces-24429-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24430-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF47FC49440
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Nov 2025 21:39:46 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE4C1C496F1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Nov 2025 22:39:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7E00E1888A12
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Nov 2025 20:40:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 741C818858AD
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Nov 2025 21:39:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FE002F0C7C;
-	Mon, 10 Nov 2025 20:39:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F4A7330B12;
+	Mon, 10 Nov 2025 21:38:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c6C2Y40w"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O0M0zD4y"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0A502E8B95
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Nov 2025 20:39:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C2332F5A02
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Nov 2025 21:38:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762807182; cv=none; b=TA1hSa3v4c1Yi+lbqSHe3yRH8T6pWL9TTfatVDJfLH4J48pIkPkl4FzA5exGlRaLIX7OJwuQTGvCgnMGvMXMqul9oAJW8pjBqJItj4DTGBRT49M4+OFs/hzmLuQhAvpq5axmxZ01/DFQvEXxEEtTWhw5/vNOVmNreCDOjEWJQMw=
+	t=1762810739; cv=none; b=YxubtqroDs2FEiZf7//UpD94DbegI4XNfcOjyyxyKdCpzjb99Ohz3E0H5y2881suKvyK+foO5+3A0q+zyIwEgqhFzJ47c+VWv+4bOKNBm0wk0LIzHHKF8yXqNA0S+YcAbrlQdHbyJ9rTK8x862uzza6ZnmCe7muOJtppNqxIEfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762807182; c=relaxed/simple;
-	bh=AkgHaQmw6NA3nKy2zyksBXMR0NDo/R2Qbv+yM8I4mrk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OAlNPv2+wry8rO5tpSoYWYMpOLPeyVRXuRV6ONfBZX3+PVws1xfLMbrqC1iUhSeIlAf5Sv8dg3PYqCRRY+1tw9XJg+fLfoeKNYj280kiLf6CbLTQgZIaq/rlk0GADQNGE0FdeMJwTifLz/5hLcVv2iscQQgt5EV3sxGINIQKL/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c6C2Y40w; arc=none smtp.client-ip=209.85.216.47
+	s=arc-20240116; t=1762810739; c=relaxed/simple;
+	bh=cTdgEbBzQVj0+Jsk5gVE414ysvFa19EZPgFiisqpJ5M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hS2W17hRFy6D7mERnfZ1KND7AO1xsPt0s85sig0jVKdzVDzTP1Ngo5W23Y9izeuraA9kbmkLtMLOyxqOCbTyoQytcknOh4yKokexSYwyv6RrvBphCrzgjgkTYDQWiAoVshw1f2xxRmhGDwozFqJAGtQt37253k2SJyNzint/e1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O0M0zD4y; arc=none smtp.client-ip=209.85.221.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-3437af844afso1951473a91.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Nov 2025 12:39:40 -0800 (PST)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-42b3377aaf2so1108494f8f.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Nov 2025 13:38:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762807180; x=1763411980; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=m6K87sjrAn7jsbixbzY3ZTMgfnTETtINPCdgt7Pmhlo=;
-        b=c6C2Y40wekH3B8OBY2mX1JAZloKngtwFW3zGCTUjrwML0B99VfPOXhrCs1p8iBWGLW
-         33qy7bXk5kDqBlY2ZjD9II66O7eO0r34GgUQBW9RewmPQN4gaMRd2R23UY2JyLAlyplT
-         C38rF2IDXLwvBs5NYnmjh4gl6zicOWtYDmqzqCOGJCvkqlEBZMdwqburh5fwxsPrbq4t
-         oSMsFPWmYOGBYgEjwHt/IOLNC3CafrtitgTHmO0KlFdY58ohtqG2hb2s4eGh2f+Ay6dN
-         IUnJMLGk3eMjc7x02FN+VqGYiczvVZdISEkkqs+0MIK432KrlAxExI4YUhwyeG2gSbQs
-         6jWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762807180; x=1763411980;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1762810735; x=1763415535; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=m6K87sjrAn7jsbixbzY3ZTMgfnTETtINPCdgt7Pmhlo=;
-        b=ursQBejJbKLMt4hDwF54QSf8lPt1kjNkbr9OP7OM4MaPVc/MuBxmPZDAAR7hNscL6n
-         dC50d3jYPc7znrCX0TD1whD2HoRsDRWhslbxOuTG//xwPYTBy/ST4E/2HDJu3gbPOdqn
-         MVRsR9ESv4xwisKPEVit+bQpoX+ybrgalcuxW4MapKNwFoP5DfHKAlg/60mne3qnjYrL
-         xN1cLo2y/3S8p3VCKGCGN/a6AcCYsrtCgLNLFf/Y9wO4V1UujWA7NEPB1chT2NymkLxQ
-         jHIQ3tBoUfZVfVTbKxvL3+dzeeu1fL5uWIN6AGG/xqnSnP10d6Px7NWNbLfJk/zcKaAo
-         hBbA==
-X-Gm-Message-State: AOJu0YwkFKXNgxjOlFiZUdtXcELc+UctI/2iX7ksInFawpoico1RmKuc
-	W6YzEca7ZLcS7KOnSCfNQAtQcE/8GHFAI+pVHs71ZE5LcrXGs/oglnYT
-X-Gm-Gg: ASbGnctWMVdVXXc46QQOojNh4M4H5bpGcIDXwKdker2RpusHRfdpk15OFHvFTiciNJN
-	cdV2NI8ulMjNXKBwHFuMb/YWjZnHhXIWCJSqh4BcvF/iQsK24CpDWWIxUMJJnWrILKdwJtx9Uyl
-	0oIaWYrOP762/sptCFPe35SxUeSzmePTAcAOdLgUpoXu7cO7jbQWWbRz2yKSJ2UB58MWelqhVK6
-	gZV7ovarYOf8dm17qms9IeuPCMP6slUtcKappLuaxKE0scF70KBZYBsfzqp4OIIbOowpKWAKlQd
-	ccE+aJqE+Xr7dvSgg1cCIFikNLD38WJmOPElyYeJDqqoUAbAafWwRZX6R67zXkwLn9EejKGCWzJ
-	Fj8ya3M+Dlensz7MCqgvvLP/RL7DSqJRSgU6vMBNFYvaMbhVR620cQPrQKjc9RKFwWGwM0ogLO1
-	gnTNlA5dEBh3Vnk/K9LdBzTw==
-X-Google-Smtp-Source: AGHT+IFFo88851x6ts9UcKu3G6c2Zy5/pvsjVy0eGIvIka3YKXz2RYKTvCpvPp5F/IDqXtG7tq7Bcw==
-X-Received: by 2002:a17:90b:4986:b0:33b:a5d8:f198 with SMTP id 98e67ed59e1d1-3436cd0026emr10076418a91.25.1762807180058;
-        Mon, 10 Nov 2025 12:39:40 -0800 (PST)
-Received: from iku.. ([2401:4900:1c06:79c0:4ab7:69ea:ca5e:a64f])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-341a67e2f82sm18855643a91.0.2025.11.10.12.39.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Nov 2025 12:39:39 -0800 (PST)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v3] arm64: dts: renesas: rzt2h-n2h-evk: Enable Ethernet support
-Date: Mon, 10 Nov 2025 20:39:26 +0000
-Message-ID: <20251110203926.692242-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
+        bh=gKeG3s/W/qSrdcqT78Gs/bWuaBXLVMnbI+0M79sKo3Y=;
+        b=O0M0zD4yMInmGF4eOihyFDaAgWyYoOc27QE4JrLLkCp+3LXrp3NR8P8KAz9Zwbu4sz
+         CvCce64n+UxDj+WzS81orgUR/dP7R0YQbkocflym6zejHQ6Zr3+gTYURyW8DD0jzPac9
+         sgGAD9j57W05FcB7zR+k6fWQSZ8mGrRY9Q/akuHecCXjDZZw4w8IakgVK3zaJHv8S0fI
+         pkW4Lf7Jj7D0Pl++zllNNOZ4vt5FNmBwng1jHsAT//tdOo9nUusm0Uy8v9ENXaIk0LIe
+         kr69PjaTMNu9eFN26yE/83INQBKP0/kKgQocIDM9JmJJ31Ot/wxffS9qCNeenM/rQ/Ug
+         mpYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762810735; x=1763415535;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=gKeG3s/W/qSrdcqT78Gs/bWuaBXLVMnbI+0M79sKo3Y=;
+        b=lJBx8EfpeHJ7gs46pw2ipWYnEpxI2Brm2wCIkFkedTXZTpK8A3sp7bWz4Y3uUO8tvd
+         fhtonjumy+waFI73VnmInjRUIGiImNQCwOkN35dn6M5h7UchipovXSSvtvvll+Mht0g4
+         S8fYV7u3KZcG6b8Ip/au0lGor21/Nxc0myGJHX0PC7sbIEITWzHDfH+ABig2MwJquLBq
+         Upn+sIE/yfhVNs70HCbleSyozLnVPGqB12LCMA857VO73paHox4NR7+2hlm02/Y6Fy0W
+         UtlxoiHA3gSMNi9bLScipB+scfS4KJwWYkAWfxSj9W9qGKuR4p+ka6SHYTDZ3SbGp7TM
+         CW6Q==
+X-Forwarded-Encrypted: i=1; AJvYcCW7gRWG96wSVvzAs5NZqVkLNFVQwa0l6a9wzsBb8B15zQb8cOwoyzksDVEDru76tHMw/YY53rF+EycKriUWDolK0w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyGmCRzk+ZVSXepzW33/Z9+W07v5gmBqvGqun7MLJyhpepvh8kM
+	7u9kPrb2f7jW1YHOJtFVwzFGFnJ1ht5gd8pfE1pJ1jetZ4g7dzyr3POjuu/+sXPUYHRS6Db+qdG
+	5rhjlZzUMCp65/EgA+ux28RpUo9Qq1a8=
+X-Gm-Gg: ASbGncsTjcvMextrVP1tV7eNFQ3SVFAMtkf2y5rnGkoWnPI/df1uSvimHvq1r1qGNaa
+	EwI9EJLJP36e7AI81qyrPCJ7HTyc/ytyVWEzejjah7yQ3OmQ62s9Dpohpi+mmqxxGnIlVMAVDP8
+	Ac8zwozi4uy8rot7ktKHmGzR65RGV29Gewajks5nmunQ8GQVA0myp+Wfc9zWoyzQVRXqS9uUA8R
+	jhhGEFWVe40CwaQT5YxYR5M4zxAzlVgOrNH8HgaUi2kep4ty/TQTLiXNXXOPg==
+X-Google-Smtp-Source: AGHT+IEkjjibfkmx2CZAzFzB++b/Z6pjVW3//MbnY2TuzRb79D5BUaXVRojqYqi9CAVOksR9Vhda87sXtYzfjBEJpEA=
+X-Received: by 2002:a05:6000:200e:b0:427:9d7:86f9 with SMTP id
+ ffacd0b85a97d-42b2dca3f67mr8790808f8f.47.1762810734542; Mon, 10 Nov 2025
+ 13:38:54 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251028165127.991351-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20251028165127.991351-6-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdWSB4OvS5AeWqOBQPNG2J9VMYe9YUeXAp9kPjcJEQm3+g@mail.gmail.com>
+In-Reply-To: <CAMuHMdWSB4OvS5AeWqOBQPNG2J9VMYe9YUeXAp9kPjcJEQm3+g@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Mon, 10 Nov 2025 21:38:28 +0000
+X-Gm-Features: AWmQ_bkBTTeO5RvxzqkAQX0F83hRREO1oo07OyPg6IEMnJcpjj4Wjh6daMvSTc4
+Message-ID: <CA+V-a8sC44HeShCFdk2xwTHMdcOo+8btNh9i0hthTEUMdnhqAQ@mail.gmail.com>
+Subject: Re: [PATCH v2 5/5] clk: renesas: r9a09g077: Add xSPI core and module clocks
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
+	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Hi Geert,
 
-Enable Ethernet support on the RZ/T2H and RZ/N2H EVKs.
+Thank you for the review.
 
-Configure the MIIC converter in mode 0x6:
-  Port 0 <-> ETHSW Port 0
-  Port 1 <-> ETHSW Port 1
-  Port 2 <-> GMAC2
-  Port 3 <-> GMAC1
+On Mon, Nov 10, 2025 at 1:48=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
+>
+> Hi Prabhakar,
+>
+> On Tue, 28 Oct 2025 at 17:52, Prabhakar <prabhakar.csengg@gmail.com> wrot=
+e:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Add core clocks and module clock definitions required by the xSPI
+> > (Expanded SPI) IP on the R9A09G077 SoC.
+> >
+> > Define the new SCKCR fields FSELXSPI0/FSELXSPI1 and DIVSEL_XSPI0/1 and
+> > add two new core clocks XSPI_CLK0 and XSPI_CLK1. The xSPI block uses
+> > PCLKH as its bus clock (use as module clock parent) while the operation
+> > clock (XSPI_CLKn) is derived from PLL4. To support this arrangement
+> > provide mux/div selectors and divider tables for the supported
+> > XSPI operating rates.
+> >
+> > Add CLK_TYPE_RZT2H_FSELXSPI to implement a custom divider/mux clock
+> > where the determine_rate() callback enforces the hardware constraint:
+> > when the parent output is 600MHz only dividers 8 and 16 are valid,
+> > whereas for 800MHz operation the full divider set (6,8,16,32,64) may
+> > be used. The custom determine_rate() picks the best parent/divider pair
+> > to match the requested rate and programs the appropriate SCKCR fields.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> > v1->v2:
+> > - Added custom divider clock type for XSPI clocks to enforce hardware
+> >   constraints on supported operating rates.
+>
+> Thanks for the update!
+>
+> > --- a/drivers/clk/renesas/r9a09g077-cpg.c
+> > +++ b/drivers/clk/renesas/r9a09g077-cpg.c
+>
+> > @@ -54,12 +56,19 @@
+> >  #define DIVSCI3ASYNC   CONF_PACK(SCKCR3, 12, 2)
+> >  #define DIVSCI4ASYNC   CONF_PACK(SCKCR3, 14, 2)
+> >
+> > +#define FSELXSPI0      CONF_PACK(SCKCR, 0, 3)
+> > +#define FSELXSPI1      CONF_PACK(SCKCR, 8, 3)
+> > +#define DIVSEL_XSPI0   CONF_PACK(SCKCR, 6, 1)
+> > +#define DIVSEL_XSPI1   CONF_PACK(SCKCR, 14, 1)
+> >  #define SEL_PLL                CONF_PACK(SCKCR, 22, 1)
+> >
+> > +#define DIVSELXSPI_RATE_600MHZ         600000000UL
+> > +#define DIVSELXSPI_RATE_800MHZ         800000000UL
+>
+> I find it a bit weird that the name of the define includes its value.
+> Perhaps just use "600 * MEGA" resp. "800 * MEGA" in the code instead?
+OK.
 
-Enable the ETHSS, GMAC1 and GMAC2 nodes. ETHSW support will be added
-once the switch driver is available.
+> But see below...
+>
+> > @@ -154,6 +180,15 @@ static const struct cpg_core_clk r9a09g077_core_cl=
+ks[] __initconst =3D {
+> >         DEF_DIV(".sci5async", CLK_SCI5ASYNC, CLK_PLL4D1, DIVSCI5ASYNC,
+> >                 dtable_24_25_30_32),
+> >
+> > +       DEF_FIXED(".pll4d1_div3", CLK_PLL4D1_DIV3, CLK_PLL4D1, 3, 1),
+> > +       DEF_FIXED(".pll4d1_div4", CLK_PLL4D1_DIV4, CLK_PLL4D1, 4, 1),
+>
+> Please move these two just below the existing entry for ".pll4d1".
+>
+Ok, I will move it below .pll4d1
 
-Configure the MIIC converters to map ports according to the selected
-switching mode, with converters 0 and 1 mapped to switch ports and
-converters 2 and 3 mapped to GMAC ports.
+> > +       DEF_MUX(".divselxspi0", CLK_DIVSELXSPI0_SCKCR, DIVSEL_XSPI0,
+> > +               sel_clk_pll4d1_div3_div4,
+> > +               ARRAY_SIZE(sel_clk_pll4d1_div3_div4), 0),
+> > +       DEF_MUX(".divselxspi1", CLK_DIVSELXSPI1_SCKCR, DIVSEL_XSPI1,
+> > +               sel_clk_pll4d1_div3_div4,
+> > +               ARRAY_SIZE(sel_clk_pll4d1_div3_div4), 0),
+> > +
+> >         /* Core output clk */
+> >         DEF_DIV("CA55C0", R9A09G077_CLK_CA55C0, CLK_SEL_CLK_PLL0, DIVCA=
+55C0,
+> >                 dtable_1_2),
+>
+> > @@ -264,6 +305,116 @@ r9a09g077_cpg_mux_clk_register(struct device *dev=
+,
+> >         return clk_hw->clk;
+> >  }
+> >
+> > +static int r9a09g077_cpg_fselxspi_determine_rate(struct clk_hw *hw,
+> > +                                                struct clk_rate_reques=
+t *req)
+> > +{
+> > +       struct clk_divider *divider =3D to_clk_divider(hw);
+> > +       unsigned long parent_rate, best =3D 0, now;
+> > +       const struct clk_div_table *clkt;
+> > +       unsigned long rate =3D req->rate;
+> > +       int div =3D 0;
+>
+> unsigned int
+>
+Ok.
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-Note, as rest of the patches of series [0] has been already reviewed and
-queued sending this lone patch for v3 review.
-[0] https://lore.kernel.org/all/20251028175458.1037397-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+> > +
+> > +       if (!rate)
+> > +               rate =3D 1;
+> > +
+> > +       for (clkt =3D divider->table; clkt->div; clkt++) {
+> > +               parent_rate =3D clk_hw_round_rate(req->best_parent_hw, =
+rate * clkt->div);
+>
+> I had expected the use of some *_determinate_rate_*() helper, as the
+> parent can be changed to find a better clock rate?
+> Perhaps you should use a composite clock for that?
+>
+> > +               /*
+> > +                * DIVSELXSPIx supports 800MHz and 600MHz operation.
+> > +                * When the parent_rate is 600MHz, only dividers of 8 a=
+nd 16
+> > +                * are supported otherwise dividers of 6, 8, 16, 32, 64=
+ are supported.
+> > +                * This check ensures that FSELXSPIx is set correctly.
+> > +                */
+> > +               if (parent_rate =3D=3D DIVSELXSPI_RATE_600MHZ &&
+>
+> Does this actually work as expected? I doubt parent_rate is guaranteed
+> to be exactly 600 or 800 MHz, and expect it can differ slightly due
+> to rounding.  Hence I would look at clk_fixed_factor.div instead.
+>
+With below diff, Ive got the below results for the various freqs
+requested where appropriate parent and divider clocks are picked.
 
-v2->v3:
-- Split comments
-- Renamed ETHX_{MDC,MDIO} to GMACX_{MDC,MDIO}
-- Updated commnet for SW2[8] to drop P27_2 and
-  P35_3-P35_5 as they are not used for GMAC1
-- Renamed eth2 to gmac2 and eth3 to gmac1 in pinctrl nodes
-- Corrected pin for ETH2_RXER
-- Corrected the aliases to match the board schematics
-- For led0 switched to use VSC8531_ACTIVITY instead of
-  VSC8531_LINK_ACTIVITY.
-- Renamed phy3 to mdio1_phy and phy2 to mdio2_phy
+@@ -317,6 +317,7 @@ static int
+r9a09g077_cpg_fselxspi_determine_rate(struct clk_hw *hw,
 
-v1->v2:
-- Dropped *skew-psec properties which are not needed for
-  VSC8541 PHYs.
----
- .../dts/renesas/r9a09g077m44-rzt2h-evk.dts    | 70 +++++++++++++++++
- .../dts/renesas/r9a09g087m44-rzn2h-evk.dts    | 78 +++++++++++++++++++
- .../dts/renesas/rzt2h-n2h-evk-common.dtsi     | 70 +++++++++++++++++
- 3 files changed, 218 insertions(+)
+        for (clkt =3D divider->table; clkt->div; clkt++) {
+                parent_rate =3D clk_hw_round_rate(req->best_parent_hw,
+rate * clkt->div);
++               pr_err("parent_rate=3D%lu, req-rate=3D%lu div=3D%u\n",
+parent_rate, rate, clkt->div);
+                /*
+                 * DIVSELXSPIx supports 800MHz and 600MHz operation.
+                 * When the parent_rate is 600MHz, only dividers of 8 and 1=
+6
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts b/arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts
-index 799c58afd6fe..b7706d0bc3aa 100644
---- a/arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts
-+++ b/arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts
-@@ -149,7 +149,77 @@ &i2c1 {
- 	status = "okay";
- };
- 
-+&mdio1_phy {
-+	reset-gpios = <&pinctrl RZT2H_GPIO(32, 3) GPIO_ACTIVE_LOW>;
-+};
-+
-+&mdio2_phy {
-+	/*
-+	 * PHY2 Reset Configuration:
-+	 *
-+	 * SW6[1] OFF; SW6[2] ON; SW6[3] OFF - use pin P17_5 for GMAC_RESETOUT2#
-+	 */
-+	reset-gpios = <&pinctrl RZT2H_GPIO(17, 5) GPIO_ACTIVE_LOW>;
-+};
-+
- &pinctrl {
-+	/*
-+	 * GMAC2 Pin Configuration:
-+	 *
-+	 * SW2[6] OFF - connect MDC/MDIO of Ethernet port 2 to GMAC2
-+	 * SW2[7] ON - use pins P29_1-P29_7, P30_0-P30_4, and P31_2-P31_5
-+	 * for Ethernet port 2
-+	 */
-+	gmac2_pins: gmac2-pins {
-+		pinmux = <RZT2H_PORT_PINMUX(29, 1, 0xf)>, /* ETH2_TXCLK */
-+			 <RZT2H_PORT_PINMUX(29, 2, 0xf)>, /* ETH2_TXD0 */
-+			 <RZT2H_PORT_PINMUX(29, 3, 0xf)>, /* ETH2_TXD1 */
-+			 <RZT2H_PORT_PINMUX(29, 4, 0xf)>, /* ETH2_TXD2 */
-+			 <RZT2H_PORT_PINMUX(29, 5, 0xf)>, /* ETH2_TXD3 */
-+			 <RZT2H_PORT_PINMUX(29, 6, 0xf)>, /* ETH2_TXEN */
-+			 <RZT2H_PORT_PINMUX(29, 7, 0xf)>, /* ETH2_RXCLK */
-+			 <RZT2H_PORT_PINMUX(30, 0, 0xf)>, /* ETH2_RXD0 */
-+			 <RZT2H_PORT_PINMUX(30, 1, 0xf)>, /* ETH2_RXD1 */
-+			 <RZT2H_PORT_PINMUX(30, 2, 0xf)>, /* ETH2_RXD2 */
-+			 <RZT2H_PORT_PINMUX(30, 3, 0xf)>, /* ETH2_RXD3 */
-+			 <RZT2H_PORT_PINMUX(30, 4, 0xf)>, /* ETH2_RXDV */
-+			 <RZT2H_PORT_PINMUX(31, 2, 0xf)>, /* ETH2_TXER */
-+			 <RZT2H_PORT_PINMUX(31, 3, 0xf)>, /* ETH2_RXER */
-+			 <RZT2H_PORT_PINMUX(31, 4, 0xf)>, /* ETH2_CRS */
-+			 <RZT2H_PORT_PINMUX(31, 5, 0xf)>, /* ETH2_COL */
-+			 <RZT2H_PORT_PINMUX(30, 5, 0x10)>, /* GMAC2_MDC */
-+			 <RZT2H_PORT_PINMUX(30, 6, 0x10)>, /* GMAC2_MDIO */
-+			 <RZT2H_PORT_PINMUX(31, 0, 0x2)>; /* ETH2_REFCLK */
-+	};
-+
-+	/*
-+	 * GMAC1 Pin Configuration:
-+	 *
-+	 * SW2[8] ON - use pins P33_2-P33_7, P34_0-P34_5, P34_7 and
-+	 * P35_0-P35_2 for Ethernet port 3
-+	 */
-+	gmac1_pins: gmac1-pins {
-+		pinmux = <RZT2H_PORT_PINMUX(33, 2, 0xf)>, /* ETH3_TXCLK */
-+			 <RZT2H_PORT_PINMUX(33, 3, 0xf)>, /* ETH3_TXD0 */
-+			 <RZT2H_PORT_PINMUX(33, 4, 0xf)>, /* ETH3_TXD1 */
-+			 <RZT2H_PORT_PINMUX(33, 5, 0xf)>, /* ETH3_TXD2 */
-+			 <RZT2H_PORT_PINMUX(33, 6, 0xf)>, /* ETH3_TXD3 */
-+			 <RZT2H_PORT_PINMUX(33, 7, 0xf)>, /* ETH3_TXEN */
-+			 <RZT2H_PORT_PINMUX(34, 0, 0xf)>, /* ETH3_RXCLK */
-+			 <RZT2H_PORT_PINMUX(34, 1, 0xf)>, /* ETH3_RXD0 */
-+			 <RZT2H_PORT_PINMUX(34, 2, 0xf)>, /* ETH3_RXD1 */
-+			 <RZT2H_PORT_PINMUX(34, 3, 0xf)>, /* ETH3_RXD2 */
-+			 <RZT2H_PORT_PINMUX(34, 4, 0xf)>, /* ETH3_RXD3 */
-+			 <RZT2H_PORT_PINMUX(34, 5, 0xf)>, /* ETH3_RXDV */
-+			 <RZT2H_PORT_PINMUX(34, 7, 0xf)>, /* ETH3_TXER */
-+			 <RZT2H_PORT_PINMUX(35, 0, 0xf)>, /* ETH3_RXER */
-+			 <RZT2H_PORT_PINMUX(35, 1, 0xf)>, /* ETH3_CRS */
-+			 <RZT2H_PORT_PINMUX(35, 2, 0xf)>, /* ETH3_COL */
-+			 <RZT2H_PORT_PINMUX(26, 1, 0x10)>, /* GMAC1_MDC */
-+			 <RZT2H_PORT_PINMUX(26, 2, 0x10)>, /* GMAC1_MDIO */
-+			 <RZT2H_PORT_PINMUX(34, 6, 0x2)>; /* ETH3_REFCLK */
-+	};
-+
- 	/*
- 	 * I2C0 Pin Configuration:
- 	 * ------------------------
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dts b/arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dts
-index d698b6368ee7..17c0c79fbd96 100644
---- a/arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dts
-+++ b/arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dts
-@@ -186,7 +186,85 @@ &i2c1 {
- 	status = "okay";
- };
- 
-+&mdio1_phy {
-+	/*
-+	 * PHY3 Reset Configuration:
-+	 *
-+	 * DSW12[5] OFF; DSW12[6] ON - use pin P03_2 for GMAC_RESETOUT3#
-+	 */
-+	reset-gpios = <&pinctrl RZT2H_GPIO(3, 2) GPIO_ACTIVE_LOW>;
-+};
-+
-+&mdio2_phy {
-+	/*
-+	 * PHY2 Reset Configuration:
-+	 *
-+	 * DSW8[1] ON; DSW8[2] OFF; DSW12[7] OFF; DSW12[8] ON - use pin
-+	 * P03_1 for GMAC_RESETOUT2#
-+	 */
-+	reset-gpios = <&pinctrl RZT2H_GPIO(3, 1) GPIO_ACTIVE_LOW>;
-+};
-+
- &pinctrl {
-+	/*
-+	 * GMAC2 Pin Configuration:
-+	 *
-+	 * DSW5[6] OFF - connect MDC/MDIO of Ethernet port 2 to GMAC2
-+	 * DSW5[7] ON - use pins P29_1-P29_7, P30_0-P30_4, P30_7,
-+	 * P31_2, P31_4 and P31_5 are used for Ethernet port 2
-+	 */
-+	gmac2_pins: gmac2-pins {
-+		pinmux = <RZT2H_PORT_PINMUX(29, 1, 0xf)>, /* ETH2_TXCLK */
-+			 <RZT2H_PORT_PINMUX(29, 2, 0xf)>, /* ETH2_TXD0 */
-+			 <RZT2H_PORT_PINMUX(29, 3, 0xf)>, /* ETH2_TXD1 */
-+			 <RZT2H_PORT_PINMUX(29, 4, 0xf)>, /* ETH2_TXD2 */
-+			 <RZT2H_PORT_PINMUX(29, 5, 0xf)>, /* ETH2_TXD3 */
-+			 <RZT2H_PORT_PINMUX(29, 6, 0xf)>, /* ETH2_TXEN */
-+			 <RZT2H_PORT_PINMUX(29, 7, 0xf)>, /* ETH2_RXCLK */
-+			 <RZT2H_PORT_PINMUX(30, 0, 0xf)>, /* ETH2_RXD0 */
-+			 <RZT2H_PORT_PINMUX(30, 1, 0xf)>, /* ETH2_RXD1 */
-+			 <RZT2H_PORT_PINMUX(30, 2, 0xf)>, /* ETH2_RXD2 */
-+			 <RZT2H_PORT_PINMUX(30, 3, 0xf)>, /* ETH2_RXD3 */
-+			 <RZT2H_PORT_PINMUX(30, 4, 0xf)>, /* ETH2_RXDV */
-+			 <RZT2H_PORT_PINMUX(31, 2, 0xf)>, /* ETH2_TXER */
-+			 <RZT2H_PORT_PINMUX(31, 1, 0xf)>, /* ETH2_RXER */
-+			 <RZT2H_PORT_PINMUX(31, 4, 0xf)>, /* ETH2_CRS */
-+			 <RZT2H_PORT_PINMUX(31, 5, 0xf)>, /* ETH2_COL */
-+			 <RZT2H_PORT_PINMUX(30, 5, 0x10)>, /* GMAC2_MDC */
-+			 <RZT2H_PORT_PINMUX(30, 6, 0x10)>, /* GMAC2_MDIO */
-+			 <RZT2H_PORT_PINMUX(31, 0, 0x2)>; /* ETH2_REFCLK */
-+
-+	};
-+
-+	/*
-+	 * GMAC2 Pin Configuration:
-+	 *
-+	 * DSW5[8] ON - use pins P00_0-P00_2, P33_2-P33_7, P34_0-P34_6
-+	 * for Ethernet port 3
-+	 * DSW12[1] OFF; DSW12[2] ON - use pin P00_3 for Ethernet port 3
-+	 */
-+	gmac1_pins: gmac1-pins {
-+		pinmux = <RZT2H_PORT_PINMUX(33, 2, 0xf)>, /* ETH3_TXCLK */
-+			 <RZT2H_PORT_PINMUX(33, 3, 0xf)>, /* ETH3_TXD0 */
-+			 <RZT2H_PORT_PINMUX(33, 4, 0xf)>, /* ETH3_TXD0 */
-+			 <RZT2H_PORT_PINMUX(33, 5, 0xf)>, /* ETH3_TXD2 */
-+			 <RZT2H_PORT_PINMUX(33, 6, 0xf)>, /* ETH3_TXD3 */
-+			 <RZT2H_PORT_PINMUX(33, 7, 0xf)>, /* ETH3_TXEN */
-+			 <RZT2H_PORT_PINMUX(34, 0, 0xf)>, /* ETH3_RXCLK */
-+			 <RZT2H_PORT_PINMUX(34, 1, 0xf)>, /* ETH3_RXD0 */
-+			 <RZT2H_PORT_PINMUX(34, 2, 0xf)>, /* ETH3_RXD1 */
-+			 <RZT2H_PORT_PINMUX(34, 3, 0xf)>, /* ETH3_RXD2 */
-+			 <RZT2H_PORT_PINMUX(34, 4, 0xf)>, /* ETH3_RXD3 */
-+			 <RZT2H_PORT_PINMUX(34, 5, 0xf)>, /* ETH3_RXDV */
-+			 <RZT2H_PORT_PINMUX(0, 0, 0xf)>, /* ETH3_TXER */
-+			 <RZT2H_PORT_PINMUX(0, 1, 0xf)>, /* ETH3_RXER */
-+			 <RZT2H_PORT_PINMUX(0, 2, 0xf)>, /* ETH3_CRS */
-+			 <RZT2H_PORT_PINMUX(0, 3, 0xf)>, /* ETH3_COL */
-+			 <RZT2H_PORT_PINMUX(26, 1, 0x10)>, /* GMAC1_MDC */
-+			 <RZT2H_PORT_PINMUX(26, 2, 0x10)>, /* GMAC1_MDIO */
-+			 <RZT2H_PORT_PINMUX(34, 6, 0x2)>; /* ETH3_REFCLK */
-+	};
-+
- 	/*
- 	 * I2C0 Pin Configuration:
- 	 * ------------------------
-diff --git a/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi b/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi
-index 924a38c6cb0f..3eed1f3948e8 100644
---- a/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi
-@@ -7,10 +7,14 @@
- 
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/leds/common.h>
-+#include <dt-bindings/net/mscc-phy-vsc8531.h>
-+#include <dt-bindings/net/renesas,r9a09g077-pcs-miic.h>
- #include <dt-bindings/pinctrl/renesas,r9a09g077-pinctrl.h>
- 
- / {
- 	aliases {
-+		ethernet3 = &gmac1;
-+		ethernet2 = &gmac2;
- 		i2c0 = &i2c0;
- 		i2c1 = &i2c1;
- 		mmc0 = &sdhi0;
-@@ -70,10 +74,34 @@ &ehci {
- 	status = "okay";
- };
- 
-+&ethss {
-+	status = "okay";
-+
-+	renesas,miic-switch-portin = <ETHSS_GMAC0_PORT>;
-+};
-+
- &extal_clk {
- 	clock-frequency = <25000000>;
- };
- 
-+&gmac1 {
-+	pinctrl-0 = <&gmac1_pins>;
-+	pinctrl-names = "default";
-+	phy-handle = <&mdio1_phy>;
-+	phy-mode = "rgmii-id";
-+	pcs-handle = <&mii_conv3>;
-+	status = "okay";
-+};
-+
-+&gmac2 {
-+	pinctrl-0 = <&gmac2_pins>;
-+	pinctrl-names = "default";
-+	phy-handle = <&mdio2_phy>;
-+	phy-mode = "rgmii-id";
-+	pcs-handle = <&mii_conv2>;
-+	status = "okay";
-+};
-+
- &hsusb {
- 	dr_mode = "otg";
- 	status = "okay";
-@@ -87,6 +115,48 @@ eeprom: eeprom@50 {
- 	};
- };
- 
-+&mdio1 {
-+	mdio1_phy: ethernet-phy@3 {
-+		compatible = "ethernet-phy-id0007.0772", "ethernet-phy-ieee802.3-c22";
-+		reg = <3>;
-+		vsc8531,led-0-mode = <VSC8531_ACTIVITY>;
-+		vsc8531,led-1-mode = <VSC8531_LINK_ACTIVITY>;
-+		reset-assert-us = <2000>;
-+		reset-deassert-us = <15000>;
-+	};
-+};
-+
-+&mdio2 {
-+	mdio2_phy: ethernet-phy@2 {
-+		compatible = "ethernet-phy-id0007.0772", "ethernet-phy-ieee802.3-c22";
-+		reg = <2>;
-+		vsc8531,led-0-mode = <VSC8531_ACTIVITY>;
-+		vsc8531,led-1-mode = <VSC8531_LINK_ACTIVITY>;
-+		reset-assert-us = <2000>;
-+		reset-deassert-us = <15000>;
-+	};
-+};
-+
-+&mii_conv0 {
-+	renesas,miic-input = <ETHSS_ETHSW_PORT0>;
-+	status = "okay";
-+};
-+
-+&mii_conv1 {
-+	renesas,miic-input = <ETHSS_ETHSW_PORT1>;
-+	status = "okay";
-+};
-+
-+&mii_conv2 {
-+	renesas,miic-input = <ETHSS_GMAC2_PORT>;
-+	status = "okay";
-+};
-+
-+&mii_conv3 {
-+	renesas,miic-input = <ETHSS_GMAC1_PORT>;
-+	status = "okay";
-+};
-+
- &ohci {
- 	dr_mode = "otg";
- 	status = "okay";
--- 
-2.43.0
+Logs:
+---------
 
+Case 0# assigned-clock-rates =3D <133333334>;
+[   15.419300] parent_rate=3D800000000, req-rate=3D133333334 div=3D64
+[   15.437698] parent_rate=3D800000000, req-rate=3D133333334 div=3D32
+[   15.455224] parent_rate=3D800000000, req-rate=3D133333334 div=3D16
+[   15.501291] parent_rate=3D800000000, req-rate=3D133333334 div=3D8
+[   15.507801] parent_rate=3D800000000, req-rate=3D133333334 div=3D6
+[   15.519221] parent_rate=3D800000000, req-rate=3D133333334 div=3D64
+[   15.525789] parent_rate=3D800000000, req-rate=3D133333334 div=3D32
+[   15.549625] parent_rate=3D800000000, req-rate=3D133333334 div=3D16
+[   15.556120] parent_rate=3D800000000, req-rate=3D133333334 div=3D8
+[   15.564110] parent_rate=3D800000000, req-rate=3D133333334 div=3D6
+
+root@rzt2h-evk:~# cat /sys/kernel/debug/clk/clk_summary | grep -e
+"xspi0" -e "XSPI_CLK0" -e "divselxspi0"
+                .divselxspi0         1       1        0
+800000000   0          0     50000      Y                  deviceless
+                    no_connection_id
+                   XSPI_CLK0         1       1        0
+133333334   0          0     50000      Y
+801c0000.spi                    spi
+             xspi0                   0       1        0
+250000000   0          0     50000      N               deviceless
+                 of_clk_get_from_provider
+root@rzt2h-evk:~#
+
+Case 1# assigned-clock-rates =3D <100000000>;
+[   15.496291] parent_rate=3D800000000, req-rate=3D100000000 div=3D64
+[   15.510068] parent_rate=3D800000000, req-rate=3D100000000 div=3D32
+[   15.517142] parent_rate=3D800000000, req-rate=3D100000000 div=3D16
+[   15.524047] parent_rate=3D800000000, req-rate=3D100000000 div=3D8
+[   15.533174] parent_rate=3D600000000, req-rate=3D100000000 div=3D6
+[   15.540096] parent_rate=3D800000000, req-rate=3D100000000 div=3D64
+[   15.548135] parent_rate=3D800000000, req-rate=3D100000000 div=3D32
+[   15.555119] parent_rate=3D800000000, req-rate=3D100000000 div=3D16
+[   15.562395] parent_rate=3D800000000, req-rate=3D100000000 div=3D8
+[   15.573521] parent_rate=3D600000000, req-rate=3D100000000 div=3D6
+
+root@rzt2h-evk:~# cat /sys/kernel/debug/clk/clk_summary | grep -e
+"xspi0" -e "XSPI_CLK0" -e "divselxspi0"
+                .divselxspi0         1       1        0
+800000000   0          0     50000      Y                  deviceless
+                    no_connection_id
+                   XSPI_CLK0         1       1        0
+100000000   0          0     50000      Y
+801c0000.spi                    spi
+             xspi0                   0       1        0
+250000000   0          0     50000      N               deviceless
+                 of_clk_get_from_provider
+root@rzt2h-evk:~#
+
+
+Case 2# assigned-clock-rates =3D <75000000>;
+[   12.288507] parent_rate=3D800000000, req-rate=3D75000000 div=3D64
+[   12.310528] parent_rate=3D800000000, req-rate=3D75000000 div=3D32
+[   12.318426] parent_rate=3D800000000, req-rate=3D75000000 div=3D16
+[   12.326361] parent_rate=3D600000000, req-rate=3D75000000 div=3D8
+[   12.341540] parent_rate=3D0, req-rate=3D75000000 div=3D6
+[   12.347546] parent_rate=3D800000000, req-rate=3D75000000 div=3D64
+[   12.357593] parent_rate=3D800000000, req-rate=3D75000000 div=3D32
+[   12.367148] parent_rate=3D800000000, req-rate=3D75000000 div=3D16
+[   12.418871] parent_rate=3D600000000, req-rate=3D75000000 div=3D8
+[   12.433560] parent_rate=3D0, req-rate=3D75000000 div=3D6
+
+root@rzt2h-evk:~# cat /sys/kernel/debug/clk/clk_summary | grep -e
+"xspi0" -e "XSPI_CLK0" -e "divselxspi0"
+                .divselxspi0         1       1        0
+600000000   0          0     50000      Y                  deviceless
+                    no_connection_id
+                   XSPI_CLK0         1       1        0
+75000000    0          0     50000      Y
+801c0000.spi                    spi
+             xspi0                   0       1        0
+250000000   0          0     50000      N               deviceless
+                 of_clk_get_from_provider
+root@rzt2h-evk:~#
+
+Case 3# assigned-clock-rates =3D <50000000>;
+[   15.240214] parent_rate=3D800000000, req-rate=3D50000000 div=3D64
+[   15.253498] parent_rate=3D800000000, req-rate=3D50000000 div=3D32
+[   15.261521] parent_rate=3D800000000, req-rate=3D50000000 div=3D16
+[   15.272941] parent_rate=3D0, req-rate=3D50000000 div=3D8
+[   15.280532] parent_rate=3D0, req-rate=3D50000000 div=3D6
+[   15.289979] parent_rate=3D800000000, req-rate=3D50000000 div=3D64
+[   15.298745] parent_rate=3D800000000, req-rate=3D50000000 div=3D32
+[   15.309879] parent_rate=3D800000000, req-rate=3D50000000 div=3D16
+[   15.319881] parent_rate=3D0, req-rate=3D50000000 div=3D8
+[   15.327977] parent_rate=3D0, req-rate=3D50000000 div=3D6
+
+root@rzt2h-evk:~# cat /sys/kernel/debug/clk/clk_summary | grep -e
+"xspi0" -e "XSPI_CLK0" -e "divselxspi0"
+                .divselxspi0         1       1        0
+800000000   0          0     50000      Y                  deviceless
+                    no_connection_id
+                   XSPI_CLK0         1       1        0
+50000000    0          0     50000      Y
+801c0000.spi                    spi
+             xspi0                   0       1        0
+250000000   0          0     50000      N               deviceless
+                 of_clk_get_from_provider
+root@rzt2h-evk:~#
+
+
+Case 4# assigned-clock-rates =3D <37500000>;
+[   71.710064] parent_rate=3D800000000, req-rate=3D37500000 div=3D64
+[   71.718567] parent_rate=3D800000000, req-rate=3D37500000 div=3D32
+[   71.725137] parent_rate=3D600000000, req-rate=3D37500000 div=3D16
+[   71.731550] parent_rate=3D0, req-rate=3D37500000 div=3D8
+[   71.740622] parent_rate=3D0, req-rate=3D37500000 div=3D6
+[   71.746376] parent_rate=3D800000000, req-rate=3D37500000 div=3D64
+[   71.752887] parent_rate=3D800000000, req-rate=3D37500000 div=3D32
+[   71.767422] parent_rate=3D600000000, req-rate=3D37500000 div=3D16
+[   71.778671] parent_rate=3D0, req-rate=3D37500000 div=3D8
+[   71.790895] parent_rate=3D0, req-rate=3D37500000 div=3D6
+
+root@rzt2h-evk:~# cat /sys/kernel/debug/clk/clk_summary | grep -e
+"xspi0" -e "XSPI_CLK0" -e "divselxspi0"
+                .divselxspi0         1       1        0
+600000000   0          0     50000      Y                  deviceless
+                    no_connection_id
+                   XSPI_CLK0         1       1        0
+37500000    0          0     50000      Y
+801c0000.spi                    spi
+             xspi0                   0       1        0
+250000000   0          0     50000      N               deviceless
+                 of_clk_get_from_provider
+root@rzt2h-evk:~#
+
+
+Case 5# assigned-clock-rates =3D <25000000>;
+[   12.411660] parent_rate=3D800000000, req-rate=3D25000000 div=3D64
+[   12.429285] parent_rate=3D800000000, req-rate=3D25000000 div=3D32
+[   12.436144] parent_rate=3D0, req-rate=3D25000000 div=3D16
+[   12.448110] parent_rate=3D0, req-rate=3D25000000 div=3D8
+[   12.458785] parent_rate=3D0, req-rate=3D25000000 div=3D6
+[   12.465401] parent_rate=3D800000000, req-rate=3D25000000 div=3D64
+[   12.482547] parent_rate=3D800000000, req-rate=3D25000000 div=3D32
+[   12.497126] parent_rate=3D0, req-rate=3D25000000 div=3D16
+[   12.509619] parent_rate=3D0, req-rate=3D25000000 div=3D8
+[   12.518212] parent_rate=3D0, req-rate=3D25000000 div=3D6
+
+root@rzt2h-evk:~# cat /sys/kernel/debug/clk/clk_summary | grep -e
+"xspi0" -e "XSPI_CLK0" -e "divselxspi0"
+                .divselxspi0         1       1        0
+800000000   0          0     50000      Y                  deviceless
+                    no_connection_id
+                   XSPI_CLK0         1       1        0
+25000000    0          0     50000      Y
+801c0000.spi                    spi
+             xspi0                   0       1        0
+250000000   0          0     50000      N               deviceless
+                 of_clk_get_from_provider
+root@rzt2h-evk:~#
+
+Case 6# assigned-clock-rates =3D <12500000>;
+[   87.409877] parent_rate=3D800000000, req-rate=3D12500000 div=3D64
+[   87.470663] parent_rate=3D0, req-rate=3D12500000 div=3D32
+[   87.485940] parent_rate=3D0, req-rate=3D12500000 div=3D16
+[   87.492760] parent_rate=3D0, req-rate=3D12500000 div=3D8
+[   87.498313] parent_rate=3D0, req-rate=3D12500000 div=3D6
+
+
+root@rzt2h-evk:~# cat /sys/kernel/debug/clk/clk_summary | grep -e
+"xspi0" -e "XSPI_CLK0" -e "divselxspi0"
+                .divselxspi0         1       1        0
+800000000   0          0     50000      Y                  deviceless
+                    no_connection_id
+                   XSPI_CLK0         1       1        0
+12500000    0          0     50000      Y
+801c0000.spi                    spi
+             xspi0                   0       1        0
+250000000   0          0     50000      N               deviceless
+                 of_clk_get_from_provider
+root@rzt2h-evk:~#
+
+Looking at the logs I think I could optimize the code to continue when
+ parent_rate =3D=3D 0
+
+Based on the above logs, would you prefer me to represent it as a
+composite clock?
+
+> > +                   (clkt->div !=3D 8 && clkt->div !=3D 16))
+> > +                       continue;
+> > +               now =3D DIV_ROUND_UP_ULL((u64)parent_rate, clkt->div);
+>
+> No need to cast to u64 (DIV_ROUND_*_ULL() handle this internally).
+>
+> > +               if (abs(rate - now) < abs(rate - best)) {
+> > +                       div =3D clkt->div;
+> > +                       best =3D now;
+> > +                       req->best_parent_rate =3D parent_rate;
+> > +               }
+> > +       }
+> > +
+> > +       if (!div) {
+> > +               u8 maxdiv =3D 0;
+> > +
+> > +               req->best_parent_rate =3D clk_hw_round_rate(req->best_p=
+arent_hw, 1);
+> > +               /*
+> > +                * If DIVSELXSPIx is set to 800MHz set the maximum divi=
+der
+> > +                * or else fall back to divider of 16 which is a maximu=
+m
+> > +                * supported divider for 600MHz operation.
+> > +                */
+> > +               if (req->best_parent_rate =3D=3D DIVSELXSPI_RATE_800MHZ=
+) {
+> > +                       for (clkt =3D divider->table; clkt->div; clkt++=
+) {
+> > +                               if (clkt->div > maxdiv)
+> > +                                       maxdiv =3D clkt->div;
+> > +                       }
+> > +                       div =3D maxdiv;
+>
+> Why not hardcode the divider, like in the else branch?
+>
+Agreed.
+
+> > +               } else {
+> > +                       div =3D 16;
+> > +               }
+> > +       }
+> > +
+> > +       req->rate =3D DIV_ROUND_UP_ULL((u64)req->best_parent_rate, div)=
+;
+>
+> No need to cast to u64.
+>
+Ok.
+
+Cheers,
+Prabhakar
 
