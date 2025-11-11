@@ -1,124 +1,134 @@
-Return-Path: <linux-renesas-soc+bounces-24471-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24473-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3FA0C4F0E8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 17:37:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCEB8C4F2BE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 18:04:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DD2073BC975
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 16:35:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A43B43A7C91
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 17:02:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2059836CE17;
-	Tue, 11 Nov 2025 16:35:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 717303730F2;
+	Tue, 11 Nov 2025 17:02:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="P+wrjdKK"
+	dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b="mxIpK6I7"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 891EC274B4D;
-	Tue, 11 Nov 2025 16:34:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 594CF3730F3;
+	Tue, 11 Nov 2025 17:02:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.120.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762878901; cv=none; b=PFIdBTfxyRY0sWX5qkq940NN1eJO+fEk3jRLii2rx5KKhMbWindPyu7A+gXBeSicPSppjGbD1cr5yj3zYyd2Zh4Vlc/rD7Dol0euApxHkEhnAAj4f1FH2XTJamL5Tv/Ah9KdkdYUBHC32cUottFwXu8TkHNDC7jbJG0ue3lZNcQ=
+	t=1762880532; cv=none; b=C3EDufiJiFFgVnkZG/BumDN61kW8+/OBICRE9lG9IvjGhqZwPpHNWZs9myH5oXO9z4OI6Qss5VNxw4ygqrrhJQDiX22RRxiinMoEM8jIrR0I8t3h1VTJh7Byuo8c1W4CoKaWcqMhqEkPT559V4gTWKdyzvbxAZ6SlPHKYbyOxtI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762878901; c=relaxed/simple;
-	bh=VLZESXTdoovGymCxJdbc4iaUf5eYOm89r7LjhmPABNo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=dGr42/Qmn3LX81ymVTZB2u5gngwsCN85lrLw1XMZW/bhbKDnMjYevS8jUMoH0sLPScmUa6CGSR9SxCiI3GWR2002JodnVLsm3YHj7V1F5gaDBeproTQnRyY0fgbNi7CW9cMJzhWfpHaSrg0M6sN05ktdGi8ycDqzPg5x+R271eE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=P+wrjdKK; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [127.0.1.1] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 13BD11E28;
-	Tue, 11 Nov 2025 17:32:53 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1762878773;
-	bh=VLZESXTdoovGymCxJdbc4iaUf5eYOm89r7LjhmPABNo=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=P+wrjdKKetfkQgdqW2nfh6oHZhG/ekve5FIgWwWNWgzlrgcrorAkNlu8Be44GdVdD
-	 YRX9ZXaBuqB4Yoq6b0y7jXiK35rzSj8f6XQ0xEtY7SJurmlFsiBy8keNK0Y82Y4ly/
-	 Trs0COHErXRdIAKckWBv70AidryUgL6YfIMoLABw=
-From: Daniel Scally <dan.scally@ideasonboard.com>
-Date: Tue, 11 Nov 2025 16:34:26 +0000
-Subject: [PATCH v6 3/3] MAINTAINERS: Add entry for rzv2h-ivc driver
+	s=arc-20240116; t=1762880532; c=relaxed/simple;
+	bh=z//mduXKJUo+Oy5YicOfk/B+R1uUBHBKtOyiEWNT9Eo=;
+	h=Date:From:To:Cc:Message-Id:In-Reply-To:References:Mime-Version:
+	 Content-Type:Subject; b=NlnInKZhMYome8m9FfUNZNjBsgwjDTP0Ee7b15ZQCtzM/NLxkFeu9ZCWlUD1ANq2UP3rL4/0PeZnqcxXyKfDz62fEkxtoTYmQwLyQqYIYG65MPpwcCGvO7b4jiGZ7w3H2+fR5z5CYTV16SYuOPr3gLZGEHHCrXurnBAfEGVIQZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com; spf=pass smtp.mailfrom=hugovil.com; dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b=mxIpK6I7; arc=none smtp.client-ip=162.243.120.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hugovil.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
+	; s=x; h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
+	:Date:subject:date:message-id:reply-to;
+	bh=tZoyP+M9xPo/FMe8WDOuLaf2cyBC7RlyzUKhtEPI9nc=; b=mxIpK6I7kAN9KIiGfCR48J8j04
+	wUO0r6jU92y2dc0fUGhQCfVXaxMwNdqYsekltmjnfBwZDx4E2zzukpbOuB36oHlKp2keVGURxmbgM
+	laLjnj5DtO+QXLk8E+xjZYGl1BIEUvk5ZZ9DJnWyuY4Xb5TjcAHL+tuDBLJHrhK+gtJM=;
+Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:43624 helo=pettiford)
+	by mail.hugovil.com with esmtpa (Exim 4.92)
+	(envelope-from <hugo@hugovil.com>)
+	id 1vIrkb-00064X-2x; Tue, 11 Nov 2025 12:01:49 -0500
+Date: Tue, 11 Nov 2025 12:01:48 -0500
+From: Hugo Villeneuve <hugo@hugovil.com>
+To: Chris Brandt <chris.brandt@renesas.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette
+ <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Biju Das
+ <biju.das.jz@bp.renesas.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Hien Huynh <hien.huynh.px@renesas.com>,
+ Nghia Vo <nghia.vo.zn@renesas.com>, linux-renesas-soc@vger.kernel.org,
+ linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org
+Message-Id: <20251111120148.943a0e193a65469a53a0cbc8@hugovil.com>
+In-Reply-To: <20251105222530.979537-1-chris.brandt@renesas.com>
+References: <20251105222530.979537-1-chris.brandt@renesas.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251111-ivc-v6-3-2a0ad3894478@ideasonboard.com>
-References: <20251111-ivc-v6-0-2a0ad3894478@ideasonboard.com>
-In-Reply-To: <20251111-ivc-v6-0-2a0ad3894478@ideasonboard.com>
-To: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Magnus Damm <magnus.damm@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
- jacopo.mondi@ideasonboard.com, biju.das.jz@bp.renesas.com, 
- laurent.pinchart@ideasonboard.com, 
- Daniel Scally <dan.scally@ideasonboard.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1102;
- i=dan.scally@ideasonboard.com; h=from:subject:message-id;
- bh=VLZESXTdoovGymCxJdbc4iaUf5eYOm89r7LjhmPABNo=;
- b=owEBbQKS/ZANAwAKAchJV3psRXUyAcsmYgBpE2WpyWO82txkYp/gTP+MOVbfyV0rK+IcZ2sGJ
- YuJlUCjoXyJAjMEAAEKAB0WIQQqyuwyDnZdb+mxmm/ISVd6bEV1MgUCaRNlqQAKCRDISVd6bEV1
- MjY/EACes6BuBa1S916vJuyEmLv8wWDHAibD9p6lPzy+d6e2IdTpG54MmrMOO+c4UyJEWbgyK00
- qrwgGWsOBshbyaO4e6pgFkyn5N+QQszasoksCZFnJjmX+22Zc9oY3a8hxwNSAWYVfP0yMMhpVfl
- TtWJA9sCgw+gekWG1kYshy2+jWX2fO6a3KruTga+kJxO0DyF+RAMfhrNgw8Yb7A1jfK+t0iysLK
- AKp/54Jq+2C990h7Q658CWLNOcN2jmYiuWDrXXaWELT2xU0udY2BSZibZ125NUry1m/p5IXv1YX
- oLpkOZdSrqKCISiUz71045XFvXue1iedkGa9YA/n2eB75/3PEp6djC6Iw04DXrdg4LWv5Gzxau8
- /r5vn/PQE1/JsOlh85LVexd9fundoo1KVSuV/qlL4eZPN4Io+NsTbMF6EltNfowrfMeRkLW0JCq
- LyNncx4WtI1A5QX+ITnrvNPQuhN5fIhGH5+Pk9uqsx7QTqVe7cotri9u/eIPJf6HpeCwSYC8Uyu
- dTm50ySE+aFmgOoBBaLtddAgmGlHyW7rnfwiiSugJrp9FyvOKKuB0kDBuAjxqO414H7B31B21OY
- BaRgzpNZNpeLxqU7WoEYW0Ilp9UH5Ylf2qnuQZm9EW8bKn3MVUdp4wk/16DY1r5Ifyp4X2jD5J3
- ynS3MrcrQVi2Tkw==
-X-Developer-Key: i=dan.scally@ideasonboard.com; a=openpgp;
- fpr=EEC699ACA1B7CB5D31330C0BBD501C2A3546CCF6
+X-SA-Exim-Connect-IP: 70.80.174.168
+X-SA-Exim-Mail-From: hugo@hugovil.com
+X-Spam-Level: 
+X-Spam-Report: 
+	* -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+	* -1.9 NICE_REPLY_A Looks like a legit reply (A)
+Subject: Re: [PATCH v4 0/2] Remove hard coded values for MIPI-DSI
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
 
-Add an entry to the MAINTAINERS file for the rzv2h-ivc driver
+Hi Chris,
 
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
----
-Changes in v6:
+On Wed,  5 Nov 2025 17:25:28 -0500
+Chris Brandt <chris.brandt@renesas.com> wrote:
 
-	- Fixed binding path to match new filename
-
-Changes in v2:
-
-	- None
----
- MAINTAINERS | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 82f175f45de33dd2f139f1f50d04ceb6409fb3ef..25c6e6b30b3441c09a57d204d166ab844c406513 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -21538,6 +21538,13 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/net/renesas,rzv2h-gbeth.yaml
- F:	drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c
+> When the initial drivers were submitted, some of the timing was hard coded and
+> did not allow for any MIPI-DSI panel to be attached.
+> In general, panels or bridges can only be supported if MIPI-DSI lanes were 4.
+> If the number of lanes were 3,2,1, the math no longer works out.
+> 
+> A new API was created for the clock driver because the behaivior of the clock
+> driver depends on DPI vs MIPI, the bpp, and the number of MIPI lanes.
+> 
+> 
+> Testing:
+> * RZ/G2L SMARC  (MIPI-DSI to HDMI bridge, lanes = 4)
+> * RZ/G2L-SBC    (MIPI-DSI to LCD panel, lanes = 2)
+> * RZ/G2UL SMARC (DPI to HDMI bridge)
+> * Multiple monitors, multiple resolutions
+> 
+> 
+> 
+> Chris Brandt (2):
+>   clk: renesas: rzg2l: Remove DSI clock rate restrictions
+>   drm: renesas: rz-du: Set DSI divider based on target MIPI device
+> 
+>  drivers/clk/renesas/rzg2l-cpg.c               | 147 ++++++++++++++++--
+>  .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    |  18 +++
+>  include/linux/clk/renesas.h                   |  12 ++
+>  3 files changed, 164 insertions(+), 13 deletions(-)
+> 
+> --
+> 2.50.1
  
-+RENESAS RZ/V2H(P) INPUT VIDEO CONTROL BLOCK DRIVER
-+M:	Daniel Scally <dan.scally@ideasonboard.com>
-+L:	linux-media@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/media/renesas,r9a09g057-ivc.yaml
-+F:	drivers/media/platform/renesas/rzv2h-ivc/
-+
- RENESAS RZ/V2H(P) RSPI DRIVER
- M:	Fabrizio Castro <fabrizio.castro.jz@renesas.com>
- L:	linux-spi@vger.kernel.org
+Your patchset is missing the base-commit tag like in this example:
+
+    base-commit: 4e68ae36422e85ec1a86aded26a211319649426d
+
+This helps when testing to know on which tree/commit you based your
+patches.
+
+See "Providing base tree information" here:
+    https://docs.kernel.org/process/submitting-patches.html
+
+I just tested your patchset on kernel 6.17.7, and my display no longer
+works.
+
+Also tested on torvalds/master tree commit 4427259cc7f7, with similar
+results:
+
+    rzg2l-cpg 11010000.clock-controller: hsclk out of range
+
+Hugo.
+
 
 -- 
-2.43.0
-
+Hugo Villeneuve
 
