@@ -1,144 +1,270 @@
-Return-Path: <linux-renesas-soc+bounces-24437-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24438-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 342F9C4C762
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 09:51:05 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id B31F7C4C829
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 10:02:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id A4CD64E1F84
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 08:51:03 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 363A434D314
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 09:02:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0A0D28505E;
-	Tue, 11 Nov 2025 08:51:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 950BC2D130B;
+	Tue, 11 Nov 2025 09:02:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VjSEX8+B"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="HD6R7hG0";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="hD0NcfHD"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED83B238166
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Nov 2025 08:50:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 750A328C5AA;
+	Tue, 11 Nov 2025 09:02:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762851060; cv=none; b=u+qGCpZIlpxGxFn6eE47HCvWoKehlOJL3kZel5/x1G+fLsqpcXBNzyujldefO3hTXO1PypOUq5zcQvMRfB2hzblIvN6DS7Ji7VbBegJVUeD9GMLVLhVfER1S9f+07RDqEjmdCKtely4lcvZvo4vbSUssgaifwJuimPKX1ZXZprU=
+	t=1762851767; cv=none; b=TlUrpfFwQR6usr5w/5IEicwJll/Ww6b9Tw332LeF8Ah2CGxKoxN+QNzHHeLlI0+fXD80M8Z0vXlX/SuaAoHVheG+dfe6pEzxmPMsZ4cr/bOeMTb1u03k/XG6QLEhFFbBtBw9ItqMEzcHEeq3ZUNbtJoN0BKsAZVchVE90PwiT6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762851060; c=relaxed/simple;
-	bh=0YRsrI6lk/jpE/TQxXFHe1uone6HcJRymeuTM22KPDU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YrRzxh5t/Vq2l+bJkrguM8lPW0HLuxX75JxqojuazTIeT0BIhObD4/HuD21Jnvcc/3fjKxCIWCNzvDZHX4HCNDT8lZTdH6ia7I1ZVc90DhZXuAPG/RZfo5uxsIfIjfE0leqq4ujtF9piYYueXR0lAKX7Zbf6CGzXNUtrIs+qlGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VjSEX8+B; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-42b3d7c1321so1027524f8f.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Nov 2025 00:50:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762851057; x=1763455857; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4AFOtj9BBWikbvrk76I+BOfuLhZBC12T4UuFnubfgtU=;
-        b=VjSEX8+Bau2Yqc5otfkaZpmWy+ce/jsNVbJnZj6sY4wpQ/xq83Q5Iu3wDuoUGxbCWX
-         rHKBgVT08CtErkBqV+fIvf4d/JYvj3pDyAbltVr+STZ/HgWF6u4LTHx9yfg+HXE2ig+x
-         c+fTJA3eFrZpUgphQWqa6o3FwpKKMlGmwKliaKi15QzlC7jiitUSXwRy13x5druPLLrs
-         nGlBETdxjtdcBUUrxewtKAFdignBI+oz2B00rBTSpJ1kV4WSIDPWCbYl5ZfpDLYrFvVw
-         NgEJ6HfeAEF9kiTAkYuYkSwsK19FogYlgdbNMVyV/Z34ZQRyiOCsl1KTRHmsovFi7mT1
-         vFOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762851057; x=1763455857;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=4AFOtj9BBWikbvrk76I+BOfuLhZBC12T4UuFnubfgtU=;
-        b=qKw802RvyBYAtS99WWkqGVkfv/bTWljSRI+6/Y/v78PmeZG5M8UHwnMuJ3t+xw3DbB
-         XPt1NM2aCn1UsGiHOWE5tveC9PjXTQuc0KvSJt1SeFkXYI9ZN7GR09aKUI+R/AjDXzIW
-         DNyo+B0XRyYzhV7RYbRPgiL6FbaXT45nlaZSgNaB6MoGrfWEafZ0vqu+j5jy8sqIVcP9
-         k6cm4/SS9H4+4BabqSeTe/gAbS8nOJGy/fx+PQ/uAfPK8ZBu2kWyC+5N2DPpxYm9lDLs
-         83Cw9UB4FDj2xrQOOYtMXPVet+I9h9EGjiVW88f/DHn4UbF1dzZF1eC/HDjcFeuxOyb3
-         YcVg==
-X-Forwarded-Encrypted: i=1; AJvYcCVbWQRx/X9pwkzTCd8tq46bqtCyFgVKKK+nPLKHZqmWBMYkeRliFevVOobU5I973MICT7v5apQl7eS/q6mPUu4s/Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxwxG+w56Jp8e0IMQLFDp04T0j3yGqyz7w1I7DkaQJ2Xhkot9IU
-	e4zrvkeA8ZneYHXKFVjs+8U9Kl1IastkzsWCdSVZvlGeASfqCOYAuojSwIoTeZWNQrPORNNk0FU
-	zKY+JfN+H33Kmuky4torIV4H4uBTdx64=
-X-Gm-Gg: ASbGncu7DJ48svRLkTV7tjCloMcpTk79WuzEOQe9F+J4Khn1Ywd7HIMv8yb7keVIk+E
-	4MyK48QFssVYCN2Lgi/nAoARLKyr4bzSj2BOArDAd8is2mJf1CIoVF0yn9JN9GGv4wu+Ls2ayCD
-	VIBzlLmRjVkPl7cuVRoDquezmVBNtgdvgORIM7Zh+fQkLnu2CUX8emWzXPLYejhmBzvX8/EAANe
-	Lxgf1S5Jv0JzdJEVuKQCUJpXoPb3kZP59v79uwyMo+r6eLa5xx7hr6dMHYswQ==
-X-Google-Smtp-Source: AGHT+IE+da+1r+jgi0DXyIDNB8MGdp+Nzp4Lqz4ylhf8uYWKyvAt57QPmxdapcBrV4Tm8KD8ARq3BHLCSjO12/WC1Hc=
-X-Received: by 2002:adf:9d83:0:b0:42b:3083:55a2 with SMTP id
- ffacd0b85a97d-42b308356e2mr6996138f8f.63.1762851057106; Tue, 11 Nov 2025
- 00:50:57 -0800 (PST)
+	s=arc-20240116; t=1762851767; c=relaxed/simple;
+	bh=51gWDnko7reNi6UEAViItMQjBBfLGAkZQIVtR4MXJ8Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nbX0pTMZX0n6uuwdzRslFrtf9jyy64Us/fpmShMA7LXwVNr8LNWa3cyMk+iAt7Fk9qSOTH6G68N7xcmYKZhfVJ/VFJ2VCyn1+lUn5EDBSTqqrCsM2jolj1s2E9OSh1QTHN5sXraU4lBExglulK09Y/CVNDV+OY8Yy9MhNZ0URHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=HD6R7hG0; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=hD0NcfHD; arc=none smtp.client-ip=202.12.124.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id E785B7A012A;
+	Tue, 11 Nov 2025 04:02:40 -0500 (EST)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-03.internal (MEProxy); Tue, 11 Nov 2025 04:02:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm2; t=1762851760; x=1762938160; bh=1j
+	XE00gYq2pIAHBN0U+G56EomYV6/NgLjHM/HWIN7EE=; b=HD6R7hG0iRv7OEgrca
+	cj8b8zaqEtIX0PWRfAoKLv53eMhtH5yMhrEmRo3C9Ki0DsR7M7H2blhTsx5i8Fg0
+	0MDfE9u4AeHmr5LDfpsLy79PS2+ER/Vcku6MwSLTo/uADTFa+9hT1XdAPA3FDlvz
+	nRWPqCXJqN5Xdp8/kKzyjvKSwMJyucasJIa73zpQ3Je9UWi5cdkEG/vXaoi08xos
+	YLJTvWt5jHIEInfYabNh+l+cENmwN9WFP2xOPSbHlKa959O0M85cO2oArRSxjcgi
+	gQ6To7B+NqiEc0aEq8qwaxAQC4Bjwv9jC8fPWyoHYfWCEwXfqsDl5A9SC9uPnnWh
+	of6w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1762851760; x=1762938160; bh=1jXE00gYq2pIAHBN0U+G56EomYV6
+	/NgLjHM/HWIN7EE=; b=hD0NcfHDYfLxtqqkTt1OAwJ6kgBH0J+J6Rq8OSFLLFgo
+	UFKNv3OX663OyYfmT3NiLrM9H1H2pYpPF3fROoCy6h1cvrk60AriYQlASYqniuj8
+	tpwACCVlaCvmTTw25bqVvVy3uj7uzyjtY/aJSzw+fuErS4sdmvEh+uxgBeMdt2mX
+	KBVudaTL7bG01ida5cWO0fJVHWBgB4+G1U69ADVMLdZj4tJZxbceIAKis7Nvl/zN
+	49wLaYSpsL7tLrOMlG7cz9yTj0WuWZ82t1MdultC++QTMqyH3VO1vsBadmCcc4k9
+	rmryKrk6TN3EayYsxJphbCz63EcZvBFz4+IjE3yuVg==
+X-ME-Sender: <xms:sPsSafq21u1xJ1Dl2nPJKAto4MO45VsT3bh7tTkfrOGT7QacXXn6fA>
+    <xme:sPsSaTvklfkphZIORqC8BN5Ixaa38xGPO7Bb8Uhn384VSqocUIskN687MA1Gl3bDF
+    3pFNHK9W7I17LL3dlUtomrhukguHeRKwapvejfcg0IOiHBvSMQAEQ0>
+X-ME-Received: <xmr:sPsSacGKHfQ4BU0fZckGD38bnnA70O9YoueZqzdUtJIeNOx1-Pc0MqkwFv2e8FWGBkooPY4lAcAE_S8i0O8pYrC9>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvtddtjeekucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhephffvvefufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpefpihhklhgrshcu
+    ufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrsh
+    esrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeehudelteetkefgffef
+    udefuedvjeeivdekhfevieefgeffheeltddvvefhfeetgeenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhn
+    ugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopeejpdhmohguvgepshhmth
+    hpohhuthdprhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtphht
+    thhopehjrggtohhpohdrmhhonhguihesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtg
+    hpthhtoheplhgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdr
+    tghomhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrd
+    horhhgpdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhk
+    vghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrd
+    hkvghrnhgvlhdrohhrghdprhgtphhtthhopehnihhklhgrshdrshhouggvrhhluhhnugdo
+    rhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
+X-ME-Proxy: <xmx:sPsSaUZ1klGCTyY0OsoFXbgoY-dcirxuVRoIi6fK0gffSXvVPFm2rg>
+    <xmx:sPsSacWQzbT3YDl9BuoN7nvEOFWDN7Li4hkpmNyp7fYpxwng0SfkKQ>
+    <xmx:sPsSaam_HGxDXSbKCIZdjyjVZgR3iHgHIDs4ahSnBdY1dJ6rOvUvLw>
+    <xmx:sPsSaXD_eULcAMQnW1yOn-wSXdnA6yrq7DWD8A7Dgi3Op9taI6KWnw>
+    <xmx:sPsSaRFeBebpDvSD891sm0QrdgVfgvZnccojXMmDaduLl1o0CChKUrs7>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 11 Nov 2025 04:02:39 -0500 (EST)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v4 00/12] media: Add support for R-Car ISP using Dreamchip RPPX1 ISP
+Date: Tue, 11 Nov 2025 10:02:16 +0100
+Message-ID: <20251111090228.2511734-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.51.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251107201232.282152-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20251107201232.282152-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <ec28d950-f7ef-4708-88aa-58c2b9b0b92a@lunn.ch>
-In-Reply-To: <ec28d950-f7ef-4708-88aa-58c2b9b0b92a@lunn.ch>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Tue, 11 Nov 2025 08:50:31 +0000
-X-Gm-Features: AWmQ_blqCCNNMwhN5TO78-IZrSmoQkRYNb4dIksXog2xpI2Up-_qLjDEx3kShQY
-Message-ID: <CA+V-a8uLC5OJ7g1MbJVcJeCS9wPVYDoCDUW7i8keUftQLkmmLg@mail.gmail.com>
-Subject: Re: [PATCH net-next v2 2/3] net: phy: mscc: Consolidate probe
- functions into a common helper
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Horatiu Vultur <horatiu.vultur@microchip.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Vladimir Oltean <vladimir.oltean@nxp.com>, Vadim Fedorenko <vadim.fedorenko@linux.dev>, 
-	Maxime Chevallier <maxime.chevallier@bootlin.com>, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Andrew,
+Hello,
 
-Thank you for the review.
+This series adds support for two different devices that together enable
+ISP support on Renesas R-Car Gen4 ISP processing. The first driver added
+is for Dreamchip RPPX1 ISP, this device purely deals with image
+processing algorithms, statistics and image conversion; but have no DMA
+engines. The second driver is for the R-Car ISP CORE, this device
+deals with DMA to/from the RPPX1 ISP and provides a V4L2 user-space
+interface for the ISP.
 
+The R-Car ISP driver uses the RPPX1 framework to drive the ISP and
+together the two devices provide a functional ISP. For detailed
+description of the RPPX1 see patch 1/12, and for details about the R-Car
+ISP see commit message in patch 2/12.
 
-On Tue, Nov 11, 2025 at 2:50=E2=80=AFAM Andrew Lunn <andrew@lunn.ch> wrote:
->
-> diff(1) has not made this easy...
->
-I agree, --diff-algorithm=3Dpatience option for format-patch gives a
-better result. I'll send a v3 with this option.
+The RPPX1 ISP is similar to functionality and design to the Rk1ISP
+already supported upstream. For this reason this series reuses the pixel
+format for ISP parameters (RK1E) and statistics (RK1S) as the user-space
+ABI to configure the ISP. The primary difference to Rk1iSP is the over
+all pipeline design and the register layout out is different enough to
+make it impractical to bolt it on the existing drivers.
 
-> > +static int vsc85xx_probe_common(struct phy_device *phydev,
-> > +                             const struct vsc85xx_probe_config *cfg,
-> > +                             const u32 *default_led_mode)
-> > +     int ret;
->
-> > +     /* Check rate magic if needed (only for non-package PHYs) */
-> > +     if (cfg->check_rate_magic) {
-> > +             ret =3D vsc85xx_edge_rate_magic_get(phydev);
-> > +             if (ret < 0)
-> > +                     return ret;
-> > +     }
-> >
-> >       vsc8531 =3D devm_kzalloc(&phydev->mdio.dev, sizeof(*vsc8531), GFP=
-_KERNEL);
-> >       if (!vsc8531)
-> >               return -ENOMEM;
->
-> > +     /* Store rate magic if it was checked */
-> > +     if (cfg->check_rate_magic)
-> > +             vsc8531->rate_magic =3D ret;
->
->
-> I think we end up with something like the above?
->
-> I would move the vsc85xx_edge_rate_magic_get() after kzalloc() just to
-> keep it all together.
->
-Ok, I will group that under single if.
+However on a functional block level the blocks amiable and their
+register layout mapped to the buffer formats are similar enough to make
+the reuse practical. Another difference is that RPPX1 operates at a
+hight bitdepth then Rk1ISP, but this is easily supported by scaling the
+values to/from the buffers.
 
-Cheers,
-Prabhakar
+All functional blocks present on the RPPX1 are not yet added to the
+driver, but most are. Hence not all configuration blocks of the Rk1E
+extensible format are supported, but most if not all can be added.
+
+A libcamera pipeline reusing the Rk1ISP IPA have been posted and it can
+exercise all function block enabled by this series. It produce good
+images using all algorithms available.
+
+Patch 1/12 adds the foundation for the RPPX1 framework. It deals with
+probing all function blocks making sure every blocks version register is
+supported and setup a "passthru" pipeline that just debayer RAW images.
+
+Patch 2/12 integrates the adds the R-Car ISP CORE DMA parts and
+integrates with the RPPX1 framework added in patch 1/12.
+
+Patches 3/12 to 12/12 extends the RPPX1 framework with the logic to drive
+the different IPS modules.
+
+The sum of the work pass v4l2-compliance. A test suite for the enabled
+function blocks exists and pass. The work have also been tested with
+various libcamera utilities and compliance tests together with a IMX219
+and IMX462 sensor on R-Car V4H.
+
+Biggest change from v3 is small fixes that 0day found when building for 
+non ARM architectures.
+
+Niklas Söderlund (12):
+  media: rppx1: Add framework to support Dreamchip RPPX1 ISP
+  media: rcar-isp: Add support for ISPCORE
+  media: rppx1: Add support for AWB measurement parameters and
+    statistics
+  media: rppx1: Add support for AWB gain settings
+  media: rppx1: Add support for Auto Exposure Measurement
+  media: rppx1: Add support for Histogram Measurement
+  media: rppx1: Add support for Black Level Subtraction
+  media: rppx1: Add support for Color Correction Matrix
+  media: rppx1: Add support for Lens Shade Correction
+  media: rppx1: Add support for Gamma Correction
+  media: rppx1: Add support for Bayer Demosaicing
+  media: rppx1: Add support for Bilateral Denoising
+
+ MAINTAINERS                                   |    6 +
+ drivers/media/platform/Kconfig                |    1 +
+ drivers/media/platform/Makefile               |    1 +
+ drivers/media/platform/dreamchip/Kconfig      |    3 +
+ drivers/media/platform/dreamchip/Makefile     |    6 +
+ .../media/platform/dreamchip/rppx1/Kconfig    |   11 +
+ .../media/platform/dreamchip/rppx1/Makefile   |   33 +
+ .../platform/dreamchip/rppx1/rpp_module.c     |   40 +
+ .../platform/dreamchip/rppx1/rpp_module.h     |  158 +++
+ .../platform/dreamchip/rppx1/rpp_params.c     |   82 ++
+ .../platform/dreamchip/rppx1/rpp_stats.c      |   30 +
+ .../media/platform/dreamchip/rppx1/rppx1.c    |  338 ++++++
+ .../media/platform/dreamchip/rppx1/rppx1.h    |   99 ++
+ .../platform/dreamchip/rppx1/rppx1_acq.c      |  147 +++
+ .../platform/dreamchip/rppx1/rppx1_awbg.c     |   67 ++
+ .../media/platform/dreamchip/rppx1/rppx1_bd.c |  210 ++++
+ .../platform/dreamchip/rppx1/rppx1_bdrgb.c    |   80 ++
+ .../platform/dreamchip/rppx1/rppx1_bls.c      |  175 +++
+ .../platform/dreamchip/rppx1/rppx1_cac.c      |   29 +
+ .../platform/dreamchip/rppx1/rppx1_ccor.c     |  180 +++
+ .../media/platform/dreamchip/rppx1/rppx1_db.c |  156 +++
+ .../platform/dreamchip/rppx1/rppx1_dpcc.c     |   76 ++
+ .../platform/dreamchip/rppx1/rppx1_exm.c      |  140 +++
+ .../media/platform/dreamchip/rppx1/rppx1_ga.c |   83 ++
+ .../platform/dreamchip/rppx1/rppx1_hist.c     |  249 ++++
+ .../platform/dreamchip/rppx1/rppx1_hist256.c  |   46 +
+ .../media/platform/dreamchip/rppx1/rppx1_is.c |   42 +
+ .../platform/dreamchip/rppx1/rppx1_lin.c      |   60 +
+ .../platform/dreamchip/rppx1/rppx1_lsc.c      |  194 +++
+ .../platform/dreamchip/rppx1/rppx1_ltm.c      |   48 +
+ .../platform/dreamchip/rppx1/rppx1_ltmmeas.c  |   41 +
+ .../platform/dreamchip/rppx1/rppx1_outif.c    |   45 +
+ .../platform/dreamchip/rppx1/rppx1_outregs.c  |   75 ++
+ .../platform/dreamchip/rppx1/rppx1_rmap.c     |   64 +
+ .../platform/dreamchip/rppx1/rppx1_rmapmeas.c |   47 +
+ .../platform/dreamchip/rppx1/rppx1_shrp.c     |   64 +
+ .../platform/dreamchip/rppx1/rppx1_wbmeas.c   |  188 +++
+ .../platform/dreamchip/rppx1/rppx1_xyz2luv.c  |   26 +
+ .../media/platform/renesas/rcar-isp/Kconfig   |    1 +
+ .../media/platform/renesas/rcar-isp/Makefile  |    2 +-
+ .../media/platform/renesas/rcar-isp/core-io.c | 1053 +++++++++++++++++
+ .../media/platform/renesas/rcar-isp/core.c    |  826 +++++++++++++
+ .../media/platform/renesas/rcar-isp/csisp.c   |   48 +-
+ .../platform/renesas/rcar-isp/risp-core.h     |  170 +++
+ include/media/rppx1.h                         |   33 +
+ 45 files changed, 5465 insertions(+), 8 deletions(-)
+ create mode 100644 drivers/media/platform/dreamchip/Kconfig
+ create mode 100644 drivers/media/platform/dreamchip/Makefile
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/Kconfig
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/Makefile
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rpp_module.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rpp_module.h
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rpp_params.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rpp_stats.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1.h
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_acq.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_awbg.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_bd.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_bdrgb.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_bls.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_cac.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_ccor.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_db.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_dpcc.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_exm.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_ga.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_hist.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_hist256.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_is.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_lin.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_lsc.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_ltm.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_ltmmeas.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_outif.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_outregs.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_rmap.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_rmapmeas.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_shrp.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_wbmeas.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_xyz2luv.c
+ create mode 100644 drivers/media/platform/renesas/rcar-isp/core-io.c
+ create mode 100644 drivers/media/platform/renesas/rcar-isp/core.c
+ create mode 100644 drivers/media/platform/renesas/rcar-isp/risp-core.h
+ create mode 100644 include/media/rppx1.h
+
+-- 
+2.51.1
+
 
