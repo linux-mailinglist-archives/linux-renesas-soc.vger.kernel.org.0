@@ -1,557 +1,213 @@
-Return-Path: <linux-renesas-soc+bounces-24454-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24455-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0E84C4C958
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 10:16:14 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE218C4CCD6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 10:58:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 21EC21885F71
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 09:12:20 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 7BAA54FD1B5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 09:50:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57896287263;
-	Tue, 11 Nov 2025 09:11:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E19F2F90E0;
+	Tue, 11 Nov 2025 09:50:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CSHYhdnl"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="dZFuKBEl"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010024.outbound.protection.outlook.com [52.101.61.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 630D427AC4C
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Nov 2025 09:11:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762852288; cv=none; b=pk6rybcnRqRPhA9yLzdsEQVtSFGaAy5ae1az23aAKKd11Sa57WoxhqhD33yRGzlybK/oR9qAwjrQNNsep8Udp57IqKNzDdivGL6b1JxQIA9GK8E2oghzRQGs6b078XFvGYjRp4098B4JqhPWMT9MKFxVFcU9/ZvKtBqJgAHl+Qc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762852288; c=relaxed/simple;
-	bh=hi+Mbvni3sUiq7gcbfGwvOV8gqyLUJy22niIHpNMHl4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Uj0Y9ubzggytopVpaa/VdNuP+UiJ16zyBGI2xecQrfUVsT7ExgRM+cRMGwCDdWVhBMUJb26wV8WNSHROxtSte1D/ojDgTBhpEWF6SV+jiOUP0c7klX4U43kfCgTEL2JdkQXfsdSnZIUxXI7tmzzDrnq74Jj+jbchscNqVKviPyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CSHYhdnl; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-298456bb53aso2490735ad.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Nov 2025 01:11:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762852286; x=1763457086; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2OylpUqdmU6cqqZsOYqpKungxWRV/E7s8zZgt2DxW3g=;
-        b=CSHYhdnlspdmz8RjLQMgCCl2Dctd7bDiXLNNqTyFy1moiltUF9XAbDRCyW5GwF5zEg
-         pJT9bq8aLldwDzoB6jaoXvmjRA2DaGlyw2YcVLEEKTZD6/z8HW0stwtrKjrzU4XhH+ng
-         a1aaZQRfu1SfPbX6uPTADz7GW4x8yZBYBvI5/BmKmyCMQr+8t4/0PCPfklkqcMqARfbR
-         e1ed1BT2Gz1Jv9hsVHb29FwqxNk8gJIEV52ipg2YGX2edCAm8SxN5Vh8+sAwB3PnYLYC
-         0N3PbuTcw2qLxyIn65Pozwl1ASSoJbgYW8AH6jVXrE0W9UFApDdWKuiqcQ+Thy7Zflfz
-         GQGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762852286; x=1763457086;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=2OylpUqdmU6cqqZsOYqpKungxWRV/E7s8zZgt2DxW3g=;
-        b=L87Ro2Lk0KMCb8fnY5NdrHxrO9+5AbE7eaxSBmTwOvaZD2VlcbJMBWwWahxbjwCLtk
-         AvdhqHtasOVTh5cAS47PMBaZqs3asf0R5oVkBvzUP8vJXDgWXlTRGpOOsu7foCiv1rah
-         Q8bt5e0DQBbhVcE1hSg/NQT/rDUiYroLicz+tsVYuRx1RpId124th//AIEkk3FOImZFE
-         k8tFMITzqP8WqhWhDrxk0smaRHpf5eVe6LMGJXxioIQB/GZnAzyaiDIIFjjpyAqMMSsE
-         8oLJrXSxRs/aLR1U0SaHvyVU+G+CDBLRZ6iGHRPkKf+584IQV4XP8GMqUBd6ZJAZsryZ
-         QUYA==
-X-Forwarded-Encrypted: i=1; AJvYcCWoTIrZGMT9XuxL6PQDWVX/QTDBbN+nj0kLPpBN9vx/r+C1IJlZMzddaQ4sCnvxLFlo80CiEhw/WpgiJtZ/B3SWkg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwyuNde5LL4l8MPVqvmIliqBzGZn8l6JDiefc5FGLdMfu+m7lm2
-	Zn64vqGVuVDF8gkN3j7Thh6xBgtnk/ncjWZ41guYuDC7C2ybeonPvlXu
-X-Gm-Gg: ASbGnctvANfvqzstF5sCnwy93hniVFhkF370y5dYQ52FDq8cNaIvhPyYMxQeblI5Tx1
-	gu3hRtN96J3G+33N37KM6mQynhxIh8Mc0R73vMvYy3uLklxs7KZ/AZ6/lPItwXMg94Gn3FETMnk
-	JScRUQO2WTIVMf0T5qItcUcNOavDD6/isqo0X6SoTiF+BZs1VN02QqP0ZojLw4flO9USAweyQ4E
-	fd3lqlpEEWQLEyDg4BMGOYWh7rGVGLivnWyJPD39BCDYBvyF4hOyX4xyFwDVMJmiESGnl02X3fi
-	oUZOCR9T3r7cPWEJ0DEJ5aTe5oWltiJ+TXU7mflzQFkz2V409N4Q2h8afPA31gd9NCLC0s2Tj9c
-	xj4Ev3m/QO2TicxmlKmQTneLIXOcYjRWhfJAmZSXh6jeLMRN52O1mpBMQ2v9PtSY+LmDvVNRRJD
-	3ORfXdjjOsFsftQ2AFCgp54pBa7JLs6EHT
-X-Google-Smtp-Source: AGHT+IEjzeaVZLcsNjouAs4SMLmQxhuMksaQukjQ3wGqSwDL4XCXui95c20r7KGI0KATcccgAI41EQ==
-X-Received: by 2002:a17:902:e888:b0:295:62d:5004 with SMTP id d9443c01a7336-297e564f1c9mr160328325ad.26.1762852285495;
-        Tue, 11 Nov 2025 01:11:25 -0800 (PST)
-Received: from iku.. ([2401:4900:1c06:79c0:4ab7:69ea:ca5e:a64f])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29650c5cf37sm172715415ad.35.2025.11.11.01.11.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Nov 2025 01:11:23 -0800 (PST)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Horatiu Vultur <horatiu.vultur@microchip.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>
-Cc: netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH net-next v3 3/3] net: phy: mscc: Add support for PHY LED control
-Date: Tue, 11 Nov 2025 09:10:47 +0000
-Message-ID: <20251111091047.831005-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251111091047.831005-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EBFA2F3C39;
+	Tue, 11 Nov 2025 09:50:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.61.24
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762854651; cv=fail; b=TCnK5R1x27LCTzPIVepeeI4V4lfYJVN/ZAM6Bz8ydywPTmi0/djZ/w1QDgHS6WjMKaomXoMCHXtRuoWdX+jLAV5JcCELWgNI7RcTTX2RyfgJLFQnfKlNbWnTdTx4Ys2E+FnQPe4pN2ZpG5nxazyZz7paoSMpeK010PXLLYtclzM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762854651; c=relaxed/simple;
+	bh=2wmnAhnqITzKwoq2WnMELtyFS0aszqkjhfHuva+OvQI=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=s1ns0MpftusULpVhD4+uryqpAGWpz2EE8qkeZR+EhZyA0XMNXkzUgoXmJYnD8EM/dI2pHe86XyFdiLarF2NAD7yx8rBJSaxqkUlf/t1s5b6kEEEDreb6+b13M44WX/58MzD/jzSfdNgzLvTaMT7W0zvsKuCNB/h0GQ2NPuvOjeg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=dZFuKBEl; arc=fail smtp.client-ip=52.101.61.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=yFf43F+apSl9JCXzigADeZxutjrLPNiyQx1WeC/TFhtX1PytJWC39pIP3Wtze4KT36xtLKh6toXe46E43sDpMDTgmJi5NE+Xcg4KAx3bkxsFEdmCynUZBJAWEooN0qfkgcxnWxFgvX+Jojs9GVRhFHR4YeYBP2gsp5kD52aINzKO8WLg6s3BcoMq7rXUPxX6g9U5heB9f2tP4MLttVEt5o01Qzqx66ZrcG3s/GD5gRmZB694DOnQcplQxMbMh4lR482RYUppcp6w7EB7ZK+o/34gtMSR3ObEN+l5TWAVkSbsKct7VaNQxIsOPAtI9NzS8hs+pKujnc/WPTLmDReOZg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2wmnAhnqITzKwoq2WnMELtyFS0aszqkjhfHuva+OvQI=;
+ b=Pype6Gy10B8LmVdV0SQYF8if7iuKgOzz/PJxfavO1peFTrTyBDH57O9UU5BLOmAJYK4tXxWGwwSvDp+kuvppnmEuB8EOUHrWeODnFMwSLCo7dkoPxh3xc8bldCPxk5CaAj4f4fpv+t8yJeq/56MexIu0zv+GjSkkh2BeWzow5Fcel5jlmr2eZl1RCEmY4B04OOn5MJya0rLtuFOrEKvihWDZrg9hSjtMcPgzphMzEVQCKXlpgdHZSaDLFhmrBNg5n1xXKE6ynmAhyxFKOhV9+LNouBobu4m15R+RpPk9LmSDiUdNkf65GF5Eb5+cZvEMVP0p4UXsIs78FgXhkDBxGw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microchip.com; dmarc=pass action=none
+ header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microchip.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2wmnAhnqITzKwoq2WnMELtyFS0aszqkjhfHuva+OvQI=;
+ b=dZFuKBEl2xLdGXmdyhv0Pzg2NLbvMqLViT3lMtBVYEoEymDWu2fdZ8KLkbHYU4UaX/d1wkT/6YF3MiT7Jn/4y4mQrih3MKfpoKdFA4BznqDAWvIueb2biB2NfkmJbGhQQSiyCURvl57hpYJsk22BwvMj8wM9x5ZOxA2EgNhaXg+rDtNNgFgRZWzBW3lga08rFkfGgO7UY7D9Ka32Uv/pmab6WLJjcEWL96LsLlY7yqGFt0t7+44ytYZqwonWzjRqK5a0qQW7Qnv5WkBTCDvSC/qguvRu6MJBBuGaz3jmz4Uz8KHcvEopQ8PN8JmOpnglFzyKfvYACBKodC7ttll11w==
+Received: from SA1PR11MB8278.namprd11.prod.outlook.com (2603:10b6:806:25b::19)
+ by PH7PR11MB6953.namprd11.prod.outlook.com (2603:10b6:510:204::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.10; Tue, 11 Nov
+ 2025 09:50:45 +0000
+Received: from SA1PR11MB8278.namprd11.prod.outlook.com
+ ([fe80::84fa:e267:e389:fa9]) by SA1PR11MB8278.namprd11.prod.outlook.com
+ ([fe80::84fa:e267:e389:fa9%5]) with mapi id 15.20.9298.015; Tue, 11 Nov 2025
+ 09:50:45 +0000
+From: <Parthiban.Veerasooran@microchip.com>
+To: <prabhakar.csengg@gmail.com>, <andrew@lunn.ch>, <hkallweit1@gmail.com>,
+	<linux@armlinux.org.uk>, <davem@davemloft.net>, <edumazet@google.com>,
+	<kuba@kernel.org>, <pabeni@redhat.com>, <Horatiu.Vultur@microchip.com>,
+	<geert+renesas@glider.be>, <vladimir.oltean@nxp.com>,
+	<vadim.fedorenko@linux.dev>
+CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-renesas-soc@vger.kernel.org>, <biju.das.jz@bp.renesas.com>,
+	<fabrizio.castro.jz@renesas.com>, <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH net-next v3 2/3] net: phy: mscc: Consolidate probe
+ functions into a common helper
+Thread-Topic: [PATCH net-next v3 2/3] net: phy: mscc: Consolidate probe
+ functions into a common helper
+Thread-Index: AQHcUuvTyOWiQn9ndEuUf4I1nF3MxrTtO3SA
+Date: Tue, 11 Nov 2025 09:50:45 +0000
+Message-ID: <40e744b5-cc17-4b33-8d0b-1e9987eece7c@microchip.com>
 References: <20251111091047.831005-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20251111091047.831005-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20251111091047.831005-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+user-agent: Mozilla Thunderbird
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microchip.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SA1PR11MB8278:EE_|PH7PR11MB6953:EE_
+x-ms-office365-filtering-correlation-id: b04d7709-75f5-41eb-839c-08de2107c922
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|7416014|366016|1800799024|921020|38070700021;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?QzhFUDlXZ2llR0U5cnY4Y1dCUkZES1JGOXlhcFlpRnYrVzA1N0Q1WldqV0xm?=
+ =?utf-8?B?eW5ud1FxWWx4RGhSMll2V1lPNGxBTzJrZ3J6RmxTY3U5cEQra1pmbFNDN3U4?=
+ =?utf-8?B?RFBSdmRQZzltVzFEdGQ0SVlERlFMd2NySWdzTmxEN0hMbkNBWFl0ekpiMVph?=
+ =?utf-8?B?UWlub2dKTDVCTUhFYlM3ZDNPcnhsQWlrcUtZSGp6aXF6NEhnbTByK3VMR1ZM?=
+ =?utf-8?B?QXlVSXV3TmpFVmkvb1dncFJmazd2OHRPVXF6RjVIM3c4cy9wQlNhODcxWlFD?=
+ =?utf-8?B?NlU0c0JuNjJseVdXNEdBRjdPQWUzNGE2Q0dLc09waDJ1THZTQlpkY3J5STdF?=
+ =?utf-8?B?TGdBRUY2dVIwbHhLNmFkVXF0ZUUzalEvT0YycnV2aDJNb2Y0MWVFQXFjdVk0?=
+ =?utf-8?B?TTBLWExjdjRxLzU4ZThMK3JFd0piL1RFOUhPWEJqcWNJN29iK1B2VEI2dmtN?=
+ =?utf-8?B?a0ZzaUp4WGtveCtwbzVjUHZmNjZzbU9FWUVGQnpROXRPWGFnaUFXUnlJR0tl?=
+ =?utf-8?B?TDdrbm54SHRYTGdOdmNrOU4rZEZPejd6VXNFMjJDdDAxeGtqWEdpTnF1ZFVK?=
+ =?utf-8?B?eWJhR1ZreXVKOXp2NTVsK0hLbUFhYTVhMFdJcG1qZGlWU0hMaTd2REdPMC9W?=
+ =?utf-8?B?akllektmcjVzbks0RktwL0J5UEVZUWdVTDBtbFRIUnZGZGpyeEN3Z3g1RlR5?=
+ =?utf-8?B?YzJKcnVQZ1d0dUhCWG5JSnhVUFN6NjJtQ2h4U21sYlZrVnZBUVpmTzBaQnRJ?=
+ =?utf-8?B?Zi8vM1NBazJyZjExaGI0d05EaDdJUFRqRmFkVzNLTDFCMGprdGMxSlM1Unda?=
+ =?utf-8?B?L1hDdEtvMVFIOUtPWm4rUFBzekFnSjZUZzlMT0pVUHl5QWp3WVpIMGJBaFVz?=
+ =?utf-8?B?bVFVVW9vRzNOQ1ppU2NKWEpwUGFQdlB0N1gxN1VQZ05tcFFMMmRSUHREVENp?=
+ =?utf-8?B?cXpMK1Y5T29YVXZoSSs3ZHByR0x6bGwvam5lZENCT0g1UldJSGlPSWZWaHNI?=
+ =?utf-8?B?YmdYSmo5bTRwTGhIazA3MjlFWnM0Z0ZRWi9MNDdWR0FVakExUld0NVMwSllE?=
+ =?utf-8?B?OEMydElYUWJWYklyekp5Ynl1dUs4R1ZScitlaFl4T09ReDVOM1dRNmJHYVhY?=
+ =?utf-8?B?UDJReTE0YWdFL2FsWTBzSk5acnVqR0ZzMzNKUW93ZmI2dGFiNVpPSWh6bDNq?=
+ =?utf-8?B?MXJ2TDJHMlQ0Zm5LMy8vZGhrNG1kMXg1YVB4K21WeWJJT2NCNGNxRE9iMVBQ?=
+ =?utf-8?B?d1lnQWNlU1Qzam9tNVVXaGM0YkVPSnBvN0FiWU5DajltTHh4KzA0U0lENU8z?=
+ =?utf-8?B?dk80c256TmVtT1AwOXVPWks1OU1tcWlTc3JGK0NnaS85UnkvOXJnTUhKTTVx?=
+ =?utf-8?B?MXdMcVcyZEVtWkNEMlo1Y0orVHJZSjRDeDkyYngwTEkzaU53blk0SldzNjll?=
+ =?utf-8?B?YWQvSmdLT00vZnY1NmVjMjNLTVB4N2NSQVI1cFVvaUMxeVJRNG8xSWhZWCtY?=
+ =?utf-8?B?d0pyaFV4cEpVYnJCNGZyZ2hZMUkzcGlrVkZVWHdxL1hlL09ZUTE1UlozWERW?=
+ =?utf-8?B?Vjk4WkxzUWxMMXhOT0RSL05qc2ZxVU5HNFdENkRSMkt1Vk9FS2NsMGhmZkdJ?=
+ =?utf-8?B?UDkzaTNWZVN1Q3Z5VjRXc3dGU2o5RUtRNmltc1MyVGh4NjNpS2hXdEIwR1Iv?=
+ =?utf-8?B?Tnh6RTlNTnllTm5lUXRsZm1aczl6Mk9UazJFZ2hCbmNpRUZjS3dQZ1laZHU2?=
+ =?utf-8?B?WE1BWXFBWnJSZndKRTRWR1pTRVR3OTFPdFg1UGp5dmk5Ynowd2c2VmxiOU9I?=
+ =?utf-8?B?NjVRMEFONjZ0Vks5L1I2anlwY2xrc01OQVhUZi9pWlo0d0xuZk1tVDhTQkQ0?=
+ =?utf-8?B?OWFQMGFBQXNjUFBtM25iS1pRcUUwV2JXRmFweS8xUFdNcFo0UE13M0NESmNs?=
+ =?utf-8?B?L3psTnhlL1M0dTcwY2Z0Z083Tk9zbjQ0aEl5MkplZFUxZkZodUh6NlR0cTF3?=
+ =?utf-8?B?TXV2R2ViUWZTeExUN3Urc2dzbTQ2VklDcDhPUVI4V0tCT2dPd1F5aS9Ha3Va?=
+ =?utf-8?B?d2VJdkVJY05hUnBQVTJYeWN2bjJSWTZQZjh3UT09?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB8278.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(921020)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?aDhET0xnbnh1SEtBOWg2TnpDZm5CTTRqNmsrWWt3amVvdUxDbTQrMEpEZTg1?=
+ =?utf-8?B?RWhmdmJld3kzSlZCWk10T2ZEZU9hSXlpWDZ3WHordzMxdmFQb1NxL2x4bDJo?=
+ =?utf-8?B?SStkWGJlWUQ3U3B2WTVVR3lIdVV4WU42RVVvaVMrN0JjWTROVGZJaUNBckgx?=
+ =?utf-8?B?dEh5cGptMUFsbHdWNzlmL2VhTGsxOWNtc1hZWnh3RE1hRzVOYk5PS2s3UmNZ?=
+ =?utf-8?B?K1Ayckt6Y1llZzByMlNZeEREZC9XQ2dhRWd4emJiWlpFMEg2TkJmNHcxREJQ?=
+ =?utf-8?B?Wk1ic1ZkRW1HZWdJWTloL2p0dFVlQ0paMVV2VEg2VWRYTWg4SDFLREp3UzlL?=
+ =?utf-8?B?dTJ4M0NTRVhqL3NXcFBSamZXRVl0bDl2bWdrQURVU3NlZU1HbFhyWTdHZGls?=
+ =?utf-8?B?QkRQZy9DMXZ4NGhGTVk2Z0xjUzdMQXpTM1lYbUtuSUVZR0VSWjdCMXFiTVVk?=
+ =?utf-8?B?Ly8wYi9tUnBQdGFoblVvWUNDVGdDYW9UNU5ON0FhN044SW1PSU9DN0djcEpB?=
+ =?utf-8?B?VWZzMUIwQXEzL1pwY2V0cnJNYzBQRXpyU3EvMFBkWEp0bmFCYndFdEgxdlBR?=
+ =?utf-8?B?VjgxbzA3Z3BRYXBJeFUvcUduV2ZmUlFLN1BkclJNbE1HQ2ZVYktsUWVXa2xu?=
+ =?utf-8?B?V0s2RTNLUFBITmh4cnkzTFRaeEkzYVorQUdIcmFLSWxnbmdOSE1Ca3RYSWpM?=
+ =?utf-8?B?dEovQnErTXdlbDJudk82WFpQMEpsSE1OOW44UmFYWkRCVklXOURWa0RFaG80?=
+ =?utf-8?B?VkhTaGFDU3I4c2xXaHlDbkJZeTloNEh3Ti9jeVBCYUVsNXJ5ZVYybmI0VlN4?=
+ =?utf-8?B?Sko4aTFRYTdtRUxWL3ZDYUVLMU1wYUx0Z3VicmcyanZ4K3g4ODVISUFDZzkw?=
+ =?utf-8?B?NWpEdnVJYWd4ZDJkU2JhZDhtdVU2R0VOZHhLSVcvU0VzYm9wVEpTTGNSYTd4?=
+ =?utf-8?B?WTMrYm5QUE55OVZuajVYbkJjZU9UakwwR0pwZUE4Nk9GUC9WRTU2SWJlSFB0?=
+ =?utf-8?B?VUd1TTRZbi9hZ0M4WTJRaldNZGNMa3VVZ0dQSHd2Umg1d1NtYmhnQ0xVZllD?=
+ =?utf-8?B?ekNieFdxTlpOb1o3S2FoTWE4Uk5sdUplTmxYYWR1YnZxL3dXMFI0bThhaE0x?=
+ =?utf-8?B?bVowMXo0STFVU003ZVVGREYvc1FqNzcrM3VmSTRzNUJMeUNBNzhnNVVoV0li?=
+ =?utf-8?B?WXg4S3BVenVmWmF5QWZRZ0t0WjFPanN5UHBPWnc0WGhuTnU0Z1dlVkgvLzlE?=
+ =?utf-8?B?bTU3eXFVYmJnMWI1WmRDTnFlVFJJN2JWaWM5T1dXdUtDd0xzR2ozSVR0R1FZ?=
+ =?utf-8?B?MFA0RTlOeU1IWnptenZUa2NnVWJEbmgrUTl5QW5aeDNlcERLZHVQSmRzYStM?=
+ =?utf-8?B?Q3VMSFdDUzRONUZGalhQSDNZMng2aW50TURIN1V0QU1aTUppNlhqUk00aFpC?=
+ =?utf-8?B?bG5Obzh2QUV3c3NtQXJFRlN2NlVQajdJYU91ZXpXUklPOStaMjQwSFZocEhh?=
+ =?utf-8?B?UHVPc0ZWYk05MG5rdmIrcml2NGlCRTBtZUxZWDZ0emsyMXViVUdsdW5uYlRR?=
+ =?utf-8?B?MElhcDdiaTk2YXBRd1V6ckU1a25RU3FObUp5cHM1cEpORWsyZS8wamh0Z1Fs?=
+ =?utf-8?B?YllFM1l3S2RmUU8xT3ZxVzA3N1VGVmFzeXBXS2RtazBINDY3OC9ncE9VL3Ft?=
+ =?utf-8?B?Vnc0clBBZ2hNQ2Q0N2RiYXJiZWRIT1BKWnBOeVZ5OWZuRVlzT0xlQXhSZ0Vo?=
+ =?utf-8?B?Z1E4bTdkTm9HOUlPeklhVHZSbkJxcUp6YlpySDVoUjhVclVzeU12VDlGcXNx?=
+ =?utf-8?B?Rmk2a0VQd0lpUzFSZzdWb01meHhMWnM4QlFLa1dKNjhuYTlHd29FcmF2NmRH?=
+ =?utf-8?B?dlJOais0T3ZrbnZaMDEvSW1kSzJkeHlVWW9vTXJxc1ZoWnV0SkQ4UGFLZTE5?=
+ =?utf-8?B?Y0NlK0N5Smp6eU4zWlJNWlpGRXRFVWxhNGd6VjYzSUZMRFlFbE9yb2w3c3Vy?=
+ =?utf-8?B?SzJ5OUVSUXhBRkp4b2JuRGoxVVpTcjFPQXhqUGFXVk41UERMSXE4dCsvZTN0?=
+ =?utf-8?B?UngvYnNjMXBCbzRtbTNKem4rV3EyUFlRWGVwd21tbVNSR2ZFQWs1Y3k2bSt2?=
+ =?utf-8?B?bHdndFVRM0lPNTlUYjRtdVVubjNEQ1pvSXlyWmFMR2JwV0hldHVEK3dmRjFy?=
+ =?utf-8?B?bXc9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <EC5ED1722B4A3745ADAC9984A8FA2200@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: microchip.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB8278.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b04d7709-75f5-41eb-839c-08de2107c922
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Nov 2025 09:50:45.6052
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: a1I2TwYsU7MzaMeuG3cHtlxm+VTXlQMcl6/m6qdbz+8dlxQEp0TdP6LM6Kaf4ttrr3NiNsNLHkvDreU98rwLSlV0fVrVe219Sbl9MbhMyUa1/Jjykf3ypE+bxukp571A
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6953
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-Add support for the PHY LED controller in the MSCC VSC85xx driver. The
-implementation provides LED brightness and hardware control through the
-LED subsystem and integrates with the standard 'netdev' trigger.
-
-Introduce new register definitions for the LED behavior register
-(MSCC_PHY_LED_BEHAVIOR = 30) and the LED combine disable bits, which
-control whether LEDs indicate link-only or combined link and activity
-status. Implement a helper, vsc8541_led_combine_disable_set(), to update
-these bits safely using phy_modify().
-
-Add support for LED brightness control and hardware mode configuration.
-The new callbacks implement the standard LED class operations, allowing
-user control through sysfs. The brightness control maps to PHY LED force
-on/off modes. The hardware control get and set functions translate
-between the PHY-specific LED mode encodings and the LED subsystem
-TRIGGER_NETDEV_* rules.
-
-The combine feature is managed automatically based on the selected
-rules. When both RX and TX activity are disabled, the combine feature is
-turned off, causing LEDs to indicate link-only status. When either RX or
-TX activity is enabled, the combine feature remains active and LEDs
-indicate combined link and activity.
-
-Register the LED callbacks for all VSC85xx PHY variants so that the LED
-subsystem can manage their indicators consistently. Existing device tree
-LED configuration and default behavior are preserved.
-
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
----
-v2->v3:
-- Added Reviewed-by tag.
-
-v1->v2:
-- Added LED control support to all VSC85xx PHY variants.
-- Renamed led callbacks to vsc85xx_* for consistency.
-- Defaulted the LEDs on probe to the default array before parsing DT.
-- Used phy_modify() in vsc85xx_led_brightness_set()
-- Return value of phy_read() checked in vsc85xx_led_hw_control_get()
-- Reverse Christmas tree in vsc85xx_led_hw_is_supported()
-- Updated the commit message to clarify the LED combine feature behavior.
----
- drivers/net/phy/mscc/mscc.h      |   4 +
- drivers/net/phy/mscc/mscc_main.c | 246 +++++++++++++++++++++++++++++++
- 2 files changed, 250 insertions(+)
-
-diff --git a/drivers/net/phy/mscc/mscc.h b/drivers/net/phy/mscc/mscc.h
-index 2eef5956b9cc..65c9d7bd9315 100644
---- a/drivers/net/phy/mscc/mscc.h
-+++ b/drivers/net/phy/mscc/mscc.h
-@@ -85,6 +85,10 @@ enum rgmii_clock_delay {
- #define LED_MODE_SEL_MASK(x)		  (GENMASK(3, 0) << LED_MODE_SEL_POS(x))
- #define LED_MODE_SEL(x, mode)		  (((mode) << LED_MODE_SEL_POS(x)) & LED_MODE_SEL_MASK(x))
- 
-+#define MSCC_PHY_LED_BEHAVIOR		  30
-+#define LED_COMBINE_DIS_MASK(x)		  BIT(x)
-+#define LED_COMBINE_DIS(x, dis)		  (((dis) ? 1 : 0) << (x))
-+
- #define MSCC_EXT_PAGE_CSR_CNTL_17	  17
- #define MSCC_EXT_PAGE_CSR_CNTL_18	  18
- 
-diff --git a/drivers/net/phy/mscc/mscc_main.c b/drivers/net/phy/mscc/mscc_main.c
-index 0ae0199d28bb..28d558807608 100644
---- a/drivers/net/phy/mscc/mscc_main.c
-+++ b/drivers/net/phy/mscc/mscc_main.c
-@@ -201,6 +201,15 @@ static int vsc85xx_led_cntl_set(struct phy_device *phydev,
- 	return phy_modify(phydev, MSCC_PHY_LED_MODE_SEL, mask, val);
- }
- 
-+static int vsc85xx_led_combine_disable_set(struct phy_device *phydev,
-+					   u8 led_num, bool combine_disable)
-+{
-+	u16 mask = LED_COMBINE_DIS_MASK(led_num);
-+	u16 val = LED_COMBINE_DIS(led_num, combine_disable);
-+
-+	return phy_modify(phydev, MSCC_PHY_LED_BEHAVIOR, mask, val);
-+}
-+
- static int vsc85xx_mdix_get(struct phy_device *phydev, u8 *mdix)
- {
- 	u16 reg_val;
-@@ -2234,6 +2243,7 @@ static int vsc85xx_probe_common(struct phy_device *phydev,
- 				const u32 *default_led_mode)
- {
- 	struct vsc8531_private *vsc8531;
-+	struct device_node *np;
- 	int ret;
- 
- 	vsc8531 = devm_kzalloc(&phydev->mdio.dev, sizeof(*vsc8531), GFP_KERNEL);
-@@ -2283,10 +2293,186 @@ static int vsc85xx_probe_common(struct phy_device *phydev,
- 			return ret;
- 	}
- 
-+	/*
-+	 * Check for LED configuration in device tree if available
-+	 * or fall back to default `vsc8531,led-x-mode` DT properties.
-+	 */
-+	np = of_get_child_by_name(phydev->mdio.dev.of_node, "leds");
-+	if (np) {
-+		of_node_put(np);
-+
-+		/* Force to defaults */
-+		for (unsigned int i = 0; i < vsc8531->nleds; i++)
-+			vsc8531->leds_mode[i] = default_led_mode[i];
-+
-+		return 0;
-+	}
-+
- 	/* Parse LED modes from device tree */
- 	return vsc85xx_dt_led_modes_get(phydev, default_led_mode);
- }
- 
-+static int vsc85xx_led_brightness_set(struct phy_device *phydev,
-+				      u8 index, enum led_brightness value)
-+{
-+	struct vsc8531_private *vsc8531 = phydev->priv;
-+
-+	if (index >= vsc8531->nleds)
-+		return -EINVAL;
-+
-+	return vsc85xx_led_cntl_set(phydev, index, value == LED_OFF ?
-+				    VSC8531_FORCE_LED_OFF : VSC8531_FORCE_LED_ON);
-+}
-+
-+static int vsc85xx_led_hw_is_supported(struct phy_device *phydev, u8 index,
-+				       unsigned long rules)
-+{
-+	static const unsigned long supported = BIT(TRIGGER_NETDEV_LINK_1000) |
-+					       BIT(TRIGGER_NETDEV_LINK_100) |
-+					       BIT(TRIGGER_NETDEV_LINK_10) |
-+					       BIT(TRIGGER_NETDEV_LINK) |
-+					       BIT(TRIGGER_NETDEV_RX) |
-+					       BIT(TRIGGER_NETDEV_TX);
-+	struct vsc8531_private *vsc8531 = phydev->priv;
-+
-+	if (index >= vsc8531->nleds)
-+		return -EINVAL;
-+
-+	if (rules & ~supported)
-+		return -EOPNOTSUPP;
-+
-+	return 0;
-+}
-+
-+static int vsc85xx_led_hw_control_get(struct phy_device *phydev, u8 index,
-+				      unsigned long *rules)
-+{
-+	struct vsc8531_private *vsc8531 = phydev->priv;
-+	u8 mode, behavior;
-+	int rc;
-+
-+	if (index >= vsc8531->nleds)
-+		return -EINVAL;
-+
-+	rc = phy_read(phydev, MSCC_PHY_LED_MODE_SEL);
-+	if (rc < 0)
-+		return rc;
-+	mode = (rc & LED_MODE_SEL_MASK(index)) >> LED_MODE_SEL_POS(index);
-+
-+	rc = phy_read(phydev, MSCC_PHY_LED_BEHAVIOR);
-+	if (rc < 0)
-+		return rc;
-+	behavior = (rc & LED_COMBINE_DIS_MASK(index)) >> index;
-+
-+	switch (mode) {
-+	case VSC8531_LINK_ACTIVITY:
-+	case VSC8531_ACTIVITY:
-+		*rules = BIT(TRIGGER_NETDEV_LINK);
-+		break;
-+
-+	case VSC8531_LINK_1000_ACTIVITY:
-+		*rules = BIT(TRIGGER_NETDEV_LINK_1000) |
-+			 BIT(TRIGGER_NETDEV_LINK);
-+		break;
-+
-+	case VSC8531_LINK_100_ACTIVITY:
-+		*rules = BIT(TRIGGER_NETDEV_LINK_100) |
-+			 BIT(TRIGGER_NETDEV_LINK);
-+		break;
-+
-+	case VSC8531_LINK_10_ACTIVITY:
-+		*rules = BIT(TRIGGER_NETDEV_LINK_10) |
-+			 BIT(TRIGGER_NETDEV_LINK);
-+		break;
-+
-+	case VSC8531_LINK_100_1000_ACTIVITY:
-+		*rules = BIT(TRIGGER_NETDEV_LINK_1000) |
-+			 BIT(TRIGGER_NETDEV_LINK_100) |
-+			 BIT(TRIGGER_NETDEV_LINK);
-+		break;
-+
-+	case VSC8531_LINK_10_1000_ACTIVITY:
-+		*rules = BIT(TRIGGER_NETDEV_LINK_1000) |
-+			 BIT(TRIGGER_NETDEV_LINK_10) |
-+			 BIT(TRIGGER_NETDEV_LINK);
-+		break;
-+
-+	case VSC8531_LINK_10_100_ACTIVITY:
-+		*rules = BIT(TRIGGER_NETDEV_LINK_100) |
-+			 BIT(TRIGGER_NETDEV_LINK_10) |
-+			 BIT(TRIGGER_NETDEV_LINK);
-+		break;
-+
-+	default:
-+		*rules = 0;
-+		break;
-+	}
-+
-+	if (!behavior && *rules)
-+		*rules |= BIT(TRIGGER_NETDEV_RX) | BIT(TRIGGER_NETDEV_TX);
-+
-+	return 0;
-+}
-+
-+static int vsc85xx_led_hw_control_set(struct phy_device *phydev, u8 index,
-+				      unsigned long rules)
-+{
-+	struct vsc8531_private *vsc8531 = phydev->priv;
-+	u8 mode = VSC8531_FORCE_LED_ON;
-+	bool combine_disable = false;
-+	bool has_rx, has_tx;
-+	int ret;
-+
-+	if (index >= vsc8531->nleds)
-+		return -EINVAL;
-+
-+	if (rules & BIT(TRIGGER_NETDEV_LINK))
-+		mode = VSC8531_LINK_ACTIVITY;
-+
-+	if (rules & BIT(TRIGGER_NETDEV_LINK_10))
-+		mode = VSC8531_LINK_10_ACTIVITY;
-+
-+	if (rules & BIT(TRIGGER_NETDEV_LINK_100))
-+		mode = VSC8531_LINK_100_ACTIVITY;
-+
-+	if (rules & BIT(TRIGGER_NETDEV_LINK_1000))
-+		mode = VSC8531_LINK_1000_ACTIVITY;
-+
-+	if (rules & BIT(TRIGGER_NETDEV_LINK_100) &&
-+	    rules & BIT(TRIGGER_NETDEV_LINK_1000))
-+		mode = VSC8531_LINK_100_1000_ACTIVITY;
-+
-+	if (rules & BIT(TRIGGER_NETDEV_LINK_10) &&
-+	    rules & BIT(TRIGGER_NETDEV_LINK_1000))
-+		mode = VSC8531_LINK_10_1000_ACTIVITY;
-+
-+	if (rules & BIT(TRIGGER_NETDEV_LINK_10) &&
-+	    rules & BIT(TRIGGER_NETDEV_LINK_100))
-+		mode = VSC8531_LINK_10_100_ACTIVITY;
-+
-+	/*
-+	 * The VSC85xx PHYs provides an option to control LED behavior. By
-+	 * default, the LEDx combine function is enabled, meaning the LED
-+	 * will be on when there is link/activity or duplex/collision. If
-+	 * the combine function is disabled, the LED will be on only for
-+	 * link or duplex.
-+	 *
-+	 * To control this behavior, we check the selected rules. If both
-+	 * RX and TX activity are not selected, the LED combine function
-+	 * is disabled; otherwise, it remains enabled.
-+	 */
-+	has_rx = !!(rules & BIT(TRIGGER_NETDEV_RX));
-+	has_tx = !!(rules & BIT(TRIGGER_NETDEV_TX));
-+	if (!has_rx && !has_tx)
-+		combine_disable = true;
-+
-+	ret = vsc85xx_led_combine_disable_set(phydev, index, combine_disable);
-+	if (ret < 0)
-+		return ret;
-+
-+	return vsc85xx_led_cntl_set(phydev, index, mode);
-+}
-+
- static int vsc8514_probe(struct phy_device *phydev)
- {
- 	static const struct vsc85xx_probe_config vsc8514_cfg = {
-@@ -2380,6 +2566,10 @@ static struct phy_driver vsc85xx_driver[] = {
- 	.get_sset_count = &vsc85xx_get_sset_count,
- 	.get_strings    = &vsc85xx_get_strings,
- 	.get_stats      = &vsc85xx_get_stats,
-+	.led_brightness_set = vsc85xx_led_brightness_set,
-+	.led_hw_is_supported = vsc85xx_led_hw_is_supported,
-+	.led_hw_control_get = vsc85xx_led_hw_control_get,
-+	.led_hw_control_set = vsc85xx_led_hw_control_set,
- },
- {
- 	.phy_id		= PHY_ID_VSC8502,
-@@ -2404,6 +2594,10 @@ static struct phy_driver vsc85xx_driver[] = {
- 	.get_sset_count = &vsc85xx_get_sset_count,
- 	.get_strings    = &vsc85xx_get_strings,
- 	.get_stats      = &vsc85xx_get_stats,
-+	.led_brightness_set = vsc85xx_led_brightness_set,
-+	.led_hw_is_supported = vsc85xx_led_hw_is_supported,
-+	.led_hw_control_get = vsc85xx_led_hw_control_get,
-+	.led_hw_control_set = vsc85xx_led_hw_control_set,
- },
- {
- 	.phy_id		= PHY_ID_VSC8504,
-@@ -2431,6 +2625,10 @@ static struct phy_driver vsc85xx_driver[] = {
- 	.get_stats      = &vsc85xx_get_stats,
- 	.inband_caps    = vsc85xx_inband_caps,
- 	.config_inband  = vsc85xx_config_inband,
-+	.led_brightness_set = vsc85xx_led_brightness_set,
-+	.led_hw_is_supported = vsc85xx_led_hw_is_supported,
-+	.led_hw_control_get = vsc85xx_led_hw_control_get,
-+	.led_hw_control_set = vsc85xx_led_hw_control_set,
- },
- {
- 	.phy_id		= PHY_ID_VSC8514,
-@@ -2456,6 +2654,10 @@ static struct phy_driver vsc85xx_driver[] = {
- 	.get_stats      = &vsc85xx_get_stats,
- 	.inband_caps    = vsc85xx_inband_caps,
- 	.config_inband  = vsc85xx_config_inband,
-+	.led_brightness_set = vsc85xx_led_brightness_set,
-+	.led_hw_is_supported = vsc85xx_led_hw_is_supported,
-+	.led_hw_control_get = vsc85xx_led_hw_control_get,
-+	.led_hw_control_set = vsc85xx_led_hw_control_set,
- },
- {
- 	.phy_id		= PHY_ID_VSC8530,
-@@ -2480,6 +2682,10 @@ static struct phy_driver vsc85xx_driver[] = {
- 	.get_sset_count = &vsc85xx_get_sset_count,
- 	.get_strings    = &vsc85xx_get_strings,
- 	.get_stats      = &vsc85xx_get_stats,
-+	.led_brightness_set = vsc85xx_led_brightness_set,
-+	.led_hw_is_supported = vsc85xx_led_hw_is_supported,
-+	.led_hw_control_get = vsc85xx_led_hw_control_get,
-+	.led_hw_control_set = vsc85xx_led_hw_control_set,
- },
- {
- 	.phy_id		= PHY_ID_VSC8531,
-@@ -2504,6 +2710,10 @@ static struct phy_driver vsc85xx_driver[] = {
- 	.get_sset_count = &vsc85xx_get_sset_count,
- 	.get_strings    = &vsc85xx_get_strings,
- 	.get_stats      = &vsc85xx_get_stats,
-+	.led_brightness_set = vsc85xx_led_brightness_set,
-+	.led_hw_is_supported = vsc85xx_led_hw_is_supported,
-+	.led_hw_control_get = vsc85xx_led_hw_control_get,
-+	.led_hw_control_set = vsc85xx_led_hw_control_set,
- },
- {
- 	.phy_id		= PHY_ID_VSC8540,
-@@ -2528,6 +2738,10 @@ static struct phy_driver vsc85xx_driver[] = {
- 	.get_sset_count = &vsc85xx_get_sset_count,
- 	.get_strings    = &vsc85xx_get_strings,
- 	.get_stats      = &vsc85xx_get_stats,
-+	.led_brightness_set = vsc85xx_led_brightness_set,
-+	.led_hw_is_supported = vsc85xx_led_hw_is_supported,
-+	.led_hw_control_get = vsc85xx_led_hw_control_get,
-+	.led_hw_control_set = vsc85xx_led_hw_control_set,
- },
- {
- 	.phy_id		= PHY_ID_VSC8541,
-@@ -2552,6 +2766,10 @@ static struct phy_driver vsc85xx_driver[] = {
- 	.get_sset_count = &vsc85xx_get_sset_count,
- 	.get_strings    = &vsc85xx_get_strings,
- 	.get_stats      = &vsc85xx_get_stats,
-+	.led_brightness_set = vsc85xx_led_brightness_set,
-+	.led_hw_is_supported = vsc85xx_led_hw_is_supported,
-+	.led_hw_control_get = vsc85xx_led_hw_control_get,
-+	.led_hw_control_set = vsc85xx_led_hw_control_set,
- },
- {
- 	.phy_id		= PHY_ID_VSC8552,
-@@ -2578,6 +2796,10 @@ static struct phy_driver vsc85xx_driver[] = {
- 	.get_stats      = &vsc85xx_get_stats,
- 	.inband_caps    = vsc85xx_inband_caps,
- 	.config_inband  = vsc85xx_config_inband,
-+	.led_brightness_set = vsc85xx_led_brightness_set,
-+	.led_hw_is_supported = vsc85xx_led_hw_is_supported,
-+	.led_hw_control_get = vsc85xx_led_hw_control_get,
-+	.led_hw_control_set = vsc85xx_led_hw_control_set,
- },
- {
- 	PHY_ID_MATCH_EXACT(PHY_ID_VSC856X),
-@@ -2601,6 +2823,10 @@ static struct phy_driver vsc85xx_driver[] = {
- 	.get_stats      = &vsc85xx_get_stats,
- 	.inband_caps    = vsc85xx_inband_caps,
- 	.config_inband  = vsc85xx_config_inband,
-+	.led_brightness_set = vsc85xx_led_brightness_set,
-+	.led_hw_is_supported = vsc85xx_led_hw_is_supported,
-+	.led_hw_control_get = vsc85xx_led_hw_control_get,
-+	.led_hw_control_set = vsc85xx_led_hw_control_set,
- },
- {
- 	.phy_id		= PHY_ID_VSC8572,
-@@ -2629,6 +2855,10 @@ static struct phy_driver vsc85xx_driver[] = {
- 	.get_stats      = &vsc85xx_get_stats,
- 	.inband_caps    = vsc85xx_inband_caps,
- 	.config_inband  = vsc85xx_config_inband,
-+	.led_brightness_set = vsc85xx_led_brightness_set,
-+	.led_hw_is_supported = vsc85xx_led_hw_is_supported,
-+	.led_hw_control_get = vsc85xx_led_hw_control_get,
-+	.led_hw_control_set = vsc85xx_led_hw_control_set,
- },
- {
- 	.phy_id		= PHY_ID_VSC8574,
-@@ -2657,6 +2887,10 @@ static struct phy_driver vsc85xx_driver[] = {
- 	.get_stats      = &vsc85xx_get_stats,
- 	.inband_caps    = vsc85xx_inband_caps,
- 	.config_inband  = vsc85xx_config_inband,
-+	.led_brightness_set = vsc85xx_led_brightness_set,
-+	.led_hw_is_supported = vsc85xx_led_hw_is_supported,
-+	.led_hw_control_get = vsc85xx_led_hw_control_get,
-+	.led_hw_control_set = vsc85xx_led_hw_control_set,
- },
- {
- 	PHY_ID_MATCH_EXACT(PHY_ID_VSC8575),
-@@ -2682,6 +2916,10 @@ static struct phy_driver vsc85xx_driver[] = {
- 	.get_stats      = &vsc85xx_get_stats,
- 	.inband_caps    = vsc85xx_inband_caps,
- 	.config_inband  = vsc85xx_config_inband,
-+	.led_brightness_set = vsc85xx_led_brightness_set,
-+	.led_hw_is_supported = vsc85xx_led_hw_is_supported,
-+	.led_hw_control_get = vsc85xx_led_hw_control_get,
-+	.led_hw_control_set = vsc85xx_led_hw_control_set,
- },
- {
- 	PHY_ID_MATCH_EXACT(PHY_ID_VSC8582),
-@@ -2707,6 +2945,10 @@ static struct phy_driver vsc85xx_driver[] = {
- 	.get_stats      = &vsc85xx_get_stats,
- 	.inband_caps    = vsc85xx_inband_caps,
- 	.config_inband  = vsc85xx_config_inband,
-+	.led_brightness_set = vsc85xx_led_brightness_set,
-+	.led_hw_is_supported = vsc85xx_led_hw_is_supported,
-+	.led_hw_control_get = vsc85xx_led_hw_control_get,
-+	.led_hw_control_set = vsc85xx_led_hw_control_set,
- },
- {
- 	PHY_ID_MATCH_EXACT(PHY_ID_VSC8584),
-@@ -2733,6 +2975,10 @@ static struct phy_driver vsc85xx_driver[] = {
- 	.link_change_notify = &vsc85xx_link_change_notify,
- 	.inband_caps    = vsc85xx_inband_caps,
- 	.config_inband  = vsc85xx_config_inband,
-+	.led_brightness_set = vsc85xx_led_brightness_set,
-+	.led_hw_is_supported = vsc85xx_led_hw_is_supported,
-+	.led_hw_control_get = vsc85xx_led_hw_control_get,
-+	.led_hw_control_set = vsc85xx_led_hw_control_set,
- }
- 
- };
--- 
-2.43.0
-
+SGksDQoNCk9uIDExLzExLzI1IDI6NDAgcG0sIFByYWJoYWthciB3cm90ZToNCj4gK3N0YXRpYyBp
+bnQgdnNjODV4eF9wcm9iZV9jb21tb24oc3RydWN0IHBoeV9kZXZpY2UgKnBoeWRldiwNCj4gKyAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBjb25zdCBzdHJ1Y3QgdnNjODV4eF9wcm9iZV9j
+b25maWcgKmNmZywNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBjb25zdCB1MzIg
+KmRlZmF1bHRfbGVkX21vZGUpDQo+ICt7DQo+ICsgICAgICAgc3RydWN0IHZzYzg1MzFfcHJpdmF0
+ZSAqdnNjODUzMTsNCj4gKyAgICAgICBpbnQgcmV0Ow0KPiArDQo+ICsgICAgICAgdnNjODUzMSA9
+IGRldm1fa3phbGxvYygmcGh5ZGV2LT5tZGlvLmRldiwgc2l6ZW9mKCp2c2M4NTMxKSwgR0ZQX0tF
+Uk5FTCk7DQo+ICsgICAgICAgaWYgKCF2c2M4NTMxKQ0KPiArICAgICAgICAgICAgICAgcmV0dXJu
+IC1FTk9NRU07DQo+ICsNCj4gKyAgICAgICBwaHlkZXYtPnByaXYgPSB2c2M4NTMxOw0KPiArDQo+
+ICsgICAgICAgLyogQ2hlY2sgcmF0ZSBtYWdpYyBpZiBuZWVkZWQgKG9ubHkgZm9yIG5vbi1wYWNr
+YWdlIFBIWXMpICovDQo+ICsgICAgICAgaWYgKGNmZy0+Y2hlY2tfcmF0ZV9tYWdpYykgew0KPiAr
+ICAgICAgICAgICAgICAgcmV0ID0gdnNjODV4eF9lZGdlX3JhdGVfbWFnaWNfZ2V0KHBoeWRldik7
+DQo+ICsgICAgICAgICAgICAgICBpZiAocmV0IDwgMCkNCj4gKyAgICAgICAgICAgICAgICAgICAg
+ICAgcmV0dXJuIHJldDsNCj4gKw0KPiArICAgICAgICAgICAgICAgdnNjODUzMS0+cmF0ZV9tYWdp
+YyA9IHJldDsNCj4gKyAgICAgICB9DQo+ICsNCj4gKyAgICAgICAvKiBTZXQgdXAgcGFja2FnZSBp
+ZiBuZWVkZWQgKi8NCj4gKyAgICAgICBpZiAoY2ZnLT51c2VfcGFja2FnZSkgew0KPiArICAgICAg
+ICAgICAgICAgdnNjODU4NF9nZXRfYmFzZV9hZGRyKHBoeWRldik7DQo+ICsgICAgICAgICAgICAg
+ICBkZXZtX3BoeV9wYWNrYWdlX2pvaW4oJnBoeWRldi0+bWRpby5kZXYsIHBoeWRldiwNCj4gKyAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB2c2M4NTMxLT5iYXNlX2FkZHIsIGNm
+Zy0+c2hhcmVkX3NpemUpOw0KRG9uJ3QgeW91IG5lZWQgdG8gY2hlY2sgdGhlIHJldHVybiB2YWx1
+ZSBoZXJlPw0KDQpCZXN0IHJlZ2FyZHMsDQpQYXJ0aGliYW4gVg0KPiArICAgICAgIH0NCj4gKw0K
+PiArICAgICAgIC8qIENvbmZpZ3VyZSBMRUQgc2V0dGluZ3MgKi8NCj4gKyAgICAgICB2c2M4NTMx
+LT5ubGVkcyA9IGNmZy0+bmxlZHM7DQo+ICsgICAgICAgdnNjODUzMS0+c3VwcF9sZWRfbW9kZXMg
+PSBjZmctPnN1cHBfbGVkX21vZGVzOw0K
 
