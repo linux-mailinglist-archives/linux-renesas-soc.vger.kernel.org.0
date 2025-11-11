@@ -1,74 +1,74 @@
-Return-Path: <linux-renesas-soc+bounces-24457-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24458-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BCB9C4CCBB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 10:56:49 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DF17C4CDA8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 11:03:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 628D51882D67
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 09:57:10 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 499DF34579F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 10:03:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5CBF4A01;
-	Tue, 11 Nov 2025 09:56:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 389F132ABC2;
+	Tue, 11 Nov 2025 09:59:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iUKPSIUM"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WT8q/Fqb"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25CB3212560
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Nov 2025 09:56:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72A20320CD5
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Nov 2025 09:59:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762855002; cv=none; b=E5e26lUoVyWQTxJ6rnvJkPSZJvifgpXjFvDmgikrBOUu2TLW7Y7vonuR0naNwvPLhUh4nU90Z/apSu0gr8UIYMSZBcno8gJycuMO/X8h7cMgTVUZjyR6q9KxIBjOHq+AlQRj95Yid43fspvM3TGISXdISP7tOC0S92PutlqNGZI=
+	t=1762855147; cv=none; b=WaGiord/oTbaL5V55goehAosZsDwcCxHWYbuGjLlm9Ej0vzm1ZS1rCyAEi6Avx+iG8StuYon0iX8DODeSpblOn21zPc911hGmneP4+GDW1xXzYMjmzD3pcKv+1otAauxYfYnJuo2C4HV1vZt1pp0+YY+sVLJRndlu0zx9cIk6tE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762855002; c=relaxed/simple;
-	bh=jkgc5+vd53UiZCxhNe3hI/jvAtzcUQj3f4ZwiPIU3CE=;
+	s=arc-20240116; t=1762855147; c=relaxed/simple;
+	bh=lOCIaq5MYiqkjF7JN9o1JXdIKKWp75UQH8ZqzpRmiK0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=p6QZaVKBDorurPQu4JedVvHW7u2Aa8UGcUti6J4Vs32ehfnPL8TPoP6AE6xl2hh1gd5BxE2Rau9mGnDhh+rtnLxfgqnUFZKZwIt2echqQGPD6m5gQNbe5KRrS5E5cBZPRhKS1LQd227rMAZWz5nHmhpWIa+KW+qXwOYYSgEjK5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iUKPSIUM; arc=none smtp.client-ip=209.85.128.41
+	 To:Cc:Content-Type; b=GzgyhOpdTfwYroLNfxqjVsFb7GbXp0cL+zR6AnI5BjyxDE1fxExvxzs4B6KAxkTSw/xjiShyE86uOnmroIx9k5jdEas3D/PuCHMhcq5SrxTLLCHcrxaSq26uOYfHdqeC9NPJtCmUA7JSZgMzAn4Xwa4BMUjGJSPslWN/dvdGpGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WT8q/Fqb; arc=none smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-477619f8ae5so29972365e9.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Nov 2025 01:56:40 -0800 (PST)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-42b3c5defb2so1195982f8f.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Nov 2025 01:59:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762854999; x=1763459799; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1762855144; x=1763459944; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=old4NHpZNRQlq5F/NJ7Wd36OkosNtO/noel5lfu80nM=;
-        b=iUKPSIUMbkcVBQ6J9sWiyhEhXn0A4LRUn8lWuQymCcLXcgqBqAxpWaOc5h8AUvmZht
-         VcJAs88YIQYae9CXNl14OFoKW8gbFe/J5AXZhB5pZ7sUf9WNKbyCqJ+KsIj9L+qIjqMT
-         RMuhxV+3qxWr6kZOHNZsVNhmltHE1U/0PGx9G6aqG1SyHI1wsuhCtDGcDcrhvQhxim3S
-         z8m9GdunEecY3xzehoiDUCpN8VUfb1KSD13yiqBxrmsRjwX/NnL6Qmt1252+FOEJ+6n9
-         UmP2kWLq97X0tBR7w/0tn28CV8dwK7EZ7OAbGPRwdAfSyW5SCO+lrDnoVeED9ZWFS3aD
-         iCUw==
+        bh=cjlk2cRXCuPrNRO+4Q+s712BaHBwWqkzdg7ZDqTvNUo=;
+        b=WT8q/FqbP2eadLXthwJJn5z+xuQPjoCqwejuuerYPDyug3kui26cruq7aPMqlbm/aZ
+         wWpRMsZyJ1d7WI3wRxoz8CAB0j4AcvxAz3+biCuNZ1mOIxt9XqCN3LJNRusMea8fNzTh
+         EsSf4Np6r1KqobdEQzpob5ZV1rwqhGzLiJii21xrO0WeA4d1zOc/o1DxFGJDZY3grofU
+         li8gqJlI9wX5MSRnXG2xAvL2xXaUUYbTlqj5+gFzPmz6M7G34BOgEP4VGylXtNMJ6E8n
+         F3RU1rAInZp02DGnszTnCAFdjlEYGBpKHjTfzMXfEcOLdaCba/M7/GzWV8s6scKqhtzY
+         qGig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762854999; x=1763459799;
+        d=1e100.net; s=20230601; t=1762855144; x=1763459944;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=old4NHpZNRQlq5F/NJ7Wd36OkosNtO/noel5lfu80nM=;
-        b=hsU2wj3TbeUo+Oj2DNXkkJLz0D6dqvkl8VCN736yoouA3NkFURCNuNsZTF7nqDXN1H
-         hT/EjqPDFD5VxPuqR/dBZI1vzRTuL4y4gq0BoVQ9gnWy0QznrHuKwxzuXJaZvo6snfTB
-         yYk+nkOeFSOnHhoQEfraUutPotlPd7iYRQJfVWkWb96r5PoWvpEE7VrE6r58GwVgLSit
-         e9V0PP/lejNWcLhBz/NhoXrKLqSko/KZ+jtA9nG/qcncT5rcu5pkVCqfRiQuAgk6Baxa
-         ymcnyhgWq3nC7mnLcuxr2/DHNVelSv1FDCtuIR4cD4yvHaoPLIBjIOyoUX9HypFQG0KX
-         2kvw==
-X-Forwarded-Encrypted: i=1; AJvYcCWBo9uqxDA53xq+UO5pxmy8T+HEUwWYv0v3C+1QOoFFe38p3zbM7WDXpO+MIw5RRyy8U/gA6bwvdwWB5EzF/vtz+w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwVwptJFHsmHlqORPD/wMKL0701DEYVCktgy/AmnnVrYjdOdie2
-	f2/dfiFYFT6zg0JLwwOiF5BgHB+vrUM3gizZq4NugAc+FKAUMQosfOL2DyuXdUv8rPFUU6eIhCW
-	ssSjn+0aF7QVI26FIchF0S+A3JsGuMmQ=
-X-Gm-Gg: ASbGnctGgY02yciX31Dj21jEe8Xc61AyBJh1L3Y41PbNv5BCmkrCRm30ZZyQWhiSf4g
-	clTQ3ps972rRZlbjlFAL62GsHqjWh4OEscTnXcZRBiWjlxbvL3n05X5RDEi/I+ScxhYab3DDppG
-	z3Nq6nYZSf9BlrNSeFURUBLA+7Am8kPvkF1VIkWqF9hInIRwUEGicuc4zPBlYSlrbki4AtnEO+z
-	kNVhowO17qXLJo6y32nxpdvgbbPfMHlrI50hcToabPnbhwo0+YnFzFiyRnW/L0koNCNJjtJ
-X-Google-Smtp-Source: AGHT+IF7qpKo+MsmIWpLUty6mew6BjAdPBm9lIre8k2/Jvv5ZucJOwY+zC+wLimhZNmUnrg5eMJyJxNj/dIokpZI+F0=
-X-Received: by 2002:a05:600c:1f1a:b0:477:7f4a:44b4 with SMTP id
- 5b1f17b1804b1-4777f4a496bmr40099395e9.1.1762854999316; Tue, 11 Nov 2025
- 01:56:39 -0800 (PST)
+        bh=cjlk2cRXCuPrNRO+4Q+s712BaHBwWqkzdg7ZDqTvNUo=;
+        b=oYiODmIaVWUgBkw148cMVxR8gzme0Gm7V1TTpb4M9GkeiL0xqL9n+tOupyb3qlmlGB
+         bDJZHWY3ZpHKycJ82VpIW7l+mgPBgeR+06UNTf3kkU2HPiMzXe1s+uh8JANHB5P8036l
+         j934nBnzkbFqZuaE1m+q9DnrO03M4l63KSEDr3ww6xlYlnjb7UydPm1jhJsWlfqaUUsc
+         luO6E95fpOseor7ynUfGzDpjcNQK7Z1044LbYRd5R2CeW9mhd/PRLukymXl4NFQmxm+w
+         iRwb2yjy+nd1je2/yYI5tk79SQ6lB7H+SL3C0NxcBA8J4d4YrwCumAzlv5aS8C3SbFQ+
+         AEvA==
+X-Forwarded-Encrypted: i=1; AJvYcCXJ0gHo4WLoQ3Thg3IHdT2XXrutsmrJx6muRNSAbQAgKZl8AZ4o3BA1JB3JuIRGJvyt2qLLYW283R5QHfPNx15q0A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwF5ejGVsr3LlgReT7IG8bM8LV+AmV/xaaG8jA9SIjfI9OwO2Zw
+	gptUCn0JfrSNhYxpcheGbV1QJQnjxD9mecghWgdeqyBzj3OzmHTKmo0trtJ1Hugo1Ot1syF7ja2
+	Z+06PnlCNnRZEN2MmCkdMEwx6HvpDUbg=
+X-Gm-Gg: ASbGncu9PFNA3LqAP+HAzd2SMHgXKbdcliGfWKI5I/GtTDzW2Qjdti2JqWjeixfvxAC
+	VL4Xv89yDdQ15srN1rZTr+ozu51de8mIcXjkx+rXzUtXj+Kx1mLdJNSBSWkmD+CRjcCTxi7H70I
+	mJkA0uCtEFFtRzGQg0LiC0whDUyd/nSuAqizWDSY4WEJBuAu54FN3sUReI0ePL5ZxClS4jgLPdS
+	L8wc37SRsh+FJoizmT+qZrwPAbhb+hDPBlpXPeZPAuam5TlvDa3iISj8KA033iuK5NN2Cig
+X-Google-Smtp-Source: AGHT+IGjntCvClMuhLxz7Fya0295cjdJ1m9OqTMAuyWKHxrVWXNBcWKh6jbg+Z6+nNLdGhpeB15uRACtQ6ldFO7VOgM=
+X-Received: by 2002:a05:6000:2a0b:b0:42b:3dbe:3a43 with SMTP id
+ ffacd0b85a97d-42b3dbe3f2emr3582660f8f.50.1762855143534; Tue, 11 Nov 2025
+ 01:59:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -76,14 +76,13 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20251111091047.831005-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20251111091047.831005-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <40e744b5-cc17-4b33-8d0b-1e9987eece7c@microchip.com>
-In-Reply-To: <40e744b5-cc17-4b33-8d0b-1e9987eece7c@microchip.com>
+ <20251111091047.831005-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <5be2d1a1-3eb5-44be-aa96-797be13ea7a2@microchip.com>
+In-Reply-To: <5be2d1a1-3eb5-44be-aa96-797be13ea7a2@microchip.com>
 From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Tue, 11 Nov 2025 09:56:12 +0000
-X-Gm-Features: AWmQ_bluZAgbO3v-1VvKVux1F4V0OMKz7MOCbUQ70QEf8OgOn18rDwQSq7RXXHM
-Message-ID: <CA+V-a8t5Ac_pb3iUGsQSEiJ_Ji-TrKGr-E6xCJEcx_cK2nKeFA@mail.gmail.com>
-Subject: Re: [PATCH net-next v3 2/3] net: phy: mscc: Consolidate probe
- functions into a common helper
+Date: Tue, 11 Nov 2025 09:58:37 +0000
+X-Gm-Features: AWmQ_blGjwEL6cAjvRlCMCOm_yxAQYhX3C4hQ33OpP5_-OFXdvaWUMEmwRVdWuA
+Message-ID: <CA+V-a8uJ2Cg6tUWQ_tyApQL6s0F3A2VeJw8mBLiCfqXp5-gyMQ@mail.gmail.com>
+Subject: Re: [PATCH net-next v3 3/3] net: phy: mscc: Add support for PHY LED control
 To: Parthiban.Veerasooran@microchip.com
 Cc: andrew@lunn.ch, hkallweit1@gmail.com, linux@armlinux.org.uk, 
 	davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, 
@@ -99,46 +98,19 @@ Hi Parthiban,
 
 Thank you for the review.
 
-On Tue, Nov 11, 2025 at 9:50=E2=80=AFAM <Parthiban.Veerasooran@microchip.co=
+On Tue, Nov 11, 2025 at 9:54=E2=80=AFAM <Parthiban.Veerasooran@microchip.co=
 m> wrote:
 >
-> Hi,
->
 > On 11/11/25 2:40 pm, Prabhakar wrote:
-> > +static int vsc85xx_probe_common(struct phy_device *phydev,
-> > +                               const struct vsc85xx_probe_config *cfg,
-> > +                               const u32 *default_led_mode)
+> > +static int vsc85xx_led_combine_disable_set(struct phy_device *phydev,
+> > +                                          u8 led_num, bool combine_dis=
+able)
 > > +{
-> > +       struct vsc8531_private *vsc8531;
-> > +       int ret;
-> > +
-> > +       vsc8531 =3D devm_kzalloc(&phydev->mdio.dev, sizeof(*vsc8531), G=
-FP_KERNEL);
-> > +       if (!vsc8531)
-> > +               return -ENOMEM;
-> > +
-> > +       phydev->priv =3D vsc8531;
-> > +
-> > +       /* Check rate magic if needed (only for non-package PHYs) */
-> > +       if (cfg->check_rate_magic) {
-> > +               ret =3D vsc85xx_edge_rate_magic_get(phydev);
-> > +               if (ret < 0)
-> > +                       return ret;
-> > +
-> > +               vsc8531->rate_magic =3D ret;
-> > +       }
-> > +
-> > +       /* Set up package if needed */
-> > +       if (cfg->use_package) {
-> > +               vsc8584_get_base_addr(phydev);
-> > +               devm_phy_package_join(&phydev->mdio.dev, phydev,
-> > +                                     vsc8531->base_addr, cfg->shared_s=
-ize);
-> Don't you need to check the return value here?
+> > +       u16 mask =3D LED_COMBINE_DIS_MASK(led_num);
+> > +       u16 val =3D LED_COMBINE_DIS(led_num, combine_disable);
+> Follow reverse xmas tree variable declaration style.
 >
-Good point. The orignal code didn't check the return value. Would you
-prefer a separate patch on top of this series or fix it in this
-consolidation patch itself?
+Sure, will do.
 
 Cheers,
 Prabhakar
