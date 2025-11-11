@@ -1,238 +1,208 @@
-Return-Path: <linux-renesas-soc+bounces-24459-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24460-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D731CC4D859
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 12:54:05 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 517DCC4D955
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 13:07:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6689C18997EB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 11:48:55 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id F18B6342C5F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 12:07:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60BF6357735;
-	Tue, 11 Nov 2025 11:48:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 570EA315772;
+	Tue, 11 Nov 2025 12:07:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U8wDzG2j"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fyjIzro3"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 117782FCC1D;
-	Tue, 11 Nov 2025 11:48:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 005823559F8;
+	Tue, 11 Nov 2025 12:07:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762861690; cv=none; b=cubzvfEkNEPLzbigtnaIyNsDCL6ZbHyZesuF3/PYEFWFt0k/CE0nFarz0fbW4aPxs4TVKt20eqS3YN5TwqqK8olsElk7dEVJ/ubSyaaSHNkE5kgP6XqwXOsi6WXGLtxQYW0mrNddhMIhMhMMEAJT2vEX5vbqRThsYO8ByAQULLI=
+	t=1762862838; cv=none; b=sVxFFz5gZNgp5gkalzjm7LpjqoXDGslYRNvFVAE9nuLXxGvK+K+BTS8b7O8SwqnhYiUflbtGgIm0+XJfEIo3aEaQSbiWt/Jo9PCk3Xs7TIa95uRlTjSXb3d6PjmzGk0M55zGRycdkIeK7m+0KzU7qUSbKR2My5tP6+jfqQMXFyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762861690; c=relaxed/simple;
-	bh=jxi1Gv6OcPtGGFXGFF2QxkwKjLaMbfnLeBrhrAyU/Tg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eBb8CuLulkcRfgDBNrTtvai+z/CPZGRVItQRz7rSFsDqGRI2o6PT3i/ZB3TSNixW3FzznThFhMdiP46o2EBRIaaW8hEblvHrSJVBKgOrhbqUmb0z9fgIJtMfMLKa66ObFGY59erJygs8ZvthxnTwhG8FWxjduQxvhyv/pb6W4Sg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U8wDzG2j; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E74BC116D0;
-	Tue, 11 Nov 2025 11:47:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762861689;
-	bh=jxi1Gv6OcPtGGFXGFF2QxkwKjLaMbfnLeBrhrAyU/Tg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=U8wDzG2jhPfzS4KLy6BBXjLkq8tbdJdbZ2HLPt/oCduCWbREVPz6XahhQXZNBZvqk
-	 rL61nJbROp9KbKpanxP6Xm+RhhBC2JjGt3mq5g1Vt8UeeKM8gOKgcYiPO0I2jAA8oR
-	 2vP9zcZsjezzMSY7lXp0qcTehuQ5Bvcn5PLIyv21tVd9pJmlDNPzRzYLCVga+fJVZC
-	 exeLAcTwq2GZWVxiqi/O5Hs9YfEKaR3AZUbkmkVOA0uPAeCkVjy4pmp9+BXSwywuet
-	 qQS5xfNfqALbItTHOqCEixH82CxNQPweybJmarDGuJMjWDhzcw/4Ag1g8TdQPeJwJh
-	 M8yYB1Fdu26pw==
-Date: Tue, 11 Nov 2025 11:47:53 +0000
-From: Simon Horman <horms@kernel.org>
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-	Jose Abreu <joabreu@synopsys.com>, Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Matthew Gerlach <matthew.gerlach@altera.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Keguang Zhang <keguang.zhang@gmail.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Jan Petrous <jan.petrous@oss.nxp.com>, s32@nxp.com,
-	Romain Gantois <romain.gantois@bootlin.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Chen Wang <unicorn_wang@outlook.com>,
-	Inochi Amaoto <inochiama@gmail.com>,
-	Emil Renner Berthing <kernel@esmil.dk>,
-	Minda Chen <minda.chen@starfivetech.com>,
-	Drew Fustini <fustini@kernel.org>, Guo Ren <guoren@kernel.org>,
-	Fu Wei <wefu@redhat.com>,
-	Nobuhiro Iwamatsu <nobuhiro.iwamatsu.x90@mail.toshiba>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Shuang Liang <liangshuang@eswincomputing.com>,
-	Zhi Li <lizhi2@eswincomputing.com>,
-	Shangjuan Wei <weishangjuan@eswincomputing.com>,
-	"G. Jaya Kumaran" <vineetha.g.jaya.kumaran@intel.com>,
-	Clark Wang <xiaoning.wang@nxp.com>, Linux Team <linux-imx@nxp.com>,
-	Frank Li <Frank.Li@nxp.com>, David Wu <david.wu@rock-chips.com>,
-	Samin Guo <samin.guo@starfivetech.com>,
-	Christophe Roullier <christophe.roullier@foss.st.com>,
-	Swathi K S <swathi.ks@samsung.com>, linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	Drew Fustini <dfustini@tenstorrent.com>,
-	linux-sunxi@lists.linux.dev, linux-amlogic@lists.infradead.org,
-	linux-mips@vger.kernel.org, imx@lists.linux.dev,
-	linux-renesas-soc@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, sophgo@lists.linux.dev,
-	linux-riscv@lists.infradead.org,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: Re: [PATCH v5 8/8] net: stmmac: qcom-ethqos: add support for sa8255p
-Message-ID: <aRMiafCQNPVDOljU@horms.kernel.org>
-References: <20251107-qcom-sa8255p-emac-v5-0-01d3e3aaf388@linaro.org>
- <20251107-qcom-sa8255p-emac-v5-8-01d3e3aaf388@linaro.org>
+	s=arc-20240116; t=1762862838; c=relaxed/simple;
+	bh=O8CvrRoMfamiivBrhxyLoF+42dG2wZYImhw8qkUTm7Y=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=E3sJ5zXyK3GTAymM8floM7BFbNCSCCj6X1FdIPT6boI9o4+6um4A2DTom45NkQjC1CEuUhBx6MIul1T0+pmmKGQpPf0J27V5M8DGUhNPMB0PODG8r+49qNsU8KSCOlcUGc3nCmQEQHYzrMe8EYCUx5A32CHxP9wPw92BXOEl0eM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=fyjIzro3; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 863A0FE;
+	Tue, 11 Nov 2025 13:05:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1762862713;
+	bh=O8CvrRoMfamiivBrhxyLoF+42dG2wZYImhw8qkUTm7Y=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=fyjIzro3aBiXkBcHDQQx8QsTQC8m9VXT5JaBenEIju1kycZ+PDjvx3biBqD5F6r2J
+	 xYvqYyWVOoe/PrLUAS48CJgw1AHSUWEZ/bentPCNtclZcEn/HPr8MRgpty6xFjzc2l
+	 kuNmuj1EWPGO0HZLV3o/Z9sdsXJV5Gxa2tGt1Ql8=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251107-qcom-sa8255p-emac-v5-8-01d3e3aaf388@linaro.org>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250910-rcar-vsp-underrun-revert-v1-1-2fa8d3b1b879@ideasonboard.com>
+References: <20250910-rcar-vsp-underrun-revert-v1-1-2fa8d3b1b879@ideasonboard.com>
+Subject: Re: [PATCH] Revert "media: vsp1: Add underrun debug print"
+From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, Duy Nguyen <duy.nguyen.rh@renesas.com>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Date: Tue, 11 Nov 2025 12:07:09 +0000
+Message-ID: <176286282930.2141792.17722042639840544380@ping.linuxembedded.co.uk>
+User-Agent: alot/0.9.1
 
-On Fri, Nov 07, 2025 at 11:29:58AM +0100, Bartosz Golaszewski wrote:
-> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Quoting Tomi Valkeinen (2025-09-10 08:26:43)
+> This reverts commit 1dc30075fb0fe02b74b1ea7fd1c1c734a89f1448.
+>=20
+> There have been reports of lots of underruns happening on earlier
+> generation SoCs (M3, E3) with display use cases, e.g.:
+>=20
+> vsp1 fea28000.vsp: Underrun occurred at WPF0 (total underruns 1)
+>=20
+> but the display still working fine, and reverting the above commit,
+> which added underrun prints, makes the prints go away (obviously).
+>=20
+> I made some tests on a remote M3, with no display connected, and I can
+> confirm that there seem to be a single underrun report quite often when
+> enabling a display, and an underrun flood when using interlace display
+> modes.
+>=20
+> E3 does not have interlace display support as far as I can see, so the
+> interlace issue does not concern it.
+>=20
+> Debugging display issues remotely without a display is quite
+> challenging, and I did not find any issues in the code, nor could I find
+> a way to stop the underruns by twiddling with the related registers.
+>=20
+> My pure guess is that the single underruns occurring when starting the
+> display hint at either a startup sequence issue, or some kind of initial
+> fifo loading issue. The interlace underruns hint at a bigger
+> misconfiguration, but as the display works fine, the issue might be just
+> an underrun at the start of the frame and the HW quickly catching up, or
+> at the end of the frame, where one block in the pipeline expects more
+> data but the previous block has already stopped (so maybe a misconfig
+> between using interlaced height vs progressive height?).
+>=20
+> But at the moment I have no solution to this, and as the displays work
+> fine, I think it makes sense to just revert the print.
 
-...
+Is there any value in instead 'ignoring' any underruns if say the frame
+count is < 5 to ignore startup underruns, and keep it as an active print
+if something causes underruns later once the pipeline is established?
 
-> +static int qcom_ethqos_pd_init(struct platform_device *pdev, void *priv)
-> +{
-> +	struct qcom_ethqos *ethqos = priv;
-> +	int ret;
-> +
-> +	/*
-> +	 * Enable functional clock to prevent DMA reset after timeout due
-> +	 * to no PHY clock being enabled after the hardware block has been
-> +	 * power cycled. The actual configuration will be adjusted once
-> +	 * ethqos_fix_mac_speed() is called.
-> +	 */
-> +	ethqos_set_func_clk_en(ethqos);
-> +
-> +	ret = qcom_ethqos_domain_on(ethqos, ETHQOS_PD_CORE);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = qcom_ethqos_domain_on(ethqos, ETHQOS_PD_MDIO);
-> +	if (ret) {
-> +		qcom_ethqos_domain_off(ethqos, ETHQOS_PD_CORE);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void qcom_ethqos_pd_exit(struct platform_device *pdev, void *data)
-> +{
-> +	struct qcom_ethqos *ethqos = data;
-> +
-> +	qcom_ethqos_domain_off(ethqos, ETHQOS_PD_MDIO);
-> +	qcom_ethqos_domain_off(ethqos, ETHQOS_PD_CORE);
-> +}
-> +
->  static void ethqos_ptp_clk_freq_config(struct stmmac_priv *priv)
+But maybe that doesn't change much - and if there's no current perceived
+issue
+
+
+Anyway, I don't object to this revert. It's low impact and it's only
+undoing 'your' work so no one else will complain :D
+
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+>=20
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+>  drivers/media/platform/renesas/vsp1/vsp1_drm.c  |  3 ---
+>  drivers/media/platform/renesas/vsp1/vsp1_drv.c  | 11 +----------
+>  drivers/media/platform/renesas/vsp1/vsp1_pipe.h |  2 --
+>  drivers/media/platform/renesas/vsp1/vsp1_regs.h |  2 --
+>  4 files changed, 1 insertion(+), 17 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c b/drivers/med=
+ia/platform/renesas/vsp1/vsp1_drm.c
+> index 15d266439564..b8f211db16fc 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+> @@ -721,9 +721,6 @@ int vsp1_du_setup_lif(struct device *dev, unsigned in=
+t pipe_index,
+>                 return 0;
+>         }
+> =20
+> -       /* Reset the underrun counter */
+> -       pipe->underrun_count =3D 0;
+> -
+>         drm_pipe->width =3D cfg->width;
+>         drm_pipe->height =3D cfg->height;
+>         pipe->interlaced =3D cfg->interlaced;
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/med=
+ia/platform/renesas/vsp1/vsp1_drv.c
+> index b8d06e88c475..68e92d3c5915 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> @@ -47,8 +47,7 @@
+> =20
+>  static irqreturn_t vsp1_irq_handler(int irq, void *data)
 >  {
->  	struct plat_stmmacenet_data *plat_dat = priv->plat;
-
-...
-
-> @@ -852,28 +993,63 @@ static int qcom_ethqos_probe(struct platform_device *pdev)
->  	ethqos->rgmii_config_loopback_en = drv_data->rgmii_config_loopback_en;
->  	ethqos->has_emac_ge_3 = drv_data->has_emac_ge_3;
->  	ethqos->needs_sgmii_loopback = drv_data->needs_sgmii_loopback;
+> -       u32 mask =3D VI6_WPF_IRQ_STA_DFE | VI6_WPF_IRQ_STA_FRE |
+> -                  VI6_WPF_IRQ_STA_UND;
+> +       u32 mask =3D VI6_WPF_IRQ_STA_DFE | VI6_WPF_IRQ_STA_FRE;
+>         struct vsp1_device *vsp1 =3D data;
+>         irqreturn_t ret =3D IRQ_NONE;
+>         unsigned int i;
+> @@ -63,14 +62,6 @@ static irqreturn_t vsp1_irq_handler(int irq, void *dat=
+a)
+>                 status =3D vsp1_read(vsp1, VI6_WPF_IRQ_STA(i));
+>                 vsp1_write(vsp1, VI6_WPF_IRQ_STA(i), ~status & mask);
+> =20
+> -               if ((status & VI6_WPF_IRQ_STA_UND) && wpf->entity.pipe) {
+> -                       wpf->entity.pipe->underrun_count++;
 > -
-> -	ethqos->pm.link_clk = devm_clk_get(dev, clk_name);
-> -	if (IS_ERR(ethqos->pm.link_clk))
-> -		return dev_err_probe(dev, PTR_ERR(ethqos->pm.link_clk),
-> -				     "Failed to get link_clk\n");
+> -                       dev_warn_ratelimited(vsp1->dev,
+> -                               "Underrun occurred at WPF%u (total underr=
+uns %u)\n",
+> -                               i, wpf->entity.pipe->underrun_count);
+> -               }
 > -
-> -	ret = ethqos_clks_config(ethqos, true);
-> -	if (ret)
-> -		return ret;
+>                 if (status & VI6_WPF_IRQ_STA_DFE) {
+>                         vsp1_pipeline_frame_end(wpf->entity.pipe);
+>                         ret =3D IRQ_HANDLED;
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.h b/drivers/me=
+dia/platform/renesas/vsp1/vsp1_pipe.h
+> index 7f623b8cbe5c..9cc2f1646b00 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
+> @@ -137,8 +137,6 @@ struct vsp1_pipeline {
+> =20
+>         unsigned int partitions;
+>         struct vsp1_partition *part_table;
 > -
-> -	ret = devm_add_action_or_reset(dev, ethqos_clks_disable, ethqos);
-> -	if (ret)
-> -		return ret;
-> -
-> -	ethqos->pm.serdes_phy = devm_phy_optional_get(dev, "serdes");
-> -	if (IS_ERR(ethqos->pm.serdes_phy))
-> -		return dev_err_probe(dev, PTR_ERR(ethqos->pm.serdes_phy),
-> -				     "Failed to get serdes phy\n");
-> -
-> -	ethqos->set_serdes_speed = ethqos_set_serdes_speed_phy;
->  	ethqos->serdes_speed = SPEED_1000;
-> -	ethqos_update_link_clk(ethqos, SPEED_1000);
-> +
-> +	if (pm_data && pm_data->use_domains) {
-> +		ethqos->set_serdes_speed = ethqos_set_serdes_speed_pd;
-> +
-> +		ret = devm_pm_domain_attach_list(dev, &pm_data->pd,
-> +						 &ethqos->pd.pd_list);
-> +		if (ret < 0)
-> +			return dev_err_probe(dev, ret, "Failed to attach power domains\n");
-> +
-> +		plat_dat->clks_config = ethqos_pd_clks_config;
-> +		plat_dat->serdes_powerup = qcom_ethqos_pd_serdes_powerup;
-> +		plat_dat->serdes_powerdown = qcom_ethqos_pd_serdes_powerdown;
-> +		plat_dat->exit = qcom_ethqos_pd_exit;
-
-Hi Bartosz,
-
-It seems that the intention of this is to ensure
-that domains turned on by qcom_ethqos_pd_init()
-are turned off again on exit or clean-up in error paths.
-
-> +		plat_dat->init = qcom_ethqos_pd_init;
-> +		plat_dat->clk_ptp_rate = pm_data->clk_ptp_rate;
-> +
-> +		ret = qcom_ethqos_pd_init(pdev, ethqos);
-> +		if (ret)
-> +			return ret;
-
-And here those domains are turned on.
-
-> +
-> +		ret = qcom_ethqos_domain_on(ethqos, ETHQOS_PD_SERDES);
-> +		if (ret)
-
-But it seems that if we reach this error path then the cleanup is not
-performed. This is because plat_dat and thus it's exit callback are
-registered until the call to devm_stmmac_pltfr_probe() towards the end of
-this function.
-
-Sorry if I'm on the wrong track here. I did dig into it.
-But this was flagged by Claude Code running
-https://github.com/masoncl/review-prompts/
-
-> +			return dev_err_probe(dev, ret,
-> +					     "Failed to enable the serdes power domain\n");
-
-...
+> -       u32 underrun_count;
+>  };
+> =20
+>  void vsp1_pipeline_reset(struct vsp1_pipeline *pipe);
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_regs.h b/drivers/me=
+dia/platform/renesas/vsp1/vsp1_regs.h
+> index 10cfbcd1b6e0..188d26289714 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+> @@ -32,12 +32,10 @@
+>  #define VI6_STATUS_SYS_ACT(n)          BIT((n) + 8)
+> =20
+>  #define VI6_WPF_IRQ_ENB(n)             (0x0048 + (n) * 12)
+> -#define VI6_WPF_IRQ_ENB_UNDE           BIT(16)
+>  #define VI6_WPF_IRQ_ENB_DFEE           BIT(1)
+>  #define VI6_WPF_IRQ_ENB_FREE           BIT(0)
+> =20
+>  #define VI6_WPF_IRQ_STA(n)             (0x004c + (n) * 12)
+> -#define VI6_WPF_IRQ_STA_UND            BIT(16)
+>  #define VI6_WPF_IRQ_STA_DFE            BIT(1)
+>  #define VI6_WPF_IRQ_STA_FRE            BIT(0)
+> =20
+>=20
+> ---
+> base-commit: 76eeb9b8de9880ca38696b2fb56ac45ac0a25c6c
+> change-id: 20250908-rcar-vsp-underrun-revert-f3e64612c62d
+>=20
+> Best regards,
+> --=20
+> Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>
 
