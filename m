@@ -1,70 +1,70 @@
-Return-Path: <linux-renesas-soc+bounces-24439-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24442-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F1E4C4C838
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 10:03:40 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id B696FC4C848
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 10:04:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B84581884E48
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 09:03:30 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 3FAE24F26DD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 09:03:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DB392EDD51;
-	Tue, 11 Nov 2025 09:02:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AC5A2F25E7;
+	Tue, 11 Nov 2025 09:02:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="FqS6b7W8";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="njUk+sTr"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="dleUHl1t";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="sPbj9TUh"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
+Received: from fhigh-a2-smtp.messagingengine.com (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6932C2E975F;
-	Tue, 11 Nov 2025 09:02:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C74B725B2F4;
+	Tue, 11 Nov 2025 09:02:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762851773; cv=none; b=hE0qD9mVSrxikU/P7/oLjxKiKSOuh3anvlLhIHjR1Xj8H3XK8k4Y5pSW8iwoXhgssKCJwTY9lNu6j8/Oiqo35edEpw38GFF7rA4OqY5iDTTVq+BS5H5wudcZ4XbJQKeWjNRGIlzUsTzIP9NJyzGZZGtB5ZjssenWEfq9zHjzBho=
+	t=1762851776; cv=none; b=gc3vv36xPqfDUdxWS1Db9GVeR85XEcDMDsOAwlTBDOV23tWpXkB/C6j4w4YUe6uUqdasWI2XekGOMVWminCK4e/BoZ4kYgdf1aqaXud1cSdlrWKyWTxFjnFaZYF/FxFHkVXs0uxEVI/gC33gvYlC2MF3S9K1/znuzj/PRK59B14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762851773; c=relaxed/simple;
-	bh=NnqOwYK4euxZQ45EmSgdPs+zN36Va8jqp7BhKdDkSxA=;
+	s=arc-20240116; t=1762851776; c=relaxed/simple;
+	bh=5Q/DMSxxo3BIu1/mhM4LhFlARvAb+is2GW4yYxPlDqk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ow0sQxdVd0q42WSigs33OIh0n9dDoI84Ncs5QG3+11gT0HthnYkGGBFpnpvptvRrxqfbnJIFZm8/LfBIvmx7lYT+J3Gl7kNmHVVaxWdgih/vveBykK2TfoDDUDx0Cv2DMPXNZpOH099a5dXsIc0KdSeFgy+Ei5I9TT0YkDvtRH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=FqS6b7W8; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=njUk+sTr; arc=none smtp.client-ip=202.12.124.158
+	 MIME-Version:Content-Type; b=ebi3RzSdJbNhbRcHjLNA6QrtB0oJLhn7h3sdCP5P6KNFeyGCYmb/ZRIc2UI5V1u1RYJjSTJDQ1sS2bmiPPvnEN2PMdOyvyN0ZoNerDR3JcMDYY6TILJ2qrqiCZX1Pm8dU4Ztpsg2PVQ1kQXX/QdF+R9w8BvmyU3JDc1uPCWiEjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=dleUHl1t; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=sPbj9TUh; arc=none smtp.client-ip=103.168.172.153
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id A28BE7A014C;
-	Tue, 11 Nov 2025 04:02:48 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-02.internal (MEProxy); Tue, 11 Nov 2025 04:02:48 -0500
+Received: from phl-compute-11.internal (phl-compute-11.internal [10.202.2.51])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 04C3B1400056;
+	Tue, 11 Nov 2025 04:02:52 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-11.internal (MEProxy); Tue, 11 Nov 2025 04:02:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1762851768;
-	 x=1762938168; bh=noF4ZYqR3MMxXLww1luSVwY6fXHAIcHe/YhuFLntuyU=; b=
-	FqS6b7W8RM0BWdvyrW394FBDdYKbYYcaZW5kLTRcvaxgq58X0uj6mCPJuPkoHQRS
-	1URsueXS2o46JmJZqDBB/YQgTrd5RscsM1sUyaTY2R+cKpQdvsuF8eaVVCAOZaLW
-	4MMn7zfMWFzg1vR/OuEQtpCRKJBhWQ+WZYi/nw3Utu4AKdaJ85MNLX+tN/BJZoNt
-	+oE5/JbesDRGZkv7VdVdQrhh0NkW1ZBY2B3G9gBe31N14tHIj07zjt/ZtGwfUtrS
-	DKiptPGFWlVTpszI1pHIlVI3vINj50ndICvc8+kTaD50qTroBfKoI2jscRKsTUIy
-	gLsalvjf5U4eRC5YZonAOQ==
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1762851772;
+	 x=1762938172; bh=8e+oQ+gxn43TR79PTKdxuyF/HLtRBSjO6l2PfILgZV0=; b=
+	dleUHl1tJuG3tzTE0pyQJJ8Z4KUUQ/ta26q/nKsvzCdzRxwZB+kkStAkxbtnIKsH
+	uTxqPe8jDktTs+ol5gtOu04vs6WOqyLsgKld/DWGfW1kWasnRw8iZfPzRWLnVDiY
+	C38ptquQdXAM+StMut32Y5QjfS3VkAFSH/xOPr8mMH85QjK4uEfWZDJkAoPP73Qf
+	tF+wgfsf1iu4nAIf5KU4SpvtNpLEfFdNyhpNPwV15nqnlFfl1O1qqxqptFisRw/e
+	eT2ueNB8QwZGzJWL+vmSPHjrf16v1r9ULobQJsoXWEPX35VtVZkfsALv91RQm8ck
+	IMYXzq2+fSDf4fYM1UwVcw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1762851768; x=
-	1762938168; bh=noF4ZYqR3MMxXLww1luSVwY6fXHAIcHe/YhuFLntuyU=; b=n
-	jUk+sTrrmdHx3+/VCZqDXbOeUhlHMDszOjV2vmdcsldJO5TALb03DkYDv95iaw5F
-	q35Rx5Sn0FsFXAFaI7OnV1i9bvuPbIOzLC828KbFwapY3hvvv71ao3jjWngdO2HC
-	3Db79dCRs3aSkDnYbd3+RbC94ZfqGEI0GJGIShKpZgr/QSaDktapXXYPd7fYZng4
-	t4hEgvPLeS31f9H3nOXZPF0fcsVPlVCFmxgiRrTk25TnJZ2SlY9bq6sHyyneqOTP
-	XN0UXF8el5WzdIBusa7DGr+IE0bOSXl/Y+Sa0QajQqJcT2wD8/vu4Y/Srm8YMDND
-	yqA34K+rnOs8RWkQdK+EA==
-X-ME-Sender: <xms:uPsSaZK0hl7zZ3odffNexo4VNfadQPuQCavFJlJCmPGnh1GmqeO2-g>
-    <xme:uPsSafNte6r21V0_taySx-iVp2DwlFGVE-hbukeu84FkSsu_iGInX-JweaVzeBVzl
-    eB6Wj2MO-wQTt7s8dOLMTp_h_q6uNosfi0LGEFruLDdo0wjbG3zJfQ>
-X-ME-Received: <xmr:uPsSaRl-NAWrwrWlOgALT4Vsvwn4dW50Vk4k1feOUoA1Ugjunju4J0L82QWjggrGWhqAKN66j5gBi_fk_3HxqFyR>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1762851772; x=
+	1762938172; bh=8e+oQ+gxn43TR79PTKdxuyF/HLtRBSjO6l2PfILgZV0=; b=s
+	Pbj9TUh4uxrTKdMD/qQJw5+Ytgw+zvhkBxdZUOCZXOnECzttDuxoU/wDg2SKpqiF
+	D23JjxoEv838JRRYdfittYwPul2rWI0wIi+76+EXhabHGLhNw8I6068OsfQbSrtE
+	yKsr9mMGJaMyNVxqyg+OpTX/TWGn/B8Tg8Tb5fYFxxKKCYo9KppLceOLs8h/OjB7
+	tgLwsGOzGFYCGbV6gWXI/bhPlyWBdsaTTC+tIlSzol7ddkiklVZaMR7+bysGfd9d
+	QraddvqUzn72ovMIhJHN9k9orBcajTjiZtW3iwL3Y+KReQ5h+XY+e6omKSft5Sdm
+	W2C8ayhUwj4GZ7iUAd+nw==
+X-ME-Sender: <xms:uvsSaT9JaD6EeU8a0s2ltqZ1pzFgdz2n3LzAysfuNnqBmlD-roh_tg>
+    <xme:uvsSaZwpl77u5WIhy3mFObbadj5WUrS6NqeCose7klCzkD1ndx0ddheeV2JQbRKJV
+    VZZMzPpOSvhks-SUwDKfNjvdmHNGmKzFduBLPqBc05BSU6EZ4ROuQ>
+X-ME-Received: <xmr:uvsSaQ47aQ0w7GJpbgllScTZGSjAIHiDlBveEyTNuMsOR7_8l9iA8sk_eG87KjWpx-KtNp6_uHVULPESy8FknIyy>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvtddtjeekucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
@@ -82,14 +82,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvtddtjeekucetufdote
     rdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvg
     hrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehnihhklhgrshdrshhouggvrhhluhhn
     ugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
-X-ME-Proxy: <xmx:uPsSab4hGdxGgk-GfRZ3E6ccpxt4jl6a_qX8Q0A5jeHOv80c5uxncw>
-    <xmx:uPsSad3PuL2dQu7bhtmFN_ymTZliXsWq6gHM8UV_qbZmcpScnVPSdQ>
-    <xmx:uPsSaeEsFo2iASS-ZUMxxppRHwOuVysvQigQvFWxHsy0vlnl_QwF3Q>
-    <xmx:uPsSaUjQbaRxNoj1raCXjkHxf8wCsm9jaMFHdKFQ0WDTktxcnE8EIA>
-    <xmx:uPsSaUk0e1kd4oreKHOFbDO5SN6ua2MeOJ_T2d7jFGckGdWdxRgq3Kid>
+X-ME-Proxy: <xmx:uvsSaQ-0LWSSsHFOFoxOLuWUOhuhloXjCzJWfaqyEIG_UowgB4Qt7Q>
+    <xmx:uvsSaVrim0qrFdh402zss5jSEUzT33fqrFzTUILZbusFRzQjJ2o5DA>
+    <xmx:uvsSaRpanf0LscNGBAqfolPqbHGEVUEOdd8SuSaolI1hQvfcz1SctQ>
+    <xmx:uvsSaY1HKR_DXBTST27lER57J5iZWwPlKJDirotjT0pcCCQjH10VJQ>
+    <xmx:u_sSaXIW3213gsIpwHoYjFBsN9wLxWAf41h4OlRIuKuu1Z70qi7sPkMs>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 11 Nov 2025 04:02:47 -0500 (EST)
+ 11 Nov 2025 04:02:50 -0500 (EST)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
@@ -98,9 +98,9 @@ To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v4 03/12] media: rppx1: Add support for AWB measurement parameters and statistics
-Date: Tue, 11 Nov 2025 10:02:19 +0100
-Message-ID: <20251111090228.2511734-4-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v4 04/12] media: rppx1: Add support for AWB gain settings
+Date: Tue, 11 Nov 2025 10:02:20 +0100
+Message-ID: <20251111090228.2511734-5-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.51.1
 In-Reply-To: <20251111090228.2511734-1-niklas.soderlund+renesas@ragnatech.se>
 References: <20251111090228.2511734-1-niklas.soderlund+renesas@ragnatech.se>
@@ -113,194 +113,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Extend the RPPX1 driver to parse parameter blocks configuring for the
-auto white balance measurement window and parameters. As well as
-producing the measurements as part of a statistics buffer.
+Extend the RPPX1 driver to allow setting the AWB gains using the RkISP1
+parameter buffer format. This is the second function block inside the
+RPPX1 to be enabled and it uses the RPPX1 framework for parameters and
+its writer abstraction to allow the user to control how (and when)
+configuration is applied to the RPPX1.
 
-This is the first ISP algorithm added to the RPPX1 driver and exercises
-both the parameter and statistics API provided by the base driver. It
-shows how the RkISP1 parameter and statistics buffer data can be scaled
-and adopted to fit the RPPX1 hardware.
-
-It also uses the parameter writing interface which allows the framework
-user to specify how (and when) the configuration are applied to the
-RPPX1.
-
-As the RkISP1 parameters and statics buffers have lower precision then
-the RPPX1 hardware the values needs to be scaled.
+As the RkISP1 parameters buffer have lower precision then the RPPX1
+hardware the values needs to be scaled.
 
 Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
- .../platform/dreamchip/rppx1/rpp_params.c     |   3 +
- .../platform/dreamchip/rppx1/rpp_stats.c      |   4 +
- .../platform/dreamchip/rppx1/rppx1_wbmeas.c   | 127 ++++++++++++++++++
- 3 files changed, 134 insertions(+)
+ .../platform/dreamchip/rppx1/rpp_params.c     |  3 ++
+ .../platform/dreamchip/rppx1/rppx1_awbg.c     | 37 +++++++++++++++++++
+ 2 files changed, 40 insertions(+)
 
 diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_params.c b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
-index a17a6ce82928..6e49f0e90c41 100644
+index 6e49f0e90c41..443eac0d8924 100644
 --- a/drivers/media/platform/dreamchip/rppx1/rpp_params.c
 +++ b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
 @@ -26,6 +26,9 @@ int rppx1_params_rkisp1(struct rppx1 *rpp, struct rkisp1_ext_params_cfg *cfg,
  		block_offset += block->header.size;
  
  		switch (block->header.type) {
-+		case RKISP1_EXT_PARAMS_BLOCK_TYPE_AWB_MEAS:
-+			module = &rpp->post.wbmeas;
++		case RKISP1_EXT_PARAMS_BLOCK_TYPE_AWB_GAIN:
++			module = &rpp->pre1.awbg;
 +			break;
- 		default:
- 			module = NULL;
+ 		case RKISP1_EXT_PARAMS_BLOCK_TYPE_AWB_MEAS:
+ 			module = &rpp->post.wbmeas;
  			break;
-diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_stats.c b/drivers/media/platform/dreamchip/rppx1/rpp_stats.c
-index a5daa28e09cf..a6abb85f0df1 100644
---- a/drivers/media/platform/dreamchip/rppx1/rpp_stats.c
-+++ b/drivers/media/platform/dreamchip/rppx1/rpp_stats.c
-@@ -11,5 +11,9 @@ void rppx1_stats_fill_isr(struct rppx1 *rpp, u32 isc, void *buf)
- 	struct rkisp1_stat_buffer *stats = buf;
- 
- 	stats->meas_type = 0;
-+
-+	if (isc & RPPX1_IRQ_ID_POST_AWB_MEAS)
-+		if (!rpp_module_call(&rpp->post.wbmeas, stats_rkisp1, &stats->params))
-+			stats->meas_type |= RKISP1_CIF_ISP_STAT_AWB;
- }
- EXPORT_SYMBOL_GPL(rppx1_stats_fill_isr);
-diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_wbmeas.c b/drivers/media/platform/dreamchip/rppx1/rppx1_wbmeas.c
-index 3d197d914d07..126972cfd57a 100644
---- a/drivers/media/platform/dreamchip/rppx1/rppx1_wbmeas.c
-+++ b/drivers/media/platform/dreamchip/rppx1/rppx1_wbmeas.c
-@@ -56,6 +56,133 @@ static int rppx1_wbmeas_probe(struct rpp_module *mod)
+diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_awbg.c b/drivers/media/platform/dreamchip/rppx1/rppx1_awbg.c
+index e20bc369ca8c..da5ae3cfadb8 100644
+--- a/drivers/media/platform/dreamchip/rppx1/rppx1_awbg.c
++++ b/drivers/media/platform/dreamchip/rppx1/rppx1_awbg.c
+@@ -25,6 +25,43 @@ static int rppx1_awbg_probe(struct rpp_module *mod)
  	return 0;
  }
  
 +static int
-+rppx1_wbmeas_param_rkisp1(struct rpp_module *mod,
-+			  const union rppx1_params_rkisp1_config *block,
-+			  rppx1_reg_write write, void *priv)
++rppx1_awbg_param_rkisp1(struct rpp_module *mod,
++			const union rppx1_params_rkisp1_config *block,
++			rppx1_reg_write write, void *priv)
 +{
-+	const struct rkisp1_ext_params_awb_meas_config *cfg = &block->awbm;
-+	/*
-+	 * The RkISP params are 8-bit while the RPP can be 8, 20 or 24 bit.
-+	 * Figure out how much we need to adjust the input parameters.
-+	 */
-+	const unsigned int shift = mod->info.wbmeas.colorbits - 8;
++	const struct rkisp1_ext_params_awb_gain_config *cfg = &block->awbg;
 +
 +	/* If the modules is disabled, simply bypass it. */
 +	if (cfg->header.flags & RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE) {
-+		write(priv, mod->base + AWB_MEAS_PROP_REG, 0);
++		write(priv, mod->base + AWB_ENABLE_REG, 0);
 +		return 0;
 +	}
 +
-+	/* Program measurement window. */
-+	write(priv, mod->base + AWB_MEAS_H_OFFS_REG,
-+	      cfg->config.awb_wnd.h_offs);
-+	write(priv, mod->base + AWB_MEAS_V_OFFS_REG,
-+	      cfg->config.awb_wnd.v_offs);
-+	write(priv, mod->base + AWB_MEAS_H_SIZE_REG,
-+	      cfg->config.awb_wnd.h_size);
-+	write(priv, mod->base + AWB_MEAS_V_SIZE_REG,
-+	      cfg->config.awb_wnd.v_size);
-+
-+	/* Set number of frames to sample. */
-+	write(priv, mod->base + AWB_MEAS_FRAMES_REG, cfg->config.frames);
-+
-+	if (cfg->config.awb_mode == RKISP1_CIF_ISP_AWB_MODE_YCBCR) {
-+		write(priv, mod->base + AWB_MEAS_REF_CB_MAX_B_REG,
-+		      cfg->config.awb_ref_cb << shift);
-+		write(priv, mod->base + AWB_MEAS_REF_CR_MAX_R_REG,
-+		      cfg->config.awb_ref_cr << shift);
-+		write(priv, mod->base + AWB_MEAS_MAX_Y_REG,
-+		      cfg->config.max_y << shift);
-+		write(priv, mod->base + AWB_MEAS_MIN_Y_MAX_G_REG,
-+		      cfg->config.min_y << shift);
-+		write(priv, mod->base + AWB_MEAS_MAX_CSUM_REG,
-+		      cfg->config.max_csum << shift);
-+		write(priv, mod->base + AWB_MEAS_MIN_C_REG,
-+		      cfg->config.min_c << shift);
-+
-+		/*
-+		 * Match RkISP1 conversion, documented as
-+		 *  Y = 16 + 0.2500 R + 0.5000 G + 0.1094 B
-+		 *  Cb = 128 - 0.1406 R - 0.2969 G + 0.4375 B
-+		 *  Cr = 128 + 0.4375 R - 0.3750 G - 0.0625 B
-+		 *
-+		 * Note map Y to G. Matrix is GBR, not RGB documented for RPPX1.
-+		 */
-+		write(priv, mod->base + AWB_MEAS_CCOR_COEFF_REG(0), 0x0800);
-+		write(priv, mod->base + AWB_MEAS_CCOR_COEFF_REG(1), 0x01c0);
-+		write(priv, mod->base + AWB_MEAS_CCOR_COEFF_REG(2), 0x0400);
-+		write(priv, mod->base + AWB_MEAS_CCOR_COEFF_REG(3), 0xfb40);
-+		write(priv, mod->base + AWB_MEAS_CCOR_COEFF_REG(4), 0x0700);
-+		write(priv, mod->base + AWB_MEAS_CCOR_COEFF_REG(5), 0xfdc0);
-+		write(priv, mod->base + AWB_MEAS_CCOR_COEFF_REG(6), 0xfa00);
-+		write(priv, mod->base + AWB_MEAS_CCOR_COEFF_REG(7), 0xff00);
-+		write(priv, mod->base + AWB_MEAS_CCOR_COEFF_REG(8), 0x0700);
-+
-+		write(priv, mod->base + AWB_MEAS_CCOR_OFFSET_R_REG, 0x00100000);
-+		write(priv, mod->base + AWB_MEAS_CCOR_OFFSET_G_REG, 0x00800000);
-+		write(priv, mod->base + AWB_MEAS_CCOR_OFFSET_B_REG, 0x00800000);
-+
-+		write(priv, mod->base + AWB_MEAS_PROP_REG,
-+		      cfg->config.enable_ymax_cmp ? AWB_MEAS_PROP_YMAX : 0 |
-+		      AWB_MEAS_PROP_AWB_MODE_ON);
-+	} else {
-+		/* The RkISP params are oddly named, but do map to RGB. */
-+		write(priv, mod->base + AWB_MEAS_REF_CB_MAX_B_REG,
-+		      cfg->config.awb_ref_cb << shift);
-+		write(priv, mod->base + AWB_MEAS_REF_CR_MAX_R_REG,
-+		      cfg->config.awb_ref_cr << shift);
-+		write(priv, mod->base + AWB_MEAS_MIN_Y_MAX_G_REG,
-+		      cfg->config.min_y << shift);
-+
-+		/* Values from datasheet to map G to Y, B to Cb and R to Cr. */
-+		write(priv, mod->base + AWB_MEAS_CCOR_COEFF_REG(0), 0x1000);
-+		write(priv, mod->base + AWB_MEAS_CCOR_COEFF_REG(1), 0x0000);
-+		write(priv, mod->base + AWB_MEAS_CCOR_COEFF_REG(2), 0x0000);
-+		write(priv, mod->base + AWB_MEAS_CCOR_COEFF_REG(3), 0x0000);
-+		write(priv, mod->base + AWB_MEAS_CCOR_COEFF_REG(4), 0x1000);
-+		write(priv, mod->base + AWB_MEAS_CCOR_COEFF_REG(5), 0x0000);
-+		write(priv, mod->base + AWB_MEAS_CCOR_COEFF_REG(6), 0x0000);
-+		write(priv, mod->base + AWB_MEAS_CCOR_COEFF_REG(7), 0x0000);
-+		write(priv, mod->base + AWB_MEAS_CCOR_COEFF_REG(8), 0x1000);
-+
-+		/* Values from datasheet. */
-+		write(priv, mod->base + AWB_MEAS_CCOR_OFFSET_R_REG, 0x00000000);
-+		write(priv, mod->base + AWB_MEAS_CCOR_OFFSET_G_REG, 0x00000000);
-+		write(priv, mod->base + AWB_MEAS_CCOR_OFFSET_B_REG, 0x00000000);
-+
-+		write(priv, mod->base + AWB_MEAS_PROP_REG,
-+		      AWB_MEAS_PROP_MEAS_MODE_RGB |
-+		      AWB_MEAS_PROP_AWB_MODE_ON);
-+	}
-+
-+	return 0;
-+}
-+
-+static int rppx1_wbmeas_stats_rkisp1(struct rpp_module *mod,
-+				     struct rkisp1_cif_isp_stat *stats)
-+{
-+	struct rkisp1_cif_isp_awb_meas *meas = &stats->awb.awb_mean[0];
 +	/*
-+	 * The RkISP YCbCr/RGB mean stats are 8-bit while the RPP can be 8, 20
-+	 * or 24 bit. Figure out how much we need to adjust the output
-+	 * statistics.
++	 * RkISP1 gains are 10-bit with 8 bit fractional part and 0x100 = 1.0,
++	 * giving a possible range of 0.0 to 4.0.
++	 *
++	 * RPP gains are 18-bit with 12 bit fractional part and 0x1000 = 1.0,
++	 * giving a possible range of 0.0 to 64.0. NOTE: RPP documentation is
++	 * contradictory this is the register definition, the function
++	 * description states 0x400 = 1.0 AND 18-bit with 12 fractional bits,
++	 * which is not possible...
++	 *
++	 * Map the RkISP1 value range (0.0 - 4.0) by left shifting by 4.
 +	 */
-+	const unsigned int shift = mod->info.wbmeas.colorbits - 8;
 +
-+	meas->cnt = rpp_module_read(mod, AWB_MEAS_WHITE_CNT_REG);
-+	meas->mean_y_or_g =
-+		rpp_module_read(mod, AWB_MEAS_MEAN_Y_G_REG) >> shift;
-+	meas->mean_cb_or_b =
-+		rpp_module_read(mod, AWB_MEAS_MEAN_CB_B_REG) >> shift;
-+	meas->mean_cr_or_r =
-+		rpp_module_read(mod, AWB_MEAS_MEAN_CR_R_REG) >> shift;
++	write(priv, mod->base + AWB_GAIN_GR_REG, cfg->config.gain_green_r << 4);
++	write(priv, mod->base + AWB_GAIN_GB_REG, cfg->config.gain_green_b << 4);
++	write(priv, mod->base + AWB_GAIN_R_REG, cfg->config.gain_red << 4);
++	write(priv, mod->base + AWB_GAIN_B_REG, cfg->config.gain_blue << 4);
++
++	write(priv, mod->base + AWB_ENABLE_REG, AWB_ENABLE_AWB_GAIN_EN);
 +
 +	return 0;
 +}
 +
- const struct rpp_module_ops rppx1_wbmeas_ops = {
- 	.probe = rppx1_wbmeas_probe,
-+	.param_rkisp1 = rppx1_wbmeas_param_rkisp1,
-+	.stats_rkisp1 = rppx1_wbmeas_stats_rkisp1
+ const struct rpp_module_ops rppx1_awbg_ops = {
+ 	.probe = rppx1_awbg_probe,
++	.param_rkisp1 = rppx1_awbg_param_rkisp1,
  };
 -- 
 2.51.1
