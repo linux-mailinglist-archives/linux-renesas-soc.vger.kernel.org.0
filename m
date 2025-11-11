@@ -1,87 +1,86 @@
-Return-Path: <linux-renesas-soc+bounces-24467-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24468-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66FF4C4F055
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 17:24:12 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44D97C4F064
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 17:25:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2B0553AE1AA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 16:23:14 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D2D7F4E3F0C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 16:24:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8FE236CDE3;
-	Tue, 11 Nov 2025 16:23:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F93336C584;
+	Tue, 11 Nov 2025 16:24:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cC07iDMz"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ELaVCBH0"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+Received: from mail-yx1-f46.google.com (mail-yx1-f46.google.com [74.125.224.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3D8736C584
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Nov 2025 16:23:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC69036C58E
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Nov 2025 16:24:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762878193; cv=none; b=MtX1IAQwn9Tfn78nqzOwvP/L6GgvWpCBIO3dh/5hyzdcUuACfQSvHceJD4fvfSCvMCgCV7bBNBB1i/8mPihgVHYNo+rgw3mPRWWFVTjhql30yBc5vrPY5kb8RtxTHbSw3a5bYFPPFzTL37nGIBHBrAMbu+VIAfonrqw8ItreaLE=
+	t=1762878297; cv=none; b=tl9JJD4V4AyD7gnxn0PFwJ7q5BPfCiO56N77pfVsPRsChN2AZg5iCFuumR+o5j08sRPzIFuumOP5hA7WgTYKWpsz6YkBqxjcGVDmoAnm0/c4tvR74ygnZqerjz8/DrdgHLwgswiwYNt5aEkgMQ4npkhvbG5Wghn85DRuK+LwEOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762878193; c=relaxed/simple;
-	bh=XLpA0EYpR5zzkaJHl/CV48qTdO1WTdqSNFnTs6ePeII=;
+	s=arc-20240116; t=1762878297; c=relaxed/simple;
+	bh=D6r061tkwctTmLha1quZkKuh9UNyTVD9blrVtdPxe5M=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=e5uPL7zVJHSJL8sjMIGPI5ExclB10w1z/jvoAYYMNUMLG/EIgaFRhH9Rnz+XFxJ3DoFD2a8KDhNtFnRA9lLYAAxBRZjlW8LPOdJQ6ShAR5ne1Ehcf5Q0xZepqoOlAOxFiIM6RZ/PJdN/qhWZZjAaycv295/AHFTk50WoRi9bJmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cC07iDMz; arc=none smtp.client-ip=209.85.128.181
+	 To:Cc:Content-Type; b=k05BnL8zSyrmPJ323rfpnAcHLIwh8Bx2AbH4sy0NZLZ2eHEJveGO5UWsQrd7hsdCJx7vAnxQuc71vGERVWJPqIjtfos6SXLfkarfNN91+rl+YHsXp/KAZLLers15tSWuJJ8lNeZUgTxSqBMloyfCWGGELGSL22C8o3PH6pLoy6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ELaVCBH0; arc=none smtp.client-ip=74.125.224.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-78802ac22abso13904797b3.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Nov 2025 08:23:11 -0800 (PST)
+Received: by mail-yx1-f46.google.com with SMTP id 956f58d0204a3-640d0895d7cso1490356d50.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Nov 2025 08:24:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1762878191; x=1763482991; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1762878294; x=1763483094; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=aKHoe4ZUftCieGZc+VBEpPhpv2xgJIE+8PlicL/y9wM=;
-        b=cC07iDMzDDWQfQiinfTnNlNdkZgVgmFUMTk/7L8Vs0Q5ChHorZRuYgayt6JPlKX4F8
-         G8OwrTAkkeG+SYNMBZUORV1v01u2Yir2h+Um0q8ss/vr/fjlQx9iDZjoXMVhNoL0eNWo
-         VHijvgnef61AllVJmCBaACmiwXz7538ZMuHAgCuqWXEhEVQyFAdoljqAzlELYDdjs2gN
-         x5HuPF4BG7GARxwvfhGoU0qlAXRvbAhlY9IrQBjbFHVZLXwQbPdSe4sxUH0I+SfHnz4T
-         /OwlitxwecDsSA8XHC/I/rouREtCl+XVqtoDqrZU2lPX5LuKVPYSEyc5qrdmpdfb2K6w
-         287Q==
+        bh=OObdX9pib6NpwlrND45MftVr5ZcTJI6juiOxyVxxj4s=;
+        b=ELaVCBH0QXiSDc5egHC+hfc69NACMMIgLQ864xF/YF6g/k1RuKWMh/I5l4o4bS1Nth
+         8E2FPD+FrrEYqZ/pY8AE3HVlTwtjVDU0Jto4uuolQ5xoYog1J+nJVmiZ0aAmaN/W/WzP
+         6MlKTLEYGAYnbUgHAkrbWXpDJ8+fovOM+2XGZhQc+sQQ2UPAQ85bsPlRu2tNaMYKiyKP
+         10ruqC1FuvzJt5wiFcNDAJCmWDua0WkcixK3wJIsICUOVwpsjgs+ZXupEli6JdGTJrJA
+         p94lx/rnhS4lgVv1SKZcVqpN+moGz/TdXGta1P421hSkcABHMKUrpNPOfSql7x8R3+sy
+         n6ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762878191; x=1763482991;
+        d=1e100.net; s=20230601; t=1762878294; x=1763483094;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=aKHoe4ZUftCieGZc+VBEpPhpv2xgJIE+8PlicL/y9wM=;
-        b=BsKnMuSgHHroZvImDru7nlX87z0Txrf1BxUMpKHYcvbOJNcdPQfWlWF+x6baoLbw2W
-         OiW8/rinScS/n5CyAzfx74lvVewp0h9jVuQ1/XI1U5a+yZNeXw3dS//DMuDf93/dgTEP
-         f46FEjxeCtgaGo+0UeqJZ8hfZJyChZxtI3thSbUm9iTz8eR65grgk70ildR2nNaKZVIl
-         MA0BHvFLIbqUTDI9RG5uO1F5vPCe0UifGCwDowq+3HfNxXalz0gRgKPiShWwRrs+DxLA
-         vMs0Oo9OZhPkBFe3/WiUWkREmaVjvIQng2K/dkYNFpUtGHBE+vi5bZmPsdDmPKdloPlE
-         ARig==
-X-Forwarded-Encrypted: i=1; AJvYcCWjzzh9XHklYJugJ1Txjh7KDaiByiWAX84CLJo55tpY0hN3R9FO6aB0qVr9yWMREmNW3ej04owLS4m+9O7K4Q6L5Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz81IuZXxfk321ObBmOsjoSnvqC/jB8kb7GFVu6p9Ha4odlLTh/
-	7SJL7m+JPs1jdbz/v6SOz/FTEp3OSeAC4MXmyjs+w2E8/TGCx1zcgJ/sbOAzkcyYFgjn1XTZd5b
-	gaMgHDHrf2HP2+F/nj+/ZehR5gt7Y7XDdDM27Tn2/9Q==
-X-Gm-Gg: ASbGnct+uW4lh9we1vLPtW2pKbrFNx0cx0AcISlKwBGMqGKjwJvnlsjAVPxWq8jXYXJ
-	5AIpPxG+G/Sr2JcV6xoJZwbrQGtTOC3YP9X8GfZOWcCATKcJHPotwUwQ8nGfIlO858peainXal9
-	6i717U3Pf/B4uInW9SCe15UH5p5DBWNdKgxzslMzo7J7ScAJindfyxOWY80fnnbHMo3RFGXEWCc
-	nQkH2I4r5+A8DCU7Mhuvjo9wupZR7aFmMOPCQOdzUm4QzF39MJ3h2r9M3A9yikOH9M3+ozo
-X-Google-Smtp-Source: AGHT+IHoQJuVlfR9zMeIjwFbdHyeRQTWRolkki2DvpnTUSRyJF5SQPQubSTTdGS99udcI0gt7LdJrt7VWnXSm3e14Rk=
-X-Received: by 2002:a05:690c:360e:b0:787:e3c1:99 with SMTP id
- 00721157ae682-787e3c1484bmr93601677b3.57.1762878190703; Tue, 11 Nov 2025
- 08:23:10 -0800 (PST)
+        bh=OObdX9pib6NpwlrND45MftVr5ZcTJI6juiOxyVxxj4s=;
+        b=POSpcDsPBosGI8b/uFc6DUThJiBQI2hizk3olYwoF8XeHGHVnHSTJK4JnXfGBiWjoA
+         ThNfMAMf+iwtlUhDB4zIwXpUvDEKtYqEtYx6FES+VIiJACrmdbg+xynYSF+OOQz4zyQ1
+         mukvxu3jI1AIPUU5OyeqxqIK/m3z4AP1R6DBNfM5nym992SeoLKHbxFDb/lDJrImJz9V
+         6n8dqYuKgluHTCvTPYsfIVRUJI4ioR6oKUt3Icm5cBH0Ee+wwG14JC0O78FEDxJA54Kp
+         ECh80AcMHJy3CbDK0f6o4YrpXVKh5Cabn9WjTSaxJ8UtBLj388LAOHYuuJmuWa/YINBY
+         mhvQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVG7g4ORMiG526gj9dVvReZCB3bX4NI7mlJ+ZlkWVPKAEYbj7jsr33Erqw/IRcf/SEjQh6rLrfp/9rUYiZBA3xkdA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzblU9wyIBslK+cI8vJxalkJZM4RD4eRqCmJbspBHCgipAbSO5d
+	ajfG0JLVJjGB2RXMIYUAIT9IFyO+w8hZa8Mc489ucZkTqXysiVcuzOl2SreQsDFiOXDYMapU5a0
+	g+lVIBx7KFx0EQbJKSkXP8WKDLw8bxrsNwEMaGtfuQw==
+X-Gm-Gg: ASbGncukK+LgoZmghQlR697mHXG/uOLrOOEK6HNJq3OLSdCn0CfG9yrxA84NzedL0dI
+	4LysvmAta4tPfSHDR1FMZpHgy7PM9P8KOp3J0JkqeWxhq/kuRK9ngVPxRR9OiTp+cYQmVLZEO1I
+	k/IEUEDweBfbAOwqzo/GKxnOqNCWn0T1B81DdgRmpluvZJ7eIwT0EAgkSYRyS4titsSddJK3Sne
+	sV3GsT5uFfXHxX73mFYyARCtdyyqOWOgUdT2BXBzd/IZy5u9/EtQ4pXmWdqYg==
+X-Google-Smtp-Source: AGHT+IHJmpd62CCALMSU8bf7zusT4BdJ9p+vVG2/WVor+YHRNNBx1h9njaTb9nUoDXRzsAjTTTODvx4t5ElIgqBFg5w=
+X-Received: by 2002:a05:690e:1189:b0:63f:aa88:5f6b with SMTP id
+ 956f58d0204a3-640f733832fmr2668238d50.6.1762878293596; Tue, 11 Nov 2025
+ 08:24:53 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251008042526.3312597-1-claudiu.beznea.uj@bp.renesas.com> <20251008042526.3312597-3-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20251008042526.3312597-3-claudiu.beznea.uj@bp.renesas.com>
+References: <20251008042526.3312597-1-claudiu.beznea.uj@bp.renesas.com> <20251008042526.3312597-4-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20251008042526.3312597-4-claudiu.beznea.uj@bp.renesas.com>
 From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Tue, 11 Nov 2025 17:22:34 +0100
-X-Gm-Features: AWmQ_bkUAFq5YOr6A8R1RiBxjuQKLYXMePQi6OIcghsKKf0GW8rB8B1X1sNOzgk
-Message-ID: <CAPDyKFpFYeD9tLA+w4NARKq-Wj-7O2Caa3y8i2Z9NX6J4XLahA@mail.gmail.com>
-Subject: Re: [PATCH 2/3] mmc: renesas_sdhi: Switch to SYSTEM_SLEEP_PM_OPS()/RUNTIME_PM_OPS()
- and pm_ptr()
+Date: Tue, 11 Nov 2025 17:24:17 +0100
+X-Gm-Features: AWmQ_bmTf-MnTFtNtf3XeAoBv6oLP-Y3wG9fKzMxT4w-pivAEB1XqW0hQQcxyJo
+Message-ID: <CAPDyKFpTyY+OhiGsMX35fnLT5Am5-rJnnvOfArXAhXCuSQDiLg@mail.gmail.com>
+Subject: Re: [PATCH 3/3] mmc: renesas_sdhi: Add suspend/resume hooks
 To: Claudiu <claudiu.beznea@tuxon.dev>
 Cc: wsa+renesas@sang-engineering.com, p.zabel@pengutronix.de, 
 	linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
@@ -93,91 +92,119 @@ On Wed, 8 Oct 2025 at 06:25, Claudiu <claudiu.beznea@tuxon.dev> wrote:
 >
 > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 >
-> SET_SYSTEM_SLEEP_PM_OPS() and SET_RUNTIME_PM_OPS() are deprecated now
-> and require __maybe_unused protection against unused function warnings.
-
-I don't see them marked deprecated, is that really the case?
-
-> The usage of pm_ptr() and SYSTEM_SLEEP_PM_OPS()/RUNTIME_PM_OPS() allows
-> the compiler to see the functions, thus suppressing the warning. Thus
-> drop the __maybe_unused markings.
+> Add suspend/resume hooks which assert/deassert the reset signals, along
+> with forcing runtime suspend/resume. This allows using the driver in
+> scenarios where the resume is done with the help of bootloader and the
+> bootloader disables the SDHI clocks, resets, IRQs before passing execution
+> to Linux.
 >
 > Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Other than the above, this looks fine to me!
+FYI, this looks good to me.
 
 Kind regards
 Uffe
 
 > ---
->  drivers/mmc/host/renesas_sdhi_internal_dmac.c | 11 +++++------
->  drivers/mmc/host/tmio_mmc.h                   |  2 --
->  drivers/mmc/host/tmio_mmc_core.c              |  2 --
->  3 files changed, 5 insertions(+), 10 deletions(-)
+>  drivers/mmc/host/renesas_sdhi.h               |  3 ++
+>  drivers/mmc/host/renesas_sdhi_core.c          | 37 +++++++++++++++++++
+>  drivers/mmc/host/renesas_sdhi_internal_dmac.c |  3 +-
+>  3 files changed, 41 insertions(+), 2 deletions(-)
 >
+> diff --git a/drivers/mmc/host/renesas_sdhi.h b/drivers/mmc/host/renesas_sdhi.h
+> index 084964cecf9d..afc36a407c2c 100644
+> --- a/drivers/mmc/host/renesas_sdhi.h
+> +++ b/drivers/mmc/host/renesas_sdhi.h
+> @@ -9,6 +9,7 @@
+>  #ifndef RENESAS_SDHI_H
+>  #define RENESAS_SDHI_H
+>
+> +#include <linux/device.h>
+>  #include <linux/dmaengine.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/workqueue.h>
+> @@ -107,4 +108,6 @@ int renesas_sdhi_probe(struct platform_device *pdev,
+>                        const struct renesas_sdhi_of_data *of_data,
+>                        const struct renesas_sdhi_quirks *quirks);
+>  void renesas_sdhi_remove(struct platform_device *pdev);
+> +int renesas_sdhi_suspend(struct device *dev);
+> +int renesas_sdhi_resume(struct device *dev);
+>  #endif
+> diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
+> index c4aaf534868c..2a310a145785 100644
+> --- a/drivers/mmc/host/renesas_sdhi_core.c
+> +++ b/drivers/mmc/host/renesas_sdhi_core.c
+> @@ -31,6 +31,7 @@
+>  #include <linux/platform_data/tmio.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_domain.h>
+> +#include <linux/pm_runtime.h>
+>  #include <linux/regulator/consumer.h>
+>  #include <linux/regulator/driver.h>
+>  #include <linux/regulator/of_regulator.h>
+> @@ -1317,5 +1318,41 @@ void renesas_sdhi_remove(struct platform_device *pdev)
+>  }
+>  EXPORT_SYMBOL_GPL(renesas_sdhi_remove);
+>
+> +int renesas_sdhi_suspend(struct device *dev)
+> +{
+> +       struct tmio_mmc_host *host = dev_get_drvdata(dev);
+> +       struct renesas_sdhi *priv = host_to_priv(host);
+> +       int ret;
+> +
+> +       ret = pm_runtime_force_suspend(dev);
+> +       if (ret)
+> +               return ret;
+> +
+> +       ret = reset_control_assert(priv->rstc);
+> +       if (ret)
+> +               pm_runtime_force_resume(dev);
+> +
+> +       return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(renesas_sdhi_suspend);
+> +
+> +int renesas_sdhi_resume(struct device *dev)
+> +{
+> +       struct tmio_mmc_host *host = dev_get_drvdata(dev);
+> +       struct renesas_sdhi *priv = host_to_priv(host);
+> +       int ret;
+> +
+> +       ret = reset_control_deassert(priv->rstc);
+> +       if (ret)
+> +               return ret;
+> +
+> +       ret = pm_runtime_force_resume(dev);
+> +       if (ret)
+> +               reset_control_assert(priv->rstc);
+> +
+> +       return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(renesas_sdhi_resume);
+> +
+>  MODULE_DESCRIPTION("Renesas SDHI core driver");
+>  MODULE_LICENSE("GPL v2");
 > diff --git a/drivers/mmc/host/renesas_sdhi_internal_dmac.c b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-> index 9e3ed0bcddd6..7ceb7b977a0b 100644
+> index 7ceb7b977a0b..9347017d47c4 100644
 > --- a/drivers/mmc/host/renesas_sdhi_internal_dmac.c
 > +++ b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-> @@ -599,18 +599,17 @@ static int renesas_sdhi_internal_dmac_probe(struct platform_device *pdev)
+> @@ -18,7 +18,6 @@
+>  #include <linux/pagemap.h>
+>  #include <linux/platform_data/tmio.h>
+>  #include <linux/platform_device.h>
+> -#include <linux/pm_runtime.h>
+>  #include <linux/scatterlist.h>
+>  #include <linux/sys_soc.h>
+>
+> @@ -599,7 +598,7 @@ static int renesas_sdhi_internal_dmac_probe(struct platform_device *pdev)
 >  }
 >
 >  static const struct dev_pm_ops renesas_sdhi_internal_dmac_dev_pm_ops = {
-> -       SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
-> -                               pm_runtime_force_resume)
-> -       SET_RUNTIME_PM_OPS(tmio_mmc_host_runtime_suspend,
-> -                          tmio_mmc_host_runtime_resume,
-> -                          NULL)
-> +       SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
-> +       RUNTIME_PM_OPS(tmio_mmc_host_runtime_suspend,
-> +                      tmio_mmc_host_runtime_resume,
-> +                      NULL)
->  };
->
->  static struct platform_driver renesas_internal_dmac_sdhi_driver = {
->         .driver         = {
->                 .name   = "renesas_sdhi_internal_dmac",
->                 .probe_type = PROBE_PREFER_ASYNCHRONOUS,
-> -               .pm     = &renesas_sdhi_internal_dmac_dev_pm_ops,
-> +               .pm     = pm_ptr(&renesas_sdhi_internal_dmac_dev_pm_ops),
->                 .of_match_table = renesas_sdhi_internal_dmac_of_match,
->         },
->         .probe          = renesas_sdhi_internal_dmac_probe,
-> diff --git a/drivers/mmc/host/tmio_mmc.h b/drivers/mmc/host/tmio_mmc.h
-> index c8cdb1c0722e..b9de03325c58 100644
-> --- a/drivers/mmc/host/tmio_mmc.h
-> +++ b/drivers/mmc/host/tmio_mmc.h
-> @@ -209,10 +209,8 @@ void tmio_mmc_enable_mmc_irqs(struct tmio_mmc_host *host, u32 i);
->  void tmio_mmc_disable_mmc_irqs(struct tmio_mmc_host *host, u32 i);
->  irqreturn_t tmio_mmc_irq(int irq, void *devid);
->
-> -#ifdef CONFIG_PM
->  int tmio_mmc_host_runtime_suspend(struct device *dev);
->  int tmio_mmc_host_runtime_resume(struct device *dev);
-> -#endif
->
->  static inline u16 sd_ctrl_read16(struct tmio_mmc_host *host, int addr)
->  {
-> diff --git a/drivers/mmc/host/tmio_mmc_core.c b/drivers/mmc/host/tmio_mmc_core.c
-> index 775e0d9353d5..8be642f737c7 100644
-> --- a/drivers/mmc/host/tmio_mmc_core.c
-> +++ b/drivers/mmc/host/tmio_mmc_core.c
-> @@ -1286,7 +1286,6 @@ void tmio_mmc_host_remove(struct tmio_mmc_host *host)
->  }
->  EXPORT_SYMBOL_GPL(tmio_mmc_host_remove);
->
-> -#ifdef CONFIG_PM
->  static int tmio_mmc_clk_enable(struct tmio_mmc_host *host)
->  {
->         if (!host->clk_enable)
-> @@ -1331,7 +1330,6 @@ int tmio_mmc_host_runtime_resume(struct device *dev)
->         return 0;
->  }
->  EXPORT_SYMBOL_GPL(tmio_mmc_host_runtime_resume);
-> -#endif
->
->  MODULE_DESCRIPTION("TMIO MMC core driver");
->  MODULE_LICENSE("GPL v2");
+> -       SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
+> +       SYSTEM_SLEEP_PM_OPS(renesas_sdhi_suspend, renesas_sdhi_resume)
+>         RUNTIME_PM_OPS(tmio_mmc_host_runtime_suspend,
+>                        tmio_mmc_host_runtime_resume,
+>                        NULL)
 > --
 > 2.43.0
 >
