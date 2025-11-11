@@ -1,83 +1,94 @@
-Return-Path: <linux-renesas-soc+bounces-24433-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24434-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A60D8C4A836
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 02:30:06 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 299B2C4B3AB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 03:41:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F2D613AC508
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 01:22:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DB0A4189014A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 02:41:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08953346796;
-	Tue, 11 Nov 2025 01:14:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70E5C34846A;
+	Tue, 11 Nov 2025 02:40:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L1p/GbjX"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="cbfK4LSp"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2F7C2DBF5E;
-	Tue, 11 Nov 2025 01:14:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A8DD348460;
+	Tue, 11 Nov 2025 02:40:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762823645; cv=none; b=eYUtuoQEP0Y2c540ysiC/+HmvwO9/Y7UTJoT5POZuSQHq1uNji89Kc1ZaSXIvOprap573G3fp4tHrKKpdb29UJmJsfnMXFPhc34pGaVuDeHKHTmtPW6VqQtGvx+vhUFrbyY+EWTk1DsV6NuSwOSejMsQhbZC9Oh1WuDWwhVv7Fo=
+	t=1762828855; cv=none; b=ahALCzpO5Ic7xfUbv7s/2hwZFQFnpBTiyYN24wTRKO4bGh2SLRjWGHiW6f7kr5P1wcgHi7gX5jilCCrPrsdow/DcTydisp9DxObf8f4s8pvieugfgX//hJRtABYxO92HiUDryB0WcryLdBvWFDZUvBt6qb58J9nTFrNvys965eE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762823645; c=relaxed/simple;
-	bh=hLfKK5/Ndh+eKDHap1Bdk56Fe5GhqYZjeqm9QLFmsHE=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=Gl4pvQD5x9CxtJXzb+IPk3DCnVITWqYtdEr5nLKJLMzXz6gHmkze6LX6+wa898FVbIJ6nAWvWlZa2L0ryWq5NRRqnUd9KQAE1Oox/m96hV/+rGVRbY2LuCMCVAKHdYU/56ODZSiFsIZyNXnje4j8wV7lx/nf7TstlPAP43pbCPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L1p/GbjX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CA3EC4CEF5;
-	Tue, 11 Nov 2025 01:14:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762823644;
-	bh=hLfKK5/Ndh+eKDHap1Bdk56Fe5GhqYZjeqm9QLFmsHE=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=L1p/GbjXK46kKAXlv5v0GUaRYzGkUomhPVi7UP1Ty6+MPvQ97I7Ujpw1f/vsCaW3J
-	 b6TLQKlSnYX8DmaElmGL0Hn+5lR5Y8gJ13D+d5e1ta724iQCEMApJXcVWARaMeOOKN
-	 g4SolZKtnhgYNi3ttqRo/IBtc14o4CgZTG9xeOH46LhLIUhcwt30nII+T11N3Gmg0v
-	 xIauajruBBuh95tAqwxQX1kAv9LDmmgmujlx2Hil3O26b7h7HU9u/S0ZK68mA8tXBe
-	 jNV1BlxAmbc9ZD5nxkNdw1O5ww9KwPVE3BOX2RG1v7kasBWCVzRJVDHPoamBr70dkX
-	 7yK+HO/QpcRMw==
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1762828855; c=relaxed/simple;
+	bh=fJ49jzTT+lvI6CEyuiHc4kFI2OLMGXFPJ/7BF+gjduA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HtrsuBgoU3O8ws7vpQW/+DtJ3TSBA3WFjz9NZFyuzU6S2G9exW+4LCwkNpfJm4a+UuRoEc8hITp1LFUGg0N62MkMeCUIClBE4YePLRgFXF2ehRtTe7QwdKi5HLvVR38C40npzXlRRDFb8yB/C7zTjOzrxmmSUzKCQDu2gwsQkms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=cbfK4LSp; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=mLu6fyQIWnvYdy2npzJcu8BCKxp0W1/nSWiF9WaoSyE=; b=cbfK4LSp9QDYWerrvdGEBpQiEb
+	5h2QSas+l0KBjLd1IksLFFpDSDrb6pAK6JF3DmFgZLT8x8aYH+xGN6bNsK/CeMkRY74Wh5Ux4X0i1
+	FcIRgchucl+ra4Vq9YlXIF4nT7QdJ5JSr+Oh4a9B9GJuxywsNVZFad/vJs7WdOHa57R0=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1vIeJ8-00Da9K-9L; Tue, 11 Nov 2025 03:40:34 +0100
+Date: Tue, 11 Nov 2025 03:40:34 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Horatiu Vultur <horatiu.vultur@microchip.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH net-next v2 1/3] net: phy: mscc: Simplify LED mode update
+ using phy_modify()
+Message-ID: <006dfa32-55ba-4460-ad14-b695e040d69a@lunn.ch>
+References: <20251107201232.282152-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20251107201232.282152-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <cover.1761906750.git.geert+renesas@glider.be>
-References: <cover.1761906750.git.geert+renesas@glider.be>
-Subject: Re: [GIT PULL] clk: renesas: Updates for v6.19
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>
-To: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette <mturquette@baylibre.com>
-Date: Mon, 10 Nov 2025 17:14:02 -0800
-Message-ID: <176282364254.11952.2867679653974215283@lazor>
-User-Agent: alot/0.11
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251107201232.282152-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Quoting Geert Uytterhoeven (2025-10-31 03:43:56)
->         Hi Mike, Stephen,
->=20
-> The following changes since commit 3a8660878839faadb4f1a6dd72c3179c1df567=
-87:
->=20
->   Linux 6.18-rc1 (2025-10-12 13:42:36 -0700)
->=20
-> are available in the Git repository at:
->=20
->   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git=
- tags/renesas-clk-for-v6.19-tag1
->=20
-> for you to fetch changes up to 07525a693a5ff6592668a0fd647153e4b4933cae:
->=20
->   clk: renesas: r9a09g056: Add clock and reset entries for ISP (2025-10-2=
-7 12:15:00 +0100)
->=20
-> ----------------------------------------------------------------
+On Fri, Nov 07, 2025 at 08:12:30PM +0000, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> 
+> The vsc85xx_led_cntl_set() function currently performs a manual
+> read-modify-write sequence protected by the PHY lock to update the
+> LED mode register (MSCC_PHY_LED_MODE_SEL).
+> 
+> Replace this sequence with a call to phy_modify(), which already
+> handles read-modify-write operations with proper locking inside
+> the PHY core.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Thanks. Pulled into clk-next
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+
+    Andrew
 
