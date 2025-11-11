@@ -1,34 +1,34 @@
-Return-Path: <linux-renesas-soc+bounces-24434-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24435-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 299B2C4B3AB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 03:41:00 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 102EAC4B3F6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 03:50:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DB0A4189014A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 02:41:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DA22E189134E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 02:50:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70E5C34846A;
-	Tue, 11 Nov 2025 02:40:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78D6C3491E1;
+	Tue, 11 Nov 2025 02:50:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="cbfK4LSp"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="5S6erjir"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A8DD348460;
-	Tue, 11 Nov 2025 02:40:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD1D6347FC0;
+	Tue, 11 Nov 2025 02:50:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762828855; cv=none; b=ahALCzpO5Ic7xfUbv7s/2hwZFQFnpBTiyYN24wTRKO4bGh2SLRjWGHiW6f7kr5P1wcgHi7gX5jilCCrPrsdow/DcTydisp9DxObf8f4s8pvieugfgX//hJRtABYxO92HiUDryB0WcryLdBvWFDZUvBt6qb58J9nTFrNvys965eE=
+	t=1762829425; cv=none; b=tV0+9y9kLeg1RV7xEt1KkwzXXzKW8Tqf65yp8Iq6QBYmY+d6R1Xv3nfr0qG2FTcDNH7nMRQBXs2y8RrPzFqTUcKUitBymAiNHtwHddujIArrDNJSCj5MDm+/uisISCaviAdWJaCvp8RJXgHfkSXYdHS6O61oIRnnUFQ0ReWadwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762828855; c=relaxed/simple;
-	bh=fJ49jzTT+lvI6CEyuiHc4kFI2OLMGXFPJ/7BF+gjduA=;
+	s=arc-20240116; t=1762829425; c=relaxed/simple;
+	bh=Ehkextsnb3H1bI4S73h04f+Wm9Tj3KpfitAGNJx3ZzM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HtrsuBgoU3O8ws7vpQW/+DtJ3TSBA3WFjz9NZFyuzU6S2G9exW+4LCwkNpfJm4a+UuRoEc8hITp1LFUGg0N62MkMeCUIClBE4YePLRgFXF2ehRtTe7QwdKi5HLvVR38C40npzXlRRDFb8yB/C7zTjOzrxmmSUzKCQDu2gwsQkms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=cbfK4LSp; arc=none smtp.client-ip=156.67.10.101
+	 Content-Type:Content-Disposition:In-Reply-To; b=WGA1aw2UbarelRfL0SqAnyoTigcsF0r2sGBKc6zZv+VALuEDyu7xhb0bdPVmcsuRStztqGQcjoBJUWo3WAPO81Y//kcWZ8xyfL4NoPdur67IgMApHo1G1yu3ukssho/cd5uK1ix4frH15TDoKpkuPvf+1NQbjHFFMKAIRtoTYyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=5S6erjir; arc=none smtp.client-ip=156.67.10.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
 	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
 	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=mLu6fyQIWnvYdy2npzJcu8BCKxp0W1/nSWiF9WaoSyE=; b=cbfK4LSp9QDYWerrvdGEBpQiEb
-	5h2QSas+l0KBjLd1IksLFFpDSDrb6pAK6JF3DmFgZLT8x8aYH+xGN6bNsK/CeMkRY74Wh5Ux4X0i1
-	FcIRgchucl+ra4Vq9YlXIF4nT7QdJ5JSr+Oh4a9B9GJuxywsNVZFad/vJs7WdOHa57R0=;
+	bh=EwS1vYGPntoB14ZBNepjn6wd0Qs2O/QKzmssltxVrc4=; b=5S6erjirSqsiHal63K5sq2xzv/
+	m/zJ5YJL77xPIVaNB1mENr7DhEUFA651SzaVNff4vdOv9rzZFvh+x3gZ1wol9kL/KJYHkyx71RX1N
+	IeoQgyy9W3a/W2JKaLIA4+uNHvxl7OIEWdb6d2FGBxh/M6ayOMLdzT//HJ4luLpo6yVg=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
 	(envelope-from <andrew@lunn.ch>)
-	id 1vIeJ8-00Da9K-9L; Tue, 11 Nov 2025 03:40:34 +0100
-Date: Tue, 11 Nov 2025 03:40:34 +0100
+	id 1vIeSR-00DaBn-5m; Tue, 11 Nov 2025 03:50:11 +0100
+Date: Tue, 11 Nov 2025 03:50:11 +0100
 From: Andrew Lunn <andrew@lunn.ch>
 To: Prabhakar <prabhakar.csengg@gmail.com>
 Cc: Heiner Kallweit <hkallweit1@gmail.com>,
@@ -60,11 +60,11 @@ Cc: Heiner Kallweit <hkallweit1@gmail.com>,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH net-next v2 1/3] net: phy: mscc: Simplify LED mode update
- using phy_modify()
-Message-ID: <006dfa32-55ba-4460-ad14-b695e040d69a@lunn.ch>
+Subject: Re: [PATCH net-next v2 2/3] net: phy: mscc: Consolidate probe
+ functions into a common helper
+Message-ID: <ec28d950-f7ef-4708-88aa-58c2b9b0b92a@lunn.ch>
 References: <20251107201232.282152-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20251107201232.282152-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20251107201232.282152-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -73,22 +73,39 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251107201232.282152-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20251107201232.282152-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On Fri, Nov 07, 2025 at 08:12:30PM +0000, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> 
-> The vsc85xx_led_cntl_set() function currently performs a manual
-> read-modify-write sequence protected by the PHY lock to update the
-> LED mode register (MSCC_PHY_LED_MODE_SEL).
-> 
-> Replace this sequence with a call to phy_modify(), which already
-> handles read-modify-write operations with proper locking inside
-> the PHY core.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+diff(1) has not made this easy...
 
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+> +static int vsc85xx_probe_common(struct phy_device *phydev,
+> +				const struct vsc85xx_probe_config *cfg,
+> +				const u32 *default_led_mode)
+> +	int ret;
+
+> +	/* Check rate magic if needed (only for non-package PHYs) */
+> +	if (cfg->check_rate_magic) {
+> +		ret = vsc85xx_edge_rate_magic_get(phydev);
+> +		if (ret < 0)
+> +			return ret;
+> +	}
+>  
+>  	vsc8531 = devm_kzalloc(&phydev->mdio.dev, sizeof(*vsc8531), GFP_KERNEL);
+>  	if (!vsc8531)
+> 		return -ENOMEM;
+
+> +	/* Store rate magic if it was checked */
+> +	if (cfg->check_rate_magic)
+> +		vsc8531->rate_magic = ret;
+
+
+I think we end up with something like the above?
+
+I would move the vsc85xx_edge_rate_magic_get() after kzalloc() just to
+keep it all together.
 
     Andrew
+
+---
+pw-bot: cr
+
 
