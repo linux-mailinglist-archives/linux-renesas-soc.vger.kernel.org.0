@@ -1,134 +1,235 @@
-Return-Path: <linux-renesas-soc+bounces-24473-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24474-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCEB8C4F2BE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 18:04:09 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A2D2C4F3A9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 18:21:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A43B43A7C91
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 17:02:16 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 0DF3834D0C9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 17:21:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 717303730F2;
-	Tue, 11 Nov 2025 17:02:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43B42393DC7;
+	Tue, 11 Nov 2025 17:21:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b="mxIpK6I7"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="dGzxIXGt"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 594CF3730F3;
-	Tue, 11 Nov 2025 17:02:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.120.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 042E73730DA;
+	Tue, 11 Nov 2025 17:21:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762880532; cv=none; b=C3EDufiJiFFgVnkZG/BumDN61kW8+/OBICRE9lG9IvjGhqZwPpHNWZs9myH5oXO9z4OI6Qss5VNxw4ygqrrhJQDiX22RRxiinMoEM8jIrR0I8t3h1VTJh7Byuo8c1W4CoKaWcqMhqEkPT559V4gTWKdyzvbxAZ6SlPHKYbyOxtI=
+	t=1762881694; cv=none; b=S3pXR9x6n7cVGtFskHxtrMNQcjhRuRBa+t+ncmy0ReT23zy+AtBrBlmd+h0IwduyVaSOf7ADPmwkr/HRTW9l7e5Qyuv9SQSVvtPqOadlYeF8s6A09xewEaQuAknJSS7IzM36dnG3G3t0JRe/lBOXObzYBK1aFMwmw4PyFpLHGko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762880532; c=relaxed/simple;
-	bh=z//mduXKJUo+Oy5YicOfk/B+R1uUBHBKtOyiEWNT9Eo=;
-	h=Date:From:To:Cc:Message-Id:In-Reply-To:References:Mime-Version:
-	 Content-Type:Subject; b=NlnInKZhMYome8m9FfUNZNjBsgwjDTP0Ee7b15ZQCtzM/NLxkFeu9ZCWlUD1ANq2UP3rL4/0PeZnqcxXyKfDz62fEkxtoTYmQwLyQqYIYG65MPpwcCGvO7b4jiGZ7w3H2+fR5z5CYTV16SYuOPr3gLZGEHHCrXurnBAfEGVIQZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com; spf=pass smtp.mailfrom=hugovil.com; dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b=mxIpK6I7; arc=none smtp.client-ip=162.243.120.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hugovil.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
-	; s=x; h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
-	:Date:subject:date:message-id:reply-to;
-	bh=tZoyP+M9xPo/FMe8WDOuLaf2cyBC7RlyzUKhtEPI9nc=; b=mxIpK6I7kAN9KIiGfCR48J8j04
-	wUO0r6jU92y2dc0fUGhQCfVXaxMwNdqYsekltmjnfBwZDx4E2zzukpbOuB36oHlKp2keVGURxmbgM
-	laLjnj5DtO+QXLk8E+xjZYGl1BIEUvk5ZZ9DJnWyuY4Xb5TjcAHL+tuDBLJHrhK+gtJM=;
-Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:43624 helo=pettiford)
-	by mail.hugovil.com with esmtpa (Exim 4.92)
-	(envelope-from <hugo@hugovil.com>)
-	id 1vIrkb-00064X-2x; Tue, 11 Nov 2025 12:01:49 -0500
-Date: Tue, 11 Nov 2025 12:01:48 -0500
-From: Hugo Villeneuve <hugo@hugovil.com>
-To: Chris Brandt <chris.brandt@renesas.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette
- <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Biju Das
- <biju.das.jz@bp.renesas.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Hien Huynh <hien.huynh.px@renesas.com>,
- Nghia Vo <nghia.vo.zn@renesas.com>, linux-renesas-soc@vger.kernel.org,
- linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org
-Message-Id: <20251111120148.943a0e193a65469a53a0cbc8@hugovil.com>
-In-Reply-To: <20251105222530.979537-1-chris.brandt@renesas.com>
-References: <20251105222530.979537-1-chris.brandt@renesas.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1762881694; c=relaxed/simple;
+	bh=O8mHQn3liP2UUlM+m+8C3tF9osLYbychnmMSAfVoFLk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LzRDxsDg8beyJAPI2Htjq0qw3o9ThkT5J4JoJyY3/7b1gChySt4PQUIkJbMN0EVkM2jR4QxShleTrF7QHydoO6KKzyl6BQBWjhUwfvQ4Kjk4Zi6cg7yPjWj6KJmz7sxZYm0PGVxF/8hgJMlna57K0NBIaZGYt2BSB3JDUM2IgB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=dGzxIXGt; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (82-203-161-95.bb.dnainternet.fi [82.203.161.95])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 204461D29;
+	Tue, 11 Nov 2025 18:19:31 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1762881571;
+	bh=O8mHQn3liP2UUlM+m+8C3tF9osLYbychnmMSAfVoFLk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dGzxIXGtlQ5L+Iapz2cmB+eUbSgZNY7dVy0UcLiiGUG0eP7hLLH5gUYeh9o+lwAKU
+	 PWYr+Xg9mdInlXCnKvMk9bfBuzWtZGvyj0KpOUJilAMPOdwReU1BngnydP+FN05gbq
+	 MrbJgZEI03PSVgnUe/cmZKyLWcIN13Mq6iCRmUzg=
+Date: Tue, 11 Nov 2025 19:21:24 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	Duy Nguyen <duy.nguyen.rh@renesas.com>
+Subject: Re: [PATCH] Revert "media: vsp1: Add underrun debug print"
+Message-ID: <20251111172124.GH4270@pendragon.ideasonboard.com>
+References: <20250910-rcar-vsp-underrun-revert-v1-1-2fa8d3b1b879@ideasonboard.com>
+ <176286282930.2141792.17722042639840544380@ping.linuxembedded.co.uk>
+ <c5ab80df-0d60-4984-ad21-7dd1182b990f@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 70.80.174.168
-X-SA-Exim-Mail-From: hugo@hugovil.com
-X-Spam-Level: 
-X-Spam-Report: 
-	* -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-	* -1.9 NICE_REPLY_A Looks like a legit reply (A)
-Subject: Re: [PATCH v4 0/2] Remove hard coded values for MIPI-DSI
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <c5ab80df-0d60-4984-ad21-7dd1182b990f@ideasonboard.com>
 
-Hi Chris,
-
-On Wed,  5 Nov 2025 17:25:28 -0500
-Chris Brandt <chris.brandt@renesas.com> wrote:
-
-> When the initial drivers were submitted, some of the timing was hard coded and
-> did not allow for any MIPI-DSI panel to be attached.
-> In general, panels or bridges can only be supported if MIPI-DSI lanes were 4.
-> If the number of lanes were 3,2,1, the math no longer works out.
+On Tue, Nov 11, 2025 at 02:23:05PM +0200, Tomi Valkeinen wrote:
+> On 11/11/2025 14:07, Kieran Bingham wrote:
+> > Quoting Tomi Valkeinen (2025-09-10 08:26:43)
+> >> This reverts commit 1dc30075fb0fe02b74b1ea7fd1c1c734a89f1448.
+> >>
+> >> There have been reports of lots of underruns happening on earlier
+> >> generation SoCs (M3, E3) with display use cases, e.g.:
+> >>
+> >> vsp1 fea28000.vsp: Underrun occurred at WPF0 (total underruns 1)
+> >>
+> >> but the display still working fine, and reverting the above commit,
+> >> which added underrun prints, makes the prints go away (obviously).
+> >>
+> >> I made some tests on a remote M3, with no display connected, and I can
+> >> confirm that there seem to be a single underrun report quite often when
+> >> enabling a display, and an underrun flood when using interlace display
+> >> modes.
+> >>
+> >> E3 does not have interlace display support as far as I can see, so the
+> >> interlace issue does not concern it.
+> >>
+> >> Debugging display issues remotely without a display is quite
+> >> challenging, and I did not find any issues in the code, nor could I find
+> >> a way to stop the underruns by twiddling with the related registers.
+> >>
+> >> My pure guess is that the single underruns occurring when starting the
+> >> display hint at either a startup sequence issue, or some kind of initial
+> >> fifo loading issue. The interlace underruns hint at a bigger
+> >> misconfiguration, but as the display works fine, the issue might be just
+> >> an underrun at the start of the frame and the HW quickly catching up, or
+> >> at the end of the frame, where one block in the pipeline expects more
+> >> data but the previous block has already stopped (so maybe a misconfig
+> >> between using interlaced height vs progressive height?).
+> >>
+> >> But at the moment I have no solution to this, and as the displays work
+> >> fine, I think it makes sense to just revert the print.
+> > 
+> > Is there any value in instead 'ignoring' any underruns if say the frame
+> > count is < 5 to ignore startup underruns, and keep it as an active print
+> > if something causes underruns later once the pipeline is established?
+> > 
+> > But maybe that doesn't change much - and if there's no current perceived
+> > issue
 > 
-> A new API was created for the clock driver because the behaivior of the clock
-> driver depends on DPI vs MIPI, the bpp, and the number of MIPI lanes.
+> A single underrun at enable time could/should probably be ignored, as it
+> might be just issue with the initial fifo filling or such (even then
+> it's a bit annoying, but I've seen some HW docs (not on this platform)
+> telling to ignore such underruns).
 > 
+> But that wouldn't help with the underrun flood for interlace. I think
+> there's a clear issue for ilace here, but I have no idea where exactly.
+> And, the display works fine, so the display controller can recover
+> instantly.
 > 
-> Testing:
-> * RZ/G2L SMARC  (MIPI-DSI to HDMI bridge, lanes = 4)
-> * RZ/G2L-SBC    (MIPI-DSI to LCD panel, lanes = 2)
-> * RZ/G2UL SMARC (DPI to HDMI bridge)
-> * Multiple monitors, multiple resolutions
+> > Anyway, I don't object to this revert. It's low impact and it's only
+> > undoing 'your' work so no one else will complain :D
 > 
-> 
-> 
-> Chris Brandt (2):
->   clk: renesas: rzg2l: Remove DSI clock rate restrictions
->   drm: renesas: rz-du: Set DSI divider based on target MIPI device
-> 
->  drivers/clk/renesas/rzg2l-cpg.c               | 147 ++++++++++++++++--
->  .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    |  18 +++
->  include/linux/clk/renesas.h                   |  12 ++
->  3 files changed, 164 insertions(+), 13 deletions(-)
-> 
-> --
-> 2.50.1
- 
-Your patchset is missing the base-commit tag like in this example:
+> Yep... I hate disabling error reporting, but I think it's the best
+> option here, at least until someone with the board can debug it
+> properly. In any case, if there are "real" underruns, the error is also
+> visible on the display, you don't need the console print to show it.
 
-    base-commit: 4e68ae36422e85ec1a86aded26a211319649426d
+Quoting https://lore.kernel.org/all/1651584010-10156-1-git-send-email-erosca@de.adit-jv.com/
 
-This helps when testing to know on which tree/commit you based your
-patches.
+"A barely noticeable (especially if hardly reproducible) display flicker
+may not be the biggest concern in the development environment. However,
+an automotive OEM will not only notice it, but will also be haunted by
+its phenomenon/nature till it is understood in the greatest detail and
+ultimately eradicated, to avoid impairing user experience.
 
-See "Providing base tree information" here:
-    https://docs.kernel.org/process/submitting-patches.html
+Troubleshooting the above without the right tools becomes a nightmare."
 
-I just tested your patchset on kernel 6.17.7, and my display no longer
-works.
+I think we need to get to the bottom of this and fix the root cause,
+unless we receive an explicit acknowledgement from Renesas that underrun
+detection is not desired.
 
-Also tested on torvalds/master tree commit 4427259cc7f7, with similar
-results:
-
-    rzg2l-cpg 11010000.clock-controller: hsclk out of range
-
-Hugo.
-
+> > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> >
+> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> >> ---
+> >>  drivers/media/platform/renesas/vsp1/vsp1_drm.c  |  3 ---
+> >>  drivers/media/platform/renesas/vsp1/vsp1_drv.c  | 11 +----------
+> >>  drivers/media/platform/renesas/vsp1/vsp1_pipe.h |  2 --
+> >>  drivers/media/platform/renesas/vsp1/vsp1_regs.h |  2 --
+> >>  4 files changed, 1 insertion(+), 17 deletions(-)
+> >>
+> >> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+> >> index 15d266439564..b8f211db16fc 100644
+> >> --- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+> >> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+> >> @@ -721,9 +721,6 @@ int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
+> >>                 return 0;
+> >>         }
+> >>  
+> >> -       /* Reset the underrun counter */
+> >> -       pipe->underrun_count = 0;
+> >> -
+> >>         drm_pipe->width = cfg->width;
+> >>         drm_pipe->height = cfg->height;
+> >>         pipe->interlaced = cfg->interlaced;
+> >> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> >> index b8d06e88c475..68e92d3c5915 100644
+> >> --- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> >> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> >> @@ -47,8 +47,7 @@
+> >>  
+> >>  static irqreturn_t vsp1_irq_handler(int irq, void *data)
+> >>  {
+> >> -       u32 mask = VI6_WPF_IRQ_STA_DFE | VI6_WPF_IRQ_STA_FRE |
+> >> -                  VI6_WPF_IRQ_STA_UND;
+> >> +       u32 mask = VI6_WPF_IRQ_STA_DFE | VI6_WPF_IRQ_STA_FRE;
+> >>         struct vsp1_device *vsp1 = data;
+> >>         irqreturn_t ret = IRQ_NONE;
+> >>         unsigned int i;
+> >> @@ -63,14 +62,6 @@ static irqreturn_t vsp1_irq_handler(int irq, void *data)
+> >>                 status = vsp1_read(vsp1, VI6_WPF_IRQ_STA(i));
+> >>                 vsp1_write(vsp1, VI6_WPF_IRQ_STA(i), ~status & mask);
+> >>  
+> >> -               if ((status & VI6_WPF_IRQ_STA_UND) && wpf->entity.pipe) {
+> >> -                       wpf->entity.pipe->underrun_count++;
+> >> -
+> >> -                       dev_warn_ratelimited(vsp1->dev,
+> >> -                               "Underrun occurred at WPF%u (total underruns %u)\n",
+> >> -                               i, wpf->entity.pipe->underrun_count);
+> >> -               }
+> >> -
+> >>                 if (status & VI6_WPF_IRQ_STA_DFE) {
+> >>                         vsp1_pipeline_frame_end(wpf->entity.pipe);
+> >>                         ret = IRQ_HANDLED;
+> >> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.h b/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
+> >> index 7f623b8cbe5c..9cc2f1646b00 100644
+> >> --- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
+> >> +++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
+> >> @@ -137,8 +137,6 @@ struct vsp1_pipeline {
+> >>  
+> >>         unsigned int partitions;
+> >>         struct vsp1_partition *part_table;
+> >> -
+> >> -       u32 underrun_count;
+> >>  };
+> >>  
+> >>  void vsp1_pipeline_reset(struct vsp1_pipeline *pipe);
+> >> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_regs.h b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+> >> index 10cfbcd1b6e0..188d26289714 100644
+> >> --- a/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+> >> +++ b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+> >> @@ -32,12 +32,10 @@
+> >>  #define VI6_STATUS_SYS_ACT(n)          BIT((n) + 8)
+> >>  
+> >>  #define VI6_WPF_IRQ_ENB(n)             (0x0048 + (n) * 12)
+> >> -#define VI6_WPF_IRQ_ENB_UNDE           BIT(16)
+> >>  #define VI6_WPF_IRQ_ENB_DFEE           BIT(1)
+> >>  #define VI6_WPF_IRQ_ENB_FREE           BIT(0)
+> >>  
+> >>  #define VI6_WPF_IRQ_STA(n)             (0x004c + (n) * 12)
+> >> -#define VI6_WPF_IRQ_STA_UND            BIT(16)
+> >>  #define VI6_WPF_IRQ_STA_DFE            BIT(1)
+> >>  #define VI6_WPF_IRQ_STA_FRE            BIT(0)
+> >>  
+> >>
+> >> ---
+> >> base-commit: 76eeb9b8de9880ca38696b2fb56ac45ac0a25c6c
+> >> change-id: 20250908-rcar-vsp-underrun-revert-f3e64612c62d
 
 -- 
-Hugo Villeneuve
+Regards,
+
+Laurent Pinchart
 
