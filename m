@@ -1,278 +1,149 @@
-Return-Path: <linux-renesas-soc+bounces-24449-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24451-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24BF9C4C89B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 10:07:22 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 091E0C4C932
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 10:14:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B9048189DB08
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 09:05:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CBED41881E41
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Nov 2025 09:11:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66077333753;
-	Tue, 11 Nov 2025 09:03:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB89F2594BD;
+	Tue, 11 Nov 2025 09:11:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="lwBSy6rb";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="bZehYTkc"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YHBTgtD5"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BDCA33290B;
-	Tue, 11 Nov 2025 09:03:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D46A29CEB
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Nov 2025 09:11:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762851793; cv=none; b=PSVe/P/G63pAOl/xVCZoZ7gB5VMRp3ZWiSgSUb4RuVf2SGpXrM4Ra4/yYqN7Q+b1FEAet67ChxCaVFMqhymUdktA5Rb+iXx3Ix+DzvTNztmkPmfvHadCZOzO/X+PRG5NXaoJRAncMQNXW4W/AaAg6VYbg96JsQEXq59D9gGcBYg=
+	t=1762852263; cv=none; b=Y7g+QvW+i9/f4kunzeuZYeJ0J82yAqoqXy27RGMLzQP6JmY26Uuk8z+WRODa1Expns7AI+W7NYt7S6drVLW4ppF5MszxuEm1Pt9RRqeOssWuRLli8Zo/SGxvyJ2DU8ztH0/feRqtO/Vm2emUSisNa3ZOCgyOxj0zRVzKHYhwxQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762851793; c=relaxed/simple;
-	bh=IIdedF+wJTnJhspTR294CNMXRYuw3mf5/HLltzHlgvg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Wf4cDaeSCiO2MAlx9Th2+nrCnkNZ3SSNMZkkDZF8oPpjzQS+yTGg/zCmoTxi7GUWhOsAM/XE3zlKjt8Yhxh0Hbb5+QTh4Z6dyWYiPkgpkT3AvdM4NyoEcjpWX4jBVG0JpdASKDGZJ/LhQNc0B9bCz5mPfvqT78P+8+u0bv4ihfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=lwBSy6rb; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=bZehYTkc; arc=none smtp.client-ip=202.12.124.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id E9FC57A012A;
-	Tue, 11 Nov 2025 04:03:07 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Tue, 11 Nov 2025 04:03:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1762851787;
-	 x=1762938187; bh=b7gKMdZKh4ypD2fI2NgyHjdN9GPCiJvW3BHCEKZIWLM=; b=
-	lwBSy6rbST4wzB1maPABE9cJz8Nv4fwcvE+r437z9+g4wWAngeqWcyx1FDZGW3w8
-	AR6U2Vx3/jPY77TUwynAgF5lCLmBY/zV1XZkPDmRrbqzYYldbRA51yDGTRweOSnD
-	nXwgfg9q8RcSEYRLirLo0qjAAw/aZKA85YJVZ9ih9cFzLwwPnRgV5IEqp6bq1Alo
-	OfHv3UILl+mVdMFVsyKuQPC9jk2o3759NQwOzaN1hXZPCJbF7+5HDqX71bOK9WZk
-	Wj3V04/ubVk/FVI8rdfBZwwmTkG5flBwI5gfotrZge/r8LIaeRkarDjnEHz3z/5c
-	/Rgri6alQBDEVUY64Rw1Lw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1762851787; x=
-	1762938187; bh=b7gKMdZKh4ypD2fI2NgyHjdN9GPCiJvW3BHCEKZIWLM=; b=b
-	ZehYTkc+npLrmAv6n/mG+3fnBaVB64oJD4Kc7nMqVHBD6pR+fhN31/gvBhGaVbNz
-	uSPEaQX+ADG1AW10rH6Zp34oBB9n59JRJg4h3M/mw43LfZShBPs6Nl10CWNJjlY8
-	KxdI0ZyWbSEydpQgLnD/MxDjVd5hMCCN7dAK4nWrE1fK2DKnSvze394VRn7GOeT0
-	XjU2IaXEMr03hiHr+VY7yIRdC8UYaduT4Kg7Bw47Yf5ddzOULIcgok1Xxc2S0XrV
-	Sy8y7J0ko/j+IrzwxQmgb48ivXbHfDiXrXa6vk1ZKzXBNyrGUhOXJ5W1MYawJZ0o
-	sNxKzR59N6BqXl6Y1cYOA==
-X-ME-Sender: <xms:y_sSaZFtDAl0AjDqqBqrBWkO0X7cFI9Alp7M1K_-JfOIMzz_B0amMA>
-    <xme:y_sSaYZMtBafcpZVTJNPxwzyzvNb5D2zdmlhqXU2-niYYnocyDPe5Wtw3U_wEdHV9
-    tTlyqMGSAoIy9l6wSUs3uYUFi3UX8Ms9-adlq5gkv_R2dudLGqz_Q>
-X-ME-Received: <xmr:y_sSabBU59qYU3vQ1JieKRCwt7nPDr81Zm11Z25kL7CSHyu4FU1KrUbtc3FSDT7RbXghCmA7bfAzKbJS2JuVsqMa>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvtddtjeekucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhephffvvefufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpefpihhklhgr
-    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvsh
-    grshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeehiefgueevuedt
-    fefhheegkeevtdelueeukeevfeduhefhhfejfffggeffleefgeenucevlhhushhtvghruf
-    hiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhl
-    uhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopeejpdhmohguvgepsh
-    hmthhpohhuthdprhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgt
-    phhtthhopehjrggtohhpohdrmhhonhguihesihguvggrshhonhgsohgrrhgurdgtohhmpd
-    hrtghpthhtoheplhgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghr
-    ugdrtghomhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvg
-    hlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghr
-    rdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvg
-    hrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehnihhklhgrshdrshhouggvrhhluhhn
-    ugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
-X-ME-Proxy: <xmx:y_sSaQkqPkuEAcVd-YSUcwFhGWoMBivKaIfgZKcxuIfbgFP900jfow>
-    <xmx:y_sSacy5FAXqxRODzQqsE6BBD7osEv-M8IbUIAQrnkp9p4HnFr0acg>
-    <xmx:y_sSaaSBuW04ibRySFHn1bD2sm-4nHCyvBW4YOUhKohEPbCdy-nq1A>
-    <xmx:y_sSaU8Z5EVLbjsYALoOd-UsYGlXHUVeiQV61Y7qCnyf0-iXqJbKBA>
-    <xmx:y_sSaaw6VUVB_YyIWXfNuIuvM25iuTkYiQsjIwl3DtKnp6gmyslEnAgy>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 11 Nov 2025 04:03:07 -0500 (EST)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org,
+	s=arc-20240116; t=1762852263; c=relaxed/simple;
+	bh=fUOYNNreolSQ2Ets4gWNGuLIPUyRj7lgKk+P2qLqWj0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bFg8H7tWP+h2MdF7lYi3RRDAH9ka/4CIflD5MM+slPM1v2hyN3pDS1x60yPuYJAOD23SAVyj74nwJxnjIRMUfEQGMjf3OYNEMk63YrU8wqAq5Aeir0urmQMEwZWjW3KoEflUVHPqvKbxt3uCKk8LyHbsJuOeHWL9FSiWu8qCnjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YHBTgtD5; arc=none smtp.client-ip=209.85.215.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-bb7799edea8so1319208a12.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Nov 2025 01:11:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762852261; x=1763457061; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ei4lp7raydfScBEQVjNRebdWHLQLG3vpShzDTlbzIUQ=;
+        b=YHBTgtD53VWa28QoqyU/xr+HxzMXqLzPV/kT6Dfo1+nff/dI0l/wkRGU9YpdfnWRmb
+         7Ya304UQDc4orCHJjGWhs6WoG+wTXGipnMX/+NoK8xcDMKr60jyV9nXQSpr9uB8m3aWz
+         alJz5UfND9/sbKFJCLVO4FXBtH7I3AO7UZv51qlqHW1QG8XneytOrpY5LKzT0bmlxMBA
+         SPmj+2Bvy8SsGNvAtaZFwZvuPwIIp11U3K/oly5xXPUwsOTmdD7kRyDw9nP6ow/rOXg5
+         hYg3SAcpFG/Uwc6t3S3nWivEEuom3gRYGtZBa4r+VTsVSEU4EgCoHDK4yf6Y51bToVQe
+         rk7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762852261; x=1763457061;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ei4lp7raydfScBEQVjNRebdWHLQLG3vpShzDTlbzIUQ=;
+        b=g4OJSRo901oHBp5Nv+y0/7XRp8OF38vAmuCzhioStRFkmkBEMAGI/+JO8YHhGOkGqq
+         +wIdedbBMOApODKEVleuFgvI1P1z6oKMDyyBIykD+iR5xq05f5soibCfJt7/aG/O1/Yu
+         Lur/DyrTDX6ofKBnbBklnDUwWLUyij+5tyl4OXx9qs/VpVw1YWi/BH4AYI+7Um/Z6JFR
+         ThE+HbtsLtjTQ94ZAubSTxpxWFu59tEhofZeyRkoCJrlVXOELUnOF31dr4TdfpJ5EOmr
+         i5AZPXeesR1fn+kNptefyqbt7ux3o1rGVD0w8b/WNoeP+FiM8GzR5w7EU9O3drlJoOh3
+         qOfw==
+X-Forwarded-Encrypted: i=1; AJvYcCVq83woWRckgaUNuiV89WPVKq67ctVtug9uslB/31VN+n06nljgWJ+IjwE3J6ak7sc8OZeNUZuwMxlVjYNvCMlESQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwQ3fC0i2Z8HEieijosspvoBSnfX9E5dQDf4AP9PQeDhUVRrI8j
+	XiBBEDFlLgeuurdblHj+qaTki5eNDB5y9tOIJ/5KD3clzmCaanekoYCH
+X-Gm-Gg: ASbGncuxuH7ay5+OqS0YDI2DWPpwMuuVCan9nUCoVJtbqsnV9/Trsoc3QeUmammJSy8
+	+HGFWOHV4z8zwxPlzjoIplKGZVeXqz9QZ0axJkvc9MhyqQD/1UDZJJi9lxdPUEP6ZH8EyQDyuy/
+	OJLapbCbmswUTDeJHzGh26DIULdvRER6rN9p0XOVMeej9qJAkTxJFP+2JQescw7Ybeud8oYQQp3
+	27ximCGbn9Zwenjfqlf+YESxE4La2djExUiFdQiLH1B92c47oto8wcHW1coGWm1IrKECrhOWj/5
+	GuLJEOj7ixgsDWhW/DeGZ5rsBL3FEamW3REeLqwOOtBt3L/KHlsptFY+/lKXqZ1ueKQIES28rDD
+	qSNDy5Z5Bu68RE4LWn778z3RzVPqZA/QcBtcJaJk8N2MI/V9JI1a7qdFcnSXaKHcrWxn/IKz4YU
+	AoJgyvr+TQyUTmq90+9WQ2pw==
+X-Google-Smtp-Source: AGHT+IGOmhwf1aKWxS8ebaRXye3bUHf6DXtaZFP/uLYDWfPSSFe/z9UKAR9ho824eGYpyhhdq6AzWA==
+X-Received: by 2002:a17:903:9cb:b0:298:1422:510d with SMTP id d9443c01a7336-29814225524mr93955685ad.48.1762852261420;
+        Tue, 11 Nov 2025 01:11:01 -0800 (PST)
+Received: from iku.. ([2401:4900:1c06:79c0:4ab7:69ea:ca5e:a64f])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29650c5cf37sm172715415ad.35.2025.11.11.01.10.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Nov 2025 01:11:00 -0800 (PST)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Horatiu Vultur <horatiu.vultur@microchip.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>
+Cc: netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v4 11/12] media: rppx1: Add support for Bayer Demosaicing
-Date: Tue, 11 Nov 2025 10:02:27 +0100
-Message-ID: <20251111090228.2511734-12-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.51.1
-In-Reply-To: <20251111090228.2511734-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20251111090228.2511734-1-niklas.soderlund+renesas@ragnatech.se>
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH net-next v3 0/3] net: phy: mscc: Add support for PHY LED control
+Date: Tue, 11 Nov 2025 09:10:44 +0000
+Message-ID: <20251111091047.831005-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Extend the RPPX1 driver to allow setting the Bayer Demosaicing
-configuration using the RkISP1 parameter buffer format. It uses the
-RPPX1 framework for parameters and its writer abstraction to allow the
-user to control how (and when) configuration is applied to the RPPX1.
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-As the RkISP1 parameters are all 6- or 10-bit while RPP are either 8- or
-16-bit, the driver corrects for this allowing the RkISP1 parameters to
-be used.
+Hi All,
 
-One particularity is that the RkISP1 driver lumps all settings in the
-FILT_LUM_WEIGHT register in a single value in the configuration buffer.
-As the format is slightly different for RPP we need to break it out and
-fix it before applying it to the RPP.
+This patch series adds support for controlling the PHY LEDs on the
+VSC85xx family of PHYs from Microsemi (now part of Renesas).
+The first two patches simplify and consolidate existing probe code
+the third patch introduces the LED control functionality.
+The LED control feature allows users to configure the LED behavior
+based on link activity, speed, and other criteria.
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- .../platform/dreamchip/rppx1/rpp_params.c     |   5 +
- .../media/platform/dreamchip/rppx1/rppx1_db.c | 112 ++++++++++++++++++
- 2 files changed, 117 insertions(+)
+v2->v3:
+- Added Reviewed-by tag to patches 1/3 and 3/3.
+- Grouped check_rate_magic check in patch 2/3.
+- Formatted the patches with `--diff-algorithm=patience` option to
+  improve readability.
 
-diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_params.c b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
-index b5a4194ecab7..ddabb84e8df4 100644
---- a/drivers/media/platform/dreamchip/rppx1/rpp_params.c
-+++ b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
-@@ -32,6 +32,11 @@ int rppx1_params_rkisp1(struct rppx1 *rpp, struct rkisp1_ext_params_cfg *cfg,
- 		case RKISP1_EXT_PARAMS_BLOCK_TYPE_AWB_GAIN:
- 			module = &rpp->pre1.awbg;
- 			break;
-+		case RKISP1_EXT_PARAMS_BLOCK_TYPE_FLT:
-+		case RKISP1_EXT_PARAMS_BLOCK_TYPE_BDM:
-+			/* Both types handled by the same block. */
-+			module = &rpp->post.db;
-+			break;
- 		case RKISP1_EXT_PARAMS_BLOCK_TYPE_CTK:
- 			module = &rpp->post.ccor;
- 			break;
-diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_db.c b/drivers/media/platform/dreamchip/rppx1/rppx1_db.c
-index 5e233896cfc8..4a2a3719d7ed 100644
---- a/drivers/media/platform/dreamchip/rppx1/rppx1_db.c
-+++ b/drivers/media/platform/dreamchip/rppx1/rppx1_db.c
-@@ -39,6 +39,118 @@ static int rppx1_db_probe(struct rpp_module *mod)
- 	return 0;
- }
- 
-+static int
-+rppx1_db_param_rkisp1_flt(struct rpp_module *mod,
-+			  const union rppx1_params_rkisp1_config *block,
-+			  rppx1_reg_write write, void *priv)
-+{
-+	const struct rkisp1_ext_params_flt_config *cfg = &block->flt;
-+	u32 gain, kink, min;
-+
-+	/* If the modules is disabled, simply bypass it. */
-+	if (cfg->header.flags & RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE) {
-+		write(priv, mod->base + FILT_MODE_REG, 0);
-+		return 0;
-+	}
-+
-+	/*
-+	 * RkISP1 values are 10-bit, RPP are 18-bit. Conversion verified with
-+	 * table in datasheet and libcamera pipeline for rkisp1.
-+	 */
-+	write(priv, mod->base + FILT_THRESH_BL0_REG, cfg->config.thresh_bl0 << 8);
-+	write(priv, mod->base + FILT_THRESH_BL0_REG, cfg->config.thresh_bl1 << 8);
-+	write(priv, mod->base + FILT_THRESH_SH0_REG, cfg->config.thresh_sh0 << 8);
-+	write(priv, mod->base + FILT_THRESH_SH1_REG, cfg->config.thresh_sh1 << 8);
-+
-+	/*
-+	 * RkISP1 values are 6-bit, RPP are 8-bit. Conversion verified with
-+	 * table in datasheet and libcamera pipeline for rkisp1.
-+	 */
-+	write(priv, mod->base + FILT_FAC_BL0_REG, cfg->config.fac_bl0 << 2);
-+	write(priv, mod->base + FILT_FAC_BL1_REG, cfg->config.fac_bl1 << 2);
-+	write(priv, mod->base + FILT_FAC_MID_REG, cfg->config.fac_mid << 2);
-+	write(priv, mod->base + FILT_FAC_SH0_REG, cfg->config.fac_sh0 << 2);
-+	write(priv, mod->base + FILT_FAC_SH1_REG, cfg->config.fac_sh1 << 2);
-+
-+	/*
-+	 * For unknown reasons the 3 fields of the FILT_LUM_WEIGHT register
-+	 * have been lumped together in a single field in the configuration
-+	 * data and written as is to the hardware. For RkISP1 the register
-+	 * layout is,
-+	 *
-+	 * 31:19	unused
-+	 * 18:16	lum_weight_gain
-+	 * 15:8		lum_weight_kink
-+	 *  7:0		lum_weight_min
-+	 *
-+	 * For RPP the register layout is similar but kink and gain have higher
-+	 * precision.
-+	 *
-+	 * 31		unused
-+	 * 30:28	lum_weight_gain
-+	 * 27:24	unused
-+	 * 23:12	lum_weight_kink
-+	 * 11:0		lum_weight_min
-+	 *
-+	 * Break apart the RkISP1 format, scale kink and min, and map to RPP.
-+	 */
-+	gain = (cfg->config.lum_weight & GENMASK(18, 16)) >> 16;
-+	kink = (cfg->config.lum_weight & GENMASK(15, 8)) >> 8;
-+	min = cfg->config.lum_weight & GENMASK(7, 0);
-+
-+	write(priv, mod->base + FILT_LUM_WEIGHT_REG,
-+	      (gain << 28) | ((kink << 4) << 12) | (min << 4));
-+
-+	write(priv, mod->base + FILT_MODE_REG,
-+	      (cfg->config.chr_v_mode << 4) |
-+	      (cfg->config.chr_h_mode << 6) |
-+	      (cfg->config.grn_stage1 << 8) |
-+	      (cfg->config.mode ? FILT_MODE_FILT_MODE : 0) |
-+	      FILT_MODE_FILT_ENABLE);
-+
-+	return 0;
-+}
-+
-+static int
-+rppx1_db_param_rkisp1_bdm(struct rpp_module *mod,
-+			  const union rppx1_params_rkisp1_config *block,
-+			  rppx1_reg_write write, void *priv)
-+{
-+	const struct rkisp1_ext_params_bdm_config *cfg = &block->bdm;
-+
-+	/* If the modules is disabled, simply bypass it. */
-+	if (cfg->header.flags & RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE) {
-+		write(priv, mod->base + DEMOSAIC_REG, 0x400);
-+		return 0;
-+	}
-+
-+	/*
-+	 * Threshold for Bayer demosaicing texture detection.
-+	 *
-+	 * RkISP1 threshold are 8-bit, RPP threshold are 16-bit. Map the RkISP1
-+	 * value range by left shifting by 8.
-+	 */
-+	write(priv, mod->base + DEMOSAIC_REG, cfg->config.demosaic_th << 8);
-+
-+	return 0;
-+}
-+
-+static int
-+rppx1_db_param_rkisp1(struct rpp_module *mod,
-+		      const union rppx1_params_rkisp1_config *block,
-+		      rppx1_reg_write write, void *priv)
-+{
-+	switch (block->header.type) {
-+	case RKISP1_EXT_PARAMS_BLOCK_TYPE_FLT:
-+		return rppx1_db_param_rkisp1_flt(mod, block, write, priv);
-+	case RKISP1_EXT_PARAMS_BLOCK_TYPE_BDM:
-+		return rppx1_db_param_rkisp1_bdm(mod, block, write, priv);
-+	}
-+
-+	return -EINVAL;
-+}
-+
- const struct rpp_module_ops rppx1_db_ops = {
- 	.probe = rppx1_db_probe,
-+	.param_rkisp1 = rppx1_db_param_rkisp1,
- };
+v1->v2:
+- Patches 1/3 and 2/3 are new.
+- Added LED control support to all VSC85xx PHY variants.
+- Renamed led callbacks to vsc85xx_* for consistency.
+- Defaulted the LEDs on probe to the default array before parsing DT.
+- Used phy_modify() in vsc85xx_led_brightness_set()
+- Return value of phy_read() checked in vsc85xx_led_hw_control_get()
+- Reverse Christmas tree in vsc85xx_led_hw_is_supported()
+- Updated the commit message to clarify the LED combine feature behavior.
+
+Cheers,
+Prabhakar
+
+Lad Prabhakar (3):
+  net: phy: mscc: Simplify LED mode update using phy_modify()
+  net: phy: mscc: Consolidate probe functions into a common helper
+  net: phy: mscc: Add support for PHY LED control
+
+ drivers/net/phy/mscc/mscc.h      |   4 +
+ drivers/net/phy/mscc/mscc_main.c | 494 +++++++++++++++++++++++--------
+ 2 files changed, 376 insertions(+), 122 deletions(-)
+
 -- 
-2.51.1
+2.43.0
 
 
