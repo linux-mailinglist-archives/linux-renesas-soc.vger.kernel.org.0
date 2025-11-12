@@ -1,193 +1,109 @@
-Return-Path: <linux-renesas-soc+bounces-24511-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24512-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6463AC53C9A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Nov 2025 18:50:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB7D4C53D3C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Nov 2025 19:02:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id A93375601E5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Nov 2025 17:00:04 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id BC96A4FBFB7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Nov 2025 17:38:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85B973446B0;
-	Wed, 12 Nov 2025 16:59:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3600F345CA4;
+	Wed, 12 Nov 2025 17:38:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XxxxjSUN"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="U0/Szjvc"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60D0A2F3C3D
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Nov 2025 16:59:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14DAC241CA2;
+	Wed, 12 Nov 2025 17:38:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762966795; cv=none; b=p3Qiu9Iam+pKf1TbXxJoreocNLq72Yg6HPN+bivU9pyFRVEyqukhWVGEfwYd9YIkwGvi66HCnUZvCKhz2DreHFEwPa4BAtO2fBnQhqfOFUYMd+90KbTifnfsWbu7FogE6kAcl29OfcAdRapn/SJP//8/qmRJTyhc5GxQuxYeRfQ=
+	t=1762969130; cv=none; b=LLrr08vVXPXrUuHl3zP+SLKrSnJbdyuVTvlMXW29Qe2bMecpn2dS/SzlCxusl/C1Ko0BshLyBFgiyE6Pm3a45SjlIEfg/YiZGiA+R9UkOcd2CcPbC1yrtGR/vUGDhzj5V2eYF8KzlSns/53CfvG5b57cWa5bbpIAipLhsMKseq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762966795; c=relaxed/simple;
-	bh=RVOBomhYRdwmTIvo3d1upFxr9xv6m2ioRcySu2Zct+c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sc0CLqxGZ68bgUbkgsvU24PcDEoHXrSRbTVwEhuMdXTNpIdjL8qxZGd9PffwUQnbRJpcXlOnMgQu9gF3OnpsiAcaYvhlC0eOVc7whHB0fVkO+VIhGlVGikkhQXOj5qzI9UHmoA24BVC2SOXPThjEXORb06Coomq2LdHLsC/AcTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XxxxjSUN; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B133C4CEF5
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Nov 2025 16:59:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762966795;
-	bh=RVOBomhYRdwmTIvo3d1upFxr9xv6m2ioRcySu2Zct+c=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=XxxxjSUNde86wmg/dcnOrvIfN2jepikxpY7GV4lYOLhagr1EawmOpBYrVV2HAdtyO
-	 3TUYFKqPEPkY1rdnnXhBeoPa2xNa0hRO7yO1zs7ZhIVNnGwrszehllb7MZvKJSI+AF
-	 uMKxv9JnbGqVlPiq5Py5LSOsJpDK+jw9LCdAbRWbGK5UddHigpNjs2JQWovpDwxDMr
-	 SC6Bd8xvqKR5FbdKSYdtaX5S0iq5ObFngQn+ArfsBJw4HLkKHHe438BTi8m43lqaQJ
-	 W4DENohKvqRFDeQMktCHwYehTOpkJbeMA8rq58HHHrJFxIJsWMjthzdqM4TcXtCWYA
-	 ODaKBn0IoFE+Q==
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-64312565c10so1580227a12.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Nov 2025 08:59:54 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUQnUozpNffN/zOkvgy25b0Vk3pqBq+jccFYUHxIdTZFIk+JYn3sWNjbJy2azHXHrrYrzTHwZY07yHLfG93ZhE5rg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyb3PgnPEwHY95xBZARIT2W8/sshSWmPy2NwZonFzHTkTdOPb1+
-	CpA7L9cv9U8NAFz/XR+91OacCbArfkO/lhtIkfbaQ5HcFyIYKeMiaR8Bkt1GNWeCrlbP+6Jq+T6
-	gFJqFJfihaFPmU49+fzAWckaQDTEwMA==
-X-Google-Smtp-Source: AGHT+IEOqt/wJY8Cvt+ACAz7CBaI8+ZUOPnH6TL37Ek0ZSDGOQg0lL8OZ1nhy6LAM/AdjuxvzXmeIb2YLoCTlRThoLE=
-X-Received: by 2002:a17:907:3fa8:b0:b70:b077:b957 with SMTP id
- a640c23a62f3a-b733198f04fmr406767266b.15.1762966793516; Wed, 12 Nov 2025
- 08:59:53 -0800 (PST)
+	s=arc-20240116; t=1762969130; c=relaxed/simple;
+	bh=T6wwWFSTnItcdc5yMdVMVsKsPomTGf54rYyP4+Tt5xI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lwYna+0oP7dUy9g6ee1lXFkobtME2UwXEg81B+gLV0/x9bG2PLaqH3bzsrGJRzUxoOZIAR72WcYjWG06qgYBxaWMtm6cFhMLRTVvqkKmo5EPmv61KbfU/g6F3J9477QZRpkkiMyKh+xN/82ny7JPwNChUNclZhOuCy9W991Az1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=U0/Szjvc; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=UXZ/s6t7sJ9Qp3PethT4d8yK0n0au/aJOKUiInvHzXc=; b=U0/Szjvcjwy9Y6qt8iTfYoP9dv
+	JVtfOX+CSFBlQwxE7SdhkJMPPsjT9tKN5jqIMf6tv35tGzBv9lrn+mFLKQieBSF7t9GcLkzscL3rh
+	xPL5ZGi/PUOgYbVSB2JytAtDdzCKWqyFMfuDMSLV0jxWTGRGfm1StGUdfV7yYEuAqY2HSgSwhOajP
+	knX6EmcoT47Pn7tN6wBRww3PLjbRYa8oDMy4j3TqwpUBQpqXQ+j8/c8ZuqpDh5RPIiIJ5W5kAGJ2A
+	wr/WDxMYmainPmF/lru+i8FlZzRYDaABzGj0oURpZsjNu3DbikWreuFlQPcPWW8ZMCdOMy11Kcizc
+	us/mtvhg==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:58098)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1vJEnj-000000004Jk-2D9c;
+	Wed, 12 Nov 2025 17:38:35 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1vJEnf-0000000043t-2fFW;
+	Wed, 12 Nov 2025 17:38:31 +0000
+Date: Wed, 12 Nov 2025 17:38:31 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Horatiu Vultur <horatiu.vultur@microchip.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Parthiban.Veerasooran@microchip.com, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH net-next v4 1/4] net: phy: mscc: Simplify LED mode update
+ using phy_modify()
+Message-ID: <aRTGFzSfcKiBtg-_@shell.armlinux.org.uk>
+References: <20251112135715.1017117-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20251112135715.1017117-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251031175926.1465360-1-robh@kernel.org> <aRN0fdOAV0B728qo@p14s>
- <20251111195923.GA3629535-robh@kernel.org> <CANLsYkwcbrTaKASdr5fj0m9ARS4xUgzVH8iWQKwTCvEsoZDDsQ@mail.gmail.com>
-In-Reply-To: <CANLsYkwcbrTaKASdr5fj0m9ARS4xUgzVH8iWQKwTCvEsoZDDsQ@mail.gmail.com>
-From: Rob Herring <robh@kernel.org>
-Date: Wed, 12 Nov 2025 10:59:42 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqL7HcDkPgJjcqJSagdN=gH2rv6noVS57QMGNRp0YCxUBw@mail.gmail.com>
-X-Gm-Features: AWmQ_bmxZCkzBm3PwPqC-n2_BEF69Zs3agW7isLAr86xc9rjwe66yE2yHIz-vl4
-Message-ID: <CAL_JsqL7HcDkPgJjcqJSagdN=gH2rv6noVS57QMGNRp0YCxUBw@mail.gmail.com>
-Subject: Re: [PATCH v6] remoteproc: Use of_reserved_mem_region_* functions for "memory-region"
-To: Mathieu Poirier <mathieu.poirier@linaro.org>
-Cc: Bjorn Andersson <andersson@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Magnus Damm <magnus.damm@gmail.com>, Patrice Chotard <patrice.chotard@foss.st.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, Peng Fan <peng.fan@nxp.com>, 
-	linux-remoteproc@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251112135715.1017117-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On Wed, Nov 12, 2025 at 9:43=E2=80=AFAM Mathieu Poirier
-<mathieu.poirier@linaro.org> wrote:
->
-> On Tue, 11 Nov 2025 at 12:59, Rob Herring <robh@kernel.org> wrote:
-> >
-> > On Tue, Nov 11, 2025 at 10:38:05AM -0700, Mathieu Poirier wrote:
-> > > Hi Rob,
-> > >
-> > > Please see may comment for st_remoteproc.c
-> > >
-> > > On Fri, Oct 31, 2025 at 12:59:22PM -0500, Rob Herring (Arm) wrote:
-> > > > Use the newly added of_reserved_mem_region_to_resource() and
-> > > > of_reserved_mem_region_count() functions to handle "memory-region"
-> > > > properties.
+On Wed, Nov 12, 2025 at 01:57:12PM +0000, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> 
+> The vsc85xx_led_cntl_set() function currently performs a manual
+> read-modify-write sequence protected by the PHY lock to update the
+> LED mode register (MSCC_PHY_LED_MODE_SEL).
+> 
+> Replace this sequence with a call to phy_modify(), which already
+> handles read-modify-write operations with proper locking inside
+> the PHY core.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 
-[...]
+Reviewed-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 
-> > > > diff --git a/drivers/remoteproc/st_remoteproc.c b/drivers/remotepro=
-c/st_remoteproc.c
-> > > > index e6566a9839dc..043348366926 100644
-> > > > --- a/drivers/remoteproc/st_remoteproc.c
-> > > > +++ b/drivers/remoteproc/st_remoteproc.c
-> > > > @@ -120,40 +120,37 @@ static int st_rproc_parse_fw(struct rproc *rp=
-roc, const struct firmware *fw)
-> > > >     struct device *dev =3D rproc->dev.parent;
-> > > >     struct device_node *np =3D dev->of_node;
-> > > >     struct rproc_mem_entry *mem;
-> > > > -   struct reserved_mem *rmem;
-> > > > -   struct of_phandle_iterator it;
-> > > > -   int index =3D 0;
-> > > > -
-> > > > -   of_phandle_iterator_init(&it, np, "memory-region", NULL, 0);
-> > > > -   while (of_phandle_iterator_next(&it) =3D=3D 0) {
-> > > > -           rmem =3D of_reserved_mem_lookup(it.node);
-> > > > -           if (!rmem) {
-> > > > -                   of_node_put(it.node);
-> > > > -                   dev_err(dev, "unable to acquire memory-region\n=
-");
-> > > > -                   return -EINVAL;
-> > > > -           }
-> > > > +   int index =3D 0, mr =3D 0;
-> > > > +
-> > > > +   while (1) {
-> > > > +           struct resource res;
-> > > > +           int ret;
-> > > > +
-> > > > +           ret =3D of_reserved_mem_region_to_resource(np, mr++, &r=
-es);
-> > > > +           if (ret)
-> > > > +                   return 0;
-> > >
-> > > The original code calls rproc_elf_load_rsc_table() [1] after iteratin=
-g through
-> > > the memory region, something that won't happen with the above.
-> >
-> > Indeed. it needs the following incremental change. It is slightly
-> > different in that rproc_elf_load_rsc_table() is not called if
-> > 'memory-region' is missing, but the binding says that's required.
-> >
-> > 8<--------------------------------------------------
-> >
-> > diff --git a/drivers/remoteproc/st_remoteproc.c b/drivers/remoteproc/st=
-_remoteproc.c
-> > index 043348366926..cb09c244fdb5 100644
-> > --- a/drivers/remoteproc/st_remoteproc.c
-> > +++ b/drivers/remoteproc/st_remoteproc.c
-> > @@ -120,15 +120,19 @@ static int st_rproc_parse_fw(struct rproc *rproc,=
- const struct firmware *fw)
-> >         struct device *dev =3D rproc->dev.parent;
-> >         struct device_node *np =3D dev->of_node;
-> >         struct rproc_mem_entry *mem;
-> > -       int index =3D 0, mr =3D 0;
-> > +       int index =3D 0;
-> >
-> >         while (1) {
-> >                 struct resource res;
-> >                 int ret;
-> >
-> > -               ret =3D of_reserved_mem_region_to_resource(np, mr++, &r=
-es);
-> > -               if (ret)
-> > -                       return 0;
-> > +               ret =3D of_reserved_mem_region_to_resource(np, index, &=
-res);
-> > +               if (ret) {
-> > +                       if (index)
-> > +                               break;
-> > +                       else
-> > +                               return ret;
-> > +               }
->
-> This looks brittle and I'm not sure it would work.
->
-> Going back to the original implementation, the only time we want to
-> "break" is when @index is equal to the amount of memory regions _and_
-> ret is -EINVAL.  Any other condition should return.
+Thanks!
 
-@index equal to number of entries returns -ENODEV, so that condition
-is impossible. We can simply it to this:
-
-if (ret =3D=3D -ENODEV && index)
-    break;
-else
-    return ret;
-
-If you want to keep the prior behavior when 'memory-region' is
-missing, then '&& index' can be removed, but I think that was wrong
-behavior.
-
-Rob
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
 
