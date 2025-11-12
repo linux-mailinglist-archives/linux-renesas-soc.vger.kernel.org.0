@@ -1,106 +1,101 @@
-Return-Path: <linux-renesas-soc+bounces-24498-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24501-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B37DC52AE3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Nov 2025 15:23:07 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D07BC53804
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Nov 2025 17:47:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 880F4501C72
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Nov 2025 14:01:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 588DA563DCF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Nov 2025 15:42:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C18733FE27;
-	Wed, 12 Nov 2025 13:58:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83A3833F381;
+	Wed, 12 Nov 2025 15:41:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lKuYFh16"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ANKmPsFu"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8921133F8BD
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Nov 2025 13:58:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FC1733A026
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Nov 2025 15:41:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762955883; cv=none; b=GIs39JBFpqEC0g9R9gQhV049l4SJyejNKqgzgPnCfRqZiZz1v6JH1xOu1aFwmDUyJafhO4DwJmB9PuNZh4CiKZ0d/s0cBLDFdIrg7QmJdsFXwPGT0a8AoSEY+SfHgNYm2B1BSUg0MG+tobfLXBhZKtLoYimxWlzEPk8K1GBHHDc=
+	t=1762962090; cv=none; b=HJZ+Ce6KeDNuUGAoDyz/WsFcgnDFLn1qLOJYanAB4bUnF23sOFTxU0msXLqnaZKhGm4OmGw8G9Bf82buq+osYmyRVJeURtChLJfAVc7hf5ZhfZV3+wRVtz1fBJ9KGsLV/WDNCwJT0CGQ+ruH+joTu1WaEJd4jzdcbodKv/LKa/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762955883; c=relaxed/simple;
-	bh=TVib8KoMScZCb+KPT85+QmKKvlCH8lixAtnRmNJ3Neg=;
+	s=arc-20240116; t=1762962090; c=relaxed/simple;
+	bh=UClL00HHRdjqVQ8rRDJyEJORa3/XwLjIF8+0EpknQq8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IaHxFYlrs/z/MqqnN2ukYTdEU+qARC7ovDYuEZPp3excZ+Z670tJKgpDWLnVapv6ZIK6mG2OQfZNdtr2hvjyeE7jajz0mdF4AMMrRZ0TwS4+yusYTq+ByC0IJrIzF3n46XO38Xeqs/yHHQiF5XH1aADdTaj2wgSF72f/3P/27YI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lKuYFh16; arc=none smtp.client-ip=209.85.210.182
+	 MIME-Version; b=aeJ09ZG1/SWxve8OMMokciEYNXHpcBRqnPlbjauCXs08GulxiGn/WODcCiYBlEYInymK236bM70QiI/wd2FITTl0kJ9pszZySKx6aY/PbKL/bIycDGqJ5+eoZUJRgozTVHYhSfrI2+qlLXzXt1OIMn5FR9uAl3rJbYO/Y0nbdfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ANKmPsFu; arc=none smtp.client-ip=209.85.218.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-7a9cdf62d31so1074676b3a.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Nov 2025 05:58:00 -0800 (PST)
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b3e7cc84b82so196994966b.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Nov 2025 07:41:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762955880; x=1763560680; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1762962086; x=1763566886; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=j1/MI7fuOzyKPjB007+f1We8KvicofZrvdYQ3ilyzeo=;
-        b=lKuYFh16/6rkyavH4eqTg6FQaEhDKqJQ9T7YdWTLOsH2HVZAG4cmn6wTPORrzSaa76
-         YZv6hKrXeQrk64ik8lj1cD1PduE4FtX/J2EjCEOTboCTi0XqeA3/yJ80z98r58pNfCup
-         8bLYppRSnhhG4vLiT+SlznkSaqncHb7c/r9j8GQUwBCn3AFtai4U1CmbLVw8C+7HcqMf
-         E0TGmlGCAlvSpnJrk5+YtYmEaYjhLblAGsTkRdjtnuBPS0Nq05cpKSYJ2YMee+hEvovE
-         kqqdDLSbQttumlkIt4DWZLGexew1tmzChcqLiNfKf/7sIbkOINlRQBsjU8R2VTt+Ky0t
-         Rf6Q==
+        bh=yk7u2O7gzBgbufSRxECeKhh27HRZUnQrOMyIaKWC7ws=;
+        b=ANKmPsFuZKOjXrk+WZ+5vWzfBmnhMJJfAh+tvxjUpLvmOXtFlfGEjnvy+h3+a0j/ij
+         WgkoeJ8sqQ6a/Uj/Nflrr6YcDe0teiDimCh11m1kkWgVzvp0WgLCeRCclKssbY6Q943w
+         3jfIqw6cWbA6fSKBjvVb+djtKIIM/hOzg3NPGwltl7swWL2Cl4pkeDLQt9sMcmxooo/5
+         M2MMZASc4X9hu5W+Ml+0l72v4d8m+FNL/GBq6A5vSpP57h8I2txlWqiA/grvmgh6WQ8n
+         P+jKsJOhgbHhVLpAhHwsCcKNmdrhLsONq/E1+UbiWeFJb1R5OgygDAY7ztlZQTWlL9ku
+         g79g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762955880; x=1763560680;
+        d=1e100.net; s=20230601; t=1762962086; x=1763566886;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=j1/MI7fuOzyKPjB007+f1We8KvicofZrvdYQ3ilyzeo=;
-        b=MKLXtWwnGX0kyZNeFFG4aIWpUFU6BPGodoPwcC8B5N+w1sH7s+kIbMiXpZ9hhiG4MY
-         NNSMYBnXUMOJco8WC2mY+eJyWUG5A9OWn5RoOs7VwVrkKxBOiPpUDsUcvyvdA5L/BAXN
-         /RXwy9ZjjBQfZTt5H9PLHwrcssqHXxFLSUvqg2gYliRTb9EpaekanPxRBEKmNij08U9Q
-         VNLyPIPyVfIWmyjkRsRO9KuvdYAqr1mU3J8+oQwiK9NzzTieQWoRxCiW8BxKN4Rj7DO5
-         NG9PFM7vYxwDshErcW5KeY29iZjXFQ8xaNaEbzlRI1dtaHmnyA0fEW+fElaB+l6PA3ME
-         0zZA==
-X-Forwarded-Encrypted: i=1; AJvYcCUCBRtrR7UJo5594+rBy/xltMo5Dw+6BejOIVYrbOXlzswTJTFjrb68UtBii9YAzC00BXYMa7U00Yd1tFdXjlb1SA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxy3KZXXAw+uvk7HrvgHc3dJb6n+OSaMP1BrGP8wZb1utGJAtoR
-	r/H1wplx8Tuku6zpMXuVZD4dN6c8BHnW85sBQ0aDrAZOvf3gDC/se7bD
-X-Gm-Gg: ASbGncu8mLtC9ZNr/Yjxb72BZyDgVA2CPwk/ftCnp8RZmUSlnibxbimHw79NdNe0Jxq
-	w9s0hI8qpbCDeyICbLJjNv9lNZ09XMuEOxhdsCgbxVJ8VOzZwpeTT4Up7qtkdhluF32zS2P5Ob/
-	O3P9rRLVz6d7CBN0eMagHJuRY5WMl57l60wm76hBIBHufrbOAPlUok8M+Ewse0pvGYdm85NYSrL
-	L6IlfpZrB8dg+5wS68syzuPOVv3rzNwY7nGcXFy4a1U5uq3DPLRmwR0jhGhckOkv7nU0r74c8Iq
-	Bx4bVZMG9qAPf8w+L0qSqlvtd/+lP1dBdx3GXeKLiim4QlzgLr4JME/Xnvnq7JaZp/BFpzgJfS7
-	PHuxTXMfOPXY/plVIhGIp2fq+r6KRNxQNy8cJ+hh+xdfjc98+m/nsU6WbM63JsDus2rp9J/1ZU3
-	BkxJyK2QkKKeV7/ZB812Pq
-X-Google-Smtp-Source: AGHT+IHyp9NWySH+cDzcnVvq8I6ZIzBl9JYoz2ufTq/3+N/RimV2Z+kLAg6PlRzSKztugHPQfUdG5g==
-X-Received: by 2002:a05:6a00:88f:b0:7aa:d1d4:bb68 with SMTP id d2e1a72fcca58-7b7a46ff44bmr3401593b3a.20.1762955879820;
-        Wed, 12 Nov 2025 05:57:59 -0800 (PST)
-Received: from iku.. ([2401:4900:1c07:5748:1c6:5ce6:4f04:5b55])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b0f9aabfc0sm18361299b3a.13.2025.11.12.05.57.53
+        bh=yk7u2O7gzBgbufSRxECeKhh27HRZUnQrOMyIaKWC7ws=;
+        b=lxzzljbN2kY4y22yZs6q4CNOXZfOv8Qr4eoBLPt9iA/APh7dCBibYQ2YvCb1zJJIKg
+         G/HGB48IeN0cb2O7z9X3Ao3EezYu3DDREVb/4EPU2iV3Mg7Nkt3RKncDuPZoHcJ1dugb
+         EJfiddnzUlwxNujHHReXZntV4ZD+fTWQjuLVq/MzXhJ+Is7gbNxlFJ5WK6QnreNYeDkW
+         csWSENE3nJ2clpe40dqwpSYZlY3ItS3kMIPZqsvDlOHFszZ4UV++t40ILcmdMlt1xDdw
+         ztMJRmax5bs8onZXDjw6QjlS54f4vA/esrElBXJAol72QpUhg7wwQxLpdJ2k0jL0Wg53
+         eycA==
+X-Forwarded-Encrypted: i=1; AJvYcCW4V6nNTXMioCAOmJohjUYSSGAVAC7M3xwVMZLjjXOxv7x3f0/v7LbUPecKRJYBuTCF95uOy2qW9Vvj5gqdRQOwOg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz4sCLYN5bWbEoximQj4yg4CIHM5gisYDGS2XhjngliMT4UTYfR
+	SWWwcxpGP2OCnFWq0Ccy4SJ7GtJRdOky29AsJ1+RFPpw9JnRGK0eEQAk
+X-Gm-Gg: ASbGncvWAepm6mLnpf/saFWSpmXWEpb9qBVL6eueCGphCngy1P/2CKSuMDdWhAZ6PSS
+	As0N7p7Udv7Euud497/I9uOoHAk6LYxNQ465guwyJSw8RcUQJ2KFaMJcuiXclyAX4V79qC0QvUk
+	beL64Mvj8OhWDnUcn61UtPfMjDP/u2ABBNxXeGgqClTs4xxbkUjdeA9PeO1Ic5nYf5h+ztnh20j
+	AYgIiIFfFGz83lq1angOuAbtL3qOZXNz7wiw7VEJxCRCZJ3PWDL1J0uAci6ikTqJ7xCk5q8Je7Y
+	94/ha+tY5qKn1/UcPZ7ycSRwV8eyq4+GgfKDzPIENzsoDlsxh4lum8+VihlcGYwMmS2a/pADd47
+	ZGcJrqMAjLLtYtg40ZnrOL0/NJXK7J00eraf2XCATF0Xw+cry84DuapeyDXm+5/iAE0YuSDqoJW
+	F4FZ3+sJGrVmQRtFGWS+rvYNKRzOo5LqIJ4JiyipuIpdPkq1pYzqJVq2AeTD9hMCgbXf6QtnrDS
+	GSFPg==
+X-Google-Smtp-Source: AGHT+IGgr7VLLs1gOVhCQRtNcp9U6lNi8siXqNWSeqIbbBA6TNOKiWU+pVTILXw69C+/pi/ijkJrCw==
+X-Received: by 2002:a17:907:9722:b0:b72:5380:f645 with SMTP id a640c23a62f3a-b7331970ab8mr397255366b.3.1762962085846;
+        Wed, 12 Nov 2025 07:41:25 -0800 (PST)
+Received: from localhost.localdomain (host86-162-200-138.range86-162.btcentralplus.com. [86.162.200.138])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b72bf97d456sm1670023566b.39.2025.11.12.07.41.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Nov 2025 05:57:59 -0800 (PST)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Horatiu Vultur <horatiu.vultur@microchip.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Parthiban.Veerasooran@microchip.com
-Cc: netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+        Wed, 12 Nov 2025 07:41:25 -0800 (PST)
+From: Biju <biju.das.au@gmail.com>
+X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH net-next v4 4/4] net: phy: mscc: Handle devm_phy_package_join() failure in vsc85xx_probe_common()
-Date: Wed, 12 Nov 2025 13:57:15 +0000
-Message-ID: <20251112135715.1017117-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Biju Das <biju.das.au@gmail.com>,
+	stable@kernel.org,
+	Tony Tang <tony.tang.ks@renesas.com>
+Subject: [PATCH 1/7] ASoC: renesas: rz-ssi: Fix channel swap issue in full duplex mode
+Date: Wed, 12 Nov 2025 15:41:02 +0000
+Message-ID: <20251112154115.1048298-2-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251112135715.1017117-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20251112135715.1017117-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20251112154115.1048298-1-biju.das.jz@bp.renesas.com>
+References: <20251112154115.1048298-1-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -109,38 +104,130 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Biju Das <biju.das.jz@bp.renesas.com>
 
-devm_phy_package_join() may fail and return a negative error code.
-Update vsc85xx_probe_common() to properly handle this failure by
-checking the return value and propagating the error to the caller.
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+The full duplex audio starts with half duplex mode and then switch to
+full duplex mode (another FIFO reset) when both playback/capture
+streams available leading to random audio left/right channel swap
+issue. Fix this channel swap issue by detecting the full duplex
+condition by populating struct dup variable in startup() callback
+and synchronize starting both the play and capture at the same time
+in rz_ssi_start().
+
+Cc: stable@kernel.org
+Fixes: 4f8cd05a4305 ("ASoC: sh: rz-ssi: Add full duplex support")
+Co-developed-by: Tony Tang <tony.tang.ks@renesas.com>
+Signed-off-by: Tony Tang <tony.tang.ks@renesas.com>
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
-v3->v4:
-- New patch
----
- drivers/net/phy/mscc/mscc_main.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ sound/soc/renesas/rz-ssi.c | 59 +++++++++++++++++++++++++++++++-------
+ 1 file changed, 49 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/net/phy/mscc/mscc_main.c b/drivers/net/phy/mscc/mscc_main.c
-index 21fcaf07bc6d..2b9fb8a675a6 100644
---- a/drivers/net/phy/mscc/mscc_main.c
-+++ b/drivers/net/phy/mscc/mscc_main.c
-@@ -2264,8 +2264,11 @@ static int vsc85xx_probe_common(struct phy_device *phydev,
- 	/* Set up package if needed */
- 	if (cfg->use_package) {
- 		vsc8584_get_base_addr(phydev);
--		devm_phy_package_join(&phydev->mdio.dev, phydev,
--				      vsc8531->base_addr, cfg->shared_size);
-+		ret = devm_phy_package_join(&phydev->mdio.dev, phydev,
-+					    vsc8531->base_addr,
-+					    cfg->shared_size);
-+		if (ret)
-+			return ret;
+diff --git a/sound/soc/renesas/rz-ssi.c b/sound/soc/renesas/rz-ssi.c
+index 81b883e8ac92..f21b332b3656 100644
+--- a/sound/soc/renesas/rz-ssi.c
++++ b/sound/soc/renesas/rz-ssi.c
+@@ -133,6 +133,12 @@ struct rz_ssi_priv {
+ 	bool bckp_rise;	/* Bit clock polarity (SSICR.BCKP) */
+ 	bool dma_rt;
+ 
++	struct {
++		bool tx_active;
++		bool rx_active;
++		bool one_stream_triggered;
++	} dup;
++
+ 	/* Full duplex communication support */
+ 	struct {
+ 		unsigned int rate;
+@@ -332,16 +338,17 @@ static int rz_ssi_start(struct rz_ssi_priv *ssi, struct rz_ssi_stream *strm)
+ 	bool is_full_duplex;
+ 	u32 ssicr, ssifcr;
+ 
+-	is_full_duplex = rz_ssi_is_stream_running(&ssi->playback) ||
+-		rz_ssi_is_stream_running(&ssi->capture);
++	is_full_duplex = ssi->dup.tx_active && ssi->dup.rx_active;
+ 	ssicr = rz_ssi_reg_readl(ssi, SSICR);
+ 	ssifcr = rz_ssi_reg_readl(ssi, SSIFCR);
+ 	if (!is_full_duplex) {
+ 		ssifcr &= ~0xF;
+ 	} else {
+-		rz_ssi_reg_mask_setl(ssi, SSICR, SSICR_TEN | SSICR_REN, 0);
+-		rz_ssi_set_idle(ssi);
+-		ssifcr &= ~SSIFCR_FIFO_RST;
++		if (ssi->dup.one_stream_triggered) {
++			rz_ssi_reg_mask_setl(ssi, SSICR, SSICR_TEN | SSICR_REN, 0);
++			rz_ssi_set_idle(ssi);
++			ssifcr &= ~SSIFCR_FIFO_RST;
++		}
  	}
  
- 	/* Configure LED settings */
+ 	/* FIFO interrupt thresholds */
+@@ -374,12 +381,18 @@ static int rz_ssi_start(struct rz_ssi_priv *ssi, struct rz_ssi_stream *strm)
+ 			      SSISR_RUIRQ), 0);
+ 
+ 	strm->running = 1;
+-	if (is_full_duplex)
+-		ssicr |= SSICR_TEN | SSICR_REN;
+-	else
++	if (is_full_duplex) {
++		if (ssi->dup.one_stream_triggered) {
++			ssicr |= SSICR_TEN | SSICR_REN;
++			rz_ssi_reg_writel(ssi, SSICR, ssicr);
++			ssi->dup.one_stream_triggered = false;
++		} else {
++			ssi->dup.one_stream_triggered = true;
++		}
++	} else {
+ 		ssicr |= is_play ? SSICR_TEN : SSICR_REN;
+-
+-	rz_ssi_reg_writel(ssi, SSICR, ssicr);
++		rz_ssi_reg_writel(ssi, SSICR, ssicr);
++	}
+ 
+ 	return 0;
+ }
+@@ -915,6 +928,30 @@ static int rz_ssi_dai_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
+ 	return 0;
+ }
+ 
++static int rz_ssi_startup(struct snd_pcm_substream *substream,
++			  struct snd_soc_dai *dai)
++{
++	struct rz_ssi_priv *ssi = snd_soc_dai_get_drvdata(dai);
++
++	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
++		ssi->dup.tx_active = true;
++	else
++		ssi->dup.rx_active = true;
++
++	return 0;
++}
++
++static void rz_ssi_shutdown(struct snd_pcm_substream *substream,
++			    struct snd_soc_dai *dai)
++{
++	struct rz_ssi_priv *ssi = snd_soc_dai_get_drvdata(dai);
++
++	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
++		ssi->dup.tx_active = false;
++	else
++		ssi->dup.rx_active = false;
++}
++
+ static bool rz_ssi_is_valid_hw_params(struct rz_ssi_priv *ssi, unsigned int rate,
+ 				      unsigned int channels,
+ 				      unsigned int sample_width,
+@@ -985,6 +1022,8 @@ static int rz_ssi_dai_hw_params(struct snd_pcm_substream *substream,
+ }
+ 
+ static const struct snd_soc_dai_ops rz_ssi_dai_ops = {
++	.startup	= rz_ssi_startup,
++	.shutdown	= rz_ssi_shutdown,
+ 	.trigger	= rz_ssi_dai_trigger,
+ 	.set_fmt	= rz_ssi_dai_set_fmt,
+ 	.hw_params	= rz_ssi_dai_hw_params,
 -- 
 2.43.0
 
