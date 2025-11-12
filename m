@@ -1,276 +1,114 @@
-Return-Path: <linux-renesas-soc+bounces-24488-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24489-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09502C50DA6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Nov 2025 08:07:01 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 796E9C50DBD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Nov 2025 08:08:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E09004F589F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Nov 2025 07:01:15 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 9D3774ED7D5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Nov 2025 07:01:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B8E52E717C;
-	Wed, 12 Nov 2025 06:56:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="EPlEranA"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D25AD2E2661;
+	Wed, 12 Nov 2025 06:58:22 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010034.outbound.protection.outlook.com [52.101.229.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E91802E6116;
-	Wed, 12 Nov 2025 06:56:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.34
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762930582; cv=fail; b=psVYHgY2+nTTF2VDrJ5ZbEyWCg3+8QPqmWvt9vf/4DxVTY+wOWvCFPuMA1UeoSaX9h6OQMvVVGtLCkdGfQ2B0Oh5NFlOS0eYW3/cshStYdWP042BGImZoz5OWAlWX20k75YvgvpWidFHeY2zCpnrDM5L5rIOELM8sexr1HnQdY4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762930582; c=relaxed/simple;
-	bh=LE2IJMlyY71frma03+akxAyUk4uI7aOmKsMjEniCtZw=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=jqyDtENDayIkyWx4q9AiNoesxnPxfsFUTEFQDFWYc8hEnHjFxvQ+37do4zIhUNYjnlo0ztKTSkfnpFvr/OmfgcC0ryKu2G5QCwYdS51I9SN6akAmeOdhXM8aTK2TvGKhLbrZT64X3KqKbcQBsREr0+7Z353pjLY45wWCC2/xmII=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=EPlEranA; arc=fail smtp.client-ip=52.101.229.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vw/iy1KzvMXm4Bavn6qu+JowjmWY6txtX9iXMAON6VqIyToqY+p3RLB+oLFxDW44028hjg7c8+IX9ajDLsG5a2klyue99LeouD9gpMBI8goDKAQMUORln7JvagWEVc8nW/JB66up4FWO8qMP8CMHT34Kdhq4Jt8DOxKxXaPVJPyNFDpJcadGDbnvXdiM7JTS2UneULBqX3c8AABKHn5ZK+WDp1eSOrlBo+UCm6yrY16DsHiZGAQwcCD0UzfnmvDzp3nNr79d4hbM01kNLl0/Uvz8PfxXUZMCl8N2Bx6N/w4JI8pJcNH4HCYyvaqU09OMcAlL0EkXsbPXNVVP+fcpyA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NFrxxMLJrgPbQn3XCpSyX/p2GkTuj9W7p5gSA1rUlVI=;
- b=B3K6WPa6hoMvEKxiQf3qhi5BndwXfKcEmWb6BLMAafCtmB93XBrrygr8e1S1fEA4bhQ8eKwzAIY8RUaFffLh4EHv7KagbDJYMCOIVxEyBUUpqnbim8up6v1Mx7TzzGCU/yPgkcmKfO34vf+J4lZivbst4+L+V3/qDBRWr0xDtX8Gbq0St7gcsCmeAGpv18D34SDdY8ZDxi/H/2DtoreNG7XG9ebhtDgJrb4gXiCkVRv+19McY7IkJs1tEykZYgZWeS6ds25ScAr/f5U7UwbxBI1MJoxKyUNCKMjbyNZ/S65UORPRdrWmriAHZKdB/kTMrHFyFEeSWuJGxFczYUjanQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NFrxxMLJrgPbQn3XCpSyX/p2GkTuj9W7p5gSA1rUlVI=;
- b=EPlEranAfxZdyoyNY3DTldSfJzLtuCAEcshD81Ej+mPb9ERK8xfuTOnrpxy0pHltNTkoIjLUgNQEsTlPMS0VdlVwcsaeNDXVSZNjGKL/tHr+eedfLZ05262moCovb4VhAz+mBbERleZ8wSXdWqRAP7I9MCceicr7mHdXyonTXjE=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by OS3PR01MB10374.jpnprd01.prod.outlook.com (2603:1096:604:1fa::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.16; Wed, 12 Nov
- 2025 06:56:14 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1%6]) with mapi id 15.20.9320.013; Wed, 12 Nov 2025
- 06:56:14 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Chris Brandt <Chris.Brandt@renesas.com>, biju.das.au
-	<biju.das.au@gmail.com>
-CC: "airlied@gmail.com" <airlied@gmail.com>, "dri-devel@lists.freedesktop.org"
-	<dri-devel@lists.freedesktop.org>, "geert+renesas@glider.be"
-	<geert+renesas@glider.be>, Hien Huynh <hien.huynh.px@renesas.com>,
-	"hugo@hugovil.com" <hugo@hugovil.com>, "linux-clk@vger.kernel.org"
-	<linux-clk@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>, "maarten.lankhorst@linux.intel.com"
-	<maarten.lankhorst@linux.intel.com>, "mripard@kernel.org"
-	<mripard@kernel.org>, "mturquette@baylibre.com" <mturquette@baylibre.com>,
-	Nghia Vo <nghia.vo.zn@renesas.com>, "sboyd@kernel.org" <sboyd@kernel.org>,
-	"simona@ffwll.ch" <simona@ffwll.ch>, "tzimmermann@suse.de"
-	<tzimmermann@suse.de>
-Subject: RE: [PATCH v4 1/2] clk: renesas: rzg2l: Remove DSI clock rate
- restrictions
-Thread-Topic: [PATCH v4 1/2] clk: renesas: rzg2l: Remove DSI clock rate
- restrictions
-Thread-Index: AQHcUIhzzvEMa+4Ez0iYgZqH/QRQ77TtxCkggADbmGA=
-Date: Wed, 12 Nov 2025 06:56:14 +0000
-Message-ID:
- <TY3PR01MB11346555E90212D667267082686CCA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References:
- <CWLP123MB44995816738B58D66F4729B0FCC0A@CWLP123MB4499.GBRP123.PROD.OUTLOOK.COM>
- <OS3PR01MB8319B194964E67E3F7EFC86E8ACFA@OS3PR01MB8319.jpnprd01.prod.outlook.com>
-In-Reply-To:
- <OS3PR01MB8319B194964E67E3F7EFC86E8ACFA@OS3PR01MB8319.jpnprd01.prod.outlook.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|OS3PR01MB10374:EE_
-x-ms-office365-filtering-correlation-id: 8d7e6258-c87c-4eac-1daf-08de21b8920c
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|1800799024|376014|7416014|38070700021;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?YnqTXJIPbkfQ4/jDLxhLKhsi5Hdq13Z5W45hx0qgM/qNelpU505TAiJx8xDu?=
- =?us-ascii?Q?FaAJzgLBhZ1YCt5xVIkH8wAq2sdYgeYt4LdNcLAbHHyvVaLowP1p6IDbcuak?=
- =?us-ascii?Q?XdFfT/MdFsX7YZvR1puipBd4QG361pY1hKO+1rN2fzJcKZMTiZVqu6yQzO56?=
- =?us-ascii?Q?JnQjTTh4nMEuWuGu3O8hzHFOl+UaS1JEuB1KxN18ZsiXGYRL8WSD2vSdlVWz?=
- =?us-ascii?Q?7ma8qtjtWXxPWGy8dtqkUzfNL9ZS/QSj5XT6M0efEe89aIDsHLjjfPV0zFZp?=
- =?us-ascii?Q?xxz0soxe/n6wsQYj1XNxuEbU1p65ruaoHq1rhvpHGhu/gKNE/cMTG8YPK54R?=
- =?us-ascii?Q?hzAnMz5zZstan/Tn5mZQC64EOVs5j4i+0nMCDlQj2xlmLI9552EcEfC4kQDn?=
- =?us-ascii?Q?/hogvujm4tv3x72RiTqZvXJ+ckn6x07o2KhU1Or9zil3BW15znG0lvHwrtm8?=
- =?us-ascii?Q?6ACqMPoUcjrjfuxq8ZgLoLmUVLDKRPzw7KETp9gaZqV1P/xoAwAI18m+sJI7?=
- =?us-ascii?Q?58242Mxv1Hs+cOvhvsS5j1WRJ6w65eU7LKRbL200B3eC2GUPN3nXTWO7+Dbn?=
- =?us-ascii?Q?NWdKYiJF1I4lanmERZVpEeF0WgZtViZUCNYK9oPvgwPHIBFP6VFsyUSCw60Y?=
- =?us-ascii?Q?cM2BpfoEM3L7uxPHcMaaBClvWvYGkNVmElKGwkXY+zEtderY6Fi/keGR2p5U?=
- =?us-ascii?Q?6SPdO9zRQlozgMyN+LS3062nGVATqw1UtOKgpDTUBTER4UMWACsSoKqvmpp4?=
- =?us-ascii?Q?XhgvBwh7lzv0eHnZarLSTa3Zzw+WiZWcUi8T5q/vdcXGQLX99IcJUYGA+cdb?=
- =?us-ascii?Q?CHH9jQRBl3tamf+Rywm0RxnawNEbrjQIzMgNyPVGD53i+vzj5nTdGOWxtiCX?=
- =?us-ascii?Q?FUHbzEvfBAgNgI3jeT9vqampB9sLOLCFrmNQwLwFGe0YJVQsj7UEwFHYiNc7?=
- =?us-ascii?Q?YSvkecEKOU7VqYnNQFQWcDvXaFc8igXnnmqzyNS+O/AxuJQZ++ISmsTTwtyX?=
- =?us-ascii?Q?4/2OwwBiLhricY82k7TeLFTn6qHCFLg5wgqKqSpu7k1zWIrETT42AtuiwkOf?=
- =?us-ascii?Q?FQjybcW0THBcovL7A0z1837DeA0Rer0CXVp+2ef/5Bwtxsf9kpnhu1uLbNO4?=
- =?us-ascii?Q?PAf4AJGjRSr28i4NpT+mWBugow0aBVB2YtL5Udp7G3PH2z0l2xLxgLaYNtSl?=
- =?us-ascii?Q?uyxvGgMNGnstR45GVQeo3rzZ4KeOFUXvJvaqHJ+P7NicpFBmRhrg7UZ92Y2u?=
- =?us-ascii?Q?WCC9s/RSAV6CHp9BlqPEPmR7Qs72IWB0hikUcv6yiyXDxxoyyis2i9khOIKe?=
- =?us-ascii?Q?to2T/asNMMErenNEPJ4HA6xmKZZ+7KXWCx27m1WlWocWUQqesZnWjkF1K7JN?=
- =?us-ascii?Q?+UlSn/Hbcnp5uGIrFuggwXNBSubO8yHO84XsXaaQild6eGZodZHUZICDXr7q?=
- =?us-ascii?Q?F/OYZz8cZbO8vdd7XX7yNMxbeglu0YfbF7H5R51IBAKUGlUMZRUTWAJijZv0?=
- =?us-ascii?Q?hF1tZKoS9N1HtsmY9uUk+atG7f86iFktLspA?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?sUFzJi29JguIDrXHJ+Dm6UZnjlnZx6SOeV+0UeYBeyMpm+gbugATpATsdhIo?=
- =?us-ascii?Q?wAfoC9lmy0CRgbCSy9QCJdmGtRzRGdGnY7wqCf4s+eTv+J6+ycaHao1QJtdo?=
- =?us-ascii?Q?CwJnEwAAbiSck3OFnaukoBYc+jAYu+1hAJMzJRhj4Wp0LJM8m8toOUHIvJzA?=
- =?us-ascii?Q?rzhf7bNZ41AVEJ/YuYtJO4rpDBDLC/rJxRoSLl4jbxUROq6Ji/xCDPGIT4LM?=
- =?us-ascii?Q?ighUO+Mk4WQJT6DjmpYUK6SlTb+2gav6avOQEBHkJgw84xfVg0M6CT9bGm/m?=
- =?us-ascii?Q?3nc4NText9jvjcyjoLq5t9LCed/q/gz5LvZGHsPVfdKysHhKj9W+vuOIf0Ij?=
- =?us-ascii?Q?1hi9w3ybJysgTEEKkCtN5ixETv7gQ514H7uE4JCWYMkh3gTfZxgm122Roc4V?=
- =?us-ascii?Q?f+9nenWuTdadi83SLBnOQyK4mroclOY+h2xx8QAjOxzRZVCo+XCRccsbG1xV?=
- =?us-ascii?Q?0jmfBR3Cu+CBYtbX3SJ4tL+yqGKHCM4y8osyndCFs9RPDioGApcVqBglVO6p?=
- =?us-ascii?Q?zjo/Ztlnx5bwpjSTbBV1eZXMipfcUHw54MlebWxcz8oNdcmeL4JAdz2p26E1?=
- =?us-ascii?Q?ae60jAfjLxn/DSwKZ5BGk8gZ6rdcj55+S6j01ryVuHo2yemzCjNR/niwrLOA?=
- =?us-ascii?Q?2mNsrbkiHuVTsvK8hefd3AhC3dlMV0kueYNeaARHUNqPkG2kVeoq+cU6u1AO?=
- =?us-ascii?Q?57p53VwgzwgZMSTLf0ixmYu+XMW8AjiYk0I4Ts4aYL1rfBWUC37jqQEDqe+m?=
- =?us-ascii?Q?UW03CLyUThimpZpT8BRlllDYaBD3x/rRSNLufghwyz0fnXUxaHxfie1Z6mD0?=
- =?us-ascii?Q?MghkM9/ZCmHOe8Vnd20XXdCoZon/doTL3HI1ohAGkINtur0Ftnjp1EqNrJeZ?=
- =?us-ascii?Q?w5EMBDXYGy/m2M0w3liYWDWVHF8+9NKro7cny4bMY7ygE/0AD3RVFlfZKVjy?=
- =?us-ascii?Q?rBEb+Quyq+sO4s4w8K8dFEt0r6koxBlT7jVDIaKDhZ81sAOTNjV+g4HwSE75?=
- =?us-ascii?Q?1LF7lS0A8AGHVy8BhJLgkyIcS659e/zyEQ4WXd9aOP3WbUK31oIDtBG9mSkl?=
- =?us-ascii?Q?SSmD30uG9CldQ6XjiBrcFXJZTS4/gNac/v2eDDiNtLS7REf9oy2X10LtonUi?=
- =?us-ascii?Q?Fj5ET17gWc0pG40GsOUL4piKXpHTYsjTmcs2sbP6mHPIRg1OJFRWoogrhEsU?=
- =?us-ascii?Q?tRxeXK+MVoXHNS07HF2rrfF8ufZ63hwZfHpTKdp17QH/s4TY55cmQ1j/5U4q?=
- =?us-ascii?Q?u7NxZxV1AXnD2Kck/8fVevTbSex7i8IYPNpLIbq0IxSuA14Q+PvLd4euYHTB?=
- =?us-ascii?Q?C1r+wzQw9FKG1+/A+QGSRfLbCXBo3w3CqIFpQc7N6w/ozU5it6crrINHDGIt?=
- =?us-ascii?Q?AdQJpiwOsQifm21LlsVW/AS1jHlBmbWwj53HJYaSZHxkyFRRnabztlmamTdk?=
- =?us-ascii?Q?tuTgUgWHwp+BweiGGnug/qfLD3nH4Q+Oj9h+u5wjqpnZqQy0AD24DVDZ/349?=
- =?us-ascii?Q?7sLElk4Tq5wvV3xYR596hYI6YVytyoZhj9mhjhIz4ybXcd5uP19zwQqsIpCL?=
- =?us-ascii?Q?4OpBT5UXbYc+JGR7PTy8qTatPoqB/mQWf/qrPocznrk7z0L16x9Gbza5vsmV?=
- =?us-ascii?Q?0g=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9FAD24C076;
+	Wed, 12 Nov 2025 06:58:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762930702; cv=none; b=OocyGC9JNN+I/KlhPdf+py+dH2IivEjdNU4PilAualr1eInXZp8WW+CqcfkNDdTp23vEOgCBFX2+GC3FThvfTDUzsyD2Bqa35NQyEbHnaQ7qZSRaZ25XiAm+42GAM1vFRXEa3VlGava2fHcnf0e1h8w+oPXbTcLXEXtY4szBwa8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762930702; c=relaxed/simple;
+	bh=Hin0DkjlRscjm/Jzcxyyon4GMA1Kyw8iTYefBGqeFfA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=i1PXje2kU3M25/DGm/nuZBQUvHouqHkAv5u29Do1Z7yCpMEp8m2WgQbqx8Kd5rHmBp4ChAgxDXdC0YunZnf4ZAgCaWmQC7DPBffhzOWHb3E/RyWZ2JjR5jPbixQBdrg2QcEztypQmyu8kBimOA2Q2u1n+m0u9d1mYh8f5WDw8+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from DESKTOP-L0HPE2S (unknown [124.16.141.245])
+	by APP-05 (Coremail) with SMTP id zQCowAA3PW71LxRpV8hzAA--.30824S2;
+	Wed, 12 Nov 2025 14:57:57 +0800 (CST)
+From: Haotian Zhang <vulab@iscas.ac.cn>
+To: kuninori.morimoto.gx@renesas.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	geert+renesas@glider.be,
+	magnus.damm@gmail.com
+Cc: linux-sound@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Haotian Zhang <vulab@iscas.ac.cn>
+Subject: [PATCH] ASoC: rsnd: fix OF node reference leak in rsnd_ssiu_probe()
+Date: Wed, 12 Nov 2025 14:57:09 +0800
+Message-ID: <20251112065709.1522-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.50.1.windows.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8d7e6258-c87c-4eac-1daf-08de21b8920c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Nov 2025 06:56:14.0858
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: yLm+yyItuQJE+oZIcbEemC/B92LjjdCgNHxGRsFHwfcVj3hrTKSs2zFe5sz5sc2u9f+jCSZq7d8038QXjYINLrrslv3CaGKdVijHAHOJQ2M=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB10374
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zQCowAA3PW71LxRpV8hzAA--.30824S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7AF45ZFW3Xr4rGw4fGFyUKFg_yoW8Jw45pw
+	n8Gay5Kr45Gw4vkr1Fqr4kZay0kayFyF43JF48t3WSywn3Ary3WFnFvFyUuw15JFWF9FW5
+	Xryjgr1kAFWUuaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9E14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+	6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+	Y2ka0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFylc2xSY4AK67AK6r47MxAIw28IcxkI7VAKI4
+	8JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xv
+	wVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjx
+	v20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20E
+	Y4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267
+	AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUjylkDUUUUU==
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiDAgEA2kUF81drAAAsV
 
-Hi Chris,
+rsnd_ssiu_probe() leaks an OF node reference obtained by
+rsnd_ssiu_of_node(). The node reference is acquired but
+never released across all return paths.
 
-> -----Original Message-----
-> From: Chris Brandt <Chris.Brandt@renesas.com>
-> Sent: 11 November 2025 20:43
-> Subject: RE: [PATCH v4 1/2] clk: renesas: rzg2l: Remove DSI clock rate re=
-strictions
->=20
-> Hi Biju
->=20
-> On Sat, Nov 8, 2025 3:30 AM, Biju Das wrote:
-> > > +	if (dsi_div_target =3D=3D PLL5_TARGET_DPI) {
-> > > +		/* Fixed settings for DPI */
-> > > +		priv->mux_dsi_div_params.clksrc =3D 0;
-> > > +		priv->mux_dsi_div_params.dsi_div_a =3D 3; /* Divided by 8 */
-> > > +		priv->mux_dsi_div_params.dsi_div_b =3D 0; /* Divided by 1 */
-> > > +		dsi_div_ab_desired =3D 8;			/* (1 << a) * (b + 1) */
-> >
-> > This block is duplicated may be add a helper function(), if you are pla=
-nning to send another series.
->=20
-> Actually, I just found another issue with the current driver when it was =
-assuming everything to be
-> hard-coded.
->=20
-> The current code calls rzg2l_cpg_get_vclk_rate()    BEFORE   calling rzg2=
-l_cpg_get_foutpostdiv_rate().
->=20
-> 	vclk_rate =3D rzg2l_cpg_get_vclk_rate(hw, rate);
-> 	sipll5->foutpostdiv_rate =3D
-> 		rzg2l_cpg_get_foutpostdiv_rate(priv, &params, vclk_rate);
->=20
->=20
-> The problem is that rzg2l_cpg_get_vclk_rate() is using the current values=
- of dsi_div_a,  dsi_div_b and
-> clksrc  to calculate a vclk.
-> But, the real values of dsi_div_a, dsi_div_b and clksrc are not set until=
- later in
-> rzg2l_cpg_get_foutpostdiv_rate().
->=20
-> So we have a chicken-and-egg scenario.
->=20
-> We can get around this by using the new "dsi_div_ab_desired" variable bec=
-ause we don't care what the
-> current settings are, we only care what we want them to be.
->=20
-> static unsigned long rzg2l_cpg_get_vclk_rate(struct clk_hw *hw,
-> 					     unsigned long rate)
-> {
-> -	struct sipll5 *sipll5 =3D to_sipll5(hw);
-> -	struct rzg2l_cpg_priv *priv =3D sipll5->priv;
-> -	unsigned long vclk;
-> -
-> -	vclk =3D rate / ((1 << priv->mux_dsi_div_params.dsi_div_a) *
-> -		       (priv->mux_dsi_div_params.dsi_div_b + 1));
-> -
-> -	if (priv->mux_dsi_div_params.clksrc)
-> -		vclk /=3D 2;
-> -
-> -	return vclk;
->=20
-> + 	return rate / dsi_div_ab_desired;
-> }
->=20
->=20
-> Since this function is only called one place in the driver, I suggest we =
-get rid of it and just do:
->=20
-> 	vclk_rate =3D rate / dsi_div_ab_desired;
-> 	sipll5->foutpostdiv_rate =3D
-> 		rzg2l_cpg_get_foutpostdiv_rate(priv, &params, vclk_rate);
->=20
->=20
-> Finally, how this all relates to your comment is that instead of the same=
- code block in 2 places, we
-> can just set the default desired divider and target in rzg2l_cpg_sipll5_r=
-egister() which is always
-> called early.
->=20
-> 	/* Default settings for DPI */
-> -	priv->mux_dsi_div_params.clksrc =3D 0;
-> -	priv->mux_dsi_div_params.dsi_div_a =3D 3; /* Divided by 8 */
-> -	priv->mux_dsi_div_params.dsi_div_b =3D 0; /* Divided by 1 */
-> -	dsi_div_ab_desired =3D 8;			/* (1 << a) * (b + 1) */
-> +	rzg2l_cpg_dsi_div_set_divider(8, PLL5_TARGET_DPI);
->=20
->=20
-> I just did some testing with DPI and DSI, and so far everything works the=
- same.
->=20
->=20
-> What do you think???
+Fix it by declaring the device node with the __free(device_node)
+cleanup construct to ensure automatic release when the variable goes
+out of scope.
 
-OK for me.
+Fixes: 4e7788fb8018 ("ASoC: rsnd: add SSIU BUSIF support")
+Signed-off-by: Haotian Zhang <vulab@iscas.ac.cn>
+---
+ sound/soc/renesas/rcar/ssiu.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Thanks,
-Biju
+diff --git a/sound/soc/renesas/rcar/ssiu.c b/sound/soc/renesas/rcar/ssiu.c
+index faf351126d57..244fb833292a 100644
+--- a/sound/soc/renesas/rcar/ssiu.c
++++ b/sound/soc/renesas/rcar/ssiu.c
+@@ -509,7 +509,7 @@ void rsnd_parse_connect_ssiu(struct rsnd_dai *rdai,
+ int rsnd_ssiu_probe(struct rsnd_priv *priv)
+ {
+ 	struct device *dev = rsnd_priv_to_dev(priv);
+-	struct device_node *node;
++	struct device_node *node __free(device_node) = rsnd_ssiu_of_node(priv);
+ 	struct rsnd_ssiu *ssiu;
+ 	struct rsnd_mod_ops *ops;
+ 	const int *list = NULL;
+@@ -522,7 +522,6 @@ int rsnd_ssiu_probe(struct rsnd_priv *priv)
+ 	 * see
+ 	 *	rsnd_ssiu_bufsif_to_id()
+ 	 */
+-	node = rsnd_ssiu_of_node(priv);
+ 	if (node)
+ 		nr = rsnd_node_count(priv, node, SSIU_NAME);
+ 	else
+-- 
+2.50.1.windows.1
+
 
