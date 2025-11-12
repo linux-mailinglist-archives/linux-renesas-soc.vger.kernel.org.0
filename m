@@ -1,143 +1,124 @@
-Return-Path: <linux-renesas-soc+bounces-24510-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24499-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A647C5384C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Nov 2025 17:53:38 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E82CC53947
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Nov 2025 18:07:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2E11A568025
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Nov 2025 16:37:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 23D6650831D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Nov 2025 15:42:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0787A33A026;
-	Wed, 12 Nov 2025 16:37:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9EF333B6F3;
+	Wed, 12 Nov 2025 15:41:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C49xMFRc"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V804Wny5"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF02F2BF00B;
-	Wed, 12 Nov 2025 16:37:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C84C337B80
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Nov 2025 15:41:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762965435; cv=none; b=Vmlu7KTNZQG+5p1i+rToREEl9WNquDzY7+VLXH0gJQHQiaW6FQk95I5QCeGRUX5zjHyKx5GKim/JXxS/039YKcAUN1ce0gDLeH7eUABEQ+VhR6qkk5PDlrZR/ZXnK+T5PHwmQScl/EXQOOWB5DeBu73mZeUBtcabHJczcdoaVGY=
+	t=1762962089; cv=none; b=FAFyrFPJ2g1eBkvtqcirsjmFnfKBmmcsDPs/VXuxrKglnktd5yYYNh1fY/UPPnxrtuXycbx/Rtw0Pud1L+Xs4UQ5IkH2GXuxHMuN/DyoTVo03rWSZvxo7/t9F21nD+rs80/rpemRfpGNyO7c5o0HcsdY/6pmQb+aTBJMmEz/Qto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762965435; c=relaxed/simple;
-	bh=oowPZ540cX44zaHpABNfot6LitLXzhEHziYTiD86060=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z3fH0jlhx/4DXiOccEnpCVZWhu3CIVOt9WV2JWl6Z0iM1VFxl3RttODLLqHlD9/e6k9ChEJtP6XuoacjT3ZKYG7Oe4dbgHZEmjT5urMPpJZ9LiZ4IulfViS28TrtHHHh8p9pIjjPCzW9YTPK1tDOR0qWKvv8MDxQ2CpXMSefdVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C49xMFRc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 496C3C4CEF5;
-	Wed, 12 Nov 2025 16:37:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762965434;
-	bh=oowPZ540cX44zaHpABNfot6LitLXzhEHziYTiD86060=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=C49xMFRcBVwukuEBj8w7WVJkJdl2b6q7XKOX7iyjoj46RwGJVJdZjGt4jvbUyfvH+
-	 pEho5CCRnuL3R712dZdjFptpRjKnPadSWo3NL2LuQ947HDE2J6L5IycFMYZm6N1N4I
-	 yHDN7Olr6pMhU5D0IoH/EUNJLbgzmKfHQoJeN2dMYVWgQyztFgvsXFgUv9V5Q5dXcO
-	 PSyJWnbufZdpOEJSo86sJgSCEr3dj8p2KaJ8i9ba6oDjKwphY8Hz7JH3EvmuLq7ISM
-	 N4Ms1vr+nJYY8nJyP/j9+lPVNygBhaE+l4NAwkv0DAjAsD2kXiit3ZenoD0WhtKqXV
-	 jCrsEHE2su+bA==
-Date: Wed, 12 Nov 2025 10:37:12 -0600
-From: Rob Herring <robh@kernel.org>
-To: Conor Dooley <conor@kernel.org>
-Cc: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
-	tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org,
-	biju.das.jz@bp.renesas.com, Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	s=arc-20240116; t=1762962089; c=relaxed/simple;
+	bh=P70ux5XoL4sP7XKBF8mt9nEhNWg2Y0bKzzy2WXyp+MA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mfI/me/T/rD89nWE++tCxjx+EiQ/t7vShPkdkTcax4K2TlEP/LXk1Oc/xJDgzuUHONf96ET031B4Pq4W+ECLGyk9KMulm3W2TOXfFYfFCndDFPBUHV4nmS51cGlWjQz27DVqCAOehymxku9Zh9UtnXEDeanpmZW2766o6Yl9pqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V804Wny5; arc=none smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-6419aaced59so1446633a12.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Nov 2025 07:41:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762962085; x=1763566885; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=EcqGRuJDH5DuPAeW4wBjcQ/B5B6evG4AWgj1C7n+4kU=;
+        b=V804Wny53F8rsoC0D2aHjH3g007OZpczWy9EsPNIadKYAww8Y8cJy0gMWtiyigO7EF
+         ufLqCRVh/dAU0gvUeIsZq+Oz0TNRumgNEDnzdjcvd+9IsJr4O8q9nrKazJh8CS4HCvLF
+         kcdlLpsV3fXSgH9z9e74m+FOBbfSECchh87NXSim7QqqQiWuc0z2sjq2nYjVFUf3MWqx
+         qCm4kg6kSCwL7Q+HYonTH5oTUKRBOk1HBGVougmD56vv2FJqKTG7QI14eYD2dlxsnqxu
+         LICNUx7WzbvFwBuQ/YWBSrXenMSRKrERAZw/l6bo4oFuSZHEoqc8Z1JJDqN66SKMZGKD
+         hJ9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762962085; x=1763566885;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EcqGRuJDH5DuPAeW4wBjcQ/B5B6evG4AWgj1C7n+4kU=;
+        b=Gh5m+OJ3HeAZu02uPmevSqvl5M+3Rm5YojpgWViqB6BfFxV17Wo+evRpUly0hBQ2g/
+         N2EG9AuoolzvmWfzuq7CXRnXhH30CVoRNF7kAa+/pcyqFeWmkiP1r6GXfT6kZ7dOAGwP
+         KnODZuul0lw5V8Q2k6rNu6NnGC8xSsn+WeMbMJi+gs+BtDsFTM3l+kAOhScRzHn8ECFg
+         sLHVtTsN6hUouaMzAUBWymWHsYDOmZLR6ujJGNDcbxabKk43o3gbs05wHATJDWRE2L0d
+         JAba6+JSQoarDbc6BSBdchp1oKCrPVmefEzS34oC1/lGFCbP5BdiOVEIiHcGwTtC8oaJ
+         ofYw==
+X-Forwarded-Encrypted: i=1; AJvYcCX8e6DkNKhylpTok4lzlSmf2nU4olcP6EXKWA+aKjSDNnMfcnNXOQZsAzaueBlA/FfWItXawjfHa2C4Akde6dllNg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwB8xRa0QOg68QVRvXmEzNrTu5HKBCfTaf5pt/kOiGsL31k65ss
+	gYJ9JEgIK2IpzOnJdkTDHIRzMWsBelOpkrrms/Ah6hrCHU4QdGfnuLW7
+X-Gm-Gg: ASbGncs8B+G645odVC2eD6qSH4XN3zI8OxZti4uj/AJzdtL8kmdRmW6zp/cqIri5LFN
+	kzi7u3MBCnt1k4HsJzDfsQIz4sfAHLRwJvuvBIhGEYwma177ILW2AAs9qXVCL3i6DqOLLxJHQ0n
+	g1ycvQJZsyVaJc/W83/DXyEENdmgChVLPuLlU/JUh9eYkovPdx9tcSZylOX3ErvQnm1iDVgnR2W
+	gH4CCeXA6JoE83n9MQZgjlNWXq7qxpiFw0QlgcrtT8x+7iPkdKcnTmi2G+QCfWxY6NN6zrjq0Ib
+	1HEHBtsJ3Oy/5ndR0IoEjLEfJFViEdNNFuMHg+UUpOyPJY735Q0xis/q7xaoS62HVTe38Sh+16+
+	sEolXC/lupPxLikY7oWnUo80sU7adDdPS//bTDhu+3LTuTVtojMZJztxMBp4/f+0YcedUgpmhY+
+	AWJ4MJP7h4XMugfteFPqjEm9NiVICX0w/XIDWPGyIw901VGOsZsq+IYTnzfWMKhvfsYvZ8WsaXx
+	MCqqg==
+X-Google-Smtp-Source: AGHT+IHX3eOJnJ6b2ckYQuN9nF0Y5Rkb79t/DFxTrsKsHI+zlzbswhY4DwsGngMKF9S9FWP+40tSmg==
+X-Received: by 2002:a17:907:6092:b0:b70:bc2e:a6f0 with SMTP id a640c23a62f3a-b7331a054camr337287566b.5.1762962085303;
+        Wed, 12 Nov 2025 07:41:25 -0800 (PST)
+Received: from localhost.localdomain (host86-162-200-138.range86-162.btcentralplus.com. [86.162.200.138])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b72bf97d456sm1670023566b.39.2025.11.12.07.41.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Nov 2025 07:41:25 -0800 (PST)
+From: Biju <biju.das.au@gmail.com>
+X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Peter Rosin <peda@axentia.se>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 04/21] dt-bindings: reset: renesas,rzv2h-usb2phy:
- Document VBUS_SEL mux
-Message-ID: <20251112163712.GA1850277-robh@kernel.org>
-References: <cover.1762773720.git.tommaso.merciai.xr@bp.renesas.com>
- <8fba0b7235bd398d41329fd087d68f7e98bbbaca.1762773720.git.tommaso.merciai.xr@bp.renesas.com>
- <20251110-resonate-strict-c3d6c42f3e0d@spud>
- <aRJqfh7p9M3NHfCS@tom-desktop>
- <20251111-character-catnip-0832956a3fb1@spud>
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH 0/7] RZ/G2L SSI Improvements
+Date: Wed, 12 Nov 2025 15:41:01 +0000
+Message-ID: <20251112154115.1048298-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251111-character-catnip-0832956a3fb1@spud>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 11, 2025 at 05:49:24PM +0000, Conor Dooley wrote:
-> Tommaso, Rob,
-> 
-> On Mon, Nov 10, 2025 at 11:43:37PM +0100, Tommaso Merciai wrote:
-> > Hi Conor,
-> > Thanks for your comment!
-> > 
-> > On Mon, Nov 10, 2025 at 06:56:31PM +0000, Conor Dooley wrote:
-> > > On Mon, Nov 10, 2025 at 01:08:04PM +0100, Tommaso Merciai wrote:
-> > > > Document the 'mux-controller' child node in the Renesas RZ/V2H(P)
-> > > > USB2PHY reset binding to support describing the USB VBUS_SEL
-> > > > multiplexer as a mux-controller.
-> > > > 
-> > > > This is required to properly configure the USB PHY VBUS source on
-> > > > RZ/V2H(P), RZ/G3E SoCs.
-> > > > 
-> > > > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> > > > ---
-> > > > v2->v3:
-> > > >  - Manipulate mux-controller as an internal node.
-> > > 
-> > > Why is it a child node, rather than just putting the cell in the parent
-> > > reset node?
-> > 
-> > Getting "make dt_binding_check errors" [1] in v2
-> > Adding #mux-state-cells = <1> into:
-> > 
-> > 	usb20phyrst: reset-controller@15830000
-> > 	usb21phyrst: reset-controller@15840000
-> > 
-> > Nodes.
-> > 
-> > Please correct me if I'm wrong.
-> 
-> I think that that binding is not working as intended. Why require a
-> node-name pattern, when it matches on other things too:
-> select:
->   anyOf:
->     - properties:
->         $nodename:
->           pattern: '^mux-controller'
->     - required:
->         - '#mux-control-cells'
->     - required:
->         - '#mux-state-cells'
-> if the node name always contained mux-controller, the second two here
-> would not be needed. Looks to me like the intention was for it to allow
-> putting these control/state-cells properties into mfd type nodes.
-> 
-> I'd delete the node name property tbh. Rob, you converted this to
-> schema, what do you think?
+From: Biju Das <biju.das.jz@bp.renesas.com>
 
-Yeah, I'd probably just comment it out and drop the select.
+The first patch in this series fixes audio channel swap issue because of
+half duplex to full duplex switching during the streaming that involves
+FIFO reset which drops the word leading to audio channel swap issue. The
+second patch fixes sample width value in the hw_params_cache::sample_width
+Apart from this, support 24 and 32 bit sample format width.
 
-I'm not sure what to do here in general. Matching on node names was 
-useful early on, but that becomes less useful as we have schemas for 
-everything. I'd still like to document standard node names in schemas 
-somehow, but obviously we can't require a certain name when a node is 
-multiple providers. Ideally, every node name in the list in the DT spec 
-would be in schemas and we could generate that list.
+Biju Das (7):
+  ASoC: renesas: rz-ssi: Fix channel swap issue in full duplex mode
+  ASoC: renesas: rz-ssi: Fix rz_ssi_priv::hw_params_cache::sample_width
+  ASoC: renesas: rz-ssi: Use dev variable in probe()
+  ASoC: renesas: rz-ssi: Remove trailing comma in the terminator entry
+  ASoC: renesas: rz-ssi: Move DMA configuration
+  ASoC: renesas: rz-ssi: Add support for 24 bits sample width
+  ASoC: renesas: rz-ssi: Add support for 32 bits sample width
 
-Rob
+ sound/soc/renesas/rz-ssi.c | 193 +++++++++++++++++++++++++------------
+ 1 file changed, 132 insertions(+), 61 deletions(-)
+
+-- 
+2.43.0
+
 
