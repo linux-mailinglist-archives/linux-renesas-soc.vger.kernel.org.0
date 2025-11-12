@@ -1,126 +1,151 @@
-Return-Path: <linux-renesas-soc+bounces-24523-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24524-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E8D3C54B11
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Nov 2025 23:11:42 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A314C54BE4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Nov 2025 23:50:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id ED83A344F7F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Nov 2025 22:11:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 76A1A3AD5DB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Nov 2025 22:49:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11B892E8882;
-	Wed, 12 Nov 2025 22:11:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1EA42DBF47;
+	Wed, 12 Nov 2025 22:49:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="piS90BQR"
+	dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b="ZFEtY/YR"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 327AC2D839E;
-	Wed, 12 Nov 2025 22:11:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD0F523ED6A;
+	Wed, 12 Nov 2025 22:49:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.120.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762985497; cv=none; b=GzqDPJlOxre7S00XHpIheCoiFf8xTHqlmItoR8WGQk6LMgQGS87Lrd8fKiwCa7We2RhyIne4E1JU10SYjoZgp763dJimu8xdmk6Ip0fM1a1MWyRRn2xydUa0ERk/crcK4HanCzsaI+ywCyp3jH9kkgGBipYrxYNvtYbqtVxLHnU=
+	t=1762987794; cv=none; b=H3G2gL+v/jywP9vOhQXkffsTiMbgLaQtIVCyRv0SmVVEyJUNIxkdTWPn7RZ2JfSJQeAlyq5M6wIcQ9nYfHsPueboOlyy8cakejzIsHHapDhJ+k4W8M48CX61dAcq4uM1E2JJMiEzay+JT5zQq5jhVezqr+FkyO6ElF9uHIQZ7qM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762985497; c=relaxed/simple;
-	bh=3dbb1glMmN4Hc/HfJc1ZiSvcOet6dpQDyyNgXSY3pm0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bs98Jib59vFCYMTILgcjNuP87DPzBaeH/mIDHlR45IB9TjoouKWjRyNJDKE+dCMx9fnNuKmfzWii71WVI+z7dCJQZAr04cNSMKiPG+E1IBzflwSLzs9jDnMQ1gUIHp0KrujFxQt8jnoS0kvde4Ft+/9R9VdmZgKBmOdTmrThT68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=piS90BQR; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=dD3fqFseYEbF2xvDfha1nIzZW8UZrTPdcl3szlzJX38=; b=piS90BQRKYqNHfVdh3rf4wmY9X
-	MxDcJ3Uadg+v62kXwgzqB7sCgkOT1N7514BRvZNcaPbDDX82C1hbk2iXTJfJl/93ouXUvNbjddrhn
-	bVMv+fZOtyFrtQTix2k9UsRtGIi9uTLCaBjaItV+qYrJLUhUlIjtIOMuNH3eiQQ24mf3CcVdZ/gFk
-	aJNKWq33IcOSZ1ySkS9u+QqsX6YY5BeiTSgUhcex7Fi6l/2Dr0KH7xI3ECkN4rs2POqzDRKKijbut
-	lT0HN9I3roJAAYIKukQTl/Cgto/jNR/ZPKPx5/Y1VOIXnUs3SNTctvJtw7MPqK3Zqhh5+OnyBQ0uD
-	uWBr3gEQ==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:54020)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1vJJ3a-000000004c3-3no6;
-	Wed, 12 Nov 2025 22:11:14 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1vJJ3X-000000004Fi-180y;
-	Wed, 12 Nov 2025 22:11:11 +0000
-Date: Wed, 12 Nov 2025 22:11:11 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH net-next 2/2] net: pcs: rzn1-miic: Add support for PHY
- link active-level configuration
-Message-ID: <aRUF_3K0BRInAp55@shell.armlinux.org.uk>
-References: <20251112201937.1336854-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20251112201937.1336854-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	s=arc-20240116; t=1762987794; c=relaxed/simple;
+	bh=NjxPeGLCBXpLu+61v+33yTerJ8wkf9w7wh18YxqCtq4=;
+	h=Date:From:To:Cc:Message-Id:In-Reply-To:References:Mime-Version:
+	 Content-Type:Subject; b=n+mblD3aketcl2KfevF9aYcxtubj5OkcDiXxkYxxKGo4h4jwPZOs/cYPuErAB3W4PskvnjLoF4QXiOET/3jtCYl4DpBwDrs71mzAI/OznOeOW5M76//e7uq8UZ+B5DHtk/FjmUrRl8XFHlRYBwSo2nfrGGt+bqbDLzYO/YxHWy0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com; spf=pass smtp.mailfrom=hugovil.com; dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b=ZFEtY/YR; arc=none smtp.client-ip=162.243.120.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hugovil.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
+	; s=x; h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
+	:Date:subject:date:message-id:reply-to;
+	bh=rsmMeMMiuH0Pq/mWdMLj2Zy/6l7vJ2cJn1NWyyr+Rzk=; b=ZFEtY/YRQMTfQLCzXadjnLD7TO
+	2M2LgqSqxcVminMlQGegPw3zmk6z3pn6uYyrnnJKDbrXrF7ZJg2e1t+bBpYkk6dLGAD2zrPV1Mfej
+	sYsiOSvmhGy/BJqgkYWXlDew4+OqI1ukcZOFbriKuhsjt8HiN5YFdRd8bG5mYza/hs8M=;
+Received: from [70.80.174.168] (port=39896 helo=pettiford)
+	by mail.hugovil.com with esmtpa (Exim 4.92)
+	(envelope-from <hugo@hugovil.com>)
+	id 1vJJef-0003jx-K0; Wed, 12 Nov 2025 17:49:34 -0500
+Date: Wed, 12 Nov 2025 17:49:32 -0500
+From: Hugo Villeneuve <hugo@hugovil.com>
+To: Chris Brandt <Chris.Brandt@renesas.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette
+ <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Biju Das
+ <biju.das.jz@bp.renesas.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Hien Huynh <hien.huynh.px@renesas.com>,
+ Nghia Vo <nghia.vo.zn@renesas.com>, "linux-renesas-soc@vger.kernel.org"
+ <linux-renesas-soc@vger.kernel.org>, "linux-clk@vger.kernel.org"
+ <linux-clk@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>
+Message-Id: <20251112174932.c1ae526d6cda33d1e3856a95@hugovil.com>
+In-Reply-To: <OS3PR01MB8319A5873CD10A7D86F0094E8ACCA@OS3PR01MB8319.jpnprd01.prod.outlook.com>
+References: <20251105222530.979537-1-chris.brandt@renesas.com>
+	<20251111120148.943a0e193a65469a53a0cbc8@hugovil.com>
+	<OS3PR01MB8319C8A2BD72FC7787ACFEFA8ACFA@OS3PR01MB8319.jpnprd01.prod.outlook.com>
+	<20251111132246.eef0faf1177691a07a1df47e@hugovil.com>
+	<TYCPR01MB83273CEE6D5B665179456A2A8ACFA@TYCPR01MB8327.jpnprd01.prod.outlook.com>
+	<20251111220347.167dba316bea7effb6e0f849@hugovil.com>
+	<OS3PR01MB8319A5873CD10A7D86F0094E8ACCA@OS3PR01MB8319.jpnprd01.prod.outlook.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251112201937.1336854-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 70.80.174.168
+X-SA-Exim-Mail-From: hugo@hugovil.com
+X-Spam-Level: 
+X-Spam-Report: 
+	* -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+	* -0.7 NICE_REPLY_A Looks like a legit reply (A)
+Subject: Re: [PATCH v4 0/2] Remove hard coded values for MIPI-DSI
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
 
-On Wed, Nov 12, 2025 at 08:19:37PM +0000, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Hi Chris,
+
+On Wed, 12 Nov 2025 19:06:35 +0000
+Chris Brandt <Chris.Brandt@renesas.com> wrote:
+
+> Hi Hugo,
 > 
-> Add support to configure the PHY link signal active level per converter
-> using the DT property "renesas,miic-phylink-active-low".
+> On Tue, Nov 11, 2025 10:04 PM, Hugo Villeneuve wrote:
+> > You still haven't provided the base-commit. There is a ton of branches in renesas-devel.git, so it is not easy to determine the branch/commit you used for your patchset.
+> > By providing base-commit, you will save everyone a lot of trouble.
 > 
-> Introduce the MIIC_PHYLINK register definition and extend the MIIC driver
-> with a new `phylink` structure to store the mask and value for PHY link
-> configuration. Implement `miic_configure_phylink()` to determine the bit
-> position and polarity for each port based on the SoC type, such as RZ/N1
-> or RZ/T2H/N2H.
+> https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git
+> master branch
+> base-commit: dd30a345f284e0d9b1755e3538f8257cf4deb79f
+> 
+> 
+> > I tried to apply your patches on branch renesas-geert/master, using base-commit: 211ddde0823f
+> 
+> That is what I have been using. I just updated this morning to v6.18-rc5
+> 
+> 
+> > The problem seems to be that dsi_div_ab_desired is not properly initialized, because the number of lanes is uninitialized (0) at this time, and therefore
+> > rzg2l_cpg_dsi_div_set_divider() gets called with its first parameter as zero.
+> 
+> Hmmm.
+> There are 2 ways to set the number of lanes: Device Tree or hard coded in the panel driver.
+>
+> What I do not understand is that by the time rzg2l_mipi_dsi_host_attach() is called, the number of lanes should have already been set.
 
-To echo what Andrew said... really really bad naming.
+Let me know if there is something specific you wantme to test for this.
 
-include/linux/phylink.h:struct phylink;
+> 
+> On your system, where is the number of lanes defined? In the panel driver when it is probed?
 
-This structure identifier is already in use, and what's more, this
-driver includes that header file.
+For all my panels, it is set in the device three like this:
 
-What exactly is this "PHY link signal" that you talk about in the
-commit description? Apart from the LED outputs, I'm not aware of
-generally PHYs having a hardware output to indicate link status.
+...
+	port@1 {
+		dsi0_out: endpoint {
+			data-lanes = <1 2 3 4>;
+			remote-endpoint = <&panel_in>;
+		};
+	};
+...
 
-If we're talking about the link status bit in the SGMII config
-word, if there's PHYs that have that bit inverted, they deserve to
-be broken, because they will be broken with most hardware that
-interprets the link state bit (I've never seen the facility to
-invert that bit in hardware.)
 
-Basically, please explain what this is for, what this is doing, and
-why it is necessary.
+> I am testing with 3 different systems, and I have not seen this issue.
+
+I have 3 different panels, all using different druivers/IC, but I
+tested only one (ilitek-ili9881c driver).
+
+> 
+> > Like I said, it also happens on 6.17.7 stable tree. If I remove your patches, everything is fine.
+> 
+> Things are hard coded in the existing driver.
+> They work for you today because you are using the same number of lanes as the Renesas eval board.
+> I'm trying to fix support for lanes = 3,2,1
+> 
+> 
+> Thank you,
+> Chris
+> 
+
 
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+Hugo Villeneuve
 
