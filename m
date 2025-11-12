@@ -1,49 +1,60 @@
-Return-Path: <linux-renesas-soc+bounces-24522-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24523-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 358A6C5488D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Nov 2025 22:01:09 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E8D3C54B11
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Nov 2025 23:11:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 9FFBF4E02B8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Nov 2025 21:01:06 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id ED83A344F7F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Nov 2025 22:11:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A805529B22F;
-	Wed, 12 Nov 2025 21:01:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11B892E8882;
+	Wed, 12 Nov 2025 22:11:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="5+xIqgv9"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="piS90BQR"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A0BA274FE3;
-	Wed, 12 Nov 2025 21:01:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 327AC2D839E;
+	Wed, 12 Nov 2025 22:11:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762981264; cv=none; b=j256s2HrWpwXH+CyfCkxiZyMUzHUQt9hR40un9rvKkRr5vKhGKYoTqT3XKeD7MKJljdKfh7VmuCYaNYduXZOiq3OLjstqixWQPIjjt2GnNEbp6h4e5iAVaPz2iXm31SOteBrjxKwR65QpBwj1IwJTMjYVdzX8aVhJAsSFkhWR9w=
+	t=1762985497; cv=none; b=GzqDPJlOxre7S00XHpIheCoiFf8xTHqlmItoR8WGQk6LMgQGS87Lrd8fKiwCa7We2RhyIne4E1JU10SYjoZgp763dJimu8xdmk6Ip0fM1a1MWyRRn2xydUa0ERk/crcK4HanCzsaI+ywCyp3jH9kkgGBipYrxYNvtYbqtVxLHnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762981264; c=relaxed/simple;
-	bh=EsOwvL4Thqhjhc0+Ra5s4vQ2wmDA8xgL4cIEKhwJBqk=;
+	s=arc-20240116; t=1762985497; c=relaxed/simple;
+	bh=3dbb1glMmN4Hc/HfJc1ZiSvcOet6dpQDyyNgXSY3pm0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kiEkK5xniLazhWvUIMJ8kgGV6ClKaw6bjJUquzNn/Q38OWIf9Dg/Ca/lMTFGj04O06Nro82UXQxxUom/kkLX91qaDBOp2xnQ+GQ5PBwfId/hh+zfgHPgYULVYCf6Jn8Qp+nJSk9MV6FHaaX3dIJrJxed4b1sM4OGEmNV44ETBmo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=5+xIqgv9; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=98pe/V5DMvJsxOpsKIQ5YwqunEzOsM5MU9xGKZX2zjM=; b=5+xIqgv9wPuJGa6U7WSrqf6gWr
-	r8OuKDUIdsAQKh3PEVOFiUGHx+9P3I7C02S4OKd6BmE1D4avUGzXa1kwFztegzbLRdIfItXmYRyoL
-	z+GMu30esK3PThRvrk0S3oKFCyysoGX53Wrlvi56Li9Dzc3ndGPe8iHXr1DRTc+MF5vw=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1vJHxS-00DmvF-Ss; Wed, 12 Nov 2025 22:00:50 +0100
-Date: Wed, 12 Nov 2025 22:00:50 +0100
-From: Andrew Lunn <andrew@lunn.ch>
+	 Content-Type:Content-Disposition:In-Reply-To; b=bs98Jib59vFCYMTILgcjNuP87DPzBaeH/mIDHlR45IB9TjoouKWjRyNJDKE+dCMx9fnNuKmfzWii71WVI+z7dCJQZAr04cNSMKiPG+E1IBzflwSLzs9jDnMQ1gUIHp0KrujFxQt8jnoS0kvde4Ft+/9R9VdmZgKBmOdTmrThT68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=piS90BQR; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=dD3fqFseYEbF2xvDfha1nIzZW8UZrTPdcl3szlzJX38=; b=piS90BQRKYqNHfVdh3rf4wmY9X
+	MxDcJ3Uadg+v62kXwgzqB7sCgkOT1N7514BRvZNcaPbDDX82C1hbk2iXTJfJl/93ouXUvNbjddrhn
+	bVMv+fZOtyFrtQTix2k9UsRtGIi9uTLCaBjaItV+qYrJLUhUlIjtIOMuNH3eiQQ24mf3CcVdZ/gFk
+	aJNKWq33IcOSZ1ySkS9u+QqsX6YY5BeiTSgUhcex7Fi6l/2Dr0KH7xI3ECkN4rs2POqzDRKKijbut
+	lT0HN9I3roJAAYIKukQTl/Cgto/jNR/ZPKPx5/Y1VOIXnUs3SNTctvJtw7MPqK3Zqhh5+OnyBQ0uD
+	uWBr3gEQ==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:54020)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1vJJ3a-000000004c3-3no6;
+	Wed, 12 Nov 2025 22:11:14 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1vJJ3X-000000004Fi-180y;
+	Wed, 12 Nov 2025 22:11:11 +0000
+Date: Wed, 12 Nov 2025 22:11:11 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
 To: Prabhakar <prabhakar.csengg@gmail.com>
 Cc: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>,
 	Andrew Lunn <andrew+netdev@lunn.ch>,
@@ -54,7 +65,6 @@ Cc: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Magnus Damm <magnus.damm@gmail.com>,
 	linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
@@ -64,7 +74,7 @@ Cc: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Subject: Re: [PATCH net-next 2/2] net: pcs: rzn1-miic: Add support for PHY
  link active-level configuration
-Message-ID: <686d84c6-c2ea-4055-897a-6377eec1fca0@lunn.ch>
+Message-ID: <aRUF_3K0BRInAp55@shell.armlinux.org.uk>
 References: <20251112201937.1336854-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
  <20251112201937.1336854-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
@@ -76,6 +86,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20251112201937.1336854-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
 On Wed, Nov 12, 2025 at 08:19:37PM +0000, Prabhakar wrote:
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -84,10 +95,32 @@ On Wed, Nov 12, 2025 at 08:19:37PM +0000, Prabhakar wrote:
 > using the DT property "renesas,miic-phylink-active-low".
 > 
 > Introduce the MIIC_PHYLINK register definition and extend the MIIC driver
-> with a new `phylink`
+> with a new `phylink` structure to store the mask and value for PHY link
+> configuration. Implement `miic_configure_phylink()` to determine the bit
+> position and polarity for each port based on the SoC type, such as RZ/N1
+> or RZ/T2H/N2H.
 
-You probably want to avoid the name phylink. It is well know that is
-all about PHYs , SPFs, PCS, etc.
+To echo what Andrew said... really really bad naming.
 
-	Andrew
+include/linux/phylink.h:struct phylink;
+
+This structure identifier is already in use, and what's more, this
+driver includes that header file.
+
+What exactly is this "PHY link signal" that you talk about in the
+commit description? Apart from the LED outputs, I'm not aware of
+generally PHYs having a hardware output to indicate link status.
+
+If we're talking about the link status bit in the SGMII config
+word, if there's PHYs that have that bit inverted, they deserve to
+be broken, because they will be broken with most hardware that
+interprets the link state bit (I've never seen the facility to
+invert that bit in hardware.)
+
+Basically, please explain what this is for, what this is doing, and
+why it is necessary.
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
 
