@@ -1,161 +1,160 @@
-Return-Path: <linux-renesas-soc+bounces-24493-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24494-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09764C529CB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Nov 2025 15:06:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79FCCC52A3D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Nov 2025 15:15:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 507053B7CCD
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Nov 2025 13:54:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2FBEA3A9947
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Nov 2025 13:59:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34AFF229B12;
-	Wed, 12 Nov 2025 13:54:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06E6426ED3A;
+	Wed, 12 Nov 2025 13:57:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YOd9VzGK"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fkQAr3bH"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50C651519AC
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Nov 2025 13:54:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F576229B12
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Nov 2025 13:57:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762955655; cv=none; b=Lr/ndu847CZsmO2R3RxKmgSX6kdtBA0+MX40ZPOjDRC0L95h+o9whwISM8R1BqEhDIE7N4nwzjOBfi8jdrO1rO90j5vfP8L4Klt2yqSAgrkpjzxDF3XliQ+sAQ2aWcu+TVMc6FDqEeaWSBieD60jxPyHltGhluIzWzznc4xx1AA=
+	t=1762955854; cv=none; b=FUaAoE+OAHurUGY5EvERI/XqFaXGJhKc/T9btnDzPN5RQp4FWDqeiwkYrm7VpzF0CCiyQVIQoj7sllg9/ZaKWan7lqeb8nbbVa18lzbAQq7W6jTsga12CRfGrb2YdAnV0x7ykwFlzGxaUF0RHb6+T4HywOkyY1f4SjZleSnmMC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762955655; c=relaxed/simple;
-	bh=ZdpvgThlfiwd3u9oNnPJuAy5BeihTea7i8A8grWEcSQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iPThbHK+/Lez6uHYl/VjnNuiYzCAVhcDssueNsnunf/Z8/PrEz7l4XZTMfPV2cM6KZSEDoLPT4RHuNNWMTSXP7T0sBwEqlsZuw9bl/5Fq76D2MKah7suJEG/GeIZmA9fYQFLJI4dJQ3pSjp68vreMohpNNtCKH9hfHbBJr88Ef8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YOd9VzGK; arc=none smtp.client-ip=209.85.221.51
+	s=arc-20240116; t=1762955854; c=relaxed/simple;
+	bh=k2G+UAOlxryfN7Ts6BKG6DLQwr8X02cUPkX0Arp69f0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WK9zLKTSn/EtRNtvn0j97zezMf8gE+tTeq+5RrBmweWXOPQ4n/enNp+T4NKjlBxX2p9x5IWTILDSfwDAou950uDB1EyC2mewRlOPEqVC3k6DIcJ/QERrsHzNYDlCOwuW+OkE2Ap1poRbm7/55eWiMcXXFPs/1C65fdXS2FD4oSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fkQAr3bH; arc=none smtp.client-ip=209.85.210.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-42b3b0d76fcso603102f8f.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Nov 2025 05:54:13 -0800 (PST)
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-7b852bb31d9so445688b3a.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Nov 2025 05:57:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762955651; x=1763560451; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BG2pJO7jPRo0xTmxSl99J7Grs4OxbY78BhlsbWKxyMc=;
-        b=YOd9VzGKLc0O+2W4D+K8Y40BmBQiJGEqZhpbFxcYZ7jyUzLxLgjENXlfOrQo3m2ti0
-         x3K20Kyd4A+H2dOnrCpSo1F17G2Ki16vssa7Q3/n4IgY5OztlfE0HvuaM8BO0c4JOy8h
-         RUYyJIHHyRsKPKxxUkTaHY3MuvOr6Oi6+ZRXKZ6TG2ahspbZluPbGWXmxX9yjFxtqKWy
-         5hG5Ghx2thWPZ0Kutdw2YSIzIIim97FVdkzArS1tf4qS8Tk694VpIuqcaWDvfXL2SaW/
-         Nv1wP+6wgqWPjjAsYgUuKJRNnOvlJYg0FhMW1i/vp/PM/1bhAp0XEo1CVirgZ06FyEX9
-         veNw==
+        d=gmail.com; s=20230601; t=1762955853; x=1763560653; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Lt/l+8Leq/bLhALiuQnMosDsUZRfKXTeoOFBaF6JTLw=;
+        b=fkQAr3bH3AuLuM0DP7CIc02Zg9Iq30NQIVufcrlpZTNRJisyIoHQu0IH88lHd2OtvW
+         fxIKN/UFOiaJMoJ7uK0huTo0Nc3tSZ482+NC1P3hm9Lrl7pmeBbG9TEzKn2eaoyW6Xnf
+         ipWc+7HAg/cWq1sbT91iLPpKRzJfByYX8d5LOTGrNfTFZHUluCdYuvILV2g6Jfp4m+rp
+         nelLGlEmNzpmLhMKKruPNID52ikJIOabNbhcI2Yc48Tr5/gSqn1Vo4/S8mLQfqUrgfMb
+         ny7VR4kKGeL9/34SUfi/jhIy5kaFkAliBx4GmBUpTQaEekLftmJ8kzdc+cYjScV1BYSs
+         JTqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762955652; x=1763560452;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=BG2pJO7jPRo0xTmxSl99J7Grs4OxbY78BhlsbWKxyMc=;
-        b=UIsOn4bEEWbUzUMafOggoQRffZ5hl1NuSvWCv2KRptbm3/xmlmSIqjJn3KPzWRlp2n
-         +RHPa3eiS/XPjR6YQ6PPQn4/3ls0WBgO/fqxG+KJGbllfrCvxtyx3AWMj1ZqzO1Kz2yW
-         9/d3RYqQdjqINNJeyxKuD54apffMPHDOhvq9yTEjBjfPXn2CtJ8wmttWL/xv3r6aQ6G+
-         uPfh22u/Y6rIothrKckgsLTHZbJOnLyJwnrfkv3RXdpeNOsUqPk9dDOEHYSQZB5ak2iO
-         pI/67Hp65lOv4gos1m8mI6M/WwYYu79Sr3M8miIjoi9QoffjBIF2w1Zzay/vavX6f1iW
-         rNag==
-X-Forwarded-Encrypted: i=1; AJvYcCWF3zuomj7QFHw9h0pt5aZXzlg9YMRMHhHnpopZzlWZ5spiBgCk9lRZiXo6LSjif4yiIMzvNDD848FXPwHTLZBjiw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyHvNpFM25xCiDvNVsKq7u8XNuTrGhVgkYUdAC2QODcM66T9Etg
-	vZNAlScG0XgHjUEdXwPjmpsDIlcX/7G8TNf36UhWz6HXc/DXQwr/VtMPesuCm3yTAykhIR01zHD
-	owgc878ZiMUeF762xM2i7zMKc0CmQ/Rs=
-X-Gm-Gg: ASbGnctCxmGCdCyM22aw3IuQTaNRXi+dzQ+nfLr4+3Sqmlxt/vsKltyXQg3zT4FlI6K
-	1jIu07ZjU8H+moYouXtFFpvn0drgcmaY2KZTqfO0NO9M2jQFLtTRXSzE2OZzDHoYQYzkbyGtyun
-	/66ytiHx4unvoT0R2Sdt1vuTZTWZUW1zfBvj6brXYeC9tU6k4JMnaIRV4DCjhyNZCVOdt14/V4/
-	EQrjbW6tLo2CE+5py118NUsQNPXL3h/Z/61Jcsljm7TjJqKx+r0gx0a8g1Alw==
-X-Google-Smtp-Source: AGHT+IGQvmANO6g6m1tUJGuokHeAzYlVewytp8yIQzEUXmmfWbBp3Ex80ahWIr4/EZpwZnUsrN4N4acrbdqR30W2yLA=
-X-Received: by 2002:a05:6000:4009:b0:429:ef82:585b with SMTP id
- ffacd0b85a97d-42b4bb87737mr2423522f8f.9.1762955651351; Wed, 12 Nov 2025
- 05:54:11 -0800 (PST)
+        d=1e100.net; s=20230601; t=1762955853; x=1763560653;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Lt/l+8Leq/bLhALiuQnMosDsUZRfKXTeoOFBaF6JTLw=;
+        b=QutWlLIzmZCdlfIUkRfGo4zdqlrmQ1ZcX4MIYxfhREZwmlBTkCy3e6zp5wV8Ot1kfE
+         h95KWqZVihGp7g6pUtWuboHTlD8cl1yBjdFSYtUyiRFP/61wEESR+9DX/XyGR4KPAUsf
+         LEe8BCmEeMDWVUddb2pWzg+CYHeuRl0zYfozBpnWpAA7sIq2HHCsfSpAg77zkhJgPu0X
+         2T0AphOWqXwHsIbOmvpubW147dDLziFlB8HQTgrigza3cIYncVwcZLXZSKAxcziYM3kv
+         nloCC9T7l1kBInH4pHtqe3jKJYIBF6RlpsTvYpKPwodVQ1EbcpCqAZyLVlB67fXcgHkK
+         xhiQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV8JrRR0AWgmGPhCXyiXuT4/ReKAExv9L7jIUEQd/lKOKzG/Cv2T92ZeDK/FQfBx1c48JugpTEPbwPb09ZRJjqUVA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwmuyZYcTRHsur+rg1w0D/D/V3Bj5+Ni2usKCj44eVvEMsWpwLV
+	5PHndzYt00tKuVG+7COz1VvDMrxSuOeMX73y3Az7r023scHUSaDLVrKY
+X-Gm-Gg: ASbGnctah1hj1effzA7u1w/ksYcoA6TOn66lY0WGq70k881h71RGOZOqFQxPIdMu87t
+	KE+yDIe8zlbbpmJt5Xy7G6GuYpaqgs6W3SEj9t5/Dv8AsW67K2KgU2zMp1rFK+l9jRkk1aLyTG+
+	VuFpHMpexKW4RkrAqiPlNSwRyl5Joa5BjlIXuhe2D7huaE2sg7q6tBsTR3OL+5AdyTkQNa9YFEt
+	ymZ9k3aKlgmnKUoqoA/qdERcW/X2SaeJTYv66CKwYEtWkKgRTj3NsOSASQJ2F8m8mTGCpHDCfrp
+	pWDTOBvG7YbnN1R40XEPsJeRm3hPV7AAgBKue20jnr9GAGaDo0euxYpmmbl0drSgvHrnIgnyn5a
+	JfWuLT5MEEuI74kZRxrMHmNHzNEhq0dnA5g7qgNuuTbYwRqy6mcaUKMFTShu9HGVCUNbXbiXXYf
+	h1VTsjUcWr/H3yIAEnPW5/
+X-Google-Smtp-Source: AGHT+IHZ/VsvfL1qBauYYeHFVM1I2oce6UrmCkeGZ0waGhdgmzOFEbz48XMrpfJQfxZr/VfEUub6bA==
+X-Received: by 2002:a05:6a00:124e:b0:7b8:758c:7e86 with SMTP id d2e1a72fcca58-7b8759bc702mr941901b3a.15.1762955852653;
+        Wed, 12 Nov 2025 05:57:32 -0800 (PST)
+Received: from iku.. ([2401:4900:1c07:5748:1c6:5ce6:4f04:5b55])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b0f9aabfc0sm18361299b3a.13.2025.11.12.05.57.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Nov 2025 05:57:31 -0800 (PST)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Horatiu Vultur <horatiu.vultur@microchip.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Parthiban.Veerasooran@microchip.com
+Cc: netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH net-next v4 0/4] net: phy: mscc: Add support for PHY LED control
+Date: Wed, 12 Nov 2025 13:57:11 +0000
+Message-ID: <20251112135715.1017117-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251111091047.831005-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20251111091047.831005-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdUv7tOc-QC8N_ie7739t07Y5A_6HQPMVR9fxW-jo_d9Ng@mail.gmail.com>
-In-Reply-To: <CAMuHMdUv7tOc-QC8N_ie7739t07Y5A_6HQPMVR9fxW-jo_d9Ng@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Wed, 12 Nov 2025 13:53:43 +0000
-X-Gm-Features: AWmQ_bnAhdX-JqRB4GVcBYO9YoIfqRy_zZn9ftYsTK98IajqIwJsJ7Xdu3GLZlk
-Message-ID: <CA+V-a8vQnno3vc8Hgav4m28hwgyf0cosMa_R4ALYkQcTtm6DNw@mail.gmail.com>
-Subject: Re: [PATCH net-next v3 2/3] net: phy: mscc: Consolidate probe
- functions into a common helper
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, 
-	Russell King <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Horatiu Vultur <horatiu.vultur@microchip.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Vladimir Oltean <vladimir.oltean@nxp.com>, Vadim Fedorenko <vadim.fedorenko@linux.dev>, 
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Geert,
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Thank you for the review.
+Hi All,
 
-On Wed, Nov 12, 2025 at 8:53=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Tue, 11 Nov 2025 at 10:11, Prabhakar <prabhakar.csengg@gmail.com> wrot=
-e:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Unify the probe implementations of the VSC85xx PHY family into a single
-> > vsc85xx_probe_common() helper. The existing probe functions for the
-> > vsc85xx, vsc8514, vsc8574, and vsc8584 variants contained almost
-> > identical initialization logic, differing only in configuration
-> > parameters such as the number of LEDs, supported LED modes, hardware
-> > statistics, and PTP support.
-> >
-> > Introduce a vsc85xx_probe_config structure to describe the per-variant
-> > parameters, and move all common setup code into the shared helper. Each
-> > variant's probe function now defines a constant configuration instance
-> > and calls vsc85xx_probe_common().
-> >
-> > Also mark the default LED mode array parameter as const to match its
-> > usage.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> > v2->v3:
-> > - Grouped check_rate_magic check
->
-> Thanks for your patch!
->
-> > --- a/drivers/net/phy/mscc/mscc_main.c
-> > +++ b/drivers/net/phy/mscc/mscc_main.c
-> > @@ -22,6 +22,24 @@
-> >  #include "mscc_serdes.h"
-> >  #include "mscc.h"
-> >
-> > +struct vsc85xx_probe_config {
-> > +       const struct vsc85xx_hw_stat *hw_stats;
-> > +       u8 nleds;
-> > +       u16 supp_led_modes;
-> > +       size_t nstats;
-> > +       bool use_package;
-> > +       size_t shared_size;
-> > +       bool has_ptp;
-> > +       bool check_rate_magic;
-> > +};
->
-> Please sort by decreasing size, to reduce holes:
->   1. pointer and size_t,
->   2. u16,
->   3. u8 and bool.
->
-Ok, I'll sort it in v4.
+This patch series adds support for controlling the PHY LEDs on the
+VSC85xx family of PHYs from Microsemi (now part of Renesas).
+The first two patches simplify and consolidate existing probe code
+the third patch introduces the LED control functionality.
+The LED control feature allows users to configure the LED behavior
+based on link activity, speed, and other criteria.
+
+v3->v4:
+- Sorted the members of vsc85xx_probe_config struct to avoid the
+  holes
+- Fixed Reverse Christmas tree in vsc85xx_led_combine_disable_set()
+- Added Reviewed-by tag
+- Added new patch 4/4 to handle devm_phy_package_join()
+  failure in vsc85xx_probe_common()
+
+v2->v3:
+- Added Reviewed-by tag to patches 1/3 and 3/3.
+- Grouped check_rate_magic check in patch 2/3.
+- Formatted the patches with `--diff-algorithm=patience` option to
+  improve readability.
+
+v1->v2:
+- Patches 1/3 and 2/3 are new.
+- Added LED control support to all VSC85xx PHY variants.
+- Renamed led callbacks to vsc85xx_* for consistency.
+- Defaulted the LEDs on probe to the default array before parsing DT.
+- Used phy_modify() in vsc85xx_led_brightness_set()
+- Return value of phy_read() checked in vsc85xx_led_hw_control_get()
+- Reverse Christmas tree in vsc85xx_led_hw_is_supported()
+- Updated the commit message to clarify the LED combine feature behavior.
 
 Cheers,
 Prabhakar
+
+Lad Prabhakar (4):
+  net: phy: mscc: Simplify LED mode update using phy_modify()
+  net: phy: mscc: Consolidate probe functions into a common helper
+  net: phy: mscc: Add support for PHY LED control
+  net: phy: mscc: Handle devm_phy_package_join() failure in
+    vsc85xx_probe_common()
+
+ drivers/net/phy/mscc/mscc.h      |   4 +
+ drivers/net/phy/mscc/mscc_main.c | 497 +++++++++++++++++++++++--------
+ 2 files changed, 379 insertions(+), 122 deletions(-)
+
+-- 
+2.43.0
+
 
