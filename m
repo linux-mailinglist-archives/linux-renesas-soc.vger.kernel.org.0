@@ -1,189 +1,150 @@
-Return-Path: <linux-renesas-soc+bounces-24596-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24597-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id A06FCC59BC0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Nov 2025 20:24:30 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E89DC59BDE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Nov 2025 20:28:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 7A2134EC0EB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Nov 2025 19:15:40 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 416BF34914B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Nov 2025 19:28:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C535E31A567;
-	Thu, 13 Nov 2025 19:15:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B2233164A5;
+	Thu, 13 Nov 2025 19:27:59 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 108F930FF1C
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Nov 2025 19:15:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 960522C158F
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Nov 2025 19:27:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763061332; cv=none; b=Y6bc8gjo1aMVRfYuBYQzr4xqlgDzUOWMN5yz0bB6z2LhSio43o6luqLGmwyv8onNQUfvLzU+OR4Y/S93wiOb0OwKDBAQf0j3NdQEHeqzOzbRyEafA7CnBWU2Ln3/lBID/YM+cSfueIsF72yD1XG2oAjhISXF9RTFE1Nr4nwqrg8=
+	t=1763062079; cv=none; b=BS993xglu0JfRi7fC+zZwUcTLjxTolcfVRVbGu7cux/2D1zmxCikDD7jmU0701WrnCinojv/sHJpQPPByHeOg4egFLPHovbuf9gYCT2zfNPY+kOEVv119jSCByeW3Dk5RnEE9BW/OC4FKa8SxCqs553g+ioLF3AmvQpNyVC/Dlg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763061332; c=relaxed/simple;
-	bh=/M7N2B0FJzV8RGfkB71E3a5NRyA13r6fYibmBqpj6KQ=;
+	s=arc-20240116; t=1763062079; c=relaxed/simple;
+	bh=/zYSzHIQGXXRW4bXCA8LFqV7xaT09/SFuXf711/dyz4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bbWMDJqAXuD+Wkg3nr3qjhaehgoafZ96cGQKWxT0wGWCu3isn+7FEprnuK+VxhaRvumZ0MhlDz7CXdByJZMpmR5TljnbJbNhS4WQvd/J/0Dw9vNDYIyMEKLCsBHm808FFukygZUZli1msqXJptRcv0lkBdhbAE6FAoAvt2c2YHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.175
+	 To:Cc:Content-Type; b=Xm25WU88KRi7OpwmdvSUpkfO5mOcfzGSZzKSHhKAHx116TSLoUi7MruX50k2/JBlVJW1iHALKR62a7gV69HrHEYwof4yrPZnbL8PsFWdI7VjY5UdlnZ6+JhXa6B8bwTNAuOABBt7gKMIW5A1gLTLDbAptsYNiW2WFFdg4EEsLoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-5598942c187so1385785e0c.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Nov 2025 11:15:30 -0800 (PST)
+Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-5dd88eef2f3so449477137.3
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Nov 2025 11:27:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763061330; x=1763666130;
+        d=1e100.net; s=20230601; t=1763062076; x=1763666876;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=C3hic+mCD7GbOskFopBa2RINZ7PmcY+d1bkfvC4aVN0=;
-        b=oqlATq5QzQDCjWG0JhCR4q3MFryOTNBbcIhGEcumiabgd7mC/ljvNp1MIIMl9YnsjD
-         HXKM7j4eBxe7t/zJ49f3LMhNhYAdlpd1G8QGXemMdGJpZPUUmv7rXUDltYztYj0omioy
-         qlKqCBV9FKgPI4VKBW6qygG11TjWsowjDCIy2ACZeGKQPAX7fVF+QNTVoCxISWKz5M89
-         g7ncGu55bn9z2kjzBnDaKKmF+JqtgrBL8P9X5/y/E64W54AMhBZqhbz5lYKtLuW29BAV
-         HoCVXHgSaDPBGXNNmVYrvFYL9xNBE77hyaknjLY+ww7nfkJg6LgKhACACnwlBDBSUweA
-         4cVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVL1wTx9qNLj/W81qlHkmbCfoVkHetxvl3c5RUu7WdKxwCrTME0OiNqVb+2pSLKrybgLp8yYq9yJoFhs0ZydW6Y+A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxyQkWaWsUS4ay3+Qia3kTc4rQOG7FoJ19bSnfa06g63WyuSq8A
-	Yd3FUF+ixyh5RDSo3TnIUPjqxOy2W/ETImxshORwMUrMamEfTjoQO8/j5XPqtBwqrUM=
-X-Gm-Gg: ASbGncsyk8Bevpm0HYTOMz3HpUyiNHq2aY8caUR7lmQ/vjENOvQPKECAtWxpxzlpd92
-	L0/KrbWL+KIGn/5zpSCzfoU38wFdBYXBArNhVxk64ykJdZuvysI9cMAnQ+eFFTywuaG+8Wtu0Yv
-	l6I/Qinph5+rkthMCXes9NOFyQtCtuA8EGY3cFV9MyQ8h2SvTQgkfTgoG2LPGKQBV6mT95J6EyA
-	bflpOejBtdtEXEeDD6PfnBZhojXFkgAVfhuhPWkhRNvBmj18j33I939aTr8DpEwvf8Wd+uIC82z
-	JI4+VS+Nu3qT2t98SRQuhaJZlVtMlYqxmOKa0nvAGsmxU7N7+T7LwKgLAvNvJiwWc1r9FYxKJiM
-	TruAC+rkCmZnVS/QH6JzTE0gX9eBkeHGIenNygsFHHehGBXBvnDTOB5+tbL8si/mUJaBnhVdI3I
-	MlSuxuPyLrjSVzoTkJ98NE/irDSE1EYsKR8uvtBxFtAWoKQZta
-X-Google-Smtp-Source: AGHT+IG811e2jP/K/Tj8NCTShoxvIfMtgCByqoPSQq7PK8UMyodD4PCaLYjg6ESKuxhXRZDN/OszUg==
-X-Received: by 2002:a05:6122:20a0:b0:559:96be:fd8 with SMTP id 71dfb90a1353d-55b0d00afdamr1843186e0c.2.1763061329584;
-        Thu, 13 Nov 2025 11:15:29 -0800 (PST)
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com. [209.85.217.46])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-55b0f359fa2sm1064292e0c.8.2025.11.13.11.15.29
+        bh=dMdRBCiOsnpuNgCxcScvg7uDy+Va+eLC4BNnAa1aJwg=;
+        b=w+IC+MlUa+JUAIyXZcQAmNG3XcndjKQJqScHthPwWjpszfxoDyWi71GF6bYaz1xUgG
+         UdKTnN1I0CLDSujkBKxXqI3fEycT2z6thSWjdJJvGglrT/t0Mry1B9DxD14oMV1bz9yo
+         LaUYqviz773GH7f8/6a/tCgxdAB6OB5eitcd2Mu9vjodXTunwpSKRTZ/+1AjDAB9+IJr
+         XKs29gC2a1NEyi1MUlAeIkT8M512nG8hqTlvaB+E9ilBPz6xZMpZ1Ejceb8Q3aFXrjk2
+         KRqu079Jf175YTL41dfYzuTpgPqP4pLBwORSPfMMDKCD01zAJVDeYXVu/rfeiyEgljIa
+         zz/w==
+X-Forwarded-Encrypted: i=1; AJvYcCUvzRp+aEe+NFg4UXTu0ySL4JO0v3bSgGXV8ASolN2KOs2ijojwOrFsBA/vnDNswEDPi3Yi3wFzAk0CicZnMEI9wQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyGLTC02AlSEZbbLbiuMTjYmg3d8M613hFK5dg5qIxfdkVE/Z1h
+	r03oOOhIOsAD0J5G9L/XKLJuKyA3Kl4LcusFTkWRhdgRFiIvoBqQfjPLPkpwX18uwhU=
+X-Gm-Gg: ASbGncuUt+Sb4QvoybZYPKoul2M651AuoLhiNMLtq+W/P+yyzDy4/hu61HqZQHAJYuc
+	wYlBFgkoH1AIHUhp1aiRUfXVrEMO4rykooSIDAGc4vXp4xHIQMS5AKYVrzk2uDy1smkpWrFGEEH
+	DdEPApikFHSlP9j8hQjedgKXIqu1LBiAJ+5eMeEGJQGaZlyxjTRd4k14BOqTk7JZ0L83G4JYLV4
+	F3Xr6wYiURAdzgoQuA/S+D9PZa9IpfTSgF43nX7/E1hdjjdFzNBktoIA7AumUFT0xvv8I6yAz6k
+	avpIhPKMXgEXICDzAVxqVHqAqHQMN9OPUncPzBpl8n6FV3f/SCewwqO7hIPuDaOmSKFEJP5HZ2/
+	de1MDgSx6x87fpZnjI8Y7PAL9hUnYFQ6Oj0D75GzMKBNHq5AW+0ljMvSNDjZ8HYJbZQCvwoQInW
+	rZn0qfQPRk6/dCJvyGiRBgrjpuDJcHU4TVpuDUUA==
+X-Google-Smtp-Source: AGHT+IEig6Isf5prsInUYDP87iN9zlIiIbEHu48wdeugYuXB7IeK7gZh4MTOps7hWBGSIY3/3ipP9w==
+X-Received: by 2002:a05:6102:2924:b0:5d7:dec5:b6a7 with SMTP id ada2fe7eead31-5dfc54fee8emr487413137.7.1763062074803;
+        Thu, 13 Nov 2025 11:27:54 -0800 (PST)
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com. [209.85.217.50])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5dfb7232b16sm962810137.10.2025.11.13.11.27.54
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Nov 2025 11:15:29 -0800 (PST)
-Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-5deb0b2f685so1300315137.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Nov 2025 11:15:29 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUvMN5NGE752lRrHAjsWivp1hVtolqVVCNx0olZLlOuhjEEIFhypZZQAPZQ85Xkz77d4tTpgR+zIFqrlYYBpeU6vg==@vger.kernel.org
-X-Received: by 2002:a05:6102:4487:b0:5d5:f6ae:3903 with SMTP id
- ada2fe7eead31-5dfb43a5a9fmr2175974137.20.1763061329231; Thu, 13 Nov 2025
- 11:15:29 -0800 (PST)
+        Thu, 13 Nov 2025 11:27:54 -0800 (PST)
+Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-5dbddd71c46so461534137.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Nov 2025 11:27:54 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWRCRjjvITTB139LBPUQ6cnSfw9vt7wkxjv01aR3jvPeCWe/6KcIYCfDwK1k8EOZvCfRt/5xSs59R28BuKDyUhnVQ==@vger.kernel.org
+X-Received: by 2002:a05:6102:4420:b0:5d5:f6ae:74b3 with SMTP id
+ ada2fe7eead31-5dfc5b976c3mr493792137.39.1763062074252; Thu, 13 Nov 2025
+ 11:27:54 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251105070526.264445-1-claudiu.beznea.uj@bp.renesas.com> <20251105070526.264445-3-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20251105070526.264445-3-claudiu.beznea.uj@bp.renesas.com>
+References: <cover.1762773720.git.tommaso.merciai.xr@bp.renesas.com> <160371c0c5edae1fd3d66355f0b0afdb34de9387.1762773720.git.tommaso.merciai.xr@bp.renesas.com>
+In-Reply-To: <160371c0c5edae1fd3d66355f0b0afdb34de9387.1762773720.git.tommaso.merciai.xr@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 13 Nov 2025 20:15:18 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUwVeLtyQ9X-Lz16W=KtbfjiPqsgWfuDc72B3u6OCtqgg@mail.gmail.com>
-X-Gm-Features: AWmQ_bmP3UqPGBklX-H_xBoQGd0jPSB3ibHsJDk-_5_rvxom5WcQ03xsAM0GwXk
-Message-ID: <CAMuHMdUwVeLtyQ9X-Lz16W=KtbfjiPqsgWfuDc72B3u6OCtqgg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] soc: renesas: rz-sysc: Populate readable_reg/writeable_reg
- in regmap config
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: magnus.damm@gmail.com, john.madieu.xa@bp.renesas.com, 
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Date: Thu, 13 Nov 2025 20:27:43 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdW3+78AL5F09PU-cENJAqma=QCTmRCSe0KzANK08QJRmA@mail.gmail.com>
+X-Gm-Features: AWmQ_bkZqJFa3uvpGVKoyugpRyy1_JKWhk6NdNKCvuhef6cwYY_WpHE4vNiMjpE
+Message-ID: <CAMuHMdW3+78AL5F09PU-cENJAqma=QCTmRCSe0KzANK08QJRmA@mail.gmail.com>
+Subject: Re: [PATCH v3 10/21] phy: renesas: rcar-gen3-usb2: Use mux-state for
+ phyrst management
+To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org, 
+	biju.das.jz@bp.renesas.com, Vinod Koul <vkoul@kernel.org>, 
+	Kishon Vijay Abraham I <kishon@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Peter Rosin <peda@axentia.se>, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	linux-phy@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Claudiu,
+Hi Tommaso,
 
-On Wed, 5 Nov 2025 at 08:05, Claudiu <claudiu.beznea@tuxon.dev> wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+On Mon, 10 Nov 2025 at 13:10, Tommaso Merciai
+<tommaso.merciai.xr@bp.renesas.com> wrote:
+> Add support for selecting the phyrst mux-state using the Linux mux
+> subsystem in the R-Car Gen3 USB2 PHY driver. This ensures correct hardware
+> initialization and integration with systems utilizing the mux-state device
+> tree property.
 >
-> Not all system controller registers are accessible from Linux. Accessing
-> such registers generates synchronous external abort. Populate the
-> readable_reg and writeable_reg members of the regmap config to inform the
-> regmap core which registers can be accessed. The list will need to be
-> updated whenever new system controller functionality is exported through
-> regmap.
+> A temporary wrapper for optional muxes is introduced until native support
+> is available in the multiplexer subsystem.
 >
-> Fixes: 2da2740fb9c8 ("soc: renesas: rz-sysc: Add syscon/regmap support")
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> ---
->
-> Changes in v2:
-> - added all SYSC registers IP specific, except the SPI
->   registers on RZ/V2H and RZ/V2N as these are accessible only from EL3
+> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.19.
+Thanks for your patch!
 
-> --- a/drivers/soc/renesas/r9a08g045-sysc.c
-> +++ b/drivers/soc/renesas/r9a08g045-sysc.c
+> --- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
+> +++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
 
-> @@ -18,7 +37,57 @@ static const struct rz_sysc_soc_id_init_data rzg3s_sysc_soc_id_init_data __initc
->         .specific_id_mask = GENMASK(27, 0),
->  };
+> @@ -948,11 +949,27 @@ static int rcar_gen3_phy_usb2_vbus_regulator_register(struct rcar_gen3_chan *cha
+>         return rcar_gen3_phy_usb2_vbus_regulator_get_exclusive_enable(channel, enable);
+>  }
 >
-> +static bool rzg3s_regmap_readable_reg(struct device *dev, unsigned int reg)
+> +/* Temporary wrapper until the multiplexer subsystem supports optional muxes */
+> +static inline struct mux_state *
+> +devm_mux_state_get_optional(struct device *dev, const char *mux_name)
 > +{
-> +       switch (reg) {
-> +       case SYS_XSPI_MAP_STAADD_CS0:
-> +       case SYS_XSPI_MAP_ENDADD_CS0:
-> +       case SYS_XSPI_MAP_STAADD_CS1:
-> +       case SYS_XSPI_MAP_ENDADD_CS1:
-> +       case SYS_GETH0_CFG:
-> +       case SYS_GETH1_CFG:
-> +       case SYS_PCIE_CFG:
-> +       case SYS_PCIE_MON:
-> +       case SYS_PCIE_ERR_MON:
-> +       case SYS_PCIE_PHY:
-> +       case SYS_I2C0_CFG:
-> +       case SYS_I2C1_CFG:
-> +       case SYS_I2C2_CFG:
-> +       case SYS_I2C3_CFG:
-> +       case SYS_I3C_CFG:
-> +       case SYS_USB_PWRRDY:
-> +       case SYS_PCIE_RST_RSM_B:
-> +               return true;
-> +       default:
-> +               return false;
-> +       }
+> +       if (!of_property_present(dev->of_node, "mux-states"))
+> +               return NULL;
+> +
+> +       return devm_mux_state_get(dev, mux_name);
 > +}
 > +
-> +static bool rzg3s_regmap_writeable_reg(struct device *dev, unsigned int reg)
+> +static void rcar_gen3_phy_mux_state_deselect(void *data)
 > +{
-> +       switch (reg) {
-> +       case SYS_XSPI_MAP_STAADD_CS0:
-> +       case SYS_XSPI_MAP_ENDADD_CS0:
-> +       case SYS_XSPI_MAP_STAADD_CS1:
-> +       case SYS_XSPI_MAP_ENDADD_CS1:
-> +       case SYS_PCIE_CFG:
-> +       case SYS_PCIE_PHY:
-> +       case SYS_I2C0_CFG:
-> +       case SYS_I2C1_CFG:
-> +       case SYS_I2C2_CFG:
-> +       case SYS_I2C3_CFG:
-> +       case SYS_I3C_CFG:
-> +       case SYS_USB_PWRRDY:
-> +       case SYS_PCIE_RST_RSM_B:
-> +               return true;
-> +       default:
-> +               return false;
-> +       }
+> +       mux_state_deselect(data);
 > +}
 
-As all the writeable regs are a subset of the readable regs, do you
-think it would be worthwhile to write e.g.
+If CONFIG_MULTIPLEXER is not set (e.g. shmobile_defconfig):
 
-    static bool rzg3s_regmap_readable_reg(struct device *dev, unsigned int reg)
-    {
-            if (rzg3s_regmap_writeable_reg(dev, reg))
-                    return true;
-
-            switch (reg) {
-            case SYS_GETH0_CFG:
-            case SYS_GETH1_CFG:
-            case SYS_PCIE_MON:
-            case SYS_PCIE_ERR_MON:
-                    return true;
-            default:
-                    return false;
-            }
-    }
+arm-linux-gnueabihf-ld: drivers/phy/renesas/phy-rcar-gen3-usb2.o: in
+function `rcar_gen3_phy_mux_state_deselect':
+phy-rcar-gen3-usb2.c:(.text+0x37c): undefined reference to `mux_state_deselect'
+arm-linux-gnueabihf-ld: drivers/phy/renesas/phy-rcar-gen3-usb2.o: in
+function `rcar_gen3_phy_usb2_probe':
+phy-rcar-gen3-usb2.c:(.text+0x7d0): undefined reference to `devm_mux_state_get'
+arm-linux-gnueabihf-ld: phy-rcar-gen3-usb2.c:(.text+0x7fc): undefined
+reference to `mux_state_select_delay'
 
 Gr{oetje,eeting}s,
 
