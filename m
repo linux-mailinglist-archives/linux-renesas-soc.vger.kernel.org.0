@@ -1,105 +1,89 @@
-Return-Path: <linux-renesas-soc+bounces-24553-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24554-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5003C577F0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Nov 2025 13:56:02 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B552C57A52
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Nov 2025 14:28:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0420E3BBEC4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Nov 2025 12:51:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D609C42442E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Nov 2025 13:08:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 395023502B1;
-	Thu, 13 Nov 2025 12:51:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82076350293;
+	Thu, 13 Nov 2025 13:06:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M0T+yyxh"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="5e32cf9Q"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BE9535029F;
-	Thu, 13 Nov 2025 12:51:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AD5531A554;
+	Thu, 13 Nov 2025 13:06:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763038272; cv=none; b=tbcFxwd7xC109Ydmykd3Otvq5sEtm9XxTXdrL8RLdugREZnU2Mplmj2e+aXBTR5CqLQaH+OUxDr7fHAKPj0cmG0VIoZ3fTiXJcEOdYdhAD6nwosQymPjQwq67oQU+RaExuP6XUXp6oB5fvXw2Hm2Z3hSkZvoYfgn5AUfRhGCN7Y=
+	t=1763039213; cv=none; b=A571VTbxFThwi8cwLnCjg/tR2ScDCkjdUqZwT+KxnwtcblWrh7d2Im8brswB+fhe0vyFMfeQ8gwlUnh7ckZPyJBZVEyfdVPeqDBzX6RQycvfNVr5dmvN+kSnMGShRmj48FQCm54/DFWs74MXT4X1pdfK/zRf4Yzm9VM0LArhwqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763038272; c=relaxed/simple;
-	bh=UXAXTE2YFK7QvC/Dt9ZLRi3M39iCRLseej2ogxIsteo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=AgSPhUJU2FJDy4I+dCNE74xOBlPSNxk2DZru37C2ty+Tace0jC1ZqoYgiNx/SdZyq0ZtcfV0LILZ0stUFFfwir4EcQVcZhadM3nnnMKYQuFXI6AyI7wcoMjQIhIgcRG8RFpuDK/DygD1KmKMeNCRdemHelD84CVEq+RN81qM+0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M0T+yyxh; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF80FC113D0;
-	Thu, 13 Nov 2025 12:51:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763038271;
-	bh=UXAXTE2YFK7QvC/Dt9ZLRi3M39iCRLseej2ogxIsteo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=M0T+yyxhlEMKfzu6caIBqBivhdEnjwT4AigNZzTAialQ4ZLWo3BEDcnDVBBKjq1u7
-	 LD9ywx/sx8OteLIl971Y9BSUrJ4yq4Gi5e3FMOHUvPTJlEpDcTaYb6281ZL3Yu42UE
-	 hBkNIsmO/Ec1ZmttzOarvabtS8iN3gl23tmW7+FFDWVrZIWr6lF/fVzk8B6S+Embd+
-	 +8AH5jmplNt0IoU+LvKq3a4PJJXq/+9hddM/jlC302pWcOeNi51hqDzO6oxHuw6m2u
-	 oo//5UZGskFurXuTGitmJHwYtENXv108o1C3yEbBy2thoObQwt4n03rDtspk2+j/Iu
-	 ditgfeFXnDEiQ==
-From: Mark Brown <broonie@kernel.org>
-To: kuninori.morimoto.gx@renesas.com, lgirdwood@gmail.com, perex@perex.cz, 
- tiwai@suse.com, geert+renesas@glider.be, magnus.damm@gmail.com, 
- Haotian Zhang <vulab@iscas.ac.cn>
-Cc: linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20251112065709.1522-1-vulab@iscas.ac.cn>
-References: <20251112065709.1522-1-vulab@iscas.ac.cn>
-Subject: Re: [PATCH] ASoC: rsnd: fix OF node reference leak in
- rsnd_ssiu_probe()
-Message-Id: <176303826968.17893.10351782135097925928.b4-ty@kernel.org>
-Date: Thu, 13 Nov 2025 12:51:09 +0000
+	s=arc-20240116; t=1763039213; c=relaxed/simple;
+	bh=MSaoXbofYopsSWhGIFcEbL3FqKPo0g3w0hZnrNaeLQs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y01tudtL89M6Xdvwfxu3cJkBl8HgjaYS8KEuYjpXvL7AU9uhG+mP/Cvvn9+iByaDBjQSyVxgzCZAyKkFXdy7uyfh8w9PM92PypPyG5R3DiYjAJo5sKcK69rtbz6+Yg4pbS4C/3BlNEW9hZUS0vvc9Wz3TyZ4etSzLDOOMYVzQTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=5e32cf9Q; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=Z+3/fwdG9bFOzWxb0nd1a0BQGDgCe2gR+4yRHxJTSqA=; b=5e32cf9Q0tSlZ86HUP0jqOvvaH
+	md+rLM1i2WDKpJKq01lw3W4/yiwBf3XTt1r8lbYcfz2vuA4UTKp5Yq4jZP0wEm2g0UowhEUhA0jLW
+	PBbRlCIFuP0zP/zsTsO4txwLVQJ2JZ/ZQV8zvQK38yr7NFKneUeHqXQ+gsdxz40wjqGg=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1vJX1x-00DrY2-Uu; Thu, 13 Nov 2025 14:06:29 +0100
+Date: Thu, 13 Nov 2025 14:06:29 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Horatiu Vultur <horatiu.vultur@microchip.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Parthiban.Veerasooran@microchip.com, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH net-next v4 4/4] net: phy: mscc: Handle
+ devm_phy_package_join() failure in vsc85xx_probe_common()
+Message-ID: <9bff0108-8fab-4672-bc6e-58c672cf8a22@lunn.ch>
+References: <20251112135715.1017117-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20251112135715.1017117-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-88d78
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251112135715.1017117-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On Wed, 12 Nov 2025 14:57:09 +0800, Haotian Zhang wrote:
-> rsnd_ssiu_probe() leaks an OF node reference obtained by
-> rsnd_ssiu_of_node(). The node reference is acquired but
-> never released across all return paths.
+On Wed, Nov 12, 2025 at 01:57:15PM +0000, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
-> Fix it by declaring the device node with the __free(device_node)
-> cleanup construct to ensure automatic release when the variable goes
-> out of scope.
+> devm_phy_package_join() may fail and return a negative error code.
+> Update vsc85xx_probe_common() to properly handle this failure by
+> checking the return value and propagating the error to the caller.
 > 
-> [...]
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Applied to
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/1] ASoC: rsnd: fix OF node reference leak in rsnd_ssiu_probe()
-      commit: 360b3730f8eab6c4467c6cca4cb0e30902174a63
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+    Andrew
 
