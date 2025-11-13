@@ -1,147 +1,251 @@
-Return-Path: <linux-renesas-soc+bounces-24568-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24569-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 860C4C58057
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Nov 2025 15:47:24 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ABA2C5815C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Nov 2025 15:56:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id E7EC23548B2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Nov 2025 14:45:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 565A63AE0C0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Nov 2025 14:47:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D9AF19E968;
-	Thu, 13 Nov 2025 14:45:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3485280309;
+	Thu, 13 Nov 2025 14:47:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BVIpqsSv"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="b/JRKlQa";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="BQH1pmrl"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A221275111
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Nov 2025 14:45:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38C21280014
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Nov 2025 14:47:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763045148; cv=none; b=Nn4+lXSMZMn6mppPHtQUUd3y/FmXr0gcamEVy3axULUZ34JdvHcEXWo9W1vpK9OOK24aaxbGNW67nq4oSymXwaIGWECB9sRt/gPijgEvKVtm/xuqLnPp/ZnqMvMrxh0sY1cH50clvAQoXkyGHBtEQlW2nRRevJESduQU/DiC4jI=
+	t=1763045243; cv=none; b=nUsTiC+rSttMzG5acCyMQ4n451dR82sjXJ+X4QcParo8CxGAZGDfStIOg96rG9qLjw8lF/ijGsDw3HvKFfpRkgCyQzyHHWxH+Lbk5tH/GYmDVT+HkfXOeoi/d1s8TTJGBi4EzzQ8/6eo1KUAEqYDd4nYD2RY5QztEpw2QRuXL8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763045148; c=relaxed/simple;
-	bh=wkSkDdoPDv5abLWccGMVUsi8SiiC/MW5NOpVlGRUPZ0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ru9z0yaNr4SkqWqqKsgoWmgg6lRQOnRoBocTMnHxUYgY+U/VBIjxlSHbi3qMINdXX0/1as6rpiCUxkz2avyrIWPoV5j/i5YzHJYNYn/M7eqWrfgssDZpmsW9eoBy+BXbGez0sdYvrJ8uPgBN4JWl43lDC14j8GjY/aqPzefrDMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BVIpqsSv; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-42b427cda88so643305f8f.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Nov 2025 06:45:47 -0800 (PST)
+	s=arc-20240116; t=1763045243; c=relaxed/simple;
+	bh=F2kBxpSXrkU6fwfKy+g1N0BGk9Qwugl4Eo5aCFQcm9Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZXal/AWxKM2oI8r+IjfZdrpAV6E+dNCrZitOqQVVmmyDhtYFuoNl+DFjI/QYcB1UI81LoMPbD+S8r+mvgbVLT7fmaQixzno0Ac5Xwx56tkChkREcxs2dbiw1JWjmziaeHqGMpJGgOEMkfro6oc+gnMJH476sNMWejAfYJ+RUxDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=b/JRKlQa; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=BQH1pmrl; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AD8ceek2962362
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Nov 2025 14:47:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	c/j8O4OMZ/iO6ANHgdWOttUeORFw+6paoVM6GB+aNhc=; b=b/JRKlQaoXhQbjBg
+	7mm9S/5h3Fp/qe27uSlmDQXdKJyVelTPms9TAYlDvBXVpwrx7Y/JPF42qOoJETR1
+	cZsoxMoudkiU5Xx0VLidAV4Vf4PHDod433Ykxn74s+LsoMkTrwjARIl3IDm/A+Rr
+	grUZjvJu70AF5w6jwH7l4Aq5Be8BuM4nP6pt3KJhqDbJ+xtwdCLznzo3aNk/9SZu
+	F6Qj+Ub89gKav1oigAckmv9WKdjgeoUN7Q2qgBe471l3GyeBKiIxCveVSXs/+XGB
+	RXI/WhEDsA6qtDMbbTNJWwMSedDbYI2Id5NJthr9QY3IvsFmN+3HmL11WKKwX00L
+	cTlHdQ==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4acwbpuxm7-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Nov 2025 14:47:19 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-4ed861df509so3157371cf.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Nov 2025 06:47:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763045146; x=1763649946; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vcRSJSxeIXWTFrXDIzup6ZeaZadWQ/5Lk5RiitzeLH4=;
-        b=BVIpqsSvB50OcnCbWraQraDCbbOhVax6pDyqrYc4XFvWXjw/xRSUej7kIZ9U5YMWoK
-         NYecwgrGAaBowAUPvzsqIBFS66OLswZutjtZ3naz1XDiy0rEnma6DL+8bE8j7ZE791zz
-         ytj8sDAfy3bv8vkjzQMBMQnNhsDsDvGIVdi2Plvlq7/t3R7TSlF8O3IvE18kBSXBCiwZ
-         q2sQwHCHsf/xEXkMmFpFx/xHvpTUfGGTj5xkqx9kv0WxLHMtKua1KZ0P1Iszm69/iv2j
-         X2MuLriCKfqRiBgP8b6j2OEc/gPgzmHQ8bxcGTZvJecJmu3E7N8AXP6icE2Hsf7Tp+Sz
-         WiqQ==
+        d=oss.qualcomm.com; s=google; t=1763045239; x=1763650039; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=c/j8O4OMZ/iO6ANHgdWOttUeORFw+6paoVM6GB+aNhc=;
+        b=BQH1pmrlarkpFn0tAexcqzdylCjYSNIWFaHmR5+Cyi3rVUvtIA0xDj7VfOveWdyXTb
+         tDo8CvV+LmyQfvLaPl9/W8qBLExhB6sTvorkSYsPMLleDFWCKBNEgBzzVlZj9zXq2Egk
+         HSqSb988zCRPFH5HPFco5+XvJvFYsXnbPUILd4vwW6UMvD4VTPdp4ggJdKIHsIap57+z
+         nsL/uowEE5XeWmE9CxDp4hZRofDM2iK4hQ+iLv2Lr+VhOQmhUczddVtzPCsS2hrFYoyO
+         vdUr9ZBPOPVDxlozV57hVgbZ2/GOR6YHNpQ1IHJKV2GSAqOGTsi4/ohzcoA+/znUQ4c8
+         I59g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763045146; x=1763649946;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=vcRSJSxeIXWTFrXDIzup6ZeaZadWQ/5Lk5RiitzeLH4=;
-        b=tDFCEKoAud0hsMPWWJx6NfXwqN3KVeydX2Lx9FcH4zTKE9eNCIokWQXGN2zc3kh6v3
-         Rxnu1IWxOOJiG3UnPH0VRTsWAvcBgPfIOMcE9BXt1qNY93QN4QeS8yTqPlB8fVvC20xI
-         ONTScJ/UiRlQgs9I6VBWGCSSekS7BD8AprYLLMCRrYKMrAgqqwlW6yvGr1p8XqZhQFw6
-         n2hb8gaVjJ+sgK2HqJiurthBuG+PB5Ck3VR/47WnB60QBcZLuUoTIInm2xdV306fNv7J
-         UIjsPbhSElSbE1GCrLyYQI4mviKzSILZdePTxH53t6v0wfRx5D0oSXKhg5AxwVbjLrM2
-         zV2w==
-X-Forwarded-Encrypted: i=1; AJvYcCW0qH9dZXO9nyE+tcTZL4gv3eWXMQV6eYdq8Ro/lDLfG4oA8WHIlPViNCoXkh7ENt4kNUB+qVh7PSPdzR20xXqUUQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzEoUtVfWMKzk3/v11VlJiTRN8B659Daf+glqn/2oNs64ISUQSh
-	3Dm5/bRv3nnpEwGyToWh5ooAnOmZxbvzuZpcpw7DRo6XNtthgYU+GW+iU4eZJdNYDV9ihKHunVC
-	YD01wWmNWeHfHG+A/dM0VHYHjDk/K4mo=
-X-Gm-Gg: ASbGncsWJb1zUlYSGGnaS1vDClmNCFHCIRnc0hsR0iw5YMGNsICeKYWuK8LW8FeggfO
-	w9FhL0Ne4nb8Mw1Qo5lGGH/RT+xtyv0EIiY94D+TyFkSRFxkv63QVfhnWA8u4AtraBUeaGitur2
-	8LHpVTWzD73GQA83XxMlzierYBjguXs7TiALaXg2VAxG++KUeMmrmcOPPFTEsC3DqduyuU03m/B
-	04kQk8blavqmrKdPKa1PA+TCLfExLeNU3TixS9ybE5Aih2rSwkGulfZodBCngmBcwqmahvnqkrt
-	uFLjvDQ=
-X-Google-Smtp-Source: AGHT+IHqzyBfuyBH24NabztQ2ac7uK3iOL3WFKk1OzQ++QqYz3fMB5HSm7GretKLA+fjTkvrDt20ETT5xK536jmvZdo=
-X-Received: by 2002:a05:6000:240b:b0:42b:3131:5433 with SMTP id
- ffacd0b85a97d-42b4bb9464amr7328317f8f.26.1763045145342; Thu, 13 Nov 2025
- 06:45:45 -0800 (PST)
+        d=1e100.net; s=20230601; t=1763045239; x=1763650039;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=c/j8O4OMZ/iO6ANHgdWOttUeORFw+6paoVM6GB+aNhc=;
+        b=nJ5RpjtFYZt90N/uCGcXDbvEnvAKjqNjGC+j2pCHU8FL32R97HrLm52balXUBevMwa
+         YRyl8e7oxusJ3QljLmTB4tDTUDzoX7vd8dZ7y+AW8hR3j54WWj3M61j0wUZq/9BB+Htt
+         TOg2J4dU/NosRO9H/Uf38u3xRf0E78gI7Xy5QXlU3TSnfA840/hFOmxS/DAWOCTIUowv
+         Zfw5E2r5Qb/Rz5BTCFuwZG78r0eqyv2h/rZBAJOZViQpuLUnrjsdVXs51uDoGJQhlIF1
+         Cm4ellFtjGxxbz29nVUrMnkaO/HJR07VP9cJFeuGIwvvstze2ZOvyP2c51uwlhvlBvaR
+         J33g==
+X-Forwarded-Encrypted: i=1; AJvYcCUN3LvqmAj2G4K//sw6ohxArDwIcbHqY3Z9Hw5PcpaMuAfEtruzyuIMttl7HPnf8cdwvzi4DunqFO7kmPknaFy8ag==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzHlUYIom1maC97ZWIXLJ3x7hkvez8zmjyBooFbSqI9eS+QUROE
+	CbpgCW1ph5SnZtNgf+e59OBDPLT14IaWNtMaGeWbWtD8L+zWw/UOSHNNKx1dT0+FPueHZZgclh5
+	ViqX1Y88bg6hlbU+ucQKQK7gc36mIpdOd9WX/2zDvq/mCV1jCHHfrctD3ftvsgESYaF6CtAVpOw
+	==
+X-Gm-Gg: ASbGnctj2M3LZKvY9742loh2m+T1E8MQumA9xecyK+IzcRGzKbQ+SkqUM5rP/aTS2vV
+	fbStdgxrkqSYY9IhVNi+KYnBXqROfeYnsjLxwRsWMtQbcQjZ3T1kbtlpG+IkSamzcoDfoElLg5n
+	wfVyECagRuIQFsKGo0XLe5X9fYcrcef4RsThUzxg7HxUzh1ozl6j8qAvA6UkOAhI7zR3Y+uwwpj
+	a0DI8cCuFN543N5HyjCh3dz9/k5jjeQK6nAJ2kvYBzSVDa5Q+bmNVUlMc/jQzjEHt17XU8wW6u3
+	plQo7xHlCf0i/Edb5m0Ew9kYyFGLmREDXtCnCsvJ/6U2uz/mDcpw5kbPvQ48oblxInYWqXHJFA8
+	xcPBwX/Nsm1zMXlGG/vTPxnS2tYhxEHLQ+8NwUSUTGd2qoz7Te3TfXtzq
+X-Received: by 2002:ac8:5f10:0:b0:4ed:7ca:5f33 with SMTP id d75a77b69052e-4eddbc9256dmr60355131cf.5.1763045238393;
+        Thu, 13 Nov 2025 06:47:18 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFM7YamsAo7x44iby6/PzuNKLIab4wveVf6S4JQ4cd4mg9yAzxbvu88BKH+RnT7m5FWyF+0JA==
+X-Received: by 2002:ac8:5f10:0:b0:4ed:7ca:5f33 with SMTP id d75a77b69052e-4eddbc9256dmr60354251cf.5.1763045237576;
+        Thu, 13 Nov 2025 06:47:17 -0800 (PST)
+Received: from [192.168.119.202] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b734fdaf6dasm176196266b.63.2025.11.13.06.47.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 13 Nov 2025 06:47:17 -0800 (PST)
+Message-ID: <45915f40-caa1-417b-95bb-deb7363a2ffc@oss.qualcomm.com>
+Date: Thu, 13 Nov 2025 15:47:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251112201937.1336854-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20251112201937.1336854-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <aRTwz5QHq9U5QbQ-@ninjato>
-In-Reply-To: <aRTwz5QHq9U5QbQ-@ninjato>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Thu, 13 Nov 2025 14:45:18 +0000
-X-Gm-Features: AWmQ_bm1n4yocnFoXMuN117YgsRe_Rw2NkyCDDLKQDlHn-tEP1dQHcHiTprnds4
-Message-ID: <CA+V-a8s5fg02ZQT4tubJ46iBFtNXJRvTPp2DLJgeFnb3eMQPfg@mail.gmail.com>
-Subject: Re: [PATCH net-next 1/2] dt-bindings: net: pcs: renesas,rzn1-miic:
- Add renesas,miic-phylink-active-low property
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 2/8] net: stmmac: qcom-ethqos: use generic device
+ properties
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Richard Cochran <richardcochran@gmail.com>,
+        Andrew Lunn <andrew+netdev@lunn.ch>,
+        "David S. Miller"
+ <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Jose Abreu <joabreu@synopsys.com>, Chen-Yu Tsai <wens@kernel.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Matthew Gerlach <matthew.gerlach@altera.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Keguang Zhang <keguang.zhang@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Jan Petrous <jan.petrous@oss.nxp.com>, s32@nxp.com,
+        Romain Gantois <romain.gantois@bootlin.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Heiko Stuebner <heiko@sntech.de>, Chen Wang <unicorn_wang@outlook.com>,
+        Inochi Amaoto <inochiama@gmail.com>,
+        Emil Renner Berthing <kernel@esmil.dk>,
+        Minda Chen <minda.chen@starfivetech.com>,
+        Drew Fustini <fustini@kernel.org>, Guo Ren <guoren@kernel.org>,
+        Fu Wei <wefu@redhat.com>,
+        Nobuhiro Iwamatsu <nobuhiro.iwamatsu.x90@mail.toshiba>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Shuang Liang <liangshuang@eswincomputing.com>,
+        Zhi Li <lizhi2@eswincomputing.com>,
+        Shangjuan Wei <weishangjuan@eswincomputing.com>,
+        "G. Jaya Kumaran" <vineetha.g.jaya.kumaran@intel.com>,
+        Clark Wang <xiaoning.wang@nxp.com>, Linux Team <linux-imx@nxp.com>,
+        Frank Li <Frank.Li@nxp.com>, David Wu <david.wu@rock-chips.com>,
+        Samin Guo <samin.guo@starfivetech.com>,
+        Christophe Roullier <christophe.roullier@foss.st.com>,
+        Swathi K S <swathi.ks@samsung.com>, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org,
+        Drew Fustini
+ <dfustini@tenstorrent.com>, linux-sunxi@lists.linux.dev,
+        linux-amlogic@lists.infradead.org, linux-mips@vger.kernel.org,
+        imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, sophgo@lists.linux.dev,
+        linux-riscv@lists.infradead.org,
+        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+References: <20251107-qcom-sa8255p-emac-v5-0-01d3e3aaf388@linaro.org>
+ <20251107-qcom-sa8255p-emac-v5-2-01d3e3aaf388@linaro.org>
+ <21a3d269-76e6-4da9-aa25-bfd1fb6dfb07@oss.qualcomm.com>
+ <CAMRc=MexMn_GSC2EtMek5hDRLjGYA5HKM8ge9vrxw1pYDqPJgw@mail.gmail.com>
+ <cd7c0490-a2d6-4885-aa36-ee1492f107b8@oss.qualcomm.com>
+ <CAMRc=MeuByh=N_-F2+zPiqnh+Qp9u97kiMheLJ-xxcSZSy+_tw@mail.gmail.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <CAMRc=MeuByh=N_-F2+zPiqnh+Qp9u97kiMheLJ-xxcSZSy+_tw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=NvjcssdJ c=1 sm=1 tr=0 ts=6915ef77 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8
+ a=IegXRtMujPCPvfbY5ZIA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=a_PwQJl-kcHnX1M80qC6:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-GUID: KvuS5OrbSz_TpO-fjuc-FIPQB3BWEvsJ
+X-Proofpoint-ORIG-GUID: KvuS5OrbSz_TpO-fjuc-FIPQB3BWEvsJ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTEzMDExNCBTYWx0ZWRfX6GIdJ/Mf/j1Z
+ 7qvz+aYbEvD6VM1SHh9v5qD3ApT2wRhU2Im/XHCuVaL1ORQB+JPgnGzwVadUaDhYCf4mgnwdl3n
+ nIjcl1+mr5zOJBYfoLbh7kfqAmYrENfBZYSIkk3e8VjTMM0N4Dyu4spDKSoIxOG07yZlm+Nj756
+ lYZFgda96C1DcgfGCjXBWMewDY4b1i3+Yhaqpq7/rr/mlwqMhgaPBPEcOyk3v22Vf7B/nt4PBa5
+ ou05BbNzhjFeBacwcOR2H0oh4i0NAj1j5eDNiALZdsgn6YrBoMk3ZuSIX1L0PeaOOXD6lhhBKvy
+ ttQQZkFgkcQTWI4U/xTdjZvUa+T6IcM1Wh/g3+mGStX0ma2giw9sDMOOzWQpxdLBapFOfIjs8tZ
+ btXyn/E3xJmZgzIHcgz75+PJXxjmsA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-13_02,2025-11-13_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 spamscore=0 suspectscore=0 phishscore=0 bulkscore=0
+ priorityscore=1501 malwarescore=0 adultscore=0 lowpriorityscore=0
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
+ definitions=main-2511130114
 
-Hi Wolfram,
+On 11/13/25 2:41 PM, Bartosz Golaszewski wrote:
+> On Thu, Nov 13, 2025 at 2:33 PM Konrad Dybcio
+> <konrad.dybcio@oss.qualcomm.com> wrote:
+>>
+>> On 11/13/25 2:18 PM, Bartosz Golaszewski wrote:
+>>> On Fri, Nov 7, 2025 at 11:49 AM Konrad Dybcio
+>>> <konrad.dybcio@oss.qualcomm.com> wrote:
+>>>>
+>>>> On 11/7/25 11:29 AM, Bartosz Golaszewski wrote:
+>>>>> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+>>>>>
+>>>>> In order to drop the dependency on CONFIG_OF, convert all device property
+>>>>> getters from OF-specific to generic device properties and stop pulling
+>>>>> in any linux/of.h symbols.
+>>>>>
+>>>>> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+>>>>> ---
+>>>>
+>>>> [...]
+>>>>
+>>>>> -     if (of_property_read_bool(np, "snps,tso"))
+>>>>> +     if (device_property_present(dev, "snps,tso"))
+>>>>
+>>>> This is a change in behavior - "snps,tso = <0>" would have previously
+>>>> returned false, it now returns true
+>>>>
+>>>
+>>> This property is a boolean flag, it cannot have a value.
+>>
+>> Every DT property may have a value, so this is not as obvious as we'd
+>> like it to be (IIUC - unless that changed recently)
+>>
+> 
+> That's new to me. I thought that if a property is a
+> /schemas/types.yaml#/definitions/flag then only its boolean form is
+> allowed. The fact that the dtc can compile it with a value doesn't
+> matter as the bindings are the higher authority for DT sources?
 
-On Wed, Nov 12, 2025 at 8:40=E2=80=AFPM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
->
-> Hi Prabhakar,
->
-> > Add the boolean DT property `renesas,miic-phylink-active-low` to the RZ=
-N1
->
-> Hmm, we already have "renesas,ether-link-active-low" in
-> renesas,ether.yaml and renesas,etheravb.yaml. Can't we reuse that?
->
-On the RZ/N1x we have the below architecture
+You're right, I misrepresented the issue. read_bool() was historically
+used for making sure a property is present and this was a problem
+when the type was != flag.
 
-                                                      +----> Ethernet Switc=
-h
-                                                      |           |
-                                                      |           v
-    MII Converter ----------------------+      GMAC (Synopsys IP)
-                                                      |
-                                                      +----> EtherCAT
-Slave Controller
-                                                      |
-                                                      +----> SERCOS
-Controller
+Please discard my comment
 
-Each of these IPs has its own link status pin as an input to the SoC:
-
-SWITCH_MII_LINK: Switch PHY link status input
-S3_MII_LINKP: SERCOS III link status from PHY
-CAT_MII_LINK: EtherCAT link status from PHY
-
-The property "renesas,ether-link-active-low" is specific to the AVB
-IP. The MII converter enables connections between these IPs, and the
-register for controlling the link status signal is part of the MII
-converter block, so this property needs to be part of the MII
-converter.
-
-If I have misunderstood you, did you mean to rename the property to
-"renesas,ether-link-active-low"?
-
-Cheers,
-Prabhakar
+Konrad
 
