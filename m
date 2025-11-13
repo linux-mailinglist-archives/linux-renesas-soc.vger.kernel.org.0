@@ -1,75 +1,75 @@
-Return-Path: <linux-renesas-soc+bounces-24558-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24559-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FC37C57B27
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Nov 2025 14:36:06 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08947C57C65
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Nov 2025 14:49:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D2BCE4E7F4F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Nov 2025 13:34:21 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 0936A3448F7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Nov 2025 13:42:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 841091F63D9;
-	Thu, 13 Nov 2025 13:34:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE3091C32FF;
+	Thu, 13 Nov 2025 13:42:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="vy+ryhuN"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="b/rzjPAC"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 556CA1DB122
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Nov 2025 13:34:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 586681F1537
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Nov 2025 13:41:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763040847; cv=none; b=KUKiwzN5aVm/orF87ABD4Yb+epp9zIqKWRiJ6QPyhZVhGgs6wkcahdvGGf2jsr3P8mKXCQYaWEKSbHdnc5Ej5qzxsvJ/iUbEIpf2eRj8W3PS14I3Lmfquuy7wP7WtUxUcKV1/GHbtRTmSNmsnppDVniX4P80OcXkvhqd3QAAJgo=
+	t=1763041320; cv=none; b=YzMcHgUxKBSfIlVoe3BRMeLcQrvHh5T20B6EzIToJILby+UVEF67kX+YutoV73U8pGZdzBKgetIVBZs3xAdH4A2knVHj3r7j/fozOjLxsAyNGSLAIdZkQLnq8ytsxOhEhevTfllTEVZQuvI15rkYi19waJnwkWR89hj4/vBnmHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763040847; c=relaxed/simple;
-	bh=X3T5b32titXjcOm79yLB9wCfQXafLDscPPDjsVlvEkM=;
+	s=arc-20240116; t=1763041320; c=relaxed/simple;
+	bh=GLqncc5/5zGkwI1+bv2pb78gB9RyxcsUzYNiDGa3NKc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=F9Ik1o4wG4Psu114visIvjp/2UPOjljumLo68leByyMjY1APThm52QrXJ5RIAZJcuWUwqEsFZJkCtQ2Sgy2/Qcb/ndldK0foabJbKSu/8jo7ql6XjWntOSyqzPZb06j1xzsba0x2JwR1x+1aAjye/nbbS5v1t222s5Xw8RTsJQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=vy+ryhuN; arc=none smtp.client-ip=209.85.167.52
+	 To:Cc:Content-Type; b=OdvNW8qMd7bBn4WL+W6daXDCSU1vn3WOrhhjGFbWkZ5VNbHgYhqlbiUQQGOJYbjt2wvGA0rZ3FgPKqtbrTEKZRo4FZTCZmCQL5U3miHZUHyTEQvEOKIJI/wERKzJkMi1kcRZMeuFFmf9s3LIw7GR+lSKrB19yWF1ph2ChNnnlOE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=b/rzjPAC; arc=none smtp.client-ip=209.85.167.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-59578e38613so776810e87.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Nov 2025 05:34:04 -0800 (PST)
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5943d20f352so880205e87.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Nov 2025 05:41:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1763040842; x=1763645642; darn=vger.kernel.org;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1763041316; x=1763646116; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YsN4YM2OD91GPnt+6/gPAgCxZS5BYL1HgW1NfsOpFuY=;
-        b=vy+ryhuNq4qcGtCghzOFqgwIM5zZKuYvPYTuwSNxrE7kyBvys+KzBlDkmx3uONX9lT
-         j2vYL0bDq+DvY+L1MCML+GUSf1y4T/mxpREsv33GwQBBoFCif2Tm8Wv4Y777ozlr28+J
-         AkPkjnTKbUxp9ST+vzsedtyB6VxybB80O0k5vNENUI/rnk1ON4qti4/g8MGpywp1f2SV
-         O264bvSwjiILHX+Ec2bDygwiVzNevkSvANEirbClnSGLhmJpjD2YW1Pdqpq03XGGb/U6
-         FSz7WbLGOEOoq5piJmbQ/cjQZyXxpg/zkTiWD7xLHU1SOHShmsj7oSIQGm3hI2hWIquz
-         1dsw==
+        bh=e6YFPbYQaXtcm5LdD7/GneIOXBdjWXCgrgn8VVQE3So=;
+        b=b/rzjPAC2S040culAnBENk6/YqMZYIyWQXPQcGegmnq623g+PTO4bW4p6296vA6Bi3
+         sIXhx1kGeJZd7sjOKnVTidd95r+HgvMYD8HPUFdoowbtK9TUF74eKlL4XWumluttlLFh
+         d9snIpjWWVQ+U+D+OHH9Ub8OvHpAeTjm6kQbx4OTdPAgZzhwgVTdYVCh9SIOkCVP2ItU
+         AwKCD63BYqtSg7h9r7n8CXvDBENBGBhS+AeUUgXWip4Z7tAQ7VJY0LneGzVXKsWEtld9
+         N4bjXEODBpkijQO638Rj5I7waG0ri+WKEUdYsdO/c38Gn8mZ698LjiRfhskBSDqCTmWD
+         aU8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763040842; x=1763645642;
+        d=1e100.net; s=20230601; t=1763041316; x=1763646116;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=YsN4YM2OD91GPnt+6/gPAgCxZS5BYL1HgW1NfsOpFuY=;
-        b=YU1+tApsDzUB0QVqxdaMcaL3PP4yX8FM/DNf8KNNn+PCdqK6sddlH6MM/pAOJpSl0n
-         O0Gnnguia6DP5MzXQdp6LbyrM7eo8YRmUTqow1hvuR+NWNqMBjl4xOn1LcqVm9JQOiLL
-         KcZl00DBDPrv8U1+xCnwuuDJ88xeABFKp3RUhmDZZwXDsEDx0P5G4GDfBv1zvRxQT0X1
-         DK7ip8ITBXiq6q3QTdHx9vjf94y4B4IEEgaz9hgrGzc0QZMyD0IVp8j3gNrGucsx1z3/
-         hrk33u+gQYv8IJzQmHNRxjph1wyqDtwmLy69f2aOgNM9LXPw9C1NSrg69duJZRfdIUsM
-         BXXw==
-X-Forwarded-Encrypted: i=1; AJvYcCVIoXPq1kSEhxK//80687LM3q62DkL3643ibgsLX5dsqJu9Abuu9hnq1BChnMuwIA0QdjM1boZ5HXwjX/OMgD3zKQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzHyvY8ocD5RYCnJqq7LLt4vRj9WJKbN0kTQ/f2cLbnMI9ZbSEl
-	BWMrrViaktxk/fA7IsoOuSimXlvGaVJUUw3xjk3Hd1g3orU3pQKmkJ2A58mWpv/a8xfeZ5IrQvV
-	vKM0gJ1X8Pi4A2ixdmGPsUhFuJZYLWYTvy47LDiVmGg==
-X-Gm-Gg: ASbGncuHc92JCI6m8JZuhHVw0QBgyS7PfsgMTXc+erL7GN+dcEDlfI+YRfvIFkFQi9F
-	xfGXGWoxbQJMLsfEgPBDrey8Kj2aQc+/F9kAIMbNhP8MYqToZTnaOpzhnI3CIU9j4tIR64LXmIZ
-	nDv1IvhTPj6y97ZSFqN0IJ2CxHrtiwf9JaxtO3DhMdtodOjsJ9meo00fy8dhZzXVpZxjfTXs2EY
-	/lSMbDye3kb1jVlsBhwMs48OtdiMYlFsYhD6or2fdNswteyuFUig7/WWkPNDyb3ae5xnH5wEFY7
-	DwA1qz5kXvbiJnIM
-X-Google-Smtp-Source: AGHT+IGbk7EKeTNsNxEBH5I9gU0KP7DFoTOQ0KZ1rqq8QfnOf06KK/0zwgmGPB54vhErcQD0MD3GXM8/DDcCgOFKTlQ=
-X-Received: by 2002:a05:6512:12c4:b0:595:76d6:26ea with SMTP id
- 2adb3069b0e04-59576df8d25mr2057027e87.23.1763040842304; Thu, 13 Nov 2025
- 05:34:02 -0800 (PST)
+        bh=e6YFPbYQaXtcm5LdD7/GneIOXBdjWXCgrgn8VVQE3So=;
+        b=J5jbELls3E3wW0b9XzP1I4Jz8PIex0hP+F+JVwDBC8pxeiFe7xlzfi8fUHNUiwn8QY
+         BRF2HQxbbjKKCfBjKIhXilXBkX99RTt4a1KTtCwo/pwzzuOqJvXwOBizxZH4Qq1JR8uu
+         6SYxK0/w1QGJfXfCqFT+YOoQFHcu0unP0EZYzlwzis7sKDUd+0SlHNj4/oPldWtBCofa
+         bW8P+6Y24EeYFZRAcmv8KScJWPxX78Drxl8hRqthOcFTo0eWJsIOdlNR6sj8ibZK7tFx
+         YONzQWHSuYPbD9sjymnVBMcW930AUxbefhwf+giAJznfGUosgMYylchFQQV4SDHpQEaW
+         +2ew==
+X-Forwarded-Encrypted: i=1; AJvYcCVzYPxWWYVOouAUFLOpT8Y/75+gFMFsqA6FcVG5j+c3Mjb1IKQjlzSihYlwR/o45GLcf1Cp9ppvhnsoHSNUo9r+Xw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxYApERc03pnIvuf9Lo9VGvTj4JxOf2HIR/czOU+dK5uYH2whI1
+	PPZoMAVzsBg3Ekr6OkM0vVD9AfAi+ON+nyMJw+XWxrxt0L7eF3t44L14buoujXpk6VXsb2+4zn1
+	D4PLy+DY0y5FGUS6RN9adcLHZqHYcx3kNIAzNcqNp2w==
+X-Gm-Gg: ASbGncuLnBkODFGDxUUY2z5Tgy9Qf3x6Lp1Un8wOP+e0YBh/f5xpVjMLKP317bHRcit
+	qnR9a3E1b5oa8Bs1PQmm+kWbGP2MSfv62KaUuVSgJ+wWnVyw0S0CBlfbLmfCsE+hXoD0oFzDJv1
+	ZzlzSQDr1Y37KQWc7afb/E0MHg6k+8APtAemC3lUrxKXMGtEJbHea9BB6maGj9n3NhmEvBXaYYV
+	Nsgh5nhrO9FxSdP6vlKpnoVhiRyEnLE1zVWkI1gWhLvSUehJRLftld3LXXVU6tJJKSytl/6Q58c
+	FnV8A1bejtny2OyZ
+X-Google-Smtp-Source: AGHT+IGgWlCG9kIv5RM7lpIk9LC7ddziZ8QniI5XBDNtHyHFdpWvdUKYxGgON08x+t3awJ+Cz4M6eIo1aCJcpUc2eyg=
+X-Received: by 2002:a05:6512:3c8c:b0:594:2fde:a159 with SMTP id
+ 2adb3069b0e04-59576e552camr2521011e87.43.1763041316428; Thu, 13 Nov 2025
+ 05:41:56 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -77,14 +77,14 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20251107-qcom-sa8255p-emac-v5-0-01d3e3aaf388@linaro.org>
- <20251107-qcom-sa8255p-emac-v5-4-01d3e3aaf388@linaro.org> <86df9697-af58-4486-93de-b01df5ba13a6@oss.qualcomm.com>
-In-Reply-To: <86df9697-af58-4486-93de-b01df5ba13a6@oss.qualcomm.com>
+ <20251107-qcom-sa8255p-emac-v5-2-01d3e3aaf388@linaro.org> <21a3d269-76e6-4da9-aa25-bfd1fb6dfb07@oss.qualcomm.com>
+ <CAMRc=MexMn_GSC2EtMek5hDRLjGYA5HKM8ge9vrxw1pYDqPJgw@mail.gmail.com> <cd7c0490-a2d6-4885-aa36-ee1492f107b8@oss.qualcomm.com>
+In-Reply-To: <cd7c0490-a2d6-4885-aa36-ee1492f107b8@oss.qualcomm.com>
 From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Thu, 13 Nov 2025 14:33:48 +0100
-X-Gm-Features: AWmQ_bmy5PXcBPeRnFHjyddkz8qETTfAAx4qoRDDnDLUNs7204p7vqOqHs_5gtY
-Message-ID: <CAMRc=MfMQ3P-BK239953S9sTAe1_qSc_miWEFDNu83frE3aSqA@mail.gmail.com>
-Subject: Re: [PATCH v5 4/8] net: stmmac: qcom-ethqos: wrap emac driver data in
- additional structure
+Date: Thu, 13 Nov 2025 14:41:44 +0100
+X-Gm-Features: AWmQ_bk13TVZ2MEYPAt7pfoLg7e0lkaPcfsA9km-tpYIh11AXtLgw1MABlXNgK4
+Message-ID: <CAMRc=MeuByh=N_-F2+zPiqnh+Qp9u97kiMheLJ-xxcSZSy+_tw@mail.gmail.com>
+Subject: Re: [PATCH v5 2/8] net: stmmac: qcom-ethqos: use generic device properties
 To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 Cc: Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
 	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
@@ -126,47 +126,48 @@ Cc: Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.or
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 7, 2025 at 11:54=E2=80=AFAM Konrad Dybcio
+On Thu, Nov 13, 2025 at 2:33=E2=80=AFPM Konrad Dybcio
 <konrad.dybcio@oss.qualcomm.com> wrote:
 >
-> On 11/7/25 11:29 AM, Bartosz Golaszewski wrote:
-> > From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> On 11/13/25 2:18 PM, Bartosz Golaszewski wrote:
+> > On Fri, Nov 7, 2025 at 11:49=E2=80=AFAM Konrad Dybcio
+> > <konrad.dybcio@oss.qualcomm.com> wrote:
+> >>
+> >> On 11/7/25 11:29 AM, Bartosz Golaszewski wrote:
+> >>> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> >>>
+> >>> In order to drop the dependency on CONFIG_OF, convert all device prop=
+erty
+> >>> getters from OF-specific to generic device properties and stop pullin=
+g
+> >>> in any linux/of.h symbols.
+> >>>
+> >>> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> >>> ---
+> >>
+> >> [...]
+> >>
+> >>> -     if (of_property_read_bool(np, "snps,tso"))
+> >>> +     if (device_property_present(dev, "snps,tso"))
+> >>
+> >> This is a change in behavior - "snps,tso =3D <0>" would have previousl=
+y
+> >> returned false, it now returns true
+> >>
 > >
-> > As the first step in enabling power domain support in the driver, we'll
-> > split the device match data and runtime data structures into their
-> > general and power-management-specific parts. To allow that: first wrap
-> > the emac driver data in another layer which will later be expanded.
-> >
-> > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> > ---
+> > This property is a boolean flag, it cannot have a value.
 >
-> [...]
->
-> >  static int qcom_ethqos_probe(struct platform_device *pdev)
-> >  {
-> > -     const struct ethqos_emac_driver_data *data;
-> > +     const struct ethqos_emac_driver_data *drv_data;
-> > +     const struct ethqos_emac_match_data *data;>     struct plat_stmma=
-cenet_data *plat_dat;
-> >       struct stmmac_resources stmmac_res;
-> >       struct device *dev =3D &pdev->dev;
-> > @@ -801,13 +822,15 @@ static int qcom_ethqos_probe(struct platform_devi=
-ce *pdev)
-> >       ethqos->mac_base =3D stmmac_res.addr;
-> >
-> >       data =3D device_get_match_data(dev);
->
-> This change could be made much smaller if you kept a drv_data
-> pointer named 'data' and called the new one match_data
+> Every DT property may have a value, so this is not as obvious as we'd
+> like it to be (IIUC - unless that changed recently)
 >
 
-I prefer to make a clear distinction between the two.
+That's new to me. I thought that if a property is a
+/schemas/types.yaml#/definitions/flag then only its boolean form is
+allowed. The fact that the dtc can compile it with a value doesn't
+matter as the bindings are the higher authority for DT sources?
 
-Bart
+I don't mind changing it to device_property_read_bool() but I'm not
+sure if we really should.
 
-> but I don't really care either way
->
-> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
->
-> Konrad
+Bartosz
 
