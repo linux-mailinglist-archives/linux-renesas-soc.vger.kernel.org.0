@@ -1,116 +1,104 @@
-Return-Path: <linux-renesas-soc+bounces-24606-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24607-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D8CDC5A124
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Nov 2025 22:14:33 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ABB6C5A449
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Nov 2025 23:04:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 84EE84E3AA5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Nov 2025 21:14:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3C7933A65EF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Nov 2025 21:58:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B133320CD5;
-	Thu, 13 Nov 2025 21:13:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42C86320A38;
+	Thu, 13 Nov 2025 21:58:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="hB5r5ZXG"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="f25tQNVt"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7519B35CBD3
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Nov 2025 21:13:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB3DD2F5A05;
+	Thu, 13 Nov 2025 21:58:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763068434; cv=none; b=XvQmaUcp3wfPSGLYM18phNELuAlycuvaUOpwiMRAdA23z9fxZsc47x9+UNdTYdRusvSwCWM0NL8dPVCFabP7LNNuCEPNkVw4vphDMvc+7rX0r7ikpBxsezGiFhqdJYiKt1bDhFytxGJuVGihwaIq4YWEuEaOQQZfK6P8XiE6x/o=
+	t=1763071102; cv=none; b=b4udQdw04KuwyWLXNw9RKsXEEdvqu1U7rV6UyNZm6R4Uxhx0ewf0YhvCenNWr4ldDVqFpPww+pHnXr4tLJ4WxA92r3bVUdqqMqQGCKXmYrTSZRVdkbG0JRQth9G6kEGYFhVLtLeL7bSd3++/jcJHut5UUtwxfNMzVgpgCB2ut3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763068434; c=relaxed/simple;
-	bh=wQJmJS/h5zLAvwIWZyN2zsfMeV7f/1YvMZNgOuWJcII=;
+	s=arc-20240116; t=1763071102; c=relaxed/simple;
+	bh=u3RJTEuTMsu/Mh0lzU/eXO9euG6h1ckFdxYoSCZ8rNw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ay8HcbFZKpwMV5OirYI6mwAJPNYyDh0FGN9Pnyc0mXH14viHDFexYq8BkLsZmQZMjvGYGKbak94iREfbv/wU/wLhk7EyYMb/OTh5DmuuqZFfEYrVzr04YFX9w3doSyTFDiGdkM4xDevBfKWTATC0f0cX0U4s+fM2bpN+gptY1qA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=hB5r5ZXG; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=akfN
-	X6PbINatqmuoJok9MycNVqFwo1lIUHkdqrTMqpw=; b=hB5r5ZXGKv1QUjY9a3FY
-	SLH/M99UyZl5jt9qjQJS6kXIgyIYub+cZxWTyZIf6EzwUQpvqQuspJo8A4meJNuo
-	QZvligfK4MJtb8LJNyEGln3QR85KsRZlPZE7O1QguIdZL6MTfM05MHAeu9n/EsDK
-	v3OOSA/nBhFaj8kHqyoUThGWeOaVF2twjHIwXrZGVvc63rC2lU4LD9rSUiLb5rYD
-	kIah2TeIZP/sGpdxLUcJn8U5wpmVZOcN11YSgeZl/vDzSkDuijDfTFyapC++VTUU
-	DFV7IKNYDkfQFooojojCncF1rV5M/C9zjMP9YQtOnKA6xxo2mBNCzik6ThEqlzQ1
-	+Q==
-Received: (qmail 2052596 invoked from network); 13 Nov 2025 22:13:50 +0100
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 13 Nov 2025 22:13:50 +0100
-X-UD-Smtp-Session: l3s3148p1@8CmDW4BDTtgujnv+
-Date: Thu, 13 Nov 2025 22:13:50 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Cc: ulf.hansson@linaro.org, p.zabel@pengutronix.de,
-	linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: Re: [PATCH 0/3] mmc: renesas_sdhi: Handle resets
-Message-ID: <aRZKDp2ZI81sSHzG@ninjato>
-References: <20251008042526.3312597-1-claudiu.beznea.uj@bp.renesas.com>
- <8c654a1f-2513-4afb-b33b-fabbafbbe845@tuxon.dev>
- <aRTRLW4bCoZMtCaB@shikoro>
- <55e9c0c8-4360-4d08-9269-27a3ff5ba38c@tuxon.dev>
+	 Content-Type:Content-Disposition:In-Reply-To; b=taz5WQWwDmdf2BNE4aSHGNuVaIhVvHVQQsDKZof3m6cBSTpor4JF15QT6QkAMVGmDhaMRiKdv8Th0Z//XDH4XVNQp/fbBdwH2TCs7XqkJObtcQ5kpXFsi2Hf+BqH1C2g2rWUdyqBiqdd+qQVC8U8Yq54EkohUBWoW040jNGeDco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=f25tQNVt; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=Qa18NJB1fJabOG9o5oBBmugYBETJSqlkvD8oDh6fndI=; b=f25tQNVtFX2MKpp463PhWDnU5K
+	XefbmrMPqZwVTWuUsFxuhJE8F71oOZyaBvxwytjY9I3vpRa/rI8JMa9rW8EMiwGmD08QxLqEImeTy
+	ZeamHA1hHPeIhjv7vW9Q7W5Ab6vpcntgXFZXEQkUXh+l885zw9KRgiCEa4BxfFGHiDX0=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1vJfKP-00DvH3-Gs; Thu, 13 Nov 2025 22:58:05 +0100
+Date: Thu, 13 Nov 2025 22:58:05 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH net-next 1/2] dt-bindings: net: pcs: renesas,rzn1-miic:
+ Add renesas,miic-phylink-active-low property
+Message-ID: <0d13ed33-cb0b-4cb0-8af3-b54c2ad7537b@lunn.ch>
+References: <20251112201937.1336854-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20251112201937.1336854-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <de098757-2088-4b34-8a9a-407f9487991c@lunn.ch>
+ <CA+V-a8vgJcJ+EsxSwQzQbprjqhxy-QS84=wE6co+D50wOOOweA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6BBo1QBGjHnw5CXk"
-Content-Disposition: inline
-In-Reply-To: <55e9c0c8-4360-4d08-9269-27a3ff5ba38c@tuxon.dev>
-
-
---6BBo1QBGjHnw5CXk
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CA+V-a8vgJcJ+EsxSwQzQbprjqhxy-QS84=wE6co+D50wOOOweA@mail.gmail.com>
 
+> Each of these IPs has its own link status pin as an input to the SoC:
 
-> On RZ/G3S the following were checked:
-> - run bonnie++ on all the SDHIs (with SD card and eMMC, where possible)
-> - unbind/bind on all the SDHIs and run bonnie++ (with SD card and eMMC,
->   where possible) after re-bind
-> - 32 consecutive suspend/resume (s2idle and deep) and run bonnie++ (with =
-SD
->   card and eMMC where possible) after resume
->=20
-> bonnie++ tests were executed after boot on RZ/G2{H, M, N, L, UL}, RZ/V2L.
+> The above architecture is for the RZ/N1 SoC. For RZ/T2H SoC we dont
+> have a SERCOS Controller. So in the case of RZ/T2H EVK the
+> SWITCH_MII_LINK status pin is connected to the LED1 of VSC8541 PHY.
+> 
+> The PHYLNK register [0] (section 10.2.5 page 763) allows control of
+> the active level of the link.
+> 0: High active (Default)
+> 1: Active Low
+> 
+> For example the SWITCH requires link-up to be reported to the switch
+> via the SWITCH_MII_LINK input pin.
 
-Thanks, I did some lighter testing on R-Car D3 with bind/unbind and
-suspend-to-ram. Focussing on areas you modified. No regressions, all
-worked fine.
+Why does the switch require this? The switch also needs to know the
+duplex, speed etc. Link on its own is of not enough. So when phylink
+mac_link_up is called, you tell it the speed, duplex and also that the
+link is up. When the link goes down, mac_link_down callback will be
+called and you tell it the link is down.
 
-Can I get the I3C pinctrl patch for G3S now as a reward? :)
+    Andrew
 
-
---6BBo1QBGjHnw5CXk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmkWSg0ACgkQFA3kzBSg
-KbbMNQ/+Mn2A3des2YE34MEXSSRd+AJxMVBf4K6JWlifRlJ3Vmj/MrBPHpPry0et
-3bBEMzoSgm9QXxUGxoDLL2fmriK84BtY3Gz+UmpSBABeOstJJrZxEhFpo2hFPw+S
-UbCoDsLvY27vwLwJIzBmTOYUGX5x6dU8/+LDju9cmmxDs/EFwoSlsxLyrN//LRAK
-RWUNxXmpfx3yIz+yvMS1SbhRmtDe557CPIXsYIRtkPAWB753dNKwclQ5vuVK3zsW
-yoH4CslLhWOtVRf+YL9mRvvNYsO2xAN8UDDUpMc4pX3FzajC9T725x0ULhZLR0la
-P5RnWOjZxVI1oXiA6v/Ig9WzATipKh3cpOT5ZQXD52OHXpDy3lfPbZ6+iH4ianwN
-T/SYBGOoJLG57HPbMvneDKCW8ARexQujbWuvtdB4qxa6X2hLeLIsZkOFNSDxeusB
-9IHKn9eLsaK18viPUobnA0AWZU1X79bXbBJPdpprLfEz42oXHIvwkvlo7JE3PzyU
-Oovs8YLSdWr/VACMid4LzNHATIYd0LiNFF0HbQZeYRGzMPbvpvjOvschEWcabKNw
-kNkVvwQ39035+U+L8ucnUBFLKzXwfe1QxCuaJ/X40Aa/GCqSBZZXGTRvvx3eACg8
-UBcAMs5KYmOyjVCt0xmYOMu+Dg6MH6XVRsa8GWCs/04TlmMM/o0=
-=D7XB
------END PGP SIGNATURE-----
-
---6BBo1QBGjHnw5CXk--
 
