@@ -1,201 +1,116 @@
-Return-Path: <linux-renesas-soc+bounces-24583-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24584-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 569A7C5903A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Nov 2025 18:10:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AB34C59377
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Nov 2025 18:40:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 41C824F25EE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Nov 2025 16:56:00 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B8A954F0924
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Nov 2025 17:07:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E170E34FF79;
-	Thu, 13 Nov 2025 16:48:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LhJl8/a+"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 562723446D7;
+	Thu, 13 Nov 2025 16:53:35 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43AFD346763
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Nov 2025 16:48:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77ED2191F91
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Nov 2025 16:53:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763052520; cv=none; b=tGdLjCY4IV9Wxv/bqBcgB1j/AEGg/oClVOf9AhfYcxeOsyvOsVG9YKQisVvhzm+bcN7pHYs1x45NJxC72soLhn4S6CW0jdzA8jkZxJxthOt7pFqgMgwHYtUuHJz29LdmFm4qg1F4fVCVGY8ZTOBGyobJ49+BAKg5liHBB/7so2E=
+	t=1763052815; cv=none; b=h5YsO3Hfxb0JwhwX3e1TEQpayxUIaQNbd5eMdZCnmNPArPKxIMUchohDDGcPYXXrhv9+Zjj4kYaV4It/YG2kOkPCmy2S50PMbhvYoP8d7uC7QdL2x7srd1OUDDH/lFYU/9ypjl3Kjz63cfjH8o6DR11KMo69o5cKJMuGYuTIwaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763052520; c=relaxed/simple;
-	bh=gTdDWZB6sSgKgfpfukf8sp6ClDx6iNx9tOAW5PInTPM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=pw1s9otQO01vW2L/Ha+D41EzI3RbQOTnOcvGJymU4dWFRmE3SENg+cCWKwk9JemzSjcRqcZLhZbrPY7gTQDl1v648rq1Y4Nsn16ViCSIfdTUaipcYFIfeCROJDA86eeUGm+fzDROsBfZNPrFyZUPrXqwbB8qqqJyzZXojuAQrWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LhJl8/a+; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763052519; x=1794588519;
-  h=date:from:to:cc:subject:message-id;
-  bh=gTdDWZB6sSgKgfpfukf8sp6ClDx6iNx9tOAW5PInTPM=;
-  b=LhJl8/a+/vg2uwBa9ZBi+euaC3Hjf3CRSc+3t2OYD8a277gdztvcgpjj
-   yJ3r0JGGxLU4PUosr2rnqrew6SR//V3uE9D9xrlwYxw3Kqv0iMDuWVtl3
-   gpWuRX/a10r64Nlan5bxd6Bh3y0v/FGKMvKxKAPI5Qqauq3ejYN0DcSw4
-   o1QFfL96mjAdJyvtnkNzctIsTz1X/AGti1wNkZ33nBZJBUS9kVFf40P8h
-   g32rsT3jF/N0BGgvqvHgXM6HIPWkr3ImTticpM7XFOYPKeYYVx3L6LI9S
-   Rd4v4pQmQq2vowt+Z2n8WXu6vHqr7rcAgqEUWPkoIZ4KjoBM0kPSv+c8c
-   g==;
-X-CSE-ConnectionGUID: 9FgQs9rkTg2aNqjU317nfA==
-X-CSE-MsgGUID: zwmmgErwTAypIwjjC0WB+A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11612"; a="65178490"
-X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; 
-   d="scan'208";a="65178490"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 08:48:39 -0800
-X-CSE-ConnectionGUID: mlu4meVdRTSw9MWY9cm/Aw==
-X-CSE-MsgGUID: lTtm+MQNTRufcJQQyKIDjw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; 
-   d="scan'208";a="194537226"
-Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 13 Nov 2025 08:48:37 -0800
-Received: from kbuild by 7b01c990427b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vJaUt-0005ad-2N;
-	Thu, 13 Nov 2025 16:48:35 +0000
-Date: Fri, 14 Nov 2025 00:47:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:renesas-clk] BUILD SUCCESS
- f8def051bbcf8677f64701e9699bf6d11e2780cd
-Message-ID: <202511140053.tOkjNruu-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1763052815; c=relaxed/simple;
+	bh=Dbv+NvA54eQnU138bJCOz6IuOnEx2OSaA5K0SN9S/FU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gKIiUsgw4TeTM2QAuglAcMDOiNmPoiWX5qpD7NJkMB5umk0z8/noImJsl0R8w9HCQTB4iCGlwT5AeRqX69/v1AgAPlx/Dd4iVmA0PZesG3ZUbPGRfyD/fP4ObAFWieT6aE6VYcmxTtIKcE7Qmq/XKOgJhCRdq+2hCw7YRP0MIfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-5db308cddf0so552205137.3
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Nov 2025 08:53:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763052812; x=1763657612;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XbQvAYO3eNdTVb0fT9wjAGvduLlBPUoVXxd3qKsckAE=;
+        b=t1Is+BVuswVeZ0cWMCFWUjDW8XsOvnHk5QYatdbykOPMTkTwCecUbRedTwfblUmhuh
+         XJYWR2l7Nw5lIt2Bauy1ck17xKTNb/1bpJxzx8ztYKJNuvui7Ddff4rUcfE81/Ah03Ph
+         P8ZTw6SclKJBywK5eSOWUw5F1RhfWVmWEc0MTTwjqFjezIOj+tBgOMUz18IuQsiVPWQB
+         fcTQzN8CNwWHpPrMmK244U3e0Ikorab9ozaQRzAjQItUNKIoFFIiWzpFj094pgZBcbM7
+         8UNCJI9gSzjGMB22+fhdDIg73MM2Q2uFUemuvxTaivdo0gHN8nihDjycQZXraaLletj4
+         c+ow==
+X-Forwarded-Encrypted: i=1; AJvYcCVeXFudKTr6vWMVa55qbXDuKydkW238EiA/Iv3CJn6wXccoum6dObnP3XAJx/faWYzbky8v2vIajTO9ZeHnO4lZpQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz5Tpp3Xa0W5rgfwBERQaehPcVc64Aer/ACevgQXWxdOIS9QbuT
+	soHcwTeYKHwlXzzNJZOCOVFSk0t1otEIlxBL5S+MFEAyak9Kfk3Ai2gnxtxc9F0vcvg=
+X-Gm-Gg: ASbGnctKAWJubUcbL5cul2mPSFEhfxN70rM5eoKdkJLddXwrkhwu14z1RnHFD1lD8yO
+	1xN21kDTsxsJJzCaVlPOEOLL8/qGY7b4t17X4xqcOnlh9uB8E1jJ9LKkVQBw5K6ShJfMahwKF/9
+	ObHEYmJm3WyvZk+oIFP6X3XYYuTuAeIXNtSyEYaq8K83bYdO7vs0a3/e/hKulBPDvq43xYkNMtb
+	szDlimaq2dAJdXcmZ13rSuK/LMTifsbJIJbLkBpA/7lZOOnwB6Zs7X6BYUIwEmsDXldo9Lckykl
+	vYcgM3RVqULKEp+Jmo6gAOawLeYE+Fe27TRn4/uHKh11PCFM4ynnBHwI8BeaBNLQLZpGrJ8Vtd+
+	X/QsoBkh7Ne3dGgVLDsYcY7VZuopcEDxsgM8Dxm7VqvgnR7MTCz9RT62C7qXVfXrlLGS4Q6uwG+
+	SmXePWX8W9s5yUG1qdQUVDzWwIeJ1ET90MCd7UyPnVPuJKrVyW
+X-Google-Smtp-Source: AGHT+IGLRO45JcKdOVzGoAbGHZ71rheU79XlF6AqU+IIlh5ua9V8OQ5PqQyD3a/qMpsm6LXdLG6XNA==
+X-Received: by 2002:a05:6102:83c7:b0:5db:f352:afbe with SMTP id ada2fe7eead31-5dfc5550af9mr182139137.6.1763052812103;
+        Thu, 13 Nov 2025 08:53:32 -0800 (PST)
+Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com. [209.85.217.47])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5dfb7232b16sm818996137.10.2025.11.13.08.53.31
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 13 Nov 2025 08:53:31 -0800 (PST)
+Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-5dfa9e34adbso833210137.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Nov 2025 08:53:31 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWmnW5FAopJ3t0oyICGSuXqjkYLsVPleYPMg/TBSoaDrV6gFJddEGXW/zXqxw4Ki8PZIm/1oBcj59isQ9V000inBw==@vger.kernel.org
+X-Received: by 2002:a05:6102:2908:b0:5db:f5d1:5790 with SMTP id
+ ada2fe7eead31-5dfc5587ea4mr226528137.13.1763052811529; Thu, 13 Nov 2025
+ 08:53:31 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <20251101050034.738807-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20251101050034.738807-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20251101050034.738807-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 13 Nov 2025 17:53:20 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVo2DGVm0KMx10Heytif4aQTRU1OcXb-xSzLs5SP7Me+w@mail.gmail.com>
+X-Gm-Features: AWmQ_bl5EDLinjz9IEQUBnCdqQ9y_TsmjBBKKZa6y0pw8az6LRSt_Iws6T3ZPNQ
+Message-ID: <CAMuHMdVo2DGVm0KMx10Heytif4aQTRU1OcXb-xSzLs5SP7Me+w@mail.gmail.com>
+Subject: Re: [PATCH 1/4] dt-bindings: clock: renesas,r9a09g057-cpg: Add USB3.0
+ core clocks
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
+	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk
-branch HEAD: f8def051bbcf8677f64701e9699bf6d11e2780cd  clk: renesas: r9a06g032: Fix memory leak in error path
+On Sat, 1 Nov 2025 at 06:00, Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Add definitions for USB3.0 core clocks in the R9A09G057 CPG DT bindings
+> header file.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-elapsed time: 1748m
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in a branch shared by clock driver and DTS source files.
 
-configs tested: 108
-configs skipped: 3
+Gr{oetje,eeting}s,
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+                        Geert
 
-tested configs:
-alpha                             allnoconfig    gcc-15.1.0
-arc                               allnoconfig    gcc-15.1.0
-arc                   randconfig-001-20251113    gcc-8.5.0
-arc                   randconfig-002-20251113    gcc-8.5.0
-arm                               allnoconfig    clang-22
-arm                         lpc18xx_defconfig    clang-22
-arm                         orion5x_defconfig    clang-22
-arm                   randconfig-001-20251113    gcc-10.5.0
-arm                   randconfig-002-20251113    clang-22
-arm                   randconfig-003-20251113    clang-22
-arm                   randconfig-004-20251113    clang-22
-arm                        spear6xx_defconfig    clang-22
-arm64                             allnoconfig    gcc-15.1.0
-arm64                 randconfig-001-20251113    clang-16
-arm64                 randconfig-002-20251113    clang-22
-arm64                 randconfig-003-20251113    gcc-8.5.0
-arm64                 randconfig-004-20251113    clang-22
-csky                              allnoconfig    gcc-15.1.0
-csky                  randconfig-001-20251113    gcc-9.5.0
-csky                  randconfig-002-20251113    gcc-14.3.0
-hexagon                           allnoconfig    clang-22
-hexagon               randconfig-001-20251113    clang-22
-hexagon               randconfig-002-20251113    clang-22
-i386                              allnoconfig    gcc-14
-i386        buildonly-randconfig-001-20251113    clang-20
-i386        buildonly-randconfig-002-20251113    gcc-14
-i386        buildonly-randconfig-003-20251113    gcc-14
-i386        buildonly-randconfig-004-20251113    gcc-12
-i386        buildonly-randconfig-005-20251113    gcc-14
-i386        buildonly-randconfig-006-20251113    clang-20
-i386                  randconfig-001-20251113    gcc-14
-i386                  randconfig-002-20251113    clang-20
-i386                  randconfig-003-20251113    clang-20
-i386                  randconfig-004-20251113    gcc-14
-i386                  randconfig-005-20251113    clang-20
-i386                  randconfig-006-20251113    clang-20
-i386                  randconfig-007-20251113    gcc-14
-loongarch                         allnoconfig    clang-22
-loongarch                           defconfig    clang-19
-loongarch             randconfig-001-20251113    gcc-15.1.0
-loongarch             randconfig-002-20251113    clang-22
-m68k                              allnoconfig    gcc-15.1.0
-m68k                                defconfig    gcc-15.1.0
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                          defconfig    gcc-15.1.0
-microblaze                      mmu_defconfig    gcc-15.1.0
-mips                              allnoconfig    gcc-15.1.0
-nios2                             allnoconfig    gcc-11.5.0
-nios2                               defconfig    gcc-11.5.0
-nios2                 randconfig-001-20251113    gcc-8.5.0
-nios2                 randconfig-002-20251113    gcc-11.5.0
-openrisc                          allnoconfig    gcc-15.1.0
-openrisc                            defconfig    gcc-15.1.0
-parisc                            allnoconfig    gcc-15.1.0
-parisc                              defconfig    gcc-15.1.0
-parisc                randconfig-001-20251113    gcc-8.5.0
-parisc                randconfig-002-20251113    gcc-14.3.0
-parisc64                            defconfig    gcc-15.1.0
-powerpc                           allnoconfig    gcc-15.1.0
-powerpc                      pmac32_defconfig    clang-22
-powerpc               randconfig-001-20251113    clang-22
-powerpc               randconfig-002-20251113    clang-22
-powerpc64             randconfig-001-20251113    clang-22
-powerpc64             randconfig-002-20251113    clang-22
-riscv                             allnoconfig    gcc-15.1.0
-riscv                               defconfig    clang-22
-riscv                 randconfig-001-20251113    gcc-8.5.0
-riscv                 randconfig-002-20251113    gcc-11.5.0
-s390                              allnoconfig    clang-22
-s390                                defconfig    clang-22
-s390                  randconfig-001-20251113    clang-22
-s390                  randconfig-002-20251113    clang-17
-sh                                allnoconfig    gcc-15.1.0
-sh                                  defconfig    gcc-15.1.0
-sh                    randconfig-001-20251113    gcc-15.1.0
-sh                    randconfig-002-20251113    gcc-11.5.0
-sh                        sh7763rdp_defconfig    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-sparc                               defconfig    gcc-15.1.0
-sparc                 randconfig-001-20251113    gcc-8.5.0
-sparc                 randconfig-002-20251113    gcc-8.5.0
-sparc64                             defconfig    clang-20
-sparc64               randconfig-001-20251113    clang-20
-sparc64               randconfig-002-20251113    clang-22
-um                                allnoconfig    clang-22
-um                                  defconfig    clang-22
-um                             i386_defconfig    gcc-14
-um                    randconfig-001-20251113    gcc-14
-um                    randconfig-002-20251113    clang-22
-um                           x86_64_defconfig    clang-22
-x86_64                            allnoconfig    clang-20
-x86_64      buildonly-randconfig-001-20251113    gcc-14
-x86_64      buildonly-randconfig-002-20251113    clang-20
-x86_64      buildonly-randconfig-003-20251113    clang-20
-x86_64      buildonly-randconfig-004-20251113    gcc-14
-x86_64      buildonly-randconfig-005-20251113    gcc-12
-x86_64      buildonly-randconfig-006-20251113    gcc-14
-x86_64                              defconfig    gcc-14
-x86_64                randconfig-071-20251113    gcc-14
-x86_64                randconfig-072-20251113    gcc-12
-x86_64                randconfig-073-20251113    gcc-12
-x86_64                randconfig-074-20251113    gcc-14
-x86_64                randconfig-075-20251113    gcc-14
-x86_64                randconfig-076-20251113    gcc-14
-xtensa                            allnoconfig    gcc-15.1.0
-xtensa                randconfig-001-20251113    gcc-15.1.0
-xtensa                randconfig-002-20251113    gcc-13.4.0
-xtensa                    xip_kc705_defconfig    gcc-15.1.0
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
