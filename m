@@ -1,126 +1,129 @@
-Return-Path: <linux-renesas-soc+bounces-24577-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24578-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1725DC58BBD
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Nov 2025 17:30:01 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C905C58CF2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Nov 2025 17:44:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CB92B427FB5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Nov 2025 15:53:32 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 767D54F4A18
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Nov 2025 16:01:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CF94352927;
-	Thu, 13 Nov 2025 15:46:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CC442F7AC9;
+	Thu, 13 Nov 2025 15:58:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="J7URCsAY"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C584350280
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Nov 2025 15:46:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B70ED2F4A19;
+	Thu, 13 Nov 2025 15:58:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763048811; cv=none; b=ql//dkDIe3VUoTqCkWPdetpPuTyOgwc9lDhAnMD6BITnitFuVmwV4YgO+t7uwpPGCENGh/2iPzUY7lS2HRPkFZsYbHg0HvDbHnEBPtRpE9tcRUQwoR9/hseMmQJ7gdPae6sn+W3RRVBcXNrkYSFNNUIH5U7wZFOWacW0XAKeOrI=
+	t=1763049506; cv=none; b=edzVvkaZwJBuvPXCYQVqAjZxgQkEptT6OsDRo/rASu9GYb1khVX08lhXmin7mw0xIdOsBXsxvCldkWqj7ssViAJPv11mUHX1jQSue6HUcNRUMt736WwUaOzppWcSdzBgMYHfyYnKEXt3FGaK+rrYAV/sMeuOkKd6tkDZR4avl88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763048811; c=relaxed/simple;
-	bh=JbMu6ahMlLII1KW/kjAvmBsc+G89KXscjqjvlqGkV2o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gWs2l2Q6WxPNUEFpg5erJIJvZqbDSYXYYDNiird2lDaQd44OuUUNmbWCmu2mFRSfR4hstj9hDxM9ZWWY/78XapdJJsHjv2F29/Zea37eolTRU+i0Dq2DwR1VS5n9EC7stQm7JuF88Cjnj8WiNc2m0YBSs9t7ladbpQDhfhx2SrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-5597330a34fso689956e0c.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Nov 2025 07:46:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763048807; x=1763653607;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ScuVkhi+y4j9hXy/c6rksPSqjbU1qzqA5VKC3tcakUw=;
-        b=p19OfLHhkakHLvCXMcIX2OJYBiwTyvMXu7GZO87ofb9M4nsh+NeGzGiQxi7O0lO4lX
-         a0EFa7QRyX9taE5eAgfyuaD8HUy3TCAjQxsR7jX4b0Snu1T4ZVZArHuaPkWKPTEgWJer
-         sDyfW3KvnSi9ne7MsKGrElmez2n5EWqPKFBh251BDrI37FQ6uOqSkawjbOrDXUBrbIgt
-         6lxcZNrRS1cggyPXXWI0t3GjqwJoGhOMKMJcQq4CsTwHGdLarrLirr6KsqBJBqJMbB+/
-         L8i8jiLLnujiMdAxFZBObQLeB7Tqcn+uOh6fvwOWpb0S9Vwpxhs4F+Rrp6hU+bG1DENf
-         WAQg==
-X-Forwarded-Encrypted: i=1; AJvYcCUYKf8U2yLEUEKHCiQTjUIIHjZLeAP0ZzMTgX8cqAsE7MMSg85qs3G9BqJHhAGs/RM2m56vOWNLrgMYy/y7NSMpLg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YznWR3Lfso3D3/DyAqZguAERUfiX4TiIGv8UlZpFbRqt19uG1TD
-	GmMVXydIMRGD6U9EiftqI+lXKanq9Uwe6VdnObSTLybME5rdT8SfQAzj7GOH9syJbPc=
-X-Gm-Gg: ASbGncsQlhd/W0eGHdf7MdXPKVdslztmb/yXeK5YpZc/aN/6T0xH5d3mP5gylhwsF9h
-	exlZrh36ma0Mu8mVpK8QYGT8kUCuj+Qv+GUeMpr7KNpA9+GYsGhYO7MPeENnDp2EOTHyU9INOCw
-	dW0UaK5GKX6gyFF1OEVNEyGwtJKffGz4uqYHPunmqqw/EMLWkjJifpX4LGHXH/hCceQ6ffhDJGG
-	bWxCSddkOIbQo8BuaW6xI2vNDcoS6Lpv5WRAlFELOjxiQSO4cmAzbhwy5jDYrj8KMs0TE2fSs4c
-	+it9ZbB5g8d3gJqJQtOlxCTohY6Ne8zPDVykaeatVBMSx68AlJlqWZOnLJGysdGUubffploV78O
-	xDaDOiGUqjQPJe7PUY8eJRQUNV3bdNt3nKCiC2FKVnoA7osaeqYyvslonRq3IThrkL1GGaV1qDE
-	riLwoPvpzFfP/oPlX07r8fyqMFp72IIcpNvVzF9ukhSXSHHQGw
-X-Google-Smtp-Source: AGHT+IFB0usb0oGxVne2nKT7gkbCMo9LcXh/jh6nulDk5TEdVAxuN1giLWjsIxIKSkv35DnssGOX/A==
-X-Received: by 2002:a05:6102:6442:b0:5d5:f6ae:38eb with SMTP id ada2fe7eead31-5dfc5c04515mr11891137.44.1763048806688;
-        Thu, 13 Nov 2025 07:46:46 -0800 (PST)
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com. [209.85.217.48])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-937611bfdfesm674105241.13.2025.11.13.07.46.45
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Nov 2025 07:46:45 -0800 (PST)
-Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-5dfa9e34adbso759246137.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Nov 2025 07:46:45 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWUSXHzgNygSQrt6m4N0VsLgSlZ8UgCZQUTxhEgj2Uqtu4Z4Qn+Jgjsbl+l653sGD6qmaBNo2WlfNxxPVtGVCDV0A==@vger.kernel.org
-X-Received: by 2002:a05:6102:cc8:b0:5db:ce49:5c71 with SMTP id
- ada2fe7eead31-5dfc55b0bbfmr40115137.18.1763048805410; Thu, 13 Nov 2025
- 07:46:45 -0800 (PST)
+	s=arc-20240116; t=1763049506; c=relaxed/simple;
+	bh=NYeJSyKg8aRuFEhyCnL0JQc7N+mw1OvuhAKAZHnRiGU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pbHrLDccZluabgLgpX2v0IzSwza876Bo3pFpluz6uR2bP6b4p6jieSE7e7L9x9+D3n1cuqsDR/8Gcsq+b1X+J91fL83YU3umgIq6ODD0hH8i/gQChAIQsuGAQQP8CpItl05EapygzvreV8s7BebqVJ5EJuXaDVOoyat9shDKXio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=J7URCsAY; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=aWqMO5dgKynFXVsf0PHGotO7feJhY392/1Tkcj5y4X4=; b=J7URCsAY11Fgeyi5sgnO0X8T0v
+	DLtkvJJl3PyIkZ3+pQdqa5PD08pffN0ZsYf84O5wPEbDPpiWRbX+vKOEbp87LAFPiB/mZ3rOhRUev
+	wl/E73KkEUEJOW0cczLixDs89IGZapg8+t4mzKPDkp7aY+fu0dlQCpHoXtiBE7C0V33WqRqWR7Ina
+	pGBEbTpoHbR8kIAbT9jLtTXZHlosI5thcir0tsA3EceaS1T7Iz5jB9+WtF3oM79LWHPkzQX873kD2
+	U6e/ONoRJWyV2KMfNwpRVagYpVP1QRU/T0TRZyKfyznhdLSkKcCxnC3ab9fjEVPKPNTuo4mJ0PCIM
+	jRyeeBKw==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:59990)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1vJZi5-000000005f9-20ny;
+	Thu, 13 Nov 2025 15:58:09 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1vJZi1-000000004yz-1Tfu;
+	Thu, 13 Nov 2025 15:58:05 +0000
+Date: Thu, 13 Nov 2025 15:58:05 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH net-next 1/2] dt-bindings: net: pcs: renesas,rzn1-miic:
+ Add renesas,miic-phylink-active-low property
+Message-ID: <aRYADfD8QkIw9Fnd@shell.armlinux.org.uk>
+References: <20251112201937.1336854-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20251112201937.1336854-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <aRTwz5QHq9U5QbQ-@ninjato>
+ <CA+V-a8s5fg02ZQT4tubJ46iBFtNXJRvTPp2DLJgeFnb3eMQPfg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251110203926.692242-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20251110203926.692242-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 13 Nov 2025 16:46:33 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVt2rtKs+yRqLBPK+_CwSwZC2XmBor-wmVf_JDyPiFbmA@mail.gmail.com>
-X-Gm-Features: AWmQ_bkGYm2i_ZaT0N1d4rO7PGzb0yXpIqlcQJ7vIAPvPbw4btR7TgMuI9BaYk4
-Message-ID: <CAMuHMdVt2rtKs+yRqLBPK+_CwSwZC2XmBor-wmVf_JDyPiFbmA@mail.gmail.com>
-Subject: Re: [PATCH v3] arm64: dts: renesas: rzt2h-n2h-evk: Enable Ethernet support
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+V-a8s5fg02ZQT4tubJ46iBFtNXJRvTPp2DLJgeFnb3eMQPfg@mail.gmail.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On Mon, 10 Nov 2025 at 21:39, Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Enable Ethernet support on the RZ/T2H and RZ/N2H EVKs.
->
-> Configure the MIIC converter in mode 0x6:
->   Port 0 <-> ETHSW Port 0
->   Port 1 <-> ETHSW Port 1
->   Port 2 <-> GMAC2
->   Port 3 <-> GMAC1
->
-> Enable the ETHSS, GMAC1 and GMAC2 nodes. ETHSW support will be added
-> once the switch driver is available.
->
-> Configure the MIIC converters to map ports according to the selected
-> switching mode, with converters 0 and 1 mapped to switch ports and
-> converters 2 and 3 mapped to GMAC ports.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Thu, Nov 13, 2025 at 02:45:18PM +0000, Lad, Prabhakar wrote:
+> Hi Wolfram,
+> 
+> On Wed, Nov 12, 2025 at 8:40 PM Wolfram Sang
+> <wsa+renesas@sang-engineering.com> wrote:
+> >
+> > Hi Prabhakar,
+> >
+> > > Add the boolean DT property `renesas,miic-phylink-active-low` to the RZN1
+> >
+> > Hmm, we already have "renesas,ether-link-active-low" in
+> > renesas,ether.yaml and renesas,etheravb.yaml. Can't we reuse that?
+> >
+> On the RZ/N1x we have the below architecture
+> 
+>                                                       +----> Ethernet Switch
+>                                                       |           |
+>                                                       |           v
+>     MII Converter ----------------------+      GMAC (Synopsys IP)
+>                                                       |
+>                                                       +----> EtherCAT
+> Slave Controller
+>                                                       |
+>                                                       +----> SERCOS
+> Controller
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.19.
-
-Gr{oetje,eeting}s,
-
-                        Geert
+I'm not sure that diagram has come out correctly. If you're going to
+draw diagrams, make sure you do it using a fixed-width font. To me,
+it looks like the MII Converter is bolted to GMAC and only has one
+connection, and the GMAC has what seems to be maybe five connections.
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
 
