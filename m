@@ -1,118 +1,156 @@
-Return-Path: <linux-renesas-soc+bounces-24545-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24546-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id B523DC56608
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Nov 2025 09:54:03 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09455C56692
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Nov 2025 09:58:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 3F8FF343384
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Nov 2025 08:48:10 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 704D7346C83
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Nov 2025 08:51:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0102D2C0F6F;
-	Thu, 13 Nov 2025 08:48:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1FD8F302146;
+	Thu, 13 Nov 2025 08:51:17 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C8BA22578D
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Nov 2025 08:48:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DABE330B01
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Nov 2025 08:51:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763023686; cv=none; b=B/axwtEd6rHrAZOIus4bTZkZxnnRcEYqlNI5QVx9zD4ukmhmcCMH/GLLBKrzvce2ODc4hN+JiRiEFQP2T7nQCXbs73RXVqmE7hdtdRK2cY7mQniHQrXOQt9B02KtXTrQpKbtlfqPI8QBjLNRJE/vVb84VNxSmt8qoZpUZI/me+Q=
+	t=1763023877; cv=none; b=B2Jd91OIPi1Y+ktzNV7WlVAXiXqZ28uahpP3ETTKiA+QsYR+ZYruuqUk+DwyY7RB/k5H28AmJ4fsq6TDA+XxYHLWQSy5hg24W2ymf40MI2WXxm82ZzWvaz756pW/KW6VHfZBSSHOmwX26gCOQQ1CN1SVLs5hX932ytgAfNLlIo8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763023686; c=relaxed/simple;
-	bh=0aM3HY/1aVJh4jGU5kIYvSVpXhXTpBy3+OCQo3m3IRo=;
+	s=arc-20240116; t=1763023877; c=relaxed/simple;
+	bh=Y3cJxBYr0FtmmjeUHDLAuwvYPIolcl+a0e64J8Sa72s=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qTIvUvAUgEjIZvnr3N/kfLpz8NQ8QcBpaidTAhJuQZTHBiOUhqA2grsoK+yCkxCaJ0vWTkwT9MQtZwlmh15I5mseffaq82l6HTbFvXcZDqWsRG5qwMUPDp4bTfHo4DkQnz9QOY6JsENj3l89bP1/W+SCIt5pehC910dhSC2wN0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.176
+	 To:Cc:Content-Type; b=ksUVxSmrVeNGK48JEhxXIYV1JkXc77dmycVYaTRRYDSyRCjLExifjs5kqcBJNgxVBYBdB4AqrzJG/axmQbJje/48Ra3nhzDRFZuTbEtroa+KyTSKdW58CfzyoBYyyoga6OOK/VpAKTtqfnACApr4xr+ibwmUXqtBXJ/WN6YHd0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-55965c96fd7so141499e0c.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Nov 2025 00:48:04 -0800 (PST)
+Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-54aa789f9b5so333876e0c.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Nov 2025 00:51:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763023684; x=1763628484;
+        d=1e100.net; s=20230601; t=1763023874; x=1763628674;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=75iAsF6vZT2LRBqNQRnHkvddKffQGnmtAsacOCaiC7I=;
-        b=LKjeRnfhmDnXJCWh+8IVZR+6FDgg274b3rPL/d1CPDEO44vUToObw+H5tUSWmPmcw3
-         VoDDP4JHXSZSfLuMPc/QX6z+4NIwv6QdVj8/E/MzozOJqsDFEYk+18CAydBbrHYzNCVc
-         /emr64NQnIOfKV3scQHdlPPtdhJ0fmse48LunL0WkX23gFYQmR8x8aEKrydOr4lvfYSu
-         +XXbnqp07A3Amn6Yh2/B4Jj8AcUZdQiVVDxUT7+tusAAJ0xdpQkNbGSU/Ss4oGXWcdaG
-         no/29an+8YWmpl++i7gqdXD8ygipV4sGQZBDs7J5DaBVQtc3Xd9H4YcAG7Yc50/vrANK
-         AARA==
-X-Forwarded-Encrypted: i=1; AJvYcCX1o1zDnxXRXvJ0S5b2gM1WykFEh2NZS+dEd5/p3mg5Dhm6ey2UDYqFvodPLZc18/jhPTBV6hj8hcLV1V9rmpLUHQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyPbhF/9gu+lLZYPWrA6ct7YrwbIiKszdE3HcJvUlRsLcYqLDE2
-	VnNhpZMB1kICHNzH0brL1aonM8dRlhgJJzYVkTj2PH07qzFoXBsNUIbu+ZoqE4Vm2lI=
-X-Gm-Gg: ASbGncvU39t9KXVl+GgE4LgjZVvUuqkCyaTehjxlf0yclUNEiRP2+5askUnSjWm1Tl+
-	n/2TzIyaflJVnrxKtrpg6Uu8Os6OdLTeL97hkLkMssX1TvLJl1snxWXdkNTaEN0II8tapyij++T
-	VGVQvV3OgCmdOAECVJUIXQwtwsNEBgEq/HhY6zC6tbbekezCOwHuK3aCT6Eca3vHIk6qYyuK2wX
-	DOIp4/oW1VShzYIt3+PcGEFSnyOzS9jAV0+TleOIzIZSJC2nmVJorX3v2vOdtx7skX1xlV3TteS
-	wH737U/DDrNbWBvjnNvs6O43C3wfcLrimGR3HK33b6fdJUMx+b0j1rd/T4WmHef/kTaRfXEQ8ji
-	9W5qkyrkutC57NO/CVGHFFgY/u75cG7gSkKVmo8OmSWLJ6yW3oXd73ZC4VT4fVLs/efzynDLiRK
-	3uKJQWpjoChC11TPwANtTRYHDUpzk4Am9NrEurCg==
-X-Google-Smtp-Source: AGHT+IHxn6W7L8FA4zSY2pntuoXRLqohD8pjxjqgUKHMBxEBw2R/M0SPF0H4IMozhYiDsm8AWG4Mpw==
-X-Received: by 2002:a05:6122:2026:b0:559:6b0c:1ca0 with SMTP id 71dfb90a1353d-559e7d481f9mr2071426e0c.12.1763023683764;
-        Thu, 13 Nov 2025 00:48:03 -0800 (PST)
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com. [209.85.217.42])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-55b0f4986fdsm492141e0c.21.2025.11.13.00.48.03
+        bh=6jppCAljRnFmNoD8IBybx1rRIy6Hth1Yqeh1nYPEFHA=;
+        b=LFs7QultKq8L7m7aPCKon4R0YbyjBlrGvuvqRUUrXdHLf5oPPJZ+ZxCQj1q8+/HL3i
+         1JcGX2VTL86ovGUNV84agV84OQhr9+34vS783rzRyopAPZzf8b6MP/1ru4uTB0cOHnrF
+         ih90GVHlI86l4RfI8A6JqWAbXXt8Aq1XVwniKd23jWSzepZmnFBgYPOXJATDDnIySVYD
+         7ee2K25XlOP+6YR5O+DtqnW2Q0YH34zk2dsfizum/mh7rVtexm4gDhbz/JXREf50R+fM
+         y/MXZMwdFnRcdY2ie8iUIEB+3p4515xnMZFRFiOBqjvpMxvPkg4b3N/alYxu3VkcprSl
+         TFDg==
+X-Forwarded-Encrypted: i=1; AJvYcCW9SksMM8CE0sKoJq+Demmhl9chk54l/zLsAikTaxXo/zDl07/qaoOZkA4VS5EgV6eXi8ir8x+c6DzrzM6drp6xCQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxGaGXgmV42wUMbPwc0K4LT+vagnN9UWBsuLvr949uwTvoWetLY
+	8AGNLToDhVk0cVx8+8nzrkMN4mpMyC5FRVj0DBu/gX0Bpk88aWtmZXqgpCbpiHC5a70=
+X-Gm-Gg: ASbGncsLB3ILcg/copTxxm8HC/sk3taX2+DL+3BrsT89ueWLxtjRHu3/IM1gMSklkmr
+	mgCdDkjQ6Fs9a22in0sFOX1GnXdxc3GqBL0p4pBBr9S5sjQPDqWDVsR7Oy1TQNJaZnlaNNIUkMN
+	3gApG3zAlun3aOuz4Ae/oPPPHcNP9h0gVRFA0DQIAzlWLfMcBv4UMdSzOhN+qaCLmmpdlYKJN4W
+	Ki5Q/cr02yWbYZePh1ZmdWXR1VKLKZimfGsc+kK78XI0P4hv27cIodg2KcQ5F3Z9F9K2Z30q0/N
+	lcifN6frHL+IZfdnPu6DR+xPhlIoi5V5nwgAMpM5NIWoQgjwR3n0D6kU1868Tw+x9746AmZ3Spt
+	nl5XddHjlAqR21gAMelkX1xoM4KaM6rFszIRamU+0c65Ys1twiM9pOp+PuOUaiv8VDY6jA/xpKx
+	1dGh3EiO3G9Oomh0OfAzuhUTjbD0tQxalH9hmpLMVBOg==
+X-Google-Smtp-Source: AGHT+IHwrxCyrDOaTKGlgLwBJh10Hz9UXdoWJ7XNKlMmWm7aE8DtLhTp5s4wkchVGKGcCZqXqmZzVA==
+X-Received: by 2002:a05:6122:4f81:b0:559:6f4b:7511 with SMTP id 71dfb90a1353d-559e7ae92e5mr2156011e0c.3.1763023873834;
+        Thu, 13 Nov 2025 00:51:13 -0800 (PST)
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com. [209.85.221.170])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-55b0f499dc9sm491128e0c.23.2025.11.13.00.51.13
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Nov 2025 00:48:03 -0800 (PST)
-Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-5d61f261ebfso187897137.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Nov 2025 00:48:03 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUZmpzu0lA6OCwdugKRvaiP36FOmI+K42SeHdM2RRMXkBtNNybS14OVTO2TszNNoKJ5JqPSorYUS6D0znOBzI8ttQ==@vger.kernel.org
-X-Received: by 2002:a05:6102:e09:b0:5db:f440:f1b7 with SMTP id
- ada2fe7eead31-5de07ebd7d3mr2100093137.32.1763023683344; Thu, 13 Nov 2025
- 00:48:03 -0800 (PST)
+        Thu, 13 Nov 2025 00:51:13 -0800 (PST)
+Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-559748bcf99so464149e0c.3
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Nov 2025 00:51:13 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCURCOermw99xC/Yui5AnisTCfddhuw7nVXsEVQVaR02Oq5j4O84nuAqMWWnxjReeBQkBXa+1WwnZchjZyzEVqSnsw==@vger.kernel.org
+X-Received: by 2002:a05:6102:2b92:b0:5df:b1f4:77d9 with SMTP id
+ ada2fe7eead31-5dfb1f4937fmr1427327137.17.1763023873293; Thu, 13 Nov 2025
+ 00:51:13 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251112154115.1048298-1-biju.das.jz@bp.renesas.com>
- <20251112154115.1048298-4-biju.das.jz@bp.renesas.com> <87bjl6wkf6.wl-kuninori.morimoto.gx@renesas.com>
- <TY3PR01MB113468318B32BF2E23953198586CDA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-In-Reply-To: <TY3PR01MB113468318B32BF2E23953198586CDA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20251113082551.99595-1-biju.das.jz@bp.renesas.com> <20251113082551.99595-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20251113082551.99595-2-biju.das.jz@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 13 Nov 2025 09:47:52 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXqBOpczZ-Kw64AQODSh0Q8HEAzBseUjwD7TO+dKq9==g@mail.gmail.com>
-X-Gm-Features: AWmQ_blYo73iDu2aXnp11g8_9sf8FYwelNX4VYfCxNFVK76qka1yJ2ScCZVozO8
-Message-ID: <CAMuHMdXqBOpczZ-Kw64AQODSh0Q8HEAzBseUjwD7TO+dKq9==g@mail.gmail.com>
-Subject: Re: [PATCH 3/7] ASoC: renesas: rz-ssi: Use dev variable in probe()
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, "biju.das.au" <biju.das.au@gmail.com>, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>
+Date: Thu, 13 Nov 2025 09:51:02 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUdiczsrB8H57VjPbcaWWS22HmUvc_iU3rs84qHAsfB6A@mail.gmail.com>
+X-Gm-Features: AWmQ_blLiZfPk5wgCv0WpvOv1cvXZLyFXHVM_u5r95hEUYF3wWO-Xhplpf5nrtE
+Message-ID: <CAMuHMdUdiczsrB8H57VjPbcaWWS22HmUvc_iU3rs84qHAsfB6A@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] ASoC: renesas: rz-ssi: Fix channel swap issue in
+ full duplex mode
+To: Biju <biju.das.au@gmail.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>, stable@kernel.org, 
+	Tony Tang <tony.tang.ks@renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 
 Hi Biju,
 
-On Thu, 13 Nov 2025 at 09:02, Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> > > From: Biju Das <biju.das.jz@bp.renesas.com>
-> > >
-> > > Replace '&pdev->dev'->dev in probe(), this makes few error paths shorter.
-> >
-> > nitpick
-> >
-> > '&pdev->dev'->'dev' ?
+On Thu, 13 Nov 2025 at 09:25, Biju <biju.das.au@gmail.com> wrote:
+> From: Biju Das <biju.das.jz@bp.renesas.com>
+>
+> The full duplex audio starts with half duplex mode and then switch to
+> full duplex mode (another FIFO reset) when both playback/capture
+> streams available leading to random audio left/right channel swap
+> issue. Fix this channel swap issue by detecting the full duplex
+> condition by populating struct dup variable in startup() callback
+> and synchronize starting both the play and capture at the same time
+> in rz_ssi_start().
+>
+> Cc: stable@kernel.org
+> Fixes: 4f8cd05a4305 ("ASoC: sh: rz-ssi: Add full duplex support")
+> Co-developed-by: Tony Tang <tony.tang.ks@renesas.com>
+> Signed-off-by: Tony Tang <tony.tang.ks@renesas.com>
+> Reviewed-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-Woow, that "->"-pipeline looks confusing ;-)
+Thanks for your patch!
+
+> --- a/sound/soc/renesas/rz-ssi.c
+> +++ b/sound/soc/renesas/rz-ssi.c
+> @@ -374,12 +379,18 @@ static int rz_ssi_start(struct rz_ssi_priv *ssi, struct rz_ssi_stream *strm)
+>                               SSISR_RUIRQ), 0);
+>
+>         strm->running = 1;
+> -       if (is_full_duplex)
+> -               ssicr |= SSICR_TEN | SSICR_REN;
+> -       else
+> +       if (is_full_duplex) {
+> +               if (ssi->dup.one_stream_triggered) {
+> +                       ssicr |= SSICR_TEN | SSICR_REN;
+> +                       rz_ssi_reg_writel(ssi, SSICR, ssicr);
+> +                       ssi->dup.one_stream_triggered = false;
+> +               } else {
+> +                       ssi->dup.one_stream_triggered = true;
+> +               }
+> +       } else {
+>                 ssicr |= is_play ? SSICR_TEN : SSICR_REN;
+> -
+> -       rz_ssi_reg_writel(ssi, SSICR, ssicr);
+> +               rz_ssi_reg_writel(ssi, SSICR, ssicr);
+> +       }
+
+You can reduce indentation by restructuring the tests:
+
+    if (!is_full_duplex) {
+            ...
+    } else if (ssi->dup.one_stream_triggered) {
+            ...
+    } else {
+            ...
+   }
 
 >
-> OK, will fix this.
-
-Please use English where it makes sense:
-
-    Replace <foo> by <bar> ...
+>         return 0;
+>  }
 
 Gr{oetje,eeting}s,
 
