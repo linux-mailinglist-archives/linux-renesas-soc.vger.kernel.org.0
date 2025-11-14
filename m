@@ -1,44 +1,46 @@
-Return-Path: <linux-renesas-soc+bounces-24636-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24637-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60EBDC5C9F7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Nov 2025 11:39:16 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E57DC5C96F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Nov 2025 11:32:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id AE1D04F234F
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EDA3B3B0E2B
 	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Nov 2025 10:30:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2291731194C;
-	Fri, 14 Nov 2025 10:30:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8A1A311958;
+	Fri, 14 Nov 2025 10:30:24 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 072BB30FC36;
-	Fri, 14 Nov 2025 10:30:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C519311953;
+	Fri, 14 Nov 2025 10:30:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763116223; cv=none; b=RrCv1N92EvYbDNceOc2ZNB7EUSy0PWeTAcMTdDqweAjOGeeOteOgSbBvCazGVrEM63MihhhqUCXa5n3Z5Cet/PKsutaRi272c6wa10e4y2ntSWJEhXrfIq4DUXqZhGLaji9X8i+ck19xO3EGgPP5nUtSa3XvpdQJpIK5GCdgbIg=
+	t=1763116224; cv=none; b=Xcjy1yNe66EFeTz1mdohU/tr6G9RQKKNBxr594oQ0QPowxGJWJ5Bw+tBfnxMuEAXKYRIuvhbcXnjwt4zuaI2s9fcmym+unm5VU2gC82/5EdnnYgLE5p3JH4CcOOoNaLWCaomU/4kGknA+R6el9VRcuF9a0ey9V9psCvQe3x11RQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763116223; c=relaxed/simple;
-	bh=FmFMvXIBqkbgdw/ps0WKxjfWuiHs3cZxax3jfR9u69M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GIHOVzIVEcadw2cCZLwB9QPb3yzURrbc7qFjj/42YBHYWUwAI70OIJUO9MKOgf8VZ9VMAjL7bQzfFz1zxDozPRfyMjR5kgDthH4IKsNrDFOsc73CeJp8pJmvsVI0OklILedvQvqCQFcksWeGNi86VDl0PYPz25zhuMbxiM1C5cA=
+	s=arc-20240116; t=1763116224; c=relaxed/simple;
+	bh=ndRNjshwr/whlSz4wPQNerPGOf+f+e2aSbmLTBtFn3o=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=nyeaMlQEZffogHBIjUlKvLbLtxdosYcaoXgcHgRQCpShmaAd9gWnZ9bU+OAvmoeIJiyzmAdiNsKMwqFRGnFXoA5yG0wmxeOgnleeynQ9Pbphxeew9dNPmOWNwfv29r4ZCrxF20Z4f6zdWHX/685UOfjP9R+z7ZYfzrERZdtnrq8=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67F31C4CEF5;
-	Fri, 14 Nov 2025 10:30:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CFF6C113D0;
+	Fri, 14 Nov 2025 10:30:22 +0000 (UTC)
 From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: soc@lists.linux.dev,
-	soc <soc@kernel.org>
+To: soc@lists.linux.dev
 Cc: Magnus Damm <magnus.damm@gmail.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL 0/2] Renesas SoC updates for v6.19 (take two)
-Date: Fri, 14 Nov 2025 11:30:15 +0100
-Message-ID: <cover.1763115230.git.geert+renesas@glider.be>
+Subject: [GIT PULL 1/2] Renesas driver updates for v6.19 (take two)
+Date: Fri, 14 Nov 2025 11:30:16 +0100
+Message-ID: <cover.1763115232.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1763115230.git.geert+renesas@glider.be>
+References: <cover.1763115230.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -47,43 +49,34 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-	Hi SoC folks,
+The following changes since commit 4765d59fcf8679372286bc899628c3721dafe456:
 
-This is my second pull request for the inclusion of Renesas SoC updates
-for v6.19.
+  soc: renesas: rcar-rst: Keep RESBAR2S in default state (2025-10-23 16:03:30 +0200)
 
-It consists of 2 parts:
+are available in the Git repository at:
 
-  [GIT PULL 1/2] Renesas driver updates for v6.19 (take two)
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git tags/renesas-drivers-for-v6.19-tag2
 
-    - Fix accessing forbidden registers from regmap debugfs on RZ/G3E,
-      RZ/G3S, RZ/V2H, and RZ/V2N.
+for you to fetch changes up to c432180a7d95081353a96fd6d5bd75b0fc8a27c3:
 
-  [GIT PULL 2/2] Renesas DTS updates for v6.19 (take two)
+  soc: renesas: rz-sysc: Populate readable_reg/writeable_reg in regmap config (2025-11-13 21:21:30 +0100)
 
-    - Add Imagination Technologies PowerVR Series 7XE GE7800 GPU support
-      for the R-Car M3-N and V3U SoCs,
-    - Add Ethernet support for the RZ/T2H and RZ/N2H SoCs and their
-      evaluation boards,
-    - Add ADC support for the RZ/N1D SoC,
-    - Add thermal, NMI pushbutton, and RTC support for the RZ/V2H SoC and
-      the RZ/V2H EVK development board,
-    - Add USB2.0 support for the RZ/G3S SoC and the RZ/G3S SMARC Carrier
-      II board.
+----------------------------------------------------------------
+Renesas driver updates for v6.19 (take two)
 
-Note that "[GIT PULL 2/2]" includes DT binding definition updates for
-the R-Car V3U SoC, which are shared by clock driver and DT source files.
+  - Fix accessing forbidden registers from regmap debugfs on RZ/G3E,
+    RZ/G3S, RZ/V2H, and RZ/V2N.
 
-Thanks for pulling!
+----------------------------------------------------------------
+Claudiu Beznea (2):
+      soc: renesas: r9a09g056-sys: Populate max_register
+      soc: renesas: rz-sysc: Populate readable_reg/writeable_reg in regmap config
 
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
+ drivers/soc/renesas/r9a08g045-sysc.c |  69 ++++++++++++++++++++++++
+ drivers/soc/renesas/r9a09g047-sys.c  |  79 +++++++++++++++++++++++++++
+ drivers/soc/renesas/r9a09g056-sys.c  |  69 ++++++++++++++++++++++++
+ drivers/soc/renesas/r9a09g057-sys.c  | 101 +++++++++++++++++++++++++++++++++++
+ drivers/soc/renesas/rz-sysc.c        |   2 +
+ drivers/soc/renesas/rz-sysc.h        |   4 ++
+ 6 files changed, 324 insertions(+)
 
