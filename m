@@ -1,47 +1,78 @@
-Return-Path: <linux-renesas-soc+bounces-24643-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24658-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BC6BC5CB01
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Nov 2025 11:54:00 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3D62C5CEA2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Nov 2025 12:45:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id AF130343867
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Nov 2025 10:51:36 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 7A7AA4E10DF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Nov 2025 11:40:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F042D313282;
-	Fri, 14 Nov 2025 10:51:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90248313E14;
+	Fri, 14 Nov 2025 11:40:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="sPJ4+2wT"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D489526E703;
-	Fri, 14 Nov 2025 10:51:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D58B3128C0;
+	Fri, 14 Nov 2025 11:40:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763117493; cv=none; b=ZBRIURoZsWtGuZ4sHJr1XKXarl8+sRGK56wVrTAgQYGVENnIVyuxuFET+MrPkTOxTw7W81f0TEkstrrHxpELgT/RvQJT9yg6Te+qpFq+3bUZ4LQiXovuDtCcoGgRIQiFjnyh4WLqDhc7S3wpNzLTUmTnsEnjY0s+HGAazL0G5Po=
+	t=1763120456; cv=none; b=a4MXX3X1yX6SUe0cBicV/XqdAK5mb0xlw0U7iQN2b5g+UAkHzuSiX2hzFxYD1DeU4f1kBYOLnROhZ1Vk0nmYfWqOMqsqTFKmwNfQuoQw69NsY1pOiQ8EmCU3AIdNUOW3YmRM2vdA3g6AUFBDjJozeJBV7U4cyEw+BAmyfqi9X3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763117493; c=relaxed/simple;
-	bh=zo2TUMsdg/heOH/Io/41y3C3ZeWn8LOanDcaBWyKWUo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=EuzztuiNpQa54HtuXhXv6rB8frmfpOBvqmuVfQQnbaTuSZQFZR6nPvsgUHat25PbtjEM7AdKvCPQUek5foIhcK791BEVhtKbN361xqIHaOSojjQugo8I47NR9BfVujEf2AlhhzI62n1o5aGIFUahxWfSPLk/88o2nTleLVIEbAM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9815EC4CEF8;
-	Fri, 14 Nov 2025 10:51:31 +0000 (UTC)
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Zhang Rui <rui.zhang@intel.com>,
-	Lukasz Luba <lukasz.luba@arm.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v2] thermal: rcar_gen3: Convert to DEFINE_SIMPLE_DEV_PM_OPS()
-Date: Fri, 14 Nov 2025 11:51:29 +0100
-Message-ID: <813ad36fdc8561cf1c396230436e8ff3ff903a1f.1763117455.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1763120456; c=relaxed/simple;
+	bh=aZyU/ElH6hMcrIBn8ZOUk9J+B9V1pZQ9uCzI7mYafL4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=nVrqkGT9Y38RXeliwSlou9quTsNuIa8gqwyYBz39VeyPgMm4zQVuoXdDUHUNxpXfclhsPdUPoAoRI1K1+Kv7VaWPQXViVhytLjePc69TTUHewU1heMCCy44o0UDRYKQdBdWFDrFJmyCRNm6lLl73n3g4NbieXZm88++UV7MaVAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=sPJ4+2wT; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id B51534E416A7;
+	Fri, 14 Nov 2025 11:40:52 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 70D616060E;
+	Fri, 14 Nov 2025 11:40:52 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D179D102F292F;
+	Fri, 14 Nov 2025 12:40:46 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1763120451; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=bXcbgC4hNhYtnxJo4MqBvSdSS5O8jgqGadYWZpV26P0=;
+	b=sPJ4+2wTm70LMKJwP8taA+rz8t06WtEd6cGe/uhKEDPZHpFDeLgGBeSs19YIhmQ0hM4QfL
+	L6+Kx2lvMG3DNKP6o3hYVKyn1ZUjttET5eGyAQHdI1gJpAiBdN4xMANtqGknNDi+AuOqmo
+	yQET6mVMrzh/y1u9/WErZRVjqBU5vVlbaj3jJwO6I8LdYUKixLMN2Q7ycRwdveTyZu3DuD
+	H5GKT8331M0D+8lZ6PHwlmqoTCXxZ34J0WRxMRMzf89v1zK4AFTfHwYBTuMQQR6EkQErv/
+	ywbE2w2G8Nzm/R8XbUG3BFNxdyWAHdQvwZcDIuWovtXIRyi6obqR7yDC/gHMtg==
+Date: Fri, 14 Nov 2025 12:40:45 +0100
+From: Herve Codina <herve.codina@bootlin.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, Geert Uytterhoeven
+ <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, Saravana
+ Kannan <saravanak@google.com>, Serge Semin <fancer.lancer@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Hoan Tran
+ <hoan@os.amperecomputing.com>, Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Phil Edworthy <phil.edworthy@renesas.com>,
+ linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Pascal
+ Eberhard <pascal.eberhard@se.com>, Miquel Raynal
+ <miquel.raynal@bootlin.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v6 0/8] gpio: renesas: Add support for GPIO and related
+ interrupts in RZ/N1 SoC
+Message-ID: <20251114124045.16204839@bootlin.com>
+In-Reply-To: <CAMuHMdU1NmeCyNu8mHJ=Pb5WKjLkCucZ-XyNKPS5t1Kmt90bmw@mail.gmail.com>
+References: <20251027123601.77216-1-herve.codina@bootlin.com>
+	<20251114084122.01a0d281@bootlin.com>
+	<CAMuHMdU1NmeCyNu8mHJ=Pb5WKjLkCucZ-XyNKPS5t1Kmt90bmw@mail.gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,52 +81,42 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-Convert the Renesas R-Car Gen3 thermal driver from SIMPLE_DEV_PM_OPS()
-to DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr().  This lets us drop the
-__maybe_unused annotation from its resume callback, and reduces kernel
-size in case CONFIG_PM or CONFIG_PM_SLEEP is disabled.
+Hi Geert,
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
-v2:
-  - Add Reviewed-by.
----
- drivers/thermal/renesas/rcar_gen3_thermal.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+On Fri, 14 Nov 2025 10:43:40 +0100
+Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 
-diff --git a/drivers/thermal/renesas/rcar_gen3_thermal.c b/drivers/thermal/renesas/rcar_gen3_thermal.c
-index 3223de238d01441f..04382299e7323838 100644
---- a/drivers/thermal/renesas/rcar_gen3_thermal.c
-+++ b/drivers/thermal/renesas/rcar_gen3_thermal.c
-@@ -601,7 +601,7 @@ static int rcar_gen3_thermal_probe(struct platform_device *pdev)
- 	return ret;
- }
- 
--static int __maybe_unused rcar_gen3_thermal_resume(struct device *dev)
-+static int rcar_gen3_thermal_resume(struct device *dev)
- {
- 	struct rcar_gen3_thermal_priv *priv = dev_get_drvdata(dev);
- 	unsigned int i;
-@@ -615,13 +615,13 @@ static int __maybe_unused rcar_gen3_thermal_resume(struct device *dev)
- 	return 0;
- }
- 
--static SIMPLE_DEV_PM_OPS(rcar_gen3_thermal_pm_ops, NULL,
--			 rcar_gen3_thermal_resume);
-+static DEFINE_SIMPLE_DEV_PM_OPS(rcar_gen3_thermal_pm_ops, NULL,
-+				rcar_gen3_thermal_resume);
- 
- static struct platform_driver rcar_gen3_thermal_driver = {
- 	.driver	= {
- 		.name	= "rcar_gen3_thermal",
--		.pm = &rcar_gen3_thermal_pm_ops,
-+		.pm = pm_sleep_ptr(&rcar_gen3_thermal_pm_ops),
- 		.of_match_table = rcar_gen3_thermal_dt_ids,
- 	},
- 	.probe		= rcar_gen3_thermal_probe,
--- 
-2.43.0
+> Hi Hervé,
+> 
+> On Fri, 14 Nov 2025 at 08:41, Herve Codina <herve.codina@bootlin.com> wrote:
+> > On Mon, 27 Oct 2025 13:35:52 +0100
+> > "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com> wrote:  
+> > > This series adds support for GPIO and GPIO IRQ mux available in the
+> > > RZ/N1 SoCs.  
+> >
+> > The series seems ready to be applied even with the minor feedback from Wolfram
+> > on patch 6.
+> >
+> > Do you expect a new iteration from my side or do you think this v6 iteration
+> > can be applied as it?  
+> 
+> Sorry, I only realized yesterday that the GPIO Interrupt Multiplexer
+> driver resides in drivers/soc/renesas/.  Before, I mistakenly thought
+> it was part of the GPIO subsystem.
+> 
+> Anyway, it is a bit late in the cycle for me to take more patches for
+> v6.19 (I am about to send my last PR right now), especially given the
+> patches touching the DT and irqchip subsystems (with the DT ones being
+> a hard dependency).
+> 
+> So I suggest Rob takes the first two patches for v6.19, and we revisit
+> the others for v6.20 (including late review comments), without having
+> to worry about dependencies.  Does that sound OK to you?
 
+Sounds good to me, thanks.
+
+Best regards,
+Hervé
 
