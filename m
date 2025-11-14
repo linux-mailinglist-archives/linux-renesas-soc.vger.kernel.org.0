@@ -1,122 +1,213 @@
-Return-Path: <linux-renesas-soc+bounces-24658-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24659-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3D62C5CEA2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Nov 2025 12:45:46 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54553C5CEB7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Nov 2025 12:46:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 7A7AA4E10DF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Nov 2025 11:40:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0C38A3ADE45
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Nov 2025 11:46:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90248313E14;
-	Fri, 14 Nov 2025 11:40:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D02AC2F49EA;
+	Fri, 14 Nov 2025 11:46:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="sPJ4+2wT"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="mP9f2l6w"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D58B3128C0;
-	Fri, 14 Nov 2025 11:40:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 532AA314B95
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Nov 2025 11:46:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763120456; cv=none; b=a4MXX3X1yX6SUe0cBicV/XqdAK5mb0xlw0U7iQN2b5g+UAkHzuSiX2hzFxYD1DeU4f1kBYOLnROhZ1Vk0nmYfWqOMqsqTFKmwNfQuoQw69NsY1pOiQ8EmCU3AIdNUOW3YmRM2vdA3g6AUFBDjJozeJBV7U4cyEw+BAmyfqi9X3E=
+	t=1763120784; cv=none; b=ArieBcHWcgAXikS7wAE5s9/lU/TVTMZa6vaiOw1ILrRokFoLKK7nf/VQh6y6bCOHb+hmVbqNCXIQd5g74XNHopeI0UD1kUiAOuc+x2Pn2wXMVVMyFbAMDmDKSNoV7K6uYrP/xhxB9nf+6VRAw81rKOdlcMO9DkChADwGsYvACG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763120456; c=relaxed/simple;
-	bh=aZyU/ElH6hMcrIBn8ZOUk9J+B9V1pZQ9uCzI7mYafL4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nVrqkGT9Y38RXeliwSlou9quTsNuIa8gqwyYBz39VeyPgMm4zQVuoXdDUHUNxpXfclhsPdUPoAoRI1K1+Kv7VaWPQXViVhytLjePc69TTUHewU1heMCCy44o0UDRYKQdBdWFDrFJmyCRNm6lLl73n3g4NbieXZm88++UV7MaVAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=sPJ4+2wT; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id B51534E416A7;
-	Fri, 14 Nov 2025 11:40:52 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 70D616060E;
-	Fri, 14 Nov 2025 11:40:52 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D179D102F292F;
-	Fri, 14 Nov 2025 12:40:46 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1763120451; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=bXcbgC4hNhYtnxJo4MqBvSdSS5O8jgqGadYWZpV26P0=;
-	b=sPJ4+2wTm70LMKJwP8taA+rz8t06WtEd6cGe/uhKEDPZHpFDeLgGBeSs19YIhmQ0hM4QfL
-	L6+Kx2lvMG3DNKP6o3hYVKyn1ZUjttET5eGyAQHdI1gJpAiBdN4xMANtqGknNDi+AuOqmo
-	yQET6mVMrzh/y1u9/WErZRVjqBU5vVlbaj3jJwO6I8LdYUKixLMN2Q7ycRwdveTyZu3DuD
-	H5GKT8331M0D+8lZ6PHwlmqoTCXxZ34J0WRxMRMzf89v1zK4AFTfHwYBTuMQQR6EkQErv/
-	ywbE2w2G8Nzm/R8XbUG3BFNxdyWAHdQvwZcDIuWovtXIRyi6obqR7yDC/gHMtg==
-Date: Fri, 14 Nov 2025 12:40:45 +0100
-From: Herve Codina <herve.codina@bootlin.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, Geert Uytterhoeven
- <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, Saravana
- Kannan <saravanak@google.com>, Serge Semin <fancer.lancer@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>, Hoan Tran
- <hoan@os.amperecomputing.com>, Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Phil Edworthy <phil.edworthy@renesas.com>,
- linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Pascal
- Eberhard <pascal.eberhard@se.com>, Miquel Raynal
- <miquel.raynal@bootlin.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v6 0/8] gpio: renesas: Add support for GPIO and related
- interrupts in RZ/N1 SoC
-Message-ID: <20251114124045.16204839@bootlin.com>
-In-Reply-To: <CAMuHMdU1NmeCyNu8mHJ=Pb5WKjLkCucZ-XyNKPS5t1Kmt90bmw@mail.gmail.com>
-References: <20251027123601.77216-1-herve.codina@bootlin.com>
-	<20251114084122.01a0d281@bootlin.com>
-	<CAMuHMdU1NmeCyNu8mHJ=Pb5WKjLkCucZ-XyNKPS5t1Kmt90bmw@mail.gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1763120784; c=relaxed/simple;
+	bh=ClyEX/UdSIvxAWtBly7g+z49oKCbuS+x8mSBPL5MNLo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iJ4zfwzXXp8Lz3SGPoX7tCYCjrY5WwSJ/hST7YOKUoL6qAvysXAWkI2lhQp+JplZh8EZp9MA0audwQSqCU1tSsGONqyqrtF233WouBlpgShT++wD4vR8KUIrprHIK6aqZMN6ZT4KvTItIVb4AuuHwjbqZ3zWhYvTJT3njCNCt+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=mP9f2l6w; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-471191ac79dso20348415e9.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Nov 2025 03:46:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1763120781; x=1763725581; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=znLCrhy9lpNAONuTg2xRmGuiyu8L59rUC76EGOeDmjo=;
+        b=mP9f2l6wy6RDmZKVx40UDM0jwIvCR/Z5U5qLCMA0PxPsk9WknFxpZSUmb/2u+XRsC9
+         1Z4jDYUk1zpbsQRaUqho96L5zPyIiGXEFWDI0BiipJK8BTudwIB7iXe/CNweyaobd+Va
+         ys39fk/SvlolOiydku5/HjvFpLPTxl6FaYroVzbF8udGyK+YPh94Goniv9fTamOgXEQO
+         fCmFWGDk50y2I8/1KikPLc5tfLNSu1/VLy7Tn2M9F8asorB3KJRgPsz0XLYzdEcO4Bta
+         jTSIJ571fQfEb0i3Xrehhwz2AaToKTXjEIP1f/a1egnutAUCDnDRm5PUqKsUMEFlkiGG
+         9xfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763120781; x=1763725581;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=znLCrhy9lpNAONuTg2xRmGuiyu8L59rUC76EGOeDmjo=;
+        b=UhepN5XHwsLMEJlV5m7nmCLhWkWadAIeLo9MoWimnhBsyH3uC8UaK6XX5UeFB++9CW
+         PI5W2YWJ/D6zTqx/wKV/znzH+K7IAd9pf236BVYf0g4YXWQqyB9T7p2P5gU0lns+RGIf
+         6Qs1VSn+9xQaqGlOxzKdkYA9HehhoBsP9IiQ8oHVdGP+U/vzEETVqAFy2T9m+tx3OCQN
+         CKRD58dGtT2vUiK2QPKnqG/xiMyNfu9dogUxz+fDI7ligVE2QM90bHY6pzFJfX0hkSUA
+         hu08X8eXFcq9o3tO+474JNgGxfc6iPcuiGM6cppu88PkDqBBQYDNP25NS/iNcns9uznX
+         9W+g==
+X-Forwarded-Encrypted: i=1; AJvYcCUVxCP90pwHdKfr0UGrRIHDPUrLB8vYmU2Nggi4WOUwhZaJgcFm1hGKs70c1Wb1+2hvn22C7HFwJ3y5oPgU5hFExg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw9rK0BCVQuIPGflzyUSaaJMEoX1zq9SFB7p3e+qbF0Q95XcEWp
+	nsq5/jOnke0nico1fd/yX/wti+BACCnZPN196fYYrN1JIl06s1jAZR1YR2GjUMCgwOXZaCMPOzJ
+	92LtqAcM=
+X-Gm-Gg: ASbGncvio+j6nvXEWkapDCLrtj+fErs2wYp95KUOga/F7Zm5F9hypV4185jSfmMeGqT
+	Co85NTFGOxkqU3qy2qf4XUJ7uOrL0h4EgsQaMiM8pMWjKcgzSujVY7XNl6LWivPoJ/xUW5kj9NO
+	XupRO9MB9Ht/L9elh66M0d6FanIKxUgm2ostqlXLLH1pbO2tdLIkjGqS/MtDiyzDNG+7VkjMeeY
+	Gxq8u+XyRZCSw9aokEN6yJ2ko2fcj9b1VkGGzP5TvHSgKUrSNBHeR8I0z/x6+x/5FzCaTpxxpzT
+	5m6YoeXDTSQ5RufL7F0LhrpPYUG6OTotLBMtDXRi2OZ0F7t7LFQtwKUN+G+hpGbfa+MBkrGijz1
+	28bOrUypDdETQyT7EtgttP5S1BJB37kgm933jkt6xtcnLyupOGpP+o1TNMVJLxtwY01lPgmzhLN
+	2nGwjREsJZ
+X-Google-Smtp-Source: AGHT+IHd8efwk69AkGC0dC+aoNu3UXanrxPaqPGOFcaBMBsiZZZtiL5xbItNnE8OzZdW6v9qCsuKsA==
+X-Received: by 2002:a05:600c:c4a3:b0:471:13fa:1b84 with SMTP id 5b1f17b1804b1-4778fe5ec01mr28007085e9.12.1763120780484;
+        Fri, 14 Nov 2025 03:46:20 -0800 (PST)
+Received: from [192.168.50.4] ([82.78.167.134])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47787ea3b56sm140685375e9.16.2025.11.14.03.46.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 14 Nov 2025 03:46:20 -0800 (PST)
+Message-ID: <6369d978-a067-42b3-8384-c5d8814a1506@tuxon.dev>
+Date: Fri, 14 Nov 2025 13:46:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] soc: renesas: rz-sysc: Populate
+ readable_reg/writeable_reg in regmap config
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: magnus.damm@gmail.com, john.madieu.xa@bp.renesas.com,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20251105070526.264445-1-claudiu.beznea.uj@bp.renesas.com>
+ <20251105070526.264445-3-claudiu.beznea.uj@bp.renesas.com>
+ <CAMuHMdUwVeLtyQ9X-Lz16W=KtbfjiPqsgWfuDc72B3u6OCtqgg@mail.gmail.com>
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Content-Language: en-US
+In-Reply-To: <CAMuHMdUwVeLtyQ9X-Lz16W=KtbfjiPqsgWfuDc72B3u6OCtqgg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 7bit
 
-Hi Geert,
+Hi, Geert,
 
-On Fri, 14 Nov 2025 10:43:40 +0100
-Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-
-> Hi Hervé,
+On 11/13/25 21:15, Geert Uytterhoeven wrote:
+> Hi Claudiu,
 > 
-> On Fri, 14 Nov 2025 at 08:41, Herve Codina <herve.codina@bootlin.com> wrote:
-> > On Mon, 27 Oct 2025 13:35:52 +0100
-> > "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com> wrote:  
-> > > This series adds support for GPIO and GPIO IRQ mux available in the
-> > > RZ/N1 SoCs.  
-> >
-> > The series seems ready to be applied even with the minor feedback from Wolfram
-> > on patch 6.
-> >
-> > Do you expect a new iteration from my side or do you think this v6 iteration
-> > can be applied as it?  
+> On Wed, 5 Nov 2025 at 08:05, Claudiu <claudiu.beznea@tuxon.dev> wrote:
+>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>
+>> Not all system controller registers are accessible from Linux. Accessing
+>> such registers generates synchronous external abort. Populate the
+>> readable_reg and writeable_reg members of the regmap config to inform the
+>> regmap core which registers can be accessed. The list will need to be
+>> updated whenever new system controller functionality is exported through
+>> regmap.
+>>
+>> Fixes: 2da2740fb9c8 ("soc: renesas: rz-sysc: Add syscon/regmap support")
+>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>> ---
+>>
+>> Changes in v2:
+>> - added all SYSC registers IP specific, except the SPI
+>>   registers on RZ/V2H and RZ/V2N as these are accessible only from EL3
 > 
-> Sorry, I only realized yesterday that the GPIO Interrupt Multiplexer
-> driver resides in drivers/soc/renesas/.  Before, I mistakenly thought
-> it was part of the GPIO subsystem.
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> i.e. will queue in renesas-devel for v6.19.
 > 
-> Anyway, it is a bit late in the cycle for me to take more patches for
-> v6.19 (I am about to send my last PR right now), especially given the
-> patches touching the DT and irqchip subsystems (with the DT ones being
-> a hard dependency).
+>> --- a/drivers/soc/renesas/r9a08g045-sysc.c
+>> +++ b/drivers/soc/renesas/r9a08g045-sysc.c
 > 
-> So I suggest Rob takes the first two patches for v6.19, and we revisit
-> the others for v6.20 (including late review comments), without having
-> to worry about dependencies.  Does that sound OK to you?
+>> @@ -18,7 +37,57 @@ static const struct rz_sysc_soc_id_init_data rzg3s_sysc_soc_id_init_data __initc
+>>         .specific_id_mask = GENMASK(27, 0),
+>>  };
+>>
+>> +static bool rzg3s_regmap_readable_reg(struct device *dev, unsigned int reg)
+>> +{
+>> +       switch (reg) {
+>> +       case SYS_XSPI_MAP_STAADD_CS0:
+>> +       case SYS_XSPI_MAP_ENDADD_CS0:
+>> +       case SYS_XSPI_MAP_STAADD_CS1:
+>> +       case SYS_XSPI_MAP_ENDADD_CS1:
+>> +       case SYS_GETH0_CFG:
+>> +       case SYS_GETH1_CFG:
+>> +       case SYS_PCIE_CFG:
+>> +       case SYS_PCIE_MON:
+>> +       case SYS_PCIE_ERR_MON:
+>> +       case SYS_PCIE_PHY:
+>> +       case SYS_I2C0_CFG:
+>> +       case SYS_I2C1_CFG:
+>> +       case SYS_I2C2_CFG:
+>> +       case SYS_I2C3_CFG:
+>> +       case SYS_I3C_CFG:
+>> +       case SYS_USB_PWRRDY:
+>> +       case SYS_PCIE_RST_RSM_B:
+>> +               return true;
+>> +       default:
+>> +               return false;
+>> +       }
+>> +}
+>> +
+>> +static bool rzg3s_regmap_writeable_reg(struct device *dev, unsigned int reg)
+>> +{
+>> +       switch (reg) {
+>> +       case SYS_XSPI_MAP_STAADD_CS0:
+>> +       case SYS_XSPI_MAP_ENDADD_CS0:
+>> +       case SYS_XSPI_MAP_STAADD_CS1:
+>> +       case SYS_XSPI_MAP_ENDADD_CS1:
+>> +       case SYS_PCIE_CFG:
+>> +       case SYS_PCIE_PHY:
+>> +       case SYS_I2C0_CFG:
+>> +       case SYS_I2C1_CFG:
+>> +       case SYS_I2C2_CFG:
+>> +       case SYS_I2C3_CFG:
+>> +       case SYS_I3C_CFG:
+>> +       case SYS_USB_PWRRDY:
+>> +       case SYS_PCIE_RST_RSM_B:
+>> +               return true;
+>> +       default:
+>> +               return false;
+>> +       }
+>> +}
+> 
+> As all the writeable regs are a subset of the readable regs, do you
+> think it would be worthwhile to write e.g.
+> 
+>     static bool rzg3s_regmap_readable_reg(struct device *dev, unsigned int reg)
+>     {
+>             if (rzg3s_regmap_writeable_reg(dev, reg))
+>                     return true;
+> 
+>             switch (reg) {
+>             case SYS_GETH0_CFG:
+>             case SYS_GETH1_CFG:
+>             case SYS_PCIE_MON:
+>             case SYS_PCIE_ERR_MON:
+>                     return true;
+>             default:
+>                     return false;
+>             }
+>     }
 
-Sounds good to me, thanks.
+Looks ok to me as well. I chose to have it like this as most of the
+readable/writeable function that I remember to have seen in the past were
+in the format I've presented in this patch.
 
-Best regards,
-Hervé
+I noticed you already sent the PR. Would you prefer to return with a follow
+up patch and adjust it as you suggested?
+
+Thank you,
+Claudiu
+
 
