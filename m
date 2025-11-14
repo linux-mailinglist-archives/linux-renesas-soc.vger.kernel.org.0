@@ -1,163 +1,241 @@
-Return-Path: <linux-renesas-soc+bounces-24662-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24663-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B481C5D0E5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Nov 2025 13:16:45 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3548CC5DB5E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Nov 2025 15:59:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id BAA114E6A9F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Nov 2025 12:13:29 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id CDCD94F784D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Nov 2025 14:49:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24599314A83;
-	Fri, 14 Nov 2025 12:13:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 937EF32571A;
+	Fri, 14 Nov 2025 14:46:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vFCyGJ9I"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i32FKnnf"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF3FB3148B1
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Nov 2025 12:13:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67B53265CAD;
+	Fri, 14 Nov 2025 14:46:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763122406; cv=none; b=j1tRreM1Owe7Aobe2AxhVBaulzaW5s4ZrxJPkCU5Y2dinCe1o84/XQ3mtxAfuKdu82XY7+/UGVkWNqH0QoUT+FeKgiw/bmNdjeQzE++3vP4UQ9IaW03aS8cUZba1ST808ci5MygpDPYOuPBzslsD3MQHYiTteWOb5UdZN0u58rE=
+	t=1763131590; cv=none; b=Q8dfd1OGkq4Pp7VReKDBrGjt4AviQTTdJ2U2THP+aUspNJfTykB7s2C0XYh0t+NRoh5/W9U1m4qbF6tE73sjcgJ/G3W6iglleqR0QnCmHyhJO9WfJZ8tDFVwJbEWvqt4W9qmWm+6d6vZnaQgNF+dECuKcrPJ7l1bQnMtxA6z7YY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763122406; c=relaxed/simple;
-	bh=5I0F7Lk270HlfQS3v6Sw31jwqLfCir/VQOrCBc5zdi4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PAdp2YJMiOpb8Ml8JQem7MPSvjSnRzaICSBSRoOX/HnzdRZ4YsXzzR/m+3h1te8oMOoMbFHO8OWNJ7ZmYtaxek/ohIFl116tTxse7J1ghmWSQSdvxUVipKo+fekQefOwq4df/5Q1D8+zEYb1HHYkzquLefWYKI06wG9mQ/zFPW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vFCyGJ9I; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EACCC2BCB4
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Nov 2025 12:13:25 +0000 (UTC)
+	s=arc-20240116; t=1763131590; c=relaxed/simple;
+	bh=2OeKYXvCi9FswCmBTes5mMGtrh8zxfSflP1rjt5sadc=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=sX4mrQbVvwjEOucZ3lRs46da1/X3UY3PNxV1OtbSQf3QMpwSIMdq1GKAoDDYwtrZwDiKsSjuYOdBEQVAxStvBBb9Gq8gavRPFE4yb9tQCmg+I+n864T8NM763tHsLj4o/if3U75osdwEmSf2eXEIz9osb8apezejt0FA9SuXr8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i32FKnnf; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD895C4CEF8;
+	Fri, 14 Nov 2025 14:46:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763122405;
-	bh=5I0F7Lk270HlfQS3v6Sw31jwqLfCir/VQOrCBc5zdi4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=vFCyGJ9IK/JNHwvQFMCw/BHNieBWTmjv3dMBHLRUH1QVfPIBEzFEMhp5fNPszRCwG
-	 IbOoJOmHcisOHy9lMOxQYQblP+DEh4AMnkzfZwncdrkbiyCN70ch4rBq0E1amHMSVI
-	 NwDzxls2anQR7oz9FHl1gCC2WMkkz5URK0GYhUs+4grlDF5lADeLEb20ht3BCP6vY0
-	 BbZxQkmX2t0fOJcwHav8XJpFXUW57J007LRZA6wSO7C52lX+Zj9bCXKbp5vIqwCjUX
-	 c++cAw3Cn5mdagh04K1BxhoAbdHiKEpEnupju0k+iLBLJZhOlkBF4/w9gQ2vF7fdGX
-	 lFSOt4sDo9xQg==
-Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-3e3dac349easo998871fac.2
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Nov 2025 04:13:25 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWeYY0NZ5FYJfR+5TCZmnALDhwhNl2hCO/KnKlGHNT0C/97wVsMJ1mYSc/gfLMdIZ13cL+AH5ZZQUT5ZAlwtr/Ucw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwH2511v/9aRiYv9BSnmGYoo194TFcI75KDjxLq9PaHCJ9MN9XZ
-	JdAP3/o5McFqIMvmAWFBOnfs6hVc5bux5c6c8KCaxGyPNq5QHpiM84pHdzHBmfiX7nh4hMfQE2R
-	4ojnCzX4LQOQAVzqFla8OGNYRBKxypmQ=
-X-Google-Smtp-Source: AGHT+IGrNkWHSVx3CmYADKr0S6TGq/XxOF6zay1uOoUOn8a60tpM1BgphUydUyCNyc9Vh0GmlV+21RabCzXA2tdcTXs=
-X-Received: by 2002:a05:6870:30f:b0:375:db59:20e4 with SMTP id
- 586e51a60fabf-3e868ef8743mr1267901fac.13.1763122404195; Fri, 14 Nov 2025
- 04:13:24 -0800 (PST)
+	s=k20201202; t=1763131590;
+	bh=2OeKYXvCi9FswCmBTes5mMGtrh8zxfSflP1rjt5sadc=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+	b=i32FKnnfKRTq1bQnplDX628RCD9p2P1iXSLKCt7Tzo6LtyjuNgM+P7pydA7/XZ28T
+	 MtDDBzRO2FHiDk6cPb9EyJ4RK0SoHqhb3XsfpfTXz6u2R6BRDOYQXyDiE8WfLwRcJN
+	 cTi8dYg4CbcKE4KUKI8ShoxL34ORWXUkIOhXQRPj9xZGlcXRmiy7LQneFKPe1JGQuJ
+	 yR0ITV70Va/TjmhN/bXZukZ7MseMQ63eeRi1Y1S4D2Z9ze/3VjnNII5NlsfTcyqQdO
+	 Fo/7XLECFv5KUrI1zgj1gxb2Ph79nuGPrd6SVlzv8bUP10WGJ4LAbVVBwgv4btQmua
+	 eVQg4PIVcF/dQ==
+Message-ID: <0ad2b299-236b-4dc6-86cd-3ff72400e474@kernel.org>
+Date: Fri, 14 Nov 2025 15:46:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251114-thermal-device-v1-0-d8b442aae38b@gmx.de>
-In-Reply-To: <20251114-thermal-device-v1-0-d8b442aae38b@gmx.de>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Fri, 14 Nov 2025 13:13:12 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0gZ7+i+irhaq2jQpTt++HuVRjqz8==Ov9VmQ9Q1J1TM0w@mail.gmail.com>
-X-Gm-Features: AWmQ_bm6idj_L4n1xVkRGWkVqmFdJz-PXS5UU4gyN5tQNhsjMISGTiEJyqtTR8w
-Message-ID: <CAJZ5v0gZ7+i+irhaq2jQpTt++HuVRjqz8==Ov9VmQ9Q1J1TM0w@mail.gmail.com>
-Subject: Re: [PATCH RFC 0/8] thermal: core: Allow setting the parent device of
- thermal zone/cooling devices
-To: Armin Wolf <W_Armin@gmx.de>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, 
-	Lucas Stach <l.stach@pengutronix.de>, Russell King <linux+etnaviv@armlinux.org.uk>, 
-	Christian Gmeiner <christian.gmeiner@gmail.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Amit Daniel Kachhap <amit.kachhap@gmail.com>, 
-	Viresh Kumar <viresh.kumar@linaro.org>, Thierry Reding <thierry.reding@gmail.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Len Brown <lenb@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Ido Schimmel <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Jeff Johnson <jjohnson@kernel.org>, Miri Korenblit <miriam.rachel.korenblit@intel.com>, 
-	Felix Fietkau <nbd@nbd.name>, Lorenzo Bianconi <lorenzo@kernel.org>, Ryder Lee <ryder.lee@mediatek.com>, 
-	Shayne Chen <shayne.chen@mediatek.com>, Sean Wang <sean.wang@mediatek.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Peter Kaestle <peter@piie.net>, 
-	Hans de Goede <hansg@kernel.org>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	Potnuri Bharat Teja <bharat@chelsio.com>, Sebastian Reichel <sre@kernel.org>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Support Opensource <support.opensource@diasemi.com>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
-	linux-tegra@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	linux-doc@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-wireless@vger.kernel.org, ath10k@lists.infradead.org, 
-	ath11k@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, platform-driver-x86@vger.kernel.org, 
-	linux-pci@vger.kernel.org, imx@lists.linux.dev, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: Re: [PATCH v6 2/3] media: platform: Add Renesas Input Video Control
+ block driver
+To: Daniel Scally <dan.scally@ideasonboard.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+ jacopo.mondi@ideasonboard.com, biju.das.jz@bp.renesas.com,
+ laurent.pinchart@ideasonboard.com,
+ Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+References: <20251111-ivc-v6-0-2a0ad3894478@ideasonboard.com>
+ <20251111-ivc-v6-2-2a0ad3894478@ideasonboard.com>
+Content-Language: en-US, nl
+In-Reply-To: <20251111-ivc-v6-2-2a0ad3894478@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Nov 14, 2025 at 4:24=E2=80=AFAM Armin Wolf <W_Armin@gmx.de> wrote:
->
-> Drivers registering thermal zone/cooling devices are currently unable
-> to tell the thermal core what parent device the new thermal zone/
-> cooling device should have, potentially causing issues with suspend
-> ordering
+Hi Dan,
 
-Do you have any examples of this?
-
-> and making it impossible for user space appications to
-> associate a given thermal zone device with its parent device.
->
-> This patch series aims to fix this issue by extending the functions
-> used to register thermal zone/cooling devices to also accept a parent
-> device pointer. The first six patches convert all functions used for
-> registering cooling devices, while the functions used for registering
-> thermal zone devices are converted by the remaining two patches.
->
-> I tested this series on various devices containing (among others):
-> - ACPI thermal zones
-> - ACPI processor devices
-> - PCIe cooling devices
-> - Intel Wifi card
-> - Intel powerclamp
-> - Intel TCC cooling
->
-> I also compile-tested the remaining affected drivers, however i would
-> still be happy if the relevant maintainers (especially those of the
-> mellanox ethernet switch driver) could take a quick glance at the
-> code and verify that i am using the correct device as the parent
-> device.
->
-> This work is also necessary for extending the ACPI thermal zone driver
-> to support the _TZD ACPI object in the future.
-
-Can you please elaborate a bit here?
-
-_TZD is a list of devices that belong to the given thermal zone, so
-how is it connected to the thermal zone parent?
-
-> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
+On 11/11/2025 17:34, Daniel Scally wrote:
+> Add a driver for the Input Video Control block in an RZ/V2H(P) SoC
+> which feeds data into the Arm Mali-C55 ISP.
+> 
+> [ivc: Remove check on buffers list in start_streaming]
+> [ivc: put_autosuspend() implies mark_last_busy()]
+> [media: rzv2h-ivc: Do not delay frame completion]
+> Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
 > ---
-> Armin Wolf (8):
->       thermal: core: Allow setting the parent device of cooling devices
->       thermal: core: Set parent device in thermal_of_cooling_device_regis=
-ter()
->       ACPI: processor: Stop creating "device" sysfs link
->       ACPI: fan: Stop creating "device" sysfs link
->       ACPI: video: Stop creating "device" sysfs link
->       thermal: core: Set parent device in thermal_cooling_device_register=
-()
->       ACPI: thermal: Stop creating "device" sysfs link
->       thermal: core: Allow setting the parent device of thermal zone devi=
-ces
+> Changes in latest version:
+> 
+> 	- Requested irq at very end of runtime resume callback and
+> 	  not the beginning.
+> 	- Switch to devm_mutex_init()
+> 	- Disable runtime pm in probe() error path
+> 
+> Changes in v7:
+> 
+> 	- Returned buffers to userspace as soon as the first
+> 	  interrupt is received instead of waiting until the
+> 	  second
+> 	- Fixes to the pm runtime invocations
+> 	- Some minor formatting changes
+> 
+> Changes in v6:
+> 
+> 	- Minor formatting changes
+> 	- Dropped CONFIG_ prefix from Kconfig symbols
+> 	- Collected tags
+> 	- Replaced "RZ/V2H" with "RZ/V2H(P)"
+> 	- Reformatted probe function
+> 	- Removed leftover reference to media job scheduler
+> 	- Drop the .pipeline_started() and .pipeline_stopped()
+> 	  media entity operations to remove a dependency for the
+> 	  set.
+> 
+> Changes in v5:
+> 
+> 	- Fixed .enum_frame_sizes() to properly check that the
+> 	  given mbus_code matches the source pads format.
+> 	- Tidy up extra space in Kconfig
+> 	- Revise Kconfig option message
+> 	- Don't mark functions inline
+> 	- Fixup misleading comment
+> 	- select CONFIG_PM
+> 	- Use the new pm_sleep_ptr() functionality
+> 	- Minor formatting
+> 
+> Changes in v4:
+> 
+> 	- Update the compatible to renesas,r9a09g057-ivc
+> 	- Dropped the media jobs / scheduler functionality, and re
+> 	  worked the driver to have its own workqueue pushing frames
+> 	- Fix .enum_mbus_code() to return 20-bit output for source
+> 	  pad.
+> 	- Fix some alignment issues
+> 	- Make the forwarding of sink to source pad format a more
+> 	  explicit operation.
+> 	- Rename rzv2h_initialise_video_device_and_queue()
+> 	- Reversed order of v4l2_subdev_init_finalize() and
+> 	  v4l2_async_register_subdev() to make sure everything is
+> 	  finished initialising before registering the subdev.
+> 	- Change function to MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER
+> 	- Use a parametised macro for min vblank
+> 	- Minor formatting
+> 	- Use the DEFAULT macros for quantization / ycbcr_enc values
+> 	- Switch to using the mplane API
+> 	- Dropped select RESET_CONTROLLER
+> 	- Used the new helpers for starting a media pipeline
+> 	- Switch from threaded irq to normal with driver workqueue
+> 	  and revised startup routine
+> 
+> Changes in v3:
+> 
+> 	- Account for the renamed CRU pixel formats
+> 
+> Changes in v2:
+> 
+> 	- Added selects and depends statements to Kconfig entry
+> 	- Fixed copyright year
+> 	- Stopped including in .c files headers already included in .h
+> 	- Fixed uninitialized variable in iterator
+> 	- Only check vvalid member in interrupt function and wait
+> 	  unconditionally elsewhere
+> 	- __maybe_unused for the PM ops
+> 	- Initialise the subdevice after setting up PM
+> 	- Fixed the remove function for the driver to actually do
+> 	  something.
+> 	- Some minor formatting changes
+> 	- Fixed the quantization member for the format
+> 	- Changes accounting for the v2 of the media jobs framework
+> 	- Change min_queued_buffers to 0
+> ---
+>  drivers/media/platform/renesas/Kconfig             |   1 +
+>  drivers/media/platform/renesas/Makefile            |   1 +
+>  drivers/media/platform/renesas/rzv2h-ivc/Kconfig   |  18 +
+>  drivers/media/platform/renesas/rzv2h-ivc/Makefile  |   5 +
+>  .../platform/renesas/rzv2h-ivc/rzv2h-ivc-dev.c     | 250 ++++++++++
+>  .../platform/renesas/rzv2h-ivc/rzv2h-ivc-subdev.c  | 375 +++++++++++++++
+>  .../platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c   | 533 +++++++++++++++++++++
+>  .../media/platform/renesas/rzv2h-ivc/rzv2h-ivc.h   | 130 +++++
+>  8 files changed, 1313 insertions(+)
+> 
+> diff --git a/drivers/media/platform/renesas/Kconfig b/drivers/media/platform/renesas/Kconfig
+> index 27a54fa7908384f2e8200f0f7283a82b0ae8435c..bd8247c0b8aa734d2b412438e694f3908d910b25 100644
+> --- a/drivers/media/platform/renesas/Kconfig
+> +++ b/drivers/media/platform/renesas/Kconfig
+> @@ -42,6 +42,7 @@ config VIDEO_SH_VOU
+>  source "drivers/media/platform/renesas/rcar-isp/Kconfig"
+>  source "drivers/media/platform/renesas/rcar-vin/Kconfig"
+>  source "drivers/media/platform/renesas/rzg2l-cru/Kconfig"
+> +source "drivers/media/platform/renesas/rzv2h-ivc/Kconfig"
+>  
+>  # Mem2mem drivers
+>  
+> diff --git a/drivers/media/platform/renesas/Makefile b/drivers/media/platform/renesas/Makefile
+> index 1127259c09d6a51b70803e76c495918e06777f67..b6b4abf01db246aaf8269b8027efee9b0b32083a 100644
+> --- a/drivers/media/platform/renesas/Makefile
+> +++ b/drivers/media/platform/renesas/Makefile
+> @@ -6,6 +6,7 @@
+>  obj-y += rcar-isp/
+>  obj-y += rcar-vin/
+>  obj-y += rzg2l-cru/
+> +obj-y += rzv2h-ivc/
+>  obj-y += vsp1/
+>  
+>  obj-$(CONFIG_VIDEO_RCAR_CSI2) += rcar-csi2.o
+> diff --git a/drivers/media/platform/renesas/rzv2h-ivc/Kconfig b/drivers/media/platform/renesas/rzv2h-ivc/Kconfig
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..b30702489d380902bfdcff57f0d70498c85e1d24
+> --- /dev/null
+> +++ b/drivers/media/platform/renesas/rzv2h-ivc/Kconfig
+> @@ -0,0 +1,18 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +
+> +config VIDEO_RZV2H_IVC
+> +	tristate "Renesas RZ/V2H(P) Input Video Control block driver"
+> +	depends on V4L_PLATFORM_DRIVERS
+> +	depends on VIDEO_DEV
+> +	depends on ARCH_RENESAS || COMPILE_TEST
+> +	depends on OF
+> +	select PM
 
-I can only see the first three patches in the series ATM as per
+Is it OK if I change this to "depends on PM"? It's what we use in the media subsystem.
 
-https://lore.kernel.org/linux-pm/20251114-thermal-device-v1-0-d8b442aae38b@=
-gmx.de/T/#r605b23f2e27e751d8406e7949dad6f5b5b112067
+This also makes it easier for our CI since one of the tests is to disable PM and checks
+that everything still compiles.
+
+Regards,
+
+	Hans
+
+> +	select VIDEOBUF2_DMA_CONTIG
+> +	select MEDIA_CONTROLLER
+> +	select VIDEO_V4L2_SUBDEV_API
+> +	help
+> +          Support for the Renesas RZ/V2H(P) Input Video Control Block
+> +          (IVC).
+> +
+> +          To compile this driver as a module, choose M here: the
+> +          module will be called rzv2h-ivc.
+
+Regards,
+
+	Hans
 
