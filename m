@@ -1,144 +1,137 @@
-Return-Path: <linux-renesas-soc+bounces-24632-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24633-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99C3DC5C580
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Nov 2025 10:44:27 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC6AFC5C85B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Nov 2025 11:19:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5E8133ACEA7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Nov 2025 09:44:14 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 24E65343787
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Nov 2025 10:14:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86E692FB60E;
-	Fri, 14 Nov 2025 09:44:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89FF5309F02;
+	Fri, 14 Nov 2025 10:13:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f/jgR11D"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C481F308F3E
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Nov 2025 09:44:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 264DF30C34E
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Nov 2025 10:13:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763113443; cv=none; b=THDHvUp26hwe20O2SdkR0UrCHmIgNziD+rKrevngpGsuFEO6GtQ6S0vFR1P40mGwAX4Gnb0qluHkO19UdxDu7uuWSm2kdCU3EHJKg09bKjf2O1uEka8GM8g+z2oj27+FrQNTvFYbDsOqA7I3jpJK4snkH353ZhsiM/T+DXMwUeA=
+	t=1763115237; cv=none; b=OKwwZuZYO8BJsHgQYhxxZYvVSUsTq4Px+fh63ezgWs6N+lCxvTR9huVGTGopH5K9ii343y9EnwDZfPbE0ovV9I/vbjHahBXhtNS28HRtv38AsPziFFUWFuXa06ddiXJ6bOOdlpQoIL9vkX3zHyyOmmeTJtyjU0gbVuUqaDexStw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763113443; c=relaxed/simple;
-	bh=aJYAANABEoAIUaBHYu+sSW9iWPPXWILQHtV10sDxaJ0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=isOpGkGZFqwJ2Q+rZqzfT89HNxf4Tr4hE2eceLEhqmJr44lKvq4VOtjDppHjq/K5GSZuELOUOxzjov7UxXdjdAM88iuLkm+cFh8bb4S7MEvaIjZ0RKtukSfj7OzMXkELDZh4+Yyjjc1ezzfO1PgF33CWvGAmw6YQycpyJ3BJZw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	s=arc-20240116; t=1763115237; c=relaxed/simple;
+	bh=80tND+lvNj2i4Qe20utjqahY1P2Ql9GnK85Gqo9FknM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gJ1ELkQkOjLDcSaMoKyn+nC0xLcTAEI6TbfMvtPFHelNtKoA91yYAHdACBiQ3L0sXObwyAN1gvRbKRs2jtZUgb+kT+tAvpd+pUMP26vgOVROhYW3+CPYhp8WUcqoQ3AeKoPyENUGsSR15Kw8ptjtNx10KAl5ktV9YqTiq9i7pLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f/jgR11D; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-b728a43e410so276350266b.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Nov 2025 01:44:01 -0800 (PST)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4711810948aso12208445e9.2
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Nov 2025 02:13:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763115233; x=1763720033; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uyQOUFUYuxA3AMkkTAfOVziTArOJRDBqIJ84aBAoAyI=;
+        b=f/jgR11DxRUzlo/M/m5SVIuRQhP3e6RF6x/FclxPqA0/5ggba9xSCyQBCoVG4AbrvT
+         EETzqtQk/rgBUglwxGuHkfKK+B9bbM85K9YLmnKbcXfg9bgw6AYhX7GdZCebr33X+4N5
+         OplYpyrwX+5ZjEogTLeZu4TIt0qpTDCmgR8isY9LkvehwFb2bCf9DcOaFYA9ZT0lleo6
+         peZZ2D4w1B2E5MgI3EzEQhcDNBVn5V0Ld0m2BOjVlCPx63EaLmpwBVK3QOUfKCHXkdYD
+         tfLeQ1XlsMKYySEb/HaXOcv48851CkdnNJDii8Omyl+0xTVlkQzZc7k7bX79VRJiwC/E
+         fqJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763113436; x=1763718236;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=jqtFvU4gpaBQABprw6muXyurqIeH68Zg5kpC8+rY5xs=;
-        b=qGYMyERq40LNRfHp6sAVdOq/37ddsWFUuMO5txEMaiSXvSa5OQ7wW1CtnGYCR0OkSO
-         880LSksSxuIna1QVr9UMC/388KzgaWTgW1A+KMOs2ZhEnauSEn+JT8xqwVuDGeGjlX4y
-         WPdOxlPUO9chXfsCuh6+mlKAwIIV4RrX1/htJqQAz1Tq6p54RyoMY2R5Q0ZrsI4x0dOY
-         WGUEbcf/cmoqC2003v8E4NR6FcOyGcZifkKcm5C9/y4PMi3R0h3DRrb4FKjl9BsEjSbi
-         U6GGBDa873p9+N44+aZLVju2Iq+ySYK0Xwy1GB1cwbTZFdWxBkYfXR+Y1/oZ3gn7SWIZ
-         ZzuA==
-X-Forwarded-Encrypted: i=1; AJvYcCWcKuykWE+YIH+Cjer4/My+dpeA3qDaRbtcKFpckY+UKvc2CH7T/dLnkXj+V48CUm2fGThBILeEWN4kbRp/x3UsYg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9/0q+XZiHEExEWs5EnEJKsnryV+bwVe+l86x40dR8XtQcqHsO
-	ueQMK1wmQGTUfJILeoSMYGh4LXz1btwWO4c1L1DD0p+ZlXSRlMsdAKSe354sX6s9/mI=
-X-Gm-Gg: ASbGncto+uzabwFpYD5tgjbJdFomLRlFOo5460i83h+Py8arP0efJ2YWQKLsK3DnhIk
-	ZjjUePG5uJ2QVr6VVOPYv1Ylhi0g9FdojEYFKt4hIQYbOLiL+Fr9Slg++mljcSr018O3foSC334
-	OOjt0YGApZGEfWCzNlG1x2KWMfO4KEhbKZJWdZVFo2NfCoNDuBwcRrv3giJpczNhX1QwQaOuGsq
-	hoMnOiou8+8/TnsuPSaIzrw1IAoyDIPYMkBYXx9DLtpiZaj4XwWdPCRV5HcMMjIBJgUPbKY0FXd
-	fOSfSqufbi/U+H9mEf7zDEf6KDGxCT7TjgN/5BGRIYkTn+RI2VIJdwbPVp95Hc86J/8GIijnJTn
-	3aQDwYATsafQb4CGGHivW43sXjj1R4gz+TrmQiiozNJS60hKAyEnclz2J8zospyPWBfiayNIYrG
-	0TQUL5myRg5b2zrjgFnj792ISYcXzEtc98FRu46A==
-X-Google-Smtp-Source: AGHT+IFcNni/6zDktb114tAtBZYwOyGhXiXxvfeRUIinYegkqUAsBEY6GTfc1/EWsmcE8YDmS5gbcw==
-X-Received: by 2002:a17:907:94c4:b0:b73:4bc5:b3c8 with SMTP id a640c23a62f3a-b73678f2e3fmr228852766b.29.1763113435568;
-        Fri, 14 Nov 2025 01:43:55 -0800 (PST)
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com. [209.85.218.43])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b734fad41cesm345610166b.16.2025.11.14.01.43.53
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Nov 2025 01:43:53 -0800 (PST)
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-b73669bdcd2so136654166b.2
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Nov 2025 01:43:53 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWHMOMBmhj1RDqs0XcyiaREBgWFl7rM6QjGhTdJNLrN/xtVxuIvpQrf1WMZOpWM2Zdvj/27ZQRn+n14zpNjRek3Ww==@vger.kernel.org
-X-Received: by 2002:a17:907:a01:b0:b73:278a:a499 with SMTP id
- a640c23a62f3a-b73678adc4dmr231482866b.15.1763113433482; Fri, 14 Nov 2025
- 01:43:53 -0800 (PST)
+        d=1e100.net; s=20230601; t=1763115233; x=1763720033;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uyQOUFUYuxA3AMkkTAfOVziTArOJRDBqIJ84aBAoAyI=;
+        b=O2BVPjM3sdYXzTQReRZpTESemiyFFrTsokF7+kOV7pYds1rNAt6UF5kUoDrqrmHbC8
+         pVWJ6u7OPW+aZv0sxkAyL+LbymHVMDZVC74/G8hgd/9Ymt0PXD2ENdWViopnhUX90gFt
+         6LBI2Ysgu4q5A98AAHVXIA9i7aNrt7ww5HTWaejFAdWaVVUD+ufcYtocugB2zz9/qs49
+         wbi+TgYCqLfs/BGLmAjVRLP+gR6Wwj/gupS6VYYFeieC7vJQcaEG3LjM+8PvlAFBmKtl
+         gBw7veb3IupvUdElIJTjsEVJs/jxi+i31wjodR80TFUzC4+z3uyrRtPPaPBO0S0ewZhV
+         RgBA==
+X-Forwarded-Encrypted: i=1; AJvYcCXmMjJzqDbYb9r5pWVD5IFjvcry339ja1pOHkaJMJYYTbNb/hJGfaHttPLye56GT6jFe/x25cpE4fx1VFGe8Ka6Qw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx8C37gFkATkW9Ge3O43c+D/9UuelHqLJ6No+Q6iwIOnX6nX9OP
+	aXwp1zPXJKjCjSCXFS2TUnF+0BDwDWgF5Vg2ZHxcaZNiHXrkgiceYAfK
+X-Gm-Gg: ASbGncv2NGy07vWiFJbIVkDwXNyDg3U4uNEgJ9wAaTuJcTDTuiFmag0ZD5mRsgvPOu0
+	w7mT3/0Op3DwCGufQxCI3cjXoUxG3hC42ykNv0kaJB+hiPqT3a/NrldB+Mv5GkU7RGDhbKqGcVR
+	bm7r96+gBVcpwnuVfuUsknxyowJ4e53JPDnFK7WACAhc7Q4dxC3MHME75tU4gEJgAzmEZ99Yp4u
+	TzrUUQ8loDNkmqoRyKTMgPncs1IrJNSxvsvompnvJyeB8+FEThOejmsgFtYdUawFDBQAaM7D+tu
+	UfzklsvcDu1q7FN2cR5sTfkTv6U+hRLu/Nwq0stS4wcYR5HtNiR19gvZBZjsBjX63QquiwA7auw
+	Dl3psrrBCaLnPCGLbl6LSk1wOHxi7qQOg1kM2OkuT07II8Pv+5gcAayVXyE6CKny41mn+SLpIog
+	HbMj7QrH4px24gGyjwNgNiTsEoYYcRQHM85KE5CBVpOelTUEjfuggN4KoNcUcAb3C6GEq+wHBL3
+	0hlJQshrCau1iLH
+X-Google-Smtp-Source: AGHT+IHwQRc+3WyYaHuW2eDqpuK7VEQtbvn7J8+LySD9iAVjl3fw46CiL/4mZbRZEV1FnK5/AdofRA==
+X-Received: by 2002:a05:600c:3546:b0:477:7658:571e with SMTP id 5b1f17b1804b1-4778fea2df4mr25190315e9.23.1763115233221;
+        Fri, 14 Nov 2025 02:13:53 -0800 (PST)
+Received: from localhost.localdomain (host86-162-200-138.range86-162.btcentralplus.com. [86.162.200.138])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4778bae816bsm40685815e9.0.2025.11.14.02.13.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Nov 2025 02:13:52 -0800 (PST)
+From: Biju <biju.das.au@gmail.com>
+X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	linux-kernel@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH v3 0/2] Fix deadlock during RSCI FIFO overrun error
+Date: Fri, 14 Nov 2025 10:13:45 +0000
+Message-ID: <20251114101350.106699-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251027123601.77216-1-herve.codina@bootlin.com> <20251114084122.01a0d281@bootlin.com>
-In-Reply-To: <20251114084122.01a0d281@bootlin.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 14 Nov 2025 10:43:40 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU1NmeCyNu8mHJ=Pb5WKjLkCucZ-XyNKPS5t1Kmt90bmw@mail.gmail.com>
-X-Gm-Features: AWmQ_bnEaFxu73Nj-q2Cezfl_7HYPeRWF2OfC8CAOM6WAXmswGw9ath66GQ6N2M
-Message-ID: <CAMuHMdU1NmeCyNu8mHJ=Pb5WKjLkCucZ-XyNKPS5t1Kmt90bmw@mail.gmail.com>
-Subject: Re: [PATCH v6 0/8] gpio: renesas: Add support for GPIO and related
- interrupts in RZ/N1 SoC
-To: Herve Codina <herve.codina@bootlin.com>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Saravana Kannan <saravanak@google.com>, Serge Semin <fancer.lancer@gmail.com>, 
-	Thomas Gleixner <tglx@linutronix.de>, Hoan Tran <hoan@os.amperecomputing.com>, 
-	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Phil Edworthy <phil.edworthy@renesas.com>, linux-gpio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, Pascal Eberhard <pascal.eberhard@se.com>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Herv=C3=A9,
+From: Biju Das <biju.das.jz@bp.renesas.com>
 
-On Fri, 14 Nov 2025 at 08:41, Herve Codina <herve.codina@bootlin.com> wrote=
-:
-> On Mon, 27 Oct 2025 13:35:52 +0100
-> "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com> wrote:
-> > This series adds support for GPIO and GPIO IRQ mux available in the
-> > RZ/N1 SoCs.
->
-> The series seems ready to be applied even with the minor feedback from Wo=
-lfram
-> on patch 6.
->
-> Do you expect a new iteration from my side or do you think this v6 iterat=
-ion
-> can be applied as it?
+This patch series aims to fix 2 issues
+ 1) Fix deadlock during RSCI FIFO overrun error, as wrong register used to
+    clear the status.
+ 2) Hardware flow control is supported on all SoCs. Fix the binding.
 
-Sorry, I only realized yesterday that the GPIO Interrupt Multiplexer
-driver resides in drivers/soc/renesas/.  Before, I mistakenly thought
-it was part of the GPIO subsystem.
+v2->v3:
+ * Added Rb tag from Geert for binding patch.
+ * Dropped overrun_clr from struct sci_port_params_bits
+ * All of the CFCLR_*C clearing bits match the corresponding
+   CSR_*status bits. So, reused the overrun mask for irq clearing.
+v1->v2:
+ * Split the fixes patches from original series [1]
+ * Updated commit message to make it clear that hardware flow control
+   supported on all SoC for patch#1
+ * Added Ack from Conor for patch#1
+ * Added fixes tag for patch#1
 
-Anyway, it is a bit late in the cycle for me to take more patches for
-v6.19 (I am about to send my last PR right now), especially given the
-patches touching the DT and irqchip subsystems (with the DT ones being
-a hard dependency).
+[1] https://lore.kernel.org/all/20251027154615.115759-1-biju.das.jz@bp.renesas.com/
 
-So I suggest Rob takes the first two patches for v6.19, and we revisit
-the others for v6.20 (including late review comments), without having
-to worry about dependencies.  Does that sound OK to you?
+Biju Das (2):
+  dt-bindings: serial: rsci: Drop "uart-has-rtscts: false"
+  serial: sh-sci: Fix deadlock during RSCI FIFO overrun error
 
-Thanks!
+ .../devicetree/bindings/serial/renesas,rsci.yaml     |  2 --
+ drivers/tty/serial/sh-sci.c                          | 12 ++++++++++--
+ 2 files changed, 10 insertions(+), 4 deletions(-)
 
-Gr{oetje,eeting}s,
+-- 
+2.43.0
 
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
