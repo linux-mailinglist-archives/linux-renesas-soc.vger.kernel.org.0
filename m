@@ -1,41 +1,54 @@
-Return-Path: <linux-renesas-soc+bounces-24640-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24641-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1056C5CA20
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Nov 2025 11:40:30 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6515AC5CA9E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Nov 2025 11:48:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 86D5A4F3517
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Nov 2025 10:31:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 54E7F3B1566
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Nov 2025 10:48:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D4CB31196A;
-	Fri, 14 Nov 2025 10:30:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B63A30DEDC;
+	Fri, 14 Nov 2025 10:48:11 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FE153112D3;
-	Fri, 14 Nov 2025 10:30:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFA01221DB6;
+	Fri, 14 Nov 2025 10:48:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763116259; cv=none; b=fdFwrAJjpd1vQFSUTohcQVgn3KO/Fr1VcgUYl2c9EkskWJv2iQ6VQIdFO7Xa9aRwvelzOFjrAPaJMHU+Hkr0sOz5PwVzDZ0JV6/Le6t+9SFzqv0sYhTZHz6OxZVTYGNigVheZufmId2pfLlnr//xu2lVLl5J8rQE+A87Mc35Eo8=
+	t=1763117291; cv=none; b=SU7yzTBJE6poSSpxtB6tWKwAdQ1GLdOh4l8bNSkHS0Ivezer+Rgu8GlH7m6faxsu05LgwBVcFBjmCm/ImhTaGEsumBozbL6kty10+lSB5EfLTo7mmXgOPc9i3YuGuMaN6mWMpU8v+lckwA/uFa/uo/aVvPyTyGLYbCILhyOzPhc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763116259; c=relaxed/simple;
-	bh=p21iTEWP4ziErMKeyrjYD0RdpCzTknp7cegbJ+eba/0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=B//Uo+KImAwRClZuyMLAYGhkmE4FlpDsQv4HSadOmQr9D9loeHbeCuj2wI4ZrOpe0skN7I2oQsWRtZB1xUKil+pWBfbJBJoVtWCk/QIhXAezE29trf7PkS419SBf3sgUOIsKzb0qC7zuJhC279E/E4hkmR9+A6V3QnFp02kcbnY=
+	s=arc-20240116; t=1763117291; c=relaxed/simple;
+	bh=EZwz1bB3XcTruiRfg9BCLAPMvF7j9341FUFoWrsny94=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=txyRjmUFxAWFYdLMzwNzgxsX9kePRjKFMzZn/0kETMsDr6Iu9OHVAejJIuPJ9N1THrwfJJ8k9c3pzp8kCzYqj/XnSosE+v+w/1ZRxteCY+nFoWyaFEPEYpbRDxuxYOh9TF8JPnEGj5LaNpFaoTdl+J1w+9nJOq0uzGZI6JXZILE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6452C4CEF5;
-	Fri, 14 Nov 2025 10:30:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE180C16AAE;
+	Fri, 14 Nov 2025 10:48:03 +0000 (UTC)
 From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: linux-gpio@vger.kernel.org,
+To: Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Samuel Holland <samuel@sholland.org>,
+	Marc Zyngier <maz@kernel.org>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	devicetree@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL] pinctrl: renesas: Updates for v6.19 (take two)
-Date: Fri, 14 Nov 2025 11:30:52 +0100
-Message-ID: <cover.1763115734.git.geert+renesas@glider.be>
+Subject: [PATCH v2] of/irq: Ignore interrupt parent for nodes without interrupts
+Date: Fri, 14 Nov 2025 11:47:54 +0100
+Message-ID: <fbe6fc3657070fe2df7f0529043542b52b827449.1763116833.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -43,59 +56,54 @@ List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-	Hi Linus,
+The Devicetree Specification states:
 
-The following changes since commit a5fad3aeff41f89ac94230d66ee5f9c1526cb3ce:
+    The root of the interrupt tree is determined when traversal of the
+    interrupt tree reaches an interrupt controller node without an
+    interrupts property and thus no explicit interrupt parent.
 
-  pinctrl: renesas: rzg2l: Remove useless wrappers (2025-10-27 11:53:27 +0100)
+However, of_irq_init() gratuitously assumes that a node without
+interrupts has an actual interrupt parent if it finds an
+interrupt-parent property higher up in the device tree.  Hence when such
+a property is present (e.g. in the root node), the root interrupt
+controller may not be detected as such, causing a panic:
 
-are available in the Git repository at:
+    OF: of_irq_init: children remain, but no parents
+    Kernel panic - not syncing: No interrupt controller found.
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-pinctrl-for-v6.19-tag2
+Commit e91033621d56e055 ("of/irq: Use interrupts-extended to find
+parent") already fixed a first part, by checking for the presence of an
+interrupts-extended property.  Fix the second part by only calling
+of_irq_find_parent() when an interrupts property is present.
 
-for you to fetch changes up to 3b0cf6ab35909d7ac8d561e18159c62d42d914c2:
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+v2:
+  - Split off from series "[PATCH/RFC 0/2] of/irq: Fix root interrupt
+    controller handling"[1] to relax dependencies,
+  - Drop RFC.
 
-  pinctrl: renesas: rzg2l: Refactor OEN register PWPR handling (2025-11-13 21:21:02 +0100)
+[1] https://lore.kernel.org/all/cover.1759485668.git.geert+renesas@glider.be
+---
+ drivers/of/irq.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-----------------------------------------------------------------
-pinctrl: renesas: Updates for v6.19 (take two)
+diff --git a/drivers/of/irq.c b/drivers/of/irq.c
+index b174ec29648955c6..5cb1ca89c1d8725d 100644
+--- a/drivers/of/irq.c
++++ b/drivers/of/irq.c
+@@ -613,7 +613,7 @@ void __init of_irq_init(const struct of_device_id *matches)
+ 		 * are the same distance away from the root irq controller.
+ 		 */
+ 		desc->interrupt_parent = of_parse_phandle(np, "interrupts-extended", 0);
+-		if (!desc->interrupt_parent)
++		if (!desc->interrupt_parent && of_property_present(np, "interrupts"))
+ 			desc->interrupt_parent = of_irq_find_parent(np);
+ 		if (desc->interrupt_parent == np) {
+ 			of_node_put(desc->interrupt_parent);
+-- 
+2.43.0
 
-  - Remove removed signals on R-Car V4H and V4M,
-  - Refactor OEN register PWPR handling on RZ/G2L.
-
-Thanks for pulling!
-
-----------------------------------------------------------------
-Geert Uytterhoeven (1):
-      pinctrl: renesas: r8a779h0: Remove STPWT_EXTFXR
-
-Huy Bui (3):
-      pinctrl: renesas: r8a779g0: Remove CC5_OSCOUT
-      pinctrl: renesas: r8a779g0: Remove STPWT_EXTFXR
-      pinctrl: renesas: r8a779h0: Remove CC5_OSCOUT
-
-John Madieu (1):
-      pinctrl: renesas: rzg2l: Refactor OEN register PWPR handling
-
-Thanh Quan (1):
-      pinctrl: renesas: r8a779g0: Remove AVB[01]_MII
-
- drivers/pinctrl/renesas/pfc-r8a779g0.c  | 100 +++++++++++---------------------
- drivers/pinctrl/renesas/pfc-r8a779h0.c  |   6 +-
- drivers/pinctrl/renesas/pinctrl-rzg2l.c |  53 ++++++++++-------
- 3 files changed, 68 insertions(+), 91 deletions(-)
-
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
 
