@@ -1,54 +1,46 @@
-Return-Path: <linux-renesas-soc+bounces-24641-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24642-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6515AC5CA9E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Nov 2025 11:48:25 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id B72A6C5CAF8
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Nov 2025 11:53:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 54E7F3B1566
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Nov 2025 10:48:13 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id B8EB2346C36
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Nov 2025 10:50:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B63A30DEDC;
-	Fri, 14 Nov 2025 10:48:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 809483128D2;
+	Fri, 14 Nov 2025 10:50:44 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFA01221DB6;
-	Fri, 14 Nov 2025 10:48:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6476E26E703;
+	Fri, 14 Nov 2025 10:50:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763117291; cv=none; b=SU7yzTBJE6poSSpxtB6tWKwAdQ1GLdOh4l8bNSkHS0Ivezer+Rgu8GlH7m6faxsu05LgwBVcFBjmCm/ImhTaGEsumBozbL6kty10+lSB5EfLTo7mmXgOPc9i3YuGuMaN6mWMpU8v+lckwA/uFa/uo/aVvPyTyGLYbCILhyOzPhc=
+	t=1763117444; cv=none; b=Be9fOnRwFzUduBEXxj8yn9KGAYWUtZdK8JhHy2oHNzNOaMzploGocQ+PgoK+4aMcSSKOulp218mCZ8ioU/qtPsJoBPss1TRV9TB9dgESfcHDe24f3hJQk6fIiIvRS+Kc4Hu2ZlQQyWKIVukElnwVVxo105goUvNfUj36m4nIexI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763117291; c=relaxed/simple;
-	bh=EZwz1bB3XcTruiRfg9BCLAPMvF7j9341FUFoWrsny94=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=txyRjmUFxAWFYdLMzwNzgxsX9kePRjKFMzZn/0kETMsDr6Iu9OHVAejJIuPJ9N1THrwfJJ8k9c3pzp8kCzYqj/XnSosE+v+w/1ZRxteCY+nFoWyaFEPEYpbRDxuxYOh9TF8JPnEGj5LaNpFaoTdl+J1w+9nJOq0uzGZI6JXZILE=
+	s=arc-20240116; t=1763117444; c=relaxed/simple;
+	bh=qkJ4Jmkcyv+RxR2YbRu9DS4g4g27qGT862ufJkv/HGM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=l3t+81H8y8NN0Rjpu97r9HJlwKDoSl+teqkIU0YqrOqRGXz3P2hMO+iNVg4JrXI4V+ure4e3wJake3P9UcyrimkZ+QnHj4uzCu8uUinQ9xg7kNiB1ZBD+seBMJj9G5npeOhqz3aRDs6eMDDpGU1a9gd8BujUBM129u9VqD8ZDqg=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE180C16AAE;
-	Fri, 14 Nov 2025 10:48:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 733DFC19424;
+	Fri, 14 Nov 2025 10:50:42 +0000 (UTC)
 From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Samuel Holland <samuel@sholland.org>,
-	Marc Zyngier <maz@kernel.org>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2] of/irq: Ignore interrupt parent for nodes without interrupts
-Date: Fri, 14 Nov 2025 11:47:54 +0100
-Message-ID: <fbe6fc3657070fe2df7f0529043542b52b827449.1763116833.git.geert+renesas@glider.be>
+To: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Zhang Rui <rui.zhang@intel.com>,
+	Lukasz Luba <lukasz.luba@arm.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v2] thermal: rcar: Convert to DEFINE_SIMPLE_DEV_PM_OPS()
+Date: Fri, 14 Nov 2025 11:50:35 +0100
+Message-ID: <ee03ec71d10fd589e7458fa1b0ada3d3c19dbb54.1763117351.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -56,53 +48,54 @@ List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The Devicetree Specification states:
-
-    The root of the interrupt tree is determined when traversal of the
-    interrupt tree reaches an interrupt controller node without an
-    interrupts property and thus no explicit interrupt parent.
-
-However, of_irq_init() gratuitously assumes that a node without
-interrupts has an actual interrupt parent if it finds an
-interrupt-parent property higher up in the device tree.  Hence when such
-a property is present (e.g. in the root node), the root interrupt
-controller may not be detected as such, causing a panic:
-
-    OF: of_irq_init: children remain, but no parents
-    Kernel panic - not syncing: No interrupt controller found.
-
-Commit e91033621d56e055 ("of/irq: Use interrupts-extended to find
-parent") already fixed a first part, by checking for the presence of an
-interrupts-extended property.  Fix the second part by only calling
-of_irq_find_parent() when an interrupts property is present.
+Convert the Renesas R-Car thermal driver from SIMPLE_DEV_PM_OPS() to
+DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr().  This lets us drop the
+check for CONFIG_PM_SLEEP, and reduces kernel size in case CONFIG_PM or
+CONFIG_PM_SLEEP is disabled, while increasing build coverage.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
 v2:
-  - Split off from series "[PATCH/RFC 0/2] of/irq: Fix root interrupt
-    controller handling"[1] to relax dependencies,
-  - Drop RFC.
-
-[1] https://lore.kernel.org/all/cover.1759485668.git.geert+renesas@glider.be
+  - Add Reviewed-by.
 ---
- drivers/of/irq.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/thermal/renesas/rcar_thermal.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/of/irq.c b/drivers/of/irq.c
-index b174ec29648955c6..5cb1ca89c1d8725d 100644
---- a/drivers/of/irq.c
-+++ b/drivers/of/irq.c
-@@ -613,7 +613,7 @@ void __init of_irq_init(const struct of_device_id *matches)
- 		 * are the same distance away from the root irq controller.
- 		 */
- 		desc->interrupt_parent = of_parse_phandle(np, "interrupts-extended", 0);
--		if (!desc->interrupt_parent)
-+		if (!desc->interrupt_parent && of_property_present(np, "interrupts"))
- 			desc->interrupt_parent = of_irq_find_parent(np);
- 		if (desc->interrupt_parent == np) {
- 			of_node_put(desc->interrupt_parent);
+diff --git a/drivers/thermal/renesas/rcar_thermal.c b/drivers/thermal/renesas/rcar_thermal.c
+index fdd7afdc4ff69217..6e5dcac5d47ae7f6 100644
+--- a/drivers/thermal/renesas/rcar_thermal.c
++++ b/drivers/thermal/renesas/rcar_thermal.c
+@@ -534,7 +534,6 @@ static int rcar_thermal_probe(struct platform_device *pdev)
+ 	return ret;
+ }
+ 
+-#ifdef CONFIG_PM_SLEEP
+ static int rcar_thermal_suspend(struct device *dev)
+ {
+ 	struct rcar_thermal_common *common = dev_get_drvdata(dev);
+@@ -567,15 +566,14 @@ static int rcar_thermal_resume(struct device *dev)
+ 
+ 	return 0;
+ }
+-#endif
+ 
+-static SIMPLE_DEV_PM_OPS(rcar_thermal_pm_ops, rcar_thermal_suspend,
+-			 rcar_thermal_resume);
++static DEFINE_SIMPLE_DEV_PM_OPS(rcar_thermal_pm_ops, rcar_thermal_suspend,
++				rcar_thermal_resume);
+ 
+ static struct platform_driver rcar_thermal_driver = {
+ 	.driver	= {
+ 		.name	= "rcar_thermal",
+-		.pm = &rcar_thermal_pm_ops,
++		.pm = pm_sleep_ptr(&rcar_thermal_pm_ops),
+ 		.of_match_table = rcar_thermal_dt_ids,
+ 	},
+ 	.probe		= rcar_thermal_probe,
 -- 
 2.43.0
 
