@@ -1,135 +1,159 @@
-Return-Path: <linux-renesas-soc+bounces-24676-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24677-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44302C62A00
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Nov 2025 08:00:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF387C62D2E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Nov 2025 08:59:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 3236C4E1D26
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Nov 2025 07:00:33 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id BA0D44E7978
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Nov 2025 07:59:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA62625F7A5;
-	Mon, 17 Nov 2025 07:00:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8386631A05B;
+	Mon, 17 Nov 2025 07:59:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jH/3sOh5"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ISl2jWWF"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CC101FDA8E;
-	Mon, 17 Nov 2025 07:00:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54A8230E0C2;
+	Mon, 17 Nov 2025 07:59:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763362830; cv=none; b=DkSnklgi4+3Sb3Pmf4V81O4cyDncSL9UdcBhwHrpYu6qzg/0W5sDLWrugWPmobmHZmUso4JuvdwuVy6MF9WCm7zIN5p7a64n2AFB15DSLOtl7PknPpttyxzZT/61HJyG+3SZfslRTVzQ/NKMED/O7cL0DAvJF4srAQEzRt61FsE=
+	t=1763366384; cv=none; b=kAQ03j582AfoLMv6OXOdhwTf9Qk6Rk7q/gT3ZBecqJxGQ408c+dOuY0ii9EecQpPivrf79beQpe57e5slqw9TORt7QUnpDhftE926zabIyLsIshudMYUEh7cDVcfCPZqOgZkuifdgRFeIuFW7Wmt9X9ECbl+WyMfEY/ON/QEux8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763362830; c=relaxed/simple;
-	bh=aZN7zbXZXHa7wcgVartfQ5nXipXYlMCiZfigd0SdNLg=;
+	s=arc-20240116; t=1763366384; c=relaxed/simple;
+	bh=2GJODLDU9q/DrAw2v42I0tcNWvPDyLFQEM8TC1A8YdM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WMqgs+XR+T6MtTY3oZ8j7O2B3gdY77ZqYrMCwaxjI+d1qlWMnR+kYBZTa2Ys0ofF1PlmrC2gUMn6XKqBHUMHhxbMCtwcgQMSLsFuNmyIe3YyaK+Xsrh0n+eYZnjfSN6NOEI5wJSqfTIAGbJ3r3wx7vStiHPr/3CqsHaQEvjKY6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jH/3sOh5; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9AADC4CEF5;
-	Mon, 17 Nov 2025 07:00:29 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=jhg/yZSTSsdttAzM7cu6YtdreNvzJ3tnpKtrnBC9EctFFO411aH0ieaMBTrqnzm5X97d5ca8ejfmipKCIMIuCGzjsMGXxMgiPpvTk/k1ov42hMw2d4EeLo2bnVYQbt2hFZA+JImGbxFN/PfmoV0f5dwc+C3pglWcwynyq3x6be4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ISl2jWWF; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D353C4CEFB;
+	Mon, 17 Nov 2025 07:59:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763362830;
-	bh=aZN7zbXZXHa7wcgVartfQ5nXipXYlMCiZfigd0SdNLg=;
+	s=k20201202; t=1763366383;
+	bh=2GJODLDU9q/DrAw2v42I0tcNWvPDyLFQEM8TC1A8YdM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jH/3sOh553iNuvqJzZEEhjMGtt2bcN1UWZ8gn40Kc6uvg7hZdXCj+rtc/UI10jG/R
-	 1NH+zU9IEq1KHtOdvdgYag4OyDSeZMexuBZFgX8DxXOirnnHTDblblquhFNFM1q5Yc
-	 WAa3sB3jNuGNIrljkZYU6LBEFJOQi7ufeHHq8t86n1hwIXtZ8G0Ls2nw91Y5pcQhz1
-	 nlYGmg9fKa7bn+sBBc0wKVcD9zrROHc7NQz3TRkw6ai6tOhI5az7ESfDnufa74YG0e
-	 oENNgH0A/5QCRdTy3iVXaUv/Hw65C51boqV/3RPp5Ajtfos2UI0REvlcJ8dgSAElXR
-	 WMoJGt2P6U2Jw==
-Date: Mon, 17 Nov 2025 08:00:27 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org, 
-	biju.das.jz@bp.renesas.com, Vinod Koul <vkoul@kernel.org>, 
-	Kishon Vijay Abraham I <kishon@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Peter Rosin <peda@axentia.se>, 
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Magnus Damm <magnus.damm@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-phy@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 04/21] dt-bindings: reset: renesas,rzv2h-usb2phy:
- Document VBUS_SEL mux
-Message-ID: <20251117-sturdy-resourceful-crab-c14bb8@kuoka>
-References: <cover.1762773720.git.tommaso.merciai.xr@bp.renesas.com>
- <8fba0b7235bd398d41329fd087d68f7e98bbbaca.1762773720.git.tommaso.merciai.xr@bp.renesas.com>
+	b=ISl2jWWFx/FOUV/JUXKCNbW2I7ACG7tmwSf9MY5BB+O8+jcRAlDPzDG2/I5K67G7z
+	 KQIFVPCM4tT3wvv3HTBRxNklYBWyiTsCe5V8f9E82FQO1aT540mjoeZEusBjyN5dB2
+	 fK9zyGQe908yxuhKntKi5HBhvnmYWaOFpNq+jPmXKVdopVdIiOxrScWl2Tn9zEEocg
+	 sqYWIIT2/rjfoqQB2ASjLJaiRwAexs6NOoujMsvV96mqRg6GTz+7osPett9ED2v5d4
+	 lpgOy6vp2rhBbVOs+XfHd0Do+mEkSzX/Q81kE0BfYjYeKTbJEhSvNRgUPoUtcqD2uR
+	 r2dGfP4KYt0VA==
+Date: Mon, 17 Nov 2025 08:59:41 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Biju <biju.das.au@gmail.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>, linux-pwm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-renesas-soc@vger.kernel.org, stable@kernel.org
+Subject: Re: [PATCH v4] pwm: rzg2l-gpt: Reinitialize the cache value in
+ rzg2l_gpt_disable()
+Message-ID: <ppqewbxcvsqcpp7met6vupmvxaftfjwiefej2c25jw4hoe3c23@lyh7saabrhkd>
+References: <20251114145606.200948-1-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="isn4hegpwjtwjdsi"
 Content-Disposition: inline
-In-Reply-To: <8fba0b7235bd398d41329fd087d68f7e98bbbaca.1762773720.git.tommaso.merciai.xr@bp.renesas.com>
+In-Reply-To: <20251114145606.200948-1-biju.das.jz@bp.renesas.com>
 
-On Mon, Nov 10, 2025 at 01:08:04PM +0100, Tommaso Merciai wrote:
-> Document the 'mux-controller' child node in the Renesas RZ/V2H(P)
-> USB2PHY reset binding to support describing the USB VBUS_SEL
-> multiplexer as a mux-controller.
-> 
-> This is required to properly configure the USB PHY VBUS source on
-> RZ/V2H(P), RZ/G3E SoCs.
 
-And where did you explain why this cannot be folded into parent node? If
-you do not provide context why reviewer's advice cannot be fulfilled,
-then you will get the same comment.
+--isn4hegpwjtwjdsi
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v4] pwm: rzg2l-gpt: Reinitialize the cache value in
+ rzg2l_gpt_disable()
+MIME-Version: 1.0
 
-> 
-> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Hello Biju,
+
+On Fri, Nov 14, 2025 at 02:56:01PM +0000, Biju wrote:
+> From: Biju Das <biju.das.jz@bp.renesas.com>
+>=20
+> The rzg2l_gpt_config() test the rzg2l_gpt->period_tick variable. This
+> check is not valid, if enabling of a channel happens after disabling all
+> the channels as it test against the cached value. Therefore, reinitialize
+> the variable rzg2l_gpt->period_tick to 0 in rzg2l_gpt_disable(), when
+> all the logical channels of a hardware channel is disabled.
+>=20
+> Cc: stable@kernel.org
+> Fixes: 061f087f5d0b ("pwm: Add support for RZ/G2L GPT")
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
-> v2->v3:
->  - Manipulate mux-controller as an internal node.
->  - Improved commit body.
-> 
-> v1->v2:
->  - New patch
-> 
->  .../bindings/reset/renesas,rzv2h-usb2phy-reset.yaml   | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/reset/renesas,rzv2h-usb2phy-reset.yaml b/Documentation/devicetree/bindings/reset/renesas,rzv2h-usb2phy-reset.yaml
-> index c1b800a10b53..03da74ff2d08 100644
-> --- a/Documentation/devicetree/bindings/reset/renesas,rzv2h-usb2phy-reset.yaml
-> +++ b/Documentation/devicetree/bindings/reset/renesas,rzv2h-usb2phy-reset.yaml
-> @@ -37,6 +37,12 @@ properties:
->    '#reset-cells':
->      const: 0
->  
-> +  mux-controller:
-> +    $ref: /schemas/mux/mux-controller.yaml#
-> +    description: Mux controller for USB VBUS source selection.
-> +    type: object
-> +    unevaluatedProperties: false
-> +
->  required:
->    - compatible
->    - reg
-> @@ -44,6 +50,7 @@ required:
->    - resets
->    - power-domains
->    - '#reset-cells'
-> +  - mux-controller
->  
->  additionalProperties: false
->  
-> @@ -58,4 +65,8 @@ examples:
->          resets = <&cpg 0xaf>;
->          power-domains = <&cpg>;
->          #reset-cells = <0>;
-> +
-> +        mux-controller {
-> +          #mux-state-cells = <1>;
+> v3->v4:
+>  * Split the patch as separate from [1] for easy merging.
+>  * Updated commit description
+>  * Added comments about the fix in rzg2l_gpt_disable()
+> v3:
+>  * New patch
+>=20
+> [1] https://lore.kernel.org/all/20250915163637.3572-1-biju.das.jz@bp.rene=
+sas.com/#t
+> ---
+>  drivers/pwm/pwm-rzg2l-gpt.c | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/pwm/pwm-rzg2l-gpt.c b/drivers/pwm/pwm-rzg2l-gpt.c
+> index 360c8bf3b190..ab91bfd7da48 100644
+> --- a/drivers/pwm/pwm-rzg2l-gpt.c
+> +++ b/drivers/pwm/pwm-rzg2l-gpt.c
+> @@ -190,8 +190,17 @@ static void rzg2l_gpt_disable(struct rzg2l_gpt_chip =
+*rzg2l_gpt,
+>  	/* Stop count, Output low on GTIOCx pin when counting stops */
+>  	rzg2l_gpt->channel_enable_count[ch]--;
+> =20
+> -	if (!rzg2l_gpt->channel_enable_count[ch])
+> +	if (!rzg2l_gpt->channel_enable_count[ch]) {
+>  		rzg2l_gpt_modify(rzg2l_gpt, RZG2L_GTCR(ch), RZG2L_GTCR_CST, 0);
+> +		/*
+> +		 * The rzg2l_gpt_config() test the rzg2l_gpt->period_tick
+> +		 * variable. This check is not valid, if enabling of a channel
+> +		 * happens after disabling all the channels as it test against
+> +		 * the cached value. Therefore, reinitialize the variable
+> +		 * rzg2l_gpt->period_tick to 0.
+> +		 */
+> +		rzg2l_gpt->period_ticks[ch] =3D 0;
+> +	}
 
-Do not mix up indentation.
+I think this is wrong. rzg2l_gpt_config() has:
 
-Best regards,
-Krzysztof
+        if (rzg2l_gpt->channel_request_count[ch] > 1) {
+                if (period_ticks < rzg2l_gpt->period_ticks[ch])
+                        return -EBUSY;
+                else
+                        period_ticks =3D rzg2l_gpt->period_ticks[ch];
+        }
 
+So if both PWMs of channel `ch` are requested but disabled,
+rzg2l_gpt->period_ticks[ch] is 0 so you assign
+
+	period_ticks =3D rzg2l_gpt->period_ticks[ch];
+
+=2E In that case however you don't want to change period_ticks, right?
+
+Best regards
+Uwe
+
+--isn4hegpwjtwjdsi
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmka1eoACgkQj4D7WH0S
+/k6Exwf/cdGVEF4ILYiMKTtMZdJVeKTxVgJjmTpCdRjS5fVsuHXRcpP7cB1R8drP
+1XFtIfujgNrLe96KDWzNn2lCN1/6N51d2m3+0CYqhQQ7yWdUCIeADYxIftZe42th
+gmqKh3juCBIEnhRUc3S01Y2cAbNEYaFMzyLvsWI0fgjQTbmQGuyzTmZimDTPDeaD
+907JfsdjSE1h+QJoOfQz4TH5wpZN5MjRk1o1Qe9tz1WK5OTmMZb1Wq3A7hoEtQzq
+FgRUpae97xkiGi31GxttJZJr6RJAfwo+zm1YqOjOsXmY9DHtb/jD/weptkWTkZkH
+ynIpcRk/7lxWm2L24yr0pB/wPNdjlQ==
+=xVlT
+-----END PGP SIGNATURE-----
+
+--isn4hegpwjtwjdsi--
 
