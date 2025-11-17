@@ -1,153 +1,130 @@
-Return-Path: <linux-renesas-soc+bounces-24684-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24685-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3071CC6318D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Nov 2025 10:16:17 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7389C6312F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Nov 2025 10:13:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 3D703366F65
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Nov 2025 09:11:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A08643B1834
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Nov 2025 09:12:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5369E32936B;
-	Mon, 17 Nov 2025 09:09:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D95D32826E;
+	Mon, 17 Nov 2025 09:11:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="TYcdfTTO"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="FxZifYXW"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5200A328B45
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Nov 2025 09:09:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93436328607
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Nov 2025 09:11:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763370578; cv=none; b=KyVIkhJcPhjv4T2rfrUl57ReupThlZsUzBecXd9R1KibU5n+uKUKYewKRyuWidI7+DZhPLOOGkqNJkxqk1BAW22orXpub/Pkix33UC/Y+2gM+dQCe7yr0eadU6jg4USPedTX3wEmipUXaHmYwAFG8dZXPonHHnRgJ6sU61AcI2g=
+	t=1763370676; cv=none; b=C4AK2wmsguMakRUl2NllAkGogE8hqUvw14+QzanBcx45Ph4ls+2GhDgE9nU3eFj3++EP5LyGw1SHtVMMVe7opn5+6GEA+yHDVkxaxUcsrHnir0K7RBbWvHI0P8Zv9PK+weMhmo61N4V+qg1NsP1kf4kjMIyFC3XbsUVehCeBz3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763370578; c=relaxed/simple;
-	bh=JjljQgas7DGEcN8zVwFliJCqA/9CipeGEbRjGs4wc9k=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=T1kq2uWz5Upp1RjpSxfD8Tvt+f1IH+3CV09iH/GnPV5pysCLdvgjsvM5xIQblua1WzfaSeFTP7z6KB9oXV+bTGB6VUv9iWP17T+PlevKpJC0lhM+iXlF/3sVDZ6nleA7ziIeAlyB9PZT5ftAoyC8C/v0UA8LX+IEpgT7brgHPTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=TYcdfTTO; arc=none smtp.client-ip=209.85.128.49
+	s=arc-20240116; t=1763370676; c=relaxed/simple;
+	bh=GaZPBm6gUsQPfq9f2nOwKLI6bceBZ1vRdSsXombDMSY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Gk71oSteWbbafLRvGw6WV2Scobp5CSFWROvDN+T1RlPR8YHgOssnt0Y2Yn9r4IAMe/VomxilU1r7cdcw7jbkdckzVYH/TaMzj4bKme65kFTLspUquUd4Mfyyo8wsLdwzyuQyFemcSSoyX02GuXhAbCrMixi75XstMPoTqCekJKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=FxZifYXW; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-477a219dbcaso5892095e9.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Nov 2025 01:09:36 -0800 (PST)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4779a4fc95aso8835745e9.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Nov 2025 01:11:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1763370574; x=1763975374; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EFJ2erejpxbkIEQhqGIz++SG+xOYypR9geXcoZY+s9w=;
-        b=TYcdfTTOJsvxDi8xipaqV0ATgVgZkhlGs3Bf/fyfIAGVJGtAUryixVII44/sQP08fp
-         ZKd6iFtq98dDFPzN7WfDLEhtvv9MR1t380QqnDI6NtG2y2JQO3yeKMdj8hqIojWNoWTy
-         9eonE+iF8A2H6GNIfvyCoMTi/kfmcYtP6vsu6b437h/sCACsLJh6dQ1hfUTUlAE5FsMM
-         7Ez+pktOf7gS61RrMEsXsWiHrnXGryiNXMwICLEVqJvN3cti9xbN8u+bmiKSE8PTQUIw
-         kbgkRFIasBTTt7sCa/MZdtHCNs5eptLNfVyOIRK8hzL+DDg7XfecFHK4rRQoxtaHF7As
-         Edhw==
+        d=tuxon.dev; s=google; t=1763370673; x=1763975473; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0kZPylB3j+lccR/0iWbMtZHa/Te1u7EA4yah7WekK5s=;
+        b=FxZifYXWGyVlo5hkQ102z+Zhgx4gfJiPLLS0zzVVo3kLiDzWPnnKUHvK/Q4uEQ+tdq
+         YLEy0w7In+JY67jETFrgrl1gA8p8psoOzXLEHSuwOvKES5ysFIMucv+e7PhR9dbXxxpq
+         wHGqCKBQ+wmD6UlWmM6LpSr/HoJK0QpcLPeLUD6agAtGKClq6couk5bW0fJOtxdLq3NQ
+         45QgSCSA5WIAhD5+hRkv2L4wFkEZPmun/wuPWQ8LvIJDaGcPy5bJgtcoKXaLplnl4mJh
+         uMylctkD37rvm2cG21da2Lz0cp8kJLCtdMPE5OhRagWKshtujznaZ6oSmbSMbCnEQZBx
+         nnXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763370574; x=1763975374;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=EFJ2erejpxbkIEQhqGIz++SG+xOYypR9geXcoZY+s9w=;
-        b=F77H5fRDyxp/PrnhPReRWQunDIHVgVvPnwHLpoXCgz6Ma9AAQiw8Cks/GOOmFfYApz
-         ztWrmMueOcJeEQgsC2a1tLsyN4+4N488N4XU64+M99sfb6ZGHKl7ufBOqHG84fAiS75+
-         hisKWhi3i1U8RPNW02pyMOgSRvgEbOJtJxnCVBb9oRKha9IVBiWen7T4gRERabAAxlLy
-         N/IbH1Q8KtOtw73Lm2FtQFU+hVV3veskN+SQCMgxjiuo4LkCMX2QmpImJbfm46PurrVg
-         9AFjvLaASy7k2DtpisPV4KlzpjrO6mpjjvN8IB+vYLmkMDEV6nGBhK3p1X1Cw5umAU6K
-         e4ZA==
-X-Forwarded-Encrypted: i=1; AJvYcCXAXKUH3fGkBfaar0EMjMukbsgxBD3NYGGLJj1SRWm5o07USXDpQ78C8dmn/YNPGsF9lJtWyJN8w3fPD6w9mhfByA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx2+ByXeebz0Q/v/XCy3/4hgcjcgIhkH58GtdvNhBFI4qGzACDO
-	IvsdhyiYO4sHgTcEvWtlIORkCXfzIkRF0EpK9xH7XP6Pxoe4TpR6zxRzn89OdONe8Bk=
-X-Gm-Gg: ASbGncuoIhaSFowfNohExn7zUUQocwAubuJgSLBWyfeXZYCxI6XyQYyWEQTyxEEa9mG
-	vOMt6Q+aCY4KdfdNIj3Ghp0n7uKKjJLqrbO2GG1BPOMpoPdx8C6S5HjRmgZ7Gd2gQkFKxDqBhi3
-	JhoStz6JaCfJHFQ+sIaanRNXvfEHWQmX4YejRbZOP6atLSBRrAVOF+FgcFwNpU/ZT63L9HLcWJ7
-	KbslhSVNhTUCIOj0bIKOYdzLzGPIQWL/foIyZB9ku4Q+6c069wu9hOHS0Y4Y3a9zcQz+yD+Isz/
-	VJNPkV+Casc/ZTpOyTYehy8b1WM4wwLZNwdof0np/jmdQE9n1x7VrF/Wc4PgdX96TklPLknyAwv
-	8ijUDy7d1r3Bk9sU9+X7ebkukteZxetFh0dVylRbT7Nu2thEXt3o/iPttS3mUvf/m0TMNJz2dLx
-	hScAJNKgra1ydA2snngmn2ddiWXKhVm/CRpZ2enXZB
-X-Google-Smtp-Source: AGHT+IFE6UJWcV5X6YeeIc6kAalNdpdQ69L4bDzZB4HRy7rqCESHG0voUX9snlDb2jiivpyhIFWW0A==
-X-Received: by 2002:a05:600c:1549:b0:477:9ce2:a0d8 with SMTP id 5b1f17b1804b1-4779ce2a4ffmr60130715e9.0.1763370574325;
-        Mon, 17 Nov 2025 01:09:34 -0800 (PST)
-Received: from claudiu-X670E-Pro-RS.. ([82.78.167.134])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b53f0b894sm25703786f8f.26.2025.11.17.01.09.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Nov 2025 01:09:33 -0800 (PST)
-From: Claudiu <claudiu.beznea@tuxon.dev>
-X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
-To: bhelgaas@google.com,
-	lpieralisi@kernel.org,
-	kwilczynski@kernel.org,
-	mani@kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	geert+renesas@glider.be,
-	magnus.damm@gmail.com,
-	p.zabel@pengutronix.de
-Cc: claudiu.beznea@tuxon.dev,
-	linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH v7 6/6] arm64: defconfig: Enable PCIe for the Renesas RZ/G3S SoC
-Date: Mon, 17 Nov 2025 11:08:58 +0200
-Message-ID: <20251117090859.3840888-7-claudiu.beznea.uj@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251117090859.3840888-1-claudiu.beznea.uj@bp.renesas.com>
-References: <20251117090859.3840888-1-claudiu.beznea.uj@bp.renesas.com>
+        d=1e100.net; s=20230601; t=1763370673; x=1763975473;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0kZPylB3j+lccR/0iWbMtZHa/Te1u7EA4yah7WekK5s=;
+        b=E5Q3I/Qd4rZSc0aOBcNdr60yRiGvuTb/KKLUmQ1lO69spEjIT/dvhrskYvo0g15cgx
+         m8v/UmsXKPoQLl/je1CDYOmopQPDPDEnyW/Ci8rVFCbp8Y32J3v0N44ff4mRiOmeYtnT
+         vuG4bFfH7iP4mlYomAlpV7nNK9bIG2b57u3fpqRm/i+g3/UVpHUCw+3GjGNKtWjOrXtu
+         zHwkCs9n7RkHj1bSWq14HWc6RtYuulCio8XO8ZyihUFJ2MELdAfAUPwzaTJ+xuQ9GLpy
+         accbZf7lCl2juccvbWxqHLh6+JI3x3kzuf8aU03qrBIPVhSEM3k6gzkrKQVKwGduCoql
+         owXg==
+X-Forwarded-Encrypted: i=1; AJvYcCVQ4bZUCRKGV72g7zV6aNHHXvhkfDiySBO6qtVZSEhozgoHG4yhOLITAOjEO4sAplY4q3v42Z208EZnTmSh2VjZTQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yygyr7V364TYu+fdqcn/y83qQzAXE+nCeAve1Ok/pXOPu8nqHvE
+	89pS850gzxDE6+3OtG0uEz0DyvcjoteFGe+JMH1jxm5bOs4u/vrmqJ1pjUihZYUYR9JIWBvv1EX
+	lVjfCEak=
+X-Gm-Gg: ASbGnctdpCkvCZ4hJxNIGcIonBSW18HpRW6CujZnjQC7IDtVVQms6dhbryP3RpadjmV
+	Wu7YOY+WJ9NjRqiIKbilwWpnrOLrpOgaNQmjL6BHttdHdDQKYZX2ECQkZchNP+k4ws9U/mO27Kg
+	4yfNPMaLEo2jMX/vSEu+tNMOQHgDD5P/d4GwKs8er5daWHxRJt04RPdnUFMRrRE0Q9C6cK2Zl+s
+	CyEOl+2KNd+lw6jdikMnDabHO+Gt2uyWVhaJDszBeCIxJHPylgYxYMVdrvrdRlf+EKXM/hvo8P4
+	proR9hlSQu3h+K1Tqe1qUq8ducaXo/77eKX+CqkvP6whAgMiIQhGdPZvU1Vg1HV9NXP8pCHlEp1
+	EOENzrYlXq0e9rhrdUiLLRFQ7ttGE56TPTKTkJDkOM6ySic1OIbvoNZNE7neXUoD1WgJWXl1+np
+	mfbNsjgwuo
+X-Google-Smtp-Source: AGHT+IEavaUnuxhrBwMIbZSqo7O99TmZuV7viJpnLLbAK5u+IVUMs5jpdhnUXP6mIc/HnTIfEm2Beg==
+X-Received: by 2002:a05:600c:1547:b0:45d:5c71:769d with SMTP id 5b1f17b1804b1-4778fd89eafmr115944655e9.8.1763370672881;
+        Mon, 17 Nov 2025 01:11:12 -0800 (PST)
+Received: from [192.168.50.4] ([82.78.167.134])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4779fb67e73sm72125925e9.0.2025.11.17.01.11.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Nov 2025 01:11:12 -0800 (PST)
+Message-ID: <9ee458bf-34c4-4f98-b577-ffb3b23c89ce@tuxon.dev>
+Date: Mon, 17 Nov 2025 11:11:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/3] mmc: renesas_sdhi: Handle resets
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: ulf.hansson@linaro.org, p.zabel@pengutronix.de,
+ linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20251008042526.3312597-1-claudiu.beznea.uj@bp.renesas.com>
+ <8c654a1f-2513-4afb-b33b-fabbafbbe845@tuxon.dev> <aRTRLW4bCoZMtCaB@shikoro>
+ <55e9c0c8-4360-4d08-9269-27a3ff5ba38c@tuxon.dev> <aRZKDp2ZI81sSHzG@ninjato>
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Content-Language: en-US
+In-Reply-To: <aRZKDp2ZI81sSHzG@ninjato>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Hi, Wolfram,
 
-Enable PCIe for the Renesas RZ/G3S SoC.
+On 11/13/25 23:13, Wolfram Sang wrote:
+> 
+>> On RZ/G3S the following were checked:
+>> - run bonnie++ on all the SDHIs (with SD card and eMMC, where possible)
+>> - unbind/bind on all the SDHIs and run bonnie++ (with SD card and eMMC,
+>>   where possible) after re-bind
+>> - 32 consecutive suspend/resume (s2idle and deep) and run bonnie++ (with SD
+>>   card and eMMC where possible) after resume
+>>
+>> bonnie++ tests were executed after boot on RZ/G2{H, M, N, L, UL}, RZ/V2L.
+> 
+> Thanks, I did some lighter testing on R-Car D3 with bind/unbind and
+> suspend-to-ram. Focussing on areas you modified. No regressions, all
+> worked fine.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
----
+Thank you for checking it!
 
-Changes in v7:
-- rebased on top of v6.18-rc1
+> 
+> Can I get the I3C pinctrl patch for G3S now as a reward? :)
+> 
+I'll do my best :)
 
-Changes in v6:
-- collected tags
-
-Changes in v5:
-- dropped Tb tag
-
-Changes in v4:
-- made it builtin
-
-Changes in v3:
-- collected tags
-
-Changes in v2:
-- none
-
- arch/arm64/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index e3a2d37bd104..54fd09317edf 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -230,6 +230,7 @@ CONFIG_PCIE_MEDIATEK_GEN3=m
- CONFIG_PCI_TEGRA=y
- CONFIG_PCIE_RCAR_HOST=y
- CONFIG_PCIE_RCAR_EP=y
-+CONFIG_PCIE_RENESAS_RZG3S_HOST=y
- CONFIG_PCIE_ROCKCHIP_HOST=m
- CONFIG_PCI_XGENE=y
- CONFIG_PCI_IMX6_HOST=y
--- 
-2.43.0
+Thank you,
+Claudiu
 
 
