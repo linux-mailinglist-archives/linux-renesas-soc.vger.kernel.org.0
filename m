@@ -1,220 +1,182 @@
-Return-Path: <linux-renesas-soc+bounces-24689-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24690-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E46DC637BE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Nov 2025 11:19:07 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66B6FC63763
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Nov 2025 11:15:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 4747B4EF38D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Nov 2025 10:13:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4052C3B0973
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Nov 2025 10:14:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C80B4329389;
-	Mon, 17 Nov 2025 10:12:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="MwZ5N0Xf"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1293E32937E;
+	Mon, 17 Nov 2025 10:12:59 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5E3832720F
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Nov 2025 10:12:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA8FF32720F
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Nov 2025 10:12:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763374376; cv=none; b=uN377NDbB3ft/A5McgM+L7yWikCuFp9UHHnJ/9XBvocwwtRUaDvzkFBdD/TKdVVef+QkMRU3jZpAsUXlUmfRFS3dVvxs+p9frZtupDISGcoPiAg53vWvf5GMxYP2yrDneaX4RTDAWy/nQMrMvONqwvWyZZWxH+n8T255Yw60CN4=
+	t=1763374379; cv=none; b=aQJmmgWNyeNCzEazMcZflO5X8Co8TqxzIcoRyW4O0ydMruQ/AlRT0SCuzjbOhrRHnlneakfZGZ9RGNQDt0SYm4ZU2IhaQfKsRIqEn7IY/9+tgcJKU2lQTMVfscNn+dYAKktRrUqQUlpQu0EsiPornKBksjNRxOR/x7sUYhxNYa0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763374376; c=relaxed/simple;
-	bh=7RSvUg07B051gI8sV9lF8JjJS0uQZ25LyvxGhWGnduk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qrF3FuUKIgaE+IeTJsm44yJr/MYH3cCc1ab6wDbj17ml9YZZ83GufI+EwcdgSABH5+4umFB+xB1JBOR4UHgJNy9vMy+tnZE9BvGVGDHxIAnrt/nhAmVNxODDSz+oTPxKu8sOvFtavUrduG7VJPe0jcaWnLCu4O0HwH0V78wjzyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=MwZ5N0Xf; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-477632d9326so27986025e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Nov 2025 02:12:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1763374373; x=1763979173; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=C6Y4uKk4uuv0qQmAW/uNPWxDPdMDZQqesObvwQQomkI=;
-        b=MwZ5N0XfJn9A+LWg5TglrO+5CHtX+P9gY52T8Yk/B78PMEuZ89HRcKOXHSnjSHv0Is
-         YfqmToqGzzL+V72kBCmlBdMCNatSz845ctUCsZHnAXq0cdC+Kk0Q3s6BbLna16GRBdi0
-         7jLiZDVcjhGRr9rq381ONopu72ob1l3okaaInTQHSD4XFAw4CE8JZHW322CsfslZSd2G
-         b67ToiuOfDAuSofBwRtX+lzlwJQQ6+ePi9lRGwGOp5uIlzCkzmpoRf6MWNdh6v0CwNTh
-         P+JTzGNjXRYmVOjSWH+mMw1NaTl3D8ZoW9SJXTm4oOduRPOZToae5/LZjE6cxbkBPJ2h
-         s2/A==
+	s=arc-20240116; t=1763374379; c=relaxed/simple;
+	bh=GDOM+0gYiKkhyCkDjVnvHjHMXUKJ91og6WK5WoSGmVs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=guANbjItfeYe/z5/twkYRk/jhdPKedSPWOJ76u2VGWMmuK0ICgd1w3JvtRHhKRiRpKyrfkLvP3uyl8O7hcs5H7Xso3fBpt6mnLNM3sQhuqDQgdxtX1X0fMjZchKfd/cZOYB8BV5Hl8Ez6a/fIHkFg52G1jMEAhWvqRD4YCoE1Fw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-5597330a34fso2613868e0c.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Nov 2025 02:12:56 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763374373; x=1763979173;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=C6Y4uKk4uuv0qQmAW/uNPWxDPdMDZQqesObvwQQomkI=;
-        b=GjGAEjl3e2KlJaQwgV/CipXp5rKrtkAok7PEQ8gvd86q0ILoW3vf7cpz2SIbz6BdoK
-         SLLR7Xe3FwicldfzPhB4wNiw6dyv1JjjmzHikb/3QzneSEdWbGaCmEPX9T2244Ac7Slx
-         N9Ee4+3wfnZL11XlGiEy9dhjU7pE6evhE0+mXkCI60jIt1jzfIkJaFAxrKrpCfHfz9Yr
-         42IlSiQLfEk6vKHu9lgyFmW6IYN6v1aONSgJA1/V5t18EpdZl3H051UwymAo9v70n9tY
-         +mYQZSywy12vMmyDhN10c1Qg6pVj1c2oez7Z/76lUJITItY2ePmWSf9BRDZrZ9ERLAOP
-         eWBg==
-X-Forwarded-Encrypted: i=1; AJvYcCUQYyun7kOSoOhAGLaxnxB7s46NbI3UT9a7MuhY4uiYGeqYM9oe+hAwcYhrBP4B1d54AWPr2Cux2f7suhlK+jjDag==@vger.kernel.org
-X-Gm-Message-State: AOJu0YymXhQRKGsl+FMLEhWi/NvpygbeBqY/EpFkXJg0IzJ5Iw9fHusZ
-	hOEj45KeRWbAGSyWv1mKfmHe5+2k0JvvRL3luW7ZizQQms2SfBmrUQ9/ocPE5FGi1VA=
-X-Gm-Gg: ASbGncs889Z3GriBEx69Xq+AjZUtKIGIi36e8haXwWIWXkE7fnh4XiRPxFYS2zuSOzs
-	SERJEc6x5We2nP3igp9QzFXFUaYchemChWzYJSaT9i6QB4Sxx4eabAXOuB8bq3rvRcNMJe5yd5f
-	bSy4mRHXxEcPBJnydpvdu0orWh2vh/6t/Cz0U2TDh5VciqWROpcgZSnNPLaP3Tan+3mwZBtca3g
-	Z6gbGGVreVOqbDegb0FtSLvue59XaIfuff5k6JI8nKozCtz0CkU9WqgluPRTGccEdtlZiTOdYWz
-	b2VXUiUjfgHp14a7VayT+dAyFEy49HqJT3vgDcU/yD+Ns3yLqvuIetWfqm34ZFcYzPzD+mIv+98
-	7vqG/v5LtAilX6+ArcI4a4KVKMNf3crTAhT7Zh7VfXdr9MONkQdb/liZ/yiQowUbaJkCrlOBA35
-	ULWnjsKhClAncXibQxr2X19Tug/2fR0g==
-X-Google-Smtp-Source: AGHT+IFFRowjM4rREb/274yZWIOOnY5X22zM8BYH6Kif2+IeH9srIQ869aWcEjTvttZZrUzgfTu6Pg==
-X-Received: by 2002:a05:600c:8b22:b0:477:7b16:5fb1 with SMTP id 5b1f17b1804b1-4778fe553a5mr108959175e9.7.1763374373104;
-        Mon, 17 Nov 2025 02:12:53 -0800 (PST)
-Received: from claudiu-X670E-Pro-RS.. ([82.78.167.134])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b53f203afsm25806958f8f.39.2025.11.17.02.12.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Nov 2025 02:12:52 -0800 (PST)
-From: Claudiu <claudiu.beznea@tuxon.dev>
-X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
-To: wsa+renesas@sang-engineering.com,
-	ulf.hansson@linaro.org,
-	p.zabel@pengutronix.de
-Cc: claudiu.beznea@tuxon.dev,
-	linux-mmc@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	geert@linux-m68k.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH v2 3/3] mmc: renesas_sdhi: Add suspend/resume hooks
-Date: Mon, 17 Nov 2025 12:12:42 +0200
-Message-ID: <20251117101242.4018208-4-claudiu.beznea.uj@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251117101242.4018208-1-claudiu.beznea.uj@bp.renesas.com>
-References: <20251117101242.4018208-1-claudiu.beznea.uj@bp.renesas.com>
+        d=1e100.net; s=20230601; t=1763374375; x=1763979175;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uwmIm0bgwineetBBRefqzkv/ZlLUD6Hn/jhQ8fYgpUo=;
+        b=tBdcNmfyVT+MAGv3IPP8B5VGt2cCkpAZkzbCk6B6v8o1LxB39NDGCnhsWTFau7WRNA
+         TpJ5Qo3pqdfCCfIYUQ7KWp5/ZP4oSKCof2zSTOTBKQG6t8qsGC3VdlEZCkyWry8w9hTK
+         KoUVbSoYJgp8kUHIGpVcKnYzcRZOluGet+Wrw+wuiktRDq7GIFHoxgfu5E/qfsw9HZqx
+         v8kIfvewRXoeMVJXEZqmSub78TK25D++el3En6B16OKgS8onz9LVWv9hQUIpixEKYOjf
+         z+k12igYqEQ0FNOjA8pNfVpZt03nd6wu1krGhgj77U0Rq7oKJ0iFMHd7Os2Rbp39qX2O
+         DhZA==
+X-Forwarded-Encrypted: i=1; AJvYcCWesyNKcEiufB8OCH3/z4keb9MeeGmU/X55DTLe5JryUAM+CYqY+WUVSjd/97cfUjsPWkEy5n0RrPParKn04oP++Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxkKKrxsYUKb68S6tH1PJjZs6bnRMJkp4cIQr7BcPSjSLFjJXYr
+	tn5tne/u2seXDe3mLpXjIFVS0ZbEa/BIGSk0+MUOuCOlg/chFqGH3E4SbqvEYLKh
+X-Gm-Gg: ASbGncvPY1XlIwWr3BfEIhAdhboAVvqvPVRKzCO742OMeszyk5YdbibD+bGbEiR0wWg
+	4AlaeAa9rKe8MLd7hDCXsQUvcsYYmEl076p7io+zKndL6LXq/nd6I/a/TVvp+4KlWEQA0NWMy2p
+	8tPNt7zFKcP+k3MQJzojj99BqdQggRB3ExwvJwELyoMllUD8F6A2j2yYj797vtHaNVmU+kwN3T7
+	Vqi3qgDjsjylq5Z4ujexdlZCzHUMLt2EVxW6M9urJabpxbKeMdUcOMfAAT+vsAb5QLezJaNpep1
+	4olzeW7VePCcxw6q5qAPjPuGHjCJLULdV8xWFER0Be+1qnPM+XWxhLI67G+lUJu1AXo+akGoBrV
+	Ovi1JGW3q56fQTnlmPqC5czOrdMhKTQW9/xCaC8n7vC/2jFX0XEiBZbIC43RwMz9yYPqfKxxM3E
+	U2rxpfcCY1eVrsx0xCuCIvmlo/FR4fi0whG5HoRqo4WorPGZ+cPQG1
+X-Google-Smtp-Source: AGHT+IGXKhMOSaaasYStrr73pBCbudFOsPgI/YQ25F6VXQcr7aSbdyz/AyNr9mMWT6jY87FaMgx+7Q==
+X-Received: by 2002:a05:6102:419e:b0:5dd:b2a1:e9a5 with SMTP id ada2fe7eead31-5dfc55508e3mr3829399137.5.1763374375448;
+        Mon, 17 Nov 2025 02:12:55 -0800 (PST)
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com. [209.85.222.46])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5dfb6ca9d47sm4649651137.0.2025.11.17.02.12.54
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Nov 2025 02:12:54 -0800 (PST)
+Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-9374ecdccb4so2424847241.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Nov 2025 02:12:54 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCViCTmx+2ekeAC3aDO49yAj9FQVLt8I/d/qqCWypOLwG4RVNmuMt/vtURnor490TT+vun75xQIpC+UVmgTY1YTTAA==@vger.kernel.org
+X-Received: by 2002:a05:6102:290c:b0:5db:32dc:f05b with SMTP id
+ ada2fe7eead31-5dfc5bf1b06mr4258951137.42.1763374374287; Mon, 17 Nov 2025
+ 02:12:54 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251030120508.420377-1-biju.das.jz@bp.renesas.com>
+ <20251112-warping-ninja-jaybird-22edde-mkl@pengutronix.de>
+ <TY3PR01MB11346974232A057A7D5B6EBAD86CBA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <TY3PR01MB1134632B48784F5D72721611D86C8A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY3PR01MB1134632B48784F5D72721611D86C8A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 17 Nov 2025 11:12:43 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVXSaaoOaECmBQmPyWQA7Z30BVBLfVoF-Uz01GfbFZNGw@mail.gmail.com>
+X-Gm-Features: AWmQ_blx-TSIXOAD1fL3P2E09fREtqUZGsBV4Ry1Ow-eJhOSBFBGV1F1fuwPF-E
+Message-ID: <CAMuHMdVXSaaoOaECmBQmPyWQA7Z30BVBLfVoF-Uz01GfbFZNGw@mail.gmail.com>
+Subject: Re: [PATCH] can: rcar_canfd: Fix controller mode setting for RZ/G2L SoCs
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Marc Kleine-Budde <mkl@pengutronix.de>, Vincent Mailhol <mailhol@kernel.org>, 
+	"magnus.damm" <magnus.damm@gmail.com>, Tranh Ha <tranh.ha.xb@renesas.com>, 
+	Duy Nguyen <duy.nguyen.rh@renesas.com>, 
+	"linux-can@vger.kernel.org" <linux-can@vger.kernel.org>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	"stable@vger.kernel.org" <stable@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Hi Biju,
 
-Add suspend/resume hooks which assert/deassert the reset signals, along
-with forcing runtime suspend/resume. This allows using the driver in
-scenarios where the resume is done with the help of bootloader and the
-bootloader disables the SDHI clocks, resets, IRQs before passing execution
-to Linux.
+On Sun, 16 Nov 2025 at 11:31, Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > From: Biju Das
+> > > Sent: 12 November 2025 08:47
+> > > On 30.10.2025 12:05:04, Biju wrote:
+> > > > The commit 5cff263606a1 ("can: rcar_canfd: Fix controller mode
+> > > > setting") applies to all SoCs except the RZ/G2L family of SoCs. As
+> > > > per RZ/G2L hardware manual "Figure 28.16 CAN Setting Procedure after
+> > > > the MCU is Reset" CAN mode needs to be set before channel reset. Add
+> > > > the mode_before_ch_rst variable to struct rcar_canfd_hw_info to
+> > > > handle this difference.
+> > > >
+> > > > The above commit also breaks CANFD functionality on RZ/G3E. Adapt
+> > > > this change to RZ/G3E, as well as it works ok by following the
+> > > > initialisation sequence of RZ/G2L.
+> > > >
+> > > > Fixes: 5cff263606a1 ("can: rcar_canfd: Fix controller mode setting")
+> > > > Cc: stable@vger.kernel.org
+> > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > >
+> > > Applied to linux-can.
+> >
+> > There are 3 modes for CANFD on RZ/G3E
+> >
+> > 1) CAN-FD mode
+> > 2) FD only mode
+> > 3) Classical CAN only mode
+> >
+> > In the "FD only mode", the FDOE bit enables the reception and transmission of CAN-FD-only frames.
+> > If enabled, communication in the Classical CAN frame format is disabled.
+> >
+> > On RZ/G2L, currently, CAN-FD mode is enabled by default and On RZ/G3E and R-Car Gen4, currently FD-
+> > only mode is the default.
+> >
+> > Prior to commit 5cff263606a1010 ("can: rcar_canfd: Fix controller mode setting) RZ/G3E and R-Car Gen4
+> > are using incorrect code for setting CAN-FD mode. But fortunately, it sets the mode as CAN-FD node, as
+> > the channel reset was executed after setting the mode, that resets the registers to CAN-FD
+> > mode.(Global reset, set mode, channel reset)
+> >
+> > The commit 5cff263606a1010 makes (Global reset, channel reset, set mode), now align with the flow
+> > mentioned in the hardware manual for all SoCs except RZ/G2L.
+> > But because of the earlier wrong code, it sets to FD-only mode instead of CAN-FD mode.
+> >
+> > Is it okay to drop this patch so I can send another patch to make CAN-FD mode as the default for
+> > RZ/G3E and R-Car Gen4?
+> >
+> > As an enhancement, we need to define a device tree property to support FD-only mode for RZ/G2L, RZ/G3E
+> > and R-Car Gen4. Please share your thoughts on this.
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
----
+Hmm, Documentation/devicetree/bindings/net/can/renesas,rcar-canfd.yaml:
 
-Changes in v2:
-- collected tags
+  renesas,no-can-fd:
+    $ref: /schemas/types.yaml#/definitions/flag
+    description:
+      The controller can operate in either CAN FD only mode (default) or
+      Classical CAN only mode.  The mode is global to all channels.
+      Specify this property to put the controller in Classical CAN only mode.
 
- drivers/mmc/host/renesas_sdhi.h               |  3 ++
- drivers/mmc/host/renesas_sdhi_core.c          | 37 +++++++++++++++++++
- drivers/mmc/host/renesas_sdhi_internal_dmac.c |  3 +-
- 3 files changed, 41 insertions(+), 2 deletions(-)
+> The patch I posted "can: rcar_canfd: Fix controller mode setting for RZ/G2L SoCs" and
+> commit 5cff263606a1010 ("can: rcar_canfd: Fix controller mode setting) is wrong for
+> R-Car Gen3.
+>
+> R-Car Gen3 has only 2 modes: CAN-FD and Classical CAN (there is no FD-only mode).
+> All other SoCs has 3 modes, CAN-FD, Classical CAN and FD-only mode
+>
+> R-Can Gen3, RZ/G2L (CAN-FD and Classical modes): Modify the RSCFDnCFDGRMCFG register only in global reset mode.
+> (Here the flow is global reset, set mode, channel reset)
+>
+> Selection of FD-only mode for RZ/G2L: Modify the FDOE bit in RSCFDnCFDCmFDCFG only in channel reset
+>
+> RZ/G3E and R-Car Gen4: Modify the FDOE/CLOE bit in CFDCnFDCFG only in channel reset
+>                       (Here flow is global reset, set mode, channel reset)
 
-diff --git a/drivers/mmc/host/renesas_sdhi.h b/drivers/mmc/host/renesas_sdhi.h
-index 084964cecf9d..afc36a407c2c 100644
---- a/drivers/mmc/host/renesas_sdhi.h
-+++ b/drivers/mmc/host/renesas_sdhi.h
-@@ -9,6 +9,7 @@
- #ifndef RENESAS_SDHI_H
- #define RENESAS_SDHI_H
- 
-+#include <linux/device.h>
- #include <linux/dmaengine.h>
- #include <linux/platform_device.h>
- #include <linux/workqueue.h>
-@@ -107,4 +108,6 @@ int renesas_sdhi_probe(struct platform_device *pdev,
- 		       const struct renesas_sdhi_of_data *of_data,
- 		       const struct renesas_sdhi_quirks *quirks);
- void renesas_sdhi_remove(struct platform_device *pdev);
-+int renesas_sdhi_suspend(struct device *dev);
-+int renesas_sdhi_resume(struct device *dev);
- #endif
-diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
-index c4aaf534868c..2a310a145785 100644
---- a/drivers/mmc/host/renesas_sdhi_core.c
-+++ b/drivers/mmc/host/renesas_sdhi_core.c
-@@ -31,6 +31,7 @@
- #include <linux/platform_data/tmio.h>
- #include <linux/platform_device.h>
- #include <linux/pm_domain.h>
-+#include <linux/pm_runtime.h>
- #include <linux/regulator/consumer.h>
- #include <linux/regulator/driver.h>
- #include <linux/regulator/of_regulator.h>
-@@ -1317,5 +1318,41 @@ void renesas_sdhi_remove(struct platform_device *pdev)
- }
- EXPORT_SYMBOL_GPL(renesas_sdhi_remove);
- 
-+int renesas_sdhi_suspend(struct device *dev)
-+{
-+	struct tmio_mmc_host *host = dev_get_drvdata(dev);
-+	struct renesas_sdhi *priv = host_to_priv(host);
-+	int ret;
-+
-+	ret = pm_runtime_force_suspend(dev);
-+	if (ret)
-+		return ret;
-+
-+	ret = reset_control_assert(priv->rstc);
-+	if (ret)
-+		pm_runtime_force_resume(dev);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(renesas_sdhi_suspend);
-+
-+int renesas_sdhi_resume(struct device *dev)
-+{
-+	struct tmio_mmc_host *host = dev_get_drvdata(dev);
-+	struct renesas_sdhi *priv = host_to_priv(host);
-+	int ret;
-+
-+	ret = reset_control_deassert(priv->rstc);
-+	if (ret)
-+		return ret;
-+
-+	ret = pm_runtime_force_resume(dev);
-+	if (ret)
-+		reset_control_assert(priv->rstc);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(renesas_sdhi_resume);
-+
- MODULE_DESCRIPTION("Renesas SDHI core driver");
- MODULE_LICENSE("GPL v2");
-diff --git a/drivers/mmc/host/renesas_sdhi_internal_dmac.c b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-index ef06c3a60ae8..f6ebb7bc7ede 100644
---- a/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-+++ b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-@@ -18,7 +18,6 @@
- #include <linux/pagemap.h>
- #include <linux/platform_data/tmio.h>
- #include <linux/platform_device.h>
--#include <linux/pm_runtime.h>
- #include <linux/scatterlist.h>
- #include <linux/sys_soc.h>
- 
-@@ -600,7 +599,7 @@ static int renesas_sdhi_internal_dmac_probe(struct platform_device *pdev)
- }
- 
- static const struct dev_pm_ops renesas_sdhi_internal_dmac_dev_pm_ops = {
--	SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
-+	SYSTEM_SLEEP_PM_OPS(renesas_sdhi_suspend, renesas_sdhi_resume)
- 	RUNTIME_PM_OPS(tmio_mmc_host_runtime_suspend,
- 		       tmio_mmc_host_runtime_resume,
- 		       NULL)
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.43.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
