@@ -1,237 +1,130 @@
-Return-Path: <linux-renesas-soc+bounces-24698-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24699-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21F78C6461E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Nov 2025 14:36:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28FDAC646D3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Nov 2025 14:42:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 3179E365553
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Nov 2025 13:30:19 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 65333355ECC
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Nov 2025 13:35:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8616A33291C;
-	Mon, 17 Nov 2025 13:28:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC39933030F;
+	Mon, 17 Nov 2025 13:35:04 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
+Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 794CC32E6AB
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Nov 2025 13:28:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3348731B130
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Nov 2025 13:35:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763386107; cv=none; b=OiFhAXGLxD0dV6gV/AvtkO7yFZNN4K8WAIreYYgUPwQLhZaDFAqzR0kYJsz/Xf8UOuK6W2DvUj1Vk6M20c0wEptYZNQdW0DMU0aZoUk6311u1tL1MuMJCXn4+p1aiWc1POxvjUOzW/nnp4NYARXx+O8mZFiMuyhlbCXr57c1bSQ=
+	t=1763386504; cv=none; b=bxDfM8AQL7+os1DSokEgo99eExpcFK9g5LKV6CQJjct1ty2VF/1p8yDSBEjZl9W1JG3o7qSGSpuI5JL3mLFeV4BqNxFxa4PhNnR+MXYsZe8hCdFJifn37mE1AFkveTlWU4o9bmnr5tAcw7X/tj9IVMrT2sPypL3aWN4g5OP3rhc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763386107; c=relaxed/simple;
-	bh=1z5P7Ct1dCApMV5cMidEWuBnENLPxUcSA3NHYJ2QfjU=;
+	s=arc-20240116; t=1763386504; c=relaxed/simple;
+	bh=px2hV1A/nOdN7ZX1sTKuZqvlCW5UVG+hbRtvmwMHmns=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MED9JCqACRk8e3dVdMKM+IGiSTEk0O6YQid9Ay5Dk5M2auaR5pS7VI+4Kkb4I1g7AnNWqvpEsP1IUZgzaxyrvL2R33fgSjAZ8WyLfNm7UY/A18NCoiNMJSiHLEPWPxUnnrepVqwCmyVevfLn2mcTawTnXJ56vvsN6wDxZQouZ3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.46
+	 To:Cc:Content-Type; b=AJ8FYEhkFJay89V0uDT0oZrU7Ov+07U6/aalrV35Hn4/6pbyyhVzzNOOqOQmJkApoHEQnbO/qFMWagMTBS8rByHjoMeCK99NNRvLf4hyEsUEXjfDgrfwPnXZrtpgD1duh5ih3Pd0vnCk3E82jFUkGYZL38sc+QIO1RPYAGm9PYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-5e18598b9b1so243572137.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Nov 2025 05:28:25 -0800 (PST)
+Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-55b155c9ab2so919770e0c.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Nov 2025 05:35:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763386104; x=1763990904;
+        d=1e100.net; s=20230601; t=1763386502; x=1763991302;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=sRNOO2D8P1AP0B+8HOigZ1hD5IUxtuvnBzacX9Ugwh0=;
-        b=pBwv+iN73cTLDXaahhNkm3OgEbHdCChfDQZoBOUOtJ+R45WpGO/c10toggUH1WCW6M
-         kosFlzMnMkiwO1KU0qXi532ty1Esru70N037hWXCKiLFFLoCe6tp2h36uw5FBhhT8NoX
-         FM36QAwMf5If5RPSJmrdTs97jx1D9Sw0Wob/kubEaEDMPicAjiqRb9Cy4ESSErE4ddfs
-         pwek6ppB+2Pp4pfsNDyeIQDLLKuIKHavn1Yo30UGTp1L7xhx1tlPVADdBitOqbiw7OQQ
-         P+h2iOFcMXv3Tz6pufYysEicUyjVeUFx/ROcmvHsDXOE4Q0jLk6+fC3rL+PyC3EmMj5E
-         5l6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXlG64Z6kRjjR2gA2+/i83HpCAZH5c6z8nlOAemRXaXEI2V1vvt3PalHzBdDl7CwXA336OHwaY7AvuzJOCRcYFjUg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx0JkSSaoPdpABnEYy16SvVbwA6W4FlOCoWam5aHLg8Iod3j/4J
-	zToDJ42bq9PGfq9iMHq0ixo8BShNaSU0fyh6+9oOs0ITcu9XvJjFpN0Wg9bBwwmGwLA=
-X-Gm-Gg: ASbGnctk2h600PNI4WxNl8wD70Y7O4iFjDRNY/dzBh3VoVfZ0uqzVpPWyalm9F8dXD6
-	hBSz4Ev+e4KBJUtbzb0+fFmH6sGmLroqm25lqJ0G+/Zdf6Vri5Rhf7/TSZdMz3bnUGw98Q5o5sZ
-	4sIA2j+TJJ98exxhEry1ToYuyfeJLmZKSIQk0uolWcocv25MGeqb/0W68viShvoXpM7Mgyu73mr
-	t6HCkgPF5sLrY9Q9N4Is8TFbvxjNRXwr/EDmBiO51vznteAv9Fq0Kp5Ezt1oXsm0CrrnwI79RKE
-	ewVu70dC3WBXZxFPT+mSu0kyJcWAbdoc1twWI1SVWTPk1iSqzr9gK9+NHMF/KNI13sznIMOtHQg
-	kCRizSZ9PDaaieZEXcovB7KlFFaw14C1v9XwRTNBKEjqO+RuazX+OzLJkC/8BKkqR3aoEgsiVrY
-	b6tkRHpt8/VqPAm/xfPns/JBR1sQjcDYNPrXLjlxxvuWw1b8go
-X-Google-Smtp-Source: AGHT+IEcTFoy+ODeQesl7mXxDiIzUaDzUtVliVTDGU2LZGa6UbhiBFUuHo7WAPzYNqvsIqijCAR6Vw==
-X-Received: by 2002:a05:6102:4189:b0:5db:d60a:6b13 with SMTP id ada2fe7eead31-5dfc5b94384mr4288728137.21.1763386103950;
-        Mon, 17 Nov 2025 05:28:23 -0800 (PST)
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com. [209.85.222.48])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5dfb726d37fsm4384153137.13.2025.11.17.05.28.23
+        bh=XicRv49ckL1HlqmKBdAWtpcFjnN28YIuiJ+gd2B6JYo=;
+        b=p+KpTIHvwdBjHLUTGeMj1jEhScdpAhj9N+/AZuuFWz7EzCXlkYyzfuQUW7m8jOMFTv
+         F87Ca1CfuY/VR8CaD/CQ+oDSaVKlR3KqqvkOHtyh8ghOuj3zOXuwDR4gY8laBZUj+sCG
+         bZVFhEuv65d8VgK8vJHiYii97UInkwXNdOKNWI1wAwtuoAtEr3Az/zO/Les1UYGbhHMz
+         7y1zjn3dbKFhnrDKMjR8BlCsFVudRoizXjnfDxIA9D5hZx/eal9LIFj2gPklVoE45XRU
+         wxb1tvt/cvkIEosdSaoBw61zTYp1XI9nk8EjZnqRFz6W9Qphf3SB75KlXCdRoz7Hy97e
+         M9NA==
+X-Forwarded-Encrypted: i=1; AJvYcCX27R9/a8rwVjf1uE6s7hs9s3CwcXt02EJTRjwWOarDw0Bg4hoywHi1NwIdo7GCMwC0kWu6e0+ZU5fzhxgHTUQ1gw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy67SHEU11AuxMiHFFgkfBTu2QJxJqA1Bg9UuXlXXG6E1uvNaGa
+	t6QhP2CL0eV8mc871/JTJgEdU02w9/g3sLORESf//RCHs6nA7q41XphGc3JWi/nAE1s=
+X-Gm-Gg: ASbGncsgODIZ0IyRq/If2ak+Ix+4FdL3DiubuTNoi9i92+MbA7R4U+pKKJ2PEwz3riZ
+	wAk1QsSJwQN99sv6WQ9pe8dO8MluaxDGykO+1Z/usx6AUjE/n0RSDjQho/wu6POuwUiMSmmPZ2P
+	5OFV6ZdrT7X8ZBBz52DxANcjPf156Oy4VkpE5J79sB/FWBB+XyPRVhzECepKVOmXAUcIZ/Kty0A
+	kngWH/NJRpPMRBW12L1/vT1Fej3KK5xPz/L6jxR2v7oTvDHvYKjoApbY+nLub3Q+FjaN2ppLS6A
+	76wOij/vC3TmuhGC9fH/wX8Lf9t6+eNcXtCAZ1kym9tx8u1oJZe0L2r6FPS0LB3ow5HDVNfqPBP
+	n6kg9sbhoTb/tshltpWwQFEp3oRLKnK+KSu6EXwoS+Yd8Flq23RhCcFbxFkj2RVLoaOZAuJaY0P
+	uI1yIAYjxW2VzNu4wxQy2uX3AaWJzCjRgREW3EQw==
+X-Google-Smtp-Source: AGHT+IHVpMhGi3VvjkFE/9xJXYPSjaQxBYno02/1ijhNHqM7Y1bXqoOfUyrrW118vtsqu8S8c2iL9g==
+X-Received: by 2002:a05:6102:cd1:b0:5d7:de89:8dc6 with SMTP id ada2fe7eead31-5dfc554dfb0mr3463626137.6.1763386501755;
+        Mon, 17 Nov 2025 05:35:01 -0800 (PST)
+Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com. [209.85.217.51])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5dfb70ea4aasm4405279137.8.2025.11.17.05.35.01
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Nov 2025 05:28:23 -0800 (PST)
-Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-93729793469so2661178241.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Nov 2025 05:28:23 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVoU4YuVdP4DU/c4O9cTlcjhEcj6DxjPDLhqgNtOaopGwPlUyqH7XoMydrKR+FJ0Z4XMeJRXuil3zIzcKx1MSzomw==@vger.kernel.org
-X-Received: by 2002:a05:6102:d89:b0:5de:736:71d9 with SMTP id
- ada2fe7eead31-5dfc5b9440emr4348291137.28.1763386103237; Mon, 17 Nov 2025
- 05:28:23 -0800 (PST)
+        Mon, 17 Nov 2025 05:35:01 -0800 (PST)
+Received: by mail-vs1-f51.google.com with SMTP id ada2fe7eead31-5dbe6304b79so1604348137.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Nov 2025 05:35:01 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXcB4aZ2yR8G08JhqV/ndylCRPiKJG8b//dXwkOxYspKM3Iw7dgAL+/Pi6BkLVK3xoU8NVk7Dg6qE0CgoV9c47Dyg==@vger.kernel.org
+X-Received: by 2002:a05:6102:4b89:b0:5df:b085:835a with SMTP id
+ ada2fe7eead31-5dfc5b9e6d5mr3484003137.30.1763386501291; Mon, 17 Nov 2025
+ 05:35:01 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251028165127.991351-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20251028165127.991351-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdWSB4OvS5AeWqOBQPNG2J9VMYe9YUeXAp9kPjcJEQm3+g@mail.gmail.com> <CA+V-a8sC44HeShCFdk2xwTHMdcOo+8btNh9i0hthTEUMdnhqAQ@mail.gmail.com>
-In-Reply-To: <CA+V-a8sC44HeShCFdk2xwTHMdcOo+8btNh9i0hthTEUMdnhqAQ@mail.gmail.com>
+References: <20251027123601.77216-1-herve.codina@bootlin.com>
+ <20251027123601.77216-6-herve.codina@bootlin.com> <CAMuHMdUicJjXkkNs7FhZ0-jyuv9pzr_Q0AZNXs7tiv-MBGTkbg@mail.gmail.com>
+ <20251114125810.629e8931@bootlin.com>
+In-Reply-To: <20251114125810.629e8931@bootlin.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 17 Nov 2025 14:28:12 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdV+7cvwxGVYGUd_nV3sUZ60YWzsWr_Ec6RJToPttUfKRA@mail.gmail.com>
-X-Gm-Features: AWmQ_bn5dkinW3o6sLUPnioziluAG20e1jQ8jExDV1eY758BmsHmrWuqLGXTcCQ
-Message-ID: <CAMuHMdV+7cvwxGVYGUd_nV3sUZ60YWzsWr_Ec6RJToPttUfKRA@mail.gmail.com>
-Subject: Re: [PATCH v2 5/5] clk: renesas: r9a09g077: Add xSPI core and module clocks
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
-	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Date: Mon, 17 Nov 2025 14:34:50 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXGjdqSfWnY6JrXLKiTS+wpQuphB+tW1RWoMskO3-MHGA@mail.gmail.com>
+X-Gm-Features: AWmQ_bnSRNaycDrtFmwU2BRrd31X7UUoS4AupST9inXGj9lqsg7WOq47fOxQ24c
+Message-ID: <CAMuHMdXGjdqSfWnY6JrXLKiTS+wpQuphB+tW1RWoMskO3-MHGA@mail.gmail.com>
+Subject: Re: [PATCH v6 5/8] ARM: dts: r9a06g032: Add GPIO controllers
+To: Herve Codina <herve.codina@bootlin.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Hoan Tran <hoan@os.amperecomputing.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, Saravana Kannan <saravanak@google.com>, 
+	Serge Semin <fancer.lancer@gmail.com>, Phil Edworthy <phil.edworthy@renesas.com>, 
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Pascal Eberhard <pascal.eberhard@se.com>, Miquel Raynal <miquel.raynal@bootlin.com>, 
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Prabhakar,
+Hi Herv=C3=A9,
 
-On Mon, 10 Nov 2025 at 22:38, Lad, Prabhakar <prabhakar.csengg@gmail.com> w=
-rote:
-> On Mon, Nov 10, 2025 at 1:48=E2=80=AFPM Geert Uytterhoeven <geert@linux-m=
-68k.org> wrote:
-> > On Tue, 28 Oct 2025 at 17:52, Prabhakar <prabhakar.csengg@gmail.com> wr=
-ote:
-> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > >
-> > > Add core clocks and module clock definitions required by the xSPI
-> > > (Expanded SPI) IP on the R9A09G077 SoC.
-> > >
-> > > Define the new SCKCR fields FSELXSPI0/FSELXSPI1 and DIVSEL_XSPI0/1 an=
-d
-> > > add two new core clocks XSPI_CLK0 and XSPI_CLK1. The xSPI block uses
-> > > PCLKH as its bus clock (use as module clock parent) while the operati=
-on
-> > > clock (XSPI_CLKn) is derived from PLL4. To support this arrangement
-> > > provide mux/div selectors and divider tables for the supported
-> > > XSPI operating rates.
-> > >
-> > > Add CLK_TYPE_RZT2H_FSELXSPI to implement a custom divider/mux clock
-> > > where the determine_rate() callback enforces the hardware constraint:
-> > > when the parent output is 600MHz only dividers 8 and 16 are valid,
-> > > whereas for 800MHz operation the full divider set (6,8,16,32,64) may
-> > > be used. The custom determine_rate() picks the best parent/divider pa=
-ir
-> > > to match the requested rate and programs the appropriate SCKCR fields=
-.
-> > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com=
+On Fri, 14 Nov 2025 at 12:58, Herve Codina <herve.codina@bootlin.com> wrote=
+:
+> On Fri, 14 Nov 2025 10:04:10 +0100
+> Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> ...
 >
-> > > ---
-> > > v1->v2:
-> > > - Added custom divider clock type for XSPI clocks to enforce hardware
-> > >   constraints on supported operating rates.
-
-> > > --- a/drivers/clk/renesas/r9a09g077-cpg.c
-> > > +++ b/drivers/clk/renesas/r9a09g077-cpg.c
-
-> > > @@ -264,6 +305,116 @@ r9a09g077_cpg_mux_clk_register(struct device *d=
-ev,
-> > >         return clk_hw->clk;
-> > >  }
-> > >
-> > > +static int r9a09g077_cpg_fselxspi_determine_rate(struct clk_hw *hw,
-> > > +                                                struct clk_rate_requ=
-est *req)
-> > > +{
-> > > +       struct clk_divider *divider =3D to_clk_divider(hw);
-> > > +       unsigned long parent_rate, best =3D 0, now;
-> > > +       const struct clk_div_table *clkt;
-> > > +       unsigned long rate =3D req->rate;
-> > > +       int div =3D 0;
-> > > +
-> > > +       if (!rate)
-> > > +               rate =3D 1;
-> > > +
-> > > +       for (clkt =3D divider->table; clkt->div; clkt++) {
-> > > +               parent_rate =3D clk_hw_round_rate(req->best_parent_hw=
-, rate * clkt->div);
+> > > +               gpio0: gpio@5000b000 {
+> > > +                       compatible =3D "snps,dw-apb-gpio";
 > >
-> > I had expected the use of some *_determinate_rate_*() helper, as the
-> > parent can be changed to find a better clock rate?
-> > Perhaps you should use a composite clock for that?
-
-OK, so per your test results, the core clock code does try
-various parents.
-
-> >
-> > > +               /*
-> > > +                * DIVSELXSPIx supports 800MHz and 600MHz operation.
-> > > +                * When the parent_rate is 600MHz, only dividers of 8=
- and 16
-> > > +                * are supported otherwise dividers of 6, 8, 16, 32, =
-64 are supported.
-> > > +                * This check ensures that FSELXSPIx is set correctly=
-.
-> > > +                */
-> > > +               if (parent_rate =3D=3D DIVSELXSPI_RATE_600MHZ &&
-> >
-> > Does this actually work as expected? I doubt parent_rate is guaranteed
-> > to be exactly 600 or 800 MHz, and expect it can differ slightly due
-> > to rounding.  Hence I would look at clk_fixed_factor.div instead.
-> >
-> With below diff, Ive got the below results for the various freqs
-> requested where appropriate parent and divider clocks are picked.
+> > Don't we want an SoC-specific compatible value, too?
 >
-> @@ -317,6 +317,7 @@ static int
-> r9a09g077_cpg_fselxspi_determine_rate(struct clk_hw *hw,
+> I had added a specific compatible string in my v1 iteration but it was
+> rejected by Rob [1].
 >
->         for (clkt =3D divider->table; clkt->div; clkt++) {
->                 parent_rate =3D clk_hw_round_rate(req->best_parent_hw,
-> rate * clkt->div);
-> +               pr_err("parent_rate=3D%lu, req-rate=3D%lu div=3D%u\n",
-> parent_rate, rate, clkt->div);
->                 /*
->                  * DIVSELXSPIx supports 800MHz and 600MHz operation.
->                  * When the parent_rate is 600MHz, only dividers of 8 and=
- 16
+> [1] https://lore.kernel.org/lkml/20250729181151.GA530390-robh@kernel.org/
 
-> Case 2# assigned-clock-rates =3D <75000000>;
-> [   12.288507] parent_rate=3D800000000, req-rate=3D75000000 div=3D64
-> [   12.310528] parent_rate=3D800000000, req-rate=3D75000000 div=3D32
-> [   12.318426] parent_rate=3D800000000, req-rate=3D75000000 div=3D16
-> [   12.326361] parent_rate=3D600000000, req-rate=3D75000000 div=3D8
-> [   12.341540] parent_rate=3D0, req-rate=3D75000000 div=3D6
-> [   12.347546] parent_rate=3D800000000, req-rate=3D75000000 div=3D64
-> [   12.357593] parent_rate=3D800000000, req-rate=3D75000000 div=3D32
-> [   12.367148] parent_rate=3D800000000, req-rate=3D75000000 div=3D16
-> [   12.418871] parent_rate=3D600000000, req-rate=3D75000000 div=3D8
-> [   12.433560] parent_rate=3D0, req-rate=3D75000000 div=3D6
-[...]
+OK, if Rob is happy with this.
 
-Thanks for checking!
-
-> Looking at the logs I think I could optimize the code to continue when
->  parent_rate =3D=3D 0
-
-Do you know why it gets called with parent_rate =3D=3D 0?
-
-> Based on the above logs, would you prefer me to represent it as a
-> composite clock?
-
-Given the core code does try the various parent clocks, there is
-no need to model it as a composite clock.
-
-However, I still think you should look at the parent's divider value
-(clk_fixed_factor.div) instead of at the actual clock rate, as that
-may not be 600 or 800 MHz exactly (e.g. when underclocking the SoC
-on a custom board using a 24 instead of a 25 MHz crystal).
+(If/when needed, we still have soc_device_match() ;-)
 
 Gr{oetje,eeting}s,
 
                         Geert
 
---
+--=20
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
 .org
 
