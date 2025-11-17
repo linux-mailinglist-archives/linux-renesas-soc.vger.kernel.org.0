@@ -1,181 +1,135 @@
-Return-Path: <linux-renesas-soc+bounces-24675-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24676-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0E02C617AE
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 16 Nov 2025 16:44:33 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44302C62A00
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Nov 2025 08:00:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 0EC264EA491
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 16 Nov 2025 15:44:29 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 3236C4E1D26
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Nov 2025 07:00:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDAB930CDB6;
-	Sun, 16 Nov 2025 15:44:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA62625F7A5;
+	Mon, 17 Nov 2025 07:00:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jH/3sOh5"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBA4C30CDA8
-	for <linux-renesas-soc@vger.kernel.org>; Sun, 16 Nov 2025 15:44:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CC101FDA8E;
+	Mon, 17 Nov 2025 07:00:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763307860; cv=none; b=EEPwWSIGQvCkLU77aEiKJk3aTS4WR/6ZzWS4rvYEcYDrYS48OYFahsKGB1e6siTLU+5tUU16B2KTMoidhhbHmq8ga7Awx62W60kqQGq5sr+EzNzJ95lh+z1SpYTVKCrxzVoiOnynWFEGJQDY9ssh8F5vYGiO6OY9iMa249gkQ+M=
+	t=1763362830; cv=none; b=DkSnklgi4+3Sb3Pmf4V81O4cyDncSL9UdcBhwHrpYu6qzg/0W5sDLWrugWPmobmHZmUso4JuvdwuVy6MF9WCm7zIN5p7a64n2AFB15DSLOtl7PknPpttyxzZT/61HJyG+3SZfslRTVzQ/NKMED/O7cL0DAvJF4srAQEzRt61FsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763307860; c=relaxed/simple;
-	bh=H3tEJofUrq0Emqx3M1MlIfhw7ICeXPNnNUPyWg5azE8=;
+	s=arc-20240116; t=1763362830; c=relaxed/simple;
+	bh=aZN7zbXZXHa7wcgVartfQ5nXipXYlMCiZfigd0SdNLg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kzx/LoYIlr1+zfMjGYWw5FbtQosKuuOqZKn0c6r10vqcOQOkcUfqBOD8iMzd5Qg9gOOdjxcx1kh+AldTbC5vyXRlTrkZYWeggdm7/XY/KD02lDmQK9+sLdIdSYOHUxdwn60fS64IPwWBecalmZH8DMzfDVE/Hu0eJD8ocuI4cxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1vKeuy-0005Ia-8K; Sun, 16 Nov 2025 16:43:56 +0100
-Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1vKeuw-000lf6-30;
-	Sun, 16 Nov 2025 16:43:54 +0100
-Received: from pengutronix.de (p54b152ce.dip0.t-ipconnect.de [84.177.82.206])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	(Authenticated sender: mkl-all@blackshift.org)
-	by smtp.blackshift.org (Postfix) with ESMTPSA id B4D654A02F8;
-	Sun, 16 Nov 2025 15:22:52 +0000 (UTC)
-Date: Sun, 16 Nov 2025 16:22:50 +0100
-From: Marc Kleine-Budde <mkl@pengutronix.de>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Vincent Mailhol <mailhol@kernel.org>, "magnus.damm" <magnus.damm@gmail.com>, 
-	Tranh Ha <tranh.ha.xb@renesas.com>, Duy Nguyen <duy.nguyen.rh@renesas.com>, 
-	"linux-can@vger.kernel.org" <linux-can@vger.kernel.org>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, "stable@vger.kernel.org" <stable@vger.kernel.org>
-Subject: Re: RE: [PATCH] can: rcar_canfd: Fix controller mode setting for
- RZ/G2L SoCs
-Message-ID: <20251116-deer-of-total-apotheosis-2ce1cc-mkl@pengutronix.de>
-References: <20251030120508.420377-1-biju.das.jz@bp.renesas.com>
- <20251112-warping-ninja-jaybird-22edde-mkl@pengutronix.de>
- <TY3PR01MB11346974232A057A7D5B6EBAD86CBA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=WMqgs+XR+T6MtTY3oZ8j7O2B3gdY77ZqYrMCwaxjI+d1qlWMnR+kYBZTa2Ys0ofF1PlmrC2gUMn6XKqBHUMHhxbMCtwcgQMSLsFuNmyIe3YyaK+Xsrh0n+eYZnjfSN6NOEI5wJSqfTIAGbJ3r3wx7vStiHPr/3CqsHaQEvjKY6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jH/3sOh5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9AADC4CEF5;
+	Mon, 17 Nov 2025 07:00:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763362830;
+	bh=aZN7zbXZXHa7wcgVartfQ5nXipXYlMCiZfigd0SdNLg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jH/3sOh553iNuvqJzZEEhjMGtt2bcN1UWZ8gn40Kc6uvg7hZdXCj+rtc/UI10jG/R
+	 1NH+zU9IEq1KHtOdvdgYag4OyDSeZMexuBZFgX8DxXOirnnHTDblblquhFNFM1q5Yc
+	 WAa3sB3jNuGNIrljkZYU6LBEFJOQi7ufeHHq8t86n1hwIXtZ8G0Ls2nw91Y5pcQhz1
+	 nlYGmg9fKa7bn+sBBc0wKVcD9zrROHc7NQz3TRkw6ai6tOhI5az7ESfDnufa74YG0e
+	 oENNgH0A/5QCRdTy3iVXaUv/Hw65C51boqV/3RPp5Ajtfos2UI0REvlcJ8dgSAElXR
+	 WMoJGt2P6U2Jw==
+Date: Mon, 17 Nov 2025 08:00:27 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org, 
+	biju.das.jz@bp.renesas.com, Vinod Koul <vkoul@kernel.org>, 
+	Kishon Vijay Abraham I <kishon@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Peter Rosin <peda@axentia.se>, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-phy@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 04/21] dt-bindings: reset: renesas,rzv2h-usb2phy:
+ Document VBUS_SEL mux
+Message-ID: <20251117-sturdy-resourceful-crab-c14bb8@kuoka>
+References: <cover.1762773720.git.tommaso.merciai.xr@bp.renesas.com>
+ <8fba0b7235bd398d41329fd087d68f7e98bbbaca.1762773720.git.tommaso.merciai.xr@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="342downr2s5n6lny"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <TY3PR01MB11346974232A057A7D5B6EBAD86CBA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+In-Reply-To: <8fba0b7235bd398d41329fd087d68f7e98bbbaca.1762773720.git.tommaso.merciai.xr@bp.renesas.com>
 
+On Mon, Nov 10, 2025 at 01:08:04PM +0100, Tommaso Merciai wrote:
+> Document the 'mux-controller' child node in the Renesas RZ/V2H(P)
+> USB2PHY reset binding to support describing the USB VBUS_SEL
+> multiplexer as a mux-controller.
+> 
+> This is required to properly configure the USB PHY VBUS source on
+> RZ/V2H(P), RZ/G3E SoCs.
 
---342downr2s5n6lny
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: RE: [PATCH] can: rcar_canfd: Fix controller mode setting for
- RZ/G2L SoCs
-MIME-Version: 1.0
+And where did you explain why this cannot be folded into parent node? If
+you do not provide context why reviewer's advice cannot be fulfilled,
+then you will get the same comment.
 
-On 15.11.2025 13:57:13, Biju Das wrote:
-> Hi Marc, Geert,
->
-> > -----Original Message-----
-> > From: Marc Kleine-Budde <mkl@pengutronix.de>
-> > Sent: 12 November 2025 08:47
-> > Subject: Re: [PATCH] can: rcar_canfd: Fix controller mode setting for R=
-Z/G2L SoCs
-> >
-> > On 30.10.2025 12:05:04, Biju wrote:
-> > > From: Biju Das <biju.das.jz@bp.renesas.com>
-> > >
-> > > The commit 5cff263606a1 ("can: rcar_canfd: Fix controller mode
-> > > setting") applies to all SoCs except the RZ/G2L family of SoCs. As per
-> > > RZ/G2L hardware manual "Figure 28.16 CAN Setting Procedure after the
-> > > MCU is Reset" CAN mode needs to be set before channel reset. Add the
-> > > mode_before_ch_rst variable to struct rcar_canfd_hw_info to handle
-> > > this difference.
-> > >
-> > > The above commit also breaks CANFD functionality on RZ/G3E. Adapt this
-> > > change to RZ/G3E, as well=C2=A0as it works ok by following the
-> > > initialisation sequence of RZ/G2L.
-> > >
-> > > Fixes: 5cff263606a1 ("can: rcar_canfd: Fix controller mode setting")
-> > > Cc: stable@vger.kernel.org
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> >
-> > Applied to linux-can.
->
-> There are 3 modes for CANFD on RZ/G3E
->
-> 1) CAN-FD mode
-> 2) FD only mode
-> 3) Classical CAN only mode
->
-> In the "FD only mode", the FDOE bit enables the reception and transmissio=
-n of CAN-FD-only frames.
-> If enabled, communication in the Classical CAN frame format is disabled.
->
-> On RZ/G2L, currently, CAN-FD mode is enabled by default and
-> On RZ/G3E and R-Car Gen4, currently FD-only mode is the default.
->
-> Prior to commit 5cff263606a1010 ("can: rcar_canfd: Fix controller mode se=
-tting)
-> RZ/G3E and R-Car Gen4 are using incorrect code for setting CAN-FD mode. B=
-ut fortunately,
-> it sets the mode as CAN-FD node, as the channel reset was executed after
-> setting the mode, that resets the registers to CAN-FD mode.(Global reset,=
- set mode, channel reset)
->
-> The commit 5cff263606a1010 makes (Global reset, channel reset, set mode),=
- now
-> align with the flow mentioned in the hardware manual for all SoCs except =
-RZ/G2L.
-> But because of the earlier wrong code, it sets to FD-only mode instead of=
- CAN-FD mode.
->
-> Is it okay to drop this patch so I can send another patch to make CAN-FD =
-mode
-> as the default for RZ/G3E and R-Car Gen4?
+> 
+> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> ---
+> v2->v3:
+>  - Manipulate mux-controller as an internal node.
+>  - Improved commit body.
+> 
+> v1->v2:
+>  - New patch
+> 
+>  .../bindings/reset/renesas,rzv2h-usb2phy-reset.yaml   | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/reset/renesas,rzv2h-usb2phy-reset.yaml b/Documentation/devicetree/bindings/reset/renesas,rzv2h-usb2phy-reset.yaml
+> index c1b800a10b53..03da74ff2d08 100644
+> --- a/Documentation/devicetree/bindings/reset/renesas,rzv2h-usb2phy-reset.yaml
+> +++ b/Documentation/devicetree/bindings/reset/renesas,rzv2h-usb2phy-reset.yaml
+> @@ -37,6 +37,12 @@ properties:
+>    '#reset-cells':
+>      const: 0
+>  
+> +  mux-controller:
+> +    $ref: /schemas/mux/mux-controller.yaml#
+> +    description: Mux controller for USB VBUS source selection.
+> +    type: object
+> +    unevaluatedProperties: false
+> +
+>  required:
+>    - compatible
+>    - reg
+> @@ -44,6 +50,7 @@ required:
+>    - resets
+>    - power-domains
+>    - '#reset-cells'
+> +  - mux-controller
+>  
+>  additionalProperties: false
+>  
+> @@ -58,4 +65,8 @@ examples:
+>          resets = <&cpg 0xaf>;
+>          power-domains = <&cpg>;
+>          #reset-cells = <0>;
+> +
+> +        mux-controller {
+> +          #mux-state-cells = <1>;
 
-Yes. I'll drop this patch now.
+Do not mix up indentation.
 
-> As an enhancement, we need to define a device tree property to support FD=
--only mode
-> for RZ/G2L, RZ/G3E and R-Car Gen4. Please share your thoughts on this.
+Best regards,
+Krzysztof
 
-regards,
-Marc
-
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde          |
-Embedded Linux                   | https://www.pengutronix.de |
-Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
-
---342downr2s5n6lny
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEn/sM2K9nqF/8FWzzDHRl3/mQkZwFAmkZ7DsACgkQDHRl3/mQ
-kZymkAf/VSOUZK3IudRdzA+MK5ODwmvKV2wiiMMtS1FHfxH7PDBAd+kXGagNNhvB
-25ob7J/De4gP8RfS98wp7AG1RF4b+dbj83aYpEcba4ByXAZUTzQACJN/Xkj6Vqk9
-QX9vlNk4sTJuJ2s4ddtKjlXCJsXk8HqtwgJ1lS4+u46wJuH1JVuaepdyCOdn+iwD
-W7QMKBr+0Zuhssw22xb+uhCkGrN2KQ517LQKmIL72/A4Lfq/yeus3L1rUNQSRa+g
-ZCix0jvPsF26qBtzogVPkOejTnHDK0qoR8AfpdVE4DYN1FF/BfIYxU1TjnHOsTrz
-MdXDivK6kSFyK8DPYhRy3RPCAMfYvA==
-=EIRn
------END PGP SIGNATURE-----
-
---342downr2s5n6lny--
 
