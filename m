@@ -1,211 +1,243 @@
-Return-Path: <linux-renesas-soc+bounces-24697-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24698-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 427A1C6435B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Nov 2025 13:56:08 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21F78C6461E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Nov 2025 14:36:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F09433B34D0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Nov 2025 12:56:06 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 3179E365553
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Nov 2025 13:30:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C69432AAD1;
-	Mon, 17 Nov 2025 12:47:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8616A33291C;
+	Mon, 17 Nov 2025 13:28:27 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64D6030C629
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Nov 2025 12:47:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 794CC32E6AB
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Nov 2025 13:28:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763383624; cv=none; b=bQNlREQAKf8fMgJUKmhBmd2oV18vaJDnW/wiUoiKYk95Ei7srd6cdpFRbHdENWiqKHpN00RIyzt8iDL8Z1ng6i8CEIT3yvbFxRdmhvXzGh2jbRYEFQ96gW+lrlJJHNVLyXPzphhUaU22KKVRxOPFd5xVJjrESgN6THsvwETAjDE=
+	t=1763386107; cv=none; b=OiFhAXGLxD0dV6gV/AvtkO7yFZNN4K8WAIreYYgUPwQLhZaDFAqzR0kYJsz/Xf8UOuK6W2DvUj1Vk6M20c0wEptYZNQdW0DMU0aZoUk6311u1tL1MuMJCXn4+p1aiWc1POxvjUOzW/nnp4NYARXx+O8mZFiMuyhlbCXr57c1bSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763383624; c=relaxed/simple;
-	bh=hlVSYLJZeXbokXYqxTqoelESsy6EahEWkhtY8fstHS8=;
+	s=arc-20240116; t=1763386107; c=relaxed/simple;
+	bh=1z5P7Ct1dCApMV5cMidEWuBnENLPxUcSA3NHYJ2QfjU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TgHsxGVZemQiHAZ303EMi4wUVFaKJydzgMYR6htWXwtyfSN37fh6r9c/9o6MvAZS+q3B1MkyCyAofzT37+g3XHMgj4BfXJaWBOXzvkX5NbCkURk0bfXAMpwXQEOUHYU2oe5ekMFbUL6XeRpCcFarHTCz2FAyDQqfrjqj3qNzKY0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.49
+	 To:Cc:Content-Type; b=MED9JCqACRk8e3dVdMKM+IGiSTEk0O6YQid9Ay5Dk5M2auaR5pS7VI+4Kkb4I1g7AnNWqvpEsP1IUZgzaxyrvL2R33fgSjAZ8WyLfNm7UY/A18NCoiNMJSiHLEPWPxUnnrepVqwCmyVevfLn2mcTawTnXJ56vvsN6wDxZQouZ3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-9372410c6faso1142320241.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Nov 2025 04:47:02 -0800 (PST)
+Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-5e18598b9b1so243572137.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Nov 2025 05:28:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763383621; x=1763988421;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/p/Naewd06ZpfwXTsVxBKCB8QRO4G0RLjGNPdM0LwUs=;
-        b=ab9Tou/02kK2BSE7lwJmcH3zArt0AizoOS+eaadb1koLog6VgQl/3wLvQyT0Ab6jaq
-         dh38U5Jo4BY2jjJR3wx315QklAtmc+3CUo0Vbh6t1XBfeD74KqVlwfByWbCk39XvNc96
-         GAC7Cuj94ab3Op8s8JMgH2yl2NC7K0g7ENZgDsIkCQ5taH8QR8ClZ7m2d/2a454VuYij
-         KvDDd+/dxvMpqcufYDL5ZULCAJATk8p0UVz6Uqq9xcjCN97/BXB+eLdiXmjrWrZzIEyg
-         ISTZqXictViH/xREvX7X5L6Tqqtq21kdb4v01YTw95EB16tio9vikS+4kIDn3QIOuuYD
-         oD8w==
-X-Forwarded-Encrypted: i=1; AJvYcCVRBnEBw8WEYqDU09l0O3aTNqsG69rMkmdp1EibppuJB5OacOPK3K3iC4TwuXpvdMDUoDBmGM9jCY+Iy6U1jp1AWQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzuQHpntASPDYuK3vEBJ9EQpMLaQx+qEgfQP3E5K7qZi/105CQH
-	CZu6x3egKKB1A5opFDtijEBA+JhaPc1EotVXlX97KnWECwQBPtL9cz1F/99ktBmzAD8=
-X-Gm-Gg: ASbGncvkM1O/1Nt4qq0lQj7+60xag8KQRRAVr9EMC/kch7vhPfJb8RBsGMLE7T/c1hA
-	B63tmPG2viPMRUGi/7dV7Ds6JKM+Nu7wa10Ldx81CIr0pZsAktkOLc8MJ1R0ctT/b2zotevH3bz
-	Cu9qPJqSclImpf3YtXDfQsvKLVU8bHGBThUHtBq+sqoe6hRfOI9HcbOC8RqKdxbkN32K+Ec/wYg
-	A7ETriKsjByqFaZepd10bZXN0XBxv8mJ6FGWZHYY0IwJzRlpZGniAe8eATZDd2WdAQcGFejHtvH
-	howQhBTF6/EvjtBfziaRYRmzakbUUWvbfswAoV3I4xT/NnCqZqfby78Q1sWMLfOJaQ8na+z2ZtL
-	NdbDuLGUir7TndZjkZ6QBy6kkdJnP8CJ52SIUXqh3YfLmGTCrTI1o/+fPHiLwk1CWpTgvdXAz+7
-	wwIRzVkgJPHP/FqDRB7csADvE2QDzwqrQcJlO3Cg==
-X-Google-Smtp-Source: AGHT+IGZdl4Pl21IBBaO/ZButEpH0PzuFfSoeZYZMRoe+0+bMD1zBQVZ2wQRWGymjVo4mK9aYIWK8g==
-X-Received: by 2002:a05:6102:94b:b0:5db:ca9e:b577 with SMTP id ada2fe7eead31-5dfc5b6b66fmr3231724137.35.1763383621000;
-        Mon, 17 Nov 2025 04:47:01 -0800 (PST)
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com. [209.85.217.46])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-55b0f49865fsm4239625e0c.22.2025.11.17.04.47.00
+        d=1e100.net; s=20230601; t=1763386104; x=1763990904;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=sRNOO2D8P1AP0B+8HOigZ1hD5IUxtuvnBzacX9Ugwh0=;
+        b=pBwv+iN73cTLDXaahhNkm3OgEbHdCChfDQZoBOUOtJ+R45WpGO/c10toggUH1WCW6M
+         kosFlzMnMkiwO1KU0qXi532ty1Esru70N037hWXCKiLFFLoCe6tp2h36uw5FBhhT8NoX
+         FM36QAwMf5If5RPSJmrdTs97jx1D9Sw0Wob/kubEaEDMPicAjiqRb9Cy4ESSErE4ddfs
+         pwek6ppB+2Pp4pfsNDyeIQDLLKuIKHavn1Yo30UGTp1L7xhx1tlPVADdBitOqbiw7OQQ
+         P+h2iOFcMXv3Tz6pufYysEicUyjVeUFx/ROcmvHsDXOE4Q0jLk6+fC3rL+PyC3EmMj5E
+         5l6Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXlG64Z6kRjjR2gA2+/i83HpCAZH5c6z8nlOAemRXaXEI2V1vvt3PalHzBdDl7CwXA336OHwaY7AvuzJOCRcYFjUg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0JkSSaoPdpABnEYy16SvVbwA6W4FlOCoWam5aHLg8Iod3j/4J
+	zToDJ42bq9PGfq9iMHq0ixo8BShNaSU0fyh6+9oOs0ITcu9XvJjFpN0Wg9bBwwmGwLA=
+X-Gm-Gg: ASbGnctk2h600PNI4WxNl8wD70Y7O4iFjDRNY/dzBh3VoVfZ0uqzVpPWyalm9F8dXD6
+	hBSz4Ev+e4KBJUtbzb0+fFmH6sGmLroqm25lqJ0G+/Zdf6Vri5Rhf7/TSZdMz3bnUGw98Q5o5sZ
+	4sIA2j+TJJ98exxhEry1ToYuyfeJLmZKSIQk0uolWcocv25MGeqb/0W68viShvoXpM7Mgyu73mr
+	t6HCkgPF5sLrY9Q9N4Is8TFbvxjNRXwr/EDmBiO51vznteAv9Fq0Kp5Ezt1oXsm0CrrnwI79RKE
+	ewVu70dC3WBXZxFPT+mSu0kyJcWAbdoc1twWI1SVWTPk1iSqzr9gK9+NHMF/KNI13sznIMOtHQg
+	kCRizSZ9PDaaieZEXcovB7KlFFaw14C1v9XwRTNBKEjqO+RuazX+OzLJkC/8BKkqR3aoEgsiVrY
+	b6tkRHpt8/VqPAm/xfPns/JBR1sQjcDYNPrXLjlxxvuWw1b8go
+X-Google-Smtp-Source: AGHT+IEcTFoy+ODeQesl7mXxDiIzUaDzUtVliVTDGU2LZGa6UbhiBFUuHo7WAPzYNqvsIqijCAR6Vw==
+X-Received: by 2002:a05:6102:4189:b0:5db:d60a:6b13 with SMTP id ada2fe7eead31-5dfc5b94384mr4288728137.21.1763386103950;
+        Mon, 17 Nov 2025 05:28:23 -0800 (PST)
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com. [209.85.222.48])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5dfb726d37fsm4384153137.13.2025.11.17.05.28.23
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Nov 2025 04:47:00 -0800 (PST)
-Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-5dfd4a02638so768286137.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Nov 2025 04:47:00 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXmSPtwcjlHju9vnBNzhujmIbONSKaEsr11f4yPUynfA12APmrxGpqKoVG6MnDXY9MTN+qS8ZaiT6xBhFOHDXOHPA==@vger.kernel.org
-X-Received: by 2002:a05:6102:d8c:b0:5df:bb10:631e with SMTP id
- ada2fe7eead31-5dfc5b95fbemr3612940137.41.1763383620375; Mon, 17 Nov 2025
- 04:47:00 -0800 (PST)
+        Mon, 17 Nov 2025 05:28:23 -0800 (PST)
+Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-93729793469so2661178241.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Nov 2025 05:28:23 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVoU4YuVdP4DU/c4O9cTlcjhEcj6DxjPDLhqgNtOaopGwPlUyqH7XoMydrKR+FJ0Z4XMeJRXuil3zIzcKx1MSzomw==@vger.kernel.org
+X-Received: by 2002:a05:6102:d89:b0:5de:736:71d9 with SMTP id
+ ada2fe7eead31-5dfc5b9440emr4348291137.28.1763386103237; Mon, 17 Nov 2025
+ 05:28:23 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251105070526.264445-1-claudiu.beznea.uj@bp.renesas.com>
- <20251105070526.264445-3-claudiu.beznea.uj@bp.renesas.com>
- <CAMuHMdUwVeLtyQ9X-Lz16W=KtbfjiPqsgWfuDc72B3u6OCtqgg@mail.gmail.com> <6369d978-a067-42b3-8384-c5d8814a1506@tuxon.dev>
-In-Reply-To: <6369d978-a067-42b3-8384-c5d8814a1506@tuxon.dev>
+References: <20251028165127.991351-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20251028165127.991351-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdWSB4OvS5AeWqOBQPNG2J9VMYe9YUeXAp9kPjcJEQm3+g@mail.gmail.com> <CA+V-a8sC44HeShCFdk2xwTHMdcOo+8btNh9i0hthTEUMdnhqAQ@mail.gmail.com>
+In-Reply-To: <CA+V-a8sC44HeShCFdk2xwTHMdcOo+8btNh9i0hthTEUMdnhqAQ@mail.gmail.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 17 Nov 2025 13:46:48 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdX-OtX-3m+vqzoVHz6XBONrT2g_HRCMvWOu_1EHGpGRww@mail.gmail.com>
-X-Gm-Features: AWmQ_bl4Y6s95cgkfQqSPuVmWy8KeOf0TP3rp4asZVU7KPEQ2DYbVaAN76WF58w
-Message-ID: <CAMuHMdX-OtX-3m+vqzoVHz6XBONrT2g_HRCMvWOu_1EHGpGRww@mail.gmail.com>
-Subject: Re: [PATCH 2/2] soc: renesas: rz-sysc: Populate readable_reg/writeable_reg
- in regmap config
-To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Cc: magnus.damm@gmail.com, john.madieu.xa@bp.renesas.com, 
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Date: Mon, 17 Nov 2025 14:28:12 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdV+7cvwxGVYGUd_nV3sUZ60YWzsWr_Ec6RJToPttUfKRA@mail.gmail.com>
+X-Gm-Features: AWmQ_bn5dkinW3o6sLUPnioziluAG20e1jQ8jExDV1eY758BmsHmrWuqLGXTcCQ
+Message-ID: <CAMuHMdV+7cvwxGVYGUd_nV3sUZ60YWzsWr_Ec6RJToPttUfKRA@mail.gmail.com>
+Subject: Re: [PATCH v2 5/5] clk: renesas: r9a09g077: Add xSPI core and module clocks
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
+	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Claudiu,
+Hi Prabhakar,
 
-On Fri, 14 Nov 2025 at 12:46, Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
-> On 11/13/25 21:15, Geert Uytterhoeven wrote:
-> > On Wed, 5 Nov 2025 at 08:05, Claudiu <claudiu.beznea@tuxon.dev> wrote:
-> >> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >>
-> >> Not all system controller registers are accessible from Linux. Accessing
-> >> such registers generates synchronous external abort. Populate the
-> >> readable_reg and writeable_reg members of the regmap config to inform the
-> >> regmap core which registers can be accessed. The list will need to be
-> >> updated whenever new system controller functionality is exported through
-> >> regmap.
-> >>
-> >> Fixes: 2da2740fb9c8 ("soc: renesas: rz-sysc: Add syscon/regmap support")
-> >> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >> ---
-> >>
-> >> Changes in v2:
-> >> - added all SYSC registers IP specific, except the SPI
-> >>   registers on RZ/V2H and RZ/V2N as these are accessible only from EL3
-> >
-> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > i.e. will queue in renesas-devel for v6.19.
-> >
-> >> --- a/drivers/soc/renesas/r9a08g045-sysc.c
-> >> +++ b/drivers/soc/renesas/r9a08g045-sysc.c
-> >
-> >> @@ -18,7 +37,57 @@ static const struct rz_sysc_soc_id_init_data rzg3s_sysc_soc_id_init_data __initc
-> >>         .specific_id_mask = GENMASK(27, 0),
-> >>  };
-> >>
-> >> +static bool rzg3s_regmap_readable_reg(struct device *dev, unsigned int reg)
-> >> +{
-> >> +       switch (reg) {
-> >> +       case SYS_XSPI_MAP_STAADD_CS0:
-> >> +       case SYS_XSPI_MAP_ENDADD_CS0:
-> >> +       case SYS_XSPI_MAP_STAADD_CS1:
-> >> +       case SYS_XSPI_MAP_ENDADD_CS1:
-> >> +       case SYS_GETH0_CFG:
-> >> +       case SYS_GETH1_CFG:
-> >> +       case SYS_PCIE_CFG:
-> >> +       case SYS_PCIE_MON:
-> >> +       case SYS_PCIE_ERR_MON:
-> >> +       case SYS_PCIE_PHY:
-> >> +       case SYS_I2C0_CFG:
-> >> +       case SYS_I2C1_CFG:
-> >> +       case SYS_I2C2_CFG:
-> >> +       case SYS_I2C3_CFG:
-> >> +       case SYS_I3C_CFG:
-> >> +       case SYS_USB_PWRRDY:
-> >> +       case SYS_PCIE_RST_RSM_B:
-> >> +               return true;
-> >> +       default:
-> >> +               return false;
-> >> +       }
-> >> +}
-> >> +
-> >> +static bool rzg3s_regmap_writeable_reg(struct device *dev, unsigned int reg)
-> >> +{
-> >> +       switch (reg) {
-> >> +       case SYS_XSPI_MAP_STAADD_CS0:
-> >> +       case SYS_XSPI_MAP_ENDADD_CS0:
-> >> +       case SYS_XSPI_MAP_STAADD_CS1:
-> >> +       case SYS_XSPI_MAP_ENDADD_CS1:
-> >> +       case SYS_PCIE_CFG:
-> >> +       case SYS_PCIE_PHY:
-> >> +       case SYS_I2C0_CFG:
-> >> +       case SYS_I2C1_CFG:
-> >> +       case SYS_I2C2_CFG:
-> >> +       case SYS_I2C3_CFG:
-> >> +       case SYS_I3C_CFG:
-> >> +       case SYS_USB_PWRRDY:
-> >> +       case SYS_PCIE_RST_RSM_B:
-> >> +               return true;
-> >> +       default:
-> >> +               return false;
-> >> +       }
-> >> +}
-> >
-> > As all the writeable regs are a subset of the readable regs, do you
-> > think it would be worthwhile to write e.g.
-> >
-> >     static bool rzg3s_regmap_readable_reg(struct device *dev, unsigned int reg)
-> >     {
-> >             if (rzg3s_regmap_writeable_reg(dev, reg))
-> >                     return true;
-> >
-> >             switch (reg) {
-> >             case SYS_GETH0_CFG:
-> >             case SYS_GETH1_CFG:
-> >             case SYS_PCIE_MON:
-> >             case SYS_PCIE_ERR_MON:
-> >                     return true;
-> >             default:
-> >                     return false;
-> >             }
-> >     }
+On Mon, 10 Nov 2025 at 22:38, Lad, Prabhakar <prabhakar.csengg@gmail.com> w=
+rote:
+> On Mon, Nov 10, 2025 at 1:48=E2=80=AFPM Geert Uytterhoeven <geert@linux-m=
+68k.org> wrote:
+> > On Tue, 28 Oct 2025 at 17:52, Prabhakar <prabhakar.csengg@gmail.com> wr=
+ote:
+> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > >
+> > > Add core clocks and module clock definitions required by the xSPI
+> > > (Expanded SPI) IP on the R9A09G077 SoC.
+> > >
+> > > Define the new SCKCR fields FSELXSPI0/FSELXSPI1 and DIVSEL_XSPI0/1 an=
+d
+> > > add two new core clocks XSPI_CLK0 and XSPI_CLK1. The xSPI block uses
+> > > PCLKH as its bus clock (use as module clock parent) while the operati=
+on
+> > > clock (XSPI_CLKn) is derived from PLL4. To support this arrangement
+> > > provide mux/div selectors and divider tables for the supported
+> > > XSPI operating rates.
+> > >
+> > > Add CLK_TYPE_RZT2H_FSELXSPI to implement a custom divider/mux clock
+> > > where the determine_rate() callback enforces the hardware constraint:
+> > > when the parent output is 600MHz only dividers 8 and 16 are valid,
+> > > whereas for 800MHz operation the full divider set (6,8,16,32,64) may
+> > > be used. The custom determine_rate() picks the best parent/divider pa=
+ir
+> > > to match the requested rate and programs the appropriate SCKCR fields=
+.
+> > >
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com=
 >
-> Looks ok to me as well. I chose to have it like this as most of the
-> readable/writeable function that I remember to have seen in the past were
-> in the format I've presented in this patch.
->
-> I noticed you already sent the PR. Would you prefer to return with a follow
-> up patch and adjust it as you suggested?
+> > > ---
+> > > v1->v2:
+> > > - Added custom divider clock type for XSPI clocks to enforce hardware
+> > >   constraints on supported operating rates.
 
-Up to you, I haven't looked at the impact on code size yet.
+> > > --- a/drivers/clk/renesas/r9a09g077-cpg.c
+> > > +++ b/drivers/clk/renesas/r9a09g077-cpg.c
+
+> > > @@ -264,6 +305,116 @@ r9a09g077_cpg_mux_clk_register(struct device *d=
+ev,
+> > >         return clk_hw->clk;
+> > >  }
+> > >
+> > > +static int r9a09g077_cpg_fselxspi_determine_rate(struct clk_hw *hw,
+> > > +                                                struct clk_rate_requ=
+est *req)
+> > > +{
+> > > +       struct clk_divider *divider =3D to_clk_divider(hw);
+> > > +       unsigned long parent_rate, best =3D 0, now;
+> > > +       const struct clk_div_table *clkt;
+> > > +       unsigned long rate =3D req->rate;
+> > > +       int div =3D 0;
+> > > +
+> > > +       if (!rate)
+> > > +               rate =3D 1;
+> > > +
+> > > +       for (clkt =3D divider->table; clkt->div; clkt++) {
+> > > +               parent_rate =3D clk_hw_round_rate(req->best_parent_hw=
+, rate * clkt->div);
+> >
+> > I had expected the use of some *_determinate_rate_*() helper, as the
+> > parent can be changed to find a better clock rate?
+> > Perhaps you should use a composite clock for that?
+
+OK, so per your test results, the core clock code does try
+various parents.
+
+> >
+> > > +               /*
+> > > +                * DIVSELXSPIx supports 800MHz and 600MHz operation.
+> > > +                * When the parent_rate is 600MHz, only dividers of 8=
+ and 16
+> > > +                * are supported otherwise dividers of 6, 8, 16, 32, =
+64 are supported.
+> > > +                * This check ensures that FSELXSPIx is set correctly=
+.
+> > > +                */
+> > > +               if (parent_rate =3D=3D DIVSELXSPI_RATE_600MHZ &&
+> >
+> > Does this actually work as expected? I doubt parent_rate is guaranteed
+> > to be exactly 600 or 800 MHz, and expect it can differ slightly due
+> > to rounding.  Hence I would look at clk_fixed_factor.div instead.
+> >
+> With below diff, Ive got the below results for the various freqs
+> requested where appropriate parent and divider clocks are picked.
+>
+> @@ -317,6 +317,7 @@ static int
+> r9a09g077_cpg_fselxspi_determine_rate(struct clk_hw *hw,
+>
+>         for (clkt =3D divider->table; clkt->div; clkt++) {
+>                 parent_rate =3D clk_hw_round_rate(req->best_parent_hw,
+> rate * clkt->div);
+> +               pr_err("parent_rate=3D%lu, req-rate=3D%lu div=3D%u\n",
+> parent_rate, rate, clkt->div);
+>                 /*
+>                  * DIVSELXSPIx supports 800MHz and 600MHz operation.
+>                  * When the parent_rate is 600MHz, only dividers of 8 and=
+ 16
+
+> Case 2# assigned-clock-rates =3D <75000000>;
+> [   12.288507] parent_rate=3D800000000, req-rate=3D75000000 div=3D64
+> [   12.310528] parent_rate=3D800000000, req-rate=3D75000000 div=3D32
+> [   12.318426] parent_rate=3D800000000, req-rate=3D75000000 div=3D16
+> [   12.326361] parent_rate=3D600000000, req-rate=3D75000000 div=3D8
+> [   12.341540] parent_rate=3D0, req-rate=3D75000000 div=3D6
+> [   12.347546] parent_rate=3D800000000, req-rate=3D75000000 div=3D64
+> [   12.357593] parent_rate=3D800000000, req-rate=3D75000000 div=3D32
+> [   12.367148] parent_rate=3D800000000, req-rate=3D75000000 div=3D16
+> [   12.418871] parent_rate=3D600000000, req-rate=3D75000000 div=3D8
+> [   12.433560] parent_rate=3D0, req-rate=3D75000000 div=3D6
+[...]
+
+Thanks for checking!
+
+> Looking at the logs I think I could optimize the code to continue when
+>  parent_rate =3D=3D 0
+
+Do you know why it gets called with parent_rate =3D=3D 0?
+
+> Based on the above logs, would you prefer me to represent it as a
+> composite clock?
+
+Given the core code does try the various parent clocks, there is
+no need to model it as a composite clock.
+
+However, I still think you should look at the parent's divider value
+(clk_fixed_factor.div) instead of at the actual clock rate, as that
+may not be 600 or 800 MHz exactly (e.g. when underclocking the SoC
+on a custom board using a 24 instead of a 25 MHz crystal).
 
 Gr{oetje,eeting}s,
 
                         Geert
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
                                 -- Linus Torvalds
 
