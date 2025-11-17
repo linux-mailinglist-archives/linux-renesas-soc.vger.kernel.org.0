@@ -1,159 +1,188 @@
-Return-Path: <linux-renesas-soc+bounces-24677-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24678-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF387C62D2E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Nov 2025 08:59:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9D6DC63135
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Nov 2025 10:13:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id BA0D44E7978
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Nov 2025 07:59:50 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 1E35D4F0AF2
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Nov 2025 09:09:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8386631A05B;
-	Mon, 17 Nov 2025 07:59:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 651CC325496;
+	Mon, 17 Nov 2025 09:09:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ISl2jWWF"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="SLGtMSjM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54A8230E0C2;
-	Mon, 17 Nov 2025 07:59:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31E64321437
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Nov 2025 09:09:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763366384; cv=none; b=kAQ03j582AfoLMv6OXOdhwTf9Qk6Rk7q/gT3ZBecqJxGQ408c+dOuY0ii9EecQpPivrf79beQpe57e5slqw9TORt7QUnpDhftE926zabIyLsIshudMYUEh7cDVcfCPZqOgZkuifdgRFeIuFW7Wmt9X9ECbl+WyMfEY/ON/QEux8=
+	t=1763370567; cv=none; b=ghG4sL5YlW9d9Ht/ImPYRWQfzqJbCDfUc5jl/gToYc0JfVK+J0xsRTJ7OgxFGoxy2QXLDPy5fZzrP+fOQ3O0QUxnCKeXR0lE/V5sOv72GqYqzYmUB9fRQ/IQ30igx/RwRNKhuF9BB3sPHGeKqWgJdgwhujSva0+qqINXJru2pU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763366384; c=relaxed/simple;
-	bh=2GJODLDU9q/DrAw2v42I0tcNWvPDyLFQEM8TC1A8YdM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jhg/yZSTSsdttAzM7cu6YtdreNvzJ3tnpKtrnBC9EctFFO411aH0ieaMBTrqnzm5X97d5ca8ejfmipKCIMIuCGzjsMGXxMgiPpvTk/k1ov42hMw2d4EeLo2bnVYQbt2hFZA+JImGbxFN/PfmoV0f5dwc+C3pglWcwynyq3x6be4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ISl2jWWF; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D353C4CEFB;
-	Mon, 17 Nov 2025 07:59:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763366383;
-	bh=2GJODLDU9q/DrAw2v42I0tcNWvPDyLFQEM8TC1A8YdM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ISl2jWWFx/FOUV/JUXKCNbW2I7ACG7tmwSf9MY5BB+O8+jcRAlDPzDG2/I5K67G7z
-	 KQIFVPCM4tT3wvv3HTBRxNklYBWyiTsCe5V8f9E82FQO1aT540mjoeZEusBjyN5dB2
-	 fK9zyGQe908yxuhKntKi5HBhvnmYWaOFpNq+jPmXKVdopVdIiOxrScWl2Tn9zEEocg
-	 sqYWIIT2/rjfoqQB2ASjLJaiRwAexs6NOoujMsvV96mqRg6GTz+7osPett9ED2v5d4
-	 lpgOy6vp2rhBbVOs+XfHd0Do+mEkSzX/Q81kE0BfYjYeKTbJEhSvNRgUPoUtcqD2uR
-	 r2dGfP4KYt0VA==
-Date: Mon, 17 Nov 2025 08:59:41 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-To: Biju <biju.das.au@gmail.com>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>, linux-pwm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-renesas-soc@vger.kernel.org, stable@kernel.org
-Subject: Re: [PATCH v4] pwm: rzg2l-gpt: Reinitialize the cache value in
- rzg2l_gpt_disable()
-Message-ID: <ppqewbxcvsqcpp7met6vupmvxaftfjwiefej2c25jw4hoe3c23@lyh7saabrhkd>
-References: <20251114145606.200948-1-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1763370567; c=relaxed/simple;
+	bh=BWhHBdSxNz6oDAcjcPmXRnYsv7TcjfVh5EqxArjkTbo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=niUB4/5YTkvjd6Py+orZFkk0dROwTH3zybjDii9gpHrn76zoBU9B509/uNvTw7IyfOhrhZWingundXE6HQSWKxav8a2lmYu1INZQevb7o6G0I8fzGtA8isfYAY5EK+lNKWlH+fweKAcYluZ7/mxvt6BzTD7gb4SrT4qx5jOMXaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=SLGtMSjM; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-429c48e05aeso2384410f8f.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Nov 2025 01:09:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1763370563; x=1763975363; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WZZz0I/gR7q+VNKt5uK6BwuR0bSvglAaLrUPN3x53lk=;
+        b=SLGtMSjMTD/CPyo4j4L6GNFs9o6IgfQsvTJvtRgsY8pLJmzTHbf8S4dYVvCLmTU2oe
+         kHYW/FuN9neXqZ86LTn73kcA1RrTy+Tzhz3RPWnsgq4xkqhTQb0gNd3VXyT7TlQsL7MQ
+         PappdWY0w+ZThjg+6eBAyGACfRlOhYgelfOJj2Lieet5BOO75WHK52hVJlv0f06MXA3p
+         MvRTm+uWI2YiVSad7dFQ0Q9G3EtFGrORtMTQPdkddib+9Qac8xaMG3Vvs1nibDxhVPqO
+         +5yTQ3HiKsq4y85ISTfJFjCDAVAThiH+ouxK3g+HsRJZr4zrSeSzpGpR0SQtFjKgajfa
+         H10A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763370563; x=1763975363;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WZZz0I/gR7q+VNKt5uK6BwuR0bSvglAaLrUPN3x53lk=;
+        b=JnwRAoEjFaBm0YIEdjUk++aEa//eH1duh8+O7oTWyXqXAEMXbiiq8bcBTdeAT+xJ1d
+         3La/nb/kWOfYDN2cLO2iTT/GkXpENMa/5/H1iwj4t5jpnAviMw3KsMZn+Z3R/55prDde
+         nNuyv6S6qhEnm8mOPNxaMrqgHslDE76AmO+zHSMDry7Mx399cHnciFf6YZCkhAJ+c57f
+         oZPvDfT33lQj7btEKyJtVVkk/0uVmpx+6iV51Srr+gZJQOiaWoVoXrzQoXVHhNb6VIAQ
+         uueZN0ncvFTGCbGUfxNa00YDOzDtJFcV5Jz3E9NuWfeeqw0xPNhWqHT58DMln+MI7XgF
+         +r0w==
+X-Forwarded-Encrypted: i=1; AJvYcCVjRnyZnUOpxEadhPQC3QbUKHKqp1aW24kZfOUEv2v3dXxfjMpkhQZksQriiAqVfHJXPbd2LmKc72ODnr+hC92rRA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzU+36sljJF3ZgFYZiBWXiPoCS6xUg6HEHDdFSgiZDgx5Uu4asx
+	13cudRFIkUxFx6y4w/oiBXMf7fraZ22pigBBeoV31Le/L6Bhda4lOP0yDeJm9XKxrXQ=
+X-Gm-Gg: ASbGncvAyNN38SpGvux/SgzULB1Jsq/c7wyf77WZAhGL46T9Eil8EyENwfzCMgDzmJX
+	Iix92NQKWEyz5UDK59Mkyxk9RdAFeNEHomX/3a0iA7HfweNZIfC5oYb1Z/aTjwugymJxfdZQvQk
+	UVL6Xy+3i7d+7te33bW79jslEQbowwOs3aDIt3+qhzjgp/5ePeDg7hgD7kHtoEK1a5zxGpr3f4E
+	vmxvjvHNmjpFHDy9u7bxQ2O8McKNOQg4h0GboKf6I3FMUJUzOQjtmsihSx372TTIXSW598kTVwy
+	Ts1b7/wmOFdm/XGEnM5V3YNS545NsBIUuofrmZDsSg8/vWYTH/nq6IIKmphyqkF2Ai3KYDZRXC9
+	5PQmTRhwMbwACsI/yR0nA++9r7ldUcDticg3dPx6/vFHSVpk1BHqok8zD16RJD7asPTYJdKFS9k
+	FWrx+42q2CUWLKAS4Swu9xV4htHd5OXQKiCWGlPCW6
+X-Google-Smtp-Source: AGHT+IEIBx/MJXLPmtiUtaCQqQNNcaMsC6k5IcBO/zokIfM+93/0OcmXFRypivkMANfjtqihN5iboA==
+X-Received: by 2002:a05:6000:2911:b0:429:cc35:7032 with SMTP id ffacd0b85a97d-42b52821778mr15878783f8f.23.1763370562981;
+        Mon, 17 Nov 2025 01:09:22 -0800 (PST)
+Received: from claudiu-X670E-Pro-RS.. ([82.78.167.134])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b53f0b894sm25703786f8f.26.2025.11.17.01.09.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Nov 2025 01:09:22 -0800 (PST)
+From: Claudiu <claudiu.beznea@tuxon.dev>
+X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
+To: bhelgaas@google.com,
+	lpieralisi@kernel.org,
+	kwilczynski@kernel.org,
+	mani@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	geert+renesas@glider.be,
+	magnus.damm@gmail.com,
+	p.zabel@pengutronix.de
+Cc: claudiu.beznea@tuxon.dev,
+	linux-pci@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v7 0/6] PCI: rzg3s-host: Add PCIe driver for Renesas RZ/G3S SoC
+Date: Mon, 17 Nov 2025 11:08:52 +0200
+Message-ID: <20251117090859.3840888-1-claudiu.beznea.uj@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="isn4hegpwjtwjdsi"
-Content-Disposition: inline
-In-Reply-To: <20251114145606.200948-1-biju.das.jz@bp.renesas.com>
+Content-Transfer-Encoding: 8bit
 
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
---isn4hegpwjtwjdsi
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v4] pwm: rzg2l-gpt: Reinitialize the cache value in
- rzg2l_gpt_disable()
-MIME-Version: 1.0
+Hi,
 
-Hello Biju,
+Series adds a PCIe driver for the Renesas RZ/G3S SoC.
+It is split as follows:
+- patches 1-2/6:	add PCIe support for the RZ/G3S SoC
+- patches 3-6/6:	add device tree support and defconfig flag
 
-On Fri, Nov 14, 2025 at 02:56:01PM +0000, Biju wrote:
-> From: Biju Das <biju.das.jz@bp.renesas.com>
->=20
-> The rzg2l_gpt_config() test the rzg2l_gpt->period_tick variable. This
-> check is not valid, if enabling of a channel happens after disabling all
-> the channels as it test against the cached value. Therefore, reinitialize
-> the variable rzg2l_gpt->period_tick to 0 in rzg2l_gpt_disable(), when
-> all the logical channels of a hardware channel is disabled.
->=20
-> Cc: stable@kernel.org
-> Fixes: 061f087f5d0b ("pwm: Add support for RZ/G2L GPT")
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v3->v4:
->  * Split the patch as separate from [1] for easy merging.
->  * Updated commit description
->  * Added comments about the fix in rzg2l_gpt_disable()
-> v3:
->  * New patch
->=20
-> [1] https://lore.kernel.org/all/20250915163637.3572-1-biju.das.jz@bp.rene=
-sas.com/#t
-> ---
->  drivers/pwm/pwm-rzg2l-gpt.c | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/pwm/pwm-rzg2l-gpt.c b/drivers/pwm/pwm-rzg2l-gpt.c
-> index 360c8bf3b190..ab91bfd7da48 100644
-> --- a/drivers/pwm/pwm-rzg2l-gpt.c
-> +++ b/drivers/pwm/pwm-rzg2l-gpt.c
-> @@ -190,8 +190,17 @@ static void rzg2l_gpt_disable(struct rzg2l_gpt_chip =
-*rzg2l_gpt,
->  	/* Stop count, Output low on GTIOCx pin when counting stops */
->  	rzg2l_gpt->channel_enable_count[ch]--;
-> =20
-> -	if (!rzg2l_gpt->channel_enable_count[ch])
-> +	if (!rzg2l_gpt->channel_enable_count[ch]) {
->  		rzg2l_gpt_modify(rzg2l_gpt, RZG2L_GTCR(ch), RZG2L_GTCR_CST, 0);
-> +		/*
-> +		 * The rzg2l_gpt_config() test the rzg2l_gpt->period_tick
-> +		 * variable. This check is not valid, if enabling of a channel
-> +		 * happens after disabling all the channels as it test against
-> +		 * the cached value. Therefore, reinitialize the variable
-> +		 * rzg2l_gpt->period_tick to 0.
-> +		 */
-> +		rzg2l_gpt->period_ticks[ch] =3D 0;
-> +	}
+Please provide your feedback.
 
-I think this is wrong. rzg2l_gpt_config() has:
+Merge strategy, if any:
+- patches 1-2/6 can go through the PCI tree
+- patches 3-6/6 can go through the Renesas tree
 
-        if (rzg2l_gpt->channel_request_count[ch] > 1) {
-                if (period_ticks < rzg2l_gpt->period_ticks[ch])
-                        return -EBUSY;
-                else
-                        period_ticks =3D rzg2l_gpt->period_ticks[ch];
-        }
+Thank you,
+Claudiu Beznea
 
-So if both PWMs of channel `ch` are requested but disabled,
-rzg2l_gpt->period_ticks[ch] is 0 so you assign
+Changes in v7:
+- rebased on top of v6.18-rc1
 
-	period_ticks =3D rzg2l_gpt->period_ticks[ch];
+Changes in v6:
+- addressed review comments on DT bindings and driver code
+- per-patch changes are described in each individual patch
 
-=2E In that case however you don't want to change period_ticks, right?
+Changes in v5:
+- dropped patch
+  "arm64: dts: renesas: rzg3s-smarc-som: Update dma-ranges for PCIe"
+  and introduced patch
+  "arm64: dts: renesas: rzg3s-smarc-som: Add PCIe reference clock"
+- addressed review comments
+- per-patch changes are described in each individual patch
 
-Best regards
-Uwe
+Changes in v4:
+- dropped v3 patches:
+  - "clk: renesas: r9a08g045: Add clocks and resets support for PCIe"
+  - "soc: renesas: rz-sysc: Add syscon/regmap support"
+  as they are already integrated
+- dropped v3 patch "PCI: of_property: Restore the arguments of the
+  next level parent" as it is not needed anymore in this version due
+  port being added in device tree
+- addressed review comments
+- per-patch changes are described in each individual patch
 
---isn4hegpwjtwjdsi
-Content-Type: application/pgp-signature; name="signature.asc"
+Changes in v3:
+- added patch "PCI: of_property: Restore the arguments of the next level parent"
+  to fix the legacy interrupt request
+- addressed review comments
+- per-patch changes are described in each individual patch
 
------BEGIN PGP SIGNATURE-----
+Changes in v2:
+- dropped "of/irq: Export of_irq_count()" as it is not needed anymore
+  in this version
+- added "arm64: dts: renesas: rzg3s-smarc-som: Update dma-ranges for PCIe"
+  to reflect the board specific memory constraints
+- addressed review comments
+- updated patch "soc: renesas: rz-sysc: Add syscon/regmap support"
+- per-patch changes are described in each individual patch
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmka1eoACgkQj4D7WH0S
-/k6Exwf/cdGVEF4ILYiMKTtMZdJVeKTxVgJjmTpCdRjS5fVsuHXRcpP7cB1R8drP
-1XFtIfujgNrLe96KDWzNn2lCN1/6N51d2m3+0CYqhQQ7yWdUCIeADYxIftZe42th
-gmqKh3juCBIEnhRUc3S01Y2cAbNEYaFMzyLvsWI0fgjQTbmQGuyzTmZimDTPDeaD
-907JfsdjSE1h+QJoOfQz4TH5wpZN5MjRk1o1Qe9tz1WK5OTmMZb1Wq3A7hoEtQzq
-FgRUpae97xkiGi31GxttJZJr6RJAfwo+zm1YqOjOsXmY9DHtb/jD/weptkWTkZkH
-ynIpcRk/7lxWm2L24yr0pB/wPNdjlQ==
-=xVlT
------END PGP SIGNATURE-----
+Claudiu Beznea (6):
+  dt-bindings: PCI: renesas,r9a08g045s33-pcie: Add Renesas RZ/G3S
+  PCI: rzg3s-host: Add Renesas RZ/G3S SoC host driver
+  arm64: dts: renesas: r9a08g045: Add PCIe node
+  arm64: dts: renesas: rzg3s-smarc-som: Add PCIe reference clock
+  arm64: dts: renesas: rzg3s-smarc: Enable PCIe
+  arm64: defconfig: Enable PCIe for the Renesas RZ/G3S SoC
 
---isn4hegpwjtwjdsi--
+ .../bindings/pci/renesas,r9a08g045-pcie.yaml  |  249 +++
+ MAINTAINERS                                   |    8 +
+ arch/arm64/boot/dts/renesas/r9a08g045.dtsi    |   65 +
+ .../boot/dts/renesas/rzg3s-smarc-som.dtsi     |    5 +
+ arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi  |   11 +
+ arch/arm64/configs/defconfig                  |    1 +
+ drivers/pci/controller/Kconfig                |    9 +
+ drivers/pci/controller/Makefile               |    1 +
+ drivers/pci/controller/pcie-rzg3s-host.c      | 1759 +++++++++++++++++
+ 9 files changed, 2108 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/pci/renesas,r9a08g045-pcie.yaml
+ create mode 100644 drivers/pci/controller/pcie-rzg3s-host.c
+
+-- 
+2.43.0
+
 
