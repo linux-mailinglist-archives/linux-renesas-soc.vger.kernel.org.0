@@ -1,82 +1,83 @@
-Return-Path: <linux-renesas-soc+bounces-24706-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24707-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE8C9C68B70
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Nov 2025 11:10:16 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FC39C68C54
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Nov 2025 11:18:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sin.lore.kernel.org (Postfix) with ESMTPS id 507D62AAB0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Nov 2025 10:06:17 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 6F73B38275A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Nov 2025 10:14:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87BF03370F2;
-	Tue, 18 Nov 2025 10:01:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFCBA33BBBB;
+	Tue, 18 Nov 2025 10:12:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BLeezlGo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BsG9HbMA"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C9F9336EF7;
-	Tue, 18 Nov 2025 10:01:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDD8133769B;
+	Tue, 18 Nov 2025 10:12:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763460076; cv=none; b=oPxA3zp1fPIicagCYwxR8u47PoMavXBNr3dj5jN/GQqKoq1CitKwTiHhWE121F5zGbhZcK8YddL1xOdSDzAB5FDj+TFyLx4R7KLgv6oS2sjNx8toQHV/TzwPBD/LER749piSRxFDVHzaRKyMWKOAue8PIK+iwSymACTlosWwi6U=
+	t=1763460738; cv=none; b=IIA9M7K8QKEBLPJoGp72/V9CzuWkBq6jO/ldjrkLM61WEKrT0xDP4djJ8fZk7QyQwCeDhNvRdzALgaMTZSLRdoo9jfbnpNGPBv+HYiv0/cxlG6GqxxHAj8g9ZgHauFmSvAkYhc//KKXHbCl862+253U01l/1R3oOBpqjyfTNZio=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763460076; c=relaxed/simple;
-	bh=vRhDKIbV4KkTH6W+HoHkxG1gwEeuJ6jR+zSYG2nfry4=;
+	s=arc-20240116; t=1763460738; c=relaxed/simple;
+	bh=IBSZEQCxwFwFXWr1+hAKJwWSDWg2HomVHnDyZXuAT3U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bBv3wEFatLmROq0Kmng5TXmLqM4VPSfpZI1im/qofrrurmbzELDqNOgTgXs/JY5jCEaiX9g+GvggQF2JTRFXBTnFmJfXbn4zH76Frka0ykfOOLqur56YML3BGkz9KdgOF/rkkaY5h8oRp4SNSi5NgfimyE7tG/yW47TAKETjFps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BLeezlGo; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=og6qIGFjtpHDJZluYmjvEN9A4xWHbEea0W3U+Abp7LmkOqsZzdWpGWuoEdtyIJw8TYwze9l/7PQZzfy61zxkXupD4I2y4VpSEC1JFCBCkvVLB6oHiueNF94YAY2BbxeUXPFcz4dtI48U6207Y0X6OlmAUKkfaxcK/RV0ttjfPc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BsG9HbMA; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763460075; x=1794996075;
+  t=1763460736; x=1794996736;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=vRhDKIbV4KkTH6W+HoHkxG1gwEeuJ6jR+zSYG2nfry4=;
-  b=BLeezlGoXaS1nXFXaf5UkhoxN3SqinhaMHuNfPupwC9tk14J+uIIq1mS
-   6sOu6WoAPjxPsuGht7k7INKvKVC7aIG8OqRW7BoB4iIuy1iV5IOIYSvxr
-   CwPl0/6mLFeaSb9tbQENPmHO4L9uNA5GybS/9aE7Ab5tJGQ/vW4DuBM6f
-   sxDUeihhdnj3dmYR1cKfwkOWjxbH/uqj4wh+GBKsYLCkjjDvm7hcVaT9s
-   3gIBxuRYihk/dSlLqXVa54Y9VOpBXJOFnvNgRlB5N9t4n0bs66vav8uum
-   tpAaSyqD3GlATDJoM0EpASfsDGm6bYyym005s45gssEkrTaq+Ah8h1NN6
-   A==;
-X-CSE-ConnectionGUID: w9jZsr0rSsWU+xFF2v2Gsw==
-X-CSE-MsgGUID: pbAsCDSKT024DgRy9akw9w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="90952531"
+  bh=IBSZEQCxwFwFXWr1+hAKJwWSDWg2HomVHnDyZXuAT3U=;
+  b=BsG9HbMAut6IAfVlW4RWgdqxCrcCZZ+gSQorNJWMWHzDEdfvLxfXRvpY
+   2eFqLsDzU3jNIW3ppP0o7FK4GROyJ9kMYcw3LQUN3R0vfcV2kyGcN6BIu
+   wtRBvumj2Nq0o/6ND1Cgv645O4l1u6uPHWP2XEMlP4T7w0V8/EPpvRVsj
+   IcfivTeMbkcYgIVuCQ54Gf2ETiAr9KU2WFWaL8cQdocCHWnjr7ZWVg4Sy
+   yXUZcmiYlFGqNTkuyGlBXqMcoP6Y04S/yvQJLyBFZpfCdFVoX44MCFe+D
+   h3pZu3E6CopWEForl8FKV10S6bHX4tE1t2WJWfjRZWIiTzAndDkcFGWVZ
+   Q==;
+X-CSE-ConnectionGUID: KooMahA3Rma8Q5z1eWuk7w==
+X-CSE-MsgGUID: tDS645lTQW++6CUHzmIjqQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="65358567"
 X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
-   d="scan'208";a="90952531"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 02:01:14 -0800
-X-CSE-ConnectionGUID: /gothBzhQHCTIZUIet/E2w==
-X-CSE-MsgGUID: DKCNYfErQ7+HeAxhpixO2Q==
+   d="scan'208";a="65358567"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 02:12:15 -0800
+X-CSE-ConnectionGUID: F6UZBT5HTReRGyv7xUYBHw==
+X-CSE-MsgGUID: euH+GglzSWqKgqcJ6wQbNA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
-   d="scan'208";a="228054773"
+   d="scan'208";a="191157957"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 18 Nov 2025 02:01:10 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 18 Nov 2025 02:12:12 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vLIWK-0001Zz-0E;
-	Tue, 18 Nov 2025 10:01:08 +0000
-Date: Tue, 18 Nov 2025 18:00:58 +0800
+	id 1vLIgz-0001bK-2i;
+	Tue, 18 Nov 2025 10:12:09 +0000
+Date: Tue, 18 Nov 2025 18:11:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: Prabhakar <prabhakar.csengg@gmail.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Michael Turquette <mturquette@baylibre.com>,
 	Stephen Boyd <sboyd@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	Prabhakar <prabhakar.csengg@gmail.com>,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Subject: Re: [PATCH v3] clk: renesas: r9a09g077: Add xSPI core and module
  clocks
-Message-ID: <202511181758.cZTukDMh-lkp@intel.com>
+Message-ID: <202511181733.mdvppqVT-lkp@intel.com>
 References: <20251117205627.39376-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -103,34 +104,42 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Prabhakar/clk-renesas-r9a
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk
 patch link:    https://lore.kernel.org/r/20251117205627.39376-1-prabhakar.mahadev-lad.rj%40bp.renesas.com
 patch subject: [PATCH v3] clk: renesas: r9a09g077: Add xSPI core and module clocks
-config: arm-randconfig-001-20251118 (https://download.01.org/0day-ci/archive/20251118/202511181758.cZTukDMh-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251118/202511181758.cZTukDMh-lkp@intel.com/reproduce)
+config: riscv-randconfig-002-20251118 (https://download.01.org/0day-ci/archive/20251118/202511181733.mdvppqVT-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 0bba1e76581bad04e7d7f09f5115ae5e2989e0d9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251118/202511181733.mdvppqVT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511181758.cZTukDMh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511181733.mdvppqVT-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/clk/renesas/r9a09g077-cpg.c:88:21: error: 'R9A09G077_XSPI_CLK1' undeclared here (not in a function); did you mean 'R9A09G077_USB_CLK'?
-     LAST_DT_CORE_CLK = R9A09G077_XSPI_CLK1,
-                        ^~~~~~~~~~~~~~~~~~~
-                        R9A09G077_USB_CLK
-   In file included from drivers/clk/renesas/r9a09g077-cpg.c:19:
->> drivers/clk/renesas/r9a09g077-cpg.c:230:32: error: 'R9A09G077_XSPI_CLK0' undeclared here (not in a function); did you mean 'R9A09G077_USB_CLK'?
-     DEF_DIV_FSELXSPI("XSPI_CLK0", R9A09G077_XSPI_CLK0, CLK_DIVSELXSPI0_SCKCR,
-                                   ^~~~~~~~~~~~~~~~~~~
-   drivers/clk/renesas/renesas-cpg-mssr.h:72:25: note: in definition of macro 'DEF_TYPE'
-     { .name = _name, .id = _id, .type = _type }
-                            ^~~
-   drivers/clk/renesas/r9a09g077-cpg.c:230:2: note: in expansion of macro 'DEF_DIV_FSELXSPI'
-     DEF_DIV_FSELXSPI("XSPI_CLK0", R9A09G077_XSPI_CLK0, CLK_DIVSELXSPI0_SCKCR,
-     ^~~~~~~~~~~~~~~~
+>> drivers/clk/renesas/r9a09g077-cpg.c:88:21: error: use of undeclared identifier 'R9A09G077_XSPI_CLK1'
+      88 |         LAST_DT_CORE_CLK = R9A09G077_XSPI_CLK1,
+         |                            ^~~~~~~~~~~~~~~~~~~
+>> drivers/clk/renesas/r9a09g077-cpg.c:230:32: error: use of undeclared identifier 'R9A09G077_XSPI_CLK0'
+     230 |         DEF_DIV_FSELXSPI("XSPI_CLK0", R9A09G077_XSPI_CLK0, CLK_DIVSELXSPI0_SCKCR,
+         |                                       ^~~~~~~~~~~~~~~~~~~
+   drivers/clk/renesas/r9a09g077-cpg.c:232:32: error: use of undeclared identifier 'R9A09G077_XSPI_CLK1'
+     232 |         DEF_DIV_FSELXSPI("XSPI_CLK1", R9A09G077_XSPI_CLK1, CLK_DIVSELXSPI1_SCKCR,
+         |                                       ^~~~~~~~~~~~~~~~~~~
+>> drivers/clk/renesas/r9a09g077-cpg.c:496:19: error: invalid application of 'sizeof' to an incomplete type 'const struct cpg_core_clk[]'
+     496 |         .num_core_clks = ARRAY_SIZE(r9a09g077_core_clks),
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:32: note: expanded from macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                ^~~~~
+   4 errors generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for ARCH_HAS_ELF_CORE_EFLAGS
+   Depends on [n]: BINFMT_ELF [=y] && ELF_CORE [=n]
+   Selected by [y]:
+   - RISCV [=y]
 
 
-vim +88 drivers/clk/renesas/r9a09g077-cpg.c
+vim +/R9A09G077_XSPI_CLK1 +88 drivers/clk/renesas/r9a09g077-cpg.c
 
     74	
     75	#define DEF_DIV(_name, _id, _parent, _conf, _dtable) \
