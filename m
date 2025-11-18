@@ -1,205 +1,256 @@
-Return-Path: <linux-renesas-soc+bounces-24733-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24734-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF9C5C6A34D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Nov 2025 16:06:36 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27E6AC6A2FE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Nov 2025 16:03:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sin.lore.kernel.org (Postfix) with ESMTPS id E197228CA2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Nov 2025 15:01:53 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTPS id DABD52B124
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Nov 2025 15:03:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A924A21765B;
-	Tue, 18 Nov 2025 15:01:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEC83357A2A;
+	Tue, 18 Nov 2025 15:03:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="T7Hq96Mw"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BY5nwgAk"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 060E72FC02D
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Nov 2025 15:01:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E219D31064E
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Nov 2025 15:03:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763478110; cv=none; b=njZd9+QsVNHYY+C+2/fPyW46LMh2rnbAd/lZKHibd2gaZ9SVHOuaJ0jJxut2teHxZvdOBNUY8AfQwo/o7pV3Lo+YDsnL0ep2aTsAhhZ/ghvoUv+3ytQfF3kzwIRxqXRzk4zwf06AOO3E9rVtCGd92p7FKPisxjzbnK4fQmhv6fA=
+	t=1763478225; cv=none; b=fSBrRyyMlQ47BJ9ZW8b5iO9ww1yrprghzyNrq4bpKHV98RyhpzGvHSEWl+TvRbLs92B1Gym2kQpNVIyzn+cVTzMPqDDUbyM/wZX8Rj9uJ0WF/5L0+RIo5RKWgKWX/gZgIu7CkgrsIJWdtrtiAhP1nJpXxLsj8q1+gj3EHFZk9eE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763478110; c=relaxed/simple;
-	bh=E/YsJM6IheylUC0Sw9Q0gCCkL3kmIQiShNp786J4lB8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H/lG0MoWShVAIuAc6D0deN63LkVPF13p1RKRxLLr8O5s4ESzJdrlKiDhZwyCkZDM0x3m6BHnRehu7ebpxIMrGpW3ciUXQZM3xJuTWGOElKR3EyszP/fHIVUv/jerM8uk2akTjVmUfQleSZz0uXPlK3r5vxdWKD9QWbUquT9MqYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=T7Hq96Mw; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (unknown [95.214.66.65])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id E73B0D52;
-	Tue, 18 Nov 2025 15:59:41 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1763477982;
-	bh=E/YsJM6IheylUC0Sw9Q0gCCkL3kmIQiShNp786J4lB8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=T7Hq96MwT29jQCWhrM94stZvZq1e8qZoCyedP9DEeIjLKzfWoGEFYS73+jA/Xl1pQ
-	 sL/6jnlqWFyfe/n57UFMDAGVVZvCLhLtv18AEGMDjvU9P5LmNX0V+LT/ulb0Z6hbA+
-	 ng2v9YKs4sfSR7R5NXAM5nMmwjoKdK+/P4hhiQ3U=
-Date: Tue, 18 Nov 2025 17:01:28 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Aradhya Bhatia <a-bhatia1@ti.com>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] drm/atomic-helper: Add special quirk tail function
-Message-ID: <20251118150128.GB23711@pendragon.ideasonboard.com>
-References: <20251118-mcde-drm-regression-v2-0-4fedf10b18f6@linaro.org>
- <20251118-mcde-drm-regression-v2-3-4fedf10b18f6@linaro.org>
+	s=arc-20240116; t=1763478225; c=relaxed/simple;
+	bh=E2UPMhSVc7lP9k06c8+dP+g+rlxEfJ8E1Ck+w9qG2n4=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=dnJ6hZGZjdoZwPjk4CIYZxuG7ArVXpe19GNAJEGvZzBe8ON/elgDBqb2Jv5eRUD3Lm/fceCH6moXZGpGq5DvVEkDDnbSUY9R4KoCPs6AbMGAwbYjqHpnMkz5JSRtHqF7O1XjGva26zWq4TreXMiawuQRDUoUgnvSfIlE5TQfAlY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BY5nwgAk; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-47774d3536dso46708025e9.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Nov 2025 07:03:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1763478221; x=1764083021; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=E8WV+lVIvrjo7rZmjE+gswziL7WbppYyzdAivTHQVq0=;
+        b=BY5nwgAk1YA9mF0XdQxQ3iFdtnX7qGBMpm66ol1FaltUsiqvzraLOG19ADW82Qy0nP
+         9LqnIeDqDQSLXIbQjsaNVKEWApDMFFvhFdlMXVjeBpBkZJZ9jRUddi96vpP2C2lPTAP0
+         L8h3tvAWznobQBVYt7HnPDjPRnrmd+qoHDj2deg5m0ARq7sVEMNmKJsf1UFYlu58ka91
+         wfKOfO4noupSiSk3UEqO34/NDyYYVyY2PvL5CgUQ4HNzKicW2TJAH2DFOEtZP4Fwgxxo
+         fx8VP/nuLkYjzwlzedZwNxBS+B48oj9PsxmcGcQqb/vmAmoipn8F+6NSWEdgxAugA0uy
+         CgmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763478221; x=1764083021;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=E8WV+lVIvrjo7rZmjE+gswziL7WbppYyzdAivTHQVq0=;
+        b=ohFxdxQwloGZ+Ho8gGduvoj6MlFrWryll0ekbmoVl4ePJaW/O/SebfUXcodclui1fg
+         5mL2/om+hCgmz9V1AIDIBZQF0nr5vvk2b4+Na4g3JPlm9op4qeZJ3iPfhv11VVASgngX
+         IO8HxseG5mtl3cfZp6Kw8K8cUJ9GkN5/BQ8TsDPCS9FXG+aONx3QKZIicGHU3twC+ysZ
+         yf02tL+gwHuoGUhbIK85B1hSkWiw1J9ymV/8kdB7ThHJsP2twEb7XxVTzc1DqGz3YPC7
+         0dKzpvwH0HCxf3715jbVbYKuWzvKt8KyO1RKFVMNZh5UBvPuns+Vf6WOH9UBYD2Ct7ay
+         cWxQ==
+X-Gm-Message-State: AOJu0YzQSwhgEc90kuVTvROJZ76RTQJwrqMgwXzhjT1TFOOcSaRNztG9
+	xfxRTVBOAvHG7qOzb2F5GnzfJcHT9HEka/LPQtbI3PuPUwUN7YoD4Y5h0wseYkasYu4=
+X-Gm-Gg: ASbGnctuW8GiXyXK9XPs7KdAPRGQGMt4H2/27n3GYNFB7DlnB4pdXOCR4yiDvYlk2I2
+	cub23fZxIU7km/fgqvtgoA8SMXkeEPeRLLXiITmembU1LP5h2NR1+lTq2sIaaGVfCdRWGUHTFo0
+	t071tEjSqyb+8sY7IHEF9T1I8wBGr+3h+uTBd/n+O6pXppG/r8SRJ+7i33IHe/SdYPSbm3vKHTk
+	RP1uztfarzPvw6/X3XQHkp0y6u51vl3JCPmo4CMrLRF5eCidvLfzxdgh5fZio9x8fzf+N6rbK13
+	FX5pnIctUnj3DJqJG97/W53iL0ML7tbl+7V27NXAH0BnoU3tB48XR+PvTbwJegDoBhLhiAb1a4Q
+	rrQe3xP78k2gljjG1rxFyLghVfqfu+++J+ySCd3bPO+BgtOBH/hBrcf8cvKqHjsRiMXF2RFAHgs
+	d1zr+MCQ3oD1ecW4a4J+hlEMvyVRPtbkerBdzBbqhQjX5cZfz1WNj2h59Q7OfYztSXTxAnzJze6
+	w==
+X-Google-Smtp-Source: AGHT+IEetwF3Ns90esL57qVwnG2Jl6XJFWtUfNJDvD/LIHAt+CrVEPkL7/d2f7BaOrYGKuhrh7at7Q==
+X-Received: by 2002:a05:600c:3208:b0:477:14ba:28da with SMTP id 5b1f17b1804b1-477ae88dabfmr10448415e9.5.1763478221075;
+        Tue, 18 Nov 2025 07:03:41 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:3d9:2080:366e:5264:fffe:1c49? ([2a01:e0a:3d9:2080:366e:5264:fffe:1c49])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47787e43c2fsm351648875e9.6.2025.11.18.07.03.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Nov 2025 07:03:40 -0800 (PST)
+Message-ID: <ab085051-27fd-415c-83b4-5ca087bdb0c8@linaro.org>
+Date: Tue, 18 Nov 2025 16:03:39 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20251118-mcde-drm-regression-v2-3-4fedf10b18f6@linaro.org>
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH] phy: renesas: rcar-gen3-usb2: Add suspend/resume support
+To: Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ yoshihiro.shimoda.uh@renesas.com, vkoul@kernel.org, kishon@kernel.org,
+ geert+renesas@glider.be, magnus.damm@gmail.com, p.zabel@pengutronix.de
+Cc: linux-renesas-soc@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-kernel@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20251106144148.3051962-1-claudiu.beznea.uj@bp.renesas.com>
+ <4d486bd8-9e87-4bf2-a96f-38aa0f701c45@linaro.org>
+ <047df95e-b1b6-4e7b-89f7-d7cb69559a49@tuxon.dev>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <047df95e-b1b6-4e7b-89f7-d7cb69559a49@tuxon.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Linus,
-
-Thank you for the patch.
-
-On Tue, Nov 18, 2025 at 03:36:05PM +0100, Linus Walleij wrote:
-> This adds (yet another) variant of the
-> drm_atomic_helper_commit_tail_crtc_early_late() helper function
-> to deal with regressions caused by reordering the bridge
-> prepare/enablement sequence.
+On 11/18/25 15:13, Claudiu Beznea wrote:
+> Hi, Neil,
 > 
-> commit c9b1150a68d9362a0827609fc0dc1664c0d8bfe1
-> "drm/atomic-helper: Re-order bridge chain pre-enable and post-disable"
-> caused a series of regressions in all panels that send
-> DSI commands in their .prepare() and .unprepare()
-> callbacks.
+> On 11/18/25 15:54, Neil Armstrong wrote:
+>> On 11/6/25 15:41, Claudiu wrote:
+>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>
+>>> The Renesas RZ/G3S supports a power saving mode where power to most of the
+>>> SoC components is turned off. The USB PHY is among these components.
+>>> Because of this the settings applied in driver probe need to be executed
+>>> also on resume path. On suspend path only reset signal need to be asserted.
+>>> Add suspend/resume support.
+>>>
+>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>> ---
+>>>
+>>> This patch is built on top of patches 1/7, 2/7 at [1]
+>>>
+>>> [1] https://lore.kernel.org/all/20251023135810.1688415-2-
+>>> claudiu.beznea.uj@bp.renesas.com
+>>>
+>>>    drivers/phy/renesas/phy-rcar-gen3-usb2.c | 66 +++++++++++++++++-------
+>>>    1 file changed, 47 insertions(+), 19 deletions(-)
+>>>
+>>> diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/
+>>> renesas/phy-rcar-gen3-usb2.c
+>>> index a38ead7c8055..3c063e4dea41 100644
+>>> --- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
+>>> +++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
+>>> @@ -132,6 +132,7 @@ struct rcar_gen3_chan {
+>>>        struct device *dev;    /* platform_device's device */
+>>>        const struct rcar_gen3_phy_drv_data *phy_data;
+>>>        struct extcon_dev *extcon;
+>>> +    struct reset_control *rstc;
+>>>        struct rcar_gen3_phy rphys[NUM_OF_PHYS];
+>>>        struct regulator *vbus;
+>>>        struct work_struct work;
+>>> @@ -778,35 +779,24 @@ static void rcar_gen3_reset_assert(void *data)
+>>>    static int rcar_gen3_phy_usb2_init_bus(struct rcar_gen3_chan *channel)
+>>>    {
+>>>        struct device *dev = channel->dev;
+>>> -    struct reset_control *rstc;
+>>>        int ret;
+>>>        u32 val;
+>>>    -    rstc = devm_reset_control_array_get_shared(dev);
+>>> -    if (IS_ERR(rstc))
+>>> -        return PTR_ERR(rstc);
+>>> +    if (!channel->phy_data->init_bus)
+>>> +        return 0;
+>>>          ret = pm_runtime_resume_and_get(dev);
+>>>        if (ret)
+>>>            return ret;
+>>>    -    ret = reset_control_deassert(rstc);
+>>> -    if (ret)
+>>> -        goto rpm_put;
+>>> -
+>>> -    ret = devm_add_action_or_reset(dev, rcar_gen3_reset_assert, rstc);
+>>> -    if (ret)
+>>> -        goto rpm_put;
+>>> -
+>>>        val = readl(channel->base + USB2_AHB_BUS_CTR);
+>>>        val &= ~USB2_AHB_BUS_CTR_MBL_MASK;
+>>>        val |= USB2_AHB_BUS_CTR_MBL_INCR4;
+>>>        writel(val, channel->base + USB2_AHB_BUS_CTR);
+>>>    -rpm_put:
+>>>        pm_runtime_put(dev);
+>>>    -    return ret;
+>>> +    return 0;
+>>>    }
+>>>      static int rcar_gen3_phy_usb2_probe(struct platform_device *pdev)
+>>> @@ -846,6 +836,18 @@ static int rcar_gen3_phy_usb2_probe(struct
+>>> platform_device *pdev)
+>>>            }
+>>>        }
+>>>    +    channel->rstc = devm_reset_control_array_get_optional_shared(dev);
+>>> +    if (IS_ERR(channel->rstc))
+>>> +        return PTR_ERR(channel->rstc);
+>>> +
+>>> +    ret = reset_control_deassert(channel->rstc);
+>>> +    if (ret)
+>>> +        return ret;
+>>> +
+>>> +    ret = devm_add_action_or_reset(dev, rcar_gen3_reset_assert, channel-
+>>>> rstc);
+>>> +    if (ret)
+>>> +        return ret;
+>>> +
+>>>        /*
+>>>         * devm_phy_create() will call pm_runtime_enable(&phy->dev);
+>>>         * And then, phy-core will manage runtime pm for this device.
+>>> @@ -861,11 +863,9 @@ static int rcar_gen3_phy_usb2_probe(struct
+>>> platform_device *pdev)
+>>>        platform_set_drvdata(pdev, channel);
+>>>        channel->dev = dev;
+>>>    -    if (channel->phy_data->init_bus) {
+>>> -        ret = rcar_gen3_phy_usb2_init_bus(channel);
+>>> -        if (ret)
+>>> -            goto error;
+>>> -    }
+>>
+>> I don't see why you changed the logic of calling
+>> rcar_gen3_phy_usb2_init_bus(),
+>> moving the reset setup and handling should be enough, no ?
+>>
+> Sorry, I missed to mention it. I did it like this just to avoid this pattern:
 > 
-> As the CRTC is no longer online at bridge_pre_enable()
-> and gone at brige_post_disable() which maps to the panel
-> bridge .prepare()/.unprepare() callbacks, any CRTC that
-> enable/disable the DSI transmitter in it's enable/disable
-> callbacks will be unable to send any DSI commands in the
-> .prepare() and .unprepare() callbacks.
+> 	if (channel->phy_data->init_bus) {
+> 		ret = rcar_gen3_phy_usb2_init_bus(channel);
+> 		if (ret)
+> 			return ret;
+> 	}
 > 
-> However the MCDE driver definitely need the CRTC to be
-> enabled during .prepare()/.unprepare().
-> 
-> This patch from Marek Vasut:
-> https://lore.kernel.org/all/20251107230517.471894-1-marek.vasut%2Brenesas%40mailbox.org/
-> solves part of the problem for drivers using custom
-> tail functions, since MCDE is using helpers only, we
-> add a new helper function that exploits the new
-> drm_atomic_helper_commit_modeset_enables_crtc_early()
-> and use that in MCDE.
-> 
-> Link: https://lore.kernel.org/dri-devel/20251026-fix-mcde-drm-regression-v2-0-8d799e488cf9@linaro.org/
-> Link: https://lore.kernel.org/all/20251107230517.471894-1-marek.vasut%2Brenesas%40mailbox.org/
-> Fixes: c9b1150a68d9 ("drm/atomic-helper: Re-order bridge chain pre-enable and post-disable")
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> ---
->  drivers/gpu/drm/drm_atomic_helper.c | 35 +++++++++++++++++++++++++++++++++++
->  drivers/gpu/drm/mcde/mcde_drv.c     |  6 ++++--
->  include/drm/drm_atomic_helper.h     |  1 +
->  3 files changed, 40 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-> index eb47883be153..23fa27f21c4e 100644
-> --- a/drivers/gpu/drm/drm_atomic_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> @@ -2005,6 +2005,41 @@ void drm_atomic_helper_commit_tail_rpm(struct drm_atomic_state *state)
->  }
->  EXPORT_SYMBOL(drm_atomic_helper_commit_tail_rpm);
->  
-> +/**
-> + * drm_atomic_helper_commit_tail_crtc_early_late - commit atomic update
+> in both probe and resume path. The channel->phy_data->init_bus check is not
+> embedded in rcar_gen3_phy_usb2_init_bus(). Please let me know if you want
+> me to revert it.
 
-Based on the function name, it feels that the nem commit tail and
-modeset enable/disable helpers reached a point where we may want to
-reconsider the design instead of adding new functions with small
-differences in behaviour that will end up confusing driver developers.
+It's an unrelated change, so I think it should be moved to a separate cleanup patch.
 
-> + * @state: new modeset state to be committed
-> + *
-> + * This is an alternative implementation for the
-> + * &drm_mode_config_helper_funcs.atomic_commit_tail hook, for drivers
-> + * that support runtime_pm or need the CRTC to be enabled to perform a
-> + * commit, and also need the CRTC to be enabled before preparing any
-> + * bridges, as well as leaving the CRTC enabled while unpreparing
-> + * any bridges.
-> + *
-> + * Otherwise, one should use the default implementation
-> + * drm_atomic_helper_commit_tail().
-> + */
-> +void drm_atomic_helper_commit_tail_crtc_early_late(struct drm_atomic_state *state)
-> +{
-> +	struct drm_device *dev = state->dev;
-> +
-> +	drm_atomic_helper_commit_modeset_disables_crtc_late(dev, state);
-> +
-> +	drm_atomic_helper_commit_modeset_enables_crtc_early(dev, state);
-> +
-> +	drm_atomic_helper_commit_planes(dev, state,
-> +					DRM_PLANE_COMMIT_ACTIVE_ONLY);
-> +
-> +	drm_atomic_helper_fake_vblank(state);
-> +
-> +	drm_atomic_helper_commit_hw_done(state);
-> +
-> +	drm_atomic_helper_wait_for_vblanks(dev, state);
-> +
-> +	drm_atomic_helper_cleanup_planes(dev, state);
-> +}
-> +EXPORT_SYMBOL(drm_atomic_helper_commit_tail_crtc_early_late);
-> +
->  static void commit_tail(struct drm_atomic_state *state)
->  {
->  	struct drm_device *dev = state->dev;
-> diff --git a/drivers/gpu/drm/mcde/mcde_drv.c b/drivers/gpu/drm/mcde/mcde_drv.c
-> index 5f2c462bad7e..f3833d20c0fa 100644
-> --- a/drivers/gpu/drm/mcde/mcde_drv.c
-> +++ b/drivers/gpu/drm/mcde/mcde_drv.c
-> @@ -104,9 +104,11 @@ static const struct drm_mode_config_helper_funcs mcde_mode_config_helpers = {
->  	/*
->  	 * Using this function is necessary to commit atomic updates
->  	 * that need the CRTC to be enabled before a commit, as is
-> -	 * the case with e.g. DSI displays.
-> +	 * the case with e.g. DSI displays, and also make sure that the
-> +	 * CRTC is enabled before any bridges are prepared and disabled
-> +	 * after any bridges are disabled.
->  	 */
-> -	.atomic_commit_tail = drm_atomic_helper_commit_tail_rpm,
-> +	.atomic_commit_tail = drm_atomic_helper_commit_tail_crtc_early_late,
->  };
->  
->  static irqreturn_t mcde_irq(int irq, void *data)
-> diff --git a/include/drm/drm_atomic_helper.h b/include/drm/drm_atomic_helper.h
-> index d479afcd1637..1e85df5eea4f 100644
-> --- a/include/drm/drm_atomic_helper.h
-> +++ b/include/drm/drm_atomic_helper.h
-> @@ -64,6 +64,7 @@ int drm_atomic_helper_check(struct drm_device *dev,
->  			    struct drm_atomic_state *state);
->  void drm_atomic_helper_commit_tail(struct drm_atomic_state *state);
->  void drm_atomic_helper_commit_tail_rpm(struct drm_atomic_state *state);
-> +void drm_atomic_helper_commit_tail_crtc_early_late(struct drm_atomic_state *state);
->  int drm_atomic_helper_commit(struct drm_device *dev,
->  			     struct drm_atomic_state *state,
->  			     bool nonblock);
+Thanks,
+Neil
 
--- 
-Regards,
 
-Laurent Pinchart
+> 
+> Thank you,
+> Claudiu
+
 
