@@ -1,218 +1,192 @@
-Return-Path: <linux-renesas-soc+bounces-24714-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24715-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB4D8C696F6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Nov 2025 13:39:47 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE664C69819
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Nov 2025 13:59:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id C5C5A34AE2B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Nov 2025 12:39:38 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id A21A64F0739
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Nov 2025 12:56:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C7CF3126DE;
-	Tue, 18 Nov 2025 12:39:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GR4+0i0p"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAFB2258EF0;
+	Tue, 18 Nov 2025 12:56:10 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DEDE2EBBB0
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Nov 2025 12:39:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F9A324886F
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Nov 2025 12:56:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763469573; cv=none; b=ML63q/4VYmksB/J12mPSt2oN/iQ3dKFmEv6aZoAaJYUO53lH8D3DWOYo/tAtzKCN9OlpwUdk3mWfOASwpfUAk4GMScErPYv38ND9RTbqtfAmCqrrTGygM6KrZVKIsrwAqEZeCEXN2dv9yog34Q01kvF50SHPtVzMN6yjtmg3gKU=
+	t=1763470570; cv=none; b=Kz5ExkKlgKCQT4JLEHgomoLT76KIBdd28RSrC0t3U7FonprFhg3difrz3bmJynCPrevPzgWpiBjUxWA35AklY5r0eN2+j5gM/qt8BNrIrrxg40sxPHbBo/i1vgVLi0WuNlbmfE6Wh1uXULyidlmYXOvt0PxwRFjVe3Su1Qj1lz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763469573; c=relaxed/simple;
-	bh=08QgB8qKaX3i2DapxCTs97dy/bfjef6zfRlNUY2ki3Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sVkqSUZKRsApmCaYDmyZjToC5/U1BRSsM425gKBoN5kxgeSHP+KRiH4Lq6UFIkokV4KJjBAL9+jeEIgWuo+4c7K2RgnUFcqsgwBy7PMTBG6V2zHVvhBo9oTOgVQ04QvvgHVxjaydCLyKFL0m1G+cM18QYEMUWgvRpTBGy2mQwNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GR4+0i0p; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1763470570; c=relaxed/simple;
+	bh=/zVQ3caVQJG3gQBJgK50MyXyKcMooS7fUfIbjJLVF6Y=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tCgIdI3wozsD/6e18Jvl+T/a6ZZ9W9+l8wUS4y1iwmkCRcO+ynT3ResAjfHdQkyET5Gc1aEmChFAyik8xRBplX3tqqBzb4mX+PfWOcqx1c66eJBCu+b3IQ1LUdjXzA396YnTlEQO71i95wXKFNYJgwDPh9DWSskmRXm0BtxzoK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-477a219dbcaso19778695e9.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Nov 2025 04:39:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763469569; x=1764074369; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vwrEerijLR8cEtR08TVeGqvxntRRCMtwXVUkvykKipc=;
-        b=GR4+0i0pqTX7Z7vC3Bd+VRcYn50dTLS2s+mvZdzzQnLd3o7C1AvnRTIpIs0nQkdL1W
-         JWonek3Ut3x0cfxq8y//0GrknfheYCwyK1ounOX+g1lBasmO137wSa0pEfhdPrghDwb2
-         6PN5WMwnn0gy/KAvjZLQnwN5v7xvXnoK1GTHdFJi3Jyl0rbFlX94JU0SIDn/X/PVpX5L
-         nlAF3fgOrGNqZy1fc0GGxOxepHVrMFhujnO2qj+L4xxjXsd8pDKUKnKAyknej7mAGHCX
-         PHOs/EuAAk6djRRo79BcL+xxarpcvd8OaqMqFLgAg+ih4U01DqgMxbvGaixlICy/TsWX
-         nZxQ==
+Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-5dfa9c01c54so3403360137.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Nov 2025 04:56:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763469569; x=1764074369;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vwrEerijLR8cEtR08TVeGqvxntRRCMtwXVUkvykKipc=;
-        b=SirPeErMUKEfsr9WvNnHAh5X7a9lXX3BNW6cisZaKlZOb8YzgA3qFeCMSc1IFUHzDH
-         W9/G+xxgAV+6IuyDHxwL38ey5E8b2DkmeyDOS6PqX1fwjXT5l7NCz0YKvHdi6fUaQvSB
-         2rfG9SRked7nmCUiWp07eCXf4+LWEwkevYI7scIahLQpAoQFO9+a+k5KC25txe7yh7EH
-         tngJADRjWgWTn565V/fiDF0+xfXhgNcwMXoYdIn9h/5WoY+HnRIW6aa6ZpQokNtjsxh4
-         C5/18UNt3czJgvGgqo2niakODuu+PVVF2WmyuxSbEDMluJLQuNRI/0BgpkMPx1ixg+9d
-         JA+A==
-X-Forwarded-Encrypted: i=1; AJvYcCX1Gd5NS0CdUhkmS3HFlth1Rx+qksQbRK6zTifwfUl7JrMCubx8vyM2htVtZ+iRgC93gdPJIHRlJ/9BOkfsz0hwTA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzJLmUsn98g7RIoBhBPvNEY409+kLg3RINkN1SsxmSW+/ywz7de
-	M/XWT63KtnwfaOflv/s2qRxVDyef3cqhuGFVn7vsOCDrDC5xhSOI+UYp
-X-Gm-Gg: ASbGncu+c/E1cg5Fhw5G0IkEDhq+A1Mh4EQT3fOAgGxa0MMNx6hiO03icA5ENvyL0zd
-	t4R2hY7n2zvdptZQxvT/Xv4NkJE1A0Shxb8kZFbtNEjLEXbkTqb4TtFHhdHSuO5Bvn5NDjhvoi5
-	FM7m3XuThnbklI4TPuUxPacBn5r4vIMmlVKd1vWRLmnIll8ebGwyGKe7T4pLrpr5t0/Dlhj+XqE
-	Amar5DDHpdBmjStyaIb3LavSlNtU97kBJtMnx4PgGKNZs3cB3XStFAUSDSl7q6x78nlb+q6KJei
-	bsGpO1XDjnotdGPxBPLWhvuE6kD55pI3a1ayJC2eIp67lfDUloChLGvXEkhR6KZN2mPngN1TWjC
-	MuXrzGVU7EvTurj2IszpnZS2rhNP5cQOquOrAeX5kC/rvW20mzwYjiQWpNnu7nmR4hDoKbie36g
-	IXSz91g59xmtlLHvpuKIsghBcHbucK2OyW9+jqK9WSz9F6ZtRQNoMIVMLjyNG5GQ3zhM/LvzcCg
-	KM6C1jhNTvcvcka
-X-Google-Smtp-Source: AGHT+IEoYNWQzEZD7paWmkP6FwlKTYsbsMXIs34oAOoA8ChioIklj1ImVoN2jNXCXJsyM7m/ic/zHw==
-X-Received: by 2002:a05:600c:a05:b0:475:da1a:5418 with SMTP id 5b1f17b1804b1-4778fe55465mr137719985e9.1.1763469569384;
-        Tue, 18 Nov 2025 04:39:29 -0800 (PST)
-Received: from localhost.localdomain (host86-162-200-138.range86-162.btcentralplus.com. [86.162.200.138])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47796a8a695sm199431895e9.13.2025.11.18.04.39.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Nov 2025 04:39:29 -0800 (PST)
-From: Biju <biju.das.au@gmail.com>
-X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
-To: Marc Kleine-Budde <mkl@pengutronix.de>,
-	Vincent Mailhol <mailhol@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Tranh Ha <tranh.ha.xb@renesas.com>,
-	Duy Nguyen <duy.nguyen.rh@renesas.com>,
-	linux-can@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] can: rcar_canfd: Fix CAN-FD mode as default
-Date: Tue, 18 Nov 2025 12:39:25 +0000
-Message-ID: <20251118123926.193445-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1763470567; x=1764075367;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=XMYcwyn3PU+pOgxTORp/4U9I/0iJwsVP/bkqLPdjG54=;
+        b=KPuUJjM8taX5xb6X9M3cPIejfCg7tulbHpHWof1UdfOhFbAoYfckhfjHvcVknfijvm
+         ZGq1o3XmPjyXYibDHQdXSOF4LpD7Tfhg6S0V9icM2GGsSWe7bfaWMKbyuWkRUXzXHjmj
+         FJA1EBVLm1EkEmtj2m/ghxWT+W3Np+a6A/LJ3mwfi19lqGvl7OuXGcLl3n8xOIIqfgUn
+         uAb/pLYeNXr0QFh1vmFiVbQ5wuS0h+XMksK2VB35bhQoEuxxFcVJEjGzGTzGraRcmRas
+         0GCsTUI3gapLVYIb7z9ydq8uv+7IAzl1YJnkRuH/SI37lpE2w3if4pmYhH/ZGSg9MC4v
+         zHzA==
+X-Forwarded-Encrypted: i=1; AJvYcCVU45Kc4qtzD88Q1saWxXPG3/rJNV9El9ZI2gnZqyrJKIr1lQftXt6ZhyRlztFg+oJ4w14VI65kHucBimJ3ZcLKFg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy/2tONfwoA5nedxf8LbtHvLJ5BG83COzCm3LQ0hEhbSSG2B9ZR
+	b/L5dJDHWtAB4RhIUYkxq49bPYQVDrqtTfEU1GI+MhufesuK+P/fRs3cIsKRGuX9
+X-Gm-Gg: ASbGncsDclm88se77ldu0a8H5SswoDylrjcMDS8M+jVQeTULS7zKaBqVEU66WGAGOsR
+	aDdo1Up/qJpl6r2t05Og3GiLhAWXKBMGzSdvDgikLvm2baJPtY5Ug/BJC2+EtUU6YVl9+CnL+l+
+	IV137/yr2inJ7fYJD00HA7MzDDkI+SEGmwcnwL6613h3H4LHvjZ70ZUq8NPAM7HHJA4c+bDMcaF
+	LA1xtJyBFiESrptJa7x0g01UBA6RnSua0wqHd59kkYFYhcFimudZ77NAhZ5quw2mvgV4K7FG0gn
+	buWO06cuNQ4CTwuxtmY51WNoryqSLfUouTK5dTyzRMk/PBkwM/VJ+gvZIV3QVK7AJPLhwehBS/B
+	Eiz9nKnPv0akVhMEhDpXdemmmInURT/+tjgkr+p/wRIUq5DDTUswYrprG2zQRE8vOwTrZFKKTGG
+	Wn992d3qnCOPuGkPzF069CTpVF7pgoRBrvB00ab27gfwljMzBA
+X-Google-Smtp-Source: AGHT+IGPW9aYN9uUStoTP/g2uUyM1Gr4UadcKQ4eh6ZwDMrVWImRV5nnX6Znj1Gd+/DfKztoggSoBQ==
+X-Received: by 2002:a05:6102:ccb:b0:5df:a98f:ca85 with SMTP id ada2fe7eead31-5dfc5651159mr5443465137.21.1763470567000;
+        Tue, 18 Nov 2025 04:56:07 -0800 (PST)
+Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com. [209.85.222.54])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5e18685814bsm1284442137.1.2025.11.18.04.56.06
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Nov 2025 04:56:06 -0800 (PST)
+Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-93754419e10so3016451241.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Nov 2025 04:56:06 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVs2uWr0JJexkLRj+q+Lgc5WjyqkJikp8rY7UoY2Sm1h5tCt1YvCrcDo9MEmw2vtoWHp1Tlxgu/YhFJM19DgxlrYg==@vger.kernel.org
+X-Received: by 2002:a05:6102:441e:b0:5db:e0fe:985c with SMTP id
+ ada2fe7eead31-5dfc54fcc32mr4842088137.10.1763470566608; Tue, 18 Nov 2025
+ 04:56:06 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251112-gpio-shared-v4-0-b51f97b1abd8@linaro.org>
+ <CAMuHMdVR9Z70+M-SqHYrHiC6H_yw=VRuDOOg=YnXSNKjPnx3WQ@mail.gmail.com> <CAMRc=Mdo__Yzigqoy4xKt0LWSvES5Jse1HeXkePfhiWyiz6tBQ@mail.gmail.com>
+In-Reply-To: <CAMRc=Mdo__Yzigqoy4xKt0LWSvES5Jse1HeXkePfhiWyiz6tBQ@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 18 Nov 2025 13:55:55 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXpySSvjgju2LXr6puVXzHMR4ckpaKEWK_S4spTWz6B-A@mail.gmail.com>
+X-Gm-Features: AWmQ_bkC98gq3Hx-nk9zI-w6kSG9BC0TZLZ6VioIzu7f0ulaeAjNY59_KJ5q6hs
+Message-ID: <CAMuHMdXpySSvjgju2LXr6puVXzHMR4ckpaKEWK_S4spTWz6B-A@mail.gmail.com>
+Subject: Re: [PATCH v4 00/10] gpio: improve support for shared GPIOs
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Kees Cook <kees@kernel.org>, Mika Westerberg <westeri@kernel.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, Manivannan Sadhasivam <mani@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Saravana Kannan <saravanak@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Andy Shevchenko <andy@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Alexey Klimov <alexey.klimov@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, linux-hardening@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Biju Das <biju.das.jz@bp.renesas.com>
+Hi Bartosz,
 
-The commit 5cff263606a1 ("can: rcar_canfd: Fix controller mode setting")
-has aligned with the flow mentioned in the hardware manual for all SoCs
-except R-Car Gen3 and RZ/G2L SoCs. On R-Car Gen4 and RZ/G3E SoCs, due to
-the wrong logic in the commit[1] sets the default mode to FD-Only mode
-instead of CAN-FD mode.
+On Tue, 18 Nov 2025 at 12:55, Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+> On Tue, Nov 18, 2025 at 12:16=E2=80=AFPM Geert Uytterhoeven
+> <geert@linux-m68k.org> wrote:
+> > On Wed, 12 Nov 2025 at 15:05, Bartosz Golaszewski <brgl@bgdev.pl> wrote=
+:
+> > > Bjorn, Konrad: I should have Cc'ed you on v1 but I just went with wha=
+t
+> > > came out of b4 --auto-to-cc. It only gave me arm-msm. :( Patch 7 from
+> > > this series however impacts Qualcomm platforms. It's a runtime depend=
+ency
+> > > of patches 8 and 9. Would you mind Acking it so that I can take it in=
+to
+> > > an immutable branch that I'll make available to Mark Brown for him to
+> > > take patches 8-10 through the ASoC and regulator trees for v6.19?
+> > >
+> > > Problem statement: GPIOs are implemented as a strictly exclusive
+> > > resource in the kernel but there are lots of platforms on which singl=
+e
+> > > pin is shared by multiple devices which don't communicate so need som=
+e
+> > > way of properly sharing access to a GPIO. What we have now is the
+> > > GPIOD_FLAGS_BIT_NONEXCLUSIVE flag which was introduced as a hack and
+> > > doesn't do any locking or arbitration of access - it literally just h=
+and
+> > > the same GPIO descriptor to all interested users.
+> > >
+> > > The proposed solution is composed of three major parts: the high-leve=
+l,
+> > > shared GPIO proxy driver that arbitrates access to the shared pin and
+> > > exposes a regular GPIO chip interface to consumers, a low-level share=
+d
+> > > GPIOLIB module that scans firmware nodes and creates auxiliary device=
+s
+> > > that attach to the proxy driver and finally a set of core GPIOLIB
+> > > changes that plug the former into the GPIO lookup path.
+> > >
+> > > The changes are implemented in a way that allows to seamlessly compil=
+e
+> > > out any code related to sharing GPIOs for systems that don't need it.
+> > >
+> > > The practical use-case for this are the powerdown GPIOs shared by
+> > > speakers on Qualcomm db845c platform, however I have also extensively
+> > > tested it using gpio-virtuser on arm64 qemu with various DT
+> > > configurations.
+> >
+> > Thanks for your series, part of which is now present linux-next.
+> > IIUIC, this requires the direction of the GPIO to be fixed?
+> >
+> > We have a long-standing use-case on various Renesas R-Car Gen3 boards
+> > (e.g. Salvator-X(S) and ULCB[1]), where GPIOs are shared by LEDs and
+> > key switches.  Basically, the GPIO is connected to:
+> >   1. A key switch connecting to GND when closed, with pull-up.
+> >   2. The gate of an N-channel MOSFET, turning on an LED when driven
+> >      high.
+> >
+> > Hence:
+> >   - In output mode, the LED can be controlled freely,
+> >   - In input mode, the LED is on, unless the key is pressed,
+> >   - Hence the switch state can only be read when the LED is turned on.
+> > If you have any idea how to handle this, feel free to reply ;-)
+>
+> How is this done currently? Even without this series and using the
+> GPIOD_FLAGS_BIT_NONEXCLUSIVE, the descriptor has a well-defined
+> direction so it's not possible for two drivers to request it as input
+> and output simultaneously. The second requester will override the
+> previous settings.
 
-This patch sets the CAN-FD mode as the default for all SoCs by dropping
-the rcar_canfd_set_mode() as some SoC requires mode setting in global
-reset mode, and the rest of the SoCs in channel reset mode and update the
-rcar_canfd_reset_controller() to take care of these constraints. Moreover,
-the RZ/G3E and R-Car Gen4 SoCs support 3 modes compared to 2 modes on the
-R-Car Gen3. Use inverted logic in rcar_canfd_reset_controller() to
-simplify the code later to support FD-only mode.
+We do not handle it yet:
+  - arch/arm64/boot/dts/renesas/salvator-common.dtsi describes only
+    the keys (key-[a-c]),
+  - arch/arm64/boot/dts/renesas/ulcb.dtsi describes the first key
+    (key-1), and the others as LEDs (led[56]).
 
-[1]
-commit 45721c406dcf ("can: rcar_canfd: Add support for r8a779a0 SoC")
+Gr{oetje,eeting}s,
 
-Fixes: 5cff263606a1 ("can: rcar_canfd: Fix controller mode setting")
-Cc: stable@vger.kernel.org
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- drivers/net/can/rcar/rcar_canfd.c | 53 ++++++++++++++++++-------------
- 1 file changed, 31 insertions(+), 22 deletions(-)
+                        Geert
 
-diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rcar_canfd.c
-index 49ab65274b51..05dbdf46dd6f 100644
---- a/drivers/net/can/rcar/rcar_canfd.c
-+++ b/drivers/net/can/rcar/rcar_canfd.c
-@@ -709,6 +709,11 @@ static void rcar_canfd_set_bit_reg(void __iomem *addr, u32 val)
- 	rcar_canfd_update(val, val, addr);
- }
- 
-+static void rcar_canfd_clear_bit_reg(void __iomem *addr, u32 val)
-+{
-+	rcar_canfd_update(val, 0, addr);
-+}
-+
- static void rcar_canfd_update_bit_reg(void __iomem *addr, u32 mask, u32 val)
- {
- 	rcar_canfd_update(mask, val, addr);
-@@ -755,25 +760,6 @@ static void rcar_canfd_set_rnc(struct rcar_canfd_global *gpriv, unsigned int ch,
- 	rcar_canfd_set_bit(gpriv->base, RCANFD_GAFLCFG(w), rnc);
- }
- 
--static void rcar_canfd_set_mode(struct rcar_canfd_global *gpriv)
--{
--	if (gpriv->info->ch_interface_mode) {
--		u32 ch, val = gpriv->fdmode ? RCANFD_GEN4_FDCFG_FDOE
--					    : RCANFD_GEN4_FDCFG_CLOE;
--
--		for_each_set_bit(ch, &gpriv->channels_mask,
--				 gpriv->info->max_channels)
--			rcar_canfd_set_bit_reg(&gpriv->fcbase[ch].cfdcfg, val);
--	} else {
--		if (gpriv->fdmode)
--			rcar_canfd_set_bit(gpriv->base, RCANFD_GRMCFG,
--					   RCANFD_GRMCFG_RCMC);
--		else
--			rcar_canfd_clear_bit(gpriv->base, RCANFD_GRMCFG,
--					     RCANFD_GRMCFG_RCMC);
--	}
--}
--
- static int rcar_canfd_reset_controller(struct rcar_canfd_global *gpriv)
- {
- 	struct device *dev = &gpriv->pdev->dev;
-@@ -806,6 +792,16 @@ static int rcar_canfd_reset_controller(struct rcar_canfd_global *gpriv)
- 	/* Reset Global error flags */
- 	rcar_canfd_write(gpriv->base, RCANFD_GERFL, 0x0);
- 
-+	/* Set the controller into appropriate mode */
-+	if (!gpriv->info->ch_interface_mode) {
-+		if (gpriv->fdmode)
-+			rcar_canfd_set_bit(gpriv->base, RCANFD_GRMCFG,
-+					   RCANFD_GRMCFG_RCMC);
-+		else
-+			rcar_canfd_clear_bit(gpriv->base, RCANFD_GRMCFG,
-+					     RCANFD_GRMCFG_RCMC);
-+	}
-+
- 	/* Transition all Channels to reset mode */
- 	for_each_set_bit(ch, &gpriv->channels_mask, gpriv->info->max_channels) {
- 		rcar_canfd_clear_bit(gpriv->base,
-@@ -823,10 +819,23 @@ static int rcar_canfd_reset_controller(struct rcar_canfd_global *gpriv)
- 			dev_dbg(dev, "channel %u reset failed\n", ch);
- 			return err;
- 		}
--	}
- 
--	/* Set the controller into appropriate mode */
--	rcar_canfd_set_mode(gpriv);
-+		/* Set the controller into appropriate mode */
-+		if (gpriv->info->ch_interface_mode) {
-+			/* Do not set CLOE and FDOE simultaneously */
-+			if (!gpriv->fdmode) {
-+				rcar_canfd_clear_bit_reg(&gpriv->fcbase[ch].cfdcfg,
-+							 RCANFD_GEN4_FDCFG_FDOE);
-+				rcar_canfd_set_bit_reg(&gpriv->fcbase[ch].cfdcfg,
-+						       RCANFD_GEN4_FDCFG_CLOE);
-+			} else {
-+				rcar_canfd_clear_bit_reg(&gpriv->fcbase[ch].cfdcfg,
-+							 RCANFD_GEN4_FDCFG_FDOE);
-+				rcar_canfd_clear_bit_reg(&gpriv->fcbase[ch].cfdcfg,
-+							 RCANFD_GEN4_FDCFG_CLOE);
-+			}
-+		}
-+	}
- 
- 	return 0;
- }
--- 
-2.43.0
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
