@@ -1,150 +1,175 @@
-Return-Path: <linux-renesas-soc+bounces-24746-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24747-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8444C6B7FD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Nov 2025 20:55:26 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id B220BC6B878
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Nov 2025 21:09:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sto.lore.kernel.org (Postfix) with ESMTPS id ECE5528EF5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Nov 2025 19:55:25 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id B4C86359F70
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Nov 2025 20:08:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3F492EACF2;
-	Tue, 18 Nov 2025 19:55:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 658ED2D248D;
+	Tue, 18 Nov 2025 20:08:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iw8eqyog"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="quiVWOGl"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87EB528371;
-	Tue, 18 Nov 2025 19:55:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91F802F39A0
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Nov 2025 20:08:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763495722; cv=none; b=F7PPK7BRNRiOa5XT4mYO3ABcM/Mg/c1wS+4KTuB6O0eJyOtS4Wh5n/cEblSgGZHCoNO8qC9NURx1DJtzQKobaQTQVsUmBeXWTOpgBNWuTU52WJBGyVu2o+JYV2kXpkeZrDEEihDjdA5d1jKH5VmhVX6VpJ+5K0fU2e80ighxk8Q=
+	t=1763496517; cv=none; b=hgYRzOXXbC6UJNVgOAY+4R/ytuMN2gykbfEcLlnRcpiSmd27J/AOR/TIDQVrrinElj/z9KqHgTk3FKs5YawqYoc0ubM0Fix5FNnVK/DEkYp3fYnemhhTA9ULQ5hTWhdm29Rq12xGt5I0XdOxaVfM2c5C0FdG25FpzEobnLuJcG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763495722; c=relaxed/simple;
-	bh=6DjHmoHBbwPs/79b07LTu4yVrCTPsQTtMWj2MGsHj4A=;
+	s=arc-20240116; t=1763496517; c=relaxed/simple;
+	bh=os5B8SRPAkvKEIhvaCs275WfA06F9kmtY01nuafqvHU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ktu3tf7phMjL69iUexUnXJ+uvLLNpXOUWmN8NBEvNg2Fsv3zgP82M9/qqR2KfeZBxQwDTXLGNZhOE0bQfRj2tlCgFYCxjlNDNZ6SKG47oYwryLixoRi0oYF2HKO7q9pR9oOlOCXqT/foP0oCSggO+rnCG9L2PckLiv5l+Iqa0Ek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iw8eqyog; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AC35C4CEFB;
-	Tue, 18 Nov 2025 19:55:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763495722;
-	bh=6DjHmoHBbwPs/79b07LTu4yVrCTPsQTtMWj2MGsHj4A=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=iw8eqyogo287QLQGRoA4Vb6+uqnvKoouUAJAwPxnJaWiHT3cM1Q+x13Knij8yMHWk
-	 gttMWK7ji6tdEmYymLAtR4kuDtsyn19etKXutDvpIc+sOAjgGwzATvs51JUq/L68cB
-	 EgxPcioj45VXPZyo2nK0M5v0rOTiMQCN13fKmNwEREJcfk9xCVKMj/QqOl+5PjKjA4
-	 p1xRtlt6U4PE2pNKETQcLxJHtLjHnKZ5srZQPZO11u7sJfyqaZH20sDYKuFLjY/L6+
-	 yLmSPh6Hc1PKiHkgA9eJ7IFyfqcSZqzHnE/EMOrxTmBlyIrxTCHZfLvNUaLW/tdbef
-	 VbaUY6z5No/Yw==
-Message-ID: <1a4d2276-75e1-4aa0-8ff2-c932ce5d6edc@kernel.org>
-Date: Tue, 18 Nov 2025 20:55:14 +0100
+	 In-Reply-To:Content-Type; b=iJQljP0iWsentthK/f8IM6gM+888BDSDQaeMeXcH2H82uf05ihvjnErayoVWTkUnY2lImqoOm5fiaL9E+V94HlFcdEvDsz1NQJOl0VtKalTMOuJOm7Vx+AHtP3fGixqUbQTy9xPCIMPYzUxMcxrYgHKkEnenPjUhAVODH6acweE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=quiVWOGl; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4d9wfH16TQz9v6T;
+	Tue, 18 Nov 2025 21:08:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1763496503;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=62JbVR0rfXOv5ktjxfrITbxdHa9P8CnEO8KeHvj0UO0=;
+	b=quiVWOGlLM7ObPjgW9oRstr2jgcysxVx8IM7nauUYgahiBaTPByepE/uHZIuqHJfw+tGqt
+	Gq/jqe2nrgaff56cpUhFjN0WKJIh7WtxQfFegX7T+JYgbn268ul83BaFOxU8B3GCCHAZD0
+	qzoUzJbipQIxfevKwU7BEb4lLj6kbl0viQVNTIK/ayGqprUTY9ZVRXMI7IlyBuwS8fnJ+R
+	y/+An1P/0XyTFIPf5qlRvvkjb/LKQtctnUFBr7hYQFjRBGdSb8SJRbo8IRiTXE5xnuyDBa
+	4MWy0pgvZUttQMgQ9qVapAh2bVKa3McklMnTnPtJOhqB+7bo4Qxz7wyi4Ok5fg==
+Message-ID: <246dfc90-5d6c-4bac-8e13-ce95653fa6d7@mailbox.org>
+Date: Tue, 18 Nov 2025 21:08:18 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] of/irq: Ignore interrupt parent for nodes without
- interrupts
-To: Mark Brown <broonie@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Paul Walmsley <pjw@kernel.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Alexandre Ghiti <alex@ghiti.fr>, Samuel Holland <samuel@sholland.org>,
- Marc Zyngier <maz@kernel.org>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-kernel@vger.kernel.org, Marek Szyprowski <m.szyprowski@samsung.com>
-References: <fbe6fc3657070fe2df7f0529043542b52b827449.1763116833.git.geert+renesas@glider.be>
- <b037f67a-b241-4689-9914-57ff578c1454@sirena.org.uk>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH] drm/atomic-helper: rcar-du: Enable CRTC early on R-Car DU
+To: Maxime Ripard <mripard@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, Aradhya Bhatia <a-bhatia1@ti.com>,
+ David Airlie <airlied@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ linux-renesas-soc@vger.kernel.org
+References: <20251107230517.471894-1-marek.vasut+renesas@mailbox.org>
+ <2v43kghgrw7qeh7l77czahr5ms34raykviuzetdbda7wuvh2ic@mc5stkequmh3>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <b037f67a-b241-4689-9914-57ff578c1454@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <2v43kghgrw7qeh7l77czahr5ms34raykviuzetdbda7wuvh2ic@mc5stkequmh3>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-MBO-RS-META: i99pdnje8uybuybh7fpgq4rb1rkmtw7t
+X-MBO-RS-ID: c41cec412c7958fb13d
 
-On 18/11/2025 20:34, Mark Brown wrote:
-> On Fri, Nov 14, 2025 at 11:47:54AM +0100, Geert Uytterhoeven wrote:
->> The Devicetree Specification states:
+On 11/18/25 5:49 PM, Maxime Ripard wrote:
+> Hi,
+> 
+> On Sat, Nov 08, 2025 at 12:04:26AM +0100, Marek Vasut wrote:
+>> Introduce a variant of drm_atomic_helper_commit_modeset_enables()
+>> which enables CRTC before encoder/bridge. This is needed on R-Car DU,
+>> where the CRTC provides clock to LVDS and DSI, and has to be started
+>> before a bridge may call .prepare , which may trigger e.g. DSI transfer.
 >>
->>     The root of the interrupt tree is determined when traversal of the
->>     interrupt tree reaches an interrupt controller node without an
->>     interrupts property and thus no explicit interrupt parent.
+>> This specifically fixes the case where ILI9881C is connected to R-Car
+>> DU DSI. The ILI9881C panel driver does DSI command transfer in its
+>> struct drm_panel_funcs .prepare function, which is currently called
+>> before R-Car DU rcar_du_crtc_atomic_enable() rcar_mipi_dsi_pclk_enable()
+>> and the DSI command transfer times out.
 >>
->> However, of_irq_init() gratuitously assumes that a node without
->> interrupts has an actual interrupt parent if it finds an
->> interrupt-parent property higher up in the device tree.  Hence when such
->> a property is present (e.g. in the root node), the root interrupt
->> controller may not be detected as such, causing a panic:
+>> Fix this by restoring the enable ordering introduced in commit
+>> c9b1150a68d9 ("drm/atomic-helper: Re-order bridge chain pre-enable
+>> and post-disable"), to enable CRTC early.
+>>
+>> Fixes: c9b1150a68d9 ("drm/atomic-helper: Re-order bridge chain pre-enable and post-disable")
+>> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+>> ---
+>> Cc: Aradhya Bhatia <a-bhatia1@ti.com>
+>> Cc: David Airlie <airlied@gmail.com>
+>> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+>> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>> Cc: Magnus Damm <magnus.damm@gmail.com>
+>> Cc: Maxime Ripard <mripard@kernel.org>
+>> Cc: Simona Vetter <simona@ffwll.ch>
+>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>> Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>> Cc: dri-devel@lists.freedesktop.org
+>> Cc: linux-renesas-soc@vger.kernel.org
+>> ---
+>>   drivers/gpu/drm/drm_atomic_helper.c           | 24 +++++++++++++++++++
+>>   drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c |  2 +-
+>>   include/drm/drm_atomic_helper.h               |  2 ++
+>>   3 files changed, 27 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+>> index 5a473a274ff06..c0cdd36a03df1 100644
+>> --- a/drivers/gpu/drm/drm_atomic_helper.c
+>> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+>> @@ -1692,6 +1692,30 @@ void drm_atomic_helper_commit_modeset_enables(struct drm_device *dev,
+>>   }
+>>   EXPORT_SYMBOL(drm_atomic_helper_commit_modeset_enables);
+>>   
+>> +/**
+>> + * drm_atomic_helper_commit_modeset_enables_crtc_early - modeset commit to enable outputs, start CRTC early
+>> + * @dev: DRM device
+>> + * @state: atomic state object being committed
+>> + *
+>> + * This function is a variant of drm_atomic_helper_commit_modeset_enables()
+>> + * which enables CRTC before encoder/bridge. This is needed on R-Car DU,
+>> + * where the CRTC provides clock to LVDS and DSI, and has to be started
+>> + * before a bridge may call .prepare , which may trigger e.g. DSI transfer.
+>> + */
+>> +void
+>> +drm_atomic_helper_commit_modeset_enables_crtc_early(struct drm_device *dev,
+>> +						    struct drm_atomic_state *state)
+>> +{
+>> +	crtc_enable(dev, state);
+>> +
+>> +	encoder_bridge_pre_enable(dev, state);
+>> +
+>> +	encoder_bridge_enable(dev, state);
+>> +
+>> +	drm_atomic_helper_commit_writebacks(dev, state);
+>> +}
+>> +EXPORT_SYMBOL(drm_atomic_helper_commit_modeset_enables_crtc_early);
+>> +
+>>   /*
+>>    * For atomic updates which touch just a single CRTC, calculate the time of the
+>>    * next vblank, and inform all the fences of the deadline.
+>> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
+>> index 116ad9605704b..b7e2a735a03ae 100644
+>> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
+>> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
+>> @@ -547,7 +547,7 @@ static void rcar_du_atomic_commit_tail(struct drm_atomic_state *old_state)
+>>   	drm_atomic_helper_commit_modeset_disables(dev, old_state);
+>>   	drm_atomic_helper_commit_planes(dev, old_state,
+>>   					DRM_PLANE_COMMIT_ACTIVE_ONLY);
+>> -	drm_atomic_helper_commit_modeset_enables(dev, old_state);
+>> +	drm_atomic_helper_commit_modeset_enables_crtc_early(dev, old_state);
 > 
-> I'm seeing a boot regression on the TI x15 platform in -next which
-> bisects to this patch in -next, unfortunately even with earlycon (though
-> just earlycon, I don't know the platform specific runes) the board just
-> dies with no output:
-> 
->   https://validation.linaro.org/scheduler/job/4252918#L409
-> 
-> It does seem like a plausible patch for this sort of issue though, and
-> the bisect converges smoothly:
-
-
-All Samsung platforms fail as well. I was waiting with bisection but
-Marek was as usually very fast:
-
-https://lore.kernel.org/all/20251118115037.1866871-1-m.szyprowski@samsung.com/
-
-Best regards,
-Krzysztof
+> Just like we discussed on Linus' series for MCDE, we don't want to have
+> an helper variant for every driver variation. If rcar is the only user
+> of that helper, rename and export the symbols you need, and roll yor own
+> commit_tail implementation.
+It seems both Linus and me are affected, and those are now two different 
+drivers ?
 
