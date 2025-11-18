@@ -1,166 +1,192 @@
-Return-Path: <linux-renesas-soc+bounces-24709-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24708-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2CADC690D4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Nov 2025 12:24:14 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0F4FC690AC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Nov 2025 12:21:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B5A514E2329
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Nov 2025 11:24:13 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id DE11B34D400
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Nov 2025 11:21:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E18482F1FD2;
-	Tue, 18 Nov 2025 11:24:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1850E34FF68;
+	Tue, 18 Nov 2025 11:21:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fzJQNUOv"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 520581EB9FA
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Nov 2025 11:24:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A85EC34F259
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Nov 2025 11:21:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763465050; cv=none; b=N+eIqFF1yvNsR4mgXyZNyBv/jd+2aw8C/wsXMZ4ky7mMos/txbHiC97rDkK8yL6kq1WyVqVWayxZYCZUb3uwpKYSvF16xg+FRudzk4HhTn/+tWJeD2gpLvzBSMRd6JXh3DNyqbhlD4Hv/abIcUEw0WSLtzZqp3TagkvudBFFCTg=
+	t=1763464903; cv=none; b=e9x2ZxWHLmo6phX20lwvnfI8LARnUmHgwgK/KP3YR6BG/mtnZLxtVnR7SV4HiW/ZXJmMALFB/dQzzO4Ddtru2Ihpkt14SGHZihY6HLzmFWXq/8k885zkxkr3G01I93sGmEzFBxeLXIm6Pww/EVELdLidV732J38H6mB5zti0pDM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763465050; c=relaxed/simple;
-	bh=B1FsBCLZ1091fdu3CKfazhUK9tOtY4FVr3EaczDF5Oc=;
+	s=arc-20240116; t=1763464903; c=relaxed/simple;
+	bh=EuhxRA+knsyPVuJt7F4wqQw9y3Vk4rK+C1Og9Af4F84=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bsXMJHd1v5R90I1f2/Jc6YeS8HP5TbfIlwwq77uHhlamaP06IduANZ/AJaeFiZ6zF5L7CnWCdzTSI/TGbS/uZeAF5oK0regEog6OmXLAh3ThyrHzgi1ZVAe2QjIav+NnTue7jV5rHQLvD49sLYDUxdUjNxzb/gm1+z7TjZ31W1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	 To:Cc:Content-Type; b=e9BWOGgDLXkvbFPWcoGT/iRVxxyLLF63gJL1zc9ieh+y2JY7Er7Y1LiQtSweLpeqFcCheskzD0s56eVfZozAEzQ4D3mvtXxtjmxD+gYOmvGYUfDQeEsUfmCkOvfxalpNOFvsIEhh0C42uYC1QSG5Y66BxmcRVh/7Fzt1cqc0dpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fzJQNUOv; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-93728bac144so2956896241.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Nov 2025 03:24:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763465048; x=1764069848;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-42b3c965cc4so2754064f8f.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Nov 2025 03:21:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763464899; x=1764069699; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=prvcS1Nj5HxJbRS6Jy4uHehWZnJysfpIngTPCq04YCY=;
-        b=Bw9CGi8f0NMY73G+yry6Y4drdag7EWn5+mFk+fQBwiSiYOkFH1pKA0SekMr5I/g7B3
-         XSBUgMWWVeHHqJD0ZZd74t99ip4B8kdjjIeodcRZ3dEPnLQify6cLL495rr2sDCvihVL
-         vUwz5L1c4CYY1qTlg9NCrubAN/UHOSjaSnNMCn2Q/t9DrsOQSdREW3mVyh8cYexCcjl1
-         uDMcbxSuj0pBwqbP1N1vpvMeIZfifygNuG28Cb0K9k6QckQeRBHpKV0FPKiqgUNdznI3
-         /kstoHPepCc9hi+fpG/ZLOz6SMjPgD4PieMFi9iihzOEBzgngwZqaURjBgOiJgQW7eLR
-         XiTA==
-X-Forwarded-Encrypted: i=1; AJvYcCVFSkoLg7hSZgAQzc9tE0kc8BCQPv+ud8otbWYoBHjmChPn69K54452YC7IzvxbGhH78lE9EQnHm51erroDJu7wNw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YystB0Ku4fyVqzWv0iBMypPl6xdzgxbrYNjA5eOwRs/6Mb2PW5L
-	O4jEshrdqm5EeIhjxVVnlKpVcP6Axrs35DIbUXG4bL1Qz1GCXD5jY6hgvL60k7epsg0=
-X-Gm-Gg: ASbGncu5OxnJoi87Es0XEUbGf71oKUviJ83zcFR2OypJmuyTnijbCtQfHZSzabcPDGz
-	Z48ACrr5IgewCsUZJDdK+QZmarHE49Jgs0JCGt/T6zACn/wZKOAX2kwIQ7Iw+GK8eA78FG6rZVL
-	eyJvy5ac0LA+G/fNryZkwpuL/BZcxpkNnG+q+8Q9j6PDs13r5HDTKRlVY3Nbm/fNjrJgs7MwRHl
-	AyjHv6Q+3JFESeMMbL2ab9RzwRHJysWi/3gHxEIR36XvawkrNicndwyEndtXRIVMBcwazWeL3rd
-	HYGvlnhOd/BrrUtmbhlSyo2eEH8KsmLZP8sXmSbPTB1LdFL+Oyb+gmRMlUkp+2pZv3YXzwGlt8q
-	3ZAZthvEXxLvaT/3W0fvic7V0BN0U2mlca6EUR/cOKwrOTXPu5AZx0rHbv2o454FgzIYYg9smT+
-	QTAzdvE+qIsbR+6yW/rf0XLTjE590t1PoKbCsAssNBBzamNoHoMfzl
-X-Google-Smtp-Source: AGHT+IEJshpMbzHP3plBai2d4q1ruqm9nx30wYgdgo3Ah8PrfOFUtE0rbBaR9OrjwsHq7tn74PUxFQ==
-X-Received: by 2002:a05:6102:26d1:b0:5df:b36c:2f05 with SMTP id ada2fe7eead31-5dfc5ba1823mr4966181137.44.1763465047939;
-        Tue, 18 Nov 2025 03:24:07 -0800 (PST)
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com. [209.85.221.175])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5e18685814bsm1212893137.1.2025.11.18.03.24.07
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Nov 2025 03:24:07 -0800 (PST)
-Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-559836d04f6so3389937e0c.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Nov 2025 03:24:07 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUmXqRoKXsQQwBpMqs2HdY+eVJBmtauOMGQlG6VP0TEbULlq5l96Ne+qXTMI8YKB0AF6FPRxW7xr4Q9MAnVTDNsBQ==@vger.kernel.org
-X-Received: by 2002:a05:6102:4189:b0:5dc:7fe3:1d0 with SMTP id
- ada2fe7eead31-5dfc5586babmr5642681137.19.1763464547898; Tue, 18 Nov 2025
- 03:15:47 -0800 (PST)
+        bh=N4adjp1n4HMnqOgVZgrtwuRwqjyLZVjTGk78K7r+qec=;
+        b=fzJQNUOvtv8CHTbpiVWXmtPbyklUgz4em8fHHyqSiz7WAmqKujoNQw/5/YBw3697KQ
+         kciYsGTzEjX++uwNmHD2YRmbu7PQwYIY4FanjrP79h25cNnfjU9dWqSVUJDFIgFOQgJC
+         pAzOGT6P46nMrUuuTkWM9sKqsJnGC7oDW/dnaWcr5Udw0I3Cv6qSXLy34qZRBfjxg568
+         maXwrLq3bxSvpM9sjgm/u08016Q2wOPyTsReB8kpZE8lKDgA1yhn1wcibLXzxxXGQuw2
+         L6htTbciGjI4Ijox1YZccQn+1PnwOIAeigDQI8GT0I5Xnrqh5PUCKDb75AxY2Bm20SFS
+         QPgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763464899; x=1764069699;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=N4adjp1n4HMnqOgVZgrtwuRwqjyLZVjTGk78K7r+qec=;
+        b=t0W3NS3KNrOthpD2cy1Th2bNhDOMxt71QsJnTzltLhwrwKhHveuoVRpIHW4ba7CiDe
+         ivB3OTo/PiYSdVspio5ywliUC6UhfOg3K0qyJClQ6sfZOn0sDIvsw63In0P/ANqDe7qy
+         PqwIgN72M7Zf25crW9UULAxr5KyMayMdWzIhL7ZGK1IbARUcpI5VN8Q6YbETAwQIlz87
+         LgkjpyOrt2C2KZUau3LTMIQsTD58cl2gCwiKP4nuUt4I0kRcReQbQtXxSK7r6875IZJW
+         nmgA+HxGAqN9bWAEEOGv/67mERIR2YaHfILMJvOxvWP1Ch7eul5h6wAh7rdRNhoxryx6
+         R41g==
+X-Forwarded-Encrypted: i=1; AJvYcCVOWT52Nzifl6tuMZFwILi3IouzG9oTW9/FyGwdiP1iKDoKNi6jA+h6DI9SuCaRDrJKVXjlHpyPO0Z4SxqXrLLW4A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwyCwJxpzGlyWEPFxQZFMcKF88YkgiPWcEujf5N+NyWKL2dDIsm
+	hcOsFhQj5S/npnWh9wuXAI+b8QlfWeiCEWNyVTWYzlYFULmHAp/TaX3IYt2WyE0lIUmIqcovWZb
+	r2+KbU8Y2ywsyIPyL2l3iiqkZFPPPkgY=
+X-Gm-Gg: ASbGncsXDDhsMN54BNGq1n4h9PJByJpxsy5NPeM3mrj7h0Pp+6R0NfE9fjGk+6P+j5s
+	LVj4NFB2uYJY8OK7SmZf+pmFTfx9O08Rtdxxs10TnoNUb/L3GPaHmnsUFUfdeIgVDt39+4Q4QLt
+	J8/k1KbXgvsNER3zih6RWSWMFMR/DqK40yNhVVrQNNMdrSZb32ZH2wup4WUetzliPL8p2ZhGuaO
+	ybBxBP6GgqarNR71V9gpuBMjnuy2t/5ifzoGH8T+hRimUsr7mVVFZ6mnRuKPgfPYfKJWz9iO2yw
+	6LfJIAFeBVKR+vxmP8b/RqJNAI9T
+X-Google-Smtp-Source: AGHT+IGANyPdqzYmfFEaFVGhyAXfuxeoDjl23RYIriV6FF/16VMTynZc4LvP1liBFBcOfFF1lFTyu84kN1+K1m6YB6o=
+X-Received: by 2002:a05:6000:178f:b0:429:cc35:7032 with SMTP id
+ ffacd0b85a97d-42ca8bd18c7mr2818838f8f.23.1763464898795; Tue, 18 Nov 2025
+ 03:21:38 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251112-gpio-shared-v4-0-b51f97b1abd8@linaro.org>
-In-Reply-To: <20251112-gpio-shared-v4-0-b51f97b1abd8@linaro.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 18 Nov 2025 12:15:36 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVR9Z70+M-SqHYrHiC6H_yw=VRuDOOg=YnXSNKjPnx3WQ@mail.gmail.com>
-X-Gm-Features: AWmQ_bnG1e_JZjF_t0LAgzvKf5wM6L4cWt2t2bx5VV8t6YS3prQ_Mx2gaFVEov0
-Message-ID: <CAMuHMdVR9Z70+M-SqHYrHiC6H_yw=VRuDOOg=YnXSNKjPnx3WQ@mail.gmail.com>
-Subject: Re: [PATCH v4 00/10] gpio: improve support for shared GPIOs
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Kees Cook <kees@kernel.org>, Mika Westerberg <westeri@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, Manivannan Sadhasivam <mani@kernel.org>, 
+References: <20251015192611.241920-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdW1B7Yk1hUU9MSJsiL8wSmjAUGN7Qd_wgBHv8Ct=-wi4Q@mail.gmail.com>
+ <CA+V-a8uY11uWoQ_en5QC=W4HPHRwT6rKQQJ-knT8Gi-+czm05w@mail.gmail.com>
+ <20251021184502.GD19043@pendragon.ideasonboard.com> <CAMuHMdVrfVP1XZbQVNwEEP8L69mVzNN2yLSjNyHO7o2zqBuY0w@mail.gmail.com>
+In-Reply-To: <CAMuHMdVrfVP1XZbQVNwEEP8L69mVzNN2yLSjNyHO7o2zqBuY0w@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Tue, 18 Nov 2025 11:21:12 +0000
+X-Gm-Features: AWmQ_bl1DwIS-3Ab86i8VXMJ8kC7jPBYyZty6PEvVtZX5ppN0ByYyuYIgaFMugg
+Message-ID: <CA+V-a8vLXg-whqwpE3pLF5JP3kK9on9Hu3iyLXEvrWbR9XmF5w@mail.gmail.com>
+Subject: Re: [PATCH v11 0/7] Add support for DU/DSI clocks and DSI driver
+ support for the Renesas RZ/V2H(P) SoC
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
 	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Saravana Kannan <saravanak@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Andy Shevchenko <andy@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Alexey Klimov <alexey.klimov@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konradybcio@kernel.org>, linux-hardening@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Bartosz,
+Hi Laurent/Tomi,
 
-On Wed, 12 Nov 2025 at 15:05, Bartosz Golaszewski <brgl@bgdev.pl> wrote:
-> Bjorn, Konrad: I should have Cc'ed you on v1 but I just went with what
-> came out of b4 --auto-to-cc. It only gave me arm-msm. :( Patch 7 from
-> this series however impacts Qualcomm platforms. It's a runtime dependency
-> of patches 8 and 9. Would you mind Acking it so that I can take it into
-> an immutable branch that I'll make available to Mark Brown for him to
-> take patches 8-10 through the ASoC and regulator trees for v6.19?
+On Mon, Oct 27, 2025 at 11:23=E2=80=AFAM Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
 >
-> Problem statement: GPIOs are implemented as a strictly exclusive
-> resource in the kernel but there are lots of platforms on which single
-> pin is shared by multiple devices which don't communicate so need some
-> way of properly sharing access to a GPIO. What we have now is the
-> GPIOD_FLAGS_BIT_NONEXCLUSIVE flag which was introduced as a hack and
-> doesn't do any locking or arbitration of access - it literally just hand
-> the same GPIO descriptor to all interested users.
+> On Tue, 21 Oct 2025 at 20:45, Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+> > On Tue, Oct 21, 2025 at 07:26:49PM +0100, Lad, Prabhakar wrote:
+> > > On Tue, Oct 21, 2025 at 11:26=E2=80=AFAM Geert Uytterhoeven wrote:
+> > > > On Wed, 15 Oct 2025 at 21:26, Prabhakar <prabhakar.csengg@gmail.com=
+> wrote:
+> > > > > This patch series adds DU/DSI clocks and provides support for the
+> > > > > MIPI DSI interface on the RZ/V2H(P) SoC.
+> > > > >
+> > > > > v10->v11:
+> > > > > - Split CPG_PLL_CLK1_K/M/PDIV macro change into separate patch
+> > > > > - Updated rzv2h_cpg_plldsi_div_determine_rate()
+> > > > >   while iterating over the divider table
+> > > > > - Added Acked-by tag from Tomi for patch 2/7 and 3/7
+> > > > > - Added Reviewed-by tag from Geert for patch 2/7 and 3/7
+> > > >
+> > > > I think this series is ready for merging.
+> > >
+> > > \o/
+> > >
+> > > > > Lad Prabhakar (7):
+> > > > >   clk: renesas: rzv2h-cpg: Add instance field to struct pll
+> > > > >   clk: renesas: rzv2h-cpg: Use GENMASK for PLL fields
+> > > > >   clk: renesas: rzv2h-cpg: Add support for DSI clocks
+> > > > >   clk: renesas: r9a09g057: Add clock and reset entries for DSI an=
+d LCDC
+> > > > >   dt-bindings: display: bridge: renesas,dsi: Document RZ/V2H(P) a=
+nd
+> > > > >     RZ/V2N
+> > > > >   drm: renesas: rz-du: mipi_dsi: Add LPCLK clock support
+> > > > >   drm: renesas: rz-du: mipi_dsi: Add support for RZ/V2H(P) SoC
+> > > >
+> > > > As this touches both clk and drm, let's discuss the merge strategy.
+> > > > My proposal:
+> > > >   1. I queue patches 1-3 in an immutable branch with a signed tag,
+> > > >      to be used as a base for the remaining patches,
 >
-> The proposed solution is composed of three major parts: the high-level,
-> shared GPIO proxy driver that arbitrates access to the shared pin and
-> exposes a regular GPIO chip interface to consumers, a low-level shared
-> GPIOLIB module that scans firmware nodes and creates auxiliary devices
-> that attach to the proxy driver and finally a set of core GPIOLIB
-> changes that plug the former into the GPIO lookup path.
+> Done:
 >
-> The changes are implemented in a way that allows to seamlessly compile
-> out any code related to sharing GPIOs for systems that don't need it.
+> The following changes since commit 3a8660878839faadb4f1a6dd72c3179c1df567=
+87:
 >
-> The practical use-case for this are the powerdown GPIOs shared by
-> speakers on Qualcomm db845c platform, however I have also extensively
-> tested it using gpio-virtuser on arm64 qemu with various DT
-> configurations.
+>   Linux 6.18-rc1 (2025-10-12 13:42:36 -0700)
+>
+> are available in the Git repository at:
+>
+>   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git
+> tags/clk-renesas-rzv2h-plldsi-tag
+>
+> for you to fetch changes up to f864e4b721e386be132cc973eadefe5d52cdfd94:
+>
+>   clk: renesas: rzv2h: Add support for DSI clocks (2025-10-27 11:58:03 +0=
+100)
+>
+> ----------------------------------------------------------------
+> clk: renesas: rzv2h: Add support for DSI clocks
+>
+> RZ/V2H Clock Pulse Generator PLLDSI API, shared by clock and MIPI DSI
+> driver source files.
+>
+> ----------------------------------------------------------------
+> Lad Prabhakar (3):
+>       clk: renesas: rzv2h: Add instance field to struct pll
+>       clk: renesas: rzv2h: Use GENMASK for PLL fields
+>       clk: renesas: rzv2h: Add support for DSI clocks
+>
+>  drivers/clk/renesas/rzv2h-cpg.c | 512 ++++++++++++++++++++++++++++++++++=
++++++-
+>  drivers/clk/renesas/rzv2h-cpg.h |  26 +-
+>  include/linux/clk/renesas.h     | 145 ++++++++++++
+>  3 files changed, 672 insertions(+), 11 deletions(-)
+>
+> > > >   2. I queue patch 4 on top of 1 in renesas-clk for v6.19,
+>
+> Done.
+>
+Can you please pick up the DSI patches.
 
-Thanks for your series, part of which is now present linux-next.
-IIUIC, this requires the direction of the GPIO to be fixed?
-
-We have a long-standing use-case on various Renesas R-Car Gen3 boards
-(e.g. Salvator-X(S) and ULCB[1]), where GPIOs are shared by LEDs and
-key switches.  Basically, the GPIO is connected to:
-  1. A key switch connecting to GND when closed, with pull-up.
-  2. The gate of an N-channel MOSFET, turning on an LED when driven
-     high.
-
-Hence:
-  - In output mode, the LED can be controlled freely,
-  - In input mode, the LED is on, unless the key is pressed,
-  - Hence the switch state can only be read when the LED is turned on.
-If you have any idea how to handle this, feel free to reply ;-)
-
-Thanks!
-
-[1] https://www.renesas.com/en/document/sch/r-car-starterkit-schematic
-    (needs a (free) account) Page 15 aka schematic 12.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Cheers,
+Prabhakar
 
