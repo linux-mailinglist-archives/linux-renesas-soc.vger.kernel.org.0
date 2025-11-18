@@ -1,213 +1,218 @@
-Return-Path: <linux-renesas-soc+bounces-24713-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24714-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18F28C69443
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Nov 2025 13:08:29 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB4D8C696F6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Nov 2025 13:39:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id E9E343440E3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Nov 2025 12:03:59 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id C5C5A34AE2B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Nov 2025 12:39:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F2723546E9;
-	Tue, 18 Nov 2025 12:03:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C7CF3126DE;
+	Tue, 18 Nov 2025 12:39:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nyJOinO3"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GR4+0i0p"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B2813546E7
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Nov 2025 12:03:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DEDE2EBBB0
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Nov 2025 12:39:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763467419; cv=none; b=kVo/Qo/9g8geBL6yvZVe5g6QkrjFsM0HWCAgFrVHc5aKvcIrNo2p8Fi6sfq6SlByp7SDwVxNwknncr0M2ub5OEteNeNwEU1zXpF50ZqFUWkLn1gyHltGGyX5w+Bh/v6+evkJvqp6JRjncoU2O3wSCqWlC3tE3msWYTmCCN5y/r4=
+	t=1763469573; cv=none; b=ML63q/4VYmksB/J12mPSt2oN/iQ3dKFmEv6aZoAaJYUO53lH8D3DWOYo/tAtzKCN9OlpwUdk3mWfOASwpfUAk4GMScErPYv38ND9RTbqtfAmCqrrTGygM6KrZVKIsrwAqEZeCEXN2dv9yog34Q01kvF50SHPtVzMN6yjtmg3gKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763467419; c=relaxed/simple;
-	bh=8lrb2dOqfXZH+OWXBuRWVjUfZskhDuUNfpQ7ku927fA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=dQk4jcjqq7v0wGqOgXq7vG+LCVeYOUVrXMXzIakBwgv106GT9doH4jFpULYt0/ceYo/Rs/5hCcijpk8vuJszfEj4Uj3e4ReDhDttiIptF79JsahNUz2g7e1yxKb9OGEL5Ku+icoo3kBy4SuHqtcuEF+kyU0J+KHhrzAsUVjwM/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nyJOinO3; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763467417; x=1795003417;
-  h=date:from:to:cc:subject:message-id;
-  bh=8lrb2dOqfXZH+OWXBuRWVjUfZskhDuUNfpQ7ku927fA=;
-  b=nyJOinO3Q5azWZJPfWHd/Dz92zl21kAUS4HuSeEmylOIz2XOELQDNuws
-   wxuvPwo5dpaAcklot9j9mj5eu0rkIgIjlKlLqxqdx0om6gaOOl2G3xXZQ
-   rIOU+IYJNNqwk15K8nJ+1pUENgfIugPwgoAUmJCmJuTUsSuCQPqMtB7hb
-   YK+JYXi31RHgVfFAxtpFaQYijvVqhrhORN+fbpvn6SthTcN6Bexi7mZFC
-   0VhTTzf1cl8fd6EXkn28ZZEfVUTV8xNMk2qJmGpBU/OZjV2lI8U3Cq+G+
-   1QxSQg0A5XV86WxOOURAn3w8peDjfUdEPBvwwNi8r4rGf/AeYUXG2ay1/
-   w==;
-X-CSE-ConnectionGUID: CABCMIF3TXWU8eYt8u0mSw==
-X-CSE-MsgGUID: pCL4BzujRkCKpqn5oecCgg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="82876783"
-X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
-   d="scan'208";a="82876783"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 04:03:25 -0800
-X-CSE-ConnectionGUID: PZNtZ/InRZ+2sqsmuLa/5g==
-X-CSE-MsgGUID: ea4E63ARQ4GakHv73Z2jEw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
-   d="scan'208";a="190767603"
-Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 18 Nov 2025 04:03:23 -0800
-Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vLKQa-0001hF-1N;
-	Tue, 18 Nov 2025 12:03:20 +0000
-Date: Tue, 18 Nov 2025 20:02:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:master] BUILD SUCCESS
- 0e056776571d7ad3f4c58edb912ce3fb1e4f718d
-Message-ID: <202511182038.V05hQxBK-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1763469573; c=relaxed/simple;
+	bh=08QgB8qKaX3i2DapxCTs97dy/bfjef6zfRlNUY2ki3Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sVkqSUZKRsApmCaYDmyZjToC5/U1BRSsM425gKBoN5kxgeSHP+KRiH4Lq6UFIkokV4KJjBAL9+jeEIgWuo+4c7K2RgnUFcqsgwBy7PMTBG6V2zHVvhBo9oTOgVQ04QvvgHVxjaydCLyKFL0m1G+cM18QYEMUWgvRpTBGy2mQwNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GR4+0i0p; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-477a219dbcaso19778695e9.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Nov 2025 04:39:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763469569; x=1764074369; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vwrEerijLR8cEtR08TVeGqvxntRRCMtwXVUkvykKipc=;
+        b=GR4+0i0pqTX7Z7vC3Bd+VRcYn50dTLS2s+mvZdzzQnLd3o7C1AvnRTIpIs0nQkdL1W
+         JWonek3Ut3x0cfxq8y//0GrknfheYCwyK1ounOX+g1lBasmO137wSa0pEfhdPrghDwb2
+         6PN5WMwnn0gy/KAvjZLQnwN5v7xvXnoK1GTHdFJi3Jyl0rbFlX94JU0SIDn/X/PVpX5L
+         nlAF3fgOrGNqZy1fc0GGxOxepHVrMFhujnO2qj+L4xxjXsd8pDKUKnKAyknej7mAGHCX
+         PHOs/EuAAk6djRRo79BcL+xxarpcvd8OaqMqFLgAg+ih4U01DqgMxbvGaixlICy/TsWX
+         nZxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763469569; x=1764074369;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vwrEerijLR8cEtR08TVeGqvxntRRCMtwXVUkvykKipc=;
+        b=SirPeErMUKEfsr9WvNnHAh5X7a9lXX3BNW6cisZaKlZOb8YzgA3qFeCMSc1IFUHzDH
+         W9/G+xxgAV+6IuyDHxwL38ey5E8b2DkmeyDOS6PqX1fwjXT5l7NCz0YKvHdi6fUaQvSB
+         2rfG9SRked7nmCUiWp07eCXf4+LWEwkevYI7scIahLQpAoQFO9+a+k5KC25txe7yh7EH
+         tngJADRjWgWTn565V/fiDF0+xfXhgNcwMXoYdIn9h/5WoY+HnRIW6aa6ZpQokNtjsxh4
+         C5/18UNt3czJgvGgqo2niakODuu+PVVF2WmyuxSbEDMluJLQuNRI/0BgpkMPx1ixg+9d
+         JA+A==
+X-Forwarded-Encrypted: i=1; AJvYcCX1Gd5NS0CdUhkmS3HFlth1Rx+qksQbRK6zTifwfUl7JrMCubx8vyM2htVtZ+iRgC93gdPJIHRlJ/9BOkfsz0hwTA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzJLmUsn98g7RIoBhBPvNEY409+kLg3RINkN1SsxmSW+/ywz7de
+	M/XWT63KtnwfaOflv/s2qRxVDyef3cqhuGFVn7vsOCDrDC5xhSOI+UYp
+X-Gm-Gg: ASbGncu+c/E1cg5Fhw5G0IkEDhq+A1Mh4EQT3fOAgGxa0MMNx6hiO03icA5ENvyL0zd
+	t4R2hY7n2zvdptZQxvT/Xv4NkJE1A0Shxb8kZFbtNEjLEXbkTqb4TtFHhdHSuO5Bvn5NDjhvoi5
+	FM7m3XuThnbklI4TPuUxPacBn5r4vIMmlVKd1vWRLmnIll8ebGwyGKe7T4pLrpr5t0/Dlhj+XqE
+	Amar5DDHpdBmjStyaIb3LavSlNtU97kBJtMnx4PgGKNZs3cB3XStFAUSDSl7q6x78nlb+q6KJei
+	bsGpO1XDjnotdGPxBPLWhvuE6kD55pI3a1ayJC2eIp67lfDUloChLGvXEkhR6KZN2mPngN1TWjC
+	MuXrzGVU7EvTurj2IszpnZS2rhNP5cQOquOrAeX5kC/rvW20mzwYjiQWpNnu7nmR4hDoKbie36g
+	IXSz91g59xmtlLHvpuKIsghBcHbucK2OyW9+jqK9WSz9F6ZtRQNoMIVMLjyNG5GQ3zhM/LvzcCg
+	KM6C1jhNTvcvcka
+X-Google-Smtp-Source: AGHT+IEoYNWQzEZD7paWmkP6FwlKTYsbsMXIs34oAOoA8ChioIklj1ImVoN2jNXCXJsyM7m/ic/zHw==
+X-Received: by 2002:a05:600c:a05:b0:475:da1a:5418 with SMTP id 5b1f17b1804b1-4778fe55465mr137719985e9.1.1763469569384;
+        Tue, 18 Nov 2025 04:39:29 -0800 (PST)
+Received: from localhost.localdomain (host86-162-200-138.range86-162.btcentralplus.com. [86.162.200.138])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47796a8a695sm199431895e9.13.2025.11.18.04.39.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Nov 2025 04:39:29 -0800 (PST)
+From: Biju <biju.das.au@gmail.com>
+X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
+To: Marc Kleine-Budde <mkl@pengutronix.de>,
+	Vincent Mailhol <mailhol@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Tranh Ha <tranh.ha.xb@renesas.com>,
+	Duy Nguyen <duy.nguyen.rh@renesas.com>,
+	linux-can@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] can: rcar_canfd: Fix CAN-FD mode as default
+Date: Tue, 18 Nov 2025 12:39:25 +0000
+Message-ID: <20251118123926.193445-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: 0e056776571d7ad3f4c58edb912ce3fb1e4f718d  Merge tag 'v6.18-rc6' into renesas-devel
+From: Biju Das <biju.das.jz@bp.renesas.com>
 
-elapsed time: 1503m
+The commit 5cff263606a1 ("can: rcar_canfd: Fix controller mode setting")
+has aligned with the flow mentioned in the hardware manual for all SoCs
+except R-Car Gen3 and RZ/G2L SoCs. On R-Car Gen4 and RZ/G3E SoCs, due to
+the wrong logic in the commit[1] sets the default mode to FD-Only mode
+instead of CAN-FD mode.
 
-configs tested: 120
-configs skipped: 3
+This patch sets the CAN-FD mode as the default for all SoCs by dropping
+the rcar_canfd_set_mode() as some SoC requires mode setting in global
+reset mode, and the rest of the SoCs in channel reset mode and update the
+rcar_canfd_reset_controller() to take care of these constraints. Moreover,
+the RZ/G3E and R-Car Gen4 SoCs support 3 modes compared to 2 modes on the
+R-Car Gen3. Use inverted logic in rcar_canfd_reset_controller() to
+simplify the code later to support FD-only mode.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+[1]
+commit 45721c406dcf ("can: rcar_canfd: Add support for r8a779a0 SoC")
 
-tested configs:
-alpha                             allnoconfig    gcc-15.1.0
-arc                               allnoconfig    gcc-15.1.0
-arc                   randconfig-001-20251117    gcc-14.3.0
-arc                   randconfig-002-20251117    gcc-9.5.0
-arm                               allnoconfig    clang-22
-arm                   randconfig-001-20251117    clang-22
-arm                   randconfig-002-20251117    gcc-14.3.0
-arm                   randconfig-003-20251117    gcc-12.5.0
-arm                   randconfig-004-20251117    gcc-10.5.0
-arm                       versatile_defconfig    gcc-15.1.0
-arm64                             allnoconfig    gcc-15.1.0
-arm64                 randconfig-001-20251117    clang-22
-arm64                 randconfig-002-20251117    gcc-15.1.0
-arm64                 randconfig-003-20251117    gcc-8.5.0
-arm64                 randconfig-004-20251117    gcc-9.5.0
-csky                              allnoconfig    gcc-15.1.0
-csky                  randconfig-001-20251117    gcc-12.5.0
-csky                  randconfig-002-20251117    gcc-9.5.0
-hexagon                           allnoconfig    clang-22
-hexagon               randconfig-001-20251118    clang-16
-hexagon               randconfig-002-20251118    clang-22
-i386                              allnoconfig    gcc-14
-i386        buildonly-randconfig-001-20251118    clang-20
-i386        buildonly-randconfig-002-20251118    clang-20
-i386        buildonly-randconfig-003-20251118    clang-20
-i386        buildonly-randconfig-004-20251118    clang-20
-i386        buildonly-randconfig-005-20251118    gcc-13
-i386        buildonly-randconfig-006-20251118    clang-20
-i386                  randconfig-001-20251118    clang-20
-i386                  randconfig-002-20251118    clang-20
-i386                  randconfig-003-20251118    gcc-14
-i386                  randconfig-004-20251118    gcc-14
-i386                  randconfig-005-20251118    clang-20
-i386                  randconfig-006-20251118    gcc-14
-i386                  randconfig-007-20251118    gcc-14
-i386                  randconfig-011-20251118    gcc-14
-i386                  randconfig-012-20251118    gcc-12
-i386                  randconfig-013-20251118    clang-20
-i386                  randconfig-014-20251118    gcc-14
-i386                  randconfig-015-20251118    gcc-14
-i386                  randconfig-016-20251118    gcc-14
-i386                  randconfig-017-20251118    clang-20
-loongarch                         allnoconfig    clang-22
-loongarch                           defconfig    clang-19
-loongarch             randconfig-001-20251118    gcc-15.1.0
-loongarch             randconfig-002-20251118    gcc-15.1.0
-m68k                              allnoconfig    gcc-15.1.0
-m68k                                defconfig    gcc-15.1.0
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                          defconfig    gcc-15.1.0
-mips                              allnoconfig    gcc-15.1.0
-mips                        bcm47xx_defconfig    clang-18
-mips                           gcw0_defconfig    clang-22
-nios2                             allnoconfig    gcc-11.5.0
-nios2                               defconfig    gcc-11.5.0
-nios2                 randconfig-001-20251118    gcc-11.5.0
-nios2                 randconfig-002-20251118    gcc-8.5.0
-openrisc                          allnoconfig    gcc-15.1.0
-openrisc                            defconfig    gcc-15.1.0
-parisc                            allnoconfig    gcc-15.1.0
-parisc                              defconfig    gcc-15.1.0
-parisc                randconfig-001-20251118    gcc-14.3.0
-parisc                randconfig-002-20251118    gcc-12.5.0
-parisc64                            defconfig    gcc-15.1.0
-powerpc                           allnoconfig    gcc-15.1.0
-powerpc               randconfig-001-20251118    clang-22
-powerpc               randconfig-002-20251118    clang-22
-powerpc                         wii_defconfig    gcc-15.1.0
-powerpc64             randconfig-001-20251118    gcc-13.4.0
-powerpc64             randconfig-002-20251118    gcc-8.5.0
-riscv                             allnoconfig    gcc-15.1.0
-riscv                               defconfig    clang-22
-riscv                 randconfig-001-20251117    gcc-12.5.0
-riscv                 randconfig-002-20251117    gcc-15.1.0
-s390                              allnoconfig    clang-22
-s390                                defconfig    clang-22
-s390                  randconfig-001-20251117    gcc-14.3.0
-s390                  randconfig-002-20251117    clang-22
-sh                                allnoconfig    gcc-15.1.0
-sh                                  defconfig    gcc-15.1.0
-sh                    randconfig-001-20251117    gcc-15.1.0
-sh                    randconfig-002-20251117    gcc-15.1.0
-sh                   rts7751r2dplus_defconfig    gcc-15.1.0
-sh                           se7750_defconfig    gcc-15.1.0
-sh                     sh7710voipgw_defconfig    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-sparc                               defconfig    gcc-15.1.0
-sparc                 randconfig-001-20251118    gcc-8.5.0
-sparc                 randconfig-002-20251118    gcc-8.5.0
-sparc64                             defconfig    clang-20
-sparc64               randconfig-001-20251118    clang-22
-sparc64               randconfig-002-20251118    clang-22
-um                                allnoconfig    clang-22
-um                                  defconfig    clang-22
-um                             i386_defconfig    gcc-14
-um                    randconfig-001-20251118    clang-22
-um                    randconfig-002-20251118    clang-22
-um                           x86_64_defconfig    clang-22
-x86_64                            allnoconfig    clang-20
-x86_64      buildonly-randconfig-001-20251118    clang-20
-x86_64      buildonly-randconfig-002-20251118    gcc-14
-x86_64      buildonly-randconfig-003-20251118    clang-20
-x86_64      buildonly-randconfig-004-20251118    clang-20
-x86_64      buildonly-randconfig-005-20251118    clang-20
-x86_64      buildonly-randconfig-006-20251118    clang-20
-x86_64                              defconfig    gcc-14
-x86_64                randconfig-011-20251118    clang-20
-x86_64                randconfig-012-20251118    clang-20
-x86_64                randconfig-013-20251118    gcc-14
-x86_64                randconfig-014-20251118    clang-20
-x86_64                randconfig-015-20251118    clang-20
-x86_64                randconfig-016-20251118    clang-20
-x86_64                randconfig-071-20251118    gcc-13
-x86_64                randconfig-072-20251118    clang-20
-x86_64                randconfig-073-20251118    gcc-14
-x86_64                randconfig-074-20251118    gcc-13
-x86_64                randconfig-075-20251118    gcc-14
-x86_64                randconfig-076-20251118    clang-20
-xtensa                            allnoconfig    gcc-15.1.0
-xtensa                randconfig-001-20251118    gcc-9.5.0
+Fixes: 5cff263606a1 ("can: rcar_canfd: Fix controller mode setting")
+Cc: stable@vger.kernel.org
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+ drivers/net/can/rcar/rcar_canfd.c | 53 ++++++++++++++++++-------------
+ 1 file changed, 31 insertions(+), 22 deletions(-)
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rcar_canfd.c
+index 49ab65274b51..05dbdf46dd6f 100644
+--- a/drivers/net/can/rcar/rcar_canfd.c
++++ b/drivers/net/can/rcar/rcar_canfd.c
+@@ -709,6 +709,11 @@ static void rcar_canfd_set_bit_reg(void __iomem *addr, u32 val)
+ 	rcar_canfd_update(val, val, addr);
+ }
+ 
++static void rcar_canfd_clear_bit_reg(void __iomem *addr, u32 val)
++{
++	rcar_canfd_update(val, 0, addr);
++}
++
+ static void rcar_canfd_update_bit_reg(void __iomem *addr, u32 mask, u32 val)
+ {
+ 	rcar_canfd_update(mask, val, addr);
+@@ -755,25 +760,6 @@ static void rcar_canfd_set_rnc(struct rcar_canfd_global *gpriv, unsigned int ch,
+ 	rcar_canfd_set_bit(gpriv->base, RCANFD_GAFLCFG(w), rnc);
+ }
+ 
+-static void rcar_canfd_set_mode(struct rcar_canfd_global *gpriv)
+-{
+-	if (gpriv->info->ch_interface_mode) {
+-		u32 ch, val = gpriv->fdmode ? RCANFD_GEN4_FDCFG_FDOE
+-					    : RCANFD_GEN4_FDCFG_CLOE;
+-
+-		for_each_set_bit(ch, &gpriv->channels_mask,
+-				 gpriv->info->max_channels)
+-			rcar_canfd_set_bit_reg(&gpriv->fcbase[ch].cfdcfg, val);
+-	} else {
+-		if (gpriv->fdmode)
+-			rcar_canfd_set_bit(gpriv->base, RCANFD_GRMCFG,
+-					   RCANFD_GRMCFG_RCMC);
+-		else
+-			rcar_canfd_clear_bit(gpriv->base, RCANFD_GRMCFG,
+-					     RCANFD_GRMCFG_RCMC);
+-	}
+-}
+-
+ static int rcar_canfd_reset_controller(struct rcar_canfd_global *gpriv)
+ {
+ 	struct device *dev = &gpriv->pdev->dev;
+@@ -806,6 +792,16 @@ static int rcar_canfd_reset_controller(struct rcar_canfd_global *gpriv)
+ 	/* Reset Global error flags */
+ 	rcar_canfd_write(gpriv->base, RCANFD_GERFL, 0x0);
+ 
++	/* Set the controller into appropriate mode */
++	if (!gpriv->info->ch_interface_mode) {
++		if (gpriv->fdmode)
++			rcar_canfd_set_bit(gpriv->base, RCANFD_GRMCFG,
++					   RCANFD_GRMCFG_RCMC);
++		else
++			rcar_canfd_clear_bit(gpriv->base, RCANFD_GRMCFG,
++					     RCANFD_GRMCFG_RCMC);
++	}
++
+ 	/* Transition all Channels to reset mode */
+ 	for_each_set_bit(ch, &gpriv->channels_mask, gpriv->info->max_channels) {
+ 		rcar_canfd_clear_bit(gpriv->base,
+@@ -823,10 +819,23 @@ static int rcar_canfd_reset_controller(struct rcar_canfd_global *gpriv)
+ 			dev_dbg(dev, "channel %u reset failed\n", ch);
+ 			return err;
+ 		}
+-	}
+ 
+-	/* Set the controller into appropriate mode */
+-	rcar_canfd_set_mode(gpriv);
++		/* Set the controller into appropriate mode */
++		if (gpriv->info->ch_interface_mode) {
++			/* Do not set CLOE and FDOE simultaneously */
++			if (!gpriv->fdmode) {
++				rcar_canfd_clear_bit_reg(&gpriv->fcbase[ch].cfdcfg,
++							 RCANFD_GEN4_FDCFG_FDOE);
++				rcar_canfd_set_bit_reg(&gpriv->fcbase[ch].cfdcfg,
++						       RCANFD_GEN4_FDCFG_CLOE);
++			} else {
++				rcar_canfd_clear_bit_reg(&gpriv->fcbase[ch].cfdcfg,
++							 RCANFD_GEN4_FDCFG_FDOE);
++				rcar_canfd_clear_bit_reg(&gpriv->fcbase[ch].cfdcfg,
++							 RCANFD_GEN4_FDCFG_CLOE);
++			}
++		}
++	}
+ 
+ 	return 0;
+ }
+-- 
+2.43.0
+
 
