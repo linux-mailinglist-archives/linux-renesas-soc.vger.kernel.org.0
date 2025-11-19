@@ -1,152 +1,151 @@
-Return-Path: <linux-renesas-soc+bounces-24770-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24771-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id C539FC6DAEA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 10:22:55 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2339C6DD60
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 10:55:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sin.lore.kernel.org (Postfix) with ESMTPS id 12C0F2E18E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 09:19:45 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTPS id C21422DCB2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 09:55:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D772F33B945;
-	Wed, 19 Nov 2025 09:19:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D69A3446D3;
+	Wed, 19 Nov 2025 09:55:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="obPz9g+W"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="uPmwArdO"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B23D33254B7
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Nov 2025 09:19:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 200083446BC
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Nov 2025 09:55:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763543951; cv=none; b=LaaiASt2tOTqQlSnY9KHwM/HKUxO89OOB8wN/rkw/xB4aYsDUUgDAqkv/jsLbRcCX10n56Zq4BQVxaf46bzNTvN3faNBcaCB7yBqfJyhfq9eHBr5ETPP0SzycxDT8zdM6XdPvT0vXGebsSJBJuPgaQ7COP21x/pOoxOFrCvzf8g=
+	t=1763546123; cv=none; b=Q99RKBov2nfDOwkY8I29brJHzBfijua5lb0dl9XEY7xCnXPEUNSjNjiGuDC/oH3JfgpH/hT4jiXU712QygrOzuJNQJ7WTVSJWy7oN3+ssDCONL6b7AXKSTXlWoI9F9Zv4rq9fMsNGID5kXoWx9bDqvnsSOd2/FWvcxGFE3m2yhI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763543951; c=relaxed/simple;
-	bh=wOUDEHv50QeY3FIrd9AfcYgSOCVxnuSxty9Ry2TtVvw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hUNdhr3KKbDiab6Nj77AN2jc0xhIFGvrYTzUWMUc6I4SDxnkZhwogER5qO3kc1E4DEX2b1M2OuRmpXflNSLRHktFiX56TLdMY4IuFPc7irIrNx/tMycV0lKq9SHLqpzMuSQ7zsDkVJUCc1eSUzoqXE2qQ45vS3PbtM4+zrvG9rU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=obPz9g+W; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 652FEC113D0;
-	Wed, 19 Nov 2025 09:19:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763543949;
-	bh=wOUDEHv50QeY3FIrd9AfcYgSOCVxnuSxty9Ry2TtVvw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=obPz9g+WuAabjrRdMJDYwairl2+ZFFW6joxWYFgnfAxZIaIFbEk6okcgu0eOhLRgB
-	 ImIZtE7NO/WdZZvxT14W6FI1zB43t/JyyraQd7HzfV2+nM438RtbZGSKYRvg33BYRN
-	 bnAao8l9mPURwmAVvTFqc1H6ZhJdXEsw4I2TkNtgtK/UOw7XRd5axB6awUN+uC1IQr
-	 hsh4oyfhZcuRIHymh4HoTzTZ8fPc6uySj8hsJyCfxBlrLDeKJfFkhfTMIG0AXF1RFq
-	 Je6gx/4aNcCRrO+oT3Kz0KEV6fzv4Hbk47QXZzbKn5RBGzp+yLbkNX7dpbb+fMLrsS
-	 MIoyHDKLGx4Dg==
-Date: Wed, 19 Nov 2025 10:19:06 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Marek Vasut <marek.vasut+renesas@mailbox.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Aradhya Bhatia <a-bhatia1@ti.com>, Dmitry Baryshkov <lumag@kernel.org>, 
-	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] drm/atomic-helper: Add special quirk tail function
-Message-ID: <5zo76nnejrinmf6snaezld5ylfvk266bwyxg3phdhtg74z43pu@kub3r7tvz7vc>
-References: <20251118-mcde-drm-regression-v2-0-4fedf10b18f6@linaro.org>
- <20251118-mcde-drm-regression-v2-3-4fedf10b18f6@linaro.org>
- <20251118150128.GB23711@pendragon.ideasonboard.com>
- <cncl6nwbr6fu3nvhz2y34ou4geqzo7hjf3wpukmm4t6utvygor@t2v4smey5ful>
- <CACRpkdYh9nSBtqU_8w5gnkWOc+Dw7fW3tPinm6JjfXMbdEJOjg@mail.gmail.com>
+	s=arc-20240116; t=1763546123; c=relaxed/simple;
+	bh=64h2U+bC76oJIPACy/1e19gVkOarzbd3SCTybXSaLwQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
+	 Content-Type:References; b=McFLqhAyfgSKjXow9dBpTkO7cz7HVpAysR335BbGlZum4stNVljOilH2o13TpqeMciYSLen/lR6ZrD25VjoP6Sm6bJMtBvUUDNqrnVy0zZOQL1ZkdwZbMvrRysmhcrtJ95HRQ0LAElKmYgQtV/BjYQeXZ9ZlI0+o8vjjHiJHCmk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=uPmwArdO; arc=none smtp.client-ip=210.118.77.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20251119095517euoutp01b877e6d1b2803d4c8ab4939232ecb408~5X9mVgl5e0859608596euoutp01W
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Nov 2025 09:55:17 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20251119095517euoutp01b877e6d1b2803d4c8ab4939232ecb408~5X9mVgl5e0859608596euoutp01W
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1763546117;
+	bh=L9QUbT5sfOfSl3yIBpPIQUHqDme8WznARKwtO6/UvWc=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=uPmwArdO3anYJSblTHIv1FqLZgXX/Pg8rCYKAcM+LI0I49VBk/SyIV0lp7vIufial
+	 hPm7nJ6mOy+30TLQRaHTLQXuhmuI3ejU8K5wCbEGxXF0BUfeGYET4bYBkF3J4e+EpH
+	 /JlmQ8o5qfMTC3SnmLMjmTwChk7CTASiryfl5T0E=
+Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20251119095516eucas1p2f3b258d1a710192d3ca6068433be4b85~5X9l2Ux8E1400214002eucas1p2R;
+	Wed, 19 Nov 2025 09:55:16 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20251119095514eusmtip2bf01f8bfcbc9230cf2e7669fc51637bf~5X9kNe68a0439904399eusmtip2m;
+	Wed, 19 Nov 2025 09:55:14 +0000 (GMT)
+Message-ID: <765d114d-6a03-4535-a644-5e7581dfbccc@samsung.com>
+Date: Wed, 19 Nov 2025 10:55:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="mdtg53pqx5wf23le"
-Content-Disposition: inline
-In-Reply-To: <CACRpkdYh9nSBtqU_8w5gnkWOc+Dw7fW3tPinm6JjfXMbdEJOjg@mail.gmail.com>
+User-Agent: Betterbird (Windows)
+Subject: Re: [PATCH v2] of/irq: Ignore interrupt parent for nodes without
+ interrupts
+To: Geert Uytterhoeven <geert@linux-m68k.org>, Krzysztof Kozlowski
+	<krzk@kernel.org>
+Cc: Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, Saravana
+	Kannan <saravanak@google.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Paul Walmsley <pjw@kernel.org>, Palmer
+	Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Alexandre
+	Ghiti <alex@ghiti.fr>, Samuel Holland <samuel@sholland.org>, Marc Zyngier
+	<maz@kernel.org>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-samsung-soc
+	<linux-samsung-soc@vger.kernel.org>
+Content-Language: en-US
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <CAMuHMdXgq=Zv3GQes_d_eyCcB7m--PaEGSQJtUWiRjj-7gBVkw@mail.gmail.com>
+Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20251119095516eucas1p2f3b258d1a710192d3ca6068433be4b85
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20251119085902eucas1p223cb580bdd4cef2698382835c77210e8
+X-EPHeader: CA
+X-CMS-RootMailID: 20251119085902eucas1p223cb580bdd4cef2698382835c77210e8
+References: <fbe6fc3657070fe2df7f0529043542b52b827449.1763116833.git.geert+renesas@glider.be>
+	<b037f67a-b241-4689-9914-57ff578c1454@sirena.org.uk>
+	<1a4d2276-75e1-4aa0-8ff2-c932ce5d6edc@kernel.org>
+	<CGME20251119085902eucas1p223cb580bdd4cef2698382835c77210e8@eucas1p2.samsung.com>
+	<CAMuHMdXgq=Zv3GQes_d_eyCcB7m--PaEGSQJtUWiRjj-7gBVkw@mail.gmail.com>
 
+Hi Geert,
 
---mdtg53pqx5wf23le
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 3/3] drm/atomic-helper: Add special quirk tail function
-MIME-Version: 1.0
+On 19.11.2025 09:53, Geert Uytterhoeven wrote:
+> On Tue, 18 Nov 2025 at 20:55, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>> On 18/11/2025 20:34, Mark Brown wrote:
+>>> On Fri, Nov 14, 2025 at 11:47:54AM +0100, Geert Uytterhoeven wrote:
+>>>> The Devicetree Specification states:
+>>>>
+>>>>      The root of the interrupt tree is determined when traversal of the
+>>>>      interrupt tree reaches an interrupt controller node without an
+>>>>      interrupts property and thus no explicit interrupt parent.
+>>>>
+>>>> However, of_irq_init() gratuitously assumes that a node without
+>>>> interrupts has an actual interrupt parent if it finds an
+>>>> interrupt-parent property higher up in the device tree.  Hence when such
+>>>> a property is present (e.g. in the root node), the root interrupt
+>>>> controller may not be detected as such, causing a panic:
+>>> I'm seeing a boot regression on the TI x15 platform in -next which
+>>> bisects to this patch in -next, unfortunately even with earlycon (though
+>>> just earlycon, I don't know the platform specific runes) the board just
+>>> dies with no output:
+>>>
+>>>    https://protect2.fireeye.com/v1/url?k=7efe2b91-216202bb-7effa0de-000babe598f7-79b85fd5422be185&q=1&e=a2b4aea0-c947-472b-ae80-9160750f84a2&u=https%3A%2F%2Fvalidation.linaro.org%2Fscheduler%2Fjob%2F4252918%23L409
+>>>
+>>> It does seem like a plausible patch for this sort of issue though, and
+>>> the bisect converges smoothly:
+>> All Samsung platforms fail as well. I was waiting with bisection but
+>> Marek was as usually very fast:
+>>
+>> https://lore.kernel.org/all/20251118115037.1866871-1-m.szyprowski@samsung.com/
+> Yeah, the various ti,omap[45]-wugen-mpu nodes have interrupt-parent
+> properties, but no interrupts{-extended} properties.
+>
+> Does the following (whitespace-damaged) patch, to restore finding an
+> explicit interrupt-parent, fix the issue?
 
-On Tue, Nov 18, 2025 at 07:10:47PM +0100, Linus Walleij wrote:
-> On Tue, Nov 18, 2025 at 4:44=E2=80=AFPM Maxime Ripard <mripard@kernel.org=
-> wrote:
-> > On Tue, Nov 18, 2025 at 05:01:28PM +0200, Laurent Pinchart wrote:
-> > > On Tue, Nov 18, 2025 at 03:36:05PM +0100, Linus Walleij wrote:
->=20
-> > > > +/**
-> > > > + * drm_atomic_helper_commit_tail_crtc_early_late - commit atomic u=
-pdate
-> > >
-> > > Based on the function name, it feels that the nem commit tail and
-> > > modeset enable/disable helpers reached a point where we may want to
-> > > reconsider the design instead of adding new functions with small
-> > > differences in behaviour that will end up confusing driver developers.
-> >
-> > Agreed, and I'd go even further than that: we don't want every odd order
-> > in the core. And if some driver has to break the order we document in
-> > some way it should be very obvious.
->=20
-> Is this just a comment on this patch 3/3?
->=20
-> Or do you mean that Mareks new callback
-> drm_atomic_helper_commit_modeset_enables_crtc_early()
-> from patch 1/2 should go straight into the R-Car driver as well
-> and that
-> drm_atomic_helper_commit_modeset_disables_crtc_late()
-> patch 2/2 should also go into my driver, even if this
-> is a comment on patch 3/3?
->=20
-> Both patches 1 & 2 have a lot to do with ordering, this is
-> why I ask.
+This also fixes Exynos case without any need for the changes in 
+arch/arm/mach-exynos/suspend.c. The question is which approach is preferred?
 
-I mean, it applies to all your three patches and Marek's: helpers are
-here to provide a default implementation. We shouldn't provide a default
-implementation for a single user. All your patches enable to create
-defaults for a single user.
+> --- a/drivers/of/irq.c
+> +++ b/drivers/of/irq.c
+> @@ -685,6 +685,8 @@ void __init of_irq_init(const struct of_device_id *matches)
+>                  desc->interrupt_parent = of_parse_phandle(np,
+> "interrupts-extended", 0);
+>                  if (!desc->interrupt_parent && of_property_present(np,
+> "interrupts"))
+>                          desc->interrupt_parent = of_irq_find_parent(np);
+> +               if (!desc->interrupt_parent)
+> +                       desc->interrupt_parent = of_parse_phandle(np,
+> "interrupt-parent", 0);
+>                  if (desc->interrupt_parent == np) {
+>                          of_node_put(desc->interrupt_parent);
+>                          desc->interrupt_parent = NULL;
+>
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
-So my point is that none of those functions should be helpers.
-
-> We already have
-> drm_atomic_helper_commit_tail()
-> drm_atomic_helper_commit_tail_rpm()
-
-The former has 5 users, the latter 13. And it's already confusing enough
-and regression-prone as it is.
-
-> Does one more or less really matter? Maybe, I'm not sure,
-> but if it's just this one patch that is the problem I can surely
-> do it that way since we're only calling public functions.
->=20
-> Pushing the first two patches would be more problematic,
-> because they call a lot of functions that are local to the
-> drm atomic helpers.
-
-I'm totally fine with making more internal functions public though.
-
-Maxime
-
---mdtg53pqx5wf23le
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaR2LigAKCRAnX84Zoj2+
-dtxqAYDdPYEZq97K88nQ3C5+pdqF3mplM7/pzobUoiptmBAHo6gJl9Oi8Bmjip90
-2YfQ7SkBfjXMY5lEKwrwrC4vEaORBwu8p/gFJLAjck0ED2A/vgATl0Dfz3ucIVB1
-WS2G3a7lwQ==
-=71f/
------END PGP SIGNATURE-----
-
---mdtg53pqx5wf23le--
 
