@@ -1,174 +1,142 @@
-Return-Path: <linux-renesas-soc+bounces-24783-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24778-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45E6AC6E2DA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 12:16:29 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E580C6E1FC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 12:06:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 34813366F3F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 11:08:44 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTPS id 56C492DBDF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 11:06:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF857336EC1;
-	Wed, 19 Nov 2025 11:06:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0082350A0B;
+	Wed, 19 Nov 2025 11:05:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bX3/6o6E"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1907217F31
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Nov 2025 11:06:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E34123502A9
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Nov 2025 11:05:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763550418; cv=none; b=aJTxIFfNTlfggooU2xKMGAhd6oYtABoCW1X0fDK8N0+dv/k/pKh5inAKIJPdzU3jpkT8Xq2HmuCfYx2GzRBY3Zve43pxwKnixZjKIVTugJjPnKQq4c9gb+b2t8L7EXmMRZgwCgG2e4Sk3Fnx+nsS6KPkXC+DjmqGE3rOnhrH/6k=
+	t=1763550316; cv=none; b=eWZXAJOzS3qP4GcxC55MnNm8fwZUcdmxVhy/GQNVK0xpAXP3B65rtvPQcToi9CW/ZyaxBBP/DwjwimSVvFHBG9v/Ze1/BiYc2sIunZ4oAmdUX+rlxO/BiVZ7232KQT/oPPRa8UM8u75V4+u8D5NDXunQ/lpjONOgOEIGUKeX1WY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763550418; c=relaxed/simple;
-	bh=suLMms/cC5PWL/dT/dDRBxYiO9gO4357/Gv7VoKpjN4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XLV/vbcQR/jiviAzD2ZG9Ar9cllsAAEXklgcqZtZU0oi+90jxale1hqbi6mk07SRvWE5uTRWcVscMNqjQNJAoeR+Z2UCzFNhCJpsgyTPO90OMjCfvOSXkN2tlda1UaPnwwlhwfvMeISOPNDIBmxHEBv5cq44o5aq/pS5bLd2SgM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.161.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	s=arc-20240116; t=1763550316; c=relaxed/simple;
+	bh=Z7BqYBP1hQPbK6MRUQ0wzMjKx60/qWpwRoZtM1hFtxw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Xj4cvscE9mWr/1l7dHC25cxmW5e4T0iFmzDHFNPc4d4r8OuHm7THqzrPv6sWQWN6nqXOIZogv5laoruMVc2PzZyQSsPNqUQIQptl2FPCD8EpFCZqjuJnyFK6pMBIQHvmgPE5IAvL6EI1VQJUDXvK7+thsQGMNPMSrc2nJrMElpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bX3/6o6E; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-657534478a0so1421871eaf.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Nov 2025 03:06:56 -0800 (PST)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4779a637712so28803405e9.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Nov 2025 03:05:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763550312; x=1764155112; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=CWlw20o6LQDwwv5VrwhL4squAhrFIax2gZpjeEuMfG8=;
+        b=bX3/6o6EQ0Bo7pZDfiKNTIgQWCmGWO0wLdAY8eSqHdItzrMgIIW32UAyeqZQI3EHpD
+         IQWrTRQA/nxQHfIiYlb6AIuKi55sBuzOEWhNcezCkQ2yKkO7vROXfetRi3MofDC7+Tag
+         2viCXLp5apzMcfPrTMGaRfLEBE9YR+YzEDY7Zy+0gXnWL/TSpMNzggUnwEUCBaKmVwRR
+         +cYUODnpgHVQkXozdE3xuCSkldKbtolpougTHwhkzuGUE/Fsa3E5ctmX2zF/1Z7f8YRf
+         RQHycmOIL2ePkw4Yfsxtvz6Uo3nuDwOfaN+ID8ESaeUkMIe89CciLe0qkV9+Jt1QnDTe
+         2bqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763550415; x=1764155215;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1763550312; x=1764155112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=01vJ+iTaEhlqFfqqNaTQ+Xj9o5ybGoOTheiB42bAFn0=;
-        b=nXcq5BiBmDVglpLKY90/VZSjswDm8sHAcAy6dBbchuSGaDzMLEuXzKNAARlph6Xt6i
-         /XkgYVQK9ntMpwQI0znmseH3er8o6rEmoGeJJ07jkSoAdw7jjJm4X1xvqGAJit2Dugqd
-         2hoL2fCa1QCTPwaHI2keAEGfqocDzIvcNDGrxjO8TU58mp5Kd2PWIXT76AxmbuD21s2v
-         9QiaFxOAgPWE8y1RuYKQjODYMKjqgh5VWIK9ei7QsOJFjH6MPMuwsSsRAqO2HX7cKScO
-         G4LnI+dvMrDsGu13aI0Om/iWuYHvE8j+20O6ysf1nUOskD5ONmLhe0TSwPuXjlB3+XZ1
-         vuAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX7d9bKzO7G2EpPp7uE4cwcM5FSwjOkEstiSrQEoVyULMgHswbGL6FvWMImDyTKTY+/qliTIsnRm0W/jX5YaFd6gg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YynoS5vL0LRSgQ0vSkndT6sLnRNL6538CZ3HmQR9ceWGwOCj7vb
-	3yaSQePk1xKMCuFREHDK7Rl67ZCqXBDFhuZcJiwVLQw1G6Z/e/QGtWxlUNV0UVb3
-X-Gm-Gg: ASbGncv60+Io3tTpMtrWZ5u/pzYSc695n8jKwbIemcbZaihy2opM4CNcCpjBn4wYPB6
-	3xZ/n2P2sMHPaI5jCv1svXMwMXBa5ElhpYWkLYJUckwYz6rXd7U5sgMywvPHV7bcfLBi8FOZFfS
-	ynwCcqaWiFEd2UifZAUtaHwbt4RrLDbgv95W3vwf9RXlTE4LgbEEM0qxyvCWoIhg42WaIUQukBY
-	MooHQj0B+EU/slM7AwcsH/PSvK0T3Ptu7q/n5M1YCQIhdAh9h9jnVXo8hsPqGh1vaiFz30QPwJo
-	h94MKX0/4NUKYQg1CXoHSTFF1DZyh/++ftIG8lCHhiXQufV+Etat6iTvqLsTqQsbiM8IeOaE8z8
-	0F61lctOaQQrOgugbc16WIV4eUccKkNSTq2t7d1p7a7y/11joF3VauwL3dM/pq9KAAgND47uLkQ
-	8EBNzhA3G1mesxa2EHWu318RgOwjkZ1T/lsRQX+eM3IewdDQx6nw+r
-X-Google-Smtp-Source: AGHT+IFlbsYJASGxruJtbVFN8IyQ2FWlUiVmn6K/c7ueiJZ0/LLKgq12n8mZXnZz2bLIe/yiXpsK1w==
-X-Received: by 2002:a05:6808:1a25:b0:450:ccc6:4113 with SMTP id 5614622812f47-450ccc6539cmr4063903b6e.52.1763550415509;
-        Wed, 19 Nov 2025 03:06:55 -0800 (PST)
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com. [209.85.210.49])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4508a555d86sm5913305b6e.9.2025.11.19.03.06.55
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Nov 2025 03:06:55 -0800 (PST)
-Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-7c6da5e3353so5322291a34.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Nov 2025 03:06:55 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXDTb4+fmfVP5CJ0zjKotYLyQ0JFZy2CYKi/WoCoyZBVTbdmFRhAOC4rq6XoYloQMI80xGFiTJOtlSL3Rc6Ey0Y4Q==@vger.kernel.org
-X-Received: by 2002:a05:6122:4582:b0:549:f04a:6eb3 with SMTP id
- 71dfb90a1353d-55b1be64f5amr6929551e0c.9.1763549959520; Wed, 19 Nov 2025
- 02:59:19 -0800 (PST)
+        bh=CWlw20o6LQDwwv5VrwhL4squAhrFIax2gZpjeEuMfG8=;
+        b=N4SlnD/+Bw6OXd6rDZheoxenGG9hpAAP+NhjwnTNDiVDCXujyomKhOqbBfammNhz+a
+         Hel77nSySMM4Zr0EsjEJHWT9U1MeVA9/tMAWb0aagGYUfSj5dAk9LuqxeDRuwX2+SheO
+         fAPWrw3q+6PCqaJT7ugykCjZdpjFXzhhzZI8yepQL6vqQjXNr7rDLqgWC9QU5p9FMQog
+         pD8L+wXEwHJD66jOCFsiNw+xyZM3i97KqVyM2vwX84ujXmGDvK4rBtA6GQp/P78wsZuq
+         prRhpBtX4PcTshtBch3mrP2ABzixljBB+EdiYHmQ/PdTKiaI9pkuYgRlv8riljPR6wxC
+         OHhw==
+X-Gm-Message-State: AOJu0YwpDMrhHZk+H9dcVnl7L3cloz0t/S88abGgVEKGVY9GkqNZS/2N
+	cZpsXL351zeaz9YD09e1EMjL6iBb2s+LV4WVehXC6N3uUU28wGOXczv3
+X-Gm-Gg: ASbGncuB50Mqhb0OTlddrunV+Cp86v3CpyCI7mwbG4WeoV7pf3Bx3L+RTDC/NZ/7N+e
+	gol57rq3TN4/OfTezZAw2BIzC6V0tDdd/rBYdeqNUMkwHfff6wcattwi0T6gESuEzEutQjZifkR
+	Ks1JQMKeq3QSF5GDS9Jcx7Q4ipeu9K7SbpHHF3ymefGloAB9At3fi6jXQztHAXzVJPHqDfFgPB+
+	9riQSvO2EsEdy5MLCZ4I3I3b4R3NIvdZcywV720VQIYCKTooJn8KUuOTUmefYfu2gFR2u++nsp0
+	7ztAEaoFRaj27OZ/pWU+fD9jL6+awjaX/d/S7F+h0Sezl+ornyg9hkiAaRBucQTJPGQ4S8nJuvq
+	TGvSNwGCEPBLtReDqSKp7wI2dKjhjplvMo2GfbJImztMQKbpSUnRKVuY4FpubMV3+WsQLZJxMdD
+	j8CPFbMTrwl0s8AcBsALRgtOTk/+dJClhtNdJ9Hl9onxb/SRci/agREUaW
+X-Google-Smtp-Source: AGHT+IHvIJl1Yyeyb6PlfbHbv2vqvVFA+gZ94GJdtTnuQ5bBm81qZUqFHMsfO2W+YX8YNlnln+efZg==
+X-Received: by 2002:a05:600c:3112:b0:477:9650:3184 with SMTP id 5b1f17b1804b1-47796503351mr160637325e9.2.1763550311378;
+        Wed, 19 Nov 2025 03:05:11 -0800 (PST)
+Received: from iku.Home ([2a06:5906:61b:2d00:4b7e:3ed7:e0b3:cf30])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477a9d198a0sm39884505e9.1.2025.11.19.03.05.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Nov 2025 03:05:10 -0800 (PST)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 0/4] Add USB3 PHY/Host nodes and enable on RZ/V2H and RZ/V2N
+Date: Wed, 19 Nov 2025 11:05:01 +0000
+Message-ID: <20251119110505.100253-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.51.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <fbe6fc3657070fe2df7f0529043542b52b827449.1763116833.git.geert+renesas@glider.be>
- <b037f67a-b241-4689-9914-57ff578c1454@sirena.org.uk> <1a4d2276-75e1-4aa0-8ff2-c932ce5d6edc@kernel.org>
- <CGME20251119085902eucas1p223cb580bdd4cef2698382835c77210e8@eucas1p2.samsung.com>
- <CAMuHMdXgq=Zv3GQes_d_eyCcB7m--PaEGSQJtUWiRjj-7gBVkw@mail.gmail.com> <765d114d-6a03-4535-a644-5e7581dfbccc@samsung.com>
-In-Reply-To: <765d114d-6a03-4535-a644-5e7581dfbccc@samsung.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 19 Nov 2025 11:59:08 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU5ixRpE+yPbggBG91+516YD+ARkaCLN-gM8bQLvtqrYg@mail.gmail.com>
-X-Gm-Features: AWmQ_bmyj7uEfaaHTRs_Dlhmh8ug_B799_bBc6DeLqXxY0jfIRw0Qy-WNEKxB9g
-Message-ID: <CAMuHMdU5ixRpE+yPbggBG91+516YD+ARkaCLN-gM8bQLvtqrYg@mail.gmail.com>
-Subject: Re: [PATCH v2] of/irq: Ignore interrupt parent for nodes without interrupts
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Saravana Kannan <saravanak@google.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexandre Ghiti <alex@ghiti.fr>, Samuel Holland <samuel@sholland.org>, Marc Zyngier <maz@kernel.org>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, 
-	linux-samsung-soc <linux-samsung-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Marek,
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On Wed, 19 Nov 2025 at 10:55, Marek Szyprowski <m.szyprowski@samsung.com> wrote:
-> On 19.11.2025 09:53, Geert Uytterhoeven wrote:
-> > On Tue, 18 Nov 2025 at 20:55, Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> >> On 18/11/2025 20:34, Mark Brown wrote:
-> >>> On Fri, Nov 14, 2025 at 11:47:54AM +0100, Geert Uytterhoeven wrote:
-> >>>> The Devicetree Specification states:
-> >>>>
-> >>>>      The root of the interrupt tree is determined when traversal of the
-> >>>>      interrupt tree reaches an interrupt controller node without an
-> >>>>      interrupts property and thus no explicit interrupt parent.
-> >>>>
-> >>>> However, of_irq_init() gratuitously assumes that a node without
-> >>>> interrupts has an actual interrupt parent if it finds an
-> >>>> interrupt-parent property higher up in the device tree.  Hence when such
-> >>>> a property is present (e.g. in the root node), the root interrupt
-> >>>> controller may not be detected as such, causing a panic:
-> >>> I'm seeing a boot regression on the TI x15 platform in -next which
-> >>> bisects to this patch in -next, unfortunately even with earlycon (though
-> >>> just earlycon, I don't know the platform specific runes) the board just
-> >>> dies with no output:
-> >>>
-> >>>    https://protect2.fireeye.com/v1/url?k=7efe2b91-216202bb-7effa0de-000babe598f7-79b85fd5422be185&q=1&e=a2b4aea0-c947-472b-ae80-9160750f84a2&u=https%3A%2F%2Fvalidation.linaro.org%2Fscheduler%2Fjob%2F4252918%23L409
-> >>>
-> >>> It does seem like a plausible patch for this sort of issue though, and
-> >>> the bisect converges smoothly:
-> >> All Samsung platforms fail as well. I was waiting with bisection but
-> >> Marek was as usually very fast:
-> >>
-> >> https://lore.kernel.org/all/20251118115037.1866871-1-m.szyprowski@samsung.com/
-> > Yeah, the various ti,omap[45]-wugen-mpu nodes have interrupt-parent
-> > properties, but no interrupts{-extended} properties.
-> >
-> > Does the following (whitespace-damaged) patch, to restore finding an
-> > explicit interrupt-parent, fix the issue?
->
-> This also fixes Exynos case without any need for the changes in
+Hi All,
 
-Thanks for testing!
+This series of 4 patches adds USB3 PHY and xHCI host controller nodes to
+the DTSI files for the Renesas RZ/V2H(P) (R9A09G057) and RZ/V2N (R9A09G056)
+SoCs. Additionally, it enables the USB3.0 support on the respective EVKs.
+The first two patches add the necessary USB3 PHY and xHCI host controller
+nodes to the RZ/V2H DTSI file and enable them on the RZ/V2H EVK DTS file.
+The next two patches perform similar additions and enablement for the
+RZ/V2N DTSI and EVK DTS files.
 
-> arch/arm/mach-exynos/suspend.c. The question is which approach is preferred?
+Note,
+1] This patch series applies on top of below patch series which is
+   already under review:
+   - https://lore.kernel.org/all/20251103200349.62087-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+   - https://lore.kernel.org/all/20251023212314.679303-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
 
-It looks like several other drivers are affected.  So I think it
-makes sense to handle the presence of an explicit "interrupt-parent"
-in an interrupt-less interrupt controller node in the core, instead
-of in each affected driver.
+2] The corresponding USB3.0 PHY/xHCI DT binding patches have been submitted separately for review.
+[0] https://lore.kernel.org/all/20251118180712.4191384-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+[1] https://lore.kernel.org/all/20251101042440.648321-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
 
-> > --- a/drivers/of/irq.c
-> > +++ b/drivers/of/irq.c
-> > @@ -685,6 +685,8 @@ void __init of_irq_init(const struct of_device_id *matches)
-> >                  desc->interrupt_parent = of_parse_phandle(np, "interrupts-extended", 0);
-> >                  if (!desc->interrupt_parent && of_property_present(np, "interrupts"))
-> >                          desc->interrupt_parent = of_irq_find_parent(np);
-> > +               if (!desc->interrupt_parent)
+Cheers,
+Prabhakar
 
-Or "else if (!desc->interrupt_parent)", to avoid repeating part of
-of_irq_find_parent() when an "interrupts" property is present?
+Lad Prabhakar (4):
+  arm64: dts: renesas: r9a09g057: Add USB3 PHY/Host nodes
+  arm64: dts: renesas: r9a09g057h44-rzv2h-evk: Enable USB3.0 PHYs and
+    xHCI controllers
+  arm64: dts: renesas: r9a09g056: Add USB3 PHY/Host nodes
+  arm64: dts: renesas: r9a09g056n48-rzv2n-evk: Enable USB3.0 PHY and
+    xHCI controller
 
-> > +                       desc->interrupt_parent = of_parse_phandle(np, "interrupt-parent", 0);
-> >                  if (desc->interrupt_parent == np) {
-> >                          of_node_put(desc->interrupt_parent);
-> >                          desc->interrupt_parent = NULL;
+ arch/arm64/boot/dts/renesas/r9a09g056.dtsi    | 30 ++++++++++
+ .../dts/renesas/r9a09g056n48-rzv2n-evk.dts    | 15 +++++
+ arch/arm64/boot/dts/renesas/r9a09g057.dtsi    | 60 +++++++++++++++++++
+ .../dts/renesas/r9a09g057h44-rzv2h-evk.dts    | 30 ++++++++++
+ 4 files changed, 135 insertions(+)
 
-Gr{oetje,eeting}s,
+-- 
+2.51.2
 
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
