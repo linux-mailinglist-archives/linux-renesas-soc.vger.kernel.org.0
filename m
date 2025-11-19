@@ -1,151 +1,120 @@
-Return-Path: <linux-renesas-soc+bounces-24771-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24772-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2339C6DD60
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 10:55:33 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FB80C6DE87
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 11:12:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by tor.lore.kernel.org (Postfix) with ESMTPS id C21422DCB2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 09:55:32 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTPS id F214E2EEAE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 10:04:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D69A3446D3;
-	Wed, 19 Nov 2025 09:55:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED70E34251D;
+	Wed, 19 Nov 2025 10:03:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="uPmwArdO"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="kpFo9qM7"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 200083446BC
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Nov 2025 09:55:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAE3B32A3C8;
+	Wed, 19 Nov 2025 10:03:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763546123; cv=none; b=Q99RKBov2nfDOwkY8I29brJHzBfijua5lb0dl9XEY7xCnXPEUNSjNjiGuDC/oH3JfgpH/hT4jiXU712QygrOzuJNQJ7WTVSJWy7oN3+ssDCONL6b7AXKSTXlWoI9F9Zv4rq9fMsNGID5kXoWx9bDqvnsSOd2/FWvcxGFE3m2yhI=
+	t=1763546627; cv=none; b=k7s+ISUnY1dSJivN7umwnws6CABoNt+sg4wF2+ks8Q7ArFNhLD2LWxpgi93vC+Uj7W/Radm3cS62SYo5ngWms1MwM2Ehe0z9S08J+5icrk7naUJAfg77P4iJbPUfpiJ53glaG2pyxx/duZRxhDxYJz1Nr3JGS15Uu/3HI2oiqlM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763546123; c=relaxed/simple;
-	bh=64h2U+bC76oJIPACy/1e19gVkOarzbd3SCTybXSaLwQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
-	 Content-Type:References; b=McFLqhAyfgSKjXow9dBpTkO7cz7HVpAysR335BbGlZum4stNVljOilH2o13TpqeMciYSLen/lR6ZrD25VjoP6Sm6bJMtBvUUDNqrnVy0zZOQL1ZkdwZbMvrRysmhcrtJ95HRQ0LAElKmYgQtV/BjYQeXZ9ZlI0+o8vjjHiJHCmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=uPmwArdO; arc=none smtp.client-ip=210.118.77.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20251119095517euoutp01b877e6d1b2803d4c8ab4939232ecb408~5X9mVgl5e0859608596euoutp01W
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Nov 2025 09:55:17 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20251119095517euoutp01b877e6d1b2803d4c8ab4939232ecb408~5X9mVgl5e0859608596euoutp01W
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1763546117;
-	bh=L9QUbT5sfOfSl3yIBpPIQUHqDme8WznARKwtO6/UvWc=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=uPmwArdO3anYJSblTHIv1FqLZgXX/Pg8rCYKAcM+LI0I49VBk/SyIV0lp7vIufial
-	 hPm7nJ6mOy+30TLQRaHTLQXuhmuI3ejU8K5wCbEGxXF0BUfeGYET4bYBkF3J4e+EpH
-	 /JlmQ8o5qfMTC3SnmLMjmTwChk7CTASiryfl5T0E=
-Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20251119095516eucas1p2f3b258d1a710192d3ca6068433be4b85~5X9l2Ux8E1400214002eucas1p2R;
-	Wed, 19 Nov 2025 09:55:16 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
-	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20251119095514eusmtip2bf01f8bfcbc9230cf2e7669fc51637bf~5X9kNe68a0439904399eusmtip2m;
-	Wed, 19 Nov 2025 09:55:14 +0000 (GMT)
-Message-ID: <765d114d-6a03-4535-a644-5e7581dfbccc@samsung.com>
-Date: Wed, 19 Nov 2025 10:55:13 +0100
+	s=arc-20240116; t=1763546627; c=relaxed/simple;
+	bh=h9QjrqcAykY5VUto6sGBKZPUvaRZiFnE4qVIX1eiuGQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rYhShZvmV2zMEtCVey/ICNaK4QGJciRD9NTnVYtZHa+OTqk5C2Am4fMpf9eXeBPu5z7brnB/dK66Ltl1CwvANJbVem37NtV0h5Jr4AWl7NA3wx6zmBh1E7VjbLuvgdUzQ3ljvlL1aVCi6vD0EKty0Ubo5n/lWnrsVkvjAg9v7Cw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=kpFo9qM7; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=Y+sgIiXuLSX8878BXnZdAURbfpZ/7Ejmg1bqP8JP5ck=; b=kpFo9qM7iuPsdM+zYOjqS02txO
+	4M7kLehtYNmXBJfY73fpDpk3On1guAxfTdG3f4/+cB+hDWj4idMIug9TUrx8eqs7yy0IupTxLV2qG
+	D6959asz+TtdSGQiUzwGyJ4MlKUAo0S3goHu9FNs4pswpYkWgv/PECttzzMI6yzoyzHSjhKtgy2zE
+	u2QeQIJ7CmdDzj1QOIkaOS0RvSIGGF22MtkkLBSY9+bfqK+zczx8GFugnk1THmhmI88MPrFpWROJ9
+	lhZ220fN1y6GKdujBRN0FEIb8nFjbSX2LL3amzluVFeyhPXQB6rGX5QLGe0v3wHRI9GytQ6/g7Ouc
+	+KwYFJeg==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:52384)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1vLf1k-000000004QW-32gK;
+	Wed, 19 Nov 2025 10:03:04 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1vLf1d-000000003Ji-0q5P;
+	Wed, 19 Nov 2025 10:02:57 +0000
+Date: Wed, 19 Nov 2025 10:02:56 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>
+Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>, Chen-Yu Tsai <wens@csie.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Drew Fustini <fustini@kernel.org>,
+	Eric Dumazet <edumazet@google.com>, Fu Wei <wefu@redhat.com>,
+	Guo Ren <guoren@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Jan Petrous <jan.petrous@oss.nxp.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Keguang Zhang <keguang.zhang@gmail.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, netdev@vger.kernel.org,
+	Paolo Abeni <pabeni@redhat.com>, s32@nxp.com,
+	Samuel Holland <samuel@sholland.org>
+Subject: [PATCH net-next 0/3] net: stmmac: pass struct device to init/exit
+Message-ID: <aR2V0Kib7j0L4FNN@shell.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Betterbird (Windows)
-Subject: Re: [PATCH v2] of/irq: Ignore interrupt parent for nodes without
- interrupts
-To: Geert Uytterhoeven <geert@linux-m68k.org>, Krzysztof Kozlowski
-	<krzk@kernel.org>
-Cc: Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, Saravana
-	Kannan <saravanak@google.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Paul Walmsley <pjw@kernel.org>, Palmer
-	Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Alexandre
-	Ghiti <alex@ghiti.fr>, Samuel Holland <samuel@sholland.org>, Marc Zyngier
-	<maz@kernel.org>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-samsung-soc
-	<linux-samsung-soc@vger.kernel.org>
-Content-Language: en-US
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <CAMuHMdXgq=Zv3GQes_d_eyCcB7m--PaEGSQJtUWiRjj-7gBVkw@mail.gmail.com>
-Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20251119095516eucas1p2f3b258d1a710192d3ca6068433be4b85
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20251119085902eucas1p223cb580bdd4cef2698382835c77210e8
-X-EPHeader: CA
-X-CMS-RootMailID: 20251119085902eucas1p223cb580bdd4cef2698382835c77210e8
-References: <fbe6fc3657070fe2df7f0529043542b52b827449.1763116833.git.geert+renesas@glider.be>
-	<b037f67a-b241-4689-9914-57ff578c1454@sirena.org.uk>
-	<1a4d2276-75e1-4aa0-8ff2-c932ce5d6edc@kernel.org>
-	<CGME20251119085902eucas1p223cb580bdd4cef2698382835c77210e8@eucas1p2.samsung.com>
-	<CAMuHMdXgq=Zv3GQes_d_eyCcB7m--PaEGSQJtUWiRjj-7gBVkw@mail.gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-Hi Geert,
+Rather than passing the platform device to the ->init() and ->exit()
+methods, make these methods useful for other devices by passing the
+struct device instead. Update the implementations appropriately for
+this change.
 
-On 19.11.2025 09:53, Geert Uytterhoeven wrote:
-> On Tue, 18 Nov 2025 at 20:55, Krzysztof Kozlowski <krzk@kernel.org> wrote:
->> On 18/11/2025 20:34, Mark Brown wrote:
->>> On Fri, Nov 14, 2025 at 11:47:54AM +0100, Geert Uytterhoeven wrote:
->>>> The Devicetree Specification states:
->>>>
->>>>      The root of the interrupt tree is determined when traversal of the
->>>>      interrupt tree reaches an interrupt controller node without an
->>>>      interrupts property and thus no explicit interrupt parent.
->>>>
->>>> However, of_irq_init() gratuitously assumes that a node without
->>>> interrupts has an actual interrupt parent if it finds an
->>>> interrupt-parent property higher up in the device tree.  Hence when such
->>>> a property is present (e.g. in the root node), the root interrupt
->>>> controller may not be detected as such, causing a panic:
->>> I'm seeing a boot regression on the TI x15 platform in -next which
->>> bisects to this patch in -next, unfortunately even with earlycon (though
->>> just earlycon, I don't know the platform specific runes) the board just
->>> dies with no output:
->>>
->>>    https://protect2.fireeye.com/v1/url?k=7efe2b91-216202bb-7effa0de-000babe598f7-79b85fd5422be185&q=1&e=a2b4aea0-c947-472b-ae80-9160750f84a2&u=https%3A%2F%2Fvalidation.linaro.org%2Fscheduler%2Fjob%2F4252918%23L409
->>>
->>> It does seem like a plausible patch for this sort of issue though, and
->>> the bisect converges smoothly:
->> All Samsung platforms fail as well. I was waiting with bisection but
->> Marek was as usually very fast:
->>
->> https://lore.kernel.org/all/20251118115037.1866871-1-m.szyprowski@samsung.com/
-> Yeah, the various ti,omap[45]-wugen-mpu nodes have interrupt-parent
-> properties, but no interrupts{-extended} properties.
->
-> Does the following (whitespace-damaged) patch, to restore finding an
-> explicit interrupt-parent, fix the issue?
+Move the calls for these methods into the core driver's probe and
+remove methods from the stmmac_platform layer.
 
-This also fixes Exynos case without any need for the changes in 
-arch/arm/mach-exynos/suspend.c. The question is which approach is preferred?
+Convert dwmac-rk to use ->init() and ->exit().
 
-> --- a/drivers/of/irq.c
-> +++ b/drivers/of/irq.c
-> @@ -685,6 +685,8 @@ void __init of_irq_init(const struct of_device_id *matches)
->                  desc->interrupt_parent = of_parse_phandle(np,
-> "interrupts-extended", 0);
->                  if (!desc->interrupt_parent && of_property_present(np,
-> "interrupts"))
->                          desc->interrupt_parent = of_irq_find_parent(np);
-> +               if (!desc->interrupt_parent)
-> +                       desc->interrupt_parent = of_parse_phandle(np,
-> "interrupt-parent", 0);
->                  if (desc->interrupt_parent == np) {
->                          of_node_put(desc->interrupt_parent);
->                          desc->interrupt_parent = NULL;
->
-Best regards
+ .../net/ethernet/stmicro/stmmac/dwmac-anarion.c    |  4 +-
+ .../net/ethernet/stmicro/stmmac/dwmac-eic7700.c    |  4 +-
+ .../net/ethernet/stmicro/stmmac/dwmac-loongson1.c  | 12 +++---
+ .../ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c  |  4 +-
+ drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c     | 47 +++++++++-------------
+ drivers/net/ethernet/stmicro/stmmac/dwmac-s32.c    | 14 +++----
+ .../net/ethernet/stmicro/stmmac/dwmac-socfpga.c    |  2 +-
+ drivers/net/ethernet/stmicro/stmmac/dwmac-sti.c    |  4 +-
+ drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c  | 10 ++---
+ drivers/net/ethernet/stmicro/stmmac/dwmac-sunxi.c  |  4 +-
+ drivers/net/ethernet/stmicro/stmmac/dwmac-thead.c  |  2 +-
+ drivers/net/ethernet/stmicro/stmmac/stmmac_main.c  | 47 ++++++++++++++++------
+ .../net/ethernet/stmicro/stmmac/stmmac_platform.c  | 35 +++++-----------
+ include/linux/stmmac.h                             |  4 +-
+ 14 files changed, 94 insertions(+), 99 deletions(-)
+
 -- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
-
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
 
