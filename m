@@ -1,56 +1,56 @@
-Return-Path: <linux-renesas-soc+bounces-24792-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24793-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id B430DC6EC32
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 14:14:12 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A288EC6EB1B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 14:07:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 10AA6366116
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 13:06:52 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTPS id 14DFE2E4C3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 13:07:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0896E35771B;
-	Wed, 19 Nov 2025 13:06:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60B483590D4;
+	Wed, 19 Nov 2025 13:06:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="bFcA+TR6"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jJfzAo68"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB17F358D15;
-	Wed, 19 Nov 2025 13:06:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8034A354AFC;
+	Wed, 19 Nov 2025 13:06:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763557590; cv=none; b=hnVdyjXqmS3O2ZKW3IxnMV1UzyxLuDPBBdu1sDiHMwCHeflK6f+Xx0AESfibj1HpXTz3Tc5cXQHaI+da/3Nmy3eypBe+fZIUAYwqtXR2Nv6X93ni2Ii3yrf0jvZ2to9JIZNl25rKMtG5MAIOKh5Xc0Z4EQqs0pFuwiGd3ITuj6I=
+	t=1763557600; cv=none; b=XzAB6/uw4gWyS/hn5ZtDwgrPAXV+oTO48DJ9SUaqckTpN9tNNhEHA1GEh+VBMTtKZOr3ll1MIUuN3N1kciKM27JEPoiUmw/RShtgZDgqzKGAao3sClev5W/de2cXnZ9TCcugzoSZ76A8Dii+JvzG8P4tw+mxue9EVm1BxnKHNBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763557590; c=relaxed/simple;
-	bh=qBFnRHiu6GoS0sjFL5oa3JrBTXUUbf89surMgDpq2DA=;
+	s=arc-20240116; t=1763557600; c=relaxed/simple;
+	bh=w2yRFEeMyefKnZcTdP1T0gPYWSyAOV+iYUzUidpss64=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Ky8pghdX1RCcZTf6bBiHltIk5/EphnDuMS66FrC5cH2HYHDK/YaP2HDPay5BPxzyu5ui/+WgY0JxMJJ+Yr/jBQfFCagKJNz4/2MTmm+wroHeg7Z8Rq6TnnzRpKL1TkiLxn+PzxLE10zZvyA7QVmezxgB/0UHrAWtaSz3upm4k6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=bFcA+TR6; arc=none smtp.client-ip=185.246.85.4
+	 In-Reply-To:To:Cc; b=avF+HLRmAQU+PdozouxuSq9gZbeJbvrnYaS/A9AJX/sXkgaRRFNwQ21JZI9Gn7UO/SklWpVjgnUzggvBCyXbJn5fAyf9B+gy1IORgLcYnP/FwNFjUbMVJE5Z1o5ZTJQPDTfG6ax9rpdI5LU2c6T4AMYp82isO23LHBJHE6J8QNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jJfzAo68; arc=none smtp.client-ip=185.246.84.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 7914D4E4179C;
-	Wed, 19 Nov 2025 13:06:27 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 08A451A1BDD;
+	Wed, 19 Nov 2025 13:06:37 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 4885260720;
-	Wed, 19 Nov 2025 13:06:27 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9625410371A4D;
-	Wed, 19 Nov 2025 14:06:16 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id C877D60720;
+	Wed, 19 Nov 2025 13:06:36 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B6FEF10371A55;
+	Wed, 19 Nov 2025 14:06:25 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1763557584; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1763557594; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=U5pSp1vPWfg6VVqrqrSp3mxOttgley4fq02+zPb9SPE=;
-	b=bFcA+TR6jEG5qm9LQ9GiqfHt1lqV/lld+li8AOuv98I2mxB/Moe4o/Qc1HDGOBV4ufX4MZ
-	NKb5vGxeI5/5fCmp4TSXS9/h2xnyzlwlxO3mm3Qr4/0DC3Ysk3r/siQxkCIL7CVzCgDsg8
-	6y5bRL++49tf86mgGirblyly0TJLFRC5f/Ht8qoDIEXFqvSX/+fOwFJ7nvTebCXdOq2skV
-	ovYfRDxHpTkSa5h4hLUBzKohE7UgHX/0TnirrywxaN3V+A8R8c/s34HbyZ8PovJIfzWZZa
-	ahSxa4pU6pIwQG7dSheA4Bc+vyy6Z4uGaSY5dk2xEI2DA3F8pxsGqulwwk86Ug==
+	bh=1QF0ORUlNq/608kBgd0cHzHJhM8wJBt4bewg9ebnYQs=;
+	b=jJfzAo686i6lqNqOaIfflAf6UcpbmCBg60iDGDaWxHCJrVaXyM12L9KHDw91jgtLj8m+oB
+	M+G7AbJQ2s6KguUF7Dv685Uhcwjub/sEFbYt0hRktdLuiO1hD820RHZ9IvEKInk85T8ElU
+	B/X0jex9mM7MdPDUJuON2gh1pR71OuXXcNeHTRIvHGYbe+C3IWTVXQynwH6PXaRkdbLps0
+	rsC4ekVLRee64N1KxSc6WtYOUAnhyivka2O4ZnfIWHfRylrIq1swpS0B4rp54dNyMOlaSI
+	JXkz6CTCMYj/Ti0hqh6rQmNzU56cipDWx/QZiK1qAnichf8F58wlBkYWvTgosQ==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Wed, 19 Nov 2025 14:05:34 +0100
-Subject: [PATCH 03/26] drm/todo: add entry about converting to
+Date: Wed, 19 Nov 2025 14:05:35 +0100
+Subject: [PATCH 04/26] drm/bridge: make of_drm_find_bridge() a wrapper of
  drm_of_find_bridge()
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -60,7 +60,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-3-0db98a7fe474@bootlin.com>
+Message-Id: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-4-0db98a7fe474@bootlin.com>
 References: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com>
 In-Reply-To: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -104,44 +104,42 @@ Cc: Hui Pu <Hui.Pu@gehealthcare.com>,
 X-Mailer: b4 0.14.3
 X-Last-TLS-Session-Version: TLSv1.3
 
-of_drm_find_bridge() is deprecated, but converting some users is very
-complex and should be reasonably doable only after the DRM panel bridge
-lifetime rework. Add a TODO to track this.
+of_drm_find_bridge() is identical to drm_of_find_bridge() except it does
+not increment the refcount. Rewrite it as a wrapper and put the bridge
+being returned so the behaviour is still the same.
 
-Suggested-by: Maxime Ripard <mripard@kernel.org>
-Link: https://lore.kernel.org/dri-devel/20250319-stylish-lime-mongoose-0a18ad@houat/
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- Documentation/gpu/todo.rst | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ drivers/gpu/drm/drm_bridge.c | 14 +++-----------
+ 1 file changed, 3 insertions(+), 11 deletions(-)
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 9013ced318cb..1a4a11dee036 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -506,6 +506,22 @@ Contact: Maxime Ripard <mripard@kernel.org>,
+diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+index 6debbf20aaa8..09ad825f9cb8 100644
+--- a/drivers/gpu/drm/drm_bridge.c
++++ b/drivers/gpu/drm/drm_bridge.c
+@@ -1460,19 +1460,11 @@ EXPORT_SYMBOL(drm_of_find_bridge);
+  */
+ struct drm_bridge *of_drm_find_bridge(struct device_node *np)
+ {
+-	struct drm_bridge *bridge;
+-
+-	mutex_lock(&bridge_lock);
++	struct drm_bridge *bridge = drm_of_find_bridge(np);
  
- Level: Intermediate
+-	list_for_each_entry(bridge, &bridge_list, list) {
+-		if (bridge->of_node == np) {
+-			mutex_unlock(&bridge_lock);
+-			return bridge;
+-		}
+-	}
++	drm_bridge_put(bridge);
  
-+Convert users of of_drm_find_bridge() to drm_of_find_bridge()
-+-------------------------------------------------------------
-+
-+Taking a struct drm_bridge pointer requires getting a reference and putting
-+it after disposing of the pointer. Most functions returning a struct
-+drm_bridge pointer already call drm_bridge_get() to increment the refcount
-+and their users have been updated to call drm_bridge_put() when
-+appropriate. of_drm_find_bridge() does not get a reference and it has been
-+deprecated in favor of drm_of_find_bridge() which does, but some users
-+still need to be converted.
-+
-+Contact: Maxime Ripard <mripard@kernel.org>,
-+         Luca Ceresoli <luca.ceresoli@bootlin.com>
-+
-+Level: Intermediate
-+
- Core refactorings
- =================
- 
+-	mutex_unlock(&bridge_lock);
+-	return NULL;
++	return bridge;
+ }
+ EXPORT_SYMBOL(of_drm_find_bridge);
+ #endif
 
 -- 
 2.51.1
