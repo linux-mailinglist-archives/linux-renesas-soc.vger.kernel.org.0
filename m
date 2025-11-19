@@ -1,150 +1,174 @@
-Return-Path: <linux-renesas-soc+bounces-24820-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24821-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 689AEC6F6B6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 15:49:48 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A022BC6F4C0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 15:32:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E4BAD4F973D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 14:31:48 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTPS id A24DC2EF93
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 14:32:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2753369211;
-	Wed, 19 Nov 2025 14:30:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C529364EA3;
+	Wed, 19 Nov 2025 14:30:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="s18TSfPU"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="va03Afus"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39C40369200
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Nov 2025 14:29:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ECE436921A;
+	Wed, 19 Nov 2025 14:29:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763562600; cv=none; b=eftH8oPES89UP/KIzgYLb/YD28HE0J/rIbmGUD+PnjDcL+l9cf5ARjkljyA/C2tDQqxsFkmzvLK87497yMAnhZCfVcqedO8ri+Niqa+Nw3Aj2taTcx5sLzOHZ6zo8Ph2Jd/hTR9onP/MBSStASenzsJeBEjp0t0RDCacOZoR1jE=
+	t=1763562604; cv=none; b=Sl5tX5pnOTHY1j+o7AJOwsCknGiP38TbMwrGbkTGCkrXLleRKaEH/ysunh1Liq2c+9TjXyamvyRC1yktYDMZoE4T0LQV3XsbjRS+C2G9wFHCYbw+si4sibdCjIt7WfBxTY95BgL6JEOKmpObswzv0IrMGs5YoMt2/mCc2d/9bPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763562600; c=relaxed/simple;
-	bh=QYkJ+KAJptP8x+/Lo+OPyvZfeeVlUCQUdUVwwHK0tdc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NdPxu9F4I9v8ab6Rj/SsOuY/t5DBC5FjuB1DN4qxak5OvX1NizRq0M1kSSTUAsjdUvp9j3YpGfHwh1wuzBPisJyOZpWh6bjKNPRFt/pPlPjgiZjlf9afdagKoFOcfbc6LAarDaYRiU5NsTvebwtVTGe/EvjyJtyf50RQt8Wakk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=s18TSfPU; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5959187c5a9so2612081e87.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Nov 2025 06:29:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763562595; x=1764167395; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hRrGjHpQFMPuOkiL8GvRDSi18sR5m2GVcnU67ItY1DU=;
-        b=s18TSfPUarVrfVD9Q289QlNx1XEDTfcU8bi5GXrz3W+DSMQoea3Lv3herjQOmTFxWf
-         RnCJCTg1nmGcgFlw4R2OxLtmInTDyHf5IZhwpwNhJxOsxEN/gjUh5N96v0rM4nXMsgHj
-         3/ZFfkBTBzj/4pRjkvMtZmZIbjctGR8/BGbLbGmewCcwCUrg36LgPbevDP2cNPjovcfk
-         eME/KNWlNnmFtlL4BNoV2wwmA8rwPnCeI0jJUXxeHWqN3rrElCznudkbcVbYx8FLHJ6+
-         gpqHIvcybbH5PGjn7hX4wZRttrc6/Bpj/4/qlsbYFUAQiDGbBGd2KwHR7vsxt5H1MEVi
-         RsEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763562595; x=1764167395;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=hRrGjHpQFMPuOkiL8GvRDSi18sR5m2GVcnU67ItY1DU=;
-        b=SiBbud2zjWQmAD0QV+CgzPabs8Py4qioqIAhpJ5hrmekvrcc5UQVKnT7FCm85e0Kkv
-         VfcU1easivmQo16PSWrvFtuZ00cAAJEoCyPFRwVsv+8YWIqFUj/3FqmQzfk4ZPLR7Zpn
-         6Td82h4rYYlTjyLOG/S+EHGwFv1dn1N8bFCS2FZPGZWjM2mqueB+anc+KXCkWeXJ4Tix
-         KMeuNk5ld7wl3anOzbiIPxTuU/DB6RObIivtLSuWhmggul7zBCshi+pow3/xYiIFFomg
-         Df+Y3YMgy3lbBwQRN/s12Swle2zHe5vn61uLVZ1mxcPkUKH3e5jKmJ9rv47SzBycbVlE
-         E20Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWDNyTCKYNK1HczdNpaLkXXjVvP9iYULgn70i6GHLqb6HoKidkS9+wjO5oP2hx3PtAwA47Ym5y+nppK3opEHZ7HRw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyFwh01fb7KWD8qbZWU4F7XJXsRzzPHIPyJOIeWW5ps3foi1NPp
-	ZDt8b7Gf/D06qLgXD2ewIkcKXyFwg87YZt7zF0Ot7h2X9qX/ypIqlzDQ922+l3kDbxodkEAgA0w
-	YilKyJOTfaxtgyGepPl7aKTS0lhMPtWuP+oKAcU9zDw==
-X-Gm-Gg: ASbGncsYFvsvcDXVDGFDEsJIuvAsBAICj7NenTUazgH1sTB8J9PkOsRJtQjEWwxOY+f
-	1PEtuhPoOysKIYZVyOzAcmr58UvXEfqZUwBwTFMnY2S3e9yBrGJlqblI2nDyRPtzDZHA+bVqn8t
-	ZEdXjixezIs8CMTtSFEfudk/S59xsvXhoVK8tlaaKRZdRT/i/nL+MVRjf9Ix3qlKduL6RlZVfic
-	pzY5BQDE4KnCYWY68PgT5wEaRV5tJMu/igJ5oAzc/siHc/xBSObvqWAekoAaxBPoXJ79bg=
-X-Google-Smtp-Source: AGHT+IGp7GKe1RKdp3EifTfSeaou18jsyywYSKyMxPvf6+wpNti41ngxOAgDWBsE8YIo1EJMFQbA1mHAun4y/oak87Q=
-X-Received: by 2002:a05:6512:138a:b0:57d:b8a1:832b with SMTP id
- 2adb3069b0e04-595841af20bmr6916107e87.24.1763562594938; Wed, 19 Nov 2025
- 06:29:54 -0800 (PST)
+	s=arc-20240116; t=1763562604; c=relaxed/simple;
+	bh=qjVTFOqFcipKEErA3/3zuHkUILncaSkQ1fFgcvBSkcM=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
+	 References:In-Reply-To; b=eWkDc3CP0AYuG64O3G5ZhsaVkDfX1Acdc5rlUnLsTGOc4g3jlTniw2Ro4MdwezOqh6oW0vPjCvNOU2Vzx2zVciMn3hZB6nQp2eU9IaUCxipEr9ad9hCF0TCZh2wCZxdbdsyUq6NGsR4Bz+qO4zeU/Wn0sV4byC6XlfvMyvIZwiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=va03Afus; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 88B6A1A1BE0;
+	Wed, 19 Nov 2025 14:29:57 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 4EBDA60699;
+	Wed, 19 Nov 2025 14:29:57 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 47D9A10371A62;
+	Wed, 19 Nov 2025 15:29:45 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1763562595; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=aNWIMTkg7carQ7ceMaLkx51XDav1UOHz9uWadTfuDGE=;
+	b=va03Afusn2H4yyrQf+VLVDWCgnp+7P85I5wMNM1SsdqWvvK0O+9nBTgh1jq8sVzJlnF4hw
+	YjIUEWbej3jIPnCjZQewihe/jOj41J6/80am0kQ4uTdRaSd2WJkxlPawpmA5X+wsFLDRVo
+	JuHZpuZEMpRYC2Cbbzqh90ViTsFZ/Oj3NiCao2Zznyn6tTRP8iPhC1ok3lmlA5yZ5DeE+q
+	zDD2yi6ejRlVxJ0cf6eDN/ZhkrDcnX5pn4Saod8WNoTXZQmU89Ysrs5PtHZgxsN0zMPevf
+	PxFRxHYzTFuCoGm+y2E8UWjWpMVWyiPHkDt4Vta67Gcr7d8wW61R+ta1RdnmkQ==
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20251112-gpio-shared-v4-0-b51f97b1abd8@linaro.org>
- <CAMuHMdVR9Z70+M-SqHYrHiC6H_yw=VRuDOOg=YnXSNKjPnx3WQ@mail.gmail.com>
- <CACRpkdZioOu9AEBdaNWX1njsVvFYR8SP8yJrY8MFMbJtL6YLJA@mail.gmail.com> <CAMuHMdUe64MdRL1qPRX3q_OGj287nK=MQTb7HUta51iJ+vP9Hw@mail.gmail.com>
-In-Reply-To: <CAMuHMdUe64MdRL1qPRX3q_OGj287nK=MQTb7HUta51iJ+vP9Hw@mail.gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 19 Nov 2025 15:29:43 +0100
-X-Gm-Features: AWmQ_bmc-n1cuVY24_yDbxt_0pYfljkKCrIONDdezzzLDg_EEB1-VOCfHUUS2FA
-Message-ID: <CACRpkdZp3zKVCeJPXJP4UCAbXz-j=81zYfXntxuBp5BK5ettzw@mail.gmail.com>
-Subject: Re: [PATCH v4 00/10] gpio: improve support for shared GPIOs
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Bartosz Golaszewski <brgl@bgdev.pl>, Kees Cook <kees@kernel.org>, Mika Westerberg <westeri@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Saravana Kannan <saravanak@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Andy Shevchenko <andy@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Alexey Klimov <alexey.klimov@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konradybcio@kernel.org>, linux-hardening@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 19 Nov 2025 15:29:43 +0100
+Message-Id: <DECQREI2GFCG.27I1BBCKPJMFG@bootlin.com>
+Cc: "Hui Pu" <Hui.Pu@gehealthcare.com>, "Thomas Petazzoni"
+ <thomas.petazzoni@bootlin.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <imx@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-renesas-soc@vger.kernel.org>, <linux-amlogic@lists.infradead.org>,
+ <linux-mediatek@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>
+To: "Louis Chauvet" <louis.chauvet@bootlin.com>, "Andrzej Hajda"
+ <andrzej.hajda@intel.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
+ "Robert Foss" <rfoss@kernel.org>, "Laurent Pinchart"
+ <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman" <jonas@kwiboo.se>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Jonathan Corbet"
+ <corbet@lwn.net>, "Alexey Brodkin" <abrodkin@synopsys.com>, "Phong LE"
+ <ple@baylibre.com>, "Liu Ying" <victor.liu@nxp.com>, "Shawn Guo"
+ <shawnguo@kernel.org>, "Sascha Hauer" <s.hauer@pengutronix.de>,
+ "Pengutronix Kernel Team" <kernel@pengutronix.de>, "Fabio Estevam"
+ <festevam@gmail.com>, "Adrien Grassein" <adrien.grassein@gmail.com>,
+ "Laurent Pinchart" <laurent.pinchart+renesas@ideasonboard.com>, "Tomi
+ Valkeinen" <tomi.valkeinen+renesas@ideasonboard.com>, "Kieran Bingham"
+ <kieran.bingham+renesas@ideasonboard.com>, "Geert Uytterhoeven"
+ <geert+renesas@glider.be>, "Magnus Damm" <magnus.damm@gmail.com>, "Kevin
+ Hilman" <khilman@baylibre.com>, "Jerome Brunet" <jbrunet@baylibre.com>,
+ "Martin Blumenstingl" <martin.blumenstingl@googlemail.com>, "Chun-Kuang Hu"
+ <chunkuang.hu@kernel.org>, "Philipp Zabel" <p.zabel@pengutronix.de>,
+ "Matthias Brugger" <matthias.bgg@gmail.com>, "AngeloGioacchino Del Regno"
+ <angelogioacchino.delregno@collabora.com>, "Anitha Chrisanthus"
+ <anitha.chrisanthus@intel.com>, "Edmund Dea" <edmund.j.dea@intel.com>,
+ "Inki Dae" <inki.dae@samsung.com>, "Seung-Woo Kim"
+ <sw0312.kim@samsung.com>, "Kyungmin Park" <kyungmin.park@samsung.com>,
+ "Krzysztof Kozlowski" <krzk@kernel.org>, "Alim Akhtar"
+ <alim.akhtar@samsung.com>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH 01/26] drm/bridge: add drm_of_find_bridge()
+X-Mailer: aerc 0.20.1
+References: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com> <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-1-0db98a7fe474@bootlin.com> <35bda203-8c15-4219-a231-1379f909229f@bootlin.com>
+In-Reply-To: <35bda203-8c15-4219-a231-1379f909229f@bootlin.com>
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Wed, Nov 19, 2025 at 9:38=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
+Hi Louis,
 
-> > For the input usecase the status of the LED is a byproduct and
-> > should not reflect in software I think. It surely should not be
-> > controllable and possible to set into output mode because
-> > that sounds like a recipe for HW damage if you drive it
-> > actively high and press the key at the same time.
+On Wed Nov 19, 2025 at 3:22 PM CET, Louis Chauvet wrote:
 >
-> Suitable resistors are present to prevent hardware damage.
-
-Aha, clever.
-
-> > gpio_keys {
-> >     compatible =3D "gpio-keys";
-> >
-> >     button-ok {
-> >         gpios =3D <&gpio 0 GPIO_OPEN_DRAIN | GPIO_PULL_UP>;
-> >     };
-> > };
 >
-> But only one of the gpio-keys and gpio-leds drivers can bind to the
-> GPIO, or am I missing something?
-> So I do think I need a new combined key-and-led driver, like Bartosz
-> suggested:
->   - When the user turns the LED on, the GPIO is switched to input mode,
->     and the switch works,
->   - When the user turns the LED off, the GPIO is switched to output
->     and driven low, and the switch does not work.
+> On 11/19/25 13:05, Luca Ceresoli wrote:
+>> of_drm_find_bridge() does not increment the refcount for the returned
+>> bridge, but that is required now. However converting it and all its user=
+s
+>> is not realistically doable at once given the large amount of (direct an=
+d
+>> indirect) callers and the complexity of some. Also, "of_drm_find_bridge =
+is
+>> oddly named according to our convention and it would make more sense to =
+be
+>> called drm_of_find_bridge()" (quoted from Link: below).
+>>
+>> Solve both issues by creating a new drm_of_find_bridge() that is identic=
+al
+>> to of_drm_find_bridge() except it takes a reference. Then
+>> of_drm_find_bridge() will be deprecated to be eventually removed.
+>>
+>> Suggested-by: Maxime Ripard <mripard@kernel.org>
+>> Link: https://lore.kernel.org/dri-devel/20250319-stylish-lime-mongoose-0=
+a18ad@houat/
+>> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-You will also have the byproduct that the LED being "on" in software
-does not necessarily reflect the actual LED status, someone
-may be pressing the key and then the LED is off even though
-in sysfs it is clearly "on".
+...
 
-So the status in the LED classdevice also has to be forced to "off"
-(brightness 0) anytime the input subsystem detects that the switch
-is pressed.
+>> +struct drm_bridge *drm_of_find_bridge(struct device_node *np)
+>> +{
+>> +	struct drm_bridge *bridge;
+>> +
+>> +	mutex_lock(&bridge_lock);
+>> +
+>> +	list_for_each_entry(bridge, &bridge_list, list) {
+>> +		if (bridge->of_node =3D=3D np) {
+>> +			mutex_unlock(&bridge_lock);
+>
+> It seems a bit strange to unlock the mutex just before the
+> drm_bridge_get, is it expected?
 
-It's going to be a lot of work I think, but I guess it can be done,
-with a lot of special-casing and custom APIs.
+Ouch. No, it's not expected, it is a very silly mistake. Thanks for
+noticing.
 
-Yours,
-Linus Walleij
+> If no, I think you can use scoped_guard(mutex, &bridge_lock) to avoid
+> messing with mutex_unlock, IIRC, scoped_guard will unlock the mutex just
+> after the return, so in your case, just after the drm_bridge_get.
+>
+>> +			return drm_bridge_get(bridge);
+>> +		}
+>> +	}
+
+My intent was to keep the function as similar as possible to the original
+one, thus I just added a drm_bridge_get(), but that is of course wrong.
+
+So these lines should instead have been:
+
+	if (bridge->of_node =3D=3D np) {
+		drm_bridge_get(bridge);
+		mutex_unlock(&bridge_lock);
+		return bridge;
+	}
+
+But indeed scoped_guard() is much cleaner and less error-prone, so I'm
+probably going to use it in v2.
+
+Luca
+
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
