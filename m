@@ -1,226 +1,214 @@
-Return-Path: <linux-renesas-soc+bounces-24838-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24839-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 839FCC6F981
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 16:15:58 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0D50C6F9E5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 16:20:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 91C224EE8A1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 15:07:19 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 0F2D73C0D7F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 15:08:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0C9828853A;
-	Wed, 19 Nov 2025 15:04:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4010C29A32D;
+	Wed, 19 Nov 2025 15:05:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="pydQ9Cm/"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="sOEuzAxE"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FBD52C11C6;
-	Wed, 19 Nov 2025 15:04:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D60E28A3EF;
+	Wed, 19 Nov 2025 15:05:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763564673; cv=none; b=cmWT2V/LxbCW8h4uqVl2tJlNJLkUdJhHIiChHMhdavhES2dhktDpmdwNaf34N0RfAbyomsTttjn0h0e7b7mGQrfR9zjA6/Z1oIFp4O9SEIb4I+E5DKj+tQLJ8sgPpkh3iIb8UwYqK9ej9ltSS4h/fqCJIewbg4ecLHnG+y7Sc3M=
+	t=1763564726; cv=none; b=op8vEKSbHoOGLU3UDYkM7+tWsYM4gmdCaCaEohTC/YAzafprarSykI0Pj4QRhF7tsJkm/dZsNQXttrIAuMq/ZpAIdC527iBKsy1FXKwM/7LEzOOBhYvPPb/Jbqzrxh3ET4WG7/sJ/+2R5my7IAgCbvFq5kiW1uziMQV6U795eTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763564673; c=relaxed/simple;
-	bh=JWsvclXfQAhpF+gm46D5gt1oWK9nQX08T4sCNZQEqHY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=s2zxQ8I7AzpynJ820l6Wzmf4hvymHHiazE+Bjm9k8HxH6BWAGjBNPKUfFibgyDJ/8rIrNgF0YFRn4T+f/dRvqDJYcmL33wJusQnItDHcpH3m23jVUqt0/POP7RQt4fqtZxuZny+F5z3spBuppHykPyhvxM2X2uPe2BvtiWoXreI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=pydQ9Cm/; arc=none smtp.client-ip=185.171.202.116
+	s=arc-20240116; t=1763564726; c=relaxed/simple;
+	bh=Qqus3GcZo9UeS54mCFvjyr0P2gu9agHXL/0LSp5j8e8=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=nEajF2iCgEfUe99RpLe82LA5xeZAIVnVRmrsSlEpZXKnWslkIYayxj8bSI7E1xMrTj5BXbIjWV7WEBVbKU52LtaIFVTMMwzgwfvxfKjfKf1o+Clu2L/ciOEZiJw0chRLyrB5Q433BJDXkq3n1gt7rLDo+zyz4wEQexutHjKFG9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=sOEuzAxE; arc=none smtp.client-ip=185.246.85.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id CE093C1118B;
-	Wed, 19 Nov 2025 15:04:07 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 915DE4E417A5;
+	Wed, 19 Nov 2025 15:05:22 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 12AD160699;
-	Wed, 19 Nov 2025 15:04:30 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4AF2610371A6A;
-	Wed, 19 Nov 2025 16:04:24 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 5ACA160699;
+	Wed, 19 Nov 2025 15:05:22 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id A4C1410371A6A;
+	Wed, 19 Nov 2025 16:05:06 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1763564668; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=iOlkPCGpg/MS+MVjysj2yGEdNDC307nbqdpz8sSAuv0=;
-	b=pydQ9Cm/qN+VYxsz9ea5stWmObgr9qhSdrASCCjEPUvYmak8eHP47YpqmmAg/tkKCk/Jl3
-	XjUzyN0fKdeUd4GLVr9+vjbRQYRB1JS0RPpxGjzl1gzELMJNBdieiCGAF4Xccko61ckjiL
-	bhqntexyJ9bG6Mm8ZuZmEmSioCgnGbLtDUDV1jAw8fqR4FFR7sgyZfvMKPaQFd05aK2+7K
-	VrVAw/L1VhoIC8Qbj1PND/v39ak718JA6YKAtbiQAqGzNsaERPvGuKMkc3+QiRziw/GXFP
-	sXOdLDFBk6nZjRZoyPGjNuubGQ2MUqWjnMvMHhDE0bZM4TYIETvG8n/8HYV7FA==
-Message-ID: <b04b1abe-c75b-4f59-b9a9-183df0c56d08@bootlin.com>
-Date: Wed, 19 Nov 2025 16:04:23 +0100
+	t=1763564719; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=F7QYsJvko3OwXBuoQqrMWaiZs2Tw0yizTy6p7UD4rac=;
+	b=sOEuzAxEZWuQ3AUbFtEgUlf2cgtfZWFBSyylVKX8jZsilf0pjAXIS/1dUfJVSv11XNTJuI
+	C0XUe2nv5ky9Mn/3MfiFXv1n/0JLHDWaG0itUKmX2QaboBI96GBbNFKrjGYu+8SCdV0DBT
+	LKR1vwDMaGbq7Lkp1S3fONcv4bUe4hEcHgUnX1la5CRLY0y1raK/rkHodxNqKDleqAdoSi
+	l3OyZqJGWvRsUtgJI97b41UaOy9g8IytQezx8tiRjlP6MmIfs6wVpTYa4Exv8EJrrMgsKh
+	R21w3WrZaNqF/CfQUtZMsjnN4+WrwU+pd84dsLKf7gEcDQXt1HEx0nqD76YBcA==
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 2/3] net: stmmac: move probe/remove calling of
- init/exit
-To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
- Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>
-Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, Chen-Yu Tsai <wens@csie.org>,
- "David S. Miller" <davem@davemloft.net>, Drew Fustini <fustini@kernel.org>,
- Eric Dumazet <edumazet@google.com>, Fu Wei <wefu@redhat.com>,
- Guo Ren <guoren@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Jakub Kicinski <kuba@kernel.org>, Jan Petrous <jan.petrous@oss.nxp.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Keguang Zhang <keguang.zhang@gmail.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-rockchip@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, netdev@vger.kernel.org,
- Paolo Abeni <pabeni@redhat.com>, s32@nxp.com,
- Samuel Holland <samuel@sholland.org>
-References: <aR2V0Kib7j0L4FNN@shell.armlinux.org.uk>
- <E1vLf2Z-0000000FMNH-0xPV@rmk-PC.armlinux.org.uk>
-From: Maxime Chevallier <maxime.chevallier@bootlin.com>
-Content-Language: en-US
-In-Reply-To: <E1vLf2Z-0000000FMNH-0xPV@rmk-PC.armlinux.org.uk>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Date: Wed, 19 Nov 2025 16:05:05 +0100
+Message-Id: <DECRIHBXOEXY.WX45FITGF5DA@bootlin.com>
+Subject: Re: [PATCH 06/26] drm/bridge: add devm_drm_of_find_bridge
+Cc: "Hui Pu" <Hui.Pu@gehealthcare.com>, "Thomas Petazzoni"
+ <thomas.petazzoni@bootlin.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <imx@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-renesas-soc@vger.kernel.org>, <linux-amlogic@lists.infradead.org>,
+ <linux-mediatek@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>
+To: "Louis Chauvet" <louis.chauvet@bootlin.com>, "Andrzej Hajda"
+ <andrzej.hajda@intel.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
+ "Robert Foss" <rfoss@kernel.org>, "Laurent Pinchart"
+ <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman" <jonas@kwiboo.se>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Jonathan Corbet"
+ <corbet@lwn.net>, "Alexey Brodkin" <abrodkin@synopsys.com>, "Phong LE"
+ <ple@baylibre.com>, "Liu Ying" <victor.liu@nxp.com>, "Shawn Guo"
+ <shawnguo@kernel.org>, "Sascha Hauer" <s.hauer@pengutronix.de>,
+ "Pengutronix Kernel Team" <kernel@pengutronix.de>, "Fabio Estevam"
+ <festevam@gmail.com>, "Adrien Grassein" <adrien.grassein@gmail.com>,
+ "Laurent Pinchart" <laurent.pinchart+renesas@ideasonboard.com>, "Tomi
+ Valkeinen" <tomi.valkeinen+renesas@ideasonboard.com>, "Kieran Bingham"
+ <kieran.bingham+renesas@ideasonboard.com>, "Geert Uytterhoeven"
+ <geert+renesas@glider.be>, "Magnus Damm" <magnus.damm@gmail.com>, "Kevin
+ Hilman" <khilman@baylibre.com>, "Jerome Brunet" <jbrunet@baylibre.com>,
+ "Martin Blumenstingl" <martin.blumenstingl@googlemail.com>, "Chun-Kuang Hu"
+ <chunkuang.hu@kernel.org>, "Philipp Zabel" <p.zabel@pengutronix.de>,
+ "Matthias Brugger" <matthias.bgg@gmail.com>, "AngeloGioacchino Del Regno"
+ <angelogioacchino.delregno@collabora.com>, "Anitha Chrisanthus"
+ <anitha.chrisanthus@intel.com>, "Edmund Dea" <edmund.j.dea@intel.com>,
+ "Inki Dae" <inki.dae@samsung.com>, "Seung-Woo Kim"
+ <sw0312.kim@samsung.com>, "Kyungmin Park" <kyungmin.park@samsung.com>,
+ "Krzysztof Kozlowski" <krzk@kernel.org>, "Alim Akhtar"
+ <alim.akhtar@samsung.com>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+X-Mailer: aerc 0.20.1
+References: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com> <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-6-0db98a7fe474@bootlin.com> <0858117f-9397-4045-9b7d-490ad24926cb@bootlin.com>
+In-Reply-To: <0858117f-9397-4045-9b7d-490ad24926cb@bootlin.com>
 X-Last-TLS-Session-Version: TLSv1.3
 
+Hi Louis,
 
+On Wed Nov 19, 2025 at 3:33 PM CET, Louis Chauvet wrote:
+>
+>
+> On 11/19/25 13:05, Luca Ceresoli wrote:
+>> Several drivers (about 20) follow the same pattern:
+>>
+>>   1. get a pointer to a bridge (typically the next bridge in the chain) =
+by
+>>      calling of_drm_find_bridge()
+>>   2. store the returned pointer in the private driver data, keep it unti=
+l
+>>      driver .remove
+>>   3. dereference the pointer at attach time and possibly at other times
+>>
+>> of_drm_find_bridge() is now deprecated because it does not increment the
+>> refcount and should be replaced with drm_of_find_bridge() +
+>> drm_bridge_put().
+>>
+>> However some of those drivers have a complex code flow and adding a
+>> drm_bridge_put() call in all the appropriate locations is error-prone,
+>> leads to ugly and more complex code, and can lead to errors over time wi=
+th
+>> code flow changes.
+>>
+>> To handle all those drivers in a straightforward way, add a devm variant=
+ of
+>> drm_of_find_bridge() that adds a devm action to invoke drm_bridge_put()
+>> when the said driver is removed. This allows all those drivers to put th=
+e
+>> reference automatically and safely with a one line change:
+>>
+>>    - priv->next_bridge =3D of_drm_find_bridge(remote_np);
+>>    + priv->next_bridge =3D devm_drm_of_find_bridge(dev, remote_np);
+>>
+>> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+>> ---
+>>   drivers/gpu/drm/drm_bridge.c | 30 ++++++++++++++++++++++++++++++
+>>   include/drm/drm_bridge.h     |  5 +++++
+>>   2 files changed, 35 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+>> index 09ad825f9cb8..c7baafbe5695 100644
+>> --- a/drivers/gpu/drm/drm_bridge.c
+>> +++ b/drivers/gpu/drm/drm_bridge.c
+>> @@ -1446,6 +1446,36 @@ struct drm_bridge *drm_of_find_bridge(struct devi=
+ce_node *np)
+>>   }
+>>   EXPORT_SYMBOL(drm_of_find_bridge);
+>>
+>> +/**
+>> + * devm_drm_of_find_bridge - find the bridge corresponding to the devic=
+e
+>> + *			     node in the global bridge list and add a devm
+>> + *			     action to put it
+>> + *
+>> + * @dev: device requesting the bridge
+>> + * @np: device node
+>> + *
+>> + * On success the returned bridge refcount is incremented, and a devm
+>> + * action is added to call drm_bridge_put() when @dev is removed. So th=
+e
+>> + * caller does not have to put the returned bridge explicitly.
+>> + *
+>> + * RETURNS:
+>> + * drm_bridge control struct on success, NULL on failure
+>
+> I am not sure for the "NULL on failure", you return ERR_PTR(err), which
+> is probably not NULL but an error code.
 
-On 19/11/2025 11:03, Russell King (Oracle) wrote:
-> Move the probe/remove time calling of the init()/exit() methods in
-> the platform data to the main driver probe/remove functions. This
-> allows them to be used by non-platform_device based drivers.
-> 
-> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+Indeed.
 
-Reviewed-by: Maxime Chevallier <maxime.chevallier@bootlin.com>
+Apologies for the mess in this series: it was adapted from an old one using
+a different approach, so I had to adapt lots of details, and missed a few
+along the way. :(
 
-Maxime
+About the value to return, maybe it's better to use the same semantics as
+drm_of_find_bridge(), i.e. NULL on error. I don't think a caller would have
+anything clever to do with an error return value other tan bailing out. And
+the only error path for devm_add_action_or_reset() is on a small
+allocation, so it basically cannot happen.
 
-> ---
->  .../net/ethernet/stmicro/stmmac/stmmac_main.c | 47 ++++++++++++++-----
->  .../ethernet/stmicro/stmmac/stmmac_platform.c | 23 +--------
->  2 files changed, 36 insertions(+), 34 deletions(-)
-> 
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-> index 644dccb29f75..aac8188248ff 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-> @@ -7593,19 +7593,9 @@ struct plat_stmmacenet_data *stmmac_plat_dat_alloc(struct device *dev)
->  }
->  EXPORT_SYMBOL_GPL(stmmac_plat_dat_alloc);
->  
-> -/**
-> - * stmmac_dvr_probe
-> - * @device: device pointer
-> - * @plat_dat: platform data pointer
-> - * @res: stmmac resource pointer
-> - * Description: this is the main probe function used to
-> - * call the alloc_etherdev, allocate the priv structure.
-> - * Return:
-> - * returns 0 on success, otherwise errno.
-> - */
-> -int stmmac_dvr_probe(struct device *device,
-> -		     struct plat_stmmacenet_data *plat_dat,
-> -		     struct stmmac_resources *res)
-> +static int __stmmac_dvr_probe(struct device *device,
-> +			      struct plat_stmmacenet_data *plat_dat,
-> +			      struct stmmac_resources *res)
->  {
->  	struct net_device *ndev = NULL;
->  	struct stmmac_priv *priv;
-> @@ -7912,6 +7902,34 @@ int stmmac_dvr_probe(struct device *device,
->  
->  	return ret;
->  }
-> +
-> +/**
-> + * stmmac_dvr_probe
-> + * @dev: device pointer
-> + * @plat_dat: platform data pointer
-> + * @res: stmmac resource pointer
-> + * Description: this is the main probe function used to
-> + * call the alloc_etherdev, allocate the priv structure.
-> + * Return:
-> + * returns 0 on success, otherwise errno.
-> + */
-> +int stmmac_dvr_probe(struct device *dev, struct plat_stmmacenet_data *plat_dat,
-> +		     struct stmmac_resources *res)
-> +{
-> +	int ret;
-> +
-> +	if (plat_dat->init) {
-> +		ret = plat_dat->init(dev, plat_dat->bsp_priv);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	ret = __stmmac_dvr_probe(dev, plat_dat, res);
-> +	if (ret && plat_dat->exit)
-> +		plat_dat->exit(dev, plat_dat->bsp_priv);
-> +
-> +	return ret;
-> +}
->  EXPORT_SYMBOL_GPL(stmmac_dvr_probe);
->  
->  /**
-> @@ -7950,6 +7968,9 @@ void stmmac_dvr_remove(struct device *dev)
->  
->  	pm_runtime_disable(dev);
->  	pm_runtime_put_noidle(dev);
-> +
-> +	if (priv->plat->exit)
-> +		priv->plat->exit(dev, priv->plat->bsp_priv);
->  }
->  EXPORT_SYMBOL_GPL(stmmac_dvr_remove);
->  
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c
-> index feccb8a3e7e8..9015b7f80d1b 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c
-> @@ -804,25 +804,12 @@ int stmmac_pltfr_probe(struct platform_device *pdev,
->  		       struct plat_stmmacenet_data *plat,
->  		       struct stmmac_resources *res)
->  {
-> -	struct device *dev = &pdev->dev;
-> -	int ret;
-> -
->  	if (!plat->suspend && plat->exit)
->  		plat->suspend = stmmac_plat_suspend;
->  	if (!plat->resume && plat->init)
->  		plat->resume = stmmac_plat_resume;
->  
-> -	ret = stmmac_pltfr_init(dev, plat);
-> -	if (ret)
-> -		return ret;
-> -
-> -	ret = stmmac_dvr_probe(dev, plat, res);
-> -	if (ret) {
-> -		stmmac_pltfr_exit(dev, plat);
-> -		return ret;
-> -	}
-> -
-> -	return ret;
-> +	return stmmac_dvr_probe(&pdev->dev, plat, res);
->  }
->  EXPORT_SYMBOL_GPL(stmmac_pltfr_probe);
->  
-> @@ -864,13 +851,7 @@ EXPORT_SYMBOL_GPL(devm_stmmac_pltfr_probe);
->   */
->  void stmmac_pltfr_remove(struct platform_device *pdev)
->  {
-> -	struct net_device *ndev = platform_get_drvdata(pdev);
-> -	struct stmmac_priv *priv = netdev_priv(ndev);
-> -	struct plat_stmmacenet_data *plat = priv->plat;
-> -	struct device *dev = &pdev->dev;
-> -
-> -	stmmac_dvr_remove(dev);
-> -	stmmac_pltfr_exit(dev, plat);
-> +	stmmac_dvr_remove(&pdev->dev);
->  }
->  EXPORT_SYMBOL_GPL(stmmac_pltfr_remove);
->  
+>> +struct drm_bridge *devm_drm_of_find_bridge(struct device *dev, struct d=
+evice_node *np)
+>> +{
+>> +	struct drm_bridge *bridge =3D drm_of_find_bridge(np);
+>> +
+>> +	if (bridge) {
+>> +		int err =3D devm_add_action_or_reset(dev, drm_bridge_put_void, bridge=
+);
+>> +
+>> +		if (err)
+>> +			return ERR_PTR(err);
+>> +	}
 
+So this would become:
+
+	if (bridge) {
+		if (devm_add_action_or_reset(dev, drm_bridge_put_void, bridge))
+			return NULL;
+	}
+
+>> +
+>> +	return bridge;
+>> +}
+
+Luca
+
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
