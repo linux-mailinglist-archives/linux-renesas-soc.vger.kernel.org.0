@@ -1,210 +1,192 @@
-Return-Path: <linux-renesas-soc+bounces-24822-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24823-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB0D7C6F5A2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 15:41:08 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9C27C6F5E1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 15:43:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sin.lore.kernel.org (Postfix) with ESMTPS id A72183070A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 14:35:35 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTPS id E5ADD2EFB4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 14:42:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E06C34FF4A;
-	Wed, 19 Nov 2025 14:33:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0CB426C39B;
+	Wed, 19 Nov 2025 14:35:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="pupAGR3m"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="lTQU/QDs"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 810D826F296
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Nov 2025 14:33:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54E9A26A1B9
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Nov 2025 14:35:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763562802; cv=none; b=n/7ibLLm43b40PTY1djo0m5G8NCrqP6WwIzawOusvSBKL976n/n+/7m+A9TFSe82Zk8pOhG6dQx9r73xLmknImu4eXiQpVbkuH5qayQhFO6dsAeMYswZ/Qu7QnQ9AQIqaoiH/THJD+nmMIgFT9CBjFqfYTZsW3/qWQZ8JCSEF6s=
+	t=1763562942; cv=none; b=QYysYe0uUuhmqYzpFCGQ6sAIQMeHdCgMdMRP0p2YUniFxwBsG6gltv3nsobjpqi9drmF3CRFv9h1im1SdL57yrVZuIFkFwfdZWvKvJdSb7nul3EVi+xD2lssEezFlvR0OC/jXTSG2Y1AENpZLWJGUsqsFfpX5tz9mUhbGME08cE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763562802; c=relaxed/simple;
-	bh=pKN7aQQyagRZPKiTasJSxadS+zmxSHf8zm5yj651MZg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BNcJz83y/81ZRSlts2DuOgOf6xSSDQAKSCjngei6rOKcGpyIB52c1/BYbzPs3jlkbbp8g3m5sxgco6QtRNJRnmSN5iUXsZ/KHEvqDG6rbagA7Gq8ps4p3tfhLGm5lF/ji3Zo/ajT9aCF/Ze1sw+ISe246ILXmd0hMiap4xeQPCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=pupAGR3m; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id ED5CB1A1BE0;
-	Wed, 19 Nov 2025 14:33:18 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id BEA8760699;
-	Wed, 19 Nov 2025 14:33:18 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4DA6310371A62;
-	Wed, 19 Nov 2025 15:33:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1763562796; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=0vbDr+QjnWAsQ6X5coWb1jIQOFxpmdjPSWJIgMslIi0=;
-	b=pupAGR3mHYH4v3bdqG9lB63xH4OPbAI6MGyFpKDJh78mR3Zex9P5V02vdy6o0fLd8967Sk
-	JK6HNnpcQvd4s5xoTOKVEstBPli6t3eALZwCRL6xVH6dCX5ZphnkgT5OlonumufXJKuzgB
-	oUx9qVp3XlzUcRyOCYsqYNm+gV8fFxZT1W0ySpU9zygoxTAMwKyMaHXVG6iQ40/jzK7cZV
-	ldmn1YhKlJgR3YHNT7xNfvG/PeQA6bvqeBSQnZ9483u89j+NP6DkGqxMfX1AzVMspPtl9I
-	YpWJCOTeKJE0c/6Eg6tkrby0b7NcLi05CJHcJTN9WveGfQr/cgdlhPWDiQh7Fg==
-Message-ID: <0858117f-9397-4045-9b7d-490ad24926cb@bootlin.com>
-Date: Wed, 19 Nov 2025 14:33:09 +0000
+	s=arc-20240116; t=1763562942; c=relaxed/simple;
+	bh=boggqE6/veB48X8E/lvoV0UfcqfofI/pcszr4XTLAjE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NeMGLG8X3sPt/e7aOlAHmVshzv3gyutp6Vti92q1LuXggzlOtpBHQEWlvCRxY1ujGNoMWqssgm7a0tIlFEneJ0GZ4VuTqFtI4rKFHXelQ/5NFjb5KACbsOzypH1N63+BrQKF3FY36MQWmFxF1D40WldEfuFQ3gQ0K9y0FFz35+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=lTQU/QDs; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-47778b23f64so45834165e9.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Nov 2025 06:35:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1763562938; x=1764167738; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QFSAHjs1Q3yjPqY0JE3fglKcK3wZceel7CWAQdCxWzo=;
+        b=lTQU/QDsszZxAOn3IhBTo9fLJF/jW+SOgIzlm13F5T4Ugq68wo+aqGJrdZpIqNAlLV
+         QZDL4tGrkzCMhaLbMIxXKw5N+swQ4X7AIl1OODZEgvWbnfWbTuaAphmVclYrH4Ox6g86
+         b++KBwsqrXa4HMZec/kgLfpSpY5DhKDU6kavHibHys2fDxmyxrYOteFzk23xobkpE//H
+         VCLZ81bubsMpGyaXZTlkiImxe780Ye2Voc4IbqoP6aZ/AckEonjjffP/uYSzmI4Xb0sX
+         mQODm8nvRt8utj8KiN7Nv/zI6ujro9CKSU40zKhpdCl6bO8lnt4gdcO34OgzZHsOnLf0
+         FGxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763562938; x=1764167738;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QFSAHjs1Q3yjPqY0JE3fglKcK3wZceel7CWAQdCxWzo=;
+        b=fGk4Rub1xSZ78VbFeodMcgYrx34u0fBZrWaghycez57rhoY5fFMNKElCIwgYqLrtH7
+         t/aosfEnUFLAYMIIqtLx2SCUCnHpch2C4DziOBlUt4SqMKOPlNl/qd1mZrxY2AgQL3Pq
+         td7qiH/FcnBrmmXZjYEL/A/fjRRaisn5tIgqk7LchGgwaPKbfePXw80VfrBOFCW7O6Z6
+         GIHLLhLss1UaGUZRFnCyrt/Df1JA5kp5RoUqJfezpYSn5OC178j5ydpzZnATSgG6lNbv
+         9lzXo9b9tlhz3MP4mN3ZcI1jsUm1jGb4ZHmmNGx/t+mr/y2EkCwjEnLxEqKAGLAyG+4S
+         MKUw==
+X-Forwarded-Encrypted: i=1; AJvYcCVJyje5xX98lm51XcNI8Qnaq53NyuNjzLQCzyyhfTI6AZB0W40iSl8faxjDXaI3/h2hSu/qWZWz3YSlGIp9o7XoOA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwxbaLWjvRghJwdHmLZes1zz3EIoUA4U/YJFgciNdUZhSfv6W18
+	WpG7d2GRDBVeN1JF/HdKUfOi/YCucwRRSnGRdner9o5D3STKZ6NH253YT6T5Zcw8u+g=
+X-Gm-Gg: ASbGnctOXfeHdOZdInKBGQOQpx2OjwI9mBASGa/6W6ZGPksX4lxHK3Mql5uGn2fQFMN
+	Hf4IhJS6XEd2wLzrkVzlWYj2gDbxFiI+rzMZsqgOkrPKqR/8rzHwNXP5FmSjRvWbElXWGMlKidJ
+	rpXwNHqx3ZSilp7c60NHoB/UOdTEk9bzXmOq/xmE4+MUOnwk4pErGVNDTbGO4mv9Kn2HKKFKdOs
+	uQiTLf7Y1JjQRfgkaptricZzZrVMIaoK3Ao1eLs9C61m1jZ99M/1DUxVesSZuxoDnzFO4rt2toc
+	JxgWRmQrTvusm+7CMsgLjPKvZq4lWVcJOVn83ib3dbcPzy3dkaHP6+rKSNErT39D1IRWyqu3caw
+	H8+kzQu6Nxia9yjCh5oiMjS4j26y1sVxjCrKzKiXP5KapdXgoWw7H/qnQFPI0D7d7VaAzgN8nSo
+	ggAxsVzN63Cn4COzJwm8sIm+uqqE2K/x8xon/tSZuw
+X-Google-Smtp-Source: AGHT+IFO6BsXXVDJxAXEje/PrbZsUHhCrC1Z80Km715d+vZyDyEog2lAh8LmDiKcmJPGfC/W0ZSFpw==
+X-Received: by 2002:a05:6000:22c2:b0:42b:2eb3:c90f with SMTP id ffacd0b85a97d-42b5935df10mr17441026f8f.10.1763562937170;
+        Wed, 19 Nov 2025 06:35:37 -0800 (PST)
+Received: from claudiu-X670E-Pro-RS.. ([82.78.167.134])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b53f0b894sm39973399f8f.26.2025.11.19.06.35.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Nov 2025 06:35:36 -0800 (PST)
+From: Claudiu <claudiu.beznea@tuxon.dev>
+X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
+To: bhelgaas@google.com,
+	lpieralisi@kernel.org,
+	kwilczynski@kernel.org,
+	mani@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	geert+renesas@glider.be,
+	magnus.damm@gmail.com,
+	p.zabel@pengutronix.de
+Cc: claudiu.beznea@tuxon.dev,
+	linux-pci@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v8 0/6] PCI: rzg3s-host: Add PCIe driver for Renesas RZ/G3S SoC
+Date: Wed, 19 Nov 2025 16:35:17 +0200
+Message-ID: <20251119143523.977085-1-claudiu.beznea.uj@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 06/26] drm/bridge: add devm_drm_of_find_bridge
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Corbet <corbet@lwn.net>, Alexey Brodkin <abrodkin@synopsys.com>,
- Phong LE <ple@baylibre.com>, Liu Ying <victor.liu@nxp.com>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>,
- Adrien Grassein <adrien.grassein@gmail.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Kevin Hilman <khilman@baylibre.com>,
- Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
- Edmund Dea <edmund.j.dea@intel.com>, Inki Dae <inki.dae@samsung.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>
-Cc: Hui Pu <Hui.Pu@gehealthcare.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- linux-amlogic@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org
-References: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com>
- <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-6-0db98a7fe474@bootlin.com>
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Content-Language: en-US
-In-Reply-To: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-6-0db98a7fe474@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
 
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
+Hi,
 
-On 11/19/25 13:05, Luca Ceresoli wrote:
-> Several drivers (about 20) follow the same pattern:
-> 
->   1. get a pointer to a bridge (typically the next bridge in the chain) by
->      calling of_drm_find_bridge()
->   2. store the returned pointer in the private driver data, keep it until
->      driver .remove
->   3. dereference the pointer at attach time and possibly at other times
-> 
-> of_drm_find_bridge() is now deprecated because it does not increment the
-> refcount and should be replaced with drm_of_find_bridge() +
-> drm_bridge_put().
-> 
-> However some of those drivers have a complex code flow and adding a
-> drm_bridge_put() call in all the appropriate locations is error-prone,
-> leads to ugly and more complex code, and can lead to errors over time with
-> code flow changes.
-> 
-> To handle all those drivers in a straightforward way, add a devm variant of
-> drm_of_find_bridge() that adds a devm action to invoke drm_bridge_put()
-> when the said driver is removed. This allows all those drivers to put the
-> reference automatically and safely with a one line change:
-> 
->    - priv->next_bridge = of_drm_find_bridge(remote_np);
->    + priv->next_bridge = devm_drm_of_find_bridge(dev, remote_np);
-> 
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> ---
->   drivers/gpu/drm/drm_bridge.c | 30 ++++++++++++++++++++++++++++++
->   include/drm/drm_bridge.h     |  5 +++++
->   2 files changed, 35 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> index 09ad825f9cb8..c7baafbe5695 100644
-> --- a/drivers/gpu/drm/drm_bridge.c
-> +++ b/drivers/gpu/drm/drm_bridge.c
-> @@ -1446,6 +1446,36 @@ struct drm_bridge *drm_of_find_bridge(struct device_node *np)
->   }
->   EXPORT_SYMBOL(drm_of_find_bridge);
->   
-> +/**
-> + * devm_drm_of_find_bridge - find the bridge corresponding to the device
-> + *			     node in the global bridge list and add a devm
-> + *			     action to put it
-> + *
-> + * @dev: device requesting the bridge
-> + * @np: device node
-> + *
-> + * On success the returned bridge refcount is incremented, and a devm
-> + * action is added to call drm_bridge_put() when @dev is removed. So the
-> + * caller does not have to put the returned bridge explicitly.
-> + *
-> + * RETURNS:
-> + * drm_bridge control struct on success, NULL on failure
+Series adds a PCIe driver for the Renesas RZ/G3S SoC.
+It is split as follows:
+- patches 1-2/6:	add PCIe support for the RZ/G3S SoC
+- patches 3-6/6:	add device tree support and defconfig flag
 
-I am not sure for the "NULL on failure", you return ERR_PTR(err), which 
-is probably not NULL but an error code.
+Please provide your feedback.
 
-> + */
-> +struct drm_bridge *devm_drm_of_find_bridge(struct device *dev, struct device_node *np)
-> +{
-> +	struct drm_bridge *bridge = drm_of_find_bridge(np);
-> +
-> +	if (bridge) {
-> +		int err = devm_add_action_or_reset(dev, drm_bridge_put_void, bridge);
-> +
-> +		if (err)
-> +			return ERR_PTR(err);
-> +	}
-> +
-> +	return bridge;
-> +}
-> +EXPORT_SYMBOL(devm_drm_of_find_bridge);
-> +
->   /**
->    * of_drm_find_bridge - find the bridge corresponding to the device node in
->    *			the global bridge list
-> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> index e74e91004c48..98d5433f7d35 100644
-> --- a/include/drm/drm_bridge.h
-> +++ b/include/drm/drm_bridge.h
-> @@ -1314,12 +1314,17 @@ int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
->   
->   #ifdef CONFIG_OF
->   struct drm_bridge *drm_of_find_bridge(struct device_node *np);
-> +struct drm_bridge *devm_drm_of_find_bridge(struct device *dev, struct device_node *np);
->   struct drm_bridge *of_drm_find_bridge(struct device_node *np);
->   #else
->   static inline struct drm_bridge *drm_of_find_bridge(struct device_node *np)
->   {
->   	return NULL;
->   }
-> +static inline struct drm_bridge *devm_drm_of_find_bridge(struct device *dev, struct device_node *np)
-> +{
-> +	return NULL;
-> +}
->   static inline struct drm_bridge *of_drm_find_bridge(struct device_node *np)
->   {
->   	return NULL;
-> 
+Merge strategy, if any:
+- patches 1-2/6 can go through the PCI tree
+- patches 3-6/6 can go through the Renesas tree
+
+Thank you,
+Claudiu Beznea
+
+Changes in v8:
+- in patch 2/6 corrected typo, used proper variable for IRQ in
+  debug message
+
+Changes in v7:
+- rebased on top of v6.18-rc1
+
+Changes in v6:
+- addressed review comments on DT bindings and driver code
+- per-patch changes are described in each individual patch
+
+Changes in v5:
+- dropped patch
+  "arm64: dts: renesas: rzg3s-smarc-som: Update dma-ranges for PCIe"
+  and introduced patch
+  "arm64: dts: renesas: rzg3s-smarc-som: Add PCIe reference clock"
+- addressed review comments
+- per-patch changes are described in each individual patch
+
+Changes in v4:
+- dropped v3 patches:
+  - "clk: renesas: r9a08g045: Add clocks and resets support for PCIe"
+  - "soc: renesas: rz-sysc: Add syscon/regmap support"
+  as they are already integrated
+- dropped v3 patch "PCI: of_property: Restore the arguments of the
+  next level parent" as it is not needed anymore in this version due
+  port being added in device tree
+- addressed review comments
+- per-patch changes are described in each individual patch
+
+Changes in v3:
+- added patch "PCI: of_property: Restore the arguments of the next level parent"
+  to fix the legacy interrupt request
+- addressed review comments
+- per-patch changes are described in each individual patch
+
+Changes in v2:
+- dropped "of/irq: Export of_irq_count()" as it is not needed anymore
+  in this version
+- added "arm64: dts: renesas: rzg3s-smarc-som: Update dma-ranges for PCIe"
+  to reflect the board specific memory constraints
+- addressed review comments
+- updated patch "soc: renesas: rz-sysc: Add syscon/regmap support"
+- per-patch changes are described in each individual patch
+
+Claudiu Beznea (6):
+  dt-bindings: PCI: renesas,r9a08g045s33-pcie: Add Renesas RZ/G3S
+  PCI: rzg3s-host: Add Renesas RZ/G3S SoC host driver
+  arm64: dts: renesas: r9a08g045: Add PCIe node
+  arm64: dts: renesas: rzg3s-smarc-som: Add PCIe reference clock
+  arm64: dts: renesas: rzg3s-smarc: Enable PCIe
+  arm64: defconfig: Enable PCIe for the Renesas RZ/G3S SoC
+
+ .../bindings/pci/renesas,r9a08g045-pcie.yaml  |  249 +++
+ MAINTAINERS                                   |    8 +
+ arch/arm64/boot/dts/renesas/r9a08g045.dtsi    |   65 +
+ .../boot/dts/renesas/rzg3s-smarc-som.dtsi     |    5 +
+ arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi  |   11 +
+ arch/arm64/configs/defconfig                  |    1 +
+ drivers/pci/controller/Kconfig                |    9 +
+ drivers/pci/controller/Makefile               |    1 +
+ drivers/pci/controller/pcie-rzg3s-host.c      | 1759 +++++++++++++++++
+ 9 files changed, 2108 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/pci/renesas,r9a08g045-pcie.yaml
+ create mode 100644 drivers/pci/controller/pcie-rzg3s-host.c
+
+-- 
+2.43.0
 
 
