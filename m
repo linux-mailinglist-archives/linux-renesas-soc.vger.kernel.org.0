@@ -1,161 +1,152 @@
-Return-Path: <linux-renesas-soc+bounces-24769-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24770-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F008C6D8B2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 10:00:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C539FC6DAEA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 10:22:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sin.lore.kernel.org (Postfix) with ESMTPS id 3945528B50
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 08:59:20 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTPS id 12C0F2E18E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 09:19:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 557738F5B;
-	Wed, 19 Nov 2025 08:59:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D772F33B945;
+	Wed, 19 Nov 2025 09:19:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="obPz9g+W"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC42322FDEA
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Nov 2025 08:59:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B23D33254B7
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Nov 2025 09:19:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763542757; cv=none; b=VvfW/26nigauGWRvkVAsNEGnWPmRSPG5IqSxR7r41h7q8077oTcch4fiJomnO5CFbXpRG3iU7cCFmp19uYRml2qt3tjV+2F1XsNP8uM5EE2ElDVZKAE7xGHkaC1Ny7Gg6sN6hbRBfYKcmbPCor88UywvMWozB58w4+zoQJ8MxFQ=
+	t=1763543951; cv=none; b=LaaiASt2tOTqQlSnY9KHwM/HKUxO89OOB8wN/rkw/xB4aYsDUUgDAqkv/jsLbRcCX10n56Zq4BQVxaf46bzNTvN3faNBcaCB7yBqfJyhfq9eHBr5ETPP0SzycxDT8zdM6XdPvT0vXGebsSJBJuPgaQ7COP21x/pOoxOFrCvzf8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763542757; c=relaxed/simple;
-	bh=x1ETO9gQBzCG9IxfyuhO9nUfEDSqlzn/l2nzh3hu+os=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sSZCO5TbiRIUseU2hc6RRdX3DsvBsIIbmQmOjMbapbrl5s9xwQoqGek+36CuKdofItFcKp4CifeWYoltMMYGyTP0AYpJRKEdczM7XRUgQrBwC18FIyiezjiCjbsQelaO+680r4AG8YU0GaEifTRKOijaadolmpwvZ4JS6cJVyXA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-7bb3092e4d7so5016381b3a.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Nov 2025 00:59:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763542755; x=1764147555;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LS0PIRW3Q0/zfkvWSrpPbMhxA5dRo1SmIMgccBT+00o=;
-        b=c76AYHzBosCne4biSsEV9cPOwkKrsyuiwQLhFe8VKt4azTC1oqqpdjD2HD98lXho6W
-         w6erhJoM+meSaJ0GfcT0v482dGgI9jTsBqYlfi14V2fWd51nT8OEY5ofoF047Dg19KAF
-         Z4VwzLR+xaQ4gGV2/HM0/y4PqI/ar+SJQEI7fxGOz2r0qMNRuyMfTg0akSujG+ANvrvY
-         pyaU3yzEW/Nh692uSS9vV6ZkDoFBsB4USBzZPa91w9nY2MatIUW6GSnwomJT0NrI7mrI
-         joqIXyzh4TcojlyHLqFzmFk8ycG82F1odQP3Klv+NxZMFAwtX0eQTzLHLncN772uFMay
-         rqpA==
-X-Forwarded-Encrypted: i=1; AJvYcCXpkJLSuC2nn6JbAu8MckJBPu7nULaUa6D2jJ08Z2W+wUfLWve6XSqgMTjGZtTODpadv3ukFMhFAFvh0v5uEBniQA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzb8/BPzxWseXgozsilCkniZILlwLCLUFxuJ8a7BIhQx+sOzI0h
-	cuvsbtguKWZZ0KvgJfwQ6dny2TNzNYK4kh94UArRYxEZ2bn+4rQH93QJuNG72rkt
-X-Gm-Gg: ASbGncunUai6Cy4OhXldmwF7YW1ZOlak3X6iL8+PrOhutSR2Yy4Lz9ccC35PYw8l4YU
-	/8Xw7KDzUaP9Ye/4IgMQXx0CZ4rE3bGx6XJpeyulcV8fL2a7/WMPU6x5DmzsQMcCfsZzkhix8n1
-	mbepK55WbFIWP7iCZHLoifz4eLoL2iy40TAtoeFzLtu4WMbcSEm04hKI37SmfvQa+SeXlgkcseP
-	H5Iy1IuF1tmLxmbsTUgXBXHV1x19Nt9PrtiRH6XvDLzfKBreR1T43BQPIGvdclHfl7s5AivhLiH
-	mozOOELkswMcZZ9Xz+MCNPt+BJh3Zz8/6IgxG7xY18ZmSPzAfenOrDBg3iK6+qzSzaViUVf19fs
-	ZVB6YGwHd5acddXM62bE+GYrAoQJC0Wbdp/8p/2lS5ZOrll+JWKyjaf1fSFhixS1zxSuqQKitGJ
-	fSqhfDWzHd4QDyiiHF5IVmYeb1SUQwlJgjqtWctM4F2eo6skK4BIHqt2ZYMd9v1aY=
-X-Google-Smtp-Source: AGHT+IE2iVugs/bNfWxWOHt20zBNRcCMXEc9kTRqtk1tepMASm9LTAmCe+vbjcaGyBD96ddidocPsw==
-X-Received: by 2002:aa7:88c9:0:b0:7b8:d12f:90ae with SMTP id d2e1a72fcca58-7c29de3b6f2mr2534094b3a.21.1763542754713;
-        Wed, 19 Nov 2025 00:59:14 -0800 (PST)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com. [209.85.210.175])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b92772e7f2sm18795521b3a.57.2025.11.19.00.59.14
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Nov 2025 00:59:14 -0800 (PST)
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-7b8bbf16b71so7305998b3a.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Nov 2025 00:59:14 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWx/zYGFyNl6Nbo8YdWKQViPyUwyQQKg/bXBWBNSPwD5LwmBBFPpoGTkttvluyuP91q6TRhB4buXZ2fcrsYCzm5Bg==@vger.kernel.org
-X-Received: by 2002:a05:6102:41ab:b0:5df:b4a8:fbaf with SMTP id
- ada2fe7eead31-5e1a6dfeb50mr481222137.31.1763542404865; Wed, 19 Nov 2025
- 00:53:24 -0800 (PST)
+	s=arc-20240116; t=1763543951; c=relaxed/simple;
+	bh=wOUDEHv50QeY3FIrd9AfcYgSOCVxnuSxty9Ry2TtVvw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hUNdhr3KKbDiab6Nj77AN2jc0xhIFGvrYTzUWMUc6I4SDxnkZhwogER5qO3kc1E4DEX2b1M2OuRmpXflNSLRHktFiX56TLdMY4IuFPc7irIrNx/tMycV0lKq9SHLqpzMuSQ7zsDkVJUCc1eSUzoqXE2qQ45vS3PbtM4+zrvG9rU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=obPz9g+W; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 652FEC113D0;
+	Wed, 19 Nov 2025 09:19:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763543949;
+	bh=wOUDEHv50QeY3FIrd9AfcYgSOCVxnuSxty9Ry2TtVvw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=obPz9g+WuAabjrRdMJDYwairl2+ZFFW6joxWYFgnfAxZIaIFbEk6okcgu0eOhLRgB
+	 ImIZtE7NO/WdZZvxT14W6FI1zB43t/JyyraQd7HzfV2+nM438RtbZGSKYRvg33BYRN
+	 bnAao8l9mPURwmAVvTFqc1H6ZhJdXEsw4I2TkNtgtK/UOw7XRd5axB6awUN+uC1IQr
+	 hsh4oyfhZcuRIHymh4HoTzTZ8fPc6uySj8hsJyCfxBlrLDeKJfFkhfTMIG0AXF1RFq
+	 Je6gx/4aNcCRrO+oT3Kz0KEV6fzv4Hbk47QXZzbKn5RBGzp+yLbkNX7dpbb+fMLrsS
+	 MIoyHDKLGx4Dg==
+Date: Wed, 19 Nov 2025 10:19:06 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Marek Vasut <marek.vasut+renesas@mailbox.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Aradhya Bhatia <a-bhatia1@ti.com>, Dmitry Baryshkov <lumag@kernel.org>, 
+	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] drm/atomic-helper: Add special quirk tail function
+Message-ID: <5zo76nnejrinmf6snaezld5ylfvk266bwyxg3phdhtg74z43pu@kub3r7tvz7vc>
+References: <20251118-mcde-drm-regression-v2-0-4fedf10b18f6@linaro.org>
+ <20251118-mcde-drm-regression-v2-3-4fedf10b18f6@linaro.org>
+ <20251118150128.GB23711@pendragon.ideasonboard.com>
+ <cncl6nwbr6fu3nvhz2y34ou4geqzo7hjf3wpukmm4t6utvygor@t2v4smey5ful>
+ <CACRpkdYh9nSBtqU_8w5gnkWOc+Dw7fW3tPinm6JjfXMbdEJOjg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <fbe6fc3657070fe2df7f0529043542b52b827449.1763116833.git.geert+renesas@glider.be>
- <b037f67a-b241-4689-9914-57ff578c1454@sirena.org.uk> <1a4d2276-75e1-4aa0-8ff2-c932ce5d6edc@kernel.org>
-In-Reply-To: <1a4d2276-75e1-4aa0-8ff2-c932ce5d6edc@kernel.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 19 Nov 2025 09:53:13 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXgq=Zv3GQes_d_eyCcB7m--PaEGSQJtUWiRjj-7gBVkw@mail.gmail.com>
-X-Gm-Features: AWmQ_bmK2x20bqzBbl34KnFcBc219BFFPGMTWyPQr3AqlLeaP7gK9n05hJwL6mw
-Message-ID: <CAMuHMdXgq=Zv3GQes_d_eyCcB7m--PaEGSQJtUWiRjj-7gBVkw@mail.gmail.com>
-Subject: Re: [PATCH v2] of/irq: Ignore interrupt parent for nodes without interrupts
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Saravana Kannan <saravanak@google.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexandre Ghiti <alex@ghiti.fr>, Samuel Holland <samuel@sholland.org>, Marc Zyngier <maz@kernel.org>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Marek Szyprowski <m.szyprowski@samsung.com>, 
-	linux-samsung-soc <linux-samsung-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="mdtg53pqx5wf23le"
+Content-Disposition: inline
+In-Reply-To: <CACRpkdYh9nSBtqU_8w5gnkWOc+Dw7fW3tPinm6JjfXMbdEJOjg@mail.gmail.com>
 
-On Tue, 18 Nov 2025 at 20:55, Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> On 18/11/2025 20:34, Mark Brown wrote:
-> > On Fri, Nov 14, 2025 at 11:47:54AM +0100, Geert Uytterhoeven wrote:
-> >> The Devicetree Specification states:
-> >>
-> >>     The root of the interrupt tree is determined when traversal of the
-> >>     interrupt tree reaches an interrupt controller node without an
-> >>     interrupts property and thus no explicit interrupt parent.
-> >>
-> >> However, of_irq_init() gratuitously assumes that a node without
-> >> interrupts has an actual interrupt parent if it finds an
-> >> interrupt-parent property higher up in the device tree.  Hence when such
-> >> a property is present (e.g. in the root node), the root interrupt
-> >> controller may not be detected as such, causing a panic:
+
+--mdtg53pqx5wf23le
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 3/3] drm/atomic-helper: Add special quirk tail function
+MIME-Version: 1.0
+
+On Tue, Nov 18, 2025 at 07:10:47PM +0100, Linus Walleij wrote:
+> On Tue, Nov 18, 2025 at 4:44=E2=80=AFPM Maxime Ripard <mripard@kernel.org=
+> wrote:
+> > On Tue, Nov 18, 2025 at 05:01:28PM +0200, Laurent Pinchart wrote:
+> > > On Tue, Nov 18, 2025 at 03:36:05PM +0100, Linus Walleij wrote:
+>=20
+> > > > +/**
+> > > > + * drm_atomic_helper_commit_tail_crtc_early_late - commit atomic u=
+pdate
+> > >
+> > > Based on the function name, it feels that the nem commit tail and
+> > > modeset enable/disable helpers reached a point where we may want to
+> > > reconsider the design instead of adding new functions with small
+> > > differences in behaviour that will end up confusing driver developers.
 > >
-> > I'm seeing a boot regression on the TI x15 platform in -next which
-> > bisects to this patch in -next, unfortunately even with earlycon (though
-> > just earlycon, I don't know the platform specific runes) the board just
-> > dies with no output:
-> >
-> >   https://validation.linaro.org/scheduler/job/4252918#L409
-> >
-> > It does seem like a plausible patch for this sort of issue though, and
-> > the bisect converges smoothly:
->
-> All Samsung platforms fail as well. I was waiting with bisection but
-> Marek was as usually very fast:
->
-> https://lore.kernel.org/all/20251118115037.1866871-1-m.szyprowski@samsung.com/
+> > Agreed, and I'd go even further than that: we don't want every odd order
+> > in the core. And if some driver has to break the order we document in
+> > some way it should be very obvious.
+>=20
+> Is this just a comment on this patch 3/3?
+>=20
+> Or do you mean that Mareks new callback
+> drm_atomic_helper_commit_modeset_enables_crtc_early()
+> from patch 1/2 should go straight into the R-Car driver as well
+> and that
+> drm_atomic_helper_commit_modeset_disables_crtc_late()
+> patch 2/2 should also go into my driver, even if this
+> is a comment on patch 3/3?
+>=20
+> Both patches 1 & 2 have a lot to do with ordering, this is
+> why I ask.
 
-Yeah, the various ti,omap[45]-wugen-mpu nodes have interrupt-parent
-properties, but no interrupts{-extended} properties.
+I mean, it applies to all your three patches and Marek's: helpers are
+here to provide a default implementation. We shouldn't provide a default
+implementation for a single user. All your patches enable to create
+defaults for a single user.
 
-Does the following (whitespace-damaged) patch, to restore finding an
-explicit interrupt-parent, fix the issue?
+So my point is that none of those functions should be helpers.
 
---- a/drivers/of/irq.c
-+++ b/drivers/of/irq.c
-@@ -685,6 +685,8 @@ void __init of_irq_init(const struct of_device_id *matches)
-                desc->interrupt_parent = of_parse_phandle(np,
-"interrupts-extended", 0);
-                if (!desc->interrupt_parent && of_property_present(np,
-"interrupts"))
-                        desc->interrupt_parent = of_irq_find_parent(np);
-+               if (!desc->interrupt_parent)
-+                       desc->interrupt_parent = of_parse_phandle(np,
-"interrupt-parent", 0);
-                if (desc->interrupt_parent == np) {
-                        of_node_put(desc->interrupt_parent);
-                        desc->interrupt_parent = NULL;
+> We already have
+> drm_atomic_helper_commit_tail()
+> drm_atomic_helper_commit_tail_rpm()
 
-Thanks!
+The former has 5 users, the latter 13. And it's already confusing enough
+and regression-prone as it is.
 
-Gr{oetje,eeting}s,
+> Does one more or less really matter? Maybe, I'm not sure,
+> but if it's just this one patch that is the problem I can surely
+> do it that way since we're only calling public functions.
+>=20
+> Pushing the first two patches would be more problematic,
+> because they call a lot of functions that are local to the
+> drm atomic helpers.
 
-                        Geert
+I'm totally fine with making more internal functions public though.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Maxime
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--mdtg53pqx5wf23le
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaR2LigAKCRAnX84Zoj2+
+dtxqAYDdPYEZq97K88nQ3C5+pdqF3mplM7/pzobUoiptmBAHo6gJl9Oi8Bmjip90
+2YfQ7SkBfjXMY5lEKwrwrC4vEaORBwu8p/gFJLAjck0ED2A/vgATl0Dfz3ucIVB1
+WS2G3a7lwQ==
+=71f/
+-----END PGP SIGNATURE-----
+
+--mdtg53pqx5wf23le--
 
