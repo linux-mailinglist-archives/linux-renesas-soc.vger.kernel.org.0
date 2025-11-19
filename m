@@ -1,234 +1,233 @@
-Return-Path: <linux-renesas-soc+bounces-24787-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24788-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A173C6E5EC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 13:05:00 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7694DC6E92A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 13:48:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 218704E2C4D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 12:04:43 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id C37FC3A34D1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 12:41:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1940735770D;
-	Wed, 19 Nov 2025 12:04:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8516B3596EC;
+	Wed, 19 Nov 2025 12:37:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="bCGqh6G7"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="ByQ49Ug9"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38E383254B7
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Nov 2025 12:04:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4173D341ADD
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Nov 2025 12:37:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763553868; cv=none; b=umckwnnwmAszYgcj5EBG6KnHfa46WGuOespgQDcQYA4vURf0Zlded0mt553ncJ8MoM66Sv4n6J0+forhoUYr+S9o4mD/niMBygc5ppU8EeNuAdp+KPXm5WoLb+s9p6/6VrpFI9RsRsja2v5pfVTN0T+0lFld8WtlU7Y6yHKoo+8=
+	t=1763555835; cv=none; b=fOaWI0lMCMju30bLdQOCVSkAMAO3c6PFQQk3BQLbBpQKwJdV+pfPljFKinQlHA4IboBooliya4MT+otDC8JrIFURf4FiBpAIjOKU0kXy2ffWnV6/PBi+Lw/DraC48qpzgVzoa2UpTEDfTtunn0wXMVOjicWdXuyCSj4LpIzIomI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763553868; c=relaxed/simple;
-	bh=ScX7aNG3Yn6BF5Fit9YEuAm9dWTD7Qc+POSQ7oChQKM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=l7MCcAZd7ah0RA2JbxyUtHi/5GwiiegNd+PUvvUW20FveAQGSablWxJv6/OLFplywD5ZmecgR4UfiDxuuFcHA3tzZXcMUbS9WIW6Bu4iLL85bTg6TGvQ6XLAek3+gh+8JAl2tyexgGtkhctq01iX0sAXTxB9OcG/RLNAzU1hdHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=bCGqh6G7; arc=none smtp.client-ip=209.85.128.48
+	s=arc-20240116; t=1763555835; c=relaxed/simple;
+	bh=7mcK1ohMWSnVS3aGt8xXqpYJWiiQ0HtA7t/k3b3t2qM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iGQ89wG8qSCwp5i1WWlSNGf/XdUt3pZ4JVnd0kL8cO92aj9CZ7O+ZS97qZfDWOdMkHPITeWwFq2KXx8RcDOnXUWcy/K3kv6g48cqMtCihRDoQIm6YX8iJcChX8S6vNO80q6y+GFx4GioSzMOH2lZrJHF+NP1ZVycrlAmH5aMNUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=ByQ49Ug9; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-47778b23f64so44607715e9.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Nov 2025 04:04:25 -0800 (PST)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-429c48e05aeso565740f8f.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Nov 2025 04:37:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1763553864; x=1764158664; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7kwbvw6xT/0cK8yOWBaAQdvYuRJNVtp1fhMHHc54Yto=;
-        b=bCGqh6G7jFwUVEg4IJtAgHkD4cSK6pZ2zImN6F20DkZ9LUMDcB10nUqlF9abGVVwVD
-         APXiPqKSMVyi+636Rl0mTa5NiTWgwu7qblyyLG3EIgZcRKTziGQjmS8nzSx8s/trQIHp
-         doZEa+kcT0yKcS3ANhp8cHzZWKNZ9WmDhH80nZZ3NBp91efGxrs8PWNFL8uRdoqrdyUf
-         nOO/phxIY/ESGsIvuGdbTQ7+ixoctZWDearKyFEfe1LujQbIH+YnZq2Uar3SmlpPyvCg
-         RPy9kc5oXIxOr8SHXW/qvZe5MSr2X2OgACtvO+hgOfQyTiPjVGCUoHctuTbLUCVa7iVE
-         cJNw==
+        d=tuxon.dev; s=google; t=1763555831; x=1764160631; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=t/wl42pES18vi+TWKSwvoZgKjCTDSQ0moe0G5S5wwP0=;
+        b=ByQ49Ug9JyghRQWjjhl4codhMP56qX4QOicBO3dVuitaV+VTvCRuXxZnElIOAla12Z
+         cy3i2VyzhBG+UNS0DRev0ugY73n5FaQ7i6SEaFfSAkvnRluOmHIbuTWpANgXXQ6M4en5
+         iKgB26/BMzfRj0bhjcUwOgrORabLEj8aS0WlMsucnY45+6lXI3/wZJr+ZeKWFaAu68xx
+         OyTH7XXLagXHNoxHadA7R766G7m8wb8rPx1FdU2HboGiGEx7dgEfdpE9nP22Rb/4sHTR
+         dbDpB9pPNd5AcwIm3LiCslC+S5jOBAWTiyNInGnE6ui733LSTiwxiVNRvFlCJqGhrRrN
+         ARkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763553864; x=1764158664;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=7kwbvw6xT/0cK8yOWBaAQdvYuRJNVtp1fhMHHc54Yto=;
-        b=Qxw6X4oUOiUWRI+lWmKcpZBE5JlBds9yFcwnYy2GPZdZxFfNZf1JOSPsLhPjqBYD9A
-         e6TQA4mRVWCPdjCUvuLQ02vvKqKGmafz+Y8RpVLk+RYhncpl6JhXibC3aNqjm4XCEuwE
-         V2g+RjZ6gRiLrumln4i3kuY6wS9bx5vQ3pp1zSN4S8ybZcLFyhlQwSs2h1YAgY+ejiB1
-         NkQnsX06pyfZxljskbzJzlRxSgJYf8mEqxswBuWI+KbyghW9DZV2YUsa7zV4Cv+wNsco
-         L1NGn9g8egoz94OZytR1KDiHvNdjE/cgLjRmKfPIM70XIVGyiPE/crMu7vX3i33wkL0f
-         c/dA==
-X-Forwarded-Encrypted: i=1; AJvYcCVfomv6LtToo1YsE8+A5ZY+NE9FGlEvXT81HgvWI/aOFkfZQW7Or6t3rpaNMtvEJqzfYGZxA6aPoqBDJSpJ0KHgxQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyudzXN4wt1Ikdmc5Q2bv20BjiN01+yob+ZGWvJjLCV9cqFvbNm
-	D9CsKVBE7eVo1JFMhccazixY4aHCgMePfS+iysCHtdRZsz5JFQRDMSBIlysZY+4aBak=
-X-Gm-Gg: ASbGncs/cmxIt/tpPn99u7CwDr8gMOkn804IJHeXQLsBRaFz0yluWia2IPJrwzDo+Hi
-	jHbSq0OPWCd5kgFtvVk/O/s1W2TKLDGH18Noo3L1ZOhJIOsEu08441SgOQ8hd7trnDT+Esmw42l
-	E+DfCewbY+59GoXh6yaZVh4wK1X1rwFDlfWyRwOSSnqnARzxmLPKlolYnMF+N7xC+2NzetT2S3B
-	8cVdo1KfsZtQUTuN2U3VUs6WcinZnpCP4WW/4EXBpiXnZFxrEF85Hk0/PqB1uAS2ovqe49977GR
-	IttrXBFWFoW4+RPs1AncADvBOmpyVkHxXH7pnRz5SLptAzIrtWzh3cmxO/j79CXvWsHGEfG+CND
-	iPfYDwYUwn0cs55TQijccLZO4DRZyRVt5b11r3cFTdU4GIFILb770EG8B3/fDZUTAK+D6NR3SV/
-	vYIlOsL05+pv52luaUID4/BiQHhqmDSXEGls9rCEeTaeHMm6htj+Xm1JhshV9KBg==
-X-Google-Smtp-Source: AGHT+IEmXDrq9U/gnjMPnQaZ2zqrfwsQlLLhP0qnBZZKkxXXUtOmxvmAkh4F6KqAQGo+GJlfdl6iXA==
-X-Received: by 2002:a05:600c:8b4b:b0:477:63a4:88fe with SMTP id 5b1f17b1804b1-4778fe50df1mr184268975e9.2.1763553864413;
-        Wed, 19 Nov 2025 04:04:24 -0800 (PST)
-Received: from claudiu-X670E-Pro-RS.. ([82.78.167.134])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b53f2084dsm38431132f8f.42.2025.11.19.04.04.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Nov 2025 04:04:23 -0800 (PST)
-From: Claudiu <claudiu.beznea@tuxon.dev>
-X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
-To: yoshihiro.shimoda.uh@renesas.com,
-	vkoul@kernel.org,
-	kishon@kernel.org,
-	geert+renesas@glider.be,
-	magnus.damm@gmail.com,
-	p.zabel@pengutronix.de
-Cc: claudiu.beznea@tuxon.dev,
-	linux-renesas-soc@vger.kernel.org,
-	linux-phy@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH v2 2/2] phy: renesas: rcar-gen3-usb2: Add suspend/resume support
-Date: Wed, 19 Nov 2025 14:04:18 +0200
-Message-ID: <20251119120418.686224-3-claudiu.beznea.uj@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251119120418.686224-1-claudiu.beznea.uj@bp.renesas.com>
-References: <20251119120418.686224-1-claudiu.beznea.uj@bp.renesas.com>
+        d=1e100.net; s=20230601; t=1763555831; x=1764160631;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=t/wl42pES18vi+TWKSwvoZgKjCTDSQ0moe0G5S5wwP0=;
+        b=gN7yvdKIxdcOvWaSglERLENDel+jm+VBcRfMmdcWekO4Zgxz18TD5RpDjw0sear6FG
+         8nS96APpEZEo6DGKOuqN115wma3s6FzFKgr4RmL7ZrI3U2dA2WuOZFxA8n3logOwyAU2
+         mKuEYFRlmuu3b1i8m3oUWBFanvdWo0hFmYoAzZn1YxU2BW1WtCSHyXYEhCcua6JehnzX
+         U4nQBMbc9+ZAeGThtDNPxoyyPWf/tNdc9A4/1fkQpkm3xywi1yaBhtuNAvxjzD8wPUe5
+         5CatDdITdZ4ec9JMCFMdmdixnS4PjE11FcOHnQGeMV46or1KG+QSRzI49rG+NZMgrqay
+         dPoQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX0gSOlygP0d2nb/d8ZjkBNKWf1YxLGtqMWU5Cd60FgIrGsWuRasemHmWhvx9n3LiqFSWGrtJoo7Ouje4fS/qPXKg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwOAR2HbPDQOtI0at70oCVIyhFg2Oh3CNhLQzKss2+3RZD2+g0D
+	TKtF8q3pToNwz/o9FRJmuBriDHVsRu2jA68xLt+W8i4zQkNN9DjR847UZqdfu0miRCo=
+X-Gm-Gg: ASbGncurwnc0U6QwKYqgeoZk8B3Px2a6cT7xSawc8WsbvMKY25Bqi3vsRv/dYCyckf4
+	HWiFS1Vt6FFqeTl2u0vXTPwXh1ITSMpD5cHZoa15xpJjQziD1eyQDSlWaijToJvzjlqxo68rRFN
+	Ko+89lKMZjsRiG0nuJ/pngPd0RGfq9oNo8u5qT5+RNtcaLNJXNTxZrL9wzk25skOn+ZAmUC6tRK
+	10uyf5tD9IjdnmRWl8SM9z6DjCPhbP87mZqZGW1oTlh0EcEfKIGxF2DdTgOplrwsR0HVNP19wuc
+	FjZd/paaSvtSIc8iaBFYPinqV1a1+5omskEKxvfd0PAZ/iO7ZKhMA+jFGaz8YUF9s+1Gc06Ynyp
+	BhUT2J1LXFJ+7ho786uPbWWaB5i93lmPSlS9YmvCwuebaehzyRBmXX3gfHMRxf0esgIPMemijXo
+	bwvCyOY+PvchsopsTsnYE=
+X-Google-Smtp-Source: AGHT+IGnRLIab0NUOFUDavvOiLBBWE+nlfc8LKHZvJFNPJHySFzr4PFRjXHBJqq65SUqVwQ5sSesJA==
+X-Received: by 2002:a05:6000:228a:b0:42b:3ed2:c086 with SMTP id ffacd0b85a97d-42cb21daf0emr2431577f8f.4.1763555831526;
+        Wed, 19 Nov 2025 04:37:11 -0800 (PST)
+Received: from [192.168.50.4] ([82.78.167.134])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42c97745f79sm23703122f8f.23.2025.11.19.04.37.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Nov 2025 04:37:11 -0800 (PST)
+Message-ID: <9e459cff-7e6c-409e-ac34-9978fb501e51@tuxon.dev>
+Date: Wed, 19 Nov 2025 14:37:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [External] : [PATCH v7 2/6] PCI: rzg3s-host: Add Renesas RZ/G3S
+ SoC host driver
+To: ALOK TIWARI <alok.a.tiwari@oracle.com>, bhelgaas@google.com,
+ lpieralisi@kernel.org, kwilczynski@kernel.org, mani@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ geert+renesas@glider.be, magnus.damm@gmail.com, p.zabel@pengutronix.de
+Cc: linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>
+References: <20251117090859.3840888-1-claudiu.beznea.uj@bp.renesas.com>
+ <20251117090859.3840888-3-claudiu.beznea.uj@bp.renesas.com>
+ <32bec7e0-6631-4850-835b-c0c377722dca@oracle.com>
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Content-Language: en-US
+In-Reply-To: <32bec7e0-6631-4850-835b-c0c377722dca@oracle.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Hi, Alok,
 
-The Renesas RZ/G3S supports a power saving mode where power to most of the
-SoC components is turned off. The USB PHY is among these components.
-Because of this the settings applied in driver probe need to be executed
-also on resume path. On suspend path only reset signal need to be asserted.
-Add suspend/resume support.
+On 11/17/25 16:04, ALOK TIWARI wrote:
+>> +
+>> +/* Serialization is provided by 'pci_lock' in drivers/pci/access.c */
+>> +static int rzg3s_pcie_root_write(struct pci_bus *bus, unsigned int devfn,
+>> +                 int where, int size, u32 val)
+>> +{
+>> +    struct rzg3s_pcie_host *host = bus->sysdata;
+>> +
+>> +    /* Enable access control to the CFGU */
+>> +    writel_relaxed(RZG3S_PCI_PERM_CFG_HWINIT_EN,
+>> +               host->axi + RZG3S_PCI_PERM);
+>> +
+>> +    pci_generic_config_write(bus, devfn, where, size, val);
+> 
+> why ignore pci_generic_config_write ret ?
 
-Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
----
+Missed it.
 
-Changes in v2:
-- dropped the changes that were integrated in patch 1/2
+> 
+>> +
+>> +    /* Disable access control to the CFGU */
+>> +    writel_relaxed(0, host->axi + RZG3S_PCI_PERM);
+>> +
+>> +    return PCIBIOS_SUCCESSFUL;
+>> +}
 
- drivers/phy/renesas/phy-rcar-gen3-usb2.c | 57 +++++++++++++++++-------
- 1 file changed, 42 insertions(+), 15 deletions(-)
+[...]
 
-diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-index b9d5bb52e02c..3c063e4dea41 100644
---- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-+++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-@@ -132,6 +132,7 @@ struct rcar_gen3_chan {
- 	struct device *dev;	/* platform_device's device */
- 	const struct rcar_gen3_phy_drv_data *phy_data;
- 	struct extcon_dev *extcon;
-+	struct reset_control *rstc;
- 	struct rcar_gen3_phy rphys[NUM_OF_PHYS];
- 	struct regulator *vbus;
- 	struct work_struct work;
-@@ -778,38 +779,24 @@ static void rcar_gen3_reset_assert(void *data)
- static int rcar_gen3_phy_usb2_init_bus(struct rcar_gen3_chan *channel)
- {
- 	struct device *dev = channel->dev;
--	struct reset_control *rstc;
- 	int ret;
- 	u32 val;
- 
- 	if (!channel->phy_data->init_bus)
- 		return 0;
- 
--	rstc = devm_reset_control_array_get_shared(dev);
--	if (IS_ERR(rstc))
--		return PTR_ERR(rstc);
--
- 	ret = pm_runtime_resume_and_get(dev);
- 	if (ret)
- 		return ret;
- 
--	ret = reset_control_deassert(rstc);
--	if (ret)
--		goto rpm_put;
--
--	ret = devm_add_action_or_reset(dev, rcar_gen3_reset_assert, rstc);
--	if (ret)
--		goto rpm_put;
--
- 	val = readl(channel->base + USB2_AHB_BUS_CTR);
- 	val &= ~USB2_AHB_BUS_CTR_MBL_MASK;
- 	val |= USB2_AHB_BUS_CTR_MBL_INCR4;
- 	writel(val, channel->base + USB2_AHB_BUS_CTR);
- 
--rpm_put:
- 	pm_runtime_put(dev);
- 
--	return ret;
-+	return 0;
- }
- 
- static int rcar_gen3_phy_usb2_probe(struct platform_device *pdev)
-@@ -849,6 +836,18 @@ static int rcar_gen3_phy_usb2_probe(struct platform_device *pdev)
- 		}
- 	}
- 
-+	channel->rstc = devm_reset_control_array_get_optional_shared(dev);
-+	if (IS_ERR(channel->rstc))
-+		return PTR_ERR(channel->rstc);
-+
-+	ret = reset_control_deassert(channel->rstc);
-+	if (ret)
-+		return ret;
-+
-+	ret = devm_add_action_or_reset(dev, rcar_gen3_reset_assert, channel->rstc);
-+	if (ret)
-+		return ret;
-+
- 	/*
- 	 * devm_phy_create() will call pm_runtime_enable(&phy->dev);
- 	 * And then, phy-core will manage runtime pm for this device.
-@@ -937,10 +936,38 @@ static void rcar_gen3_phy_usb2_remove(struct platform_device *pdev)
- 	pm_runtime_disable(&pdev->dev);
- };
- 
-+static int rcar_gen3_phy_usb2_suspend(struct device *dev)
-+{
-+	struct rcar_gen3_chan *channel = dev_get_drvdata(dev);
-+
-+	return reset_control_assert(channel->rstc);
-+}
-+
-+static int rcar_gen3_phy_usb2_resume(struct device *dev)
-+{
-+	struct rcar_gen3_chan *channel = dev_get_drvdata(dev);
-+	int ret;
-+
-+	ret = reset_control_deassert(channel->rstc);
-+	if (ret)
-+		return ret;
-+
-+	ret = rcar_gen3_phy_usb2_init_bus(channel);
-+	if (ret)
-+		reset_control_assert(channel->rstc);
-+
-+	return ret;
-+}
-+
-+static DEFINE_SIMPLE_DEV_PM_OPS(rcar_gen3_phy_usb2_pm_ops,
-+				rcar_gen3_phy_usb2_suspend,
-+				rcar_gen3_phy_usb2_resume);
-+
- static struct platform_driver rcar_gen3_phy_usb2_driver = {
- 	.driver = {
- 		.name		= "phy_rcar_gen3_usb2",
- 		.of_match_table	= rcar_gen3_phy_usb2_match_table,
-+		.pm		= pm_ptr(&rcar_gen3_phy_usb2_pm_ops),
- 	},
- 	.probe	= rcar_gen3_phy_usb2_probe,
- 	.remove = rcar_gen3_phy_usb2_remove,
--- 
-2.43.0
+>> +static int rzg3s_pcie_init_msi(struct rzg3s_pcie_host *host)
+>> +{
+>> +    struct platform_device *pdev = to_platform_device(host->dev);
+>> +    struct rzg3s_pcie_msi *msi = &host->msi;
+>> +    struct device *dev = host->dev;
+>> +    const char *devname;
+>> +    int irq, ret;
+>> +
+>> +    ret = devm_mutex_init(dev, &msi->map_lock);
+>> +    if (ret)
+>> +        return ret;
+>> +
+>> +    msi->irq = platform_get_irq_byname(pdev, "msi");
+>> +    if (msi->irq < 0)
+>> +        return dev_err_probe(dev, irq ? irq : -EINVAL,
+>> +                     "Failed to get MSI IRQ!\n");
+> 
+> irq is uninitialized. do you mean msi->irq?
 
+Good catch, I'll update it.
+
+> 
+>> +
+>> +    devname = devm_kasprintf(dev, GFP_KERNEL, "%s-msi", dev_name(dev));
+>> +    if (!devname)
+>> +        return -ENOMEM;
+>> +
+>> +    ret = rzg3s_pcie_msi_allocate_domains(msi);
+>> +    if (ret)
+>> +        return ret;
+>> +
+>> +    /*
+>> +     * Don't use devm_request_irq() as the driver uses non-devm helpers
+>> +     * to control clocks. Mixing them may lead to subtle bugs.
+>> +     */
+>> +    ret = request_irq(msi->irq, rzg3s_pcie_msi_irq, 0, devname, host);
+>> +    if (ret) {
+>> +        dev_err_probe(dev, ret, "Failed to request IRQ: %d\n", ret);
+>> +        goto free_domains;
+>> +    }
+>> +
+>> +    ret = rzg3s_pcie_msi_setup(host);
+>> +    if (ret) {
+>> +        dev_err_probe(dev, ret, "Failed to setup MSI!\n");
+>> +        goto free_irq;
+>> +    }
+>> +
+>> +    return 0;
+>> +
+>> +free_irq:
+>> +    free_irq(msi->irq, host);
+>> +free_domains:
+>> +    irq_domain_remove(msi->domain);
+>> +    return ret;
+>> +}
+>> +
+>> +static void rzg3s_pcie_intx_irq_ack(struct irq_data *d)
+>> +{
+>> +    struct rzg3s_pcie_host *host = irq_data_get_irq_chip_data(d);
+>> +
+>> +    guard(raw_spinlock_irqsave)(&host->hw_lock);
+>> +
+>> +    rzg3s_pcie_update_bits(host->axi, RZG3S_PCI_PINTRCVIS,
+>> +                   RZG3S_PCI_PINTRCVIS_INTX(d->hwirq),
+>> +                   RZG3S_PCI_PINTRCVIS_INTX(d->hwirq));
+>> +}
+>> +
+>> +static int
+>> +rzg3s_pcie_host_setup(struct rzg3s_pcie_host *host,
+>> +              int (*init_irqdomain)(struct rzg3s_pcie_host *host),
+>> +              void (*teardown_irqdomain)(struct rzg3s_pcie_host *host))
+>> +{
+>> +    struct device *dev = host->dev;
+>> +    int ret;
+>> +
+>> +    /* Set inbound windows */
+>> +    ret = rzg3s_pcie_parse_map_dma_ranges(host);
+>> +    if (ret)
+>> +        return dev_err_probe(dev, ret,
+>> +                     "Failed to set inbound windows!\n");
+>> +
+>> +    /* Set outbound windows */
+>> +    ret = rzg3s_pcie_parse_map_ranges(host);
+>> +    if (ret)
+>> +        return dev_err_probe(dev, ret,
+>> +                     "Failed to set outbound windows!\n");
+>> +
+>> +    ret = init_irqdomain(host);
+>> +    if (ret)
+>> +        return dev_err_probe(dev, ret, "Failed to init IRQ doamin\n");
+> 
+> typo doamin -> domain
+
+Same here.
+
+Thank you for your review,
+Claudiu
 
