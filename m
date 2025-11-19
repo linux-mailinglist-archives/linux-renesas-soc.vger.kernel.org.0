@@ -1,264 +1,174 @@
-Return-Path: <linux-renesas-soc+bounces-24777-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24783-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C9ECC6E07C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 11:42:29 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45E6AC6E2DA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 12:16:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sea.lore.kernel.org (Postfix) with ESMTPS id E77342DA35
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 10:42:27 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 34813366F3F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 11:08:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0478334DB51;
-	Wed, 19 Nov 2025 10:42:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="NcNgdJKM"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF857336EC1;
+	Wed, 19 Nov 2025 11:06:58 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4CEE34321B
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Nov 2025 10:41:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1907217F31
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Nov 2025 11:06:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763548923; cv=none; b=W/SlWM1y8SKpcqzwi73EY5Ibal6uxGZKhV+DyFJQMI2GG2wIsF7IEavQ4hcEuQxj86Fkir7i1mn7Lkge94TD1zVJFrqKiEInKHI8fx5For56XP98SL5D4hnmhysNsklu9/WO7Bnx+I5dHNNm4VIRPV2eeXph6ppWtvwiKvVFzc8=
+	t=1763550418; cv=none; b=aJTxIFfNTlfggooU2xKMGAhd6oYtABoCW1X0fDK8N0+dv/k/pKh5inAKIJPdzU3jpkT8Xq2HmuCfYx2GzRBY3Zve43pxwKnixZjKIVTugJjPnKQq4c9gb+b2t8L7EXmMRZgwCgG2e4Sk3Fnx+nsS6KPkXC+DjmqGE3rOnhrH/6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763548923; c=relaxed/simple;
-	bh=g1jiTHE/fuydpOSP/XIfd73O3TS/XqiLkaHD1XH/nBo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CHShSuZzNZagRoXShBIp0uOjQ3uvVENvDtWy1IRRISDoYgyaR2b/paGuEE6aTJ6hcqwGz5PILO7lALTUTw0CTs+/5wDIJTCxJvMoTrcCkZDsdCsOZyzPEceLcAC5MCotdl0n550hk1fUhNAJrF+ATPNIO0iQQYxUoqKUH3fQA00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=NcNgdJKM; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 82D78DD9;
-	Wed, 19 Nov 2025 11:39:51 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1763548792;
-	bh=g1jiTHE/fuydpOSP/XIfd73O3TS/XqiLkaHD1XH/nBo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=NcNgdJKMiNTgRuyTdiJ7aUNkMdE9P8KIrgGnPffEoOsh5t6JfCn5qjkvs5owXDWwf
-	 Em6YVHuEeF+mZsrFS6XyJerCKwkjkkf+0bQP73MAYh1zBzzgwRvA9RxpQM+sNoUiHy
-	 YiM+W1UAn3vGxAh1PzE+EAuVoQbk6TzbBgWtx07I=
-Message-ID: <19fc5a8e-999c-46a0-b755-0bd09fe84d92@ideasonboard.com>
-Date: Wed, 19 Nov 2025 12:41:52 +0200
+	s=arc-20240116; t=1763550418; c=relaxed/simple;
+	bh=suLMms/cC5PWL/dT/dDRBxYiO9gO4357/Gv7VoKpjN4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XLV/vbcQR/jiviAzD2ZG9Ar9cllsAAEXklgcqZtZU0oi+90jxale1hqbi6mk07SRvWE5uTRWcVscMNqjQNJAoeR+Z2UCzFNhCJpsgyTPO90OMjCfvOSXkN2tlda1UaPnwwlhwfvMeISOPNDIBmxHEBv5cq44o5aq/pS5bLd2SgM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.161.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-657534478a0so1421871eaf.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Nov 2025 03:06:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763550415; x=1764155215;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=01vJ+iTaEhlqFfqqNaTQ+Xj9o5ybGoOTheiB42bAFn0=;
+        b=nXcq5BiBmDVglpLKY90/VZSjswDm8sHAcAy6dBbchuSGaDzMLEuXzKNAARlph6Xt6i
+         /XkgYVQK9ntMpwQI0znmseH3er8o6rEmoGeJJ07jkSoAdw7jjJm4X1xvqGAJit2Dugqd
+         2hoL2fCa1QCTPwaHI2keAEGfqocDzIvcNDGrxjO8TU58mp5Kd2PWIXT76AxmbuD21s2v
+         9QiaFxOAgPWE8y1RuYKQjODYMKjqgh5VWIK9ei7QsOJFjH6MPMuwsSsRAqO2HX7cKScO
+         G4LnI+dvMrDsGu13aI0Om/iWuYHvE8j+20O6ysf1nUOskD5ONmLhe0TSwPuXjlB3+XZ1
+         vuAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX7d9bKzO7G2EpPp7uE4cwcM5FSwjOkEstiSrQEoVyULMgHswbGL6FvWMImDyTKTY+/qliTIsnRm0W/jX5YaFd6gg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YynoS5vL0LRSgQ0vSkndT6sLnRNL6538CZ3HmQR9ceWGwOCj7vb
+	3yaSQePk1xKMCuFREHDK7Rl67ZCqXBDFhuZcJiwVLQw1G6Z/e/QGtWxlUNV0UVb3
+X-Gm-Gg: ASbGncv60+Io3tTpMtrWZ5u/pzYSc695n8jKwbIemcbZaihy2opM4CNcCpjBn4wYPB6
+	3xZ/n2P2sMHPaI5jCv1svXMwMXBa5ElhpYWkLYJUckwYz6rXd7U5sgMywvPHV7bcfLBi8FOZFfS
+	ynwCcqaWiFEd2UifZAUtaHwbt4RrLDbgv95W3vwf9RXlTE4LgbEEM0qxyvCWoIhg42WaIUQukBY
+	MooHQj0B+EU/slM7AwcsH/PSvK0T3Ptu7q/n5M1YCQIhdAh9h9jnVXo8hsPqGh1vaiFz30QPwJo
+	h94MKX0/4NUKYQg1CXoHSTFF1DZyh/++ftIG8lCHhiXQufV+Etat6iTvqLsTqQsbiM8IeOaE8z8
+	0F61lctOaQQrOgugbc16WIV4eUccKkNSTq2t7d1p7a7y/11joF3VauwL3dM/pq9KAAgND47uLkQ
+	8EBNzhA3G1mesxa2EHWu318RgOwjkZ1T/lsRQX+eM3IewdDQx6nw+r
+X-Google-Smtp-Source: AGHT+IFlbsYJASGxruJtbVFN8IyQ2FWlUiVmn6K/c7ueiJZ0/LLKgq12n8mZXnZz2bLIe/yiXpsK1w==
+X-Received: by 2002:a05:6808:1a25:b0:450:ccc6:4113 with SMTP id 5614622812f47-450ccc6539cmr4063903b6e.52.1763550415509;
+        Wed, 19 Nov 2025 03:06:55 -0800 (PST)
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com. [209.85.210.49])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-4508a555d86sm5913305b6e.9.2025.11.19.03.06.55
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Nov 2025 03:06:55 -0800 (PST)
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-7c6da5e3353so5322291a34.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Nov 2025 03:06:55 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXDTb4+fmfVP5CJ0zjKotYLyQ0JFZy2CYKi/WoCoyZBVTbdmFRhAOC4rq6XoYloQMI80xGFiTJOtlSL3Rc6Ey0Y4Q==@vger.kernel.org
+X-Received: by 2002:a05:6122:4582:b0:549:f04a:6eb3 with SMTP id
+ 71dfb90a1353d-55b1be64f5amr6929551e0c.9.1763549959520; Wed, 19 Nov 2025
+ 02:59:19 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] drm/atomic-helper: Add special quirk tail function
-To: Maxime Ripard <mripard@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Aradhya Bhatia <a-bhatia1@ti.com>,
- Dmitry Baryshkov <lumag@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org
-References: <20251118-mcde-drm-regression-v2-0-4fedf10b18f6@linaro.org>
- <20251118-mcde-drm-regression-v2-3-4fedf10b18f6@linaro.org>
- <20251118150128.GB23711@pendragon.ideasonboard.com>
- <cncl6nwbr6fu3nvhz2y34ou4geqzo7hjf3wpukmm4t6utvygor@t2v4smey5ful>
- <CACRpkdYh9nSBtqU_8w5gnkWOc+Dw7fW3tPinm6JjfXMbdEJOjg@mail.gmail.com>
- <5zo76nnejrinmf6snaezld5ylfvk266bwyxg3phdhtg74z43pu@kub3r7tvz7vc>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Content-Language: en-US
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <5zo76nnejrinmf6snaezld5ylfvk266bwyxg3phdhtg74z43pu@kub3r7tvz7vc>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <fbe6fc3657070fe2df7f0529043542b52b827449.1763116833.git.geert+renesas@glider.be>
+ <b037f67a-b241-4689-9914-57ff578c1454@sirena.org.uk> <1a4d2276-75e1-4aa0-8ff2-c932ce5d6edc@kernel.org>
+ <CGME20251119085902eucas1p223cb580bdd4cef2698382835c77210e8@eucas1p2.samsung.com>
+ <CAMuHMdXgq=Zv3GQes_d_eyCcB7m--PaEGSQJtUWiRjj-7gBVkw@mail.gmail.com> <765d114d-6a03-4535-a644-5e7581dfbccc@samsung.com>
+In-Reply-To: <765d114d-6a03-4535-a644-5e7581dfbccc@samsung.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 19 Nov 2025 11:59:08 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdU5ixRpE+yPbggBG91+516YD+ARkaCLN-gM8bQLvtqrYg@mail.gmail.com>
+X-Gm-Features: AWmQ_bmyj7uEfaaHTRs_Dlhmh8ug_B799_bBc6DeLqXxY0jfIRw0Qy-WNEKxB9g
+Message-ID: <CAMuHMdU5ixRpE+yPbggBG91+516YD+ARkaCLN-gM8bQLvtqrYg@mail.gmail.com>
+Subject: Re: [PATCH v2] of/irq: Ignore interrupt parent for nodes without interrupts
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Saravana Kannan <saravanak@google.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Alexandre Ghiti <alex@ghiti.fr>, Samuel Holland <samuel@sholland.org>, Marc Zyngier <maz@kernel.org>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, 
+	linux-samsung-soc <linux-samsung-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+Hi Marek,
 
-On 19/11/2025 11:19, Maxime Ripard wrote:
-> On Tue, Nov 18, 2025 at 07:10:47PM +0100, Linus Walleij wrote:
->> On Tue, Nov 18, 2025 at 4:44 PM Maxime Ripard <mripard@kernel.org> wrote:
->>> On Tue, Nov 18, 2025 at 05:01:28PM +0200, Laurent Pinchart wrote:
->>>> On Tue, Nov 18, 2025 at 03:36:05PM +0100, Linus Walleij wrote:
->>
->>>>> +/**
->>>>> + * drm_atomic_helper_commit_tail_crtc_early_late - commit atomic update
->>>>
->>>> Based on the function name, it feels that the nem commit tail and
->>>> modeset enable/disable helpers reached a point where we may want to
->>>> reconsider the design instead of adding new functions with small
->>>> differences in behaviour that will end up confusing driver developers.
->>>
->>> Agreed, and I'd go even further than that: we don't want every odd order
->>> in the core. And if some driver has to break the order we document in
->>> some way it should be very obvious.
->>
->> Is this just a comment on this patch 3/3?
->>
->> Or do you mean that Mareks new callback
->> drm_atomic_helper_commit_modeset_enables_crtc_early()
->> from patch 1/2 should go straight into the R-Car driver as well
->> and that
->> drm_atomic_helper_commit_modeset_disables_crtc_late()
->> patch 2/2 should also go into my driver, even if this
->> is a comment on patch 3/3?
->>
->> Both patches 1 & 2 have a lot to do with ordering, this is
->> why I ask.
-> 
-> I mean, it applies to all your three patches and Marek's: helpers are
-> here to provide a default implementation. We shouldn't provide a default
-> implementation for a single user. All your patches enable to create
-> defaults for a single user.
+On Wed, 19 Nov 2025 at 10:55, Marek Szyprowski <m.szyprowski@samsung.com> wrote:
+> On 19.11.2025 09:53, Geert Uytterhoeven wrote:
+> > On Tue, 18 Nov 2025 at 20:55, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> >> On 18/11/2025 20:34, Mark Brown wrote:
+> >>> On Fri, Nov 14, 2025 at 11:47:54AM +0100, Geert Uytterhoeven wrote:
+> >>>> The Devicetree Specification states:
+> >>>>
+> >>>>      The root of the interrupt tree is determined when traversal of the
+> >>>>      interrupt tree reaches an interrupt controller node without an
+> >>>>      interrupts property and thus no explicit interrupt parent.
+> >>>>
+> >>>> However, of_irq_init() gratuitously assumes that a node without
+> >>>> interrupts has an actual interrupt parent if it finds an
+> >>>> interrupt-parent property higher up in the device tree.  Hence when such
+> >>>> a property is present (e.g. in the root node), the root interrupt
+> >>>> controller may not be detected as such, causing a panic:
+> >>> I'm seeing a boot regression on the TI x15 platform in -next which
+> >>> bisects to this patch in -next, unfortunately even with earlycon (though
+> >>> just earlycon, I don't know the platform specific runes) the board just
+> >>> dies with no output:
+> >>>
+> >>>    https://protect2.fireeye.com/v1/url?k=7efe2b91-216202bb-7effa0de-000babe598f7-79b85fd5422be185&q=1&e=a2b4aea0-c947-472b-ae80-9160750f84a2&u=https%3A%2F%2Fvalidation.linaro.org%2Fscheduler%2Fjob%2F4252918%23L409
+> >>>
+> >>> It does seem like a plausible patch for this sort of issue though, and
+> >>> the bisect converges smoothly:
+> >> All Samsung platforms fail as well. I was waiting with bisection but
+> >> Marek was as usually very fast:
+> >>
+> >> https://lore.kernel.org/all/20251118115037.1866871-1-m.szyprowski@samsung.com/
+> > Yeah, the various ti,omap[45]-wugen-mpu nodes have interrupt-parent
+> > properties, but no interrupts{-extended} properties.
+> >
+> > Does the following (whitespace-damaged) patch, to restore finding an
+> > explicit interrupt-parent, fix the issue?
+>
+> This also fixes Exynos case without any need for the changes in
 
-Two users so far: Renesas and ST-Ericsson.
+Thanks for testing!
 
-> So my point is that none of those functions should be helpers.
-> 
->> We already have
->> drm_atomic_helper_commit_tail()
->> drm_atomic_helper_commit_tail_rpm()
-> 
-> The former has 5 users, the latter 13. And it's already confusing enough
-> and regression-prone as it is.
-> 
->> Does one more or less really matter? Maybe, I'm not sure,
->> but if it's just this one patch that is the problem I can surely
->> do it that way since we're only calling public functions.
->>
->> Pushing the first two patches would be more problematic,
->> because they call a lot of functions that are local to the
->> drm atomic helpers.
-> 
-> I'm totally fine with making more internal functions public though.
-While I generally agree with that, I still wonder if an implementation
-in the core is better here. Perhaps a flag in struct drm_driver, instead
-of new set of helpers.
+> arch/arm/mach-exynos/suspend.c. The question is which approach is preferred?
 
-Moving this to the driver would require (with a quick glance) exposing
-the following functions:
+It looks like several other drivers are affected.  So I think it
+makes sense to handle the presence of an explicit "interrupt-parent"
+in an interrupt-less interrupt controller node in the core, instead
+of in each affected driver.
 
-crtc_enable
-crtc_disable
-crtc_set_mode
-encoder_bridge_pre_enable
-encoder_bridge_enable
-encoder_bridge_disable
-encoder_bridge_post_disable
+> > --- a/drivers/of/irq.c
+> > +++ b/drivers/of/irq.c
+> > @@ -685,6 +685,8 @@ void __init of_irq_init(const struct of_device_id *matches)
+> >                  desc->interrupt_parent = of_parse_phandle(np, "interrupts-extended", 0);
+> >                  if (!desc->interrupt_parent && of_property_present(np, "interrupts"))
+> >                          desc->interrupt_parent = of_irq_find_parent(np);
+> > +               if (!desc->interrupt_parent)
 
-Not impossible to expose, but making a private function public does
-require work in validating the function for more general use, and adding
-kernel docs.
+Or "else if (!desc->interrupt_parent)", to avoid repeating part of
+of_irq_find_parent() when an "interrupts" property is present?
 
-Handling this in the core would act as documentation too, so instead of
-the driver doing things in a different way "hidden" inside the driver,
-it would be a standard quirk, clearly documented.
+> > +                       desc->interrupt_parent = of_parse_phandle(np, "interrupt-parent", 0);
+> >                  if (desc->interrupt_parent == np) {
+> >                          of_node_put(desc->interrupt_parent);
+> >                          desc->interrupt_parent = NULL;
 
-Also, I'm also not sure how rare this quirk is. In fact, I feel we're
-missing ways to handle the enable/disable related issues in the core
-framework. In these patches we're talking about the case where the SoC's
-DSI host needs an incoming pclk to operate, and panels need to do
-configuration before the video stream is enabled. But the exact same
-problem could be present with an external DSI bridge, and then we can't
-fix it in the crtc driver.
+Gr{oetje,eeting}s,
 
-So the question becomes "does any component in the pipeline need the
-video stream's clock to operate". But then, it doesn't help if the crtc
-output is enabled early if any bridge in between does not also enable
-its output early. So it all gets a bit complex.
+                        Geert
 
-And sometimes the clocks go backward: the entity on the downstream side
-provides a clock backwards, to the source entity...
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-But I digress. I think initially we should just look for a clean fix for
-the platforms affected:
-
-- Add the implementation into the drivers?
-- Add helpers to the core?
-- Add a flag of some kind so the core can do the right thing?
-
-I made a quick test with the flag approach, below. It's not many lines,
-but... Ugh, it does feel like a hack.
-
-> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-> index d5ebe6ea0acb..8225aae43e3b 100644
-> --- a/drivers/gpu/drm/drm_atomic_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> @@ -1341,9 +1341,13 @@ disable_outputs(struct drm_device *dev, struct drm_atomic_state *state)
->  {
->         encoder_bridge_disable(dev, state);
->  
-> -       crtc_disable(dev, state);
-> +       if (!dev->driver->crtc_early_on)
-> +               crtc_disable(dev, state);
->  
->         encoder_bridge_post_disable(dev, state);
-> +
-> +       if (dev->driver->crtc_early_on)
-> +               crtc_disable(dev, state);
->  }
->  
->  /**
-> @@ -1682,9 +1686,13 @@ encoder_bridge_enable(struct drm_device *dev, struct drm_atomic_state *state)
->  void drm_atomic_helper_commit_modeset_enables(struct drm_device *dev,
->                                               struct drm_atomic_state *state)
->  {
-> +       if (dev->driver->crtc_early_on)
-> +               crtc_enable(dev, state);
-> +
->         encoder_bridge_pre_enable(dev, state);
->  
-> -       crtc_enable(dev, state);
-> +       if (!dev->driver->crtc_early_on)
-> +               crtc_enable(dev, state);
->  
-
- Tomi
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
