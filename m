@@ -1,233 +1,241 @@
-Return-Path: <linux-renesas-soc+bounces-24788-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24789-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7694DC6E92A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 13:48:24 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4AEDC6EAE3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 14:06:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id C37FC3A34D1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 12:41:57 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTPS id 57ABD28F1C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 13:06:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8516B3596EC;
-	Wed, 19 Nov 2025 12:37:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74215354715;
+	Wed, 19 Nov 2025 13:06:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="ByQ49Ug9"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="wONIZlzx"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4173D341ADD
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Nov 2025 12:37:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BB5433C19E;
+	Wed, 19 Nov 2025 13:06:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763555835; cv=none; b=fOaWI0lMCMju30bLdQOCVSkAMAO3c6PFQQk3BQLbBpQKwJdV+pfPljFKinQlHA4IboBooliya4MT+otDC8JrIFURf4FiBpAIjOKU0kXy2ffWnV6/PBi+Lw/DraC48qpzgVzoa2UpTEDfTtunn0wXMVOjicWdXuyCSj4LpIzIomI=
+	t=1763557568; cv=none; b=GRfo/Q3bEhbKymFkf6NfiOAR8N+hq66tvh4dXzaaGmzq13AGfYueiqY6XCUYpYK56IScZDSnAeergS0aa1jMd7tKW2/OUrxrgoL/+kYinFXj/MMk6pRuXNTOAsScjMIyAh9b3ZwyZAVCTsVMScwynSg95t7E5JRdP289Q0Hywtg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763555835; c=relaxed/simple;
-	bh=7mcK1ohMWSnVS3aGt8xXqpYJWiiQ0HtA7t/k3b3t2qM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iGQ89wG8qSCwp5i1WWlSNGf/XdUt3pZ4JVnd0kL8cO92aj9CZ7O+ZS97qZfDWOdMkHPITeWwFq2KXx8RcDOnXUWcy/K3kv6g48cqMtCihRDoQIm6YX8iJcChX8S6vNO80q6y+GFx4GioSzMOH2lZrJHF+NP1ZVycrlAmH5aMNUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=ByQ49Ug9; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-429c48e05aeso565740f8f.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Nov 2025 04:37:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1763555831; x=1764160631; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=t/wl42pES18vi+TWKSwvoZgKjCTDSQ0moe0G5S5wwP0=;
-        b=ByQ49Ug9JyghRQWjjhl4codhMP56qX4QOicBO3dVuitaV+VTvCRuXxZnElIOAla12Z
-         cy3i2VyzhBG+UNS0DRev0ugY73n5FaQ7i6SEaFfSAkvnRluOmHIbuTWpANgXXQ6M4en5
-         iKgB26/BMzfRj0bhjcUwOgrORabLEj8aS0WlMsucnY45+6lXI3/wZJr+ZeKWFaAu68xx
-         OyTH7XXLagXHNoxHadA7R766G7m8wb8rPx1FdU2HboGiGEx7dgEfdpE9nP22Rb/4sHTR
-         dbDpB9pPNd5AcwIm3LiCslC+S5jOBAWTiyNInGnE6ui733LSTiwxiVNRvFlCJqGhrRrN
-         ARkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763555831; x=1764160631;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=t/wl42pES18vi+TWKSwvoZgKjCTDSQ0moe0G5S5wwP0=;
-        b=gN7yvdKIxdcOvWaSglERLENDel+jm+VBcRfMmdcWekO4Zgxz18TD5RpDjw0sear6FG
-         8nS96APpEZEo6DGKOuqN115wma3s6FzFKgr4RmL7ZrI3U2dA2WuOZFxA8n3logOwyAU2
-         mKuEYFRlmuu3b1i8m3oUWBFanvdWo0hFmYoAzZn1YxU2BW1WtCSHyXYEhCcua6JehnzX
-         U4nQBMbc9+ZAeGThtDNPxoyyPWf/tNdc9A4/1fkQpkm3xywi1yaBhtuNAvxjzD8wPUe5
-         5CatDdITdZ4ec9JMCFMdmdixnS4PjE11FcOHnQGeMV46or1KG+QSRzI49rG+NZMgrqay
-         dPoQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX0gSOlygP0d2nb/d8ZjkBNKWf1YxLGtqMWU5Cd60FgIrGsWuRasemHmWhvx9n3LiqFSWGrtJoo7Ouje4fS/qPXKg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwOAR2HbPDQOtI0at70oCVIyhFg2Oh3CNhLQzKss2+3RZD2+g0D
-	TKtF8q3pToNwz/o9FRJmuBriDHVsRu2jA68xLt+W8i4zQkNN9DjR847UZqdfu0miRCo=
-X-Gm-Gg: ASbGncurwnc0U6QwKYqgeoZk8B3Px2a6cT7xSawc8WsbvMKY25Bqi3vsRv/dYCyckf4
-	HWiFS1Vt6FFqeTl2u0vXTPwXh1ITSMpD5cHZoa15xpJjQziD1eyQDSlWaijToJvzjlqxo68rRFN
-	Ko+89lKMZjsRiG0nuJ/pngPd0RGfq9oNo8u5qT5+RNtcaLNJXNTxZrL9wzk25skOn+ZAmUC6tRK
-	10uyf5tD9IjdnmRWl8SM9z6DjCPhbP87mZqZGW1oTlh0EcEfKIGxF2DdTgOplrwsR0HVNP19wuc
-	FjZd/paaSvtSIc8iaBFYPinqV1a1+5omskEKxvfd0PAZ/iO7ZKhMA+jFGaz8YUF9s+1Gc06Ynyp
-	BhUT2J1LXFJ+7ho786uPbWWaB5i93lmPSlS9YmvCwuebaehzyRBmXX3gfHMRxf0esgIPMemijXo
-	bwvCyOY+PvchsopsTsnYE=
-X-Google-Smtp-Source: AGHT+IGnRLIab0NUOFUDavvOiLBBWE+nlfc8LKHZvJFNPJHySFzr4PFRjXHBJqq65SUqVwQ5sSesJA==
-X-Received: by 2002:a05:6000:228a:b0:42b:3ed2:c086 with SMTP id ffacd0b85a97d-42cb21daf0emr2431577f8f.4.1763555831526;
-        Wed, 19 Nov 2025 04:37:11 -0800 (PST)
-Received: from [192.168.50.4] ([82.78.167.134])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42c97745f79sm23703122f8f.23.2025.11.19.04.37.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Nov 2025 04:37:11 -0800 (PST)
-Message-ID: <9e459cff-7e6c-409e-ac34-9978fb501e51@tuxon.dev>
-Date: Wed, 19 Nov 2025 14:37:09 +0200
+	s=arc-20240116; t=1763557568; c=relaxed/simple;
+	bh=b8EKp14H49Ot9XSVMf8ZxQJmimucdZ2FiI1BESzLv54=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=XcK4yZswZw95zACpNL0NDnYz3vOXiDSJ52W50gIG3EVNt0LMqf1sOwSPn8p64a4899XFTKkau3v9kG28eQb/4Ds1vRqhmR79TdrGXktXzxVVTBG0BxgCc8eaPFFcNBUmOPZxFqh7Ml2MYEPjbUx2GOTjkFDNIKrkYd/RDIDvw6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=wONIZlzx; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 90EA31A1BDA;
+	Wed, 19 Nov 2025 13:06:01 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 586B260720;
+	Wed, 19 Nov 2025 13:06:01 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id F349A10371A4D;
+	Wed, 19 Nov 2025 14:05:45 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1763557559; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=qjKCnJ8MWt1XzGq8HDqxEVxZ5da/4Lf/GYebHfI6vFs=;
+	b=wONIZlzx6P2Z4sicT6r6z6gD+PYJghZTD15EHcfmR1Q6FWaW29w4/JWDMohCBRR0cKcQYk
+	0M0XYcvRMY6mb3QqxiozdtPamzSECPaMwIsKaK6QiVPtzJhMrFOvv0a2HBPioi9XIPzWMe
+	zz8kk4kcEaZ5zJIomhf7RpHxHVs9ATPCKH3J6P34x6Lpmv81RYDVCWPhQAKVyOgUNPvQP8
+	lWXGJ/owLp9038/CpGurPlotLSAmv7+FBq8gzitIgeS6yvNKEdp8e9/zLMPevXMyHSXh0P
+	f52+E19RPI3jxUMuU4EAS1nK44qc6g6SnRuuXhEGqyadTbwKodoeQ4BIc8O9jQ==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: [PATCH 00/26] drm/bridge: add drm_of_find_bridge(), deprecate
+ of_drm_find_bridge()
+Date: Wed, 19 Nov 2025 14:05:31 +0100
+Message-Id: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [External] : [PATCH v7 2/6] PCI: rzg3s-host: Add Renesas RZ/G3S
- SoC host driver
-To: ALOK TIWARI <alok.a.tiwari@oracle.com>, bhelgaas@google.com,
- lpieralisi@kernel.org, kwilczynski@kernel.org, mani@kernel.org,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- geert+renesas@glider.be, magnus.damm@gmail.com, p.zabel@pengutronix.de
-Cc: linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>
-References: <20251117090859.3840888-1-claudiu.beznea.uj@bp.renesas.com>
- <20251117090859.3840888-3-claudiu.beznea.uj@bp.renesas.com>
- <32bec7e0-6631-4850-835b-c0c377722dca@oracle.com>
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Content-Language: en-US
-In-Reply-To: <32bec7e0-6631-4850-835b-c0c377722dca@oracle.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAJvAHWkC/y2NUQqDMBAFryL73YDR2NhepZRg3Y0u2EQ2tgji3
+ U2ln/MG5m2QSJgS3IsNhL6cOIYM+lJAP3ZhIMWYGaqyarTWVqG81UsYs+mmKfZqoGX+LL/dRe8
+ 8B3R/b82trOurNaZFyMFZyPN6nj2e+34Aj3ziYHwAAAA=
+X-Change-ID: 20251117-drm-bridge-alloc-getput-drm_of_find_bridge-74903367448d
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jonathan Corbet <corbet@lwn.net>, Alexey Brodkin <abrodkin@synopsys.com>, 
+ Phong LE <ple@baylibre.com>, Liu Ying <victor.liu@nxp.com>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, 
+ Adrien Grassein <adrien.grassein@gmail.com>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, Kevin Hilman <khilman@baylibre.com>, 
+ Jerome Brunet <jbrunet@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>, 
+ Edmund Dea <edmund.j.dea@intel.com>, Inki Dae <inki.dae@samsung.com>, 
+ Seung-Woo Kim <sw0312.kim@samsung.com>, 
+ Kyungmin Park <kyungmin.park@samsung.com>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Alim Akhtar <alim.akhtar@samsung.com>
+Cc: Hui Pu <Hui.Pu@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+ linux-amlogic@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ linux-samsung-soc@vger.kernel.org, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+X-Mailer: b4 0.14.3
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hi, Alok,
+This series deprecated of_drm_find_bridge(), adds a replacement which
+handles bridge refcounting, and converts most of the direct users.
 
-On 11/17/25 16:04, ALOK TIWARI wrote:
->> +
->> +/* Serialization is provided by 'pci_lock' in drivers/pci/access.c */
->> +static int rzg3s_pcie_root_write(struct pci_bus *bus, unsigned int devfn,
->> +                 int where, int size, u32 val)
->> +{
->> +    struct rzg3s_pcie_host *host = bus->sysdata;
->> +
->> +    /* Enable access control to the CFGU */
->> +    writel_relaxed(RZG3S_PCI_PERM_CFG_HWINIT_EN,
->> +               host->axi + RZG3S_PCI_PERM);
->> +
->> +    pci_generic_config_write(bus, devfn, where, size, val);
-> 
-> why ignore pci_generic_config_write ret ?
+This is part of the work to support hotplug of DRM bridges. The grand plan
+was discussed in [0].
 
-Missed it.
+Here's the work breakdown (➜ marks the current series):
 
-> 
->> +
->> +    /* Disable access control to the CFGU */
->> +    writel_relaxed(0, host->axi + RZG3S_PCI_PERM);
->> +
->> +    return PCIBIOS_SUCCESSFUL;
->> +}
+ 1. ➜ add refcounting to DRM bridges struct drm_bridge,
+      based on devm_drm_bridge_alloc()
+    A. ✔ add new alloc API and refcounting (v6.16)
+    B. ✔ convert all bridge drivers to new API (v6.17)
+    C. ✔ kunit tests (v6.17)
+    D. ✔ add get/put to drm_bridge_add/remove() + attach/detach()
+         and warn on old allocation pattern (v6.17)
+    E. ➜ add get/put on drm_bridge accessors
+       1. ✔ drm_bridge_chain_get_first_bridge(), add cleanup action (v6.18)
+       2. ✔ drm_bridge_get_prev_bridge() (v6.18)
+       3. ✔ drm_bridge_get_next_bridge() (v6.19)
+       4. ✔ drm_for_each_bridge_in_chain() (v6.19)
+       5. ✔ drm_bridge_connector_init (v6.19)
+       6. … protect encoder bridge chain with a mutex
+       7. ➜ of_drm_find_bridge()
+          a. ➜ add drm_of_fund_bridge(), convert most direct users
+	  b. convert other direct users
+	  c. convert bridge-only drm_of_find_panel_or_bridge() users
+       8. drm_of_find_panel_or_bridge, *_of_get_bridge
+       9. ✔ enforce drm_bridge_add before drm_bridge_attach (v6.19)
+    F. ✔ debugfs improvements
+       1. ✔ add top-level 'bridges' file (v6.16)
+       2. ✔ show refcount and list lingering bridges (v6.19)
+ 2. … handle gracefully atomic updates during bridge removal
+    A. … Add drm_dev_enter/exit() to protect device resources
+    B. … protect private_obj removal from list
+ 3. … DSI host-device driver interaction
+ 4. ✔ removing the need for the "always-disconnected" connector
+ 5. finish the hotplug bridge work, moving code to the core and potentially
+    removing the hotplug-bridge itself (this needs to be clarified as
+    points 1-3 are developed)
 
-[...]
+[0] https://lore.kernel.org/lkml/20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com/#t
 
->> +static int rzg3s_pcie_init_msi(struct rzg3s_pcie_host *host)
->> +{
->> +    struct platform_device *pdev = to_platform_device(host->dev);
->> +    struct rzg3s_pcie_msi *msi = &host->msi;
->> +    struct device *dev = host->dev;
->> +    const char *devname;
->> +    int irq, ret;
->> +
->> +    ret = devm_mutex_init(dev, &msi->map_lock);
->> +    if (ret)
->> +        return ret;
->> +
->> +    msi->irq = platform_get_irq_byname(pdev, "msi");
->> +    if (msi->irq < 0)
->> +        return dev_err_probe(dev, irq ? irq : -EINVAL,
->> +                     "Failed to get MSI IRQ!\n");
-> 
-> irq is uninitialized. do you mean msi->irq?
+Almost all the functions returning a struct drm_bridge pointer have been
+modified to drm_bridge_get() the returned bridge, and their users updated
+to drm_bridge_put() it.
 
-Good catch, I'll update it.
+of_drm_find_bridge() could be modified easily in the same way, but it has a
+lot of (direct + indirect) callers, and most notably
+drm_of_find_panel_or_bridge() which is very hard to adapt without reowrking
+the panel_bridge lifetime.
 
-> 
->> +
->> +    devname = devm_kasprintf(dev, GFP_KERNEL, "%s-msi", dev_name(dev));
->> +    if (!devname)
->> +        return -ENOMEM;
->> +
->> +    ret = rzg3s_pcie_msi_allocate_domains(msi);
->> +    if (ret)
->> +        return ret;
->> +
->> +    /*
->> +     * Don't use devm_request_irq() as the driver uses non-devm helpers
->> +     * to control clocks. Mixing them may lead to subtle bugs.
->> +     */
->> +    ret = request_irq(msi->irq, rzg3s_pcie_msi_irq, 0, devname, host);
->> +    if (ret) {
->> +        dev_err_probe(dev, ret, "Failed to request IRQ: %d\n", ret);
->> +        goto free_domains;
->> +    }
->> +
->> +    ret = rzg3s_pcie_msi_setup(host);
->> +    if (ret) {
->> +        dev_err_probe(dev, ret, "Failed to setup MSI!\n");
->> +        goto free_irq;
->> +    }
->> +
->> +    return 0;
->> +
->> +free_irq:
->> +    free_irq(msi->irq, host);
->> +free_domains:
->> +    irq_domain_remove(msi->domain);
->> +    return ret;
->> +}
->> +
->> +static void rzg3s_pcie_intx_irq_ack(struct irq_data *d)
->> +{
->> +    struct rzg3s_pcie_host *host = irq_data_get_irq_chip_data(d);
->> +
->> +    guard(raw_spinlock_irqsave)(&host->hw_lock);
->> +
->> +    rzg3s_pcie_update_bits(host->axi, RZG3S_PCI_PINTRCVIS,
->> +                   RZG3S_PCI_PINTRCVIS_INTX(d->hwirq),
->> +                   RZG3S_PCI_PINTRCVIS_INTX(d->hwirq));
->> +}
->> +
->> +static int
->> +rzg3s_pcie_host_setup(struct rzg3s_pcie_host *host,
->> +              int (*init_irqdomain)(struct rzg3s_pcie_host *host),
->> +              void (*teardown_irqdomain)(struct rzg3s_pcie_host *host))
->> +{
->> +    struct device *dev = host->dev;
->> +    int ret;
->> +
->> +    /* Set inbound windows */
->> +    ret = rzg3s_pcie_parse_map_dma_ranges(host);
->> +    if (ret)
->> +        return dev_err_probe(dev, ret,
->> +                     "Failed to set inbound windows!\n");
->> +
->> +    /* Set outbound windows */
->> +    ret = rzg3s_pcie_parse_map_ranges(host);
->> +    if (ret)
->> +        return dev_err_probe(dev, ret,
->> +                     "Failed to set outbound windows!\n");
->> +
->> +    ret = init_irqdomain(host);
->> +    if (ret)
->> +        return dev_err_probe(dev, ret, "Failed to init IRQ doamin\n");
-> 
-> typo doamin -> domain
+Moreover of_drm_find_bridge() shold be called drm_of_find_bridge() by the
+DRM subsystem conventions.
 
-Same here.
+This has been discussed in [1] and Maxime proposed an incremental approach:
 
-Thank you for your review,
-Claudiu
+> One way to solve it would be that, for example, of_drm_find_bridge is
+> oddly named according to our convention and it would make more sense to
+> be called drm_of_find_bridge().
+>
+> So maybe we can just create drm_of_find_bridge() that takes a reference,
+> make of_drm_find_bridge() deprecated in favour of drm_of_find_bridge(),
+> add a TODO, and call it a day. People will gradually switch to the new
+> API over time.
+
+That proposal is implemented by this series. Most of the direct callers are
+also converted: they are all trivial conversions except for one, which is
+handled by the last 3 patches.
+
+[1] https://lore.kernel.org/dri-devel/20250319-stylish-lime-mongoose-0a18ad@houat/
+
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+---
+Luca Ceresoli (26):
+      drm/bridge: add drm_of_find_bridge()
+      drm/bridge: deprecate of_drm_find_bridge()
+      drm/todo: add entry about converting to drm_of_find_bridge()
+      drm/bridge: make of_drm_find_bridge() a wrapper of drm_of_find_bridge()
+      drm/arcpgu: convert to drm_of_find_bridge()
+      drm/bridge: add devm_drm_of_find_bridge
+      drm/bridge: ite-it66121: use devm_drm_of_find_bridge() to put the next bridge
+      drm/bridge: imx8qxp-pixel-combiner: use devm_drm_of_find_bridge() to put the next bridge
+      drm/bridge: simple-bridge: use devm_drm_of_find_bridge() to put the next bridge
+      drm/bridge: tpd12s015: use devm_drm_of_find_bridge() to put the next bridge
+      drm/bridge: thc63lvd1024: use devm_drm_of_find_bridge() to put the next bridge
+      drm/bridge: imx8qxp-pxl2dpi: use devm_drm_of_find_bridge() to put the next and companion bridges
+      drm/bridge: lt8912b: use devm_drm_of_find_bridge() to put the hdmi bridge
+      drm/bridge: tfp410: use devm_drm_of_find_bridge() to put the next bridge
+      drm/bridge: imx8qxp-ldb: use devm_drm_of_find_bridge() to put the companion bridge
+      drm/rcar-du: lvds: use devm_drm_of_find_bridge() to put the next bridge
+      drm/meson: encoder_*: use devm_drm_of_find_bridge() to put the next bridge
+      drm/bridge: sii902x: use devm_drm_of_find_bridge() to put the next bridge
+      drm/mediatek: use devm_drm_of_find_bridge() to put the next bridge
+      drm/kmb: dsi: use devm_drm_of_find_bridge() to put the next bridge
+      drm/imx/ipuv3: use devm_drm_of_find_bridge() to put the next bridge
+      drm/exynos: hdmi: use devm_drm_of_find_bridge() to put the next bridge
+      drm/bridge: dw-hdmi: use devm_drm_of_find_bridge() to put the next bridge
+      drm/bridge: imx8qxp-pixel-link: simplify logic to find next bridge
+      drm/bridge: imx8qxp-pixel-link: simplify freeing of the remote device_node
+      drm/bridge: imx8qxp-pixel-link: convert to drm_of_find_bridge()
+
+ Documentation/gpu/todo.rst                         | 16 ++++++
+ drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c           |  2 +-
+ .../gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c    |  2 +-
+ drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c    | 37 ++++++------
+ drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c       |  4 +-
+ drivers/gpu/drm/bridge/ite-it66121.c               |  2 +-
+ drivers/gpu/drm/bridge/lontium-lt8912b.c           |  2 +-
+ drivers/gpu/drm/bridge/sii902x.c                   |  2 +-
+ drivers/gpu/drm/bridge/simple-bridge.c             |  2 +-
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c          |  2 +-
+ drivers/gpu/drm/bridge/thc63lvd1024.c              |  2 +-
+ drivers/gpu/drm/bridge/ti-tfp410.c                 |  2 +-
+ drivers/gpu/drm/bridge/ti-tpd12s015.c              |  2 +-
+ drivers/gpu/drm/drm_bridge.c                       | 66 ++++++++++++++++++++--
+ drivers/gpu/drm/exynos/exynos_hdmi.c               |  2 +-
+ drivers/gpu/drm/imx/ipuv3/dw_hdmi-imx.c            |  2 +-
+ drivers/gpu/drm/kmb/kmb_dsi.c                      |  2 +-
+ drivers/gpu/drm/mediatek/mtk_hdmi.c                |  2 +-
+ drivers/gpu/drm/meson/meson_encoder_cvbs.c         |  2 +-
+ drivers/gpu/drm/meson/meson_encoder_dsi.c          |  2 +-
+ drivers/gpu/drm/meson/meson_encoder_hdmi.c         |  2 +-
+ drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c        |  2 +-
+ drivers/gpu/drm/tiny/arcpgu.c                      |  4 +-
+ include/drm/drm_bridge.h                           | 10 ++++
+ 24 files changed, 125 insertions(+), 48 deletions(-)
+---
+base-commit: 92c49b3f4df8f9acfa95551ef38fc00c675319fd
+change-id: 20251117-drm-bridge-alloc-getput-drm_of_find_bridge-74903367448d
+
+Best regards,
+-- 
+Luca Ceresoli <luca.ceresoli@bootlin.com>
+
 
