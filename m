@@ -1,194 +1,165 @@
-Return-Path: <linux-renesas-soc+bounces-24774-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24776-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94943C6DE05
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 11:04:51 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id B84EBC6E028
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 11:37:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sea.lore.kernel.org (Postfix) with ESMTPS id 570032D934
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 10:04:50 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 358714E046B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Nov 2025 10:29:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D38E347BB6;
-	Wed, 19 Nov 2025 10:04:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DCEF328B7F;
+	Wed, 19 Nov 2025 10:29:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="P3p760nG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m4PNyzSX"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE021346FA1;
-	Wed, 19 Nov 2025 10:04:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 564542E3397
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Nov 2025 10:29:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763546683; cv=none; b=seKQgIGBCHOBK707gpzLC/8ZcxReKJhzK6/vuADo2fPKpUjLVWaD8dmBBqpcSjDVAFWBWK3qVItl6cbqkeFsENPJ1KVUeqmqArbKnx5X9L8lQVZQbSMVQoU6aAFQ2kYcH398FprTWTfKSLyJsxsi039pyj8It2TaLcB60V6oqOI=
+	t=1763548175; cv=none; b=a9Ix7EjzT0Q3g87UFxi1Das1aNh93XbSjJZjXabE7S/93byi2gVocenkXOYHWreCZeakCuUVuHWc+nVbF7pu0+UBmbFia8Nua8k9el9JmbqSDqwF84OGr7G+10Vto6ujxFXPjPK6RYOLCIxuFPs9+oU63IiFSlFF9qe4Aai/uCc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763546683; c=relaxed/simple;
-	bh=c5vxSj7Z2Nde56EIvWVCelJqZRjjXCKwnrJ4Nn1JDus=;
-	h=In-Reply-To:References:From:To:Cc:Subject:MIME-Version:
-	 Content-Disposition:Content-Type:Message-Id:Date; b=mf5termIczzaRS6BWJCspxY+kP6dnBsX0XI+6ft4Fobbl+3weTM1xTNIk7UBLHH0qNsWM3abkqkFQk8vk81wK6KMEgG8C9F5kLmSHg4tT02V0kAar5nV1Fw7uj/4TsycLpFbUxvSKITbiyX62MMFliwJOiG27j/Dr+MsI9mmE2E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=P3p760nG; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Date:Sender:Message-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Subject:Cc:To:From:References:
-	In-Reply-To:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=5V2uzI+1et/pfg0laFa3ARS/PjNLaLny1e5YwBh3QzM=; b=P3p760nGwF+ypC/xZA4/96ZX7u
-	kImF96bFCQenuZWCzfFehLqSMqNHzwfb0wdKBv8VQMhMNXohcdS8+ESSF++scFbKyRRactdaxrkWe
-	DNqSKkbamd90NDaM5w7t8T09k+vJR78DfSjACLIqS7HJ/mb73tT2rqKNe+CHZ50Sz8l8m4ey8oV5W
-	Ox/MQ03dXae5BzH+XK0NkOrRBFymUusjVXe0idFtM0XAznCUee9hTJnHZMPVA60LHp1vek1ZXZLvO
-	DfY/PDbU6RgvIlWl1Grlj6LgJCJvGnpj6Q4IFBfMVrcyBHSrNmy0emM23xCbxRd2vA+FT5Ac9wSYp
-	E1uMIW+Q==;
-Received: from e0022681537dd.dyn.armlinux.org.uk ([fd8f:7570:feb6:1:222:68ff:fe15:37dd]:45658 helo=rmk-PC.armlinux.org.uk)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <rmk@armlinux.org.uk>)
-	id 1vLf2h-000000004RN-0FF2;
-	Wed, 19 Nov 2025 10:04:03 +0000
-Received: from rmk by rmk-PC.armlinux.org.uk with local (Exim 4.98.2)
-	(envelope-from <rmk@rmk-PC.armlinux.org.uk>)
-	id 1vLf2e-0000000FMNN-1Xnh;
-	Wed, 19 Nov 2025 10:04:00 +0000
-In-Reply-To: <aR2V0Kib7j0L4FNN@shell.armlinux.org.uk>
-References: <aR2V0Kib7j0L4FNN@shell.armlinux.org.uk>
-From: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-To: Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>
-Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Chen-Yu Tsai <wens@csie.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Drew Fustini <fustini@kernel.org>,
-	Eric Dumazet <edumazet@google.com>,
-	Fu Wei <wefu@redhat.com>,
-	Guo Ren <guoren@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Jan Petrous <jan.petrous@oss.nxp.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Keguang Zhang <keguang.zhang@gmail.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mips@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	netdev@vger.kernel.org,
-	Paolo Abeni <pabeni@redhat.com>,
-	s32@nxp.com,
-	Samuel Holland <samuel@sholland.org>
-Subject: [PATCH net-next 3/3] net: stmmac: rk: convert to init()/exit()
- methods
+	s=arc-20240116; t=1763548175; c=relaxed/simple;
+	bh=J72Vgm7whYau5GeRHZtNd2SMbahNKRYnKMpwv6AV87E=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=LQSpYIQY0etKwFbfdv2DoMd4SWrIZuQJjp1gAs7WZvayQmWoetbh9hW6bZa1vK+hglMZcfE2AJFMxTAxrXyzazr2pKOqSidhPhz8thwX5NtwTJeN9U1Je4e9egh2VS9hnnod+k2Xa6o4SYHoVEmitfhpyI/Wh8zUd4g7PJKbIgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m4PNyzSX; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763548174; x=1795084174;
+  h=date:from:to:cc:subject:message-id;
+  bh=J72Vgm7whYau5GeRHZtNd2SMbahNKRYnKMpwv6AV87E=;
+  b=m4PNyzSXqf2n42nHImDa24AH0ptdg1Z7kQwCrRJIB++2v69DzqCahMQv
+   tmy/XBIHOWcpmJ6H91toqoPO4yDQb2D310Lqz7WyLDHSuFw6rbuBdBdFF
+   aNDcsrEcp8pE0Nz7TOlcYtL4+cRPsiKLIOTmAJ2lr1PZDKJkdLQJJ+dKN
+   9LxgkcXP6P9F1jNbe1KDVhmgV6u2ZRpm0OdSG2kF4TgHvkr/52tfrA5BU
+   Ub/tleUhGnLhl6l3/Isx1UNKzAsGbbiJOJfJiGgKb4TW6NMtf7KElM2fR
+   qqVnsotBdAr7gCc7UVUYuTPn/CNgvNTSIpNc6zY1/Q1xR+6UOOH6oCOdy
+   A==;
+X-CSE-ConnectionGUID: myQ1hbJYSiy4uNaa42yeGA==
+X-CSE-MsgGUID: sBmQBl9PSZyxcChGGx8rhA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="76264862"
+X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
+   d="scan'208";a="76264862"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 02:29:34 -0800
+X-CSE-ConnectionGUID: lvdSJBZ+Q66EBdmOlsnCkA==
+X-CSE-MsgGUID: 4+B9XSHlRXKUJjkjGlaQgQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
+   d="scan'208";a="191151378"
+Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 19 Nov 2025 02:29:33 -0800
+Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vLfRK-0002lN-1L;
+	Wed, 19 Nov 2025 10:29:30 +0000
+Date: Wed, 19 Nov 2025 18:28:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:next] BUILD SUCCESS
+ fbec5d4783d5f16684bdc3ad84876cdcc75ed231
+Message-ID: <202511191847.s9P29rGz-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <E1vLf2e-0000000FMNN-1Xnh@rmk-PC.armlinux.org.uk>
-Sender: Russell King <rmk@armlinux.org.uk>
-Date: Wed, 19 Nov 2025 10:04:00 +0000
 
-Convert rk to use the init() and exit() methods for powering up and
-down the device. This allows us to use the pltfr versions of probe()
-and remove().
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
+branch HEAD: fbec5d4783d5f16684bdc3ad84876cdcc75ed231  Merge branches 'renesas-drivers-for-v6.19' and 'renesas-dts-for-v6.19' into renesas-next
 
-Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
----
- .../net/ethernet/stmicro/stmmac/dwmac-rk.c    | 47 ++++++++-----------
- 1 file changed, 19 insertions(+), 28 deletions(-)
+elapsed time: 7969m
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c
-index 6e75da577af5..6bfe82d7001a 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c
-@@ -1763,6 +1763,22 @@ static int rk_gmac_resume(struct device *dev, void *bsp_priv_)
- 	return 0;
- }
- 
-+static int rk_gmac_init(struct device *dev, void *bsp_priv)
-+{
-+	return rk_gmac_powerup(bsp_priv);
-+}
-+
-+static void rk_gmac_exit(struct device *dev, void *bsp_priv_)
-+{
-+	struct stmmac_priv *priv = netdev_priv(dev_get_drvdata(dev));
-+	struct rk_priv_data *bsp_priv = bsp_priv_;
-+
-+	rk_gmac_powerdown(bsp_priv);
-+
-+	if (priv->plat->phy_node && bsp_priv->integrated_phy)
-+		clk_put(bsp_priv->clk_phy);
-+}
-+
- static int rk_gmac_probe(struct platform_device *pdev)
- {
- 	struct plat_stmmacenet_data *plat_dat;
-@@ -1795,6 +1811,8 @@ static int rk_gmac_probe(struct platform_device *pdev)
- 
- 	plat_dat->get_interfaces = rk_get_interfaces;
- 	plat_dat->set_clk_tx_rate = rk_set_clk_tx_rate;
-+	plat_dat->init = rk_gmac_init;
-+	plat_dat->exit = rk_gmac_exit;
- 	plat_dat->suspend = rk_gmac_suspend;
- 	plat_dat->resume = rk_gmac_resume;
- 
-@@ -1806,33 +1824,7 @@ static int rk_gmac_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
--	ret = rk_gmac_powerup(plat_dat->bsp_priv);
--	if (ret)
--		return ret;
--
--	ret = stmmac_dvr_probe(&pdev->dev, plat_dat, &stmmac_res);
--	if (ret)
--		goto err_gmac_powerdown;
--
--	return 0;
--
--err_gmac_powerdown:
--	rk_gmac_powerdown(plat_dat->bsp_priv);
--
--	return ret;
--}
--
--static void rk_gmac_remove(struct platform_device *pdev)
--{
--	struct stmmac_priv *priv = netdev_priv(platform_get_drvdata(pdev));
--	struct rk_priv_data *bsp_priv = priv->plat->bsp_priv;
--
--	stmmac_dvr_remove(&pdev->dev);
--
--	rk_gmac_powerdown(bsp_priv);
--
--	if (priv->plat->phy_node && bsp_priv->integrated_phy)
--		clk_put(bsp_priv->clk_phy);
-+	return devm_stmmac_pltfr_probe(pdev, plat_dat, &stmmac_res);
- }
- 
- static const struct of_device_id rk_gmac_dwmac_match[] = {
-@@ -1858,7 +1850,6 @@ MODULE_DEVICE_TABLE(of, rk_gmac_dwmac_match);
- 
- static struct platform_driver rk_gmac_dwmac_driver = {
- 	.probe  = rk_gmac_probe,
--	.remove = rk_gmac_remove,
- 	.driver = {
- 		.name           = "rk_gmac-dwmac",
- 		.pm		= &stmmac_simple_pm_ops,
--- 
-2.47.3
+configs tested: 72
+configs skipped: 1
 
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha               allnoconfig    gcc-15.1.0
+alpha              allyesconfig    gcc-15.1.0
+arc                allmodconfig    gcc-15.1.0
+arc                 allnoconfig    gcc-15.1.0
+arc                allyesconfig    gcc-15.1.0
+arm                 allnoconfig    clang-22
+arm                allyesconfig    gcc-15.1.0
+arm64              allmodconfig    clang-19
+arm64               allnoconfig    gcc-15.1.0
+arm64              allyesconfig    clang-22
+csky               allmodconfig    gcc-15.1.0
+csky                allnoconfig    gcc-15.1.0
+csky               allyesconfig    gcc-15.1.0
+hexagon            allmodconfig    clang-17
+hexagon             allnoconfig    clang-22
+hexagon            allyesconfig    clang-22
+i386               allmodconfig    gcc-14
+i386                allnoconfig    gcc-14
+i386               allyesconfig    gcc-14
+loongarch          allmodconfig    clang-19
+loongarch           allnoconfig    clang-22
+loongarch          allyesconfig    clang-22
+m68k               allmodconfig    gcc-15.1.0
+m68k                allnoconfig    gcc-15.1.0
+m68k               allyesconfig    gcc-15.1.0
+microblaze         allmodconfig    gcc-15.1.0
+microblaze          allnoconfig    gcc-15.1.0
+microblaze         allyesconfig    gcc-15.1.0
+mips               allmodconfig    gcc-15.1.0
+mips                allnoconfig    gcc-15.1.0
+mips               allyesconfig    gcc-15.1.0
+nios2              allmodconfig    gcc-11.5.0
+nios2               allnoconfig    gcc-11.5.0
+nios2              allyesconfig    gcc-11.5.0
+openrisc           allmodconfig    gcc-15.1.0
+openrisc            allnoconfig    gcc-15.1.0
+openrisc           allyesconfig    gcc-15.1.0
+parisc             allmodconfig    gcc-15.1.0
+parisc              allnoconfig    gcc-15.1.0
+parisc             allyesconfig    gcc-15.1.0
+powerpc            allmodconfig    gcc-15.1.0
+powerpc             allnoconfig    gcc-15.1.0
+powerpc            allyesconfig    clang-22
+riscv              allmodconfig    clang-22
+riscv               allnoconfig    gcc-15.1.0
+riscv              allyesconfig    clang-16
+s390               allmodconfig    clang-18
+s390                allnoconfig    clang-22
+s390               allyesconfig    gcc-15.1.0
+sh                 allmodconfig    gcc-15.1.0
+sh                  allnoconfig    gcc-15.1.0
+sh                 allyesconfig    gcc-15.1.0
+sparc              allmodconfig    gcc-15.1.0
+sparc               allnoconfig    gcc-15.1.0
+sparc              allyesconfig    gcc-15.1.0
+sparc64            allmodconfig    clang-22
+sparc64            allyesconfig    gcc-15.1.0
+um                  allnoconfig    clang-22
+um                 allyesconfig    gcc-14
+x86_64             allmodconfig    clang-20
+x86_64              allnoconfig    clang-20
+x86_64             allyesconfig    clang-20
+x86_64                    kexec    clang-20
+x86_64                 rhel-9.4    clang-20
+x86_64             rhel-9.4-bpf    gcc-14
+x86_64            rhel-9.4-func    clang-20
+x86_64      rhel-9.4-kselftests    clang-20
+x86_64           rhel-9.4-kunit    gcc-14
+x86_64             rhel-9.4-ltp    gcc-14
+x86_64            rhel-9.4-rust    clang-20
+xtensa              allnoconfig    gcc-15.1.0
+xtensa             allyesconfig    gcc-15.1.0
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
