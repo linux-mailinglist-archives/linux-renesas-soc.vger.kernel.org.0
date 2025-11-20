@@ -1,384 +1,277 @@
-Return-Path: <linux-renesas-soc+bounces-24891-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24892-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99537C75824
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Nov 2025 18:00:53 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8360C758F0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Nov 2025 18:10:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by tor.lore.kernel.org (Postfix) with ESMTPS id AAC422BF74
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Nov 2025 17:00:51 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 6AE5E34A676
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Nov 2025 17:08:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 090513590A1;
-	Thu, 20 Nov 2025 17:00:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA1641CEAC2;
+	Thu, 20 Nov 2025 17:08:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="PIqVleGR"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZT6LmXCz"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010024.outbound.protection.outlook.com [52.101.229.24])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5978284689;
-	Thu, 20 Nov 2025 17:00:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.24
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763658049; cv=fail; b=H349PF6zQQsGwIhc1HcMPJvCokiQkwlUXp6FLFojxmKiCJI175bE4sam4lZN+t82oCbU7bSbyaOX0jgGD2GjtOiUiTyS19/6KPQvrsl0wEYz1NI/Pz/wad18OnoVIPCnwNtICmxZAlhXaOpx2hvK1NX02RsCdtXzJn/PnhhPSEA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763658049; c=relaxed/simple;
-	bh=V/JUBbGnBI4sGSCMtGkAednyP50BgISw0qTGvtIrpdI=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=Jaj7+rzcaG+kB/4JjrU9pe6mTt7zDNVfQKHhhzsgu6JJ2BU/l3KkfNXayWwh4jSdV5VoxaG7t8K93t5CycHxL47hFc5R4WUDZqpfWEkZrD09mMfBAmkonaymLxePFyrT6eqzgxt6UMOo0+bIyIfzBiEW0UV1U+MIYkNHn/GK0Hc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=PIqVleGR; arc=fail smtp.client-ip=52.101.229.24
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pmeLSLpVrXtK30GskipBMgJhq7+Eu90P/miu6txzHxUcNO+IFn7SA0h8VoAG9i30BIWLc0EbXHLm7gwzJ734skd/sLaZ2e2bPJmAB9N14flVbeSFTvkfTtGsoKLdzqHfMyydcWyqSETiWj4i94Mo0NZ2I/NIDPoMsJRjLs6arazanJqQA1Q7Kiwzl+q3bfLVEIvBWR0WvWOhRIbsZrRjXmg4axWJSndBE88JqOHsOMKo60mkbMkzbsu7eU9HQt61SXHQeARdEcuEf9DFwHpnR+1AXxxFdIfaJgDqiV0E2YHDk2Y/fr+d3Pdpe7YrfzRlN1eQ9jpoN2s0dklUhwRK/Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ItBu8STP4KTxGBoDMsklIFunwC3xoKKSiOiyO3MNXDc=;
- b=VoBoqN5RZK8v5dYPbPA6AWIEe0elhmou3a2ZS+0QbbPxwJfHfMfPqeu7sHQVJ09eazaDJOm97rsh/UkCd5nbS3uTVLMHvhzdYspfaZaNRMN6jr3/SRotnF6gknmukDE9fsphi+pNIdcty2Y0qiKdH8A6aZmCkxfiyTNyHhheLe+gVOx8B1BaWL8WLEXOvPZHFRJYftOc7yeHsKn84+BKrN5wJOeNYThAu2iLVyf/nNhA347oJZLYR0ByFezc3hBLG6eeO608e0L13i8G0TJKyUoRo48f9HSePdwWAVO3s/FkYpxgC0daWi14eXA64Tkwu2wgAvxmNeJe6HvBCzhbjA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ItBu8STP4KTxGBoDMsklIFunwC3xoKKSiOiyO3MNXDc=;
- b=PIqVleGRUoPk2WJUBQXcJF24ZHDeZKp0trXyX6xpcY49Js3Hi1H3hTbv92mMHjfhS6n7AtAFx6j+fYC9F41SZlgjDxFMn8ZpVVLTU58QAlUXTDFunzf7msQtVkCn7UoLIOle94kHjAwwBKpleZ2p80ERJ4uLZGNQ/4E5NatIwl8=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by OSZPR01MB9582.jpnprd01.prod.outlook.com (2603:1096:604:1d2::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.11; Thu, 20 Nov
- 2025 17:00:41 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1%6]) with mapi id 15.20.9343.011; Thu, 20 Nov 2025
- 17:00:35 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= <ukleinek@kernel.org>
-CC: Geert Uytterhoeven <geert+renesas@glider.be>, magnus.damm
-	<magnus.damm@gmail.com>, "linux-pwm@vger.kernel.org"
-	<linux-pwm@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, Prabhakar Mahadev Lad
-	<prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
-	<biju.das.au@gmail.com>
-Subject: RE: [PATCH v24 4/4] pwm: rzg2l-gpt: Add support for gpt linking with
- poeg
-Thread-Topic: [PATCH v24 4/4] pwm: rzg2l-gpt: Add support for gpt linking with
- poeg
-Thread-Index: AQHbiF0jDWHirCt3OUSeUJ2A7P2d47TtVpqAgBATF/A=
-Date: Thu, 20 Nov 2025 17:00:35 +0000
-Message-ID:
- <TY3PR01MB11346940A5BD83A5AD79FE46486D4A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20250226144531.176819-1-biju.das.jz@bp.renesas.com>
- <20250226144531.176819-5-biju.das.jz@bp.renesas.com>
- <mipf6ogg45h5bsdekr27sf3nfllbbylkqjiowutg5cugbyosy4@r4glajhjcorn>
-In-Reply-To: <mipf6ogg45h5bsdekr27sf3nfllbbylkqjiowutg5cugbyosy4@r4glajhjcorn>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|OSZPR01MB9582:EE_
-x-ms-office365-filtering-correlation-id: 906b2e84-5004-400b-acec-08de285652bc
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|1800799024|38070700021;
-x-microsoft-antispam-message-info:
- =?iso-8859-1?Q?rM47H5FIgyBNJX0/Lg7+FaoavBWf1To7Z+zMpwJpax0Py7RaV6w68eNJgx?=
- =?iso-8859-1?Q?WKGBjgOTx8KpfSvfPKoLoZ0dRQ4/nQvu4UBddhVg8JKhMZMQ63u4raAdf1?=
- =?iso-8859-1?Q?fznyOd0xM3LGnVn0bpM0NmidGbk8YdJKX8FfVM7SNYZORula09NqJLyGEW?=
- =?iso-8859-1?Q?eWUeayLZAm2vMf3OnAG4UBsyCZATVFbioFMLu9p+/cFRFxS0ISErZlcfw4?=
- =?iso-8859-1?Q?GpkcE64GLT0yVAKpoIlHtS9nOMX/fsIfYQvNRQ32cB6Lqx5y+kx734zZJr?=
- =?iso-8859-1?Q?jX0Vv0ZHuzNYYU7qNl3Rjv1nAxT1jXSZSQpmWyySiU9fNV9hWPEAxrkgY4?=
- =?iso-8859-1?Q?IyLJo1YQ8aPNaa1JAWwd/eBk0iNzofJ1EELiTBrCIj+lcTPr5sd4MpsL7I?=
- =?iso-8859-1?Q?OQCZHT26ejIIl+P8WK0yOAV5kkdfpq2IxsjqINx6heJ/RXGH41Eai9Df50?=
- =?iso-8859-1?Q?55UMsRoXfnmTzIS9s8ZN0E9//uP77qho7342/qrFQ3Kkd7okLac/afXgUf?=
- =?iso-8859-1?Q?CB84pYrEWW77oVkdXv6Vdw2WTem0qcqV3IZRqG8LbbzkJLREnDXxC45Syu?=
- =?iso-8859-1?Q?ZJ8CrlSKJvbpG6KJ4uN4AxVZcqocRy4jpf/nuYJ6U9GIWorlsZVEF3gBSV?=
- =?iso-8859-1?Q?y9CLqMWvLBxdsAXI8ORfsjgCnAQK/Z++XdhisHLt79kQdemngqePn94WSe?=
- =?iso-8859-1?Q?SZEzFm9qv8m2Z5IuWxvWHboBt+6xhTVYHTmSBrzmsdzpz017Y7GeXTCkrl?=
- =?iso-8859-1?Q?jdHMKfTpBArOshY5nAsdX6ozy3zIncZRHLMO8qj6F3WpgdLg2oxkhc6hap?=
- =?iso-8859-1?Q?rDJEm50Y0sTypVKn2aSw3of4bI9IiPksb1p/jgwTedFgHvw6WIJDZForBA?=
- =?iso-8859-1?Q?TD1nyUkg4OnSdQtv64qVTKnCN1KXOXyrp/VzBPBK7y0Jx+d7gmdXdzrcix?=
- =?iso-8859-1?Q?+c7DdoSuktL+0Ffc+0OfpWkIfn3uJqq1mSTIFY8mvxXzodbLpcBNrNN6kq?=
- =?iso-8859-1?Q?Gl2gsShfNUsNg2njwNsGrib8v9XmJm1rAmDgsSL/plRW2ad2q3EenlK+OR?=
- =?iso-8859-1?Q?Pilr1aBv3WFnomh8QbzLDJq7tL3GjSm+AqRBhewR4Fv7EL/RWs6B5HfDoC?=
- =?iso-8859-1?Q?JvvuLIOriavOvodnZe/gUCvDlEEr/Cc5DKnqyrOtR05iZpcI/j81go87YG?=
- =?iso-8859-1?Q?oOV5btsfiDGGRMOrUQOCIjIUBW6oHlnXWebcEws0/oV79M8MATLduwGGNP?=
- =?iso-8859-1?Q?ypJ8/b8SqbCE17twx7SZS0Dt15aytf01hou6cGhQ1fbRs9D/eJzWwgrYkw?=
- =?iso-8859-1?Q?1QdK1d6XVDgjsxJIklSB1JcTmqYhtxZqaOuQ+ppys510wIoU2rFVa0h7V5?=
- =?iso-8859-1?Q?oVpJX6Bgjubl8+5F9BRgH0OfrFfFOftOOYVFbcM1nJmB8YZ2Pykl1oWgxL?=
- =?iso-8859-1?Q?x3BtDuAkFeQcGpKTc9hDbJ6FRvcBmAlT1Bb3shpbTUOEMB8Dlo1LPjcfZk?=
- =?iso-8859-1?Q?cBcHi6YwhK/8bUAJihW8CDYTxxe7Vty41IX5jY2TBCBg=3D=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?ies3ligJo9X9ZBtylfxQitX+wgnFjQbybRC8swkygaRDrMJYX6xwI6hSAS?=
- =?iso-8859-1?Q?YAGHvTlOxgsQ4uhQUayp7+uNO9LoTN6uTMfCbBKARqoeCJKpaRU0IHQ+QE?=
- =?iso-8859-1?Q?1pNWXSFdhbVyH89Mvp6NT5e8PgcuT/pi3xczvwZEweOUJCUDIlEMGyWXbh?=
- =?iso-8859-1?Q?fXcEnQjYAfMaYK1/AxoORT5aLyMmCpdluwxstOJDrShZWS/KGdl2sQFrlV?=
- =?iso-8859-1?Q?o2M+YU2Dba+2jn95aAKIMzalWXBPK9d8o49cDL7KtZEfiTulxWcT3CIcj9?=
- =?iso-8859-1?Q?J0CjfQCO9hi7NYosclF43mTWAs4OW1PAJTJapA4zQXAgYgL9LS2kKUWZr/?=
- =?iso-8859-1?Q?BMiidq+EC29z4q9HX0owfTy72AhbC075i7ay/EGlb0F4LNRuvuQ4ezV7xy?=
- =?iso-8859-1?Q?QPj38FNDFaid7845YtMKP1i5o72CFU6xiuucME4USnYa6CshQ6EgsIDLhk?=
- =?iso-8859-1?Q?R+mhIuiFClQfpMvDBG5NdgArwvuC9V31Ea86WqoW7vAUfeEloVZvNnQ+rL?=
- =?iso-8859-1?Q?GP7QGAyCszs2Jiueup6w0lMYPuyaDGORAd/TNrg2gP3X5abGFg5LjBafmo?=
- =?iso-8859-1?Q?1hmhM9S3aFIEADERbqmzikpsFhMFUeBLyqJJtAB5djxm6W0T7Sm+k5U1d9?=
- =?iso-8859-1?Q?Ct/WMQ3GUJsOaqbdUZUSDjjJ7yu8yZlFsAvF2r/fSeiiihGQ5Px+vfdTP3?=
- =?iso-8859-1?Q?GCx6mKscONWWNPLyh+gYxrcQ4pgBaEhmTJHRgBviZnNb5U6cbhVaJiJhba?=
- =?iso-8859-1?Q?fP+lLkOwXpSg9NS9xvdk0IGwFk/AgYejR30fBB7in/EsSOlkrgFmg1YsWs?=
- =?iso-8859-1?Q?PW9p8BFSltyVA0ZmqR1q1n01qvpeOKPxk97RTU5TmGmTcPBOl2MWQ/KMzx?=
- =?iso-8859-1?Q?BLsky5OXPEqCQym61QaADvCGWMGUZceKhuzvoCZwctMki8cWRlAaCzHcxa?=
- =?iso-8859-1?Q?DdQdMuldBvKHsKj5Sy51q9rGMirhsz0qWHTD/OAVcKnF2DCVpyPWXKpFoL?=
- =?iso-8859-1?Q?hqlnYeObqaO+Y7J6Accf6Jn4Mrh+X+wNK7RYwLlzZsAfTfXBk4pyMO93yq?=
- =?iso-8859-1?Q?BBukxNUHFTAi24R5QjIFiA7A7i1r29jDmLgr/mKr53Q2Vp9fgaK5Rla2qG?=
- =?iso-8859-1?Q?zQa3bFFf0B/sIlMKOfhr3OEpxsKN/jYPjFPwoqY6MebaB8LnJzWYDAbpBn?=
- =?iso-8859-1?Q?JrpPREPZB9YeNegzIngruMC6fiBRmFmujjVVK0VuWgetY+UFSXqfFbF38N?=
- =?iso-8859-1?Q?vXLphmJET7s98r8cDZdjLd/KJ/TCSkEWJdwFOnSmUUNlq4LXLeRMxGBsMy?=
- =?iso-8859-1?Q?/tnjOW0K7W6gAbdQYzNhMBVv6YS0GhSR4id9joRZZaM76r01Mhj6n4FQzl?=
- =?iso-8859-1?Q?XCDSoSQ173e9OpPio+6BvdUG1rX6A1Ae2n1PKuBCyCXi6sSuvm6bKW4DAv?=
- =?iso-8859-1?Q?3fn2Lculzx/vEh7gpJ4xUzFG5wtM463pV/NSN7v22lTiGg1bnwcSqfLTGw?=
- =?iso-8859-1?Q?PLqJE+W6Ic4Z6BdhlJgVCyEYfag66HbbNuOtx/cB3fanLEmlqFwlvd09Qc?=
- =?iso-8859-1?Q?MgNjFwsketnHzOwCYBR9PMQgo63XM+FwIqDSUamI8u8Z7jt5QLooHmAwfT?=
- =?iso-8859-1?Q?R1MeipCjChNt6TOWUPOcNlBoitK3PHv68BtgsR6GbiU15cJft+0iN71g?=
- =?iso-8859-1?Q?=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A74433B960
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Nov 2025 17:08:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763658490; cv=none; b=NGVwn/hI/H02syv09Wrqdfer8dN40TMEm8eBnTG9iwG/5YsdQZTgWMi1Wv1GkJoW+KBdQKO3bxFkpozXxjEl07nWn8rv7Z21wladrmC66d1ZK1R0Cq5XBeMDrwkVlJMTDvyW2cD+YwMrFieX0T7ctfIkT2FT0mxOplHGDSVaDRs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763658490; c=relaxed/simple;
+	bh=TY7Is5PourliMVizNQln+FNs21UFGMl0426q/PVJdXc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=t5kSVcfPfQwao25IZDYqDDpqpLudRIIbMMblQLuOkHzNwnM7wF9phxDEk0vkw6mo2R6wfysOAmL/Pm2OsxLfMU/iOqBEzwNUd9YKHpK/PS+AHQKMFq4bmj3G79Sid/6iGadM1YFA9AMRugOQ6YkPkSDQ/kxthIk9QEpg/Vzkjsg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZT6LmXCz; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DACF4C59;
+	Thu, 20 Nov 2025 18:05:58 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1763658359;
+	bh=TY7Is5PourliMVizNQln+FNs21UFGMl0426q/PVJdXc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ZT6LmXCzdt99lGLNPLGRFDK/bUdT2a/BbcJNAJdpgSAgfuyFnp22MYo0j1LHF8W1q
+	 HkgPBKI1sqQ65x+wdgFotfyuMFQyIW2QKrjk5QgpV3KaSjMfLlxOejM5LTki9Mtwsb
+	 hFnIKk/KqQ4PasH3nB7sxN8ZK0TD98poG0yVDzfY=
+Message-ID: <5da8f176-4db5-4d2d-a7df-23b8047b293e@ideasonboard.com>
+Date: Thu, 20 Nov 2025 19:08:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 906b2e84-5004-400b-acec-08de285652bc
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Nov 2025 17:00:35.3178
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 09PGE5jtc54dKKD9orrZ5zoKOPjNUsgUjOb4GmfAv1LmxHgRs/LqHJXsqzDQMJcZN0mniP9Lb6ZwYEg+iMo2gRBSLOZISTUqi7MeBeq7Xok=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB9582
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/3] drm/atomic-helper: Add special quirk tail function
+To: Maxime Ripard <mripard@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Aradhya Bhatia <a-bhatia1@ti.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org
+References: <20251118-mcde-drm-regression-v2-0-4fedf10b18f6@linaro.org>
+ <20251118-mcde-drm-regression-v2-3-4fedf10b18f6@linaro.org>
+ <20251118150128.GB23711@pendragon.ideasonboard.com>
+ <cncl6nwbr6fu3nvhz2y34ou4geqzo7hjf3wpukmm4t6utvygor@t2v4smey5ful>
+ <CACRpkdYh9nSBtqU_8w5gnkWOc+Dw7fW3tPinm6JjfXMbdEJOjg@mail.gmail.com>
+ <5zo76nnejrinmf6snaezld5ylfvk266bwyxg3phdhtg74z43pu@kub3r7tvz7vc>
+ <19fc5a8e-999c-46a0-b755-0bd09fe84d92@ideasonboard.com>
+ <tcu23ayvadb3vtz6vksrrkw6rkngofxnhokaa4khat2grnqgcu@ttmqg6illoz7>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Content-Language: en-US
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <tcu23ayvadb3vtz6vksrrkw6rkngofxnhokaa4khat2grnqgcu@ttmqg6illoz7>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Uwe,
+Hi,
 
-Thanks for the feedback.
+On 20/11/2025 18:19, Maxime Ripard wrote:
+> On Wed, Nov 19, 2025 at 12:41:52PM +0200, Tomi Valkeinen wrote:
+>> Hi,
+>>
+>> On 19/11/2025 11:19, Maxime Ripard wrote:
+>>> On Tue, Nov 18, 2025 at 07:10:47PM +0100, Linus Walleij wrote:
+>>>> On Tue, Nov 18, 2025 at 4:44 PM Maxime Ripard <mripard@kernel.org> wrote:
+>>>>> On Tue, Nov 18, 2025 at 05:01:28PM +0200, Laurent Pinchart wrote:
+>>>>>> On Tue, Nov 18, 2025 at 03:36:05PM +0100, Linus Walleij wrote:
+>>>>
+>>>>>>> +/**
+>>>>>>> + * drm_atomic_helper_commit_tail_crtc_early_late - commit atomic update
+>>>>>>
+>>>>>> Based on the function name, it feels that the nem commit tail and
+>>>>>> modeset enable/disable helpers reached a point where we may want to
+>>>>>> reconsider the design instead of adding new functions with small
+>>>>>> differences in behaviour that will end up confusing driver developers.
+>>>>>
+>>>>> Agreed, and I'd go even further than that: we don't want every odd order
+>>>>> in the core. And if some driver has to break the order we document in
+>>>>> some way it should be very obvious.
+>>>>
+>>>> Is this just a comment on this patch 3/3?
+>>>>
+>>>> Or do you mean that Mareks new callback
+>>>> drm_atomic_helper_commit_modeset_enables_crtc_early()
+>>>> from patch 1/2 should go straight into the R-Car driver as well
+>>>> and that
+>>>> drm_atomic_helper_commit_modeset_disables_crtc_late()
+>>>> patch 2/2 should also go into my driver, even if this
+>>>> is a comment on patch 3/3?
+>>>>
+>>>> Both patches 1 & 2 have a lot to do with ordering, this is
+>>>> why I ask.
+>>>
+>>> I mean, it applies to all your three patches and Marek's: helpers are
+>>> here to provide a default implementation. We shouldn't provide a default
+>>> implementation for a single user. All your patches enable to create
+>>> defaults for a single user.
+>>
+>> Two users so far: Renesas and ST-Ericsson.
+>>
+>>> So my point is that none of those functions should be helpers.
+>>>
+>>>> We already have
+>>>> drm_atomic_helper_commit_tail()
+>>>> drm_atomic_helper_commit_tail_rpm()
+>>>
+>>> The former has 5 users, the latter 13. And it's already confusing enough
+>>> and regression-prone as it is.
+>>>
+>>>> Does one more or less really matter? Maybe, I'm not sure,
+>>>> but if it's just this one patch that is the problem I can surely
+>>>> do it that way since we're only calling public functions.
+>>>>
+>>>> Pushing the first two patches would be more problematic,
+>>>> because they call a lot of functions that are local to the
+>>>> drm atomic helpers.
+>>>
+>>> I'm totally fine with making more internal functions public though.
+>> While I generally agree with that, I still wonder if an implementation
+>> in the core is better here. Perhaps a flag in struct drm_driver, instead
+>> of new set of helpers.
+>>
+>> Moving this to the driver would require (with a quick glance) exposing
+>> the following functions:
+>>
+>> crtc_enable
+>> crtc_disable
+>> crtc_set_mode
+>> encoder_bridge_pre_enable
+>> encoder_bridge_enable
+>> encoder_bridge_disable
+>> encoder_bridge_post_disable
+>>
+>> Not impossible to expose, but making a private function public does
+>> require work in validating the function for more general use, and adding
+>> kernel docs.
+> 
+> Those are pretty trivial to document though, compared to document how
+> the new variants differ from drm_atomic_helper_commit_tail() and
+> drm_atomic_helper_commit_tail_rpm(), and then validating that it does
+> indeed stay that way.
 
-> -----Original Message-----
-> From: Uwe Kleine-K=F6nig <ukleinek@kernel.org>
-> Sent: 10 November 2025 11:18
-> Subject: Re: [PATCH v24 4/4] pwm: rzg2l-gpt: Add support for gpt linking =
-with poeg
->=20
-> On Wed, Feb 26, 2025 at 02:45:23PM +0000, Biju Das wrote:
-> > The General PWM Timer (GPT) is capable of detecting "dead time error
-> > and short-circuits between output pins" and send Output disable
-> > request to poeg(Port Output Enable for GPT).
-> >
-> > Add support for linking poeg group with gpt, so that gpt can control
-> > the output disable function.
-> >
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > ---
-> > v23->v24:
-> >  * No change.
-> > v22>v23:
-> >  * No change
-> > v21>v22:
-> >  * No change
-> > v20->21:
-> >  * Dropped local variable offs for calculating RZG2L_GTINTAD channel re=
-gister
-> >    and instead using the macro RZG2L_GTINTAD(ch).
-> > v19->v20:
-> >  * No change
-> > v18->v19:
-> >  * No change
-> > v17->v18:
-> >  * Moved bitpos near to the user.
-> > v16->v17:
-> >  * No change
-> > v15->v16:
-> >  * No change.
-> > v14->v15:
-> >  * Updated commit description by replacing "This patch add"-> "Add".
-> > v3->v14:
-> >  * Removed the parenthesis for RZG2L_MAX_POEG_GROUPS.
-> >  * Renamed rzg2l_gpt_parse_properties()->rzg2l_gpt_poeg_init() as it no=
-t only parse
-> >    the properties but also implements the needed register writes.
-> >  * Added acomment here about the purpose of the function
-> > rzg2l_gpt_poeg_init()
-> >  * Removed magic numbers from rzg2l_gpt_poeg_init()
-> >  * Fixed resource leak in rzg2l_gpt_poeg_init().
-> >  * Moved the patch from series[1] to here  [1]
-> > https://lore.kernel.org/linux-renesas-soc/20221215205843.4074504-1-bij
-> > u.das.jz@bp.renesas.com/T/#t
-> > v2->v3:
-> >  * Updated commit header and description
-> >  * Added check for poeg group in rzg2l_gpt_parse_properties().
-> > v1->v2:
-> >  * Replaced id->poeg-id as per poeg bindings.
-> > This patch depend upon [1]
-> > [1]
-> > https://patchwork.kernel.org/project/linux-renesas-soc/patch/202212141
-> > 32232.2835828-3-biju.das.jz@bp.renesas.com/
-> > ---
-> >  drivers/pwm/pwm-rzg2l-gpt.c | 83
-> > +++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 83 insertions(+)
-> >
-> > diff --git a/drivers/pwm/pwm-rzg2l-gpt.c b/drivers/pwm/pwm-rzg2l-gpt.c
-> > index 2ddbb13f50aa..a551554aec77 100644
-> > --- a/drivers/pwm/pwm-rzg2l-gpt.c
-> > +++ b/drivers/pwm/pwm-rzg2l-gpt.c
-> > @@ -39,6 +39,7 @@
-> >  #define RZG2L_GTCR(ch)		(0x2c + RZG2L_GET_CH_OFFS(ch))
-> >  #define RZG2L_GTUDDTYC(ch)	(0x30 + RZG2L_GET_CH_OFFS(ch))
-> >  #define RZG2L_GTIOR(ch)		(0x34 + RZG2L_GET_CH_OFFS(ch))
-> > +#define RZG2L_GTINTAD(ch)	(0x38 + RZG2L_GET_CH_OFFS(ch))
-> >  #define RZG2L_GTBER(ch)		(0x40 + RZG2L_GET_CH_OFFS(ch))
-> >  #define RZG2L_GTCNT(ch)		(0x48 + RZG2L_GET_CH_OFFS(ch))
-> >  #define RZG2L_GTCCR(ch, sub_ch)	(0x4c + RZG2L_GET_CH_OFFS(ch) + 4 * (s=
-ub_ch))
-> > @@ -55,12 +56,21 @@
-> >  #define RZG2L_GTUDDTYC_UP_COUNTING	(RZG2L_GTUDDTYC_UP | RZG2L_GTUDDTYC=
-_UDF)
-> >
-> >  #define RZG2L_GTIOR_GTIOA	GENMASK(4, 0)
-> > +#define RZG2L_GTIOR_OADF	GENMASK(10, 9)
-> >  #define RZG2L_GTIOR_GTIOB	GENMASK(20, 16)
-> > +#define RZG2L_GTIOR_OBDF	GENMASK(26, 25)
-> > +
-> >  #define RZG2L_GTIOR_GTIOx(sub_ch)	((sub_ch) ? RZG2L_GTIOR_GTIOB : RZG2=
-L_GTIOR_GTIOA)
-> > +
-> >  #define RZG2L_GTIOR_OAE		BIT(8)
-> >  #define RZG2L_GTIOR_OBE		BIT(24)
-> >  #define RZG2L_GTIOR_OxE(sub_ch)		((sub_ch) ? RZG2L_GTIOR_OBE : RZG2L_G=
-TIOR_OAE)
-> >
-> > +#define RZG2L_GTIOR_OADF_HIGH_IMP_ON_OUT_DISABLE	BIT(9)
-> > +#define RZG2L_GTIOR_OBDF_HIGH_IMP_ON_OUT_DISABLE	BIT(25)
-> > +#define RZG2L_GTIOR_PIN_DISABLE_SETTING \
-> > +	(RZG2L_GTIOR_OADF_HIGH_IMP_ON_OUT_DISABLE |
-> > +RZG2L_GTIOR_OBDF_HIGH_IMP_ON_OUT_DISABLE)
-> > +
-> >  #define RZG2L_INIT_OUT_HI_OUT_HI_END_TOGGLE	0x1b
-> >  #define RZG2L_GTIOR_GTIOA_OUT_HI_END_TOGGLE_CMP_MATCH \
-> >  	(RZG2L_INIT_OUT_HI_OUT_HI_END_TOGGLE | RZG2L_GTIOR_OAE) @@ -71,12
-> > +81,17 @@
-> >  	((sub_ch) ? RZG2L_GTIOR_GTIOB_OUT_HI_END_TOGGLE_CMP_MATCH : \
-> >  	 RZG2L_GTIOR_GTIOA_OUT_HI_END_TOGGLE_CMP_MATCH)
-> >
-> > +#define RZG2L_GTINTAD_GRP_MASK	GENMASK(25, 24)
-> > +
-> >  #define RZG2L_MAX_HW_CHANNELS	8
-> >  #define RZG2L_CHANNELS_PER_IO	2
-> >  #define RZG2L_MAX_PWM_CHANNELS	(RZG2L_MAX_HW_CHANNELS * RZG2L_CHANNELS=
-_PER_IO)
-> >  #define RZG2L_MAX_SCALE_FACTOR	1024
-> >  #define RZG2L_MAX_TICKS		((u64)U32_MAX * RZG2L_MAX_SCALE_FACTOR)
-> >
-> > +#define RZG2L_MAX_POEG_GROUPS	4
-> > +#define RZG2L_LAST_POEG_GROUP	3
-> > +
-> >  struct rzg2l_gpt_chip {
-> >  	void __iomem *mmio;
-> >  	struct mutex lock; /* lock to protect shared channel resources */ @@
-> > -84,6 +99,7 @@ struct rzg2l_gpt_chip {
-> >  	u32 period_ticks[RZG2L_MAX_HW_CHANNELS];
-> >  	u32 channel_request_count[RZG2L_MAX_HW_CHANNELS];
-> >  	u32 channel_enable_count[RZG2L_MAX_HW_CHANNELS];
-> > +	DECLARE_BITMAP(poeg_gpt_link, RZG2L_MAX_POEG_GROUPS *
-> > +RZG2L_MAX_HW_CHANNELS);
-> >  };
-> >
-> >  static inline struct rzg2l_gpt_chip *to_rzg2l_gpt_chip(struct
-> > pwm_chip *chip) @@ -362,6 +378,72 @@ static const struct pwm_ops rzg2l_=
-gpt_ops =3D {
-> >  	.apply =3D rzg2l_gpt_apply,
-> >  };
-> >
-> > +/*
-> > + * This function links a poeg group{A,B,C,D} with a gpt channel{0..7}
-> > +and
-> > + * configure the pin for output disable.
-> > + */
-> > +static void rzg2l_gpt_poeg_init(struct platform_device *pdev,
-> > +				struct rzg2l_gpt_chip *rzg2l_gpt) {
-> > +	struct of_phandle_args of_args;
-> > +	unsigned int i;
-> > +	u32 poeg_grp;
-> > +	u32 bitpos;
-> > +	int cells;
-> > +	int ret;
-> > +
-> > +	cells =3D of_property_count_u32_elems(pdev->dev.of_node, "renesas,poe=
-gs");
-> > +	if (cells =3D=3D -EINVAL)
-> > +		return;
->=20
-> Please catch other errors, too.
+I agree.
+
+>> Handling this in the core would act as documentation too, so instead of
+>> the driver doing things in a different way "hidden" inside the driver,
+>> it would be a standard quirk, clearly documented.
+> 
+> We've had the "let's not introduce helpers for a single user" rule for
+> like a decade at this point, because it simply doesn't scale. Plenty of
+> drivers have opted-out for very specific use-case already. I'm not sure
+> why we should create this precedent.
 
 Ok.
 
->=20
-> > +	cells >>=3D 1;
->=20
-> Is it an error if cells is an odd number?
+>> Also, I'm also not sure how rare this quirk is. In fact, I feel we're
+>> missing ways to handle the enable/disable related issues in the core
+>> framework. In these patches we're talking about the case where the SoC's
+>> DSI host needs an incoming pclk to operate, and panels need to do
+>> configuration before the video stream is enabled. But the exact same
+>> problem could be present with an external DSI bridge, and then we can't
+>> fix it in the crtc driver.
+>>
+>> So the question becomes "does any component in the pipeline need the
+>> video stream's clock to operate". But then, it doesn't help if the crtc
+>> output is enabled early if any bridge in between does not also enable
+>> its output early. So it all gets a bit complex.
+>>
+>> And sometimes the clocks go backward: the entity on the downstream side
+>> provides a clock backwards, to the source entity...
+> 
+> Yes, you're right, this is why it's so fragile. Do you want to create
+> the test suite to check that all combinations are properly tested before
+> reworking the whole thing?
 
+Yes, right after I finish rewriting V4L2 to fix the mistakes there! =)
 
-Yes. It expects (POEG phandle)/pwm channel pair
+>> But I digress. I think initially we should just look for a clean fix for
+>> the platforms affected:
+>>
+>> - Add the implementation into the drivers?
+>> - Add helpers to the core?
+>> - Add a flag of some kind so the core can do the right thing?
+>>
+>> I made a quick test with the flag approach, below. It's not many lines,
+>> but... Ugh, it does feel like a hack.
+> 
+> Because it is.
+> 
+> Really, I don't get it. I gave you a free pass to do whatever you wanted
+> in your driver. It doesn't add any maintenance burden on anyone. It
+> doesn't risk regressing other drivers in the process. It doesn't come
+> with any testing requirement. It doesn't even have to be reviewed by us,
+> really.
+> 
+> Why do you argue for a more bothersome (for everyone) solution?
+I don't argue for it. I presented the easy-ish options I see to fix
+this. I think there are valid reasons to have this, in a way or another,
+in the core. But as I said, it feels like a hack so I'm not too happy
+with it.
 
->=20
-> > +	for (i =3D 0; i < cells; i++) {
-> > +		ret =3D of_parse_phandle_with_fixed_args(pdev->dev.of_node,
-> > +						       "renesas,poegs", 1, i,
-> > +						       &of_args);
-> > +		if (ret) {
-> > +			dev_err(&pdev->dev,
-> > +				"Failed to parse 'renesas,poegs' property\n");
-> > +			return;
->=20
-> So .probe() might emit an error message now, but it doesn't fail. I would=
- suggest to change the
-> latter.
+In any case, it makes sense to fix these in the respective drivers (with
+some core functions exported). It will get the issue sorted out for now,
+without needing elaborate reverts, and without hacking the core.
 
-OK, Will do.
+Linus, Marek, is this ok for you?
 
->=20
-> > +		}
-> > +
-> > +		if (of_args.args[0] >=3D RZG2L_MAX_HW_CHANNELS) {
-> > +			dev_err(&pdev->dev, "Invalid channel %d >=3D %d\n",
-> > +				of_args.args[0], RZG2L_MAX_HW_CHANNELS);
-> > +			of_node_put(of_args.np);
-> > +			return;
-> > +		}
-> > +
-> > +		if (!of_device_is_available(of_args.np)) {
-> > +			/* It's fine to have a phandle to a non-enabled poeg. */
-> > +			of_node_put(of_args.np);
-> > +			continue;
->=20
-> Does of_device_is_available() return false if the poeg is enabled, but no=
-t yet probed? In that
-> case .probe() should return -EPROBE_DEFER.
+ Tomi
 
-No. Returns true if the status property is absent or set to "okay" or "ok
-
-renesas,poegs =3D <&poeggd 4>;--> this will make poeg probed first.
-
-Cheers,
-Biju
 
