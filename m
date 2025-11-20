@@ -1,242 +1,259 @@
-Return-Path: <linux-renesas-soc+bounces-24863-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24864-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DCC0C71E26
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Nov 2025 03:45:58 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CA03C72081
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Nov 2025 04:41:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 86A0834EF53
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Nov 2025 02:45:57 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 9619A34C782
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Nov 2025 03:41:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58ABC1A23A6;
-	Thu, 20 Nov 2025 02:45:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F5CE2F6169;
+	Thu, 20 Nov 2025 03:41:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="hKhq+dNU"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="aoqKxpIt"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F09711624C0
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Nov 2025 02:45:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C7B51DED40;
+	Thu, 20 Nov 2025 03:41:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763606753; cv=none; b=aBB5k38I1lupxfE83CGmylLPtMaAynhtz6kxBvJ6ksa+qX3gCZV0YBCMtE/+lEVQCCwD/YuB3VuTLb3Usgg6Ee8DXdZnLRaA7Lv/bnekvHZv07ZErczwWHAIXMxFihFTcN7TbkipzsLG0nTj7g2rpxfRE0EpRK5T3mNw+ZP7NNI=
+	t=1763610084; cv=none; b=nt8+qWYindMNyVrk46yNJMEwjzoREapP6VK4hgmjUnzRvp8NoCaJ2knaLT7eF+AJs44nNbTQmGlHYU4qrrh0BW1QVpUs3Thy2AKGtWmCGmqi4MefZs6EBH8c0LnsbnqN1mloghZwnUS8hXC5idMyMNI1VWMiAMultXqd83cs6ho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763606753; c=relaxed/simple;
-	bh=pgDnyPCQ4kOR1m6vsWTDpXSA6ZeXyjGx2I/7FDoMTVQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=alQRH8lA3CBacxMIy3yYOEUvfzmaS7CQpdDTHLejeVZ7qPPmZZUIhougQBu37V2dYYAOOgFrPMz1dAQvmL79NQGxb6evcWDKVoISFMzKqHLi3QQMsXmdZc8ilUeZUATZq3ET4mbdwySAgx4qc3Q0NI6lm0AHa4usy8m98R+x/8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=hKhq+dNU; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (fs276ed015.tkyc509.ap.nuro.jp [39.110.208.21])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 165B46A8;
-	Thu, 20 Nov 2025 03:43:40 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1763606621;
-	bh=pgDnyPCQ4kOR1m6vsWTDpXSA6ZeXyjGx2I/7FDoMTVQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hKhq+dNUijD4c/HYvb7id4RDo3f2v9AwGz/QfwVnCVHx617S3njPxRV0RPH8/tRuf
-	 RwO2CJXP5fXpnU8+boz5Vc0MNM/+uiafyhqILK4rM+QQoDGGQZ7CvL38COlC8WzxRQ
-	 EDEPPHccSoDTVNeJC77HWCdHieb7xWt+5W3deAIQ=
-Date: Thu, 20 Nov 2025 11:45:23 +0900
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Maxime Ripard <mripard@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Aradhya Bhatia <a-bhatia1@ti.com>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] drm/atomic-helper: Add special quirk tail function
-Message-ID: <20251120024523.GI10711@pendragon.ideasonboard.com>
-References: <20251118-mcde-drm-regression-v2-0-4fedf10b18f6@linaro.org>
- <20251118-mcde-drm-regression-v2-3-4fedf10b18f6@linaro.org>
- <20251118150128.GB23711@pendragon.ideasonboard.com>
- <cncl6nwbr6fu3nvhz2y34ou4geqzo7hjf3wpukmm4t6utvygor@t2v4smey5ful>
- <CACRpkdYh9nSBtqU_8w5gnkWOc+Dw7fW3tPinm6JjfXMbdEJOjg@mail.gmail.com>
- <5zo76nnejrinmf6snaezld5ylfvk266bwyxg3phdhtg74z43pu@kub3r7tvz7vc>
- <19fc5a8e-999c-46a0-b755-0bd09fe84d92@ideasonboard.com>
+	s=arc-20240116; t=1763610084; c=relaxed/simple;
+	bh=RYHc3943PwzhU1jz4QdSnoWTWJAgaHfCdYi5o4VvDyY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=vCDnMOfGGE/AaplACWUCW8hw40xr2KTyzuAke8uLNWejMyXkpsdn/DQgmfXKOGG7ChZqJ73qZBuciR27Cce50pvDO2ZDf6pDmBW1GtG71RSSR27f9QZ+2fG3pDitamAsYhQwOkQPyF0zVOdM7kjVB7lsj70yFi7JcpMk6Zifs2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=aoqKxpIt; arc=none smtp.client-ip=212.227.17.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1763610078; x=1764214878; i=w_armin@gmx.de;
+	bh=EfKyHSgu72E5XtbQRP8q+S271PUWmhxdP5i176j621o=;
+	h=X-UI-Sender-Class:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:To:Cc:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=aoqKxpItMFG/cGUVVkfB1NhzTpFMPOwqiKqBkxUSdglyjuleis0Y4HhyHY0LUHTP
+	 wRzVvH7IxSr6a2GcsddK3MvmeVjt3jEnGdwZp4OR7PTI5HxZ5421SPvgzEpDawqwu
+	 0f7W3SM+Dd6YN6b29vbbaCI29NanKxtyYlM4pe4fxcToFiRu1H6Q7Y/jW4mQt6sZw
+	 lNMoAGaNhFDgHzG078dSISrf5mH4jVfTkQbVg1sYvP5KlRiCpSJN7rz1oRqdp6gkN
+	 H23cOPc2JXbFFSX+Mw+IAyRdoZV1KbBfhJ4bbD0lGUbIlMSQ2Nf/m/ZkN0rLg5fhp
+	 sP1EsXjlcFU6jXzdaQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [127.0.0.1] ([93.202.247.91]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MLi8m-1vdav82PvU-00KALa; Thu, 20
+ Nov 2025 04:41:18 +0100
+From: Armin Wolf <W_Armin@gmx.de>
+Subject: [PATCH RFC RESEND 0/8] thermal: core: Allow setting the parent
+ device of thermal zone/cooling devices
+Date: Thu, 20 Nov 2025 04:41:10 +0100
+Message-Id: <20251120-thermal-device-v1-0-bbdad594d57a@gmx.de>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <19fc5a8e-999c-46a0-b755-0bd09fe84d92@ideasonboard.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-B4-Tracking: v=1; b=H4sIANaNHmkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1NDQ0MT3ZKM1KLcxBzdFKDi5FRdM1PTFENjCwsjk2QzJaCmgqLUtMwKsIH
+ RSkFuziCxINdgVz8XpdjaWgB7+urfbwAAAA==
+X-Change-ID: 20251114-thermal-device-655d138824c6
+To: "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>, 
+ Lukasz Luba <lukasz.luba@arm.com>, Len Brown <lenb@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Ido Schimmel <idosch@nvidia.com>, 
+ Petr Machata <petrm@nvidia.com>
+Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-tegra@vger.kernel.org, linux-acpi@vger.kernel.org, 
+ linux-doc@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-wireless@vger.kernel.org, ath10k@lists.infradead.org, 
+ ath11k@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, platform-driver-x86@vger.kernel.org, 
+ linux-pci@vger.kernel.org, imx@lists.linux.dev, 
+ linux-renesas-soc@vger.kernel.org
+X-Mailer: b4 0.14.3
+X-Provags-ID: V03:K1:UzHmwioHZKfjFpYTePSeoB+nEB5pgRKUwAckErW8vPODyOjizzx
+ /feBzdus+6v6o3v+eb2dnxcueQu6ShHFe1TT6Xi/kk8kv5nVS0Y9m+JMn8+ZkS1ADmANUys
+ KJE6GDq7jWYTptIpEMYFhITEe/619/61fPiKltwdUQWuLX/fH71JR7y/I3G+rWcTL/yjCgw
+ 31BGItEd8tKh5IQVLSerA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:7gAiZgF03ew=;ZONVuGAOGDYqPBH8Je3dmeYjmp6
+ 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
+ Q0O7hFL4=
 
-On Wed, Nov 19, 2025 at 12:41:52PM +0200, Tomi Valkeinen wrote:
-> On 19/11/2025 11:19, Maxime Ripard wrote:
-> > On Tue, Nov 18, 2025 at 07:10:47PM +0100, Linus Walleij wrote:
-> >> On Tue, Nov 18, 2025 at 4:44 PM Maxime Ripard <mripard@kernel.org> wrote:
-> >>> On Tue, Nov 18, 2025 at 05:01:28PM +0200, Laurent Pinchart wrote:
-> >>>> On Tue, Nov 18, 2025 at 03:36:05PM +0100, Linus Walleij wrote:
-> >>
-> >>>>> +/**
-> >>>>> + * drm_atomic_helper_commit_tail_crtc_early_late - commit atomic update
-> >>>>
-> >>>> Based on the function name, it feels that the nem commit tail and
-> >>>> modeset enable/disable helpers reached a point where we may want to
-> >>>> reconsider the design instead of adding new functions with small
-> >>>> differences in behaviour that will end up confusing driver developers.
-> >>>
-> >>> Agreed, and I'd go even further than that: we don't want every odd order
-> >>> in the core. And if some driver has to break the order we document in
-> >>> some way it should be very obvious.
-> >>
-> >> Is this just a comment on this patch 3/3?
-> >>
-> >> Or do you mean that Mareks new callback
-> >> drm_atomic_helper_commit_modeset_enables_crtc_early()
-> >> from patch 1/2 should go straight into the R-Car driver as well
-> >> and that
-> >> drm_atomic_helper_commit_modeset_disables_crtc_late()
-> >> patch 2/2 should also go into my driver, even if this
-> >> is a comment on patch 3/3?
-> >>
-> >> Both patches 1 & 2 have a lot to do with ordering, this is
-> >> why I ask.
-> > 
-> > I mean, it applies to all your three patches and Marek's: helpers are
-> > here to provide a default implementation. We shouldn't provide a default
-> > implementation for a single user. All your patches enable to create
-> > defaults for a single user.
-> 
-> Two users so far: Renesas and ST-Ericsson.
+Drivers registering thermal zone/cooling devices are currently unable
+to tell the thermal core what parent device the new thermal zone/
+cooling device should have, potentially causing issues with suspend
+ordering and making it impossible for user space appications to
+associate a given thermal zone device with its parent device.
 
-Only MCDE uses the new drm_atomic_helper_commit_tail_crtc_early_late()
-function, while the new
-drm_atomic_helper_commit_modeset_enables_crtc_early() helper is used
-directly by R-Car DU to implement its commit tail handler, and by
-drm_atomic_helper_commit_tail_crtc_early_late().
+This patch series aims to fix this issue by extending the functions
+used to register thermal zone/cooling devices to also accept a parent
+device pointer. The first six patches convert all functions used for
+registering cooling devices, while the functions used for registering
+thermal zone devices are converted by the remaining two patches.
 
-> > So my point is that none of those functions should be helpers.
-> > 
-> >> We already have
-> >> drm_atomic_helper_commit_tail()
-> >> drm_atomic_helper_commit_tail_rpm()
-> > 
-> > The former has 5 users, the latter 13. And it's already confusing enough
-> > and regression-prone as it is.
-> > 
-> >> Does one more or less really matter? Maybe, I'm not sure,
-> >> but if it's just this one patch that is the problem I can surely
-> >> do it that way since we're only calling public functions.
-> >>
-> >> Pushing the first two patches would be more problematic,
-> >> because they call a lot of functions that are local to the
-> >> drm atomic helpers.
-> > 
-> > I'm totally fine with making more internal functions public though.
-> 
-> While I generally agree with that, I still wonder if an implementation
-> in the core is better here. Perhaps a flag in struct drm_driver, instead
-> of new set of helpers.
-> 
-> Moving this to the driver would require (with a quick glance) exposing
-> the following functions:
-> 
-> crtc_enable
-> crtc_disable
-> crtc_set_mode
-> encoder_bridge_pre_enable
-> encoder_bridge_enable
-> encoder_bridge_disable
-> encoder_bridge_post_disable
-> 
-> Not impossible to expose, but making a private function public does
-> require work in validating the function for more general use, and adding
-> kernel docs.
-> 
-> Handling this in the core would act as documentation too, so instead of
-> the driver doing things in a different way "hidden" inside the driver,
-> it would be a standard quirk, clearly documented.
-> 
-> Also, I'm also not sure how rare this quirk is. In fact, I feel we're
-> missing ways to handle the enable/disable related issues in the core
-> framework. In these patches we're talking about the case where the SoC's
-> DSI host needs an incoming pclk to operate, and panels need to do
-> configuration before the video stream is enabled. But the exact same
-> problem could be present with an external DSI bridge, and then we can't
-> fix it in the crtc driver.
-> 
-> So the question becomes "does any component in the pipeline need the
-> video stream's clock to operate". But then, it doesn't help if the crtc
-> output is enabled early if any bridge in between does not also enable
-> its output early. So it all gets a bit complex.
+I tested this series on various devices containing (among others):
+- ACPI thermal zones
+- ACPI processor devices
+- PCIe cooling devices
+- Intel Wifi card
+- Intel powerclamp
+- Intel TCC cooling
 
-Are we getting close to a point where we all know the bridge model will
-need to be reworked extensively, and everybody hopes someone else will
-do it ? :-)
+I also compile-tested the remaining affected drivers, however i would
+still be happy if the relevant maintainers (especially those of the
+mellanox ethernet switch driver) could take a quick glance at the
+code and verify that i am using the correct device as the parent
+device.
 
-> And sometimes the clocks go backward: the entity on the downstream side
-> provides a clock backwards, to the source entity...
-> 
-> But I digress. I think initially we should just look for a clean fix for
-> the platforms affected:
-> 
-> - Add the implementation into the drivers?
-> - Add helpers to the core?
-> - Add a flag of some kind so the core can do the right thing?
+This work is also necessary for extending the ACPI thermal zone driver
+to support the _TZD ACPI object in the future.
 
-drm_atomic_helper_commit_modeset_enables_crtc_early() would be more
-cumbersome to implement manually in drivers as most of the functions it
-calls are not exported. drm_atomic_helper_commit_tail_crtc_early_late()
-shouldn't be difficult to implement in the MCDE driver.
+Signed-off-by: Armin Wolf <W_Armin@gmx.de>
+=2D--
+Armin Wolf (8):
+      thermal: core: Allow setting the parent device of cooling devices
+      thermal: core: Set parent device in thermal_of_cooling_device_regist=
+er()
+      ACPI: processor: Stop creating "device" sysfs link
+      ACPI: fan: Stop creating "device" sysfs link
+      ACPI: video: Stop creating "device" sysfs link
+      thermal: core: Set parent device in thermal_cooling_device_register(=
+)
+      ACPI: thermal: Stop creating "device" sysfs link
+      thermal: core: Allow setting the parent device of thermal zone devic=
+es
 
-> I made a quick test with the flag approach, below. It's not many lines,
-> but... Ugh, it does feel like a hack.
+ Documentation/driver-api/thermal/sysfs-api.rst     | 10 ++++-
+ drivers/acpi/acpi_video.c                          |  9 +----
+ drivers/acpi/fan_core.c                            | 16 ++------
+ drivers/acpi/processor_thermal.c                   | 15 +------
+ drivers/acpi/thermal.c                             | 33 ++++++---------
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c              |  4 +-
+ drivers/net/ethernet/chelsio/cxgb4/cxgb4_thermal.c |  4 +-
+ drivers/net/ethernet/mellanox/mlxsw/core_thermal.c | 47 +++++++++++------=
+=2D----
+ drivers/net/wireless/ath/ath10k/thermal.c          |  2 +-
+ drivers/net/wireless/ath/ath11k/thermal.c          |  2 +-
+ drivers/net/wireless/intel/iwlwifi/mld/thermal.c   |  6 +--
+ drivers/net/wireless/intel/iwlwifi/mvm/tt.c        | 12 +++---
+ drivers/net/wireless/mediatek/mt76/mt7915/init.c   |  2 +-
+ drivers/net/wireless/mediatek/mt76/mt7996/init.c   |  2 +-
+ drivers/platform/x86/acerhdf.c                     |  4 +-
+ drivers/power/supply/power_supply_core.c           |  4 +-
+ drivers/thermal/armada_thermal.c                   |  2 +-
+ drivers/thermal/cpufreq_cooling.c                  |  2 +-
+ drivers/thermal/cpuidle_cooling.c                  |  2 +-
+ drivers/thermal/da9062-thermal.c                   |  2 +-
+ drivers/thermal/devfreq_cooling.c                  |  2 +-
+ drivers/thermal/dove_thermal.c                     |  2 +-
+ drivers/thermal/imx_thermal.c                      |  2 +-
+ .../intel/int340x_thermal/int3400_thermal.c        |  2 +-
+ .../intel/int340x_thermal/int3403_thermal.c        |  4 +-
+ .../intel/int340x_thermal/int3406_thermal.c        |  2 +-
+ .../intel/int340x_thermal/int340x_thermal_zone.c   | 13 +++---
+ .../int340x_thermal/processor_thermal_device_pci.c |  7 ++--
+ drivers/thermal/intel/intel_pch_thermal.c          |  2 +-
+ drivers/thermal/intel/intel_powerclamp.c           |  2 +-
+ drivers/thermal/intel/intel_quark_dts_thermal.c    |  2 +-
+ drivers/thermal/intel/intel_soc_dts_iosf.c         |  2 +-
+ drivers/thermal/intel/intel_tcc_cooling.c          |  2 +-
+ drivers/thermal/intel/x86_pkg_temp_thermal.c       |  6 +--
+ drivers/thermal/kirkwood_thermal.c                 |  2 +-
+ drivers/thermal/pcie_cooling.c                     |  2 +-
+ drivers/thermal/renesas/rcar_thermal.c             | 10 +++--
+ drivers/thermal/spear_thermal.c                    |  2 +-
+ drivers/thermal/tegra/soctherm.c                   |  5 +--
+ drivers/thermal/testing/zone.c                     |  2 +-
+ drivers/thermal/thermal_core.c                     | 23 +++++++----
+ drivers/thermal/thermal_of.c                       |  9 +++--
+ include/linux/thermal.h                            | 22 +++++-----
+ 43 files changed, 145 insertions(+), 162 deletions(-)
+=2D--
+base-commit: 653ef66b2c04bcdecaf3d13ea5069c4b1f27d5da
+change-id: 20251114-thermal-device-655d138824c6
 
-Without seeing the code I can already imagine how this would feel like a
-hack, so I agree not to go that way.
+Best regards,
+=2D-=20
+Armin Wolf <W_Armin@gmx.de>
 
-> > diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-> > index d5ebe6ea0acb..8225aae43e3b 100644
-> > --- a/drivers/gpu/drm/drm_atomic_helper.c
-> > +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> > @@ -1341,9 +1341,13 @@ disable_outputs(struct drm_device *dev, struct drm_atomic_state *state)
-> >  {
-> >         encoder_bridge_disable(dev, state);
-> >  
-> > -       crtc_disable(dev, state);
-> > +       if (!dev->driver->crtc_early_on)
-> > +               crtc_disable(dev, state);
-> >  
-> >         encoder_bridge_post_disable(dev, state);
-> > +
-> > +       if (dev->driver->crtc_early_on)
-> > +               crtc_disable(dev, state);
-> >  }
-> >  
-> >  /**
-> > @@ -1682,9 +1686,13 @@ encoder_bridge_enable(struct drm_device *dev, struct drm_atomic_state *state)
-> >  void drm_atomic_helper_commit_modeset_enables(struct drm_device *dev,
-> >                                               struct drm_atomic_state *state)
-> >  {
-> > +       if (dev->driver->crtc_early_on)
-> > +               crtc_enable(dev, state);
-> > +
-> >         encoder_bridge_pre_enable(dev, state);
-> >  
-> > -       crtc_enable(dev, state);
-> > +       if (!dev->driver->crtc_early_on)
-> > +               crtc_enable(dev, state);
-> >  
-
--- 
-Regards,
-
-Laurent Pinchart
 
