@@ -1,136 +1,120 @@
-Return-Path: <linux-renesas-soc+bounces-24882-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24883-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D857C7482D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Nov 2025 15:18:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51AC1C749BD
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Nov 2025 15:39:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B2E3E4E8701
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Nov 2025 14:07:53 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 4A41F4E8794
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Nov 2025 14:33:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D9D4372ABC;
-	Thu, 20 Nov 2025 14:07:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1FD7123C4FD;
+	Thu, 20 Nov 2025 14:33:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NX3Izstt"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rwL7wWdI"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFF463BB4A
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Nov 2025 14:07:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529BB1DE8A4
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Nov 2025 14:33:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763647671; cv=none; b=moWnhHRvVgKVI0wNOvz6DHP0kbfpG/aT0jGYvVLQq4Wh8YrClRGqhuF7c3RjKm9yzISYehSRfUTqI044Ai3u6Y8rAoEdOPWfFAz3NUpLfzK5IaNhjSVOMYszbkradYn1FO913gn9NGRRhMI9Ng8oULCEVWrvrCPpwwL7fDGJIDI=
+	t=1763649187; cv=none; b=Kai2wzUPYMjs7EGDk4adr5V5ruFj2IGP8/5Tbdnq2Zm1sSzDQxdeEUUD73TJb2KW9kiXpZTH/omJpXzbXwrhdcf0oNu4fYtiK0MALlnsorpDuocfItCrouK3+Eb4AdbvjzBcsVsOZ+M8+AyX/XABHR4fbXUBTGdNMkfxfuWvtHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763647671; c=relaxed/simple;
-	bh=zPjSZ94CNLG87Co8dKmzNKmFn74ftGXglxtJ38De2DE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DUpWNt3p+K7vA1E7GYBn1qj0JZeYqt8bo1jXPsogP9lTy4BewMb/J0UeR3dknYf+yAzuAojh8V8zTr2R4FX/4KlT95o7jjiW5M7U7PCa/v6bFmw7FueQ8O78b0Zd7uuDRacYVCf0KoK6IsqTRqO9ucY0m7YqCWspgWVQnTpPXAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NX3Izstt; arc=none smtp.client-ip=209.85.128.178
+	s=arc-20240116; t=1763649187; c=relaxed/simple;
+	bh=g94W2Q/Kh6Xh7xJQTHuKAVhkV024rb3AUOYTPf2JMdQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=j00AVJgdufNqLG6d1Wg0sI9Ae74XbCTsCQHp6zTVjfYv315RYw+qihdllDfB4P3V9KeWzJ5HJaGqBE1hpKQcTijGHwzUveQzlo/usMk7rBwzJzDcBLcb80iTuo5KI+Mjsgp28Dii6N1HYxeljWcLct7I2uidKa92X95Pv3Hdzug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rwL7wWdI; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-7866375e943so7585607b3.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Nov 2025 06:07:48 -0800 (PST)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-477a219dbcaso9359945e9.3
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Nov 2025 06:33:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763647667; x=1764252467; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zPjSZ94CNLG87Co8dKmzNKmFn74ftGXglxtJ38De2DE=;
-        b=NX3IzsttJ2N8kzvOIqZtTm7iycWOZycBKN5UrApTvqrZbdjSOTuy9mxA29s2WEAgoI
-         mBb88kq990yA49Fw/8TmtEBESdDHrQWFSMKcUsN8V0nY3/x1KVwJBCX+5SzHrIE/YwH+
-         EXG6qHgDTGnOp0X5YTs1ND+1FV9oGTgG99PXJDPw/ozWJdkhCl4UhxsVu00jnWqZ65PC
-         zbobKw5wRgxaDZi7wi1zW4o9tT39LAe744EXRZqEmGhFZTVzGYS28z9j1TyO/HAZCfWi
-         S6zeqeYDg1Vk4JX9UqHRbLEGddxD+NTnEmQRwgp1m4FsW0KPZ3EEIo+LRFuu9SQSmmrZ
-         +cbw==
+        d=linaro.org; s=google; t=1763649184; x=1764253984; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tjRZENQ+4nAVbqIuxdQaWCBPLWKLGcvWPo37O81CXX0=;
+        b=rwL7wWdIeGJ/bWutTMbSJYCelDrPrMNqMljH5M3WJzYd7pwQVd4LBKlB1pit4MyEJs
+         i8xVAfhepbECjsvhK/cQefgx/UDSLC0Cem3WZ30Ijt9fOZ9RyjibHMAiXNSmqdUU/Cul
+         ctQcgBcwjiTvWe95Ec7KGsuZ67pQxQG+WGEhJmHCSO2EMK8aItWJ+v4VyooeWNVLfYeP
+         dNc8AXGw1FvHw73RnckLNufcelH9ei3Vc1iTyoLabANTFD78itLxzTt0S/UAKg6d9Rqc
+         Y/ybG6gLC4KEzVxGBQmWQCAsQZG8d6QAJFxgxOIsKB8NneelfJSZs6ap8v8eb+mf0GFb
+         bLuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763647667; x=1764252467;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=zPjSZ94CNLG87Co8dKmzNKmFn74ftGXglxtJ38De2DE=;
-        b=Co0yrkVsw2v0tafyORjPX/eH0s3NHwfF5j+KckzxpuNrkwsxvQiZtVTQ1CDVyPfCSo
-         XbOiDB18pKiOyfhCAGNPfVk6ntVEA+jIEZANB6Z7XyTCVtCmQP8QzdVQPq5DH41WQkFT
-         6bl7zu/O5L78CSCOFB931KVFkUC0ChL5u3/UANGlYIKpdIP835L1R6fc3E/RNgKi5sfs
-         1AjSMw5O+oF0yAF+xk0AN8gQNuYDsoaCF73SqaK6m0zNnsiqCn5tHvx4kssv44n96u1W
-         tqBnKxxkCnudSGzyR3gh8mdPVpNmZVeT+ihtA8vGsnGJve+rQh9JQFr8oRqeQHhbbUvJ
-         AKYw==
-X-Forwarded-Encrypted: i=1; AJvYcCXV3wMG+ooEU7UWypQjPDfZpG2/u3jAmWRQUxEVHSzJvv0vMuK+pf7luQg4L7TyMCmldc9dhbhl74JESwIJGlLCuQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzM8xfbEmpNR7UPtwzdMZ0IzE8j1AosD6EFxMDrvBonWSznCMxK
-	X484pEd0N1UGfKWtQyLMBKfbPKroZvAOEGgzQJeDahH/mDrhQMdJv/yYLI6KtWGp4n2y/VH4909
-	LvOz3cTcOE01pGrAe3kE3aRgLrxICWr5XQat+BGtZPA==
-X-Gm-Gg: ASbGncsL/4dGmGnUo0Za3YR1HD7Cq8rmbrmoiajchnRMZthC0032dFleucG+T8tT52M
-	k36zoXlewKfgZYAff61h2Es5c4b/ms+A1psUKzpOzCVR3kOadEodYcmCQF8JHDXCWx47Iy7jeuH
-	3Fgh5QCorb/LUMQCSrYTWBYCRxuCb9DS6D2K8BMkuenVXmslYs/6FfWbiPiBwRQY4DwFQz8Hu0X
-	ZNW+aTrTswFg9FtsFHunpyrmrt+3wtbwM7dm3Z1MaDOZ1au9SL23a+H2fpGtNf6hDoWlZw=
-X-Google-Smtp-Source: AGHT+IHvMQfjnGMOjW7vW3sZWEW8qjVMXpKxefI37CvUYXCFXEROenQqfDOoQIoeIU/ss+8Pk88rI7K0bbXf64s1ZJ0=
-X-Received: by 2002:a53:d001:0:b0:641:f5bc:68d9 with SMTP id
- 956f58d0204a3-642f7a682f2mr1803616d50.70.1763647667453; Thu, 20 Nov 2025
- 06:07:47 -0800 (PST)
+        d=1e100.net; s=20230601; t=1763649184; x=1764253984;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tjRZENQ+4nAVbqIuxdQaWCBPLWKLGcvWPo37O81CXX0=;
+        b=oDLTWV4IiZXRqJtNOe66Ce0W2e9C7XG4NXC7Pds2SVWIb6crM8pER99MxM+K/LLzzz
+         wy+LpNUxctabXpz5vgh5DqSS8Rozm6bTxv4kDBaoQnRZCxbrfbXpDaTu6PJoK1/yRCpf
+         MUPyVZzBqhe/6FRfbgxEwOjy03HZw7FIs5yGgIhISj1Wza5Xv9W+sJSzbzeheN2EmCCk
+         SF+OYkly0uWb/9SybdBdj+F3EsSCDnfGc0e8GRe/8s/WJ4GQUkUpgvPL2uvISciUvcFt
+         LwGzL4X9gkf0NOeBRVk1gesMRZnlUfM74FwMtyplHxtPxoobuk6eTn28lb1czzw1N21+
+         y4Cw==
+X-Gm-Message-State: AOJu0YyjUlrmYMOhuHb/MGIUsSjFs9dl6pMC0GXyQQ05hAQNRiXLU46V
+	BpPR7TolcsddBjGYW2NN98EtFPENDBn6M3SdGvYt8Cnnnf3XdOh55G872WKDTcCtKkHN7cTSJw8
+	uu5NcJvA=
+X-Gm-Gg: ASbGnctu+L+OKqHXqRufBTwvgIghE8mybRqhAW/v3Q1n6q55q1O9aI6ZzCNnJhDEgOl
+	B2amgx8t9SHEGCb1topqmqGmIBr+B9brU+FxyORCKwXlRJkqDRt3Oxlr8inlGscONtxGZJ6cWg4
+	fmL9l8L5/zKvBQ9UqWW615yfmAxT9kYGF3UVi4aN6K3ttO1PwJw13YE5YmfT00vaeL5ga0nm/hR
+	MsBSI9QQY0UEj2anR1osk/gWENyj+2L7UhJyHPY4wWsQpNmoJ5m2UOf6DqcPkZW0GaoWpC+Gsfv
+	aPrUPJOoYCrWcV7dsuyHskYk/kRvXm5AO31eCm+vY0QRy2cz7JS2THvnCFP894e6MXp9NVdBPSc
+	BVdeOu/7uceNh8eOetY3Rt4tEweHdbvxGduxMuUSuvO9AaTkKN7jbAEaDMe7FweYY6VixPz2Tjn
+	1xMQQGJCwA9lYupxnkwHKaFn7HodcjfOh8Y+PQTmrAMkqzNHaXh/jfhmkGr+3KavALqg==
+X-Google-Smtp-Source: AGHT+IFrm7f3D4ZpMOXc9Qkx58CciFrYbEpo9cBF72r6dlhpL8LKHFoMnR3Nqr9ZhUCz2EUoKnZBLQ==
+X-Received: by 2002:a05:600c:46cb:b0:477:7b16:5fb1 with SMTP id 5b1f17b1804b1-477b9dc06d4mr31332835e9.7.1763649183596;
+        Thu, 20 Nov 2025 06:33:03 -0800 (PST)
+Received: from ?IPV6:2a05:6e02:1041:c10:37e6:ed62:3c8b:2621? ([2a05:6e02:1041:c10:37e6:ed62:3c8b:2621])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-477a96a58c5sm68949695e9.0.2025.11.20.06.33.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Nov 2025 06:33:03 -0800 (PST)
+Message-ID: <c9166508-88ce-471b-95f1-65a6bd5152b3@linaro.org>
+Date: Thu, 20 Nov 2025 15:33:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251118-mcde-drm-regression-v2-0-4fedf10b18f6@linaro.org>
- <20251118-mcde-drm-regression-v2-3-4fedf10b18f6@linaro.org>
- <20251118150128.GB23711@pendragon.ideasonboard.com> <cncl6nwbr6fu3nvhz2y34ou4geqzo7hjf3wpukmm4t6utvygor@t2v4smey5ful>
- <CACRpkdYh9nSBtqU_8w5gnkWOc+Dw7fW3tPinm6JjfXMbdEJOjg@mail.gmail.com>
- <5zo76nnejrinmf6snaezld5ylfvk266bwyxg3phdhtg74z43pu@kub3r7tvz7vc>
- <19fc5a8e-999c-46a0-b755-0bd09fe84d92@ideasonboard.com> <20251120024523.GI10711@pendragon.ideasonboard.com>
-In-Reply-To: <20251120024523.GI10711@pendragon.ideasonboard.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 20 Nov 2025 15:07:32 +0100
-X-Gm-Features: AWmQ_bkTm3pm4AZxXZawzpHvNOqx9Ph_uoWV_Jgh7iWmnUYFQI-EXzxFar9QfVk
-Message-ID: <CACRpkdbE0VXLF2Gui6WRGke+Dt=GQLqDDebRJ-ug-rC4NO0UAg@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] drm/atomic-helper: Add special quirk tail function
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Maxime Ripard <mripard@kernel.org>, 
-	Marek Vasut <marek.vasut+renesas@mailbox.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Aradhya Bhatia <a-bhatia1@ti.com>, Dmitry Baryshkov <lumag@kernel.org>, dri-devel@lists.freedesktop.org, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] thermal: rcar: Convert to DEFINE_SIMPLE_DEV_PM_OPS()
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
+ Lukasz Luba <lukasz.luba@arm.com>
+Cc: linux-renesas-soc@vger.kernel.org, linux-pm@vger.kernel.org,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+References: <ee03ec71d10fd589e7458fa1b0ada3d3c19dbb54.1763117351.git.geert+renesas@glider.be>
+Content-Language: en-US
+From: Daniel Lezcano <daniel.lezcano@linaro.org>
+In-Reply-To: <ee03ec71d10fd589e7458fa1b0ada3d3c19dbb54.1763117351.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 20, 2025 at 3:45=E2=80=AFAM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
+On 11/14/25 11:50, Geert Uytterhoeven wrote:
+> Convert the Renesas R-Car thermal driver from SIMPLE_DEV_PM_OPS() to
+> DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr().  This lets us drop the
+> check for CONFIG_PM_SLEEP, and reduces kernel size in case CONFIG_PM or
+> CONFIG_PM_SLEEP is disabled, while increasing build coverage.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
 
-> > But I digress. I think initially we should just look for a clean fix fo=
-r
-> > the platforms affected:
-> >
-> > - Add the implementation into the drivers?
-> > - Add helpers to the core?
-> > - Add a flag of some kind so the core can do the right thing?
->
-> drm_atomic_helper_commit_modeset_enables_crtc_early() would be more
-> cumbersome to implement manually in drivers as most of the functions it
-> calls are not exported. drm_atomic_helper_commit_tail_crtc_early_late()
-> shouldn't be difficult to implement in the MCDE driver.
+Applied, thanks
 
-But the second patch patch adding
-drm_atomic_helper_commit_modeset_disables_crtc_late()
-would be needed for symmetry.
 
-> > I made a quick test with the flag approach, below. It's not many lines,
-> > but... Ugh, it does feel like a hack.
->
-> Without seeing the code I can already imagine how this would feel like a
-> hack, so I agree not to go that way.
+-- 
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
 
-It seems we cannot reach consensus on a regression fix that doesn't
-require large re-architecturing, so I'll go ahead and propose a
-revert instead, it's the only sensible thing. I hope nothing breaks
-from the revert...
-
-Yours,
-Linus Walleij
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
 
