@@ -1,145 +1,234 @@
-Return-Path: <linux-renesas-soc+bounces-24888-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24889-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1F2DC75270
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Nov 2025 16:54:55 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B103C75564
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Nov 2025 17:26:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id ECE03361E10
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Nov 2025 15:48:58 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 8485C344DE4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Nov 2025 16:20:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C2FC376BEF;
-	Thu, 20 Nov 2025 15:46:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B58134572E;
+	Thu, 20 Nov 2025 16:20:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b="bYupM6gz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NfSDP/Df"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 636AB376BC7;
-	Thu, 20 Nov 2025 15:46:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.120.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51040309EFD
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Nov 2025 16:20:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763653605; cv=none; b=NdwIFDnX2FejfDeOxs71vM9ZEYeAS8qPtOKPcGaQihBa21t5NmDwQATH244ixmKXD6VIWncZDEIolVhKQ+SMhPxWPfoFDJH0gZCpYJ0RHb/od8aQKYzDmzzSNq8erqME6ooSwaAHetmWeG8bo8bWsaPzi6sErzIUA7OCrmXn5cM=
+	t=1763655600; cv=none; b=QO8F5bLv4AgmXj421pJt0GdXfuBsOVNZanqJpryFOb5P4ov3OuvcRZ+GI40TAnmyIDpfAzfjw+lIb6eB/xTSH08zdrQnG/BPIOiIth+NKgAxv2SjFFuJ/0nEJKSM0rIAZEgcsLAx+DI6FBQDDM+aSGLNtOY++A2Cx6+G0JZXZVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763653605; c=relaxed/simple;
-	bh=w7egqwPdkyRdAP9QQTS3eajdxLTnnPbZmLlB1b+bgCE=;
-	h=Date:From:To:Cc:Message-Id:In-Reply-To:References:Mime-Version:
-	 Content-Type:Subject; b=jG94DUEtGVg8bnJzDANZr6EQr+BB9Vpv/PgiMopLJ2AN9Ipw9u/PfS3VIPa2mmP3vM0R+XfageCnAWY3d2UsK6V+FXCHW9Fkh418AMZ35arY897ZbjSsE7rKIOgjoMlP7PJmdGfNNWBhVXDmoov+uWlY1mVEMaETekQP80jFIiY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com; spf=pass smtp.mailfrom=hugovil.com; dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b=bYupM6gz; arc=none smtp.client-ip=162.243.120.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hugovil.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
-	; s=x; h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
-	:Date:subject:date:message-id:reply-to;
-	bh=F5kUcCCA3MnU06v/xhs6ElwS8RfrplKyFjcTm1nO0v4=; b=bYupM6gzzW9+NphKdhGS+z+ZJw
-	fK+dOqOh0/PKpHF0ridnKt3jZ0Tm8l6jEgiHLzstvWlyI9o/65BB5FAVm2ubMbR/j0gAPCnw02kwq
-	rK84VhNVaWAhksu3+kZOyzWJO/fdZL5olY4xc2ob+Uy24+ZMeEAgSuXxKmyoDWr3sH8I=;
-Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:48600 helo=pettiford)
-	by mail.hugovil.com with esmtpa (Exim 4.92)
-	(envelope-from <hugo@hugovil.com>)
-	id 1vM6rf-0005hZ-MY; Thu, 20 Nov 2025 10:46:34 -0500
-Date: Thu, 20 Nov 2025 10:46:31 -0500
-From: Hugo Villeneuve <hugo@hugovil.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Chris Brandt <chris.brandt@renesas.com>, Michael Turquette
- <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Biju Das
- <biju.das.jz@bp.renesas.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Hien Huynh <hien.huynh.px@renesas.com>,
- Nghia Vo <nghia.vo.zn@renesas.com>, linux-renesas-soc@vger.kernel.org,
- linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org
-Message-Id: <20251120104631.b60230d06055a2611ed67760@hugovil.com>
-In-Reply-To: <CAMuHMdWeZsrE=pVroosOg6y-pjsE9CqyoBi5P_Ja5kZ0fgbY4w@mail.gmail.com>
-References: <20251119022744.1599235-1-chris.brandt@renesas.com>
-	<20251119022744.1599235-2-chris.brandt@renesas.com>
-	<20251120094743.48a0db4ead55c3968cb0cb3d@hugovil.com>
-	<CAMuHMdWeZsrE=pVroosOg6y-pjsE9CqyoBi5P_Ja5kZ0fgbY4w@mail.gmail.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1763655600; c=relaxed/simple;
+	bh=8f5zLlMjNGjBzd/6entD5aIPPBWnkaQUfjw9Eq1Jy14=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WM/o8inAiRoBaEkkvwROgeow06ZHMVU0TU6MZL4CNtZgy5PQVfGx6PEsscK+rUfggQEJu5ZQ1IQg6R5JAQnIU6mCty2R9FqzJgn35us4vXU4GkCLcc3v6FStewPc+LW3oAaFwGE+BRDmpSSHJlzObIJtLKV3cY4GGfOywBF6DiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NfSDP/Df; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7714C16AAE;
+	Thu, 20 Nov 2025 16:19:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763655600;
+	bh=8f5zLlMjNGjBzd/6entD5aIPPBWnkaQUfjw9Eq1Jy14=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NfSDP/DfuXZMEVxiD6DA0MVI4ci/ceTvXf7ANKsg/4brL5lc/n62xphZQjONgqtFK
+	 2l0Oz69Uy4HDwy+x0d8eawS03z+mApQ2uN/R754ZYQ3IWl5CmO4rOod4j4wc8Pxzd0
+	 m8o6SB+8Pn3YZ2hovLU/EWZz/c8JP+IFh5EhAEspOa9kQNU7g+aqu68fv4a9nwwp5c
+	 QCCjln+diXsF7U81Xrvg5+2+YM81kFz6mfxeulV11UYE08YLaXyYF4X1zpYaN4j0mH
+	 3IXaScSTCbFVqMLj5WqiwjuGqqQF0aSbge7riY/i7VeRDeDeqLuM3KR8kXYiVohkcX
+	 a9jvuivuDlDNA==
+Date: Thu, 20 Nov 2025 17:19:56 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Marek Vasut <marek.vasut+renesas@mailbox.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Aradhya Bhatia <a-bhatia1@ti.com>, Dmitry Baryshkov <lumag@kernel.org>, 
+	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] drm/atomic-helper: Add special quirk tail function
+Message-ID: <tcu23ayvadb3vtz6vksrrkw6rkngofxnhokaa4khat2grnqgcu@ttmqg6illoz7>
+References: <20251118-mcde-drm-regression-v2-0-4fedf10b18f6@linaro.org>
+ <20251118-mcde-drm-regression-v2-3-4fedf10b18f6@linaro.org>
+ <20251118150128.GB23711@pendragon.ideasonboard.com>
+ <cncl6nwbr6fu3nvhz2y34ou4geqzo7hjf3wpukmm4t6utvygor@t2v4smey5ful>
+ <CACRpkdYh9nSBtqU_8w5gnkWOc+Dw7fW3tPinm6JjfXMbdEJOjg@mail.gmail.com>
+ <5zo76nnejrinmf6snaezld5ylfvk266bwyxg3phdhtg74z43pu@kub3r7tvz7vc>
+ <19fc5a8e-999c-46a0-b755-0bd09fe84d92@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 70.80.174.168
-X-SA-Exim-Mail-From: hugo@hugovil.com
-X-Spam-Level: 
-X-Spam-Report: 
-	* -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-	* -0.7 NICE_REPLY_A Looks like a legit reply (A)
-Subject: Re: [PATCH v5 1/2] clk: renesas: rzg2l: Remove DSI clock rate
- restrictions
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="wopmgmmayr32ufyd"
+Content-Disposition: inline
+In-Reply-To: <19fc5a8e-999c-46a0-b755-0bd09fe84d92@ideasonboard.com>
 
-Hi Geert,
 
-On Thu, 20 Nov 2025 16:18:49 +0100
-Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+--wopmgmmayr32ufyd
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 3/3] drm/atomic-helper: Add special quirk tail function
+MIME-Version: 1.0
 
-> Hi Hugo,
-> 
-> On Thu, 20 Nov 2025 at 15:47, Hugo Villeneuve <hugo@hugovil.com> wrote:
-> > On Tue, 18 Nov 2025 21:27:43 -0500
-> > Chris Brandt <chris.brandt@renesas.com> wrote:
-> > > Convert the limited MIPI clock calculations to a full range of settings
-> > > based on math including H/W limitation validation.
-> > > Since the required DSI division setting must be specified from external
-> > > sources before calculations, expose a new API to set it.
-> > >
-> > > Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
-> > > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > Tested-by: Biju Das <biju.das.jz@bp.renesas.com>
-> 
-> > > --- a/include/linux/clk/renesas.h
-> > > +++ b/include/linux/clk/renesas.h
-> > > @@ -16,6 +16,11 @@ struct device;
-> > >  struct device_node;
-> > >  struct generic_pm_domain;
-> > >
-> > > +enum {
-> > > +     PLL5_TARGET_DPI,
-> > > +     PLL5_TARGET_DSI
-> > > +};
-> > > +
-> > >  void cpg_mstp_add_clk_domain(struct device_node *np);
-> > >  #ifdef CONFIG_CLK_RENESAS_CPG_MSTP
-> > >  int cpg_mstp_attach_dev(struct generic_pm_domain *unused, struct device *dev);
-> > > @@ -32,4 +37,11 @@ void cpg_mssr_detach_dev(struct generic_pm_domain *unused, struct device *dev);
-> > >  #define cpg_mssr_attach_dev  NULL
-> > >  #define cpg_mssr_detach_dev  NULL
-> > >  #endif
-> > > +
-> > > +#ifdef CONFIG_CLK_RZG2L
-> > > +void rzg2l_cpg_dsi_div_set_divider(u8 divider, int target);
-> > > +#else
-> > > +static inline void rzg2l_cpg_dsi_div_set_divider(u8, int target) { }
-> >
-> > Maybe use:
-> >
-> > #define rzg2l_cpg_dsi_div_set_divider(...) do { } while (0)
-> 
-> I assume you are saying this in the context of the kernel test robot's
-> report?
+On Wed, Nov 19, 2025 at 12:41:52PM +0200, Tomi Valkeinen wrote:
+> Hi,
+>=20
+> On 19/11/2025 11:19, Maxime Ripard wrote:
+> > On Tue, Nov 18, 2025 at 07:10:47PM +0100, Linus Walleij wrote:
+> >> On Tue, Nov 18, 2025 at 4:44=E2=80=AFPM Maxime Ripard <mripard@kernel.=
+org> wrote:
+> >>> On Tue, Nov 18, 2025 at 05:01:28PM +0200, Laurent Pinchart wrote:
+> >>>> On Tue, Nov 18, 2025 at 03:36:05PM +0100, Linus Walleij wrote:
+> >>
+> >>>>> +/**
+> >>>>> + * drm_atomic_helper_commit_tail_crtc_early_late - commit atomic u=
+pdate
+> >>>>
+> >>>> Based on the function name, it feels that the nem commit tail and
+> >>>> modeset enable/disable helpers reached a point where we may want to
+> >>>> reconsider the design instead of adding new functions with small
+> >>>> differences in behaviour that will end up confusing driver developer=
+s.
+> >>>
+> >>> Agreed, and I'd go even further than that: we don't want every odd or=
+der
+> >>> in the core. And if some driver has to break the order we document in
+> >>> some way it should be very obvious.
+> >>
+> >> Is this just a comment on this patch 3/3?
+> >>
+> >> Or do you mean that Mareks new callback
+> >> drm_atomic_helper_commit_modeset_enables_crtc_early()
+> >> from patch 1/2 should go straight into the R-Car driver as well
+> >> and that
+> >> drm_atomic_helper_commit_modeset_disables_crtc_late()
+> >> patch 2/2 should also go into my driver, even if this
+> >> is a comment on patch 3/3?
+> >>
+> >> Both patches 1 & 2 have a lot to do with ordering, this is
+> >> why I ask.
+> >=20
+> > I mean, it applies to all your three patches and Marek's: helpers are
+> > here to provide a default implementation. We shouldn't provide a default
+> > implementation for a single user. All your patches enable to create
+> > defaults for a single user.
+>=20
+> Two users so far: Renesas and ST-Ericsson.
+>=20
+> > So my point is that none of those functions should be helpers.
+> >=20
+> >> We already have
+> >> drm_atomic_helper_commit_tail()
+> >> drm_atomic_helper_commit_tail_rpm()
+> >=20
+> > The former has 5 users, the latter 13. And it's already confusing enough
+> > and regression-prone as it is.
+> >=20
+> >> Does one more or less really matter? Maybe, I'm not sure,
+> >> but if it's just this one patch that is the problem I can surely
+> >> do it that way since we're only calling public functions.
+> >>
+> >> Pushing the first two patches would be more problematic,
+> >> because they call a lot of functions that are local to the
+> >> drm atomic helpers.
+> >=20
+> > I'm totally fine with making more internal functions public though.
+> While I generally agree with that, I still wonder if an implementation
+> in the core is better here. Perhaps a flag in struct drm_driver, instead
+> of new set of helpers.
+>=20
+> Moving this to the driver would require (with a quick glance) exposing
+> the following functions:
+>=20
+> crtc_enable
+> crtc_disable
+> crtc_set_mode
+> encoder_bridge_pre_enable
+> encoder_bridge_enable
+> encoder_bridge_disable
+> encoder_bridge_post_disable
+>=20
+> Not impossible to expose, but making a private function public does
+> require work in validating the function for more general use, and adding
+> kernel docs.
 
-Yes, but it was not to fix the warning.
-The report simply made me realize it was an inline function, and I was
-not sure if it was the right way to define an empty function/macro,
-especially in a header file.
+Those are pretty trivial to document though, compared to document how
+the new variants differ from drm_atomic_helper_commit_tail() and
+drm_atomic_helper_commit_tail_rpm(), and then validating that it does
+indeed stay that way.
 
-> Static inline functions offer more safety. Just s/u8/u8 divider/ should
-> fix the W=1 issue.
+> Handling this in the core would act as documentation too, so instead of
+> the driver doing things in a different way "hidden" inside the driver,
+> it would be a standard quirk, clearly documented.
 
-Agreed.
+We've had the "let's not introduce helpers for a single user" rule for
+like a decade at this point, because it simply doesn't scale. Plenty of
+drivers have opted-out for very specific use-case already. I'm not sure
+why we should create this precedent.
 
-Thank you for the infos.
+> Also, I'm also not sure how rare this quirk is. In fact, I feel we're
+> missing ways to handle the enable/disable related issues in the core
+> framework. In these patches we're talking about the case where the SoC's
+> DSI host needs an incoming pclk to operate, and panels need to do
+> configuration before the video stream is enabled. But the exact same
+> problem could be present with an external DSI bridge, and then we can't
+> fix it in the crtc driver.
+>=20
+> So the question becomes "does any component in the pipeline need the
+> video stream's clock to operate". But then, it doesn't help if the crtc
+> output is enabled early if any bridge in between does not also enable
+> its output early. So it all gets a bit complex.
+>=20
+> And sometimes the clocks go backward: the entity on the downstream side
+> provides a clock backwards, to the source entity...
 
--- 
-Hugo Villeneuve
+Yes, you're right, this is why it's so fragile. Do you want to create
+the test suite to check that all combinations are properly tested before
+reworking the whole thing?
+
+> But I digress. I think initially we should just look for a clean fix for
+> the platforms affected:
+>=20
+> - Add the implementation into the drivers?
+> - Add helpers to the core?
+> - Add a flag of some kind so the core can do the right thing?
+>=20
+> I made a quick test with the flag approach, below. It's not many lines,
+> but... Ugh, it does feel like a hack.
+
+Because it is.
+
+Really, I don't get it. I gave you a free pass to do whatever you wanted
+in your driver. It doesn't add any maintenance burden on anyone. It
+doesn't risk regressing other drivers in the process. It doesn't come
+with any testing requirement. It doesn't even have to be reviewed by us,
+really.
+
+Why do you argue for a more bothersome (for everyone) solution?
+
+Maxime
+
+--wopmgmmayr32ufyd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaR8/rAAKCRAnX84Zoj2+
+dh3oAYC11UtpTMG6KDGtdCP75AeMIOGISGMhZbRGjJsyKe0tCTwwaOmZtoUSIPsR
+9TKKwioBf1zpb/qajz0Jc7SmiA4yZXjZbpwhAqJSArIPmfEJyEHSRQ3uUd//KQkN
+cgxrbIqvlw==
+=KoYO
+-----END PGP SIGNATURE-----
+
+--wopmgmmayr32ufyd--
 
