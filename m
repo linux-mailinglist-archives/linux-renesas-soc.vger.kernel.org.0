@@ -1,99 +1,95 @@
-Return-Path: <linux-renesas-soc+bounces-24988-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24989-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7296C7ABE2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Nov 2025 17:11:33 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id A913EC7ABDF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Nov 2025 17:11:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id EA0FD4EC2B1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Nov 2025 16:09:32 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 9C7CC4EC077
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Nov 2025 16:09:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48FCB34FF53;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EA9F34FF58;
 	Fri, 21 Nov 2025 16:08:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WGS4Bcj0"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IJp0x6Oc"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC3C234D4E8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3D8134D4F9
 	for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Nov 2025 16:08:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763741335; cv=none; b=EU5izHxo+kPszUWjt5yPfZthrhOzRAiwDgjrOcGXzAu4Vs7ZTUZvTYPlfMtbWBPCKv01sHnX9ckg6t4IFKbMBlYWXRb+S33cIgiEIi0oUC8n6fSxe93w+C/AIOXo0z6B0KvhulZqpSJ354GL/H4IoO8u7is5+Yt6xaBhZtl646g=
+	t=1763741336; cv=none; b=ilCy8O3UZ4OtwUHCjuFM5ADz2urZHoTkL5TGSkDSNUrJ2hWW7VT1oo7Ov9AlGmn+WKEtB9WQve5XiZ4jpqxNk8A1dlUtZ79v3iHu8MQXntmmm43ecJ864UnclgNFcuuz0X6Y0WMypQ9v3iuEDm/cn3Ztlhc5/ShHr/QdQr3rsDc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763741335; c=relaxed/simple;
-	bh=7ti1LkaJ7GEjSiw/Kxv1tDD3JzJyQQoABu+37FbuNnk=;
+	s=arc-20240116; t=1763741336; c=relaxed/simple;
+	bh=+t6QRXttRpX5nce6uZuXOYAkO7xTEcrDg1qTPVsuBuk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fAYr6CPMaRxlSH5GbSPoEID6hsIZHXLzIj0r+gboCF9pfUO/3kjTEcibPDdyWHz1auMVXqZzkZ2jRHVfFu2gqjJ3ZQy5cMhPEFkb28J69wtasSYlxqCZzFsuO9XxKc9WFjWO0NubFG+cgPIPXa7E5i95OSvs9cflu2BP8+WmmcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WGS4Bcj0; arc=none smtp.client-ip=209.85.128.46
+	 MIME-Version; b=RI8u1Z4O4/7x5uIaUEpQoLPfllSjxZiTQ4WcvwCuesdv3s1nDRTJucr9DqIm/764rtMXARZgn8sc/9FNUsTLB/qpTZ7fTt1xYrltMcrjCdHsSiqG/eO0QgKaQzZP5KtbE7KlwjCRZQkzKJhk7vOIvK2nygfEsrnrN+f6I9gtyHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IJp0x6Oc; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-47789cd2083so13689345e9.2
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-47778b23f64so12589945e9.0
         for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Nov 2025 08:08:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763741330; x=1764346130; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1763741331; x=1764346131; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=U2wLPwX/66fvOGQrPKIlcFv7sBz4/0jky4dTNMZ6toQ=;
-        b=WGS4Bcj0ocUYIrwbZzIR2lcZ3VpQmX7THfMzEP9W8mPp7nkIk/CSupDCl01MFXwY/z
-         B6+gGaS1bTzCZv2iYUFp3LSI+HZaa13QQDpus0qzJNY4cd0AMpKeJxK6ftV84mnOygbY
-         vJ6LKrAayroq0fdtbs+VFPQluC6fJFAMdNC3a/QrCmeB6IPg20MSeYFeA/eEGashHDZl
-         efGmh+5QQoZ2mMjcJuiz3xERj5KQrT2FEF4oS9CIe8zW2M7r9pST7RvdTgNh19IHmk2T
-         j+Fqf32hWNKXnTMU+1uxCscUTpKWpyCmBg2cWnuPq6M78l99h3Un5vFvQ63suD+bR8fF
-         WoIQ==
+        bh=8o2eYAk4+T2MvJcophYUy9RZhVssXZ1GeiS/j2h3xk8=;
+        b=IJp0x6Oc2nW+PGonCRDevst2Z7j9C/SyOawKu2FLVDmPzGB7Etga9VuaUHR/haegKf
+         xk/6KPNA9aWEknSLoOPxgMiP6eYrV2FBjBfJ2baJYG0kC9sGmw289C9k24N1roL+t2kQ
+         d/aKB3yoEo86TKptUUoWzCSv1z8t5hnu8cZWXd0mln+F/9GtDxd0ciIECxJuOgtIch2S
+         KG+1LYIJneal4YxKikQJ7jiD7PHIl9bkrBEyUsZ0Yos+YuRYf1WBmfCji+FAH+sn8bC2
+         g4k1rrH5DEBTT1TQ/pfznyigL5NqOR6qM3mF4cHB+puGggqoQC+hvCYIC+H4KFMkKvgQ
+         3a8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763741330; x=1764346130;
+        d=1e100.net; s=20230601; t=1763741331; x=1764346131;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=U2wLPwX/66fvOGQrPKIlcFv7sBz4/0jky4dTNMZ6toQ=;
-        b=HkMDhtfclIMVwu3Nf/0F2Gg+/N8IItvic6c4XyTbxnAW5Nv21hSWsq9DECGFYAsY7b
-         OWXsaXAOGMla+UZfkIUeYbLMGElt7dW/SioUy+K/KbgE5UsKbgM4SVIkOBLJl9EbmXga
-         lbaStQqFH3BITbQ9EZMuTncwExnSPOGY3RroBAxL3uONgRW0Z6MoJba7qfvHeQxVyvtY
-         KFeki/2JpVWfVgVFs20DvAAvXJS7sjuAabr2LxGLG2sY3u6/vMo1LRnCBuCBunijAW7+
-         Vzg2HD5JxBD/O9GkKuWSYZLyoBW6zR8xmhv35aYyYYt71MlZ9bu/1LBmxu4KsUw5afF0
-         y2+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWo2JwOYza0T5wEzRwHfZKrkY88ERc5JfCDgDlzr+rCeimhYDm1kYdQYSAuFsh2uabPNFJ+PJNOLM2IQ1MjY2VxFw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwUwkHGCC3Rlt30tocAAjCqSFsONve82d27OlLW6d+bOGME6kYX
-	RxpweOnzgQ2781RViaF49Qu8YQ7bu9ul8QlYJXFiqw2/XAw6hLoUTMqL
-X-Gm-Gg: ASbGnctku4I9fgn7aDzoIpYY26Lu6I6idBNmMzvZqLY218JW/SHMbT8qrz4BmhQOvpz
-	lRGYkXSl856jkUvuDsQBsk7h5les38tjj4nMCj+pm93tEjz3QGKB1KeYpU+IdLGy8++T78IpYOz
-	iPXhV4NhkGgW8qXEiYKRgqKvBARb9fuUazKFGU8lTDOHIAUaczjbQaGRsMXVFXMB8oKcu3L1FE2
-	y3uhXnOmXZiFpMz2rsH8dtGtLa02Lh314wzwZjPV/4tyRaP1/882rQSdet79PhdKnKzlTPybHMt
-	o5vH0z7HOXiBlUnAVXwLqa6WIwHZsbBscGiygW2czRnW/3Bhm10N+wQWH8/tR/n4q5tSxjdNH4F
-	Z4aFKpPqrfj6us1PbdntGd+nsIPAlDxg4tnTDG5XmvqR4Qo4BeulIK0LyUoAuxXvmGk8eMAeUJc
-	r30IbWTd1oQCcfdSIY663PtnKMRz+H3bWzMJpnLR5foHTqTLureiBMDwahFczz+PtHKunG5ZM=
-X-Google-Smtp-Source: AGHT+IG/KxHn9JP2lXt93n0uZ4RQ2Mm6QaQadKnh/31kgIK0jQLYlRDopxeF2kmsHVNusB/9ER1cmQ==
-X-Received: by 2002:a05:600c:a07:b0:477:a3d1:aafb with SMTP id 5b1f17b1804b1-477c115c657mr30075725e9.29.1763741330388;
+        bh=8o2eYAk4+T2MvJcophYUy9RZhVssXZ1GeiS/j2h3xk8=;
+        b=Be9iNzYDV+jRz3nvN/pPcBpxhJI0krqoLqzS/kFa2JovLS12SLK9F/OD1uVjw52bPl
+         2hhEkiilTparOubNk2mLwUYlJjoUo7rClVeJBk4uwuyL0c0dRuCKf154hpemZTqb1tr+
+         ZDD6zNs6KBTzG77yoRkRYW2BdhxQS5orfU3I2oVT2jcHzxGTxJzByauaKne8oLCVaN4f
+         APRwkQ+znEaHwyRv9ZuJJwFac9n9UjtnKT+eVxSCETinpxU4igqm0blCE6RPCOVfidx6
+         he64KlmjifvGMfF2UzRGWsk1pGC88bLX7Q0rHkAG5lhOm4+iSkW4j7FGlhLXUipnaga3
+         7U4w==
+X-Forwarded-Encrypted: i=1; AJvYcCUJX8/nVKG3DRv4oRjxgXzLMYciCMPhx39946pDba8jK6YKMrqlqOFLuKW13ZdViW+vOtp5mDvyFFFyc0l75vXgUg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzwXMS1+9c+WHfNBg6xpYFpwJO6j+2BQq/Fv77gGBeLY1iVF6Dd
+	XeK2obmK5Fork98FXrWbGOfHg8KXNl3cKzZIYXA4ECECnCQ8STfzCNY9
+X-Gm-Gg: ASbGnctPhWxoY4uadqluEquWmKoJr9C8a+M6qIbvbFjMjL9HJEvq1soox/mVlGhcpbl
+	dWEohwRBzqTkiGy6rbdyh3xmsfm6EptC6qq5YcuMWBvuvnq0UAPSOlh0NSpXeQpjPcyv1PeEe0a
+	n1LAOZrfiwYujBITKSY1CYK4Sg1gkE5zehe+ie29eJHvPOy3KtWqAjH8X67B23dfqBfyZ86e/4c
+	SaVPEJock/r662RAARPTOgVbeKGBch3+WgYIxxex7rQ4+KGZbugHix9j6dBzCiiGAQ36T1uyRck
+	xigvQT/uNHRXShUfEPex+COkVjGPAkaoW8evh5TNnopaShUis0vDQBZ1gGYdynAVftZ5Ir+DDRj
+	62Py2i1nRKCWvpdeF6LgxxVb1xodFay60qsERiVssrhmh31u6g9GP2lkXTHyr0QwLNa+5LQluKw
+	LYdA19e/BbLOhVxW6IG9LAOfqyxIGBP7QZp7ByT7IId/v/9IfWnq8eyZHdwR6t7lXq0LNG5yumt
+	i9jwiiV2g==
+X-Google-Smtp-Source: AGHT+IEJXgXSUSmmo2SsXVmfT6DnwKWByn13rXM7axdiuHfSioFwEpENFf28kMwD6HAfy6nncBRDDA==
+X-Received: by 2002:a05:600c:3b01:b0:477:54cd:200a with SMTP id 5b1f17b1804b1-477c110325dmr23471945e9.6.1763741330953;
         Fri, 21 Nov 2025 08:08:50 -0800 (PST)
 Received: from biju.lan (host86-162-200-138.range86-162.btcentralplus.com. [86.162.200.138])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477a9dea7fcsm89496195e9.8.2025.11.21.08.08.49
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477a9dea7fcsm89496195e9.8.2025.11.21.08.08.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 21 Nov 2025 08:08:50 -0800 (PST)
 From: Biju <biju.das.au@gmail.com>
 X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
+To: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Linus Walleij <linus.walleij@linaro.org>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Eric Biggers <ebiggers@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Luca Weiss <luca.weiss@fairphone.com>,
-	=?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= <nfraprado@collabora.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
 	linux-kernel@vger.kernel.org,
+	linux-pwm@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v8 07/15] arm64: defconfig: Enable Renesas RZ/G2L POEG interface
-Date: Fri, 21 Nov 2025 16:08:14 +0000
-Message-ID: <20251121160842.371922-8-biju.das.jz@bp.renesas.com>
+	linux-renesas-soc@vger.kernel.org,
+	linux-gpio@vger.kernel.org
+Subject: [DO NOT APPLY PATCH v8 08/15] tools/poeg: Add test app for poeg
+Date: Fri, 21 Nov 2025 16:08:15 +0000
+Message-ID: <20251121160842.371922-9-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251121160842.371922-1-biju.das.jz@bp.renesas.com>
 References: <20251121160842.371922-1-biju.das.jz@bp.renesas.com>
@@ -107,29 +103,149 @@ Content-Transfer-Encoding: 8bit
 
 From: Biju Das <biju.das.jz@bp.renesas.com>
 
-The Renesas RZ/G2L POEG interface is used in SMARC RZ/G2L EVK.
-Enable the driver for it in the default configuration.
+Add test app for poeg for controlling output disable through
+user space.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
-v8:
- * New patch.
----
- arch/arm64/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
+ tools/poeg/Build      |  1 +
+ tools/poeg/Makefile   | 53 +++++++++++++++++++++++++++++++++++++++
+ tools/poeg/poeg_app.c | 58 +++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 112 insertions(+)
+ create mode 100644 tools/poeg/Build
+ create mode 100644 tools/poeg/Makefile
+ create mode 100644 tools/poeg/poeg_app.c
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index dcdd4fcdc2a7..f2c28deb2283 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -688,6 +688,7 @@ CONFIG_PINCTRL_SM8450_LPASS_LPI=m
- CONFIG_PINCTRL_SC8280XP_LPASS_LPI=m
- CONFIG_PINCTRL_SM8550_LPASS_LPI=m
- CONFIG_PINCTRL_SM8650_LPASS_LPI=m
-+CONFIG_RENESAS_RZG2L_POEG=m
- CONFIG_PINCTRL_SOPHGO_SG2000=y
- CONFIG_GPIO_ALTERA=m
- CONFIG_GPIO_DAVINCI=y
+diff --git a/tools/poeg/Build b/tools/poeg/Build
+new file mode 100644
+index 000000000000..f960920a4afb
+--- /dev/null
++++ b/tools/poeg/Build
+@@ -0,0 +1 @@
++poeg_app-y += poeg_app.o
+diff --git a/tools/poeg/Makefile b/tools/poeg/Makefile
+new file mode 100644
+index 000000000000..669c914d9c98
+--- /dev/null
++++ b/tools/poeg/Makefile
+@@ -0,0 +1,53 @@
++# SPDX-License-Identifier: GPL-2.0
++include ../scripts/Makefile.include
++
++bindir ?= /usr/bin
++
++ifeq ($(srctree),)
++srctree := $(patsubst %/,%,$(dir $(CURDIR)))
++srctree := $(patsubst %/,%,$(dir $(srctree)))
++endif
++
++# Do not use make's built-in rules
++# (this improves performance and avoids hard-to-debug behaviour);
++MAKEFLAGS += -r
++
++override CFLAGS += -O2 -Wall -g -D_GNU_SOURCE -I$(OUTPUT)include
++
++ALL_TARGETS := poeg_app
++ALL_PROGRAMS := $(patsubst %,$(OUTPUT)%,$(ALL_TARGETS))
++
++all: $(ALL_PROGRAMS)
++
++export srctree OUTPUT CC LD CFLAGS
++include $(srctree)/tools/build/Makefile.include
++
++#
++# We need the following to be outside of kernel tree
++#
++$(OUTPUT)include/linux/poeg.h: ../../include/linux/pinctrl/rzg2l-poeg.h
++	mkdir -p $(OUTPUT)include/linux 2>&1 || true
++	ln -sf $(CURDIR)/../../include/linux/pinctrl/rzg2l-poeg.h $@
++
++prepare: $(OUTPUT)include/linux/poeg.h
++
++POEG_EXAMPLE := $(OUTPUT)poeg_app.o
++$(POEG_EXAMPLE): prepare FORCE
++	$(Q)$(MAKE) $(build)=poeg_app
++$(OUTPUT)poeg_app: $(POEG_EXAMPLE)
++	$(QUIET_LINK)$(CC) $(CFLAGS) $(LDFLAGS) $< -o $@
++
++clean:
++	rm -f $(ALL_PROGRAMS)
++	rm -rf $(OUTPUT)include/linux/poeg.h
++	find $(or $(OUTPUT),.) -name '*.o' -delete -o -name '\.*.d' -delete
++
++install: $(ALL_PROGRAMS)
++	install -d -m 755 $(DESTDIR)$(bindir);		\
++	for program in $(ALL_PROGRAMS); do		\
++		install $$program $(DESTDIR)$(bindir);	\
++	done
++
++FORCE:
++
++.PHONY: all install clean FORCE prepare
+diff --git a/tools/poeg/poeg_app.c b/tools/poeg/poeg_app.c
+new file mode 100644
+index 000000000000..4ff8e5c007dc
+--- /dev/null
++++ b/tools/poeg/poeg_app.c
+@@ -0,0 +1,58 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * POEG - example userspace application
++ * Copyright (C) 2023 Biju Das
++ */
++#include <stdio.h>
++#include <stdlib.h>
++#include <fcntl.h>
++#include <unistd.h>
++#include <errno.h>
++#include <sys/ioctl.h>
++#include <linux/ioctl.h>
++#include <stdio.h>
++#include <unistd.h>
++#include <sys/time.h>
++#include <sys/types.h>
++#include <poll.h>
++
++#include <linux/poeg.h>
++
++int main(int argc, char *argv[])
++{
++	struct poeg_cmd cmd;
++	unsigned int val;
++	long cmd_val;
++	char *p;
++	int i;
++
++	cmd_val = strtol(argv[1], &p, 10);
++	if (*p != '\0' || errno != 0)
++		return 1; // In main(), returning non-zero means failure
++
++	fd = open("/dev/poeg3", O_RDWR);
++	if (fd < 0)
++		perror("open");
++	else
++		printf("[POEG]open\n");
++
++	cmd.val = cmd_val;
++	cmd.channel = 4;
++	if (cmd.val == RZG2L_POEG_OUTPUT_DISABLE_USR_ENABLE_CMD)
++		printf("[POEG] user control pin output disable enabled\n");
++	else
++		printf("[POEG] user control pin output disable disabled\n");
++
++	ret = write(fd, &cmd, sizeof(cmd));
++	if (ret == -1) {
++		perror("Failed to write cmd data");
++		return 1;
++	}
++
++	if (close(fd) != 0)
++		perror("close");
++	else
++		printf("[POEG]close\n");
++
++	return 0;
++}
 -- 
 2.43.0
 
