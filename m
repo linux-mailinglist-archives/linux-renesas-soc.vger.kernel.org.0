@@ -1,86 +1,87 @@
-Return-Path: <linux-renesas-soc+bounces-24912-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24913-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B807C78AEE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Nov 2025 12:09:12 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80753C78AF7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Nov 2025 12:10:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 1A379343EAE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Nov 2025 11:08:29 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTPS id 5A3372D65E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Nov 2025 11:10:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CEC62F49ED;
-	Fri, 21 Nov 2025 11:08:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEC8625393B;
+	Fri, 21 Nov 2025 11:10:54 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE81527B358
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Nov 2025 11:08:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC8C828468D
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Nov 2025 11:10:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763723305; cv=none; b=fqglZfajdIF7Jblei/v5WvUHaJDFinb8Vdhq/Q+efgANsD3cyLds+aOEDPEObje7ATmuhcC7RsKMGdG5iHQWn7fJOpktNE/lA3xL40B8WJyDUfB+WYAxvS8V6hgMAfQYiSH7r4+HmNic6tcSV+qub2Jc6mpTBPnO1ffjMdIivLQ=
+	t=1763723454; cv=none; b=idgCrTh7uHjAH625ed3iplRfxZf3lq1La4WJzjdqxt6qRwV8FESSnm8v+J7TuWwRGsJw4PsdohVPkETChXVfXHeNAvmgbdtFGMzeZA57chw3wFja7ulNytJQrZV18T5Go9f1D0dd/nlHylpqQe+mB71VbM0HF1Mo6wS1QJEkoZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763723305; c=relaxed/simple;
-	bh=lhjh2LMQtplN5PbrfBoNy8Am6IisO8ndBVlW+XHl/Kk=;
+	s=arc-20240116; t=1763723454; c=relaxed/simple;
+	bh=aA0dgpQjZapgdawUH97P5AeKVI3is8ojmmfq5AcnB30=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GyGUopDAqc5t1YtXqygxI6w76z8/UIgQXFiCiEaSVzrTb5WAc+uoA9S88K9/uh/p29iwDanYtcLshW22mC0e8iII02mmnjIZ08uwFkYQetSiRp1kR+yur3rWhGaRGHPXz2jDNKm543wJciSUKSYTYnrYjUn6/UMCu9Strc6aaEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.177
+	 To:Cc:Content-Type; b=G+kmMrv5RPe7KebqNxcvEeZP+kLyxn0Y3p1Z5eHMiPl0CTjD7V95H/1ACdLqodMbeJxZW1JmbTujSU6QpTN6PqdiNc83xwFTkuTM0Z5EoKcw2MntdUOzx7nuTsn8wsGUrg/XUzi9upEH016RYBfXtOGHBjfNvlyzi3uDXZIZh4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-55b09d690dcso628090e0c.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Nov 2025 03:08:23 -0800 (PST)
+Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-5dbddd71c46so730465137.2
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Nov 2025 03:10:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763723302; x=1764328102;
+        d=1e100.net; s=20230601; t=1763723452; x=1764328252;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6C10540oJIBgBZAD7smcrJ/23zk12hUyvYhHZYCZ5Ys=;
-        b=DKwKyXhvBmEpc97nLhfkMfoFUvqeOksXvnwKS/9qI0AoeuXqoCaPEqWlh5JePznm7V
-         xs73E9WBeC2e24a4WSQqBeefzME7t7i4eopNaK6Ibbkwqg3NIUzfjUc3rG8b3f69vx3z
-         4+F87/+zV9ykGmLOJiZMdW9dt3+rPErXLlSwGogfG1PjF2QXB7hqlZUu+l/JnB7Vme6d
-         osUadqIlaIWO7yXO5T310SFANdfmIXJTfPVC7WZAJdiP/MaJgkbqeT6RuredkKphSksR
-         GJmytMfkXkFsQ8zY7MgcPYLjvaGEHpBv8w+U+Dn3XDA6qhJCMFfVqEqPlAMt4NB2UBs0
-         k6Ug==
-X-Forwarded-Encrypted: i=1; AJvYcCW+bYTd+R0BQcRxGdFDK3sAKi91SYOk/oWj06/E6eBUKJv36w2YJSKha0iSdDP5uILMHFd/+J40shMgLmo98Ic9+Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxuWP8tIiJ4tjgRy2Uu04/YpRWfZOd+Z06j0QlXXfzmlBYne1WY
-	cLu7i1he6+0GvyRn7Xpb56zY6T9xxraZqHNUaLo6CRpblDPAd0w/Wm+zy492pj0D
-X-Gm-Gg: ASbGnctqoegyC4qzEFbGXAPG675GNSqg4lUNKZc1t0k5huq5AeV1+ipVAuLVBqPHf0v
-	K2kd+qIaO2rJ854EogTsliME7+XGwsHCrE5vTJu6J+uCcESIKkzMVWNdYFQI4AVyI2NQN4nl7e7
-	2eLGPoSGMYnxB+gu9FtLRCuE9Z08yWh8TrLhzrcd1l9SjGJ1a4qJRQQciUljZAWv9OfFInhBt4b
-	AFvW4cTUY2UeT7qV8/68JTA063Zzb2J5cAsNKB5J0Z61Q2MOo0RnxZ8vE51N8faXOprsVC7HOcc
-	4kaDL8Und9uMfaOXwcM7FdryWBNoNCFZG8FoTi5kRMlcnDMyTwQlY68ADFmgYGMhPzAcCMP6vT6
-	yoAFlChUYmU43GfIOYVK/XoHfv7nXaZsarToWy8kJuhkb0AjYe42KZ8fk4mMkMagHu/Ejxa4M5B
-	+LtgS2lzVEXcAuEuD4FDiru+4ug7ojvQ0XxiMHM+OmNijz/drz
-X-Google-Smtp-Source: AGHT+IGuz0qzSK0IqmUsEK11jsq7pYoe/WVr6OQzOVEEHAS/rBKcta4AS9E2oVCDgq98BLmVHxDopQ==
-X-Received: by 2002:a05:6122:4696:b0:55b:d85:5073 with SMTP id 71dfb90a1353d-55b8d6b1fc2mr528407e0c.4.1763723302340;
-        Fri, 21 Nov 2025 03:08:22 -0800 (PST)
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com. [209.85.222.53])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-55b806c3b4asm2101024e0c.0.2025.11.21.03.08.21
+        bh=+77DyjWht0xTAUtMByV+BjBRLSnj3uwYMqKi4c8r7gw=;
+        b=BfX4ZJAPCi6XsFpEywu6fDibVlOc/ovhqWM3dx0IO/HqLMIDbfA9uozprEeOe4MCTS
+         emUBhOLe5QgCD4uhk1q92W0/RpS8qgf/06H+Bw2+KDpTRJVi2RKPlpu3mnQqOz9VeB3j
+         7Ear+dnvjMDDJTd5u+Xup9RbaTyqKl0FmZhkWnYiaznYu83ELdgWPYqRju7bZhMKQQ+G
+         oakU9KX3Z2/A2153N+pvONKKT/DfcIyI9kbJyn5eMMnWiUvXKV8H120HekQWFJ7UJK1L
+         9fV3fiZ7hRFGnjg6Z3GqYweSbiL/gAbaKK82JMkRrhYqg41HpExyfNj2saXx6AeMI4ck
+         /Q6w==
+X-Forwarded-Encrypted: i=1; AJvYcCUr163emOnojjttFe2QDs1CvCMUrVhpjkUwxceuGsyzLeEDRR7YirQ2fMwXhXYOBdzK/FxcN055BfokYfEApDhujQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx680keumD3XLRkzo8yZPJaSNThYEqnNtyZJk1qPAWqVVFEmTaq
+	FWrDcPVn7GPE7e1RKXaBODpiM4rgrAxpyvNg+POfTxTMjeEqtjS4XRImHQRea4Lu
+X-Gm-Gg: ASbGnctF9jPUhZeE33p51e+Ke1OQ2ZjDKKrTG5DPBEAR5/yfR3oC2xw1O1BR6djKtaw
+	S0P7aucUJ3BBtPf+2uVqg5QSZhsCfPIMiHuNwZH9v1SvZlWvdLDJs6hC2hdtwRhwArBSId2gckO
+	yYYgykG2Um2YiySGxpkI8u2opRy1JrBge0Opl7ee3uni9/mddUHdAdFhUCh7ncamftwHEy6eLts
+	uk/53ow759gM3xst0F8+VXcd1+XZVoDsSBJnLHP/6nKZTXLv5ZnjzX9PhJMlA4Y+VnUZY5XyaxF
+	XY+G9mNHQXwsIDlbBrJj1ma/zlCsZ3LVQVXbvz9B1HcWiDU//9XgVdvueXoR1QGDcwxkvuwcF9c
+	072WqGH0T99Znl5lRicdc5grXqiZjLEcjZaP3hymYTnYGFm0oRzcUvmsV4BGL8Gy45am6gC6r9J
+	QikxucN0MRV1AASz1OiGqtUwQ8BTNwKYwoUbOg9F0WqLzTAAYF
+X-Google-Smtp-Source: AGHT+IGwwLbAw8W1/hQbuk4Hp90XRU3HQXrYLP2nBrFHrufjZPzYSIqg62+3FA3nIQepvXl+iSV7+g==
+X-Received: by 2002:a05:6102:374a:b0:5dd:b5a2:b590 with SMTP id ada2fe7eead31-5e1de1ed3d5mr379385137.16.1763723451794;
+        Fri, 21 Nov 2025 03:10:51 -0800 (PST)
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com. [209.85.222.45])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5e1bd8eb2d0sm1982412137.2.2025.11.21.03.10.50
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Nov 2025 03:08:21 -0800 (PST)
-Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-9372149216bso1175821241.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Nov 2025 03:08:21 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCX2AwVaDMw940lqDbQMhL5P7FDww2r1E9weAfXkkZgJgK+vvkW3rrc6IWw69LWvqBMMeg2HmALhqpROZ0cltILFCQ==@vger.kernel.org
-X-Received: by 2002:a05:6102:3f4d:b0:5db:25b5:9b4f with SMTP id
- ada2fe7eead31-5e1de396e6amr495946137.26.1763723301428; Fri, 21 Nov 2025
- 03:08:21 -0800 (PST)
+        Fri, 21 Nov 2025 03:10:51 -0800 (PST)
+Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-937262a397eso550342241.1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Nov 2025 03:10:50 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWkrXgsrtWqjEyZ7uuiJmcyEou8UnrPaI0TWmeBcjBy+9q/Vzl8+xXNz3BvfSyewSNE4kCNyZg5J+mpj9pT/jArqg==@vger.kernel.org
+X-Received: by 2002:a05:6102:5a8d:b0:5db:e851:938e with SMTP id
+ ada2fe7eead31-5e1de1ed4b6mr369202137.10.1763723450426; Fri, 21 Nov 2025
+ 03:10:50 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251010-kakip_dts-v1-0-64f798ad43c9@ideasonboard.com> <20251010-kakip_dts-v1-1-64f798ad43c9@ideasonboard.com>
-In-Reply-To: <20251010-kakip_dts-v1-1-64f798ad43c9@ideasonboard.com>
+References: <20251010-kakip_dts-v1-0-64f798ad43c9@ideasonboard.com> <20251010-kakip_dts-v1-2-64f798ad43c9@ideasonboard.com>
+In-Reply-To: <20251010-kakip_dts-v1-2-64f798ad43c9@ideasonboard.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 21 Nov 2025 12:08:10 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVCeMaQ8yFnMgr1Nko+0yQxn69BR9fGJ2WPvADMc2gvRQ@mail.gmail.com>
-X-Gm-Features: AWmQ_bnwDIiJeuhqmzUxwprZB8_pFywEdtxsj34DqffzmCdoEYSocQxOmPBXGTU
-Message-ID: <CAMuHMdVCeMaQ8yFnMgr1Nko+0yQxn69BR9fGJ2WPvADMc2gvRQ@mail.gmail.com>
-Subject: Re: [PATCH 1/3] arm64: dts: renesas: r9a09g057: Add IVC and ISP nodes
+Date: Fri, 21 Nov 2025 12:10:39 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWrMGGHt3g_eF7q+7WCuDg4DK7nLObszKADD2bxmMJhMw@mail.gmail.com>
+X-Gm-Features: AWmQ_bkvxrhLH7ZLxZokI5MbBD5f29KhuLuCg5iCnBrvGiUJVfgVzugvmE2mXxU
+Message-ID: <CAMuHMdWrMGGHt3g_eF7q+7WCuDg4DK7nLObszKADD2bxmMJhMw@mail.gmail.com>
+Subject: Re: [PATCH 2/3] arm64: dts: renesas: r9a09g057h48-kakip: Add ISP and
+ IVC nodes
 To: Daniel Scally <dan.scally@ideasonboard.com>
 Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
@@ -89,102 +90,39 @@ Content-Type: text/plain; charset="UTF-8"
 
 Hi Daniel,
 
-On Fri, 10 Oct 2025 at 12:51, Daniel Scally <dan.scally@ideasonboard.com> wrote:
-> Add the Input Video Control Block and Arm Mali-C55 ISP to the device
-> tree file for the RZ/V2H(P) SoC.
->
-> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
-
 Thanks for your patch!
 
-> --- a/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
-> @@ -1298,6 +1298,58 @@ queue3 {
->                                 };
->                         };
->                 };
-> +
-> +               ivc: isp-input@16040000 {
-> +                       compatible = "renesas,r9a09g057-ivc";
-> +                       reg = <0 0x16040000 0 0x230>;
+On Fri, 10 Oct 2025 at 12:51, Daniel Scally <dan.scally@ideasonboard.com> wrote:
+> Add nodes to devicetree enabling the ISP and IVC that are found on
 
-Size should be 0x10000, according to Table 1.8-1 ("Detailed Address Space").
+You are not really adding nodes.
 
-> +
+    "Enable the device nodes for the ISP and IVC..."?
 
-Please no empty lines between properties (everywhere)
-
-> +                       clocks = <&cpg CPG_MOD 0xe3>,
-> +                                <&cpg CPG_MOD 0xe4>,
-> +                                <&cpg CPG_MOD 0xe5>;
-
-Fits on two lines.
-
-> +                       clock-names = "reg", "axi", "isp";
-> +
-> +                       power-domains = <&cpg>;
-> +
-> +                       resets = <&cpg 0xd4>,
-> +                                <&cpg 0xd1>,
-> +                                <&cpg 0xd3>;
-
-Fits on a single line.
-
-> +                       reset-names = "reg", "axi", "isp";
-> +
-> +                       interrupts = <GIC_SPI 861 IRQ_TYPE_EDGE_RISING>;
-> +
-> +                       status = "disabled";
-> +
-> +                       port {
-> +                               ivc_out: endpoint {
-> +                                       remote-endpoint = <&isp_in>;
-> +                               };
-> +                       };
-> +               };
-> +
-> +               isp: isp@16080000 {
-> +                       compatible = "arm,mali-c55";
-> +                       reg = <0 0x16080000 0 0x200000>;
-
-Size should be 0x80000, according to Table 1.8-1 ("Detailed Address Space").
-Or is GPV_VIDEO0 part of the ISP?
-
-> +
-> +                       clocks = <&cpg CPG_MOD 0xe2>,
-> +                                <&cpg CPG_MOD 0xe4>,
-> +                                <&cpg CPG_MOD 0xe5>;
-
-Fits on two lines.
-
-> +                       clock-names = "vclk", "aclk", "hclk";
-> +
-> +                       resets = <&cpg 0xd2>,
-> +                                <&cpg 0xd1>,
-> +                                <&cpg 0xd3>;
-
-Fits on a single line.
-
-> +                       reset-names = "vresetn", "aresetn", "hresetn";
-> +
-> +                       interrupts = <GIC_SPI 859 IRQ_TYPE_LEVEL_HIGH>;
-
-According to Table 4.6-23 ("List of Input Events"), the ISP has 6 interrupts.
-One of them is used by the ivc above.  Do you know what is the purpose
-of the four other interrupts, and if they should be listed here or elsewhere?
-
-> +
-> +                       status = "disabled";
-> +
-> +                       port {
-> +                               isp_in: endpoint {
-> +                                       remote-endpoint = <&ivc_out>;
-> +                               };
-> +                       };
-> +               };
->         };
+> the RZ/V2H(P) SoC.
 >
->         stmmac_axi_setup: stmmac-axi-config {
+> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
+> --- a/arch/arm64/boot/dts/renesas/r9a09g057h48-kakip.dts
+> +++ b/arch/arm64/boot/dts/renesas/r9a09g057h48-kakip.dts
+> @@ -50,6 +50,14 @@ vqmmc_sdhi0: regulator-vccq-sdhi0 {
+>         };
+>  };
+>
+> +&ivc {
+> +       status = "okay";
+> +};
+> +
+> +&isp {
+
+Please preserve sort order (alphabetical).
+
+> +       status = "okay";
+> +};
+> +
+>  &ostm0 {
+>         status = "okay";
+>  };
+>
 
 Gr{oetje,eeting}s,
 
