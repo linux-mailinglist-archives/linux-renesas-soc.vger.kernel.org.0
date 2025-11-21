@@ -1,106 +1,187 @@
-Return-Path: <linux-renesas-soc+bounces-24901-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24902-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4342C76F1D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Nov 2025 03:07:28 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66264C7709F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Nov 2025 03:43:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sin.lore.kernel.org (Postfix) with ESMTPS id 1DB5D29538
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Nov 2025 02:07:12 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTPS id 66DF22C871
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Nov 2025 02:43:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 337942DCF58;
-	Fri, 21 Nov 2025 02:00:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5874D22538F;
+	Fri, 21 Nov 2025 02:42:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RDaxqjBX"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="N9msI7L2"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0005328506B;
-	Fri, 21 Nov 2025 02:00:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D76D283682
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Nov 2025 02:42:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763690451; cv=none; b=ffNXFINGCSWAYdxyxCIevbXi8+3kbV4c4q/JA19X5gW8/79rECZBLA1Lha2SfDlBNYa/fAD77KQ8+cQgDAixzjUxTG6ZDjFtHekQTrrOOX6wTSzWBA1FPCWK9cWbNORXwpOVbLs+OYliUPjDvNmXIPleeCFqIIii714LuWzWCG4=
+	t=1763692958; cv=none; b=mc0LCGHEu8xo6aL0z/Q940IyoAfhdj30CqCgnpURaa1OOKATUP9gdtvCAzlEdReRfoFvlkvCtBbQYlG2QO5/kcvSkwWPRV6skQW3Q3CrxOuq/zxLzLRGbIpndEdcrAYsyab4ywV3lip2bWymmNCgnZOvSFCJgS/YnkM3C9GrsuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763690451; c=relaxed/simple;
-	bh=oURpXBr3KdDn9PGKvZ71lA/uZ3b0bjDvzcwrD9A6oco=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=taKhiaXc5frHQDNWREm4qxJpFaU8d+KFvCFd7YT6dRWSX70QYKIouNnGJ5sbARKzhOonrgglOi0caruCMPoNNsebcjyMkGWi0kZEPD+SuiO9hNUVgZH5xDQiaMYb4onNngNXlUWxHvyRmABM2GVRSFB3nfXJf7LuIKG+EVKvLxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RDaxqjBX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D0F3C4CEF1;
-	Fri, 21 Nov 2025 02:00:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763690450;
-	bh=oURpXBr3KdDn9PGKvZ71lA/uZ3b0bjDvzcwrD9A6oco=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=RDaxqjBXt1j3UIdjy7D7SVnLs8g7GgWn0u8nIwwGC1fkiNvamtVFDj/FQO/M8D/eh
-	 ZYIA8xclzKyMLPZroHugJ3RkCZs5j9pKq0uWtuDFi0aBxiZtSOUzYSr5VSAEob6tbA
-	 +24SZmZdWrSItahXVbfOjubhuO2Q9wBLd3uWK8Q1anPuB2bUlhg79qq/F3gvp3PXJe
-	 GCBA+D0/jJI9zu1fGsaJShWGCCkqQPKRf5p99z7rHol3XvaTdbp8EZvcxoMvleDjLd
-	 cvjpgHB4iUi5H3cdt7LM8reUKZkE25YppGHm/F3OQ8XDVF7CXgsxWVC/aJfF3PxY64
-	 b0Fp/3p8/tkTA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id AE07F3A41003;
-	Fri, 21 Nov 2025 02:00:16 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1763692958; c=relaxed/simple;
+	bh=b8TDw2LitfHcgujdlWIJNdAGuC/msjdf/E/aSBsp6vw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LCboTkzlfx0rt5b1LN9WuRTvRaENwdyxQNd4e2u+w52PoIPGKO/OCqck1idZcKxl/Xu3bjfsPS8DrgtvxlQZraitZWHjHiRMg5O8gOU+EvaXP8NLJYz7/f0Q/86HVzFEuM+L6RGBY+vaX30MOzLVPwqZqULLK/sRN7C5u0ZYECk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=N9msI7L2; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (fs276ed015.tkyc509.ap.nuro.jp [39.110.208.21])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 8A89EC6A;
+	Fri, 21 Nov 2025 03:40:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1763692825;
+	bh=b8TDw2LitfHcgujdlWIJNdAGuC/msjdf/E/aSBsp6vw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=N9msI7L2DOJbkLyIkqe1UebpjRIEVHk50RKbkCPeYsL3loEdjSmUYMR0DWfVcsElQ
+	 BGzrx6TNKDLbMcLQUfbg5SN0VJ3rJCKgXwZ5QBFP7yhSmCdm5lY+lfvvcAPu5AS4QW
+	 3EYTkDK+edAEZFdRHI3BsmRvAWsdUa2yUXTf8+hQ=
+Date: Fri, 21 Nov 2025 11:42:06 +0900
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Aradhya Bhatia <a-bhatia1@ti.com>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3 3/3] RFT: drm/rcar-du: Modify custom commit tail
+Message-ID: <20251121024206.GC11519@pendragon.ideasonboard.com>
+References: <20251120-mcde-drm-regression-thirdfix-v3-0-24b1e9886bbf@linaro.org>
+ <20251120-mcde-drm-regression-thirdfix-v3-3-24b1e9886bbf@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next 0/3] net: stmmac: pass struct device to init/exit
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <176369041551.1856901.1355582687378802410.git-patchwork-notify@kernel.org>
-Date: Fri, 21 Nov 2025 02:00:15 +0000
-References: <aR2V0Kib7j0L4FNN@shell.armlinux.org.uk>
-In-Reply-To: <aR2V0Kib7j0L4FNN@shell.armlinux.org.uk>
-To: Russell King (Oracle) <linux@armlinux.org.uk>
-Cc: andrew@lunn.ch, hkallweit1@gmail.com, alexandre.torgue@foss.st.com,
- andrew+netdev@lunn.ch, wens@csie.org, davem@davemloft.net,
- fustini@kernel.org, edumazet@google.com, wefu@redhat.com, guoren@kernel.org,
- heiko@sntech.de, kuba@kernel.org, jan.petrous@oss.nxp.com,
- jernej.skrabec@gmail.com, keguang.zhang@gmail.com,
- prabhakar.mahadev-lad.rj@bp.renesas.com,
- linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-sunxi@lists.linux.dev, maxime.chevallier@bootlin.com,
- mcoquelin.stm32@gmail.com, netdev@vger.kernel.org, pabeni@redhat.com,
- s32@nxp.com, samuel@sholland.org
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251120-mcde-drm-regression-thirdfix-v3-3-24b1e9886bbf@linaro.org>
 
-Hello:
+Hi Linus,
 
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+Thank you for the patch.
 
-On Wed, 19 Nov 2025 10:02:56 +0000 you wrote:
-> Rather than passing the platform device to the ->init() and ->exit()
-> methods, make these methods useful for other devices by passing the
-> struct device instead. Update the implementations appropriately for
-> this change.
+On Thu, Nov 20, 2025 at 11:55:34PM +0100, Linus Walleij wrote:
+> commit c9b1150a68d9362a0827609fc0dc1664c0d8bfe1
+> "drm/atomic-helper: Re-order bridge chain pre-enable and post-disable"
+> caused regressions in all bridges that e.g. send DSI commands in
+> their .prepare() and .unprepare() callbacks when used with R-Car DU.
 > 
-> Move the calls for these methods into the core driver's probe and
-> remove methods from the stmmac_platform layer.
+> This is needed on R-Car DU, where the CRTC provides clock to LVDS
+> and DSI, and has to be started before a bridge may call .prepare,
+> which may trigger e.g. a DSI transfer.
+
+Is there an issue with LVDS ? The LVDS encoder receivers its pixel clock
+from the CRTC the same way any encoder does (except on R-Car D3 and E3
+where the encoder *provides* the pixel clock to the CRTC, which is
+handled through explicit function calls from the CRTC to the LVDS
+encoder). There's no command mode with LVDS. Is the concern that we may
+have an external LVDS to DSI bridge ?
+
+> This specifically fixes the case where ILI9881C is connected to R-Car
+> DU DSI. The ILI9881C panel driver does DSI command transfer in its
+> struct drm_panel_funcs .prepare function, which is currently called
+> before R-Car DU rcar_du_crtc_atomic_enable() rcar_mipi_dsi_pclk_enable()
+> and the DSI command transfer times out.
 > 
-> [...]
+> Fixes: c9b1150a68d9 ("drm/atomic-helper: Re-order bridge chain pre-enable and post-disable")
+> Link: https://lore.kernel.org/all/20251107230517.471894-1-marek.vasut%2Brenesas%40mailbox.org/
+> Co-developed-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> ---
+> This is a modified version of Marek's patch using the approach
+> from MCDE. I'm pretty sure this driver also needs the original
+> semantic ording during disablement, and it surely doesn't hurt
+> to restore it too.
+> ---
+>  drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c | 25 ++++++++++++++++++++++---
+>  1 file changed, 22 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
+> index 216219accfd9..d1d756f40fc6 100644
+> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
+> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
+> @@ -540,11 +540,30 @@ static void rcar_du_atomic_commit_tail(struct drm_atomic_state *old_state)
+>  			rcdu->dpad1_source = rcrtc->index;
+>  	}
+>  
+> -	/* Apply the atomic update. */
+> -	drm_atomic_helper_commit_modeset_disables(dev, old_state);
+> +	/*
+> +	 * Apply the atomic update.
+> +	 *
+> +	 * We need special ordering to make sure the CRTC disabled last
+> +	 * and enabled first. We do this with modified versions of the
+> +	 * common modeset_disables/enables functions.
+> +	 */
+> +
+> +	/* Variant of drm_atomic_helper_commit_modeset_disables() */
+> +	drm_encoder_bridge_disable(dev, state);
+> +	drm_encoder_bridge_post_disable(dev, state);
+> +	drm_crtc_disable(dev, state);
 
-Here is the summary with links:
-  - [net-next,1/3] net: stmmac: pass struct device to init()/exit() methods
-    https://git.kernel.org/netdev/net-next/c/85081acc6b11
-  - [net-next,2/3] net: stmmac: move probe/remove calling of init/exit
-    https://git.kernel.org/netdev/net-next/c/32da89a840e8
-  - [net-next,3/3] net: stmmac: rk: convert to init()/exit() methods
-    https://git.kernel.org/netdev/net-next/c/1a62894e040d
+I think we have a fundamental issue here. Commit c9b1150a68d9
+("drm/atomic-helper: Re-order bridge chain pre-enable and post-disable")
+states that
 
-You are awesome, thank you!
+    The definition of bridge pre_enable hook says that,
+    "The display pipe (i.e. clocks and timing signals) feeding this bridge
+    will not yet be running when this callback is called".
+
+This is right, and the above sequence does not comply with the
+documentation, which is a concern. Quite clearly the bridge API isn't up
+to the task here. I don't know how we'll fix it, the pre/post
+enable/disable operations are really a hack and don't scale, and fixing
+that will likely not be a simple task.
+
+The short term question is how to deal with the regression that
+c9b1150a68d9 caused in the MCDE and R-Car DU drivers. This patch
+probably works. The complexity makes me worry that we'll introduce other
+regressions, but it can be argued that we're merely restoring the
+previous order of operations, which should therefore be safe. I'm still
+concerned about maintainability though. Commit c9b1150a68d9 should
+probably have been rejected, we should have developed a proper solution
+instead :-(
+
+> +	drm_atomic_helper_update_legacy_modeset_state(dev, state);
+> +	drm_atomic_helper_calc_timestamping_constants(state);
+> +	drm_crtc_set_mode(dev, state);
+> +
+>  	drm_atomic_helper_commit_planes(dev, old_state,
+>  					DRM_PLANE_COMMIT_ACTIVE_ONLY);
+> -	drm_atomic_helper_commit_modeset_enables(dev, old_state);
+> +
+> +	/* Variant of drm_atomic_helper_commit_modeset_enables() */
+> +	drm_crtc_enable(dev, state);
+> +	drm_encoder_bridge_pre_enable(dev, state);
+> +	drm_encoder_bridge_enable(dev, state);
+> +	drm_atomic_helper_commit_writebacks(dev, state);
+
+That looks pretty horrible :-/ Not your fault of course.
+
+Maxime, what's your opinion ?
+
+>  
+>  	drm_atomic_helper_commit_hw_done(old_state);
+>  	drm_atomic_helper_wait_for_flip_done(dev, old_state);
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Regards,
 
-
+Laurent Pinchart
 
