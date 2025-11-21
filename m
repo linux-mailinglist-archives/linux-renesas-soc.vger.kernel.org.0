@@ -1,178 +1,106 @@
-Return-Path: <linux-renesas-soc+bounces-24900-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24901-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 957C6C768FF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Nov 2025 23:56:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4342C76F1D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Nov 2025 03:07:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sin.lore.kernel.org (Postfix) with ESMTPS id 4A68D2B69F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Nov 2025 22:56:10 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTPS id 1DB5D29538
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Nov 2025 02:07:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33A7F2FA0EE;
-	Thu, 20 Nov 2025 22:56:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 337942DCF58;
+	Fri, 21 Nov 2025 02:00:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FmvcTinj"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RDaxqjBX"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 466282BE65B
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Nov 2025 22:56:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0005328506B;
+	Fri, 21 Nov 2025 02:00:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763679363; cv=none; b=G3oq1tWsZhAulrr+RR4GYRO+YxNeBk9Wgr3b3oSY2M+GC38yeM9ZOcXDcQVr4zzW+m1uGTPJjz63m1KLhXTVi+FDxjIpyHXGSl0MqDJ760F92CNNhrG2fkiGeXWpZueOk4wghpyKMoyRlEbfKZa8hKp3wzKAy7jifjkIIMoKwvI=
+	t=1763690451; cv=none; b=ffNXFINGCSWAYdxyxCIevbXi8+3kbV4c4q/JA19X5gW8/79rECZBLA1Lha2SfDlBNYa/fAD77KQ8+cQgDAixzjUxTG6ZDjFtHekQTrrOOX6wTSzWBA1FPCWK9cWbNORXwpOVbLs+OYliUPjDvNmXIPleeCFqIIii714LuWzWCG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763679363; c=relaxed/simple;
-	bh=YEGu4EyizIKrL8sJUoC2Y97vwucD9kiG4MeqWdpUyRk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=rApwHGX7AFMeGqrkCynDG5wm7thybZZ7IsQeeGxU3NueQbtV4u/NT3kEogTp18ZDuxR1bF6UjthgMv2qjZIYz4Kg2QmqycMzyIQerGg5rYiTjrPl6B1RlJ4ctwUduG7QDHZnhrgQDPGYPW11BCAVYj0fRV6oFXwp7Sq6WNdvy0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FmvcTinj; arc=none smtp.client-ip=209.85.167.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5957c929a5eso1976565e87.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Nov 2025 14:56:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763679358; x=1764284158; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9V19WHZJ0LiGdpxDp5Xzjy+hNnmDgOEjSJETgzGbOoc=;
-        b=FmvcTinjMXOwrklLmyj4jZiDFRkRnLACfw6vXybIe8fdoiw455+ychuSSgyjcK1I4G
-         z+N68g5Rjkfnaqt4QUhnN5UzcTb015poj71nr0iJtTGOu4SdPvCPfCX1S/3Wcj008KTh
-         ag8yOeGAR7+wdw0KsgF0+FwcWrIrQEZ8qBKRhzsrxvLUdVTkdHy7ZcRODnOeYyj3CQE5
-         A3Xu53/0LTA1QNH8TFO06S4htrq8lfhMwgI5DFBt4TXQIQj9boJ9pYZjKfH2Kje5bV9Q
-         aYSWWkybaAHxd7SLFfK9etpwTuSIYXTnJNY4nB/8RcWidhoZDJhuFHVTXVTRP6rLPvgR
-         s31w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763679358; x=1764284158;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=9V19WHZJ0LiGdpxDp5Xzjy+hNnmDgOEjSJETgzGbOoc=;
-        b=ZaBAszzP1FBGGIfvjP1k5lyzArMqdUN4U3s0dOOPadkem2jaeMKANb39teDpERuyWE
-         MXuZGt6ohUaEikFGImgN90pIZp6De5x4nLRlRZxZUZCkiYV7hKD8ldvycaP29qLSmLJO
-         BB+a/WDbtBjREMVJrAtpKVcy3wgnmg5Wj4fF6UU6eTREjT+kbBGs/g4FzRNE+ql9ATqA
-         oxkJ0/wVNWZ3SnJWaq9skDEV4tEW3uJ6iBjRQ+lB09EjpqOuvMFcPyldMKUNSwWjgkF5
-         N6i1y597p6f66m9mviU/103GVN2DVgRSNOTUa+MGewtYx8qu/AJBQD6SNuz068x2MyKi
-         bBYA==
-X-Forwarded-Encrypted: i=1; AJvYcCXQFyvVqQplPwiYMWMmABHX1XprZW6l+mN+4dlgBq9+eSBTb7YE46ZqzvKT1BZ4icY8J6PwZknTyiqN0WjFSk2mMw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywgj+L3V7LVR+BXrvjFywkDAJaLSASepmnK6MINvNGBZFGWwegz
-	XeZQSoIVtZvaAJNT6KVe1eYR0KmFRXI5rWzPQXrNF1FZpj49rxYm1RaRfE0PlJoGAIq7OHPYvun
-	LIMGcxSb1qA==
-X-Gm-Gg: ASbGnctmDwsyogQacoMxpAWBpSEYZ5mwfOCaIwtsGUEc3MUuXCj4LLXfS1ldm1RlIac
-	RwAgISVpxdBuHEgBdFJhlsb1WK4Sr0e5uvhHK1NUa6SiGJtCYpN+uBX5P4xDg8QDCqZwvCWVwBd
-	P52aQfAdL+ohK4+C8Juzl55UV8RSGEtUy6NzoaLYCkpHvGQONlpQpM5fnWDYynKjVtvUKS/0ksF
-	7PbEJXPyQPXSs/7Yg9zWkxWzckC1YCF4y1jxQwNYvWjhCU/wGOFpImu2i5wTTSHNZpZ3Tk+0g3L
-	WIh/9mLptuMyQWUXfB9g5bYjPVHlXBkhQrme2WXyz4A0feKamB5edQSjqK04wOVfCQ2YFeAYJ4X
-	8jGftF6bGaxrC/IUIq+LGXu5kVBtIfUB1jAteyDTj41SpxCYyvutv2SofMGXviMnMCR+FBg+rwS
-	eitCW6g3JN9bC2xc/orUAjZ9zAuUCsZaJhUckl9hBWDdbOAbTUpbaqSD8=
-X-Google-Smtp-Source: AGHT+IFQCy93+vVkz+zyf4jE1GvNsq0F+1SIQdV2kOxKmGKnmCHkK+0WJ82nyGq7goP7wnuIqeRZsA==
-X-Received: by 2002:a05:6512:3d87:b0:595:83f5:c33f with SMTP id 2adb3069b0e04-5969e2d4b98mr1713739e87.19.1763679358449;
-        Thu, 20 Nov 2025 14:55:58 -0800 (PST)
-Received: from [192.168.1.2] (c-92-34-217-190.bbcust.telenor.se. [92.34.217.190])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5969db75705sm1066877e87.15.2025.11.20.14.55.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Nov 2025 14:55:55 -0800 (PST)
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 20 Nov 2025 23:55:34 +0100
-Subject: [PATCH v3 3/3] RFT: drm/rcar-du: Modify custom commit tail
+	s=arc-20240116; t=1763690451; c=relaxed/simple;
+	bh=oURpXBr3KdDn9PGKvZ71lA/uZ3b0bjDvzcwrD9A6oco=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=taKhiaXc5frHQDNWREm4qxJpFaU8d+KFvCFd7YT6dRWSX70QYKIouNnGJ5sbARKzhOonrgglOi0caruCMPoNNsebcjyMkGWi0kZEPD+SuiO9hNUVgZH5xDQiaMYb4onNngNXlUWxHvyRmABM2GVRSFB3nfXJf7LuIKG+EVKvLxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RDaxqjBX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D0F3C4CEF1;
+	Fri, 21 Nov 2025 02:00:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763690450;
+	bh=oURpXBr3KdDn9PGKvZ71lA/uZ3b0bjDvzcwrD9A6oco=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=RDaxqjBXt1j3UIdjy7D7SVnLs8g7GgWn0u8nIwwGC1fkiNvamtVFDj/FQO/M8D/eh
+	 ZYIA8xclzKyMLPZroHugJ3RkCZs5j9pKq0uWtuDFi0aBxiZtSOUzYSr5VSAEob6tbA
+	 +24SZmZdWrSItahXVbfOjubhuO2Q9wBLd3uWK8Q1anPuB2bUlhg79qq/F3gvp3PXJe
+	 GCBA+D0/jJI9zu1fGsaJShWGCCkqQPKRf5p99z7rHol3XvaTdbp8EZvcxoMvleDjLd
+	 cvjpgHB4iUi5H3cdt7LM8reUKZkE25YppGHm/F3OQ8XDVF7CXgsxWVC/aJfF3PxY64
+	 b0Fp/3p8/tkTA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id AE07F3A41003;
+	Fri, 21 Nov 2025 02:00:16 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251120-mcde-drm-regression-thirdfix-v3-3-24b1e9886bbf@linaro.org>
-References: <20251120-mcde-drm-regression-thirdfix-v3-0-24b1e9886bbf@linaro.org>
-In-Reply-To: <20251120-mcde-drm-regression-thirdfix-v3-0-24b1e9886bbf@linaro.org>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Marek Vasut <marek.vasut+renesas@mailbox.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Magnus Damm <magnus.damm@gmail.com>, Aradhya Bhatia <a-bhatia1@ti.com>, 
- Dmitry Baryshkov <lumag@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org, 
- Linus Walleij <linus.walleij@linaro.org>
-X-Mailer: b4 0.14.3
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next 0/3] net: stmmac: pass struct device to init/exit
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <176369041551.1856901.1355582687378802410.git-patchwork-notify@kernel.org>
+Date: Fri, 21 Nov 2025 02:00:15 +0000
+References: <aR2V0Kib7j0L4FNN@shell.armlinux.org.uk>
+In-Reply-To: <aR2V0Kib7j0L4FNN@shell.armlinux.org.uk>
+To: Russell King (Oracle) <linux@armlinux.org.uk>
+Cc: andrew@lunn.ch, hkallweit1@gmail.com, alexandre.torgue@foss.st.com,
+ andrew+netdev@lunn.ch, wens@csie.org, davem@davemloft.net,
+ fustini@kernel.org, edumazet@google.com, wefu@redhat.com, guoren@kernel.org,
+ heiko@sntech.de, kuba@kernel.org, jan.petrous@oss.nxp.com,
+ jernej.skrabec@gmail.com, keguang.zhang@gmail.com,
+ prabhakar.mahadev-lad.rj@bp.renesas.com,
+ linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-sunxi@lists.linux.dev, maxime.chevallier@bootlin.com,
+ mcoquelin.stm32@gmail.com, netdev@vger.kernel.org, pabeni@redhat.com,
+ s32@nxp.com, samuel@sholland.org
 
-commit c9b1150a68d9362a0827609fc0dc1664c0d8bfe1
-"drm/atomic-helper: Re-order bridge chain pre-enable and post-disable"
-caused regressions in all bridges that e.g. send DSI commands in
-their .prepare() and .unprepare() callbacks when used with R-Car DU.
+Hello:
 
-This is needed on R-Car DU, where the CRTC provides clock to LVDS
-and DSI, and has to be started before a bridge may call .prepare,
-which may trigger e.g. a DSI transfer.
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-This specifically fixes the case where ILI9881C is connected to R-Car
-DU DSI. The ILI9881C panel driver does DSI command transfer in its
-struct drm_panel_funcs .prepare function, which is currently called
-before R-Car DU rcar_du_crtc_atomic_enable() rcar_mipi_dsi_pclk_enable()
-and the DSI command transfer times out.
+On Wed, 19 Nov 2025 10:02:56 +0000 you wrote:
+> Rather than passing the platform device to the ->init() and ->exit()
+> methods, make these methods useful for other devices by passing the
+> struct device instead. Update the implementations appropriately for
+> this change.
+> 
+> Move the calls for these methods into the core driver's probe and
+> remove methods from the stmmac_platform layer.
+> 
+> [...]
 
-Fixes: c9b1150a68d9 ("drm/atomic-helper: Re-order bridge chain pre-enable and post-disable")
-Link: https://lore.kernel.org/all/20251107230517.471894-1-marek.vasut%2Brenesas%40mailbox.org/
-Co-developed-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
-This is a modified version of Marek's patch using the approach
-from MCDE. I'm pretty sure this driver also needs the original
-semantic ording during disablement, and it surely doesn't hurt
-to restore it too.
----
- drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c | 25 ++++++++++++++++++++++---
- 1 file changed, 22 insertions(+), 3 deletions(-)
+Here is the summary with links:
+  - [net-next,1/3] net: stmmac: pass struct device to init()/exit() methods
+    https://git.kernel.org/netdev/net-next/c/85081acc6b11
+  - [net-next,2/3] net: stmmac: move probe/remove calling of init/exit
+    https://git.kernel.org/netdev/net-next/c/32da89a840e8
+  - [net-next,3/3] net: stmmac: rk: convert to init()/exit() methods
+    https://git.kernel.org/netdev/net-next/c/1a62894e040d
 
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
-index 216219accfd9..d1d756f40fc6 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
-@@ -540,11 +540,30 @@ static void rcar_du_atomic_commit_tail(struct drm_atomic_state *old_state)
- 			rcdu->dpad1_source = rcrtc->index;
- 	}
- 
--	/* Apply the atomic update. */
--	drm_atomic_helper_commit_modeset_disables(dev, old_state);
-+	/*
-+	 * Apply the atomic update.
-+	 *
-+	 * We need special ordering to make sure the CRTC disabled last
-+	 * and enabled first. We do this with modified versions of the
-+	 * common modeset_disables/enables functions.
-+	 */
-+
-+	/* Variant of drm_atomic_helper_commit_modeset_disables() */
-+	drm_encoder_bridge_disable(dev, state);
-+	drm_encoder_bridge_post_disable(dev, state);
-+	drm_crtc_disable(dev, state);
-+	drm_atomic_helper_update_legacy_modeset_state(dev, state);
-+	drm_atomic_helper_calc_timestamping_constants(state);
-+	drm_crtc_set_mode(dev, state);
-+
- 	drm_atomic_helper_commit_planes(dev, old_state,
- 					DRM_PLANE_COMMIT_ACTIVE_ONLY);
--	drm_atomic_helper_commit_modeset_enables(dev, old_state);
-+
-+	/* Variant of drm_atomic_helper_commit_modeset_enables() */
-+	drm_crtc_enable(dev, state);
-+	drm_encoder_bridge_pre_enable(dev, state);
-+	drm_encoder_bridge_enable(dev, state);
-+	drm_atomic_helper_commit_writebacks(dev, state);
- 
- 	drm_atomic_helper_commit_hw_done(old_state);
- 	drm_atomic_helper_wait_for_flip_done(dev, old_state);
-
+You are awesome, thank you!
 -- 
-2.51.1
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
 
