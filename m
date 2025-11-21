@@ -1,113 +1,122 @@
-Return-Path: <linux-renesas-soc+bounces-24948-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24949-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70BBBC7A366
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Nov 2025 15:39:06 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF62DC7A306
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Nov 2025 15:35:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id DD689363DD2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Nov 2025 14:30:17 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTPS id 7A0AA2DF57
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Nov 2025 14:35:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B4B934AB06;
-	Fri, 21 Nov 2025 14:27:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H5oGmVT1"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3AF430C353;
+	Fri, 21 Nov 2025 14:30:28 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 356D83446AB;
-	Fri, 21 Nov 2025 14:27:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 506A4274FCB
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Nov 2025 14:30:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763735223; cv=none; b=XznJlV9xhhhSBPXcEgg5CVpp2ewuWpSql0DGz5qhT849yNW9HEDKm2xuyUUDynSggo7ry61+jx5rVDMT48L0MPyDxQ0Pmnhn22PDPcqUl68d0pPI1fqGVNsXjUN5JJC4jqvTTegKFLINMWjP3MvNGZ/cn9ARCaEJ6E8UBj/+Xk4=
+	t=1763735428; cv=none; b=O1EFYJd+0JvSVG2n50sRwvgttESopvGDO4PB0Vof5rMzodFqe/crA6nBDE/VSM7A8tICC9SP9YJSXrRCFLlOy6ChB4g7GoC7eezptelZ8c4CQkAoEy7ee7m0TMKFXOirlfde9N2TrQaqpmy/YmRDdEU+zaEhrIVpMDSUAHb5gKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763735223; c=relaxed/simple;
-	bh=EjcuqxgCwNdCpmS/HyzXbelwiQmAF9pC47lj7fWA1FY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=u5qGQDonUQRufMageqTDBZDhAQLRfY6/drq1j70lIv1M7ImmCd64qP/f50pK7jjgXSR6o4hNJTbaedwKdn4kOExVXBrqF+B4R3fMa84XiyDtzRnlf10ryH++buS3H22WG3QrchCeO4ZxSOQRXXyd+Pi7TRYxaC/TO2NudmqPxfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H5oGmVT1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9CC3C4CEF1;
-	Fri, 21 Nov 2025 14:27:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763735222;
-	bh=EjcuqxgCwNdCpmS/HyzXbelwiQmAF9pC47lj7fWA1FY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=H5oGmVT1ucH9/PxIYZOtAWU7hTIhC0JSjxLC1qsBc+u/eT5Cvuz6CXYm7njGDEciq
-	 vsbTMUoNIG7lsZ7S0tgnrUplnJz6HwKcpTiC39bnS2MxcM1Ca4DtVfbbt8Ahl1CMsD
-	 Kbg3hDrmeTFzHDgBwf6p54aKh95K7Ejss57ScZLAZZIOayaf5c4r/fKWoHY/c74rNJ
-	 zaFGtWdCwTmeJz2pWjW3Qo66i4PulE6sydCai7nKTD/OsZkXegbYbdY9ccyPm4xnHe
-	 /PohZ7Qo91QH8Zwu7zemZbBkEoUyr4PM+J5V/fWe8hCcU1oPJWszClmixwYcOoVXSS
-	 CBq54k9TDXJwA==
-From: Mark Brown <broonie@kernel.org>
-To: Biju Das <biju.das.jz@bp.renesas.com>, 
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Biju <biju.das.au@gmail.com>
-Cc: linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>
-In-Reply-To: <20251114073709.4376-1-biju.das.jz@bp.renesas.com>
-References: <20251114073709.4376-1-biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v3 0/2] RZ/G2L SSI full duplex fixes
-Message-Id: <176373522063.27158.18194207753711685036.b4-ty@kernel.org>
-Date: Fri, 21 Nov 2025 14:27:00 +0000
+	s=arc-20240116; t=1763735428; c=relaxed/simple;
+	bh=Vujb9HN9zZcrTEbLtuAm29HUpoeOsJmlSQ2a/MNdF7g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=duso9p171M9dksdWHr3OOWrZHwKSDxJYd385G5foboV2+U/vRA1u7T0LyosULSxUXj6GYPIPhS8vUBEYCalw+ks08M14N5Dq+YnjO/f/Iee5hr2TqM/N1WaFiyjeiWTuf9T2VXDqKj5pZIOacJF0U9EvzuxSB0gcQeuXUwMyEYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-93728bac144so1137216241.2
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Nov 2025 06:30:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763735425; x=1764340225;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YPWFRv4FW+wTpiYwHa18G5ivaGAWav/XZVG8NSWKkz0=;
+        b=wVpsYiNCZ/gZvxNUb9MQetKeuVI02dn5bzwPtwLIU1wnANDUpo6yAnrWcpvBlxyfaO
+         RMmsdNgOKdFUFrrEmnIyBBB3rs63mLR3vAQLQm1kwdb1GY5q+AQQ/FX7Ww8JMdm1TzKe
+         dFcOu0tSvGaOCbTQSUniNgndC/3cNINN5VVtc0i0fxnFYhTL+X3HdFqI7gO3ijOT6NqD
+         4B15tm44t4J6wwrjTiA3YwF4UgYCO4wkA+m1U17rljBxWqxzZt6nKSfKJ2atXrculbN4
+         w0zGjej/kMFszoep/4MO7X7/1KhGNMpyUYDATH7RAUVrZCZ1SwzeiBLUKuEjuv3BuJri
+         OBQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXYRxJMOh1Y8tL2etD79f0JZYlh4iuFNYFt23Fx4fkr1C9nkRxYhqJfscf1lVoLQJJgF15zDv30zv9IVLlmdyffZg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxUU1nLXDCG/EavGFNA+sB1Z4N8/DGqYMEEOcMoxnZc3fqIw2NS
+	hKnhQnB+XOLELjkExOYTPMmk13QM7/PA/5z8K/G7gy1dIo5wAxwUN+F6ZARBlGW1
+X-Gm-Gg: ASbGncvuKZ8XLWz02GnBFbqePtJXmQIhuYznGsk2Ed+rDV0Ry8CpqBjRe30s1IS1D0d
+	qdeAGNiaK5NWxHvEI/GRYflyLf3MHpUIzk59N0ATwP5kdjvmOnVmHmqNiX1HIcGWuKD4j4pGSJ+
+	33xrKqLaODPiY9K6ETameEV8pJAi793zpcs/yF9IHXeMcOYQnwV6ZasjtqXNKwVAM+yLd6c44wh
+	onQMHj8FUsUkm9stW1po1HgODBSoL4ool2eaZ+KeAJj8y0SZrkLWVMw8v4/hCtZo3rLdCqlrtgn
+	nnQOKLxXF4nJvKTToANwSb+BPVi9l4e61cYdGLpN5Es5zFv0iJUkrRZbID/dkXcNtQLKUskDV2k
+	eXgG7X2jr2MAMHFY7K7o++5kojQIcloX3pS4ZagNx/dEjK2S1nDlmmKNgsx+65Bql0IPEn1Xo78
+	cafjQhLwsZYjedu8zJWwBJLzpaHM32Z0LjtyEXxuyjE8X61RIs54Uc
+X-Google-Smtp-Source: AGHT+IHmkNduXPGtAlVz0Fey9T/OJ+y0v2enPhj5gt6Zsikk8LW0YtNvH9u43RLnpiOS9WayW6mcYQ==
+X-Received: by 2002:a05:6102:1629:b0:5db:ef3f:6c7d with SMTP id ada2fe7eead31-5e1de1cbfb9mr762209137.14.1763735424989;
+        Fri, 21 Nov 2025 06:30:24 -0800 (PST)
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com. [209.85.217.46])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5e1bdd21e37sm2178486137.11.2025.11.21.06.30.23
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 21 Nov 2025 06:30:24 -0800 (PST)
+Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-5dfc3c7de2dso1270792137.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Nov 2025 06:30:23 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVbjkoLaWkMXDZ5L8acN1aJ9Ap1GGCr6xtmSnNQF4xDWczKGtTyl/z12XVlfw82AvrbmBC7dLyD3+80KSirTtbg8g==@vger.kernel.org
+X-Received: by 2002:a05:6102:80a0:b0:5df:c4ec:660e with SMTP id
+ ada2fe7eead31-5e1de1669eamr752738137.9.1763735422965; Fri, 21 Nov 2025
+ 06:30:22 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-88d78
+References: <20251114101350.106699-1-biju.das.jz@bp.renesas.com> <20251114101350.106699-3-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20251114101350.106699-3-biju.das.jz@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 21 Nov 2025 15:30:11 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXireT6xVeWBd_OhbhOt8iJceuYCChM8Smd5+msZaxoRg@mail.gmail.com>
+X-Gm-Features: AWmQ_bm3gkDU9BNE71_fH23eymrJTQmeODetarHHlTS7DkHzMp75WvH3cD7OwLQ
+Message-ID: <CAMuHMdXireT6xVeWBd_OhbhOt8iJceuYCChM8Smd5+msZaxoRg@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] serial: sh-sci: Fix deadlock during RSCI FIFO
+ overrun error
+To: Biju <biju.das.au@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, Nam Cao <namcao@linutronix.de>, 
+	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, stable@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 14 Nov 2025 07:37:04 +0000, Biju wrote:
-> The first patch in this series fixes audio channel swap issue because of
-> half duplex to full duplex switching during the streaming that involves
-> FIFO reset which drops the word leading to audio channel swap issue. The
-> second patch fixes sample width value in the hw_params_cache::sample_width
-> 
+On Fri, 14 Nov 2025 at 11:13, Biju <biju.das.au@gmail.com> wrote:
+> From: Biju Das <biju.das.jz@bp.renesas.com>
+>
+> On RSCI IP, a deadlock occurs during a FIFO overrun error, as it uses a
+> different register to clear the FIFO overrun error status.
+>
+> Cc: stable@kernel.org
+> Fixes: 0666e3fe95ab ("serial: sh-sci: Add support for RZ/T2H SCI")
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
 > v2->v3:
->  * Reduced the indentation by restructuring the tests in rz_ssi_start().
->  * Retained the tag as change is trivial.
-> v1->v2:
->  * Split the fixes patches separate.
->  * Improved code logic in rz_ssi_start() by using else if
->  * Collected tags from Morimoto-san
-> 
-> [...]
+>  * Dropped overrun_clr from struct sci_port_params_bits
+>  * All of the CFCLR_*C clearing bits match the corresponding
+>    CSR_*status bits. So, reused the overrun mask for irq clearing.
 
-Applied to
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Gr{oetje,eeting}s,
 
-Thanks!
+                        Geert
 
-[1/2] ASoC: renesas: rz-ssi: Fix channel swap issue in full duplex mode
-      commit: 52a525011cb8e293799a085436f026f2958403f9
-[2/2] ASoC: renesas: rz-ssi: Fix rz_ssi_priv::hw_params_cache::sample_width
-      commit: 2bae7beda19f3b2dc6ab2062c94df19c27923712
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
