@@ -1,163 +1,122 @@
-Return-Path: <linux-renesas-soc+bounces-25003-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25004-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ED99C7B500
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Nov 2025 19:24:34 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94F51C7B785
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Nov 2025 20:17:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 72D913A1974
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Nov 2025 18:24:13 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 3A4EF368364
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Nov 2025 19:17:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C37C4246766;
-	Fri, 21 Nov 2025 18:24:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22A202BEFFF;
+	Fri, 21 Nov 2025 19:17:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pym6eGsr"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j8IT3Noq"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CDF221E098;
-	Fri, 21 Nov 2025 18:24:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42CAE289E13
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Nov 2025 19:17:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763749451; cv=none; b=pn0ZkJeTw8EYD73EvWyK/6kfTD70+q6D/lK5M9CVxamkocV1S9j/eayZ4CVAyVB5aPsKsz6vwb7QQDN7kiSIHJ2Toq1MClirHnLjRAJWMXawaGxLaWtrQWa7Hp3kujuTs0v+lsDPgt4DPifpRHyrGdhlTwgsUle/ePCFM+UnhPM=
+	t=1763752672; cv=none; b=X9w0N4SqWRHf1kN5gbCn1YOysjw0kjx66b5GBUhEOS6Ap2WGiDCmjCLFwK3GBX+zxsSwft39vd+sNpY0VgyGGA0Ps2nVJWfMr9swafJYOy//oxIXLRXHmwpzlt2fWp26pUOTrDBtkOKtTDoblN0aj7E7+Pi8JMmGwpOvit9hHQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763749451; c=relaxed/simple;
-	bh=WLjenSCjWa8XEEDvvIHGWW6n2IZ7PQS4eefK5BUqRb8=;
+	s=arc-20240116; t=1763752672; c=relaxed/simple;
+	bh=4sAVwsYY2YHBOEK48pCtdqBPT9jCA7HP8BBEHRinpiw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G7a/2V/REPkOwhW1IPfZtm2fvpHJu3dhki852RAcaKJSICCxZeZYLwR2ZcgOiOYbFXDr6UIWGqDQV+PHuR/6cOQEnI6OhXZG5m0jd9etfnbJ+xvfS5KcxG7yqgb0qVEoVevJ8ZtED6EBSJhIWGlJsEqPnKoBoLUFhugymIzNyGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pym6eGsr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 347D0C4CEF1;
-	Fri, 21 Nov 2025 18:24:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763749451;
-	bh=WLjenSCjWa8XEEDvvIHGWW6n2IZ7PQS4eefK5BUqRb8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Pym6eGsrkOKumrM7LgpO9HvT5akwyBbD1DY7t9Er8blwCUsWvmasjGYXUfROxYzr4
-	 Jkr6sz5zjgJNmiMzuiB1jsh2eK2PTEeEBCrQFJr/11JGvNgR9nr1Xq0fZdTVYRYK6A
-	 TL7cJT1oFozg++zXtdkO0dW31IkI7mND5v4XgHYh3xrsPZMKNLY6pmN3jK/1bvWpXQ
-	 evtzJktLrMeTNMVsTKNb43u9NwjgTkI9v0w1/O/BH7BF08ph5ZaWU27qi4QpMc2fiC
-	 zp8UWY190uHqPe65KfsYM3/sbAshbx0FQPJ/6lXMrzXrKKJIUX+KrsdcI5Ok0Zw2+E
-	 UF3hb2kB1rwmA==
-Date: Fri, 21 Nov 2025 18:24:03 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org,
-	biju.das.jz@bp.renesas.com, Peter Rosin <peda@axentia.se>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=G8PVKSgMfIysdTxab3GjxLhivphrQkwB4dj0W92/cJK5n001rPHydhVPKixRDloVH9qgea+k0hJBgXZz5XxRSDYFBnYNFaM1EqU7eyFGXJ4vdUguxpvm1on6YzsFAJQBcNXCUZFKk5RRXaFEN+ntPht5Ch9GrOhssl2ZgjgKKUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j8IT3Noq; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-429c84bf326so186500f8f.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Nov 2025 11:17:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763752668; x=1764357468; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=y8iwBwhNwuioSSQWn7LFK7t0rJ8Mh2P5vp1THsx3YdU=;
+        b=j8IT3NoqDmMpUSg9gO3je6rP5DNc7uJQhf2dmXcQ04sgq43Z8nCTojxJrGcL+/hlM5
+         rabuzh+0wXwEf5Ux/GvhN9eVKROxTeUBf7NrA/dKaiq9PhJCQM/+ge62muDrHXlw4Adf
+         7SuPyGQ0YbYh3/TZNixM6jAGN3uJNiTTNgQGZgJ9XvuZSqfcSX6VBKGJXpjTrYlLwZK9
+         0sxL20Yqdmepz4szhyKDpp/dGV58+tqVrpQCoq+IjQdpVEueg5dgU65BgSPuhoSYDbsJ
+         I/48NXUZc6MqzAIITK+UFKqcUclSP26W7d37/D0yLx5vMrTIPHnAQrF8+iWZQCIulI89
+         JrLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763752668; x=1764357468;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=y8iwBwhNwuioSSQWn7LFK7t0rJ8Mh2P5vp1THsx3YdU=;
+        b=sX0yRkydtBaWjBvUh/Olg7/cWcefbEDsYe1BiLVgo+jdwHBF89MMEEQHl5ASlWPy3u
+         c66Jm8JITzjMNEeocagMYa+T4DN+9+GxxvdG78ga19vta/dRMT44/LLLcj+RlF5JCY5N
+         Ahnp0cox1R28rdoBnoo6yIFRamDBXPnuur8pKQ0p7uQ9v+gG9MhlNDuscvFXbr/HPQ1l
+         OOXYy7hwcyBerk4WYGrtIWMO3OD05Ed8pf3yiovcbUaB8QE38AalWEe5EBlvJrcfnrdM
+         U/heLvamBZdjrOfTveeqIIHV1c7XE4lGB7Kgu5O065O8mDMzRnevMf80HoRSRdKh1qof
+         6clQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXsvFDWVI6PwpxTuFdH8h+jMdrLP/nFsC4/9A9zgL7J8/EfijVu3wg+B5Z2wKrZq+q6p2nBE4I8fE9sx269wMhWog==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwmXamHPbdQK38KukOE+asiU+0jQBMMazwej458umPEXUouDCAn
+	fZO0uOL5WUe30eZ39rYrdgbLkuYovmHiEmNNMWkHONFMdy86TLh6Pg8o
+X-Gm-Gg: ASbGncubDefwkjH3gvPw0Hi0rFWwkPyi+96bMx+drW5zPeg1FlPCmm6gGAoyLYR2AdD
+	QkX6AmBysb6O1NxR1Fw+srCRm2K1DDPnRZWVpjDdRgNKna193OYJGq6H7DqTlDhUca06Hsce6R9
+	eXqp6/4NlCG9iVwwUyYvnQlGv8gQH+hKFklGsfN9aFwtq12fdCEOcA9gIJypWVO67gh9h09x6HI
+	j+cGelMgcIm5FSTHYJ00RhGjNeXkK5/YsocuKw/JJKxQpY6rGOFA7VUquwY3GJ4ys7+1ECBCeSr
+	JT/uLKRWann1F3fM38SFR1SQFr60S5Rg+ibe3hHYKlwtizUD4gGBmbV4C+y2xSbWYoXbQVnCMm8
+	SgKL5ELjYKsIOp+v7kHZB+5R0mugXQuBPtBVhSekxhPjl7GFck04oqj2P9Gg69lZIQRQqWKExca
+	S8xaU=
+X-Google-Smtp-Source: AGHT+IG+KrMg9GArGEp6Q0CjIrd17kh5O9dzvIO8tRrv+f2pfyIXfV6MHR1Wp42qXDKqxshdNqo9Gw==
+X-Received: by 2002:a05:600c:4443:b0:45f:2c33:2731 with SMTP id 5b1f17b1804b1-477c0169f1emr21053475e9.2.1763752668337;
+        Fri, 21 Nov 2025 11:17:48 -0800 (PST)
+Received: from skbuf ([2a02:2f04:d106:d600:b19f:2efa:e88a:a382])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477c0d85360sm48129405e9.15.2025.11.21.11.17.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Nov 2025 11:17:46 -0800 (PST)
+Date: Fri, 21 Nov 2025 21:17:43 +0200
+From: Vladimir Oltean <olteanv@gmail.com>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Conor Dooley <conor+dt@kernel.org>, Simon Horman <horms@kernel.org>,
 	Philipp Zabel <p.zabel@pengutronix.de>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Russell King <linux@armlinux.org.uk>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Magnus Damm <magnus.damm@gmail.com>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-phy@lists.infradead.org
-Subject: Re: [PATCH v4 01/22] dt-bindings: mux: Remove nodename pattern
- constraints
-Message-ID: <20251121-spring-slot-ec9fb6887565@spud>
-References: <cover.1763737324.git.tommaso.merciai.xr@bp.renesas.com>
- <cb7c28ccf3a1b136e793b48720f816de7d5f75b2.1763737324.git.tommaso.merciai.xr@bp.renesas.com>
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH net-next 01/11] net: dsa: tag_rzn1_a5psw: Drop redundant
+ ETH_P_DSA_A5PSW definition
+Message-ID: <20251121191743.5xyrsey56gr7e5e3@skbuf>
+References: <20251121113553.2955854-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20251121113553.2955854-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="VKsNTaFTCye1rtHN"
-Content-Disposition: inline
-In-Reply-To: <cb7c28ccf3a1b136e793b48720f816de7d5f75b2.1763737324.git.tommaso.merciai.xr@bp.renesas.com>
-
-
---VKsNTaFTCye1rtHN
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20251121113553.2955854-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On Fri, Nov 21, 2025 at 04:11:50PM +0100, Tommaso Merciai wrote:
-> The nodename pattern in  created an unnecessary restriction that forced
-> all mux nodes to be named with the 'mux-controller' prefix.
-> This prevented valid use cases where mux functionality is part of other
-> hardware blocks that should use more specific naming conventions.
->=20
-> Remove the $nodename pattern constraints from both the 'select' keyword
-> and the properties section of the mux-controller schema.
->=20
-> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-
-Funnily enough, there's another patch that I saw today that hit this
-same thing:
-https://lore.kernel.org/all/176373269741.263545.10849918874919174841.robh@k=
-ernel.org/
-
+On Fri, Nov 21, 2025 at 11:35:27AM +0000, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> 
+> Remove the locally defined ETH_P_DSA_A5PSW protocol value from
+> tag_rzn1_a5psw.c. The macro is already provided by <linux/if_ether.h>,
+> which is included by this file, making the local definition redundant.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > ---
-> v3->v4:
->  - New patch.
->=20
->  Documentation/devicetree/bindings/mux/mux-controller.yaml | 6 ------
->  1 file changed, 6 deletions(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/mux/mux-controller.yaml b/=
-Documentation/devicetree/bindings/mux/mux-controller.yaml
-> index 78340bbe4df6..6defb9da10f7 100644
-> --- a/Documentation/devicetree/bindings/mux/mux-controller.yaml
-> +++ b/Documentation/devicetree/bindings/mux/mux-controller.yaml
-> @@ -63,18 +63,12 @@ description: |
-> =20
->  select:
->    anyOf:
-> -    - properties:
-> -        $nodename:
-> -          pattern: '^mux-controller'
->      - required:
->          - '#mux-control-cells'
->      - required:
->          - '#mux-state-cells'
-> =20
 
->  properties:
-> -  $nodename:
-> -    pattern: '^mux-controller(@.*|-([0-9]|[1-9][0-9]+))?$'
-
-I need to apologise, I told you to delete the wrong thing in my DM
-earlier. Only deleting this part was actually required, deleting the
-select portion doesn't really do anything for your problem.
-What you've done is probably fine though, since anything actually acting
-as a mux-controller will have the cells properties.
-
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-pw-bot: not-applicable
-
-> -
->    '#mux-control-cells':
->      enum: [ 0, 1 ]
-> =20
-> --=20
-> 2.43.0
->=20
-
---VKsNTaFTCye1rtHN
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaSCuQwAKCRB4tDGHoIJi
-0oFIAQDW2bAxzrTvDF1ukX42XWJsL5zccm84MH2+EOosxxP+5gD/RAup3FCsfPBU
-gRGFV0fs3ohPxPBLD/iszdmUMqJOxg4=
-=3axy
------END PGP SIGNATURE-----
-
---VKsNTaFTCye1rtHN--
+Reviewed-by: Vladimir Oltean <olteanv@gmail.com>
 
