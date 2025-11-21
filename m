@@ -1,126 +1,192 @@
-Return-Path: <linux-renesas-soc+bounces-25017-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25018-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 252C2C7BB8D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Nov 2025 22:09:45 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F366C7BC12
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Nov 2025 22:31:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BD5953A7581
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Nov 2025 21:09:43 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 0B1AD355733
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Nov 2025 21:30:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABA682F1FD0;
-	Fri, 21 Nov 2025 21:09:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B22D306D3D;
+	Fri, 21 Nov 2025 21:30:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i2KFO6Gb"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aBtjt9q9"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F29D32836B5
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Nov 2025 21:09:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90C1141A8F
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Nov 2025 21:30:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763759380; cv=none; b=tgp0GBDNzT4g/z0YlUtXXWO0QdAm40vESqY8crHc7VRg+29n458R5l8wIfp/kN3nVTlLcT4GtxN307b0iDjbDViUVU0QLo+6+j2YETLz2rePBz81Rj98qJdOiD4dsYWVSGUWh+6v0jir4SAuLkWOzeV6rn0hr0laJYXOx5LdAGo=
+	t=1763760645; cv=none; b=Vif1qTlxna0nox6MexndGYOUsZI4kfFCypyM6t9s4QpHieAdYCzZdWINPD6vq8XKEqHHr1148S7VPMKivXJkznQQfNidxKCy5MBRKPvdE16GI8G4vq74Tp6QIxN9GzvgjEPmI+w2Q8TDoGz234A/D0aDLkBX+GTLvv9rLRrOcNo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763759380; c=relaxed/simple;
-	bh=pjRy1SEsLZJxI4LOty61Ye27Ei0/ipx3J1nq0iJzaHw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ql+uzFuyE0br5Zy1sTpcdnxtyXEOR3XUwai4T3+AJ5HbnQs57lAzeReGDzKr9IHFO3cfzrahiPzEc+Z7G7jFXS/ZFKCwi2cIA4Btw6lHrwTMTQq/ljUUTqOHFDq5X4/4EIvwM7DxJrFXhLyPcgJT8GImICKr8Vhp0vVP0D/N/xU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i2KFO6Gb; arc=none smtp.client-ip=209.85.221.54
+	s=arc-20240116; t=1763760645; c=relaxed/simple;
+	bh=D+5H3nNvGF2VIP+zpxewJTT4xj9DjwT6g7PTX/mjtl0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iAkaViCuZacZmd4wnVdzR+snSTY76Y1f11OPlNs3RUdUym5nbjjEJ4ntvC9SoQ0x2dFZ8KFpBaFsLadlInDjX+M2t4lUyWeYXBu99HTwurFO94gqLjdYfgRKMSNhCTOqCbkakwEvtwnub63Zxx57DGTppH3F53ju/QF0fitII5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aBtjt9q9; arc=none smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-429c84bf326so196955f8f.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Nov 2025 13:09:38 -0800 (PST)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-42b379cd896so1451136f8f.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Nov 2025 13:30:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763759377; x=1764364177; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=m+St0oOO00YFrE/oeCGGrHEKEP9gDUq45OgfSWgKSac=;
-        b=i2KFO6Gb7yw1w1MvIijYtVd5OFiZbgeKuoUZnNWteVRpTuAMixE4xzdzFaCNZt8EjX
-         fl7rRtY+BddEdTq0ZC+LRkshZVJ0Ra85+1pSERORqV4qIitGHn6bfynbH5UMIDmQxXJh
-         SASYMadhMjpAu7edxU2W5QvETYLiwxrrqLfjdhcfU370HHMtX0eOsS9G/uKT0MkMlkpd
-         ishgKndlYCne7B9vR/113ViRmQzBgn75gy37vlGANJAm7axxzbLTSeocEtsC47Lqhtbd
-         YYgdswem4TFp1k5W1VUBYn9SjUYI0WBALMjPQjXBsdE6Iv/EfbezX2+LlBIeljms8jke
-         iaGw==
+        d=gmail.com; s=20230601; t=1763760641; x=1764365441; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hcnfwnAnoq9Fhw37SyI9X8sGMiJgnd+Uv1hwKVjim2Q=;
+        b=aBtjt9q9x8J/RfcmVjOBX0RyjEqwc7T+KKKCmC8bLp/3fyixJQfNfp+Eg3yzwSZF9f
+         KsEKZ0XDMB7tlSDDY9rx+IJ68oNzgURCBrNWOdR6ybrSpBryDB34qEpLxokAqZMQ5+z4
+         1NojEzsF70DmyP5rcR8R7vuBPN7KBcaS9s7XRxDnIfWES7BGpZrcN8JmCoimwEbxrZT+
+         HMi5GVkiYp07m0jBjC/SdD94sG63AXUgpxnP0MeHYIbpTx5UcFtr5qsogER7JN9JiY+5
+         zAqJXE25TI/8YDAAzTEm0RQenqGn+z5/vjRp0L7DT76nJBFMc72C3BA1qDZtHbKt87LD
+         3tkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763759377; x=1764364177;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=m+St0oOO00YFrE/oeCGGrHEKEP9gDUq45OgfSWgKSac=;
-        b=NhK45K8laOFJ1yA0nWsIREWA2OMP5xxaEizK2fjDd7NhnRcgRum7+97wp4i9znP2g4
-         fiOzINOsQSRIWStR+5+jwEQUMW4Qty8SOFh20VoZd3o4dFvxaNsglG4Ov4ZRnLBPwb7p
-         jlhdhWtmvp7RELQfe1xaPFREBCa41eBExK0z8+CNXHFnEddwS+6BGzcSa9Vz/Gqg/Qp8
-         e08YaERxpaPWkXwDjgB69RrjG078uvb8Mz85m35sbjySpkKcuavc8gshIIoRiQtnmf+b
-         +zQiw8ligQ9Gd5/H1pPYj1wwCisi8tfIC5rifTeuBAy7gsQ7Hzl+zibEZgpwF9EJ7oXl
-         gxhw==
-X-Forwarded-Encrypted: i=1; AJvYcCX2F1QfqbmCj/nEhMRHUNwYTB2c3vj1MiOuo6cLWRH3aiBpaAkqIRuOoPVGZBscI7QLEPf0ap5wRZ5aa3TGdPSMsQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw4L9lQVoUiBWNATP/vdpOJg0t565TcOt399zeOGm5fvijxYqrK
-	CCmdXGVb++j09cA3nEwLmzYA+hAqB42Ei8XROaPPARpjTY3gCCWFIajI
-X-Gm-Gg: ASbGncsVWJDbjlGDRTImCnLA9SvTmj9BiLQ+r23867GhkaCysW2pVz3BOhHsOCacUi9
-	k+4X7JynucYl23TYpK5Sz5Rtzl9DOr3qlA+au80b06R0n2ze6Fwu0rOS1jy2b5e3t+KN0Hj+vBx
-	PuuNEMX0651wxykBes943cIUQXdzlREI2lix0nChU4DQ69pI6flpvGb5LUow4S4sF5PRhdULBVg
-	isAdmrsx71oi7gJwF2qa40KofdhKfVaru5GotlzG/ko+ul+ho3UfUcGmwNaW7rzl1IgFFsEThgK
-	MwTEACeLIU1ubjrxIgb39vpYo4hvtCTVPuKe6dWKb1OEo2LdeD79TUjEyGgKaKvoX7HgF569/WA
-	2du3YGyrIU4COd5A/5XmfP/wzCsTeozJqWhf8aOIVrojQZRSZhDx5eo7W056GPFAZEMPQcInfbE
-	2ZvQw=
-X-Google-Smtp-Source: AGHT+IFiaD4mpHrFN+tAaNq2FgvMpg4adybRd4aJ7oo2sEmIOOuFXgl3U576DxtLAMuPvA+rfainNg==
-X-Received: by 2002:a05:600c:1c23:b0:477:5c70:e14e with SMTP id 5b1f17b1804b1-477c01d92cdmr25458805e9.5.1763759377158;
-        Fri, 21 Nov 2025 13:09:37 -0800 (PST)
-Received: from skbuf ([2a02:2f04:d106:d600:b19f:2efa:e88a:a382])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477a96aed1esm95730045e9.0.2025.11.21.13.09.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Nov 2025 13:09:36 -0800 (PST)
-Date: Fri, 21 Nov 2025 23:09:32 +0200
-From: Vladimir Oltean <olteanv@gmail.com>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Simon Horman <horms@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Russell King <linux@armlinux.org.uk>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH net-next 11/11] net: dsa: Kconfig: Enable support for
- RZ/T2H and RZ/N2H SoCs
-Message-ID: <20251121210932.hcte74sz6efa4vym@skbuf>
-References: <20251121113553.2955854-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20251121113553.2955854-12-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        d=1e100.net; s=20230601; t=1763760641; x=1764365441;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=hcnfwnAnoq9Fhw37SyI9X8sGMiJgnd+Uv1hwKVjim2Q=;
+        b=XEx9NF9v+W4jjJx7LZN8zpA1cFHEZO+0vvZxsMMIwZKembJ138X2tMOvyuAkLBQONP
+         ekcq0qLdEqFEmhe9wtBzKphQp92IuNNw1BQ9pbvdJVEjPcsRcvon94yI1IoEyWV9Abct
+         LmwthVkWvT/xQrhid+L7k3unDNr9pwPgoIfaPwolLCww+Kd7b57jswIjExQKQfyLn5f4
+         6giEhPbuNTBs36NywU1tBHK9wIvacwCZP5Kd3kSZZnQMhD41RDhRfa/o1QLODU1jcPPi
+         k/GpddqVjrTRftF5kRFop8eCSCBlVZpyQ4raBHKm/Oi0C3q0Tmdt6ByEOwClQzb5SuO5
+         PSOg==
+X-Forwarded-Encrypted: i=1; AJvYcCX2CIHAICM56ZesNraGwVIbXHixAqbYVcAgqJ8T4zR5xQL/y9Gz0VOtSzqiucawyPOrYIR8JVU6GRFEkvQ/W5CVpg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwfTD0qg59+BqpUftqv+SCa/fcOCc0Fgw+EIOOw45LZuPiJVscJ
+	I1GsLDKUJ9hX2VfFXiiH7v3vO8d5eiLIGV9Je7kH8rBR2fyJmrf8C6SVk2w/8gT/EUUvhW94EBu
+	iUPx566AN/O/Ts0dHuLOj9gacXYHENr4=
+X-Gm-Gg: ASbGncsK23Eu3UHLBfB+zdr9DPjIh5I7rliWOLjvfUuJrMaIgUS0xR1iV/jNi/ntNgq
+	5oUp82wOa09oLd1ILVhPfalHrIw4bd2kVHlyQdcxtzdmYhxQDCZwnazo6LAqJbOKmvsf5AjSjPu
+	d89Z0vCpkQeX2T/tzi5J8UDWULD+K3L3jhVVJfAJxtqMyVfz8XG/DKvF2nLn2tZdSSIooDQHTIy
+	Lc856+pvjUkhVU9oxmDCAPKvLZ4xDaSX115Wvetr2Rh/jsmKNi9KlUYsREBgK+PC0nZa4aHmCkS
+	SZkV098g2DW+jRN6GH56tWBe0gFW6LnGS8ClqWA=
+X-Google-Smtp-Source: AGHT+IHFza28/HLNlBLJhQc7+YEkrnjCLxc+DtrDhOWTi1679uZaJ42r/nuYALOcGS6zFbQIlAAVjgM+8yjpShMR5wE=
+X-Received: by 2002:a05:6000:22ca:b0:42b:3746:3b88 with SMTP id
+ ffacd0b85a97d-42cc1d22a43mr3976603f8f.57.1763760640501; Fri, 21 Nov 2025
+ 13:30:40 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251121113553.2955854-12-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20251121113553.2955854-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20251121113553.2955854-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20251121192700.3eg5h2eqk7bruxeu@skbuf> <CA+V-a8vyjt43TPUmu+1TFHFvQsBwYTzKFSQOQm=O3R0dpZWG_w@mail.gmail.com>
+ <20251121204833.hu4jfq6bx2kdamd3@skbuf>
+In-Reply-To: <20251121204833.hu4jfq6bx2kdamd3@skbuf>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Fri, 21 Nov 2025 21:30:14 +0000
+X-Gm-Features: AWmQ_bkQ2IeWhsgefdLasYqIq_ZXdqTdPdH9Mzx8FAtJ2y9VFLAWaJ5rpjXrzn8
+Message-ID: <CA+V-a8uA-p9wGXNVdf8Oykt518_2X6fyK6s2-R+G_AR2DqXckA@mail.gmail.com>
+Subject: Re: [PATCH net-next 02/11] net: dsa: tag_rzn1_a5psw: Add RZ/T2H ETHSW
+ tag protocol and register ethsw tag driver
+To: Vladimir Oltean <olteanv@gmail.com>
+Cc: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>, 
+	Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Simon Horman <horms@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Russell King <linux@armlinux.org.uk>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
+	netdev@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 21, 2025 at 11:35:37AM +0000, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> 
-> Update the Kconfig entry for the Renesas RZ/N1 A5PSW Ethernet switch
-> driver to depend on ARCH_RENESAS instead of ARCH_RZN1. This allows
-> the driver to be built for other Renesas SoCs that integrate a similar
-> Ethernet switch IP, such as RZ/T2H and RZ/N2H.
-> 
-> Also update the help text and prompt to reflect support for the ETHSW
-> variant used on these SoCs.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
+Hi Vladimir,
 
-Reviewed-by: Vladimir Oltean <olteanv@gmail.com>
+On Fri, Nov 21, 2025 at 8:48=E2=80=AFPM Vladimir Oltean <olteanv@gmail.com>=
+ wrote:
+>
+> On Fri, Nov 21, 2025 at 08:29:04PM +0000, Lad, Prabhakar wrote:
+> > On Fri, Nov 21, 2025 at 7:27=E2=80=AFPM Vladimir Oltean <olteanv@gmail.=
+com> wrote:
+> > >
+> > > On Fri, Nov 21, 2025 at 11:35:28AM +0000, Prabhakar wrote:
+> > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > >
+> > > > Add an explicit tag protocol for the RZ/T2H ETHSW and register a se=
+parate
+> > > > ethsw tag driver so the existing A5PSW tag implementation can be re=
+used
+> > > > for RZ/T2H without code duplication.
+> > > >
+> > > > The ETHSW IP on RZ/T2H shares substantial commonality with the A5PS=
+W IP on
+> > > > RZ/N1, and the current tag driver does not touch the register field=
+s that
+> > > > differ between the two blocks.
+> > >
+> > > Tagging protocol drivers are specifically written to not deal with
+> > > register fields. I would like a clarification that this is a phrasing
+> > > mistake and you mean the packet header fields that differ between the
+> > > ETHSW and the A5PSW tag format.
+> > >
+> > Unlike the other drivers, tagging drivers don't have compatible
+> > strings to match against. For the ETHSW IP, the current driver is
+> > reused as-is. My intention with the comment was simply to point out
+> > that, if an issue ever arises that requires us to split the paths, we
+> > can future-proof things by using DSA_TAG_PROTO_* identifiers.
+>
+> The tagging protocol's name uniquely defines the layout of the DSA
+> header and general interaction procedure required on RX and TX (for more
+> complex things such as PTP). It doesn't have to be further namespaced by
+> its users just because. In other words, two switch drivers using the
+> same tagging protocol with the same name is fine (even if due to a lack
+> of imagination, the tagging protocol's name comes just from its first
+> user), and introducing a new name for it would be unnecessary. For
+> example, felix_vsc9959.c, a switch different from ocelot_ext.c, uses
+> DSA_TAG_PROTO_OCELOT because the protocol is identical.
+>
+> The exception would be when there exist packet headers which have
+> different layouts - then irrespective of whether those fields are
+> currently used or not, we should register a new driver.  This is the
+> only thing that matters.  I thought that you were saying that such
+> differences exist, but after your second reply, it seems not?
+
+The Tagged Frame Format is the same for both the SoCs (like below)
+---------------------------------------------------------------------------
+7 octets PREAMBLE
+1 octet SFD
+6 octets DESTINATION ADDRESS
+6 octets SOURCE ADDRESS
+2 octets ControlTag (default: E001h)
+2 octets ControlData
+4 octets ControlData2 (timestamp, portmask)
+2 octets type/length
+0..1500/9000 octets PAYLOAD DATA
+0..42 octets PAD
+4 octets FRAME CHECK SEQUENCE
+
+Transmit processing (switch to CPU) is different,
+On RZ/N1:
+ControlData
+[0-3] =3D Port number where the frame was received
+[4-15] =3D reserved
+
+On RZ/T2H:
+ControlData
+[0-3] =3D Port number where the frame was received
+[4] =3D Timer used for timestamp
+[5] =3D reserved
+[6] =3D RED period indication
+[7-15] =3D reserved
+
+Also there are differences in receive processing (CPU to switch) the
+ControlData and ControlData2 bits differ.
+
+Based on the feedback received I would need to register a new driver.
+Do you agree?
+
+Cheers,
+Prabhakar
 
