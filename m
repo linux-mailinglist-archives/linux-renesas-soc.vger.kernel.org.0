@@ -1,131 +1,320 @@
-Return-Path: <linux-renesas-soc+bounces-24980-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-24981-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AC2AC7A83A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Nov 2025 16:24:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 429FEC7AB7C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Nov 2025 17:09:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D6A023A43C5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Nov 2025 15:20:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B819D3A10A6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Nov 2025 16:08:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B74B34E779;
-	Fri, 21 Nov 2025 15:17:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0A7C33A6E9;
+	Fri, 21 Nov 2025 16:08:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Er2/XSVo"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D531B2DC790
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Nov 2025 15:17:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 866952C11E4
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Nov 2025 16:08:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763738257; cv=none; b=Phe8MabMAI0akvteFJ/IBe91KQ4rPi/EwujQrPiyo3a6cohMEkkRqfkl9h68pQ/aiwASAcyFeVxzB6F2EM5LhzTpE6zAURK0e0uGIVLddVuW1nGPjJlQB5c75ws+XuH5AOCtFlBVECdmaAik+PSaP/ml5XcYYiy4pl1Ld2Riy8w=
+	t=1763741329; cv=none; b=qLhSF3t3eKmfbLd9z1CuwQs6ZfShWiomQzTRaQ5QEN6t7QkcrmyVPZzqyQQY6NQ7EKsogrXeLtMYjr15hjtKhY7pqRO/MjXhm1zICCR+3jFSv8EO6hk3hA9P6tquk3BkOLb1MxxZmgugyml8LuPHVg/Rm9dcMKuM2XO+Ah4JA6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763738257; c=relaxed/simple;
-	bh=5eBeEdjkR/Hkm6+xplE8icfNSmSd/34vcdQdGK2qte8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ugAtqx3PR7xgHYIYbKFy38sUTskyVS86q9A3mNKbj1QrZkTqNcZoPa5MAOp2xx5BuLKg/BLDUarRt0iQVfUI/JsUAnc8SeLFSQ2qmtlSxzBF3AdEqUg7tarbmpGdVEO8pdRk67jCxjBvkeGUe7Q+U2VYs35WBlXOi6miuypb/b4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	s=arc-20240116; t=1763741329; c=relaxed/simple;
+	bh=4W2wUHFcuGyWiz8+6gUf7Bpjr+WJgOLxolMNrpBo+RI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Bp/kfE0hx3lZqBsxikXeHnTIW7m8tCNC+OHlOkBTeezRglt6033gOrcuWe5CW2eDgdoYBkzKY9bfgvyEOa7Jm6j+K/VMiDylu/Ar40EL2cOA/2CpQ5jtCVHJ4igdc9QP9DJHtGcUjWyW2ZXPKi0GVbry2YeOyZRNCKPVKDo90c0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Er2/XSVo; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-55b265f5122so570389e0c.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Nov 2025 07:17:31 -0800 (PST)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-477b91680f8so18046915e9.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Nov 2025 08:08:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763741326; x=1764346126; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3/orAuSpaF5HTB6929AgvV0WKZABdlI/t47+2/JoX6w=;
+        b=Er2/XSVofpmtahIPIUY5MkuTJWJVLlfx3Rfn/ivNrpeK0V1QRD6tajaq19xxyEGNCZ
+         DSm3pPeKWVQ3gLSzgFGRjqspD39obplDYy3Fffh2/xdPq8Ap5tLlRsfY0OThQC7GWc7d
+         Xs3NK0yVRwQ8vh0BHJBYJeR4bfFC+nXEClWWFl3gKp56GmMvVuhJrUiP0usH85U+UgK4
+         WgsmhmpMIoYg0DAzR3/uVlGXjKAoTuHL6JTEHjOWZX5MFzxCca42iec16JKyLqJqT9zv
+         tBIEjfDnY9eIsIev7ZWEu39UMXeJUyPYo/0wjWlPovgJaEGQXhdFuT4a0dHMN0E41K6D
+         TrTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763738249; x=1764343049;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1763741326; x=1764346126;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gIua8RfV2AxpUiobTVSq3dGuqkuUf86Fn/APkM2iKmk=;
-        b=c+6J9G8WT1gSeEkTsSNSZ0SMeXM6YeoeazKxRZf0ym90nNAx0aw1TrIYXyAmB22SJB
-         hUbaZd+pnX8xjPBECbpdEt8WrwMI/NU1V0BT8l9U/ZzxQbuELLOXEt5eeWZLB2Z+4gI6
-         OOY5Y6U7wmgegwyTs79Ti4SWiEEOSC3ZUzyYNCB+rgjIpp8w2haKyvNFLmKzZaPOXSPH
-         9BaY1kwF2CWBIFnrZPF2IfYUPIYUfpIDg6OhWQnAwyNFh5BSr6YSDfyEdbynFQuIR3Dl
-         4zsP8ckM5nBl1wVZtNyxzwXiqFvjFHKnqnH9l4N1S3C1zUMuwwPk7IUUky/4UtujpJWg
-         ld6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCV5hG62sF/cJ/A+NTWb1H4Mo6ZP5d7O+lQc0P0qDKve0aqA1LbaK0FP6awHFPjestHwzUNEo6YVepsKATV69ptVhA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwVk0lOjYJzim+xTCg5xea9rpowgNqQAH+1rFSmSb3YMtQF6lu8
-	1p2QYFe+MxNubM2o2/hOYrEX/GdRXZZRLPrpE3UJ47hghzJkjEmrHFvXNWUX+syb
-X-Gm-Gg: ASbGncth/s37RoRMEAQQffr0L/6c7SlqZos1i3BFOKoU56TfqReiCWMblc9+rwxtQyx
-	nmFkj4eM+tqSie/KyCWGT0AEG3x5RP7p/fW0HDOYJVoi7Eyg9ekVQfK5lFItvk/Q6Z3Yy4spWsJ
-	U20mT/1ZjeIu2mUqiNiLuutdXlt0I6YWaK0cHGrxei8VyuzKGtlq1V+9ul/WBJIlFd9ba3F8Xe+
-	q+0o6c3d4Tj1YnhiAPQNYsVd6u5kgneoGEkJra0sHL68Ra8e/v1bSxIAi18QYv5zP0W2kwgfPVB
-	xgmn4YhyWNxeyYbeoMXuI2F2fh6r/TzA6UVp/YCaaNhf4Bf7E/OM3jL3x8ZggQe0uVX/N+edDqb
-	/i2iosiBOMKBc1XY1hN/7NIDIkJmJJgSY7uGQFi+k0XXR50cYEX+ujiLMtivNkf178tdVltH3Bm
-	MyyL0ZQ3h4Cq2JXZLFqIAs5I2GvQzsmfoOfSA+ayN0xN7bzmcQ
-X-Google-Smtp-Source: AGHT+IH7JSdLKP+Q7T7Nh/yCMx6AUPJEAnk/brpo+m1S39X0T6BxQyX/OfRmbZObxDfCDqcrOa1UQQ==
-X-Received: by 2002:a05:6122:1829:b0:55a:2b12:8022 with SMTP id 71dfb90a1353d-55b8d6bb6aamr764477e0c.2.1763738248801;
-        Fri, 21 Nov 2025 07:17:28 -0800 (PST)
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com. [209.85.222.51])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-55b7f7d462fsm2536422e0c.21.2025.11.21.07.17.28
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Nov 2025 07:17:28 -0800 (PST)
-Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-93c6628c266so362142241.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Nov 2025 07:17:28 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVDhUpOpS5FUrXhszjBx3fBBSiZlJKJQW+e9TvKrm2JEQHYeyRDOn9w464j4UbTqLOACfx+RSdhYnwtFjWJhiUmkQ==@vger.kernel.org
-X-Received: by 2002:a05:6102:e0e:b0:5df:c1b5:82e0 with SMTP id
- ada2fe7eead31-5e1de36be43mr798925137.32.1763738248035; Fri, 21 Nov 2025
- 07:17:28 -0800 (PST)
+        bh=3/orAuSpaF5HTB6929AgvV0WKZABdlI/t47+2/JoX6w=;
+        b=jgbdbPcSrINde3fnAG6p/FJmXTtzRzmUKpViTgsiPIXVVZeSMgUDa1KrZ24jLCOqZG
+         66E7iPlRnm61kMT9+3rFaK5QAbsw+FPSQg8p7sFw0RjDG79yW9sHrtJ5aZWFX0SHGYwr
+         WA1pudOtEopqKf7ps5m6nxSR4BRLXXujAalj7FCr97OmT+jdUEndRQ8CymXSxdFC7tx1
+         +FzI50R7xCkySeOWcGs9NmIUT92b1GNmNtAi2cd9NFwfe4J6MrmKSIr4Ssrz6p3Qtcpp
+         o1uGMcZp1yKTxs6wrCRMEMj0uxKs64b3+DdJZr9lssy7qphfeSKXnSdkLxSc8tsXqmMA
+         bOog==
+X-Forwarded-Encrypted: i=1; AJvYcCX/XvjRqyRIPWJlh8Sl7vA4iOGH5ngkHkhTwXJxR4MFra2Y2UZjIunwnfg/VIqoksoYmx//XE4S7h4F+yJSdk54mQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzJmObVcNQe+p7Z5S53QbbtQc6dimUYahwNalSkVr2CIU0e+FkY
+	4Y91k9Fr/0ruNaqELMweaKVyWetFrUMRtnkTQjbEKck8nx6feNGYtj0A
+X-Gm-Gg: ASbGnct6koMpxH25p+vo8LFu2T/qyPrGGXzuDLcRk7+94M+U7ORDoY2KW2CW4IGb0iS
+	inVxdEe667YBlPWbicA7pTrTOlQlz81CHoHrELdeJPVF2geuGEPnxGbhFA5SOWfGu+ASEYPF2Ne
+	+i/LUJxil9WQunIIA1EFMdzW5kovRmzGBijTpmLNJimdaMLoLknFylmleSzqAtcd9WD9dFCiBez
+	eGAo2JzPZcVCmjkwDFEKbvrFPoLpyPc3JHVMgOnWcPi9q2I2mi8jeoeeohDdttyqyjbhkqmrHrP
+	vsyxSEfu4DmNVeQfD3/00l5/dwNc0aP6kGtU03qJvW6nUh9oW3xk2mzLRiaJu6/cRVbQ5xeXp2Z
+	+UtWiK/ibhLrwjOkZ9wnJ33PBimcfJ8RewXOTjMn6qPAQgfRhQf7oop9ZegYDUQug97qoaHHaDs
+	b44ReyDmJBVOzpQc2XXAkPNhlzpJiy5ckBm85+AL8peU9u8sqf2mdeZHd5tXAMcNvlpDzCmA0=
+X-Google-Smtp-Source: AGHT+IGNr2oFBi9yiP1muvPT0qy/GV8msIHybnUSVrCwDl0Wxbmd1Ylty9nunW/cmYCZvINh1/LbOg==
+X-Received: by 2002:a05:600c:c490:b0:46e:4b79:551 with SMTP id 5b1f17b1804b1-477c11325c2mr28662945e9.31.1763741325613;
+        Fri, 21 Nov 2025 08:08:45 -0800 (PST)
+Received: from biju.lan (host86-162-200-138.range86-162.btcentralplus.com. [86.162.200.138])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477a9dea7fcsm89496195e9.8.2025.11.21.08.08.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Nov 2025 08:08:45 -0800 (PST)
+From: Biju <biju.das.au@gmail.com>
+X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
+To: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	linux-kernel@vger.kernel.org,
+	linux-pwm@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH v8 00/15] Add RZ/G2L POEG support
+Date: Fri, 21 Nov 2025 16:08:07 +0000
+Message-ID: <20251121160842.371922-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251114105201.107406-1-biju.das.jz@bp.renesas.com> <20251114105201.107406-9-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20251114105201.107406-9-biju.das.jz@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 21 Nov 2025 16:17:16 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU2bougdWmD1CpaKDKe0iVJD-H03qbNhhLgyfSpsxp15Q@mail.gmail.com>
-X-Gm-Features: AWmQ_bl1HYrUoeR3tLvRWfUvLCultmhzxtsQnjvLxVOOYGWOny4VgM7c5de7q4s
-Message-ID: <CAMuHMdU2bougdWmD1CpaKDKe0iVJD-H03qbNhhLgyfSpsxp15Q@mail.gmail.com>
-Subject: Re: [PATCH v3 08/13] serial: sh-sci: Add sci_is_rsci_type()
-To: Biju <biju.das.au@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-kernel@vger.kernel.org, 
-	linux-serial@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Biju,
+From: Biju Das <biju.das.jz@bp.renesas.com>
 
-On Fri, 14 Nov 2025 at 11:52, Biju <biju.das.au@gmail.com> wrote:
-> From: Biju Das <biju.das.jz@bp.renesas.com>
->
-> Add sci_is_rsci_type() for RSCI port type. This will simplify the code
-> when the support added for RSCI_PORT_{SCI,SCIF} private PORT type.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+The output pins of the general PWM timer (GPT) can be disabled by using
+the port output enabling function for the GPT (POEG). Specifically, either
+of the following ways can be used.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+  * Input level detection of the GTETRGA to GTETRGD pins.
+  * Output-disable request from the GPT.
+  * Register setting(ie, by setting POEGGn.SSF to 1)
 
-> --- a/drivers/tty/serial/sh-sci.c
-> +++ b/drivers/tty/serial/sh-sci.c
-> @@ -1182,6 +1182,11 @@ static int sci_handle_errors(struct uart_port *port)
->         return copied;
->  }
->
-> +static bool sci_is_rsci_type(u8 type)
-> +{
-> +       return (type == SCI_PORT_RSCI || type == RSCI_PORT_SCI || type == RSCI_PORT_SCIF);
+This patch series adds basic support for user control and output-disable
+requests from the GTETRGn pins by using poeg char device.
 
-Would be much more consistent if all port types would use the
-RSCI_PORT_* prefix...
+Merged the pwm[2] and poeg[6] patch series together to get an overall view
+of the system and also both are linked devices.
 
-> +}
+Patch #8 to patch #15 are just for testing Output-disable request from
+the GPT
 
-Gr{oetje,eeting}s,
+When dead time error occurs or the GTIOCA pin output value is the same as
+the GTIOCB pin output value, output protection is required. GPT detects
+this condition and generates output disable requests to POEG based on the
+settings in the output disable request permission bits, such as
+GTINTAD.GRP{DTE,ABH,ABL}. After the POEG receives output disable requests
+from each channel and calculates external input using an OR operation, the
+POEG disables the output of the GTIOCxA and GTIOCxB pins.
 
-                        Geert
+A sample test app is developed to handle POEG events. The POEG handles
+output disable request from GPT and send an event to userspace. The
+userspace with the help of poeg clears the fault condition.
+
+This patch#2 on this series depend upon[1]
+[1] https://lore.kernel.org/all/20251121133654.364688-1-biju.das.jz@bp.renesas.com/
+
+Ref:
+PWM:
+[2] https://lore.kernel.org/all/20250226144531.176819-5-biju.das.jz@bp.renesas.com/
+[3] https://lore.kernel.org/all/20240220194318.672443-5-biju.das.jz@bp.renesas.com/
+[4] https://lore.kernel.org/all/20230228150756.482432-1-biju.das.jz@bp.renesas.com/
+[5] https://lore.kernel.org/all/20221215205843.4074504-1-biju.das.jz@bp.renesas.com/
+POEG:
+[6] https://lore.kernel.org/all/20230328101011.185594-1-biju.das.jz@bp.renesas.com/
+
+Merge strategy:
+ patch #1-#2  PWM subsystem
+ patch #3-#4  Pinctrl subsytem
+ patch #5-#7  SoC
+
+v7->v8:
+ * Merged the pwm[2] and poeg[6] patches together to get an overall view
+   of the system and also both are linked devices.
+ * Add ack from Rob for the binding patch#3.
+ * Replaced return type of rzg2l_gpt_poeg_init() from void->int and
+   probe() checks this return value.
+ * Added more error checks in rzg2l_gpt_poeg_init().
+ * Replaced config name from POEG_RZG2L->RENESAS_RZG2L_POEG.
+ * Updated POEG Kconfig dependency with PWM
+ * Dropped static variable minor_n and instead using the value of
+   "renesas,poeg-id".
+ * Replaced devm_reset_*_exclusive()->devm_reset_*_exclusive_deasserted()
+ * Replaced pm_runtime_enable() with devm variant.
+ * Added support for handling output-disable requests from the GTETRGn
+   pins.
+ * Replaced the macros RZG2L_POEG_USR_CTRL_{EN,DiS}ABLE_CMD to 
+   RZG2L_POEG_OUTPUT_DISABLE_USR_{EN,DIS}ABLE_CMD.
+ * Replaced '&pdev->dev' by 'dev' in probe().
+ * Added DT and config patch
+v6->v7:
+ * Documented renesas,poeg-config optional property for configuring the
+   system for pin output disable.
+ * Used DT to handle the system configuration
+ * Added poeg char device for user control support to enable/disable
+   output from GPT
+ * Replaced iowrite32/ioread32-> writel/readl
+ * Dropped of_match_ptr from .of_match_table
+v5->v6:
+ * Dropped binding patch as it is accepted for 6.4.
+ * Added sysfs support for configuring pin output disable 
+   function in a generic way.
+v4->v5:
+ * Added Rb tag from Rob.
+ * Updated kernel version in sysfs doc.
+v3->v4:
+ * Replaced companion->renesas,gpt for the phandle to gpt instance
+ * Replaced renesas,id->renesas,poeg-id
+ * Removed default from renesas,poeg-id as default for a required
+   property doesn't make much sense.
+ * Updated the example and required properties with above changes
+v2->v3:
+ * Removed Rb tag from Rob as there are some changes introduced.
+ * Added companion property, so that poeg can link with gpt device
+ * Documented renesas,id, as identifier for POEGG{A,B,C,D}.
+ * Updated the binding example.
+ * Added sysfs documentation for output_disable
+ * PWM_RZG2L_GPT implies ARCH_RZG2L. So removed ARCH_RZG2L dependency
+ * Used dev_get_drvdata to get device data
+ * Replaced sprintf->sysfs_emit in show().
+v1->v2:
+ * Updated binding description.
+ * Renamed the file poeg-rzg2l->rzg2l-poeg
+ * Removed the macro POEGG as there is only single register and
+   updated rzg2l_poeg_write() and rzg2l_poeg_read()
+ * Updated error handling in probe()
+REF->v1:
+ * Modelled as pincontrol as most of its configuration is intended to be
+   static and moved driver files from soc to pincontrol directory.
+ * Updated reg size in dt binding example.
+ * Updated Kconfig
+
+logs:
+With renesas,poeg-config = <1>;
+root@smarc-rzv2l:~# /poeg.sh
+Test case 1 user POEG control
+Read at address  0x10048434 (0xffffbdcc4434): 0x031B031B
+Read at address  0x10048438 (0xffff9341f438): 0x03000000
+Read at address  0x10049400 (0xffffacdfe400): 0x00000000
+[POEG]open
+[POEG] user control pin output disable disabled
+[POEG]close
+[POEG]open
+[POEG] user control pin output disable enabled
+[POEG]close
+Read at address  0x10048434 (0xffff89990434): 0x031B031B
+Read at address  0x10048438 (0xffffb5b98438): 0x03000000
+Read at address  0x10049400 (0xffff949ef400): 0x00000008
+[POEG]open
+[POEG] user control pin output disable disabled
+[POEG]close
+ 74:          0          0    GICv3 357 Level     10049400.poeg
+Read at address  0x10048434 (0xffff8f401434): 0x031B031B
+Read at address  0x10048438 (0xffffbb55b438): 0x03000000
+Read at address  0x10049400 (0xffff969c4400): 0x00000000
+
+With renesas,poeg-config = <2>;
+root@smarc-rzv2l:~# /poeg.sh
+Test case 2  GPT control
+Read at address  0x10048434 (0xffffa2e9c434): 0x031B031B
+[POEG]open
+[POEG] GPT control configure IRQ
+Read at address  0x10048438 (0xffff88063438): 0x23000000
+Read at address  0x10049400 (0xffff9a09a400): 0x00000020
+gpt ch:4, irq=2
+gpt ch:4, irq=2
+gpt ch:4, irq=2
+gpt ch:4, irq=2
+Read at address  0x10048434 (0xffff90768434): 0x021B031B
+Read at address  0x10048438 (0xffffa652c438): 0x23000000
+Read at address  0x10049400 (0xffffa2b64400): 0x00000020
+ 74:          5          0    GICv3 357 Level     10049400.poeg
+
+With renesas,poeg-config = <4>;
+root@smarc-rzv2l:~# /poeg.sh
+Test case 2  GPT control
+Read at address  0x10048434 (0xffff81226434): 0x031B031B
+[POEG]open
+[POEG] GPT control configure IRQ
+Read at address  0x10048438 (0xffffa35fd438): 0x43000000
+Read at address  0x10049400 (0xffffb4a0e400): 0x00000020
+gpt ch:4, irq=4
+gpt ch:4, irq=4
+gpt ch:4, irq=4
+gpt ch:4, irq=4
+Read at address  0x10048434 (0xffff81df7434): 0x021B031B
+Read at address  0x10048438 (0xffffa8fdf438): 0x43000000
+Read at address  0x10049400 (0xffff9f49b400): 0x00000020
+ 74:          5          0    GICv3 357 Level     10049400.poeg
+
+Biju Das (15):
+  dt-bindings: pwm: rzg2l-gpt: Document renesas,poegs property
+  pwm: rzg2l-gpt: Add support for gpt linking with poeg
+  dt-bindings: pinctrl: rzg2l-poeg: Document renesas,poeg-config
+    property
+  drivers: pinctrl: renesas: Add RZ/G2L POEG driver support
+  arm64: dts: renesas: r9a07g0{4,5}4: Add POEG nodes
+  arm64: dts: renesas: rzg2l-smarc: Enable POEGG{A,B,C,D} on carrier
+    board
+  arm64: defconfig: Enable Renesas RZ/G2L POEG interface
+  tools/poeg: Add test app for poeg
+  pwm: rzg2l-gpt: Add support for output disable request from gpt
+  pwm: rzg2l-gpt: Add support for output disable when both output low
+  pwm: rzg2l-gpt: Add support for output disable on dead time error
+  pinctrl: renesas: rzg2l-poeg: Add support for GPT Output-Disable
+    Request
+  pinctrl: renesas: rzg2l-poeg: output-disable request from GPT when
+    both outputs are low.
+  pinctrl: renesas: rzg2l-poeg: output-disable request from GPT on dead
+    time error
+  tools: poeg: Add support for handling GPT output request disable
+
+ .../bindings/pinctrl/renesas,rzg2l-poeg.yaml  |  16 +
+ .../bindings/pwm/renesas,rzg2l-gpt.yaml       |  23 +
+ arch/arm64/boot/dts/renesas/r9a07g044.dtsi    |  52 ++
+ arch/arm64/boot/dts/renesas/r9a07g054.dtsi    |  52 ++
+ arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi  |   6 +
+ arch/arm64/configs/defconfig                  |   1 +
+ drivers/pinctrl/renesas/Kconfig               |   2 +
+ drivers/pinctrl/renesas/Makefile              |   2 +
+ drivers/pinctrl/renesas/poeg/Kconfig          |  11 +
+ drivers/pinctrl/renesas/poeg/Makefile         |   2 +
+ drivers/pinctrl/renesas/poeg/rzg2l-poeg.c     | 481 ++++++++++++++++++
+ drivers/pwm/pwm-rzg2l-gpt.c                   | 212 ++++++++
+ include/linux/pinctrl/rzg2l-poeg.h            |  26 +
+ include/linux/pwm/rzg2l-gpt.h                 |  44 ++
+ tools/poeg/Build                              |   1 +
+ tools/poeg/Makefile                           |  53 ++
+ tools/poeg/poeg_app.c                         |  95 ++++
+ 17 files changed, 1079 insertions(+)
+ create mode 100644 drivers/pinctrl/renesas/poeg/Kconfig
+ create mode 100644 drivers/pinctrl/renesas/poeg/Makefile
+ create mode 100644 drivers/pinctrl/renesas/poeg/rzg2l-poeg.c
+ create mode 100644 include/linux/pinctrl/rzg2l-poeg.h
+ create mode 100644 include/linux/pwm/rzg2l-gpt.h
+ create mode 100644 tools/poeg/Build
+ create mode 100644 tools/poeg/Makefile
+ create mode 100644 tools/poeg/poeg_app.c
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.43.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
