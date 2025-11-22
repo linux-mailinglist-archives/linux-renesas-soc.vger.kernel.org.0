@@ -1,244 +1,372 @@
-Return-Path: <linux-renesas-soc+bounces-25028-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25029-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5EB0C7D269
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 22 Nov 2025 15:15:48 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4864C7D282
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 22 Nov 2025 15:18:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id E238A34A83C
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 22 Nov 2025 14:15:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7CB8E3AA336
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 22 Nov 2025 14:18:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AF75242D84;
-	Sat, 22 Nov 2025 14:15:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 110C526D4D4;
+	Sat, 22 Nov 2025 14:18:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="UEJYyqZr"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="Y1UpTHto"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010044.outbound.protection.outlook.com [52.101.229.44])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63A344A35;
-	Sat, 22 Nov 2025 14:15:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763820932; cv=fail; b=WF5RIBLWp6cYss+6Cfhy/dJV3u/TkbDNg6mTujx3TVQ90bqV9+o1hr1u1tBHgRzuwOyG1nUv62dCXXUCk/l2jXEMS+jyhuZqGADk0GF0W0ynRPgfwFB/8svhTy4yuODaQtqG9YlnD7Nekilhldv936/Zp8yQknoUFziJ7yRe17o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763820932; c=relaxed/simple;
-	bh=HiaJzWv1/yRt5vE/fvZmPrg3E/0Q2SNctGpu9VjUqM4=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=ahiKucNZT6Z2erFD+EjBfAYqSyzqcpphjUPsSqdqwuHHPPZ2LOltbsLgDD/XjyOfsNM+1DUEs2X7W7+wcZHlUIyFIeUWnGrsqKzARbGyk3zCHRt0r+EaHv+38ZjQAqEsy7m2+SwCaveq9uRGWrea0KR9G8xIqtInwBoQg3UXN24=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=UEJYyqZr; arc=fail smtp.client-ip=52.101.229.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yjbOgBdC6kvAHBirzB2lLRdbiC30HO741uolotMC3KrigXMTrwfH+jd6i2aB8XLjcsGyp4LzC6YzFyPDqIOds+RrcXLJbzUa0cEpLO0ekMyaDiILJ60+Qfy25WWR5+hixgO03Yu8avjcVIuluzYuaZag8V3tW+DrnQ44xK3QHn68VIGgOOCJtCampKpcpqGXkkedBURgwypVY2cQ+9jZleXOi5gNM2QcraV9ddfVocaGQ2QkBx13PzaR/DX+b0c22z9fuxd8/OM5q7+f9YoenTbWyRMRcIAm13by+1nfUrOVgdi8v9iWM8JHyjhl+BjlV4XDAq9oAsDcWiJKWwYgWQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HiaJzWv1/yRt5vE/fvZmPrg3E/0Q2SNctGpu9VjUqM4=;
- b=icrsXAe1ss1Y/eVujYhThtyH6sDuIvwNNINYMjXpWpwZZklaDlJVdDObrLOCAguzY8Zv5aXl7K3R9A/rLd3Zxny7iFN4W4czsZjj7J0OCqELoROdwIXAq5GnL8qQDJ+BvlCSnUAHuYjtz8lBrGUB+7xpdFE9Im71ndkUFXdeVfs/IzjKykQJLbDRJcCLImLKzjLqjIpSfEQYdOGlUM+EQ+8wL50QgzSLDobMi+xjBHiqhnX9qdmcVDNjO5CkaIxH0BPEeiVIGK3vbCk2v8xmkDEqDyo07ArdV4+XSFtI7lJu2k+eD7/9Mmf6G5iK948ZGSPGrMxNOzDv5YPlpUK05Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HiaJzWv1/yRt5vE/fvZmPrg3E/0Q2SNctGpu9VjUqM4=;
- b=UEJYyqZro6Xnf65958pjBIi+CkVp/9pFMe5/ira6stKJUtFHOMjNX0jxlebdohi5KiNR9zC39+RdbZaJLxZfj/pSfXhDL7Mb7ADDihb6ckL6R9oCrmGN01D7sLra1QDW2PeH/sJMaWn8lZMPeWi+Sa/rmUmU8aLSf06U6JqfDA8=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by TYRPR01MB15616.jpnprd01.prod.outlook.com (2603:1096:405:29c::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.6; Sat, 22 Nov
- 2025 14:15:25 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1%6]) with mapi id 15.20.9366.005; Sat, 22 Nov 2025
- 14:15:25 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>, geert <geert@linux-m68k.org>,
-	biju.das.au <biju.das.au@gmail.com>
-CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby
-	<jirislaby@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
-	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, magnus.damm
-	<magnus.damm@gmail.com>, wsa+renesas <wsa+renesas@sang-engineering.com>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: RE: [PATCH v3 01/13] dt-bindings: serial: renesas,rsci: Document
- RZ/G3E support
-Thread-Topic: [PATCH v3 01/13] dt-bindings: serial: renesas,rsci: Document
- RZ/G3E support
-Thread-Index: AQHcVVS6OMCUOoA+JkaffOYYEa9gA7T9XSMAgAFhEuCAAAs2IA==
-Date: Sat, 22 Nov 2025 14:15:25 +0000
-Message-ID:
- <TY3PR01MB11346A0864AF1CC5A3807E40C86D2A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20251114105201.107406-1-biju.das.jz@bp.renesas.com>
- <20251114105201.107406-2-biju.das.jz@bp.renesas.com>
- <CAMuHMdX41rq-sd6_g1oCrQVPpgb-MXakpJ9mEbS0K+FY8Q7NDg@mail.gmail.com>
- <TY3PR01MB11346D401362BE3B37564C28586D2A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-In-Reply-To:
- <TY3PR01MB11346D401362BE3B37564C28586D2A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYRPR01MB15616:EE_
-x-ms-office365-filtering-correlation-id: 4dada796-2fa6-407a-e1ab-08de29d194a2
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|7416014|376014|1800799024|366016|38070700021;
-x-microsoft-antispam-message-info:
- =?utf-8?B?U09WNnNINzJubmFaUjdiZlYwa2xwVXpxdzhEWFVhTlhwTHpSZzJWLzBlOW4y?=
- =?utf-8?B?RDBCK05BaE1LRVozWWNFY2NmcXA2aFlLZW8weWVWY2dsTXFvQ3p3VzJOb0kr?=
- =?utf-8?B?NjQvRmM1citSSUg2b2ZBV1hRWlRhY1NRVHU3SVNWN1JFWjlDZ0t4VEJ0b01q?=
- =?utf-8?B?YWZETERLcG5uNmRjaFFac1BJc3ZUWTVJSlkrNnZaY2VIbmFQeXBGZDFBSXBr?=
- =?utf-8?B?bHhuN0NPdHVjUXVIRmx6TW00Z0lDVU9aTkU4S1FQa0gxMTVYZTVZQUpwRjly?=
- =?utf-8?B?VFNLQktWWTkyT2huK29HVC9FNmppODRSNnVKLzhLVjV2eHc0QVYxK0MvRG9n?=
- =?utf-8?B?NGRNVzF5UzNLVmliaS9UL0U4L3Y1S2NvNDVyM3JJbnZabkdrdVhXanY4aVZU?=
- =?utf-8?B?TytONjNiWGtrQ3h5Rys1T3g0RzUyVDAwUGpybVlYdUQrRUdJN1k0cmdjNG02?=
- =?utf-8?B?VzJiMldxQytOVmxSaWUyUFE5TWFNNFQwR0MrTEZoMWpOZVRBTmlSMlAraitW?=
- =?utf-8?B?ZVk5bllJZkZBc1RKMGpYS1JtMnVmMHZHQzRReEhsb3dtSnBoUENZZnlMem1D?=
- =?utf-8?B?NHVGNXBUYk5mYmVwV1Y5a0VwenhYNWpXaGRNTTdHbkNPRDFHanU5b05jcUgr?=
- =?utf-8?B?dHhVMXo5bWZZUFVDS2xZNjNSbE1OdXBNYkRJWHBsMXA3blI5ZFk5YmdOMFgz?=
- =?utf-8?B?dVB4NFhZSVpmc29UZFJKY3E4T3A1ckdzYktNV1FWM3NXaGRSK1FaV0VhWHVK?=
- =?utf-8?B?bExxdE4yOFIxclFvSXdhMklGOXFJTUxraEpRSHpkWFJtb0paYmN5VTA3VERS?=
- =?utf-8?B?Wm1aek50L1IrQmdvWjl0cms5d1NSL042NDl3aVVXcEFPRjlZeTMwMGVOVkhr?=
- =?utf-8?B?WEpkWXdFczFCU1lsZnd0dWJjWUpBT3lRUkpMZVMzVVpMTWsrNjR1aEZSZDk2?=
- =?utf-8?B?UVRxZ2k5bHhzcysvVzFQNDJpQk12c0J1NktiWFRQMTdZM21yYlU2T0tISjBy?=
- =?utf-8?B?ZlpRYlcydHpIbGJIN1p5cy82eHpNRCtsMlFxT2IrK29CaHEwRlVuQ1hIOXpP?=
- =?utf-8?B?ak0vU0pnTUNuWG92VjdxODl4aTRzaFpiYVRNWHNPOGRlSFhXb3A1T2FoVXBN?=
- =?utf-8?B?YUJnQWhCNi8zUU1XMXNMNnY1YXRjTmoyamU1VUJiN1l5VmFxYkVmU3poS1pw?=
- =?utf-8?B?blVJY2ZHZjc4MFQvU3BGN2dlRjhNZmhxU29VdzhESXNaWTJOd0twSW1mRVJF?=
- =?utf-8?B?bWtLQWhlbklSQlNCMUtESkR2c1BURWE2VkxCekphZlJNd0MyWEhQdlJPSzZZ?=
- =?utf-8?B?a1VmaEtrMU5rSVJ2YlNHV3k2ZXl6UUJ2VXNGZFAxUW0xV1U1REVNMkVDa1Ex?=
- =?utf-8?B?WmtyejlxWm96SUJsaGVlNXVIdENUeWRTS1pyQ2tmeUZURkkzRzR3TTgvY2dJ?=
- =?utf-8?B?andrcUxFcEloTFkwdnVGc3ZDQmEzTkwvWG9LdUIyTldwS2FybjZEVERCZGJl?=
- =?utf-8?B?SjUyTnZlYnJQSnB4dCsxUFVDamlERlRvbUJjY0R3Qlo5VzFBejJrdjQyOXdG?=
- =?utf-8?B?WUloYzZ6R0ZsaEg0RVoxVnkwVGJ5ZDFLM0NJU1drVFRGMXVCSUJRYUF5b0pz?=
- =?utf-8?B?RmVlWUhXMm9BRWh4cjc1dWFRNDh6d1dUN25yWWtWcWVtV1ZGV1F1L21tcTFr?=
- =?utf-8?B?S1VTUEFrWTdxVUhjS0V6MjV0azEyQ2t6eHdBRnpFOVNYclM5eFYvRS93cmtn?=
- =?utf-8?B?WDBFSWxkc0tpMEhoZWVCQ3N1enhaSllwV1hQYjBiTHB0ZTdzakJOMUgxU0w3?=
- =?utf-8?B?M3ZxYm10NnpLSmc5MkwzSkVuY1ZuVkZ6a1VyNEFYNnRvajlVazB4YzJrNWVx?=
- =?utf-8?B?dkEwVzVmd2JhMnk1SVhTWWtqMGpIOCtMMzUxKzNBaG5QaEdoN0VxR1ZqT2Jz?=
- =?utf-8?B?WlQxRm0ybDdYeElxdkF5elNKaUFLWEk0L3JackFpK3JBbWF0amxkUUcxMlNS?=
- =?utf-8?B?aDU1TFp3TGl0UVM4T2diU0o4eGlWWnBiZ2hYcmYvY0ltU0hkMmN5M1dOYXo1?=
- =?utf-8?Q?e6svAP?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?SEFDeWVBUXcxVEJlNXlEaXM3cDdjbjZYS1BKdGFFeUNmT1krNmQ0V3h4WlAw?=
- =?utf-8?B?b2hlRUZ0ZkNmL2RwbFc0SkhOOWV6RkdSTnlrUlQ2TDgrWDFzOEcwMEgrZEJ5?=
- =?utf-8?B?SUU3c0RWSlNSck9Nay9iSmY1V0UrMmcrdEd6VS9qeUNybUIzdWJPUS8wNzNl?=
- =?utf-8?B?eVNKVUNUclprbjl4V28xTnpaK0ZJL0ZrMk5KaHRzanovTW5ERDlzMXhIWXVm?=
- =?utf-8?B?ejNYU2tkRWt1ZWFvNVZTKzdPQmdqclNwY0t1ZGpaSFd3TFV0Zkc0SU5oRW9D?=
- =?utf-8?B?cFVRNTk0RDRWNi8xaXpqUmlnRm15UG94YjFlck1tVjF4YVcweGJwSUhsZDRI?=
- =?utf-8?B?bUZUdTZjNlJ6SnBXT1ZTQ2hHRW92UDJuWlFQSkZIcWNkSXVNRTdMVjF3Uzl4?=
- =?utf-8?B?VW5rSjRoUXBGL2V0ZFZHNU5LUi8waDh0QW1GNTJIRE55RDBuOEQ5WWtacXVn?=
- =?utf-8?B?RHlLaUg0MjJIQ0Y5R1F1TFdjS2NWU2VhejNKcUtDdVU2bW9HMk13ZmluSWJt?=
- =?utf-8?B?bzNQSjZ4eXludlpmZlhaR0xyTXZ3TkVPNlNhbHlGcDBhbFNRYkN1UDFxMzhP?=
- =?utf-8?B?d3AvK08xbGoyNys2ZEtaaitUdE1BY0QyYjVFUnFZTUt5dC9oSjVKT1E3L1M2?=
- =?utf-8?B?MDhGYU9PazNET3ovSXdDOE5mVjcvZmZ6MXZHVURFYTRxOG5vR3pTb2VsUWY3?=
- =?utf-8?B?NDc3S1BiWm90RVVHSmNCbG9TdkJtWTlPUzdWK1ZCc1oraTEyRUNXS1FrYWNm?=
- =?utf-8?B?Q2w2QkF0WUFpQ1RMQmovbWJoalhxVUgyVE0vZHBLR0o3Z2ZUMi9BSnYxZ1ZR?=
- =?utf-8?B?NWhzRnhVTGV5Vmpuci9BT1VEWEE2ZHlKMzVvQVZ4eEpDakl6MEg2NFMvZk8w?=
- =?utf-8?B?SEMzN2p2aHBxRFR2Qm96RkFaY0VlK2M3QmlYYjZkMHV1U01pWml2L1lCZnZX?=
- =?utf-8?B?ellUeUdaNHJqUEFmTzV4aTRXNWZSajVXcTNoV3g5OWt2dGZaRVlmS0U0cVY4?=
- =?utf-8?B?YXZaaDA2ZGhHWllkRkdRaERjSkxCNTVwM21qbTZ4ZXd2d09vQXNwcE9wS1lw?=
- =?utf-8?B?dXlVWEdkS200aTExWDN2dlY0SS9ncDc5R3RjMzYvWStkT1NsZlZsdGhnTDNt?=
- =?utf-8?B?ZkwxSGt3WFFMYzNDNzlncFAwQUlZTVdGc2pkcFE2UWd4SnVIa29acGYrQXo2?=
- =?utf-8?B?UE9HcTFUTVlHL1oxeU1JblJaQ01zMHQxaVNsUmVlQUwzVkk4TGdRNW8vZEkz?=
- =?utf-8?B?eUZOVG1ndjhGb1Y3bDBaZXhmWXhId1RGbzdhTEhseUpsR0pWNmIvYkFwRnVY?=
- =?utf-8?B?bUpyaWEwZ0FYbWZpamhVZTAzNVBVQW9QUStHcElpdERMT01HRGJ0R3lzVndF?=
- =?utf-8?B?WXZpM0phK1VsM1pwZ1JvR0JtTzZEalZjYWRkdkRYaFBPRXdzenVLdWs2dThQ?=
- =?utf-8?B?VFhQUUkwNnNTdFdLRmw0UHVIK0tGOVhUN1hnOElXaTdjMWF2TmtSNjhEQjBR?=
- =?utf-8?B?MmNIalUxQjF1MGN3am5lbytpazdkdkw5VU5ZZ3IwSktsL1ZaZllVbzl6cWl2?=
- =?utf-8?B?OTM0NWFhMTJnc085ZCtTVlZnZ2tsUFI1UVFXaUVvZXFvWW9CdU9sWEIyY0NM?=
- =?utf-8?B?U21mQ053dDNYbndSbGFLeWxQWkdhVUlOcnAvTzZINW5mSmtKbUNmNVJ3dHhY?=
- =?utf-8?B?azBsOE9HU0ZQeHNIR1pEajJOUXlISTU4UyttbmFhakZ6VHdOdXZIWDZBak1Z?=
- =?utf-8?B?VXdHQkJqMEdzcnVaY2UybTdpcGE0M2hGakU3d0hHUG4xUkdPUE0vUmd1NEZo?=
- =?utf-8?B?WXpoUFpSbXZKWlhmKzR0U1ZsRWFnVnNlQi9hWVJoMkVjSFhwWS9lZHNqQU9q?=
- =?utf-8?B?Q1dON2dXc0pDYktlYXF1dmE3ZXZ1dHZqUFl6N0VWWU1RSlcwNkJLYk9DaE1U?=
- =?utf-8?B?eWRwdm85UWJ2NDhGdTQyZXVqM29XOEZSdWJzbkNqYVFIcmNlWUZLb3JGeG5Y?=
- =?utf-8?B?NjdXQjByK2ZwNHd6SEZUTlJFelNsSDN3ZCtoUEdBQVhuMC8yWVlYbElJNmFI?=
- =?utf-8?B?KzFMdUg4NlNrcmVBNHpmcVQ1TmJsSVZkc3Q1cmZFRmhSRitHakFlYWtGdnJi?=
- =?utf-8?B?dkx0dlhpUXpPTUU5VXlvMTc1QUhwYmUrbjNib0p0bzJqQXFoYk9DMTlBVEkz?=
- =?utf-8?B?cVE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F9A11F09AD;
+	Sat, 22 Nov 2025 14:18:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763821119; cv=none; b=IfoxKzqMJ2Qym1pY2/SJawnJ3cF0Cpdc8Ao593hAu/vz67ZNWF5ew8kr8B+ElLxtsQHMVm/L9IkbP2xJrRR89R2o31I7ushZ0em0P2WEhoGn5eE5MyuqWIzZUZqGHFozYJvazB+I8/ZJKRT9egIVfvHW6ydc1+wv2kNA2T1+Nkw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763821119; c=relaxed/simple;
+	bh=WXYIJpA/5uMWAoBbwYGh8DEu0v6CC1dOId+77yeMnkk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Bx48gMhJ22Q7aOn04vtsQo+y34LxY3zZQ9BGGHzkKq/DTnv7jeWc4kVzpmGDlOKTnnVBnNm47ss71iQduGxkMy4jVcRVr5X4VJFSb8uVL12vr+sYjaEMt1yTRA1cV76xcbE6D5jXK8pB2yMDdZipWoRLL+xQKGduwFLpFnNiV60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=Y1UpTHto; arc=none smtp.client-ip=212.227.17.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1763821096; x=1764425896; i=w_armin@gmx.de;
+	bh=Kc4yf/ip/zYhJKQehc/v1Ono+m+rQ7sS8fbaEIg4oWE=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=Y1UpTHto+ZoqLH5nQvLgtnB839wOH5s3ITuS1rBa0F5opUsqMNbpc05RvhNXdN+w
+	 LbP2H+cO5IdH6PqtSNGHEF0wlSpdifa3lUKxga5MHCcYij0kd1p3i2kmcuxyr5UQ5
+	 oGe/sP7emNQKmeW/rEv8Cvq8dL5crOw9wD+533pSWpiapdYfR9/sww4wBBoWvI303
+	 ko9K5byBMbCV91+W64U/ZMJVRN4NMrQJW46iRwfz8la0g21B5gAbcg9n72nkQ6yPd
+	 djLm9H5GxLznIw/0QBpCYsDwHP3840idibV2CETRLYzHOGszREUKs3+RFrJiyDlhX
+	 j6/yZOEhEn8SEgmJTw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.0.69] ([93.202.247.91]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MbAci-1vy58R25Qu-00ZeVB; Sat, 22
+ Nov 2025 15:18:15 +0100
+Message-ID: <5f3ef610-4024-4ca0-a934-2649f5d25f40@gmx.de>
+Date: Sat, 22 Nov 2025 15:18:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4dada796-2fa6-407a-e1ab-08de29d194a2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Nov 2025 14:15:25.1750
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: bnf/ixz1Kuh5khyHASJscaRqxLQGOFDVF/2gd3C9ZN5BoI7Dus+fvWmM0OEMIktIg2kTHTY9okiGbxdM8QiXMoVivNMGsdvdEdAq3fmcWr0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYRPR01MB15616
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC RESEND 0/8] thermal: core: Allow setting the parent
+ device of thermal zone/cooling devices
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+ Len Brown <lenb@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Ido Schimmel <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>,
+ linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-doc@vger.kernel.org, netdev@vger.kernel.org,
+ linux-wireless@vger.kernel.org, ath10k@lists.infradead.org,
+ ath11k@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, platform-driver-x86@vger.kernel.org,
+ linux-pci@vger.kernel.org, imx@lists.linux.dev,
+ linux-renesas-soc@vger.kernel.org
+References: <20251120-thermal-device-v1-0-bbdad594d57a@gmx.de>
+ <CAJZ5v0jOPrBcozzJMsB1eE12MuZRWDAV-+=jfrhJbi=S0p5J9Q@mail.gmail.com>
+Content-Language: en-US
+From: Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <CAJZ5v0jOPrBcozzJMsB1eE12MuZRWDAV-+=jfrhJbi=S0p5J9Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:p1RNGZcFb7DMYC4pNIt+bKMVaFtCpVDJjA+b5GK6HVl6ii0Qvy6
+ F02X8anlkVakkbi2OTFbnt8tYeJSvn6gGOs4ruxe4iOSm964VHeR0KGAfYYSOGHAkEHE1SL
+ f+0kJN0U4H4TG67hcvhs8e2p+bBtnKPBsYGRBwzRgM45wOTh3XumwYG+ToUgVBnpYQ3YAqx
+ wayKxHUnhSBUFp4PBU0OA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:vXFK1AWv0os=;NZUt21siNzvTNFU+NCb4ppbI26X
+ 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
+ L4DlDx0w=
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQmlqdSBEYXMgPGJpanUu
-ZGFzLmp6QGJwLnJlbmVzYXMuY29tPg0KPiBTZW50OiAyMiBOb3ZlbWJlciAyMDI1IDEzOjQ5DQo+
-IFN1YmplY3Q6IFJFOiBbUEFUQ0ggdjMgMDEvMTNdIGR0LWJpbmRpbmdzOiBzZXJpYWw6IHJlbmVz
-YXMscnNjaTogRG9jdW1lbnQgUlovRzNFIHN1cHBvcnQNCj4gDQo+IEhpIEdlZXJ0LA0KPiANCj4g
-VGhhbmtzIGZvciB0aGUgZmVlZGJhY2suDQo+IA0KPiA+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0t
-LS0tDQo+ID4gRnJvbTogR2VlcnQgVXl0dGVyaG9ldmVuIDxnZWVydEBsaW51eC1tNjhrLm9yZz4N
-Cj4gPiBTZW50OiAyMSBOb3ZlbWJlciAyMDI1IDE2OjI5DQo+ID4gU3ViamVjdDogUmU6IFtQQVRD
-SCB2MyAwMS8xM10gZHQtYmluZGluZ3M6IHNlcmlhbDogcmVuZXNhcyxyc2NpOg0KPiA+IERvY3Vt
-ZW50IFJaL0czRSBzdXBwb3J0DQo+ID4NCj4gPiBIaSBCaWp1LA0KPiA+DQo+ID4gT24gRnJpLCAx
-NCBOb3YgMjAyNSBhdCAxMTo1MiwgQmlqdSA8YmlqdS5kYXMuYXVAZ21haWwuY29tPiB3cm90ZToN
-Cj4gPiA+IEZyb206IEJpanUgRGFzIDxiaWp1LmRhcy5qekBicC5yZW5lc2FzLmNvbT4NCj4gPiA+
-DQo+ID4gPiBBZGQgZG9jdW1lbnRhdGlvbiBmb3IgdGhlIHNlcmlhbCBjb21tdW5pY2F0aW9uIGlu
-dGVyZmFjZSAoUlNDSSkNCj4gPiA+IGZvdW5kIG9uIHRoZSBSZW5lc2FzIFJaL0czRSAoUjlBMDlH
-MDQ3KSBTb0MuIFRoZSBSU0NJIElQIG9uIHRoaXMgU29DDQo+ID4gPiBpcyBpZGVudGljYWwgdG8g
-dGhhdCBvbiB0aGUgUlovVDJIIChSOUEwOUcwNzcpIFNvQywgYnV0IGl0IGhhcyBhDQo+ID4gPiAz
-Mi1zdGFnZSBGSUZPIGNvbXBhcmVkIHRvIDE2IG9uIFJaL1QySC4gSXQgc3VwcG9ydHMgYm90aCBG
-SUZPIGFuZA0KPiA+ID4gbm9uLUZJRk8gbW9kZSBvcGVyYXRpb24uIFJaL0czRSBoYXMgNiBjbG9j
-a3MoNSBtb2R1bGUgY2xvY2tzICsgMQ0KPiA+ID4gZXh0ZXJuYWwgY2xvY2spIGNvbXBhcmVkIHRv
-IDMgY2xvY2tzDQo+ID4gPiAoMiBtb2R1bGUgY2xvY2tzICsgMSBleHRlcm5hbCBjbG9jaykgb24g
-UlovVDJILCBhbmQgaXQgaGFzIG11bHRpcGxlIHJlc2V0cy4NCj4gPiA+DQo+ID4gPiBBY2tlZC1i
-eTogQ29ub3IgRG9vbGV5IDxjb25vci5kb29sZXlAbWljcm9jaGlwLmNvbT4NCj4gPiA+IFNpZ25l
-ZC1vZmYtYnk6IEJpanUgRGFzIDxiaWp1LmRhcy5qekBicC5yZW5lc2FzLmNvbT4NCj4gPg0KPiA+
-IFRoYW5rcyBmb3IgeW91ciBwYXRjaCENCj4gPg0KPiA+ID4gLS0tIGEvRG9jdW1lbnRhdGlvbi9k
-ZXZpY2V0cmVlL2JpbmRpbmdzL3NlcmlhbC9yZW5lc2FzLHJzY2kueWFtbA0KPiA+ID4gKysrIGIv
-RG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3NlcmlhbC9yZW5lc2FzLHJzY2kueWFt
-bA0KPiA+ID4gQEAgLTEwLDE3ICsxMCwxNiBAQCBtYWludGFpbmVyczoNCj4gPiA+ICAgIC0gR2Vl
-cnQgVXl0dGVyaG9ldmVuIDxnZWVydCtyZW5lc2FzQGdsaWRlci5iZT4NCj4gPiA+ICAgIC0gTGFk
-IFByYWJoYWthciA8cHJhYmhha2FyLm1haGFkZXYtbGFkLnJqQGJwLnJlbmVzYXMuY29tPg0KPiA+
-ID4NCj4gPiA+IC1hbGxPZjoNCj4gPiA+IC0gIC0gJHJlZjogc2VyaWFsLnlhbWwjDQo+ID4gPiAt
-DQo+ID4gPiAgcHJvcGVydGllczoNCj4gPiA+ICAgIGNvbXBhdGlibGU6DQo+ID4gPiAgICAgIG9u
-ZU9mOg0KPiA+ID4gLSAgICAgIC0gaXRlbXM6DQo+ID4gPiAtICAgICAgICAgIC0gY29uc3Q6IHJl
-bmVzYXMscjlhMDlnMDg3LXJzY2kgIyBSWi9OMkgNCj4gPiA+IC0gICAgICAgICAgLSBjb25zdDog
-cmVuZXNhcyxyOWEwOWcwNzctcnNjaSAjIFJaL1QySA0KPiA+ID4gKyAgICAgIC0gZW51bToNCj4g
-PiA+ICsgICAgICAgICAgLSByZW5lc2FzLHI5YTA5ZzA0Ny1yc2NpICMgUlovRzNFIG5vbiBGSUZP
-IG1vZGUNCj4gPiA+ICsgICAgICAgICAgLSByZW5lc2FzLHI5YTA5ZzA0Ny1yc2NpZiAjIFJaL0cz
-RSBGSUZPIG1vZGUNCj4gPg0KPiA+IEkgY2FuJ3QgZmluZCB0aGUgbm9uLUZJRk8gcG9ydHMgaW4g
-dGhlIGRvY3VtZW50YXRpb24/DQo+ID4gRG8geW91IG1lYW4gIlNlbGVjdGFibGUgdG8gMS1zdGFn
-ZSByZWdpc3RlciBvciAzMi1zdGFnZSBGSUZPIj8NCj4gPiBJc24ndCB0aGF0IHNvZnR3YXJlIGNv
-bmZpZ3VyYXRpb24gaW5zdGVhZCBvZiBoYXJkd2FyZSBkZXNjcmlwdGlvbj8NCj4gDQo+IEJhc2lj
-YWxseSwgaXQgaGFzIDIgbW9kZXMuIEZJRk8gbW9kZShDQ1IzLkZNPTFiKSBhbmQgTm9uLUZJRk8g
-bW9kZSAoQ0NSMy5GTT0wYikuDQo+IERNQUMgY2FuIGJlIHVzZWQgb25seSBpbiBGSUZPIG1vZGUg
-YW5kIHRoZXJlIGFyZSBzb21lIGhhcmR3YXJlIGRpZmZlcmVuY2VzIGJldHdlZW4gdHdvIGFzIEZJ
-Rk8gcmVnDQo+IGJsb2NrIGlzIGFwcGxpY2FibGUgb25seSBmb3IgRklGTyBtb2RlLg0KPiANCj4g
-SXQgaGFzIHRvIGJlIGVpdGhlciBhIGNvbXBhdGlibGUgb3IgYSBib29sZWFuIHByb3BlcnR5ICJy
-ZW5lc2FzLCByc2NpLW5vbi1maWZvIg0KPiBPciBzb21ldGhpbmcgZWxzZQ0KDQpJIGJlbGlldmUg
-aXQgbXVzdCBiZSBhIGNvbXBhdGlibGUgdG8gc3VwcG9ydCBub24tRklGTyBtb2RlIGZyb20gYm9v
-dC4NCg0KSSBtYXliZSB3cm9uZy4gUGxlYXNlIGNvcnJlY3QgbWUsIGlmIGl0IEkgYW0gd3Jvbmcu
-DQoNCkNoZWVycywNCkJpanUNCg0K
+Am 21.11.25 um 21:35 schrieb Rafael J. Wysocki:
+
+> On Thu, Nov 20, 2025 at 4:41=E2=80=AFAM Armin Wolf <W_Armin@gmx.de> wrot=
+e:
+>> Drivers registering thermal zone/cooling devices are currently unable
+>> to tell the thermal core what parent device the new thermal zone/
+>> cooling device should have, potentially causing issues with suspend
+>> ordering
+> This is one potential class of problems that may arise, but I would
+> like to see a real example of this.
+>
+> As it stands today, thermal_class has no PM callbacks, so there are no
+> callback execution ordering issues with devices in that class and what
+> other suspend/resume ordering issues are there?
+
+Correct, that is why i said "potentially".
+
+>
+> Also, the suspend and resume of thermal zones is handled via PM
+> notifiers.  Is there a problem with this?
+
+The problem with PM notifiers is that thermal zones stop working even befo=
+re
+user space is frozen. Freezing user space might take a lot of time, so hav=
+ing
+no thermal management during this period is less than ideal.
+
+This problem would not occur when using dev_pm_ops, as thermal zones would=
+ be
+suspended after user space has been frozen successfully. Additionally, whe=
+n using
+dev_pm_ops we can get rid of thermal_pm_suspended, as the device core alre=
+ady mandates
+that no new devices (including thermal zones and cooling devices) be regis=
+tered during
+a suspend/resume cycle.
+
+Replacing the PM notifiers with dev_pm_ops would of course be a optimizati=
+on with
+its own patch series.
+
+>> and making it impossible for user space applications to
+>> associate a given thermal zone device with its parent device.
+> Why does user space need to know the parent of a given cooling device
+> or thermal zone?
+
+Lets say that we have two thermal zones registered by two instances of the
+Intel Wifi driver. User space is currently unable to find out which therma=
+l zone
+belongs to which Wifi adapter, as both thermal zones have the (nearly) sam=
+e type string ("iwlwifi[0-X]").
+
+This problem would be solved once we populate the parent device pointer in=
+side the thermal zone
+device, as user space can simply look at the "device" symlink to determine=
+ the parent device behind
+a given thermal zone device.
+
+Additionally, being able to access the acpi_handle of the parent device wi=
+ll be necessary for the
+ACPI thermal zone driver to support cooling devices other than ACPI fans a=
+nd ACPI processors.
+
+>> This patch series aims to fix this issue by extending the functions
+>> used to register thermal zone/cooling devices to also accept a parent
+>> device pointer. The first six patches convert all functions used for
+>> registering cooling devices, while the functions used for registering
+>> thermal zone devices are converted by the remaining two patches.
+>>
+>> I tested this series on various devices containing (among others):
+>> - ACPI thermal zones
+>> - ACPI processor devices
+>> - PCIe cooling devices
+>> - Intel Wifi card
+>> - Intel powerclamp
+>> - Intel TCC cooling
+> What exactly did you do to test it?
+
+I tested:
+- the thermal zone temperature readout
+- correctness of the new sysfs links
+- suspend/resume
+
+I also verified that ACPI thermal zones still bind with the ACPI fans.
+
+>> I also compile-tested the remaining affected drivers, however i would
+>> still be happy if the relevant maintainers (especially those of the
+>> mellanox ethernet switch driver) could take a quick glance at the
+>> code and verify that i am using the correct device as the parent
+>> device.
+> I think that the above paragraph is not relevant any more?
+
+You are right, however i originally meant to CC the mellanox maintainers a=
+s
+i was a bit unsure about the changes i made to their driver. I will rework
+this section in the next revision and CC the mellanox maintainers.
+
+>
+>> This work is also necessary for extending the ACPI thermal zone driver
+>> to support the _TZD ACPI object in the future.
+> I'm still unsure why _TZD support requires the ability to set a
+> thermal zone parent device.
+
+_TZD allows the ACPI thermal zone to bind to cooling devices other than AC=
+PI fans
+and ACPI processors, like ACPI batteries. This however will currently not =
+work as
+the ACPI thermal zone driver uses the private drvdata of the cooling devic=
+e to
+determine if said cooling device should bind. This only works for ACPI fan=
+s and
+processors due to the fact that those drivers store a ACPI device pointer =
+inside
+drvdata, something the ACPI thermal zone expects.
+
+As we cannot require all cooling devices to store an ACPI device pointer i=
+nside
+their drvdata field in order to support ACPI, we must use a more generic a=
+pproach.
+I was thinking about using the acpi_handle of the parent device instead of=
+ messing
+with the drvdata field, but this only works if the parent device pointer o=
+f the
+cooling device is populated.
+
+(Cooling devices without a parent device would then be ignored by the ACPI=
+ thermal
+zone driver, as such cooling devices cannot be linked to ACPI).
+
+>
+>> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
+>> ---
+>> Armin Wolf (8):
+>>        thermal: core: Allow setting the parent device of cooling device=
+s
+>>        thermal: core: Set parent device in thermal_of_cooling_device_re=
+gister()
+>>        ACPI: processor: Stop creating "device" sysfs link
+> That link is not to the cooling devices' parent, but to the ACPI
+> device object (a struct acpi_device) that corresponds to the parent.
+> The parent of the cooling device should be the processor device, not
+> its ACPI companion, so I'm not sure why there would be a conflict.
+
+ From the perspective of the Linux device core, a parent device does not h=
+ave to be
+a "physical" device. In the case of the ACPI processor driver, the ACPI de=
+vice is used,
+so the cooling device registered by said driver belongs to the ACPI device=
+. I agree
+that using the Linux processor device would make more sense, but this will=
+ require
+changes inside the ACPI processor driver.
+
+As for the "device" symlink: The conflict would be a naming conflict, as b=
+oth "device" symlinks
+(the one created by the ACPI processor driver and the one created by the d=
+evice core) will
+be created in the same directory (which is the directory of the cooling de=
+vice).
+
+>>        ACPI: fan: Stop creating "device" sysfs link
+>>        ACPI: video: Stop creating "device" sysfs link
+> Analogously in the above two cases AFAICS.
+>
+> The parent of a cooling device should be a "physical" device object,
+> like a platform device or a PCI device or similar, not a struct
+> acpi_device (which in fact is not a device even).
+
+ From the perspective of the Linux device core, a ACPI device is a perfect=
+ly valid device.
+I agree that using a platform device or PCI device is better, but this alr=
+eady happens
+inside the ACPI fan driver (platform device).
+
+Only the ACPI video driver created a "device" sysfs link that points to th=
+e ACPI device
+instead of the PCI device. I just noticed that i accidentally changed this=
+ by using the
+PCI device as the parent device for the cooling device.
+
+If you want then we can keep this change.
+
+>>        thermal: core: Set parent device in thermal_cooling_device_regis=
+ter()
+>>        ACPI: thermal: Stop creating "device" sysfs link
+> And this link is to the struct acpi_device representing the thermal zone=
+ itself.
+
+Correct, the ACPI thermal zone driver is a ACPI driver, meaning that he bi=
+nds to
+ACPI devices. Because of this all (thermal zone) devices created by an ins=
+tance of
+said driver are descendants of the ACPI device said instance is bound to.
+
+We can of course convert the ACPI thermal zone driver into a platform driv=
+er, but
+this would be a separate patch series.
+
+>>        thermal: core: Allow setting the parent device of thermal zone d=
+evices
+> I'm not sure if this is a good idea, at least until it is clear what
+> the role of a thermal zone parent device should be.
+
+Take a look at my explanation with the Intel Wifi driver.
+
+Thanks,
+Armin Wolf
+
 
