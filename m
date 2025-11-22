@@ -1,322 +1,228 @@
-Return-Path: <linux-renesas-soc+bounces-25020-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25021-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id D77D8C7BC66
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Nov 2025 22:41:52 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 844A1C7CFA6
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 22 Nov 2025 13:30:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id BC0654E11CE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Nov 2025 21:41:51 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 4331A4E403C
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 22 Nov 2025 12:30:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CA0C2FFDC9;
-	Fri, 21 Nov 2025 21:41:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F02B52AD35;
+	Sat, 22 Nov 2025 12:30:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J0gtV3Gf"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="ubVLBIjs"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011018.outbound.protection.outlook.com [52.101.125.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 096E22E6CC6
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Nov 2025 21:41:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763761308; cv=none; b=sCgvif4wJZ8gB+HUuzD7WUNPmZuNZjqqzcatA0kkevUwkRJvYGFtdrpienE8GnSz1nYBU4VDnb3is0k8GXMYw6X5I4gYNqMSM3X37zN0UsW5J0COiFrSGP5SWZ7374P1lPDMQWotJO167riidNy79fxAAySF3lnTKIOR7dHmIN0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763761308; c=relaxed/simple;
-	bh=tWpGutvthbl0vmJC71Cjs0NJn9cl86bS2pwKW7GWMxA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hdA/iEvERSMCisLsSDlSW8nZGHrckiY71NZaU249qataoqniL8XD+mVS5LrGGM9YhfUBUqpFz9LA0vXLrNUYvgRBPafNAlpqIFwpOdJ+YyUWiLUCW6InzTRDdpn3uTO7SL+ExEgzXS58jRKT6eMBrF6jAIym3Pe/VOM5sxcTdT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J0gtV3Gf; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4779d47be12so19463755e9.2
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Nov 2025 13:41:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763761304; x=1764366104; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CEotC2Jer+OQWcHMmR588K4B9r/jwYBL3ATyOeVj44I=;
-        b=J0gtV3GfPNnv9aKKJgGbIuwZfzzZRGcizYfvjZAE0eDsxoMBhGP3TCeNxBpMbnV6qs
-         xR2PDBSo+K6yVTjoN/eAXxPvVownYOjrG1QLGoNLHtVKt8ePvgBUrg0J49ir72rnM0z2
-         tNP8YSOpMHlvK0R9ASt9/ITaNY/0jR/E1zULD+af05VNRo4DuQZyfjjR2AWhTpNkNams
-         KNwpVmWOJlbwlWNNVh9/wJU8j4REA/DYmW405l1e4Ekw8wIwhG4wbdMRZIZwlzwBYfY+
-         E1cu/JZO8Pl7sc0LPxMhLhEpyp3WGuWR4cAMwGvcPwpcZFI98MTQel4//p/ot1jbklIW
-         RfHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763761304; x=1764366104;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=CEotC2Jer+OQWcHMmR588K4B9r/jwYBL3ATyOeVj44I=;
-        b=IJSDiJ0Rh2o33WSPntflzh2o03ZfuW877i5pSEjewJgI1jlgexFYKJ0IobSC1QwOEF
-         mSnq7UKE250wHzXtftuqWECB4w3moNGdZZ78+DuR4OiO0U/9aWPBGVxQP4w+oVTlWPK4
-         tZWIECKjr0/x1xTuf/GT7nVUoNN5dYqQSqGzo3GV/H3ZeiP+UXmBq9E25at1f/7rOdsY
-         qA+5dg6xroJ87EonvyxFla+x5rOkEW3/I2TcF5jF1HYQkmJ+KblcqVUeAdxuLR8RZFUY
-         zjZoqtghaZKnAJU5GvH8xKfdAmm2I3CxEU66IdPvLVHIMqaso6RvDoqicTLa+8fCxHOZ
-         +oLQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWnDV0rseOx5KEn1hudylVwFtP6jK1Ro+82ejlshX2q0IKK4V3CNRRSYwMcRemCkQY8uy+d0n7vHKtaHTeADuUF0A==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw8HsJOvSeJH1fGa/2WNXZhE5shXOV4YmeW6/OCtsEIOsRBHmJ1
-	zZS6yCCLje2EWcS86QZPTso7MmyTKZJD1s4K48En265BFev/i5Yof5RaFTqwjeaPEFRfXFP06kn
-	CokQYQZXMao3KYs8s35L8xmqUMrLHOFI=
-X-Gm-Gg: ASbGncs4y59jaoFqQ5g0WrzC/vL1vhrMa8P/fYmtQ6+EbWeIPWumD8pFi+O4Pm3PC0l
-	iIdPCu8LMZOnZ9/OrGjh48n/pMtvRI0d4aj33Plqi8Ddv6JM0jlG+BroLdnCfFsI4vG6ZgXYFOr
-	WJzv3rcyx7Daht0zEPtCW/L3jVgcR8P3uapyk4uAchVAohcndCpHRW2lEKR6IkAfEAHuKV+xYgd
-	Md/b7g+0pvQ42WlUIbH/gR6fIkjmctx2fOLVkxbil3eEVNd1kb+NJVqz8D4wRzTRjvRiLRDCjnK
-	b3+nw7CWL1YH+niBedx6dYonclNw
-X-Google-Smtp-Source: AGHT+IHeREyNsO6TawnTkYCrf9XGp32KZCYN1xfZZ5gkS4XCMZGcna8r1J1jHYakREKCoqjzMWX7Imhr8FoVJ4OHPdI=
-X-Received: by 2002:a05:600c:1f85:b0:477:9c73:267f with SMTP id
- 5b1f17b1804b1-477c01ff629mr32731045e9.33.1763761304086; Fri, 21 Nov 2025
- 13:41:44 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC2978488;
+	Sat, 22 Nov 2025 12:30:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.18
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763814643; cv=fail; b=ShpvRS57oLy0dnVll1zfYE+0rJfIskNduw11AcYq1aXd9Mmq2T0ju9zqYXDdZGSXI/NMmm50bsBUXCsCcEw5YTzAaPM2sEQWqxwMMDQKPYUSuBFjFtANpNwL13FrluZXZiJFkyvdGNciCH7a1zXK1qf9Hf1mTohL2B7Gse68quA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763814643; c=relaxed/simple;
+	bh=za23//sPEGDzVgjggzZglkaqXT6uy3Ys7+Hee3fKqYs=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=OvWbORkw87l7usISIjmMbVdqgkZ0cfM2zCjSfBkYB2nXfVSgdpidao/C65YXMDHDx1Xt4swU/w9ZS9GQKFY4oNz48XOrtmtojahhJj54n0t48INJS2xSt5fj54SpesmEo2tyXdSl1BdKrwyvu3fPYZ3dDGscuOy7GK2yZspJMdo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=ubVLBIjs; arc=fail smtp.client-ip=52.101.125.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xA74sAtVfg5gWfSS3H7/Dn/nD9pFtB2OJbqQ+p5gbcGgQy9HnqmIbeJ3wNg2uvClTN1kPZiCVozcq6jWe+W75vzzFIt0gus3uXE8Cy588Ao07pr41pfV2mALaxt4FBbjPTBqlptq4xh28XIp30fBW+2M9hBYjz16BKwfTHGlau1Qquq+uem8zKI9cW3vN+KpN4EIy28GvaxgzXnZa7kpdjnCs/URFW/YDQdM+DJWhzdhDr4EF7FWkUp7YwjfHKkkY3vp0ryvctcTxAP7deRJJ+BugOlmZopkwpsFL4Gudl7QypNZTUCqCRO4gL67T9nXiWkaHoPBb5pXs8SoaYlAsQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=za23//sPEGDzVgjggzZglkaqXT6uy3Ys7+Hee3fKqYs=;
+ b=xS1Oucvf4H3XmMWsSLO7CMTnJywD4psK8nQ9ZgJyAm4JO/tgs8lljAsC80xacHtPD288WfS6N9Lr2Jd+SzQeXPX2kjRDv0+g23lbqyftr5qLHLws/AFQGeE2V3nV/2DuFnK4dlssRkEFx3+R5YiLRN7N4H2utISTMs1phir/oljX0ZwgicWGwhkAf1yO0J8M2EG7e1/+Om2zyLOmYk/zs22ln7cIBy6OuaszyzXG4zvErg47uKJ8ha2O8ZjCgdzCTVzaWk1ebX1836swQNC0tIhhBnbh7dSGNFp4vAnD7XKUBxv0KsHR1TDYFnw9v/l+iC5lEscm1o/DUxpb4JpLRw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=za23//sPEGDzVgjggzZglkaqXT6uy3Ys7+Hee3fKqYs=;
+ b=ubVLBIjs5A/b5PfPdGIIDZX1CBsktk6N4St4+O5ZwkZAPJl02fDTe95XURhLvGIkK1MMhjARQogS3h8NfIvImGhp7wsZYhXGeYA7Pf5XGCDWkgCt6t3zo77ZISq6gdHIz+Ke924SPfVs7JXXKRRjcbZyur5nqaASqHKhqpBkkIU=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by TYCPR01MB9799.jpnprd01.prod.outlook.com (2603:1096:400:20d::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.6; Sat, 22 Nov
+ 2025 12:30:35 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1%6]) with mapi id 15.20.9366.005; Sat, 22 Nov 2025
+ 12:30:30 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: geert <geert@linux-m68k.org>, biju.das.au <biju.das.au@gmail.com>
+CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby
+	<jirislaby@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, magnus.damm
+	<magnus.damm@gmail.com>, wsa+renesas <wsa+renesas@sang-engineering.com>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH v3 12/13] serial: sh-sci: Add support for RZ/G3E RSCI SCIF
+Thread-Topic: [PATCH v3 12/13] serial: sh-sci: Add support for RZ/G3E RSCI
+ SCIF
+Thread-Index: AQHcVVS/SdMHEdZMy06Lf/dxs0umWrT9QJOAgAFr9iA=
+Date: Sat, 22 Nov 2025 12:30:30 +0000
+Message-ID:
+ <TY3PR01MB11346B5AAC1CBB54361ABAE5286D2A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20251114105201.107406-1-biju.das.jz@bp.renesas.com>
+ <20251114105201.107406-13-biju.das.jz@bp.renesas.com>
+ <CAMuHMdXshthP8nrV-qP=fSv6HGCDj47x9_jQYobZTEivy15tvw@mail.gmail.com>
+In-Reply-To:
+ <CAMuHMdXshthP8nrV-qP=fSv6HGCDj47x9_jQYobZTEivy15tvw@mail.gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYCPR01MB9799:EE_
+x-ms-office365-filtering-correlation-id: b989f9ca-67bf-421d-9f5b-08de29c2eccc
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|7416014|376014|366016|38070700021;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?V1JUVmlPaHMzMm9lZXl3RFAzT3VncVg1bzljaTcrN214eTlHcTZCa1k5MFV5?=
+ =?utf-8?B?OThjZkx4RlBZbkpUaVdYZHpoR2c2K3Jwazd1a084dlIyOE1nVVFMWGMxWVRV?=
+ =?utf-8?B?ZkpOVjRjeDZnRTJPYTFveExSVWRjRDN5SzJCQkt0TmJkSXptOXh5SjI3ZU5v?=
+ =?utf-8?B?eWx4OVdpWi8zL2EzR0xrUXRBajY5NVk1U1Z6OXhoWHpzdVNSMTB3QWxQckZR?=
+ =?utf-8?B?TXZQYTdaUVFQd3h6ZEFNQVdpcFAvOXdPandmcHBOemNOd3NvaEJpQ0FVRDBW?=
+ =?utf-8?B?S1VZbmUvQnQvL3hDeW1QT3RSUndDRnJ3VjZnbXRyQnB1Y1JuQU5WaDcvbjZ4?=
+ =?utf-8?B?WDdzUWw2S0lQSDZGSmY0bU1CUkR5U1hqajJoeW5aTlBvOUh2M0dTT1dCYkRL?=
+ =?utf-8?B?Mld5UjRJVlpoUlI2bVlPNXY5UjJoS2FBSTZNNnpYQldWU21TRVZFSWkvclNI?=
+ =?utf-8?B?LzIwSlZMSFJZL2dHSS9TN05HVjZSV1pnQkhqLzVaMkNxNjNjU2crZ05mdnc5?=
+ =?utf-8?B?SHI1VXM5dXFRTjRoc3BGMlBZM3VpcUtzVnBpeUxIbWlULzc2ZG1oVEpDVnJq?=
+ =?utf-8?B?ZjVVUEtmVkxFM2Y0NElUeHBZUHNvTGdoMlNKVm9UVFYwdmcxbzhkNGpMZ00x?=
+ =?utf-8?B?aFIrcFhrZHpLM1BhRG9pYzFPUTlobThycUJ3V3VOcDdKdVltV2tSaHJJYm5n?=
+ =?utf-8?B?T2NZK3FpajJvT0NIS2JVYktrN3FodVF5UUNpcDNhR3dhUHJmazFEbitmZmhL?=
+ =?utf-8?B?anYxTkV0K0prTjMvSlF3N0lGQTNOWmxMNXlad3k0eW9nMWhpQ1F6UFR0K0tv?=
+ =?utf-8?B?cml6N05UNy9DWHB2cy92UmtJazRjUkxqZXpjQUxtZFZYNDJhSmFlUStCaEtv?=
+ =?utf-8?B?dlE5MSt0Z0hScS9pemNmTWpZZ0lsRFc5OXhuVm5iblBQNXFUV0FlRlVsNys3?=
+ =?utf-8?B?cUcyQWpuNUxCZndxZVIxRUpLNzg5MlM3S1IyMnBYQVF6QzZoY04yblB1M2cw?=
+ =?utf-8?B?YllJdnNJaElLeHNUbmsvUXRNVEJVUTJyQWY1ZTl3dHVpTDBSVUcxSjJGdDdR?=
+ =?utf-8?B?TGxRdnBKaUNScTEyT2VlU1VsMEdZVjZ3eW1RdFEwV0pMb0RVSmJ2d3VYbWhz?=
+ =?utf-8?B?VUhOYXNEVHY1bmNYc09rWUNCdzcrenArczNma3hSOUpjclJNUjlUc0xHZ3dO?=
+ =?utf-8?B?L0RGdTVjNDd5VlVKSXptNU1xTDk1UzZuM3ltN1pIa0Q4RndJTFR6SnI2VXRE?=
+ =?utf-8?B?cVovVFE3TDF3d2lYTVpSU0NvQzRrYkh2VnkvK0tKL2Urd21wdERoK25uWHB2?=
+ =?utf-8?B?OS9XZ2VQdXVoejJrcncvazRZTlR1ZVlDRTlRMWhIMEtCYnJBWUlJWXowUEo3?=
+ =?utf-8?B?QWdPcjNlcTBLYk56T2Q3Y21NZGpLeU4reFVaR2ZZTFNGTUthTlhrTCtkdHNT?=
+ =?utf-8?B?QjZyR25aZDVKRlpML1RQRmZoWm1DK0g2S01UZE0zc0g3V3BKSUx0L2o1RTNt?=
+ =?utf-8?B?MjVuSmdwQ2VDQVZITmw5bXJVS2VvV3NJRkMwWjdsNzN4dXg4S2Z4WlZ0dkl2?=
+ =?utf-8?B?NEZlRlZDL2cxUXd6Z2FtU1NKMTgydEJnS1BxOXB5NWFpVFdHTE84Tit1UjdE?=
+ =?utf-8?B?cU1ROWVPSDZnSzlOdTVRYkI5TmZXNXErN2lVSHZCTWh2NStzNUFzNTB1bm9k?=
+ =?utf-8?B?ZWRqTHV2Uml6c1BkYlg5VWdjNkdwZmdrZW9kTHlTSERRMVZBUTVDbUZKeDRi?=
+ =?utf-8?B?M0ZOalNULzlZMSt4NUllaURoS2YzS3dhTjhZS25KS2FhOUlka0E1eWtRSnp2?=
+ =?utf-8?B?cDY4cm1PRnlPZEhSc2EzVDhRUkFMNEtHQ1FJTTBSdXh2RzQyNS9Kc1NVUUdO?=
+ =?utf-8?B?ZzU1NWZqdVBUdTJnaTNBUXlpVmkxT1ZGL3hyQTk5TnNoSTVBZUpHQkJyaDBP?=
+ =?utf-8?B?STZERXBvMFd6ZVVtMk1RekMrQnNSZjlTQWZLMzZLN2ZPTXc1L21nQVlSWith?=
+ =?utf-8?B?RDYzR3ZOMzZiODFUTUlWOWlnTGFBNXhuZXczZUVYalJqRXpFL09pUDFhOEhx?=
+ =?utf-8?Q?j/1O7h?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?eEpjaTAwRnRGT0FLMllLclRUQXZZMkFGWE50dExwbHBKMXRwU2hHVm13TVBs?=
+ =?utf-8?B?TzlOWUI5VmVrc3VTc08wMjR4d2Z0Y0IweWlrdTRCb1h5eEkyQzdwZEFvbkd5?=
+ =?utf-8?B?VEJ3S0txcUloK2Z6SWs3MEdacVpTWXo1a2gxQ2lyK2VCZGFUZFpkMDF2RWor?=
+ =?utf-8?B?YVQ3cU1XaHp0M3RvdTA3TUY3VGlZYlQ5b0JzeHFnZGs4Vi9lYlBjRkEzZlhK?=
+ =?utf-8?B?QXoyUktsSjUwb1FKckJLN2puQncvWFVQaEoyUUg5YlVhSSttWGcwb3ZzM0Yv?=
+ =?utf-8?B?Ykd3ZGVRUzlUckNnall0UzdBVjVpYzhrM1VzZFV0bVpiaEhqVUlZVlNVUTVr?=
+ =?utf-8?B?M1BuRkpsd3JYWWFldmdDS3ZLVG5VZUtIMy9kbUtLcGRIVHEyK0NjTFAydG1i?=
+ =?utf-8?B?ZVBqaGcrV004bDAwSGNWTXZHcTF3YXh1Nkh0cTFGOVNwUm44aHpoNFEwdHdj?=
+ =?utf-8?B?V05GUkhuM0ZZUnErYTdYZVBwZmVwSWlPTmV2blorYUR3VEN6ZW1OVVF4elBO?=
+ =?utf-8?B?QWhWd01hSlI2Nkp4d0ZrMUNvTjA2MG5jYjdEckpwRXl5RTlxV3daSUpGRHdj?=
+ =?utf-8?B?N2grODgwQVM3SHc4cHREbjhrOHlrUk1NUHFNTlV1b09pUVB6MXpGOVlhWGFy?=
+ =?utf-8?B?S0FCRTZQK3hNZU1xT0k1ZmttdnpMWTJRVUFnRDN5bW01TEVBdnc1VjVWZnpm?=
+ =?utf-8?B?SE4yVHZuMW5zMzU2UjJSK0xzZWdISDNCYU5xM3RDT3o1d2xQZzFSRHYrYmZQ?=
+ =?utf-8?B?T282ZVIwRFVEcnQ0MTZBYVp0MVdDeHhsd0Z6ZzZkNVZlNzhRZkNoUnozQ1pJ?=
+ =?utf-8?B?cUpJQVlBWlc4YlZtNUtGSHd2NzdSSys2TzNpeFJzdGNwTjlHc2JLK0lNSXVo?=
+ =?utf-8?B?dHFjRk14Yi9Ba2JwN2gxWmUreUVwNTY1Z2U2WjBEVzdZbFVuemFVWDl0WGwv?=
+ =?utf-8?B?b09lME5YdGNzWHlCZ3QzcHJnVFplV0x0bDU1dDZNVFhpbjhocGl4UWkwNmtl?=
+ =?utf-8?B?SStPZlRUVmNTbEdWNlJ1ZHI2MU1aUXVOWmN1c0sySGJEb1FHOEpTNklodmIv?=
+ =?utf-8?B?cnM5eFNxOXd3Y0xvQlg3anBYamVNdlVXNW1vRzRLeVNqYmI1dUxsR2pCOVFG?=
+ =?utf-8?B?Z3RxdWhNNWwrbDEzQjJia2YwN0MwNlVQL1dKQXVVQUx1d1h4d3hYYVV6U281?=
+ =?utf-8?B?cVNlOWFiVVp3QWZTaXdFUmljUlJJWStmcTJyMEdhRGZTKzBDdCt6ajc2UXNV?=
+ =?utf-8?B?L0hOdFozMzNVQlBkN3gxYXZwZ0FoSlAvL2UzanBwN1pvZUd0Vm1SK284UWdT?=
+ =?utf-8?B?Z0VmbVVTdnhoNnVpcW1HNVVNUkZxbGN1WEt0V1RkQkhWOFF2STU3M3RFYWRM?=
+ =?utf-8?B?cHZ5Yk5aVDVCSEdHZzI3SnRNTXVuWXlNOEpsZWdRUWM2OWdCb1JZaFZMb0FI?=
+ =?utf-8?B?WUpEQ3FqZkxhZ2ZVdWhHdXJVYXZwV3B3dGxPUDdSb2poQXdSRFluYXNsV3R6?=
+ =?utf-8?B?Vmo1TFZITmNIR2ZLcGdyNVc1OHpVaHR5WWY3azJkcXVWYkpqQjY5VmFTb3RB?=
+ =?utf-8?B?L2tKVW1yUUdaMTBPZDd0Y2VEZlZrdllFY04rRlAyamFiOGk0Y1AxcUM3RUQ0?=
+ =?utf-8?B?R0pXQWc3REtKbVN5ZkpPdExQeDVSY1FFTGRPV3RFdDFqVVRHZ3h5enFGK2U5?=
+ =?utf-8?B?bEtQWngyUHovWkZYWjVjUk1LajIrVEc3UG5lcWQrUFFOVk1BM2g1RU1YVmVx?=
+ =?utf-8?B?cVZ3Rm93b0NxbkZlZGN5bFY2c3BmcUp6MUhnTVNPM1hOK3lDTSthUDh0clFh?=
+ =?utf-8?B?NHlpMjBWZEtsbWN0Z015enppbjZzNDl3SWQ1eXdjeVhXVWNHaTM4ZzJtRnFq?=
+ =?utf-8?B?RGdEdWUzbHUrUzdGcFRUWDdMSExtdk9EQXp3Vk1tYmNCWlJqd3J1WEF4SkEr?=
+ =?utf-8?B?QVFPMUxqMDFsb3ViYnhLSFk4ZjJ2ZllldXFtQzlXV1J1SkxabW1rcGZvSFpx?=
+ =?utf-8?B?RFZFeFh4M3pCOHR6WDYzRWlNNEdrbWFqVVpEazAyaWIzVGhld2dEYzZ5M0kr?=
+ =?utf-8?B?L25Wdmkwb1NxVkdib01YNHByQW9HYzVlb3h4TndaeGtza05SenduU2pWWHVi?=
+ =?utf-8?B?eFlvV3Yvb1MwdC8zanFKbGRnM2NoVlFYK2lkcjg3bmIvMUdZbm01cHc4QVE5?=
+ =?utf-8?B?bmc9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251121113553.2955854-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20251121113553.2955854-8-prabhakar.mahadev-lad.rj@bp.renesas.com> <20251121203453.y6s46k4ttdtq5mgh@skbuf>
-In-Reply-To: <20251121203453.y6s46k4ttdtq5mgh@skbuf>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Fri, 21 Nov 2025 21:41:18 +0000
-X-Gm-Features: AWmQ_bnkkDC-5qzFEr6hKU9cjN4WecnAvwwlnGTCtwbWhs045dHTVDk3pOihUVk
-Message-ID: <CA+V-a8sRr9FzR8pCXJbeuyidv+zVLykhPnj_71zuEGf8U4xS7A@mail.gmail.com>
-Subject: Re: [PATCH net-next 07/11] net: dsa: rzn1-a5psw: Make switch topology
- configurable via OF data
-To: Vladimir Oltean <olteanv@gmail.com>
-Cc: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>, 
-	Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Simon Horman <horms@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Russell King <linux@armlinux.org.uk>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
-	netdev@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b989f9ca-67bf-421d-9f5b-08de29c2eccc
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Nov 2025 12:30:30.5967
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: kWzbnQzCksPHeJLWKVPsYJtrpGo7C0vNPXJe/AKLq7TdEHX/oZT1foCT7Z0BHExgIbbk9EPp4/nCGq9Hz2GE4IdSsvzmnkYRQKpGylwCdI0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB9799
 
-Hi Vladimir,
-
-Thank you for the review.
-
-On Fri, Nov 21, 2025 at 8:34=E2=80=AFPM Vladimir Oltean <olteanv@gmail.com>=
- wrote:
->
-> On Fri, Nov 21, 2025 at 11:35:33AM +0000, Prabhakar wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Move the switch topology description-the number of ports and the CPU-po=
-rt
-> > index-out of hard-coded constants and into SoC-specific OF match data. =
-The
-> > driver previously assumed a fixed 5-port layout with the last port acti=
-ng
-> > as the CPU port. That assumption does not hold for newer Renesas varian=
-ts,
-> > and embedding it in the code made the driver inflexible and error-prone=
-.
->
-> That assumption has 2 parts: that the port has 5 ports, and that the
-> last port is the CPU port. It's unclear from your statement which part
-> does not hold. I see that for the new switches, the CPU port is still
-> the last port (not that there's a problem with still parameterizing it).
->
-> >
-> > Introduce a small a5psw_of_data structure carrying both the total numbe=
-r
-> > of ports and the CPU-port identifier, and rely on this data everywhere =
-the
-> > driver previously used fixed values. This ensures that port loops, PCS
-> > allocation, management-port setup, and bridge bookkeeping all reflect t=
-he
-> > actual hardware configuration.
-> >
-> > Making these attributes runtime-selectable allows the driver to support
-> > RZ/T2H and RZ/N2H SoCs which use different port counts and CPU-port
-> > assignments-without rewriting common logic or forking the driver, while
-> > preserving correct behaviour on existing RZN1 systems.
->
-> The code is mostly fine, but reading the commit message had me jumping
-> or twitching any time I would see the words "configure" or "make attribut=
-es
-> runtime-selectable". These expressions have their own meanings having to
-> do with adding kernel APIs through which these parameters can be changed
-> (by the user), so I wasn't really sure what I was going to review. None
-> of that is the case, according to the code. Please choose other wording.
-> You're not making the driver attributes configurable, you're just
-> replacing constants hardcoded in the .text section with constants
-> hardcoded in structured data in the .rodata section, selected at probe
-> time based on compatible string.
->
-> I'm sorry for saying this, but the commit message is too long for the
-> amount of information that it transmits. You repeated 3 times the
-> properties that need to be parameterized (port count and CPU port index),
-> and there's more bla bla about irrelevant things like forking the driver.
->
-> The commit message has to serve as an aid in understanding the change
-> itself, not detract from it. In this case, giving the motivation and
-> context in one paragraph or two is fine, but then you can use the space
-> to focus on listing the transformations that need to be followed when
-> reviewing the patch, and if not obvious, explain what led to those
-> choices. What you want is obviously correct changes.
->
-Thanks for the detailed feedback.
-
-I understand your point regarding the terminology using phrases like
-=E2=80=9Cconfigure=E2=80=9D and =E2=80=9Cruntime-selectable=E2=80=9D was mi=
-sleading, and that wasn=E2=80=99t
-my intention. I=E2=80=99ll revise the commit message to avoid implying
-user-accessible configuration and instead describe the change more
-accurately.
-
-> For example, why ARRAY_SIZE(a5psw->pcs) transforms into
-> a5psw->of_data->nports - 1. Is this the best choice? The code looks
-> worse, and it's not obvious that the last port would not have a PCS as a
-> matter of architecture. You had several other options: introduce an
-> "npcs" extra parameter, or even compare with "cpu_port" and place
-> comments explaining the lack of a PCS for the CPU port (since "cpu_port"
-> is "nports - 1").
->
-Agreed, I'll rework on it.
-
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >  drivers/net/dsa/rzn1_a5psw.c | 26 +++++++++++++++++---------
-> >  drivers/net/dsa/rzn1_a5psw.h | 17 ++++++++++++++---
-> >  2 files changed, 31 insertions(+), 12 deletions(-)
-> >
-> > diff --git a/drivers/net/dsa/rzn1_a5psw.c b/drivers/net/dsa/rzn1_a5psw.=
-c
-> > index 99098bc06efe..d957b6d40f05 100644
-> > --- a/drivers/net/dsa/rzn1_a5psw.c
-> > +++ b/drivers/net/dsa/rzn1_a5psw.c
-> > @@ -382,13 +382,14 @@ static void a5psw_port_bridge_leave(struct dsa_sw=
-itch *ds, int port,
-> >                                   struct dsa_bridge bridge)
-> >  {
-> >       struct a5psw *a5psw =3D ds->priv;
-> > +     unsigned int cpu_port =3D a5psw->of_data->cpu_port;
-> >
-> >       a5psw->bridged_ports &=3D ~BIT(port);
-> >
-> >       a5psw_port_set_standalone(a5psw, port, true);
-> >
-> >       /* No more ports bridged */
-> > -     if (a5psw->bridged_ports =3D=3D BIT(A5PSW_CPU_PORT))
-> > +     if (a5psw->bridged_ports =3D=3D BIT(cpu_port))
-> >               a5psw->br_dev =3D NULL;
-> >  }
-> >
-> > @@ -924,20 +925,21 @@ static void a5psw_vlan_setup(struct a5psw *a5psw,=
- int port)
-> >  static int a5psw_setup(struct dsa_switch *ds)
-> >  {
-> >       struct a5psw *a5psw =3D ds->priv;
-> > +     unsigned int cpu_port =3D a5psw->of_data->cpu_port;
-> >       int port, vlan, ret;
-> >       struct dsa_port *dp;
-> >       u32 reg;
-> >
-> > -     /* Validate that there is only 1 CPU port with index A5PSW_CPU_PO=
-RT */
-> > +     /* Validate that there is only 1 CPU port with index matching cpu=
-_port */
-> >       dsa_switch_for_each_cpu_port(dp, ds) {
-> > -             if (dp->index !=3D A5PSW_CPU_PORT) {
-> > +             if (dp->index !=3D cpu_port) {
-> >                       dev_err(a5psw->dev, "Invalid CPU port\n");
-> >                       return -EINVAL;
-> >               }
-> >       }
-> >
-> >       /* Configure management port */
-> > -     reg =3D A5PSW_CPU_PORT | A5PSW_MGMT_CFG_ENABLE;
-> > +     reg =3D cpu_port | A5PSW_MGMT_CFG_ENABLE;
-> >       a5psw_reg_writel(a5psw, A5PSW_MGMT_CFG, reg);
-> >
-> >       /* Set pattern 0 to forward all frame to mgmt port */
-> > @@ -1147,7 +1149,7 @@ static void a5psw_pcs_free(struct a5psw *a5psw)
-> >  {
-> >       int i;
-> >
-> > -     for (i =3D 0; i < ARRAY_SIZE(a5psw->pcs); i++) {
-> > +     for (i =3D 0; i < a5psw->of_data->nports - 1; i++) {
-> >               if (a5psw->pcs[i])
-> >                       miic_destroy(a5psw->pcs[i]);
-> >       }
-> > @@ -1174,7 +1176,7 @@ static int a5psw_pcs_get(struct a5psw *a5psw)
-> >                       goto free_pcs;
-> >               }
-> >
-> > -             if (reg >=3D ARRAY_SIZE(a5psw->pcs)) {
-> > +             if (reg >=3D a5psw->of_data->nports - 1) {
-> >                       ret =3D -ENODEV;
-> >                       goto free_pcs;
-> >               }
-> > @@ -1223,7 +1225,8 @@ static int a5psw_probe(struct platform_device *pd=
-ev)
-> >       if (IS_ERR(a5psw->base))
-> >               return PTR_ERR(a5psw->base);
-> >
-> > -     a5psw->bridged_ports =3D BIT(A5PSW_CPU_PORT);
-> > +     a5psw->of_data =3D of_device_get_match_data(dev);
-> > +     a5psw->bridged_ports =3D BIT(a5psw->of_data->cpu_port);
-> >
-> >       ret =3D a5psw_pcs_get(a5psw);
-> >       if (ret)
-> > @@ -1268,7 +1271,7 @@ static int a5psw_probe(struct platform_device *pd=
-ev)
-> >
-> >       ds =3D &a5psw->ds;
-> >       ds->dev =3D dev;
-> > -     ds->num_ports =3D A5PSW_PORTS_NUM;
-> > +     ds->num_ports =3D a5psw->of_data->nports;
-> >       ds->ops =3D &a5psw_switch_ops;
-> >       ds->phylink_mac_ops =3D &a5psw_phylink_mac_ops;
-> >       ds->priv =3D a5psw;
-> > @@ -1310,8 +1313,13 @@ static void a5psw_shutdown(struct platform_devic=
-e *pdev)
-> >       platform_set_drvdata(pdev, NULL);
-> >  }
-> >
-> > +static const struct a5psw_of_data rzn1_of_data =3D {
-> > +     .nports =3D 5,
-> > +     .cpu_port =3D 4,
-> > +};
-> > +
-> >  static const struct of_device_id a5psw_of_mtable[] =3D {
-> > -     { .compatible =3D "renesas,rzn1-a5psw", },
-> > +     { .compatible =3D "renesas,rzn1-a5psw", .data =3D &rzn1_of_data }=
-,
-> >       { /* sentinel */ },
-> >  };
-> >  MODULE_DEVICE_TABLE(of, a5psw_of_mtable);
-> > diff --git a/drivers/net/dsa/rzn1_a5psw.h b/drivers/net/dsa/rzn1_a5psw.=
-h
-> > index 81be30d6c55f..d1b2cc5b43e6 100644
-> > --- a/drivers/net/dsa/rzn1_a5psw.h
-> > +++ b/drivers/net/dsa/rzn1_a5psw.h
-> > @@ -195,8 +195,7 @@
-> >  #define A5PSW_aCarrierSenseErrors            0x924
-> >
-> >  #define A5PSW_VLAN_TAG(prio, id)     (((prio) << 12) | (id))
-> > -#define A5PSW_PORTS_NUM                      5
-> > -#define A5PSW_CPU_PORT                       (A5PSW_PORTS_NUM - 1)
-> > +#define A5PSW_MAX_PORTS                      4
->
-> Poor naming choice - it makes nports larger than A5PSW_MAX_PORTS, which
-> according to their name should be directly comparable.
->
-> Perhaps A5PSW_MAX_NUM_PCS (a comment explaining the relationship with
-> the CPU port would be good).
->
-Agreed, I will rename it.
-
-Cheers,
-Prabhakar
+SGkgR2VlcnQsDQoNClRoYW5rcyBmb3IgdGhlIGZlZWRiYWNrLg0KDQo+IC0tLS0tT3JpZ2luYWwg
+TWVzc2FnZS0tLS0tDQo+IEZyb206IEdlZXJ0IFV5dHRlcmhvZXZlbiA8Z2VlcnRAbGludXgtbTY4
+ay5vcmc+DQo+IFNlbnQ6IDIxIE5vdmVtYmVyIDIwMjUgMTQ6NDYNCj4gU3ViamVjdDogUmU6IFtQ
+QVRDSCB2MyAxMi8xM10gc2VyaWFsOiBzaC1zY2k6IEFkZCBzdXBwb3J0IGZvciBSWi9HM0UgUlND
+SSBTQ0lGDQo+IA0KPiBIaSBCaWp1LA0KPiANCj4gT24gRnJpLCAxNCBOb3YgMjAyNSBhdCAxMTo1
+MiwgQmlqdSA8YmlqdS5kYXMuYXVAZ21haWwuY29tPiB3cm90ZToNCj4gPiBGcm9tOiBCaWp1IERh
+cyA8YmlqdS5kYXMuanpAYnAucmVuZXNhcy5jb20+DQo+ID4NCj4gPiBBZGQgc3VwcG9ydCBmb3Ig
+UlovRzNFIFJTQ0kgU0NJRihhLmsuYSBGSUZPIG1vZGUpLiBSU0NJIElQIGZvdW5kIG9uDQo+ID4g
+dGhlIFJaL0czRSBTb0MgaXMgc2ltaWxhciB0byBSWi9UMkgsIGJ1dCBpdCBoYXMgYSAzMi1zdGFn
+ZSBGSUZPLiBpdA0KPiA+IGhhcyA2DQo+ID4gY2xvY2tzKDUgbW9kdWxlIGNsb2NrcyArIDEgZXh0
+ZXJuYWwgY2xvY2spIGluc3RlYWQgb2YgMyBjbG9ja3MoMg0KPiA+IG1vZHVsZSBjbG9ja3MgKyAx
+IGV4dGVybmFsIGNsb2NrKSBvbiBUMkggYW5kIGhhcyBtdWx0aXBsZSByZXNldHMuIEFkZA0KPiA+
+IHN1cHBvcnQgZm9yIHRoZSBoYXJkd2FyZSBmbG93IGNvbnRyb2wuDQo+ID4NCj4gPiBTaWduZWQt
+b2ZmLWJ5OiBCaWp1IERhcyA8YmlqdS5kYXMuanpAYnAucmVuZXNhcy5jb20+DQo+ID4gLS0tDQo+
+ID4gdjItPnYzOg0KPiA+ICAqIERyb3BwZWQgY3B1X3JlbGF4KCkgZnJvbSByc2NpX2ZpbmlzaF9j
+b25zb2xlX3dyaXRlKCkgYW5kIGFkZGVkIGENCj4gPiAgICBjb21tZW50Lg0KPiA+ICAqIEFkZGVk
+IHNjaV9pc19yc2NpX2ZpZm9fdHlwZSgpIGhlbHBlciBmb3IgcmV1c2UgaW4gcHJvYmUoKSBhbmQg
+cmVtb3ZlKCkuDQo+IA0KPiBUaGFua3MgZm9yIHRoZSB1cGRhdGUhDQo+IA0KPiA+IC0tLSBhL2Ry
+aXZlcnMvdHR5L3NlcmlhbC9zaC1zY2kuYw0KPiA+ICsrKyBiL2RyaXZlcnMvdHR5L3NlcmlhbC9z
+aC1zY2kuYw0KPiA+IEBAIC0zNTYzLDYgKzM1NjMsMTEgQEAgc3RhdGljIHN0cnVjdCB1YXJ0X2Ry
+aXZlciBzY2lfdWFydF9kcml2ZXIgPSB7DQo+ID4gICAgICAgICAuY29ucyAgICAgICAgICAgPSBT
+Q0lfQ09OU09MRSwNCj4gPiAgfTsNCj4gPg0KPiA+ICtzdGF0aWMgYm9vbCBzY2lfaXNfcnNjaV9m
+aWZvX3R5cGUodTggdHlwZSkgew0KPiA+ICsgICAgICAgcmV0dXJuICh0eXBlID09IFNDSV9QT1JU
+X1JTQ0kgfHwgdHlwZSA9PSBSU0NJX1BPUlRfU0NJRik7IH0NCj4gPiArDQo+ID4gIHN0YXRpYyB2
+b2lkIHNjaV9yZW1vdmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqZGV2KSAgew0KPiA+ICAgICAg
+ICAgc3RydWN0IHNjaV9wb3J0ICpzID0gcGxhdGZvcm1fZ2V0X2RydmRhdGEoZGV2KTsgQEAgLTM1
+NzQsNw0KPiA+ICszNTc5LDcgQEAgc3RhdGljIHZvaWQgc2NpX3JlbW92ZShzdHJ1Y3QgcGxhdGZv
+cm1fZGV2aWNlICpkZXYpDQo+ID4gICAgICAgICBpZiAocy0+cG9ydC5maWZvc2l6ZSA+IDEpDQo+
+ID4gICAgICAgICAgICAgICAgIGRldmljZV9yZW1vdmVfZmlsZSgmZGV2LT5kZXYsICZkZXZfYXR0
+cl9yeF9maWZvX3RyaWdnZXIpOw0KPiA+ICAgICAgICAgaWYgKHR5cGUgPT0gUE9SVF9TQ0lGQSB8
+fCB0eXBlID09IFBPUlRfU0NJRkIgfHwgdHlwZSA9PSBQT1JUX0hTQ0lGIHx8DQo+ID4gLSAgICAg
+ICAgICAgdHlwZSA9PSBTQ0lfUE9SVF9SU0NJKQ0KPiA+ICsgICAgICAgICAgIHNjaV9pc19yc2Np
+X2ZpZm9fdHlwZSh0eXBlKSkNCj4gDQo+IEkgdGhpbmsgSmlyaSBpbnRlbmRlZFsxXSBoYXZpbmcg
+YSBoZWxwZXIgdGhhdCBjb3ZlcnMgYWxsIGNhc2VzLCBub3QNCj4ganVzdCB0aGUgdHdvIFJTQ0kg
+dmFyaWFudHMuIEUuZy4gc2NpX2hhc19maWZvKHU4IHR5cGUpLg0KDQpPSywgSSB3aWxsIHVwZGF0
+ZSB0byBjb3ZlciBhbGwgdGhlIHZhcmlhbnRzLg0KDQpDaGVlcnMsDQpCaWp1DQo=
 
