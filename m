@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-25038-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25039-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 224AAC7E14E
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 23 Nov 2025 14:23:56 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ECC0C7E15E
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 23 Nov 2025 14:25:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 90CBF345E91
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 23 Nov 2025 13:23:55 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 731284E2959
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 23 Nov 2025 13:25:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DC7E2D6E68;
-	Sun, 23 Nov 2025 13:23:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40DE3272E7C;
+	Sun, 23 Nov 2025 13:25:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F+g+kpji"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MgV8vDEm"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C564C2459C9;
-	Sun, 23 Nov 2025 13:23:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C1461F541E;
+	Sun, 23 Nov 2025 13:25:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763904231; cv=none; b=mSDgEqNl4y0/R3ci+i1PkFlU5WN9i9E3kr5AbmoH4d4uDzRpbIMUX/XXVnyufmpc28oDF9y/O3HU+1cW0dXfIC/ht0fmCsJW5fVDf4RgY8N6iGYwe33MtlVIFQl9+EQouZra/GdDn5k1dQLLpD1t56jU5uU2NFGHjlDSeFy19XY=
+	t=1763904341; cv=none; b=SHrYMl7P3S3QYlr8rVvYfLaRnbrHrEaghGGu2ISq3lYLSY1EY4PJzdMYYUeaA3Ul5wnH3VZMf2rp2IGwNurPRlTmjiPrDqmoKr4iMG0bjKhD/C1ecP84FAcZJDirm0TKUmVXrmVP6UdnL0OB5IY/8vwxfsK4Mm0KEVy62vFOMzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763904231; c=relaxed/simple;
-	bh=ruU2XqxYr9I0zzUJNsj0Y8eMYouD+DIo4YNd1RLIF64=;
+	s=arc-20240116; t=1763904341; c=relaxed/simple;
+	bh=lvD2mWGFx1vqDOZdRkaFJha3m1DGW/GZI8llAd2+Phw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UreKaYhKnKDxoPHDrstIvv4ifKklpmTqPJfRx44jPVXqnVsHkmoJeuRASLyGHJccku56MPVp9bx5mu+9Mkq8JIEeZ7OkmSfrvcIdOq8IPvRytncEO7ZckP0UG8+93hSX0aJpGdRWV87qyxcUszrocPJHlKyqqAE6rflWI6lfVK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F+g+kpji; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEE2DC113D0;
-	Sun, 23 Nov 2025 13:23:47 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=HaP3OdZXlOolG5arbwN0Q8E6VuzuCARdqOPNnEH6mmMRLUASEtaFPmC5xvlpDlWM75BUgcVECCvCCkTvdYxxkBmboPCh1PL1COIDZ3H04IX6QRdOtZHH8Ie7lh14VB0bDwxNbLh5+V7SPdMR1hu/KbUQgQalHYlGJfdTNMK3IM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MgV8vDEm; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 533E7C113D0;
+	Sun, 23 Nov 2025 13:25:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763904230;
-	bh=ruU2XqxYr9I0zzUJNsj0Y8eMYouD+DIo4YNd1RLIF64=;
+	s=k20201202; t=1763904340;
+	bh=lvD2mWGFx1vqDOZdRkaFJha3m1DGW/GZI8llAd2+Phw=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=F+g+kpjiIzs/pKfcDd/wvffApgKNWCiGXctGzQc9nd/gltexZuutgSyniL3D/wy5z
-	 u3o8EZuBT98dM48LkODmPq9zVQpFc9SMhmm9cV2te55EBgo3D+f9p6R4YGEQznBr0p
-	 s/rcJMDE85K6y2+76DRxM21ufU4TTPydLu1x9UqHJ7NYiMriotBHlaS+gy59kpIo/k
-	 3230B/3/pyZBgYhS3eCzq+n9RUXlkLwz9xgXc6yD+Ov5RncTQoiKpZZ99UQJbJifKC
-	 std8XTYPUm2wVvz+54aiYceywrRq0Y5quR5/OHG7NsYOsuLH35e2eqe5U8n2lJwzsX
-	 zTs0IlFN8uYPA==
-Message-ID: <32ffb736-d060-4ae9-b4fb-b836a6c869e9@kernel.org>
-Date: Sun, 23 Nov 2025 14:23:45 +0100
+	b=MgV8vDEmQS0niCcXDa0EAbzYiKhd+DcLCr2z07X8VZ65rso61dBqrdkrC2ltIpIm2
+	 CymMmOaqO3f+e74e2FXgaCbtEtPkQpzIgFvnPv8FEpT0R8WOxiHDzkowd9P6o5RiRQ
+	 db4GD8rSwugfVHxrLUuEfA/CEM8R/EvVv7EUNbFsB8NcMq2AQMYixi7buYrnISs0tP
+	 U4h2GsT6goo8recqmrY2+K+NElvY5bc953Twsc01/Lh4/2F8RspSMTX9M5tU+v2YFZ
+	 t4NNnoeXG3xrIMWdqUf5nAEUINTMqd3Kba9wyzkYV3vaXryNsD0xV+dvCXrR908QA7
+	 osZLc+SyqRbIg==
+Message-ID: <3928e893-66e1-4873-a78b-75e38e746661@kernel.org>
+Date: Sun, 23 Nov 2025 14:25:35 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,17 +50,20 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] dt-bindings: interrupt-controller: document
- RZ/{T2H,N2H} ICU
-To: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>,
- Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh@kernel.org>,
+Subject: Re: [PATCH v2 1/2] dt-bindings: can: renesas,rcar-canfd: Document
+ renesas,fd-only property
+To: Biju <biju.das.au@gmail.com>, Marc Kleine-Budde <mkl@pengutronix.de>,
+ Vincent Mailhol <mailhol@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
  <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
  Magnus Damm <magnus.damm@gmail.com>
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org
-References: <20251121111423.1379395-1-cosmin-gabriel.tanislav.xa@renesas.com>
- <20251121111423.1379395-2-cosmin-gabriel.tanislav.xa@renesas.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>, linux-can@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20251123112326.128448-1-biju.das.jz@bp.renesas.com>
+ <20251123112326.128448-2-biju.das.jz@bp.renesas.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -106,169 +109,70 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20251121111423.1379395-2-cosmin-gabriel.tanislav.xa@renesas.com>
+In-Reply-To: <20251123112326.128448-2-biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 21/11/2025 12:14, Cosmin Tanislav wrote:
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - const: renesas,r9a09g077-icu # RZ/T2H
+On 23/11/2025 12:23, Biju wrote:
+> From: Biju Das <biju.das.jz@bp.renesas.com>
+> 
+> The CANFD on RZ/{G2L,G3E} and R-Car Gen4 support 3 modes FD-Only mode,
+> Classical CAN mode and CAN-FD mode. In FD-Only mode, communication in
+> Classical CAN frame format is disabled. Document renesas,fd-only to handle
+> this mode. As these SoCs support 3 modes, update the description of
+> renesas,no-can-fd property and disallow it for R-Car Gen3.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+>  v1->v2:
+>   * Added conditional check to disallow fd-only mode for R-Car Gen3.
+> ---
+>  .../bindings/net/can/renesas,rcar-canfd.yaml  | 24 ++++++++++++++++---
+>  1 file changed, 21 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/net/can/renesas,rcar-canfd.yaml b/Documentation/devicetree/bindings/net/can/renesas,rcar-canfd.yaml
+> index f4ac21c68427..a52244f0b5d1 100644
+> --- a/Documentation/devicetree/bindings/net/can/renesas,rcar-canfd.yaml
+> +++ b/Documentation/devicetree/bindings/net/can/renesas,rcar-canfd.yaml
+> @@ -125,9 +125,17 @@ properties:
+>    renesas,no-can-fd:
+>      $ref: /schemas/types.yaml#/definitions/flag
+>      description:
+> -      The controller can operate in either CAN FD only mode (default) or
+> -      Classical CAN only mode.  The mode is global to all channels.
+> -      Specify this property to put the controller in Classical CAN only mode.
+> +      The controller can operate in either CAN-FD mode (default) or FD-Only
+> +      mode (RZ/{G2L,G3E} and R-Car Gen4) or Classical CAN mode. Specify this
+> +      property to put the controller in Classical CAN mode.
 > +
-> +      - items:
-> +          - enum:
-> +              - renesas,r9a09g087-icu # RZ/N2H
-> +          - const: renesas,r9a09g077-icu
+> +  renesas,fd-only:
+> +    $ref: /schemas/types.yaml#/definitions/flag
+> +    description:
+> +      The CANFD on RZ/{G2L,G3E} and R-Car Gen4 SoCs support 3 modes FD-Only
+> +      mode, Classical CAN mode and CAN-FD mode (default). In FD-Only mode,
+> +      communication in Classical CAN frame format is disabled. Specify this
+> +      property to put the controller in FD-Only mode.
+>  
+>    assigned-clocks:
+>      description:
+> @@ -267,6 +275,16 @@ allOf:
+>        patternProperties:
+>          "^channel[6-7]$": false
+>  
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - renesas,rcar-gen3-canfd
+> +    then:
+> +      properties:
+> +        renesas,fd-only: false
 > +
-> +  '#interrupt-cells':
-> +    description: The first cell is the SPI number of the interrupt, as per user
-> +      manual. The second cell is used to specify the flag.
-> +    const: 2
-> +
-> +  '#address-cells':
-> +    const: 0
-> +
-> +  interrupt-controller: true
-> +
-> +  reg:
-> +    items:
-> +      - description: Non-safety registers (INTCPU0-13, IRQ0-13)
-> +      - description: Safety registers (INTCPU14-15, IRQ14-15, SEI)
 
-reg is always the second property. Please follow DTS coding style.
-
-> +
-> +  interrupts:
-> +    items:
-> +      - description: Software interrupt 0
-> +      - description: Software interrupt 1
-> +      - description: Software interrupt 2
-> +      - description: Software interrupt 3
-> +      - description: Software interrupt 4
-> +      - description: Software interrupt 5
-> +      - description: Software interrupt 6
-> +      - description: Software interrupt 7
-> +      - description: Software interrupt 8
-> +      - description: Software interrupt 9
-> +      - description: Software interrupt 10
-> +      - description: Software interrupt 11
-> +      - description: Software interrupt 12
-> +      - description: Software interrupt 13
-> +      - description: Software interrupt 14
-> +      - description: Software interrupt 15
-> +      - description: External pin interrupt 0
-> +      - description: External pin interrupt 1
-> +      - description: External pin interrupt 2
-> +      - description: External pin interrupt 3
-> +      - description: External pin interrupt 4
-> +      - description: External pin interrupt 5
-> +      - description: External pin interrupt 6
-> +      - description: External pin interrupt 7
-> +      - description: External pin interrupt 8
-> +      - description: External pin interrupt 9
-> +      - description: External pin interrupt 10
-> +      - description: External pin interrupt 11
-> +      - description: External pin interrupt 12
-> +      - description: External pin interrupt 13
-> +      - description: External pin interrupt 14
-> +      - description: External pin interrupt 15
-> +      - description: System error interrupt
-> +      - description: Cortex-A55 error event 0
-> +      - description: Cortex-A55 error event 1
-> +      - description: Cortex-R52 CPU 0 error event 0
-> +      - description: Cortex-R52 CPU 0 error event 1
-> +      - description: Cortex-R52 CPU 1 error event 0
-> +      - description: Cortex-R52 CPU 1 error event 1
-> +      - description: Peripherals error event 0
-> +      - description: Peripherals error event 1
-> +      - description: DSMIF error event 0
-> +      - description: DSMIF error event 1
-> +      - description: ENCIF error event 0
-> +      - description: ENCIF error event 1
-> +
-> +  interrupt-names:
-> +    items:
-> +      - const: intcpu0
-> +      - const: intcpu1
-> +      - const: intcpu2
-> +      - const: intcpu3
-> +      - const: intcpu4
-> +      - const: intcpu5
-> +      - const: intcpu6
-> +      - const: intcpu7
-> +      - const: intcpu8
-> +      - const: intcpu9
-> +      - const: intcpu10
-> +      - const: intcpu11
-> +      - const: intcpu12
-> +      - const: intcpu13
-> +      - const: intcpu14
-> +      - const: intcpu15
-> +      - const: irq0
-> +      - const: irq1
-> +      - const: irq2
-> +      - const: irq3
-> +      - const: irq4
-> +      - const: irq5
-> +      - const: irq6
-> +      - const: irq7
-> +      - const: irq8
-> +      - const: irq9
-> +      - const: irq10
-> +      - const: irq11
-> +      - const: irq12
-> +      - const: irq13
-> +      - const: irq14
-> +      - const: irq15
-> +      - const: sei
-> +      - const: ca55-err0
-> +      - const: ca55-err1
-> +      - const: cr520-err0
-> +      - const: cr520-err1
-> +      - const: cr521-err0
-> +      - const: cr521-err1
-> +      - const: peri-err0
-> +      - const: peri-err1
-> +      - const: dsmif-err0
-> +      - const: dsmif-err1
-> +      - const: encif-err0
-> +      - const: encif-err1
-
-Why all the interrupt names have nothing in common with previous ICU
-(renesas,rzv2h-icu.yaml)? These names are supposed to share, not
-re-invent every time the name.
-
-Isn't external interrupt the same as GPIO interrupt? How do they differ
-for this particular device?
-
-And "Error interrupt to CA55" is "icu-error-ca55", but here THE SAME is
-called "ca55-err0"?
-
-No, please start using unified naming, not re-inventing this every time.
-Order also is supposed to follow older generation, so bindings share
-common parts.
-
-
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - '#interrupt-cells'
-> +  - '#address-cells'
-> +  - interrupt-controller
-> +  - interrupts
-> +  - interrupt-names
-> +  - clocks
-> +  - power-domains
-
-
+You did not respond to my first paragraph from previous version. As I
+said, you now need oneOf to restrict these, since you are not using
+simple enum.
 
 Best regards,
 Krzysztof
