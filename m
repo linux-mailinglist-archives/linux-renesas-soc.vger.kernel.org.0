@@ -1,75 +1,75 @@
-Return-Path: <linux-renesas-soc+bounces-25060-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25061-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EDDBC7FE2F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Nov 2025 11:29:06 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 515ACC7FE3B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Nov 2025 11:29:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 9C915345202
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Nov 2025 10:29:02 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 753B04E4618
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Nov 2025 10:29:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D23D72F83A7;
-	Mon, 24 Nov 2025 10:28:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B979E2FB98D;
+	Mon, 24 Nov 2025 10:28:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nYAPVDiS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UwwBmrvi"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 488662D0607
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87A222F9DBB
 	for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Nov 2025 10:28:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763980129; cv=none; b=ilJeaRk3aKQN92ltV4DTA7GUEJbAsT2l3XOOSUkNNaloHnDbKu6YeQNq6RSMzt5YlQOxRGcKsnMDskdGfeiT9W/LLR0NPO0FBZVnBeIoL06tzPCBkgStvZRtqoAaZcBHY6mpF1XOAO+wHEPNAIFpThzmZhVzDKw+wI59D4WV4jA=
+	t=1763980130; cv=none; b=Fm/AsHdwC96l1H5L5Ou2JlQQ2XOYNbeMqWmilUMsvMxAYVaow9xdVciVS73YhDpCI9ZEYhkzleaS38zTzBzhj5BzQG3N7/GsQuPabrC0nkMeAeVPqF/kghE1++m20LpRAl8SADZi3f2JUOVBRX9+mlLHPnfYsgJ5MATAN6iHinY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763980129; c=relaxed/simple;
-	bh=25AN4XiGc6CZ1SMIZ0IBj9ec9hPtrhDC/hZ+f8Nm1lw=;
+	s=arc-20240116; t=1763980130; c=relaxed/simple;
+	bh=MJ5gYOX4/WcZI3eabrqFVQV/8C6AUWEV0t0d36GwW5c=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LX7oAHfhrqU2FeRcv95RiOwxVmot7+9jr/jLxzsik92D82exSX8hthSizkI8njVLMFvQB6ZCO9cxZGpAn/Z4YBcgeQ3K1LK8SRtXN5vBTYxLC9bpZjH4imZ0qOtEil7DNnm19uL72hXlPrEi5P5y1ZNEJFoYGqqlMsyDnaeUKnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nYAPVDiS; arc=none smtp.client-ip=209.85.128.46
+	 MIME-Version; b=gN0fknfBVHW1eat+jIhdpA9BhLllF2StTD4PyHjj1x8++QnAlSJDYHrUvY/XQfLvs1Hy4BYPt3UjQiG8bLiep6o+Kphxv9AtXHF98YN0yOGgAOz3+g3VO1nuLDjTsp4jgHxKDex/GJUcn7yRHlPXUbLzNBFRixPnCmH6daTo6aI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UwwBmrvi; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-477ba2c1ca2so42573375e9.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Nov 2025 02:28:44 -0800 (PST)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-47790b080e4so21463495e9.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Nov 2025 02:28:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763980123; x=1764584923; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1763980124; x=1764584924; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5VPGo5U/iXGFhSlRJsPXDRX32fruUCYMsM5nvll/4Kw=;
-        b=nYAPVDiSTAIK+quKuIvU/mHI4U3/TKAogrZ3Upc+SzJSgIrHZNg5s1Q42FA/tovaDQ
-         bQvpzZeszYW/Qrky3+43PaMtBaW/TfTAezz5DtsuYTTP/s4ajrnhbVr4EAFcgCc4OTFN
-         lanpazHKpRh+8+5zj1Vl4it2GnsAj0OARnyFBdDpteWMLkXIKkWvegZTpd68wbg/A6vI
-         DAg8DDjzJXaoafwxPbRBxUD5ttBNN0s9xIcl+V+dzQjX4LiEcE6RTyOGmIduytqXF1/S
-         zhNaNrGSYifFAyGKDceCR1HvtVRNDc94g9KCelyeAvNcd0MybM8UhTl86ylYHbvPOZrB
-         Aoyw==
+        bh=KaxoPDHavjWhtTvtGHvHHl1fcP0q24V4vL23BhFFsug=;
+        b=UwwBmrviub7Pwx5Mkb7gT07KdZu0676JdODSK3bl6g0L8xq99VJ6hoj7iJCYFQYGA/
+         c9cHeXIkIkf5XhFHCifw+4ec+mbH74DSE6Bfk4fSlYaSBSn611aXPBb11QozM8qkrCqY
+         CzIOUk1MaRzex2yM5bAaVXWXYeAfMg5friS+mqOfV2VquWCUmpu94CsSQn2mxhkQNaw+
+         kXBjlzfDEwscyoaMsTeGSoKLVQNfFdEg6RopX2aWNR6V0zyhi2AgA91AKtNMgYEESzmy
+         Y8gD2b448q6eCW6o40iWnUhwBaFwrlJ0ixv8/WPusQmNWHsdJzaRMQ5wA6YXrPI0cSg5
+         KRmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763980123; x=1764584923;
+        d=1e100.net; s=20230601; t=1763980124; x=1764584924;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=5VPGo5U/iXGFhSlRJsPXDRX32fruUCYMsM5nvll/4Kw=;
-        b=syc/KEzPeIC0ljH2jeLgpHF11gLlUsKTOpnHhc/jFb/JAF6XLIVrNXcCDX4HD0MAir
-         Ys6o/NY/XnNw6dJbN0Z6ZwgLWLZRLax5tlnbb7whXMPnbxKCgiJ3K7rIYpe2KqgowSpn
-         Z57ktluEjhCak5t8cB3UlXa5iLuem+G/ibWBUG/+OdI4T/n5EuOuQ21iw0tbjaEzzL+b
-         CvHUs8r7F7xkgEBBwNz40gNRpa9PfwZGW1i1ANUI/Xl0BzJU9Uc+w7aA61n13lbugq7d
-         2AuCU/EyELHHxQLJmaa43wX43FJC3oU32ponQwbwyNOFB3rWat61iAYe2vpBvvjGnQet
-         fdvA==
-X-Forwarded-Encrypted: i=1; AJvYcCU/VbdSKLHxn7ThvtO6sMet55EnYZY9sHTFUg0P4gb/1Bk64cysRaYGs27LYhQXvwAqGClYRTUwvUmn8tIAXUkMNA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz3Oug+OlRdWPUQWf2G0Lg1aqABgm4kGBRItCHOvAgHhiVinmgl
-	CG5pl3Y7PLssJ5hHEJWbM877SicLsYysXLOuCb7nWIO9jh5wSqf+HeXQ
-X-Gm-Gg: ASbGnctCr9j7/ME08QT6WYIJ/5JHE9FCua8d2DZGW1AV8p/L0b4tsDZc9CIrmDN5J3y
-	ELYO+5HK9sQ8zmNzk5cDiI7hqbdP1kQvB3YG17oVHYzQXYmFXsG8EtS91W4fgALOPPevJmSmQdD
-	JmkG8QcjUbWUT5VZzK/JJx1pw1jl17VMnjyW85BxN317JU4dW8vv7WBmBQLJlIOQh8UDGRbprkE
-	+YYpfbhT/oySmglGZoHg5yhO6kis1GmjEdmi4izBTf2FulQVnYefUigf7TBLJJ4KbOy2nG/KtFT
-	kSTc8zivi8yM/Mckrxesejy2sA8ZtohJ81nfg04zqOd+a6W2mX34UeZ7RgQ2bzm+bYt7iLUYXC+
-	uOS2x9htoT/4lUvMbzBNb7fgXMomd6rdvsaActML7Fgdk8dvv46uNE8dzbl+pCr/hNYTt8N80A6
-	FUIqpRwEtTZbZaCFQ9K8HHONna5VRA1YVo2XX7mVmTjo98iNctj0svvGalgTWHUWmm8qS9GpoSc
-	o8tLNyNGTvs0V9X
-X-Google-Smtp-Source: AGHT+IGPyNSAkUnNNLh90REio7RQidDo1QlxOrR1JlpAc2ox428h/ljqAzuZmEq2S0sQiaTFD1UHMA==
-X-Received: by 2002:a05:600c:1c24:b0:477:76bf:e1fb with SMTP id 5b1f17b1804b1-477c01be2b2mr148615015e9.16.1763980123429;
+        bh=KaxoPDHavjWhtTvtGHvHHl1fcP0q24V4vL23BhFFsug=;
+        b=U/0I8NeQ0oG/C3ipVE9VpFtI4e5zFMXFhxVfWtTM5/vhbDt0hsirsHuuR8bEfATFa/
+         dGjalhbpZ+RGJCDlJxdZZV6UjGipuTsWmKwD6c2Y2uF+bzrd18254+3WsbnXa7mpEVmY
+         xYlRdMEg+x786wc4FLPBeMUZ8OgS/mkSYyqbgNf91rtOPCmPjjD5zVOLO1nLxzYB2owY
+         hxVD8Ps7dG0pNECjBQSAMh16NlR+0GPBBtAqDalw9zDG+O82Ty2BfXl9D4WgU1+T8G92
+         jTGzsKKbUEJEmzm82eVj0VR4bKqxPt25h/L4cYjrtd3d+mpWNRRrUpHScy5WFSmHXURh
+         /voA==
+X-Forwarded-Encrypted: i=1; AJvYcCW8Fb8HDlhPUA1OFVHYT4JtMwtf+R6HdRjL9Q7Itv3/HncGx1nGnkmTiB+yum5YeC51OpDYGYtSr+pqvnDs1ARq+g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyAqdcZRzmHG7bt+Jcw3YVYN5mc2nWPnQG7TXz/G/qevDo8JQ2F
+	W8GhaNX+xbj8RO4a7A5+kchEGBYOwjIRCtcLD/iNDT1Nssufrxi9DbQ1
+X-Gm-Gg: ASbGnctLHkHf11s408pLu2G90SG0iLsjyd3oLgidZHxhK+4In2mNtdDYfz5h3kQp1ER
+	7ZPRxwMh+MD8IIaUidjxDQSiPBKTLzpx9H2RGZyshNwcVeG7lvCGWeFRJRzl0U42u7UR1vuOonh
+	pvcjuwceyTbv/BIakzy3M7HyMb28xrpNFe8mYKNue8n/PFsFawShSyuTzRaiiMs+A4tvn9waBRi
+	XxFg+StoLA7knGQpi9Bd9ceqVPV/ZnYspCJ3TbS3IZ/zhqmo4n06+i7K0A0qlKS0xM2LUiRNpi5
+	AVk4JBtRGDMErIdfUjRrGocuJoJX3xSJF1IKCqsCuIgvAvOxq01eYibK7YzsefqhpjJomLhgUtC
+	3+4FNhU7nMVpBfKYMrjKR0H07EFnFtTt16NW9iCq7NrM9sHbvDWNARxflJwRN48duiS8UxJCI44
+	6B55H41Jf6NO/XBH4eCdMMXPx7CNMRu2OwIgAJqIIIN5twtAS4zyhOZPzEcwdW4pgd2OrZrWjvf
+	9LS4F4Af8EGfNHP
+X-Google-Smtp-Source: AGHT+IFGYmmA5I+q48xhFRnBZgtFL8YUq7RRbEwg6+SSHoGjRa2xnWW7REXItQXxBXjBwZlC1Valyg==
+X-Received: by 2002:a05:600c:354d:b0:46e:49fb:4776 with SMTP id 5b1f17b1804b1-477c10d7003mr105934785e9.11.1763980123997;
         Mon, 24 Nov 2025 02:28:43 -0800 (PST)
 Received: from localhost.localdomain (host86-162-200-138.range86-162.btcentralplus.com. [86.162.200.138])
         by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477bf1df334sm186753945e9.3.2025.11.24.02.28.43
@@ -88,9 +88,9 @@ Cc: Biju Das <biju.das.jz@bp.renesas.com>,
 	linux-kernel@vger.kernel.org,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH v3 5/7] can: rcar_canfd: Invert CAN clock and close_candev() order
-Date: Mon, 24 Nov 2025 10:28:30 +0000
-Message-ID: <20251124102837.106973-6-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v3 6/7] can: rcar_canfd: Convert to DEFINE_SIMPLE_DEV_PM_OPS()
+Date: Mon, 24 Nov 2025 10:28:31 +0000
+Message-ID: <20251124102837.106973-7-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251124102837.106973-1-biju.das.jz@bp.renesas.com>
 References: <20251124102837.106973-1-biju.das.jz@bp.renesas.com>
@@ -104,9 +104,10 @@ Content-Transfer-Encoding: 8bit
 
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 
-The CAN clock is enabled before calling open_candev(), and disabled
-before calling close_candev().  Invert the order of the latter, to
-restore symmetry.
+Convert the Renesas R-Car CAN-FD driver from SIMPLE_DEV_PM_OPS() to
+DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr().  This lets us drop the
+__maybe_unused annotations from its suspend and resume callbacks, and
+reduces kernel size in case CONFIG_PM or CONFIG_PM_SLEEP is disabled.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
@@ -115,25 +116,47 @@ Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 v2->v3:
  * No change.
 v1->v2:
- * Collected tag
+ * Collected tag.
 ---
- drivers/net/can/rcar/rcar_canfd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/net/can/rcar/rcar_canfd.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rcar_canfd.c
-index d77d28d0ca6b..2f9fc0da2d1b 100644
+index 2f9fc0da2d1b..5a555b01ffbb 100644
 --- a/drivers/net/can/rcar/rcar_canfd.c
 +++ b/drivers/net/can/rcar/rcar_canfd.c
-@@ -1588,8 +1588,8 @@ static int rcar_canfd_close(struct net_device *ndev)
- 	netif_stop_queue(ndev);
- 	rcar_canfd_stop(ndev);
- 	napi_disable(&priv->napi);
--	clk_disable_unprepare(gpriv->can_clk);
- 	close_candev(ndev);
-+	clk_disable_unprepare(gpriv->can_clk);
- 	phy_power_off(priv->transceiver);
+@@ -2276,18 +2276,18 @@ static void rcar_canfd_remove(struct platform_device *pdev)
+ 	rcar_canfd_global_deinit(gpriv, true);
+ }
+ 
+-static int __maybe_unused rcar_canfd_suspend(struct device *dev)
++static int rcar_canfd_suspend(struct device *dev)
+ {
  	return 0;
  }
+ 
+-static int __maybe_unused rcar_canfd_resume(struct device *dev)
++static int rcar_canfd_resume(struct device *dev)
+ {
+ 	return 0;
+ }
+ 
+-static SIMPLE_DEV_PM_OPS(rcar_canfd_pm_ops, rcar_canfd_suspend,
+-			 rcar_canfd_resume);
++static DEFINE_SIMPLE_DEV_PM_OPS(rcar_canfd_pm_ops, rcar_canfd_suspend,
++				rcar_canfd_resume);
+ 
+ static const __maybe_unused struct of_device_id rcar_canfd_of_table[] = {
+ 	{ .compatible = "renesas,r8a779a0-canfd", .data = &rcar_gen4_hw_info },
+@@ -2304,7 +2304,7 @@ static struct platform_driver rcar_canfd_driver = {
+ 	.driver = {
+ 		.name = RCANFD_DRV_NAME,
+ 		.of_match_table = of_match_ptr(rcar_canfd_of_table),
+-		.pm = &rcar_canfd_pm_ops,
++		.pm = pm_sleep_ptr(&rcar_canfd_pm_ops),
+ 	},
+ 	.probe = rcar_canfd_probe,
+ 	.remove = rcar_canfd_remove,
 -- 
 2.43.0
 
