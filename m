@@ -1,186 +1,175 @@
-Return-Path: <linux-renesas-soc+bounces-25089-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25090-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAC25C8197B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Nov 2025 17:34:03 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46CDEC81A71
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Nov 2025 17:46:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 7F3344E6DD5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Nov 2025 16:32:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 954143A3FFE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Nov 2025 16:45:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0855A27F73A;
-	Mon, 24 Nov 2025 16:32:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4EEB3168E0;
+	Mon, 24 Nov 2025 16:44:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B7BoMFTX"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="KrEWDBIw"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDA121A285;
-	Mon, 24 Nov 2025 16:32:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA1033161A9;
+	Mon, 24 Nov 2025 16:44:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764001945; cv=none; b=mVZEi2HffEyQSlEAEL2l1cok6Gs15I8RNOz80DqrDU6iKBUHdKZ3GzRQt2gA+KPPssva/3u8dFjiOz5qsHQTw6r+Hnm5HgyrEWCp12d1PETsyVCeaOud2Kmc2jK1HI+lEcs6O50bugh8jikE6TqSW5XWB1E+tEeNWS8Y8Nt1PbY=
+	t=1764002669; cv=none; b=SjJwT0NENR6qWAWD1RduQLALR/OVx/Cy/XJEpliC3j3vlA1qY+k5ZQpmtXmYM83T0SmFZ0ibsM/SQGyojGSorz7zxFU048zZCnHgt9YLVPoNTnIR5UypUJENDyUAK3HdXXV+fbF0CIHLJ1/Z1CG/1twiVd+YFa3MuBcQbAxH0LE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764001945; c=relaxed/simple;
-	bh=voDZieryvn9LANZkkANxItsAwggAb8NAOD35MvQ5m54=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r6fdtK7alK68Yv2mZn+er60Mb18Ga7qEP3oAMYdzsIY4E3+ab1pFMHPY5hWR4wI1zp8NBQKhsRGneInUn/mW9mGB9QNgq1bdflNVjE1ZXAmVZFJmL5j/vjLusDpPizxQ/ST/nBxTgQdCiUYv4HEnOHKggN/THcTgod/t3OQ9PJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B7BoMFTX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0E94C4CEF1;
-	Mon, 24 Nov 2025 16:32:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764001945;
-	bh=voDZieryvn9LANZkkANxItsAwggAb8NAOD35MvQ5m54=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=B7BoMFTXCri5txCP5y54mnBNr45Z/MJsIGtyFzcwHotgKIBW7Iturs8MDmGCotYZ3
-	 4PsLW76c7ZL0x+QUtctGjNzZr1Rogcp2TJnd9DzYiIvtw+rMh1072vRz/3uWmM6vbN
-	 Kvq5Zwa9Yt916C4OrwgenUYgrGtxibDpMB0yyNgNiWPji4Jf8Ud5XUN1O4RlIdY6bm
-	 SGPVpIQt4f5q5/P3LFL7yuvMLhDkHC1amVZeX1WlRPiYythlsBFLxmXGrvqovQM6bh
-	 nixFHTrwq4I9sfy90F3NkmyGvf/GYGePdsdWGNELobAnLnDZYu0EU2ekXnvimuEIlk
-	 EENJZI20ayCKg==
-Date: Mon, 24 Nov 2025 17:32:22 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-To: Biju <biju.das.au@gmail.com>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>, linux-pwm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-renesas-soc@vger.kernel.org, stable@kernel.org
-Subject: Re: [PATCH v5] pwm: rzg2l-gpt: Reinitialize the cache value in
- rzg2l_gpt_disable()
-Message-ID: <cl3ggzh4sbounylnasm3hp2l2eusloxbv5uw7wxjwc7u47uobw@n24k6buqchu4>
-References: <20251121133654.364688-1-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1764002669; c=relaxed/simple;
+	bh=uSemw84f5ckyGShXecvyFgO27QOKWBIVsqm1RZd2KFA=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=G9L18e4JEhwmUn8IT5mWOLEzqpvGzlXMdXJ+Kx5U6WgwBveDRg4E27rsmGD3axFWvEV+XXpP6roDzB/5/ITlpgsbn8Ch2uXRU9HDsrOf1LRlWjN6LTwmwxL3oifonXbjogI8p9KCpiBVpN8LGYEG0UvFGWGUqxNjLFpXnQe6Hl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=KrEWDBIw; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 472BEC139B2;
+	Mon, 24 Nov 2025 16:44:02 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id B7547606FC;
+	Mon, 24 Nov 2025 16:44:24 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1410710371A8F;
+	Mon, 24 Nov 2025 17:44:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1764002662; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=8VxkXwHyVWJtMQb4rGcL9+DawEiYCDxx29eMOS81RRA=;
+	b=KrEWDBIww4g7nDza6Zc7hbr+ZoXaAgKnm9t/c7uQL8DjmTM4Lqn6U4mOBDG5vMoUDsvrd2
+	z/Sp/kXw6JnOSTYIFsmfxY3UrknEd6H/JIDub3AwK87pZ+UJrv5fYOmUNSbSYDq4WsP5v0
+	oneufTmETBFZmFUh0DxP15w3p8E74Qylz6WR0Fur6qK4EEAxebJte+/MSikZrha0b/9Gls
+	WRJzAXFmzZG7qJu0L63Dv+MuAQdNPhwTUxava0scvHSMJ7nqGhN0bidohpBwZuGxE/Vr0T
+	7wEt+C6kFsdbn3+p0AzKRiI549ZbqiSwVxZK8aOtKlYFNJxrJuYIWVmjCUBcsA==
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="5ys5mvvtwga6hrkb"
-Content-Disposition: inline
-In-Reply-To: <20251121133654.364688-1-biju.das.jz@bp.renesas.com>
-
-
---5ys5mvvtwga6hrkb
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v5] pwm: rzg2l-gpt: Reinitialize the cache value in
- rzg2l_gpt_disable()
-MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 24 Nov 2025 17:44:09 +0100
+Message-Id: <DEH2R1Q0XJJG.1NMESYMX9GMFL@bootlin.com>
+Subject: Re: [PATCH 04/26] drm/bridge: make of_drm_find_bridge() a wrapper
+ of drm_of_find_bridge()
+Cc: "Andrzej Hajda" <andrzej.hajda@intel.com>, "Neil Armstrong"
+ <neil.armstrong@linaro.org>, "Robert Foss" <rfoss@kernel.org>, "Laurent
+ Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
+ <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, "Thomas Zimmermann"
+ <tzimmermann@suse.de>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>, "Jonathan Corbet" <corbet@lwn.net>, "Alexey Brodkin"
+ <abrodkin@synopsys.com>, "Phong LE" <ple@baylibre.com>, "Liu Ying"
+ <victor.liu@nxp.com>, "Shawn Guo" <shawnguo@kernel.org>, "Sascha Hauer"
+ <s.hauer@pengutronix.de>, "Pengutronix Kernel Team"
+ <kernel@pengutronix.de>, "Fabio Estevam" <festevam@gmail.com>, "Adrien
+ Grassein" <adrien.grassein@gmail.com>, "Laurent Pinchart"
+ <laurent.pinchart+renesas@ideasonboard.com>, "Tomi Valkeinen"
+ <tomi.valkeinen+renesas@ideasonboard.com>, "Kieran Bingham"
+ <kieran.bingham+renesas@ideasonboard.com>, "Geert Uytterhoeven"
+ <geert+renesas@glider.be>, "Magnus Damm" <magnus.damm@gmail.com>, "Kevin
+ Hilman" <khilman@baylibre.com>, "Jerome Brunet" <jbrunet@baylibre.com>,
+ "Martin Blumenstingl" <martin.blumenstingl@googlemail.com>, "Chun-Kuang Hu"
+ <chunkuang.hu@kernel.org>, "Philipp Zabel" <p.zabel@pengutronix.de>,
+ "Matthias Brugger" <matthias.bgg@gmail.com>, "AngeloGioacchino Del Regno"
+ <angelogioacchino.delregno@collabora.com>, "Anitha Chrisanthus"
+ <anitha.chrisanthus@intel.com>, "Edmund Dea" <edmund.j.dea@intel.com>,
+ "Inki Dae" <inki.dae@samsung.com>, "Seung-Woo Kim"
+ <sw0312.kim@samsung.com>, "Kyungmin Park" <kyungmin.park@samsung.com>,
+ "Krzysztof Kozlowski" <krzk@kernel.org>, "Alim Akhtar"
+ <alim.akhtar@samsung.com>, "Hui Pu" <Hui.Pu@gehealthcare.com>, "Thomas
+ Petazzoni" <thomas.petazzoni@bootlin.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <imx@lists.linux.dev>,
+ <linux-arm-kernel@lists.infradead.org>,
+ <linux-renesas-soc@vger.kernel.org>, <linux-amlogic@lists.infradead.org>,
+ <linux-mediatek@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>,
+ "Anusha Srivatsa" <asrivats@redhat.com>
+To: "Maxime Ripard" <mripard@kernel.org>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+X-Mailer: aerc 0.20.1
+References: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com> <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-4-0db98a7fe474@bootlin.com> <wxxjp7fmsnh2k4huvg2thmfi6kcszdphrag3zosrnykn7abeua@cdlywqj32jd7>
+In-Reply-To: <wxxjp7fmsnh2k4huvg2thmfi6kcszdphrag3zosrnykn7abeua@cdlywqj32jd7>
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hello Biju,
+Hi,
 
-On Fri, Nov 21, 2025 at 01:36:51PM +0000, Biju wrote:
-> From: Biju Das <biju.das.jz@bp.renesas.com>
->=20
-> The rzg2l_gpt_config() test the rzg2l_gpt->period_tick variable. This
-> check is not valid, if enabling of a channel happens after disabling all
-> the channels as it test against the cached value. Therefore, reinitialize
-> the variable rzg2l_gpt->period_tick to 0 in rzg2l_gpt_disable(), when
-> all the logical channels of a hardware channel is disabled, and also don't
-> allow to set the cached value in rzg2l_gpt_config(), if the other channel
-> is not enabled.
->=20
-> Cc: stable@kernel.org
-> Fixes: 061f087f5d0b ("pwm: Add support for RZ/G2L GPT")
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v4->v5:
->  * Updated commit description and code comment to give more details on why
->    reinitialising the cached value to zero
->  * Added a check in rzg2l_gpt_config(), to prevent setting the cached val=
-ue, if
->    the other channel is not enabled.
-> v3->v4:
->  * Split the patch as separate from [1] for easy merging.
->  * Updated commit description
->  * Added comments about the fix in rzg2l_gpt_disable()
-> v3:
->  * New patch
->=20
-> [1] https://lore.kernel.org/all/20250915163637.3572-1-biju.das.jz@bp.rene=
-sas.com/#t
-> ---
->  drivers/pwm/pwm-rzg2l-gpt.c | 23 ++++++++++++++++++-----
->  1 file changed, 18 insertions(+), 5 deletions(-)
->=20
-> diff --git a/drivers/pwm/pwm-rzg2l-gpt.c b/drivers/pwm/pwm-rzg2l-gpt.c
-> index 360c8bf3b190..38ad03ded9ce 100644
-> --- a/drivers/pwm/pwm-rzg2l-gpt.c
-> +++ b/drivers/pwm/pwm-rzg2l-gpt.c
-> @@ -190,8 +190,17 @@ static void rzg2l_gpt_disable(struct rzg2l_gpt_chip =
-*rzg2l_gpt,
->  	/* Stop count, Output low on GTIOCx pin when counting stops */
->  	rzg2l_gpt->channel_enable_count[ch]--;
-> =20
-> -	if (!rzg2l_gpt->channel_enable_count[ch])
-> +	if (!rzg2l_gpt->channel_enable_count[ch]) {
->  		rzg2l_gpt_modify(rzg2l_gpt, RZG2L_GTCR(ch), RZG2L_GTCR_CST, 0);
-> +		/*
-> +		 * The rzg2l_gpt_config() test the rzg2l_gpt->period_tick
-> +		 * variable. This check is not valid, if enabling of a channel
-> +		 * happens after disabling all the channels as it test against
-> +		 * the cached value. Therefore, reinitialize the variable
-> +		 * rzg2l_gpt->period_tick to 0.
-> +		 */
-> +		rzg2l_gpt->period_ticks[ch] =3D 0;
-> +	}
-> =20
->  	/* Disable pin output */
->  	rzg2l_gpt_modify(rzg2l_gpt, RZG2L_GTIOR(ch), RZG2L_GTIOR_OxE(sub_ch), 0=
-);
-> @@ -271,10 +280,14 @@ static int rzg2l_gpt_config(struct pwm_chip *chip, =
-struct pwm_device *pwm,
->  	 * in use with different settings.
->  	 */
->  	if (rzg2l_gpt->channel_request_count[ch] > 1) {
-> -		if (period_ticks < rzg2l_gpt->period_ticks[ch])
-> -			return -EBUSY;
-> -		else
-> -			period_ticks =3D rzg2l_gpt->period_ticks[ch];
-> +		u8 other_sub_ch =3D sub_ch ? (pwm->hwpwm - 1) : (pwm->hwpwm + 1);
++Cc Anusha
 
-I think this is the same as the simpler
+On Mon Nov 24, 2025 at 11:22 AM CET, Maxime Ripard wrote:
+> Hi,
+>
+> On Wed, Nov 19, 2025 at 02:05:35PM +0100, Luca Ceresoli wrote:
+>> of_drm_find_bridge() is identical to drm_of_find_bridge() except it does
+>> not increment the refcount. Rewrite it as a wrapper and put the bridge
+>> being returned so the behaviour is still the same.
+>>
+>> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+>
+> Kind of the same comment than on the TODO. Is it worth doing that patch
+> when we could just remove it at the end of the series?
 
-	u8 other_sub_ch =3D pwm->hwpwm ^ 1;
+This series is not converting all users I'm afraid.
 
-which might not be too magic when put in an inline function next to
-rzg2l_gpt_subchannel().
+There are still some drivers to convert, but not a big deal.
 
-> +		if (rzg2l_gpt_is_ch_enabled(rzg2l_gpt, other_sub_ch)) {
-> +			if (period_ticks < rzg2l_gpt->period_ticks[ch])
-> +				return -EBUSY;
-> +			else
-> +				period_ticks =3D rzg2l_gpt->period_ticks[ch];
+The main user to be converted is drm_of_find_panel_or_bridge(), which is
+very tricky, and in turn it is used by devm_drm_of_get_bridge(). We
+discussed this in the past and the conclusion was a rework of the drm_panel
+lifetime was needed to be able to properly replace
+drm_of_find_panel_or_bridge().
 
-Do you need to set rzg2l_gpt->period_ticks[ch] to zero in the disable
-function given that it's only used if the other channel is enabled?
+A drm_panel rework had started very well with devm_drm_panel_alloc() that
+got upstreamed by Anusha, but I'm not sure if it has made further progress
+after that. So AFAICT the plan is still "People will gradually switch to
+the new API over time", and the deprecated of_drm_find_bridge() will be
+removed after that.
 
-> +		}
->  	}
-> =20
->  	prescale =3D rzg2l_gpt_calculate_prescale(rzg2l_gpt, period_ticks);
+Does it still make sense to you?
 
-Best regards
-Uwe
+Maxime, Anusha, are you aware of any steps forward about dynamic panel
+lifetime, after devm_drm_panel_alloc()?
 
---5ys5mvvtwga6hrkb
-Content-Type: application/pgp-signature; name="signature.asc"
+>> @@ -1460,19 +1460,11 @@ EXPORT_SYMBOL(drm_of_find_bridge);
+>>   */
+>>  struct drm_bridge *of_drm_find_bridge(struct device_node *np)
+>>  {
+>> -	struct drm_bridge *bridge;
+>> -
+>> -	mutex_lock(&bridge_lock);
+>> +	struct drm_bridge *bridge =3D drm_of_find_bridge(np);
+>>
+>> -	list_for_each_entry(bridge, &bridge_list, list) {
+>> -		if (bridge->of_node =3D=3D np) {
+>> -			mutex_unlock(&bridge_lock);
+>> -			return bridge;
+>> -		}
+>> -	}
+>> +	drm_bridge_put(bridge);
+>
+> And if it does make sense to keep that patch, we should add a comment
+> here to document why we are doing this.
 
------BEGIN PGP SIGNATURE-----
+OK, what about:
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmkkiJQACgkQj4D7WH0S
-/k7eCgf+J+hqUFH015giyfs23TgEBTWyBsXCSqxJppChT6Mpk39BZuLAGhWkd5mN
-O9Zx/Q6S8OThQcJgz5QUjglWpvUigigAKmRIHdUefYTHJZxPsbwTzaSogRXYEPO3
-lCJ0rCtjqlfn/Tgq8Eibu+3tcna1YSA5JguMmFMoSeAydcHRwL5hR446EwpfAreN
-usbmFJ/XJcojJCBRTMYao5j9oP1b4udsXy3y+jQ/lMtrC3SG8hYIizuIQRG6Uj51
-6Mhk/FEMKT0EAdEpbrCWsr6Zm/N3lUnYhMRUJElVj4m4+Xpc+vvsWmQLd6pueE+l
-mIQTK8IPbtK4oSECfiafuySjU+NSzw==
-=amZa
------END PGP SIGNATURE-----
+/**
+ * We need to emulate the original semantice of of_drm_find_bridge(), which
+ * was not getting any bridge reference. Being now based on
+ * drm_of_find_bridge() which gets a reference, put it before returning.
+ */
 
---5ys5mvvtwga6hrkb--
+Luca
+
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
