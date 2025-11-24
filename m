@@ -1,209 +1,95 @@
-Return-Path: <linux-renesas-soc+bounces-25063-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25064-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C5F5C7FF13
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Nov 2025 11:39:45 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3948C7FF3D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Nov 2025 11:41:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CA9F63A6020
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Nov 2025 10:39:43 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 96B9A4E2871
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Nov 2025 10:41:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A7B02F7468;
-	Mon, 24 Nov 2025 10:39:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0C4D2749C7;
+	Mon, 24 Nov 2025 10:41:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="firEdU2g"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T+NsC4I6"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED444274B32;
-	Mon, 24 Nov 2025 10:39:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC0B421A449
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Nov 2025 10:41:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763980781; cv=none; b=JTOqH7n2y/+RYfmeNJbz7wkDwcizwhpCGqe3+wYmHdeXrLDHtc9IQZHwuNdEjcygV27YCOe1D4W9ARtrfbhZxSCvqPL1iYroNoj/xomBLqaqe0k3EIDMv/OX5PPadrOapRDJ/z+35CvQrlxflyZCm9stmHZBap7e2blSjXJKsYI=
+	t=1763980888; cv=none; b=ciGwSZZKs6n5boeJE1WOtAv4QFuByG20kGWsTUDzD7N93z1Mah813aOIkugersel4LVz2qtgdE+LrqZP2WA/50wW3r99iR5h4nCpCFgRCf/AOPMgNfhzkonG6Okjy+ugA2fFcepcl3+Ne2GCO36HRqY4cLn1SRNxhNO4tAE4ZVU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763980781; c=relaxed/simple;
-	bh=wG0LtNXrjp+tZ6+DjiOmVw4tWhV/2DPiV64zQMWzD6E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LbTrkqcqF3JRxH4yuaGMiDgXGWQ/7plYPfcK0yZKJLK1asI2XPK0z+VcLNlYEJwiCnzoAB/gsL1moSAa4xUbAFk/ZRnWHUKYlhaNGnh/u8ALcwRM2cN7mFiS4vbvLk6rhvTTEl2/lrFlEk7h64kWzPp9hMf5yrE6TuVmgu1tTw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=firEdU2g; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0016EC4CEF1;
-	Mon, 24 Nov 2025 10:39:39 +0000 (UTC)
+	s=arc-20240116; t=1763980888; c=relaxed/simple;
+	bh=wtvvpw1PpCnlCOAeEXQh+1cy3xm5A9EO5ij/DCRhJmA=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=RaIPptUFkc6bo+c9kLov335CMFwu3duQlMy3qLn075iCySZr5igml98V5fmVZGBF63CWqe+3/T5RhcJBv9IKXyIkMffpeyNxFfPkeGEQt90PVkusH4zXj3wSILu/c9Olg+1J+GMn88D/mWk6XPXsgwKd9qX6Lfs6OS0psG9cjmY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T+NsC4I6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80170C4CEF1
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Nov 2025 10:41:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763980780;
-	bh=wG0LtNXrjp+tZ6+DjiOmVw4tWhV/2DPiV64zQMWzD6E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=firEdU2gCtMh4N6YI19W5r3iOxB5sPvAIKExbAF0UKd6W/4+e4/WHnpUVVGhgtWBA
-	 a5pHIpAfdiYTEv1sen/+Y5y19BThHuf5QV7YsTbMjr03yNiePn6xxPFM9rBmFBGO/F
-	 TiEtraXUzP3fH1UnA4jBQAQTFMtojoqtoTg6/MraXPZFWcHy/puTwsedmw3WE0jHV2
-	 mylk4e1h00mN8rZh9xIGkDDB+u8aHBXDegba3zOnzn4UzfAVX9HfqEA2VqqP1N7+9d
-	 IFknDENgch1ihKzPP3CXf7xAiwSA7GPydZqDuHvGrkcGVvyUSstDSkj3J6juuaQQUN
-	 40rHR4ovEobtg==
-Date: Mon, 24 Nov 2025 11:39:37 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
-	Alexey Brodkin <abrodkin@synopsys.com>, Phong LE <ple@baylibre.com>, Liu Ying <victor.liu@nxp.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Adrien Grassein <adrien.grassein@gmail.com>, Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Anitha Chrisanthus <anitha.chrisanthus@intel.com>, 
-	Edmund Dea <edmund.j.dea@intel.com>, Inki Dae <inki.dae@samsung.com>, 
-	Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Hui Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-renesas-soc@vger.kernel.org, linux-amlogic@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, linux-samsung-soc@vger.kernel.org
-Subject: Re: [PATCH 06/26] drm/bridge: add devm_drm_of_find_bridge
-Message-ID: <hs44z4b2dgisemuewgtvl4epjcqqilg6cy36po25pubaog4hmq@33qgl4o3hwoa>
-References: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com>
- <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-6-0db98a7fe474@bootlin.com>
+	s=k20201202; t=1763980888;
+	bh=wtvvpw1PpCnlCOAeEXQh+1cy3xm5A9EO5ij/DCRhJmA=;
+	h=Subject:From:Date:To:From;
+	b=T+NsC4I6YEyC7MwgNXdhN+JxokqeR7DwY4whAPaWtPSNmVP35kQXVKy+pTQSF8wGZ
+	 G/kXyyLAvDxwi8uMTfzR34UQk1ZA+1U7vWV7d3pn0z5qtMGWRNk2glT8iIs0X1dpJu
+	 g6bm1wiDlU2rQtS9PUD2AjdzvFQ/I1GtKMGQ3UAIDgOef3dKooLOxkOKQB50rMTCZR
+	 2IILYpXR1VyWAH9hD6Ds+110ZbcOl3Xa1r0v7F0sRqW14IReweBNAr4r7/LWmjgIZT
+	 ZuJ1LIsi6/KQBaYmqjhhv9G4tV8ET2KqoVM/XtQH0+3s09sVqWyPCO/q6AClXj9chF
+	 KbdDzMl2lIRVQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id B20C23A8625F
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Nov 2025 10:40:52 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="wbm42ghgit2cp5t3"
-Content-Disposition: inline
-In-Reply-To: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-6-0db98a7fe474@bootlin.com>
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From: patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: 
+ <176398085125.3676046.13208144078948855727.git-patchwork-summary@kernel.org>
+Date: Mon, 24 Nov 2025 10:40:51 +0000
+To: linux-renesas-soc@vger.kernel.org
+
+Hello:
+
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
+
+Patch: [PATCH/LOCAL] riscv: rzfive: defconfig: Refresh for v6.18-rc6
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=1024205
+  Lore link: https://lore.kernel.org/r/b21a89cc6d17ace3d71dda68199fd0880d71405e.1763374913.git.geert+renesas@glider.be
+
+Series: Add RZ/G3E USB3.2 Gen1 Host Controller support
+  Submitter: Biju <biju.das.au@gmail.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=1002960
+  Lore link: https://lore.kernel.org/r/20250916150255.4231-1-biju.das.jz@bp.renesas.com
+    Patches: [v3,1/9] dt-bindings: phy: renesas: Document Renesas RZ/G3E USB3.0 PHY
+             [v3,7/9] arm64: dts: renesas: r9a09g047: Add USB3 PHY/Host nodes
+             [v3,8/9] arm64: dts: renesas: r9a09g047e57-smarc: Enable USB3HOST
+             [v3,9/9] arm64: defconfig: Enable RZ/G3E USB3 PHY driver
+
+Patch: arm64: dts: renesas: rzt2h/rzn2h-evk: add note about SD1 1.8V modes
+  Submitter: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=1014376
+  Lore link: https://lore.kernel.org/r/20251022073141.1989762-1-cosmin-gabriel.tanislav.xa@renesas.com
 
 
---wbm42ghgit2cp5t3
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 06/26] drm/bridge: add devm_drm_of_find_bridge
-MIME-Version: 1.0
+Total patches: 6
 
-On Wed, Nov 19, 2025 at 02:05:37PM +0100, Luca Ceresoli wrote:
-> Several drivers (about 20) follow the same pattern:
->=20
->  1. get a pointer to a bridge (typically the next bridge in the chain) by
->     calling of_drm_find_bridge()
->  2. store the returned pointer in the private driver data, keep it until
->     driver .remove
->  3. dereference the pointer at attach time and possibly at other times
->=20
-> of_drm_find_bridge() is now deprecated because it does not increment the
-> refcount and should be replaced with drm_of_find_bridge() +
-> drm_bridge_put().
->=20
-> However some of those drivers have a complex code flow and adding a
-> drm_bridge_put() call in all the appropriate locations is error-prone,
-> leads to ugly and more complex code, and can lead to errors over time with
-> code flow changes.
->=20
-> To handle all those drivers in a straightforward way, add a devm variant =
-of
-> drm_of_find_bridge() that adds a devm action to invoke drm_bridge_put()
-> when the said driver is removed. This allows all those drivers to put the
-> reference automatically and safely with a one line change:
->=20
->   - priv->next_bridge =3D of_drm_find_bridge(remote_np);
->   + priv->next_bridge =3D devm_drm_of_find_bridge(dev, remote_np);
->=20
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
->
-> ---
->  drivers/gpu/drm/drm_bridge.c | 30 ++++++++++++++++++++++++++++++
->  include/drm/drm_bridge.h     |  5 +++++
->  2 files changed, 35 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> index 09ad825f9cb8..c7baafbe5695 100644
-> --- a/drivers/gpu/drm/drm_bridge.c
-> +++ b/drivers/gpu/drm/drm_bridge.c
-> @@ -1446,6 +1446,36 @@ struct drm_bridge *drm_of_find_bridge(struct devic=
-e_node *np)
->  }
->  EXPORT_SYMBOL(drm_of_find_bridge);
-> =20
-> +/**
-> + * devm_drm_of_find_bridge - find the bridge corresponding to the device
-> + *			     node in the global bridge list and add a devm
-> + *			     action to put it
-> + *
-> + * @dev: device requesting the bridge
-> + * @np: device node
-> + *
-> + * On success the returned bridge refcount is incremented, and a devm
-> + * action is added to call drm_bridge_put() when @dev is removed. So the
-> + * caller does not have to put the returned bridge explicitly.
-> + *
-> + * RETURNS:
-> + * drm_bridge control struct on success, NULL on failure
-> + */
-> +struct drm_bridge *devm_drm_of_find_bridge(struct device *dev, struct de=
-vice_node *np)
-> +{
-> +	struct drm_bridge *bridge =3D drm_of_find_bridge(np);
-> +
-> +	if (bridge) {
-> +		int err =3D devm_add_action_or_reset(dev, drm_bridge_put_void, bridge);
-> +
-> +		if (err)
-> +			return ERR_PTR(err);
-> +	}
-> +
-> +	return bridge;
-> +}
-> +EXPORT_SYMBOL(devm_drm_of_find_bridge);
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-That's inherently unsafe though, because even if the bridge is removed
-other parts of DRM might still have a reference to it and could call
-into it.
 
-We'd then have dropped our reference to the next bridge, which could
-have been freed, and it's a use-after-free.
-
-It's more complicated than it sounds, because we only have access to the
-drm_device when the bridge is attached, so later than probe.
-
-I wonder if we shouldn't tie the lifetime of that reference to the
-lifetime of the bridge itself, and we would give up the next_bridge
-reference only when we're destroyed ourselves.
-
-Storing a list of all the references we need to drop is going to be
-intrusive though, so maybe the easiest way to do it would be to create a
-next_bridge field in drm_bridge, and only drop the reference stored
-there?
-
-And possibly tie the whole thing together using a helper?
-
-Anyway, I'm not sure it should be a prerequisite to this series. I we do
-want to go the devm_drm_of_find_bridge route however, we should at least
-document that it's unsafe, and add a TODO entry to clean up the mess
-later on.
-
-Maxime
-
---wbm42ghgit2cp5t3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaSQ16QAKCRAnX84Zoj2+
-drTLAX0QBwwX78SPwaYEqj6Om+7ADsxYhVrgX1HoD1xpc0ILj+Ur57K6wtKDIc5l
-JWSP6zkBgJA2DSWw4vHzHhFRbZQ+eGEUkynilMkrpEr/EsrHbAzT3gfgz8IOyhGR
-Vs8tk3i2Uw==
-=/E1G
------END PGP SIGNATURE-----
-
---wbm42ghgit2cp5t3--
 
