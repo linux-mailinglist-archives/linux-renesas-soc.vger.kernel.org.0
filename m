@@ -1,124 +1,154 @@
-Return-Path: <linux-renesas-soc+bounces-25073-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25074-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70126C80D50
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Nov 2025 14:45:44 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E18FCC80D7B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Nov 2025 14:49:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 254953A359E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Nov 2025 13:45:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9D7823A5CEC
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Nov 2025 13:49:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7ED78309DA8;
-	Mon, 24 Nov 2025 13:45:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 883B730B515;
+	Mon, 24 Nov 2025 13:49:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="tIrDCgKH";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="eSXH4BtR"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9997574C14
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Nov 2025 13:45:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E24426FDB2;
+	Mon, 24 Nov 2025 13:49:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763991942; cv=none; b=ePVpxHEf4H00dpWDSm7W/61AeUcnaf7Ucb+S1Xo3BNG4g627A7hVclM37QtOapD0v5r6A6lQBnFfZ9f7aa0WA4SKyaEfdW44Md0gZsTrNB2IyVkhNpoCAalK0NNQCYD+ESEp4bT1hgfSIksQkOb3SgKfV9MD3Ke1fC9TPEQsXmw=
+	t=1763992172; cv=none; b=fxgoBi1DKuczL4BQPL39ID9VUhM9Ol7DghF7Q/B6NC//wFUwNT6eIkAU0K7AKU0ER5LE2BGaJ/GCvYbmPi5oPVN3xfMfz1qVr5HK73XSiK0u2G1sw1o5PISWoap952r85pvJprgkjfC/mSwrghxTJsrwfj8FtwcXyZjZqvEnj6Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763991942; c=relaxed/simple;
-	bh=pGwjEOungeheGFb7JOaHZHRCSnn6bJ6yIDISOpRWkF0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gIan/dJ6PGt4lCm1psQ5vx3uX3cnU5bMOe+giWbQfQAqHvwqf3srk0DiqjTt2QWtuxAnO/h2+VRj/AJqmt9Sd0j3xxDuTyQynvr7rFd5EVjQkjJEAm5OvX4JyP7yHyFCQe+O07OKMtuWkSLJbJUfDraMwIbrhK/9czZQrbf5PeQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-932e6d498b2so2622663241.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Nov 2025 05:45:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763991939; x=1764596739;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JzF6CGFzYEv/qypghK1+w9eJ/Y2c6REJMBluTWTXczY=;
-        b=helbjotZrXEJWhpLsA8wRP6ET2IctOdLE00L/brj8fGMYEo8HDdR2MVWBtRw2kEQtA
-         fazB0lY+gBJFM7FYPJmHSRh0pRErCP4XMESHiFTVp97KLt16JXAeZ13UOzMhjSj0XDQz
-         IbcU1fQQ3bpC1PjP5ro+zx+nk1yVRYcrqqWwwg76D/4bacn7HOLuHXnByUHbmGaauuxo
-         k1yDlPH5ZzPKen534UvEPDZQc3f2NSOBaizk8hFj1tPPeTuFqDZaEUsTINfZBN3eMmqh
-         QDxGuFVAgsY+UujClYnfV/rezvQ/3VBLUdvMxvEXVkUmaCp81ABv6aIpa3lYKjP91qW9
-         5Zuw==
-X-Forwarded-Encrypted: i=1; AJvYcCV/Nwu/Z8HDuf+L9W+1iFn9dGe/7b5Tesi4dJLw4aTbgGsXO8pbYTGmRiM0cJSRNKXP1BAe9ltuI5lnuwvR586tVQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwRrMKvPxekh97Kov26TqYO/eo1mkL11jlAHCJKismrpbzZbAp5
-	2rQhp9+ezXGko6+PrK8iwXvpbbBKZB5s/zG1utrHxqWED++NZlCA7h1d4XosJewV
-X-Gm-Gg: ASbGncvyH/Kqwr3uoS1a6tuwSaI2WkEEQYo7Fr90Xo7c9z9m7d481agShIGRJAw3BYi
-	Drl1fbowe05hCK24tzAfhtbmIGiDc2O2hnYmZ+GHULPZetiQpsfWAW45flXgtvHp5vj+565Xj+F
-	lzDXbJ1ClN17fC+sZf3WmY6nwKhTFWzb3g8rIYTQW5PeYQtAQP4CrGK7nvK/vxoHMr7nyNdAY16
-	m0eIfHNBKFLfltYp0HKyny/NTFSkTL3xNjlNrX0RuIy8swOPadbLtsKDrJb9Z3rNfRtTOQ5nOi0
-	xr/q72kimjX4qDVjUhpDSIZ/4dHjRs56kMW3TrnnAxF8f5LnLPv/UECxp0rk727ANmpOIidr5Sp
-	aLPR+e0rti+8+I3YD3/Ezq0naD/Rx0NFGr8XtSMeomi94btofABlKylTy+EglM+4qu+0fGMtLjp
-	frpF6Q6DGFzafNo5fgmRfq8+rxV7fuFblJrslmJznqH1dr9VZu7B8uFMP3y2aamlI=
-X-Google-Smtp-Source: AGHT+IESqIJsdapt4Eol3CrIMHbKH9FvbFA1Y8dE3aqBN79vwVkG473oXF/uE73PcNcN7NtwZyHeJg==
-X-Received: by 2002:a05:6102:5a8d:b0:5d5:f766:75f1 with SMTP id ada2fe7eead31-5e1de1c1434mr3913720137.11.1763991939398;
-        Mon, 24 Nov 2025 05:45:39 -0800 (PST)
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com. [209.85.221.178])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5e1bdd27f74sm5463088137.10.2025.11.24.05.45.39
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Nov 2025 05:45:39 -0800 (PST)
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-5598b58d816so3231771e0c.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Nov 2025 05:45:39 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXQznLFWeh2tAqULUsRca9sA/ndaTFoxCPbE1GBaRAnwrrX1yi2SFHdh99cicUH6WotA/r+5aAZXer3hya2sT0xgA==@vger.kernel.org
-X-Received: by 2002:a05:6102:4b84:b0:5db:d60a:6b2f with SMTP id
- ada2fe7eead31-5e1ddd3b9camr4128126137.0.1763991938983; Mon, 24 Nov 2025
- 05:45:38 -0800 (PST)
+	s=arc-20240116; t=1763992172; c=relaxed/simple;
+	bh=zwdEtHzrVZnifmjxyDWGtPKkMrErGrW+cDEcONyxQik=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=qgCLBTHO97+XTM0+fWMqNo8YDu1iU5SLutj1z83VF+vc+FuMKQB5tfr1EZBNCXv/kTRIQKIfOXbfaLv19L69D2+qKm/NgAiGX7LsFClE9CvsCTY2+OCPHuMtIjNyVEkwDsbbsYX4Ygmgt0eqV6jk+hN5tQa5ZvteR6VB/ruekys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=tIrDCgKH; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=eSXH4BtR; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1763992168;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0+fzxGnwwr/l7wvCtxcTwrR7zYqdvjf2vitkjEWTOOg=;
+	b=tIrDCgKHjy1eri2H1Pk336hpFqOH7hMGk8ieCW4529vBvpRs2da6shYJvVlw7x3/4CM+3K
+	a4Wzz0rCg1YqSBqs9S+JI4WaBhteX0w3WZjXgSZ91SlhssbB0nxkGYgCxkdO/S4h/FY6Gx
+	M4MHjLFbRslXXG4HrxkFwte+EL6l0Yk5Pk/DuBkqIFx1h4gI3984Ls9QG31KQXHneAtDZn
+	o8NnRkk/GAK7Zwn8QRNlBhRS7LFSEemGU+uDExg02eBKwg2c52Hgaf3AwA7jRjCuTDt5Tj
+	tw4/fTi2QkMBLPABfdC4oOHN/20aW8lj9rdFLxiogTxWyXCnU0CqYEcugHh5Dw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1763992168;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0+fzxGnwwr/l7wvCtxcTwrR7zYqdvjf2vitkjEWTOOg=;
+	b=eSXH4BtR6vUJNSkaYKGrCkuFbcUnsr3eKfg/JBoxVcCYws/wk5NndTJp+E+moUW1j8wDR9
+	wewweHgLzjESu9Dg==
+To: Cosmin-Gabriel Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Geert Uytterhoeven
+ <geert+renesas@glider.be>, "magnus.damm" <magnus.damm@gmail.com>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH 2/4] irqchip: add RZ/{T2H,N2H} Interrupt Controller
+ (ICU) driver
+In-Reply-To: <TYYPR01MB139556A313B1377F9306A7F6485D0A@TYYPR01MB13955.jpnprd01.prod.outlook.com>
+References: <20251121111423.1379395-1-cosmin-gabriel.tanislav.xa@renesas.com>
+ <20251121111423.1379395-3-cosmin-gabriel.tanislav.xa@renesas.com>
+ <87see6hxjb.ffs@tglx>
+ <TYYPR01MB139556A313B1377F9306A7F6485D0A@TYYPR01MB13955.jpnprd01.prod.outlook.com>
+Date: Mon, 24 Nov 2025 14:49:27 +0100
+Message-ID: <87ecpnilqw.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251101042440.648321-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20251101042440.648321-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 24 Nov 2025 14:45:27 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWm2=4hgdUzS7c2gDEOikbW--HdhDLkOFAzk3K6LP5=5A@mail.gmail.com>
-X-Gm-Features: AWmQ_bl9iCRqQApt_0NUXCaJN4jP56qxhVOoLl31Dhsfo_UxI7Dbre_KQS3oejc
-Message-ID: <CAMuHMdWm2=4hgdUzS7c2gDEOikbW--HdhDLkOFAzk3K6LP5=5A@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: usb: renesas,rzg3e-xhci: Add RZ/V2H(P) and
- RZ/V2N support
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 
-On Sat, 1 Nov 2025 at 05:24, Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Mon, Nov 24 2025 at 12:50, Cosmin-Gabriel Tanislav wrote:
+>> -----Original Message-----
+>> From: Thomas Gleixner <tglx@linutronix.de>
+>> Sent: Saturday, November 22, 2025 5:56 PM
+>> To: Cosmin-Gabriel Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>; Rob Herring <robh@kernel.org>;
+>> Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Geert Uytterhoeven
+>> <geert+renesas@glider.be>; magnus.damm <magnus.damm@gmail.com>; Cosmin-Gabriel Tanislav <cosmin-
+>> gabriel.tanislav.xa@renesas.com>
+>> Cc: linux-kernel@vger.kernel.org; devicetree@vger.kernel.org; linux-renesas-soc@vger.kernel.org
+>> Subject: Re: [PATCH 2/4] irqchip: add RZ/{T2H,N2H} Interrupt Controller (ICU) driver
+
+Can you please fix your mail-client not to copy the whole header into
+the reply?
+
+>> On Fri, Nov 21 2025 at 13:14, Cosmin Tanislav wrote:
+>> > +static inline int rzt2h_icu_irq_to_offset(struct irq_data *d, void __iomem **base,
+>> > +                                     unsigned int *offset)
+>> > +{
+>> > +   struct rzt2h_icu_priv *priv = irq_data_to_priv(d);
+>> > +   unsigned int hwirq = irqd_to_hwirq(d);
+>> > +
+>> > +   if (RZT2H_ICU_IRQ_IN_RANGE(hwirq, IRQ_NS)) {
+>> > +           *offset = hwirq - RZT2H_ICU_IRQ_NS_START;
+>> > +           *base = priv->base_ns;
+>> > +   } else if (RZT2H_ICU_IRQ_IN_RANGE(hwirq, IRQ_S) ||
+>> > +              /* SEI follows safety IRQs in registers and in IRQ numbers. */
+>> > +              RZT2H_ICU_IRQ_IN_RANGE(hwirq, SEI)) {
+>>
+>> This nested commend in the condition is really unreadable.
+>>
 >
-> Add device tree binding support for the USB3.2 Gen2 controller on Renesas
-> RZ/V2H(P) and RZ/V2N SoCs. The USB3.2 IP on these SoCs is identical to
-> that found on the RZ/G3E SoC.
+> Would this read better in your opinion?
 >
-> Add new compatible strings "renesas,r9a09g056-xhci" for RZ/V2N and
-> "renesas,r9a09g057-xhci" for RZ/V2H(P). Both variants use
-> "renesas,r9a09g047-xhci" as a fallback compatible to indicate hardware
-> compatibility with the RZ/G3E implementation.
+>         /*
+>          * Safety IRQs and SEI use a separate register space from the non-safety IRQs.
+>          * SEI interrupt number follows immediately after the safety IRQs.
+>          */
+>         if (RZT2H_ICU_IRQ_IN_RANGE(hwirq, IRQ_NS)) {
+>                 *offset = hwirq - RZT2H_ICU_IRQ_NS_START;
+>                 *base = priv->base_ns;
+>         } else if (RZT2H_ICU_IRQ_IN_RANGE(hwirq, IRQ_S) ||
+>                    RZT2H_ICU_IRQ_IN_RANGE(hwirq, SEI)) {
+>                 *offset = hwirq - RZT2H_ICU_IRQ_S_START;
+>                 *base = priv->base_s;
+>         } else {
+>                 return -EINVAL;
+>         }
+
+Yes. Way better.
+
+> One more thing, for the above cases where the same macro is used twice
+> in a condition, is it okay to keep it split across two lines to align
+> them with each other, or do you want them on a single line up to 100
+> columns?
+
+Usually single line, but in this case it might be more readable. Up to you.
+
+>> > +   if (!irq_domain) {
+>> > +           pm_runtime_put(dev);
+>> > +           return -ENOMEM;
+>> > +   }
+>>
+>> The mix of 'return $ERR' and 'return dev_err_probe()' is confusing at best.
+>>
 >
-> Update the title to be more generic as it now covers multiple SoC
-> families beyond just RZ/G3E.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> For ENOMEM, dev_err_probe() doesn't really print anything. ENOMEM is
+> what other drivers seem to use for a NULL irq_domain_create_hierarchy()
+> result.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+That's what I was missing. Now it makes sense.
 
-Gr{oetje,eeting}s,
+Thanks,
 
-                        Geert
+        tglx
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
