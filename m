@@ -1,175 +1,224 @@
-Return-Path: <linux-renesas-soc+bounces-25090-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25091-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46CDEC81A71
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Nov 2025 17:46:07 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7000CC81E96
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Nov 2025 18:34:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 954143A3FFE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Nov 2025 16:45:03 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 6346C4E615D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Nov 2025 17:34:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4EEB3168E0;
-	Mon, 24 Nov 2025 16:44:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 654AC276028;
+	Mon, 24 Nov 2025 17:34:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="KrEWDBIw"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cSMluTDn"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA1033161A9;
-	Mon, 24 Nov 2025 16:44:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4025926AA93
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Nov 2025 17:34:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764002669; cv=none; b=SjJwT0NENR6qWAWD1RduQLALR/OVx/Cy/XJEpliC3j3vlA1qY+k5ZQpmtXmYM83T0SmFZ0ibsM/SQGyojGSorz7zxFU048zZCnHgt9YLVPoNTnIR5UypUJENDyUAK3HdXXV+fbF0CIHLJ1/Z1CG/1twiVd+YFa3MuBcQbAxH0LE=
+	t=1764005656; cv=none; b=hVaTqq5qFaaTW7GCUQZmzt3o1+qXwP0tMw0ihPf5kMhfVGpi15DzWuW4vwxhPvM8O00kc2BhqucnnFRAeK8lPriKzSp/EbEFvHB7IBNSipsSqnpbpF3NtRs3DpIqH5DDf3YtpwRJS/2WpDtXAA/VN8x53Wh8FmoXN4x/XjsxL9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764002669; c=relaxed/simple;
-	bh=uSemw84f5ckyGShXecvyFgO27QOKWBIVsqm1RZd2KFA=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=G9L18e4JEhwmUn8IT5mWOLEzqpvGzlXMdXJ+Kx5U6WgwBveDRg4E27rsmGD3axFWvEV+XXpP6roDzB/5/ITlpgsbn8Ch2uXRU9HDsrOf1LRlWjN6LTwmwxL3oifonXbjogI8p9KCpiBVpN8LGYEG0UvFGWGUqxNjLFpXnQe6Hl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=KrEWDBIw; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 472BEC139B2;
-	Mon, 24 Nov 2025 16:44:02 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id B7547606FC;
-	Mon, 24 Nov 2025 16:44:24 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1410710371A8F;
-	Mon, 24 Nov 2025 17:44:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1764002662; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=8VxkXwHyVWJtMQb4rGcL9+DawEiYCDxx29eMOS81RRA=;
-	b=KrEWDBIww4g7nDza6Zc7hbr+ZoXaAgKnm9t/c7uQL8DjmTM4Lqn6U4mOBDG5vMoUDsvrd2
-	z/Sp/kXw6JnOSTYIFsmfxY3UrknEd6H/JIDub3AwK87pZ+UJrv5fYOmUNSbSYDq4WsP5v0
-	oneufTmETBFZmFUh0DxP15w3p8E74Qylz6WR0Fur6qK4EEAxebJte+/MSikZrha0b/9Gls
-	WRJzAXFmzZG7qJu0L63Dv+MuAQdNPhwTUxava0scvHSMJ7nqGhN0bidohpBwZuGxE/Vr0T
-	7wEt+C6kFsdbn3+p0AzKRiI549ZbqiSwVxZK8aOtKlYFNJxrJuYIWVmjCUBcsA==
+	s=arc-20240116; t=1764005656; c=relaxed/simple;
+	bh=QrwrudDXcmBwv5MpjExmSZyNDnG2x6mJE3eaNfxGUrk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=s30i8ae+c3vfhhGMIGpu/oeUoUwE7j3A+exO54btcq1zOz65sQ63WJl2JQp15cmHiKQL9WpQcTdwR58sOyeYYAw09jo0+1cDXPOfXdGSSy2WcH1SKh/YQunOdSdsj1qDSzTruRXCfQYqBTtsPVXOhULkOPm9j0d6ng1zqoCbtOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cSMluTDn; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 161F8C2BCB2
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Nov 2025 17:34:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764005656;
+	bh=QrwrudDXcmBwv5MpjExmSZyNDnG2x6mJE3eaNfxGUrk=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=cSMluTDn9fYYcsY96+RxCVmBU1UT6UeyACkllJmWSzU7gZrvo4gGKXo7uyft1pw/J
+	 X0UATKXVk+76/kBFRGVF3WN6uZgdNS3IO4AInkWQW27lHULnedM31JIF4SYAhBxdt1
+	 htoENAzwePRLjk5wCvlNeLCA2EhSsiJdEzldD7GbpiOoH+JZ0hIPxhLZNrJGTVLqyY
+	 2rgtF3juLEX+iTIqseecGdaakgW0CW4dYuyzvYUgbL2kageR3wIVXZrIeJIMhRFjpw
+	 s8V/JiAZGEYvkqjz/CuBiFxqZYv8hiBAk1mJsvk15Xna/VKLCOvT4hJYMMNMBq/vD8
+	 cuwKoO9s+/KJg==
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-b75c7cb722aso670411566b.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Nov 2025 09:34:16 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXumR2AVFWKtUGsxmZmG96yPuQELDv0EBOY4JxyRJFPHSDolq1Aljqy+8XOrX9vKNybr8QDFxq5HvFtzt5zLymH2w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyV5xDkYpnAjbFFmn5zYfiWg6GjO/hdAOyOwPho7gxDnuZOlKXk
+	Eo66A91U8Dd1cQmx9AGNDBkziE7N6cek1GSwuB5sKteG2XMZTykNgInxxN0+10R10IbO4gJ0fMM
+	s4yzu+DqfzXUVodUsIfOVf2FgI7Ovhw==
+X-Google-Smtp-Source: AGHT+IH4zThrBiVwTM/gMTFGPCf7Ko+9nQcpXA9JRi2zbFqO9WDmcAZTQclKPHj9NMzyHEHvrVsg+wN6QcpewpApah8=
+X-Received: by 2002:a17:907:1b0f:b0:b6d:573d:bbc5 with SMTP id
+ a640c23a62f3a-b767170cca7mr1240223266b.37.1764005654444; Mon, 24 Nov 2025
+ 09:34:14 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
+MIME-Version: 1.0
+References: <20251031175926.1465360-1-robh@kernel.org> <aRN0fdOAV0B728qo@p14s>
+ <20251111195923.GA3629535-robh@kernel.org> <CANLsYkwcbrTaKASdr5fj0m9ARS4xUgzVH8iWQKwTCvEsoZDDsQ@mail.gmail.com>
+ <CAL_JsqL7HcDkPgJjcqJSagdN=gH2rv6noVS57QMGNRp0YCxUBw@mail.gmail.com> <aRX6DJoaP4MXG3fN@p14s>
+In-Reply-To: <aRX6DJoaP4MXG3fN@p14s>
+From: Rob Herring <robh@kernel.org>
+Date: Mon, 24 Nov 2025 11:34:02 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJGtQTVdaJ99DKiqbo3GfxmU7V6QjroTxHi7gR53Dfe-Q@mail.gmail.com>
+X-Gm-Features: AWmQ_bmPMfxmmKwhG7Mzx1bAQRdZoKMheTTGVeWZ-CEQx6BfmTyQnFsumwKZ_Xg
+Message-ID: <CAL_JsqJGtQTVdaJ99DKiqbo3GfxmU7V6QjroTxHi7gR53Dfe-Q@mail.gmail.com>
+Subject: Re: [PATCH v6] remoteproc: Use of_reserved_mem_region_* functions for "memory-region"
+To: Mathieu Poirier <mathieu.poirier@linaro.org>
+Cc: Bjorn Andersson <andersson@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, Patrice Chotard <patrice.chotard@foss.st.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, Peng Fan <peng.fan@nxp.com>, 
+	linux-remoteproc@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 24 Nov 2025 17:44:09 +0100
-Message-Id: <DEH2R1Q0XJJG.1NMESYMX9GMFL@bootlin.com>
-Subject: Re: [PATCH 04/26] drm/bridge: make of_drm_find_bridge() a wrapper
- of drm_of_find_bridge()
-Cc: "Andrzej Hajda" <andrzej.hajda@intel.com>, "Neil Armstrong"
- <neil.armstrong@linaro.org>, "Robert Foss" <rfoss@kernel.org>, "Laurent
- Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
- <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, "Thomas Zimmermann"
- <tzimmermann@suse.de>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
- <simona@ffwll.ch>, "Jonathan Corbet" <corbet@lwn.net>, "Alexey Brodkin"
- <abrodkin@synopsys.com>, "Phong LE" <ple@baylibre.com>, "Liu Ying"
- <victor.liu@nxp.com>, "Shawn Guo" <shawnguo@kernel.org>, "Sascha Hauer"
- <s.hauer@pengutronix.de>, "Pengutronix Kernel Team"
- <kernel@pengutronix.de>, "Fabio Estevam" <festevam@gmail.com>, "Adrien
- Grassein" <adrien.grassein@gmail.com>, "Laurent Pinchart"
- <laurent.pinchart+renesas@ideasonboard.com>, "Tomi Valkeinen"
- <tomi.valkeinen+renesas@ideasonboard.com>, "Kieran Bingham"
- <kieran.bingham+renesas@ideasonboard.com>, "Geert Uytterhoeven"
- <geert+renesas@glider.be>, "Magnus Damm" <magnus.damm@gmail.com>, "Kevin
- Hilman" <khilman@baylibre.com>, "Jerome Brunet" <jbrunet@baylibre.com>,
- "Martin Blumenstingl" <martin.blumenstingl@googlemail.com>, "Chun-Kuang Hu"
- <chunkuang.hu@kernel.org>, "Philipp Zabel" <p.zabel@pengutronix.de>,
- "Matthias Brugger" <matthias.bgg@gmail.com>, "AngeloGioacchino Del Regno"
- <angelogioacchino.delregno@collabora.com>, "Anitha Chrisanthus"
- <anitha.chrisanthus@intel.com>, "Edmund Dea" <edmund.j.dea@intel.com>,
- "Inki Dae" <inki.dae@samsung.com>, "Seung-Woo Kim"
- <sw0312.kim@samsung.com>, "Kyungmin Park" <kyungmin.park@samsung.com>,
- "Krzysztof Kozlowski" <krzk@kernel.org>, "Alim Akhtar"
- <alim.akhtar@samsung.com>, "Hui Pu" <Hui.Pu@gehealthcare.com>, "Thomas
- Petazzoni" <thomas.petazzoni@bootlin.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <imx@lists.linux.dev>,
- <linux-arm-kernel@lists.infradead.org>,
- <linux-renesas-soc@vger.kernel.org>, <linux-amlogic@lists.infradead.org>,
- <linux-mediatek@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>,
- "Anusha Srivatsa" <asrivats@redhat.com>
-To: "Maxime Ripard" <mripard@kernel.org>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-X-Mailer: aerc 0.20.1
-References: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com> <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-4-0db98a7fe474@bootlin.com> <wxxjp7fmsnh2k4huvg2thmfi6kcszdphrag3zosrnykn7abeua@cdlywqj32jd7>
-In-Reply-To: <wxxjp7fmsnh2k4huvg2thmfi6kcszdphrag3zosrnykn7abeua@cdlywqj32jd7>
-X-Last-TLS-Session-Version: TLSv1.3
 
-Hi,
-
-+Cc Anusha
-
-On Mon Nov 24, 2025 at 11:22 AM CET, Maxime Ripard wrote:
-> Hi,
+On Thu, Nov 13, 2025 at 9:32=E2=80=AFAM Mathieu Poirier
+<mathieu.poirier@linaro.org> wrote:
 >
-> On Wed, Nov 19, 2025 at 02:05:35PM +0100, Luca Ceresoli wrote:
->> of_drm_find_bridge() is identical to drm_of_find_bridge() except it does
->> not increment the refcount. Rewrite it as a wrapper and put the bridge
->> being returned so the behaviour is still the same.
->>
->> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> On Wed, Nov 12, 2025 at 10:59:42AM -0600, Rob Herring wrote:
+> > On Wed, Nov 12, 2025 at 9:43=E2=80=AFAM Mathieu Poirier
+> > <mathieu.poirier@linaro.org> wrote:
+> > >
+> > > On Tue, 11 Nov 2025 at 12:59, Rob Herring <robh@kernel.org> wrote:
+> > > >
+> > > > On Tue, Nov 11, 2025 at 10:38:05AM -0700, Mathieu Poirier wrote:
+> > > > > Hi Rob,
+> > > > >
+> > > > > Please see may comment for st_remoteproc.c
+> > > > >
+> > > > > On Fri, Oct 31, 2025 at 12:59:22PM -0500, Rob Herring (Arm) wrote=
+:
+> > > > > > Use the newly added of_reserved_mem_region_to_resource() and
+> > > > > > of_reserved_mem_region_count() functions to handle "memory-regi=
+on"
+> > > > > > properties.
+> >
+> > [...]
+> >
+> > > > > > diff --git a/drivers/remoteproc/st_remoteproc.c b/drivers/remot=
+eproc/st_remoteproc.c
+> > > > > > index e6566a9839dc..043348366926 100644
+> > > > > > --- a/drivers/remoteproc/st_remoteproc.c
+> > > > > > +++ b/drivers/remoteproc/st_remoteproc.c
+> > > > > > @@ -120,40 +120,37 @@ static int st_rproc_parse_fw(struct rproc=
+ *rproc, const struct firmware *fw)
+> > > > > >     struct device *dev =3D rproc->dev.parent;
+> > > > > >     struct device_node *np =3D dev->of_node;
+> > > > > >     struct rproc_mem_entry *mem;
+> > > > > > -   struct reserved_mem *rmem;
+> > > > > > -   struct of_phandle_iterator it;
+> > > > > > -   int index =3D 0;
+> > > > > > -
+> > > > > > -   of_phandle_iterator_init(&it, np, "memory-region", NULL, 0)=
+;
+> > > > > > -   while (of_phandle_iterator_next(&it) =3D=3D 0) {
+> > > > > > -           rmem =3D of_reserved_mem_lookup(it.node);
+> > > > > > -           if (!rmem) {
+> > > > > > -                   of_node_put(it.node);
+> > > > > > -                   dev_err(dev, "unable to acquire memory-regi=
+on\n");
+> > > > > > -                   return -EINVAL;
+> > > > > > -           }
+> > > > > > +   int index =3D 0, mr =3D 0;
+> > > > > > +
+> > > > > > +   while (1) {
+> > > > > > +           struct resource res;
+> > > > > > +           int ret;
+> > > > > > +
+> > > > > > +           ret =3D of_reserved_mem_region_to_resource(np, mr++=
+, &res);
+> > > > > > +           if (ret)
+> > > > > > +                   return 0;
+> > > > >
+> > > > > The original code calls rproc_elf_load_rsc_table() [1] after iter=
+ating through
+> > > > > the memory region, something that won't happen with the above.
+> > > >
+> > > > Indeed. it needs the following incremental change. It is slightly
+> > > > different in that rproc_elf_load_rsc_table() is not called if
+> > > > 'memory-region' is missing, but the binding says that's required.
+> > > >
+> > > > 8<--------------------------------------------------
+> > > >
+> > > > diff --git a/drivers/remoteproc/st_remoteproc.c b/drivers/remotepro=
+c/st_remoteproc.c
+> > > > index 043348366926..cb09c244fdb5 100644
+> > > > --- a/drivers/remoteproc/st_remoteproc.c
+> > > > +++ b/drivers/remoteproc/st_remoteproc.c
+> > > > @@ -120,15 +120,19 @@ static int st_rproc_parse_fw(struct rproc *rp=
+roc, const struct firmware *fw)
+> > > >         struct device *dev =3D rproc->dev.parent;
+> > > >         struct device_node *np =3D dev->of_node;
+> > > >         struct rproc_mem_entry *mem;
+> > > > -       int index =3D 0, mr =3D 0;
+> > > > +       int index =3D 0;
+> > > >
+> > > >         while (1) {
+> > > >                 struct resource res;
+> > > >                 int ret;
+> > > >
+> > > > -               ret =3D of_reserved_mem_region_to_resource(np, mr++=
+, &res);
+> > > > -               if (ret)
+> > > > -                       return 0;
+> > > > +               ret =3D of_reserved_mem_region_to_resource(np, inde=
+x, &res);
+> > > > +               if (ret) {
+> > > > +                       if (index)
+> > > > +                               break;
+> > > > +                       else
+> > > > +                               return ret;
+> > > > +               }
+> > >
+> > > This looks brittle and I'm not sure it would work.
+> > >
+> > > Going back to the original implementation, the only time we want to
+> > > "break" is when @index is equal to the amount of memory regions _and_
+> > > ret is -EINVAL.  Any other condition should return.
+> >
+> > @index equal to number of entries returns -ENODEV, so that condition
+> > is impossible. We can simply it to this:
+> >
+> > if (ret =3D=3D -ENODEV && index)
+> >     break;
+> > else
+> >     return ret;
 >
-> Kind of the same comment than on the TODO. Is it worth doing that patch
-> when we could just remove it at the end of the series?
-
-This series is not converting all users I'm afraid.
-
-There are still some drivers to convert, but not a big deal.
-
-The main user to be converted is drm_of_find_panel_or_bridge(), which is
-very tricky, and in turn it is used by devm_drm_of_get_bridge(). We
-discussed this in the past and the conclusion was a rework of the drm_panel
-lifetime was needed to be able to properly replace
-drm_of_find_panel_or_bridge().
-
-A drm_panel rework had started very well with devm_drm_panel_alloc() that
-got upstreamed by Anusha, but I'm not sure if it has made further progress
-after that. So AFAICT the plan is still "People will gradually switch to
-the new API over time", and the deprecated of_drm_find_bridge() will be
-removed after that.
-
-Does it still make sense to you?
-
-Maxime, Anusha, are you aware of any steps forward about dynamic panel
-lifetime, after devm_drm_panel_alloc()?
-
->> @@ -1460,19 +1460,11 @@ EXPORT_SYMBOL(drm_of_find_bridge);
->>   */
->>  struct drm_bridge *of_drm_find_bridge(struct device_node *np)
->>  {
->> -	struct drm_bridge *bridge;
->> -
->> -	mutex_lock(&bridge_lock);
->> +	struct drm_bridge *bridge =3D drm_of_find_bridge(np);
->>
->> -	list_for_each_entry(bridge, &bridge_list, list) {
->> -		if (bridge->of_node =3D=3D np) {
->> -			mutex_unlock(&bridge_lock);
->> -			return bridge;
->> -		}
->> -	}
->> +	drm_bridge_put(bridge);
+> To me this needs to be:
 >
-> And if it does make sense to keep that patch, we should add a comment
-> here to document why we are doing this.
+> entries =3D of_reserved_mem_region_count(np);
 
-OK, what about:
+Ideally, we try to avoid parsing the same property twice. The places
+we count and then read the property again are when we need to allocate
+an array of the right size in between. But if that puts this patch to
+bed finally, then fine.
 
-/**
- * We need to emulate the original semantice of of_drm_find_bridge(), which
- * was not getting any bridge reference. Being now based on
- * drm_of_find_bridge() which gets a reference, put it before returning.
- */
-
-Luca
-
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+>
+> ...
+> ...
+>
+> if (ret =3D=3D -ENODEV && index =3D=3D entries)
+>         break;
+> else
+>         return ret;
+>
+> But taking a step back, it might even be easier to go from a while() to a=
+ for(),
+> the same way you did in imx_rproc_addr_init().
+>
+> >
+> > If you want to keep the prior behavior when 'memory-region' is
+> > missing, then '&& index' can be removed, but I think that was wrong
+> > behavior.
+> >
+> > Rob
 
