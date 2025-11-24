@@ -1,206 +1,209 @@
-Return-Path: <linux-renesas-soc+bounces-25062-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25063-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6601C7FE3F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Nov 2025 11:29:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C5F5C7FF13
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Nov 2025 11:39:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 165EA3A7C60
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Nov 2025 10:29:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CA9F63A6020
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Nov 2025 10:39:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BC642FA0DD;
-	Mon, 24 Nov 2025 10:28:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A7B02F7468;
+	Mon, 24 Nov 2025 10:39:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cVh2Exk0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="firEdU2g"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A90172FB085
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Nov 2025 10:28:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED444274B32;
+	Mon, 24 Nov 2025 10:39:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763980130; cv=none; b=RPgxLmpnb6WQoB37jVUzDSCpvmzPtKOtiPNEThQUCT7ujzx8QsxHw8JxRQlxjTUsI0peoRAO0SeWmln5d11PsHyTO4pQwVjyb3q11B7ibS+e2VGbbckxocJ25dahA871av48wh5e+Ub3mz2n40/hcywQ14olyv6rI8IepLXupDA=
+	t=1763980781; cv=none; b=JTOqH7n2y/+RYfmeNJbz7wkDwcizwhpCGqe3+wYmHdeXrLDHtc9IQZHwuNdEjcygV27YCOe1D4W9ARtrfbhZxSCvqPL1iYroNoj/xomBLqaqe0k3EIDMv/OX5PPadrOapRDJ/z+35CvQrlxflyZCm9stmHZBap7e2blSjXJKsYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763980130; c=relaxed/simple;
-	bh=rPyNl3IXKetzOLBOyKPO8g0EGzeg1E0yIt+StmCCebY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bgR14SA57hoc5JTwNEMBurwaC/ku8jeunVGr39Y+P92TVH1uVzk2gDZO37aZYbby/d5HAPfJWfqC/b7MFaqkq3YZhiS5XmHHBOn3e4cTrDz9Cr94mfc6bnu8MgECQOZK3UhP6g+GsBA2GKCuI0EZheoXBtkdpG2egvkC/5ztQ4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cVh2Exk0; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-47775fb6c56so34850815e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Nov 2025 02:28:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763980125; x=1764584925; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WgtID0nFX3nGFRlE1VlQTXM54bzqiyChn12CU60+xHU=;
-        b=cVh2Exk0kdpfHBpQzoRTAAoqyObCeHVYdZEaR0HVcowQPhVc97J5zLWVx5EYn8sVwS
-         JBs9LVSyd2bDukM5lIKj+ciA/Dw6TBlmD0u+AEPWT1YmDlRguKHrg7G0sNj5nZ6+R6UZ
-         k7ToFbUaZQD5BHbyOXjMRAmI+rL6Y8AWVfsC1l1/+6WlqXc/lfxHfrcDxb8WgHgQnoDC
-         XJSk6aKTYNnpS2FSHGaGvgzMSe8hWYH2NV5atjHbfp/iGLWrbxAqMCC3BwLKaCivxsQ6
-         7VBjWB5v22GMT9gzYYJJ8TZCPqPB/eNWNH2YM9TEa+MQkggrvdbnxLoFyShKXCVRl5XU
-         YMug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763980125; x=1764584925;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=WgtID0nFX3nGFRlE1VlQTXM54bzqiyChn12CU60+xHU=;
-        b=LEXOoIZFGqmYaK9EHjYcuW0CC/4MlqA9wCow6W35WSuKPhEDSve1ebM1TjTqkITOiZ
-         2ppd13E90P09GZVxPfpaY04E/XSJmtcCWhc/skRl9RGb8VqLvmHV3/2LFsc3+9bbj41l
-         J2s2y1qIv17Sd3pblnnlHmHh4VdPyiqMp5II1Hy58cK6ei9xMkOfaI3VacYM5O+SnNQF
-         m8KYEXT6+qHe/a29tExfQkvS2EatVhod2GhzPKaSEd1gntETT1GlIjCu4HnK1JAjl8Ml
-         5t+XGrZiJdTbdvXZMq+mVDM7DpEJucLMQDYaWDVVWjJ0ZFr5wiluRJ74+Y5mbcRXb5E6
-         lbRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW1No3rJus60dXSOvgccZJz1wdXuKAcT/LBEteMr35oYMeiU7kvi3TCmkbQ565H7PZ8onei7TmAjM1Xez6f+x+sTw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwXy0Z01sSaSP9jHshBiWIchC7moG7Vk/w0Y9lSJ3rizu90+k1N
-	mHpSBNYMkQ/GgHL2zjiFauSYBQ3aW4qWXrjWrwa4ah5ghJ1E2VUQhfla
-X-Gm-Gg: ASbGncvEe4jOojlaMMwS1fyuNz4Sv42fIOA0exBxfs7TKqhkzRSNkBnZchBO2MaXWjK
-	4p4hYdXTnbTnXPKUAl+q6dAG8zBNjY7KBHqCH22U5GF/1rhECjq1meuieenkC0gKl4KJrECfIXR
-	Jsb4qLYnikrsLTpQwvQBzcaMInKE3w9X9Ft1Uq44olb/e3Nf8QuXXR86HFGZXRuuVbYAZr2McPV
-	g3FYRtcuw7IjWmchxJ/uUVttEyOfIBxyM1Jk+E/xLqmQC0O0KE12/X5ul6AlRJizMLN03EJVIeA
-	zHL79kg3fmjQaQjSJOZ3zDbK7NGJr6givNaTzATdI3R4b7SLVQrRTen4NWDLG0oq2pk6jAH8sfg
-	QkOE8UhgbVKfDFAES2pbFvUzC67EwJSb4j2FkaCybRvlB1cyh2cQsLcrsxvKTeJON4ciNcFgnCP
-	JGBmVGIRB4y5j7z5N2Q8Qv9MIs1dVCCCuONGczUtvKS75IL6LSGoA+6k6hTNyfkYYjWhKBmdOM2
-	5ZxjTOUhBKxEjzE
-X-Google-Smtp-Source: AGHT+IGyTyi4ltNsVDvmhl+/roG3AiodjJTRXbT98h+eS1FAwZ4STCcD5g+TawJPyCHRDRFgKtjvvg==
-X-Received: by 2002:a05:600c:1c0c:b0:46e:7e22:ff6a with SMTP id 5b1f17b1804b1-477c018a099mr148973035e9.15.1763980124606;
-        Mon, 24 Nov 2025 02:28:44 -0800 (PST)
-Received: from localhost.localdomain (host86-162-200-138.range86-162.btcentralplus.com. [86.162.200.138])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477bf1df334sm186753945e9.3.2025.11.24.02.28.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Nov 2025 02:28:44 -0800 (PST)
-From: Biju <biju.das.au@gmail.com>
-X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
-To: Marc Kleine-Budde <mkl@pengutronix.de>,
-	Vincent Mailhol <mailhol@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	linux-can@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH v3 7/7] can: rcar_canfd: Add suspend/resume support
-Date: Mon, 24 Nov 2025 10:28:32 +0000
-Message-ID: <20251124102837.106973-8-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251124102837.106973-1-biju.das.jz@bp.renesas.com>
-References: <20251124102837.106973-1-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1763980781; c=relaxed/simple;
+	bh=wG0LtNXrjp+tZ6+DjiOmVw4tWhV/2DPiV64zQMWzD6E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LbTrkqcqF3JRxH4yuaGMiDgXGWQ/7plYPfcK0yZKJLK1asI2XPK0z+VcLNlYEJwiCnzoAB/gsL1moSAa4xUbAFk/ZRnWHUKYlhaNGnh/u8ALcwRM2cN7mFiS4vbvLk6rhvTTEl2/lrFlEk7h64kWzPp9hMf5yrE6TuVmgu1tTw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=firEdU2g; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0016EC4CEF1;
+	Mon, 24 Nov 2025 10:39:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763980780;
+	bh=wG0LtNXrjp+tZ6+DjiOmVw4tWhV/2DPiV64zQMWzD6E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=firEdU2gCtMh4N6YI19W5r3iOxB5sPvAIKExbAF0UKd6W/4+e4/WHnpUVVGhgtWBA
+	 a5pHIpAfdiYTEv1sen/+Y5y19BThHuf5QV7YsTbMjr03yNiePn6xxPFM9rBmFBGO/F
+	 TiEtraXUzP3fH1UnA4jBQAQTFMtojoqtoTg6/MraXPZFWcHy/puTwsedmw3WE0jHV2
+	 mylk4e1h00mN8rZh9xIGkDDB+u8aHBXDegba3zOnzn4UzfAVX9HfqEA2VqqP1N7+9d
+	 IFknDENgch1ihKzPP3CXf7xAiwSA7GPydZqDuHvGrkcGVvyUSstDSkj3J6juuaQQUN
+	 40rHR4ovEobtg==
+Date: Mon, 24 Nov 2025 11:39:37 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+	Alexey Brodkin <abrodkin@synopsys.com>, Phong LE <ple@baylibre.com>, Liu Ying <victor.liu@nxp.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Adrien Grassein <adrien.grassein@gmail.com>, Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Anitha Chrisanthus <anitha.chrisanthus@intel.com>, 
+	Edmund Dea <edmund.j.dea@intel.com>, Inki Dae <inki.dae@samsung.com>, 
+	Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Hui Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-renesas-soc@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-samsung-soc@vger.kernel.org
+Subject: Re: [PATCH 06/26] drm/bridge: add devm_drm_of_find_bridge
+Message-ID: <hs44z4b2dgisemuewgtvl4epjcqqilg6cy36po25pubaog4hmq@33qgl4o3hwoa>
+References: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com>
+ <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-6-0db98a7fe474@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="wbm42ghgit2cp5t3"
+Content-Disposition: inline
+In-Reply-To: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-6-0db98a7fe474@bootlin.com>
 
-From: Geert Uytterhoeven <geert+renesas@glider.be>
 
-On R-Car Gen3 using PSCI, s2ram powers down the SoC.  After resume, the
-CAN-FD interface no longer works.  Trying to bring it up again fails:
+--wbm42ghgit2cp5t3
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 06/26] drm/bridge: add devm_drm_of_find_bridge
+MIME-Version: 1.0
 
-    # ip link set can0 up
-    RTNETLINK answers: Connection timed out
+On Wed, Nov 19, 2025 at 02:05:37PM +0100, Luca Ceresoli wrote:
+> Several drivers (about 20) follow the same pattern:
+>=20
+>  1. get a pointer to a bridge (typically the next bridge in the chain) by
+>     calling of_drm_find_bridge()
+>  2. store the returned pointer in the private driver data, keep it until
+>     driver .remove
+>  3. dereference the pointer at attach time and possibly at other times
+>=20
+> of_drm_find_bridge() is now deprecated because it does not increment the
+> refcount and should be replaced with drm_of_find_bridge() +
+> drm_bridge_put().
+>=20
+> However some of those drivers have a complex code flow and adding a
+> drm_bridge_put() call in all the appropriate locations is error-prone,
+> leads to ugly and more complex code, and can lead to errors over time with
+> code flow changes.
+>=20
+> To handle all those drivers in a straightforward way, add a devm variant =
+of
+> drm_of_find_bridge() that adds a devm action to invoke drm_bridge_put()
+> when the said driver is removed. This allows all those drivers to put the
+> reference automatically and safely with a one line change:
+>=20
+>   - priv->next_bridge =3D of_drm_find_bridge(remote_np);
+>   + priv->next_bridge =3D devm_drm_of_find_bridge(dev, remote_np);
+>=20
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+>
+> ---
+>  drivers/gpu/drm/drm_bridge.c | 30 ++++++++++++++++++++++++++++++
+>  include/drm/drm_bridge.h     |  5 +++++
+>  2 files changed, 35 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> index 09ad825f9cb8..c7baafbe5695 100644
+> --- a/drivers/gpu/drm/drm_bridge.c
+> +++ b/drivers/gpu/drm/drm_bridge.c
+> @@ -1446,6 +1446,36 @@ struct drm_bridge *drm_of_find_bridge(struct devic=
+e_node *np)
+>  }
+>  EXPORT_SYMBOL(drm_of_find_bridge);
+> =20
+> +/**
+> + * devm_drm_of_find_bridge - find the bridge corresponding to the device
+> + *			     node in the global bridge list and add a devm
+> + *			     action to put it
+> + *
+> + * @dev: device requesting the bridge
+> + * @np: device node
+> + *
+> + * On success the returned bridge refcount is incremented, and a devm
+> + * action is added to call drm_bridge_put() when @dev is removed. So the
+> + * caller does not have to put the returned bridge explicitly.
+> + *
+> + * RETURNS:
+> + * drm_bridge control struct on success, NULL on failure
+> + */
+> +struct drm_bridge *devm_drm_of_find_bridge(struct device *dev, struct de=
+vice_node *np)
+> +{
+> +	struct drm_bridge *bridge =3D drm_of_find_bridge(np);
+> +
+> +	if (bridge) {
+> +		int err =3D devm_add_action_or_reset(dev, drm_bridge_put_void, bridge);
+> +
+> +		if (err)
+> +			return ERR_PTR(err);
+> +	}
+> +
+> +	return bridge;
+> +}
+> +EXPORT_SYMBOL(devm_drm_of_find_bridge);
 
-    # dmesg
-    ...
-    channel 0 communication state failed
+That's inherently unsafe though, because even if the bridge is removed
+other parts of DRM might still have a reference to it and could call
+into it.
 
-Fix this by populating the (currently empty) suspend and resume
-callbacks, to stop/start the individual CAN-FD channels, and
-(de)initialize the CAN-FD controller.
+We'd then have dropped our reference to the next bridge, which could
+have been freed, and it's a use-after-free.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Tested-by: Biju Das <biju.das.jz@bp.renesas.com>
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v2->v3:
- * No change.
-v1->v2:
- * Collected tag
- * Fixed the typo in error path of rcar_canfd_resume().
----
- drivers/net/can/rcar/rcar_canfd.c | 53 +++++++++++++++++++++++++++++++
- 1 file changed, 53 insertions(+)
+It's more complicated than it sounds, because we only have access to the
+drm_device when the bridge is attached, so later than probe.
 
-diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rcar_canfd.c
-index 5a555b01ffbb..4a653d8978ba 100644
---- a/drivers/net/can/rcar/rcar_canfd.c
-+++ b/drivers/net/can/rcar/rcar_canfd.c
-@@ -2278,11 +2278,64 @@ static void rcar_canfd_remove(struct platform_device *pdev)
- 
- static int rcar_canfd_suspend(struct device *dev)
- {
-+	struct rcar_canfd_global *gpriv = dev_get_drvdata(dev);
-+	int err;
-+	u32 ch;
-+
-+	for_each_set_bit(ch, &gpriv->channels_mask, gpriv->info->max_channels) {
-+		struct rcar_canfd_channel *priv = gpriv->ch[ch];
-+		struct net_device *ndev = priv->ndev;
-+
-+		if (!netif_running(ndev))
-+			continue;
-+
-+		netif_device_detach(ndev);
-+
-+		err = rcar_canfd_close(ndev);
-+		if (err) {
-+			netdev_err(ndev, "rcar_canfd_close() failed %pe\n",
-+				   ERR_PTR(err));
-+			return err;
-+		}
-+
-+		priv->can.state = CAN_STATE_SLEEPING;
-+	}
-+
-+	/* TODO Skip if wake-up (which is not yet supported) is enabled */
-+	rcar_canfd_global_deinit(gpriv, false);
-+
- 	return 0;
- }
- 
- static int rcar_canfd_resume(struct device *dev)
- {
-+	struct rcar_canfd_global *gpriv = dev_get_drvdata(dev);
-+	int err;
-+	u32 ch;
-+
-+	err = rcar_canfd_global_init(gpriv);
-+	if (err) {
-+		dev_err(dev, "rcar_canfd_global_init() failed %pe\n", ERR_PTR(err));
-+		return err;
-+	}
-+
-+	for_each_set_bit(ch, &gpriv->channels_mask, gpriv->info->max_channels) {
-+		struct rcar_canfd_channel *priv = gpriv->ch[ch];
-+		struct net_device *ndev = priv->ndev;
-+
-+		if (!netif_running(ndev))
-+			continue;
-+
-+		err = rcar_canfd_open(ndev);
-+		if (err) {
-+			netdev_err(ndev, "rcar_canfd_open() failed %pe\n",
-+				   ERR_PTR(err));
-+			return err;
-+		}
-+
-+		netif_device_attach(ndev);
-+	}
-+
- 	return 0;
- }
- 
--- 
-2.43.0
+I wonder if we shouldn't tie the lifetime of that reference to the
+lifetime of the bridge itself, and we would give up the next_bridge
+reference only when we're destroyed ourselves.
 
+Storing a list of all the references we need to drop is going to be
+intrusive though, so maybe the easiest way to do it would be to create a
+next_bridge field in drm_bridge, and only drop the reference stored
+there?
+
+And possibly tie the whole thing together using a helper?
+
+Anyway, I'm not sure it should be a prerequisite to this series. I we do
+want to go the devm_drm_of_find_bridge route however, we should at least
+document that it's unsafe, and add a TODO entry to clean up the mess
+later on.
+
+Maxime
+
+--wbm42ghgit2cp5t3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaSQ16QAKCRAnX84Zoj2+
+drTLAX0QBwwX78SPwaYEqj6Om+7ADsxYhVrgX1HoD1xpc0ILj+Ur57K6wtKDIc5l
+JWSP6zkBgJA2DSWw4vHzHhFRbZQ+eGEUkynilMkrpEr/EsrHbAzT3gfgz8IOyhGR
+Vs8tk3i2Uw==
+=/E1G
+-----END PGP SIGNATURE-----
+
+--wbm42ghgit2cp5t3--
 
