@@ -1,151 +1,133 @@
-Return-Path: <linux-renesas-soc+bounces-25128-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25129-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F3F1C86AA6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Nov 2025 19:38:00 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40DCEC86B59
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Nov 2025 19:54:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 23F6D3AF6C6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Nov 2025 18:37:59 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id E23393522D3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Nov 2025 18:54:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 120CB3321AA;
-	Tue, 25 Nov 2025 18:37:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96FEA18BBAE;
+	Tue, 25 Nov 2025 18:54:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hOpAxEHQ"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="QrWfddZX";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="t/FnXYSe"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1F412D73B8;
-	Tue, 25 Nov 2025 18:37:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B1DC332EC7
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Nov 2025 18:54:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764095876; cv=none; b=unCa6BT27O103Iwoqt0jkSQHwpoObXCtXl6v1VxXNV1kPQrfbG7K9cnmH7LTuQwEBCw+ZGMo5qLGN++a1sbenALdc3Z1SXw6fr+eFQh8x69T65CiGopQxWchqhjK4hPdoNy3TOKcJpYKAPwjqde5jFJR6MAXI922j3tuNPVPiqg=
+	t=1764096865; cv=none; b=ngZ2cFK03K9krChuRDzD2OaavVDRZJIAtGZplHKeYR8tr4P8K3IOtEiAid44f9g2oPI/+sZ0ZzvjHOVNwGfxfkIHjYo9WIVf/69ip9yik2baYgpUt/PmaD7JhRs/ri8I7J4I99yjVpFM8wQG373LFV3IoEbF+92fwE9Uig3ojk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764095876; c=relaxed/simple;
-	bh=ekM/GMp2sa9jEx3lkipZVfwQ5gWiV3PeEUMvSNxE9Yc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=MMtZkvGSZ/kr+bli0IqkMd7VYBmkBEGyvushcKPKPd1jpWvQAaxPCpWlSHZ++ZB+nAPn1FHFok1+P8OCjRW96v9fgmhCKgDwFKnnnnCNqPbzAQXLL7NFIozy1yaOoabVOL++A0qVGjia8As2Dy1vWXbRrCaCOJTyKdyYbd6Lozg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hOpAxEHQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80990C4CEF1;
-	Tue, 25 Nov 2025 18:37:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764095875;
-	bh=ekM/GMp2sa9jEx3lkipZVfwQ5gWiV3PeEUMvSNxE9Yc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=hOpAxEHQgvVQFN97lM1F/yj6pSYfm6fjQ8OH9b6TPUvvWcemMnqtauseW/XAWbRbk
-	 zgZVjA2PboZOpMulFvEBNoQzYAAUbukxQHlyepJ/B7OLa5+9xLj1vUGwbFlBEKhhnq
-	 LWhhfmHBMSuFXK3lH4B12rf6x75w+HVFlWOjmq4bov//V6JYIluYhjwdnrfAHkIOJA
-	 mXPsMveW7Hj1xG2L3s6u/KMTd3zYweCUxRc7sMp/pEDUxhium3EXVFH9WGWfX5KqMp
-	 zg8hDYvG/IB1XxHErStf/4Rl80sw90/AyFAKLHOYDjJIKg8WKhH9Z1b2YAb0H0mZ0y
-	 AFhK0BES35ZpQ==
-Date: Tue, 25 Nov 2025 12:37:54 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: bhelgaas@google.com, lpieralisi@kernel.org, kwilczynski@kernel.org,
-	mani@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, geert+renesas@glider.be, magnus.damm@gmail.com,
-	p.zabel@pengutronix.de, linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: Re: [PATCH v8 2/6] PCI: rzg3s-host: Add Renesas RZ/G3S SoC host
- driver
-Message-ID: <20251125183754.GA2755815@bhelgaas>
+	s=arc-20240116; t=1764096865; c=relaxed/simple;
+	bh=ZV9loJicxWcKVHqZrYhy9Rd11n0cTqglIUEJbl4oY0k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qnBKrQYwSDiTGYANb0jpcKj+QTXOudNenFR10UkLKlWbTt8jPU2Tgk1psCc1g8hyxmS5T2vhbaHbNWt729Sy7xuo0mf7PgFBx7D+8C5EQXoIHFx/U0Cxmo/LwU6yVkoUqwlJY6JmteCawRlaB8Q8NsgqAufgViRJVHyh9KmxVgQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=QrWfddZX; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=t/FnXYSe; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4dGBgd2wjkz9tdV;
+	Tue, 25 Nov 2025 19:54:21 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1764096861;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FcggBhfyoYwFuVXaFI/FvU/3VIn4AeMDtsUY+2IsOQU=;
+	b=QrWfddZXaN534uyBkOUWflyaKIPhwhtAvIKRXfnUU7n/Z/TllzK4mRAHa8aKgZTg0pZDw7
+	n70Di1goN1Qc3KeHrpKKuT2hSbGOBbzuaab52jLl0bVY0SdcCxKkmln2X6bkUyM2gBlGO8
+	Dvj2RzgU/31OCKRTSaax1O8GaPpn1uZ8r5oOSSxZqhPjfZlSKjZMqX30X5ubfSEPM8QrmH
+	5WJ1+qsymM9QoRAR4XUqQbd1ys7S4IZ60tqtUF9cMAJnvm13e0c7jAGlD3yQhksbJ7JEpO
+	9rbEsZFrA12YONZvNthR70VVeFy/PhQSqBK2Ck9ctVVQlyDFpRuq1ffLb0yb9g==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b="t/FnXYSe";
+	spf=pass (outgoing_mbo_mout: domain of marek.vasut@mailbox.org designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=marek.vasut@mailbox.org
+Message-ID: <eda256ac-a17c-447e-b452-f13578abbadb@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1764096859;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FcggBhfyoYwFuVXaFI/FvU/3VIn4AeMDtsUY+2IsOQU=;
+	b=t/FnXYSeBEs4vd3Bxzc4dTruoew54DP5BJ4YPVTDHi5DdzLJRnmbPUnx+8LuJievWEFVtN
+	xfH04YlR/rg9Gk3wS3vmaoSwXvZuI9V5npQLCQQAS7CkpoxLMbklWx94jwYud0xa+zjnB1
+	YrulfoTNY/9jpOp/H2PRmKbYpNHfAs1JFG8+C3lmjGNQpshkRh0G07gtnqhaPFoP8jl7aw
+	nXxmbPmWYEyC2bHvvlPyy4rDqGQNZ9MBCQKbWI6wMU0196ucZ0rLlrDug4827P6nFUlDJk
+	bjs4BAAUb4IqpfrMteXS4cY4rXVhFyU4x3b6M6qhygu/gzks7mW2FkepvGU4qQ==
+Date: Tue, 25 Nov 2025 19:54:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251119143523.977085-3-claudiu.beznea.uj@bp.renesas.com>
+Subject: Re: [PATCH v4 0/3] drm/atomic-helpers: Fix MCDE/R-Car DU regressions
+To: Linus Walleij <linusw@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Aradhya Bhatia <a-bhatia1@ti.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20251121-mcde-drm-regression-thirdfix-v4-0-d89bf8c17f85@linaro.org>
+ <CAD++jL=_wTX6H1uKEHRf7Ud1EKUEhTxmTRqZtUKZzergx-8knw@mail.gmail.com>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <CAD++jL=_wTX6H1uKEHRf7Ud1EKUEhTxmTRqZtUKZzergx-8knw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: 0bab379abbe31bf2e1f
+X-MBO-RS-META: y95uumguexgbmmtmederedqsc389nhbg
+X-Rspamd-Queue-Id: 4dGBgd2wjkz9tdV
 
-On Wed, Nov 19, 2025 at 04:35:19PM +0200, Claudiu wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+On 11/25/25 5:13 PM, Linus Walleij wrote:
+
+Hello everyone,
+
+>> This fixes two regressions experienced in the MCDE and
+>> R-Car DU DRM drivers after
+>> commit c9b1150a68d9362a0827609fc0dc1664c0d8bfe1
+>> "drm/atomic-helper: Re-order bridge chain pre-enable and post-disable"
+>> caused a series of regressions in all panels that send
+>> DSI commands in their .prepare() and .unprepare()
+>> callbacks.
+>>
+>> This series make it possible to selectively bring back the
+>> old behaviour with explicit semantics and implements
+>> the old behaviour as modified commit tails in MCDE and
+>> R-Car DU.
 > 
-> The Renesas RZ/G3S features a PCIe IP that complies with the PCI Express
-> Base Specification 4.0 and supports speeds of up to 5 GT/s. It functions
-> only as a root complex, with a single-lane (x1) configuration. The
-> controller includes Type 1 configuration registers, as well as IP
-> specific registers (called AXI registers) required for various adjustments.
+> So what's the take on this patch series?
+> 
+> Maxime: is this what you had in mind? Acked-by?
+> 
+> Marek: do you think you have an opportunity to test this on the R-Car DU?
 
-> +/* Serialization is provided by 'pci_lock' in drivers/pci/access.c */
-> +static int rzg3s_pcie_root_write(struct pci_bus *bus, unsigned int devfn,
-> +				 int where, int size, u32 val)
-> +{
-> +	struct rzg3s_pcie_host *host = bus->sysdata;
-> +	int ret;
-> +
-> +	/* Enable access control to the CFGU */
-> +	writel_relaxed(RZG3S_PCI_PERM_CFG_HWINIT_EN,
-> +		       host->axi + RZG3S_PCI_PERM);
+I'm sorry, I admittedly was happy that Tomi took over and I could focus 
+on other topics. Now, I tested this series on R-Car V4H Retronix Sparrow 
+Hawk board with RPi 7" Display 2 with ILI9881C controller, on current 
+next-20251125 . For this series:
 
-I suppose this has been asked and answered already, but it's curious
-that you need this for config writes but not for reads.  Obviously it
-must *work*, but it's unusual and might warrant a comment.  "Access
-control" must be a hint, but only means something to experts.
+Tested-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
-> +	ret = pci_generic_config_write(bus, devfn, where, size, val);
-> +
-> +	/* Disable access control to the CFGU */
-> +	writel_relaxed(0, host->axi + RZG3S_PCI_PERM);
-> +
-> +	return ret;
-> +}
-
-> +static irqreturn_t rzg3s_pcie_msi_irq(int irq, void *data)
-> +{
-> +	u8 regs = RZG3S_PCI_MSI_INT_NR / RZG3S_PCI_MSI_INT_PER_REG;
-> +	DECLARE_BITMAP(bitmap, RZG3S_PCI_MSI_INT_NR);
-> +	struct rzg3s_pcie_host *host = data;
-> +	struct rzg3s_pcie_msi *msi = &host->msi;
-> +	unsigned long bit;
-> +	u32 status;
-> +
-> +	status = readl_relaxed(host->axi + RZG3S_PCI_PINTRCVIS);
-> +	if (!(status & RZG3S_PCI_PINTRCVIS_MSI))
-> +		return IRQ_NONE;
-> +
-> +	/* Clear the MSI */
-> +	rzg3s_pcie_update_bits(host->axi, RZG3S_PCI_PINTRCVIS,
-> +			       RZG3S_PCI_PINTRCVIS_MSI,
-> +			       RZG3S_PCI_PINTRCVIS_MSI);
-
-Other writes to RZG3S_PCI_PINTRCVIS are guarded by host->hw_lock.  Is this
-one safe without it?
-
-> +	rzg3s_pcie_update_bits(host->axi, RZG3S_PCI_MSGRCVIS,
-> +			       RZG3S_PCI_MSGRCVIS_MRI, RZG3S_PCI_MSGRCVIS_MRI);
-> +
-> +	for (u8 reg_id = 0; reg_id < regs; reg_id++) {
-> +		status = readl_relaxed(host->axi + RZG3S_PCI_MSIRS(reg_id));
-> +		bitmap_write(bitmap, status, reg_id * RZG3S_PCI_MSI_INT_PER_REG,
-> +			     RZG3S_PCI_MSI_INT_PER_REG);
-> +	}
-> +
-> +	for_each_set_bit(bit, bitmap, RZG3S_PCI_MSI_INT_NR) {
-> +		int ret;
-> +
-> +		ret = generic_handle_domain_irq(msi->domain, bit);
-> +		if (ret) {
-> +			u8 reg_bit = bit % RZG3S_PCI_MSI_INT_PER_REG;
-> +			u8 reg_id = bit / RZG3S_PCI_MSI_INT_PER_REG;
-> +
-> +			/* Unknown MSI, just clear it */
-> +			writel_relaxed(BIT(reg_bit),
-> +				       host->axi + RZG3S_PCI_MSIRS(reg_id));
-
-Other writes to RZG3S_PCI_MSIRS are guarded by host->hw_lock.  Is this
-one safe without it?
-
-> +		}
-> +	}
-> +
-> +	return IRQ_HANDLED;
-> +}
+Thank you for taking care of this and your hard work !
 
