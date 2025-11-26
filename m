@@ -1,176 +1,336 @@
-Return-Path: <linux-renesas-soc+bounces-25155-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25156-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72685C895C1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Nov 2025 11:44:47 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77F1EC89700
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Nov 2025 12:07:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 14D3B3B7146
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Nov 2025 10:43:55 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id EFF1D34BFC2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Nov 2025 11:07:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06A63320A0D;
-	Wed, 26 Nov 2025 10:43:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15EAF2FD686;
+	Wed, 26 Nov 2025 11:07:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NZS/8Mve"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FdiR1tcg"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB60D31A577
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 26 Nov 2025 10:43:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B8E52FC000
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 26 Nov 2025 11:07:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764153797; cv=none; b=PZ8PThSudmXEhRWttMtzGyCJmVUBKWqusFME3NH25hXilbm6T0a/ErprK5dpzs51X+C532Ei2KXDVZiHpXjizBzGXkMdyCQn2Rk+Ul1/JLWu4nHlO+TAEL9N++ZOibBc6bIIo/SW92NliHQFUjPwe8VvAzGgRHlrboS8QESj2zk=
+	t=1764155252; cv=none; b=NobwElWX2UfYgkuLbmWCtcuyUk5iakZRois5apEEISIGk2+t/xqd72qeNnMn9S/OPlgDtVCX0z9+Lq+l5WEyKTa0L27OW1vDP8ZGP9UcYfdbVBULNUcMyRVNCkOsPujGbPV3S/wLrXZ9Tx/EZpW7hRb5aI5d7iquDCfdqzdyZbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764153797; c=relaxed/simple;
-	bh=NR1VVRcQZA6ma1hDRE/H83eikDZdbd6qzrIOtMB/wxo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VgqUZqjv2gJe+GZG6Ja86CH+hPL83w2jpkPFTmA9FyOChNzTuEslUQYCoKgZ/jSidzB3QGdqL/fvGtcu4RBcjdoWeneJnyMQuqo1S+RGxOqHUTvMGknl+jHi0gbi4knhqfdQgfKdrxT0jFa2PBGulvYyg0YUIMrLZnTgOSsp8wE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NZS/8Mve; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-47775fb6cb4so43335585e9.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 26 Nov 2025 02:43:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764153794; x=1764758594; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9mq5CbEjd8GhLwp2NrMaZDK+wqJGPSJKuaRnVHfJbPQ=;
-        b=NZS/8Mve6UfbFNYmswdgd2TR1RYBC+CwG+73zXlwFJd121CViR1lSSW7zAnFyi8661
-         yTZpKzfuGrC+E+o5uYfH+hcPaDjM5csOZP5sSEmsSNTmyFuGdvjJdbSkJdzDtSMHLwdx
-         +9mPiptp8XNUVVQVq58aark8KJpNGfsz+d4q2XxCPutmMflRuitUn8/xSJI8Do+QcO9E
-         aFDM+NlcJ7riWu6AF09rkQB9mLtW1IvGE9L6c4xDbWF4fqAQMXJ0pU0uWxv0J1g+Xy0R
-         iz80lXB4EO7GrO8ehV1hOh43mXD4nO0sO16jaGR+ucmIfi0yz/1HXEmVZFlkc4MkFYfD
-         7UwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764153794; x=1764758594;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9mq5CbEjd8GhLwp2NrMaZDK+wqJGPSJKuaRnVHfJbPQ=;
-        b=VDIeFdgoGlIHaQI+J5JKxFQCi0uaPStDXcidV4Up07KH5edfvtk1+IRujs+5zODYCC
-         DqTueS029VAexDskc8Pa6wVkzebt7+5dsh8/m1pW8aYcimkw8Rt2Mb1q8hfsGWYJNRn0
-         9Vhvk9DemGIHGvbwJXo2RSSp5yUKyYvbEP0VdmQ6GeHJwoq1tBlqCDqR4p8b3FW1Y0nu
-         p/5PNtCe7W4LzhirswlPbQGJ/2QUW8aHIxYyg/pYzHLyHtHR++UXGmTriUpCjOOCn/XK
-         lF5N6/KsxCulpg4NcZGI1UVhhl0HguZKuOr/rS/aIqVypBqSL1ayvyryvzYm6SX6oNNh
-         qRnw==
-X-Forwarded-Encrypted: i=1; AJvYcCUpjdwL+e8h25YanKjC7Dq4mhd8aekEhR9MnUGpvDaxqJYC9gd0K9AO7NOQ4Xwzc6c6fAfhPxFGBm8FAwNxmsBAWA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwbsSKZ5tTc8/NQfTYNvdUsIDUEkvXZ+9+9NpzuDkkCl99Dapgi
-	0k50+q7bpa8/SOqF9NjvuIEM4MaEtcZ0Jr8zufGX3b173W56xAS2T3B8
-X-Gm-Gg: ASbGncsGL07ZZ1bpPVzTMKAKKd7PALAoedMcsS8omDTk9F3kt0TXz0FoqDOpSve3diZ
-	9/sXXPjUnpxCRzCnYH+Y8c1kyXUOLT1jkEz4+WXYJNEaIA+6bsZ1ewkUFyrX4QMrpmyQXd2a0Fu
-	q0iWKcygOFD9YgIGR+uee8nM0DZquKB9ytvRFVwfw3OyY+3ebZGAoOgBwhalc+ppKK/dZXHe1Ct
-	OZw62OtRVvnVAIvBEmQUHO9Tcczju2V8T9mBx0FmbrhZ5NVo8WrZWNALKNuIw8+RcEb/TTvNIp1
-	uYaO0U+ZGXKTg/NnPczDEJbysSIPDsnwjCFVQwOW7wnv3Y26Nc3gk85sCqWh5kt58ewbw7kfiu2
-	ebvIh3bT85zGx7ciXXHVgSDnPjPK41iJzLtAtq/CQP+7/YazxmASyLT67cHuradC/iXO+H8EKCm
-	QanNptn8sRG3pQj7nROEUkTOOK+Av3PSfJ027tXHNEV7TNLKXMZhmaEMaUzpBsfT1MQ9y+XJKMo
-	nA=
-X-Google-Smtp-Source: AGHT+IGDQCBktlHP7XlaQJx6GpqJtsNTrxHBS+ivjHzh6Kcd83OVbwN6YnaySf7vK/vLpTylz9wT/w==
-X-Received: by 2002:a05:600c:c490:b0:477:b734:8c41 with SMTP id 5b1f17b1804b1-477c10c8596mr182627435e9.1.1764153793699;
-        Wed, 26 Nov 2025 02:43:13 -0800 (PST)
-Received: from biju.lan (host86-162-200-138.range86-162.btcentralplus.com. [86.162.200.138])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4790b0c3a28sm36441245e9.9.2025.11.26.02.43.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Nov 2025 02:43:13 -0800 (PST)
-From: Biju <biju.das.au@gmail.com>
-X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
-To: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	linux-pwm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>,
-	linux-renesas-soc@vger.kernel.org,
-	stable@kernel.org
-Subject: [PATCH v6] pwm: rzg2l-gpt: Allow checking period_tick cache value only if sibling channel is enabled
-Date: Wed, 26 Nov 2025 10:42:48 +0000
-Message-ID: <20251126104308.142302-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1764155252; c=relaxed/simple;
+	bh=HlUaMFAxsmKNYWOafbexHRYhim8kovxpOOvKvBfIkYk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=eqoFEXeU3wtEIfmc8XyjcSLNdYIWv+BpSD+C04s/+KJSsKXrpve4+L5RfMm3nBz2jhntgbiqWXYJ4wqrTcqWgTTgTqYLC+Eh5Yi7JZiSK5odtu8ifMd+yGhjVlqbSZW1suSeMBCZ2kDzXrAbREv6ul5HCGPWflawIuM6P5qnWVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=FdiR1tcg; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C37166DE;
+	Wed, 26 Nov 2025 12:05:08 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1764155109;
+	bh=HlUaMFAxsmKNYWOafbexHRYhim8kovxpOOvKvBfIkYk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=FdiR1tcgOT7t0jOd/x9icUyLa0ng2cR5qjqwDIOZPnt39CfgmsFxcZbe+Lvmj7tUO
+	 NEyp7pt+gHomHfJ5NYBydh4OeilWVK0As6wU2/AKzMbBtCphfQspI01Ho0bsmDgwRq
+	 f9g1D+w8xp7XLgVF8NRjpL5yLRohp5LuxnctXaWc=
+Message-ID: <5c5e249f-6b42-41a3-a29d-233e84b4cad7@ideasonboard.com>
+Date: Wed, 26 Nov 2025 13:07:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/3] drm/atomic-helper: Export and namespace some
+ functions
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Aradhya Bhatia <a-bhatia1@ti.com>,
+ Dmitry Baryshkov <lumag@kernel.org>
+References: <20251121-mcde-drm-regression-thirdfix-v4-0-d89bf8c17f85@linaro.org>
+ <20251121-mcde-drm-regression-thirdfix-v4-1-d89bf8c17f85@linaro.org>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Content-Language: en-US
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20251121-mcde-drm-regression-thirdfix-v4-1-d89bf8c17f85@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Biju Das <biju.das.jz@bp.renesas.com>
+Hi,
 
-The rzg2l_gpt_config() tests the rzg2l_gpt->period_tick variable when
-both channels of a hardware channel are in use. This check is not valid
-if rzg2l_gpt_config() is called after disabling all the channels, as it
-tests against the cached value. Hence, allow checking and setting the
-cached value only if the sibling channel is enabled.
+On 21/11/2025 16:08, Linus Walleij wrote:
+> Export and namespace those not prefixed with drm_* so
+> it becomes possible to write custom commit tail functions
+> in individual drivers using the helper infrastructure.
+> 
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> ---
+>  drivers/gpu/drm/drm_atomic_helper.c | 54 +++++++++++++++++++++----------------
+>  include/drm/drm_atomic_helper.h     | 19 +++++++++++++
+>  2 files changed, 50 insertions(+), 23 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+> index d5ebe6ea0acb..906eb4b0852c 100644
+> --- a/drivers/gpu/drm/drm_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> @@ -1162,8 +1162,8 @@ crtc_needs_disable(struct drm_crtc_state *old_state,
+>  	       new_state->self_refresh_active;
+>  }
+>  
+> -static void
+> -encoder_bridge_disable(struct drm_device *dev, struct drm_atomic_state *state)
+> +void
+> +drm_encoder_bridge_disable(struct drm_device *dev, struct drm_atomic_state *state)
+>  {
+>  	struct drm_connector *connector;
+>  	struct drm_connector_state *old_conn_state, *new_conn_state;
+> @@ -1229,9 +1229,10 @@ encoder_bridge_disable(struct drm_device *dev, struct drm_atomic_state *state)
+>  		}
+>  	}
+>  }
+> +EXPORT_SYMBOL(drm_encoder_bridge_disable);
 
-While at it, drop else after return statement to fix the check patch
-warning.
+I'm not sure if it's a hard rule, but probably exported functions should
+have a kernel doc.
 
-Cc: stable@kernel.org
-Fixes: 061f087f5d0b ("pwm: Add support for RZ/G2L GPT")
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v5->v6:
- * Updated commit header and description.
- * Added rzg2l_gpt_sibling() for finding sibling channel.
- * Replaced local variable other_sub_ch->sibling_ch.
- * Dropped setting rzg2l_gpt->period_ticks[ch] in rzg2l_gpt_disable() as
-   it is not needed.
- * Dropped else after return statement to fix the check patch
-   warning.
-v4->v5:
- * Updated commit description and code comment to give more details on why
-   reinitialising the cached value to zero
- * Added a check in rzg2l_gpt_config(), to prevent setting the cached value, if
-   the other channel is not enabled.
-v3->v4:
- * Split the patch as separate from [1] for easy merging.
- * Updated commit description
- * Added comments about the fix in rzg2l_gpt_disable()
-v3:
- * New patch
+ Tomi
 
-[1] https://lore.kernel.org/all/20250915163637.3572-1-biju.das.jz@bp.renesas.com/#t
----
- drivers/pwm/pwm-rzg2l-gpt.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/pwm/pwm-rzg2l-gpt.c b/drivers/pwm/pwm-rzg2l-gpt.c
-index 360c8bf3b190..4856af080e8e 100644
---- a/drivers/pwm/pwm-rzg2l-gpt.c
-+++ b/drivers/pwm/pwm-rzg2l-gpt.c
-@@ -96,6 +96,11 @@ static inline unsigned int rzg2l_gpt_subchannel(unsigned int hwpwm)
- 	return hwpwm & 0x1;
- }
- 
-+static inline unsigned int rzg2l_gpt_sibling(unsigned int hwpwm)
-+{
-+	return hwpwm ^ 0x1;
-+}
-+
- static void rzg2l_gpt_write(struct rzg2l_gpt_chip *rzg2l_gpt, u32 reg, u32 data)
- {
- 	writel(data, rzg2l_gpt->mmio + reg);
-@@ -271,10 +276,14 @@ static int rzg2l_gpt_config(struct pwm_chip *chip, struct pwm_device *pwm,
- 	 * in use with different settings.
- 	 */
- 	if (rzg2l_gpt->channel_request_count[ch] > 1) {
--		if (period_ticks < rzg2l_gpt->period_ticks[ch])
--			return -EBUSY;
--		else
-+		u8 sibling_ch = rzg2l_gpt_sibling(pwm->hwpwm);
-+
-+		if (rzg2l_gpt_is_ch_enabled(rzg2l_gpt, sibling_ch)) {
-+			if (period_ticks < rzg2l_gpt->period_ticks[ch])
-+				return -EBUSY;
-+
- 			period_ticks = rzg2l_gpt->period_ticks[ch];
-+		}
- 	}
- 
- 	prescale = rzg2l_gpt_calculate_prescale(rzg2l_gpt, period_ticks);
--- 
-2.43.0
+>  
+> -static void
+> -crtc_disable(struct drm_device *dev, struct drm_atomic_state *state)
+> +void
+> +drm_crtc_disable(struct drm_device *dev, struct drm_atomic_state *state)
+>  {
+>  	struct drm_crtc *crtc;
+>  	struct drm_crtc_state *old_crtc_state, *new_crtc_state;
+> @@ -1282,9 +1283,10 @@ crtc_disable(struct drm_device *dev, struct drm_atomic_state *state)
+>  			drm_crtc_vblank_put(crtc);
+>  	}
+>  }
+> +EXPORT_SYMBOL(drm_crtc_disable);
+>  
+> -static void
+> -encoder_bridge_post_disable(struct drm_device *dev, struct drm_atomic_state *state)
+> +void
+> +drm_encoder_bridge_post_disable(struct drm_device *dev, struct drm_atomic_state *state)
+>  {
+>  	struct drm_connector *connector;
+>  	struct drm_connector_state *old_conn_state, *new_conn_state;
+> @@ -1335,15 +1337,16 @@ encoder_bridge_post_disable(struct drm_device *dev, struct drm_atomic_state *sta
+>  		drm_bridge_put(bridge);
+>  	}
+>  }
+> +EXPORT_SYMBOL(drm_encoder_bridge_post_disable);
+>  
+>  static void
+>  disable_outputs(struct drm_device *dev, struct drm_atomic_state *state)
+>  {
+> -	encoder_bridge_disable(dev, state);
+> +	drm_encoder_bridge_disable(dev, state);
+>  
+> -	crtc_disable(dev, state);
+> +	drm_crtc_disable(dev, state);
+>  
+> -	encoder_bridge_post_disable(dev, state);
+> +	drm_encoder_bridge_post_disable(dev, state);
+>  }
+>  
+>  /**
+> @@ -1446,8 +1449,8 @@ void drm_atomic_helper_calc_timestamping_constants(struct drm_atomic_state *stat
+>  }
+>  EXPORT_SYMBOL(drm_atomic_helper_calc_timestamping_constants);
+>  
+> -static void
+> -crtc_set_mode(struct drm_device *dev, struct drm_atomic_state *state)
+> +void
+> +drm_crtc_set_mode(struct drm_device *dev, struct drm_atomic_state *state)
+>  {
+>  	struct drm_crtc *crtc;
+>  	struct drm_crtc_state *new_crtc_state;
+> @@ -1508,6 +1511,7 @@ crtc_set_mode(struct drm_device *dev, struct drm_atomic_state *state)
+>  		drm_bridge_put(bridge);
+>  	}
+>  }
+> +EXPORT_SYMBOL(drm_crtc_set_mode);
+>  
+>  /**
+>   * drm_atomic_helper_commit_modeset_disables - modeset commit to disable outputs
+> @@ -1531,12 +1535,12 @@ void drm_atomic_helper_commit_modeset_disables(struct drm_device *dev,
+>  	drm_atomic_helper_update_legacy_modeset_state(dev, state);
+>  	drm_atomic_helper_calc_timestamping_constants(state);
+>  
+> -	crtc_set_mode(dev, state);
+> +	drm_crtc_set_mode(dev, state);
+>  }
+>  EXPORT_SYMBOL(drm_atomic_helper_commit_modeset_disables);
+>  
+> -static void drm_atomic_helper_commit_writebacks(struct drm_device *dev,
+> -						struct drm_atomic_state *state)
+> +void drm_atomic_helper_commit_writebacks(struct drm_device *dev,
+> +					 struct drm_atomic_state *state)
+>  {
+>  	struct drm_connector *connector;
+>  	struct drm_connector_state *new_conn_state;
+> @@ -1555,9 +1559,10 @@ static void drm_atomic_helper_commit_writebacks(struct drm_device *dev,
+>  		}
+>  	}
+>  }
+> +EXPORT_SYMBOL(drm_atomic_helper_commit_writebacks);
+>  
+> -static void
+> -encoder_bridge_pre_enable(struct drm_device *dev, struct drm_atomic_state *state)
+> +void
+> +drm_encoder_bridge_pre_enable(struct drm_device *dev, struct drm_atomic_state *state)
+>  {
+>  	struct drm_connector *connector;
+>  	struct drm_connector_state *new_conn_state;
+> @@ -1588,9 +1593,10 @@ encoder_bridge_pre_enable(struct drm_device *dev, struct drm_atomic_state *state
+>  		drm_bridge_put(bridge);
+>  	}
+>  }
+> +EXPORT_SYMBOL(drm_encoder_bridge_pre_enable);
+>  
+> -static void
+> -crtc_enable(struct drm_device *dev, struct drm_atomic_state *state)
+> +void
+> +drm_crtc_enable(struct drm_device *dev, struct drm_atomic_state *state)
+>  {
+>  	struct drm_crtc *crtc;
+>  	struct drm_crtc_state *old_crtc_state;
+> @@ -1619,9 +1625,10 @@ crtc_enable(struct drm_device *dev, struct drm_atomic_state *state)
+>  		}
+>  	}
+>  }
+> +EXPORT_SYMBOL(drm_crtc_enable);
+>  
+> -static void
+> -encoder_bridge_enable(struct drm_device *dev, struct drm_atomic_state *state)
+> +void
+> +drm_encoder_bridge_enable(struct drm_device *dev, struct drm_atomic_state *state)
+>  {
+>  	struct drm_connector *connector;
+>  	struct drm_connector_state *new_conn_state;
+> @@ -1664,6 +1671,7 @@ encoder_bridge_enable(struct drm_device *dev, struct drm_atomic_state *state)
+>  		drm_bridge_put(bridge);
+>  	}
+>  }
+> +EXPORT_SYMBOL(drm_encoder_bridge_enable);
+>  
+>  /**
+>   * drm_atomic_helper_commit_modeset_enables - modeset commit to enable outputs
+> @@ -1682,11 +1690,11 @@ encoder_bridge_enable(struct drm_device *dev, struct drm_atomic_state *state)
+>  void drm_atomic_helper_commit_modeset_enables(struct drm_device *dev,
+>  					      struct drm_atomic_state *state)
+>  {
+> -	encoder_bridge_pre_enable(dev, state);
+> +	drm_encoder_bridge_pre_enable(dev, state);
+>  
+> -	crtc_enable(dev, state);
+> +	drm_crtc_enable(dev, state);
+>  
+> -	encoder_bridge_enable(dev, state);
+> +	drm_encoder_bridge_enable(dev, state);
+>  
+>  	drm_atomic_helper_commit_writebacks(dev, state);
+>  }
+> diff --git a/include/drm/drm_atomic_helper.h b/include/drm/drm_atomic_helper.h
+> index 53382fe93537..39878aa485c3 100644
+> --- a/include/drm/drm_atomic_helper.h
+> +++ b/include/drm/drm_atomic_helper.h
+> @@ -60,6 +60,11 @@ int drm_atomic_helper_check_plane_state(struct drm_plane_state *plane_state,
+>  int drm_atomic_helper_check_planes(struct drm_device *dev,
+>  			       struct drm_atomic_state *state);
+>  int drm_atomic_helper_check_crtc_primary_plane(struct drm_crtc_state *crtc_state);
+> +void drm_encoder_bridge_disable(struct drm_device *dev,
+> +				struct drm_atomic_state *state);
+> +void drm_crtc_disable(struct drm_device *dev, struct drm_atomic_state *state);
+> +void drm_encoder_bridge_post_disable(struct drm_device *dev,
+> +				     struct drm_atomic_state *state);
+>  int drm_atomic_helper_check(struct drm_device *dev,
+>  			    struct drm_atomic_state *state);
+>  void drm_atomic_helper_commit_tail(struct drm_atomic_state *state);
+> @@ -89,8 +94,22 @@ drm_atomic_helper_update_legacy_modeset_state(struct drm_device *dev,
+>  void
+>  drm_atomic_helper_calc_timestamping_constants(struct drm_atomic_state *state);
+>  
+> +void drm_crtc_set_mode(struct drm_device *dev, struct drm_atomic_state *state);
+> +
+>  void drm_atomic_helper_commit_modeset_disables(struct drm_device *dev,
+>  					       struct drm_atomic_state *state);
+> +
+> +void drm_atomic_helper_commit_writebacks(struct drm_device *dev,
+> +					 struct drm_atomic_state *state);
+> +
+> +void drm_encoder_bridge_pre_enable(struct drm_device *dev,
+> +				   struct drm_atomic_state *state);
+> +
+> +void drm_crtc_enable(struct drm_device *dev, struct drm_atomic_state *state);
+> +
+> +void drm_encoder_bridge_enable(struct drm_device *dev,
+> +			       struct drm_atomic_state *state);
+> +
+>  void drm_atomic_helper_commit_modeset_enables(struct drm_device *dev,
+>  					  struct drm_atomic_state *old_state);
+>  
+> 
 
 
