@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-25156-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25157-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77F1EC89700
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Nov 2025 12:07:35 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id B74C9C8971D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Nov 2025 12:08:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id EFF1D34BFC2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Nov 2025 11:07:34 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 9F3C94E7710
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Nov 2025 11:08:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15EAF2FD686;
-	Wed, 26 Nov 2025 11:07:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCB1531D39F;
+	Wed, 26 Nov 2025 11:08:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FdiR1tcg"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="a4k+8xR9"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B8E52FC000
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 26 Nov 2025 11:07:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4A1330FC1D
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 26 Nov 2025 11:08:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764155252; cv=none; b=NobwElWX2UfYgkuLbmWCtcuyUk5iakZRois5apEEISIGk2+t/xqd72qeNnMn9S/OPlgDtVCX0z9+Lq+l5WEyKTa0L27OW1vDP8ZGP9UcYfdbVBULNUcMyRVNCkOsPujGbPV3S/wLrXZ9Tx/EZpW7hRb5aI5d7iquDCfdqzdyZbE=
+	t=1764155308; cv=none; b=XHlCAxyqm9GPhs6C9JB3JbF78Hz6LW+05b3DERIe/pLRPa+1JB5C/6txwwMtfiU890kLd2Ggc3bC/nXrhQWh7/8bdVImhCTw8+0LV9YR1gl/uIFtKwu59Dhmu9aEgbvW2uEqfZ2GFVJJIIBfs9dJ/d9rPrWmEtIR48yQ2u01sz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764155252; c=relaxed/simple;
-	bh=HlUaMFAxsmKNYWOafbexHRYhim8kovxpOOvKvBfIkYk=;
+	s=arc-20240116; t=1764155308; c=relaxed/simple;
+	bh=BWd7iEYCAHCUTTAZhr3xVFJU01s/oxKDr/lA/4ceT48=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eqoFEXeU3wtEIfmc8XyjcSLNdYIWv+BpSD+C04s/+KJSsKXrpve4+L5RfMm3nBz2jhntgbiqWXYJ4wqrTcqWgTTgTqYLC+Eh5Yi7JZiSK5odtu8ifMd+yGhjVlqbSZW1suSeMBCZ2kDzXrAbREv6ul5HCGPWflawIuM6P5qnWVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=FdiR1tcg; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=MlXOjDsiPDCpxrAYA26vn2mGmfXiY/9X6ucTP19C0lKwZEgZcmF+E+6dS4mD+/gFIHiLWrOMKj0fKDNBY9IdjeCoUrJ1N4yBXmHoq2FAdvWo83cVKkEyA1cW2JyOsC4XHRCxvJTFN/aB67dJ2KSXPjloMUrGBczGOEUPgBlg7gc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=a4k+8xR9; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C37166DE;
-	Wed, 26 Nov 2025 12:05:08 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 28E4D6DE;
+	Wed, 26 Nov 2025 12:06:14 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1764155109;
-	bh=HlUaMFAxsmKNYWOafbexHRYhim8kovxpOOvKvBfIkYk=;
+	s=mail; t=1764155175;
+	bh=BWd7iEYCAHCUTTAZhr3xVFJU01s/oxKDr/lA/4ceT48=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=FdiR1tcgOT7t0jOd/x9icUyLa0ng2cR5qjqwDIOZPnt39CfgmsFxcZbe+Lvmj7tUO
-	 NEyp7pt+gHomHfJ5NYBydh4OeilWVK0As6wU2/AKzMbBtCphfQspI01Ho0bsmDgwRq
-	 f9g1D+w8xp7XLgVF8NRjpL5yLRohp5LuxnctXaWc=
-Message-ID: <5c5e249f-6b42-41a3-a29d-233e84b4cad7@ideasonboard.com>
-Date: Wed, 26 Nov 2025 13:07:15 +0200
+	b=a4k+8xR98Hzv5kv5sJ3jV+4cxFXMZLZz1DR3SYfCAQgBXD3bsMvRJoSSJVILOmQtg
+	 kPMQG7O0ZVPf+De+9DqHfIIk01GE8qPRkMfpV+10dv+8s3kamIA/qYaStg31fbGM4F
+	 wNI0jR7QQzOz7l6nctM38BMOqqTxMZ/Tn950bGrw=
+Message-ID: <198ea639-1129-4ba4-9a1f-129c8ac076e3@ideasonboard.com>
+Date: Wed, 26 Nov 2025 13:08:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,11 +50,10 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/3] drm/atomic-helper: Export and namespace some
- functions
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Marek Vasut <marek.vasut+renesas@mailbox.org>,
+Subject: Re: [PATCH v4 0/3] drm/atomic-helpers: Fix MCDE/R-Car DU regressions
+To: Linus Walleij <linusw@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
@@ -63,9 +62,10 @@ Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
  Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
  Geert Uytterhoeven <geert+renesas@glider.be>,
  Magnus Damm <magnus.damm@gmail.com>, Aradhya Bhatia <a-bhatia1@ti.com>,
- Dmitry Baryshkov <lumag@kernel.org>
+ Dmitry Baryshkov <lumag@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>
 References: <20251121-mcde-drm-regression-thirdfix-v4-0-d89bf8c17f85@linaro.org>
- <20251121-mcde-drm-regression-thirdfix-v4-1-d89bf8c17f85@linaro.org>
+ <CAD++jL=_wTX6H1uKEHRf7Ud1EKUEhTxmTRqZtUKZzergx-8knw@mail.gmail.com>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Content-Language: en-US
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -111,226 +111,40 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20251121-mcde-drm-regression-thirdfix-v4-1-d89bf8c17f85@linaro.org>
+In-Reply-To: <CAD++jL=_wTX6H1uKEHRf7Ud1EKUEhTxmTRqZtUKZzergx-8knw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
 Hi,
 
-On 21/11/2025 16:08, Linus Walleij wrote:
-> Export and namespace those not prefixed with drm_* so
-> it becomes possible to write custom commit tail functions
-> in individual drivers using the helper infrastructure.
+On 25/11/2025 18:13, Linus Walleij wrote:
+> On Fri, Nov 21, 2025 at 3:08 PM Linus Walleij <linus.walleij@linaro.org> wrote:
 > 
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> ---
->  drivers/gpu/drm/drm_atomic_helper.c | 54 +++++++++++++++++++++----------------
->  include/drm/drm_atomic_helper.h     | 19 +++++++++++++
->  2 files changed, 50 insertions(+), 23 deletions(-)
+>> This fixes two regressions experienced in the MCDE and
+>> R-Car DU DRM drivers after
+>> commit c9b1150a68d9362a0827609fc0dc1664c0d8bfe1
+>> "drm/atomic-helper: Re-order bridge chain pre-enable and post-disable"
+>> caused a series of regressions in all panels that send
+>> DSI commands in their .prepare() and .unprepare()
+>> callbacks.
+>>
+>> This series make it possible to selectively bring back the
+>> old behaviour with explicit semantics and implements
+>> the old behaviour as modified commit tails in MCDE and
+>> R-Car DU.
 > 
-> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-> index d5ebe6ea0acb..906eb4b0852c 100644
-> --- a/drivers/gpu/drm/drm_atomic_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> @@ -1162,8 +1162,8 @@ crtc_needs_disable(struct drm_crtc_state *old_state,
->  	       new_state->self_refresh_active;
->  }
->  
-> -static void
-> -encoder_bridge_disable(struct drm_device *dev, struct drm_atomic_state *state)
-> +void
-> +drm_encoder_bridge_disable(struct drm_device *dev, struct drm_atomic_state *state)
->  {
->  	struct drm_connector *connector;
->  	struct drm_connector_state *old_conn_state, *new_conn_state;
-> @@ -1229,9 +1229,10 @@ encoder_bridge_disable(struct drm_device *dev, struct drm_atomic_state *state)
->  		}
->  	}
->  }
-> +EXPORT_SYMBOL(drm_encoder_bridge_disable);
-
-I'm not sure if it's a hard rule, but probably exported functions should
-have a kernel doc.
+> So what's the take on this patch series?
+> 
+> Maxime: is this what you had in mind? Acked-by?
+> 
+> Marek: do you think you have an opportunity to test this on the R-Car DU?
+> 
+> I am happy to develop a fifth version using the approach outlined by
+> Tomi (special codepaths in the helpers) if there is some consensus
+> that this is better in the long run.
+I'm ok with this, it looks quite clean solution to a messy problem. My
+only comment was about the missing kernel docs.
 
  Tomi
-
->  
-> -static void
-> -crtc_disable(struct drm_device *dev, struct drm_atomic_state *state)
-> +void
-> +drm_crtc_disable(struct drm_device *dev, struct drm_atomic_state *state)
->  {
->  	struct drm_crtc *crtc;
->  	struct drm_crtc_state *old_crtc_state, *new_crtc_state;
-> @@ -1282,9 +1283,10 @@ crtc_disable(struct drm_device *dev, struct drm_atomic_state *state)
->  			drm_crtc_vblank_put(crtc);
->  	}
->  }
-> +EXPORT_SYMBOL(drm_crtc_disable);
->  
-> -static void
-> -encoder_bridge_post_disable(struct drm_device *dev, struct drm_atomic_state *state)
-> +void
-> +drm_encoder_bridge_post_disable(struct drm_device *dev, struct drm_atomic_state *state)
->  {
->  	struct drm_connector *connector;
->  	struct drm_connector_state *old_conn_state, *new_conn_state;
-> @@ -1335,15 +1337,16 @@ encoder_bridge_post_disable(struct drm_device *dev, struct drm_atomic_state *sta
->  		drm_bridge_put(bridge);
->  	}
->  }
-> +EXPORT_SYMBOL(drm_encoder_bridge_post_disable);
->  
->  static void
->  disable_outputs(struct drm_device *dev, struct drm_atomic_state *state)
->  {
-> -	encoder_bridge_disable(dev, state);
-> +	drm_encoder_bridge_disable(dev, state);
->  
-> -	crtc_disable(dev, state);
-> +	drm_crtc_disable(dev, state);
->  
-> -	encoder_bridge_post_disable(dev, state);
-> +	drm_encoder_bridge_post_disable(dev, state);
->  }
->  
->  /**
-> @@ -1446,8 +1449,8 @@ void drm_atomic_helper_calc_timestamping_constants(struct drm_atomic_state *stat
->  }
->  EXPORT_SYMBOL(drm_atomic_helper_calc_timestamping_constants);
->  
-> -static void
-> -crtc_set_mode(struct drm_device *dev, struct drm_atomic_state *state)
-> +void
-> +drm_crtc_set_mode(struct drm_device *dev, struct drm_atomic_state *state)
->  {
->  	struct drm_crtc *crtc;
->  	struct drm_crtc_state *new_crtc_state;
-> @@ -1508,6 +1511,7 @@ crtc_set_mode(struct drm_device *dev, struct drm_atomic_state *state)
->  		drm_bridge_put(bridge);
->  	}
->  }
-> +EXPORT_SYMBOL(drm_crtc_set_mode);
->  
->  /**
->   * drm_atomic_helper_commit_modeset_disables - modeset commit to disable outputs
-> @@ -1531,12 +1535,12 @@ void drm_atomic_helper_commit_modeset_disables(struct drm_device *dev,
->  	drm_atomic_helper_update_legacy_modeset_state(dev, state);
->  	drm_atomic_helper_calc_timestamping_constants(state);
->  
-> -	crtc_set_mode(dev, state);
-> +	drm_crtc_set_mode(dev, state);
->  }
->  EXPORT_SYMBOL(drm_atomic_helper_commit_modeset_disables);
->  
-> -static void drm_atomic_helper_commit_writebacks(struct drm_device *dev,
-> -						struct drm_atomic_state *state)
-> +void drm_atomic_helper_commit_writebacks(struct drm_device *dev,
-> +					 struct drm_atomic_state *state)
->  {
->  	struct drm_connector *connector;
->  	struct drm_connector_state *new_conn_state;
-> @@ -1555,9 +1559,10 @@ static void drm_atomic_helper_commit_writebacks(struct drm_device *dev,
->  		}
->  	}
->  }
-> +EXPORT_SYMBOL(drm_atomic_helper_commit_writebacks);
->  
-> -static void
-> -encoder_bridge_pre_enable(struct drm_device *dev, struct drm_atomic_state *state)
-> +void
-> +drm_encoder_bridge_pre_enable(struct drm_device *dev, struct drm_atomic_state *state)
->  {
->  	struct drm_connector *connector;
->  	struct drm_connector_state *new_conn_state;
-> @@ -1588,9 +1593,10 @@ encoder_bridge_pre_enable(struct drm_device *dev, struct drm_atomic_state *state
->  		drm_bridge_put(bridge);
->  	}
->  }
-> +EXPORT_SYMBOL(drm_encoder_bridge_pre_enable);
->  
-> -static void
-> -crtc_enable(struct drm_device *dev, struct drm_atomic_state *state)
-> +void
-> +drm_crtc_enable(struct drm_device *dev, struct drm_atomic_state *state)
->  {
->  	struct drm_crtc *crtc;
->  	struct drm_crtc_state *old_crtc_state;
-> @@ -1619,9 +1625,10 @@ crtc_enable(struct drm_device *dev, struct drm_atomic_state *state)
->  		}
->  	}
->  }
-> +EXPORT_SYMBOL(drm_crtc_enable);
->  
-> -static void
-> -encoder_bridge_enable(struct drm_device *dev, struct drm_atomic_state *state)
-> +void
-> +drm_encoder_bridge_enable(struct drm_device *dev, struct drm_atomic_state *state)
->  {
->  	struct drm_connector *connector;
->  	struct drm_connector_state *new_conn_state;
-> @@ -1664,6 +1671,7 @@ encoder_bridge_enable(struct drm_device *dev, struct drm_atomic_state *state)
->  		drm_bridge_put(bridge);
->  	}
->  }
-> +EXPORT_SYMBOL(drm_encoder_bridge_enable);
->  
->  /**
->   * drm_atomic_helper_commit_modeset_enables - modeset commit to enable outputs
-> @@ -1682,11 +1690,11 @@ encoder_bridge_enable(struct drm_device *dev, struct drm_atomic_state *state)
->  void drm_atomic_helper_commit_modeset_enables(struct drm_device *dev,
->  					      struct drm_atomic_state *state)
->  {
-> -	encoder_bridge_pre_enable(dev, state);
-> +	drm_encoder_bridge_pre_enable(dev, state);
->  
-> -	crtc_enable(dev, state);
-> +	drm_crtc_enable(dev, state);
->  
-> -	encoder_bridge_enable(dev, state);
-> +	drm_encoder_bridge_enable(dev, state);
->  
->  	drm_atomic_helper_commit_writebacks(dev, state);
->  }
-> diff --git a/include/drm/drm_atomic_helper.h b/include/drm/drm_atomic_helper.h
-> index 53382fe93537..39878aa485c3 100644
-> --- a/include/drm/drm_atomic_helper.h
-> +++ b/include/drm/drm_atomic_helper.h
-> @@ -60,6 +60,11 @@ int drm_atomic_helper_check_plane_state(struct drm_plane_state *plane_state,
->  int drm_atomic_helper_check_planes(struct drm_device *dev,
->  			       struct drm_atomic_state *state);
->  int drm_atomic_helper_check_crtc_primary_plane(struct drm_crtc_state *crtc_state);
-> +void drm_encoder_bridge_disable(struct drm_device *dev,
-> +				struct drm_atomic_state *state);
-> +void drm_crtc_disable(struct drm_device *dev, struct drm_atomic_state *state);
-> +void drm_encoder_bridge_post_disable(struct drm_device *dev,
-> +				     struct drm_atomic_state *state);
->  int drm_atomic_helper_check(struct drm_device *dev,
->  			    struct drm_atomic_state *state);
->  void drm_atomic_helper_commit_tail(struct drm_atomic_state *state);
-> @@ -89,8 +94,22 @@ drm_atomic_helper_update_legacy_modeset_state(struct drm_device *dev,
->  void
->  drm_atomic_helper_calc_timestamping_constants(struct drm_atomic_state *state);
->  
-> +void drm_crtc_set_mode(struct drm_device *dev, struct drm_atomic_state *state);
-> +
->  void drm_atomic_helper_commit_modeset_disables(struct drm_device *dev,
->  					       struct drm_atomic_state *state);
-> +
-> +void drm_atomic_helper_commit_writebacks(struct drm_device *dev,
-> +					 struct drm_atomic_state *state);
-> +
-> +void drm_encoder_bridge_pre_enable(struct drm_device *dev,
-> +				   struct drm_atomic_state *state);
-> +
-> +void drm_crtc_enable(struct drm_device *dev, struct drm_atomic_state *state);
-> +
-> +void drm_encoder_bridge_enable(struct drm_device *dev,
-> +			       struct drm_atomic_state *state);
-> +
->  void drm_atomic_helper_commit_modeset_enables(struct drm_device *dev,
->  					  struct drm_atomic_state *old_state);
->  
-> 
 
 
