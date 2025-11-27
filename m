@@ -1,168 +1,234 @@
-Return-Path: <linux-renesas-soc+bounces-25307-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25308-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC1FFC8FD83
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Nov 2025 19:01:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EA63C8FE6B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Nov 2025 19:22:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 35A224E21A3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Nov 2025 18:01:16 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 3DC734E2E8B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Nov 2025 18:22:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F63B2F7AD1;
-	Thu, 27 Nov 2025 18:01:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E45EC3009F7;
+	Thu, 27 Nov 2025 18:22:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hZBFbmT1"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t5If9gO+"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF1142F747B
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Nov 2025 18:01:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDD313002DB
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Nov 2025 18:22:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764266475; cv=none; b=sx16TqXEZ/FzzfaMgIBXaaZYyIONIw023p0+JD/R3PBN92h1Yymy628CGXQxcF3fWqxYcJuDcQ63bB3N0qEqlPMtWDsv2W1jgPdRFRhKbPM5vDNZW4+A2/5frIofaVBxQaC3O+RU45eHxzdFz3diwD95/eCfAqMdetZW6R51IQI=
+	t=1764267769; cv=none; b=IYB8G2qa5yKlBj1a8zeV+U4InytSdtzSX9zY3Nk13jxuh6HP4s3x7HB2ZsFiYGguTcQ4niheID6Ced6wpW2jBnWWpbL6hE1eB5aX15EJFPjHo72r2uxudDcSczIKBDmcG++CIlMzPcckptJaG15C8wDxqxDqXZpk6K4mNaVfcu4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764266475; c=relaxed/simple;
-	bh=U7xUd/700hfi+Eb66XLB48sYWJGPiDoz1Cn7ILjaGdI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=umih7WPf1FNxDkHZdvmje7RGBsE64pVusKucKXZfMeJDhhP2n468jb+abP/5zNkb3JhZyfdX52tDtHdv1G8r+o/ISN54CoJdDe0aPaiFuxu/gYmXzVYj/7uVIT8Q17TOeexsmjtjyHXS6lITyK7OX3fs/AVCVvE+4Al/Ms+yvjc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hZBFbmT1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F02AAC4CEF8;
-	Thu, 27 Nov 2025 18:01:13 +0000 (UTC)
+	s=arc-20240116; t=1764267769; c=relaxed/simple;
+	bh=2zh5IckA93jcXpcP2jg/bB2AVaYgRYS+ot7BWC5MT2A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=S8FxMWcflrWADy/KxoCPfhi/IyQxYhW4E24CgAybU0iZMz2lfSwJ68ter1wBpUgbwXBInkeUkVsuC5VSsRzKDp3rYZuybDOLcbYWggyctxdh76ppmcmPEHCSDBGMsOyQzIypX9sSEo7TXp8N67sA3a/zI7L6js1mHCxAfqSDZ0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t5If9gO+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68C54C116D0
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Nov 2025 18:22:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764266474;
-	bh=U7xUd/700hfi+Eb66XLB48sYWJGPiDoz1Cn7ILjaGdI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hZBFbmT1JkjRs2aVb44ZpQNuz8hYZ0vPnx1zVimYbDiE6hIciSUP2ehr4sD2NYPev
-	 Jq3LQxhkG04dyXPPYLme8Yvd46f9V6hqQkKJnf3WCHyI3kbqqrNuq3wVZE5mvVFLxW
-	 00WYF3qnsTybvUaSVrXdMNeqaa93rOjmJv72e/pbucCF1Kg4EwMLd3a8uW+JXDyWU5
-	 bh7a24VFZSvK6jG5IQSfxDFVaIzm3ykE2iD0WwzYiJofP3jabRRsURhSK6GOSXiSU1
-	 6lIhg/ojidU4GDwfBk486a/+ztBBCV/EH58f5LWtK3sIi+aY8EIhOk5Jwqvw9YXL8q
-	 wu+vO4Ma7wcZA==
-Date: Thu, 27 Nov 2025 19:01:10 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	Marek Vasut <marek.vasut+renesas@mailbox.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Aradhya Bhatia <a-bhatia1@ti.com>, Dmitry Baryshkov <lumag@kernel.org>, 
-	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v4 2/3] drm/mcde: Create custom commit tail
-Message-ID: <ltb52hd55qqvx7zgpjmrzk67mii6fyjgrnspbreqymffs3ri6p@tje4bog4xkg2>
-References: <20251121-mcde-drm-regression-thirdfix-v4-0-d89bf8c17f85@linaro.org>
- <20251121-mcde-drm-regression-thirdfix-v4-2-d89bf8c17f85@linaro.org>
+	s=k20201202; t=1764267769;
+	bh=2zh5IckA93jcXpcP2jg/bB2AVaYgRYS+ot7BWC5MT2A=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=t5If9gO++OOilnxFrwBrkBC309GX2ZWoD+KuNyiD5dUztBFiu96epD55nIlqdm2bE
+	 I629s/i5ebpTIV1f8i9y5LxYTw1ElYOyDOS7zh8yoLRb12SJMkNSTl/k5UVdiV9Wcx
+	 4pI9IStlpgObJIRTRBZMtk1aAK13fAJZM4p9nuCNWNYZMgi9MXm7gEip+9kip1t60N
+	 fsKjao8brX5y0iEjBEnKN0hZgNGxRVvpYBmlN4f60tM41YnF3OOyz3ScwQfNNPuO1O
+	 tD5BH4EMod/AgIyuDOrhBKsWuQJMKPloN85ij5AbiVt3+3bxe8+vH/r2iPJ0jTChzF
+	 Psdd0ZmiQoKyA==
+Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-7c75fc222c3so408195a34.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Nov 2025 10:22:49 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCX0qZOKyvV4iG5ryUD5LbNuVOK3oaPwjX7BrceaTcXm3a9DVkg1HDeAZ6zYx2HOvr48xyCPeMSJiiu43nZOHcPQXg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzT8yg7LdW5F2vBZonENkOmH1uVAnn2VVd7z9bJ47zBxoXNDbRM
+	lcOIlPOXsDKhvNepQxk4orbmcSPMIGTArJXIha8pu6JsBMEeIDWrlaC9o9kT9fcdUUbia+uVOMP
+	XOm4ZkL+x1V68oRpDHzHYEebrxsdF1N4=
+X-Google-Smtp-Source: AGHT+IH1bZuq2107Z9vV3tIssGfEt3HKcvXwJtichyRCHN4NG+9zrGINSBUFfZp8A6sCqAX7wGBoKCjmIoVGx2W+fiQ=
+X-Received: by 2002:a05:6808:1803:b0:44d:a972:f48d with SMTP id
+ 5614622812f47-45115ade7bcmr8045952b6e.51.1764267768535; Thu, 27 Nov 2025
+ 10:22:48 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="hpmiitbfpy5j5brk"
-Content-Disposition: inline
-In-Reply-To: <20251121-mcde-drm-regression-thirdfix-v4-2-d89bf8c17f85@linaro.org>
-
-
---hpmiitbfpy5j5brk
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
+References: <20251120-thermal-device-v1-0-bbdad594d57a@gmx.de>
+ <CAJZ5v0jOPrBcozzJMsB1eE12MuZRWDAV-+=jfrhJbi=S0p5J9Q@mail.gmail.com> <5f3ef610-4024-4ca0-a934-2649f5d25f40@gmx.de>
+In-Reply-To: <5f3ef610-4024-4ca0-a934-2649f5d25f40@gmx.de>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Thu, 27 Nov 2025 19:22:37 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0hdqY-=O5Ai6c5qjMr_pRFc+SDyV1QruM=ZeHH9Z=guSg@mail.gmail.com>
+X-Gm-Features: AWmQ_bmQtAcoPswZk2AImBNuJ-60z5nmzzYc3vdfnDFN0Jddf0LEskGxktPDRCM
+Message-ID: <CAJZ5v0hdqY-=O5Ai6c5qjMr_pRFc+SDyV1QruM=ZeHH9Z=guSg@mail.gmail.com>
+Subject: Re: [PATCH RFC RESEND 0/8] thermal: core: Allow setting the parent
+ device of thermal zone/cooling devices
+To: Armin Wolf <W_Armin@gmx.de>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, Len Brown <lenb@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Ido Schimmel <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>, 
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+	linux-tegra@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	linux-doc@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-wireless@vger.kernel.org, ath10k@lists.infradead.org, 
+	ath11k@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, platform-driver-x86@vger.kernel.org, 
+	linux-pci@vger.kernel.org, imx@lists.linux.dev, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v4 2/3] drm/mcde: Create custom commit tail
-MIME-Version: 1.0
 
-On Fri, Nov 21, 2025 at 03:08:32PM +0100, Linus Walleij wrote:
-> commit c9b1150a68d9362a0827609fc0dc1664c0d8bfe1
-> "drm/atomic-helper: Re-order bridge chain pre-enable and post-disable"
-> caused a series of regressions in all panels that send
-> DSI commands in their .prepare() and .unprepare()
-> callbacks when used with MCDE.
->=20
-> As the CRTC is no longer online at bridge_pre_enable()
-> and gone at brige_post_disable() which maps to the panel
-> bridge .prepare()/.unprepare() callbacks, any CRTC that
-> enable/disable the DSI transmitter in it's enable/disable
-> callbacks will be unable to send any DSI commands in the
-> .prepare() and .unprepare() callbacks.
->=20
-> However the MCDE driver definitely need the CRTC to be
-> enabled during .prepare()/.unprepare().
->=20
-> Solve this by implementing a custom commit tail function
-> in the MCDE driver that always enables the CRTC first
-> and disables it last, using the newly exported helpers.
->=20
-> Link: https://lore.kernel.org/dri-devel/20251026-fix-mcde-drm-regression-=
-v2-0-8d799e488cf9@linaro.org/
-> Link: https://lore.kernel.org/all/20251107230517.471894-1-marek.vasut%2Br=
-enesas%40mailbox.org/
-> Fixes: c9b1150a68d9 ("drm/atomic-helper: Re-order bridge chain pre-enable=
- and post-disable")
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> ---
->  drivers/gpu/drm/mcde/mcde_drv.c | 37 +++++++++++++++++++++++++++++++++++=
-+-
->  1 file changed, 36 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/mcde/mcde_drv.c b/drivers/gpu/drm/mcde/mcde_=
-drv.c
-> index 5f2c462bad7e..290082c86100 100644
-> --- a/drivers/gpu/drm/mcde/mcde_drv.c
-> +++ b/drivers/gpu/drm/mcde/mcde_drv.c
-> @@ -100,13 +100,48 @@ static const struct drm_mode_config_funcs mcde_mode=
-_config_funcs =3D {
->  	.atomic_commit =3D drm_atomic_helper_commit,
->  };
-> =20
-> +/*
-> + * This commit tail explicitly copies and changes the behaviour of
-> + * the related core DRM atomic helper instead of trying to make
-> + * the core helpers overly generic.
-> + */
-> +static void mcde_atomic_commit_tail(struct drm_atomic_state *state)
-> +{
-> +	struct drm_device *dev =3D state->dev;
-> +
-> +	/* Variant of drm_atomic_helper_commit_modeset_disables() */
-> +	drm_encoder_bridge_disable(dev, state);
-> +	drm_encoder_bridge_post_disable(dev, state);
-> +	drm_crtc_disable(dev, state);
-> +	drm_atomic_helper_update_legacy_modeset_state(dev, state);
-> +	drm_atomic_helper_calc_timestamping_constants(state);
-> +	drm_crtc_set_mode(dev, state);
-> +
-> +	/* Variant of drm_atomic_helper_commit_modeset_enables() */
-> +	drm_crtc_enable(dev, state);
-> +	drm_encoder_bridge_pre_enable(dev, state);
-> +	drm_encoder_bridge_enable(dev, state);
-> +	drm_atomic_helper_commit_writebacks(dev, state);
+On Sat, Nov 22, 2025 at 3:18=E2=80=AFPM Armin Wolf <W_Armin@gmx.de> wrote:
+>
+> Am 21.11.25 um 21:35 schrieb Rafael J. Wysocki:
+>
+> > On Thu, Nov 20, 2025 at 4:41=E2=80=AFAM Armin Wolf <W_Armin@gmx.de> wro=
+te:
 
-I'd like to have a mention of *what* changes here too, not only that it
-changes.
+[...]
 
-This also applies to the other patch.
+> >> ---
+> >> Armin Wolf (8):
+> >>        thermal: core: Allow setting the parent device of cooling devic=
+es
+> >>        thermal: core: Set parent device in thermal_of_cooling_device_r=
+egister()
+> >>        ACPI: processor: Stop creating "device" sysfs link
+> >
+> > That link is not to the cooling devices' parent, but to the ACPI
+> > device object (a struct acpi_device) that corresponds to the parent.
+> > The parent of the cooling device should be the processor device, not
+> > its ACPI companion, so I'm not sure why there would be a conflict.
+>
+>  From the perspective of the Linux device core, a parent device does not =
+have to be
+> a "physical" device. In the case of the ACPI processor driver, the ACPI d=
+evice is used,
+> so the cooling device registered by said driver belongs to the ACPI devic=
+e.
 
-But aside from these two comments, the prefix change on the first patch,
-and the doc comment Tomi had, I think it's very reasonable and looks
-good overall.
+Well, that's a problem.  A struct acpi_device should not be a parent
+of anything other than a struct acpi_device.
 
-Maxime
+> I agree that using the Linux processor device would make more sense, but =
+this will require
+> changes inside the ACPI processor driver.
 
---hpmiitbfpy5j5brk
-Content-Type: application/pgp-signature; name="signature.asc"
+So be it.
 
------BEGIN PGP SIGNATURE-----
+> As for the "device" symlink: The conflict would be a naming conflict, as =
+both "device" symlinks
+> (the one created by the ACPI processor driver and the one created by the =
+device core) will
+> be created in the same directory (which is the directory of the cooling d=
+evice).
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaSiR5gAKCRAnX84Zoj2+
-diX9AX9koPaU95KzTGgg9Dj11IkN9i6RBMqraCnN8MvcU9+j4/b0WGO//Nx0qvGI
-6x2/zIwBgOsj9H9qyIKa2eemQul1x/ZYQBu3c/MywNMot9u8DTebVG+9g8BT8dIU
-qexk7TESAA==
-=rOX4
------END PGP SIGNATURE-----
+I see.
 
---hpmiitbfpy5j5brk--
+But why is the new symlink needed in the first place?  If the device
+has a parent, it will appear under that parent in /sys/devices/, won't
+it?
+
+Currently, all of the thermal class devices appear under
+/sys/devices/virtual/thermal/ because they have no parents and they
+all get a class parent kobject under /sys/devices/virtual/, as that's
+what get_device_parent() does.
+
+If they have real parents, they will appear under those parents, so
+why will the parents need to be pointed to additionally?
+
+BTW, this means that the layout of /sys/devices/ will change when
+thermal devices get real parents.  I'm not sure if this is a problem,
+but certainly something to note.
+
+> >>        ACPI: fan: Stop creating "device" sysfs link
+> >>        ACPI: video: Stop creating "device" sysfs link
+> > Analogously in the above two cases AFAICS.
+> >
+> > The parent of a cooling device should be a "physical" device object,
+> > like a platform device or a PCI device or similar, not a struct
+> > acpi_device (which in fact is not a device even).
+>
+>  From the perspective of the Linux device core, a ACPI device is a perfec=
+tly valid device.
+
+The driver core is irrelevant here.
+
+As I said before, a struct acpi_device object should not be a parent
+of anything other than a struct acpi_device object.  Those things are
+not devices and they cannot be used for representing PM dependencies,
+for example.
+
+> I agree that using a platform device or PCI device is better, but this al=
+ready happens
+> inside the ACPI fan driver (platform device).
+
+So it should not happen there.
+
+> Only the ACPI video driver created a "device" sysfs link that points to t=
+he ACPI device
+> instead of the PCI device. I just noticed that i accidentally changed thi=
+s by using the
+> PCI device as the parent device for the cooling device.
+>
+> If you want then we can keep this change.
+
+The PCI device should be its parent.
+
+> >>        thermal: core: Set parent device in thermal_cooling_device_regi=
+ster()
+> >>        ACPI: thermal: Stop creating "device" sysfs link
+> > And this link is to the struct acpi_device representing the thermal zon=
+e itself.
+>
+> Correct, the ACPI thermal zone driver is a ACPI driver, meaning that he b=
+inds to
+> ACPI devices. Because of this all (thermal zone) devices created by an in=
+stance of
+> said driver are descendants of the ACPI device said instance is bound to.
+>
+> We can of course convert the ACPI thermal zone driver into a platform dri=
+ver, but
+> this would be a separate patch series.
+
+If you want parents, this needs to be done first, but I'm still not
+sure what the parent of a thermal zone would represent.
+
+In the ACPI case it is kind of easy - it would be the (platform)
+device corresponding to a given ThermalZone object in the ACPI
+namespace - but it only has a practical meaning if that device has a
+specific parent.  For example, if the corresponding ThermalZone object
+is present in the \_SB scope, the presence of the thermal zone parent
+won't provide any additional information.
+
+Unfortunately, the language in the specification isn't particularly
+helpful here: "Thermal zone objects should appear in the namespace
+under the portion of the system that comprises the thermal zone. For
+example, a thermal zone that is isolated to a docking station should
+be defined within the scope of the docking station device."  To me
+"the portion of the system" is not too meaningful unless it is just
+one device without children.  That's why _TZD has been added AFAICS.
+
+> >>        thermal: core: Allow setting the parent device of thermal zone =
+devices
+> >
+> > I'm not sure if this is a good idea, at least until it is clear what
+> > the role of a thermal zone parent device should be.
+>
+> Take a look at my explanation with the Intel Wifi driver.
+
+I did and I think that you want the parent to be a device somehow
+associated with the thermal zone, but how exactly?  What should that
+be in the Wifi driver case, the PCI device or something else?
+
+And what if the thermal zone affects multiple devices?  Which of them
+(if any) would be its parent?  And would it be consistent with the
+ACPI case described above?
+
+All of that needs consideration IMV.
 
