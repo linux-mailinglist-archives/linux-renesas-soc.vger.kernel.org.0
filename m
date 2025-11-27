@@ -1,141 +1,112 @@
-Return-Path: <linux-renesas-soc+bounces-25292-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25293-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA8FAC8F804
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Nov 2025 17:25:12 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB831C8F82D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Nov 2025 17:30:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id E71C5349428
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Nov 2025 16:25:10 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 247CE34C7BA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Nov 2025 16:30:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9DE2337B9B;
-	Thu, 27 Nov 2025 16:24:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BzCflwam"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3E2D334379;
+	Thu, 27 Nov 2025 16:30:10 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB55B2C3253
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Nov 2025 16:24:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 290432D6608
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Nov 2025 16:30:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764260696; cv=none; b=AFEeH/wmVpyCqDETelTlTF2RPa428M6Nlqxq1oqkC+1T8qHWDm1woae3X1AzAFjGvbyxS2tR3xDT3GTtNOQnzl6QYVAfwVew3dE1aBsbWNMuDXlPHVDtY+bLionSjbjiw6Cm3rbQmdVzIAmdo91NELm3TbCgHxDmXyJXQ8iDeYE=
+	t=1764261010; cv=none; b=TAr2dKKJfua0JU6LKDNDXxjqT9hBDFWTOIg25pdXYnFz8q2Mh212WdsBGaDdaOHliasiFDA41xqwACbNHRu5JwfouzbCWLOwUJOmypcc1JotodEKDxYjmAkmlaFa0bFTukM3OHrb59gJdZwztLyDuZOFgxpk4QHCBIX6SbJpU54=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764260696; c=relaxed/simple;
-	bh=+2ssuR9nID24u9Baq56sMCo+ozo/eEYAKwy09l9gohc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=O3DR4fwQRNDZtMLgJrph33gwk1/mWAgxv48gm8NHDFR7NRJA3QHsOyeE5dww7cHdrRYRhdJZmTNI4BwbeUJEnEeip/Iqk9MydjWX9oIQldKE0SHbmSbSrOvwAeJdKZ7URq/lLoORoFTZdCx0QQz2omDlcm22b1ReWRA4iM7gGxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BzCflwam; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1764261010; c=relaxed/simple;
+	bh=aspswoNAKOhPVwvu9qhnWpMe8+wEwZQxVwVuoicCgko=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=D5lgMKGNuh5X91C1HhTpuiRA4B4SMGY/2LUsj2y/CmB1jkO4W52L7hjMuVOYFpSE0qysw8AxqA1hZAg/Tk0h4iXLX6Vo5OAJ+tikGb5svjTCU50dCaI2Zooy4lZm+d2gFo0HPcXnUiMuHl404l4wWdW55cty7Z0wy4WJw3x/xV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-477b198f4bcso6752475e9.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Nov 2025 08:24:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764260693; x=1764865493; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kugS4T1MGZu845lUHGPLn/vdcl2K5v8Cpxw1K4sscWQ=;
-        b=BzCflwamGxIXyIunT3BC68w0U8uXodrkLvmjfCi0er68Ly5MT9dKpgFJCsoA4eRYBs
-         3OFjp722nuKnbUt5CisXv7JpGqVd7JA5bltA0qjFNpoBdRFPjxCT6EJhKnh1+D+pHtix
-         74fx9XP8QH/5gNaZLEAuwjN3XPEQprP68jsAI9BXyAlMRcp8k4alHo5RvfzR7MIS8jeo
-         wn0vAirBIeIihioE0gJjJqNgSZo0D0eoLfia3Y8wfpcZ/HtTPbGeH/AeVhsmPfkqfnGS
-         eNlo0tTYlEr3g0TG8y3jglaXrw9jHZD0NMgfLetJhT5RrllgoF+hkNbkGxn7W5oHH8MQ
-         DjmQ==
+Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-55b22d3b2a6so645835e0c.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Nov 2025 08:30:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764260693; x=1764865493;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=kugS4T1MGZu845lUHGPLn/vdcl2K5v8Cpxw1K4sscWQ=;
-        b=Jv3ES0cIsCMezWWp7EgTPh1wJuQ+BsPct1EroivBZaIVvD/E0SJHFVKKqji6gzAzKu
-         7d3yGBIJNIvH+UNfeM0rTNATkqnUq+ewFEre4b1IkLspSFCojtVRRy8kkRVumCYFbYEQ
-         w6ZmUkdoTEbr969tJSMhXbrtTtA7tgM16JtGtooSv3eLtN7ZWVAVeuZ/ipp8RYmNuzCD
-         VVAXdrCfU5bFoMZfmvtYmkx1XiWydbR0+lyT4oMsVASL8JWYWFhZeoQcN1nACcIYRTAY
-         sva6HPcUEsseXpTKOAIVRk8FiF11da6PuEwPB9mFUUQWWZHqcudlZ+yJnKsV0Z+GIsl5
-         raoA==
-X-Forwarded-Encrypted: i=1; AJvYcCVclYbmVCftXKRYs7gUZYjVaQcu6a1CqCeO3zzvtcIPAs4Od6CNCOvt5Cat0UhSaKmN+tebkpqO7zO+6zse2OmYNQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzZ7a00TgOh0osKc8eo4V6xfkmNXFrRGJqDONOrw/Nj8G6iTE0I
-	+XHQPvB47C9xYacxq6mPC7OnAynEXkgXNw8+o80+YjRf9z+KI0O5ZXFI
-X-Gm-Gg: ASbGnct8+y7ppi6+TwalerSDJUa0UDbOBv+zvUySEWsdx3AVd4Iw/DolnC2NCfjZNpE
-	DtYLlU+t8oDVBzNJUE2Eyfz/jHKhJfku3WeY6pD3siAoyPwyKshrUfaDfochYM4Nq/IASXKBIFE
-	+F+pyaDW0Y58TlcqnPvbWbwz4R5NlRRRtt326XL3/KOJXjKkUoHqm1r/LnANfScppbP9DX8WXfN
-	5dVDaOE/lC3JrAhqRYweie5Y6JREV51hex35EJyN4UW95IvI7AkCsmFEsZas3zACPXeAvQbxCbp
-	DMu3dgbbHHQJ/13YXIjV431lEywNtSdkk2sXZchAey0mOPqWvyvXWEWzdmb3qFMLA1yYPH6sDYp
-	pT1V8a4llUdsBeIXgS9fVh/oC45oAjnRy7PTYj+TUOaRIgZ0wJ2qlkFKQhmzF2DpqS4auy+Ox2D
-	Z08/QFqxE58f1z2qUHDvWiiStetGEX9TKOfWdlltcxzZEs
-X-Google-Smtp-Source: AGHT+IFDHJ8vG2Rb/zx0HGh3kpcWkL3GZIZ6o3WFo06Vm62lKG2pchLDnRQGyTs1ndV+4DH/+WjTNA==
-X-Received: by 2002:a05:600c:1f8f:b0:477:3e0b:c0e3 with SMTP id 5b1f17b1804b1-477c01eba39mr222983055e9.32.1764260693217;
-        Thu, 27 Nov 2025 08:24:53 -0800 (PST)
-Received: from iku.example.org ([2a06:5906:61b:2d00:4f24:123b:7b7f:5ea9])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-479111565a1sm39163795e9.5.2025.11.27.08.24.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Nov 2025 08:24:52 -0800 (PST)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Thomas Gleixner <tglx@linutronix.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc: linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 2/2] irqchip: renesas: rzv2h-icu: Add support for RZ/V2N SoC
-Date: Thu, 27 Nov 2025 16:24:47 +0000
-Message-ID: <20251127162447.320971-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20251127162447.320971-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20251127162447.320971-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        d=1e100.net; s=20230601; t=1764261008; x=1764865808;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gs5FKTH1FZR7cLdsOl+4N50aiArDlXrJC3TGGiC1P6w=;
+        b=Felfxo29xfHXECuHbc57g3PFhj+g5Jlu16Rc76s9dazXosv1hJ4mB9nrGMrCBUAlXA
+         u1VqildifJhCdmgtKrygU53glk5fD4JXOiPFg0dJ0/M1Gd9i1mKDr/HdIBDCc+sTjNIf
+         AwQJzxbeDp2o5r50e6MmrgaSHbeo1NBxXP6fPYwuYj9pHql9pZH0w6bEvsuG+AnsE/an
+         nSPjtwHETY3/jUM/zWi6Tj9iA3v4SrnGxcDalWSrRteiSc+iWcoJiny5cJdv5N/Xr6au
+         l1svbknUFRg3fNKie8KQwQEC8IpwnOSbGnill+a6dnRxjtfVT6dJsV2U2Cfj9C3aH8a9
+         XHCA==
+X-Forwarded-Encrypted: i=1; AJvYcCWfGaQWow0mu4RxSfpngXTI8bQ3z4xVXm2FOO4HInh/8T87AGP+bUd3/mZ3hNIFf1crtyCchpi6CZYCKkhV5YJSNQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzC93DAS+NjHFG4ytsGYjxquzq4X7E2/qQGdoKbUS7/DUPFzfkx
+	kWAUPFH2nXyNy2sWHjVfrCG+mjDjZo/ElZFOhIKuEY7tOmUcTRrdUHhbovwT1siq
+X-Gm-Gg: ASbGncuL7seYZ+7AIBULF+B4fArty6D/4oGYFhnz4L8SmYx1t+3MPteWiM2C30csvK0
+	/oqVof9RTVGNyqQ5sG7l74OPHoDxo0Zp/xr85W33gEpGPro7KXFVQ2z9ePav3ztR7U6vMkO2Cun
+	3PgqC8ExGPvGsVdpkuAnctQ4ED3EIQaw7K9EQO53nzoW2gJ0XCQYwT8eNQDI08HttKgIkG3tudq
+	sVGofISwbes/YjlYPyVCt5qpRCDy5CbHzNqqFZS8nAKeLXv5f6KIg93oc9hlC5/L2kBl2mNwavC
+	EjmeU6fVxcjymIkcxbnnEbPrC2nnV+2Yipp75tH5TkC55P86mD8b0qp3pqKxRiQllTjCqr5ZtXM
+	F2ONRWEzGezxHHOfM66EEgCPPszUbcKxFNJl+WI/1c28p1npof3J6qvJWf3vOS1qebC5nFTlvw3
+	31ufmcchyNoIBG1dZF2e+bvZF8Co9C+I0WrSsag7blpzKv7EUB1hYiReZ35i4=
+X-Google-Smtp-Source: AGHT+IHpTGd0SPi2YYOtCMDAyZiINpkm/CYsv7dLqaKHp+ojYvZaBEowuzgK8FZKp1UPWeC45o3oLw==
+X-Received: by 2002:a05:6122:2c07:b0:559:83e9:290 with SMTP id 71dfb90a1353d-55b81923b82mr8167014e0c.1.1764261007978;
+        Thu, 27 Nov 2025 08:30:07 -0800 (PST)
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com. [209.85.222.45])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-55cf518c3efsm742678e0c.22.2025.11.27.08.30.06
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Nov 2025 08:30:06 -0800 (PST)
+Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-93917ebde8aso1279657241.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Nov 2025 08:30:06 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUrfzdY+oKfA2KndtZmHRG8pYFJOpOvgZOLWZzJK1Ep+jM4fZz7TNDAY866Usb9pMMMtDEBGtB9iG1t2A6m+KLoCQ==@vger.kernel.org
+X-Received: by 2002:a05:6102:5248:b0:5db:f897:59f0 with SMTP id
+ ada2fe7eead31-5e1c40d02fcmr10686191137.11.1764261006420; Thu, 27 Nov 2025
+ 08:30:06 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251125221420.288809-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20251125221420.288809-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20251125221420.288809-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 27 Nov 2025 17:29:55 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUPZ3Qgorpj=xY7DFkDkxh0k1QLDARRJjiHN7JjoEJ0kg@mail.gmail.com>
+X-Gm-Features: AWmQ_blWIFVuTa9dh4H3jpc-C2eBoGOexQqPhzUAA1Z8L2_lfHqF19MEie2Tcf8
+Message-ID: <CAMuHMdUPZ3Qgorpj=xY7DFkDkxh0k1QLDARRJjiHN7JjoEJ0kg@mail.gmail.com>
+Subject: Re: [PATCH 3/3] clk: renesas: r9a09g056: Add entries for the RSPIs
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Tue, 25 Nov 2025 at 23:14, Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Add clock and reset entries for the RSPI IPs.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Add support for the RZ/V2N Interrupt Control Unit (ICU) by introducing a
-dedicated compatible string in the irqchip driver. While the RZ/V2N ICU
-differs from the RZ/V2H(P) version in its register layout primarily due
-to a reduced set of ECCRAM related registers the irqchip driver does not
-currently access these registers.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-clk for v6.20.
 
-As a result, the RZ/V2N ICU can be safely handled by rzv2h_icu_probe for
-now, but it still requires a distinct compatible so that future changes
-can differentiate the SoCs when needed.
+Gr{oetje,eeting}s,
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-v1->v2:
-- New patch
----
- drivers/irqchip/irq-renesas-rzv2h.c | 1 +
- 1 file changed, 1 insertion(+)
+                        Geert
 
-diff --git a/drivers/irqchip/irq-renesas-rzv2h.c b/drivers/irqchip/irq-renesas-rzv2h.c
-index 899a423b5da8..0c44b6109842 100644
---- a/drivers/irqchip/irq-renesas-rzv2h.c
-+++ b/drivers/irqchip/irq-renesas-rzv2h.c
-@@ -616,6 +616,7 @@ static int rzv2h_icu_probe(struct platform_device *pdev, struct device_node *par
- 
- IRQCHIP_PLATFORM_DRIVER_BEGIN(rzv2h_icu)
- IRQCHIP_MATCH("renesas,r9a09g047-icu", rzg3e_icu_probe)
-+IRQCHIP_MATCH("renesas,r9a09g056-icu", rzv2h_icu_probe)
- IRQCHIP_MATCH("renesas,r9a09g057-icu", rzv2h_icu_probe)
- IRQCHIP_PLATFORM_DRIVER_END(rzv2h_icu)
- MODULE_AUTHOR("Fabrizio Castro <fabrizio.castro.jz@renesas.com>");
 -- 
-2.52.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
