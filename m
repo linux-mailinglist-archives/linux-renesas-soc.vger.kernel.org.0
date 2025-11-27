@@ -1,215 +1,165 @@
-Return-Path: <linux-renesas-soc+bounces-25265-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25266-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ED65C8E345
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Nov 2025 13:11:35 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE323C8E578
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Nov 2025 13:52:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 679FB3B332E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Nov 2025 12:10:13 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 326DE34DBC7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Nov 2025 12:52:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CB6332ED50;
-	Thu, 27 Nov 2025 12:09:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="FdkfjWev"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15AC0301036;
+	Thu, 27 Nov 2025 12:52:18 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011037.outbound.protection.outlook.com [52.101.70.37])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50ACE32ED35;
-	Thu, 27 Nov 2025 12:09:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764245386; cv=fail; b=DicCd0yqd2jp08tCTj5C/13QFprvvvUe5nGuS+gdy2uR+e106mmxEWrnLWZGGUvOuff0jQYKjv1+zqa58/3raQN8wbRD1yBzeZnfIqhIjAoWs029rKj/+9q22i7Qszn/BqFxobQkVs4UakQ+32YK9hv1WuRehir3Jg4MbcWaix0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764245386; c=relaxed/simple;
-	bh=JA8BA24DOlB0kdgU1DCPYZx4Zbb2m37f+qDUXzHjBQI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=TlRyXqbNBGV+T7IOLeVtCTeBrJwWcXbDfJ0r0f/DUn4jc+G4Ae5UrEErHEpR5oAXpaMv94f+tLFFEbh5RsHimDnZi7QZi3ELuRFYGo5ryDMWzsTGZbMpHbFvzrRcXT91UO23Jp9gI56z0NSgefNkdjkVP69LnoTEIMOilnaWJVI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=FdkfjWev; arc=fail smtp.client-ip=52.101.70.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hsoTm7Mfs0rQYRk3GzLcXc/+2sEejGkIJQU/ddhCP/tql6g7gjdwGFnHn8VKUopf8eeDxwkL971Erks0qFYsklRV3if9f0i7hzBSl8SG/cQTu1bKx07unK/Zgk2aebB86ihq7Psut4+OQs/OM/cRA7qe+grCnC1RxYpTb8HDPPpjZUXZGyFtB+KhnW20DCF1tBJlQRvB4LLss7KAyGQLS1dubIOu/GXQ8eI+X7ZzEwVv+RCZFLeK/JUyRIFRW5fl4f1k8LGxfM0FhtoBQyL+dH6B5SMMVbaGAqb648y6hujwdccbVxBrZK4Hd0M14cdPwiqjMYPAtFratKuCOTmwgA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=l3yENuka94EdWv+IQd8DToNoQwxsFaNWjXKKaVV5jDc=;
- b=r8ux6TQgPxFA4JaT3RYGG0AelZNau5P6mXue6JMtGQqrYhdBgJY8NfNmwEKoL9ke/PIjnTwanXBV9AvDsTNcjUsB5cWO3kp9GHMks0IoZp8bFSHV6olk2x8QkZfchqYIFBO+q3agKgoBoxRXCBL8Rg8sPdvOpyW5Dcab1fY//EwKRBmri66O46jwHL66EW/SVNfDsx4OJQjvmMag1w4yV8nySkyxN5qoWO1ME/PKh0Fh4R26cX+2pmHb0drhXjkj7rV1ufX9G0d6lm+7G1Jr0+6FubphS2Yz6V3QxfAxu+3aktDGDv6508dxtMt9JvQOfaPBXo7CzTcGw1GlVSfAog==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=l3yENuka94EdWv+IQd8DToNoQwxsFaNWjXKKaVV5jDc=;
- b=FdkfjWev5MchopBI63fqkRYQKud0R/8KUsjx/H7DBcatyg51Xr5o0EeZc4vqjplUamxw1rc6N4IAmMsgLiDbErgz1FGAszQHNDq70aVbJWsQS9a9r/Mwlb/Mp0uJ5p/LdakfrYIIQXicdV6TVZDDSV7ZAAYwZ2PFb41QpnlW0U8d7jmnGTQdZmAN2nNSL2RcAqjx7VLxGlcBG3JMj5Db3dGgJ7Ooro2vD8BTm/dvFQOAjHweYlsNGnlt+tZEtXnjzNMTdBxYz8NCO0P0JdRKBYKSeXKWQROSy0OjPpCaAby+XPlAm7sPW+RGsGQ5pLQR6LQmusIl0yD537qiM1NBSA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM9PR04MB8585.eurprd04.prod.outlook.com (2603:10a6:20b:438::13)
- by VI0PR04MB11844.eurprd04.prod.outlook.com (2603:10a6:800:2eb::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.13; Thu, 27 Nov
- 2025 12:09:31 +0000
-Received: from AM9PR04MB8585.eurprd04.prod.outlook.com
- ([fe80::8063:666f:9a2e:1dab]) by AM9PR04MB8585.eurprd04.prod.outlook.com
- ([fe80::8063:666f:9a2e:1dab%5]) with mapi id 15.20.9366.012; Thu, 27 Nov 2025
- 12:09:31 +0000
-From: Vladimir Oltean <vladimir.oltean@nxp.com>
-To: netdev@vger.kernel.org
-Cc: Andrew Lunn <andrew@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	=?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH net-next 12/15] net: dsa: tag_rzn1_a5psw: use the dsa_xmit_port_mask() helper
-Date: Thu, 27 Nov 2025 14:08:59 +0200
-Message-ID: <20251127120902.292555-13-vladimir.oltean@nxp.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251127120902.292555-1-vladimir.oltean@nxp.com>
-References: <20251127120902.292555-1-vladimir.oltean@nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: VE1PR03CA0056.eurprd03.prod.outlook.com
- (2603:10a6:803:118::45) To AM9PR04MB8585.eurprd04.prod.outlook.com
- (2603:10a6:20b:438::13)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A553264FB5
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Nov 2025 12:52:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764247938; cv=none; b=tQbiK0VKMZgVMtaEYPK0J7/VNG8dScYWMXjicWqiDZvwpyUPBZuvj0RRoga7uh3M2GbtYi9kkHj32yLs82YSm0zefR2xefX+wp6nWMjPc4xefHTKosgpWYmtcAtbslmFdrj4wjMg/taq4bEH9ByvXwjzt3IR7aPnReO4UVFE+TI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764247938; c=relaxed/simple;
+	bh=FJM1n7JsAk9/dOgmQTcvpABhbLk73QPoGdPDbWfqDIQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rOf14CvfDHoByH7dy6ByhI3cSXoSerKXSTiZ+rm/CzNhF9WeuoLnU9J0U6HjEA9M7KFPZOXGndx9ZYYZ3HprHMa+7Yc/qnUX1yuBnlZiYMJaq7IP7GTOLsU+ebOapKMXEQtvyKtmSYe4KQw04hNeV6arRbPqq5P6vqtzs/u7FTk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-55b219b2242so345859e0c.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Nov 2025 04:52:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764247935; x=1764852735;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bjYT7JRJe3Gqrk9ZtGCdcYVgPeOXASFBXLgUHTdPheE=;
+        b=MNgbjjBB06SHxCOcKrfo/K7xt2ijX6o533lszI51I0BjzXTkoii6nyFnSOAM39/AX/
+         oGFBdvFbiAeQ9WWaJbnS1+kyQGgY7nV3VEyxXHvkx0p/+x+Hf4G2xRdHWNT8dpeh57Be
+         FIcdTc1Kp3dI04pULTl5zRmu9EzmgssHXgTvGRpMAPJDcg2HIriPMGfT2DY9lhXtQ5gB
+         uSb81Hagevq9EYsB6xz0Xdhq8S2A09VSproZ2eRwzgJlUHP47miAopZLhgoZQjbDF+BB
+         OSoNZstA0C+CuEhj9Q8Oo/laRc/Sbp6myptO9pJXZvW+M6PC+cEoDRNy1VwSCh+OJLSk
+         7WSg==
+X-Forwarded-Encrypted: i=1; AJvYcCXrgWw5MWv9tODZAxqQjUOdZPHardUXe/nUcbnkq6PFgdHCma9Zef5jbox8ILEOpp2cRtoqfBKG3czFM2eailRqTA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxvxbdhg/CT9ULJGX8hX7AtR/2M7ighEZLmhbAHdN7GN0YI7eq/
+	BsY/TeEL46lPe69h/GJ5Z8Q+LQBp+aK/DOvMVfMBNrlT6aqu52RTLB6voYbf5ApT
+X-Gm-Gg: ASbGncsmgEjHgqGl6MWVVG/Yg5T2lF/0R77rPXH+Kn1x8dqNr2W5HWWJEjJbb1rF38b
+	F5ujmxtX5qLDvESbFvTseidrgQEO3PiGoDslAvtcr0UfXlAeiYv69TnaFpN8TdNVExgs1+48uLc
+	bJGnrzDZ/grUi//pPNh/v4szvSGn9Oj3GIJFujQML+YpR3jczNk5jm54kbAquhLKQhK0KXD99Ab
+	cT2u+UqGd6YgYdRRVncnmNkSYDbccVxfCl6gOy8XTioR5LV+AhPCAP5mW0heEeqr+/XvTbQ/rZ7
+	oWa6MYklrRuCnFHKc5s8lVgXCNJT4/gf40iTlaerxVzm2scFs6be7LYaVxN6DlQU0VruDE2HDSP
+	dGdjdA30+ShgKrvuW8zwWxzBPt75XaZJUxsnONusCcw5jtdXR5hbp6AOCUuJjzQzuDIkUUV49+d
+	8rkMJPq2x/8JXh/ZtwqnpsZPScrfVunIaSF2Pxowd36VjRpCJVsBE1
+X-Google-Smtp-Source: AGHT+IHDUZunerSi8o1yUoFh/5G1gajcRtNDeSKK4szWmHwkWQLYjLzcVyYlZyBIV7kNW5hih25xcg==
+X-Received: by 2002:a05:6122:4f83:b0:556:a243:8a72 with SMTP id 71dfb90a1353d-55b81a3ee19mr9859124e0c.5.1764247934817;
+        Thu, 27 Nov 2025 04:52:14 -0800 (PST)
+Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com. [209.85.221.174])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-55cf516c7c5sm490086e0c.17.2025.11.27.04.52.13
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Nov 2025 04:52:13 -0800 (PST)
+Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-55b0d4b560aso1285032e0c.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Nov 2025 04:52:13 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWkgqLTH6NKfXRJQjzAXqKn47rpFOFuyqgRGe9DP5j4OB/i9xItb6HBT33/zgH/wILbVxU9y21efLBoPNKzSsJvyA==@vger.kernel.org
+X-Received: by 2002:a05:6102:4492:b0:5db:dad4:840 with SMTP id
+ ada2fe7eead31-5e1c40dc2ffmr11440563137.12.1764247933503; Thu, 27 Nov 2025
+ 04:52:13 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9PR04MB8585:EE_|VI0PR04MB11844:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4c8a4552-fb5e-4b5a-2048-08de2dadd1c5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|52116014|1800799024|366016|10070799003|19092799006|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?Ris5Vitsb2JPK1F5TlNDN1hjQUJSZXMxOHJLaDRKd2JaRFlLNEVNdEsxbjhz?=
- =?utf-8?B?NENEQk4vdi9DMVJoSGtPeUtxR2FObFUvRW5SREhmcmUwbUdRd0c4RkpNa25m?=
- =?utf-8?B?ZHZPdjlrWGlpai9BVzdQVnAxcDcvbmxqQlZ2ZGhQek5zNlVHcklxOWtFMno5?=
- =?utf-8?B?MnM3YnMrVFBPZTVOZXJjRTk0T1puYWp5TFFXUkFTSGhjbTdEQVVPOFQvVmRD?=
- =?utf-8?B?emRXOFpaa2FRZDFta25wQzQ2UUMzemFUS2twcmV4V20rT1hWMG85VDNuYksy?=
- =?utf-8?B?M0ZwL2lVak1OdmJuSkc0RE5DSW82Z3VXb040ZCtVQTFxald0L2JQUElySURT?=
- =?utf-8?B?S2xES1NrM3NGK081clpxUGdMVnF2UmZjbHYyY1NoWi9kWmFzTUZHbXFUZFhN?=
- =?utf-8?B?NkZRZEpZVFBTZEFSRGhTeVlsS3B0bHgydkNXek1kejVVVjVvU0QyVnczd2lj?=
- =?utf-8?B?eXZseG5oNFo2SERVYllFcU1sRzVkTjRHM0dlandiZVFrUFJLZXRFdXFtTTlm?=
- =?utf-8?B?cldMdVdZS1lCb2N4SzhTeDJGVHJ6S0I2emdWaGljSVdHUS9KYUVrejhFSklm?=
- =?utf-8?B?MjlvdjVRYzZEbUwwb2VRaDFuak8wZytDYjluaERUT3NGdUY2aThmTHpHTXhG?=
- =?utf-8?B?MjRYRnUxbVNSVitDMENYUVFLamR1ZTFZMnY4dlo5YzVMeDFwS3pMTVNHN29C?=
- =?utf-8?B?NGhMcXQ2QWNJODFhVlVsTUlMcmptMVk2V0VNelpKRHROeTUxY0JLS2tqVnNF?=
- =?utf-8?B?YnlzWDZVNnpZVXNmU3BKVk1CN2hGdU9yeFY0eDdGbVJkOGU4Z2dpcDl5YlJF?=
- =?utf-8?B?c2tPUjd0RzhMcC9rVFk3Zk80Q0pnOHYzOE4xbDIvd1JBZllSSEhXeDdqUkhk?=
- =?utf-8?B?b0VVYVBqZXNRVDd1dm9ySDkxazlWT29FUW93Qlg5VVY4Mk1YSGdmS3NBVC94?=
- =?utf-8?B?Ujh3SG8yN1ZPRVZOR3ZPVi9FOVZOZWRwbWtlVnU2OStWcEYzSnlZVjV1N3lj?=
- =?utf-8?B?WGpSdUcvUzd1NU91U3Q1cmc2WHVqYW1jQ1RkdTA4QWUrYzVqbFE3M0IwM0VL?=
- =?utf-8?B?VFlWL0pjVHNnb01Lb0MrbHpVY2VvUXIrdHVnc0ZPRWZRcGRKTDlGeVlvbnVC?=
- =?utf-8?B?bERmWmQxa2g3Vmtvb21uRzd1NGNHYnlvc211TXUvVENFNFVtZUdGUkxvd1p5?=
- =?utf-8?B?emNnbUNkRmV2UUVleVJzeTZjQjRoOUxtZWFDWmlZSnBsbmJmOWhKRmZ1MDZF?=
- =?utf-8?B?U0RJVlozMU9WNWFjaTh0OW83NUdBWWRlTFdkYzk0SllxQnBkL0hMWnZ0eHR4?=
- =?utf-8?B?NW5MMS8xTXlaV29Jc2VsNlVPS0Y5bHJ4U1dQT3I5Z1dnOC9wNG90RjdDZ3My?=
- =?utf-8?B?SFVRb09LTXBuT1Y2Tk1HaXRkRjJmQkhYVVBodmF0dFpUVUdUV1B0TUZ5c0lp?=
- =?utf-8?B?ZjROam55M09KUm51Tll6ZXJ4QkxJNGFCM0QwU1hmcFIyNDBORkpoclErYXpR?=
- =?utf-8?B?N1hsSkhZb3JUVU1XVlMxS0JsV2VqRHVKWDZkekp5bTZyZHdwaFBlNk83NzVv?=
- =?utf-8?B?bC94Yi85aENSeVdKOXNuZmQ0ZFJxTDBZR1A0dS80cEpPekRPNHNPUlRqc2hC?=
- =?utf-8?B?bVZFdlBFTEJzRXRjdlZ3YlRXNXlOTUM3ZktJS2Fic0VQYXBYQ3V1d2tsL2Uv?=
- =?utf-8?B?MjRYVmc1eWUyVWJad0NVUHF5VUlsSE5kc1lOeWM2M0ZHY2pWd01aRkpTZ3dG?=
- =?utf-8?B?S3VWZVVNZXJZUGZacnFmN0J2d2FpVHYvRk44enU4WkpEd0FvS2xnQ1BCYU15?=
- =?utf-8?B?VmhORXZTd3NRaGNlT2JNUU1TOWdCTVVLNWczQzZqazh5ajhkY285TXgwNzJa?=
- =?utf-8?B?Qk90RTdNREZnT2ZLeXNXZ0tMMVlaMWlMU29MWDN2Szl3dmx5UXM3dEdJdG1C?=
- =?utf-8?Q?NquaztH7zhBXPZ8qwewAT17m54ktmidT?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8585.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(1800799024)(366016)(10070799003)(19092799006)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?QzZFaDVYMm9IVFNELzVXbEMxWmVBL1dCV1ZibFdQRkE0VUhDbG5JQktGcWk2?=
- =?utf-8?B?MkJNWnF2TUI3RkFTZkZhTmE4M3dmLzM3R2pEOXdaZW9EdlRDUTQ4QnFEeVhQ?=
- =?utf-8?B?R3lLcytDVDVPN3RLbWZqRjIxbE92SjN6VWM4bUo0TXp5NkhOQm5xL3dIajha?=
- =?utf-8?B?alMrR2grQWdESTR4VVF2cVg1eXRDSk8zbUNlckJNaWJYVStHS2RtRXNQZ1ln?=
- =?utf-8?B?bWNJK21kWWY3T2ZBcWRESlYwQ2xSZmNYdms2bThtQ1pNSkk5c0d4UEFPV1R0?=
- =?utf-8?B?ZTEzd2U2TWZyWTNlempHdDVVTk9LaW0xM0gyeGFHRGJ0WlNVWkZVVzFZZndQ?=
- =?utf-8?B?cWZwaTZhajN5bGw3OGRFZEYwVm13aHB6T1RTMlI2WlB4akIrcnlDcXQwY2sr?=
- =?utf-8?B?cXB1dkQwVkE3eXRnUlZyRXVOUUdGVnNUT3EyQXRkaEN0cGlMNzhGMnpBSXk3?=
- =?utf-8?B?WFJ1L2R6QmlUWVV2RURCTDgwczNXb3M0NElLYUE5SG9idVQ5K2dkaU5yQ0p2?=
- =?utf-8?B?dVFXcFJ3SXRxdnFHcXB0WTN3dGhmRzdvd2thZHNLenM1cVJucGpsdnVHa1FX?=
- =?utf-8?B?c3JVYkpJeFBHbkUzSHFEWEpUQy9za2E2VTZrM2lkY2crL2ErdHdhNWYrVURm?=
- =?utf-8?B?UGdYSDMwbDdBZHR4ck9KYWJoRktsV3grOExpdWtabkNYa0NNQWYrZlkrOElU?=
- =?utf-8?B?VS91c0JCRm5mNTVDMGc3L0FUMndnMHBFaStkenhEeHB0VERIU0JuV1RqaE12?=
- =?utf-8?B?MnBiQnBEUEc0T1JmUEtJeGdjMlBRRTlrK0xUMEYzUllnaWpGeU5ESTUrY2sr?=
- =?utf-8?B?RnJ1NmFxS0d4YnpFbk5iZ3ZkZElRU2N6eE95VkFHUER2NjVkenNUSm5iWEVt?=
- =?utf-8?B?UEF4cUU4ZStsZ0d4T0dVMWFvUHNQUnFHR3ZWQi8rdGJMeG5yK0FpcXNSemg5?=
- =?utf-8?B?c3oxcHpZRGpjS3hoTzlGZytraWpFaHpxcVNnNTVja2tVcytjMXh6bXpCbGdV?=
- =?utf-8?B?K0NlZlJlTjFMVlZwY3QwUHMxSDNGMEJma3pKdmpqWll3bjIvM1hNOGlRbG1o?=
- =?utf-8?B?Q3VWZFh1YkUvbVRaRDdvcldXUUg5WGFFWHZCUjhaN2hVWTdmem5tYmZWeE1U?=
- =?utf-8?B?WWZMMlRCbkRJNWdRY0I2Umw0aDNhcHZZbWxpUENMUUJsaDBaVko3SDB2Y1hv?=
- =?utf-8?B?cy9UQkJ2NnFvSGNqQ2hnWGpuUW41c3NBREJYdFE0cDZ3eVJlR0pHaWpIelVT?=
- =?utf-8?B?RkxteTVaaTdkU2tpUklPdnZFRkZKWW9Qd2hKMWNYRW1zUE15L004aE0yWjd2?=
- =?utf-8?B?YkFheTIzYVMrTE85Z2RVN1RUdnB1Y085LytGeWJua1pRb0REZEt3ZDJkTzdz?=
- =?utf-8?B?QnpkOTNpYnVEV00rRjJ1QjUzZVNEWnIzQnA1UjBpYXhpZWJVcTBEYWQ2RlBx?=
- =?utf-8?B?Nk1lWk1BMDRJL0JHNVZyUmNIT01PV3VCSGgvNjBmVnZaeisrMDR5aE1LYWV1?=
- =?utf-8?B?OVJVMUJDWjRCYXl1WlpvSGJWSnB6SmplaWRLU3FoUFZpdHhBOE9tOWZkRGJS?=
- =?utf-8?B?MTZPTUdyVEFwU043YVZzekZEZVlZeFkycDNtZXV1dkEwNjg5REJtU3I5anYz?=
- =?utf-8?B?Z2M4cXk2VlZpS0hhQkNMZktFYjRMMUdxelQra3B6ZU9MeEdyZXduZE1qd3ZE?=
- =?utf-8?B?RWREUEdpRnk2RXlyRENtTFNZRDN4dHhZRk5PRnJ4enIzOVFTMXAxRCszTnpZ?=
- =?utf-8?B?OUdkUkszT25meHhsblpBQjBEd2VnQUE0eXNwdlo4MXpQWUErQnc0KzFlc3BG?=
- =?utf-8?B?UEdqczNsVkI0dzltWHNEWEFwNEV2SWRnTC9CSVlJdXU1WkxjV3VyYXMrT3p2?=
- =?utf-8?B?ZmdTNnhTaWptQjdGeWZCNlJaOEpCQjdaTWp4T0NxSEZQZjJObk9hUHA4YUxp?=
- =?utf-8?B?d2xzK0xmOUR4MDN4cXk5SkoyYnE4eGtXWFBtTFp3VzZNQWNpY1VnUUZZOW0w?=
- =?utf-8?B?WDBrbTBmTVpOSXJwbXNSMDdrU2l5OUJ3akVUeGhheGo5SW9ibDFzcm1RSVFY?=
- =?utf-8?B?SG9VUCtjYndleTdVOE9LdXFjOHpnaTg3TkpvSWtlbWdNK1lQNDVkdDd2OUY0?=
- =?utf-8?B?N21xRzFLVmQ2bHRRZ1FCRUxNN2NFaHpLMll6Zm5TWTdRL3prVnlraElnamc3?=
- =?utf-8?B?U0FNdFNjQWhZUWJoTkdjNHNuTm5WSk4yR2ExU3RyWHd0UkhLNStoeEZrYUdH?=
- =?utf-8?B?VUc1MFJINW9aN3NueTA2SzQwN2dnPT0=?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4c8a4552-fb5e-4b5a-2048-08de2dadd1c5
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8585.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Nov 2025 12:09:30.6926
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gtu8RfGEwmgTz9lLVQerH2wtwSVdvaE1OKhIn5OpC4Grzkmzdq2a/qsEe1y5AdphnOdTJUVmgO9dbAgya3tk4Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB11844
+References: <20251126182257.157439-4-krzysztof.kozlowski@oss.qualcomm.com>
+ <20251126182257.157439-6-krzysztof.kozlowski@oss.qualcomm.com>
+ <CAMuHMdX7t=mabqFE5O-Cii3REMuyaePHmqX+j_mqyrn6XXzsoA@mail.gmail.com>
+ <dbb94fb1-2f78-4bd2-9254-c435ab3325c0@oss.qualcomm.com> <0e90817e-1c05-4fa3-a6fd-8e755608a2c9@oss.qualcomm.com>
+In-Reply-To: <0e90817e-1c05-4fa3-a6fd-8e755608a2c9@oss.qualcomm.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 27 Nov 2025 13:52:02 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX2qv2YBbvkM8tkSTWDPe-paMp5=fdv=4tGKheTseK9Pw@mail.gmail.com>
+X-Gm-Features: AWmQ_bkZiOzXPS0HFic3DjDBZhimEkCswEaupj15K-zH3plFs36PgNAI9kUlDvg
+Message-ID: <CAMuHMdX2qv2YBbvkM8tkSTWDPe-paMp5=fdv=4tGKheTseK9Pw@mail.gmail.com>
+Subject: Re: [PATCH 3/3] i2c: rcar: Fix Wvoid-pointer-to-enum-cast warning
+To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: Andi Shyti <andi.shyti@kernel.org>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, linux-i2c@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-The "a5psw" tagging protocol populates a bit mask for the TX ports,
-so we can use dsa_xmit_port_mask() to centralize the decision of how to
-set that field.
+Hi Krzysztof,
 
-Cc: "Clément Léger" <clement.leger@bootlin.com>
-Cc: linux-renesas-soc@vger.kernel.org
-Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
----
- net/dsa/tag_rzn1_a5psw.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+On Thu, 27 Nov 2025 at 12:48, Krzysztof Kozlowski
+<krzysztof.kozlowski@oss.qualcomm.com> wrote:
+> On 27/11/2025 12:42, Krzysztof Kozlowski wrote:
+> >>> --- a/drivers/i2c/busses/i2c-rcar.c
+> >>> +++ b/drivers/i2c/busses/i2c-rcar.c
+> >>> @@ -1141,7 +1141,7 @@ static int rcar_i2c_probe(struct platform_device *pdev)
+> >>>         if (IS_ERR(priv->io))
+> >>>                 return PTR_ERR(priv->io);
+> >>>
+> >>> -       priv->devtype = (enum rcar_i2c_type)of_device_get_match_data(dev);
+> >>> +       priv->devtype = (kernel_ulong_t)of_device_get_match_data(dev);
+> >>
+> >> Any specific reason you picked "kernel_ulong_t" instead of "unsigned long"?
+> >> The former seems to be the least common option.
+> >
+> > As I wrote in the first patch, because to my knowledge it is the
 
-diff --git a/net/dsa/tag_rzn1_a5psw.c b/net/dsa/tag_rzn1_a5psw.c
-index 69d51221b1e5..10994b3470f6 100644
---- a/net/dsa/tag_rzn1_a5psw.c
-+++ b/net/dsa/tag_rzn1_a5psw.c
-@@ -39,7 +39,6 @@ struct a5psw_tag {
- 
- static struct sk_buff *a5psw_tag_xmit(struct sk_buff *skb, struct net_device *dev)
- {
--	struct dsa_port *dp = dsa_user_to_port(dev);
- 	struct a5psw_tag *ptag;
- 	u32 data2_val;
- 
-@@ -60,7 +59,7 @@ static struct sk_buff *a5psw_tag_xmit(struct sk_buff *skb, struct net_device *de
- 
- 	ptag = dsa_etype_header_pos_tx(skb);
- 
--	data2_val = FIELD_PREP(A5PSW_CTRL_DATA_PORT, BIT(dp->index));
-+	data2_val = FIELD_PREP(A5PSW_CTRL_DATA_PORT, dsa_xmit_port_mask(skb, dev));
- 	ptag->ctrl_tag = htons(ETH_P_DSA_A5PSW);
- 	ptag->ctrl_data = htons(A5PSW_CTRL_DATA_FORCE_FORWARD);
- 	ptag->ctrl_data2_lo = htons(data2_val);
+I don't see that written in the first patch; it has the same patch description
+as the other patches in the series (mutatis mutandis)?
+
+> > preferred form for holding driver data which are in general pointers. We
+> > do not store pointers as unsigned long. It is also already used for the
+> > driver data types - see include/linux/mod_devicetable.h.
+>
+> ... and in case it is still not obvious: I do not cast here to final
+> type, because that cast is the reason for the warning.
+>
+> I cast to an intermediary type to help compiler suppressing the warning
+
+I know...
+
+> - to integer representing the pointer. Unsigned long is not representing
+> pointers in the kernel. Integer type representing the pointer is
+
+"unsigned long" indeed does not represent a pointer, but in the Linux
+kernel, it is guaranteed to be the same size as a pointer.
+
+'"unsigned long" is superior'
+https://lore.kernel.org/CAHk-=wj2OHy-5e+srG1fy+ZU00TmZ1NFp6kFLbVLMXHe7A1d-g@mail.gmail.com
+(he doesn't seem to have said anything about kernel_ulong_t)
+
+> kernel_ulong_t, I think.
+
+include/linux/mod_devicetable.h:typedef unsigned long kernel_ulong_t;
+
+IIRC, it was introduced originally because "unsigned long" might have
+a different size in userspace.  Nowadays (for x32), uapi uses
+__kernel_ulong_t, though.
+
+> Once you have integer type representing the pointer, you do not need
+> further casts to enum.
+
+True.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.43.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
