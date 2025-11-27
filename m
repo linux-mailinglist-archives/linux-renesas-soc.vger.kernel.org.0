@@ -1,47 +1,47 @@
-Return-Path: <linux-renesas-soc+bounces-25270-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25271-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74783C8E7A0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Nov 2025 14:31:32 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28A57C8E7AF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Nov 2025 14:32:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5B9043B30ED
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Nov 2025 13:30:46 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 37F103539C3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Nov 2025 13:31:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA4C527FD44;
-	Thu, 27 Nov 2025 13:30:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FF9828750A;
+	Thu, 27 Nov 2025 13:30:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EONxN74B"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="olDXfODV"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCE0827B357;
-	Thu, 27 Nov 2025 13:30:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66527287243;
+	Thu, 27 Nov 2025 13:30:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764250234; cv=none; b=nIJFCDfyCESVNeJPM4mIjAmU/eES26vNQMHnzXjGq3DivpOULCd+u9+ruhVQz98hha274+zd8NLc0vZEKf6FMl+fcKna3xyhTRTj8T/pAuZTya4DanmhI78PT0rYd9q/sptk5a6jIbwDGC6h2QuIskhUpVSJvKijNyhR/QG9J6Y=
+	t=1764250236; cv=none; b=aie2kdyfKJ+y5p9GY0nkoRwSMB1/lU2H7sk/0INPOYe/0DS9GGpyMytT48x4ZrUdopkBOPUKwwmYWDOdvZvaDkr6EDYgTqQausFagmynGWXOM4jZm7AygXgYBxoT+LLTWr6xOJ97tLPz7jXUNUU9BkZ+lf87flYCTKk4s7t2nj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764250234; c=relaxed/simple;
-	bh=cn9VrPGx8O8d67Cq596Nucl4T2GLkQ6vC881WnyUEDY=;
+	s=arc-20240116; t=1764250236; c=relaxed/simple;
+	bh=Iwo7c+gTV15uWo/DLGABqk68Tu9bHSjs5z33OjF7zo0=;
 	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=UiVTm9VMg7MJIyrzIaTsLjqi4CSmdsV8hZgssFP0wDvlYk5Wz+PANFNFnzCrhsG2oGKbNI/VA1+Ad2ouQQTMsqwiHwI7iCeI7+Y6VtmGYG3UpduYC+UksL3kpJZvyydN0qguTZ2oYa8bJHKVG+yc+VkB5pCpypXD99LZIK0lwCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EONxN74B; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40D41C4CEF8;
-	Thu, 27 Nov 2025 13:30:34 +0000 (UTC)
+	 Message-Id:Subject; b=r/OV3Fkqxg0jJ0uDIfmCgIGGDpEHQb+YPyf4Q8FOKg52IVO8P7cbcQYN2WFlkoP7oWOnVNm0xKPx0H/DMIHYomAQJKZyeobkmTiISH3D6yB4ZO6P8V+77a4oTobosMPjrzOUTorBkNfSXCPi3MWr8MnKa5wj2WRJQlzds4IPvPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=olDXfODV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A674BC4CEFB;
+	Thu, 27 Nov 2025 13:30:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764250234;
-	bh=cn9VrPGx8O8d67Cq596Nucl4T2GLkQ6vC881WnyUEDY=;
+	s=k20201202; t=1764250235;
+	bh=Iwo7c+gTV15uWo/DLGABqk68Tu9bHSjs5z33OjF7zo0=;
 	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=EONxN74BponLklBaZkMH8KM86rZ3lNcF/RhvEyMW0etFJXTAZ05DalnkSESNuB5/x
-	 N7p+UkAlhsFVXxEO/gDRIzQgvjSMLEVtPnkSQshArzLU8BiCOgfSDS5oRtg+SVPMpB
-	 YNFfVsUJZstuvpg8+ehymmX91Dth1zlsvkkDHtK0NB1N6e19MN/5P77BJAqxGfVJCT
-	 wYC7LrYl05k17vja2eqA4IJoVlq08MGnB+xzGvBFIXS4HGMOL2SzeHwKi0UJ67p7Ji
-	 boYE40kZVbCTQdH11Erhs+KwCg76zF6ZEzYtf0b1rc6XQT6JtK4WeIWVo98Gxn7hPi
-	 zGntbACHxZWVQ==
-Date: Thu, 27 Nov 2025 07:30:33 -0600
+	b=olDXfODVbYLJx3/tYA6VsaG6KrHqm4QcIkm7sAfnfuYxSpZzN18Fro96R600bEQq1
+	 EhuMYaGC8n1Jx3Ng1CVmX15dcZkIphAaaUfNV5Ejk15jno0NG6nQ/wUH4bCXK8ZaGq
+	 vDSAnrKQQNkp3Pd9ajobH1n33PiaB1C/F7ximvquzsd2USqfxcPRaga+zlwHuN8NtY
+	 3ohLbvSCyyd/QRdGMdwuU5rcQOjgK9TfnHNjoNlAABgsTd9DRbhpJTV/HX6CzR+X95
+	 fnnIKWtsf2ZJJBKeEgnml30rjMp2Zhh5nWcKuneL9VADb4Ap3HkOXkZEBLANC8tu1e
+	 0hSsqavHY2l6Q==
+Date: Thu, 27 Nov 2025 07:30:34 -0600
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -51,62 +51,60 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
- linux-phy@lists.infradead.org, tomm.merciai@gmail.com, 
- Vinod Koul <vkoul@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
- Arnd Bergmann <arnd@arndb.de>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
- biju.das.jz@bp.renesas.com, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Guenter Roeck <linux@roeck-us.net>, 
- Kishon Vijay Abraham I <kishon@kernel.org>, Mark Brown <broonie@kernel.org>, 
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
- linux-kernel@vger.kernel.org, 
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Guenter Roeck <linux@roeck-us.net>, Vinod Koul <vkoul@kernel.org>, 
+ linux-kernel@vger.kernel.org, Georgi Djakov <djakov@kernel.org>, 
+ Peter Rosin <peda@axentia.se>, 
  Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
- devicetree@vger.kernel.org, Peter Rosin <peda@axentia.se>, 
- Jonathan Cameron <jonathan.cameron@huawei.com>, 
- Georgi Djakov <djakov@kernel.org>
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor.dooley@microchip.com>, tomm.merciai@gmail.com, 
+ Arnd Bergmann <arnd@arndb.de>, 
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
+ linux-phy@lists.infradead.org, 
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+ Jonathan Cameron <jonathan.cameron@huawei.com>, biju.das.jz@bp.renesas.com, 
+ Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org, 
+ Philipp Zabel <p.zabel@pengutronix.de>, linux-renesas-soc@vger.kernel.org, 
+ Kishon Vijay Abraham I <kishon@kernel.org>, Mark Brown <broonie@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
 To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-In-Reply-To: <9848482be3655a9351a13cdbf815db6b556201d0.1764241212.git.tommaso.merciai.xr@bp.renesas.com>
+In-Reply-To: <40bb7feff08d6564dcccf50ff51bfcd3023b5ef6.1764241212.git.tommaso.merciai.xr@bp.renesas.com>
 References: <cover.1764241212.git.tommaso.merciai.xr@bp.renesas.com>
- <9848482be3655a9351a13cdbf815db6b556201d0.1764241212.git.tommaso.merciai.xr@bp.renesas.com>
-Message-Id: <176425022416.4101652.1368465209303910384.robh@kernel.org>
-Subject: Re: [PATCH v5 05/22] dt-bindings: reset: renesas,rzv2h-usb2phy:
- Add '#mux-state-cells' property
+ <40bb7feff08d6564dcccf50ff51bfcd3023b5ef6.1764241212.git.tommaso.merciai.xr@bp.renesas.com>
+Message-Id: <176425022557.4101692.10561712884961832980.robh@kernel.org>
+Subject: Re: [PATCH v5 08/22] dt-bindings: phy: renesas,usb2-phy: Document
+ USB VBUS regulator
 
 
-On Thu, 27 Nov 2025 12:48:32 +0100, Tommaso Merciai wrote:
-> Add the '#mux-state-cells' property to support describing the USB VBUS_SEL
-> multiplexer as a mux-controller in the Renesas RZ/V2H(P) USB2PHY binding.
+On Thu, 27 Nov 2025 12:48:35 +0100, Tommaso Merciai wrote:
+> Document the 'vbus-regulator' child node in the Renesas USB2 PHY binding
+> to describe the internal USB VBUS regulator.
 > 
-> The mux-controller cannot be integrated into the parent USB2PHY node
-> because the VBUS source selector is part of a separate hardware block,
-> not the USB2PHY block itself.
+> Require this regulator node on OTG channels to accurately represent
+> hardware dependencies in the device tree.
 > 
-> This is required to properly configure USB PHY power selection on
-> RZ/V2H(P) and RZ/G3E SoCs.
+> Documenting this regulator allows device trees to model the VBUS power
+> requirements of these SoCs properly.
 > 
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
 > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 > ---
 > v4->v5:
 >  - No changes
 > 
 > v3->v4:
->  - Switch back to v2 implementation.
->  - Improve commit body.
+>  - No changes
 > 
 > v2->v3:
->  - Manipulate mux-controller as an internal node.
->  - Improved commit body.
+>  - No changes
 > 
 > v1->v2:
->  - New patch
+>  - Collected CDooley tag
 > 
->  .../bindings/reset/renesas,rzv2h-usb2phy-reset.yaml          | 5 +++++
->  1 file changed, 5 insertions(+)
+>  Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
 
 My bot found errors running 'make dt_binding_check' on your patch:
@@ -118,7 +116,7 @@ dtschema/dtc warnings/errors:
 
 doc reference errors (make refcheckdocs):
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/9848482be3655a9351a13cdbf815db6b556201d0.1764241212.git.tommaso.merciai.xr@bp.renesas.com
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/40bb7feff08d6564dcccf50ff51bfcd3023b5ef6.1764241212.git.tommaso.merciai.xr@bp.renesas.com
 
 The base for the series is generally the latest rc1. A different dependency
 should be noted in *this* patch.
