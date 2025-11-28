@@ -1,57 +1,57 @@
-Return-Path: <linux-renesas-soc+bounces-25352-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25353-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87851C92BC1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Nov 2025 18:03:58 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEE7BC92B1B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Nov 2025 17:59:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D1BDC3B2C2F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Nov 2025 16:58:26 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id A9BBD4E5B55
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Nov 2025 16:58:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D1372F4A0E;
-	Fri, 28 Nov 2025 16:54:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 513042F617C;
+	Fri, 28 Nov 2025 16:54:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="2skVqUO2"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ZJRXdtVJ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB0A92F49F7;
-	Fri, 28 Nov 2025 16:54:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C5FF330B06
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Nov 2025 16:54:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764348853; cv=none; b=K96RDwsB7Qfp6uIveffXrgm7n4DlJC+AcTaAmCkZj+u/Uu+Dtt/FJzj2G28JJvaaiLWUR3ze4Tz6TUV2p9XGddQ9tp1+RWE/ID3ieA0DlEgu84ul/GNPlfEYGdtLx0xjj8dOChlDPMKFr0mJnGm2BpfnJBLp29TUfwiPk17cwts=
+	t=1764348862; cv=none; b=Ci7ZWlAacJbx12ANxtoL3/US1xZlTb7Zw00jGNLb6GOi+NVdxnOq69rP5LHMPMpHEPVh7mSAL/KMUat3hx7od+zpSXJUmALtaSzUf1RQj0Jy4w5jXLUAdQY6rfzshpBlof6lYRNDEDJ0C7CP/6XyM2U5vWQBy5or/UE4925s74Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764348853; c=relaxed/simple;
-	bh=QslyN0LXfSiI9HAiT7HMIQq8bBQnK8kDKTZ2LrRWj3Q=;
+	s=arc-20240116; t=1764348862; c=relaxed/simple;
+	bh=Q9kayNqF9azFJ6cPzl47mPimmHyuw46QpsZzx41o/4c=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=tFvFhvdNek30zxifhp1MNxnT0RQtLSIiQUrUUpkIJ6CzNhsbWDw+zUZExClQ3nKocg5f0NKvuYNog52pyKTtNlpe0KtekxTg4QRiYYUVO3J5HghgtqeR2EkXh/gzB37BZn/Rtn8rcGmOiYEMcgA9dpsP8TIi5EmKn3G1alPJDO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=2skVqUO2; arc=none smtp.client-ip=185.246.85.4
+	 In-Reply-To:To:Cc; b=Gv5QVDqp8OgKVizARaZ+EqgIuQveogvEy0T7UzTyOCKxmEbzD5IeanIx8vs5djKo0fSYRQasastqLiVw9wAXYMIIkN+lq6pDM+hCi701KqfWqQI6XhetH1xwiCHV/m8OUAw/cWDziA3tetypyzfhwROn4xc2Ef8vPCCcudKmaqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ZJRXdtVJ; arc=none smtp.client-ip=185.246.84.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 606C14E4194E;
-	Fri, 28 Nov 2025 16:54:10 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 8277C1A1E09;
+	Fri, 28 Nov 2025 16:54:18 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 2C14D60706;
-	Fri, 28 Nov 2025 16:54:10 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0EEA610B02187;
-	Fri, 28 Nov 2025 17:53:59 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 4F4E160706;
+	Fri, 28 Nov 2025 16:54:18 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C8D2A10B02189;
+	Fri, 28 Nov 2025 17:54:08 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1764348848; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1764348856; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=P7PuQnrr2U0mS6+K0q3iGdpY5r4F/rhA/7tugsaTWHQ=;
-	b=2skVqUO2wpq9PHtRVHRtqRhujv2FbueuNpP1H5JWR6CVK7xatL4uwySXumc3/taO9CvVMb
-	acdli3XiqiV9CdPG5t8Qh3060lAfnNWjI2VPpk8RzD30MX13YdAas9gX/xJI+V5stGJ9IF
-	QMH5qEERVOgRkIBJ381RLvqZ46+x/Sv0HHJQUeu21s2J1xRIOi9XngP+WMtr6FzDBX329V
-	U87a1CUVxVq3zlNfVkGzc1y+sh9gaBb+ChDYlklggLCAaOMizlEfNE4HN5DHjPnhCkjqDX
-	xtna16A1xSoMZcoauwJAsmEKEJxKySi463KCX3OOU9NqVtVl/UJy/drjwNFnOQ==
+	bh=5WAdl9mF/5vmOeq7HjMbS/w4YcaMEw0PcVLTVO9N8Bg=;
+	b=ZJRXdtVJ+OtHF5FjaXM78TLQNKNjEsmYao6LihS0FqfEsa3rxyeylnvgf0yQdP4kGfGRN+
+	dx+RmgVTwOX7KcHCMkjxLsSepp6Aws+MkEnhswjWuZ99+7PhAECdC3WGz0mkpKngocZRyC
+	fb1lxDLX4ahZyiXxMbPybSYnGIkSdSdyftsaRZvTfhBFpRB3ZSLCLbftxY5oiB0uRtva+h
+	91uqysczMslvOk4r69/DYMDImuw+z/yKbz3c/38+D0Uu5/U9tp3VxPUmqr44DwPgfzaWFM
+	a4pva8vH1LOSqyG03DDkRi3l0g7zSo4EdrmPcSVcCwQOeEoPrKiKafFuunB4oA==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 28 Nov 2025 17:50:26 +0100
-Subject: [PATCH v2 16/26] drm/rcar-du: lvds: use devm_of_drm_get_bridge()
- to put the next bridge
+Date: Fri, 28 Nov 2025 17:50:27 +0100
+Subject: [PATCH v2 17/26] drm/meson: encoder_*: use
+ devm_of_drm_get_bridge() to put the next bridge
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -60,7 +60,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-16-88f8a107eca2@bootlin.com>
+Message-Id: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-17-88f8a107eca2@bootlin.com>
 References: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-0-88f8a107eca2@bootlin.com>
 In-Reply-To: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-0-88f8a107eca2@bootlin.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -110,22 +110,50 @@ reference on remove or on probe failure.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/meson/meson_encoder_cvbs.c | 2 +-
+ drivers/gpu/drm/meson/meson_encoder_dsi.c  | 2 +-
+ drivers/gpu/drm/meson/meson_encoder_hdmi.c | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c b/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c
-index 001b3543924a..2dd95fd52e71 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c
-@@ -740,7 +740,7 @@ static int rcar_lvds_parse_dt_companion(struct rcar_lvds *lvds)
- 		goto done;
+diff --git a/drivers/gpu/drm/meson/meson_encoder_cvbs.c b/drivers/gpu/drm/meson/meson_encoder_cvbs.c
+index dc374bfc5951..bf8588a5f6dd 100644
+--- a/drivers/gpu/drm/meson/meson_encoder_cvbs.c
++++ b/drivers/gpu/drm/meson/meson_encoder_cvbs.c
+@@ -241,7 +241,7 @@ int meson_encoder_cvbs_probe(struct meson_drm *priv)
+ 		return 0;
  	}
  
--	lvds->companion = of_drm_find_bridge(companion);
-+	lvds->companion = devm_of_drm_get_bridge(dev, companion);
- 	if (!lvds->companion) {
- 		ret = -EPROBE_DEFER;
- 		goto done;
+-	meson_encoder_cvbs->next_bridge = of_drm_find_bridge(remote);
++	meson_encoder_cvbs->next_bridge = devm_of_drm_get_bridge(priv->dev, remote);
+ 	of_node_put(remote);
+ 	if (!meson_encoder_cvbs->next_bridge)
+ 		return dev_err_probe(priv->dev, -EPROBE_DEFER,
+diff --git a/drivers/gpu/drm/meson/meson_encoder_dsi.c b/drivers/gpu/drm/meson/meson_encoder_dsi.c
+index 6c6624f9ba24..6304f51a7e7e 100644
+--- a/drivers/gpu/drm/meson/meson_encoder_dsi.c
++++ b/drivers/gpu/drm/meson/meson_encoder_dsi.c
+@@ -120,7 +120,7 @@ int meson_encoder_dsi_probe(struct meson_drm *priv)
+ 		return 0;
+ 	}
+ 
+-	meson_encoder_dsi->next_bridge = of_drm_find_bridge(remote);
++	meson_encoder_dsi->next_bridge = devm_of_drm_get_bridge(priv->dev, remote);
+ 	if (!meson_encoder_dsi->next_bridge)
+ 		return dev_err_probe(priv->dev, -EPROBE_DEFER,
+ 				     "Failed to find DSI transceiver bridge\n");
+diff --git a/drivers/gpu/drm/meson/meson_encoder_hdmi.c b/drivers/gpu/drm/meson/meson_encoder_hdmi.c
+index 8205ee56a691..e2a871347136 100644
+--- a/drivers/gpu/drm/meson/meson_encoder_hdmi.c
++++ b/drivers/gpu/drm/meson/meson_encoder_hdmi.c
+@@ -390,7 +390,7 @@ int meson_encoder_hdmi_probe(struct meson_drm *priv)
+ 		return 0;
+ 	}
+ 
+-	meson_encoder_hdmi->next_bridge = of_drm_find_bridge(remote);
++	meson_encoder_hdmi->next_bridge = devm_of_drm_get_bridge(priv->dev, remote);
+ 	if (!meson_encoder_hdmi->next_bridge) {
+ 		ret = dev_err_probe(priv->dev, -EPROBE_DEFER,
+ 				    "Failed to find HDMI transceiver bridge\n");
 
 -- 
 2.51.1
