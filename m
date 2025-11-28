@@ -1,56 +1,56 @@
-Return-Path: <linux-renesas-soc+bounces-25343-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25344-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26790C92B48
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Nov 2025 17:59:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3B5DC92B5B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Nov 2025 18:00:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 57D4E3AF483
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Nov 2025 16:56:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9A8EB3B0FFD
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Nov 2025 16:56:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AD1C2DE6E5;
-	Fri, 28 Nov 2025 16:52:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 692CE2E0926;
+	Fri, 28 Nov 2025 16:53:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="qaUFHYqr"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Wtf07Cuz"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C4D12DE1FA;
-	Fri, 28 Nov 2025 16:52:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EE182E0916;
+	Fri, 28 Nov 2025 16:53:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764348777; cv=none; b=Z5JnxnxI8EPb9QBgDrnG7zkFtJUMactq4yH1nxr/r0GOSUaPn8Mnpsjwa8QCIY5l62E8NRbUdK8blY6O4AmfXsUuW5cpEcdFGxkNmgvlmdA/Jeadhx/liIfl5aLhOOMuU7sUtLtr3D59w/e598PDWWkiIjWHQoZsFCUQEr0FKTI=
+	t=1764348785; cv=none; b=s9zHFNIkejaunxzqIeZV3wQ7DGsl05iyU/qSCepAbeCSpVUwKo+IuORZroFwq2SFuViF4rycZcaGQf05xd1qpzfEUkK/Tx9oN1JL8wDh3a7mUPKALKOfaBlZavxn0RWbYlGBjIAG+vNhpydHyXYm8Cb/BxXP75zLeD9H+6lRyow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764348777; c=relaxed/simple;
-	bh=T8JrwxQ7fDNNROC29YYQQo97Y8erINbFcI/5GR1/gG4=;
+	s=arc-20240116; t=1764348785; c=relaxed/simple;
+	bh=mYjyD7YGZFhEgpqJaimJRzZNyqkDHqI+EStwvRysink=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=FvB2UJ/lndn/8MQLMgWYvWx/LfWQBiqFAseLe/p3AAk3Smk0fH7q67o0zKMGNgkv09aOM63T/mv+SwSyeFuC3U3ew474sOD/+akper0+a5akdEOlHesazcgwB4bNKScyYbp6bfXi1sTJZ4ohm4+EsQkB9leKgkT4Jb2I7MImwrw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=qaUFHYqr; arc=none smtp.client-ip=185.246.85.4
+	 In-Reply-To:To:Cc; b=Er6bfvp3KNDWU/9vyqG9xl4Zb9qaEdQRICS/iW3T8xxm/nS++0qbyG9FH3LjKjXzzO6wor2DRW2V5xYiCNISt6wweLXUAvJNcdbFfNGQckzABnTGXUTT9BUo24HLQEHUasZ+kttRZa3W0i1beEU54JodlvRgR73g8RmGimw+xF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Wtf07Cuz; arc=none smtp.client-ip=185.171.202.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 1EE164E4194E;
-	Fri, 28 Nov 2025 16:52:54 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 7EEDBC16A3C;
+	Fri, 28 Nov 2025 16:52:39 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id E4E0160706;
-	Fri, 28 Nov 2025 16:52:53 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 26DE410B02184;
-	Fri, 28 Nov 2025 17:52:43 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 67B0F60706;
+	Fri, 28 Nov 2025 16:53:02 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 7757610B0217D;
+	Fri, 28 Nov 2025 17:52:52 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1764348772; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1764348780; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=2R1k7/cM+8gXlccQ5t0BIuHT+xKlV4PB4qZD3366o/Y=;
-	b=qaUFHYqrMUvBCrymXYqvL+iJL2jmx6+YFU6veeJBsIArxKPk3IZ7k2u+TTEkBwdch3Vio4
-	s/YiK4z3yHkvH341G0JvFno+Rd8qkIulFBELHs1Obpxet3MXmUNDuG/3q0oPfc8c2tLbcZ
-	29tcw/FPSzLFXnIBp4WwVAYpF2Ko28HzGDsEX4FCJ6y9LXqzq/Mb792t7acydTZ83fDEKf
-	aIEhmU6k0BJSDgF7YY45M0IPPvz4f2zyZlN4yswWQ1OPEwu2lULSq25XeRDD7/DOGY9Yw/
-	DuJ/17cf3TqZ08rl3HkSYLPVO01vawayDGTc/FP5SwutGqTNmWxcX4bkTm02PQ==
+	bh=D7NDMXC46iSRFy/DQhjPUMvEPwiCYwSti9kYbbDSyE0=;
+	b=Wtf07CuzWvEGsEMkj5BTBvjkossE2Ct5924MXtghus93ZBdaBc074u+0bcxpHVrfL4ECmE
+	pI/mew76kd4J6Mov+6b5FY6oemrPDB9/nEiNU4KsqU6Q28mstUP8MpxaH6+EtWQVt8axS6
+	8zVkzuAdVLb6oHrUd+O5bst1babEv0Izk1ZjbB/P13yqMQUTx3R8t7aCu9hmdxuZIKM89x
+	5uQNL8xcoUhUmnYZHRQAGn3MODcZ0ToFOOpoXeLvR/WCw+lGgoMMm6kKjGFxZdqB/rP5Cv
+	hOgshXKzP/aOsn8UzDlys8sbN98Qhdp2TEDNlB1bncvlXMJ7GV5MN+LDhdZuTg==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 28 Nov 2025 17:50:17 +0100
-Subject: [PATCH v2 07/26] drm/bridge: ite-it66121: use
+Date: Fri, 28 Nov 2025 17:50:18 +0100
+Subject: [PATCH v2 08/26] drm/bridge: imx8qxp-pixel-combiner: use
  devm_of_drm_get_bridge() to put the next bridge
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -60,7 +60,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-7-88f8a107eca2@bootlin.com>
+Message-Id: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-8-88f8a107eca2@bootlin.com>
 References: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-0-88f8a107eca2@bootlin.com>
 In-Reply-To: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-0-88f8a107eca2@bootlin.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -110,22 +110,22 @@ reference on remove or on probe failure.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/bridge/ite-it66121.c | 2 +-
+ drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
-index 0185f61e6e59..b7bcdd24af9e 100644
---- a/drivers/gpu/drm/bridge/ite-it66121.c
-+++ b/drivers/gpu/drm/bridge/ite-it66121.c
-@@ -1543,7 +1543,7 @@ static int it66121_probe(struct i2c_client *client)
- 		return -EINVAL;
- 	}
+diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c
+index 8517b1c953d4..ec2122c459e0 100644
+--- a/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c
++++ b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c
+@@ -326,7 +326,7 @@ static int imx8qxp_pc_bridge_probe(struct platform_device *pdev)
+ 			goto free_child;
+ 		}
  
--	ctx->next_bridge = of_drm_find_bridge(ep);
-+	ctx->next_bridge = devm_of_drm_get_bridge(dev, ep);
- 	of_node_put(ep);
- 	if (!ctx->next_bridge) {
- 		dev_dbg(ctx->dev, "Next bridge not found, deferring probe\n");
+-		ch->next_bridge = of_drm_find_bridge(remote);
++		ch->next_bridge = devm_of_drm_get_bridge(dev, remote);
+ 		if (!ch->next_bridge) {
+ 			of_node_put(remote);
+ 			ret = -EPROBE_DEFER;
 
 -- 
 2.51.1
