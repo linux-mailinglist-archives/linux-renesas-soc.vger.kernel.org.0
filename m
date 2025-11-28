@@ -1,116 +1,179 @@
-Return-Path: <linux-renesas-soc+bounces-25315-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25316-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16834C9124A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Nov 2025 09:29:12 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5CE7C912D1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Nov 2025 09:34:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id B596D344C9E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Nov 2025 08:29:11 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id AFBBB4E1202
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Nov 2025 08:34:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56F602D640F;
-	Fri, 28 Nov 2025 08:29:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78ADD2E7F20;
+	Fri, 28 Nov 2025 08:32:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="nzlVfA/3";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="i3c6Kh98"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF2A91D432D
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Nov 2025 08:29:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D9DF2F068F;
+	Fri, 28 Nov 2025 08:32:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764318549; cv=none; b=aE8IqegwBVTU41+WgX0p7c1NqJQjZy0joJJLHTsF5g+Y/y+Kkbi1Awu74+AOPSpXMmryZ53bnZ6aeFFDOdmkIZySUoRoe3V2b5J5gjZ2UGbmEPi15z9oFIv58mzaDMU8E9PvqFyBQ6+hx8laYY+mTxV6RUul4p9AjLVmej/UzR4=
+	t=1764318779; cv=none; b=ZXWoYLn9RW5Xy/BeZoja44ECPPzIQBBKeHUfoifHOqkMEq8ijx/w7CZW76n9lgk/kmtlFB1f6+q2EfYYhLsIAQYH1JjqhSfZcSb/de5itvjT8Oz2gjtESh7Rmacvwn1vHjfqJR2FkQmT8qkndKwNHrZz6ATamIgpIHl22OSmIlU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764318549; c=relaxed/simple;
-	bh=0ZgCTv/Geux3x3SUFX8YOIFnK7oyYlxxmU4d1i7olsY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=b9Kg6QLHKwPzx94zT+GEjkrKDHypdYwt5E0Qft/YPATDTqMXhpwGzxZSfdAqi78/GtuALAGWdmY1MI2ZZG/nO6KNuIaBxuaRh5nLgsnslxGAhx8Awjm4d7e19uyZseye0AiXlV+fILU948By/b3cD+IZNOW5jiXaqjhgkGVnxcQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-55b26332196so416731e0c.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Nov 2025 00:29:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764318547; x=1764923347;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JdpMn32zBbLdSwv++ygUci+KXGTrW9TQWy7WAC04eCA=;
-        b=Z0EPDnXEmRUXiXc7jDdXdZTnnpfrsRuMdPLm0sNd+FDO7BOnhcX/IYCcCysEtwZQsi
-         DL0dg8zMV9e8azMD5XG+3jtL16PtpdlrT2seNWv5leN6rxd0k468+kPjIOltJUYmmGEQ
-         rcQ8j8v+F7SLSF7o/df5OUdL51Zii3o77o/NW8SAKW5FZ8QgHefyLceuPy44XfjoetEo
-         LrymgNECIrDD5EvPahTxmtUR/TaKqEBBQkFswyVxYxukC2xzm9W5OkWK6SSL4nvI3rNS
-         UZ7K/nbVsx/xquhLF70aqunsg+ow7zCL5ikx8epSSeQpyGm31nIe3/LNrPTJVKtAROfE
-         dpRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWws7zVrLXnpsSxVDZlu4FW3Zv7Oc2/muAvyLO1jzxRyck/YuGB5HpR/sDPMWm8Or1wuiwereHovTW2JmzFpyRdJg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyvG66j44uXq4Lysr7Gk+9LTx8sCZNSYLBAKueMtQV6TENqOq4h
-	kwxGNjZEm8WKdIRt7WVdkinFwTWCfS2hlMJvXkoS7H2rxVmU1Y9+VAap7mAAFt95
-X-Gm-Gg: ASbGncuAVZOyRuFWRkw3YA+Sou4VbkD/Jvwjf5deBKxK67Gen8UrhrnifAJkbDoS389
-	CivrK0aP5yzX4z4yUcutpmRCeSsHsl81eqC5mTJmth07v+4zTcCkt1VvXjsgMNnwHDTaUyNdClH
-	gARWzDph0j31MInIGoVywtOoeRPvk8fXNX0wcGMP3hxrk+4VjYaZiPNsrDmY5ryhyyYAPaFaWyn
-	4TzUf8jk9DO6Wf1+lL1UoOu4/ndltDVervfz4zfQnt/0X2eHlm1ZdpjPbC6wjdiT/IGa9XkF0xr
-	GEecH2/65ZDAyLkwmsTXgs0DG1KnLwZ2spR3z/LXatQdHUrzyat1YoR0PS3WnVKCFxLo5kSI/oX
-	jsHLQi18+pOFNxmS1eV58C/yEVukR7OySNiJWrq7vYwobYEtr5ayrv8748I3+IU1RIqDhalGydd
-	2qEbzdNVLpFrF91bmM+CYzkJKJQgAzXMuisfaC2ijPVE5DINbo
-X-Google-Smtp-Source: AGHT+IFsd+JG7s3gor+3tgAvvw8gB92/kNiGjgjio+wTQnjpftQqH3Pd+ARiZ1eL5iTCkTJr1gI6Lg==
-X-Received: by 2002:a05:6122:4886:b0:55b:305b:4e48 with SMTP id 71dfb90a1353d-55b8d7ca793mr9093302e0c.20.1764318546672;
-        Fri, 28 Nov 2025 00:29:06 -0800 (PST)
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com. [209.85.222.44])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-55cf516c7c5sm1501389e0c.17.2025.11.28.00.29.05
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Nov 2025 00:29:06 -0800 (PST)
-Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-9372a52af7eso426958241.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Nov 2025 00:29:05 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWqpoSeJHrWz5JDn3Lx1iIHL42gNo/Sx1TELR+crDPJU9ff/pllk7p8o9wfXJoPG3yEHhW41Ap7/5NEsG/YvOSlRw==@vger.kernel.org
-X-Received: by 2002:a05:6102:510d:b0:5df:a914:bbdf with SMTP id
- ada2fe7eead31-5e1de2fdf3amr8043647137.27.1764318545497; Fri, 28 Nov 2025
- 00:29:05 -0800 (PST)
+	s=arc-20240116; t=1764318779; c=relaxed/simple;
+	bh=GZe/v+f21miE6jwGDxB0JgNCt2b8HMHU3iLRJlILIbM=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=Cs8U0pUx0JxFcIXGgpRLMHWJta96sCn3fm89oS5ySAJVngJ1ous1/UsfoBN3DTKEh89ECCfJZhgxBSkmVsgTxAigFu0k0NoBIrLsTFJ6sx/VyQJWG1uShiHhbY3m7E290VD9WOecZKz2sC/MQtjjn6uXL0lSRBFk8WKO8yKOB/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=nzlVfA/3; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=i3c6Kh98; arc=none smtp.client-ip=202.12.124.153
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id BDA2F7A0091;
+	Fri, 28 Nov 2025 03:32:55 -0500 (EST)
+Received: from phl-imap-17 ([10.202.2.105])
+  by phl-compute-04.internal (MEProxy); Fri, 28 Nov 2025 03:32:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1764318775;
+	 x=1764405175; bh=kogOAsk7EHkBu4pG8vuz1bS7JaOBQWLpoPmvg+ym7YE=; b=
+	nzlVfA/3OZQIuywd76bGz8JzFboPENe5gbbTlfz2HUXVglJowS9gHVykTGxJh5WF
+	gQBzGQBiZiqx9ig3c7rEx4XBZ1tFHH04tAImabugQVsp92Bk7Pv8LjRlvXd+o53K
+	mkF+1xRfZ7e6zOcpNMoONrUF+H7wJnEyp4HonbgYMmjvmvd/Kll0SmL4EOfiRBex
+	eLQaVEChSI+kGFcM0gDwMR3arwBv+eEtgKY1ItROz28hSXLAQ9BGRifreDeeQDSY
+	LltwJEVYroKpEOHUQS38JG93mRRjnsfiwvmcNX6Q6wLqPf6UAR5qRtO42tK085t7
+	JQqRn0eWeNJ4VTTLjL7GuA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1764318775; x=
+	1764405175; bh=kogOAsk7EHkBu4pG8vuz1bS7JaOBQWLpoPmvg+ym7YE=; b=i
+	3c6Kh983lrsY70zS0DQt5mFiy7/v1taLdNQjD9CoCiBbdu79IjCWiBOw4Y8R3LrM
+	99GZW3IN63UX2iZV+9mEV4P3UWBMLSzRO9hvGToU6mdUj+h3SKdDLla/kfBc0Mjd
+	brvgkYIx0ywqJXmq5rRko7Gru5lDi3C4BU3om2I1mqHeE4Y73eGzjdxVewZtO21S
+	1Lph6c2SG2FGEoM+c7DGDOIOTRPPE1R41h9rlelUKjyiMtZlDcZFiW0f69hzLhdJ
+	7hGBzbKSw68R5NU9HQkY2I1onQF/w/EJoWQo1qm1F/WjMOYmokhyFairT08/YC8s
+	A+Bqro5pcUiLDTmELRUWg==
+X-ME-Sender: <xms:Nl4paZJRaokGWEiUjINohNKSJ3PEZLvn4zXqbgQ0EhmbojOB0iSy3w>
+    <xme:Nl4paf-6tLElgdqLoNbVfZ0m8CPzsTOL8eZwOFf1uwyeM2QVf1G0uMSF5kr9HYfWc
+    aoNd5CEHD9MSBCXJ2aCIQtITNuwoSeBkc-XdgfiT11ilv8uO-jyHg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvgeelgedtucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrnhgu
+    uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
+    hrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefggfevudegudevledvkefhvdei
+    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnh
+    gusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepudekpdhmohguvgepshhmthhpohhu
+    thdprhgtphhtthhopegstghmqdhkvghrnhgvlhdqfhgvvggusggrtghkqdhlihhsthessg
+    hrohgruggtohhmrdgtohhmpdhrtghpthhtoheprhhjuhhisegsrhhorggutghomhdrtgho
+    mhdprhgtphhtthhopehssghrrghnuggvnhessghrohgruggtohhmrdgtohhmpdhrtghpth
+    htohepghgvvghrthdorhgvnhgvshgrshesghhlihguvghrrdgsvgdprhgtphhtthhopehm
+    rghgnhhushdruggrmhhmsehgmhgrihhlrdgtohhmpdhrtghpthhtohepnhhitghkrdguvg
+    hsrghulhhnihgvrhhsodhlkhhmlhesghhmrghilhdrtghomhdprhgtphhtthhopehjuhhs
+    thhinhhsthhithhtsehgohhoghhlvgdrtghomhdprhgtphhtthhopehmohhrsghosehgoh
+    hoghhlvgdrtghomhdprhgtphhtthhopegrnhguihdrshhhhihtiheskhgvrhhnvghlrdho
+    rhhg
+X-ME-Proxy: <xmx:N14paShGrSc5yuHL98XPEheExHzuIVkudNwsBRs2A4b2fvUegpIY-g>
+    <xmx:N14paZ8skgNynHVvH-Sz_vBlIfFZnviHaNZmmGop4P9xLqmr8vDSaQ>
+    <xmx:N14pafIr149nS7jLJTB_xQ17EOf-xpTIGNud5jS0H8NdXihDORCw7A>
+    <xmx:N14paSZa5xNxbw-aeAWFKYObqF3QBTiFTS3nuaSvmBmn5MtfbLORzg>
+    <xmx:N14paWuDWqIE-gqMREuO9tqUfj1g3p39BG4OXBAuOrMW8QUF2ZsPLkD1>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id E485AC40054; Fri, 28 Nov 2025 03:32:54 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251125224533.294235-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20251125224533.294235-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20251125224533.294235-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 28 Nov 2025 09:28:54 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdV+zGd5vjw7i3tah_TEsC9K2QtV-SshTdfZHt0y4fhkXw@mail.gmail.com>
-X-Gm-Features: AWmQ_blxOjK2K0cDtOGsZALn7AfonTpGtKH-CtNYMSf-HQs578XzjUSEy8mUZ4I
-Message-ID: <CAMuHMdV+zGd5vjw7i3tah_TEsC9K2QtV-SshTdfZHt0y4fhkXw@mail.gmail.com>
-Subject: Re: [PATCH 4/4] arm64: dts: renesas: r9a09g056n48-rzv2n-evk: Add NMI
- wakeup button support
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+X-ThreadId: A9H3E49GtQH-
+Date: Fri, 28 Nov 2025 09:32:34 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Geert Uytterhoeven" <geert@linux-m68k.org>,
+ "Krzysztof Kozlowski" <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: "Andi Shyti" <andi.shyti@kernel.org>, "Ray Jui" <rjui@broadcom.com>,
+ "Scott Branden" <sbranden@broadcom.com>,
+ "Broadcom internal kernel review list" <bcm-kernel-feedback-list@broadcom.com>,
+ "Wolfram Sang" <wsa+renesas@sang-engineering.com>,
+ "Geert Uytterhoeven" <geert+renesas@glider.be>,
+ "Magnus Damm" <magnus.damm@gmail.com>,
+ "Nathan Chancellor" <nathan@kernel.org>,
+ "Nick Desaulniers" <nick.desaulniers+lkml@gmail.com>,
+ "Bill Wendling" <morbo@google.com>, "Justin Stitt" <justinstitt@google.com>,
+ linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>, llvm@lists.linux.dev
+Message-Id: <8ee7495b-4b6f-4ee8-82e0-a236d0be5c32@app.fastmail.com>
+In-Reply-To: 
+ <CAMuHMdUF9nTRkOOi+KnH2ATsFdTWMCtohWZQ1T_vhB=cf_42Yg@mail.gmail.com>
+References: <20251126182257.157439-4-krzysztof.kozlowski@oss.qualcomm.com>
+ <20251126182257.157439-6-krzysztof.kozlowski@oss.qualcomm.com>
+ <CAMuHMdX7t=mabqFE5O-Cii3REMuyaePHmqX+j_mqyrn6XXzsoA@mail.gmail.com>
+ <dbb94fb1-2f78-4bd2-9254-c435ab3325c0@oss.qualcomm.com>
+ <0e90817e-1c05-4fa3-a6fd-8e755608a2c9@oss.qualcomm.com>
+ <CAMuHMdX2qv2YBbvkM8tkSTWDPe-paMp5=fdv=4tGKheTseK9Pw@mail.gmail.com>
+ <ebb0d41c-1836-42d1-8406-ead97c4d6886@oss.qualcomm.com>
+ <CAMuHMdUF9nTRkOOi+KnH2ATsFdTWMCtohWZQ1T_vhB=cf_42Yg@mail.gmail.com>
+Subject: Re: [PATCH 3/3] i2c: rcar: Fix Wvoid-pointer-to-enum-cast warning
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Tue, 25 Nov 2025 at 23:45, Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Thu, Nov 27, 2025, at 14:46, Geert Uytterhoeven wrote:
+> On Thu, 27 Nov 2025 at 14:42, Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com> wrote:
+>>
+>> >> kernel_ulong_t, I think.
+>> >
+>> > include/linux/mod_devicetable.h:typedef unsigned long kernel_ulong_t;
+>> >
+>> > IIRC, it was introduced originally because "unsigned long" might have
+>> > a different size in userspace.  Nowadays (for x32), uapi uses
+>> > __kernel_ulong_t, though.
+>>
+>> Maybe, but if you look at the data structures all have kernel_ulong_t,
+>> so this fits the logic I was following here - I cast to the type which
+>> is both representing pointer and is already used for driver data,
+>> because this match data serves similar purpose as mentioned driver data.
+
+It is rather inconsistent: The __kernel_ulong_t type is used in
+include/uapi/ in places where x32 uses the 64-bit ABI, as the idea
+was to not have to do (much) type conversion there. This of course
+failed overall because any ioctl still has to be converted.
+
+The kernel_ulong_t as far as I can tell was only meant to be
+used in include/linux/mod_devicetable.h, with the idea of being
+able to interpret 64-bit kernel modules from a 32-bit module
+loader in userspace. I don't think the latest kmod actually uses
+it that way any more.
+
+>> I don't mind casting via unsigned long, but:
+>> 1. these are old and trivial issues,
+>> 2. they are quite annoying when people want to compile test with W=1,
+>> 3. I was trying to fix them (although not sure if for I2C) already,
+>> 4. and some others probably as well were trying to fix them,
+>> so how many people need to send them and debate before we fix them finally?
+>>
+>> unsigned long vs kernel_ulong_t is a nit-style discussion IMO, unless we
+>> have here more concrete arguments, e.g. statement from Linus that
+>> kernel_ulong_t is wrong.
+>>
+>> If maintainers of this code want unsigned long, please apply the patch
+>> and fix directly, but for the sake, let's get it merged...
 >
-> Add support for the NMI connected user pushbutton on the RZ/V2N EVK.
-> The button is wired to the SoC NMI input and can be used to wake the
-> system from low-power states.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Sure, let's get it fixed!
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.20.
+Agreed. I don't mind the use of kernel_ulong_t here either, since it's
+adjacent to the module device table entries, but I would also pick
+'unsigned long' or 'uintptr_t' instead.
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+     Arnd
 
