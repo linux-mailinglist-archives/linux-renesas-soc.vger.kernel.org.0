@@ -1,56 +1,56 @@
-Return-Path: <linux-renesas-soc+bounces-25337-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25338-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id E620DC92AA6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Nov 2025 17:56:33 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74651C92AE6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Nov 2025 17:58:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id D2984349E06
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Nov 2025 16:55:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E41F63AD549
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Nov 2025 16:55:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFAE32C0268;
-	Fri, 28 Nov 2025 16:52:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 995782C235E;
+	Fri, 28 Nov 2025 16:52:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ih3sJ1QQ"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="gTVRc4jI"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFC032C0291;
-	Fri, 28 Nov 2025 16:52:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C012C237F;
+	Fri, 28 Nov 2025 16:52:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764348727; cv=none; b=VDLk9qdIAT6MZQUS/ZH8KEEY7RsArTAQT0j+9IQyoWWPQOFRL/lhR0xy0KQzdgydNKhftCCwEr4pnqC99FBNhhgqJD2eCIszNn5m7cHFJbabVneTa4ZsueCt0WDWGWvjK3oBxX5eLFbSmdQdUgt+w3tOyV7h7p40KkwyEdeoobE=
+	t=1764348735; cv=none; b=PFUS8F7MiBZTecwMavaNg53gM66bDFYFOY5rc+HdC+ZQlDg7+doypVSOUWc7ZlitbuRqTyE87MmoY3J1HzLiBAG2HiZneq5km52xs8Ackjx/Sdkf7xEU2E7h0/CHTPOPS3BbEQ4EFyPLeCXhj5kxErqua4HAMW+00M2I0yoMVaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764348727; c=relaxed/simple;
-	bh=BgeiksXvcbQBAAosHRFT/5fu7ItKalzKmGLFN8CKQF4=;
+	s=arc-20240116; t=1764348735; c=relaxed/simple;
+	bh=a28O65zJJ8vlr1pJAymt5fViUg/VFCSTL4/O6DWmqX4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=F+OTf+B9pW6GayLceBTVSPHFYQl6XxL/NXVPPkfEiZHb8J6uoYQm5IJ5tLXTT0WvVVsefCV8/tubaNo4u/g8kzBo3Axkm7+EWUVOL6KHg+roiGfJitBXwyhkkuPvCQPLKu3yCnSoTjBFlxmMWPlqDU9Mbgb9/394oMDsmbhQsy4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ih3sJ1QQ; arc=none smtp.client-ip=185.246.85.4
+	 In-Reply-To:To:Cc; b=HNjVzi1vElPXEHZnX+//ygOcFVooN392OXdtxmhQ5IlRJlX+CiUpPD7p9rKkRAWfJsFeFYjrK7zCo2kdba64H8n6WpSxB5IHvMPTreX83I2MyIYzSa2rJ4SPbi2/L3Hnap2dN2/FgKOHWDOF1p/2YQSIZFJUBLA2+WrjvT+xwSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=gTVRc4jI; arc=none smtp.client-ip=185.246.85.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id E61A24E4194F;
-	Fri, 28 Nov 2025 16:52:03 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id F2C224E4194E;
+	Fri, 28 Nov 2025 16:52:11 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id B7B8D60706;
-	Fri, 28 Nov 2025 16:52:03 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id F058510B02176;
-	Fri, 28 Nov 2025 17:51:51 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id BE9DB60706;
+	Fri, 28 Nov 2025 16:52:11 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1530F10B02182;
+	Fri, 28 Nov 2025 17:52:01 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1764348720; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1764348729; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=bfxIpz9K+qEowy1gWs/Avt5i+RktBHE73O5CtmVeTcQ=;
-	b=ih3sJ1QQr8jd58rRt3K3muSKtKm0l7Jc24utlAvq+x8N8L0p3eklyeAqHH2jdPkAiHdSGn
-	0xf4rkSmj7tDAJJ1S+zWATM4xmTyRjSkArM4cjdeg84QjMKFjAQdUe3E5RRn0Mf3vDtv6K
-	vlt/SO/CsqxKtclMhdGoDOg1Pny5mn8JjbZPnk6OMW5YNU5KO652fgprJRRjvgqFiaBdmb
-	rAD+0R/E+sXveq4R7aizVpB7w+MCC1k9gDcKodQa7QS3OmvziuSjuBTh3MZkjmo/GFH3mY
-	Ib012tpfglMM+VDSOQcPghZKDpHbFcArJAfMi7qW1EYXZVnD72BIw+5DLicMFA==
+	bh=Dos6302sw2So3HCMKlOnU1oeuTLRBWiOqCj3ANH3duY=;
+	b=gTVRc4jIQbSVuZSruHuqCi4PEzEVqNIsOqB/pobzsLxJGQ/BX/lrepbwGEQlJUFaR5Uy8D
+	F65rtaYzVtWxJEn22HEHS5rPX7u5cfo+cd9VQbZeCpCFrV5961Gly1Dn/glTI5ltrUYah0
+	Pnx/W3GeunwEIZKKo4nJ/3AVAScQqKpb9nrNfrQn5+gSELusr5+TtPwSfjeCdZxPxDrlcc
+	Duiz45LTGQm0ePwiO9tq/e6aCfdoBw8revE9kSMKLgECBcP8UCofbbFN7zjEKtFpiQND7B
+	gDM3prJ3qXL78s9Sc5EzgPfdljim8S4SRk2mEtdLr54ihhUOVnAGhxXLvxlw+g==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 28 Nov 2025 17:50:11 +0100
-Subject: [PATCH v2 01/26] drm/bridge: add of_drm_get_bridge()
+Date: Fri, 28 Nov 2025 17:50:12 +0100
+Subject: [PATCH v2 02/26] drm/bridge: deprecate of_drm_find_bridge()
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -59,7 +59,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-1-88f8a107eca2@bootlin.com>
+Message-Id: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-2-88f8a107eca2@bootlin.com>
 References: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-0-88f8a107eca2@bootlin.com>
 In-Reply-To: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-0-88f8a107eca2@bootlin.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -102,14 +102,8 @@ Cc: Hui Pu <Hui.Pu@gehealthcare.com>,
 X-Mailer: b4 0.14.3
 X-Last-TLS-Session-Version: TLSv1.3
 
-of_drm_find_bridge() does not increment the refcount for the returned
-bridge, but that is required now. However converting it and all its users
-is not realistically doable at once given the large amount of (direct and
-indirect) callers and the complexity of some.
-
-Solve this issue by creating a new of_drm_get_bridge() function that is
-identical to of_drm_find_bridge() except it takes a reference. Then
-of_drm_find_bridge() will be deprecated to be eventually removed.
+of_drm_find_bridge() does not increment the returned bridge
+refcount. of_drm_get_bridge() is to be used as a replacement.
 
 Suggested-by: Maxime Ripard <mripard@kernel.org>
 Link: https://lore.kernel.org/dri-devel/20250319-stylish-lime-mongoose-0a18ad@houat/
@@ -118,75 +112,55 @@ Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
 
 Changes in v2:
-- fix "mutex_unlock() before drm_bridge_get()", and use scoped_guard() to
-  do it cleaning instead of complicating code
-- rename to of_drm_get_bridge()
-
-Note: a simple implementation would just be
-  { return drm_bridge_get(of_drm_find_bridge(np)); }
-but it would release the mutex before getting the reference, so it is
-not safe. Make things simple by duplicating the code. A later patch will
-make instead the (to be deprecated) of_drm_find_bridge() become a wrapper
-of the new of_drm_get_bridge()
+- expand comment to mention why this function is dangerous and what users
+  should do about refcounting
 ---
- drivers/gpu/drm/drm_bridge.c | 25 +++++++++++++++++++++++++
- include/drm/drm_bridge.h     |  5 +++++
- 2 files changed, 30 insertions(+)
+ drivers/gpu/drm/drm_bridge.c | 18 ++++++++++++++++--
+ 1 file changed, 16 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index 8f355df883d8..367b7a3d8aa3 100644
+index 367b7a3d8aa3..21a84715d221 100644
 --- a/drivers/gpu/drm/drm_bridge.c
 +++ b/drivers/gpu/drm/drm_bridge.c
-@@ -1417,6 +1417,31 @@ void drm_bridge_hpd_notify(struct drm_bridge *bridge,
- EXPORT_SYMBOL_GPL(drm_bridge_hpd_notify);
- 
- #ifdef CONFIG_OF
-+/**
-+ * of_drm_get_bridge - find the bridge corresponding to the device node in
-+ *		       the global bridge list
-+ * @np: device node
+@@ -299,7 +299,7 @@ EXPORT_SYMBOL(__devm_drm_bridge_alloc);
+  * @bridge: bridge control structure
+  *
+  * Add the given bridge to the global list of bridges, where they can be
+- * found by users via of_drm_find_bridge().
++ * found by users via of_drm_get_bridge().
+  *
+  * The bridge to be added must have been allocated by
+  * devm_drm_bridge_alloc().
+@@ -360,7 +360,7 @@ EXPORT_SYMBOL(devm_drm_bridge_add);
+  * @bridge: bridge control structure
+  *
+  * Remove the given bridge from the global list of registered bridges, so
+- * it won't be found by users via of_drm_find_bridge(), and add it to the
++ * it won't be found by users via of_drm_get_bridge(), and add it to the
+  * lingering bridge list, to keep track of it until its allocated memory is
+  * eventually freed.
+  */
+@@ -1448,6 +1448,20 @@ EXPORT_SYMBOL(of_drm_get_bridge);
+  *
+  * @np: device node
+  *
++ * This function is deprecated. Convert to of_drm_get_bridge() instead for
++ * proper refcounting.
 + *
-+ * The refcount of the returned bridge is incremented. Use drm_bridge_put()
-+ * when done with it.
++ * The bridge returned by this function is not refcounted. This is
++ * dangerous because the bridge might be deallocated even before the caller
++ * has a chance to use it. To use this function you have to do one of:
++ * - get a reference with drm_bridge_get() as soon as possible to
++ *   minimize the race window, and then drm_bridge_put() when no longer
++ *   using the pointer
++ * - not call drm_bridge_get() or drm_bridge_put() at all, which used to
++ *   be the correct practice before dynamic bridge lifetime was introduced
++ * - again, convert to of_drm_get_bridge(), which is the only safe thing
++ *   to do
 + *
-+ * RETURNS:
-+ * drm_bridge control struct on success, NULL on failure
-+ */
-+struct drm_bridge *of_drm_get_bridge(struct device_node *np)
-+{
-+	struct drm_bridge *bridge;
-+
-+	scoped_guard(mutex, &bridge_lock) {
-+		list_for_each_entry(bridge, &bridge_list, list)
-+			if (bridge->of_node == np)
-+				return drm_bridge_get(bridge);
-+	}
-+
-+	return NULL;
-+}
-+EXPORT_SYMBOL(of_drm_get_bridge);
-+
- /**
-  * of_drm_find_bridge - find the bridge corresponding to the device node in
-  *			the global bridge list
-diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-index 0ff7ab4aa868..0977eab78aac 100644
---- a/include/drm/drm_bridge.h
-+++ b/include/drm/drm_bridge.h
-@@ -1313,8 +1313,13 @@ int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
- 		      enum drm_bridge_attach_flags flags);
- 
- #ifdef CONFIG_OF
-+struct drm_bridge *of_drm_get_bridge(struct device_node *np);
- struct drm_bridge *of_drm_find_bridge(struct device_node *np);
- #else
-+static inline struct drm_bridge *of_drm_get_bridge(struct device_node *np)
-+{
-+	return NULL;
-+}
- static inline struct drm_bridge *of_drm_find_bridge(struct device_node *np)
- {
- 	return NULL;
+  * RETURNS:
+  * drm_bridge control struct on success, NULL on failure
+  */
 
 -- 
 2.51.1
