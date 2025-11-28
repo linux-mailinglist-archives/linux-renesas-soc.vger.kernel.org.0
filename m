@@ -1,244 +1,246 @@
-Return-Path: <linux-renesas-soc+bounces-25335-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25336-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E821FC9299E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Nov 2025 17:43:10 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F1F2C92AA3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Nov 2025 17:56:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 284553AB03E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Nov 2025 16:43:09 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 8BF0335063F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Nov 2025 16:55:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77210285406;
-	Fri, 28 Nov 2025 16:43:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4ABE2BEC43;
+	Fri, 28 Nov 2025 16:52:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="hWG3upRm"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="VUX78Sy4"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012023.outbound.protection.outlook.com [52.101.66.23])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 146791A9FB5;
-	Fri, 28 Nov 2025 16:43:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.23
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764348186; cv=fail; b=bgsXRKvafmXlnH8fjRnmj6DMrRRWebe1RZTdHQLuDntXfV/Rmxi6Uc5GmSRk869YcBu7al1q/ZC7hGbEiNEcchWuoWJyo5Ste1PVAsnaOUIeZk4nEnyosN5g30FzjN+9JeypMkkTFXPr2TMG/jkMiy703EfGqpNkSOd9F8ZUUoA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764348186; c=relaxed/simple;
-	bh=BWclbSHswna5BShH1kIV/DpyA6zIuDZletFE4bC68DQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=p2aFCBXrHp74Mfx4iQW1TW/KCHMs0SUyxntZyQIFt//iiYoOU1DchD+OtbWNABpC+R7pLGJgaFe4044twahVrmo8bAeaiDOfcF8d98L4v3RA/yRjD79lgWWXaN9ivMRX91/JVoL5zqWE8yksUMyUiEBCIYV5408u842EPxz/Jn8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=hWG3upRm; arc=fail smtp.client-ip=52.101.66.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jZpVqpXWKt5LwcWMtudyr+U9Cc7bPRDjdgZ032oY/Nmyas+YQ0nDRPk+m10oB0Tc7LkFCnUspXX6pEIXIKGOtgWE55D4Dh8LWBQ85bnkEhdvQ8JfDNutgjm8tFEbDVbqwc+oEM4YGbwMhdT2JEvdDFxfSh5HtZT/3d+RFcvdBtfVn7SMuKyjSYJyIoobWlD4DPfl6kRgaITzmcE2BHNs7/9Fr37JFVvwvIQroFfuN8KqTrS0q+zrO5FIx0u+AvP8LCbWmLadcmSth0ptyzn0cApocafxvQHEAgLtmL7KzNr0UwPbwcSbEpsepzgzF5LW/BjCdehCAtYas95LzIVCAA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rzfTifcbYdCdJZBa4ESaPGSU6PbM64pk9YqHmaHutD0=;
- b=YE3tLGH5ZvsE34sk9JKz3yV04MvKWPM95kAgY7a97+Mbp7IGJjk1prjKBkr0jr27PObKItL93ua3ZAA5f28j5US+bcEBD//GpCEugTL6wyxEVQ8QsO4J1udRe0Ts5ENVav6qkzL/42kcvgexJatBF2Tf6o1Co1CV04Sc6JtrqGnkO3f6wmUv/q5eNmdB7KhBCvU+OTSCcd1eVZTamLuARCSl91oHP23R019fYqRgKIfBSvlE4/7K0rAvssSO4IhcUEl5qKQcFZVy1SIPFxOFfaaNP0JggcstQl5Sf0m2nsetFtnOxrZXkkG8W3QckGGR0dGsi3mcr02jXWCzW2akTg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rzfTifcbYdCdJZBa4ESaPGSU6PbM64pk9YqHmaHutD0=;
- b=hWG3upRmMvWFA2FAyOhxY0sGHTPRk1ykDJkKg0HEuGLUZAs+AKWBj+TAHPD+riIg4IMH6fRA6tqkPEmb0mRimxl2pRgXTZrbM/LwcwJgqP+eZteQ2y4GBouintpNFLvUe4PFyRoHyGXBO1diFS5YpgZoHhmdiAGoQdR36BNyYgdw/+tRgoSFmkBlflOsRKH7GhfgitNhx3nj+/O+JRbehnnRat1cfK4RKdFmEO+9biMthewyirzUAZA+jGXqFZqO4UrxTZVyczqV7vU+Yv71GtUfgKXgIZNj8OyRDnEje8oEvlqICdNr+74Md8TLjNeGBg2OxJ08obhTNxn1yE5W+w==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXPR04MB8253.eurprd04.prod.outlook.com (2603:10a6:102:1bf::7)
- by AM9PR04MB8668.eurprd04.prod.outlook.com (2603:10a6:20b:43f::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.16; Fri, 28 Nov
- 2025 16:42:58 +0000
-Received: from PAXPR04MB8253.eurprd04.prod.outlook.com
- ([fe80::b853:e05b:c1e5:41b7]) by PAXPR04MB8253.eurprd04.prod.outlook.com
- ([fe80::b853:e05b:c1e5:41b7%5]) with mapi id 15.20.9366.012; Fri, 28 Nov 2025
- 16:42:58 +0000
-Date: Fri, 28 Nov 2025 18:42:53 +0200
-From: Ioana Ciornei <ioana.ciornei@nxp.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
-	Samuel Holland <samuel@sholland.org>, Marc Zyngier <maz@kernel.org>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] of/irq: Ignore interrupt parent for nodes without
- interrupts
-Message-ID: <dyaqe3ssrn65r5xndlwe7tlbiw2lbwvu3q3lzusfgr5mgycp6h@gfzyxk7uyva7>
-References: <fbe6fc3657070fe2df7f0529043542b52b827449.1763116833.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fbe6fc3657070fe2df7f0529043542b52b827449.1763116833.git.geert+renesas@glider.be>
-X-ClientProxiedBy: AS4PR10CA0028.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:20b:5d8::13) To PAXPR04MB8253.eurprd04.prod.outlook.com
- (2603:10a6:102:1bf::7)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 764CA2BDC3F
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Nov 2025 16:52:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764348723; cv=none; b=NPuyvkTrX/EQmHbRNdJERgPDG3GB46T6uXWtPot1SHAxaKhaeLOxsIm5SGGPg4NQhmsgYaaz3PtUM4uPc3+srT54/yXY+7TDXS1RNQ+NcGSsYXl4gH+XbK+BsPZgHuIDK8PYXo5yZNMdR9kE49Z4OR9REXigP/M9ad37bMqjheE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764348723; c=relaxed/simple;
+	bh=lbq7/9hM4h0tP9G0otpE2sQlBcOtnUST2OFtBTbJm3o=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=R4QbQjwTVPJkllF32mYTDw6Cb5u8ree5ML4AVDLHqIQu6zWGtQnxoMnwpRV9nQfhsE2fSqtrTt+/07d1GqJha6Xui7qg0u1znW9v5pL8AtqIyx2jUkt8QehxaNG9xxZH8j3YBqtu3JuoteveKRQrlOv3s65xLseuFa7DjqxzLvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=VUX78Sy4; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id BEC4B1A1E09;
+	Fri, 28 Nov 2025 16:51:53 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 83CD460706;
+	Fri, 28 Nov 2025 16:51:53 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 3B46510B02155;
+	Fri, 28 Nov 2025 17:51:37 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1764348710; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=4LXnxBJlqd2UazTmBhwXwFStb/3+5cf3TPNAlsU5TvA=;
+	b=VUX78Sy4XiyC9MPlVpttqJ9SQIQnLJGEto9dm/Wz9ym7T7bN/CgnVlY9YH1bFcC0CgzUQe
+	cZofZ4OEZUrrcGm7JEzsnL/etiRVBFwZzGGetbM0bgfGQ8fhKl1CmChVPekpLxS7jOlSK/
+	B1kea5ki5mVy1By5DwWomHJRAzf/5aB3po6F7XpWKHUzRNA/KlBEfcw2dr1S/BoUKwTmTY
+	jTevGUZnNFJkK/0JxyFshBgnAEB0h6+hbX3C2stg8aS1MNDCf/acKsU6YDTC4b6Xv/aXH9
+	y6s8LhEMqH9Ez7UYbhzo3zb3DijYvmvDN8X+0amDd5uaA6wuXX7uEGzIbnqiwg==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: [PATCH v2 00/26] drm/bridge: add drm_of_find_bridge(), deprecate
+ of_drm_find_bridge()
+Date: Fri, 28 Nov 2025 17:50:10 +0100
+Message-Id: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-0-88f8a107eca2@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB8253:EE_|AM9PR04MB8668:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7d4a644d-278d-4705-64d5-08de2e9d2fed
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|19092799006|7416014|376014|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?QhfPGgTWakZuCmVMKF7jWB1HaByJjlXkteLItiv9hah/k5ijcMavTHY5dhqV?=
- =?us-ascii?Q?Rl3W+LKyxppq0QSTtLY0V9Iw4vcxnH5zu2QoF5EJ+zPrX+JYPCytCxZQIyxj?=
- =?us-ascii?Q?unPYew8E5av5M9QdhWeSOnxitxzV9CYv2vWTgCSAfDp4BKRwzb8XoBtaRDX7?=
- =?us-ascii?Q?lfSz2F7kpE2O2duYEk5S4MuDKJEkbrwXlnIloPk5uOGSgWj7fgY9rjYgy6BB?=
- =?us-ascii?Q?OKAbvhK0W5H2/dnbzCcOCii+AF7huu/8yhB5DppLS3GmldtloOEX1pIqQxlp?=
- =?us-ascii?Q?t8QzpM9MYU8fCZBQZfRfrg6HAGAZQlSOnMdtoJkDZPCJ2Ejpbtj0UZbqZV7/?=
- =?us-ascii?Q?gnP2f0Rn++EiJaZBg00tNB3/90RjL95f6ruSP7m+bIHj+daYWOn8c05OVfA8?=
- =?us-ascii?Q?t1t3sx+1C2tmNlsBzAPp556VQl8MBk5jQQITsEBt+M+HfeJwyi/d4qY3P/3b?=
- =?us-ascii?Q?8yDoqs6LHFKIjsnRe3o/rL+yPTHjW4tDVHHYYMoKmeNA/ZF069YCThoSApre?=
- =?us-ascii?Q?KemRZsUqwh1lxGQPT5tEMUB6N59EAQAAUn9jRQkK6JatrJRmd7j9UIXI8hmd?=
- =?us-ascii?Q?cH3lJP1qNCHPoJ+hhSI1FwL84ejDGfyqyu6sBBF0Ru+9yHGeicmLyE1boNls?=
- =?us-ascii?Q?5rugo8mS1XpNbqbiiQasQgVtPHytcw09oE2LcR1kHe1G3sZ/L0TI8EqSnauR?=
- =?us-ascii?Q?ziBjhtF1v1PXJWRXRg8SLokBM9q4gAWtIjoC1v4j7po12oGP8hEzA+8ZLEoE?=
- =?us-ascii?Q?LXaN2vCssoHdahm9/SSHr8ABMzGjSwkLUX/SYrvxL5QKaK8zv/EEHFHqkDzH?=
- =?us-ascii?Q?1a5sfAOlrVoSezecGLzg3gZeXAJh0vbzYliKdb9GWqy3SXrBY+YTn7tMyjGo?=
- =?us-ascii?Q?o94ngReskx3V2dOCAzRtpRz89u8rKaS8LthOsTVMcmOw9k068uz0Bk9BSxPY?=
- =?us-ascii?Q?JfT0Jmkpw1rje1i+dKBhNVSjWK8Pe3MwJmIY7LP3W/hoqE1p6bHMsfuAnX+a?=
- =?us-ascii?Q?lUeby6JzCfSTXy7rCz56FHUMte7KU6fYSV7k3iqTjm6/QtBDKWUn/P0ybCKt?=
- =?us-ascii?Q?Vb7nx6KoaKU3fxpFGCal6LsAZXkk+hht3gc7AYGCAwyoU7zuxRXEpVGHxj2F?=
- =?us-ascii?Q?Tug6o7wEoLGO4xQKvGsh6KNrXN4rj7YRDQ2QmoMcggqo7dOf22imnTSkaxil?=
- =?us-ascii?Q?uXo3x5Zdnbc3gEbyWw75MxxXe/44BJeCiCKOijOgQK6oqO2lZlkiy2gOMZsC?=
- =?us-ascii?Q?Eos9IHqm8FpWq4Zvz9XD8tmjrBRV7Awjrt7GYoLPOaNJHlKaHrDQOp7iLIFR?=
- =?us-ascii?Q?hS47p0H82sYXhdfNGktpdn4X9EWjemQAFqpb4mgWwI7OAW2+IKCa47RZ1H4V?=
- =?us-ascii?Q?fdrkTKGEsaIP7AdABVRr+CFBh+yybuUtwRGCeert/xjVoT+SJrkdIxMPnjvV?=
- =?us-ascii?Q?6VGKxbxetBig9oj+ETQ1C5W55j+ykHtOH1+huwmVyDA8xyo1ZtzcaQ=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8253.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(19092799006)(7416014)(376014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?ZiE8rX3c1RYZ8mTW2w/CUszSwzwM8YGgt/91rmgeKo9LKHxjACI0tIpGJlzx?=
- =?us-ascii?Q?bNzLHyuXZlQYmmpWaRjL6AC5mCHZ3i8Bu2NsSOgpY49LAMWksj2zLAUkcAdI?=
- =?us-ascii?Q?7wz+eWZgJNc20xqHYt5TLF9QfJ6OQSVr9ia7Ncn2hfw5Z4cvz8FvLP5davaU?=
- =?us-ascii?Q?H6s0aRyzZKxs6p20q8ZzbXHMO+8tVsY0eUTvETDayisFXOlER3oM2j7KB7c3?=
- =?us-ascii?Q?leH5tN9/8Dg2bCNH4dGjzUqOTpI/aweCHANvLAM+TPteQ89g6axtC5h0fhdi?=
- =?us-ascii?Q?GL05aHfzERSCftNCep1OEBIOPo+i5YiQSP8jo5W3Z8EQFyLYXV//Fk99LAd9?=
- =?us-ascii?Q?P2J6geeuvj09Uh1nRH3jfTitgCxfKncVyQdNzG9sCRkJYS8K7/BIqIRV4aI0?=
- =?us-ascii?Q?1evPjsL+DN/3DOqOzORR4oRZ45243yX3dvjCjer/xQd68+zrN6SgRAJ7Fy5w?=
- =?us-ascii?Q?HLk4oVNb7ZrpbMX2ZmLJN7YwTBsiH4fe8TPiL2XWlvtvEKEaAbl0X1FxWfEf?=
- =?us-ascii?Q?X7rDAgiWlfYrq2pGRvLulZJiyB2KPbyZ6WEmGBulZVRMB0+FcyoKkzGMsdd0?=
- =?us-ascii?Q?zzLZpbqeyoRsbBeJHYjPlqpzYLbyZkExt5+8BVxbIvwKUHybQUvG1l16Z0Ez?=
- =?us-ascii?Q?ZjN6BZ9C449anDfusQvcN9XC6ppiOTNFuLFzqN5+i0QJ155wRukHbaY4BSch?=
- =?us-ascii?Q?KW6/805A5INJNGTzHL6uU/BWHl1IMkIKmUdxQ6u3iTiXgdW8keGQPnNXNTkr?=
- =?us-ascii?Q?3+WqnWhXNckKDYvC9bt9QBRmdYTD/GVmIt0BATCjUdpd/XCpzhYXGVTp5HKv?=
- =?us-ascii?Q?10hrljD+EGbV5GXIqVq1Djf0+DajV4n3HFGf/JU6q+O73MD6M0Nc+n0Cwli1?=
- =?us-ascii?Q?tXng+mgxh6/40MdgR82SGzm5WPsW17dD5vxk0Oqswv1S7nq/glRcwViFjg6t?=
- =?us-ascii?Q?d5Gioxq8YV8Q2bcAXiG1RG0FYfYrIZlqosDIvKaPtOe8+6lW9NERRzFncwjb?=
- =?us-ascii?Q?s4/KkZjjU5zJjDXhQ0vXDD0XHG760palmcI7Y0dvhJaCnMra4c6/IHEQbsw/?=
- =?us-ascii?Q?QcxIpef3rfqD9RGczJgMD89eU1bECfg0xA+XWXmY920ZOJKhKh1fmeDNek6N?=
- =?us-ascii?Q?rrJJiAbJtF35uoQoYURjgDb2oV3tVKr1CBBMjnuyLuLi8arHcMxhkfqZOi4F?=
- =?us-ascii?Q?3CT3c8vbCMdScBuWaP/7ld7vTjV35IktkNSwMyhUULai5xLziZQSE6vDfZqv?=
- =?us-ascii?Q?XSeTVHEW40wUx/eHskxXN0DH+D4btCH/gof6nzhd8Jt0WbMyBkGfIwpFCbf1?=
- =?us-ascii?Q?6q0EPcgWfEUFjGjg5B5O0u10KRIVtjxEp3D/np3O+jYHvVRSCDvP3gVtCYgS?=
- =?us-ascii?Q?RGvCawTlZ03299WKD5sL1kpM4oXulD4KbdL9ZtZ3fQdsKIu52cEAyrKL8uN9?=
- =?us-ascii?Q?Z7+vgTzVl/MXTEjbFrpbM3HgqD51VzrHWFb+56pHcslb25eg1LCFxqS4CoJ+?=
- =?us-ascii?Q?C68CYUDGZ+39z5Tcfr9OVSpcnKOyX5w302eiJm3F13VL+AfpPkMhSa7csKmo?=
- =?us-ascii?Q?IIn9FcjBkIe8HceDPeTx7W4qExsq25G7wcNGA3Rh?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7d4a644d-278d-4705-64d5-08de2e9d2fed
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8253.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Nov 2025 16:42:58.4460
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: sQNPLRhK+EA9n08OniJkAtIbzIaOOSBUP6qtUUQxcEyu+xEt7mOrK9+oajlP9E0ytNS8Z5ekTW7VjeJTYrB0ig==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8668
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAMLSKWkC/5WNQQ6DIBQFr2JYlwaQFu2q92iMUQH9ifINUNPGe
+ PeiaQ/Q5cxL3qwkGA8mkFu2Em8WCIAugThlpBsa1xsKOjERTFw454pqP9HWg05LM47Y0d7E+Rl
+ 3X6OtLThdf3clS5bnVyVloUk6nL2x8DpijyrxACGifx/the/2lyn/ySycMsp0WxaNskYqeW8R4
+ wju3OFEqm3bPvDOx3LmAAAA
+X-Change-ID: 20251117-drm-bridge-alloc-getput-drm_of_find_bridge-74903367448d
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jonathan Corbet <corbet@lwn.net>, Alexey Brodkin <abrodkin@synopsys.com>, 
+ Phong LE <ple@baylibre.com>, Liu Ying <victor.liu@nxp.com>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, 
+ Adrien Grassein <adrien.grassein@gmail.com>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, Kevin Hilman <khilman@baylibre.com>, 
+ Jerome Brunet <jbrunet@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>, 
+ Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
+ Kyungmin Park <kyungmin.park@samsung.com>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Alim Akhtar <alim.akhtar@samsung.com>
+Cc: Hui Pu <Hui.Pu@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Louis Chauvet <louis.chauvet@bootlin.com>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-renesas-soc@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+X-Mailer: b4 0.14.3
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Fri, Nov 14, 2025 at 11:47:54AM +0100, Geert Uytterhoeven wrote:
-> The Devicetree Specification states:
-> 
->     The root of the interrupt tree is determined when traversal of the
->     interrupt tree reaches an interrupt controller node without an
->     interrupts property and thus no explicit interrupt parent.
-> 
-> However, of_irq_init() gratuitously assumes that a node without
-> interrupts has an actual interrupt parent if it finds an
-> interrupt-parent property higher up in the device tree.  Hence when such
-> a property is present (e.g. in the root node), the root interrupt
-> controller may not be detected as such, causing a panic:
-> 
->     OF: of_irq_init: children remain, but no parents
->     Kernel panic - not syncing: No interrupt controller found.
-> 
-> Commit e91033621d56e055 ("of/irq: Use interrupts-extended to find
-> parent") already fixed a first part, by checking for the presence of an
-> interrupts-extended property.  Fix the second part by only calling
-> of_irq_find_parent() when an interrupts property is present.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> v2:
->   - Split off from series "[PATCH/RFC 0/2] of/irq: Fix root interrupt
->     controller handling"[1] to relax dependencies,
->   - Drop RFC.
-> 
-> [1] https://lore.kernel.org/all/cover.1759485668.git.geert+renesas@glider.be
-> ---
->  drivers/of/irq.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/of/irq.c b/drivers/of/irq.c
-> index b174ec29648955c6..5cb1ca89c1d8725d 100644
-> --- a/drivers/of/irq.c
-> +++ b/drivers/of/irq.c
-> @@ -613,7 +613,7 @@ void __init of_irq_init(const struct of_device_id *matches)
->  		 * are the same distance away from the root irq controller.
->  		 */
->  		desc->interrupt_parent = of_parse_phandle(np, "interrupts-extended", 0);
-> -		if (!desc->interrupt_parent)
-> +		if (!desc->interrupt_parent && of_property_present(np, "interrupts"))
->  			desc->interrupt_parent = of_irq_find_parent(np);
->  		if (desc->interrupt_parent == np) {
->  			of_node_put(desc->interrupt_parent);
-> -- 
-> 2.43.0
-> 
->
+This series deprecated of_drm_find_bridge(), adds a replacement which
+handles bridge refcounting, and converts most of the direct users.
 
-This change irq-ls-extirq and commit 6ba51b7b34ca ("of/irq: Handle
-explicit interrupt parent") does not help with the issue.
+This is part of the work to support hotplug of DRM bridges. The grand plan
+was discussed in [0].
 
-This is how the DT node in lx2160a.dtsi looks like:
+Here's the work breakdown (➜ marks the current series):
 
-	extirq: interrupt-controller@14 {
-		compatible = "fsl,lx2160a-extirq", "fsl,ls1088a-extirq";
-		#interrupt-cells = <2>;
-		#address-cells = <0>;
-		interrupt-controller;
-		reg = <0x14 4>;
-		interrupt-map =
-			<0 0 &gic GIC_SPI 0 IRQ_TYPE_LEVEL_HIGH>,
-			<1 0 &gic GIC_SPI 1 IRQ_TYPE_LEVEL_HIGH>,
-			<2 0 &gic GIC_SPI 2 IRQ_TYPE_LEVEL_HIGH>,
-			<3 0 &gic GIC_SPI 3 IRQ_TYPE_LEVEL_HIGH>,
-			<4 0 &gic GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>,
-			<5 0 &gic GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>,
-			<6 0 &gic GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>,
-			<7 0 &gic GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
-			<8 0 &gic GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>,
-			<9 0 &gic GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>,
-			<10 0 &gic GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH>,
-			<11 0 &gic GIC_SPI 11 IRQ_TYPE_LEVEL_HIGH>;
-		interrupt-map-mask = <0xf 0x0>;
-	};
+ 1. ➜ add refcounting to DRM bridges struct drm_bridge,
+      based on devm_drm_bridge_alloc()
+    A. ✔ add new alloc API and refcounting (v6.16)
+    B. ✔ convert all bridge drivers to new API (v6.17)
+    C. ✔ kunit tests (v6.17)
+    D. ✔ add get/put to drm_bridge_add/remove() + attach/detach()
+         and warn on old allocation pattern (v6.17)
+    E. ➜ add get/put on drm_bridge accessors
+       1. ✔ drm_bridge_chain_get_first_bridge(), add cleanup action (v6.18)
+       2. ✔ drm_bridge_get_prev_bridge() (v6.18)
+       3. ✔ drm_bridge_get_next_bridge() (v6.19)
+       4. ✔ drm_for_each_bridge_in_chain() (v6.19)
+       5. ✔ drm_bridge_connector_init (v6.19)
+       6. … protect encoder bridge chain with a mutex
+       7. ➜ of_drm_find_bridge()
+          a. ➜ add of_drm_get_bridge(), convert most direct users
+	  b. convert other direct users
+	  c. convert bridge-only drm_of_find_panel_or_bridge() users
+       8. drm_of_find_panel_or_bridge, *_of_get_bridge
+       9. ✔ enforce drm_bridge_add before drm_bridge_attach (v6.19)
+    F. ✔ debugfs improvements
+       1. ✔ add top-level 'bridges' file (v6.16)
+       2. ✔ show refcount and list lingering bridges (v6.19)
+ 2. … handle gracefully atomic updates during bridge removal
+    A. … Add drm_dev_enter/exit() to protect device resources
+    B. … protect private_obj removal from list
+ 3. … DSI host-device driver interaction
+ 4. ✔ removing the need for the "always-disconnected" connector
+ 5. finish the hotplug bridge work, moving code to the core and potentially
+    removing the hotplug-bridge itself (this needs to be clarified as
+    points 1-3 are developed)
 
-with the following being in the root node:
+[0] https://lore.kernel.org/lkml/20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com/#t
 
-	interrupt-parent = <&gic>;
+Almost all the functions returning a struct drm_bridge pointer have been
+modified to drm_bridge_get() the returned bridge, and their users updated
+to drm_bridge_put() it. See items 1.E.{1-6} above.
 
-Ioana
+of_drm_find_bridge() could be modified easily in the same way, but it has a
+lot of (direct + indirect) callers, and most notably
+drm_of_find_panel_or_bridge() which is very hard to adapt without reowrking
+the panel_bridge lifetime.
+
+This has been discussed in [1] and Maxime proposed an incremental approach:
+
+> So maybe we can just create drm_of_find_bridge() that takes a reference,
+> make of_drm_find_bridge() deprecated in favour of drm_of_find_bridge(),
+> add a TODO, and call it a day. People will gradually switch to the new
+> API over time.
+
+That proposal is implemented by this series. Most of the direct callers are
+also converted: they are all trivial conversions except for one, which is
+handled by the last 3 patches.
+
+Follow-up series will:
+- convert remaining direct callers of of_drm_find_bridge()
+- convert simple cases of drm_of_find_panel_or_bridge()
+
+[1] https://lore.kernel.org/dri-devel/20250319-stylish-lime-mongoose-0a18ad@houat/
+
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+---
+Changes in v2:
+- All patches: renamed drm_of_find_bridge() -> of_drm_get_bridge()
+- Various fixes and improvements to patches 1-6, see individual patches
+  changelog
+- Removed bouncing recipient: Edmund Dea <edmund.j.dea@intel.com>
+- Link to v1: https://lore.kernel.org/r/20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com
+
+---
+Luca Ceresoli (26):
+      drm/bridge: add of_drm_get_bridge()
+      drm/bridge: deprecate of_drm_find_bridge()
+      drm/todo: add entry about converting to of_drm_get_bridge()
+      drm/bridge: make of_drm_find_bridge() a wrapper of of_drm_get_bridge()
+      drm/arcpgu: convert to of_drm_get_bridge()
+      drm/bridge: add devm_of_drm_get_bridge
+      drm/bridge: ite-it66121: use devm_of_drm_get_bridge() to put the next bridge
+      drm/bridge: imx8qxp-pixel-combiner: use devm_of_drm_get_bridge() to put the next bridge
+      drm/bridge: simple-bridge: use devm_of_drm_get_bridge() to put the next bridge
+      drm/bridge: tpd12s015: use devm_of_drm_get_bridge() to put the next bridge
+      drm/bridge: thc63lvd1024: use devm_of_drm_get_bridge() to put the next bridge
+      drm/bridge: imx8qxp-pxl2dpi: use devm_of_drm_get_bridge() to put the next and companion bridges
+      drm/bridge: lt8912b: use devm_of_drm_get_bridge() to put the hdmi bridge
+      drm/bridge: tfp410: use devm_of_drm_get_bridge() to put the next bridge
+      drm/bridge: imx8qxp-ldb: use devm_of_drm_get_bridge() to put the companion bridge
+      drm/rcar-du: lvds: use devm_of_drm_get_bridge() to put the next bridge
+      drm/meson: encoder_*: use devm_of_drm_get_bridge() to put the next bridge
+      drm/bridge: sii902x: use devm_of_drm_get_bridge() to put the next bridge
+      drm/mediatek: use devm_of_drm_get_bridge() to put the next bridge
+      drm/kmb: dsi: use devm_of_drm_get_bridge() to put the next bridge
+      drm/imx/ipuv3: use devm_of_drm_get_bridge() to put the next bridge
+      drm/exynos: hdmi: use devm_of_drm_get_bridge() to put the next bridge
+      drm/bridge: dw-hdmi: use devm_of_drm_get_bridge() to put the next bridge
+      drm/bridge: imx8qxp-pixel-link: simplify logic to find next bridge
+      drm/bridge: imx8qxp-pixel-link: simplify freeing of the remote device_node
+      drm/bridge: imx8qxp-pixel-link: convert to of_drm_get_bridge()
+
+ Documentation/gpu/todo.rst                         | 16 ++++
+ drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c           |  2 +-
+ .../gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c    |  2 +-
+ drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c    | 37 +++++----
+ drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c       |  4 +-
+ drivers/gpu/drm/bridge/ite-it66121.c               |  2 +-
+ drivers/gpu/drm/bridge/lontium-lt8912b.c           |  2 +-
+ drivers/gpu/drm/bridge/sii902x.c                   |  2 +-
+ drivers/gpu/drm/bridge/simple-bridge.c             |  2 +-
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c          |  2 +-
+ drivers/gpu/drm/bridge/thc63lvd1024.c              |  2 +-
+ drivers/gpu/drm/bridge/ti-tfp410.c                 |  2 +-
+ drivers/gpu/drm/bridge/ti-tpd12s015.c              |  2 +-
+ drivers/gpu/drm/drm_bridge.c                       | 91 ++++++++++++++++++----
+ drivers/gpu/drm/exynos/exynos_hdmi.c               |  2 +-
+ drivers/gpu/drm/imx/ipuv3/dw_hdmi-imx.c            |  2 +-
+ drivers/gpu/drm/kmb/kmb_dsi.c                      |  2 +-
+ drivers/gpu/drm/mediatek/mtk_hdmi.c                |  2 +-
+ drivers/gpu/drm/meson/meson_encoder_cvbs.c         |  2 +-
+ drivers/gpu/drm/meson/meson_encoder_dsi.c          |  2 +-
+ drivers/gpu/drm/meson/meson_encoder_hdmi.c         |  2 +-
+ drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c        |  2 +-
+ drivers/gpu/drm/tiny/arcpgu.c                      |  4 +-
+ include/drm/drm_bridge.h                           | 10 +++
+ 24 files changed, 143 insertions(+), 55 deletions(-)
+---
+base-commit: e85e9ccf3f8404007f62dff9a02273fcdeb44206
+change-id: 20251117-drm-bridge-alloc-getput-drm_of_find_bridge-74903367448d
+
+Best regards,
+-- 
+Luca Ceresoli <luca.ceresoli@bootlin.com>
 
 
