@@ -1,162 +1,126 @@
-Return-Path: <linux-renesas-soc+bounces-25365-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25366-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id BADD2C9335F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Nov 2025 22:50:39 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 362A9C937EA
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 29 Nov 2025 05:13:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B7FE94E1A7D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Nov 2025 21:50:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C91D93A7EB2
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 29 Nov 2025 04:13:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E535E2DEA87;
-	Fri, 28 Nov 2025 21:50:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7702822F76F;
+	Sat, 29 Nov 2025 04:13:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Ra20jyFB"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ch2N2R2i"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D70E274650;
-	Fri, 28 Nov 2025 21:50:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46D54226D02;
+	Sat, 29 Nov 2025 04:13:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764366635; cv=none; b=R3z/nLfGuPXZ1JUxriSQ+ki8m3qSUT010AqR3xCpMSD1inxqC/ECD1I+9Tf0yyG9nzDnx4lFTSIwgMTIAlqhF33qZQ5mQ9d68wILjI445sJgRYJ5LCuqduPjfD4ujIqvIiNeDvoI8Ig5q3BNdLBw6yyneshXouSC5Zy3KyZdgLI=
+	t=1764389608; cv=none; b=GCwI8cQWqnXDyh7W1S/7JgFN8fow+1wi4Ut0gtDDXppE6Z4mCu52qMgaqvR6yeQQTE7FlJrAPSSTCiMhdDPyW2C+HznExIJ/8M4aOStwhV9rvEMfm35wmJYcMcVzzAnYJHqCdi2c3veGb+OnZtmSKxLWRCaIq0arrvvyceHVxN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764366635; c=relaxed/simple;
-	bh=JdN7JG2SF0HKhMVjcjMWIQ2dFH3XWGOs4WCZ0Ti+RpQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KA5DM/TT7Ay/JEeLOTw4Hdz4IWIPkzmml7Df4o9aMBu+D/zJi6/EHK1HVu6c8rls8+Oz+b/JE3heTZUOCm644nwRyCucnWIIKqlVKxhxeGGh0IxW+6kbZxGB1YxY5OGOY85za21uS8Wm89hhV/6pyKHAHQ2AZB2ZNU06PNXuPyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Ra20jyFB; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=dUAdZeQP94vW72b4SJ//V/MtjinN884gsD5QWNElCrg=; b=Ra20jyFBxDuV53uOnzXP2ROo3n
-	6iH7U5q6VshUt0SSIyUMvEuHD6uf5oxKo3fYtlZsKW9PZOyCgqKZuTuGyG0SF41EQnhUjP/FR2Lgt
-	Le7+1g8J4SrLQqbzCd2YOOlfvE4Aq3hq47Tv4UokTE1flXvyD70Tlf6WpNHWM1RgHU8b8PHPQxGFd
-	igXveDHNK3GIL1mGgtsHtlVngm9BQzvPM59Php3lUG1SYQyJuyOziBCvQUou2vZsXL1jB7J9UfhSL
-	yy9SSp4qbhGiZearV+80CKbt42wCEVmv9nTO7jhosBJ1n6iEjy/8GUHzjSGqZe3Yh4QfAU7ukLp3d
-	mJ72/xqg==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vP6M8-00000000zPG-37J4;
-	Fri, 28 Nov 2025 21:50:20 +0000
-Message-ID: <a23be1b4-89ce-4db9-bb68-9a5aa248f4a0@infradead.org>
-Date: Fri, 28 Nov 2025 13:50:19 -0800
+	s=arc-20240116; t=1764389608; c=relaxed/simple;
+	bh=jVt2VZrxSvr4OBx8ByQS9DhjVELgdDft9Gv+fjiNEMc=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=lCJKmT59XZNs3y0fDWlw1+yzkwuhgBsJ7crrmL72CiJ0rUgZzQiDCZ2I/HOZFv56pLNZic9rs2BjNLIgToMYf37PWEyeZIn5uiy3zQQhXqC0T25we2XzUnR79Sy+wNG1PjvNyXnjlDYL/b7hLUw4T8F7sE2TG2hkRJcQkbVMxwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ch2N2R2i; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8CDFC4CEF7;
+	Sat, 29 Nov 2025 04:13:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764389607;
+	bh=jVt2VZrxSvr4OBx8ByQS9DhjVELgdDft9Gv+fjiNEMc=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=ch2N2R2iF2KrK0IGpW2AlE2RI5VVft01ynxAybUgtLurY+YcyOXgYe4E4TyRimhz2
+	 g1RAAnhPuxs2Gve0HMoMYMfUd8+rGoLIzQ7UKQvT5rLzvLLk3q9Lew4G2c3gq3Uxtf
+	 PlbO37fiapVgKJvy/ThqxLPtplBjjPVwF1oHnnSNEzakoZ+wH/HG/vY9o/q5g9S9I5
+	 dTWB7yt7PAFaL4bWNeWGYz57rRuXowcX8B2bxaSCKIOOTcnsCBSzNWTOQUa+mJ6QN0
+	 VuLBZ9fICY5Eus3YretVQvRoyRQTt4OqLQmdrSs9GuHSZqPOUh7PBQQFSncd381ywO
+	 PZKz5kyRUVqKA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id AA5C9380692B;
+	Sat, 29 Nov 2025 04:10:30 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 04/26] drm/bridge: make of_drm_find_bridge() a wrapper
- of of_drm_get_bridge()
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Corbet <corbet@lwn.net>, Alexey Brodkin <abrodkin@synopsys.com>,
- Phong LE <ple@baylibre.com>, Liu Ying <victor.liu@nxp.com>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>,
- Adrien Grassein <adrien.grassein@gmail.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Kevin Hilman <khilman@baylibre.com>,
- Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
- Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>
-Cc: Hui Pu <Hui.Pu@gehealthcare.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Louis Chauvet <louis.chauvet@bootlin.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-samsung-soc@vger.kernel.org
-References: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-0-88f8a107eca2@bootlin.com>
- <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-4-88f8a107eca2@bootlin.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-4-88f8a107eca2@bootlin.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next 00/15] Introduce the dsa_xmit_port_mask() tagging
+ protocol helper
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <176438942956.896171.5589128104353485627.git-patchwork-notify@kernel.org>
+Date: Sat, 29 Nov 2025 04:10:29 +0000
+References: <20251127120902.292555-1-vladimir.oltean@nxp.com>
+In-Reply-To: <20251127120902.292555-1-vladimir.oltean@nxp.com>
+To: Vladimir Oltean <vladimir.oltean@nxp.com>
+Cc: netdev@vger.kernel.org, andrew@lunn.ch, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ alsi@bang-olufsen.dk, clement.leger@bootlin.com, daniel@makrotopia.org,
+ mmyangfl@gmail.com, dqfext@gmail.com, florian.fainelli@broadcom.com,
+ george.mccollister@gmail.com, hauke@hauke-m.de, jonas.gorski@gmail.com,
+ kurt@linutronix.de, linus.walleij@linaro.org,
+ linux-renesas-soc@vger.kernel.org, sean.wang@mediatek.com,
+ UNGLinuxDriver@microchip.com, woojung.huh@microchip.com
 
+Hello:
 
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-On 11/28/25 8:50 AM, Luca Ceresoli wrote:
-> of_drm_find_bridge() is identical to of_drm_get_bridge() except it does
-> not increment the refcount. Rewrite it as a wrapper and put the bridge
-> being returned so the behaviour is still the same.
+On Thu, 27 Nov 2025 14:08:47 +0200 you wrote:
+> What
+> ----
 > 
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> Some DSA tags have just the port number in the TX header format, others
+> have a bit field where in theory, multiple bits can be set, even though
+> DSA only sets one.
 > 
-> ---
-> 
-> Changed in v2:
-> - Added comment to document why we put the reference
-> ---
->  drivers/gpu/drm/drm_bridge.c | 20 +++++++++-----------
->  1 file changed, 9 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> index 21a84715d221..9b7e3f859973 100644
-> --- a/drivers/gpu/drm/drm_bridge.c
-> +++ b/drivers/gpu/drm/drm_bridge.c
-> @@ -1467,19 +1467,17 @@ EXPORT_SYMBOL(of_drm_get_bridge);
->   */
->  struct drm_bridge *of_drm_find_bridge(struct device_node *np)
->  {
-> -	struct drm_bridge *bridge;
-> -
-> -	mutex_lock(&bridge_lock);
-> +	struct drm_bridge *bridge = of_drm_get_bridge(np);
->  
-> -	list_for_each_entry(bridge, &bridge_list, list) {
-> -		if (bridge->of_node == np) {
-> -			mutex_unlock(&bridge_lock);
-> -			return bridge;
-> -		}
-> -	}
-> +	/**
+> [...]
 
-This isn't a kernel-doc comment, so please don't use "/**" here.
-Just use "/*".
+Here is the summary with links:
+  - [net-next,01/15] net: dsa: introduce the dsa_xmit_port_mask() tagging protocol helper
+    https://git.kernel.org/netdev/net-next/c/6f2e1c75bc5e
+  - [net-next,02/15] net: dsa: tag_brcm: use the dsa_xmit_port_mask() helper
+    https://git.kernel.org/netdev/net-next/c/621d06a40e47
+  - [net-next,03/15] net: dsa: tag_gswip: use the dsa_xmit_port_mask() helper
+    https://git.kernel.org/netdev/net-next/c/e094428fb40c
+  - [net-next,04/15] net: dsa: tag_hellcreek: use the dsa_xmit_port_mask() helper
+    https://git.kernel.org/netdev/net-next/c/f59e44cc0d6c
+  - [net-next,05/15] net: dsa: tag_ksz: use the dsa_xmit_port_mask() helper
+    https://git.kernel.org/netdev/net-next/c/ea659a9292b1
+  - [net-next,06/15] net: dsa: tag_mtk: use the dsa_xmit_port_mask() helper
+    https://git.kernel.org/netdev/net-next/c/84a60bbec503
+  - [net-next,07/15] net: dsa: tag_mxl_gsw1xx: use the dsa_xmit_port_mask() helper
+    https://git.kernel.org/netdev/net-next/c/a4a00d9e365a
+  - [net-next,08/15] net: dsa: tag_ocelot: use the dsa_xmit_port_mask() helper
+    https://git.kernel.org/netdev/net-next/c/5733fe2a7ad1
+  - [net-next,09/15] net: dsa: tag_qca: use the dsa_xmit_port_mask() helper
+    https://git.kernel.org/netdev/net-next/c/48afabaf4aaa
+  - [net-next,10/15] net: dsa: tag_rtl4_a: use the dsa_xmit_port_mask() helper
+    https://git.kernel.org/netdev/net-next/c/4abf39c8aef5
+  - [net-next,11/15] net: dsa: tag_rtl8_4: use the dsa_xmit_port_mask() helper
+    https://git.kernel.org/netdev/net-next/c/5afe4ccc33f4
+  - [net-next,12/15] net: dsa: tag_rzn1_a5psw: use the dsa_xmit_port_mask() helper
+    https://git.kernel.org/netdev/net-next/c/b33aa90e68b4
+  - [net-next,13/15] net: dsa: tag_trailer: use the dsa_xmit_port_mask() helper
+    https://git.kernel.org/netdev/net-next/c/3c1975bbdf92
+  - [net-next,14/15] net: dsa: tag_xrs700x: use the dsa_xmit_port_mask() helper
+    https://git.kernel.org/netdev/net-next/c/24099389a63f
+  - [net-next,15/15] net: dsa: tag_yt921x: use the dsa_xmit_port_mask() helper
+    https://git.kernel.org/netdev/net-next/c/64b0d2edb61a
 
-> +	 * We need to emulate the original semantics of
-> +	 * of_drm_find_bridge(), which was not getting any bridge
-> +	 * reference. Being now based on of_drm_get_bridge() which gets a
-> +	 * reference, put it before returning.
-> +	 */
-> +	drm_bridge_put(bridge);
->  
-> -	mutex_unlock(&bridge_lock);
-> -	return NULL;
-> +	return bridge;
->  }
->  EXPORT_SYMBOL(of_drm_find_bridge);
->  #endif
-> 
-
+You are awesome, thank you!
 -- 
-~Randy
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
 
