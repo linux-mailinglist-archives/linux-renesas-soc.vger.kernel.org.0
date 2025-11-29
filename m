@@ -1,80 +1,80 @@
-Return-Path: <linux-renesas-soc+bounces-25395-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25394-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72650C946BC
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 29 Nov 2025 19:52:36 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4E87C946C8
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 29 Nov 2025 19:52:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id EC3AF346AC8
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 29 Nov 2025 18:52:35 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 59F524E2348
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 29 Nov 2025 18:52:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CB76262FED;
-	Sat, 29 Nov 2025 18:52:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D26742620FC;
+	Sat, 29 Nov 2025 18:52:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="np6Ld+VP"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YeDFu4qz"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 038722580FB
-	for <linux-renesas-soc@vger.kernel.org>; Sat, 29 Nov 2025 18:52:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B74225487B
+	for <linux-renesas-soc@vger.kernel.org>; Sat, 29 Nov 2025 18:52:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764442332; cv=none; b=uMQNe9JVQxceuID4X6CFSaRswOgnc6G2e5Rj/7mf2ZANh2/Qbu3r6wzYoRQbCVCyG5yE1stI9qIBu9fpE9wfRae4FDEx3GckWG7FU69899hWiwBvhcY89o0NfNWNNUy51EhaCJSN7L6lg+sNFldTf8WHiHuN2PVSGVdMWaeqkg4=
+	t=1764442332; cv=none; b=ZtFoyQCHYAv8Nv2DBYQlaAcAtCDM32Q2nnvKaHztBqCrVwOVbexLerihS7Ib4437EiTk3TKn89HhBp6Upkr7U7aCV5vL2yoFYphsiSwP+PBuYeJ/BPSOvQixwfw9+lDDnjpe8v6g++m/fca5Y06YIfLkToW91CKrnCTE2vFkBCc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1764442332; c=relaxed/simple;
-	bh=eGV43zXNZwLcVcE6qLhrYD3w4h0RrIYzFcW/RThrSwE=;
+	bh=+IhvIhpZItlJ2VxNyf81wNVEfmW0rqbVvD3SLVwfTaA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RtmvaAv0RjgMgWy+q4yrTTgei+PSAHmMwMznLPVzqcbh2M3cfXVRzg4rivaxU/2QTpHikg+JNDYQwVUeDsL70QmXy0SC/HXyQvbPOE4E6kKFk82zd03Lwi3U2JipJ8QrabxC1RritbdlVTJwejQ9IuNKRNJWniD1+3EU+VwvALU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=np6Ld+VP; arc=none smtp.client-ip=209.85.128.52
+	 MIME-Version; b=eT+pIjjeCd8OKm6JzkH3ioSdPT/rEf1NXlbk5KPfs3Dk/kqh+LsX1lYsIOwhCAig9DEhuQnZlSIPm0Oc1RrlslQihemkFHG1vzczh3LXCPTygTMwnEkXeWe2RlAjbszc2ulJlOq/aaW3GNDxmGpgYlO7xRhwduL7Q+Yfq+6t7DM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YeDFu4qz; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4779cc419b2so27777195e9.3
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 29 Nov 2025 10:52:09 -0800 (PST)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-47118259fd8so25241965e9.3
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 29 Nov 2025 10:52:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764442328; x=1765047128; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1764442329; x=1765047129; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2K73nwpTtZLJt98+4WIYLIupevL2M6bireyDzJbZ3Ug=;
-        b=np6Ld+VPGSUpkMUnizuVtgOCVT3MAROiRBnaxqa3LU6zu9JGcVIdetPwmLkKQYDOMF
-         SG8X+i/PPhSOYH2iqR88y+2E64VulkNws+p5Y9w9fcqd+DwIl+VUrKs8HJZtOCO77q2h
-         JzldL3DtyA2OxybAwAuKNbJJx4TKzKsScw2V+eXKRPTrUhDFQ0aj0pGzHXlcZh160NAj
-         2b89ARv1M69Uy6K8hziYenN4uzlb3/rFJZExI1r2xMDdujy89Uda9YfiZ7D7KvLl/8i2
-         qY5UanIa71PDf+6B5tCpYfwoDzaRPO9qlJLM7AeNnN7Squ1ZAxxDDRvzgyVm3HgZTQu3
-         Dmfg==
+        bh=lZpSqqVta4EKUDTZ6gcuVDadlBldwJkUtIewibPZy8I=;
+        b=YeDFu4qzjjtJdblDlG5fER+3Ip8HfYJ18hcehsLKzXL0u8y7hqiuwnrSAVp6s3f6lb
+         VGt5S2AoEbdqaNscZWGhicFFWv9tjOgfOkYbOpsJtXjNR+I9AAjg0u2XfxWBT+ZbIG6U
+         Z0T3fQq3y8wHqIjBU3VETbpGe+p0HOlJtUjUapAEqdBgI+Nf2B/xlGec669eToPy8BSW
+         MBFkue/RL/oLTa7emYv8n8LjMcWYVXQHh7F3VnBHqQR36N3rppxFgKoVA/UNdoPk1BJ/
+         pmKX5+1oe1KueEXsr/k7ZOtqN1jlcd6UDuaQTw2SlkBLy3Jwd+XF7l0Q+yBAh+ZEAngg
+         C3AQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764442328; x=1765047128;
+        d=1e100.net; s=20230601; t=1764442329; x=1765047129;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=2K73nwpTtZLJt98+4WIYLIupevL2M6bireyDzJbZ3Ug=;
-        b=fR6YC2YOo7u5oSLUUfhuXQIyBVN6mFcmjl0ayApvYezN25ay/lx4qQT/vLY42jK4Hk
-         5/Cb4vsqPq6SwDOb4JI3d2rEP5YFbiyLJuzSdbIBWACKrRvd/R8N64FGs5S6CRwFoePU
-         YTI1j4M5Au+l3q2nQNDgk39pq1DBxsbHQzs7KgZKyeL7SZ+536ffISEkhORE7yimCwEM
-         6QYef1mAHAWC/rqrr86FSfHH7PrigpcA5cVDgEMlAQR4INLcKY+8Vbd0v5Tk/zxUk472
-         XXOfZLXmHVpDonGJl8EdZ1UmbRP+r9Ea6xuJgzpB2jWTH30Xw/gV8ydr94JFcCwZK6HT
-         fcJg==
-X-Forwarded-Encrypted: i=1; AJvYcCWqE1m/PjbcMEyZ/L4A6vdLsZIwkp5////jb/dd8TtR4q4nrP/iF/J7cRes9IpGyF2Ke1jLjWnN6TYfkxN63OtRJA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxWpgMWbOxOdqPcTbIwcNWQhKcJwXZLY/8SSjpC252kvBVTrJxK
-	gVLnNF/gkmxZd1QqPvO9gxPFi75gdr98fPwsB/J5VJ7etpOBvJfTN/rD
-X-Gm-Gg: ASbGncvX/v61wxOjWF1Wxxmbx2q1zTtDlZ4IxDlr0iCi30jxqBsRUTrlFYpHbLa6PWk
-	CRY+aYSouW7Z5ywl1f21gkQF+KTRMD7CbgUjek0eNymYwrcJIgb3NFwItMMWgR1ns9XECXO1eIA
-	gG5+D4GLAF8MA6W7Ygw5I/rSyOKC6Sr7U4OJu0147gL38ZRt3a8unWhwzZTQBUDvc5/gJ/bQjZQ
-	/gxmNlLoqBvuu3JOboF2dg1mT6v69H2/ysQx7Zmpwzy0T6fpSwbFHXMYZdgsXhMK2qxdbFxmO5a
-	ufqzVl+EDMkYbBzVRCyt+QHOXqXnm4bq68Sn93BizvBgKWzHv3DJG2jgxbIkVvrBxV91uZTcL/c
-	3ij4C4mRyhTk/sDBVrHnjzHf4j5emBqmnjGscX5R+vzjdl+Q5NhWrnPnO66YhslqQFUn/Yj9ngl
-	l2Hcm1udnJX1p53C2UHMznJs+UUJeYaY6XWvoGoOJkvS/TZGN3weoQQWDdZFIM9KU69uhkmo+N2
-	jzf2UrWqqncguV6
-X-Google-Smtp-Source: AGHT+IFSSRU9nZJg5slEDozvAjxyejJ7ZTFz1HkUkQ1jF7r+FT16cfOI8lRbu19eL7jLdf5EECfspg==
-X-Received: by 2002:a5d:604b:0:b0:42b:43cc:982e with SMTP id ffacd0b85a97d-42cc1d0cf55mr27087914f8f.36.1764442327972;
-        Sat, 29 Nov 2025 10:52:07 -0800 (PST)
+        bh=lZpSqqVta4EKUDTZ6gcuVDadlBldwJkUtIewibPZy8I=;
+        b=Ro7vn/Tj8NtG773k0vBCVG+0LFFPM0BpFrX05xkC3CcyVopk/jyskPBbv8ik5DBiYG
+         lJdSh19dOuU8WM6kWxhMRC33/QVBfaM/qo/y70SAZW5g2CjzjbTS+nM734Aw4IfR1RFB
+         xnFTgnyLk8PZy/KBNMnI1Y+MiOvVkIN9k8BY+APAAUCgSstuBS/YX9itP5OZUKUgNYbA
+         gNKTMvugGpPyIMa0U6/+nBgBV68itnW2hDaa3W/QdfXCrT2IpqKVXccUcWxHaaX66d7n
+         BEZ4arh8PkUGbPCrH8kE3MexaKY2FfMZisEjxXt7rqNOSYXc7SmmFBBixuNtt22bNgpD
+         6/OA==
+X-Forwarded-Encrypted: i=1; AJvYcCXJGpUqNVI8CCy57ZlVJ89kZsKke22VKgLSvXGTY0DJt8Yz3gFUESQ0Q3BjupyS6Hp9JY/vtwpJAUVWxHAqbXj3+Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxBlrSNisZO5EXQ8iypzwU6psE1SEQuFnD5HCvIvmgV9WiI1fPy
+	FGwGdXfWFdFgPVEUqZI02km83GBmbz2DaxV9PSCbGdMXP8KS4oUL93A7
+X-Gm-Gg: ASbGncuCwqTTngsUlhVvF7F5kMWX2GbzAC7epnCez/mhDsXQLWgLNwkw8sF4SXE19AU
+	kKB5ngLvwGGtY8G2fKyAqRlZ0oKlf1jDJerX9dHJWW0LuYYOB+Qib1WsFh3vufB8NGThlkDMV93
+	/LF5FdjKjSkcR8Kp0P1M00lI/tVZ+Xg0BRX1OPMGsNtveiVFJCHRpxc5ARX+jT5eOW1gpPKAIEb
+	T3NukyKGH6JPwtACwusCGUOHGvkWEc+8wchozINU0zoCbjrexmK2Y+UCWq9FP+Yamltr6c0mqjE
+	QQlg7ex5Rh7GwN520cTvKCmiUrMOpdkAHqhNRhhTE8kqcuttU6hMW2yg2Vq93yZ6SMDfgdFze39
+	QtQP54TNRHIU8WR3g+Kiq8842Bu7mzDvOkia07iLSCizVyd7+I21xlZIZ7Sd1y4WtmzGw1ocfGF
+	KgLV2LPo4g5VmcE7nF+axA5bj9YZnLy1UdSjmmztSHlux/KmGXKQryV/YcpPdxKAnyMg09DtD9a
+	KogAscAB4Wvp566
+X-Google-Smtp-Source: AGHT+IEfGuNPJra0AAGagVJ77NUJMUuteF3uL7cBVhT7oo/OEtQtHVXuotkOLVZFr2JH/3zahgkndA==
+X-Received: by 2002:a05:6000:1a85:b0:42b:3e0a:64b8 with SMTP id ffacd0b85a97d-42e0f22c54amr21216570f8f.24.1764442328625;
+        Sat, 29 Nov 2025 10:52:08 -0800 (PST)
 Received: from localhost.localdomain (host86-162-200-138.range86-162.btcentralplus.com. [86.162.200.138])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42e1c5d613esm17442067f8f.11.2025.11.29.10.52.07
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42e1c5d613esm17442067f8f.11.2025.11.29.10.52.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 Nov 2025 10:52:07 -0800 (PST)
+        Sat, 29 Nov 2025 10:52:08 -0800 (PST)
 From: Biju <biju.das.au@gmail.com>
 X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -88,9 +88,9 @@ Cc: Biju Das <biju.das.jz@bp.renesas.com>,
 	linux-kernel@vger.kernel.org,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH v2 3/4] arm64: dts: renesas: r9a09g047e57-smarc: Enable rsci{2,4,9} nodes
-Date: Sat, 29 Nov 2025 18:51:58 +0000
-Message-ID: <20251129185203.380002-4-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v2 4/4] arm64: dts: renesas: r9a09g047e57-smarc: Add support for WIFI + BT test
+Date: Sat, 29 Nov 2025 18:51:59 +0000
+Message-ID: <20251129185203.380002-5-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251129185203.380002-1-biju.das.jz@bp.renesas.com>
 References: <20251129185203.380002-1-biju.das.jz@bp.renesas.com>
@@ -104,149 +104,148 @@ Content-Transfer-Encoding: 8bit
 
 From: Biju Das <biju.das.jz@bp.renesas.com>
 
-Enable device rsci{2,4,9} nodes for the RZ/G3E SMARC EVK.
+Add support for WIFI + BT test M.2 board [1]
+[1] https://www.embeddedartists.com/wp-content/uploads/2021/05/2AE_2BC_M2_Datasheet.pdf
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
-v1->v2:
- * Rearranged pincrl entries order by port number.
- * Updated the comments to reflect the board signals.
- * Added missing pins CTS4N and RTS4N.
- * rsci2 is guarded by macros SW_SER2_EN and SW_SER0_PMOD.
- * rsci4 is guarded by macros SW_LCD_EN and SW_SER0_PMOD.
- * rsci9 is guarded by macro SW_LCD_EN.
- * Added uart-has-rtscts to rsci4.
- * Dropped rsci{2,4,9} nodes from renesas-smarc2.dtsi as RZ/G3S does not
-   have RSCI interfaces.
+v2:
+ * New patch
 ---
- .../boot/dts/renesas/r9a09g047e57-smarc.dts   | 58 +++++++++++++++++++
- .../boot/dts/renesas/renesas-smarc2.dtsi      |  7 +++
- .../boot/dts/renesas/rzg3e-smarc-som.dtsi     |  4 ++
- 3 files changed, 69 insertions(+)
+ .../boot/dts/renesas/r9a09g047e57-smarc.dts   | 43 ++++++++++++++++++-
+ arch/arm64/configs/defconfig                  | 26 +++++++++++
+ 2 files changed, 68 insertions(+), 1 deletion(-)
 
 diff --git a/arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts b/arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts
-index 50e075745474..696903dc7a63 100644
+index 696903dc7a63..76f43c098123 100644
 --- a/arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts
 +++ b/arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts
-@@ -12,6 +12,8 @@
- #define SW_GPIO9_CAN1_STB	0
- #define SW_LCD_EN		0
- #define SW_PDM_EN		0
-+#define SW_SER0_PMOD		1
-+#define SW_SER2_EN		1
+@@ -15,7 +15,7 @@
+ #define SW_SER0_PMOD		1
+ #define SW_SER2_EN		1
  #define SW_SD0_DEV_SEL		0
- #define SW_SDIO_M2E		0
+-#define SW_SDIO_M2E		0
++#define SW_SDIO_M2E		1
  
-@@ -37,6 +39,9 @@ / {
- 
- 	aliases {
- 		i2c0 = &i2c0;
-+		serial0 = &rsci4;
-+		serial1 = &rsci9;
-+		serial2 = &rsci2;
- 		serial3 = &scif0;
+ #define PMOD_GPIO4		0
+ #define PMOD_GPIO6		0
+@@ -46,6 +46,7 @@ aliases {
  		mmc1 = &sdhi1;
  	};
-@@ -140,6 +145,28 @@ nmi_pins: nmi {
- 		input-schmitt-enable;
- 	};
  
-+	rsci2_pins: rsci2 {
-+		pinmux = <RZG3E_PORT_PINMUX(1, 0, 1)>, /* RXD2 */
-+			 <RZG3E_PORT_PINMUX(1, 1, 1)>, /* TXD2 */
-+			 <RZG3E_PORT_PINMUX(1, 2, 6)>, /* CTS2N */
-+			 <RZG3E_PORT_PINMUX(1, 3, 1)>; /* RTS2N */
-+		bias-pull-up;
-+	};
-+
-+	rsci4_pins: rsci4 {
-+		pinmux = <RZG3E_PORT_PINMUX(7, 6, 5)>, /* RXD4 */
-+			 <RZG3E_PORT_PINMUX(7, 7, 5)>, /* TXD4 */
-+			 <RZG3E_PORT_PINMUX(8, 0, 6)>, /* CTS4N */
-+			 <RZG3E_PORT_PINMUX(8, 1, 5)>; /* RTS4N */
-+		bias-pull-up;
-+	};
-+
-+	rsci9_pins: rsci9 {
-+		pinmux = <RZG3E_PORT_PINMUX(8, 2, 5)>, /* RXD9 */
-+			 <RZG3E_PORT_PINMUX(8, 3, 5)>; /* TXD9 */
-+		bias-pull-up;
-+	};
-+
- 	scif_pins: scif {
- 		pins = "SCIF_TXD", "SCIF_RXD";
- 		renesas,output-impedance = <1>;
-@@ -176,6 +203,37 @@ usb3_pins: usb3 {
++#if (!SW_SDIO_M2E)
+ 	vqmmc_sd1_pvdd: regulator-vqmmc-sd1-pvdd {
+ 		compatible = "regulator-gpio";
+ 		regulator-name = "SD1_PVDD";
+@@ -55,6 +56,7 @@ vqmmc_sd1_pvdd: regulator-vqmmc-sd1-pvdd {
+ 		gpios-states = <0>;
+ 		states = <3300000 0>, <1800000 1>;
  	};
++#endif
  };
  
-+#if SW_SER0_PMOD && SW_SER2_EN
-+&rsci2 {
-+	pinctrl-0 = <&rsci2_pins>;
-+	pinctrl-names = "default";
+ &canfd {
+@@ -201,6 +203,15 @@ usb3_pins: usb3 {
+ 		pinmux = <RZG3E_PORT_PINMUX(4, 1, 12)>, /* USB30_VBUSEN */
+ 			 <RZG3E_PORT_PINMUX(4, 0, 12)>; /* USB30_OVRCURN */
+ 	};
 +
-+	uart-has-rtscts;
-+
-+	status = "okay";
-+};
++#if (SW_SDIO_M2E)
++	wifi18-hog {
++		gpio-hog;
++		gpios = <RZG3E_GPIO(1, 5) GPIO_ACTIVE_HIGH>;
++		output-high;
++		line-name = "wifi1.8";
++	};
 +#endif
+ };
+ 
+ #if SW_SER0_PMOD && SW_SER2_EN
+@@ -211,6 +222,11 @@ &rsci2 {
+ 	uart-has-rtscts;
+ 
+ 	status = "okay";
 +
-+#if (!SW_LCD_EN) && (SW_SER0_PMOD)
-+&rsci4 {
-+	pinctrl-0 = <&rsci4_pins>;
-+	pinctrl-names = "default";
-+
-+	uart-has-rtscts;
-+
-+	status = "okay";
-+};
-+#endif
-+
-+#if (!SW_LCD_EN)
-+&rsci9 {
-+	pinctrl-0 = <&rsci9_pins>;
-+	pinctrl-names = "default";
-+
-+	status = "okay";
-+};
-+#endif
-+
- &scif0 {
- 	pinctrl-0 = <&scif_pins>;
++	bluetooth {
++		compatible = "brcm,bcm43438-bt";
++		max-speed = <2000000>;
++	};
+ };
+ #endif
+ 
+@@ -239,6 +255,7 @@ &scif0 {
  	pinctrl-names = "default";
-diff --git a/arch/arm64/boot/dts/renesas/renesas-smarc2.dtsi b/arch/arm64/boot/dts/renesas/renesas-smarc2.dtsi
-index a6e8eb730096..b607b5d6c259 100644
---- a/arch/arm64/boot/dts/renesas/renesas-smarc2.dtsi
-+++ b/arch/arm64/boot/dts/renesas/renesas-smarc2.dtsi
-@@ -13,6 +13,13 @@
-  *     0 - SMARC SDIO signal is connected to uSD1
-  *     1 - SMARC SDIO signal is connected to M.2 Key E connector
-  *
-+ * Please set the switch position SW_OPT_MUX.4 on the carrier board and the
-+ * corresponding macro SW_SER0_PMOD on the board DTS:
-+ *
-+ * SW_SER0_PMOD:
-+ *     0 - SER0 signals connect to M.2 Key-E, SER2 signals are unconnected
-+ *     1 - SER0 signals connect to PMOD, SER2 signals connect to M.2 Key-E
-+ *
-  * Please set the switch position SW_GPIO_CAN_PMOD on the carrier board and the
-  * corresponding macro SW_GPIO8_CAN0_STB/SW_GPIO8_CAN0_STB on the board DTS:
-  *
-diff --git a/arch/arm64/boot/dts/renesas/rzg3e-smarc-som.dtsi b/arch/arm64/boot/dts/renesas/rzg3e-smarc-som.dtsi
-index 7faa44510d98..eb0de21d6716 100644
---- a/arch/arm64/boot/dts/renesas/rzg3e-smarc-som.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg3e-smarc-som.dtsi
-@@ -13,6 +13,10 @@
-  *      0 - SD0 is connected to eMMC (default)
-  *      1 - SD0 is connected to uSD0 card
-  *
-+ * Switch position SYS.4, Macro SW_SER2_EN:
-+ *      0 - Select Module DSI connector(GPIO)
-+ *      1 - Select SER2
-+ *
-  * Switch position SYS.5, Macro SW_LCD_EN:
-  *      0 - Select Misc. Signals routing
-  *      1 - Select LCD
+ };
+ 
++#if (!SW_SDIO_M2E)
+ &sdhi1 {
+ 	pinctrl-0 = <&sdhi1_pins>;
+ 	pinctrl-1 = <&sdhi1_pins>;
+@@ -247,6 +264,30 @@ &sdhi1 {
+ 	vmmc-supply = <&reg_3p3v>;
+ 	vqmmc-supply = <&vqmmc_sd1_pvdd>;
+ };
++#else
++&sdhi1 {
++	pinctrl-0 = <&sdhi1_pins>;
++	pinctrl-1 = <&sdhi1_pins>;
++	pinctrl-names = "default", "state_uhs";
++	status = "okay";
++
++	vmmc-supply = <&reg_3p3v>;
++	vqmmc-supply = <&reg_1p8v>;
++	bus-width = <4>;
++
++	sd-uhs-sdr50;
++	sd-uhs-sdr104;
++
++	non-removable;
++	cap-power-off-card;
++	#address-cells = <1>;
++	#size-cells = <0>;
++	brcmf: wifi@1 {
++		reg = <1>;
++		compatible = "brcm,bcm4329-fmac";
++	};
++};
++#endif
+ 
+ &xhci {
+ 	pinctrl-0 = <&usb3_pins>;
+diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+index 370211c50d12..fc684cf56a6c 100644
+--- a/arch/arm64/configs/defconfig
++++ b/arch/arm64/configs/defconfig
+@@ -1910,3 +1910,29 @@ CONFIG_CORESIGHT_STM=m
+ CONFIG_CORESIGHT_CPU_DEBUG=m
+ CONFIG_CORESIGHT_CTI=m
+ CONFIG_MEMTEST=y
++CONFIG_BRCMUTIL=m
++CONFIG_BRCMFMAC_PROTO_BCDC=y
++CONFIG_BRCMFMAC_SDIO=y
++CONFIG_SERIAL_DEV_CTRL_TTYPORT=y
++CONFIG_BT_BREDR=y
++CONFIG_BT_RFCOMM=y
++CONFIG_BT_RFCOMM_TTY=y
++CONFIG_BT_BNEP=y
++CONFIG_BT_BNEP_MC_FILTER=y
++CONFIG_BT_BNEP_PROTO_FILTER=y
++CONFIG_BT_HS=y
++CONFIG_BT_HCIUART_NOKIA=m
++CONFIG_BT_HCIUART_BCSP=y
++CONFIG_BT_HCIUART_ATH3K=y
++CONFIG_BT_HCIUART_3WIRE=y
++CONFIG_BT_HCIUART_INTEL=y
++CONFIG_SND_SOC_MTK_BTCVSD=y
++CONFIG_SND_SOC_BT_SCO=y
++CONFIG_CRYPTO_RSA=y
++CONFIG_CRYPTO_HASH_INFO=y
++CONFIG_ASYMMETRIC_KEY_TYPE=y
++CONFIG_ASYMMETRIC_PUBLIC_KEY_SUBTYPE=y
++CONFIG_X509_CERTIFICATE_PARSER=y
++CONFIG_PKCS7_MESSAGE_PARSER=y
++CONFIG_SYSTEM_TRUSTED_KEYRING=y
++CONFIG_SYSTEM_TRUSTED_KEYS=y
 -- 
 2.43.0
 
