@@ -1,167 +1,139 @@
-Return-Path: <linux-renesas-soc+bounces-25398-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25399-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id A13E2C94C66
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Nov 2025 09:25:14 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28BEBC94C6F
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Nov 2025 09:26:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 835614E126D
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Nov 2025 08:25:13 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id ED9974E063B
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Nov 2025 08:25:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DE4323D2A3;
-	Sun, 30 Nov 2025 08:25:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07F0923C8C7;
+	Sun, 30 Nov 2025 08:25:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cdEpSpq1"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="axIp9aY8"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E11571F872D;
-	Sun, 30 Nov 2025 08:25:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CED4B1F872D;
+	Sun, 30 Nov 2025 08:25:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764491110; cv=none; b=vBgxiaIlWaqC/tIDIQYylNJb1GoGAVS6cmuAgTfh87RXKL9lYnehb0MgSsrxOiFx4JvEt18ZhV3V+uZVaDHf3M+3sICyv1XBoqWpW8Kh+bh7hleOzbTIis9AuJ0eN4B/346YuWHgjKGG09fo+Aiz674wkus14zNRpZ9Ul4rKK3c=
+	t=1764491156; cv=none; b=n3Jakywz6DEoxfoiJjZaJVYfz2sf9qYGYdEDLHAkWQ1LCf+r9OAozUMdH/D/1EKcWGr9l+lpnte2rRay9YfdjJcxFr8YAv5LZPlhzohkMRTcXS3iGgSziRgxJ7PvyWsLExXEPbFrwREOAhU6/+AvI6+bp3oCdooW5jVLVuPUmpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764491110; c=relaxed/simple;
-	bh=5f3DIe0As7PR/58uEnwK3X5mlA6zl240aZ/9BZDoJ44=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fn+BrsQd1vRLXpNYACWtHUn1fiz/YSM03WABMVI1yKF/3FZhjdsut15/Vwz7YBmM4lmo/v1iUXQGgCg5zMmvX7Pio0RrE33gjXd8BQrlnmJWldODXQl58Obf+b7A+cq1df17qiRpC/m8hgDpVgTJBsWQSXl0IUJ5ts+cRiW26lk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cdEpSpq1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5B8CC4CEF8;
-	Sun, 30 Nov 2025 08:24:59 +0000 (UTC)
+	s=arc-20240116; t=1764491156; c=relaxed/simple;
+	bh=PYHWnWKbcL0kYVp4X9GLi/I1tWsWC+HQPfK/nCT+Jyg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q18+Sxsyo9LW9rJaW4B4vQHMUz1SP+9PrDjCJfrpLY5WC8qD/weZCwDMLkUbe93to5kp5OdxMpgDtB7T5/E631IqOxFudlzTljGHJqdXoBAYJuscZEo7EcDFn9v/LToOFTEWkKrc+GpaC+3m6wcLb5fTJvRKHNI2CXmYBGutIDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=axIp9aY8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11D7CC4CEF8;
+	Sun, 30 Nov 2025 08:25:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764491105;
-	bh=5f3DIe0As7PR/58uEnwK3X5mlA6zl240aZ/9BZDoJ44=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=cdEpSpq1ZZzVOw1rvYd9030ngSkou03qThTg8lF8AnhGuxBjIFgBqfLDDbaDIlnQE
-	 P2IdvWzvYT2uXtvZMIVFxw6oCPIUgycjKQiXo+SM+SCYcpeNGtvRJBdrsdZQOH0Djz
-	 1Y8LXcZuhOAPFtcbjoKox/KXzQTRlUZu/ZBnezNZABMoIgGV3aS6MI/VkQEA6309zL
-	 8X4hPMtyqc51Dd8Ybw8t+ciu+Fsd+6HjM9Z3IIN4eLQWrd3tJX9nIpE6VYJU2fBP2o
-	 I4VCs3SWS4sOY4Efc/k73O1aERiNjfrkPGhhW5FO8XdbsoJxOSo7/yDxkas/oRd/qZ
-	 AHgoHbsDkKTTA==
-Message-ID: <42bbdec7-ce6d-417c-a13d-ce0a6782bc9a@kernel.org>
-Date: Sun, 30 Nov 2025 09:24:57 +0100
+	s=k20201202; t=1764491156;
+	bh=PYHWnWKbcL0kYVp4X9GLi/I1tWsWC+HQPfK/nCT+Jyg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=axIp9aY8OM5vCLiytXQHclaB6+3i7OF1h/2Ea8g6UPVwxA3g8fFlO6VT33AdkW9Uk
+	 Z+E9hal4xTbXHWNtpnx2eaRjS1eupkdl+BT3RT/NoLqioEWHQE4dsZEpAx42j+SeOb
+	 vm0WfkPvpBp6t0psP75pC7SAC76fQS8mM7b10DmWrUrf1m6sa2VUXZe+VJBYexavaQ
+	 OaLx4jSgktPKePienlR2Pfh6Hzl6+AVcRERxjBPbNwGE8eddk7TvfgImunT7pZ6SwY
+	 +5Cn+8rbKGuPuJGtrlkLrvuDkEBlW7hPmkAOB3hy/Iqu6WVMamEky3U84EJI4x57Jn
+	 U801vqLdikysw==
+Date: Sun, 30 Nov 2025 09:25:53 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Biju <biju.das.au@gmail.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, linux-pwm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Subject: Re: [PATCH v3 2/8] pwm: rzg2l-gpt: Add info variable to struct
+ rzg2l_gpt_chip
+Message-ID: <lb4h7cm5jv7xngwihq3k3kgcj7a33suictdjztv5xcy75wpafd@i4rf44e5sigi>
+References: <20250923144524.191892-1-biju.das.jz@bp.renesas.com>
+ <20250923144524.191892-3-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/22] dt-bindings: display: bridge: renesas,dsi: Add
- support for RZ/G3E SoC
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
- tomm.merciai@gmail.com
-Cc: linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
-References: <cover.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
- <1c7657d6c06d99bc2f90251995ad272b5704717d.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <1c7657d6c06d99bc2f90251995ad272b5704717d.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="gbxvle4qyffyhowu"
+Content-Disposition: inline
+In-Reply-To: <20250923144524.191892-3-biju.das.jz@bp.renesas.com>
 
-On 26/11/2025 15:07, Tommaso Merciai wrote:
-> The MIPI DSI interface on the RZ/G3E SoC is nearly identical to that of
-> the RZ/V2H(P) SoC, except that this have 2 input port and can use vclk1
-> or vclk2 as DSI Video clock, depending on the selected port.
-> 
-> To accommodate these differences, a SoC-specific
-> `renesas,r9a09g047-mipi-dsi` compatible string has been added for the
-> RZ/G3E SoC.
-> 
-> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> ---
->  .../bindings/display/bridge/renesas,dsi.yaml  | 120 +++++++++++++++---
->  1 file changed, 101 insertions(+), 19 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
-> index c20625b8425e..9917b494a9c9 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
-> @@ -28,6 +28,7 @@ properties:
->            - const: renesas,r9a09g057-mipi-dsi
->  
->        - enum:
-> +          - renesas,r9a09g047-mipi-dsi # RZ/G3E
->            - renesas,r9a09g057-mipi-dsi # RZ/V2H(P)
->  
->    reg:
-> @@ -84,6 +85,13 @@ properties:
->            - const: pclk
->            - const: vclk
->            - const: lpclk
-> +      - items:
-> +          - const: pllrefclk
-> +          - const: aclk
-> +          - const: pclk
-> +          - const: vclk1
-> +          - const: vclk2
-> +          - const: lpclk
 
-Why are you creating completely new lists every time?
+--gbxvle4qyffyhowu
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 2/8] pwm: rzg2l-gpt: Add info variable to struct
+ rzg2l_gpt_chip
+MIME-Version: 1.0
 
-No, come with unified approach.
+Hello Biju,
 
-Best regards,
-Krzysztof
+thanks for your patience, now I finally come around to tackle your
+series.
+
+On Tue, Sep 23, 2025 at 03:45:06PM +0100, Biju wrote:
+> =20
+> @@ -46,7 +59,6 @@
+> =20
+>  #define RZG2L_GTCR_CST		BIT(0)
+>  #define RZG2L_GTCR_MD		GENMASK(18, 16)
+> -#define RZG2L_GTCR_TPCS		GENMASK(26, 24)
+
+Even though this is only used once now, I wonder if it's beneficial to
+keep the name to have the definitions relevant to registers all
+together.
+=20
+>  #define RZG2L_GTCR_MD_SAW_WAVE_PWM_MODE	FIELD_PREP(RZG2L_GTCR_MD, 0)
+> =20
+> @@ -77,9 +89,14 @@
+>  #define RZG2L_MAX_SCALE_FACTOR	1024
+>  #define RZG2L_MAX_TICKS		((u64)U32_MAX * RZG2L_MAX_SCALE_FACTOR)
+> =20
+> +struct rzg2l_gpt_info {
+> +	u32 gtcr_tpcs_mask;
+
+For consistency I would have called this only gtcr_tpcs without _mask.
+But here I'm not entirely sure if this will be confused by the
+occasional reader with the actual value. What's your thought here?
+
+> +};
+> +
+>  struct rzg2l_gpt_chip {
+>  	void __iomem *mmio;
+>  	struct mutex lock; /* lock to protect shared channel resources */
+> +	const struct rzg2l_gpt_info *info;
+>  	unsigned long rate_khz;
+>  	u32 period_ticks[RZG2L_MAX_HW_CHANNELS];
+>  	u32 channel_request_count[RZG2L_MAX_HW_CHANNELS];
+
+Just these two very weak suggestions. Please consider these and tell me
+what you prefer. If you like to keep them as they are, that's fine for
+me.
+
+Best regards
+Uwe
+
+--gbxvle4qyffyhowu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmkr/44ACgkQj4D7WH0S
+/k43zgf/ew3o+ezHQ1O5HVJrNo2L8TH08lcfpeEO0UIMbaZKbsXk3lbQYmmhnR/T
+Sq8R/vwMR9pxuo26UDcpDBchbzShig++VsMWi6znPpQ5o9Yns2LikSp0e8avJUPs
+kfqgvprNBSIwQT8JkvqdcgVkbz2cHFnvKA18pe9ryrmsjFJZQZKq9+OIWz6Rpmvw
+o5fjHwzi5H9VyOFXn7TDfKRnGVK8UwCmrAVjoRSv2FkSIC4sQNH3DNyL/9r5I7Iq
+nTcgO4JqmKpfDVRemlMdfvv5ZzqLT48DAjp67BGbpg1F9mAgi59SGFH7xqM9q5QV
+ZzfTF0xJabAKpIuYyB9gONXbdrqn0w==
+=BnQx
+-----END PGP SIGNATURE-----
+
+--gbxvle4qyffyhowu--
 
