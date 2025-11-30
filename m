@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-25397-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25398-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4B11C94C56
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Nov 2025 09:22:49 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id A13E2C94C66
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Nov 2025 09:25:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 5DC304E137E
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Nov 2025 08:22:48 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 835614E126D
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Nov 2025 08:25:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0404B23D2A3;
-	Sun, 30 Nov 2025 08:22:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DE4323D2A3;
+	Sun, 30 Nov 2025 08:25:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HIELzPTa"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cdEpSpq1"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4D1A1391;
-	Sun, 30 Nov 2025 08:22:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E11571F872D;
+	Sun, 30 Nov 2025 08:25:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764490965; cv=none; b=HiA+1GdqTshOvY0ikQU+01oYdbOiQnob+JTaFrfk182p/HF1gRfKAX11PUTR6VEM0AJhr9MLKelL59pBkkZrg9694EJ9QRzfastezvU1u50rR0R6ACv7MLg1+urJfdiGGqH0OqvID7JEjzSewSIlj5gHas07bfncQgPyqVtflZM=
+	t=1764491110; cv=none; b=vBgxiaIlWaqC/tIDIQYylNJb1GoGAVS6cmuAgTfh87RXKL9lYnehb0MgSsrxOiFx4JvEt18ZhV3V+uZVaDHf3M+3sICyv1XBoqWpW8Kh+bh7hleOzbTIis9AuJ0eN4B/346YuWHgjKGG09fo+Aiz674wkus14zNRpZ9Ul4rKK3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764490965; c=relaxed/simple;
-	bh=bUUaXl2BJ4t+2CfI/IqewjPp7TRtclQJMBF9Fk3c3hQ=;
+	s=arc-20240116; t=1764491110; c=relaxed/simple;
+	bh=5f3DIe0As7PR/58uEnwK3X5mlA6zl240aZ/9BZDoJ44=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NZoKeHCR7L8bQyrVa+av+VrC7W9kaDeYQm2/aQbQ/hQARr9/oYFhNUmcTD0/C3EtH4nly1FYXxzPX+A+VycpJWnp/uKqngjwyD+jFAyFEEXIjDAnfMEnu0CW07xzEM0TEQ3rF3HvIE7wGQMBGgct6M01/Pjs6RzXNQ/cwRHeJSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HIELzPTa; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8712C4CEF8;
-	Sun, 30 Nov 2025 08:22:41 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=fn+BrsQd1vRLXpNYACWtHUn1fiz/YSM03WABMVI1yKF/3FZhjdsut15/Vwz7YBmM4lmo/v1iUXQGgCg5zMmvX7Pio0RrE33gjXd8BQrlnmJWldODXQl58Obf+b7A+cq1df17qiRpC/m8hgDpVgTJBsWQSXl0IUJ5ts+cRiW26lk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cdEpSpq1; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5B8CC4CEF8;
+	Sun, 30 Nov 2025 08:24:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764490965;
-	bh=bUUaXl2BJ4t+2CfI/IqewjPp7TRtclQJMBF9Fk3c3hQ=;
+	s=k20201202; t=1764491105;
+	bh=5f3DIe0As7PR/58uEnwK3X5mlA6zl240aZ/9BZDoJ44=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=HIELzPTaySdP0h91vuZ1eqAPsnckadwsikeSxfvLv09fbL5lLG2pHgRzLw2yOV0hT
-	 blr9YFcLgmOS8rbKlw9DlclJVokIKJGjvHow8CpO0Kq8t0bqvHRwbQpqqMI/juDY2P
-	 XqnDdQsbM95kJ60p6A+c0Et0LPLnp2e1hQ4qf//M8/+liUCw2NpsXGsTXap1hQtpQ+
-	 H4JgtwHzg8aAEDxAAvAKi5mP6TdxjIYbVthm+//T+AKRgGGSRpi5OpK6Ld6nrQVCrn
-	 F9oxgVEIUR3wV6V1YF2CTF/+JW6PZmdINfPaOsr0ENOVtxT2A/ZKPl1not03luGDoi
-	 lIYMvTIjThKVA==
-Message-ID: <2080db04-9845-4193-8dd9-7bb84894815b@kernel.org>
-Date: Sun, 30 Nov 2025 09:22:39 +0100
+	b=cdEpSpq1ZZzVOw1rvYd9030ngSkou03qThTg8lF8AnhGuxBjIFgBqfLDDbaDIlnQE
+	 P2IdvWzvYT2uXtvZMIVFxw6oCPIUgycjKQiXo+SM+SCYcpeNGtvRJBdrsdZQOH0Djz
+	 1Y8LXcZuhOAPFtcbjoKox/KXzQTRlUZu/ZBnezNZABMoIgGV3aS6MI/VkQEA6309zL
+	 8X4hPMtyqc51Dd8Ybw8t+ciu+Fsd+6HjM9Z3IIN4eLQWrd3tJX9nIpE6VYJU2fBP2o
+	 I4VCs3SWS4sOY4Efc/k73O1aERiNjfrkPGhhW5FO8XdbsoJxOSo7/yDxkas/oRd/qZ
+	 AHgoHbsDkKTTA==
+Message-ID: <42bbdec7-ce6d-417c-a13d-ce0a6782bc9a@kernel.org>
+Date: Sun, 30 Nov 2025 09:24:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,20 +50,27 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: mmc: renesas,sdhi: Add mux-states
- property
-To: Josua Mayer <josua@solid-run.com>, Ulf Hansson <ulf.hansson@linaro.org>,
+Subject: Re: [PATCH 09/22] dt-bindings: display: bridge: renesas,dsi: Add
+ support for RZ/G3E SoC
+To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
+ tomm.merciai@gmail.com
+Cc: linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>,
  Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Mikhail Anikin <mikhail.anikin@solid-run.com>,
- Yazan Shhady <yazan.shhady@solid-run.com>, Jon Nettleton
- <jon@solid-run.com>, linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20251128-rz-sdio-mux-v1-0-1ede318d160f@solid-run.com>
- <20251128-rz-sdio-mux-v1-1-1ede318d160f@solid-run.com>
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
+References: <cover.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
+ <1c7657d6c06d99bc2f90251995ad272b5704717d.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -109,62 +116,51 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20251128-rz-sdio-mux-v1-1-1ede318d160f@solid-run.com>
+In-Reply-To: <1c7657d6c06d99bc2f90251995ad272b5704717d.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 28/11/2025 17:15, Josua Mayer wrote:
-> Add mux controller support for when sdio lines are muxed between a host
-> and multiple cards.
+On 26/11/2025 15:07, Tommaso Merciai wrote:
+> The MIPI DSI interface on the RZ/G3E SoC is nearly identical to that of
+> the RZ/V2H(P) SoC, except that this have 2 input port and can use vclk1
+> or vclk2 as DSI Video clock, depending on the selected port.
 > 
-> There are several devices supporting a choice of eMMC or SD on a single
-> board by both dip switch and gpio, e.g. Renesas RZ/G2L SMARC SoM and
-> SolidRun RZ/G2L SoM.
+> To accommodate these differences, a SoC-specific
+> `renesas,r9a09g047-mipi-dsi` compatible string has been added for the
+> RZ/G3E SoC.
 > 
-> In-tree dts for the Renesas boards currently rely on preprocessor macros
-> to hog gpios and define the card.
-> 
-> By adding mux-states property to sdio controller description, boards can
-> correctly describe the mux that already exists in hardware - and drivers
-> can coordinate between mux selection and probing for cards.
-> 
-> Signed-off-by: Josua Mayer <josua@solid-run.com>
+> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 > ---
->  Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
+>  .../bindings/display/bridge/renesas,dsi.yaml  | 120 +++++++++++++++---
+>  1 file changed, 101 insertions(+), 19 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> index c754ea71f51f7..55635c60ad73a 100644
-> --- a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> +++ b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> @@ -106,6 +106,11 @@ properties:
->    iommus:
->      maxItems: 1
+> diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
+> index c20625b8425e..9917b494a9c9 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
+> @@ -28,6 +28,7 @@ properties:
+>            - const: renesas,r9a09g057-mipi-dsi
 >  
-> +  mux-states:
-> +    description:
-> +      mux controller node to route the SDIO signals from SoC to cards.
-> +    maxItems: 1
-> +
->    power-domains:
->      maxItems: 1
+>        - enum:
+> +          - renesas,r9a09g047-mipi-dsi # RZ/G3E
+>            - renesas,r9a09g057-mipi-dsi # RZ/V2H(P)
 >  
-> @@ -262,9 +267,17 @@ unevaluatedProperties: false
->  examples:
->    - |
->      #include <dt-bindings/clock/r8a7790-cpg-mssr.h>
-> +    #include <dt-bindings/gpio/gpio.h>
->      #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/pinctrl/rzg2l-pinctrl.h>
->      #include <dt-bindings/power/r8a7790-sysc.h>
->  
-> +    mux: mux-controller {
-> +            compatible = "gpio-mux";
-> +            #mux-state-cells = <1>;
-> +            mux-gpios = <&pinctrl RZG2L_GPIO(22, 1) GPIO_ACTIVE_LOW>;
+>    reg:
+> @@ -84,6 +85,13 @@ properties:
+>            - const: pclk
+>            - const: vclk
+>            - const: lpclk
+> +      - items:
+> +          - const: pllrefclk
+> +          - const: aclk
+> +          - const: pclk
+> +          - const: vclk1
+> +          - const: vclk2
+> +          - const: lpclk
 
+Why are you creating completely new lists every time?
 
-Wrong indentation and not really relevant here, so just drop.
+No, come with unified approach.
 
 Best regards,
 Krzysztof
