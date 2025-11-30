@@ -1,170 +1,139 @@
-Return-Path: <linux-renesas-soc+bounces-25401-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25402-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E365C94C8C
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Nov 2025 09:39:18 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49D59C94F39
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Nov 2025 13:11:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id CF4A8344B47
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Nov 2025 08:39:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EC4E43A3D35
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Nov 2025 12:11:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBA48238171;
-	Sun, 30 Nov 2025 08:39:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B20AC2765D4;
+	Sun, 30 Nov 2025 12:11:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DzZtkNC8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QstWaQil"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A058A537E9;
-	Sun, 30 Nov 2025 08:39:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8354036D510
+	for <linux-renesas-soc@vger.kernel.org>; Sun, 30 Nov 2025 12:11:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764491952; cv=none; b=Q4AmavNUu6ZWlcCxeurjxlnDQFEF0UkEAp64NoDUMjFbQ5nhmHcD1oGmJp++tGQWvrmTEvtwANleoTbR5gNXqHjOvYHhqvjthY1SkOS3zQaGuV468xtvRPWZ0mQTngwD1vVYIjpeWlJhfvIAQLJzW8W9WD2ad2uJqKBA2ZngmLA=
+	t=1764504690; cv=none; b=YNo7xUbxXwxfVZyxmma/7OYPyC9g32Eh0XSj8eETDn7qlLuHIKG7lYYFHfiWr830RXldVL8/AOkzP8B7GC/RvYA861qAZYlcOv+MRPYggxeqwRChlIED6QkSTjYZSQjmbO1QGf8GDi0XK8d7H48RjPW1kwxaRBkfuGj0SJygMls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764491952; c=relaxed/simple;
-	bh=8vOTHzmCf5/xvLzxXR0X3YKXDP9IWOBID+jKXczDy3s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UqpufrjnvO2tVZDaBjhzz9JPzFsPldW6qnsIb4hRPDvVsgkgh1Z3UFRBMgHgchn7UESEeHmVV2f29nbKeB3IoonU3wL4nVRn6lVqIZ30zuJOBxwjvc4mcGBrPIvVUZseuEuW99x9Pw10U5ONLIFg8IC0H2iIQUGwpQSxaJdY780=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DzZtkNC8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD02CC4CEF8;
-	Sun, 30 Nov 2025 08:39:10 +0000 (UTC)
+	s=arc-20240116; t=1764504690; c=relaxed/simple;
+	bh=pD+3UK8qUgnsBWqr+U+WVaR977MABOrEMHiqQn4DhpE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Iu1Fk2cFYmPhAQAVUdsLcVfggBfgbkgWkPnZiDWPfkPLNy3+K7lYeEPMz+fscwjIWHHmpriWOjM9KQbvq8x+sPCIufPMBAoH0RN+mPluWrQ6+RQuUajuF23V2B5sGz1jWe2TR9SbbWrdK9zts5+Z+uM0UXaSOQ2DFAu5iAeXL/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QstWaQil; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47ACFC4CEF8;
+	Sun, 30 Nov 2025 12:11:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764491951;
-	bh=8vOTHzmCf5/xvLzxXR0X3YKXDP9IWOBID+jKXczDy3s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DzZtkNC8Xd0tiq6r9WOePBDc46yzXn2Iuy8Tj2QtqFS3WYMtSpzLXLs1l6wpUg80R
-	 kum8IIn3wIGsZPo503JiNE2C1eKLIAQsB+wvlvJeDHfr+Z8SKFFTL7cs+apTljo3fv
-	 f2miwH4pYWPtGvQkRzQCV8vWcU4x8qr6qb8BKsfwtfSvpkGhOhdFfjb6D0HUQUVz5P
-	 Fo0IVYKrrv2Gxxrh+vSvBsS7pdPGcp+84BOFAre87N5xqTwvrzesGxp+5YE8z1FOOp
-	 NjG8YKqlxMXUGdjKw3Tb1Vw3Ai8oQD421CnAkl7qPOoVdQj/MUJUmLvg1h7gfu/ABT
-	 9vAcYtyxyP/jA==
-Date: Sun, 30 Nov 2025 09:39:08 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-To: Biju <biju.das.au@gmail.com>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	linux-renesas-soc@vger.kernel.org, linux-pm@vger.kernel.org
-Subject: Re: [PATCH v3 6/8] pwm: rzg2l-gpt: Add suspend/resume support
-Message-ID: <wah57av7ypb42zcaosx7n64j6qmmcq5ylhgnde2brbiy6o7sun@7rqkr6ke3g5k>
-References: <20250923144524.191892-1-biju.das.jz@bp.renesas.com>
- <20250923144524.191892-7-biju.das.jz@bp.renesas.com>
+	s=k20201202; t=1764504690;
+	bh=pD+3UK8qUgnsBWqr+U+WVaR977MABOrEMHiqQn4DhpE=;
+	h=From:Subject:Date:To:Cc:From;
+	b=QstWaQilX///3ucVZau189nWyajX3mxV8OjUPVXFnHfO2jGJ6SjudP5lKYawrk5Z2
+	 xdxLneLIKYI5y3yWvJ6AsRz+FwKdSykyMT/qKpXoAp6qx6WPL++H7t2GhmiRYqv7bG
+	 2ecA+GBdr6ltda2tZz2SgPy1F52VSNGxmgds/19Vl5XafYeoWiScp94MT5KG6GAqNf
+	 9wEm/7N8pehet6G+/u1aIGKwMPO/gXUBH3+M5X2QFa8xcC70k6w7c6fa008C9C0/5C
+	 7KRo+HST0ocB2fFVQMmrmHQeolIhZkaqp2JaaCZdU6dDYjGujJQ+OXjiEeyjOFluSm
+	 hE4a7RkI1D8YA==
+From: Linus Walleij <linusw@kernel.org>
+Subject: [PATCH v5 0/3] drm/atomic-helpers: Fix MCDE/R-Car DU regressions
+Date: Sun, 30 Nov 2025 13:11:16 +0100
+Message-Id: <20251130-mcde-drm-regression-thirdfix-v5-0-aed71a32981d@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="rpnzmdgir2lvb6ia"
-Content-Disposition: inline
-In-Reply-To: <20250923144524.191892-7-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/43NQQ6CMBCF4auYrh3TFtDiynsYF5ROYRKhZkoaD
+ eHuFla60uX/MvlmFhGZMIrzbhaMiSKFMUe134m2b8YOgVxuoaWulNIShtYhOB6AsWOM6z1MPbH
+ z9ARlZWO9rbSWtcjEgzHPG3+95e4pToFf27dUrOufcCpAgi6twtqYo7X+cqex4XAI3IlVTuWnp
+ n5oZdacqa03rTp5U31py7K8AQZ/O0QXAQAA
+X-Change-ID: 20251120-mcde-drm-regression-thirdfix-1b0abfb52209
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Marek Vasut <marek.vasut+renesas@mailbox.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, Aradhya Bhatia <a-bhatia1@ti.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org, 
+ Linus Walleij <linusw@kernel.org>, 
+ Geert Uytterhoeven <geert@linux-m68k.org>
+X-Mailer: b4 0.14.3
 
+This fixes two regressions experienced in the MCDE and
+R-Car DU DRM drivers after
+commit c9b1150a68d9362a0827609fc0dc1664c0d8bfe1
+"drm/atomic-helper: Re-order bridge chain pre-enable and post-disable"
+caused a series of regressions in all panels that send
+DSI commands in their .prepare() and .unprepare()
+callbacks.
 
---rpnzmdgir2lvb6ia
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Subject: Re: [PATCH v3 6/8] pwm: rzg2l-gpt: Add suspend/resume support
-MIME-Version: 1.0
+This series make it possible to selectively bring back the
+old behaviour with explicit semantics and implements
+the old behaviour as modified commit tails in MCDE and
+R-Car DU.
 
-On Tue, Sep 23, 2025 at 03:45:10PM +0100, Biju wrote:
-> +static int rzg2l_gpt_suspend(struct device *dev)
-> +{
-> +	struct pwm_chip *chip = dev_get_drvdata(dev);
-> +	struct rzg2l_gpt_chip *rzg2l_gpt = to_rzg2l_gpt_chip(chip);
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < RZG2L_MAX_HW_CHANNELS; i++) {
-> +		if (!rzg2l_gpt->channel_enable_count[i])
-> +			continue;
-> +
-> +		rzg2l_gpt->hw_cache[i].gtpr = rzg2l_gpt_read(rzg2l_gpt, RZG2L_GTPR(i));
-> +		rzg2l_gpt->hw_cache[i].gtccr[0] = rzg2l_gpt_read(rzg2l_gpt, RZG2L_GTCCR(i, 0));
-> +		rzg2l_gpt->hw_cache[i].gtccr[1] = rzg2l_gpt_read(rzg2l_gpt, RZG2L_GTCCR(i, 1));
-> +		rzg2l_gpt->hw_cache[i].gtcr = rzg2l_gpt_read(rzg2l_gpt, RZG2L_GTCR(i));
-> +		rzg2l_gpt->hw_cache[i].gtior = rzg2l_gpt_read(rzg2l_gpt, RZG2L_GTIOR(i));
-> +	}
-> +
-> +	clk_disable_unprepare(rzg2l_gpt->clk);
-> +	clk_disable_unprepare(rzg2l_gpt->bus_clk);
-> +	reset_control_assert(rzg2l_gpt->rst_s);
-> +	reset_control_assert(rzg2l_gpt->rst);
-> +
-> +	return 0;
-> +}
-> +
-> +static int rzg2l_gpt_resume(struct device *dev)
-> +{
-> +	struct pwm_chip *chip = dev_get_drvdata(dev);
-> +	struct rzg2l_gpt_chip *rzg2l_gpt = to_rzg2l_gpt_chip(chip);
-> +	unsigned int i;
-> +	int ret;
-> +
-> +	ret = reset_control_deassert(rzg2l_gpt->rst);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = reset_control_deassert(rzg2l_gpt->rst_s);
-> +	if (ret)
-> +		goto fail_reset;
-> +
-> +	ret = clk_prepare_enable(rzg2l_gpt->bus_clk);
-> +	if (ret)
-> +		goto fail_reset_all;
-> +
-> +	ret = clk_prepare_enable(rzg2l_gpt->clk);
-> +	if (ret)
-> +		goto fail_bus_clk;
-> +
-> +	for (i = 0; i < RZG2L_MAX_HW_CHANNELS; i++) {
-> +		if (!rzg2l_gpt->channel_enable_count[i])
-> +			continue;
-> +
-> +		rzg2l_gpt_write(rzg2l_gpt, RZG2L_GTPR(i), rzg2l_gpt->hw_cache[i].gtpr);
-> +		rzg2l_gpt_write(rzg2l_gpt, RZG2L_GTCCR(i, 0), rzg2l_gpt->hw_cache[i].gtccr[0]);
-> +		rzg2l_gpt_write(rzg2l_gpt, RZG2L_GTCCR(i, 1), rzg2l_gpt->hw_cache[i].gtccr[1]);
-> +		rzg2l_gpt_write(rzg2l_gpt, RZG2L_GTCR(i), rzg2l_gpt->hw_cache[i].gtcr);
-> +		rzg2l_gpt_write(rzg2l_gpt, RZG2L_GTIOR(i), rzg2l_gpt->hw_cache[i].gtior);
-> +	}
-> +
-> +	return 0;
-> +fail_bus_clk:
-> +	clk_disable_unprepare(rzg2l_gpt->bus_clk);
-> +fail_reset_all:
-> +	reset_control_assert(rzg2l_gpt->rst_s);
-> +fail_reset:
-> +	reset_control_assert(rzg2l_gpt->rst);
-> +	return ret;
+Signed-off-by: Linus Walleij <linusw@kernel.org>
+---
+Changes in v5:
+- Prefix all exported atomic commit helpers with drm_atomic_helper_commit_*
+- Add kerneldoc to all new exported atmomic commit helpers.
+- Add comments into the MCDE and Rcar DU quirks explaining what is
+  altered as compared to the standard helper functions.
+- Link to v4: https://lore.kernel.org/r/20251121-mcde-drm-regression-thirdfix-v4-0-d89bf8c17f85@linaro.org
 
-I wonder what happens if these calls in the error path fail. I think the
-correct way would be to track the actual state to handle the state on
-the next invokation for .resume() properly. But note that suspend/resume
-is a somewhat blind spot for me, so I'm unsure here. (And I'm aware that
-most resume callbacks don't cope cleanly here.)
+Changes in v4:
+- Fix a copypaste-bug in the Renesas Rcar-DU driver.
+- Actually compile this using the shmobile defconfig and make
+  sure it works.
+- Collect Geert's Tested-by.
+- Link to v3: https://lore.kernel.org/r/20251120-mcde-drm-regression-thirdfix-v3-0-24b1e9886bbf@linaro.org
 
-I added linux-pm to Cc:, maybe someone can speak up about the
-expectations here?
+Changes in v3:
+- Switch to a new approach: export helper functions and create the
+  special helper directly in the driver instead.
+- Drop Marek's patch and write a new RFT patch with the same
+  semantic content as the MCDE patch.
+- Link to v2: https://lore.kernel.org/r/20251118-mcde-drm-regression-v2-0-4fedf10b18f6@linaro.org
 
-Best regards
-Uwe
+Changes in v2:
+- Queue Marek's patch first in the series for coherency.
+- Add a patch to also preserve the late CRTC disablement
+  semantic.
+- Rename helper function to reflect the new semantic.
+- Update the MCDE patch to use the new callbacks.
+- Link to v1: https://lore.kernel.org/r/20251118-mcde-drm-regression-v1-1-ed5583efbd68@linaro.org
 
---rpnzmdgir2lvb6ia
-Content-Type: application/pgp-signature; name="signature.asc"
+---
+Linus Walleij (3):
+      drm/atomic-helper: Export and namespace some functions
+      drm/mcde: Create custom commit tail
+      drm/rcar-du: Modify custom commit tail
 
------BEGIN PGP SIGNATURE-----
+ drivers/gpu/drm/drm_atomic_helper.c           | 122 +++++++++++++++++++++-----
+ drivers/gpu/drm/mcde/mcde_drv.c               |  45 +++++++++-
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c |  33 ++++++-
+ include/drm/drm_atomic_helper.h               |  22 +++++
+ 4 files changed, 195 insertions(+), 27 deletions(-)
+---
+base-commit: 6548d364a3e850326831799d7e3ea2d7bb97ba08
+change-id: 20251120-mcde-drm-regression-thirdfix-1b0abfb52209
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmksAqkACgkQj4D7WH0S
-/k60Ogf9EdyzCceL/FLLmM6ywlVMBetlhlj4ZfpVCmPlBWdb++La6jxCUTGORaR/
-OWqSwsXCRbIY+tIMSf+tIfUSgkbia3RdeXE3FJZwkn+N2zvuEBJ4h8k074JZGP96
-xsYiYyTaNkclG2toCuCezWfVeSZRG24Uj6SKbF/uwEjEUl2zczY8DXEucBb6NtK6
-0IdRNbV7l2K1doE3B5uDmG3H4kYpSfnnKAxOj+QUvTQFO9HOaO0QkCNJ6m6r83nQ
-C4t06Ef7qpMJBO75vmK6Hpg9S/HTuElfZbBOSf0/H+Hq8rpg0nS2jAYOrBAitrVL
-HjU98hnT35ob0Kzi+XqJroMWhFF7RA==
-=0pJy
------END PGP SIGNATURE-----
+Best regards,
+-- 
+Linus Walleij <linusw@kernel.org>
 
---rpnzmdgir2lvb6ia--
 
