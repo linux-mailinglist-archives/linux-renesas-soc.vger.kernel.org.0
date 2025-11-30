@@ -1,125 +1,165 @@
-Return-Path: <linux-renesas-soc+bounces-25409-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25410-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A6BEC94FAC
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Nov 2025 13:55:45 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37938C94FD7
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Nov 2025 14:10:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 492C7343F2C
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Nov 2025 12:55:44 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B70E74E0539
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Nov 2025 13:10:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1848F1E0DFE;
-	Sun, 30 Nov 2025 12:55:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3827AD5A;
+	Sun, 30 Nov 2025 13:09:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gww/dvdD"
+	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="d5eWb3Zm"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E724B1C84B8
-	for <linux-renesas-soc@vger.kernel.org>; Sun, 30 Nov 2025 12:55:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24A6E23A98E
+	for <linux-renesas-soc@vger.kernel.org>; Sun, 30 Nov 2025 13:09:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764507340; cv=none; b=GzHQbe75AU2nrFuTDHS/eDJgWXzfTm94cIUUtf1KP2mhN49CZncu4QGItI252EWexj8kCRfr5tly9E2TJk8LD8HMMPpUGsJv5g2XkpEv2LJroHeIifbpFIGj52DCjNHra4tCSW/GH3eyfUFFPFTTEPZ6WivOt/FI8OJlTRH3dOc=
+	t=1764508199; cv=none; b=ip2CXuNGZgyfon1FfJ6qOtQKZ90HnqqAAB+ovVD1n3euGkMj0sP+vRuFGv2Ee5Kp7/KXiS8tmg2avd98LHXej2ji3s2zw/7ZrdQ2NAuuTD1C9bFumdMOyssqyunoUNkm4o2SGcRrhmHGo68+JWTTKGDqtxT3X6/xQkftMz/1nqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764507340; c=relaxed/simple;
-	bh=+CUU91VE9U+UPRFztWIsw6a0HFlxr+X7N2lteq6FDVE=;
+	s=arc-20240116; t=1764508199; c=relaxed/simple;
+	bh=GiWaax2Wc3zbu9RvrCaY6s8VLk1fuWJvLLtVwMu0eLU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cM6PXtcmvrV7imIicuRUJNSoOngTWeGvIyF8FtsgcILFsgiCmgwIgFBzxGs7iGVQpJideUWMMFVvuMFJF22GOfU9DkyaJOTSXKWvGwSM5CclaGgN+g00EyNBTpW/3ub+fd8vSJAwbQov96OEo5IJj4CLyUz0uXZaJfpioZeUyYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gww/dvdD; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AB0EC116D0
-	for <linux-renesas-soc@vger.kernel.org>; Sun, 30 Nov 2025 12:55:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764507339;
-	bh=+CUU91VE9U+UPRFztWIsw6a0HFlxr+X7N2lteq6FDVE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Gww/dvdD+675GJvFeEUzoJ9+9j1fimzRlqZN4XMYb6eQ22Y67C+MtVRScVEvjgMj1
-	 ZpYvL+nwB2pztVPvokl4UbEkKUzonZlmU5BFppJ+9Lj4kIxmWwfdBjPYKKj54W7re6
-	 pCCNXn8T8DUMXZbwGdNQTa6g0p5S1DYOA0f5Hfr506b7n58qIcvUcbv8I+2GP1lQr/
-	 zN1r7Jpu0BI8REbIRc1G32Hi5dMOEcFzmasdNLVlXuv3R46/uzyCsVukiB757JeGhN
-	 2uDujYZ14AcjgVrLFPsqEQlrLMsGQFouXavU4LbUHBbzAin4+3g/0GH9NV7GhWXo1f
-	 wmvNB24EyWnFw==
-Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-7c6d1ebb0c4so2169355a34.1
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 30 Nov 2025 04:55:39 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVLGrFGcXQpKKjMuOdHxocmHgpso89R9QwIhF5j0wj5Rarj8hN10npimYrTgY1Ta3y+DgpREiulU41jvjdegfdczg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxdnqg5c53mpJe+4F3TmL3//l+8CUV2A7TPwOegexTG3aALzsPf
-	ZkrAoJe7j9CUgmyT3nYTjyYvhaHyW6ZQiBtPtlzV19n4QdygXfd2Go4ENdwhlrgFpdDoxG3Zuj/
-	sHlxUp6IDKuATM1ja5oezmUUbsCTtZ5M=
-X-Google-Smtp-Source: AGHT+IGgWthYmyiiRHTuIz/8bWmUoFRUwbcURTcZh3qG98AznU0lJvk231Fz5Su9DD5JkuIHGit6aHtLEtrfKZseF8E=
-X-Received: by 2002:a05:6830:924:b0:7c7:dff:2ac1 with SMTP id
- 46e09a7af769-7c798b8a7dbmr18909653a34.3.1764507338846; Sun, 30 Nov 2025
- 04:55:38 -0800 (PST)
+	 To:Cc:Content-Type; b=CfAGnmDalt7uiyNxIfcJarUGymSTLs6b+WaTvS9DdWOsAA3jqCgH/hW66r3wCLgKABWyuD/jPBsm7r35Aj/TjPR2NXSF4UgDfGwiFikUmQkg3pPoDIXLuQTkrCFhAZ46UlKcRDZYArgtuk8G32OfjIl7EqDH4o3Tr1KmG8c4txg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com; spf=pass smtp.mailfrom=googlemail.com; dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b=d5eWb3Zm; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=googlemail.com
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-295548467c7so38475395ad.2
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 30 Nov 2025 05:09:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20230601; t=1764508197; x=1765112997; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FNmbbxbBaoTz8DomyGsXnxRB8wBP1F/AJR530QwYnIc=;
+        b=d5eWb3ZmvHbeV7glCICJSUcP18r/RWTm0m4aan2HRRUE+TlfUx+RTEbwVKxUEiwUVY
+         33g362VthRlxbunzjT9dCWwpHpaIPoaeLWYqIE4uMULKzwjZGJoiVpRV+GfCXnayTZU5
+         WDxfJO+GzVC/JOBACXn0LDFL2l/Ed2hqI4fwEcLf8Lgf5hFyHQ4QhtQ59oB19VoWRoiu
+         aAJ3GI0jNdrErahVM1u+jQEjIu8o4DcUMtPq7eaFctH0K9a4XIeoM5Zi3gVJKbIeoyiO
+         Pem+BnUpSJiGaOmnrgjqrMvdKRsHdUTH2jiweVXUC1jkHBLClx+x+sP/lF3nfEpO9461
+         0jLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764508197; x=1765112997;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=FNmbbxbBaoTz8DomyGsXnxRB8wBP1F/AJR530QwYnIc=;
+        b=jWreNA+fQq9Uz+maybmGfRKJ6HRdWHdgOBcmReYuVTM54egjoya5SAZfcEMXVT8IhP
+         IERoFeHJBpb9rr6HKAMeMfSmYOlPT5t8llEg+68HmCbGTR296n7jW4o3DQHph1Fn/OiS
+         5KwYyMH4I/zjaVlmq0o5bmkfg6mtJAua21MNWbRpMb16dbjcGDpLfNvZvKykzmDxJC8Z
+         wjX8h/ZP77Da3d3JgO0IvXYxYiZJPrZy4+kqaddNZq7NlKWskoVYvfeLF0gEyN0XHPfm
+         97oXD6XXdKqsOE3UXkDb94FI3So2WyERl7KQhTkFRdJarZSh5VIvlHWuqgXR9HWaKymE
+         0Pjw==
+X-Forwarded-Encrypted: i=1; AJvYcCXESOcIZiSm8tYzWRxu5igw5zPE/a2MGKTOTv+IiXrTX3wFSHBIQARHiDkfd1Zo1+omKRvQrnaoiiJbAF40MxfK8g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yynlkmx2jrOA/1bKuBP3BtYOVh7LF9qnMCEQqZjvQXToKs8HI0Z
+	CDHC7QbIXixp+xSpNbGhatef9EOEEcgADcAwJIpQZTTsm7ttP6xEE2Lxnj/Ue+sC/EwaxA6ZQFq
+	mRixRqPdtlXFLxR+3RWiowEJ1xUT+swQ=
+X-Gm-Gg: ASbGncsdfgZrD23MXcmUFDUYAKz4kV3ERyn2WKoNCW+5tQ5mCLSZ97y166pZxxGIoA/
+	kYbn/tBZXgzki7r/oR7EHEu0p2aKZHgkixNfm+eIP8yHb+3sa3pzkG0/aZ386UabO3JNrhm5h8C
+	+JT3aXF/j82+TRLQS8iGfXe9N6Y9LFKSz55iEAn3t8FTK1YQtZBOSMfBN70FQc98FFWhg6w1aMl
+	90+13s986prLhTywXjZkJyphpIkj4n2Qj37+ILsDKJIn0kYW47eGQNAaoDdpfXqfFFjLiV1lFPf
+	1p2ajOZXZYfOUylOptKekABbqL1W
+X-Google-Smtp-Source: AGHT+IG53GhYkY/+dF5qGVT19Jadft1SJnnMvw5Wcu0qyYtU4QLG8FtzqF0lB0krYhtMk3QufvRzdFqig5aHMJFxvm0=
+X-Received: by 2002:a17:903:903:b0:295:a1a5:bae9 with SMTP id
+ d9443c01a7336-29b6be86b48mr332545755ad.8.1764508197220; Sun, 30 Nov 2025
+ 05:09:57 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251120-thermal-device-v1-0-bbdad594d57a@gmx.de>
- <CAJZ5v0jOPrBcozzJMsB1eE12MuZRWDAV-+=jfrhJbi=S0p5J9Q@mail.gmail.com>
- <5f3ef610-4024-4ca0-a934-2649f5d25f40@gmx.de> <CAJZ5v0iJVV=kf-aJBx8F8dtGfaZpGVyhfi6DBWEg4j3c_nH8_A@mail.gmail.com>
- <e360b9b3-ada4-4cd1-8971-097484cf3f5f@gmx.de> <CAJZ5v0ij_Frdrya3=FaekbU2DFHUyBJnBq-oe9jRsB9eqXDisA@mail.gmail.com>
- <ed619280-6f25-4df6-98ca-890bdc343435@gmx.de> <CAJZ5v0hMPCRU_p_krX3nKzB=5TX7hGU38iyNmhSJSHO2j7K3eA@mail.gmail.com>
- <de14f2c4-e7b3-43a1-a9ee-9caba196b0f5@gmx.de>
-In-Reply-To: <de14f2c4-e7b3-43a1-a9ee-9caba196b0f5@gmx.de>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Sun, 30 Nov 2025 13:55:24 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0h3=9V8FFehyaPiG2SreRgeyvKK+oAkR_gzKQQNDBmczQ@mail.gmail.com>
-X-Gm-Features: AWmQ_bm74BLkYigBlEZwhgK9orhm-MSGQUfAzuwxqXDI_Qt7_9TxZm-rm-hXNS4
-Message-ID: <CAJZ5v0h3=9V8FFehyaPiG2SreRgeyvKK+oAkR_gzKQQNDBmczQ@mail.gmail.com>
-Subject: Re: [PATCH RFC RESEND 0/8] thermal: core: Allow setting the parent
- device of thermal zone/cooling devices
-To: Armin Wolf <W_Armin@gmx.de>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, Len Brown <lenb@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Ido Schimmel <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>, 
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
-	linux-tegra@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	linux-doc@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-wireless@vger.kernel.org, ath10k@lists.infradead.org, 
-	ath11k@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, platform-driver-x86@vger.kernel.org, 
-	linux-pci@vger.kernel.org, imx@lists.linux.dev, 
-	linux-renesas-soc@vger.kernel.org
+References: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-0-88f8a107eca2@bootlin.com>
+ <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-17-88f8a107eca2@bootlin.com>
+In-Reply-To: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-17-88f8a107eca2@bootlin.com>
+From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Date: Sun, 30 Nov 2025 14:09:46 +0100
+X-Gm-Features: AWmQ_bkqQ0yeDiiVRXlgzLTrdqIA678_lHRrauQKV29M6KsFuJAoinD-iLMIAaM
+Message-ID: <CAFBinCCQjeUu7pgfwViH6b0-M6S_sKgfvz9VAP1hpqLRj=bL_g@mail.gmail.com>
+Subject: Re: [PATCH v2 17/26] drm/meson: encoder_*: use devm_of_drm_get_bridge()
+ to put the next bridge
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Jonathan Corbet <corbet@lwn.net>, Alexey Brodkin <abrodkin@synopsys.com>, Phong LE <ple@baylibre.com>, 
+	Liu Ying <victor.liu@nxp.com>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Adrien Grassein <adrien.grassein@gmail.com>, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Anitha Chrisanthus <anitha.chrisanthus@intel.com>, Inki Dae <inki.dae@samsung.com>, 
+	Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Hui Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+	Louis Chauvet <louis.chauvet@bootlin.com>, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+	linux-amlogic@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Nov 29, 2025 at 12:36=E2=80=AFPM Armin Wolf <W_Armin@gmx.de> wrote:
+Hi Luca,
+
+On Fri, Nov 28, 2025 at 5:54=E2=80=AFPM Luca Ceresoli <luca.ceresoli@bootli=
+n.com> wrote:
 >
-> Am 28.11.25 um 12:40 schrieb Rafael J. Wysocki:
+> This driver obtains a bridge pointer from of_drm_find_bridge() in the pro=
+be
+> function and stores it until driver removal. of_drm_find_bridge() is
+> deprecated. Move to devm_of_drm_get_bridge() which puts the bridge
+> reference on remove or on probe failure.
 >
-> > On Fri, Nov 28, 2025 at 12:50=E2=80=AFAM Armin Wolf <W_Armin@gmx.de> wr=
-ote:
-> >> Am 27.11.25 um 22:46 schrieb Rafael J. Wysocki:
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> ---
+>  drivers/gpu/drm/meson/meson_encoder_cvbs.c | 2 +-
+>  drivers/gpu/drm/meson/meson_encoder_dsi.c  | 2 +-
+>  drivers/gpu/drm/meson/meson_encoder_hdmi.c | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/meson/meson_encoder_cvbs.c b/drivers/gpu/drm=
+/meson/meson_encoder_cvbs.c
+> index dc374bfc5951..bf8588a5f6dd 100644
+> --- a/drivers/gpu/drm/meson/meson_encoder_cvbs.c
+> +++ b/drivers/gpu/drm/meson/meson_encoder_cvbs.c
+> @@ -241,7 +241,7 @@ int meson_encoder_cvbs_probe(struct meson_drm *priv)
+>                 return 0;
+>         }
+>
+> -       meson_encoder_cvbs->next_bridge =3D of_drm_find_bridge(remote);
+> +       meson_encoder_cvbs->next_bridge =3D devm_of_drm_get_bridge(priv->=
+dev, remote);
+>         of_node_put(remote);
+>         if (!meson_encoder_cvbs->next_bridge)
+>                 return dev_err_probe(priv->dev, -EPROBE_DEFER,
+Would you be happy with me sending a patch that replaces the whole
+logic in two meson_encoder_{cvbs,dsi,hdmi}.c with
+devm_drm_of_get_bridge()?
+I see two benefits:
+- simpler code
+- a patch less in your series (less maintenance burden for you)
 
-[cut]
+What I'm not sure about is how this series interacts with
+devm_drm_of_get_bridge() which is why I'm asking before cooking a
+patch.
 
-> >> What do you think?
-> > One advantage of using parents is that it will help user space to
-> > figure out connections between the abstract cooling devices and the
-> > associated hardware or firmware entities.  I think that this is an
-> > important one.
-> >
-> > It also doesn't prevent fwnode_handle from being used because the
-> > fwnode_handle may just be stored in the parent.  I like this more than
-> > associating fwnode_handles directly with abstract cooling devices.
-> >
-> > If the cooling device parent (that is, the provider of the cooling
-> > mechanism used by it) does not have an fwnode_handle, then either it
-> > needs to be driven directly from user space, or the driver creating a
-> > thermal zone device needs to provide a specific .should_bind()
-> > callback that will know what to look for.
-> >
-> OK. When sending the next revision of this patch series, should i also ke=
-ep
-> the patches for the thermal zone device or should i only keep the patches
-> concerning the cooling devices?
 
-The cooling device changes are kind of unrelated to the thermal zone
-device changes, so it would be better to send them as separate series,
-but you may as well send those series at the same time as far as I'm
-concerned.
+Best regards,
+Martin
 
