@@ -1,68 +1,68 @@
-Return-Path: <linux-renesas-soc+bounces-25411-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25412-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46F0DC94FE4
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Nov 2025 14:17:40 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AB8CC94FF9
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Nov 2025 14:18:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id EF8B74E1019
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Nov 2025 13:17:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8B0453A423C
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Nov 2025 13:18:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8580188A3A;
-	Sun, 30 Nov 2025 13:17:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2321F27E7F0;
+	Sun, 30 Nov 2025 13:17:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="RA0/BvUv"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="RkVCUV2g"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010044.outbound.protection.outlook.com [52.101.69.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE1461A267;
-	Sun, 30 Nov 2025 13:17:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA09827703A;
+	Sun, 30 Nov 2025 13:17:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.44
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764508654; cv=fail; b=LsE0mpA/ViQD9naMm33ULyoUWLLZaEe/RwG+OoldrNaEN2c5Uo2DVUxZKdwGFPdg8SkPDrM0MFZgABrOnNBkNVkM1jkEnMIn01BIwtkFWEf28TMOWxGZU109JKRMFfdO4lzLwlRnTDr9V9/bKiBTqN9Xu402QZoxGKZIZfZlP64=
+	t=1764508664; cv=fail; b=d5fXIQfVkU9xaA16r1kmQwRJgzxeMj1lY9ukCvjSARcL4+EGcbxMgupJfXCuQgN7ApPKoR1qDpQMJKGOJ3ptj5Iybd3RvgYfRNFMqJP4Gi1cuJrdGk1pIsCW7mAbBz9se9B3r3/g+xG2+0UYWs3kDzp3G6+zlKmhw6RkG8f9+kg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764508654; c=relaxed/simple;
-	bh=Y18b6FYuXizCL4Mm2tzOVeTA1IFe+cvB5dviBmRv+UQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=a1qmIQ/LPepJAmZhY1XNWrGtuprZV2ucIp5V5bKv2WFvUB6rnmkvJNslU/7Z0sD2ZzPj/bvpu6TBi4RtpeU+zMKNteBzhgxL2WLvbZMc1tFt1V+WVfVY88ZXkR1BFaAyFLCUeJu7lIhIrI/HfF+HzNn31G1Dygivf9x2Lw8v59E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=RA0/BvUv; arc=fail smtp.client-ip=52.101.69.44
+	s=arc-20240116; t=1764508664; c=relaxed/simple;
+	bh=fTIDU7IW5hE1NW34a/NS+asNToG097IG4EMFadGGvVM=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=cHsffQcf0k1Jn3ogyc6Jt+/VNAJcQrY81SMhKfMoZjI/y6aalt9Dd2gnxGitzXV8yBRvWMmRtbnBsw9eS6rZzIf4lSJNEiEOBXpXpeOo32fyc5QM3rA1WSVG8FPYt1vcmLERRruoYuxcuHmbntcBeekfIYpNjyyhYOwmcm8Vndc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=RkVCUV2g; arc=fail smtp.client-ip=52.101.69.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hztsunD5o110dP9hGTWbt7dP+RBip1YgHzC4ACdS+3HCFlhS3QZ5pWHrlxQ2OQjdLLAtZybAZBYPURg2Y65bt4U3qR222GL2TSrwMVY+2KagfZXqFyzK0IOX2j6DVx3LLp2tFuqlt7GlvjIQMONGReQfiKF/mfyGTNS0bSwo1jJ6hBPH/Tj97722Wrh9EswICe6Rl7MkdOrDjuoQoGOfKtPVKyFdUlSCPHyy7AyQuLLOHti40vEm6/mJSVywx90TQ/sS4M7HL050HxKONMrcooo5mtp7gae4yjOpxYkh2k12zip7JnUoKKP9QvvZGinwK9qrPkAZS5cLncgapLqB0Q==
+ b=mzopGN+wPCcSG0Subbpq1QTExC1ddDMy54gEdQhWiabpamD10qdeE7Z54/r4TaW4MBJnYfE3kT9aQ2UEsO/lGDNIEd2Ia3dwjpts8bJlbdBRM9zaiZK6qUlWljUpHjuNBmKGHYFfOGgp4MxH2mz1puUgyV0nwIJHQGRuHMBan3ilPOxR3dBkreZnF++aiyRip79vXz4nV3Io3zf4d2Ss+ikzuYOrtCseqjUxjCXAcUn63Ygbe9sYii+qmLKhPrdYzHqJQRUNcQjDR019AZZb7h7zMPFGhHHFrdAgmZMtf4ES1XNh87zOZCdp8ukOpeytTk9fQsPQOqi6He246ctGiA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OVlWKWYEANU540XBYjASDefC5R5fe+FBBMIFl0wdvNY=;
- b=A+ttP9VhaDBFMrwvDgJ3w0VZQcZURu/ke/iRsuY5HsMbP/2xhwPR7yZdNquSLUc66hg00S8Dv1eAElWxIXahg5yMJJc17EQC0ay7S1uWJFz+drkkOmONqqBc9l0hVJTe7JI3YKAxYLyj4fnNC1gZwyGpzkeLpa7QMxt4YNHb6X+hNDLI6OUdLhwYA6hnNnpu+sn7Wiq0S4LYgsHOrgwkuZsaST1oTyUkdNRspZwQgtwvGruzzxJ8EUo0swkB09ZGcRmx4kVEZIqmYsp772RLiansrrpZ342O2FAiYfDqqokxQv9B8706dXpDXMT8ZoHT++ZrgoCln4RKmTnLxRqCKw==
+ bh=EWK1jtfjAWwY9fPDJoHcrWNKI+CKl32VxNr1jtJk6C8=;
+ b=e8LISKWfPU0kSd/+srlKBfwnrkirKNEIgk71AczrX7VmiojF6Ysj8TZGUK3IL5Zqf5SoYbPFqMpbb+RmgY4Elo5ioxfi52MVNTRze0jl2KJ/BvUtTIFDwWMTrQW3NqxS4nul9I94ykUEK3vV+pdAYhOe1GNTEbSCHFlk4+NhCfk9nWov+UjTJji+TtH9X9UNpqr5GOskTNof9oZc19eL4h0izQOa+BsgXU17XWCbBMRxxlFCfa+RXMNyuboKsqREzdO1zvJUXtPjXbvd9YAd8OR8JTC5xyrOWodDMoz6GEygdflm92OpPocc8NT2/wgLPtTUOMeliLhThRpxJK/kLA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OVlWKWYEANU540XBYjASDefC5R5fe+FBBMIFl0wdvNY=;
- b=RA0/BvUvhhgbRAOPCdfe8PJx5qReh4Erg76UuW7S27MDbJYlBhq4x/KSgEaCMBv4o1Fjhz5h6321l08amDFVjanGebyTO6S7BSYs0ZSXdPjJ8bvGGvcZefTM1h7zeAJ8Jy/LOvOllTz325b5NRir2Wkv62QrmZPoWKjLoxyr6N5VLVPNwMcvBT4/xjv9B7ip21EskCkvjl06492coSiVvrRGAJpb5Lplx/uv7YpnUGMq9YG/H7MMonstsL7/KzrAtabIEiidFK5KmfXugbmZSsd4zCU62RNxvp65sw/a/Zo8AskkKkHWSZOJijy5jDj8K4HWnuBP61APt9NVLfEGyw==
+ bh=EWK1jtfjAWwY9fPDJoHcrWNKI+CKl32VxNr1jtJk6C8=;
+ b=RkVCUV2gufHq770fviD9R02PUtL/3z1F3uoaEjDQwEk0pMUvaW386rnwQ5jBBCSygEOy4BhnKxinCn47gXHneCmMRRC0TquTJhGo4lPPcq3MJPFi7CF0bl8FiLPovuChtQ+BZ+VaFdoByhWkEXA8jN37Qe26mfNe3QxEOT2FAd2qYAD+opCfKQvMwe2Y7sgZoomNdduVFUTsFfGcFoztZlpS1tRcVugqYyDFA7nT6zPBfjedlOIYY7RX9VKGDjpOhmq0Y9VXVmSAE7bWsHuNMY89NtObuuy0LuyYDQg66Ak2a4wb9e0gCsFtsWGQnIJxHmic51xhGJfs/mtKSIgaLg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AM9PR04MB8585.eurprd04.prod.outlook.com (2603:10a6:20b:438::13)
  by AM0PR04MB12034.eurprd04.prod.outlook.com (2603:10a6:20b:743::8) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Sun, 30 Nov
- 2025 13:17:29 +0000
+ 2025 13:17:34 +0000
 Received: from AM9PR04MB8585.eurprd04.prod.outlook.com
  ([fe80::8063:666f:9a2e:1dab]) by AM9PR04MB8585.eurprd04.prod.outlook.com
  ([fe80::8063:666f:9a2e:1dab%5]) with mapi id 15.20.9366.012; Sun, 30 Nov 2025
- 13:17:29 +0000
+ 13:17:34 +0000
 From: Vladimir Oltean <vladimir.oltean@nxp.com>
 To: netdev@vger.kernel.org
 Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	David Yang <mmyangfl@gmail.com>,
 	=?UTF-8?q?Alvin=20=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
 	=?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>,
-	"Chester A. Unal" <chester.a.unal@arinc9.com>,
 	Daniel Golle <daniel@makrotopia.org>,
-	David Yang <mmyangfl@gmail.com>,
 	DENG Qingfang <dqfext@gmail.com>,
 	Florian Fainelli <florian.fainelli@broadcom.com>,
 	George McCollister <george.mccollister@gmail.com>,
@@ -70,17 +70,16 @@ Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
 	Jonas Gorski <jonas.gorski@gmail.com>,
 	Kurt Kanzenbach <kurt@linutronix.de>,
 	Linus Walleij <linus.walleij@linaro.org>,
-	Lukasz Majewski <lukma@denx.de>,
-	Sean Wang <sean.wang@mediatek.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Woojung Huh <woojung.huh@microchip.com>,
-	Xiaoliang Yang <xiaoliang.yang_1@nxp.com>,
 	linux-renesas-soc@vger.kernel.org,
-	UNGLinuxDriver@microchip.com
-Subject: [PATCH net-next 00/15] DSA simple HSR offload
-Date: Sun, 30 Nov 2025 15:16:42 +0200
-Message-Id: <20251130131657.65080-1-vladimir.oltean@nxp.com>
+	Sean Wang <sean.wang@mediatek.com>,
+	UNGLinuxDriver@microchip.com,
+	Woojung Huh <woojung.huh@microchip.com>
+Subject: [PATCH net-next 05/15] net: dsa: add simple HSR offload helpers
+Date: Sun, 30 Nov 2025 15:16:47 +0200
+Message-Id: <20251130131657.65080-6-vladimir.oltean@nxp.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20251130131657.65080-1-vladimir.oltean@nxp.com>
+References: <20251130131657.65080-1-vladimir.oltean@nxp.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-ClientProxiedBy: VI1PR06CA0128.eurprd06.prod.outlook.com
@@ -94,142 +93,134 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AM9PR04MB8585:EE_|AM0PR04MB12034:EE_
-X-MS-Office365-Filtering-Correlation-Id: dea54a68-6f98-4784-a61d-08de3012cfb7
+X-MS-Office365-Filtering-Correlation-Id: 861a75f3-584c-475b-dd56-08de3012d313
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|366016|52116014|7416014|376014|1800799024|19092799006|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?MFhzYkdKTndnbVFvZVl4YWVUQkRpWUphVkRjNW9vTkMyOHcvOFlxMXZYTTVI?=
- =?utf-8?B?bzc4U0ROaU5QZWZlQmtGRTdkNlhDL2Fyek9hZkpObUh2UkoxTGsvZ3lSZFJn?=
- =?utf-8?B?djVndlN3bklSeUM1bjdkeTVtQndKZXN4am51VlVLSHhKTGYwYWFmVEJDck1z?=
- =?utf-8?B?dGtQcSt0bFZSZnMyNkIrSDRPOHUrM3BMeGRBbEkwWXlsSGtkQjlwK3U5Uk5C?=
- =?utf-8?B?YWJTdzI4TFhKMG5Ea1ZTMVo5dnpsTkZKLzlnUHlSNk14OE01NEZiM1FjOUl4?=
- =?utf-8?B?WVlTcmdFbXgxbU40VERCaWQvbWtrcVhrOGloRVlVOXpxNWZJMGtSOEx4b0RN?=
- =?utf-8?B?cDJJdVBBZnk3VEFZT1lnYTlxejhOU3R3WUdLWGtBV0loTjRQdVFYNS8rL3Jn?=
- =?utf-8?B?Z0xIMUFabDQzZldlaEFoQkx0VzE0MFc0d1BhbXJnR3ZLSCtyd1pQUElsbm41?=
- =?utf-8?B?ZHZ6cDNEbWVWTC81bXVIR1lBQm5nUWRVM3pQOVdYN2dHN3cybTdYejZ3ZWdS?=
- =?utf-8?B?TGFMdUNTZllySldrQkd3Wlo4cTQ3R01RdlNDaVJqMFBSSXE0VkhpKzN3U1Fy?=
- =?utf-8?B?N1U5MW1INE9oUkk3Y0YxMmU4Z3RBbW9XU1ZJZEJlSFIyYzBDNzNhMXV2aGNL?=
- =?utf-8?B?MWQwNjBiZTJIaXV5Y2U3a1A1bHlOaWh1Tko4VnhzOEw5Y0xRc3dZWmNBaVFu?=
- =?utf-8?B?eEdRTXJDOEI4aU15SjQyMTRNN2lrdDJiZ3FtY1VEOG5BbG9SVzZVdFdIK3BW?=
- =?utf-8?B?Nm5nYTBUaWk5Q3VOMWp1bXJJODdkZWpLVnAyUEJyWi9mSkV2TVlTVTRkT2Qr?=
- =?utf-8?B?bjAyM0pPaWhSQjBabnRlR1hETVdMeU1ZNjNWdlZYc0pjbmxFSFhpVlo4OW81?=
- =?utf-8?B?UlRncXpxMjB1YVRqeEN1Y0sreGpUTlhpdWZrNmt0WG1pNUtyc0I3emdmUHRz?=
- =?utf-8?B?YWJvQzk2Q3Zra29sUk1JRUZmM3NCZHRSTWRrWW5jR3FiRmdlWVdoSFlseWxH?=
- =?utf-8?B?ZmtWNXJQQjVUeERuUG5FRUpQNlNDcjlsY29KWEZKOXVKMFlIejBaeXFnTXJD?=
- =?utf-8?B?NkdwMkVGWDVORUg5b0cyODdGb0FUVFRSR0d0Y3JlRlpSRi9xcjE4NmlEZUNV?=
- =?utf-8?B?dlhFWTdzZC9RdmRSOTdPaUlnU0MrWmJpVit5VkxubE5DOTdDMExzUjlYUnVu?=
- =?utf-8?B?QUJseFo4aUVWdEs1akZjZ1NobXIwcmFKS0Frc3lwYTFGVFN3dnNudjZzTmJa?=
- =?utf-8?B?TGowb25RZnpwS0Q5R3VIVE9mSDVKRXRtSnBPMGo3NFBJTnRRTjYvUlRzcU8z?=
- =?utf-8?B?THl6WE9zbUQzeHo0aVNuYXI4NXVqNTBsWlBjbWxUNWV4Q1drN1E4TUJGVHZ4?=
- =?utf-8?B?a2RDeElhbkNxMmpHTjRzYVFDSnpxeFQ4VVB5cUI5YWlLaWNNVnpYWFB4SzIz?=
- =?utf-8?B?NWZhZkY0cjIrZnNVMk1Iak1xU3kzQmt1ZGJib1dkVFc1MDljNU9YcHZhWWJI?=
- =?utf-8?B?NEg1SlhlQzlHQ1hrV0liU2pFMlZIa0hRbGhVaklQSVNTNk1HU0dHdGg2QVNs?=
- =?utf-8?B?S3c1YXk5UUh2ekl0cVlVc2pPVXRDd0ljVTU3NzBzSVBNdW8vaitYdm1pWHBv?=
- =?utf-8?B?QW0zUm8yYmV6TzB3TWNwUStvNVdVaktMQkdsQVp4M3FpaTc1VS84OUsvbzNI?=
- =?utf-8?B?Y2I5RkY2V1F3YSsxTlRrenU1WVFJellPV2tLM2tnS3ozeWNpa2ZQa2FaR2tm?=
- =?utf-8?B?WUloblhmZGw0SjF1RkJjNmRWeUluZVlRS0hFdXd2NjVUMGZURDRBQS8zRzF1?=
- =?utf-8?B?RGNuaExyYjl6SU4wWmJhRDRiT1BhYkNvU0xDcG5DQUJ1OENGeEU3Y0QvZlhN?=
- =?utf-8?B?dVovSHF4MzM0QUtnNVpGSHpWWCtJSDVSRk1DdUVSMlZUKzdZclpuTjc0S3dF?=
- =?utf-8?B?NDJEYjhhTHBnYTQ5VFJsRjlUSXYzWm9JLzg2NDI2WU9NdFZPTnMvZWVxMnR6?=
- =?utf-8?B?WmF2bzl0bzBaQzJVWHArTHlsOUZkWWpNMFpKU1N6M3JSR0k2V3pkU0hYZTZn?=
- =?utf-8?Q?VXQafn?=
+	=?utf-8?B?OHJTc3ZtemVKOERNRDVDdXdrVmVyTnJEUE5GelNiSHdhQWdHWndZMERFZncv?=
+ =?utf-8?B?M2JGTDJ5cmdrTjUzWGtvSVoydDhXdDJIam1DdTZreG5XSVk0U1k2NERZdnJV?=
+ =?utf-8?B?MXl5K0Fab2R2MWJwTVA1R1FQUlB2Q0ZTUmlPZ3Nua1M2bS9RZnFnd2dlb1I4?=
+ =?utf-8?B?ajhOVHl4bGJUWTlRWkE5VjFpOTdsTHZ4d0E5VVhDWjVJcVB1akNMaUdnb0hY?=
+ =?utf-8?B?TEJiaHZ2bStzNlhSSG9IMkRPMUc3M2lLSFk1V2RrZkRrNXdNWGFWdlBKNXBJ?=
+ =?utf-8?B?NVJNUFZ0a3JubDZRYmZtdUUrSW1Sbi9nQ0RTY2tVN0Y2NnUyRU43V3pTbURu?=
+ =?utf-8?B?U0YxSHBMK2IyUWpIQm94TEZVYlhOa0E2U2FLRitHNTd2NlNWRjhlNW01SUFt?=
+ =?utf-8?B?a3VwS1p6bmJ2ZUlBTmZQRFowRzd4aFVSWStNVC9oL2hxQ1JRa1dPQ0UvRGRn?=
+ =?utf-8?B?eUw4OVlkbHk3eXd3ZmtEd2ZQUEx1YmtIVUZ2YjlsWHAwN0o2T04vZ1BWWDNx?=
+ =?utf-8?B?SjlaK3dINUhkcXQvOFEyQnZaRmNGVFRlWkk4OStVY3F1NkRsWlVaQnFmT1Ir?=
+ =?utf-8?B?K2lZTXNQUXAyN3ZFcFZaWUZrNnJYM2FSR1lWak1NMnNST2dMK1ozbGJDY2Rl?=
+ =?utf-8?B?WHpzSkNLWGR6WkE2Y3YrRiswaDVUbWJYN2l3bWIyQ3dpWmtYNDhsN2tJcFdI?=
+ =?utf-8?B?cEFQTDJvMnNjZ0lZUUxIWllrcEVKcWgrWU9xWXNjWHhHc1ZTb1FoMEZFdUhO?=
+ =?utf-8?B?SVpuSlk0Y20ybWVPNlRRN0d2Y2FudktTbzZVZGMreHdpMlpZd1hjY2J5MU1G?=
+ =?utf-8?B?MHVIWGVKL3Z0RXFzSnp1UmZkaktERDBiMGd1Rm5Jc2Jnc1JDd0xibjJ6L0hu?=
+ =?utf-8?B?K1VQeG5GRzNFUFM0Sm9SK2FObVAwR2VuRmNNRnRYMVZITUh2M1FCb3MyVHhl?=
+ =?utf-8?B?MnFvME82WVdQd1htNVlWRisraXo0UHg3Q05EVStqck1EVVBsVkp3dFo2d3Rs?=
+ =?utf-8?B?NGVKVHFtNHEzM3Mvd1pEQnV6N3JoSmdmT1BxVDBsQ2lNVnZQQjJKSmxWVUJq?=
+ =?utf-8?B?UEhqSUkvT1BhaHM5cWFhUld4bnVuK3UyUFAzTmJzN29nS2lFRkJTMW5vanZ2?=
+ =?utf-8?B?K0FVbDg5Tjg4Q2lwOVJKSnlpL0xwNzBiVEl1ZUtyOTh0SWdHcXBxN0dGRkdB?=
+ =?utf-8?B?SlBLSlYwdCtySmNsdFdvdlVwWXUweWsrVVBBZ1AyUjQxc3FHbVZnWTNZMWs0?=
+ =?utf-8?B?ODgyM2hhMnpqa0cvSmpabTgxUVFEL1lFRmQvTGt2VHlOVFIwTU0zaldMRDR4?=
+ =?utf-8?B?V1VvSDVFTm5ESDFIajh4R0tneXRpdTNXSHZCSG1iWVd6dnZFZUJqWElOOXRz?=
+ =?utf-8?B?ZS9WOEpaT2MrQjJpYTRsbjIrSjZKYUw2cEtyb0EyUEs4NWNNcFdTUnFTbWhr?=
+ =?utf-8?B?TDNweGU1TTR6TzdzQ2xpVEY5L2pJYWh4Qnk0TmpCc2xTKytzQi8xRVdXUnVV?=
+ =?utf-8?B?TW8weXZOL2E4eXNLT0VIY1NvSTYwZm9mV2ZacklhZ0dtQ2k0Y1BLcGttTDUx?=
+ =?utf-8?B?cE5GbkFuWVhCMVozZERYejdRYnJvVUE4Z2w5M3FZWE1JN3BxVmwyT1pUQkgz?=
+ =?utf-8?B?OTRYYWdwTGNIdmUyblNrNVpKVGFVYkZIL1A5d2hZQm1iVVRNVGRuSGQ3WitI?=
+ =?utf-8?B?anNaUzRuSWFrQzNQM05FdFZlU05nT2tmdm9FSjIwNVJsVEhza1IybmhaRlZ4?=
+ =?utf-8?B?dlpPL1JpRUtpOVlCZmhFMldQTW9RQzJJeVBtVW9RQjN4Ui9HR05saXREaEVM?=
+ =?utf-8?B?VE9OYzdYdVBkUzBYanNQU09QeVdOcWVWako5VzFqRFhoZ3A4T3ZneWhCWGVp?=
+ =?utf-8?B?NUpHQWRETXM4enE4U1FjemQ3Z1NkTnFEU3ZHZEliM1V3bGFST1Z1WlJYdHh1?=
+ =?utf-8?B?MzF6dFJOZ3c3aGxmZFB5dUxaemxXMmtFR2ZUemVLNHVycmt5bWN0WkJVbXJV?=
+ =?utf-8?B?MURvQWNvUGVQZ1N5eUpNY3FvRHM3cTJ1eHRIU2QwL0VYbUNTZTkxcFloeVhz?=
+ =?utf-8?Q?n09AcF?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8585.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(7416014)(376014)(1800799024)(19092799006)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?cHNIV2xXUTlZd0lNdThScEdyYzN5Z25pSExBTXd1UEtHcVplYnczSWtlWWty?=
- =?utf-8?B?T2p4VnpHMy9nS1ZnREtJalZFa2laalJqbVJPNjZtS2FzazRZNVhGaGdWbXdJ?=
- =?utf-8?B?cU5zQThBLzZaclFRM3VLU2Q1NGhRVU5HSENsY2NoRmJrV0ppZ1BqeVQ4NVRo?=
- =?utf-8?B?dEZab2o3d3p4d0lpLzRiL08rSUZVamFRazVuVEI2QXlhTnByNHd5QlRmT1Bz?=
- =?utf-8?B?OHFoSVVtejVJNHNMWHNVN1Q3ZDlYWU9vd0pFWWhBOCtldzdQS3luVHppVVEz?=
- =?utf-8?B?czhBZW9RL0FFUFhROXdTQmxxeUR1YUdHVGZGdzZZTUNSOHd2TkxIRURWc1pm?=
- =?utf-8?B?NHpwZU54TW9kNzAxb200UUdPV0FsZEVENGw0TWtuMzJ6V0hoYkZqbnllb3JD?=
- =?utf-8?B?M3lpL01qQURiY2dCSWpXRi95SHhLSUJ5UG9qOFRubCs3cnM2VTlhMzJMM2Rr?=
- =?utf-8?B?NWJLM3B6U1Vja2tSVHdCeWVtejJPb1pnck5PUVJQQkF6VXk2OWRVQUJsRFRx?=
- =?utf-8?B?dlAyeWVDekwxYXFUa2pwMktxaUpEbkh6cUg5dVVmYmtZZWZSNm55WTZmeEp0?=
- =?utf-8?B?dGFJdzZBSFh3QktONlFoMjkvR3ZzcW83dkVORGR0MmcwaXJKL21TQ1p4VGVC?=
- =?utf-8?B?c3hPYit4QVRTSzhsVHhqbUtYMHZhODRGN2dMdmNUcElyaVFPWDF3Q1l5UWw1?=
- =?utf-8?B?eXU0WDY5ZlhZQXRjRGlBVDhQWmtKeWlKb2ZvZEloRDNmN1AxdTdFWWpaLyt1?=
- =?utf-8?B?UTB4R3pVNHRvajdRaVFsN0ZPSE9haWNkc1FHazYyYy9haXJnbWdwWFBleUJv?=
- =?utf-8?B?cU95cHlrZ2F3TlhWeEtDTnJBWXFlSGtETEVYMlYxTVNYZGlFSmxoZ20rRjZt?=
- =?utf-8?B?dzFXcFpTRFFteDI0cWFJWEJzWWpOL05LMm1RVEk0N0NjczQvdmZSbHo2WUZV?=
- =?utf-8?B?RjBFVVFUajBvYUFNM25kcTJTOHV0L0xMVUM5bE5KeWNzb2VlRDlXYTZ3ODQ1?=
- =?utf-8?B?ajdPS1FQUW9JVDJvWS83TDkzNGZneDAzQTZxVVNiek5GR2FRWUJvQ1g1bHVr?=
- =?utf-8?B?b0plTzlpT1czMGlVYlg1WGhIR1BtL2d6TTdwZmFTbjRhcy85bVBmMTByazdC?=
- =?utf-8?B?eGM5N0xwRWlyT29lM2ZiZXNVTVVwMUNaMkRIVm00S29vOC9xUEFNRmVtK0JO?=
- =?utf-8?B?VUZYbU5sdzlQajZIbXEza0VyUi9mL2xaTHN0UG9kQU0zbmRBODhZNzI1UE9C?=
- =?utf-8?B?d2VPdUpHNTFRWFFQSEtZemFCczBSR0hsZE9CelRvdm5GOEEyOGtOTk9FYlJo?=
- =?utf-8?B?Nlo5cE1ZRkwwVTNGaWt4WWc0WGtJK2xFRGswdDE5QmFuN0FuMlFxWG91NlY5?=
- =?utf-8?B?ZUYxTnVCTXNtYVpBTDR6R3ZGSkNjTkl1Zi9BamxOYnRtdGNTNmN2M0hWUUdh?=
- =?utf-8?B?aklkZDJ1THgyemY4Z1pVUDJ3NGNHTVk2R3NHVk1KV0luT3cyTGtnQ0g1RXF3?=
- =?utf-8?B?V0lPRlhRWVdaK0gwTk45ek5XMkV3d2wwVG9SM1BScE1Lbk5zM29GNWJKaU0v?=
- =?utf-8?B?MVNzUUoyalg0N2IwaXRDbDh0Z0VSTFhUcTI0TVZSR1FSS0lUeWRxTlBkZkYw?=
- =?utf-8?B?SVBDMmJFb1RNTHVUS0dXUXJ2c2hSa3I0QzRTZ2tYNUVGc2VVWGtUdU9Nb09M?=
- =?utf-8?B?TVhmV29iZndHeEkxSlpGYmNBR25JRTBNV04wSTJSaE9kN0lOTnp0c1RvS0xB?=
- =?utf-8?B?aklwejRCbXhnRGppS016VitkMUJjQWVNZVQ5WlFmRXZVTjNLUU14a0hsVDlN?=
- =?utf-8?B?WUtSeG1hL3o1N2pwVTdKUDExMG9ncWtaaG00UkZCRVhaUnhkZFBvcTcxMEh0?=
- =?utf-8?B?eHMyTkNMOGxiVjVJRmMxeDhmRnBCbzUzbjF2aXc2TEdTTlhLcDUzLzlwK1F6?=
- =?utf-8?B?eUFxZUVmTVdFWXNzN2trVVM5YjJ3RVhzVFJmNEdJeUxRRlhjcDkwdloxcE5V?=
- =?utf-8?B?KzU5SHl2QXJiSEViRyt4K3hqci9DZ0xNZldGaXVLWHpvbDhCVk40YWpWTUlL?=
- =?utf-8?B?Z3pTblBXSDNGVElhbkJGM1FzYXk3YnhZZDdQWVFTTWtyeE5wRGZNZ3JtZERj?=
- =?utf-8?B?TDJIRzJiRVdiSG9XY21JL0hGTjlESTkzK1l2cW9JVWRLekRqQjJvdmplSHdB?=
- =?utf-8?B?ekE9PQ==?=
+	=?utf-8?B?S2UxQ0YvRkoxNkd3K001TWdwbWNiTC90QWprWmw5RDN1RDlUQ2pDN1NobGVL?=
+ =?utf-8?B?U1hqcjkwWmxpRmlaeEtpcXVZN0twYkZpeWdqMGFCVkU1a3ZHaW9qYVAzN04w?=
+ =?utf-8?B?TWV4eWppdlpnVjVObFFqcE1RZE9rZ1h2cXNwWlQyYnVsMUJEYkoyckNuWjdq?=
+ =?utf-8?B?WUlIZkc5dStBQ0dJcFI2YndqTkNIeEpPMjBRYXZpaGxDRkt3T2xvNWNFNUUz?=
+ =?utf-8?B?S0ozVVhreUI4S3RjVGxFMEFvT2Y4aFlnaWhQUXNHa3MrTDE5QkwraW1jcmhv?=
+ =?utf-8?B?N282djI0L3RCTFhkdVNYK2JqM3JYWVdNZUNUUWxIZ0x6eTBXZy80dkVaNC9h?=
+ =?utf-8?B?VjgrMDdwakszMU1WWVhXeGYxVk9GdGpnMDFYcVYyalBKbVlrUmRiSVJrc1dL?=
+ =?utf-8?B?SW9VNjFGam56bnhxSUdyc2orTzBhNnZpM2tJQ2lxWHdPSHcyL3EyWGlybXp1?=
+ =?utf-8?B?OHZaNGkyVFNiYXRtbDNQM21RZHYxNDN5R0w2VWpxT3pHaldsd0xqYW9MQUNG?=
+ =?utf-8?B?T0U1UVJ3RE1qUXhzUGJwL29qNERwK21SOG1YKzFPRG1oUENKTU5vcS9BbzV3?=
+ =?utf-8?B?MDlPQ0laNmFWRDBpQUhnRWtBejA1ampTcnB5ZEduK2NDWm82cWhIZGJjNTRK?=
+ =?utf-8?B?SlZOQ1BYU09pWHcrUGxTRjFieEdtZEMyS0ZlSSswaFhLZnA3VGRaNGQ3QTBq?=
+ =?utf-8?B?cUYrNjlMc0V3THQwN1JuR0NhS0dGR1pZekZjV2MyYmJHL21mcGhWcFpHejFF?=
+ =?utf-8?B?eVdjUFBFcHNFUnJjWk8rdys1OGkwdjVvTXEydlFRQmtNNzVFcXE5OUVVNFpu?=
+ =?utf-8?B?eXArUUVub080SFN3Ykk1dThrQ041ZjBuWE16V3dpTlROazZMcldlRm5aWDA1?=
+ =?utf-8?B?OTFUMGYveHlpeS9uSDRQbFc2cEtYQ3hUSjNib3VNa2p0djE4M2U5Ly8rQTJx?=
+ =?utf-8?B?YjI5T05kazdhb3JOR3o2TVBFaEZZL2RCSVBNZWxGMUF6eFliVnhEQUpJYXVa?=
+ =?utf-8?B?Q0lWTXZkU0FMZkorUU8zdTlBb2YwWUNScHo2QUlmVFhYKzRlUmNYTG5ScHlx?=
+ =?utf-8?B?RFFrTVRXSG40UFI4TUV4Q2RpMndxRjhjWEttSlRSb0UxeklJdUtyUFV1aHdH?=
+ =?utf-8?B?TW5WdGh3eDFwTmlxTnV1bll1UnZxdkJBN2twVmI0MHRQdlMzU3VGY2NVWDV4?=
+ =?utf-8?B?S2ZoRUpabVloaVlIbytkVXRZdWhDZFRnTHdMaXpFUis0bnNDbWx2N0s1VjUx?=
+ =?utf-8?B?M1JFQk1Kb0N6MFNTMWpUdExPcWVxQTdndnFkR0x0bGpCdTEwMUdkUnFYU3ZX?=
+ =?utf-8?B?WUN6djJKTFlmdHRiOUZzbGQ2QjUydDdvUCtreWFuSkR4Vm9DYlU1dThiNjV5?=
+ =?utf-8?B?VGlaNEY4K2hHOWZzQjdDWVBUbTVwVzZMNlBRclNpaDE1RVphMDg5UU5uOVIw?=
+ =?utf-8?B?STBrSm1DTGxxSGZwMHFDd2diaTNleFlSMlZmL2U3YVZUTlpKaXdVNmYxNTZk?=
+ =?utf-8?B?QTBmajc1NlozQXE2V2FQZEJKL3FGKzlERElEWVRWNGNmNy9BOElodG0vRXVT?=
+ =?utf-8?B?aWE2QlBwbWJjNnJvYnhVSUFZdWM0eVRya3IxQnRZb2FRZFlIQS8yZW5Nc0VD?=
+ =?utf-8?B?ZGh1Z0tJREpGczRnRGMySG5nWENRcldqQjBYNzNFY0hFaXNNUVVGbURLSHlC?=
+ =?utf-8?B?NFMxM3EyTW1hK2NkemdFaU1HZUdWNVNUcXcxRFI4SDhHSmxrZTJGZmVFS0Js?=
+ =?utf-8?B?YjdWelI2RGdVMFBWNDVIY2ZXRUhCVVYzNHRLQWY0V2RsRUcxLzVXRk1KQUYr?=
+ =?utf-8?B?ZnRzZlZJRHBjT0JNV25vT2RGdEdXSkZtM1VvMWJzVFNKTGR0VHJESzJqWlov?=
+ =?utf-8?B?SzZ1MGo2NkttYTErYzhVcjVFNGtqclJiWWJUM2dMSGZSRlZzUjRwVXNXbDBz?=
+ =?utf-8?B?NHorY0t1SEZsK1krV1VSZW9iN1k3ZjdqT2RURWdKTmJCY3ZweXVIMDBKL0k0?=
+ =?utf-8?B?Wk1MRWVjckk4YjNtdU5oWVp1Q05lL0JXKzkxUzFlaUE2K3N1Sm02VkRGWDFC?=
+ =?utf-8?B?bnAvUkIvby8rQzQxYXY2SFRMc0ZXbWxLYXByWWd3M2t1SCtJeGxaMzlkaG5R?=
+ =?utf-8?B?M29YT1RyQnJoRnNJS2k1Sll1YW1NT3hLTE1TbEVrbjNYQjZXRisrT2h4ajE1?=
+ =?utf-8?B?QXc9PQ==?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dea54a68-6f98-4784-a61d-08de3012cfb7
+X-MS-Exchange-CrossTenant-Network-Message-Id: 861a75f3-584c-475b-dd56-08de3012d313
 X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8585.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Nov 2025 13:17:28.9708
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Nov 2025 13:17:34.3515
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: u1lkYIYnFnmrMjKwRzAgQeWJvv5mJ1/tJdP5O7CctWq2qF+X9kMDMlY91IbGAjgOymKuXGIG4rBoX30oVq/pIA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: KYw6ZjChA4iGNgrxywYr3TK7ji8TMP0FllATuUQoB3nJdjQc3z34bEzV54R6Jmn8ehqzsXGqNTG90PBZhpBlpw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB12034
 
-Provide a "simple" form of HSR offload for 8 DSA drivers (just the
-NETIF_F_HW_HSR_DUP feature) based on the fact that their taggers use the
-dsa_xmit_port_mask() function. This is in patches 6-13/15.
+It turns out that HSR offloads are so fine-grained that many DSA
+switches can do a small part even though they weren't specifically
+designed for the protocols supported by that driver (HSR and PRP).
 
-The helpers per se are introduced in patch 5/15, and documented in patch
-15/15. Patch 14/15 is another small (and related) documentation update.
+Specifically NETIF_F_HW_HSR_DUP - it is simple packet duplication on
+transmit, towards all (aka 2) ports members of the HSR device.
 
-For HSR interlink ports the offloading rules are not quite so clear, and
-for now we completely reject the offload. We can revise that once we see
-a full offload implementation and understand what is needed.
+For many DSA switches, we know how to duplicate a packet, even though we
+never typically use that feature. The transmit port mask from the
+tagging protocol can have multiple bits set, and the switch should send
+the packet once to every port with a bit set from that mask.
 
-To reject the offload, we need to know the port type, and patch 2/15
-helps with that.
+Nonetheless, not all tagging protocols are like this, and sometimes the
+port is a single numeric value rather than a bit mask. For that reason,
+and also because switches can sometimes change tagging protocols for
+different ones, we need to make HSR offload helpers opt-in.
 
-xrs700x is another driver which should have rejected offload based on
-port type (patch 4/15). This is a bug fix submitted through net-next due
-to the extra API required to fix it. If necessary, it could also be
-picked up separately for backporting.
+For devices that can do nothing else HSR-specific, we introduce
+dsa_port_simple_hsr_join() and dsa_port_simple_hsr_leave(). These
+functions monitor when two user ports of the same switch are part of the
+same HSR device, and when that condition is true, they toggle the
+NETIF_F_HW_HSR_DUP feature flag of both net devices.
 
-There is also patch 3/15, which makes the HSR offload like the others
-supported by DSA: if we fall back to the software implementation, don't
-call port_hsr_leave(), because by definition there won't be anything to
-do.
+Normally only dsa_port_simple_hsr_join() and dsa_port_simple_hsr_leave()
+are needed. The dsa_port_simple_hsr_validate() helper is just to see
+what kind of configuration could be offloadable using the generic
+helpers. This is used by switch drivers which are not currently using
+the right tagging protocol to offload this HSR ring, but could in
+principle offload it after changing the tagger.
 
-A slightly unrelated change is patch 1/15, but I noticed this along the
-way, and if I were to submit it separately, it would conflict with this
-work (it would appear in patch 12/15's context).
-
-Most of the driver additions are trivial. By far the most complex was
-ocelot (which I could test). Microchip ksz (which I cannot test, and did
-not patch) would also have some complexity. Essentially, ksz_hsr_join()
-could fall back to a partial offload through the simple helpers, if the
-full offload is not possible. But keeping track of which offload kind
-was used is necessary later in ksz_hsr_leave(). This is left as homework
-for interested developers.
-
-With this patch set, one can observe a 50% reduction in transmitted
-traffic over HSR interfaces.
-
+Suggested-by: David Yang <mmyangfl@gmail.com>
 Cc: "Alvin Šipraga" <alsi@bang-olufsen.dk>
+Cc: Chester A. Unal" <chester.a.unal@arinc9.com>
 Cc: "Clément Léger" <clement.leger@bootlin.com>
-Cc: "Chester A. Unal" <chester.a.unal@arinc9.com>
 Cc: Daniel Golle <daniel@makrotopia.org>
 Cc: David Yang <mmyangfl@gmail.com>
 Cc: DENG Qingfang <dqfext@gmail.com>
@@ -239,53 +230,119 @@ Cc: Hauke Mehrtens <hauke@hauke-m.de>
 Cc: Jonas Gorski <jonas.gorski@gmail.com>
 Cc: Kurt Kanzenbach <kurt@linutronix.de>
 Cc: Linus Walleij <linus.walleij@linaro.org>
-Cc: Lukasz Majewski <lukma@denx.de>
-Cc: Sean Wang <sean.wang@mediatek.com>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Woojung Huh <woojung.huh@microchip.com>
-Cc: Xiaoliang Yang <xiaoliang.yang_1@nxp.com>
 Cc: linux-renesas-soc@vger.kernel.org
+Cc: Sean Wang <sean.wang@mediatek.com>
 Cc: UNGLinuxDriver@microchip.com
+Cc: Woojung Huh <woojung.huh@microchip.com>
+Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
+---
+ include/net/dsa.h |  9 +++++++
+ net/dsa/dsa.c     | 65 +++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 74 insertions(+)
 
-Vladimir Oltean (14):
-  net: dsa: mt7530: unexport mt7530_switch_ops
-  net: dsa: avoid calling ds->ops->port_hsr_leave() when unoffloaded
-  net: dsa: xrs700x: reject unsupported HSR configurations
-  net: dsa: add simple HSR offload helpers
-  net: dsa: yt921x: use simple HSR offloading helpers
-  net: dsa: ocelot: use simple HSR offload helpers
-  net: dsa: realtek: use simple HSR offload helpers
-  net: dsa: lantiq_gswip: use simple HSR offload helpers
-  net: dsa: mv88e6060: use simple HSR offload helpers
-  net: dsa: hellcreek: use simple HSR offload helpers
-  net: dsa: mt7530: use simple HSR offload helpers
-  net: dsa: a5psw: use simple HSR offload helpers
-  Documentation: net: dsa: mention availability of RedBox
-  Documentation: net: dsa: mention simple HSR offload helpers
-
-Xiaoliang Yang (1):
-  net: hsr: create an API to get hsr port type
-
- Documentation/networking/dsa/dsa.rst         | 17 +++--
- drivers/net/dsa/hirschmann/hellcreek.c       |  2 +
- drivers/net/dsa/lantiq/lantiq_gswip_common.c |  2 +
- drivers/net/dsa/mt7530.c                     |  5 +-
- drivers/net/dsa/mt7530.h                     |  1 -
- drivers/net/dsa/mv88e6060.c                  |  2 +
- drivers/net/dsa/ocelot/felix.c               | 70 +++++++++++++++++++-
- drivers/net/dsa/realtek/rtl8365mb.c          |  2 +
- drivers/net/dsa/realtek/rtl8366rb.c          |  2 +
- drivers/net/dsa/rzn1_a5psw.c                 |  2 +
- drivers/net/dsa/xrs700x/xrs700x.c            | 11 +++
- drivers/net/dsa/yt921x.c                     |  3 +
- include/linux/if_hsr.h                       |  9 +++
- include/net/dsa.h                            |  9 +++
- net/dsa/dsa.c                                | 65 ++++++++++++++++++
- net/dsa/port.c                               |  3 +
- net/hsr/hsr_device.c                         | 20 ++++++
- net/hsr/hsr_slave.c                          |  7 +-
- 18 files changed, 220 insertions(+), 12 deletions(-)
-
+diff --git a/include/net/dsa.h b/include/net/dsa.h
+index e40cdc12f7f3..cced1a866757 100644
+--- a/include/net/dsa.h
++++ b/include/net/dsa.h
+@@ -1322,6 +1322,15 @@ bool dsa_mdb_present_in_other_db(struct dsa_switch *ds, int port,
+ 				 const struct switchdev_obj_port_mdb *mdb,
+ 				 struct dsa_db db);
+ 
++int dsa_port_simple_hsr_validate(struct dsa_switch *ds, int port,
++				 struct net_device *hsr,
++				 struct netlink_ext_ack *extack);
++int dsa_port_simple_hsr_join(struct dsa_switch *ds, int port,
++			     struct net_device *hsr,
++			     struct netlink_ext_ack *extack);
++int dsa_port_simple_hsr_leave(struct dsa_switch *ds, int port,
++			      struct net_device *hsr);
++
+ /* Keep inline for faster access in hot path */
+ static inline bool netdev_uses_dsa(const struct net_device *dev)
+ {
+diff --git a/net/dsa/dsa.c b/net/dsa/dsa.c
+index 5b01a0e43ebe..a20efabe778f 100644
+--- a/net/dsa/dsa.c
++++ b/net/dsa/dsa.c
+@@ -9,6 +9,7 @@
+ 
+ #include <linux/device.h>
+ #include <linux/err.h>
++#include <linux/if_hsr.h>
+ #include <linux/list.h>
+ #include <linux/module.h>
+ #include <linux/netdevice.h>
+@@ -1766,6 +1767,70 @@ bool dsa_mdb_present_in_other_db(struct dsa_switch *ds, int port,
+ }
+ EXPORT_SYMBOL_GPL(dsa_mdb_present_in_other_db);
+ 
++/* Helpers for switches without specific HSR offloads, but which can implement
++ * NETIF_F_HW_HSR_DUP because their tagger uses dsa_xmit_port_mask()
++ */
++int dsa_port_simple_hsr_validate(struct dsa_switch *ds, int port,
++				 struct net_device *hsr,
++				 struct netlink_ext_ack *extack)
++{
++	enum hsr_port_type type;
++	int err;
++
++	err = hsr_get_port_type(hsr, dsa_to_port(ds, port)->user, &type);
++	if (err)
++		return err;
++
++	if (type != HSR_PT_SLAVE_A && type != HSR_PT_SLAVE_B) {
++		NL_SET_ERR_MSG_MOD(extack,
++				   "Only HSR slave ports can be offloaded");
++		return -EOPNOTSUPP;
++	}
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(dsa_port_simple_hsr_validate);
++
++int dsa_port_simple_hsr_join(struct dsa_switch *ds, int port,
++			     struct net_device *hsr,
++			     struct netlink_ext_ack *extack)
++{
++	struct dsa_port *dp = dsa_to_port(ds, port), *other_dp;
++	int err;
++
++	err = dsa_port_simple_hsr_validate(ds, port, hsr, extack);
++	if (err)
++		return err;
++
++	dsa_hsr_foreach_port(other_dp, ds, hsr) {
++		if (other_dp != dp) {
++			dp->user->features |= NETIF_F_HW_HSR_DUP;
++			other_dp->user->features |= NETIF_F_HW_HSR_DUP;
++			break;
++		}
++	}
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(dsa_port_simple_hsr_join);
++
++int dsa_port_simple_hsr_leave(struct dsa_switch *ds, int port,
++			      struct net_device *hsr)
++{
++	struct dsa_port *dp = dsa_to_port(ds, port), *other_dp;
++
++	dsa_hsr_foreach_port(other_dp, ds, hsr) {
++		if (other_dp != dp) {
++			dp->user->features &= ~NETIF_F_HW_HSR_DUP;
++			other_dp->user->features &= ~NETIF_F_HW_HSR_DUP;
++			break;
++		}
++	}
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(dsa_port_simple_hsr_leave);
++
+ static const struct dsa_stubs __dsa_stubs = {
+ 	.conduit_hwtstamp_validate = __dsa_conduit_hwtstamp_validate,
+ };
 -- 
 2.34.1
 
