@@ -1,351 +1,351 @@
-Return-Path: <linux-renesas-soc+bounces-25482-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25483-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0A1DC985E3
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 01 Dec 2025 17:52:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC9C8C989FD
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 01 Dec 2025 18:57:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id CA3A54E1CD7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Dec 2025 16:52:01 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id AA6DF4E1482
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Dec 2025 17:57:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35BBA305E00;
-	Mon,  1 Dec 2025 16:51:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFDFE336EF2;
+	Mon,  1 Dec 2025 17:57:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QZd9JKHd"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="Ua6P3J44"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010043.outbound.protection.outlook.com [52.101.228.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F345C36D507;
-	Mon,  1 Dec 2025 16:51:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764607918; cv=none; b=qqk14XpjLfcKlHRI1fBC4U7hZmErs0Polrh06caAYp38fpT6gl1Cgr/Iyjltpcgpv2RNzAif2nNdLVqET6MueQYNusSq/FfwUwbXwwH0/Woo2r4N260LuFrK0ZksTJtC8Ibo72LmRJbZ+vvIeumYhvFljel/XZsMp7rASEYyBgU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764607918; c=relaxed/simple;
-	bh=++Pjz2EWGu+Di5eo/zjDna0mHdfDsBWr6pvA6L4UET0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eGMkpVRkyunP8C6lCB04EyxTV9NjztnVjheZCGUaQiDEaHhI9YBG5m2nB3/anhu9STjx0bD2brKDlssy+Iu9u2MuYImWVy/KCPCF17EXlSsbznQX5RjYKJXOroUOKkYsuf5KtbOJC9sP9hkOZTU+X6IU8xKUOqPka5tja6qF6mk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QZd9JKHd; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14EE0C4CEF1;
-	Mon,  1 Dec 2025 16:51:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764607917;
-	bh=++Pjz2EWGu+Di5eo/zjDna0mHdfDsBWr6pvA6L4UET0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QZd9JKHdL2MMfPYJAs+GzDwf6s8hAGngHPTWngKTVs/z7HbMFK1M4Ll7tbgyXFMlo
-	 P1arM0NWcAdfGZUuEHCcB8AnsHP/1FhNK5tIoN+6BIzkRbJLsg1A1XhuWljEty1ZN6
-	 HF2SI/6Ct4mn56Qng0LY5SKyVqRLniNb1gIsbn6mwDUVid6AaLKuzmgqZCcKDz6lt+
-	 FswBf7hfcsAfvjtK49vpR85jEeEEtdAoRCyLYHHGPCu5WdRNJkQZUHrxe1lKGByybL
-	 TZqORCuiTWIan8wW0fcnnsNlDEMPqMgyD6GZ21r3D+oQ8q0fCXCTqkkEJAO2CcE9Cv
-	 MPMOsWmPH8FWg==
-Date: Mon, 1 Dec 2025 17:51:54 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
-	Alexey Brodkin <abrodkin@synopsys.com>, Phong LE <ple@baylibre.com>, Liu Ying <victor.liu@nxp.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Adrien Grassein <adrien.grassein@gmail.com>, Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Anitha Chrisanthus <anitha.chrisanthus@intel.com>, 
-	Edmund Dea <edmund.j.dea@intel.com>, Inki Dae <inki.dae@samsung.com>, 
-	Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Hui Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-renesas-soc@vger.kernel.org, linux-amlogic@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, linux-samsung-soc@vger.kernel.org
-Subject: Re: [PATCH 06/26] drm/bridge: add devm_drm_of_find_bridge
-Message-ID: <20251201-thick-jasmine-oarfish-1eceb0@houat>
-References: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com>
- <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-6-0db98a7fe474@bootlin.com>
- <hs44z4b2dgisemuewgtvl4epjcqqilg6cy36po25pubaog4hmq@33qgl4o3hwoa>
- <DEH2CVQV21Z2.25PJBAQAKFJSG@bootlin.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B1AD23A994;
+	Mon,  1 Dec 2025 17:57:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764611826; cv=fail; b=eoKtQWgFnDvQd8f8ut4R9lgvyvx6Zcr7L0JkcB0G9yvLvePTYErliwqP+8CLo6Gud01M7zN4BDML9wcUFFlJo8v05zxG7YfthPk1wVPntMy3oZ1WVrr8oXpuvO6M9CWuR8B7LjVJH/n7/WaFrF5pA6CzWYhGKELRejTr8WpzuHg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764611826; c=relaxed/simple;
+	bh=FqoXpjvGnmHWbygObP0IlKPMt+jRN7Mb2hVQj3oNzdI=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=ZZDQ6sHil5c/E8moW+XprBigZYHbeaNSwXvyBbK9eg9L7IXiyHJUyJbWMmQBs8zWBAGlao5f0cyV4V63y4hHdUGB/y4qgPaXsb2jmXNQVkYKXOHfObhtX5pPaw9F3e6lY9Jh5qQaytrMsmxriBNj/y/M7+VJLeyJJOnBOg2wIHc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=Ua6P3J44; arc=fail smtp.client-ip=52.101.228.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bWOP6cQXyQuLMg3kytt7QllDH5QKeoNCtwJ2rCpuHtiXRR1TzZ3YFUD7oS26VBXlct4Dp5kyhBGtRJolRsRbztT/smOw5fLYCABCefZYIlSs7IPIJ7Mrx9waH3B5zrBpDF0LcWAPmZtBe5co4Ksnbr0pfCBrjKbUtS6YY1Yv2CnxHYjuzDJvAHOnzX20kqOP/fb7MQBk6QBHFnzIRomxye+eHB2ViKi31zZcKH/93NbVsWuIPNaw9SzbrLpEgvxmGUevAci9mm8DWIN3dx9l9Cr5Ll+qYQmaD/eoNfr8ww1RdwQNeXRMl9AgX/QQccdeWp+PSzkwNWF16QqTtj5ApA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FqoXpjvGnmHWbygObP0IlKPMt+jRN7Mb2hVQj3oNzdI=;
+ b=Z0i7qBXGWGLu0487M37EBS/qw1O2se0HEBnxJ2gRIxfi08BOGGIPcs/9aq4Ag2CbOURiAOhy++aMLkrgU+Xcr87axyC9D8jf3ldDnoCxLNVXatPBSBdHlxLtcz23Q4aitjJZDllgvzfQs/nHiRZWnig+m1mHmUN0AOhyTS4/SNE9l0sTMBemP33r9eE6StRPry1LPr5J2fycfKq7Mg1qFPS27kX/R9YxtcpqyllWrPZ/0Ukhi/C4CvzHTjc/H+Qf1hKAp7AfyB3RMb4Zn1fDNKyOYtfGB2LvSPJipsosW3d5c1OJj8PeW6pAuNmOgL2hy2RaifKIRP4K/0FrGGvrOA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FqoXpjvGnmHWbygObP0IlKPMt+jRN7Mb2hVQj3oNzdI=;
+ b=Ua6P3J44+gfoAimPLnUVLKVVKKQWJVWIfTYHB7+w1mQL8NBLoYNXoAcn8y0EmYUWyjvyB++9RmL4SboR8mhz9tpSfx3I95qST4atqnrLOlz7SELE5bVIb+SsOK/wyI0s6UZnoRZgnRYNu4ca8H41V9y5C8Oiec4mA1Ro1cbhGF8=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by TYYPR01MB16266.jpnprd01.prod.outlook.com (2603:1096:405:2da::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.9; Mon, 1 Dec
+ 2025 17:56:59 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1%6]) with mapi id 15.20.9388.003; Mon, 1 Dec 2025
+ 17:56:59 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: geert <geert@linux-m68k.org>
+CC: =?utf-8?B?VXdlIEtsZWluZS1Lw7ZuaWc=?= <ukleinek@kernel.org>, biju.das.au
+	<biju.das.au@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+	"linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Geert
+ Uytterhoeven <geert+renesas@glider.be>, Prabhakar Mahadev Lad
+	<prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	"linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>
+Subject: RE: [PATCH v3 6/8] pwm: rzg2l-gpt: Add suspend/resume support
+Thread-Topic: [PATCH v3 6/8] pwm: rzg2l-gpt: Add suspend/resume support
+Thread-Index:
+ AQHcLJi5Wq0nvzczj0CSEUAgjJVVOrULUGQAgAG46lCAADdsgIAABTVAgAAHJmCAAAglAIAABKSwgAAFRQCAABaP0A==
+Date: Mon, 1 Dec 2025 17:56:59 +0000
+Message-ID:
+ <TY3PR01MB11346A7B16CB3267F1A57302B86DBA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20250923144524.191892-1-biju.das.jz@bp.renesas.com>
+ <20250923144524.191892-7-biju.das.jz@bp.renesas.com>
+ <wah57av7ypb42zcaosx7n64j6qmmcq5ylhgnde2brbiy6o7sun@7rqkr6ke3g5k>
+ <TY3PR01MB1134692D7D9F5B67116D2BC7786DBA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <pilx2etxezmr6rhbwculwjqcxotzkxus5bqdpjrt5na5c7fqhj@mdfm2yh2aptp>
+ <TY3PR01MB11346DE28875EFD9B9D86DE5186DBA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <TY3PR01MB113464F283A3ED4A8AAC813D886DBA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <ydqyvme43ul6ui7bl37kv3kuhn7js7tvkje2u4a3vasiw4kgdv@w2govkhaa3xz>
+ <TY3PR01MB11346F105FD6CCE1167F9095686DBA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <CAMuHMdWCGFWfvRDi3HWvrZWzgum8dFFf5cUVKjpjMy8mybh1Uw@mail.gmail.com>
+In-Reply-To:
+ <CAMuHMdWCGFWfvRDi3HWvrZWzgum8dFFf5cUVKjpjMy8mybh1Uw@mail.gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYYPR01MB16266:EE_
+x-ms-office365-filtering-correlation-id: 7d9502f0-2d25-4b15-6199-08de31030641
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|366016|38070700021;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?T1dJV2tRY1ByUUJyeHo1ZlhNd25SQ3BNLy9IaDNWUnFIVnNpL1ptS3dCSHE3?=
+ =?utf-8?B?SVRVeHBncUEvVHBJTm1QaHlhM2Y3aExWMmJ6SUFPZFdHaWw4UWZ5ajZqR2Fo?=
+ =?utf-8?B?bzg2RXk0QS82QUlNbTJlVSsvdWpsSEVHTFFtRWV4T0J0N3ZIMVVIQUlxOWIx?=
+ =?utf-8?B?NnhNekRFaGZLMHAyUUsxSXNzbm5keXpnWUpKSDVDc0dKSERBb3owbVM3YXlx?=
+ =?utf-8?B?ZEFNcFpycUJVUGk4ZXF3djV3Nkg5R1EwN0ZMNFJpT0tLWWtJQit1d040NDNY?=
+ =?utf-8?B?U1R6bDRKZ1MxbU9XT1UxVlNpN2tTRkNOd1VoSUx2cHR3WFdHMDN5S2lLMjdJ?=
+ =?utf-8?B?bHNMdkhJZFArbmxrVkV1S3pVaDlpbEozcml6Q1dUZmgxYnRsUzNTb2gzQXly?=
+ =?utf-8?B?VXAvVGJXTXJHYmdnVnpnRDdRekVlY0YrVEdHTytBMzZFeHU1UURWbXdXUTlq?=
+ =?utf-8?B?OTBOREppbHdidG5FZ3JuaGphN0JqVUgvUHJ2SG41OXQ3aHVTbnoreGxZMjJx?=
+ =?utf-8?B?d3VRMER0SHBlOUlLbVBycXJTalhta0FtcldSc2lvK21IbVRkT2hWQjQ0ajJD?=
+ =?utf-8?B?bUd5MmZySVJ0UzQwVEFXVUlPUTNGZVJNOTRaQTdmNEVjQWVVNFo2R2xZVHJw?=
+ =?utf-8?B?SHdqUU9EeXpObThla3JRYUtZbzhGN0NTd2R4QU1XVzltT0R2dzM2ZGlOMVpF?=
+ =?utf-8?B?Q05SS0xKbjhrQkgyM3FhTEdJa2xpdHdnK3hWZTdoczg1TXAvTDlKSlBhYUh5?=
+ =?utf-8?B?UW1QdjR6VVNlVnJaeVJGNEdCR1JXTVpOWGZCYmxIQzFlcm41RlN0UmlZaGxF?=
+ =?utf-8?B?blgzbzNXb0c2bUFZanNyVUJ5VnVaUlJ0dFhhOEZaU2lScXFDc0h2eDdHMXB3?=
+ =?utf-8?B?bGh2eU5OMGZ6dFBhckxscXR6U0dQWktYTXMzMml2VnliN0h5bS9zVUJvSzBz?=
+ =?utf-8?B?R3B4VVdFWDExTXJTZDBQYmlMbGtKcUZmN0hHR05lRjUrRVU3TWVPRDY2SUp3?=
+ =?utf-8?B?YTA2UTdJaGdUOUVWS1hPanZFQURYYW5JcGJaNUNzOVd0d0xHSlZYbzFTV2JI?=
+ =?utf-8?B?dEJPWXdLZzNsSU5mUE1nU3FUUndHQjgyejNUNHU0VFlLMjZBalRFd2RZRlQ5?=
+ =?utf-8?B?bUxYYUZpd040MGU1RnNTaXJPYk1oa0ZCNEJGYXB1UHZnU0N5K2NyOWlOVU5R?=
+ =?utf-8?B?RWdCQ3VJNm14UDZsaHA4N29iRytPZVFiSjROY0VDU0FpN3EzeHdraTUzSWg4?=
+ =?utf-8?B?TTduRWk0U01TbWd0M0ViM2lsZ1dKeGZWT1dWL2pWK2xzN094MVExdkRBVndW?=
+ =?utf-8?B?QkVucHovMHpJYmhlSU9IMC9TWU9ZQUN0MzBoTDhCSWpSV25SR0NjaE5pOEsx?=
+ =?utf-8?B?eDFEQ2hLbS9WU2k5WmR5SkpNYUI5a3R0aDFHQkZuY3dFeTFRdnAyMWN4N25Z?=
+ =?utf-8?B?d3Y0ZmJNMjZaNk1TV0FodXhHcHpjejdYUk45WEFzQnQvVFZ4WDk4OFJ5dUE1?=
+ =?utf-8?B?OWRSb21FaWV2bGZabW9oSXR0TGl0ZDFmSURHdXdYR1RQc24xVWQ1WU1NWHhw?=
+ =?utf-8?B?Y3dlN25wQ3V6b2xMY1BzaU9WWHBuUGpaTGVOLy8zMmZOTXdmRFpSSEh0V3JO?=
+ =?utf-8?B?L0xicXBPMTRRS2oxdG41SWNUa3VPUVB4dnJzdGcydm1ZZ1BNVjZSWTlkYmww?=
+ =?utf-8?B?RFVzNjNjeGdMK1dqYmpJVW5YeUZUZkw1NVVqV1dwSG05em96WVhUY3R2NzNW?=
+ =?utf-8?B?OGZUOXZpamwvSHorak9sUnRsYjg1RlA5bTE3cXAvdVdkZXBXQW9MS2pJZnJI?=
+ =?utf-8?B?bFhqb28yZHd6QXpWMnZIUGNvVGFuQ09LY2xkTGovQk8rQ0Rwc1RFUGN2UVBO?=
+ =?utf-8?B?RnQ5NjAvT3lYU05kSy9kZ0ZHRDZ0amUyODVLYWQxbzNnbHBhR3lnOWZaZXdu?=
+ =?utf-8?B?T2ZlT2ZYd1VscFFqY0RCRzBsSk5qbkVqdHFYWVBjNGQyVXhUcUNGai9JYnNM?=
+ =?utf-8?B?WDZ3R2VlbnoyOHlobVBRNElqeEZpd2l1UXNDTEJLQjJKNXBaMThYazNSM1c2?=
+ =?utf-8?Q?wjExmx?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?R3AvTXd6MTFTUCtna0dDNGhpZ1lMcGxNdXh2VkoxTTZVY2E1TWR0eVVzWXQ0?=
+ =?utf-8?B?ZmNIMkRVRUZVZlI4MisxRkNQaG4zSG5OZGg0ZmYzNDNTVFFEMDZNTUhQUS8r?=
+ =?utf-8?B?bTZuUlZFT2p6QjE0UTFNQlhLbXZVamplZXVublZhL2Z6YXMyRHBCVXBkRVlR?=
+ =?utf-8?B?b3hLQTFWeEFnUjdINE1oOFdnSEZYRWYxQ3lMV3F3NjlQRTl2Vi9lNWRLZGht?=
+ =?utf-8?B?YjRBWGJXK2xJbC8zd3QvTXA5T0xIa1VqVmFwVUZXRk5pRHpqdDFubSs5K0lU?=
+ =?utf-8?B?UVgvK2RwMW9WdnY4TTQ0VUc5R3NEblRZZzAxSjVhekEva25MSjdvNjVyRVgr?=
+ =?utf-8?B?MG0xK3dPeEdOcTM2TjN3bUpvVzNWa2hMU3VkbklBUy9IcmZuaXVzcFY0N3lQ?=
+ =?utf-8?B?ZUg1bFFuaE9QU1JhL3dqYy91anprUGpFSldJbXd3dlF2bXZnRkdDbityWitw?=
+ =?utf-8?B?cGxuUkYxRmpubUdFUEJBZ3BFQS9yMnozOFZ4VlU2TVpwMVdGTWZZTG5Idzl5?=
+ =?utf-8?B?NlpUTktRVDIzVHlHMTZ1QThPMXpwUHhlZ1lscVRNVmt3VVJuaFlYY3puV01K?=
+ =?utf-8?B?RWl3MEpNQytPNHF6dC9rRXRCbnFIZnJuUFd5aGlBaU40NFM2WWlXZ1JncWNJ?=
+ =?utf-8?B?azgzOEtyK25hb1ErNzkxWjFCd1BUcjlQUW5UZWdpd2VzUGdURjcrU3MzTWNH?=
+ =?utf-8?B?V3d3TEpVcC95K1AwaDUxUGRpRTloQ0VpUjQ0MnlJTUNyNGZTL3RqSlBxdXBj?=
+ =?utf-8?B?YjVVTlhjRU94ZklNMFV3Q3N4MEQyVzhjK0tZZlhES2E2QXF0T0pVWW5qQk55?=
+ =?utf-8?B?RGZ3SlhVQ2xwQnd2bStSK2J4M0NMQnIzVURXRW9jTmlUeFNVeXdacGh5UXRM?=
+ =?utf-8?B?TG11My8wVmVvSlljQS96TmZWNDlVVTR6ZlEyekNBT08vY3JkUzFiNkMvc0xJ?=
+ =?utf-8?B?c0F0MUZxSU1ualFSTWZ6VkorckFxbENQR1dTVmYrV0xpNHNnZEJXaWx4N1hS?=
+ =?utf-8?B?QWFjSE5TaTZzVVZmVXJyUXBxeUcvaUUwcVNhNFpmZjhFTmxiVmI4S0N5SUdV?=
+ =?utf-8?B?K2R6TSt0UFYycGg3TndxbERaeE5XTHlnUGIreFFmY0ZoTVRDQS9qMUlxaUlo?=
+ =?utf-8?B?eFhsRGZSL2FNVSsrdHR6MnZkRkdPRzVQRlNCUFVUajBlaDUzbGljQ1dCcUkw?=
+ =?utf-8?B?NlZvQlZEUHJXMjlWSHJBMlFObjUzdWxnL1pDSmdtNWFPdFVEMnh3Ym1keTg3?=
+ =?utf-8?B?aVYvSFJnQzc4ZEtBVy8zMXBrRUxTY0NIaVk5OW5vekQyQnozV0R5dklWWGgw?=
+ =?utf-8?B?SUNkcUgrTXhSeEpLTC9HQ3Y3WjcxdHZkT2VZdmNDMUNYY2svTkJQSUFYOUxR?=
+ =?utf-8?B?NTNsK2lKOFQ3RHRtVVJXR0l0OFBHNDlFYjgzK2c3NlhpclNBcU5nZitieHIr?=
+ =?utf-8?B?ZFkzR25HbjBjZkkxQ2VBSVI0R2drWVVSUERmRVNhSVp6Tlo5K3NZUlJFcDZI?=
+ =?utf-8?B?N2hUd0V0dUhIVkJIeUFGM2FVRXhrMzBXb1UzOWZ0bEZwV3IzSnduaHlPZWtJ?=
+ =?utf-8?B?c3BvemVRK3NKeElZTVZjcnJZbmtjV3V3VFcxSWJaYXVnNmN5QWpsWFFObm84?=
+ =?utf-8?B?cW5LNzJzV1JiQ3h0L1JVUWlHVTk3elNnR0xlNDFZY00wQXZqa1MyaEtEWU16?=
+ =?utf-8?B?RGkwZ1FBRmJQUDFwd1B0RHNVVG1RNXBPejJNMmxpYTZadU5LWnMveldJNUJs?=
+ =?utf-8?B?a3JtcFE2VVpJck96N3pORDRCSHpPUnlyZ0k0SjJ4ektZZ0l5ZVlLT05RSTJG?=
+ =?utf-8?B?Mk45NUhPay85aXR3MTZ0bEwvOEpuZVZ5cmFlNDFFMFRFZncxbnBGekNuU0U4?=
+ =?utf-8?B?dEI5clo4WjFZLys2SlQzUVB0dTRQMjl0enFaNHdDZldhQXRlWmlvU29qcVhQ?=
+ =?utf-8?B?UllYUDk4ZDJDWUlrVm5LVXZkRVJvQmhPUzVtQW9sbGwxMnE5UGt4QlZiWFJB?=
+ =?utf-8?B?YVJ4RW1TWEMzbkNVdTc5UWZUcGNuWXNuLzc1dERHTDhsUWsxRmpZcjFzWjkr?=
+ =?utf-8?B?K3lhcHd5aDRQeWQyT21JQ0xlZndveUlPUjhFcjhCNGhIUkZJWmRFNmcyRWR5?=
+ =?utf-8?B?Q3o0UlNmVEFvVldmbHluY3gyQ3Btb09YZGJtQld4a0hJNU15Y29xV1FjWTNt?=
+ =?utf-8?B?SEE9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="vysorlzfm2p6uhgc"
-Content-Disposition: inline
-In-Reply-To: <DEH2CVQV21Z2.25PJBAQAKFJSG@bootlin.com>
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7d9502f0-2d25-4b15-6199-08de31030641
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Dec 2025 17:56:59.2453
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 6EEunWmPo/weWfyQ5nzzS0eaQl6jW/eN/9jsylG7apFxHMTuN7PPn4/Z2WNO3VMJFYD8aAc71Ujkr9uh3Yc4Mcyq/27gr+ROK8vP7pJ5PUY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB16266
 
-
---vysorlzfm2p6uhgc
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 06/26] drm/bridge: add devm_drm_of_find_bridge
-MIME-Version: 1.0
-
-On Mon, Nov 24, 2025 at 05:25:39PM +0100, Luca Ceresoli wrote:
-> Hi Maxime,
->=20
-> On Mon Nov 24, 2025 at 11:39 AM CET, Maxime Ripard wrote:
-> > On Wed, Nov 19, 2025 at 02:05:37PM +0100, Luca Ceresoli wrote:
-> >> Several drivers (about 20) follow the same pattern:
-> >>
-> >>  1. get a pointer to a bridge (typically the next bridge in the chain)=
- by
-> >>     calling of_drm_find_bridge()
-> >>  2. store the returned pointer in the private driver data, keep it unt=
-il
-> >>     driver .remove
-> >>  3. dereference the pointer at attach time and possibly at other times
-> >>
-> >> of_drm_find_bridge() is now deprecated because it does not increment t=
-he
-> >> refcount and should be replaced with drm_of_find_bridge() +
-> >> drm_bridge_put().
-> >>
-> >> However some of those drivers have a complex code flow and adding a
-> >> drm_bridge_put() call in all the appropriate locations is error-prone,
-> >> leads to ugly and more complex code, and can lead to errors over time =
-with
-> >> code flow changes.
-> >>
-> >> To handle all those drivers in a straightforward way, add a devm varia=
-nt of
-> >> drm_of_find_bridge() that adds a devm action to invoke drm_bridge_put()
-> >> when the said driver is removed. This allows all those drivers to put =
-the
-> >> reference automatically and safely with a one line change:
-> >>
-> >>   - priv->next_bridge =3D of_drm_find_bridge(remote_np);
-> >>   + priv->next_bridge =3D devm_drm_of_find_bridge(dev, remote_np);
-> >>
-> >> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> >>
-> >> ---
-> >>  drivers/gpu/drm/drm_bridge.c | 30 ++++++++++++++++++++++++++++++
-> >>  include/drm/drm_bridge.h     |  5 +++++
-> >>  2 files changed, 35 insertions(+)
-> >>
-> >> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge=
-=2Ec
-> >> index 09ad825f9cb8..c7baafbe5695 100644
-> >> --- a/drivers/gpu/drm/drm_bridge.c
-> >> +++ b/drivers/gpu/drm/drm_bridge.c
-> >> @@ -1446,6 +1446,36 @@ struct drm_bridge *drm_of_find_bridge(struct de=
-vice_node *np)
-> >>  }
-> >>  EXPORT_SYMBOL(drm_of_find_bridge);
-> >>
-> >> +/**
-> >> + * devm_drm_of_find_bridge - find the bridge corresponding to the dev=
-ice
-> >> + *			     node in the global bridge list and add a devm
-> >> + *			     action to put it
-> >> + *
-> >> + * @dev: device requesting the bridge
-> >> + * @np: device node
-> >> + *
-> >> + * On success the returned bridge refcount is incremented, and a devm
-> >> + * action is added to call drm_bridge_put() when @dev is removed. So =
-the
-> >> + * caller does not have to put the returned bridge explicitly.
-> >> + *
-> >> + * RETURNS:
-> >> + * drm_bridge control struct on success, NULL on failure
-> >> + */
-> >> +struct drm_bridge *devm_drm_of_find_bridge(struct device *dev, struct=
- device_node *np)
-> >> +{
-> >> +	struct drm_bridge *bridge =3D drm_of_find_bridge(np);
-> >> +
-> >> +	if (bridge) {
-> >> +		int err =3D devm_add_action_or_reset(dev, drm_bridge_put_void, brid=
-ge);
-> >> +
-> >> +		if (err)
-> >> +			return ERR_PTR(err);
-> >> +	}
-> >> +
-> >> +	return bridge;
-> >> +}
-> >> +EXPORT_SYMBOL(devm_drm_of_find_bridge);
-> >
-> > That's inherently unsafe though, because even if the bridge is removed
-> > other parts of DRM might still have a reference to it and could call
-> > into it.
-> >
-> > We'd then have dropped our reference to the next bridge, which could
-> > have been freed, and it's a use-after-free.
->=20
-> I think you refer to this scenario:
->=20
->   1. pipeline: encoder --> bridge A --> bridge B --> bridge C
->   2. encoder takes a reference to bridge B
->      using devm_drm_of_find_bridge() or other means
->   3. bridge B takes a next_bridge reference to bridge C
->      using devm_drm_of_find_bridge()
->   4. encoder calls (bridge B)->foo(), which in turns references
->      next_bridge, e.g.:
->=20
->        b_foo() {
->            bar(b->next_bridge);
->        }
->=20
-> If bridges B and C are removed, bridge C can be freed but B is still
-> allocated because the encoder holds a ref. So when step 4 happens, 'b->c'
-> would be a use-after-free (or NULL deref if b.remove cleared it, which is
-> just as bad).
-
-Yep.
-
-> If I got you correctly, then I'm a bit surprised by your comment. This
-> series is part of the first chapter of the hotplug work, which does not a=
-im
-> at fixing everything but rather at fixing one part: handle dynamic
-> _allocation_ lifetime of drm_bridges by adding a refcount and
-> drm_bridge_get/put().
->=20
-> Chapter 2 of the work is adding drm_bridge_enter/exit/unplug() [1] and
-> other changes in order to avoid code of drivers of removed bridges to
-> access fields they shouldn't. So the above example at point 4 would becom=
-e:
->=20
->        b_foo() {
->            if (!drm_bridge_enter())
->                return;
->            bar(b->c);
->            drm_bridge_exit();
->        }
->=20
-> And that avoids 'b->c' after bridge B is removed.
->=20
-> Does that answer your remark?
-
-Not really. I wasn't really questionning your current focus, or the way
-you laid out the current agenda or whatever.
-
-What I am questionning though is whether or not we want to introduce
-something we will have to untangle soon, and even more so when we're not
-mentioning it anywhere.
-
-> > It's more complicated than it sounds, because we only have access to the
-> > drm_device when the bridge is attached, so later than probe.
-> >
-> > I wonder if we shouldn't tie the lifetime of that reference to the
-> > lifetime of the bridge itself, and we would give up the next_bridge
-> > reference only when we're destroyed ourselves.
->=20
-> I'm afraid I'm not following you, sorry. Do you refer to the time between
-> the bridge removal (driver .remove) and the last bridge put (when
-> deallocation happens)?
->=20
-> In that time frame the struct drm_bridge is still allocated along with any
-> next_bridge pointer it may contain, but the following bridge could have
-> been deallocated.
->=20
-> What do you mean by "give up the next_bridge"?
-
-What I was trying to say was that if we want to fix the problem you
-illustrated about, we need to give up the reference at __drm_bridge_free
-time. So each bridge having a reference to a bridge would need to do so
-in its destroy hook.
-
-Since it's quite a common pattern, it would make sense to add a
-next_bridge field to drm_bridge itself, so the core can do it
-automatically in __drm_bridge_free if that pointer is !NULL.
-
-But...
-
-> > Storing a list of all the references we need to drop is going to be
-> > intrusive though, so maybe the easiest way to do it would be to create a
-> > next_bridge field in drm_bridge, and only drop the reference stored
-> > there?
-> >
-> > And possibly tie the whole thing together using a helper?
-> >
-> > Anyway, I'm not sure it should be a prerequisite to this series. I we do
-> > want to go the devm_drm_of_find_bridge route however, we should at least
-> > document that it's unsafe, and add a TODO entry to clean up the mess
-> > later on.
-
-=2E.. I *really* don't consider it something you need to work on right now.
-
-> Do you mean the drm variant is unsafe while the original
-> (drm_of_find_bridge() in this series, might be renamed) is not? I
-> don't see how that can happen. If the driver for bridge B were to use
-> drm_of_find_bridge(), that driver would be responsible to
-> drm_bridge_put(b->next_bridge) in its .remove() function or earlier.
-> So the next_bridge pointing to bridge C would equally become subject
-> to use-after-free.
-
-No, I was saying that both are equally unsafe. But we're adding a new,
-broken, helper, and we don't mention anywhere that it is. So what I was
-saying is mostly do we really want to introduce some more broken code
-when we know it is. And if we do, we should be really clear about it.
-
-> devm does not make it worse, on the opposite it postpones the
-> drm_bridge_put(next_bridge) as late as possible: just after
-> b.remove().
-
-Which doesn't really change anything, does it? I'd expect the window
-between the remove and final drm_bridge_put to be much wider than the
-execution time of remove itself.
-
-> One final, high-level thought about the various 'next_bridge' pointers th=
-at
-> many bridge drivers have. Most of them do:
->=20
->  0. have a 'struct drm_bridge next_bridge *' in their private struct
->  1. take the next_bridge reference during probe or another startup phase
->  2. store it in their private driver struct
->  3. use it to call drm_bridge_attach
->  4. (pending) put the reference to it in their .remove or earlier
->=20
-> I'm wondering whether we could let the DRM bridge core do it all, by
-> removing items 0, 1, 2 and 4, and change 3 as:
->=20
-> -     drm_bridge_attach(encoder, me->next_bridge, &me->bridge, flags);
-> +  drm_of_bridge_attach(encoder, &me->bridge, dev->of_node, 1, -1, flags);
->=20
-> where dev->of_node and the following integers are the same flags passed to
-> devm_drm_of_get_bridge() and the like, i.e. the endpoint info needed to
-> walk the DT graph and reach the next bridge.
->=20
-> This would allow the core to take care of all locking and lifetime of the
-> next bridge, and most (all?) bridges would never access any pointers to t=
-he
-> next bridge. The idea is to let the core do the right thing in a single
-> place instead of trying to make all drivers do the right thing (and
-> touching dozen files when needing to touch the logic).
->=20
-> That is more a long-term ideal than something I'd do right now, but having
-> opinions would be very interesting.
-
-That was pretty much my point, yeah.
-
-Maxime
-
---vysorlzfm2p6uhgc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaS3HqgAKCRAnX84Zoj2+
-dtkvAX4rXtiifHgBMiNuTE+oq5YRpJHiwuAryr1vVp5dRFs89l7GaqjGKfUTsivq
-vi/sGEYBgJqDs2PwFTGrO+7VA0R8yw/cmqsfGVuImcSZfLiyy6oWHU4ftq7JQjBk
-x6/eNlgihA==
-=gjHT
------END PGP SIGNATURE-----
-
---vysorlzfm2p6uhgc--
+SGkgR2VlcnQsDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogR2VlcnQg
+VXl0dGVyaG9ldmVuIDxnZWVydEBsaW51eC1tNjhrLm9yZz4NCj4gU2VudDogMDEgRGVjZW1iZXIg
+MjAyNSAxNjowNA0KPiBTdWJqZWN0OiBSZTogW1BBVENIIHYzIDYvOF0gcHdtOiByemcybC1ncHQ6
+IEFkZCBzdXNwZW5kL3Jlc3VtZSBzdXBwb3J0DQo+IA0KPiBIaSBCaWp1LA0KPiANCj4gT24gTW9u
+LCAxIERlYyAyMDI1IGF0IDE2OjUwLCBCaWp1IERhcyA8YmlqdS5kYXMuanpAYnAucmVuZXNhcy5j
+b20+IHdyb3RlOg0KPiA+ID4gRnJvbTogVXdlIEtsZWluZS1Lw7ZuaWcgPHVrbGVpbmVrQGtlcm5l
+bC5vcmc+IE9uIE1vbiwgRGVjIDAxLCAyMDI1IGF0DQo+ID4gPiAwMzowNDowOFBNICswMDAwLCBC
+aWp1IERhcyB3cm90ZToNCj4gPiA+ID4gWW91IG1lYW4gdG8gYXZvaWQgdW5iYWxhbmNlIGJldHdl
+ZW4gc3VzcGVuZCgpL3Jlc3VtZSgpLCB3ZSBzaG91bGQNCj4gPiA+ID4gbm90IGRvIGVycm9yIGhh
+bmRsaW5nIGluIHJlc3VtZSgpPz8NCj4gPiA+DQo+ID4gPiBDb25zaWRlciB0aGUgZm9sbG93aW5n
+IHJlc3VtZSBmdW5jdGlvbjoNCj4gPiA+DQo+ID4gPiAgICAgICBzdGF0aWMgaW50IG15cmVzdW1l
+KC4uLikNCj4gPiA+ICAgICAgIHsNCj4gPiA+ICAgICAgICAgICAgICAgcmV0ID0gZW5hYmxlX3Nv
+bWVfcmVzb3VyY2UoLi4uKTsNCj4gPiA+ICAgICAgICAgICAgICAgaWYgKHJldCkNCj4gPiA+ICAg
+ICAgICAgICAgICAgICAgICAgICByZXR1cm4gcmV0Ow0KPiA+ID4NCj4gPiA+ICAgICAgICAgICAg
+ICAgcmV0ID0gZW5hYmxlX3NvbWVfb3RoZXJfcmVzb3VyY2UoLi4uKQ0KPiA+ID4gICAgICAgICAg
+ICAgICBpZiAocmV0KSB7DQo+ID4gPiAgICAgICAgICAgICAgICAgICAgICAgZGlzYWJsZV9zb21l
+X3Jlc291cmNlKCk7DQo+ID4gPiAgICAgICAgICAgICAgICAgICAgICAgcmV0dXJuIHJldDsNCj4g
+PiA+DQo+ID4gPiAgICAgICAgICAgICAgIH0NCj4gPiA+DQo+ID4gPiAgICAgICAgICAgICAgIHJl
+dHVybiAwOw0KPiA+ID4gICAgICAgfQ0KPiA+ID4NCj4gPiA+IElmIGRpc2FibGVfc29tZV9yZXNv
+dXJjZSgpIGNhbiBmYWlsIGl0IG1pZ2h0IGhhcHBlbiB0aGF0IHRoZSBmaXJzdA0KPiA+ID4gY2Fs
+bCB0byBteXJlc3VtZSgpIGlzIGxlZnQgd2l0aCBzb21lX3Jlc291cmNlIGVuYWJsZWQgYW5kDQo+
+ID4gPiBzb21lX290aGVyX3Jlc291cmNlIGRpc2FibGVkIChpLmUuIGlmIGJvdGgNCj4gPiA+IGVu
+YWJsZV9zb21lX290aGVyX3Jlc291cmNlKCkgYW5kDQo+ID4gPiBkaXNhYmxlX3NvbWVfcmVzb3Vy
+Y2UoKSBmYWlsKS4gTm93IGlmIHRoZSByZXN1bWUgaXMgcmV0cmllZA0KPiA+ID4gc29tZV9yZXNv
+dXJjZSBpcyBlbmFibGVkIGEgc2Vjb25kIHRpbWUgd2l0aG91dCBiZWluZyB0cmFja2VkIGFuZCBh
+DQo+ID4gPiBsYXRlciBzdXNwZW5kIChvciByZW1vdmUpIHdvbid0IGJyaW5nIHRoZSBlbmFibGUg
+Y291bnQgdG8gMCBhbmQgdGh1cyBsZWFrIGEgcmVzb3VyY2UuDQo+ID4NCj4gPiBPSywgd2hhdCBh
+Ym91dCBmb3IgbWFraW5nIGJhbGFuY2VkIHVzYWdlIGNvdW50IGZvciBzdXNwZW5kKCkvcmVzdW1l
+KCkNCj4gPiB0byBhdm9pZCByZXNvdXJjZSBsaWtlIGJlbG93DQo+ID4NCj4gPiBzdGF0aWMgaW50
+IG15cmVzdW1lKC4uLikNCj4gPiB7DQo+ID4gICAgICAgICByZXQgPSBlbmFibGVfc29tZV9yZXNv
+dXJjZSguLi4pOw0KPiA+ICAgICAgICAgcmV0IHw9IGVuYWJsZV9zb21lX290aGVyX3Jlc291cmNl
+KC4uLik7DQo+ID4NCj4gPiAgICAgICAgIHJldHVybiByZXQ7DQo+ID4gfQ0KPiA+DQo+ID4gc3Rh
+dGljIGludCBteXN1c3BlbmQoLi4uKQ0KPiA+IHsNCj4gPiAgICAgICAgIGRpc2FibGVfc29tZV9y
+ZXNvdXJjZSguLi4pOw0KPiA+ICAgICAgICAgZGlzYWJsZV9zb21lX290aGVyX3Jlc291cmNlKC4u
+LikNCj4gDQo+IFdoYXQgZG8geW91IGRvIHdoZW4gb25lIG9mIHRoZSBkaXNhYmxpbmcgZmFpbHM/
+IFNlZSBhbHNvDQo+IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL0NBTXVITWRXREdwcWRoQ3NBME1K
+cW9MMUpBaXlWUi1UQTJZcURlKy1TOVhmNmM1Ty1nQUBtYWlsLmdtYWlsLmNvbQ0KDQoNCk9LIGlu
+IG15c3VzcGVuZCgpDQoNCkNhc2UgMSkNCklmIEkganVzdCByZXR1cm4gZXJyb3Igd2l0aG91dCBj
+YWxsaW5nIG15cmVzdW1lKCksIEkgZ2V0IGtlcm5lbCBjcmFzaCBkdWUgdG8gc3luY2hyb25vdXMg
+ZXh0ZXJuYWwgYWJvcnQgWzFdDQoNCkNhc2UgMikNCklmIEkganVzdCByZXR1cm4gZXJyb3Igd2l0
+aCBjYWxsaW5nIG15cmVzdW1lKCksIFRoZW4gaW5zdGVhZCBvZiBwb3dlciBzYXZpbmcsIGl0IGlz
+IGNvbnN1bWluZyBwb3dlciB3aGljaCBpcyBub3QgZ29vZC4NClRoZSBzeXN0ZW0gd2lsbCBuZXZl
+ciBlbnRlciBpbnRvIHN1c3BlbmQgc3RhdGUgYW5kIHlvdSB3aWxsIGtlZXAgZHJhaW5pbmcgdGhl
+IGJhdHRlcnlbMl0uDQoNCkNhc2UgMykNCiAgTm8gZXJyb3IgaGFuZGxpbmcgaW4gc3VzcGVuZC4g
+VGhlIGRldmljZSB3aWxsIGVudGVyIGludG8gc3VzcGVuZCBzdGF0ZSBhbmQgc2F2ZSBwb3dlclsz
+XQ0KDQpXaGljaCBvbmUgeW91IHdpbGwgc2VsZWN0IGZvciBhIHByb2R1Y3QgdGhhdCByZXF1aXJl
+cyBMb3cgUE0gc3VwcG9ydD8NCg0KDQpbMV0NClsgICAzNi42ODgwNTBdICBfX3dha2VfdXBfa2xv
+Z2QrMHhmOC8weDEwMCAoUCkNClsgICAzNi42OTIzMjFdICBidXN0X3NwaW5sb2NrcysweDRjLzB4
+NjANClsgICAzNi42OTYwNjVdICBkaWUrMHhkOC8weDE1Yw0KWyAgIDM2LjY5ODkyNV0gIGFybTY0
+X25vdGlmeV9kaWUrMHhiNC8weGNjDQpbICAgMzYuNzAyODMxXSAgZG9fc2VhKzB4N2MvMHhjMA0K
+WyAgIDM2LjcwNTg3N10gIGRvX21lbV9hYm9ydCsweDQwLzB4OTANClsgICAzNi43MDk0NDVdICBl
+bDFfYWJvcnQrMHg0NC8weDY4DQpbICAgMzYuNzEyNzQ4XSAgZWwxaF82NF9zeW5jX2hhbmRsZXIr
+MHg1MC8weGFjDQpbICAgMzYuNzE3MDA5XSAgZWwxaF82NF9zeW5jKzB4NmMvMHg3MA0KWyAgIDM2
+LjcyMDU2MV0gIHJ6ZzJsX2dwdF93cml0ZV93YXZlZm9ybSsweDE4OC8weDM3OCBbcHdtX3J6ZzJs
+X2dwdF0gKFApDQpbICAgMzYuNzI3MDgxXSAgX19wd21fYXBwbHkrMHhlYy8weDIyMA0KWyAgIDM2
+LjczMDYzN10gIHB3bV9hcHBseV9taWdodF9zbGVlcCsweDQ4LzB4YjgNClsgICAzNi43MzQ5NzJd
+ICBwd21fY2xhc3NfcmVzdW1lX25wd20rMHg2OC8weDExNA0KWyAgIDM2LjczOTM5Nl0gIHB3bV9j
+bGFzc19yZXN1bWUrMHgxNC8weDIwDQpbICAgMzYuNzQzMjk3XSAgZGV2aWNlX3Jlc3VtZSsweGM4
+LzB4MWM0DQpbICAgMzYuNzQ3MDI0XSAgZHBtX3Jlc3VtZSsweDE4NC8weDIwMA0KWyAgIDM2Ljc1
+MDU3N10gIGRwbV9yZXN1bWVfZW5kKzB4MTgvMHgzNA0KWyAgIDM2Ljc1NDMwNF0gIHN1c3BlbmRf
+ZGV2aWNlc19hbmRfZW50ZXIrMHg1NDAvMHg1OTANClsgICAzNi43NTkxNjRdICBwbV9zdXNwZW5k
+KzB4MTk0LzB4MWMwDQoNCg0KWzJdDQpyb290QHNtYXJjLXJ6ZzNlOn4jIC9wd20tcG0tdGVzdC5z
+aA0KMTYNCnB3bWNoaXAwDQoNClsgICA0Ny45MzM5NTZdIGthdWRpdGRfcHJpbnRrX3NrYjogNSBj
+YWxsYmFja3Mgc3VwcHJlc3NlZA0KWyAgIDQ3LjkzMzk3Ml0gYXVkaXQ6IHR5cGU9MTMzNCBhdWRp
+dCg5NDY2ODQ4MzMuNDYwOjIyKTogcHJvZy1pZD0xOCBvcD1VTkxPQUQNClsgICA0Ny45NDYwMTdd
+IGF1ZGl0OiB0eXBlPTEzMzQgYXVkaXQoOTQ2Njg0ODMzLjQ2MDoyMyk6IHByb2ctaWQ9MTcgb3A9
+VU5MT0FEDQpbICAgNDcuOTUyODk0XSBhdWRpdDogdHlwZT0xMzM0IGF1ZGl0KDk0NjY4NDgzMy40
+NjA6MjQpOiBwcm9nLWlkPTE2IG9wPVVOTE9BRA0KIyMjIEV4ZWN1dGluZyBTVFsgICA0Ny45NjA0
+MDldIFBNOiBzdXNwZW5kIGVudHJ5IChkZWVwKQ0KUiAjIyMNClsgICA0Ny45NjUyMjBdIEZpbGVz
+eXN0ZW1zIHN5bmM6IDAuMDAwIHNlY29uZHMNClsgICA0Ny45NzE4ODNdIEZyZWV6aW5nIHVzZXIg
+c3BhY2UgcHJvY2Vzc2VzDQpbICAgNDcuOTc3NzM5XSBGcmVlemluZyB1c2VyIHNwYWNlIHByb2Nl
+c3NlcyBjb21wbGV0ZWQgKGVsYXBzZWQgMC4wMDEgc2Vjb25kcykNClsgICA0Ny45ODQ3NzJdIE9P
+TSBraWxsZXIgZGlzYWJsZWQuDQpbICAgNDcuOTg4MDY1XSBGcmVlemluZyByZW1haW5pbmcgZnJl
+ZXphYmxlIHRhc2tzDQpbICAgNDcuOTkzNjgxXSBGcmVlemluZyByZW1haW5pbmcgZnJlZXphYmxl
+IHRhc2tzIGNvbXBsZXRlZCAoZWxhcHNlZCAwLjAwMSBzZWNvbmRzKQ0KWyAgIDQ4LjAwMTE0M10g
+cHJpbnRrOiBTdXNwZW5kaW5nIGNvbnNvbGUocykgKHVzZSBub19jb25zb2xlX3N1c3BlbmQgdG8g
+ZGVidWcpDQpbICAgNDguMDc3MTY2XSByZW5lc2FzLWdiZXRoIDE1YzMwMDAwLmV0aGVybmV0IGVu
+ZDA6IExpbmsgaXMgRG93bg0KWyAgIDQ4LjA4MTg0Nl0gcHdtLXJ6ZzJsLWdwdCAxMzAxMDAwMC5w
+d206IFBNOiBkcG1fcnVuX2NhbGxiYWNrKCk6IHJ6ZzJsX2dwdF9zdXNwZW5kIFtwd21fcnpnMmxf
+Z3B0XSByZXR1cm5zIC0xMTANClsgICA0OC4wODE5MzddIHB3bS1yemcybC1ncHQgMTMwMTAwMDAu
+cHdtOiBQTTogZmFpbGVkIHRvIHN1c3BlbmQ6IGVycm9yIC0xMTANClsgICA0OC4wODIxNTddIFBN
+OiBTb21lIGRldmljZXMgZmFpbGVkIHRvIHN1c3BlbmQsIG9yIGVhcmx5IHdha2UgZXZlbnQgZGV0
+ZWN0ZWQNClsgICA0OC4wOTE3NDldIGR3bWFjNDogTWFzdGVyIEFYSSBwZXJmb3JtcyBhbnkgYnVy
+c3QgbGVuZ3RoDQpbICAgNDguMDkxODI5XSByZW5lc2FzLWdiZXRoIDE1YzMwMDAwLmV0aGVybmV0
+IGVuZDA6IE5vIFNhZmV0eSBGZWF0dXJlcyBzdXBwb3J0IGZvdW5kDQpbICAgNDguMDkxOTI0XSBy
+ZW5lc2FzLWdiZXRoIDE1YzMwMDAwLmV0aGVybmV0IGVuZDA6IElFRUUgMTU4OC0yMDA4IEFkdmFu
+Y2VkIFRpbWVzdGFtcCBzdXBwb3J0ZWQNClsgICA0OC4wOTIwNzNdIHJlbmVzYXMtZ2JldGggMTVj
+MzAwMDAuZXRoZXJuZXQgZW5kMDogY29uZmlndXJpbmcgZm9yIHBoeS9yZ21paS1pZCBsaW5rIG1v
+ZGUNClsgICA0OC4xMDA3MThdIGR3bWFjNDogTWFzdGVyIEFYSSBwZXJmb3JtcyBhbnkgYnVyc3Qg
+bGVuZ3RoDQpbICAgNDguMTAwNzkxXSByZW5lc2FzLWdiZXRoIDE1YzQwMDAwLmV0aGVybmV0IGVu
+ZDE6IE5vIFNhZmV0eSBGZWF0dXJlcyBzdXBwb3J0IGZvdW5kDQpbICAgNDguMTAwODc1XSByZW5l
+c2FzLWdiZXRoIDE1YzQwMDAwLmV0aGVybmV0IGVuZDE6IElFRUUgMTU4OC0yMDA4IEFkdmFuY2Vk
+IFRpbWVzdGFtcCBzdXBwb3J0ZWQNClsgICA0OC4xMDEwMTZdIHJlbmVzYXMtZ2JldGggMTVjNDAw
+MDAuZXRoZXJuZXQgZW5kMTogY29uZmlndXJpbmcgZm9yIHBoeS9yZ21paS1pZCBsaW5rIG1vZGUN
+ClsgICA0OC4xNDkwOTRdIHVzYiB1c2IxOiByb290IGh1YiBsb3N0IHBvd2VyIG9yIHdhcyByZXNl
+dA0KWyAgIDQ4LjE0OTEzNl0gdXNiIHVzYjI6IHJvb3QgaHViIGxvc3QgcG93ZXIgb3Igd2FzIHJl
+c2V0DQpbICAgNDguMzYxMjE5XSBPT00ga2lsbGVyIGVuYWJsZWQuDQpbICAgNDguMzY0MzYwXSBS
+ZXN0YXJ0aW5nIHRhc2tzOiBTdGFydGluZw0KWyAgIDQ4LjM2OTQ5NV0gUmVzdGFydGluZyB0YXNr
+czogRG9uZQ0KWyAgIDQ4LjM3Mjk0M10gcmFuZG9tOiBjcm5nIHJlc2VlZGVkIG9uIHN5c3RlbSBy
+ZXN1bXB0aW9uDQovcHdtLXBtLXRlc3Quc2g6WyAgIDQ4LjM4MTI4NF0gUE06IHN1c3BlbmQgZXhp
+dA0KIGxpbmUgMjg6IGVjaG86IHdyaXRlIGVycm9yOiBDb25uZWN0aW9uIHRpbWVkIG91dA0KWyAg
+IDUxLjA4NDkwNl0gcmVuZXNhcy1nYmV0aCAxNWMzMDAwMC5ldGhlcm5ldCBlbmQwOiBMaW5rIGlz
+IFVwIC0gMUdicHMvRnVsbCAtIGZsb3cgY29udHJvbCByeC90eA0KDQpbM10NCg0Kcm9vdEBzbWFy
+Yy1yemczZTp+IyAvcHdtLXBtLXRlc3Quc2gNCjE2DQpwd21jaGlwMA0KDQojIyMgRXhlY3V0aW5n
+IFNUWyAgIDM3LjQ3OTQyNV0gUE06IHN1c3BlbmQgZW50cnkgKGRlZXApDQpSICMjIw0KWyAgIDM3
+LjQ4NDYwOF0gRmlsZXN5c3RlbXMgc3luYzogMC4wMDAgc2Vjb25kcw0KWyAgIDM3LjQ5MTQwMV0g
+RnJlZXppbmcgdXNlciBzcGFjZSBwcm9jZXNzZXMNClsgICAzNy40OTc0NDddIEZyZWV6aW5nIHVz
+ZXIgc3BhY2UgcHJvY2Vzc2VzIGNvbXBsZXRlZCAoZWxhcHNlZCAwLjAwNiBzZWNvbmRzKQ0KWyAg
+IDM3LjUwNDQzM10gT09NIGtpbGxlciBkaXNhYmxlZC4NClsgICAzNy41MDc2ODZdIEZyZWV6aW5n
+IHJlbWFpbmluZyBmcmVlemFibGUgdGFza3MNClsgICAzNy41OTA5MjNdIEZyZWV6aW5nIHJlbWFp
+bmluZyBmcmVlemFibGUgdGFza3MgY29tcGxldGVkIChlbGFwc2VkIDAuMDc4IHNlY29uZHMpDQpb
+ICAgMzcuNTk4Mzg0XSBwcmludGs6IFN1c3BlbmRpbmcgY29uc29sZShzKSAodXNlIG5vX2NvbnNv
+bGVfc3VzcGVuZCB0byBkZWJ1ZykNCk5PVElDRTogIEJMMjogdjIuMTAuNShyZWxlYXNlKToyLjEw
+LjUvcnpfc29jX2Rldi0zMjktZ2IyODhmYTZkZA0KTk9USUNFOiAgQkwyOiBCdWlsdCA6IDEyOjI3
+OjI4LCBOb3YgMjggMjAyNQ0KTk9USUNFOiAgQkwyOiBTWVNfTFNJX01PREU6IDB4MTNlMDYNCk5P
+VElDRTogIEJMMjogU1lTX0xTSV9ERVZJRDogMHg4Njc5NDQ3DQpOT1RJQ0U6ICBCTDI6IFNZU19M
+U0lfUFJSOiAweDANCk5PVElDRTogIEJMMjogQm9vdGluZyBCTDMxDQpbICAgMzcuNjkwODc4XSBy
+ZW5lc2FzLWdiZXRoIDE1YzMwMDAwLmV0aGVybmV0IGVuZDA6IExpbmsgaXMgRG93bg0KWyAgIDM3
+LjcwNTk4Nl0gRGlzYWJsaW5nIG5vbi1ib290IENQVXMgLi4uDQpbICAgMzcuNzEwODQ1XSBwc2Np
+OiBDUFUzIGtpbGxlZCAocG9sbGVkIDAgbXMpDQpbICAgMzcuNzE3MzYxXSBwc2NpOiBDUFUyIGtp
+bGxlZCAocG9sbGVkIDAgbXMpDQpbICAgMzcuNzI1NTk1XSBwc2NpOiBDUFUxIGtpbGxlZCAocG9s
+bGVkIDQgbXMpDQpbICAgMzcuNzI4MjIyXSBFbmFibGluZyBub24tYm9vdCBDUFVzIC4uLg0KWyAg
+IDM3LjcyODQzMl0gRGV0ZWN0ZWQgVklQVCBJLWNhY2hlIG9uIENQVTENClsgICAzNy43Mjg0Nzhd
+IEdJQ3YzOiBDUFUxOiBmb3VuZCByZWRpc3RyaWJ1dG9yIDEwMCByZWdpb24gMDoweDAwMDAwMDAw
+MTQ5NjAwMDANClsgICAzNy43Mjg1MTZdIENQVTE6IEJvb3RlZCBzZWNvbmRhcnkgcHJvY2Vzc29y
+IDB4MDAwMDAwMDEwMCBbMHg0MTJmZDA1MF0NClsgICAzNy43MjkzNTVdIENQVTEgaXMgdXANClsg
+ICAzNy43Mjk2NDhdIERldGVjdGVkIFZJUFQgSS1jYWNoZSBvbiBDUFUyDQpbICAgMzcuNzI5NjY5
+XSBHSUN2MzogQ1BVMjogZm91bmQgcmVkaXN0cmlidXRvciAyMDAgcmVnaW9uIDA6MHgwMDAwMDAw
+MDE0OTgwMDAwDQpbICAgMzcuNzI5NjkwXSBDUFUyOiBCb290ZWQgc2Vjb25kYXJ5IHByb2Nlc3Nv
+ciAweDAwMDAwMDAyMDAgWzB4NDEyZmQwNTBdDQpbICAgMzcuNzMwMjY4XSBDUFUyIGlzIHVwDQpb
+ICAgMzcuNzMwMzc3XSBEZXRlY3RlZCBWSVBUIEktY2FjaGUgb24gQ1BVMw0KWyAgIDM3LjczMDM5
+OV0gR0lDdjM6IENQVTM6IGZvdW5kIHJlZGlzdHJpYnV0b3IgMzAwIHJlZ2lvbiAwOjB4MDAwMDAw
+MDAxNDlhMDAwMA0KWyAgIDM3LjczMDQyMF0gQ1BVMzogQm9vdGVkIHNlY29uZGFyeSBwcm9jZXNz
+b3IgMHgwMDAwMDAwMzAwIFsweDQxMmZkMDUwXQ0KWyAgIDM3LjczMTE1M10gQ1BVMyBpcyB1cA0K
+WyAgIDM3Ljc0OTM4NV0gZHdtYWM0OiBNYXN0ZXIgQVhJIHBlcmZvcm1zIGFueSBidXJzdCBsZW5n
+dGgNClsgICAzNy43NDk0MjFdIHJlbmVzYXMtZ2JldGggMTVjMzAwMDAuZXRoZXJuZXQgZW5kMDog
+Tm8gU2FmZXR5IEZlYXR1cmVzIHN1cHBvcnQgZm91bmQNClsgICAzNy43NDk0NjJdIHJlbmVzYXMt
+Z2JldGggMTVjMzAwMDAuZXRoZXJuZXQgZW5kMDogSUVFRSAxNTg4LTIwMDggQWR2YW5jZWQgVGlt
+ZXN0YW1wIHN1cHBvcnRlZA0KWyAgIDM3Ljc0OTUzMF0gcmVuZXNhcy1nYmV0aCAxNWMzMDAwMC5l
+dGhlcm5ldCBlbmQwOiBjb25maWd1cmluZyBmb3IgcGh5L3JnbWlpLWlkIGxpbmsgbW9kZQ0KWyAg
+IDM3Ljc2NjUwM10gZHdtYWM0OiBNYXN0ZXIgQVhJIHBlcmZvcm1zIGFueSBidXJzdCBsZW5ndGgN
+ClsgICAzNy43NjY1MzFdIHJlbmVzYXMtZ2JldGggMTVjNDAwMDAuZXRoZXJuZXQgZW5kMTogTm8g
+U2FmZXR5IEZlYXR1cmVzIHN1cHBvcnQgZm91bmQNClsgICAzNy43NjY1NjFdIHJlbmVzYXMtZ2Jl
+dGggMTVjNDAwMDAuZXRoZXJuZXQgZW5kMTogSUVFRSAxNTg4LTIwMDggQWR2YW5jZWQgVGltZXN0
+YW1wIHN1cHBvcnRlZA0KWyAgIDM3Ljc2NjYyMl0gcmVuZXNhcy1nYmV0aCAxNWM0MDAwMC5ldGhl
+cm5ldCBlbmQxOiBjb25maWd1cmluZyBmb3IgcGh5L3JnbWlpLWlkIGxpbmsgbW9kZQ0KWyAgIDM3
+LjgxMzQ2NF0gdXNiIHVzYjE6IHJvb3QgaHViIGxvc3QgcG93ZXIgb3Igd2FzIHJlc2V0DQpbICAg
+MzcuODEzNDcyXSB1c2IgdXNiMjogcm9vdCBodWIgbG9zdCBwb3dlciBvciB3YXMgcmVzZXQNClsg
+ICAzOC4wNzY0MzNdIE9PTSBraWxsZXIgZW5hYmxlZC4NClsgICAzOC4wNzk1NzFdIFJlc3RhcnRp
+bmcgdGFza3M6IFN0YXJ0aW5nDQpbICAgMzguMDgzNzc2XSBSZXN0YXJ0aW5nIHRhc2tzOiBEb25l
+DQpbICAgMzguMDg3MjU1XSByYW5kb206IGNybmcgcmVzZWVkZWQgb24gc3lzdGVtIHJlc3VtcHRp
+b24NClsgICAzOC4wOTI1MDldIFBNOiBzdXNwZW5kIGV4aXQNCnJvb3RAc21hcmMtcnpnM2U6fiMg
+WyAgIDQwLjMzNzAxM10gcmVuZXNhcy1nYmV0aCAxNWMzMDAwMC5ldGhlcm5ldCBlbmQwOiBMaW5r
+IGlzIFVwIC0gMUdicHMvRnVsbCAtIGZsb3cgY29udHJvbCByeC90eA0K
 
