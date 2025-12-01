@@ -1,39 +1,39 @@
-Return-Path: <linux-renesas-soc+bounces-25423-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25424-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BF23C97006
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 01 Dec 2025 12:33:43 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9A03C9701E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 01 Dec 2025 12:34:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 26F023A71FA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Dec 2025 11:30:50 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 0EBC8342270
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Dec 2025 11:31:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE65F261B77;
-	Mon,  1 Dec 2025 11:30:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEC4C264A92;
+	Mon,  1 Dec 2025 11:30:35 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B2B925A33A;
-	Mon,  1 Dec 2025 11:30:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE9C826158B;
+	Mon,  1 Dec 2025 11:30:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764588633; cv=none; b=LmBwYXBBGn8LPygmZ71sZ8PQt4SSYOxD7KmBuRp66RQbKbWPS5AflnmpSXJ8IIbw2Y98Al1syLpAcbU7h4OFjTGaIEuBf/fwk3n8CK7m2Iyy2nKbPcMKopvyngBynjwQ7EKwCw9E9kSdD3ZEujBY+KNPQrStLJA1eBYPg39Iw/8=
+	t=1764588635; cv=none; b=i7ePTzRHjdM4abnL35G3HfAiuUH5DIsW8VPCpEwnpqzVMY3+L3jdn2VQ5sBaiItAy4+Sq3ZSgrPmQzvRXoieg1Twk3PxGmto/sHfFpA7tFXNMCObhXAr4kFkCl/kJzP0TxBd0nrsstcD56vNzMxPCBRHg1amPAgDqWN9g8GVouE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764588633; c=relaxed/simple;
-	bh=2QRcZP9vbJUeHjJnswN8kd/ZAJ3YlV6uVnIq7VEaHNs=;
+	s=arc-20240116; t=1764588635; c=relaxed/simple;
+	bh=BYr/gDvVEgFo/tdZiwLHAusQdunhJXHXgkkC0vsEYCM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kUu1i8DHUJjjiFsUesgNH1mRuGIhw09h9ER7U0aeOa2Tm1sWSp62XkF1NtzIUlOWt9Dax9eYq7nQ+6Dxxlg/2Wz7Y3tfjiLPikaXEw1j8VzTQviJi4smrVtiDPvFe9lGZr9YD3f4jYaa830//MsaG9Zz8JUjmU2iVc7b1w3c9Gs=
+	 MIME-Version; b=uXe6ax6mKkFxUutkcVCXyPbToV7QmSAOIo8Gc0CgwWAAzhYol2/KnEl3yfCKfzsxha8jE3bNdx8acbWTAOmevDP6OGgJZwn8pvjwKnpf0I5CF3HV29sihu77Ud8kwWs7pgIZsUlGaT6Smb/zE9MJjjjD1lgzBe4i1kXv9a6XZBw=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-X-CSE-ConnectionGUID: TpYG/aJjQtagv7bmnD+QWg==
-X-CSE-MsgGUID: s5Mi2zJZSGmtvn+efgAc6w==
+X-CSE-ConnectionGUID: gCLAaIslSDeSPpXraHOLjA==
+X-CSE-MsgGUID: GyCMw0pYS36Qyi/gB3XVcw==
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 01 Dec 2025 20:30:29 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 01 Dec 2025 20:30:33 +0900
 Received: from demon-pc.localdomain (unknown [10.226.93.83])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 0E12541F1B93;
-	Mon,  1 Dec 2025 20:30:25 +0900 (JST)
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 4982741F1B93;
+	Mon,  1 Dec 2025 20:30:30 +0900 (JST)
 From: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
 To: Thomas Gleixner <tglx@linutronix.de>,
 	Rob Herring <robh@kernel.org>,
@@ -45,9 +45,9 @@ To: Thomas Gleixner <tglx@linutronix.de>,
 Cc: linux-kernel@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 2/4] irqchip: add RZ/{T2H,N2H} Interrupt Controller (ICU) driver
-Date: Mon,  1 Dec 2025 13:29:31 +0200
-Message-ID: <20251201112933.488801-3-cosmin-gabriel.tanislav.xa@renesas.com>
+Subject: [PATCH v2 3/4] arm64: dts: renesas: r9a09g077: add ICU support
+Date: Mon,  1 Dec 2025 13:29:32 +0200
+Message-ID: <20251201112933.488801-4-cosmin-gabriel.tanislav.xa@renesas.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20251201112933.488801-1-cosmin-gabriel.tanislav.xa@renesas.com>
 References: <20251201112933.488801-1-cosmin-gabriel.tanislav.xa@renesas.com>
@@ -59,396 +59,106 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Renesas RZ/T2H (R9A09G077) and Renesas RZ/N2H (R9A09G087) SoCs have
-an Interrupt Controller (ICU) that supports interrupts from external
-pins IRQ0 to IRQ15, and SEI, and software-triggered interrupts INTCPU0
-to INTCPU15.
+The Renesas RZ/T2H (R9A09G077) SoC has an Interrupt Controller (ICU)
+block that routes external interrupts to the GIC's SPIs, with the
+ability of level-translation, and can also produce software
+and aggregate error interrupts.
 
-INTCPU0 to INTCPU13, IRQ0 to IRQ13 are non-safety interrupts, while
-INTCPU14, INTCPU15, IRQ14, IRQ15 and SEI are safety interrupts, and are
-exposed via a separate register space.
+Add support for it.
 
 Signed-off-by: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
 ---
 
 V2:
- * use 100 columns where necessary
- * move SEI comment above if
- * inline declarations of the same type
- * use scoped_guard() in rzt2h_icu_irq_set_type() to avoid keeping the
-   guard across the irq_chip_set_type_parent() call
- * align struct irq_chip members initialization
+ * no changes
 
- drivers/irqchip/Kconfig                   |   8 +
- drivers/irqchip/Makefile                  |   1 +
- drivers/irqchip/irq-renesas-rzt2h.c       | 283 ++++++++++++++++++++++
- drivers/soc/renesas/Kconfig               |   1 +
- include/linux/irqchip/irq-renesas-rzt2h.h |  23 ++
- 5 files changed, 316 insertions(+)
- create mode 100644 drivers/irqchip/irq-renesas-rzt2h.c
- create mode 100644 include/linux/irqchip/irq-renesas-rzt2h.h
+ arch/arm64/boot/dts/renesas/r9a09g077.dtsi | 73 ++++++++++++++++++++++
+ 1 file changed, 73 insertions(+)
 
-diff --git a/drivers/irqchip/Kconfig b/drivers/irqchip/Kconfig
-index f334f49c9791..118d0c16e633 100644
---- a/drivers/irqchip/Kconfig
-+++ b/drivers/irqchip/Kconfig
-@@ -297,6 +297,14 @@ config RENESAS_RZG2L_IRQC
- 	  Enable support for the Renesas RZ/G2L (and alike SoC) Interrupt Controller
- 	  for external devices.
+diff --git a/arch/arm64/boot/dts/renesas/r9a09g077.dtsi b/arch/arm64/boot/dts/renesas/r9a09g077.dtsi
+index f80c6d603eea..0af41287e6a8 100644
+--- a/arch/arm64/boot/dts/renesas/r9a09g077.dtsi
++++ b/arch/arm64/boot/dts/renesas/r9a09g077.dtsi
+@@ -862,6 +862,79 @@ cpg: clock-controller@80280000 {
+ 			#power-domain-cells = <0>;
+ 		};
  
-+config RENESAS_RZT2H_ICU
-+	bool "Renesas RZ/{T2H,N2H} ICU support" if COMPILE_TEST
-+	select GENERIC_IRQ_CHIP
-+	select IRQ_DOMAIN_HIERARCHY
-+	help
-+	  Enable support for the Renesas RZ/{T2H,N2H} Interrupt Controller
-+	  (ICU).
++		icu: interrupt-controller@802a0000 {
++			compatible = "renesas,r9a09g077-icu";
++			reg = <0 0x802a0000 0 0x10000>,
++			      <0 0x812a0000 0 0x50>;
++			#interrupt-cells = <2>;
++			#address-cells = <0>;
++			interrupt-controller;
++			interrupts = <GIC_SPI 0 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 1 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 2 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 3 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 4 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 5 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 6 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 7 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 8 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 9 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 10 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 11 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 12 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 13 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 14 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 15 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 16 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 17 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 18 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 19 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 20 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 21 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 22 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 23 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 24 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 25 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 26 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 27 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 28 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 29 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 30 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 31 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 406 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 407 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 408 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 409 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 410 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 411 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 412 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 413 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 414 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 415 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 416 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 417 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 418 IRQ_TYPE_EDGE_RISING>;
++			interrupt-names = "intcpu0", "intcpu1", "intcpu2",
++					  "intcpu3", "intcpu4", "intcpu5",
++					  "intcpu6", "intcpu7", "intcpu8",
++					  "intcpu9", "intcpu10", "intcpu11",
++					  "intcpu12", "intcpu13", "intcpu14",
++					  "intcpu15",
++					  "irq0", "irq1", "irq2", "irq3",
++					  "irq4", "irq5", "irq6", "irq7",
++					  "irq8", "irq9", "irq10", "irq11",
++					  "irq12", "irq13", "irq14", "irq15",
++					  "sei",
++					  "ca55-err0", "ca55-err1",
++					  "cr520-err0", "cr520-err1",
++					  "cr521-err0", "cr521-err1",
++					  "peri-err0", "peri-err1",
++					  "dsmif-err0", "dsmif-err1",
++					  "encif-err0", "encif-err1";
++			clocks = <&cpg CPG_CORE R9A09G077_CLK_PCLKM>;
++			power-domains = <&cpg>;
++		};
 +
- config RENESAS_RZV2H_ICU
- 	bool "Renesas RZ/V2H(P) ICU support" if COMPILE_TEST
- 	select GENERIC_IRQ_CHIP
-diff --git a/drivers/irqchip/Makefile b/drivers/irqchip/Makefile
-index 6a229443efe0..26aa3b6ec99f 100644
---- a/drivers/irqchip/Makefile
-+++ b/drivers/irqchip/Makefile
-@@ -54,6 +54,7 @@ obj-$(CONFIG_RENESAS_INTC_IRQPIN)	+= irq-renesas-intc-irqpin.o
- obj-$(CONFIG_RENESAS_IRQC)		+= irq-renesas-irqc.o
- obj-$(CONFIG_RENESAS_RZA1_IRQC)		+= irq-renesas-rza1.o
- obj-$(CONFIG_RENESAS_RZG2L_IRQC)	+= irq-renesas-rzg2l.o
-+obj-$(CONFIG_RENESAS_RZT2H_ICU)		+= irq-renesas-rzt2h.o
- obj-$(CONFIG_RENESAS_RZV2H_ICU)		+= irq-renesas-rzv2h.o
- obj-$(CONFIG_VERSATILE_FPGA_IRQ)	+= irq-versatile-fpga.o
- obj-$(CONFIG_ARCH_NSPIRE)		+= irq-zevio.o
-diff --git a/drivers/irqchip/irq-renesas-rzt2h.c b/drivers/irqchip/irq-renesas-rzt2h.c
-new file mode 100644
-index 000000000000..1b2fb1782982
---- /dev/null
-+++ b/drivers/irqchip/irq-renesas-rzt2h.c
-@@ -0,0 +1,283 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <linux/bitfield.h>
-+#include <linux/err.h>
-+#include <linux/io.h>
-+#include <linux/irqchip.h>
-+#include <linux/irqchip/irq-renesas-rzt2h.h>
-+#include <linux/irqdomain.h>
-+#include <linux/of_platform.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/reset.h>
-+#include <linux/spinlock.h>
-+
-+#define RZT2H_ICU_INTCPU_NS_START		0
-+#define RZT2H_ICU_INTCPU_NS_COUNT		14
-+
-+#define RZT2H_ICU_INTCPU_S_START		(RZT2H_ICU_INTCPU_NS_START + \
-+						 RZT2H_ICU_INTCPU_NS_COUNT)
-+#define RZT2H_ICU_INTCPU_S_COUNT		2
-+
-+#define RZT2H_ICU_IRQ_NS_START			(RZT2H_ICU_INTCPU_S_START + \
-+						 RZT2H_ICU_INTCPU_S_COUNT)
-+#define RZT2H_ICU_IRQ_NS_COUNT			14
-+
-+#define RZT2H_ICU_IRQ_S_START			(RZT2H_ICU_IRQ_NS_START + \
-+						 RZT2H_ICU_IRQ_NS_COUNT)
-+#define RZT2H_ICU_IRQ_S_COUNT			2
-+
-+#define RZT2H_ICU_SEI_START			(RZT2H_ICU_IRQ_S_START + \
-+						 RZT2H_ICU_IRQ_S_COUNT)
-+#define RZT2H_ICU_SEI_COUNT			1
-+
-+#define RZT2H_ICU_NUM_IRQ			(RZT2H_ICU_INTCPU_NS_COUNT + \
-+						 RZT2H_ICU_INTCPU_S_COUNT + \
-+						 RZT2H_ICU_IRQ_NS_COUNT + \
-+						 RZT2H_ICU_IRQ_S_COUNT + \
-+						 RZT2H_ICU_SEI_COUNT)
-+
-+#define RZT2H_ICU_IRQ_IN_RANGE(n, type) \
-+	((n) >= RZT2H_ICU_##type##_START && \
-+	 (n) <  RZT2H_ICU_##type##_START + RZT2H_ICU_##type##_COUNT)
-+
-+#define RZT2H_ICU_PORTNF_MD			0xc
-+#define RZT2H_ICU_PORTNF_MDi_MASK(i)		(GENMASK(1, 0) << ((i) * 2))
-+#define RZT2H_ICU_PORTNF_MDi_PREP(i, val)	(FIELD_PREP(GENMASK(1, 0), val) << ((i) * 2))
-+
-+#define RZT2H_ICU_MD_LOW_LEVEL			0b00
-+#define RZT2H_ICU_MD_FALLING_EDGE		0b01
-+#define RZT2H_ICU_MD_RISING_EDGE		0b10
-+#define RZT2H_ICU_MD_BOTH_EDGES			0b11
-+
-+#define RZT2H_ICU_DMACn_RSSELi(n, i)		(0x7d0 + 0x18 * (n) + 0x4 * (i))
-+#define RZT2H_ICU_DMAC_REQ_SELx_MASK(x)		(GENMASK(9, 0) << ((x) * 10))
-+#define RZT2H_ICU_DMAC_REQ_SELx_PREP(x, val)	(FIELD_PREP(GENMASK(9, 0), val) << ((x) * 10))
-+
-+struct rzt2h_icu_priv {
-+	void __iomem			*base_ns;
-+	void __iomem			*base_s;
-+	struct irq_fwspec		fwspec[RZT2H_ICU_NUM_IRQ];
-+	raw_spinlock_t			lock;
-+};
-+
-+void rzt2h_icu_register_dma_req(struct platform_device *icu_dev, u8 dmac_index, u8 dmac_channel,
-+				u16 req_no)
-+{
-+	struct rzt2h_icu_priv *priv = platform_get_drvdata(icu_dev);
-+	u8 y, upper;
-+	u32 val;
-+
-+	y = dmac_channel / 3;
-+	upper = dmac_channel % 3;
-+
-+	guard(raw_spinlock_irqsave)(&priv->lock);
-+
-+	val = readl(priv->base_ns + RZT2H_ICU_DMACn_RSSELi(dmac_index, y));
-+	val &= ~RZT2H_ICU_DMAC_REQ_SELx_MASK(upper);
-+	val |= RZT2H_ICU_DMAC_REQ_SELx_PREP(upper, req_no);
-+	writel(val, priv->base_ns + RZT2H_ICU_DMACn_RSSELi(dmac_index, y));
-+}
-+EXPORT_SYMBOL_GPL(rzt2h_icu_register_dma_req);
-+
-+static inline struct rzt2h_icu_priv *irq_data_to_priv(struct irq_data *data)
-+{
-+	return data->domain->host_data;
-+}
-+
-+static inline int rzt2h_icu_irq_to_offset(struct irq_data *d, void __iomem **base,
-+					  unsigned int *offset)
-+{
-+	struct rzt2h_icu_priv *priv = irq_data_to_priv(d);
-+	unsigned int hwirq = irqd_to_hwirq(d);
-+
-+	/*
-+	 * Safety IRQs and SEI use a separate register space from the non-safety IRQs.
-+	 * SEI interrupt number follows immediately after the safety IRQs.
-+	 */
-+	if (RZT2H_ICU_IRQ_IN_RANGE(hwirq, IRQ_NS)) {
-+		*offset = hwirq - RZT2H_ICU_IRQ_NS_START;
-+		*base = priv->base_ns;
-+	} else if (RZT2H_ICU_IRQ_IN_RANGE(hwirq, IRQ_S) ||
-+		   RZT2H_ICU_IRQ_IN_RANGE(hwirq, SEI)) {
-+		*offset = hwirq - RZT2H_ICU_IRQ_S_START;
-+		*base = priv->base_s;
-+	} else {
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static int rzt2h_icu_irq_set_type(struct irq_data *d, unsigned int type)
-+{
-+	struct rzt2h_icu_priv *priv = irq_data_to_priv(d);
-+	unsigned int offset, parent_type;
-+	void __iomem *base;
-+	u32 val, md;
-+	int ret;
-+
-+	ret = rzt2h_icu_irq_to_offset(d, &base, &offset);
-+	if (ret)
-+		return ret;
-+
-+	switch (type & IRQ_TYPE_SENSE_MASK) {
-+	case IRQ_TYPE_LEVEL_LOW:
-+		md = RZT2H_ICU_MD_LOW_LEVEL;
-+		parent_type = IRQ_TYPE_LEVEL_HIGH;
-+		break;
-+	case IRQ_TYPE_EDGE_FALLING:
-+		md = RZT2H_ICU_MD_FALLING_EDGE;
-+		parent_type = IRQ_TYPE_EDGE_RISING;
-+		break;
-+	case IRQ_TYPE_EDGE_RISING:
-+		md = RZT2H_ICU_MD_RISING_EDGE;
-+		parent_type = IRQ_TYPE_EDGE_RISING;
-+		break;
-+	case IRQ_TYPE_EDGE_BOTH:
-+		md = RZT2H_ICU_MD_BOTH_EDGES;
-+		parent_type = IRQ_TYPE_EDGE_RISING;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	scoped_guard(raw_spinlock, &priv->lock) {
-+		val = readl_relaxed(base + RZT2H_ICU_PORTNF_MD);
-+		val &= ~RZT2H_ICU_PORTNF_MDi_MASK(offset);
-+		val |= RZT2H_ICU_PORTNF_MDi_PREP(offset, md);
-+		writel_relaxed(val, base + RZT2H_ICU_PORTNF_MD);
-+	}
-+
-+	return irq_chip_set_type_parent(d, parent_type);
-+}
-+
-+static int rzt2h_icu_set_type(struct irq_data *d, unsigned int type)
-+{
-+	unsigned int hw_irq = irqd_to_hwirq(d);
-+
-+	/* IRQn and SEI are selectable, others are edge-only. */
-+	if (RZT2H_ICU_IRQ_IN_RANGE(hw_irq, IRQ_NS) ||
-+	    RZT2H_ICU_IRQ_IN_RANGE(hw_irq, IRQ_S) ||
-+	    RZT2H_ICU_IRQ_IN_RANGE(hw_irq, SEI))
-+		return rzt2h_icu_irq_set_type(d, type);
-+
-+	if ((type & IRQ_TYPE_SENSE_MASK) != IRQ_TYPE_EDGE_RISING)
-+		return -EINVAL;
-+
-+	return irq_chip_set_type_parent(d, IRQ_TYPE_EDGE_RISING);
-+}
-+
-+static const struct irq_chip rzt2h_icu_chip = {
-+	.name			= "rzt2h-icu",
-+	.irq_mask		= irq_chip_mask_parent,
-+	.irq_unmask		= irq_chip_unmask_parent,
-+	.irq_eoi		= irq_chip_eoi_parent,
-+	.irq_set_type		= rzt2h_icu_set_type,
-+	.irq_set_wake		= irq_chip_set_wake_parent,
-+	.irq_set_affinity	= irq_chip_set_affinity_parent,
-+	.irq_retrigger		= irq_chip_retrigger_hierarchy,
-+	.irq_get_irqchip_state	= irq_chip_get_parent_state,
-+	.irq_set_irqchip_state	= irq_chip_set_parent_state,
-+	.flags			= IRQCHIP_MASK_ON_SUSPEND |
-+				  IRQCHIP_SET_TYPE_MASKED |
-+				  IRQCHIP_SKIP_SET_WAKE,
-+};
-+
-+static int rzt2h_icu_alloc(struct irq_domain *domain, unsigned int virq, unsigned int nr_irqs,
-+			   void *arg)
-+{
-+	struct rzt2h_icu_priv *priv = domain->host_data;
-+	irq_hw_number_t hwirq;
-+	unsigned int type;
-+	int ret;
-+
-+	ret = irq_domain_translate_twocell(domain, arg, &hwirq, &type);
-+	if (ret)
-+		return ret;
-+
-+	ret = irq_domain_set_hwirq_and_chip(domain, virq, hwirq, &rzt2h_icu_chip, NULL);
-+	if (ret)
-+		return ret;
-+
-+	return irq_domain_alloc_irqs_parent(domain, virq, nr_irqs, &priv->fwspec[hwirq]);
-+}
-+
-+static const struct irq_domain_ops rzt2h_icu_domain_ops = {
-+	.alloc		= rzt2h_icu_alloc,
-+	.free		= irq_domain_free_irqs_common,
-+	.translate	= irq_domain_translate_twocell,
-+};
-+
-+static int rzt2h_icu_parse_interrupts(struct rzt2h_icu_priv *priv, struct device_node *np)
-+{
-+	struct of_phandle_args map;
-+	unsigned int i;
-+	int ret;
-+
-+	for (i = 0; i < RZT2H_ICU_NUM_IRQ; i++) {
-+		ret = of_irq_parse_one(np, i, &map);
-+		if (ret)
-+			return ret;
-+
-+		of_phandle_args_to_fwspec(np, map.args, map.args_count, &priv->fwspec[i]);
-+	}
-+
-+	return 0;
-+}
-+
-+static int rzt2h_icu_init(struct platform_device *pdev, struct device_node *parent)
-+{
-+	struct irq_domain *irq_domain, *parent_domain;
-+	struct device_node *node = pdev->dev.of_node;
-+	struct device *dev = &pdev->dev;
-+	struct rzt2h_icu_priv *priv;
-+	int ret;
-+
-+	parent_domain = irq_find_host(parent);
-+	if (!parent_domain)
-+		return dev_err_probe(dev, -ENODEV, "cannot find parent domain\n");
-+
-+	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	platform_set_drvdata(pdev, priv);
-+
-+	priv->base_ns = devm_of_iomap(dev, dev->of_node, 0, NULL);
-+	if (IS_ERR(priv->base_ns))
-+		return PTR_ERR(priv->base_ns);
-+
-+	priv->base_s = devm_of_iomap(dev, dev->of_node, 1, NULL);
-+	if (IS_ERR(priv->base_s))
-+		return PTR_ERR(priv->base_s);
-+
-+	ret = rzt2h_icu_parse_interrupts(priv, node);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "cannot parse interrupts: %d\n", ret);
-+
-+	ret = devm_pm_runtime_enable(dev);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "devm_pm_runtime_enable failed: %d\n", ret);
-+
-+	ret = pm_runtime_resume_and_get(dev);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "pm_runtime_resume_and_get failed: %d\n", ret);
-+
-+	raw_spin_lock_init(&priv->lock);
-+
-+	irq_domain = irq_domain_create_hierarchy(parent_domain, 0, RZT2H_ICU_NUM_IRQ,
-+						 dev_fwnode(dev), &rzt2h_icu_domain_ops, priv);
-+	if (!irq_domain) {
-+		pm_runtime_put(dev);
-+		return -ENOMEM;
-+	}
-+
-+	return 0;
-+}
-+
-+IRQCHIP_PLATFORM_DRIVER_BEGIN(rzt2h_icu)
-+IRQCHIP_MATCH("renesas,r9a09g077-icu", rzt2h_icu_init)
-+IRQCHIP_PLATFORM_DRIVER_END(rzt2h_icu)
-+MODULE_AUTHOR("Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>");
-+MODULE_DESCRIPTION("Renesas RZ/T2H ICU Driver");
-+MODULE_LICENSE("GPL");
-diff --git a/drivers/soc/renesas/Kconfig b/drivers/soc/renesas/Kconfig
-index 340a1ff7e92b..198baf890b14 100644
---- a/drivers/soc/renesas/Kconfig
-+++ b/drivers/soc/renesas/Kconfig
-@@ -423,6 +423,7 @@ config ARCH_R9A09G057
- config ARCH_R9A09G077
- 	bool "ARM64 Platform support for R9A09G077 (RZ/T2H)"
- 	default y if ARCH_RENESAS
-+	select RENESAS_RZT2H_ICU
- 	help
- 	  This enables support for the Renesas RZ/T2H SoC variants.
- 
-diff --git a/include/linux/irqchip/irq-renesas-rzt2h.h b/include/linux/irqchip/irq-renesas-rzt2h.h
-new file mode 100644
-index 000000000000..853fd5ee0b22
---- /dev/null
-+++ b/include/linux/irqchip/irq-renesas-rzt2h.h
-@@ -0,0 +1,23 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Renesas RZ/T2H Interrupt Control Unit (ICU)
-+ *
-+ * Copyright (C) 2025 Renesas Electronics Corporation.
-+ */
-+
-+#ifndef __LINUX_IRQ_RENESAS_RZT2H
-+#define __LINUX_IRQ_RENESAS_RZT2H
-+
-+#include <linux/platform_device.h>
-+
-+#define RZT2H_ICU_DMAC_REQ_NO_DEFAULT		0x3ff
-+
-+#ifdef CONFIG_RENESAS_RZT2H_ICU
-+void rzt2h_icu_register_dma_req(struct platform_device *icu_dev, u8 dmac_index, u8 dmac_channel,
-+				u16 req_no);
-+#else
-+static inline void rzt2h_icu_register_dma_req(struct platform_device *icu_dev, u8 dmac_index,
-+					      u8 dmac_channel, u16 req_no) { }
-+#endif
-+
-+#endif /* __LINUX_IRQ_RENESAS_RZT2H */
+ 		pinctrl: pinctrl@802c0000 {
+ 			compatible = "renesas,r9a09g077-pinctrl";
+ 			reg = <0 0x802c0000 0 0x10000>,
 -- 
 2.52.0
 
