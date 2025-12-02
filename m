@@ -1,130 +1,231 @@
-Return-Path: <linux-renesas-soc+bounces-25492-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25493-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27F5DC9B8DF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 02 Dec 2025 14:07:39 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17A90C9BBDC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 02 Dec 2025 15:15:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 8527E34469B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Dec 2025 13:07:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AAD533A2247
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Dec 2025 14:15:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 229533128D0;
-	Tue,  2 Dec 2025 13:07:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E91D21578F;
+	Tue,  2 Dec 2025 14:15:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iajKt5aG"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oS2mkVPH"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEF7630BBBD
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Dec 2025 13:07:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1615A1F131A
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Dec 2025 14:15:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764680851; cv=none; b=IV1ziNiDo4wzokdLTEOCp1v/GYkAAujGFoW+F/npHAaSQasIhbgDPwf+2DrHDUU89pc7nHEINfQBUzmt6glh7yfxrQZBKHFJ8aVqHTEXJZJqXbormopUYsvV9k64ifnaOmLL3lhi8te2tWsojywG+nZVRz8bMEx6oKGHrKdTxTw=
+	t=1764684937; cv=none; b=IR3q6mA+pmBMbRda7iwIjOQvXXdHFHYeqaMz7tqvYO2TGwXjg1SMH9/BKaRB2SKCyRM0Zy12JJ2w2/LrAjj6V2AexmrFMc8PKJrSHTnqv/5sSW9N+umnQxjTinFXcHA2zEHruccXscEpq3DNXUnB8sqeq5BGxEQDY2yt3Y/gKXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764680851; c=relaxed/simple;
-	bh=tNOJoqOtu81sqKG/lr2dAsJI5dtfm6oZr1MbH4zUCGk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p2Vl6ug90CILd6tHq2g7VDx86JqqmjirXtCGJgCLtA4NOmMM13/hQjmlGIPxAm6f7FPu94mY/kgq6N+2LDEr/MmGi4rZHG+GBV3pBIZrmJXDOEvkE3Jb3CNNcBu//xHNsYkYjq8MhpDbF3pYb1CcZShASzcUxQRs9bVdyLvPooI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iajKt5aG; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-47118259fd8so53192435e9.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 02 Dec 2025 05:07:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764680847; x=1765285647; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TdmicvdI6LvDwBq4jGS/aF6+e7Y5AiYEqgDkbGF73h8=;
-        b=iajKt5aGm3TI/IVfAy9Ud+GssaUXzl0wtDbZLJF8BaRP8xZxx5CAZWmV12o5ABxAB6
-         uMOIx7tHzla1Nytov+7N1MzLbTG9uKvwRQ9y1JGe7qdb9Xm8Yw8gonVlAyI6SGUpp5nc
-         YWv2UbklPn9/KbESZpsVrQdbt4PXvGO2vnv8D6AfhRxSVFD/qGq1Q8ikoe6bA7DtW+Gn
-         tCnnx2k9VdX9aYjp3zRXoLsV9vaJWMwjW5E8hlC1Gh4k3cRP3sTjg6N5pEtBz7j7qx8o
-         R7AMgOLePxto4yZvXw9Rli/BOzOe8Zbv6Q5pkSEcrorwQBIiEzLI/yVmEPa+6YgPkFOE
-         7d0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764680847; x=1765285647;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TdmicvdI6LvDwBq4jGS/aF6+e7Y5AiYEqgDkbGF73h8=;
-        b=kTRNarmIW8KVIlBE3orYHSm2rIMIfTFMfBCG3gtpd+4b2jp3eQRQ5xLbpnV+Dsvgsc
-         o2VSRiqIPSgIaAlA5P3LPddwePzsjKfqOu9Wx5vWP4OH9yTkEbifvNAl808odpsIHwtR
-         9X7bS2RCBVuF2/p3tfILwrj897cmoRwDmLuK0RqlVk/Uem7k0P8G28i717WLB/IGz4gP
-         OLrG9MPM/xATpTEsvjhybbGhhf4/rkmvmpBhMPzLSXEyts/ZrFVNe42/UZoGKUtGluSR
-         BZ8qwuwHlsaF4YKQAMxFe4fw+Fdh/5qhHx8dWP4cOad3h1ZNTMbtPdp+JrBZdylNws4T
-         esFw==
-X-Gm-Message-State: AOJu0YydoW1bMhCK6sGDVtmXTJpaZuBzjSA/Qgs139zsc+mWUmWT3GWd
-	YAhTpsOV/A+cGM+K5UNvpUhnWE237LCbf0h/LFUNqrV1RiSOVRHtXqeb
-X-Gm-Gg: ASbGnctvH4RBkRUAjjldldlfAbZ8YpJOX0fwN/XNNd+gBwDfaHHteuieyGFBcArx4Au
-	fzE3+wSMEZV3pBpeQZfAEV9Tsch2Na2qj41oxc2j2o+KM++cd5i+C+WZXk5TAiqkkMQlhkIum+e
-	e63+7ONjQ1q0XSqkKrKjFbqlw5YG1DL8b/Fujp46LCFlhQMj3nAocMb8HMW6oibGa8VNvFpgSNW
-	sYo64NGuAeqs/PtAw8Dqr/ZdHr9HuT21OOdGXkEYNZUlPQjEX2PuELW3HZvTh03o+i2leUFQDdi
-	XygwC3YLoguK5W0WnR0z5rRLjek8ZoLqmUs1IHWO0WMSl6Db9L+qxiTlL+CvfST9Xd4it7RIRdF
-	4JLnbvCsdsbrYYd+RUUhD55peLUs67tpzcTtE+YGQ+nhakTeVL+UEP08ReJm2K7AWUokLcaY6u6
-	D4xbEd1kHUDgGkeOhsIQ1rT7tS
-X-Google-Smtp-Source: AGHT+IGJNM1K23jLf3CUzH7hm93uVavrY1rHzN3a4AlHQzRCzjrr4K4sOdr6bNk5SmO5hXzDZcV9+g==
-X-Received: by 2002:a05:600c:354e:b0:470:fe3c:a3b7 with SMTP id 5b1f17b1804b1-47904ac4380mr280957655e9.5.1764680846874;
-        Tue, 02 Dec 2025 05:07:26 -0800 (PST)
-Received: from [192.168.0.7] ([86.124.200.187])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4790b0cc186sm355959705e9.13.2025.12.02.05.07.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Dec 2025 05:07:26 -0800 (PST)
-Message-ID: <83cbba4e-af8e-401f-9bc4-9799a3fec551@gmail.com>
-Date: Tue, 2 Dec 2025 15:07:25 +0200
+	s=arc-20240116; t=1764684937; c=relaxed/simple;
+	bh=4Wc48KRaIcqiX0vglMdyQboI7iIQ2x8CgSCV7WOL/hs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=F9cYUUGQTwN2QYfSTnJfeb1BUJwC1g4HX+qGA7FFI9ICjw1EsSphE4o4R/D+dc/nf/vOYVICu4OcuU5JBu+vOQYmUGu6VW80CXLV7agPZjY9erB2EFQ3Otwg6DCtxTaZxQEWqCO00iSLCoD2YkcLIXguwOZqm/0pBRa386WpqHQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oS2mkVPH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5CFAC19422
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Dec 2025 14:15:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764684936;
+	bh=4Wc48KRaIcqiX0vglMdyQboI7iIQ2x8CgSCV7WOL/hs=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=oS2mkVPHrpV8sWUwH+Q0AJ0ClWDtVr/T+8Z9ZI+6iedRlqKw4FAuwSCb5BfkSlgJN
+	 SqCVRql5CR+IxwmmKB87Usk2+iZkbCoEdljR0q4TOSCRcY2HH3VxAZIWWfiDvv2973
+	 6HaDODJFFN5V0Ovs3P3G2ZNgu8QnR+YYgP5S6MEfDUyRaMV+vOrpfegKEG5h1sIQ4U
+	 2A9C9rNoxXy4cF1lPEO/thcP/a17WAEeWOUsE+irpkdDfF1e3WqjeJ3k/TDT2U5AfO
+	 yp8DS3LMrMuWjX5BddfjIf3dgMScZVeOJA7+yJE8gMGqEXpMADVWUNxOdiboptIWBw
+	 6n3oljKWqG0VA==
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-64166a57f3bso8623917a12.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 02 Dec 2025 06:15:36 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUd6TI/KM2cOu7k13SZmEOwdGKDBrAvfDLziwDFUut33pGut/UW7yhlVSNduluSJ3OcFdJW4w0k1pjTG8g7d+ShGw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzS7agL4X9s74sN13uNPUevPPM7Xg9xEVGj0U713TLc7ZKB3vI9
+	fqZCL2rbABbOkPkDXbBCE318aXEJYujL1vZPLk8H3XK5sTPLn3DkEahb1N6nyQfrINcrjiXdZtR
+	NaCyBEqifiHoXtl/MZv9h8wi/fkh5WQ==
+X-Google-Smtp-Source: AGHT+IHOK37x0Kt35joRUOghP+Y+b/h+dUlhViPYEEU5vZFEgzun82hvWA1eFjAbdPJqCcazIpiBmOYOIRh+oi7lQBk=
+X-Received: by 2002:a05:6402:51c9:b0:647:6589:516f with SMTP id
+ 4fb4d7f45d1cf-647658951c8mr11422163a12.23.1764684935180; Tue, 02 Dec 2025
+ 06:15:35 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] Add versaclock3 support for RZ/V2H EVK
-To: geert+renesas@glider.be
-Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
- biju.das.jz@bp.renesas.com, magnus.damm@gmail.com, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, mturquette@baylibre.com,
- sboyd@kernel.org, Ovidiu Panait <ovidiu.panait.rb@renesas.com>
-References: <20251021175311.19611-1-ovidiu.panait.rb@renesas.com>
-Content-Language: en-US
-From: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
-In-Reply-To: <20251021175311.19611-1-ovidiu.panait.rb@renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20251124182751.507624-1-robh@kernel.org> <CGME20251127142839eucas1p186846c6c1ea1d9e43369fbba9bb5d17c@eucas1p1.samsung.com>
+ <20251124182751.507624-2-robh@kernel.org> <674efe8d-c299-4ce9-bf6b-c1920a5393eb@samsung.com>
+In-Reply-To: <674efe8d-c299-4ce9-bf6b-c1920a5393eb@samsung.com>
+From: Rob Herring <robh@kernel.org>
+Date: Tue, 2 Dec 2025 08:15:23 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJTrGAJx-fv8OQGDhsLVKavQzzQotssEq_E5f_aJe8bOg@mail.gmail.com>
+X-Gm-Features: AWmQ_blpHLPsU5za5Q3_8cThmj1tfuI1sEcIZQQrDepEj9pfYTWSHFtibfJZbEw
+Message-ID: <CAL_JsqJTrGAJx-fv8OQGDhsLVKavQzzQotssEq_E5f_aJe8bOg@mail.gmail.com>
+Subject: Re: [PATCH v7 2/2] remoteproc: qcom: Use of_reserved_mem_region_*
+ functions for "memory-region"
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Bjorn Andersson <andersson@kernel.org>, Mathieu Poirier <mathieu.poirier@linaro.org>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Patrice Chotard <patrice.chotard@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, Peng Fan <peng.fan@nxp.com>, 
+	Beleswar Padhi <b-padhi@ti.com>, linux-remoteproc@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-msm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Geert,
+On Thu, Nov 27, 2025 at 8:28=E2=80=AFAM Marek Szyprowski
+<m.szyprowski@samsung.com> wrote:
+>
+> Hi Rob,
+>
+> On 24.11.2025 19:27, Rob Herring (Arm) wrote:
+> > Use the newly added of_reserved_mem_region_to_resource() and
+> > of_reserved_mem_region_count() functions to handle "memory-region"
+> > properties.
+> >
+> > The error handling is a bit different in some cases. Often
+> > "memory-region" is optional, so failed lookup is not an error. But then
+> > an error in of_reserved_mem_lookup() is treated as an error. However,
+> > that distinction is not really important. Either the region is availabl=
+e
+> > and usable or it is not. So now, it is just
+> > of_reserved_mem_region_to_resource() which is checked for an error.
+> >
+> > Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+>
+> This patch landed in today's linux-next as commit c70b9d5fdcd7
+> ("remoteproc: qcom: Use of_reserved_mem_region_* functions for
+> "memory-region""). In my tests I found that it breaks booting of
+> DragonBoard410c (arch/arm64/boot/dts/qcom/apq8016-sbc.dts) by causing
+> the NULL pointer dereference. The issue is caused by replacing
+> devm_ioremap_wc() with devm_ioremap_resource_wc(), which fails on
+> devm_request_mem_region(), see comment in the code below. It looks that
+> the error handling is somewhere broken. Here is the the kernel log:
+>
+> remoteproc remoteproc0: 4080000.remoteproc is available
+> qcom-wcnss-pil a204000.remoteproc: error -EBUSY: can't request region
+> for resource [mem 0x8e200000-0x8e7fffff]
+> remoteproc remoteproc1: a204000.remoteproc is available
+> remoteproc remoteproc1: powering up a204000.remoteproc
+> remoteproc remoteproc1: Booting fw image qcom/apq8016/wcnss.mbn, size
+> 4111376
+> Unable to handle kernel paging request at virtual address fffffffffffffff=
+0
+> Mem abort info:
+> ...
+> Internal error: Oops: 0000000096000046 [#1]  SMP
+> Modules linked in: cpufreq_powersave qcom_wcnss_pil cpufreq_conservative
+> coresight_stm coresight_replicator coresight_tmc coresight_tpiu stm_core
+> coresight_funnel coresight_cpu_debug coresight_cti(+) adv7511 coresight
+> nfc rfkill msm snd_soc_lpass_apq8016 snd_soc_apq8016_sbc
+> snd_soc_lpass_cpu snd_soc_msm8916_analog snd_soc_msm8916_digital
+> snd_soc_qcom_common snd_soc_lpass_platform snd_soc_core qrtr ubwc_config
+> snd_compress llcc_qcom snd_pcm_dmaengine qcom_q6v5_mss snd_pcm ocmem
+> qcom_pil_info qcom_spmi_vadc qcom_camss drm_gpuvm qcom_pon rtc_pm8xxx
+> qcom_q6v5 qcom_spmi_temp_alarm venus_core qcom_vadc_common snd_timer
+> drm_exec qcom_sysmon snd qcom_common gpu_sched videobuf2_dma_sg
+> v4l2_mem2mem qcom_glink_smem v4l2_fwnode soundcore drm_dp_aux_bus
+> qmi_helpers mdt_loader v4l2_async videobuf2_memops videobuf2_v4l2
+> videodev qnoc_msm8916 videobuf2_common qcom_rng drm_display_helper mc
+> qcom_stats rpmsg_ctrl rpmsg_char display_connector ramoops socinfo
+> rmtfs_mem reed_solomon ax88796b asix usbnet phy_qcom_usb_hs ipv6 libsha1
+> CPU: 2 UID: 0 PID: 28 Comm: kworker/2:0 Tainted: G W
+> 6.18.0-rc1+ #16209 PREEMPT
+> Tainted: [W]=3DWARN
+> lr : __qcom_mdt_load+0x210/0x304 [mdt_loader]
+> Call trace:
+>   __pi_memcpy_generic+0x128/0x22c (P)
+>   qcom_mdt_load+0x68/0x60c [mdt_loader]
+>   wcnss_load+0x2c/0x5c [qcom_wcnss_pil]
+>   rproc_start+0x30/0x1b4
+>   rproc_boot+0x19c/0x560
+>   rproc_auto_boot_callback+0x1c/0x34
+>   request_firmware_work_func+0x4c/0x98
+>   process_one_work+0x208/0x60c
+>   worker_thread+0x244/0x388
+>   kthread+0x150/0x228
+>   ret_from_fork+0x10/0x20
+> Code: 927cec03 cb0e0021 8b0e0042 a9411c26 (a900340c)
+> ---[ end trace 0000000000000000 ]---
+>
+>
+> > ---
+> > v7:
+> >   - Split QCom to separate patch
+> > ---
+> >   drivers/remoteproc/qcom_q6v5_adsp.c | 24 ++++------
+> >   drivers/remoteproc/qcom_q6v5_mss.c  | 60 ++++++++-----------------
+> >   drivers/remoteproc/qcom_q6v5_pas.c  | 69 +++++++++++-----------------=
+-
+> >   drivers/remoteproc/qcom_q6v5_wcss.c | 25 +++++------
+> >   drivers/remoteproc/qcom_wcnss.c     | 23 ++++------
+> >   5 files changed, 72 insertions(+), 129 deletions(-)
+> >
+>
+> > ...
+>
+> > diff --git a/drivers/remoteproc/qcom_wcnss.c b/drivers/remoteproc/qcom_=
+wcnss.c
+> > index 2c7e519a2254..14005fb049a2 100644
+> > --- a/drivers/remoteproc/qcom_wcnss.c
+> > +++ b/drivers/remoteproc/qcom_wcnss.c
+> > @@ -526,25 +526,20 @@ static int wcnss_request_irq(struct qcom_wcnss *w=
+cnss,
+> >
+> >   static int wcnss_alloc_memory_region(struct qcom_wcnss *wcnss)
+> >   {
+> > -     struct reserved_mem *rmem =3D NULL;
+> > -     struct device_node *node;
+> > -
+> > -     node =3D of_parse_phandle(wcnss->dev->of_node, "memory-region", 0=
+);
+> > -     if (node)
+> > -             rmem =3D of_reserved_mem_lookup(node);
+> > -     of_node_put(node);
+> > +     struct resource res;
+> > +     int ret;
+> >
+> > -     if (!rmem) {
+> > +     ret =3D of_reserved_mem_region_to_resource(wcnss->dev->of_node, 0=
+, &res);
+> > +     if (ret) {
+> >               dev_err(wcnss->dev, "unable to resolve memory-region\n");
+> > -             return -EINVAL;
+> > +             return ret;
+> >       }
+> >
+> > -     wcnss->mem_phys =3D wcnss->mem_reloc =3D rmem->base;
+> > -     wcnss->mem_size =3D rmem->size;
+> > -     wcnss->mem_region =3D devm_ioremap_wc(wcnss->dev, wcnss->mem_phys=
+, wcnss->mem_size);
+> > +     wcnss->mem_phys =3D wcnss->mem_reloc =3D res.start;
+> > +     wcnss->mem_size =3D resource_size(&res);
+> > +     wcnss->mem_region =3D devm_ioremap_resource_wc(wcnss->dev, &res);
+>
+> The above line causes the failure. After restoring it to:
+>
+> wcnss->mem_region =3D devm_ioremap_wc(wcnss->dev, wcnss->mem_phys, wcnss-=
+>mem_size);
+>
+> the mentioned board boots fine again. I'm not sure about other drivers,
+> if they also fail the same way as they might not be used on the tested
+> board.
 
-On 10/21/25 8:53 PM, Ovidiu Panait wrote:
-> Hi,
-> 
-> This series extends the versaclock3 driver to support the internal
-> freerunning 32.768 kHz clock, which is used on the RZ/V2H SoC as RTC
-> counter clock. It also adds the dts node for the RZ/V2H EVK.
-> 
+Other platforms (non-QCom) were tested also use
+devm_ioremap_resource_wc(). So something else is claiming the same
+region? Can you dump out /proc/iomem?
 
-I wanted to check whether you had a chance to look at this patchset.
-Please let me know if you have any comments/feedback. Thanks!
+The region is dynamically allocated, so maybe that has something to do with=
+ it.
 
-Ovidiu
-
-> Best regards,
-> Ovidiu
-> 
-> Ovidiu Panait (4):
->   clk: versaclock3: Remove unused SE2 clock select macro
->   clk: versaclock3: Use clk_parent_data arrays for clk_mux
->   clk: versaclock3: Add freerunning 32.768kHz clock support
->   arm64: dts: renesas: r9a09g057h44-rzv2h-evk: Add versa3 clock
->     generator node
-> 
->  .../dts/renesas/r9a09g057h44-rzv2h-evk.dts    |  25 ++++
->  drivers/clk/clk-versaclock3.c                 | 126 +++++++++++++-----
->  2 files changed, 120 insertions(+), 31 deletions(-)
-> 
-
+Rob
 
