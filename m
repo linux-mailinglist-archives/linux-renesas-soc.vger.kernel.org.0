@@ -1,125 +1,168 @@
-Return-Path: <linux-renesas-soc+bounces-25485-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25486-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DEB3C99B12
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 02 Dec 2025 02:03:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4442DC9A4F5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 02 Dec 2025 07:31:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id E9DED345188
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Dec 2025 01:03:27 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id BB0303457D1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Dec 2025 06:31:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC0EF42AB7;
-	Tue,  2 Dec 2025 01:03:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F2D124E4C4;
+	Tue,  2 Dec 2025 06:31:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KFN+JuxP"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Oxmw/eRn"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90CED36D50A;
-	Tue,  2 Dec 2025 01:03:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 490A021D3CC
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Dec 2025 06:31:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764637405; cv=none; b=GZTJY1e8PlzynGdW/vL+5I6bSjvWruNtCCQ7jEp3K04lBwR0ka2Ga5J6kgRhKZm2wd7Yl5OZ9iVhFOTuXP7qZq1iJgdRrn2uiXaQC8MVW75ZOm/pEykvUj7oMz/sVy6pjoe4wSqPKaG3TIyaMLiSX8SbQIfw70ai06OUU6axpKM=
+	t=1764657095; cv=none; b=JqB13vrR0UYBXSQMFl2yNvSn+yvHQqreTZAKykgL9TJTBPgzoc4Gy9WBseZZxfkgtTi1gGe1IkmFN+qMjovdmZrcOXS/CwFkKkx+D95fUztq+nV6OH0kg+nAIq6zkqHAkEwm3hRZ6giLDvHWFSwUYpC3hfiRS/0Ndz34G4BSx0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764637405; c=relaxed/simple;
-	bh=Y2oJi7Xgfz6iY/Jpadn6SRhwl9o7wLyu7pJoH0HejGo=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=QF5aK6VTA3pfOfzZbkv7nnf8fCTMlzWas1tMgM8oheQlbGW2k8Q4HUqmgd+A04zakkTztz+2ed8E7teEU/C0ANKJC5wkcPLQdwzNZw269s5MgVFbyMlLj0TDj6GVrm8785tHdaxK8SfNMXPobVq2jyXXyvsu2NSCqpsbQt5We20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KFN+JuxP; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32A53C4CEF1;
-	Tue,  2 Dec 2025 01:03:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764637405;
-	bh=Y2oJi7Xgfz6iY/Jpadn6SRhwl9o7wLyu7pJoH0HejGo=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=KFN+JuxP5jkPOpE5F0O5bmS0OFNL2V5VibFwniiu9mPJxmaFNnZ0zEli3G24AjUF1
-	 42FZ7f1Sm2dQJrKIbd5UtlQCudSmjmwJWhDqIF2UlSKyQYbimfd67PfdAxNZUKcq8e
-	 lV5/8foJ2+ENx2Ao5fRlMUgtw8OTxI8Wm80yHkw2WwEFzXrhRnkwlOseJna0FmU1cY
-	 /pxrzsE/jmGhM/BOI4oMHP+ceVbEUP8mG5/2Uw4l+m3N5YCd+0HRPf793BtGGVMu77
-	 JjIPFD+/C0nH14HLZRKj2i50bSI3vcfod49DQXeHSst/EccbrzlqspUGetmjkBIRIB
-	 Zg4BTskT9EutA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 3B95F381196B;
-	Tue,  2 Dec 2025 01:00:26 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1764657095; c=relaxed/simple;
+	bh=Kdmy8TdrzSNJKiZ8vJjSNH20thJ8Y6f+b8It7q4D1S8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=l2MZ1E2BuBi5Ygp7xtcRZT+/ysFIehG4Rb+QIcIa3rPyYJqZ+3eZwSL4bZWx0DFy0fwfGhI4EyyInJRiZh5lKTXboJL6EMseqY8TVZU8V5RdOQcqY8AYyCZFqUH4jF3GflOcDR7Bkbu0I1KFH+0TZmibIg9uqP0WJrOfa13QfVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Oxmw/eRn; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (113x43x203x98.ap113.ftth.arteria-hikari.net [113.43.203.98])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 2BD963E6;
+	Tue,  2 Dec 2025 07:29:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1764656956;
+	bh=Kdmy8TdrzSNJKiZ8vJjSNH20thJ8Y6f+b8It7q4D1S8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Oxmw/eRnAb2mFiqHEGruD/X0DNhV/XxXAr+GZt3Ae4IFhoSu1KMs81RK5gFD8JpiB
+	 M6eYOwnglkCfKGETjtaIqKRhBiIM0RKIcuc/sUQ6MxYegIEy8fGt7WSq0Ky3YMHAdE
+	 ffKPhDQq7DjKgPMaDxzrZJkrqdMXYcnFfS0cJqbs=
+Date: Tue, 2 Dec 2025 15:31:09 +0900
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Linus Walleij <linusw@kernel.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Aradhya Bhatia <a-bhatia1@ti.com>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3 3/3] RFT: drm/rcar-du: Modify custom commit tail
+Message-ID: <20251202063109.GH4301@pendragon.ideasonboard.com>
+References: <20251120-mcde-drm-regression-thirdfix-v3-0-24b1e9886bbf@linaro.org>
+ <20251120-mcde-drm-regression-thirdfix-v3-3-24b1e9886bbf@linaro.org>
+ <20251121024206.GC11519@pendragon.ideasonboard.com>
+ <CAD++jLkNCH=8VmwXh0UJS5QZ9wB-iP2kinytT+__fq0L1PzoZQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next 00/15] DSA simple HSR offload
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <176463722504.2619157.15424289331686189739.git-patchwork-notify@kernel.org>
-Date: Tue, 02 Dec 2025 01:00:25 +0000
-References: <20251130131657.65080-1-vladimir.oltean@nxp.com>
-In-Reply-To: <20251130131657.65080-1-vladimir.oltean@nxp.com>
-To: Vladimir Oltean <vladimir.oltean@nxp.com>
-Cc: netdev@vger.kernel.org, andrew+netdev@lunn.ch, alsi@bang-olufsen.dk,
- clement.leger@bootlin.com, chester.a.unal@arinc9.com, daniel@makrotopia.org,
- mmyangfl@gmail.com, dqfext@gmail.com, florian.fainelli@broadcom.com,
- george.mccollister@gmail.com, hauke@hauke-m.de, jonas.gorski@gmail.com,
- kurt@linutronix.de, linus.walleij@linaro.org, lukma@denx.de,
- sean.wang@mediatek.com, bigeasy@linutronix.de, woojung.huh@microchip.com,
- xiaoliang.yang_1@nxp.com, linux-renesas-soc@vger.kernel.org,
- UNGLinuxDriver@microchip.com
+In-Reply-To: <CAD++jLkNCH=8VmwXh0UJS5QZ9wB-iP2kinytT+__fq0L1PzoZQ@mail.gmail.com>
 
-Hello:
-
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Sun, 30 Nov 2025 15:16:42 +0200 you wrote:
-> Provide a "simple" form of HSR offload for 8 DSA drivers (just the
-> NETIF_F_HW_HSR_DUP feature) based on the fact that their taggers use the
-> dsa_xmit_port_mask() function. This is in patches 6-13/15.
+On Fri, Nov 21, 2025 at 09:17:26AM +0100, Linus Walleij wrote:
+> On Fri, Nov 22, 2025 at 3:42 AM Laurent Pinchart wrote:
 > 
-> The helpers per se are introduced in patch 5/15, and documented in patch
-> 15/15. Patch 14/15 is another small (and related) documentation update.
+> > > This is needed on R-Car DU, where the CRTC provides clock to LVDS
+> > > and DSI, and has to be started before a bridge may call .prepare,
+> > > which may trigger e.g. a DSI transfer.
+> >
+> > Is there an issue with LVDS ? The LVDS encoder receivers its pixel clock
+> > from the CRTC the same way any encoder does (except on R-Car D3 and E3
+> > where the encoder *provides* the pixel clock to the CRTC, which is
+> > handled through explicit function calls from the CRTC to the LVDS
+> > encoder). There's no command mode with LVDS. Is the concern that we may
+> > have an external LVDS to DSI bridge ?
 > 
-> [...]
+> Question to Marek, this commit text is from his original patch (which
+> I modified heavily so almost only the commit message is left...)
 
-Here is the summary with links:
-  - [net-next,01/15] net: dsa: mt7530: unexport mt7530_switch_ops
-    https://git.kernel.org/netdev/net-next/c/3b87e60d2131
-  - [net-next,02/15] net: hsr: create an API to get hsr port type
-    https://git.kernel.org/netdev/net-next/c/a0244e762139
-  - [net-next,03/15] net: dsa: avoid calling ds->ops->port_hsr_leave() when unoffloaded
-    https://git.kernel.org/netdev/net-next/c/bed59a86e91a
-  - [net-next,04/15] net: dsa: xrs700x: reject unsupported HSR configurations
-    https://git.kernel.org/netdev/net-next/c/30296ac76426
-  - [net-next,05/15] net: dsa: add simple HSR offload helpers
-    https://git.kernel.org/netdev/net-next/c/0e75bfe340bf
-  - [net-next,06/15] net: dsa: yt921x: use simple HSR offloading helpers
-    https://git.kernel.org/netdev/net-next/c/42e63b1373a3
-  - [net-next,07/15] net: dsa: ocelot: use simple HSR offload helpers
-    https://git.kernel.org/netdev/net-next/c/4b65d445556d
-  - [net-next,08/15] net: dsa: realtek: use simple HSR offload helpers
-    https://git.kernel.org/netdev/net-next/c/6db31942e347
-  - [net-next,09/15] net: dsa: lantiq_gswip: use simple HSR offload helpers
-    https://git.kernel.org/netdev/net-next/c/b6ad21ef286a
-  - [net-next,10/15] net: dsa: mv88e6060: use simple HSR offload helpers
-    https://git.kernel.org/netdev/net-next/c/4af9fa2ba65a
-  - [net-next,11/15] net: dsa: hellcreek: use simple HSR offload helpers
-    https://git.kernel.org/netdev/net-next/c/017bcff7321a
-  - [net-next,12/15] net: dsa: mt7530: use simple HSR offload helpers
-    https://git.kernel.org/netdev/net-next/c/585943b7ad30
-  - [net-next,13/15] net: dsa: a5psw: use simple HSR offload helpers
-    https://git.kernel.org/netdev/net-next/c/7271d4a08c39
-  - [net-next,14/15] Documentation: net: dsa: mention availability of RedBox
-    https://git.kernel.org/netdev/net-next/c/977839161f26
-  - [net-next,15/15] Documentation: net: dsa: mention simple HSR offload helpers
-    https://git.kernel.org/netdev/net-next/c/4e4c00f34d5d
+Marek, could you comment on this ?
 
-You are awesome, thank you!
+> > > -     /* Apply the atomic update. */
+> > > -     drm_atomic_helper_commit_modeset_disables(dev, old_state);
+> > > +     /*
+> > > +      * Apply the atomic update.
+> > > +      *
+> > > +      * We need special ordering to make sure the CRTC disabled last
+> > > +      * and enabled first. We do this with modified versions of the
+> > > +      * common modeset_disables/enables functions.
+> > > +      */
+> > > +
+> > > +     /* Variant of drm_atomic_helper_commit_modeset_disables() */
+> > > +     drm_encoder_bridge_disable(dev, state);
+> > > +     drm_encoder_bridge_post_disable(dev, state);
+> > > +     drm_crtc_disable(dev, state);
+> >
+> > I think we have a fundamental issue here. Commit c9b1150a68d9
+> > ("drm/atomic-helper: Re-order bridge chain pre-enable and post-disable")
+> > states that
+> >
+> >     The definition of bridge pre_enable hook says that,
+> >     "The display pipe (i.e. clocks and timing signals) feeding this bridge
+> >     will not yet be running when this callback is called".
+> >
+> > This is right, and the above sequence does not comply with the
+> > documentation, which is a concern. Quite clearly the bridge API isn't up
+> > to the task here. I don't know how we'll fix it, the pre/post
+> > enable/disable operations are really a hack and don't scale, and fixing
+> > that will likely not be a simple task.
+> 
+> Well in the v1 patch I tried to go with this definition, if:
+> 
+> 1. The display pipe is not running and
+> 2. The hardware is such that DSI will not work unless the display
+>     pipe is running then it follows logically that:
+> 
+> 3. We cannot send DSI commands in bridge prepare()/unprepare()
+>    execution paths.
+> 
+> Thus the v1 patch moves all DSI commands to the enable/disable
+> callbacks. It fixes the regression, too.
+> 
+> We would need to comb over the existing DSI bridges and panels
+> to convert them to this semantic if we wanna be strict, what I
+> did was to just fix all panels used by this one hardware. I'm pretty
+> sure the same can be done of any R-Car DU-related panel/bridge.
+
+I just noticed a similar issue was reported for the Rockchip display
+drivers, see [1]. That's three platforms broken by commit
+c9b1150a68d9362a0827609fc0dc1664c0d8bfe1 and there may be more we
+haven't noticed yet. I think we should revert the commit and work on a
+proper solution on top.
+
+[1] https://lore.kernel.org/r/CAAMcf8Di8sc_XVZAnzQ9sUiUf-Ayvg2yjhx2dWmvvCnfF3pBRA@mail.gmail.com
+
+> > The short term question is how to deal with the regression that
+> > c9b1150a68d9 caused in the MCDE and R-Car DU drivers. This patch
+> > probably works. The complexity makes me worry that we'll introduce other
+> > regressions, but it can be argued that we're merely restoring the
+> > previous order of operations, which should therefore be safe. I'm still
+> > concerned about maintainability though. Commit c9b1150a68d9 should
+> > probably have been rejected, we should have developed a proper solution
+> > instead :-(
+> 
+> Yeah, it's a bit of a mess when regressions get detected late.
+> I'm also worried about more regressions popping up. They will
+> all be with DSI panels/bridges I think.
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Regards,
 
-
+Laurent Pinchart
 
