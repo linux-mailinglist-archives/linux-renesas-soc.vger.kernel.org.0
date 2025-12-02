@@ -1,146 +1,203 @@
-Return-Path: <linux-renesas-soc+bounces-25487-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25488-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16ED7C9A54F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 02 Dec 2025 07:34:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA143C9AC3D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 02 Dec 2025 09:59:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id B33BC34108D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Dec 2025 06:34:32 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 41AD0345D86
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Dec 2025 08:59:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 868FA24E4C4;
-	Tue,  2 Dec 2025 06:34:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D98B7280327;
+	Tue,  2 Dec 2025 08:59:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="bEtZ+lTH"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Zyru9rIH"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D3602FD1A5
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Dec 2025 06:34:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB6412356BE
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Dec 2025 08:58:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764657270; cv=none; b=mF3wfL2Xs9EIDQmHcwhXRv+bubkgzCyTCY2tDGLWi5EWX8c7nVtvJjmhzkxIiM0khz6Y4nfmc1jphDJBp8Yqpy+FO7Jf5augQsm9BQEsS0iz1lgDnV8judk8u3S4m2on6u9QN9H8/MJWeNd/REHWhrpjb0tSIHWFuT2Al+1G7IM=
+	t=1764665940; cv=none; b=SWi4zn05PcTSVKX7BVE0IuKzTI655aO+CJ1ubQZL4zdSidmbRYlgnIhSWTpbSTLHE/ARLaI7lyX/ZgbnBdY4HFl75iaeYJryJQVoA/XGWlsHRlnzRgnQfb5GhnCnmd3ZIUXatBNlZfjHimf4TeWQ2JcdP/0KzMhpCiNXqgO+cWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764657270; c=relaxed/simple;
-	bh=0lVjz1z58X5xGr8Xj3mhzxJdvi7xxFSTuPzW/9Lmg6c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bXdFuNsiVDQQ9r3keWQ4b1xmhz0iIxzvEz8SeITZWAsbBBaX24yJl5/BVpQqgAW8YeswOlDYNf9DhHixavkbkyJPF/szED6lScns8mEFm2AsvxX6bxw2eevc9z2aoJvDBrRmP4QfI0mh8YK7J50i0N+Z+ufdFCtUT3IKLY+5r4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=bEtZ+lTH; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1764665940; c=relaxed/simple;
+	bh=zGYvsKRIHlZv1dGiEiqOhzs5t+0JPSgClkS2yIW5Nog=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GFM/UWio6/A23ajhfUVPnnfkeivb2n5aY7oLNGzkXSwoVn+n/FIgiByHRJHzWgA61MU6w63OZSJiqgJHts0olazcfjwByQfAvd9vlu4+A32NywEIalptKDuZCuoOEIx9hrxVcrSpRY3TOmCHim2L4R0fjgMARvzQAREynaKyNrU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Zyru9rIH; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (113x43x203x98.ap113.ftth.arteria-hikari.net [113.43.203.98])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id E9B771D50;
-	Tue,  2 Dec 2025 07:32:09 +0100 (CET)
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 318DF161;
+	Tue,  2 Dec 2025 09:56:40 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1764657130;
-	bh=0lVjz1z58X5xGr8Xj3mhzxJdvi7xxFSTuPzW/9Lmg6c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bEtZ+lTHN/RbNEcN3w5KOXb30fjzHHHSv6/kimHA7iwTN4o9dcTxU4DNmWSvoZS41
-	 Hv8B1L0tMHb5Olsjnpcrp4FwajssnROjxKL1I6Dc3O3AAfUNX1d3TzqZzAZBycwBhs
-	 +dQIy1gVuGwkJVsNNk6PS53pkFplvstydqFWlLHs=
-Date: Tue, 2 Dec 2025 15:34:03 +0900
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Linus Walleij <linusw@kernel.org>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Aradhya Bhatia <a-bhatia1@ti.com>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v5 0/3] drm/atomic-helpers: Fix MCDE/R-Car DU regressions
-Message-ID: <20251202063403.GA18267@pendragon.ideasonboard.com>
-References: <20251130-mcde-drm-regression-thirdfix-v5-0-aed71a32981d@kernel.org>
+	s=mail; t=1764665801;
+	bh=zGYvsKRIHlZv1dGiEiqOhzs5t+0JPSgClkS2yIW5Nog=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Zyru9rIH5lkFxRyiWxEuxluvDWe8HE8B56FwxhQ3imZMx8VKX5UX4tUPap/x1zQx9
+	 wXJlndNoWVVZY8TmwAH51qnXQ6vxVtzbWwo3V8chfTdreHmPXUkGe8kY/NCu4EcO2j
+	 iA/YGWHDxUKkpd3046l5M0w+yCwyLgBIOMWy/mc8=
+Message-ID: <aaec3da5-83bb-4de9-a999-67ed65711b90@ideasonboard.com>
+Date: Tue, 2 Dec 2025 10:58:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20251130-mcde-drm-regression-thirdfix-v5-0-aed71a32981d@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 0/3] drm/atomic-helpers: Fix MCDE/R-Car DU regressions
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Linus Walleij <linusw@kernel.org>
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Aradhya Bhatia <a-bhatia1@ti.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, Geert Uytterhoeven
+ <geert@linux-m68k.org>, Vicente Bergas <vicencb@gmail.com>
+References: <20251130-mcde-drm-regression-thirdfix-v5-0-aed71a32981d@kernel.org>
+ <20251202063403.GA18267@pendragon.ideasonboard.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Content-Language: en-US
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20251202063403.GA18267@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Linus,
+Hi,
 
-On Sun, Nov 30, 2025 at 01:11:16PM +0100, Linus Walleij wrote:
-> This fixes two regressions experienced in the MCDE and
-> R-Car DU DRM drivers after
-> commit c9b1150a68d9362a0827609fc0dc1664c0d8bfe1
-> "drm/atomic-helper: Re-order bridge chain pre-enable and post-disable"
-> caused a series of regressions in all panels that send
-> DSI commands in their .prepare() and .unprepare()
-> callbacks.
+On 02/12/2025 08:34, Laurent Pinchart wrote:
+> Hi Linus,
 > 
-> This series make it possible to selectively bring back the
-> old behaviour with explicit semantics and implements
-> the old behaviour as modified commit tails in MCDE and
-> R-Car DU.
-
-We now have a third platform broken by
-c9b1150a68d9362a0827609fc0dc1664c0d8bfe1, see [1]. I think this calls
-for a revert, to give us the time to implement a correct solution.
-
-[1] https://lore.kernel.org/r/CAAMcf8Di8sc_XVZAnzQ9sUiUf-Ayvg2yjhx2dWmvvCnfF3pBRA@mail.gmail.com
-
-> Signed-off-by: Linus Walleij <linusw@kernel.org>
-> ---
-> Changes in v5:
-> - Prefix all exported atomic commit helpers with drm_atomic_helper_commit_*
-> - Add kerneldoc to all new exported atmomic commit helpers.
-> - Add comments into the MCDE and Rcar DU quirks explaining what is
->   altered as compared to the standard helper functions.
-> - Link to v4: https://lore.kernel.org/r/20251121-mcde-drm-regression-thirdfix-v4-0-d89bf8c17f85@linaro.org
+> On Sun, Nov 30, 2025 at 01:11:16PM +0100, Linus Walleij wrote:
+>> This fixes two regressions experienced in the MCDE and
+>> R-Car DU DRM drivers after
+>> commit c9b1150a68d9362a0827609fc0dc1664c0d8bfe1
+>> "drm/atomic-helper: Re-order bridge chain pre-enable and post-disable"
+>> caused a series of regressions in all panels that send
+>> DSI commands in their .prepare() and .unprepare()
+>> callbacks.
+>>
+>> This series make it possible to selectively bring back the
+>> old behaviour with explicit semantics and implements
+>> the old behaviour as modified commit tails in MCDE and
+>> R-Car DU.
 > 
-> Changes in v4:
-> - Fix a copypaste-bug in the Renesas Rcar-DU driver.
-> - Actually compile this using the shmobile defconfig and make
->   sure it works.
-> - Collect Geert's Tested-by.
-> - Link to v3: https://lore.kernel.org/r/20251120-mcde-drm-regression-thirdfix-v3-0-24b1e9886bbf@linaro.org
-> 
-> Changes in v3:
-> - Switch to a new approach: export helper functions and create the
->   special helper directly in the driver instead.
-> - Drop Marek's patch and write a new RFT patch with the same
->   semantic content as the MCDE patch.
-> - Link to v2: https://lore.kernel.org/r/20251118-mcde-drm-regression-v2-0-4fedf10b18f6@linaro.org
-> 
-> Changes in v2:
-> - Queue Marek's patch first in the series for coherency.
-> - Add a patch to also preserve the late CRTC disablement
->   semantic.
-> - Rename helper function to reflect the new semantic.
-> - Update the MCDE patch to use the new callbacks.
-> - Link to v1: https://lore.kernel.org/r/20251118-mcde-drm-regression-v1-1-ed5583efbd68@linaro.org
-> 
-> ---
-> Linus Walleij (3):
->       drm/atomic-helper: Export and namespace some functions
->       drm/mcde: Create custom commit tail
->       drm/rcar-du: Modify custom commit tail
-> 
->  drivers/gpu/drm/drm_atomic_helper.c           | 122 +++++++++++++++++++++-----
->  drivers/gpu/drm/mcde/mcde_drv.c               |  45 +++++++++-
->  drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c |  33 ++++++-
->  include/drm/drm_atomic_helper.h               |  22 +++++
->  4 files changed, 195 insertions(+), 27 deletions(-)
-> ---
-> base-commit: 6548d364a3e850326831799d7e3ea2d7bb97ba08
-> change-id: 20251120-mcde-drm-regression-thirdfix-1b0abfb52209
+> We now have a third platform broken by
+> c9b1150a68d9362a0827609fc0dc1664c0d8bfe1, see [1]. I think this calls
+> for a revert, to give us the time to implement a correct solution.
+Perhaps... It's been very slow or not possible to get feedback regarding
+(some) of the broken platforms, so I don't think we have a safe way of
+changing the enable/disable sequence. I think the "correct" solution
+then is to make this new enable/disable sequence either opt-in, offered
+by the framework, or just implement it as a custom sequence in the
+specific drm driver.
 
--- 
-Regards,
+Reverting c9b1150a68d9362a0827609fc0dc1664c0d8bfe1 will break DSI and
+OLDI outputs on TI platforms, so we need to implement a fix for those
+platforms before the revert, and there has been one or two fixes merged
+for other platforms for this, which most likely also need to get reverted.
 
-Laurent Pinchart
+ Tomi
+
+> [1] https://lore.kernel.org/r/CAAMcf8Di8sc_XVZAnzQ9sUiUf-Ayvg2yjhx2dWmvvCnfF3pBRA@mail.gmail.com
+> 
+>> Signed-off-by: Linus Walleij <linusw@kernel.org>
+>> ---
+>> Changes in v5:
+>> - Prefix all exported atomic commit helpers with drm_atomic_helper_commit_*
+>> - Add kerneldoc to all new exported atmomic commit helpers.
+>> - Add comments into the MCDE and Rcar DU quirks explaining what is
+>>   altered as compared to the standard helper functions.
+>> - Link to v4: https://lore.kernel.org/r/20251121-mcde-drm-regression-thirdfix-v4-0-d89bf8c17f85@linaro.org
+>>
+>> Changes in v4:
+>> - Fix a copypaste-bug in the Renesas Rcar-DU driver.
+>> - Actually compile this using the shmobile defconfig and make
+>>   sure it works.
+>> - Collect Geert's Tested-by.
+>> - Link to v3: https://lore.kernel.org/r/20251120-mcde-drm-regression-thirdfix-v3-0-24b1e9886bbf@linaro.org
+>>
+>> Changes in v3:
+>> - Switch to a new approach: export helper functions and create the
+>>   special helper directly in the driver instead.
+>> - Drop Marek's patch and write a new RFT patch with the same
+>>   semantic content as the MCDE patch.
+>> - Link to v2: https://lore.kernel.org/r/20251118-mcde-drm-regression-v2-0-4fedf10b18f6@linaro.org
+>>
+>> Changes in v2:
+>> - Queue Marek's patch first in the series for coherency.
+>> - Add a patch to also preserve the late CRTC disablement
+>>   semantic.
+>> - Rename helper function to reflect the new semantic.
+>> - Update the MCDE patch to use the new callbacks.
+>> - Link to v1: https://lore.kernel.org/r/20251118-mcde-drm-regression-v1-1-ed5583efbd68@linaro.org
+>>
+>> ---
+>> Linus Walleij (3):
+>>       drm/atomic-helper: Export and namespace some functions
+>>       drm/mcde: Create custom commit tail
+>>       drm/rcar-du: Modify custom commit tail
+>>
+>>  drivers/gpu/drm/drm_atomic_helper.c           | 122 +++++++++++++++++++++-----
+>>  drivers/gpu/drm/mcde/mcde_drv.c               |  45 +++++++++-
+>>  drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c |  33 ++++++-
+>>  include/drm/drm_atomic_helper.h               |  22 +++++
+>>  4 files changed, 195 insertions(+), 27 deletions(-)
+>> ---
+>> base-commit: 6548d364a3e850326831799d7e3ea2d7bb97ba08
+>> change-id: 20251120-mcde-drm-regression-thirdfix-1b0abfb52209
+> 
+
 
