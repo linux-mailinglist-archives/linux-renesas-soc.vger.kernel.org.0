@@ -1,192 +1,240 @@
-Return-Path: <linux-renesas-soc+bounces-25537-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25538-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A2B6C9F62D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 03 Dec 2025 15:57:51 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA383C9FF5E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 03 Dec 2025 17:27:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by sin.lore.kernel.org (Postfix) with ESMTPS id 0DAB43007B47
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Dec 2025 14:55:47 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 98D3330026AC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Dec 2025 16:24:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0ABED303C91;
-	Wed,  3 Dec 2025 14:55:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E7A134A78B;
+	Wed,  3 Dec 2025 16:14:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sHyow/kc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ktHYlpkD"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D97D5303A35
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  3 Dec 2025 14:55:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 418BE34A3BC
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  3 Dec 2025 16:14:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764773741; cv=none; b=QrMloC3sR08nK+79ZJs8nXvlXUay25YK9R9k3zRL3zeEk9X7J20GE2Clue7oUKqAy8pfaqLRSca5MIf2mWqrcqP6mDes8zyXqqouTmiYmr6eCNVo26ClNVU3fPKC/5SYUnW0CjRUVD6NuidMqjGQpqyw8NmB7GxChKQQTbuYIos=
+	t=1764778459; cv=none; b=FMd+MBrpvVVRHD3QJkr8mukGXB3gv8ujtsLXugFJi9ESiYaEHWXKU+SATLtMakcWBkyf8J68yo2nJn/zT3jze7E1xtk+NtgHN/WUdC7NKUh6rTrpsok0ViRNh0vxcYD303PIexjFkmEO1/R/jSzFpuk6w7GwFBcAL+4NRzW9fhA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764773741; c=relaxed/simple;
-	bh=Ebi+MnCE/5t0U0PqzYc52NKluRypMQV5WMpgwfOYg44=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VCY4pglBhrAa+F9Tud3PA/Ct0plqf84gIzMVxl0kfA2QzS5VkkEd+6+dmyz/n5XGDfOVDMiK6UtRR/fiV7NbmeVFWp9UttkiWdfhXuYZe6uaUimuEWiT+tGlWeAVf1VoKj+VzqfxvoswLAegfJekf4aub8xpA4ddABgfmVe2VO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sHyow/kc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9169FC2BCB0
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  3 Dec 2025 14:55:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764773741;
-	bh=Ebi+MnCE/5t0U0PqzYc52NKluRypMQV5WMpgwfOYg44=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=sHyow/kcHU9zi9/xm2DIveeWdL2rYnmQRcYbGGNz2G9/B+faW2D+JgEe3kL64S8Y3
-	 pQ3XMtJdFa70v2a+sQOzkKuebrRiiq+LOEZUo70EGPkhC+Gk3oPmLgYcKWjquFjIgf
-	 fOnDG5czwV8Gt144PmUMKfc2KlNvvFiTIHfd2ZxRJ20kzh5EzLtLs29orUNjnnmGWJ
-	 /heSScJE+otS2PCX1lKun15iYY89Aq/UvM6TCnRW03fXmop5JOmStEYGSOgbDkfIEj
-	 AirdnAKAHKAOXd8LuWKAPRwl0Ty+IOCM+m2WMmbZ20/IVM+OTLCpeTc4bLwuP0RdUx
-	 f5GrlnBL0K2Kw==
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b73b24f1784so39044966b.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 03 Dec 2025 06:55:41 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUTni3RUKAw988VI1DoGF+gvCkZVx2tF2xAQfjZWgVB72UEWCuCaadYDZ3sqy44dBsp5MY8skv/WSpG3kJ2IeHvgQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx8mh+YDZMpIpZvgQxmNBExw3xzN143KIv+prGJ5l95/a0QJ3Op
-	I5JHkBAyc2VXfrGV/Z3ZdpTAV5XxAYoAZXOUn9ugXZLyeLQg8rxXwakCWmpfc0ndYjRTcNa5k6S
-	2DG1Z+qjWd7b92lUgntAnv+O8N/ef2Q==
-X-Google-Smtp-Source: AGHT+IHkCgrvRERrLrFDTeXy1B2qCgUBmqim5+wgRWAkYDlUZ89k6F9UbvOiW59P6qHYFbLLcpAABloypkj46Ps3o1U=
-X-Received: by 2002:a17:906:794b:b0:b5c:6e0b:3706 with SMTP id
- a640c23a62f3a-b79d61d25aemr381452566b.13.1764773740087; Wed, 03 Dec 2025
- 06:55:40 -0800 (PST)
+	s=arc-20240116; t=1764778459; c=relaxed/simple;
+	bh=J1LgHskLbX0UhfPvY4uvXSf343o3iM+y4EiJ3D7ubIA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=VYXiG4fKqs0ZRqp6L9VbdKQd0sbh2/g8z1E961uNueJF2uQR5Yj6DVhjTcsdiRcsHoGDkww88Vy8mZ3+cOEPxwSlv26RPQUeVz6phhLuyEAFjBgPNcDMEJynP0dSnMkHaX/auvje3II12jsdU1UhnKwNId1kMHqwrIUI+LFRvFE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ktHYlpkD; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1764778457; x=1796314457;
+  h=date:from:to:cc:subject:message-id;
+  bh=J1LgHskLbX0UhfPvY4uvXSf343o3iM+y4EiJ3D7ubIA=;
+  b=ktHYlpkDizNMxHmwVFzd11JmdLFZ8m7NxbrJDI6cOeyGd+mOVYa4Dx9C
+   3SzSE26QgV/6/ZbRTBscbaWPxuJ1GVBNa77+o5uLPi/arwCf3YD8ugpch
+   RvEP1CTKJBVBDdy29bTdCxcll3Z623GsqMB2Uk+juYMphV1oK9TPtX6lj
+   y8sKSJ2SMO9LLw2+ZdEScrlyziLf/oOmCZ3T3y5wYUEbFV6qePtKlcslz
+   ntnQHYZOmmWD8bQCib/Aa19RESnV8EkJcGSqudUNOs5eNEzTCOwJxWV4a
+   EdQPTnLWFxKkXZv2onckgfCL2gnp12QPosrLw77OirSAXDJRRwu5dCGwC
+   A==;
+X-CSE-ConnectionGUID: FWijFT87RXuyYTQmbRy6yQ==
+X-CSE-MsgGUID: FiSXPRkjSZG1uc2bykhO3Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="66499000"
+X-IronPort-AV: E=Sophos;i="6.20,246,1758610800"; 
+   d="scan'208";a="66499000"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2025 08:14:16 -0800
+X-CSE-ConnectionGUID: wjbapgn8R3e6clb1bNRQug==
+X-CSE-MsgGUID: f+mfcj0rSA+3OrH6y13ZBg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,246,1758610800"; 
+   d="scan'208";a="193811745"
+Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 03 Dec 2025 08:14:15 -0800
+Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vQpUb-00000000Blx-0due;
+	Wed, 03 Dec 2025 16:14:13 +0000
+Date: Thu, 04 Dec 2025 00:13:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:master] BUILD REGRESSION
+ 997d056cf6640ed0a7e540650b94ae0c48d06b5b
+Message-ID: <202512040032.WVJ3jxJj-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <fbe6fc3657070fe2df7f0529043542b52b827449.1763116833.git.geert+renesas@glider.be>
- <dyaqe3ssrn65r5xndlwe7tlbiw2lbwvu3q3lzusfgr5mgycp6h@gfzyxk7uyva7>
- <CAL_JsqJ4q2=UJbuhfbvsbr2T+SRGXsPSXCLk6iXZid_qwYrN4g@mail.gmail.com>
- <bgieskezxsscyg65ihbzq45opwfjavcfut7bz7ywsvufeeaoqe@47hx5fvmsi22>
- <CAL_JsqJ9YUe6cy0YEMLvQhGTGmog6onTA9W5owQBP4q1viijug@mail.gmail.com>
- <5rzkayfk4o37v3xakexmjtkahb4wey2lsaiw2l3qobva5ajhr2@u3lrgkdjgk3x> <CAMuHMdWumcKQaU0hym7xdOzwYZWzhNRtH9RU45ZsLtShkkO53A@mail.gmail.com>
-In-Reply-To: <CAMuHMdWumcKQaU0hym7xdOzwYZWzhNRtH9RU45ZsLtShkkO53A@mail.gmail.com>
-From: Rob Herring <robh@kernel.org>
-Date: Wed, 3 Dec 2025 08:55:28 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqL3kON+0p8PeYeAJO2GdW053aYFo2C20SWQSGQTGV5hag@mail.gmail.com>
-X-Gm-Features: AWmQ_bmGax5MgQIaT8SmCAenzOsXCBxckgOQYmwDiMak5ftysFm6cL9v1v1yxGU
-Message-ID: <CAL_JsqL3kON+0p8PeYeAJO2GdW053aYFo2C20SWQSGQTGV5hag@mail.gmail.com>
-Subject: Re: [PATCH v2] of/irq: Ignore interrupt parent for nodes without interrupts
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Ioana Ciornei <ioana.ciornei@nxp.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Saravana Kannan <saravanak@google.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexandre Ghiti <alex@ghiti.fr>, Samuel Holland <samuel@sholland.org>, Marc Zyngier <maz@kernel.org>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 3, 2025 at 3:58=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68k=
-.org> wrote:
->
-> Hi Ionana,
->
-> On Wed, 3 Dec 2025 at 10:48, Ioana Ciornei <ioana.ciornei@nxp.com> wrote:
-> > On Tue, Dec 02, 2025 at 03:19:17PM -0600, Rob Herring wrote:
-> > > On Tue, Dec 2, 2025 at 10:36=E2=80=AFAM Ioana Ciornei <ioana.ciornei@=
-nxp.com> wrote:
-> > > > On Mon, Dec 01, 2025 at 06:09:19AM -0600, Rob Herring wrote:
-> > > > > On Fri, Nov 28, 2025 at 10:43=E2=80=AFAM Ioana Ciornei <ioana.cio=
-rnei@nxp.com> wrote:
-> > > > > > On Fri, Nov 14, 2025 at 11:47:54AM +0100, Geert Uytterhoeven wr=
-ote:
-> > > > > > > The Devicetree Specification states:
-> > > > > > >
-> > > > > > >     The root of the interrupt tree is determined when travers=
-al of the
-> > > > > > >     interrupt tree reaches an interrupt controller node witho=
-ut an
-> > > > > > >     interrupts property and thus no explicit interrupt parent=
-.
-> > > > > > >
-> > > > > > > However, of_irq_init() gratuitously assumes that a node witho=
-ut
-> > > > > > > interrupts has an actual interrupt parent if it finds an
-> > > > > > > interrupt-parent property higher up in the device tree.  Henc=
-e when such
-> > > > > > > a property is present (e.g. in the root node), the root inter=
-rupt
-> > > > > > > controller may not be detected as such, causing a panic:
-> > > > > > >
-> > > > > > >     OF: of_irq_init: children remain, but no parents
-> > > > > > >     Kernel panic - not syncing: No interrupt controller found=
-.
-> > > > > > >
-> > > > > > > Commit e91033621d56e055 ("of/irq: Use interrupts-extended to =
-find
-> > > > > > > parent") already fixed a first part, by checking for the pres=
-ence of an
-> > > > > > > interrupts-extended property.  Fix the second part by only ca=
-lling
-> > > > > > > of_irq_find_parent() when an interrupts property is present.
-> > > > > > >
-> > > > > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
->
-> > > > > > This change irq-ls-extirq and commit 6ba51b7b34ca ("of/irq: Han=
-dle
-> > > > > > explicit interrupt parent") does not help with the issue.
->
-> > > > I just tried converting ls-extirq to a proper platform driver and i=
-t's
-> > > > pretty straightforward. The problem is getting that driver to probe=
- on
-> > > > the ls-extirq dt node since of_platform_populate() is not called on=
- its
-> > > > parent node.
-> > > >
-> > > > I would avoid changing the DT and adding a "simple-bus" compatible =
-to
-> > > > the parent nodes. The other option is to add another simple driver =
-which
-> > > > just calls of_platform_populate() for all compatible strings define=
-d in
-> > > > fsl,layerscape-scfg.yaml.
-> > >
-> > > The simplest solution might be adding 'syscon' to the default match
-> > > list for of_platform_populate(). That's kind of a big hammer though
-> > > and could break something. Not sure, but I'm willing to stick that in
-> > > linux-next and see.
-> > >
-> > > Another option is hijack the simple-pm-bus driver which already does
-> > > just what you said.
-> >
-> > I would prefer the second option since that doesn't impact other
-> > platforms.
-> >
-> > Geert, since you are the module author, are you ok with the following
-> > diff?
-> >
-> > --- a/drivers/bus/simple-pm-bus.c
-> > +++ b/drivers/bus/simple-pm-bus.c
-> > @@ -142,6 +142,12 @@ static const struct of_device_id simple_pm_bus_of_=
-match[] =3D {
-> >         { .compatible =3D "simple-mfd",   .data =3D ONLY_BUS },
-> >         { .compatible =3D "isa",          .data =3D ONLY_BUS },
-> >         { .compatible =3D "arm,amba-bus", .data =3D ONLY_BUS },
-> > +       { .compatible =3D "fsl,ls1021a-scfg", },
-> > +       { .compatible =3D "fsl,ls1043a-scfg", },
-> > +       { .compatible =3D "fsl,ls1046a-scfg", },
-> > +       { .compatible =3D "fsl,ls1088a-isc", },
-> > +       { .compatible =3D "fsl,ls2080a-isc", },
-> > +       { .compatible =3D "fsl,lx2160a-isc", },
-> >         { /* sentinel */ }
-> >  };
-> >  MODULE_DEVICE_TABLE(of, simple_pm_bus_of_match);
->
-> Fine for me.
->
-> Alternatively, these could be added to the match_table[] in
-> drivers/of/platform.c:of_platform_default_populate()?
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
+branch HEAD: 997d056cf6640ed0a7e540650b94ae0c48d06b5b  [LOCAL] riscv: rzfive: defconfig: Update for renesas-drivers
 
-That would work too, but I think the direction we should go is using a
-driver as we've also been discussing on Herve's series.
+Error/Warning (recently discovered and may have been fixed):
 
-Rob
+    https://lore.kernel.org/oe-kbuild-all/202512031131.3SHPwR3x-lkp@intel.com
+
+    drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:2666:18: error: no member named 'discovery_bin' in 'struct amdgpu_mman'
+    drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:2668:18: error: no member named 'discovery_bin' in 'struct amdgpu_mman'
+
+Error/Warning ids grouped by kconfigs:
+
+recent_errors
+|-- i386-randconfig-013-20251203
+|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:error:no-member-named-discovery_bin-in-struct-amdgpu_mman
+|-- i386-randconfig-016-20251203
+|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:error:no-member-named-discovery_bin-in-struct-amdgpu_mman
+|-- powerpc64-randconfig-002-20251203
+|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:error:no-member-named-discovery_bin-in-struct-amdgpu_mman
+|-- s390-randconfig-001-20251203
+|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:error:no-member-named-discovery_bin-in-struct-amdgpu_mman
+|-- sparc64-randconfig-001-20251203
+|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:error:no-member-named-discovery_bin-in-struct-amdgpu_mman
+|-- sparc64-randconfig-002-20251203
+|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:error:no-member-named-discovery_bin-in-struct-amdgpu_mman
+|-- x86_64-allmodconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:error:no-member-named-discovery_bin-in-struct-amdgpu_mman
+|-- x86_64-allyesconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:error:no-member-named-discovery_bin-in-struct-amdgpu_mman
+`-- x86_64-randconfig-075-20251203
+    `-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:error:no-member-named-discovery_bin-in-struct-amdgpu_mman
+
+elapsed time: 1455m
+
+configs tested: 123
+configs skipped: 2
+
+tested configs:
+alpha                               defconfig    gcc-15.1.0
+arc                      axs103_smp_defconfig    gcc-15.1.0
+arc                                 defconfig    gcc-15.1.0
+arc                   randconfig-001-20251203    gcc-9.5.0
+arc                   randconfig-002-20251203    gcc-11.5.0
+arm                                 defconfig    clang-22
+arm                   randconfig-001-20251203    gcc-8.5.0
+arm                   randconfig-002-20251203    clang-22
+arm                   randconfig-003-20251203    clang-22
+arm                   randconfig-004-20251203    clang-22
+arm                           tegra_defconfig    gcc-15.1.0
+arm64                               defconfig    gcc-15.1.0
+arm64                 randconfig-001-20251203    gcc-8.5.0
+arm64                 randconfig-002-20251203    clang-17
+arm64                 randconfig-003-20251203    gcc-8.5.0
+arm64                 randconfig-004-20251203    gcc-8.5.0
+csky                                defconfig    gcc-15.1.0
+csky                  randconfig-001-20251203    gcc-15.1.0
+csky                  randconfig-002-20251203    gcc-15.1.0
+hexagon                             defconfig    clang-22
+hexagon               randconfig-001-20251203    clang-22
+hexagon               randconfig-002-20251203    clang-20
+i386                             allmodconfig    gcc-14
+i386                             allyesconfig    gcc-14
+i386        buildonly-randconfig-001-20251203    gcc-14
+i386        buildonly-randconfig-002-20251203    gcc-14
+i386        buildonly-randconfig-003-20251203    gcc-14
+i386        buildonly-randconfig-004-20251203    clang-20
+i386        buildonly-randconfig-005-20251203    clang-20
+i386        buildonly-randconfig-006-20251203    gcc-14
+i386                                defconfig    clang-20
+i386                  randconfig-001-20251203    clang-20
+i386                  randconfig-002-20251203    gcc-14
+i386                  randconfig-003-20251203    clang-20
+i386                  randconfig-004-20251203    clang-20
+i386                  randconfig-005-20251203    gcc-14
+i386                  randconfig-006-20251203    gcc-14
+i386                  randconfig-007-20251203    gcc-14
+i386                  randconfig-011-20251203    clang-20
+i386                  randconfig-012-20251203    gcc-14
+i386                  randconfig-013-20251203    clang-20
+i386                  randconfig-014-20251203    gcc-14
+i386                  randconfig-015-20251203    gcc-13
+i386                  randconfig-016-20251203    clang-20
+i386                  randconfig-017-20251203    clang-20
+loongarch                           defconfig    clang-19
+loongarch             randconfig-001-20251203    gcc-15.1.0
+loongarch             randconfig-002-20251203    gcc-14.3.0
+m68k                                defconfig    gcc-15.1.0
+microblaze                       allyesconfig    gcc-15.1.0
+microblaze                          defconfig    gcc-15.1.0
+mips                          eyeq6_defconfig    clang-22
+mips                      maltaaprp_defconfig    clang-22
+nios2                             allnoconfig    gcc-11.5.0
+nios2                               defconfig    gcc-11.5.0
+nios2                 randconfig-001-20251203    gcc-9.5.0
+nios2                 randconfig-002-20251203    gcc-8.5.0
+openrisc                          allnoconfig    gcc-15.1.0
+openrisc                            defconfig    gcc-15.1.0
+parisc                           allyesconfig    gcc-15.1.0
+parisc                              defconfig    gcc-15.1.0
+parisc                randconfig-001-20251203    gcc-12.5.0
+parisc                randconfig-002-20251203    gcc-8.5.0
+parisc64                            defconfig    gcc-15.1.0
+powerpc                          g5_defconfig    gcc-15.1.0
+powerpc               randconfig-001-20251203    gcc-8.5.0
+powerpc               randconfig-002-20251203    clang-22
+powerpc64             randconfig-002-20251203    clang-22
+riscv                               defconfig    clang-22
+riscv                 randconfig-001-20251203    gcc-14.3.0
+riscv                 randconfig-002-20251203    clang-22
+s390                             allmodconfig    clang-18
+s390                                defconfig    clang-22
+s390                  randconfig-001-20251203    clang-22
+s390                  randconfig-002-20251203    clang-22
+sh                               allmodconfig    gcc-15.1.0
+sh                               allyesconfig    gcc-15.1.0
+sh                                  defconfig    gcc-15.1.0
+sh                    randconfig-001-20251203    gcc-15.1.0
+sh                    randconfig-002-20251203    gcc-13.4.0
+sh                          rsk7203_defconfig    gcc-15.1.0
+sh                             sh03_defconfig    gcc-15.1.0
+sparc                               defconfig    gcc-15.1.0
+sparc                 randconfig-001-20251203    gcc-13.4.0
+sparc                 randconfig-002-20251203    gcc-8.5.0
+sparc64                             defconfig    clang-20
+sparc64               randconfig-001-20251203    clang-20
+sparc64               randconfig-002-20251203    clang-20
+um                                  defconfig    clang-22
+um                             i386_defconfig    gcc-14
+um                    randconfig-001-20251203    gcc-14
+um                    randconfig-002-20251203    clang-20
+um                           x86_64_defconfig    clang-22
+x86_64                           allmodconfig    clang-20
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20251203    clang-20
+x86_64      buildonly-randconfig-002-20251203    clang-20
+x86_64      buildonly-randconfig-003-20251203    clang-20
+x86_64      buildonly-randconfig-004-20251203    gcc-14
+x86_64      buildonly-randconfig-005-20251203    clang-20
+x86_64      buildonly-randconfig-006-20251203    clang-20
+x86_64                              defconfig    gcc-14
+x86_64                randconfig-001-20251203    gcc-14
+x86_64                randconfig-002-20251203    gcc-14
+x86_64                randconfig-003-20251203    clang-20
+x86_64                randconfig-004-20251203    clang-20
+x86_64                randconfig-005-20251203    gcc-14
+x86_64                randconfig-006-20251203    gcc-14
+x86_64                randconfig-011-20251203    gcc-14
+x86_64                randconfig-012-20251203    clang-20
+x86_64                randconfig-013-20251203    gcc-14
+x86_64                randconfig-014-20251203    clang-20
+x86_64                randconfig-015-20251203    gcc-14
+x86_64                randconfig-016-20251203    clang-20
+x86_64                randconfig-071-20251203    clang-20
+x86_64                randconfig-072-20251203    gcc-14
+x86_64                randconfig-073-20251203    clang-20
+x86_64                randconfig-074-20251203    gcc-14
+x86_64                randconfig-075-20251203    clang-20
+x86_64                randconfig-076-20251203    clang-20
+x86_64                          rhel-9.4-rust    clang-20
+xtensa                randconfig-001-20251203    gcc-14.3.0
+xtensa                randconfig-002-20251203    gcc-11.5.0
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
