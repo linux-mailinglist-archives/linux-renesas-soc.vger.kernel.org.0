@@ -1,47 +1,47 @@
-Return-Path: <linux-renesas-soc+bounces-25521-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25522-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9120DC9E2F0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 03 Dec 2025 09:23:58 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0183C9E338
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 03 Dec 2025 09:26:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 7DC694E0539
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Dec 2025 08:23:57 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 1524B34A5FD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Dec 2025 08:25:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 096CF2C178E;
-	Wed,  3 Dec 2025 08:23:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 954822D2496;
+	Wed,  3 Dec 2025 08:25:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R3nlzz4V"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YRdsc/jd"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9BF71AA7A6;
-	Wed,  3 Dec 2025 08:23:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60FFD2D0C85;
+	Wed,  3 Dec 2025 08:25:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764750235; cv=none; b=gw7pOAsiIOwqoYEVUdDwQyCOQIn1+9xmh2atK/HSTRDHGlFGn9KvA2RwWyNEDVTggK4npq5zFdUT2b1phEqdt/gbfCoZ2CkTXFn2y8AnKwTjZrIXic3vTBYBqpoOVZ88HPU5Ry+0Fxg9oD9CqQ9XsQvhQ/USZIKLCs9jlWKeLt8=
+	t=1764750327; cv=none; b=kdEKLieSr2MfnDzRj0QnMzgtH9iDgqIDcxNGLCfdhCWU9eAbMQ/7CIDSu3f+MMZ7GXQzfmrGWdu6uCYPctujiqdn3oNVMQRps1qr5XPvVRofHVn7bcDVSNkaFBtCE8M1n8bHGirzzgrAYxKl6OyzX63+qx1/JYS/KnpU2ao/NDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764750235; c=relaxed/simple;
-	bh=n3u0bYIQmBFhwh73ozlRA2yCRbZDQPt995my3Yipc1Y=;
+	s=arc-20240116; t=1764750327; c=relaxed/simple;
+	bh=GH9c445FS+Bv0QIjALZIfJHArmxubl1+AOj/4TvDSMY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PVTUpStY9nDsBaPji4i7kqXmabhwNul9XACZH7EKkUjumPwoUYU9MZDO/uYmBJwQZ72lX/c3/jIKnq10C/yGtCRLtgIjO0FwKD8MVdDBk0zIa1gViSsBTKQBFzxrQW9uheCKXCdy5BA4zIO2sHhjCzj7UxeXc+Y14ptpieuVyxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R3nlzz4V; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6F0AC4CEFB;
-	Wed,  3 Dec 2025 08:23:54 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=CQ5oUcuK1EDqMF8dTq/HmLauA+Qbycz3Popm8FxEu2uNY1E2+QZ0SlWR/LZI8ydS9ovkFX6WVmmaAoHTCzmpeOKmLtrbxzD0cirX8TqS3o3TAs0wVt+3T6MfFIBzO5EEF+oq4ljeL3Ow0EFK81HyZ+/DDBdCYUO3xCL3/Im+8iI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YRdsc/jd; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5549FC113D0;
+	Wed,  3 Dec 2025 08:25:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764750235;
-	bh=n3u0bYIQmBFhwh73ozlRA2yCRbZDQPt995my3Yipc1Y=;
+	s=k20201202; t=1764750326;
+	bh=GH9c445FS+Bv0QIjALZIfJHArmxubl1+AOj/4TvDSMY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=R3nlzz4V/84NdWfa2+pF+O/3O3Pw4JNVli6LSummPV5P3DFPf5Gaaqqjp4Cygt84n
-	 f9BeCd3sI7+51uzpaq1kfagGLdFIIJyD8zg084EZtOHNei+OVB7eZM8GsBN2DJJOkL
-	 fSG7E20LZgQ5EtZWGq5uy/B6dGi33pCI9gVNvmcUgP1wZ4Pm4yuOgGSiOBlNjVlQjF
-	 dDMfnsEEATAxnrGZsyxXi77fUucXF+hOhdo/qtBzyzJraGPsj6EFgAPvrWrMaiQyFA
-	 sqxS9RlHylc4bUjYB2Zc0bbyxcka4Zu/T6IHoaNx7T3TRaBED+XoJNEyqw9Bh2NX34
-	 DeD+kVb5l0rag==
-Date: Wed, 3 Dec 2025 09:23:53 +0100
+	b=YRdsc/jdu/qfgYZWWSDhpKphjvRNhizrsU/lvzj1fi+ToHZBRMMfnWKVgoAHQ98n+
+	 rWHOFI+WWyXxbC/8OarLudb6VgaUfjI5LmmN9mmAoS+WBD541Fae4N1fry5ARqYKCe
+	 MwV8/epLbGzVe97rVdnvag/1vEQux8kEh+89NtX1mxaAUL10WQX2eqt5lbjb5BwgEf
+	 5ZVh7fAXjq6QIFx6ymAZDpdEox6N8RHYl6LUfbkONTCMi3uql0DgrfWGOfa3khLkyP
+	 WhXVf1jafP23DnwSJGgrAjMtucn/9Utck32TghwRh/1emlK5YQeZcwjZGYsWC16Ihx
+	 gpBtFSKUzrJ0w==
+Date: Wed, 3 Dec 2025 09:25:24 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org, 
@@ -56,11 +56,11 @@ Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org,
 	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
 	Magnus Damm <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: Re: [PATCH 10/22] dt-bindings: display: renesas,rzg2l-du: Add
- support for RZ/G3E SoC
-Message-ID: <20251203-shrew-of-original-tempering-8a8cfc@quoll>
+Subject: Re: [PATCH 15/22] media: dt-bindings: media: renesas,vsp1: Document
+ RZ/G3E
+Message-ID: <20251203-competent-hypnotic-roadrunner-3a4e5e@quoll>
 References: <cover.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
- <fcfc4fc5123c2351d96ac102aa5081bd99c8a40e.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
+ <2483415f35dabe42ba3c35a0c50a3e9b28dd724a.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -69,23 +69,21 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <fcfc4fc5123c2351d96ac102aa5081bd99c8a40e.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
+In-Reply-To: <2483415f35dabe42ba3c35a0c50a3e9b28dd724a.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
 
-On Wed, Nov 26, 2025 at 03:07:22PM +0100, Tommaso Merciai wrote:
-> The RZ/G3E Soc has 2 LCD controller (LCDC), contain a Frame Compression
-> Processor (FCPVD), a Video Signal Processor (VSPD), Video Signal
-> Processor (VSPD), and Display Unit (DU).
+On Wed, Nov 26, 2025 at 03:07:27PM +0100, Tommaso Merciai wrote:
+> The VSPD block on the RZ/G3E SoC is identical to the one found on the
+> RZ/G2L SoC.
 > 
->  - LCDC0 supports DSI and LVDS (single or dual-channel) outputs.
->  - LCDC1 supports DSI, LVDS (single-channel), and RGB outputs.
-> 
-> Add then two new SoC-specific compatible strings 'renesas,r9a09g047-du0'
-> and 'renesas,r9a09g047-du1'.
+> No driver changes are required, as `renesas,r9a07g044-vsp2` will be used
+> as a fallback compatible string on the RZ/G3E SoC.
 
-LCDC0/1 but compatibles du0/du1...
+Last statement is not necessary. The first one stating they are
+identical implies this. Also, this is mostly about bindings not drivers.
+If my other driver in other OS needs custom code for this compatible,
+does it invalidate the commit msg?
 
-What are the differences between DU0 and DU1? Just different outputs? Is
-the programming model the same?
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
 Best regards,
 Krzysztof
