@@ -1,121 +1,130 @@
-Return-Path: <linux-renesas-soc+bounces-25515-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25516-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 926A0C9D959
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 03 Dec 2025 03:36:21 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 415B8C9D9D2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 03 Dec 2025 04:10:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 858854E07B4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Dec 2025 02:36:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D92B13A7592
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Dec 2025 03:10:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D7FF2222D1;
-	Wed,  3 Dec 2025 02:36:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DB54226541;
+	Wed,  3 Dec 2025 03:10:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="XKWSLNF5"
+	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="WFP0ckCx"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mail-m32103.qiye.163.com (mail-m32103.qiye.163.com [220.197.32.103])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D78423594F;
-	Wed,  3 Dec 2025 02:36:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 869382B9BA
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  3 Dec 2025 03:10:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.103
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764729377; cv=none; b=rhV+PbV17S0Usw8MwDM5CvSS/mxMNpDJQ7a3S/QWvhLnNg344GJbZa5Pu8ZoNwFDaiH+AEOrcCjwTFy83hB7VT9IQOysPj9KNrZFAjN5cR5EBXLzsPhtTW3/84X9tIuH8JwV8nuUAx43RMP67jY+XCgGyvE2nIFKm7CfV5GgbsU=
+	t=1764731437; cv=none; b=ccCW/J0cyhuZzjRvu5oDhr8DhdfswcGsfbIn1Vxq2V3jsKqvSEhHTy4Be0TitL70Ji8Wo7WwY92k8BiZ5KeOhH+azoHwK3bftRSZPJ/uaTjt0Dm+6DfwwsM9V3ofWewri0WbwEQx4+2tP0DSCvfgaOjjKGEPlPnM/8haHS9xb+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764729377; c=relaxed/simple;
-	bh=c+s1dne0mbz3AnPoVXy4Byv6cQ7Q2XGcR5ov+GOUt7g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fAL6oTCHN4erRMSgg4b5ODX7HXBugmBupZ3Cb10yH9jgC87gM2O4EAG+jH2B7VbAhx6tSj4W3QEJfdLF/peMdr9aDRvYFI1kVc55Ab6zAAHW9L5YeoIC7XeO9tMHC4u6uwr5VCopgWlImRxoWZ5fST4fXBiPG4VxWc9VX30CcnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=XKWSLNF5; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (p100198.f.east.v6connect.net [221.113.100.198])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 207E71691;
-	Wed,  3 Dec 2025 03:33:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1764729237;
-	bh=c+s1dne0mbz3AnPoVXy4Byv6cQ7Q2XGcR5ov+GOUt7g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XKWSLNF5mBvWG6It+0sCMXH8kk96OjRleoSN8G4A/osPMdIHJyDNe9gFhNC261JRd
-	 tHzrkTizXESuEOSCjQ+aHLUns36mxdpHFD6Qwu47C+eyMLFL4i68QLBcLDZ8Qom6HW
-	 L3ZkKBI7Jub+HLdGz80Kk1SGnsZnUgighTXrCH1g=
-Date: Wed, 3 Dec 2025 11:35:52 +0900
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org,
-	biju.das.jz@bp.renesas.com,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Daniel Scally <dan.scally+renesas@ideasonboard.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Khai Nguyen <khai.nguyen.wx@renesas.com>,
-	Hao Bui <hao.bui.yg@renesas.com>
-Subject: Re: [PATCH] media: rzg2l-cru: Replace usleep_range with udelay
-Message-ID: <20251203023552.GM8219@pendragon.ideasonboard.com>
-References: <8d9896e0482a1e04ae8934a1bdaaa7de73f919f1.1764691610.git.tommaso.merciai.xr@bp.renesas.com>
+	s=arc-20240116; t=1764731437; c=relaxed/simple;
+	bh=vs1ehEljA1B8ZwqDNBJJh/7+Bk5c9NnvFwx6OITLjFU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=eH9zA31w0v9T0/0b8HBG4TqCTnYBvdr9L6JohZG1IxPuaYa0m17QZlyycpvW94S1KoG/0ZyPK3z9pv34fUahirvnSyXncJczp9lKC/yN5Ud2AdUACYMXfD1YfE7qacHaVqwLEtpwgw/Ta57uIH3zR7oiW+byN8JAzQXlmubFjqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=WFP0ckCx; arc=none smtp.client-ip=220.197.32.103
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
+Received: from [127.0.0.1] (unknown [58.22.7.114])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 2bc5acc1e;
+	Wed, 3 Dec 2025 11:10:28 +0800 (GMT+08:00)
+Message-ID: <5d6e8e0e-3129-49f1-8c5f-c2f837a36139@rock-chips.com>
+Date: Wed, 3 Dec 2025 11:10:26 +0800
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <8d9896e0482a1e04ae8934a1bdaaa7de73f919f1.1764691610.git.tommaso.merciai.xr@bp.renesas.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 4/4] RFT: drm/rockchip: Create custom commit tail
+To: Linus Walleij <linusw@kernel.org>
+Cc: Vicente Bergas <vicencb@gmail.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Aradhya Bhatia <a-bhatia1@ti.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Linus Walleij
+ <linus.walleij@linaro.org>, Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ Aradhya Bhatia <aradhya.bhatia@linux.dev>
+References: <20251202-mcde-drm-regression-thirdfix-v6-0-f1bffd4ec0fa@kernel.org>
+ <20251202-mcde-drm-regression-thirdfix-v6-4-f1bffd4ec0fa@kernel.org>
+Content-Language: en-US
+From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+In-Reply-To: <20251202-mcde-drm-regression-thirdfix-v6-4-f1bffd4ec0fa@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-HM-Tid: 0a9ae2309d0303abkunmbdf03de92e5ec3
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQx8ZTVZOQk8aGUJJShkfSx1WFRQJFh
+	oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
+	hVSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+	b=WFP0ckCxMc2TXEkOjlnfNG0SBq9kSEG3ord66G0JSHlbBTiFFelKleqb+9Wq4pmr9TAhmksatZn+BwOiunomG/hvgfaeHrBOMywjNvukj8qAwM3Fit9HPC1jDc01EpMakn0x/xD3bGunmGNIozIKLzuNv4v5Ee8NkEyhyryzrbE=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
+	bh=pq/5QNIHYVq90gNYJdVHaCKxUaqH+AXLo6EK818Hzrg=;
+	h=date:mime-version:subject:message-id:from;
 
-Hi Tommaso,
+Hi Linus,
 
-Thank you for the patch.
-
-On Tue, Dec 02, 2025 at 05:08:41PM +0100, Tommaso Merciai wrote:
-> `usleep_range()` should not be used in atomic contexts like between
-> spin_lock_irqsave()/spin_lock_irqrestore() pair inside function
-> rzg2l_cru_stop_image_processing(). That may cause scheduling while
-> atomic bug.
+On 12/3/2025 5:02 AM, Linus Walleij wrote:
+> commit c9b1150a68d9362a0827609fc0dc1664c0d8bfe1
+> "drm/atomic-helper: Re-order bridge chain pre-enable and post-disable"
+> caused a series of regressions in all panels that send
+> DSI commands in their .prepare() and .unprepare()
+> callbacks when used with the Rockchip driver.
 > 
-> Signed-off-by: Khai Nguyen <khai.nguyen.wx@renesas.com>
-> Signed-off-by: Hao Bui <hao.bui.yg@renesas.com>
-> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> As the CRTC is no longer online at bridge_pre_enable()
+> and gone at brige_post_disable() which maps to the panel
+> bridge .prepare()/.unprepare() callbacks, any CRTC that
+> enable/disable the DSI transmitter in it's enable/disable
+> callbacks will be unable to send any DSI commands in the
+> .prepare() and .unprepare() callbacks.
+> 
+> However the Rockchip driver definitely need the CRTC to be
+> enabled during .prepare()/.unprepare().
+> 
+> Solve this by implementing a custom commit tail function
+> in the Rockchip driver that always enables the CRTC first
+> and disables it last, using the newly exported helpers.
+> 
+> This patch is an edited carbon-copy of the same patch to
+> the ST-Ericsson MCDE driver.
+> 
+> Link: https://lore.kernel.org/all/CAAMcf8Di8sc_XVZAnzQ9sUiUf-Ayvg2yjhx2dWmvvCnfF3pBRA@mail.gmail.com/
+> Reported-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
+> Reported-by: Vicente Bergas <vicencb@gmail.com>
+> Signed-off-by: Linus Walleij <linusw@kernel.org>
 > ---
->  drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> Rockchip people: can you please test this patch (along
+> with patch 1 of course).
+> ---
+>  drivers/gpu/drm/rockchip/rockchip_drm_fb.c | 50 +++++++++++++++++++++++++++++-
+>  1 file changed, 49 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> index 162e2ace6931..1355bfd186d4 100644
-> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> @@ -369,7 +369,7 @@ void rzg2l_cru_stop_image_processing(struct rzg2l_cru_dev *cru)
->  		if (cru->info->fifo_empty(cru))
->  			break;
->  
-> -		usleep_range(10, 20);
-> +		udelay(10);
 
-There's an instance of msleep() earlier in this function, surrounded by
-spin_unlock_irqrestore() and spin_lock_irqsave(). I wondered if we
-should do the same here, but that lead to a second question: why does
-the driver need to cover the whole stop procedure with a spinlock in the
-first place ?
+It seems that multiple drivers currently depend on the CRTC being
+enabled and they implement the same atomic_commit_tail(). 
 
->  	}
->  
->  	/* Notify that FIFO is not empty here */
-> @@ -385,7 +385,7 @@ void rzg2l_cru_stop_image_processing(struct rzg2l_cru_dev *cru)
->  			AMnAXISTPACK_AXI_STOP_ACK)
->  			break;
->  
-> -		usleep_range(10, 20);
-> +		udelay(10);
->  	}
->  
->  	/* Notify that AXI bus can not stop here */
+Why not implement this in drm_atomic_helper_commit_tail_rpm() instead?
+Or why not use another common helper function for this?
 
 -- 
-Regards,
-
-Laurent Pinchart
+Best, 
+Chaoyi
 
