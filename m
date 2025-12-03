@@ -1,274 +1,318 @@
-Return-Path: <linux-renesas-soc+bounces-25527-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25528-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 493C7C9E879
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 03 Dec 2025 10:42:08 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A8D0C9E92A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 03 Dec 2025 10:48:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 7AAAC34930D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Dec 2025 09:42:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4D5BC3A9307
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Dec 2025 09:48:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD3D92E06EA;
-	Wed,  3 Dec 2025 09:41:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9416F2DEA72;
+	Wed,  3 Dec 2025 09:48:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nh38ij39"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="NdZOaGLN"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013013.outbound.protection.outlook.com [52.101.83.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B99642DF3D9
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  3 Dec 2025 09:41:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764754917; cv=none; b=U3eJMzZbw+o4Y2mipTYyV7TIMX/IKnvN/8ELxrk+RRtA6BbjA9cK5gVTpKHUqtWmoTxso2saXrXI8iqATON0L+n34zuOM1I4MdbRPReLJZ9VOFLy5j7mJDIl7H+BTmAtzqairWDJFU6QXyUH6GwzPBr7V+5xM4vnryooKSKMhX8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764754917; c=relaxed/simple;
-	bh=RHsfC5vxcciQATxe9YarnQGeQw5YnNq/z9D9sXdnhlU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kdZh0EDNTarQI+kneMbaZ3daZVKNTqjUcujoDC+nVEoDZZV+NylS2bDBOeBoGSyGFSuPu+Lo31SrzfoIvhpR4gWaz2UXICQRQPu+dyLjNCU79DFXe0dC9qguXKWkye7KendX6uhDV5oFtbY8OeLfuY1qfjdXJr8q8TrfPK7epgQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nh38ij39; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-477a219db05so42356585e9.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 03 Dec 2025 01:41:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764754914; x=1765359714; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QBFclzZ4yxDhuYlk/vr9Dvv4zCnd7JgGJLgkaeVG+Z8=;
-        b=nh38ij39m0AR2O2bfdlQA4P9KEXR9JYphyABYWSCeG6lq8qVA73Jm8jcwBhQfEG4DK
-         ax2HJb7glhs0743uHpE7hp0eUObiDeBhv+BIjHGzz1mNZGaPDbLZmzBrfKlUwyv34Cca
-         mk8RfqgCvpMMp1oKckb/09npnLaq8RigYSNmTiHUxakTyWW7ENXHRaMxrqMeNWAU+Rbg
-         1AaWcKmfQrlb0b/lXMkVjf84lIlR+iJqhvwvX1HP32AGYfQgNpZpIXpEDkwf1QqHFvXh
-         m60UOM+aBE6LQu39E5H3xIQLQDt2yBaWQat4QScoC4bW0rAX0HSmAY+wlpuImvlm/s2I
-         /7vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764754914; x=1765359714;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=QBFclzZ4yxDhuYlk/vr9Dvv4zCnd7JgGJLgkaeVG+Z8=;
-        b=CsdqRLsiYmvo159b+V5oY/OJZxyHpGGmu+3sXelleSjCfD/+blH4LJ0z0Pi4mT0QcD
-         LsdxH6IOaLic3FBjqsi5yLmiNSCUShtofFnWiRdqiKuyIq/q6ni2YjK3KPHNa0q9ieHn
-         fAhSUhKKOim3FHSCaSMuSHuP1AeyzoaEQ+RORZFD6cmf0pwS3I0YOfL2v05ORWh7d0BS
-         lOuBXp/8SpVU3vQNgbLNorAF2ZgE/rZZZ/c6sQxQYb4e/jNWtishlbzti9JQ78WaAs/r
-         Knj91YmCp0siOA40S9fcXZPfhyyXIzHovqLBRiZmHjmJ+eiDHNyM/ZqWszk3Qqd7gbZB
-         PUmg==
-X-Gm-Message-State: AOJu0YywmTByZsQ7FJTmbIQgYwBbNrFEFVMReN/WUVm+gMyvJwb3Bs7I
-	qTnq3sp8MPorjy//2KvyXbj33Y+lU+m0srOTBvr7SmbnBT740UCZfT7al71t3ZxIYyo=
-X-Gm-Gg: ASbGncujO6Pp2rmYF+mBP2xtB+kgXIQS3xMQzpGao/FtR1M1pB+lxLIG6wTjbsKsHQj
-	tI02ghEULzM7UI38fEvvg6ujJRIfApDJQXQ+xhTZiy2gZ/xWmaSXf+PqP8CQckrSgP4SnOK8xtK
-	3Ie4Dd5cVuqbtxJUpLA0NKiUbnHrYlARmU78swSlspn2Sw+a9AjDz+Ba8EGHHAxN7Y8SFl2LST8
-	hONspPT67sviHsU09lT4jaIN3jVyXTg3PpLJ239cQYWM1VY9aLw4FlEXhyI56oY+qHTAVdT8rNd
-	u/FZh7OLotXInuwVSp+AZZdQtgr3M6bdku6QIt1/TaJ1YBvXvGgIMEDB8ZA09zaJu1WhW5AuAnu
-	r+QISjF87+nJvOKrGrSdz9wYhJhki1TCnX4EFwe/CcFRDD7v9voxEApLubs/X/ErkWFvPtIMlKD
-	P1fhWo6b6J3JkkzhgG8mNa/kA270Scsqj3P+CUYfYZNjxlHQ==
-X-Google-Smtp-Source: AGHT+IE0X/yc7t+huXM01s4RobngVl0mYbYLIe9SYwkdeFS8ZPqHCEyM8fw7wTfQafQZJyM9avrrgQ==
-X-Received: by 2002:a05:600c:3b13:b0:477:952d:fc11 with SMTP id 5b1f17b1804b1-4792af1b157mr19791645e9.16.1764754913746;
-        Wed, 03 Dec 2025 01:41:53 -0800 (PST)
-Received: from iku.Home ([2a06:5906:61b:2d00:7655:4344:c8be:eb31])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4792a7a87f8sm38632815e9.12.2025.12.03.01.41.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Dec 2025 01:41:53 -0800 (PST)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 2/2] clk: renesas: r9a09g057: Add entries for RSCIs
-Date: Wed,  3 Dec 2025 09:41:47 +0000
-Message-ID: <20251203094147.6429-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20251203094147.6429-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20251203094147.6429-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32B422D94B3;
+	Wed,  3 Dec 2025 09:48:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764755305; cv=fail; b=S5LXfntTq6llYvnabeZeXJja9jk9phqLtssoKihbBkFNozo2ljpy8sXyJj+I2fzO6PxSdAb4nu5y1QwjVs/f5/VS1O7ZBCGncGXBR+dNl13+xAqwjqObpFiIwwSRCdPTViErqQj6ReMETmBIC/I5lznHTa3QkTOCK7+LZC6A9P4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764755305; c=relaxed/simple;
+	bh=CjIIkqPsBdbc0/Lh4VcoI+QLmc7ms7b4xwAjXA7sCGw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=JDa3BPqM+e567PW78oOiGv9g1BNvOOAdZolE2e3F5nuhzjWWPoLQXJnX3wQWqEyCeGgVRyalukRRkLwzU9g/TAwZq6JZYWVtiV0/mF4iW9pWiJeuy4SDcNBbzJlxBgvbRV5JljR0GU1h0lBnQdek31RPbiJZpUL/mcP1TlhR/V0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=NdZOaGLN; arc=fail smtp.client-ip=52.101.83.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=GrHm6Ss7agoY8fS/wQl83yfoIwPso/mTa7fghXB0f/fh7YCw9iu3+PUi6Txa4tEkVs3lht/+Y8lqrywbo6HAK4fRBnP5jRXQr2ZfN5R90Q5BfX04+9/XUw89m1BxZdtrxmiV3l5RrHYRjSF9DKpYLDNbhLyLLq9w7t0sIUER8vOcIVhgOl7ZFzZIOqGg+irP1ghIUmLuhl1gS1PurpqrNZ4DMWvZGpiPVEd7dt0/D1wN8JbOvzic/w9CVfMY2b04e+dYO9J4VuOanMJQgWjpTBWHoTsMt29HgP9PiVLaCgsGILQgf19svRVyUQEbwq09StPb9wsEFXsuognL00M6Bg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PZOqbPi4Ayf9/UVAeP5TNgjuWVKpFh7XyyLhJX6aJMI=;
+ b=GiNRbRMuNchwccJASuyKoqier405bdDxwuEh0cVzmEBzKBoNAOdPRy96LisGtW2/1vj1nOJTkQbiW4bpa8nTjsLzQqUn8U0mGLSmK8o8tlweZ8DFZ+zebFJ/j71NeXNTs67QCdpUGU/G4PHGJ9VnZdFkc8LYsipYVDek6pWXUL+4sJmV+XK+JsWOEqsQkpIT+wj3OWcAR8HS4XJ5JRfGAH11tgpAGEnPws3ytHpvDaXj7wOLsXbixgqDuleoPKZkdygwAaPbiTzstiqHEB9uhjF+qgbfVHAKfIM9eBCO58XHvD3UFyOOl1Nx4kEJtI6wOATihs16Bvmthgx6Ddj7dQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PZOqbPi4Ayf9/UVAeP5TNgjuWVKpFh7XyyLhJX6aJMI=;
+ b=NdZOaGLN8o0RF5j9rnvANy3NWCPQ7C/L+7J280eyCuiOo5sCqfxTvrdqJdMJub499qTStMrrQN1dqPI7jdU/YCd+0imo0yB8BsjgpAgZnxU/n3sIKam6gfWbTy4bt9STvGK+uQJ/5lWcqzhNhwdtyV+GHXDnTHoGXki8KHKDm7WCEXQkUwOZ3m4MNxeYGwX22fNMA3i6y0HjmUaZI+TJ/0tgRf6CX7XZfgoMkgze+qFNfwNmln3P6cGEGxZvS1ebDm2qyPEJugdwhm6gLCpEIr0Qi1wNr5D375l0+1RzMU9RUFMry0RTL4q885Ly7ejTMTYGatXt3n3grYt93xyDkQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PAXPR04MB8253.eurprd04.prod.outlook.com (2603:10a6:102:1bf::7)
+ by GVXPR04MB10384.eurprd04.prod.outlook.com (2603:10a6:150:1dc::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.9; Wed, 3 Dec
+ 2025 09:48:20 +0000
+Received: from PAXPR04MB8253.eurprd04.prod.outlook.com
+ ([fe80::b853:e05b:c1e5:41b7]) by PAXPR04MB8253.eurprd04.prod.outlook.com
+ ([fe80::b853:e05b:c1e5:41b7%5]) with mapi id 15.20.9366.012; Wed, 3 Dec 2025
+ 09:48:20 +0000
+Date: Wed, 3 Dec 2025 11:48:15 +0200
+From: Ioana Ciornei <ioana.ciornei@nxp.com>
+To: Rob Herring <robh@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Saravana Kannan <saravanak@google.com>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
+	Samuel Holland <samuel@sholland.org>, Marc Zyngier <maz@kernel.org>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] of/irq: Ignore interrupt parent for nodes without
+ interrupts
+Message-ID: <5rzkayfk4o37v3xakexmjtkahb4wey2lsaiw2l3qobva5ajhr2@u3lrgkdjgk3x>
+References: <fbe6fc3657070fe2df7f0529043542b52b827449.1763116833.git.geert+renesas@glider.be>
+ <dyaqe3ssrn65r5xndlwe7tlbiw2lbwvu3q3lzusfgr5mgycp6h@gfzyxk7uyva7>
+ <CAL_JsqJ4q2=UJbuhfbvsbr2T+SRGXsPSXCLk6iXZid_qwYrN4g@mail.gmail.com>
+ <bgieskezxsscyg65ihbzq45opwfjavcfut7bz7ywsvufeeaoqe@47hx5fvmsi22>
+ <CAL_JsqJ9YUe6cy0YEMLvQhGTGmog6onTA9W5owQBP4q1viijug@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAL_JsqJ9YUe6cy0YEMLvQhGTGmog6onTA9W5owQBP4q1viijug@mail.gmail.com>
+X-ClientProxiedBy: AS4P190CA0006.EURP190.PROD.OUTLOOK.COM
+ (2603:10a6:20b:5de::9) To PAXPR04MB8253.eurprd04.prod.outlook.com
+ (2603:10a6:102:1bf::7)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB8253:EE_|GVXPR04MB10384:EE_
+X-MS-Office365-Filtering-Correlation-Id: d593f264-53d1-4706-c4e9-08de32511757
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|366016|376014|1800799024|19092799006;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?MEhwdnlvYUh2NGcvM3hOWDg3SkVpN3hPSGUwaFNVb2hURHZ4L1FUdEFvbzBz?=
+ =?utf-8?B?YkphYnF6cHBrY3ZoWlZ6UjN3R2ZtVjlFMExFWkVqY1Y5c3hITlFlcGZLemd2?=
+ =?utf-8?B?THpscXVPUVMzcXBEWG93VHFPQ0laUUFmY0xOMDU1NUdFVU80UC9rbzlwNUs0?=
+ =?utf-8?B?MVo4OEwxZnU1dXVVNXNHRVROLzRqSUxCc1NLRXRMQWd3MHh0ZWFnZ0hVNHUy?=
+ =?utf-8?B?N2doQVBNS3p3REw5ekowQklpVmpuMitwWHdUQVd0bktXMmN4MXdsTDYvQzdG?=
+ =?utf-8?B?a29sWVJUVDNleGdNWlo4SW1lNno1am9ORzdkWWN1Y3ZDb2ozVFhYT2ZlaDlV?=
+ =?utf-8?B?V09UOENQSmlUMWFpdmEvWThnOXVKS2V4eVlYOVMzMGVkaUNZeEdFK2pIUDFs?=
+ =?utf-8?B?eW1MQm5VNEQvMlNpNENhdUROMTVLaGZIRDBSM20rdHQwMEtOeURvRDdWWDlH?=
+ =?utf-8?B?ck9YbW5KTnpnSk1aWldiQ3Ztc0NMY29zenpHMGlteDdiOXRaZldaT2doL3pG?=
+ =?utf-8?B?eVdhM25CZVMyWFk3T0UvOElvMDN1QWVrR3kwTC91bkgwZVR4ZEJneHcyZFZI?=
+ =?utf-8?B?WFM2Rkg0Y3hBZlk0TG51MUFXYjRnNWxWTDAzRDhaQ1hqYnUva0xZL2d2VWxH?=
+ =?utf-8?B?eDlacUxhVmkyeW1OQnh6b1ozODdEbUFrSU5reDZyelhyMVRxZjlSK3lEUnFZ?=
+ =?utf-8?B?MGlhU1hNcEREUzgxTCt6ZE5GOUZvbVprUzZ0bURLNXFDODY4MUplbjExeW5J?=
+ =?utf-8?B?NWNYMlVXdmp0WFFVODd4d244V1R1SjYyUzhocXlid2NBeWNCb0N0SVhvenVR?=
+ =?utf-8?B?NERiNDRtcXpaZ2JIYmF3U2prZEZUZlcwd1orSC9YS0JMN0hHbGg3VzRRbXdC?=
+ =?utf-8?B?R0xkQ2pLVSs5N2FnUkREb0oxMzNmV1FmVitzaXRtNkdBdE0vN1NwdHNrVVYr?=
+ =?utf-8?B?dXE3NHhHWXlTL3VYcW56QzBKZDloZHA2aE1OZG9EYkovWHpEejBXYm81Qytl?=
+ =?utf-8?B?dkI1RnhZaU5nTlF5UldlMGhhamNBZlY0N0R3T2lRTURKWUEzMzA4WmJBZXZL?=
+ =?utf-8?B?dWJhTlUyRzRLTGVuejRhTG00SXNoVDdzWno0ekpZUnNhQUc5VWFLY3o3VnI5?=
+ =?utf-8?B?U1I0K0pJNFRORkgvdGpvS1QwdStwd242bmJ6T0diNGxMeDlEbURnYVpUN3J3?=
+ =?utf-8?B?V3ZvNzcvUWhKbW93N0NkSHYrMXFqRGpKeS9uNTkvK1pBajdTNXJuVmVHVXZX?=
+ =?utf-8?B?R1FoejNoU28zanE4UXk4NU8wZDRJbGVvVnpMdEVSRGJyMEEwQklTZW9kcXF2?=
+ =?utf-8?B?TFdDYlVMUms1b3VRTVd5d3o3S3ZhZzlIeDBWRFdMei92OWFtR05WdWVIVEFT?=
+ =?utf-8?B?bThaRWc3bkhuVnYrUGxVVjE4Y3V1VVVEWkI5dy9od3h1N3d1UnBxdjBGcm1m?=
+ =?utf-8?B?c3JtdEVYZWdSd2NpQzk4cC9aLzdiV1d4VlBhMU1sanhIa0VXQStGUWF0Vk0v?=
+ =?utf-8?B?UkRRV3FTclVRTW9EMlduM1ViN1YyRDFKbldvWHptNWExNnlFWWZ3Yjdra2tN?=
+ =?utf-8?B?dXdrUFZxMnZrOFdYWE1ZUlBJSTZFNmJjd3RVUGxkMjVlSEhGWTQwS0UyY1hM?=
+ =?utf-8?B?TFJ6dVZ2YnVFM0RHRHR1dWFmSHhPcDRRbmlGb2pweG4ycVlFK1lTRU5xNFlU?=
+ =?utf-8?B?cXEwby9LQnpueWlhWHd3ZzZ1c0xoaDVvTzgzbTJqdG54R1ArNGhSTDU0Z3Fz?=
+ =?utf-8?B?RjJuLzh4NEZyWFE3VFptajBVQXMwQ1lHaG1XT2NJRjgvbElNRU9TNjBGeFZM?=
+ =?utf-8?B?NVVDdjgvRDRvUThtUGQ2WGxCZzEyMkhWa29RZXkra0N1SllUamVSU1kzOUJW?=
+ =?utf-8?B?aU1lUkU5VmEyS0duWU9JYjVuL3VXUWR3b0htRFlQelZ2UzNoWEcxM0h0eHlS?=
+ =?utf-8?B?RUg0cllUQldtQ3FzUzZFVWhlVDNUU1UyRDUycS9ad1ZnUi9xNHp5VjNJUHNT?=
+ =?utf-8?B?OUZ1K1VqcHF3PT0=?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8253.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(376014)(1800799024)(19092799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?UU9OOHgzRmxQb0JoVzdQREo5SGRtbHFid3VoQ0VoeWI5WkxjNEtXTDJQRzFR?=
+ =?utf-8?B?OHZwYmFNd3dYaFhKVUZBc1NpTHgxMGRUOEo5QWF6eGhVbTR5WHp6R2tWemU5?=
+ =?utf-8?B?dmhoelJoNlVRRGgvVmJGVXFGQjBQbWJ0M0RMenFxZEJWNkNqeHZMS2dRSWJw?=
+ =?utf-8?B?aDBDZzRWOVozVmw2SnFQTkw1akFwaHM5ZjJZWlRCRmJRY1dsNkZOTlFPcFlE?=
+ =?utf-8?B?VHVsd2orRk0xdjZGdEZ4bGErTm1NZEpLdGVzdG9DM0tqRjd3MStEdGVqQ1Nr?=
+ =?utf-8?B?SmtoVThhYUhEN01GYVJSQTMwQndnMUtGa1UzaVdzQWJvbGZtWkhuditnbm5j?=
+ =?utf-8?B?bnVTOStPazN6cTNVVTIwOWw3UklvTUcwL0JKMG16aW45MXI0TzVUN3pKMDFz?=
+ =?utf-8?B?amc2L0JBM0NrUVNocTNlVzRPL3hqQTdISkc5VGhpcGl1bnhZODRxR0pDU21S?=
+ =?utf-8?B?bXRINkFaL3V1VWc2SnBDb1FvY0JFdDN2WTltMDdtQlFTRVhRQ00rNkRhaHNu?=
+ =?utf-8?B?U01ENEhwWHFmRlBlcEorTnE5QVhyWFo0Y0FVWlVnZFI0OEdFVW5SRTQyWFUy?=
+ =?utf-8?B?MmhzRWkyZjNmR3l6YkZHaDlrNVdzaUllQ2czK05iMDlaNmVhQ2lmS0hLazBU?=
+ =?utf-8?B?V3FiVE1rcUxjVWV4TW84S0dMNWZ0eTBCV0RuZEJKdWRnMFdCSnR4Sm1LRjgx?=
+ =?utf-8?B?OTJvc2crN1Q2a1VnWGJmOWwrN29BSjZkRmgyYXR3QmdNQlphNGV5L2docDFL?=
+ =?utf-8?B?MjR0dVJ0NFBkUlllem51bWZUc0tJbW9Kb2xqaTJCejh1eVA0bUkvTVJhSmM3?=
+ =?utf-8?B?d1lHVzVkWjliRjBvaXl0WENGNlVOSEFWbXB5eHprVjQ4d2ZaeEdyNFdjeEla?=
+ =?utf-8?B?TUM1WHZDZHRVUUdDbDRyUDZ3UjhCWHlSWjZtSm5pVUptVmR3SzFlb092WEdY?=
+ =?utf-8?B?M0JsbzJwMGVOeTRUaGh5OEFEL2MvMEtKR01yRG1SMzh1bmhRR1BIN1h1Q09h?=
+ =?utf-8?B?NXRYT1lTU0o2T0FtdjliTE1DV2VqNVcydlNjQ3dXOHhWQ3o2TDViaXhQcVFn?=
+ =?utf-8?B?V0xXaEZNMndueGJPUm1Dc0tRQVJsbWMyZnV5emNJYzNRbUxkdWl5bDlsWDhM?=
+ =?utf-8?B?ZkVGNE53NGV3aVcwYjgzZ1lLMXFoZGx5c093c2hPc0hVVm1ZZmdEOXZ1UlJ3?=
+ =?utf-8?B?TlRabkdYMEV4Zi9lRU1CdHEzWnh0T0c1c2MvUkVWQllmTytid1ZpdVFGRkJ1?=
+ =?utf-8?B?L1JteUFpM3M3b0dvMVArSWFPT3ljT2ZxRTUyVXN5SFJpRWFpZEEzQlgrbWho?=
+ =?utf-8?B?Um9JNGczQUxELzhVd0JMNWVvV0VNQldnK3BadmJlNndWU05xT1g5a1ZlM2ho?=
+ =?utf-8?B?UVowR3YrV1VUbzlxQ1lPQU4yajM3SVVVbmJqamZ4TW5UOGoveHc4UDU1MjVs?=
+ =?utf-8?B?Y2JWa1pzdHV1ODFUQzNMV1dwcFRubVQxNEs2dWNZYXZlQ3JaRUpJeE9yQVVo?=
+ =?utf-8?B?SkJSTXF6Mi96ajRaT3ZZY2puc0V3STJHalFpTUpXZjdQZXVMTkhNQk9kendu?=
+ =?utf-8?B?Tm9xUmF6cE5xMXh5dUJ3MGpuM3NIdFcvMCtjQWt0SWpxalZHeWFveHlyRWtQ?=
+ =?utf-8?B?cEVTMnpOSmFrYmVQN0dtS3NObjRUMmJDVnQvaS95ZFYvWjc2R21Va0tSZndj?=
+ =?utf-8?B?dTk2dUcrSHc2WXRJdW1mNmhvK3FUKzdvNDBlNmtnNitwUmF0ODliYU9lRk1r?=
+ =?utf-8?B?WlhKWGFOSURrQnAzc0pQV09WOEFFK0FleFBqcFRxckc3NGQwbWNORkRPN3Zr?=
+ =?utf-8?B?ZUdNdGlNcnJySXQyYzBrdzJPK1pwRm5aZmk5WGNwQkdoTFM0cUFtOUxXMTdF?=
+ =?utf-8?B?TzJ0d3FFdWZnbUh1c2tYSFlHV0RWRDdObG83SFI2NHd6eW9IWGRJM2tWZ1hJ?=
+ =?utf-8?B?ZFFab0xMTlEyU0R1c1NMR1hpbHhNVEpGckdPeWNtaS9vWk5ONlJCL0NLTkI5?=
+ =?utf-8?B?L1liOGNXcXVGNGxmUEJCeTB2Qy9RbGJYNGVCRDVvSmE1RGNkT0hTblNCME9I?=
+ =?utf-8?B?YkQ4dnV5Q0ZaYzhFUCtQS3hPUnlhNW1kbzNNNS9YWVBiLy9nSWhtYXU2Q1JB?=
+ =?utf-8?Q?zNfD6ozbtM6sROiF0KluBkEZ9?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d593f264-53d1-4706-c4e9-08de32511757
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8253.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2025 09:48:20.0292
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0QZoMy9W6smFvWcGB5MSpFllyY6EfLtmQcp3OkH7w02L+xZM/T0zNT/qKaUpqw1Xf6WD+rL3ov+7Z/AegI0eZA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB10384
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Tue, Dec 02, 2025 at 03:19:17PM -0600, Rob Herring wrote:
+> On Tue, Dec 2, 2025 at 10:36 AM Ioana Ciornei <ioana.ciornei@nxp.com> wrote:
+> >
+> > On Mon, Dec 01, 2025 at 06:09:19AM -0600, Rob Herring wrote:
+> > > On Fri, Nov 28, 2025 at 10:43 AM Ioana Ciornei <ioana.ciornei@nxp.com> wrote:
+> > > >
+> > > > On Fri, Nov 14, 2025 at 11:47:54AM +0100, Geert Uytterhoeven wrote:
+> > > > > The Devicetree Specification states:
+> > > > >
+> > > > >     The root of the interrupt tree is determined when traversal of the
+> > > > >     interrupt tree reaches an interrupt controller node without an
+> > > > >     interrupts property and thus no explicit interrupt parent.
+> > > > >
+> > > > > However, of_irq_init() gratuitously assumes that a node without
+> > > > > interrupts has an actual interrupt parent if it finds an
+> > > > > interrupt-parent property higher up in the device tree.  Hence when such
+> > > > > a property is present (e.g. in the root node), the root interrupt
+> > > > > controller may not be detected as such, causing a panic:
+> > > > >
+> > > > >     OF: of_irq_init: children remain, but no parents
+> > > > >     Kernel panic - not syncing: No interrupt controller found.
+> > > > >
+> > > > > Commit e91033621d56e055 ("of/irq: Use interrupts-extended to find
+> > > > > parent") already fixed a first part, by checking for the presence of an
+> > > > > interrupts-extended property.  Fix the second part by only calling
+> > > > > of_irq_find_parent() when an interrupts property is present.
+> > > > >
+> > > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > > > v2:
+> > > > >   - Split off from series "[PATCH/RFC 0/2] of/irq: Fix root interrupt
+> > > > >     controller handling"[1] to relax dependencies,
+> > > > >   - Drop RFC.
+> > > > >
+> > > > > [1] https://lore.kernel.org/all/cover.1759485668.git.geert+renesas@glider.be
+> > > > > ---
+> > > > >  drivers/of/irq.c | 2 +-
+> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > >
+> > > > > diff --git a/drivers/of/irq.c b/drivers/of/irq.c
+> > > > > index b174ec29648955c6..5cb1ca89c1d8725d 100644
+> > > > > --- a/drivers/of/irq.c
+> > > > > +++ b/drivers/of/irq.c
+> > > > > @@ -613,7 +613,7 @@ void __init of_irq_init(const struct of_device_id *matches)
+> > > > >                * are the same distance away from the root irq controller.
+> > > > >                */
+> > > > >               desc->interrupt_parent = of_parse_phandle(np, "interrupts-extended", 0);
+> > > > > -             if (!desc->interrupt_parent)
+> > > > > +             if (!desc->interrupt_parent && of_property_present(np, "interrupts"))
+> > > > >                       desc->interrupt_parent = of_irq_find_parent(np);
+> > > > >               if (desc->interrupt_parent == np) {
+> > > > >                       of_node_put(desc->interrupt_parent);
+> > > > > --
+> > > > > 2.43.0
+> > > > >
+> > > > >
+> > > >
+> > > > This change irq-ls-extirq and commit 6ba51b7b34ca ("of/irq: Handle
+> > > > explicit interrupt parent") does not help with the issue.
+> > > >
+> > > > This is how the DT node in lx2160a.dtsi looks like:
+> > >
+> > > ls-extirq strikes again!
+> > >
+> > > I think something like this should fix it:
+> > >
+> > > diff --git a/drivers/of/irq.c b/drivers/of/irq.c
+> > > index 2271110b5f7c..c06c74aef801 100644
+> > > --- a/drivers/of/irq.c
+> > > +++ b/drivers/of/irq.c
+> > > @@ -593,7 +593,8 @@ void __init of_irq_init(const struct of_device_id *matches)
+> > >                  * are the same distance away from the root irq controller.
+> > >                  */
+> > >                 desc->interrupt_parent = of_parse_phandle(np,
+> > > "interrupts-extended", 0);
+> > > -               if (!desc->interrupt_parent && of_property_present(np,
+> > > "interrupts"))
+> > > +               if (!desc->interrupt_parent &&
+> > > +                   (of_property_present(np, "interrupts") ||
+> > > of_property_present(np, "interrupt-map"))
+> > >                         desc->interrupt_parent = of_irq_find_parent(np);
+> > >                 else if (!desc->interrupt_parent)
+> > >                         desc->interrupt_parent = of_parse_phandle(np,
+> > > "interrupt-parent", 0);
+> > >
+> > >
+> > > But really, at some point it should be converted to a proper driver as
+> > > there's no reason extirq needs to be initialized early.
+> > >
+> >
+> > I just tried converting ls-extirq to a proper platform driver and it's
+> > pretty straightforward. The problem is getting that driver to probe on
+> > the ls-extirq dt node since of_platform_populate() is not called on its
+> > parent node.
+> >
+> > I would avoid changing the DT and adding a "simple-bus" compatible to
+> > the parent nodes. The other option is to add another simple driver which
+> > just calls of_platform_populate() for all compatible strings defined in
+> > fsl,layerscape-scfg.yaml.
+> 
+> The simplest solution might be adding 'syscon' to the default match
+> list for of_platform_populate(). That's kind of a big hammer though
+> and could break something. Not sure, but I'm willing to stick that in
+> linux-next and see.
+> 
+> Another option is hijack the simple-pm-bus driver which already does
+> just what you said.
+>
 
-Add clock and reset entries for the RSCI IPs.
+I would prefer the second option since that doesn't impact other
+platforms.
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-note, as done on RZ/G3E pclk_sfr clock is dropped as its the same as pclk.
----
- drivers/clk/renesas/r9a09g057-cpg.c | 126 ++++++++++++++++++++++++++++
- 1 file changed, 126 insertions(+)
+Geert, since you are the module author, are you ok with the following
+diff?
 
-diff --git a/drivers/clk/renesas/r9a09g057-cpg.c b/drivers/clk/renesas/r9a09g057-cpg.c
-index 400d9e94f2e9..991f9a2ec12e 100644
---- a/drivers/clk/renesas/r9a09g057-cpg.c
-+++ b/drivers/clk/renesas/r9a09g057-cpg.c
-@@ -46,6 +46,9 @@ enum clk_ids {
- 	CLK_PLLCLN_DIV2,
- 	CLK_PLLCLN_DIV8,
- 	CLK_PLLCLN_DIV16,
-+	CLK_PLLCLN_DIV64,
-+	CLK_PLLCLN_DIV256,
-+	CLK_PLLCLN_DIV1024,
- 	CLK_PLLDTY_ACPU,
- 	CLK_PLLDTY_ACPU_DIV2,
- 	CLK_PLLDTY_ACPU_DIV4,
-@@ -182,6 +185,9 @@ static const struct cpg_core_clk r9a09g057_core_clks[] __initconst = {
- 	DEF_FIXED(".pllcln_div2", CLK_PLLCLN_DIV2, CLK_PLLCLN, 1, 2),
- 	DEF_FIXED(".pllcln_div8", CLK_PLLCLN_DIV8, CLK_PLLCLN, 1, 8),
- 	DEF_FIXED(".pllcln_div16", CLK_PLLCLN_DIV16, CLK_PLLCLN, 1, 16),
-+	DEF_FIXED(".pllcln_div64", CLK_PLLCLN_DIV64, CLK_PLLCLN, 1, 64),
-+	DEF_FIXED(".pllcln_div256", CLK_PLLCLN_DIV256, CLK_PLLCLN, 1, 256),
-+	DEF_FIXED(".pllcln_div1024", CLK_PLLCLN_DIV1024, CLK_PLLCLN, 1, 1024),
- 
- 	DEF_DDIV(".plldty_acpu", CLK_PLLDTY_ACPU, CLK_PLLDTY, CDDIV0_DIVCTL2, dtable_2_64),
- 	DEF_FIXED(".plldty_acpu_div2", CLK_PLLDTY_ACPU_DIV2, CLK_PLLDTY_ACPU, 1, 2),
-@@ -288,6 +294,106 @@ static const struct rzv2h_mod_clk r9a09g057_mod_clks[] __initconst = {
- 						BUS_MSTOP(5, BIT(13))),
- 	DEF_MOD("wdt_3_clk_loco",		CLK_QEXTAL, 5, 2, 2, 18,
- 						BUS_MSTOP(5, BIT(13))),
-+	DEF_MOD("rsci0_pclk",			CLK_PLLCLN_DIV16, 5, 13, 2, 29,
-+						BUS_MSTOP(11, BIT(3))),
-+	DEF_MOD("rsci0_tclk",			CLK_PLLCLN_DIV16, 5, 14, 2, 30,
-+						BUS_MSTOP(11, BIT(3))),
-+	DEF_MOD("rsci0_ps_ps3_n",		CLK_PLLCLN_DIV1024, 5, 15, 2, 31,
-+						BUS_MSTOP(11, BIT(3))),
-+	DEF_MOD("rsci0_ps_ps2_n",		CLK_PLLCLN_DIV256, 6, 0, 3, 0,
-+						BUS_MSTOP(11, BIT(3))),
-+	DEF_MOD("rsci0_ps_ps1_n",		CLK_PLLCLN_DIV64, 6, 1, 3, 1,
-+						BUS_MSTOP(11, BIT(3))),
-+	DEF_MOD("rsci1_pclk",			CLK_PLLCLN_DIV16, 6, 2, 3, 2,
-+						BUS_MSTOP(11, BIT(4))),
-+	DEF_MOD("rsci1_tclk",			CLK_PLLCLN_DIV16, 6, 3, 3, 3,
-+						BUS_MSTOP(11, BIT(4))),
-+	DEF_MOD("rsci1_ps_ps3_n",		CLK_PLLCLN_DIV1024, 6, 4, 3, 4,
-+						BUS_MSTOP(11, BIT(4))),
-+	DEF_MOD("rsci1_ps_ps2_n",		CLK_PLLCLN_DIV256, 6, 5, 3, 5,
-+						BUS_MSTOP(11, BIT(4))),
-+	DEF_MOD("rsci1_ps_ps1_n",		CLK_PLLCLN_DIV64, 6, 6, 3, 6,
-+						BUS_MSTOP(11, BIT(4))),
-+	DEF_MOD("rsci2_pclk",			CLK_PLLCLN_DIV16, 6, 7, 3, 7,
-+						BUS_MSTOP(11, BIT(5))),
-+	DEF_MOD("rsci2_tclk",			CLK_PLLCLN_DIV16, 6, 8, 3, 8,
-+						BUS_MSTOP(11, BIT(5))),
-+	DEF_MOD("rsci2_ps_ps3_n",		CLK_PLLCLN_DIV1024, 6, 9, 3, 9,
-+						BUS_MSTOP(11, BIT(5))),
-+	DEF_MOD("rsci2_ps_ps2_n",		CLK_PLLCLN_DIV256, 6, 10, 3, 10,
-+						BUS_MSTOP(11, BIT(5))),
-+	DEF_MOD("rsci2_ps_ps1_n",		CLK_PLLCLN_DIV64, 6, 11, 3, 11,
-+						BUS_MSTOP(11, BIT(5))),
-+	DEF_MOD("rsci3_pclk",			CLK_PLLCLN_DIV16, 6, 12, 3, 12,
-+						BUS_MSTOP(11, BIT(6))),
-+	DEF_MOD("rsci3_tclk",			CLK_PLLCLN_DIV16, 6, 13, 3, 13,
-+						BUS_MSTOP(11, BIT(6))),
-+	DEF_MOD("rsci3_ps_ps3_n",		CLK_PLLCLN_DIV1024, 6, 14, 3, 14,
-+						BUS_MSTOP(11, BIT(6))),
-+	DEF_MOD("rsci3_ps_ps2_n",		CLK_PLLCLN_DIV256, 6, 15, 3, 15,
-+						BUS_MSTOP(11, BIT(6))),
-+	DEF_MOD("rsci3_ps_ps1_n",		CLK_PLLCLN_DIV64, 7, 0, 3, 16,
-+						BUS_MSTOP(11, BIT(6))),
-+	DEF_MOD("rsci4_pclk",			CLK_PLLCLN_DIV16, 7, 1, 3, 17,
-+						BUS_MSTOP(11, BIT(7))),
-+	DEF_MOD("rsci4_tclk",			CLK_PLLCLN_DIV16, 7, 2, 3, 18,
-+						BUS_MSTOP(11, BIT(7))),
-+	DEF_MOD("rsci4_ps_ps3_n",		CLK_PLLCLN_DIV1024, 7, 3, 3, 19,
-+						BUS_MSTOP(11, BIT(7))),
-+	DEF_MOD("rsci4_ps_ps2_n",		CLK_PLLCLN_DIV256, 7, 4, 3, 20,
-+						BUS_MSTOP(11, BIT(7))),
-+	DEF_MOD("rsci4_ps_ps1_n",		CLK_PLLCLN_DIV64, 7, 5, 3, 21,
-+						BUS_MSTOP(11, BIT(7))),
-+	DEF_MOD("rsci5_pclk",			CLK_PLLCLN_DIV16, 7, 6, 3, 22,
-+						BUS_MSTOP(11, BIT(8))),
-+	DEF_MOD("rsci5_tclk",			CLK_PLLCLN_DIV16, 7, 7, 3, 23,
-+						BUS_MSTOP(11, BIT(8))),
-+	DEF_MOD("rsci5_ps_ps3_n",		CLK_PLLCLN_DIV1024, 7, 8, 3, 24,
-+						BUS_MSTOP(11, BIT(8))),
-+	DEF_MOD("rsci5_ps_ps2_n",		CLK_PLLCLN_DIV256, 7, 9, 3, 25,
-+						BUS_MSTOP(11, BIT(8))),
-+	DEF_MOD("rsci5_ps_ps1_n",		CLK_PLLCLN_DIV64, 7, 10, 3, 26,
-+						BUS_MSTOP(11, BIT(8))),
-+	DEF_MOD("rsci6_pclk",			CLK_PLLCLN_DIV16, 7, 11, 3, 27,
-+						BUS_MSTOP(11, BIT(9))),
-+	DEF_MOD("rsci6_tclk",			CLK_PLLCLN_DIV16, 7, 12, 3, 28,
-+						BUS_MSTOP(11, BIT(9))),
-+	DEF_MOD("rsci6_ps_ps3_n",		CLK_PLLCLN_DIV1024, 7, 13, 3, 29,
-+						BUS_MSTOP(11, BIT(9))),
-+	DEF_MOD("rsci6_ps_ps2_n",		CLK_PLLCLN_DIV256, 7, 14, 3, 30,
-+						BUS_MSTOP(11, BIT(9))),
-+	DEF_MOD("rsci6_ps_ps1_n",		CLK_PLLCLN_DIV64, 7, 15, 3, 31,
-+						BUS_MSTOP(11, BIT(9))),
-+	DEF_MOD("rsci7_pclk",			CLK_PLLCLN_DIV16, 8, 0, 4, 0,
-+						BUS_MSTOP(11, BIT(10))),
-+	DEF_MOD("rsci7_tclk",			CLK_PLLCLN_DIV16, 8, 1, 4, 1,
-+						BUS_MSTOP(11, BIT(10))),
-+	DEF_MOD("rsci7_ps_ps3_n",		CLK_PLLCLN_DIV1024, 8, 2, 4, 2,
-+						BUS_MSTOP(11, BIT(10))),
-+	DEF_MOD("rsci7_ps_ps2_n",		CLK_PLLCLN_DIV256, 8, 3, 4, 3,
-+						BUS_MSTOP(11, BIT(10))),
-+	DEF_MOD("rsci7_ps_ps1_n",		CLK_PLLCLN_DIV64, 8, 4, 4, 4,
-+						BUS_MSTOP(11, BIT(10))),
-+	DEF_MOD("rsci8_pclk",			CLK_PLLCLN_DIV16, 8, 5, 4, 5,
-+						BUS_MSTOP(11, BIT(11))),
-+	DEF_MOD("rsci8_tclk",			CLK_PLLCLN_DIV16, 8, 6, 4, 6,
-+						BUS_MSTOP(11, BIT(11))),
-+	DEF_MOD("rsci8_ps_ps3_n",		CLK_PLLCLN_DIV1024, 8, 7, 4, 7,
-+						BUS_MSTOP(11, BIT(11))),
-+	DEF_MOD("rsci8_ps_ps2_n",		CLK_PLLCLN_DIV256, 8, 8, 4, 8,
-+						BUS_MSTOP(11, BIT(11))),
-+	DEF_MOD("rsci8_ps_ps1_n",		CLK_PLLCLN_DIV64, 8, 9, 4, 9,
-+						BUS_MSTOP(11, BIT(11))),
-+	DEF_MOD("rsci9_pclk",			CLK_PLLCLN_DIV16, 8, 10, 4, 10,
-+						BUS_MSTOP(11, BIT(12))),
-+	DEF_MOD("rsci9_tclk",			CLK_PLLCLN_DIV16, 8, 11, 4, 11,
-+						BUS_MSTOP(11, BIT(12))),
-+	DEF_MOD("rsci9_ps_ps3_n",		CLK_PLLCLN_DIV1024, 8, 12, 4, 12,
-+						BUS_MSTOP(11, BIT(12))),
-+	DEF_MOD("rsci9_ps_ps2_n",		CLK_PLLCLN_DIV256, 8, 13, 4, 13,
-+						BUS_MSTOP(11, BIT(12))),
-+	DEF_MOD("rsci9_ps_ps1_n",		CLK_PLLCLN_DIV64, 8, 14, 4, 14,
-+						BUS_MSTOP(11, BIT(12))),
- 	DEF_MOD("rtc_0_clk_rtc",		CLK_PLLCM33_DIV16, 5, 3, 2, 19,
- 						BUS_MSTOP(3, BIT(11) | BIT(12))),
- 	DEF_MOD("rspi_0_pclk",			CLK_PLLCLN_DIV8, 5, 4, 2, 20,
-@@ -488,6 +594,26 @@ static const struct rzv2h_reset r9a09g057_resets[] __initconst = {
- 	DEF_RST(7, 6, 3, 7),		/* WDT_1_RESET */
- 	DEF_RST(7, 7, 3, 8),		/* WDT_2_RESET */
- 	DEF_RST(7, 8, 3, 9),		/* WDT_3_RESET */
-+	DEF_RST(8, 1, 3, 18),		/* RSCI0_PRESETN */
-+	DEF_RST(8, 2, 3, 19),		/* RSCI0_TRESETN */
-+	DEF_RST(8, 3, 3, 20),		/* RSCI1_PRESETN */
-+	DEF_RST(8, 4, 3, 21),		/* RSCI1_TRESETN */
-+	DEF_RST(8, 5, 3, 22),		/* RSCI2_PRESETN */
-+	DEF_RST(8, 6, 3, 23),		/* RSCI2_TRESETN */
-+	DEF_RST(8, 7, 3, 24),		/* RSCI3_PRESETN */
-+	DEF_RST(8, 8, 3, 25),		/* RSCI3_TRESETN */
-+	DEF_RST(8, 9, 3, 26),		/* RSCI4_PRESETN */
-+	DEF_RST(8, 10, 3, 27),		/* RSCI4_TRESETN */
-+	DEF_RST(8, 11, 3, 28),		/* RSCI5_PRESETN */
-+	DEF_RST(8, 12, 3, 29),		/* RSCI5_TRESETN */
-+	DEF_RST(8, 13, 3, 30),		/* RSCI6_PRESETN */
-+	DEF_RST(8, 14, 3, 31),		/* RSCI6_TRESETN */
-+	DEF_RST(8, 15, 4, 0),		/* RSCI7_PRESETN */
-+	DEF_RST(9, 0, 4, 1),		/* RSCI7_TRESETN */
-+	DEF_RST(9, 1, 4, 2),		/* RSCI8_PRESETN */
-+	DEF_RST(9, 2, 4, 3),		/* RSCI8_TRESETN */
-+	DEF_RST(9, 3, 4, 4),		/* RSCI9_PRESETN */
-+	DEF_RST(9, 4, 4, 5),		/* RSCI9_TRESETN */
- 	DEF_RST(7, 9, 3, 10),		/* RTC_0_RST_RTC */
- 	DEF_RST(7, 10, 3, 11),		/* RTC_0_RST_RTC_V */
- 	DEF_RST(7, 11, 3, 12),		/* RSPI_0_PRESETN */
--- 
-2.52.0
+--- a/drivers/bus/simple-pm-bus.c
++++ b/drivers/bus/simple-pm-bus.c
+@@ -142,6 +142,12 @@ static const struct of_device_id simple_pm_bus_of_match[] = {
+        { .compatible = "simple-mfd",   .data = ONLY_BUS },
+        { .compatible = "isa",          .data = ONLY_BUS },
+        { .compatible = "arm,amba-bus", .data = ONLY_BUS },
++       { .compatible = "fsl,ls1021a-scfg", },
++       { .compatible = "fsl,ls1043a-scfg", },
++       { .compatible = "fsl,ls1046a-scfg", },
++       { .compatible = "fsl,ls1088a-isc", },
++       { .compatible = "fsl,ls2080a-isc", },
++       { .compatible = "fsl,lx2160a-isc", },
+        { /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, simple_pm_bus_of_match);
 
+
+Regards,
+Ioana
 
