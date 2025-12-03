@@ -1,201 +1,119 @@
-Return-Path: <linux-renesas-soc+bounces-25540-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25541-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id F32F9CA1E75
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 04 Dec 2025 00:11:15 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9045CA1EA0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 04 Dec 2025 00:14:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A44413044857
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Dec 2025 23:08:15 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 3FECC3016EE6
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Dec 2025 23:14:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E83432AAD5;
-	Wed,  3 Dec 2025 23:08:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A16E22EBDDE;
+	Wed,  3 Dec 2025 23:14:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="VpMFyK5q"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m0gwMoTJ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96B9B2FBDEC;
-	Wed,  3 Dec 2025 23:08:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79C6C2EBDCD
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  3 Dec 2025 23:14:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764803295; cv=none; b=fM9cls4gr41s5Zsp6lkDWqscuLOoLYblTHJE463GC3/1h4qMGFPgQanT5PATISFdbEZbuUR+hQ0TO0j33V2Fx0EK/x03rpmi84n/da8BvNCG89+XgfRy3VcAdVxZo1cjzA8sj9oasUwmLJNdtqDjbLvvnA4mefq+/fcAefGkyo8=
+	t=1764803641; cv=none; b=jsHnFJaX8RzxB5GMAa9EvLnXqnJqYHqWLZKl/s4ij6S09JaExtY3b11KAXvZxC2vL38ielhfOt1X39XR8YklbGIc+tMhsyNL0TOVZMT9BKlbiym/mk2gkHOn5VQS1exQ7Ja4HexHX7qRY+iutuXVumfPd+ccvBtRvddlnmcjhDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764803295; c=relaxed/simple;
-	bh=P6IRuc2bV7oqX/CRR9NVunrWRhHue1COu3qvdmngsF4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UXiexCvHhuJGF1Dg5oTeozUC2ZG93Y3nk30jbB4SDocU/0G6LtDvsqVL9828myeYQBGnCPq/M2gabxEh/BHSMmvzjr/QdspfrBDhqXc/bFPtpBp1x9rEYNZBD+Xy23y4jMWO5l+gUOxpCjNigtzU9FGyxZjN9dmHEnCf6wkKRmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=VpMFyK5q; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4dMCwn3nFNz9tnn;
-	Thu,  4 Dec 2025 00:08:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1764803289;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8gEmKkhVK421TyvMrvWJGjeYvv2qNyDYjC6lx7wWY18=;
-	b=VpMFyK5q3opOJnqH7oSxeMkXt6VHMr3WNJ9AOdZ8jrb3iH04MagrYh2cB/UqvCDbnTUClm
-	Mu9LWpPidDiVQDa2kubdUAz412xEr90Kr8U6R2FT+ZzYe6hbswGSq/zBSf5JgppyOIA4P4
-	SsxF52X4m89bgWJ4FkD7/ui/X5lGUPMvQaFXEYcxIngpn1RDcHhcMGiYAIW7hKx9buHHyX
-	bIMfX+JxQxSeEZZeyviJWGj6zROn4SRpCtubiDST1d8otCttpdk3j4StHR6fF5+dUU1MBP
-	H77IRiR7G7FlHzT9aecavDkED3bg5EQw8hGZAPoNGGiLzq0fKJyNYwqDAnIkSw==
-Message-ID: <4ccbcffd-bcc7-478b-a525-a4a11e3092ee@mailbox.org>
-Date: Wed, 3 Dec 2025 23:53:41 +0100
+	s=arc-20240116; t=1764803641; c=relaxed/simple;
+	bh=ihgCDDT8v/z6Y4GbpIULJIyFLtkjRgYSHsJMkze5H7Y=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lrxMwfLXAjpOXrPy8RzAdOvUeGl2jIQaizcWkmnJCb87SzjT9kiQMpBM3ie8ZP+63vPQcflWWcazED3fGd28jfOQTIk2uG8UsdB1thoW1NFu42k3vhyX+PFdreOvVZvoxdUz3DwNZms4shlceHyWHJ7AP5kxmlNkCpqs3l4M2gQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m0gwMoTJ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDF57C4CEF5
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  3 Dec 2025 23:14:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764803640;
+	bh=ihgCDDT8v/z6Y4GbpIULJIyFLtkjRgYSHsJMkze5H7Y=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=m0gwMoTJTYcgUJMRzgXQ1/QMlOZTPogG0lANMdW97OT0NMuTAc8A+nwSLo+R9YCrd
+	 gO1W/x5rrA/plqwmMQZoM/7pfn8gMN87Vx4+qBwzt8KD8U70cGDpIkOekXc6+u8/2G
+	 0KhJdXhq4/rzApUbBldkSZ3NKFUIVyMoVDWdTjvwTsLIzLmBSbn0TpeMyURg0Io8gd
+	 8FBszOVK56IQLZad9GuJPEaDuRvI8N+m6PUjLxM7zR93xTfasBiyf+9KYZCDyv9eEo
+	 Pp4+P1nlVfV6DEebY83NlHuHq+LD0ylrQyXKDhUUqqPsdaJnti/AQylG5hYyHCOeBQ
+	 M7g1IUsiMYgtQ==
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-787e35ab178so3416267b3.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 03 Dec 2025 15:14:00 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVj5ZSVyHNGv/FL9Ltclu7vdM8eAzsYJXw/r7kJ9yTlUnGaZb6rtioNcYceKmfl8XX/Iotdy7+VimE8gfhVK2UJUw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx4uOzLQMlLmgLAp8TXLaG0bv+IgUxm65q5lUKLOHFzZioqAl7e
+	5YhGC/k2+3wxIXEm5Uvl48iqgw3WUSL3WbTidoK5I1pscGEdpuX37W9dSdjvqsgBfNE/746OhY7
+	E2aMuRTXE8Ec7g0AgaUlxou4WeoL69Wc=
+X-Google-Smtp-Source: AGHT+IEB0RdV7mSFNzpNyLkv75P8Jd/BKS1HODcyk36WY9PHzOfb4L2RJP6I7Nnw9eq8aCpv+z+w6vM8/mTWmqJZTz8=
+X-Received: by 2002:a05:690c:7303:b0:786:98d8:c1c7 with SMTP id
+ 00721157ae682-78c0bf2de2fmr30919417b3.18.1764803639941; Wed, 03 Dec 2025
+ 15:13:59 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/2] dt-bindings: firmware: arm,scmi: Document
- arm,poll-transport property
-To: Sudeep Holla <sudeep.holla@arm.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>, arm-scmi@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org
-References: <20251023123644.8730-1-marek.vasut+renesas@mailbox.org>
- <aPoxfH_TLrsMxMVQ@pluto> <70554674-7020-4582-a4e7-dbee34907096@mailbox.org>
- <5ae0a793-d3e7-45d1-bf5c-3c46593d1824@mailbox.org> <aRW7BZimWdpq4TyX@pluto>
- <20251202-evasive-neon-rhino-d2745e@sudeepholla>
- <66257fcf-9024-454f-b776-4ba584963ebe@mailbox.org> <aS82GSN8c2SnRn4S@bogus>
- <8d773671-5e2e-4e21-ade6-2bf9a3b75066@mailbox.org>
- <20251203-thick-didactic-cockatoo-deaa1d@sudeepholla>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <20251203-thick-didactic-cockatoo-deaa1d@sudeepholla>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: d99e4e4bccb195f124e
-X-MBO-RS-META: axhwhoadnqfeqnn1a5gg7nu48548oqju
+References: <20251202-mcde-drm-regression-thirdfix-v6-0-f1bffd4ec0fa@kernel.org>
+ <20251202-mcde-drm-regression-thirdfix-v6-2-f1bffd4ec0fa@kernel.org> <c3c5f62f-98fd-49a7-9b39-c4c4f798ad2c@rock-chips.com>
+In-Reply-To: <c3c5f62f-98fd-49a7-9b39-c4c4f798ad2c@rock-chips.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Thu, 4 Dec 2025 00:13:48 +0100
+X-Gmail-Original-Message-ID: <CAD++jLmzkmZAgwbahKDnasj3dDpG4RBggoZfhPiEHj9rb09+eQ@mail.gmail.com>
+X-Gm-Features: AWmQ_bnWhHUCVDnj7lqS5z50n507rDrSeB_Ghnr7X8Z3Pa5o_zJ_bBK53CBG7IY
+Message-ID: <CAD++jLmzkmZAgwbahKDnasj3dDpG4RBggoZfhPiEHj9rb09+eQ@mail.gmail.com>
+Subject: Re: [PATCH v6 2/4] drm/mcde: Create custom commit tail
+To: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, Vicente Bergas <vicencb@gmail.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+	Marek Vasut <marek.vasut+renesas@mailbox.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Aradhya Bhatia <a-bhatia1@ti.com>, Dmitry Baryshkov <lumag@kernel.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, Sandy Huang <hjc@rock-chips.com>, 
+	=?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+	Andy Yan <andy.yan@rock-chips.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 12/3/25 12:41 PM, Sudeep Holla wrote:
+On Wed, Dec 3, 2025 at 7:27=E2=80=AFAM Chaoyi Chen <chaoyi.chen@rock-chips.=
+com> wrote:
 
-Hello Sudeep,
+> The bridge document says: "The display pipe (i.e. clocks and timing
+> signals) feeding this bridge will not yet be running when the
+> @atomic_pre_enable is called."
+>
+> Therefore, your approach seems to be merely a workaround and does not
+> meet the current requirements of the bridge.
+>
+> And document also says: "The bridge can assume that the display pipe
+> (i.e. clocks and timing signals) feeding it is running when
+> @atomic_enable callback is called."
+>
+> If DSI commands need to wait for the display pipe (CRTC) to be ready,
+> why not perform them inside @atomic_enable instead of @atomic_pre_enable?
 
->>> Consider a system where a mailbox controller is present and one channel is
->>> used for SCMI communication, while another channel is used for an unrelated
->>> purpose. If both channels share the same interrupt line, and the other use
->>> case enables interrupt mode on its channel, what would be the impact on the
->>> SCMI-specific channel?
->>
->> None, SCMI kernel driver and SCMI server side would still do polling on
->> their respective SHMEM areas, while whatever kernel driver needs to receive
->> the interrupt notifications would subscribe to them using request_irq(),
->> right ?
->>
-> 
-> Fair enough. I was thinking if the controller manages to not call
-> mbox_chan_received_data() in that case.
+That was exactly what the v1 and v2 versions of this patch set was
+doing, and it was (politely) NACKed, and that is why we are
+here.
+https://lore.kernel.org/dri-devel/20251023-fix-mcde-drm-regression-v1-0-ed9=
+a925db8c7@linaro.org/
+https://lore.kernel.org/dri-devel/20251026-fix-mcde-drm-regression-v2-0-8d7=
+99e488cf9@linaro.org/
 
-Wouldn't such a setup use separate mailbox channels , therefore even if 
-mailbox driver calls mbox_chan_received_data(), it would be called for a 
-specific mailbox channel , and it won't interfere with the SCMI mailbox 
-channel.
+In essence, Tomi remarked that drivers should be able to send DSI
+commands at atomic_pre_enable() which is for example
+mapped to the .prepare() callback in the DSI panel bridge.
+And he has a good point in this, I just converted the few panel
+drivers that I was affected by, but there are many more such
+and probably some bridges as well.
 
-> Also IIUC, the irq request happens
-> as part of channel startup and there are no explicit APIs for the mbox client
-> driver to control that. SCMI is mbox client in this case.
-
-Sure, but the mailbox driver has to make sure it is correctly demuxing 
-the IRQs it handles and correctly sends received_data notifications to 
-the right channel(s) .
-
->>> I am aware of systems that implement such sharing, which is why I prefer to be
->>> explicit that this type of design is challenging to support within this
->>> binding. The intent is to support only minimal, constrained cases - essentially
->>> systems that are already somewhat broken. I do not see value in broadening the
->>> binding to cover every conceivable scenario.
->>>
->>>>> Clearly defining these constraints would be helpful. It may also be useful to
->>>>> note that this is primarily intended for mailbox transports, if that’s
->>>>> accurate. Alternatively, we could keep the DT binding definition broader but
->>>>> emit warnings when a transport other than mailbox is used. That approach might
->>>>> make it easier to move forward.
->>>>
->>>> DEN0056F refers to this polling mode in Shared memory based transports, that
->>>> can be other than mailbox transports, it includes e.g. SMC or OPTEE
->>>> transports.
->>>>
->>>
->>> However, polling does not make sense in the context of SMC. Once control
->>> returns from an SMC call, the command has completed. What form of polling in
->>> an SMC workflow do you have in mind?
->>
->> I think the polling happens on the SHMEM and the SMC transport is capable of
->> that too, see :
->>
->> drivers/firmware/arm_scmi/transports/smc.c
->>
->> 175         /*
->> 176          * If there is an interrupt named "a2p", then the service and
->> 177          * completion of a message is signaled by an interrupt rather
->> than by
->> 178          * the return of the SMC call.
->> 179          */
->> 180         scmi_info->irq = of_irq_get_byname(cdev->of_node, "a2p");
->>
-> 
-> Ah this one, is actually implemented to avoid sort of implicit polling
-> mode we get with any SMC/HVC. I don't know how the platform deals with it
-> but SMC/HVC is synchronous and doesn't need this polling. The irq introduced
-> here is again a sort of workaround to get some sort of async/non-polling
-> mode with SMC/HVC. So, to repeat polling mode make absolutely no sense
-> whatsoever for SMC/OPTEE(based on pure SMC) transports.
-
-I can drop the SMC part from this patch if you think that's helpful ?
-
->>> I believe the same applies to OP-TEE.
->>> While OP-TEE now provides a notification mechanism that could, in theory,
->>> allow synchronous commands to be treated in a quasi-asynchronous manner, I
->>> strongly doubt that the current SCMI-over-OP-TEE implementation behaves this
->>> way, given that it ultimately reaches the secure side via an SMC call.
->>>
->>>> I don't think a warning is justified, if the behavior follows the
->>>> specification. But I do agree the behavior is ... suboptimal.
->>>>
->>>
->>> The specification does not address SMC or OP-TEE transports, placing them
->>> outside its scope and likewise these DT bindings.
->>
->> I believe the shmem transport includes the SMC and OPTEE ones, right ?
->>
-> 
-> Yes, but the expectation when the SMC completes is to have the shmem to be
-> owned by the OS(except that irq workaround case). Again the OPTEE/SMC is
-> completely out of spec, but I agree the SHMEM behaviour must conform to the
-> specification.
-
-OK
-
->>> Consequently, what we
->>> decide here in this discussion effectively defines the expected behavior in
->>> this context, in my view. So I would like to start with minimal possible
->>> coverage, why do you think that is not a good idea here ?
->>
->> I would argue the current implementation covers pretty much every transport
->> which could ever need to do polling on shmem, so the implementation is
->> generic and inline with the specification. Also, the current implementation
->> is some 20 lines, so I think it is minimalistic?
->>
->> What would you propose we do here ?
->>
-> 
-> Yes it can be minimalistic but not restrictive. As I already clearly mentioned
-> I don't see it makes any sense to enable this for SMC/OPTEE. Lets start with
-> just mailbox to start with and extend to other transports if and when needed.
-> It would be good to impose that restriction in the binding as well but that
-> is not a must IMO. I am fine if the bindings for whatever reasons(though I
-> don't see the need) to apply for any transport.
-So I should simply drop the smc.c changes , keep the rest, and send V2 ?
+Yours,
+Linus Walleij
 
