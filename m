@@ -1,134 +1,121 @@
-Return-Path: <linux-renesas-soc+bounces-25518-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25519-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 257BFC9DEC1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 03 Dec 2025 07:28:04 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id E857AC9E1EE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 03 Dec 2025 09:03:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id A2D92349631
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Dec 2025 06:28:03 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 941BA3486EA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Dec 2025 08:03:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AA462459F7;
-	Wed,  3 Dec 2025 06:28:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81D2329C343;
+	Wed,  3 Dec 2025 08:03:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="djYusm6p"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b4quYip7"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-m19731104.qiye.163.com (mail-m19731104.qiye.163.com [220.197.31.104])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F01B123EA8E
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  3 Dec 2025 06:27:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.104
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46971221555;
+	Wed,  3 Dec 2025 08:03:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764743280; cv=none; b=PGT4RXF3Q1wXB0CRrTntuM9ewNcEL+3aWDYsgsunsd8SKK24f1jdUVAiGn10V0GSDH7cLclm1jYHJhqybbcwU++/lY6F3rlsrgSRVl4ZIzteYUAfhm6HaMgEzsOXBKkiAe9eCeNOciHL7qGahaMDY78BRDoJUjyDYVTD/P2ebmU=
+	t=1764749033; cv=none; b=ER6RYqFa28+u7EWSSNF3dk0oIqC+UldTC0GTYsxNK3WuX6ZgUL08G+ICTMK7iecRABmUxU7bMJ6getXryJ1PQklvF3oeMeipVhe/AP8K50Irm0B+GR/OLO3pgN7gsyDTyjfbT6ms8AhLvNsjgupU8ZlsNwKthBJxJeqHTyvqaYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764743280; c=relaxed/simple;
-	bh=eWN15G/JKOdU5LhgBszrgKkAR1HpYtUcsv/sQanalJg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Q1VmEScYwmF2mgvYp64gy9SCmaFS+uKCK42ZDVsJ1y+jCsUnqMCouE+29G3tINOC9zzlqe5AzcXEfyIv9HSX243/MEiFy4+iLgHMfjp4Hx8eT5FDBV287NPjvEQG37NuL3Ny5ISLjuqpPA3hNbEE+4dECY+U73aVA4vAEXUrd6U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=djYusm6p; arc=none smtp.client-ip=220.197.31.104
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
-Received: from [127.0.0.1] (unknown [58.22.7.114])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 2bcc85205;
-	Wed, 3 Dec 2025 14:27:45 +0800 (GMT+08:00)
-Message-ID: <c3c5f62f-98fd-49a7-9b39-c4c4f798ad2c@rock-chips.com>
-Date: Wed, 3 Dec 2025 14:27:43 +0800
+	s=arc-20240116; t=1764749033; c=relaxed/simple;
+	bh=S/bIgXbztD6yIqM/o6ZEvMgPPfTEua622q9ir/yW0yQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A5KWxsD6dl3jkkSm1venu0UY5/PxWodGLY/ykXBzVNYvv7Bsaw2iTu8O6Bg8YkA/NwyjzaOrlHWVe87q+TGfQ9SWlUBroXvphmxwPybkf6M/Zo/qaZd90M7Nhdqxgg4UjYHzNyBQCO5EHp0F59/rXYOIqf1mmdqYSZt8iI66gYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b4quYip7; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F70AC19422;
+	Wed,  3 Dec 2025 08:03:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764749031;
+	bh=S/bIgXbztD6yIqM/o6ZEvMgPPfTEua622q9ir/yW0yQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=b4quYip7av0fIaZtuWpIYDEOtdJN+jeXK2LpAvOU5X2FzU9uSbd+zZYCebDMCdTwe
+	 tYZMaW67jOsvR0WUoqWSypvMsbAwP3HBvsXlx0xi/VPLIRzd0VdVID4nUwLHEzJmPM
+	 6sTyaRpdsVeYEEVKAFfhT4851oxYFPThGeDghV9fUFGjhuVUOD3xYV8CM07fUSTp3R
+	 qcJgG13JTOVqj57SWeYWnEnxfW1AqHaMBAj5N5e6s3s2ISPE9nh5vtTFP1BL5jcUGg
+	 b7V9o4jlJxCUUnFu9ELcGeL6t5Sc05fPEZCyXPZuGmUKY6MvKup+vCM3ZcClhw9k9O
+	 laPaoOXaOCW+g==
+Date: Wed, 3 Dec 2025 09:03:49 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/8] dt-bindings: pinctrl: renesas,r9a09g077-pinctrl:
+ Document GPIO IRQ
+Message-ID: <20251203-furry-amigurumi-ocelot-dda208@quoll>
+References: <20251121112626.1395565-1-cosmin-gabriel.tanislav.xa@renesas.com>
+ <20251121112626.1395565-4-cosmin-gabriel.tanislav.xa@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/4] drm/mcde: Create custom commit tail
-To: Linus Walleij <linusw@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- linux-rockchip@lists.infradead.org, Linus Walleij <linusw@kernel.org>,
- Vicente Bergas <vicencb@gmail.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Aradhya Bhatia <a-bhatia1@ti.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Linus Walleij
- <linus.walleij@linaro.org>, Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>
-References: <20251202-mcde-drm-regression-thirdfix-v6-0-f1bffd4ec0fa@kernel.org>
- <20251202-mcde-drm-regression-thirdfix-v6-2-f1bffd4ec0fa@kernel.org>
-Content-Language: en-US
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <20251202-mcde-drm-regression-thirdfix-v6-2-f1bffd4ec0fa@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-HM-Tid: 0a9ae2e53bf503abkunmb7d2791c353e48
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQh8YT1ZOSBoaH0tNGENKGkxWFRQJFh
-	oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
-	hVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=djYusm6pS0+pMIapj8xh+gs/DqDtcJRW8+mpxL/6lcdtZp0TzIWGx5Yj6s7MRD0SbDLWx3Ow+7PHVHOlS8gWEpsD2RFb7+hVqZhdhs/frYFVpFnckb3AunPzu4NkEN1TwOoKrbZJ6Tgx7evJgA93Q4U2QJO8zD8w7vqipJcgifs=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
-	bh=Hl1llcmR8SOfK1eOhtD+UsrAqSI6oxzsZH9lICPtG0I=;
-	h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251121112626.1395565-4-cosmin-gabriel.tanislav.xa@renesas.com>
 
-Hi Linus,
-
-On 12/3/2025 5:02 AM, Linus Walleij wrote:
-> commit c9b1150a68d9362a0827609fc0dc1664c0d8bfe1
-> "drm/atomic-helper: Re-order bridge chain pre-enable and post-disable"
-> caused a series of regressions in all panels that send
-> DSI commands in their .prepare() and .unprepare()
-> callbacks when used with MCDE.
+On Fri, Nov 21, 2025 at 01:26:21PM +0200, Cosmin Tanislav wrote:
+> The Renesas RZ/T2H (R9A09G077) and Renesas RZ/N2H (R9A09G087) SoCs have
+> IRQ-capable pins handled by the ICU, which forwards them to the GIC.
 > 
-> As the CRTC is no longer online at bridge_pre_enable()
-> and gone at brige_post_disable() which maps to the panel
-> bridge .prepare()/.unprepare() callbacks, any CRTC that
-> enable/disable the DSI transmitter in it's enable/disable
-> callbacks will be unable to send any DSI commands in the
-> .prepare() and .unprepare() callbacks.
+> The ICU supports 16 IRQ lines, the pins map to these lines arbitrarily,
+> and the mapping is not configurable.
 > 
-> However the MCDE driver definitely need the CRTC to be
-> enabled during .prepare()/.unprepare().
+> Document the required properties to handle GPIO IRQ.
 > 
-> Solve this by implementing a custom commit tail function
-> in the MCDE driver that always enables the CRTC first
-> and disables it last, using the newly exported helpers.
-> 
-> Link: https://lore.kernel.org/dri-devel/20251026-fix-mcde-drm-regression-v2-0-8d799e488cf9@linaro.org/
-> Link: https://lore.kernel.org/all/20251107230517.471894-1-marek.vasut%2Brenesas%40mailbox.org/
-> Fixes: c9b1150a68d9 ("drm/atomic-helper: Re-order bridge chain pre-enable and post-disable")
-> Tested-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-> Reviewed-by: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Linus Walleij <linusw@kernel.org>
+> Signed-off-by: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
 > ---
->  drivers/gpu/drm/mcde/mcde_drv.c | 45 ++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 44 insertions(+), 1 deletion(-)
+>  .../pinctrl/renesas,r9a09g077-pinctrl.yaml        | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
 > 
+> diff --git a/Documentation/devicetree/bindings/pinctrl/renesas,r9a09g077-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/renesas,r9a09g077-pinctrl.yaml
+> index 36d665971484..1e171b443da1 100644
+> --- a/Documentation/devicetree/bindings/pinctrl/renesas,r9a09g077-pinctrl.yaml
+> +++ b/Documentation/devicetree/bindings/pinctrl/renesas,r9a09g077-pinctrl.yaml
+> @@ -49,6 +49,17 @@ properties:
+>    gpio-ranges:
+>      maxItems: 1
+>  
+> +  interrupt-controller: true
+> +
+> +  '#interrupt-cells':
+> +    const: 2
+> +    description:
+> +      The first cell contains the global GPIO port index, constructed using the
+> +      RZT2H_GPIO() helper macro from <dt-bindings/pinctrl/renesas,r9a09g077-pinctrl.h>
+> +      and the second cell is used to specify the flag.
+> +      E.g. "interrupts = <RZT2H_GPIO(8, 6) IRQ_TYPE_EDGE_FALLING>;" if P08_6 is
+> +      being used as an interrupt.
+> +
+>    clocks:
+>      maxItems: 1
+>  
+> @@ -119,6 +130,8 @@ required:
+>    - gpio-controller
+>    - '#gpio-cells'
+>    - gpio-ranges
+> +  - interrupt-controller
+> +  - '#interrupt-cells'
 
-The bridge document says: "The display pipe (i.e. clocks and timing
-signals) feeding this bridge will not yet be running when the 
-@atomic_pre_enable is called."
+This is technically an ABI break thus commit msg must explain WHY
+breaking ABI is necessary and what is the impact on users.
 
-Therefore, your approach seems to be merely a workaround and does not
-meet the current requirements of the bridge.
+If your driver keeps things backwards compatible, then briefly mention
+it in the commit msg that you require it only for complete hardware
+picture. Or for whatever other reason.
 
-And document also says: "The bridge can assume that the display pipe
-(i.e. clocks and timing signals) feeding it is running when 
-@atomic_enable callback is called."
+Best regards,
+Krzysztof
 
-If DSI commands need to wait for the display pipe (CRTC) to be ready,
-why not perform them inside @atomic_enable instead of @atomic_pre_enable?
-
--- 
-Best, 
-Chaoyi
 
