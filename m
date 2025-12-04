@@ -1,129 +1,205 @@
-Return-Path: <linux-renesas-soc+bounces-25581-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25582-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8BD8CA4F1D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 04 Dec 2025 19:30:33 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 635A6CA52F7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 04 Dec 2025 20:51:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5E0633079A14
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Dec 2025 18:25:49 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 01B3230B3FEC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Dec 2025 19:51:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5673627E040;
-	Thu,  4 Dec 2025 18:25:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC104348866;
+	Thu,  4 Dec 2025 19:51:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="WRfH4VKz"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="xa5OYDPW"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C1AA16A956
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  4 Dec 2025 18:25:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAB41338934;
+	Thu,  4 Dec 2025 19:51:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764872748; cv=none; b=PQZq1DS3FdcHAytSpauj0DBeyUtcQjZe6cQ2Kh7iaL43fSTiBZ1DL9dCxWl62/+YAr58N7yjODE65PJ/spLZXz9dkIfPke4SOuSffEW1Dc4XUKgOUpBVNVTKCNTt1I+9qhLk1KbQqhKJOK6mCm3jX8jL7BbQ12dGDbboUcCwFoI=
+	t=1764877901; cv=none; b=Ja9p/8P3XOKaa1K5SfPXG0M9PM06wJOTaji2bw6M/tXsdBOKaVWLr7hfOphaVqPnL2UMz7jlC0ANZCEgtBkgkWI7jdH5fBxy76WnlOBoj9G/APXIEsQNxNj9Y6DEebL/p5wbtQj3M4FkRg7w1T4i793kkHalduOqTjOjst4o09s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764872748; c=relaxed/simple;
-	bh=1DK3+GCsO1rO0SeIR8bK/dQ/sVtIPdex1pc/8Yurr88=;
+	s=arc-20240116; t=1764877901; c=relaxed/simple;
+	bh=CLcuYMiuh4/kEh/cceaKaoqI6PGLfizKj3zb0KH4qhw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OYmtZB4eLPpQ6Cg9ca5Wx6MX5OY6NkyBMU5PEVrw2z7f6DSDQj+y5hOnICRxnoKqWaZ8jaAwRVA3rqudCHQ5AAt1NVBRFlObnFvGjFA8lp/s0rUYyK3cCrwPHLNFlFzx+dy6TDQ5Y2Wd1mLLs/MMAJd6ztE3LX6G08aAJq+MEmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=WRfH4VKz; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4775ae5684fso6889965e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 04 Dec 2025 10:25:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1764872744; x=1765477544; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ysTd+Om/mVD5YEV1Rfo6jK8jiWD+WsoriWlfYjxUi3Q=;
-        b=WRfH4VKzIThcb29xs0BfyMucm7f8I7KPn0UhssBuKFVssu0CI0ouJk3cS3CiHABS6M
-         oJ3extX3yZfHKYxmggZAR0xfNFXPnfxr4YAwnhifB0jlyJHLW68X8g3B9QN/apPbNAqj
-         iwrGphqPiJkngP4IZElsO8wN+sX5bWPyRfB5lCZtfU5dVObZygwa3Me9XuKZLkLxQJom
-         ZLtcpO4IRzjL+QDSJsyK5OsNq87a7oZXqA6XrdxuQt7AeIeEcaWHlbv0z5irCbZ8ppkw
-         LiNOPQIruscCpowVQkjecGrfsN7WDxjLEZ7xvHwXiofL98Xub7vghTty4V77VCWAX/ph
-         GqaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764872744; x=1765477544;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ysTd+Om/mVD5YEV1Rfo6jK8jiWD+WsoriWlfYjxUi3Q=;
-        b=wHEChtCdZ22qhpFPhIClK9ZhjgrOX+iZPcXDYJYi+eHyRrF7baLONFBKHtZBghyDzl
-         JVbhIFMvlQqRzTY+73pP18MMR6y3sEG1au87gSCRltKTDwrn8iGoI5q8fQMTeilbu+QL
-         nTG+msuUl1mf/FqAudycyqg6ycyn4S0iIPBuAsZyg0XDdzKgavVLZnPsPKDdDy1djaXG
-         8uQJUylIn85B84FUw2rK3LIfRp52IFywC/PQWRqst39MVsigzFueAC7s1qyICojMjFwu
-         vWjosQs3Hco95X2qlRF33BhUxC2AIv09zbwBF2c6dEpyDcwtFUhet8FquCIqMs1lccgL
-         mGlQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXHj4Z5SOC6hBR6NKE0oa4w4xWmFph0nEwa0hRlMj3sdVP+w6kRMENCehZKemskh60i5gD7aLxkSBwD5YAQDQ5Gpw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx61GCmcmzUCl0SV2jZJZw+2+TzVwA5oe2mtIOYBqMVv6oGvLqI
-	wqgAEJHCHfYpd6HX9pElUQPSEjiAosq3C2gzHVdGPDhb64cB7R55JNi9ejaN+CrXYhQ=
-X-Gm-Gg: ASbGncsJ9PYC3HB+BPgebtovRh1OZe0W/SCWSBi8ftCmC5HRDRw9kkC5EJ7AsFXZR+P
-	YBYCvggZdHmyAWD0TGVLfuFp/0uoCaAJ+xfc47cKAO1TqBLSlFXvXn5I821Eya+ji0+bjWoEVby
-	bo95IQmvOajdEZdEuMZsk2ocjVrEZzqWsH+0JOF0pJk32AuOH/X4YNECND5hllmSOzGKA2Rjux8
-	NP6NGt5ftQbbjnuoLynf+M2Jn0YKaPPWhklI3TzrNBJPTEqaTqK1QL1VU/t/HZeqaSfyeheXt7L
-	I3N9Edc/WJI+8EFF/ppn1lQ13Rr1QrcIV6DnFHtnJnQDC2Lz63vthbkeB4cpNsV4oTNrUCobCSU
-	88W3b4/b6Lhj9gEycG0tJkW2BsA42T2sHlWaRSRdaKtRQf6MU0ksQJv5Zrwf1DPmH4ry3CHUtOh
-	kcpzPdC+KN0IT8Wvjzs20=
-X-Google-Smtp-Source: AGHT+IGBJTokm3JvNBhCYPTgPHvkJ1iIrFragpuP725ZRh4z+gZ3N2Nj2hHBKv3e+Rr3uHUqb0EA9w==
-X-Received: by 2002:a05:600c:3b05:b0:477:582e:7a81 with SMTP id 5b1f17b1804b1-4792aed9ab8mr74809015e9.4.1764872743815;
-        Thu, 04 Dec 2025 10:25:43 -0800 (PST)
-Received: from [192.168.50.4] ([82.78.167.134])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47930ca15adsm45758105e9.13.2025.12.04.10.25.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Dec 2025 10:25:43 -0800 (PST)
-Message-ID: <19fda177-6c11-45d6-9dab-3f75edceda4e@tuxon.dev>
-Date: Thu, 4 Dec 2025 20:25:42 +0200
+	 In-Reply-To:Content-Type; b=l7Ieg5OlH1mcQeUDtehYGfQmi2jvrHM/ufl9XU9lv6uXTwm5Re1he5ZfDtD4G7GBVMz+ucC6OewKGltEo8xYuK5jqvvhk/mAkLbAtTprpzmvj8q8PG2TvyvYaWlIET1WJTB5f6qMvinejs2AsaLKEkAZl7UsxlSPLseDgPLZuNk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=xa5OYDPW; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4dMlWX1Mw1z9tk3;
+	Thu,  4 Dec 2025 20:51:36 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1764877896;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qIJNFBhdSnffADZEOe9nQ4d4H4pvGzKjj8eclPnTyLE=;
+	b=xa5OYDPWg7TSWslcUL5t9YEKI6y1CzJ7cOiAAJLoJsnJlfPc9bVVNP+boKZzzKZSsgyzoT
+	20+jI4OIcatib0EBjKzSYGmYk52wYDVd/SA/hLbY6Z3zXWLLto/fbyZaTROmCOheV/yVGg
+	B5aXRF4JFTCKFeM0jGkoIVo2cupQ1YOaWPn8g7xC0SCLw19XedXx++xeIXIxPR/KjKjBsh
+	/TdUN/CNXsQ6Ow2CAKfzgI8vPUprDERO3ltztQQy7ezrhULGwJFjcnqVhJ+JuE3W3xbXm5
+	eM7lFkMZG1u1PHd5bCl6RE01PTstOI7CEDnTCFRxLSri7ckaNNiNCeKtf9CKSw==
+Message-ID: <e25c690c-e74d-4641-a97e-8eae81a59168@mailbox.org>
+Date: Thu, 4 Dec 2025 19:59:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/2] reset: rzg2l-usbphy-ctrl: Add suspend to RAM
- support
-To: p.zabel@pengutronix.de
-Cc: linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20251110132715.724084-1-claudiu.beznea.uj@bp.renesas.com>
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Subject: Re: [PATCH 1/2] dt-bindings: firmware: arm,scmi: Document
+ arm,poll-transport property
+To: Sudeep Holla <sudeep.holla@arm.com>
+Cc: Cristian Marussi <cristian.marussi@arm.com>, arm-scmi@vger.kernel.org,
+ Conor Dooley <conor+dt@kernel.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-renesas-soc@vger.kernel.org
+References: <aPoxfH_TLrsMxMVQ@pluto>
+ <70554674-7020-4582-a4e7-dbee34907096@mailbox.org>
+ <5ae0a793-d3e7-45d1-bf5c-3c46593d1824@mailbox.org> <aRW7BZimWdpq4TyX@pluto>
+ <20251202-evasive-neon-rhino-d2745e@sudeepholla>
+ <66257fcf-9024-454f-b776-4ba584963ebe@mailbox.org> <aS82GSN8c2SnRn4S@bogus>
+ <8d773671-5e2e-4e21-ade6-2bf9a3b75066@mailbox.org>
+ <20251203-thick-didactic-cockatoo-deaa1d@sudeepholla>
+ <4ccbcffd-bcc7-478b-a525-a4a11e3092ee@mailbox.org>
+ <20251204-calm-peacock-of-fantasy-6b8cbe@sudeepholla>
 Content-Language: en-US
-In-Reply-To: <20251110132715.724084-1-claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <20251204-calm-peacock-of-fantasy-6b8cbe@sudeepholla>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: 4j81ge399yohgdmjy4u4eeezey8sorws
+X-MBO-RS-ID: c95005d4a3fbe1596a5
 
-Hi, Philipp,
+On 12/4/25 1:33 PM, Sudeep Holla wrote:
 
-Could you please let me know if there's anything I should do for this series?
+Hello Sudeep,
 
-Thank you,
-Claudiu
+>> Wouldn't such a setup use separate mailbox channels, therefore even if
+>> mailbox driver calls mbox_chan_received_data(), it would be called for a
+>> specific mailbox channel , and it won't interfere with the SCMI mailbox
+>> channel.
+>>
+> 
+> Ideally yes. Because PCC uses shared interrupts and provides no mechanism to
+> identify the channel that raised the interrupt, we must run the handler for
+> every registered channel. This behaviour is specific to PCC; other controllers
+> that support interrupt source detection may not need to do this. But SCMI
+> must work with any mailbox or other transports.
 
-On 11/10/25 15:27, Claudiu wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> 
-> Hi,
-> 
-> Series adds suspend to RAM support to the rzg2l-usbphy-ctrl driver.
-> Patch 1/2 is a preparatory change to avoid suppressing any
-> configuration errors.
-> 
-> Thank you,
-> Claudiu
-> 
-> Changes in v2:
-> - use pm_runtime_put_sync() in patch 2/2
-> - collected tags
-> 
-> Claudiu Beznea (2):
->   reset: rzg2l-usbphy-ctrl: Propagate the return value of
->     regmap_field_update_bits()
->   reset: rzg2l-usbphy-ctrl: Add suspend/resume support
-> 
->  drivers/reset/reset-rzg2l-usbphy-ctrl.c | 105 +++++++++++++++++++-----
->  1 file changed, 86 insertions(+), 19 deletions(-)
-> 
+It seems the pcc_mbox_irq() operates per-channel, so it seems even the 
+PCC can demux channels for each IRQ and does trigger 
+mbox_chan_received_data() for correct channel ?
 
+What exactly happens on the PCC mailbox driver with this polling mode 
+enabled ?
+
+>>> Also IIUC, the irq request happens
+>>> as part of channel startup and there are no explicit APIs for the mbox client
+>>> driver to control that. SCMI is mbox client in this case.
+>>
+>> Sure, but the mailbox driver has to make sure it is correctly demuxing the
+>> IRQs it handles and correctly sends received_data notifications to the right
+>> channel(s) .
+>>
+> 
+> Agreed, but the concern is that if SCMI is forced to use polling when the
+> channel is opened, and IRQs are enabled by default with no way for SCMI to
+> disable them in polling mode, we could run into issues.
+
+This constellation seems odd -- if the channel can do IRQs, then this 
+property should not be present in DT.
+
+> I realise it’s a very
+> specific corner case, but every time I’ve assumed such scenarios wouldn’t
+> occur, we eventually ended up encountering them. So sorry if I am very
+> pedantic, but I prefer to start smaller and restrictive and expand if and
+> when necessary or required only.
+
+I don't think this case, where mailbox channel does IRQs and polling is 
+enabled, can/should even be considered valid. Either the channel does 
+not do IRQs and then it should do polling, or it does IRQs and then it 
+should use IRQs, but not both.
+
+>>>>> I am aware of systems that implement such sharing, which is why I prefer to be
+>>>>> explicit that this type of design is challenging to support within this
+>>>>> binding. The intent is to support only minimal, constrained cases - essentially
+>>>>> systems that are already somewhat broken. I do not see value in broadening the
+>>>>> binding to cover every conceivable scenario.
+>>>>>
+>>>>>>> Clearly defining these constraints would be helpful. It may also be useful to
+>>>>>>> note that this is primarily intended for mailbox transports, if that’s
+>>>>>>> accurate. Alternatively, we could keep the DT binding definition broader but
+>>>>>>> emit warnings when a transport other than mailbox is used. That approach might
+>>>>>>> make it easier to move forward.
+>>>>>>
+>>>>>> DEN0056F refers to this polling mode in Shared memory based transports, that
+>>>>>> can be other than mailbox transports, it includes e.g. SMC or OPTEE
+>>>>>> transports.
+>>>>>>
+>>>>>
+>>>>> However, polling does not make sense in the context of SMC. Once control
+>>>>> returns from an SMC call, the command has completed. What form of polling in
+>>>>> an SMC workflow do you have in mind?
+>>>>
+>>>> I think the polling happens on the SHMEM and the SMC transport is capable of
+>>>> that too, see :
+>>>>
+>>>> drivers/firmware/arm_scmi/transports/smc.c
+>>>>
+>>>> 175         /*
+>>>> 176          * If there is an interrupt named "a2p", then the service and
+>>>> 177          * completion of a message is signaled by an interrupt rather
+>>>> than by
+>>>> 178          * the return of the SMC call.
+>>>> 179          */
+>>>> 180         scmi_info->irq = of_irq_get_byname(cdev->of_node, "a2p");
+>>>>
+>>>
+>>> Ah this one, is actually implemented to avoid sort of implicit polling
+>>> mode we get with any SMC/HVC. I don't know how the platform deals with it
+>>> but SMC/HVC is synchronous and doesn't need this polling. The irq introduced
+>>> here is again a sort of workaround to get some sort of async/non-polling
+>>> mode with SMC/HVC. So, to repeat polling mode make absolutely no sense
+>>> whatsoever for SMC/OPTEE(based on pure SMC) transports.
+>>
+>> I can drop the SMC part from this patch if you think that's helpful ?
+>>
+> 
+> Yes, that’s essential, because polling in an SMC context is meaningless in my
+> opinion.
+
+Maybe the "a2p" IRQ is also used for notifications from longer running 
+operations ?
+
+[...]
+
+>>> Yes it can be minimalistic but not restrictive. As I already clearly mentioned
+>>> I don't see it makes any sense to enable this for SMC/OPTEE. Lets start with
+>>> just mailbox to start with and extend to other transports if and when needed.
+>>> It would be good to impose that restriction in the binding as well but that
+>>> is not a must IMO. I am fine if the bindings for whatever reasons(though I
+>>> don't see the need) to apply for any transport.
+>> So I should simply drop the smc.c changes , keep the rest, and send V2 ?
+> 
+> Not just that. Unless DT maintainers oppose, I just want to keep this
+> new property valid only for mailbox transport(i.e. "arm,scmi" compatible
+> not otherwise) so that we can catch any other use in binding checks and
+> interested parties must discuss on the list and expand that if they require.
+> 
+> Also we can explore if we can parse and scan this in mailbox transport for
+> now.
+I feel that this only adds more implementation complexity and makes the 
+solution less generic, while it does win us very little in the end ? The 
+generic solution implementation is actually easier to implement.
 
