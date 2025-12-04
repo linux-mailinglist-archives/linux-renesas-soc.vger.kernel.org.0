@@ -1,245 +1,220 @@
-Return-Path: <linux-renesas-soc+bounces-25550-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25551-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E1A9CA2FF2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 04 Dec 2025 10:30:49 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BA47CA39F4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 04 Dec 2025 13:34:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 22B28301F39F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Dec 2025 09:30:48 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 623F53002B0D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Dec 2025 12:33:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10341334C06;
-	Thu,  4 Dec 2025 09:30:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="kK2hzbPK"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C31B2D6E75;
+	Thu,  4 Dec 2025 12:33:55 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011050.outbound.protection.outlook.com [40.107.74.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A0E21917FB;
-	Thu,  4 Dec 2025 09:30:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764840646; cv=fail; b=QpVyznaiib1g5MSTs/KaYDTGPecYwUcG0HF4uIj6nHPNgc7H9vL7CmmqDxeRXgf0LfIVHdVmZJjy+emuOCe95Ca6zw1gEOaEotpcIOTmNcccGIaLWH1i23COkEPRfJ93gDKqhkUfH+0QwWCkaOfKWH1mhPpaO6mtlH56NID8+UY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764840646; c=relaxed/simple;
-	bh=BNcZ3s/jZg3pgsW60DVY7YYzPvy892RsnAbCyYJ9UBM=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=sPEQxyY8eDdFI1AeGaYMk6bv3h0E05SyT/v0ZJNHFUZQOevQqgH4HGeTfpHbQ1Q56ovRWZiWu+291SodJRb/sSg49mnZ1iF3SgUTqYwWhWVhbkZF2mY92VMQjyR9ZkQdnB2vd3pHOqRBQsMn6J3YctMl0HkcDKhxUoVlHA5VUzY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=kK2hzbPK; arc=fail smtp.client-ip=40.107.74.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lUy/bCXmw0/vFu30TbUg1BRJMz00MgfC+F5IgSnssGLwXpCRZmu6ZzjtTlbaYk1JJ02lQDewMEvDMF5EJiuSUAHtuWKmEMTmWlBpQxhwl1lMtDFmvv1R+jltvD6u8deDyMIzMc3p7agwqbg+Y1Om/5QjyIdZQ/xT7AIEwORFZQXzbeU5msGF7iik3e2KRWair4phKX6rua7LKF0+ThtV7cRKW4XVBzPqPsbs2/jXso8aI243HAdIBlDe/Z65nw+D23Q8mcRUooWJdaInPE3DlrNYNG5Z+94lDKv0er4Bw1xFQ3YKF3xWyyIzwLKrNF+bf3EdshlqHXQcBwwbM0TTZw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BNcZ3s/jZg3pgsW60DVY7YYzPvy892RsnAbCyYJ9UBM=;
- b=wg5yALDENSKFvO0Z5ZJ/UD7NnduVQYJPfqi7Cc/PkM5LDZHMTFu3E1LaAo3vz69AiTaUU/i9Myn+Rd7i3YvR76tX0JDIEWY51oAEqeNPb6P/hNtsnrHDLeroVuuIQT+AnqOkZCO23o/q6ftS8DFar3e0KEAAr7J6rjzDUfcVWiKxVcfdhSCfCvIp6VIY6PutkX42SQ4LoptK2dfhY+T12FZEUlM+Qoy9Cu3iLAcMhlvE25VVihWdAM7ihnZ6m2TeZ6AzO5IFGC5CujuxWS8Q3FNKapt+meLtbgzNIW/gS5UlNtEowg5h+y4vmnETE/wsVCpqJxjPsEwpPbq14uryfQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BNcZ3s/jZg3pgsW60DVY7YYzPvy892RsnAbCyYJ9UBM=;
- b=kK2hzbPKw1PQv3T1jRdPpCJHl+ljDKPD7Y348owzaqhuVa1STXoNUSTxRvly+YyDsb4WtC1S1J0wRB9tWxsdJLgT1TIjnIgtlrU+TNAmqPsvSIjCTON5D8hkJkkdoBiuU6543o+NB0E+PkEWtqUp1nO6+p6F3duiDvCdWFTMzB0=
-Received: from TYYPR01MB13955.jpnprd01.prod.outlook.com (2603:1096:405:1a6::6)
- by OS3PR01MB8842.jpnprd01.prod.outlook.com (2603:1096:604:17f::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.9; Thu, 4 Dec
- 2025 09:30:38 +0000
-Received: from TYYPR01MB13955.jpnprd01.prod.outlook.com
- ([fe80::52be:7d7a:35ec:4b29]) by TYYPR01MB13955.jpnprd01.prod.outlook.com
- ([fe80::52be:7d7a:35ec:4b29%7]) with mapi id 15.20.9388.009; Thu, 4 Dec 2025
- 09:30:38 +0000
-From: Cosmin-Gabriel Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Geert Uytterhoeven <geert+renesas@glider.be>, Linus Walleij
-	<linus.walleij@linaro.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-	magnus.damm <magnus.damm@gmail.com>, Prabhakar Mahadev Lad
-	<prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH 3/8] dt-bindings: pinctrl: renesas,r9a09g077-pinctrl:
- Document GPIO IRQ
-Thread-Topic: [PATCH 3/8] dt-bindings: pinctrl: renesas,r9a09g077-pinctrl:
- Document GPIO IRQ
-Thread-Index: AQHcWtnUxdioYA77oEOcpPc+HgdeCLUPoQKAgAGeHpA=
-Date: Thu, 4 Dec 2025 09:30:38 +0000
-Message-ID:
- <TYYPR01MB1395515F6CBA3E3FBBAA4297085A6A@TYYPR01MB13955.jpnprd01.prod.outlook.com>
-References: <20251121112626.1395565-1-cosmin-gabriel.tanislav.xa@renesas.com>
- <20251121112626.1395565-4-cosmin-gabriel.tanislav.xa@renesas.com>
- <20251203-furry-amigurumi-ocelot-dda208@quoll>
-In-Reply-To: <20251203-furry-amigurumi-ocelot-dda208@quoll>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYYPR01MB13955:EE_|OS3PR01MB8842:EE_
-x-ms-office365-filtering-correlation-id: 6e13bdd5-2aa0-4a7a-40ad-08de3317c931
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|1800799024|7416014|376014|38070700021;
-x-microsoft-antispam-message-info:
- =?utf-8?B?SHJkdGYySlhuOUZwSTIzYkRZSktLcnBYUVVtYXJSQ05lc2tacVhhemg5dTR1?=
- =?utf-8?B?OE5OTTdHZmpnanorTzIwa0hqMzltS2puOFpXZDFGTWthLzVOanY5Zm5yVGNF?=
- =?utf-8?B?QmJJSWFMNm0wbTZIekFud0JYTDBRSGJ3WWNHcEpNQ1FseFVpb3ZISEMzbXhF?=
- =?utf-8?B?OWtiTzFWRmJIQmVMVXA5NENsa2w4OS9sOCsrRTg5OG1QY1lYR21OR0ppUXpu?=
- =?utf-8?B?TTZYcFJIUWtxdUJ5a0tSdlRIcDFBemhRQ3B3TTg5WDQ2ZVJ2VTJxNWVhKzdH?=
- =?utf-8?B?YnhYeEtNSkRER0dKUHlRUHVOcmJ0RGF1ekNjOURBbHN5MWd1K2dackh1bVAx?=
- =?utf-8?B?SUphNkZjNlNVVTlqUEFvMzc0R21VcEYzbWRhWENsY3UrekdwclhvK0E3bzd6?=
- =?utf-8?B?d2ZtZmZzaExFVEc2OWVqMFY5VytYbDNsb3pvRG5sYjhLTWtnLzJna3dlK0xV?=
- =?utf-8?B?eWtFSXlRTmdCTmIxcEJDNjY2TXE2NmVDcE5EN1pQWDhqWnQ3clBGajZyUEQr?=
- =?utf-8?B?cWg3M2xwTE8yU052S0c0S1lLNnRmSjlqYnBWUHJGRURON3duaXVEd01LcURq?=
- =?utf-8?B?bHEvcDkyNkViU012REZGQXhzYnhmV1FzSTNzNHRsL1NYSGx3SUZvRzVkVjcz?=
- =?utf-8?B?VHhQTzVxV2NzRkh1TXRFRm83Qnl2R0JXQ3BVQjRIQWJPK0R0aHRpQ1hDWjR0?=
- =?utf-8?B?V1BrdnZDMjAxZmZuVGJKWmFQWXBtM1FBNkk4bWh2OFB4cm5JaXBsZUczVUpU?=
- =?utf-8?B?YXYvS1VwZHp5Tmp4Wk1yUDNBMzd1aGdxdTNpR3UvZmQxdnFiYzNWYTZjeUpY?=
- =?utf-8?B?VlErelQ0QlVZNFZGalBGYnJvMjRHaTRuMzJZYXE2T3JnWUlWYmN2TVlsRXVN?=
- =?utf-8?B?WXZxbGk2R2VNSmlUL3M3NjBBTUF4cFJaWWVxT21hc1ZvUDcrRmoyYnNDS2Nn?=
- =?utf-8?B?NGg5SWJKS1hHWUlXQmpKY0d6VTB2eVRDRGtCeWxHWkV6dkFXWCtTa2I1MjRj?=
- =?utf-8?B?TUU0UHhXUEc2TVJ2MVk4QkZ3Q1BTWi9ySDlRNHBjSWw2enpxTlBsQ0Y5RUs1?=
- =?utf-8?B?cldIWXF6OGFrRzR0VHJKVWZzUmRseTlmWUczMmhNQXY5OFhHbHJtZ1pSNWhm?=
- =?utf-8?B?blVVODRyREtEWVowaGJRZVBLaTlHTUljZ2lySUpEYWcvNmVKekNneVVzei9J?=
- =?utf-8?B?dmliRGNKU2hvR0hWT05FR3pZd1VwWURFQXo3aVo0Q051czYyV29SOXN3US9M?=
- =?utf-8?B?YjN0THFNRG15SFBkUTlqUExLZjQ0Y3pOL2k3VkNuc1plOGtHSzJwelAycmlP?=
- =?utf-8?B?RzFNQllsSXc5b3grUDhIUGwvYTdQc05yWkJOUk5Tdmd4ZWVVaU5NcUxSdUtv?=
- =?utf-8?B?eTBFSWt1Tmh3Q2RGdWNNRmFTTmNWaDR3REo3NWJ2eEgzVTVCUGtkbnRIYlBU?=
- =?utf-8?B?UkFtYmdnTjNWWDkxZSs4b3ZEaXNxMU92OXdnc0tlRDg1dWdUZm5ZRTlPaWY0?=
- =?utf-8?B?cTJDMDBjN253a0FqNHMxanVKMHRiNnlWeEJrUlg5K0lRNFNPQXYrVElHN25p?=
- =?utf-8?B?dWhRU0lJMXE5UkJLUG1UWVFLUHNib1k2R2FJc0c3cmE2VjdSVTVlc2lubHUz?=
- =?utf-8?B?cm53MEdsSUYrUytpWktZOHVaZUtIY29WcUtXRDlQd3hLYlVWQloyZjlTZ1lC?=
- =?utf-8?B?SElkVFZDYVBoM2FzU2VlRFJJNFU1amxPYjlZMG1PN1NRUm0ydkVFM25penhw?=
- =?utf-8?B?bC8zWWw3SEtlTWpsL2ZFSlJvaSttaEE3aUs1bzhseldNTmdsb3RueEtyK2pX?=
- =?utf-8?B?QTUrMTdGbVpXZmNGS1g0VVVKM2gwZUtRSXQvSnFXSnhzM2Nqc1RxZ01hZ1pq?=
- =?utf-8?B?M3lFTThheFQ2TjBNeFpYcEIrd21helVlZmkyZnBaOHJjcUZrMXhrRlY4VHdW?=
- =?utf-8?B?R2JJZ3RGRlJ3bkZkaEdKVnRheGRLc0JRQlI5bUFCK2s3d21kSWE5ZVk2VjFh?=
- =?utf-8?B?NG84TVl3SUttaG4vaWl0R0pIRjRIbjZjRzdZbURwRk5sbm9DUGJNNitWREhv?=
- =?utf-8?Q?oDHJD2?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYYPR01MB13955.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?b3l5MFoxS1BoRXd6UnFFMXFVQU9yMTcrY0dGRndQbjZ3Qk9FVStoZE1uQlM5?=
- =?utf-8?B?eFQwQVNGcnFaR1F0NTNTVFpZWXpWYXdiWFd3TEJPU2JpZ1hJREFDVzdLaTMw?=
- =?utf-8?B?QTdtTnlxTzhkSDF1RXB1RmNuUCs5TmxsRng5S2tIb2FWcEMyTnFNZ0xraDNs?=
- =?utf-8?B?YlZ5U0VPeHMxWWJHT25UMUpWcEZaUmRFYkFpaDlZOExxRnErSUhKSW9uNXBU?=
- =?utf-8?B?c3l4TC9XWlppQjFvZHZhMjlUT2ZtRXJEd3l6UEd6VXl0Q1VVOWNQcjQwNzNJ?=
- =?utf-8?B?S1JadmM2QTJoVk5nR3d3K3o0L1IraGhSb01pNFo2OEg1UWJLenJGMi91cldq?=
- =?utf-8?B?VVV4alkrOU1mOERjUk9NMXFpWHZEczlUeE93N014eXhybU5NdEhCZXJxdWZC?=
- =?utf-8?B?R1hOQXZRanpqcm1uNlJxZ01wdEUzaVBlb05LWjhIckw0UVR1TGpHUlppT0xm?=
- =?utf-8?B?aVNaSXBmcUpjNEZWb0FPOGNDNE41T0tNSWEyWERIeXhiR3ZTQjkxTEhJT0sw?=
- =?utf-8?B?cyt4clhHN3dtR2hkdHgyTzIwNzRneEI0M3FrSWQrd2hNU2JUemNXaUYyVlpo?=
- =?utf-8?B?ZTV2SjkzNlMrRE8rUUN0VnhMaC81RW1TSktlcCtGZlBhZlF2VTJJNFhZY2pi?=
- =?utf-8?B?U0FydGpySnJEQnVSWllZVWd0NXRFSlpYcFlNRitiaHpsZG15MTBhQWVNWGlP?=
- =?utf-8?B?WHA1VUEycnBGYnVtTHkwbkd4VWdrdER3dHQ3ZU96cTgxMEI3NlFpMzM2d2pY?=
- =?utf-8?B?eTlYdVVoYjk3eE12L0NnejZraFJja3A3THE3cDV3YkhzT3BTZks0SVR1WnVF?=
- =?utf-8?B?eTFNZ011UHNSNDVWTWtOelUwTG9iOWRBZG1hZVdnaWhNZldGcEYxVzg2ZTFJ?=
- =?utf-8?B?dFUzUnFseExpNlI0WFh0dm8wYWlNZy96QnoxTmx2S3AvYnZQbmZSbUg0TGxI?=
- =?utf-8?B?U2E5M0FIZHlFRDZEVmRBeUFtK3crTXNFMWx4UTh4NlJ3Qzd6TmlSeXk3c2hZ?=
- =?utf-8?B?VlBlRC9oc0dCRzhJaE1jUjJLcFFTT0ZYZzNVWlJZVkVUMGM2MnF4NUZZTmJa?=
- =?utf-8?B?YkUwNjJKeGtMWHB3eHVmR29aTkl2UFJBcElNMU16S0VzeVpGd0ROckdQUTV1?=
- =?utf-8?B?aFlwNExsR21xZzJBR25wOWVXMWd2ZFBwYkJoL1BnTDhyYTNQdnBZZjdFNSs1?=
- =?utf-8?B?M3lnS3dWejhObmZSK084N3JWS3M5QUREMm9INERNc0RuRVFKemUwcDViQ2c2?=
- =?utf-8?B?QWRiR2kyRGtmNnpEaFhQSEEwVHFSK1NOdVpDUUgxR0FWcGNJc20xdWZuVHUw?=
- =?utf-8?B?SVZoaW5TcGxJTS90SXExTU1wem0yVmRKcUdEQjJySm5mUmRlb3BoY3JYRXYx?=
- =?utf-8?B?b3NTT1JPZUJZYXpLdEFpdFdJNmFOdFRoMndHRUxWeHlUNGZURUdNbjZKZm9u?=
- =?utf-8?B?T3Y2VXRRcTdoS1hkdnFwRUV4dzJHKzBxT2RCcUpIMHYrV3FvU08rTmViekda?=
- =?utf-8?B?Y3B4dzRxTmxub0lLNHZtYWwzZzFMa1VRYWhhTlgrZUMrekQxY09HZHBIYWc2?=
- =?utf-8?B?WFpFWDlOK3JlR0djK2M2eDhYT0svNXRNMlg5a25abVBnbEV3bVJYQVp4U3dI?=
- =?utf-8?B?MTdpTDdYTDYyZmVnODhGRldHTVhYMlUrZytDTjc3MlFzYXBiQ3ZRM0tMSXk4?=
- =?utf-8?B?bms4QTdSRU9ueEVwNVhqaXhHYkc5c3d3REx1alNYM2JTTG9kVUlGR1I1Sk1l?=
- =?utf-8?B?UWlBQ3lpTE1YRndpYStERUh4bzRVMTRpOFdUT2tOYTkzbmFoVmRDa1hkbXh5?=
- =?utf-8?B?WFY4R3l5QUxZc25BWWJlZmtsTWJYYjlya2xzMDRjcUtYcm4wbVBBcnROMG9I?=
- =?utf-8?B?YVRkOHVYbkdhTTJjYXh1RkZ4U2I4Q3lwR0s1OElNYkdjVFdOQmlBOTJKWnRU?=
- =?utf-8?B?SXB2N1VNaDNFZFVjV05WdC94bFN0U3VtTXQ0RDUveklZWGQ1aXY3YmpxbVM3?=
- =?utf-8?B?YktYd3g1ZzA2aU4vaHhTYTlkMXd2NnhhTnd2aDBoSTlRaElmTU4vQlZ6WGRp?=
- =?utf-8?B?ck5laXA3anVaSlZlWWFpTkdtOHpYdmRNUm1COWUyQ1pTcUZQbzZic1RZcWMx?=
- =?utf-8?B?WkRaR3lXL1RBa0hsTE96VU8yWUhKS3E3N0I1ZmM1bW5ET1RqWWpTUXUvbWo4?=
- =?utf-8?Q?894CyD1ZOBYzHdmeLQJaG5g=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D43833E35D;
+	Thu,  4 Dec 2025 12:33:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764851635; cv=none; b=q1dq25ZmdRHu/gd7gNvHUEU2fMHXq2U0WGUTjAc3o+EftKCigiF9rmydXyyZaKGQU4PCYFumJo26SuWK90TAkIFzlcC8vj+KBziiguZ+2pzUdgc4awwwP8sTervHaNq7pyQI4WrXlj4ad6kZ9TIEf78ReqFAimVPg0Zn+m2UUCw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764851635; c=relaxed/simple;
+	bh=w/nTwQVLgm8603xohnjqzJRPvlG1BG66FNTHyzsPD1E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EdPk1Hx89RR+7KrIpnKDrP1KoH6k684lzG4NGsSYW2U+gxgzUBdhkjB6eNDSVd7Hdmb9nh4bJ6AV67XmE40SYo6ZhPB/YncoTkb7VvBDcidmWC0JNJPFydGOuGX8Y7Mf2L1WfYWyMrLEnNvo9Uu38kjXdEqvtq1SmK2sctGWlZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com; spf=none smtp.mailfrom=foss.arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=foss.arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BBB6A339;
+	Thu,  4 Dec 2025 04:33:41 -0800 (PST)
+Received: from bogus (e133711.arm.com [10.1.196.55])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5828B3F73B;
+	Thu,  4 Dec 2025 04:33:47 -0800 (PST)
+Date: Thu, 4 Dec 2025 12:33:44 +0000
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: Marek Vasut <marek.vasut@mailbox.org>
+Cc: Cristian Marussi <cristian.marussi@arm.com>, arm-scmi@vger.kernel.org,
+	Conor Dooley <conor+dt@kernel.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: firmware: arm,scmi: Document
+ arm,poll-transport property
+Message-ID: <20251204-calm-peacock-of-fantasy-6b8cbe@sudeepholla>
+References: <aPoxfH_TLrsMxMVQ@pluto>
+ <70554674-7020-4582-a4e7-dbee34907096@mailbox.org>
+ <5ae0a793-d3e7-45d1-bf5c-3c46593d1824@mailbox.org>
+ <aRW7BZimWdpq4TyX@pluto>
+ <20251202-evasive-neon-rhino-d2745e@sudeepholla>
+ <66257fcf-9024-454f-b776-4ba584963ebe@mailbox.org>
+ <aS82GSN8c2SnRn4S@bogus>
+ <8d773671-5e2e-4e21-ade6-2bf9a3b75066@mailbox.org>
+ <20251203-thick-didactic-cockatoo-deaa1d@sudeepholla>
+ <4ccbcffd-bcc7-478b-a525-a4a11e3092ee@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYYPR01MB13955.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6e13bdd5-2aa0-4a7a-40ad-08de3317c931
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Dec 2025 09:30:38.5403
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 6soKoReXu/7xCsr8zR+pzgSpcJTjszuP/3FRb7hpjGz8cCmL4pF5gNIMozsvpe2am5jXwYdcxPsp2sk1KGZ1PL+0XV6N9t/B6rynPbU641R7hCCr2PFhCL2UOhxuGJTO
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB8842
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4ccbcffd-bcc7-478b-a525-a4a11e3092ee@mailbox.org>
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBLcnp5c3p0b2YgS296bG93c2tp
-IDxrcnprQGtlcm5lbC5vcmc+DQo+IFNlbnQ6IFdlZG5lc2RheSwgRGVjZW1iZXIgMywgMjAyNSAx
-MDowNCBBTQ0KPiBUbzogQ29zbWluLUdhYnJpZWwgVGFuaXNsYXYgPGNvc21pbi1nYWJyaWVsLnRh
-bmlzbGF2LnhhQHJlbmVzYXMuY29tPg0KPiBDYzogR2VlcnQgVXl0dGVyaG9ldmVuIDxnZWVydCty
-ZW5lc2FzQGdsaWRlci5iZT47IExpbnVzIFdhbGxlaWogPGxpbnVzLndhbGxlaWpAbGluYXJvLm9y
-Zz47IFJvYg0KPiBIZXJyaW5nIDxyb2JoQGtlcm5lbC5vcmc+OyBLcnp5c3p0b2YgS296bG93c2tp
-IDxrcnprK2R0QGtlcm5lbC5vcmc+OyBDb25vciBEb29sZXkNCj4gPGNvbm9yK2R0QGtlcm5lbC5v
-cmc+OyBtYWdudXMuZGFtbSA8bWFnbnVzLmRhbW1AZ21haWwuY29tPjsgUHJhYmhha2FyIE1haGFk
-ZXYgTGFkIDxwcmFiaGFrYXIubWFoYWRldi0NCj4gbGFkLnJqQGJwLnJlbmVzYXMuY29tPjsgbGlu
-dXgtcmVuZXNhcy1zb2NAdmdlci5rZXJuZWwub3JnOyBsaW51eC1ncGlvQHZnZXIua2VybmVsLm9y
-ZzsNCj4gZGV2aWNldHJlZUB2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5l
-bC5vcmcNCj4gU3ViamVjdDogUmU6IFtQQVRDSCAzLzhdIGR0LWJpbmRpbmdzOiBwaW5jdHJsOiBy
-ZW5lc2FzLHI5YTA5ZzA3Ny1waW5jdHJsOiBEb2N1bWVudCBHUElPIElSUQ0KPiANCj4gT24gRnJp
-LCBOb3YgMjEsIDIwMjUgYXQgMDE6MjY6MjFQTSArMDIwMCwgQ29zbWluIFRhbmlzbGF2IHdyb3Rl
-Og0KPiA+IFRoZSBSZW5lc2FzIFJaL1QySCAoUjlBMDlHMDc3KSBhbmQgUmVuZXNhcyBSWi9OMkgg
-KFI5QTA5RzA4NykgU29DcyBoYXZlDQo+ID4gSVJRLWNhcGFibGUgcGlucyBoYW5kbGVkIGJ5IHRo
-ZSBJQ1UsIHdoaWNoIGZvcndhcmRzIHRoZW0gdG8gdGhlIEdJQy4NCj4gPg0KPiA+IFRoZSBJQ1Ug
-c3VwcG9ydHMgMTYgSVJRIGxpbmVzLCB0aGUgcGlucyBtYXAgdG8gdGhlc2UgbGluZXMgYXJiaXRy
-YXJpbHksDQo+ID4gYW5kIHRoZSBtYXBwaW5nIGlzIG5vdCBjb25maWd1cmFibGUuDQo+ID4NCj4g
-PiBEb2N1bWVudCB0aGUgcmVxdWlyZWQgcHJvcGVydGllcyB0byBoYW5kbGUgR1BJTyBJUlEuDQo+
-ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBDb3NtaW4gVGFuaXNsYXYgPGNvc21pbi1nYWJyaWVsLnRh
-bmlzbGF2LnhhQHJlbmVzYXMuY29tPg0KPiA+IC0tLQ0KPiA+ICAuLi4vcGluY3RybC9yZW5lc2Fz
-LHI5YTA5ZzA3Ny1waW5jdHJsLnlhbWwgICAgICAgIHwgMTUgKysrKysrKysrKysrKysrDQo+ID4g
-IDEgZmlsZSBjaGFuZ2VkLCAxNSBpbnNlcnRpb25zKCspDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEv
-RG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3BpbmN0cmwvcmVuZXNhcyxyOWEwOWcw
-NzctcGluY3RybC55YW1sDQo+IGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3Bp
-bmN0cmwvcmVuZXNhcyxyOWEwOWcwNzctcGluY3RybC55YW1sDQo+ID4gaW5kZXggMzZkNjY1OTcx
-NDg0Li4xZTE3MWI0NDNkYTEgMTAwNjQ0DQo+ID4gLS0tIGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0
-cmVlL2JpbmRpbmdzL3BpbmN0cmwvcmVuZXNhcyxyOWEwOWcwNzctcGluY3RybC55YW1sDQo+ID4g
-KysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3BpbmN0cmwvcmVuZXNhcyxy
-OWEwOWcwNzctcGluY3RybC55YW1sDQo+ID4gQEAgLTQ5LDYgKzQ5LDE3IEBAIHByb3BlcnRpZXM6
-DQo+ID4gICAgZ3Bpby1yYW5nZXM6DQo+ID4gICAgICBtYXhJdGVtczogMQ0KPiA+DQo+ID4gKyAg
-aW50ZXJydXB0LWNvbnRyb2xsZXI6IHRydWUNCj4gPiArDQo+ID4gKyAgJyNpbnRlcnJ1cHQtY2Vs
-bHMnOg0KPiA+ICsgICAgY29uc3Q6IDINCj4gPiArICAgIGRlc2NyaXB0aW9uOg0KPiA+ICsgICAg
-ICBUaGUgZmlyc3QgY2VsbCBjb250YWlucyB0aGUgZ2xvYmFsIEdQSU8gcG9ydCBpbmRleCwgY29u
-c3RydWN0ZWQgdXNpbmcgdGhlDQo+ID4gKyAgICAgIFJaVDJIX0dQSU8oKSBoZWxwZXIgbWFjcm8g
-ZnJvbSA8ZHQtYmluZGluZ3MvcGluY3RybC9yZW5lc2FzLHI5YTA5ZzA3Ny1waW5jdHJsLmg+DQo+
-ID4gKyAgICAgIGFuZCB0aGUgc2Vjb25kIGNlbGwgaXMgdXNlZCB0byBzcGVjaWZ5IHRoZSBmbGFn
-Lg0KPiA+ICsgICAgICBFLmcuICJpbnRlcnJ1cHRzID0gPFJaVDJIX0dQSU8oOCwgNikgSVJRX1RZ
-UEVfRURHRV9GQUxMSU5HPjsiIGlmIFAwOF82IGlzDQo+ID4gKyAgICAgIGJlaW5nIHVzZWQgYXMg
-YW4gaW50ZXJydXB0Lg0KPiA+ICsNCj4gPiAgICBjbG9ja3M6DQo+ID4gICAgICBtYXhJdGVtczog
-MQ0KPiA+DQo+ID4gQEAgLTExOSw2ICsxMzAsOCBAQCByZXF1aXJlZDoNCj4gPiAgICAtIGdwaW8t
-Y29udHJvbGxlcg0KPiA+ICAgIC0gJyNncGlvLWNlbGxzJw0KPiA+ICAgIC0gZ3Bpby1yYW5nZXMN
-Cj4gPiArICAtIGludGVycnVwdC1jb250cm9sbGVyDQo+ID4gKyAgLSAnI2ludGVycnVwdC1jZWxs
-cycNCj4gDQo+IFRoaXMgaXMgdGVjaG5pY2FsbHkgYW4gQUJJIGJyZWFrIHRodXMgY29tbWl0IG1z
-ZyBtdXN0IGV4cGxhaW4gV0hZDQo+IGJyZWFraW5nIEFCSSBpcyBuZWNlc3NhcnkgYW5kIHdoYXQg
-aXMgdGhlIGltcGFjdCBvbiB1c2Vycy4NCj4gDQo+IElmIHlvdXIgZHJpdmVyIGtlZXBzIHRoaW5n
-cyBiYWNrd2FyZHMgY29tcGF0aWJsZSwgdGhlbiBicmllZmx5IG1lbnRpb24NCj4gaXQgaW4gdGhl
-IGNvbW1pdCBtc2cgdGhhdCB5b3UgcmVxdWlyZSBpdCBvbmx5IGZvciBjb21wbGV0ZSBoYXJkd2Fy
-ZQ0KPiBwaWN0dXJlLiBPciBmb3Igd2hhdGV2ZXIgb3RoZXIgcmVhc29uLg0KPg0KDQoNCkl0J3Mg
-bm90IGV4YWN0bHkgcmVxdWlyZWQgZm9yIHRoZSBwaW5jdHJsIHRvIGJlIGRlZmluZWQgYXMgYW4g
-aW50ZXJydXB0DQpjb250cm9sbGVyLCBvbmx5IGlmIHlvdSB1c2UgdGhlIGludGVycnVwdCBmdW5j
-dGlvbmFsaXR5IG9mIHRoZSBwaW5zLi4uDQpJIGNhbiByZW1vdmUgdGhlbSBmcm9tIHJlcXVpcmVk
-LCB0aGF0IHNob3VsZCBrZWVwIGNvbXBhdGliaWxpdHkuDQoNCldvdWxkIHRoYXQgYmUgZmluZT8N
-Cg0KPiBCZXN0IHJlZ2FyZHMsDQo+IEtyenlzenRvZg0KDQo=
+On Wed, Dec 03, 2025 at 11:53:41PM +0100, Marek Vasut wrote:
+> On 12/3/25 12:41 PM, Sudeep Holla wrote:
+> 
+> Hello Sudeep,
+> 
+> > > > Consider a system where a mailbox controller is present and one channel is
+> > > > used for SCMI communication, while another channel is used for an unrelated
+> > > > purpose. If both channels share the same interrupt line, and the other use
+> > > > case enables interrupt mode on its channel, what would be the impact on the
+> > > > SCMI-specific channel?
+> > > 
+> > > None, SCMI kernel driver and SCMI server side would still do polling on
+> > > their respective SHMEM areas, while whatever kernel driver needs to receive
+> > > the interrupt notifications would subscribe to them using request_irq(),
+> > > right ?
+> > > 
+> > 
+> > Fair enough. I was thinking if the controller manages to not call
+> > mbox_chan_received_data() in that case.
+> 
+> Wouldn't such a setup use separate mailbox channels, therefore even if
+> mailbox driver calls mbox_chan_received_data(), it would be called for a
+> specific mailbox channel , and it won't interfere with the SCMI mailbox
+> channel.
+> 
+
+Ideally yes. Because PCC uses shared interrupts and provides no mechanism to
+identify the channel that raised the interrupt, we must run the handler for
+every registered channel. This behaviour is specific to PCC; other controllers
+that support interrupt source detection may not need to do this. But SCMI
+must work with any mailbox or other transports.
+
+> > Also IIUC, the irq request happens
+> > as part of channel startup and there are no explicit APIs for the mbox client
+> > driver to control that. SCMI is mbox client in this case.
+> 
+> Sure, but the mailbox driver has to make sure it is correctly demuxing the
+> IRQs it handles and correctly sends received_data notifications to the right
+> channel(s) .
+> 
+
+Agreed, but the concern is that if SCMI is forced to use polling when the
+channel is opened, and IRQs are enabled by default with no way for SCMI to
+disable them in polling mode, we could run into issues. I realise it’s a very
+specific corner case, but every time I’ve assumed such scenarios wouldn’t
+occur, we eventually ended up encountering them. So sorry if I am very
+pedantic, but I prefer to start smaller and restrictive and expand if and
+when necessary or required only.
+
+> > > > I am aware of systems that implement such sharing, which is why I prefer to be
+> > > > explicit that this type of design is challenging to support within this
+> > > > binding. The intent is to support only minimal, constrained cases - essentially
+> > > > systems that are already somewhat broken. I do not see value in broadening the
+> > > > binding to cover every conceivable scenario.
+> > > > 
+> > > > > > Clearly defining these constraints would be helpful. It may also be useful to
+> > > > > > note that this is primarily intended for mailbox transports, if that’s
+> > > > > > accurate. Alternatively, we could keep the DT binding definition broader but
+> > > > > > emit warnings when a transport other than mailbox is used. That approach might
+> > > > > > make it easier to move forward.
+> > > > > 
+> > > > > DEN0056F refers to this polling mode in Shared memory based transports, that
+> > > > > can be other than mailbox transports, it includes e.g. SMC or OPTEE
+> > > > > transports.
+> > > > > 
+> > > > 
+> > > > However, polling does not make sense in the context of SMC. Once control
+> > > > returns from an SMC call, the command has completed. What form of polling in
+> > > > an SMC workflow do you have in mind?
+> > > 
+> > > I think the polling happens on the SHMEM and the SMC transport is capable of
+> > > that too, see :
+> > > 
+> > > drivers/firmware/arm_scmi/transports/smc.c
+> > > 
+> > > 175         /*
+> > > 176          * If there is an interrupt named "a2p", then the service and
+> > > 177          * completion of a message is signaled by an interrupt rather
+> > > than by
+> > > 178          * the return of the SMC call.
+> > > 179          */
+> > > 180         scmi_info->irq = of_irq_get_byname(cdev->of_node, "a2p");
+> > > 
+> > 
+> > Ah this one, is actually implemented to avoid sort of implicit polling
+> > mode we get with any SMC/HVC. I don't know how the platform deals with it
+> > but SMC/HVC is synchronous and doesn't need this polling. The irq introduced
+> > here is again a sort of workaround to get some sort of async/non-polling
+> > mode with SMC/HVC. So, to repeat polling mode make absolutely no sense
+> > whatsoever for SMC/OPTEE(based on pure SMC) transports.
+> 
+> I can drop the SMC part from this patch if you think that's helpful ?
+> 
+
+Yes, that’s essential, because polling in an SMC context is meaningless in my
+opinion.
+
+> > > > I believe the same applies to OP-TEE.
+> > > > While OP-TEE now provides a notification mechanism that could, in theory,
+> > > > allow synchronous commands to be treated in a quasi-asynchronous manner, I
+> > > > strongly doubt that the current SCMI-over-OP-TEE implementation behaves this
+> > > > way, given that it ultimately reaches the secure side via an SMC call.
+> > > > 
+> > > > > I don't think a warning is justified, if the behavior follows the
+> > > > > specification. But I do agree the behavior is ... suboptimal.
+> > > > > 
+> > > > 
+> > > > The specification does not address SMC or OP-TEE transports, placing them
+> > > > outside its scope and likewise these DT bindings.
+> > > 
+> > > I believe the shmem transport includes the SMC and OPTEE ones, right ?
+> > > 
+> > 
+> > Yes, but the expectation when the SMC completes is to have the shmem to be
+> > owned by the OS(except that irq workaround case). Again the OPTEE/SMC is
+> > completely out of spec, but I agree the SHMEM behaviour must conform to the
+> > specification.
+> 
+> OK
+> 
+> > > > Consequently, what we
+> > > > decide here in this discussion effectively defines the expected behavior in
+> > > > this context, in my view. So I would like to start with minimal possible
+> > > > coverage, why do you think that is not a good idea here ?
+> > > 
+> > > I would argue the current implementation covers pretty much every transport
+> > > which could ever need to do polling on shmem, so the implementation is
+> > > generic and inline with the specification. Also, the current implementation
+> > > is some 20 lines, so I think it is minimalistic?
+> > > 
+> > > What would you propose we do here ?
+> > > 
+> > 
+> > Yes it can be minimalistic but not restrictive. As I already clearly mentioned
+> > I don't see it makes any sense to enable this for SMC/OPTEE. Lets start with
+> > just mailbox to start with and extend to other transports if and when needed.
+> > It would be good to impose that restriction in the binding as well but that
+> > is not a must IMO. I am fine if the bindings for whatever reasons(though I
+> > don't see the need) to apply for any transport.
+> So I should simply drop the smc.c changes , keep the rest, and send V2 ?
+
+Not just that. Unless DT maintainers oppose, I just want to keep this
+new property valid only for mailbox transport(i.e. "arm,scmi" compatible
+not otherwise) so that we can catch any other use in binding checks and
+interested parties must discuss on the list and expand that if they require.
+
+Also we can explore if we can parse and scan this in mailbox transport for
+now.
+
+-- 
+Regards,
+Sudeep
 
