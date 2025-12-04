@@ -1,58 +1,63 @@
-Return-Path: <linux-renesas-soc+bounces-25584-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25585-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53E68CA5708
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 04 Dec 2025 22:20:21 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18C11CA576F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 04 Dec 2025 22:27:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B95693058FBC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Dec 2025 21:20:11 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7DD393185EDC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Dec 2025 21:24:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A4D929B8E8;
-	Thu,  4 Dec 2025 21:20:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A10DD2C1590;
+	Thu,  4 Dec 2025 21:24:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="riz4+2y7"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TTVr3MVc"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D074027FD75;
-	Thu,  4 Dec 2025 21:20:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DE811B78F3;
+	Thu,  4 Dec 2025 21:24:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764883210; cv=none; b=ncoWfF3Q0sTWYAUetBrLCVIO6KbYHCrypyFgOSQF/NVGyKtisYHJ47OyROhLw2HcPb+FEvhBqEtNPi68UWSe0v728PgW5G0VYo1vmTaY9WEFKowsY8c4c926eEIQ0cLxhDPUX+vBRmkpQ+9TnEq+pb5FF5GK/OmFXFOXZOKTMJs=
+	t=1764883469; cv=none; b=aWUceH20AFHj4Mm29LIhLzslYTd7JCe9JwXEb4krq9ADq6yVU3Pk8mrKZSR7MNBHtlyxtHd+5TO31A+AhwRPsUbZB6CG3J3XypKS2wwmfUlOggVDxEPjPUopcU7RNkEBNqeIuk/a0NWrEjvUROJTuPwpMs6SsSUL9n7aNYYlX2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764883210; c=relaxed/simple;
-	bh=oTNN03FeypdN3e0UDxq8gEL+TcuIFPhL/RVAyMycBNI=;
+	s=arc-20240116; t=1764883469; c=relaxed/simple;
+	bh=mG4cWT7g0k2xbtIAMF2X40RZzY6ecYZXM0QgoBf6MUQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hoBeCpSB706wB7pYbI55s9qy9tMBhpi8UVHWnlkXDRmLghdVQRIj8oaXUnUhpHOYiwbvSy0i4cdzKXO9ST3cO4uQ7iC/8OlshYFWv20gZIx1CLvY6jEpMUjn339/jyQGMFr21ksuW/86hy+SyOyY51jYUOaGLKwwvNA5UDTm2tI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=riz4+2y7; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10308C4CEFB;
-	Thu,  4 Dec 2025 21:20:07 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=FOWDRJS6DywIKaFURPsKYVKYzCXms/YJfNezS7enYEX1u+hg0A2hlCQLY7wDyH9uZ9Pfaux3Jb79G0diWnU3D0JJJ3YZf9G+/Bj7r3OWq6/36ZlVR7sWW3ltM8AoZc8/wgsGwaOoY56AUsnHAp0Kopy7bs4gc0tQs9isc5EA4bY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TTVr3MVc; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9CEBC113D0;
+	Thu,  4 Dec 2025 21:24:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764883208;
-	bh=oTNN03FeypdN3e0UDxq8gEL+TcuIFPhL/RVAyMycBNI=;
+	s=k20201202; t=1764883469;
+	bh=mG4cWT7g0k2xbtIAMF2X40RZzY6ecYZXM0QgoBf6MUQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=riz4+2y78l9s2wmlwrXG6Y8wkkDXGBlyG4/64laGbsyD2awR/5SVCsqKLsFYbzAUs
-	 b2sEDQHyz0VFppzz5oTVvHG/5wJmPx+r7qqJUZJhKp0Aaj0rLA41N270qri3A5SvbU
-	 +oJ/opz00jtX/XPRq8US98fZOeH39f4u8yqKPOGV3mrC27RUeQdi+UaRPlZNa9DQFN
-	 m691BTJ2tMXaz5Q3gc16t/69cQwH4gS495lJSAbfW2upEto1dK/McR151iv1GLYcAq
-	 YIhtSk13+/SlzxWo+OC4twhk5+mXTBpTlEMmBHGReepWHwnr5HqJFA1krbs2kyOs/s
-	 YW3xGUJc4lATA==
-Date: Thu, 4 Dec 2025 15:20:05 -0600
+	b=TTVr3MVcwdLGhDbNvXrYXJU51ltldsg1AksmORA/Z5XEpxURNc2FwG/GOj/junQUC
+	 yXvNl0R597ZEpmgw+dND9hWK3HMvMKm9jGNC/4xucd/so/he3KcE/mhw7U/e/rtZ9Z
+	 tixknNcmHYaiKc491I05ccBTOyLz5jKrVwTK2US0nhKTLmFMITWrFv4kUGINcKLwRi
+	 Hh4PoMMm1FP3SaS6gj7KWVCfZRxe4WT5vGoZo7qks8gdBmJgFh3eZWld5VIjQoHQ/l
+	 VcacYrap6jWzwA+SvNI0y6+slMJSKsLfRxSgzIFCZHoZqMS8nRhuClWKGe634ZNUUF
+	 9rZJolsLRZdYg==
+Date: Thu, 4 Dec 2025 15:24:25 -0600
 From: "Rob Herring (Arm)" <robh@kernel.org>
 To: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Thomas Gleixner <tglx@linutronix.de>,
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Vinod Koul <vkoul@kernel.org>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	dmaengine@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	Johan Hovold <johan@kernel.org>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	linux-kernel@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>
-Subject: Re: [PATCH v2 1/4] dt-bindings: interrupt-controller: document
- RZ/{T2H,N2H} ICU
-Message-ID: <176488320473.2186706.13039539989688506035.robh@kernel.org>
-References: <20251201112933.488801-1-cosmin-gabriel.tanislav.xa@renesas.com>
- <20251201112933.488801-2-cosmin-gabriel.tanislav.xa@renesas.com>
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>
+Subject: Re: [PATCH v2 3/6] dt-bindings: dma: renesas,rz-dmac: document
+ RZ/{T2H,N2H}
+Message-ID: <176488346527.2191639.14421077722931377350.robh@kernel.org>
+References: <20251201124911.572395-1-cosmin-gabriel.tanislav.xa@renesas.com>
+ <20251201124911.572395-4-cosmin-gabriel.tanislav.xa@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -61,41 +66,26 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251201112933.488801-2-cosmin-gabriel.tanislav.xa@renesas.com>
+In-Reply-To: <20251201124911.572395-4-cosmin-gabriel.tanislav.xa@renesas.com>
 
 
-On Mon, 01 Dec 2025 13:29:30 +0200, Cosmin Tanislav wrote:
-> The Renesas RZ/T2H (R9A09G077) and Renesas RZ/N2H (R9A09G087) SoCs have
-> an Interrupt Controller (ICU) block that routes external interrupts to
-> the GIC's SPIs, with the ability of level-translation, and can also
-> produce software interrupts and aggregate error interrupts.
+On Mon, 01 Dec 2025 14:49:08 +0200, Cosmin Tanislav wrote:
+> The Renesas RZ/T2H (R9A09G077) and RZ/N2H (R9A09G087) SoCs have three
+> DMAC instances. Compared to the previously supported RZ/V2H, these SoCs
+> are missing the error interrupt line and the reset lines, and they use
+> a different ICU IP.
 > 
-> It has 16 software triggered interrupts (INTCPUn), 16 external pin
-> interrupts (IRQn), a System error interrupt (SEI), two Cortex-A55 error
-> interrupts (CA55_ERRn), two Cortex-R52 error interrupts for each of the
-> two cores (CR52x_ERRn), two Peripheral error interrupts (PERI_ERRn),
-> two DSMIF error interrupts (DSMIF_ERRn), and two ENCIF error interrupts
-> (ENCIF_ERRn).
-> 
-> The IRQn and SEI interrupts are exposed externally, while the others
-> are software triggered.
-> 
-> INTCPU0 to INTCPU13, IRQ 0 to IRQ13 are non-safety interrupts, while
-> INTCPU14, INTCPU15, IRQ14, IRQ15 and SEI are safety interrupts, and are
-> exposed via a separate register space.
-> 
-> Document them, and use RZ/T2H as a fallback for RZ/N2H as the ICU is
+> Document them, and use RZ/T2H as a fallback for RZ/N2H as the DMACs are
 > entirely compatible.
 > 
 > Signed-off-by: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
 > ---
 > 
 > V2:
->  * move reg property after compatible
+>  * remove notes
 > 
->  .../renesas,r9a09g077-icu.yaml                | 236 ++++++++++++++++++
->  1 file changed, 236 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/interrupt-controller/renesas,r9a09g077-icu.yaml
+>  .../bindings/dma/renesas,rz-dmac.yaml         | 100 ++++++++++++++----
+>  1 file changed, 82 insertions(+), 18 deletions(-)
 > 
 
 Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
