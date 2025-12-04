@@ -1,43 +1,42 @@
-Return-Path: <linux-renesas-soc+bounces-25577-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25563-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDEE9CA4ADA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 04 Dec 2025 18:09:16 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32780CA4C1B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 04 Dec 2025 18:26:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 0E5E73002B31
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Dec 2025 17:09:13 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 064263086E91
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Dec 2025 17:21:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C632230BD5;
-	Thu,  4 Dec 2025 17:09:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D5DB33E36F;
+	Thu,  4 Dec 2025 16:38:29 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from 1.mo584.mail-out.ovh.net (1.mo584.mail-out.ovh.net [178.33.248.196])
+Received: from 20.mo550.mail-out.ovh.net (20.mo550.mail-out.ovh.net [188.165.45.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83B2229ACF7
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  4 Dec 2025 17:09:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.33.248.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EABE62DBF76
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  4 Dec 2025 16:38:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.165.45.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764868151; cv=none; b=XlyqL1B+cfwwiVo9wwiEg6ROaLVIT20aPobSEXdqiMDb1f3Ef9YYjnTHrPtQ2bxY2JtE2M3Qg9h1rlbzm7LgSFDGi2cg819AcI5KS/gK/PXTl0YI5MqVO/KEqW31ffSAdmXKs8IEHvOCQrFDO4iWz7E/1WIR5vV80r8ZaJI12XQ=
+	t=1764866309; cv=none; b=MVEoNkUkL8cICb3sEVvYBaR2mgRWyPdqdrgXnOz4yv1Os9UQjvt+Y5mSr1f7YDwfMEMkjyGsiQvAyLnr0ihzx2G3E69tlUqJgypl/r4hvgAo8/i8srx7h+RnVy9VUEAI3S6b+iwG5xCHIZ54nJO4uU7Oa3x+Ba8V6VAL1FSQI6M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764868151; c=relaxed/simple;
-	bh=pPNTClRoW9JRdOtd8rJh2TJKkXQUOFrmBQwQDVGQKyE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ezrdf8VEhBTy2IfspqEh9XJYGvpBIlQVvgoKQ8iNRQ6uHq9giaWh7pM6t2votJPRUmDi4WACXs7MemZo6e83g4YCBX1CYFgNTF2IxsWRYayWH2wsqziSL4Dyq0THVF/dr7IUzJRJFCVHPlFvROXL6N69jZ5eeBwOLuM35cMquCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=bp.renesas.com; spf=fail smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=178.33.248.196
+	s=arc-20240116; t=1764866309; c=relaxed/simple;
+	bh=WpIiSH4GxU7onEE+2ezX9gvDAfdCzI+wz8TInd5GTu0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jvPgOE5e2fepBPlb4mn9P6WkCp1aHW8X7aiwKPHIEWq0mGV3QT+7K+9b8FgDfxiWtYwp/R/tNBHlMcr4S5pSu/MnXunERRSVmmrMhqzTtnRExx7qvdTZZebqZ4jB2F0X/ENgq3z/67yj/yf+BNMWkYVMSQQ8T/b4jDio9R3XOL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=bp.renesas.com; spf=fail smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=188.165.45.168
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=bp.renesas.com
-Received: from director6.ghost.mail-out.ovh.net (unknown [10.109.254.91])
-	by mo584.mail-out.ovh.net (Postfix) with ESMTP id 4dMg4m6fwYz8QPy
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  4 Dec 2025 16:31:36 +0000 (UTC)
-Received: from ghost-submission-7d8d68f679-mkpf7 (unknown [10.111.182.250])
-	by director6.ghost.mail-out.ovh.net (Postfix) with ESMTPS id C7C88802DC;
-	Thu,  4 Dec 2025 16:31:35 +0000 (UTC)
-Received: from labcsmart.com ([37.59.142.99])
-	by ghost-submission-7d8d68f679-mkpf7 with ESMTPSA
-	id GduLDmO3MWnQjQQATXHgnQ:T4
-	(envelope-from <john.madieu.xa@bp.renesas.com>); Thu, 04 Dec 2025 16:31:35 +0000
-Authentication-Results:garm.ovh; auth=pass (GARM-99G00337fdc783-60eb-4b1b-b5f2-08529535221d,
+Received: from director10.ghost.mail-out.ovh.net (unknown [10.110.0.197])
+	by mo550.mail-out.ovh.net (Postfix) with ESMTP id 4dMgDT6Cxcz6PSp
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  4 Dec 2025 16:38:17 +0000 (UTC)
+Received: from ghost-submission-7d8d68f679-m4nfg (unknown [10.111.174.111])
+	by director10.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 5E190C4796;
+	Thu,  4 Dec 2025 16:38:16 +0000 (UTC)
+Received: from labcsmart.com ([37.59.142.114])
+	by ghost-submission-7d8d68f679-m4nfg with ESMTPSA
+	id naCeNve4MWmh+AYArq+dVg
+	(envelope-from <john.madieu.xa@bp.renesas.com>); Thu, 04 Dec 2025 16:38:16 +0000
+Authentication-Results:garm.ovh; auth=pass (GARM-114S008dea8ec6f-3573-4234-b91e-57f82739fe4c,
                     E90FA267686E4F2ED65044873A5FD8D85CF2A6B0) smtp.auth=john.madieu@labcsmart.com
 X-OVh-ClientIp:141.94.163.193
 From: John Madieu <john.madieu.xa@bp.renesas.com>
@@ -61,12 +60,10 @@ Cc: biju.das.jz@bp.renesas.com,
 	linux-renesas-soc@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	John Madieu <john.madieu.xa@bp.renesas.com>
-Subject: [PATCH net-next 3/3] net: stmmac: dwmac-renesas-gbeth: add physical port identification
-Date: Thu,  4 Dec 2025 16:31:22 +0000
-Message-Id: <20251204163122.3032995-4-john.madieu.xa@bp.renesas.com>
+Subject: [PATCH net-next 0/3]  net: stmmac: add physical port identification support
+Date: Thu,  4 Dec 2025 16:37:26 +0000
+Message-Id: <20251204163729.3036329-1-john.madieu.xa@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20251204163122.3032995-1-john.madieu.xa@bp.renesas.com>
-References: <20251204163122.3032995-1-john.madieu.xa@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -74,111 +71,48 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 13215813106605196677
+X-Ovh-Tracer-Id: 13328684574918870405
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: dmFkZTFEGK2N2myt6To4lF0zpgRRy/gXzl74WEUzGt3DXEB6g7BZnOj3eP0eDHaST7e5QJeICzCbEkb3gGfs6YZYfIJcwArB7EU3IrdyXmfO8Qxzzag3oJFdIMWm0JQZ1CqmpOHdayN9WWtNQysxP4obz4OBqkfUqMtKmm6n5jiN7Tk+mPIeKKAlg42TskEh+Cds6GrmAWWJ7L7rRywyHE1orOTKM0zayHlTPGElK7/kdD9UbFmcfJcEko8JQ2yT1qhxKUZzVNo2xTgaRem/sY3/7WDDakQIjJWet8IffjZbEmfGqSQxfZZkEcGGS7XHF93ud+9hU6Ebfzh0zCguIq2O8SA/IyUhZJgS0eQjCpBdzMRsWVb08ZiXfxywK/KvSYViPLiOXiLulrRxmECwsifKCuIBvghBhUFUNCdTCxtIqnsE3pn5tfWf360EM7VKE4EIy+8J9JLHKxEO5LdliTAMuLNot7zVKuff2kvpGWy+XADFiGRpBWae5jgg7yLX3E8GAPB5OgIJy9yJ9RIhwS8nY4nvZQ6sAPIJnu/Tn84pNmG1WozhtxwqrWwP4A0JibkKifGJD7wQAk/xi4WElYJ8zE8UXzLrtXDESTImQZ5Z0vhOHFWHyTxNo3uDTNLPwd5rhSn8SEJhISXfbIIxHfDjQ0L3zEfvxh9FaHPFFj15boqefg
+X-VR-SPAMCAUSE: dmFkZTF0g3R1pdQ6JLW75+mTBMFpIdpDzonyTfcnxVjUvtlRne6WFvO7QcVphjo3Xa9L2ro/D3yhhzJtc1dfPWja+6BCm1dEuB/2aTBXeKb11fPLLcNr7WgrUiSnUVGskVo7wSZo1kEpwEJ3OeosKSnIPHuezU4mhVIVpLFWLP+s9PVZOXmzmayuD7fbemwm7J6Vl6fTZMyvtDSASIdtIRrh6QhZs8p8lX/f/c7Fl6ZDOj9oLvRh/iLUDTQFV3XqFl6bvFcJxSpsCvT7/PXlrMHklHos/J2hGQPxAH/ucC2BVOt1U5GtUn/5StnFDm7GSQoMkqwsL8cQ4WP9Mmk80Wy6/yKRelRCbdGDybAnJE5KXDMYeFI+wbjhTpKgCbd8K+SmcftuILoPacBd8RUxOFSVe1ki2AStCml72QMaN4F7TCBY3vPg64oOKjVqm6sr+44FTAKhKTXaIKovZFZuJrnqroRAdOMN5PoNGIY5fscXhOlowlJV/jWHFmS2U5u5gDYH9dXpCbAXipTBKECEud8loIdM8w7t7uArIg+IaisQrz70ztXpXWVy7qt5zKi7qLdBcgHG+Oxfv+CLAxkBa+FQr6lDBVPqO2GepHKdpINXiuxJ+3HB+sbCgHzZXMBlkwINpf8o0ldqP4/VFLqI9mSVlfzyAmQV1u8gkRMGVpomJggz4w
 
-Implement ndo_get_phys_port_id() and ndo_get_phys_port_name() callbacks
-for the Renesas RZ/G3E GBETH driver.
+This series adds physical port identification support to the stmmac driver,
+enabling userspace to query hardware-stable identifiers for network interfaces
+via ndo_get_phys_port_id() and ndo_get_phys_port_name().
 
-The port ID is an 8-byte identifier constructed from:
-- Permanent MAC address if available (addr_assign_type == NET_ADDR_PERM)
-- Renesas OUI (74:90:50) as fallback for random/generated MACs
-- Port index from 'port-id' DT property or ethernet alias
+On systems with multiple ethernet controllers sharing the same driver,
+physical port identification provides stable identifiers that persist
+across reboots and are independent of interface enumeration order.
+This is particularly useful for predictable network interface naming
+and for correlating interfaces with physical connectors.
 
-The port name resolution follows this hierarchy:
-- 'port-name' DT property if specified (allows custom names like "mgmt")
-- "p<N>" format using 'port-id' DT property
-- "p<N>" format using ethernet alias index as fallback
+The implementation follows a two-tier approach:
 
-Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
----
+1. Generic stmmac support: Default implementations use the permanent MAC
+   address as port ID and bus_id for port naming. This provides immediate
+   benefit for all stmmac-based platforms.
+
+2. Glue driver override: Platform drivers can provide custom callbacks
+   for hardware-specific identification schemes. The Renesas GBETH driver
+   implements this to support device tree-based port identification,
+   addressing cases where hardware lacks unique identification registers.
+
+The Renesas implementation constructs an 8-byte port identifier from:
+- Permanent MAC address (if available) or Renesas OUI (74:90:50) as fallback
+- Port index from device tree property or ethernet alias
+
+
+John Madieu (3):
+  net: stmmac: add physical port identification support
+  dt-bindings: net: renesas-gbeth: Add port-id property
+  net: stmmac: dwmac-renesas-gbeth: add physical port identification
+
+ .../bindings/net/renesas,rzv2h-gbeth.yaml     | 19 +++++++
  .../stmicro/stmmac/dwmac-renesas-gbeth.c      | 56 +++++++++++++++++++
- 1 file changed, 56 insertions(+)
+ .../net/ethernet/stmicro/stmmac/stmmac_main.c | 54 ++++++++++++++++++
+ include/linux/stmmac.h                        |  5 ++
+ 4 files changed, 134 insertions(+)
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c
-index bc7bb975803ca..5acb65b0e4f06 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c
-@@ -16,7 +16,9 @@
- #include <linux/clk.h>
- #include <linux/device.h>
- #include <linux/module.h>
-+#include <linux/netdevice.h>
- #include <linux/of.h>
-+#include <linux/of_net.h>
- #include <linux/pcs-rzn1-miic.h>
- #include <linux/platform_device.h>
- #include <linux/reset.h>
-@@ -91,6 +93,57 @@ static struct phylink_pcs *renesas_gmac_select_pcs(struct stmmac_priv *priv,
- 	return priv->hw->phylink_pcs;
- }
- 
-+static int renesas_gbeth_get_port_id(struct device *dev)
-+{
-+	int port_id;
-+
-+	if (!device_property_read_u32(dev, "renesas,port-id", &port_id))
-+		return port_id;
-+
-+	port_id = of_alias_get_id(dev_of_node(dev), "ethernet");
-+
-+	return port_id < 0 ? 0 : port_id;
-+}
-+
-+static int renesas_gbeth_get_phys_port_name(struct net_device *ndev,
-+					    char *name, size_t len)
-+{
-+	struct stmmac_priv *priv = netdev_priv(ndev);
-+	struct renesas_gbeth *gbeth = priv->plat->bsp_priv;
-+	const char *port_name;
-+
-+	if (!device_property_read_string(gbeth->dev, "renesas,port-name", &port_name))
-+		return snprintf(name, len, "%s", port_name) >= len ? -EINVAL : 0;
-+
-+	return snprintf(name, len, "p%d", renesas_gbeth_get_port_id(gbeth->dev)) >= len ? -EINVAL : 0;
-+}
-+
-+static int renesas_gbeth_get_phys_port_id(struct net_device *ndev,
-+					  struct netdev_phys_item_id *ppid)
-+{
-+	struct stmmac_priv *priv = netdev_priv(ndev);
-+	struct renesas_gbeth *gbeth = priv->plat->bsp_priv;
-+	u8 *id = ppid->id;
-+
-+	if (ndev->addr_assign_type == NET_ADDR_PERM) {
-+		memcpy(id, ndev->perm_addr, ETH_ALEN);
-+	} else {
-+		/* Fallback: Renesas OUI prefix (74:90:50) */
-+		id[0] = 0x74;
-+		id[1] = 0x90;
-+		id[2] = 0x50;
-+		id[3] = 0x00;
-+		id[4] = 0x00;
-+		id[5] = 0x00;
-+	}
-+
-+	id[6] = renesas_gbeth_get_port_id(gbeth->dev) & 0xff;
-+	id[7] = 0x00;
-+	ppid->id_len = 8;
-+
-+	return 0;
-+}
-+
- static int renesas_gbeth_init(struct platform_device *pdev, void *priv)
- {
- 	struct plat_stmmacenet_data *plat_dat;
-@@ -194,6 +247,9 @@ static int renesas_gbeth_probe(struct platform_device *pdev)
- 		plat_dat->select_pcs = renesas_gmac_select_pcs;
- 	}
- 
-+	plat_dat->get_phys_port_id = renesas_gbeth_get_phys_port_id;
-+	plat_dat->get_phys_port_name = renesas_gbeth_get_phys_port_name;
-+
- 	return devm_stmmac_pltfr_probe(pdev, plat_dat, &stmmac_res);
- }
- 
 -- 
 2.25.1
 
