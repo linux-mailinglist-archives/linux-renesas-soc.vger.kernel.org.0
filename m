@@ -1,133 +1,125 @@
-Return-Path: <linux-renesas-soc+bounces-25545-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25543-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A997CA2306
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 04 Dec 2025 03:43:25 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA2B3CA2279
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 04 Dec 2025 03:19:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5AFBE300A1E2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Dec 2025 02:43:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 57FF430237A1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Dec 2025 02:19:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BB0F398F85;
-	Thu,  4 Dec 2025 02:43:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B6801C3F0C;
+	Thu,  4 Dec 2025 02:19:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="Sv5/itSE"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W1vHYVKy"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-m1973190.qiye.163.com (mail-m1973190.qiye.163.com [220.197.31.90])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1926F243951
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  4 Dec 2025 02:43:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.90
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 767A9846F
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  4 Dec 2025 02:19:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764816202; cv=none; b=nWSVQh3qlxC5eQ6MYpT//PGxVWEbKbvvYW7b3+kBARppnJsRKIzUzHsY4TbFDCSXsJHjpv3vi0lrQ4YiAqm4h8Jgnsl5uJrDG6n7brAbXNVeNGA50SriUM0xh6MwoLgHsnMECn/7ZXp+q+XhJF+eidyS24QDoITyPJjMjUtoeKw=
+	t=1764814775; cv=none; b=QsicLt5Kk7jrR3al1e9+h6s9N5J4ESMgvy/WH6pXgp9WjHDi+5TDVd7RkOpNfH9RWFXJ6soqcPNMQ0AsKYovQHGLLz3y/aIg+iSpK9GJHwyNgKuKGnJnn55InD2svnmWTmzKUbtJSE58cJf9/ddgP8A7mGk1Bvqt8wz40WIh2gI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764816202; c=relaxed/simple;
-	bh=mJ9QF6Poq2CT1DiFcybYPiZ59ezshFWV0ZfFEzmPrnw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=drkuxHuhdWd+zbOMe7ZW40BZijx7e2dil4EbRSg0KKG8cxdVwW05ITlG8v5srMVyAzq+hsSG0Go3TPTIw7IU8n0T4LEInRDU9jFY736/uF0eD+iHvLVmUMZRtJVOYS40EjVIIFSigq45tuaAEjgwWVBlav+trFuL2QSGKrjo+5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=Sv5/itSE; arc=none smtp.client-ip=220.197.31.90
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
-Received: from [127.0.0.1] (unknown [58.22.7.114])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 2be9edc35;
-	Thu, 4 Dec 2025 10:07:44 +0800 (GMT+08:00)
-Message-ID: <1284bf23-1069-4d54-b259-7b40271f8e0e@rock-chips.com>
-Date: Thu, 4 Dec 2025 10:07:40 +0800
+	s=arc-20240116; t=1764814775; c=relaxed/simple;
+	bh=gCeE1v5pCwA2FCR7GmE46SltFLYJHoN8J5dUprMsAnc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WpuWHcGA/j8wtlLLF77KvdfiodK+1WNP0O4YwUyTQsI+pqTjH/XALDnvGYbisNf9Scx/+FBkzvY4gjiOOifwjip7rCs04vUWrQXHob7a9m1A32A4PcKFliE8mDPStl2VFGCjVINVpxUZrsjUnqsxXwKei96DQxgZJ7Czn1j264k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W1vHYVKy; arc=none smtp.client-ip=209.85.167.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-450063be247so183502b6e.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 03 Dec 2025 18:19:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764814773; x=1765419573; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uG7PaGlKRMu5bDo4p3yFYL9GqIngsADyTUqMK4j8Mb4=;
+        b=W1vHYVKyn06LOGKzI8dXJE7IscDNNTo/mDYFiTgsam2UCHzb3kQ2S4ls/tkc2LDYzt
+         GiWzPMbD7G2HgT6crDvHPNjKehqQvxmcD9tCAWNw0wTvmWdNgezYQczXYXYuPJ0F3Vl1
+         pxpg8bv36caY4Y9MVXvjZsIEoGlT6NtkIf8JU3qNucUU+FyQnM1YLLL5i/3iKJ8TizTv
+         bigelT8qLhBkZt5mGuHDt6pcWt7UUfHb+zyO/OYSHAqkFRypt6DGPSvxhCnKsy5WDdGz
+         TLglh0uR7JIegKw9/EphVauUidCeUJ+FDQPcwQapQGfVFhzYahXGFdXQLxkSgf61J+Bh
+         faFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764814773; x=1765419573;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=uG7PaGlKRMu5bDo4p3yFYL9GqIngsADyTUqMK4j8Mb4=;
+        b=v6fIjKBwaGLA5RFT+ni0tQnCSKJajJpMrym1j9zXuSNedbOdfJh2LtBVfR60gvzgr/
+         LxbusZU3VvyH8fP/PwhWN2FRJoJyD/PSrkQynpc7PZu31qb+M2KBv5hKYoTq3XaOXjZK
+         hwbuW95TIJ3VqrEkdxuJd7xkZNXswRB/PNhIMFsjg4j48pPQ8LsJA0ZubF7WWFRgU79F
+         /BdIOnMfqKp9Id3hbhkVHXRLErsYIL11hiAOLr/WykVoqfw5qhhMGLRqEwbYwwZs8q2L
+         adWxRhepHWEsc7jiOd+CO+iwBU8xN0XWHU9Uz2lGTAV4J4V2KAwDpC24LMLeLSn6vKzA
+         8yVg==
+X-Forwarded-Encrypted: i=1; AJvYcCV3xygLkOeV+JiaF+Ss4tYKUWUK/7bt9CoBNXPwQYpZ0K900DON373pmuintOOvBxw6Xvb2h1fzqptL1QrDaaRAOg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz4uhNZP5AI3rKGNqUr/XRhEFnwoqY/EyzYbVZ/MebDETiNklJl
+	qWSYWOQX+nFuzc5fxwEWH/iT4SMaRpXmOBCbaSVgZlP0p3fd4py8DzxL6HDuP3bGaFbfr3WbcGA
+	KATz3+SNMQU6HcTHS1dobLZASGwJwOG8=
+X-Gm-Gg: ASbGncsXCJVebILMKWU2F7EVaV9LorkNsYRJar7pZaBJGacyZtXtM6LeXrhAnEn/gMD
+	57BYwFXACM+7aEYojB0zGMfqpf8f/MGxwe1aF0ZIyVH0tgTgud9veUDQj1Rfb/z5HapeB5S/4JN
+	JH8kfCogIX0QpTVU32zffJtB8NrZnhdHW+7lmlBts40IPcZsFaFnTOjqiO4kE5MHUshQhfby2SY
+	bNnJfXWUKPScQCKhNAaBD88B5dXI/HIpVpJn5L8AQY63s2Zw9l+AwOpe4Tis5lXOnM8lQws
+X-Google-Smtp-Source: AGHT+IEqB061cfOqCwBgL5GmPx2RSj4lzThZw1cWLyYykeKeoUInbmIZmdnj3e40MG0mT+uUQiKQyBPTmgsYn3oAUT4=
+X-Received: by 2002:a05:6808:1b8c:b0:450:89ee:923d with SMTP id
+ 5614622812f47-45379dac9b1mr796186b6e.31.1764814773581; Wed, 03 Dec 2025
+ 18:19:33 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/4] drm/mcde: Create custom commit tail
-To: Linus Walleij <linusw@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- linux-rockchip@lists.infradead.org, Vicente Bergas <vicencb@gmail.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Aradhya Bhatia <a-bhatia1@ti.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Linus Walleij
- <linus.walleij@linaro.org>, Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>
-References: <20251202-mcde-drm-regression-thirdfix-v6-0-f1bffd4ec0fa@kernel.org>
- <20251202-mcde-drm-regression-thirdfix-v6-2-f1bffd4ec0fa@kernel.org>
- <c3c5f62f-98fd-49a7-9b39-c4c4f798ad2c@rock-chips.com>
- <CAD++jLmzkmZAgwbahKDnasj3dDpG4RBggoZfhPiEHj9rb09+eQ@mail.gmail.com>
-Content-Language: en-US
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <CAD++jLmzkmZAgwbahKDnasj3dDpG4RBggoZfhPiEHj9rb09+eQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9ae71d89a603abkunm6ff8ae635f3078
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQ0tPTFZLHh4eSE1JGB0fTRhWFRQJFh
-	oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
-	hVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=Sv5/itSEsRDt7Idjp5+XyunqOgxTrWF+ajneoPKm2CkpDlKGN1/nOH9ogl8y1VDdnnssu1M7dm94Z+kynwqwTWyU4WKLk8paHPgTpmFgXQvQDJuQuviIut8fgv7atpLpoFeEKcz4drz0JUkNdCtJaEviMH1zSdHy/fCixDSg0RA=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
-	bh=fEyb6s/X54CqQDGTtl8EkHTpjqxUsuwAv/fJrVBHtT0=;
-	h=date:mime-version:subject:message-id:from;
+References: <87o6prsl2z.wl-kuninori.morimoto.gx@renesas.com>
+ <87ldkvsl1k.wl-kuninori.morimoto.gx@renesas.com> <CABb+yY2C32cTwh=8pFGGZijwd1KbpAA5=FfFzp_u1OOo8XPn1w@mail.gmail.com>
+ <87h5v0xdfr.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87h5v0xdfr.wl-kuninori.morimoto.gx@renesas.com>
+From: Jassi Brar <jassisinghbrar@gmail.com>
+Date: Wed, 3 Dec 2025 20:19:22 -0600
+X-Gm-Features: AWmQ_blIhviETDC4lCQSXKa9EPrNMcjcSEfDZbmIhU2CpNMAnpufetADKUmSWyM
+Message-ID: <CABb+yY15RqOtCav_ug-7z8n59TPnm2axVCUeiw3RsAvgroLqbg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] mailbox: renesas: Support MFIS mailbox driver
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 12/4/2025 7:13 AM, Linus Walleij wrote:
-> On Wed, Dec 3, 2025 at 7:27 AM Chaoyi Chen <chaoyi.chen@rock-chips.com> wrote:
-> 
->> The bridge document says: "The display pipe (i.e. clocks and timing
->> signals) feeding this bridge will not yet be running when the
->> @atomic_pre_enable is called."
->>
->> Therefore, your approach seems to be merely a workaround and does not
->> meet the current requirements of the bridge.
->>
->> And document also says: "The bridge can assume that the display pipe
->> (i.e. clocks and timing signals) feeding it is running when
->> @atomic_enable callback is called."
->>
->> If DSI commands need to wait for the display pipe (CRTC) to be ready,
->> why not perform them inside @atomic_enable instead of @atomic_pre_enable?
-> 
-> That was exactly what the v1 and v2 versions of this patch set was
-> doing, and it was (politely) NACKed, and that is why we are
-> here.
-> https://lore.kernel.org/dri-devel/20251023-fix-mcde-drm-regression-v1-0-ed9a925db8c7@linaro.org/
-> https://lore.kernel.org/dri-devel/20251026-fix-mcde-drm-regression-v2-0-8d799e488cf9@linaro.org/
+On Tue, Nov 11, 2025 at 7:11=E2=80=AFPM Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
 >
+>
+> Hi Jassi
+>
+> Thank you for your review.
+>
+> > > +       mbox->chans                     =3D priv->chan;
+> > > +       mbox->chans[TX].mbox            =3D
+> > > +       mbox->chans[RX].mbox            =3D mbox;
+> > > +       mbox->chans[TX].con_priv        =3D
+> > > +       mbox->chans[RX].con_priv        =3D priv;
+> > > +       mbox->txdone_poll               =3D true;
+> > > +       mbox->txdone_irq                =3D false;
+> > > +       mbox->txpoll_period             =3D 1;
+> > > +       mbox->num_chans                 =3D NUM_DIRECTION;
+> > > +       mbox->ops                       =3D &mfis_chan_ops;
+> > > +       mbox->dev                       =3D dev;
+> > > +
+> > Please fix whitespaces, here and elsewhere.
+>
+> This is for cosmetic, but not for technical.
+> I know many opinions exist to this kind of topics, but I like aligned cod=
+e
+> because it is easy to read, and is also easy to notice some issue if exis=
+t
+> in such code.
+>
+Cosmetics are usually for enhancing the beauty :)  If you want that
+please use spaces instead of tabs before '=3D'
 
-Hmm, I'm afraid there really isn't a common solution at this point.
-
-The logical enable order of the CRTC, bridge, and panel may be
-different from the actual physical enable order. And there is no
-mechanism to change this order :(
-
-So I believe your current patch to the mcde makes sense,
-because you are indeed requiring the CRTC to be enabled at the
-hardware level. But for other platforms, you may need to distinguish
-whether this is a software dependency order problem caused by changes
-to the bridge enable order.
-
-> In essence, Tomi remarked that drivers should be able to send DSI
-> commands at atomic_pre_enable() which is for example
-> mapped to the .prepare() callback in the DSI panel bridge.
-> And he has a good point in this, I just converted the few panel
-> drivers that I was affected by, but there are many more such
-> and probably some bridges as well.
-> 
-> Yours,
-> Linus Walleij
-> 
-> 
-
--- 
-Best, 
-Chaoyi
+thanks
 
