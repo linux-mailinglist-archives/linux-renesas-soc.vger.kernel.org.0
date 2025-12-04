@@ -1,63 +1,59 @@
-Return-Path: <linux-renesas-soc+bounces-25585-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25586-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18C11CA576F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 04 Dec 2025 22:27:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2567CA577B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 04 Dec 2025 22:28:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7DD393185EDC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Dec 2025 21:24:30 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 67C76304D9FE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Dec 2025 21:25:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A10DD2C1590;
-	Thu,  4 Dec 2025 21:24:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F96D3043AF;
+	Thu,  4 Dec 2025 21:25:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TTVr3MVc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NkLh5w//"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DE811B78F3;
-	Thu,  4 Dec 2025 21:24:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AB2F2FE58C;
+	Thu,  4 Dec 2025 21:25:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764883469; cv=none; b=aWUceH20AFHj4Mm29LIhLzslYTd7JCe9JwXEb4krq9ADq6yVU3Pk8mrKZSR7MNBHtlyxtHd+5TO31A+AhwRPsUbZB6CG3J3XypKS2wwmfUlOggVDxEPjPUopcU7RNkEBNqeIuk/a0NWrEjvUROJTuPwpMs6SsSUL9n7aNYYlX2U=
+	t=1764883556; cv=none; b=cfh+GnXE0YP460aDqDPO1gaAZ8SWeNZ/v+JMMHpeGHfWpT1pUsx4U0a0OK+wMqQ4YQ5MuqEwxz2JLxH7R9BWPRuGiZSjjqG4nhjS3Jcn8G7brzxLssa+UBYVV0OI4mIXLwADr+J7MHcAGSjElRlk9e7Egki7n8Imr/q1Y9OBIrc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764883469; c=relaxed/simple;
-	bh=mG4cWT7g0k2xbtIAMF2X40RZzY6ecYZXM0QgoBf6MUQ=;
+	s=arc-20240116; t=1764883556; c=relaxed/simple;
+	bh=zhNuRkd0/ZTRBmJ89KVdHGXxnAXj85yVraR7WvXublc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FOWDRJS6DywIKaFURPsKYVKYzCXms/YJfNezS7enYEX1u+hg0A2hlCQLY7wDyH9uZ9Pfaux3Jb79G0diWnU3D0JJJ3YZf9G+/Bj7r3OWq6/36ZlVR7sWW3ltM8AoZc8/wgsGwaOoY56AUsnHAp0Kopy7bs4gc0tQs9isc5EA4bY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TTVr3MVc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9CEBC113D0;
-	Thu,  4 Dec 2025 21:24:28 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=BHwiAhSVAD55T2Ib3KVvMiozZhrlrfo3OWXz5dvE+RYTHSbt2KGagaiXnCI/wkgotgdvyht/2bi2AkMsQfgP1JjpxUFLg3AjOU1vvOc9VivEvALsf0wvYBRvgTnj6UBE92QQiQCLq9wv9TaoGLLn0Zo2IhDkGZ2fcf77TIhtCWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NkLh5w//; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76E17C4CEFB;
+	Thu,  4 Dec 2025 21:25:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764883469;
-	bh=mG4cWT7g0k2xbtIAMF2X40RZzY6ecYZXM0QgoBf6MUQ=;
+	s=k20201202; t=1764883555;
+	bh=zhNuRkd0/ZTRBmJ89KVdHGXxnAXj85yVraR7WvXublc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TTVr3MVcwdLGhDbNvXrYXJU51ltldsg1AksmORA/Z5XEpxURNc2FwG/GOj/junQUC
-	 yXvNl0R597ZEpmgw+dND9hWK3HMvMKm9jGNC/4xucd/so/he3KcE/mhw7U/e/rtZ9Z
-	 tixknNcmHYaiKc491I05ccBTOyLz5jKrVwTK2US0nhKTLmFMITWrFv4kUGINcKLwRi
-	 Hh4PoMMm1FP3SaS6gj7KWVCfZRxe4WT5vGoZo7qks8gdBmJgFh3eZWld5VIjQoHQ/l
-	 VcacYrap6jWzwA+SvNI0y6+slMJSKsLfRxSgzIFCZHoZqMS8nRhuClWKGe634ZNUUF
-	 9rZJolsLRZdYg==
-Date: Thu, 4 Dec 2025 15:24:25 -0600
+	b=NkLh5w//IgLYbWS4GnNELIcNyGQx6BKzdy/3vyO93BA7DAd2cAmtHfE2JqLB6HHFx
+	 S8Yr3VX9DDHaX9vNY2LGT5JFpmkeHO2Vk0WbEtukva3MwjsP7qDoD2Vzorkgc5V/Ac
+	 0yJzTBhHR3l45RQTxOkrYlpL4n8unvEpoUwXDzyys3AGvkL8zBcRHntJdseHEyDDdG
+	 uLqrdx7IG6q/Cw1yiMsiR8GW2I6IUuGEbmVBj79NwJhqSWH3VtTvu8DNFNPPq5xWhq
+	 /D2yLfy898Wxf349ZY8fKIFQfAFVDg/BSzZ1dDdNRUlvijKhY2HEJh/x/26o3G9KJ9
+	 nhKWItnUu0kMw==
+Date: Thu, 4 Dec 2025 15:25:52 -0600
 From: "Rob Herring (Arm)" <robh@kernel.org>
 To: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Vinod Koul <vkoul@kernel.org>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	dmaengine@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Johan Hovold <johan@kernel.org>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Conor Dooley <conor+dt@kernel.org>,
+Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-spi@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>, devicetree@vger.kernel.org,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>
-Subject: Re: [PATCH v2 3/6] dt-bindings: dma: renesas,rz-dmac: document
- RZ/{T2H,N2H}
-Message-ID: <176488346527.2191639.14421077722931377350.robh@kernel.org>
-References: <20251201124911.572395-1-cosmin-gabriel.tanislav.xa@renesas.com>
- <20251201124911.572395-4-cosmin-gabriel.tanislav.xa@renesas.com>
+	Mark Brown <broonie@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Subject: Re: [PATCH 10/13] dt-bindings: spi: renesas,rzv2h-rspi: document
+ optional support for DMA
+Message-ID: <176488355189.2193483.16985299918185323167.robh@kernel.org>
+References: <20251201134229.600817-1-cosmin-gabriel.tanislav.xa@renesas.com>
+ <20251201134229.600817-11-cosmin-gabriel.tanislav.xa@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -66,28 +62,19 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251201124911.572395-4-cosmin-gabriel.tanislav.xa@renesas.com>
+In-Reply-To: <20251201134229.600817-11-cosmin-gabriel.tanislav.xa@renesas.com>
 
 
-On Mon, 01 Dec 2025 14:49:08 +0200, Cosmin Tanislav wrote:
-> The Renesas RZ/T2H (R9A09G077) and RZ/N2H (R9A09G087) SoCs have three
-> DMAC instances. Compared to the previously supported RZ/V2H, these SoCs
-> are missing the error interrupt line and the reset lines, and they use
-> a different ICU IP.
-> 
-> Document them, and use RZ/T2H as a fallback for RZ/N2H as the DMACs are
-> entirely compatible.
+On Mon, 01 Dec 2025 15:42:26 +0200, Cosmin Tanislav wrote:
+> The IP supports using DMA for reading and writing data from the FIFO,
+> document it.
 > 
 > Signed-off-by: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
 > ---
-> 
-> V2:
->  * remove notes
-> 
->  .../bindings/dma/renesas,rz-dmac.yaml         | 100 ++++++++++++++----
->  1 file changed, 82 insertions(+), 18 deletions(-)
+>  .../devicetree/bindings/spi/renesas,rzv2h-rspi.yaml       | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 > 
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
 
