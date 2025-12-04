@@ -1,106 +1,131 @@
-Return-Path: <linux-renesas-soc+bounces-25572-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25573-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35EB5CA4A48
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 04 Dec 2025 18:00:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 338D7CA4A5A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 04 Dec 2025 18:01:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C91F5301BEB4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Dec 2025 16:55:13 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9C23A30DD618
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Dec 2025 16:55:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AD342DE1E6;
-	Thu,  4 Dec 2025 16:55:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9392F2F3C3A;
+	Thu,  4 Dec 2025 16:55:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="yw0nnzLJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OTNlGsDs"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F3052D877A;
-	Thu,  4 Dec 2025 16:55:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 659A92EC560;
+	Thu,  4 Dec 2025 16:55:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764867313; cv=none; b=rPs2HT85gigFkbR0hR80eyRl24+fpwNGhajtPLKs7NfuupadCrXQ6pPpTekgcxIO0g9luENoLLU4EkUmtwtfabB5k/g40rE7yEedI8a+iZyh6ds2o+EgRtxlfQJHaRLKXNn6CwYt4A7WyaP0KD7zoUCkhoPFmDshsNlvdxfVMQ8=
+	t=1764867326; cv=none; b=CXUkWrCxtCb6V7AeAm4/wPww8QYQ/8AVa7obFSGWFCpiiQHQ7PKVwuO9bs4HyyLQbPTAbaKOG1aBz4h2ck3u8a7Gjn6iI9Fj/L7fo1btrStvInpTb66Bwb7MBG/XZhS1DG5mlrqRWp1CIJ4bH5NcMwwpQaScljrB+fhDmVP+2dc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764867313; c=relaxed/simple;
-	bh=ARF8I9vLizB8ixJWrgPz5K5oYh2X3TseVp6MphOT2NQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ig82MiNN6zCCKEvCOviLyvCz9+ukFVhtvoji54WWSiEHhOwCv9R9sSZwhBJ9a9gkX7n3pYLeP+1w5oFDGf25kK713xdrbDENS+rhTCAXIWm+Vq32VIidACbkvnJy/4VtMnkOB9COuHX6aQrrcQHsgse7q2pz1i0QnJuZsslV21I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=yw0nnzLJ; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=5YVoOg2H4NpT2HlInsyJpSG66P7UiSUnlAzC2KDSYG4=; b=yw0nnzLJGVGclaeYYM4oeoXVnu
-	pOz5w1+95Vj/rWakno/cfUqXGJeRnIolMZ5FQYMa6RAuxHDHBOf00hyBwu9NFIhTAHJbG4cMftNka
-	BSBdmd+MF3U9HpXUXH3jyED8K+1Q3L5GZ8BLfYlw9h1VRrNkm7sX3ZFs3p0OIecdFLssJtdBdmAoZ
-	MRu8Cpovs+Kp2ydBncs+4rI31oFEeLkpjqhsagGjJ/+whNbbgOxhiewgYMZ0cj26h1buG2crGAkNX
-	O3SEos/sIlpgjrhn/gD7u7JbWYFveuKess503zCD0fgkDT9FadAs0WS+ExfaMZjRxvmiU8PbTUrhM
-	J3ZHzZ5g==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:37044)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1vRCbW-000000003lg-0w4d;
-	Thu, 04 Dec 2025 16:54:54 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1vRCbR-000000001A0-4AcY;
-	Thu, 04 Dec 2025 16:54:50 +0000
-Date: Thu, 4 Dec 2025 16:54:49 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: prabhakar.mahadev-lad.rj@bp.renesas.com, andrew+netdev@lunn.ch,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, geert+renesas@glider.be,
-	biju.das.jz@bp.renesas.com, claudiu.beznea@tuxon.dev,
-	magnus.damm@gmail.com, mcoquelin.stm32@gmail.com,
-	alexandre.torgue@foss.st.com, netdev@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH net-next 1/3] net: stmmac: add physical port
- identification support
-Message-ID: <aTG82SREd9Nllkzs@shell.armlinux.org.uk>
-References: <20251204163122.3032995-1-john.madieu.xa@bp.renesas.com>
- <20251204163122.3032995-2-john.madieu.xa@bp.renesas.com>
+	s=arc-20240116; t=1764867326; c=relaxed/simple;
+	bh=/cl1rk/MtzSJtluuqRx24+EEoB44t65jQ5OAoSZ8rqE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PIBqIeq67zDDY8S5FtWAfqGUYnHWhXWbIUAwAoTnpRyzQHsbBlWIe+EopNeiX84jIPzCNtTr3klv/rjAxQ9rA5HCqwK11x4ZxTMXWoJy8HFEjyd9a2zCPpKt6bCH73R2GLqj4fZHIndZaZabAzuwv1Y5gXBXtQNflG5m0Nx+CP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OTNlGsDs; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8664C116B1;
+	Thu,  4 Dec 2025 16:55:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764867325;
+	bh=/cl1rk/MtzSJtluuqRx24+EEoB44t65jQ5OAoSZ8rqE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=OTNlGsDsttX0TTcBJ0e7XhBzg9v7habRiMopip/I+RXleC2Eu2c3tWBOJcgQgRbee
+	 ratmJMLOPWXzuVX4O/G0a/BP8v9MhBoSZswkksu+UNsMgN12FItxgNgALbXtb6hueI
+	 pTYfk+mNvkK6oNaYZ1aKOJ5ZuBt1CqUKRGgFnFquv8kEQzdq/wD+XRt8xz9Cftnske
+	 qyNBxjK7w0ihaMFUHwEVWxhhMiICzTcBYvHE3Pvdy37C/bUeWelRks7XRET15Kad2m
+	 nv4PUtVwwFAIGzOuPYryAejsnrWb5HyWPRlDt4y9uX0q7hf/TQCM5CehaJr+WKu5Y6
+	 7pJ9YE21ABztQ==
+Message-ID: <f169f89b-3694-41b0-a431-cc845ad659da@kernel.org>
+Date: Thu, 4 Dec 2025 17:55:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251204163122.3032995-2-john.madieu.xa@bp.renesas.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next 0/3] net: stmmac: add physical port
+ identification support
+To: John Madieu <john.madieu.xa@bp.renesas.com>,
+ prabhakar.mahadev-lad.rj@bp.renesas.com, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ geert+renesas@glider.be
+Cc: biju.das.jz@bp.renesas.com, claudiu.beznea@tuxon.dev,
+ linux@armlinux.org.uk, magnus.damm@gmail.com, mcoquelin.stm32@gmail.com,
+ alexandre.torgue@foss.st.com, netdev@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
+References: <20251204164028.7321-1-john.madieu.xa@bp.renesas.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20251204164028.7321-1-john.madieu.xa@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Dec 04, 2025 at 04:31:20PM +0000, John Madieu wrote:
-> +static int stmmac_get_phys_port_name(struct net_device *dev,
-> +				     char *name, size_t len)
-> +{
-> +	struct stmmac_priv *priv = netdev_priv(dev);
-> +
-> +	/* Allow glue driver to override */
-> +	if (priv->plat->get_phys_port_name)
-> +		return priv->plat->get_phys_port_name(dev, name, len);
-> +
-> +	/* Default: use bus_id as port identifier */
-> +	return snprintf(name, len, "p%d", priv->plat->bus_id) >= len ? -EINVAL : 0;
+On 04/12/2025 17:40, John Madieu wrote:
+> This series adds physical port identification support to the stmmac driver,
+> enabling userspace to query hardware-stable identifiers for network interfaces
+> via ndo_get_phys_port_id() and ndo_get_phys_port_name().
+> 
+> On systems with multiple ethernet controllers sharing the same driver,
+> physical port identification provides stable identifiers that persist
+> across reboots and are independent of interface enumeration order.
+> This is particularly useful for predictable network interface naming
+> and for correlating interfaces with physical connectors.
+> 
+> The implementation follows a two-tier approach:
+> 
 
-priv->plat->bus_id may not be stable - for example, if a SoC describes
-two stmmac ethernet, but omits the ethernet aliases, then plat->bus_id
-is assigned in order that stmmac_probe_config_dt() is called for each
-device.
 
-How important is it that the phys_port_name is stable across boots?
-If it should be stable, then I think we should not report it if we end
-up falling back to the "assign in order of stmmac_probe_config_dt()".
+Please slow down. You sent three copies of the same.
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+Best regards,
+Krzysztof
 
