@@ -1,80 +1,178 @@
-Return-Path: <linux-renesas-soc+bounces-25586-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25590-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2567CA577B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 04 Dec 2025 22:28:07 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id F17ACCA6B5F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 05 Dec 2025 09:33:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 67C76304D9FE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Dec 2025 21:25:57 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 3670C343A66E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Dec 2025 08:07:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F96D3043AF;
-	Thu,  4 Dec 2025 21:25:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C948633BBAD;
+	Fri,  5 Dec 2025 07:37:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NkLh5w//"
+	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="SNA1Cp/V"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-m49207.qiye.163.com (mail-m49207.qiye.163.com [45.254.49.207])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AB2F2FE58C;
-	Thu,  4 Dec 2025 21:25:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1E1730649D
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  5 Dec 2025 07:37:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.207
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764883556; cv=none; b=cfh+GnXE0YP460aDqDPO1gaAZ8SWeNZ/v+JMMHpeGHfWpT1pUsx4U0a0OK+wMqQ4YQ5MuqEwxz2JLxH7R9BWPRuGiZSjjqG4nhjS3Jcn8G7brzxLssa+UBYVV0OI4mIXLwADr+J7MHcAGSjElRlk9e7Egki7n8Imr/q1Y9OBIrc=
+	t=1764920241; cv=none; b=X5SJuYy7ulSeV7pDPwiA5kXpRAtfXanRoq5Q9bfk9SeffE696gj2VuNmm8OVRl51OFTVjluAM4McBZckQlbyxdf6+hSLqTuRV2tybaj2BqIupJckAzCe2tOiPODsNCuGbDompNLrnQTnSZW4S/nGj/4+ta1fWBZ/XRbakFnc5u4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764883556; c=relaxed/simple;
-	bh=zhNuRkd0/ZTRBmJ89KVdHGXxnAXj85yVraR7WvXublc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BHwiAhSVAD55T2Ib3KVvMiozZhrlrfo3OWXz5dvE+RYTHSbt2KGagaiXnCI/wkgotgdvyht/2bi2AkMsQfgP1JjpxUFLg3AjOU1vvOc9VivEvALsf0wvYBRvgTnj6UBE92QQiQCLq9wv9TaoGLLn0Zo2IhDkGZ2fcf77TIhtCWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NkLh5w//; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76E17C4CEFB;
-	Thu,  4 Dec 2025 21:25:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764883555;
-	bh=zhNuRkd0/ZTRBmJ89KVdHGXxnAXj85yVraR7WvXublc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NkLh5w//IgLYbWS4GnNELIcNyGQx6BKzdy/3vyO93BA7DAd2cAmtHfE2JqLB6HHFx
-	 S8Yr3VX9DDHaX9vNY2LGT5JFpmkeHO2Vk0WbEtukva3MwjsP7qDoD2Vzorkgc5V/Ac
-	 0yJzTBhHR3l45RQTxOkrYlpL4n8unvEpoUwXDzyys3AGvkL8zBcRHntJdseHEyDDdG
-	 uLqrdx7IG6q/Cw1yiMsiR8GW2I6IUuGEbmVBj79NwJhqSWH3VtTvu8DNFNPPq5xWhq
-	 /D2yLfy898Wxf349ZY8fKIFQfAFVDg/BSzZ1dDdNRUlvijKhY2HEJh/x/26o3G9KJ9
-	 nhKWItnUu0kMw==
-Date: Thu, 4 Dec 2025 15:25:52 -0600
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-spi@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>, devicetree@vger.kernel.org,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Mark Brown <broonie@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Subject: Re: [PATCH 10/13] dt-bindings: spi: renesas,rzv2h-rspi: document
- optional support for DMA
-Message-ID: <176488355189.2193483.16985299918185323167.robh@kernel.org>
-References: <20251201134229.600817-1-cosmin-gabriel.tanislav.xa@renesas.com>
- <20251201134229.600817-11-cosmin-gabriel.tanislav.xa@renesas.com>
+	s=arc-20240116; t=1764920241; c=relaxed/simple;
+	bh=7A87QhPNRxi5PopjVCa4YKyTMWjois0P8bV/k8lGvt0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rvcJqvezv2h2WtABoGUoqX4F8rJ75NTxViVsV26pKEKar6H0yvo5b6xxLMRQTUlIHdYlmfCOXWrqnRcdz/bBE8LQH5Blze7aO6CmZWsGmJmPgbqArva7yCXFwDglCwcSZzwC/JAKujoHkj8GQ4A9FsXRpORuFbKqMZ1wP3QEga0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=SNA1Cp/V; arc=none smtp.client-ip=45.254.49.207
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
+Received: from [127.0.0.1] (unknown [58.22.7.114])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 2c0f58c0a;
+	Fri, 5 Dec 2025 09:54:09 +0800 (GMT+08:00)
+Message-ID: <faa325bb-d125-408c-abb7-d92dcf8664be@rock-chips.com>
+Date: Fri, 5 Dec 2025 09:54:03 +0800
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251201134229.600817-11-cosmin-gabriel.tanislav.xa@renesas.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 2/4] drm/mcde: Create custom commit tail
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Linus Walleij <linusw@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, Vicente Bergas <vicencb@gmail.com>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Aradhya Bhatia <a-bhatia1@ti.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Linus Walleij
+ <linus.walleij@linaro.org>, Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>
+References: <20251202-mcde-drm-regression-thirdfix-v6-0-f1bffd4ec0fa@kernel.org>
+ <20251202-mcde-drm-regression-thirdfix-v6-2-f1bffd4ec0fa@kernel.org>
+ <c3c5f62f-98fd-49a7-9b39-c4c4f798ad2c@rock-chips.com>
+ <CAD++jLmzkmZAgwbahKDnasj3dDpG4RBggoZfhPiEHj9rb09+eQ@mail.gmail.com>
+ <1284bf23-1069-4d54-b259-7b40271f8e0e@rock-chips.com>
+ <2661e992-2233-4c30-b636-a21ad9c21f30@ideasonboard.com>
+Content-Language: en-US
+From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+In-Reply-To: <2661e992-2233-4c30-b636-a21ad9c21f30@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9aec37773b03abkunme2a62080ad2250
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGUxKSFZDGhlPSBgdGBlMTUJWFRQJFh
+	oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
+	hVSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+	b=SNA1Cp/VZ1H65lYkBYspZlH9roiRSva5ImnkFVtkIQLe7xfRiKRl2in3HtfpWctJb64GANgnD78SSp4d+6u2YQrAEwUnom/aGwmcHjpkvjPhkTIQ2Tt/RfuzeHBT0dSTZFJg8TRZYCbArfwi6U0Q0alrjqhmAqGUWxfNNP79/a0=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
+	bh=WdIcGVZuDZpRKCryOJSz8AXGPZWNBLXoc9OkD9ecEe8=;
+	h=date:mime-version:subject:message-id:from;
 
+Hello Tomi,
 
-On Mon, 01 Dec 2025 15:42:26 +0200, Cosmin Tanislav wrote:
-> The IP supports using DMA for reading and writing data from the FIFO,
-> document it.
+On 12/4/2025 9:54 PM, Tomi Valkeinen wrote:
+> Hi,
 > 
-> Signed-off-by: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-> ---
->  .../devicetree/bindings/spi/renesas,rzv2h-rspi.yaml       | 8 ++++++++
->  1 file changed, 8 insertions(+)
+> On 04/12/2025 04:07, Chaoyi Chen wrote:
+>> On 12/4/2025 7:13 AM, Linus Walleij wrote:
+>>> On Wed, Dec 3, 2025 at 7:27 AM Chaoyi Chen <chaoyi.chen@rock-chips.com> wrote:
+>>>
+>>>> The bridge document says: "The display pipe (i.e. clocks and timing
+>>>> signals) feeding this bridge will not yet be running when the
+>>>> @atomic_pre_enable is called."
+>>>>
+>>>> Therefore, your approach seems to be merely a workaround and does not
+>>>> meet the current requirements of the bridge.
+>>>>
+>>>> And document also says: "The bridge can assume that the display pipe
+>>>> (i.e. clocks and timing signals) feeding it is running when
+>>>> @atomic_enable callback is called."
+>>>>
+>>>> If DSI commands need to wait for the display pipe (CRTC) to be ready,
+>>>> why not perform them inside @atomic_enable instead of @atomic_pre_enable?
+>>>
+>>> That was exactly what the v1 and v2 versions of this patch set was
+>>> doing, and it was (politely) NACKed, and that is why we are
+>>> here.
+>>> https://lore.kernel.org/dri-devel/20251023-fix-mcde-drm-regression-v1-0-ed9a925db8c7@linaro.org/
+>>> https://lore.kernel.org/dri-devel/20251026-fix-mcde-drm-regression-v2-0-8d799e488cf9@linaro.org/
+>>>
+>>
+>> Hmm, I'm afraid there really isn't a common solution at this point.
+>>
+>> The logical enable order of the CRTC, bridge, and panel may be
+>> different from the actual physical enable order. And there is no
+>> mechanism to change this order :(
+> 
+> I'm not sure what you mean with logical and physical enable orders...
+> But the fact seems to be that during enable sequence different
+> platforms, bridges and panels either 1) specifically require an incoming
+> stream from the crtc 2) specifically prohibit that, or 3) don't care.
+> And we don't have any means to deal with this.
+>
+
+Yes, that's exactly what I meant. I'm referring to the fact that the
+enable sequence is fixed in terms of code logic, but different 
+hardware may have different requirements.
+
+> In this series Linus changes the platforms' crtc to behave in a
+> particular way. But if you would connect a bridge or panel to those
+> platforms, which specifically does not want incoming stream during
+> pre_enable, those wouldn't work.
+> 
+> In any case, we need to get the current setups working. I made a quick
+> test series which:
+> - Reverts c9b1150a68d9362a0827609fc0dc1664c0d8bfe1
+> - Applies patch 1 from this series (with some conflict fixes due to the
+> above revert)
+> - Implements "pre-enable-before-crtc-enable" for tidss
+> 
+> This works ok, afaics, and resembles very much the platform patches in
+> this series.
+> 
+> That is a smaller series, and has the potential benefit that if there
+> are other platforms that have gotten broken but no one has noticed, they
+> would again get fixed.
+> 
+> Thoughts? Shall I send it, or shall we just go with this series?
 > 
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Sounds good. I think we should compare the two to see which one is
+better. So please send it.
 
+> One more point: even if the platforms in this series get fixed by
+> enabling the crtc first, I'm not sure if anyone else but Linus studied
+> the platforms to see if it would be possible for the DSI (or DP in one
+> case, if I recall right) to work without enabling the DRM crtc.
+> 
+> I think optimally the control bus should work independently from the
+> video data bus. E.g. one should be able to do DSI commands any time
+> after the DSI peripheral has been attached to the bridge, even outside
+> the enable sequence.
+> 
+> This could be possible by just enabling some clock on the crtc side, or
+> perhaps enabling some bypass clock mode.
+> 
+> Of course, there could also be other reasons to require/prohibit the
+> video stream...
+
+Yep, it all comes down to the hardware design. Different designs can 
+naturally have different requirements.
+
+-- 
+Best, 
+Chaoyi
 
