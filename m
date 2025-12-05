@@ -1,132 +1,236 @@
-Return-Path: <linux-renesas-soc+bounces-25607-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25608-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EDB5CA7D9C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 05 Dec 2025 14:55:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5410ECA7E1D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 05 Dec 2025 15:04:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 50EF4303E01F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Dec 2025 13:53:38 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 958F7310E88D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Dec 2025 14:01:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CB173043C8;
-	Fri,  5 Dec 2025 13:53:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D118F3191CA;
+	Fri,  5 Dec 2025 14:01:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cE6wwOer"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="aNGuOTXp"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C860C325724
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  5 Dec 2025 13:53:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 624082FFF9B
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  5 Dec 2025 14:01:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764942816; cv=none; b=f9vzqmcNCQhtTBgDqpd2eW3mYGfVsiI35FgerX+ndq6ayZQZWDXt2HPaK7IxNA9wgjVm8BICZ9svyjhiaFkc/dhzeljQNK3zecihkwZDTfw6R72XWSzJ+/xd0JP9jup9VIHFmJ04ghn/BpNcUTtdZuSNsIJdefleq4ZaPgxSytM=
+	t=1764943318; cv=none; b=U+IVcHGSuCLwgkyIv2Lf+OWxCJAGJ61iPTTLBLCiS977hUGZdQgtjcyw/h9hjTMSVOufsv3ZWoXkj6RAJQN2qr3/61ZW+Chs3jsOmyvlisDDkFb7FRrsrqjShQijmDtKzcmwL7SqhE0SLxxpbURve+buV5WRsRANrjupQWIKzz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764942816; c=relaxed/simple;
-	bh=/hC7rd6Y9Vayemn+Pbfyjg5j0j2kUQXBmQlPRF88pv8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u/xkLhm5VNMP67dfvFHwUhp85h+MdEj7H5Q+3RcRm10wFy2W3IlXChvkLhewStsDS5hIGbRzTAfTK++Am3UPOm+d2PFB4W41t403pD92PIXtS+8uY13MVhN36ddeDXhDQhlpSAO5IptntX2uqEIK6tnbykqwZllT+PfuAGVl2iU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cE6wwOer; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1585C4CEF1;
-	Fri,  5 Dec 2025 13:53:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764942816;
-	bh=/hC7rd6Y9Vayemn+Pbfyjg5j0j2kUQXBmQlPRF88pv8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cE6wwOerfX3UoSj7qH/joVItak7wgZUJHkz4saNXDBRE68r3bpyMVs9MIGAaG5gGK
-	 kVSCHiFU5FQp0Hwq++iZuDsjk+oWuCPESMy0RTWg7XlgbnGeUWcXJaGShs3fjOQY8X
-	 v34WXO7ugfQxY1V3adH6MYyqnmsy+c3rg+d/Fjyx03qZv952LRGyIZTXlE/ZVhgHXO
-	 USllvUH/wYi7aZr+n7cAtLR4HDblMEfc6GcHTMKHylhDS8k8a0XbK/zpPIG+j5GR4s
-	 F2keNltKuktIqOn0mzCAE+Ce/ds71Ig1Z+9OZbE//S0+984Y1fNJ51XvNnjfdoDe4I
-	 I/SLuRHZHf75g==
-Date: Fri, 5 Dec 2025 14:53:33 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: Chaoyi Chen <chaoyi.chen@rock-chips.com>, 
-	Linus Walleij <linusw@kernel.org>, Vicente Bergas <vicencb@gmail.com>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Marek Vasut <marek.vasut+renesas@mailbox.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Magnus Damm <magnus.damm@gmail.com>, Aradhya Bhatia <a-bhatia1@ti.com>, 
-	Dmitry Baryshkov <lumag@kernel.org>, Sandy Huang <hjc@rock-chips.com>, 
-	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, 
-	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, Aradhya Bhatia <aradhya.bhatia@linux.dev>
-Subject: Re: [PATCH v6 4/4] RFT: drm/rockchip: Create custom commit tail
-Message-ID: <20251205-strong-dandelion-newt-a776af@houat>
-References: <20251202-mcde-drm-regression-thirdfix-v6-0-f1bffd4ec0fa@kernel.org>
- <20251202-mcde-drm-regression-thirdfix-v6-4-f1bffd4ec0fa@kernel.org>
- <5d6e8e0e-3129-49f1-8c5f-c2f837a36139@rock-chips.com>
- <CACRpkdZwgsbVezfQBRP6pX-o8TLvtFMt+M+rL7GrTmeuzN8xvQ@mail.gmail.com>
+	s=arc-20240116; t=1764943318; c=relaxed/simple;
+	bh=wEeRhbI5x0EzNu4bkeBOKxzkJfD8jqm9H83aTBh8FMM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BWG4/Qw8kg6wwL1G+Jnif2jVp8aexDULeB0lRYXodO9kiCE/VczqvFK/M4wjAjvnR8fmeA/oMO67EA21oGkBppCtOXrjPA6MOXx6DPdgQuAcNiNwTqfC+xS73XniY6eNnEkiEneta51ODo6orh3UMT3N7A0Y71CMvzm/KpfNvYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=aNGuOTXp; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-42e2e40582eso1240733f8f.1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 05 Dec 2025 06:01:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1764943313; x=1765548113; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ETP6ZwRR8d1hP4cNbKBiZUy+JiTc6tdkyie3Djet/bI=;
+        b=aNGuOTXpOQztaPUJo4ttnXn7wPwIYVv6XI3U1T05vmzU54X4/LUgkS2jG9kPPTt+Ok
+         USiTHQMqSlLt3H8XZqo7sCPMvWfnTVQbJojXvekrU3G2KwKCBIWdHY10RYU1AMUi42SS
+         1OufR+4fXy5/Dnl40r6GVUpu4BR4wy7FQzSGegFuo4RHGXcQtSavrluCAQNmd0fe2c2l
+         DIiQKUrcMcc1CE8wq/awUbwqDYqNQfEenv1opCjc9D/OiKKe2/cJ907poS0Qt9Wu/fKW
+         mptTHkEmtNclvrfacP5HWpoZrxZZQ8djh21+CKaCzi7331c1mpq7Pt70mX0AkkOhT8EV
+         xJLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764943313; x=1765548113;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ETP6ZwRR8d1hP4cNbKBiZUy+JiTc6tdkyie3Djet/bI=;
+        b=KEFJepuhTMHKNf20DdJQ2+Bnm5lQ/HZc5j48rwbCRCN7mte+UWXyivK6w1+09nnbCv
+         kYG1SjkQS9Kt4hEppX4IINk+1W5IncUEicN+K9U1QLGLQzczqTYYI1glxKJ960eHimhA
+         PtMrU/6V604a3S+GzBfJjZGhtgp+s9BsSoL4ljnCya/5uB3xmIDK8+mU/HEEIefsfJ9f
+         huDNJsXDpObSEIptBKUlNAKH3pA1hjE3Vva7UZqsV5S//FpuCx+axkvCBQ3CtlEH9gQ8
+         Bli+XyCw6AppK4Mj/a8iOdqgjO42PEEpNPbOuGpyQ8AFQ41plc34KPJhdZMl+HzcYAf+
+         aY3Q==
+X-Forwarded-Encrypted: i=1; AJvYcCW4MlxM6M4CWPIatVqqO8A7shgxwLOrKN5VcwLgXopd7fnBJsF2yRtDvaerTYkbSNJESujyTM811WCqKv71Cz8t3Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxu+dfoK8ebiJioyDI4If8VcNc43dka7o6y1znLRNPqLFa7pFD2
+	BECGI17MMDd8GNbyNg7Wulgdt1+zSIxLgj5l84a1ecHLJ3Qty6tP1ocyDra5oLR9e24nuQO3Ujf
+	pX9k3
+X-Gm-Gg: ASbGncshBlGCM4HJW+rUP+BMqZsBEdJuPjXGi9E5WVoLLl/oClL20INjpKisScbDQKW
+	vVCSoRybM0j93NTnQFK2aLW6koaSbTKdayb67h0xBkI8dQewfVikDLSlwfiPD4w9yVqAOOmzwQd
+	vrkDqZ3cICalHUe5vwbZGMaWE09zNcTRokD4m2E2AgyhkDvndqPqs4F39Ph/YurbWMPjmD3k9IM
+	PY7Zeyuu2FeecGJgWfW0SVZX+F6ITyqacAsU3PxPzcZ60HwbVm1R8i3+poED+M1JOjtTO8RhooA
+	uRfaUzZjeqc7Ge5PM/M9X8l/RdBPPdidTo9g6f924ZZgKwF3EdG7LGk3lTbF7osZ03dEj5357qt
+	KZeycB1CJpGHFnqvw38t0/smUX8UGvN5wQ6x5xjQtUQsvbtUfoUdbHygJx6e8f52VMge0/FChDv
+	qexrGo8b38XeQofyz4uUo=
+X-Google-Smtp-Source: AGHT+IHa0/JLkPmDvfwM24LUa6FS0JVCw0o6W9U9nEda9fVYcYWwSPyfk24Kk98oEUhOeULnAibMaQ==
+X-Received: by 2002:a05:6000:4287:b0:42b:2dfd:5350 with SMTP id ffacd0b85a97d-42f7985dc85mr7096458f8f.56.1764943313057;
+        Fri, 05 Dec 2025 06:01:53 -0800 (PST)
+Received: from [192.168.50.4] ([82.78.167.134])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42f7cbfeb38sm8828509f8f.12.2025.12.05.06.01.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 05 Dec 2025 06:01:52 -0800 (PST)
+Message-ID: <562eda90-6ca2-40b5-b1f8-fcc4034dd122@tuxon.dev>
+Date: Fri, 5 Dec 2025 16:01:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="iiu34guk5mzq376l"
-Content-Disposition: inline
-In-Reply-To: <CACRpkdZwgsbVezfQBRP6pX-o8TLvtFMt+M+rL7GrTmeuzN8xvQ@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/2] reset: rzg2l-usbphy-ctrl: Add suspend to RAM
+ support
+To: Biju Das <biju.das.jz@bp.renesas.com>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20251110132715.724084-1-claudiu.beznea.uj@bp.renesas.com>
+ <19fda177-6c11-45d6-9dab-3f75edceda4e@tuxon.dev>
+ <TY3PR01MB11346F5E49BF172AE78C55EAE86A7A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <50937606-46fd-4202-ad4b-9ede5bff76fc@tuxon.dev>
+ <TY3PR01MB11346625CD598704CC36C63AE86A7A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <da64005a-e6fb-4bbb-a97c-e6c3ada8aff1@tuxon.dev>
+ <TY3PR01MB11346820489C604B63A315E8486A7A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <TY3PR01MB11346E629B11BC5F812D32E0086A7A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <52bf094a-a656-4bef-bb22-f903578ecf9b@tuxon.dev>
+ <TY3PR01MB11346C5EDDE82E779C69566BB86A7A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Content-Language: en-US
+In-Reply-To: <TY3PR01MB11346C5EDDE82E779C69566BB86A7A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
---iiu34guk5mzq376l
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v6 4/4] RFT: drm/rockchip: Create custom commit tail
-MIME-Version: 1.0
 
-On Wed, Dec 03, 2025 at 10:54:45AM +0100, Linus Walleij wrote:
-> On Wed, Dec 3, 2025 at 4:10=E2=80=AFAM Chaoyi Chen <chaoyi.chen@rock-chip=
-s.com> wrote:
->=20
-> > It seems that multiple drivers currently depend on the CRTC being
-> > enabled and they implement the same atomic_commit_tail().
-> >
-> > Why not implement this in drm_atomic_helper_commit_tail_rpm() instead?
-> > Or why not use another common helper function for this?
->=20
-> So my v2 version of the patch series added a new special case
-> helper tail function to do that:
-> https://lore.kernel.org/dri-devel/20251118-mcde-drm-regression-v2-3-4fedf=
-10b18f6@linaro.org/
->=20
-> It was politely NACKed for complicating the helpers library (short story).
+On 12/5/25 15:45, Biju Das wrote:
+> 
+> 
+>> -----Original Message-----
+>> From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+>> Sent: 05 December 2025 13:30
+>> To: Biju Das <biju.das.jz@bp.renesas.com>; p.zabel@pengutronix.de
+>> Cc: linux-kernel@vger.kernel.org; linux-renesas-soc@vger.kernel.org; Claudiu Beznea
+>> <claudiu.beznea.uj@bp.renesas.com>
+>> Subject: Re: [PATCH v2 0/2] reset: rzg2l-usbphy-ctrl: Add suspend to RAM support
+>>
+>>
+>>
+>> On 12/5/25 13:55, Biju Das wrote:
+>>> Hi Claudiu,
+>>>
+>>>> -----Original Message-----
+>>>> From: Biju Das
+>>>> Sent: 05 December 2025 10:57
+>>>> Subject: RE: [PATCH v2 0/2] reset: rzg2l-usbphy-ctrl: Add suspend to
+>>>> RAM support
+>>>>
+>>>>
+>>>> Hi Claudiu,
+>>>>
+>>>>> -----Original Message-----
+>>>>> From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+>>>>> Sent: 05 December 2025 10:47
+>>>>> Subject: Re: [PATCH v2 0/2] reset: rzg2l-usbphy-ctrl: Add suspend to
+>>>>> RAM support
+>>>>>
+>>>>>
+>>>>>
+>>>>> On 12/5/25 12:17, Biju Das wrote:
+>>>>>>
+>>>>>>
+>>>>>>> -----Original Message-----
+>>>>>>> From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+>>>>>>> Sent: 05 December 2025 10:00
+>>>>>>> To: Biju Das <biju.das.jz@bp.renesas.com>; p.zabel@pengutronix.de
+>>>>>>> Cc: linux-kernel@vger.kernel.org;
+>>>>>>> linux-renesas-soc@vger.kernel.org;
+>>>>>>> Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>>>>> Subject: Re: [PATCH v2 0/2] reset: rzg2l-usbphy-ctrl: Add suspend
+>>>>>>> to RAM support
+>>>>>>>
+>>>>>>> Hi, Biju,
+>>>>>>>
+>>>>>>> On 12/5/25 10:53, Biju Das wrote:
+>>>>>>>>
+>>>>>>>>
+>>>>>>>> Hi Claudiu,
+>>>>>>>>
+>>>>>>>>> -----Original Message-----
+>>>>>>>>> From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+>>>>>>>>> Sent: 04 December 2025 18:26
+>>>>>>>>> Subject: Re: [PATCH v2 0/2] reset: rzg2l-usbphy-ctrl: Add
+>>>>>>>>> suspend to RAM support
+>>>>>>>>>
+>>>>>
+>>>>> From my previous experience with suspend/resume implementations, I
+>>>>> can say restoring the system in failure cases in suspend/resume or
+>>>>> not, is up to the subsystem maintainer. So, I'll let Philipp to
+>>>>> decide how he wants to go with it in this
+>>>> driver.
+>>>>>
+>>>>
+>>>> Agreed.
+>>>>
+>>>>> They are still supporting suspend to idle, where power is
+>>>>> maintained, right? Shouldn't we cover this case?
+>>>>
+>>>> Yes, I agree. Probably best thing is zero failures, if there is a
+>>>> failure in suspend path, the same device will fail in similar fashion, and the system never enters
+>> suspend state.
+>>>>
+>>>> So, report the failure and debug and fix the issue.
+>>>
+>>> FYI, On your resume path, if the below call fails, then there is a pm imbalance for next suspend().
+>>>
+>>> ret = pm_runtime_resume_and_get(dev);
+>>>
+>>> Similarly, if reset_assert() fails for a shared reset.
+>>
+>> Wouldn't be the same if there will be no failure path code?
 
-The longer story is that it wasn't NACKed at all, but if we want to do that:
+Could you please reply to this question as I may be wrong?
 
-- We need to figure out the bridge ordering mess in the first place
+> 
+> 
+> Eg:
+> ret = reset_control_deassert(priv->rstc);
+> +	if (ret)
+> +		goto pwrrdy_off;
+> 
+> Here you are skipping pm_runtime_resume_and_get(), The subsequent suspend()
+> Will lead to pm underflow error.
+> 
+> Similarly, on suspend() you are checking the error code of reset_assert(),
+> If it fails, you deassert it. Surprisingly, there is no deassert operation
+> On resume().
+Could you please share how would you like to look these functions? It looks
+to me that you want to ignore any operation that might fail (as you
+proposed in the case of resume from power off) and just re-enable
+everything, unconditionally. If that's the case it wouldn't cover all the
+cases, either. E.g., if resume looks like this:
 
-- Improve the commit_tail helpers doc to make it clearer what each are
-  doing
+static int rzg2l_usbphy_ctrl_resume(struct device *dev)
+{
+	struct rzg2l_usbphy_ctrl_priv *priv = dev_get_drvdata(dev);
 
-- Probably change their name too, since the rpm suffix is a gross
-  simplification of what is happening
+	rzg2l_usbphy_ctrl_set_pwrrdy(priv->pwrrdy, true);
+	reset_control_deassert(priv->rstc);
+	pm_runtime_resume_and_get(dev);
+	rzg2l_usbphy_ctrl_init(priv);
 
-- Create a few kunit tests to make sure whatever order they guarantee is
-  properly implemented
+	return 0;
+}
 
-- And maybe create a few helpers and convert drivers to that.
+the rzg2l_usbphy_ctrl_set_pwrrdy(), reset_control_deassert(),
+pm_runtime_resume_and_get() may still fail and may still lead to imbalance
+refcounters for the next suspend execution or other scenarios.
 
-None of that have any place for a regression fix, so it wasn't a
-reasonable ask.
-
-Maxime
-
---iiu34guk5mzq376l
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaTLj1wAKCRAnX84Zoj2+
-dtfvAYCK0e7SvjMsHWvvtqMA8laxNk1TCzat/WvSag5cJ2DIKG3nBapeYk829dYp
-QxYNjv4BgNoX6fyZdnio672A2YVqlQlALPbN3Vl1yb6/Z0LaoBMuBgYSg1VnIeut
-gSBrugWVcg==
-=dmYT
------END PGP SIGNATURE-----
-
---iiu34guk5mzq376l--
+Thank you,
+Claudiu
 
