@@ -1,96 +1,91 @@
-Return-Path: <linux-renesas-soc+bounces-25634-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25635-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3F3DCAB4E7
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 07 Dec 2025 13:49:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36CFBCAB7BE
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 07 Dec 2025 17:36:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 57AC43060A55
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  7 Dec 2025 12:49:22 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D55F0301585E
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  7 Dec 2025 16:36:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CF7B2ED866;
-	Sun,  7 Dec 2025 12:49:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 024212C3277;
+	Sun,  7 Dec 2025 16:36:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K/p2mTnO"
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="FzMwH04n"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD92B2D481F
-	for <linux-renesas-soc@vger.kernel.org>; Sun,  7 Dec 2025 12:49:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E17F2C17A0
+	for <linux-renesas-soc@vger.kernel.org>; Sun,  7 Dec 2025 16:36:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765111760; cv=none; b=crwGHP44bJMm6btFobSE1IrFGlKxUqaLNqgM9cvyhCsr2mFm3ynx24dfaGBo7eX0HbIOGqeHNtnnxPJirtpmhCi/0CrdXn+/RW8AsfANgAGYJ3HCtKnEQe+V/uRKqfhdw33bq5d3VbvlA3aghJKAoeMZqUhma7kBNQWkH9uw/i4=
+	t=1765125372; cv=none; b=ERD8KKjxctLVcr3BlZIZgUnQ/sQTwnPQ8q7xHetCI64qLPkZgtQz7oUJmuC105gGdyPyUup/0LTw1IPXzdstixclH5R0/CBbDgsOiA8M0AYVpDSpEDIqODpxk5I/V6KlyW50hV/BadT2wuNk+cK34LtYsfXg1iuGlHF9LpMnyvs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765111760; c=relaxed/simple;
-	bh=bQFpEG3o9LQ536f6JxBdq8z7Y1JAJhEjOJQfUO1giYg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FC4Vr8g3XpmorkQ7WfvIHUSOrs2RtVRtSRATaS41vtPYtQ8cHKD6AEWHHfzY4Xugmh38ORXd2tERugAJ6LSiLN+aB/s/wCx8yMbcs5R8KJIhrSpgCjGjAvzwkJRHnXSZAeVuKAzv+T+6FFka3uH2lF6wwWt5UFiamkQHTkwBQ3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K/p2mTnO; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b727f452fffso611764666b.1
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 07 Dec 2025 04:49:18 -0800 (PST)
+	s=arc-20240116; t=1765125372; c=relaxed/simple;
+	bh=evCqNSZXxUHYtMTFVgwN8tMblWRUJ3gdzw7I2qnLcx4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pIIZdh9CymlGV6lWnrDcBzUOOoSNH5QQrsLr0UN5Oqwd6GasZNv7bJ3j8TN+7LufJLTKdgKZZrLELm2y0KpRgIJ+fNNSyW0UHl9dCdLO1gBSntE1h1Qnos4aj0/9DlA1KE00yjxvJnpj8ZfCwfYUG7AKWxu81meDyhh7A6TXAm4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=FzMwH04n; arc=none smtp.client-ip=209.85.222.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-8b1bfd4b3deso281349785a.2
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 07 Dec 2025 08:36:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765111757; x=1765716557; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=v+8cllFdmmZn50x4l8XYZK9RXQXxmWBAkLfGXs7iEf0=;
-        b=K/p2mTnOjDFUbX8/I2xpJm10EtLnLD8QLDQvtpy8kyIhN4Ejetp8vQF8g22nI/Plhj
-         SeZ2TPtUYVjktIIC8GNr4bbUe11bcxCSHrIadLm4dYu2jx808hzOtw7O0twqYqsTPDPs
-         p3mY6tU/OSl1kZMgEIm2lkLRncky9bf24MSpRZPmJ1DG/bUyUWAhUQq6ImTlNF4OFH0W
-         Bmo+6ej4h8lDxUt0REVbr/Xvu1e1rUBNhnOLnxaw0XkS3rHuS1D5Sp2KFs44hRCK+rCF
-         bWxLFU2KHGuohLT2rQxKTOq7IoA/n8JGlpDH59FpIrvrsCSdV+s+KQPii7RvOJ+G/2/1
-         ES0g==
+        d=rowland.harvard.edu; s=google; t=1765125370; x=1765730170; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=uK/ZVROsyWRahZ4D+UgkJUmlyNlXoP3LqAoBXFSqPgQ=;
+        b=FzMwH04na/kM4M4S5/XLAJ11wfz8Hl0mgiSuMCSgUiRh/vuhghwwVxET6gWEG1LkpB
+         ckMBlZiswCfBZZMz6MUQBzbZ5w7v+6FVaaavOWY51wklwXIvVdNF0eLFazW96oyXOQhY
+         I5JDq/YUysnhoM+m2QI3UZ8VbC0Y66PZdGQ2C1xoB246/rema2RLt07oShug4Vic1LYw
+         bolrGnDS3tYDEqEXTz+gDyQkN2b+SCS2kvtnwfDcxb7rmsgCeXb/QuhsoI9LIbVh5XbW
+         bCygpjGl+u05rGFshwIV1UqJqEx/cVh1CwSiLQ+kJL7GuDObVxNj9vQEDJkhR6OXFuWr
+         810g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765111757; x=1765716557;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=v+8cllFdmmZn50x4l8XYZK9RXQXxmWBAkLfGXs7iEf0=;
-        b=qmmAaTAIr03ICqH3N3tXNHP9R+fMo+ODUQcL35sWoWlhAEkAEVDmZ2ow/D7XzlRTlt
-         Icuq8tX9gSjMnrkgsDhc8w3GK9Bvy8gaOmir+kWo+BbFo8nnWWa4HJKrkdK/0Dr2piSU
-         un9MSJw/vk9JqVD/9pI0nZx6rCJF1df1jwwuDQUztutK9sl9bgygqtdjpI/FICHwuZbT
-         K2C8Ij/ObkTynv5m4oKddma/hqqJOzCC1tQ+B6AQW0AR/f5TTNQBbLa2gVX625mP1Ncs
-         ENV33yWgu+cKD3pnZWsFjuqsCyYVhL9bVkApdJi/8XV0kO8Hjx9tizWEOhrhYseqcGnL
-         2yBg==
-X-Forwarded-Encrypted: i=1; AJvYcCXb1I9Ew0G8HzsASctmxvVERpAx8kZZG3hzVdyZkJGcy4EWzxM4KoUJFkaKDyN/SHLWd0WYm7a/v9NxbXAvrjjjHA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyywMzIVUe/vy8xDspKHvlpHRawav00GYwYqV3kMxCQM87+hkpI
-	lCIy8X9u5nJ4tOs9coi/ThhVw/obeyaEJZPgQa133PTt9Kd/mnIyGhIS
-X-Gm-Gg: ASbGncsgtpvBEjFwN0YoSXKsx7ON70IYKJB0fKWkr+vBnf6ae+YBCTyzo4+GFMmIIFi
-	d0g5ZpBSULgozScN82VXYJBz3VUk35rIelwTlw6L5bqEuapI6lmhovCwa/suglaJmUTZOrfxbj/
-	OnTFZAhICjvVJExRXW2aKoIdSFrAknE1YkDT9Tn56TU5LRO5JlIVTsKSS5SKd68NefhocT50JmC
-	EEFhWRT/DDnlgN7CndttiOHHHUJIyItGX3NHp33IPl3ahEJtf3KWHL/xinUysz+3Ux71klXOs9e
-	uhX15Hs6p00XjHrGKGyEukmN57kX/QpDHDjghZBqnmiVXmxS+3sQSpcNk3wl6cqoOrS0r9wQApT
-	BRKiGpyXpvrKqLpCTqK5dWMbAzDuUslHMBMkO6Xejx1c7Xg8HPXg7ro1TVVUvfRBkouCWDaz5eu
-	W+YIHzG8oCQBMU+hNT++3QfJi8iZgQ67xc5e1j4lgTvpCMxeiLCcL+2vWQ+54C49bV6jVfnNIdu
-	E/Pj1hOgeH35oYw
-X-Google-Smtp-Source: AGHT+IE8fOENHVwPtQI3pGjpRrNOqeblBeyp2cP1u+Su1TipXnFYjjo9bgkVLkCyRo2mgZyc5c7Cfw==
-X-Received: by 2002:a17:907:3f8e:b0:b71:60a3:a8b9 with SMTP id a640c23a62f3a-b7a23b7f165mr540412066b.29.1765111756891;
-        Sun, 07 Dec 2025 04:49:16 -0800 (PST)
-Received: from localhost.localdomain (host86-162-200-138.range86-162.btcentralplus.com. [86.162.200.138])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b79f445967fsm848078366b.10.2025.12.07.04.49.16
+        d=1e100.net; s=20230601; t=1765125370; x=1765730170;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uK/ZVROsyWRahZ4D+UgkJUmlyNlXoP3LqAoBXFSqPgQ=;
+        b=DNt6iv3Y5VJg1cKxJmUKO3XBrvVsvDmB6BrC7U8rxbZblUhxUPmoQCvdf+URBHGoov
+         U2AEcBnJkxpcbgGB9+lSLbWsfykbfaFJ1U8pv7Iz3hqXzzESmUjfWebLeNJBh0Fi2GTG
+         0f2Xnsz8yIW2MxOkrQfe+KBlPL0aJCErFKuZ2Pcuy7OeTxfYXEBIP9zoD50RnL7bo+NW
+         RZWbHPcrp2U+anLCtsbx42EGiHI2d5mmxJ2k2r6F4hECjtpLmyhXIGWz9eLXUsozeDIO
+         uNC2+bHe3YPsaTSV49edbqfeJdXmrftPM4+mTe8yVZ+k+A6ruT2RVjvo2YNp7zuxwsnH
+         aYyw==
+X-Forwarded-Encrypted: i=1; AJvYcCWkoPHmUk+UT82gjeKQYN+7SS2BQajxKfG7DOcxxWbSY32LFs0Zwmw5ddANnhVvgZPcA6DtBs15V83KHm5CNPgo7g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzH3R3WVPLC/uwBLj/BoljDmAEB9kiF/6oJcgTZjVddXXtYvMxs
+	6C4cisxg1z2UhdaQKom5IH4h7oTHnHTx0Gy5686Kjx7tShOtzsh+YEXTE8P+Q4C6ArLIJrXptHs
+	1szYqKw==
+X-Gm-Gg: ASbGncsdLGcbHeUrftNNJq+ePFUmWs0Csv1JV+AlrMa3eklDt0f9BSRF3zaJvCKxf7m
+	U0Ih1JSfupqcxBp1kn3sdWQrA98U0GhpDsbxQg0FWdhv8TDNOz9UQdlBkjiAyMWNWaq/pwyUQzw
+	wpI3y6cG3UXINCLoQtll8JxwrzW7261i8WvppRunELtxPG2MfcbLee3azLUytZYcDbl7heJfV2x
+	FHDgGXcNyexNuw0pmrxPwnRmUOUxQ5afg1ro5AtQlBXN7z+cER8DfrYFTQ5t/TI6O9wkNcLHydb
+	cC2mbMyybf7nWyBajSfgIaXtQrKwGjqlok8k+xA5dqbBy44Vs8ftyZrQzmvWExAUk3GAPJndmxF
+	p7FtoEgQMG+AFynHfxQ1kJQ5fpqu/1vJq9zB7CQ/7kbpmOv3ZrRapum611jSLj89HnzHS6fPxwe
+	cGSOk+Z5jLf9qL
+X-Google-Smtp-Source: AGHT+IHunm/1gUhODnfT8+TQVH2VuwuEPBQA69Zvan054v1MyQHhj04FZHW4MDCyTvN7iqoA8wxZYg==
+X-Received: by 2002:a05:620a:29d5:b0:8b2:74e5:b36 with SMTP id af79cd13be357-8b6a23ddf61mr803639085a.68.1765125370124;
+        Sun, 07 Dec 2025 08:36:10 -0800 (PST)
+Received: from rowland.harvard.edu ([2601:19b:d03:1700::2aa9])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8b627a798desm840460785a.33.2025.12.07.08.36.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Dec 2025 04:49:16 -0800 (PST)
-From: Biju <biju.das.au@gmail.com>
-X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
-To: Alan Stern <stern@rowland.harvard.edu>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+        Sun, 07 Dec 2025 08:36:09 -0800 (PST)
+Date: Sun, 7 Dec 2025 11:36:06 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Biju <biju.das.au@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
 	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>,
 	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 2/2] usb: host: ohci-platform: Drop ohci_resume from ohci_platform_suspend()
-Date: Sun,  7 Dec 2025 12:47:27 +0000
-Message-ID: <20251207124742.96526-3-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251207124742.96526-1-biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH 0/2] usb: host: Drop resume calls on
+ {e,o}hci_platform_suspend()
+Message-ID: <db985cbf-4813-44d1-a4c6-16826f935c17@rowland.harvard.edu>
 References: <20251207124742.96526-1-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -98,46 +93,30 @@ List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251207124742.96526-1-biju.das.jz@bp.renesas.com>
 
-From: Biju Das <biju.das.jz@bp.renesas.com>
+On Sun, Dec 07, 2025 at 12:47:25PM +0000, Biju wrote:
+> From: Biju Das <biju.das.jz@bp.renesas.com>
+> 
+> As per the suspend_devices_and_enter() [1], if .suspend() fails, it invoke
+> the .resume() callback.
 
-As per the suspend_devices_and_enter(), if .suspend() fails, it invoke the
-.resume() callback. Currently ohci_resume() is called in 2 times if the
-reset_control_assert fails in ohci_platform_suspend(). Drop the duplicate
-ohci_resume() from ohci_platform_suspend() callback, as it is called
-later from ohci_platform_resume() callback.
+Quite wrong.  If .suspend() fails, the core assumes the device is still 
+at full power.  It does not try to resume the device.
 
-Also, drop the other duplicate callback pdata->power_on().
+> This patch series drops redundant resume() from
+> {e,o}hci_platform_suspend()
 
-Fixes: e4d9da32bf60 ("usb: host: ohci-platform: Call reset assert/deassert on suspend/resume")
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- drivers/usb/host/ohci-platform.c | 10 +---------
- 1 file changed, 1 insertion(+), 9 deletions(-)
+These resume() calls are not redundant and they should not be dropped.
 
-diff --git a/drivers/usb/host/ohci-platform.c b/drivers/usb/host/ohci-platform.c
-index 2e4bb5cc2165..5342cffbee47 100644
---- a/drivers/usb/host/ohci-platform.c
-+++ b/drivers/usb/host/ohci-platform.c
-@@ -281,15 +281,7 @@ static int ohci_platform_suspend(struct device *dev)
- 	if (pdata->power_suspend)
- 		pdata->power_suspend(pdev);
- 
--	ret = reset_control_assert(priv->resets);
--	if (ret) {
--		if (pdata->power_on)
--			pdata->power_on(pdev);
--
--		ohci_resume(hcd, false);
--	}
--
--	return ret;
-+	return reset_control_assert(priv->resets);
- }
- 
- static int ohci_platform_resume_common(struct device *dev, bool hibernated)
--- 
-2.43.0
+> [1]
+> https://elixir.bootlin.com/linux/v6.18-rc7/source/kernel/power/suspend.c#L519
 
+The message on this line has no bearing on what you are doing.  It 
+merely says "Some devices failed to suspend, or early wake event 
+detected".  There's nothing about invoking the .resume() callback.
+
+Alan Stern
 
