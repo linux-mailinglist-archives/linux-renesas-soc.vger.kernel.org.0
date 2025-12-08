@@ -1,46 +1,80 @@
-Return-Path: <linux-renesas-soc+bounces-25654-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25655-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9860ACAD5BC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 08 Dec 2025 15:03:41 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F68DCAD8C6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 08 Dec 2025 16:18:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 8213E301AD0D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Dec 2025 14:03:40 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id EC8E5301E141
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Dec 2025 15:18:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D87B523BCFF;
-	Mon,  8 Dec 2025 14:03:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AC432BE657;
+	Mon,  8 Dec 2025 15:18:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OV4jzv7V"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="He/yxqEF"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24144225417;
-	Mon,  8 Dec 2025 14:03:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45F3123B61E
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  8 Dec 2025 15:18:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765202617; cv=none; b=GJr2O4VxzWCf1kCPKp8IloUPqh6qZpRW33nZwf7W7jruUnQK3UHsRONseInHV9K9vusrbZrU0JWNrVrOMI9ghkCG6ZCz4vxk94zBrEha4g3LK6x9tVa9BON5LsFW3xayQygCdHHzhHgrwnLSsTRkWvS2Me0oMvJ05SLKUA5VHAM=
+	t=1765207128; cv=none; b=H8zEgDMrwM7oaOYrwdE+fPbawirq8dG7pdrFgfFVF7DCOfDRPl95QCnpopbtoj+2D/RPMQ6r9ByEtocsSP4Ob0NzTqAyFaZz6rfIjhfSNd/rQ3Nmyy+n7O+CBxoe7A7zkDNHAkCO3gRfneeHz3wH03U49BMZvRdjlqLM72GI0cU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765202617; c=relaxed/simple;
-	bh=lZ7gaHoYYByv3QerI7QxwHLQqGkeLiV/GPP6nrG0Dzk=;
+	s=arc-20240116; t=1765207128; c=relaxed/simple;
+	bh=vrMgUbPiviHCE/vtM5qKgmAf1NEAPRzc7KsDqfydLp8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mXYlXwRa1lz9CcY1B5+aTwdH6MXP6PTec3m6ws37S/R8PFV+4A+KWWYYcCpnRhMA0o/awdisTqhYqQKzS7lS8N9G3TX/t+Z5nMxWCblh2dO1x30HtcUMIRjsV4klw6G0pu2zwN5KW7kImEXPgSk00x1dmxBl260oUVYNxNDvN4Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=OV4jzv7V; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E1665C7A;
-	Mon,  8 Dec 2025 15:01:11 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1765202472;
-	bh=lZ7gaHoYYByv3QerI7QxwHLQqGkeLiV/GPP6nrG0Dzk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=OV4jzv7VXHugb9FUt6xiZr1WqUjmfmhKy4ESB7L27XdloxtkZTCUA6lphZ2WZh0XG
-	 5r/JGVAXU9fkq88PAewbwNx8UzudI4mgXHAjtEKaocT4JTiR30hOdi6Tbx0Amam+LM
-	 T8J7W3uNFVTbN46PLfxIhvXHV/pMFJaDnlro2Jlg=
-Message-ID: <71140fb3-16bb-44ef-834d-2d4e4ab9369b@ideasonboard.com>
-Date: Mon, 8 Dec 2025 16:03:26 +0200
+	 In-Reply-To:Content-Type; b=ckTvkvuHlEPrxSQPTJaa2l8gf7Fgry63CmpW9uu8P7fXiWC59qqTdvygUV4d0l7dQCIwY5mMD2A/7UrhW5QxHRC42loxASSf6H4dC4ImIX/fA5GEJK9K17W73REwEDNoZ9r2nBKcH5evKs9cjnqq1ZebNsWFoAwW6uJ9rv1K6WI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=He/yxqEF; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b79e7112398so760008466b.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 08 Dec 2025 07:18:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1765207124; x=1765811924; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=EyKkwg9npizIf2XwQV5tQ96E9Oa/5ROifR9l0/m15Fs=;
+        b=He/yxqEF0ROYMeBxeVjeHz8V6N96/gHInOf/SbLGYNcWfuUvBUlhmH0fXJLBJ9ulPH
+         cwxMaiQMO2nKr70N4Ja091awPZcgdG08knifXabrUecM1IHP5DhORGfj4Zkv1w2oWtvl
+         cV9sqSSuXFBjs2rW2PxbLtnwERWwGmCLkFdr4YJKQizhIFCR1DIol4cP6L7GHt5KyciD
+         2J1vSm3efYsIGsS/wY77KHzZP1FD0ji895ghgg/w29YmlXK1Nxc0RGFNCYJdE0I4C0PC
+         s3zQ02m+hLLo7vwzW+lTywRsihy+ettpzYwLfBCywtBrCuBqJKpKOUwWDaHGK4H2pmBE
+         awKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765207124; x=1765811924;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EyKkwg9npizIf2XwQV5tQ96E9Oa/5ROifR9l0/m15Fs=;
+        b=qi9GIPMpprWCxCU0gnSm5quEWMT/umQVzLWC0l7c8UrYvJVwpR8rQcxzAAGosuDMz0
+         98kYlZ01RUBRssl9BHQtG3Sv2ZxC6rDSdJBpHi3EhMcjowp/m6JHKCmj2FLsgOBLZbW5
+         mpIkurfVXVqBfr4JJsccIYuUDJA9gCVeSIOotBv1L5REBgf/5qC6MZPWXVim+Y1/F+UX
+         4CfhMdjfqdn16P4uFBS7Sx7ZEkxIcadT7TO2I9TIPQyib7kLXrcW0VQhBt3QSgcHGU0J
+         kIRTNa5svWeGXhG+hqOUh3GDsHp7X4Pe1bZVPnZaBN8zjNGBGX/ARQZiiC866uaYqI9V
+         N2Tg==
+X-Forwarded-Encrypted: i=1; AJvYcCXrj2EVb7mfXR35q/lZkV3cebs2kVt8DpQEWA95ZubUdYjPSofR5fGd3dZty7OTqaRcJIZXxzU0nbI3HmGgdyow2A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxeWcRIQctNJY4eUYOnTZDPz8wIchTtDztfw/Es1onLbdK5ugvH
+	Te50GmMmovn6UpUkrlFpFDTLNbzPAA2Y7bqfFArRGsqQnnN9tg9RoYQCF9CM6UCcL08=
+X-Gm-Gg: ASbGncsfwhmg6BnDCJ6nCyzdPbDNpwJ9uv4RwX1TCiQg/rE0+Wf/AgAL/yOaU4K+nou
+	dDzOjR5mdo/YJkd08kMsbwURL6niEpFyxKAw5RXq+23aQZ+BSOxLvqP8qFu5DznMsqTnFzOFkPb
+	QfehrZogEOAoCeolMDdnDXLMky8Neg4HJ/y22JKomCYygHOfk6YuZ6w7w7AXiphamwwdsumsE2y
+	lfR8jxw7ADVUkDkAS/rLh0OldYEhLFmkVip++fIHj0P5mqrR6PnNfu+32s+oNPzrYINepRBg+9X
+	AdJCd0PU7xz1SH4bLygw/FaMm+xakaQed1lShcXzoaVhuk1k4CjWIz66mkXCPIdGqCOJ2VLKRw3
+	I5YzLkZLAk/A38j3oJusropF7MD0dvPH1kNLGgM/GYjYSA/8NMgufvwvelm65WVmsT0QC1SY0/a
+	SCFyjjOU7LFwkYlPMNX1LNXT0Jqy9+Ag==
+X-Google-Smtp-Source: AGHT+IHmHAEWZzpXs1rtpanOldqfAtwXfDY30WfUvr0qkz0J9ZX8JM3l3XG0gNeJ1TSMmiLgbzx9AA==
+X-Received: by 2002:a17:907:5cc:b0:b76:25fd:6c26 with SMTP id a640c23a62f3a-b7a243047b5mr747928266b.6.1765207124126;
+        Mon, 08 Dec 2025 07:18:44 -0800 (PST)
+Received: from [192.168.50.4] ([82.78.167.134])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b79f49c94fbsm1100880866b.53.2025.12.08.07.18.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Dec 2025 07:18:43 -0800 (PST)
+Message-ID: <ce0d29be-bdc5-415d-b6c0-00bd76d9919b@tuxon.dev>
+Date: Mon, 8 Dec 2025 17:18:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -48,136 +82,57 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 07/15] media: rcar-csi2: Optimize rcsi2_calc_mbps()
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-References: <20250530-rcar-streams-v3-0-026655df7138@ideasonboard.com>
- <20250530-rcar-streams-v3-7-026655df7138@ideasonboard.com>
- <20250606120702.GD2770609@ragnatech.se>
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Subject: Re: [PATCH 1/2] PCI: rzg3s-host: Use pci_generic_config_write() for
+ the root bus
+To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
+ bhelgaas@google.com, lpieralisi@kernel.org, kwilczynski@kernel.org,
+ mani@kernel.org, robh@kernel.org
+Cc: linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+ Bjorn Helgaas <helgaas@kernel.org>
+References: <20251205112443.1408518-1-claudiu.beznea.uj@bp.renesas.com>
+ <20251205112443.1408518-2-claudiu.beznea.uj@bp.renesas.com>
+ <a9b02517-0743-4716-8ffe-e2120d9c611a@oss.qualcomm.com>
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
 Content-Language: en-US
-In-Reply-To: <20250606120702.GD2770609@ragnatech.se>
+In-Reply-To: <a9b02517-0743-4716-8ffe-e2120d9c611a@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Hi,
+Hi, Krishna,
 
-On 06/06/2025 15:07, Niklas Söderlund wrote:
-> Hi Tomi,
+On 12/6/25 03:29, Krishna Chaitanya Chundru wrote:
 > 
-> Thanks for your work.
-> 
-> On 2025-05-30 16:50:36 +0300, Tomi Valkeinen wrote:
->> With modern drivers supporting link-freq, we don't need to do any
->> calculations based on the bpp and number of lanes when figuring out the
->> link frequency. However, the code currently always runs code to get the
->> bpp and number of lanes.
+> On 12/5/2025 4:54 PM, Claudiu wrote:
+>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 >>
->> Optimize the rcsi2_calc_mbps() so that we only do that when needed, i.e.
->> when querying the link-freq is not supported by the upstream subdevice.
+>> The Renesas RZ/G3S host controller allows writing to read-only PCIe
+>> configuration registers when the RZG3S_PCI_PERM_CFG_HWINIT_EN bit is set in
+>> the RZG3S_PCI_PERM register. However, callers of struct pci_ops::write
+>> expect the semantics defined by the PCIe specification, meaning that writes
+>> to read-only registers must not be allowed.
 >>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> 
-> I wonder if it make sens to add a dev_warn_once() for the old call path 
-> so we won't forget to update all known users of this old way, and once 
-> fixed we can remove the huristic method all together?
+>> The previous custom struct pci_ops::write implementation for the root bus
+>> temporarily enabled write access before calling pci_generic_config_write().
+>> This breaks the expected semantics.
+>>
+>> Remove the custom implementation and simply use pci_generic_config_write().
+>>
+>> Along with this change, the updates of the PCI_PRIMARY_BUS,
+>> PCI_SECONDARY_BUS, and PCI_SUBORDINATE_BUS registers were moved so that
+>> they no longer depends on the RZG3S_PCI_PERM_CFG_HWINIT_EN bit in the
+>> RZG3S_PCI_PERM_CFG register, since these registers are R/W.
+>>
+> Don't you need fixes tag and back port to stable kernels, this patch looks
+> like a bug fix.
 
-I think something like that should be done in the framework, rather in
-each individual driver.
+I consider it was not a functional fix. The driver was just accepted for
+v6.19 and though it will be included before the pull request is issued. Due
+to this I haven't added it. If any, I'm adding the tag here.
 
- Tomi
+Fixes: 7ef502fb35b2 ("PCI: Add Renesas RZ/G3S host controller driver")
 
->> ---
->>  drivers/media/platform/renesas/rcar-csi2.c | 50 +++++++++++++++++-------------
->>  1 file changed, 29 insertions(+), 21 deletions(-)
->>
->> diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/platform/renesas/rcar-csi2.c
->> index 90973f3cba38..e0a0fd96459b 100644
->> --- a/drivers/media/platform/renesas/rcar-csi2.c
->> +++ b/drivers/media/platform/renesas/rcar-csi2.c
->> @@ -1001,15 +1001,10 @@ static int rcsi2_get_active_lanes(struct rcar_csi2 *priv,
->>  static int rcsi2_calc_mbps(struct rcar_csi2 *priv,
->>  			   struct v4l2_subdev_state *state)
->>  {
->> -	const struct rcar_csi2_format *format;
->> -	struct v4l2_mbus_framefmt *fmt;
->>  	struct media_pad *remote_pad;
->>  	struct v4l2_subdev *source;
->> -	unsigned int lanes;
->> -	unsigned int bpp;
->>  	s64 freq;
->>  	u64 mbps;
->> -	int ret;
->>  
->>  	if (!priv->remote)
->>  		return -ENODEV;
->> @@ -1017,28 +1012,41 @@ static int rcsi2_calc_mbps(struct rcar_csi2 *priv,
->>  	source = priv->remote;
->>  	remote_pad = &source->entity.pads[priv->remote_pad];
->>  
->> -	ret = rcsi2_get_active_lanes(priv, &lanes);
->> -	if (ret)
->> -		return ret;
->> +	/*
->> +	 * First try to get the real link freq. If that fails, try the heuristic
->> +	 * method with bpp and lanes (but that only works for one route).
->> +	 */
->> +	freq = v4l2_get_link_freq(remote_pad, 0, 0);
->> +	if (freq < 0) {
->> +		const struct rcar_csi2_format *format;
->> +		struct v4l2_mbus_framefmt *fmt;
->> +		unsigned int lanes;
->> +		unsigned int bpp;
->> +		int ret;
->>  
->> -	fmt = v4l2_subdev_state_get_format(state, RCAR_CSI2_SINK);
->> -	if (!fmt)
->> -		return -EINVAL;
->> +		ret = rcsi2_get_active_lanes(priv, &lanes);
->> +		if (ret)
->> +			return ret;
->>  
->> -	format = rcsi2_code_to_fmt(fmt->code);
->> -	if (!format)
->> -		return -EINVAL;
->> +		fmt = v4l2_subdev_state_get_format(state, RCAR_CSI2_SINK);
->> +		if (!fmt)
->> +			return -EINVAL;
->>  
->> -	bpp = format->bpp;
->> +		format = rcsi2_code_to_fmt(fmt->code);
->> +		if (!format)
->> +			return -EINVAL;
->>  
->> -	freq = v4l2_get_link_freq(remote_pad, bpp, 2 * lanes);
->> -	if (freq < 0) {
->> -		int ret = (int)freq;
->> +		bpp = format->bpp;
->>  
->> -		dev_err(priv->dev, "failed to get link freq for %s: %d\n",
->> -			source->name, ret);
->> +		freq = v4l2_get_link_freq(remote_pad, bpp, 2 * lanes);
->> +		if (freq < 0) {
->> +			int ret = (int)freq;
->>  
->> -		return ret;
->> +			dev_err(priv->dev, "failed to get link freq for %s: %d\n",
->> +				source->name, ret);
->> +
->> +			return ret;
->> +		}
->>  	}
->>  
->>  	mbps = div_u64(freq * 2, MEGA);
->>
->> -- 
->> 2.43.0
->>
-> 
-
+Thank you,
+Claudiu
 
