@@ -1,191 +1,234 @@
-Return-Path: <linux-renesas-soc+bounces-25671-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25672-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BBEDCADC19
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 08 Dec 2025 17:30:16 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E2DFCADF39
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 08 Dec 2025 19:01:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 5C01B300AB27
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Dec 2025 16:30:09 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9156D30572C8
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Dec 2025 18:01:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94D31257829;
-	Mon,  8 Dec 2025 16:30:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91F9722D785;
+	Mon,  8 Dec 2025 18:01:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mSRPUnqI"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2549F2D94B2;
-	Mon,  8 Dec 2025 16:30:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BF603B8D53;
+	Mon,  8 Dec 2025 18:01:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765211408; cv=none; b=jjUy2bkr2v/AvwSeSOkTuV6m45wztBzvL4ihbmCF24VPTwFEH4IKRW8z/inNqFy/IzpyNP3lSARW25bIPErV4OiQY2T40s2W7a66435YcPZbhUNNWI15LqNu0m/GWA885il7Ce3T+ITr6OyIW3hLTKqrZWaFrrMOJKtZJXGcflA=
+	t=1765216861; cv=none; b=Y2H7447/OeIpKTGGQN4vBJzWx8v7DappP3gqWKNfmj/Q6eKpHugViTz0N4wHWJRZAr10MrVbKYP3m6mgScnnm/mWX+VQ0d5d5bFhr66hQw3gD9bigIBA6CUXVxC3I6Pe0W1ItilQkf5YIm4YmopsTaKoCSAAJQuFU/Fsp5RDBNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765211408; c=relaxed/simple;
-	bh=0YFnnRyoofr72fBq6pWHMYFSkqsDU8YOzTAubZLSam4=;
+	s=arc-20240116; t=1765216861; c=relaxed/simple;
+	bh=NskBesqA3nqRQR+hbzhe1dt8pc42b5WrjnHJgQLjDoQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cRUG/mgFH8Mz85RNlyxy6LgnU9C0RcJhNXGzV5OH/zgvmNLTaY6XV+778oTyGWbVZNRj7jK22FFYpGh254zU+7hHL8j2h9uMMS5xTsCgdB8ELQpBy052iMbfmmwNnHMKQM1q347i5uTfxM5sfRIF9mo2/ofS9sv3a/EDF2O9Ly8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com; spf=none smtp.mailfrom=foss.arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=foss.arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 308D51691;
-	Mon,  8 Dec 2025 08:29:58 -0800 (PST)
-Received: from bogus (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 87ECF3F740;
-	Mon,  8 Dec 2025 08:30:03 -0800 (PST)
-Date: Mon, 8 Dec 2025 16:30:00 +0000
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: Marek Vasut <marek.vasut@mailbox.org>
-Cc: Cristian Marussi <cristian.marussi@arm.com>, arm-scmi@vger.kernel.org,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=HfwFZZnWe+3Ih3poslq/wxOSYRz247akhNYatW+cCfvtSaSJ6DJZ9nUW4Bx5KgIytooVBdDj5D/z2JtZvtDJ9RAY1yPZxmWWr91IKUDXp6jgadhgHDNMXEN4tx6Hq5oIRcCnRqysf5rFg2W7vpxC0DhrKB1XDRS6qhyu5MLZLRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mSRPUnqI; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93F4BC4CEF1;
+	Mon,  8 Dec 2025 18:00:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765216860;
+	bh=NskBesqA3nqRQR+hbzhe1dt8pc42b5WrjnHJgQLjDoQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mSRPUnqIfPvdwld50Qkn93m0//kAWy0d2Wh1B6GtfSCj20X4VoNxv6+SlUUhu4yyW
+	 cbfxCYWyfrmg3o+EdjKN+OpNNXCZNbSNavt64FOL3eAnKvhoCYqWlG157qAPDjtYqg
+	 7rzlyhNqmZm5mWVFSe97EPTCry+wqA+WbqRa//2+o5Omho1MifErbvre/TPHuzFAgZ
+	 k4gafrW5zai+c+hYARD02NLvgMUv79mHbPTa/orYWTq5rhiDnMGguwLdipGRLYwbly
+	 cc/6pcyBZYEDPgUaiPioEHo18SluQztl/YpIke4seMIv0O3Wpcz8VieMudZe+RYBGb
+	 DJ/aZzaRiPopA==
+Date: Mon, 8 Dec 2025 18:00:55 +0000
+From: Conor Dooley <conor@kernel.org>
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: firmware: arm,scmi: Document
- arm,poll-transport property
-Message-ID: <20251208-quixotic-cocky-emu-9a3916@sudeepholla>
-References: <20251202-evasive-neon-rhino-d2745e@sudeepholla>
- <66257fcf-9024-454f-b776-4ba584963ebe@mailbox.org>
- <aS82GSN8c2SnRn4S@bogus>
- <8d773671-5e2e-4e21-ade6-2bf9a3b75066@mailbox.org>
- <20251203-thick-didactic-cockatoo-deaa1d@sudeepholla>
- <4ccbcffd-bcc7-478b-a525-a4a11e3092ee@mailbox.org>
- <20251204-calm-peacock-of-fantasy-6b8cbe@sudeepholla>
- <e25c690c-e74d-4641-a97e-8eae81a59168@mailbox.org>
- <20251205-winged-quizzical-pigeon-ed692d@sudeepholla>
- <06fc0557-6b7c-4092-aeec-e3e16bab2d72@mailbox.org>
+	Conor Dooley <conor+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 1/2] dt-bindings: pinctrl: renesas,r9a09g077: Document
+ pin configuration properties
+Message-ID: <20251208-headgear-header-e17e162f0f52@spud>
+References: <20251014191121.368475-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20251014191121.368475-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20251016-dimmed-affidavit-90bae7e162aa@spud>
+ <CA+V-a8un1cF=acNjG=79_v7oaR8gzBQ+3z1As8AqrJnOnk-OUw@mail.gmail.com>
+ <CA+V-a8vq2EvTb_hXxRzW_Rbp+BPLSaLsEVkvaTjc1zRin-RV=Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="dA0IuGHmQiFxChdp"
+Content-Disposition: inline
+In-Reply-To: <CA+V-a8vq2EvTb_hXxRzW_Rbp+BPLSaLsEVkvaTjc1zRin-RV=Q@mail.gmail.com>
+
+
+--dA0IuGHmQiFxChdp
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <06fc0557-6b7c-4092-aeec-e3e16bab2d72@mailbox.org>
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Dec 07, 2025 at 10:16:36AM +0100, Marek Vasut wrote:
-> On 12/5/25 10:54 AM, Sudeep Holla wrote:
-> 
-> Hello Sudeep,
-> 
-> > > > > > Also IIUC, the irq request happens
-> > > > > > as part of channel startup and there are no explicit APIs for the mbox client
-> > > > > > driver to control that. SCMI is mbox client in this case.
-> > > > > 
-> > > > > Sure, but the mailbox driver has to make sure it is correctly demuxing the
-> > > > > IRQs it handles and correctly sends received_data notifications to the right
-> > > > > channel(s) .
-> > > > > 
-> > > > 
-> > > > Agreed, but the concern is that if SCMI is forced to use polling when the
-> > > > channel is opened, and IRQs are enabled by default with no way for SCMI to
-> > > > disable them in polling mode, we could run into issues.
-> > > 
-> > > This constellation seems odd -- if the channel can do IRQs, then this
-> > > property should not be present in DT.
-> > > 
-> > 
-> > Yes, but there is no way to validate or check this and that is the root
-> > cause for all my worries.
-> 
-> Should a configuration like that even be considered valid and relevant ?
-> 
+On Mon, Dec 08, 2025 at 10:36:04AM +0000, Lad, Prabhakar wrote:
+> Hi Conor,
+>=20
+> Sorry for the delayed response. Ive got feedback from the HW team.
+>=20
+> On Fri, Oct 17, 2025 at 4:33=E2=80=AFPM Lad, Prabhakar
+> <prabhakar.csengg@gmail.com> wrote:
+> >
+> > Hi Conor,
+> >
+> > Thank you for the review.
+> >
+> > On Thu, Oct 16, 2025 at 5:41=E2=80=AFPM Conor Dooley <conor@kernel.org>=
+ wrote:
+> > >
+> > > On Tue, Oct 14, 2025 at 08:11:20PM +0100, Prabhakar wrote:
+> > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > >
+> > > > Document the pin configuration properties supported by the RZ/T2H p=
+inctrl
+> > > > driver. The RZ/T2H SoC supports configuring various electrical prop=
+erties
+> > > > through the DRCTLm (I/O Buffer Function Switching) registers.
+> > > >
+> > > > Add documentation for the following standard properties:
+> > > > - bias-disable, bias-pull-up, bias-pull-down: Control internal
+> > > >   pull-up/pull-down resistors (3 options: no pull, pull-up, pull-do=
+wn)
+> > > > - input-schmitt-enable, input-schmitt-disable: Control Schmitt trig=
+ger
+> > > >   input
+> > > > - slew-rate: Control output slew rate (2 options: slow/fast)
+> > > >
+> > > > Add documentation for the custom property:
+> > > > - renesas,drive-strength: Control output drive strength using discr=
+ete
+> > > >   levels (0-3) representing low, medium, high, and ultra high stren=
+gth.
+> > > >   This custom property is needed because the hardware uses fixed di=
+screte
+> > > >   levels rather than configurable milliamp values.
+> > > >
+> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.c=
+om>
+> > > > ---
+> > > >  .../bindings/pinctrl/renesas,r9a09g077-pinctrl.yaml | 13 +++++++++=
+++++
+> > > >  1 file changed, 13 insertions(+)
+> > > >
+> > > > diff --git a/Documentation/devicetree/bindings/pinctrl/renesas,r9a0=
+9g077-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/renesas,r9a0=
+9g077-pinctrl.yaml
+> > > > index 36d665971484..9085d5cfb1c8 100644
+> > > > --- a/Documentation/devicetree/bindings/pinctrl/renesas,r9a09g077-p=
+inctrl.yaml
+> > > > +++ b/Documentation/devicetree/bindings/pinctrl/renesas,r9a09g077-p=
+inctrl.yaml
+> > > > @@ -72,6 +72,19 @@ definitions:
+> > > >        input: true
+> > > >        input-enable: true
+> > > >        output-enable: true
+> > > > +      bias-disable: true
+> > > > +      bias-pull-down: true
+> > > > +      bias-pull-up: true
+> > > > +      input-schmitt-enable: true
+> > > > +      input-schmitt-disable: true
+> > > > +      slew-rate:
+> > > > +        enum: [0, 1]
+> > >
+> > > What are the meanings of "0" and "1" for slew rate? Why isn't this gi=
+ven
+> > I'll add a description for it (0 =3D slow, 1 =3D fast) and the same val=
+ues
+> > are programmed in the register to configure the slew rate.
+> >
+> > > as the actual rates? The docs surely give more detail than just "slow"
+> > > and "fast".
+> > You mean to represent slew-rate in some sort of a unit?
+> >
+> Based on the comments from the HW team, there is no numerical
+> definition to represent slow/fast It only defines a relative
+> relationship.
+> > >
+> > > > +      renesas,drive-strength:
+> > > > +        description:
+> > > > +          Drive strength configuration value. Valid values are 0 t=
+o 3, representing
+> > > > +          increasing drive strength from low, medium, high and ult=
+ra high.
+> > >
+> > > I see what you wrote in the commit message, but I don't really get why
+> > > you need a custom property. I would imagine most devices only have so=
+me
+> > > some small set of "fixed discrete levels", yet manage with milli- or
+> > > micro-amps fine. Converting from mA to register values in a driver is
+> > > not difficult, and I figure the documentation for the device probably
+> > > doesn't just give vague strengths like "medium" or "ultra high", but
+> > > probably provides currents?
+> > >
+> > > I dunno, I am just confused by the need to shove register values into
+> > > these properties, rather than using the actual units.
+> > >
+> > I'm checking this with the HW team. I'll get back on this once I have
+> > some feedback.
+> >
+> The current value is determined by the load on the external circuit
+> and is not affected by the choice of drive strength. For example, if a
+> 3.3V signal line (H =3D 3.3V, L =3D 0V) has a 3.3k=CE=A9 load, the result=
+ing
+> current will be 1mA, regardless of whether you select Low, Mid, High,
+> or Ultra High drive strength. What changes with Low/Mid/High/Ultra
+> High is the =E2=80=9Cslew rate=E2=80=9D of the transitions (H --> L and L=
+ --> H), not
+> the current itself.
+>=20
+> Please share your thoughts on how to implement these properties.
 
-Yes, as I have mentioned, there is no way to validate the same in the kernel.
+ngl, sounds like both of these properties should be strings, but for the
+fact that slew-rate is open ended and I am pretty sure used like you are
+using it elsewhere.
+The second property, I'm not sure what you're trying to say with your
+example. Ignoring the specifics of your platform, and using the normal
+drive-strength property, I wouldn't expect that, if a given drive strength
+can provide 1 mA, that increasing the drive strength would increase the
+current. It would be impossible for it to do so!
+Remember, drive strength is the current that can be delivered through a
+pin, not how much it is delivering at a given point in time.
+I would also expect that increasing the drive strength (still using the
+regular definition/property) would improve the rate of transition between
+states, in addition to increasing the maximum drive, although not the
+primary goal.
 
-> > > > I realise it’s a very
-> > > > specific corner case, but every time I’ve assumed such scenarios wouldn’t
-> > > > occur, we eventually ended up encountering them. So sorry if I am very
-> > > > pedantic, but I prefer to start smaller and restrictive and expand if and
-> > > > when necessary or required only.
-> > > 
-> > > I don't think this case, where mailbox channel does IRQs and polling is
-> > > enabled, can/should even be considered valid. Either the channel does not do
-> > > IRQs and then it should do polling, or it does IRQs and then it should use
-> > > IRQs, but not both.
-> > > 
-> > 
-> > Yes ideally, but having loose ends like this binding which allows someone
-> > to add it to their DT complicates though it is invalid. We have no way to
-> > detect and I don't want to work around such configs in the future.
-> 
-> If the DT is invalid, bad things happen, but I would argue that is then a DT
-> bug and the DT should be fixed.
-> 
+What I find weird about your explanation is that, taken at face value,
+where this vendor specific property has no effect on steady-state drive
+strength and only on slew rate, you have two different slew rate
+controls. The regular slew-rate with 2 options and this one with 4.
+That, combined with the example that doesn't make sense, casts doubt
+over the explanation you're providing for what this actually is
+controlling. If this truly has no impact on steady-state drive strength,
+how do these two slew-rate controls actually interact?=20
 
-Well, ideally I would like that, but not always the reality.
+--dA0IuGHmQiFxChdp
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> [...]
-> 
-> > > > Yes, that’s essential, because polling in an SMC context is meaningless in my
-> > > > opinion.
-> > > 
-> > > Maybe the "a2p" IRQ is also used for notifications from longer running
-> > > operations ?
-> > > 
-> > 
-> > Yes, it is some sort of work around some platforms implemented as by design
-> > when the SMC returns, the synchronous commands must complete and it is had
-> > to support async SCMI commands without platform specific interrupt(p2a). This
-> > a2p is sort of completion interrupt for synchronous command. I assume the
-> > platform may offload the task from secure f/w to something else otherwise
-> > secure side needs to be given CPU cycles to complete which complicates this.
-> > In short SMC is synchronous and if the execution returns from it in NS world,
-> > the command is complete.
-> 
-> Wouldn't polling still be useful for the async case , even in SMC setup?
-> Note that the SMC setup does use shmem, and therefore can do polling on the
-> shmem.
-> 
+-----BEGIN PGP SIGNATURE-----
 
-No, it makes no sense for SMC as I have already mentioned few times.
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaTcSVwAKCRB4tDGHoIJi
+0q3cAQDK/XmfUrSWcTbRkx2HdIEsQC2f1EKYcb/IXotyLrKe8gD+MfjiHhMYggjh
+Ft4grxMCXBFIgRTmdm7wVh4Y1MCaJwQ=
+=15sV
+-----END PGP SIGNATURE-----
 
-> > > [...]
-> > > 
-> > > > > > Yes it can be minimalistic but not restrictive. As I already clearly mentioned
-> > > > > > I don't see it makes any sense to enable this for SMC/OPTEE. Lets start with
-> > > > > > just mailbox to start with and extend to other transports if and when needed.
-> > > > > > It would be good to impose that restriction in the binding as well but that
-> > > > > > is not a must IMO. I am fine if the bindings for whatever reasons(though I
-> > > > > > don't see the need) to apply for any transport.
-> > > > > So I should simply drop the smc.c changes , keep the rest, and send V2 ?
-> > > > 
-> > > > Not just that. Unless DT maintainers oppose, I just want to keep this
-> > > > new property valid only for mailbox transport(i.e. "arm,scmi" compatible
-> > > > not otherwise) so that we can catch any other use in binding checks and
-> > > > interested parties must discuss on the list and expand that if they require.
-> > > > 
-> > > > Also we can explore if we can parse and scan this in mailbox transport for
-> > > > now.
-> > > I feel that this only adds more implementation complexity and makes the
-> > > solution less generic, while it does win us very little in the end ? The
-> > > generic solution implementation is actually easier to implement.
-> > 
-> > Yes I want it less generic to start with. Why you want to start making
-> > this workaround on your platform a generic implementation just because
-> > the specification has provision for it ?
-> 
-> Because this is generic kernel code, it seems counterintuitive to introduce
-> less generic solution which requires more complex implementation.
-> 
-
-I would argue. Lot of code gets added as specific and gets generalised
-eventually if there are more users and in different configurations.
-
-> Since the DEN0056 specification states this mode of operation is supported,
-> I also wouldn't call it a workaround.
-
-Sure, I take back if I called it workaround. But why would we want to make
-it generic when we can test only mailbox based platform with it. I don't see
-how it can be useful with SMC/Optee. I am not sure if it is useful with
-virtio and if there is a way to test this. All I am saying is I don't want to
-enable something and advertise it as generic when we have no platform or way
-to test it and keep it functionally correct.
-
--- 
-Regards,
-Sudeep
+--dA0IuGHmQiFxChdp--
 
