@@ -1,291 +1,232 @@
-Return-Path: <linux-renesas-soc+bounces-25652-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25653-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97F73CAD31C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 08 Dec 2025 13:47:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2302CAD33A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 08 Dec 2025 13:54:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7816E306903E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Dec 2025 12:42:49 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9D35630184D1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Dec 2025 12:54:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74DBE311972;
-	Mon,  8 Dec 2025 12:42:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1C8131064B;
+	Mon,  8 Dec 2025 12:54:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="NOJ7rScp"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="TZOVx7Nc"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011040.outbound.protection.outlook.com [52.101.125.40])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E00B2F7444
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  8 Dec 2025 12:42:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.12
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765197767; cv=none; b=fuJIlUGJNHj3dIL7cNcVt8Ht4z6lFOob7hFZA2/hlHDSw3gZQKtKKwb6axNHpzUhvJeYl6gw4wSFzIJtl9coYxhXYpD+VeYb3Hv024qx9dgCXls9aZ9pcv+Md9YN7LNn0JGHuYU8O0APjCdYt18yk84A9KlK8uBCF0j0fIqB6RE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765197767; c=relaxed/simple;
-	bh=8xIVj1oPw573xZll1w+KCySOz/zJABuXMM2i0K8zmFg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
-	 Content-Type:References; b=RsQAiSzPvkqY4oIrpMzkPh3UdaJ+fP4DKtnnsSjQi6ZWste4DpBjGnYG0/7q1HHogG7c7ERSSjKZ+it3SRvqSuVsoZYeZk8Ne/wCnyQpBcTQRL9WcJcLiUwQX50LNdcyul9fpk32PmSNUG5kvlbwtQXud3Mol+8zvctDI6jCfp4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=NOJ7rScp; arc=none smtp.client-ip=210.118.77.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20251208124243euoutp02a6b8157d8208ca90582d5da85700bfb5~-PgNpj4Ke2949329493euoutp02X
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  8 Dec 2025 12:42:43 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20251208124243euoutp02a6b8157d8208ca90582d5da85700bfb5~-PgNpj4Ke2949329493euoutp02X
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1765197763;
-	bh=TeCHUK8ly3u0CI/lUzUWsXGJUfrPlFtMtRIQkLKm/zU=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=NOJ7rScpu2XkuJCEzxkbY71v5K3qviYiAIeTlGuXEdATb4vaBoNoGO4jgEwNbakyO
-	 Vy+3TuwK3C6BCfbxjUTpwW+UKXLGijpsWNzWu62pzn93xnzyQpNdrJDuLLEDSs0zPd
-	 xD2/llIOYQP09TQ2tsV1Au/rjAdj5InkjZ38vCqQ=
-Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20251208124242eucas1p18ad0b3dea76a4e58723a1148e90be629~-PgNJCxmx2269822698eucas1p1t;
-	Mon,  8 Dec 2025 12:42:42 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
-	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20251208124241eusmtip1faee3b50a42c148b87ef1321d70f043a~-PgL5JH1s0280602806eusmtip1H;
-	Mon,  8 Dec 2025 12:42:41 +0000 (GMT)
-Message-ID: <2c274bd2-3bcc-4b75-9a37-9a6441bd7a50@samsung.com>
-Date: Mon, 8 Dec 2025 13:42:40 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9B71225775;
+	Mon,  8 Dec 2025 12:54:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.40
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765198452; cv=fail; b=kekDMCFXzIdXX6IhaCqoeI/e3LGbAvy0rm9BV69Rulkkxd2p/m+P1OV2PlKCOxgsAwvE3vxqhX52KbdNklk6TgZZPoSv+aqulh5PZK4RcT+1xY0vWQO4GUu8gEHJEzQeWovJgluM9F36DubhveW7TgHqf5psUrbQNv2/rd6gGdI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765198452; c=relaxed/simple;
+	bh=KwlzKsAXkEZFT3NoHzCzSGvZ3Iy3txkO1AlAqP16bCQ=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=n8zloAIMLIwoD0RFVAn7SySlqjN/QR2mXKiMFyiD4u4Lr3/iCy3n+CihNbdY1hpYcLyYtx+E7T6KLyP2hAvaMgSNhjfRrCzV6Au6D8FgWXe0aJzNVelH5HaNi8hQ4I1YuQodWpsTRUXvHil0cLLG9XNfawo/MB3Z13Y5qUBWDrs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=TZOVx7Nc; arc=fail smtp.client-ip=52.101.125.40
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MHhhoSqAOGR/MpAFyQxpoiksCfJ3S8Fvc0ltKye5CXMTZcr/KgJ8tsKx5PprcnbtyKedhvhBwccV6M98t/7LwTwS0SyxhJusKTgoIImra0/r0iHvQ/3pTn9PN+SHuRetA9VnnPS3REtLEc4oT/m3pHfSAiK38AWC41UsvkB8sPokriJwMfErxtF4f3vtHDHzk8XnF6KLwnh1etpz137OB+eNqgxiApCcshwZglX/AMDxo0sVCr31WWz88SxdhXAhK/X4Dc+WAubmCRS161+95eopEN561Jzz02iJFmHG8gh6F65ifpxLOsw0q4DXh7EtJJ6RD1QYTN1590+PCcRjaA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KwlzKsAXkEZFT3NoHzCzSGvZ3Iy3txkO1AlAqP16bCQ=;
+ b=FRCV22636D9cNX38jeb7lDfI53FwZE2eV8r1NpyKaQug77V6/ZQRQTXF/cEPS27ngGkAQ/1EKXo3+nCT4b3WCu25Wi/6FB20hkOPkM3wVQFe8x8diwfS9tQDJUfJud7O+ruRV6nq/vL3moWo1b9pq313/civlgA89DnOSqbpKfrC+MeZrvMUwia1fbHqmIbS2cBWzcndLK0WnFLlxMtZKqSICDKI3ZxJT6gcj5ll3pk7CBsYSnokx+wurb8ccdjVTI6tZe+mijWwBnnneEP3vzxcQjMed5h0pAOC8bnzd0W+9RFHC+lqZbNgTYP+kIXGNZ8z5tZKEKnrxsuTqxNQwg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KwlzKsAXkEZFT3NoHzCzSGvZ3Iy3txkO1AlAqP16bCQ=;
+ b=TZOVx7NcqkmYwyH6HhQ4DDLk/DupXjtyDx1mLPk01tmmemTQoQVrBK3UDnPth4e2ZrRFjdC5WsoiB34ki+72ac1V3rdGVoBkStQLDGArF0S5+TDGVp4WRbSwXjQY/4gIdDS52fABnMl2A0BJFstmR1QfWzgxA/7SX9bwKUBdwOM=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by TYYPR01MB12418.jpnprd01.prod.outlook.com (2603:1096:405:f8::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.6; Mon, 8 Dec
+ 2025 12:54:03 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1%6]) with mapi id 15.20.9412.005; Mon, 8 Dec 2025
+ 12:54:03 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Philipp Zabel <p.zabel@pengutronix.de>, biju.das.au
+	<biju.das.au@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>
+CC: "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Prabhakar
+ Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: RE: [PATCH 2/2] clk: renesas: rzv2h: Deassert reset on assert timeout
+Thread-Topic: [PATCH 2/2] clk: renesas: rzv2h: Deassert reset on assert
+ timeout
+Thread-Index: AQHcaCtibMJqsnntuUOEg2wJmjZhwrUXmU2AgAAFEgA=
+Date: Mon, 8 Dec 2025 12:54:03 +0000
+Message-ID:
+ <TY3PR01MB11346F15E5E8B79E52640FA0986A2A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20251208101356.101379-1-biju.das.jz@bp.renesas.com>
+	 <20251208101356.101379-3-biju.das.jz@bp.renesas.com>
+ <88cdf9195a8bf397ff631d316d9f6560f2cbab5c.camel@pengutronix.de>
+In-Reply-To: <88cdf9195a8bf397ff631d316d9f6560f2cbab5c.camel@pengutronix.de>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYYPR01MB12418:EE_
+x-ms-office365-filtering-correlation-id: c17e0abb-3b5b-4a30-f88a-08de3658dda2
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|38070700021;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?eHdJbUhkYkZYZ3VTVko3TGZtM1phM2pHa29qZldiZTEzdHVWVTFRbmVJcCtq?=
+ =?utf-8?B?cjh2MzlnOTh2VFhRYTN6YzhhY3hNVzJWT29qNzZyZnZUeTVodGltdldwWUxp?=
+ =?utf-8?B?bndZbGhqMWViNGM3OGlvdE1BUmJybitBMVJQeWlGRFp3N0t5djdQeWd6YlV1?=
+ =?utf-8?B?K0FpMGFlTk5mLzgrRTJubmJ6b3ErdHR0OUNsbHpYKzl4T0RHY05Mb1BJSmpx?=
+ =?utf-8?B?MnpVMmZ5b1QwSnVVNlkrTi83cEF2YW1UQ2hUR1FnRTNrdmUvNGE5NFI0aU12?=
+ =?utf-8?B?aSszNXZUTmtGR0pVQkdUaWZkaXVhMjFzV3g0cS9kaXhRcTgyN3czSkV6cjY0?=
+ =?utf-8?B?R0ZZRzdqWisrZXg5QnhWNEpHQVpLWWxHYk5uTkZOMUVQOHMxVVNxaXFIUFhy?=
+ =?utf-8?B?TkNhVzYrc3BnaklLZWFpMkYzQUpXN3E4LzBDR1dTV3BGRUFHUGN3MXVJYVBr?=
+ =?utf-8?B?U2FpTnpCWmgxRmdKN0s0dWJKdzRXN0VXWUxzRGZXSzQ0cW5kUFZwbXFDTjcw?=
+ =?utf-8?B?V2l4a0ZkLzQwQ0QyaTRkS0xBVEMxY1FZSTR4cXpCMWFlbVpNK0VKdVpBRzhT?=
+ =?utf-8?B?YmExTE1TYlF4NFNwZFNQUzRJdHpKZnlSc2JXblJQa254RlAwNE5GNFhOb0tN?=
+ =?utf-8?B?Sm4ranhScHQ5WHdTYkdMcngybnFtb3ExQjdWUThuVXZlRzlZc0VuNVZGUlJX?=
+ =?utf-8?B?UGpXNFJFZ3FNV2JnOGZnMDdDbDJnTHUyVlJxQlZ0aktmNy9ZVHZLQk1MbXR2?=
+ =?utf-8?B?OTR6UWFZM010VWVycEJkY3dzUXhzbGUxQllwWkJPWWc0VW0yUG5HUU01OFEz?=
+ =?utf-8?B?cjA0QXp2VmwzTHl2UGlOTjBKdGZrZkFIUXE3b2J2aytXYUdCSzBHQ3NvT1c5?=
+ =?utf-8?B?RWtHaVBicXR2UDJXd2tXek03RUZyc1UwZERpYW5sR3phdUlaU3JYaFErZEM5?=
+ =?utf-8?B?YTNkblV5UkJTZFE0cCtOZGJraEUzMS9qM3pvK2xDRDh4eXRIUW85WjY0QlBw?=
+ =?utf-8?B?ZFFTVkh4SURZR3k3RG5LV0RFVjIxeHNyaG51WnFtNS9wWmo5TVdBcHY2dW5i?=
+ =?utf-8?B?MEpscmZwTkFlQkN5QjM0UTFoR0FuRTdwWnFQYUVmN0VOcWtVR05mMnlXMW9Q?=
+ =?utf-8?B?cjZUUFZXbk0rRHRWaHluNzMxVElrR1ZubzJGTHZsVm5IeFJraG5uUkdQNWlG?=
+ =?utf-8?B?azY1di9CMUdLSEN2ZFRMNzJGekY4YXVEaWNSQWFIaU5zc1J3a3Nnb0RaaGVN?=
+ =?utf-8?B?ZXY1UEpielRKS1lSS0xsWmRUQjVnN3FEOFhUaGRPL2FBZDhqeFI2N2xQd21T?=
+ =?utf-8?B?K1cvcEQ5dDh1ZmhSZ0M1Nk5Gb2t4WTlHK2ViTVdIeCtBZDdUeDI3SnozbWE1?=
+ =?utf-8?B?U3B3Wjc1STlpUlBVaUZIMTMrUGNUTHJNMlpJbHJCellEeWZkcCtBODJVOVZV?=
+ =?utf-8?B?MTJvWXcxcG8yTC9KektBVjhLWGY5Q2pWT2MydUgzM2Y4ZWJCbnpxYnlwWUlQ?=
+ =?utf-8?B?V1FyRnNObVlpTUR2Yi9JK3kxVFlKbXpVV2RjMW15dGYweGJSZzBoaFZSWW1k?=
+ =?utf-8?B?cnhEMCt3dUhrdnIyK1BTQm1NUnE0N3F4Ny9kUUlmeGVaakZHOXBCYzkwdWh5?=
+ =?utf-8?B?bEpLV1ZXMUZCa01kL2VNZVNxY2owOEtHS2l1Rk9neWNsc3NzeUhCWUNUVFgr?=
+ =?utf-8?B?cVNBbnkycnFNaGNjemM5d1BCTVBjV295bk5XSFFlUXlqT2M3aDVFTnA3ZFYr?=
+ =?utf-8?B?ZjR2eGQ5UEt6eXAvUnVOV2lLMHF6K1NPeW9sNUd1ai90L1d5NXgrZzZYY1Y3?=
+ =?utf-8?B?eGxwQVA2eTd3N2J2V0JUN3ZuQTRPV242RFB6UzNseUtOOHU2b3A4bW8vaElJ?=
+ =?utf-8?B?bzVFdTBSNXZ5cXk0eW9SRm5xdWR4T2d4a0ZSenFDRjlyR3RVWC9ST3ZQRk5j?=
+ =?utf-8?B?NUMrQjE3blZYaGNYL0JNWHZ3RWl0UTJNM1NuSEVlYmhaZUpZMWxuK1hYOTlx?=
+ =?utf-8?B?NGY0SVE2VnZlY0JPVDFFSTVFMFNPbEg0T1FKeUhhWVEwVkhlQmF5dFdaRW1u?=
+ =?utf-8?Q?N7xV+n?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?QVZrcFoxbXBIN3BPcFRDTFJHNjBzazZtTkVBcjVGS1ZPMHRpY1JsZFVYVkRz?=
+ =?utf-8?B?akErSU0zWk5wUDNST0VzaWx1VVI5TlpmRE5xNlZqZ1ZiRzBjcVgxL3VPRm55?=
+ =?utf-8?B?MVlDQVc4ZktKUXh6dm5PTFJpSFhLWHFEcGY1UFVGQjhVblV2Rjhtb21zN3BC?=
+ =?utf-8?B?SjRtU0tjcGpIRFZ5Ny95WnA2SGJiSDRxeUMzSXp6Q2VJSGRzUFkza2tDU20y?=
+ =?utf-8?B?cVVuM3JnMDFpNjlZeUlKQXRZbUxlL0tUWHU4WmJ0UkhDTDBZd2RxU21IMVVp?=
+ =?utf-8?B?dTdHVGcxMlVPd1dBeDBpNUtQdW9RT1VNaklnbGFxUVh0dzJqeXJFS00vRHNs?=
+ =?utf-8?B?N3prZVNkeklFbHNicHpya2RKL1Fwa3ZHQ3ZSOE43VEVWZnZIR0cwR2Jicis1?=
+ =?utf-8?B?SmpYS1d0U05hdzh2S2ZIcUVwK1ZWSXVGN1J4d1VwVVQ3N0VQYU91UTlXVXUx?=
+ =?utf-8?B?NndvZXBidzBGMEZKVUJhVGVOWFl6Smh4OVV2SzJWZzRPdXQxVENhVVViNWxQ?=
+ =?utf-8?B?aS8vYkRlSEFvcWw2ZzB3eGVhTC9iaHI2R1FuRjJuTWpxS0xrZlBVZVBWNVBv?=
+ =?utf-8?B?aXo1aUVGV1pFSmtUVGpGdXo0Yi9wa29XUk5HQVQ1WDhxSGpQY05wUjUvaXE5?=
+ =?utf-8?B?K1R2TmVWckRmYVN6WmsxVys0TkRiVXBDcVBOcGhoVGxFUGJxMDhxNzdEWENi?=
+ =?utf-8?B?dkcyNUI2NkFSRXVsM0VybkRyTml0eGhEOEZON2NwMXJhMXJZV3dUd1JOTFZK?=
+ =?utf-8?B?cFhvWUpiclQ4bHo3MC8ycnVLN2hsUm9aWitVamFuTUtYNExHM2FZZFZwbHJ3?=
+ =?utf-8?B?Q3g5SlFCaC9WWG9DYmtiOWNtcVlNQUxEdHRKUUl5aEowOFZzRjNIZXBOSXFw?=
+ =?utf-8?B?Zzl1TzUxUytPckhYOFlJeDdoaDNMMW1hRTBnZVlKeEpmSVN3NFV3RktjMFZJ?=
+ =?utf-8?B?c29jZHdqOGpWaXpDaWpBSyt6Yk5tV1ZGbWFxeFg4VFlHWmwraXF2dVpTYUVE?=
+ =?utf-8?B?SVdZNWFNZy9MeWpoS0YvRG1xaU5Gejk5dDVyWlNXdlBaVVBzUC8rVHRuMXJv?=
+ =?utf-8?B?bmFHcHVOMU1RNUxyaEt3UVcrbUFJdm9kL0U2T0c4L0tBTllNeVJUbjJyN3la?=
+ =?utf-8?B?T1VNZGNGSFh3TFFKN3BjR1RibGJzVWxFMmxtdk9SUkxPUmtNb3ZUNXR5bzh6?=
+ =?utf-8?B?WUNvYkhDRktEOTZ1bVl2bjAyQ0VrVjhxaGlCSzdFUGdoZmg2amdaYkw5dVM2?=
+ =?utf-8?B?NExtOCtvdUYzaHpmeXBIMzFMMUx1MlZQeThKaHJ4MVlJdHZIcDRTMDZuQVhH?=
+ =?utf-8?B?RGNIem1GbENuVWlZZlJvS2J1NDlqK1c0QUJKaklrdWZPR0ZOK0Q0NnByb25t?=
+ =?utf-8?B?VnJjdllwSEhzRE5ncmJDMlBEamViZld4azZrYnVzNlNCYTE3QmhuNlR0S2V3?=
+ =?utf-8?B?QWJDakhlV1lsc2lERmZHTlNXRkpqR2xUTVdBNWRWUmxiRmdwUGNmSHptS0lZ?=
+ =?utf-8?B?ZHFrRFdjZHpIeHZUQjhLWFA0YzE0SG1YaXoxWWFVZ0dDdDg1MnNjbG0xL2VJ?=
+ =?utf-8?B?SGx2Uk5VbTc4T0FHc1hDZkx1dGJ3ZVNCTVQ1Y3h1TFloR1Vub2tMUVJ3cGY4?=
+ =?utf-8?B?Tmdmb29SdU10NmNUZkFpWjB0WHI2djNkdktaWTFHZXRMNFJEOGlMNXhvSXBO?=
+ =?utf-8?B?cXUvb1FnWlVoL1hVT3ZEQWM5YmxGTDRkbHM2WWkrdjJsWXlYenZGbGZLcnNp?=
+ =?utf-8?B?ZDJ4YnFHVVJ2TVJGWDhzTnllS1dZeCtjakpoUDVMUFJpQW5YZmpJNko5cTJk?=
+ =?utf-8?B?S3AxQm9GMFExdmNaRnBWY2dVKzI4dkJuTkt3UStrMmhHcGQvR2xQeitxdStq?=
+ =?utf-8?B?NGVhQVNZblRhSUlma25kNmVzTXJpRSt6YkdZQmxUT0J3L3l0aS8xblZhb21O?=
+ =?utf-8?B?QXBOamNQcER6R2lmSDFNRnJlTXFjRlp1UW1xTzZuYUZWNDg4NEdzSk45RHdM?=
+ =?utf-8?B?VmlhTFA4MjR5U1dIN0hxb3VvMS9xTG4rc1NPejdKcGRkSHdRL0FBejZCbmEv?=
+ =?utf-8?B?T2VSZlZNVzlzeTc2ZkFIMzY3NWVnRWkrRHdWVVljQUxXUlRVS2k3THVLWmRS?=
+ =?utf-8?B?OUoxc1p5YzBFc0VDSmFMTFhaSmRuR1hDTC9IeTR4WTNkRy9OUDlXcklza01x?=
+ =?utf-8?B?cGc9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Betterbird (Windows)
-Subject: Re: [PATCH v7 2/2] remoteproc: qcom: Use of_reserved_mem_region_*
- functions for "memory-region"
-To: Rob Herring <robh@kernel.org>
-Cc: Bjorn Andersson <andersson@kernel.org>, Mathieu Poirier
-	<mathieu.poirier@linaro.org>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
-	<s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Geert Uytterhoeven
-	<geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, Patrice
-	Chotard <patrice.chotard@foss.st.com>, Maxime Coquelin
-	<mcoquelin.stm32@gmail.com>, Alexandre Torgue
-	<alexandre.torgue@foss.st.com>, Arnaud Pouliquen
-	<arnaud.pouliquen@foss.st.com>, Peng Fan <peng.fan@nxp.com>, Beleswar Padhi
-	<b-padhi@ti.com>, linux-remoteproc@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-msm@vger.kernel.org
-Content-Language: en-US
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <CAL_JsqJTrGAJx-fv8OQGDhsLVKavQzzQotssEq_E5f_aJe8bOg@mail.gmail.com>
-Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20251208124242eucas1p18ad0b3dea76a4e58723a1148e90be629
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20251127142839eucas1p186846c6c1ea1d9e43369fbba9bb5d17c
-X-EPHeader: CA
-X-CMS-RootMailID: 20251127142839eucas1p186846c6c1ea1d9e43369fbba9bb5d17c
-References: <20251124182751.507624-1-robh@kernel.org>
-	<CGME20251127142839eucas1p186846c6c1ea1d9e43369fbba9bb5d17c@eucas1p1.samsung.com>
-	<20251124182751.507624-2-robh@kernel.org>
-	<674efe8d-c299-4ce9-bf6b-c1920a5393eb@samsung.com>
-	<CAL_JsqJTrGAJx-fv8OQGDhsLVKavQzzQotssEq_E5f_aJe8bOg@mail.gmail.com>
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c17e0abb-3b5b-4a30-f88a-08de3658dda2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Dec 2025 12:54:03.6053
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ZMuLcTcPZIzW3SUELv8rxmixg3IQLe2dV8nhPQSrBaChFTzQxECBBLUKwWDNK6lrPb4CT99wHkNNT/30tf9YLGZFxwZu5OYcQs0FWa+rbCk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB12418
 
-On 02.12.2025 15:15, Rob Herring wrote:
-> On Thu, Nov 27, 2025 at 8:28 AM Marek Szyprowski
-> <m.szyprowski@samsung.com> wrote:
->> On 24.11.2025 19:27, Rob Herring (Arm) wrote:
->>> Use the newly added of_reserved_mem_region_to_resource() and
->>> of_reserved_mem_region_count() functions to handle "memory-region"
->>> properties.
->>>
->>> The error handling is a bit different in some cases. Often
->>> "memory-region" is optional, so failed lookup is not an error. But then
->>> an error in of_reserved_mem_lookup() is treated as an error. However,
->>> that distinction is not really important. Either the region is available
->>> and usable or it is not. So now, it is just
->>> of_reserved_mem_region_to_resource() which is checked for an error.
->>>
->>> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
->> This patch landed in today's linux-next as commit c70b9d5fdcd7
->> ("remoteproc: qcom: Use of_reserved_mem_region_* functions for
->> "memory-region""). In my tests I found that it breaks booting of
->> DragonBoard410c (arch/arm64/boot/dts/qcom/apq8016-sbc.dts) by causing
->> the NULL pointer dereference. The issue is caused by replacing
->> devm_ioremap_wc() with devm_ioremap_resource_wc(), which fails on
->> devm_request_mem_region(), see comment in the code below. It looks that
->> the error handling is somewhere broken. Here is the the kernel log:
->>
->> remoteproc remoteproc0: 4080000.remoteproc is available
->> qcom-wcnss-pil a204000.remoteproc: error -EBUSY: can't request region
->> for resource [mem 0x8e200000-0x8e7fffff]
->> remoteproc remoteproc1: a204000.remoteproc is available
->> remoteproc remoteproc1: powering up a204000.remoteproc
->> remoteproc remoteproc1: Booting fw image qcom/apq8016/wcnss.mbn, size
->> 4111376
->> Unable to handle kernel paging request at virtual address fffffffffffffff0
->> Mem abort info:
->> ...
->> Internal error: Oops: 0000000096000046 [#1]  SMP
->> Modules linked in: cpufreq_powersave qcom_wcnss_pil cpufreq_conservative
->> coresight_stm coresight_replicator coresight_tmc coresight_tpiu stm_core
->> coresight_funnel coresight_cpu_debug coresight_cti(+) adv7511 coresight
->> nfc rfkill msm snd_soc_lpass_apq8016 snd_soc_apq8016_sbc
->> snd_soc_lpass_cpu snd_soc_msm8916_analog snd_soc_msm8916_digital
->> snd_soc_qcom_common snd_soc_lpass_platform snd_soc_core qrtr ubwc_config
->> snd_compress llcc_qcom snd_pcm_dmaengine qcom_q6v5_mss snd_pcm ocmem
->> qcom_pil_info qcom_spmi_vadc qcom_camss drm_gpuvm qcom_pon rtc_pm8xxx
->> qcom_q6v5 qcom_spmi_temp_alarm venus_core qcom_vadc_common snd_timer
->> drm_exec qcom_sysmon snd qcom_common gpu_sched videobuf2_dma_sg
->> v4l2_mem2mem qcom_glink_smem v4l2_fwnode soundcore drm_dp_aux_bus
->> qmi_helpers mdt_loader v4l2_async videobuf2_memops videobuf2_v4l2
->> videodev qnoc_msm8916 videobuf2_common qcom_rng drm_display_helper mc
->> qcom_stats rpmsg_ctrl rpmsg_char display_connector ramoops socinfo
->> rmtfs_mem reed_solomon ax88796b asix usbnet phy_qcom_usb_hs ipv6 libsha1
->> CPU: 2 UID: 0 PID: 28 Comm: kworker/2:0 Tainted: G W
->> 6.18.0-rc1+ #16209 PREEMPT
->> Tainted: [W]=WARN
->> lr : __qcom_mdt_load+0x210/0x304 [mdt_loader]
->> Call trace:
->>    __pi_memcpy_generic+0x128/0x22c (P)
->>    qcom_mdt_load+0x68/0x60c [mdt_loader]
->>    wcnss_load+0x2c/0x5c [qcom_wcnss_pil]
->>    rproc_start+0x30/0x1b4
->>    rproc_boot+0x19c/0x560
->>    rproc_auto_boot_callback+0x1c/0x34
->>    request_firmware_work_func+0x4c/0x98
->>    process_one_work+0x208/0x60c
->>    worker_thread+0x244/0x388
->>    kthread+0x150/0x228
->>    ret_from_fork+0x10/0x20
->> Code: 927cec03 cb0e0021 8b0e0042 a9411c26 (a900340c)
->> ---[ end trace 0000000000000000 ]---
->>
->>
->>> ---
->>> v7:
->>>    - Split QCom to separate patch
->>> ---
->>>    drivers/remoteproc/qcom_q6v5_adsp.c | 24 ++++------
->>>    drivers/remoteproc/qcom_q6v5_mss.c  | 60 ++++++++-----------------
->>>    drivers/remoteproc/qcom_q6v5_pas.c  | 69 +++++++++++------------------
->>>    drivers/remoteproc/qcom_q6v5_wcss.c | 25 +++++------
->>>    drivers/remoteproc/qcom_wcnss.c     | 23 ++++------
->>>    5 files changed, 72 insertions(+), 129 deletions(-)
->>>
->>> ...
->>> diff --git a/drivers/remoteproc/qcom_wcnss.c b/drivers/remoteproc/qcom_wcnss.c
->>> index 2c7e519a2254..14005fb049a2 100644
->>> --- a/drivers/remoteproc/qcom_wcnss.c
->>> +++ b/drivers/remoteproc/qcom_wcnss.c
->>> @@ -526,25 +526,20 @@ static int wcnss_request_irq(struct qcom_wcnss *wcnss,
->>>
->>>    static int wcnss_alloc_memory_region(struct qcom_wcnss *wcnss)
->>>    {
->>> -     struct reserved_mem *rmem = NULL;
->>> -     struct device_node *node;
->>> -
->>> -     node = of_parse_phandle(wcnss->dev->of_node, "memory-region", 0);
->>> -     if (node)
->>> -             rmem = of_reserved_mem_lookup(node);
->>> -     of_node_put(node);
->>> +     struct resource res;
->>> +     int ret;
->>>
->>> -     if (!rmem) {
->>> +     ret = of_reserved_mem_region_to_resource(wcnss->dev->of_node, 0, &res);
->>> +     if (ret) {
->>>                dev_err(wcnss->dev, "unable to resolve memory-region\n");
->>> -             return -EINVAL;
->>> +             return ret;
->>>        }
->>>
->>> -     wcnss->mem_phys = wcnss->mem_reloc = rmem->base;
->>> -     wcnss->mem_size = rmem->size;
->>> -     wcnss->mem_region = devm_ioremap_wc(wcnss->dev, wcnss->mem_phys, wcnss->mem_size);
->>> +     wcnss->mem_phys = wcnss->mem_reloc = res.start;
->>> +     wcnss->mem_size = resource_size(&res);
->>> +     wcnss->mem_region = devm_ioremap_resource_wc(wcnss->dev, &res);
->> The above line causes the failure. After restoring it to:
->>
->> wcnss->mem_region = devm_ioremap_wc(wcnss->dev, wcnss->mem_phys, wcnss->mem_size);
->>
->> the mentioned board boots fine again. I'm not sure about other drivers,
->> if they also fail the same way as they might not be used on the tested
->> board.
-> Other platforms (non-QCom) were tested also use
-> devm_ioremap_resource_wc(). So something else is claiming the same
-> region? Can you dump out /proc/iomem?
->
-> The region is dynamically allocated, so maybe that has something to do with it.
-
-# dmesg | grep mem
-OF: reserved mem: 0x000000008e200000..0x000000008e7fffff (6144 KiB) 
-nomap non-reusable wcnss
-OF: reserved mem: 0x000000008dd00000..0x000000008e1fffff (5120 KiB) 
-nomap non-reusable venus
-OF: reserved mem: 0x000000008dc00000..0x000000008dcfffff (1024 KiB) 
-nomap non-reusable mba
-OF: reserved mem: 0x0000000086000000..0x00000000862fffff (3072 KiB) 
-nomap non-reusable tz-apps@86000000
-OF: reserved mem: 0x0000000086300000..0x00000000863fffff (1024 KiB) 
-nomap non-reusable smem@86300000
-OF: reserved mem: 0x0000000086400000..0x00000000864fffff (1024 KiB) 
-nomap non-reusable hypervisor@86400000
-OF: reserved mem: 0x0000000086500000..0x000000008667ffff (1536 KiB) 
-nomap non-reusable tz@86500000
-OF: reserved mem: 0x0000000086680000..0x00000000866fffff (512 KiB) nomap 
-non-reusable reserved@86680000
-OF: reserved mem: 0x0000000086700000..0x00000000867dffff (896 KiB) nomap 
-non-reusable rmtfs@86700000
-OF: reserved mem: 0x00000000867e0000..0x00000000867fffff (128 KiB) nomap 
-non-reusable rfsa@867e0000
-OF: reserved mem: 0x0000000086800000..0x00000000892fffff (44032 KiB) 
-nomap non-reusable mpss@86800000
-OF: reserved mem: 0x00000000bff00000..0x00000000bfffffff (1024 KiB) map 
-non-reusable ramoops@bff00000
-NUMA: Faking a node at [mem 0x0000000080000000-0x00000000bd9fffff]
-NODE_DATA(0) allocated [mem 0xbd7c6800-0xbd7c943f]
-   DMA      [mem 0x0000000080000000-0x00000000bd9fffff]
-Early memory node ranges
-   node   0: [mem 0x0000000080000000-0x0000000085ffffff]
-   node   0: [mem 0x0000000086000000-0x00000000892fffff]
-   node   0: [mem 0x0000000089300000-0x000000008dbfffff]
-   node   0: [mem 0x000000008dc00000-0x000000008e7fffff]
-   node   0: [mem 0x000000008e800000-0x00000000bd9fffff]
-
-...
-
-
-# cat /proc/iomem
-
-...
-80000000-85ffffff : System RAM
-  80000000-821affff : Kernel code
-  821b0000-82e5ffff : reserved
-  82e60000-840fffff : Kernel data
-  85000000-85013fff : reserved
-86000000-892fffff : reserved
-89300000-8dbfffff : System RAM
-8dc00000-8e7fffff : reserved
-  8dc00000-8e7fffff : reserved
-8e800000-bd9fffff : System RAM
-  b1000000-b6ffffff : reserved
-  b7000000-bbe08fff : reserved
-  bc480000-bd5fffff : reserved
-  bd621000-bd623fff : reserved
-  bd624000-bd724fff : reserved
-  bd725000-bd7b0fff : reserved
-  bd7b2000-bd7b4fff : reserved
-  bd7b5000-bd7b5fff : reserved
-  bd7b6000-bd7c9fff : reserved
-  bd7ca000-bd9fffff : reserved
-
-
-The devm_ioremap_resource_wc() requested region (0x8e200000-0x8e7fffff) 
-is marked as 'reserved' in /proc/iomem.
-
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
-
+SGkgUGhpbGlwcCBaYWJlbCwNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9t
+OiBQaGlsaXBwIFphYmVsIDxwLnphYmVsQHBlbmd1dHJvbml4LmRlPg0KPiBTZW50OiAwOCBEZWNl
+bWJlciAyMDI1IDExOjIyDQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggMi8yXSBjbGs6IHJlbmVzYXM6
+IHJ6djJoOiBEZWFzc2VydCByZXNldCBvbiBhc3NlcnQgdGltZW91dA0KPiANCj4gT24gTW8sIDIw
+MjUtMTItMDggYXQgMTA6MTMgKzAwMDAsIEJpanUgd3JvdGU6DQo+ID4gRnJvbTogQmlqdSBEYXMg
+PGJpanUuZGFzLmp6QGJwLnJlbmVzYXMuY29tPg0KPiA+DQo+ID4gSWYgdGhlIGFzc2VydCgpIGZh
+aWxzIGR1ZSB0byB0aW1lb3V0IGVycm9yLCBzZXQgdGhlIHJlc2V0IHJlZ2lzdGVyIGJpdA0KPiA+
+IGJhY2sgdG8gZGVhc3NlcnRlZCBzdGF0ZS4gVGhpcyBjaGFuZ2UgaXMgbmVlZGVkIGVzcGVjaWFs
+bHkgZm9yDQo+ID4gaGFuZGxpbmcgYXNzZXJ0IGVycm9yIGluIHN1c3BlbmQoKSBjYWxsYmFjayB0
+aGF0IGV4cGVjdCB0aGUgZGV2aWNlIHRvDQo+ID4gYmUgaW4gb3BlcmF0aW9uYWwgc3RhdGUgaW4g
+Y2FzZSBvZiBmYWlsdXJlLg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogQmlqdSBEYXMgPGJpanUu
+ZGFzLmp6QGJwLnJlbmVzYXMuY29tPg0KPiA+IC0tLQ0KPiA+ICBkcml2ZXJzL2Nsay9yZW5lc2Fz
+L3J6djJoLWNwZy5jIHwgNSArKysrLQ0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25z
+KCspLCAxIGRlbGV0aW9uKC0pDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9jbGsvcmVu
+ZXNhcy9yenYyaC1jcGcuYw0KPiA+IGIvZHJpdmVycy9jbGsvcmVuZXNhcy9yenYyaC1jcGcuYyBp
+bmRleCAzZjYyOTliOWZlYzAuLmMwZWUyZGNjODU4Yw0KPiA+IDEwMDY0NA0KPiA+IC0tLSBhL2Ry
+aXZlcnMvY2xrL3JlbmVzYXMvcnp2MmgtY3BnLmMNCj4gPiArKysgYi9kcml2ZXJzL2Nsay9yZW5l
+c2FzL3J6djJoLWNwZy5jDQo+ID4gQEAgLTEzNjYsOCArMTM2NiwxMSBAQCBzdGF0aWMgaW50IF9f
+cnp2MmhfY3BnX2Fzc2VydChzdHJ1Y3QNCj4gPiByZXNldF9jb250cm9sbGVyX2RldiAqcmNkZXYs
+DQo+ID4NCj4gPiAgCXJldCA9IHJlYWRsX3BvbGxfdGltZW91dF9hdG9taWMocHJpdi0+YmFzZSAr
+IHJlZywgdmFsdWUsDQo+ID4gIAkJCQkJYXNzZXJ0ID09ICEhKHZhbHVlICYgbWFzayksIDEwLCAy
+MDApOw0KPiA+IC0JaWYgKHJldCAmJiAhYXNzZXJ0KSB7DQo+ID4gKwlpZiAocmV0KSB7DQo+ID4g
+IAkJdmFsdWUgPSBtYXNrIDw8IDE2Ow0KPiA+ICsJCWlmIChhc3NlcnQpDQo+ID4gKwkJCXZhbHVl
+IHw9IG1hc2s7DQo+ID4gKw0KPiA+ICAJCXdyaXRlbCh2YWx1ZSwgcHJpdi0+YmFzZSArDQo+ID4g
+R0VUX1JTVF9PRkZTRVQocHJpdi0+cmVzZXRzW2lkXS5yZXNldF9pbmRleCkpOw0KPiANCj4gVGhp
+cyB3cml0ZWwoKSBjb3VsZCByZXVzZQ0KPiANCj4gCXVuc2lnbmVkIGludCByZWcgPSBHRVRfUlNU
+X09GRlNFVChwcml2LT5yZXNldHNbaWRdLnJlc2V0X2luZGV4KTsNCg0KRm9yIHRoYXQgSSBuZWVk
+IHRvIGRlY2xhcmUgcnN0X21vbiBmb3IgaGFuZGxpbmcgR0VUX1JTVF9NT05fT0ZGU0VUKHByaXYt
+PnJlc2V0c1tpZF0ubW9uX2luZGV4KSBhbmQNCnJldXNlIHRoZSByZWcgdmFyaWFibGUgaGVyZS4N
+Cg0KPiANCj4gPiAgCX0NCj4gDQo+IEhvdyBkb2VzIHRoZSBoYXJkd2FyZSBiZWhhdmUgd2hlbiBf
+X3J6djJoX2NwZ19hc3NlcnQoKSBpcyBjYWxsZWQgb24gYW4gYWxyZWFkeSBhc3NlcnRlZCByZXNl
+dD8gSXMgaXQNCj4gcG9zc2libGUgZm9yIHRoZQ0KPiByZWFkbF9wb2xsX3RpbWVvdXRfYXRvbWlj
+KCkgdGltZW91dCB0byB0cmlnZ2VyLCBvciBjYW4gdGhpcyBvbmx5IGV2ZXIgaGFwcGVuIGZvciBh
+c3NlcnRlZCA8LT4NCj4gZGVhc3NlcnRlZCB0cmFuc2l0aW9ucz8gDQoNCkJhc2ljYWxseSwgdGhl
+cmUgYXJlIDIgc2VwYXJhdGUgcmVnaXN0ZXJzDQoNClJlc2V0IENvbnRyb2wgUmVnaXN0ZXJzIChD
+UEdfUlNUX20pOg0KMGI6IFJlc2V0IG9uIChyZXNldCBhc3NlcnQpDQoxYjogUmVzZXQgb2ZmIChy
+ZXNldF9kZWFzc2VydCkNCg0KUmVzZXQgTW9uaXRvciBSZWdpc3RlcnMgKENQR19SU1RNT05fbSk6
+DQowYjogVGhlIHRhcmdldCB1bml0IGlzIHJlbGVhc2VkIGZyb20gdGhlIHJlc2V0IHN0YXRlLg0K
+MWI6IFRoZSB0YXJnZXQgdW5pdCBpcyBpbiB0aGUgcmVzZXQgc3RhdGUuDQoNClRoZSBtb25pdG9y
+IHRyYW5zaXRpb24gaGFwcGVucywgb25seSBpZiB0aGVyZSBpcyBjaGFuZ2UgaXMgQ1BHX1JTVF9t
+IHJlZ2lzdGVyLg0KDQpJZiB0aGUgX19yenYyaF9jcGdfYXNzZXJ0KCkgaXMgY2FsbGVkIG9uIGFu
+IGFscmVhZHkgYXNzZXJ0ZWQgcmVzZXQsIHJlYWRsX3BvbGxfdGltZW91dF9hdG9taWMoKSB3aWxs
+IHJldHVybg0KaW1tZWRpYXRlbHkuDQoNClRoZSByZWFkbF9wb2xsX3RpbWVvdXRfYXRvbWljKCkg
+dGltZW91dCB0byB0cmlnZ2VyIGNhbiBvbmx5IGhhcHBlbiBkdXJpbmcgdHJhbnNpdGlvbnMuDQoN
+Cj4gSGF2aW5nIGEgZmFpbGVkDQo+IHJlc2V0X2NvbnRyb2xfYXNzZXJ0KCkgZGVhc3NlcnQgdGhl
+IHJlc2V0IGlmIGl0IHdhcyBwcmV2aW91c2x5IGFzc2VydGVkIHdvdWxkIGJlIHN1cnByaXNpbmcu
+DQoNCkkgYWdyZWUuDQoNCkNoZWVycywNCkJpanUNCg==
 
