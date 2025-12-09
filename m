@@ -1,126 +1,128 @@
-Return-Path: <linux-renesas-soc+bounces-25679-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25680-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 361E4CAFF8F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 09 Dec 2025 13:51:50 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id E00D4CB03B9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 09 Dec 2025 15:17:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1357D30826AE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Dec 2025 12:51:32 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 89279300977B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Dec 2025 14:17:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF8DC328635;
-	Tue,  9 Dec 2025 12:51:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94CB02BEFE4;
+	Tue,  9 Dec 2025 14:17:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="iO/oDqYq"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EJcDhqP6"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DBD1224B0D
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  9 Dec 2025 12:51:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A9D9299929
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  9 Dec 2025 14:17:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765284690; cv=none; b=E6TnmwmArerhvdqdwik+lQ06enExEK13PlPX4UlxR7ZkyyIa2BqXOmOwOnLjRcKvlIzLGT+mV67JDeDIGPwyeyFVb341p/Mb6ILUztpR88fjtZclB3AUMHsNWjzbYzW9sX5WBWggWnP8OCscuFK/MkWaEX698gytEwwCEAyYwRY=
+	t=1765289858; cv=none; b=FVuDx2WsKiXk182o43dXS5AaWojv2nLnRt9H+1UeyiCvzWf4rW7E7oU64uVViiuiWNCQoQlAlX3D3LJR13/nnu/vpOcbwjdhAD4snn+TmrDChMGkOSHeK3m/flxyznuru5vi3bHDiMqmZ98Wr7SeptWr6ne/F1v+NWNiUnASaaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765284690; c=relaxed/simple;
-	bh=rsEY48Dl/2+LgFdb6mNeb12u/2T0T6uiLHgrX5UTqI0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KOexcGJNvOUOpZZAw8XDubveBlGcxEhT4h2StK13w+wMakhxPEIfVCvFP5BZf0BH/GwUl/Mn96H/E26MFdW/FxRMil7oMsGHUhwaNnkzak21GIb5jME75NixFqBO+QRwpRPG3FkfaHvnraFA0vrhhgblIb+ZoWLQYuUUqI53TTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=iO/oDqYq; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-42f9ece6387so309469f8f.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 09 Dec 2025 04:51:27 -0800 (PST)
+	s=arc-20240116; t=1765289858; c=relaxed/simple;
+	bh=unuZ6P3b7Yxjaa+0itPHl4nXBL7mIF6rtwXPOxCWtX4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XFfgSJFv4UxVbQzyKzy25xBH9J4+eWRRVg5fwoAkCYKUEsaXElP3vkPcBMV471KgWaMKvbflGILOiODuOO0SgPZdDWxsap0zMgqDKFOVa7FeNLxDD6AYLAhZOYRfR5CjxMu6RwgmqtGCzrvwq3+bDPT464zGTC7HJH1Rd6TlQtQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EJcDhqP6; arc=none smtp.client-ip=74.125.82.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-2a45877bd5eso8182705eec.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 09 Dec 2025 06:17:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1765284686; x=1765889486; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=afXJUoTdYBs1G9U5HKpUIzH+QZ9Duh8PFbcc6QIvflU=;
-        b=iO/oDqYqhhAG9IXf99wgmpBmjhxB5Y2/hZo43+LLXUCHdxA7VnSPMJlSk+Si6ey3ui
-         IY9OULVtQxazpKQod7prUMhABEAb46zCNdTEZOfP/V6nnxaIoK3Nx2JO2uRm7sya5Xjf
-         h4x7fjBq+BOkq8ZXgseJaOf86XbUaFGaoIoF7djj4Gx0uglYjiWnqTUgEswL2yDUMBi2
-         kdp/6H79NBir2b+e852KzJAKpLoYxMHiCY3HKEvhMYzbL8PGpMhdOHgopylIf0LHSdyK
-         DfhsrVlamJ5IciRrxuVr68FmEHAUjllCTbAKM9qwWaTw7HPTQrq6WFwQ8i6Bq/spwVwr
-         JDCQ==
+        d=gmail.com; s=20230601; t=1765289856; x=1765894656; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=GqGl05z99jHp2ShgOvgQgByFBkkP2VElXGK/JMHVdj4=;
+        b=EJcDhqP6gkSRYJwsSv2k0z0JKn9iv5hcbelmELr2P3lxWCRnlk0lbADGeEpal6NB4p
+         wYuuoo9+s5zqMnCoWq40Dd4sWemsqp+oOEPWUbqAl3J/GbjdVKnH/2NbJbU7hong+gjQ
+         sawD3lVJ6BJcqYA9eu75o9Gnka3/Z5vxcEXy8NS4ZouORDBysJdlvLwaNm208Z74YZBe
+         +Tyl8ln2f+b5tVxwpZFY2dly7V0+LHt4ezeVsRejV5mAkwpMOJRd2rH97TzHkb/iBjcc
+         amJ7UUeOBoZvlsLphZZunoALUwUDvoFN8NbYLerIHWjUqFLqCkBtu2i6Ww45VwuZtD5E
+         h/2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765284686; x=1765889486;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1765289856; x=1765894656;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=afXJUoTdYBs1G9U5HKpUIzH+QZ9Duh8PFbcc6QIvflU=;
-        b=m4QQ6eKY+zGsAzziJnKGAt6QDA8DNFsRVjPt1DQksFxTz+1oBp3oUULSPFi5AZccUG
-         1fU7RKTrD95wrvXBA8bhpX8QrjDiTV1GyfbuntcW7Y1oKgQDzGIyD5OBsifSSuq8Modc
-         mB3fznAAq/zr8KQOrv4bqsNl2drWeiX5h+4E8hAKZWdWPeTdWfKC846u5Cok+lwB9y6b
-         ghC71f8L+YR3+qh/B21wm5BTP2D0t/j+1ZjDL2NvkeTI6Nk9Hr37ot7f8XYDZH3Vymfu
-         2kHk/8hog86Q5CGjhGxIlRa4SVXTs3jusM4kAWRVGQKofSkQxdUJfNJIdxapWpsjPPCy
-         SOqw==
-X-Forwarded-Encrypted: i=1; AJvYcCWJ0wum+t6K89/K8T1alxC8gsdEAemY0YaW9bXWfiPRtYtEiR8ueIHeGfVEil3qgQeeLzbmUW0HLa+yw4EujviXsg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxEfFyWU4O7fmxG1asaotyKMzWklHitpEWLZus2HJlo0Ti6qxpn
-	j1EJzSCua+dlG/ReiMsiJgtVcdtV0umCuXi3itNKSMeEtgPtu9xi3Zjv/68Hlt+MetU=
-X-Gm-Gg: AY/fxX5/A8Rc7Y+4EGqHhdVO/p3RIOFrbbgzl9t9UR7W/5eRM+CfGgbTKnmrMdzt770
-	xMV4K2ImiL7ccMdH8e7Gl+NNT0JyKOw0lgIPtSDXO7SR08q0g39Jeyz25FkeJf8VX2hjAFzSBp5
-	/kpUdtpgbmAZ6dZwIazikryskg4mMVKzwqdc3Mc5YXE65PXT6uVIOnIKkxLiAOO/BW+5Hexe2ud
-	VBG8aedsA4Dv5anWr4nTxFAaWyzUsqYgbu5OCW8opp10AZMLgRMr465yMhulaPMLObuDgUlCHcW
-	oUCaRrIgapOyJVIyqVvUDIX6MOG02I7NqFjeD7Ncn6i8NGRTlou2L6qpTBZXlVsN1TtStZJWoKp
-	k64i53MKLLn72aZecw4WbiIvlvxi3/+GK7oBuvPWB6x8M7+LnQ94X88wULXzB321DCPp4noQOni
-	r3mymOKJU9guM1FrbidGhjORs0FQbdLT+Z5B5ip2Mv
-X-Google-Smtp-Source: AGHT+IEWm1fY2QNsyJPNRyYQ1RZn1PbKph777Yy+bUxaq8uTmjsapUHrutErncCjUEmcZYh3TuKrvA==
-X-Received: by 2002:a5d:5f88:0:b0:426:eef2:fa86 with SMTP id ffacd0b85a97d-42f89f0b1f2mr12787199f8f.11.1765284686271;
-        Tue, 09 Dec 2025 04:51:26 -0800 (PST)
-Received: from claudiu-X670E-Pro-RS.. ([82.78.167.134])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42f7d353f75sm31678042f8f.42.2025.12.09.04.51.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Dec 2025 04:51:25 -0800 (PST)
-From: Claudiu <claudiu.beznea@tuxon.dev>
-X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
-To: lpieralisi@kernel.org,
-	kwilczynski@kernel.org,
-	mani@kernel.org,
-	robh@kernel.org,
-	bhelgaas@google.com
-Cc: claudiu.beznea@tuxon.dev,
-	linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH] PCI: rzg3s-host: Fix compilation warning
-Date: Tue,  9 Dec 2025 14:51:22 +0200
-Message-ID: <20251209125122.304129-1-claudiu.beznea.uj@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
+        bh=GqGl05z99jHp2ShgOvgQgByFBkkP2VElXGK/JMHVdj4=;
+        b=g5l3H7V6ovlMt0LZnk1DfynDaOjED5d2JL5F9jFCS1FPMUelFHtzz7NazlfkJsNxlK
+         6SAnWHgZAq06KyHwRkn+l39bxsTVDfavnaITmdKFZ/LFt8ENM5sNvlkJPcKHYTAgUbaS
+         pokMakIgbl0h5I0M70UScO2OaC6O9BxYIi/8aeDCsLRaAnPfgfSyYbTZBH+Y+WQaaJ86
+         OHY/xYjMiTEsmYcBfvLccELk6nW+OvvhxpCf5BQzbAUaaTESYl18oezN5mBkprXrOx52
+         X875jIAF2NsKBV7eVRW5XH857jyOkpucHvHyGirVbvOCaVfEqRYLH1Cm1yvgWiR1elZF
+         RbkA==
+X-Forwarded-Encrypted: i=1; AJvYcCWUaQppx1wQjJkQs0l43eJu9ziz89RR1qEMxrfmLTvb5wzeQL4dZn+vwwNBirKAVZcrAQqLI1i1A28QMESVOQkWlg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YywzLSHpbZVeJu7fpscHb4psc+uww6vKa0PjsEA614gaV2ys1Tr
+	DlZUkeMTxK2JJ203BAhgBtgF6Kgbl8BiE6H0tmP1T+WiPsSwdomH1ayXqrc/JA1kmssHmkC/PKL
+	ss79V/QUIxtXm8LuPt67fr+HVQrXnfWM=
+X-Gm-Gg: AY/fxX5b5/3hOKJxCHdc7GcLHj63sHDWugV3Q3rJ5t9Ftm6xGkJsQYO2Eyti9LUCqNV
+	CK/TpM+A4Zrnm0rcPGFvh9ZMnp6hE0vt5K2CdKQAcASWgXLZysYZJqGHl0ouK4JbteNOqzciQs2
+	tvnNvBYb96JYSKt/NgHh2bhzC0U3/xbnSeh1k/RVAMp1aE2LR7irPGORdvp+GMAvl3rB+14Rhjf
+	OQtjALMqIQ20dtE98ed6IOJ1/94qEksyBF+TZe78BZ/GU/+8e6aE9WJkwHxhXuWBT6HFjrjKRk1
+	2VCVVrREooFDrVqQ9bOuilWSmrkP8DVzv0P3vQ5HPfwpufa15KIydesSQCVzOmAnhA8vZacuFWr
+	aXe6AzjETSg==
+X-Google-Smtp-Source: AGHT+IHJSK7Qp1zb5om02W592OqiY5udTEsk9nBSftpZyGmqI0e9P/OjwE7rDiAyfrBX382yq5jBhBWzuWKkJmGaXh4=
+X-Received: by 2002:a05:7301:f25:b0:2a4:50c2:a74c with SMTP id
+ 5a478bee46e88-2abf8dee655mr691583eec.8.1765289856143; Tue, 09 Dec 2025
+ 06:17:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251124182751.507624-1-robh@kernel.org> <CGME20251127142839eucas1p186846c6c1ea1d9e43369fbba9bb5d17c@eucas1p1.samsung.com>
+ <20251124182751.507624-2-robh@kernel.org> <674efe8d-c299-4ce9-bf6b-c1920a5393eb@samsung.com>
+ <CAL_JsqJTrGAJx-fv8OQGDhsLVKavQzzQotssEq_E5f_aJe8bOg@mail.gmail.com>
+In-Reply-To: <CAL_JsqJTrGAJx-fv8OQGDhsLVKavQzzQotssEq_E5f_aJe8bOg@mail.gmail.com>
+From: Daniel Baluta <daniel.baluta@gmail.com>
+Date: Tue, 9 Dec 2025 16:20:03 +0200
+X-Gm-Features: AQt7F2rjwQKc_bRBeYsxUFhD_YJR9U-Y3qN6s4VMgPax1Na8ykfHoapTIdM-w18
+Message-ID: <CAEnQRZDBZ52FoNRBJa1qScbkcEYKwbyP_ephutdkYFaY5b1yLw@mail.gmail.com>
+Subject: Re: [PATCH v7 2/2] remoteproc: qcom: Use of_reserved_mem_region_*
+ functions for "memory-region"
+To: Rob Herring <robh@kernel.org>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>, Bjorn Andersson <andersson@kernel.org>, 
+	Mathieu Poirier <mathieu.poirier@linaro.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, Patrice Chotard <patrice.chotard@foss.st.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, Peng Fan <peng.fan@nxp.com>, 
+	Beleswar Padhi <b-padhi@ti.com>, linux-remoteproc@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-msm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> Other platforms (non-QCom) were tested also use
+> devm_ioremap_resource_wc(). So something else is claiming the same
+> region? Can you dump out /proc/iomem?
+>
+> The region is dynamically allocated, so maybe that has something to do with it.
 
-Fix "bitmap is used uninitialized" compilation warning.
+We noticed a related issue with imx_dsp_rproc.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/all/202512070218.XVMUQCl7-lkp@intel.com
-Closes: https://lore.kernel.org/all/202512061812.Xbqmd2Gn-lkp@intel.com
-Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
----
- drivers/pci/controller/pcie-rzg3s-host.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Because:
+imx_dsp_rproc_prepare:
+ -> imx_dsp_rproc_add_carveout
+     -> /*... */ and this calls devm_ioremap_resource_wc
+-> pm_runtime_get_sync
 
-diff --git a/drivers/pci/controller/pcie-rzg3s-host.c b/drivers/pci/controller/pcie-rzg3s-host.c
-index 667e6d629474..83ec66a70823 100644
---- a/drivers/pci/controller/pcie-rzg3s-host.c
-+++ b/drivers/pci/controller/pcie-rzg3s-host.c
-@@ -479,7 +479,7 @@ static void rzg3s_pcie_intx_irq_handler(struct irq_desc *desc)
- static irqreturn_t rzg3s_pcie_msi_irq(int irq, void *data)
- {
- 	u8 regs = RZG3S_PCI_MSI_INT_NR / RZG3S_PCI_MSI_INT_PER_REG;
--	DECLARE_BITMAP(bitmap, RZG3S_PCI_MSI_INT_NR);
-+	DECLARE_BITMAP(bitmap, RZG3S_PCI_MSI_INT_NR) = {0};
- 	struct rzg3s_pcie_host *host = data;
- 	struct rzg3s_pcie_msi *msi = &host->msi;
- 	unsigned long bit;
--- 
-2.43.0
+imx_dsp_rproc_unprepare:
+ ->pm_runtime_put_sync
 
+There is no easy way to manually undo devm_ioremap_resource_wc so I have
+sent a patch to use devm_ioremap_wc.
+
+https://lore.kernel.org/imx/20251209140425.766742-1-daniel.baluta@nxp.com/T/#u
+
+In your case Marek at least you need to understand which driver
+reserves    8dc00000-8e7fffff : reserved and why.
+
+thanks,
+Daniel.
 
