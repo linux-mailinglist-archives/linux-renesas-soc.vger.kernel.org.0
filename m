@@ -1,140 +1,102 @@
-Return-Path: <linux-renesas-soc+bounces-25682-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25683-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 385D1CB08C3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 09 Dec 2025 17:24:49 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8992FCB0E4C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 09 Dec 2025 19:59:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 375A630D9864
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Dec 2025 16:21:54 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id EB4D6301E210
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Dec 2025 18:59:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D25130103F;
-	Tue,  9 Dec 2025 16:21:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16B58303A1F;
+	Tue,  9 Dec 2025 18:59:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BGdKk1Bx"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O4HHrk3y"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E477301020
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  9 Dec 2025 16:21:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB54E1DF248;
+	Tue,  9 Dec 2025 18:59:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765297312; cv=none; b=HSeu4L3B56MvxerUdJIGpFU4587HP1D1dp4edYVUY9gR/bIRBz20k7ikPkcvrIFpGgXZiou81MZPQY0Xl2m4l1GzW5Zftjkez9JZ69EaKS0D3j3PhZzYaajEmcbvn1hvNpLfgDHShepIT13BM82XORAIWlYd53GbJYFp5T/OwTE=
+	t=1765306760; cv=none; b=NCdF3seurqkpbggG2WlKjnfc45ijqt8w4Z2+I0nSDdrcL6Fj7KTDEscj5DfPATIr+28qcRRfjvIBGP9xE+Q5sKc43Tua2nR5g9KyVG6MIvtDJYeUdqItI3D/iTuI5Y64s2q6LsKZr/loyjspMMIdNLQvyfxyN+oZJHkGDLijWFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765297312; c=relaxed/simple;
-	bh=WKVB9gYz078ahZTJ7TAAKtKVHlfvZgJuO6vYNG2AKFg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sFuUyAIPepPolHKxZWPIctVAdXwWobKr9NDDhNcIATVRvrO3TM8bQnZMuybrjUZYZkEj9C+VMZiyBhDhozyqiskwB1gbmbYmctdsb4DO7D781jY4ZvmyHLObsggpqBJ7pFEsJVRFScjHZX3fEu0LA86JJYt9h2uVTCzLfpbf7w8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BGdKk1Bx; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-477a2ab455fso67523795e9.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 09 Dec 2025 08:21:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765297309; x=1765902109; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6k61kbm8SLV9e2m07xo3XBz6H86gYGw8sgo6ilH2TnI=;
-        b=BGdKk1BxWhCVO4ogODrLzBaurkg5bziO3lXrAFPbPhZ/ZkM8+mlSSb47B1+g9dQINd
-         QhSBP8VFFHapDdgGsbNJ4bbUzjZyB3ChJBgos67BMLawfUO1g85mmDzXU+Yythyrn+nB
-         HhR943qRYqpNy4WhVo0MJiMkTRG7yP/GiF24KVeOsXTS0Aku3RmiXZ4MA9Ll/7DIf8YE
-         UKw2yTW6S1E+AcMh+SH3Eop/XlCwlimTuNRSkXHC6QZsi3dNBiVpf1q+q0O4QkXVrbTa
-         S0Hls3wxCDeOm6B9etNaC+Yek8M+tZuo1a99W2fjp+SjY6el/a6LCNWtjJAnk15MLH9V
-         LD+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765297309; x=1765902109;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6k61kbm8SLV9e2m07xo3XBz6H86gYGw8sgo6ilH2TnI=;
-        b=csjjLyikVrJX5dMoC4eqXU/iFQXWNIjs8bhz/qyNIbgPwU6+4hZhfniXDWoDwi4knI
-         WSTB6M4tBccTK6wzP+WbTCDtOiUwlCEmbZ1i63uv87/SBVyACjfhwdbAo0K+w7vWYrt4
-         Pg/+QmVX3vuPJzAxaUxU30uOz2N4sud3ks2coYz2meIZ8KEThyUsBLwWjije4xumy5gd
-         Y9pbL6NsEQbeK8bmsQPgxa5fNir9u8yuIzrX29MKs7LAb4MQGAOzmpP2srocKhf1l4x1
-         Kq0WZx5uFRIkiwmL1h1OSohjkBwSuAb4o70xQ8/ZKRUTRBQzpbZZkjoFMH1a20dZ7/xP
-         P+Ww==
-X-Forwarded-Encrypted: i=1; AJvYcCUiJk8KFK0yaaBlogqDjH8Vl6mV41yncXRNS8SfkwNOYce5b2JUfbPbIKXHALb/yp5lfXJpayHpPwRaMoYINvL1ug==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzIjxg8URQyEM/hJvAPD7zbC+z3SQ6rtWgdH9WZjbest7ovGB3u
-	e36iNElOaQzllssjr/0Ma/F8weUy1gzQqmLDfB7HNnOlGLq+yQXnl9Xh
-X-Gm-Gg: ASbGnctI+sQb0TPJDB7k5EaCgG+byz8IfNOCk7VECg1YgxAqPNWhcQfQqVhtjiZNWHf
-	RLdEjXTcWrL+Zd8iPEt22yozV3UZViFFGLsLFHNuie1sYoI/NNT5LRNvhJJzcDczzrjCwzETlyR
-	IcVKSZ07E1KeArxR7hb8GvcuoMh9KTXzytOLgmwj3kv5G/MrpACjN2fgVpRIzI5lzCzuuo2x/+a
-	eMVjqi1BjLxrPpzjAQ45OCnZfTS+uDzJ/uGJ7VQhZnFCRYCpYxcEAK4l3xoPXp29GArZPEOXvLN
-	Tz4M/yUtQ3x4ZKFtw/p57SR4maMv8qm1tTydDnZcA/pLLMxc74IqAE9MfcguuAZ3Cgg6KRpJkJM
-	JrtBaK513EYED7cJcco8Hs1jtm6edDVswgd9ZoEw7jNGOo/OGO1F6s4NNYOtTbKIpxN9qj5I0WH
-	fx/HCeIX7UWpoZFY2/44Ybi95/Wk5S4VvVN9s=
-X-Google-Smtp-Source: AGHT+IHTFgQLT3CSEDcGRS9InaoXZRqkZVe771K3JeLcdli+0zRTuA49I/7K39Ax5OsQ9FDXMJf/8g==
-X-Received: by 2002:a05:600c:1992:b0:46e:1abc:1811 with SMTP id 5b1f17b1804b1-47939e387e2mr115381085e9.27.1765297308666;
-        Tue, 09 Dec 2025 08:21:48 -0800 (PST)
-Received: from iku.Home ([2a06:5906:61b:2d00:357a:854b:fd78:dcbd])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47a7d612e49sm54437935e9.3.2025.12.09.08.21.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Dec 2025 08:21:48 -0800 (PST)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Marc Kleine-Budde <mkl@pengutronix.de>,
-	Vincent Mailhol <mailhol@kernel.org>,
-	Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Aswath Govindraju <a-govindraju@ti.com>,
-	Frank Li <Frank.li@nxp.com>
-Cc: linux-can@vger.kernel.org,
-	linux-phy@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2] dt-bindings: phy: ti,tcan104x-can: Document TI TCAN1046
-Date: Tue,  9 Dec 2025 16:21:19 +0000
-Message-ID: <20251209162119.2038313-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.52.0
+	s=arc-20240116; t=1765306760; c=relaxed/simple;
+	bh=u+0q6KEIw2uu1QxHux2h5LtoGWkW8Fj3YPG9mR/cSaI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=QnqaMQ4+TnNpnAyf6qZ87PS1HoPpwPqSC4mSeZQVAxbDToGetR8bESlMVCMKpgNQey4MCX9deN8amjFMETEolxB311uaoKK/f1zYvrlhJHC7XtjXsRSkYYkH4TibFUJgybADA3ViY376ebUA8Ty7cZwO3/eV/7Bvb1cBPhmWSNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O4HHrk3y; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 584EEC4CEF5;
+	Tue,  9 Dec 2025 18:59:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765306759;
+	bh=u+0q6KEIw2uu1QxHux2h5LtoGWkW8Fj3YPG9mR/cSaI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=O4HHrk3yKHnVBlXnbs8NB3+MyN2vGPNt8WYDBozF/tXlbP+RX+zBtmMbBEYIchBqp
+	 kvp3mrY/+zh7Ai2fpCUq7SVjusqZ/x2A1mvMs+nbRNzCW/GYElfTkqpMwsQpq9Qp9U
+	 qAn68Zg7y4c+EcLMrQ0y42JM2DcxLJJR0N6AmdcUKvBZg19s/zncCfFLriBzXU14g0
+	 YAkHT3VT25xSdYSc27iR+JLMv8KxlbQuF0EqoRWeu8IhjN699IUcKl7qGdGoB8DkUw
+	 zAJHiFW46dIF3WVt6VSnYFOZd09KduYYgJ/5A8YnTrEb2AZIKcG/5t3r2zY2COGpIh
+	 CEDdgNjEGnc9Q==
+Date: Tue, 9 Dec 2025 12:59:18 -0600
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: lpieralisi@kernel.org, kwilczynski@kernel.org, mani@kernel.org,
+	robh@kernel.org, bhelgaas@google.com, linux-pci@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH] PCI: rzg3s-host: Fix compilation warning
+Message-ID: <20251209185918.GA3477210@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251209125122.304129-1-claudiu.beznea.uj@bp.renesas.com>
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Tue, Dec 09, 2025 at 02:51:22PM +0200, Claudiu wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> 
+> Fix "bitmap is used uninitialized" compilation warning.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/all/202512070218.XVMUQCl7-lkp@intel.com
+> Closes: https://lore.kernel.org/all/202512061812.Xbqmd2Gn-lkp@intel.com
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Document the TI TCAN1046 automotive CAN transceiver. The TCAN1046 is a
-dual high-speed CAN transceiver with sleep-mode support and no EN pin,
-mirroring the behaviour of the NXP TJA1048, which also provides dual
-channels and STB1/2 sleep-control lines.
+Updated commit log as below (the problem is the use of initialized
+data, not the warning itself) and applied to pci/for-linus for v6.19,
+thanks!
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-TCAN 1046, https://www.ti.com/lit/ds/symlink/tcan1046v-q1.pdf?ts=1765297159307&ref_url=https%253A%252F%252Fwww.ti.com%252Fproduct%252FTCAN1046V-Q1
-NXP TJA1048, https://www.nxp.com/docs/en/data-sheet/TJA1048.pdf
+  PCI: rzg3s-host: Initialize MSI status bitmap before use
 
-v1->v2:
-- Used "nxp,tja1048" as a fallback compatible string.
----
- Documentation/devicetree/bindings/phy/ti,tcan104x-can.yaml | 3 +++
- 1 file changed, 3 insertions(+)
+  Initialize rzg3s_pcie_msi_irq() MSI status bitmap before use.
 
-diff --git a/Documentation/devicetree/bindings/phy/ti,tcan104x-can.yaml b/Documentation/devicetree/bindings/phy/ti,tcan104x-can.yaml
-index c686d06f5f56..9f5c37ca6496 100644
---- a/Documentation/devicetree/bindings/phy/ti,tcan104x-can.yaml
-+++ b/Documentation/devicetree/bindings/phy/ti,tcan104x-can.yaml
-@@ -20,6 +20,9 @@ properties:
-               - microchip,ata6561
-               - ti,tcan1051
-           - const: ti,tcan1042
-+      - items:
-+          - const: ti,tcan1046
-+          - const: nxp,tja1048
-       - enum:
-           - ti,tcan1042
-           - ti,tcan1043
--- 
-2.52.0
+  Fixes: 7ef502fb35b2 ("PCI: Add Renesas RZ/G3S host controller driver")
 
+> ---
+>  drivers/pci/controller/pcie-rzg3s-host.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/pci/controller/pcie-rzg3s-host.c b/drivers/pci/controller/pcie-rzg3s-host.c
+> index 667e6d629474..83ec66a70823 100644
+> --- a/drivers/pci/controller/pcie-rzg3s-host.c
+> +++ b/drivers/pci/controller/pcie-rzg3s-host.c
+> @@ -479,7 +479,7 @@ static void rzg3s_pcie_intx_irq_handler(struct irq_desc *desc)
+>  static irqreturn_t rzg3s_pcie_msi_irq(int irq, void *data)
+>  {
+>  	u8 regs = RZG3S_PCI_MSI_INT_NR / RZG3S_PCI_MSI_INT_PER_REG;
+> -	DECLARE_BITMAP(bitmap, RZG3S_PCI_MSI_INT_NR);
+> +	DECLARE_BITMAP(bitmap, RZG3S_PCI_MSI_INT_NR) = {0};
+>  	struct rzg3s_pcie_host *host = data;
+>  	struct rzg3s_pcie_msi *msi = &host->msi;
+>  	unsigned long bit;
+> -- 
+> 2.43.0
+> 
 
