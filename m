@@ -1,210 +1,155 @@
-Return-Path: <linux-renesas-soc+bounces-25676-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25678-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74E05CAF66D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 09 Dec 2025 10:11:44 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02640CAFDF5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 09 Dec 2025 13:09:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id DF580300A71F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Dec 2025 09:11:43 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6F8FB301B490
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Dec 2025 12:09:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C38F2D12ED;
-	Tue,  9 Dec 2025 09:11:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EEC8320CA6;
+	Tue,  9 Dec 2025 12:09:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="L+1QO4MW"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB3F928B4FD;
-	Tue,  9 Dec 2025 09:11:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from mail-yx1-f46.google.com (mail-yx1-f46.google.com [74.125.224.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83974320386
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  9 Dec 2025 12:09:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765271502; cv=none; b=fqN+O6MASbeeumYZn1xwmzmPFwI+gxIz5iL7bkmy0+YPOSYzGxiOmr/lmn3o0Ps58iCSwgVgHApUd7EcExP7j0M1MiOAsXWf/G1bW9olksxZU2GQWBSMTvu75aNvrX7rIjWstQ6ceoQz+naU4tWJiCT/9FpTHfX4IHjqFgmSBU8=
+	t=1765282165; cv=none; b=AaEWcrJ5JQP5pD4D95W5oFztDdumzikRf6607Usme7IuVOU6nuL23GgQqLvd9E7C2nqurfDm2LoEDVQrnR0ZTfEHTdWMMJUhGrm22e2Iklmiby9OKh/phh7A6VTXu+PY0lgUtISeDbA5TRu/okGiagU3g+1oMo+73yeJpx3P/Q4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765271502; c=relaxed/simple;
-	bh=yRkqzoKV3n6zFPJocmJIqr17hOM4ahDb5J7rmZJnUa8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uR68/c5vMbHhlGF7U+/KtcmN8xua1HcBvWaqeLggcMI8YXgMCYiPKEVR/lO8keSD8AWBG0e/fjShpt8Ghp0ibCuONBt0em7Ypu6bqZ8HbVGh8B2PFXcWFsVP5ShRzevGTPyqgdUcZyl7pVD0vfUyJSqelM030R9ghQ6Ywe935R0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-X-CSE-ConnectionGUID: QggkPq7eTByu+mLvWXrxfQ==
-X-CSE-MsgGUID: KoiSG0bKTUyae2CfrXvZyA==
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 09 Dec 2025 18:11:39 +0900
-Received: from vm01.adwin.renesas.com (unknown [10.226.92.124])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 638B740071EC;
-	Tue,  9 Dec 2025 18:11:34 +0900 (JST)
-From: Ovidiu Panait <ovidiu.panait.rb@renesas.com>
-To: john.madieu.xa@bp.renesas.com,
-	rafael@kernel.org,
-	daniel.lezcano@linaro.org,
-	rui.zhang@intel.com,
-	lukasz.luba@arm.com,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	geert+renesas@glider.be,
-	magnus.damm@gmail.com,
-	mturquette@baylibre.com,
-	sboyd@kernel.org
-Cc: linux-pm@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org
-Subject: [PATCH 3/3] arm64: dts: renesas: r9a09g056: Add TSU nodes
-Date: Tue,  9 Dec 2025 09:11:15 +0000
-Message-ID: <20251209091115.8541-4-ovidiu.panait.rb@renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251209091115.8541-1-ovidiu.panait.rb@renesas.com>
-References: <20251209091115.8541-1-ovidiu.panait.rb@renesas.com>
+	s=arc-20240116; t=1765282165; c=relaxed/simple;
+	bh=yCYVKKoXCSoQtguNvJbzEOrNTHKAVLyyZ77IrMgfBjA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QXcLyhUDCgA/cELqe9lb4ViRGk1/o9cTi71A9TnASoU/VrcDdlqyl/G+TUh5ffJASyC4Y87fdmWe6uYg7aZ/X9vFjcDPYZE1Ff8ecF40wzGYSXO+wbXVVwIefNv/qql04aLZ5hI6KsRRFjKGz2zNssEgo+fMzO9p6vgIQvv+Uo8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=L+1QO4MW; arc=none smtp.client-ip=74.125.224.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yx1-f46.google.com with SMTP id 956f58d0204a3-642fcb9c16aso4732532d50.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 09 Dec 2025 04:09:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1765282162; x=1765886962; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=BzmLw97ilOLn2bX7GqaP6PaM9f0k2YjRWtrW6v3bqsY=;
+        b=L+1QO4MWpFJ7MqAH/Tx93IwelJOKMdhNQec5V8gYrLCRSMp88O0gw3QhKuJSpBqqnd
+         iOX5N8QqzePnpcWr/AmS6De1R0QD+A9wKlzU3PNE9j8L+dqmeSL5VL4Y4vOD6PqZlNPQ
+         wqRedtQZl/HXRP9woakUMD8TDZvt8kTiWoXYOUvztmt9Cr48fSIedkAOnKoI3Kn6F5Jg
+         xGe0Vh1bHv9FQ1fEFJrFscXXW67hLwgZFSNKuuI2AptNVf7Fo/93Cl2nweAmT571N+lK
+         Mlaoan8fjYkrIgyl3McVIvqxx55ibGmn3g9m/+vSBR9eNUcxhIbeNTDW0vua1uwlIbDn
+         Sg5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765282162; x=1765886962;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BzmLw97ilOLn2bX7GqaP6PaM9f0k2YjRWtrW6v3bqsY=;
+        b=v4T43uf/i/KbQ7CFIonuPwNN4LX4PD9qOOxw2HbUH3ZgEFDSMpLVnDmFTZDNeMPxFI
+         f06joQa3ebvGspWBemSGmc5G+3FgrUnyrr5gXiTF0cf6yoGGPjcHKhB7vcerQE9qVQj0
+         58TJCtqSjYEZP29xGQjQ8PuGHQVxDjtJS8AUgDg1c5JvyKMLqJ/C9x6Uv7IWdYPcf492
+         ybpHWEtmIscC6VfhxwIOJcU/KuQ+wD9fR8tcXh++By0Dy+bR2IWrnqY6NSXHHDct+DMM
+         sCi55OkzkR8Z3/79AKacOkmmWlERy54kq2WwWcUzLAEEdmNGMve0XaOHvooYDfSe9u8V
+         iGug==
+X-Forwarded-Encrypted: i=1; AJvYcCVl+fQ0TiJ8EPp3VZye+Q2BxnboMkFehdtmVweCZEcK4i8YoJHqX4ys3Cz4dC445zULZAVQqWMzZaqUiqn9YeylYw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzEILVQL+Q/yGUaU0ekxOQ0SDfUEHqie8W0Ku/I4zglhfyvuF3Y
+	p2ivj4LnW26FZqHMftuX0Ju4cOGw5MyVehudr+MGO9CYLhOVSqls7mQS3yuPGPCDOxSHiZx1kXt
+	O0UrKH+Ho+qkMYSzrx5Nvy1UVuBQoHpOoI9aQfcDP+A==
+X-Gm-Gg: AY/fxX7xfNNgQ081fWPItDUahmT5Zo7fpqOiJmGB2insQa/uOq+/b9QH/3XF1ohd0o5
+	FZb7y0Ym5/AkPNq96g+YATKf+POF2SdLh9loqR6oMaD4zL96HXJIjhIiFlZLff8Sp1a25kLDrgp
+	LmN84MCzoYadcyv1Yk5WXHeTh+h5vkLGOoUA1/sVHZiIXVDfGuzV2KBhI9ey8QRlEyIz/rutk6a
+	ymxDI3/gT1RwDPdxMNk9cp5B6HDaK7mhCFvp831ge9wovrlCu9c53e2Oi10QepJI2TVtoHr
+X-Google-Smtp-Source: AGHT+IHJMvrdiHL0dzxlye43tWxemqNsj3XKbdM5WF7g7hOQydSkyf3phIxwFJPbN9jPlEGazi0aDHDzYf+fYMSmjhQ=
+X-Received: by 2002:a05:690c:7306:b0:787:f2c3:7164 with SMTP id
+ 00721157ae682-78c339d1c77mr192573057b3.0.1765282162456; Tue, 09 Dec 2025
+ 04:09:22 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251201-rz-sdio-mux-v2-0-bcb581b88dd7@solid-run.com> <20251201-rz-sdio-mux-v2-1-bcb581b88dd7@solid-run.com>
+In-Reply-To: <20251201-rz-sdio-mux-v2-1-bcb581b88dd7@solid-run.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Tue, 9 Dec 2025 13:08:46 +0100
+X-Gm-Features: AQt7F2r1lyAuAvPl8XAr0oXpaCyrxw65vCWYOlOZTELJxwXwUotYjVniauuZrmM
+Message-ID: <CAPDyKFrD2x0U49w2Fpzrc98wKXtyyN-B1P69OMJk27+0Yzsg8Q@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: mmc: renesas,sdhi: Add mux-states property
+To: Josua Mayer <josua@solid-run.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Mikhail Anikin <mikhail.anikin@solid-run.com>, Yazan Shhady <yazan.shhady@solid-run.com>, 
+	Jon Nettleton <jon@solid-run.com>, linux-mmc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-The Renesas RZ/V2N SoC includes a Thermal Sensor Unit (TSU) block designed
-to measure the junction temperature. The device provides real-time
-temperature measurements for thermal management, utilizing two dedicated
-channels for temperature sensing:
-- TSU0, which is located near the DRP-AI block
-- TSU1, which is located near the CPU and DRP-AI block
+On Mon, 1 Dec 2025 at 13:31, Josua Mayer <josua@solid-run.com> wrote:
+>
+> Add mux controller support for when sdio lines are muxed between a host
+> and multiple cards.
 
-Since TSU1 is physically closer the CPU and the highest temperature
-spot, it is used for CPU throttling through a passive trip and cooling
-map. TSU0 is configured only with a critical trip.
+We have the SD, SDIO, (e)MMC interfaces with their corresponding pins.
+Using "sdio lines" becomes confusing as it kind of indicates this is
+for "SDIO" only.
 
-Add TSU nodes along with thermal zones and keep them enabled in the SoC
-DTSI.
+>
+> There are several devices supporting a choice of eMMC or SD on a single
+> board by both dip switch and gpio, e.g. Renesas RZ/G2L SMARC SoM and
+> SolidRun RZ/G2L SoM.
+>
+> In-tree dts for the Renesas boards currently rely on preprocessor macros
+> to hog gpios and define the card.
+>
+> By adding mux-states property to sdio controller description, boards can
 
-Signed-off-by: Ovidiu Panait <ovidiu.panait.rb@renesas.com>
----
- arch/arm64/boot/dts/renesas/r9a09g056.dtsi | 75 ++++++++++++++++++++++
- 1 file changed, 75 insertions(+)
+Again, please don't use "sdio" here.
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g056.dtsi b/arch/arm64/boot/dts/renesas/r9a09g056.dtsi
-index 8781c2fa7313..5035ffdda79b 100644
---- a/arch/arm64/boot/dts/renesas/r9a09g056.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a09g056.dtsi
-@@ -83,6 +83,7 @@ cpu0: cpu@0 {
- 			next-level-cache = <&L3_CA55>;
- 			enable-method = "psci";
- 			clocks = <&cpg CPG_CORE R9A09G056_CA55_0_CORE_CLK0>;
-+			#cooling-cells = <2>;
- 			operating-points-v2 = <&cluster0_opp>;
- 		};
- 
-@@ -93,6 +94,7 @@ cpu1: cpu@100 {
- 			next-level-cache = <&L3_CA55>;
- 			enable-method = "psci";
- 			clocks = <&cpg CPG_CORE R9A09G056_CA55_0_CORE_CLK1>;
-+			#cooling-cells = <2>;
- 			operating-points-v2 = <&cluster0_opp>;
- 		};
- 
-@@ -103,6 +105,7 @@ cpu2: cpu@200 {
- 			next-level-cache = <&L3_CA55>;
- 			enable-method = "psci";
- 			clocks = <&cpg CPG_CORE R9A09G056_CA55_0_CORE_CLK2>;
-+			#cooling-cells = <2>;
- 			operating-points-v2 = <&cluster0_opp>;
- 		};
- 
-@@ -113,6 +116,7 @@ cpu3: cpu@300 {
- 			next-level-cache = <&L3_CA55>;
- 			enable-method = "psci";
- 			clocks = <&cpg CPG_CORE R9A09G056_CA55_0_CORE_CLK3>;
-+			#cooling-cells = <2>;
- 			operating-points-v2 = <&cluster0_opp>;
- 		};
- 
-@@ -211,6 +215,32 @@ sys: system-controller@10430000 {
- 			resets = <&cpg 0x30>;
- 		};
- 
-+		tsu0: thermal@11000000 {
-+			compatible = "renesas,r9a09g056-tsu", "renesas,r9a09g047-tsu";
-+			reg = <0 0x11000000 0 0x1000>;
-+			interrupts = <GIC_SPI 248 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 249 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "adi", "adcmpi";
-+			clocks = <&cpg CPG_MOD 0x109>;
-+			resets = <&cpg 0xf7>;
-+			power-domains = <&cpg>;
-+			#thermal-sensor-cells = <0>;
-+			renesas,tsu-trim = <&sys 0x320>;
-+		};
-+
-+		tsu1: thermal@14002000 {
-+			compatible = "renesas,r9a09g056-tsu", "renesas,r9a09g047-tsu";
-+			reg = <0 0x14002000 0 0x1000>;
-+			interrupts = <GIC_SPI 250 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 251 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "adi", "adcmpi";
-+			clocks = <&cpg CPG_MOD 0x10a>;
-+			resets = <&cpg 0xf8>;
-+			power-domains = <&cpg>;
-+			#thermal-sensor-cells = <0>;
-+			renesas,tsu-trim = <&sys 0x330>;
-+		};
-+
- 		xspi: spi@11030000 {
- 			compatible = "renesas,r9a09g056-xspi", "renesas,r9a09g047-xspi";
- 			reg = <0 0x11030000 0 0x10000>,
-@@ -964,6 +994,51 @@ stmmac_axi_setup: stmmac-axi-config {
- 		snps,blen = <16 8 4 0 0 0 0>;
- 	};
- 
-+	thermal-zones {
-+		sensor1_thermal: sensor1-thermal {
-+			polling-delay = <1000>;
-+			polling-delay-passive = <250>;
-+			thermal-sensors = <&tsu0>;
-+
-+			trips {
-+				sensor1_crit: sensor1-crit {
-+					temperature = <120000>;
-+					hysteresis = <1000>;
-+					type = "critical";
-+				};
-+			};
-+		};
-+
-+		sensor2_thermal: sensor2-thermal {
-+			polling-delay = <1000>;
-+			polling-delay-passive = <250>;
-+			thermal-sensors = <&tsu1>;
-+
-+			cooling-maps {
-+				map0 {
-+					trip = <&sensor2_target>;
-+					cooling-device = <&cpu0 0 3>, <&cpu1 0 3>,
-+							 <&cpu2 0 3>, <&cpu3 0 3>;
-+					contribution = <1024>;
-+				};
-+			};
-+
-+			trips {
-+				sensor2_target: trip-point {
-+					temperature = <95000>;
-+					hysteresis = <1000>;
-+					type = "passive";
-+				};
-+
-+				sensor2_crit: sensor2-crit {
-+					temperature = <120000>;
-+					hysteresis = <1000>;
-+					type = "critical";
-+				};
-+			};
-+		};
-+	};
-+
- 	timer {
- 		compatible = "arm,armv8-timer";
- 		interrupts = <GIC_PPI 13 IRQ_TYPE_LEVEL_LOW>,
--- 
-2.51.0
+> correctly describe the mux that already exists in hardware - and drivers
+> can coordinate between mux selection and probing for cards.
+>
+> Signed-off-by: Josua Mayer <josua@solid-run.com>
+> ---
+>  Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+> index c754ea71f51f7..754ccb1c30efb 100644
+> --- a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+> +++ b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+> @@ -106,6 +106,11 @@ properties:
+>    iommus:
+>      maxItems: 1
+>
+> +  mux-states:
+> +    description:
+> +      mux controller node to route the SDIO signals from SoC to cards.
 
+I suggest we change from "SDIO" to "SD/SDIO/eMMC".
+
+> +    maxItems: 1
+> +
+>    power-domains:
+>      maxItems: 1
+>
+> @@ -275,6 +280,7 @@ examples:
+>          max-frequency = <195000000>;
+>          power-domains = <&sysc R8A7790_PD_ALWAYS_ON>;
+>          resets = <&cpg 314>;
+> +        mux-states = <&mux 0>;
+>      };
+>
+>      sdhi1: mmc@ee120000 {
+>
+> --
+> 2.51.0
+>
+>
+
+Kind regards
+Uffe
 
