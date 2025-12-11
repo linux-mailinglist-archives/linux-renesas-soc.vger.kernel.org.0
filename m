@@ -1,102 +1,133 @@
-Return-Path: <linux-renesas-soc+bounces-25705-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25706-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5899CB44C2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Dec 2025 00:45:45 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id DED16CB453A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Dec 2025 01:00:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 5E7303000952
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Dec 2025 23:45:45 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 3DE4430164F1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Dec 2025 00:00:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00CFD2FAC0D;
-	Wed, 10 Dec 2025 23:45:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 847C71DF25F;
+	Thu, 11 Dec 2025 00:00:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ezM1XI72"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sIvjmRPM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFB8F1F875A
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Dec 2025 23:45:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B21AE2D063E
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 11 Dec 2025 00:00:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765410343; cv=none; b=FbrTCDLdLkOhMIPDFVc55q7/KqzOAHyUO7qov79jAt3onbj7wAkk+YZUw6kIMpcDiqr7znZ5BVPdJd6E6uFwRxOqnakcL8ilm1BuUxRVevEy+FvBfUsRQhH8zEZEGTDYV+QMqkHCNib6DlZD6FO0wbNqVE2MuRRIFy41yCldOFM=
+	t=1765411255; cv=none; b=pat7aYtVfOIux5NySdG/Cw20LFOblqiWlVT4Own/UGlEmbfw1WwZPXiDk9uVZETEt3xcROm3BJ74tt2+hoOkfCdpJXGMhWFlr3GAA5ViAKyWAkqSBOWknes5esElCYPgosOTv+iXE/QCYfCmwMCdq2/3SNWGsGrRJ1HsS/9yjAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765410343; c=relaxed/simple;
-	bh=HF42HWiCI324GsDSWGrNrq+cMfLqL2KF13nwFnUL2Vo=;
+	s=arc-20240116; t=1765411255; c=relaxed/simple;
+	bh=MUedD+3YAiiPswMjQy2loynuhb6leoZiy1y3+RaZw9U=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=m3O46Fuy6GQ7orK256vVWXmtKuAtiq9cz5WPPetWC0loYDlGCBWa9TlfMMCbPvXDBTZXYSr0LnCejCDDHiBY4ByLJKOTelNmj1Nsip7Q/F4aKDHb5RJ6QOgb9Na6LxlGeIaz6NoC8nRdA8qsp+Nl/glFWrYoN3SLH25yHWrE/2E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ezM1XI72; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F349C4CEF1
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Dec 2025 23:45:43 +0000 (UTC)
+	 To:Cc:Content-Type; b=Irxn/fvru+vw8RtuYb89lC/RBwW5vQZdy2B+oJzQnno1VP1IGk3847LU0ZVvsbkiBVvDoO4EWYnJnDT1wE84VFvj2Vfpo2khfhSbh7m2Zldt4xM+S1HxIwaLvn+6/orXtuqi+wwuTRAERB0qe2IDJH8/8ceWqX8jncI1jo2dHsQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sIvjmRPM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11D9DC19425
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 11 Dec 2025 00:00:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765410343;
-	bh=HF42HWiCI324GsDSWGrNrq+cMfLqL2KF13nwFnUL2Vo=;
+	s=k20201202; t=1765411255;
+	bh=MUedD+3YAiiPswMjQy2loynuhb6leoZiy1y3+RaZw9U=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=ezM1XI72XFaFJ1c6/EyFn30UIUaFd6K2HKxti8lVFhOUpWOM8PXIWf2FNe7TDYyOz
-	 hSVHrsq/zNh47Uv74nsVnarb/sj+LBcVHxbHU1GMG15nbU8pNEiMDiuYqEf/T/8SSx
-	 V8MnhQ29zbSUApNYGwApjpfA6wp70lDGSp3FTTggqGn6ulteFu0pq8T3kXTUs9STZi
-	 KAXRgm8Voe+AMz/RTUygR+wtS/mJJWLh/RauswIBcBWFFmQxZdUt8zmWsx0Ly1viBg
-	 OqeuZ8NOZUDYO/Wo81I9WbnRMgqnE3sfCOpxHsySOCxcVM9tx36r+w2Uhi9yAdk9v4
-	 IaLhNmWM5CaMg==
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-78c686aa4f9so3565987b3.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Dec 2025 15:45:43 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVkZm1y6yFojulo5D+W86/WDFG7yXpRlxhahxKTyqZK7ysdSj7nBEPpOnZ9S+KzCuj2YBFOwgP6LQm9tevDDmufVw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxFZ7jtUM7SmB8PmjXcNj5ObMD8x4x2VlnlDc+ArSAIyovBPrQg
-	deTQFikSNrwFAmMeLL8lWwGDdvW8rBQGwRBkKVBv805ZdvmcTnB37u7+jXrs+ddTiZZti1BLvq+
-	YlS73WDoVpiXDNR71yRDvk5RAIzs70h8=
-X-Google-Smtp-Source: AGHT+IHu6mB/moS2krcEaW8l5HpAQusE8zC+ia9FhxigsEkptctsTlXdWxt92NBjJgrpbtNpUfMMfrsXr83s8/ptEVE=
-X-Received: by 2002:a05:690c:9a0e:b0:786:68da:26d6 with SMTP id
- 00721157ae682-78c95a30284mr35149207b3.2.1765410342908; Wed, 10 Dec 2025
- 15:45:42 -0800 (PST)
+	b=sIvjmRPMkXbmF/JBrzCZG3h2tcvc9PipUea8WgVjqrFYoXI6XeerTOraHjzVTBBba
+	 6dpk7NHP2XtH/X+Xmxn98OmepMIHGqzaEQYBlh3YLY5q6bV+YBO4jd2yqLHGTBifYe
+	 kn5j96onLrQs3aJk51ZajErCTEGGJzem6DkkP1xA92YOZpaiExnXqzDQDG3qzXBoLS
+	 fY3JBub+ek+LapHYIA84yxKZrnisV2BcWmmfJVE/MyHdHGM1dKwjTt6Ur/BirPLr0t
+	 ziKK2yVt9A45VwuZb2dpNyQuR2sEHzbfU2I4H8V5eiI4mlx/ZIPH9Mnod/OLLS2Yw5
+	 DY0P14sbN37hA==
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-8b28f983333so45597485a.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Dec 2025 16:00:55 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCW7tTpRkkn/SWRdNnDnnI09/5yPMoImEN8YCxkeZC1oXMXH6pE2b7CydreBpasgQvMKFVvfBYqQZLQjU2/2lsjjqA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxZvZkWyPo1Du9QkvmwQxLitsxx+5F2drjB1r8yh3XwNMggvmT3
+	mKcVNjjHbmISS/KhuB8/kFOIdt1dWcKzuOjWhiem00VhQqZ82lkFLiSi1VlFwhfpL9tLNk3bfOX
+	F8DfXZMbIyW0m8vJga8PImCvP8cWKqdw=
+X-Google-Smtp-Source: AGHT+IF5ILxbPzEO8srko4P9caJRjZ8oYRRPnfGYYyAQGSJvhbE0FCvelM56QCi20m9DjJ9S531E6IS5WiEjEjZOdVE=
+X-Received: by 2002:a05:620a:1989:b0:80e:3af7:7a0c with SMTP id
+ af79cd13be357-8ba3a471ab8mr569354985a.43.1765411254276; Wed, 10 Dec 2025
+ 16:00:54 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251205150234.2958140-1-cosmin-gabriel.tanislav.xa@renesas.com> <20251205150234.2958140-5-cosmin-gabriel.tanislav.xa@renesas.com>
-In-Reply-To: <20251205150234.2958140-5-cosmin-gabriel.tanislav.xa@renesas.com>
+References: <20251014191121.368475-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20251014191121.368475-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20251016-dimmed-affidavit-90bae7e162aa@spud> <CA+V-a8un1cF=acNjG=79_v7oaR8gzBQ+3z1As8AqrJnOnk-OUw@mail.gmail.com>
+ <CA+V-a8vq2EvTb_hXxRzW_Rbp+BPLSaLsEVkvaTjc1zRin-RV=Q@mail.gmail.com> <20251208-headgear-header-e17e162f0f52@spud>
+In-Reply-To: <20251208-headgear-header-e17e162f0f52@spud>
 From: Linus Walleij <linusw@kernel.org>
-Date: Thu, 11 Dec 2025 00:45:32 +0100
-X-Gmail-Original-Message-ID: <CAD++jLnKs8b9X808jwJDmBLvWr0bKoBw8Ku6Xf7XrUB8eUXrmA@mail.gmail.com>
-X-Gm-Features: AQt7F2orPEAyNX9tS0S-VYCOLiiLQfh-OmMwhQoomLnhwzgJukPY3XEauYlkSU0
-Message-ID: <CAD++jLnKs8b9X808jwJDmBLvWr0bKoBw8Ku6Xf7XrUB8eUXrmA@mail.gmail.com>
-Subject: Re: [PATCH v2 4/8] pinctrl: renesas: rzt2h: add GPIO IRQ chip to
- handle interrupts
-To: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-renesas-soc@vger.kernel.org, 
+Date: Thu, 11 Dec 2025 01:00:43 +0100
+X-Gmail-Original-Message-ID: <CAD++jL=rp=_J7vN4E9hUqu0Fa4H+1E1EhMFAe79Tc8jMtNHTcA@mail.gmail.com>
+X-Gm-Features: AQt7F2qjFqdAydDyHnMgE08WSEx2LkQdlBBvzuD4aPVzhMGo4v0plMBG0U8lGBA
+Message-ID: <CAD++jL=rp=_J7vN4E9hUqu0Fa4H+1E1EhMFAe79Tc8jMtNHTcA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: pinctrl: renesas,r9a09g077: Document pin
+ configuration properties
+To: Conor Dooley <conor@kernel.org>
+Cc: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Linus Walleij <linus.walleij@linaro.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
 	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 5, 2025 at 4:03=E2=80=AFPM Cosmin Tanislav
-<cosmin-gabriel.tanislav.xa@renesas.com> wrote:
+Hi Lad,
 
-> The Renesas RZ/T2H (R9A09G077) and Renesas RZ/N2H (R9A09G087) SoCs have
-> IRQ-capable pins handled by the ICU, which forwards them to the GIC.
->
-> The ICU supports 16 IRQ lines, the pins map to these lines arbitrarily,
-> and the mapping is not configurable.
->
-> Add a GPIO IRQ chip to the pin controller that can be used to configure
-> these pins as IRQ lines.
->
-> The pin controller places the requested pins into IRQ function,
-> disabling GPIO mode. A hierarchical IRQ domain is used to forward other
-> functionality to the parent IRQ domain, the ICU. The ICU does level
-> translation and then forwards other functionality to the GIC.
->
-> Wakeup capability is implemented by placing the entire pin controller on
-> the wakeup path if any pins are requested to be wakeup-capable.
->
-> Signed-off-by: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+thanks for your patch!
 
-Reviewed-by: Linus Walleij <linusw@kernel.org>
+On Mon, Dec 8, 2025 at 7:01=E2=80=AFPM Conor Dooley <conor@kernel.org> wrot=
+e:
+> On Mon, Dec 08, 2025 at 10:36:04AM +0000, Lad, Prabhakar wrote:
+
+> > > > > +      slew-rate:
+> > > > > +        enum: [0, 1]
+> > > >
+> > > > What are the meanings of "0" and "1" for slew rate? Why isn't this =
+given
+> > > I'll add a description for it (0 =3D slow, 1 =3D fast) and the same v=
+alues
+> > > are programmed in the register to configure the slew rate.
+> > >
+> > > > as the actual rates? The docs surely give more detail than just "sl=
+ow"
+> > > > and "fast".
+> > > You mean to represent slew-rate in some sort of a unit?
+> > >
+> > Based on the comments from the HW team, there is no numerical
+> > definition to represent slow/fast It only defines a relative
+> > relationship.
+
+Then describe relative to what, so we can understand when to use
+which setting?
+
+> > The current value is determined by the load on the external circuit
+> > and is not affected by the choice of drive strength.
+(...)
+> Remember, drive strength is the current that can be delivered through a
+> pin, not how much it is delivering at a given point in time.
+
+This seems to be the core of the misunderstanding here.
+
+The setting defines the cap. How much current *can* be delivered.
+
+If the pin controller had a fuse that would bust if we delivered too
+much current, this would be the grading of that fuse.
+
+It's the current where the driver stage(s) stop pushing in more
+electrons, it's a very real thing and does not depend on what the
+circuit look like.
+
+Pins usually have protected driver stages, so connecting an
+amperemeter directly to ground and driving the line high would
+actually give this value.
 
 Yours,
 Linus Walleij
