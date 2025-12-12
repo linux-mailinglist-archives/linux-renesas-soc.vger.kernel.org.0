@@ -1,163 +1,177 @@
-Return-Path: <linux-renesas-soc+bounces-25714-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25715-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6AF2CB8B49
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Dec 2025 12:22:44 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5172ACB8BBA
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Dec 2025 12:42:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4F034309F52F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Dec 2025 11:21:49 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E38BE302B137
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Dec 2025 11:42:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AAA531B118;
-	Fri, 12 Dec 2025 11:21:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1012A31D726;
+	Fri, 12 Dec 2025 11:42:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B7pCzHPK"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33A1231B114
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Dec 2025 11:21:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E17A31197B
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Dec 2025 11:42:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765538506; cv=none; b=FCEwHa3gqiVZc/xN7YGIGL50XOokXGNmuredwp3v/qXHoKdy+Imn7mRKLgq1ykC2apDOP6f4rMXjbvvDVCdoNlDc/w6K8cR2Qioyyouh01NCil7w1EMuXVesRbVzvt5s/1QKHjAA8mbRJdUeaM2PRXZh9KvoesPAA2tWpfVkjXc=
+	t=1765539737; cv=none; b=iQ5sw+TWt5fW7GZjvP0WQ9iyEHq9bqS1HE5T6qB5GmSKHh/eCsft5J+GDudjEbu4s6uIIJ5GAV3Gi1pWX2azpRymcmBvjOa2jBPRS3olOhU3gFHOorH8UZEHI84XN5uMDQ3IIntIZfogWWgMtzzGKZ/1Yeyjb4oRWHvIwVIwdjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765538506; c=relaxed/simple;
-	bh=dBiEXSXqAe1+bjWPLYEbVWzfCTeFakFmTqGBVAZdykk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q/OvGEyHIOuC79UoIuZ9xiKOHpYeJbT2m2qK4yJ72KWxZKUAVQef7eN9+y8JfobuTzRwkxuWhv88aUwdxZs/NcVEqw5769CfWqRzkUZqh6WoBZ9YdV/uWAG18SwqtkxUQ0POJyL7y3WlFrf6QlA9VPRY0FE9eOY7Id1aOXQWGjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1vU1Cs-0004Lc-D5; Fri, 12 Dec 2025 12:21:06 +0100
-Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1vU1Cq-005Hin-05;
-	Fri, 12 Dec 2025 12:21:04 +0100
-Received: from pengutronix.de (p54b152ce.dip0.t-ipconnect.de [84.177.82.206])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	(Authenticated sender: mkl-all@blackshift.org)
-	by smtp.blackshift.org (Postfix) with ESMTPSA id A86804B5198;
-	Fri, 12 Dec 2025 11:21:03 +0000 (UTC)
-Date: Fri, 12 Dec 2025 12:21:03 +0100
-From: Marc Kleine-Budde <mkl@pengutronix.de>
-To: Conor Dooley <conor@kernel.org>
-Cc: Prabhakar <prabhakar.csengg@gmail.com>, 
-	Vincent Mailhol <mailhol@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Aswath Govindraju <a-govindraju@ti.com>, Frank Li <Frank.li@nxp.com>, linux-can@vger.kernel.org, 
-	linux-phy@lists.infradead.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v2] dt-bindings: phy: ti,tcan104x-can: Document TI
- TCAN1046
-Message-ID: <20251211-wonderful-singing-eel-4e2293-mkl@pengutronix.de>
-References: <20251209162119.2038313-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20251210-mauve-cow-of-hurricane-0f969d-mkl@pengutronix.de>
- <20251210-persuaded-rewire-8ac93b0cc039@spud>
+	s=arc-20240116; t=1765539737; c=relaxed/simple;
+	bh=Q5lXCdsnpFiBlImBw0foWBWrJ41BWMfPAkFZtfhVrH4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Wdv/+G/3inTaf/Tiy7t7RbsYymd/N3F1BNkwUlEonDIba1FkaDHplQ5R56+g0VI3izD6brrpw3d1tPGShwZRY4pzUKTZbleySOyaORod8auCXcIfJREJj6xdPMOm3PtgECN4rt4nyvwunqFWfVLxkgK4c2n+FZK7i6ms0f13vMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B7pCzHPK; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4779cb0a33fso14457775e9.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Dec 2025 03:42:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765539733; x=1766144533; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SqSZrdF7jKLudHWaIP4Cuhl8OMfNTNFnO+QuvvYTlPQ=;
+        b=B7pCzHPK3WCou9Lwjo7AAx+5QpEPh8ZL4ahBZYu3VCQyqKT0I3nJUemlCS32IokoJF
+         9Odtr7nK8PT9huPw5SUrWRUgU7OPco2O5F+SEbPFEA+2DvuOiNTHT+JhhMwwOh1rMW0a
+         HUKu87bKlnelG2QYMJ9xvM/rZFxdFMqILZ/Vci81/7sbR0TxuEUkIDAgIgy5tKstU3iX
+         yVaZEgJJCcAkg5zrLFxL1YRgst0pnT1TE6JacYzgUS19CQIAY4gH1pMMa3j8Uemd34a+
+         i431+b+8ubSPuF4fBf4ZrwipK6oRM0zBe5qvBX/+jGuQo0Vq84LFeUF/w2yYwDBWnkDX
+         wVSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765539733; x=1766144533;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=SqSZrdF7jKLudHWaIP4Cuhl8OMfNTNFnO+QuvvYTlPQ=;
+        b=abx5uZ1HQ4+L+k2C/v1CUBUr5Ft5QzMRG9qRl/6ANci3zxfseWOpb2o+gGwLnuRip4
+         4/OmKH8AKuZSbDNEgWJclGx1NjlS8LCQPuzEZ7FzajaYh1t+ekMgVaazpvUiQBt+6LFQ
+         F/vCHRWnD+uYknXjydoCnUSV40yFlM/nh2dQfbdB/nTBpfRRACDWuzBc+eAPQ/Q8uMA2
+         dL/XqBzUgj1/GA1yNoPJCNX9dEBBTn5+qb0BwE1nOJN21qxY+zKi4wxzVgm6q7I2MyI7
+         X4jGeuHyLy04LhNwfndGsbc1e3q2BFdVJdIlYOsS8JgI1oBSNQf3EcGw574+nOzkzFjI
+         ESEg==
+X-Forwarded-Encrypted: i=1; AJvYcCX8aL9ELOUODUNxR9Ioneu0kxMFgz1xn2D7EgyAUzfzjtNux15gahDrV0I5H8oiudBXZlyuUpsVIzqpu3qYqoUiRw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyWjyo2CCC9SJJEZVfSJyO8Zb2RL3nYgkAc0QZKt7Dj5WtyQWW5
+	eqkOJDIf1/4Pa5PdnF6KHazLV5i0RlTg9u87OvsdgPHbfly1+FbnWKrtlTYl8EBowBgNlMw8oK6
+	goD5sxGNQYqV331S+qS3rx7ihpnOH4aQ=
+X-Gm-Gg: AY/fxX5cU3AfIA8SLJQ4W30weJ77/1JN4b6SblSw2+tvk7eYal/n5VycJt1KxivcoD9
+	2eRiyv10Bc3I19Q+r/MX3NWBXpu1D8HkuDW2zvwOvYsLGd3PsnA9rw51VB6TfMXjV9SHovA/Uko
+	K2X6mqxAJ3LIRgOYQ+ooqisy6QtsD3kxIdG6TfndZuze+SJd+CyxjqKqF6oTvJeSvBPkXScj7DG
+	ZY0TQYXkh/RNK5tKMxT7JPAFfS8xdFWSoZQ+dJShT5pvj3wxpQq8RVx1TKqx78GFgTga2aALlKW
+	dlX3vkdBFuM3qCxDSeCtv7Lcz2shiL7E60uIzg==
+X-Google-Smtp-Source: AGHT+IGB6ZPeprIBn465w28lxcpG+FFyYAfospB99IhQBKnitIaifthTf3hB8ej0Epzg1+wB0r53roPeiiO7MzdMr4c=
+X-Received: by 2002:a05:600c:450b:b0:46f:b327:ecfb with SMTP id
+ 5b1f17b1804b1-47a8f8be22bmr18376915e9.9.1765539733324; Fri, 12 Dec 2025
+ 03:42:13 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="7xctq6j2q5icdxbk"
-Content-Disposition: inline
-In-Reply-To: <20251210-persuaded-rewire-8ac93b0cc039@spud>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
-
-
---7xctq6j2q5icdxbk
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
+References: <20251127162447.320971-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20251127162447.320971-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <176426377371.294874.17331116412829860585.robh@kernel.org> <87o6o4ebgn.ffs@tglx>
+In-Reply-To: <87o6o4ebgn.ffs@tglx>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Fri, 12 Dec 2025 11:41:47 +0000
+X-Gm-Features: AQt7F2rfQo6KTuZLs0_stvZL2VytvDba8D1c8Rke5WM0EXPG_Jjhav4f1icK94A
+Message-ID: <CA+V-a8tzoS2EGHy0n66rtiCivSE7Ghir5bfgEVtr4fdYRt-ExA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: interrupt-controller:
+ renesas,rzv2h-icu: Document RZ/V2N SoC
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: "Rob Herring (Arm)" <robh@kernel.org>, devicetree@vger.kernel.org, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	linux-renesas-soc@vger.kernel.org, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2] dt-bindings: phy: ti,tcan104x-can: Document TI
- TCAN1046
-MIME-Version: 1.0
 
-On 10.12.2025 18:21:34, Conor Dooley wrote:
-> On Wed, Dec 10, 2025 at 08:52:58AM +0100, Marc Kleine-Budde wrote:
-> > On 09.12.2025 16:21:19, Prabhakar wrote:
-> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > >
-> > > Document the TI TCAN1046 automotive CAN transceiver. The TCAN1046 is a
-> > > dual high-speed CAN transceiver with sleep-mode support and no EN pin,
-> > > mirroring the behaviour of the NXP TJA1048, which also provides dual
-> > > channels and STB1/2 sleep-control lines.
-> > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > ---
-> > > TCAN 1046, https://www.ti.com/lit/ds/symlink/tcan1046v-q1.pdf?ts=3D17=
-65297159307&ref_url=3Dhttps%253A%252F%252Fwww.ti.com%252Fproduct%252FTCAN10=
-46V-Q1
-> > > NXP TJA1048, https://www.nxp.com/docs/en/data-sheet/TJA1048.pdf
-> >
-> > The polarity of the standby line of the chips is different.
-> >
-> > You must set the correct active high/low property for the GPIO, as the
-> > driver uses logical levels.
-> >
-> > Reviewed-by: Marc Kleine-Budde <mkl@pengutronix.de>
+Hi Thomas,
+
+On Fri, Dec 12, 2025 at 1:27=E2=80=AFAM Thomas Gleixner <tglx@linutronix.de=
+> wrote:
 >
-> What you're saying seems to contradict the tag you've given, is a
-> fallback really suitable if the standby polarity is not the same?
+> On Thu, Nov 27 2025 at 11:16, Rob Herring wrote:
+> > On Thu, 27 Nov 2025 16:24:46 +0000, Prabhakar wrote:
+> >> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >>
+> >> Document the Interrupt Control Unit (ICU) used on the Renesas RZ/V2N S=
+oC.
+> >> Although the ICU closely matches the design found on the RZ/V2H(P) fam=
+ily,
+> >> it differs in its register layout, particularly in the reduced set of
+> >> ECCRAM related registers. These variations require a distinct compatib=
+le
+> >> string so that software can correctly match and handle the RZ/V2N
+> >> implementation.
+> >>
+> >> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >> ---
+> >> v1->v2:
+> >> - Dropped using RZ/V2H compatible as a fallback.
+> >> ---
+> >>  .../bindings/interrupt-controller/renesas,rzv2h-icu.yaml         | 1 =
++
+> >>  1 file changed, 1 insertion(+)
+> >>
+> >
+> > My bot found errors running 'make dt_binding_check' on your patch:
+> >
+> > yamllint warnings/errors:
+> >
+> > dtschema/dtc warnings/errors:
+> > /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings=
+/slimbus/slimbus.example.dtb: slim@28080000 (qcom,slim-ngd-v1.5.0): 'audio-=
+codec@1,0' does not match any of the regexes: '^pinctrl-[0-9]+$', '^slim@[0=
+-9a-f]+$'
+> >       from schema $id: http://devicetree.org/schemas/slimbus/qcom,slim-=
+ngd.yaml
+> > /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings=
+/slimbus/slimbus.example.dtb: slim@28080000 (qcom,slim-ngd-v1.5.0): #addres=
+s-cells: 1 was expected
+> >       from schema $id: http://devicetree.org/schemas/slimbus/qcom,slim-=
+ngd.yaml
+> > /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings=
+/slimbus/slimbus.example.dtb: slim@28080000 (qcom,slim-ngd-v1.5.0): 'dmas' =
+is a required property
+> >       from schema $id: http://devicetree.org/schemas/slimbus/qcom,slim-=
+ngd.yaml
+> > /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings=
+/slimbus/slimbus.example.dtb: slim@28080000 (qcom,slim-ngd-v1.5.0): 'dma-na=
+mes' is a required property
+> >       from schema $id: http://devicetree.org/schemas/slimbus/qcom,slim-=
+ngd.yaml
+> > Documentation/devicetree/bindings/thermal/thermal-sensor.example.dtb: /=
+example-0/soc/thermal-sensor@c263000: failed to match any schema with compa=
+tible: ['qcom,sdm845-tsens', 'qcom,tsens-v2']
+> > Documentation/devicetree/bindings/thermal/thermal-sensor.example.dtb: /=
+example-0/soc/thermal-sensor@c263000: failed to match any schema with compa=
+tible: ['qcom,sdm845-tsens', 'qcom,tsens-v2']
+> > Documentation/devicetree/bindings/thermal/thermal-sensor.example.dtb: /=
+example-0/soc/thermal-sensor@c265000: failed to match any schema with compa=
+tible: ['qcom,sdm845-tsens', 'qcom,tsens-v2']
+> > Documentation/devicetree/bindings/thermal/thermal-sensor.example.dtb: /=
+example-0/soc/thermal-sensor@c265000: failed to match any schema with compa=
+tible: ['qcom,sdm845-tsens', 'qcom,tsens-v2']
+>
+> Confused. How is the change in
+>
+>           bindings/interrupt-controller/renesas,rzv2h-icu.yaml
+>
+> related to the errors your bot found>
+>
+My understanding is that the bot printed out all the errors there were
+present in the tree while running the validation.
 
-The driver uses _logical_ levels to switch the GPIOs. For example to
-power on the PHY, it disables the standby GPIO by setting the value to
-"0".
-
-| static int can_transceiver_phy_power_on(struct phy *phy)
-| {
-[...]
-|         gpiod_set_value_cansleep(can_transceiver_phy->standby_gpio, 0);
-[...]
-| }
-
-You have to use GPIO_ACTIVE_HIGH/GPIO_ACTIVE_LOW in the DT to configure
-the actual level of the GPIO.
-
-If you connect the PHY's standby input directly to the SoC's GPIO....
-
-| TJA1048: HIGH =3D Normal mode, LOW =3D Standby mode
-| TCAN1046: High =3D Standby mode, Low =3D Normal Mode
-
-=2E..for the TJA1048 you would use GPIO_ACTIVE_LOW, while for the
-TCAN1046 you would use GPIO_ACTIVE_HIGH.
-
-regards,
-Marc
-
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde          |
-Embedded Linux                   | https://www.pengutronix.de |
-Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
-
---7xctq6j2q5icdxbk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEn/sM2K9nqF/8FWzzDHRl3/mQkZwFAmk7+pwACgkQDHRl3/mQ
-kZzoXAf/WppHtgf+xjeHcSDUxWQiT0y/ms86YiQzUQjFGDoc+DrkDvbpuaMAc93u
-Gsxz0QtfwMnzoMRyvd514QpjuacWsRppi+Td6sE70o8P4bOMWqy6oErLNqzHqOMX
-4Z4ouZIL8vy+0uBD2KOicJ4lveWiJikUM4/I1tA3EW/19a0PJraNizbrnhzytasp
-9YkxE/fMQopyYhb7//q4kyyzA/CzNqCS2qvi7RSk9XzXQYfzgSVCvF22USjkTUtH
-J+hBMluDYcw1DAoRTB7YqBrCYsdnjDtokuiY2lvvnnXl3FX4PjmWMrSRnkyFhmtB
-KlwlVtJ9F8qJbQrT0cqukuPBhyOcwA==
-=RGBu
------END PGP SIGNATURE-----
-
---7xctq6j2q5icdxbk--
+Cheers,
+Prabhakar
 
