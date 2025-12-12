@@ -1,193 +1,101 @@
-Return-Path: <linux-renesas-soc+bounces-25727-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25728-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89A1ECB9DF4
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Dec 2025 22:19:23 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 995B1CB9E7B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Dec 2025 23:06:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E26AF30BAFD1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Dec 2025 21:18:28 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6F768307A234
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Dec 2025 22:06:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D3E3280332;
-	Fri, 12 Dec 2025 21:18:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B56228C84D;
+	Fri, 12 Dec 2025 22:06:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="HLM60RvQ"
+	dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b="dRVPQAQU"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DEDA2749C9
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Dec 2025 21:18:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+Received: from smtpfb1-g21.free.fr (smtpfb1-g21.free.fr [212.27.42.9])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 441C619258E;
+	Fri, 12 Dec 2025 22:06:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.27.42.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765574308; cv=none; b=TE6jg56ZHnTqv85hnfDet0joAvEnuthANzPQFCVJUWwRA1NoZIBLn8WBHiU/KMdg3P5lYPvHE4UeKH7biMmzuKq25Tp3v5xqxyJlXfzxAcz1OT3+hwl6EoE+DEqQ9coVY6RBDEzy5RrIoP9Zd9kbuRIBb6A1JFWF+jpFWh/Yb5g=
+	t=1765577187; cv=none; b=Pgfjhbuu3G/5GsFvDO42Kk1izt3wslVmel8WnGVCaHPO/33xmC0rdRddkwTLTJIgJrp+U3ahxNPPnv+4YZPl3U14VMJOGN1w0qPDwi/AGZd+/yYUPyN/d6b46frMk1MkCQ2WGghcI95igy5hcqj8PBx2SzCjEpaAOt6S8rYf5UI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765574308; c=relaxed/simple;
-	bh=tAYHHvyBIxwmOn0FXzhxdLKMGuBqvYTxhaHEZdafu6A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TgsewnN9AWSvpce47Zqfua8DCuhq56wSuX/sxD73VugsFh/TKBrA+QB8hwDhKuc7WnttdQLCfSG3WEBoAjiGeJ/AuWy0ir9esQtTnwF/h9PUyCfCjCpLHhbP1/HRWzJ+BPnw3Z0U8MOLPyPpchgzRTUy+JN/442kUOBT9FgyZs0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=HLM60RvQ; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id B940AC19369;
-	Fri, 12 Dec 2025 21:17:54 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id A5843606DF;
-	Fri, 12 Dec 2025 21:18:18 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C8B72103C8D89;
-	Fri, 12 Dec 2025 22:18:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1765574297; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=ibpI/8IsPFwa4no7KFk+umJ2AO5xlqf2PVxIa7iLFU0=;
-	b=HLM60RvQYesG36vE7JR/5+uLnWRQf4bdIdat8LNhhwn27mZDSoZ2SDj0eyP003231tegvj
-	UG5YUjBH8eqeOXuidTBTl7qXnVk2PDVrOM7lwXYo2EWHDHtSkpw5pSN6VgmVs1Cdq9r8oT
-	qZzjCAS1Hp3GRbh2BBtJ8S82Y6KOo3hfBw59NXxnpzDVTrfH2keYu4Are0AApWfc4h8X9P
-	bFHApOaQx+lRJwgJBy2vU+ElfJrANokMEMwNUedWns8MrHPn0+dKNvDxU8A5bLOS15PSs7
-	Yg+gSvPB42p4iufmtmIXanb6veaAfiTuLYRzZgsydV5nftcVOoSQY5Ph4vniMg==
-Date: Fri, 12 Dec 2025 22:18:12 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+	s=arc-20240116; t=1765577187; c=relaxed/simple;
+	bh=gPwKxCd2LVBnJ4p5fX3ephTehUZ4nezWU5qgNY16S14=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=NpdJPEWzgeiLoIgy9HURF1Qnk29XAfsQOrCtuBDGdvE3xxiwBoOieP/9rV5a8gkErUQ769DEky09SMUR6iVrpq9NBaEmPBYm39IEQEjqzH//JdjXYHK6C2r7ASfvx0l/GgUXeEz94d5wUBJJERpPdGkFQkGWpaGRA7OiXGHODz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=free.fr; spf=pass smtp.mailfrom=free.fr; dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b=dRVPQAQU; arc=none smtp.client-ip=212.27.42.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=free.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=free.fr
+Received: from smtp5-g21.free.fr (smtp5-g21.free.fr [212.27.42.5])
+	by smtpfb1-g21.free.fr (Postfix) with ESMTP id C6415DF83D5;
+	Fri, 12 Dec 2025 22:58:39 +0100 (CET)
+Received: from belgarion.local (unknown [IPv6:2a01:e0a:a6a:5f90:6d9f:c3d:adb3:41ea])
+	(Authenticated sender: robert.jarzmik@free.fr)
+	by smtp5-g21.free.fr (Postfix) with ESMTPSA id 811066012D;
+	Fri, 12 Dec 2025 22:58:16 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
+	s=smtp-20201208; t=1765576712;
+	bh=gPwKxCd2LVBnJ4p5fX3ephTehUZ4nezWU5qgNY16S14=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=dRVPQAQUwrYpZ+vlWxvBAV0aRc3cx/hfMjdv7NoQUmjhWlqo26/6F/ZlYvnWXsWJL
+	 ezQkixGbeA5jyETgHYl8xz3Tcl+FZnrv7JCQsf+gHBkkxvYrm596pNcoWvL8miXCRk
+	 yeXrt4wsmxVbqJFHPTncFTBBYULcDwWjua4K89L/1wl9JoRmjxlMKWQTDkQ4wWgzaH
+	 FzcJDhLzRzi9Zu2zjgJMmOZbS+S2TF6HwoE8LUjHmlAOntGkTzxI335x1/DWjC0aKP
+	 oTpNXFtSzpNeiSqWQhbZdWu9Lk+gR8oedCbfeG8/1v8A85cQV7cEFjf1kaJpxLuKDT
+	 8dJno7OoFsG8w==
+From: Robert Jarzmik <robert.jarzmik@free.fr>
 To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] ARM: dts: microchip: Drop usb_a9g20-dab-mmx.dtsi
-Message-ID: <20251212211812768361f3@mail.local>
-References: <20251212203226.458694-8-robh@kernel.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,  Magnus Damm
+ <magnus.damm@gmail.com>,  Krzysztof Kozlowski <krzk+dt@kernel.org>,  Conor
+ Dooley <conor+dt@kernel.org>,  Daniel Mack <daniel@zonque.org>,  Haojian
+ Zhuang <haojian.zhuang@gmail.com>,  Andrew Lunn <andrew@lunn.ch>,  Gregory
+ Clement <gregory.clement@bootlin.com>,  Sebastian Hesselbarth
+ <sebastian.hesselbarth@gmail.com>,  linux-renesas-soc@vger.kernel.org,
+  devicetree@vger.kernel.org,  linux-kernel@vger.kernel.org,
+  linux-arm-kernel@lists.infradead.org, Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH] ARM: dts: intel: Drop pxa2xx
+In-Reply-To: <20251212203226.458694-4-robh@kernel.org> (Rob Herring's message
+	of "Fri, 12 Dec 2025 14:32:10 -0600")
+References: <20251212203226.458694-4-robh@kernel.org>
+User-Agent: mu4e 1.12.13; emacs 29.4
+Date: Fri, 12 Dec 2025 22:58:16 +0100
+Message-ID: <m2345fmkg7.fsf@free.fr>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251212203226.458694-8-robh@kernel.org>
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; format=flowed
 
-On 12/12/2025 14:32:14-0600, Rob Herring (Arm) wrote:
-> This .dtsi file is not included anywhere in the tree and can't be
-> tested.
-> 
-> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+"Rob Herring (Arm)" <robh@kernel.org> writes:
 
-Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> These .dtsi files are not included anywhere in the tree and 
+> can't be
+> tested. They have not been touched since 2018 other than 
+> clean-ups.
+>
+And yet, there are used by people using pxa2xx board with an DT 
+support
+(like the mioa701 for which a board file was never merged).
 
-> ---
->  .../boot/dts/microchip/usb_a9g20-dab-mmx.dtsi | 93 -------------------
->  1 file changed, 93 deletions(-)
->  delete mode 100644 arch/arm/boot/dts/microchip/usb_a9g20-dab-mmx.dtsi
-> 
-> diff --git a/arch/arm/boot/dts/microchip/usb_a9g20-dab-mmx.dtsi b/arch/arm/boot/dts/microchip/usb_a9g20-dab-mmx.dtsi
-> deleted file mode 100644
-> index 5b1d80c0ab26..000000000000
-> --- a/arch/arm/boot/dts/microchip/usb_a9g20-dab-mmx.dtsi
-> +++ /dev/null
-> @@ -1,93 +0,0 @@
-> -// SPDX-License-Identifier: GPL-2.0-only
-> -/*
-> - * calao-dab-mmx.dtsi - Device Tree Include file for Calao DAB-MMX Daughter Board
-> - *
-> - * Copyright (C) 2011 Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
-> - */
-> -
-> -/ {
-> -	ahb {
-> -		apb {
-> -			usart1: serial@fffb4000 {
-> -				status = "okay";
-> -			};
-> -
-> -			usart3: serial@fffd0000 {
-> -				status = "okay";
-> -			};
-> -		};
-> -	};
-> -
-> -	i2c-gpio@0 {
-> -		status = "okay";
-> -	};
-> -
-> -	leds {
-> -		compatible = "gpio-leds";
-> -
-> -		user_led1 {
-> -			label = "user_led1";
-> -			gpios = <&pioB 20 GPIO_ACTIVE_LOW>;
-> -		};
-> -
-> -/*
-> -* led already used by mother board but active as high
-> -*		user_led2 {
-> -*			label = "user_led2";
-> -*			gpios = <&pioB 21 GPIO_ACTIVE_LOW>;
-> -*		};
-> -*/
-> -		user_led3 {
-> -			label = "user_led3";
-> -			gpios = <&pioB 22 GPIO_ACTIVE_LOW>;
-> -		};
-> -
-> -		user_led4 {
-> -			label = "user_led4";
-> -			gpios = <&pioB 23 GPIO_ACTIVE_LOW>;
-> -		};
-> -
-> -		red {
-> -			label = "red";
-> -			gpios = <&pioB 24 GPIO_ACTIVE_LOW>;
-> -		};
-> -
-> -		orange {
-> -			label = "orange";
-> -			gpios = <&pioB 30 GPIO_ACTIVE_LOW>;
-> -		};
-> -
-> -		green {
-> -			label = "green";
-> -			gpios = <&pioB 31 GPIO_ACTIVE_LOW>;
-> -		};
-> -	};
-> -
-> -	gpio_keys {
-> -		compatible = "gpio-keys";
-> -
-> -		button-user-pb1 {
-> -			label = "user_pb1";
-> -			gpios = <&pioB 25 GPIO_ACTIVE_LOW>;
-> -			linux,code = <0x100>;
-> -		};
-> -
-> -		button-user-pb2 {
-> -			label = "user_pb2";
-> -			gpios = <&pioB 13 GPIO_ACTIVE_LOW>;
-> -			linux,code = <0x101>;
-> -		};
-> -
-> -		button-user-pb3 {
-> -			label = "user_pb3";
-> -			gpios = <&pioA 26 GPIO_ACTIVE_LOW>;
-> -			linux,code = <0x102>;
-> -		};
-> -
-> -		button-user-pb4 {
-> -			label = "user_pb4";
-> -			gpios = <&pioC 9 GPIO_ACTIVE_LOW>;
-> -			linux,code = <0x103>;
-> -		};
-> -	};
-> -};
-> -- 
-> 2.51.0
-> 
+If you remove pxa25x.dtsi and pxa27x.dtsi, you might as well 
+remove all
+support for this architecture from the kernel, as these are the 
+building
+blocks needed to make it work.
+
+That might be what should be done, I'll let Arnd and Daniel 
+comment on
+the future of PXA in the kernel.
+
+Cheers.
+
+--
+Robert
 
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Formal Signature
+Emacs 25, org-mode 9, mu4e 1.0
 
