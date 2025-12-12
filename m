@@ -1,194 +1,163 @@
-Return-Path: <linux-renesas-soc+bounces-25717-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25718-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3331DCB8C55
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Dec 2025 13:12:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB89ACB9801
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Dec 2025 19:00:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 393BE3009136
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Dec 2025 12:12:22 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id C1BCE3008D46
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Dec 2025 18:00:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8ECDB322B62;
-	Fri, 12 Dec 2025 12:12:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E16822D7390;
+	Fri, 12 Dec 2025 18:00:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="U5ayIK9W"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c+evEzBh"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011012.outbound.protection.outlook.com [52.101.125.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F22EF30EF82;
-	Fri, 12 Dec 2025 12:12:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765541540; cv=fail; b=TuICCxyNO6Rqlr8tR8JvCz+xlqBKHUlJYHC/I+pps3Ijqr+hBuSKj3n4YEIVhl/w4aI6PROF44u08zYlUIAj23G2wqsDMGJP1zHDPW9AL1dXcjCmLIa39BinYYG+O6opJAL96/w20gQCzr/Hr1HE9IscQicpTGaODFVlR9eTwSc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765541540; c=relaxed/simple;
-	bh=J4V5mQELq/JhwVXqRKhyzEz3CjNKgCjH7wO4qEzEDLg=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=JoQ4trKjRBy4OilYTndegrb2A3TO8xYWCUCYW+S/DmIi850Sy0Z+5EqSGBFpOdaRAKgFdYpL0EnJLIr1J4WXoGpoFwQyrTpUHLLW50pv7BFLFU4lDZ7a7nBCFXE7DMmEXBa7Dl3JcdiOkkkVvj2vcfHAZ3kXLw0HHVRarTEbbVQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=U5ayIK9W; arc=fail smtp.client-ip=52.101.125.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UmKIuG7v4PiU8YcleYFT7Et3+R0dgDXo7E1hYGW+CzZllqoDaCahw7GW60RT3Y1pJ4CakC15U4Dugodu352W1hKYYJeqTX2rZVG/yXxRgddYV4bozwjQLNJVqffwG2dxdLhRj6sU24JP00fARbsGhrvhYIJRXJpp5sPCrjCajLgXvAttmAvOYpsJpNTUCAoDd+zS6PSJz2WGh0CeYSgFHlu6xIi8WM9gbduLFtISMSKjNal5EH91dvbYnykfTe1PWYY70PIITmdZbvQAOPCxrjlKKd4T2DDlFb+l75GB5pQPK3GZcwMIum5PJKMIYY5vgkYNu6CpzJj5/gzBniQHyA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5OtuJXa6v+hbP2niLTpn+iIS3BKAioQTgy9vFsEt3Z8=;
- b=NZ394VDSdAsmmekk6/6mhzhA5KD+I/lLm9tkwIAue0MDIaIwY5FBoAu0u5P/K8ZCTpFnOg+htQyaeK6I3rPMbbYqanXVqZXS6zQFYSeu1CTZpEs7J9kiYKQtcnDdMdx3bCJDy7LUdGbSnI0eyQpNQwuh6L7hMsAoWDrAnCEDZHMd2mZ6aGqxFreKcmlmIh+0u2FBsVaSTlSWtBQbsXLJ/xJ+ZVmfmQUY+IOV7sLUSq7VZz206GpFAPoEn3z1bI4JMr4IroszAiIOFkeMaKtKbUpvnAuaAl/amEjFCbkiaB8bGRP9JbFFDwPZdqWR2g4KCIDyV6qsHwMlLys9Au/l5g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5OtuJXa6v+hbP2niLTpn+iIS3BKAioQTgy9vFsEt3Z8=;
- b=U5ayIK9WVoYAzlPjqeFiwmPa9+4HxXBSEwXWw2vcbaJSs19IwUoX0GbyVrXAwytnbtSNfzJJHd+hiOBbqyejJPx6gfM2rMeGG4DSOewk/nV/7cQ15c1yXsk/OiVlyiXRxf421/ywOMGn4Qhewkve6lGW9QvQ6q8JKeu33s8ju20=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com (2603:1096:400:3e1::6)
- by TYYPR01MB12888.jpnprd01.prod.outlook.com (2603:1096:405:15c::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.9; Fri, 12 Dec
- 2025 12:12:13 +0000
-Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com
- ([fe80::33f1:f7cd:46be:e4d8]) by TYCPR01MB11947.jpnprd01.prod.outlook.com
- ([fe80::33f1:f7cd:46be:e4d8%5]) with mapi id 15.20.9412.005; Fri, 12 Dec 2025
- 12:12:13 +0000
-From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-To: tomm.merciai@gmail.com
-Cc: linux-renesas-soc@vger.kernel.org,
-	biju.das.jz@bp.renesas.com,
-	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] media: renesas: vsp1: Move suspend/resume handling to LATE phase
-Date: Fri, 12 Dec 2025 13:11:50 +0100
-Message-ID: <02669d4630e04fe24c17dd2576ec8b27ded458f0.1765541401.git.tommaso.merciai.xr@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: FR2P281CA0065.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:93::11) To TYCPR01MB11947.jpnprd01.prod.outlook.com
- (2603:1096:400:3e1::6)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0A28293B75;
+	Fri, 12 Dec 2025 18:00:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765562429; cv=none; b=nCLsMlt5UcfEoojtBazosseJ3atgFXZ4vhZnFPTZQHXUnZYztkGOBTtLFIM4Vz/iNSbrxhQ2bexgvsUvR6Nf3j9q3OdECyxEKID0bHuKVv6Kr1cjio+9us24Z6azOtPyDIWthf40hs6iqUaBbXlkXxACFWZ0bXbqwRc34MTkI4Q=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765562429; c=relaxed/simple;
+	bh=bJ2KJCFxwgxmMsSuX7IhdV9rCVpxtdIdE13CWYdQEx4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lI5VsU6+1PDqZVVk4C6BESTkAGXflqH1y5/E7nJpsTR0B2G9eBiN/PO+g1TY9ZFiBJqR8bgKUibGUsU8fMxyRD7sq5i2Ug/T6vrdIxh/D4cz2MZSOv5/09VbOgEB+X5KJA9DWzCY1IDMLN0YK/9aGv/K4TI/tLMqxdqueBW0Ivo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c+evEzBh; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E51AC4CEF1;
+	Fri, 12 Dec 2025 18:00:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765562429;
+	bh=bJ2KJCFxwgxmMsSuX7IhdV9rCVpxtdIdE13CWYdQEx4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=c+evEzBhkPlDbI3BlJdEvZ8AEjftKU/VXIdPPQJWvsCkWhGn0dqBuVSLZ16mXLcK+
+	 OQYy/rRiaQmYlbi8QYxP/qhukPanqLxFBIRQOgUCDqyNpOQhI8JxXsFTEp0EbPxClx
+	 UkxH7VzoYkIwaFc9ouQK5nOVWoqpUzdszERP5MM8ercsEPDYSvBkJfWfDbsjbe0Tyc
+	 uV/YvsLvAAlE+F6xW8hjBaVU4sa1nIcTGpdaz5udHVRAbVeXbkffrWornvbLJlxJuO
+	 myLTdNnURrg6rm4H/SWNmBWTVxv0n6rUtk1280Ij8u5Gnov3A2O5hjDK1iGxgOcKTr
+	 +0hfL/nEmnITw==
+Date: Fri, 12 Dec 2025 18:00:23 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Marc Kleine-Budde <mkl@pengutronix.de>
+Cc: Prabhakar <prabhakar.csengg@gmail.com>,
+	Vincent Mailhol <mailhol@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Aswath Govindraju <a-govindraju@ti.com>,
+	Frank Li <Frank.li@nxp.com>, linux-can@vger.kernel.org,
+	linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v2] dt-bindings: phy: ti,tcan104x-can: Document TI
+ TCAN1046
+Message-ID: <20251212-thaw-octopus-57e8400506ea@spud>
+References: <20251209162119.2038313-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20251210-mauve-cow-of-hurricane-0f969d-mkl@pengutronix.de>
+ <20251210-persuaded-rewire-8ac93b0cc039@spud>
+ <20251211-wonderful-singing-eel-4e2293-mkl@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB11947:EE_|TYYPR01MB12888:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9c9df833-f6fd-4738-164e-08de3977aeab
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|366016|376014|52116014|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info:
- =?us-ascii?Q?XJdZ0a0oK9gF4r4m+Tqc3Pyr5em0gz5la2VETULGDvFNRLHTPb/gmAJt0DPk?=
- =?us-ascii?Q?Pk3buLKU/uxFmYuKF38R86+Lsm7iWo4IKQaDiUULvIORJ8fl9U/KLZ6+95Gn?=
- =?us-ascii?Q?+4hNyV05p0aEplQC7WLKXNuD0oSbYAu/X9FB9z7NWFagmgR9hoAhW71YYJoC?=
- =?us-ascii?Q?F5r88QOX6ZtvURNr9/AofXXcNaVrDoY7YwQfGW2AlqGwzBxq3NVR9dT3eQt1?=
- =?us-ascii?Q?9gwf3dYXVwnngWMwPVETKOQMjq8czlfh7M3gdj40oI2SIsR77MNQj+lIyNpN?=
- =?us-ascii?Q?B+RuEwTjfscU4I59ccjkPX5vjiEAU5yOsU4bJPXcHXvhyvo0+5cM+zGAPg7h?=
- =?us-ascii?Q?TEYrKaizjaIxeYLi467SdfKzd8MmvLwgsb0s07h2OAXo1gqVSJa6I0ZcCtr5?=
- =?us-ascii?Q?//Ggb9vS9Z4edufNAgQzTRnJe9+IFoKzF9LBuF0EY+ZZdJLuD7qjkyNRpDXD?=
- =?us-ascii?Q?jJ1M+6hQegWo6mr9p+WKaK98IOobjhVEVxLBo6XD1Xd81WboI02c+6QbOqm+?=
- =?us-ascii?Q?lOE2grh78RP1Ho1Q3XHIL0uJC9qk8TuAupvytg5Y2J0DyWymz5UC33npMj43?=
- =?us-ascii?Q?ZzRrY9yXWrKvLFdl5R6Iw+WLBelLzwFKaRk9V9/60VeGUag3XX/SzXFtulfl?=
- =?us-ascii?Q?rlNoj5zNXNZHYjTpib/qZkcLdtqYEGqQutDlJXSpUJWLrJgeyT3vThuPl6wn?=
- =?us-ascii?Q?LBxzqCZW22SWteGcLzw9/tJLN11rcvoNWHvn2VsyXHsHZJxGPQm0uGx/8QZJ?=
- =?us-ascii?Q?awWqDiuTJA3umxMRwWEtuPbYeapZQgVEI5yUJQBDrcELg/Rcr+k+Iq3v9POQ?=
- =?us-ascii?Q?8cDlNuUfpN5lSDmlqPMkrjlQ92LRLvJ43iZW32GEPQm91ws0R6k3G5+ZXF67?=
- =?us-ascii?Q?JmmQthT6WkP3ZsOYKxi0ycOHL/mmWWuFYWY7Hw4cDT0RsNMENGXTcrFeh6dD?=
- =?us-ascii?Q?U+I5nrRNNnS3IrgP2jSm3vrAKXx9BHmSRsmP2+vOECcnJlxwdhBjJKvIUYgE?=
- =?us-ascii?Q?WUAHd2URqDcnNFqOZEuwoqf08CapYT4l2azG/m/Km9pV6bMeZ0Mkj9hTDVcl?=
- =?us-ascii?Q?00EAyz4mi8qfcW2YOCt7VB+H2ID50AOrWZK/uFQ/MaR8Cove/IiAMOz4KyZf?=
- =?us-ascii?Q?TZSRXYXqoi+JN8YA/1MDFnmi8hbuFMJWlmDSBuM1vvCorKKa4QvW3N7uWDu3?=
- =?us-ascii?Q?hILdpy6pLY6vVSlj2QHFcy5bIthIlVQLQEpjhQjFsaIMgjsDPvf2AyXQASOd?=
- =?us-ascii?Q?NyS+u0v+GJakqDs3erXqbPjgU5/EYJMaXEFF75bgxG6Z5GvPqVrDfftqI69E?=
- =?us-ascii?Q?QNJLP+H4bsxKp00uCbCXpP7rpqhpRDcj6m0PnkYuF901bQUmrHcsgJbwX4H9?=
- =?us-ascii?Q?LsFpSS7DurwSvczNeG8x36N+A+gYLuGMalTWzf2ukq+pPxaCYhkj3AS4GCJS?=
- =?us-ascii?Q?qTWDH08vFR3Nj73Pcai9Ou+04d8K9LWrOv+CddI49ytHWCtwiq1jXU9fWB+f?=
- =?us-ascii?Q?3BM4q1piL9BmWEo1f9xmKyopgKaYUaNXrbJm?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11947.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(52116014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?4ysDtvCGgseFR/LX9tVbdpz7x/h4Bn7DpHt0yDsyAOjc8Z1YnVbOPM/BqLww?=
- =?us-ascii?Q?V9hXIMuj/Z5+rpe8vuTRZCHkRGVjHOp5dU3vG7z0JOGB3O89t/IF3AJvOG9S?=
- =?us-ascii?Q?/KrNoxafNGeJW6SiygWyIjT519VDpFmB4L3S8SrJ41FjOaVv+2PeVncvJZVL?=
- =?us-ascii?Q?JFDUYhwCcIQi2I5Fc5yxrbvy+9VnP9/folSBL7nBvXm7dHBhtDwRiFsXOwXA?=
- =?us-ascii?Q?rfJ0bZz0Wc9M+Uyc2IRasRsmI/plZ+1cwYy98eQJCNfLwtNJRsqtASU0be1Z?=
- =?us-ascii?Q?9RsEx3/wBFNXfQ5SQYtHHwMkqqaw9DOecNeGwgwlft7gRQJgpShs5BjFCMN1?=
- =?us-ascii?Q?OBpxp/3CMg89SDU6Zg7qNBFErKUq+B3T/axBYYAMEYWAW4rHSJtbeujH7fot?=
- =?us-ascii?Q?TMcCia2IrkTzzirEogJTVt0WWwmoLbnMe/0ErRUkL0fpVRH9tItxF3sjze0y?=
- =?us-ascii?Q?V76NqwOC0GW0LZooxDLT+AbnrkuIM+miVtWx/gKtPkeqyKiqEnikPj3oVUE4?=
- =?us-ascii?Q?s0NFuUEE47+VpfLOJib8y5kN8eJtbrfZ1ewGtRdlxiLS7c1lSioUKhTWvvl6?=
- =?us-ascii?Q?QhwQsXlVUqlUT9suYhpWcPYbtHwIVzIKm7iVR1297Nrl8sHApHXskjsxGVi5?=
- =?us-ascii?Q?1j1HMYmWn+NQ+82vQj499IVL9C7AvUxgCMV0FHGRaQE0zHBvRiE062fpBIQf?=
- =?us-ascii?Q?zLe1RArn4pNx3X7W8yvyiV9ArxzBoX17z4f/il7qbdpicYDpuU/pPKIrPWXf?=
- =?us-ascii?Q?X8r5H/hqb/T4Jh5v9kaU8J1MWIleYP/5bzxbqcetPVBBA4xDISj43ZvN4le+?=
- =?us-ascii?Q?u3YhOm6dRSQy+8qZ8frz9ID3UYSssiQG5gUbyWo/ufuXH+4tMWNupOcG/6Z6?=
- =?us-ascii?Q?9ibkqkZ59BpccjjU9WqJqCVEdbsvG4u2LwVXRguOw13iuS969NWWefapLSDy?=
- =?us-ascii?Q?Sg70B77TO8hy3PDLuukWe8HWRND1rS9mr31ggPo7LC7T5CGpqx6QX9ct2iFm?=
- =?us-ascii?Q?KAjBNthjwc/E0rIckNaSTlwXTh8ouBz/PYbpIfvDdJpF+P6xFNR0v9baiqfs?=
- =?us-ascii?Q?OoIFyqB8xaj/8Q9BOlScxlfAQSrz8uPI1du1QMk/HBFtClItfZ2LYN0V7bM3?=
- =?us-ascii?Q?0v2rMKZ/oZWVkE6a7hawvTmtQsqUORQAs/xoTGnfuLQ3h2KlOX60kypkc27u?=
- =?us-ascii?Q?af6prtXx77pdQrmGLUBj4S4Wm8ETvk92tLQIuQKHHRTLJDYiLCxZ6v0DFJ8Y?=
- =?us-ascii?Q?hTIDyTJgtPcwa9AjfM5fEuxGG4eJuny8jrAyXIIUPluRWpkiOkK3TP5vNnHV?=
- =?us-ascii?Q?Jxr+8wSJZpOeAUotbG+UHkSoYZaSnvwOr9X0o+AZ4jkbqEanDvX/KSx3wwAR?=
- =?us-ascii?Q?h3/pWT1mYZKjaL6i/kHndV1AODI/3FfH+HDeu4uIyvzLQmgFS2xdqkRsXc4Z?=
- =?us-ascii?Q?FdV/rQqLBJaP/mcuZY7jsF+jwUoDKJ7/OdJb8iyu8DM3xa2JS74kT703dTVW?=
- =?us-ascii?Q?iOzWnHaVy1k9/Hp6QKzQfUhlG9CW2O3S/EEzW+8J9P0hPhd06OVihAaJhxOh?=
- =?us-ascii?Q?A/v5duEQ02lN9KUB6bBeGMxEqZhQeTAsTsdPVfm9qLR5Pc+i7pNZlWAyxQU2?=
- =?us-ascii?Q?GijEXChJyQsH7Bbcvzj2//s=3D?=
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9c9df833-f6fd-4738-164e-08de3977aeab
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11947.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2025 12:12:13.2097
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gVOdm28BX75eXCQoBQfKLzdsKmwYnaqPkZGf1DpQO0awQ9aMOB5/5uZerxASBSvzNwqm379g6SlVH0PInElpABHc1VoCxGYkPqVptUIR39CMYcMdDqltkQfwKVEwpUpD
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB12888
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ec+kgCN350Y3b0uL"
+Content-Disposition: inline
+In-Reply-To: <20251211-wonderful-singing-eel-4e2293-mkl@pengutronix.de>
 
-Switch the VSP1 driver's dev_pm_ops to LATE_SYSTEM_SLEEP_PM_OPS to ensure
-that suspend and resume callbacks are executed after DSI/DU suspend and
-before DSI/DU resume. This prevents timeouts and vblank wait errors during
-system resume, such as:
 
-[drm] *ERROR* flip_done timed out [CRTC:43:crtc-0] vblank wait timed out
+--ec+kgCN350Y3b0uL
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This addresses display commit and vblank timeouts seen with DRM atomic
-helpers during s2ram.
+On Fri, Dec 12, 2025 at 12:21:03PM +0100, Marc Kleine-Budde wrote:
+> On 10.12.2025 18:21:34, Conor Dooley wrote:
+> > On Wed, Dec 10, 2025 at 08:52:58AM +0100, Marc Kleine-Budde wrote:
+> > > On 09.12.2025 16:21:19, Prabhakar wrote:
+> > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > >
+> > > > Document the TI TCAN1046 automotive CAN transceiver. The TCAN1046 i=
+s a
+> > > > dual high-speed CAN transceiver with sleep-mode support and no EN p=
+in,
+> > > > mirroring the behaviour of the NXP TJA1048, which also provides dual
+> > > > channels and STB1/2 sleep-control lines.
+> > > >
+> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.c=
+om>
+> > > > ---
+> > > > TCAN 1046, https://www.ti.com/lit/ds/symlink/tcan1046v-q1.pdf?ts=3D=
+1765297159307&ref_url=3Dhttps%253A%252F%252Fwww.ti.com%252Fproduct%252FTCAN=
+1046V-Q1
+> > > > NXP TJA1048, https://www.nxp.com/docs/en/data-sheet/TJA1048.pdf
+> > >
+> > > The polarity of the standby line of the chips is different.
+> > >
+> > > You must set the correct active high/low property for the GPIO, as the
+> > > driver uses logical levels.
+> > >
+> > > Reviewed-by: Marc Kleine-Budde <mkl@pengutronix.de>
+> >
+> > What you're saying seems to contradict the tag you've given, is a
+> > fallback really suitable if the standby polarity is not the same?
+>=20
+> The driver uses _logical_ levels to switch the GPIOs. For example to
+> power on the PHY, it disables the standby GPIO by setting the value to
+> "0".
+>=20
+> | static int can_transceiver_phy_power_on(struct phy *phy)
+> | {
+> [...]
+> |         gpiod_set_value_cansleep(can_transceiver_phy->standby_gpio, 0);
+> [...]
+> | }
+>=20
+> You have to use GPIO_ACTIVE_HIGH/GPIO_ACTIVE_LOW in the DT to configure
+> the actual level of the GPIO.
 
-Co-developed-by: Biju Das <biju.das.jz@bp.renesas.com>
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
----
- drivers/media/platform/renesas/vsp1/vsp1_drv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Ah okay, I prob should have looked a bit further into the binding.
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-index 2de515c497eb..0fbd27df1f46 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-@@ -693,7 +693,7 @@ static int vsp1_pm_runtime_resume(struct device *dev)
- }
- 
- static const struct dev_pm_ops vsp1_pm_ops = {
--	SYSTEM_SLEEP_PM_OPS(vsp1_pm_suspend, vsp1_pm_resume)
-+	LATE_SYSTEM_SLEEP_PM_OPS(vsp1_pm_suspend, vsp1_pm_resume)
- 	RUNTIME_PM_OPS(vsp1_pm_runtime_suspend, vsp1_pm_runtime_resume, NULL)
- };
- 
--- 
-2.43.0
 
+>=20
+> If you connect the PHY's standby input directly to the SoC's GPIO....
+>=20
+> | TJA1048: HIGH =3D Normal mode, LOW =3D Standby mode
+> | TCAN1046: High =3D Standby mode, Low =3D Normal Mode
+>=20
+> ...for the TJA1048 you would use GPIO_ACTIVE_LOW, while for the
+> TCAN1046 you would use GPIO_ACTIVE_HIGH.
+>=20
+> regards,
+> Marc
+>=20
+> --=20
+> Pengutronix e.K.                 | Marc Kleine-Budde          |
+> Embedded Linux                   | https://www.pengutronix.de |
+> Vertretung N=FCrnberg              | Phone: +49-5121-206917-129 |
+> Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
+
+
+
+--ec+kgCN350Y3b0uL
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaTxYNwAKCRB4tDGHoIJi
+0u4GAQCKQ0zLIMjJX0Bdhe/NUX9j3cgUy7HrpJmvIB9NveY+mQEA21rq6AEs7yyQ
+5BxDz7hP5JNIAVC+Im1gKpg60Oy2JAs=
+=8+rD
+-----END PGP SIGNATURE-----
+
+--ec+kgCN350Y3b0uL--
 
