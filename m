@@ -1,165 +1,163 @@
-Return-Path: <linux-renesas-soc+bounces-25713-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25714-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 398C7CB8AE3
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Dec 2025 12:12:55 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6AF2CB8B49
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Dec 2025 12:22:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id EFF53306CF4F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Dec 2025 11:12:02 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4F034309F52F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Dec 2025 11:21:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81C1031AF0A;
-	Fri, 12 Dec 2025 11:12:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DAaP+jy4"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AAA531B118;
+	Fri, 12 Dec 2025 11:21:47 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9146331AA8E
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Dec 2025 11:12:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33A1231B114
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Dec 2025 11:21:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765537922; cv=none; b=AGdBlj3f7YXc9jWAaPG0OR5JH0sMXY46F3oYkGcGRkJwX48oLZL2c4YRaTgBd25+nfUzdNlRpODEj8fv3kSyKeqvmjguv4WfbAHHRiAp2SqDIS15U9gr3VVERPEg53GuJdkdbO3AlOWtuhlQmMfayW22TXslQpkI2e30QL4ZhAY=
+	t=1765538506; cv=none; b=FCEwHa3gqiVZc/xN7YGIGL50XOokXGNmuredwp3v/qXHoKdy+Imn7mRKLgq1ykC2apDOP6f4rMXjbvvDVCdoNlDc/w6K8cR2Qioyyouh01NCil7w1EMuXVesRbVzvt5s/1QKHjAA8mbRJdUeaM2PRXZh9KvoesPAA2tWpfVkjXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765537922; c=relaxed/simple;
-	bh=2gQhg0m52l1J+h6DLsaszgrLcV0l+qbb8vREvFeUzYY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=losHausV6UwG1lMCymzGThhGJycZgMR2hPcZRuX9P7M5sMTRBkszh2Drx0bcHOmJb54wZzv+2tKXKlQwI5DNZdUUHEEl5970VsJy0uNE0pKrfYHLh7FWDxf4QcOJSsLCiCRUXiCkxU6LvAcnagifDOTIfpTmgmA1j2nm+k/YRoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DAaP+jy4; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-42e2b80ab25so530617f8f.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Dec 2025 03:12:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765537919; x=1766142719; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=owa4AYkVBH6Oi8vgGHHw2NSIxT8lUbiInmR/cjzPZ24=;
-        b=DAaP+jy4zpTrIb3E87wx4Y8znHkU8o2ZDo66LwXuQdxkR3ZHfnpPYk/NL408laJh/D
-         dd+VhiEvJVCmYueuNIRVGO4vmPnpS/IQXVVPFmMDBAX0pdTWYIf7izzt05vDwPOONGVt
-         ZPaSUK5uS2b9GrLz9iDisTVlS38IkNKR2gRZk/WDnmzISgYAM+bsLE6H+Itr+R1pzqZi
-         ruf0lalKRAREwjYmJHLmtX8gKPj2b/DD8m+l7OKS5mldfZznXzY3fiEqYesMxqAaFRrM
-         /Pzs6g1pg1vTNaov/HeFFP3pMvXpnMduAY8uJabS2fNRDlqS2aYfFYI/R7+b5zy+FKSj
-         HfgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765537919; x=1766142719;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=owa4AYkVBH6Oi8vgGHHw2NSIxT8lUbiInmR/cjzPZ24=;
-        b=hhfVn1uYthxfyudTJJEuXl9S45T+t8oIpySjt2NRQBlTRA0sHN/uFezg4J6IfW5jOp
-         GNUWZ7S9kunr3TCrCzm0HP6tUW7HRKcUa3bqnnK1r56rqTkHcpFdnQpgm7EQv1uJGbs8
-         lxwYaZ1OufhF+pLwG0TPnc6JMFNYFRcQ1IOOVDGTFqLfTmK5zT4dqB7cn6u2V0zRxlnk
-         Ymq2FGP81iaaTCfo7S6EdBL4fl3IgibfQ+EQuo/NmrLBBDTchDlGU3TydlF8l82V4n41
-         qXQwNntlKsOPHV6m2DsfdGUdSCRD08R2ylEwRinAaRhErGWMpgJgV3VwwbuXqKYU+74l
-         SWpg==
-X-Forwarded-Encrypted: i=1; AJvYcCVReY9BE4hrt3M4Ddz6x95lEbGvx1PBLZnFdz+SMeayy6Tm6VVY8WNMjQeOfmT0RlA+d+D3GHS9XLa7oi6c6uiO4Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzA2+IwqwlJkaEQPz7/nFhDS2gaQP00jlAHt+K5EfQWHeG1VEM6
-	TGZsrIv9JtThqEZ6YJdgNMhVoz4BDyFmGu7XTFnzlCNr8exOH6Sms+/k8o3WSId+is5qZi+ZgsJ
-	IGE1aLRF8KA/51JeZ72y0gwYFym7Lg2g=
-X-Gm-Gg: AY/fxX6ux5nl+JOB46tVKsYiJJse9X44LHV4G0ReZ53VBRmsK3BcrWG5WWPhVAD8vL7
-	dxtmXgMJyz94l1JVe70DbEe/24q6Hf4lpgnHvJBxeBDv4PMEDeDqyh9Mw11OXdYYsU0EwKylRtN
-	1VTJuLTE7m/1q+i/KsqurCYRtc7VdPsDRpEP+3UHaKN22I34SaEPLrLVg5V8xtDznn4MDY+Wmi8
-	gkCcZQ4/3opI116l/hnYsZatoyCvPk/9tHAkewdkhP/4jyJDJeOnPlL+wfsd5X6uhnXLxfGxd6p
-	82n2+gdHAfvxjVUEJs74rRBcpFE=
-X-Google-Smtp-Source: AGHT+IH/n6HDi9XTcEJRBWKGIz10PedulThRJ7x4uv71nP8DoCtZCymA1rkQJc0aCtpHQMfFqqVYkRiC9tDijK7BBRo=
-X-Received: by 2002:a05:6000:3111:b0:42b:3e20:f1b2 with SMTP id
- ffacd0b85a97d-42fb447ae67mr1628114f8f.4.1765537918745; Fri, 12 Dec 2025
- 03:11:58 -0800 (PST)
+	s=arc-20240116; t=1765538506; c=relaxed/simple;
+	bh=dBiEXSXqAe1+bjWPLYEbVWzfCTeFakFmTqGBVAZdykk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q/OvGEyHIOuC79UoIuZ9xiKOHpYeJbT2m2qK4yJ72KWxZKUAVQef7eN9+y8JfobuTzRwkxuWhv88aUwdxZs/NcVEqw5769CfWqRzkUZqh6WoBZ9YdV/uWAG18SwqtkxUQ0POJyL7y3WlFrf6QlA9VPRY0FE9eOY7Id1aOXQWGjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mkl@pengutronix.de>)
+	id 1vU1Cs-0004Lc-D5; Fri, 12 Dec 2025 12:21:06 +0100
+Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <mkl@pengutronix.de>)
+	id 1vU1Cq-005Hin-05;
+	Fri, 12 Dec 2025 12:21:04 +0100
+Received: from pengutronix.de (p54b152ce.dip0.t-ipconnect.de [84.177.82.206])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	(Authenticated sender: mkl-all@blackshift.org)
+	by smtp.blackshift.org (Postfix) with ESMTPSA id A86804B5198;
+	Fri, 12 Dec 2025 11:21:03 +0000 (UTC)
+Date: Fri, 12 Dec 2025 12:21:03 +0100
+From: Marc Kleine-Budde <mkl@pengutronix.de>
+To: Conor Dooley <conor@kernel.org>
+Cc: Prabhakar <prabhakar.csengg@gmail.com>, 
+	Vincent Mailhol <mailhol@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Aswath Govindraju <a-govindraju@ti.com>, Frank Li <Frank.li@nxp.com>, linux-can@vger.kernel.org, 
+	linux-phy@lists.infradead.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v2] dt-bindings: phy: ti,tcan104x-can: Document TI
+ TCAN1046
+Message-ID: <20251211-wonderful-singing-eel-4e2293-mkl@pengutronix.de>
+References: <20251209162119.2038313-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20251210-mauve-cow-of-hurricane-0f969d-mkl@pengutronix.de>
+ <20251210-persuaded-rewire-8ac93b0cc039@spud>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251014191121.368475-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20251014191121.368475-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20251016-dimmed-affidavit-90bae7e162aa@spud> <CA+V-a8un1cF=acNjG=79_v7oaR8gzBQ+3z1As8AqrJnOnk-OUw@mail.gmail.com>
- <CA+V-a8vq2EvTb_hXxRzW_Rbp+BPLSaLsEVkvaTjc1zRin-RV=Q@mail.gmail.com>
- <20251208-headgear-header-e17e162f0f52@spud> <CAD++jL=rp=_J7vN4E9hUqu0Fa4H+1E1EhMFAe79Tc8jMtNHTcA@mail.gmail.com>
-In-Reply-To: <CAD++jL=rp=_J7vN4E9hUqu0Fa4H+1E1EhMFAe79Tc8jMtNHTcA@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Fri, 12 Dec 2025 11:11:30 +0000
-X-Gm-Features: AQt7F2o0nVnOaR9-qVNKrHWb9R--8lodJV52Di2Ea3o66whanMp8URPFhYip6eE
-Message-ID: <CA+V-a8uEk_SYcbukBNz_sm7-giuGeg8V7kMUtXsiOYfbFFR90Q@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: pinctrl: renesas,r9a09g077: Document pin
- configuration properties
-To: Linus Walleij <linusw@kernel.org>
-Cc: Conor Dooley <conor@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="7xctq6j2q5icdxbk"
+Content-Disposition: inline
+In-Reply-To: <20251210-persuaded-rewire-8ac93b0cc039@spud>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+
+
+--7xctq6j2q5icdxbk
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2] dt-bindings: phy: ti,tcan104x-can: Document TI
+ TCAN1046
+MIME-Version: 1.0
 
-Hi Linus,
+On 10.12.2025 18:21:34, Conor Dooley wrote:
+> On Wed, Dec 10, 2025 at 08:52:58AM +0100, Marc Kleine-Budde wrote:
+> > On 09.12.2025 16:21:19, Prabhakar wrote:
+> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > >
+> > > Document the TI TCAN1046 automotive CAN transceiver. The TCAN1046 is a
+> > > dual high-speed CAN transceiver with sleep-mode support and no EN pin,
+> > > mirroring the behaviour of the NXP TJA1048, which also provides dual
+> > > channels and STB1/2 sleep-control lines.
+> > >
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > ---
+> > > TCAN 1046, https://www.ti.com/lit/ds/symlink/tcan1046v-q1.pdf?ts=3D17=
+65297159307&ref_url=3Dhttps%253A%252F%252Fwww.ti.com%252Fproduct%252FTCAN10=
+46V-Q1
+> > > NXP TJA1048, https://www.nxp.com/docs/en/data-sheet/TJA1048.pdf
+> >
+> > The polarity of the standby line of the chips is different.
+> >
+> > You must set the correct active high/low property for the GPIO, as the
+> > driver uses logical levels.
+> >
+> > Reviewed-by: Marc Kleine-Budde <mkl@pengutronix.de>
+>
+> What you're saying seems to contradict the tag you've given, is a
+> fallback really suitable if the standby polarity is not the same?
 
-Thank you for the review.
+The driver uses _logical_ levels to switch the GPIOs. For example to
+power on the PHY, it disables the standby GPIO by setting the value to
+"0".
 
-On Thu, Dec 11, 2025 at 12:00=E2=80=AFAM Linus Walleij <linusw@kernel.org> =
-wrote:
->
-> Hi Lad,
->
-> thanks for your patch!
->
-> On Mon, Dec 8, 2025 at 7:01=E2=80=AFPM Conor Dooley <conor@kernel.org> wr=
-ote:
-> > On Mon, Dec 08, 2025 at 10:36:04AM +0000, Lad, Prabhakar wrote:
->
-> > > > > > +      slew-rate:
-> > > > > > +        enum: [0, 1]
-> > > > >
-> > > > > What are the meanings of "0" and "1" for slew rate? Why isn't thi=
-s given
-> > > > I'll add a description for it (0 =3D slow, 1 =3D fast) and the same=
- values
-> > > > are programmed in the register to configure the slew rate.
-> > > >
-> > > > > as the actual rates? The docs surely give more detail than just "=
-slow"
-> > > > > and "fast".
-> > > > You mean to represent slew-rate in some sort of a unit?
-> > > >
-> > > Based on the comments from the HW team, there is no numerical
-> > > definition to represent slow/fast It only defines a relative
-> > > relationship.
->
-> Then describe relative to what, so we can understand when to use
-> which setting?
->
-I have made a query regarding this to the HW team. I'll respond as
-soon as I get any feedback.
+| static int can_transceiver_phy_power_on(struct phy *phy)
+| {
+[...]
+|         gpiod_set_value_cansleep(can_transceiver_phy->standby_gpio, 0);
+[...]
+| }
 
-> > > The current value is determined by the load on the external circuit
-> > > and is not affected by the choice of drive strength.
-> (...)
-> > Remember, drive strength is the current that can be delivered through a
-> > pin, not how much it is delivering at a given point in time.
->
-> This seems to be the core of the misunderstanding here.
->
-> The setting defines the cap. How much current *can* be delivered.
->
-> If the pin controller had a fuse that would bust if we delivered too
-> much current, this would be the grading of that fuse.
->
-> It's the current where the driver stage(s) stop pushing in more
-> electrons, it's a very real thing and does not depend on what the
-> circuit look like.
->
-> Pins usually have protected driver stages, so connecting an
-> amperemeter directly to ground and driving the line high would
-> actually give this value.
->
-Agreed.
+You have to use GPIO_ACTIVE_HIGH/GPIO_ACTIVE_LOW in the DT to configure
+the actual level of the GPIO.
 
-Cheers,
-Prabhakar
+If you connect the PHY's standby input directly to the SoC's GPIO....
+
+| TJA1048: HIGH =3D Normal mode, LOW =3D Standby mode
+| TCAN1046: High =3D Standby mode, Low =3D Normal Mode
+
+=2E..for the TJA1048 you would use GPIO_ACTIVE_LOW, while for the
+TCAN1046 you would use GPIO_ACTIVE_HIGH.
+
+regards,
+Marc
+
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde          |
+Embedded Linux                   | https://www.pengutronix.de |
+Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
+
+--7xctq6j2q5icdxbk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEn/sM2K9nqF/8FWzzDHRl3/mQkZwFAmk7+pwACgkQDHRl3/mQ
+kZzoXAf/WppHtgf+xjeHcSDUxWQiT0y/ms86YiQzUQjFGDoc+DrkDvbpuaMAc93u
+Gsxz0QtfwMnzoMRyvd514QpjuacWsRppi+Td6sE70o8P4bOMWqy6oErLNqzHqOMX
+4Z4ouZIL8vy+0uBD2KOicJ4lveWiJikUM4/I1tA3EW/19a0PJraNizbrnhzytasp
+9YkxE/fMQopyYhb7//q4kyyzA/CzNqCS2qvi7RSk9XzXQYfzgSVCvF22USjkTUtH
+J+hBMluDYcw1DAoRTB7YqBrCYsdnjDtokuiY2lvvnnXl3FX4PjmWMrSRnkyFhmtB
+KlwlVtJ9F8qJbQrT0cqukuPBhyOcwA==
+=RGBu
+-----END PGP SIGNATURE-----
+
+--7xctq6j2q5icdxbk--
 
