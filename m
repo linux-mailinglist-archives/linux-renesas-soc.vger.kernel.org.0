@@ -1,125 +1,172 @@
-Return-Path: <linux-renesas-soc+bounces-25761-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25762-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C652ACBE50B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Dec 2025 15:36:51 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A43BCBE3EB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Dec 2025 15:19:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 491E63038F7C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Dec 2025 14:32:44 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D7AAF30821F0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Dec 2025 14:14:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F5D43321CE;
-	Mon, 15 Dec 2025 13:59:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6F8C30DD22;
+	Mon, 15 Dec 2025 14:11:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZSKRkvrJ"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="OECsWx7F"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4388B3321C5;
-	Mon, 15 Dec 2025 13:59:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F124E30E82C
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Dec 2025 14:11:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765807174; cv=none; b=TycpiE9Ez8sgYy176kutFq0bntcNzS89wvMdwPL4D45DQaCWgIQ3baCJH4XNkuI1wLhZ5laGV3sMT+uDGFvUWogxsmlxoI6zuR/eeEJYsBWQvCOolMULfNoCtHZp5A45P7zSIMYFikuP/Ya2qfe4VHBv7kerTMkv26N5YU5UXzE=
+	t=1765807903; cv=none; b=RVrFuzItcNfH6QjF6qHIeYS0Muo0V74FSxfR2PaV79DbHuQ2xnWsHGTBlUQt8Xab2zkmgmpV0ZTj6OD6yhaTLNAN7N0ea4+RvMS4bpNqCItQJ0twUzsP/Xl3mDBv/rNFJfy0gPPnA6Y3Gvx/+IglDNJZtLoqK3fkAANSnnMmzow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765807174; c=relaxed/simple;
-	bh=mUdPC/Zc8jOj+LQYMtJZ0IsCJFmwN6mnkenGPRzbU6c=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=FIXdDTchHcM0UDxL2jZnFfFfW5M/tMlLcg69bQtyz6V93WiJ5mjJk6gx9aFHICbAnWZOD8KNEL6z5ILlV6bz5nzY3mlUpsTrEy2QQKmf83+SWvO8XWYkSuA5RBpK8YGC+ZuUOKjMG6HOmx9SNtUdMBxsmMexuYqF+oNWYsrsT4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZSKRkvrJ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B0B4C4CEF5;
-	Mon, 15 Dec 2025 13:59:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765807174;
-	bh=mUdPC/Zc8jOj+LQYMtJZ0IsCJFmwN6mnkenGPRzbU6c=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=ZSKRkvrJSLy3JMUHG9kXP2Oj5isQuIIEsPOnAu7lX9qP/SyIaksgWPQdb9t1rk4Hz
-	 WyMYDqUp83ieEQcZ0KPTcx6dtoJp3zZ9PyUqTB5n9BeiQ+FNwoQY+f7bkGWL/JeLaT
-	 d2hqwMcOoizEkiM40Yq1LELy1I0+2yS2EvVEuDJzMujcrd4L8oj9c74kWwfHHqoukn
-	 V2JCtApgI1bJVgjMowxh/gQk/UOkK6JxtouZZPf4BnXRmc6tjJMsR1LokPLq5KKsH8
-	 q1aZb+9muIzvUBG8ckq/O0eSdDjw1DTU1Q5XFbRJv8Sn8mMxW3hk2DAPIYt2DXbt/e
-	 c4gqMPz2Plumw==
-From: Mark Brown <broonie@kernel.org>
-To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Magnus Damm <magnus.damm@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
- Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-Cc: linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20251201134229.600817-1-cosmin-gabriel.tanislav.xa@renesas.com>
-References: <20251201134229.600817-1-cosmin-gabriel.tanislav.xa@renesas.com>
-Subject: Re: (subset) [PATCH 00/13] Add DMA support for RZ/T2H RSPI
-Message-Id: <176580717199.161463.3915595459908387302.b4-ty@kernel.org>
-Date: Mon, 15 Dec 2025 22:59:31 +0900
+	s=arc-20240116; t=1765807903; c=relaxed/simple;
+	bh=XfDxYmwnEjW3rgj/i9Csrk1WngYTaAh6I7dKqVAN3fw=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=nD8lP7EEIgRdMB3TBctTh+tBWRrKqWpjyEAbbYiAPmMOvk2lSDG0uAW1G78nXSRgvV4EKiQdxL2U1+OX24Qn3W1DtzuZqWCGWGwNbhrRiKtLs9W6tUIazYtrX5LtK1KLwcRnT7pHZWe1lGdHl862nIJhbcKxf3VCXl01keKwTsc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=OECsWx7F; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 5646E1A21DB;
+	Mon, 15 Dec 2025 14:11:38 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 239FE60664;
+	Mon, 15 Dec 2025 14:11:38 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 29A8E119422E6;
+	Mon, 15 Dec 2025 15:11:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1765807895; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=GaZqoyrRFDKWBlOXglMrXMF3qjcnoMmJDluDUgIWSsM=;
+	b=OECsWx7FHMnHsTiEWe95R0X/rhnlkHzsoat62TNpnal1UtUfmgJoK+UlcEImBZgrSUQtgX
+	Bi9L17rvGG0VuUJzYZe3q3F4eFbnSJmWkhqJI367VXOnYnd0WY8N3Ax4UR1sXRBMm9Qkps
+	dmoQYyFlkhiuBEQ/S81gcoBkIcia9w+KtvGl3ip4onRDdQzp5jTshjZfm+I+AmpNCYWSTa
+	JPygNzOrYXSqmHWUHMdEJdUk+ny/dxFJWUJkRFOEt8n48AdXIeerW9K8zEwP8oFZn/s1nU
+	aM+k80qaA7tqbrbCCFJmzHEp2J1aHWwdvkr7gPEk7XG54Ovqe2ESMRR92HxtdA==
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-47773
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 15 Dec 2025 15:11:21 +0100
+Message-Id: <DEYUNHVYCKYJ.2HU878WBYCJMV@bootlin.com>
+Subject: Re: [PATCH 06/26] drm/bridge: add devm_drm_of_find_bridge
+Cc: "Andrzej Hajda" <andrzej.hajda@intel.com>, "Neil Armstrong"
+ <neil.armstrong@linaro.org>, "Robert Foss" <rfoss@kernel.org>, "Laurent
+ Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
+ <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, "Thomas Zimmermann"
+ <tzimmermann@suse.de>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>, "Jonathan Corbet" <corbet@lwn.net>, "Alexey Brodkin"
+ <abrodkin@synopsys.com>, "Phong LE" <ple@baylibre.com>, "Liu Ying"
+ <victor.liu@nxp.com>, "Shawn Guo" <shawnguo@kernel.org>, "Sascha Hauer"
+ <s.hauer@pengutronix.de>, "Pengutronix Kernel Team"
+ <kernel@pengutronix.de>, "Fabio Estevam" <festevam@gmail.com>, "Adrien
+ Grassein" <adrien.grassein@gmail.com>, "Laurent Pinchart"
+ <laurent.pinchart+renesas@ideasonboard.com>, "Tomi Valkeinen"
+ <tomi.valkeinen+renesas@ideasonboard.com>, "Kieran Bingham"
+ <kieran.bingham+renesas@ideasonboard.com>, "Geert Uytterhoeven"
+ <geert+renesas@glider.be>, "Magnus Damm" <magnus.damm@gmail.com>, "Kevin
+ Hilman" <khilman@baylibre.com>, "Jerome Brunet" <jbrunet@baylibre.com>,
+ "Martin Blumenstingl" <martin.blumenstingl@googlemail.com>, "Chun-Kuang Hu"
+ <chunkuang.hu@kernel.org>, "Philipp Zabel" <p.zabel@pengutronix.de>,
+ "Matthias Brugger" <matthias.bgg@gmail.com>, "AngeloGioacchino Del Regno"
+ <angelogioacchino.delregno@collabora.com>, "Anitha Chrisanthus"
+ <anitha.chrisanthus@intel.com>, "Edmund Dea" <edmund.j.dea@intel.com>,
+ "Inki Dae" <inki.dae@samsung.com>, "Seung-Woo Kim"
+ <sw0312.kim@samsung.com>, "Kyungmin Park" <kyungmin.park@samsung.com>,
+ "Krzysztof Kozlowski" <krzk@kernel.org>, "Alim Akhtar"
+ <alim.akhtar@samsung.com>, "Hui Pu" <Hui.Pu@gehealthcare.com>, "Thomas
+ Petazzoni" <thomas.petazzoni@bootlin.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <imx@lists.linux.dev>,
+ <linux-arm-kernel@lists.infradead.org>,
+ <linux-renesas-soc@vger.kernel.org>, <linux-amlogic@lists.infradead.org>,
+ <linux-mediatek@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>
+To: "Maxime Ripard" <mripard@kernel.org>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+X-Mailer: aerc 0.20.1
+References: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com> <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-6-0db98a7fe474@bootlin.com> <hs44z4b2dgisemuewgtvl4epjcqqilg6cy36po25pubaog4hmq@33qgl4o3hwoa> <DEH2CVQV21Z2.25PJBAQAKFJSG@bootlin.com> <20251201-thick-jasmine-oarfish-1eceb0@houat> <DEVKQWH8GU0D.2NWQ1U7IOIEHI@bootlin.com> <DEW6XHD12EY4.1THDR9UMJOTAN@bootlin.com> <20251215-mottled-dexterous-marmot-c69ad3@penduick>
+In-Reply-To: <20251215-mottled-dexterous-marmot-c69ad3@penduick>
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Mon, 01 Dec 2025 15:42:16 +0200, Cosmin Tanislav wrote:
-> The DMA controller can be used to transfer data to and from the SPI
-> controller without involving the CPU for each word of a SPI transfer.
-> 
-> Add support for DMA mode, and do some other cleanups while touching the
-> same code.
-> 
-> The dts changes in this series depend on the DMA series [1].
-> 
-> [...]
+Hi Maxime,
 
-Applied to
+On Mon Dec 15, 2025 at 11:35 AM CET, Maxime Ripard wrote:
+[...]
+>> > Additionally, as a matter of fact there are currently drivers storing
+>> > bridge pointers. The next_bridge is the most common case. Code using
+>> > drm_bridge_connector_init() for example can store up to eight of them,=
+ but
+>> > individual drivers are the hardest to hunt for.
+>> >
+>> > I can see these (potential) tools to handle this (not mutually exclusi=
+ve):
+>> >
+>> >  1. remove drm_bridge pointers pointing to other bridges
+>> >  2. check whether a bridge (say B) still exists before any dereference
+>> >     to B->another_bridge: that's drm_bridge_enter/exit()
+>> >  3. let owners of bridge pointers be notified when a bridge is unplugg=
+ed,
+>> >     so they can actively put their reference and clear their pointer
+>> >
+>> > For item 1, I think the drm_of_bridge_attach() idea quoted above would
+>> > work, at least for the simple cases where bridge drivers use the
+>> > next_bridge only for attach. A next_bridge pointer in struct drm_bridg=
+e is
+>> > not even needed in that case, the pointer would be computed from OF wh=
+en
+>> > needed and not stored. I can do an experiment and send a first series,=
+ do
+>> > you think it would be useful?
+>>
+>> I had a look and, while the implementation should be simple, only a few
+>> drivers could benefit right now. The majority fall into one of these
+>> categories:
+>>
+>>  * drivers using drm_of_find_panel_or_bridge() or *_of_get_bridge()
+>>    (maybe 60-80% of all drivers, those will have to wait for the panel
+>>    improvements)
+>>  * drivers using the next_bridge pointer for more than just attach
+>>  * drivers doing more complicated stuff
+>>
+>> I think your "put next_bridge in __drm_bridge_free" idea would fit well =
+the
+>> 2nd category and perhaps also the 1st one. For the 3rd category we'd nee=
+d
+>> something different, e.g. a per-driver .destroy callback.
+>
+> Yep, that's fine. We should optimize for the common case, with an escape
+> hatch. That's exactly what we are talking about here.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+Not sure why, but it's taking a while before I grasp your ideas about this
+series and meld them with mine. I hopefully got a clear POV now, so based
+on it my plan is to rework this series to:
 
-Thanks!
+ * keep drm_of_find_bridge() but renamed to of_drm_get_bridge(), and keep
+   patches 1-5 (with the changes suggested by you and Louis, nothing big
+   and all already sent in v2)
+ * not add devm_drm_of_find_bridge()
+ * add next_bridge pointer to struct drm_bridge and call
+   drm_bridge_put(bridge->next_bridge) in __drm_bridge_free, document it
+ * convert patches 7-26 to use bridge->next_bridge where applicable,
+   or to do something different when needed
+ * maybe remove part of patches 7-26 just to reduce spam and rework effort
+   in case of further iterations, to send them separately once the approach
+   is accepted
 
-[01/13] spi: rzv2h-rspi: fix rzv2h_rspi_transfer_one() indentation
-        commit: fb0140774aff45b8dc326987cc1da89484ecb081
-[02/13] spi: rzv2h-rspi: remove call to spi_finalize_current_transfer()
-        commit: 9e4830b35dc0d522f45e1ec3ee5b1ff1648afe1b
-[03/13] spi: rzv2h-rspi: do not set SPI_TRANS_FAIL_IO
-        commit: 218917659df165cff72439480929e68a6e127b55
-[04/13] spi: rzv2h-rspi: use device-managed APIs
-        commit: b73ac782828f27c2217a17bd26aa8710769f032d
-[05/13] spi: rzv2h-rspi: store RX interrupt in state
-        commit: 28b590bd4c6a051ec61cf286a46a8b14846e6fcf
-[06/13] spi: rzv2h-rspi: set MUST_RX/MUST_TX
-        commit: 6f9026b5a18acdf190d1622831b100aacfca0eb3
-[07/13] spi: rzv2h-rspi: set TX FIFO threshold to 0
-        commit: a886baaaa6e12a9b7d5a9687d11d3b895f1b87c9
-[08/13] spi: rzv2h-rspi: enable TX buffer empty interrupt
-        commit: d49eea07de5851e1b8941ad6b6179be7ec36a986
-[09/13] spi: rzv2h-rspi: split out PIO transfer
-        commit: 1e5e10df8b9be71ca64435cbe7c96b189e5ee293
-[10/13] dt-bindings: spi: renesas,rzv2h-rspi: document optional support for DMA
-        commit: 163345e356722e98ba57cd120787d6e991da7b1d
-[11/13] spi: rzv2h-rspi: add support for DMA mode
-        commit: fa08b566860bca8ebf9300090b85174c34de7ca5
+Does it look OK?
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+Luca
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
