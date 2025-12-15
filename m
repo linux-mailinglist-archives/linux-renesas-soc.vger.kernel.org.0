@@ -1,58 +1,58 @@
-Return-Path: <linux-renesas-soc+bounces-25760-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25761-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAF9DCBE27C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Dec 2025 14:58:26 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id C652ACBE50B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Dec 2025 15:36:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 23D2A3001804
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Dec 2025 13:58:26 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 491E63038F7C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Dec 2025 14:32:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CAB662D0C8B;
-	Mon, 15 Dec 2025 13:58:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F5D43321CE;
+	Mon, 15 Dec 2025 13:59:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o0EzLenC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZSKRkvrJ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B2452749D6;
-	Mon, 15 Dec 2025 13:58:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4388B3321C5;
+	Mon, 15 Dec 2025 13:59:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765807104; cv=none; b=iasxjIkby11SG/2IRVmuOEA4xHuScMVykzWKShwxTBZn9X0xbM/7yuQVI4ZKLwCkxYSPBUX4KfB6kMr/llfLSGMPgcUZ66Fpt8vv6cwT49r3K4x/H/Def5wNYiXaKySNCqpV+AsP2WdiaofN+lbPz8pHcpcgDZZoKTPX7tajexk=
+	t=1765807174; cv=none; b=TycpiE9Ez8sgYy176kutFq0bntcNzS89wvMdwPL4D45DQaCWgIQ3baCJH4XNkuI1wLhZ5laGV3sMT+uDGFvUWogxsmlxoI6zuR/eeEJYsBWQvCOolMULfNoCtHZp5A45P7zSIMYFikuP/Ya2qfe4VHBv7kerTMkv26N5YU5UXzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765807104; c=relaxed/simple;
-	bh=g/48S9b/SlzM6mvy3E8dnmmogUAiNufhdHSvXCANVF8=;
+	s=arc-20240116; t=1765807174; c=relaxed/simple;
+	bh=mUdPC/Zc8jOj+LQYMtJZ0IsCJFmwN6mnkenGPRzbU6c=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=BZvLyV20n/WQzhVPehYdfw3IQE7ZY10etr3ZMukZhl9SXcvlr86QJ9AoBX40C4UgBtzj1Zj8oLJSd9gU5SgHKqPdqI2G5bZd85Ehr1NzfEABf1nuiLTMpXLlArzfj8nJj6LB3n9awT2o/uEo27gTdGltPckpsiGKseIqvlIVJhU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o0EzLenC; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29A7DC4CEF5;
-	Mon, 15 Dec 2025 13:58:21 +0000 (UTC)
+	 MIME-Version:Content-Type; b=FIXdDTchHcM0UDxL2jZnFfFfW5M/tMlLcg69bQtyz6V93WiJ5mjJk6gx9aFHICbAnWZOD8KNEL6z5ILlV6bz5nzY3mlUpsTrEy2QQKmf83+SWvO8XWYkSuA5RBpK8YGC+ZuUOKjMG6HOmx9SNtUdMBxsmMexuYqF+oNWYsrsT4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZSKRkvrJ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B0B4C4CEF5;
+	Mon, 15 Dec 2025 13:59:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765807104;
-	bh=g/48S9b/SlzM6mvy3E8dnmmogUAiNufhdHSvXCANVF8=;
+	s=k20201202; t=1765807174;
+	bh=mUdPC/Zc8jOj+LQYMtJZ0IsCJFmwN6mnkenGPRzbU6c=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=o0EzLenCe9OE8Wtzns4+3MYHp5P60R7E4Xz7k16kcPuNdMkviYQVvlckP0pl9R3u3
-	 NP8aBVPKqez/3W0qMF/dQ9QD+3J7OKRgxHQMmY2KaRqUYbGBV/AryJyA+6zNogtnvl
-	 zYPF8kvngPZz9CkLvXV7VnvNd0zMIN24C5F6Y22OD9bHncVeW+lKu6qwNS6tnbBdWb
-	 lGPSl4oOGUyTFqFrm1Uxca5Co5i9FJlan7yL4cjq9PlOrbf9hVGKUKbzrodBP8EZ30
-	 Iaqu9t7DM7iLg1ALtyVHNXBtDyHVR4EvOWpHDIZQCaVNSx4HLJOeMCnLZyNxcu0NLl
-	 dq69nAYbKs2iA==
+	b=ZSKRkvrJSLy3JMUHG9kXP2Oj5isQuIIEsPOnAu7lX9qP/SyIaksgWPQdb9t1rk4Hz
+	 WyMYDqUp83ieEQcZ0KPTcx6dtoJp3zZ9PyUqTB5n9BeiQ+FNwoQY+f7bkGWL/JeLaT
+	 d2hqwMcOoizEkiM40Yq1LELy1I0+2yS2EvVEuDJzMujcrd4L8oj9c74kWwfHHqoukn
+	 V2JCtApgI1bJVgjMowxh/gQk/UOkK6JxtouZZPf4BnXRmc6tjJMsR1LokPLq5KKsH8
+	 q1aZb+9muIzvUBG8ckq/O0eSdDjw1DTU1Q5XFbRJv8Sn8mMxW3hk2DAPIYt2DXbt/e
+	 c4gqMPz2Plumw==
 From: Mark Brown <broonie@kernel.org>
-To: Biju Das <biju.das.jz@bp.renesas.com>, 
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Biju <biju.das.au@gmail.com>
-Cc: linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>
-In-Reply-To: <20251114075856.4751-1-biju.das.jz@bp.renesas.com>
-References: <20251114075856.4751-1-biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v2 0/5] Add {24,32}-bit sample width support for RZ/G2L
- SSI
-Message-Id: <176580710142.161056.6367112117497563338.b4-ty@kernel.org>
-Date: Mon, 15 Dec 2025 22:58:21 +0900
+To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
+ Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+Cc: linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20251201134229.600817-1-cosmin-gabriel.tanislav.xa@renesas.com>
+References: <20251201134229.600817-1-cosmin-gabriel.tanislav.xa@renesas.com>
+Subject: Re: (subset) [PATCH 00/13] Add DMA support for RZ/T2H RSPI
+Message-Id: <176580717199.161463.3915595459908387302.b4-ty@kernel.org>
+Date: Mon, 15 Dec 2025 22:59:31 +0900
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -63,38 +63,45 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Fri, 14 Nov 2025 07:58:47 +0000, Biju wrote:
-> Add support for 24 and 32-bit sample format width for RZ/G2L SoCs. Apart
-> from this, the patch series includes some code cleanups.
+On Mon, 01 Dec 2025 15:42:16 +0200, Cosmin Tanislav wrote:
+> The DMA controller can be used to transfer data to and from the SPI
+> controller without involving the CPU for each word of a SPI transfer.
 > 
-> This patch series depend upon [1]
-> [1] https://lore.kernel.org/all/20251114073709.4376-1-biju.das.jz@bp.renesas.com/T/#t
+> Add support for DMA mode, and do some other cleanups while touching the
+> same code.
 > 
-> v1->v2:
->  * Split the feature patches separate.
->  * Updated rz_ssi_clk_setup() to make ssicr assignment in single line for
->    24-bit sample width.
->  * Dropped checking {24,32}-bit sample width in rz_ssi_dma_slave_config() as
->    it is taken care by restructuring the test for 16-bit sample width.
+> The dts changes in this series depend on the DMA series [1].
 > 
 > [...]
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 
 Thanks!
 
-[1/5] ASoC: renesas: rz-ssi: Use dev variable in probe()
-      commit: d6c160d5e86f4e7354dd6c3154b7cb562abc6c7d
-[2/5] ASoC: renesas: rz-ssi: Remove trailing comma in the terminator entry
-      commit: a472f0b157832fc91c83179b1628d8f660c84c82
-[3/5] ASoC: renesas: rz-ssi: Move DMA configuration
-      commit: b541cb0a27dfa7504a8008320502f869c75f8bfc
-[4/5] ASoC: renesas: rz-ssi: Add support for 24 bits sample width
-      commit: 9e10709f831408d948be66bc8f6329fa37a3dc82
-[5/5] ASoC: renesas: rz-ssi: Add support for 32 bits sample width
-      commit: 124f6155f3d97b0e33f178c10a5138a42c8fd207
+[01/13] spi: rzv2h-rspi: fix rzv2h_rspi_transfer_one() indentation
+        commit: fb0140774aff45b8dc326987cc1da89484ecb081
+[02/13] spi: rzv2h-rspi: remove call to spi_finalize_current_transfer()
+        commit: 9e4830b35dc0d522f45e1ec3ee5b1ff1648afe1b
+[03/13] spi: rzv2h-rspi: do not set SPI_TRANS_FAIL_IO
+        commit: 218917659df165cff72439480929e68a6e127b55
+[04/13] spi: rzv2h-rspi: use device-managed APIs
+        commit: b73ac782828f27c2217a17bd26aa8710769f032d
+[05/13] spi: rzv2h-rspi: store RX interrupt in state
+        commit: 28b590bd4c6a051ec61cf286a46a8b14846e6fcf
+[06/13] spi: rzv2h-rspi: set MUST_RX/MUST_TX
+        commit: 6f9026b5a18acdf190d1622831b100aacfca0eb3
+[07/13] spi: rzv2h-rspi: set TX FIFO threshold to 0
+        commit: a886baaaa6e12a9b7d5a9687d11d3b895f1b87c9
+[08/13] spi: rzv2h-rspi: enable TX buffer empty interrupt
+        commit: d49eea07de5851e1b8941ad6b6179be7ec36a986
+[09/13] spi: rzv2h-rspi: split out PIO transfer
+        commit: 1e5e10df8b9be71ca64435cbe7c96b189e5ee293
+[10/13] dt-bindings: spi: renesas,rzv2h-rspi: document optional support for DMA
+        commit: 163345e356722e98ba57cd120787d6e991da7b1d
+[11/13] spi: rzv2h-rspi: add support for DMA mode
+        commit: fa08b566860bca8ebf9300090b85174c34de7ca5
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
