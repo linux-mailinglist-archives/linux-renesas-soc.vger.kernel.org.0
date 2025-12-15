@@ -1,181 +1,129 @@
-Return-Path: <linux-renesas-soc+bounces-25772-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25773-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2B6BCBE5E6
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Dec 2025 15:46:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31271CBE601
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Dec 2025 15:47:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6191D306FD8A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Dec 2025 14:40:55 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A226930358F4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Dec 2025 14:41:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48B8A3431EC;
-	Mon, 15 Dec 2025 14:29:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBD153446BB;
+	Mon, 15 Dec 2025 14:29:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="AfCoPD02"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l4fdbQXG"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 569EC342CAE
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Dec 2025 14:29:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 992AC3446B1;
+	Mon, 15 Dec 2025 14:29:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765808961; cv=none; b=h5RMPAEx6gd3bcVanBJwA8dpwNUopBZ7urwUhhD/qFG0RE3xmxX9WtbXU8yltNypWQlp7On4DeQObhESg1ZpQxH8Yxmr+NHjA/vCTxtzT9FXAzo8bpTG5qwdGgjqDVY5TOH4Dh2r0q8IXYd+qIFrs4SxhiNkw23hB9KAbOy5p4A=
+	t=1765808984; cv=none; b=ZgXDTmiDlzOlWZ61hU6ZYnMMYSLs5zoJuY0DZAZxvFNtMuND3xTg16dEaB1fFveK2EJ3njqipXO2ADNb2WdhHL+wG/3F12POl3R8UKZVNCsiThxZ1XrBvvWHJ7z5V9Zj2sQ0ec7bOWXe7ocb6OHMSBuAFNj4ZnS8rpT6FoqosYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765808961; c=relaxed/simple;
-	bh=4GZ4PC1exa4cMbAQRAqppA0POrS8E+SfOXMDunXF9Ps=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Wzu2mRpcYprewAEQ3a3eyYhaBpv7WU0zWWKnX5zfzkyjf3xDKurOi3g84/72FH6Ntr/10o6nfO1RE0/ddj/hLVtnWhIv3GS2JOiklmvMJoChqGdsBZ92+9Sy5E5Flvyzxlg8T7vu1Lu0r95aA/X/A33AzKf81zoHf8582OZlZy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=AfCoPD02; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 0F9D04E41C0C;
-	Mon, 15 Dec 2025 14:29:18 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id DADD460664;
-	Mon, 15 Dec 2025 14:29:17 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 215BB1194242B;
-	Mon, 15 Dec 2025 15:29:15 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1765808956; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=Ud8IKjpsg+ngLvEK4RxM9S54xPs2+N6xUI86CqmgS9o=;
-	b=AfCoPD02/kkEkA/2hFnhtx2HZEuX6CYmEx98oh9SE7HQXV6o7qj0g5f7BLeXWWe2m76j/z
-	JZtkNsdeOLYogjvSc0PPX9dVHgWipVeeQtsZ2FouOWXxWPLUagfWi7PtX59VFWaIYLvjgE
-	lWIKWMIfZEgU6EysExU725sLIiuPsRAIQbDPc4v1S6esg/1PDlIKAEtyPg/SI5B+/F72cX
-	jl7sh6RmSgoAArN5xQc9If01jLeWBvyoVzPEmshAUD4nDWvpgh/klxRQPnqH/LB2LZ2iVx
-	kSFYUoy40E4t6PLxcANa0nAuq8IaBqkUiM4eTmnaIqo4mrziKg2jS00TW26pgA==
-From: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
-To: Thomas Gleixner <tglx@linutronix.de>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Herve Codina <herve.codina@bootlin.com>
-Cc: linux-gpio@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Pascal Eberhard <pascal.eberhard@se.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: [PATCH v7 8/8] ARM: dts: r9a06g032: Add support for GPIO interrupts
-Date: Mon, 15 Dec 2025 15:28:30 +0100
-Message-ID: <20251215142836.167101-9-herve.codina@bootlin.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20251215142836.167101-1-herve.codina@bootlin.com>
-References: <20251215142836.167101-1-herve.codina@bootlin.com>
+	s=arc-20240116; t=1765808984; c=relaxed/simple;
+	bh=IIlQ7Jpm1J4ASKEQEKqjtVdyfOiI54c8CBKZNP/oWHI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fQy0RggKZz0ksRzHeeYQN01xd8WLluxOxMEw4C7uhk7zXaqrFagER42HXNVz1gYlOcrdViwfPHzp1s7JQlia5gOER6N9CHp7zUYhKOAmuOVzo6MYPWnhmGaeL30FcErjNSSB0W51X/OhRG160/oTMMWBWNETOWva77XN8jFSde4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l4fdbQXG; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3651BC4CEF5;
+	Mon, 15 Dec 2025 14:29:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765808984;
+	bh=IIlQ7Jpm1J4ASKEQEKqjtVdyfOiI54c8CBKZNP/oWHI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=l4fdbQXGhu7aq4nVKW70uSZJdrfxRTKK/HurNg+8xQSMyqVXOMNaFdPMDj6p/0wge
+	 dL6Ylsn+hI1nsQ68Uykk/a3pTnGt56VVC7H9u7B+i/mqcRjnAYeNFBciU3k70OFeJV
+	 OztDw9Nnk0xFBd4DmlvtKwPSRmWl9W9HmdOOi8ywbkvkdw1DqTHb2VnQSXSW6DhSPT
+	 hE6dFUHqW+D55qc2j1QUG+oa9fz2HT71pIPf1H+gwq8hZMdvRlpig01sGEK39GaPvn
+	 MhoyfgniD3WE3qWWeZq2NsxbzLU26davCCtL+Xtoe9bMfXL4Kr21kcIiur8TbNAQbO
+	 rK0ErGqxpRGzw==
+Date: Mon, 15 Dec 2025 15:29:40 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+	Alexey Brodkin <abrodkin@synopsys.com>, Phong LE <ple@baylibre.com>, Liu Ying <victor.liu@nxp.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Adrien Grassein <adrien.grassein@gmail.com>, Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Anitha Chrisanthus <anitha.chrisanthus@intel.com>, 
+	Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
+	Kyungmin Park <kyungmin.park@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Hui Pu <Hui.Pu@gehealthcare.com>, 
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Louis Chauvet <louis.chauvet@bootlin.com>, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-renesas-soc@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-samsung-soc@vger.kernel.org
+Subject: Re: [PATCH v2 01/26] drm/bridge: add of_drm_get_bridge()
+Message-ID: <20251215-quirky-encouraging-waxbill-5b04e6@penduick>
+References: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-0-88f8a107eca2@bootlin.com>
+ <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-1-88f8a107eca2@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="jpxp2yuvxjnvtegw"
+Content-Disposition: inline
+In-Reply-To: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-1-88f8a107eca2@bootlin.com>
 
-In the RZ/N1 SoC, the GPIO interrupts are multiplexed using the GPIO
-Interrupt Multiplexer.
 
-Add the multiplexer node and connect GPIO interrupt lines to the
-multiplexer.
+--jpxp2yuvxjnvtegw
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 01/26] drm/bridge: add of_drm_get_bridge()
+MIME-Version: 1.0
 
-The interrupt-map available in the multiplexer node has to be updated in
-dts files depending on the GPIO usage. Indeed, the usage of an interrupt
-for a GPIO is board dependent.
+Hi,
 
-Up to 8 GPIOs can be used as an interrupt line (one per multiplexer
-output interrupt).
+On Fri, Nov 28, 2025 at 05:50:11PM +0100, Luca Ceresoli wrote:
+> of_drm_find_bridge() does not increment the refcount for the returned
+> bridge, but that is required now. However converting it and all its users
+> is not realistically doable at once given the large amount of (direct and
+> indirect) callers and the complexity of some.
+>=20
+> Solve this issue by creating a new of_drm_get_bridge() function that is
+> identical to of_drm_find_bridge() except it takes a reference. Then
+> of_drm_find_bridge() will be deprecated to be eventually removed.
+>=20
+> Suggested-by: Maxime Ripard <mripard@kernel.org>
+> Link: https://lore.kernel.org/dri-devel/20250319-stylish-lime-mongoose-0a=
+18ad@houat/
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-Signed-off-by: Herve Codina (Schneider Electric) <herve.codina@bootlin.com>
-Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- arch/arm/boot/dts/renesas/r9a06g032.dtsi | 41 ++++++++++++++++++++++++
- 1 file changed, 41 insertions(+)
+I don't think it's a good name still. It's way too close to
+drm_bridge_get it gets confusing. I still believe that
+of_drm_find_and_get_bridge() is a better name. If you disagree, please
+explain why.
 
-diff --git a/arch/arm/boot/dts/renesas/r9a06g032.dtsi b/arch/arm/boot/dts/renesas/r9a06g032.dtsi
-index 06d35a83f6e1..b8e03c529007 100644
---- a/arch/arm/boot/dts/renesas/r9a06g032.dtsi
-+++ b/arch/arm/boot/dts/renesas/r9a06g032.dtsi
-@@ -543,6 +543,14 @@ gpio0a: gpio-port@0 {
- 				gpio-controller;
- 				#gpio-cells = <2>;
- 				snps,nr-gpios = <32>;
-+
-+				interrupt-controller;
-+				interrupt-parent = <&gpioirqmux>;
-+				interrupts = <0  1  2  3  4  5  6  7
-+					      8  9 10 11 12 13 14 15
-+					     16 17 18 19 20 21 22 23
-+					     24 25 26 27 28 29 30 31>;
-+				#interrupt-cells = <2>;
- 			};
- 
- 			/* GPIO0b[0..1]   connected to pins GPIO1..2   */
-@@ -584,6 +592,14 @@ gpio1a: gpio-port@0 {
- 				gpio-controller;
- 				#gpio-cells = <2>;
- 				snps,nr-gpios = <32>;
-+
-+				interrupt-controller;
-+				interrupt-parent = <&gpioirqmux>;
-+				interrupts = <32 33 34 35 36 37 38 39
-+					      40 41 42 43 44 45 46 47
-+					      48 49 50 51 52 53 54 55
-+					      56 57 58 59 60 61 62 63>;
-+				#interrupt-cells = <2>;
- 			};
- 
- 			/* GPIO1b[0..1]   connected to pins GPIO55..56 */
-@@ -615,6 +631,14 @@ gpio2a: gpio-port@0 {
- 				gpio-controller;
- 				#gpio-cells = <2>;
- 				snps,nr-gpios = <32>;
-+
-+				interrupt-controller;
-+				interrupt-parent = <&gpioirqmux>;
-+				interrupts = <64 65 66 67 68 69 70 71
-+					      72 73 74 75 76 77 78 79
-+					      80 81 82 83 84 85 86 87
-+					      88 89 90 91 92 93 94 95>;
-+				#interrupt-cells = <2>;
- 			};
- 
- 			/* GPIO2b[0..9] connected to pins GPIO160..169 */
-@@ -627,6 +651,23 @@ gpio2b: gpio-port@1 {
- 			};
- 		};
- 
-+		gpioirqmux: interrupt-controller@51000480 {
-+			compatible = "renesas,r9a06g032-gpioirqmux", "renesas,rzn1-gpioirqmux";
-+			reg = <0x51000480 0x20>;
-+			#interrupt-cells = <1>;
-+			#address-cells = <0>;
-+			interrupt-map-mask = <0x7f>;
-+
-+			/*
-+			 * Example mapping entry. Board DTs need to overwrite
-+			 * 'interrupt-map' with their specific mapping. Check
-+			 * the irqmux binding documentation for details.
-+			 */
-+			interrupt-map = <0 &gic GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
-+
-+			status = "disabled";
-+		};
-+
- 		can0: can@52104000 {
- 			compatible = "renesas,r9a06g032-sja1000", "renesas,rzn1-sja1000";
- 			reg = <0x52104000 0x800>;
--- 
-2.52.0
+Maxime
 
+--jpxp2yuvxjnvtegw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaUAbUwAKCRAnX84Zoj2+
+djcYAX0XDI3qHEaKNThqzvK+xH7wgFSb4PSqArOG86oyKIGMi8pT7b5csS5bOuV5
+2ctCO38BgN8OxOo0ee8AltSidRvxpQt71QwlpeJAk75pjrFZxR3ZmGp82TJ8I9q7
+RSr1bb4kZw==
+=txhL
+-----END PGP SIGNATURE-----
+
+--jpxp2yuvxjnvtegw--
 
