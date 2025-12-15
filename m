@@ -1,178 +1,124 @@
-Return-Path: <linux-renesas-soc+bounces-25777-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25778-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2293FCBEABA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Dec 2025 16:32:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B46ACBEEFA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Dec 2025 17:38:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2BCF130480A5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Dec 2025 15:21:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 17142305D3B1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Dec 2025 16:34:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8ACAE2D6E75;
-	Mon, 15 Dec 2025 15:21:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 598962BE643;
+	Mon, 15 Dec 2025 16:34:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mj4Td7K0"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B8YF4zkO"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 502E9246335;
-	Mon, 15 Dec 2025 15:21:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C60DC195811
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Dec 2025 16:34:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765812081; cv=none; b=eYNOElicAyqC6W3/uykNRD80rKd9uGS6KwbF3mpW/yM31Vpfq7CqhRslXWyCK71RDt4ogqJ+jeNCUrvEMPetIpJqKVgC8QGC426LyhOytBSxn98I/sVbj7flSEIZhc+27Hk+sxQ+ufVtvDK9bFbQrJ/gLnvyBVvUcQJCsc6Smls=
+	t=1765816450; cv=none; b=diwmz50nSQ8GURU0q+wIgXRrMFztN2J8FLlVrdOrmoqM1Bl1HsOEt835Kl8xXGTD6q5dXFtCGCDvrutOj9J6Gu9For3qZocp2CsZJsUKpdoYFwMD2JMt7vmQScQhCLpSgOA+sDPEeLG3igYunkiEFDBH5BS7+SrIHgtwd0yigL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765812081; c=relaxed/simple;
-	bh=MDT80+HnOqYoPF13DdZpWx5G4AfuEz3zXo+tGv3k9kQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FVfRDT5J/b4BMpPMO4gd2ixQiUU3GCoGi+UUkCXEfZNhHW4PtS0d7kHgtZgJEIFo8ZQcSuwKOR9/xLrbPKxbR/hSKDlJlk/rtz3uU9o+pQK+mtdw+sp6Xm3rckqpC3I6DpOdprwKiRBlzwSoUnSUH/dwxos+Kz+Yao7sqA1EgoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mj4Td7K0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36F5FC4CEF5;
-	Mon, 15 Dec 2025 15:21:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765812080;
-	bh=MDT80+HnOqYoPF13DdZpWx5G4AfuEz3zXo+tGv3k9kQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Mj4Td7K0i4vUtxfzfd4iz6hFgePmUEer1942TVlrOA9Rbo6KvDvecd5Lli1q1L0Ki
-	 qwX1zEN+87kYjIn6DV6wYqWZRKVMwNvpQa4jEjTL9uPBHyRmUnmY2xIAjK5iuiqLqe
-	 bjzy0N3KtEFKcXpYw1Wh2EY2Embua4NWw0NJYGmDKo1LaYMjGfA5f/yu8lYIO/U2wJ
-	 f6/WXWqXXpCwoGGuurff9s6rE7Cg5YolT6INs7hv7P89urh23hiSktIY2x4SePTR3l
-	 uJ8XJJiwQNMQeZk/C0HUNeYFUsapSWw+zpS3mE17LWGU92a0gGGB4/j5bp1IZYXceo
-	 QKJPdZygpvl5w==
-Date: Mon, 15 Dec 2025 16:21:17 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
-	Alexey Brodkin <abrodkin@synopsys.com>, Phong LE <ple@baylibre.com>, Liu Ying <victor.liu@nxp.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Adrien Grassein <adrien.grassein@gmail.com>, Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Anitha Chrisanthus <anitha.chrisanthus@intel.com>, 
-	Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
-	Kyungmin Park <kyungmin.park@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, Hui Pu <Hui.Pu@gehealthcare.com>, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Louis Chauvet <louis.chauvet@bootlin.com>, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-renesas-soc@vger.kernel.org, linux-amlogic@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, linux-samsung-soc@vger.kernel.org
-Subject: Re: [PATCH v2 06/26] drm/bridge: add devm_of_drm_get_bridge
-Message-ID: <20251215-amigurumi-bullmastiff-of-witchcraft-0dc22a@penduick>
-References: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-0-88f8a107eca2@bootlin.com>
- <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-6-88f8a107eca2@bootlin.com>
+	s=arc-20240116; t=1765816450; c=relaxed/simple;
+	bh=hFOqOAv7uVbbR5WcwgFciMeNnP/0OHxtKFdzXAKrw0M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Yn819xDf9fPYFrA9jYg3UCie3/JVRUGMp36E4MROTuw9oBvtQqFDNBXA23f47jIV0rRvoE9qzRdBeN9Gm/k5X7FyvUqCQjgDzeJbQjuBxvOJHJLVxK6vvpPhidM/OPyo24qFjlU1xlDRPz7Ob9TRCy3MSs5VqLaoThwvVoDA5to=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B8YF4zkO; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4779cc419b2so38725005e9.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Dec 2025 08:34:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765816446; x=1766421246; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Nc6rFfK7Gz+qc8AeSVDPFVggINyHTEh1EA+170hv3AY=;
+        b=B8YF4zkOeH8r+N8Cv5Wp8ukiCx8H/WulEGw92z2VzlOHbZyALiL+TxqDOskubVs5sN
+         hE5vzZzDXlqHMf4678mh0eJhDTp3RV6e2CGDbqp8OEy6edpc+PUbVbD1vNlC9Rs2CMFy
+         uRaPAnNtEWciamDzf58sRzO/nOZx3QDouQNg/5S/lMizZwz/ewXxaQ4YFdjQD3BJhAal
+         qNUM7imXmDQj52qD1s1OcK1ICKJ5BgozbM1LvIlX9ccThx2jlvXjTTyBi5etefOTUwoc
+         OVN6XDyMImZch8aqB9N/fgjVBxnETr+yiK0Q6rPPFedUq0huYJ5LJfNkTHf74y3KQh1N
+         5y2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765816446; x=1766421246;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Nc6rFfK7Gz+qc8AeSVDPFVggINyHTEh1EA+170hv3AY=;
+        b=eT4qZciN79imM5re3HvlhZlBD6Nw5zQFND2ccOlSHu/7usvitAKxihYFHp2re1k6zH
+         /RjTT6VJvvFd6ugBWwwLaVj2G9lSyIt8ehka+WpkqjbasFYE5LOFEfSRz9+hWktlEjvP
+         wzGcazX01wneEpxb5OACfASQsRFwwaAdiqhnVtSyoEW9m3UIYl+h5gfOnjYoapkgpv1Y
+         bIiXg7H+8kot9t7/8HXFuQspRIg/JRkt3r2blwUJZ7N4Of43HffYcwZH2jlJNeYhzV2H
+         iJ+21FMSsD3IjBKiCfivWZMchs5rCGzD2WuPTBA+UNJTUlspzk+AcDCumVi2zAx+o++Z
+         e17g==
+X-Gm-Message-State: AOJu0Yz9a28Kqr46jV/N8mcyz1pPHCqLe+y7zJdqqnsemuQ9UNUh0bXZ
+	PXUXmNCNXtKN8hm7BAMXxGIQGgOryELW/x49k/MW2GYxp1aK8sikgLLb
+X-Gm-Gg: AY/fxX4DksAeLJbEKvfH+yxTE9B15uKDfexllJB+6aN4A5V/7b3DDbIej0SHCyIIccg
+	ao62YXBCSpzKqd9zTveexnpQo7o2SBkG2/m+4uCNgrvZsDN7KWEg0rlzqveXyDUsNKzFMeyhUk1
+	Ys3S88Npw85xpSzDR9B17yI8hy+n7SYsWfY1ezuWBkepziiRf2yhrxqEO8GoY3IJ2lMpAYxOj+t
+	qZ84kttAw94VWD//4uRcFft8jMQzT+h6rQfmxmHhG0XAq5jxN1pGrVFEDlLNOAsifAzBtu41Uoi
+	aVrMdGKg4VOLuYy98H2JFDJtNz3VvpTMco3FEEcdvX79WcfgCgx8zdGZGdLDESJ+oKZnsFnT94/
+	JTN50TuLxn/167Gl3wPJY+kvEiqY9EVpDcaz+cIdCdi2MrXNN85MNnBZtDFOxyxEmtfwHDZsOae
+	XS9XRLAjTMx55ewjhVD4afSohZ2cd89pz7Pv6rUzvJCqbg6bR2BobtkF4=
+X-Google-Smtp-Source: AGHT+IGJQDjr55225GtOMFt6JjCMMfs83+3wPGXQ71w7l4LaIX1V6FNmpVhtEikrmzWNAcp1Vf94BA==
+X-Received: by 2002:a5d:5d09:0:b0:42f:9e75:8605 with SMTP id ffacd0b85a97d-42fb42c1a55mr11777957f8f.0.1765816445926;
+        Mon, 15 Dec 2025 08:34:05 -0800 (PST)
+Received: from iku.example.org ([2a06:5906:61b:2d00:f5e0:bc9c:3d69:b37f])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42fa8b9b26fsm32609640f8f.40.2025.12.15.08.34.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Dec 2025 08:34:05 -0800 (PST)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 0/2] Add DMA support for RSPI channels in RZ/V2H(P) and RZ/V2N SoCs
+Date: Mon, 15 Dec 2025 16:32:28 +0000
+Message-ID: <20251215163230.227849-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="gsdrqopk6hwziqn7"
-Content-Disposition: inline
-In-Reply-To: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-6-88f8a107eca2@bootlin.com>
+Content-Transfer-Encoding: 8bit
 
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
---gsdrqopk6hwziqn7
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 06/26] drm/bridge: add devm_of_drm_get_bridge
-MIME-Version: 1.0
+Hi All,
 
-On Fri, Nov 28, 2025 at 05:50:16PM +0100, Luca Ceresoli wrote:
-> Several drivers (about 20) follow the same pattern:
->=20
->  1. get a pointer to a bridge (typically the next bridge in the chain) by
->     calling of_drm_find_bridge()
->  2. store the returned pointer in the private driver data, keep it until
->     driver .remove
->  3. dereference the pointer at attach time and possibly at other times
->=20
-> of_drm_find_bridge() is now deprecated because it does not increment the
-> refcount and should be replaced with of_drm_get_bridge() +
-> drm_bridge_put().
->=20
-> However some of those drivers have a complex code flow and adding a
-> drm_bridge_put() call in all the appropriate locations is error-prone,
-> leads to ugly and more complex code, and can lead to errors over time with
-> code flow changes.
->=20
-> To handle all those drivers in a straightforward way, add a devm variant =
-of
-> of_drm_get_bridge() that adds a devm action to invoke drm_bridge_put()
-> when the said driver is removed. This allows all those drivers to put the
-> reference automatically and safely with a one line change:
->=20
->   - priv->next_bridge =3D of_drm_find_bridge(remote_np);
->   + priv->next_bridge =3D devm_of_drm_get_bridge(dev, remote_np);
->=20
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
->=20
-> ---
->=20
-> Changes in v2:
-> - fix return value: NULL on error, as documented, not an ERR_PTR
-> ---
->  drivers/gpu/drm/drm_bridge.c | 28 ++++++++++++++++++++++++++++
->  include/drm/drm_bridge.h     |  5 +++++
->  2 files changed, 33 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> index 9b7e3f859973..59575a84eff6 100644
-> --- a/drivers/gpu/drm/drm_bridge.c
-> +++ b/drivers/gpu/drm/drm_bridge.c
-> @@ -1442,6 +1442,34 @@ struct drm_bridge *of_drm_get_bridge(struct device=
-_node *np)
->  }
->  EXPORT_SYMBOL(of_drm_get_bridge);
-> =20
-> +/**
-> + * devm_of_drm_get_bridge - find the bridge corresponding to the device
-> + *			    node in the global bridge list and add a devm
-> + *			    action to put it
-> + *
-> + * @dev: device requesting the bridge
-> + * @np: device node
-> + *
-> + * On success the returned bridge refcount is incremented, and a devm
-> + * action is added to call drm_bridge_put() when @dev is removed. So the
-> + * caller does not have to put the returned bridge explicitly.
-> + *
-> + * RETURNS:
-> + * drm_bridge control struct on success, NULL on failure
-> + */
+This patch series adds DMA support for RSPI channels in Renesas RZ/V2H(P)
+and RZ/V2N SoCs.
 
-I still think that, if we want to introduce it, we need to be very clear
-that it's not safe, and we need to add a TODO to remove it later on. But
-why should we introduce a helper, and convert dozens of drivers to it,
-for something that is neutral?
+Note, the DT bindings doc patches have been merged separately and are part
+of [1].
 
-If anything, I'd rather see them call of_drm_get_bridge(under the new
-name), and put back the reference in destroy.
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git/log/?h=for-6.20
 
-Maxime
+Cheers,
+Prabhakar
 
---gsdrqopk6hwziqn7
-Content-Type: application/pgp-signature; name="signature.asc"
+Lad Prabhakar (2):
+  arm64: dts: renesas: r9a09g056: Add DMA support for RSPI channels
+  arm64: dts: renesas: r9a09g057: Add DMA support for RSPI channels
 
------BEGIN PGP SIGNATURE-----
+ arch/arm64/boot/dts/renesas/r9a09g056.dtsi | 6 ++++++
+ arch/arm64/boot/dts/renesas/r9a09g057.dtsi | 6 ++++++
+ 2 files changed, 12 insertions(+)
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaUAnbQAKCRAnX84Zoj2+
-dp5VAX9vgUBVKAQimc/xE5mx+OZGGMP2AAkyV8RQCAm07C/CeB4TANSmR+vX8fQm
-oJBQh0ABfiGrjZ9H25V8ZEx7mg3ywz982YYke557o8h2KLo5yCMDUxK0PVo9ZwYr
-bI9HAJ7y/g==
-=YBE0
------END PGP SIGNATURE-----
+-- 
+2.52.0
 
---gsdrqopk6hwziqn7--
 
