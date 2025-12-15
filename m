@@ -1,199 +1,141 @@
-Return-Path: <linux-renesas-soc+bounces-25749-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25750-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80DAECBC5C7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Dec 2025 04:50:07 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8A0CCBCEEF
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Dec 2025 09:14:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CBCA13005EA4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Dec 2025 03:50:05 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C0670301459F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Dec 2025 08:13:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D08D2D2387;
-	Mon, 15 Dec 2025 03:50:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 603F9328263;
+	Mon, 15 Dec 2025 08:13:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="R2YxZMIW"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="knF4U/2U"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 685342C1593
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Dec 2025 03:50:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A15931AA90;
+	Mon, 15 Dec 2025 08:13:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765770605; cv=none; b=rvYBB26bobq+8ZCAuCw47/20UvYzeKhTwQCEEKqJA+J+5anbEF2Y+cG4NksQxRrdcEeOBkzb2M6doFnUQZ+qas8oCFLsNwUEiYzk2HqgSCws1xueVwa2TARUq+iieBOwaznNVagP1GTTFc/Uj+qddbgpfs6Eq9t1JEObjDnKO24=
+	t=1765786431; cv=none; b=CA6j1YsSTSnsXP4inKFdDl94q9R8PF5a3eLVjiO+BrbfWx+IXNNkwQf/qGhP8Ni0nvTscZxg47gE96Ci9b2SlCE1DecCwQ0PeXMK5t4fVHnb607seUbsIPu6+fuInjLnjpQpi1515aCPEhYAoCUDO6Df4xnqZe57LGlTiGkDa7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765770605; c=relaxed/simple;
-	bh=VJE3I2Xk+qKCxSRwgm0lK8W4DsoLUu1HydnnnFe502s=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fjm8VAN8b6AqTdZvkYpl9oQWzzjMxnuX2El525YD69/uEJu5mgUmDXvNp68A5sU4ceeEeH5c7N/R5KIYrYfpWNB8PVR+PORAXkvqH8J7wFkXZu6WNOkcIYwN22TEqOXHzyMMfeol5gni3dYFYt08nXB1y4JdoKkM5LPh/x22WkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=R2YxZMIW; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:in-reply-to:references:mime-version:content-transfer-encoding;
-	 s=k1; bh=9D4UmkpUbWsbGBW/E/iIIqxeFM2OTeNpEaYs4nESBhg=; b=R2YxZM
-	IWzxUwUnrvxk2oH3LVlN79A4Q16Dka/MjGeHyOEyfVKX0prLspo2/DUdTp1fC+5c
-	FVUYG9rnFKBttY+R996vQe0wtrd6PDFYxfOKCAaVCOY0ZNB3ieqaJ0jcrlWU5DzV
-	fu1e4QTFVkVcSlUYc82ksHq/2ycdo+bCV64sF4AbXJipnScZ3n1oxrP59fMGCDI7
-	Y8oOuCB1gyJRhTHBygkP3q7Bd+jlQ8LshN25Y1+fFQNCvlOR/nEQsbZ9Xlb8CD4d
-	Kstu0DW3Dalf8s6/FEcsAZvizZmgFeofX0nu6YyUGVVQpszOQoaCyMoq9fviFaFg
-	0Fw5oS//WbLrYAzw==
-Received: (qmail 822558 invoked from network); 15 Dec 2025 04:49:57 +0100
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 15 Dec 2025 04:49:57 +0100
-X-UD-Smtp-Session: l3s3148p1@8pOngPVFiJfN3IHs
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	devicetree@vger.kernel.org
-Subject: [PATCH 6/6] arm64: dts: renesas: r8a779h0: Add WWDT nodes
-Date: Mon, 15 Dec 2025 12:47:20 +0900
-Message-ID: <20251215034715.3406-14-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251215034715.3406-8-wsa+renesas@sang-engineering.com>
-References: <20251215034715.3406-8-wsa+renesas@sang-engineering.com>
+	s=arc-20240116; t=1765786431; c=relaxed/simple;
+	bh=L01juhGPCRAjIJAl/rDM2Rt2jeh0b7dQoFypbdG3HUc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ozt0MiVG5qqfEFsWHljqQ/AgA9KTpqziGsNFAD/44z6avtQ/nkV8fi6BijTy2oF0JgTUSf1mA2mXW0kf1lznVCcuXjC+rjIAbQbYrxf30dE9iBXMUNRj/JZwST2aAM6QskFYhjsOxiMDBekdiTzLlc9XnaK7zBNGW9BufRKtjhg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=knF4U/2U; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (mob-5-90-49-39.net.vodafone.it [5.90.49.39])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E1071465;
+	Mon, 15 Dec 2025 09:13:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1765786422;
+	bh=L01juhGPCRAjIJAl/rDM2Rt2jeh0b7dQoFypbdG3HUc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=knF4U/2U2fAKlFpuoLBDnjGh0ntyECV5Uo8uoLBY4hVt+9HFZOo8o2pjrO3accCLL
+	 h1ON5erK4zJsig3HrYNiMdApUl3Gc1iW/x3neledYa5AJx2nhSvB0lwApnTM4hcIeT
+	 xT8RkWSj1VtuQtSsedqzL11OFd7kZLbA8jpItSMc=
+Date: Mon, 15 Dec 2025 09:13:43 +0100
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: "Rob Herring (Arm)" <robh@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Subject: Re: [PATCH] arm/arm64: dts: renesas: Drop unused .dtsi
+Message-ID: <ido6swynjwlxv6xynspvltxaxuryiavjvssuuzga5ypfruerkw@56tbp4bn7mom>
+References: <20251212203226.458694-1-robh@kernel.org>
+ <20251213062037.GA30577@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251213062037.GA30577@pendragon.ideasonboard.com>
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- arch/arm64/boot/dts/renesas/r8a779h0.dtsi | 112 ++++++++++++++++++++++
- 1 file changed, 112 insertions(+)
+Hi Laurent, Rob
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779h0.dtsi b/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
-index 4dc0e5304f72..74bc4c4854ec 100644
---- a/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
-@@ -2183,6 +2183,118 @@ port@1 {
- 			};
- 		};
- 
-+		wwdt0: watchdog@ffc90000 {
-+			compatible = "renesas,r8a779h0-wwdt",
-+				     "renesas,rcar-gen4-wwdt";
-+			reg = <0 0xffc90000 0 0x10>;
-+			interrupts = <GIC_SPI 310 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 311 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "pretimeout", "error";
-+			clocks = <&cpg CPG_CORE R8A779H0_CLK_R>,
-+				 <&cpg CPG_CORE R8A779H0_CLK_SASYNCRT>;
-+			clock-names = "cnt", "bus";
-+			power-domains = <&sysc R8A779H0_PD_ALWAYS_ON>;
-+			resets = <&cpg 1200>;
-+			reset-names = "cnt";
-+			status = "disabled";
-+		};
-+
-+		wwdt1: watchdog@ffca0000 {
-+			compatible = "renesas,r8a779h0-wwdt",
-+				     "renesas,rcar-gen4-wwdt";
-+			reg = <0 0xffca0000 0 0x10>;
-+			interrupts = <GIC_SPI 312 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 313 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "pretimeout", "error";
-+			clocks = <&cpg CPG_CORE R8A779H0_CLK_R>,
-+				 <&cpg CPG_CORE R8A779H0_CLK_SASYNCRT>;
-+			clock-names = "cnt", "bus";
-+			power-domains = <&sysc R8A779H0_PD_ALWAYS_ON>;
-+			resets = <&cpg 1201>;
-+			reset-names = "cnt";
-+			status = "disabled";
-+		};
-+
-+		wwdt2: watchdog@ffcb0000 {
-+			compatible = "renesas,r8a779h0-wwdt",
-+				     "renesas,rcar-gen4-wwdt";
-+			reg = <0 0xffcb0000 0 0x10>;
-+			interrupts = <GIC_SPI 314 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 315 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "pretimeout", "error";
-+			clocks = <&cpg CPG_CORE R8A779H0_CLK_R>,
-+				 <&cpg CPG_CORE R8A779H0_CLK_SASYNCRT>;
-+			clock-names = "cnt", "bus";
-+			power-domains = <&sysc R8A779H0_PD_ALWAYS_ON>;
-+			resets = <&cpg 1202>;
-+			reset-names = "cnt";
-+			status = "disabled";
-+		};
-+
-+		wwdt3: watchdog@ffcc0000 {
-+			compatible = "renesas,r8a779h0-wwdt",
-+				     "renesas,rcar-gen4-wwdt";
-+			reg = <0 0xffcc0000 0 0x10>;
-+			interrupts = <GIC_SPI 316 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 317 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "pretimeout", "error";
-+			clocks = <&cpg CPG_CORE R8A779H0_CLK_R>,
-+				 <&cpg CPG_CORE R8A779H0_CLK_SASYNCRT>;
-+			clock-names = "cnt", "bus";
-+			power-domains = <&sysc R8A779H0_PD_ALWAYS_ON>;
-+			resets = <&cpg 1203>;
-+			reset-names = "cnt";
-+			status = "disabled";
-+		};
-+
-+		wwdt4: watchdog@ffcf0000 {
-+			compatible = "renesas,r8a779h0-wwdt",
-+				     "renesas,rcar-gen4-wwdt";
-+			reg = <0 0xffcf0000 0 0x10>;
-+			interrupts = <GIC_SPI 318 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 319 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "pretimeout", "error";
-+			clocks = <&cpg CPG_CORE R8A779H0_CLK_R>,
-+				 <&cpg CPG_CORE R8A779H0_CLK_SASYNCRT>;
-+			clock-names = "cnt", "bus";
-+			power-domains = <&sysc R8A779H0_PD_ALWAYS_ON>;
-+			resets = <&cpg 1204>;
-+			reset-names = "cnt";
-+			status = "disabled";
-+		};
-+
-+		wwdt5: watchdog@ffef0000 {
-+			compatible = "renesas,r8a779h0-wwdt",
-+				     "renesas,rcar-gen4-wwdt";
-+			reg = <0 0xffef0000 0 0x10>;
-+			interrupts = <GIC_SPI 320 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 321 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "pretimeout", "error";
-+			clocks = <&cpg CPG_CORE R8A779H0_CLK_R>,
-+				 <&cpg CPG_CORE R8A779H0_CLK_SASYNCRT>;
-+			clock-names = "cnt", "bus";
-+			power-domains = <&sysc R8A779H0_PD_ALWAYS_ON>;
-+			resets = <&cpg 1205>;
-+			reset-names = "cnt";
-+			status = "disabled";
-+		};
-+
-+		wwdt6: watchdog@fff10000 {
-+			compatible = "renesas,r8a779h0-wwdt",
-+				     "renesas,rcar-gen4-wwdt";
-+			reg = <0 0xfff10000 0 0x10>;
-+			interrupts = <GIC_SPI 322 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 323 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "pretimeout", "error";
-+			clocks = <&cpg CPG_CORE R8A779H0_CLK_R>,
-+				 <&cpg CPG_CORE R8A779H0_CLK_SASYNCRT>;
-+			clock-names = "cnt", "bus";
-+			power-domains = <&sysc R8A779H0_PD_ALWAYS_ON>;
-+			resets = <&cpg 1206>;
-+			reset-names = "cnt";
-+			status = "disabled";
-+		};
-+
- 		prr: chipid@fff00044 {
- 			compatible = "renesas,prr";
- 			reg = <0 0xfff00044 0 4>;
--- 
-2.47.3
+On Sat, Dec 13, 2025 at 03:20:37PM +0900, Laurent Pinchart wrote:
+> Hi Rob,
+>
+> CC'ing Jacopo.
+>
+> On Fri, Dec 12, 2025 at 02:32:07PM -0600, Rob Herring (Arm) wrote:
+> > These .dtsi files are not included anywhere in the tree and can't be
+> > tested.
+> >
+> > Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> > ---
+> >  .../renesas/gr-peach-audiocamerashield.dtsi   |  75 ----
+>
+> Jacopo, any opinion on this ? Should it be conevrted to an overlay, or
+> dropped ?
+>
 
+Running Linux in the 10MB SRAM of the GR-Peach using XIP was
+challenging enough and I don't have an easy access to that setup
+anymore.
+
+I think we can drop this one, and resubmit as a .dtso eventually, if
+anyone ever needs it
+
+Acked-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+
+Thanks
+  j
+
+
+> >  .../dts/renesas/r8a77xx-aa121td01-panel.dtsi  |  39 --
+>
+> I don't have access to this panel any more. I'm fine dropping this
+> .dtsi, it can always be resurrected and converted to an overlay if
+> someone needs it.
+>
+> >  arch/arm64/boot/dts/renesas/gmsl-cameras.dtsi | 332 ------------------
+>
+> This would be nice to turn into an overlay, but I'm not sure anyone
+> still cares.
+>
+> >  arch/arm64/boot/dts/renesas/r8a779m0.dtsi     |  12 -
+> >  arch/arm64/boot/dts/renesas/r8a779m2.dtsi     |  12 -
+> >  arch/arm64/boot/dts/renesas/r8a779m4.dtsi     |  12 -
+> >  arch/arm64/boot/dts/renesas/r8a779m6.dtsi     |  12 -
+> >  arch/arm64/boot/dts/renesas/r8a779m7.dtsi     |  12 -
+> >  arch/arm64/boot/dts/renesas/r8a779m8.dtsi     |  17 -
+> >  arch/arm64/boot/dts/renesas/r8a779mb.dtsi     |  12 -
+> >  arch/arm64/boot/dts/renesas/r9a07g044c1.dtsi  |  25 --
+> >  arch/arm64/boot/dts/renesas/r9a07g044l1.dtsi  |  18 -
+> >  arch/arm64/boot/dts/renesas/r9a07g054l1.dtsi  |  18 -
+> >  arch/arm64/boot/dts/renesas/r9a09g047e37.dtsi |  18 -
+>
+> I'll let Geert comment on this :-)
+>
+> >  14 files changed, 614 deletions(-)
+> >  delete mode 100644 arch/arm/boot/dts/renesas/gr-peach-audiocamerashield.dtsi
+> >  delete mode 100644 arch/arm/boot/dts/renesas/r8a77xx-aa121td01-panel.dtsi
+> >  delete mode 100644 arch/arm64/boot/dts/renesas/gmsl-cameras.dtsi
+> >  delete mode 100644 arch/arm64/boot/dts/renesas/r8a779m0.dtsi
+> >  delete mode 100644 arch/arm64/boot/dts/renesas/r8a779m2.dtsi
+> >  delete mode 100644 arch/arm64/boot/dts/renesas/r8a779m4.dtsi
+> >  delete mode 100644 arch/arm64/boot/dts/renesas/r8a779m6.dtsi
+> >  delete mode 100644 arch/arm64/boot/dts/renesas/r8a779m7.dtsi
+> >  delete mode 100644 arch/arm64/boot/dts/renesas/r8a779m8.dtsi
+> >  delete mode 100644 arch/arm64/boot/dts/renesas/r8a779mb.dtsi
+> >  delete mode 100644 arch/arm64/boot/dts/renesas/r9a07g044c1.dtsi
+> >  delete mode 100644 arch/arm64/boot/dts/renesas/r9a07g044l1.dtsi
+> >  delete mode 100644 arch/arm64/boot/dts/renesas/r9a07g054l1.dtsi
+> >  delete mode 100644 arch/arm64/boot/dts/renesas/r9a09g047e37.dtsi
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 
