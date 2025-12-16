@@ -1,130 +1,166 @@
-Return-Path: <linux-renesas-soc+bounces-25794-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25795-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 619A0CC2E19
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Dec 2025 13:45:44 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6B76CC2E5A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Dec 2025 13:47:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id A15DE3000781
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Dec 2025 12:45:43 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id D4708303498C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Dec 2025 12:46:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A99C4393774;
-	Tue, 16 Dec 2025 12:45:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03C7E39378C;
+	Tue, 16 Dec 2025 12:46:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="A9nVsK6W"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="m6Q9kiwX"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE9A339376D;
-	Tue, 16 Dec 2025 12:45:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A80A439378D;
+	Tue, 16 Dec 2025 12:46:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765889141; cv=none; b=u7zO1rI6CcKCXWKUcy5OiB9WDfPitvvgjXItM9ugIRjbxbBFky3MKhJUN0FE2AFuBCru4aavTRJLj5OuuTldVJordML3E7XW9zMsIqsBAARLHI4ougxQ0GQfYEd+jXqcF1cO5WddPtHD40mrtXjbiGgukoA4iuz/fJB3FftYX1c=
+	t=1765889199; cv=none; b=PRLY2WxKMcqPKSbeZdc8uOBS4hGKAtkxpk0FNyo/uVCmSBl+wJ1qi6hC3y8bqyjFiefVHeNrxD1JP63ioY0d6fB+s8H14tXBqN7olOXI+eNYiAdXB12U21MUD6EtpE6/8nSgp0eLMswc7jHelC2xQPMNNvg/+gekOeo8xa57GX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765889141; c=relaxed/simple;
-	bh=lv6g6LGjPaL8mc1OmO3gZ6DqJnEc7fOXPysNzRpcI3Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=q3BJ47ODq6TNuAyQIyPg8UBADq7rP9AcOcGJIDs5YORcLiPQxW1rIXtu3uJM8DUee2eNRRCG2jfug8HouLMD1D4kXgxPhsy3gZ+pb5AFzeMAUTuYV7a2TkPfmWtXUEr/vdZBVB0N0EeoE0qod/c8mARon7MzsIL9a9gdqJkGuRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=A9nVsK6W; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2518A1039;
-	Tue, 16 Dec 2025 13:45:27 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1765889128;
-	bh=lv6g6LGjPaL8mc1OmO3gZ6DqJnEc7fOXPysNzRpcI3Y=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=A9nVsK6WSsz7TGGcxRWAZ2WQ+8qg+iJm/0suEXV6c8paGdKOkIiKfxYuKFSsJpim8
-	 nci9Buk1dUl0hsC9P/0qJKWN1I6B9/AuWXXyOdjiPpBqBA62Tw4x6ffc8/6v74mZVx
-	 +VOJYACOw5kD162t4YtflPV6Ms5fCqucxG/YMvnQ=
-Message-ID: <0919cbe4-6c74-44eb-96a8-7522b2f4b694@ideasonboard.com>
-Date: Tue, 16 Dec 2025 14:45:29 +0200
+	s=arc-20240116; t=1765889199; c=relaxed/simple;
+	bh=z3H+ww0YXdNEVFbQO+H71xD+Nj1JnjAKfDMnH/DFZUc=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:Subject:Cc:To:
+	 References:In-Reply-To; b=gdmDo+99IQbTWfFeBFQympZZTLhtdWV6v423OGDJaEg6q2E5etA7t/tTBTXpeAhr1plYUatD7fVVhUxBi9yjug6jtDiaRLaT4Jyj3otvdCndITdfHvQXyZaWRkCcpJq3kMe/+dJZLnQJ2HUS4f+zaO45FTJyCNZUxzzHQlFLk/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=m6Q9kiwX; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 48847C19D31;
+	Tue, 16 Dec 2025 12:46:05 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id A0B896071C;
+	Tue, 16 Dec 2025 12:46:29 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5F6D9119434E1;
+	Tue, 16 Dec 2025 13:46:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1765889187; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=5hHeRHBPz8FHrfA8wBRwIPdvL07IcL4vWcbkjQN6o5U=;
+	b=m6Q9kiwXvA4v1X/hP/+JyTcjUw1OsRZD6sX9zF23Uc56YUe0aF7FfA2KCuP1M2obR4PlMb
+	aPzIj3mIE/PPPTiVXNNK9IvGfQU/IcRxA1u3tSisdJ4StT4ZwIhS9r2tuvD4DcqrWN6HK7
+	r+Fv7dhPRtuhT08YnqBBjRN6nck6Vv5kD/gUckn233hlRlfhJoVzlbq0b8DUv//EcPVzWh
+	C+Xfl+is9PJ7W3ZgO6EOYgUa9QWFL4H0SQzz534bgN3xNr/BymxAexqEz6ffIeUj20qWGx
+	KQmu8ehyJNbQzZEDn46VBO1vOEXe44XkhxfLx234QUnyLF1DRhsghK7L/S8xtg==
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 12/15] media: rcar-csi2: Add more stream support to
- rcsi2_calc_mbps()
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-References: <20250530-rcar-streams-v3-0-026655df7138@ideasonboard.com>
- <20250530-rcar-streams-v3-12-026655df7138@ideasonboard.com>
- <20250602132838.GE11750@pendragon.ideasonboard.com>
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Content-Language: en-US
-In-Reply-To: <20250602132838.GE11750@pendragon.ideasonboard.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Date: Tue, 16 Dec 2025 13:46:11 +0100
+Message-Id: <DEZNGU4VJFK8.Y1LKWVTD7O8K@bootlin.com>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH v2 17/26] drm/meson: encoder_*: use
+ devm_of_drm_get_bridge() to put the next bridge
+Cc: "Andrzej Hajda" <andrzej.hajda@intel.com>, "Neil Armstrong"
+ <neil.armstrong@linaro.org>, "Robert Foss" <rfoss@kernel.org>, "Laurent
+ Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
+ <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
+ <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
+ Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Jonathan
+ Corbet" <corbet@lwn.net>, "Alexey Brodkin" <abrodkin@synopsys.com>, "Phong
+ LE" <ple@baylibre.com>, "Liu Ying" <victor.liu@nxp.com>, "Shawn Guo"
+ <shawnguo@kernel.org>, "Sascha Hauer" <s.hauer@pengutronix.de>,
+ "Pengutronix Kernel Team" <kernel@pengutronix.de>, "Fabio Estevam"
+ <festevam@gmail.com>, "Adrien Grassein" <adrien.grassein@gmail.com>,
+ "Laurent Pinchart" <laurent.pinchart+renesas@ideasonboard.com>, "Tomi
+ Valkeinen" <tomi.valkeinen+renesas@ideasonboard.com>, "Kieran Bingham"
+ <kieran.bingham+renesas@ideasonboard.com>, "Geert Uytterhoeven"
+ <geert+renesas@glider.be>, "Magnus Damm" <magnus.damm@gmail.com>, "Kevin
+ Hilman" <khilman@baylibre.com>, "Jerome Brunet" <jbrunet@baylibre.com>,
+ "Chun-Kuang Hu" <chunkuang.hu@kernel.org>, "Philipp Zabel"
+ <p.zabel@pengutronix.de>, "Matthias Brugger" <matthias.bgg@gmail.com>,
+ "AngeloGioacchino Del Regno" <angelogioacchino.delregno@collabora.com>,
+ "Anitha Chrisanthus" <anitha.chrisanthus@intel.com>, "Inki Dae"
+ <inki.dae@samsung.com>, "Seung-Woo Kim" <sw0312.kim@samsung.com>, "Kyungmin
+ Park" <kyungmin.park@samsung.com>, "Krzysztof Kozlowski" <krzk@kernel.org>,
+ "Alim Akhtar" <alim.akhtar@samsung.com>, "Hui Pu"
+ <Hui.Pu@gehealthcare.com>, "Thomas Petazzoni"
+ <thomas.petazzoni@bootlin.com>, "Louis Chauvet"
+ <louis.chauvet@bootlin.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <imx@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-renesas-soc@vger.kernel.org>, <linux-amlogic@lists.infradead.org>,
+ <linux-mediatek@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>
+To: "Martin Blumenstingl" <martin.blumenstingl@googlemail.com>
+X-Mailer: aerc 0.20.1
+References: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-0-88f8a107eca2@bootlin.com> <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-17-88f8a107eca2@bootlin.com> <CAFBinCCQjeUu7pgfwViH6b0-M6S_sKgfvz9VAP1hpqLRj=bL_g@mail.gmail.com>
+In-Reply-To: <CAFBinCCQjeUu7pgfwViH6b0-M6S_sKgfvz9VAP1hpqLRj=bL_g@mail.gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hi,
+Hello Martin,
 
-On 02/06/2025 16:28, Laurent Pinchart wrote:
-> Hi Tomi,
-> 
-> Thank you for the patch.
-> 
-> On Fri, May 30, 2025 at 04:50:41PM +0300, Tomi Valkeinen wrote:
->> In the case where link-freq is not available, make sure we fail if there
->> are more than one stream configured, and also use the correct stream
->> number for that single stream.
+On Sun Nov 30, 2025 at 2:09 PM CET, Martin Blumenstingl wrote:
+> Hi Luca,
+>
+> On Fri, Nov 28, 2025 at 5:54=E2=80=AFPM Luca Ceresoli <luca.ceresoli@boot=
+lin.com> wrote:
 >>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>> This driver obtains a bridge pointer from of_drm_find_bridge() in the pr=
+obe
+>> function and stores it until driver removal. of_drm_find_bridge() is
+>> deprecated. Move to devm_of_drm_get_bridge() which puts the bridge
+>> reference on remove or on probe failure.
+>>
+>> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 >> ---
->>  drivers/media/platform/renesas/rcar-csi2.c | 7 ++++++-
->>  1 file changed, 6 insertions(+), 1 deletion(-)
+>>  drivers/gpu/drm/meson/meson_encoder_cvbs.c | 2 +-
+>>  drivers/gpu/drm/meson/meson_encoder_dsi.c  | 2 +-
+>>  drivers/gpu/drm/meson/meson_encoder_hdmi.c | 2 +-
+>>  3 files changed, 3 insertions(+), 3 deletions(-)
 >>
->> diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/platform/renesas/rcar-csi2.c
->> index 65c7f3040696..b9f83aae725a 100644
->> --- a/drivers/media/platform/renesas/rcar-csi2.c
->> +++ b/drivers/media/platform/renesas/rcar-csi2.c
->> @@ -1018,17 +1018,22 @@ static int rcsi2_calc_mbps(struct rcar_csi2 *priv,
->>  	 */
->>  	freq = v4l2_get_link_freq(remote_pad, 0, 0);
->>  	if (freq < 0) {
->> +		struct v4l2_subdev_route *route = &state->routing.routes[0];
-> 
-> const
+>> diff --git a/drivers/gpu/drm/meson/meson_encoder_cvbs.c b/drivers/gpu/dr=
+m/meson/meson_encoder_cvbs.c
+>> index dc374bfc5951..bf8588a5f6dd 100644
+>> --- a/drivers/gpu/drm/meson/meson_encoder_cvbs.c
+>> +++ b/drivers/gpu/drm/meson/meson_encoder_cvbs.c
+>> @@ -241,7 +241,7 @@ int meson_encoder_cvbs_probe(struct meson_drm *priv)
+>>                 return 0;
+>>         }
+>>
+>> -       meson_encoder_cvbs->next_bridge =3D of_drm_find_bridge(remote);
+>> +       meson_encoder_cvbs->next_bridge =3D devm_of_drm_get_bridge(priv-=
+>dev, remote);
+>>         of_node_put(remote);
+>>         if (!meson_encoder_cvbs->next_bridge)
+>>                 return dev_err_probe(priv->dev, -EPROBE_DEFER,
+> Would you be happy with me sending a patch that replaces the whole
+> logic in two meson_encoder_{cvbs,dsi,hdmi}.c with
+> devm_drm_of_get_bridge()?
+> I see two benefits:
+> - simpler code
+> - a patch less in your series (less maintenance burden for you)
+>
+> What I'm not sure about is how this series interacts with
+> devm_drm_of_get_bridge() which is why I'm asking before cooking a
+> patch.
 
-Ok.
+Apologies for the long delay in getting back to you. You might have noticed
+some discussion about the overall approach, and I waited for it to settle.
 
->>  		const struct rcar_csi2_format *format;
->>  		struct v4l2_mbus_framefmt *fmt;
->>  		unsigned int lanes;
->>  		unsigned int bpp;
->>  		int ret;
->>  
->> +		if (state->routing.num_routes > 1)
->> +			return -EINVAL;
-> 
-> Do we have to guard against the case where there would be no route ?
+About devm_drm_of_get_bridge(), it is a very different function so it does
+not affect this series. The name similarity is confusing indeed, but
+devm_of_drm_get_bridge() has been removed from my approach, so one less
+source of confusion.
 
-No, but I think it still makes sense to use != here (and in other
-similar places). Just in case. I'll do that change.
+I'm soon sending v3, and I have updated my patch to
+eson_encoder_{cvbs,dsi,hdmi}.c, actually splitting it in 3. I'd be grateful
+if you could reviewd and/ot test them when I send v3. But I don't think
+there is a need for you to send any patches related to this topic.
 
- Tomi
+Best regards,
+Luca
 
->> +
->>  		ret = rcsi2_get_active_lanes(priv, &lanes);
->>  		if (ret)
->>  			return ret;
->>  
->> -		fmt = v4l2_subdev_state_get_format(state, RCAR_CSI2_SINK, 0);
->> +		fmt = v4l2_subdev_state_get_format(state, route->sink_pad,
->> +						   route->sink_stream);
->>  		if (!fmt)
->>  			return -EINVAL;
->>  
-> 
-
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
