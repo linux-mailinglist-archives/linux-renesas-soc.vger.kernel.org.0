@@ -1,134 +1,253 @@
-Return-Path: <linux-renesas-soc+bounces-25790-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25791-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7802CCC287E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Dec 2025 13:05:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2296ECC2A15
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Dec 2025 13:19:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8573230F9EE3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Dec 2025 11:55:15 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D99F530AA8F3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Dec 2025 12:00:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85AA63502A8;
-	Tue, 16 Dec 2025 11:48:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC1E73559D0;
+	Tue, 16 Dec 2025 11:57:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Ojf7Im9n"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B303350297
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Dec 2025 11:48:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50C9D3559D2;
+	Tue, 16 Dec 2025 11:57:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765885691; cv=none; b=r5Feha4T815wKYg8xvxZaQI4Polt9/kVy8JeeTdiiAHz8A+wN93zE2qiACKAZiUJQBNwuxRDsmWkwbDDmU74QaZlxVNRH7zazQNYhO+dzVeiFFCR/jb2M7g3CLfSAaftAeK7OMX8bQoQcY9WT/7QU17K7urvPM6NWDDzvHR0cag=
+	t=1765886258; cv=none; b=OkQxLysU90RxqdKckN1Y3JCsJ6spG4y0Wm4HfHfOtr+qPRqkCZLJUkPxO9kek0cQT/KKEbTz+3aLEoUDAIos/MI1ZC7HC6/943WKYLzopyFSHu+POnHiX1uG0+uITFYIuhDL1hYcTgK7DryBcGTnp+/+TLlh6+AMJrgvc9DTPec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765885691; c=relaxed/simple;
-	bh=Q64M6yTlY/4csK3Tn1gXsYntWJ0EMfk2HD87lk8BPX8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=V6heRPhmfsjaf2G/TLzygY7VAaXuMUHD82rfyJEL2oVEqNUEEIZDx9MDrFuquIQdL/yEXOLlZVvUnDmjNiNINAXilKQOmR4fq2CcqyjyR5ZyeS7lsMQpCa16rrLnsWZwxX830lveZX+/LiJxQeLH4Ey5zKZcpkIsprUFqMNXJ1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-5dfd2148bf3so1570597137.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Dec 2025 03:48:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765885688; x=1766490488;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pXQyigt3jbZ06RFmtuZpK+cBrkyIX4s9E7WO3JpZ47U=;
-        b=Gwj8iB3bJ22dvpdQGYoHJbD0UrjgNOOpOxKJQnJgtl9MedTLtg+w8RWCj7EQLcNiwG
-         wod5gpOYfPLDZw83ORDtBMPK4pBnwFvdhaYgbgnOWxmh7jzYTs8qhDeVjibqzXdv+mU+
-         8Ffve+ykInQ3ACWyEreqp2lrGrX2NGvCvHGtUfoQdEols3BaYB8B1w7BI5bOHcRlSF/i
-         vHQd/qjinXmB+0WDAhJOIq1IObPTjCONdr8uBdBqnPzCOyikkS/kLE1ARvzffzqpQo4u
-         0GCsCxxXlKoOMDyfyoPcGHoJJP8+ByLpnrm4NpZv570opyfB2pev80mm3EYWWW7vkHw5
-         HnHQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXg9+NP1tGTLZGM9gOq1t+8/V0/3Jz7GOFBnxSHF+fX/C+9UJsYVNWs7hcG600fwHon/sklRrYAjxd2XczNI8qZiA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyi7KkDUOIHcLI+HaKdRX/HA+fqfgqk7mbwpJzk4TJcoJjkGPao
-	lfPzSCtwVfWJ/OQ9bwnZQHx9Opz+cx8MHp3qhKMV4DCiQlLOLezejv0v/06fr4if
-X-Gm-Gg: AY/fxX41MrXfiofVv7OphhwFUbkRs7cjlD15cRp0Q01+/2LSsPRD19aNOBukObVKY2D
-	FyyJhVHcpLi+FPzYl0IaLu8p3QRaUIkQdijt2CGQgp2Sx+uY+Irtb34vy31gMKTYa3vtiV/z7Rn
-	9iG20eTgBi1kNIR2rs6mHUIPdbulb8h+7Y64d4YPm60LI0W4CzvrX/WalQ967sVw/OvKpn4EV78
-	geDDF4yqwcCi0wUvKrXvlB37pDLJXem9zkt2nqSzOsgumP3sJ5q8aWSr//5HIyC5MFi8ezRwosc
-	eM+CfPoAZ/C/lLumtFn8m3K+ms3fvNN9mOK7AEpMwXQhuph0E6zCvBXLuYUSVi1sGyhYDJMfs4u
-	uAkMjobnyM001dlmT2/JQW/P/xog1HmWK7FfHxB12gr7MCOx8xR46SQs3qTTbIlv9VwVY0wzFGt
-	rC7Z6CMyTBtvgXpP112p08yhSAFDhKRxaDMRduTngncIRk4pir
-X-Google-Smtp-Source: AGHT+IFte1tLwY7S15okgZieFuUDmJrl6tqACknGPAUnBWPpXSkqvXve82lRt/jDd/SLsgik3ZDXUQ==
-X-Received: by 2002:a05:6102:6b0a:b0:5df:b4a8:fbaf with SMTP id ada2fe7eead31-5e82780a8demr4493247137.31.1765885688437;
-        Tue, 16 Dec 2025 03:48:08 -0800 (PST)
-Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com. [209.85.222.42])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-93f5aefe6d9sm5813640241.13.2025.12.16.03.48.07
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Dec 2025 03:48:07 -0800 (PST)
-Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-94240659ceaso274043241.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Dec 2025 03:48:07 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUX13SugF5HA6COJ5/sJHECn1uJ6+mh+ZVReGEOFus7oWI7/r31Nb9RsO9AL0Bvb41BnHYa52uabqz3XXQ5HvsM4Q==@vger.kernel.org
-X-Received: by 2002:a05:6102:5e8c:b0:5df:b085:835a with SMTP id
- ada2fe7eead31-5e82780a8b6mr4764738137.30.1765885687047; Tue, 16 Dec 2025
- 03:48:07 -0800 (PST)
+	s=arc-20240116; t=1765886258; c=relaxed/simple;
+	bh=kROG1bhyp7pp3mOq7rW2Yy6TjoNHAp1dcJBZ5IdDcfU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uWS5TFjpczBrNCeGGWM68xC/SEPfbrnwH6t+mR9nCE8pSZ9Ra1bvsmwYoX01kYHkekvWM262ESd1/im4jEvovgpiRsDOpbo0yZxpAeEhik1iCJ78ffyQDQW1xUG5IwV3vhPyeS7MO0lXxu4pznWCPEYt9QUQZYT/JB78RP6bQLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Ojf7Im9n; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 17032581;
+	Tue, 16 Dec 2025 12:57:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1765886247;
+	bh=kROG1bhyp7pp3mOq7rW2Yy6TjoNHAp1dcJBZ5IdDcfU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Ojf7Im9nicltRUjZBfHwp+IXyokmCWIfu9CVkSyG1Nf3tcYKxS3S7TrD6SeoACz3y
+	 R5bVIdtOIXI3ATq0K7+rbnr9qSwYl25ozWVZKm7n4sIOSAZbRsEI7oKb+Te4jJpXvg
+	 fJ3eMFtcaJBGIvCve7cvnm6hoUaRxWY1/yiOxWQE=
+Message-ID: <fe7df10a-c6be-48aa-8650-865f6c8fee83@ideasonboard.com>
+Date: Tue, 16 Dec 2025 13:57:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251201112933.488801-1-cosmin-gabriel.tanislav.xa@renesas.com> <20251201112933.488801-3-cosmin-gabriel.tanislav.xa@renesas.com>
-In-Reply-To: <20251201112933.488801-3-cosmin-gabriel.tanislav.xa@renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 16 Dec 2025 12:47:56 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWY7QLfag8szj24Oo8ghfZn84msRHREAvrB_A2inA7WrA@mail.gmail.com>
-X-Gm-Features: AQt7F2qJx2KIAwNW4AUKTYzXnNB8ZFWGeQMqIrBInpr7vZ80jygJQc6gJtqLNTs
-Message-ID: <CAMuHMdWY7QLfag8szj24Oo8ghfZn84msRHREAvrB_A2inA7WrA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] irqchip: add RZ/{T2H,N2H} Interrupt Controller
- (ICU) driver
-To: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 11/15] media: rcar-isp: Call get_frame_desc to find out
+ VC & DT
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+References: <20250530-rcar-streams-v3-0-026655df7138@ideasonboard.com>
+ <20250530-rcar-streams-v3-11-026655df7138@ideasonboard.com>
+ <20250602132202.GD11750@pendragon.ideasonboard.com>
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Content-Language: en-US
+In-Reply-To: <20250602132202.GD11750@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Cosmin,
+Hi,
 
-On Mon, 1 Dec 2025 at 12:30, Cosmin Tanislav
-<cosmin-gabriel.tanislav.xa@renesas.com> wrote:
-> The Renesas RZ/T2H (R9A09G077) and Renesas RZ/N2H (R9A09G087) SoCs have
-> an Interrupt Controller (ICU) that supports interrupts from external
-> pins IRQ0 to IRQ15, and SEI, and software-triggered interrupts INTCPU0
-> to INTCPU15.
->
-> INTCPU0 to INTCPU13, IRQ0 to IRQ13 are non-safety interrupts, while
-> INTCPU14, INTCPU15, IRQ14, IRQ15 and SEI are safety interrupts, and are
-> exposed via a separate register space.
->
-> Signed-off-by: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+On 02/06/2025 16:22, Laurent Pinchart wrote:
+> Hi Tomi,
+> 
+> Thank you for the patch.
+> 
+> On Fri, May 30, 2025 at 04:50:40PM +0300, Tomi Valkeinen wrote:
+>> Call get_frame_desc to find out VC & DT, instead of hardcoding the VC
+>> routing and deducing the DT based on the mbus format.
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>> ---
+>>  drivers/media/platform/renesas/rcar-isp/csisp.c | 108 +++++++++++++++++-------
+>>  1 file changed, 77 insertions(+), 31 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/renesas/rcar-isp/csisp.c b/drivers/media/platform/renesas/rcar-isp/csisp.c
+>> index a04cbf96b809..887d8eb21a3a 100644
+>> --- a/drivers/media/platform/renesas/rcar-isp/csisp.c
+>> +++ b/drivers/media/platform/renesas/rcar-isp/csisp.c
+>> @@ -225,24 +225,86 @@ static void risp_power_off(struct rcar_isp *isp)
+>>  	pm_runtime_put(isp->dev);
+>>  }
+>>  
+>> -static int risp_start(struct rcar_isp *isp, struct v4l2_subdev_state *state)
+>> +static int risp_configure_routing(struct rcar_isp *isp,
+>> +				  struct v4l2_subdev_state *state)
+>>  {
+>> -	const struct v4l2_mbus_framefmt *fmt;
+>> -	const struct rcar_isp_format *format;
+>> -	unsigned int vc;
+>> -	u32 sel_csi = 0;
+>> +	struct v4l2_mbus_frame_desc source_fd;
+>> +	struct v4l2_subdev_route *route;
+>>  	int ret;
+>>  
+>> -	fmt = v4l2_subdev_state_get_format(state, RCAR_ISP_SINK, 0);
+>> -	if (!fmt)
+>> -		return -EINVAL;
+>> +	ret = v4l2_subdev_call(isp->remote, pad, get_frame_desc,
+>> +			       isp->remote_pad, &source_fd);
+>> +	if (ret)
+>> +		return ret;
+>>  
+>> -	format = risp_code_to_fmt(fmt->code);
+>> -	if (!format) {
+>> -		dev_err(isp->dev, "Unsupported bus format\n");
+>> -		return -EINVAL;
+>> +	/* Clear the channel registers */
+>> +	for (unsigned int ch = 0; ch < 12; ++ch) {
+> 
+> A macro for the number of channels would be nice.
 
-Thanks for your patch, which is now commit 13e7b3305b647cf5
-("irqchip: Add RZ/{T2H,N2H} Interrupt Controller (ICU) driver")
-in irqchip/irq/drivers.
+Sure, will add.
 
-> --- a/drivers/soc/renesas/Kconfig
-> +++ b/drivers/soc/renesas/Kconfig
-> @@ -423,6 +423,7 @@ config ARCH_R9A09G057
->  config ARCH_R9A09G077
->         bool "ARM64 Platform support for R9A09G077 (RZ/T2H)"
->         default y if ARCH_RENESAS
-> +       select RENESAS_RZT2H_ICU
->         help
->           This enables support for the Renesas RZ/T2H SoC variants.
->
+>> +		risp_write_cs(isp, ISPCS_FILTER_ID_CH_REG(ch), 0);
+>> +		risp_write_cs(isp, ISPCS_DT_CODE03_CH_REG(ch), 0);
+>>  	}
+>>  
+>> +	/* Clear the proc mode registers */
+>> +	for (unsigned int dt = 0; dt < 64; ++dt)
+>> +		risp_write_cs(isp, ISPPROCMODE_DT_REG(dt), 0);
+> 
+> Do we really need to clear those ? These registers seem to be used to
+> select how to process a particular DT, likely to allow overriding the
+> default processing method. 0 means RAW8, so it's not a magic disable
+> value as far as I can tell. I think we can leave the registers as-is.
 
-This change should have been a separate patch, to be routed through the
-renesas-devel tree.  In addition, you forgot to add the same select to the
-ARCH_R9A09G087 entry below.
+Yes, I think you are right. I'll drop the clear.
 
-Gr{oetje,eeting}s,
+>> +
+>> +	for_each_active_route(&state->routing, route) {
+>> +		struct v4l2_mbus_frame_desc_entry *source_entry = NULL;
+>> +		const struct rcar_isp_format *format;
+>> +		const struct v4l2_mbus_framefmt *fmt;
+>> +		unsigned int i;
+>> +		u8 vc, dt, ch;
+>> +		u32 v;
+>> +
+>> +		for (i = 0; i < source_fd.num_entries; i++) {
+>> +			if (source_fd.entry[i].stream == route->sink_stream) {
+>> +				source_entry = &source_fd.entry[i];
+>> +				break;
+>> +			}
+>> +		}
+>> +
+>> +		if (!source_entry) {
+>> +			dev_err(isp->dev,
+>> +				"Failed to find stream from source frame desc\n");
+> 
+> Isn't it rather "Failed to find source frame desc for stream" ?
 
-                        Geert
+I think it's kind of the same thing... But perhaps your version is
+better, as, indeed, the result we're getting is the frame desc entry.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>> +			return -EPIPE;
+>> +		}
+>> +
+>> +		vc = source_entry->bus.csi2.vc;
+>> +		dt = source_entry->bus.csi2.dt;
+>> +		/* Channels 4 - 11 go to VIN */
+>> +		ch = route->source_pad - 1 + 4;
+>> +
+>> +		fmt = v4l2_subdev_state_get_format(state, route->sink_pad,
+>> +						   route->sink_stream);
+>> +		if (!fmt)
+>> +			return -EINVAL;
+>> +
+>> +		format = risp_code_to_fmt(fmt->code);
+>> +		if (!format) {
+>> +			dev_err(isp->dev, "Unsupported bus format\n");
+>> +			return -EINVAL;
+>> +		}
+>> +
+>> +		/* VC Filtering */
+>> +		risp_write_cs(isp, ISPCS_FILTER_ID_CH_REG(ch), BIT(vc));
+>> +
+>> +		/* DT Filtering */
+>> +		risp_write_cs(isp, ISPCS_DT_CODE03_CH_REG(ch),
+>> +			      ISPCS_DT_CODE03_EN0 | ISPCS_DT_CODE03_DT0(dt));
+>> +
+>> +		/* Proc mode */
+>> +		v = risp_read_cs(isp, ISPPROCMODE_DT_REG(dt));
+>> +		v |= ISPPROCMODE_DT_PROC_MODE_VCn(vc, format->procmode);
+>> +		risp_write_cs(isp, ISPPROCMODE_DT_REG(dt), v);
+> 
+> If we want to minimize the register writes, we could store the
+> ISPPROCMODE_DT_REG values in a local variable and write all of them in
+> one go. Possible/probably overkill.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Yes, I don't think that would be visible in any performance measurement.
+If it is, I'm fine with doing it later. I'd rather avoid any
+optimizations at this point of time, as it's quite a challenge to get
+both the gen3 & gen4 converted.
+
+Tomi
+
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> 
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int risp_start(struct rcar_isp *isp, struct v4l2_subdev_state *state)
+>> +{
+>> +	u32 sel_csi = 0;
+>> +	int ret;
+>> +
+>>  	ret = risp_power_on(isp);
+>>  	if (ret) {
+>>  		dev_err(isp->dev, "Failed to power on ISP\n");
+>> @@ -256,25 +318,9 @@ static int risp_start(struct rcar_isp *isp, struct v4l2_subdev_state *state)
+>>  	risp_write_cs(isp, ISPINPUTSEL0_REG,
+>>  		      risp_read_cs(isp, ISPINPUTSEL0_REG) | sel_csi);
+>>  
+>> -	/* Configure Channel Selector. */
+>> -	for (vc = 0; vc < 4; vc++) {
+>> -		u8 ch = vc + 4;
+>> -		u8 dt = format->datatype;
+>> -
+>> -		risp_write_cs(isp, ISPCS_FILTER_ID_CH_REG(ch), BIT(vc));
+>> -		risp_write_cs(isp, ISPCS_DT_CODE03_CH_REG(ch),
+>> -			      ISPCS_DT_CODE03_EN3 | ISPCS_DT_CODE03_DT3(dt) |
+>> -			      ISPCS_DT_CODE03_EN2 | ISPCS_DT_CODE03_DT2(dt) |
+>> -			      ISPCS_DT_CODE03_EN1 | ISPCS_DT_CODE03_DT1(dt) |
+>> -			      ISPCS_DT_CODE03_EN0 | ISPCS_DT_CODE03_DT0(dt));
+>> -	}
+>> -
+>> -	/* Setup processing method. */
+>> -	risp_write_cs(isp, ISPPROCMODE_DT_REG(format->datatype),
+>> -		      ISPPROCMODE_DT_PROC_MODE_VCn(3, format->procmode) |
+>> -		      ISPPROCMODE_DT_PROC_MODE_VCn(2, format->procmode) |
+>> -		      ISPPROCMODE_DT_PROC_MODE_VCn(1, format->procmode) |
+>> -		      ISPPROCMODE_DT_PROC_MODE_VCn(0, format->procmode));
+>> +	ret = risp_configure_routing(isp, state);
+>> +	if (ret)
+>> +		return ret;
+>>  
+>>  	/* Start ISP. */
+>>  	risp_write_cs(isp, ISPSTART_REG, ISPSTART_START);
+> 
+
 
