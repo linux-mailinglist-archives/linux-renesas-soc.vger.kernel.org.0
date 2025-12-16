@@ -1,159 +1,87 @@
-Return-Path: <linux-renesas-soc+bounces-25828-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25829-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC4B0CC45AF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Dec 2025 17:42:18 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90E2FCC479E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Dec 2025 17:57:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2AF7730C4BD8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Dec 2025 16:36:30 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 7E7EC303D900
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Dec 2025 16:56:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF2452D5922;
-	Tue, 16 Dec 2025 16:36:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91965320A1F;
+	Tue, 16 Dec 2025 16:56:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Hxcp1qe0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZEwThL5t"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C169823371B;
-	Tue, 16 Dec 2025 16:36:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65B5431B10E;
+	Tue, 16 Dec 2025 16:56:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765902988; cv=none; b=mw66p4vvbbNf2fnnrssKlcUmGpfti0n0pP+ZuNJqMMzKfqffC6M8NnHyzY8JfBRMtwYagJ1i2EEElZkL+FQYqfmZGxSj2SXBauZIgs544moHSPE6buBA+q9LxbFwQfAZQwDljr+JyKV+uO60MKJZWJ4Bb2oV0puUAdNXvN82BrA=
+	t=1765904191; cv=none; b=Di16cslB7IszIPZDrmK0q9t/d7vTM11hcWHVwjuXvDD/PwL5JODT0FSGGPq3WQ+7scmcv/iTjBn9lP050kpzHAjJKkrCiXxx15e58E00yKmM7mOaidX8HMCe9IU8l5rAuL1qg/9SSvvo73iykeUqbdSotFqN/ssS5DE79sxp9yY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765902988; c=relaxed/simple;
-	bh=oFjVZa6cQDUNg1q8/naTH9lAAeiTjOcFhVLNBZ1HADw=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:Subject:Cc:To:
-	 References:In-Reply-To; b=qFbJ2dTfoE5yepWacRSi6zwRW6ogua6H0FMjbqAuOVe2sHafTwEewggt7nLTsI1g1e79pvkIBDSRZVHYqf6O7v3GgHVGDMQyc+LVCpQTl+HFZoiqrIAqQx0GDoR1PwqBURFGthqPQfuI2JRMec1z3u41bmwk/X7qUpTReueMjvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Hxcp1qe0; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id E962E1A223D;
-	Tue, 16 Dec 2025 16:36:24 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id A76266071C;
-	Tue, 16 Dec 2025 16:36:24 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id F316C119A904B;
-	Tue, 16 Dec 2025 17:36:08 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1765902982; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=PzhR0G4mBnm/z0O1Hfgh44ISCPhT1HMJphLOZLV+TY0=;
-	b=Hxcp1qe0jp9L+ZP5B2CcjRugnzvNJMFJ/9uLnc/dPwH5UC2kAbZKmRyiMLwCIMY3l1rGeB
-	r1i0PJRzjjFJ9grjtuxiAKvLXLVgaYVMvrqPir01kIYE5+3GlMEUdCh/SeWGh8FfSmc4dD
-	BQCAl/r7vtgA55arSrrcGj571k5Y7jabJyHmtN3hyRh7HvY9LH9G+IEVTIcBK5YF8EbLdi
-	mePmspCgWnZbPbX9OJXUW7hcaIiZlm5vXCzrPfRFRz3YSxNhCgjgDAJf2WLsdzNMJz7Sdl
-	go01yz6G44JOyfuUCxKxAYqzeeuqGpt1lByELY1A2jHL5QL1gBe/telVFa0/Cw==
+	s=arc-20240116; t=1765904191; c=relaxed/simple;
+	bh=1i34GAw6Dnc6REDPPQS6hOitzVxy2CneAj8xwMVFty8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=YNVh9WCKrL6NxlVys5VwIYwnBno3XIoHXiJaNkwgbpdk2WGJcKXuRaJwX1trW6dhqRMYXqAhiedHDf2M8NbeGs8TxlvCIeGWdUgJ8Xf7IV0LwdoGUe5n7y3VBXiK+PDvLJ7mOrKQiFNZ8BTHM5Em9ZzV3Fz0VYWlDxtBjBq74fo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZEwThL5t; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5BB6C4CEF1;
+	Tue, 16 Dec 2025 16:56:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765904191;
+	bh=1i34GAw6Dnc6REDPPQS6hOitzVxy2CneAj8xwMVFty8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=ZEwThL5tiHRZUzFTHUnBZGSfbrs9w4kAbvGIDNfpbvqyLUSf++7PEvVqsQEDSJy0U
+	 RPIh/gqBDRljY0yYKx0gnOypTAlPCDPTkmcQqQHuXoqoKceqMsBoGk6MDx8NPjN2l5
+	 dKyIYPyxake2hZFgRrvjtcXcHDTIKJjdaoQIT2ziytZDghbXkqXKIqj28D5zL4iPOE
+	 c32crYmyjEHLvnLjtazm+oVS2x4oy5Pc5+Jus+akT+SxqPtep6kqKVpzIdbsdvzqnY
+	 JrX8qFXaWj9mC7KTIe4A+am7lJ72CPtrMKXfiJ2UiUYqVxrOnoh6wYI6dk+viKXZYr
+	 fUPbspCkPMw1A==
+From: Vinod Koul <vkoul@kernel.org>
+To: Biju <biju.das.au@gmail.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>, dmaengine@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ stable@kernel.org
+In-Reply-To: <20251113195052.564338-1-biju.das.jz@bp.renesas.com>
+References: <20251113195052.564338-1-biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v2] dmaengine: sh: rz-dmac: Fix rz_dmac_terminate_all()
+Message-Id: <176590418843.422798.14198311104614997013.b4-ty@kernel.org>
+Date: Tue, 16 Dec 2025 22:26:28 +0530
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 16 Dec 2025 17:36:07 +0100
-Message-Id: <DEZSCVYVCZ71.1BRL4LGVYAZAX@bootlin.com>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH 06/26] drm/bridge: add devm_drm_of_find_bridge
-Cc: "Andrzej Hajda" <andrzej.hajda@intel.com>, "Neil Armstrong"
- <neil.armstrong@linaro.org>, "Robert Foss" <rfoss@kernel.org>, "Laurent
- Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
- <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, "Thomas Zimmermann"
- <tzimmermann@suse.de>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
- <simona@ffwll.ch>, "Jonathan Corbet" <corbet@lwn.net>, "Alexey Brodkin"
- <abrodkin@synopsys.com>, "Phong LE" <ple@baylibre.com>, "Liu Ying"
- <victor.liu@nxp.com>, "Shawn Guo" <shawnguo@kernel.org>, "Sascha Hauer"
- <s.hauer@pengutronix.de>, "Pengutronix Kernel Team"
- <kernel@pengutronix.de>, "Fabio Estevam" <festevam@gmail.com>, "Adrien
- Grassein" <adrien.grassein@gmail.com>, "Laurent Pinchart"
- <laurent.pinchart+renesas@ideasonboard.com>, "Tomi Valkeinen"
- <tomi.valkeinen+renesas@ideasonboard.com>, "Kieran Bingham"
- <kieran.bingham+renesas@ideasonboard.com>, "Geert Uytterhoeven"
- <geert+renesas@glider.be>, "Magnus Damm" <magnus.damm@gmail.com>, "Kevin
- Hilman" <khilman@baylibre.com>, "Jerome Brunet" <jbrunet@baylibre.com>,
- "Martin Blumenstingl" <martin.blumenstingl@googlemail.com>, "Chun-Kuang Hu"
- <chunkuang.hu@kernel.org>, "Philipp Zabel" <p.zabel@pengutronix.de>,
- "Matthias Brugger" <matthias.bgg@gmail.com>, "AngeloGioacchino Del Regno"
- <angelogioacchino.delregno@collabora.com>, "Anitha Chrisanthus"
- <anitha.chrisanthus@intel.com>, "Edmund Dea" <edmund.j.dea@intel.com>,
- "Inki Dae" <inki.dae@samsung.com>, "Seung-Woo Kim"
- <sw0312.kim@samsung.com>, "Kyungmin Park" <kyungmin.park@samsung.com>,
- "Krzysztof Kozlowski" <krzk@kernel.org>, "Alim Akhtar"
- <alim.akhtar@samsung.com>, "Hui Pu" <Hui.Pu@gehealthcare.com>, "Thomas
- Petazzoni" <thomas.petazzoni@bootlin.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <imx@lists.linux.dev>,
- <linux-arm-kernel@lists.infradead.org>,
- <linux-renesas-soc@vger.kernel.org>, <linux-amlogic@lists.infradead.org>,
- <linux-mediatek@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>
-To: "Maxime Ripard" <mripard@kernel.org>
-X-Mailer: aerc 0.20.1
-References: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com> <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-6-0db98a7fe474@bootlin.com> <hs44z4b2dgisemuewgtvl4epjcqqilg6cy36po25pubaog4hmq@33qgl4o3hwoa> <DEH2CVQV21Z2.25PJBAQAKFJSG@bootlin.com> <20251201-thick-jasmine-oarfish-1eceb0@houat> <DEVKQWH8GU0D.2NWQ1U7IOIEHI@bootlin.com> <DEW6XHD12EY4.1THDR9UMJOTAN@bootlin.com> <20251215-mottled-dexterous-marmot-c69ad3@penduick> <DEYUNHVYCKYJ.2HU878WBYCJMV@bootlin.com> <20251216-cute-bandicoot-of-authority-3c492a@penduick>
-In-Reply-To: <20251216-cute-bandicoot-of-authority-3c492a@penduick>
-X-Last-TLS-Session-Version: TLSv1.3
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 
-Hi Maxime,
 
-On Tue Dec 16, 2025 at 2:49 PM CET, Maxime Ripard wrote:
-[...]
->> Not sure why, but it's taking a while before I grasp your ideas about th=
-is
->> series and meld them with mine. I hopefully got a clear POV now, so base=
-d
->> on it my plan is to rework this series to:
->>
->>  * keep drm_of_find_bridge() but renamed to of_drm_get_bridge(), and kee=
-p
->>    patches 1-5 (with the changes suggested by you and Louis, nothing big
->>    and all already sent in v2)
->
-> I don't think we should use that name, but on principle, yes.
+On Thu, 13 Nov 2025 19:50:48 +0000, Biju wrote:
+> After audio full duplex testing, playing the recorded file contains a few
+> playback frames from the previous time. The rz_dmac_terminate_all() does
+> not reset all the hardware descriptors queued previously, leading to the
+> wrong descriptor being picked up during the next DMA transfer. Fix the
+> above issue by resetting all the descriptor headers for a channel in
+> rz_dmac_terminate_all() as rz_dmac_lmdesc_recycle() points to the proper
+> descriptor header filled by the rz_dmac_prepare_descs_for_slave_sg().
+> 
+> [...]
 
-OK about the rename. I just had sent this email before you requested the
-rename. v3 is in the works with the of_drm_find_and_get_bridge() name.
+Applied, thanks!
 
->>  * not add devm_drm_of_find_bridge()
->
-> Yep.
->
->>  * add next_bridge pointer to struct drm_bridge and call
->>    drm_bridge_put(bridge->next_bridge) in __drm_bridge_free, document it
->
-> We don't have to at this point, you can add next_bridge to the
-> drm_bridge pointer if you want, but I don't consider it a prerequisite.
-> If we don't we would have to create drm_bridge_funcs->destroy
-> implemnentations to give up the driver pointer reference though. Your
-> call.
+[1/1] dmaengine: sh: rz-dmac: Fix rz_dmac_terminate_all()
+      commit: 747213b08a1ab6a76e3e3b3e7a209cc1d402b5d0
 
-There's a destroy finc already, so I'm adding the next_bridge pointer in v3
-along with some driver conversions, including one where the destroy hook is
-needed.
+Best regards,
+-- 
+~Vinod
 
->>  * convert patches 7-26 to use bridge->next_bridge where applicable,
->>    or to do something different when needed
->
-> Depending on your decision above, we'd need to either convert them to
-> use drm_bridge->next_bridge or create a destroy hook for them. Either
-> way is fine for me.
->
->>  * maybe remove part of patches 7-26 just to reduce spam and rework effo=
-rt
->>    in case of further iterations, to send them separately once the appro=
-ach
->>    is accepted
->>
->> Does it look OK?
 
-Cool, thanks for acking. v3 is just a testing round away from being sent.
-
-Luca
-
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
 
