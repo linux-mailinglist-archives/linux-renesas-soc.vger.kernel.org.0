@@ -1,243 +1,205 @@
-Return-Path: <linux-renesas-soc+bounces-25806-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25807-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id C026FCC3408
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Dec 2025 14:35:26 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A676BCC3666
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Dec 2025 15:02:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 257003004A5B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Dec 2025 13:35:26 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 4C4D93026FB1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Dec 2025 13:58:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68554223DFB;
-	Tue, 16 Dec 2025 13:35:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9247365A0A;
+	Tue, 16 Dec 2025 13:49:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lBpNpKAY"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ms/EcseV"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6FBB3A5C0C;
-	Tue, 16 Dec 2025 13:35:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9521F364EB9;
+	Tue, 16 Dec 2025 13:49:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765892124; cv=none; b=YusuZQgR0PhPHw3yxAJiqlplEWlGWsLdqlyGnY0RiUDlbsOSeoiibYEFtZr/2g3m9L/XsWosF/vLdRF/wmvrGJ9RMd2ElQfoCcZ3k1XHFh6bDiY5dapmycIdcRwLceiwoCPRSx+zguuvnNqL5rG0FJ9iy2RS8dL7G8hC9z08Lww=
+	t=1765892983; cv=none; b=YlQc8l0B0BuraV+zdTdEg6MaNniLj2pqmhhwW5eAFti6sIYDf9hb70BsXgywfWioE53Kvea9DtCyO1JP0F9fv3jvO3e8X5+MfVBnrc12zhsCgqdjvqIdleSGTu0+HeC4HxFRMgKgfKyrTLpn7T5JKv5MXy6W4BIB3fPncpjRMso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765892124; c=relaxed/simple;
-	bh=pQOwGLqnKVAfLMRsv9sN2tY8boBffUrnszYOn5hvOvE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iV1sbp6rpVpVhL5nV9OuUCD+/ycllMSohHxiDt424d1pLlQb7h5Upyg4JVGuInskqYiwNABtOqjlIOnPAtqd+j5+9XhW3EEfr2u0r0qmb9rOM2h717uduWk3gczIzFnofabrHuABYPURqvCsiEaYTrkfySsziy8lniYNXxU5tGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=lBpNpKAY; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6C9EA581;
-	Tue, 16 Dec 2025 14:35:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1765892112;
-	bh=pQOwGLqnKVAfLMRsv9sN2tY8boBffUrnszYOn5hvOvE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=lBpNpKAYrW8ksLCQ1V033kXQ4x/44sWjD3V6UnXQRDcMtICTXi72LDhCOIH1mVGrQ
-	 P8FQqAXlYgpSP5pYnjfC7qOCuxyLcjaiMa7LI2kwoaOmOtwxiKhd8gToRXNZnqLxVC
-	 JusrGXdzomz7/O4gNVI40u42PtKLMV9nzI5bfGdw=
-Message-ID: <0e0a99e1-0ea2-4683-8e0d-b5511b7a9d5e@ideasonboard.com>
-Date: Tue, 16 Dec 2025 15:35:15 +0200
+	s=arc-20240116; t=1765892983; c=relaxed/simple;
+	bh=YfLQ27amlUSOROYLrmwTzJ9E/8AgqpTLSS/yS8wBt6o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R0ptojQa2xDAmxVJuUBW6xsrcghTRaBVDb7Kt6yZL3Uwf1ENPoOyFxLfQs1ZmFRqS/F8WRwP0B6V08KM6mbAaS7MvkAGUeqzN4sG90vt6f1UeHTptiZgXbO6a8DlMXOGPo89Pk+9L2O2ruzf/zOPfa1HxSak0zvz1K0av91PLaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ms/EcseV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A093C4CEF1;
+	Tue, 16 Dec 2025 13:49:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765892983;
+	bh=YfLQ27amlUSOROYLrmwTzJ9E/8AgqpTLSS/yS8wBt6o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Ms/EcseV+s20wmc1lLhYwDx89gIvClg2PrymIGMeUbwNDiD4SnOmW78o0LBiCBxlO
+	 BdxeF2Dz7vNPLlHk6H9c/Loage+PF2nosiRONlDlgQCWHyIinBjfz+mmT27iulavfd
+	 BuE/G7U+oUbo+mnBfw6ESY6cd3Q41neeo7IYkgSIPk07g5OM0wIZnaF/AK+WLm6cgJ
+	 GmCyNXU3kAhE/wGxDlMtotwE9co/euW0U0pWBSlyqKeVL94wQyOekYMU9/93Cs6rqR
+	 ujWcxuOybxnttG5mv4zj6LB+Bfu8R3ei8lyxE/EthGDt30dEmVf0CTtlhobbfgREOI
+	 OXMYvMAHdg9pw==
+Date: Tue, 16 Dec 2025 14:49:39 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+	Alexey Brodkin <abrodkin@synopsys.com>, Phong LE <ple@baylibre.com>, Liu Ying <victor.liu@nxp.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Adrien Grassein <adrien.grassein@gmail.com>, Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Anitha Chrisanthus <anitha.chrisanthus@intel.com>, 
+	Edmund Dea <edmund.j.dea@intel.com>, Inki Dae <inki.dae@samsung.com>, 
+	Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Hui Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-renesas-soc@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-samsung-soc@vger.kernel.org
+Subject: Re: [PATCH 06/26] drm/bridge: add devm_drm_of_find_bridge
+Message-ID: <20251216-cute-bandicoot-of-authority-3c492a@penduick>
+References: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com>
+ <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-6-0db98a7fe474@bootlin.com>
+ <hs44z4b2dgisemuewgtvl4epjcqqilg6cy36po25pubaog4hmq@33qgl4o3hwoa>
+ <DEH2CVQV21Z2.25PJBAQAKFJSG@bootlin.com>
+ <20251201-thick-jasmine-oarfish-1eceb0@houat>
+ <DEVKQWH8GU0D.2NWQ1U7IOIEHI@bootlin.com>
+ <DEW6XHD12EY4.1THDR9UMJOTAN@bootlin.com>
+ <20251215-mottled-dexterous-marmot-c69ad3@penduick>
+ <DEYUNHVYCKYJ.2HU878WBYCJMV@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 11/15] media: rcar-isp: Call get_frame_desc to find out
- VC & DT
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-References: <20250530-rcar-streams-v3-0-026655df7138@ideasonboard.com>
- <20250530-rcar-streams-v3-11-026655df7138@ideasonboard.com>
- <20250606122011.GH2770609@ragnatech.se>
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Content-Language: en-US
-In-Reply-To: <20250606122011.GH2770609@ragnatech.se>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="65zjs456orcupskh"
+Content-Disposition: inline
+In-Reply-To: <DEYUNHVYCKYJ.2HU878WBYCJMV@bootlin.com>
 
-Hi,
 
-On 06/06/2025 15:20, Niklas Söderlund wrote:
-> Hi Tomi,
-> 
-> Thanks for your work.
-> 
-> On 2025-05-30 16:50:40 +0300, Tomi Valkeinen wrote:
->> Call get_frame_desc to find out VC & DT, instead of hardcoding the VC
->> routing and deducing the DT based on the mbus format.
->>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
->> ---
->>  drivers/media/platform/renesas/rcar-isp/csisp.c | 108 +++++++++++++++++-------
->>  1 file changed, 77 insertions(+), 31 deletions(-)
->>
->> diff --git a/drivers/media/platform/renesas/rcar-isp/csisp.c b/drivers/media/platform/renesas/rcar-isp/csisp.c
->> index a04cbf96b809..887d8eb21a3a 100644
->> --- a/drivers/media/platform/renesas/rcar-isp/csisp.c
->> +++ b/drivers/media/platform/renesas/rcar-isp/csisp.c
->> @@ -225,24 +225,86 @@ static void risp_power_off(struct rcar_isp *isp)
->>  	pm_runtime_put(isp->dev);
->>  }
->>  
->> -static int risp_start(struct rcar_isp *isp, struct v4l2_subdev_state *state)
->> +static int risp_configure_routing(struct rcar_isp *isp,
->> +				  struct v4l2_subdev_state *state)
->>  {
->> -	const struct v4l2_mbus_framefmt *fmt;
->> -	const struct rcar_isp_format *format;
->> -	unsigned int vc;
->> -	u32 sel_csi = 0;
->> +	struct v4l2_mbus_frame_desc source_fd;
->> +	struct v4l2_subdev_route *route;
->>  	int ret;
->>  
->> -	fmt = v4l2_subdev_state_get_format(state, RCAR_ISP_SINK, 0);
->> -	if (!fmt)
->> -		return -EINVAL;
->> +	ret = v4l2_subdev_call(isp->remote, pad, get_frame_desc,
->> +			       isp->remote_pad, &source_fd);
->> +	if (ret)
->> +		return ret;
->>  
->> -	format = risp_code_to_fmt(fmt->code);
->> -	if (!format) {
->> -		dev_err(isp->dev, "Unsupported bus format\n");
->> -		return -EINVAL;
->> +	/* Clear the channel registers */
->> +	for (unsigned int ch = 0; ch < 12; ++ch) {
->> +		risp_write_cs(isp, ISPCS_FILTER_ID_CH_REG(ch), 0);
->> +		risp_write_cs(isp, ISPCS_DT_CODE03_CH_REG(ch), 0);
->>  	}
->>  
->> +	/* Clear the proc mode registers */
->> +	for (unsigned int dt = 0; dt < 64; ++dt)
->> +		risp_write_cs(isp, ISPPROCMODE_DT_REG(dt), 0);
-> 
-> I agree with Laurent's comments, do we really need to clear these 
-> registers?
-> 
->> +
->> +	for_each_active_route(&state->routing, route) {
->> +		struct v4l2_mbus_frame_desc_entry *source_entry = NULL;
->> +		const struct rcar_isp_format *format;
->> +		const struct v4l2_mbus_framefmt *fmt;
->> +		unsigned int i;
->> +		u8 vc, dt, ch;
->> +		u32 v;
->> +
->> +		for (i = 0; i < source_fd.num_entries; i++) {
->> +			if (source_fd.entry[i].stream == route->sink_stream) {
->> +				source_entry = &source_fd.entry[i];
->> +				break;
->> +			}
->> +		}
->> +
->> +		if (!source_entry) {
->> +			dev_err(isp->dev,
->> +				"Failed to find stream from source frame desc\n");
->> +			return -EPIPE;
->> +		}
->> +
->> +		vc = source_entry->bus.csi2.vc;
->> +		dt = source_entry->bus.csi2.dt;
->> +		/* Channels 4 - 11 go to VIN */
->> +		ch = route->source_pad - 1 + 4;
->> +
->> +		fmt = v4l2_subdev_state_get_format(state, route->sink_pad,
->> +						   route->sink_stream);
->> +		if (!fmt)
->> +			return -EINVAL;
->> +
->> +		format = risp_code_to_fmt(fmt->code);
->> +		if (!format) {
->> +			dev_err(isp->dev, "Unsupported bus format\n");
->> +			return -EINVAL;
->> +		}
->> +
->> +		/* VC Filtering */
->> +		risp_write_cs(isp, ISPCS_FILTER_ID_CH_REG(ch), BIT(vc));
->> +
->> +		/* DT Filtering */
->> +		risp_write_cs(isp, ISPCS_DT_CODE03_CH_REG(ch),
->> +			      ISPCS_DT_CODE03_EN0 | ISPCS_DT_CODE03_DT0(dt));
->> +
->> +		/* Proc mode */
->> +		v = risp_read_cs(isp, ISPPROCMODE_DT_REG(dt));
->> +		v |= ISPPROCMODE_DT_PROC_MODE_VCn(vc, format->procmode);
->> +		risp_write_cs(isp, ISPPROCMODE_DT_REG(dt), v);
-> 
-> Also as Laurent suggested I thin it would be nicer to build these 
-> registers up in a local variable and do the writes once outside the 
-> loop. That way the clearing of the register will take care of itself ;-)
+--65zjs456orcupskh
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 06/26] drm/bridge: add devm_drm_of_find_bridge
+MIME-Version: 1.0
 
-I can do that, but I'm not sure I see the need from performance
-perspective. We're talking about a few register reads & writes, once,
-when enabling the first stream.
+On Mon, Dec 15, 2025 at 03:11:21PM +0100, Luca Ceresoli wrote:
+> Hi Maxime,
+>=20
+> On Mon Dec 15, 2025 at 11:35 AM CET, Maxime Ripard wrote:
+> [...]
+> >> > Additionally, as a matter of fact there are currently drivers storing
+> >> > bridge pointers. The next_bridge is the most common case. Code using
+> >> > drm_bridge_connector_init() for example can store up to eight of the=
+m, but
+> >> > individual drivers are the hardest to hunt for.
+> >> >
+> >> > I can see these (potential) tools to handle this (not mutually exclu=
+sive):
+> >> >
+> >> >  1. remove drm_bridge pointers pointing to other bridges
+> >> >  2. check whether a bridge (say B) still exists before any dereferen=
+ce
+> >> >     to B->another_bridge: that's drm_bridge_enter/exit()
+> >> >  3. let owners of bridge pointers be notified when a bridge is unplu=
+gged,
+> >> >     so they can actively put their reference and clear their pointer
+> >> >
+> >> > For item 1, I think the drm_of_bridge_attach() idea quoted above wou=
+ld
+> >> > work, at least for the simple cases where bridge drivers use the
+> >> > next_bridge only for attach. A next_bridge pointer in struct drm_bri=
+dge is
+> >> > not even needed in that case, the pointer would be computed from OF =
+when
+> >> > needed and not stored. I can do an experiment and send a first serie=
+s, do
+> >> > you think it would be useful?
+> >>
+> >> I had a look and, while the implementation should be simple, only a few
+> >> drivers could benefit right now. The majority fall into one of these
+> >> categories:
+> >>
+> >>  * drivers using drm_of_find_panel_or_bridge() or *_of_get_bridge()
+> >>    (maybe 60-80% of all drivers, those will have to wait for the panel
+> >>    improvements)
+> >>  * drivers using the next_bridge pointer for more than just attach
+> >>  * drivers doing more complicated stuff
+> >>
+> >> I think your "put next_bridge in __drm_bridge_free" idea would fit wel=
+l the
+> >> 2nd category and perhaps also the 1st one. For the 3rd category we'd n=
+eed
+> >> something different, e.g. a per-driver .destroy callback.
+> >
+> > Yep, that's fine. We should optimize for the common case, with an escape
+> > hatch. That's exactly what we are talking about here.
+>=20
+> Not sure why, but it's taking a while before I grasp your ideas about this
+> series and meld them with mine. I hopefully got a clear POV now, so based
+> on it my plan is to rework this series to:
+>=20
+>  * keep drm_of_find_bridge() but renamed to of_drm_get_bridge(), and keep
+>    patches 1-5 (with the changes suggested by you and Louis, nothing big
+>    and all already sent in v2)
 
-Would the code be more readable? I'm not sure... Here we do all the
-writes related to a single stream in one iteration, which is nice.
+I don't think we should use that name, but on principle, yes.
 
-But I don't have strong opinions either way.
+>  * not add devm_drm_of_find_bridge()
 
- Tomi
+Yep.
 
->> +	}
->> +
->> +	return 0;
->> +}
->> +
->> +static int risp_start(struct rcar_isp *isp, struct v4l2_subdev_state *state)
->> +{
->> +	u32 sel_csi = 0;
->> +	int ret;
->> +
->>  	ret = risp_power_on(isp);
->>  	if (ret) {
->>  		dev_err(isp->dev, "Failed to power on ISP\n");
->> @@ -256,25 +318,9 @@ static int risp_start(struct rcar_isp *isp, struct v4l2_subdev_state *state)
->>  	risp_write_cs(isp, ISPINPUTSEL0_REG,
->>  		      risp_read_cs(isp, ISPINPUTSEL0_REG) | sel_csi);
->>  
->> -	/* Configure Channel Selector. */
->> -	for (vc = 0; vc < 4; vc++) {
->> -		u8 ch = vc + 4;
->> -		u8 dt = format->datatype;
->> -
->> -		risp_write_cs(isp, ISPCS_FILTER_ID_CH_REG(ch), BIT(vc));
->> -		risp_write_cs(isp, ISPCS_DT_CODE03_CH_REG(ch),
->> -			      ISPCS_DT_CODE03_EN3 | ISPCS_DT_CODE03_DT3(dt) |
->> -			      ISPCS_DT_CODE03_EN2 | ISPCS_DT_CODE03_DT2(dt) |
->> -			      ISPCS_DT_CODE03_EN1 | ISPCS_DT_CODE03_DT1(dt) |
->> -			      ISPCS_DT_CODE03_EN0 | ISPCS_DT_CODE03_DT0(dt));
->> -	}
->> -
->> -	/* Setup processing method. */
->> -	risp_write_cs(isp, ISPPROCMODE_DT_REG(format->datatype),
->> -		      ISPPROCMODE_DT_PROC_MODE_VCn(3, format->procmode) |
->> -		      ISPPROCMODE_DT_PROC_MODE_VCn(2, format->procmode) |
->> -		      ISPPROCMODE_DT_PROC_MODE_VCn(1, format->procmode) |
->> -		      ISPPROCMODE_DT_PROC_MODE_VCn(0, format->procmode));
->> +	ret = risp_configure_routing(isp, state);
->> +	if (ret)
->> +		return ret;
->>  
->>  	/* Start ISP. */
->>  	risp_write_cs(isp, ISPSTART_REG, ISPSTART_START);
->>
->> -- 
->> 2.43.0
->>
-> 
+>  * add next_bridge pointer to struct drm_bridge and call
+>    drm_bridge_put(bridge->next_bridge) in __drm_bridge_free, document it
 
+We don't have to at this point, you can add next_bridge to the
+drm_bridge pointer if you want, but I don't consider it a prerequisite.
+If we don't we would have to create drm_bridge_funcs->destroy
+implemnentations to give up the driver pointer reference though. Your
+call.
+
+>  * convert patches 7-26 to use bridge->next_bridge where applicable,
+>    or to do something different when needed
+
+Depending on your decision above, we'd need to either convert them to
+use drm_bridge->next_bridge or create a destroy hook for them. Either
+way is fine for me.
+
+>  * maybe remove part of patches 7-26 just to reduce spam and rework effort
+>    in case of further iterations, to send them separately once the approa=
+ch
+>    is accepted
+>=20
+> Does it look OK?
+
+Yep
+
+Maxime
+
+--65zjs456orcupskh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaUFjcwAKCRAnX84Zoj2+
+dgzkAYDvA9yfAoN5qn3Uuq31rvBMPARdeaGJP/R7L/afEIqfYpW00Xnt3rcpsKVt
+DvfNFYwBf0vpoxbPBiXv/KJmjkwFaLmGNHmvjyicK5vGQGOUo5Kn5EA6cWvB5aoe
+s/Mjb6G3Dw==
+=yqem
+-----END PGP SIGNATURE-----
+
+--65zjs456orcupskh--
 
