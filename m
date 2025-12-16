@@ -1,122 +1,208 @@
-Return-Path: <linux-renesas-soc+bounces-25810-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25811-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29689CC3965
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Dec 2025 15:30:42 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0044CC40AA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Dec 2025 16:48:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 362E6300076D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Dec 2025 14:25:46 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7315D306FB39
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Dec 2025 15:44:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 185222C1786;
-	Tue, 16 Dec 2025 14:25:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EAEB2D97B4;
+	Tue, 16 Dec 2025 15:19:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JDh7KrQF"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E554D2459D7
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Dec 2025 14:25:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A07028030E;
+	Tue, 16 Dec 2025 15:19:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765895143; cv=none; b=bjBNpyFiHqp05PjhklIo2IOfVyiTQUIeMsUvaGYaNJbsFF8CikVjTw4sRTV/XMxRizcsh9ZBxpQ81q3znfTbirNb744LNcJrcRw4e7SvlNrdB6nu02DKW6SVG7ReLXaR8WONATR0BUfpShaFpGlZYxxqkgClInphcCN9Aa9I30A=
+	t=1765898351; cv=none; b=BySJbOguylv9plXlq72fFPbmV9Y5jzDiqQouhTBRiISC5vleLfQuert3kOXZ4N8Cweg66P80iEjK8ZNbXGG+fvMbyAv4ETVUxypG8NM767YW9mwbXzFULdSl63d/MjPHOfuKs1D15ARpsMKU39QX2ZTT6UNByv3ekfMlPY7TnIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765895143; c=relaxed/simple;
-	bh=BU0zza5eePiaDoU7h5zrOBtSSlpOrs01neJX6MwHa5g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UMNjD7oCIpTiBsH2/5WSTtUiFPXfSiqindXMK14ML1hrIBcaKTLl/mUcajiggAKvXBbOXmU7Ir4eyXOlXddcwmc5LvWEybSHGfzWAscGkLHDRu6nuIoARr0Z3CFAvhHVpkdumgN7l7IPV8xJ7D1cfh7qnvQfLfZgYW8Sjke2hX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-55b265f5122so1325828e0c.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Dec 2025 06:25:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765895140; x=1766499940;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JmGEgPuORdt944lP1ts1khomkIbW9gpZnOcj49yyNCw=;
-        b=H8PM6EndhJNdL+gXfp4l8qQUXiyPDFJUK4XsmGPEf7OiHs0Dui/9Pnw6styVzGQsU7
-         fWl9U/Z83RgERnQZtk+MMmdHyHVcmro/YnpSOwfXS2IjvypN8PDiDZLMtHIdvXk+ybAa
-         vsMIHFt09MqjEK7F5Rs99lKvKaNmkiIQ3iYznOAX5ISfgnmhBt0TRqmbShSTUBVFvaH4
-         IkeuWHCZa1T4fr9THrLfuHekg+l38YMQbF+K7sustYTg2FjBgNoaLMcYQCeWD96RUT6v
-         WRusxFuh4IMu8aokh3cTGbhW+sIup26OSwHlJgMInsfYegZDx1jg4l2f7MLcAQ/HHGzL
-         fYvQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUiem2yo9vsDcTRgEK+lA5G0VbpjJMccDpF57gbNI4FXcaO/o2WwewJ54mwJHtlV3ljT0+x/RuRR8X/vNk+um47cg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyL2zRhZgenJVE1tYco8/u0a5vWbDaJAopR0ztwMqKHDgUk5wuA
-	7vH7uDyeKyPAUPLSXziVHL5ZIzT1vsThsqayOeZX9LMIulb7L2og1AH8U6KfR67L
-X-Gm-Gg: AY/fxX5YGU69QLNfUvdnNxBeWmu2xJ2PUYy0TK1DCPuarNvIc4CkVRcCKOuusTXxOg0
-	AcW0+1bCs43MoIcON8f7qiC8asWTqOC0GzF1J6wWmakU/9cc4vJ8OsflltR3OHcZT0Nf4jZ9Zju
-	+WgCgQUaWNMZIDyuTzK1TiC1b9f9KgIn42Lw/BgfKKxoKTvxJ5SQt59OZ+lXVoyVhWJEk78Ursp
-	nw87enSlm22QWMpccGY9B8I6jZQtTKq8WVH77kKP7BCurnMTqxKlWyx9LM/k60hs7HgQwDO/nKz
-	IUpbZfdxl4eIe4RN7gmhAnXUzUrM0GPvBlg9MTNhMucY4sC9amLdW/ExbfluEchY6LWwb2/rXc7
-	C+5nNp4zp4Yexg5sjhuIB4JTARrUha21gbdtwWmWoTrLurtCWB64149K8wIvuqBkMNztDf6fb2R
-	VnmZy3Kc+axExveG8HqldE4w0rz7cFsshGSxs4wJlxzE9li7yk
-X-Google-Smtp-Source: AGHT+IEz5Br9Lm+PYUHxI/yTrIZTiabRmzvW2U9YpAynOrjqw80MpwhdiqlLbniye+9ZKXV5EDw7hw==
-X-Received: by 2002:a05:6122:d81:b0:559:7294:da85 with SMTP id 71dfb90a1353d-55fed626550mr3872425e0c.12.1765895139669;
-        Tue, 16 Dec 2025 06:25:39 -0800 (PST)
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com. [209.85.217.44])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-93f5af350b4sm5897324241.15.2025.12.16.06.25.38
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Dec 2025 06:25:38 -0800 (PST)
-Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-5dbd150efe8so1733983137.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Dec 2025 06:25:38 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVkgugnu8Z7tKSEko0ZLJT9rZq/3RnOav8IirvHsoLJ+Pd/lansiQHOHyNb/oKtkGNpC+sfl+IxfHj42fITuP/WOA==@vger.kernel.org
-X-Received: by 2002:a05:6102:644d:b0:5dd:b288:61af with SMTP id
- ada2fe7eead31-5e82729e0dfmr4099799137.0.1765895137738; Tue, 16 Dec 2025
- 06:25:37 -0800 (PST)
+	s=arc-20240116; t=1765898351; c=relaxed/simple;
+	bh=brKcc7+9o0AII9T4+paEBCZ3OtDeU0xaK+RSib59t/k=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=fo1kdWTNn/VQWFBSUsBoCHYR//4zrShUzM+KmjprbMFoXbPqjHpbfBPicLFC58mKn+HH0/YDAs95PRMfMtDqfTfrhkjw5IjoA3K9OczgMtzLkR+QurlzYiHA04qOY9kA6KixgGI12NOVkNDs9NbVJUkjPykmnLVZXMSNWAh0QgM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JDh7KrQF; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9F5C8581;
+	Tue, 16 Dec 2025 16:18:59 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1765898340;
+	bh=brKcc7+9o0AII9T4+paEBCZ3OtDeU0xaK+RSib59t/k=;
+	h=From:Subject:Date:To:Cc:From;
+	b=JDh7KrQFHacQMzHhFGhjq3/5w/RP3zS5SmJKX4NvR4utQaXQX7hPq6qalCNVOKVJl
+	 m225pPrWOOjYI3zUwH77+tRiPWp7mR8KPy1Rr3L5/vu2nOiyxAXpV1cUp1yAPRizZM
+	 l7+iK2281Uwr64syqLjRPZeZw5fHL5+yADfUlZ9M=
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Subject: [PATCH v4 00/15] media: rcar: Streams support
+Date: Tue, 16 Dec 2025 17:18:17 +0200
+Message-Id: <20251216-rcar-streams-v4-0-f28b4831cc67@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251210160047.201379-1-Jonathan.Cameron@huawei.com> <20251210160047.201379-3-Jonathan.Cameron@huawei.com>
-In-Reply-To: <20251210160047.201379-3-Jonathan.Cameron@huawei.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 16 Dec 2025 15:25:26 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUQ1hwrm5E_2SY4re0iC74JO+50D4BJ09+gf+0L_iviEQ@mail.gmail.com>
-X-Gm-Features: AQt7F2pv1730SuULqPlL-sSgQJGnjNI8Ry8UB7f0qPfx1ycQ__W1ZVy2e2HJ270
-Message-ID: <CAMuHMdUQ1hwrm5E_2SY4re0iC74JO+50D4BJ09+gf+0L_iviEQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] soc: renesas: Fix missing dependency on new CONFIG_CACHEMAINT_FOR_DMA
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: Conor Dooley <conor.dooley@microchip.com>, Magnus Damm <magnus.damm@gmail.com>, 
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Paul Gazzillo <paul@pgazz.com>, Necip Fazil Yildiran <fazilyildiran@gmail.com>, 
-	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linuxarm@huawei.com, Arnd Bergmann <arnd@arndb.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADt4QWkC/3XPTW6DMBAF4Ksgr+vI/xhWvUfVhcHj4AU4HROrV
+ cTd65BKSFG6fCPN92ZuJANGyKRvbgShxBzTUoN6a8g4ueUMNPqaiWBCM8E7iqNDmlcEN2fKgwd
+ nrWGggdSVC0KI3zv38fnICF/Xqq6P4YH2zR9paUA3A/WQR3pxOa8Tput5osZYpkFx2bWqL+ruD
+ y4DHdM8x7VvijlxS+41U8xrwp/9icL3ntf3Fk4ZDXzoJMiWOTe8x/pATsuQHPpTlXeviMOQwjw
+ Zohqe+ZYxMRrFwz+GPAwt2ZMhq8GEMVr70HJpXxjbtv0CmNI1Ep4BAAA=
+X-Change-ID: 20250219-rcar-streams-1fdea8860e5e
+To: =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: b4 0.15-dev-c25d1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5642;
+ i=tomi.valkeinen+renesas@ideasonboard.com; h=from:subject:message-id;
+ bh=brKcc7+9o0AII9T4+paEBCZ3OtDeU0xaK+RSib59t/k=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBpQXhfVv9nQRBCONvwt+N8851BjwbWC9vZu+5Ip
+ 3rDdjqfZHWJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCaUF4XwAKCRD6PaqMvJYe
+ 9VW+D/0V78pRL02GGOMSstJ+y1eGF8UQW/OSY2X4uKkCD2oAG1+3s2dgacpnL6vbzV7J2bkcg6s
+ YzYVs26X9M9h2IihoZrPYfASFiUVI7+2CTpv8gjmlMJerA2VFFU1e5woNvO064dosbpwpU7V3ZL
+ xhxj/QhbF0lrLcAUs5HCNooSCM9m1ZQujSwkuClrh2OPHN8bl3r6C1NqFw6ylHKx/E91BchgWCR
+ Y+PLfuqw8X4ETTT9t2najr0h+vB7VGh9BDib7+kyCIDZQO4F+t8xnNCHEbT/416r8i1It0Kaxrz
+ naPU+kdplfW/UwGF1k25BxwzVPCA/MYTgvfW1eKXmRzcoVAA4+2mx0WHQR4J7qffUnw+/S1G4es
+ 8vpOwtQ0X4WbxTcAdZtCaSmqXW0t6eWhFSYBXTNlI+sUe9ATcFv1DYuwLmGlgcqOQ+ioZht1xEJ
+ zOdUYFtSlsYEDjzPmQMjrvD952zwKafir1ZIm58kFqKZzefFjLqAXdBeMmO5YCJbYYtcKAGmEFv
+ 20ys1JwPJbQVKd9aBZpTSN5zfg3l6JIgjDgK4PZLByBxfL/p98rJBm+TBo8YT0H/DF5mAtYF9KP
+ Vb9iUNlCXYjOWD0shqdiumCZApWid5MoZkB0BMGYQThsYrr5y1BV5MpBPXI/ggDOkMNzW20cI56
+ sIcr8sOJ7FGtuBQ==
+X-Developer-Key: i=tomi.valkeinen+renesas@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-Hi Jonathan,
+Add streams support to Renesas rcar platform driver.
 
-On Wed, 10 Dec 2025 at 17:01, Jonathan Cameron
-<Jonathan.Cameron@huawei.com> wrote:
-> The Kconfig menu entry was converted to a menuconfig to allow it to be
-> hidden for !CONFIG_RISCV. The drivers under this new option were selected
-> by some other Kconfig symbols and so an extra select CACHEMAINT_FOR_DMA is
-> needed.
->
-> Fixes: 4d1608d0ab33 ("cache: Make top level Kconfig menu a boolean dependent on RISCV")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202512100411.WxJU2No9-lkp@intel.com/
-> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+The series keaps compatibility with the current upstream for a single
+stream use case. However, in upstream there's a limited custom
+multi-stream support implemented to the rcar driver, which will be
+replaced with the upstream's Streams API.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+I have tested this series on Sparrow-Hawk board, with a few different
+setups:
 
-I assume Conor will take the two patches in this series?
-Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
+IMX219 connected to the CSI0 connector
+- The following patches applied to my test branch in addition to this
+  series:
+  1) The v4l2_subdev_get_frame_desc_passthrough dependency
+  2) Revert of commit e7376745ad5c8548e31d9ea58adfb5a847e017a4 ("media:
+     rcar-vin: Fix stride setting for RAW8 formats"), as that commit
+     breaks RAW8
+- Tested with a single video stream
 
-If not, please let me know, and I will queue it in renesas-fixes.
-Thanks!
+IMX219 connected to the CSI0 connector
+- Plenty of other patches applied to enable full streams support and
+  embedded data support in imx219 and v4l2 framework
+- Tested with video and embedded data streams
+ 
+Arducam FPD-Link board + 4 x IMX219 connected to the CSI0 connector
+- Plenty of other patches applied to enable full streams support and
+  embedded data support in imx219 and v4l2 framework, and TPG support in
+  ub953
+- Tested with video and embedded data streams from all four cameras (so
+  8 streams in total)
+- Also tested with ub953's TPG, combined with video & embedded streams
+  from other cameras.
 
-Gr{oetje,eeting}s,
+I have observed one issue with the embedded data (i.e. requiring bunch
+of patches not in upstream): when stopping streaming, VIN says that it
+cannot stop the stream. I haven't debugged that, but a possible issue is
+that the if the video stream for the imx219 is stopped first, the
+embedded data stops also, and VIN does not get the frame-end it is
+waiting for.
 
-                        Geert
+ Tomi
 
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+---
+Changes in v4:
+- Rebased on v6.18, with minor conflicts resolved
+- Improved patch descriptions
+- Re-ordered the patches a bit to move changes that could be applied
+  without the full streams support to the beginning of the series
+- Added "media: rcar-vin: Link VINs on Gen3 to a single channel on each
+  CSI-2" which removes possibility of wrong routing config on Gen3
+- Added "media: rcar-csi2: Improve FLD_FLD_EN macros" which was part of
+  another patch in v3
+- Addressed minor comments (constifyings, cosmetics)
+- Fixed the missing stream_count checks in disable_streams ops
+- Fixed a few instances in csisp and csi2 where
+  v4l2_subdev_state_get_format() was called with hardcoded pad/stream,
+  instead of using the data from the route
+- Dropped unnecessary ISPPROCMODE_DT_REG register clears
+- Squashed "media: rcar-csi2: Add more stream support to
+  rcsi2_calc_mbps()" into a previous patch
+- Dropped wrong use_isp check from csi2's rcsi2_set_routing()
+- Link to v3: https://lore.kernel.org/r/20250530-rcar-streams-v3-0-026655df7138@ideasonboard.com
+
+Changes in v3:
+- Rebased on top of latest linux-media
+- Dropped dependencies which are already in linux-media (only remaining
+  dependency is v4l2_subdev_get_frame_desc_passthrough)
+- Tested on white-hawk board, using the staging deser TPG
+- Also tested in a WIP branch for GMSL2 (two video streams)
+- Link to v2: https://lore.kernel.org/r/20250326-rcar-streams-v2-0-d0d7002c641f@ideasonboard.com
+
+Changes in v2:
+- Rebased on top of latest upstream, and updated the dependencies to
+  match the latest serieses sent.
+- Add new patch "media: rcar-csi2: Use the pad version of v4l2_get_link_freq()"
+- Drop "media: rcar-csi2: Fix typo" (it was not a typo)
+- Update the code in calc_mbps(). The previous method relied on
+  V4L2_CID_LINK_FREQ, but that's not available if the link-freq is
+  provided via get_mbus_config().
+- Dropped dependencies to Niklas' old series which doesn't apply
+  cleanly. It's needed for multi-stream, but not for the current
+  upstream which only has a single stream use case.
+- Link to v1: https://lore.kernel.org/r/20250219-rcar-streams-v1-0-f1b93e370aab@ideasonboard.com
+
+---
+Tomi Valkeinen (15):
+      media: rcar-isp: Improve ISPPROCMODE_DT_PROC_MODE_VC
+      media: rcar-csi2: Improve FLD_FLD_EN macros
+      media: rcar-csi2: Move rcsi2_calc_mbps()
+      media: rcar-csi2: Simplify rcsi2_calc_mbps()
+      media: rcar-csi2: Optimize rcsi2_calc_mbps()
+      media: rcar-vin: Link VINs on Gen3 to a single channel on each CSI-2
+      media: rcar-isp: Move {enable|disable}_streams() calls
+      media: rcar-csi2: Move {enable|disable}_streams() calls
+      media: rcar-csi2: Switch to Streams API
+      media: rcar-isp: Switch to Streams API
+      media: rcar-csi2: Add .get_frame_desc op
+      media: rcar-isp: Call get_frame_desc to find out VC & DT
+      media: rcar-csi2: Call get_frame_desc to find out VC & DT (Gen3)
+      media: rcar-csi2: Add full streams support
+      media: rcar-isp: Add full streams support
+
+ drivers/media/platform/renesas/rcar-csi2.c         | 437 +++++++++++++++------
+ drivers/media/platform/renesas/rcar-isp/csisp.c    | 232 ++++++++---
+ .../media/platform/renesas/rcar-vin/rcar-core.c    |  27 +-
+ 3 files changed, 509 insertions(+), 187 deletions(-)
+---
+base-commit: f7b88edb52c8dd01b7e576390d658ae6eef0e134
+change-id: 20250219-rcar-streams-1fdea8860e5e
+prerequisite-change-id: 20250218-frame-desc-passthrough-66805e413974:v4
+prerequisite-patch-id: bce4a915a29a64f88ed1bb600c08df37d2ba20c6
+prerequisite-patch-id: 69b75e7dad9ced905cb39a72f18bebbf3e8f998a
+prerequisite-patch-id: 58463f6944c76acd6cf203b14a2836cdb0db2461
+
+Best regards,
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
