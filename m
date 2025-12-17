@@ -1,168 +1,295 @@
-Return-Path: <linux-renesas-soc+bounces-25835-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25836-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48E9BCC6867
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Dec 2025 09:20:46 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AFFECC6DDD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Dec 2025 10:46:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 27A753004789
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Dec 2025 08:20:45 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C55D930CAC93
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Dec 2025 09:41:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4433433B6D2;
-	Wed, 17 Dec 2025 08:16:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6A9E33BBA8;
+	Wed, 17 Dec 2025 09:41:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Ayn6HVBx"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="fov1zlhX"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0C71336ED5;
-	Wed, 17 Dec 2025 08:16:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7422336EF4
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Dec 2025 09:41:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765959378; cv=none; b=OorGGpwNXFnIJjfqGP0/dx8AvLA1+jom4DHOn4myJfZRPE5feeMmBgbRe73ZbixzAAiMWEDtaDMTHMQXTxbocOx4cnWlf3cRzq25bp9aGI+iwhaKBkeRI8b3Ud0BwJNJ8/BFEd4aliuROtposR4SIJ6kGMumbdmnC2x2ItljkCM=
+	t=1765964511; cv=none; b=aj5XxaBZyAtTADw6sReRGfl/mIrYXEe9C1rylEluRCFI1zayB8iomIxw0buEVmyXtIMft0nwTPYyU/XToYSzFiFXX8MINCDIMPwU+qpac3MDVHlqTPN+wN3i1DVqW1ocZxM9KzHhv7oYzcKQ9lIzvA2ciPegVG8TQ/ZhUCB4rwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765959378; c=relaxed/simple;
-	bh=K/OkgzUT7VmdZSGn5RyTgWoV59PXWiPM+6lt/Aikx4Q=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=lCm7g4+8ss/ARLYh2zWJSnOazLyYUd4BBJp4SHpDE2pxh4LUeBVW9SJDvLyYsNSH5C2Z768AZmSaR/5KyDr+n/aH/Ccco8ciljke4wJDWp+aEola1BXY+H5zEWsYOyXC5NSaQ8t+nHAYC0WCEmNkx5v5qCTzegLQmeZW47iQjJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Ayn6HVBx; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 44A334E41C50;
-	Wed, 17 Dec 2025 08:16:11 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id E824A6072F;
-	Wed, 17 Dec 2025 08:16:10 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9B75111950295;
-	Wed, 17 Dec 2025 09:15:50 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1765959364; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=ujozvAR/egQa+0OwQ9Aeym97mJvVMjkPUclMUt6mE28=;
-	b=Ayn6HVBxPDFZQPsofDALTubSwQYYhWe28r/JxNzT2jwfqVPYB7L1I838PbDqUA2VUIhOqj
-	T/p4Xd7+cEZfKoKVw2hurXHe5vkPMT19dkYgFzdXbeOY64a8mz9tBTIzqiLJh+GRQDwPsD
-	VjAj9SUjWDu+mnsDdX0xgZ/mlF+pzcRkZRkq2CszNx2kC9Ltjs6UjvGcm1OTBOr2Np/bLn
-	NV1CdrC5Y70iuSm3WZgQtjFIEPVbj0wIEJonCx4y0ASyFHkHSoAirTeo3ptVJUHuNJrcDq
-	2uOgFYfMi01DRPjYnMRS09aqCaxaU09vJzqAbOE6JqfuzC65rEyPdzG9DDpNlg==
+	s=arc-20240116; t=1765964511; c=relaxed/simple;
+	bh=WB1FIXZ+ZTDeazxvypntHYbSHS0KL2l6sKZxn9djhTI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iBDuovkwLflSC66TtRtHtFumsiTjNd7ODXG7W78o6o6eHHALZw0GC14sgu38eFfwkPHVajGOGsMLxEnLIgUJZOEH92lEJRq4+pDjBRewfx7ZdozkowHAHhvs7hhRp4OKAsS/fEjSwqIgmlYIRJBggYP4E7sfyp7Mra32+9oVgRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=fov1zlhX; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-4308d81fdf6so2010602f8f.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Dec 2025 01:41:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1765964505; x=1766569305; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lcxqYG6DoWTCtUBGDosjwKS+VJWtzCM2tGuWprBPGSs=;
+        b=fov1zlhXM6HCs9RgqT+9cbrPtptQKNmoi2JaVABRmPrPbBeSWpFYnW/YbHyLj1f+e1
+         EMsV450QJnTtuOoqJD4Ix/vBj9hhM5d8ApUzha2FqtDY8yFE2qRIGnabH7ZhVPn351Pt
+         ZN35P8OJ07lDSGH4XGV6ZAM+Ul7EU5Bcr7gyYfwOTXk9zgtqHFLVXTW5N9uzJtARi9es
+         DVj961dZlC9qnpQgQ3bcX101H3FdsoSDp6EKzzPydOsIOVAvH+mKTDyIRlsij2YDl2Sg
+         9dcRHTXfMU73zXsnQ/sQLizBNYKVmtqe/5pXwE60BAL9O+4weNl7NQS7X1ZeYKZXKgMS
+         Rodw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765964506; x=1766569306;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lcxqYG6DoWTCtUBGDosjwKS+VJWtzCM2tGuWprBPGSs=;
+        b=ShppcDpRfL7tiWFaMBn8GH+hwYFWizQy9uaetfTqV4T3QNDJqNXndVizHuURK2RDnv
+         PtpZcCYfIxwJf6Dp8AgvTxRHVPmacdZhTBdyuqZveC4QLgumYhhZB+ilxeUVV6aXxatQ
+         ae4amIBrD4bUXRrJMeb+vK/DJpn10tWqeI4oezD4bAG4qUpEF5AARybkdoxj2bjsSYSF
+         BShFsq0JfnUip0Gx1GhtQXUFwkMLyOV+dp2BVd/ppe0XyHkY5PpCzc326AJWPVtoUUKu
+         Ftn/0kvPc56uW3/2TfNP3LeHLe8F/lhIvqHxVfTl7vKXJOlNfLRLLds7EFjCSveLrv7R
+         FpRA==
+X-Gm-Message-State: AOJu0YyFr2/1wvRJZXcuRx+IoPPHUBiU0lNHGpZ1o/WmSjbZXY3i16i9
+	U/w6zgdTyTfA4HHZj7pHEJTnOQdstGm08vTac7FPCnriF+IFc642l9yBrINjKFzgEB4=
+X-Gm-Gg: AY/fxX5iaO9Hv32HvEk0C3Pe/UD5aJltJ/odDJ85ncJIqm5+Usfa4z1a7glDrVrZdkF
+	k+HRAv+4Kf9EX1GMkffkSfWcSw6HGSmT47yghlIjFCGdp9uyb17YIh15v36iklpcQWpVE2/52mU
+	IkcXdwbAeAqVHtn7rXsZQkL2EGLSsvFhl8h2C73ko+yu4SdyBXdDq85AIyLkj62mYCN/SewQrpt
+	dK6oNukydP9ZCQh7cnDk4ao5LNDYvHjOGMhHizExSQhrdSsgAyvf4K9UxwAG0X393xo5OSMkm3S
+	hjjvBIZEGVc94XhB3puRsue3Tfym5Xr4kPETAkvURImdKXAZRcbeErAwy8WJ+0nncacsNYl2znZ
+	6MOWDEbmL5RQQcsfkOFQXVjl6lFAGl1qr+a+is1kgh4BNJ4dyXKbXxGMokf0hlILWViYOROA5UF
+	qw2Tzi60RC5BGeONngWxXN01uQPw30oA==
+X-Google-Smtp-Source: AGHT+IF42TMTZgmmYQk4G4FzEmAK1kBBZ8FqBRaaQX5i9kN2bMEeNbgZxuBI29NZ+Nw7ntqssvwEoA==
+X-Received: by 2002:a05:6000:18a6:b0:430:fd84:3179 with SMTP id ffacd0b85a97d-430fd8434b3mr9106013f8f.33.1765964505423;
+        Wed, 17 Dec 2025 01:41:45 -0800 (PST)
+Received: from [192.168.50.4] ([82.78.167.134])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4310ade7c4asm3757054f8f.28.2025.12.17.01.41.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Dec 2025 01:41:44 -0800 (PST)
+Message-ID: <74a801d3-8653-404f-8531-cb99108eac33@tuxon.dev>
+Date: Wed, 17 Dec 2025 11:41:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] i2c: riic: Move suspend handling to NOIRQ phase
+To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
+ tomm.merciai@gmail.com
+Cc: linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com,
+ Chris Brandt <chris.brandt@renesas.com>, Andi Shyti <andi.shyti@kernel.org>,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+ linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <05a31af3d6caba51e8237a49853281aa49bed916.1765540678.git.tommaso.merciai.xr@bp.renesas.com>
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Content-Language: en-US
+In-Reply-To: <05a31af3d6caba51e8237a49853281aa49bed916.1765540678.git.tommaso.merciai.xr@bp.renesas.com>
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 17 Dec 2025 09:15:48 +0100
-Message-Id: <DF0CCD6EW5DR.3CYNK65T1GSAO@bootlin.com>
-Subject: Re: [PATCH v2 17/26] drm/meson: encoder_*: use
- devm_of_drm_get_bridge() to put the next bridge
-Cc: "Andrzej Hajda" <andrzej.hajda@intel.com>, "Neil Armstrong"
- <neil.armstrong@linaro.org>, "Robert Foss" <rfoss@kernel.org>, "Laurent
- Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
- <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
- Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Jonathan
- Corbet" <corbet@lwn.net>, "Alexey Brodkin" <abrodkin@synopsys.com>, "Phong
- LE" <ple@baylibre.com>, "Liu Ying" <victor.liu@nxp.com>, "Shawn Guo"
- <shawnguo@kernel.org>, "Sascha Hauer" <s.hauer@pengutronix.de>,
- "Pengutronix Kernel Team" <kernel@pengutronix.de>, "Fabio Estevam"
- <festevam@gmail.com>, "Adrien Grassein" <adrien.grassein@gmail.com>,
- "Laurent Pinchart" <laurent.pinchart+renesas@ideasonboard.com>, "Tomi
- Valkeinen" <tomi.valkeinen+renesas@ideasonboard.com>, "Kieran Bingham"
- <kieran.bingham+renesas@ideasonboard.com>, "Geert Uytterhoeven"
- <geert+renesas@glider.be>, "Magnus Damm" <magnus.damm@gmail.com>, "Kevin
- Hilman" <khilman@baylibre.com>, "Jerome Brunet" <jbrunet@baylibre.com>,
- "Chun-Kuang Hu" <chunkuang.hu@kernel.org>, "Philipp Zabel"
- <p.zabel@pengutronix.de>, "Matthias Brugger" <matthias.bgg@gmail.com>,
- "AngeloGioacchino Del Regno" <angelogioacchino.delregno@collabora.com>,
- "Anitha Chrisanthus" <anitha.chrisanthus@intel.com>, "Inki Dae"
- <inki.dae@samsung.com>, "Seung-Woo Kim" <sw0312.kim@samsung.com>, "Kyungmin
- Park" <kyungmin.park@samsung.com>, "Krzysztof Kozlowski" <krzk@kernel.org>,
- "Alim Akhtar" <alim.akhtar@samsung.com>, "Hui Pu"
- <Hui.Pu@gehealthcare.com>, "Thomas Petazzoni"
- <thomas.petazzoni@bootlin.com>, "Louis Chauvet"
- <louis.chauvet@bootlin.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <imx@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
- <linux-renesas-soc@vger.kernel.org>, <linux-amlogic@lists.infradead.org>,
- <linux-mediatek@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>
-To: "Martin Blumenstingl" <martin.blumenstingl@googlemail.com>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-X-Mailer: aerc 0.20.1
-References: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-0-88f8a107eca2@bootlin.com> <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-17-88f8a107eca2@bootlin.com> <CAFBinCCQjeUu7pgfwViH6b0-M6S_sKgfvz9VAP1hpqLRj=bL_g@mail.gmail.com> <DEZNGU4VJFK8.Y1LKWVTD7O8K@bootlin.com> <CAFBinCBaXRNBHpY2uYy4FxyAOnRA4NxJtHbraG0=j_U6Dzz2=A@mail.gmail.com>
-In-Reply-To: <CAFBinCBaXRNBHpY2uYy4FxyAOnRA4NxJtHbraG0=j_U6Dzz2=A@mail.gmail.com>
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 7bit
 
-Hello Martin,
+Hi, Tommaso,
 
-On Wed Dec 17, 2025 at 1:01 AM CET, Martin Blumenstingl wrote:
-> Hi Luca,
->
-> On Tue, Dec 16, 2025 at 1:46=E2=80=AFPM Luca Ceresoli <luca.ceresoli@boot=
-lin.com> wrote:
-> [...]
->> > What I'm not sure about is how this series interacts with
->> > devm_drm_of_get_bridge() which is why I'm asking before cooking a
->> > patch.
->>
->> Apologies for the long delay in getting back to you. You might have noti=
-ced
->> some discussion about the overall approach, and I waited for it to settl=
-e.
-> That hasn't gone unnoticed!
->
->> About devm_drm_of_get_bridge(), it is a very different function so it do=
-es
->> not affect this series. The name similarity is confusing indeed, but
->> devm_of_drm_get_bridge() has been removed from my approach, so one less
->> source of confusion.
-> I have to confess that I'm still confused. drivers/gpu/drm/drm_bridge.c s=
-tates:
-> "Display drivers are responsible for linking encoders with the first brid=
-ge
->  in the chains. This is done by acquiring the appropriate bridge with
->  devm_drm_of_get_bridge(). Once acquired, the bridge shall be attached to=
- the
->  encoder with a call to drm_bridge_attach().
->
->  Bridges are responsible for linking themselves with the next bridge in t=
-he
->  chain, if any. This is done the same way as for encoders, with the call =
-to
->  drm_bridge_attach() occurring in the &drm_bridge_funcs.attach operation.=
-"
-> Does this mean your series effectively deprecates devm_drm_of_get_bridge(=
-)?
+On 12/12/25 13:58, Tommaso Merciai wrote:
+> Commit 53326135d0e0 ("i2c: riic: Add suspend/resume support") added
+> suspend support for the Renesas I2C driver and following this change
+> on RZ/G3E the following WARNING is seen on entering suspend ...
+> 
+> [  134.275704] Freezing remaining freezable tasks completed (elapsed 0.001 seconds)
+> [  134.285536] ------------[ cut here ]------------
+> [  134.290298] i2c i2c-2: Transfer while suspended
+> [  134.295174] WARNING: drivers/i2c/i2c-core.h:56 at __i2c_smbus_xfer+0x1e4/0x214, CPU#0: systemd-sleep/388
+> [  134.365507] Tainted: [W]=WARN
+> [  134.368485] Hardware name: Renesas SMARC EVK version 2 based on r9a09g047e57 (DT)
+> [  134.375961] pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> [  134.382935] pc : __i2c_smbus_xfer+0x1e4/0x214
+> [  134.387329] lr : __i2c_smbus_xfer+0x1e4/0x214
+> [  134.391717] sp : ffff800083f23860
+> [  134.395040] x29: ffff800083f23860 x28: 0000000000000000 x27: ffff800082ed5d60
+> [  134.402226] x26: 0000001f4395fd74 x25: 0000000000000007 x24: 0000000000000001
+> [  134.409408] x23: 0000000000000000 x22: 000000000000006f x21: ffff800083f23936
+> [  134.416589] x20: ffff0000c090e140 x19: ffff0000c090e0d0 x18: 0000000000000006
+> [  134.423771] x17: 6f63657320313030 x16: 2e30206465737061 x15: ffff800083f23280
+> [  134.430953] x14: 0000000000000000 x13: ffff800082b16ce8 x12: 0000000000000f09
+> [  134.438134] x11: 0000000000000503 x10: ffff800082b6ece8 x9 : ffff800082b16ce8
+> [  134.445315] x8 : 00000000ffffefff x7 : ffff800082b6ece8 x6 : 80000000fffff000
+> [  134.452495] x5 : 0000000000000504 x4 : 0000000000000000 x3 : 0000000000000000
+> [  134.459672] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff0000c9ee9e80
+> [  134.466851] Call trace:
+> [  134.469311]  __i2c_smbus_xfer+0x1e4/0x214 (P)
+> [  134.473715]  i2c_smbus_xfer+0xbc/0x120
+> [  134.477507]  i2c_smbus_read_byte_data+0x4c/0x84
+> [  134.482077]  isl1208_i2c_read_time+0x44/0x178 [rtc_isl1208]
+> [  134.487703]  isl1208_rtc_read_time+0x14/0x20 [rtc_isl1208]
+> [  134.493226]  __rtc_read_time+0x44/0x88
+> [  134.497012]  rtc_read_time+0x3c/0x68
+> [  134.500622]  rtc_suspend+0x9c/0x170
+> 
+> The warning is triggered because I2C transfers can still be attempted
+> while the controller is already suspended, due to inappropriate ordering
+> of the system sleep callbacks.
+> 
+> Fix this by moving the system sleep suspend/resume callbacks to the NOIRQ
+> phase, ensuring the adapter is fully quiesced after late suspend and
+> properly resumed before the early resume phase.
+> 
+> To support NOIRQ resume, the hardware initialization path must not invoke
+> runtime PM APIs. Split the init code so that the low-level hardware setup
+> can be executed without pm_runtime_get/put(). This avoids violating the
+> constraint introduced by commit 1e2ef05bb8cf ("PM: Limit race conditions
+> between runtime PM and system sleep (v2)"), which forbids runtime PM
+> calls during early resume.
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: 53326135d0e0 ("i2c: riic: Add suspend/resume support")
+> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> ---
+>  drivers/i2c/busses/i2c-riic.c | 65 ++++++++++++++++++++++-------------
+>  1 file changed, 41 insertions(+), 24 deletions(-)
+> 
+> diff --git a/drivers/i2c/busses/i2c-riic.c b/drivers/i2c/busses/i2c-riic.c
+> index 3e8f126cb7f7..9acc8936cdf7 100644
+> --- a/drivers/i2c/busses/i2c-riic.c
+> +++ b/drivers/i2c/busses/i2c-riic.c
+> @@ -349,9 +349,8 @@ static const struct i2c_algorithm riic_algo = {
+>  	.functionality = riic_func,
+>  };
+>  
+> -static int riic_init_hw(struct riic_dev *riic)
+> +static int __riic_init_hw(struct riic_dev *riic)
+>  {
+> -	int ret;
+>  	unsigned long rate;
+>  	unsigned long ns_per_tick;
+>  	int total_ticks, cks, brl, brh;
+> @@ -431,10 +430,6 @@ static int riic_init_hw(struct riic_dev *riic)
+>  		 rate / total_ticks, ((brl + 3) * 100) / (brl + brh + 6),
+>  		 t->scl_fall_ns / ns_per_tick, t->scl_rise_ns / ns_per_tick, cks, brl, brh);
+>  
+> -	ret = pm_runtime_resume_and_get(dev);
+> -	if (ret)
+> -		return ret;
+> -
+>  	/* Changing the order of accessing IICRST and ICE may break things! */
+>  	riic_writeb(riic, ICCR1_IICRST | ICCR1_SOWP, RIIC_ICCR1);
+>  	riic_clear_set_bit(riic, 0, ICCR1_ICE, RIIC_ICCR1);
+> @@ -451,10 +446,25 @@ static int riic_init_hw(struct riic_dev *riic)
+>  
+>  	riic_clear_set_bit(riic, ICCR1_IICRST, 0, RIIC_ICCR1);
+>  
+> -	pm_runtime_put_autosuspend(dev);
+>  	return 0;
+>  }
+>  
+> +static int riic_init_hw(struct riic_dev *riic)
+> +{
+> +	struct device *dev = riic->adapter.dev.parent;
+> +	int ret;
+> +
+> +	ret = pm_runtime_resume_and_get(dev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = __riic_init_hw(riic);
+> +
+> +	pm_runtime_put_autosuspend(dev);
+> +
+> +	return ret;
+> +}
+> +
+>  static int riic_get_scl(struct i2c_adapter *adap)
+>  {
+>  	struct riic_dev *riic = i2c_get_adapdata(adap);
+> @@ -572,6 +582,8 @@ static int riic_i2c_probe(struct platform_device *pdev)
+>  
+>  	i2c_parse_fw_timings(dev, &riic->i2c_t, true);
+>  
+> +	platform_set_drvdata(pdev, riic);
+> +
+>  	/* Default 0 to save power. Can be overridden via sysfs for lower latency. */
+>  	pm_runtime_set_autosuspend_delay(dev, 0);
+>  	pm_runtime_use_autosuspend(dev);
+> @@ -585,8 +597,6 @@ static int riic_i2c_probe(struct platform_device *pdev)
+>  	if (ret)
+>  		goto out;
+>  
+> -	platform_set_drvdata(pdev, riic);
+> -
+>  	dev_info(dev, "registered with %dHz bus speed\n", riic->i2c_t.bus_freq_hz);
+>  	return 0;
+>  
+> @@ -668,27 +678,17 @@ static const struct riic_of_data riic_rz_t2h_info = {
+>  	.num_irqs = ARRAY_SIZE(riic_rzt2h_irqs),
+>  };
+>  
+> -static int riic_i2c_suspend(struct device *dev)
+> +static int riic_i2c_runtime_suspend(struct device *dev)
+>  {
+>  	struct riic_dev *riic = dev_get_drvdata(dev);
+> -	int ret;
+> -
+> -	ret = pm_runtime_resume_and_get(dev);
+> -	if (ret)
+> -		return ret;
+> -
+> -	i2c_mark_adapter_suspended(&riic->adapter);
+>  
+>  	/* Disable output on SDA, SCL pins. */
+>  	riic_clear_set_bit(riic, ICCR1_ICE, 0, RIIC_ICCR1);
+>  
+> -	pm_runtime_mark_last_busy(dev);
+> -	pm_runtime_put_sync(dev);
+> -
+>  	return reset_control_assert(riic->rstc);
 
-Well spotted! I theory yes, my series kind of implicitly deprecates other
-functions based on it, including drm_of_find_panel_or_bridge() and
-*_of_get_bridge(), which are problematic in case of bridge removal. But
-before explicitly deprecating them we need a good alternative. Which in
-turn depends on the rework of the panel_bridge lifetime, which was also
-discussed with Maxime in the same thread.
+Reset assert/de-assert was moved to the RPM callbacks. Is this intended?
+You may want to at least mention it in the commit description.
 
-Bottom line: for now *_of_get_bridge() usage is still OK, but stay
-tuned. :-)
+>  }
+>  
+> -static int riic_i2c_resume(struct device *dev)
+> +static int riic_i2c_runtime_resume(struct device *dev)
+>  {
+>  	struct riic_dev *riic = dev_get_drvdata(dev);
+>  	int ret;
+> @@ -697,7 +697,7 @@ static int riic_i2c_resume(struct device *dev)
+>  	if (ret)
+>  		return ret;
+>  
+> -	ret = riic_init_hw(riic);
+> +	ret = __riic_init_hw(riic);
 
->> I'm soon sending v3, and I have updated my patch to
->> eson_encoder_{cvbs,dsi,hdmi}.c, actually splitting it in 3. I'd be grate=
-ful
->> if you could reviewd and/ot test them when I send v3. But I don't think
->> there is a need for you to send any patches related to this topic.
-> Regardless of the questions I still have around
-> devm_drm_of_get_bridge(): I'll give your patches a go in the next
-> days.
+Moving reset assert/de-assert and controller deinit/re-initialization on
+runtime suspend/resume may increase the runtime suspend/resume latency. In
+case of consecutive requests this may translate into controller performance
+downgrade. If you keep it like this, you may want to increase the default
+autosuspend delay, at least, to avoid controller reconfiguration after each
+individual struct i2c_algorithm::xfer() call.
 
-Thank you, v3 is there awaiting you!
+>  	if (ret) {
+>  		/*
+>  		 * In case this happens there is no way to recover from this
+> @@ -708,13 +708,30 @@ static int riic_i2c_resume(struct device *dev)
+>  		return ret;
 
-Best regards,
-Luca
+This one could be dropped
 
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+>  	}
+>  
+> +	return 0;
+
+And use here directly, like:
+
+	return ret;
+
+Thank you,
+Claudiu
 
