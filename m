@@ -1,136 +1,176 @@
-Return-Path: <linux-renesas-soc+bounces-25833-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25834-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B565CC590C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Dec 2025 01:12:28 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2450CC6824
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Dec 2025 09:16:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 728EE306DC89
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Dec 2025 00:10:41 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D5F893051324
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Dec 2025 08:15:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2FDC143C61;
-	Wed, 17 Dec 2025 00:10:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bfg44EYP"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE6D4349B15;
+	Wed, 17 Dec 2025 08:15:23 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f66.google.com (mail-ua1-f66.google.com [209.85.222.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 834EE1CAB3;
-	Wed, 17 Dec 2025 00:10:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67590204F8B
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Dec 2025 08:15:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765930231; cv=none; b=UpG1CG1/hRuDu4btXwaEbCcYRxDORXBGuX6Be+24YNaY7+SNkvh3lTk9pSk5gnwKByk+LswKp9n6WojE92xhCm5TFg8AW1lXJb1OPTQefN1c0i8h4YExqu8GvUx6at+iDoqgexF6yya/0dVkAoyo/ZTHuBF+/T0h0v7PKrfDYcU=
+	t=1765959323; cv=none; b=Dfxwl1AcaB9t6Yj1T+1wxcsSFtjyqD0vcYuggERyQvJEK4gvfxzEdmMV8FLecD7KGxuSjv8Sf3bS1uR9cn+Jh7wpQhFPwYWGgJgMFI/4MtjFhXvGScjAOwBmIm9Nqt/fbTIsx/CXBP8Ue5mlKYlJsvEQp8QJnweXt/KO8J8CAeg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765930231; c=relaxed/simple;
-	bh=z5wVETfr8eg/QjTXImjVmFJT5T4NRB4FJcexh1oBrp0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H1yqXANLg3Km5tTMPXysbujAA6SArysOWoD0g7oeTJP2FaMKdL9QFGw9hCeXtRlPbiLw+yFzU6QCeTi37FsuzimlfBGz4UKINMeVx4I0B4MonInlOeLrdSFbuVMiONujkis5mzaUzU2ReNa6I+/1i03CCqN2AjQufW9jEz55ScI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bfg44EYP; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F38EC4CEF1;
-	Wed, 17 Dec 2025 00:10:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765930231;
-	bh=z5wVETfr8eg/QjTXImjVmFJT5T4NRB4FJcexh1oBrp0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bfg44EYPpxb3XZZRwALuJWH9OT8+2J/u3pCRxEn3126gJpPbCBcBETPHJntfiHC1n
-	 HFk4UWbDjB7U0K9HrY61jTuDa4mOsggX1z+WXhx2C8ApA+1g/LtNxL/ODBevrH7PLs
-	 t+7HKqEbkBobe8E2x9A/JkDC1m6oZQdJKH18kL9rqQWUU8ETu7n7mODyEFRzdeDsup
-	 0/kphTUEnvIntH8iAPl5eKKU4Y3fY5O1P2ems5ELLy2icSg0IYH8h3YDhGrB7Ri2vJ
-	 Xwyte1gdpNmg8SrR5X6MvlktdQeB399Ut/TvrzxWi7mD2E+mH3DTKKNFOtT0d1wk0C
-	 o7J0D7WEDAJ/A==
-Date: Wed, 17 Dec 2025 01:10:27 +0100
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org, 
-	biju.das.jz@bp.renesas.com, Chris Brandt <chris.brandt@renesas.com>, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org
-Subject: Re: [PATCH] i2c: riic: Move suspend handling to NOIRQ phase
-Message-ID: <hiriaxgujokllanjmdouw2ojstpxfpcpyo6dfzwnkq6qazl27r@zr2amt2tsuq2>
-References: <05a31af3d6caba51e8237a49853281aa49bed916.1765540678.git.tommaso.merciai.xr@bp.renesas.com>
+	s=arc-20240116; t=1765959323; c=relaxed/simple;
+	bh=XjGbtOPnxn5ziPdpc7g6S6MqyGKvLokVPCWE3c8w+yQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=M9R3xq9U0T3mfBta9mcgmViIqlg59KCWRsC7t17mztwot6LNiWzgQlXVBlc8nqh+Udzj7qrNW8igElw+1hxcIqcm41vK54rrBlXeM0vipZloZaQDaF3BarfjxPivGBXf5iPkSX7N6jdfq8JnVPyRm7iBwrUrXVEx7rRB94mnNoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f66.google.com with SMTP id a1e0cc1a2514c-93f5dd1046fso3413910241.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Dec 2025 00:15:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765959320; x=1766564120;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rym4p+SQ3MsVDrU2KotDsjjR/+PnxDtYr8m/dR/i6BU=;
+        b=dEnU7UXeFbxxIqddeKgjAAXMHXF94mMcarJ/9OdiWZu7iyKEAWiDmkmM6XTaoMpFvl
+         a4vC2h+tMzz+qS2QWfjQCYopPMBlynOhCl6rdtgNfxo4tKlno499QBFKdq+1/S+kIMy5
+         eYjOUKxiVUmv2BywKK5v0B3Q8hvEi4FWi2sd9rtMWYkLDc1gUIilQkQjHXmBmDCGU+XO
+         2gFQkDL3GF6DAJSrBcTFEmeN6v9Xd+iXxt7RR1ecoOinHC8Nu+gAV/GKdZgLWCHe+far
+         lwUUxSTYKDf+joOX/yOY4nVFSq+I26lOfj8740DhEoRfo2c501BbdTvAHfDcP551FsA7
+         2c2g==
+X-Forwarded-Encrypted: i=1; AJvYcCUYXvEyYMd9YZ3X7fJ1fUDPJ7IY2piQIMrKCj+zsJfFdP4+ml0aFKaiCYyluRI+3yyCCub0y9OmZYJIp7vwrl7p4Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxm4O6cX35lH1cFfiS6KQ6YKvJ5BV/JWfYyk6oyK8J9l4gCdF9K
+	u+uQGcRUkxICeHhlbGjuKC1nJekQ2Pj4kVK2pfepJ0euD/kCiEZEoS2vB4DP0jGkBL0=
+X-Gm-Gg: AY/fxX5nv2rdzSCoZ0/SjrJnsYEWqxDcACgjpvLibOfof6c0sEZ9FNSfFSKNOFtx0+r
+	imWopfWBn5iYrI717wJzrgjd5d1ftR+04xZsx2r+64GRB557jJNfUWreABVbGgCA5RbiprqJ0tX
+	gnNbQD4r1PhOi6fTNVLYx+Xc74DaxWND43V9C7Eljg87W5QXNZbwLsl0CraGYefvuL5cL528wLp
+	6rt2tI8hKSnc6878ausoXCUPl/fp+s1TXR8eWtBrngWk3ZWw6Zw7mOcz5kI2uBhvSl4bQMxyzcU
+	mpY7Bd7hPX6XkOO+9WrX38RCWny1Xf8lsy4VEUP46Ij1BI9ETdwb8AAhBcijj9IzX/rGMHly2xm
+	FFf8Ds6eUB+a19HYuSlAnB/FFejTd62xuDj8nu3XVqF14xyFTaKUzwfsnkvyxL/cte9NvavxjtB
+	KT2l19qQyI9AolUVYKbedk0qx/Slbfcn+tyxSSJnPLKxT0wByg
+X-Google-Smtp-Source: AGHT+IHb8Ge57buFxoT5H0BDBMHkkk40sUVkd9tvlPZkC1mOHXREB0o0gnJNpq/gjS0ji6Qy+IYWBw==
+X-Received: by 2002:a05:6102:549e:b0:5db:f34e:5fa1 with SMTP id ada2fe7eead31-5e8277e5e6bmr6527149137.33.1765959320156;
+        Wed, 17 Dec 2025 00:15:20 -0800 (PST)
+Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com. [209.85.222.54])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5e7db24c1dfsm8142351137.10.2025.12.17.00.15.18
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Dec 2025 00:15:19 -0800 (PST)
+Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-94121102a54so2953895241.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Dec 2025 00:15:18 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVSrN45f/UIjzymrl8DqnxbwMVrfeCKLcbJ5O6bAzJlqZUT02yPqdZHYnjW5ekB0h99UhrWGi9a+PPYnLiclsWiZw==@vger.kernel.org
+X-Received: by 2002:a05:6102:1611:b0:5e1:866c:4f7c with SMTP id
+ ada2fe7eead31-5e82781ea47mr5731108137.39.1765959318483; Wed, 17 Dec 2025
+ 00:15:18 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <05a31af3d6caba51e8237a49853281aa49bed916.1765540678.git.tommaso.merciai.xr@bp.renesas.com>
+References: <20251209162119.2038313-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20251210-mauve-cow-of-hurricane-0f969d-mkl@pengutronix.de>
+ <20251210-persuaded-rewire-8ac93b0cc039@spud> <20251211-wonderful-singing-eel-4e2293-mkl@pengutronix.de>
+In-Reply-To: <20251211-wonderful-singing-eel-4e2293-mkl@pengutronix.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 17 Dec 2025 09:15:07 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXW2iFQO3vTzMg_ydqZ5YC1EPqyNzkpLRfTAkLhmC+K5g@mail.gmail.com>
+X-Gm-Features: AQt7F2oD50PxDosHDFQJjqw3YErV6WFAJtpUaCLTAZeWlqwHnCeiK6ic6sDkf3A
+Message-ID: <CAMuHMdXW2iFQO3vTzMg_ydqZ5YC1EPqyNzkpLRfTAkLhmC+K5g@mail.gmail.com>
+Subject: Re: [PATCH v2] dt-bindings: phy: ti,tcan104x-can: Document TI TCAN1046
+To: Marc Kleine-Budde <mkl@pengutronix.de>
+Cc: Conor Dooley <conor@kernel.org>, Prabhakar <prabhakar.csengg@gmail.com>, 
+	Vincent Mailhol <mailhol@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Aswath Govindraju <a-govindraju@ti.com>, Frank Li <Frank.li@nxp.com>, linux-can@vger.kernel.org, 
+	linux-phy@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Tommaso,
+On Fri, 12 Dec 2025 at 12:22, Marc Kleine-Budde <mkl@pengutronix.de> wrote:
+> On 10.12.2025 18:21:34, Conor Dooley wrote:
+> > On Wed, Dec 10, 2025 at 08:52:58AM +0100, Marc Kleine-Budde wrote:
+> > > On 09.12.2025 16:21:19, Prabhakar wrote:
+> > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > >
+> > > > Document the TI TCAN1046 automotive CAN transceiver. The TCAN1046 is a
+> > > > dual high-speed CAN transceiver with sleep-mode support and no EN pin,
+> > > > mirroring the behaviour of the NXP TJA1048, which also provides dual
+> > > > channels and STB1/2 sleep-control lines.
+> > > >
+> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > ---
+> > > > TCAN 1046, https://www.ti.com/lit/ds/symlink/tcan1046v-q1.pdf?ts=1765297159307&ref_url=https%253A%252F%252Fwww.ti.com%252Fproduct%252FTCAN1046V-Q1
+> > > > NXP TJA1048, https://www.nxp.com/docs/en/data-sheet/TJA1048.pdf
+> > >
+> > > The polarity of the standby line of the chips is different.
+> > >
+> > > You must set the correct active high/low property for the GPIO, as the
+> > > driver uses logical levels.
+> > >
+> > > Reviewed-by: Marc Kleine-Budde <mkl@pengutronix.de>
+> >
+> > What you're saying seems to contradict the tag you've given, is a
+> > fallback really suitable if the standby polarity is not the same?
+>
+> The driver uses _logical_ levels to switch the GPIOs. For example to
+> power on the PHY, it disables the standby GPIO by setting the value to
+> "0".
+>
+> | static int can_transceiver_phy_power_on(struct phy *phy)
+> | {
+> [...]
+> |         gpiod_set_value_cansleep(can_transceiver_phy->standby_gpio, 0);
+> [...]
+> | }
+>
+> You have to use GPIO_ACTIVE_HIGH/GPIO_ACTIVE_LOW in the DT to configure
+> the actual level of the GPIO.
+>
+> If you connect the PHY's standby input directly to the SoC's GPIO....
+>
+> | TJA1048: HIGH = Normal mode, LOW = Standby mode
+> | TCAN1046: High = Standby mode, Low = Normal Mode
+>
+> ...for the TJA1048 you would use GPIO_ACTIVE_LOW, while for the
+> TCAN1046 you would use GPIO_ACTIVE_HIGH.
 
-On Fri, Dec 12, 2025 at 12:58:57PM +0100, Tommaso Merciai wrote:
-> Commit 53326135d0e0 ("i2c: riic: Add suspend/resume support") added
-> suspend support for the Renesas I2C driver and following this change
-> on RZ/G3E the following WARNING is seen on entering suspend ...
-> 
-> [  134.275704] Freezing remaining freezable tasks completed (elapsed 0.001 seconds)
-> [  134.285536] ------------[ cut here ]------------
-> [  134.290298] i2c i2c-2: Transfer while suspended
-> [  134.295174] WARNING: drivers/i2c/i2c-core.h:56 at __i2c_smbus_xfer+0x1e4/0x214, CPU#0: systemd-sleep/388
-> [  134.365507] Tainted: [W]=WARN
-> [  134.368485] Hardware name: Renesas SMARC EVK version 2 based on r9a09g047e57 (DT)
-> [  134.375961] pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> [  134.382935] pc : __i2c_smbus_xfer+0x1e4/0x214
-> [  134.387329] lr : __i2c_smbus_xfer+0x1e4/0x214
-> [  134.391717] sp : ffff800083f23860
-> [  134.395040] x29: ffff800083f23860 x28: 0000000000000000 x27: ffff800082ed5d60
-> [  134.402226] x26: 0000001f4395fd74 x25: 0000000000000007 x24: 0000000000000001
-> [  134.409408] x23: 0000000000000000 x22: 000000000000006f x21: ffff800083f23936
-> [  134.416589] x20: ffff0000c090e140 x19: ffff0000c090e0d0 x18: 0000000000000006
-> [  134.423771] x17: 6f63657320313030 x16: 2e30206465737061 x15: ffff800083f23280
-> [  134.430953] x14: 0000000000000000 x13: ffff800082b16ce8 x12: 0000000000000f09
-> [  134.438134] x11: 0000000000000503 x10: ffff800082b6ece8 x9 : ffff800082b16ce8
-> [  134.445315] x8 : 00000000ffffefff x7 : ffff800082b6ece8 x6 : 80000000fffff000
-> [  134.452495] x5 : 0000000000000504 x4 : 0000000000000000 x3 : 0000000000000000
-> [  134.459672] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff0000c9ee9e80
-> [  134.466851] Call trace:
-> [  134.469311]  __i2c_smbus_xfer+0x1e4/0x214 (P)
-> [  134.473715]  i2c_smbus_xfer+0xbc/0x120
-> [  134.477507]  i2c_smbus_read_byte_data+0x4c/0x84
-> [  134.482077]  isl1208_i2c_read_time+0x44/0x178 [rtc_isl1208]
-> [  134.487703]  isl1208_rtc_read_time+0x14/0x20 [rtc_isl1208]
-> [  134.493226]  __rtc_read_time+0x44/0x88
-> [  134.497012]  rtc_read_time+0x3c/0x68
-> [  134.500622]  rtc_suspend+0x9c/0x170
-> 
-> The warning is triggered because I2C transfers can still be attempted
-> while the controller is already suspended, due to inappropriate ordering
-> of the system sleep callbacks.
-> 
-> Fix this by moving the system sleep suspend/resume callbacks to the NOIRQ
-> phase, ensuring the adapter is fully quiesced after late suspend and
-> properly resumed before the early resume phase.
-> 
-> To support NOIRQ resume, the hardware initialization path must not invoke
-> runtime PM APIs. Split the init code so that the low-level hardware setup
-> can be executed without pm_runtime_get/put(). This avoids violating the
-> constraint introduced by commit 1e2ef05bb8cf ("PM: Limit race conditions
-> between runtime PM and system sleep (v2)"), which forbids runtime PM
-> calls during early resume.
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: 53326135d0e0 ("i2c: riic: Add suspend/resume support")
-> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Exactly.  For most of these CAN transceivers, there are typically two
+almost identical parts (usually differing in the last digit of the part
+number), one with active-high standby, another with active-low standby.
+These differences can be handled perfectly fine using the GPIO_ACTIVE_*
+lags.
 
-can I have an ack from Chris here?
+Note that there can be other differences: the RZ/V2H board Prabhakar
+works on actually has TCAN1046V.  The "V" variant differs from TCAN1046
+(and TJA1048) in configuration of the two power supply pins:
+  - TCAN1046 has independent supplies for the two channels,
+  - TCAN1046V has separate logic and I/O supplies for the combined
+    channels.
+Since this difference can be handled through *-supply properties
+(when the need arises, and the driver gains regulator support),
+I don't think separate compatible values are needed for "V" variants.
 
-...
+BTW, how do I know? Because I had started working on adding support
+for TCAN1046V myself, but Prabhakar beat me to sending out patches ;-)
 
-> +static int riic_i2c_suspend(struct device *dev)
-> +{
-> +	struct riic_dev *riic = dev_get_drvdata(dev);
-> +
-> +	i2c_mark_adapter_suspended(&riic->adapter);
-> +
-> +	return pm_runtime_force_suspend(dev);
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-We should perhaps swap i2c_mark_adapter_suspended() and
-pm_runtime_force_suspend()?
+Gr{oetje,eeting}s,
 
-Andi
+                        Geert
 
-> +}
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
