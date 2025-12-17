@@ -1,176 +1,168 @@
-Return-Path: <linux-renesas-soc+bounces-25834-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25835-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2450CC6824
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Dec 2025 09:16:30 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48E9BCC6867
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Dec 2025 09:20:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D5F893051324
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Dec 2025 08:15:24 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 27A753004789
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Dec 2025 08:20:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE6D4349B15;
-	Wed, 17 Dec 2025 08:15:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4433433B6D2;
+	Wed, 17 Dec 2025 08:16:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Ayn6HVBx"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f66.google.com (mail-ua1-f66.google.com [209.85.222.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67590204F8B
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Dec 2025 08:15:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0C71336ED5;
+	Wed, 17 Dec 2025 08:16:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765959323; cv=none; b=Dfxwl1AcaB9t6Yj1T+1wxcsSFtjyqD0vcYuggERyQvJEK4gvfxzEdmMV8FLecD7KGxuSjv8Sf3bS1uR9cn+Jh7wpQhFPwYWGgJgMFI/4MtjFhXvGScjAOwBmIm9Nqt/fbTIsx/CXBP8Ue5mlKYlJsvEQp8QJnweXt/KO8J8CAeg=
+	t=1765959378; cv=none; b=OorGGpwNXFnIJjfqGP0/dx8AvLA1+jom4DHOn4myJfZRPE5feeMmBgbRe73ZbixzAAiMWEDtaDMTHMQXTxbocOx4cnWlf3cRzq25bp9aGI+iwhaKBkeRI8b3Ud0BwJNJ8/BFEd4aliuROtposR4SIJ6kGMumbdmnC2x2ItljkCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765959323; c=relaxed/simple;
-	bh=XjGbtOPnxn5ziPdpc7g6S6MqyGKvLokVPCWE3c8w+yQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=M9R3xq9U0T3mfBta9mcgmViIqlg59KCWRsC7t17mztwot6LNiWzgQlXVBlc8nqh+Udzj7qrNW8igElw+1hxcIqcm41vK54rrBlXeM0vipZloZaQDaF3BarfjxPivGBXf5iPkSX7N6jdfq8JnVPyRm7iBwrUrXVEx7rRB94mnNoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f66.google.com with SMTP id a1e0cc1a2514c-93f5dd1046fso3413910241.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Dec 2025 00:15:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765959320; x=1766564120;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rym4p+SQ3MsVDrU2KotDsjjR/+PnxDtYr8m/dR/i6BU=;
-        b=dEnU7UXeFbxxIqddeKgjAAXMHXF94mMcarJ/9OdiWZu7iyKEAWiDmkmM6XTaoMpFvl
-         a4vC2h+tMzz+qS2QWfjQCYopPMBlynOhCl6rdtgNfxo4tKlno499QBFKdq+1/S+kIMy5
-         eYjOUKxiVUmv2BywKK5v0B3Q8hvEi4FWi2sd9rtMWYkLDc1gUIilQkQjHXmBmDCGU+XO
-         2gFQkDL3GF6DAJSrBcTFEmeN6v9Xd+iXxt7RR1ecoOinHC8Nu+gAV/GKdZgLWCHe+far
-         lwUUxSTYKDf+joOX/yOY4nVFSq+I26lOfj8740DhEoRfo2c501BbdTvAHfDcP551FsA7
-         2c2g==
-X-Forwarded-Encrypted: i=1; AJvYcCUYXvEyYMd9YZ3X7fJ1fUDPJ7IY2piQIMrKCj+zsJfFdP4+ml0aFKaiCYyluRI+3yyCCub0y9OmZYJIp7vwrl7p4Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxm4O6cX35lH1cFfiS6KQ6YKvJ5BV/JWfYyk6oyK8J9l4gCdF9K
-	u+uQGcRUkxICeHhlbGjuKC1nJekQ2Pj4kVK2pfepJ0euD/kCiEZEoS2vB4DP0jGkBL0=
-X-Gm-Gg: AY/fxX5nv2rdzSCoZ0/SjrJnsYEWqxDcACgjpvLibOfof6c0sEZ9FNSfFSKNOFtx0+r
-	imWopfWBn5iYrI717wJzrgjd5d1ftR+04xZsx2r+64GRB557jJNfUWreABVbGgCA5RbiprqJ0tX
-	gnNbQD4r1PhOi6fTNVLYx+Xc74DaxWND43V9C7Eljg87W5QXNZbwLsl0CraGYefvuL5cL528wLp
-	6rt2tI8hKSnc6878ausoXCUPl/fp+s1TXR8eWtBrngWk3ZWw6Zw7mOcz5kI2uBhvSl4bQMxyzcU
-	mpY7Bd7hPX6XkOO+9WrX38RCWny1Xf8lsy4VEUP46Ij1BI9ETdwb8AAhBcijj9IzX/rGMHly2xm
-	FFf8Ds6eUB+a19HYuSlAnB/FFejTd62xuDj8nu3XVqF14xyFTaKUzwfsnkvyxL/cte9NvavxjtB
-	KT2l19qQyI9AolUVYKbedk0qx/Slbfcn+tyxSSJnPLKxT0wByg
-X-Google-Smtp-Source: AGHT+IHb8Ge57buFxoT5H0BDBMHkkk40sUVkd9tvlPZkC1mOHXREB0o0gnJNpq/gjS0ji6Qy+IYWBw==
-X-Received: by 2002:a05:6102:549e:b0:5db:f34e:5fa1 with SMTP id ada2fe7eead31-5e8277e5e6bmr6527149137.33.1765959320156;
-        Wed, 17 Dec 2025 00:15:20 -0800 (PST)
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com. [209.85.222.54])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5e7db24c1dfsm8142351137.10.2025.12.17.00.15.18
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Dec 2025 00:15:19 -0800 (PST)
-Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-94121102a54so2953895241.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Dec 2025 00:15:18 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVSrN45f/UIjzymrl8DqnxbwMVrfeCKLcbJ5O6bAzJlqZUT02yPqdZHYnjW5ekB0h99UhrWGi9a+PPYnLiclsWiZw==@vger.kernel.org
-X-Received: by 2002:a05:6102:1611:b0:5e1:866c:4f7c with SMTP id
- ada2fe7eead31-5e82781ea47mr5731108137.39.1765959318483; Wed, 17 Dec 2025
- 00:15:18 -0800 (PST)
+	s=arc-20240116; t=1765959378; c=relaxed/simple;
+	bh=K/OkgzUT7VmdZSGn5RyTgWoV59PXWiPM+6lt/Aikx4Q=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=lCm7g4+8ss/ARLYh2zWJSnOazLyYUd4BBJp4SHpDE2pxh4LUeBVW9SJDvLyYsNSH5C2Z768AZmSaR/5KyDr+n/aH/Ccco8ciljke4wJDWp+aEola1BXY+H5zEWsYOyXC5NSaQ8t+nHAYC0WCEmNkx5v5qCTzegLQmeZW47iQjJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Ayn6HVBx; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 44A334E41C50;
+	Wed, 17 Dec 2025 08:16:11 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id E824A6072F;
+	Wed, 17 Dec 2025 08:16:10 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9B75111950295;
+	Wed, 17 Dec 2025 09:15:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1765959364; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=ujozvAR/egQa+0OwQ9Aeym97mJvVMjkPUclMUt6mE28=;
+	b=Ayn6HVBxPDFZQPsofDALTubSwQYYhWe28r/JxNzT2jwfqVPYB7L1I838PbDqUA2VUIhOqj
+	T/p4Xd7+cEZfKoKVw2hurXHe5vkPMT19dkYgFzdXbeOY64a8mz9tBTIzqiLJh+GRQDwPsD
+	VjAj9SUjWDu+mnsDdX0xgZ/mlF+pzcRkZRkq2CszNx2kC9Ltjs6UjvGcm1OTBOr2Np/bLn
+	NV1CdrC5Y70iuSm3WZgQtjFIEPVbj0wIEJonCx4y0ASyFHkHSoAirTeo3ptVJUHuNJrcDq
+	2uOgFYfMi01DRPjYnMRS09aqCaxaU09vJzqAbOE6JqfuzC65rEyPdzG9DDpNlg==
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20251209162119.2038313-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20251210-mauve-cow-of-hurricane-0f969d-mkl@pengutronix.de>
- <20251210-persuaded-rewire-8ac93b0cc039@spud> <20251211-wonderful-singing-eel-4e2293-mkl@pengutronix.de>
-In-Reply-To: <20251211-wonderful-singing-eel-4e2293-mkl@pengutronix.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 17 Dec 2025 09:15:07 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXW2iFQO3vTzMg_ydqZ5YC1EPqyNzkpLRfTAkLhmC+K5g@mail.gmail.com>
-X-Gm-Features: AQt7F2oD50PxDosHDFQJjqw3YErV6WFAJtpUaCLTAZeWlqwHnCeiK6ic6sDkf3A
-Message-ID: <CAMuHMdXW2iFQO3vTzMg_ydqZ5YC1EPqyNzkpLRfTAkLhmC+K5g@mail.gmail.com>
-Subject: Re: [PATCH v2] dt-bindings: phy: ti,tcan104x-can: Document TI TCAN1046
-To: Marc Kleine-Budde <mkl@pengutronix.de>
-Cc: Conor Dooley <conor@kernel.org>, Prabhakar <prabhakar.csengg@gmail.com>, 
-	Vincent Mailhol <mailhol@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Aswath Govindraju <a-govindraju@ti.com>, Frank Li <Frank.li@nxp.com>, linux-can@vger.kernel.org, 
-	linux-phy@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 17 Dec 2025 09:15:48 +0100
+Message-Id: <DF0CCD6EW5DR.3CYNK65T1GSAO@bootlin.com>
+Subject: Re: [PATCH v2 17/26] drm/meson: encoder_*: use
+ devm_of_drm_get_bridge() to put the next bridge
+Cc: "Andrzej Hajda" <andrzej.hajda@intel.com>, "Neil Armstrong"
+ <neil.armstrong@linaro.org>, "Robert Foss" <rfoss@kernel.org>, "Laurent
+ Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
+ <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
+ <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
+ Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Jonathan
+ Corbet" <corbet@lwn.net>, "Alexey Brodkin" <abrodkin@synopsys.com>, "Phong
+ LE" <ple@baylibre.com>, "Liu Ying" <victor.liu@nxp.com>, "Shawn Guo"
+ <shawnguo@kernel.org>, "Sascha Hauer" <s.hauer@pengutronix.de>,
+ "Pengutronix Kernel Team" <kernel@pengutronix.de>, "Fabio Estevam"
+ <festevam@gmail.com>, "Adrien Grassein" <adrien.grassein@gmail.com>,
+ "Laurent Pinchart" <laurent.pinchart+renesas@ideasonboard.com>, "Tomi
+ Valkeinen" <tomi.valkeinen+renesas@ideasonboard.com>, "Kieran Bingham"
+ <kieran.bingham+renesas@ideasonboard.com>, "Geert Uytterhoeven"
+ <geert+renesas@glider.be>, "Magnus Damm" <magnus.damm@gmail.com>, "Kevin
+ Hilman" <khilman@baylibre.com>, "Jerome Brunet" <jbrunet@baylibre.com>,
+ "Chun-Kuang Hu" <chunkuang.hu@kernel.org>, "Philipp Zabel"
+ <p.zabel@pengutronix.de>, "Matthias Brugger" <matthias.bgg@gmail.com>,
+ "AngeloGioacchino Del Regno" <angelogioacchino.delregno@collabora.com>,
+ "Anitha Chrisanthus" <anitha.chrisanthus@intel.com>, "Inki Dae"
+ <inki.dae@samsung.com>, "Seung-Woo Kim" <sw0312.kim@samsung.com>, "Kyungmin
+ Park" <kyungmin.park@samsung.com>, "Krzysztof Kozlowski" <krzk@kernel.org>,
+ "Alim Akhtar" <alim.akhtar@samsung.com>, "Hui Pu"
+ <Hui.Pu@gehealthcare.com>, "Thomas Petazzoni"
+ <thomas.petazzoni@bootlin.com>, "Louis Chauvet"
+ <louis.chauvet@bootlin.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <imx@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-renesas-soc@vger.kernel.org>, <linux-amlogic@lists.infradead.org>,
+ <linux-mediatek@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>
+To: "Martin Blumenstingl" <martin.blumenstingl@googlemail.com>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+X-Mailer: aerc 0.20.1
+References: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-0-88f8a107eca2@bootlin.com> <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-17-88f8a107eca2@bootlin.com> <CAFBinCCQjeUu7pgfwViH6b0-M6S_sKgfvz9VAP1hpqLRj=bL_g@mail.gmail.com> <DEZNGU4VJFK8.Y1LKWVTD7O8K@bootlin.com> <CAFBinCBaXRNBHpY2uYy4FxyAOnRA4NxJtHbraG0=j_U6Dzz2=A@mail.gmail.com>
+In-Reply-To: <CAFBinCBaXRNBHpY2uYy4FxyAOnRA4NxJtHbraG0=j_U6Dzz2=A@mail.gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Fri, 12 Dec 2025 at 12:22, Marc Kleine-Budde <mkl@pengutronix.de> wrote:
-> On 10.12.2025 18:21:34, Conor Dooley wrote:
-> > On Wed, Dec 10, 2025 at 08:52:58AM +0100, Marc Kleine-Budde wrote:
-> > > On 09.12.2025 16:21:19, Prabhakar wrote:
-> > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > >
-> > > > Document the TI TCAN1046 automotive CAN transceiver. The TCAN1046 is a
-> > > > dual high-speed CAN transceiver with sleep-mode support and no EN pin,
-> > > > mirroring the behaviour of the NXP TJA1048, which also provides dual
-> > > > channels and STB1/2 sleep-control lines.
-> > > >
-> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > ---
-> > > > TCAN 1046, https://www.ti.com/lit/ds/symlink/tcan1046v-q1.pdf?ts=1765297159307&ref_url=https%253A%252F%252Fwww.ti.com%252Fproduct%252FTCAN1046V-Q1
-> > > > NXP TJA1048, https://www.nxp.com/docs/en/data-sheet/TJA1048.pdf
-> > >
-> > > The polarity of the standby line of the chips is different.
-> > >
-> > > You must set the correct active high/low property for the GPIO, as the
-> > > driver uses logical levels.
-> > >
-> > > Reviewed-by: Marc Kleine-Budde <mkl@pengutronix.de>
-> >
-> > What you're saying seems to contradict the tag you've given, is a
-> > fallback really suitable if the standby polarity is not the same?
+Hello Martin,
+
+On Wed Dec 17, 2025 at 1:01 AM CET, Martin Blumenstingl wrote:
+> Hi Luca,
 >
-> The driver uses _logical_ levels to switch the GPIOs. For example to
-> power on the PHY, it disables the standby GPIO by setting the value to
-> "0".
->
-> | static int can_transceiver_phy_power_on(struct phy *phy)
-> | {
+> On Tue, Dec 16, 2025 at 1:46=E2=80=AFPM Luca Ceresoli <luca.ceresoli@boot=
+lin.com> wrote:
 > [...]
-> |         gpiod_set_value_cansleep(can_transceiver_phy->standby_gpio, 0);
-> [...]
-> | }
+>> > What I'm not sure about is how this series interacts with
+>> > devm_drm_of_get_bridge() which is why I'm asking before cooking a
+>> > patch.
+>>
+>> Apologies for the long delay in getting back to you. You might have noti=
+ced
+>> some discussion about the overall approach, and I waited for it to settl=
+e.
+> That hasn't gone unnoticed!
 >
-> You have to use GPIO_ACTIVE_HIGH/GPIO_ACTIVE_LOW in the DT to configure
-> the actual level of the GPIO.
+>> About devm_drm_of_get_bridge(), it is a very different function so it do=
+es
+>> not affect this series. The name similarity is confusing indeed, but
+>> devm_of_drm_get_bridge() has been removed from my approach, so one less
+>> source of confusion.
+> I have to confess that I'm still confused. drivers/gpu/drm/drm_bridge.c s=
+tates:
+> "Display drivers are responsible for linking encoders with the first brid=
+ge
+>  in the chains. This is done by acquiring the appropriate bridge with
+>  devm_drm_of_get_bridge(). Once acquired, the bridge shall be attached to=
+ the
+>  encoder with a call to drm_bridge_attach().
 >
-> If you connect the PHY's standby input directly to the SoC's GPIO....
->
-> | TJA1048: HIGH = Normal mode, LOW = Standby mode
-> | TCAN1046: High = Standby mode, Low = Normal Mode
->
-> ...for the TJA1048 you would use GPIO_ACTIVE_LOW, while for the
-> TCAN1046 you would use GPIO_ACTIVE_HIGH.
+>  Bridges are responsible for linking themselves with the next bridge in t=
+he
+>  chain, if any. This is done the same way as for encoders, with the call =
+to
+>  drm_bridge_attach() occurring in the &drm_bridge_funcs.attach operation.=
+"
+> Does this mean your series effectively deprecates devm_drm_of_get_bridge(=
+)?
 
-Exactly.  For most of these CAN transceivers, there are typically two
-almost identical parts (usually differing in the last digit of the part
-number), one with active-high standby, another with active-low standby.
-These differences can be handled perfectly fine using the GPIO_ACTIVE_*
-lags.
+Well spotted! I theory yes, my series kind of implicitly deprecates other
+functions based on it, including drm_of_find_panel_or_bridge() and
+*_of_get_bridge(), which are problematic in case of bridge removal. But
+before explicitly deprecating them we need a good alternative. Which in
+turn depends on the rework of the panel_bridge lifetime, which was also
+discussed with Maxime in the same thread.
 
-Note that there can be other differences: the RZ/V2H board Prabhakar
-works on actually has TCAN1046V.  The "V" variant differs from TCAN1046
-(and TJA1048) in configuration of the two power supply pins:
-  - TCAN1046 has independent supplies for the two channels,
-  - TCAN1046V has separate logic and I/O supplies for the combined
-    channels.
-Since this difference can be handled through *-supply properties
-(when the need arises, and the driver gains regulator support),
-I don't think separate compatible values are needed for "V" variants.
+Bottom line: for now *_of_get_bridge() usage is still OK, but stay
+tuned. :-)
 
-BTW, how do I know? Because I had started working on adding support
-for TCAN1046V myself, but Prabhakar beat me to sending out patches ;-)
+>> I'm soon sending v3, and I have updated my patch to
+>> eson_encoder_{cvbs,dsi,hdmi}.c, actually splitting it in 3. I'd be grate=
+ful
+>> if you could reviewd and/ot test them when I send v3. But I don't think
+>> there is a need for you to send any patches related to this topic.
+> Regardless of the questions I still have around
+> devm_drm_of_get_bridge(): I'll give your patches a go in the next
+> days.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Thank you, v3 is there awaiting you!
 
-Gr{oetje,eeting}s,
+Best regards,
+Luca
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
