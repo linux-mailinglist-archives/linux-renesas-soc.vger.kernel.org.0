@@ -1,165 +1,255 @@
-Return-Path: <linux-renesas-soc+bounces-25839-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25840-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 713D8CC746B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Dec 2025 12:15:36 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 721DACC7E70
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Dec 2025 14:43:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 4426F301B399
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Dec 2025 11:15:32 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 0135A3035208
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Dec 2025 13:42:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EEE89346A0C;
-	Wed, 17 Dec 2025 11:15:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C515A34A779;
+	Wed, 17 Dec 2025 13:39:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="n3JLNqqS"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bvtATVvg"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A4E033F8A0
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Dec 2025 11:15:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76D3C7B3E1
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Dec 2025 13:39:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765970120; cv=none; b=nZqc6FMMgKKPTZBUss5AqgEzbSy5Oh9aW0Aim4+Y2GRWfjyloj5umbfo6rw1iiiQyXNa1EgjUENwt3Fbv9nm/gjI6N7d8eHCPARQ8P6MqTLF0osjiIwMcGI9a6HUhEpipb/uc47pjDBrbSX9BrrrpVyPSnWS99pLK9OXhjENwnQ=
+	t=1765978764; cv=none; b=d45scOdCvTcZjBaI14pc7vmIPYRKGIZKmdPns1V80j1ry4MaPBN+iQwxy2wxo2s/yz3kXKFzP9OIPsozVCNCZPCYICPrA3pS8FEbfGmXU44oJtC90SfxBn+i/xsw/tBwfLK7c1oTuBIsIIh0rpsLX8owdlu6K8+AcPu60a9nEe8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765970120; c=relaxed/simple;
-	bh=5Y4gPMP27s7n7uex8rzUJRSTf0es0tnb6FP6Q/Ep6Jo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fwfI3JMnDczps3EF6SNti6Hj0CjidnU45Fw3+IRTi7matEqbpm2Hkrru7ZXMMpRZBGQOJSjs5d0MdHbLH4H/gp6fd+/1Uw4GAPx2Ti1OXcH+iMEOJvia3QzIMz5BPtw7DG2CxOWBhjDTZPwzzyIgz2Emf4eGntyHCJJsjGuTQvw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=n3JLNqqS; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b79d6a70fc8so991430466b.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Dec 2025 03:15:17 -0800 (PST)
+	s=arc-20240116; t=1765978764; c=relaxed/simple;
+	bh=KDM8RdJKqX77XlrKz+5UWU+q4lTsJFU4kb4mBFZZggY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=D++yRf49Wmq9T4GgJOIqrmLAhcbK9vMocdgwB0EMKd4pAhXxZlRBDi/b/XKwFfFFmPGgD8O+ponxP1tr32Y9ynOPKYowCBXkLL/pCOFkGP9GfFY+9Qslz6v9FxL4VBg6Ggc8bLwtvuHaCkrIRIUhhVg5zKBUvPwTsf181FmA3Sc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bvtATVvg; arc=none smtp.client-ip=209.85.208.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-37b95f87d4eso43412791fa.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Dec 2025 05:39:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1765970116; x=1766574916; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=00dbsnXRQYzCZ5pFyuIk2+EAhQKdp0t5ldMAnwaQRhc=;
-        b=n3JLNqqSJ5puozmVrWhnOC/Z5rNt3FsMREzb/Y9ZGFy60YQpsTO+nybUy9lVinyKtp
-         6FbaoVctiff3+n15bvQek9yResIohz5bwVW3mJk7DzH6qiQFuNx5VAJpAeuMi4iINiPa
-         EaJBz2I788OdlJfsyrJazWVxXSIDhwQmv+G0+BXmQbDWDY3rjiE/tPM3/AGYhJFLGtZ0
-         UU+B3kq6X6eMNvY3UWcSIhN+XQo/RdEjgn4RpdR7Ki1X8afLo3qIe0STognWP2b/eE54
-         P0NtyGB654uzL38WnscllzERaqqENT8EVflJO5uhT+1szWaCYnuE3w0U5gMSHLhaxqMx
-         5F7g==
+        d=linaro.org; s=google; t=1765978761; x=1766583561; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=bnJOOseUNu5bo56mXUg+bkHSCvAL77RptqMYnGxiRP8=;
+        b=bvtATVvgQQUFTTN6CIbZXpjv/7ItgwJnWg4DyfKbxDN5jH9WtzcR4E1aM2patKl7SM
+         mAeCuXIk/5jTTjHK0JJR4MrDmLdtf3xVDwsqPLNuSh3NxDD/tSf5vN9RZ8yvHJkuQRN5
+         YTMscFdaVmBKNEpT/aC/UzmcHCMs8R6AvH02l7fwnuNK20EkSs0B9PCtiA/OdZpmm+CF
+         ynMFI196o2DguNsaXScxvOTpz0kywV5XgfxGdz5CFVYmNSFz5W3pW5HnWXCrMDSpsncJ
+         UlzPdphpUsHlIcuoWAc19k8vLCTel1RCQKapFFaqyO2UgYZUSbNa7DZGbNFLlrHqpav5
+         qtOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765970116; x=1766574916;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=00dbsnXRQYzCZ5pFyuIk2+EAhQKdp0t5ldMAnwaQRhc=;
-        b=kc6CnWW/vX60NqrVoJAx5cVH5QY0ZqmAeHPTw4y6OuhK9RoikizMe1c/SctjDt3Ado
-         /fOmMGCkWx8QprKuaHh+i7Bt0+n2mY0cWNolTDN25moBTPdQK9xfXWt9nRQdsnj7aE5q
-         +Y9rSjSpEoiEtRz+6ENvJ0NzC1X7B7kRuJ9sop3aLVRiznjCMtjw4OL6tTCmm0mU7YVD
-         8Pz+Rr7QX67sttvVqSeAtTVnv2i6xjxx9u2gOF7S2vwI1NQLHwTbGmey5wDea54tl4v+
-         JcXb/SztL60+oAIHq6jjfjYbaC9chOxozfmACUCw4b4OMQ50AOvuB/QRirkW9ZgeEwRe
-         ya9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVnb8MWP1MAQ8+rNiugdh9o9fCvjSklA15/iMzzPq4+lefSmOJWbz9V7OqrLOSwIGFDWcsAVfhbOCnpZdGTi/AeZg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwsPv/Kbue2Jcfb1F7u5/RlYDn2ZhS3+tqhcFN1Ey9qw4/1jAUg
-	l6LUHTQ5mtIp8xixoftw3VFD1fUQgNNqsqxzquxDhmYJRW2XTMLEOn4f/B4FxaN1TWo=
-X-Gm-Gg: AY/fxX5zy7QS132iYqUfneEDvds6BQGvdQCBC6AJCk4/ffof9KWiE8XRTqwQWMjcHQD
-	jkb9RkZy/jXTvsh8qAP5l9DhQYBYhwIEWPSlWQ2/om4YsJm0h2RqoEzK6ceGog2esac9F4yzMRG
-	5bPaoyJAOHSwSxgkVuDUu199juV3uBLf1Xb/6pEQ7XVzYuAB2pPApsg4ndY+KMrYKzkf6nvHYDO
-	jFvZHvFHwxH8m6uv321e6drNhswFHVfTZxf+W0ZoxnTexhuoPqgV3U1M8Ch0SeOgVAHy2eDqDf3
-	Z9AX7zNcpN5TFQNNNheg9gvVXFgk1o57A6H4L5AZexF+GPkRCD9Mq8C+5njCw0vmBpWABOwnHE3
-	mER8gr5ZbKjpTZSevqU4P6tX/MQ25WFYwBd9cGVmY+z81lUo4L8m9PD5QxNcyQsMWH8CKusfbjd
-	xhq23HTW2Pn8UkliVZW6kUL5RXJn7+dvBGay6vMs95
-X-Google-Smtp-Source: AGHT+IHwzhERrnuAvF/Lpiw/TJhnaVT5ourcEf1VWmOhh5lv6gcjnMP/YqOoOAUxckSeF3VPI0b24w==
-X-Received: by 2002:a17:907:94c6:b0:b76:5143:edea with SMTP id a640c23a62f3a-b7d238baa48mr1792946466b.30.1765970116315;
-        Wed, 17 Dec 2025 03:15:16 -0800 (PST)
-Received: from claudiu-X670E-Pro-RS.. ([82.78.167.134])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b7cfa2e817csm1933465066b.19.2025.12.17.03.15.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Dec 2025 03:15:15 -0800 (PST)
-From: Claudiu <claudiu.beznea@tuxon.dev>
-X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
-To: bhelgaas@google.com,
-	lpieralisi@kernel.org,
-	kwilczynski@kernel.org,
-	mani@kernel.org,
-	robh@kernel.org
-Cc: claudiu.beznea@tuxon.dev,
-	linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH v2 2/2] PCI: rzg3s-host: Drop the lock on RZG3S_PCI_MSIRS and RZG3S_PCI_PINTRCVIS
-Date: Wed, 17 Dec 2025 13:15:10 +0200
-Message-ID: <20251217111510.138848-3-claudiu.beznea.uj@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251217111510.138848-1-claudiu.beznea.uj@bp.renesas.com>
-References: <20251217111510.138848-1-claudiu.beznea.uj@bp.renesas.com>
+        d=1e100.net; s=20230601; t=1765978761; x=1766583561;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bnJOOseUNu5bo56mXUg+bkHSCvAL77RptqMYnGxiRP8=;
+        b=FvMKIPgtCAfpEljE3KsO7vFmlnOdtTtpkL+kcDv8YDkjXnNwOWS7dokQJmv3ukGu+1
+         GGerKClH7L6acJoCwheDPPFKXC9E5drv966B5SnUfPCdaVCi82FQ7jbJdggOr7ytEdJu
+         154VrsC/Yy+/hTUW7w1gyRwe/x0tRiTMHb9wL+AeOLFWVvzWCux/+5fptDeNDQiT2cMS
+         hw3E64AJK3aZ+twrA6NXV/kpgUTwyOND34sbWnoan/BG3K4ZlS6lv0cOgjgkWRDofUwT
+         Py55DPzOrp8BHzj8vHVsXu8jcLSwM/lA6JFAVumUfYheD+ei+Tlg3bLar4MEghdhg8AR
+         YR9g==
+X-Forwarded-Encrypted: i=1; AJvYcCWYuVW9x4qoXP+RYrGyaWazwQjnEhoCR3t5xHM/0OgQ0j89ehSeRKnpORzBMO8HrSWMCph5Jwa3COt8dRSVh9Ivgw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy9n9A1r3z2v5VWR/NSfkBIjVQx3gb2OHF0QR7eJbNP+/GDYf7t
+	umSZU262vCFiQPnxTBbpOf6w7/LF/kQ5bMcOcr6a16J98PtvWHpugBMRgIo4UbeOD11BHMCKOhM
+	WCS0OcB2HjxaYYp1DM5Aw+kJHSvcgJdhqPuOrM55WPA==
+X-Gm-Gg: AY/fxX4ILZNvvil8oZkZDvAhZW+jEuR25HQs9IyJMN/IN7nozziw7ecVekbbZfiWtuf
+	foxZ4imKtWzIv9b16RBBDIP9Ix+jR+dw2+iYEz4XPXKep7BexYmzD30v6xahPuNs/6HN/CH5DEU
+	uLt/w2k1MHzvCURpWq1bsCaOni4tYphD6MB54pC47SehrdZgOEJn6aL9fzEpdUDldIzSuIKYecf
+	zLgnmHS7twpvSOQwE+odh9iqVUf8Yk3Czv1gVq+oV6d79HqEZm4DhsC8O74E1dR+zhdJ3U=
+X-Google-Smtp-Source: AGHT+IE2DrQoKBO7Um5lmI2G8HeKrmSb1aJ3PKObeClJFdA7DTUpv5Z7rJEzp4iMrT0Jn0x5gpN5DVmp8SJGVUL+/c0=
+X-Received: by 2002:a2e:8f88:0:b0:37a:5990:2ba8 with SMTP id
+ 38308e7fff4ca-37fd0877fc9mr48143241fa.23.1765978760510; Wed, 17 Dec 2025
+ 05:39:20 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251210-rz-sdio-mux-v3-0-ca628db56d60@solid-run.com> <20251210-rz-sdio-mux-v3-2-ca628db56d60@solid-run.com>
+In-Reply-To: <20251210-rz-sdio-mux-v3-2-ca628db56d60@solid-run.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Wed, 17 Dec 2025 14:38:43 +0100
+X-Gm-Features: AQt7F2ritzE1FtCn3rFBAb957an6eyRlRiUWdpCCK7X4DKkbiNs7zTdDOI9qhxU
+Message-ID: <CAPDyKFoYd3WKGrjD3DEzZH8EfgZPmRkrqL=rdoKNuAADrvz3Eg@mail.gmail.com>
+Subject: Re: [PATCH v3 2/6] mux: Add helper functions for getting optional and
+ selected mux-state
+To: Josua Mayer <josua@solid-run.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Marc Kleine-Budde <mkl@pengutronix.de>, Vincent Mailhol <mailhol@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
+	Kishon Vijay Abraham I <kishon@kernel.org>, Peter Rosin <peda@axentia.se>, 
+	Aaro Koskinen <aaro.koskinen@iki.fi>, Andreas Kemnade <andreas@kemnade.info>, 
+	Kevin Hilman <khilman@baylibre.com>, Roger Quadros <rogerq@kernel.org>, 
+	Tony Lindgren <tony@atomide.com>, Vignesh R <vigneshr@ti.com>, 
+	Janusz Krzysztofik <jmkrzyszt@gmail.com>, Andi Shyti <andi.shyti@kernel.org>, 
+	Mikhail Anikin <mikhail.anikin@solid-run.com>, Yazan Shhady <yazan.shhady@solid-run.com>, 
+	Jon Nettleton <jon@solid-run.com>, linux-mmc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-can@vger.kernel.org, linux-phy@lists.infradead.org, 
+	linux-omap@vger.kernel.org, linux-i2c@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+On Wed, 10 Dec 2025 at 18:39, Josua Mayer <josua@solid-run.com> wrote:
+>
+> In-tree phy-can-transceiver driver has already implemented a local
+> version of devm_mux_state_get_optional.
+>
+> The omap-i2c driver gets and selects an optional mux in its probe
+> function without using any helper.
+>
+> Add new helper functions covering both aforementioned use-cases:
+>
+> - devm_mux_state_get_optional:
+>   Get a mux-state if specified in dt, return NULL otherwise.
+> - devm_mux_state_get_optional_selected:
+>   Get and select a mux-state if specified in dt, return error or NULL.
+>
+> Existing mux_get helper function is changed to return -ENOENT in case dt
+> did not specify a mux-state or -control matching given name (if valid).
+> This matches of_parse_phandle_with_args semantics which also returns
+> -ENOENT if the property does nto exists, or its value is zero.
+>
+> The new helper functions check for ENOENT to return NULL for optional
+> muxes.
+>
+> Commit e153fdea9db04 ("phy: can-transceiver: Re-instate "mux-states"
+> property presence check") noted that "mux_get() always prints an error
+> message in case of an error, including when the property is not present,
+> confusing the user."
+>
+> The first error message covers the case that a mux name is not matched
+> in dt. This is removed as the returned error code (-ENOENT) is clear.
+>
+> The second error message is based on of_parse_phandle_with_args return
+> value. In case mux description is missing from DT, it returns -ENOENT.
+> Print error message only for other error codes.
+>
+> This ensures that the new helper functions will not confuse the user
+> either.
+>
+> Signed-off-by: Josua Mayer <josua@solid-run.com>
+> ---
+>  drivers/mux/core.c           | 67 +++++++++++++++++++++++++++++++++++++++-----
+>  include/linux/mux/consumer.h |  4 +++
+>  2 files changed, 64 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/mux/core.c b/drivers/mux/core.c
+> index a3840fe0995fe..130ca47a8be37 100644
+> --- a/drivers/mux/core.c
+> +++ b/drivers/mux/core.c
+> @@ -542,11 +542,8 @@ static struct mux_control *mux_get(struct device *dev, const char *mux_name,
+>                 else
+>                         index = of_property_match_string(np, "mux-control-names",
+>                                                          mux_name);
+> -               if (index < 0) {
+> -                       dev_err(dev, "mux controller '%s' not found\n",
+> -                               mux_name);
+> -                       return ERR_PTR(index);
+> -               }
+> +               if (index < 0)
+> +                       return ERR_PTR(-ENOENT);
+>         }
+>
+>         if (state)
+> @@ -558,8 +555,10 @@ static struct mux_control *mux_get(struct device *dev, const char *mux_name,
+>                                                  "mux-controls", "#mux-control-cells",
+>                                                  index, &args);
+>         if (ret) {
+> -               dev_err(dev, "%pOF: failed to get mux-%s %s(%i)\n",
+> -                       np, state ? "state" : "control", mux_name ?: "", index);
+> +               if (ret != -ENOENT)
+> +                       dev_err(dev, "%pOF: failed to get mux-%s %s(%i)\n",
+> +                               np, state ? "state" : "control",
+> +                               mux_name ?: "", index);
+>                 return ERR_PTR(ret);
+>         }
+>
+> @@ -745,6 +744,60 @@ struct mux_state *devm_mux_state_get(struct device *dev,
+>  }
+>  EXPORT_SYMBOL_GPL(devm_mux_state_get);
+>
+> +/**
+> + * devm_mux_state_get_optional() - Get the optional mux-state for a device,
+> + *                                with resource management.
+> + * @dev: The device that needs a mux-state.
+> + * @mux_name: The name identifying the mux-state.
+> + *
+> + * Return: Pointer to the mux-state, or an ERR_PTR with a negative errno.
+> + */
+> +struct mux_state *devm_mux_state_get_optional(struct device *dev,
+> +                                             const char *mux_name)
+> +{
+> +       struct mux_state *mux_state = devm_mux_state_get(dev, mux_name);
+> +
+> +       if (IS_ERR(mux_state) && PTR_ERR(mux_state) == -ENOENT)
+> +               return NULL;
+> +
+> +       return mux_state;
+> +}
+> +EXPORT_SYMBOL_GPL(devm_mux_state_get_optional);
+> +
+> +/**
+> + * devm_mux_state_get_optional_selected() - Get the optional mux-state for
+> + *                                         a device, with resource management.
+> + * @dev: The device that needs a mux-state.
+> + * @mux_name: The name identifying the mux-state.
+> + *
+> + * Return: Pointer to the mux-state, or an ERR_PTR with a negative errno.
+> + *
+> + * The returned mux-state (if valid) is already selected.
+> + */
+> +struct mux_state *devm_mux_state_get_optional_selected(struct device *dev,
+> +                                                      const char *mux_name)
+> +{
+> +       struct mux_state *mux_state;
+> +       int ret;
+> +
+> +       mux_state = devm_mux_state_get_optional(dev, mux_name);
+> +       if (IS_ERR_OR_NULL(mux_state))
+> +               return mux_state;
+> +
+> +       ret = mux_state_select(mux_state);
+> +       if (ret) {
+> +               if (ret != -EPROBE_DEFER)
+> +                       dev_err(dev, "failed to select mux-state %s: %d\n",
+> +                               mux_name ?: "", ret);
+> +
+> +               mux_state_put(mux_state);
+> +               return ERR_PTR(ret);
+> +       }
+> +
+> +       return mux_state;
+> +}
+> +EXPORT_SYMBOL_GPL(devm_mux_state_get_optional_selected);
+> +
+>  /*
+>   * Using subsys_initcall instead of module_init here to try to ensure - for
+>   * the non-modular case - that the subsystem is initialized when mux consumers
+> diff --git a/include/linux/mux/consumer.h b/include/linux/mux/consumer.h
+> index 2e25c838f8312..a5da2e33a45c0 100644
+> --- a/include/linux/mux/consumer.h
+> +++ b/include/linux/mux/consumer.h
+> @@ -60,5 +60,9 @@ struct mux_control *devm_mux_control_get(struct device *dev,
+>                                          const char *mux_name);
+>  struct mux_state *devm_mux_state_get(struct device *dev,
+>                                      const char *mux_name);
+> +struct mux_state *devm_mux_state_get_optional(struct device *dev,
+> +                                             const char *mux_name);
+> +struct mux_state *devm_mux_state_get_optional_selected(struct device *dev,
+> +                                                      const char *mux_name);
 
-The RZG3S_PCI_MSIRS and RZG3S_PCI_PINTRCVIS registers are of the R/W1C
-type. According to the RZ/G3S HW Manual, Rev. 1.10, chapter 34.2.1
-Register Type, R/W1C register bits are cleared to 0b by writing 1b, while
-writing 0b has no effect. Therefore, there is no need to take a lock
-around writes to these registers.
+Seems like we need stub-functions of these too. Otherwise
+subsystems/drivers need to have a "depends on MULTIPLEXER" in their
+Kconfigs.
 
-Drop the locking.
-
-Along with this, add a note about the R/W1C register type to the register
-offset definitions.
-
-Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
----
-
-Changes in v2:
-- none
-
- drivers/pci/controller/pcie-rzg3s-host.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/pci/controller/pcie-rzg3s-host.c b/drivers/pci/controller/pcie-rzg3s-host.c
-index ae6d9c7dc2c1..5aa58638903f 100644
---- a/drivers/pci/controller/pcie-rzg3s-host.c
-+++ b/drivers/pci/controller/pcie-rzg3s-host.c
-@@ -73,6 +73,7 @@
- #define RZG3S_PCI_PINTRCVIE_INTX(i)		BIT(i)
- #define RZG3S_PCI_PINTRCVIE_MSI			BIT(4)
- 
-+/* Register is R/W1C, it doesn't require locking. */
- #define RZG3S_PCI_PINTRCVIS			0x114
- #define RZG3S_PCI_PINTRCVIS_INTX(i)		BIT(i)
- #define RZG3S_PCI_PINTRCVIS_MSI			BIT(4)
-@@ -114,6 +115,8 @@
- #define RZG3S_PCI_MSIRE_ENA			BIT(0)
- 
- #define RZG3S_PCI_MSIRM(id)			(0x608 + (id) * 0x10)
-+
-+/* Register is R/W1C, it doesn't require locking. */
- #define RZG3S_PCI_MSIRS(id)			(0x60c + (id) * 0x10)
- 
- #define RZG3S_PCI_AWBASEL(id)			(0x1000 + (id) * 0x20)
-@@ -507,8 +510,6 @@ static void rzg3s_pcie_msi_irq_ack(struct irq_data *d)
- 	u8 reg_bit = d->hwirq % RZG3S_PCI_MSI_INT_PER_REG;
- 	u8 reg_id = d->hwirq / RZG3S_PCI_MSI_INT_PER_REG;
- 
--	guard(raw_spinlock_irqsave)(&host->hw_lock);
--
- 	writel_relaxed(BIT(reg_bit), host->axi + RZG3S_PCI_MSIRS(reg_id));
- }
- 
-@@ -840,8 +841,6 @@ static void rzg3s_pcie_intx_irq_ack(struct irq_data *d)
- {
- 	struct rzg3s_pcie_host *host = irq_data_get_irq_chip_data(d);
- 
--	guard(raw_spinlock_irqsave)(&host->hw_lock);
--
- 	rzg3s_pcie_update_bits(host->axi, RZG3S_PCI_PINTRCVIS,
- 			       RZG3S_PCI_PINTRCVIS_INTX(d->hwirq),
- 			       RZG3S_PCI_PINTRCVIS_INTX(d->hwirq));
--- 
-2.43.0
-
+Kind regards
+Uffe
 
