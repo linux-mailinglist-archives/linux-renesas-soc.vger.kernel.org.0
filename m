@@ -1,123 +1,162 @@
-Return-Path: <linux-renesas-soc+bounces-25831-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25832-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8DDACC4E82
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Dec 2025 19:34:22 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76FAACC58AB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Dec 2025 01:02:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D8B3730109BD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Dec 2025 18:32:29 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 76559301637F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Dec 2025 00:01:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 202BE2701BB;
-	Tue, 16 Dec 2025 18:32:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC882E56A;
+	Wed, 17 Dec 2025 00:01:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="DPNTeLVd"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2763F3A1E9E
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Dec 2025 18:32:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42B454C81
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Dec 2025 00:01:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765909949; cv=none; b=oesHy9yn01qmeCVFpdeFlsavQrkZE1ZjA3qSFKHIUyXOW1aahAS7DVPoF9dBn0jAvlmA4Xpoz1H0jbKsI+8jFFHqhXGeGXdFIpPC9fnuV3c0865/4i2Xy4QFJC7e0Cli8KYoD88+uylF0V+HjOxL7zKb8sV6kWyU9vSkXMmiU4k=
+	t=1765929714; cv=none; b=I3UBIGtU66YgiXsvY6pYMVhkkVU8Bc3lUPkMoiNawjB3JySuIbSV+zNZc+amvlIVechqjfPteshoF6N+SZeOJmmgtNn2OwDISRPR0W6owCK2OrZWwmbrOhHogDKqkU3Kzeq77ExjrA4Ymc3pP0CsEcKJbvvdJNZT017z6T5HHpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765909949; c=relaxed/simple;
-	bh=xGffopx20mBrXKJzYPGqlK+o9Vr/NtAqttxNcbmzESQ=;
+	s=arc-20240116; t=1765929714; c=relaxed/simple;
+	bh=O5eCzl8UBxQzsjN75O8DpTQOlVvtN45HumiW/nT7Mrc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=XRuItzdSU80NSRV14JCXd1WcS1XNbWouw7qf5wiw1s76xmyeXPKC3MH1d8q/6AjLv5sTtkrznTDODn/iyx7eq/QP3bC72hh3vHzYbHRcAkVK5Egbbat2ENErgQquYS4lax15WAI17f8NeVxaSdDHYdujfaMGhB90Bzjvpa3c2Lc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-93f5905e698so1190974241.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Dec 2025 10:32:26 -0800 (PST)
+	 To:Cc:Content-Type; b=g6MCpUcMy9TY6OVl/7WOenpL+brhcijCFSOBpHcC5F4LJL7C9bs1eVBma4bX2GAL6fgJtOav89vQLHN8d7tSD8YPFwDu8VRzZI5VEgBnalpdfrrvWYzKtpm9wrr3IG5JH2K2NAOdUh4TAnEumuSY/dDczjmmbBbuOm7Yaz9BRPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com; spf=pass smtp.mailfrom=googlemail.com; dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b=DPNTeLVd; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=googlemail.com
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2a0833b5aeeso56135095ad.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Dec 2025 16:01:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20230601; t=1765929712; x=1766534512; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O5eCzl8UBxQzsjN75O8DpTQOlVvtN45HumiW/nT7Mrc=;
+        b=DPNTeLVdj6Yg78EERLmeJ/omTSXwJVJF/IH/5lX07mRuYY0gbR69nkDm6u15+2tOxm
+         3ki+cO1XlzRvuFqY0c6FP0RzLSSB7wPTurU7bf2ztXdvEjojvFsIYqhMIYh062QBpy0q
+         8L2Dq7b5ioHl6dbGYPXw/meGF8fa7b3ZPAgGLbOaePF/MYQe7nIzCzF2FMSqZeGiS0BV
+         RtZu3szHewiclrSIFnbfLoAT7iiTzh97i3DJgiHzDfPWpxCXBAbCj190wpSXzQCy94p6
+         ag17cKvnE7guHvy6tUazTT/WHqy1I/h/7debstrh1OIa4eA2D7tSke3WvGNNz6nY8l9g
+         bTcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765909946; x=1766514746;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IZKQogYZ5pK6OMUmtmPyBGc9k/lo0hOBVMdT8UwMUEE=;
-        b=Rw9HekYNLjxmT/kzGbz/WdfqHqKxKUzfz9airJ5mn3QQkoo3gyBFpcrW4MrKYzEmjq
-         CxmXXS/cx3pKt1eZzdsUJP6rXfVyu/b7DgYRyugXVeoVu2lDa+l8528mQzCCubFkDq0F
-         DiC6Hn3cTS1IzNo2AUqPbOSa5rpEUYKLdturPbT7LR4eXxSpMZ6IMbcKAamk9jWC3uge
-         fat3ThsT7dnyUmR7emhv9n17FXyFp/2xQfwrZL2UBZFERlb6yGvDNDKnNVspHwJjHDTO
-         B0NeUAH76m0oy+ndnueJK0qz2AA8YqWND2mfh0VXtQOE/YuxjeBVR+VeP7cNaUWIhekl
-         s+2w==
-X-Gm-Message-State: AOJu0YxdxoYo5SNXszQPdIj9n0eMs0aJCQzKb0pKKUlXE3r9RVg6SocS
-	WvXuWmrzU2v/raj9Te5bWVMHK02Pe0V8ddbVttSjexPjpRvaDT3VXXsKY1flsxl8
-X-Gm-Gg: AY/fxX5L8HVr/rMzWI4pTMBQ3azp8JZPQWQSiUG674fV19dFJ5D5IA6LPMyHlwWaE0o
-	P9qTsV9lWGdKcBRqfbObC4TlXKPVR8VdS8y/m40HbynWYTMwen4KzaHqm/6YKiG+t2nX3jPwrNo
-	PHGhX6S66lzc9VIw84iQDrRdjzHaHwjt0CMmuP+xcFE8+l3wvsd9bv6epGTVRBnzYQaVtD9oNYa
-	3c3GnFTg2JcNFSzSIR+C/2FJEeM6+420QijZXfdJmrKOIziKtBDR1KH/yXvFX37dSHB1pIVNNWo
-	GUvIgyzH0S/IdkTi4jAjwwltPGI5LO+uztgQF68ern2y1Qebmq+6uFQE05UT5ePobKA+Hqa8Pii
-	IE2bemlh4i6trasBKmBF0/p1mRSOSGi/oeSlvrJKhtOOUFG7R//hlTyG1jus6w0wvDQuZBqPPby
-	2JyVjLpBsVmRWKGjcDZ8VI+ksUv7oNcH/kX1i3vlokPZgdm4A8yZtkLSv792HCeQA=
-X-Google-Smtp-Source: AGHT+IGy+/itT4G2k5x9wQJguX+cGKyqKCGazNrIhLUciwuDJYnkNf4NlmjqGtfZhTboNXa5BIMVng==
-X-Received: by 2002:a05:6102:5cc7:b0:5db:ef30:b74f with SMTP id ada2fe7eead31-5e827488afemr4810359137.8.1765909945832;
-        Tue, 16 Dec 2025 10:32:25 -0800 (PST)
-Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com. [209.85.221.182])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5e7d0ecd8f3sm7400446137.4.2025.12.16.10.32.25
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Dec 2025 10:32:25 -0800 (PST)
-Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-56021b53e9eso366992e0c.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Dec 2025 10:32:25 -0800 (PST)
-X-Received: by 2002:a05:6122:2a13:b0:55b:305b:4e46 with SMTP id
- 71dfb90a1353d-55fed659a38mr4694510e0c.18.1765909945130; Tue, 16 Dec 2025
- 10:32:25 -0800 (PST)
+        d=1e100.net; s=20230601; t=1765929712; x=1766534512;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=O5eCzl8UBxQzsjN75O8DpTQOlVvtN45HumiW/nT7Mrc=;
+        b=SNPvWrjDucKz49nWKvYLUdTgc1xe0+F/2SzE72qRPY+TW4YV86X8aDJWKE3X0VYQ5F
+         icf+qRtAtdcQdj9W4g9ZgApNtnjVpHoLzcpUwEXCMx9HD8l/7ehnM60Qc9ta2mGZ2c7w
+         4hqWZ9hKhFUfB0QMD0m/BZvzfNftrNI0iHB+XxRD51QEvoZkB00K0qd9F2NBx8E+Ozkp
+         hmFm6D7cr/mS6e5ODD15fA+24hBj/d+xvpYd5g2DntbT1HmA9dTyBmT2p+faCyCesNft
+         Df82S3UFZpfcIOtMWsVseffZBoGyL4G0e1bHiX1fLaeKD5o4cLBq5SPCJ/nqQJkpGgEf
+         Pr1w==
+X-Forwarded-Encrypted: i=1; AJvYcCUIHN+AHwXpC4T3OH3PptYWKhiKV4P/xk/kHx4tIGaHCqYXqzy+rVFwGWmRJA0i1Lnay1SFrm6kkg4lio3OuTwcXA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yza1MOm+/gjiy8ezqP29Q66dx9TkFOeVEac4HeCJ8jzBOnXOjkw
+	MFrEXzIJKjk/4+jdj4qF6KgnOjktC+NejAbXH9aUYPsVmcJyWjhIoDEhGDhHqNgANT/7ipVN6ab
+	GuIQIHMZfMXJ6bx8HvI2cwM1jcWW6wHg=
+X-Gm-Gg: AY/fxX7QA/XiZhOlB+u7C84C2PhVs/6sSUHufwyPsmSVEnzDXze+22lyDfKvnq9HpPl
+	iYIM0EW7kFmggNGvxG7yc48SyveU/W8c8FIAL2A2eZDKmt4tvFrp6KobjM8JlA/nwymVsThpT6S
+	zlFfDozitPZiOmnzvmb2VrJpGLwXRVx5LEq4GJzn7te90DPcK8/CifzOucmAslBftIINkkWGYMC
+	ItlCEVXlwoSSI78GchDx0cNNIZewyyFM3hE9vbCQrbS27ADb4wHneAy/vfeagw+cxI9Nw1FwEui
+	cj58iqwEaTJDJz2uzlpHLoeCVmo=
+X-Google-Smtp-Source: AGHT+IGJCumVLPI6LXTb+R3wbQ5b6SSgqQC0QLByiXYYrEmbkjlG0jzydWOiaHp0sl9AgFqwMi+afZ8/iOgSdsy9IWU=
+X-Received: by 2002:a17:903:1446:b0:295:425a:350e with SMTP id
+ d9443c01a7336-29f23de66ebmr152982955ad.8.1765929712310; Tue, 16 Dec 2025
+ 16:01:52 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAMuHMdWXPesKV7XE_QwLrM6pZ1z6GFC-SjJ1ceFTs4o=hv71Zg@mail.gmail.com>
- <CAMuHMdX8HtWOAK6MDdN8F8V0aer0hTHzeAcnCGMycpS70hesNQ@mail.gmail.com>
- <CAMuHMdUjse9v=U8=oZHDJx0Oh9uVzxVWYU+C9jaP_23UOBVMaw@mail.gmail.com>
- <CAMuHMdVGnDg=zkjOSmCWAjEnjfSN9rhOCG-ubzeTf3mvjTEavw@mail.gmail.com>
- <CAMuHMdXkdD0dN93zsQnjCzFo6ijS2xDzbh+GPGe6--_FuuRbHQ@mail.gmail.com>
- <CAMuHMdV0KWN2nHDGT28ysTPwBTrachBSsGWf0hHqrci-d0U33A@mail.gmail.com>
- <CAMuHMdUWt+h7=rF+Z5sjQ_=xvoK8FeDGk9OnL=2KJ+gFdTnp3A@mail.gmail.com>
- <CAMuHMdXi1Ev3uKBVnrE5HO8=m+kkaXLc+5b92txFpB8rLUGrcw@mail.gmail.com>
- <CAMuHMdVd=6eTSddjyr1TLeu6akVp6QMmz89JCb5e_oT2XjY2mw@mail.gmail.com>
- <CAMuHMdU+Q=k3XnYUOytN4tOh_u=JyRr97XwX=vmV0V5ht8U6uA@mail.gmail.com>
- <CAMuHMdXbJvFC9n=LTW=fXhGBRgrDzQG2LUDTbZZruyovU5OsQw@mail.gmail.com>
- <CAMuHMdXPg6dBhvdgKwKVVDHP+7qJDKTfRzKGhXkUTb=gX833Ag@mail.gmail.com>
- <CAMuHMdVJ2joZgT6Yp4VhXs3yr4ntgHSyCt0JiyWHXueN-3pNFA@mail.gmail.com>
- <CAMuHMdUS=MTCYxgCzWT1K6NX-BzxxKpBm_Q85GbCGTN3ppUhYQ@mail.gmail.com>
- <CAMuHMdW2d+kh=J2GUeL2f16DUM5ExBD4eva34tHSq-JH38RM+A@mail.gmail.com>
- <CAMuHMdWBc002vKmUsTpDpxZPU+Z8J2=NM1hYXWj-z26oV3gxwg@mail.gmail.com>
- <CAMuHMdVCcjNwnS+1cJ-EAhr9vdwZx2F97ta-nwrMEgqptboAvg@mail.gmail.com> <CAMuHMdUQv9i1ZUhzZV+YhhmjbO-f-0n9ocfBYAiVYP6We5Evpw@mail.gmail.com>
-In-Reply-To: <CAMuHMdUQv9i1ZUhzZV+YhhmjbO-f-0n9ocfBYAiVYP6We5Evpw@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 16 Dec 2025 19:32:14 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUrk5GzMWqbYa7PnrQf157TCnS1xjyiV267EakcL+bCLQ@mail.gmail.com>
-X-Gm-Features: AQt7F2oLBIqeH5wkwl-BXCnWETH4xsnJFGCN6A6-zwfScVZxt04MYeEbp60y180
-Message-ID: <CAMuHMdUrk5GzMWqbYa7PnrQf157TCnS1xjyiV267EakcL+bCLQ@mail.gmail.com>
-Subject: Re: Future renesas-drivers releases
-To: Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+References: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-0-88f8a107eca2@bootlin.com>
+ <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-17-88f8a107eca2@bootlin.com>
+ <CAFBinCCQjeUu7pgfwViH6b0-M6S_sKgfvz9VAP1hpqLRj=bL_g@mail.gmail.com> <DEZNGU4VJFK8.Y1LKWVTD7O8K@bootlin.com>
+In-Reply-To: <DEZNGU4VJFK8.Y1LKWVTD7O8K@bootlin.com>
+From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Date: Wed, 17 Dec 2025 01:01:40 +0100
+X-Gm-Features: AQt7F2qigiuBf-2umKIaZyZh98eVY_wIo1vz8CYcqmMw3ZJiZleOgoOUFsOFlyM
+Message-ID: <CAFBinCBaXRNBHpY2uYy4FxyAOnRA4NxJtHbraG0=j_U6Dzz2=A@mail.gmail.com>
+Subject: Re: [PATCH v2 17/26] drm/meson: encoder_*: use devm_of_drm_get_bridge()
+ to put the next bridge
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Jonathan Corbet <corbet@lwn.net>, Alexey Brodkin <abrodkin@synopsys.com>, Phong LE <ple@baylibre.com>, 
+	Liu Ying <victor.liu@nxp.com>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Adrien Grassein <adrien.grassein@gmail.com>, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Anitha Chrisanthus <anitha.chrisanthus@intel.com>, Inki Dae <inki.dae@samsung.com>, 
+	Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Hui Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+	Louis Chauvet <louis.chauvet@bootlin.com>, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+	linux-amlogic@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 27 Oct 2025 at 11:19, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->   - renesas-drivers-2025-12-02-v6.18 (TBD),
->   - renesas-drivers-2025-12-09-v6.18 (TBD, oops during OSSJ).
+Hi Luca,
 
-That became renesas-drivers-2025-12-02-v6.18, followed by
-renesas-drivers-2025-12-16-v6.19-rc1.
+On Tue, Dec 16, 2025 at 1:46=E2=80=AFPM Luca Ceresoli <luca.ceresoli@bootli=
+n.com> wrote:
+[...]
+> > What I'm not sure about is how this series interacts with
+> > devm_drm_of_get_bridge() which is why I'm asking before cooking a
+> > patch.
+>
+> Apologies for the long delay in getting back to you. You might have notic=
+ed
+> some discussion about the overall approach, and I waited for it to settle=
+.
+That hasn't gone unnoticed!
 
-Next planned releases, if all goes well:
-  - renesas-drivers-2025-12-30-v6.19-rc3,
-  - renesas-drivers-2026-01-13-v6.19-rc5,
-  - renesas-drivers-2026-01-27-v6.19-rc7,
-  - renesas-drivers-2026-02-03-v6.19 (TBD),
-  - renesas-drivers-2026-02-10-v6.19 (TBD).
+> About devm_drm_of_get_bridge(), it is a very different function so it doe=
+s
+> not affect this series. The name similarity is confusing indeed, but
+> devm_of_drm_get_bridge() has been removed from my approach, so one less
+> source of confusion.
+I have to confess that I'm still confused. drivers/gpu/drm/drm_bridge.c sta=
+tes:
+"Display drivers are responsible for linking encoders with the first bridge
+ in the chains. This is done by acquiring the appropriate bridge with
+ devm_drm_of_get_bridge(). Once acquired, the bridge shall be attached to t=
+he
+ encoder with a call to drm_bridge_attach().
 
-Gr{oetje,eeting}s,
+ Bridges are responsible for linking themselves with the next bridge in the
+ chain, if any. This is done the same way as for encoders, with the call to
+ drm_bridge_attach() occurring in the &drm_bridge_funcs.attach operation."
+Does this mean your series effectively deprecates devm_drm_of_get_bridge()?
 
-                        Geert
+> I'm soon sending v3, and I have updated my patch to
+> eson_encoder_{cvbs,dsi,hdmi}.c, actually splitting it in 3. I'd be gratef=
+ul
+> if you could reviewd and/ot test them when I send v3. But I don't think
+> there is a need for you to send any patches related to this topic.
+Regardless of the questions I still have around
+devm_drm_of_get_bridge(): I'll give your patches a go in the next
+days.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Best regards,
+Martin
 
