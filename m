@@ -1,162 +1,136 @@
-Return-Path: <linux-renesas-soc+bounces-25832-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25833-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76FAACC58AB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Dec 2025 01:02:12 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B565CC590C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Dec 2025 01:12:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 76559301637F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Dec 2025 00:01:55 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 728EE306DC89
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Dec 2025 00:10:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC882E56A;
-	Wed, 17 Dec 2025 00:01:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2FDC143C61;
+	Wed, 17 Dec 2025 00:10:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="DPNTeLVd"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bfg44EYP"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42B454C81
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Dec 2025 00:01:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 834EE1CAB3;
+	Wed, 17 Dec 2025 00:10:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765929714; cv=none; b=I3UBIGtU66YgiXsvY6pYMVhkkVU8Bc3lUPkMoiNawjB3JySuIbSV+zNZc+amvlIVechqjfPteshoF6N+SZeOJmmgtNn2OwDISRPR0W6owCK2OrZWwmbrOhHogDKqkU3Kzeq77ExjrA4Ymc3pP0CsEcKJbvvdJNZT017z6T5HHpE=
+	t=1765930231; cv=none; b=UpG1CG1/hRuDu4btXwaEbCcYRxDORXBGuX6Be+24YNaY7+SNkvh3lTk9pSk5gnwKByk+LswKp9n6WojE92xhCm5TFg8AW1lXJb1OPTQefN1c0i8h4YExqu8GvUx6at+iDoqgexF6yya/0dVkAoyo/ZTHuBF+/T0h0v7PKrfDYcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765929714; c=relaxed/simple;
-	bh=O5eCzl8UBxQzsjN75O8DpTQOlVvtN45HumiW/nT7Mrc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=g6MCpUcMy9TY6OVl/7WOenpL+brhcijCFSOBpHcC5F4LJL7C9bs1eVBma4bX2GAL6fgJtOav89vQLHN8d7tSD8YPFwDu8VRzZI5VEgBnalpdfrrvWYzKtpm9wrr3IG5JH2K2NAOdUh4TAnEumuSY/dDczjmmbBbuOm7Yaz9BRPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com; spf=pass smtp.mailfrom=googlemail.com; dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b=DPNTeLVd; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=googlemail.com
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2a0833b5aeeso56135095ad.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Dec 2025 16:01:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20230601; t=1765929712; x=1766534512; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=O5eCzl8UBxQzsjN75O8DpTQOlVvtN45HumiW/nT7Mrc=;
-        b=DPNTeLVdj6Yg78EERLmeJ/omTSXwJVJF/IH/5lX07mRuYY0gbR69nkDm6u15+2tOxm
-         3ki+cO1XlzRvuFqY0c6FP0RzLSSB7wPTurU7bf2ztXdvEjojvFsIYqhMIYh062QBpy0q
-         8L2Dq7b5ioHl6dbGYPXw/meGF8fa7b3ZPAgGLbOaePF/MYQe7nIzCzF2FMSqZeGiS0BV
-         RtZu3szHewiclrSIFnbfLoAT7iiTzh97i3DJgiHzDfPWpxCXBAbCj190wpSXzQCy94p6
-         ag17cKvnE7guHvy6tUazTT/WHqy1I/h/7debstrh1OIa4eA2D7tSke3WvGNNz6nY8l9g
-         bTcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765929712; x=1766534512;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=O5eCzl8UBxQzsjN75O8DpTQOlVvtN45HumiW/nT7Mrc=;
-        b=SNPvWrjDucKz49nWKvYLUdTgc1xe0+F/2SzE72qRPY+TW4YV86X8aDJWKE3X0VYQ5F
-         icf+qRtAtdcQdj9W4g9ZgApNtnjVpHoLzcpUwEXCMx9HD8l/7ehnM60Qc9ta2mGZ2c7w
-         4hqWZ9hKhFUfB0QMD0m/BZvzfNftrNI0iHB+XxRD51QEvoZkB00K0qd9F2NBx8E+Ozkp
-         hmFm6D7cr/mS6e5ODD15fA+24hBj/d+xvpYd5g2DntbT1HmA9dTyBmT2p+faCyCesNft
-         Df82S3UFZpfcIOtMWsVseffZBoGyL4G0e1bHiX1fLaeKD5o4cLBq5SPCJ/nqQJkpGgEf
-         Pr1w==
-X-Forwarded-Encrypted: i=1; AJvYcCUIHN+AHwXpC4T3OH3PptYWKhiKV4P/xk/kHx4tIGaHCqYXqzy+rVFwGWmRJA0i1Lnay1SFrm6kkg4lio3OuTwcXA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yza1MOm+/gjiy8ezqP29Q66dx9TkFOeVEac4HeCJ8jzBOnXOjkw
-	MFrEXzIJKjk/4+jdj4qF6KgnOjktC+NejAbXH9aUYPsVmcJyWjhIoDEhGDhHqNgANT/7ipVN6ab
-	GuIQIHMZfMXJ6bx8HvI2cwM1jcWW6wHg=
-X-Gm-Gg: AY/fxX7QA/XiZhOlB+u7C84C2PhVs/6sSUHufwyPsmSVEnzDXze+22lyDfKvnq9HpPl
-	iYIM0EW7kFmggNGvxG7yc48SyveU/W8c8FIAL2A2eZDKmt4tvFrp6KobjM8JlA/nwymVsThpT6S
-	zlFfDozitPZiOmnzvmb2VrJpGLwXRVx5LEq4GJzn7te90DPcK8/CifzOucmAslBftIINkkWGYMC
-	ItlCEVXlwoSSI78GchDx0cNNIZewyyFM3hE9vbCQrbS27ADb4wHneAy/vfeagw+cxI9Nw1FwEui
-	cj58iqwEaTJDJz2uzlpHLoeCVmo=
-X-Google-Smtp-Source: AGHT+IGJCumVLPI6LXTb+R3wbQ5b6SSgqQC0QLByiXYYrEmbkjlG0jzydWOiaHp0sl9AgFqwMi+afZ8/iOgSdsy9IWU=
-X-Received: by 2002:a17:903:1446:b0:295:425a:350e with SMTP id
- d9443c01a7336-29f23de66ebmr152982955ad.8.1765929712310; Tue, 16 Dec 2025
- 16:01:52 -0800 (PST)
+	s=arc-20240116; t=1765930231; c=relaxed/simple;
+	bh=z5wVETfr8eg/QjTXImjVmFJT5T4NRB4FJcexh1oBrp0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H1yqXANLg3Km5tTMPXysbujAA6SArysOWoD0g7oeTJP2FaMKdL9QFGw9hCeXtRlPbiLw+yFzU6QCeTi37FsuzimlfBGz4UKINMeVx4I0B4MonInlOeLrdSFbuVMiONujkis5mzaUzU2ReNa6I+/1i03CCqN2AjQufW9jEz55ScI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bfg44EYP; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F38EC4CEF1;
+	Wed, 17 Dec 2025 00:10:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765930231;
+	bh=z5wVETfr8eg/QjTXImjVmFJT5T4NRB4FJcexh1oBrp0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bfg44EYPpxb3XZZRwALuJWH9OT8+2J/u3pCRxEn3126gJpPbCBcBETPHJntfiHC1n
+	 HFk4UWbDjB7U0K9HrY61jTuDa4mOsggX1z+WXhx2C8ApA+1g/LtNxL/ODBevrH7PLs
+	 t+7HKqEbkBobe8E2x9A/JkDC1m6oZQdJKH18kL9rqQWUU8ETu7n7mODyEFRzdeDsup
+	 0/kphTUEnvIntH8iAPl5eKKU4Y3fY5O1P2ems5ELLy2icSg0IYH8h3YDhGrB7Ri2vJ
+	 Xwyte1gdpNmg8SrR5X6MvlktdQeB399Ut/TvrzxWi7mD2E+mH3DTKKNFOtT0d1wk0C
+	 o7J0D7WEDAJ/A==
+Date: Wed, 17 Dec 2025 01:10:27 +0100
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org, 
+	biju.das.jz@bp.renesas.com, Chris Brandt <chris.brandt@renesas.com>, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Subject: Re: [PATCH] i2c: riic: Move suspend handling to NOIRQ phase
+Message-ID: <hiriaxgujokllanjmdouw2ojstpxfpcpyo6dfzwnkq6qazl27r@zr2amt2tsuq2>
+References: <05a31af3d6caba51e8237a49853281aa49bed916.1765540678.git.tommaso.merciai.xr@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-0-88f8a107eca2@bootlin.com>
- <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-17-88f8a107eca2@bootlin.com>
- <CAFBinCCQjeUu7pgfwViH6b0-M6S_sKgfvz9VAP1hpqLRj=bL_g@mail.gmail.com> <DEZNGU4VJFK8.Y1LKWVTD7O8K@bootlin.com>
-In-Reply-To: <DEZNGU4VJFK8.Y1LKWVTD7O8K@bootlin.com>
-From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date: Wed, 17 Dec 2025 01:01:40 +0100
-X-Gm-Features: AQt7F2qigiuBf-2umKIaZyZh98eVY_wIo1vz8CYcqmMw3ZJiZleOgoOUFsOFlyM
-Message-ID: <CAFBinCBaXRNBHpY2uYy4FxyAOnRA4NxJtHbraG0=j_U6Dzz2=A@mail.gmail.com>
-Subject: Re: [PATCH v2 17/26] drm/meson: encoder_*: use devm_of_drm_get_bridge()
- to put the next bridge
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
-	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Jonathan Corbet <corbet@lwn.net>, Alexey Brodkin <abrodkin@synopsys.com>, Phong LE <ple@baylibre.com>, 
-	Liu Ying <victor.liu@nxp.com>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Adrien Grassein <adrien.grassein@gmail.com>, 
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Anitha Chrisanthus <anitha.chrisanthus@intel.com>, Inki Dae <inki.dae@samsung.com>, 
-	Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Hui Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
-	Louis Chauvet <louis.chauvet@bootlin.com>, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
-	linux-amlogic@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <05a31af3d6caba51e8237a49853281aa49bed916.1765540678.git.tommaso.merciai.xr@bp.renesas.com>
 
-Hi Luca,
+Hi Tommaso,
 
-On Tue, Dec 16, 2025 at 1:46=E2=80=AFPM Luca Ceresoli <luca.ceresoli@bootli=
-n.com> wrote:
-[...]
-> > What I'm not sure about is how this series interacts with
-> > devm_drm_of_get_bridge() which is why I'm asking before cooking a
-> > patch.
->
-> Apologies for the long delay in getting back to you. You might have notic=
-ed
-> some discussion about the overall approach, and I waited for it to settle=
-.
-That hasn't gone unnoticed!
+On Fri, Dec 12, 2025 at 12:58:57PM +0100, Tommaso Merciai wrote:
+> Commit 53326135d0e0 ("i2c: riic: Add suspend/resume support") added
+> suspend support for the Renesas I2C driver and following this change
+> on RZ/G3E the following WARNING is seen on entering suspend ...
+> 
+> [  134.275704] Freezing remaining freezable tasks completed (elapsed 0.001 seconds)
+> [  134.285536] ------------[ cut here ]------------
+> [  134.290298] i2c i2c-2: Transfer while suspended
+> [  134.295174] WARNING: drivers/i2c/i2c-core.h:56 at __i2c_smbus_xfer+0x1e4/0x214, CPU#0: systemd-sleep/388
+> [  134.365507] Tainted: [W]=WARN
+> [  134.368485] Hardware name: Renesas SMARC EVK version 2 based on r9a09g047e57 (DT)
+> [  134.375961] pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> [  134.382935] pc : __i2c_smbus_xfer+0x1e4/0x214
+> [  134.387329] lr : __i2c_smbus_xfer+0x1e4/0x214
+> [  134.391717] sp : ffff800083f23860
+> [  134.395040] x29: ffff800083f23860 x28: 0000000000000000 x27: ffff800082ed5d60
+> [  134.402226] x26: 0000001f4395fd74 x25: 0000000000000007 x24: 0000000000000001
+> [  134.409408] x23: 0000000000000000 x22: 000000000000006f x21: ffff800083f23936
+> [  134.416589] x20: ffff0000c090e140 x19: ffff0000c090e0d0 x18: 0000000000000006
+> [  134.423771] x17: 6f63657320313030 x16: 2e30206465737061 x15: ffff800083f23280
+> [  134.430953] x14: 0000000000000000 x13: ffff800082b16ce8 x12: 0000000000000f09
+> [  134.438134] x11: 0000000000000503 x10: ffff800082b6ece8 x9 : ffff800082b16ce8
+> [  134.445315] x8 : 00000000ffffefff x7 : ffff800082b6ece8 x6 : 80000000fffff000
+> [  134.452495] x5 : 0000000000000504 x4 : 0000000000000000 x3 : 0000000000000000
+> [  134.459672] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff0000c9ee9e80
+> [  134.466851] Call trace:
+> [  134.469311]  __i2c_smbus_xfer+0x1e4/0x214 (P)
+> [  134.473715]  i2c_smbus_xfer+0xbc/0x120
+> [  134.477507]  i2c_smbus_read_byte_data+0x4c/0x84
+> [  134.482077]  isl1208_i2c_read_time+0x44/0x178 [rtc_isl1208]
+> [  134.487703]  isl1208_rtc_read_time+0x14/0x20 [rtc_isl1208]
+> [  134.493226]  __rtc_read_time+0x44/0x88
+> [  134.497012]  rtc_read_time+0x3c/0x68
+> [  134.500622]  rtc_suspend+0x9c/0x170
+> 
+> The warning is triggered because I2C transfers can still be attempted
+> while the controller is already suspended, due to inappropriate ordering
+> of the system sleep callbacks.
+> 
+> Fix this by moving the system sleep suspend/resume callbacks to the NOIRQ
+> phase, ensuring the adapter is fully quiesced after late suspend and
+> properly resumed before the early resume phase.
+> 
+> To support NOIRQ resume, the hardware initialization path must not invoke
+> runtime PM APIs. Split the init code so that the low-level hardware setup
+> can be executed without pm_runtime_get/put(). This avoids violating the
+> constraint introduced by commit 1e2ef05bb8cf ("PM: Limit race conditions
+> between runtime PM and system sleep (v2)"), which forbids runtime PM
+> calls during early resume.
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: 53326135d0e0 ("i2c: riic: Add suspend/resume support")
+> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 
-> About devm_drm_of_get_bridge(), it is a very different function so it doe=
-s
-> not affect this series. The name similarity is confusing indeed, but
-> devm_of_drm_get_bridge() has been removed from my approach, so one less
-> source of confusion.
-I have to confess that I'm still confused. drivers/gpu/drm/drm_bridge.c sta=
-tes:
-"Display drivers are responsible for linking encoders with the first bridge
- in the chains. This is done by acquiring the appropriate bridge with
- devm_drm_of_get_bridge(). Once acquired, the bridge shall be attached to t=
-he
- encoder with a call to drm_bridge_attach().
+can I have an ack from Chris here?
 
- Bridges are responsible for linking themselves with the next bridge in the
- chain, if any. This is done the same way as for encoders, with the call to
- drm_bridge_attach() occurring in the &drm_bridge_funcs.attach operation."
-Does this mean your series effectively deprecates devm_drm_of_get_bridge()?
+...
 
-> I'm soon sending v3, and I have updated my patch to
-> eson_encoder_{cvbs,dsi,hdmi}.c, actually splitting it in 3. I'd be gratef=
-ul
-> if you could reviewd and/ot test them when I send v3. But I don't think
-> there is a need for you to send any patches related to this topic.
-Regardless of the questions I still have around
-devm_drm_of_get_bridge(): I'll give your patches a go in the next
-days.
+> +static int riic_i2c_suspend(struct device *dev)
+> +{
+> +	struct riic_dev *riic = dev_get_drvdata(dev);
+> +
+> +	i2c_mark_adapter_suspended(&riic->adapter);
+> +
+> +	return pm_runtime_force_suspend(dev);
 
+We should perhaps swap i2c_mark_adapter_suspended() and
+pm_runtime_force_suspend()?
 
-Best regards,
-Martin
+Andi
+
+> +}
 
