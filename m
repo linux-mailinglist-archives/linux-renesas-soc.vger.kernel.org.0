@@ -1,96 +1,203 @@
-Return-Path: <linux-renesas-soc+bounces-25900-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25901-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C16D9CCCD24
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Dec 2025 17:39:24 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73619CCCD87
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Dec 2025 17:46:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C46E03109EDF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Dec 2025 16:33:57 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id AB887300C371
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Dec 2025 16:43:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7AFC43570B8;
-	Thu, 18 Dec 2025 16:24:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="drTlsmJc"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD6352BEC30;
+	Thu, 18 Dec 2025 16:42:22 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45C9A2F49F1;
-	Thu, 18 Dec 2025 16:24:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC05027FD40
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 18 Dec 2025 16:42:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766075070; cv=none; b=b7PVX4BwAr+Bxnz/V3ybv4WcO7pVyWIVsIWRkOAbjUI0WlQVmdrfoH4VDVuZhgUVTn2XGG93X4yophc74krNsRTeaFTfkPWADs3Sja0ECTzN8M50O1RNBAeJ4zlJXx4ZQqYX9xvo1H6aNcgJEIBwE6lpFRQermPX/e590pyqoTA=
+	t=1766076142; cv=none; b=T0yFXrg2wlVJ0MmW9yCR8HrVzwYF7BZZMw8ESmg6JVnRdOjRD714cnc6QLxypxKWpkLm1+Re8AeWykoFNSU8RgthW6LyqpDDV5+LHz5OnlJ0iyFheCtDtZa1qSDorgPfj30sJ6YLoVM4Ygz7zvfSbJmTq+YPTxQe7mT1u4izfbQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766075070; c=relaxed/simple;
-	bh=/lpz2oIHLovis2e3jie0hBGprwHoazeb7ENFgVjVQXE=;
+	s=arc-20240116; t=1766076142; c=relaxed/simple;
+	bh=Pb5kooSMTZIvB5WH4r6zk15HZdb1lsTVhsHr7rhwmeg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A/C+orQK2smu8RSDnpBxC1qUikPLqw1tOqMvNpo8timoHBs6ls+JFVGMFXKuZJAvMp5M5hbdUl3Imytd+Ll0QUTB2pyCaXF4FEeVtV87ZAmFNdElNw2nfR1wQS6/dYUXgfm/1pGQVTPLC07yZQatJ5MtRQR9INgtl/1XNYgpDOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=drTlsmJc; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=wfcZt7qNcxi98tw/5J1IA5qzDVmXbp0zLFyBZDCWT3E=; b=drTlsmJc3MFZby5esPNoFYuawj
-	M/ZBsMdFjGXq8DIOJZtqM15ZszS1sYlUE2LA2kvCVbwfY92hrBaworE37pP9DiEubZ4jvYRxeK2w9
-	dCfM+GaSeimLpDPFTjnDVCak/hKDQeFC2kqXrdmrk618ygpmu51EGvzuRkKnPu/XpWE0=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1vWGnW-00HM0s-SU; Thu, 18 Dec 2025 17:24:14 +0100
-Date: Thu, 18 Dec 2025 17:24:14 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Peter Chen <peter.chen@kernel.org>,
-	Pawel Laszczak <pawell@cadence.com>,
-	Roger Quadros <rogerq@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shawn Guo <shawnguo@kernel.org>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=nF1jwEVlCkcsPcnsmwCeeBxb2eUspFtu09boYWHkUAN7rNEIIeDpXlli8grpztL6dtc48UOAhCVhATmKWdVN13/fmvviP0vZu1/j28TmuQBJbr/KRpP5WBmVlJwd3iKnj9x5djMc7omYx9NJD/4RcBcVTy7F3f9m+zkCyBUK3iE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1vWH4s-00029z-19; Thu, 18 Dec 2025 17:42:10 +0100
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1vWH4r-006Jmi-1h;
+	Thu, 18 Dec 2025 17:42:09 +0100
+Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1vWH4r-00EcKV-1D;
+	Thu, 18 Dec 2025 17:42:09 +0100
+Date: Thu, 18 Dec 2025 17:42:09 +0100
+From: Marco Felsch <m.felsch@pengutronix.de>
+To: Rob Herring <robh@kernel.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
 	Sascha Hauer <s.hauer@pengutronix.de>,
 	Pengutronix Kernel Team <kernel@pengutronix.de>,
 	Fabio Estevam <festevam@gmail.com>,
-	Magnus Damm <magnus.damm@gmail.com>, Marek Vasut <marex@denx.de>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-usb@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux@ew.tq-group.com
-Subject: Re: [PATCH 5/6] arm64: dts: Add TQ imx8qm based board
-Message-ID: <e9d1495f-0d61-4e23-89c9-f06373b52bc0@lunn.ch>
-References: <20251218152058.1521806-1-alexander.stein@ew.tq-group.com>
- <20251218154412.1524249-1-alexander.stein@ew.tq-group.com>
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	imx@lists.linux.dev, barebox@lists.infradead.org,
+	frieder.schrempf@kontron.de, annette.kobou@kontron.de,
+	oualid.derouiche@kontron.de, eberhard.stoll@kontron.de
+Subject: Re: [PATCH] ARM: dts: nxp/imx6: Drop unused .dtsi
+Message-ID: <20251218164209.6ombc6g4gy7tuwcz@pengutronix.de>
+References: <20251212203226.458694-5-robh@kernel.org>
+ <20251213181324.u32ztfblkknfpz44@pengutronix.de>
+ <CAL_JsqK9OREenZjBHrDh7AqsyUXYOzTOhY4e0qHGzYkX8tacWQ@mail.gmail.com>
+ <20251214185750.tzt6jf4zg5gtex63@pengutronix.de>
+ <CAL_JsqLfVemq9k3x5J1pTz--Z+VYLeEQrFdbtdS7Pc-HkRui=w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251218154412.1524249-1-alexander.stein@ew.tq-group.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAL_JsqLfVemq9k3x5J1pTz--Z+VYLeEQrFdbtdS7Pc-HkRui=w@mail.gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 
-> +&fec1 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&pinctrl_fec1>;
-> +	phy-mode = "rgmii-id";
-> +	phy-handle = <&ethphy0>;
-> +	nvmem-cells = <&fec_mac0>;
-> +	nvmem-cell-names = "mac-address";
-> +	fsl,magic-packet;
+On 25-12-15, Rob Herring wrote:
+> On Sun, Dec 14, 2025 at 12:58 PM Marco Felsch <m.felsch@pengutronix.de> wrote:
+> >
+> > On 25-12-14, Rob Herring wrote:
+> > > On Sat, Dec 13, 2025 at 12:13 PM Marco Felsch <m.felsch@pengutronix.de> wrote:
+> > > >
+> > > > Hi Rob,
+> > > >
+> > > > On 25-12-12, Rob Herring (Arm) wrote:
+> > > > > These .dtsi files are not included anywhere in the tree and can't be
+> > > > > tested.
+> > > >
+> > > > not in the tree but by other projects, please see below.
+> > > >
+> > > > > Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> > > > > ---
+> > > > >  .../dts/nxp/imx/imx6dl-kontron-samx6i.dtsi    | 12 -----
+> > > > >  .../dts/nxp/imx/imx6q-kontron-samx6i.dtsi     | 12 -----
+> > > > >  .../boot/dts/nxp/imx/imx6qdl-pico-dwarf.dtsi  | 45 ----------------
+> > > > >  .../boot/dts/nxp/imx/imx6qdl-pico-nymph.dtsi  | 54 -------------------
+> > > > >  4 files changed, 123 deletions(-)
+> > > > >  delete mode 100644 arch/arm/boot/dts/nxp/imx/imx6dl-kontron-samx6i.dtsi
+> > > > >  delete mode 100644 arch/arm/boot/dts/nxp/imx/imx6q-kontron-samx6i.dtsi
+> > > > >  delete mode 100644 arch/arm/boot/dts/nxp/imx/imx6qdl-pico-dwarf.dtsi
+> > > > >  delete mode 100644 arch/arm/boot/dts/nxp/imx/imx6qdl-pico-nymph.dtsi
+> > > > >
+> > > > > diff --git a/arch/arm/boot/dts/nxp/imx/imx6dl-kontron-samx6i.dtsi b/arch/arm/boot/dts/nxp/imx/imx6dl-kontron-samx6i.dtsi
+> > > > > deleted file mode 100644
+> > > > > index 5a9b819d7ee8..000000000000
+> > > > > --- a/arch/arm/boot/dts/nxp/imx/imx6dl-kontron-samx6i.dtsi
+> > > > > +++ /dev/null
+> > > > > @@ -1,12 +0,0 @@
+> > > > > -// SPDX-License-Identifier: GPL-2.0 OR X11
+> > > > > -/*
+> > > > > - * Copyright 2019 (C) Pengutronix, Marco Felsch <kernel@pengutronix.de>
+> > > > > - */
+> > > > > -
+> > > > > -#include "imx6dl.dtsi"
+> > > > > -#include "imx6qdl-kontron-samx6i.dtsi"
+> > > > > -
+> > > > > -/ {
+> > > > > -     model = "Kontron SMARC-sAMX6i Dual-Lite/Solo";
+> > > > > -     compatible = "kontron,imx6dl-samx6i", "fsl,imx6dl";
+> > > > > -};
+> > > > > diff --git a/arch/arm/boot/dts/nxp/imx/imx6q-kontron-samx6i.dtsi b/arch/arm/boot/dts/nxp/imx/imx6q-kontron-samx6i.dtsi
+> > > > > deleted file mode 100644
+> > > > > index e76963436079..000000000000
+> > > > > --- a/arch/arm/boot/dts/nxp/imx/imx6q-kontron-samx6i.dtsi
+> > > > > +++ /dev/null
+> > > > > @@ -1,12 +0,0 @@
+> > > > > -// SPDX-License-Identifier: GPL-2.0 OR X11
+> > > > > -/*
+> > > > > - * Copyright 2019 (C) Pengutronix, Marco Felsch <kernel@pengutronix.de>
+> > > > > - */
+> > > > > -
+> > > > > -#include "imx6q.dtsi"
+> > > > > -#include "imx6qdl-kontron-samx6i.dtsi"
+> > > > > -
+> > > > > -/ {
+> > > > > -     model = "Kontron SMARC-sAMX6i Quad/Dual";
+> > > > > -     compatible = "kontron,imx6q-samx6i", "fsl,imx6q";
+> > > > > -};
+> > > >
+> > > > I can't speak for the other two .dtsi files but both kontron .dtsi files
+> > > > are used by barebox:
+> > > >
+> > > >  - https://elixir.bootlin.com/barebox/v2025.11.0/source/arch/arm/dts/imx6dl-samx6i.dts#L8
+> > > >  - https://elixir.bootlin.com/barebox/v2025.11.0/source/arch/arm/dts/imx6q-samx6i.dts#L8
+> > > >
+> > > > Removing them here will cause a regression for barebox.
+> > >
+> > > Please upstream something that uses the .dtsi. Other than the
+> > > undocumented barebox property, no reason these can't be.
+> >
+> > My intention wasn't to point to the barebox-only
+> > "barebox,disable-deep-probe" property. I was refering to the include
+> > line.
+> >
+> > The two .dtsi files we're talking about are SoM .dtsi files. We don't
+> > have access to the Kontron EVK baseboard which uses this SoM.
+> >
+> > I've added a few Kontron devs which may can add the missing baseboard
+> > support.
+> >
+> > +Cc: frieder.schrempf@kontron.de
+> > +Cc: annette.kobou@kontron.de
+> > +Cc: oualid.derouiche@kontron.de
+> > +Cc: eberhard.stoll@kontron.de
+> >
+> > I could also add the imx6dl-samx6i.dts and imx6q-samx6i.dts like we do
+> > in barebox. But as said, this would be a devicetree for a SoM which
+> > makes sense for the bootloader but not for the kernel.
+> 
+> Why not? People use the kernel as a bootloader. There's also some
 
-I might be repeating myself here...
+Using the kernel as bootloader is a good point, which I didn't had in my
+mind!
 
-Have you tested WoL? Does it work? Or is this just copy/paste from an
-example?
+I will add the som.dts, please don't remove the kontron dtsi files yet.
 
-We have a lot of DT blobs which suggest WoL should work, but it does
-not. It is something we need to improve.
+> discussions about splitting SoMs and baseboards into overlays for
+> baseboards (and also even into SoC base DT plus overlay for boards).
 
-Thanks
-	Andrew
+Do you have pointers?
+
+Regards,
+  Marco
+
+
+> 
+> Rob
+> 
+
+-- 
+#gernperDu 
+#CallMeByMyFirstName
+
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | https://www.pengutronix.de/ |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-9    |
 
