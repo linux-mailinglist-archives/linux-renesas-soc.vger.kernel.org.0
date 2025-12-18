@@ -1,219 +1,106 @@
-Return-Path: <linux-renesas-soc+bounces-25895-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25897-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20297CCC8D6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Dec 2025 16:47:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 927D5CCC9B4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Dec 2025 17:00:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4795A303D6AA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Dec 2025 15:45:27 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 46DD730AB6E5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Dec 2025 15:56:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE37E33A9C2;
-	Thu, 18 Dec 2025 15:45:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E083E34F244;
+	Thu, 18 Dec 2025 15:47:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="VKH2v6xX"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BggJZifg"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx-relay95-hz2.antispameurope.com (mx-relay95-hz2.antispameurope.com [94.100.136.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E41562E11DD
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 18 Dec 2025 15:45:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=94.100.136.195
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766072718; cv=pass; b=nuZ+yMZ3WBPUhC7wHw7jGFPMPIguSbZinTIrZL3CFxhViL/UbH4/6aOeyPWjEGnbKKRXZ0Yi5TCxQ9pB7GbtI79ZTyOAP9PV+Mp0xEbKCkQv4gxAe53hOWuaowG/Znw8Lep4Cr1k3CE2nrT7NWuJZcAUFmnMzjnGk7EBPHAkIaM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766072718; c=relaxed/simple;
-	bh=lYmjpxP0uO6WQqzTJeVwXGBg09KGDuuPwir+lNZhhrQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=numptpefcLW3SNr/ixfhO/va5/M8WIik9IrVHubuYWeFKSrOQIXU3QJLTG8DGlgdLeGg5MqjHdD4VecRhWgD+47X9swYSUzLrwzYFsUSP4CS2AcvFtpZ2l1wN4V1pDW70FM8wT0lclBHoTbkGjrKM84UFXVolP7Ad43iWoObAlA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=VKH2v6xX; arc=pass smtp.client-ip=94.100.136.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ew.tq-group.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
-ARC-Authentication-Results: i=1; mx-gate95-hz2.hornetsecurity.com 1; spf=pass
- reason=mailfrom (ip=94.100.132.6, headerfrom=ew.tq-group.com)
- smtp.mailfrom=ew.tq-group.com
- smtp.helo=hmail-p-smtp01-out04-hz1.hornetsecurity.com; dmarc=pass
- header.from=ew.tq-group.com orig.disposition=pass
-ARC-Message-Signature: a=rsa-sha256;
- bh=cNktqPdORa2qnhbyWV/LXLPJYGLHHIks8TSaavnZQv8=; c=relaxed/relaxed;
- d=hornetsecurity.com; h=from:to:date:subject:mime-version:; i=1; s=hse1;
- t=1766072683;
- b=Mv769UHrFnw1ShfID+L+c5ajUB6qprQF5TEuCxvB4nZstq2XToXkv7jz16eo/RJt2PUwwJSt
- EN9zHY8RmRf72fDHA3WIEUZLk2YXIkMO6ZzyLWAvnzBI1EEL+EtgK/3I1wktpKaU+9E+2DNfzGz
- XM1EjTOMCk5DaD1eQ6Yr7nQd7yVZv4Vu6CfxRytf4INiI5IyyOOQtNafHZLQKPYjXL8JZVS7K8d
- hgIRXK6JQoLSq9svUYWBUzkSDEjBRbvgQJqd+QqKbkNnPxoJxTizs5n5WEPdX4GTKLF4VPirnFp
- RvIGdScgFr/eRiYWoWv3tKW3TWRhJ68HmmfRQmnk9/wsA==
-ARC-Seal: a=rsa-sha256; cv=none; d=hornetsecurity.com; i=1; s=hse1;
- t=1766072683;
- b=GvO7NkKUCa4LOpj6Ej75kKjXtf/rFgU1LvGow2ljjZpXVVeE2BRwRCFZUj8e1Qv/Slqgk0aH
- e/EEF//eI0q6y2dajXaiH9IwGbykTJcX/eEfYTRygk7vyJsDAU1Rn1zwZ4auMnNSmsh5UZU0xQf
- ToBu32DLn2atMd+XkU9Ze7sBoDzkv5j7J5y2fLaDB1qJ3mYegJpN2hLAjv/PPIcDF+raK2BRgT0
- sNVWJ+nK2HehQPUrjp7tHqRbfsmTdD9tW0Yto788R4W+qKJL9cBXzzjd8+cSj5Q9gYKooqTPF0v
- gT1GeYYIOYj//gC0SZSrcJbkQ6hThn5dGQktgltTvYc0w==
-Received: from he-nlb01-hz1.hornetsecurity.com ([94.100.132.6]) by mx-relay95-hz2.antispameurope.com;
- Thu, 18 Dec 2025 16:44:43 +0100
-Received: from steina-w.tq-net.de (host-82-135-125-110.customer.m-online.net [82.135.125.110])
-	(Authenticated sender: alexander.stein@ew.tq-group.com)
-	by hmail-p-smtp01-out04-hz1.hornetsecurity.com (Postfix) with ESMTPSA id 6EA1B220619;
-	Thu, 18 Dec 2025 16:44:25 +0100 (CET)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Peter Chen <peter.chen@kernel.org>,
-	Pawel Laszczak <pawell@cadence.com>,
-	Roger Quadros <rogerq@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Marek Vasut <marex@denx.de>
-Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux@ew.tq-group.com
-Subject: [PATCH 6/6] arm64: dts: imx8qm-tqma8qm-mba8x: Disable Cortex-A72 cluster
-Date: Thu, 18 Dec 2025 16:44:08 +0100
-Message-ID: <20251218154412.1524249-2-alexander.stein@ew.tq-group.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251218152058.1521806-1-alexander.stein@ew.tq-group.com>
-References: <20251218152058.1521806-1-alexander.stein@ew.tq-group.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5371E34DCCD
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 18 Dec 2025 15:47:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1766072868; cv=none; b=paJQVYhICAa2nImNk/2Ond2/8EJFT/gEaWZXgzuW0sUY+IqGj50e9fTSFLoTH99vkTlnzxhV8JDImVQUiPhS+ycXLmWGy5qbP1nTYmoeluWsiNUMaxW00BDlczZBhkMjHfpiiHE09pb++Bx+KcZEObNf92ZEZh/SGd91TYRtZA4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1766072868; c=relaxed/simple;
+	bh=LzxNzF7MpItYcU3pEGmTXATHal65pD7N5vjHukp5bDE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ed3eCqK9icYyHmJrv+ct2Z+91tSwv/i+UzeOlLtt66pmXwOlXzfgiHYt21TUD+D+u7+Uugj++AFgvaA+4YX+DnhGspttFqxHtLR/tubxm8FHyLwk+rzwDizMsGP6nUlqWWc4OXDc4dDJJZk6F+3GgV4+HJ5zo/6B+McUBftzx2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BggJZifg; arc=none smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5959105629bso695085e87.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 18 Dec 2025 07:47:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1766072864; x=1766677664; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LzxNzF7MpItYcU3pEGmTXATHal65pD7N5vjHukp5bDE=;
+        b=BggJZifgjvx24PLzSYnjQCRW8lcVGi8OQ3JZYKH1fJf+W1Yphj6PpOXaY/v+7/K3Wq
+         svn7fUsuVdAD8JmSROt9ZGzmbTXjYttt2FcrmgoL0MMQc5OGRIf2ubxQfS9ZRLXP1poC
+         ljDz/txTjHP5Sg82DWwHJHrkU8aPNTpnkAsintYGBGw1KwwG74ZAxbJ5/21OQAjIrT9g
+         Zg4M2Xk8tsIh9wGMDbpVgX6TqPuZb1kmeYVaoYa7NNhxa5eKwL3ZW+KBSNKNbsam59hC
+         Tf9/JyaokJRpw5kT9rU1gJaIl4QPPQaWLx56+SBJPNIZl8SkOVFdUvA3EUTrqZkJn6e6
+         QQ5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766072864; x=1766677664;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=LzxNzF7MpItYcU3pEGmTXATHal65pD7N5vjHukp5bDE=;
+        b=qcjNkuoBvNcHRCe4AC5uaLqervz/cDQulZq6mM6HlOkQhQ2XEIcdgf6m2f4xFY+CQR
+         IjCMq146UHLRnIeW5G30l2+0oN1ubE7dSW9gj07cb4NXgwVPzgv/GbOOiPhJ9HxXuEGh
+         baUp0XAj4lEOmVS+OAC0u4yorV+3Qkzi4s7iT7hsTUqUkrrg5jLTOG5rMVvV349PIAfi
+         EyvUMkIJjeofCjAOWf5+r/pjrtdMubQn864eCsdvaKTEteINTvPPNkQ02QeSkdKHSRjP
+         B68AI+TecmGPEfFwRzIBR1UN/XmG9cePpoofD3KM/ekTs21Ja+0xfH2dcLQLes3dMxxa
+         r9Ng==
+X-Forwarded-Encrypted: i=1; AJvYcCXHZTD9Gd7yYc284rjZwN6G1XQfbHJDL8SYh4Gg53+TKcfCBvSrs8FJkI9DEXbHkUDlkBM/NU2SZc+/q+aM0C7Abg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwftSHg6BjqR8LZ37zQoF+tvG56DyrunFesAxJN3yExfPpFS9Ax
+	Jb6mjo43zy0f0+gaLIUuNXRmuHbQJnGSbU4Vs8lj/PtETb0z6xjVjwsBgPuQEqzqy6UOBS4KtL8
+	aIWYuWNPBhWYT11lWvQ3FnrotB3SexNo=
+X-Gm-Gg: AY/fxX7ln+o/FpQxnIkkmWKL0rshb5J/zn2kGNllXht63/EZ3t/jxBxKoeve4Gc+YMm
+	XHsNd27aTQwIv2ICc+PYVzmvhjNxtdRMnv5olbUZzXnoLfAyEs80St67pQVDSBYIdMeMfjxghwg
+	WXCkmNFBL+vC/WHch+dfj06UkcLNO/aa6FBhCcAKgPArR8CjuhEae17hvvFH1TwaKB0n6TXV3dG
+	w7xov39zdKvXHDQszorG9xhrh1pi6No7tUEsVedoWLxOi2wAD7GSFduRf6V3JyR4gb8SAq17a5M
+	ximed2EAneCEsCEb95z8eYzL4+I=
+X-Google-Smtp-Source: AGHT+IGrYbGUckFbA0uI/Uak1RoxWaGizxcWDMRvFWxpw/hL/+bdMgS3hQvghW4USBbg4LCsrOKENWVewsmE9VZ7WWY=
+X-Received: by 2002:a05:6512:128c:b0:598:eaf8:8f5a with SMTP id
+ 2adb3069b0e04-59a17d573afmr14623e87.38.1766072864074; Thu, 18 Dec 2025
+ 07:47:44 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-cloud-security-sender:alexander.stein@ew.tq-group.com
-X-cloud-security-recipient:linux-renesas-soc@vger.kernel.org
-X-cloud-security-crypt: load encryption module
-X-cloud-security-Mailarchiv: E-Mail archived for: alexander.stein@ew.tq-group.com
-X-cloud-security-Mailarchivtype:outbound
-X-cloud-security-Virusscan:CLEAN
-X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on mx-relay95-hz2.antispameurope.com with 4dXFMt4MRFz2F8Jm
-X-cloud-security-connect: he-nlb01-hz1.hornetsecurity.com[94.100.132.6], TLS=1, IP=94.100.132.6
-X-cloud-security-Digest:30ac5d452f02eb17521dada3ca6d72f8
-X-cloud-security:scantime:1.560
-DKIM-Signature: a=rsa-sha256;
- bh=cNktqPdORa2qnhbyWV/LXLPJYGLHHIks8TSaavnZQv8=; c=relaxed/relaxed;
- d=ew.tq-group.com;
- h=content-type:mime-version:subject:from:to:message-id:date; s=hse1;
- t=1766072682; v=1;
- b=VKH2v6xXo2IhESVkmlgaWHoMlbiZYEw+x5DROsLZ2RIiFr7jMxJ4mR9T5NA7RJHU206JKeso
- sP8C43YqrXChJi9/lhqGIHJrL1lzGAoPSDuL04ikedwqt2QsqlAh5Abzlqz0RIXnQQCasir48YA
- 1HAh44KMXEivoUP09TzQLgS0LhBhDCpgaHwm0hof47t3oSEe+3VGGN2ZYZu4FefIowIA24xDml1
- 0uZuvwp+mhZJeDLb5o2Leh0s/kbeOysXylZIHecfk2/iPTBgU8iM2p5al6cNXt7W/PFPtL9b+uD
- 3coyAa+lf0NlFkpbYnJFSTjhmffWIUsiBSqLKFKQMNapA==
+References: <20251218152058.1521806-1-alexander.stein@ew.tq-group.com> <20251218154412.1524249-1-alexander.stein@ew.tq-group.com>
+In-Reply-To: <20251218154412.1524249-1-alexander.stein@ew.tq-group.com>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Thu, 18 Dec 2025 12:47:33 -0300
+X-Gm-Features: AQt7F2qc4TJ7gyArwoED7PIRPB0eAsifB8ZnC9eeMqM3yyZByNJJ_XOF-WESW6g
+Message-ID: <CAOMZO5CmP_rdFA=PqGSmKDU+ObzifHFDjwYMD3J67bjs0h_sfw@mail.gmail.com>
+Subject: Re: [PATCH 5/6] arm64: dts: Add TQ imx8qm based board
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Peter Chen <peter.chen@kernel.org>, Pawel Laszczak <pawell@cadence.com>, 
+	Roger Quadros <rogerq@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Magnus Damm <magnus.damm@gmail.com>, 
+	Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+	linux-usb@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux@ew.tq-group.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Due to missing workaround for "ERR050104: Arm/A53: Cache coherency issue"
-disable the whole Cortex-A72 cluster.
+On Thu, Dec 18, 2025 at 12:45=E2=80=AFPM Alexander Stein
+<alexander.stein@ew.tq-group.com> wrote:
+>
+> * TQMa8QM on MBa8x
 
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
----
- .../dts/freescale/imx8qm-tqma8qm-mba8x.dts    | 39 -------------------
- .../boot/dts/freescale/imx8qm-tqma8qm.dtsi    | 13 +++++--
- 2 files changed, 10 insertions(+), 42 deletions(-)
-
-diff --git a/arch/arm64/boot/dts/freescale/imx8qm-tqma8qm-mba8x.dts b/arch/arm64/boot/dts/freescale/imx8qm-tqma8qm-mba8x.dts
-index ba19c3c17c496..4a5ab14ddc550 100644
---- a/arch/arm64/boot/dts/freescale/imx8qm-tqma8qm-mba8x.dts
-+++ b/arch/arm64/boot/dts/freescale/imx8qm-tqma8qm-mba8x.dts
-@@ -296,45 +296,6 @@ map3 {
- 				};
- 			};
- 		};
--
--		cpu1-thermal {
--			trips {
--				soc_active1_0: trip-active0 {
--					temperature = <40000>;
--					hysteresis = <5000>;
--					type = "active";
--				};
--
--				soc_active1_1: trip-active1 {
--					temperature = <48000>;
--					hysteresis = <3000>;
--					type = "active";
--				};
--
--				soc_active1_2: trip-active2 {
--					temperature = <60000>;
--					hysteresis = <10000>;
--					type = "active";
--				};
--			};
--
--			cooling-maps {
--				map1 {
--					trip = <&soc_active1_0>;
--					cooling-device = <&fan0 1 1>;
--				};
--
--				map2 {
--					trip = <&soc_active1_1>;
--					cooling-device = <&fan0 2 2>;
--				};
--
--				map3 {
--					trip = <&soc_active1_2>;
--					cooling-device = <&fan0 3 3>;
--				};
--			};
--		};
- 	};
- };
- 
-diff --git a/arch/arm64/boot/dts/freescale/imx8qm-tqma8qm.dtsi b/arch/arm64/boot/dts/freescale/imx8qm-tqma8qm.dtsi
-index 718c792259a65..57d06817aab63 100644
---- a/arch/arm64/boot/dts/freescale/imx8qm-tqma8qm.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8qm-tqma8qm.dtsi
-@@ -11,6 +11,13 @@ / {
- 	model = "TQ-Systems i.MX8QM TQMa8QM";
- 	compatible = "tq,imx8qm-tqma8qm", "fsl,imx8qm";
- 
-+	/* Due to missing workaround for ERR050104 */
-+	cpus {
-+		/delete-node/ cpu-map;
-+		/delete-node/ cpu@100;
-+		/delete-node/ cpu@101;
-+	};
-+
- 	memory@80000000 {
- 		device_type = "memory";
- 		/*
-@@ -171,6 +178,8 @@ &mu2_m0 {
- };
- 
- &thermal_zones {
-+	/delete-node/ cpu1-thermal;
-+
- 	pmic0-thermal {
- 		polling-delay-passive = <250>;
- 		polling-delay = <2000>;
-@@ -196,9 +205,7 @@ map0 {
- 					<&A53_0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
- 					<&A53_1 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
- 					<&A53_2 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
--					<&A53_3 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
--					<&A72_0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
--					<&A72_1 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
-+					<&A53_3 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
- 			};
- 		};
- 	};
--- 
-2.43.0
-
+This commit log should be improved by explaining the SoM and base
+board in more detail, providing a URL, etc.
 
