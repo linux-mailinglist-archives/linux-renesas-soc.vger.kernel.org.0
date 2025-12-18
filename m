@@ -1,61 +1,61 @@
-Return-Path: <linux-renesas-soc+bounces-25888-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25890-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 406D1CCC837
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Dec 2025 16:38:15 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64975CCC7F8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Dec 2025 16:34:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1850C30C19C8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Dec 2025 15:32:25 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 0D729301E370
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Dec 2025 15:34:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8223354AC3;
-	Thu, 18 Dec 2025 15:21:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 016F8355046;
+	Thu, 18 Dec 2025 15:22:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="D+TF+11j"
+	dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="NCNS2ngk"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx-relay49-hz3.antispameurope.com (mx-relay49-hz3.antispameurope.com [94.100.134.238])
+Received: from mx-relay31-hz1.antispameurope.com (mx-relay31-hz1.antispameurope.com [94.100.133.207])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8799B352F94
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 18 Dec 2025 15:21:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=94.100.134.238
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AE4D355027
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 18 Dec 2025 15:22:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=94.100.133.207
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766071318; cv=pass; b=Lz5PzUKYgmC+iWHoE2U6pNz75Lgd9DKyxLI6RxmmmYMxjm+ArsCXe09SUj9BGbuZAcYgZwMtbD40Xs7xTEvRdBDFdd4fCvrBLKuTfgfg4uDpbHliw6Ps/FMVnyyo+aToxk7adl7uxJ11ZDemUsWWLuJZ/4xyO3O+CEuncTZ2SUg=
+	t=1766071325; cv=pass; b=m2FhPoxWcmJ7p1wRMcCaKZMoUWH1xjJmZfaIQOL1jM4IlfTWmPwALJXxUd1+WVZlkyjQrrM7CxoB91pyKIvm5wgp21Y8WQl1YQgVDKUxy4aO9rwWJkikgKBv1XC/54qAblWq2Gfvzqys50GdvCW8vbePhuVyv0lDbQKYHy0X/q8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766071318; c=relaxed/simple;
-	bh=HFFh/0R1q/dM407ncnP63bQTvfvE8hZuOCGo9ES6MnA=;
+	s=arc-20240116; t=1766071325; c=relaxed/simple;
+	bh=xU+o4EwdFkRdWDIg0E/QjC9yBED5TOlSry1ayU8ef1M=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ja3Wby577cE0zk/IuZfZmwnci8ptmtDHXueMvZfCjdxITm7YX9A5mbmQqzTUrvcTFMg7yvdo5qQoHjI5wZ5W5xIQkQqbNWsZoouoWJzLM7CTewJlJgYCjRDTkHiaOjpjvJWLEd0eeat+3CYYmQwiMk+Ag4rstXsXuEuZQAZCTMc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=D+TF+11j; arc=pass smtp.client-ip=94.100.134.238
+	 MIME-Version; b=OkfwK8VBt+WEwqE+i8iGPV0rNSYksAfaeLsGgbsYWR1XDFEBKRqljM6PnfgCkMfLqeWWIpjGkFJksdlSFap0qmGuHn4M67yrLvDPRqnDwXTlTGN6Tow4t1uabVjXy3i9sjh+jPC9ai3yShYQeXhSv9wmEbVvOxGx92naFhj0jlA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=NCNS2ngk; arc=pass smtp.client-ip=94.100.133.207
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ew.tq-group.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
-ARC-Authentication-Results: i=1; mx-gate49-hz3.hornetsecurity.com 1; spf=pass
+ARC-Authentication-Results: i=1; mx-gate31-hz1.hornetsecurity.com 1; spf=pass
  reason=mailfrom (ip=94.100.132.6, headerfrom=ew.tq-group.com)
  smtp.mailfrom=ew.tq-group.com
  smtp.helo=hmail-p-smtp01-out03-hz1.hornetsecurity.com; dmarc=pass
  header.from=ew.tq-group.com orig.disposition=pass
 ARC-Message-Signature: a=rsa-sha256;
- bh=k3AM7QmqkPS84tQuQ7++sP3E2X2hsG+zkS1II3xFrLY=; c=relaxed/relaxed;
+ bh=FI7PYyPGdjJp1gXUMedmlj7NmwLyvXozNGGHThu/Auc=; c=relaxed/relaxed;
  d=hornetsecurity.com; h=from:to:date:subject:mime-version:; i=1; s=hse1;
- t=1766071288;
- b=f5YmVc6Xxs5qZkbmfQRNyiX/h5EY3ZX3IK/KpOQWVD1FOPMiaWBR4hJwCWt/QhsU+2REtAfE
- ZJpyfo1kHSwCjSYE1ApIpczOLxpbmePbOaa8mg+kEZKwafyZb5ID6695ru56WO5ieyzYzGBrSTC
- aPLBQjzBQAVqko4PoL5kXYS8Sa4SD/+pvdfqVo/s2jhVCDKr8w9nPSSGm9kdYWecRQKhhGeaAYG
- LMN0bu7lXfOXAWA+xaINhPgPtv2KY/HIld/mdZ+oUeCjq849hge+u+EiFplVGSsvQ3CSGXCEy1u
- IpDoFkurvWfKMqdXPdt0YslL4hguBR7GS1ugCEKQ8W+5w==
+ t=1766071289;
+ b=D6xJF9e2eXq0V6oH+Z7gkDBzVPRh65VuXOASUbmpH2irfE3EbpKGBZJKqiQQlMoYdiSkxXjh
+ b/5c/61lWnayvTNayCQUXqHJxe0VEIJzKBSGNUvsR/n1jHuQJ+7I9M3/8ArH5VhABs5dqfOZJsY
+ OoThb5uZSNQQNPc7s6LDlPfuqyiVgpvaeVj3rsVCSkJrAFcCDj0TvFr/k7YG8Bg04g6QX7MQXjF
+ d611gQ42ZKwvKFXkMxhuUlYJRBk07OPdkmnTeuipTcPsq2LZxPFfiAObunrlQ/edWSajneFKRUk
+ BlnLcjqEbjNYUkk1JtU7uvvmLEG6TbdikfBmC+f4gk1aw==
 ARC-Seal: a=rsa-sha256; cv=none; d=hornetsecurity.com; i=1; s=hse1;
- t=1766071288;
- b=C9M3EoTUz7p+Ag0oUm4rbr22pYilPyny18jPYJYfzYv3HQp7V7m7RABUZk9nn1jGriE5TACA
- 1Cef+j4fNbC+DxHIS+6bBwHahXoGJvQNTjHeJ20qzRU8qFMg+X+WeL9lPnMY8Kwxu807qFw/BCw
- PMb45dlPyM+FfS8/g4CBdo0Nd7vkJ9chx9TP9HoJt0WHEkGOqZLwgyoWY0zcwk/Tqg3wCtwWXNn
- DdaVfHTS3DTeRY8Yjd9lZO8WPMY4cuL2r3T07jznqWRoNpOZUEiRvGO24w03J2pS4BOSqbUkRIH
- fxhiUqCLmVTmPa+CRS4ZFa1qstcHjBXMoRxi0UMV+HBpQ==
-Received: from he-nlb01-hz1.hornetsecurity.com ([94.100.132.6]) by mx-relay49-hz3.antispameurope.com;
+ t=1766071289;
+ b=rOb1G1FbXpZvj3U4qymKEYZpwOLTX6EVg5aMc1b3/KOBZvAYs+56119R7zZW1CG5QOdEUdmV
+ qa+oxeJFuS6AtrabNobr/LgUfDCd76lGIHm7WkKXC2zeOfaBWkV4QVDwGIGnb00B4iZXRv/UEzz
+ 5FQu7SlhJ/2NhNFEk7M0PGeUOxQ5KgzQynf6/VZuQQ245z20liJUbMz8c8IFpaMvOJ8E+UmB6Iu
+ FhEMj0Zy0W2ELv4Pi/BddUg15ZxpdcPlZXEQluYMGAdc/0z8vVtRy7MKePoWbP27G7uKAdrf6qL
+ OhKlzdQl3BBwk2CSZmHAh/5wfycal5gVBXfb77nAY67tw==
+Received: from he-nlb01-hz1.hornetsecurity.com ([94.100.132.6]) by mx-relay31-hz1.antispameurope.com;
  Thu, 18 Dec 2025 16:21:28 +0100
 Received: from steina-w.tq-net.de (host-82-135-125-110.customer.m-online.net [82.135.125.110])
 	(Authenticated sender: alexander.stein@ew.tq-group.com)
-	by hmail-p-smtp01-out03-hz1.hornetsecurity.com (Postfix) with ESMTPSA id C1E2ECC0CC7;
-	Thu, 18 Dec 2025 16:21:05 +0100 (CET)
+	by hmail-p-smtp01-out03-hz1.hornetsecurity.com (Postfix) with ESMTPSA id 54C12CC0D30;
+	Thu, 18 Dec 2025 16:21:07 +0100 (CET)
 From: Alexander Stein <alexander.stein@ew.tq-group.com>
 To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -82,9 +82,9 @@ Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
 	imx@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	linux@ew.tq-group.com
-Subject: [PATCH 1/6] dt-bindings: clk: rs9: add clock-output-names property
-Date: Thu, 18 Dec 2025 16:20:48 +0100
-Message-ID: <20251218152058.1521806-2-alexander.stein@ew.tq-group.com>
+Subject: [PATCH 2/6] dt-bindings: usb: cdns,usb3: support USB devices in DT
+Date: Thu, 18 Dec 2025 16:20:49 +0100
+Message-ID: <20251218152058.1521806-3-alexander.stein@ew.tq-group.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251218152058.1521806-1-alexander.stein@ew.tq-group.com>
 References: <20251218152058.1521806-1-alexander.stein@ew.tq-group.com>
@@ -101,90 +101,50 @@ X-cloud-security-crypt: load encryption module
 X-cloud-security-Mailarchiv: E-Mail archived for: alexander.stein@ew.tq-group.com
 X-cloud-security-Mailarchivtype:outbound
 X-cloud-security-Virusscan:CLEAN
-X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on mx-relay49-hz3.antispameurope.com with 4dXDry6fRMz3yXl8
+X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on mx-relay31-hz1.antispameurope.com with 4dXDs03JbGz4HPhR
 X-cloud-security-connect: he-nlb01-hz1.hornetsecurity.com[94.100.132.6], TLS=1, IP=94.100.132.6
-X-cloud-security-Digest:79e50b13dc320d875aa9306a79dc5026
-X-cloud-security:scantime:2.032
+X-cloud-security-Digest:4d69e4e769c0d457f96290f5ace7a8c2
+X-cloud-security:scantime:1.856
 DKIM-Signature: a=rsa-sha256;
- bh=k3AM7QmqkPS84tQuQ7++sP3E2X2hsG+zkS1II3xFrLY=; c=relaxed/relaxed;
+ bh=FI7PYyPGdjJp1gXUMedmlj7NmwLyvXozNGGHThu/Auc=; c=relaxed/relaxed;
  d=ew.tq-group.com;
  h=content-type:mime-version:subject:from:to:message-id:date; s=hse1;
  t=1766071288; v=1;
- b=D+TF+11jhGGZp0rOv9NNOV6lYXd+ADzW4DYNGbWAJ6Sh1qN9WWyx65g0LE356kJy3GjtfoAi
- +1gmKRBf3zxe+nhcMbgD3wusJ8m9CYb/RtC8CV81vDT0cNmwsgjc1gMD5MmQviKqVMwbvd2/Czd
- 18Ps6w+TLKmws0tw1Fp363Jeb8cpD9JzCWrPnrCnDFC2uGlxGVRyot1+73mUqG812I0Yn3tC+Ct
- sWf19xZUpoLl3qh9vQarraN5JFf63gS7Yh2xjkQ6awOR4uuQzLLTajzzer8GAoSUa/NE0wmy0yz
- LSTDAb/uHnFhdGwz5RVe8aNJzaZt9oJfL3M+zStVpHTtw==
+ b=NCNS2ngk4jXaXupdMz4+49ulYY1ppNWSzNM97Lm1u1LIHkDau0UuSz+Fa5I3CjsAQZGoyaPw
+ 7mT2+TYtlmsLRF9ZrWk1/fIggXa6eoPI1is3gnrkTNnupElPhosNzXzrqS16hPwRDvKOigWMcMt
+ FPHLhevj1T0CCtp8oW8eJkV5HwTCtb9deEPOmXiUQiKNJiJ0oRedpnvnIF/SMlSlAJFZGZ3xE9R
+ Iq9dFnQeD5K2Nh+n76INczF/uuGKQN44E5i1pdxuekaBozZ/eKM1ciI4xrd+E1ug67eKH1RicLA
+ O6CZppcGXXsi3RcN1kBWfrmi+B37eUbhtQZ/xsIKZll9Q==
 
-Add "clock-output-names" which is a standard property for clock
-providers.
+Reference usb-hxci.yaml in host mode in order to support on-board USB
+hubs.
 
 Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 ---
- .../bindings/clock/renesas,9series.yaml       | 37 +++++++++++++++++++
- 1 file changed, 37 insertions(+)
+ Documentation/devicetree/bindings/usb/cdns,usb3.yaml | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/clock/renesas,9series.yaml b/Documentation/devicetree/bindings/clock/renesas,9series.yaml
-index af6319697b1c0..5590f04147612 100644
---- a/Documentation/devicetree/bindings/clock/renesas,9series.yaml
-+++ b/Documentation/devicetree/bindings/clock/renesas,9series.yaml
-@@ -52,6 +52,10 @@ properties:
-     items:
-       - description: XTal input clock
+diff --git a/Documentation/devicetree/bindings/usb/cdns,usb3.yaml b/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
+index f454ddd9bbaa6..1f7f0adc3b1ed 100644
+--- a/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
++++ b/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
+@@ -85,6 +85,17 @@ required:
  
-+  clock-output-names:
-+    minItems: 1
-+    maxItems: 8
+ allOf:
+   - $ref: usb-drd.yaml#
++  - if:
++      properties:
++        dr_mode:
++          const: peripheral
 +
-   renesas,out-amplitude-microvolt:
-     enum: [ 600000, 700000, 800000, 900000 ]
-     description: Output clock signal amplitude
-@@ -83,6 +87,38 @@ required:
- 
- additionalProperties: false
- 
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - renesas,9fgv0241
++      required:
++        - dr_mode
 +    then:
-+      properties:
-+        clock-output-names:
-+          maxItems: 2
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - renesas,9fgv0441
-+    then:
-+      properties:
-+        clock-output-names:
-+          maxItems: 4
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - renesas,9fgv0841
-+    then:
-+      properties:
-+        clock-output-names:
-+          maxItems: 8
-+
- examples:
-   - |
-     /* 25MHz reference crystal */
-@@ -101,6 +137,7 @@ examples:
-             compatible = "renesas,9fgv0241";
-             reg = <0x6a>;
-             #clock-cells = <1>;
-+            clock-output-names = "DIF0";
++      $ref: usb.yaml#
++    else:
++      $ref: usb-xhci.yaml#
  
-             clocks = <&ref25m>;
+ unevaluatedProperties: false
  
 -- 
 2.43.0
