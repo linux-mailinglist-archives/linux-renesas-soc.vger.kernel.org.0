@@ -1,125 +1,269 @@
-Return-Path: <linux-renesas-soc+bounces-25883-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25884-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42A7FCCAE3F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Dec 2025 09:31:48 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60D56CCAE69
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Dec 2025 09:34:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id F0CE1300B9AB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Dec 2025 08:27:48 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 0F7913016EC5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Dec 2025 08:34:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56C6D33066A;
-	Thu, 18 Dec 2025 08:27:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A76902D2398;
+	Thu, 18 Dec 2025 08:34:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zonque.org header.i=@zonque.org header.b="LUsKvlne"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="BcXPKTsM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mailkram.bugwerft.de (mailkram.bugwerft.de [95.216.200.101])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 152232E62C0
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 18 Dec 2025 08:27:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.216.200.101
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766046466; cv=none; b=i28AIdwK0Rm30q9GczTn9GA0gi3orERnneNwBvD3sWUuUelQ54tQZxCMWhJkwqVSE49nPD/OCT7AspOv8RlHzEKG9mEwXFeXK5l+Oh1427SRL3xVOac/RP7/4KwMpk0zn5GfmmKyFTSuYDP2jRSwt04HqV3Oa0oMYQZk3iB9AiU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766046466; c=relaxed/simple;
-	bh=n41lyNSoQuYpdPqcvETyvQJamEbAi8/jglp1oEC2UoQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UDXwOOAhcTMmU7xROm/0QGa1JNXpLJml+4N/ZsnVPORpSTZ/NLUSRDGBsJp44VCB2lTEqY8rX66XWGgNzTmXAcE4Df+yGpjzKQHzDTF6eTLPKMfkcBRbQrCGCMrHXOyJ52r5OOZ0I5DhwTCWKVcbjIz7MyXTPre1JxrNunvYzX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=zonque.org; spf=pass smtp.mailfrom=zonque.org; dkim=pass (1024-bit key) header.d=zonque.org header.i=@zonque.org header.b=LUsKvlne; arc=none smtp.client-ip=95.216.200.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=zonque.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zonque.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=zonque.org; s=mail;
-	t=1766046096; bh=n41lyNSoQuYpdPqcvETyvQJamEbAi8/jglp1oEC2UoQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=LUsKvlneD1aEiZdlieFQ2we1bSEAq4rzRKwu1L+ljZIDhSuR3ua7gBOrbVXcNbyms
-	 JILQcubDuvtfgJHBBirMMIQHp7QYpu7Alcv1catZTk2u6Lm6TqrMqV0J6dy9ZpJJEH
-	 x6QMFcWQOizJXVVZ/GfCCjamnKXWDLvHMWcAuC/8=
-Received: from [10.10.3.104] (unknown [62.214.9.170])
-	by mailkram.bugwerft.de (Postfix) with ESMTPSA id 81A0B4168D;
-	Thu, 18 Dec 2025 08:21:35 +0000 (UTC)
-Message-ID: <700e5050-aebe-4ca4-b02d-8ffacccf7045@zonque.org>
-Date: Thu, 18 Dec 2025 09:21:29 +0100
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010062.outbound.protection.outlook.com [52.101.228.62])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 387982E22BE;
+	Thu, 18 Dec 2025 08:34:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.62
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1766046858; cv=fail; b=Pyj1p2LeeonFin7fpHaS6TrzyFWT02Gwm1zRgYUTQ3AQKkDaPRhS3iHXlvf2nuew6hSXEaO4yHmCa2hw7hN8QbMMNVuZZ55QOyJAj61WStXejmSvZGk7/WIS+W0huKsG/bRgQm01qaUwzS7q8zWTdSfzVmZXMIwpFJb+qtom968=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1766046858; c=relaxed/simple;
+	bh=yLifq5ZeQmSQvx3zfbMb96V+8FlKs/ZSELRV6VVun/g=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=Oul/06dykRLbWBku7nsuRZzuJ2ZR6Zzfj4q7D/8SWCWV3bEI2fMHOpCbcWAm6RRzR79fxzriWWyozM8ofBsCl78V+sDhXq2N5jY7VUBdOJSKu24SZC/QS0SwdI9U/lA/Wd8h09jL4Pec2nRvFX1VoELYQfKSC5YcgaSNK6lcKLc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=BcXPKTsM; arc=fail smtp.client-ip=52.101.228.62
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=N+oRB7ydd8eIn2eoKAXQ1iQ36W1c7cd54TMOVYhuj5jdHvLUj1scMps7bUVWWfHajV2s7bTLjX/Erj9+U7iYeg3GMMFxy46TQ2Dx/jn25Ski59vmKGQMx1uQvS5NXpKATXjJsyVtCIJ8VFGg51raRzvNhyez6bdR0e7lb0LiKiof5YLHa05llT7CFXd9VZs8xOMyeZTuNnmfhG3eOMTDfIA0WdyKhRdWksbxJQUOW34KxrawekJFq4XCX4EMRZ7x1jC94YhvyoDLIZfDRMtoItT3hEPJ1LheW/89DXh3jglodK/96lsxycUFJ0hOn14DPaIVQQK7M2ulSVX+DLiZfg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mOd6Ex4a6ILY4retpvfMeTP2C2Z95N/6qNVBJA3SO8o=;
+ b=O2hDwG6vmBm6Yiu7CKPA/5LANkuGyfKfKYAQGanSLowkVAi72IWfE7sMqAFcfBY8wxzvqP9FUEJXclVdmlGuy5JHI7/+ICJt2Khr1CGZBhj6iov72MhsjNVipjfJAFgYYsI1h2rCkz4KxprTSZ5vmFUxrYv7WzGfIOo4AD//ohWcgLtzsUXK2+n+CecmswOg8yeGrlTvHCVj3FnY7smTPWPJYfkxJmmZvP3tpqXPJAv7mGrnHFqV9y4Ryr++ZXOY2hkfQbmmrW6I+nQBNF1TlbEhpq9s3beU4SENxxWBzPmu3FhB4NQqzxKVUv0VD1IxRcRZ4ik12JGmJAXPFZh51w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mOd6Ex4a6ILY4retpvfMeTP2C2Z95N/6qNVBJA3SO8o=;
+ b=BcXPKTsM4Of6sphVrjWhGLLtLWPJC00Gm0JJfWz1Z7ecFkgQiKAjfWWhpTTVmc+PK06Z9rF8FzdFabNio+++xISByx0V+S2Z4Yhh5S4YQx7kM/UnoAeB8vMtf7QU8AMLlO/oaxHL1ncJ28rKUwi0JbegAs0cnUruRqaUI67AaLI=
+Received: from TYCPR01MB11332.jpnprd01.prod.outlook.com (2603:1096:400:3c0::7)
+ by TYWPR01MB11397.jpnprd01.prod.outlook.com (2603:1096:400:402::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.7; Thu, 18 Dec
+ 2025 08:34:07 +0000
+Received: from TYCPR01MB11332.jpnprd01.prod.outlook.com
+ ([fe80::2511:10cd:e497:4d97]) by TYCPR01MB11332.jpnprd01.prod.outlook.com
+ ([fe80::2511:10cd:e497:4d97%2]) with mapi id 15.20.9434.001; Thu, 18 Dec 2025
+ 08:34:07 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, Claudiu.Beznea
+	<claudiu.beznea@tuxon.dev>
+CC: Tommaso Merciai <tomm.merciai@gmail.com>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	Chris Brandt <Chris.Brandt@renesas.com>, Andi Shyti <andi.shyti@kernel.org>,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"stable@vger.kernel.org" <stable@vger.kernel.org>
+Subject: RE: [PATCH] i2c: riic: Move suspend handling to NOIRQ phase
+Thread-Topic: [PATCH] i2c: riic: Move suspend handling to NOIRQ phase
+Thread-Index: AQHca17DsfRhAp0qr0GEOfw/pzuNj7Ulm/aAgAF4bQCAAAZbcA==
+Date: Thu, 18 Dec 2025 08:34:07 +0000
+Message-ID:
+ <TYCPR01MB11332BE48C9501DFC331D296886A8A@TYCPR01MB11332.jpnprd01.prod.outlook.com>
+References:
+ <05a31af3d6caba51e8237a49853281aa49bed916.1765540678.git.tommaso.merciai.xr@bp.renesas.com>
+ <74a801d3-8653-404f-8531-cb99108eac33@tuxon.dev>
+ <aUO2nEPdSHSAP8lp@tom-desktop>
+In-Reply-To: <aUO2nEPdSHSAP8lp@tom-desktop>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYCPR01MB11332:EE_|TYWPR01MB11397:EE_
+x-ms-office365-filtering-correlation-id: 227c5c60-e5f2-4eee-b738-08de3e1035c7
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|376014|366016|38070700021;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?CthRDuulBRiQX5TOjrIlN108Y5YNorUDrxtU+ELIWpc1ME79AdVBv2JbxSC5?=
+ =?us-ascii?Q?oYXyN1yI3MPgAWe4yinq+8TZFkIjECX7HX62iGbKi+KN4/X6q6P0LoXXHGHP?=
+ =?us-ascii?Q?5zmnfoGI585YFg8pJbi3sYL+AW5D2jFAxipiOoSenXG/HtpnrxA3PIAH2LW7?=
+ =?us-ascii?Q?5Xco+Eh71PkIJpKQcqnwDA75nvZvm33s/hLFVjUaKp72KvngIYJ2Y46OoP3E?=
+ =?us-ascii?Q?+5wL6lWpL7Kijyq5oh/CxNqeIipiPP0tKbsLWDV/HyfDop+07gl0VaQm0odF?=
+ =?us-ascii?Q?By1iPjh2Tyqk4jONP0CqURqQFxL6Ua5dHVBViBNzx0NeO78h3B8nqqrm8/om?=
+ =?us-ascii?Q?iqQwCfsgssNAn4OReztxNpfp3xHKV8AaJBCuOGGmdoNsDSCanYtv4sGZgdiu?=
+ =?us-ascii?Q?GuSExk/47RnR2LGQ32FxulsHsyWpjxAF84xlGTBYrtrL7MiVAg4zuZXNUTyj?=
+ =?us-ascii?Q?GlxB8uvk3WQ4XLIUnNi+8EX9Dn2ke8fVHZD04caLrIGfJQbceADYO0jR4VhG?=
+ =?us-ascii?Q?as5Rr4aROxUckLlmgxuf/4BHK+F5Zg1wEvsaGnKACdCZsQoMSYv/qKVyWEHb?=
+ =?us-ascii?Q?HXDGr+fTxI8eR59/Nqczso8nvNwT7Jp83bKgvRJH2KYw0dDiZMLVr4axMQNa?=
+ =?us-ascii?Q?mm98kaj5n+GQyRVdNRyvR3fuFdBOxSpIS8kpRb3vBCnuDxZh/4fbFvWeDaoE?=
+ =?us-ascii?Q?lCjWZn980yqTckXsps5J7Q7zCuG6PQnhOxap+I74TIweXGyUOBzcecOZBMRj?=
+ =?us-ascii?Q?FKbDWNDGbnYhM2XW9PhmTgRm0TxWHNwwbmKvVz9JMWudQYy6rL8/bds9uiOf?=
+ =?us-ascii?Q?Isqlz021HO3YB/Q7ac59VbW6tyv5jWoLbM1uvIuFvcLakKQh9ttBUtQrv99A?=
+ =?us-ascii?Q?ZQlw+2UAd78DRKJFhutHF+tn2cOWYe1sNFqhbKyxvi6jbsvULFMkZc4z9L+X?=
+ =?us-ascii?Q?Yc0+F5GGGPsDi07QwDKO2SVKRKXkdmHiYquVLHV6iJLjm31I/zO1MTi+YGVe?=
+ =?us-ascii?Q?ax8Ds72Rx2B+n201TAwEF3J55ekcgdEWJufMuLYDV7R755x+pDeKUob73H9H?=
+ =?us-ascii?Q?6uj/4bOYuSd55B8mO7wmsrQWMPyN1zH9lk5TOWdUxk2Wy5ajuVvCk3/Hzm2a?=
+ =?us-ascii?Q?4khz6BjmnbZMvIuayz+0qgdsbJfNSsCwuwgVZi5xivH+X1YU7fI8YGDjlNWb?=
+ =?us-ascii?Q?YmOLCqtgFpchOe6ebH23VViyMMZAp5c1s9Zz949zNVNTsH7jmMokrWAShOf8?=
+ =?us-ascii?Q?7xNto5UElzkeFyt3MKoXsNJ4upU0j/CGz7PJ+vEFgfecoMUAJUpFOvm0xoDM?=
+ =?us-ascii?Q?YZk9H8ethJW1Vzg5MrbG50B1NMn3dj9HhqWqm9fI1yina+In80OdleuaI5DQ?=
+ =?us-ascii?Q?e/91zn+RvnuLuS7SkmkhSqF6dqNU6qCGzW1rcS16LzlHzmB7Nm2PwoOA2jpB?=
+ =?us-ascii?Q?dHPwov/9t8iFZbJT1ds731fIas3CKrvhua4EoEfqaTLHDGn6TjkqRRucJkHb?=
+ =?us-ascii?Q?PRFd7MluB8fh2DxxaLGizHnKuzZ8uIyhyqnd?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11332.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?XuuH2kwgohlr22DVniw+l/DcQE8X6Bl2+/w7YbDHU54kn02RFzxAo/mZTjbn?=
+ =?us-ascii?Q?0cB0t8FTVWoEy1Y7T+kjnzP55ror5JN3NJN1YzsDEl1Su6BrKYYMDYlfdCXK?=
+ =?us-ascii?Q?DJjKRVgi225NuHr7AKhGuGHDblfJIZ/RER3x1B5KuI2A3v17dx5fV8K6L2KL?=
+ =?us-ascii?Q?NrB0wWJTIfr4gRzYykENyvn8BQXMm2zBHe6yJQY7ZCcLrrqUc9X6EcgW23E8?=
+ =?us-ascii?Q?IIdxC1pVJxAtdx+6iUtaZqp3kv6UvRq/StDhorS2gmLBUsQltkvLPQ4f4BUQ?=
+ =?us-ascii?Q?TU2kF/X0TIxw+QoVTm6Sy5L7eQHx3U7WMBLeYj0wqoKIbE/4Weg+w8nshOTL?=
+ =?us-ascii?Q?U6ygKNQIoXaG8RI7HCEGv7HxROgxTDDXmYpR8MhupzCygHtE0u+OixiXZgK8?=
+ =?us-ascii?Q?wj0tOHbPzM2LTRjdwtEpd3PBIlceG4oAH1UoROKhMxxSk8X1oSA11G7eAVoy?=
+ =?us-ascii?Q?s3udPDlPsGIPNnyCwFdCNRRFBsNX0W07chuYsewJ6/iK+t5B5WnijoSVAbgt?=
+ =?us-ascii?Q?ZvBBUyIqcOG5LguDzkP7J6vBHPliK3xVTQHhw7XgfTVcnKT+ixKv2dEqbsw6?=
+ =?us-ascii?Q?2KL9mB/9EM7+v1z9rRHgFOAiG2xNyHvuIyj5aFwlvJ9SNMcAbZkpaIqLzwte?=
+ =?us-ascii?Q?Is/V1w7ARDdxIGsleEjcozkqel8RloQ+g2VzcgpCfRX4gyipRjfAq/uJ2zlt?=
+ =?us-ascii?Q?Q3B54dvBJb9V4mjfoZjjOOEsmyaiMIriw25BVbjeamhncqDzafGJ6fk9+QW+?=
+ =?us-ascii?Q?zyg5QwunLM7OHt5QhCfcIJh4Uxhxmi3L17RttEmXkFiCmg9vlI7eJ0lCajE6?=
+ =?us-ascii?Q?Ba0nmoYWvLhaN/uPUvJkwGfacWzWJjC1WfVB1xRLx2RVRBR/hXbhYYdiVRZo?=
+ =?us-ascii?Q?afDaakInOqVr/dTsijb6K9qtdKdy7rLTb0O2f3aocP/f70MmEfhsodksvdgC?=
+ =?us-ascii?Q?xWGMSD+35fqMGaZnMtEuWtMt0057T6LzxCpx2MeHizIpC0fgMa3Mc9VDmCiG?=
+ =?us-ascii?Q?LGEzmAMHNObRHFkiLz/vljbF2+EGH2zpYDNkL6pUloSBDFnjEKk3ovW3mDIl?=
+ =?us-ascii?Q?82qKBghBpaJybRWdSlvzA5OWNpSxhGQS/bBvk3/e3vnEd48YKaSBfzq8xlKp?=
+ =?us-ascii?Q?pmPM4anXiHIoLeCDwy/eppb6ffcixJk7X+LgbzoO7ipYmPQ0frNVZqtTKTE5?=
+ =?us-ascii?Q?hPDlAaWtXP10HFZwHaqU0NREdKOC5R1e6q/Ug0ln27EvscLjtK4R5yID0Lna?=
+ =?us-ascii?Q?eqtiKNl68k3e36NBE/9mzCxeoY50ZSXrEm7/wUVRHSbN+L9FFC7HPGDQfoxA?=
+ =?us-ascii?Q?LMcAgAINZam7V7fmcRZR4LQZswu/QGA3oyQWpBXItdOsMTGCgC1sSiU9hmKE?=
+ =?us-ascii?Q?14dt61FR8adkazsD/ay+gveSVBYpivYt7qRjA0T6JPnkDj/F3o5TimozuCNt?=
+ =?us-ascii?Q?zGnAhCb4gMjOTi83eRh6WRUeK7OIK/BXiFylzGLhyuxeYSIGaqfYMxtuocDm?=
+ =?us-ascii?Q?rzSfBpL/MqWeQ635Z7XxTrKmGo6x64A+5XRDU1925sRPrwtPEr3o61xaZW3Z?=
+ =?us-ascii?Q?I3dUjfdRfTwAY4uXkohq+cMGjiJxjBfRpIJfP3TTT2ybB7um+Fu8M1BQytyB?=
+ =?us-ascii?Q?XQ=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ARM: dts: intel: Drop pxa2xx
-To: Arnd Bergmann <arnd@arndb.de>, Robert Jarzmik <robert.jarzmik@free.fr>,
- Rob Herring <robh@kernel.org>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Haojian Zhuang <haojian.zhuang@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
- Gregory Clement <gregory.clement@bootlin.com>,
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
-References: <20251212203226.458694-4-robh@kernel.org> <m2345fmkg7.fsf@free.fr>
- <35405ed3-1319-4d3a-84a5-ad67f4c823ad@app.fastmail.com>
-Content-Language: en-US
-From: Daniel <daniel@zonque.org>
-In-Reply-To: <35405ed3-1319-4d3a-84a5-ad67f4c823ad@app.fastmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11332.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 227c5c60-e5f2-4eee-b738-08de3e1035c7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Dec 2025 08:34:07.5820
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ylg7eLq+uvOFpj/I9kbDioc+KVPB/9SCtWwKRAg1iE8BLlgVjkEkK3uO/3/lG9f/lxRyAA/ufhSmHlq4K7zpzZj59KcSgIzviEKpSgLIdY0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB11397
 
-Hi,
+Hi Tommaso,
 
-On 12/17/25 17:04, Arnd Bergmann wrote:
-> On Fri, Dec 12, 2025, at 22:58, Robert Jarzmik wrote:
->> "Rob Herring (Arm)" <robh@kernel.org> writes:
->>
->>> These .dtsi files are not included anywhere in the tree and 
->>> can't be tested. They have not been touched since 2018 other than 
->>> clean-ups.
->>>
->> And yet, there are used by people using pxa2xx board with an DT 
->> support (like the mioa701 for which a board file was never merged).
->>
->> If you remove pxa25x.dtsi and pxa27x.dtsi, you might as well 
->> remove all support for this architecture from the kernel, as
->> these are the building blocks needed to make it work.
->>
->> That might be what should be done, I'll let Arnd and Daniel 
->> comment on the future of PXA in the kernel.
-> 
-> I agree with Rob that at the very minimum, any dtsi files in the
-> kernel should be build-tested along with the rest, so either
-> we add some dts files using them soon, or we can remove pxa2xx
-> (and maybe pxa3xx) completely.
+> -----Original Message-----
+> From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> Sent: 18 December 2025 08:09
+> Subject: Re: [PATCH] i2c: riic: Move suspend handling to NOIRQ phase
+>=20
+> Hi Claudiu,
+> Thanks for your review!
+>=20
+>=20
+> On Wed, Dec 17, 2025 at 11:41:43AM +0200, Claudiu Beznea wrote:
+> > Hi, Tommaso,
+> >
+> > On 12/12/25 13:58, Tommaso Merciai wrote:
+> > > Commit 53326135d0e0 ("i2c: riic: Add suspend/resume support") added
+> > > suspend support for the Renesas I2C driver and following this change
+> > > on RZ/G3E the following WARNING is seen on entering suspend ...
+> > >
+> > > [  134.275704] Freezing remaining freezable tasks completed (elapsed
+> > > 0.001 seconds) [  134.285536] ------------[ cut here ]------------ [
+> > > 134.290298] i2c i2c-2: Transfer while suspended [  134.295174]
+> > > WARNING: drivers/i2c/i2c-core.h:56 at __i2c_smbus_xfer+0x1e4/0x214,
+> > > CPU#0: systemd-sleep/388 [  134.365507] Tainted: [W]=3DWARN [
+> > > 134.368485] Hardware name: Renesas SMARC EVK version 2 based on
+> > > r9a09g047e57 (DT) [  134.375961] pstate: 60400005 (nZCv daif +PAN
+> > > -UAO -TCO -DIT -SSBS BTYPE=3D--) [  134.382935] pc :
+> > > __i2c_smbus_xfer+0x1e4/0x214 [  134.387329] lr :
+> > > __i2c_smbus_xfer+0x1e4/0x214 [  134.391717] sp : ffff800083f23860 [
+> > > 134.395040] x29: ffff800083f23860 x28: 0000000000000000 x27:
+> > > ffff800082ed5d60 [  134.402226] x26: 0000001f4395fd74 x25:
+> > > 0000000000000007 x24: 0000000000000001 [  134.409408] x23:
+> > > 0000000000000000 x22: 000000000000006f x21: ffff800083f23936 [
+> > > 134.416589] x20: ffff0000c090e140 x19: ffff0000c090e0d0 x18:
+> > > 0000000000000006 [  134.423771] x17: 6f63657320313030 x16:
+> > > 2e30206465737061 x15: ffff800083f23280 [  134.430953] x14:
+> > > 0000000000000000 x13: ffff800082b16ce8 x12: 0000000000000f09 [
+> > > 134.438134] x11: 0000000000000503 x10: ffff800082b6ece8 x9 :
+> > > ffff800082b16ce8 [  134.445315] x8 : 00000000ffffefff x7 :
+> > > ffff800082b6ece8 x6 : 80000000fffff000 [  134.452495] x5 : 0000000000=
+000504 x4 : 0000000000000000
+> x3 : 0000000000000000 [  134.459672] x2 : 0000000000000000 x1 : 000000000=
+0000000 x0 : ffff0000c9ee9e80
+> [  134.466851] Call trace:
+> > > [  134.469311]  __i2c_smbus_xfer+0x1e4/0x214 (P) [  134.473715]
+> > > i2c_smbus_xfer+0xbc/0x120 [  134.477507]
+> > > i2c_smbus_read_byte_data+0x4c/0x84
+> > > [  134.482077]  isl1208_i2c_read_time+0x44/0x178 [rtc_isl1208] [
+> > > 134.487703]  isl1208_rtc_read_time+0x14/0x20 [rtc_isl1208] [
+> > > 134.493226]  __rtc_read_time+0x44/0x88 [  134.497012]
+> > > rtc_read_time+0x3c/0x68 [  134.500622]  rtc_suspend+0x9c/0x170
+> > >
+> > > The warning is triggered because I2C transfers can still be
+> > > attempted while the controller is already suspended, due to
+> > > inappropriate ordering of the system sleep callbacks.
+> > >
+> > > Fix this by moving the system sleep suspend/resume callbacks to the
+> > > NOIRQ phase, ensuring the adapter is fully quiesced after late
+> > > suspend and properly resumed before the early resume phase.
+> > >
+> > > To support NOIRQ resume, the hardware initialization path must not
+> > > invoke runtime PM APIs. Split the init code so that the low-level
+> > > hardware setup can be executed without pm_runtime_get/put(). This
+> > > avoids violating the constraint introduced by commit 1e2ef05bb8cf
+> > > ("PM: Limit race conditions between runtime PM and system sleep
+> > > (v2)"), which forbids runtime PM calls during early resume.
+> > >
+> > > Cc: stable@vger.kernel.org
+> > > Fixes: 53326135d0e0 ("i2c: riic: Add suspend/resume support")
+> > > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> > > ---
+> > >  drivers/i2c/busses/i2c-riic.c | 65
+> > > ++++++++++++++++++++++-------------
+> > >  1 file changed, 41 insertions(+), 24 deletions(-)
+> > >
+> > > diff --git a/drivers/i2c/busses/i2c-riic.c
+> > > b/drivers/i2c/busses/i2c-riic.c index 3e8f126cb7f7..9acc8936cdf7
+> > > 100644
+> > > --- a/drivers/i2c/busses/i2c-riic.c
+> > > +++ b/drivers/i2c/busses/i2c-riic.c
+> > > @@ -349,9 +349,8 @@ static const struct i2c_algorithm riic_algo =3D {
+> > >  	.functionality =3D riic_func,
+> > >  };
+> > >
+> >
+> > Moving reset assert/de-assert and controller deinit/re-initialization
+> > on runtime suspend/resume may increase the runtime suspend/resume
+> > latency. In case of consecutive requests this may translate into
+> > controller performance downgrade. If you keep it like this, you may
+> > want to increase the default autosuspend delay, at least, to avoid
+> > controller reconfiguration after each individual struct i2c_algorithm::=
+xfer() call.
+>=20
+>=20
+> We can set autosuspend delay to 250 ms.
 
-PXA3xx is in use by the Raumfeld boards, and I would really like to keep
-them around.
+Just a question, What is the delay in current driver?=20
 
-For PXA2xx I'm torn. I don't have the capacity and hardware to work on
-those, but I don't know how many users are out there with out-of-tree
-dts files.
-
-> I already plan to remove the remaining board files for both
-> sa1100 and pxa soon, as nobody has picked up the task to do
-> any further DT conversion after we removed the majority of
-> the files back in 2022 and left only the ones that someone
-> said they'd be interested in keeping.
->
-> Robert, let me know if you or someone else is able to spend
-> some time on sending (warning-free) dts files for pxa2xx
-> machines soon. If not, I'd plan to remove whatever is there
-> along with the board files and drivers.
-> 
-> I also checked the pxa3xx Raumfeld devicetree support that
-> Daniel added in linux-3.7. The manufacturer's firmware
-> download page contains kernel images based on this work,
-> using a 4.19 kernel but built in 2022. If we remove pxa2xx
-> DT support, it would be good to find out if anyone still
-> plans to use something newer on that hardware, which may
-> happen because of CRA requirements.
-
-As I said, I would like to not close the door on this one if possible.
-
-
-Thanks,
-Daniel
-
+Cheers,
+Biju
 
