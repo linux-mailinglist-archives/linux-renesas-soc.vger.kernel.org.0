@@ -1,150 +1,101 @@
-Return-Path: <linux-renesas-soc+bounces-25905-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25906-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E92CCCEE65
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Dec 2025 09:10:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6030CCCEEFE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Dec 2025 09:15:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 632CC305F338
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Dec 2025 08:10:13 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E249F305739B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Dec 2025 08:15:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47DB22DF15C;
-	Fri, 19 Dec 2025 08:10:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B9A32F7ACA;
+	Fri, 19 Dec 2025 08:13:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="db2vHWh5"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gCqUoNwy"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx-relay49-hz3.antispameurope.com (mx-relay49-hz3.antispameurope.com [94.100.134.238])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F15EF2DEA6B
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Dec 2025 08:10:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=94.100.134.238
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766131811; cv=pass; b=XzmGvYxzWTvmi1xAsIDolp65XIvVDqFTroanESFfnqNFeroxycX/k+8qFaXLtBB8GLWSSUKU6Uj00+krZ6wRTGQ3zoVQhFNmi1DXQVDzKh8DgxxPbJ16dPLtljJfdjahrIhOuZ/2hZr4aH7qtkUWBk+9uOZXQamGaGlMAJ1Rh5w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766131811; c=relaxed/simple;
-	bh=SshNRPgIyfZhOL9g00Tx3x9NU8S7Oou4WRUj0p6RJMc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=igb4nUndB/x+CE3L1dBhv3jgYg1h7xTnSAzhPDfL00UmuUEncSqGmj2frkj1GmIeBNyeYPsiFGE1xsnL2Hx0AcAd8YKQ8z32b4MqtZGVLkTBprpjETAUGhAeQL8yOX33VpyZPzoowOuby/lbf9m9/gz/OgB5wKy2x635FEvFpdE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=db2vHWh5; arc=pass smtp.client-ip=94.100.134.238
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ew.tq-group.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
-ARC-Authentication-Results: i=1; mx-gate49-hz3.hornetsecurity.com 1; spf=pass
- reason=mailfrom (ip=94.100.132.6, headerfrom=ew.tq-group.com)
- smtp.mailfrom=ew.tq-group.com
- smtp.helo=hmail-p-smtp01-out03-hz1.hornetsecurity.com; dmarc=pass
- header.from=ew.tq-group.com orig.disposition=pass
-ARC-Message-Signature: a=rsa-sha256;
- bh=9ZkmG5LDdBWcr5F9UYs40lXE33P3xPwDRyGsRHQ2ZJw=; c=relaxed/relaxed;
- d=hornetsecurity.com; h=from:to:date:subject:mime-version:; i=1; s=hse1;
- t=1766131786;
- b=pbNpYDyiECrUW78rC8E7srxOzBFw11mXuGCPq+hWrPmw+fZz5M2cjc4Rb6VM3mNE5FagPBAg
- dtXoytniCTWYtW8U9KdeNFcixoCLl3NQZpyDafb+yUCxmcHAb6qonPG+WS+yyTOKWzuq8HImwF/
- +TjJzkw5mIJG1dbswIoYFmzZ7NJLKSqJEtSI0YRey+1qPZRP0kgpuBTJe3hCz4UZGrHi5H6NXzR
- h8wM19LmU64o3uqNS8+Wcp6e9+D2KzABRS6XCHgBEb7ePbZc/rtax674DUYDKLX12rQv+47vecb
- oWM9AAz82CH2XE8LL27YEBVQumrNZ62txQQhK7yAWBtcw==
-ARC-Seal: a=rsa-sha256; cv=none; d=hornetsecurity.com; i=1; s=hse1;
- t=1766131786;
- b=q++RZ6lgCbVys3XIwjfUxNKmOK7G6IHH/0Cc1rLhXSvCl5IAhbm9dB4pxlPnmrorksoAuU/A
- ZchxM6Z3XkCfgMQeUqQzCYvLZ9cF0+4oWH7xxO5vUykKcroozJ21tsZYpnwkeV+ZR8JDYXTP7Ss
- kYR0HQT0U3PupQTxi+z6emjzhUuKv2rWszIT6ixUP8Tyn2+B1CtJnp3o8t7c11T1CtZio1bU+i/
- Q+FqyZxZcpK+bp8x7feD/BQU36k1qo1UG3UDHO2yxL2NgtuS8LCufZjjorgdzP9p/DOUg0xEzof
- /BZKBrkyF5aRb+YcmOiNsCgmSUoCnw86sUxGtSE1THkfg==
-Received: from he-nlb01-hz1.hornetsecurity.com ([94.100.132.6]) by mx-relay49-hz3.antispameurope.com;
- Fri, 19 Dec 2025 09:09:46 +0100
-Received: from steina-w.localnet (host-82-135-125-110.customer.m-online.net [82.135.125.110])
-	(Authenticated sender: alexander.stein@ew.tq-group.com)
-	by hmail-p-smtp01-out03-hz1.hornetsecurity.com (Postfix) with ESMTPSA id AC51CCC0DAC;
-	Fri, 19 Dec 2025 09:09:23 +0100 (CET)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
- Peter Chen <peter.chen@kernel.org>, Pawel Laszczak <pawell@cadence.com>,
- Roger Quadros <rogerq@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Magnus Damm <magnus.damm@gmail.com>,
- Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-clk@vger.kernel.org, linux-usb@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux@ew.tq-group.com
-Subject:
- Re: [PATCH 1/6] dt-bindings: clk: rs9: add clock-output-names property
-Date: Fri, 19 Dec 2025 09:09:23 +0100
-Message-ID: <3357591.tdWV9SEqCh@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To:
- <CAMuHMdWEJ-eYwUTnotsTVEtKrujYVsEB4kFVjRYh3wXZvyjfGQ@mail.gmail.com>
-References:
- <20251218152058.1521806-1-alexander.stein@ew.tq-group.com>
- <20251218152058.1521806-2-alexander.stein@ew.tq-group.com>
- <CAMuHMdWEJ-eYwUTnotsTVEtKrujYVsEB4kFVjRYh3wXZvyjfGQ@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62C222F6911;
+	Fri, 19 Dec 2025 08:13:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1766132005; cv=none; b=XIAAYiUoZ0yTOr8FC3g45x9ba37arhShydPMcwnKDiswSeg5k6SdiNfaG43jR6CENpRJ+wCkB0+JQ0s5z8s5xm76xJ6iV5+dEzgTvARVfkU5AWd/591PHC17IdcJZ6lWqXcHK3vfVuRPFDNC1Gb9wYg2vvxxcVM2ZYxldOGYiq0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1766132005; c=relaxed/simple;
+	bh=J3NfC8i9MKxrVgFTXBRYcoZRhSndcZg4ZT/YfzfylV4=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=e1PTUjqHd3I3FcfzNxiuhNZIo98Q90x2nmvPmLaU3HUwM++HkAerV/7KY759ypbBQZNJC88zbvjNIygsa18NWLIDhcozQt9P72+LbWK85IQreUhEbWUXL6wcfh3WY3IeMKoc/0w5UIF/BAWymiK69mL7hupDPoyNrIgBjjR40d4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gCqUoNwy; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01EEAC4CEF1;
+	Fri, 19 Dec 2025 08:13:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766132005;
+	bh=J3NfC8i9MKxrVgFTXBRYcoZRhSndcZg4ZT/YfzfylV4=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=gCqUoNwyUIvDPMTLk/cPSJnRKgcaIRyAB6+da8V5IFd8z8q6B6SQnFxyU6BNrqk0u
+	 /kAX1HWOAk9uyRNTkI1muPbgz/TYFKOmTEuOXj0gkyzw8dVrpg4Ijhe+697yaQiUZL
+	 TSRVMcS53WPMn3cwMPxQO2qopW5d6usXXl79VHAkbOZE8Is44DyyTPyh4cSD/dKJ+4
+	 0GW1nlaJfIAbbu6rqWw7nPndlvDoZgeW1z2oe1tnYAAkL+2zl46XXcgak9UBvjeIah
+	 tEPRHstAZfPwPvQaHNVjnu1qir6eo59WSdxaOfOTy9PnLqdV4sf8w/23XGxZ8yHHat
+	 tXGzx3UBh4Brw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 3C785380AA50;
+	Fri, 19 Dec 2025 08:10:15 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-cloud-security-sender:alexander.stein@ew.tq-group.com
-X-cloud-security-recipient:linux-renesas-soc@vger.kernel.org
-X-cloud-security-crypt: load encryption module
-X-cloud-security-Mailarchiv: E-Mail archived for: alexander.stein@ew.tq-group.com
-X-cloud-security-Mailarchivtype:outbound
-X-cloud-security-Virusscan:CLEAN
-X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on mx-relay49-hz3.antispameurope.com with 4dXgDN6fwtz3yb91
-X-cloud-security-connect: he-nlb01-hz1.hornetsecurity.com[94.100.132.6], TLS=1, IP=94.100.132.6
-X-cloud-security-Digest:5b88bc5d9b014baba218eed2fec8b5d2
-X-cloud-security:scantime:2.167
-DKIM-Signature: a=rsa-sha256;
- bh=9ZkmG5LDdBWcr5F9UYs40lXE33P3xPwDRyGsRHQ2ZJw=; c=relaxed/relaxed;
- d=ew.tq-group.com;
- h=content-type:mime-version:subject:from:to:message-id:date; s=hse1;
- t=1766131786; v=1;
- b=db2vHWh5VH3No74UjUSdFMPKP31kO4dxi2sbF2krsN2ddUAuXgmOcOwtFrgPzePf7fPNfR4O
- vkAFTC1oI0yhfyEf1sFNs3oKRAM+ollZx+5bifwu/SSN3/7JqTfZCjg3ym74YchMwJhhtnqLdOe
- HFfZl1Vp5skEyA9QS+TtKbEwqipqYFTeIZuOGYL84/ojy+jln4MThdDL/jlAxm1EAVjMincZNRI
- cdDAsIV4ZgDtJOt6W4n6SNdmBUrQWZ0ozBI0mwxW7THXu4lHxUA7RCgPR1EaDDnTA2t0AP2zgB5
- SfEMKNfGR4ReTQKs2eBBIhB2LaohvODdHcgsfVPR+hzrg==
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2] of/irq: Ignore interrupt parent for nodes without
+ interrupts
+From: patchwork-bot+linux-riscv@kernel.org
+Message-Id: 
+ <176613181379.3684357.14380947909185500489.git-patchwork-notify@kernel.org>
+Date: Fri, 19 Dec 2025 08:10:13 +0000
+References: 
+ <fbe6fc3657070fe2df7f0529043542b52b827449.1763116833.git.geert+renesas@glider.be>
+In-Reply-To: 
+ <fbe6fc3657070fe2df7f0529043542b52b827449.1763116833.git.geert+renesas@glider.be>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-riscv@lists.infradead.org, robh@kernel.org, saravanak@google.com,
+ krzk+dt@kernel.org, conor+dt@kernel.org, pjw@kernel.org, palmer@dabbelt.com,
+ aou@eecs.berkeley.edu, alex@ghiti.fr, samuel@sholland.org, maz@kernel.org,
+ prabhakar.mahadev-lad.rj@bp.renesas.com, magnus.damm@gmail.com,
+ devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 
-Am Donnerstag, 18. Dezember 2025, 16:26:10 CET schrieb Geert Uytterhoeven:
-> Hi Alexander,
->=20
-> On Thu, 18 Dec 2025 at 16:21, Alexander Stein
-> <alexander.stein@ew.tq-group.com> wrote:
-> > Add "clock-output-names" which is a standard property for clock
-> > providers.
->=20
-> Why? Isn't that property sort of deprecated?
+Hello:
 
-It is? Oh, I wasn't aware of that. Maybe the property should be
-marked deprecated in dt schema then.
+This patch was applied to riscv/linux.git (fixes)
+by Rob Herring (Arm) <robh@kernel.org>:
 
-Thanks and best regards,
-Alexander
+On Fri, 14 Nov 2025 11:47:54 +0100 you wrote:
+> The Devicetree Specification states:
+> 
+>     The root of the interrupt tree is determined when traversal of the
+>     interrupt tree reaches an interrupt controller node without an
+>     interrupts property and thus no explicit interrupt parent.
+> 
+> However, of_irq_init() gratuitously assumes that a node without
+> interrupts has an actual interrupt parent if it finds an
+> interrupt-parent property higher up in the device tree.  Hence when such
+> a property is present (e.g. in the root node), the root interrupt
+> controller may not be detected as such, causing a panic:
+> 
+> [...]
 
->=20
-> Will be replying to the cover letter next...
->=20
-> > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
->=20
-> Gr{oetje,eeting}s,
->=20
->                         Geert
->=20
->=20
+Here is the summary with links:
+  - [v2] of/irq: Ignore interrupt parent for nodes without interrupts
+    https://git.kernel.org/riscv/c/1b1f04d8271e
 
-
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
 
