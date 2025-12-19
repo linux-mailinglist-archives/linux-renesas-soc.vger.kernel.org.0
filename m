@@ -1,182 +1,246 @@
-Return-Path: <linux-renesas-soc+bounces-25910-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25911-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8BADCCF0F4
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Dec 2025 09:57:09 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FAC3CCF337
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Dec 2025 10:50:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 518B43008EFB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Dec 2025 08:57:09 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2D03230084E9
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Dec 2025 09:50:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD9EC2E7F3E;
-	Fri, 19 Dec 2025 08:57:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B33B71F30A9;
+	Fri, 19 Dec 2025 09:50:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="Fro7f5VL"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="pLiWIPBD"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx-relay122-hz1.antispameurope.com (mx-relay122-hz1.antispameurope.com [94.100.132.114])
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010035.outbound.protection.outlook.com [52.101.229.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83F802E0910
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Dec 2025 08:57:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=94.100.132.114
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00C4172617;
+	Fri, 19 Dec 2025 09:49:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.35
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766134626; cv=pass; b=lrrgh93BMt9gn0nuE15Mq6O3kobpJh5aKQqZPhzCt2RXdZi+3TB3W534qYIrPBMui3nH/dSmBEib9+KK35XwXofRCnHGnpiYh4Eadj03R/9EbtgmxSkxM/oGtE2ihn+6h+5sKvuRgVes5By6yV9F0f1rkp5SKQzOgtx7ZX0rCJ0=
+	t=1766137801; cv=fail; b=GNi7SspctYRu+Ks93pw8SxDMhlJPxUVTJLQninZpfd4agcS6CQrzTJVoMDEPge+AUItXZR4EkgLdMZ17kc0fJ54xqI04qFgsdXD2lHnq6McTbmTj/0EiW+tH7muxL7DfuFZBAMjmM1/TLBs6B7D8ljNjBCc10on5BG2ccfpmZLw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766134626; c=relaxed/simple;
-	bh=BDiH1mpKIlJOp3ZxWBeYxiYLVyM0lqkiGH2JKubyH6A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Eb+gD89jTK2IaG0EUA+CNCpaU7rSawJeM5BhFgwaP9VD6cfU3tzpfGv8VH6u3rl1Py7gM6RjObRMIyz47i4fIfXay/ero/Aky2mX4V4ZDWeEI5HIZpm4Vbupfg7K0LdETJOTxuYINuCb6VpX34VFgScv0O0Bz9zxMt1w0pZdi6Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=Fro7f5VL; arc=pass smtp.client-ip=94.100.132.114
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ew.tq-group.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
-ARC-Authentication-Results: i=1; mx-gate122-hz1.hornetsecurity.com 1;
- spf=pass reason=mailfrom (ip=94.100.132.6, headerfrom=ew.tq-group.com)
- smtp.mailfrom=ew.tq-group.com smtp.helo=smtp-out01-hz1.hornetsecurity.com;
- dmarc=pass header.from=ew.tq-group.com orig.disposition=pass
-ARC-Message-Signature: a=rsa-sha256;
- bh=W8AHnpnpM3XjqYhTIhCiVYGeLezuM8A5xZRbfy0K3Bs=; c=relaxed/relaxed;
- d=hornetsecurity.com; h=from:to:date:subject:mime-version:; i=1; s=hse1;
- t=1766134561;
- b=BEDRW9HsySq30uyEoOYnyf6hEfVnl4DdS8bZy7Gi1YYSVGOdx+ATGJPOFP9a17HfGLlTx53j
- tkNwOiaJPb2tCifj45X5REnCLtSmsBV//f2oLyHW6LvZ2sAPYxlw8qua8mAYFMH+QCSln7LyraY
- I+Y/KJG+h7Yyxc2bEcuPfSeAeeBam773B3j9AWCbDBSRxP+yxG7G1G+JTHhsrjkPPCLyx07/YU5
- S3FtbNsEuKU+jGG+0nMTIob821+laHkbHbiqW1DN6/SdluZWUQgfbRHLoe6FEbj7OakZUNl4nim
- +qAauWkyK4sOxAQI8t+ZOs12LyQ1oK/vz7wRB75KkPAig==
-ARC-Seal: a=rsa-sha256; cv=none; d=hornetsecurity.com; i=1; s=hse1;
- t=1766134561;
- b=h/42rpP8YOAdWLF+v5Vbv3xlXyc9TDXCes1B68S61gFneyMJgGjr6vJoaV5U9UycVCq0qx4y
- XXS7ROQq37BcTVhoWbaNE9fGGEIObkZypXtvHjZ4HIbRUpqR1JKp6Jf5lRc+k0tq7kL8v7Q7dLi
- Yuesafrn0jxBo5ICcqYw+dNvL8l/vh5SjeY7rPdaXtov/0NdPQ8DQsOuPXPjY92yHvrAD9UVP11
- VBErN1DDVaNHbSYCA3Se8j9XNF17r445bOQVpvE8/SmMr8+EBrWkjHXjbaH8vBRECGcMWb9A+1d
- dzkqPu+a2sNObPh1WO7g7A/lRc3yR6wvO8k7OHQnSmnfg==
-Received: from he-nlb01-hz1.hornetsecurity.com ([94.100.132.6]) by mx-relay122-hz1.antispameurope.com;
- Fri, 19 Dec 2025 09:56:00 +0100
-Received: from steina-w.localnet (host-82-135-125-110.customer.m-online.net [82.135.125.110])
-	(Authenticated sender: alexander.stein@ew.tq-group.com)
-	by smtp-out01-hz1.hornetsecurity.com (Postfix) with ESMTPSA id 6FEDAA4140A;
-	Fri, 19 Dec 2025 09:55:39 +0100 (CET)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
- Peter Chen <peter.chen@kernel.org>, Pawel Laszczak <pawell@cadence.com>,
- Roger Quadros <rogerq@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Magnus Damm <magnus.damm@gmail.com>,
- Marek Vasut <marex@denx.de>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-usb@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux@ew.tq-group.com
-Subject: Re: [PATCH 3/6] arm64: dts: imx8qm-ss-hsio: Wire up DMA IRQ for PCIe
-Date: Fri, 19 Dec 2025 09:55:38 +0100
-Message-ID: <10076440.NyiUUSuA9g@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20251218152058.1521806-4-alexander.stein@ew.tq-group.com>
-References:
- <20251218152058.1521806-1-alexander.stein@ew.tq-group.com>
- <20251218152058.1521806-4-alexander.stein@ew.tq-group.com>
+	s=arc-20240116; t=1766137801; c=relaxed/simple;
+	bh=CvU4ORqOvn6H6OM8CyIbRVsSjTZtzJq0n7KccsMUD+I=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=pbT856X8cTEGmxr/RJ4MEAPX4T2EQbuls6FNRwtRR9w1TG9O10Hm18/0PYQbRhW5zw7zo++bEOgbSdKIsKdm5FnlSSoENx2VgWdtgTA72nOm2hH1FbcY6qETVAPGp8u2m96vhR/+Gap74pHzCKab2qPrLAgVAF15ZzVxVzLMxZo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=pLiWIPBD; arc=fail smtp.client-ip=52.101.229.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FL4AADiPRC4yNOT4nup9NgfcF8TSN2GktiOsKv69JNh8HZfpkDAGJXnqzpPhJ+Dm1mJzAzuyTlv91Y6CoAkeTLk0AMeS3gMhEuNiBdmzuDchkpfvcl+C5Qc9F7QJR0shHQEIY/ut9V6mOReIXPe/MV3NGnEzU4OCGXeiyzzbpOjbcKXj68u6BPsxBf+5vSH/HFp1/u8J66zwu10+betmtHfQtLfYwv8hyAyE97LV50TVPw5Sp+6zLdg/9uRHF7OEkEP40kvKchPQmN2sIdeJjapkzZJbGimi/xhxBGo55nvauIxhRxrW4ALbsgX0AFQtQg1ypnTBLHRO+HzHjzuhig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sNtLemDUj8IVWqIXRBloKdz9mlCLCS7RRtKb9GBnXy8=;
+ b=szufwCGbpcQJWvQNHe5zbcMIQgMtlqZ3TfVzLqenLDHY99ctQCXW8CJ1FPwfPhwXetUADI7qxMGBWTS1IJgavZu/CiSPGLDbtrnJZX3BwKGz/eenvWE8GU2Pb5YUBS3FYcWzxUb/z1Wg52HU5nheFL4NtuIT8IyDQblBsmenD+yL6aXE1TpODxkmQgkGJI4ntNlNBp1noqO1b7aYeRndfvjxYeJ28y9nTFER85F49Znf3eZLGsAM/sYn8xbld4ip2rbs2REHbPjweOXrCVHLmu8+INkYn7k4ChtyysNZUYiVyLXCzDchMjzZUxU+FO0+bfx/zr7fDryJT8ZUINXz3g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sNtLemDUj8IVWqIXRBloKdz9mlCLCS7RRtKb9GBnXy8=;
+ b=pLiWIPBDPm0jCMsHBrYTd3qn9SKrNs3DnJaTCGeuwuIOM07jDgdqIihWy/Fhg+eZGCiO6ZljdjhIQ6l1EjbQjUY6Fh8dSBQf6IcBBzBOss5XJvUonyTXBKnOuIN6lVLK0zR5NfSdhlI8eT1tUtq1bcNBwGeIsVcnJRj0eQuhDTI=
+Received: from TYCPR01MB11332.jpnprd01.prod.outlook.com (2603:1096:400:3c0::7)
+ by TY1PR01MB10850.jpnprd01.prod.outlook.com (2603:1096:400:321::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.8; Fri, 19 Dec
+ 2025 09:49:53 +0000
+Received: from TYCPR01MB11332.jpnprd01.prod.outlook.com
+ ([fe80::2511:10cd:e497:4d97]) by TYCPR01MB11332.jpnprd01.prod.outlook.com
+ ([fe80::2511:10cd:e497:4d97%2]) with mapi id 15.20.9434.001; Fri, 19 Dec 2025
+ 09:49:53 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: biju.das.au <biju.das.au@gmail.com>, Boris Brezillon
+	<boris.brezillon@collabora.com>, Rob Herring <robh@kernel.org>, Steven Price
+	<steven.price@arm.com>, =?iso-8859-1?Q?Adri=E1n_Larumbe?=
+	<adrian.larumbe@collabora.com>, Maarten Lankhorst
+	<maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>, Geert Uytterhoeven
+	<geert+renesas@glider.be>, magnus.damm <magnus.damm@gmail.com>
+CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
+	<biju.das.au@gmail.com>
+Subject: RE: [PATCH] drm/panfrost: Add GPU_PM_RT support for RZ/G3E SoC
+Thread-Topic: [PATCH] drm/panfrost: Add GPU_PM_RT support for RZ/G3E SoC
+Thread-Index: AQHcZFOA+GIugFCTB06Le7W8wzatY7Uo0NWQ
+Date: Fri, 19 Dec 2025 09:49:53 +0000
+Message-ID:
+ <TYCPR01MB11332FE6BEA86E8FBBD4707DC86A9A@TYCPR01MB11332.jpnprd01.prod.outlook.com>
+References: <20251203125104.67596-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20251203125104.67596-1-biju.das.jz@bp.renesas.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYCPR01MB11332:EE_|TY1PR01MB10850:EE_
+x-ms-office365-filtering-correlation-id: d431faa0-8a2b-475a-7daa-08de3ee3f5cd
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|7416014|376014|1800799024|366016|921020|38070700021;
+x-microsoft-antispam-message-info:
+ =?iso-8859-1?Q?8Kw0QpHBnMB+djVwgFb+Jbp8P95tpZeoCmeWgUGTT+Y6OzwjmbdJ0Qag9A?=
+ =?iso-8859-1?Q?L2Aq7wO4bRM91QFsn7tuiuF+OMC/JhwT5gcn3waMCVhYAm99wmc8mRiygG?=
+ =?iso-8859-1?Q?0qYmOTQQMV0OESzAWzZ3cct9yO+ILCuvG8yRtecTOOna7MDMvvkmtYumLb?=
+ =?iso-8859-1?Q?8Nxb8KmtUvUbrtcUWuDlL1UrvOmRYMG1vj/9n0qMYLaDBudYJDl249pmzZ?=
+ =?iso-8859-1?Q?tSp6qRhPj2c+jFLkaW1cZIQcPtMuMfOs+n7I3fiVJ4tHeUMggiLpGFRwA3?=
+ =?iso-8859-1?Q?vGJIPvCvU2b5OFNwl41nEHaODgAHs60GSu5b2AqjIOjSVJgjSXYtnrgQNQ?=
+ =?iso-8859-1?Q?9fpIwAAY7L3o4cIbT0WvKgT48wOmZiNaPuuNV2RC4PCt9w6fstabZ99iT9?=
+ =?iso-8859-1?Q?Yt+R1z77aOSLciK07WHJcVHXfg0/r77BoZQSimnCgfXavDplxGyFGn6+OL?=
+ =?iso-8859-1?Q?qrrFLja+hLAOZTqp9ZlPsdqoWknBJ1RC5pNFsE85PFIBZIBwJeIrGGmUfg?=
+ =?iso-8859-1?Q?SyLCQvQXCWXAvyByGKB6Ex3wOHMO0QnXmOCi+UNPmnM80q/yhb4X9/FH1T?=
+ =?iso-8859-1?Q?AqORCruFVHhnXM4exHHEefFPcKzF4D/FvkSPuP2iKM5N9lkFb0B73UQEvE?=
+ =?iso-8859-1?Q?ExKqNE1/SxEtB2NkIuEe21vUNGMgCSsCnJmRcZBoz4jX4XVq9alSTIlmef?=
+ =?iso-8859-1?Q?P7rqe1kk7PVD+1pNStVRPvt20JkF837wIEu2ZYjtN/9vMHuEW3D5YbWzOI?=
+ =?iso-8859-1?Q?OO98RjUMml5JeaSSsikue3zPYzSlJlZnTwaHt5n0BcM0LtV/EQbuj1miPC?=
+ =?iso-8859-1?Q?T82vav/bRT+9paQ8weMPwP4SVbsIrvITY99yYVwIV386R4lTZ4SA7u0zVo?=
+ =?iso-8859-1?Q?lS4l4jEde0YxzwVJMauwbRqJMequ2oUv3K9zLh4EznPnHkatQOnOvbhXEz?=
+ =?iso-8859-1?Q?0bQuI7r77r/8dp+w7GafCQ3C5/ylTVnMKR9/Axu1+H8l/SZC9WYJEg+iRZ?=
+ =?iso-8859-1?Q?/iOVjry5vQKmeU8ae2GVwUuFKENeE1lhqFubos457p3x0vB/1iFWs1Rc+Y?=
+ =?iso-8859-1?Q?kTAdFubZ8uJxzEISXCtkhqCVbJ1ppv/evmIDNKgQCnPvKqO+BUXRvCuTXp?=
+ =?iso-8859-1?Q?Z82xZonF4NBlwWsiRsUngzCDB8F24VdVpAgHET4V06qexCLwHGSMQWRcsQ?=
+ =?iso-8859-1?Q?iIRH5SeboOQjH4oNh9vtP0SFrMijG3jGtYhYFdeRmn4VahOPaljpQfLDz0?=
+ =?iso-8859-1?Q?Iz0F/tcbz2H+wPl5Hjxus8e8zxDGyUn+6AOz00uLQilIOOmRl6MzyJJb0i?=
+ =?iso-8859-1?Q?Qy5bctnPGdEo/4d9EhFVzrxvcrsDcSsgAo6RDmujf5ZQv8/CynK8FL2rpz?=
+ =?iso-8859-1?Q?GujgUddF8WrAoesu/flUQhSHqtWcyVdj+yLf7UxLSXveE6VSwP0TQ+oofE?=
+ =?iso-8859-1?Q?zPeZpqpj8YPGTpRjA/FUYBdvsKgfdWx9OqeS/Thn2H+YPSR7OrUWobwfQG?=
+ =?iso-8859-1?Q?Pr5kC6xMe+QpzP2NSe7VES2b7Mc9Mymu5nIg9uBpBk5RTfcJ3RqYKhf/K9?=
+ =?iso-8859-1?Q?6vwRee6ZJVIVi4bK0N81yeX7RWu8PhGsN5ew/V6a/kVNA8h6wA=3D=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11332.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(921020)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?MVdw6szD3n9K/QAyZ4WdXZhdy73OMB0rB7IblQf6cXMBrA5vBS9CRsu6ei?=
+ =?iso-8859-1?Q?ftfiyL5T33d7hTbn1bDpiQPyw7sCodGDgNalx1QSsOiVyW8i9DZq3BpMDu?=
+ =?iso-8859-1?Q?6WvvL20YYsjaJdj3eCoWs4ERgKZ82gaE5pzSZN4RLkb3GCAZ/IluO2uuX0?=
+ =?iso-8859-1?Q?dUncaHDLAEvN1aIl9aNX2f3YFUKJcL0tnXeTb9gLfuWG4EbQ7MsvyAw4By?=
+ =?iso-8859-1?Q?jCoYZB6uQrXcQ2NqCAvNMUHVaSRrUrh3YIYAj91rvnUE4Ol2/ryTcXUAYM?=
+ =?iso-8859-1?Q?PEHz+76rVOTdtO/KNJBdl+9+vFE/NvTd54UrI/UM6R7UgM2kU66fntmkv3?=
+ =?iso-8859-1?Q?/Gwd7U2j7CIcySi78DW/I7+Siccsfr/7Df7CplqTBI55BlKXm+cmXPEVhc?=
+ =?iso-8859-1?Q?nz6ihzkFW1jZNknQt7C9XmuVamiMw5PA4SW6votZetyL0XlW8rFfbckQbk?=
+ =?iso-8859-1?Q?W322g/axUasremZiIb+unwIJcXLlTfMkJVqi2i6l8mXMhU0vd2EZa91K1k?=
+ =?iso-8859-1?Q?K8YEE8Snk6uooVZTjjgi56KGPEnULwbJ6qJpHf7pf3fzCkRpHJJT6nz/r8?=
+ =?iso-8859-1?Q?TTMOcQbTvC3dT+PiTO42/y4OcxEGxHHeXVf8WOU6I8bFObQlkcgniQkd1x?=
+ =?iso-8859-1?Q?CSvApPZep1uQ3TUt/ozWgvp7wAyi+GWI3Z0APiSCLAyE0kuI3mYTLzMSk2?=
+ =?iso-8859-1?Q?eK7vH/AT0r1uetY9xGHK/G1KQ2u6ILSnLpsxYtHAIvX1PjjNCANPvAtVPs?=
+ =?iso-8859-1?Q?fCKv1fZmO3kqoBgnp537LjwDQYIsyN9ZzZpAYEYcwGJGpcPhNLK+1zsXFV?=
+ =?iso-8859-1?Q?tQHA4GM1O9wt6pJBLn5MzJGIbuFMHmZy3AfVYvOAif6SCewtTBmNy9lBys?=
+ =?iso-8859-1?Q?SURd+sUIzTeOYC0Ux0XBAzjUsPoNxRrroTGgoESKDzSz+f/cmQNoeWxkfT?=
+ =?iso-8859-1?Q?+gGnh0YJHovXhnmwBdQNXyQsl2FNcn9LfX2HiYYT4QRwz5MFex07UGs5KD?=
+ =?iso-8859-1?Q?T8smZM/MCb8gx/ObocqOUhadsorGrILBrfkqA+XEWl4IWQh5AtMFy7nofM?=
+ =?iso-8859-1?Q?sUz7vS5BY8oMx4LN8YtEb/kBu9pprVh38dYKE8x0QSuO2ubFgXHgfw43X5?=
+ =?iso-8859-1?Q?LbooLEpii0tbv94uXu9FDXA4qZLO+eU4mmF6aOGWbmKCED7E180ML1nIEP?=
+ =?iso-8859-1?Q?g15zdkTqeDu1KaBbmcI8Q8CHRgngBiRI0vrnpUi8yo1lETgAVBAgGWvrhs?=
+ =?iso-8859-1?Q?p3BzArfjIdh0UQHwCc6UuKyV8kQrMabIvpSTE4HEo6etNh16Daz/loPIIc?=
+ =?iso-8859-1?Q?oXUSh6hwcfJ7wRCkjn5fNio2QO6VrLqeVu2IObq+fWUivL5VCFoDum0WvH?=
+ =?iso-8859-1?Q?qLAFY61O/052MYtus05kSE8UQ1kIw9edBz85IyGSZCTjKV36zVRGXFWLHi?=
+ =?iso-8859-1?Q?8T/P5WUB4Wy3Dhs7ZDaOhhcPeVIjo6fv1mwpxT5BEfwIMbenka1XTkKbOy?=
+ =?iso-8859-1?Q?lR11vpKdVs5Bwroawyt62mqaM61agcwsONm4qQXug0cZU4AaLewShwGsva?=
+ =?iso-8859-1?Q?1ZAnEFqpsfr+yPtcFGg2s8SUHA7Z8UrWbrgPuS68jLGCtKuNoFkU6Ni3cs?=
+ =?iso-8859-1?Q?+zNlSvOR9bWKVvkQCQGXZKGbWI1s0YZE50G7fTmt//yIhv7t4SFIVfng?=
+ =?iso-8859-1?Q?=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart3460692.usQuhbGJ8B";
- micalg="pgp-sha512"; protocol="application/pgp-signature"
-X-cloud-security-sender:alexander.stein@ew.tq-group.com
-X-cloud-security-recipient:linux-renesas-soc@vger.kernel.org
-X-cloud-security-crypt: load encryption module
-X-cloud-security-Mailarchiv: E-Mail archived for: alexander.stein@ew.tq-group.com
-X-cloud-security-Mailarchivtype:outbound
-X-cloud-security-Virusscan:CLEAN
-X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on mx-relay122-hz1.antispameurope.com with 4dXhFm4fp5z34Lby
-X-cloud-security-connect: he-nlb01-hz1.hornetsecurity.com[94.100.132.6], TLS=1, IP=94.100.132.6
-X-cloud-security-Digest:0c47e991cdd1e2cd38041c89430f069c
-X-cloud-security:scantime:2.240
-DKIM-Signature: a=rsa-sha256;
- bh=W8AHnpnpM3XjqYhTIhCiVYGeLezuM8A5xZRbfy0K3Bs=; c=relaxed/relaxed;
- d=ew.tq-group.com;
- h=content-type:mime-version:subject:from:to:message-id:date; s=hse1;
- t=1766134560; v=1;
- b=Fro7f5VLyW8JftEsShik9LpLwmpjFdkjyWoX5sTUCE57qyCWwN58wCp+FmFOYwEy+LxmtWFQ
- R2W15cMcWARW3Mz0Q35E1cJVvXlUTyra6tW3t7gl04PwtN9X4MlxqkJnV5spXJj/Xz4h/3FTnSp
- AALqWuoXkrAh1aK3vKReb6hHrp9YZ36hB2KAr6iHy2Kxpz8qB49+dkhze8k/VCUbppd/2Izvjgx
- 1DQKQ40bxZw4+HU8R/7LmkdwCtHRnEbsZlkzLJpJseqrNx7BMr94FhFyFDS/4KHNDj+e5E+Vrzv
- HPoqLNnGNy5agwiyL8J7ap44LdNRX4QA0S44xcw6LfVVA==
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11332.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d431faa0-8a2b-475a-7daa-08de3ee3f5cd
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Dec 2025 09:49:53.5155
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Jo7cM0ATvxvNa+q+dZLZtIhFfwgdmAWocE5QwwJbxQYEg3zVMPkRZAb0gZRtrr+nk/of9+07twSIaV+wkkpqzLcY8eebh52NWGXiTsKWq6U=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB10850
 
---nextPart3460692.usQuhbGJ8B
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"; protected-headers="v1"
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-Date: Fri, 19 Dec 2025 09:55:38 +0100
-Message-ID: <10076440.NyiUUSuA9g@steina-w>
-Organization: TQ-Systems GmbH
-MIME-Version: 1.0
+Hi All,
 
-Am Donnerstag, 18. Dezember 2025, 16:20:50 CET schrieb Alexander Stein:
-> IRQ mapping is already present. Add the missing DMA interrupt. This is
-> similar to commit 0b4c46f9ad79c ("arm64: dts: imx8qm-ss-hsio: Wire up
-> DMA IRQ for PCIe")
+> -----Original Message-----
+> From: Biju <biju.das.au@gmail.com>
+> Sent: 03 December 2025 12:51
+> Subject: [PATCH] drm/panfrost: Add GPU_PM_RT support for RZ/G3E SoC
 >=20
-> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> From: Biju Das <biju.das.jz@bp.renesas.com>
+>=20
+> RZ/G3E SoC is embedded with Mali-G52 GPU system. The system hangs after S=
+TR in the following
+> condition:
+>=20
+> STR -> Wakeup from STR -> Unload panfrost using 'modprobe -r panfrost'.
+>=20
+> Fix this issue by asserting/deasserting the reset during suspend/resume.
+> Rename the variable allwinner_h616_data->default_pm_rt_data for data reus=
+e and make it as generic GPU
+> PM runtime data.
+>=20
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
->  arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi | 5 +++--
+>  drivers/gpu/drm/panfrost/panfrost_drv.c | 5 +++--
 >  1 file changed, 3 insertions(+), 2 deletions(-)
 >=20
-> diff --git a/arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi b/arch/arm=
-64/boot/dts/freescale/imx8qm-ss-hsio.dtsi
-> index bd6e0aa27efe9..f2c94cdb682b9 100644
-> --- a/arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi
-> +++ b/arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi
-> @@ -20,8 +20,9 @@ pcie0: pciea: pcie@5f000000 {
->  		ranges =3D <0x81000000 0 0x00000000 0x4ff80000 0 0x00010000>,
->  			 <0x82000000 0 0x40000000 0x40000000 0 0x0ff00000>;
->  		#interrupt-cells =3D <1>;
-> -		interrupts =3D <GIC_SPI 70 IRQ_TYPE_LEVEL_HIGH>;
-> -		interrupt-names =3D "msi";
-> +		interrupts =3D <GIC_SPI 70 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 72 IRQ_TYPE_LEVEL_HIGH>;
-> +		interrupt-names =3D "msi", "dma";
->  		#address-cells =3D <3>;
->  		#size-cells =3D <2>;
->  		clocks =3D <&pciea_lpcg IMX_LPCG_CLK_6>,
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/pa=
+nfrost/panfrost_drv.c
+> index 7d8c7c337606..e553f183c780 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> @@ -976,7 +976,7 @@ static const struct panfrost_compatible default_data =
+=3D {
+>  	.pm_domain_names =3D NULL,
+>  };
 >=20
+> -static const struct panfrost_compatible allwinner_h616_data =3D {
+> +static const struct panfrost_compatible default_pm_rt_data =3D {
+>  	.num_supplies =3D ARRAY_SIZE(default_supplies) - 1,
+>  	.supply_names =3D default_supplies,
+>  	.num_pm_domains =3D 1,
+> @@ -1056,6 +1056,7 @@ static const struct of_device_id dt_match[] =3D {
+>  	  .data =3D &amlogic_data, },
+>  	{ .compatible =3D "amlogic,meson-g12a-mali",
+>  	  .data =3D &amlogic_data, },
+> +	{ .compatible =3D "renesas,r9a09g047-mali", .data =3D &default_pm_rt_da=
+ta
+> +},
+>  	{ .compatible =3D "arm,mali-t604", .data =3D &default_data, },
+>  	{ .compatible =3D "arm,mali-t624", .data =3D &default_data, },
+>  	{ .compatible =3D "arm,mali-t628", .data =3D &default_data, }, @@ -1073=
+,7 +1074,7 @@ static const
+> struct of_device_id dt_match[] =3D {
+>  	{ .compatible =3D "mediatek,mt8188-mali", .data =3D &mediatek_mt8188_da=
+ta },
+>  	{ .compatible =3D "mediatek,mt8192-mali", .data =3D &mediatek_mt8192_da=
+ta },
+>  	{ .compatible =3D "mediatek,mt8370-mali", .data =3D &mediatek_mt8370_da=
+ta },
+> -	{ .compatible =3D "allwinner,sun50i-h616-mali", .data =3D &allwinner_h6=
+16_data },
+> +	{ .compatible =3D "allwinner,sun50i-h616-mali", .data =3D
+> +&default_pm_rt_data },
+>  	{}
+>  };
+>  MODULE_DEVICE_TABLE(of, dt_match);
+> --
+> 2.43.0
 
-This one is actually independent of the rest in this series and can be
-picked on it's own, especially as I won't be able to work on the board
-support until February. I just wanted to give some context / usage.
+Gentle ping.
 
-Best regards,
-Alexander
-
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
---nextPart3460692.usQuhbGJ8B
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEByESxqszIvkmWRwbaS+g2M0Z/iUFAmlFEwsACgkQaS+g2M0Z
-/iVAFAf/c5CwO26Ggu/BI/ZSuZzcaL1LqCQ6HXiIkEKJpXXjrmbMAJ6LFFIo9ARY
-MP753fb/XeCGm0ozq9rvZEfe+MQ+SYFD3GV3cNRmU59JwwBNpErTOw/jXOC67y+Q
-hASUB/UEN5V7UtxEUMARpH7N0PodmW0cIQwceQoO9T9S0n+g4OwjIJV+0T7/LHx5
-LOh++EEOGH/KbeOtVKwmDY/mvlYFJcO5TxNbvYfo8OrT/3PltCu2awfi+ZSOac5l
-ATtxTkihCWtUFHeXYtwteS0hDXOoldi4A1137WzS5MNWkCeq8TxB/F3Fk3sKSHJk
-7U2L6kHUhAjtsnQPLnIQ4yuhF7BL4w==
-=Pd9W
------END PGP SIGNATURE-----
-
---nextPart3460692.usQuhbGJ8B--
-
-
+Cheers,
+Biju
 
 
