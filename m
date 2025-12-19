@@ -1,54 +1,54 @@
-Return-Path: <linux-renesas-soc+bounces-25937-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25938-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 688DCCD1982
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Dec 2025 20:24:03 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CB4FCD19D0
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Dec 2025 20:26:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E2AFE301CD1C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Dec 2025 19:23:20 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 687DC30F3D7A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Dec 2025 19:23:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40A4033FE01;
-	Fri, 19 Dec 2025 19:23:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9C9333F8B4;
+	Fri, 19 Dec 2025 19:23:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="YMGC1ruJ"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="L/1VT6n4"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54AD934028F
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Dec 2025 19:23:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2D3833F373;
+	Fri, 19 Dec 2025 19:23:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766172199; cv=none; b=lDSkasGtVtYZI/ekp8sX25wcUEWc4PhLRq5RSAe5buW0n+ymdFEYcjp+NlYMrM6f0E9gYr/b3V3EsD6hPoMiKfyouRFcIMYFUcV9+cOraoErhHMqZFeCNbeiG6+IKlV2MkNq/P7Ewl5JRs1aqDoY0vESn78gUs+9Xg4Wuxzizk0=
+	t=1766172200; cv=none; b=gkVaidoLf1981+nPbtY37bg76gSIn9SstKpHh2YAjacg4qHREe7oKyx+l5iF7g45+zF/HvA+b/ZWlerpKSZyAny6dVflIKpC8TgkfZj/vcNF3VixaHL3PBwBLMHP0WzLWCqNFBFn0jTFbidbjVv6z9EJG5spTh1+jFUjEWYUnxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766172199; c=relaxed/simple;
-	bh=AMJ2DGj8AFafe0OktmuvJSX724ZJU8PVhDK8lMGtHfw=;
+	s=arc-20240116; t=1766172200; c=relaxed/simple;
+	bh=PpH7nvcmEQv2r+rZrqHDYvDG3gROgV2us7cMl9PxMck=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=TxC6VvBWnAk69tm4Yi1GD+hlNYr+h736VxRS/2ODdg1EAGB7kRqHvhZE7CLEhlsqcowMLK3p7Pv0ZPb0un/Ic0HyIqHf7W4DMB/YoiG158XtcWByxSJDusTnCViNCP5Hhyi1AryOx92S4ftCcDonQPoCwLr7p6BN7/Tdg+0dmjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=YMGC1ruJ; arc=none smtp.client-ip=185.246.85.4
+	 In-Reply-To:To:Cc; b=a0XSIFsfzz0XLtMbRgHO+gBYPmjMPpnGNUtNd07qFFb/acxypkvEH+ZKkOXHnwS4wZdXtpNUkk4XVihh1XIRVPu2DDSNoveFkm9iBPXI2VZEc5Y52nm5+T8FjorBLqPB9E0YY6WmzMo4Wj7FzNWLn6JvWFHPU93fpIzUUFw2FYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=L/1VT6n4; arc=none smtp.client-ip=185.246.84.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id D9F334E41C39;
-	Fri, 19 Dec 2025 19:23:15 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 924BA1A22FA;
+	Fri, 19 Dec 2025 19:23:17 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id B0F436071D;
-	Fri, 19 Dec 2025 19:23:15 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 503EB10AA9820;
-	Fri, 19 Dec 2025 20:23:13 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 68A5B6071D;
+	Fri, 19 Dec 2025 19:23:17 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0FF8A10AA981C;
+	Fri, 19 Dec 2025 20:23:15 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1766172194; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1766172196; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=6wPdvixvmMf2wMfqEuafLPsvUy/hsce/40XpaNYa+yw=;
-	b=YMGC1ruJXSXW5aNMHL9hjnLUnVFq9xpqUVtGFGB9NDQ6ePJaZPCMVBL6Qwgx1ITvt+UPwg
-	NVybz4IDboerJ3yZYt6wQIEeeeqR+eV4Uw5ugcDSJGBi3K574JGuvAM1UZbWJcaLRWbAqQ
-	VYo5BMPrFVayUTJB/a+Zhac1cgOiV7OQDUdSfG28M/oVgRlD+ESJ93np74lbo3FLiPpB7C
-	scz6XnGMebys+nJkoTgvDpXLcPSkxEhBlVbrPeppDr21RWNIB40Z1n5xlEF7KTwrUStr/d
-	Edtj7SS954mc35PSbupxEExcWWqMKmn510S4upn+OAZ96Ha2KfLHlUUIYkmVVA==
+	bh=CINICTjpmxNi5NbYaOjyMfdiaKWMma9y0DPGZD4hR9A=;
+	b=L/1VT6n4bmShB8kV0io8lc51CHXpHRWMsZwujb70YcBEeJtzSivVHLza9r39/qBEaQyIF5
+	aLl3eyppmHunH0F7pUE4VMCgErdNKUjufyVijEy0WdC0WCYBjFdEWPj1qTjACu42Sqzaqu
+	LKqxAcNmSiBj0EikaUKwbX6BF0eaYLXYxKnaPxQvW9s1CGUwwzm69KPXKbcOHvo6d96RCP
+	alECkgQTmZmJINI2wRywnWsrVcfOl7WGkWezMOU2eqdO3Lgyaz/32sQDkm0sJqt1sITA7N
+	vvVot3DDj+eXmQFI+OaM/1JHOfP21nco9CySqjlx8vjftW9KFuwzqWOMivU7Hw==
 From: "Miquel Raynal (Schneider Electric)" <miquel.raynal@bootlin.com>
-Date: Fri, 19 Dec 2025 20:22:06 +0100
-Subject: [PATCH 04/13] spi: cadence-qspi: Fix ORing style and alignments
+Date: Fri, 19 Dec 2025 20:22:07 +0100
+Subject: [PATCH 05/13] spi: cadence-qspi: Remove an useless operation
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -57,7 +57,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251219-schneider-6-19-rc1-qspi-v1-4-8ad505173e44@bootlin.com>
+Message-Id: <20251219-schneider-6-19-rc1-qspi-v1-5-8ad505173e44@bootlin.com>
 References: <20251219-schneider-6-19-rc1-qspi-v1-0-8ad505173e44@bootlin.com>
 In-Reply-To: <20251219-schneider-6-19-rc1-qspi-v1-0-8ad505173e44@bootlin.com>
 To: Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
@@ -77,64 +77,34 @@ Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 X-Mailer: b4 0.14.3
 X-Last-TLS-Session-Version: TLSv1.3
 
-These definitions do not follow the standard patterns. Alignments are
-incoherent and the logical OR symbols '|' are misplaced. Reorganize
-these definitions.
+Right above writing the register value back based on 'div' value, there
+is the following check:
 
-There is no functional change.
+    if (div > CQSPI_REG_CONFIG_BAUD_MASK)
+            div = CQSPI_REG_CONFIG_BAUD_MASK;
+
+which means div does not need to be AND'ed against the bitfield mask.
+
+Remove this redundant operation.
 
 Signed-off-by: Miquel Raynal (Schneider Electric) <miquel.raynal@bootlin.com>
 ---
- drivers/spi/spi-cadence-quadspi.c | 19 ++++++++-----------
- 1 file changed, 8 insertions(+), 11 deletions(-)
+ drivers/spi/spi-cadence-quadspi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/spi/spi-cadence-quadspi.c b/drivers/spi/spi-cadence-quadspi.c
-index 90387757fb6b..143904514736 100644
+index 143904514736..8f78d1c44663 100644
 --- a/drivers/spi/spi-cadence-quadspi.c
 +++ b/drivers/spi/spi-cadence-quadspi.c
-@@ -2134,26 +2134,23 @@ static const struct cqspi_driver_platdata intel_lgm_qspi = {
- };
+@@ -1264,7 +1264,7 @@ static void cqspi_config_baudrate_div(struct cqspi_st *cqspi)
  
- static const struct cqspi_driver_platdata socfpga_qspi = {
--	.quirks = CQSPI_DISABLE_DAC_MODE
--			| CQSPI_NO_SUPPORT_WR_COMPLETION
--			| CQSPI_SLOW_SRAM
--			| CQSPI_DISABLE_STIG_MODE
--			| CQSPI_DISABLE_RUNTIME_PM,
-+	.quirks = CQSPI_DISABLE_DAC_MODE | CQSPI_NO_SUPPORT_WR_COMPLETION |
-+		  CQSPI_SLOW_SRAM | CQSPI_DISABLE_STIG_MODE |
-+		  CQSPI_DISABLE_RUNTIME_PM,
- };
+ 	reg = readl(reg_base + CQSPI_REG_CONFIG);
+ 	reg &= ~(CQSPI_REG_CONFIG_BAUD_MASK << CQSPI_REG_CONFIG_BAUD_LSB);
+-	reg |= (div & CQSPI_REG_CONFIG_BAUD_MASK) << CQSPI_REG_CONFIG_BAUD_LSB;
++	reg |= div << CQSPI_REG_CONFIG_BAUD_LSB;
+ 	writel(reg, reg_base + CQSPI_REG_CONFIG);
+ }
  
- static const struct cqspi_driver_platdata versal_ospi = {
- 	.hwcaps_mask = CQSPI_SUPPORTS_OCTAL,
--	.quirks = CQSPI_DISABLE_DAC_MODE | CQSPI_SUPPORT_EXTERNAL_DMA
--			| CQSPI_DMA_SET_MASK,
-+	.quirks = CQSPI_DISABLE_DAC_MODE | CQSPI_SUPPORT_EXTERNAL_DMA |
-+		  CQSPI_DMA_SET_MASK,
- 	.indirect_read_dma = cqspi_versal_indirect_read_dma,
- 	.get_dma_status = cqspi_get_versal_dma_status,
- };
- 
- static const struct cqspi_driver_platdata versal2_ospi = {
- 	.hwcaps_mask = CQSPI_SUPPORTS_OCTAL,
--	.quirks = CQSPI_DISABLE_DAC_MODE | CQSPI_SUPPORT_EXTERNAL_DMA
--			| CQSPI_DMA_SET_MASK
--			| CQSPI_SUPPORT_DEVICE_RESET,
-+	.quirks = CQSPI_DISABLE_DAC_MODE | CQSPI_SUPPORT_EXTERNAL_DMA |
-+		  CQSPI_DMA_SET_MASK | CQSPI_SUPPORT_DEVICE_RESET,
- 	.indirect_read_dma = cqspi_versal_indirect_read_dma,
- 	.get_dma_status = cqspi_get_versal_dma_status,
- };
-@@ -2170,7 +2167,7 @@ static const struct cqspi_driver_platdata pensando_cdns_qspi = {
- static const struct cqspi_driver_platdata mobileye_eyeq5_ospi = {
- 	.hwcaps_mask = CQSPI_SUPPORTS_OCTAL,
- 	.quirks = CQSPI_DISABLE_DAC_MODE | CQSPI_NO_SUPPORT_WR_COMPLETION |
--			CQSPI_RD_NO_IRQ,
-+		  CQSPI_RD_NO_IRQ,
- };
- 
- static const struct of_device_id cqspi_dt_ids[] = {
 
 -- 
 2.51.1
