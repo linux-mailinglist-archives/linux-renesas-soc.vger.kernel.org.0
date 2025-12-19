@@ -1,218 +1,371 @@
-Return-Path: <linux-renesas-soc+bounces-25930-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25931-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21B14CD0B62
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Dec 2025 17:04:12 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24034CD0F7B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Dec 2025 17:49:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id E592A303A363
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Dec 2025 16:03:52 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id AB9563009093
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Dec 2025 16:49:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E645E35B12F;
-	Fri, 19 Dec 2025 15:50:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B82D366552;
+	Fri, 19 Dec 2025 16:49:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="M1DOvb3p"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wx2/VHkZ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011046.outbound.protection.outlook.com [40.107.74.46])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D16FB35B122;
-	Fri, 19 Dec 2025 15:50:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766159445; cv=fail; b=cdlibEXd2SQ+oKe2FIjjhF0Uzb97fAoqH0aepAiGbm8CNjX8ZAkFLbstzq9Dpj7gKSrk/rfT5js+Yt7v0JV8ZxZI/7zn0D9sJXk1i9XSwhaIHXvRsZ7Szr7xObgenxunp4ksU5MHJeN07Lz1IekI4RuK4TnnsYOIY/wb86TxBJo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766159445; c=relaxed/simple;
-	bh=KZEJcSC9dBS0xth6NS4/s5U+hzCkOh4wwiiBPp1Ym6s=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=S6XXODIu0x5s1CO/b0e0SbPZE5d1FE/DmfyEvfrHXFYQPl9z7MGiwTBNMMpGJdiNy2hhQ/nQJw46McvjAHYsblKgMzDIG/1PuGUYuRYpTK4660Ea4V/6ieXUGuOzfLIkdnlZsdlal1D14e65cfrRHFbwbwCl46A8EUt+3Tiu1c8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=M1DOvb3p; arc=fail smtp.client-ip=40.107.74.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=r5lyXHQpJuPZhcw6/qjsLzpk6AsfrIRZoq+0MIjigH934mU0mskIZYY09bJbxzwLp/dmy82MX7IgL6+5GyYV9RNycag4rAUE81IDe5Jvl22K7cKJfQkLCcYyNeRiuq6o+1mpo+pOWTS+7rF+tJYPjzB6HMx4gwm1bE3wPq9D3Bnz3y2ZbnaGagjHOwghj1K0g3Bvdk5zRZBeYHUEgWu8ZWbq0CDSTHX5OkcHX9iJJUxKjtKGghIDPRQ+Mnb/UuuviPxu1XF9fANwaBJox+v5brnv0FepNt5nzUkoabD32fWF19+9zywnUAHzd0coHfW1gcn3Bg16PMDjUUxRlBchrw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KZEJcSC9dBS0xth6NS4/s5U+hzCkOh4wwiiBPp1Ym6s=;
- b=tp2UWgunnB10LLMVHirWis5Ku4ddYnY9jyCxyc2OBih3KgGpLkmwArCUKuRQpBCVBiyf0IAOMqUuWKDTg832cfcAKPT5nxfRyh/HKklC6PCJlU+TiqieRwV6EKpdQLamM6Rt1XlsivBJAZrztvQYGSjzt3PCmGqlPCAbReqZ3wM6LSNIi4EaefKm1hAPmvMwWLc5UFZUvv4Iv5OGqvMcMrDHi+uPEIUyTAg6BZu8EHKnJ2c+Z2rvavr1XhuakAWyC24glzPVPYFEBO7Th1gro+A/SLq0ZbajT9xfmzAuvGHLcjf2L65S2cgBtSAIHrM6owpBDzRVAPoDWOkbxaT1gA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KZEJcSC9dBS0xth6NS4/s5U+hzCkOh4wwiiBPp1Ym6s=;
- b=M1DOvb3p87K2OKCrBP6GWxnagDWy6bvOWK+8coI+oPfN7DBkZfEqj5u0K+91/vpIcAoGLwVpVACoHABawdV+dLy76JA6gjReP1Ms0ZLTI5X/UPlBiWvkWWqq5LsdalY3jVEwtnThvDUGgFVWtffciEt8S7CyYiF7wBJscjYUesQ=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by TYCPR01MB7059.jpnprd01.prod.outlook.com (2603:1096:400:c0::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.9; Fri, 19 Dec
- 2025 15:50:38 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1%6]) with mapi id 15.20.9434.009; Fri, 19 Dec 2025
- 15:50:38 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-CC: =?utf-8?B?QWRyacOhbiBMYXJ1bWJl?= <adrian.larumbe@collabora.com>,
-	biju.das.au <biju.das.au@gmail.com>, Rob Herring <robh@kernel.org>, Steven
- Price <steven.price@arm.com>, Maarten Lankhorst
-	<maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>, Geert Uytterhoeven
-	<geert+renesas@glider.be>, magnus.damm <magnus.damm@gmail.com>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: RE: [PATCH] drm/panfrost: Add GPU_PM_RT support for RZ/G3E SoC
-Thread-Topic: [PATCH] drm/panfrost: Add GPU_PM_RT support for RZ/G3E SoC
-Thread-Index: AQHcZFOA+GIugFCTB06Le7W8wzatY7Uo0NWQgAADboCAAAEqYIAAEFcAgABPHSA=
-Date: Fri, 19 Dec 2025 15:50:38 +0000
-Message-ID:
- <TY3PR01MB1134652ADCC3E78D51D7674C486A9A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20251203125104.67596-1-biju.das.jz@bp.renesas.com>
- <TYCPR01MB11332FE6BEA86E8FBBD4707DC86A9A@TYCPR01MB11332.jpnprd01.prod.outlook.com>
- <zdeak3e65wt2jw7n6rcskyeokmyt7cxhsrvwaeqodp2yjxw7kg@vbqza5hpnrym>
- <TY3PR01MB1134676D5905B0AC0127955DC86A9A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <20251219120414.58c89125@fedora>
-In-Reply-To: <20251219120414.58c89125@fedora>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYCPR01MB7059:EE_
-x-ms-office365-filtering-correlation-id: 12d628e3-d63d-4774-eb29-08de3f165b34
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|7416014|376014|1800799024|366016|38070700021;
-x-microsoft-antispam-message-info:
- =?utf-8?B?b3BpemYxSVVTNGtONUtzN3dsbk45V3lMOC9uY0VOVklQMWRUUlhxTjFBNmZh?=
- =?utf-8?B?V25RM20vTmtPNE9zVUx5Q0lyWjJFT0tYcGU3b2syeVBXSllmWU5MLzVEc0FP?=
- =?utf-8?B?aFQzRkxDbkxhSllLTTlWNTRtUkEwK0RyYzRaTGlZN2dVSHVOYzB5eW1tSUho?=
- =?utf-8?B?aDllbDFTRWpPN2lkMWxGbXV1dVV2YWt6SjNTcFRLcHRvZmY0N3BVNU5zWUN0?=
- =?utf-8?B?U3dsZlhLUzdvNVNpVGxwOEM5N1RWS1ZnYm9JWTlnRC90RHdCVm5YRG0wUWdS?=
- =?utf-8?B?L3licmYyVGNBbXdkRkpBQ3RWUDZYM2NnWStObVczQVR4UHBGNnM5aEZ3TUxl?=
- =?utf-8?B?SElmSTByZ2RIUE9IMzNoeUR2SEJjS29vRDRwRHZSa2VLcUdKRnVjNVh3SU5a?=
- =?utf-8?B?bTBxMkNPUXMzWVRVVFdsS2lqQXpoWmtKRmtHcFluV0M4TTNvOE82VExTV2lv?=
- =?utf-8?B?cXEzcDNtZ1VUdWd0eFR1SW12bE90YW9RTFF6QU0za2ZNelRlOGltZkt6V3lI?=
- =?utf-8?B?UGl2RGpwd2dYeXNSODlmbVR5YlkyWnhqcGhpRG1pTDB2WENuZ1doaTdPRWZD?=
- =?utf-8?B?YmJQY1ZYM3FHYzlZc09yZWsraUVrd2FWMkRJK1BHQU9ja1F5MmpFK3JHQkg2?=
- =?utf-8?B?bHlqT0xCM3hnNThKdE8rbHlyaHo3SzJXZjhZQW9HdmQ2NDBpMGdzc1ZQMi9q?=
- =?utf-8?B?d1pSU24zcmR5YStOMmlRZ05sSUVXNnhXdTdaUnlXMFVGRjFUVkthMndCb3M0?=
- =?utf-8?B?VXlLZ3dMeXJLVmxCYmpRNHVQSHc2eHpvazhsYndrR2NiZi9hS09yaVJ0Y2hp?=
- =?utf-8?B?eWtZd21mbmZ1WW9kZHFqNXRrL2VOVCtDZy9wbTVKTnJGcDQ4dTV4ZkFmeGlL?=
- =?utf-8?B?MWlNVmdCdWhXZDVhb0lQS1VLWlBOUnc0V0hPMEZlbnNHVWV6V1JaZ2RiSXhm?=
- =?utf-8?B?dDFXQ3BaL2IwUkZTZVBobUd0c05tTXp0NkRjR0pNSVh1dUg0RHR4cUY1WWRW?=
- =?utf-8?B?OFphMjU1ZWkzNGJGejNBdkZIRGdnUHNZU0tzUkRFbmRnbDVMejVKODFQWFhp?=
- =?utf-8?B?K1V4WG1OQ2xQV1NKM2RJMGF3aWtlNGZIdy9RTG1IQnk1ZWRVM0JVSXduc3Uz?=
- =?utf-8?B?YnYvc1RJOERyOGdycndHZmdhR1Z4VmRFUVhyVG41bVBWclRMWkhuQ3hyNHZC?=
- =?utf-8?B?ME9aZlRTdG9CdUx1ZlRIbkxNeGJHd0h0U3hQcWJiZEdPdDFxVGFtYW5IcjUz?=
- =?utf-8?B?Qk9obDFQdTNYV2d3TzhYUHhYVjExL3RnRTZ5eHp5ZHlxWXJ5Qk5NUmhHUkpw?=
- =?utf-8?B?YnU0RGtHb3haZlE5MlFuZGhheHNPeHRRbE15dFhsakYzSVcwL2kyMzV6WnNv?=
- =?utf-8?B?akhSUk13OFFSNUR3NVBDT21lQW03eGJSaGxxQkVITDNJb25kRGpRbXNIS3BH?=
- =?utf-8?B?VEVEcnVPYS8zSFNaa2ZxYlVteGxoL1lpSm5Yejd4aEdjQ2U1YzRmdkhWbitH?=
- =?utf-8?B?UDMxSlo3OVdUVldab0xWRHczNTJPNmdXbGs3Z2R0K0RzS1loRk1MRXN5bnFZ?=
- =?utf-8?B?SDAzQmhSSm5qaFM1cW1vVGZnQTNoeWNqQUdVQWtsRll1czEzU0hIckR3NUJ1?=
- =?utf-8?B?SllOY1ZOYWtjY1BUek1MU3VKb2ZsQ2VxYktXcDc0OEttcHFCbDhiV1praldT?=
- =?utf-8?B?eGpqRkVTQUhRZy8wVUYvNnQrUVlKK2JsU21DQ0dCT0tCMXBEVXJRTk5DdWpl?=
- =?utf-8?B?WUEzRFQwamE2U05xNnh3Y3ZOT2thaTBYbHAyY3IwTVJxbEJsYzFTK2M3SDFV?=
- =?utf-8?B?NExBRHk5QktYdHFYbHF4c21DSVl6ZFYyZytiaEl4YnFQOHAwcDZmZ2NpRlRk?=
- =?utf-8?B?UVFpMmNjanNLYURHZXhDS0xwWkx5RUVDeFRkUWxQRjBVQlE1QXdlRlI1cDVQ?=
- =?utf-8?B?ZDF6alZRZGF1U0EySm9USEFCc0t5MUluWHVrVEZibEJqWU5ZNVo0V3lSeUg0?=
- =?utf-8?B?b3VXNTJtVFRVd0J6aG1UMUdJR1ZaOUNWcXMrVkR2MUVNZDNiS29RU3J0a28w?=
- =?utf-8?Q?FMW/ux?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?R0paNXUzR0VPRFFKK1hYTE16Ymx2UG1Ca0RCTjZHUVFxbEtrWFJOOHZHL2Vi?=
- =?utf-8?B?bkEwVHRIeTRGRkhOaUx2aVExZDVYNEFVWkFlTGRRbysyVmdSWWU2L0dOYjFn?=
- =?utf-8?B?MGpFM1NocDdGVUNYTE5ONTBPazdxZlRERU1SSG01akR5a3ZDVW5sZjBTL1ZH?=
- =?utf-8?B?S2hDekFLYnNteHdhZ0ZwMHJSajY0dk1jZ213OEFCWVdzQmFrd2lOY0hiWUdH?=
- =?utf-8?B?QWZWR1hxOHJKWTZyVlNvbDRBRG5WYjBwUHROL1ZWN1FHVzdBeS8zRUlBMncw?=
- =?utf-8?B?cjhjYWdkU2NpWWY2S3pyNCtYQlVsQUIwZUJSZGM0VG0rL1RNSGVkWk14ZDQv?=
- =?utf-8?B?UWJUWFpDVkNXaHNacm5TTDgvZkRvQTYraHYvZ0sydU12ODZNT2grdFhTcjdy?=
- =?utf-8?B?dW1pZy9HMjdQMEE1VmVPa1p6amozelJYaFltU2gwb0lLY1VzNWM4VkpIVWQv?=
- =?utf-8?B?MHB2UUFmdDVPYUw3aC9TQmpybnNUWjFLcWN4TTFZRXJGNktjd2tEejEvdVNW?=
- =?utf-8?B?c0p3a2NUTXVSdHpjWGtkakxNTXBvcVQ2R3lLN1lBS2RJcFk4TmtQTVU0MUo3?=
- =?utf-8?B?eHdsanpJSEZaVVlBdm40RXMwSGkzOHRSYzZYckhFNkF6cWRyelZZZ2RLSGZH?=
- =?utf-8?B?enJLOVJRTDYyREFnZzZzVnZXdDlOT3pSRXUwSE55UnJNOFQvM1FXL0FmMUtB?=
- =?utf-8?B?THRzWkg2dXdPbGFvWkNFekczWFY0UzVHNFFZUHZhallvMCs5K2ExV1U4Ykkr?=
- =?utf-8?B?bXN5SkJOU2xQdjRxQ2tqMDY4ZzZqU28zQ29aclRVSUtaeGYvd0ZKNXZKRlha?=
- =?utf-8?B?bEdieWQ0SzFQVmg0c0pVWnBQSTl4dHpmeGx4YTdINHBjS1lyOUZuRmNRVDNm?=
- =?utf-8?B?QWFHc2hFc2ZQbGNKRDFYUWIwQVhhVEI4R0tkd2tZZWViTGRVcG1WVExPaTYy?=
- =?utf-8?B?RUtFR202UUVJYm9jalBDVHI1VnMvcmRLVFRFcmJPL09wclRmWWx3Q2xISFV0?=
- =?utf-8?B?Z3dJU09oZVUzaG1CSHdEQ2sxU3Z0bmcza3VnZmxDT3lQYy9vbFplYnJLYWxH?=
- =?utf-8?B?Ymg1WkM5UUJaVmFKMFluVzlHbzJZTDI1bmhUNFA0cWliZEFkYTdwV2o3YnBv?=
- =?utf-8?B?NC9GN3Q0UHJxT1pwK0QzMXZKZ0ExVVhhMG82cnBFdWwvU3ZmZ2lSd1hTTzk0?=
- =?utf-8?B?dXA1dm1xOS9ST0IxZEM2M3IvbHhxUFdJY2lhNkoxS01PcjVLODlnMHBMdWxa?=
- =?utf-8?B?aXpkZTVyYTJuTy9VWEVncGRNcVJ4RnZBS3RKamJWeEFnNmN5K3Y2RXBMeHVs?=
- =?utf-8?B?MHBsTXlwWDdTWTlTdWpYRnNDUWRVSXNEQ0F5c3FVQWhyT0Q0c0lydExrVWt5?=
- =?utf-8?B?Zm1kZmF0c2hmR1lYa1AwdHljUzI0Zi8rWGRIZkZYbWNyeWdCYzJyTGRlNHZq?=
- =?utf-8?B?d2RuOURnUmhVTngvTWtYWXdDRHJLUDN5blFrVUJFQ0ZxcnJXNHd4MnJ3L2d1?=
- =?utf-8?B?SVBuZ2cxaXY2aERJY3ZWeE9YMWZNei8rK1Q2SnVsWVFPWmhqajh3SjlzSzJS?=
- =?utf-8?B?Z25oR0QwT3orUUJJN0tKQytKNExnWHNrZ2VWQTR3WVJkUUFVdyswU2dvL0tB?=
- =?utf-8?B?dHBjSWtYbHZmQ1ZZWUQ2TkphSzg2SFg4VEM1cE1OZVNFek9ySnpuOW1LWHhF?=
- =?utf-8?B?NjBrb2FCVWRDcUxiRmFtaXdmVmNRZmNjV1puVVlZTk9wYkxXTHh0WENzMkNx?=
- =?utf-8?B?U0kvbXlYTDNjMUtxUExHa1RKbnFKcURaN1d6UWowZWdLZGlXQlBreE93L0dY?=
- =?utf-8?B?ek5OdmVZY0JEamhMNjBIWWh3bVVKNk15YVJMVkxzZCtWbkpDdThMZFJOUGFX?=
- =?utf-8?B?SjNzQ1FFdUJBRVJoV0s2bmVLc1J0WmhXNFhtVFEvT1pGMHo4TCtSblZ4dFgx?=
- =?utf-8?B?Wkt3MUtxdFY4RWNGUTk3anBIanhEc2k1UGV5SzlmU0FSVkxDK0xYUWQ2T2Zs?=
- =?utf-8?B?aGlLWUx0Z0JCLzkrQlBaQWU0NER4VnFPNFRNL2RmR0haa3I3UHhkWVRJMmhl?=
- =?utf-8?B?ZW9RRVIreG5kVlg3TFdkMjRIeHByeFpBVTBVamtZdHFlWWh3OEdUbUFJSlRm?=
- =?utf-8?B?dHpjN3VvV2s4c0N3TnBvSlFNU2RUYmcwVmRmNFVNU2dJYVBtTFB4T3diZ0Ja?=
- =?utf-8?B?eHJsVEhWRFR0TTRGT1g5eHpNZ21TUkpjWWV3Mk5qWHhqdGx6VmRHMm9xcm82?=
- =?utf-8?B?MnNWbERrZ09mdHg1am16eTFhcEVMSktJK1JFcGRNOGVNVk11MlRPa3JoR2p1?=
- =?utf-8?B?eTZTWEtSSmg2TThFQ3FJSmRuMGJXMk5wd0dGWjNxczNEZnVUZU9Hdz09?=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FEEB35505F;
+	Fri, 19 Dec 2025 16:49:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1766162948; cv=none; b=Lo18xy9ZmkcZhd35IFUFlDsQfXiEsCPwXikyqao/Q1cYaqsHP14zYsc6XgzVeGgYvGN7pF7epsfq1oE/0T+D0cVU01o/420VJhb9SS8c5ocaafjH1DApX0I54s3Rmyflg05hE2N4jeSinFbHwRZbZUlXsx0mrBb+8GXvhUd2fYM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1766162948; c=relaxed/simple;
+	bh=k3LBmjqi2XqQEaxLfGxUjft8TSwKuJs0iVDFAYlyWhY=;
+	h=From:Date:Content-Type:MIME-Version:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=ZdXAa6owcHkIr6NSiahXFyh5nC3Fc5U60kvH2aR056GVo2wE4j2XyS/WqQ8k0h/1BnyAmGEff5n6Mn14yfttOWkVAT/YHpBp0tlk9X2++2sXXYomCZVRHqnb2Lm2dm0bONW9iCOP0+FZc1zBBsKCvlILicmC25eZ4THfTkcVBmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wx2/VHkZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE1E8C4CEF1;
+	Fri, 19 Dec 2025 16:49:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766162946;
+	bh=k3LBmjqi2XqQEaxLfGxUjft8TSwKuJs0iVDFAYlyWhY=;
+	h=From:Date:Cc:To:In-Reply-To:References:Subject:From;
+	b=Wx2/VHkZhhQrp1M6P1F3p1BFo6NtZQPGus+IR0IufHerO8doZ2+zez0C0DCw5eTm+
+	 Wg+Fl0d7S4yQxmkCqW9w8tmyL2dNzjEIJPbuiHgZlK9ACGVuoH5Bn4gAV7Ss3eUvUX
+	 6cirAeTB93EuEEIrHL474OhR7nXRn3Cy2vr4qBVSuetlXlbDXkjwGDwgNtCs65eCL2
+	 EDvec9HneEuAx+DgHerxD3SLoWUyj6HIfyJTvGOpVeDlFOwQzZ5L8w0fVRszRIn2OM
+	 90XsxfMw2sKdD8Znt8a+QWioWzCib2y5WLRziQt0E7uYqhLCVn+RADJmvmoCaqxNdL
+	 Fz+Rt2Uui8L9Q==
+From: Rob Herring <robh@kernel.org>
+Date: Fri, 19 Dec 2025 10:49:03 -0600
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 12d628e3-d63d-4774-eb29-08de3f165b34
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Dec 2025 15:50:38.4851
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7x3xc0iyeA50pzVQDfzKBt8JfYUb7bBtaQcou96ZDyFip8jOM+flQmesa8Rpn4Z/UEtj6qs+wq7wq3BFVDjz4hDnNAugATm+CuFXlIJJ144=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB7059
+Cc: devicetree@vger.kernel.org, Michael Turquette <mturquette@baylibre.com>, 
+ linux-usb@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>, 
+ linux-kernel@vger.kernel.org, Shawn Guo <shawnguo@kernel.org>, 
+ Stephen Boyd <sboyd@kernel.org>, linux-renesas-soc@vger.kernel.org, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, linux@ew.tq-group.com, 
+ Conor Dooley <conor+dt@kernel.org>, linux-arm-kernel@lists.infradead.org, 
+ Roger Quadros <rogerq@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Fabio Estevam <festevam@gmail.com>, Pawel Laszczak <pawell@cadence.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Peter Chen <peter.chen@kernel.org>, imx@lists.linux.dev, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, linux-clk@vger.kernel.org, 
+ Marek Vasut <marex@denx.de>, Magnus Damm <magnus.damm@gmail.com>
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+In-Reply-To: <20251218152058.1521806-1-alexander.stein@ew.tq-group.com>
+References: <20251218152058.1521806-1-alexander.stein@ew.tq-group.com>
+Message-Id: <176616243172.3584134.12135958492433215984.robh@kernel.org>
+Subject: Re: [PATCH 0/6] Support TQMa8QM
 
-SGkgQm9yaXMgQnJlemlsbG9uLA0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZy
-b206IGRyaS1kZXZlbCA8ZHJpLWRldmVsLWJvdW5jZXNAbGlzdHMuZnJlZWRlc2t0b3Aub3JnPiBP
-biBCZWhhbGYgT2YgQm9yaXMgQnJlemlsbG9uDQo+IFNlbnQ6IDE5IERlY2VtYmVyIDIwMjUgMTE6
-MDQNCj4gU3ViamVjdDogUmU6IFtQQVRDSF0gZHJtL3BhbmZyb3N0OiBBZGQgR1BVX1BNX1JUIHN1
-cHBvcnQgZm9yIFJaL0czRSBTb0MNCj4gDQo+IE9uIEZyaSwgMTkgRGVjIDIwMjUgMTA6MTM6NDUg
-KzAwMDANCj4gQmlqdSBEYXMgPGJpanUuZGFzLmp6QGJwLnJlbmVzYXMuY29tPiB3cm90ZToNCj4g
-DQo+ID4gSGkgQWRyacOhbiBMYXJ1bWJlLA0KPiA+DQo+ID4gPiAtLS0tLU9yaWdpbmFsIE1lc3Nh
-Z2UtLS0tLQ0KPiA+ID4gRnJvbTogQWRyacOhbiBMYXJ1bWJlIDxhZHJpYW4ubGFydW1iZUBjb2xs
-YWJvcmEuY29tPg0KPiA+ID4gU2VudDogMTkgRGVjZW1iZXIgMjAyNSAxMDowMg0KPiA+ID4gU3Vi
-amVjdDogUmU6IFtQQVRDSF0gZHJtL3BhbmZyb3N0OiBBZGQgR1BVX1BNX1JUIHN1cHBvcnQgZm9y
-IFJaL0czRQ0KPiA+ID4gU29DDQo+ID4gPg0KPiA+ID4gSGkgQmlqdSwNCj4gPiA+DQo+ID4gPiBJ
-J2xsIGJlIG1lcmdpbmcgeW91ciBwYXRjaC4gSXQnbGwgYmUgbXkgZmlyc3QgdGltZSBhcyBhIFBh
-bmZyb3N0DQo+ID4gPiBtYWludGFpbmVyLCBzbyBiZWFyIG1lIHdpdGggbWUgd2hpbGUgSSBiZWNv
-bWUgZmFtaWxpYXIgd2l0aCB0aGUgcHJvY2Vzcy4NCj4gPg0KPiA+IE9LLiBUaGFua3MuDQo+ID4N
-Cj4gPiBGWUksIEkganVzdCB1c2UgdGhlIGJlbG93IDQgY29tbWFuZHMgYmFzZWQgb24gdGhlIGRv
-Y3VtZW50YXRpb24gdG8gbWVyZ2UgYSBwYXRjaCBhZnRlciB0aGUgaW5pdGlhbA0KPiBkaW0gc2V0
-dXAuDQo+ID4NCj4gPiA9PiAuL21haW50YWluZXItdG9vbHMvZGltIHVwZGF0ZS1icmFuY2hlcyA9
-PiAuL21haW50YWluZXItdG9vbHMvZGltDQo+ID4gY2hlY2tvdXQgZHJtLW1pc2MtbmV4dCA9PiBj
-dXJsIHh4eCB8IC4vbWFpbnRhaW5lci10b29scy9kaW0NCj4gPiBhcHBseS1icmFuY2ggZHJtLW1p
-c2MtbmV4dA0KPiANCj4gT3INCj4gDQo+ICMgZGltIGI0LXNoYXphbSAyMDI1MTIwMzEyNTEwNC42
-NzU5Ni0xLWJpanUuZGFzLmp6QGJwLnJlbmVzYXMuY29tDQo+IA0KPiBpZiB5b3UgZmluZCBpdCBz
-aW1wbGVyIHRvIHBhc3MgYSBnZXQgdGhlIE1lc3NhZ2UtSUQgdGhhbiBzZWFyY2hpbmcgZm9yIGEg
-bGluayB0byBwYXNzIHRvIGN1cmwuDQoNClRoYW5rIHlvdSBmb3IgdGhlIGluZm8uDQoNCkNoZWVy
-cywNCkJpanUNCg==
+
+On Thu, 18 Dec 2025 16:20:47 +0100, Alexander Stein wrote:
+> Hi,
+> 
+> this series adds support for TQ's TQMa8QM. The first 3 patches are prepatory:
+> 1. Add support for clock-output-names for clk-renesas-pcie. This is necessary
+> as clk-imx8qxp-lpcg.c (driver for phyx1 phyx2 clock gating) reqiures that
+> property on the parent clock.
+> 
+> 2. Add support for USB devices in cdns USB3 host controller, namely
+> onboard-devices as USB hubs. Implemented similarily to snps,dwc3-common.yaml.
+> 
+> 3. Add DMA IRQ for PCIe controller. Similar to commit 0b4c46f9ad79c
+> ("arm64: dts: imx8qm-ss-hsio: Wire up DMA IRQ for PCIe") which was only tested
+> on imx8qxp which just has one PCIe controller.
+> 
+> 4 & 5. Device bindings and platform DT
+> 
+> 6. Workaround for missing "ERR050104: Arm/A53: Cache coherency issue"
+> workaround. See [1] for details. Split into separate commit for easy revert
+> once an errata workaround has been integrated.
+> 
+> Best regards,
+> Alexander
+> 
+> [1] https://lore.kernel.org/all/20230420112952.28340-1-iivanov@suse.de/
+> 
+> Alexander Stein (6):
+>   dt-bindings: clk: rs9: add clock-output-names property
+>   dt-bindings: usb: cdns,usb3: support USB devices in DT
+>   arm64: dts: imx8qm-ss-hsio: Wire up DMA IRQ for PCIe
+>   dt-bindings: arm: fsl: add bindings for TQMa8x
+>   arm64: dts: Add TQ imx8qm based board
+>   arm64: dts: imx8qm-tqma8qm-mba8x: Disable Cortex-A72 cluster
+> 
+>  .../devicetree/bindings/arm/fsl.yaml          |  10 +
+>  .../bindings/clock/renesas,9series.yaml       |  37 +
+>  .../devicetree/bindings/usb/cdns,usb3.yaml    |  11 +
+>  arch/arm64/boot/dts/freescale/Makefile        |   1 +
+>  .../boot/dts/freescale/imx8qm-ss-hsio.dtsi    |   5 +-
+>  .../dts/freescale/imx8qm-tqma8qm-mba8x.dts    | 869 ++++++++++++++++++
+>  .../boot/dts/freescale/imx8qm-tqma8qm.dtsi    | 322 +++++++
+>  7 files changed, 1253 insertions(+), 2 deletions(-)
+>  create mode 100644 arch/arm64/boot/dts/freescale/imx8qm-tqma8qm-mba8x.dts
+>  create mode 100644 arch/arm64/boot/dts/freescale/imx8qm-tqma8qm.dtsi
+> 
+> --
+> 2.43.0
+> 
+> 
+> 
+
+
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
+
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
+
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
+
+  pip3 install dtschema --upgrade
+
+
+This patch series was applied (using b4) to base:
+ Base: attempting to guess base-commit...
+ Base: tags/v6.18-rc7-1585-gfa10d5a2b8f9 (best guess, 3/5 blobs matched)
+ Base: tags/v6.18-rc7-1585-gfa10d5a2b8f9 (use --merge-base to override)
+
+If this is not the correct base, please add 'base-commit' tag
+(or use b4 which does this automatically)
+
+New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/freescale/' for 20251218152058.1521806-1-alexander.stein@ew.tq-group.com:
+
+Error: arch/arm64/boot/dts/freescale/imx8qm-tqma8qm.dtsi:180.1-15 Label or path thermal_zones not found
+FATAL ERROR: Syntax error parsing input tree
+make[3]: *** [scripts/Makefile.dtbs:132: arch/arm64/boot/dts/freescale/imx8qm-tqma8qm-mba8x.dtb] Error 1
+make[2]: *** [scripts/Makefile.build:556: arch/arm64/boot/dts/freescale] Error 2
+make[2]: Target 'arch/arm64/boot/dts/freescale/imx8qm-tqma8qm-mba8x.dtb' not remade because of errors.
+make[1]: *** [/home/rob/proj/linux-dt-testing/Makefile:1478: freescale/imx8qm-tqma8qm-mba8x.dtb] Error 2
+make: *** [Makefile:248: __sub-make] Error 2
+make: Target 'freescale/imx8dx-colibri-eval-v3.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-var-som-symphony.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-nitrogen-enc-carrier-board.dtb' not remade because of errors.
+make: Target 'freescale/fsl-ls1046a-qds.dtb' not remade because of errors.
+make: Target 'freescale/imx8mm-prt8mm.dtb' not remade because of errors.
+make: Target 'freescale/fsl-ls1028a-kontron-sl28.dtb' not remade because of errors.
+make: Target 'freescale/imx8qxp-tqma8xqp-mba8xx.dtb' not remade because of errors.
+make: Target 'freescale/imx8mm-beacon-kit.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-venice-gw73xx-2x.dtb' not remade because of errors.
+make: Target 'freescale/imx8mm-var-som-symphony.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-icore-mx8mp-edimm2.2.dtb' not remade because of errors.
+make: Target 'freescale/imx8mm-innocomm-wb15-evk.dtb' not remade because of errors.
+make: Target 'freescale/imx8qm-apalis-v1.1-eval.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-aristainetos3-proton2s.dtb' not remade because of errors.
+make: Target 'freescale/imx8dx-colibri-iris-v2.dtb' not remade because of errors.
+make: Target 'freescale/imx8mn-ddr3l-evk.dtb' not remade because of errors.
+make: Target 'freescale/imx8mm-icore-mx8mm-edimm2.2.dtb' not remade because of errors.
+make: Target 'freescale/imx8mn-evk.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-dhcom-pdk3.dtb' not remade because of errors.
+make: Target 'freescale/fsl-ls1028a-kontron-kbox-a-230-ls.dtb' not remade because of errors.
+make: Target 'freescale/imx8mm-phyboard-polis-rdk.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-venice-gw72xx-2x.dtb' not remade because of errors.
+make: Target 'freescale/imx8mm-venice-gw7901.dtb' not remade because of errors.
+make: Target 'freescale/imx8mn-beacon-kit.dtb' not remade because of errors.
+make: Target 'freescale/fsl-ls1028a-kontron-sl28-var1.dtb' not remade because of errors.
+make: Target 'freescale/fsl-ls1028a-kontron-sl28-var3.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-debix-som-a-bmb-08.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-verdin-nonwifi-dahlia.dtb' not remade because of errors.
+make: Target 'freescale/imx8qxp-ai_ml.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-verdin-wifi-dev.dtb' not remade because of errors.
+make: Target 'freescale/s32v234-evb.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-skov-revb-lt6.dtb' not remade because of errors.
+make: Target 'freescale/imx8mm-phg.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-nitrogen-smarc-universal-board.dtb' not remade because of errors.
+make: Target 'freescale/imx8mm-venice-gw71xx-0x.dtb' not remade because of errors.
+make: Target 'freescale/imx8ulp-evk.dtb' not remade because of errors.
+make: Target 'freescale/imx8qxp-colibri-iris.dtb' not remade because of errors.
+make: Target 'freescale/imx8mm-emtop-baseboard.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-hummingboard-pro.dtb' not remade because of errors.
+make: Target 'freescale/fsl-ls1028a-kontron-sl28-var4.dtb' not remade because of errors.
+make: Target 'freescale/imx8mq-librem5-r4.dtb' not remade because of errors.
+make: Target 'freescale/imx8dx-colibri-aster.dtb' not remade because of errors.
+make: Target 'freescale/imx8mn-rve-gateway.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-venice-gw71xx-2x.dtb' not remade because of errors.
+make: Target 'freescale/fsl-ls2080a-rdb.dtb' not remade because of errors.
+make: Target 'freescale/imx8mq-pico-pi.dtb' not remade because of errors.
+make: Target 'freescale/imx8mm-verdin-wifi-mallow.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-msc-sm2s-ep1.dtb' not remade because of errors.
+make: Target 'freescale/imx8dxl-evk.dtb' not remade because of errors.
+make: Target 'freescale/fsl-ls1043a-qds.dtb' not remade because of errors.
+make: Target 'freescale/s32g399a-rdb3.dtb' not remade because of errors.
+make: Target 'freescale/imx8mm-venice-gw72xx-0x.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-verdin-wifi-ivy.dtb' not remade because of errors.
+make: Target 'freescale/imx8mn-bsh-smm-s2.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-aristainetos3-adpismarc.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-tx8p-ml81-moduline-display-106.dtb' not remade because of errors.
+make: Target 'freescale/imx8mm-verdin-nonwifi-mallow.dtb' not remade because of errors.
+make: Target 'freescale/imx8qxp-tqma8xqps-mb-smarc-2.dtb' not remade because of errors.
+make: Target 'freescale/imx8mn-dimonoff-gateway-evk.dtb' not remade because of errors.
+make: Target 'freescale/imx93-tqma9352-mba93xxca.dtb' not remade because of errors.
+make: Target 'freescale/imx8mq-tqma8mq-mba8mx.dtb' not remade because of errors.
+make: Target 'freescale/fsl-ls1012a-oxalis.dtb' not remade because of errors.
+make: Target 'freescale/imx93-14x14-evk.dtb' not remade because of errors.
+make: Target 'freescale/imx8dx-colibri-iris.dtb' not remade because of errors.
+make: Target 'freescale/imx8mn-var-som-symphony.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-kontron-smarc-eval-carrier.dtb' not remade because of errors.
+make: Target 'freescale/fsl-ls2080a-simu.dtb' not remade because of errors.
+make: Target 'freescale/fsl-ls1046a-frwy.dtb' not remade because of errors.
+make: Target 'freescale/imx93-9x9-qsb.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-verdin-wifi-yavia.dtb' not remade because of errors.
+make: Target 'freescale/imx8mm-evk.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-verdin-nonwifi-yavia.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-verdin-wifi-mallow.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-debix-model-a.dtb' not remade because of errors.
+make: Target 'freescale/imx8qm-apalis-v1.1-ixora-v1.2.dtb' not remade because of errors.
+make: Target 'freescale/imx8mq-evk.dtb' not remade because of errors.
+make: Target 'freescale/imx8mm-icore-mx8mm-ctouch2.dtb' not remade because of errors.
+make: Target 'freescale/imx8mq-zii-ultra-rmb3.dtb' not remade because of errors.
+make: Target 'freescale/imx8mm-phygate-tauri-l.dtb' not remade because of errors.
+make: Target 'freescale/imx8qm-apalis-v1.1-eval-v1.2.dtb' not remade because of errors.
+make: Target 'freescale/fsl-lx2162a-clearfog.dtb' not remade because of errors.
+make: Target 'freescale/imx8mm-data-modul-edm-sbc.dtb' not remade because of errors.
+make: Target 'freescale/imx8mq-librem5-devkit.dtb' not remade because of errors.
+make: Target 'freescale/fsl-lx2160a-tqmlx2160a-mblx2160a.dtb' not remade because of errors.
+make: Target 'freescale/fsl-ls1012a-tqmls1012al-mbls1012al-emmc.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-cubox-m.dtb' not remade because of errors.
+make: Target 'freescale/fsl-lx2160a-honeycomb.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-skov-revb-hdmi.dtb' not remade because of errors.
+make: Target 'freescale/imx8qm-apalis-eval.dtb' not remade because of errors.
+make: Target 'freescale/imx8mm-venice-gw7904.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-skov-revb-mi1010ait-1cp1.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-navqp.dtb' not remade because of errors.
+make: Target 'freescale/fsl-lx2160a-qds.dtb' not remade because of errors.
+make: Target 'freescale/fsl-lx2160a-bluebox3.dtb' not remade because of errors.
+make: Target 'freescale/imx93-var-som-symphony.dtb' not remade because of errors.
+make: Target 'freescale/imx8dxp-tqma8xdps-mb-smarc-2.dtb' not remade because of errors.
+make: Target 'freescale/imx8mm-nitrogen-r2.dtb' not remade because of errors.
+make: Target 'freescale/fsl-ls1028a-kontron-sl28-var3-ads2.dtb' not remade because of errors.
+make: Target 'freescale/fsl-ls1046a-rdb.dtb' not remade because of errors.
+make: Target 'freescale/imx93-tqma9352-mba91xxca.dtb' not remade because of errors.
+make: Target 'freescale/imx95-tqma9596sa-mb-smarc-2.dtb' not remade because of errors.
+make: Target 'freescale/imx8mn-ddr4-evk.dtb' not remade because of errors.
+make: Target 'freescale/imx8mn-bsh-smm-s2pro.dtb' not remade because of errors.
+make: Target 'freescale/imx8mq-phanbell.dtb' not remade because of errors.
+make: Target 'freescale/imx8mm-venice-gw7903.dtb' not remade because of errors.
+make: Target 'freescale/s32g274a-evb.dtb' not remade because of errors.
+make: Target 'freescale/imx8mm-ddr4-evk.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-dhcom-pdk2.dtb' not remade because of errors.
+make: Target 'freescale/fsl-ls1012a-frdm.dtb' not remade because of errors.
+make: Target 'freescale/fsl-ls1012a-qds.dtb' not remade because of errors.
+make: Target 'freescale/fsl-ls1043a-rdb.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-phyboard-pollux-rdk.dtb' not remade because of errors.
+make: Target 'freescale/imx8qm-mek.dtb' not remade because of errors.
+make: Target 'freescale/fsl-ls1088a-qds.dtb' not remade because of errors.
+make: Target 'freescale/fsl-ls1088a-rdb.dtb' not remade because of errors.
+make: Target 'freescale/imx8mm-verdin-wifi-dev.dtb' not remade because of errors.
+make: Target 'freescale/imx8qm-apalis-v1.1-ixora-v1.1.dtb' not remade because of errors.
+make: Target 'freescale/imx91-tqma9131-mba91xxca.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-hummingboard-mate.dtb' not remade because of errors.
+make: Target 'freescale/imx8mm-venice-gw75xx-0x.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-venice-gw74xx.dtb' not remade because of errors.
+make: Target 'freescale/imx8qm-apalis-ixora-v1.1.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-aristainetos3-helios.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-skov-revc-bd500.dtb' not remade because of errors.
+make: Target 'freescale/imx8mm-verdin-nonwifi-dahlia.dtb' not remade because of errors.
+make: Target 'freescale/imx8mm-iot-gateway.dtb' not remade because of errors.
+make: Target 'freescale/imx8mq-librem5-r2.dtb' not remade because of errors.
+make: Target 'freescale/imx95-libra-rdk-fpsc.dtb' not remade because of errors.
+make: Target 'freescale/fsl-ls1088a-ten64.dtb' not remade because of errors.
+make: Target 'freescale/imx8ulp-9x9-evk.dtb' not remade because of errors.
+make: Target 'freescale/fsl-ls1028a-qds.dtb' not remade because of errors.
+make: Target 'freescale/imx8qm-tqma8qm-mba8x.dtb' not remade because of errors.
+make: Target 'freescale/imx8mm-verdin-wifi-dahlia.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-beacon-kit.dtb' not remade because of errors.
+make: Target 'freescale/fsl-lx2162a-qds.dtb' not remade because of errors.
+make: Target 'freescale/fsl-ls1046a-tqmls1046a-mbls10xxa.dtb' not remade because of errors.
+make: Target 'freescale/imx91-11x11-evk.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-verdin-wifi-dahlia.dtb' not remade because of errors.
+make: Target 'freescale/imx8mm-evkb.dtb' not remade because of errors.
+make: Target 'freescale/imx93-tqma9352-mba93xxla.dtb' not remade because of errors.
+make: Target 'freescale/imx8mm-emcon-avari.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-edm-g-wb.dtb' not remade because of errors.
+make: Target 'freescale/imx93-11x11-evk.dtb' not remade because of errors.
+make: Target 'freescale/imx95-19x19-evk.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-hummingboard-ripple.dtb' not remade because of errors.
+make: Target 'freescale/fsl-ls1012a-tqmls1012al-mbls1012al.dtb' not remade because of errors.
+make: Target 'freescale/fsl-lx2160a-clearfog-cx.dtb' not remade because of errors.
+make: Target 'freescale/imx8mm-tqma8mqml-mba8mx.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-verdin-nonwifi-ivy.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-dhcom-drc02.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-toradex-smarc-dev.dtb' not remade because of errors.
+make: Target 'freescale/imx8mm-verdin-wifi-ivy.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-tqma8mpql-mba8mp-ras314.dtb' not remade because of errors.
+make: Target 'freescale/imx8mm-verdin-nonwifi-yavia.dtb' not remade because of errors.
+make: Target 'freescale/fsl-ls1012a-rdb.dtb' not remade because of errors.
+make: Target 'freescale/fsl-ls1012a-frwy.dtb' not remade because of errors.
+make: Target 'freescale/fsl-ls1028a-kontron-sl28-var2.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-verdin-nonwifi-mallow.dtb' not remade because of errors.
+make: Target 'freescale/imx8mm-venice-gw73xx-0x.dtb' not remade because of errors.
+make: Target 'freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb' not remade because of errors.
+make: Target 'freescale/imx8mm-kontron-bl-osm-s.dtb' not remade because of errors.
+make: Target 'freescale/fsl-lx2160a-bluebox3-rev-a.dtb' not remade because of errors.
+make: Target 'freescale/fsl-ls1088a-tqmls1088a-mbls10xxa.dtb' not remade because of errors.
+make: Target 'freescale/imx8mm-verdin-wifi-yavia.dtb' not remade because of errors.
+make: Target 'freescale/imx8mm-mx8menlo.dtb' not remade because of errors.
+make: Target 'freescale/fsl-ls2081a-rdb.dtb' not remade because of errors.
+make: Target 'freescale/imx8mq-mnt-reform2.dtb' not remade because of errors.
+make: Target 'freescale/imx8qxp-colibri-iris-v2.dtb' not remade because of errors.
+make: Target 'freescale/fsl-ls2088a-rdb.dtb' not remade because of errors.
+make: Target 'freescale/imx8mq-zii-ultra-zest.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-tqma8mpql-mba8mpxl.dtb' not remade because of errors.
+make: Target 'freescale/imx8qm-apalis-eval-v1.2.dtb' not remade because of errors.
+make: Target 'freescale/s32g274a-rdb2.dtb' not remade because of errors.
+make: Target 'freescale/imx93-phyboard-nash.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-verdin-nonwifi-dev.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-ultra-mach-sbc.dtb' not remade because of errors.
+make: Target 'freescale/imx8mn-tqma8mqnl-mba8mx.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-kontron-bl-osm-s.dtb' not remade because of errors.
+make: Target 'freescale/fsl-ls2080a-qds.dtb' not remade because of errors.
+make: Target 'freescale/imx8mm-verdin-nonwifi-ivy.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-data-modul-edm-sbc.dtb' not remade because of errors.
+make: Target 'freescale/imx8mq-librem5-r3.dtb' not remade because of errors.
+make: Target 'freescale/fsl-ls2088a-qds.dtb' not remade because of errors.
+make: Target 'freescale/imx8mq-kontron-pitx-imx8m.dtb' not remade because of errors.
+make: Target 'freescale/imx8mm-venice-gw7902.dtb' not remade because of errors.
+make: Target 'freescale/fsl-lx2160a-rdb.dtb' not remade because of errors.
+make: Target 'freescale/imx95-19x19-evk-sof.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-venice-gw82xx-2x.dtb' not remade because of errors.
+make: Target 'freescale/imx93-phyboard-segin.dtb' not remade because of errors.
+make: Target 'freescale/imx8mm-verdin-nonwifi-dev.dtb' not remade because of errors.
+make: Target 'freescale/imx8mm-kontron-bl.dtb' not remade because of errors.
+make: Target 'freescale/imx8dxp-tqma8xdp-mba8xx.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-hummingboard-pulse.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-libra-rdk-fpsc.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-venice-gw75xx-2x.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-evk.dtb' not remade because of errors.
+make: Target 'freescale/imx8qxp-colibri-eval-v3.dtb' not remade because of errors.
+make: Target 'freescale/imx943-evk.dtb' not remade because of errors.
+make: Target 'freescale/imx8qxp-colibri-aster.dtb' not remade because of errors.
+make: Target 'freescale/imx8mq-nitrogen.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-skov-basic.dtb' not remade because of errors.
+make: Target 'freescale/imx8mq-thor96.dtb' not remade because of errors.
+make: Target 'freescale/fsl-ls1028a-rdb.dtb' not remade because of errors.
+make: Target 'freescale/imx8mq-hummingboard-pulse.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-iota2-lumpy.dtb' not remade because of errors.
+make: Target 'freescale/imx8mn-venice-gw7902.dtb' not remade because of errors.
+make: Target 'freescale/imx8qxp-mek.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-skov-revc-tian-g07017.dtb' not remade because of errors.
+make: Target 'freescale/imx93-kontron-bl-osm-s.dtb' not remade because of errors.
+make: Target 'freescale/imx95-15x15-evk.dtb' not remade because of errors.
+make: Target 'freescale/imx8mp-dhcom-picoitx.dtb' not remade because of errors.
+
+
+
+
+
 
