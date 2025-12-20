@@ -1,114 +1,112 @@
-Return-Path: <linux-renesas-soc+bounces-25953-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25954-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E065CD2A51
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 20 Dec 2025 09:24:41 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 494D6CD2B0B
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 20 Dec 2025 09:48:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 665A93014DF0
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 20 Dec 2025 08:24:40 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A7E4E300B28A
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 20 Dec 2025 08:48:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A258D2F691B;
-	Sat, 20 Dec 2025 08:24:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9A5B2DAFC7;
+	Sat, 20 Dec 2025 08:48:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="dGAsYOyw"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pZK2YNnU"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E4FC2F691C
-	for <linux-renesas-soc@vger.kernel.org>; Sat, 20 Dec 2025 08:24:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 728E123313E;
+	Sat, 20 Dec 2025 08:48:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766219078; cv=none; b=X5ENyf0SgxHy4wxmup7LgCWbGkAt9F9EwZQQJngoVEZIM4JYZvegjhdY76pOfxIzdvcjCx3Z5ek1sorPSHGkxdsrmcFqHHuRDd1p6g5Tz6RgejjvcbnfuQmbpfWu/r5onqZ5mlWbRfDEdE8DfdQgsRHlbVWUu/GBKS+npUNJS4U=
+	t=1766220495; cv=none; b=tTTDsK153RwctMvpkezVEsfeO/2JeXfMY2DlHM1omAAbD2P94KcqDlWnEfgJpc8vElbDZROhFlqpfFF8/H5cvu2su2tylBpjEu8v3fDrkBHTtSn22PwkWszP1+T1m1zWRY6JoPCPmlgFyrp0UL6QJ74B+bIO/P2iwV8TkSo4GB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766219078; c=relaxed/simple;
-	bh=iG1jcE6qfNDLs4GAZzWD+9GDWLgHOOnYN+sNdvLbCJ4=;
+	s=arc-20240116; t=1766220495; c=relaxed/simple;
+	bh=18qrj7yg+u8XLv0nD5iwxa5zywxEGxn2/r6db/iLYss=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XZuhhbU4bpcVp0sgNqYatVbVQBpZQ84YEVNqy/85siYMjqaU2TIKU21CRdb7YdPcDlBY/n01x3qOWp62YvCYgFV3rdMkgr3/0/xtlDa/ceycyPQ7U7qzlkBrJ6bYpmx/oO3Y40+zddToHPNSqF8bmp+5x7HOecgvOVMEydComvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=dGAsYOyw; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=iG1j
-	cE6qfNDLs4GAZzWD+9GDWLgHOOnYN+sNdvLbCJ4=; b=dGAsYOyw+bodFDqat3VW
-	mEHasllOHtivGc5kBOWsElCvoP5i7DRuyVU7KQP+L4ETKPzrvP1pNh3/Z7i8d4co
-	mnAx4vvTJIL6ZG9zY23WzpQNnI6Us+/RIPMgL+5qG1uKcY3n44lmBHH2KF7uUbGf
-	ZaaJl0lwDDR+7yi/+B5XdTnWp3hkRwyZAKrnMv69bWPGMFSOQqqy1Kjv9tplvXWo
-	APWRSvp/R5Ts+c0FL98tpJoEAyZYplT5KVuNe64v7XsgVTmNduZcIIDzb9ihJgEF
-	SP99n3wg/hD43p6eFIgt5iW3k6+O+zWIB937viUmMnC7jdhDEaTlRUo7aEmFCKYm
-	aQ==
-Received: (qmail 3031979 invoked from network); 20 Dec 2025 09:24:34 +0100
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 20 Dec 2025 09:24:34 +0100
-X-UD-Smtp-Session: l3s3148p1@WYGF7F1GluggAwDPXwGNABSvzf//pZhn
-Date: Sat, 20 Dec 2025 09:24:33 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: bhelgaas@google.com, lpieralisi@kernel.org, kwilczynski@kernel.org,
-	mani@kernel.org, robh@kernel.org, linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: Re: [PATCH v2 2/2] PCI: rzg3s-host: Drop the lock on RZG3S_PCI_MSIRS
- and RZG3S_PCI_PINTRCVIS
-Message-ID: <aUZdQdXNDdZka-JU@shikoro>
-References: <20251217111510.138848-1-claudiu.beznea.uj@bp.renesas.com>
- <20251217111510.138848-3-claudiu.beznea.uj@bp.renesas.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=PZvAtRqwoESYkur7MGEv7+7bZBCIupIbqldYgt5SWlEmNOJWk4eDaK1q6REarD+lPZkvdG6WreHwK/e4S4ralTs8JWX/adfzhi4qFX9UyRIw34dgihrEM9YnSuuxYUQf6ffcNT8Mq294U2rn3elRzFKs0Rr9wFC5VourGNpgj/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pZK2YNnU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0A18C4CEF5;
+	Sat, 20 Dec 2025 08:48:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766220494;
+	bh=18qrj7yg+u8XLv0nD5iwxa5zywxEGxn2/r6db/iLYss=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pZK2YNnUaWn4dEJxlhskLRLooxac+p0uhMtIX0u2IGB063em/I4qic9nj32KHxwYL
+	 n5H3ygVyfsMxF9JRjGM+zodtf9rMgT+ZFL4RHvhVY13VjQHFIw6gTSyAVYr2daGPwO
+	 JYpspcMQNs4Ccd0CuHbSt/ZtE3GdkZznCBxqkBkeMixJ7FcnFzbip/QBzBGpI128Ir
+	 PnO+ummT309J/jMPFiP3tsJY+qOxsIutRgvo4QFcYXjgqX8MVPftY+uBXX8zkyxqCU
+	 ep57SFzIbCJ5R+HBRH0+YFl7OVfA9YXDW/Sc7HVSAHgRfZpvFrrz/hev/mku3UM3n7
+	 ftJPGM6g+0R5w==
+Date: Sat, 20 Dec 2025 09:48:10 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Richard Cochran <richardcochran@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Vinod Koul <vkoul@kernel.org>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, 
+	Jose Abreu <joabreu@synopsys.com>, Chen-Yu Tsai <wens@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Matthew Gerlach <matthew.gerlach@altera.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Keguang Zhang <keguang.zhang@gmail.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Jan Petrous <jan.petrous@oss.nxp.com>, s32@nxp.com, Romain Gantois <romain.gantois@bootlin.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, Heiko Stuebner <heiko@sntech.de>, 
+	Chen Wang <unicorn_wang@outlook.com>, Inochi Amaoto <inochiama@gmail.com>, 
+	Emil Renner Berthing <kernel@esmil.dk>, Minda Chen <minda.chen@starfivetech.com>, 
+	Drew Fustini <fustini@kernel.org>, Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>, 
+	Nobuhiro Iwamatsu <nobuhiro.iwamatsu.x90@mail.toshiba>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>, 
+	Shuang Liang <liangshuang@eswincomputing.com>, Zhi Li <lizhi2@eswincomputing.com>, 
+	Shangjuan Wei <weishangjuan@eswincomputing.com>, "G. Jaya Kumaran" <vineetha.g.jaya.kumaran@intel.com>, 
+	Clark Wang <xiaoning.wang@nxp.com>, Linux Team <linux-imx@nxp.com>, Frank Li <Frank.Li@nxp.com>, 
+	David Wu <david.wu@rock-chips.com>, Samin Guo <samin.guo@starfivetech.com>, 
+	Christophe Roullier <christophe.roullier@foss.st.com>, Swathi K S <swathi.ks@samsung.com>, 
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, Drew Fustini <dfustini@tenstorrent.com>, 
+	linux-sunxi@lists.linux.dev, linux-amlogic@lists.infradead.org, linux-mips@vger.kernel.org, 
+	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, sophgo@lists.linux.dev, linux-riscv@lists.infradead.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: Re: [PATCH v6 1/7] dt-bindings: net: qcom: document the ethqos
+ device for SCMI-based systems
+Message-ID: <20251220-spiritual-barracuda-of-champagne-34eb91@quoll>
+References: <20251219-qcom-sa8255p-emac-v6-0-487f1082461e@oss.qualcomm.com>
+ <20251219-qcom-sa8255p-emac-v6-1-487f1082461e@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="2WdXUDGOzbmf4s40"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251217111510.138848-3-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20251219-qcom-sa8255p-emac-v6-1-487f1082461e@oss.qualcomm.com>
 
+On Fri, Dec 19, 2025 at 12:42:16PM +0100, Bartosz Golaszewski wrote:
+> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> 
+> Describe the firmware-managed variant of the QCom DesignWare MAC. As the
+> properties here differ a lot from the HLOS-managed variant, lets put it
+> in a separate file. Since we need to update the maximum number of power
+> domains, let's update existing bindings referencing the top-level
+> snps,dwmac.yaml and limit their maxItems for power-domains to 1.
+> 
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> ---
 
---2WdXUDGOzbmf4s40
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-On Wed, Dec 17, 2025 at 01:15:10PM +0200, Claudiu wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->=20
-> The RZG3S_PCI_MSIRS and RZG3S_PCI_PINTRCVIS registers are of the R/W1C
-> type. According to the RZ/G3S HW Manual, Rev. 1.10, chapter 34.2.1
-> Register Type, R/W1C register bits are cleared to 0b by writing 1b, while
-> writing 0b has no effect. Therefore, there is no need to take a lock
-> around writes to these registers.
->=20
-> Drop the locking.
->=20
-> Along with this, add a note about the R/W1C register type to the register
-> offset definitions.
->=20
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Best regards,
+Krzysztof
 
-Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-
-
---2WdXUDGOzbmf4s40
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmlGXUEACgkQFA3kzBSg
-Kba5Hw/6Amw/o1dacj0BBfAk1oRfxilEfriFjqIu+fjFZKo0OUAIrQfak8+ksK/2
-IPC1e9uJWgpss071mm9pk8HXzzSXcxiL0zsWhnbX5rFAUTnYm2v3h+vrckEIQzKl
-2u0nkgjDuKJD1Fnf8DMYpRkC7Jmwngmd2qI7uIlVDmbnm7PPVfZBCqWCwjsdPk/f
-UNBx5XLCVddOykpzekKkR4v/K58FHFTIUX3eTG33q6AXhoJ3XAisfDY4D+IRWpW5
-/wZ8wfC9xm4D8oF/APzQA7e4a+luaEzwMaJlJA1cbe8hLnNgtpjQPKXzfxPQZZd3
-zOl8rQUnmOnmz5imPw9Y/ovoNjXR/Iod51Xzbm8bAB5ACSqI5DvoxDQaoBbod3uQ
-b2gBPqBJSVkubwBjQOeSar6sj6wDD4oDJ+olD6ocUOAoc8M7GMndYnPLC506PyJE
-VekAui8jVlEn6WAqJkr5gTSvrlE1BwlxuFsRIoEs7tdW8EFrMOj9lD9hiBFc3wuY
-GUCwPHKj/KC7B4zzaDz/N1B+LQL5XBrNKtsUtbqKdO+IyLp1kEZe5K8SAJD4T0vO
-vYeshaRzhssavDqweahEQGmh5NcNrSK6JXuaozpWnFZBMKqAaQG2mc2dkC40g9JW
-4eJ23Qsv0owWEp2fwPXg5avgK7SwKSPA4Z4rKGT4v/KGlwWChvw=
-=ccj9
------END PGP SIGNATURE-----
-
---2WdXUDGOzbmf4s40--
 
