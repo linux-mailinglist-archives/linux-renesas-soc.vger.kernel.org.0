@@ -1,121 +1,98 @@
-Return-Path: <linux-renesas-soc+bounces-25946-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25947-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86799CD19EB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Dec 2025 20:27:25 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95633CD2576
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 20 Dec 2025 03:04:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 3002830735FC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Dec 2025 19:24:27 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C4A2430213E0
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 20 Dec 2025 02:04:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06947340A5D;
-	Fri, 19 Dec 2025 19:23:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4C492E54BD;
+	Sat, 20 Dec 2025 02:04:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="M/3jeLfs"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="siwcFFo4"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5808E341645;
-	Fri, 19 Dec 2025 19:23:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 788231CD2C;
+	Sat, 20 Dec 2025 02:04:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766172221; cv=none; b=Sfap4NL6Utv8SChUpz/dRkmeprN7Ol2Jfv6EFXVa1ZqtmvynpMeCQ8O7v0GxvGd1hUNU4HKB9eOP27M/YSv8lenLuI8PvvUE63oFP+M8bx8StNtct/jWfUHn2LxxeNV06VzIcnUbzOAsjNj+4/wgLQQ36jgRIjXQtfA/OWewgUw=
+	t=1766196256; cv=none; b=dLaijne1/oviMqm3d186bk/KY4OnAmbgLNEK/nnnJBhceEgb+GkcsQ1apc8vW9nANVQqceVkl2JYa7CJ5P89vAnbadSrbDRkJgvC4IzLGj/8d1Uk4/5oIZGmqHZvzGum0kNXzXESBpXN5XHrA557MPui/qFBPliO6UusDDcMuLs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766172221; c=relaxed/simple;
-	bh=P0oCxfjKcbTdXTynhII6+JbewiJeFDfz/e88uzcC+GQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ruIFeQ6ukAgX9TDq54MEJp9lDNi3a4IIQ1jXjFy2SH9M1m5aUlFTZ8cTnEg7lPZWYu9ZMsXdF7mydoS4244CMSSllpJW8uOw0u6eK5ZwPlqlF9Fjs2aBcjPGwQAaEtON9L0Kv7FqqOKompZXl0A2+mFWJgcC3ADCkdTAmLEDCJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=M/3jeLfs; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 250204E40B7D;
-	Fri, 19 Dec 2025 19:23:39 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id EF6F66071D;
-	Fri, 19 Dec 2025 19:23:38 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B7CFF102F0CDA;
-	Fri, 19 Dec 2025 20:23:32 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1766172214; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=vrDLpxHj859p8IRaJPL2VCFLfV/CO+dPXle53aPPG2k=;
-	b=M/3jeLfso9QC3scrnbpbpxrwsUmwSgQLUO3qFkUgkza6vUkUB0aBGLOx3WGy3ZxGK7pxne
-	4pKPRfjPP+b4FpoJG4HQMbSf+mD3EOLlFW3z5EOUrinJprCaFTWIjlV93akavKxIGKFom8
-	0vEuUzUmqU6FrmJDSq0XUckPcOjjH0kppt9p7YmxMgCeoeYKKGaxof5DE0Pn+eOe6a0gi/
-	IMGQt2Jy4MuTvntv24zhYq6W1+n0k1muwsc6c6flFXlxoM/oJWUJfh+XNfeyG/mg8VUS0V
-	YhwRep+emxIZ1mWpObXwRXXQ6eJEhQSoWstNMYS8sIvdfIuXi5i9C86JKdek5w==
-From: "Miquel Raynal (Schneider Electric)" <miquel.raynal@bootlin.com>
-Date: Fri, 19 Dec 2025 20:22:15 +0100
-Subject: [PATCH 13/13] ARM: dts: r9a06g032: Describe the QSPI controller
+	s=arc-20240116; t=1766196256; c=relaxed/simple;
+	bh=+f45ASUs6uxPlPjAzNUfH9w2mweBPgnrH0B9YPOsNA4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OqfPBSxJfUf4Kd1jNKaXGIC0SaM7HA/2kUN+GfPrP5iS/86Cgx/LGHEvWK8lZrZ9qoYSLF10WXYUlO5C07vVZnq+G81GdkMq6+WiuXZlNxT8VivUjcl5CCGpL8UzJH+4+qG8OO7G21V0zV3glHk0kFI9aBVIEowdM8zs87O9a4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=siwcFFo4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2A71C4CEF1;
+	Sat, 20 Dec 2025 02:04:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766196255;
+	bh=+f45ASUs6uxPlPjAzNUfH9w2mweBPgnrH0B9YPOsNA4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=siwcFFo40CbtP7/pe33SbwB9Rh1v7UxEaK7iWddHdWGtAJzG33vOzuQyn04Ubj2bl
+	 B9jRHpvdoNThYCVg8mNhCnMDDYAxkk1ivptcejhTWgnCJOJAOFSmC3kB9+nwSS8vVt
+	 iYhp0KyNd5OvPjxpSri7hr0LorzXkCIl3nV/u9Kfzl9F7LuhQYNpfxDAPna1Nlorq0
+	 n8610pblQb1rhPqO1jSnutZF845oPJT4FiN0Js7sIJRLocRmmnBMLUoCziB2+IY++q
+	 JMU1Q6b05gCuZA7/wuFy8/53hJG3ittQrdqy3nlVmFUYRMj04DpJZ2vQpnXkXbjJCy
+	 x39R/iVelfYmw==
+Date: Fri, 19 Dec 2025 20:04:12 -0600
+From: Rob Herring <robh@kernel.org>
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Peter Chen <peter.chen@kernel.org>,
+	Pawel Laszczak <pawell@cadence.com>,
+	Roger Quadros <rogerq@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Magnus Damm <magnus.damm@gmail.com>, Marek Vasut <marex@denx.de>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+	linux-usb@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux@ew.tq-group.com
+Subject: Re: [PATCH 1/6] dt-bindings: clk: rs9: add clock-output-names
+ property
+Message-ID: <20251220020412.GA361483-robh@kernel.org>
+References: <20251218152058.1521806-1-alexander.stein@ew.tq-group.com>
+ <20251218152058.1521806-2-alexander.stein@ew.tq-group.com>
+ <CAMuHMdWEJ-eYwUTnotsTVEtKrujYVsEB4kFVjRYh3wXZvyjfGQ@mail.gmail.com>
+ <3357591.tdWV9SEqCh@steina-w>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251219-schneider-6-19-rc1-qspi-v1-13-8ad505173e44@bootlin.com>
-References: <20251219-schneider-6-19-rc1-qspi-v1-0-8ad505173e44@bootlin.com>
-In-Reply-To: <20251219-schneider-6-19-rc1-qspi-v1-0-8ad505173e44@bootlin.com>
-To: Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Magnus Damm <magnus.damm@gmail.com>, Vaishnav Achath <vaishnav.a@ti.com>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- =?utf-8?q?Herv=C3=A9_Codina?= <herve.codina@bootlin.com>, 
- Wolfram Sang <wsa+renesas@sang-engineering.com>, 
- Vignesh Raghavendra <vigneshr@ti.com>, Santhosh Kumar K <s-k6@ti.com>, 
- Pratyush Yadav <pratyush@kernel.org>, 
- Pascal Eberhard <pascal.eberhard@se.com>, linux-spi@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org, 
- "Miquel Raynal (Schneider Electric)" <miquel.raynal@bootlin.com>
-X-Mailer: b4 0.14.3
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3357591.tdWV9SEqCh@steina-w>
 
-Add a node describing the QSPI controller.
-There are 2 clocks feeding this controller:
-- one for the reference clock
-- one that feeds both the ahb and the apb interfaces
-As the binding expect either the ref clock, or all three (ref, ahb and
-apb) clocks, it makes sense to provide the same clock twice.
+On Fri, Dec 19, 2025 at 09:09:23AM +0100, Alexander Stein wrote:
+> Am Donnerstag, 18. Dezember 2025, 16:26:10 CET schrieb Geert Uytterhoeven:
+> > Hi Alexander,
+> > 
+> > On Thu, 18 Dec 2025 at 16:21, Alexander Stein
+> > <alexander.stein@ew.tq-group.com> wrote:
+> > > Add "clock-output-names" which is a standard property for clock
+> > > providers.
+> > 
+> > Why? Isn't that property sort of deprecated?
+> 
+> It is? Oh, I wasn't aware of that. Maybe the property should be
+> marked deprecated in dt schema then.
 
-Signed-off-by: Miquel Raynal (Schneider Electric) <miquel.raynal@bootlin.com>
----
- arch/arm/boot/dts/renesas/r9a06g032.dtsi | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+I knew it was pointless, but not deprecated... I guess not much 
+difference.
 
-diff --git a/arch/arm/boot/dts/renesas/r9a06g032.dtsi b/arch/arm/boot/dts/renesas/r9a06g032.dtsi
-index 8debb77803bb..a6f4670f5c45 100644
---- a/arch/arm/boot/dts/renesas/r9a06g032.dtsi
-+++ b/arch/arm/boot/dts/renesas/r9a06g032.dtsi
-@@ -66,6 +66,20 @@ soc {
- 		#size-cells = <1>;
- 		ranges;
- 
-+		qspi0: spi@40005000 {
-+			compatible = "renesas,r9a06g032-qspi", "renesas,rzn1-qspi", "cdns,qspi-nor";
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <0x40005000 0x1000>, <0x10000000 0x10000000>;
-+			interrupts = <GIC_SPI 64 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&sysctrl R9A06G032_CLK_QSPI0>, <&sysctrl R9A06G032_HCLK_QSPI0>,
-+				 <&sysctrl R9A06G032_HCLK_QSPI0>;
-+			clock-names = "ref", "ahb", "apb";
-+			cdns,fifo-width = <4>;
-+			cdns,trigger-address = <0>;
-+			status = "disabled";
-+		};
-+
- 		rtc0: rtc@40006000 {
- 			compatible = "renesas,r9a06g032-rtc", "renesas,rzn1-rtc";
- 			reg = <0x40006000 0x1000>;
-
--- 
-2.51.1
-
+Rob
 
