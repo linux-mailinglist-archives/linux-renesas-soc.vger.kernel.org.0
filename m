@@ -1,86 +1,61 @@
-Return-Path: <linux-renesas-soc+bounces-25954-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25955-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 494D6CD2B0B
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 20 Dec 2025 09:48:20 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C066CD2C4B
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 20 Dec 2025 10:36:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A7E4E300B28A
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 20 Dec 2025 08:48:17 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3313E30109A8
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 20 Dec 2025 09:36:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9A5B2DAFC7;
-	Sat, 20 Dec 2025 08:48:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B84AC3043D5;
+	Sat, 20 Dec 2025 09:36:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pZK2YNnU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i+pY4w9H"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 728E123313E;
-	Sat, 20 Dec 2025 08:48:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 764A22FA0DB;
+	Sat, 20 Dec 2025 09:36:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766220495; cv=none; b=tTTDsK153RwctMvpkezVEsfeO/2JeXfMY2DlHM1omAAbD2P94KcqDlWnEfgJpc8vElbDZROhFlqpfFF8/H5cvu2su2tylBpjEu8v3fDrkBHTtSn22PwkWszP1+T1m1zWRY6JoPCPmlgFyrp0UL6QJ74B+bIO/P2iwV8TkSo4GB0=
+	t=1766223361; cv=none; b=HOR8Gl4iS+zwD0de2cLTIgVWPGgze9VD6gkTBxaEM5EpMRewGMkvFbTkVa5ir2prQa3LPeqzmqcgRCznwLmujSmvqv1lAcnI1U7Qqs1ZgDbmbzpFCcZDaljxpjeSbdWQ6M4Jv99ETzCbRym7F2xvKQS5KNsUeVZfcFGX6AUNjhI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766220495; c=relaxed/simple;
-	bh=18qrj7yg+u8XLv0nD5iwxa5zywxEGxn2/r6db/iLYss=;
+	s=arc-20240116; t=1766223361; c=relaxed/simple;
+	bh=OLnLlx4v/AIwvRcwbXZaYDlKruE1sfOVkuJwxYp+QPU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PZvAtRqwoESYkur7MGEv7+7bZBCIupIbqldYgt5SWlEmNOJWk4eDaK1q6REarD+lPZkvdG6WreHwK/e4S4ralTs8JWX/adfzhi4qFX9UyRIw34dgihrEM9YnSuuxYUQf6ffcNT8Mq294U2rn3elRzFKs0Rr9wFC5VourGNpgj/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pZK2YNnU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0A18C4CEF5;
-	Sat, 20 Dec 2025 08:48:12 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=PwaLaKw6JVqgzAFOo4ZRLc/nWJ2yKmHZrHM1vr0UvDe2wnnkmpT3Jft9WZ0cvAz01LKhzQV546xaR+azD2VKi18AUdCXMLSuq3OF539Pbu+PHN9CX56wa34ljvfXa63uKNDeozjWZvupC4NciD0sIswMVYhh4x78buR0vZ3EZTk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i+pY4w9H; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09BB1C4CEF5;
+	Sat, 20 Dec 2025 09:35:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766220494;
-	bh=18qrj7yg+u8XLv0nD5iwxa5zywxEGxn2/r6db/iLYss=;
+	s=k20201202; t=1766223361;
+	bh=OLnLlx4v/AIwvRcwbXZaYDlKruE1sfOVkuJwxYp+QPU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pZK2YNnUaWn4dEJxlhskLRLooxac+p0uhMtIX0u2IGB063em/I4qic9nj32KHxwYL
-	 n5H3ygVyfsMxF9JRjGM+zodtf9rMgT+ZFL4RHvhVY13VjQHFIw6gTSyAVYr2daGPwO
-	 JYpspcMQNs4Ccd0CuHbSt/ZtE3GdkZznCBxqkBkeMixJ7FcnFzbip/QBzBGpI128Ir
-	 PnO+ummT309J/jMPFiP3tsJY+qOxsIutRgvo4QFcYXjgqX8MVPftY+uBXX8zkyxqCU
-	 ep57SFzIbCJ5R+HBRH0+YFl7OVfA9YXDW/Sc7HVSAHgRfZpvFrrz/hev/mku3UM3n7
-	 ftJPGM6g+0R5w==
-Date: Sat, 20 Dec 2025 09:48:10 +0100
+	b=i+pY4w9Hvd5FUbuJ+ZRmcXX2WNziypRgOlzHjASYcFTnSrOCPcKuogOj0Y/f890bb
+	 ErK5bT/+96bFrEJ+A+2MP9IApmrtwbQ4zxF4mTM4mHv7vEDOwJeukKM1JYD59LAChy
+	 MZbySzTor3sM6rfg6HUh75+OANhOLP10nnUUfaLc/vjN32qyu1GdjQkXOtsNQtSJ+U
+	 Csx7Wu/sQlN6zF2d0/XU8xXZ6uBfhH6loiYAdf/1Y658lJOHBWN0HvHF54KfJvMqqY
+	 ZXHy8yAy/F92adZJ6p7cgwHWo2TAg1pXsAr5daDXrPgEqgSmyFUas407tur0cf9JFl
+	 0FMvh4rC8nUkg==
+Date: Sat, 20 Dec 2025 10:35:56 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
+To: "Miquel Raynal (Schneider Electric)" <miquel.raynal@bootlin.com>
+Cc: Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Richard Cochran <richardcochran@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Vinod Koul <vkoul@kernel.org>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, 
-	Jose Abreu <joabreu@synopsys.com>, Chen-Yu Tsai <wens@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Matthew Gerlach <matthew.gerlach@altera.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Keguang Zhang <keguang.zhang@gmail.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Jan Petrous <jan.petrous@oss.nxp.com>, s32@nxp.com, Romain Gantois <romain.gantois@bootlin.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, Heiko Stuebner <heiko@sntech.de>, 
-	Chen Wang <unicorn_wang@outlook.com>, Inochi Amaoto <inochiama@gmail.com>, 
-	Emil Renner Berthing <kernel@esmil.dk>, Minda Chen <minda.chen@starfivetech.com>, 
-	Drew Fustini <fustini@kernel.org>, Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>, 
-	Nobuhiro Iwamatsu <nobuhiro.iwamatsu.x90@mail.toshiba>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>, 
-	Shuang Liang <liangshuang@eswincomputing.com>, Zhi Li <lizhi2@eswincomputing.com>, 
-	Shangjuan Wei <weishangjuan@eswincomputing.com>, "G. Jaya Kumaran" <vineetha.g.jaya.kumaran@intel.com>, 
-	Clark Wang <xiaoning.wang@nxp.com>, Linux Team <linux-imx@nxp.com>, Frank Li <Frank.Li@nxp.com>, 
-	David Wu <david.wu@rock-chips.com>, Samin Guo <samin.guo@starfivetech.com>, 
-	Christophe Roullier <christophe.roullier@foss.st.com>, Swathi K S <swathi.ks@samsung.com>, 
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, Drew Fustini <dfustini@tenstorrent.com>, 
-	linux-sunxi@lists.linux.dev, linux-amlogic@lists.infradead.org, linux-mips@vger.kernel.org, 
-	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, sophgo@lists.linux.dev, linux-riscv@lists.infradead.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: Re: [PATCH v6 1/7] dt-bindings: net: qcom: document the ethqos
- device for SCMI-based systems
-Message-ID: <20251220-spiritual-barracuda-of-champagne-34eb91@quoll>
-References: <20251219-qcom-sa8255p-emac-v6-0-487f1082461e@oss.qualcomm.com>
- <20251219-qcom-sa8255p-emac-v6-1-487f1082461e@oss.qualcomm.com>
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Vaishnav Achath <vaishnav.a@ti.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+	=?utf-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Vignesh Raghavendra <vigneshr@ti.com>, Santhosh Kumar K <s-k6@ti.com>, 
+	Pratyush Yadav <pratyush@kernel.org>, Pascal Eberhard <pascal.eberhard@se.com>, 
+	linux-spi@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 01/13] spi: dt-bindings: cdns,qspi-nor: Add Renesas
+ RZ/N1D400 to the list
+Message-ID: <20251220-sexy-feathered-gorilla-3a6aab@quoll>
+References: <20251219-schneider-6-19-rc1-qspi-v1-0-8ad505173e44@bootlin.com>
+ <20251219-schneider-6-19-rc1-qspi-v1-1-8ad505173e44@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -89,22 +64,41 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251219-qcom-sa8255p-emac-v6-1-487f1082461e@oss.qualcomm.com>
+In-Reply-To: <20251219-schneider-6-19-rc1-qspi-v1-1-8ad505173e44@bootlin.com>
 
-On Fri, Dec 19, 2025 at 12:42:16PM +0100, Bartosz Golaszewski wrote:
-> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+On Fri, Dec 19, 2025 at 08:22:03PM +0100, Miquel Raynal (Schneider Electric) wrote:
+> Add support for the Renesas RZ/N1D400 QSPI controller.
 > 
-> Describe the firmware-managed variant of the QCom DesignWare MAC. As the
-> properties here differ a lot from the HLOS-managed variant, lets put it
-> in a separate file. Since we need to update the maximum number of power
-> domains, let's update existing bindings referencing the top-level
-> snps,dwmac.yaml and limit their maxItems for power-domains to 1.
+> This SoC is identified in the bindings with its other name: r9a06g032.
+> It is part of the RZ/N1 family, which contains a "D" and a "S"
+> variant. Align the compatibles used with all other IPs from the same
+
+I don't get it. I see only one front compatible, so what is exactly
+aligned?
+
+> SoC, which requires providing 3 compatibles (the SoC specific
+> compatible, the family compatible, and the original Cadence IP).
 > 
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> Signed-off-by: Miquel Raynal (Schneider Electric) <miquel.raynal@bootlin.com>
 > ---
+>  Documentation/devicetree/bindings/spi/cdns,qspi-nor.yaml | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/spi/cdns,qspi-nor.yaml b/Documentation/devicetree/bindings/spi/cdns,qspi-nor.yaml
+> index 53a52fb8b819..62948990defb 100644
+> --- a/Documentation/devicetree/bindings/spi/cdns,qspi-nor.yaml
+> +++ b/Documentation/devicetree/bindings/spi/cdns,qspi-nor.yaml
+> @@ -80,6 +80,10 @@ properties:
+>            # controllers are meant to be used with flashes of all kinds,
+>            # ie. also NAND flashes, not only NOR flashes.
+>            - const: cdns,qspi-nor
+> +      - items:
+> +          - const: renesas,r9a06g032-qspi
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+This should be enum, knowing how Renesas adds more devices.
+
+> +          - const: renesas,rzn1-qspi
+> +          - const: cdns,qspi-nor
 
 Best regards,
 Krzysztof
