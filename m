@@ -1,346 +1,139 @@
-Return-Path: <linux-renesas-soc+bounces-26019-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26021-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id E646BCD6B27
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Dec 2025 17:42:57 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8219ECD6F16
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Dec 2025 20:13:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 27C1E3014103
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Dec 2025 16:42:54 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B10C1301517A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Dec 2025 19:12:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D9E53321CE;
-	Mon, 22 Dec 2025 16:42:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11B0E32ABCA;
+	Mon, 22 Dec 2025 19:12:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OPs1OpMC"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FpC070Pv"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6E143321DC
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Dec 2025 16:42:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D01B33AD87
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Dec 2025 19:12:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766421773; cv=none; b=m0AGFMIpHZPLBxnIIxBU6+yZEMsCMRb3crjwiGyg8W9A3jJ/3zYaSE9alBdoH7dXmSJAOg8OJ6L/MURizHFa2l3azhNC6vRTgm5yS3YKto1R5Mk8r5HI/WxLS2Eha7rzstcjflDMre62jZlXcWL5LoDf9oi6vGvJJMvB/HhMSQE=
+	t=1766430764; cv=none; b=YZxUOUH+Dqtz0z/UgJicwYD3qDN8CSP7P9MO8AQZslIcYuBm7K5mrlEmaSQivTtrtx1/iiWt+huz6oyxO3C1Pr4SXT54wypAQz7crv3h4qOLsUQGssYgWQAzz3Ci8sBzP83z2VUT9TMP/asEy5m0+79f7rnLPmkpn05aCuLzJ6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766421773; c=relaxed/simple;
-	bh=NAjUB/C3OUr4PxeiYgXoqhdWOpzIYfrxxb6hbE0EQO0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iyK2my095IH0k70fDbmom+vs53WlsouD96rcco0xVRMsnWPO8+2kxA0jghOHZTOszk3+xMUSqR+GvfbLR04yMv9TzOnZVRZ3+z1/5iRnASe7HkMomwWMX5M/e5xTmKmBV5iCdlLMSW3y5b4q011SP+J/O/iKL/s6z6yj7fusghE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OPs1OpMC; arc=none smtp.client-ip=209.85.128.46
+	s=arc-20240116; t=1766430764; c=relaxed/simple;
+	bh=pUXHUbgVUJKFwHKs6lPeVQzXVyXUb1crFHCCZhiv9Pc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=S7+2UHM3OzJmyWjNm9jK6O9TZhJybAjfgGRohUIs35pwbR+xTAdGARhdAVbmlN7pSDwTcJ1anH6AacLCGDSXgE+7e5oCTrNKPeW5bDiLrE+e/Bl+Q/XQ32iMVtT/5UV5AsTce/emuDwntgxi7/grcKIv1DnBtsdtKydmz+cOUqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FpC070Pv; arc=none smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-477b91680f8so35186515e9.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Dec 2025 08:42:50 -0800 (PST)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-42f9ece6387so1625679f8f.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Dec 2025 11:12:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766421769; x=1767026569; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1766430760; x=1767035560; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5rmP0GjE7trXn8ElgL+MNSAmFgZRUQZF4nxVn+pMLro=;
-        b=OPs1OpMCBxOZzCykESHgCitctvXXZQo6WYnZOKy/gyGFAZT6+2SoqawVzngbkZjEHf
-         2H5CrtouyCQ+xXheHZETxqRe2x+O2GMn9BAAsWGDqqdJNGL315vX7lghot5nT1fVvlS9
-         VCZRttaTDc0Zq9A0PSvCuJttkR025LHxs/MmrdXhKBisNhVYLRkT0AB+N5LpQjkR4K0E
-         YM+1KcCCVu04RPKxa3CTlvoWuVtNkxvRHu+ZBaHunOLgaKj9d+B8rXeHrtbWBcdRrZhZ
-         XYbi7+qlAabfiDsHLkRHyB2Ev/RorZo3udj5qoBYlCGrqYf/gqm/MsTOWMRUX8UPNPgJ
-         9xkQ==
+        bh=DaljzuKRJi75G8i1tLMySnubjrnaRrAVIY8kdBl5ZSA=;
+        b=FpC070Pvgs1vd/V1jwPNL/vebK3vLaooBxJLf6kRzE6N06KPhRdEGoXTtKwVjctf4k
+         FQkusEFmu4kjrQmGL7VSFz5GVsiJkXCiMXeD2gCx7sCpzX88htMDtFqa3ZNJQpKlg2Xw
+         WPKYODwtPvgy9Y+WakRE1daidbvhC1d1zTXVi59J7Km4oin/Q1GmDCuFnTpJK82f6esy
+         hz5n3mb5kaBySG14AN5D5WQ2NhgnAmZAnnD3ATK9hcR+MIjwpOupf8ez4JNQD03iLajf
+         aDu8pOCSriGmqs35SNPwbu5BI5cOp744iNMMPs/seR1ksZs8k6A+BZB5F1Lxn2xS2/XJ
+         1eYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766421769; x=1767026569;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20230601; t=1766430760; x=1767035560;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=5rmP0GjE7trXn8ElgL+MNSAmFgZRUQZF4nxVn+pMLro=;
-        b=vE6HxQjBgP69B8EGbzP1N+2O0c9tzeszhnVE24O12mPRIJ120tOLqTtERdzJQCqLl0
-         32SJHbTBDTjMpxNpeAPjTk2ZVqAg5sRDJTnNM+dbrtL07NFbT+jk/OMIREm01ZOTyuZl
-         uVKJUyZknr00SxNQDZH2TdD4B5nYJ0zf02YibBK1a6NMsYPrtynbnBVXc6HOFfDhoRq8
-         iIQQLbshqDtHUA36HMJmYV+mOLuFeycQ/6ChLBKFru86EglgPAxgNnAL/vArjL3vJR/d
-         NJbC31U+CjkfhrH0DvepyOIy2mBXCVViEDMWvz/WCwix4564Rmhp0LkGW/IhqpNfOOge
-         LU/g==
-X-Gm-Message-State: AOJu0Yx3C1aXUiiFb4OdrbdXQD/du+SI6xfbe9oszw1rW8uq5FUKDKB8
-	jdjNfBXS8vwP2hmpz0jgJgU2+d4bO4RQnQHh1ZmvkMPXyfp+xJ/CdKFU2rWgHL5+4qk=
-X-Gm-Gg: AY/fxX7u30X1WK1CXSbn2HUcmMtG6sn9xtPnhCP3YW+j4Xc+V+HWOt5NRJp0+MWRVoY
-	WoeCvkphnSsso0u+i5yYzYkL8TXx+diqLyOn5JQp49voTy6jugEjJw1V71juj6cCJHNhTh68WNr
-	P8hWwdmLSvKUBfi+8oHhfH5n0FK1wkN4V6eDk3gx6KPWJVGqCKfTePF73hQeQogjxrLWyIJXtTF
-	2HNrTu21RcIiXSpIZlBnqPxzEYS/EBkboegifZ8MFkaNzqgE3DCk82+Qfcx0lMyVeTO2ARwtmDI
-	3IgPM/zVj5crQbpCZcTHWWQ0UZllRMZhx6x1wH+8UdPiI6mp18a+14Cdv69yEgLw3D8U7/toZYp
-	19LiG74ISMTaastfr1D6zmbmfgA6CNgu09GllPt746Vkzn9Mi4db2eeeezT84djT/tEd+FV2v9X
-	X7zLDC+m+wwBH2cb1FjvWijeKRuXipcGToUKJ4BRFbCjLKA97M1S1bPO//Ubc+71Q3VCHFsoeuY
-	BP5QxEcgfx3KkYcJb2Ku10I9Vm4yPhzuQ==
-X-Google-Smtp-Source: AGHT+IGVI/5VbHwMj1aHDV1E9cdXWSa077ceUrM5T9XA29CBFfaHx9LYNl4J+hOuSYlw4PH2FIM9IQ==
-X-Received: by 2002:a05:600c:45c8:b0:477:7c45:87b2 with SMTP id 5b1f17b1804b1-47d195843e7mr116578825e9.16.1766421768796;
-        Mon, 22 Dec 2025 08:42:48 -0800 (PST)
-Received: from iku.Home ([2a06:5906:61b:2d00:4dd:df38:7864:a996])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d193621c8sm196896685e9.7.2025.12.22.08.42.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Dec 2025 08:42:48 -0800 (PST)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 2/2] arm64: dts: renesas: r9a09g057: Add RSCI nodes
-Date: Mon, 22 Dec 2025 16:42:38 +0000
-Message-ID: <20251222164238.156985-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20251222164238.156985-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20251222164238.156985-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        bh=DaljzuKRJi75G8i1tLMySnubjrnaRrAVIY8kdBl5ZSA=;
+        b=UfRw8KAjKeiJjKvjFtWDF8rdRo+D8k6wTxmAF3jVGnyZ5lMXrB+0F0Ph0XMeFnxXE9
+         9U4qqWda6SOF2ZI1hlJnSnKivLCAQ3QIgbfN2AJum8escX0oYak5C8JuSjiIYbUCDlYQ
+         ymxr1QJ1GVMEAel12piO3xg1zGXPzlEoPWzA4wU5GOXkpiS9P2E57wD/yOS2mE+Ju3NN
+         hcGgPyD6qAclluQgWbOvWyBGIW9XNHwCyt2i20kSFsmJatAeLPr/K0fcpv2M1qD7W6h7
+         lMVntU7nZ6/3mPlGN9qHdRdZM4jIBaKFVXwfOwVdsvGtJIu09V6LxGhylcYgtzvro6o8
+         vQ3A==
+X-Forwarded-Encrypted: i=1; AJvYcCWJ8/t7FB0CAQM3lBWFJXM4oPZ3L42juqhg2sTBMxNLcpbaqAXqIRsh+xs8ZiODAhcuCC0DAm+zlTkd6KuUEyHBWw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YywENQACxLqWnTjKr7ZG16XPUpbt9OUAIuw1ivaHQgqjEJTI+gc
+	KOQaYk3U9DNBPwKBVrDQreOhejmlAKLeSg0ndcbDxTLIEUtbl/l6nIzulSdZuno0464sEWnhwAW
+	H27Kt5d7qj7Cfeiwgvs4+EUiBE/5Sj25lrsJ/cUIE3A==
+X-Gm-Gg: AY/fxX4yDq1f8AvoeSlwCvA0dUXIW0DwzVSvPtXVmvWR1Rtvo/R86leXGKO/OZsU75w
+	YC5h1QKr4AXAOCItIYQMxVdLMAH+5/S1xQQ8/WPnDygbWO+64qgroXC2BGCEfm7emu/Kge8IWfO
+	/QZHaM0va0QYxs0bj5r+8/VNUYpSjN/WigdOQKVCPACNY0dA2fa50d423Tg5/dV+qLCBACquSJi
+	wJb3JMDZ2Jg03f/FpheRcfp5XkTMRWlL70xaPUkwqMPmHHOEbN0prYiFGlMCyGKKQrgUvnL0S7S
+	p5NN3hFQO7/CpJMvNZNN/NxLyCMW55Z0MLFV6ROFkD5lFtgOO6xrF826EovhvkMWYCnsD066VAZ
+	Oqo8yBjxvGCNX
+X-Google-Smtp-Source: AGHT+IFFdGPwBN1E1S5LAyC6UohBwqvpkMjczXYch4xqHGrMotjncWJIaimblw5QxQV/81wNGDi65C26P10OupkAuwo=
+X-Received: by 2002:a05:6000:2089:b0:431:217:19dd with SMTP id
+ ffacd0b85a97d-4324e4c93b7mr14727448f8f.14.1766430760325; Mon, 22 Dec 2025
+ 11:12:40 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <7b6154130b973d85a224ee0026eef88979fbb1cf.1766394936.git.geert+renesas@glider.be>
+In-Reply-To: <7b6154130b973d85a224ee0026eef88979fbb1cf.1766394936.git.geert+renesas@glider.be>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Mon, 22 Dec 2025 19:12:14 +0000
+X-Gm-Features: AQt7F2qDaq3D17O0Dwsmam4IRlr9xYoGTBR6vH31C1O-7B3WRW2Jg8oRcpnafNs
+Message-ID: <CA+V-a8u1Ge6xrM8nn-j8+pSMoW2-ORd2Ej9F0RwHc16XS2pDWQ@mail.gmail.com>
+Subject: Re: [PATCH local] riscv: rzfive: defconfig: Refresh for v6.19-rc1
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Magnus Damm <magnus.damm@gmail.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Mon, Dec 22, 2025 at 9:16=E2=80=AFAM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+>
+> Refresh the defconfig for Renesas RZ/Five systems:
+>   - Disable support for the Svrsw60t59b ISA extension for using PTE bits
+>     60 and 59, as it is not supported by RZ/Five,
+>   - Drop CONFIG_SND_SUPPORT_OLD_API=3Dn (disabled by default since commit
+>     74ac7558ea763011 ("ALSA: Do not build obsolete API")).
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> Not intended for upstream merge.
+> To be applied to the topic/renesas-defconfig branch.
+> ---
+>  arch/riscv/configs/rzfive_defconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Add RSCI nodes to RZ/V2H(P) ("R9A09G057") SoC DTSI.
+Cheers,
+Prabhakar
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- arch/arm64/boot/dts/renesas/r9a09g057.dtsi | 220 +++++++++++++++++++++
- 1 file changed, 220 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g057.dtsi b/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
-index 9587733ce04a..4a0f34ee8560 100644
---- a/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
-@@ -948,6 +948,226 @@ i2c8: i2c@11c01000 {
- 			status = "disabled";
- 		};
- 
-+		rsci0: serial@12800c00 {
-+			compatible = "renesas,r9a09g057-rsci", "renesas,r9a09g047-rsci";
-+			reg = <0 0x12800c00 0 0x400>;
-+			interrupts = <GIC_SPI 114 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 115 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 116 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 117 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 118 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "eri", "rxi", "txi", "tei",
-+					  "aed", "bfd";
-+			clocks = <&cpg CPG_MOD 0x5d>, <&cpg CPG_MOD 0x5e>,
-+				 <&cpg CPG_MOD 0x61>, <&cpg CPG_MOD 0x60>,
-+				 <&cpg CPG_MOD 0x5f>;
-+			clock-names = "pclk", "tclk", "tclk_div4",
-+				      "tclk_div16", "tclk_div64";
-+			power-domains = <&cpg>;
-+			resets = <&cpg 0x81>, <&cpg 0x82>;
-+			reset-names = "presetn", "tresetn";
-+			status = "disabled";
-+		};
-+
-+		rsci1: serial@12801000 {
-+			compatible = "renesas,r9a09g057-rsci", "renesas,r9a09g047-rsci";
-+			reg = <0 0x12801000 0 0x400>;
-+			interrupts = <GIC_SPI 120 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 121 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 122 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 123 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 124 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 125 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "eri", "rxi", "txi", "tei",
-+					  "aed", "bfd";
-+			clocks = <&cpg CPG_MOD 0x62>, <&cpg CPG_MOD 0x63>,
-+				 <&cpg CPG_MOD 0x66>, <&cpg CPG_MOD 0x65>,
-+				 <&cpg CPG_MOD 0x64>;
-+			clock-names = "pclk", "tclk", "tclk_div4",
-+				      "tclk_div16", "tclk_div64";
-+			power-domains = <&cpg>;
-+			resets = <&cpg 0x83>, <&cpg 0x84>;
-+			reset-names = "presetn", "tresetn";
-+			status = "disabled";
-+		};
-+
-+		rsci2: serial@12801400 {
-+			compatible = "renesas,r9a09g057-rsci", "renesas,r9a09g047-rsci";
-+			reg = <0 0x12801400 0 0x400>;
-+			interrupts = <GIC_SPI 126 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 127 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 128 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 129 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 130 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 131 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "eri", "rxi", "txi", "tei",
-+					  "aed", "bfd";
-+			clocks = <&cpg CPG_MOD 0x67>, <&cpg CPG_MOD 0x68>,
-+				 <&cpg CPG_MOD 0x6b>, <&cpg CPG_MOD 0x6a>,
-+				 <&cpg CPG_MOD 0x69>;
-+			clock-names = "pclk", "tclk", "tclk_div4",
-+				      "tclk_div16", "tclk_div64";
-+			power-domains = <&cpg>;
-+			resets = <&cpg 0x85>, <&cpg 0x86>;
-+			reset-names = "presetn", "tresetn";
-+			status = "disabled";
-+		};
-+
-+		rsci3: serial@12801800 {
-+			compatible = "renesas,r9a09g057-rsci", "renesas,r9a09g047-rsci";
-+			reg = <0 0x12801800 0 0x400>;
-+			interrupts = <GIC_SPI 132 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 133 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 134 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 135 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 136 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 137 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "eri", "rxi", "txi", "tei",
-+					  "aed", "bfd";
-+			clocks = <&cpg CPG_MOD 0x6c>, <&cpg CPG_MOD 0x6d>,
-+				 <&cpg CPG_MOD 0x70>, <&cpg CPG_MOD 0x6f>,
-+				 <&cpg CPG_MOD 0x6e>;
-+			clock-names = "pclk", "tclk", "tclk_div4",
-+				      "tclk_div16", "tclk_div64";
-+			power-domains = <&cpg>;
-+			resets = <&cpg 0x87>, <&cpg 0x88>;
-+			reset-names = "presetn", "tresetn";
-+			status = "disabled";
-+		};
-+
-+		rsci4: serial@12801c00 {
-+			compatible = "renesas,r9a09g057-rsci", "renesas,r9a09g047-rsci";
-+			reg = <0 0x12801c00 0 0x400>;
-+			interrupts = <GIC_SPI 138 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 139 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 140 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 141 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 142 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 143 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "eri", "rxi", "txi", "tei",
-+					  "aed", "bfd";
-+			clocks = <&cpg CPG_MOD 0x71>, <&cpg CPG_MOD 0x72>,
-+				 <&cpg CPG_MOD 0x75>, <&cpg CPG_MOD 0x74>,
-+				 <&cpg CPG_MOD 0x73>;
-+			clock-names = "pclk", "tclk", "tclk_div4",
-+				      "tclk_div16", "tclk_div64";
-+			power-domains = <&cpg>;
-+			resets = <&cpg 0x89>, <&cpg 0x8a>;
-+			reset-names = "presetn", "tresetn";
-+			status = "disabled";
-+		};
-+
-+		rsci5: serial@12802000 {
-+			compatible = "renesas,r9a09g057-rsci", "renesas,r9a09g047-rsci";
-+			reg = <0 0x12802000 0 0x400>;
-+			interrupts = <GIC_SPI 144 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 145 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 146 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 147 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 148 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 149 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "eri", "rxi", "txi", "tei",
-+					  "aed", "bfd";
-+			clocks = <&cpg CPG_MOD 0x76>, <&cpg CPG_MOD 0x77>,
-+				 <&cpg CPG_MOD 0x7a>, <&cpg CPG_MOD 0x79>,
-+				 <&cpg CPG_MOD 0x78>;
-+			clock-names = "pclk", "tclk", "tclk_div4",
-+				      "tclk_div16", "tclk_div64";
-+			power-domains = <&cpg>;
-+			resets = <&cpg 0x8b>, <&cpg 0x8c>;
-+			reset-names = "presetn", "tresetn";
-+			status = "disabled";
-+		};
-+
-+		rsci6: serial@12802400 {
-+			compatible = "renesas,r9a09g057-rsci", "renesas,r9a09g047-rsci";
-+			reg = <0 0x12802400 0 0x400>;
-+			interrupts = <GIC_SPI 150 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 151 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 152 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 153 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 154 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 155 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "eri", "rxi", "txi", "tei",
-+					  "aed", "bfd";
-+			clocks = <&cpg CPG_MOD 0x7b>, <&cpg CPG_MOD 0x7c>,
-+				 <&cpg CPG_MOD 0x7f>, <&cpg CPG_MOD 0x7e>,
-+				 <&cpg CPG_MOD 0x7d>;
-+			clock-names = "pclk", "tclk", "tclk_div4",
-+				      "tclk_div16", "tclk_div64";
-+			power-domains = <&cpg>;
-+			resets = <&cpg 0x8d>, <&cpg 0x8e>;
-+			reset-names = "presetn", "tresetn";
-+			status = "disabled";
-+		};
-+
-+		rsci7: serial@12802800 {
-+			compatible = "renesas,r9a09g057-rsci", "renesas,r9a09g047-rsci";
-+			reg = <0 0x12802800 0 0x400>;
-+			interrupts = <GIC_SPI 156 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 157 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 158 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 159 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 160 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 161 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "eri", "rxi", "txi", "tei",
-+					  "aed", "bfd";
-+			clocks = <&cpg CPG_MOD 0x80>, <&cpg CPG_MOD 0x81>,
-+				 <&cpg CPG_MOD 0x84>, <&cpg CPG_MOD 0x83>,
-+				 <&cpg CPG_MOD 0x82>;
-+			clock-names = "pclk", "tclk", "tclk_div4",
-+				      "tclk_div16", "tclk_div64";
-+			power-domains = <&cpg>;
-+			resets = <&cpg 0x8f>, <&cpg 0x90>;
-+			reset-names = "presetn", "tresetn";
-+			status = "disabled";
-+		};
-+
-+		rsci8: serial@12802c00 {
-+			compatible = "renesas,r9a09g057-rsci", "renesas,r9a09g047-rsci";
-+			reg = <0 0x12802c00 0 0x400>;
-+			interrupts = <GIC_SPI 162 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 163 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 164 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 165 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 166 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 167 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "eri", "rxi", "txi", "tei",
-+					  "aed", "bfd";
-+			clocks = <&cpg CPG_MOD 0x85>, <&cpg CPG_MOD 0x86>,
-+				 <&cpg CPG_MOD 0x89>, <&cpg CPG_MOD 0x88>,
-+				 <&cpg CPG_MOD 0x87>;
-+			clock-names = "pclk", "tclk", "tclk_div4",
-+				      "tclk_div16", "tclk_div64";
-+			power-domains = <&cpg>;
-+			resets = <&cpg 0x91>, <&cpg 0x92>;
-+			reset-names = "presetn", "tresetn";
-+			status = "disabled";
-+		};
-+
-+		rsci9: serial@12803000 {
-+			compatible = "renesas,r9a09g057-rsci", "renesas,r9a09g047-rsci";
-+			reg = <0 0x12803000 0 0x400>;
-+			interrupts = <GIC_SPI 168 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 169 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 170 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 171 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 172 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 173 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "eri", "rxi", "txi", "tei",
-+					  "aed", "bfd";
-+			clocks = <&cpg CPG_MOD 0x8a>, <&cpg CPG_MOD 0x8b>,
-+				 <&cpg CPG_MOD 0x8e>, <&cpg CPG_MOD 0x8d>,
-+				 <&cpg CPG_MOD 0x8c>;
-+			clock-names = "pclk", "tclk", "tclk_div4",
-+				      "tclk_div16", "tclk_div64";
-+			power-domains = <&cpg>;
-+			resets = <&cpg 0x93>, <&cpg 0x94>;
-+			reset-names = "presetn", "tresetn";
-+			status = "disabled";
-+		};
-+
- 		gpu: gpu@14850000 {
- 			compatible = "renesas,r9a09g057-mali",
- 				     "arm,mali-bifrost";
--- 
-2.52.0
-
+> diff --git a/arch/riscv/configs/rzfive_defconfig b/arch/riscv/configs/rzf=
+ive_defconfig
+> index 622ee0136fc7a51c..35a672805fb0eb74 100644
+> --- a/arch/riscv/configs/rzfive_defconfig
+> +++ b/arch/riscv/configs/rzfive_defconfig
+> @@ -41,6 +41,7 @@ CONFIG_NONPORTABLE=3Dy
+>  # CONFIG_RISCV_ISA_ZICBOM is not set
+>  # CONFIG_RISCV_ISA_ZICBOZ is not set
+>  # CONFIG_RISCV_ISA_ZICBOP is not set
+> +# CONFIG_RISCV_ISA_SVRSW60T59B is not set
+>  # CONFIG_RISCV_ISA_VENDOR_EXT_MIPS is not set
+>  # CONFIG_RISCV_ISA_VENDOR_EXT_SIFIVE is not set
+>  # CONFIG_RISCV_ISA_VENDOR_EXT_THEAD is not set
+> @@ -136,7 +137,6 @@ CONFIG_BACKLIGHT_CLASS_DEVICE=3Dy
+>  CONFIG_SOUND=3Dy
+>  CONFIG_SND=3Dy
+>  # CONFIG_SND_PCM_TIMER is not set
+> -# CONFIG_SND_SUPPORT_OLD_API is not set
+>  # CONFIG_SND_PROC_FS is not set
+>  # CONFIG_SND_CTL_FAST_LOOKUP is not set
+>  # CONFIG_SND_DRIVERS is not set
+> --
+> 2.43.0
+>
+>
 
