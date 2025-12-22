@@ -1,158 +1,118 @@
-Return-Path: <linux-renesas-soc+bounces-26008-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26009-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E979CD6742
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Dec 2025 15:59:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80099CD66EE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Dec 2025 15:54:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BD21730AD8EF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Dec 2025 14:56:52 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8E90530184EE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Dec 2025 14:52:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22701330646;
-	Mon, 22 Dec 2025 14:47:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DAB/Amyf"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7AF823019A6;
+	Mon, 22 Dec 2025 14:52:51 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE24032ED49
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Dec 2025 14:47:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8655C2FC00D
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Dec 2025 14:52:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766414865; cv=none; b=sO76BHsm+jfhtx4Bb82G9TcuJVzhFny3Sw7CXOS/dkFa9sHMqiOqROyoi/iAargPTqMItP+lQp9vK4xD473ff7IlxgVWS51+RSaFlwYhx7d0pd8TVi227XbkYoBS/YKE1540o42bR9G92fYvWim53L2chZtThCVY8P9+s8viWZg=
+	t=1766415170; cv=none; b=kB0xIGkjL1usBwnKR6pG0VY3XGrN1GIo+tXNBACdi9h2PwDdgeSsEyJzgObfuvdup/HnvKxvMAVdHMXRkWlzlhZwX3rXcUIBAZ601/yKHML+ImvzxX+VaPtVBSwsQfqh++ht4fyIRNJPLCF6q9UlgC/LA5xejpVUEEeJ732ZQLY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766414865; c=relaxed/simple;
-	bh=IwLjLCoIOYSxZJTADglHFhXYcy2He7W4GE2tlYf0bXA=;
+	s=arc-20240116; t=1766415170; c=relaxed/simple;
+	bh=r8vXFdNw344kZAqQkVG3TwDFifA5ML7Go2yVV4yCefA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pvum8dc3ZTTAJE2OBV9NbkaSmzyZOo4fjAARgzOz2j5GH56FcqNYmUDZiGNS/Gv0hMLKuG8xpVdopn0DCMhQLv/pImw2eDChAO8QIFNznZue3gZPDlTq1y/RynNdL43XUJXkQ4yVqQwGBA1coiqeAIraWRr7V+TfwsKJFbvBeDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DAB/Amyf; arc=none smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5943b62c47dso4013250e87.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Dec 2025 06:47:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1766414860; x=1767019660; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=lNpWj6TBvVji/fHBEAyDcOFnMWFot5zrE/hRwsxnXVY=;
-        b=DAB/Amyf1kdMghWpvNsR5yNnMf+GdDvgb0bA4+59mA0CrIcjf0meQgWipWa4qgI0+u
-         QzmXsaKh4CDGdPAVFemA6mB0PY7nYeYTfFKf08TKNBK7/79eZ+/5axG1Oj+c5gAmAFfg
-         T6+CWEWvYf5iQFoFrZGr06kU0xwOi/gsXNB3kQcCCxDDaqnVlheA/H95h4OGQdIrQD1T
-         DuSAeDBryQG0Va3VNcLhpD2f+qW6b93O1bCz7Ls5M2R8ZzuC60dez2dFPM0QaMrYu6X1
-         4TJcc1dZY6C1qQanrLgSyh2HkvSgJUb+rXBU+gv3hnl/FjGW4kxTqLG3nbaKx9Smpezy
-         zmVA==
+	 To:Cc:Content-Type; b=pEcuQIcQkduSM4WIrYaib+RVpsAgqV4vwEId9OqHLFjUsl/sCyI5YXJeP77f4zG8AlsVJ4aCYyEdnEkFs5URVsK+pVHSWeV4A82UEB0UbxDvD3fqUw51JifCa+60NAb0YgOLhZs/k6UwOq6bQgd85fDphe6v01ko+qNLmsNnBtw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-94124140e02so2615238241.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Dec 2025 06:52:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766414860; x=1767019660;
+        d=1e100.net; s=20230601; t=1766415166; x=1767019966;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lNpWj6TBvVji/fHBEAyDcOFnMWFot5zrE/hRwsxnXVY=;
-        b=SyW0NbY/ZSK5Woj8Hct4up6iHaHEtC+ubTWt+qZ/shIv762/qeU7YO5j5FaUPmPE6b
-         KdECXCvOAdPctQK8rjdHNZDYa7V5lcO5wVPfac6U+tCXUlS2RApNEPhSF50/QLOIGYtc
-         6EmY4u53xuCNJK9UsErdhbiHCo2KOLJ0Dh8nwD3liuIc7qPezTEtOK/06otLEbcz+jn8
-         MCSH0Xrp+Jto8C4Bnt9U3/0K4m0iYYRKpmv2EWhUarIVblilwgknsuLIQo383BJHco+F
-         h6OVTHWRyxnifXBEUBY72inr3Jy+aimxWvi6SdcUl9ReGv4O5+xKHliWQHW0KhNkHlQ0
-         S8pA==
-X-Forwarded-Encrypted: i=1; AJvYcCWeP8ApqxxZU0E/YWLUeG2REzMvIUhIaeBIUWmYPmJ/VcfHw603lTOSeNy3GCtvN9S7dafbYosvUmW6C7k1qcFBPw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyip+qDtrMtsaIC1M1/5bo4osLiTa/nOwx0LvUS/SvseNWaKVWZ
-	yoyMkS0gcoGDd7u3QdXQOl74Hwbuf2gbyIWLdLcLUWtmrPJJEGlx4SAFvgHLBOOULMGuC3+peSy
-	nrnBIMbPELYwUSyVeyVgKFoyY3ry6Qu22EXrb14/Xrg==
-X-Gm-Gg: AY/fxX73JkLBhHFNtTkx49HGGO+vj+bQyY0bHJ5qJI+5Wqt34MLfgXXkU1Y3ZVq5nHl
-	z9cI11aMa46BoP2zasvUnCqqBn25Dx2L2FPoAPYZFvOQjuP5bBcBszQAmFIRzX+7KHeimoA+zfp
-	1sOEsMemE3SqMi6tUIF2/9vlYTBWT4lEijgRBu7Lbh/7wfq3Gdx0+1Qn9hdf4CTsfnQDXgZtiRt
-	NKgkOXDdTNyHCRjpVW5Ygv/peGNGDT0gWcjlg5RbyBJXAHvtPL24Ii2i3wu6pA3w7PFOrJ+
-X-Google-Smtp-Source: AGHT+IEmZoekCpdFdxCX6++mG8wezcWmjXxPG5ogJ3p4YsZ2il+JIIqimrrt74JmCImmja/XHDzRdip0knGEk5MWYgo=
-X-Received: by 2002:a05:6512:e9c:b0:598:faba:c8fa with SMTP id
- 2adb3069b0e04-59a17d006e1mr4286628e87.10.1766414859977; Mon, 22 Dec 2025
- 06:47:39 -0800 (PST)
+        bh=CGCklX6nhk27ftO3qYq6hWy6cA35KSKoGjf3nv6Hh2Q=;
+        b=m9M+iKldG+jWOtiyp87mynLuJbAFx8PGcNWos+qgyYf9KBz3TkYHXzv8N9HE/EH85p
+         Ek0CUr61H6CuzQd/nkdco6g5Wp1KCIDsNBxg2AFEhwteimJJdylIkECHuy+Zw6TcOC4T
+         25u/JDZgdUf2HyruMp9C21YP3C0UhJxx1l8ko36e4U1hyxx0urDOQtoWqYpUTPUpDDXA
+         jRPOKqY5tn7CIiCyrlsqN233jXLjNNG/JzP4RWXC3hKxjKRgfzdKdewBN5Amcam8yTQ3
+         13jOz3BBVMLcXfKb8twPwKpKwKTsSdA2tRihbcU6fduBj9s4wbk5FbDlq4p7oMt91gJ3
+         Lofg==
+X-Forwarded-Encrypted: i=1; AJvYcCWJEU/suvum6RIOogidkTdgdyhEFNmQ6D1Bf068N3/j3Ys1ai+PFhhdZXHl0mNUi7UOJ9cwMnAMP1fe3et/zm3S3A==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw8HcRYxnGyB8NyjEN3APp9ewvmHlDmKa1fBQihKYpi6dvP6y7v
+	InTCcP3fdUQQ0qOr8WRl+GLMkmhrDHW5NFZNWj1UbQx9hpzq3V37zHiVooi7oy2b
+X-Gm-Gg: AY/fxX7e7wUvTR5KtZ2S8UXvLLBMktRYltqyaKEGhLT4WZQaiIKPrd5VxyYG25zk/5C
+	BeaXcIhy55pR1z9vOlMKgiOOTx6bDx0sRleMG9Sh3hhbfll2rUXU3/u2gpFM0JrB8D2QX0lm8RE
+	wIn3zA2RbrPQbJvWfMsgl6aTD5g19CXpyZdv6sb66OK1iR4fdeqRvEsFkBo1JiYqJSivgOk5brT
+	HWZt6FpR/0ezauvNAedSHUctdufUBPIUHIxpXL7XYAnZGLtaiKu83O44Y2gawtrJ5HqWLjDTu2x
+	b8v2MkkWpXXwH7KYVZEpvFtO1rVcAkPGlpiCAGuMYGCC/3Jmm5X3tw97XZbrcbo9m5IGqwenZCq
+	8Sa57hn4bUdyWkjkzc2H40isdSNcs7f5ZnIVNM1V71oRXQ0Ar01EZAKkl2Mbei/QnVKWd8PwLhi
+	kz6Ym5UZOBe6SDGDih4CGx5YNfu8628AGByzOFL9KGwiTMyIu8
+X-Google-Smtp-Source: AGHT+IG9xRjrFTYo2bzQs5LKNqvcr1+CYLbOjSt97UVgNF/dKtxTu7t7eya/gp2YbUO0vymtO2z0DA==
+X-Received: by 2002:a67:e70d:0:b0:5db:eeb6:812e with SMTP id ada2fe7eead31-5eb1a680b94mr3848501137.18.1766415165792;
+        Mon, 22 Dec 2025 06:52:45 -0800 (PST)
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com. [209.85.217.49])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-94341797300sm2856639241.13.2025.12.22.06.52.45
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Dec 2025 06:52:45 -0800 (PST)
+Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-5dbd1421182so3259497137.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Dec 2025 06:52:45 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWb9f4IaTB+NMvLULRJ+7i2ysRaJxFKapdOfT7rslKT+6eWeNYaZLCj9b3i1kVbxRsawBQoEY7PhwMaCn07uc9HzA==@vger.kernel.org
+X-Received: by 2002:a05:6102:5e94:b0:5db:e2c2:81a1 with SMTP id
+ ada2fe7eead31-5eb1a680ed5mr3966383137.14.1766415164900; Mon, 22 Dec 2025
+ 06:52:44 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251210-rz-sdio-mux-v3-0-ca628db56d60@solid-run.com>
- <20251210-rz-sdio-mux-v3-2-ca628db56d60@solid-run.com> <CAPDyKFoYd3WKGrjD3DEzZH8EfgZPmRkrqL=rdoKNuAADrvz3Eg@mail.gmail.com>
- <20f2128c-c6cb-4b13-aa08-b93e540f5bd9@solid-run.com>
-In-Reply-To: <20f2128c-c6cb-4b13-aa08-b93e540f5bd9@solid-run.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Mon, 22 Dec 2025 15:47:03 +0100
-X-Gm-Features: AQt7F2pGUIPrw4OqWueh78ppZDBGwQc_mhY3RygUrq6e1L74fXopGZ4K0V_QvZo
-Message-ID: <CAPDyKFo2jsV02qSDBSZTewJjV09AMO8iETU5Uxqz+GBnd0JY6g@mail.gmail.com>
-Subject: Re: [PATCH v3 2/6] mux: Add helper functions for getting optional and
- selected mux-state
-To: Josua Mayer <josua@solid-run.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Magnus Damm <magnus.damm@gmail.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Marc Kleine-Budde <mkl@pengutronix.de>, Vincent Mailhol <mailhol@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
-	Kishon Vijay Abraham I <kishon@kernel.org>, Peter Rosin <peda@axentia.se>, 
-	Aaro Koskinen <aaro.koskinen@iki.fi>, Andreas Kemnade <andreas@kemnade.info>, 
-	Kevin Hilman <khilman@baylibre.com>, Roger Quadros <rogerq@kernel.org>, 
-	Tony Lindgren <tony@atomide.com>, Vignesh R <vigneshr@ti.com>, 
-	Janusz Krzysztofik <jmkrzyszt@gmail.com>, Andi Shyti <andi.shyti@kernel.org>, 
-	Mikhail Anikin <mikhail.anikin@solid-run.com>, Yazan Shhady <yazan.shhady@solid-run.com>, 
-	Jon Nettleton <jon@solid-run.com>, "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
-	"linux-can@vger.kernel.org" <linux-can@vger.kernel.org>, 
-	"linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>, 
-	"linux-omap@vger.kernel.org" <linux-omap@vger.kernel.org>, 
-	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
+References: <20251129185203.380002-1-biju.das.jz@bp.renesas.com> <20251129185203.380002-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20251129185203.380002-2-biju.das.jz@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 22 Dec 2025 15:52:33 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXQza6zqvkwB5YNe=aQXVn-EmVzTMoZN2+sry6pBKB=tw@mail.gmail.com>
+X-Gm-Features: AQt7F2pKMpdMjUiZR04D73IrP2c0AaqXRibSGSZwR5IkFpPnDOUz7u7qRlrurXc
+Message-ID: <CAMuHMdXQza6zqvkwB5YNe=aQXVn-EmVzTMoZN2+sry6pBKB=tw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] arm64: dts: renesas: r9a09g047: Add RSCI nodes
+To: Biju <biju.das.au@gmail.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, linux-renesas-soc@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 
-On Sun, 21 Dec 2025 at 11:38, Josua Mayer <josua@solid-run.com> wrote:
+On Sat, 29 Nov 2025 at 19:52, Biju <biju.das.au@gmail.com> wrote:
+> From: Biju Das <biju.das.jz@bp.renesas.com>
 >
-> Hi Ulf,
+> Add RSCI nodes to RZ/G3E ("R9A09G047") SoC DTSI.
 >
-> Am 17.12.25 um 14:38 schrieb Ulf Hansson:
-> > On Wed, 10 Dec 2025 at 18:39, Josua Mayer <josua@solid-run.com> wrote:
->
-> cut
->
-> >>  /*
-> >>   * Using subsys_initcall instead of module_init here to try to ensure - for
-> >>   * the non-modular case - that the subsystem is initialized when mux consumers
-> >> diff --git a/include/linux/mux/consumer.h b/include/linux/mux/consumer.h
-> >> index 2e25c838f8312..a5da2e33a45c0 100644
-> >> --- a/include/linux/mux/consumer.h
-> >> +++ b/include/linux/mux/consumer.h
-> >> @@ -60,5 +60,9 @@ struct mux_control *devm_mux_control_get(struct device *dev,
-> >>                                          const char *mux_name);
-> >>  struct mux_state *devm_mux_state_get(struct device *dev,
-> >>                                      const char *mux_name);
-> >> +struct mux_state *devm_mux_state_get_optional(struct device *dev,
-> >> +                                             const char *mux_name);
-> >> +struct mux_state *devm_mux_state_get_optional_selected(struct device *dev,
-> >> +                                                      const char *mux_name);
-> > Seems like we need stub-functions of these too. Otherwise
-> > subsystems/drivers need to have a "depends on MULTIPLEXER" in their
-> > Kconfigs.
->
-> Currently the drivers that can use a mux select MULTIPLEXER in Kconfig.
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v1->v2:
+>  * Updated the compatible from r9a09g047-rscif->r9a09g047-rsci.
+>  * Renamed clk from bus->pclk
+>  * Rearranged tclk{4,16,64} clks.
+>  * Added missing irqs aed and bfd.
+>  * Used hexadecimal numbers for module clocks and resets, for
+>    easier matching with the documentation.
 
-Yes, but that's not generally how we do this. The driver may not need
-MULTIPLEXER for all platforms that driver is being used on.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.20.
 
->
-> There already exist a few mux helpers both for mux-state and for mux-control,
-> and they might all need stubs.
+Gr{oetje,eeting}s,
 
-Correct. I think we should add subs for all of them.
+                        Geert
 
->
-> I'd prefer the restructuring of kconfig dependencies being independent from
-> adding mux-state functionality to renesas sdhi driver.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-I understand your point, but adding the stubs isn't really a big thing
-- unless someone has some good arguments not to!?
-
-Moreover, since the series changes the mux-core anyways - and
-subsequent changes depend on it, I don't see an issue to fold in yet
-another patch to add the stubs.
-
-Kind regards
-Uffe
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
