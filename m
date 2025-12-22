@@ -1,60 +1,60 @@
-Return-Path: <linux-renesas-soc+bounces-25999-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26000-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B62EBCD6405
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Dec 2025 14:54:13 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04A2BCD63F0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Dec 2025 14:52:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3436E3019BFA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Dec 2025 13:51:50 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9F282304E152
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Dec 2025 13:51:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1068A331A40;
-	Mon, 22 Dec 2025 13:45:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D72C336ED1;
+	Mon, 22 Dec 2025 13:46:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="hgD7yPW7"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="XZVv1bUj"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011042.outbound.protection.outlook.com [40.107.74.42])
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011058.outbound.protection.outlook.com [40.107.74.58])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E28EE332913;
-	Mon, 22 Dec 2025 13:45:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A672335550;
+	Mon, 22 Dec 2025 13:45:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.58
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766411154; cv=fail; b=j6cBiqByg5BcOmiKSY1d0QMBct1Da4diDACdTRT/MgtHZQHJ3zEtQG3SviE8NTV6lYJKVwiY2/E62yrDoAPd0ex9HVA83PdpVIxT+Q4v8ocpjA7qjxRgbUbQ73qJ/KZSN+Kxu2L328S6esg1vQ6ZrcwNgjc6/iqFY8z1EHHZzEs=
+	t=1766411161; cv=fail; b=ksXvOHflfJ0bomNDi/3oPiOjxRNBZDhZpIb9rcCFdt6GVjf9pWc5OY1hr/inZnX5sdkDT3tJKBtDBKDSYCwxVeVckSr3xpflKl/CyncSUyHaMtiLBrEgC8spHRvtDgPSRTuZWry3YRubAciw+pi58M2MIxs3F6FWpxtFdH5/qrQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766411154; c=relaxed/simple;
-	bh=lubH7uXL/PWRg5WVP5EkQ+mPi8hwwXSG8rIHr8gATa4=;
+	s=arc-20240116; t=1766411161; c=relaxed/simple;
+	bh=GZ/zVQ7SfqfvRlBGffHqP3s/bOdi/Oo2lIAaGAwJPe4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=cK64zUTov6Sggc87jeGqF9xAB18zjkk0Xjf+AWlz+lS0crRUkvicpQXFwX220A0akI5tab5Ea7/eBTWaLWaiFalg+iK1jNzFgUqXK0pTq2KOu2GVWmQQcFkBBr/BBRbkpn18fNyL3FCO80OaKBJLQkwwsjt4+7RFq51AFnI+8Pw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=hgD7yPW7; arc=fail smtp.client-ip=40.107.74.42
+	 Content-Type:MIME-Version; b=D5Ugch9ELXK2n5faY07fIcAmIUiBHRsahKbKpODkJ6FcHxPfdwiVz5R9meKhfb19hWMHGKBYP69fD9ApSpwWewf0UH5IvMxtG9d/Kbby2oH18OuqFFcaXz2yr2w7oDqW5a2v7A93WrfAApjb1vvqAiBOVpB46EBud1xJTEfG4IA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=XZVv1bUj; arc=fail smtp.client-ip=40.107.74.58
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Qsbe/KcvFN2UMbl5CiJhCeRBXdBKT04P2QdeVhqmqButehcYyczTzyTKlbzpRu7SM1ULYJO0TGurPR7NnJA2aeMn9RVqGAWqn6jE8vROjFZFURgF6+Q5ODwHXXGxvAatnh1Z8CYrAJK9jS4q75wiB0ehd5W9i4b4Zzs1WjZrfsG8P/bO9eknVTOwe0+dGFwbJcSmpqZG7ncyPqabqCoPTPzaYpD6Z5LrcYKO4TiJ/cgv2x9nEazxDE1R4WNH6j27GPcqjsq7nhXFyzxLO10+MgvZSMbpTXSmX1ZndUxiX8atx6NB6UUzVB9r3a0MDcW8JNzr73IQ/GwTl0THpjjGdA==
+ b=vtoqfgD5wM9u8U3sXOiEo3KtOqMklxTQQRh5ci1Li6xdkb2JzuS/uN1Xi/inks592kx583TQQcKurAwqR2wtMlXCa+6G8X/yyaVmb7/BIFWKCYsalysar1jZY3uXfCZhe4Pu6XgReVoqlbwJtpZuQoMedKwtZQ+rNBzRrGtwiUxnOJjWvubx14pr/396Jx/4gmC+ZKGgw2Jvl5W8zPdPgFFZs0Pk7JrO8yMCsTdo+G9SnPQ/TQJ13d8/4uVdwsmHrywJsT6XrU1x1AJRR/RJMckTEMhCzz+R/Uc6RfAfYQ8KF+LBLlLK4QNzxgSydHKUZrZSSvQolggqPzxiE26x9w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AyiY08NN/mhR7QYUQbY8niCaXcs7BvFZJwErhFfAMrs=;
- b=BjCukdVsmy8k2Fp4YBp72Jp0ho5vMoHYfqkuz5jTprcLkxJXA/OHVfwy6+UIQ4+R2vW8hZHWq96Xsvxeu040Gb3PVJvB9f1qlqD1305DmPIFEKZBeKtZ1gj5V8GDlYdqF4fSESsOLyLW4WpsCc6/8cPr7CP1fLRmqlwN8XZQ/6ppUaHKy2BxANLBko89gOqIxfYc3251pZ12twAeeUoukY6ZkB2HSo0LEbjyyJORc7+rmCcsRhUSuteMYlSCv8o03T0JN9xKsWRq1lnsmzrrRamnWCywfqnLvuQpSclcDTgqJtJszsx6bgrdlt083UPbNcZbNEjDHQUy9cggwWAfQQ==
+ bh=CNdu29Rp2D1rWT8ilSrOq3FE7dwSwOy2fVmVROUqJbE=;
+ b=r1+VoYYKHNBIwOEKbMyaJbL3nmvptUF2aBgg0r6oQc362t7bALcxHeKa8Nnq1ZXB2DVbnefMSvKV1UC2TGDsE4v/rV/15SpT6sjMFv/TtQzWh2xQEQTcbFO/LhpUIBHuELqTwn5RDO4dxDyxL3Y108JkiC5u38LfuOOkfyaFzbQHWs6dHOYRkmAyMfxaD2XrOOc8u7mSnlwS3U9ZdIgPN7pNyyMb+BsX/dYH0Mkybp6eQ1NFfssz2uOXXT9JCCfwgw1v85h11tCMCFfAMz8tox0xfVFTjizI8Q1jz8dHGQmUesq9TEHN7gJ5N8DOB5ynCs9zHjGOOaiv8At7IwXC/Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
  header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AyiY08NN/mhR7QYUQbY8niCaXcs7BvFZJwErhFfAMrs=;
- b=hgD7yPW7UCM4P1XUc/ACFfnWqdgScftr6q5GPhBlQ9SRpRnWZmot8OCPiqEJaGedsIRk6S4Bzfwt+DBPLXccakgEDOHjsyQatJ2EJZw9u9oK65ed+t/910E5Ab122404kV5ZExMRa1cxE50s7h72UnGqYG8xZwlY6CvA3qMYRH4=
+ bh=CNdu29Rp2D1rWT8ilSrOq3FE7dwSwOy2fVmVROUqJbE=;
+ b=XZVv1bUjuWlR9IjpFEKhGlIzsOFYQ4acpvfO3/UNX9KngKhVmYbCsaoX0IdP9j3joP7TG4FafNbcCLIf3SFmjmSgIXSHACcJc1fHQuC3heZWBSBFkWrs9xmB1VZ9FPH6wLqo5Qm4H7sawkpVGDlVFgMrUqLiu8wePETp6uoOkh4=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=bp.renesas.com;
 Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com (2603:1096:400:3e1::6)
  by OS9PR01MB14304.jpnprd01.prod.outlook.com (2603:1096:604:362::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9456.10; Mon, 22 Dec
- 2025 13:45:47 +0000
+ 2025 13:45:54 +0000
 Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com
  ([fe80::33f1:f7cd:46be:e4d8]) by TYCPR01MB11947.jpnprd01.prod.outlook.com
  ([fe80::33f1:f7cd:46be:e4d8%5]) with mapi id 15.20.9456.008; Mon, 22 Dec 2025
- 13:45:46 +0000
+ 13:45:54 +0000
 From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 To: tomm.merciai@gmail.com
 Cc: linux-renesas-soc@vger.kernel.org,
@@ -80,9 +80,9 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-phy@lists.infradead.org
-Subject: [PATCH v6 11/14] phy: renesas: rcar-gen3-usb2: Use devm_pm_runtime_enable()
-Date: Mon, 22 Dec 2025 14:43:45 +0100
-Message-ID: <ca028d41f84227efeccb0cbdff22fbf16e5cf6ab.1766405010.git.tommaso.merciai.xr@bp.renesas.com>
+Subject: [PATCH v6 12/14] phy: renesas: rcar-gen3-usb2: Add regulator for OTG VBUS control
+Date: Mon, 22 Dec 2025 14:43:46 +0100
+Message-ID: <6c1aebf60b4d8ff0c51a8243c68b397c1a384867.1766405010.git.tommaso.merciai.xr@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1766405010.git.tommaso.merciai.xr@bp.renesas.com>
 References: <cover.1766405010.git.tommaso.merciai.xr@bp.renesas.com>
@@ -99,89 +99,92 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: TYCPR01MB11947:EE_|OS9PR01MB14304:EE_
-X-MS-Office365-Filtering-Correlation-Id: da82612f-43f1-4ba5-9c51-08de416068e1
+X-MS-Office365-Filtering-Correlation-Id: 36af9b75-1e2c-41e5-5621-08de41606d87
 X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|376014|7416014|52116014|1800799024|366016|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?wvJsxb+Xr1DXwA2tREuGNb6JcUrsFDrcYV9k6+jREMkNpX9szpQCoNabHb1E?=
- =?us-ascii?Q?1uz71PKmaoDjzFGiKdJqfwUSZRHKOaXh64NH2FjAhsWG9lgUd4hmG+I5FnGX?=
- =?us-ascii?Q?dtrxPWehRDrMoOvegbD1TLf/886cABODA/ApkBD173wONCgq0QbNhmc0bCO+?=
- =?us-ascii?Q?Eqx1emsaQ1zex9Sn/S2zfAQ0WK10sKtrEDaSrxS9qQTujjqCo962Q9Ui6Dkr?=
- =?us-ascii?Q?WXcqdbRZ6BQUNGYKCkwKqkn6T4QAFgPl0riLPJFEfMYMRBTeITdsra0WTDp/?=
- =?us-ascii?Q?2YwfghK42NA1i4v3uSF6U9qiZAZFyvjkzDCzZCRgY3lNDrdnCAKZ7cZXT15m?=
- =?us-ascii?Q?2wwws23+k0xi13nrPtA4jH+P7AwHvVFYUQHB/iUGqTDsH1Q70buUdFIius2U?=
- =?us-ascii?Q?8h9P4x2OVh3V8ta6J5zH39raaVAhGDX75gyPwlp5QXFiko7IuP7NkXkZ8xFf?=
- =?us-ascii?Q?8mP9BZZowJm9M9w95/Q/4RB3lWucdC3DJ8iGvbd4uBAGq1Pe0jzIpUDbc6Ct?=
- =?us-ascii?Q?2JbpYZtWgtCaEvorAOzdDXN0t+IlXdAIbm2i0il5FzjrRnh2y8h2G8YH2uUI?=
- =?us-ascii?Q?gK9wq24VsuY2SKdnA/qd6zWo8avfULp4I8oO33QXjJjh+6us0eh7CvYBdoYX?=
- =?us-ascii?Q?abb2okY4YlVPQmZAuFhQohEW3kLXt7IKP2WM6xx/hDtMkvPP4C2hGwx/CFn6?=
- =?us-ascii?Q?SdJZZ/XoL6St6f2DIsj9DsWG3W2XodBBo5uAARvIom5/3VKcSECRYunYo3dg?=
- =?us-ascii?Q?lASLuU8c23x35RW0D4RA4hk95ZzL6yMFmZBSnbjdPB5nHKsWWCtjAIPsa6bp?=
- =?us-ascii?Q?JG88DI+dvL7eMDwgnSgR+7JskGgGXK+UIKTdxyC9HSmOAPh7WkxdDTT5JsbB?=
- =?us-ascii?Q?P1wqjo5Tls+v7TAAzWZQ7RtomPTEcH40gfSLQVa2IQ8TX8BbRLReVVBLCV4I?=
- =?us-ascii?Q?QH9PksGJZp8SUALPRH2QFOtI9VXkAT/E+bczZPeoIWHCt9vz3GjAQnNGjNhz?=
- =?us-ascii?Q?SZTb2ffNGAU9IMdLFppLRtfberxWdV1jep87YrvX2dhl+6W1mGotoc3rKbkF?=
- =?us-ascii?Q?tJ73tc9N3lnrOQKHaBtrO35YBAYGI809Bkodm/kKQNEuQ65UgqledUeZNKDi?=
- =?us-ascii?Q?eYctTwYCpyi4yjRFFCiysuSwwGkUcncVrEnB2cLreFdWi2uw1MWSNFr/9/4L?=
- =?us-ascii?Q?b212esiBHIB7Kf+v0qD6aBvaWse1qDDSfbwyaWS65DMg4V8/jklLz8cuirHS?=
- =?us-ascii?Q?x4ataiYgCaaaQbxafM7xp7t5sh1TtGCTESqTMw2wLYd3IBWL+2NKyVLynDmZ?=
- =?us-ascii?Q?br/kqdhUw0frdXSWvr2Ru6BucZgBhOnZoEGYqOgVi/mNmFzblLNAUo01cnCw?=
- =?us-ascii?Q?iGVZSiuruRhhzak62/HKytVGrQrlZUiLoCl6Iss3UljTlipsHn6sAt5G+m0n?=
- =?us-ascii?Q?3FNZ47JmQN0Jbx4gr5IEwFfIqwDvFIzCRB6AY8SpwAD7N3M468u4TkBOXL9n?=
- =?us-ascii?Q?i3LwhcWYYTsBDGCioceSarhoBIdpi0yh703d?=
+	=?us-ascii?Q?ZVpY8g2GSmjq+rFVuwDvkMcPIS7zNQXQWD2d6XnuL9elASDaD7/hEEVNMw2A?=
+ =?us-ascii?Q?T3LGsNBgN2w7UJzZK3zFayJk+mnZBmBQdrziLA5BMh6zTzkcguwzFkXEa+NF?=
+ =?us-ascii?Q?TUMGAX3nd50fLpcwWjeIgl8wdDF9/J3D38cDP9x1X3Mt0Av/J/VLfF2+0aiS?=
+ =?us-ascii?Q?2BAb1oH1lNNzJDWLilzGJuuhgJyJSJ+5X6/9ZZyhX1jpu5vdVvag6g3oPUor?=
+ =?us-ascii?Q?QQSOydKC7z600b8BDvd7GDVFLtE1UbuXpL1m7IXUU5kyWTzkjVs/hM4/grE9?=
+ =?us-ascii?Q?br4aF8SRTBIQ7ihbuB0unE0bUAbhXfYj99a2BtGEfoIVTT5UPcyySNPKCXF7?=
+ =?us-ascii?Q?Eo3rEtuGB8cZbginvUQywyMmQlR0jF/Nhz7JsxQWRvOjz2nps8OS0Ywh8sDG?=
+ =?us-ascii?Q?x9XSficJNthD0SW1bAHOhe3JgK8H2HaZ7yIilqC4IqjgwUm/HzxRrM+6a1s5?=
+ =?us-ascii?Q?SqKwQIB533bsKb6H6rxY2a8CBZaQliOeskFS7P/6LdTTrl7lpwmBoDhqNb5L?=
+ =?us-ascii?Q?XR046VcAX08JLKte539omRuCUsMxgooe2Upj6fTr9/OD2mJfCmUjoY6OI+ye?=
+ =?us-ascii?Q?H+xREIWM/7eue2zBfaRcd+7YV6X8VonuHWZl9MLLXYcW1BWgy6Y4wlQ/VWG1?=
+ =?us-ascii?Q?f/srcVtdgud5sogQpmx5awHoIpQ9UwR4UDwevRyTubN+TAa9gPPcS6bufZfz?=
+ =?us-ascii?Q?5dI5AGHde9ur/LpQr4ZViCOKAcpPC6s/NnQ6wao8cPHHMYKoT0YSk3CXph7K?=
+ =?us-ascii?Q?4n5p8DxM4baQyKonfYNEjLRYTSTIN+Z9Iii3puEYsOCg4hbX8N/oHMK0MpJV?=
+ =?us-ascii?Q?Yaj+WFks26ZmF8ImcPDsgbXCEmSbIZA+0nzxSiY9lQ+2vf3KfIqTlLKacJIP?=
+ =?us-ascii?Q?nZLaODWwL2nDcgk4O4yIh2PY8A+cH0ejqHu78BhhImPQv5dXF2zdmRFEr+Ts?=
+ =?us-ascii?Q?K1j0jijI8jcJ6kyCtTr9mv53BpBAurfvHhvaYcnHV72EpOD4ELXUwLD97W9R?=
+ =?us-ascii?Q?1yTrl5KxjJeTHhojgFc7U8Ef9RsJLXKghb86I2tHwGKw45hhMPctNm63R+qJ?=
+ =?us-ascii?Q?fyGvvvPDha5bb+kho66g7ke/xcFLdT9AUHYzcW/RgmludHcIfmTOBLO6vcW8?=
+ =?us-ascii?Q?mDxCFtN4hN3a1HPKxAk9zIisg2GEEnwvMHYe9R1v41rWm3f0BD41K7T+E4Sc?=
+ =?us-ascii?Q?FXazyjPJjZZCgusyRJmpqoCKCagH4aCSxZbVMkXt/KbN1DJTivvuOngD7IJl?=
+ =?us-ascii?Q?1OCdb9ax3+Ks7ECmULLu2notiM+4Va0V6R/oFvwATfMNXCEC5CvisqrFIMwF?=
+ =?us-ascii?Q?Zw5LvWgTLLPHA43S5UfTXKvRSgEjY5Z/Hsutp5Iv9VTFN8pw0Oe5lgPwiRmA?=
+ =?us-ascii?Q?Wkl7U2Cm3db0y0CzY0GzH2jnSXdY/70ZGri3bzLVGYkQzFp971pPPwbigSed?=
+ =?us-ascii?Q?CTuJZ2sSFG6DCCJ+4HfflsXtpSRkw6ri8ZAbZkLbqieuzKzwwSWiYktjys5L?=
+ =?us-ascii?Q?fcbfYjbKXsdAkt3EMYxmLWjZ62aGl/EFXNuZ?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11947.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(52116014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?cRIo6XdyTe0X/WXVE1XegkzBT0UVJK9zBfYKWeAhx4Y9a/CTI2OpE8gbiU4s?=
- =?us-ascii?Q?AVjA1LzN0+nLPTLLVkSPdYusiQzhJ0F27n52Vfxaw1GW9IkvWdsC8lqZYRPO?=
- =?us-ascii?Q?K/RvRzfHWeZjcONz+d67qLTbzozBd/u6/iGhTLTXLqSUBynBAevdCNumYspJ?=
- =?us-ascii?Q?IBQTY2ClcEYkLVeEWKUv8hmGRA1uXHGgY7aSkU8Gylo0KKRg34MP9luPgTeF?=
- =?us-ascii?Q?rWTEbT93RBss6ueVJZTSoEmyprazxy9EnLAMxNk3sAR0iTlOEATACaQq2p6K?=
- =?us-ascii?Q?9V4h1S+HqmizMvYWFN6KLe0+tP8+JLkRdGPFX4wQpi2lO94K9AdunQySxOrG?=
- =?us-ascii?Q?n1exBX5g/YPXNVoH9sOMrump0EyrXon6JaQDQOufN4+fmqy5ObX0xNArALK8?=
- =?us-ascii?Q?fVxJ3DuH1XEuD7ynvzwNDcANkAr3ur/Hm4Evnd2jDThJolOAFPPgvZ24tUCZ?=
- =?us-ascii?Q?W4J4S7Bm2WMwD2aM2XP0m5eGKKWcbUZYupAxtErHXeXC8qR6LsW+0ywz5NhI?=
- =?us-ascii?Q?oDeD1LbecYabjTopFqiJbdq7fDWv5NPnlT/lRpktsHLIqoycj2WV2UFgDstU?=
- =?us-ascii?Q?fxmnvt6RrCTR9+cSgbhCLvlLwQ1joRovNVgQFSY+QZGAFg9R11jo+W8WL8G8?=
- =?us-ascii?Q?1kDPX0BNImpHcf9F3Sm5t/FeLCYMTQf2T7JAfCCqpLrhv9BaybOE3Bs3PS2y?=
- =?us-ascii?Q?g4KbriXEn7W27J7RUvehCUNKGK6rEmapP/1UmJDGdH36B9TxLOZwHr+og9h3?=
- =?us-ascii?Q?RTJTp6wC3wD2zeI9Hnh+WP/3mRFWUarlSK+Efjb5pFA2a0bhn8O/v5m520/q?=
- =?us-ascii?Q?z8mq2ckYCcsgdYr2tiSGlJvAVKME1/pa/8TwSBZ13JK7thdufZ3Xeqluv26j?=
- =?us-ascii?Q?do5pzXbC/RxjhdVUxcXGvT7kdAc6AjKpxuSaNK/n1ej+7FPGU+yVZr46jZ/c?=
- =?us-ascii?Q?93fplZuRf6UjPQgKAyZk6JlAXdvVQWh+cs3IQiaXazhaoh1+Y1Hl4fmDrKBU?=
- =?us-ascii?Q?F7ezfP7+WybWDHNY13E4X8YAz6aYuIwzDbYj0S0t45RG4E4l2y0URvl26Hk3?=
- =?us-ascii?Q?FAlnkkbUZVVYR2olgL6az8IDiaAlFCAGnBm/a81UqENihGhEYpHoNgYsBvU9?=
- =?us-ascii?Q?iJnGA58d8XAwmucjNEMMwWTKd+B4zwZPdF3emBZ5X6Jr0NKxb1YpkboZNmo8?=
- =?us-ascii?Q?J8MOddbYSZO2QKhRviWgyMSaUjk0RdQGHENoLEytRuEWBbcszl485/QttZJl?=
- =?us-ascii?Q?mpj2Fu9DYOvxFs758rAQXxHIZ3JiZmezDWKo1pRrkbCVMyBr5bHYIiTz1U3W?=
- =?us-ascii?Q?5fU2rIomFNEvJPPoSVyD979zeTBg1Q41UOPT6jowaiuPPY7EDwyp3imT5HZX?=
- =?us-ascii?Q?hq+n1fOE4Fg8pxfsXwwbI5KVECvO8O2MCGlPBbMuyNp8q+hceiM5ZXdT+Gwz?=
- =?us-ascii?Q?B3a6IXbHzyTyZYoMeq9+2cLVhcAttXlr7kh6AytuKR7CuvR66f2xAw5uDEKj?=
- =?us-ascii?Q?qsYsx6dH5io/eikT+5vHMFGqSwUVgk/AGNG4hYp+Kjeq+y3FDsuwx20Qnz8n?=
- =?us-ascii?Q?FCpnVTEIGOPXN3lnGIPKniEwF5739tEE8Od3t333XLk39jkCordYgmxAV6yD?=
- =?us-ascii?Q?RR3nN6zUKWT5pQApK9ZHuYsqDJ5NBubGDxASPFRfGsq3HGjTHA+GYCgIMXgp?=
- =?us-ascii?Q?6SzCXKrULcDxAyJYl9gnT5Qv8zqI/NdQd5kvRdqUESXPeXppQ974LDDNyZm/?=
- =?us-ascii?Q?UAsHc8n/TaVSf14Btt4kLWrY74Im9oH4ZYB2AnoosoQlpJH7y9b8?=
+	=?us-ascii?Q?IPZKZVX1QcrFrkih8smUF3vz5MpyaBUGNSNrEF0Z/NcuiTgztDC6eMjusgyE?=
+ =?us-ascii?Q?pRsB+nl88n0wsc8nPkNyEbaN3psaGJUv+8TlOaLXSFiAv6s3yGRnKc+6Dagh?=
+ =?us-ascii?Q?EOx8cWMTokphtrSrvqLx6ENWCJN8UdQ9I0woY2oA0ibFKN812haqrwCS+CZc?=
+ =?us-ascii?Q?LkjRT5GMlOYLA6wPtj+CCw6ZDlkbiTHEA5j9FA1XUeznSXmNqeK7fDC6TIc0?=
+ =?us-ascii?Q?WRLiJHEAMqcIh+SAEjT2zBUzBE5xjEel+wIgeLsJqKEbOP2yeIeL4tlq3+H4?=
+ =?us-ascii?Q?6Ch7qZzxzunql6tDRzVuVY+qFE9gFTcn8wCpEXldwYU0mMTTRWHsS70GYKiJ?=
+ =?us-ascii?Q?WRPM+qtz+8lbAA8Zf8YmuFnQrTdfB6Gqz926ry0e2EYTefqs90RHTh90XsLO?=
+ =?us-ascii?Q?pGIad2h6F1zlC2Gcsd4v5oZC6qQLi9jYqVWQUGxqumqvR+nXr7K4fimoiU1x?=
+ =?us-ascii?Q?Kzng1UH0dyBvhprYuYU+FcV5aWSzyAWYTOg92pFUZLioLAVhA283VpCBn4uw?=
+ =?us-ascii?Q?WCShAAwcgsd9it4psBjZqZ74FIffBaZcrB+6neV72gsT5flh+NjgNMlpjjmh?=
+ =?us-ascii?Q?Zgw6pCQ1ELhJJmR3oviwkHwC90Wj/SwTL2l3egRKGsNpdRApRjobhe/OTyQz?=
+ =?us-ascii?Q?5veQU8fV2E3v8mixL/z+o8GP3I3dXVgpk6+iRuYooVrhahFTM/xiveDKlRJT?=
+ =?us-ascii?Q?j5crT8ROEB84loHU2XawpyiS43l9sY8kdMrz37vUJrZSst828OEp0fxl0MuQ?=
+ =?us-ascii?Q?fHEgLAMfbuX/qmEWKSfbPLG4/2tkpI8TFrQ+YD+IukzLPRSFz5JeqbXG3dZU?=
+ =?us-ascii?Q?95AauXKo6gcVy+L8Yhj+gvqF+1qrbVO0dga3EyE+O93PTF1/Dfcs8ZC/O/fn?=
+ =?us-ascii?Q?YmM7uXRTyh6SZJlwRWnWlB04viSEzdKWi1fZkBDCDoXdP/Iu6EMTErvUJCOl?=
+ =?us-ascii?Q?2dZ3RxiXiCTqvPLDwqbS1Dt0NDO44F5nK8WIyMipcCNzo0I9wLn0MZlT8gid?=
+ =?us-ascii?Q?V6idHtsZ+p7HlP7PMy3LbRMN4i86FnC4W2+Er28bUG1ep37kS7SDoprhnXFX?=
+ =?us-ascii?Q?HEx8FgF4//Z/c4qIbTe5F7pH2hQvAX2q2JorE9OhwYRWmjKfBx+2PADQfQ1O?=
+ =?us-ascii?Q?TS6h26tQazvZJHT8aV0RmiU18q9M7lDu0ti87QFVWS3A8xWp/GiYfogUn74k?=
+ =?us-ascii?Q?zQMri9IwIqsgAkqQP7fg0Eg/fT433/SbbguEoly5gIGqBIuZ/5Mbnlt85f+Q?=
+ =?us-ascii?Q?QBlHD3ukxCdLy60q2LBy7JM9aUpXOXpP46xGbEwAH3VbMFuy/rQp/Fzb4h8r?=
+ =?us-ascii?Q?4zjoQLqz09pL8yb/a9sk3ityAJk2HpfH3z8vplfqdPdzpfP0W3CDzMgPcUR3?=
+ =?us-ascii?Q?WGtJIW364jAgQAxUKfFZYhStoQk+o1FfK44LBZALKhjVRjq6sgea40xg6zY3?=
+ =?us-ascii?Q?U8AhffUFdM6TMImYehELHqvWCy5JklBDCsNte25Iz7za7oJruCjgRJTLVh4E?=
+ =?us-ascii?Q?JriKHWdYVK551ptc/GPahZPCRkvFaXpSbwzbq70ntr64PcLniHddSdNkpYSQ?=
+ =?us-ascii?Q?nfy4zH3pjhJrJv/7iDddlM2PQMKDjuOnnbGUwPpXxoj40EYznW5APhTvsQSP?=
+ =?us-ascii?Q?0Yl8RsTpkAlW0g5iTlGpM2oJUIM8K+J3N8OJQsAvWL0ENF2gACEzq+DFvMku?=
+ =?us-ascii?Q?rrnKHI8fB6G45LqS38ltmDglbLLUHKF2gvo4vEYHM+YXWkallpvDp3fMjlY6?=
+ =?us-ascii?Q?c+FNSSDBnQO8DPOCMy225iJJB1wQR3FTFxtXwgjBtnUcQtifGRZO?=
 X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: da82612f-43f1-4ba5-9c51-08de416068e1
+X-MS-Exchange-CrossTenant-Network-Message-Id: 36af9b75-1e2c-41e5-5621-08de41606d87
 X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11947.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2025 13:45:46.8898
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2025 13:45:54.7111
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1UHvmNEXIQa9u87G1w+bBlSq7EA/p2Te9jZivFE7s8hNQzwc920QV2PrUJ9aeoEUHAgcSqvbnkCiuWgXGcQ6+j2zMDH3MnlYoCveIr0E6Q1jPDXTHHjNyx2zaP7xxspx
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1L379/v0ZwFHDGA9j3mtgpEkz8uoY77OYlFeg1sRzpRHSuSstyjqmxU1MUxQ1uMU2vF1MXHQMs/XNdm1SRHtaS/CE/HMmmKm7Vmww5azU0Ugr/yJdyzLGDkbpYHOQ8KV
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS9PR01MB14304
 
-Replace pm_runtime_enable() with devm_pm_runtime_enable() to ensure proper
-cleanup if the probe fails. This change enhances driver reliability by
-avoiding resource leaks, as the devm-managed version automatically handles
-disabling at probe failure or device removal.
+Enable OTG VBUS control on R-Car Gen3 USB2 PHY by registering a regulator
+driver that manages the VBOUT line. This change allows the controller to
+handle VBUS output for OTG ports using the regulator framework when the
+platform requires hardware-based VBUS control.
+
+Without this, some platforms cannot properly manage VBUS power on OTG-
+capable ports, leading to potential USB functionality issues.
 
 Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 ---
@@ -200,119 +203,205 @@ v2->v3:
 v1->v2:
  - No changes
 
- drivers/phy/renesas/phy-rcar-gen3-usb2.c | 53 ++++++++++--------------
- 1 file changed, 21 insertions(+), 32 deletions(-)
+ drivers/phy/renesas/phy-rcar-gen3-usb2.c | 142 ++++++++++++++++++++++-
+ 1 file changed, 137 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-index 4c7a46f1f16b..94a4521d7187 100644
+index 94a4521d7187..d2c03a846b58 100644
 --- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
 +++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-@@ -862,30 +862,29 @@ static int rcar_gen3_phy_usb2_probe(struct platform_device *pdev)
- 	 * devm_phy_create() will call pm_runtime_enable(&phy->dev);
- 	 * And then, phy-core will manage runtime pm for this device.
- 	 */
--	pm_runtime_enable(dev);
-+	ret = devm_pm_runtime_enable(dev);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to enable pm_runtime\n");
+@@ -22,6 +22,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/regulator/consumer.h>
++#include <linux/regulator/driver.h>
+ #include <linux/reset.h>
+ #include <linux/string.h>
+ #include <linux/usb/of.h>
+@@ -141,6 +142,7 @@ struct rcar_gen3_chan {
+ 	bool extcon_host;
+ 	bool is_otg_channel;
+ 	bool uses_otg_pins;
++	bool otg_internal_reg;
+ };
  
- 	channel->phy_data = of_device_get_match_data(dev);
--	if (!channel->phy_data) {
--		ret = -EINVAL;
--		goto error;
--	}
-+	if (!channel->phy_data)
-+		return -EINVAL;
+ struct rcar_gen3_phy_drv_data {
+@@ -225,6 +227,11 @@ static void rcar_gen3_phy_usb2_set_vbus(struct rcar_gen3_chan *ch,
  
- 	platform_set_drvdata(pdev, channel);
- 	channel->dev = dev;
- 
- 	ret = rcar_gen3_phy_usb2_init_bus(channel);
- 	if (ret)
--		goto error;
-+		return ret;
- 
- 	spin_lock_init(&channel->lock);
- 	for (i = 0; i < NUM_OF_PHYS; i++) {
- 		channel->rphys[i].phy = devm_phy_create(dev, NULL,
- 							channel->phy_data->phy_usb2_ops);
--		if (IS_ERR(channel->rphys[i].phy)) {
--			dev_err(dev, "Failed to create USB2 PHY\n");
--			ret = PTR_ERR(channel->rphys[i].phy);
--			goto error;
--		}
-+		if (IS_ERR(channel->rphys[i].phy))
-+			return dev_err_probe(dev, PTR_ERR(channel->rphys[i].phy),
-+					     "Failed to create USB2 PHY\n");
+ static void rcar_gen3_enable_vbus_ctrl(struct rcar_gen3_chan *ch, int vbus)
+ {
++	if (ch->otg_internal_reg) {
++		regulator_hardware_enable(ch->vbus, vbus);
++		return;
++	}
 +
- 		channel->rphys[i].ch = channel;
- 		channel->rphys[i].int_enable_bits = rcar_gen3_int_enable[i];
- 		phy_set_drvdata(channel->rphys[i].phy, &channel->rphys[i]);
-@@ -896,44 +895,36 @@ static int rcar_gen3_phy_usb2_probe(struct platform_device *pdev)
- 	else
- 		channel->vbus = devm_regulator_get_optional(dev, "vbus");
- 	if (IS_ERR(channel->vbus)) {
--		if (PTR_ERR(channel->vbus) == -EPROBE_DEFER) {
--			ret = PTR_ERR(channel->vbus);
--			goto error;
--		}
-+		if (PTR_ERR(channel->vbus) == -EPROBE_DEFER)
-+			return PTR_ERR(channel->vbus);
-+
- 		channel->vbus = NULL;
+ 	if (ch->phy_data->no_adp_ctrl || ch->phy_data->vblvl_ctrl) {
+ 		if (ch->vbus)
+ 			regulator_hardware_enable(ch->vbus, vbus);
+@@ -593,7 +600,7 @@ static int rcar_gen3_phy_usb2_power_on(struct phy *p)
+ 	u32 val;
+ 	int ret = 0;
+ 
+-	if (channel->vbus) {
++	if (channel->vbus && !channel->otg_internal_reg) {
+ 		ret = regulator_enable(channel->vbus);
+ 		if (ret)
+ 			return ret;
+@@ -634,7 +641,7 @@ static int rcar_gen3_phy_usb2_power_off(struct phy *p)
+ 		}
  	}
  
- 	irq = platform_get_irq_optional(pdev, 0);
- 	if (irq < 0 && irq != -ENXIO) {
--		ret = irq;
--		goto error;
-+		return irq;
- 	} else if (irq > 0) {
- 		INIT_WORK(&channel->work, rcar_gen3_phy_usb2_work);
- 		ret = devm_request_irq(dev, irq, rcar_gen3_phy_usb2_irq,
- 				       IRQF_SHARED, dev_name(dev), channel);
--		if (ret < 0) {
--			dev_err(dev, "Failed to request irq (%d)\n", irq);
--			goto error;
--		}
-+		if (ret < 0)
-+			return dev_err_probe(dev, ret,
-+					     "Failed to request irq (%d)\n",
-+					     irq);
- 	}
+-	if (channel->vbus)
++	if (channel->vbus && !channel->otg_internal_reg)
+ 		ret = regulator_disable(channel->vbus);
  
- 	provider = devm_of_phy_provider_register(dev, rcar_gen3_phy_usb2_xlate);
- 	if (IS_ERR(provider)) {
--		dev_err(dev, "Failed to register PHY provider\n");
--		ret = PTR_ERR(provider);
--		goto error;
-+		return dev_err_probe(dev, PTR_ERR(provider),
-+				     "Failed to register PHY provider\n");
- 	} else if (channel->is_otg_channel) {
- 		ret = device_create_file(dev, &dev_attr_role);
- 		if (ret < 0)
--			goto error;
-+			return ret;
- 	}
- 
+ 	return ret;
+@@ -809,6 +816,128 @@ static int rcar_gen3_phy_usb2_init_bus(struct rcar_gen3_chan *channel)
  	return 0;
--
--error:
--	pm_runtime_disable(dev);
--
--	return ret;
  }
  
- static void rcar_gen3_phy_usb2_remove(struct platform_device *pdev)
-@@ -942,8 +933,6 @@ static void rcar_gen3_phy_usb2_remove(struct platform_device *pdev)
++static int rcar_gen3_phy_usb2_regulator_endisable(struct regulator_dev *rdev,
++						  bool enable)
++{
++	struct rcar_gen3_chan *channel = rdev_get_drvdata(rdev);
++	struct device *dev = channel->dev;
++	int ret;
++
++	ret = pm_runtime_resume_and_get(dev);
++	if (ret < 0) {
++		dev_warn(dev, "pm_runtime_get failed: %i\n", ret);
++		return ret;
++	}
++
++	rcar_gen3_phy_usb2_set_vbus(channel, USB2_VBCTRL,
++				    USB2_VBCTRL_VBOUT, enable);
++	pm_runtime_put_noidle(dev);
++
++	return ret;
++}
++
++static int rcar_gen3_phy_usb2_regulator_enable(struct regulator_dev *rdev)
++{
++	return rcar_gen3_phy_usb2_regulator_endisable(rdev, true);
++}
++
++static int rcar_gen3_phy_usb2_regulator_disable(struct regulator_dev *rdev)
++{
++	return rcar_gen3_phy_usb2_regulator_endisable(rdev, false);
++}
++
++static int rcar_gen3_phy_usb2_regulator_is_enabled(struct regulator_dev *rdev)
++{
++	struct rcar_gen3_chan *channel = rdev_get_drvdata(rdev);
++	void __iomem *usb2_base = channel->base;
++	struct device *dev = channel->dev;
++	u32 vbus_ctrl_reg = USB2_VBCTRL;
++	u32 val;
++	int ret;
++
++	ret = pm_runtime_resume_and_get(dev);
++	if (ret < 0) {
++		dev_warn(dev, "pm_runtime_get failed: %i\n", ret);
++		return ret;
++	}
++
++	val = readl(usb2_base + vbus_ctrl_reg);
++
++	pm_runtime_put_noidle(dev);
++	dev_dbg(channel->dev, "%s: %08x\n", __func__, val);
++
++	return (val & USB2_VBCTRL_VBOUT) ? 1 : 0;
++}
++
++static const struct regulator_ops rcar_gen3_phy_usb2_regulator_ops = {
++	.enable = rcar_gen3_phy_usb2_regulator_enable,
++	.disable = rcar_gen3_phy_usb2_regulator_disable,
++	.is_enabled = rcar_gen3_phy_usb2_regulator_is_enabled,
++};
++
++static const struct regulator_desc rcar_gen3_phy_usb2_regulator = {
++	.name = "otg-vbus-regulator",
++	.of_match = of_match_ptr("vbus-regulator"),
++	.ops = &rcar_gen3_phy_usb2_regulator_ops,
++	.type = REGULATOR_VOLTAGE,
++	.owner = THIS_MODULE,
++	.fixed_uV = 5000000,
++	.n_voltages = 1,
++};
++
++static void rcar_gen3_phy_usb2_vbus_disable_action(void *data)
++{
++	struct regulator *vbus = data;
++
++	regulator_disable(vbus);
++}
++
++static int rcar_gen3_phy_usb2_vbus_regulator_get_exclusive_enable(struct rcar_gen3_chan *channel,
++								  bool enable)
++{
++	struct device *dev = channel->dev;
++	int ret;
++
++	channel->vbus = devm_regulator_get_exclusive(dev, "vbus");
++	if (IS_ERR(channel->vbus))
++		return PTR_ERR(channel->vbus);
++
++	if (!enable)
++		return 0;
++
++	ret = regulator_enable(channel->vbus);
++	if (ret)
++		return ret;
++
++	return devm_add_action_or_reset(dev, rcar_gen3_phy_usb2_vbus_disable_action,
++					channel->vbus);
++}
++
++static int rcar_gen3_phy_usb2_vbus_regulator_register(struct rcar_gen3_chan *channel)
++{
++	struct device *dev = channel->dev;
++	struct regulator_config rcfg = { .dev = dev, };
++	struct regulator_dev *rdev;
++	bool enable = false;
++
++	rcfg.of_node = of_get_available_child_by_name(dev->of_node,
++						      "vbus-regulator");
++	if (rcfg.of_node) {
++		rcfg.driver_data = channel;
++		rdev = devm_regulator_register(dev, &rcar_gen3_phy_usb2_regulator,
++					       &rcfg);
++		of_node_put(rcfg.of_node);
++		if (IS_ERR(rdev))
++			return dev_err_probe(dev, PTR_ERR(rdev),
++					     "Failed to create vbus-regulator\n");
++
++		channel->otg_internal_reg = true;
++		enable = true;
++	}
++
++	return rcar_gen3_phy_usb2_vbus_regulator_get_exclusive_enable(channel, enable);
++}
++
+ static int rcar_gen3_phy_usb2_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+@@ -890,10 +1019,13 @@ static int rcar_gen3_phy_usb2_probe(struct platform_device *pdev)
+ 		phy_set_drvdata(channel->rphys[i].phy, &channel->rphys[i]);
+ 	}
  
- 	if (channel->is_otg_channel)
- 		device_remove_file(&pdev->dev, &dev_attr_role);
--
--	pm_runtime_disable(&pdev->dev);
- }
- 
- static int rcar_gen3_phy_usb2_suspend(struct device *dev)
+-	if (channel->phy_data->no_adp_ctrl && channel->is_otg_channel)
+-		channel->vbus = devm_regulator_get_exclusive(dev, "vbus");
+-	else
++	if (channel->phy_data->no_adp_ctrl && channel->is_otg_channel) {
++		ret = rcar_gen3_phy_usb2_vbus_regulator_register(channel);
++		if (ret)
++			return ret;
++	} else {
+ 		channel->vbus = devm_regulator_get_optional(dev, "vbus");
++	}
+ 	if (IS_ERR(channel->vbus)) {
+ 		if (PTR_ERR(channel->vbus) == -EPROBE_DEFER)
+ 			return PTR_ERR(channel->vbus);
 -- 
 2.43.0
 
