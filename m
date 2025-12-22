@@ -1,138 +1,156 @@
-Return-Path: <linux-renesas-soc+bounces-25973-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-25974-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 131BDCD5ACD
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Dec 2025 11:55:34 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C8AACD5B32
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Dec 2025 12:02:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D64B4300CBAB
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Dec 2025 10:52:57 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 903143010AAC
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Dec 2025 10:58:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A927C30B536;
-	Mon, 22 Dec 2025 10:52:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="dx4dlihs"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5C91314B62;
+	Mon, 22 Dec 2025 10:58:40 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f195.google.com (mail-vk1-f195.google.com [209.85.221.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6BBB219303;
-	Mon, 22 Dec 2025 10:52:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D77B31354F
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Dec 2025 10:58:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766400776; cv=none; b=gC3yL4r0mD4EETgcU8lsGm2Mldb8absCFiDkwR1EgaPuOHinvlGrDQvQw23aaxhSQJbwuofyLWOldWgSMWZ/OzmJSd6fSuCjDB1fRaxHDcDMtjpe6G053Y70KuFXm460jzylBpuOYjcCKruK2H8WCEmcnApSlAk5kCsu8o4KcWQ=
+	t=1766401120; cv=none; b=SWwkc32cwELLt19yvRumhWvL4gzg48qwda4NSGMF3DHIbvL/WPa8eGRXziDtTkpJ4l284BKB/ksKT91sIUswTEnRwrFGuX5xJHBMJhmsFtK8zTE+Rb95pyBbsGjucVpB1LrXV0cCrUpKlTiuU0/XJnWNaaef3/LEg5CAly5G4rM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766400776; c=relaxed/simple;
-	bh=yR3XLlPsBVBt623zAwcBxYbHiscFPr+WDAuPWLeURTs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=fOFU5V1Qt8KJDqGO9DMc6UpZptjG9NxFo+hwbSZlDnQcmhi7Aqv+jcji8HJ832u/yJL6B8RZBW2CRDvD5M+KAZpFlqH4qbXdfGMFTtMvjeW+BTkP7c2Pji5tuQVYbyE6+3m3MoN6AzElVlQOkbY6uuBMWRwV2zaw+0+TfWmyEMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=dx4dlihs; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4dZZjT0csbz9sRx;
-	Mon, 22 Dec 2025 11:52:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1766400765;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WXI5KezZWY1SsMtfKiD420M+L57YvEvMyMG0dWoQ63A=;
-	b=dx4dlihs3ZwCVbMteeO+QOKd3lxhxY33iu1wAY3z0ikM2qcxQgP5ihVEga1FBzKqqGtYQ6
-	fKTcZH2gY8MiZ9rxZv/XPckVOYxh7HExQI13ZYqa0gY0LtHTop9/hM/adIJhosFrgy+udz
-	miKF6qJZPfSBwyvQDF8/Kp3eqhbEglj5VkayXcX+wKt75+Z4deHUaPrGIb5oo0i62xWiG/
-	RBaOvkJ7MHqTk2VwgzhFyaHyUs1CzsoY1UZBpluXCSTz++tc7JJeFUMPYjO/azf2QFmcE8
-	5c5dzsYdTsR8CMVZpfx9X3VdGC16+3nHxtWxMIKK4tTcHc5MWrSmhpC0itYADw==
-Message-ID: <de5e22b9-5a35-47b4-b290-06729b56c887@mailbox.org>
-Date: Mon, 22 Dec 2025 11:52:42 +0100
+	s=arc-20240116; t=1766401120; c=relaxed/simple;
+	bh=2RMd8TOLVHxevxDxNC2hXQNvxO8qy7FJKq0tM4xFWDg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LRs8FK3tivawcNohdWiC2EIXl9NxLh7u34Nklohp0R+odhjpSqoMjyr7YVrbT9AkaBFeI1/xhJjczd+eZLFyWQYf5/TIJn2IGQf5uTdfRbGMXuQllktRz8e7e7wRdSz/14ECTBauCrFMepZqA+9HHK2hDCWIuUkzZUgpgtlsSlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f195.google.com with SMTP id 71dfb90a1353d-55ae07cf627so991235e0c.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Dec 2025 02:58:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766401118; x=1767005918;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sZvGT0H4XrwC6oZYNGXDbHChZKorQ8JtBsqLTAqv8b0=;
+        b=b+og5afoaXSOItQZy7n8NVq5H6b64QiAKTBafAXIinFRvaRuRz3vpaNl5+VpxhcleI
+         jOOs7adtzxZ2O7x5mCvPvadO1BqvamYYpZzEa/rJdQGRYAXyMfsOwcyaAfEonwuYxhPX
+         t4llU9d3q+RzLTbaZl3S7YOAnbBT/VSEiuVpP3kJ0J57apIBMCyPNCmEs2Qr5xGlFRNw
+         fY51KY1k9e/fKaQRWTK4iWxNJU/rp4j2wIkz+1KrLm4IDetSX2trBU0t+gorvgdM8UsX
+         vtQkRsBiU2EliSL7v1fYDrgafuvFta1a/+QYqc2x2Esbm02OV5vkaXDv0yG+vkKtWT//
+         Uiyw==
+X-Forwarded-Encrypted: i=1; AJvYcCVk6rnoYt80//FKtL+7UXczOcEJ3Ta/z1zVsakoT9meLC2xI3H6ulOGTXZvL49ztkAXmTzWIBU5lXwMtBcSOvi9OQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQO7Z570GDgNyFJAhWRAWE9NE2D8dDtKWGA6rMrb+AiBSEYMzt
+	YWhr4PqHXPFXLzLoi+JU2UHsjid3jdelmOZM0KZZxIM5y2vfnIjGXELXYYSxp/P7pGU=
+X-Gm-Gg: AY/fxX4QQPsWnHNDsctuKp9BPS4sVYpI+VM0eOJEGx7b3FQH1/U3yTHybaEBl10eaLj
+	OrtTtgucqdP/snmtEywv+7ir9ZDizJ9JwSoFabA1L6jI8AKLVrBCbL7jq8GNrb5uBBzRpEr+jep
+	a2TO7JDcizt93MSQVpUETRLzwUVTgw0Lil4blIbGOaspBGwyma/wmiq7xLz6f7iwLgNp2gi5SmK
+	ALNxQYp1cw8lqS2CNJVnIvNWqAfK60BEkESMaLbeCBR1hcC/cpQxoWfaYsvjhxJ7TZ6hSxujb/t
+	BErz1ioSnbe+CCgstGV55wL36/+sYrk5axb1z8cjMnRGCr/7LpQa1bj65TGEjP3G9E9brTnzug6
+	PVbFvRy5awUdPDP5WETFqIAXqcvb3z7CG1yvuXFhHdc+UD/EVySzrg31DTuzOMfJrDT+muMCD7X
+	wmvbuBG8vF+nYx/yo7kx4cwaQS72cJjzhyQZ/5YChOeMO7ToZLLrLFTd3xsQI=
+X-Google-Smtp-Source: AGHT+IGj/dT37mQ7xzmWZl/25iPsiqiMwALZWRQlZVoi5TrCQGYlh/CEd4ZzopVDXcGImFXchkvhsg==
+X-Received: by 2002:a05:6122:f84:b0:55f:f2f3:699b with SMTP id 71dfb90a1353d-5615be1b04emr3159007e0c.11.1766401117670;
+        Mon, 22 Dec 2025 02:58:37 -0800 (PST)
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com. [209.85.222.49])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5615d15f5d4sm3249621e0c.18.2025.12.22.02.58.35
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Dec 2025 02:58:36 -0800 (PST)
+Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-9371f6f2813so907300241.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Dec 2025 02:58:35 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXHT+f5c+OpWfqV9Hy67y8XYrHo1kQ5Sc1c8hd4rG2R6A5nTWsndzLl37oCqM2klHlJftkqrCuEvF4Xscvb9PNNNg==@vger.kernel.org
+X-Received: by 2002:a05:6102:fa3:b0:5dd:b318:8a6 with SMTP id
+ ada2fe7eead31-5eb1a656bf6mr3126682137.12.1766401115588; Mon, 22 Dec 2025
+ 02:58:35 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v4 00/12] media: Add support for R-Car ISP using Dreamchip
- RPPX1 ISP
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
- <niklas.soderlund+renesas@ragnatech.se>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20251111090228.2511734-1-niklas.soderlund+renesas@ragnatech.se>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <20251111090228.2511734-1-niklas.soderlund+renesas@ragnatech.se>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 6b419733c5d4fab65a2
-X-MBO-RS-META: ycsxpgj5g79qpwqgb1ubox6gddueipzg
+References: <20251201-rz-sdio-mux-v2-0-bcb581b88dd7@solid-run.com>
+ <20251201-rz-sdio-mux-v2-1-bcb581b88dd7@solid-run.com> <TY3PR01MB113465581E5F8BD6C45FB7DCB86DBA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY3PR01MB113465581E5F8BD6C45FB7DCB86DBA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 22 Dec 2025 11:58:24 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdV52FEGdW3Jqtn_=yhZ8h1hf5h9nn8d15Pkgmq7VJwnSA@mail.gmail.com>
+X-Gm-Features: AQt7F2q0YOJcyHYc-yKCfd0Zxy7zMhTJdHjRwxfC8lQ_tc7MS1WxbilS5iTx4Xs
+Message-ID: <CAMuHMdV52FEGdW3Jqtn_=yhZ8h1hf5h9nn8d15Pkgmq7VJwnSA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: mmc: renesas,sdhi: Add mux-states property
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Josua Mayer <josua@solid-run.com>, Ulf Hansson <ulf.hansson@linaro.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, "magnus.damm" <magnus.damm@gmail.com>, 
+	"wsa+renesas" <wsa+renesas@sang-engineering.com>, 
+	Mikhail Anikin <mikhail.anikin@solid-run.com>, Yazan Shhady <yazan.shhady@solid-run.com>, 
+	Jon Nettleton <jon@solid-run.com>, "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On 11/11/25 10:02 AM, Niklas SÃ¶derlund wrote:
-> Hello,
-> 
-> This series adds support for two different devices that together enable
-> ISP support on Renesas R-Car Gen4 ISP processing. The first driver added
-> is for Dreamchip RPPX1 ISP, this device purely deals with image
-> processing algorithms, statistics and image conversion; but have no DMA
-> engines. The second driver is for the R-Car ISP CORE, this device
-> deals with DMA to/from the RPPX1 ISP and provides a V4L2 user-space
-> interface for the ISP.
-> 
-> The R-Car ISP driver uses the RPPX1 framework to drive the ISP and
-> together the two devices provide a functional ISP. For detailed
-> description of the RPPX1 see patch 1/12, and for details about the R-Car
-> ISP see commit message in patch 2/12.
-> 
-> The RPPX1 ISP is similar to functionality and design to the Rk1ISP
-> already supported upstream. For this reason this series reuses the pixel
-> format for ISP parameters (RK1E) and statistics (RK1S) as the user-space
-> ABI to configure the ISP. The primary difference to Rk1iSP is the over
-> all pipeline design and the register layout out is different enough to
-> make it impractical to bolt it on the existing drivers.
-> 
-> However on a functional block level the blocks amiable and their
-> register layout mapped to the buffer formats are similar enough to make
-> the reuse practical. Another difference is that RPPX1 operates at a
-> hight bitdepth then Rk1ISP, but this is easily supported by scaling the
-> values to/from the buffers.
-> 
-> All functional blocks present on the RPPX1 are not yet added to the
-> driver, but most are. Hence not all configuration blocks of the Rk1E
-> extensible format are supported, but most if not all can be added.
-> 
-> A libcamera pipeline reusing the Rk1ISP IPA have been posted and it can
-> exercise all function block enabled by this series. It produce good
-> images using all algorithms available.
-> 
-> Patch 1/12 adds the foundation for the RPPX1 framework. It deals with
-> probing all function blocks making sure every blocks version register is
-> supported and setup a "passthru" pipeline that just debayer RAW images.
-> 
-> Patch 2/12 integrates the adds the R-Car ISP CORE DMA parts and
-> integrates with the RPPX1 framework added in patch 1/12.
-> 
-> Patches 3/12 to 12/12 extends the RPPX1 framework with the logic to drive
-> the different IPS modules.
-> 
-> The sum of the work pass v4l2-compliance. A test suite for the enabled
-> function blocks exists and pass. The work have also been tested with
-> various libcamera utilities and compliance tests together with a IMX219
-> and IMX462 sensor on R-Car V4H.
-> 
-> Biggest change from v3 is small fixes that 0day found when building for
-> non ARM architectures.
+Hi Biju,
 
-For this series, please add my:
+On Mon, 1 Dec 2025 at 14:03, Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > -----Original Message-----
+> > From: Josua Mayer <josua@solid-run.com>
+> > Add mux controller support for when sdio lines are muxed between a host and multiple cards.
+> >
+> > There are several devices supporting a choice of eMMC or SD on a single board by both dip switch and
+> > gpio, e.g. Renesas RZ/G2L SMARC SoM and SolidRun RZ/G2L SoM.
+> >
+> > In-tree dts for the Renesas boards currently rely on preprocessor macros to hog gpios and define the
+> > card.
+> >
+> > By adding mux-states property to sdio controller description, boards can correctly describe the mux
+> > that already exists in hardware - and drivers can coordinate between mux selection and probing for
+> > cards.
+> >
+> > Signed-off-by: Josua Mayer <josua@solid-run.com>
 
-Tested-by: Marek Vasut'<marek.vasut+renesas@mailbox.org>
+> > --- a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+> > +++ b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+> > @@ -106,6 +106,11 @@ properties:
+> >    iommus:
+> >      maxItems: 1
+> >
+> > +  mux-states:
+> > +    description:
+> > +      mux controller node to route the SDIO signals from SoC to cards.
+>
+> Maybe describe 0 - state for SD and 1 - state for eMMC ??
+>
+> > +    maxItems: 1
+>
+> > +
+> >    power-domains:
+> >      maxItems: 1
+> >
+> > @@ -275,6 +280,7 @@ examples:
+> >          max-frequency = <195000000>;
+> >          power-domains = <&sysc R8A7790_PD_ALWAYS_ON>;
+> >          resets = <&cpg 314>;
+> > +        mux-states = <&mux 0>;
+>
+> On R-Car mmc/sd mux available only on SD2/SD3, so I guess you picked wrong node SD0??
 
-# On Retronix Sparrow Hawk with Renesas R-Car R8A779G3 rev. 3.1 SoC .
+What do you mean by this comment?
+AFAIUI, this muxing is board-specific, and not related to the on-SoC
+SDHI controller instance?
 
-Thank you !
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
