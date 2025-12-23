@@ -1,91 +1,88 @@
-Return-Path: <linux-renesas-soc+bounces-26087-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26088-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B26ACDA11F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Dec 2025 18:15:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5627DCDA264
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Dec 2025 18:44:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 715F63010CED
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Dec 2025 17:14:22 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E8FB33034A3A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Dec 2025 17:44:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 470F3346AD5;
-	Tue, 23 Dec 2025 17:14:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CEE63370F7;
+	Tue, 23 Dec 2025 17:44:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="ydfrMiRj"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XvspivJs"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.andi.de1.cc (mail.andi.de1.cc [178.238.236.174])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A9DA20FAB2;
-	Tue, 23 Dec 2025 17:14:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.238.236.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FBDA3128A3;
+	Tue, 23 Dec 2025 17:44:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766510060; cv=none; b=vA6z6f2/e3YGVv/gaqwgbM5NDiWn5xtRbNc0Vdma8c6AziX3w9WdkYZdS/Y2Oq+rp9Yl295xWJC9PW/fe31hThG3fMxN5tbpGfxda2DhbsFybxRnRonpkb4b0bo2JFyecu+2A/8ql87EKDL/dlodg0mPrSf0GsPTsk+j2R0vR7E=
+	t=1766511868; cv=none; b=soINE1Y7JScciM98EdZHg+lFQ74PWeVB88gsT2Tvg/S759Yzn7ORga3PZpuZ8gLezOhtxzSBqhLvB9rxJHWMAwhBUBaR7vsrjaHqFFORb91v6xv8eIKogUG+4EDV/uhWBG9ByXVptIo2Mfa+OZSjODYAVdwRXDo97cZqFjZJTxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766510060; c=relaxed/simple;
-	bh=UiD+mo4KWYQpL9n9yd6wrVdCrMqYILRaDGBsoHNKJ2c=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=A2UA01lfa8Bi6/oEIPkpdM7vWPHqHUYYBHeyZLHMTqg3r7fdjcYv3QG3ySH2nEyNs65/s2/tQZmy6KeD6iEc7n9p3MloBUj/10H4JDhAXo8jJ/rhbRB/q5xyKX1cYYTa7oUvsgqIZMPhzt8TC/23jyHGNXVY5AYIvJ1FlLFcvQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=ydfrMiRj; arc=none smtp.client-ip=178.238.236.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=kemnade.info; s=20220719; h=References:In-Reply-To:Cc:From:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=W2QYj+Rp/ihQDRGeJxJWo7r32vv1mpFGwwybC+Tpkcw=; b=ydfrMiRjmmu47GyHyrYMYssfkJ
-	HMcK/nzzXAgAFg3OTFQs7+aVFPGNiepo0KKdNVp9MhlTYE8XTq1euoC2O0S0c8SxyGepYV4BiEiNX
-	W2UNq3AcPHQwbhVj+YaIGNoKK+H1ZzdsMCxPUZhP5p5nTnfBz3iZ3bnb7A2eU44bgbLbDabxF8KKD
-	XOG9hzQkMoaQ2ub5lCTcF2UcM21MWJwJY1XsfDyFWlV9SrwFAzF2u7aKaxHI4/RPIza1tE0SV7Yom
-	TolVoDNd6GD9w56z/QL3+6HrQSMQM24VqWDUP23VNW1H2ENDElUJrkb3hjpaAvHM2L8RRI3WcDZW6
-	BKMfj8VA==;
-Date: Tue, 23 Dec 2025 18:11:43 +0100
-From: Andreas Kemnade <andreas@kemnade.info>
-To: Josua Mayer <josua@solid-run.com>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, Magnus
- Damm <magnus.damm@gmail.com>, Wolfram Sang
- <wsa+renesas@sang-engineering.com>, Marc Kleine-Budde <mkl@pengutronix.de>,
- Vincent Mailhol <mailhol@kernel.org>, Vinod Koul <vkoul@kernel.org>, Kishon
- Vijay Abraham I <kishon@kernel.org>, Peter Rosin <peda@axentia.se>, Aaro
- Koskinen <aaro.koskinen@iki.fi>, Kevin Hilman <khilman@baylibre.com>, Roger
- Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>, Vignesh R
- <vigneshr@ti.com>, Janusz Krzysztofik <jmkrzyszt@gmail.com>, Andi Shyti
- <andi.shyti@kernel.org>, Mikhail Anikin <mikhail.anikin@solid-run.com>,
- Yazan Shhady <yazan.shhady@solid-run.com>, Jon Nettleton
- <jon@solid-run.com>, linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-can@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-omap@vger.kernel.org, linux-i2c@vger.kernel.org
-Subject: Re: [PATCH v3 4/6] i2c: omap: switch to new generic helper for
- getting selected mux-state
-Message-ID: <20251223181143.10d35211@kemnade.info>
-In-Reply-To: <20251210-rz-sdio-mux-v3-4-ca628db56d60@solid-run.com>
-References: <20251210-rz-sdio-mux-v3-0-ca628db56d60@solid-run.com>
-	<20251210-rz-sdio-mux-v3-4-ca628db56d60@solid-run.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1766511868; c=relaxed/simple;
+	bh=P32gz1U3xDoCzfl2+VR66RJPFywlOedw+TA59vavrqM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=o3YEoMiWagw2VNUi5kB2Q9+O5JUoU3vW+HcACvZGpkkrqDcWxkRIZZmtDbFBpXe/eJ7D3jeWQOMb3eMSXW7elQBZ/yWXDy7msJ3Louzf7WbCTKbpaRAFwmDnMH1wvSdW9pm7TgtO64Y6FM66b1yaV0x5mJYS/KAIc1g73zZSU8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XvspivJs; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD6C6C116B1;
+	Tue, 23 Dec 2025 17:44:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766511867;
+	bh=P32gz1U3xDoCzfl2+VR66RJPFywlOedw+TA59vavrqM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=XvspivJsIRocXPqGb1tBZQufWCeg6pDpMF8CV8Upoh0wFHwreL0GYwKxtIlAFtmbc
+	 H68tM3n/PhozmfzM9EVbc0fAvtoxhb1+lngM7cxARGvGLsjaZf6mEUAfByr5/KN/ZK
+	 awW3U3HrKocXqszeJbLyzExTQSZLDLz2pTvBzgQpYriAo5vfUFTA/rVvHi7HLY4ciX
+	 vA+JM158xeAsFc1f9olYKEnxkKrNrj5NQFv3oq/Z3rHoQ72JRRCgB8Y8NqxWfgUNBN
+	 P+KRByHoKFSah+mWKaXQtdUud/q2YTEgZWj3DnsXKe6enwpvZTExHZAPYK+Cp4qq9K
+	 8Z91sEgR+BoGw==
+From: Vinod Koul <vkoul@kernel.org>
+To: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
+ Prabhakar <prabhakar.csengg@gmail.com>
+Cc: linux-phy@lists.infradead.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+ Krzysztof Kozlowski <krzk@kernel.org>
+In-Reply-To: <20251222161846.152952-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20251222161846.152952-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v2] dt-bindings: phy: renesas,rzg3e-usb3-phy: Add
+ RZ/V2H(P) and RZ/V2N support
+Message-Id: <176651186340.759340.4570439696222386912.b4-ty@kernel.org>
+Date: Tue, 23 Dec 2025 23:14:23 +0530
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 
-On Wed, 10 Dec 2025 18:38:38 +0100
-Josua Mayer <josua@solid-run.com> wrote:
 
-> Multiplexer subsystem has added generic helper functiosn for getting an
-> already selected mux-state object.
+On Mon, 22 Dec 2025 16:18:46 +0000, Prabhakar wrote:
+> Add compatibles for the USB3.0 PHY used in the RZ/V2H(P) and RZ/V2N SoCs.
+> These SoCs integrate the same USB3 PHY IP block as the RZ/G3E, so the
+> RZ/G3E compatible is used as a fallback for both.
 > 
-> Replace existing logic in probe with the equivalent helper function.
 > 
-> This change is only compile-tested.
-> 
-> Signed-off-by: Josua Mayer <josua@solid-run.com>
 
-Reviewed-by: Andreas Kemnade <andreas@kemnade.info>
+Applied, thanks!
+
+[1/1] dt-bindings: phy: renesas,rzg3e-usb3-phy: Add RZ/V2H(P) and RZ/V2N support
+      commit: 8a203b0571d0a28e227dff7ab81e64cd7aa18e17
+
+Best regards,
+-- 
+~Vinod
+
 
 
