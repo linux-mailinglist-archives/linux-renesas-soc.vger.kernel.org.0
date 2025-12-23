@@ -1,139 +1,129 @@
-Return-Path: <linux-renesas-soc+bounces-26075-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26076-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50A34CD99F5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Dec 2025 15:26:57 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67CCCCD9A1C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Dec 2025 15:28:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0C3643074378
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Dec 2025 14:25:40 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 81E453018364
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Dec 2025 14:28:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68146331235;
-	Tue, 23 Dec 2025 14:25:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78CB733A6F6;
+	Tue, 23 Dec 2025 14:28:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KZPDahTj"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD31C330B2E
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Dec 2025 14:25:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4852B32E14F;
+	Tue, 23 Dec 2025 14:28:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766499937; cv=none; b=ASGlAcIlRbAutcQbmPfpx12QUNaaEuxuL1xx595twjs/El3QUJw/Ss1byYUQhql0xea0tY2cErg+K8j5MmjSI+N2hpdsDz2un/d0ViLhMA6eFcXldHTpvpdWe4bCUDy4I2KAxa0DKc+L5kLzAQsgTiGk+JaAFPj7YzRFtCg3OgY=
+	t=1766500102; cv=none; b=CUO5psHwyqhUxK3151uXIBhH1M3131hFHZnicQipAaAJGT7tSb1Jkr/E7S/zhHCTI/ZBDNU2cKi81yIhI+P/y2SXdTPCWTTTp4M7DX2SiCrygVyqkSRWhUt3dnypgFo3sQ3476kw8dFMiev1GYnfH0pk9c7F+spcANNJ5dporC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766499937; c=relaxed/simple;
-	bh=p/yCjY8u171GpGGHaFI9kezO5mhBvA9uh3H/9co9+sA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=T0ca9Gbd5wICB+ABsNAiHHoSvUYbOwyguHYOJBdw/cpWLf482FQjecrPokDPoNvk12EHXaaLKhfdW8hdEuVbyfv3CEbYmyM/UWAM6EeukwbZomUUXwPJaXhYXyeqYa0PBd84Sdk64AK/h0CwBnVgtv38NKdBQEjgW0fJKaH0yAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-93f63c8592cso4525297241.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Dec 2025 06:25:35 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766499935; x=1767104735;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RIC0rikwFGHXRYQ21Y9JsVA9Qraw4AvBReoBxo8fio0=;
-        b=ljYcpTAxBRNc5UK0McPUxGZJkZpsZwz6ZUXF3a4UqGCQA7SAlgNgUTvxWwjiX+LyXA
-         cLy84+kUi04M04GTIBvgnvnMSSEIBGhm47Uzx1JJYQX+zvsj6FtD/ngM067F1AqB7GA8
-         kkruGFploiIimz4AqNBfxhlkB8DfiJpewDx1/hlcM1P8EtN2pfGr9Bxz8pXrkHayIhne
-         qywsRXquxmyVPXoDf8dVyVKFvRLofYiHib/uv9eZxe55Ibk//iMsS1FdyNH4LZeS0MCa
-         D/K/CD+jlL4H2SGEgfPbxjMGfb42b4eBOOZ3ixd9MyYWf+jEilSGyRs20mBQdiuBfZlE
-         cLQg==
-X-Forwarded-Encrypted: i=1; AJvYcCVbRDcOa2lFVil2Gn3/r/ek01m+ZYetM0YDQRhQwM6ASbsqHZCNVc9NEbo2kQU9OycHY0COwLlD6RMNRNnRPsEujQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyvslot9rcAGbEvlL/N4YGcq2apEUwDADdlxECdP9io7FwiLFXN
-	veXoKOh0qvddMcGyycN/yr6ZUq/XlRkq3BiB50yTyhLPM1Tcyr8GH3nZ/ZZfsqSNm6Y=
-X-Gm-Gg: AY/fxX7Vk/hpSbggIqWB+fK9KFyfqQEz13pvLe007uo1TqivL8mFJc15a6Y0tkOxIKd
-	zZ8MToEt6ct9EfxQG3fqJ8MBPTpUJuhGddnGOqNPkCiJzEPr2ofkbbWyaQUPrFNUlvJ2DyFgTD7
-	nFpWLWsFy+tLfOxpWZ4u4EhAzbHHlNC9tDaSI8KDcyboio1YZFXhXCoUKjOIaAFJLJCquQq9v3F
-	HuNtnmnRNnfqSryX9AAaoaICl7uSSkD+GeM9hyB5EGQMuuIy1P3dso23HVdNPLu+bPIg6sz+jGF
-	IT9sRz9S8MtnA0cP7aCRVc02rE5nbPq3OYtjOUy6dLvkN9Ass5oT2mt6ACCnyekr5CJ5m/W7koY
-	uBTpVZ20a00E8SK60AhIsA+iVkAA5IQrCnrjBib+PwAIa/mRg+gmhuksdylbkivRl40LMidoQb9
-	AUk+hcXDNj8UPEI2eqT5CoIXxpRuUnadnCLIsz8A03J4GQ/l4AaUZs59HcKVE=
-X-Google-Smtp-Source: AGHT+IHDGa+MFfQq6x6zJmrz8a8d3EI2aBBsB58mLW72ebvEiQ3sLTmXhUKTCtw/ZPwjLwduUBwUWw==
-X-Received: by 2002:a05:6102:2928:b0:5db:de8f:3278 with SMTP id ada2fe7eead31-5eb024c578amr6676965137.10.1766499934529;
-        Tue, 23 Dec 2025 06:25:34 -0800 (PST)
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com. [209.85.217.46])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-9434176c1d3sm3859901241.9.2025.12.23.06.25.33
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Dec 2025 06:25:33 -0800 (PST)
-Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-5dfaceec8deso3078966137.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Dec 2025 06:25:33 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCX0I5Z/FfaG6Mj0a0GP4xk8LQwZ0yNgLnKb+ejxfdKBRjQyvcVZPSYclBLe/zEXscVZCe6F7oi+wGerUvlMVqAmCQ==@vger.kernel.org
-X-Received: by 2002:a05:6102:3f56:b0:584:7aa3:a329 with SMTP id
- ada2fe7eead31-5eb0237d7f4mr7071522137.4.1766499933176; Tue, 23 Dec 2025
- 06:25:33 -0800 (PST)
+	s=arc-20240116; t=1766500102; c=relaxed/simple;
+	bh=8sp6zj+eEy3xsLA2JaPO6/21bRqAq2RJ2kgOcwn6g5g=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=nu4diz25dw4lPXFcL1m9YV2YXtaIeQGEmFrDt/+9apD6Jwm/r1GfwdW/Wm2Ub78ef3OlHVlyof2h3uQhO7uHX8fooy4Yv0JejNX8cqZ8LPoqWMeorhZaKEKG/79B+kHKO4NQ8pKgZzz6BKqJTUxhc3UOSKYO/43yfRSATRhDspU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KZPDahTj; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12981C113D0;
+	Tue, 23 Dec 2025 14:28:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766500100;
+	bh=8sp6zj+eEy3xsLA2JaPO6/21bRqAq2RJ2kgOcwn6g5g=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=KZPDahTjkYrUfYnHQhmIRsMzmn7le6EskbK/sAeXdV9CDMn4lVJLlC4hjIad83uBR
+	 bccH4aeLDhPzWGKV3m3EXuaN1JDswQ1fqrWwhH6QeGyVLKTWfml4kZx42R7AHaj3yJ
+	 6JftLMPBkPqgk4NVhNB4wiD3E64ZSZP1+vixKs62DFNus92BR0V4HcTmWb/56CtkW+
+	 hxT2bB9h/SWKYzHyAtfkytelHR861AYeMZ7uEwo308rXMZEs2YOPIuwbwih/ZwMyrQ
+	 JviIxepsznZBtlzZPDMNa2uGnW6w2GxllR5wK3ROtx4TWsNYY/MOr+PlVRLAaE03w7
+	 HG8P8pLZCdSmQ==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: "Miquel Raynal (Schneider Electric)" <miquel.raynal@bootlin.com>
+Cc: Mark Brown <broonie@kernel.org>,  Rob Herring <robh@kernel.org>,
+  Krzysztof Kozlowski <krzk+dt@kernel.org>,  Conor Dooley
+ <conor+dt@kernel.org>,  Geert Uytterhoeven <geert+renesas@glider.be>,
+  Magnus Damm <magnus.damm@gmail.com>,  Vaishnav Achath
+ <vaishnav.a@ti.com>,  Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+  =?utf-8?Q?Herv=C3=A9?= Codina <herve.codina@bootlin.com>,  Wolfram Sang
+ <wsa+renesas@sang-engineering.com>,  Vignesh Raghavendra
+ <vigneshr@ti.com>,  Santhosh Kumar K <s-k6@ti.com>,  Pratyush Yadav
+ <pratyush@kernel.org>,  Pascal Eberhard <pascal.eberhard@se.com>,
+  linux-spi@vger.kernel.org,  devicetree@vger.kernel.org,
+  linux-kernel@vger.kernel.org,  linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 03/13] spi: cadence-qspi: Fix style and improve readability
+In-Reply-To: <20251219-schneider-6-19-rc1-qspi-v1-3-8ad505173e44@bootlin.com>
+	(Miquel Raynal's message of "Fri, 19 Dec 2025 20:22:05 +0100")
+References: <20251219-schneider-6-19-rc1-qspi-v1-0-8ad505173e44@bootlin.com>
+	<20251219-schneider-6-19-rc1-qspi-v1-3-8ad505173e44@bootlin.com>
+Date: Tue, 23 Dec 2025 15:28:13 +0100
+Message-ID: <86pl85b7cy.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251201134229.600817-1-cosmin-gabriel.tanislav.xa@renesas.com> <20251201134229.600817-14-cosmin-gabriel.tanislav.xa@renesas.com>
-In-Reply-To: <20251201134229.600817-14-cosmin-gabriel.tanislav.xa@renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 23 Dec 2025 15:25:21 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUNmx=o4Vi=2o4BcBpkV6gjeOj9CEbbkYMtdVTOakhv0Q@mail.gmail.com>
-X-Gm-Features: AQt7F2oCaB4_nkSocOGONFf0pCyIN-Ja9bMJ4xn0DqXAemYEO2QdHhg1pDxyWjU
-Message-ID: <CAMuHMdUNmx=o4Vi=2o4BcBpkV6gjeOj9CEbbkYMtdVTOakhv0Q@mail.gmail.com>
-Subject: Re: [PATCH 13/13] arm64: dts: renesas: r9a09g087: wire up DMA support
- for SPI
-To: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Mark Brown <broonie@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 
-Hi Cosmin,
+On Fri, Dec 19 2025, Miquel Raynal (Schneider Electric) wrote:
 
-On Mon, 1 Dec 2025 at 14:44, Cosmin Tanislav
-<cosmin-gabriel.tanislav.xa@renesas.com> wrote:
-> RZ/N2H (R9A09G087) has three DMA controllers that can be used by
-> peripherals like SPI to offload data transfers from the CPU.
+> It took me several seconds to correctly understand this block. I
+> understand the goal: showing that we are in the if, or in one of the two
+> other cases. Improve the organization of the code to both improve
+> readability and fix the style.
 >
-> Wire up the DMA channels for the SPI peripherals.
+> Signed-off-by: Miquel Raynal (Schneider Electric) <miquel.raynal@bootlin.com>
+> ---
+>  drivers/spi/spi-cadence-quadspi.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 >
-> Signed-off-by: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+> diff --git a/drivers/spi/spi-cadence-quadspi.c b/drivers/spi/spi-cadence-quadspi.c
+> index e16a591e1f20..90387757fb6b 100644
+> --- a/drivers/spi/spi-cadence-quadspi.c
+> +++ b/drivers/spi/spi-cadence-quadspi.c
+> @@ -376,13 +376,13 @@ static irqreturn_t cqspi_irq_handler(int this_irq, void *dev)
+>  			complete(&cqspi->transfer_complete);
+>  			return IRQ_HANDLED;
+>  		}
+> +	} else {
+> +		if (!cqspi->slow_sram)
+> +			irq_status &= CQSPI_IRQ_MASK_RD | CQSPI_IRQ_MASK_WR;
+> +		else
+> +			irq_status &= CQSPI_REG_IRQ_WATERMARK | CQSPI_IRQ_MASK_WR;
+>  	}
+>  
+> -	else if (!cqspi->slow_sram)
+> -		irq_status &= CQSPI_IRQ_MASK_RD | CQSPI_IRQ_MASK_WR;
+> -	else
+> -		irq_status &= CQSPI_REG_IRQ_WATERMARK | CQSPI_IRQ_MASK_WR;
+> -
 
-Thanks for your patch!
+I suppose you can further simplify the if-else chain to:
 
-> --- a/arch/arm64/boot/dts/renesas/r9a09g087.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r9a09g087.dtsi
-> @@ -200,6 +200,8 @@ rspi0: spi@80007000 {
->                         clocks = <&cpg CPG_CORE R9A09G087_CLK_PCLKM>,
->                                  <&cpg CPG_MOD 104>;
->                         clock-names = "pclk", "pclkspi";
-> +                       dmas = <&dmac0 0x267a>, <&dmac0 0x267b>;
-> +                       dma-names = "rx", "tx";
 
-Same comment as for RZ/T2H:
-RZ/N2H does not seem to have restrictions about which DMA controllers
-can be used by which SPI instance.  Hence shouldn't these point to
-all three DMA controllers?
+	if (cqspi->use_dma_read && ddata && ddata->get_dma_status) {
+		irq_status = ddata->get_dma_status(cqspi);
+	else if (cqspi->slow_sram)
+		irq_status &= CQSPI_REG_IRQ_WATERMARK | CQSPI_IRQ_MASK_WR;
+	else
+		irq_status &= CQSPI_IRQ_MASK_RD | CQSPI_IRQ_MASK_WR;
 
-    dmas = <&dmac0 0x267a>, <&dmac0 0x267b>,
-           <&dmac1 0x267a>, <&dmac1 0x267b>,
-           <&dmac2 0x267a>, <&dmac2 0x267b>;
-    dma-names = "rx", "tx", "rx", "tx", "rx", "tx";
+	if (irq_status)
+		complete(&cqspi->transfer_complete);
 
-Note that this requires updating the DT bindings, as they currently
-restrict dma to two entries.
+	return IRQ_HANDLED;
 
-The rest LGTM, so
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Note that I swapped the latter two if statements to get rid of the
+unnecessary negation of slow_sram. I suppose the overloading of
+irq_status isn't the nicest thing, but I still find this easier to read.
 
-Gr{oetje,eeting}s,
-
-                        Geert
+>  	if (irq_status)
+>  		complete(&cqspi->transfer_complete);
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Regards,
+Pratyush Yadav
 
