@@ -1,145 +1,100 @@
-Return-Path: <linux-renesas-soc+bounces-26129-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26130-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05436CDE197
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Dec 2025 22:00:01 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62CD5CDF201
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 27 Dec 2025 00:47:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id D73C83004F3A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Dec 2025 20:59:59 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6C60A300A1DB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Dec 2025 23:46:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 507A328D850;
-	Thu, 25 Dec 2025 20:59:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE56022D9F7;
+	Fri, 26 Dec 2025 23:46:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="C/+aLgOx"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DIBvyqte"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CEB62BAF7;
-	Thu, 25 Dec 2025 20:59:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BB552B2DA;
+	Fri, 26 Dec 2025 23:46:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766696398; cv=none; b=VKDAaN2FcXTc7PyXMCuCTm3+Ava2o5k8hwkoi8noyIQOrqMK3HnDXHVYo4CYJOAFp+uswgU6OAsK9iwJY5jd1/aO2Gz7Vg4qHF3WcjvQzRAudXedxWCscIIrsSnU5UEGGB21aa8dsVyEqDHOI3pv9qq7uyyWvTg7YtnJhvdFbBc=
+	t=1766792813; cv=none; b=iYD/gMwYjvjyHrh5AxoRhTCfZThhCC1H3jqebR9Wn8ifiTTh++/JSPciuYarOqKcWQ/lDR3gMBY5zmFY4x0mkSrFulCWM2xvU1dryvQZ6nR7mooPoEbobpupfit61efeaECTCSa5eo016ux6900/C6i482zf0GToMffuCnDo7RY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766696398; c=relaxed/simple;
-	bh=3DG3xWN0gJxf3xhbhmGqm9OpVOilzoqkir2AlXECbXs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=t1dfJP3coUlAtq37Wptm32MeUg4N0/yD1qHutmoO2QXFUWh+8kU8UaYWEoYgvvY4mSOlExZD1CI56efm96l907cyz3Eypbx1jebmIDbCbJ8i6GasSjCkrTMZIwm8SvadSSAuiDihQGfV80ffJN8nQdgdT+5OG9ilvjKJ2J2z08U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=C/+aLgOx; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4dch2V2Qx9z9tKX;
-	Thu, 25 Dec 2025 21:59:46 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1766696386;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rSzp5TrA8n5+KkpEMX5TwvJYRc0YhJmc3FD4l2HkYOg=;
-	b=C/+aLgOxtnohV9bWcjNq4wKE+fznTUQ3K78REq1BAsIURJtfyPCJqbmYhpbBF1uIgO4GF+
-	tlHMgYH2nHxC5NHWhCEjvEtsB0nZ6xop9sxKB+uVgp+14hQ6WDo5XHAe/t2/YoaMOYwvWi
-	U+Ssyh+oRKH9VzO+iYmU19DzY0W5FhtS2iCnp/PGoMuXQC7ccc1RBMZaWrF5KWYDFJ0iBP
-	xE2cjKLktET8WtF3MD1TmpWHn+8Sq7B2XGQ37GOWRAYHcM3GO/rq5p818VzSurQ9Eqfs+e
-	nXfiVApodUtIemV1+18vC5jzl7pOwfos4CKHcoOJwI43U6hw3iuOG9PuHRf5aA==
-Message-ID: <5401228b-e8e3-4f2b-b91c-7e202afd9fdb@mailbox.org>
-Date: Thu, 25 Dec 2025 21:59:43 +0100
+	s=arc-20240116; t=1766792813; c=relaxed/simple;
+	bh=mNwbS3FHpwKCBARgVxIQ6GeM8kLKlZvOA+pbE6NdXDE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=mmqIVC0HP8tL6lNS00kdt7qr6Yihu/LM/yh2BbbeCXn9CX4r9J8daZVdshrbGyMd12N/XURK8t/SP8t9acLiIA8Dq9VOeXItxPJExtxFgQljXLdYQ6b5mE1K2CpAIkGXzGWNDBOnSA+U9MAagPVhIu03TYRMPw/2skEOPFLkvts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DIBvyqte; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF764C4CEF7;
+	Fri, 26 Dec 2025 23:46:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766792813;
+	bh=mNwbS3FHpwKCBARgVxIQ6GeM8kLKlZvOA+pbE6NdXDE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=DIBvyqtesOH1on+kWKFitpmCpw/8xWzrnv7rSzSGryD0GOIUb+sKtUrpI6+CDoRNg
+	 zGWmE25HQHVAqO5tJIvzr80CbDxNA461ZRdVpEtJi6Ko8seHti6uMPavxHxYWdmgGm
+	 q2oW4/5lPMyE3DpoadKBUp4ES3mgFHusPRSSvbheeC5DcBmR5s7ZFbaO7DxigGCwGg
+	 Q0p/lmlei0OvDHTZrhzyC0Wyhr1udB+4bsqHn2iAxPz2UPATX42YQF3DXPcP9JVxFE
+	 r3qXkatr5isuw3GZkZC9+9P5DL95FB21CLac4Xe993XTuDt/Fp/aU6qqOOyMa7Lrj0
+	 RnLnTX+brEQXA==
+Date: Fri, 26 Dec 2025 17:46:51 -0600
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+Cc: Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, Kees Cook <kees@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>, linux-pci@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v2] PCI: rcar-host: Add OF Kconfig dependency to avoid
+ objtool no-cfi warning
+Message-ID: <20251226234651.GA4148926@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v5 01/12] media: rppx1: Add framework to support Dreamchip
- RPPX1 ISP
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
- <niklas.soderlund+renesas@ragnatech.se>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20251225171054.1370856-1-niklas.soderlund+renesas@ragnatech.se>
- <20251225171054.1370856-2-niklas.soderlund+renesas@ragnatech.se>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <20251225171054.1370856-2-niklas.soderlund+renesas@ragnatech.se>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: d84ebf8cc7a7c354592
-X-MBO-RS-META: 6omtztg984d6kpay8bdcfcbosb7np6s6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <176603538085.6580.3625113457403612097.b4-ty@kernel.org>
 
-On 12/25/25 6:10 PM, Niklas Söderlund wrote:
-> Add a framework driver for Dreamchip RPPX1 ISP. The driver aims to
-> provide a framework for other V4L2 based drivers to drive the RPPX1
-> functionality. The reason for this split is that the RPPX1 IP itself do
-> not provide any DMA engines to drive data to/from the device, instead it
-> depends on other IP blocks to implement these features.
+On Thu, Dec 18, 2025 at 10:53:00AM +0530, Manivannan Sadhasivam wrote:
+> On Tue, 14 Oct 2025 11:20:27 -0700, Nathan Chancellor wrote:
+> > After commit 894af4a1cde6 ("objtool: Validate kCFI calls"), compile
+> > testing pcie-rcar-host.c with CONFIG_FINEIBT=y and CONFIG_OF=n results
+> > in a no-cfi objtool warning in rcar_pcie_probe():
+> > 
+> >   $ cat allno.config
+> >   CONFIG_CFI=y
+> >   CONFIG_COMPILE_TEST=y
+> >   CONFIG_CPU_MITIGATIONS=y
+> >   CONFIG_GENERIC_PHY=y
+> >   CONFIG_MITIGATION_RETPOLINE=y
+> >   CONFIG_MODULES=y
+> >   CONFIG_PCI=y
+> >   CONFIG_PCI_MSI=y
+> >   CONFIG_PCIE_RCAR_HOST=y
+> >   CONFIG_X86_KERNEL_IBT=y
+> > 
+> > [...]
 > 
-> While the peripherals around the RPPX1 ISP used in different designs and
-> by different vendors are different the RPPX1 core itself is the same.
-> For this reason the framework solution to be able to split the Dreamchip
-> RPPX1 driver from vendors usage of it have been picked in hope to reduce
-> duplication of the common parts.
+> Applied, thanks!
 > 
-> The functions provided by the RPPX1 is similar to what is exposed by
-> other ISP drivers already in tree (RkISP1 primarily), but the
-> implementation of them are different. It do however open up for the
-> possibility to reuse the RkISP1 parameter and statistics pixel formats
-> in an initial implementation.
-> 
-> The design is to try and keep the surface of this framework as small as
-> possible. The intention of this change is to be able to fill all needs
-> of this.
-> 
->    * Two functions to create and destroy a RPPX1 instance, rppx1_create()
->      and rppx1_destory(). These are intended to be called in the users
->      probe and remove code paths.
-> 
->    * Two functions to start and stop the RPPX1 processing, rppx1_start()
->      and rppx1_stop(). These are intended to be called in the users
->      stream on and stream off code paths.
-> 
->    * One function to ask the RPPX1 to process parameters buffer prepared
->      by user space, rppx1_params_rkisp1(). This is intended to translate
->      the parameter buffer (RkISP1 format) to the register writes needed
->      to be preformed on the RPPX1. The intention is to call this function
->      when the parameter buffer is queued to the V4L2 driver and the
->      result stored by the driver until the time it needs to be written to
->      the RPPX1. It's the users responsibility to write it either using
->      MMIO or other means.
-> 
->    * One function to fill in a statistic buffer (RkISP1 format) based on
->      the current status of the RPPX1, rppx1_stats_fill_isr(). The
->      intention is that the user call's this in its interrupt handler when
->      it knows the RPPX1 is done processing a frame.
-> 
->    * One function to ack and retrieve the interrupts generated by the
->      RPPX1, rppx1_interrupt(). The intention is to call this function
->      when the users interrupt handler detects the RPPX1 have raised and
->      interrupt. There is no need for the user to understand, or act, on
->      the actual RPPX1 interrupt, but it can if it wants too.
-> 
-> The initial support in the framework is limited and do not implement any
-> ISP processing algorithms other then configuring the RPPX1 to process
-> any Bayer (8-, 10, or 12-bit) image and produce either a RGB or YUYV
-> output. It do however probe all function blocks of the RPPX1 and provide
-> an interface to interact with both parameter and statistic bufferers.
-> The user of the framework will not change as algorithms for the
-> different function blocks of the ISP are being added.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> Tested-by: Marek Vasut'<marek.vasut+renesas@mailbox.org>                        ^
+> [1/1] PCI: rcar-host: Add OF Kconfig dependency to avoid objtool no-cfi warning
+>       commit: 57833f84f6f5967134c9c1119289f7acdd1c93e9
 
-Tested-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Is this v6.19 material?  The patch is old, 894af4a1cde6 appeared in
+v6.18, and it's not really a regression, but it only affects
+PCIE_RCAR_HOST and it looks like it papers over a headache for static
+analysis.
 
-(in case the apostrophe corrupted the TB tag)
-
-Thank you for your hard work !
+Bjorn
 
