@@ -1,55 +1,58 @@
-Return-Path: <linux-renesas-soc+bounces-26131-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26132-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8838CCDFC57
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 27 Dec 2025 13:56:26 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADEA8CDFC63
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 27 Dec 2025 13:57:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 9A056300059F
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 27 Dec 2025 12:56:25 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 276CC3000974
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 27 Dec 2025 12:57:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4739A2D131D;
-	Sat, 27 Dec 2025 12:56:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDC602D2491;
+	Sat, 27 Dec 2025 12:57:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jGQk+zaN"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ORwsGls1"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1827C1DF970;
-	Sat, 27 Dec 2025 12:56:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D9671DF970;
+	Sat, 27 Dec 2025 12:57:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766840184; cv=none; b=RkUreMvwMX1nYVbtbjv1S4ykt2BO/FbbPvMxCWdmC66ORXHnoQfYlMMUmIisL9LxEJfFHoD7mbcguiPMr8puYOnkXkKiXZxyO8buddtEMLB4J4b9X23WN6TAACWmcZ5GVJM2bVgGh5J0EK1vsvLzcCPiuJAllPXu7yu+TFLrorQ=
+	t=1766840233; cv=none; b=idxMNqdHkpe65kUmQSeY4gor/LwpJuWRK4Rd1HVgfKIWmO5U8bJWA1YO6Bo1hXce7DOVhvAQEMqyzciEqtTD1MgzQwmxkj2WLy/guMeN0GLB9J7I8HcFnpSxdZ4OV6XH7lrIrB83gHaj0lnfILPV8o4IiTJnGkc4Qx45Nbx5028=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766840184; c=relaxed/simple;
-	bh=yoryvVFcSaKexiO8jB8y7NvnyLqka1Dt5kyz1yP69as=;
+	s=arc-20240116; t=1766840233; c=relaxed/simple;
+	bh=RZOoB0WYTN7iFb8JfQjEofFcOw6y12DFNGNSrMTVYms=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PLVUhlg/jD0f0zi3Prg8H7i2YUX/k1aOeR9nrddA257ZwPxc6BLaJj23hgrlwVBqktQTW7uukttT0myIBQFErVXmMGViu7ypmGxbT3Kh4esL98IYYzshdbJ3v9OmKbuzw3BkLUP2M+u+nUw/4blhcLHJBnlHg4KPmwcaZPqo0mE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jGQk+zaN; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16EFAC4CEF1;
-	Sat, 27 Dec 2025 12:56:22 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=c2uuekgMNT2dXKuBDbZrLEaRP+oS+0QyC2X30MHKqOfO3fo16tC+wydDiOMUM2eTSD7mqqlp37S4J6VjoOgAapnhqr/AffjnHVKDgqkKd//P3DUBbzJ0BL9o94ygtldMAXlgi+RHrL6AgCP0mJKiscropNd0s2WjQt9gd3hRp4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ORwsGls1; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2BDBC4CEF1;
+	Sat, 27 Dec 2025 12:57:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766840183;
-	bh=yoryvVFcSaKexiO8jB8y7NvnyLqka1Dt5kyz1yP69as=;
+	s=k20201202; t=1766840233;
+	bh=RZOoB0WYTN7iFb8JfQjEofFcOw6y12DFNGNSrMTVYms=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jGQk+zaNq9pB8MioDbSeO7Qbk76gyiUpv9hHPQHl/OQt4Cv4z6HGvJsEafbbS2hE/
-	 eLzpKfLNCieNDAI2w+DPwAL+F9S5pU5jYRfAIXCVSu95eHDSjjr98ViqXAoLRZZH83
-	 GJlj9rDTwU0nzFemzY+i+VQ5EAgAF5L9tPyPMaLuody6rSZ9rAY8yDfIc5XgRP6UEs
-	 eW+TBZXFyxsVEB7dAq6gsdE0RsAzhTuJbi+roqEb2Pz9ijMC00Qjx69oEfw76Wlwoc
-	 Rz6cVNXaIniZCFGWisZ/212w603/JUuArVhUg8QvUMyTgpgO/syyTbrPQZDq6iF/DA
-	 5aCT0rUOFx6Uw==
-Date: Sat, 27 Dec 2025 13:56:21 +0100
+	b=ORwsGls1zgtyuRHYzoBHJ/39IUA8Mta6WoeuDSRB9A32RkqhKS/W7n41EvqZKHPCf
+	 iN/8OYY5tpBmqKSx/irFyQGqGmas/n+Nr8yvs2Tgglu52OBnmNbvBXL9I2sMip8F96
+	 W7+eRfFraLSYwegxdX1O66GDPhacbe3/D/+I8nmJoNZ6P8FLaSsxUespXgV7biez7Z
+	 K74Jz4QZBTzeDfED88WvPM6U1m+J8MTGbU+JfI1MV9NBIfl9YtsRkb4WZg6ewzNJeo
+	 5oj/7aFYBRGvA2qbXqmn7GYrEnSiunppsare8ksXxqlds2+708dx5w/YArBFXMBv+E
+	 UHFs83buMRWfw==
+Date: Sat, 27 Dec 2025 13:57:10 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh@kernel.org>, 
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Jiri Slaby <jirislaby@kernel.org>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>, Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: interrupt-controller:
- renesas,r9a09g077-icu: Fix reg size in example
-Message-ID: <20251227-bold-herring-of-serendipity-ddbcc4@quoll>
-References: <04fde8ed8301126e1781cf21bf10302b274dd582.1766409087.git.geert+renesas@glider.be>
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH] dt-bindings: serial: renesas,rsci: Document RZ/V2H(P)
+ and RZ/V2N SoCs
+Message-ID: <20251227-adept-buzzard-of-kindness-fee7bd@quoll>
+References: <20251222162909.155279-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -58,18 +61,22 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <04fde8ed8301126e1781cf21bf10302b274dd582.1766409087.git.geert+renesas@glider.be>
+In-Reply-To: <20251222162909.155279-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On Mon, Dec 22, 2025 at 02:12:54PM +0100, Geert Uytterhoeven wrote:
-> According to Figure 5.1 ("Unified memory map"), the safety register
-> block is 64 KiB large, just like the non-safety register block.
+On Mon, Dec 22, 2025 at 04:29:09PM +0000, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
-> Fixes: a6568d82091d279c ("dt-bindings: interrupt-controller: Document RZ/{T2H,N2H} ICU")
+> Document the serial communication interface (RSCI) used on the Renesas
+> RZ/V2H(P) (R9A09G057) and RZ/V2N (R9A09G056) SoCs. These SoCs integrate
+> the same RSCI IP block as the RZ/G3E (R9A09G047), so the RZ/G3E
+> compatible is used as a fallback for both.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  Documentation/devicetree/bindings/serial/renesas,rsci.yaml | 6 ++++++
+>  1 file changed, 6 insertions(+)
 
-That's just example, so nothing really to fix. It can contain incorrect
-values.
-
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
 Best regards,
 Krzysztof
