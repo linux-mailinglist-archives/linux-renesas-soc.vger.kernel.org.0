@@ -1,463 +1,244 @@
-Return-Path: <linux-renesas-soc+bounces-26136-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26137-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D072CE4B06
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 28 Dec 2025 12:12:41 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C0CECE547E
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 28 Dec 2025 18:31:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 080163007275
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 28 Dec 2025 11:12:40 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id EC95130036FB
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 28 Dec 2025 17:31:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E102B2550D4;
-	Sun, 28 Dec 2025 11:12:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C406D23A58F;
+	Sun, 28 Dec 2025 17:21:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b="FJEJJGAb"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="jNjuVKYq";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="gQnAq+Iw"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpfb2-g21.free.fr (smtpfb2-g21.free.fr [212.27.42.10])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 888C11A285;
-	Sun, 28 Dec 2025 11:12:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.27.42.10
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B01FC185B48
+	for <linux-renesas-soc@vger.kernel.org>; Sun, 28 Dec 2025 17:21:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766920358; cv=none; b=p+RM3bOhB7NZfNiT6/WaaMS/OvIF6r06L0uT56c6e3/9L0qzg0h4orvrbdopJPpvk2BL3s/rBNcNq4Xu+jqVwyi8MWW1FvWGZkHWvj9hInZlwQMKQ64ttD3kvL0irF9A8HTYPAZn2MCB1OTxDsCZfycgC6716qhWm6MW5HB2dAY=
+	t=1766942504; cv=none; b=GUjwU8pvirvJ9fyNoGwJxZUrDx6a+2PVgNjP2P+bbpc4dZFHBoocQu+7uMlh6ReWXUZ1PYfkIa+OoYQBJwpAGCAnjIV9ILXf2TxrerSftSNg/nE1IcC5RVm013X5PYV4oBXB92FddqiMPqtaHl+jSSWghgNEKd2ZLApJv5+XgSo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766920358; c=relaxed/simple;
-	bh=Fl5JxQlSG/4TBN+uloXQEyJwJmsC7jS4ncPBTO3NBFo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=UPF9C6cYBBPPeK8ZmeaEyygRkN7fLVx5U7cwOhdDEi+y1k+iOXxqvhd4CtPgODZKM2Zn0zGn30nequVyIF63zi66Izk0vuG9gO8+6pAPabNpcmYKFDm+mPwIhXdoypIa3KGXP99e6fJpGxpvRbx+RHZpd+kzhfVNDS8GXPDlMYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=free.fr; spf=pass smtp.mailfrom=free.fr; dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b=FJEJJGAb; arc=none smtp.client-ip=212.27.42.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=free.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=free.fr
-Received: from smtp4-g21.free.fr (smtp4-g21.free.fr [212.27.42.4])
-	by smtpfb2-g21.free.fr (Postfix) with ESMTP id E52334CFD2;
-	Sun, 28 Dec 2025 12:12:23 +0100 (CET)
-Received: from belgarion.local (unknown [IPv6:2a01:e0a:a6a:5f90:bcd2:711:8d84:5cfc])
-	(Authenticated sender: robert.jarzmik@free.fr)
-	by smtp4-g21.free.fr (Postfix) with ESMTPSA id D143F19F733;
-	Sun, 28 Dec 2025 12:11:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
-	s=smtp-20201208; t=1766920335;
-	bh=Fl5JxQlSG/4TBN+uloXQEyJwJmsC7jS4ncPBTO3NBFo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=FJEJJGAbXCI7+6xRIs857Wq5RWEOafAHQooOf5DVbDPi59bkGYihzlT/xRnoazKhs
-	 7LzzJIOMkfpUrvJBxBfHYpzSZtKzhqHxkKWXf3hjQgFo5+al7GnJrS6snfmhfN6DVc
-	 0mv4p6tEuBev4k4SWKXweikmQrSG2/It3PWU8aBE6j1j+czUmdLqtYXFGyf8Ux+cIN
-	 0BACwgCY0MGaQUFkWbXUXfYFm3uJsvwBGO0fF/+4Qruv0WkrtdT9DxYeK+0hy4TJ7k
-	 hx2mVHnnWONXwq4Tghi6uv82H5ekWm9gXA+DFeeIU8ZFQzyZc1Bkl6tkbwu47gFEAl
-	 N7YywZkgZLHaQ==
-From: Robert Jarzmik <robert.jarzmik@free.fr>
-To: "Arnd Bergmann" <arnd@arndb.de>
-Cc: "Rob Herring" <robh@kernel.org>,  "Geert Uytterhoeven"
- <geert+renesas@glider.be>,  "Magnus Damm" <magnus.damm@gmail.com>,
-  "Krzysztof Kozlowski" <krzk+dt@kernel.org>,  "Conor Dooley"
- <conor+dt@kernel.org>,  "Daniel Mack" <daniel@zonque.org>,  "Haojian
- Zhuang" <haojian.zhuang@gmail.com>,  "Andrew Lunn" <andrew@lunn.ch>,
-  "Gregory Clement" <gregory.clement@bootlin.com>,  "Sebastian Hesselbarth"
- <sebastian.hesselbarth@gmail.com>,  Linux-Renesas
- <linux-renesas-soc@vger.kernel.org>,  devicetree@vger.kernel.org,
-  linux-kernel@vger.kernel.org,  linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] ARM: dts: intel: Drop pxa2xx
-In-Reply-To: <35405ed3-1319-4d3a-84a5-ad67f4c823ad@app.fastmail.com> (Arnd
-	Bergmann's message of "Wed, 17 Dec 2025 17:04:05 +0100")
-References: <20251212203226.458694-4-robh@kernel.org> <m2345fmkg7.fsf@free.fr>
-	<35405ed3-1319-4d3a-84a5-ad67f4c823ad@app.fastmail.com>
-User-Agent: mu4e 1.12.13; emacs 29.4
-Date: Sun, 28 Dec 2025 12:11:59 +0100
-Message-ID: <m2wm26lv28.fsf@free.fr>
+	s=arc-20240116; t=1766942504; c=relaxed/simple;
+	bh=D3eLDF/ONraT+LuQe8030Tgbd5SBZ0lrgjEs8Csfuoc=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=DR4NuKg3w1KEXh4jZveKfva8XqZ6ehpsPrbKUycVV/Lr2WAU3Zv6bVXUx+rtJMesVQIfkTWXUjiMf8JYdSMKMEI8AHZxmJYBJkxDYHn9IY/mwbCEJ0kDId1ToNp5xTdUVImmnWxrljVN42Xo+nAOkcxBZJ6iLP1y56PBI+4ANSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=jNjuVKYq; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=gQnAq+Iw; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BSDAROc3110732
+	for <linux-renesas-soc@vger.kernel.org>; Sun, 28 Dec 2025 17:21:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=npwPiqZPrPU3R5s5/Q1G9H
+	2LQKQVo5umALTPvs9VpAM=; b=jNjuVKYqLyVHeDRPDfJP4BL7ITLMfohoZXGubK
+	njZ2OQY9In69Ksj9v8xbCatD7iglvaXSjQ0zAJxME5igWnxTopRbRXYIdzRIGOuN
+	fQ1A11IMpsFQP3ipy8JmTU+nrKrEnJDHQXWyR6H6DhZSHckGHxwFb2gedQZMYfbM
+	JhVpLdH4IAd74/fnMHK451q6b5A0ebZP0JEDlUUb1YEBP21zIDbB/Nh3ncHRe5vk
+	zzyrxnVF5iyiluh2m7tSNgNDaQQzxaWP8thcad0rIr85a54K1sjBkkjZ29xsXnyr
+	oPu5iTz8AXtrKaAfN92inqCwidyplmCmJ7KADnTGRzTbzmJg==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ba71wtg9r-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-renesas-soc@vger.kernel.org>; Sun, 28 Dec 2025 17:21:41 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-4f1f42515ffso216912521cf.0
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 28 Dec 2025 09:21:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1766942501; x=1767547301; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=npwPiqZPrPU3R5s5/Q1G9H2LQKQVo5umALTPvs9VpAM=;
+        b=gQnAq+IwNz6goF7ScbxpAp4hhX5j+a+9IB2UnDrvP5x1FBnIZNCsFHfyi2Qxi9jUP/
+         LYqWytBue72kO/OpW5bGMjPVYuXvJSkd8J0CmUUejomaMLkEoM82pDx5PYBiwD/hlNzp
+         cI3NbAo+kwi5ng8G3LEekafpiyEj7fSGp8TRWAlu1ay2/gM+jqgzgAGg8jvLVRt/xcDN
+         lRORTiYQcAHeHdZyhoaxGN3bc59ZdeEqloaKeYrJEvMt0VqL79y3VR0zM4DaLK/4wGl6
+         B0Ro7BsKua+4/mOg2oq8qdTQxhKmssF/H/yjph5KMj1HwcdI1z6IGVbjwkQdGj6JczLU
+         XtTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766942501; x=1767547301;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=npwPiqZPrPU3R5s5/Q1G9H2LQKQVo5umALTPvs9VpAM=;
+        b=jhPwXdKKV9lMzhkPLLpR+cjs19L2bLfZa/SG1H6g9sC5/hmFIivKSHCqM3VIC2DUWX
+         1tRr5e7/tKQMnnitEHjI4QN0um7XSx8jhTIDBA32aFk/0BU/ERd8QH8KQR2Jpi7k/3cD
+         nerhRHBcFqyw9/Wk+wGa0aEw2tfkO1F3LKWCJ6TY4tqgXOfQQ68Mj8Tze9PAdntljrKP
+         +z4h2QX1Op0JPAHAuTefR9VSNzlcjUlXp8VQxwFmycdRy7JMegf/kmbIxWgJw7P0lhxz
+         8Tc3gfBB/jRfC6lZSsfhfuXhYzA2XXSIHZ7pdQ76DEYwpXQ5eoblsXtUDSz4P8Xpd13U
+         39ZA==
+X-Forwarded-Encrypted: i=1; AJvYcCUW1YJzv/MeXBPRSSCcIE1fv2xDDS3ncVCKo3/i/1zb00P4wpBQDgq4Dq8oTHokUrmsN/PN8QkTs4tj8ZZTcpBrzw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxa6NRR0ZNDEJNqL1HAnx+4YoM0o+bpe7YKlaQfrW/ieKVDHn5/
+	Elt7lhbS4dWuTCIMpWVL1cAEWHFI3gm/qbsF8Xx/TuStXpD/k+iV5XbUjed5Kb3HAVr1CA4Urh3
+	aaiclcFxxcG36nM2NNGaT9/9hd4xIZ46K0WAJVdT3v+EdMUfdTHDhoT72OdpoWOdpyuu+BfGAPQ
+	==
+X-Gm-Gg: AY/fxX467XCYkX0W52xCKJm8fXiGpdagLCb3qYQPjkHFTUOofpwvul2yjFhxiDKHqQg
+	gYDNqLt1G0qeD+3gNk5Ktfw9tY2kxCDgNbtM1DJVy0o+5xg5cSINNuKWdhO2qXe8bdnyaiKEbww
+	WxnS2JHlGHKSSseMCQT9rmvlXfU0OOCQ1cqTe6tLaTEA2dwMSYNDvOW8p/52Y1/jI1yWDYSSugV
+	z5dmxyX9jTU7TVhwEE2P9a1cD9K3HIupYV0J10pbPLde+dqCmuKWrTCNqIhH6FqJ/B28hTbmCeo
+	EnBsg/oit3/LoXfiiHKd9+cWC1MlaPprl0S45pHQScyW+JJt5U6eEvwrH2BwkLePrKI/Ige4OKO
+	zYsdWD7Jjkwd6cW+T2UxDisn0HyovRw+qb3nZ2jGuH8ejcAdgIcwRdw96Xfz+z/cZN1Ty18pB3v
+	MV4aQ85h7s1YyoOeDdJk7b4Cw=
+X-Received: by 2002:ac8:7fc6:0:b0:4ee:1c81:b1ca with SMTP id d75a77b69052e-4f4abd16604mr430244441cf.34.1766942500977;
+        Sun, 28 Dec 2025 09:21:40 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHwPjyBUi1UQCzq/+IC2coGHTnCTbnWaC3MbyIVz6JKpNNu1oBmd8akd4pb25eofkn5Y3rA7w==
+X-Received: by 2002:ac8:7fc6:0:b0:4ee:1c81:b1ca with SMTP id d75a77b69052e-4f4abd16604mr430244011cf.34.1766942500365;
+        Sun, 28 Dec 2025 09:21:40 -0800 (PST)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3812251cfffsm76871031fa.19.2025.12.28.09.21.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Dec 2025 09:21:39 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Subject: [PATCH v4 0/8] drm: writeback: clean up writeback connector
+ initialization
+Date: Sun, 28 Dec 2025 19:21:32 +0200
+Message-Id: <20251228-wb-drop-encoder-v4-0-58d28e668901@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; format=flowed
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABxnUWkC/3XQzW7DIAwH8FeJOM8dEBJCT3uPaQc+zIq0hBbSr
+ FPVd5/TalKlrhfkP7J/yJxZxZKwsm1zZgWXVFOeKKiXhvmdnT4RUqDMJJcdH7iAbweh5D3g5HP
+ AAkZb7nXnQhc0o6l9wZhOV/H9g/Iu1TmXn+sDi1hvn1uLAA6DVL3quZJRh7dc6+ZwtF8+j+OGD
+ raSi7xjRP/ISGKi6URArqKK5gnT3jPmkWmJcWqwvY3a8Nb9w1xuGxc8HOnr5tvazNmKsDaledu
+ EMsKYqn/9K2DC00yjl1+UvbV/fQEAAA==
+X-Change-ID: 20250801-wb-drop-encoder-97a0c75bd5d7
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+        Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+        Rodrigo Siqueira <siqueira@igalia.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Rob Clark <robin.clark@oss.qualcomm.com>,
+        Dmitry Baryshkov <lumag@kernel.org>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+        Sean Paul <sean@poorly.run>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+        Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Jessica Zhang <jesszhan0024@gmail.com>,
+        Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        freedreno@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        Suraj Kandpal <suraj.kandpal@intel.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2948;
+ i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
+ bh=D3eLDF/ONraT+LuQe8030Tgbd5SBZ0lrgjEs8Csfuoc=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBpUWchvMQTty0uidqYbUpbagdcXDCL/HNaNtTjc
+ gXyLfXm79qJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaVFnIQAKCRCLPIo+Aiko
+ 1dS6B/9v4YpvNb+8kATi0akALEa9MAmZaPvRBfo2I7SBnNWUTZs62wLmxz9qRqqQCfnQxeADXSR
+ kwiG1sur1Im1iK1bk4XPHGEYq3DBHehmUGkjdUWCcts+Urt0/3qBWUscnAKUAXd+cKMx1EDpzMl
+ HYSEdzZ+HbmSj5nXgs9nSONxq2uqKHmrg9Bds/IFFFR4oNHSYTjTL4xDNfII/WwBUbMmfnbhCwB
+ MnsOx0g/aPtdaSn3weUDoE2KCHq9TQyml8iiAJkSEhl41yNBlbGf4+AQl5EAeah7MbDQ3IMrhRe
+ RpISU1QfeWdCNaLXMpRQr3fq54fkXsA+iPtecT4mtcbnbZY9
+X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjI4MDE1OSBTYWx0ZWRfXwt4thOOSEh9P
+ cybzJNqxkmhopLkNwSTW5m+jfEVG1dNhBCyhFiUQisObND1kyaIgiz8CHcVh259cvPRCUOi8SL8
+ lfV+rPtkXnx6jXE4u4//p7Zj4lMXeyGQ3sWzPBa96A6hlqyakzxwsXdrjNlDz7zmQtuaR3JmZ5A
+ HdLqdz+jiz4GEltDkvVJdiWA+LHjnvA5XcNtWC8KiSM7LGoCQhKnGxIuWhjZ8VuS74mHgAdA2b+
+ XotttMp726ZjXILM9LMSdLmu0weV2zqn7nCXDVxsEAby4aesRpUXHgAF2YwPZ7teD04snoX21W/
+ KxqqPhtmoSY9LSnZwGo7t+krxSypY7XzJ64abiYLHsZ36n9N9NqYAenmXJZUzn7DfgpaNqVrPG+
+ IZQVBNkEzgqGAxmxa98asfxE/ia277LnS9ChFGWWB8VSQarD1KY+AH9fiw5c0tvscSVQnIAjOMI
+ IhtXT0XZ7dqxsfoJj6w==
+X-Proofpoint-ORIG-GUID: sl_IvwOQT-dwfsQkujj9k0IIDIgvrVN6
+X-Proofpoint-GUID: sl_IvwOQT-dwfsQkujj9k0IIDIgvrVN6
+X-Authority-Analysis: v=2.4 cv=CK4nnBrD c=1 sm=1 tr=0 ts=69516725 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=cFjmsF-WLDi_aLc5EnEA:9 a=QEXdDO2ut3YA:10
+ a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-28_06,2025-12-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 impostorscore=0 lowpriorityscore=0 clxscore=1015 spamscore=0
+ adultscore=0 suspectscore=0 priorityscore=1501 phishscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512280159
 
-"Arnd Bergmann" <arnd@arndb.de> writes:
+Drivers using drm_writeback_connector_init() / _with_encoder() don't
+perform cleanup in a manner similar to drmm_writeback_connector_init()
+(see drm_writeback_connector_cleanup()). Migrate all existing drivers
+to use drmm_writeback_connector_init(), drop
+drm_writeback_connector_init() and drm_writeback_connector::encoder
+(it's unused afterwards).
 
-> Robert, let me know if you or someone else is able to spend
-> some time on sending (warning-free) dts files for pxa2xx
-> machines soon. If not, I'd plan to remove whatever is there
-> along with the board files and drivers.
+This series leaves former drm_writeback_connector_init_with_encoder()
+(renamed to drm_writeback_connector_init as a non-managed counterpart
+for drmm_writeback_connector_init()). It is supposed to be used by
+drivers which can not use drmm functions (like Intel). However I think
+it would be better to drop it completely.
 
-Here is one attached, the previously mentioned mioa701 board dts 
-file
-I've been using for years (the date of the patch should be funny
-enough). It was first submitted here :
-  https://lkml.org/lkml/2018/9/15/321
+Note: Christophe pointed out that AMDGPU driver leaks connector memory.
+As it's not related to this series (and as I don't have enough
+proficiency in the driver) I'm not going to fix those in this series.
 
-I'm not very sure pxa25x and pxa27x should survive though. Lately, 
-the
-platform which I have left have 64MB of RAM, and cannot cope with 
-recent
-binaries sizes. And to my best knowledge, pxa2xx architecture are 
-not
-built anymore nor supported ...
-The drivers might still be useful (the DMA, the SPI for intel CPU, 
-...).
-
-Cheers.
-
---
-Robert
-
--- >8 --
-From a3cbbe846c4651d71edcf36d114f5e48f4455347 Mon Sep 17 00:00:00 
-2001
-From: Robert Jarzmik <robert.jarzmik@free.fr>
-Date: Mon, 1 Sep 2014 13:26:56 +0200
-Subject: [PATCH] arm: dts: add mioa701 board description
-
-Add device-tree description of the Mitac MIO A701 board.
-
-Signed-off-by: Robert Jarzmik <robert.jarzmik@free.fr>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- arch/arm/boot/dts/intel/pxa/Makefile    |   1 +
- arch/arm/boot/dts/intel/pxa/mioa701.dts | 309 
- ++++++++++++++++++++++++
- 2 files changed, 310 insertions(+)
- create mode 100644 arch/arm/boot/dts/intel/pxa/mioa701.dts
+Changes in v4:
+- Rebase on top of drm-misc-next, dropping applied patch.
+- Added a note regarding memory leak in the AMDGPU driver.
+- Fixed a devm vs drmm issue in the msm/dpu driver.
+- Link to v3: https://lore.kernel.org/r/20250819-wb-drop-encoder-v3-0-b48a6af7903b@oss.qualcomm.com
 
-diff --git a/arch/arm/boot/dts/intel/pxa/Makefile 
-b/arch/arm/boot/dts/intel/pxa/Makefile
-index 24d5240f08e7..29670ec5861b 100644
---- a/arch/arm/boot/dts/intel/pxa/Makefile
-+++ b/arch/arm/boot/dts/intel/pxa/Makefile
-@@ -6,3 +6,4 @@ dtb-$(CONFIG_ARCH_PXA) += \
- 	pxa300-raumfeld-speaker-m.dtb \
- 	pxa300-raumfeld-speaker-one.dtb \
- 	pxa300-raumfeld-speaker-s.dtb
-+dtb-$(CONFIG_ARCH_PXA) += mioa701.dtb
-diff --git a/arch/arm/boot/dts/intel/pxa/mioa701.dts 
-b/arch/arm/boot/dts/intel/pxa/mioa701.dts
-new file mode 100644
-index 000000000000..b8a27e6db2b2
---- /dev/null
-+++ b/arch/arm/boot/dts/intel/pxa/mioa701.dts
-@@ -0,0 +1,309 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ *  Copyright (C) Robert Jarzmik <robert.jarzmik@free.fr>
-+ *
-+ *  This program is free software; you can redistribute it and/or 
-modify
-+ *  it under the terms of the GNU General Public License version 
-2 as
-+ *  publishhed by the Free Software Foundation.
-+ */
-+
-+/dts-v1/;
-+#include "pxa27x.dtsi"
-+#include "dt-bindings/gpio/gpio.h"
-+
-+#define PMGROUP(pin) #pin
-+#define PMMUX(func, pin, af)			\
-+	mux- ## func {				\
-+		groups = PMGROUP(P ## pin);	\
-+		function = #af;			\
-+	}
-+#define PMMUX_LPM_LOW(func, pin, af)		\
-+	mux- ## func {				\
-+		groups = PMGROUP(P ## pin);	\
-+		function = #af;			\
-+		low-power-disable;		\
-+	}
-+#define PMMUX_LPM_HIGH(func, pin, af)		\
-+	mux- ## func {				\
-+		groups = PMGROUP(P ## pin);	\
-+		function = #af;			\
-+		low-power-enable;		\
-+	}
-+
-+/ {
-+	model = "Mitac Mio A701 Board";
-+	/* compatible = "mitac,mioa701"; */
-+	compatible = "marvell,pxa270";
-+
-+	chosen {
-+		bootargs = 
-"mtdparts=docg3.0:256k@3456k(barebox)ro,256k(barebox-logo),128k(barebox-env),4M(kernel),-(root) 
-ubi.mtd=4 rootfstype=ubifs root=ubi0:linux_root ro";
-+	};
-+
-+	memory {
-+		reg = <0xa0000000 0x04000000>;
-+
-+		reserved-memory {
-+			#address-cells = <1>;
-+			#size-cells = <1>;
-+
-+			pstore_region:region@a2000000 {
-+				compatible = 
-"linux,contiguous-memory-region";
-+				reg = <0xa2000000 1048576>;
-+			};
-+		};
-+	};
-+
-+	cpus {
-+		cpu {
-+			cpu-supply = <&vcc_core>;
-+		};
-+	};
-+
-+	pxabus {
-+		pinctrl: pinctrl@40e00000 {
-+			status = "okay";
-+			pinctrl_mmc_default: mmc-default {
-+				PMMUX(sd-insert, 15, gpio_in);
-+				PMMUX(mmclk, 32, MMCLK);
-+				PMMUX(sd-ro, 78, gpio_in);
-+				PMMUX(sd-enable, 91, gpio_out);
-+				PMMUX(mmdat0, 92, MMDAT<0>);
-+				PMMUX(mmdat1, 109, MMDAT<1>);
-+				PMMUX(mmdat2, 110, MMDAT<2>);
-+				PMMUX(mmdat3, 111, MMDAT<3>);
-+				PMMUX(mmcmd, 112, MMCMD);
-+			};
-+			pinctrl_leds_default: leds-default {
-+				PMMUX(led-charging, 10, gpio_out);
-+				PMMUX(led-vibra, 82, gpio_out);
-+				PMMUX(led-blue, 97, gpio_out);
-+				PMMUX_LPM_LOW(led-orange, 98, 
-gpio_out);
-+				PMMUX_LPM_HIGH(led-keyboard, 115, 
-gpio_out);
-+			};
-+		};
-+
-+		gpio: gpio@40e00000 {
-+			status = "okay";
-+		};
-+
-+		uart@40100000 {
-+			status = "okay";
-+		};
-+
-+		uart@40200000 {
-+			status = "okay";
-+		};
-+
-+		uart@40700000 {
-+			status = "okay";
-+		};
-+
-+		usb2phy: gpio-vbus@13 {
-+			compatible = "usb-nop-xceiv";
-+			vbus-detect-gpio = <&gpio 13 
-GPIO_ACTIVE_LOW>;
-+			#phy-cells = <0>;
-+			wakeup;
-+		};
-+
-+		pxa27x_udc: udc@40600000 {
-+			    status = "okay";
-+			    gpios = <&gpio 22 0>;
-+			    phys = <&usb2phy>;
-+			    phys-names = "usb2phy";
-+		};
-+
-+		i2c@40f00180 {
-+			status = "okay";
-+
-+			max1586@14 {
-+				compatible = "maxim,max1586";
-+				reg = <0x14>;
-+				#address-cells = <0x1>;
-+				#size-cells = <0x1>;
-+				v3-gain = <1000000>;
-+
-+				regulators {
-+					vcc_core: v3 {
-+						regulator-name = 
-"vcc_core";
-+ 
-regulator-compatible = "Output_V3";
-+ 
-regulator-min-microvolt = <1000000>;
-+ 
-regulator-max-microvolt = <1705000>;
-+ 
-regulator-always-on;
-+					};
-+				};
-+			};
-+		};
-+
-+		pxai2c1: i2c@40301680 {
-+			mrvl,i2c-fast-mode;
-+			status = "okay";
-+
-+			mt9m111: camera@5d {
-+				compatible = "micron,mt9m111";
-+				reg = <0x5d>;
-+				gpios = <&gpio 56 
-GPIO_ACTIVE_HIGH>;
-+			};
-+		};
-+
-+		keypad: keypad@41500000 {
-+			status = "okay";
-+
-+			keypad,num-rows = <3>;
-+			keypad,num-columns = <3>;
-+			linux,keymap = <
-+				0x00000067	/* KEY_UP */
-+				0x0001006a	/* KEY_RIGHT */
-+				0x000200e2	/* KEY_MEDIA */
-+				0x0100006c	/* KEY_DOWN */
-+				0x0101001c	/* KEY_ENTER */
-+				0x010200da	/* KEY_CONNECT */
-+				0x02000069	/* KEY_LEFT */
-+				0x020100a9	/* KEY_PHONE */
-+				0x020200d4>;	/* KEY_CAMERA */
-+			marvell,debounce-interval = <0>;
-+		};
-+
-+		gpio-keys {
-+			compatible = "gpio-keys";
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			autorepeat;
-+			status = "okay";
-+
-+			button@0 {
-+				label = "GPIO Key Power";
-+				linux,code = <174>;
-+				gpios = <&gpio 0 0>;
-+				gpio-key,wakeup;
-+			};
-+			button@12 {
-+				label = "HP jack detect";
-+				linux,code = <211>;
-+				gpios = <&gpio 12 0>;
-+			};
-+			button@93 {
-+				label = "Volume Up Key";
-+				linux,code = <115>;
-+				gpios = <&gpio 93 0>;
-+			};
-+			button@94 {
-+				label = "Volume Down Key";
-+				linux,code = <114>;
-+				gpios = <&gpio 94 0>;
-+			};
-+		};
-+
-+		mmc0: mmc@41100000 {
-+			vmmc-supply = <&reg_vmmc>;
-+			pinctrl-names = "default";
-+			pinctrl-0 = <&pinctrl_mmc_default>;
-+			status = "okay";
-+		};
-+
-+		pxa_camera: imaging@50000000 {
-+			status = "okay";
-+		};
-+
-+		lcd-controller@40500000 {
-+			status = "okay";
-+			port {
-+				lcdc_out: endpoint {
-+					remote-endpoint = 
-<&panel_in>;
-+					bus-width = <16>;
-+				};
-+			};
-+		};
-+	};
-+
-+	regulators {
-+		compatible = "simple-bus";
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		reg_vmmc: regulator@0 {
-+			compatible = "regulator-fixed";
-+			regulator-name = "vmmc";
-+			regulator-min-microvolt = <3300000>;
-+			regulator-max-microvolt = <3300000>;
-+			regulator-always-on;
-+		};
-+	};
-+
-+	backlight {
-+		compatible = "pwm-backlight";
-+		pwms = <&pwm0 40960000>;
-+		pwm-names = "backlight";
-+
-+		brightness-levels = <0 4 8 16 32 64 128 255>;
-+		default-brightness-level = <2>;
-+	};
-+
-+	docg3: flash@0 {
-+		compatible = "m-systems,diskonchip-g3";
-+		reg = <0x0 0x2000>;
-+	};
-+
-+	panel {
-+		compatible = "toshiba,ltm0305a776";
-+		lcd-type = "color-tft";
-+
-+		port {
-+			panel_in: endpoint {
-+				remote-endpoint = <&lcdc_out>;
-+			};
-+		};
-+
-+		display-timings {
-+			native-mode = <&timing0>;
-+			timing0: 240p {
-+				/* 240x320p24 */
-+				clock-frequency = <4545000>;
-+				hactive = <240>;
-+				vactive = <320>;
-+				hfront-porch = <4>;
-+				hback-porch = <6>;
-+				hsync-len = <4>;
-+				vback-porch = <5>;
-+				vfront-porch = <3>;
-+				vsync-len = <2>;
-+			};
-+		};
-+	};
-+
-+	leds {
-+		compatible = "gpio-leds";
-+
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&pinctrl_leds_default>;
-+
-+		charger-led {
-+			label = "mioa701:charging";
-+			gpios = <&gpio 10 GPIO_ACTIVE_LOW>;
-+			default-state = "off";
-+		};
-+
-+		vibrator {
-+			label = "mioa701:vibra";
-+			gpios = <&gpio 82 GPIO_ACTIVE_LOW>;
-+			default-state = "off";
-+		};
-+
-+		bluetooth-led {
-+			label = "mioa701:blue";
-+			gpios = <&gpio 97 GPIO_ACTIVE_LOW>;
-+			default-state = "off";
-+		};
-+
-+		orange-led {
-+			label = "mioa701:orange";
-+			gpios = <&gpio 98 GPIO_ACTIVE_LOW>;
-+			default-state = "off";
-+		};
-+
-+		keyboard-led {
-+			label = "mioa701:keyboard";
-+			gpios = <&gpio 115 GPIO_ACTIVE_LOW>;
-+			default-state = "off";
-+		};
-+	};
-+};
+Changes in v3:
+- Fixed subject prefix for the rcar-du patch (Jessica Zhang)
+- Link to v2: https://lore.kernel.org/r/20250816-wb-drop-encoder-v2-0-f951de04f4f9@oss.qualcomm.com
+
+Changes in v2:
+- Switched to drm_crtc_mask() where applicable (Louis Chauvet)
+- Link to v1: https://lore.kernel.org/r/20250801-wb-drop-encoder-v1-0-824646042f7d@oss.qualcomm.com
+
+---
+Dmitry Baryshkov (8):
+      drm/msm/dpu: don't mix devm and drmm functions
+      drm/amd/display: use drmm_writeback_connector_init()
+      drm/komeda: use drmm_writeback_connector_init()
+      drm/mali: use drmm_writeback_connector_init()
+      drm: renesas: rcar-du: use drmm_writeback_connector_init()
+      drm/vc4: use drmm_writeback_connector_init()
+      drm: writeback: drop excess connector initialization functions
+      drm: writeback: rename drm_writeback_connector_init_with_encoder()
+
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  2 +-
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c   | 18 ++++--
+ .../drm/arm/display/komeda/komeda_wb_connector.c   | 30 ++++++----
+ drivers/gpu/drm/arm/malidp_mw.c                    | 25 ++++----
+ drivers/gpu/drm/drm_writeback.c                    | 69 +++-------------------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c      |  3 +-
+ .../gpu/drm/renesas/rcar-du/rcar_du_writeback.c    | 23 +++++---
+ drivers/gpu/drm/vc4/vc4_txp.c                      |  9 ++-
+ include/drm/drm_writeback.h                        | 22 +------
+ 9 files changed, 76 insertions(+), 125 deletions(-)
+---
+base-commit: 130343ee6bca9895c47d314467db7dd3dcc8bc35
+change-id: 20250801-wb-drop-encoder-97a0c75bd5d7
+
+Best regards,
 -- 
-2.50.1 (Apple Git-155)
+With best wishes
+Dmitry
 
 
