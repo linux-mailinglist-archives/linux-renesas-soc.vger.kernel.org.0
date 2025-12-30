@@ -1,110 +1,173 @@
-Return-Path: <linux-renesas-soc+bounces-26181-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26187-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4CC2CE96E0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Dec 2025 11:40:04 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B5C7CE97C1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Dec 2025 11:55:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A5E513015E18
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Dec 2025 10:40:03 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 64A29300E7B6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Dec 2025 10:54:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70F592749D6;
-	Tue, 30 Dec 2025 10:40:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19F132D46B3;
+	Tue, 30 Dec 2025 10:54:32 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA74F1E1C02;
-	Tue, 30 Dec 2025 10:39:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 772142C033C
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Dec 2025 10:54:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767091203; cv=none; b=f8TYOxOZnl4wo8x+U7dQ+CtWgP//ZxSOExHREtgYl2NjwxTPHj3E5KDrlRa3Cj1+NqcfWDlHxB8tMCtir88t+CEI6b/ipI7o2PmdzGdkZL1K55mUENqQnzGbEXkbogHds7uBItU+xK+/fiErdCuwG3GkAF9PlHgFB14RHikaINk=
+	t=1767092072; cv=none; b=IjGbBnMXm9+plwQX2YCLN/3Lf7ZswZ/Z3xZheKHxc6lms+XhOukCMDUcw7JjoUEcT6NYHwPyHfUfCueVBZMjyjJd9TjfamxkjsQpMN5TeuTZ3UdnvJwMG30wYksvsftyrSSl7z0i14FVy9aSQ5ySeR+OkYJETLRe60NLFCuGfcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767091203; c=relaxed/simple;
-	bh=r3XoRx7YycajDewqZW4Knn2ldu5+li55I1qszS5kchE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CC+/OefiD4cjddqSCVtyuFnivS5kBGlpXJ3+myskpiVMG7EFkvNzA/g/fjXkuLQoP5UHTf7No8EwYX7MYtPVMV2v0mbF40kRdsMdiHWneesyCjd/Pq3XCMBFqbo7L9/TNyrSMbCn8Prjmdl0KYv+uLdoFXuU/Lou9ujll2bbUiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [223.64.69.1])
-	by gateway (Coremail) with SMTP id _____8BxWcL3q1NpA2AEAA--.13368S3;
-	Tue, 30 Dec 2025 18:39:51 +0800 (CST)
-Received: from [10.161.0.102] (unknown [223.64.69.1])
-	by front1 (Coremail) with SMTP id qMiowJCxecHxq1NpBrMGAA--.2502S2;
-	Tue, 30 Dec 2025 18:39:49 +0800 (CST)
-Message-ID: <452b58c1-38b7-49a5-b2d7-4f9fd9f33b4d@loongson.cn>
-Date: Tue, 30 Dec 2025 18:39:45 +0800
+	s=arc-20240116; t=1767092072; c=relaxed/simple;
+	bh=n+dXJoOKZeBbPUciWDQkGiNgkFZrYi7IYQf5OWjWcCw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tcPI8TiN227I4BDustMgoBLBWgKTkFFT9LWRlMSkPMPqGM6azyUn4S7JmS/JyNrUF6edl5NJoEfZf2AvkYeMeNgHBogO/Tn3HPm3F4/Qt+Dp1+3ruiykuHb1kVawSUE0Byc1Rc9xI9tfaYEtdSz94CPiNHPzkQWQmmMmX6fFIVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-93f56a97064so2317044241.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Dec 2025 02:54:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767092069; x=1767696869;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tzvD8u2a9iQw7SPbPh5M/gD9i8/QWB7pr8kaxpQDqVY=;
+        b=B9QH9C8tgRRjmhTvYI9CPBQKqEKGQT6afGjR5LBSQN6m2wq58K18OwBBUO/Wcj4k0k
+         f2TYxXY91+YxZa3EIXodXU4OpH+81GI1UpSnoAyLn7FmF368kZT7MZE3ZSnVNXgswk5Y
+         +YWh1CCV2EDBC+bn34O8bu524DbyYqMZXMddqWYZcz55ZlY6pNRJRVr1/VbF8kkooXag
+         A17Va8GgWT0KfN1V//nsi/2m4m9wm1aMSXt26v3vaLk/Tvuho45MRHJB6ORtrOylaGvc
+         eoZGRflUQIuzlfz9EvO4h/xTo6sngsKriDBPxmM0Dttbulx3W5IRIxSCxMUwOFtl7LWg
+         IMsw==
+X-Forwarded-Encrypted: i=1; AJvYcCVnLTb6HZGHKV90gTVfqBrnUTZ5vAt0s95NifdyThT6fTTVR2Yl5M3p5qphYaJISNhjWxqTVwChtLqcSlDS7eaUhQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwqKXNdTTKKcvpC4zn25esp63FemnCLrV4SV0REiTQF3KiCyVkQ
+	GTpr3KdQ7UBZwMRvVQedb0XOq/O8mTCHyXQArmStJTUxO8DpLEafzOzZdJ2bKq0+
+X-Gm-Gg: AY/fxX6oJfQ2752XyqrUWnSxM0yamdwDae00OgfdnEXbKPsCVSieKK4JfWKLGz5TCM4
+	aUjKlNz5oE1kLEdWGNWnvoLBSl87x9m71Y2jXSiwg3rA+P08z5XkqR2sqqcnxTZ2rBe9zdlbvkT
+	pitKVhptVNwIdahoQssk33J8PNiaOaWOJ9QduC2KWTgePuztsgbiZZdAQe3z03IIittFTxZI2Dt
+	/V5dl+wGg8x0hJ1kOe1q/5C+xf/aIaXS3fj7O92AtOSm6i5+hsblD724XJt65Kb+kGCtx0Y1orI
+	fWiU5nInNk5xFIVcnHPQ9kp6lj4TUnCxG6xXKdKCSjxpK3eCWh9IYcUMdgQkgtkg8z+SsdsRsEd
+	R7bzyuCylmZnCGq9EfOIhT9C4PUHmtKxq1thevlI1YpmTNQJCP4hwIjystzn2F8VfF9rY/GlmBp
+	e9UX8JKt9dwgj7S72SaFvuxu15CkoaMwN1PI2PN6LXfzkavSZd
+X-Google-Smtp-Source: AGHT+IEZgb4SRBhk9pxnJZts+LTn/hKcwrGVySnV4NOMb9C5MPgugzY/hyQZrGASlt+ziaAFbPmcQw==
+X-Received: by 2002:a05:6102:5714:b0:5db:3b75:a2aa with SMTP id ada2fe7eead31-5eb1a67dac7mr10302749137.18.1767092069348;
+        Tue, 30 Dec 2025 02:54:29 -0800 (PST)
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com. [209.85.222.51])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5eb1aad0d1csm10471512137.7.2025.12.30.02.54.28
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Dec 2025 02:54:28 -0800 (PST)
+Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-93f542917eeso2338720241.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Dec 2025 02:54:28 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCV8EnBCLXOhcq72aTchE8MeOVbJJy6lJgJS+FKU7Ntp9dyB5FpCEo3s2UwbbbL0I/dB1JG6xBuzIyTNMAF2kb0V5g==@vger.kernel.org
+X-Received: by 2002:a05:6102:4a84:b0:5df:c228:288d with SMTP id
+ ada2fe7eead31-5eb1a625997mr9697546137.8.1767092068698; Tue, 30 Dec 2025
+ 02:54:28 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/7] i2c: ls2x: use i2c_adapter_set_node()
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Jan Dabros <jsd@semihalf.com>, Andi Shyti <andi.shyti@kernel.org>,
- Lixu Zhang <lixu.zhang@intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Israel Cepeda <israel.a.cepeda.lopez@intel.com>,
- Hans de Goede <hansg@kernel.org>
-Cc: Bartosz Golaszewski <brgl@kernel.org>, linux-i2c@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20251223-i2c-ada-dev-set-node-v1-0-2e36e0e785b4@oss.qualcomm.com>
- <20251223-i2c-ada-dev-set-node-v1-5-2e36e0e785b4@oss.qualcomm.com>
-From: Binbin Zhou <zhoubinbin@loongson.cn>
-In-Reply-To: <20251223-i2c-ada-dev-set-node-v1-5-2e36e0e785b4@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:qMiowJCxecHxq1NpBrMGAA--.2502S2
-X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/1tbiAQEMCGlTabUFRwABsh
-X-Coremail-Antispam: 1Uk129KBj9xXoW7JF4ftw1kKr48Wr18Kw48AFc_yoWkurc_Cr
-	1vv3Z7Jrn8Ar95Jw15JFW5Zr93Ka1Dur4kuF18t34SyayYqw1fJrWDXas5Ww4jqrsIgF45
-	Kw1UXa1Sy3srGosvyTuYvTs0mTUanT9S1TB71UUUUjDqnTZGkaVYY2UrUUUUj1kv1TuYvT
-	s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
-	cSsGvfJTRUUUbfkYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
-	vaj40_Wr0E3s1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
-	w2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
-	W8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
-	6r4UJVWxJr1ln4kS14v26r126r1DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12
-	xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r12
-	6r1DMcIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr4
-	1lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_
-	Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67
-	AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8I
-	cVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI
-	8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v2
-	6r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUcApnDUUUU
+References: <6245770.lOV4Wx5bFT@rafael.j.wysocki> <2556645.jE0xQCEvom@rafael.j.wysocki>
+ <CAMuHMdVMFQebA43FJ53PBnd67C8fxWAC21cr4jWTGDwg-HV53w@mail.gmail.com>
+In-Reply-To: <CAMuHMdVMFQebA43FJ53PBnd67C8fxWAC21cr4jWTGDwg-HV53w@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 30 Dec 2025 11:54:17 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWshJOjzD5DGzyRUG66jvPC6PPVBgaT=UdWy+XOk_T5Pw@mail.gmail.com>
+X-Gm-Features: AQt7F2oPjvLlnFjiHoVfcNoEi_edNjmSUdAxY2W0zN_askdkWJqScjAbdJ5aP4k
+Message-ID: <CAMuHMdWshJOjzD5DGzyRUG66jvPC6PPVBgaT=UdWy+XOk_T5Pw@mail.gmail.com>
+Subject: Re: [PATCH v1 15/23] phy: core: Discard pm_runtime_put() return values
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Linux PM <linux-pm@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
+	Ulf Hansson <ulf.hansson@linaro.org>, Brian Norris <briannorris@chromium.org>, 
+	Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	linux-phy@lists.infradead.org, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-
-On 2025/12/23 18:06, Bartosz Golaszewski wrote:
-> Use the dedicated wrapper for setting the fwnode of the i2c_adapter.
-> This allows us to hide the dereferencing of the embedded struct device.
+On Tue, 30 Dec 2025 at 11:34, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> On Mon, 22 Dec 2025 at 21:40, Rafael J. Wysocki <rafael@kernel.org> wrote:
+> > From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> >
+> > The PHY core defines phy_pm_runtime_put() to return an int, but that
+> > return value is never used.  It also passes the return value of
+> > pm_runtime_put() to the caller which is not very useful.
+> >
+> > Returning an error code from pm_runtime_put() merely means that it has
+> > not queued up a work item to check whether or not the device can be
+> > suspended and there are many perfectly valid situations in which that
+> > can happen, like after writing "on" to the devices' runtime PM "control"
+> > attribute in sysfs for one example.
+> >
+> > Modify phy_pm_runtime_put() to discard the pm_runtime_put() return
+> > value and change its return type to void.  Also drop the redundant
+> > pm_runtime_enabled() call from there.
+> >
+> > No intentional functional impact.
+> >
+> > This will facilitate a planned change of the pm_runtime_put() return
+> > type to void in the future.
+> >
+> > Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 >
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-
-Reviewed-by: Binbin Zhou <zhoubinbin@loongson.cn>
-
-> ---
->   drivers/i2c/busses/i2c-ls2x.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> Thanks for your patch, which is now commit caad07ae07e3fb17 ("phy:
+> core: Discard pm_runtime_put() return values") in phy/next.
 >
-> diff --git a/drivers/i2c/busses/i2c-ls2x.c b/drivers/i2c/busses/i2c-ls2x.c
-> index b475dd27b7af94a22537f1000e95606774d6c7f2..217a55d7d90b2e515ef33e9014263958d9258b00 100644
-> --- a/drivers/i2c/busses/i2c-ls2x.c
-> +++ b/drivers/i2c/busses/i2c-ls2x.c
-> @@ -312,7 +312,7 @@ static int ls2x_i2c_probe(struct platform_device *pdev)
->   	adap->owner = THIS_MODULE;
->   	adap->algo = &ls2x_i2c_algo;
->   	adap->timeout = msecs_to_jiffies(100);
-> -	device_set_node(&adap->dev, dev_fwnode(dev));
-> +	i2c_adapter_set_node(adap, dev_fwnode(dev));
->   	i2c_set_adapdata(adap, priv);
->   	strscpy(adap->name, pdev->name, sizeof(adap->name));
->   	init_completion(&priv->cmd_complete);
+> This is causing several messages like
 >
+>     phy phy-e6590100.usb-phy-controller.2: Runtime PM usage count underflow!
+>
+> during boot, and s2ram on Koelsch (R-Car M2-W).
 
+On R-Car Gen3, there are no such messages, as e.g.
+drivers/phy/renesas/phy-rcar-gen3-usb2.c does support Runtime PM.
+R-Car Gen2 uses drivers/phy/renesas/phy-rcar-gen2.c, which does not
+use Runtime PM yet, but still relies on explicit clock management.
+
+> > --- a/drivers/phy/phy-core.c
+> > +++ b/drivers/phy/phy-core.c
+> > @@ -190,15 +190,12 @@ int phy_pm_runtime_get_sync(struct phy *
+> >  }
+> >  EXPORT_SYMBOL_GPL(phy_pm_runtime_get_sync);
+> >
+> > -int phy_pm_runtime_put(struct phy *phy)
+> > +void phy_pm_runtime_put(struct phy *phy)
+> >  {
+> >         if (!phy)
+> > -               return 0;
+> > +               return;
+> >
+> > -       if (!pm_runtime_enabled(&phy->dev))
+> > -               return -ENOTSUPP;
+>
+> Adding some instrumentation shows that this branch was taken before,
+> thus skipping the call to pm_runtime_put().
+>
+> Can I just put the check back, or is there an underlying problem that
+> should be fixed instead?
+
+I assume the PHY core should support both drivers that do and do not
+support Runtime PM.
+
+> Thanks!
+>
+> > -
+> > -       return pm_runtime_put(&phy->dev);
+> > +       pm_runtime_put(&phy->dev);
+> >  }
+> >  EXPORT_SYMBOL_GPL(phy_pm_runtime_put);
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
