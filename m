@@ -1,159 +1,181 @@
-Return-Path: <linux-renesas-soc+bounces-26192-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26193-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FB51CE9997
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Dec 2025 12:59:15 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31A34CE9D24
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Dec 2025 14:52:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id B006B3018419
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Dec 2025 11:58:31 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id EE0263013ECA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Dec 2025 13:52:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A054C2EA172;
-	Tue, 30 Dec 2025 11:58:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="isUNO4Rp"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A520A221F26;
+	Tue, 30 Dec 2025 13:52:48 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DBE12EB874
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Dec 2025 11:58:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08CCD4594A
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Dec 2025 13:52:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767095904; cv=none; b=gXNIO5M0wOc29OEMO19++EV5cliAcHY0+kfHctMTZcEvoNbSdDT+y3ldbtVEbyL7IyHMlEeRQUSI0X+G5E7N2l4ziXzXWdBifNJXE175g8HIWEReYOVuQ/3lyNf/l9wwlcPjxmXPR4/mOWr6DSsXz3YE+rKZ5GkpysRwT0sAb9M=
+	t=1767102768; cv=none; b=r3Gq3lf3EWxGcCpsv3993poRZYVwEXNSVF0cCUq8+HltZXOOqDONroqD5F5n2ON2EGI1jcZqaYdg3Kz+5v1pBRWER5aZgd5HwYd0+TOq+ppltoGqyv3ubiwngBhTSXF1YD1SRV6GOUaVyxvEA7M3G4Y8Pw03wfl/TGnrllmPmE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767095904; c=relaxed/simple;
-	bh=fyRh3NDfYI2G2pxDNRqvuJsGnCEa1C3EXnnGh0e8NZ4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oMw465ntm+AuUrmGHkRXLauGQKNMVk7Q4S/c8GQAupgIycATvIRooyIqci9hN/nCwNmVAUgFC0lKLhJJtFbYQM1LVjwAJfXbPHqPD7QQCBNd9bLvA7mgruxPWVzj7HIhmUp3xqufCCiMAEfm6tqn6eDCFfp9hGZBTSQ6WGtQ+pg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=isUNO4Rp; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1767102768; c=relaxed/simple;
+	bh=aI8MNDO9Dig5r0Q3AuMMs1RCgF/9yrE3csjRRDxPfD4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DbELC3/YFfpsU5+UttPbdkFO8sA5/K6Zp7pcOQoCA0GK/uRDHbLB4f83N/KRUzuQdHXRBalgvlA90RyJIECp8hP9LTLb/LdyLPQDNod9hpuESFfzM0w6jfK12DOhCHbQdcvymwx3xpI273yb7XMqSzdegzt97ITe04toN+RSou0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-430f9ffd4e8so4875404f8f.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Dec 2025 03:58:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767095900; x=1767700700; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1mrVqbtRlpbpcL6kvwA96sNyCMACeAaD1ypExVsExyw=;
-        b=isUNO4RpRvmeBb/SewrfLUxGBVOlt1KNSwulqiSCDd4SU6wPuB7VXvynTj1KLnJWNZ
-         zdZB0JgIgbvJx8tyJ+vo0BlFowcIeAQd/WXrVdBjErz9k2Qn8cqca+ZiQUwSDgekv1dg
-         rGYuNp83MhShxYq3gHazwiwjEgvTgoS8guiaTaSN3XTvt2Wu74f4Y4NV28+rGHFFnVfR
-         B/l+80G6ahiTF0lGEqW8MYlD1AYrTrTlfGSFwAEivdkIdiReomPCCJnzxNL/TCqwmBhl
-         VsRwwQw2AhIdFq8tpwFr5f0eSL6k2pGwgAVXULZ9lAM7Fwz7nzWR1On4vIYarcn8G1rA
-         BEpQ==
+Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-55999cc2a87so2394564e0c.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Dec 2025 05:52:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767095900; x=1767700700;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20230601; t=1767102765; x=1767707565;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=1mrVqbtRlpbpcL6kvwA96sNyCMACeAaD1ypExVsExyw=;
-        b=Pya+exvIr3AVJphpHXq6+WhhwgB0XhiFt7oX80bMUZRBQi6lXFZ6yekW1XPkhFBsS9
-         TU0/gUcjXwQtbhMcT2XFuPRUYZqiWR1m/F3JQDmHcbkWy+bb3H7x3ZcrWoiwLHioob3R
-         vnmmdD63R5oQMA/6ba7YMJcoPaazGhmpTNev3qauV6K7p99kHhiys2RXy8AGnVSAtiQR
-         tKhCe2HhBr8Pz579WmXhmeKBE14URst5pkv4/4u4VMmPxj4DUn0gsiX4L0y9XCfFnSfe
-         hQmOcozUMEeIjaQNWKFt2tVJuvyMrsKZAcxXxJjyiff7u53u3cSfLJlXcksQ7ajn+SPZ
-         rhZA==
-X-Forwarded-Encrypted: i=1; AJvYcCUB2w/fmQGqvlZNzVxEseK7c/cwdm7tYyPpoavwX5KWI39YVDmGrFdhqInaTWM5Z4IrISGqR3WbTwdtbPBdlzgK9Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwnP8CaqcaUWNB+FucebA5pXGzdVAOoBTQKe0bSzdYSa7dw5xYu
-	MgPKo6d0tDZimmQUxV1zNLBfHr5ZURIZkjCysdDE32x0LuhB6EXYfxr2
-X-Gm-Gg: AY/fxX7jr3BCg1YxqjcH36Gi5/w6q17jUi8NlLe8O5B323MN+yZrlmbRo5Pqdun4Wwj
-	E9un8fja26VoKjKwwvBm5piBZor1AG7xS92mpAVGM1OONAjcQAXOX2gcfE6N208/xkcY+Jfjqrr
-	B1wNFly9/GcnbVDO99AfMmAyVf5ze9tVd9mxzBPNn0FXMqy+eUzZHtr4C8hUdNZ8Kbdeo7uO14G
-	HGPLcDVE8nUJmgv/JOQBqC6Cz9Fcwm3+p3vj2oGCDQ7/KX0XvK5AI5aD2sfH1Vv2w4/KeuyLoew
-	6KGlbQZay3x9wpdx1NwEiZmgDkBI/EPbhPD/+NY8UaJ7+zMiJZWAgRMu4pioSmmqUa32pwCLEx+
-	FVoAKGzTBzZErfeqjSB6w2EasU/8MsMrBlYaUiv8eLnhy9yx3esv/I5OC58jwWeLo0V+KJJ3vyo
-	Vrrq7tSimUdLjdPI6o4ZDydcHv6N9bTLa2mR1dPkIM2XgfXOmp/jsmMC1Ds8G1hok1IFP4b3RTK
-	7n/c+qDtXLULXLxMiT60kB7
-X-Google-Smtp-Source: AGHT+IFkCky57Uay6sBkG6xB9auHzI69jD1MaNT3gszPM4wT3bxIuOsRBOVRIqN2JH/ov9C69vdqcw==
-X-Received: by 2002:a05:6000:2008:b0:430:ffdb:e9bd with SMTP id ffacd0b85a97d-432447a714amr49360943f8f.10.1767095900408;
-        Tue, 30 Dec 2025 03:58:20 -0800 (PST)
-Received: from iku.Home ([2a06:5906:61b:2d00:efaa:981e:926e:8957])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324eaa64cesm68337227f8f.35.2025.12.30.03.58.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Dec 2025 03:58:19 -0800 (PST)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Marc Kleine-Budde <mkl@pengutronix.de>,
-	Vincent Mailhol <mailhol@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>
-Cc: linux-can@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 4/4] can: rcar_canfd: Add RZ/T2H support
-Date: Tue, 30 Dec 2025 11:58:14 +0000
-Message-ID: <20251230115814.53536-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20251230115814.53536-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20251230115814.53536-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        bh=W9Iz0iaGm0eiS7oT7DLYrcws1P082xGF2BkB7BLaDLw=;
+        b=F2Mmrqh5uj9Bh0nQctq0Xs/tJ/ktt8M9tPz2yWk0zLba8Fg3BcyTDz3mVhN6x0prf6
+         pocI/0tYLQ5/G51W6Su/dZlTqWb/3huNpgREp946Gd+SruyeDzYtoMQU7wO2+BDpWD5S
+         7Dh+qBe0fO8iMtA9BEUySMWn5og+KVh9ejjkEx9TqjE++/7jM58ZJaaf+WW4bDAiqj2T
+         J/Ri8Zhs1l1kpf1XB1kqu2/JE81QYhD10Gl/fYsiFLf1vgPoHfnF0nzC6JeGY0HHzOku
+         qps1yFotialAecl6RzaDxSSBYS++YTNxyDxgAHkUI0dPdcx8Zy1WXG0qqxWZc9e00gLK
+         4CIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXaA7KSPLsA4PdhCG2c1r/GgRO/+ylnb4v11mvynIwg38OqT+DnxfRZ5tnDHZC/Vx9PBC0Ym1FjX4n/JfBWNUGwgQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy9GZiDGBlg1C5lh0226iCjjyVlMP+wiWv1edAf3QPkZ/hJvaII
+	WtMDlzLMkMZx3NShKmvhJE3WpxaHs48iT022zfEMKZh/3l0+sN70GHHp7C7Tb0Bz
+X-Gm-Gg: AY/fxX66tQ3e7ZsOLw3EfGDpXd16/kM5BuI5SM+svBRxgwGvxu7ekuHXPeMiw8DTmUo
+	78CfAZD8SwUPGE3buo4OW1GBJmyIpUBWPPr6kZAXuNeLN43731cgIEQiYjbUmFBspqTmvaDZVmW
+	m99CN799nhwwNp4jnMqoYfwZItfrjCyZtcqmP0ULDetqVkeSDS8+4X0NpLCIYw7pdJJySxMx6V4
+	Znu5vMEQgGHEqG9jt5AxHqKk5Txlm3aielAGsiGJVx53G5pWRJY4L4bf52OwB+l7ws2gbU0/CnT
+	0E5LCqLWlNc2WP9lHT7NyEYzGVaUZtm6wf/UoNIbh4HjxW0Y2JI33xfhJOnWkD77Kc1sFn+DmGX
+	9c1kYEVCvuyFV18126pl0opn5gfDqljfw18PsGj1Ycg3Bs7w2KuVHpCrLQtbneDK+ldsMbN0QmN
+	KGTQ0sVmNro3f+N0J2mukrF0B3sktQ+l8YRnjK61+kuh2jq0Ht
+X-Google-Smtp-Source: AGHT+IEaezTf8DxMtZdPX61m/71fiXz5JV2iEXsvipu5D3CZ0ymQhP37R2e5L9U4i1a8Yl1rmqXSxw==
+X-Received: by 2002:a05:6122:f84:b0:55f:f2f3:699b with SMTP id 71dfb90a1353d-5615be1b04emr9655847e0c.11.1767102764796;
+        Tue, 30 Dec 2025 05:52:44 -0800 (PST)
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com. [209.85.222.47])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5615d04b90esm10287787e0c.2.2025.12.30.05.52.44
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Dec 2025 05:52:44 -0800 (PST)
+Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-9412cb281acso1986224241.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Dec 2025 05:52:44 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCX06kpvl5bF0PKuiDBQyHvqJky+IvuuBBFoJqQQbtVFe1MAX5fegavF7uw4hhvAl7TVb0j3VIJOfMx5mSUqNCmwOA==@vger.kernel.org
+X-Received: by 2002:a05:6102:fa3:b0:5dd:b318:8a6 with SMTP id
+ ada2fe7eead31-5eb1a656bf6mr10186669137.12.1767102763806; Tue, 30 Dec 2025
+ 05:52:43 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251202221341.1856773-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20251202221341.1856773-1-niklas.soderlund+renesas@ragnatech.se>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 30 Dec 2025 14:52:32 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXuLwC_BR_aJwzgnvLqi4HQbtkB_67ESAm8xtTwoTQ3zw@mail.gmail.com>
+X-Gm-Features: AQt7F2qVZmLopW__zoxab3_qNFhrxKKK5-hfw2_HIu2OxeDn-S9AH-exBFu5lSA
+Message-ID: <CAMuHMdXuLwC_BR_aJwzgnvLqi4HQbtkB_67ESAm8xtTwoTQ3zw@mail.gmail.com>
+Subject: Re: [PATCH] clocksource/drivers/sh_tmu: Always leave device running
+ after probe
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Hi Niklas,
 
-The CAN-FD IP on the RZ/T2H SoC is similar to R-Car Gen4, but differs in
-the AFLPN and CFTML bits and supports two channels with eight interrupts.
+On Tue, 2 Dec 2025 at 23:14, Niklas S=C3=B6derlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> The TMU device can be used as both a clocksource and a clockevent
+> provider. The driver tries to be smart and power itself on and off, as
+> well as enabling and disabling its clock when it's not in operation.
+> This behavior is slightly altered if the TMU is used as an early
+> platform device in which case the device is left powered on after probe,
+> but the clock is still enabled and disabled at runtime.
+>
+> This has worked for a long time, but recent improvements in PREEMPT_RT
+> and PROVE_LOCKING have highlighted an issue. As the TMU registers itself
+> as a clockevent provider, clockevents_register_device(), it needs to use
+> raw spinlocks internally as this is the context of which the clockevent
+> framework interacts with the TMU driver. However in the context of
+> holding a raw spinlock the TMU driver can't really manage its power
+> state or clock with calls to pm_runtime_*() and clk_*() as these calls
+> end up in other platform drivers using regular spinlocks to control
+> power and clocks.
+>
+> This mix of spinlock contexts trips a lockdep warning.
+>
+>     =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+>     [ BUG: Invalid wait context ]
+>     6.18.0-arm64-renesas-09926-gee959e7c5e34 #1 Not tainted
+>     -----------------------------
+>     swapper/0/0 is trying to lock:
+>     ffff000008c9e180 (&dev->power.lock){-...}-{3:3}, at: __pm_runtime_res=
+ume+0x38/0x88
+>     other info that might help us debug this:
+>     context-{5:5}
+>     1 lock held by swapper/0/0:
+>     ccree e6601000.crypto: ARM CryptoCell 630P Driver: HW version 0xAF400=
+001/0xDCC63000, Driver version 5.0
+>      #0: ffff8000817ec298
+>     ccree e6601000.crypto: ARM ccree device initialized
+>      (tick_broadcast_lock){-...}-{2:2}, at: __tick_broadcast_oneshot_cont=
+rol+0xa4/0x3a8
+>     stack backtrace:
+>     CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted 6.18.0-arm64-renesas=
+-09926-gee959e7c5e34 #1 PREEMPT
+>     Hardware name: Renesas Salvator-X 2nd version board based on r8a77965=
+ (DT)
+>     Call trace:
+>      show_stack+0x14/0x1c (C)
+>      dump_stack_lvl+0x6c/0x90
+>      dump_stack+0x14/0x1c
+>      __lock_acquire+0x904/0x1584
+>      lock_acquire+0x220/0x34c
+>      _raw_spin_lock_irqsave+0x58/0x80
+>      __pm_runtime_resume+0x38/0x88
+>      sh_tmu_clock_event_set_oneshot+0x84/0xd4
+>      clockevents_switch_state+0xfc/0x13c
+>      tick_broadcast_set_event+0x30/0xa4
+>      __tick_broadcast_oneshot_control+0x1e0/0x3a8
+>      tick_broadcast_oneshot_control+0x30/0x40
+>      cpuidle_enter_state+0x40c/0x680
+>      cpuidle_enter+0x30/0x40
+>      do_idle+0x1f4/0x280
+>      cpu_startup_entry+0x34/0x40
+>      kernel_init+0x0/0x130
+>      do_one_initcall+0x0/0x230
+>      __primary_switched+0x88/0x90
+>
+> For non-PREEMPT_RT builds this is not really an issue, but for
+> PREEMPT_RT builds where normal spinlocks can sleep this might be an
+> issue. Be cautious and always leave the power and clock running after
+> probe.
+>
+> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
+se>
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-v1->v2:
-- No changes made.
----
- drivers/net/can/rcar/rcar_canfd.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+Thanks, splat gone on R-Mobile A1, and no regressions seen on other
+platforms using the TMU (R-Car H1, rts7751r2d/qemu).
 
-diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rcar_canfd.c
-index 4a653d8978ba..eaf8cac78038 100644
---- a/drivers/net/can/rcar/rcar_canfd.c
-+++ b/drivers/net/can/rcar/rcar_canfd.c
-@@ -670,6 +670,23 @@ static const struct rcar_canfd_hw_info r9a09g047_hw_info = {
- 	.external_clk = 0,
- };
- 
-+static const struct rcar_canfd_hw_info r9a09g077_hw_info = {
-+	.nom_bittiming = &rcar_canfd_gen4_nom_bittiming_const,
-+	.data_bittiming = &rcar_canfd_gen4_data_bittiming_const,
-+	.tdc_const = &rcar_canfd_gen4_tdc_const,
-+	.regs = &rcar_gen4_regs,
-+	.sh = &rcar_gen4_shift_data,
-+	.rnc_field_width = 16,
-+	.max_aflpn = 15,
-+	.max_cftml = 31,
-+	.max_channels = 2,
-+	.postdiv = 1,
-+	.multi_channel_irqs = 1,
-+	.ch_interface_mode = 1,
-+	.shared_can_regs = 1,
-+	.external_clk = 1,
-+};
-+
- /* Helper functions */
- static inline void rcar_canfd_update(u32 mask, u32 val, u32 __iomem *reg)
- {
-@@ -2345,6 +2362,7 @@ static DEFINE_SIMPLE_DEV_PM_OPS(rcar_canfd_pm_ops, rcar_canfd_suspend,
- static const __maybe_unused struct of_device_id rcar_canfd_of_table[] = {
- 	{ .compatible = "renesas,r8a779a0-canfd", .data = &rcar_gen4_hw_info },
- 	{ .compatible = "renesas,r9a09g047-canfd", .data = &r9a09g047_hw_info },
-+	{ .compatible = "renesas,r9a09g077-canfd", .data = &r9a09g077_hw_info },
- 	{ .compatible = "renesas,rcar-gen3-canfd", .data = &rcar_gen3_hw_info },
- 	{ .compatible = "renesas,rcar-gen4-canfd", .data = &rcar_gen4_hw_info },
- 	{ .compatible = "renesas,rzg2l-canfd", .data = &rzg2l_hw_info },
--- 
-2.52.0
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
