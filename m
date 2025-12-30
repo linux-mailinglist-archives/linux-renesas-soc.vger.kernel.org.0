@@ -1,36 +1,42 @@
-Return-Path: <linux-renesas-soc+bounces-26196-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26197-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13F72CE9F2F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Dec 2025 15:37:18 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4526BCEA076
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Dec 2025 16:11:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B94FC301E915
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Dec 2025 14:37:16 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 397D730026B9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Dec 2025 15:11:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D68A217F31;
-	Tue, 30 Dec 2025 14:37:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AAE8318152;
+	Tue, 30 Dec 2025 15:04:14 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34F9013B584
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Dec 2025 14:37:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B52131814A;
+	Tue, 30 Dec 2025 15:04:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767105436; cv=none; b=R8OFsE3i+9Dk3WeRgutgkz5tCrF4+QanXottF+1joNBMLlGAf7ed3C6Hpv2d8HBQaZHJFV1lSelpSKmmxdLeJE8tjWif8KfPMDqgf1aAjZ6MecXxJwvoy5zw7wCJuQjnC0XARYf7ka3j3svVIx3vzMR/PUIxvv+bct1O2T53rlg=
+	t=1767107054; cv=none; b=knu6G4EWdZvIrKQjtJAAfp8GRwLvo1Fq4dkZyQ7Uk8c0i8txzai84b4nWFCNTk8u+nMUDCAbqu7R9nDTEJkfjFH/oGP5uBgdHbWrjhEjHBqf0Wq0T1eszXMXck8KqKOOl9ZtA/uTHmwgKtVI1aLcw+zbq5Z79Zni9Yx7pIXDBkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767105436; c=relaxed/simple;
-	bh=Nt75SyAgqGKd+SPTviM/BJCr9XSVFEtEkXlNDJegJCc=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=qC6tMassVWgeDH0C7NCa4ijsIdd38HqFR5NT0iATcXeeP1aKFmZ7us3YAzZ8+TVJcOtb18OIGo/J7lrrrJmjyhyt7B597qXTAA+WV2cAfBmghpel4ADNIlLS26j3f6n9M3HawbwzwbXewey9YKpRqqkr3x7Bfh7D6SK3omcB9bA=
+	s=arc-20240116; t=1767107054; c=relaxed/simple;
+	bh=4D9uMRlPRMBt9l3Ir9HJyLi0udpptEmD5Iy9LsOxw/Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uipY81YpaBw3Mek0dFTaTaKhEXz7gAVWxszlddl1JjU0Db7kYXtfCWSa5ZOPpgIs+gBFA6U7bYfrrSGqtONi1QAQr6FLyq9DuxHHySsZDdLoCgSH0sRqxX7l+4YjVAdyewZpugv8OS9vzm7xlgEwC76p8rTgkDC66fRhWIzh3CU=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C8CEC4CEFB
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Dec 2025 14:37:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37FD7C2BC86;
+	Tue, 30 Dec 2025 15:04:11 +0000 (UTC)
 From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: linux-renesas-soc@vger.kernel.org
-Subject: renesas-drivers-2025-12-30-v6.19-rc3
-Date: Tue, 30 Dec 2025 15:37:13 +0100
-Message-ID: <20251230143713.1171034-1-geert+renesas@glider.be>
+To: Vinod Koul <vkoul@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>
+Cc: linux-phy@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] phy: core: Reinstate pm_runtime_enabled() check in phy_pm_runtime_put()
+Date: Tue, 30 Dec 2025 16:04:05 +0100
+Message-ID: <3ca9f8166d21685bfbf97535da30172f74822130.1767107014.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -40,93 +46,39 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-I have pushed renesas-drivers-2025-12-30-v6.19-rc3 to
-https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
+On Koelsch (R-Car M2-W), during boot and s2ram:
 
-This tree is meant to ease development of platform support and drivers
-for Renesas ARM and RISC-V SoCs.  It is created by merging (a) the
-for-next branches of various subsystem trees and (b) branches with
-driver code submitted or planned for submission to maintainers into the
-master branch of my renesas-devel.git tree.
+    phy phy-e6590100.usb-phy-controller.0: Runtime PM usage count underflow!
 
-Today's version is based on renesas-devel-2025-12-29-v6.19-rc3.
+While phy_pm_runtime_get{,_sync}() and phy_pm_runtime_put_sync() still
+contain pm_runtime_enabled() checks, the same check in
+phy_pm_runtime_put() was deemed redundant and removed, causing count
+underflows with PHY drivers like drivers/phy/renesas/phy-rcar-gen2.c
+that do not use Runtime PM yet,
 
-Included branches with driver code:
-  - renesas-clk-for-v6.20
+Fix this by reinstating the check.
 
-Included fixes:
-  - Revert "phy: core: Discard pm_runtime_put() return values"
-  - [TEST] soc: renesas: rcar-rst: Enable WDT reset on early R-Car V4M
-  - ARM: shmobile: defconfig: Update for renesas-drivers
-  - [LOCAL] arm64: renesas: defconfig: Update for renesas-drivers
-  - [LOCAL] riscv: rzfive: defconfig: Update for renesas-drivers
+Fixes: caad07ae07e3fb17 ("phy: core: Discard pm_runtime_put() return values")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ drivers/phy/phy-core.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Included subsystem trees:
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git#gpio/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git#main
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git#i2c/i2c-host-fixes
-  - git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git#i2c/i2c-host
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
-  - https://gitlab.freedesktop.org/drm/kernel.git#drm-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/iommu/linux.git#next
-  - git://linuxtv.org/media_tree.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git#pwm/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/daniel.lezcano/linux.git#timers/drivers/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rmk/linux.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
-  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/drivers
-  - git://git.kernel.org/pub/scm/linux/kernel/git/libata/linux#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
-  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
-  - https://gitlab.freedesktop.org/drm/misc/kernel.git#for-linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git#thermal/linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git#driver-core-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/glaubitz/sh-linux.git#for-next
-  - https://git.pengutronix.de/git/pza/linux#reset/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#fixes
-  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/linux-pm.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/andy/linux-auxdisplay.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/srini/nvmem.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.git#char-misc-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git#togreg
+diff --git a/drivers/phy/phy-core.c b/drivers/phy/phy-core.c
+index 160ecb757d1d62a0..e2a2a99d069789c7 100644
+--- a/drivers/phy/phy-core.c
++++ b/drivers/phy/phy-core.c
+@@ -195,6 +195,9 @@ void phy_pm_runtime_put(struct phy *phy)
+ 	if (!phy)
+ 		return;
+ 
++	if (!pm_runtime_enabled(&phy->dev))
++		return;
++
+ 	pm_runtime_put(&phy->dev);
+ }
+ EXPORT_SYMBOL_GPL(phy_pm_runtime_put);
+-- 
+2.43.0
 
-Enjoy The End of 2025, and Best Wishes for 2026!
-
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
 
