@@ -1,169 +1,278 @@
-Return-Path: <linux-renesas-soc+bounces-26198-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26199-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E9D6CEA023
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Dec 2025 16:05:30 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36CA0CEA188
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Dec 2025 16:44:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id C3B1430146D5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Dec 2025 15:05:28 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id A60AA30049CE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Dec 2025 15:44:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E33A23195EC;
-	Tue, 30 Dec 2025 15:05:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19E8F2E541F;
+	Tue, 30 Dec 2025 15:44:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="ir+Dyqmv"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013059.outbound.protection.outlook.com [52.101.72.59])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D895731A06C
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Dec 2025 15:05:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767107126; cv=none; b=CYp0aFGJCjZgphkmnhhDnGbJg6/Uzk/q3OqulohHx7ZC0UPxQAMTck0UciHvYuO0RXgbv/rLuP3Rk9ZG0jzlNf4ho3mhhohNRfJT61yFmTuMCl2TgShtivIVseY1bz3zUXyHbdownvnscCn3GSVe6lSWgKC2JAauoIOJ+WkC+iQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767107126; c=relaxed/simple;
-	bh=dkjLK7cj8/C4JRusSr9IXX3Q+juZmbMwsVO/nZqCEKQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pOPjcDPAW50yaSbfe2+Z/jr6zGcEjAK9hmJnu2BgIWf85/GSFlHbHGp5MveJ8INNNMActk9bzngs9WhBMXtzWhWA2hXtqE37EgufNJdVx29h+HzRTaTgHK96/xXmyZoUhhxNSrgkSB87hM60nPwmVFUZkLb/z4XEBoD4YtWJ9jA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-55999cc2a87so2414456e0c.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Dec 2025 07:05:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767107124; x=1767711924;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=n3bghUu0vru4RrxnbMTcftVq/cqOVIrTFnZfWBS4mDw=;
-        b=L2fD1WlYiTMPuciHkUspYfblWyi/x658tUO6cgMCyHbZ+EOA+W80VTGB8UQUypW+Ec
-         w1ZhmDgCy0WYGr9m2A2YbnYngmYTPcBI+SWee8UHff3YyxQSjWfz/FIloYU2jN5ARM0G
-         kXTuxnNESf3MSvaqUwpI3LgNOBZPbDGzMA4FykLis7aWuaxiyp/hP+QGR2bdGM6gq+Zu
-         WWTvfNPyzhLgq2eV9aV0/qR1C0C/11CMp70w5HOWsieyFIPSKs/PsjKk7hvgQ/+/Zwsq
-         Kh8rb5ADgqeZ60LGa884UbppK4kWL4PaacGNntxUtaFy2rz5Ms3wmZJdfU1kORK1g9r+
-         gosg==
-X-Forwarded-Encrypted: i=1; AJvYcCVhv3ZFN0570ABMz+gPm2F7GQ6gK4CG/33DD+9HJILd69Mg67zZJ0QBu2nB0+DYCrYluzKMNWbf7O13Hp1LpOl7zQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YziTLOb2UBwz2lb1N++las7Nrkza0aE/S9o9AS+K52qRT3AxctV
-	kFCwb8eVBh7tUTPq6pVN2weYlPlApKkpn6FBPCbOjno55NAb8XsJ1QYvG+VIWoSB
-X-Gm-Gg: AY/fxX4X8SAiYeR8FDDpzpNpcdczdhvjRroquOom54jI/8pyPVDkwNh7xmcSIEXe/3q
-	1yeO3ivuRMjJgO8xrk9HHHfR1Dvg+Ya28q8Of9hHnWP4/vZgUaF5xysG6+hgBGbu/pFOx2pLww9
-	MntWi6t9MM6KXF2/aD7Z9Zpf1q1U/UzojHpP7Qq0uEjqvtlNiz7EK4ORwotTDa5KDVj20VU0iu3
-	yts2BceVjRN39sMY2cPsaYZakP1CtJkODrJfzNUqcGpSd24hmtXGtQNlBi0H4RZXVse2q5485lt
-	nUT0WqVCbv5cGM+gnElXOvTCENKNuYmyOoA3PmX+EEwE1Zv7upMsLb+CqyNvv31KFJm/pAWfzHr
-	fP9C2LjOTZzBXcMNa338jmRcPvC31l8jdFhuWXMA/VWNlyeaRw8pN9SgzMDkohO+NHxxkTpDhk0
-	H0uXgVgAds70a/Utgx1HuuYECKfV1iFHbc3JhyjTQptYM8IDhGJ8ld
-X-Google-Smtp-Source: AGHT+IHos4cwZ7IPYMfCbzKGTVn0xWGHUwcE8/Ze3uXVufx0hcBEMIU0l6YB5z/kxlfj2pgASNCt9Q==
-X-Received: by 2002:a05:6122:1354:b0:55b:305b:4e3b with SMTP id 71dfb90a1353d-5615beb8214mr9695304e0c.17.1767107123837;
-        Tue, 30 Dec 2025 07:05:23 -0800 (PST)
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com. [209.85.221.169])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5615d04b58bsm10348575e0c.1.2025.12.30.07.05.22
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Dec 2025 07:05:22 -0800 (PST)
-Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-55ae07cf627so2413502e0c.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Dec 2025 07:05:22 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWDRKs4JOCUERM6AESCOrH3Uzq4NSOkn9P/xjroJlcID3zBekEJE7I5Ig+w8gtbpGmrXXe3i8Clf0vCRcXHvxCxFw==@vger.kernel.org
-X-Received: by 2002:a05:6122:1354:b0:55b:305b:4e3b with SMTP id
- 71dfb90a1353d-5615beb8214mr9695143e0c.17.1767107122056; Tue, 30 Dec 2025
- 07:05:22 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C45B91FBC8E;
+	Tue, 30 Dec 2025 15:44:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.59
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767109456; cv=fail; b=ZPRfAI2CBtoLYiPc9nh+zXI+ylroD7QDLUbipt9IvfBZhL/OjoyBK3krTDmSjJbae0GvAtwOFEekyTXp4mIh9/DWiArPWPt8Aosm5/xnptSx0YqTmdtI7FTexKPGtUqkN+gBJZNr5IB0J9FHjzzjKCUDEVhVZv/wlcucSVh0+rc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767109456; c=relaxed/simple;
+	bh=PI9+yh1kqPF33VnKSn3exZstVEUIknDRuJDzXYRCi+I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=M4W9aF6wAi4qRnu6MIawaP7YTDRYGPJyIQl6PKF+zyv02D/1/rjcTeSbUtZ45wkVL5Ovy5rHbzLaKYnKHgumTOH77SA+dZNWe/EPkqO30aY4SmcOLx2M9er9ghnRg/OmsyUCjQKtnKTYo1XsgNOy6B9HMrjZCI6Qlzhm5OHk9bo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=ir+Dyqmv; arc=fail smtp.client-ip=52.101.72.59
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CvlY57IM3ZZwljxQPgh1a3rxmlvdUMw6bMusoOndYvIySb9SuxSb7SA0kZcbGXvIsBBic0Oz9dRBzihQ/JIAdcGKv3gaRrYuc/ATqeSxvF9ttNAugtp9nePiAn8byP+IJLsjpTOITroSioKIvDuaYLOhQiil7MGrIGi0f1lg0/lLs8QiUulK6GBW+AVgo2jvZcmP36xbNYQhAKBONMtdF/R+t2d2NlK/pyGzwbbJbdIZp/vGWtiN7jg1F8ftyaZXAf2v0A+tNY8qauovqT1iFX0dci07bmuHwt60reANb3Kryq3Vh7KvOCavxqTA5q9kCNaNifC1O7NA2cRfSUHOow==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=k1bJGLuX5d8xGedJkgH4BkdETLtvB23zCrwa9GsyyHI=;
+ b=bTRvdgWh2azpyTWW1yy2Bl69umSiJ4VRluzT5V38ca1dCXYWSQBQRKHBbX5oT4v+anli2NRNFwgTcn/N0pZUS2lPfh5/xPDyXPaq84jUk+uFLJOWmryNvbIRLIC1GiUbc0DhgR0RgkXTai8y7/qnVK0+7DKuWfJHqT+TJNx4i8Pz9U6fY9tKncbx+0d+dCqZxUOuB0UFaR9HWy2SXP2yqzuULBdcA0olkxUHsUrbuplh+KClDYXxp56nLATnxtT4gcNuWGiMmrC5uYFav8hPYy4ZoR6dqU4n7U1KP3jZdbc9ZKa9Ut1hwIO8iAgGHihVYTe/M+PKn/T/6ejEe+w9RQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k1bJGLuX5d8xGedJkgH4BkdETLtvB23zCrwa9GsyyHI=;
+ b=ir+DyqmvaHH2ZF319PJUSVwZB1Q5v3D7KCePvpIZo91+BmMAQsLGwLioAXiP7lrOEthIP8kg0HnMggRzu6/C/RM7NwCPuB+BJavqQAVFRp+P1P50eNqBVz+WSXJtm6XVfO7142jgCZbWVXLTt+9by3jP5EqTUT4vqwHGFAgTIHemiWQI2OhcPco1zqEAb+dJ48JH9CBb77PHERtn4pCsO8aMgBgApkwylXGHNQJhgMF3EuvWS3c3HFZqkvKx+kYxgD/7KmdyzO3ilLlehI0VqzSCK6eI099o9pIXqaE7iqJj3bjVROhFiklZCSMPqd/LdCu72LoaKPBG4pD99CwiMg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from DU2PR04MB8951.eurprd04.prod.outlook.com (2603:10a6:10:2e2::22)
+ by GVXPR04MB10110.eurprd04.prod.outlook.com (2603:10a6:150:1b2::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9456.14; Tue, 30 Dec
+ 2025 15:44:09 +0000
+Received: from DU2PR04MB8951.eurprd04.prod.outlook.com
+ ([fe80::753c:468d:266:196]) by DU2PR04MB8951.eurprd04.prod.outlook.com
+ ([fe80::753c:468d:266:196%4]) with mapi id 15.20.9456.013; Tue, 30 Dec 2025
+ 15:44:09 +0000
+Date: Tue, 30 Dec 2025 10:44:02 -0500
+From: Frank Li <Frank.li@nxp.com>
+To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org,
+	biju.das.jz@bp.renesas.com,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	linux-i3c@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] i3c: renesas: Switch to clk_bulk API and store
+ clocks in private data
+Message-ID: <aVPzQrFL7T5KP1jI@lizhi-Precision-Tower-5810>
+References: <cover.1767090535.git.tommaso.merciai.xr@bp.renesas.com>
+ <29d6558c381b726f53c22088a5a2ad5adf9fe142.1767090535.git.tommaso.merciai.xr@bp.renesas.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <29d6558c381b726f53c22088a5a2ad5adf9fe142.1767090535.git.tommaso.merciai.xr@bp.renesas.com>
+X-ClientProxiedBy: SJ0PR13CA0164.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c7::19) To DU2PR04MB8951.eurprd04.prod.outlook.com
+ (2603:10a6:10:2e2::22)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <6245770.lOV4Wx5bFT@rafael.j.wysocki> <2556645.jE0xQCEvom@rafael.j.wysocki>
- <CAMuHMdVMFQebA43FJ53PBnd67C8fxWAC21cr4jWTGDwg-HV53w@mail.gmail.com> <CAMuHMdWshJOjzD5DGzyRUG66jvPC6PPVBgaT=UdWy+XOk_T5Pw@mail.gmail.com>
-In-Reply-To: <CAMuHMdWshJOjzD5DGzyRUG66jvPC6PPVBgaT=UdWy+XOk_T5Pw@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 30 Dec 2025 16:05:11 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVeHY7+9Jz60OX521iaEorGOcrxuGC8iuzDRUA-tkEvLQ@mail.gmail.com>
-X-Gm-Features: AQt7F2rwnAcC5lQxf8KDSlHqxdZgmhT_kPKehxVIuLLpkwUasjT0-vp_jZiOQQo
-Message-ID: <CAMuHMdVeHY7+9Jz60OX521iaEorGOcrxuGC8iuzDRUA-tkEvLQ@mail.gmail.com>
-Subject: Re: [PATCH v1 15/23] phy: core: Discard pm_runtime_put() return values
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Linux PM <linux-pm@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	Ulf Hansson <ulf.hansson@linaro.org>, Brian Norris <briannorris@chromium.org>, 
-	Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	linux-phy@lists.infradead.org, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU2PR04MB8951:EE_|GVXPR04MB10110:EE_
+X-MS-Office365-Filtering-Correlation-Id: 561ac76b-b6f1-4d72-6b71-08de47ba45a5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|52116014|376014|19092799006|366016|1800799024|7053199007|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?Th/gNx0DUh7itfDlk36b0mBt0ChtRiAl3w/zPllqrxDpVztyDc1a5GAcwOat?=
+ =?us-ascii?Q?zSezoR2yYhruB3IKsYSU6SlMdXwbt/4J8A3bmeiMH8xQq+hgT3Hu9yFdTMYW?=
+ =?us-ascii?Q?plXcGIs1k2IQqHLRS3gMSN2qS067y+gfuCvS1HN90LV9JTRV8wFw+e+TbNXu?=
+ =?us-ascii?Q?Z0G1dZ1j22ielh/BKNKD7eTikrQhRR6JjSTaOwC/xvnJnk7r07/u7UzpH5uM?=
+ =?us-ascii?Q?yKsGA4Uk2tizpWJIhpGkNRsrG/9vwYaa9cbBb4AEVPE1kB7jbvyLDBJ1kPFu?=
+ =?us-ascii?Q?pKvXrHLgeBdsQG2YiSQCs7oFyRoIKi3jWWpCs1ZjU8x2cDsbqXjh7U7pjzt/?=
+ =?us-ascii?Q?xkpZGLLN5wWjKe+HkpB8KDytli9tppHL6uaP20agoMsbbgQtaJemyB3HjhCA?=
+ =?us-ascii?Q?B7KPTahXk7/DkJCe2zBx7lobC+XcEHqjMEQ0N/DY6lSgvEBdNtjc6MNW2Wcl?=
+ =?us-ascii?Q?MIJeDwpF9kHlCvaJd8Ii35kWapEsfG/8kYu+oUMZ9WQjhvZOlpphHlckxQv2?=
+ =?us-ascii?Q?zx8Uim+fsTb3/14+gzPg1j5GDPC0kDGXPj3RkG9j8K7JA0mOnmeROLXRNtBh?=
+ =?us-ascii?Q?st6NA2T0ZEOzhBgMXSDapYRaxmBgm3DB70csu9GxKYnafH2uZBKIhCLpZrhy?=
+ =?us-ascii?Q?RLyTlK3QwOPYGDjGRnV9QcQkFmpNbMyufLxPTjEdvJSwFlOlDYIaEl5q4U8E?=
+ =?us-ascii?Q?ZepECPcvF96Roq67mBfqgjK9Ho/dF0PrGZFEgd/TmpUj7mpv2h6wfN84/cld?=
+ =?us-ascii?Q?DHrxn3mOMElRwnmn8AArNAB4TJcuBan+YePVHCPQOAQ1PNhoxTeHBZUEboce?=
+ =?us-ascii?Q?ZFYxJLlQ7emVu8z0LGznirab6H1yZRNwWhjoRon+fnxsektbBNmaatyYkaAx?=
+ =?us-ascii?Q?BFlz2tRFK/Ua0YHOyrybhN8281gORMGR/xri1qJpZW+oJNex/hOapzkQGAwJ?=
+ =?us-ascii?Q?SYP+fJmL8ACo2TLWRty/bYr8upJWZrlAZgmOpk2+JBL3Gi4Qdbim7eWVWfcO?=
+ =?us-ascii?Q?TgSERmNyI/81kOeqzq4PPdJagk/g/t2fb1cnBZDlZD4Gyz6C2HdC4rco69EV?=
+ =?us-ascii?Q?pJGieABeCBQh5OsGyCWsjYb7hjUuD3O98jzri0+jLayDiOeZziYmRFdFS6AS?=
+ =?us-ascii?Q?yRRwRoDMTzfJk9YB4WeQllcuE7E/xT3AJSz79KvbUyCvY2J72xEL1weoTzj/?=
+ =?us-ascii?Q?PYxOiK6qjCfUrXBtTI3Ti3HbEJp89FHYF1LyqAUbT9tK2fL7KlQ7OB4BAIoF?=
+ =?us-ascii?Q?+sFhIj8mrsBrYSeWT+RXFL+RbaibzFtuIGzfCg9OW/WejIYbyeTSaZPkRaYg?=
+ =?us-ascii?Q?c32PEa/6QVS+8h1GVY2+9NtaZwk3SStJF0OTnCK/sj2UUlHa2lWdyFZseu1U?=
+ =?us-ascii?Q?4qqBIbz5gf5UHRG9yedm5P4LiVV6h++zkBsgoUqIUzVpTPgCXqDeCys4Mwu+?=
+ =?us-ascii?Q?wj6DPVAY2igZGcJhjVeT6sc5bMuAGiZgY0zHU9y7DgR2PRhyGPa2OoDtTuXR?=
+ =?us-ascii?Q?1K8fkKQ7sGiRIwwwkQY0tiQhCd2Ps7zdWqRa?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8951.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(19092799006)(366016)(1800799024)(7053199007)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?i4Yspf4/9AcYJQsQI2qz1Af5XPcBjyPrqXuy9tW7WRU0NWrPQ9ZeEAcEHRH0?=
+ =?us-ascii?Q?Il5F9/psDlTE3WFjS3bmYrtsB0rdgPTN/T3jCbgddJRI5Z7gxIBytLADGSOm?=
+ =?us-ascii?Q?hxc7nyvkKfO2Mbtc2kOcIKVdPnQqNgeP1D+xzuka9/C1t1fufvUuwtpy73SU?=
+ =?us-ascii?Q?ZFZIUc3ZRCQKoDZV2c6E6QyvoEpBIrv+ToKG/Gdgpsu1DcEa1P3Th5RJvLbE?=
+ =?us-ascii?Q?5vPu9k3KKXPglY3IWYeF/orFx7+Vv+O9BEbtjRYCVM4A+QwUY1Ez12BoO1+B?=
+ =?us-ascii?Q?3xFxx2gbjlTd1DF7qRNP4rnJ6SvTle56etRhpSXGVYg9bAyjBvGWw6kpr2B1?=
+ =?us-ascii?Q?m4jolHcoL53XuNprOMV0JltFKmZizUm6EK8zvL63mhJuspM6bV7xKKZQ7kLZ?=
+ =?us-ascii?Q?dh6vi52alVuM0Ax+xy+pTD27xP+hwGRP1O96kdVvP9yFP9dvZVCfkA8l55ku?=
+ =?us-ascii?Q?lV6LAP7U4fagd6CsBaqQLB0NqXFEPTbfn++KFosNFabQ4ZZw3My0lCNjp5qt?=
+ =?us-ascii?Q?6QwjxYIBjrkSTb/acs9bp8q3ta2LpgpPgcq5IW1m+GENc7W0UaueGrnOY+oz?=
+ =?us-ascii?Q?qqrWpa8ur/iLVg44zUa6w95NXm1AW8D62GerupwTtB2hUoVIrQxSki23pzFI?=
+ =?us-ascii?Q?dAQ+IHklLodWLqRyQBruK4GDfkcCL2LU1w+WavGI2cvZWHBVSr4Fc1XIbXbI?=
+ =?us-ascii?Q?wbuahhNrt2D0h1Xn4go+vuQoUAopFsu2KJQkp2JQs+ipcKMnJxV6C6l+rHLW?=
+ =?us-ascii?Q?SvYCYtLf2dM1N2YUamIeV8CBe4BuBQ3lzTBghIUwmEfcfg0mIE/pR0JPlwZg?=
+ =?us-ascii?Q?jI7jYnE/ODdzXYF9lCse8hITgP5jk0l/sj+ddnSbCT3uKT3H02fPkUJDAE/P?=
+ =?us-ascii?Q?XrGhgjq4NO5kChkkJQeRb0FagGuR5sdWKeCdFKT/1ZJr8fG72ECAPBtx01OT?=
+ =?us-ascii?Q?MxPVdCY+TYxEJyXkdSVZI+9dRSh391a4Z78sob4nL0usL3M65J3mrucJ7oaX?=
+ =?us-ascii?Q?YRnyWHOHo4VzOaPwBAgZAwEJV4khhrcoSOO0t0Q4p1byhb5E9/rwqe5Y1Isc?=
+ =?us-ascii?Q?SWALSBkCGgJNPWmpMWfSq+ENgVguNNWhXgwmkMHhNP9vAov6ymYyLqsGb/vy?=
+ =?us-ascii?Q?jPdvZn5bCU33ijEMyu+7Pdl6QzxH61zJm4s/y1qqWqz2Wn8rma+JS8AiK72A?=
+ =?us-ascii?Q?fD9LYOle6s5ixk37of2CLGCFCI1DhQRGOsIc+jn0hmSjZ6/UWdtDyyxt0RWI?=
+ =?us-ascii?Q?pSBmHD8qfxyuvWM2L57E6XX3PuhaGmBTHGRBCkQShsWQqax1K0ZWYMbCCKFy?=
+ =?us-ascii?Q?jysAZezmYklz5VwEhoHRHNHJEIfthIu02ciYkKRjHf7BA9TBPdsXZVZKQq6M?=
+ =?us-ascii?Q?bWijhX27S16/Y6LghmYXJ5+V02CZF1WgTm6/Wok12iiSjXdFgloYCbi9bNok?=
+ =?us-ascii?Q?NA/2xajPb70gvwcJTg0yL4N6ItJmsZ79o6nElq2jmZmDu/1xgmaEXvsHrgyE?=
+ =?us-ascii?Q?i50VONuJIEbw3qdZ1CYuVru+jnb96XkvIpfpKyxRe5EWrsofALOIxyKScXXW?=
+ =?us-ascii?Q?fAomNEu9ZybUde38R6Ri/dsrwGLr83tRJhijdevfU6TOxaMVCPu7Z+8KCDBF?=
+ =?us-ascii?Q?uunevasvZQorqWEUfcSyc2w+u76iBO9t14hcWV1t3EYaDV8e8gVtdNNdA7H4?=
+ =?us-ascii?Q?alcRnUZH+uAkQtxHJ3h3Kt5oPeGIeD5NPAlN9uNlgO3w9Vot?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 561ac76b-b6f1-4d72-6b71-08de47ba45a5
+X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB8951.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Dec 2025 15:44:09.3318
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: y5Y8T61URsNeLzToRtovK5+dx56pe+PpqMvYpcnU8v+bpjAC7rn+5gNGyJ39M/SjCht3LMNJgtEtXOtWifSdzQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB10110
 
-On Tue, 30 Dec 2025 at 11:54, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Tue, 30 Dec 2025 at 11:34, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Mon, 22 Dec 2025 at 21:40, Rafael J. Wysocki <rafael@kernel.org> wrote:
-> > > From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> > >
-> > > The PHY core defines phy_pm_runtime_put() to return an int, but that
-> > > return value is never used.  It also passes the return value of
-> > > pm_runtime_put() to the caller which is not very useful.
-> > >
-> > > Returning an error code from pm_runtime_put() merely means that it has
-> > > not queued up a work item to check whether or not the device can be
-> > > suspended and there are many perfectly valid situations in which that
-> > > can happen, like after writing "on" to the devices' runtime PM "control"
-> > > attribute in sysfs for one example.
-> > >
-> > > Modify phy_pm_runtime_put() to discard the pm_runtime_put() return
-> > > value and change its return type to void.  Also drop the redundant
-> > > pm_runtime_enabled() call from there.
-> > >
-> > > No intentional functional impact.
-> > >
-> > > This will facilitate a planned change of the pm_runtime_put() return
-> > > type to void in the future.
-> > >
-> > > Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> >
-> > Thanks for your patch, which is now commit caad07ae07e3fb17 ("phy:
-> > core: Discard pm_runtime_put() return values") in phy/next.
-> >
-> > This is causing several messages like
-> >
-> >     phy phy-e6590100.usb-phy-controller.2: Runtime PM usage count underflow!
-> >
-> > during boot, and s2ram on Koelsch (R-Car M2-W).
+On Tue, Dec 30, 2025 at 11:39:36AM +0100, Tommaso Merciai wrote:
+> Replace individual devm_clk_get_enabled() calls with the clk_bulk API
+> and store the clock handles in the driver's private data structure.
 >
-> On R-Car Gen3, there are no such messages, as e.g.
-> drivers/phy/renesas/phy-rcar-gen3-usb2.c does support Runtime PM.
-> R-Car Gen2 uses drivers/phy/renesas/phy-rcar-gen2.c, which does not
-> use Runtime PM yet, but still relies on explicit clock management.
+> This simplifies the code, and prepares the driver for upcoming
+> suspend/resume support.
 >
-> > > --- a/drivers/phy/phy-core.c
-> > > +++ b/drivers/phy/phy-core.c
-> > > @@ -190,15 +190,12 @@ int phy_pm_runtime_get_sync(struct phy *
-> > >  }
-> > >  EXPORT_SYMBOL_GPL(phy_pm_runtime_get_sync);
-> > >
-> > > -int phy_pm_runtime_put(struct phy *phy)
-> > > +void phy_pm_runtime_put(struct phy *phy)
-> > >  {
-> > >         if (!phy)
-> > > -               return 0;
-> > > +               return;
-> > >
-> > > -       if (!pm_runtime_enabled(&phy->dev))
-> > > -               return -ENOTSUPP;
-> >
-> > Adding some instrumentation shows that this branch was taken before,
-> > thus skipping the call to pm_runtime_put().
-> >
-> > Can I just put the check back, or is there an underlying problem that
-> > should be fixed instead?
+> No functional change intended.
 >
-> I assume the PHY core should support both drivers that do and do not
-> support Runtime PM.
+> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> ---
+> v1->v2:
+>  - New patch.
+>
+>  drivers/i3c/master/renesas-i3c.c | 42 +++++++++++++++++++++-----------
+>  1 file changed, 28 insertions(+), 14 deletions(-)
+>
+> diff --git a/drivers/i3c/master/renesas-i3c.c b/drivers/i3c/master/renesas-i3c.c
+> index 426a418f29b6..8ef6ff06df90 100644
+> --- a/drivers/i3c/master/renesas-i3c.c
+> +++ b/drivers/i3c/master/renesas-i3c.c
+> @@ -259,7 +259,8 @@ struct renesas_i3c {
+>  	u8 addrs[RENESAS_I3C_MAX_DEVS];
+>  	struct renesas_i3c_xferqueue xferqueue;
+>  	void __iomem *regs;
+> -	struct clk *tclk;
+> +	struct clk_bulk_data clks[3];
+> +	u8 num_clks;
+>  };
+>
+>  struct renesas_i3c_i2c_dev_data {
+> @@ -276,6 +277,10 @@ struct renesas_i3c_config {
+>  	unsigned int has_pclkrw:1;
+>  };
+>
+> +static const char * const renesas_i3c_clks[] = {
+> +	"pclk", "tclk", "pclkrw"
+> +};
+> +
+>  static inline void renesas_i3c_reg_update(void __iomem *reg, u32 mask, u32 val)
+>  {
+>  	u32 data = readl(reg);
+> @@ -489,7 +494,7 @@ static int renesas_i3c_bus_init(struct i3c_master_controller *m)
+>  	int od_high_ticks, od_low_ticks, i2c_total_ticks;
+>  	int ret;
+>
+> -	rate = clk_get_rate(i3c->tclk);
+> +	rate = clk_get_rate(i3c->clks[1].clk);
 
-I have sent a patch:
-https://lore.kernel.org/3ca9f8166d21685bfbf97535da30172f74822130.1767107014.git.geert+renesas@glider.be
+Can you use macro of variable replace hardcode "1"
 
-Gr{oetje,eeting}s,
+>  	if (!rate)
+>  		return -EINVAL;
+>
+> @@ -1298,11 +1303,17 @@ static const struct renesas_i3c_irq_desc renesas_i3c_irqs[] = {
+>  	{ .name = "nack", .isr = renesas_i3c_tend_isr, .desc = "i3c-nack" },
+>  };
+>
+> +static void renesas_i3c_clk_bulk_disable_unprepare(void *data)
+> +{
+> +	struct renesas_i3c *i3c = data;
+> +
+> +	clk_bulk_disable_unprepare(i3c->num_clks, i3c->clks);
+> +}
+> +
+>  static int renesas_i3c_probe(struct platform_device *pdev)
+>  {
+>  	struct renesas_i3c *i3c;
+>  	struct reset_control *reset;
+> -	struct clk *clk;
+>  	const struct renesas_i3c_config *config = of_device_get_match_data(&pdev->dev);
+>  	int ret, i;
+>
+> @@ -1317,19 +1328,22 @@ static int renesas_i3c_probe(struct platform_device *pdev)
+>  	if (IS_ERR(i3c->regs))
+>  		return PTR_ERR(i3c->regs);
+>
+> -	clk = devm_clk_get_enabled(&pdev->dev, "pclk");
+> -	if (IS_ERR(clk))
+> -		return PTR_ERR(clk);
+> +	i3c->num_clks = config->has_pclkrw ? 3 : 2;
+>
+> -	if (config->has_pclkrw) {
+> -		clk = devm_clk_get_enabled(&pdev->dev, "pclkrw");
+> -		if (IS_ERR(clk))
+> -			return PTR_ERR(clk);
+> -	}
+> +	for (i = 0; i < i3c->num_clks; i++)
+> +		i3c->clks[i].id = renesas_i3c_clks[i];
+>
+> -	i3c->tclk = devm_clk_get_enabled(&pdev->dev, "tclk");
+> -	if (IS_ERR(i3c->tclk))
+> -		return PTR_ERR(i3c->tclk);
+> +	ret = devm_clk_bulk_get(&pdev->dev, i3c->num_clks, i3c->clks);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = clk_bulk_prepare_enable(i3c->num_clks, i3c->clks);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = devm_add_action_or_reset(&pdev->dev, renesas_i3c_clk_bulk_disable_unprepare, i3c);
+> +	if (ret)
+> +		return ret;
 
-                        Geert
+Can you use devm_clk_bulk_get_all_enabled()? all dts already verified
+by dt-schema.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Frank
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+>
+>  	reset = devm_reset_control_get_optional_exclusive_deasserted(&pdev->dev, "tresetn");
+>  	if (IS_ERR(reset))
+> --
+> 2.43.0
+>
 
