@@ -1,342 +1,281 @@
-Return-Path: <linux-renesas-soc+bounces-26223-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26224-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DD59CEBA25
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Dec 2025 10:09:03 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5726CCEBBAF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Dec 2025 10:57:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id CB91E300C368
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Dec 2025 09:09:02 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 3A4E530076A3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Dec 2025 09:57:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D01CB315D25;
-	Wed, 31 Dec 2025 09:09:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 912B83191DE;
+	Wed, 31 Dec 2025 09:57:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="siGQZDE+"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="hg6RrTRR";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="BqFulToH"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010064.outbound.protection.outlook.com [52.101.229.64])
+Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B95531578E;
-	Wed, 31 Dec 2025 09:08:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.64
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767172141; cv=fail; b=ClSlRvl4vtWBZyFKqi16rqibwqtO6BRMzGsK+nxIkMdrgvPQkW+IxHYDG+FC9dTRfNdDfr44tcRli26/M1uWsq+VhnpMWDqc/w3Z2Q/mnCnX4S7rdT770UC9qL1FL9e0+tV6TvZF0ci1ZowkPYW93ETJQl68QgPZsmr7trpPfFM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767172141; c=relaxed/simple;
-	bh=TEiRnibZdLjMx2wi6BgQ8xJ1cZYv3cbbxrXkH+IfXEY=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=G3VM2W+hMqFTkk0cO4YFIs7Frv1yq91GCJ76OczlJpJ8SibmFDMKsgLFiWhDcVXBbIbFWwJUqXUB+7GGiVVbmgHEEXXjMT/UhoT47yCMjQVq03d9FwSmeT++z4GASLmqwbqrhDUnf9Ri4G8irRG8JP3xz29KUVlf5yMU+EJoHWc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=siGQZDE+; arc=fail smtp.client-ip=52.101.229.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JYlDz5+LyDiQsYevM0RgipPMav+DcWdJs5csFHICxh82zKjwMi773fZHQmDccHpuy/Hr1RlcLUxPdwP64Rup4gr6k2p/rFidjXsxKpgX9NMJLQetUYeCHHsSMPt9UDuFP3sz9Y2WHg6jX5WUoSu2xBSLwJFJ4X2hgvnqgnIZ01dJb8FIrgM/5ddnbHwI1bQTBgXOrWKGS3a2cJcdG6TVzSe5Dch+9qyFI6tQoBIdB+GkEV4HK2mJhmntFeM4+tk3Ppp9vR4ds3LmAN0QNKNXMFacsTaK+Y5qLLF9LwIG5rhrwV6oEIPMhc37EriZ/IaA0Eeq2K+zTQgyAz+bvijSxw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AaVFCc4uaB24ns3BPkcjbnj6RcBVi22pOzKJjWUvLFk=;
- b=y9VzlYseE4XQC7cJMJVLWvmcS33EwG22e+fBSCgHspE7l/b+20mW0TsO6NkugMLLQEhtDr3YONfVnMwfKjHkXfK/QmUV0MFQSzWpsEiqi0GjOfbuBdl8FgdTmxeCw4/PYgq4jaROmbarzUMHUOzr343fyScTEzEzdgtuSUDxRgyZAc/zREAYDCZiDfxGKFcdurIJJnu+hW2F2wIEkrzFbRde5eKWTe+PsIXXilT8suVUWZiOCAu6ylDwz4gziRi6HBm6YfMq2yOIETPEcL8z+JynjJPCy6SJslgl5oWfZ3a3b6mppSXpbmn+3+LPSUQ7gExMcxqrP+fAgs1BavQMjw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AaVFCc4uaB24ns3BPkcjbnj6RcBVi22pOzKJjWUvLFk=;
- b=siGQZDE+tSIWPCeNWqromPa9LLSIZy0bcNHYPXZKqKHYb/uMVoxTHsKwGTUvEw2y+2fPKk98xrncEVw7+TAP5qGRBfVFtPKpHOCA/i02cfEXfGZeYth7uUNV/zaSVA3/kIRaa1IL+HA1NLoRTWO01x86q2crJcSAt2K+0iGE47A=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by TY3PR01MB10355.jpnprd01.prod.outlook.com (2603:1096:400:253::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9478.4; Wed, 31 Dec
- 2025 09:08:55 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1%6]) with mapi id 15.20.9478.004; Wed, 31 Dec 2025
- 09:08:54 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, Tommaso Merciai
-	<tomm.merciai@gmail.com>
-CC: "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	wsa+renesas <wsa+renesas@sang-engineering.com>, Alexandre Belloni
-	<alexandre.belloni@bootlin.com>, Frank Li <Frank.Li@nxp.com>, Philipp Zabel
-	<p.zabel@pengutronix.de>, Geert Uytterhoeven <geert+renesas@glider.be>,
-	magnus.damm <magnus.damm@gmail.com>, "linux-i3c@lists.infradead.org"
-	<linux-i3c@lists.infradead.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v3 1/4] i3c: renesas: Switch to clk_bulk API and store
- clocks in private data
-Thread-Topic: [PATCH v3 1/4] i3c: renesas: Switch to clk_bulk API and store
- clocks in private data
-Thread-Index: AQHcei7B1N01Ink3mEOQFkmXK5jCLrU7dX1A
-Date: Wed, 31 Dec 2025 09:08:54 +0000
-Message-ID:
- <TY3PR01MB1134639E27E86605C6B6270E686BDA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <cover.1767168766.git.tommaso.merciai.xr@bp.renesas.com>
- <c6678c398f89eba9ae7b349ec31bbd0a1cf7355c.1767168766.git.tommaso.merciai.xr@bp.renesas.com>
-In-Reply-To:
- <c6678c398f89eba9ae7b349ec31bbd0a1cf7355c.1767168766.git.tommaso.merciai.xr@bp.renesas.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TY3PR01MB10355:EE_
-x-ms-office365-filtering-correlation-id: b4bcb8c5-3c88-450a-2798-08de484c3929
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|376014|7416014|1800799024|38070700021;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?KMaQJaF6ix1vLJBAQWCkz5+zPugIPiKIv/WMF+SfF1NrYjF93g/DgFRAP7t9?=
- =?us-ascii?Q?ee8ElgBaXYci09ZDOROYHeo6YxH/QRexBdT5/zG7M94Il8nCcJkZcI04owke?=
- =?us-ascii?Q?2W0Mqsc2j+c1lTwa8vfYfo7gWXEkpcWuQEVdbquzL/FjNPkazRhEOY1TVdie?=
- =?us-ascii?Q?q8/98QLW/lEdibYIErIPRxLHS7bOQZKpfZpuE9e0EtINFA0Q87u7sDW1ySCr?=
- =?us-ascii?Q?Sc2Z+dej3oWCCx2c78rxP4VQBgyeO850pc5r3sIhO3DCHaVl/jb2OGl+QOki?=
- =?us-ascii?Q?2DuKxuVvuUEveS/QD1ngOnbKLIl0vKLQgHlrbb8MDjnbE8JNLyDhouX+6yfr?=
- =?us-ascii?Q?JU249ij8ScLq6WaEeFoVk3yn80C+65qPLZKw3BMVFHbjzBdZ12GiOacxczCr?=
- =?us-ascii?Q?lapXJolmK3N0jf6qO2oi56KcAnukTA7m+Gsq/6tkqTVBHZX6aULA/Bip+tjj?=
- =?us-ascii?Q?3UT8Fhszh5QBrDsLIxmSTa7EvmA7GtpJVDERTVIG/xM7GJ5TBqTsw2HkVSnp?=
- =?us-ascii?Q?HYESL6lnrtpCfrun0y81AAUiMcZVv0GV8H0hqcsg8rpq/xVcun5tmt7BhYvm?=
- =?us-ascii?Q?1/3pwK/ct7vfnZ+ARSvOJJvjMzVTgBAYqIfLuwOAC9A16kI2UWX1VfWk5lQV?=
- =?us-ascii?Q?ZG/7ABVMWwGzN0f3p8gbbQs7cE9BrjdU1/CN9MjywPz7oTuO65p9/uGMo2wS?=
- =?us-ascii?Q?pylPixMIvB09f7SYYzX6vLB0NMGXC0iiYQ8oYl8bxV4x/P8ip5qC0EUshW5e?=
- =?us-ascii?Q?ZlQPnRZy0w869pFNpQropSm+RCcJ/k3LmVLQpVlraLxlXNk63FaWSCy6kJyy?=
- =?us-ascii?Q?fRiwAQqtV8yGJBALbn/2kJMaWB2lyUun0PAtOmQQDYHYFjzsuTpikn2w7UXX?=
- =?us-ascii?Q?wXKeBY5Q+FIRoPI+gIp3/MkTgqzbFhJ+OFOAPOz29RkuRogel2YZlfvPj0Eu?=
- =?us-ascii?Q?7YXUuxOamklCcCJWn5QguGXRkUx5S8OYktMfASPcS8iIvJcEqVjSOu17fxIb?=
- =?us-ascii?Q?WZKAP/6UGYbsi0/0PBUAbmhAvj/sdR2rv56z+VTx1jFOv8AbUTF9BpDluLzE?=
- =?us-ascii?Q?vvu5b9anBwiQgn/wcPHtlP+rBeomNLzGjocnWhv5Ha/zw7J0AoWGmvID1YIv?=
- =?us-ascii?Q?X/uhGukJ2JCHo9MriB3gVp+bDpKgS8uPue+lDq8q8YtlRny3CHqD7XtL8r+i?=
- =?us-ascii?Q?wh/Q/fgpXb9mmsiY2FDM0fgbRMcpLtDcYHtUiS2yRn7rHWBuZgHq2sPb54Wt?=
- =?us-ascii?Q?3mZdyAkpvoWcRTTZEMExdPrx4VtwjbGz7CdTKPDyRexJzVuDotit88LTZGDv?=
- =?us-ascii?Q?OvCF3YYWuC7cUWIntIQny6JV7KtEAvlekDVWpo/KJ2/uV5N8xkQMFjUfThj/?=
- =?us-ascii?Q?IU9M7b3UOwD/HyE8U8ZdZZTHu6YwAiulyK+mhN3y/PE3rZIn0lmJRg0fii6c?=
- =?us-ascii?Q?hDcwPDOaHsnLXCJLMKbCrYPjpxl/c1i3cfsR0GYXQ9uvMzq6rkCNeg4bilsn?=
- =?us-ascii?Q?0WitRy3MWnmTr1ot7P90CztRka7zMeLgJbXy?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?kD3hcBPItjtV1pVpM1miMZAlMx26GMxCzhfeoxaqwR81EDDAfJd8RQWTR+tV?=
- =?us-ascii?Q?RJ9tRK2Up6B4TUdIIE6lH5D+f8CGgvpPnsyVFDT9JwsIq1eNQVEVX3wfbmTw?=
- =?us-ascii?Q?7nBLZHxOZu+NkHh2NCVejXhUXGtWsmav5AqLsCo3H+6EUhfO8gOH/Mi+j7np?=
- =?us-ascii?Q?DlarFjxB8oaJWMEBwMGpMgV03m/mu4oDiTxkIPRivTSMbTiOl6xX3Jf0iWOG?=
- =?us-ascii?Q?hP38VSxG1PtROw3ZQ7GqaFtUvph1qjB+nc0ui5YuDWJ/XqC50qDL7lzorMzJ?=
- =?us-ascii?Q?swQEhmzPtr/ZqzJv3Xof3fEVZOOGKacaY+ieof/Asp0Bd/qPujZ1YGCSbVUl?=
- =?us-ascii?Q?lWoiCk6Fl60GBp5AxQQ1rh+zsRk62TNMmkVHB6zlXGDBtqWTinevJ0bmnBGO?=
- =?us-ascii?Q?Fwek7l1ytg4VZBYG1W4ASi51PaP5TnTcCO2gbqzy7gO5hy6+Zo3NvJCn8d8v?=
- =?us-ascii?Q?GxO8rpdlS+A9/UML6s3Z1nQzx9EZ6fXBIJrWhcI0HJ99XACA+CXOIQjboGHB?=
- =?us-ascii?Q?TERu6GuUcC5YTH3Rt+OduZjhTN3AeFrWw7vIVwlUZdKUDn5gikwvqWMT0jOt?=
- =?us-ascii?Q?A4R89TPCiypOwQTIBYTtVyitw/jk+CogeMApqqhLAx9Nbushc0Y+YeukNF2v?=
- =?us-ascii?Q?sywbuGVn1/3rWzM5FjKxnADluUb0GAlksSPP9MLeEcOZ8iX9+fEKx6zlfSm4?=
- =?us-ascii?Q?uoJHwtz5xHOGOkL9xS9nJ59eTtVvlwItCFnoc+QiypLlnhnGe5h0nxzJ+5hE?=
- =?us-ascii?Q?5fR8VlAMpZQyUUtjwy2BoxkdLEWs1kxguQnAd9Gp3X1LJRCr47SaRPh6KIoB?=
- =?us-ascii?Q?isfAqk2EXEirGFUj5L9f1wc0u3EURqCW+e79L8pogWLZ8r0BWkBIAbh6/cT9?=
- =?us-ascii?Q?3vtWulfpZBLU+LLT023+dXearzC/VNuGkxw6TSYFIhqQZ9Gh9iyMcm7slywR?=
- =?us-ascii?Q?YQ2BklbkEr6ULU0wV3aNSEjZeT7klpA4jfrth8k3a3ENPaZTLGS+FBxB/0w/?=
- =?us-ascii?Q?mPkm9ihniRRp3cvWkxBzom1MJZyjMHtLBCMS73O3V2omKq4+V5Gt2NnS8Yoj?=
- =?us-ascii?Q?qRzj+49lJEufdjO/l00Z/JRzJMSGyR+x2yvlwh3juNk6Yi6QSjCIQqdhIml5?=
- =?us-ascii?Q?VozGOkJ9liUUaDOTyrg0SSA4OSYL1kV3s4ipbbqk6upovYsc16tpegyY5/PC?=
- =?us-ascii?Q?yfxqkEJ/VSZ9Anie2gHs4jZjkUAU/Eom+Y/2RrNgPbPhQ5ktVU82pZdJ3s6/?=
- =?us-ascii?Q?FT0qOH/pa6H2YlsdliiqQxZ5sR3D6DIlUME9YGS9S+2i4/GFNG0vExVqhWBG?=
- =?us-ascii?Q?bnCj6XzFdporcYa+tTUVFyLDjGgRL/cN1rIft+5Q6g5zoV8iEs3hdPQWbuPo?=
- =?us-ascii?Q?2t9gr6cjnv/K0lltNgpuwnEgi4ZteOlYjuGQfiIbfk6+fOJcOvCv8rTjRWK5?=
- =?us-ascii?Q?ZSKp4j89VXlU3/jwi52TrI7SN6yBJYELYY24xk2dpYRlUybpLfAu4PKVH91s?=
- =?us-ascii?Q?SnhA98S53FFZ3YrzDO96GKObJ5LeWtPPfuKc/LNGP8nsmx+KpFptF7UHmbfv?=
- =?us-ascii?Q?GeISkNk2OBIcfmNI7GsSyEPKeiDoLl81UXnTBv9PaGzRgeM33y+5EIvMFAaw?=
- =?us-ascii?Q?wWRcaZGGAp0dPgrvjyI1GGRjCgRhsbc1HEkcvRExT16lUE4J2UAiUDqQ/Oxr?=
- =?us-ascii?Q?xmUtF0O5fbDOJrUQbaGw9E39cVbDCYcCRTijbiXR6QjSh4o5DT3VvuUwFMK6?=
- =?us-ascii?Q?69c54XRVcw=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C11161C84D0;
+	Wed, 31 Dec 2025 09:57:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767175066; cv=none; b=Tmyx9Fs/6tq9AHw0PPu7lNNzjnJxF8aUqqRWHFOn44psRfJJXjl/XS5AP9KNWM+oBgoNYoVNxB+ogGm6Un5ne60uPH+mugqc+blQZz2zxDlFQEEZYJoU9u/aOmXxLXNq1DAZfmdd5DYnv5NmR/4aib/ijTM5BP7DmM33AmltNo8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767175066; c=relaxed/simple;
+	bh=EOmdSrTNL0vNtg/Ym1zQuO4wrPs2hfmsfoaaLfYFg6s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kAtYpCfC06VS30e80iGFJLLL8F5d9k6U/5YkDXHSS8GCDGmLo9lxzvPfNkYTG8Xw1pmigzb/Pw3Fzmx6m2VsBCITmnjOtVkm45kb8Snhps0fkRevAabgMygRBbORbqtnZkpn2AE3NyWbTL/LNOMFd5eiCsv0v/AIRl0RuwMA3gg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=hg6RrTRR; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=BqFulToH; arc=none smtp.client-ip=103.168.172.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfout.phl.internal (Postfix) with ESMTP id 767A1EC00F9;
+	Wed, 31 Dec 2025 04:57:42 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-06.internal (MEProxy); Wed, 31 Dec 2025 04:57:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1767175062;
+	 x=1767261462; bh=Oa+/+rc1nqzSq3Nx84rWE4AZa4DGNN3q0O7mmyPQMus=; b=
+	hg6RrTRR6BIdUbo50FevHPbc5dcX23+xSl7EtnEhxg4MvqgNQ0b4GeG0jYufvt0O
+	nHNgvybNhbi5WEXQZ1/gvq7vqbJJw9079PF+Jw6XsIUQYgCtgrBwsVYeWAp7kK3h
+	zU6E66Ge7Jxi9/S2nJ5iWVotasm6lnt12qjrvx7mHl35veIWn0gr//M5EojPdSvc
+	emeJhosAxbtM2wiD02t8G+yc9eY5YcOQ/zVfJRiOIw+A8Trr7hyz2wEDHQCmriCT
+	YIhoHp/5CpyZPqyKrGZpQJj2rTgnmHDgwtaWhx8CzN/qeUP++khnbeFCf6cu2QP6
+	LaaPAWNKK3t5+ySPhGP/zg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1767175062; x=
+	1767261462; bh=Oa+/+rc1nqzSq3Nx84rWE4AZa4DGNN3q0O7mmyPQMus=; b=B
+	qFulToHMdiiAaLeZ1GFlFIoKYhX2OHgqOmg/tKCbUFR6V0VInCAfkAcdBsON+S5X
+	LxybLAhEevGkMu0NERsMz3PxRoqTLh+Qx9ftqaHPsSp9vW3fEidkV8rCEeRW7+mQ
+	MxDV8p9ri6ZA/Wvp6FfYizqaNvCrNmv5Dhbx5AB/+UH9KcJFZ3L1Xs+1hTBF+Yhy
+	5YkeeP2D0iq3vpImIl/yJToPfuhFzx5UL5z/uXLTCQcQI19/zkAijzkdG7lVjLl6
+	wFrbczYgZ3/dvaZpzejVkkiOqS5sbUt7b84rtfWXmqokZoFzc9edKv+2iommZq4w
+	feBM7vxFcsMDZggtR6gyg==
+X-ME-Sender: <xms:lfNUab0tQCp_FEQRuUj--ycvq9LhoecvsgJ_4XOoTgiEJBQh6ARxJw>
+    <xme:lfNUaZwJIkBKP-ltthaSu-1cb_4pkYQmWB5M-vVaE64cTG7dVDvILP6-mkNZaSqAA
+    uZyEnOaknBYN_ZmipkjnFCcLHpypd5ZEuTVSMeNqJALfIa2h5V_vwo>
+X-ME-Received: <xmr:lfNUaXjFaGmiZlhj7Y5KhB09X4V6vseTHIXELpwk57Tit9RKpkiuTA80vcG7uud3gNNI3BoTRfkEsy9Fqnwb_ngPzDQg7q8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdekvdeitdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomheppfhikhhlrghs
+    ucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhgusehrrghgnhgrth
+    gvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepffdtgeefveefgfeutdevveelgfelkeeu
+    vdefgefgfeehfeeijeehudelhfejkefgnecuffhomhgrihhnpehkvghrnhgvlhdrohhrgh
+    enucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhk
+    lhgrshdrshhouggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtth
+    hopedutddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepthhomhhirdhvrghlkhgv
+    ihhnvghnodhrvghnvghsrghssehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtth
+    hopehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehsrghkrghrihdr
+    rghilhhusheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehlihhnuhigqd
+    hmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidq
+    rhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhope
+    hlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthho
+    pehmtghhvghhrggsodhhuhgrfigviheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplh
+    gruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgt
+    phhtthhopehjrggtohhpohdrmhhonhguihesihguvggrshhonhgsohgrrhgurdgtohhm
+X-ME-Proxy: <xmx:lfNUacon9BSTz-Aogp6DRHZeDEJMGYHCqRecrButYCG0fevP4m0iBA>
+    <xmx:lfNUaeg_0Rii2XmB_D6QBX2Sik3qoSBWqcb1VvyThKnM0TXSOzIWYw>
+    <xmx:lfNUaePALXp-m7KHEDmW0inu4PoQKD9aX7ZV-E6Giep3CfzsSVjn4g>
+    <xmx:lfNUaYx9PIlyyKI5hBnoocxO5fQS1NeApvnq-t2Ov2fcs9comtaomQ>
+    <xmx:lvNUadm_iEbf9l4fhG9CGInc1hyw5yLYQ3s7KFVXZNyIXWtmxNVnSnP7>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 31 Dec 2025 04:57:41 -0500 (EST)
+Date: Wed, 31 Dec 2025 10:57:39 +0100
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH v4 00/15] media: rcar: Streams support
+Message-ID: <20251231095739.GA3091492@ragnatech.se>
+References: <20251216-rcar-streams-v4-0-f28b4831cc67@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b4bcb8c5-3c88-450a-2798-08de484c3929
-X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Dec 2025 09:08:54.6881
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: k3Hqhp+5Cn3ZbRnUrvPS5aTarCxwbWQsKedF87VFW3hcN+gtB05GCoeXrpF+F+chN8sY4xza2bVlWP2y/isD3HW/b29dqO0Muxdgj3fc7S4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB10355
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251216-rcar-streams-v4-0-f28b4831cc67@ideasonboard.com>
 
+Hi Tomi,
 
+Thanks for your persistent work on this series!
 
-> -----Original Message-----
-> From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> Sent: 31 December 2025 08:23
-> To: Tommaso Merciai <tomm.merciai@gmail.com>
-> Cc: linux-renesas-soc@vger.kernel.org; Biju Das <biju.das.jz@bp.renesas.c=
-om>; Tommaso Merciai
-> <tommaso.merciai.xr@bp.renesas.com>; wsa+renesas <wsa+renesas@sang-engine=
-ering.com>; Alexandre Belloni
-> <alexandre.belloni@bootlin.com>; Frank Li <Frank.Li@nxp.com>; Philipp Zab=
-el <p.zabel@pengutronix.de>;
-> Geert Uytterhoeven <geert+renesas@glider.be>; magnus.damm <magnus.damm@gm=
-ail.com>; linux-
-> i3c@lists.infradead.org; linux-kernel@vger.kernel.org
-> Subject: [PATCH v3 1/4] i3c: renesas: Switch to clk_bulk API and store cl=
-ocks in private data
->=20
-> Replace individual devm_clk_get_enabled() calls with the clk_bulk API and=
- store the clock handles in
-> the driver's private data structure.
->=20
-> All clocks required by the controller are now acquired and enabled using
-> devm_clk_bulk_get_all_enabled(), removing the need for per-SoC clock hand=
-ling and the
-> renesas_i3c_config data.
-> The TCLK is accessed via a fixed index in the bulk clock array.
->=20
-> Simplify the code and prepare the driver for upcoming suspend/resume supp=
-ort.
->=20
-> No functional change intended.
->=20
-> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+On 2025-12-16 17:18:17 +0200, Tomi Valkeinen wrote:
+> Add streams support to Renesas rcar platform driver.
+> 
+> The series keaps compatibility with the current upstream for a single
+> stream use case. However, in upstream there's a limited custom
+> multi-stream support implemented to the rcar driver, which will be
+> replaced with the upstream's Streams API.
+> 
+> I have tested this series on Sparrow-Hawk board, with a few different
+> setups:
+> 
+> IMX219 connected to the CSI0 connector
+> - The following patches applied to my test branch in addition to this
+>   series:
+>   1) The v4l2_subdev_get_frame_desc_passthrough dependency
+>   2) Revert of commit e7376745ad5c8548e31d9ea58adfb5a847e017a4 ("media:
+>      rcar-vin: Fix stride setting for RAW8 formats"), as that commit
+>      breaks RAW8
+
+That is so odd, I do grab RAW8 on V4H with a IMX219. In what way is do 
+you see RAW8 breaking?
+
+> - Tested with a single video stream
+> 
+> IMX219 connected to the CSI0 connector
+> - Plenty of other patches applied to enable full streams support and
+>   embedded data support in imx219 and v4l2 framework
+> - Tested with video and embedded data streams
+>  
+> Arducam FPD-Link board + 4 x IMX219 connected to the CSI0 connector
+> - Plenty of other patches applied to enable full streams support and
+>   embedded data support in imx219 and v4l2 framework, and TPG support in
+>   ub953
+> - Tested with video and embedded data streams from all four cameras (so
+>   8 streams in total)
+> - Also tested with ub953's TPG, combined with video & embedded streams
+>   from other cameras.
+
+As there are dependencies on patches that have been on the list for a 
+long time that would block merging this work. Could we try and shift 
+focus and get some of the nice fixups and cleanups merged first? IMHO we 
+could even aim for merging the rework (reduction) of the ad-hoc VC 
+support done in the graph ASAP to get it out of the way.
+
+It would also be nice if we could sort the RAW8 issue separately to get 
+it out of the way.
+
+I have other work touching these drivers I'm holding of on to not cause 
+conflicts with your nice work, and it will make my work smaller/easier 
+too!
+
+Could we start by breaking this out into:
+
+- A series that just removes the ad-hoc VC thru media graph in the R-Car 
+  VIN and CSI-2 drivers.
+
+- And then we can follow up with the cleanup of each of the drivers as 
+  separate series.
+
+This would make it easier for everybody I think. Each series becomes 
+smaller to review, we can get fixes and cleanup in now and not wait for 
+all stream dependences to land first.
+
+> 
+> I have observed one issue with the embedded data (i.e. requiring bunch
+> of patches not in upstream): when stopping streaming, VIN says that it
+> cannot stop the stream. I haven't debugged that, but a possible issue is
+> that the if the video stream for the imx219 is stopped first, the
+> embedded data stops also, and VIN does not get the frame-end it is
+> waiting for.
+
+I would not be comfortable merging with this regression. I have bad 
+experiences when VIN report it can't stop the stream. More often then 
+not it also means it then can't start streaming again...
+
+> 
+>  Tomi
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 > ---
-> v2->v3:
->  - Added define for TCLK index.
->  - Use devm_clk_bulk_get_all_enabled() into renesas_i3c_probe().
->  - Improved commit body.
->  - Dropped unnecessary static const char * const renesas_i3c_clks[].
->  - Removed the need for per-SoC clock handling and the renesas_i3c_config=
- data.
->=20
-> v1->v2:
->  - New patch.
->=20
->  drivers/i3c/master/renesas-i3c.c | 43 ++++++++------------------------
->  1 file changed, 11 insertions(+), 32 deletions(-)
->=20
-> diff --git a/drivers/i3c/master/renesas-i3c.c b/drivers/i3c/master/renesa=
-s-i3c.c
-> index 426a418f29b6..1b8f4be9ad67 100644
-> --- a/drivers/i3c/master/renesas-i3c.c
-> +++ b/drivers/i3c/master/renesas-i3c.c
-> @@ -198,6 +198,8 @@
->  #define RENESAS_I3C_MAX_DEVS	8
->  #define I2C_INIT_MSG		-1
->=20
-> +#define RENESAS_I3C_TCLK_IDX	1
-> +
->  enum i3c_internal_state {
->  	I3C_INTERNAL_STATE_DISABLED,
->  	I3C_INTERNAL_STATE_CONTROLLER_IDLE,
-> @@ -259,7 +261,8 @@ struct renesas_i3c {
->  	u8 addrs[RENESAS_I3C_MAX_DEVS];
->  	struct renesas_i3c_xferqueue xferqueue;
->  	void __iomem *regs;
-> -	struct clk *tclk;
-> +	struct clk_bulk_data *clks;
-> +	u8 num_clks;
->  };
->=20
->  struct renesas_i3c_i2c_dev_data {
-> @@ -272,10 +275,6 @@ struct renesas_i3c_irq_desc {
->  	const char *desc;
->  };
->=20
-> -struct renesas_i3c_config {
-> -	unsigned int has_pclkrw:1;
-> -};
-> -
->  static inline void renesas_i3c_reg_update(void __iomem *reg, u32 mask, u=
-32 val)  {
->  	u32 data =3D readl(reg);
-> @@ -489,7 +488,7 @@ static int renesas_i3c_bus_init(struct i3c_master_con=
-troller *m)
->  	int od_high_ticks, od_low_ticks, i2c_total_ticks;
->  	int ret;
->=20
-> -	rate =3D clk_get_rate(i3c->tclk);
-> +	rate =3D clk_get_rate(i3c->clks[RENESAS_I3C_TCLK_IDX].clk);
->  	if (!rate)
->  		return -EINVAL;
->=20
-> @@ -1302,13 +1301,8 @@ static int renesas_i3c_probe(struct platform_devic=
-e *pdev)  {
->  	struct renesas_i3c *i3c;
->  	struct reset_control *reset;
-> -	struct clk *clk;
-> -	const struct renesas_i3c_config *config =3D of_device_get_match_data(&p=
-dev->dev);
->  	int ret, i;
->=20
-> -	if (!config)
-> -		return -ENODATA;
-> -
->  	i3c =3D devm_kzalloc(&pdev->dev, sizeof(*i3c), GFP_KERNEL);
->  	if (!i3c)
->  		return -ENOMEM;
-> @@ -1317,19 +1311,11 @@ static int renesas_i3c_probe(struct platform_devi=
-ce *pdev)
->  	if (IS_ERR(i3c->regs))
->  		return PTR_ERR(i3c->regs);
->=20
-> -	clk =3D devm_clk_get_enabled(&pdev->dev, "pclk");
-> -	if (IS_ERR(clk))
-> -		return PTR_ERR(clk);
-> -
-> -	if (config->has_pclkrw) {
-> -		clk =3D devm_clk_get_enabled(&pdev->dev, "pclkrw");
+> Changes in v4:
+> - Rebased on v6.18, with minor conflicts resolved
+> - Improved patch descriptions
+> - Re-ordered the patches a bit to move changes that could be applied
+>   without the full streams support to the beginning of the series
+> - Added "media: rcar-vin: Link VINs on Gen3 to a single channel on each
+>   CSI-2" which removes possibility of wrong routing config on Gen3
+> - Added "media: rcar-csi2: Improve FLD_FLD_EN macros" which was part of
+>   another patch in v3
+> - Addressed minor comments (constifyings, cosmetics)
+> - Fixed the missing stream_count checks in disable_streams ops
+> - Fixed a few instances in csisp and csi2 where
+>   v4l2_subdev_state_get_format() was called with hardcoded pad/stream,
+>   instead of using the data from the route
+> - Dropped unnecessary ISPPROCMODE_DT_REG register clears
+> - Squashed "media: rcar-csi2: Add more stream support to
+>   rcsi2_calc_mbps()" into a previous patch
+> - Dropped wrong use_isp check from csi2's rcsi2_set_routing()
+> - Link to v3: https://lore.kernel.org/r/20250530-rcar-streams-v3-0-026655df7138@ideasonboard.com
+> 
+> Changes in v3:
+> - Rebased on top of latest linux-media
+> - Dropped dependencies which are already in linux-media (only remaining
+>   dependency is v4l2_subdev_get_frame_desc_passthrough)
+> - Tested on white-hawk board, using the staging deser TPG
+> - Also tested in a WIP branch for GMSL2 (two video streams)
+> - Link to v2: https://lore.kernel.org/r/20250326-rcar-streams-v2-0-d0d7002c641f@ideasonboard.com
+> 
+> Changes in v2:
+> - Rebased on top of latest upstream, and updated the dependencies to
+>   match the latest serieses sent.
+> - Add new patch "media: rcar-csi2: Use the pad version of v4l2_get_link_freq()"
+> - Drop "media: rcar-csi2: Fix typo" (it was not a typo)
+> - Update the code in calc_mbps(). The previous method relied on
+>   V4L2_CID_LINK_FREQ, but that's not available if the link-freq is
+>   provided via get_mbus_config().
+> - Dropped dependencies to Niklas' old series which doesn't apply
+>   cleanly. It's needed for multi-stream, but not for the current
+>   upstream which only has a single stream use case.
+> - Link to v1: https://lore.kernel.org/r/20250219-rcar-streams-v1-0-f1b93e370aab@ideasonboard.com
+> 
+> ---
+> Tomi Valkeinen (15):
+>       media: rcar-isp: Improve ISPPROCMODE_DT_PROC_MODE_VC
+>       media: rcar-csi2: Improve FLD_FLD_EN macros
+>       media: rcar-csi2: Move rcsi2_calc_mbps()
+>       media: rcar-csi2: Simplify rcsi2_calc_mbps()
+>       media: rcar-csi2: Optimize rcsi2_calc_mbps()
+>       media: rcar-vin: Link VINs on Gen3 to a single channel on each CSI-2
+>       media: rcar-isp: Move {enable|disable}_streams() calls
+>       media: rcar-csi2: Move {enable|disable}_streams() calls
+>       media: rcar-csi2: Switch to Streams API
+>       media: rcar-isp: Switch to Streams API
+>       media: rcar-csi2: Add .get_frame_desc op
+>       media: rcar-isp: Call get_frame_desc to find out VC & DT
+>       media: rcar-csi2: Call get_frame_desc to find out VC & DT (Gen3)
+>       media: rcar-csi2: Add full streams support
+>       media: rcar-isp: Add full streams support
+> 
+>  drivers/media/platform/renesas/rcar-csi2.c         | 437 +++++++++++++++------
+>  drivers/media/platform/renesas/rcar-isp/csisp.c    | 232 ++++++++---
+>  .../media/platform/renesas/rcar-vin/rcar-core.c    |  27 +-
+>  3 files changed, 509 insertions(+), 187 deletions(-)
+> ---
+> base-commit: f7b88edb52c8dd01b7e576390d658ae6eef0e134
+> change-id: 20250219-rcar-streams-1fdea8860e5e
+> prerequisite-change-id: 20250218-frame-desc-passthrough-66805e413974:v4
+> prerequisite-patch-id: bce4a915a29a64f88ed1bb600c08df37d2ba20c6
+> prerequisite-patch-id: 69b75e7dad9ced905cb39a72f18bebbf3e8f998a
+> prerequisite-patch-id: 58463f6944c76acd6cf203b14a2836cdb0db2461
+> 
+> Best regards,
+> -- 
+> Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> 
 
-This still an optional clock for RZ/G3S.
-
-> -		if (IS_ERR(clk))
-> -			return PTR_ERR(clk);
-> -	}
-> +	ret =3D devm_clk_bulk_get_all_enabled(&pdev->dev, &i3c->clks);
-
-
-This will break RZ/G3S as it does not have "pclkrw"
-
-Cheers,
-Biju
-
-> +	if (ret < 0)
-> +		return ret;
->=20
-> -	i3c->tclk =3D devm_clk_get_enabled(&pdev->dev, "tclk");
-> -	if (IS_ERR(i3c->tclk))
-> -		return PTR_ERR(i3c->tclk);
-> +	i3c->num_clks =3D ret;
->=20
->  	reset =3D devm_reset_control_get_optional_exclusive_deasserted(&pdev->d=
-ev, "tresetn");
->  	if (IS_ERR(reset))
-> @@ -1374,16 +1360,9 @@ static void renesas_i3c_remove(struct platform_dev=
-ice *pdev)
->  	i3c_master_unregister(&i3c->base);
->  }
->=20
-> -static const struct renesas_i3c_config empty_i3c_config =3D { -};
-> -
-> -static const struct renesas_i3c_config r9a09g047_i3c_config =3D {
-> -	.has_pclkrw =3D 1,
-> -};
-> -
->  static const struct of_device_id renesas_i3c_of_ids[] =3D {
-> -	{ .compatible =3D "renesas,r9a08g045-i3c", .data =3D &empty_i3c_config =
-},
-> -	{ .compatible =3D "renesas,r9a09g047-i3c", .data =3D &r9a09g047_i3c_con=
-fig },
-> +	{ .compatible =3D "renesas,r9a08g045-i3c" },
-> +	{ .compatible =3D "renesas,r9a09g047-i3c" },
->  	{ /* sentinel */ },
->  };
->  MODULE_DEVICE_TABLE(of, renesas_i3c_of_ids);
-> --
-> 2.43.0
-
+-- 
+Kind Regards,
+Niklas Söderlund
 
