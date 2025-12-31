@@ -1,63 +1,66 @@
-Return-Path: <linux-renesas-soc+bounces-26229-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26230-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05CC3CEC94B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Dec 2025 22:30:36 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EB14CEC953
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Dec 2025 22:30:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id C0A3E3007280
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Dec 2025 21:30:34 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id EA57230072B3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Dec 2025 21:30:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 165E72857F0;
-	Wed, 31 Dec 2025 21:30:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B23C22C234C;
+	Wed, 31 Dec 2025 21:30:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="QKuZX1a8";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="sPdAeBZh"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="V+PrdWEb";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="nSq15YkJ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CD1C1B0F19;
-	Wed, 31 Dec 2025 21:30:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C69D1B0F19;
+	Wed, 31 Dec 2025 21:30:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767216634; cv=none; b=cfIzkLmaBxMCy1glA0oegBXqqMxA22E5FmFhfbxxgkl75QlgPBar+z/AUfA1tWNjSKWTA9B6fHNO5+94KxIc8/2CVUGecnNXj4CgdHjtjmewOf9Ejb6ZIYl6we0KBQAmxISsnLhEpSPtcn8x+UmVlAm5/hiYFcxKa2pH0b9zk0I=
+	t=1767216641; cv=none; b=a/Mv7lh6h6y9nSFmSckl4ZBOI7m6RkcXYlZO/UbqCp2k4ugqYdXWRiR/mLYHMNfYsv4Fjc5yxWF4StDiOz1LhPnCIJuiaqvgM7fzKoQLH3Uf+eOhohy8vAsvcamgDoVfEWta6EWA0GvueJQ5383RvG+2q+fGGYQLeFuxYGedC7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767216634; c=relaxed/simple;
-	bh=Fuq9AQgf/uMaTOeBeM4OF+Jj3GJDno9EpTQLqgBsQPo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pK4Ptu/zZ8Lo9OJ6nr8U+ISkaC/h4GcU0xnR+7pA+pLixvLRAnCxFcOYK6DhTCR7LmKZ+F3JL1CEruv5Wvk/aPHQkjrtWRgQhbY/Ia5flU3+2g0h1ZhmBYFpAOEJBpc0N4uAvkBIAZ0nTzZNECGUnZJ7pH1nAY66TBcLgsRsmMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=QKuZX1a8; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=sPdAeBZh; arc=none smtp.client-ip=80.241.56.152
+	s=arc-20240116; t=1767216641; c=relaxed/simple;
+	bh=f+ynSIbzgRnAeUsz9VXAkIxubDjjcfeN0BsWGw4ZEzk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=TyIs7QxjAASuFgypfJuGkjHoYjdMjDlBiRRSCbH/TOU1Iwj9FcGb74GwExxYExblCvdfM9LN6YCCS5wtqD2opVn8VNz943C2vEyxMfmlxzxhh5Om4K4B07bpDuaRY0KSYoobayNb+yoTi6x/nyg8xyR/lZ1nc3L864Ej2WNU0Uc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=V+PrdWEb; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=nSq15YkJ; arc=none smtp.client-ip=80.241.56.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4dhNRB3pFQz9t46;
-	Wed, 31 Dec 2025 22:30:30 +0100 (CET)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4dhNRD2Kz2z9thH;
+	Wed, 31 Dec 2025 22:30:32 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1767216632;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UQXAEmY/Vvhl0fyeDwyL8OMowe+zB8+6FttAYmG6UeU=;
+	b=V+PrdWEbTiF7xbU00WLbMvdOycdJu0DASygQ4zJ+fR3JaCoCwG2CZ1HUusCF7ukMp9MlTB
+	LgaVNm8iX4WTf8v19TWvLNu5KzlJ9gMcIWZdR4eI4JoFbKG3Rvid4Y5cbTVENj5OWm176+
+	lddZuPp2H9GqlPhifcfscv34VOF7CllsQNh/n6CAccpAIxeOstf9gC5dZW6cUKNzPc/hDG
+	inaUS7L49HDZTMiPYgnmAwjCuq0ac4xDH1y9KyfwfLxVCmXyf0POrPNUIXtkt9WHMZFBDz
+	WdjxwwN9hUSCEuy1l364xuPc0J0YNnTTu1PjNov100UtaD5FNh60waFITexeVQ==
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
 	t=1767216630;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=j99Q47GdEpRT9D/ae619Fkn+XOqqqjjTPDUmDgTYPwc=;
-	b=QKuZX1a8bzocV5ijaLkKXrmXX0hI/s/Bq2+aP/SCcLnZOschHg3du5eONYmIsYnShEdyzu
-	G05bnEjxQWnnKvA33L0n0azeLUOd57XGk/PeIrPKjyEQWquuk0xVyrYY6Oyf0IlOGIE+z7
-	BavW8R8x1HJHQeUwlw0Xnw9Jrzm+Hr5+FjVbzGKWzIhkTydcrtDLmYeko7seBMgUKqDNG/
-	4yB5o2gKlSQWbRoaYUDFY3KyAHLWHMwCeEj9z5wAwWITvpjkhdg+sG9eHPqaygAtoExxm3
-	SZ1X/KhdHI8HuYI6VsAaEAw0ZeOvYOoPzW0kryzzfwHBiuvdPIoSIew8hSoERQ==
-From: Marek Vasut <marek.vasut+renesas@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1767216628;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=j99Q47GdEpRT9D/ae619Fkn+XOqqqjjTPDUmDgTYPwc=;
-	b=sPdAeBZh8ViwiKqaFiXRlH7hjkWHKEK9OLcNI2kjZFKEnUbDiG53/wZqN4uIG/SHmnfs4F
-	ke2P8ZCs0uA+rh+3szq9VmGvwOeS5qbwLZp5kLiR+NgJCobNriLRWcZ0dwSf/SFSQH+kLp
-	jTCcnWu/shhoIflUhhMBz1US6gHKD7YbN806vFXDuZCayLPFHBufqn7hUyfGZsBtHUq4uu
-	Gd5k9aKCrD4dn7wE4FqEPZBZP9mTzT0xUHEe3Z2Ny54408p3NrLozmYsFpOw03zp0hJyLf
-	hwOF+L2z4EEGNEbO+OuyutRY6k4A8iUxUkUH8DW+nKphDCnHskR8RHNE1ABDmw==
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UQXAEmY/Vvhl0fyeDwyL8OMowe+zB8+6FttAYmG6UeU=;
+	b=nSq15YkJjGweuoPykVvsdMDTDo/cHF7hqE9PD4K9V+CTgx14YRNZ2M8FfdJU60ZN5gj0Qr
+	fDiFmySMF4bWwlCkShgnsi+nq3z0/0ANUbv6pMxDuItGWtP3Bd++FHC+qcj0cnBIIq9rlL
+	ZB6T7P5djDbYsa6G5tJ7ID85XlniYT7DNFx8Se68PcPNaDrv/dDkJN2gmudeQYRDubxkNg
+	flxuY+CSQWFD/j3JX1z3aboV1iZunVJ8JD36ay2hSf9PUtvr/9Pm/himuM5eozJZcUi8bd
+	qtKymntlz8065dr8E7ZGl6MKrs7MqZbz5kZ/eGHaPfHSSlL5e6wZuNAr2xtXxg==
 To: arm-scmi@vger.kernel.org
 Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
 	Conor Dooley <conor+dt@kernel.org>,
@@ -69,9 +72,11 @@ Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
 	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 1/2] dt-bindings: firmware: arm,scmi: Document arm,poll-transport property
-Date: Wed, 31 Dec 2025 22:29:18 +0100
-Message-ID: <20251231213016.185575-1-marek.vasut+renesas@mailbox.org>
+Subject: [PATCH v2 2/2] firmware: arm_scmi: Implement arm,poll-transport property
+Date: Wed, 31 Dec 2025 22:29:19 +0100
+Message-ID: <20251231213016.185575-2-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20251231213016.185575-1-marek.vasut+renesas@mailbox.org>
+References: <20251231213016.185575-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -79,21 +84,16 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: ksanyuhgeaad8muaa7msk9yjryisdh4e
-X-MBO-RS-ID: fe2f78a35cf7f8eb2bf
+X-MBO-RS-META: c3g4jjx5wuiwq1jho4hnwdag4u7jhfzu
+X-MBO-RS-ID: f8e5ab9604735278ab4
 
-Document new property arm,poll-transport, which sets all SCMI operation into
+Implement new property arm,poll-transport, which sets all SCMI operation into
 poll mode. This is meant to work around uncooperative SCP implementations,
-which do not generate completion interrupts. This applies primarily on mbox
-shmem based implementations.
+which do not generate completion interrupts. This applies to mbox/shmem based
+implementations.
 
 With this property set, such implementations which do not generate interrupts
 can be interacted with, until they are fixed to generate interrupts properly.
-
-Note that, because the original base protocol exchange also requires some
-sort of completion mechanism, it is not possible to query SCMI itself for
-this property and it must be described in DT. While this does look a bit
-like policy, the SCMI provider is part of the hardware, hence DT.
 
 Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 ---
@@ -108,39 +108,56 @@ Cc: devicetree@vger.kernel.org
 Cc: linux-arm-kernel@lists.infradead.org
 Cc: linux-renesas-soc@vger.kernel.org
 ---
-V2: s@mean@&t and limit poll transport to mailbox/shmem only
+V2: Drop no IRQ handling from SMC transport and update commit message
 ---
- .../devicetree/bindings/firmware/arm,scmi.yaml         | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/firmware/arm_scmi/common.h | 4 ++++
+ drivers/firmware/arm_scmi/driver.c | 4 ++++
+ 2 files changed, 8 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
-index be817fd9cc34b..f4bf4173c5c7e 100644
---- a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
-+++ b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
-@@ -146,6 +146,13 @@ properties:
-       this platform. If set, the value should be non-zero.
-     minimum: 1
+diff --git a/drivers/firmware/arm_scmi/common.h b/drivers/firmware/arm_scmi/common.h
+index 7c35c95fddbaf..7c9617d080a02 100644
+--- a/drivers/firmware/arm_scmi/common.h
++++ b/drivers/firmware/arm_scmi/common.h
+@@ -235,6 +235,9 @@ struct scmi_transport_ops {
+  *		      to have an execution latency lesser-equal to the threshold
+  *		      should be considered for atomic mode operation: such
+  *		      decision is finally left up to the SCMI drivers.
++ * @no_completion_irq: Flag to indicate that this transport has no completion
++ *		       interrupt and has to be polled. This is similar to the
++ *		       force_polling below, except this is set via DT property.
+  * @force_polling: Flag to force this whole transport to use SCMI core polling
+  *		   mechanism instead of completion interrupts even if available.
+  * @sync_cmds_completed_on_ret: Flag to indicate that the transport assures
+@@ -254,6 +257,7 @@ struct scmi_desc {
+ 	int max_msg;
+ 	int max_msg_size;
+ 	unsigned int atomic_threshold;
++	bool no_completion_irq;
+ 	const bool force_polling;
+ 	const bool sync_cmds_completed_on_ret;
+ 	const bool atomic_enabled;
+diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
+index 5caa9191a8d1a..1079c84608a2c 100644
+--- a/drivers/firmware/arm_scmi/driver.c
++++ b/drivers/firmware/arm_scmi/driver.c
+@@ -2677,6 +2677,7 @@ static int scmi_chan_setup(struct scmi_info *info, struct device_node *of_node,
+ 	cinfo->is_p2a = !tx;
+ 	cinfo->rx_timeout_ms = info->desc->max_rx_timeout_ms;
+ 	cinfo->max_msg_size = info->desc->max_msg_size;
++	cinfo->no_completion_irq = info->desc->no_completion_irq;
  
-+  arm,poll-transport:
-+    type: boolean
-+    description:
-+      An optional property which unconditionally forces polling in all transports.
-+      This is mainly meant to work around uncooperative SCP, which does not generate
-+      completion interrupts.
-+
-   arm,smc-id:
-     $ref: /schemas/types.yaml#/definitions/uint32
-     description:
-@@ -379,6 +386,9 @@ then:
-     - shmem
+ 	/* Create a unique name for this transport device */
+ 	snprintf(name, 32, "__scmi_transport_device_%s_%02X",
+@@ -3092,6 +3093,9 @@ static const struct scmi_desc *scmi_transport_setup(struct device *dev)
+ 	if (ret && ret != -EINVAL)
+ 		dev_err(dev, "Malformed arm,max-msg DT property.\n");
  
- else:
-+  properties:
-+    arm,poll-transport: false
++	trans->desc.no_completion_irq = of_property_read_bool(dev->of_node,
++							      "arm,poll-transport");
 +
-   if:
-     properties:
-       compatible:
+ 	dev_info(dev,
+ 		 "SCMI max-rx-timeout: %dms / max-msg-size: %dbytes / max-msg: %d\n",
+ 		 trans->desc.max_rx_timeout_ms, trans->desc.max_msg_size,
 -- 
 2.51.0
 
