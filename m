@@ -1,81 +1,163 @@
-Return-Path: <linux-renesas-soc+bounces-26255-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26256-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4724CCEF403
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 02 Jan 2026 20:58:24 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C62A9CF03FF
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 03 Jan 2026 19:26:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id D242230049CD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Jan 2026 19:58:21 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B21E630173B3
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  3 Jan 2026 18:26:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADF812D1303;
-	Fri,  2 Jan 2026 19:58:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F2AF25A642;
+	Sat,  3 Jan 2026 18:26:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="bDRSkhSj"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="BLRw6m5I"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07C3F222599
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  2 Jan 2026 19:58:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 408523A1E94;
+	Sat,  3 Jan 2026 18:26:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767383900; cv=none; b=NMfpu2t3eILnEI+xAH/8Lp8AOLIdfNjfcpdQJRjZlKGBMalGYAPErW2mRoPCIeBgFuUaRLTpkwjTGOhTXoMT6erdnx77bzgI/j8lEqUCb5D/j8NCKfzx7Ke35SbcGLz+OpB05uFVUN+ZyueSh8jqAWA/W+0Jt30AVBlfhTtcfVc=
+	t=1767464766; cv=none; b=fgEhY3SQTaqITbJ/sWK8HJYbPZsqk0wuN6M+8BbAW8BMW9SqaV5Yypj7I+L4RdHu7Ch9rmm1wFK+RyWixQlVAHjhhc1Mjn9koDwdJ/NFjhQVKr8zRRPuxLItgAkXg+eCnoBeZtMdCCpgYTJUz1xI46z3qpz9uxXMQuN/0AId39A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767383900; c=relaxed/simple;
-	bh=Z9mML1bmJoiATvl+7IB3lTX4BlwKUn4UQJcP1Vpfsck=;
+	s=arc-20240116; t=1767464766; c=relaxed/simple;
+	bh=Xk+fhhPHwwxoc4LzHGCN2ILdRtoqfpIbiTT6sQvhqbk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=scpaJBcJLUQnOcRSIw16cFuevxF3dx8xEhhLALaKXK++Owa5+wj1Jzgx7sB2n0sX2xXvUZssx+j3F81ESWQBkUMBIvyJs4X2Gqd2pclIIrFAMa9579FsiHza/51eE3zz7zgNG9cms9K82HCpSaT0365G2U9YAstX6+AXFhMnrN0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=bDRSkhSj; arc=none smtp.client-ip=80.241.56.152
+	 In-Reply-To:Content-Type; b=h6qN1xW27uDigBO9jszhLT0Np20zoALHB6NdQlEB7UUNbiMChUFUgIavE0rWOn8D0TrhQzjmRMQ72UUsFyGR6mXl5NCcxA8/rP/RsJRkpfvHSP9rl+I+MkzfYiXCVVofa4ytt+kqrKtJKcL/6PiKCsOXUdYtIjyaDxU/GU4IcYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=BLRw6m5I; arc=none smtp.client-ip=80.241.56.151
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4djZHq0nK8z9tm4;
-	Fri,  2 Jan 2026 20:58:15 +0100 (CET)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4dk8Bp2cvfz9t8q;
+	Sat,  3 Jan 2026 19:25:54 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1767383895;
+	t=1767464754;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=eUYu8XT3Nz/UFK8ip5o/E7e5B7G6lXEW26UvomGH+hU=;
-	b=bDRSkhSjosmbnL+x5Zo08Qma2vvsC+HXqEfQTDV5v5GOJ8/PUV41eqs3lzjzjKyiw3YOwp
-	q7tX2KhlJggbryx1JTyo9aa+p5zVpdwiHAtCRz8yjUIYRyGZzIOmrcf6u+/+lvcbDn2ZXF
-	0s/UxZz+Tm4xpmXeAMIBh+1Iz4IPYwOVBqJVmeDNt7R1KOQjkDjWO+3zLKhuJq4N83r6Ta
-	OUOFSNNCds+i/TdtGkAmW1LWAYW88NnqS6RtpBWnfgDVp7lj5M0vc0Q3UI4UMN7hhg1SG0
-	rSES9/wgvNO0dwICFz5xdLikCvLj5SHrjgOQqR/K8MX579HdlG8EJPUuXM50EQ==
-Message-ID: <aceda246-f4cf-4a3b-ba16-ff24fb17b06d@mailbox.org>
-Date: Fri, 2 Jan 2026 20:58:12 +0100
+	bh=5wYQfU7ag1B+K7R6N+c6V+o4Hnuw36zvgOzcE2v0bRc=;
+	b=BLRw6m5IAM3wKBZ1QwauFrHDoyYYFs6+WHQxmUtEPSOrKRlkLsTVRiUwmnmi5/celJ7i45
+	xsXCDY18cf8xqSqduib9CS22oEXBVoiu/tTTUNSWSpE7megUaN8fcU2I12YdNEXUHDJlLX
+	Aa+7tv3CK5QbvkmXnMbVzB0ACB0VkGA5Ugg/uMMp4qQsjqy8jnrw/9IZdT0N6A9Mc3VbtD
+	CS9EfUfcrXqLZqJNFdM2KVegqQKHfje+s49dU+pFb5mezbtK8ca01cLTCa1jnNli8/7RsG
+	n5DoGIoo1bonuelJ7htO0jSRyDIJHFdAkUtgoKCMP5nIkog/qb4ty+x0Im+aAw==
+Message-ID: <0e9f963b-00e0-43d1-b567-cb10b8f66df1@mailbox.org>
+Date: Sat, 3 Jan 2026 19:25:52 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] drm/imagination: Fix build on 32bit systems
-To: dri-devel@lists.freedesktop.org, Matt Coster <matt.coster@imgtec.com>
-Cc: David Airlie <airlied@gmail.com>, Frank Binns <frank.binns@imgtec.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-renesas-soc@vger.kernel.org
-References: <20251106232413.465995-1-marek.vasut+renesas@mailbox.org>
+Subject: Re: drm/imagination: genpd_runtime_suspend() crash
+To: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>, "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux PM list <linux-pm@vger.kernel.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+References: <CAMuHMdWapT40hV3c+CSBqFOW05aWcV1a6v_NiJYgoYi0i9_PDQ@mail.gmail.com>
 Content-Language: en-US
 From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <20251106232413.465995-1-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <CAMuHMdWapT40hV3c+CSBqFOW05aWcV1a6v_NiJYgoYi0i9_PDQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: zcfcqb8bocmexte8gre9kc95fgsnucnc
-X-MBO-RS-ID: d76068013051993f523
+X-MBO-RS-ID: 4c3d46c5c68a2a2c5f0
+X-MBO-RS-META: jpe11m8d1334xqotpmt8dtm7matuaomg
 
-On 11/7/25 12:24 AM, Marek Vasut wrote:
-> Fix support for build on 32bit systems. Include linux/io-64-nonatomic-hi-lo.h
-> to provide non-atomic readq()/writeq()/ioread64()/iowrite64() accessors, and
-> use __ffs64() instead of plain ffs() on 64bit number SZ_1T.
+On 10/29/25 3:08 PM, Geert Uytterhoeven wrote:
+
+Hello Geert,
+
+>       default_suspend_ok+0xb4/0x20c (P)
+>       genpd_runtime_suspend+0x11c/0x4e0
+>       __rpm_callback+0x44/0x1cc
+>       rpm_callback+0x6c/0x78
+>       rpm_suspend+0x108/0x564
+>       pm_runtime_work+0xb8/0xbc
+>       process_one_work+0x144/0x280
+>       worker_thread+0x2c8/0x3d0
+>       kthread+0x128/0x1e0
+>       ret_from_fork+0x10/0x20
+>      Code: aa1303e0 52800863 b0005661 912dc021 (f9402095)
+>      ---[ end trace 0000000000000000 ]---
 > 
-> This allows this driver to bind on Renesas R-Car H2 which contains
-> Rogue G6400 BVNC 1.39.4.1 .
-Any news here ?
+> This driver uses manual PM Domain handling for multiple PM Domains.  In
+> my case, pvr_power_domains_fini() calls dev_pm_domain_detach() (twice),
+> which calls dev_pm_put_subsys_data(), and sets dev->power.subsys_data to
+> NULL when psd->refcount reaches zero.
+> 
+> Later/in parallel, default_suspend_ok() calls dev_gpd_data():
+> 
+>      static inline struct generic_pm_domain_data *dev_gpd_data(struct
+> device *dev)
+>      {
+>              return to_gpd_data(dev->power.subsys_data->domain_data);
+>      }
+> 
+> triggering the NULL pointer dereference.  Depending on timing, it may
+> crash earlier or later in genpd_runtime_suspend(), or not crash at all
+> (initially, I saw it only with extra debug prints in the genpd subsystem).
+
+I came to the same conclusion when revisiting it yesterday and today.
+
+The power 3dg-{a,b} domains are in RPM_SUSPENDING state, the 
+__rpm_callback() is running and it unlocks dev->power.lock spinlock for 
+just long enough, that the pvr_power_domains_fini() can issue 
+dev_pm_domain_detach() and then dev_pm_put_subsys_data() , which unsets 
+subsys_data, which are later still used by the __rpm_callback() (really 
+the genpd_runtime_suspend() -> suspend_ok() it calls for this domain).
+
+But, I wonder if the problem is actually in the CPG MSSR clock domain 
+driver. The pvr_power_domains_fini() dev_pm_domain_detach() really calls 
+cpg_mssr_detach_dev() which calls pm_clk_destroy() and that invokes the 
+dev_pm_domain_detach() which unsets the subsys_data . The 
+pm_clk_destroy() documentation is explicit about it unsetting the 
+subsys_data .
+
+I wonder if what we need to do instead, is patch the CPG MSSR clock 
+domain driver such, that it would surely NOT call pm_clk_destroy() 
+before the domain transitioned from RPM_SUSPENDING -> RPM_SUSPENDED 
+state and surely is done with all its __rpm_callback() invocations ?
+
+Can you please test this change and see if it fixes the problem ?
+
+The barrier should guarantee that the domain is settled and no more 
+callbacks are still running.
+
+"
+diff --git a/drivers/clk/renesas/renesas-cpg-mssr.c 
+b/drivers/clk/renesas/renesas-cpg-mssr.c
+index 7f9b7aa397906..14158cab1b129 100644
+--- a/drivers/clk/renesas/renesas-cpg-mssr.c
++++ b/drivers/clk/renesas/renesas-cpg-mssr.c
+@@ -24,6 +24,7 @@
+  #include <linux/platform_device.h>
+  #include <linux/pm_clock.h>
+  #include <linux/pm_domain.h>
++#include <linux/pm_runtime.h>
+  #include <linux/psci.h>
+  #include <linux/reset-controller.h>
+  #include <linux/slab.h>
+@@ -656,8 +657,10 @@ int cpg_mssr_attach_dev(struct generic_pm_domain 
+*unused, struct device *dev)
+
+  void cpg_mssr_detach_dev(struct generic_pm_domain *unused, struct 
+device *dev)
+  {
+-	if (!pm_clk_no_clocks(dev))
++	if (!pm_clk_no_clocks(dev)) {
++		pm_runtime_barrier(dev);
+  		pm_clk_destroy(dev);
++	}
+  }
+
+  static void cpg_mssr_genpd_remove(void *data)
+"
 
