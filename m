@@ -1,163 +1,101 @@
-Return-Path: <linux-renesas-soc+bounces-26256-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26257-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C62A9CF03FF
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 03 Jan 2026 19:26:09 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14F44CF04AE
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 03 Jan 2026 20:05:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B21E630173B3
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  3 Jan 2026 18:26:07 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 8CD7930164D7
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  3 Jan 2026 19:05:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F2AF25A642;
-	Sat,  3 Jan 2026 18:26:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D36E2F39A4;
+	Sat,  3 Jan 2026 19:04:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="BLRw6m5I"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="atupu6XD"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 408523A1E94;
-	Sat,  3 Jan 2026 18:26:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44AE125BF13
+	for <linux-renesas-soc@vger.kernel.org>; Sat,  3 Jan 2026 19:04:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767464766; cv=none; b=fgEhY3SQTaqITbJ/sWK8HJYbPZsqk0wuN6M+8BbAW8BMW9SqaV5Yypj7I+L4RdHu7Ch9rmm1wFK+RyWixQlVAHjhhc1Mjn9koDwdJ/NFjhQVKr8zRRPuxLItgAkXg+eCnoBeZtMdCCpgYTJUz1xI46z3qpz9uxXMQuN/0AId39A=
+	t=1767467099; cv=none; b=UwPilR+jLWe6NrXsB/scakpk5SFVOsqSsVlYFHkr3s39Ffvc82rC2SRGEWCUulZ2EvEtZtM1t2W9Zf8hS1zWrnDAEzBGoS1UOqneTeXCLybku66PMziY3kJqElFbbUGgStSaUNiOIRmqviqDMsi2VzeI4HEV7xPtFbBitT6Qk/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767464766; c=relaxed/simple;
-	bh=Xk+fhhPHwwxoc4LzHGCN2ILdRtoqfpIbiTT6sQvhqbk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=h6qN1xW27uDigBO9jszhLT0Np20zoALHB6NdQlEB7UUNbiMChUFUgIavE0rWOn8D0TrhQzjmRMQ72UUsFyGR6mXl5NCcxA8/rP/RsJRkpfvHSP9rl+I+MkzfYiXCVVofa4ytt+kqrKtJKcL/6PiKCsOXUdYtIjyaDxU/GU4IcYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=BLRw6m5I; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4dk8Bp2cvfz9t8q;
-	Sat,  3 Jan 2026 19:25:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1767464754;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5wYQfU7ag1B+K7R6N+c6V+o4Hnuw36zvgOzcE2v0bRc=;
-	b=BLRw6m5IAM3wKBZ1QwauFrHDoyYYFs6+WHQxmUtEPSOrKRlkLsTVRiUwmnmi5/celJ7i45
-	xsXCDY18cf8xqSqduib9CS22oEXBVoiu/tTTUNSWSpE7megUaN8fcU2I12YdNEXUHDJlLX
-	Aa+7tv3CK5QbvkmXnMbVzB0ACB0VkGA5Ugg/uMMp4qQsjqy8jnrw/9IZdT0N6A9Mc3VbtD
-	CS9EfUfcrXqLZqJNFdM2KVegqQKHfje+s49dU+pFb5mezbtK8ca01cLTCa1jnNli8/7RsG
-	n5DoGIoo1bonuelJ7htO0jSRyDIJHFdAkUtgoKCMP5nIkog/qb4ty+x0Im+aAw==
-Message-ID: <0e9f963b-00e0-43d1-b567-cb10b8f66df1@mailbox.org>
-Date: Sat, 3 Jan 2026 19:25:52 +0100
+	s=arc-20240116; t=1767467099; c=relaxed/simple;
+	bh=1ocYjoxF+BmL+4lAR0aruV6XJ3WNgsR/AMGWfp36r6k=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=egMnh118MMR1+KRWm71V8PsJWycthZPelvtihpgYVnjdCKvQjm70TzbZm5hcq7try4emQFItuM+dJ39rjrWyvFO8+wL7CXgNa0P0lnfWkqwkemz6S3gV+HTnzf92+xxBAJ4TCEXbjGNbxu0aLtIdorNyV8yYT6F7u9mF8yDOWWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=atupu6XD; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4E32C4AF0B
+	for <linux-renesas-soc@vger.kernel.org>; Sat,  3 Jan 2026 19:04:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767467098;
+	bh=1ocYjoxF+BmL+4lAR0aruV6XJ3WNgsR/AMGWfp36r6k=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=atupu6XDFP7652PVUmPfZud6aDwhqa/ShrQ05Y5wN5/LaENexfNbtOJpU21SLDuad
+	 /JrplqpISURr8E0EFo//+aQfbu0WpIEwBnc//lv7Fk6eSisrxTDRuDyHClC57/KLhe
+	 /PeqMO9Ar+QLK45G0k5H6a3Ht7wKy9LTSU5M2GIFfjkpUqRd03FbSazoqC5cxl5Uts
+	 atpvL9HfSGux6SeoYUEWTVxQH/JAnmUVCSzk3JlV1e2aeGlSW3Za+5BPso5xXwwaiI
+	 728xCJ9TWLDA6INS8x/bI26MpiCFM8uxprYdwhOvarojhbHJ9H3MaoLuaeZw8MBQUv
+	 VllevLzEnt6Zg==
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-78fdb90b670so81690977b3.2
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 03 Jan 2026 11:04:58 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCW2S+8aSIP75IxfKb5IYijbq0pzn6iSMqqjc0zG2mFZK9ksXAIcG0WsyBDLIdCwxVzv3+NxG6d47sp+RRqKOIOaKw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxnvyqSzelCKRgwikA3HTaCU8OEEoNKVCkgVfYzoSdlCJ6SnOMG
+	+7mB3J/q8GQcVO5dj8EBLkW8dh9/5Q1H+ujGsQltEfKTc49z/UQ/LHkSSrCreVN+dlNQ8Wqv+tW
+	VyPWDIJ3T3fn/dyjOk7k2loGAV4VF81g=
+X-Google-Smtp-Source: AGHT+IHbZhHaHEdWDQjutRDr8SPOwbSZ030Zf28/79XflrWl5n95Y1lTs89sR/aKwmdnEx8TvadlNTwYTO0FXJaNx3U=
+X-Received: by 2002:a05:690c:c93:b0:78f:a7aa:b67e with SMTP id
+ 00721157ae682-78fb3e6370amr383069257b3.0.1767467097982; Sat, 03 Jan 2026
+ 11:04:57 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: drm/imagination: genpd_runtime_suspend() crash
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
- Ulf Hansson <ulf.hansson@linaro.org>, "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: DRI Development <dri-devel@lists.freedesktop.org>,
- Linux PM list <linux-pm@vger.kernel.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-References: <CAMuHMdWapT40hV3c+CSBqFOW05aWcV1a6v_NiJYgoYi0i9_PDQ@mail.gmail.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <CAMuHMdWapT40hV3c+CSBqFOW05aWcV1a6v_NiJYgoYi0i9_PDQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: 4c3d46c5c68a2a2c5f0
-X-MBO-RS-META: jpe11m8d1334xqotpmt8dtm7matuaomg
+References: <20251223-i2c-adap-dev-config-v1-0-4829b1cf0834@oss.qualcomm.com> <20251223-i2c-adap-dev-config-v1-11-4829b1cf0834@oss.qualcomm.com>
+In-Reply-To: <20251223-i2c-adap-dev-config-v1-11-4829b1cf0834@oss.qualcomm.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Sat, 3 Jan 2026 20:04:47 +0100
+X-Gmail-Original-Message-ID: <CAD++jLn+vWZ=BrHEcYLDVKkOjt8W7NcVziYgFkeyoC7ZBYHOWw@mail.gmail.com>
+X-Gm-Features: AQt7F2o3USLd11IPN75yO0DWWTRzw0lHx5hiKCrp6xftEOAkEo84jaNFImuzgt4
+Message-ID: <CAD++jLn+vWZ=BrHEcYLDVKkOjt8W7NcVziYgFkeyoC7ZBYHOWw@mail.gmail.com>
+Subject: Re: [PATCH 11/12] i2c: nomadik: set device parent and of_node through
+ the adapter struct
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>, 
+	Viken Dadhaniya <viken.dadhaniya@oss.qualcomm.com>, Andi Shyti <andi.shyti@kernel.org>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Vignesh R <vigneshr@ti.com>, 
+	Aaro Koskinen <aaro.koskinen@iki.fi>, Janusz Krzysztofik <jmkrzyszt@gmail.com>, 
+	Tony Lindgren <tony@atomide.com>, Andreas Kemnade <andreas@kemnade.info>, 
+	Kevin Hilman <khilman@baylibre.com>, Roger Quadros <rogerq@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Patrice Chotard <patrice.chotard@foss.st.com>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Bartosz Golaszewski <brgl@kernel.org>, linux-i2c@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev, 
+	linux-rpi-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/29/25 3:08 PM, Geert Uytterhoeven wrote:
+On Tue, Dec 23, 2025 at 11:05=E2=80=AFAM Bartosz Golaszewski
+<bartosz.golaszewski@oss.qualcomm.com> wrote:
 
-Hello Geert,
+> Configure the parent device and the OF-node using dedicated fields in
+> struct i2c_adapter and avoid dereferencing the internal struct device.
+>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
->       default_suspend_ok+0xb4/0x20c (P)
->       genpd_runtime_suspend+0x11c/0x4e0
->       __rpm_callback+0x44/0x1cc
->       rpm_callback+0x6c/0x78
->       rpm_suspend+0x108/0x564
->       pm_runtime_work+0xb8/0xbc
->       process_one_work+0x144/0x280
->       worker_thread+0x2c8/0x3d0
->       kthread+0x128/0x1e0
->       ret_from_fork+0x10/0x20
->      Code: aa1303e0 52800863 b0005661 912dc021 (f9402095)
->      ---[ end trace 0000000000000000 ]---
-> 
-> This driver uses manual PM Domain handling for multiple PM Domains.  In
-> my case, pvr_power_domains_fini() calls dev_pm_domain_detach() (twice),
-> which calls dev_pm_put_subsys_data(), and sets dev->power.subsys_data to
-> NULL when psd->refcount reaches zero.
-> 
-> Later/in parallel, default_suspend_ok() calls dev_gpd_data():
-> 
->      static inline struct generic_pm_domain_data *dev_gpd_data(struct
-> device *dev)
->      {
->              return to_gpd_data(dev->power.subsys_data->domain_data);
->      }
-> 
-> triggering the NULL pointer dereference.  Depending on timing, it may
-> crash earlier or later in genpd_runtime_suspend(), or not crash at all
-> (initially, I saw it only with extra debug prints in the genpd subsystem).
+Provided the overall concept is deemed sound:
+Acked-by: Linus Walleij <linusw@kernel.org>
 
-I came to the same conclusion when revisiting it yesterday and today.
-
-The power 3dg-{a,b} domains are in RPM_SUSPENDING state, the 
-__rpm_callback() is running and it unlocks dev->power.lock spinlock for 
-just long enough, that the pvr_power_domains_fini() can issue 
-dev_pm_domain_detach() and then dev_pm_put_subsys_data() , which unsets 
-subsys_data, which are later still used by the __rpm_callback() (really 
-the genpd_runtime_suspend() -> suspend_ok() it calls for this domain).
-
-But, I wonder if the problem is actually in the CPG MSSR clock domain 
-driver. The pvr_power_domains_fini() dev_pm_domain_detach() really calls 
-cpg_mssr_detach_dev() which calls pm_clk_destroy() and that invokes the 
-dev_pm_domain_detach() which unsets the subsys_data . The 
-pm_clk_destroy() documentation is explicit about it unsetting the 
-subsys_data .
-
-I wonder if what we need to do instead, is patch the CPG MSSR clock 
-domain driver such, that it would surely NOT call pm_clk_destroy() 
-before the domain transitioned from RPM_SUSPENDING -> RPM_SUSPENDED 
-state and surely is done with all its __rpm_callback() invocations ?
-
-Can you please test this change and see if it fixes the problem ?
-
-The barrier should guarantee that the domain is settled and no more 
-callbacks are still running.
-
-"
-diff --git a/drivers/clk/renesas/renesas-cpg-mssr.c 
-b/drivers/clk/renesas/renesas-cpg-mssr.c
-index 7f9b7aa397906..14158cab1b129 100644
---- a/drivers/clk/renesas/renesas-cpg-mssr.c
-+++ b/drivers/clk/renesas/renesas-cpg-mssr.c
-@@ -24,6 +24,7 @@
-  #include <linux/platform_device.h>
-  #include <linux/pm_clock.h>
-  #include <linux/pm_domain.h>
-+#include <linux/pm_runtime.h>
-  #include <linux/psci.h>
-  #include <linux/reset-controller.h>
-  #include <linux/slab.h>
-@@ -656,8 +657,10 @@ int cpg_mssr_attach_dev(struct generic_pm_domain 
-*unused, struct device *dev)
-
-  void cpg_mssr_detach_dev(struct generic_pm_domain *unused, struct 
-device *dev)
-  {
--	if (!pm_clk_no_clocks(dev))
-+	if (!pm_clk_no_clocks(dev)) {
-+		pm_runtime_barrier(dev);
-  		pm_clk_destroy(dev);
-+	}
-  }
-
-  static void cpg_mssr_genpd_remove(void *data)
-"
+Yours,
+Linus Walleij
 
