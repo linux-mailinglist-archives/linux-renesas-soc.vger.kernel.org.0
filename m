@@ -1,99 +1,226 @@
-Return-Path: <linux-renesas-soc+bounces-26262-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26263-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B11ECF162E
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 04 Jan 2026 22:53:11 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 542C8CF169E
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 04 Jan 2026 23:28:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4BF6F300663F
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  4 Jan 2026 21:53:10 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BAF7730084CA
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  4 Jan 2026 22:28:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A0FA2D0610;
-	Sun,  4 Jan 2026 21:53:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F0FD2E973F;
+	Sun,  4 Jan 2026 22:28:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="jFrdP4FE"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="QjHera+H";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="csyfBFOm"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6877F271448;
-	Sun,  4 Jan 2026 21:53:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF82421773F;
+	Sun,  4 Jan 2026 22:28:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767563588; cv=none; b=I/72cojJJ0gLdQitRzYQ39a3fjmOPWAfpJifUp45T0yfLlTPDt4A4dhlxAUPDWU6+tYHYVRxtwJu64zYgq8rv+tit2a2rwfH8VaS4catOjOHEW+i1R4WAmvEcJTLdHtw3DKI7lC8ikC907y4VunglBFwSYmDh3jfuckwZ2IhyTc=
+	t=1767565726; cv=none; b=bwEejrQRVZw8ap4WFqHQEXaOdzVO6HSXzGZQJn92Oi0n/Au2hleDVLnd6PqOq9HMqdNxNFSnhJjuq5gRXM/imL/rjppP7d7ENjFLwW5vukkgJU8VJGjLVzdbp8/hVVaDjZ6muRgKtIhfrCDo3Ke4Gl+WyxTMzaC3iRBqJVOrsX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767563588; c=relaxed/simple;
-	bh=on8blvAzaMQU+la9G44LagH3TamZZotp6sMSVY4ItgA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=F1SW6NzRKlrm2qPNt8b7lBuImcqRB/WEuL+4I6nGiwewOtfT3QvHqfe2x3JKc/583VJP2SJ18368AFOtE1WKKXGk/RpQIK4AUVOGbgUkElKusZjTwegpdhWyDxqvSB9Jo7rkHukmrIZhiVcxnWscNbz67caEJJI2LM36jkbw6t0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=jFrdP4FE; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4dkrlM3hJQz9sxG;
-	Sun,  4 Jan 2026 22:53:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1767563583;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+YMDFpwLr1kyr69LUzeI3C7WeIPhGw0FJMoaI1I9RU8=;
-	b=jFrdP4FEmu+/6gHtxilvlYUDyCpJK2DwLxqHPuNxFSN1kjl2IxMGrnGWsQhqHdUoFYHJ0i
-	HGaQOkaWbrNC7XK3JYaCYUXBpdL1gDUWk2uOpJrMl23/2nkmhluLenTYxVnyCxcxzc8L1D
-	fAMqp6+h7YvlSD29Mw7VFJYo8ls508wioi0a1oqVB329LEKBQyhOsCDIk/te+1diOP8jKy
-	NloqIYFERi3ejDqMLUUDrfoJrhWNNKLLA9v9CTP/PmBkK8HhpCD7sPmd/mObh2A+ltB8MJ
-	inrSKhUtcUQ9xmpSOPg/JFIfIqA+brAX6bAmF06x0CdE+K7elT6IxaVoh66wqA==
-Message-ID: <1c5e028d-3362-4cb5-8469-0944bb6c6d1e@mailbox.org>
-Date: Sun, 4 Jan 2026 22:52:58 +0100
+	s=arc-20240116; t=1767565726; c=relaxed/simple;
+	bh=O+IpDchxlvJhgCyVsqAUO2/nChF58kEZwbsZgYW86Xs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=sTVKm0YBG4fRKEK5FlL+XFCmErmk7POq8nxhZr2j5H7ZKctIY4cdK8AvLLEbbhHmUDGbd7GYMuLxLyV6y75/QlwZ2NsMu/JbVm1HDIBgRES02jmvZ/5eXHzaqXxCZR7VdO+UperPlsIQa8vI0KGJlfhBnUA1fsM+fjmiWMf8s6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=QjHera+H; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=csyfBFOm; arc=none smtp.client-ip=202.12.124.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 3E5457A00C4;
+	Sun,  4 Jan 2026 17:28:42 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-04.internal (MEProxy); Sun, 04 Jan 2026 17:28:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm1; t=1767565722; x=1767652122; bh=DN
+	I9SlYSsxQZ5zIwbhqK2NavWhLhE+JXTMeM6sCSlvk=; b=QjHera+H3ZFBTBoVhl
+	wOjuUhhdBgc0+TNdqgf49yFol5qAlP8rNKpKdcW7epjwPes+CFv51pOoJ92abhAJ
+	WW1sWy7tuOYfhWr9Zo8gUCIXe0QsN2XROias3uqnAsesyfmKp5KDl1sUR9EPAdJv
+	PV2ZJJmY7PelYaSQMxeGhfzaZf50exU9OS6V5GOAOGA/2eaIfCGkYIG2+VYipGoC
+	rBTltf03Cr2/JkWk3A9ygyD5OM21/prwhV31HAmL9pihGyat40PZrQxDns74btXT
+	xkVWu+XqcJbQNiP586UhPCHCPF/Rl8EDjOoe3VvBwMxuUZk6bU/PPsA3x11RsBrZ
+	pKEA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1767565722; x=1767652122; bh=DNI9SlYSsxQZ5zIwbhqK2NavWhLh
+	E+JXTMeM6sCSlvk=; b=csyfBFOmO6Qc/TDeDIHS2rC56KPkroxY4iXK3x9LZkhA
+	Vp0CMcuDvAwdVAxY5zTnF1u7voFYnOuW0rMNdmjPRS5Gy+5zrNOii7GQ07azPcB1
+	ZlwOXFK8LGxF353xWX6jf3NE8o8xPeiqu7CNd7Ai0Vq0pM27jvlzT5FBNV0nZ5Mm
+	fdzPVJr6ocxPyT1X/hQqRTxQV4fNPl7BurNSpQlbExFhHWBzvpWQ6QkEYMxz4zXC
+	aAF9tyW0q0BhckVumQlGqxNujDEy1Sjq1VKYIrivHHy/9EdXI1n2GuAiRFc1I9K1
+	APNDbXmypilQlJtYNUXsm9U33BM2ZiGEWKkVBz0nhw==
+X-ME-Sender: <xms:mOlaaZzSXJl1J0GWxuVdaK8HUOCc7m-CRQKIi8jRxjytUlIHdXMw7A>
+    <xme:mOlaaVmeD8_iyrvbR3y-C8RLMJCiW_04jpQLIf5yQV44lFNlef70wsjWM2P24SSin
+    Gg6xcyWZFlNggZX_hAXgCsKJ-jJQuDhS9tCsFDhc_y7IMc1FLWbaw>
+X-ME-Received: <xmr:mOlaaU8E7BP4v39aK1LoF0JSAOtCyHA2BNONwIa1GySNQDmgPLSxvR-qSkaiaRhBF0Va5NDWi94-XayaYlEjkTo1>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdelheeivdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefhvfevufffkffogggtgfesthekredtredtjeenucfhrhhomheppfhikhhlrghsucfu
+    npguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghsse
+    hrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnheptdehveefiedtvdekheff
+    vddtgfffiefgudffieevuddvfeelieefteekgeevgeetnecuffhomhgrihhnpehkvghrnh
+    gvlhdrohhrghdpfhhrvggvuggvshhkthhophdrohhrghenucevlhhushhtvghrufhiiigv
+    pedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhnug
+    esrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopedujedpmhhouggvpehsmhht
+    phhouhhtpdhrtghpthhtohepmhgrrhgvkhdrvhgrshhuthdorhgvnhgvshgrshesmhgrih
+    hlsghogidrohhrghdprhgtphhtthhopehgvggvrhhtodhrvghnvghsrghssehglhhiuggv
+    rhdrsggvpdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtph
+    htthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepfhhrrghnkhdr
+    sghinhhnshesihhmghhtvggtrdgtohhmpdhrtghpthhtohepkhhriihkodgutheskhgvrh
+    hnvghlrdhorhhgpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhi
+    nhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrghgnhhushdruggrmhhmsehgmh
+    grihhlrdgtohhmpdhrtghpthhtohepmhgrthhtrdgtohhsthgvrhesihhmghhtvggtrdgt
+    ohhm
+X-ME-Proxy: <xmx:mOlaaYqOdUvbHlpGrpotCjy4EMZ_aN5wXpXI-4MwutXgKpDbOcmjxA>
+    <xmx:mOlaaQJJN5UqohPJVCB9jX1SyJ8Cx4WnSx57Jn3lUxqiOojzKvD0GA>
+    <xmx:mOlaaa26n2D4HH40CkCZ_p7_smxtO28AHlQDxQOhT2wO0MaBOlJP0Q>
+    <xmx:mOlaaXWc9c-HPdrYNSKUMjr-lji_m57lgAzQnpomNhGOFhogEDsozg>
+    <xmx:mulaaWld1ZzdhECyl84oHkRwOaAGy6O0JH7Lw_p8uOpLfD4VXt_wOH5k>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 4 Jan 2026 17:28:40 -0500 (EST)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Conor Dooley <conor+dt@kernel.org>,
+	David Airlie <airlied@gmail.com>,
+	Frank Binns <frank.binns@imgtec.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Matt Coster <matt.coster@imgtec.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Simona Vetter <simona@ffwll.ch>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-renesas-soc@vger.kernel.org
+Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH 0/2] arm64: dts: renesas: Describe GPU on D3
+Date: Sun,  4 Jan 2026 23:26:51 +0100
+Message-ID: <20260104222653.1659382-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] PCI: controller: Mark controllers which cannot do
- lockless config access with !PCI_LOCKLESS_CONFIG
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: linux-pci@vger.kernel.org, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?=
- <kwilczynski@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Christian Bruel <christian.bruel@foss.st.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Inochi Amaoto <inochiama@gmail.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Magnus Damm <magnus.damm@gmail.com>,
- Mayank Rana <mayank.rana@oss.qualcomm.com>, Nam Cao <namcao@linutronix.de>,
- Rob Herring <robh@kernel.org>, Shradha Todi <shradha.t@samsung.com>,
- Thippeswamy Havalige <thippeswamy.havalige@amd.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20250925135014.66865-1-marek.vasut+renesas@mailbox.org>
- <mxlpkktc34utdc6tr6apf4g5t3cdq6ckdbsern5s24t2bxlsva@e6e667l2wd2j>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <mxlpkktc34utdc6tr6apf4g5t3cdq6ckdbsern5s24t2bxlsva@e6e667l2wd2j>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: 040cdd0c77ba1a1f529
-X-MBO-RS-META: 8dhnte56fqcsdrnzp7e8otfetj3ahfbk
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 10/17/25 12:33 PM, Manivannan Sadhasivam wrote:
-> On Thu, Sep 25, 2025 at 03:49:45PM +0200, Marek Vasut wrote:
->> Add 'depends on !PCI_LOCKLESS_CONFIG' to controllers which cannot do config
->> access without PCI subsystem level spinlock.
-> 
-> May I know on what basis you have added the Kconfig dependency? Because, all
-> non-x86 and um drivers are going to suffer from the race if PCI_LOCKLESS_CONFIG
-> is selected. But you've only added the dependency to selected drivers.
-Sorry for the late reply.
+Hello,
 
-I added those !PCI_LOCKLESS_CONFIG to all controllers which I know are 
-used on ARM/ARM64 where the locking is needed, to assure those systems 
-won't accidentally have PCI_LOCKLESS_CONFIG=y which would break PCIe on 
-them, and to indicate they require the !PCI_LOCKLESS_CONFIG is this is 
-ever going to be enabled on non-x86 .
+This series adds the needed bindings to operate the PowerVR GPU on R-Car
+D3 SoC.
+
+Together with the D3 clock changes [1] and a still OOT patch for the PVR 
+driver [2], I'm able to load firmware.
+
+    powervr fd000000.gpu: [drm] loaded firmware powervr/rogue_22.67.54.30_v1.fw
+    powervr fd000000.gpu: [drm] FW version v1.0 (build 6889268 OS)
+    powervr fd000000.gpu: [drm] Unsupported quirks in firmware image
+    powervr fd000000.gpu: [drm] Unsupported enhancements in firmware image
+    powervr fd000000.gpu: [drm] Unsupported features in firmware image
+    [drm] Initialized powervr 1.0.0 for fd000000.gpu on minor 1
+
+I can run vulkaninfo from mesa (need to add the driver to 
+pvr_drm_configs):
+
+    $ PVR_I_WANT_A_BROKEN_VULKAN_DRIVER=1 meson devenv -C builddir vulkaninfo --summary
+    WARNING: powervr is not a conformant Vulkan implementation, testing use only.
+    MESA: warning: Warning: The available RAM is below the minimum required by the Vulkan specification!
+    MESA: warning: ../src/imagination/vulkan/pvr_border.c:117: FINISHME: Devices without tpu_border_colour_enhanced require entries for compressed formats to be stored in the table pre-compressed.
+    ==========
+    VULKANINFO
+    ==========
+
+    Vulkan Instance Version: 1.4.328
+
+
+    Instance Extensions: count = 20
+    -------------------------------
+    VK_EXT_debug_report                    : extension revision 10
+    VK_EXT_debug_utils                     : extension revision 2
+    VK_EXT_headless_surface                : extension revision 1
+    VK_EXT_surface_maintenance1            : extension revision 1
+    VK_EXT_swapchain_colorspace            : extension revision 5
+    VK_KHR_device_group_creation           : extension revision 1
+    VK_KHR_display                         : extension revision 23
+    VK_KHR_external_fence_capabilities     : extension revision 1
+    VK_KHR_external_memory_capabilities    : extension revision 1
+    VK_KHR_external_semaphore_capabilities : extension revision 1
+    VK_KHR_get_display_properties2         : extension revision 1
+    VK_KHR_get_physical_device_properties2 : extension revision 2
+    VK_KHR_get_surface_capabilities2       : extension revision 1
+    VK_KHR_portability_enumeration         : extension revision 1
+    VK_KHR_surface                         : extension revision 25
+    VK_KHR_surface_protected_capabilities  : extension revision 1
+    VK_KHR_wayland_surface                 : extension revision 6
+    VK_KHR_xcb_surface                     : extension revision 6
+    VK_KHR_xlib_surface                    : extension revision 6
+    VK_LUNARG_direct_driver_loading        : extension revision 1
+
+    Instance Layers:
+    ----------------
+
+    Devices:
+    ========
+    GPU0:
+    	apiVersion         = 1.2.330
+    	driverVersion      = 25.99.99
+    	vendorID           = 0x1010
+    	deviceID           = 0x22054030
+    	deviceType         = PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU
+    	deviceName         = PowerVR Rogue GE8300
+    	driverID           = DRIVER_ID_IMAGINATION_OPEN_SOURCE_MESA
+    	driverName         = Imagination open-source Mesa driver
+    	driverInfo         = Mesa 26.0.0-devel (git-8fb0621f2d)
+    	conformanceVersion = 1.3.8.4
+    	deviceUUID         = 19031a08-e22f-9565-d78b-ddda8240380a
+    	driverUUID         = 48685174-7bd0-6840-5716-9d00003566aa
+    GPU1:
+    	apiVersion         = 1.4.330
+    	driverVersion      = 25.99.99
+    	vendorID           = 0x10005
+    	deviceID           = 0x0000
+    	deviceType         = PHYSICAL_DEVICE_TYPE_CPU
+    	deviceName         = llvmpipe (LLVM 21.1.4, 128 bits)
+    	driverID           = DRIVER_ID_MESA_LLVMPIPE
+    	driverName         = llvmpipe
+    	driverInfo         = Mesa 26.0.0-devel (git-8fb0621f2d) (LLVM 21.1.4)
+    	conformanceVersion = 1.3.1.1
+    	deviceUUID         = 6d657361-3236-2e30-2e30-2d6465766500
+    	driverUUID         = 6c6c766d-7069-7065-5555-49440000000
+
+I can't run test Vulkan applications such as gears as the PVR driver do 
+not support all features need for GE8300, for example 
+simple_internal_parameter_format_v1, see [3].
+
+1. https://lore.kernel.org/linux-renesas-soc/20260104205601.1587576-1-niklas.soderlund+renesas@ragnatech.se/T/#u
+2. https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/38211#note_3177232
+3. https://gitlab.freedesktop.org/imagination/mesa/-/issues/13
+
+Niklas Söderlund (2):
+  dt-bindings: gpu: img,powervr-rogue: Document GE8300 GPU in Renesas
+    R-Car D3
+  arm64: dts: renesas: r8a77995: Add GE8300 GPU node
+
+ .../bindings/gpu/img,powervr-rogue.yaml       | 20 +++++++++++++++++++
+ arch/arm64/boot/dts/renesas/r8a77995.dtsi     | 15 ++++++++++++++
+ 2 files changed, 35 insertions(+)
+
+-- 
+2.52.0
+
 
