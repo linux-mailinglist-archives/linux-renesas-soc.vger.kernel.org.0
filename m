@@ -1,116 +1,102 @@
-Return-Path: <linux-renesas-soc+bounces-26258-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26259-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C721CF05C1
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 03 Jan 2026 21:55:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C84B4CF143C
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 04 Jan 2026 20:41:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9CBA1300B80F
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  3 Jan 2026 20:55:16 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7C6CE3007EDD
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  4 Jan 2026 19:41:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F3BD275AE4;
-	Sat,  3 Jan 2026 20:55:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE0D023EAAF;
+	Sun,  4 Jan 2026 19:41:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b="BwHAuSZx"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="MzNKUOhT"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpfb1-g21.free.fr (smtpfb1-g21.free.fr [212.27.42.9])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B5842192F2;
-	Sat,  3 Jan 2026 20:55:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.27.42.9
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ECCE1F1932;
+	Sun,  4 Jan 2026 19:41:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767473714; cv=none; b=cXq8KMjDoPXbT+FDTT1rQu+nmp/bsR6MXeEYqKTVrYCLch/lvyxWcffoWQKtkzpnrw5XRfXnnxp6I9QRWA2iOZG91yKmdRVxm19ATPHkASIrFQmDskumPgQPKDUoiA1GBV1AUVV2JGhymt8FuwmAq0+lSx0WvM/r2GS75dOVGA0=
+	t=1767555696; cv=none; b=niBpBU6VwcgcZ5FqMzhCzEZJ7x1UKNQVxtL5RdNWhQJPIg/bStAi+l/YDzCVwMKcnp5xly+G009u8CUSLh7/AJXirIPil4GaJBMgo15hcPbnvV2krGK0AF89LgvPyDKf1T8LKXpB0oQuvD+xG3TFuUNmOZ3fpbNXc2PsqesEy5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767473714; c=relaxed/simple;
-	bh=79OSn/nn6J9vtRRKoZXJfWBazAKPVTzO2TC7kHnwTp8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=bmV0bI9fPWMdBeHu70UhJxF+qSctyJAVQo1DMhP/c52BBwreBFvEyYKbE2GdJOguaCRQ7YpNDu9ITpybgHLGfToOXTnAw6R/0I1mLu9wqRQKciAjTK74Rsgmdm4KUg7zzi+HxnJiDEiRLf2/7AKA7comkGNieGfcF6OmCW5tejk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=free.fr; spf=pass smtp.mailfrom=free.fr; dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b=BwHAuSZx; arc=none smtp.client-ip=212.27.42.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=free.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=free.fr
-Received: from smtp6-g21.free.fr (smtp6-g21.free.fr [212.27.42.6])
-	by smtpfb1-g21.free.fr (Postfix) with ESMTP id B69D1DF8304;
-	Sat,  3 Jan 2026 21:54:59 +0100 (CET)
-Received: from belgarion.local (unknown [IPv6:2a01:e0a:a6a:5f90:db5:e0b7:ba17:f0e9])
-	(Authenticated sender: robert.jarzmik@free.fr)
-	by smtp6-g21.free.fr (Postfix) with ESMTPSA id 2EC3B780368;
-	Sat,  3 Jan 2026 21:54:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
-	s=smtp-20201208; t=1767473691;
-	bh=79OSn/nn6J9vtRRKoZXJfWBazAKPVTzO2TC7kHnwTp8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=BwHAuSZxbYu3MAjHoUUsV5YWU3A9ekBsHmUJWlfoyTP3rX8FS/1E8s3fddoOug9E2
-	 2E8Pod3tSK+15lxs5s1L1aaSXidkxY7dbMPyvijLUaEfYGXzxPDQGfpVYjpZusB+g2
-	 eGYn7S+h7JpHfd5zLJQyyyF9lAbh2WxTQ4HlpLWN318aVM1yeaz1wl4bBsnvMob1Bf
-	 Pebz829kFom1eko5Hs9Wc5YNHuwtyIdevHDClT622lXdjyMFVxxWtrMiIhlZXXN7qz
-	 Wj2GeuHugnyTjJ8FR3gkDyydemLp/ttnye31yPGy3yegRUo2mH1KFrsoE2mxaVczcg
-	 dF1n7J35JTw7g==
-From: Robert Jarzmik <robert.jarzmik@free.fr>
-To: "Arnd Bergmann" <arnd@arndb.de>
-Cc: "Rob Herring" <robh@kernel.org>,  "Geert Uytterhoeven"
- <geert+renesas@glider.be>,  "Magnus Damm" <magnus.damm@gmail.com>,
-  "Krzysztof Kozlowski" <krzk+dt@kernel.org>,  "Conor Dooley"
- <conor+dt@kernel.org>,  "Daniel Mack" <daniel@zonque.org>,  "Haojian
- Zhuang" <haojian.zhuang@gmail.com>,  "Andrew Lunn" <andrew@lunn.ch>,
-  "Gregory Clement" <gregory.clement@bootlin.com>,  "Sebastian Hesselbarth"
- <sebastian.hesselbarth@gmail.com>,  Linux-Renesas
- <linux-renesas-soc@vger.kernel.org>,  devicetree@vger.kernel.org,
-  linux-kernel@vger.kernel.org,  linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] ARM: dts: intel: Drop pxa2xx
-In-Reply-To: <4e5c631e-8c7f-4f38-a60e-2db829ff9f06@app.fastmail.com> (Arnd
-	Bergmann's message of "Wed, 31 Dec 2025 01:02:55 +0100")
-References: <20251212203226.458694-4-robh@kernel.org> <m2345fmkg7.fsf@free.fr>
-	<35405ed3-1319-4d3a-84a5-ad67f4c823ad@app.fastmail.com>
-	<m2wm26lv28.fsf@free.fr>
-	<4e5c631e-8c7f-4f38-a60e-2db829ff9f06@app.fastmail.com>
-User-Agent: mu4e 1.12.13; emacs 29.4
-Date: Sat, 03 Jan 2026 21:54:35 +0100
-Message-ID: <m2qzs6l8ms.fsf@free.fr>
+	s=arc-20240116; t=1767555696; c=relaxed/simple;
+	bh=Ynk5OxtPNwgAvkiiZxJuRuxbyHsWeP/2+tzoXDiYumw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EQsRLOwHTbdhONgvQEoBZa5b9H/OsrdA00AbCkGp00aHoycLFJJWVyrPp5sgEYFU51/5np+Pmi3XTBovN999atx8vQcmz/zONbKSB858MizGIVPtN/CBNa5I9Wo+3HPO//vqWb4aApSTkBV/7ks8smElQou5joqj9ptf3esRtZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=MzNKUOhT; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4dknqT3DYqz9sp7;
+	Sun,  4 Jan 2026 20:41:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1767555685;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SRS9TyAMZ+rFEqTCIHNBv2bs+sN2Ifp8XRQss5Lw82k=;
+	b=MzNKUOhTyzg/Vv0L3xDcU9JAH/wHUychBZFKBPm9XzuBxF4JpAMcKvWz+DZp0dtqHmUhzK
+	Y72vhi8qqpKeumBR0Y33L210KcipIpSV19B+rnaCz/0d4dI7SPfNuJOEbUdBaz+yKyqP+m
+	bzNpzqpUspNhpMgLfvj5OYW7QbTlChQp0wuXu1/tAlRausW0JqB3F9Mx/od3MTz0WpYd2U
+	phgJutdrUxXpyWoJ4LsrOV3YhM75oMv20PuMBzK6MXlRm5qROVH6/qFOKliGSHyzsjHy9a
+	pp7vP7k0Tg18CI1RjQeOphT7Da7pwvVBtpYsyXiyZeFVm8tZPG0A46lBdTARaA==
+Message-ID: <05bf0e18-68dd-4eab-b4d2-05af5f8d1ef7@mailbox.org>
+Date: Sun, 4 Jan 2026 20:41:22 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; format=flowed
+Subject: Re: [PATCH v2] regulator: rpi-panel-v2: Convert to new PWM waveform
+ ops
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+Cc: linux-pwm@vger.kernel.org, Dave Stevenson
+ <dave.stevenson@raspberrypi.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, linux-renesas-soc@vger.kernel.org
+References: <20250904210604.186893-1-marek.vasut+renesas@mailbox.org>
+ <qdqla4f5nfccqg2vdwkshzo6znwfizqizsyhfs7ksp6znja7uv@u4uwzvx7pgn6>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <qdqla4f5nfccqg2vdwkshzo6znwfizqizsyhfs7ksp6znja7uv@u4uwzvx7pgn6>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: yyscz3n45dewp6c8n84c389itx569fu1
+X-MBO-RS-ID: f71df8b8488cc31bedd
 
-"Arnd Bergmann" <arnd@arndb.de> writes:
+On 9/12/25 11:45 AM, Uwe Kleine-König wrote:
 
-> If you or anyone else is still using PXA27x, we can always
-> bring it back later, but I'd then put the burden on them to
-> submit the dts file for inclusion without introducing DT
-> warnings.
-Well not anymore, for RAM constraints as I said.
-I can still fallback to an older kernel though if I feel like 
-hacking.
+Hi,
 
->> +	docg3: flash@0 {
->> +		compatible = "m-systems,diskonchip-g3";
->> +		reg = <0x0 0x2000>;
->> +	};
->
-> This currently has no upstream users I can see, so
-> removing pxa27x would probably mean we should remove
-> that as well.
-Yep, this driver was only used on the Mitac MIO A701 (my main 
-board,
-pxa27x based).
+sorry for the late reply.
 
->> +	panel {
->> +		compatible = "toshiba,ltm0305a776";
->> +		lcd-type = "color-tft";
->
-> I don't see a driver that matches the compatible string,
-> does this one actually work?
-Yes it does. The compatible string doesn't really matter. What is
-relevant in that part is the "timings" node, which is used by 
-pxafb
-driver to setup its registers to control the LCD panel.
+>> +static int rpi_panel_v2_pwm_round_waveform_tohw(struct pwm_chip *chip,
+>> +						struct pwm_device *pwm,
+>> +						const struct pwm_waveform *wf,
+>> +						void *_wfhw)
+>>   {
+>> -	struct regmap *regmap = pwmchip_get_drvdata(chip);
+>> -	unsigned int duty;
+>> +	u8 *wfhw = _wfhw;
+>> +
+>> +	if (wf->duty_length_ns > wf->period_length_ns)
+>> +		*wfhw = 100;
+>> +	else
+>> +		*wfhw = mul_u64_u64_div_u64(wf->duty_length_ns, 100, wf->period_length_ns);
+> 
+> If I understand correctly the device has a fixed period length but the
+> actual length is unknown and so assumed to be 100 ms, right?
 
-More generally, each and every part of this DT was working 3 years 
-ago.
+The period is not known, but the fixed 100ms does not work either, the 
+period has to come from DT pwm property to cater for various DTs.
 
-Cheers.
-
---
-Robert
+I'll send a V3 now, but even revisiting it at this point, the waveform 
+API does not seem to be the right fit for this device.
 
