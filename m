@@ -1,73 +1,100 @@
-Return-Path: <linux-renesas-soc+bounces-26260-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26261-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31C8DCF1440
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 04 Jan 2026 20:42:42 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD8EBCF14CA
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 04 Jan 2026 21:56:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 01D143009806
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  4 Jan 2026 19:42:41 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C7B0F3009F8C
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  4 Jan 2026 20:56:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 537D423EAAF;
-	Sun,  4 Jan 2026 19:42:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A249B2D7397;
+	Sun,  4 Jan 2026 20:56:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Y4RlerGr";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="vTR4BvXK"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="Bblw5nT+";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="jve/oBlE"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6830E1F1932;
-	Sun,  4 Jan 2026 19:42:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53EA419A2A3;
+	Sun,  4 Jan 2026 20:56:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767555760; cv=none; b=H+pcv4hKgGatFWY/AWr9DJfVtRS28Q9wLVY54rmjkkOhk11FouF94kZJJ21moxD7yibfuFZsC2BxA4vBq2/28A2vfOLtmn9T1AwXNhC1pI6jks5ZvE5+/+F8w4wXgRBk9KfwNH9bUTfTFN/TqAorNMtFKisMsvsHQ4Jqd7qGQWU=
+	t=1767560171; cv=none; b=icwyoF/5ERKVl5R/Y7YL9/gEAZgq/H6NtXOJ32INywHuNkg7SQK1mRLrqn9iRGTu0BnKHJTsZ9VHbfd8ZIiC+OkRGAgeObDqGJquE+KG1Tw/RVwfa+R2BeLUA5Qo81XcEp7bH8qcueT7YvRdXaT/YwfERLzSY3XSngIqd3w2XhA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767555760; c=relaxed/simple;
-	bh=ZAWKQSm8yql79bOdfczpD0sUSJd9VM9averQaA9mDBk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=fh5sMFZ3ZyHanX35PJ09TaEY9ofFlGoekURIu+AZ+Ap0j3KO/+jFiSDSdRlL9T8pEuqPkOoPDJytFMidyHF7z7dfUrLlbl5kMr1cPu7f0r7uDPNWCURt4Mes2+z2q0vYAo+oLyClgWozEcKXq1e7i53J95nRIp+/Eoa/NMX5wQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Y4RlerGr; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=vTR4BvXK; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4dknrr2dvqz9tDp;
-	Sun,  4 Jan 2026 20:42:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1767555756;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=hKT+kTolJMJjdOT8GZjDnB3jCt46N0hdL4sErLqKy3Y=;
-	b=Y4RlerGrPluexgOh5itUh86qujRfQTXxfr++QL7m0rnsy/nnr/iWsc/Nsp159uqHnBlD3Z
-	srEeLagEIidmERCQ+tyjZzNIwdNGGQc3XSMBuOOqhGL7UQxSg06XwY5SjWyYa0WOiskwYL
-	toFzw33G8gNHLRCrAybZvV1DI70gepNEvUAwsTAevRZNAAt0whglraXFbzizoZeRtuTzBN
-	Ou+jnISNjez/CBmW1mKYtZmhGua8e6TpPxL1OKzra/xUkAMgjJrESwXkTKm9xk530ypQG2
-	wInSZdx0VZGWEGhxn3gyemBCgSDaPi80fOQXZa0tlUiNWmoJWnNIcegEMXuYvA==
-From: Marek Vasut <marek.vasut+renesas@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1767555754;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=hKT+kTolJMJjdOT8GZjDnB3jCt46N0hdL4sErLqKy3Y=;
-	b=vTR4BvXKl2fMerGsdBUorU8ygJKBg2leGdCqD3fVcb9xok//qntG2mrGpVRB7unl8hHtgZ
-	jkBBxBjy+b+vEyYZF/R2bUjWLgyDmEKkpb/sb7yeFqXoJQ7DkRPECPtIgr3Jg1rJwPM2rC
-	JeOaQpxQqNlPqsMKBQwwCXTlFtEK0fz0Imd993ukguXpuepko+heST1f8sJszQEFonyrAc
-	G0TBv+eStB3/mMprHoldeJS/dD7WJM7FBOiO7y6ig3WUmtznXHe4KbHFt67+rEnXDYp909
-	ra/m1wn+Anq0+pAT+3ksBTnKhwoj3u8U8MWTutG+B/t476De3kWzJZd1Wju6xQ==
-To: linux-pwm@vger.kernel.org
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v3] regulator: rpi-panel-v2: Convert to new PWM waveform ops
-Date: Sun,  4 Jan 2026 20:41:43 +0100
-Message-ID: <20260104194224.41245-1-marek.vasut+renesas@mailbox.org>
+	s=arc-20240116; t=1767560171; c=relaxed/simple;
+	bh=43XsIEvVY8IxIp1X8ePvKqA/sZQxe3whRcUqzFs4hQo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=GUXpFMKBwPq+/vFys3pxqnKxG809bwXeF8WC0UKPhD7tX4G45cNiI0YlqLLzrmwZCc0jY9jMdjzDhpSx7PRvjlGIU987PEHpYoIiIKosNyeH7Q9AfaN+gfZ3s0lhQHYMWnss94eyH7R7joC1Y0KWhuAtIBsu+ALx/Hxzh4wZqfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=Bblw5nT+; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=jve/oBlE; arc=none smtp.client-ip=202.12.124.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfout.stl.internal (Postfix) with ESMTP id 45DF51D000D2;
+	Sun,  4 Jan 2026 15:56:07 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-03.internal (MEProxy); Sun, 04 Jan 2026 15:56:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm1; t=1767560167; x=1767646567; bh=P2
+	VkFqho94I+6wSqldw5zMGqgoysj5bINcPyRpedIK4=; b=Bblw5nT+WEyQ6XQJdE
+	YIT1Av8H+xZ2h2ELlNhkDsJkEtB5uzxnlH3nDMSWIS560PjpvzlGZJV3yDeUiBT5
+	v49TLmgOYM1WFNgLY/MEKStTZQkpaWj0bJfU7vrjOayjJaOtE92BcA0V76lRP2LG
+	UJ47PnL6XO+1RghBiN/kFFzRPJlfvZmH/A08uRF9JERIGG2Q/L/7OnKRXPtLUKOJ
+	b916hbyHRllZnhmIkIcIbTCQpilfkKnC4LvtJ2yyuRXGlA08mrIT1bTI9mbTyhPz
+	pgEyWKAMsTqI3QvfL0jvck4wDIGCNgpI4JyM+h16+XL/zYtM2ZufHZPuJqIh2OLx
+	BKgg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1767560167; x=1767646567; bh=P2VkFqho94I+6wSqldw5zMGqgoys
+	j5bINcPyRpedIK4=; b=jve/oBlEyNz1XvUQomMKBQxzLEJ5G+liE7m5px50moNj
+	SnEIp7jcwT5u9QdQUjWqdwqQM4S5czBBanc16IJGQe8TlzMdZ2bUlTga/gZ6VtTI
+	iUebmAE3QPQf/LorYDkPA4jAQlsW0+W4OiULPCtOESZsdQVArBojxdmq0eUgJFvo
+	kzD8n5PFxfS9qB4RSdoiOQbAmJqeZ1vn2f5KKVzgbBs8eU6iq6JZFOXJYl5l/iCK
+	TOU3noaZnPZJAxRlZYimAhwYcSnXQHR40y74t4xHmO9dtE+Qiakec7bAvzQNP29h
+	YGgPr7pxxkUecNjW+Ws7Z3ftVDg33X8URvP8H0Zt7Q==
+X-ME-Sender: <xms:5tNaaWTeB-K8WJ3oYKLikPbQFFp8WYzja0Nk8Xbi_tV2Bfp_O3Fr7g>
+    <xme:5tNaaVH4RO8RN5DVk_MzNONKf6qknhsUvrYubCAIZiDuQDSNHQnDmNcTSo80y_mq5
+    sX3dY3ManDaVz60rPYvpwLZtMHhfzt6eUqfUt9kIje9cDxX4cesxg>
+X-ME-Received: <xmr:5tNaabFPmGb6ulZLF-OYL9_7fddOe7jIUmcVhCUc55Sro7ddQQ4jvYeiUWWsvPPrRwfDd7YqlmurEqxGwyfVu-Tm>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdelheeggecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefhvfevufffkffogggtgfesthekredtredtjeenucfhrhhomheppfhikhhlrghsucfu
+    npguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghsse
+    hrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepheduleetteekgffffedu
+    feeuvdejiedvkefhveeifeegffehledtvdevhfefteegnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhunhgu
+    sehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpthhtohepiedpmhhouggvpehsmhhtph
+    houhhtpdhrtghpthhtohepghgvvghrthdorhgvnhgvshgrshesghhlihguvghrrdgsvgdp
+    rhgtphhtthhopehmthhurhhquhgvthhtvgessggrhihlihgsrhgvrdgtohhmpdhrtghpth
+    htohepshgsohihugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrhgv
+    nhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlih
+    hnuhigqdgtlhhksehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhhikhhl
+    rghsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvg
+X-ME-Proxy: <xmx:5tNaaTQTzwqR_busw8Hcbo2efTR3yN-fkAtDs6rK2MTUIyUpie_Jxw>
+    <xmx:5tNaacJbZH90Mm899GO3caimDldT76_U8rtrKn1dQOEkNlIpP9OaRw>
+    <xmx:5tNaaeZh0TnqQ5-DuGdvnj97zP66WaFbtLH0Z3--i1thc2n7qnr5zg>
+    <xmx:5tNaae8uZ1svyEL0kFs4b1T_e57PllbaJmte9RY67pAltRvcUlSA3g>
+    <xmx:59NaaVqcIILjhBIapxsocub6N8X1sbhsO9QjvpQfFPFWwmE69B_SpSqf>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 4 Jan 2026 15:56:05 -0500 (EST)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org
+Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH] clk: renesas: r8a77995: Add ZG and 3DGE support
+Date: Sun,  4 Jan 2026 21:56:01 +0100
+Message-ID: <20260104205601.1587576-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -76,102 +103,35 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 20fa985a1b372f7d538
-X-MBO-RS-META: fbuz9ifp5y6phtswqyarhi554tdoudfx
 
-Convert the driver from legacy PWM apply ops to modern waveform ops.
-There is no functional change.
+Describe the ZG and 3DGE clocks needed to operate the PowerVR GPU.
 
-Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
-Cc: "Uwe Kleine-König" <ukleinek@kernel.org>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>
-Cc: Mark Brown <broonie@kernel.org>
-Cc: linux-pwm@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org
----
-V2: - Safeguard against wf->duty_length_ns > wf->period_length_ns
-V3: - Use PWM_BL_MASK as the maximum period length
----
-Note this now generates warnings:
-pwm pwmchip5: Wrong rounding: requested 162/255 [+0], result 19000/31000 [+0]
----
- drivers/regulator/rpi-panel-v2-regulator.c | 53 +++++++++++++++++-----
- 1 file changed, 42 insertions(+), 11 deletions(-)
+ drivers/clk/renesas/r8a77995-cpg-mssr.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/regulator/rpi-panel-v2-regulator.c b/drivers/regulator/rpi-panel-v2-regulator.c
-index 30b78aa75ee38..e5e12ff649804 100644
---- a/drivers/regulator/rpi-panel-v2-regulator.c
-+++ b/drivers/regulator/rpi-panel-v2-regulator.c
-@@ -35,24 +35,55 @@ static const struct regmap_config rpi_panel_regmap_config = {
- 	.can_sleep = true,
+diff --git a/drivers/clk/renesas/r8a77995-cpg-mssr.c b/drivers/clk/renesas/r8a77995-cpg-mssr.c
+index 162fa86c81ff..677c107d8f21 100644
+--- a/drivers/clk/renesas/r8a77995-cpg-mssr.c
++++ b/drivers/clk/renesas/r8a77995-cpg-mssr.c
+@@ -80,6 +80,7 @@ static const struct cpg_core_clk r8a77995_core_clks[] __initconst = {
+ 	/* Core Clock Outputs */
+ 	DEF_FIXED("za2",       R8A77995_CLK_ZA2,   CLK_PLL0D3,     2, 1),
+ 	DEF_FIXED("z2",        R8A77995_CLK_Z2,    CLK_PLL0D3,     1, 1),
++	DEF_FIXED("zg",        R8A77995_CLK_ZG,    CLK_PLL0D3,     5, 1),
+ 	DEF_FIXED("ztr",       R8A77995_CLK_ZTR,   CLK_PLL1,       6, 1),
+ 	DEF_FIXED("zt",        R8A77995_CLK_ZT,    CLK_PLL1,       4, 1),
+ 	DEF_FIXED("zx",        R8A77995_CLK_ZX,    CLK_PLL1,       3, 1),
+@@ -119,6 +120,7 @@ static const struct cpg_core_clk r8a77995_core_clks[] __initconst = {
  };
  
--static int rpi_panel_v2_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
--				  const struct pwm_state *state)
-+static int rpi_panel_v2_pwm_round_waveform_tohw(struct pwm_chip *chip,
-+						struct pwm_device *pwm,
-+						const struct pwm_waveform *wf,
-+						void *_wfhw)
- {
--	struct regmap *regmap = pwmchip_get_drvdata(chip);
--	unsigned int duty;
-+	u8 *wfhw = _wfhw;
-+
-+	if (wf->duty_length_ns > wf->period_length_ns)
-+		*wfhw = PWM_BL_MASK;
-+	else
-+		*wfhw = mul_u64_u64_div_u64(wf->duty_length_ns, PWM_BL_MASK, wf->period_length_ns);
-+
-+	return 0;
-+}
- 
--	if (state->polarity != PWM_POLARITY_NORMAL)
--		return -EINVAL;
-+static int rpi_panel_v2_pwm_round_waveform_fromhw(struct pwm_chip *chip,
-+						  struct pwm_device *pwm,
-+						  const void *_wfhw,
-+						  struct pwm_waveform *wf)
-+{
-+	const u8 *wfhw = _wfhw;
-+
-+	/*
-+	 * These numbers here are utter fabrications, the device is sealed
-+	 * in metal casing and difficult to take apart and measure, so we
-+	 * pick some arbitrary values here, values which fit nicely.
-+	 */
-+	wf->period_length_ns = PWM_BL_MASK * 1000;	/* 31 us ~= 30 kHz */
-+	wf->duty_length_ns = *wfhw * 1000;		/* 0..31us */
-+	wf->duty_offset_ns = 0;
-+
-+	return 0;
-+}
- 
--	if (!state->enabled)
--		return regmap_write(regmap, REG_PWM, 0);
-+static int rpi_panel_v2_pwm_write_waveform(struct pwm_chip *chip,
-+					   struct pwm_device *pwm,
-+					   const void *_wfhw)
-+{
-+	struct regmap *regmap = pwmchip_get_drvdata(chip);
-+	const u8 *wfhw = _wfhw;
- 
--	duty = pwm_get_relative_duty_cycle(state, PWM_BL_MASK);
--	return regmap_write(regmap, REG_PWM, duty | PWM_BL_ENABLE);
-+	return regmap_write(regmap, REG_PWM, *wfhw | (*wfhw ? PWM_BL_ENABLE : 0));
- }
- 
- static const struct pwm_ops rpi_panel_v2_pwm_ops = {
--	.apply = rpi_panel_v2_pwm_apply,
-+	.sizeof_wfhw		= sizeof(u8),
-+	.round_waveform_fromhw	= rpi_panel_v2_pwm_round_waveform_fromhw,
-+	.round_waveform_tohw	= rpi_panel_v2_pwm_round_waveform_tohw,
-+	.write_waveform		= rpi_panel_v2_pwm_write_waveform,
- };
- 
- /*
+ static const struct mssr_mod_clk r8a77995_mod_clks[] __initconst = {
++	DEF_MOD("3dge",			 112,	R8A77995_CLK_ZG),
+ 	DEF_MOD("tmu4",			 121,	R8A77995_CLK_S1D4C),
+ 	DEF_MOD("tmu3",			 122,	R8A77995_CLK_S3D2C),
+ 	DEF_MOD("tmu2",			 123,	R8A77995_CLK_S3D2C),
 -- 
-2.51.0
+2.52.0
 
 
