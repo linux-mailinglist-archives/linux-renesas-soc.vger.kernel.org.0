@@ -1,1001 +1,363 @@
-Return-Path: <linux-renesas-soc+bounces-26294-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26295-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95E45CF3897
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 05 Jan 2026 13:32:37 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B45ECF3C1A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 05 Jan 2026 14:22:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CD86D30285F9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Jan 2026 12:28:41 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 44B5630E1163
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Jan 2026 13:17:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42C3033BBA0;
-	Mon,  5 Jan 2026 12:28:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 078423358D8;
+	Mon,  5 Jan 2026 13:11:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="OQ4kJlKR";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Ndk1XCs0"
+	dkim=pass (2048-bit key) header.d=imgtec.com header.i=@imgtec.com header.b="u3K65AwM";
+	dkim=pass (1024-bit key) header.d=IMGTecCRM.onmicrosoft.com header.i=@IMGTecCRM.onmicrosoft.com header.b="p1VP6wYR"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx08-00376f01.pphosted.com (mx08-00376f01.pphosted.com [91.207.212.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7891D31986F
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  5 Jan 2026 12:28:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767616119; cv=none; b=joSiHpesohl6BVFrTryallTs4fMuDe8Zkmkju4kitJfj5i8uCfHydQbdOeoWt9/nDsuqpDvXdN9BPErClMQQo1snOM8vsVX2Fe/BhiPaplrUFw/SgsYskNlgxzR0RBdu2frKelovTibb5+/ZQZdqJFBr+B1AxCdaYxYJHTMSh94=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767616119; c=relaxed/simple;
-	bh=IS0G0BpMid9/nqI0jD+QbVmmNAwgZUEycCSk3LGYIYE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=WPyDcGOG3CxFx8i3ilUVIxMk1HcMrVPOtISJQLKjVP4sb0ij+WiuvZgTp/nhGqd61olujNKQTrP7NHtgatdkiWzrryvOTtkq2SKJGE+/AoFcSc/wL1S9P8ripvGIGomg8/HPAAn8WKPsr2zfY9x0mApTigtPPkZUfBA4+eamrE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=OQ4kJlKR; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Ndk1XCs0; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6055ZQWw4031674
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 5 Jan 2026 12:28:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	HrkepC4w/YkgbrPoWL8n/1PAsFMmsVyMlyVh295rjwg=; b=OQ4kJlKRxgYn4JwK
-	0xDEK/5kfcnTSDM8BFGmJ1Gal0WPA/jzqAjzHzj232sEQIbuGkJiRzwMJfdblJxy
-	WArlQ8p56xgY8kqY0jT8nYrAxBb3JlykMobmbLHUzhubjEQKfk7W9NL49CrZFq9E
-	fXLn+bLEaMh1LPKZz6u96C4XLmztgCWzYg//9tMyc9XF3Lq86RJNu5HVHCvT5nwh
-	7sucQ+ZHFfuDfHKMSeVhjme1f6NB1EAM4ybTwwuVNtzchpYDVyu0VJJaH+LJe3I6
-	4dWfsSr838GZ7aoebUYkABSMuIYT9HZu+ZgRtt2Djqg+mcy+99Q7vFIhcjijStQl
-	W4YHfw==
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bg79nh5k5-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 05 Jan 2026 12:28:32 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-29f29ae883bso210233495ad.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 05 Jan 2026 04:28:31 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1846F3358D2
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  5 Jan 2026 13:11:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=91.207.212.86
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767618671; cv=fail; b=acXgBPCwrFwwK5ArDR7CEP9B1F1FTeH62v0vP/s0fJ1qDGyksi7OEXeJIo/7BuWuNoT/Sb1/8GuA/relaGXXeDHgcjbIkJx8qSN6tXrYY28gf2jTf02BLdsp8iIqr4yD53ToX0Q+B8GCpCneh8Wj+mAFIcoBLFBBelpXZiF876c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767618671; c=relaxed/simple;
+	bh=KiC2l1zTr4MGUw5c9AX6ndQ2+9nDtcg4v80IZGS6qEA=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=e0KWoETeOBbMMjHj9A8YUB5O9Us90hTyPTu47rDq4/PHn9gbThe/EAug0XufISHSi8zOrsxmxLAZZ5WMibWGhXWpmaEPbtBvC0V6tT2EUrmLfULqoVfU0dicvRsNHNgBP6WckSR6aUkqkw1CzpQTKxdNJh7XAIFfBHLFEIcgL94=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=imgtec.com; spf=pass smtp.mailfrom=imgtec.com; dkim=pass (2048-bit key) header.d=imgtec.com header.i=@imgtec.com header.b=u3K65AwM; dkim=pass (1024-bit key) header.d=IMGTecCRM.onmicrosoft.com header.i=@IMGTecCRM.onmicrosoft.com header.b=p1VP6wYR; arc=fail smtp.client-ip=91.207.212.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=imgtec.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=imgtec.com
+Received: from pps.filterd (m0168888.ppops.net [127.0.0.1])
+	by mx08-00376f01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6056jION3496420;
+	Mon, 5 Jan 2026 13:09:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=dk201812; bh=YOBK8VR9yxL4lHhYz7rG1Y6vH
+	yfTgQ6gKREcQ9pWC1Q=; b=u3K65AwMJo7WQqD6ClA8CxFP2CvTpcSdkmh6nYtv8
+	cbjLUa5mIGYEDgQg7WpR54sOPmXkEIhBVW1hA0rtKBd8eepD64Nc3Lnj5zWjqeRt
+	3IwM19QlrGJ5W3svylCniRfHsnw1yHYIaccTNwE1t5sqVRsAUanvVMPkQT56aqJ8
+	pdMLNkOCYMiOInwMRTsj5jIE4M04Ub1GdGQQlV0tNYdkDxkKiPkLTVHgF+zw4mYf
+	IwuS0+8uuNL7GGQOwx4ID7Rx1qq9gEFtU29UEaYTA/o+gqGWrG3L4KVYnyvRRWH3
+	9MUuN6xSoMUOc6rFE6LZUThQirwmHskIC4nRHtCN8VP0A==
+Received: from lo3p265cu004.outbound.protection.outlook.com (mail-uksouthazon11020115.outbound.protection.outlook.com [52.101.196.115])
+	by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 4bet8s94vj-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 05 Jan 2026 13:09:47 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TVKXDH7gkHWR715w9nyZwUATTUFm/XJEx9d9u9YuiHlAzsOyOoFIY6wFnq++oR+FadaAxeFwnnYWn0Bqws1LNqC15lPglUdsF0srmN1jiPBQuY77fwGZWheFRVEm2Zo3wu9161a0Xgx8O55yVKk1dDKxnwMG0vzVlV3tU1cc9vm/MSHIOew0iEWiMrCAJTClPwr/pOr7BIDeOWNAnJbf4Q4Wl/HU9y/K2V7B/kMPKMLLQE+mZXV0hr1+X+evcL1DdQTyMkW+rnjXgnEXia2VwcOBRm+fPwY0d7Ng9BBZF9grFvJRmZS4dyxv7DJMtm2V3jzykAjpffqz70xKUMD9GQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YOBK8VR9yxL4lHhYz7rG1Y6vHyfTgQ6gKREcQ9pWC1Q=;
+ b=TcYZIQufhVvl28+0vrtFzG8/5TlA9mg6s98owYw4KPZr3aTl9Xx4gmS3yWfqCnUgad6SbdAZAOZHBM4WeslGQlcJJIgCYakb2WVMds3iq5Gim3LvqWgNmADeuSLw2UG40hcdATStENnjUCZ2fGYipbbp2ZMGSnhR/q55tp6RPveS7FCpXJtTdE9ovUxDnvCwDAZtAK0xJhEox7j1Ni83IseH1dKRcfvRTv3gsWxgyD3ssj9XW5T6Op3K26lPK3nVnTsMlYzH69RZqlBRCuWaH7ezWwVo8uHQizGt2yB45Ir+wGFVRIxV10BZkdd6f7KW1I7bbx8UCpXqEHM/6yqVXA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
+ dkim=pass header.d=imgtec.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1767616110; x=1768220910; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HrkepC4w/YkgbrPoWL8n/1PAsFMmsVyMlyVh295rjwg=;
-        b=Ndk1XCs0fMa+LfuygrW1n3/Kv/ixm3EB5vbNbrVv53x2rKBH/q5ZgDJ38+aARXjFHl
-         AmXSBEj1hzpB2aEODnP2oYt0+ufNGi5XakBuZfYxlebh//V9CJRkh5OPueM3lr3yvlQE
-         YNrJKlVaHL35ePtEyvQymn6PB47tpoCYiePbd832bBQlthK1P0qdRnfAj/njt6FFtqX6
-         6qSAi+BMBA7qclilKPVOo2ZImuz9ZGUqyTe0vmzTjJ7ZpCoAmYbJa4Q+ObubtWx0kM93
-         DJy8JXTPa8OPw07pTfaLfywVx1Nyu5Vp/H2PwhpnvkY2wP6MlUTv0iTLhqt0Ysk1tIaL
-         UpzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767616110; x=1768220910;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=HrkepC4w/YkgbrPoWL8n/1PAsFMmsVyMlyVh295rjwg=;
-        b=YhH1vepOfTlKh/Iy6OYuJP6fUIbaIu36SO1zecTgxC1UdIWtDScoidDZIao6Spawr0
-         Gp0Qx7AflD7zoHu+oBcv8nOUZHymSIhNlUHt4j/xnj2rt5L+dcuDIFE3Eepnxxv7dHRK
-         NPISmtTJUQCqu6GzSjfnjZ3VanhF6FjpqsYc254W3ggUkOkFVzjuY+1KNl9TbwsqNnKd
-         7ZPPc4TSl/osIEMvSujqIMH9Kj5iLm57BP06dG3xenEvC9UVNxgcK1myKil6izwfToxW
-         gzMJ1Mwe2t/W3aYUCP6eqTrL44kHRUoZE7cs8TRGqhGk79vDeqX676fOsHX4M2IUn7EK
-         4SvA==
-X-Forwarded-Encrypted: i=1; AJvYcCXSEEIeGBhPqc7WHUre5od3pkmVoy5Z+YzMgyWvtG1vNQnU5e+WQQctz9x7m4nziqXmxQIY0+HpXTd4muKa/4zKRg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzJ0Xr9zEH/xZ4myYwKrNTY5PT+1vwlaHzyA9cJY7+2zcXM31Mo
-	jPhbSkFcWzWwweDXev4aX7YACk9VAMqfjtqmMmW2yrZBplrVDKcJf9vlkqwitRxcveH/5hibw2/
-	UPB8xolrDdE+cAq25zlGefyVzgQDPstr18wCn5mr34/QtyeMeYY7EHKwV5xAOXgZyhD3AxxYPWA
-	==
-X-Gm-Gg: AY/fxX7JScDPqZyl0bRncsSubdBFvrMEAsjQ2toKYXQBFeuovkiFMsrqzfXFq6AHZnK
-	W0XgTclm1F5tVq/Mm0nMZHGe7XbzVXadcaz2HssFC6bn058ouLJ1DlknnWeQiexFHO7EYuJ+wGd
-	RiGIBQGMkMQnNCCkeb5pSgint+k0BWVH/W2sQkMq8AsuUBJoqJ7iTvJ57HFQKejcJxeXs8esjq1
-	LD+cPuiMaWmYhuKUEwPM84WISIeed3WUeNLfAZTwtkhVOCtqhm3fjN/lqYPmPTPQGbtNQF8+8lf
-	yGgR2rz6Yr2WouIwircRWih+QS++xQhqUYE9GtrUOVdqdN8K6IuXqfQeb7TeDtFDxWMq3JrdvR5
-	W09w43SHot+pi2RkIXxAaXmZJ2Z0NBmWVxos=
-X-Received: by 2002:a17:903:1b24:b0:29f:2944:9774 with SMTP id d9443c01a7336-2a2f2831012mr452692045ad.33.1767616110035;
-        Mon, 05 Jan 2026 04:28:30 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFjlSsu23aqz+UVnvUoKnI4g5s0FszIxXh7HuYFT9uVbVoBOS/pq1bRq+lfY7jmQBlMs9JzGA==
-X-Received: by 2002:a17:903:1b24:b0:29f:2944:9774 with SMTP id d9443c01a7336-2a2f2831012mr452691575ad.33.1767616109301;
-        Mon, 05 Jan 2026 04:28:29 -0800 (PST)
-Received: from hu-sumk-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3c82a10sm448109275ad.26.2026.01.05.04.28.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jan 2026 04:28:28 -0800 (PST)
-From: Sumit Kumar <sumit.kumar@oss.qualcomm.com>
-Date: Mon, 05 Jan 2026 17:57:55 +0530
-Subject: [PATCH 2/2] PCI: dwc: Add multi-port controller support
+ d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YOBK8VR9yxL4lHhYz7rG1Y6vHyfTgQ6gKREcQ9pWC1Q=;
+ b=p1VP6wYRAUhn9JzlqfjDFVzDzwQ/YZy7L5TFnpAFaDL4IDibBryR8YGJMv2KyY3HGFCHs/WpH/WTHgT+CT4n9mB4uh5H2K18gMZ3JrZfgwj5KC0Vtk04NCR5s0RCuKHBJgZ+//joGkv4mnNwPCbEasmlGZ1hF6s9MXBB4YnkiQg=
+Received: from CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:e7::8) by
+ CW1P265MB7847.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:214::14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9478.4; Mon, 5 Jan 2026 13:09:44 +0000
+Received: from CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::a737:7c4e:569c:d427]) by CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::a737:7c4e:569c:d427%5]) with mapi id 15.20.9478.004; Mon, 5 Jan 2026
+ 13:09:44 +0000
+From: Matt Coster <Matt.Coster@imgtec.com>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+CC: David Airlie <airlied@gmail.com>, Frank Binns <Frank.Binns@imgtec.com>,
+        Alessio Belle <Alessio.Belle@imgtec.com>,
+        Alexandru Dadu
+	<Alexandru.Dadu@imgtec.com>,
+        Maarten Lankhorst
+	<maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH] drm/imagination: Fix build on 32bit systems
+Thread-Topic: [PATCH] drm/imagination: Fix build on 32bit systems
+Thread-Index: AQHcfkSP6rxYSpawz06iydT0SvWsgw==
+Date: Mon, 5 Jan 2026 13:09:44 +0000
+Message-ID: <666b75d9-108c-42cf-bce7-b7efdb25e027@imgtec.com>
+References: <20251106232413.465995-1-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20251106232413.465995-1-marek.vasut+renesas@mailbox.org>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CWXP265MB3397:EE_|CW1P265MB7847:EE_
+x-ms-office365-filtering-correlation-id: 1a3115d1-bbf6-482a-b9ea-08de4c5bb1cf
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|1800799024|366016|4053099003|38070700021;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?T3N4ZCtKRUUvRHNFdTMzY2tsL2REQnF1bjdIUWxRYjdyb0dHWU1IRndpakpz?=
+ =?utf-8?B?SU1ydk5vYkx6VS9veFcrK2llM2d4U1EvTGdMNzJNSHVhUVJManhvb05qbGNZ?=
+ =?utf-8?B?VFIvbzRiMSthd2hMNG5VY0VibXRNYm9SUzRwMm9vTEhGWFR1dlVFQlBqQ1Vx?=
+ =?utf-8?B?MWFDTVRhWjJLbHhrUUtUaU05elBsSlk3VDYxQlFNWVA0OFAxY2VpZ2pmejRr?=
+ =?utf-8?B?VXFvVENqYUxRK2kxd0VYYm5PN2VQMkZSWDNrb3QyMVJybERTdFQ4UWNFalZW?=
+ =?utf-8?B?OHRiczVxUmczMUg3dTBkSUg3dFRUckFFcXU0bFN3VFlnYVVEcUZVSDgxRW56?=
+ =?utf-8?B?MEZya25RVVVpRjZCeEY1UVBEVFBBL3hWeGoxR0pEQWJnNHhWN2F2SGJORjNK?=
+ =?utf-8?B?cEs0a0x5bVNUL2dLTVFZK2Nyc0pUdVozK250UzZQUEwrNWRVRGVwVWZ3VlM3?=
+ =?utf-8?B?cHhJUlpiODZCc1RzM2VHUkUwNldKTUgzSTA0MWpraGZaY29zVW9QRUZvb01t?=
+ =?utf-8?B?U2w1WUQxbFlMWXYycTF4NitkTzJlMUZsTHVKUmhNVWVhbmFqS0QwZmhkdkxG?=
+ =?utf-8?B?OVhjMzJSQ3BiVnZiTS91Zjhqc1pkZFJ0U1BQNzFoSnFiekJhT05LWlE0Rm1D?=
+ =?utf-8?B?eXJhejhNZHdZZG8xWlZxTFM3MEErMjVMSHM4UzRYbkVYSjRwL3ZVRFdnek10?=
+ =?utf-8?B?eXVNbjZnd3JZek1FUmtqK3ZGYzVCTGlEY0lXUCtOYWYxY2p1N29rUGJoaGFk?=
+ =?utf-8?B?SzEzV1h0M2ErUy9PM29EaGV2WWRMRlgvc2pMcnBkaktjY1crZ0tyWGhERnJ0?=
+ =?utf-8?B?UVVUMlU0R2VBOC96NnpwS0I3WksyTWg5MTNOajBZWW1XMGszY1FLdGNNZkxm?=
+ =?utf-8?B?VXNrMEt3TE1rcGg4S1IzTXcrNE93c0lEQk1aQ3lWSy96bjRkK1BEVm03NWt0?=
+ =?utf-8?B?eTJnOUozT0pmd3JFU2xuNmMyRHZZQXBUeWh4YUs5Mi8xNmRLZTNwbC9FSFcx?=
+ =?utf-8?B?S3F1YVhyQ0x0ZnI0Qi9jMWFsL29sdFcvODFDbXU5b2RSUWZydHRqQjJseGVP?=
+ =?utf-8?B?aDViR0JsNVlTT2swRVlmd2c5UEZBMzdWMnlTSXNoeUZIQmcyR25Ua1o5dlJR?=
+ =?utf-8?B?R3d1S1FyN3pYKzRoZXExcjRtQ2ZvWEp2OFNXekxHWSs0b2dBY1ByeHdER0pG?=
+ =?utf-8?B?aWxBRXNhVHBLY3pPc01RdnBFNFc5Qm1KWEhXSDBLZkRNRWJvS2NCQ3JJZHd5?=
+ =?utf-8?B?aTl2ZU8xRmxCMEhmN3V1L0ZrTVpzT3FTQ0MrRUw4anUrSzF0cjhUWUJ5NlNC?=
+ =?utf-8?B?azd5RkgwWGpvRHU2L1RFelVOTzVBU1JDaWRHZ0hic2pqZUUxUHNkOWQ5V3h6?=
+ =?utf-8?B?OXJRNEVHQnFqMEVUYmV4R1dXZU0zVlVrVUN5K1N4NUxETzNjZ0FEbGZiWUxl?=
+ =?utf-8?B?STZlVjh0UjhWY3daTGtwWUlTWm5VQ0pIZ2RhYzY5dTZQUm9tNm1ITnVQTGgz?=
+ =?utf-8?B?U3RWVm5XZkFFOHNkdTE5Yk1ndjRHVFNBdXd5RHpWUlA4OU10MzZnTUN0WDA1?=
+ =?utf-8?B?d0xuaHYxWlg1QnNoZ1I0UGNMb0xjSWM3Z2hHaFhDd2pLRHVnejhwVjNEaHQ3?=
+ =?utf-8?B?VkZlTjZLRE1leXNqZ3Q2VWZ3enlxTlgrVjNJVittZmhhZ3JWSC9uM3ZIVTcx?=
+ =?utf-8?B?YThiaG54TXdwMGpkS1poa29GVExtaS9nMTU1ZmlzNWhQbFVVL2xSVTA1YUdy?=
+ =?utf-8?B?ZndwNCtYVGIxZktBV0pmdXBxNU5FV0ZWSE5oRmtqUWY3Zjc2RXRqZERSeE9Y?=
+ =?utf-8?B?NE95N0ZOSFU2ZXcvK0RuWGo4Zmg1WDkrUG5FTWNRb3ZzWk53bkFLZ2c0eW9T?=
+ =?utf-8?B?clJZMG1ZR08weXBGMHRVOTFHYXNHemRTOGJrRWlpaDBLV0tiZFIyT3hneFJV?=
+ =?utf-8?B?KzNGWnQ4Nlk3YWhsVWlDdGFZd0ZMUlZSWW96Zk1jeGVkb1VXRXFkVDNWSGxS?=
+ =?utf-8?B?MGoxTTg5cmJSenBESC9FeitEZUg5dDNuZWRJMXlIdmgvT2U4NTMrQjhpOHgv?=
+ =?utf-8?Q?Br/7FM?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(4053099003)(38070700021);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?WE03QjBRSVc5R3ZsdGRlVnprMlpXRURxa2J3N0lOVVlJTFV6c2lqWnYzVVVp?=
+ =?utf-8?B?cVpBVVg5TlpBdmprY3g2c0xKb3hBa1kzZ1R0MktUMnpSQ2ROaDJxTGxyaVNH?=
+ =?utf-8?B?YzNBYzlZYytQNjhMNmcvMkcwblNYOGJSSWhWM3U0MDBCazBkeVZLUFJLaWxt?=
+ =?utf-8?B?RHU5dU9YTURxQmtDQUJJT0JVNDJMYkUvZ0pPV2hyWTF4ZC9MMWJEZWFsNFNK?=
+ =?utf-8?B?bXJvZXR2ZTdjTm93eEd1SWVmK0I1aTc1RUpZWG1sSzNIZno5dXoyZVkyVWtY?=
+ =?utf-8?B?aHVWNlJjVFJrNVBQOGlHZjdVRHU2UUI1U1F4Q2NrOVloaWtXVzJsSkdBWUMy?=
+ =?utf-8?B?RjYvV1MrRWc4dVVOVDRYaUlFTC9lY2gwS2xyakhMSUk2SHR1dGtVWE0xUzhs?=
+ =?utf-8?B?aWVFMWErTDJlbGlHSHlBT2NIMGFLbUx2ckgxSDBOQktmZjc0YllIekNnSU56?=
+ =?utf-8?B?OXpqd1FFMzJYQWRjandIRTh1S2hxZERETmJ3Q0hISTFoT20zNUpVL3NTb3lQ?=
+ =?utf-8?B?YzhpSVUvWEIwTzFxNDkwMjZmd3RLTFZZWUc1ekcrTkx2cmxoWkJkd1h6QVVk?=
+ =?utf-8?B?b3pidW1UT1dOYm5GbksvYm45QXhxNVIxYUtzZ0JqNTl4czAyaG5LNEhBOTFm?=
+ =?utf-8?B?MFZ4Z2xsbkdyYlZWZmxYTHdIL1lJT3RTcENYSVNWSC93c3p0R3Ruc3J3MzF1?=
+ =?utf-8?B?M0JFaVFuYUVNbWMzQ1g0b0lYSlhEVkJHN09sNU5ZUDBwekNLTjVvKzhtc2pT?=
+ =?utf-8?B?NXNGOVQrSElzbXlsOFhqR2R3aUpqNDF2MVpibGNWWmFXdVFsVWdIVlMwdlJt?=
+ =?utf-8?B?MDVVbmpSRGFUQ0pNWDh6d1dSdFNGYjNsbDFWMTg1cmM5RzNobzVKWVl1OHlz?=
+ =?utf-8?B?MUFNQ21ZYkRzeHdUSmRiL1VxdnlYdHhZeFg3RDl1OFBCaEg3NWw4V09Iekdj?=
+ =?utf-8?B?UXYrc3BlUHNmSmVzTzluWmFueFk3Wk9Fc2hidFM3TEcza1pmc204U0xEUVdo?=
+ =?utf-8?B?d1BqYmd6cEp4Y3h0bkN1RnpJTlpzWWI3bldYcE04bnk4WFdheTE3cG5EbHZ3?=
+ =?utf-8?B?VFFvcnFKdlpLTkZ5T1hVd1RrVjIzc3V1QXVGWkFOMTZqd3VwaFV5eTk3ZmJ1?=
+ =?utf-8?B?VjA4b2tmUHRyNmRoekNOV0hBOCtjQ1FZU1dqM1pOMk5tbnh0MFAvNmVmZzR2?=
+ =?utf-8?B?Zy96QUJGVHdwOTA1YW03Sk5PT0hISUdWbUdmZTVDWDBPQmsvZy90cUM4ZTI5?=
+ =?utf-8?B?MFVhWlo0UW5UdzNGUjNxUGU2Z0NjODR4NVVSQkpYeHhEZCtoWlh0Y1JBM3k1?=
+ =?utf-8?B?WGVLemZiTVZYcWlHYVRvand2Y0c4bysrVGhFN3ovUkNkbEtUbW12OWt6ZnpI?=
+ =?utf-8?B?TU9Cc1g2S3lES3ZqQzJJU2JGMUl4ZVZMbm45d2VmNDJQWGxuQ01KbWlXVEk5?=
+ =?utf-8?B?V2pxekhNSURwbHRNUktXVEpuL25HaVNodXI5Wk9hblo4Y3pScFpaWW1BN1Fz?=
+ =?utf-8?B?ZUEwUmpmMTA2L2hoQVB2RTN0T2EvbHRteGoyWWF0WEh5SzZ5WmRPQlhRcmFY?=
+ =?utf-8?B?bEZmWG9aTnpjQW5weXAxUWFtclFDTjN4bGlDQ1QxYnFreWgvblpQZGZyNjRw?=
+ =?utf-8?B?bHRHU2lreGVpeG5ralpCYXFURXdIQUhEWUd3NGM3cjFVRm52bmdFeW45WUVo?=
+ =?utf-8?B?dFovS2FWTFhUK3lsbm1tbTNpQktCRFhpQjR0NmxVQ0M0cnBlTzcyeElxVklL?=
+ =?utf-8?B?VVVmOGZWL01kMWpvbXlFWFJUMUF1TDIvZU5HTkhWUWczYXgvR3hva2xTc05z?=
+ =?utf-8?B?UTVaa2NRemUyUjlHRkp2aUZWZHJXL1EyR2xaMzR3WVcxelA4TFF1V2NvdFEy?=
+ =?utf-8?B?bk1VSXh0WWEyWlJneXhuUVBkaFRzTjV4TDFCODY3c1pwVEVsVk9pUmlKZlJx?=
+ =?utf-8?B?ZHZQUzNmNTRYd0NjT1RISmF6ZDVzdE92WFBSSUo0U3lVMTJMN2FRdlZ0Rm1K?=
+ =?utf-8?B?Zm1oZXNmQUxYQVFvNVJBeXpHV3l6TVhXRk5FOWtjaVl4clMzdC9WNjExangw?=
+ =?utf-8?B?aVRrRDR3Z3BCcytLZEdIeTAwR2FaTkh6a3Y5VTRRYVI5QUtETmdoUTdJemFR?=
+ =?utf-8?B?T3I1SnB6M2oyOXA0QlN4RHQwK0thSThRVldnazdROFRiMXc4WXNzYTBkeFpN?=
+ =?utf-8?B?SmM5OTJjUnc4RnJ2L2R6M3RwTEpXNnJTc3d0RHk3a09qeWJETUhmajFNTzFs?=
+ =?utf-8?B?aVp6YVM1SXVoRGRKaUVjMERyK1lmVS9sVk1lNDFjYStLVmtMSllNQVVwNEZV?=
+ =?utf-8?B?OU9rKzlMWGswbmlLT3UrbnlaM1A0bnFkUUVpTFRYbTN0WU9PRE1lTzlLQ3VR?=
+ =?utf-8?Q?JLAyAxrQELch0lvI=3D?=
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="------------tdUAgJCGkvVTEV30LAhLuHs5"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260105-dt-parser-v1-2-b11c63cb5e2c@oss.qualcomm.com>
-References: <20260105-dt-parser-v1-0-b11c63cb5e2c@oss.qualcomm.com>
-In-Reply-To: <20260105-dt-parser-v1-0-b11c63cb5e2c@oss.qualcomm.com>
-To: Bjorn Helgaas <bhelgaas@google.com>, Jingoo Han <jingoohan1@gmail.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-        Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Richard Zhu <hongxing.zhu@nxp.com>,
-        Lucas Stach <l.stach@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>, Yue Wang <yue.wang@Amlogic.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Greentime Hu <greentime.hu@sifive.com>,
-        Samuel Holland <samuel.holland@sifive.com>,
-        Chuanhua Lei <lchuanhua@maxlinear.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Pratyush Anand <pratyush.anand@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>
-Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, imx@lists.linux.dev,
-        linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-riscv@lists.infradead.org,
-        Sumit Kumar <sumit.kumar@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1767616078; l=30988;
- i=sumit.kumar@oss.qualcomm.com; s=20250409; h=from:subject:message-id;
- bh=IS0G0BpMid9/nqI0jD+QbVmmNAwgZUEycCSk3LGYIYE=;
- b=70nNXL65DjlN4enNSlB2XKOCB6g/U7kHGmK5Lfs3ix2AOFZ7Z4hQS+VIMVK+52cm4p/hN0LFP
- yldqPPqgv9oCKZ9lgZJeesOcWfcCW9w5AlCn5sIGXDV0uuPRJipUbaV
-X-Developer-Key: i=sumit.kumar@oss.qualcomm.com; a=ed25519;
- pk=3cys6srXqLACgA68n7n7KjDeM9JiMK1w6VxzMxr0dnM=
-X-Proofpoint-GUID: F-niTxz3mtnfx9WnVHLC1ZtYE80ZCFaz
-X-Proofpoint-ORIG-GUID: F-niTxz3mtnfx9WnVHLC1ZtYE80ZCFaz
-X-Authority-Analysis: v=2.4 cv=Y8P1cxeN c=1 sm=1 tr=0 ts=695bae70 cx=c_pps
- a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=4983JweL2ci_JWkmBjsA:9
- a=QEXdDO2ut3YA:10 a=GvdueXVYPmCkWapjIL-Q:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTA1MDEwOSBTYWx0ZWRfXwjwJax+0DoOn
- pneY/g+rk8YPB7dmJnyKaHbWyv7uR1fVBGvJpiYsGMeN2HDkix5T0PqJSav9XqTw0r3vz9EWmnm
- +0tDlwP3SclnFbem4zKgKR4PboEqm4sZOtChOkscGIbLnLrq+EUZY/zI9qjy5UsyW3cY1++Ok8/
- peMxUomeBk09Et33PsO4k0Cb6cXDXa1L2Dy3Vc73dko+6P21Ag6yOcxU0E3RP7GYR+4sC62rRLi
- 2hHCNfXquevRNgz3SGKsRCOG8MO62LHmWbIWFZAHX7K5Ymx4AUG1g3fC8vh4/44oZBkc0rvn9jK
- 4vIGcHAzT8n7DX3pXk3t9JLY6rpSR3kCn1NwAP0BsN3yqRHxF5pFUT5ZqFMdDMMGP22CJyvYjBz
- fplZv01hgxxrdGOOZNgqHn7fjDf189vLaOD78rEeK7raTyRBTM9gJHiW4c/4r0khTjj4eVCVhL0
- yBVRo70KUTbtozh7KQg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-05_01,2025-12-31_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 malwarescore=0 lowpriorityscore=0 phishscore=0
- impostorscore=0 suspectscore=0 clxscore=1011 bulkscore=0 adultscore=0
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2512120000
- definitions=main-2601050109
+X-OriginatorOrg: imgtec.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1a3115d1-bbf6-482a-b9ea-08de4c5bb1cf
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Jan 2026 13:09:44.2006
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: biJb4/ntbbYkhmt0sPsqRUbhyqxp2vgzO3SswQE7Pf4kEuI3fMPYV/62X2g1FgrZXMA4vmYkwTwt2ulgT1qA5g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CW1P265MB7847
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTA1MDExNSBTYWx0ZWRfX3aUUoAmZ7ZSw
+ Er+/ir+VatWzG/f1jiYWF0UqygtIA4eSl/u//PVB06/+EnmOKGsl1rerrv/+aUfwQYHWdNmsYYv
+ 9i3ayXIm7CXzwzHJ5EHz5Oet0SxihtiDzYsupfXn0bKnN69wzWPHe9S0D/wopkM823BiGBWOBHq
+ l13PvHbPynB3thdFDIfSRA0uZy6tOfBobkkIO6IJes3uv/R/G+B4wIp7WbgaLZiwmofLV/YLROz
+ E4HNNew0+ZixS0WEEUuK5HBJHGLgqkzPLRuHjmGLNuWTa+XrA2fhDD0zW334WGzfigzTKaQslsD
+ Nk8UWbmj6T+7/G9/4kknVu+TtAgPLYTWO4JZsI5CbMKGtsGo036vvh5JQ7G8ceVlKZQ3zcoGwVo
+ et7epj2nO07/nFNeZR5N/j7SSTAcuNoGpLO7PPdcT+tB374HtXxtfZbhvbdjKzGatkVVuFB3IIZ
+ ad77OT7/zaensWAUjnw==
+X-Proofpoint-ORIG-GUID: 8DmQgY4Qh5uCNN49xvwQ7NSKgfmY3JyA
+X-Authority-Analysis: v=2.4 cv=LPFrgZW9 c=1 sm=1 tr=0 ts=695bb81c cx=c_pps
+ a=u65maU7Po4pD27TNn/kSCQ==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=vUbySO9Y5rIA:10
+ a=NgoYpvdbvlAA:10 a=VkNPw1HP01LnGYTKEx00:22 a=b3CbU_ItAAAA:8 a=pGLkceISAAAA:8
+ a=r_1tXGB3AAAA:8 a=QyXUC8HyAAAA:8 a=VwQbUJbxAAAA:8 a=e5mUnYsNAAAA:8
+ a=n1gi1lzfb2B5qFB3Cq4A:9 a=QEXdDO2ut3YA:10 a=8tSIEsP_3xlRG0H7XTkA:9
+ a=FfaGCDsud1wA:10 a=Rv2g8BkzVjQTVhhssdqe:22 a=t8nPyN_e6usw4ciXM-Pk:22
+ a=Vxmtnl_E_bksehYqCbjh:22
+X-Proofpoint-GUID: 8DmQgY4Qh5uCNN49xvwQ7NSKgfmY3JyA
 
-The current DesignWare PCIe RC implementation supports only the controller
-(Host Bridge) node for specifying the Root Port properties in an assumption
-that the underlying platform only supports a single root Port per
-controller instance. This limits support for multi-port controllers where
-different ports may have different lane configurations and speed limits.
+--------------tdUAgJCGkvVTEV30LAhLuHs5
+Content-Type: multipart/mixed; boundary="------------g1CvrC8tnWXFlu7H9GrkGQV1";
+ protected-headers="v1"
+Message-ID: <666b75d9-108c-42cf-bce7-b7efdb25e027@imgtec.com>
+Date: Mon, 5 Jan 2026 13:09:43 +0000
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/imagination: Fix build on 32bit systems
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: David Airlie <airlied@gmail.com>, Frank Binns <frank.binns@imgtec.com>,
+ Alessio Belle <alessio.belle@imgtec.com>,
+ Alexandru Dadu <alexandru.dadu@imgtec.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org
+References: <20251106232413.465995-1-marek.vasut+renesas@mailbox.org>
+Content-Language: en-GB
+From: Matt Coster <matt.coster@imgtec.com>
+Autocrypt: addr=matt.coster@imgtec.com; keydata=
+ xjMEYl2lchYJKwYBBAHaRw8BAQdAOYlooFfHTXzAQ9aGoSnT9JS9wq8xprG+KVLbkxJDF5DN
+ JE1hdHQgQ29zdGVyIDxtYXR0LmNvc3RlckBpbWd0ZWMuY29tPsKWBBMWCAA+AhsDBQsJCAcC
+ BhUKCQgLAgQWAgMBAh4BAheAFiEEBaQM/OcmnWHZcQChdH8KkDb5DfoFAmgHpowFCQlsaBoA
+ CgkQdH8KkDb5DfqxDgEA81pbVLJDmpFyFZLRhAGig9rgoDY6l774yhTzRVm/SvkBAJLzpSlm
+ wyQaQuB668TKOX9XvRLKFGjSq5kkdQcxqjkCzjgEYl2lchIKKwYBBAGXVQEFAQEHQCaVC8X5
+ 7NOv2jNbeXqjP9ekY7rzy7auiEZ5PxaDWUQVAwEIB8J+BBgWCAAmAhsMFiEEBaQM/OcmnWHZ
+ cQChdH8KkDb5DfoFAmgHpowFCQlsaBoACgkQdH8KkDb5DfoK+AD/Q4aN/zUvP72RRE4cNWpM
+ MXeRXg+LTN+OJ24U10LltxIA/2w3kDqMC/0t1oqO8TM+c2LMWO/x2IBkG7oRZ/hVw1QI
+In-Reply-To: <20251106232413.465995-1-marek.vasut+renesas@mailbox.org>
 
-Introduce a separate dw_pcie_port structure to enable multi-port support.
-Each Root Port can have independent lane count, speed limit through pcie@N
-child nodes in device tree. Add dw_pcie_parse_root_ports()
-API to parse these child nodes.
+--------------g1CvrC8tnWXFlu7H9GrkGQV1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Equalization presets and link width detection currently use common DBI
-space for all the root ports. Per-port DBI space assignment for these
-features will be added in future.
+On 06/11/2025 23:24, Marek Vasut wrote:
+> Fix support for build on 32bit systems. Include linux/io-64-nonatomic-h=
+i-lo.h
+> to provide non-atomic readq()/writeq()/ioread64()/iowrite64() accessors=
+, and
+> use __ffs64() instead of plain ffs() on 64bit number SZ_1T.
+>=20
+> This allows this driver to bind on Renesas R-Car H2 which contains
+> Rogue G6400 BVNC 1.39.4.1 .
+>=20
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
-Signed-off-by: Sumit Kumar <sumit.kumar@oss.qualcomm.com>
----
- drivers/pci/controller/dwc/pci-exynos.c           |   4 +-
- drivers/pci/controller/dwc/pci-imx6.c             |  15 +-
- drivers/pci/controller/dwc/pci-meson.c            |   1 -
- drivers/pci/controller/dwc/pcie-designware-host.c | 168 ++++++++++++++++++----
- drivers/pci/controller/dwc/pcie-designware.c      |  32 ++---
- drivers/pci/controller/dwc/pcie-designware.h      |  17 ++-
- drivers/pci/controller/dwc/pcie-fu740.c           |   6 +-
- drivers/pci/controller/dwc/pcie-intel-gw.c        |  13 +-
- drivers/pci/controller/dwc/pcie-qcom-common.c     |   5 +-
- drivers/pci/controller/dwc/pcie-qcom-ep.c         |   4 +-
- drivers/pci/controller/dwc/pcie-qcom.c            |   4 +-
- drivers/pci/controller/dwc/pcie-rcar-gen4.c       |  13 +-
- drivers/pci/controller/dwc/pcie-spear13xx.c       |   5 +-
- drivers/pci/controller/dwc/pcie-tegra194.c        |   4 +-
- 14 files changed, 220 insertions(+), 71 deletions(-)
+Hi Marek,
 
-diff --git a/drivers/pci/controller/dwc/pci-exynos.c b/drivers/pci/controller/dwc/pci-exynos.c
-index 1f0e98d07109353e7321667e98ead2695151184c..af991a14b52792d2376fd30875854c46fd65155a 100644
---- a/drivers/pci/controller/dwc/pci-exynos.c
-+++ b/drivers/pci/controller/dwc/pci-exynos.c
-@@ -358,6 +358,8 @@ static int exynos_pcie_resume_noirq(struct device *dev)
- 	struct exynos_pcie *ep = dev_get_drvdata(dev);
- 	struct dw_pcie *pci = &ep->pci;
- 	struct dw_pcie_rp *pp = &pci->pp;
-+	struct dw_pcie_port *port = list_first_entry(&pci->pp.ports,
-+						struct dw_pcie_port, list);
- 	int ret;
- 
- 	ret = regulator_bulk_enable(ARRAY_SIZE(ep->supplies), ep->supplies);
-@@ -368,7 +370,7 @@ static int exynos_pcie_resume_noirq(struct device *dev)
- 	exynos_pcie_host_init(pp);
- 	dw_pcie_setup_rc(pp);
- 	exynos_pcie_start_link(pci);
--	return dw_pcie_wait_for_link(pci);
-+	return dw_pcie_wait_for_link(pci, port);
- }
- 
- static const struct dev_pm_ops exynos_pcie_pm_ops = {
-diff --git a/drivers/pci/controller/dwc/pci-imx6.c b/drivers/pci/controller/dwc/pci-imx6.c
-index 80e48746bbaf6815d8b9e879be5fa0bb992d9189..107367b72afc937daf26305dea2b5ad9ce3f86ae 100644
---- a/drivers/pci/controller/dwc/pci-imx6.c
-+++ b/drivers/pci/controller/dwc/pci-imx6.c
-@@ -939,6 +939,8 @@ static int imx_pcie_start_link(struct dw_pcie *pci)
- 	struct imx_pcie *imx_pcie = to_imx_pcie(pci);
- 	struct device *dev = pci->dev;
- 	u8 offset = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
-+	struct dw_pcie_port *port = list_first_entry(&pci->pp.ports,
-+						struct dw_pcie_port, list);
- 	u32 tmp;
- 	int ret;
- 
-@@ -963,8 +965,8 @@ static int imx_pcie_start_link(struct dw_pcie *pci)
- 	/* Start LTSSM. */
- 	imx_pcie_ltssm_enable(dev);
- 
--	if (pci->max_link_speed > 1) {
--		ret = dw_pcie_wait_for_link(pci);
-+	if (port->max_link_speed > 1) {
-+		ret = dw_pcie_wait_for_link(pci, port);
- 		if (ret)
- 			goto err_reset_phy;
- 
-@@ -972,7 +974,7 @@ static int imx_pcie_start_link(struct dw_pcie *pci)
- 		dw_pcie_dbi_ro_wr_en(pci);
- 		tmp = dw_pcie_readl_dbi(pci, offset + PCI_EXP_LNKCAP);
- 		tmp &= ~PCI_EXP_LNKCAP_SLS;
--		tmp |= pci->max_link_speed;
-+		tmp |= port->max_link_speed;
- 		dw_pcie_writel_dbi(pci, offset + PCI_EXP_LNKCAP, tmp);
- 
- 		/*
-@@ -1605,6 +1607,7 @@ static int imx_pcie_probe(struct platform_device *pdev)
- 	struct dw_pcie *pci;
- 	struct imx_pcie *imx_pcie;
- 	struct device_node *np;
-+	struct dw_pcie_port *port;
- 	struct device_node *node = dev->of_node;
- 	int ret, domain;
- 	u16 val;
-@@ -1741,9 +1744,9 @@ static int imx_pcie_probe(struct platform_device *pdev)
- 				 &imx_pcie->tx_swing_low))
- 		imx_pcie->tx_swing_low = 127;
- 
--	/* Limit link speed */
--	pci->max_link_speed = 1;
--	of_property_read_u32(node, "fsl,max-link-speed", &pci->max_link_speed);
-+	port = list_first_entry(&pci->pp.ports, struct dw_pcie_port, list);
-+	port->max_link_speed = 1;
-+	of_property_read_u32(node, "fsl,max-link-speed", &port->max_link_speed);
- 
- 	imx_pcie->vpcie = devm_regulator_get_optional(&pdev->dev, "vpcie");
- 	if (IS_ERR(imx_pcie->vpcie)) {
-diff --git a/drivers/pci/controller/dwc/pci-meson.c b/drivers/pci/controller/dwc/pci-meson.c
-index 787469d1b396d4c7b3e28edfe276b7b997fb8aee..45d855e72e8479432c66b5c00a9755163ecd2741 100644
---- a/drivers/pci/controller/dwc/pci-meson.c
-+++ b/drivers/pci/controller/dwc/pci-meson.c
-@@ -411,7 +411,6 @@ static int meson_pcie_probe(struct platform_device *pdev)
- 	pci->dev = dev;
- 	pci->ops = &dw_pcie_ops;
- 	pci->pp.ops = &meson_pcie_host_ops;
--	pci->num_lanes = 1;
- 
- 	mp->phy = devm_phy_get(dev, "pcie");
- 	if (IS_ERR(mp->phy)) {
-diff --git a/drivers/pci/controller/dwc/pcie-designware-host.c b/drivers/pci/controller/dwc/pcie-designware-host.c
-index 952f8594b501254d2b2de5d5e056e16d2aa8d4b7..a864b90bd51ce475a2fd7de83573cf3ddea196e7 100644
---- a/drivers/pci/controller/dwc/pcie-designware-host.c
-+++ b/drivers/pci/controller/dwc/pcie-designware-host.c
-@@ -456,11 +456,86 @@ static int dw_pcie_host_get_resources(struct dw_pcie_rp *pp)
- 	return 0;
- }
- 
-+static int dw_pcie_parse_root_ports(struct dw_pcie_rp *pp)
-+{
-+	struct dw_pcie *pci = to_dw_pcie_from_pp(pp);
-+	struct dw_pcie_port *port, *tmp;
-+	struct device *dev = pci->dev;
-+	int max_link_speed;
-+	u32 num_lanes;
-+	int ret;
-+
-+	if (!of_get_available_child_count(dev->of_node)) {
-+		port = devm_kzalloc(dev, sizeof(*port), GFP_KERNEL);
-+		if (!port)
-+			return -ENOMEM;
-+
-+		port->dev_node = dev->of_node;
-+		list_add_tail(&port->list, &pp->ports);
-+
-+		return 0;
-+	}
-+
-+	for_each_available_child_of_node_scoped(dev->of_node, of_port) {
-+		num_lanes = 0;
-+		max_link_speed = 0;
-+		of_property_read_u32(of_port, "num-lanes", &num_lanes);
-+		max_link_speed = of_pci_get_max_link_speed(of_port);
-+
-+		port = devm_kzalloc(dev, sizeof(*port), GFP_KERNEL);
-+		if (!port) {
-+			ret = -ENOMEM;
-+			goto err_port_del;
-+		}
-+
-+		port->dev_node = of_port;
-+		port->num_lanes = num_lanes;
-+		port->max_link_speed = max_link_speed;
-+		list_add_tail(&port->list, &pp->ports);
-+	}
-+
-+	return 0;
-+
-+err_port_del:
-+	list_for_each_entry_safe(port, tmp, &pp->ports, list)
-+		list_del(&port->list);
-+
-+	return ret;
-+}
-+
-+static int dw_pcie_parse_legacy_binding(struct dw_pcie_rp *pp)
-+{
-+	struct dw_pcie *pci = to_dw_pcie_from_pp(pp);
-+	struct device *dev = pci->dev;
-+	struct dw_pcie_port *port;
-+	int max_link_speed;
-+	u32 num_lanes;
-+	int ret;
-+
-+	ret = of_property_read_u32(dev->of_node, "num-lanes", &num_lanes);
-+	max_link_speed = of_pci_get_max_link_speed(dev->of_node);
-+
-+	if (ret && max_link_speed <= 0)
-+		return -ENOENT;
-+
-+	port = devm_kzalloc(dev, sizeof(*port), GFP_KERNEL);
-+	if (!port)
-+		return -ENOMEM;
-+
-+	port->dev_node = dev->of_node;
-+	port->num_lanes = num_lanes;
-+	port->max_link_speed = max_link_speed;
-+	list_add_tail(&port->list, &pp->ports);
-+
-+	return 0;
-+}
-+
- int dw_pcie_host_init(struct dw_pcie_rp *pp)
- {
- 	struct dw_pcie *pci = to_dw_pcie_from_pp(pp);
- 	struct device *dev = pci->dev;
- 	struct device_node *np = dev->of_node;
-+	struct dw_pcie_port *port, *tmp;
- 	struct pci_host_bridge *bridge;
- 	int ret;
- 
-@@ -472,6 +547,8 @@ int dw_pcie_host_init(struct dw_pcie_rp *pp)
- 
- 	pp->bridge = bridge;
- 
-+	INIT_LIST_HEAD(&pp->ports);
-+
- 	ret = dw_pcie_host_get_resources(pp);
- 	if (ret)
- 		return ret;
-@@ -480,10 +557,25 @@ int dw_pcie_host_init(struct dw_pcie_rp *pp)
- 	bridge->ops = &dw_pcie_ops;
- 	bridge->child_ops = &dw_child_pcie_ops;
- 
-+	/*
-+	 * Try to parse legacy binding first (properties in Host Bridge node).
-+	 * If not found, try parsing Root Port child nodes.
-+	 */
-+	ret = dw_pcie_parse_legacy_binding(pp);
-+	if (ret == -ENOENT) {
-+		ret = dw_pcie_parse_root_ports(pp);
-+		if (ret && ret != -ENOENT) {
-+			dev_err(dev, "Failed to parse Root Port: %d\n", ret);
-+			return ret;
-+		}
-+	} else if (ret) {
-+		return ret;
-+	}
-+
- 	if (pp->ops->init) {
- 		ret = pp->ops->init(pp);
- 		if (ret)
--			return ret;
-+			goto err_cleanup_ports;
- 	}
- 
- 	if (pci_msi_enabled()) {
-@@ -518,12 +610,15 @@ int dw_pcie_host_init(struct dw_pcie_rp *pp)
- 
- 	dw_pcie_iatu_detect(pci);
- 
--	if (pci->num_lanes < 1)
--		pci->num_lanes = dw_pcie_link_get_max_link_width(pci);
-+	list_for_each_entry(port, &pp->ports, list) {
-+		if (port->num_lanes < 1)
-+			port->num_lanes = dw_pcie_link_get_max_link_width(pci, port);
- 
--	ret = of_pci_get_equalization_presets(dev, &pp->presets, pci->num_lanes);
--	if (ret)
--		goto err_free_msi;
-+		ret = of_pci_get_equalization_presets(dev, port->dev_node,
-+						      &port->presets, port->num_lanes);
-+		if (ret)
-+			goto err_free_msi;
-+	}
- 
- 	/*
- 	 * Allocate the resource for MSG TLP before programming the iATU
-@@ -557,8 +652,8 @@ int dw_pcie_host_init(struct dw_pcie_rp *pp)
- 	 * because that would require users to manually rescan for devices.
- 	 */
- 	if (!pp->use_linkup_irq)
--		/* Ignore errors, the link may come up later */
--		dw_pcie_wait_for_link(pci);
-+		list_for_each_entry(port, &pp->ports, list)
-+			dw_pcie_wait_for_link(pci, port);
- 
- 	bridge->sysdata = pp;
- 
-@@ -586,6 +681,9 @@ int dw_pcie_host_init(struct dw_pcie_rp *pp)
- err_deinit_host:
- 	if (pp->ops->deinit)
- 		pp->ops->deinit(pp);
-+err_cleanup_ports:
-+	list_for_each_entry_safe(port, tmp, &pp->ports, list)
-+		list_del(&port->list);
- 
- 	return ret;
- }
-@@ -594,6 +692,7 @@ EXPORT_SYMBOL_GPL(dw_pcie_host_init);
- void dw_pcie_host_deinit(struct dw_pcie_rp *pp)
- {
- 	struct dw_pcie *pci = to_dw_pcie_from_pp(pp);
-+	struct dw_pcie_port *port, *tmp;
- 
- 	dwc_pcie_debugfs_deinit(pci);
- 
-@@ -607,6 +706,9 @@ void dw_pcie_host_deinit(struct dw_pcie_rp *pp)
- 	if (pp->has_msi_ctrl)
- 		dw_pcie_free_msi(pp);
- 
-+	list_for_each_entry_safe(port, tmp, &pp->ports, list)
-+		list_del(&port->list);
-+
- 	if (pp->ops->deinit)
- 		pp->ops->deinit(pp);
- }
-@@ -830,7 +932,9 @@ static int dw_pcie_iatu_setup(struct dw_pcie_rp *pp)
- 	return 0;
- }
- 
--static void dw_pcie_program_presets(struct dw_pcie_rp *pp, enum pci_bus_speed speed)
-+/*TODO: Handling preset values according to dbi space of each port */
-+static void dw_pcie_program_presets(struct dw_pcie_rp *pp, struct dw_pcie_port *port,
-+				    enum pci_bus_speed speed)
- {
- 	struct dw_pcie *pci = to_dw_pcie_from_pp(pp);
- 	u8 lane_eq_offset, lane_reg_size, cap_id;
-@@ -839,23 +943,23 @@ static void dw_pcie_program_presets(struct dw_pcie_rp *pp, enum pci_bus_speed sp
- 	int i;
- 
- 	if (speed == PCIE_SPEED_8_0GT) {
--		presets = (u8 *)pp->presets.eq_presets_8gts;
-+		presets = (u8 *)port->presets.eq_presets_8gts;
- 		lane_eq_offset =  PCI_SECPCI_LE_CTRL;
- 		cap_id = PCI_EXT_CAP_ID_SECPCI;
- 		/* For data rate of 8 GT/S each lane equalization control is 16bits wide*/
- 		lane_reg_size = 0x2;
- 	} else if (speed == PCIE_SPEED_16_0GT) {
--		presets = pp->presets.eq_presets_Ngts[EQ_PRESET_TYPE_16GTS - 1];
-+		presets = port->presets.eq_presets_Ngts[EQ_PRESET_TYPE_16GTS - 1];
- 		lane_eq_offset = PCI_PL_16GT_LE_CTRL;
- 		cap_id = PCI_EXT_CAP_ID_PL_16GT;
- 		lane_reg_size = 0x1;
- 	} else if (speed == PCIE_SPEED_32_0GT) {
--		presets =  pp->presets.eq_presets_Ngts[EQ_PRESET_TYPE_32GTS - 1];
-+		presets =  port->presets.eq_presets_Ngts[EQ_PRESET_TYPE_32GTS - 1];
- 		lane_eq_offset = PCI_PL_32GT_LE_CTRL;
- 		cap_id = PCI_EXT_CAP_ID_PL_32GT;
- 		lane_reg_size = 0x1;
- 	} else if (speed == PCIE_SPEED_64_0GT) {
--		presets =  pp->presets.eq_presets_Ngts[EQ_PRESET_TYPE_64GTS - 1];
-+		presets =  port->presets.eq_presets_Ngts[EQ_PRESET_TYPE_64GTS - 1];
- 		lane_eq_offset = PCI_PL_64GT_LE_CTRL;
- 		cap_id = PCI_EXT_CAP_ID_PL_64GT;
- 		lane_reg_size = 0x1;
-@@ -874,31 +978,38 @@ static void dw_pcie_program_presets(struct dw_pcie_rp *pp, enum pci_bus_speed sp
- 	 * Write preset values to the registers byte-by-byte for the given
- 	 * number of lanes and register size.
- 	 */
--	for (i = 0; i < pci->num_lanes * lane_reg_size; i++)
-+	for (i = 0; i < port->num_lanes * lane_reg_size; i++)
- 		dw_pcie_writeb_dbi(pci, cap + lane_eq_offset + i, presets[i]);
- }
- 
- static void dw_pcie_config_presets(struct dw_pcie_rp *pp)
- {
- 	struct dw_pcie *pci = to_dw_pcie_from_pp(pp);
--	enum pci_bus_speed speed = pcie_link_speed[pci->max_link_speed];
-+	enum pci_bus_speed port_speed;
-+	struct dw_pcie_port *port;
- 
- 	/*
--	 * Lane equalization settings need to be applied for all data rates the
--	 * controller supports and for all supported lanes.
-+	 * Lane equalization settings need to be applied for all data rates each
-+	 * port supports and for all supported lanes per port.
- 	 */
-+	list_for_each_entry(port, &pp->ports, list) {
-+		if (port->max_link_speed > 0)
-+			port_speed = pcie_link_speed[port->max_link_speed];
-+		else
-+			port_speed = PCIE_SPEED_2_5GT;
- 
--	if (speed >= PCIE_SPEED_8_0GT)
--		dw_pcie_program_presets(pp, PCIE_SPEED_8_0GT);
-+		if (port_speed >= PCIE_SPEED_8_0GT)
-+			dw_pcie_program_presets(pp, port, PCIE_SPEED_8_0GT);
- 
--	if (speed >= PCIE_SPEED_16_0GT)
--		dw_pcie_program_presets(pp, PCIE_SPEED_16_0GT);
-+		if (port_speed >= PCIE_SPEED_16_0GT)
-+			dw_pcie_program_presets(pp, port, PCIE_SPEED_16_0GT);
- 
--	if (speed >= PCIE_SPEED_32_0GT)
--		dw_pcie_program_presets(pp, PCIE_SPEED_32_0GT);
-+		if (port_speed >= PCIE_SPEED_32_0GT)
-+			dw_pcie_program_presets(pp, port, PCIE_SPEED_32_0GT);
- 
--	if (speed >= PCIE_SPEED_64_0GT)
--		dw_pcie_program_presets(pp, PCIE_SPEED_64_0GT);
-+		if (port_speed >= PCIE_SPEED_64_0GT)
-+			dw_pcie_program_presets(pp, port, PCIE_SPEED_64_0GT);
-+	}
- }
- 
- int dw_pcie_setup_rc(struct dw_pcie_rp *pp)
-@@ -1054,6 +1165,7 @@ EXPORT_SYMBOL_GPL(dw_pcie_suspend_noirq);
- 
- int dw_pcie_resume_noirq(struct dw_pcie *pci)
- {
-+	struct dw_pcie_port *port;
- 	int ret;
- 
- 	if (!pci->suspended)
-@@ -1075,9 +1187,9 @@ int dw_pcie_resume_noirq(struct dw_pcie *pci)
- 	if (ret)
- 		return ret;
- 
--	ret = dw_pcie_wait_for_link(pci);
--	if (ret)
--		return ret;
-+	list_for_each_entry(port, &pci->pp.ports, list)
-+		if (dw_pcie_wait_for_link(pci, port))
-+			return -ETIMEDOUT;
- 
- 	return ret;
- }
-diff --git a/drivers/pci/controller/dwc/pcie-designware.c b/drivers/pci/controller/dwc/pcie-designware.c
-index 89aad5a08928cc29870ab258d33bee9ff8f83143..804f633874a7a33c7788e90ea45b529a5622060c 100644
---- a/drivers/pci/controller/dwc/pcie-designware.c
-+++ b/drivers/pci/controller/dwc/pcie-designware.c
-@@ -178,11 +178,6 @@ int dw_pcie_get_resources(struct dw_pcie *pci)
- 			return ret;
- 	}
- 
--	if (pci->max_link_speed < 1)
--		pci->max_link_speed = of_pci_get_max_link_speed(np);
--
--	of_property_read_u32(np, "num-lanes", &pci->num_lanes);
--
- 	if (of_property_read_bool(np, "snps,enable-cdm-check"))
- 		dw_pcie_cap_set(pci, CDM_CHECK);
- 
-@@ -696,7 +691,7 @@ void dw_pcie_disable_atu(struct dw_pcie *pci, u32 dir, int index)
- 	dw_pcie_writel_atu(pci, dir, index, PCIE_ATU_REGION_CTRL2, 0);
- }
- 
--int dw_pcie_wait_for_link(struct dw_pcie *pci)
-+int dw_pcie_wait_for_link(struct dw_pcie *pci, struct dw_pcie_port *port)
- {
- 	u32 offset, val;
- 	int retries;
-@@ -719,7 +714,7 @@ int dw_pcie_wait_for_link(struct dw_pcie *pci)
- 	 * speeds greater than 5.0 GT/s, software must wait a minimum of 100 ms
- 	 * after Link training completes before sending a Configuration Request.
- 	 */
--	if (pci->max_link_speed > 2)
-+	if (port && port->max_link_speed > 2)
- 		msleep(PCIE_RESET_CONFIG_WAIT_MS);
- 
- 	offset = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
-@@ -756,10 +751,11 @@ void dw_pcie_upconfig_setup(struct dw_pcie *pci)
- }
- EXPORT_SYMBOL_GPL(dw_pcie_upconfig_setup);
- 
--static void dw_pcie_link_set_max_speed(struct dw_pcie *pci)
-+static void dw_pcie_link_set_max_speed(struct dw_pcie *pci, struct dw_pcie_port *port)
- {
- 	u32 cap, ctrl2, link_speed;
- 	u8 offset = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
-+	int max_speed = port->max_link_speed;
- 
- 	cap = dw_pcie_readl_dbi(pci, offset + PCI_EXP_LNKCAP);
- 
-@@ -768,15 +764,16 @@ static void dw_pcie_link_set_max_speed(struct dw_pcie *pci)
- 	 * just cache the hardware default value so that the vendor drivers can
- 	 * use it to do any link specific configuration.
- 	 */
--	if (pci->max_link_speed < 1) {
--		pci->max_link_speed = FIELD_GET(PCI_EXP_LNKCAP_SLS, cap);
-+	if (max_speed < 1) {
-+		max_speed = FIELD_GET(PCI_EXP_LNKCAP_SLS, cap);
-+		port->max_link_speed = max_speed;
- 		return;
- 	}
- 
- 	ctrl2 = dw_pcie_readl_dbi(pci, offset + PCI_EXP_LNKCTL2);
- 	ctrl2 &= ~PCI_EXP_LNKCTL2_TLS;
- 
--	switch (pcie_link_speed[pci->max_link_speed]) {
-+	switch (pcie_link_speed[max_speed]) {
- 	case PCIE_SPEED_2_5GT:
- 		link_speed = PCI_EXP_LNKCTL2_TLS_2_5GT;
- 		break;
-@@ -800,10 +797,10 @@ static void dw_pcie_link_set_max_speed(struct dw_pcie *pci)
- 
- 	cap &= ~((u32)PCI_EXP_LNKCAP_SLS);
- 	dw_pcie_writel_dbi(pci, offset + PCI_EXP_LNKCAP, cap | link_speed);
--
- }
- 
--int dw_pcie_link_get_max_link_width(struct dw_pcie *pci)
-+/* TODO: Implement per-port max link width detection using port-specific DBI space */
-+int dw_pcie_link_get_max_link_width(struct dw_pcie *pci, struct dw_pcie_port *port)
- {
- 	u8 cap = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
- 	u32 lnkcap = dw_pcie_readl_dbi(pci, cap + PCI_EXP_LNKCAP);
-@@ -1141,9 +1138,14 @@ void dw_pcie_edma_remove(struct dw_pcie *pci)
- 
- void dw_pcie_setup(struct dw_pcie *pci)
- {
-+	struct dw_pcie_port *port;
- 	u32 val;
- 
--	dw_pcie_link_set_max_speed(pci);
-+	/* Configure per-port settings */
-+	list_for_each_entry(port, &pci->pp.ports, list) {
-+		dw_pcie_link_set_max_speed(pci, port);
-+		dw_pcie_link_set_max_link_width(pci, port->num_lanes);
-+	}
- 
- 	/* Configure Gen1 N_FTS */
- 	if (pci->n_fts[0]) {
-@@ -1173,8 +1175,6 @@ void dw_pcie_setup(struct dw_pcie *pci)
- 	val &= ~PORT_LINK_FAST_LINK_MODE;
- 	val |= PORT_LINK_DLL_LINK_EN;
- 	dw_pcie_writel_dbi(pci, PCIE_PORT_LINK_CONTROL, val);
--
--	dw_pcie_link_set_max_link_width(pci, pci->num_lanes);
- }
- 
- resource_size_t dw_pcie_parent_bus_offset(struct dw_pcie *pci,
-diff --git a/drivers/pci/controller/dwc/pcie-designware.h b/drivers/pci/controller/dwc/pcie-designware.h
-index 00f52d472dcdd794013a865ad6c4c7cc251edb48..5ead9a40f0e91fb33d65d77cfa3cb61b19dceea7 100644
---- a/drivers/pci/controller/dwc/pcie-designware.h
-+++ b/drivers/pci/controller/dwc/pcie-designware.h
-@@ -18,6 +18,7 @@
- #include <linux/dma/edma.h>
- #include <linux/gpio/consumer.h>
- #include <linux/irq.h>
-+#include <linux/list.h>
- #include <linux/msi.h>
- #include <linux/pci.h>
- #include <linux/reset.h>
-@@ -392,6 +393,14 @@ struct dw_pcie_ob_atu_cfg {
- 	u64 size;
- };
- 
-+struct dw_pcie_port {
-+	struct list_head	list;
-+	struct device_node	*dev_node;
-+	u32			num_lanes;
-+	int			max_link_speed;
-+	struct pci_eq_presets	presets;
-+};
-+
- struct dw_pcie_host_ops {
- 	int (*init)(struct dw_pcie_rp *pp);
- 	void (*deinit)(struct dw_pcie_rp *pp);
-@@ -424,7 +433,7 @@ struct dw_pcie_rp {
- 	int			msg_atu_index;
- 	struct resource		*msg_res;
- 	bool			use_linkup_irq;
--	struct pci_eq_presets	presets;
-+	struct list_head	ports;		/* List of dw_pcie_port structures */
- };
- 
- struct dw_pcie_ep_ops {
-@@ -505,8 +514,6 @@ struct dw_pcie {
- 	u32			version;
- 	u32			type;
- 	unsigned long		caps;
--	int			num_lanes;
--	int			max_link_speed;
- 	u8			n_fts[2];
- 	struct dw_edma_chip	edma;
- 	struct clk_bulk_data	app_clks[DW_PCIE_NUM_APP_CLKS];
-@@ -556,8 +563,8 @@ void dw_pcie_write_dbi(struct dw_pcie *pci, u32 reg, size_t size, u32 val);
- void dw_pcie_write_dbi2(struct dw_pcie *pci, u32 reg, size_t size, u32 val);
- bool dw_pcie_link_up(struct dw_pcie *pci);
- void dw_pcie_upconfig_setup(struct dw_pcie *pci);
--int dw_pcie_wait_for_link(struct dw_pcie *pci);
--int dw_pcie_link_get_max_link_width(struct dw_pcie *pci);
-+int dw_pcie_wait_for_link(struct dw_pcie *pci, struct dw_pcie_port *port);
-+int dw_pcie_link_get_max_link_width(struct dw_pcie *pci, struct dw_pcie_port *port);
- int dw_pcie_prog_outbound_atu(struct dw_pcie *pci,
- 			      const struct dw_pcie_ob_atu_cfg *atu);
- int dw_pcie_prog_inbound_atu(struct dw_pcie *pci, int index, int type,
-diff --git a/drivers/pci/controller/dwc/pcie-fu740.c b/drivers/pci/controller/dwc/pcie-fu740.c
-index 66367252032b84fd42c719287057471b1fe44e9a..39d9d2c8e1806dd805b669371ae4abc194469e57 100644
---- a/drivers/pci/controller/dwc/pcie-fu740.c
-+++ b/drivers/pci/controller/dwc/pcie-fu740.c
-@@ -179,6 +179,8 @@ static int fu740_pcie_start_link(struct dw_pcie *pci)
- {
- 	struct device *dev = pci->dev;
- 	struct fu740_pcie *afp = dev_get_drvdata(dev);
-+	struct dw_pcie_port *port = list_first_entry(&pci->pp.ports,
-+						struct dw_pcie_port, list);
- 	u8 cap_exp = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
- 	int ret;
- 	u32 orig, tmp;
-@@ -202,7 +204,7 @@ static int fu740_pcie_start_link(struct dw_pcie *pci)
- 	/* Enable LTSSM */
- 	writel_relaxed(0x1, afp->mgmt_base + PCIEX8MGMT_APP_LTSSM_ENABLE);
- 
--	ret = dw_pcie_wait_for_link(pci);
-+	ret = dw_pcie_wait_for_link(pci, port);
- 	if (ret) {
- 		dev_err(dev, "error: link did not start\n");
- 		goto err;
-@@ -220,7 +222,7 @@ static int fu740_pcie_start_link(struct dw_pcie *pci)
- 		tmp |= PORT_LOGIC_SPEED_CHANGE;
- 		dw_pcie_writel_dbi(pci, PCIE_LINK_WIDTH_SPEED_CONTROL, tmp);
- 
--		ret = dw_pcie_wait_for_link(pci);
-+		ret = dw_pcie_wait_for_link(pci, port);
- 		if (ret) {
- 			dev_err(dev, "error: link did not start at new speed\n");
- 			goto err;
-diff --git a/drivers/pci/controller/dwc/pcie-intel-gw.c b/drivers/pci/controller/dwc/pcie-intel-gw.c
-index c21906eced61896c8a8307dbd6b72d229f9a5c5f..565aaa3da635749c64693268a8e5c1a59e1f040e 100644
---- a/drivers/pci/controller/dwc/pcie-intel-gw.c
-+++ b/drivers/pci/controller/dwc/pcie-intel-gw.c
-@@ -131,7 +131,10 @@ static void intel_pcie_link_setup(struct intel_pcie *pcie)
- 
- static void intel_pcie_init_n_fts(struct dw_pcie *pci)
- {
--	switch (pci->max_link_speed) {
-+	struct dw_pcie_port *port = list_first_entry(&pci->pp.ports,
-+							struct dw_pcie_port, list);
-+
-+	switch (port->max_link_speed) {
- 	case 3:
- 		pci->n_fts[1] = PORT_AFR_N_FTS_GEN3;
- 		break;
-@@ -250,8 +253,10 @@ static int intel_pcie_wait_l2(struct intel_pcie *pcie)
- 	u32 value;
- 	int ret;
- 	struct dw_pcie *pci = &pcie->pci;
-+	struct dw_pcie_port *port = list_first_entry(&pci->pp.ports,
-+						      struct dw_pcie_port, list);
- 
--	if (pci->max_link_speed < 3)
-+	if (port->max_link_speed < 3)
- 		return 0;
- 
- 	/* Send PME_TURN_OFF message */
-@@ -282,6 +287,8 @@ static int intel_pcie_host_setup(struct intel_pcie *pcie)
- {
- 	int ret;
- 	struct dw_pcie *pci = &pcie->pci;
-+	struct dw_pcie_port *port = list_first_entry(&pci->pp.ports,
-+						struct dw_pcie_port, list);
- 
- 	intel_pcie_core_rst_assert(pcie);
- 	intel_pcie_device_rst_assert(pcie);
-@@ -313,7 +320,7 @@ static int intel_pcie_host_setup(struct intel_pcie *pcie)
- 	intel_pcie_device_rst_deassert(pcie);
- 	intel_pcie_ltssm_enable(pcie);
- 
--	ret = dw_pcie_wait_for_link(pci);
-+	ret = dw_pcie_wait_for_link(pci, port);
- 	if (ret)
- 		goto app_init_err;
- 
-diff --git a/drivers/pci/controller/dwc/pcie-qcom-common.c b/drivers/pci/controller/dwc/pcie-qcom-common.c
-index 3aad19b56da8f6ea6525f1aad0102a4d8df0369b..2d0295bd0b377f158017f7dba7a64b88e1dd8f68 100644
---- a/drivers/pci/controller/dwc/pcie-qcom-common.c
-+++ b/drivers/pci/controller/dwc/pcie-qcom-common.c
-@@ -49,6 +49,8 @@ EXPORT_SYMBOL_GPL(qcom_pcie_common_set_16gt_equalization);
- void qcom_pcie_common_set_16gt_lane_margining(struct dw_pcie *pci)
- {
- 	u32 reg;
-+	struct dw_pcie_port *port = list_first_entry(&pci->pp.ports,
-+					struct dw_pcie_port, list);
- 
- 	reg = dw_pcie_readl_dbi(pci, GEN4_LANE_MARGINING_1_OFF);
- 	reg &= ~(MARGINING_MAX_VOLTAGE_OFFSET |
-@@ -70,7 +72,8 @@ void qcom_pcie_common_set_16gt_lane_margining(struct dw_pcie *pci)
- 		MARGINING_MAXLANES |
- 		MARGINING_SAMPLE_RATE_TIMING |
- 		MARGINING_SAMPLE_RATE_VOLTAGE);
--	reg |= FIELD_PREP(MARGINING_MAXLANES, pci->num_lanes) |
-+
-+	reg |= FIELD_PREP(MARGINING_MAXLANES, port->num_lanes) |
- 		FIELD_PREP(MARGINING_SAMPLE_RATE_TIMING, 0x3f) |
- 		FIELD_PREP(MARGINING_SAMPLE_RATE_VOLTAGE, 0x3f);
- 	dw_pcie_writel_dbi(pci, GEN4_LANE_MARGINING_2_OFF, reg);
-diff --git a/drivers/pci/controller/dwc/pcie-qcom-ep.c b/drivers/pci/controller/dwc/pcie-qcom-ep.c
-index bf7c6ac0f3e3962de8346ab6e75dfff1d9642aad..6812ab020b3bdb99733dc12a0615ea98a471da63 100644
---- a/drivers/pci/controller/dwc/pcie-qcom-ep.c
-+++ b/drivers/pci/controller/dwc/pcie-qcom-ep.c
-@@ -389,6 +389,8 @@ static void qcom_pcie_disable_resources(struct qcom_pcie_ep *pcie_ep)
- 
- static int qcom_pcie_perst_deassert(struct dw_pcie *pci)
- {
-+	struct dw_pcie_port *port = list_first_entry(&pci->pp.ports,
-+					struct dw_pcie_port, list);
- 	struct qcom_pcie_ep *pcie_ep = to_pcie_ep(pci);
- 	struct device *dev = pci->dev;
- 	u32 val, offset;
-@@ -511,7 +513,7 @@ static int qcom_pcie_perst_deassert(struct dw_pcie *pci)
- 		goto err_disable_resources;
- 	}
- 
--	if (pcie_link_speed[pci->max_link_speed] == PCIE_SPEED_16_0GT) {
-+	if (pcie_link_speed[port->max_link_speed] == PCIE_SPEED_16_0GT) {
- 		qcom_pcie_common_set_16gt_equalization(pci);
- 		qcom_pcie_common_set_16gt_lane_margining(pci);
- 	}
-diff --git a/drivers/pci/controller/dwc/pcie-qcom.c b/drivers/pci/controller/dwc/pcie-qcom.c
-index 294babe1816e4d0c2b2343fe22d89af72afcd6cd..9690ab97cc01160a26034bf8026fe4dbafe48731 100644
---- a/drivers/pci/controller/dwc/pcie-qcom.c
-+++ b/drivers/pci/controller/dwc/pcie-qcom.c
-@@ -321,8 +321,10 @@ static void qcom_ep_reset_deassert(struct qcom_pcie *pcie)
- static int qcom_pcie_start_link(struct dw_pcie *pci)
- {
- 	struct qcom_pcie *pcie = to_qcom_pcie(pci);
-+	struct dw_pcie_port *port = list_first_entry(&pci->pp.ports,
-+						      struct dw_pcie_port, list);
- 
--	if (pcie_link_speed[pci->max_link_speed] == PCIE_SPEED_16_0GT) {
-+	if (pcie_link_speed[port->max_link_speed] == PCIE_SPEED_16_0GT) {
- 		qcom_pcie_common_set_16gt_equalization(pci);
- 		qcom_pcie_common_set_16gt_lane_margining(pci);
- 	}
-diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4.c b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-index 18055807a4f5f9f1233097e1e47604a3555dccf0..f8c85984025a329b092c788dae270911aec9c51f 100644
---- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-+++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-@@ -132,6 +132,8 @@ static int rcar_gen4_pcie_speed_change(struct dw_pcie *dw)
- static int rcar_gen4_pcie_start_link(struct dw_pcie *dw)
- {
- 	struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
-+	struct dw_pcie_port *port = list_first_entry(&dw->pp.ports,
-+						struct dw_pcie_port, list);
- 	int i, changes, ret;
- 
- 	if (rcar->drvdata->ltssm_control) {
-@@ -144,7 +146,7 @@ static int rcar_gen4_pcie_start_link(struct dw_pcie *dw)
- 	 * Require direct speed change with retrying here if the max_link_speed
- 	 * is PCIe Gen2 or higher.
- 	 */
--	changes = min_not_zero(dw->max_link_speed, RCAR_MAX_LINK_SPEED) - 1;
-+	changes = min_not_zero(port->max_link_speed, RCAR_MAX_LINK_SPEED) - 1;
- 
- 	/*
- 	 * Since dw_pcie_setup_rc() sets it once, PCIe Gen2 will be trained.
-@@ -173,6 +175,8 @@ static void rcar_gen4_pcie_stop_link(struct dw_pcie *dw)
- static int rcar_gen4_pcie_common_init(struct rcar_gen4_pcie *rcar)
- {
- 	struct dw_pcie *dw = &rcar->dw;
-+	struct dw_pcie_port *port = list_first_entry(&dw->pp.ports,
-+						struct dw_pcie_port, list);
- 	u32 val;
- 	int ret;
- 
-@@ -195,7 +199,7 @@ static int rcar_gen4_pcie_common_init(struct rcar_gen4_pcie *rcar)
- 		goto err_unprepare;
- 	}
- 
--	if (dw->num_lanes < 4)
-+	if (port->num_lanes < 4)
- 		val |= BIFUR_MOD_SET_ON;
- 
- 	writel(val, rcar->base + PCIEMSR0);
-@@ -563,12 +567,15 @@ static int r8a779f0_pcie_ltssm_control(struct rcar_gen4_pcie *rcar, bool enable)
- static void rcar_gen4_pcie_additional_common_init(struct rcar_gen4_pcie *rcar)
- {
- 	struct dw_pcie *dw = &rcar->dw;
-+	struct dw_pcie_port *port = list_first_entry(&dw->pp.ports,
-+						struct dw_pcie_port, list);
- 	u32 val;
- 
- 	val = dw_pcie_readl_dbi(dw, PCIE_PORT_LANE_SKEW);
- 	val &= ~PORT_LANE_SKEW_INSERT_MASK;
--	if (dw->num_lanes < 4)
-+	if (port->num_lanes < 4)
- 		val |= BIT(6);
-+
- 	dw_pcie_writel_dbi(dw, PCIE_PORT_LANE_SKEW, val);
- 
- 	val = readl(rcar->base + PCIEPWRMNGCTRL);
-diff --git a/drivers/pci/controller/dwc/pcie-spear13xx.c b/drivers/pci/controller/dwc/pcie-spear13xx.c
-index 01794a9d3ad293419c9322ca53fe86036689b287..9221b37cc58ec75986bfc2898ab2879eee794cdc 100644
---- a/drivers/pci/controller/dwc/pcie-spear13xx.c
-+++ b/drivers/pci/controller/dwc/pcie-spear13xx.c
-@@ -191,6 +191,7 @@ static int spear13xx_pcie_probe(struct platform_device *pdev)
- 	struct dw_pcie *pci;
- 	struct spear13xx_pcie *spear13xx_pcie;
- 	struct device_node *np = dev->of_node;
-+	struct dw_pcie_port *port;
- 	int ret;
- 
- 	spear13xx_pcie = devm_kzalloc(dev, sizeof(*spear13xx_pcie), GFP_KERNEL);
-@@ -228,9 +229,9 @@ static int spear13xx_pcie_probe(struct platform_device *pdev)
- 		dev_err(dev, "couldn't enable clk for pcie\n");
- 		return ret;
- 	}
--
-+	port = list_first_entry(&pci->pp.ports, struct dw_pcie_port, list);
- 	if (of_property_read_bool(np, "st,pcie-is-gen1"))
--		pci->max_link_speed = 1;
-+		port->max_link_speed = 1;
- 
- 	platform_set_drvdata(pdev, spear13xx_pcie);
- 
-diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
-index 4f26086f25daf8e23cafbb2b460e1934734f4103..7b82c2509e966404892a29691f7c21a27279b71f 100644
---- a/drivers/pci/controller/dwc/pcie-tegra194.c
-+++ b/drivers/pci/controller/dwc/pcie-tegra194.c
-@@ -957,6 +957,8 @@ static int tegra_pcie_dw_host_init(struct dw_pcie_rp *pp)
- static int tegra_pcie_dw_start_link(struct dw_pcie *pci)
- {
- 	struct tegra_pcie_dw *pcie = to_tegra_pcie(pci);
-+	struct dw_pcie_port *port = list_first_entry(&pci->pp.ports,
-+						struct dw_pcie_port, list);
- 	struct dw_pcie_rp *pp = &pci->pp;
- 	u32 val, offset, tmp;
- 	bool retry = true;
-@@ -986,7 +988,7 @@ static int tegra_pcie_dw_start_link(struct dw_pcie *pci)
- 
- 	msleep(100);
- 
--	if (dw_pcie_wait_for_link(pci)) {
-+	if (dw_pcie_wait_for_link(pci, port)) {
- 		if (!retry)
- 			return 0;
- 		/*
+My apologies, this one appears to have slipped through the cracks on our
+end.
 
--- 
-2.34.1
+> ---
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Frank Binns <frank.binns@imgtec.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Matt Coster <matt.coster@imgtec.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> ---
+>  drivers/gpu/drm/imagination/Kconfig      | 2 +-
+>  drivers/gpu/drm/imagination/pvr_device.h | 1 +
+>  drivers/gpu/drm/imagination/pvr_mmu.h    | 2 +-
+>  3 files changed, 3 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/imagination/Kconfig b/drivers/gpu/drm/imag=
+ination/Kconfig
+> index 0482bfcefdde..6d177f0568cd 100644
+> --- a/drivers/gpu/drm/imagination/Kconfig
+> +++ b/drivers/gpu/drm/imagination/Kconfig
+> @@ -3,7 +3,7 @@
+> =20
+>  config DRM_POWERVR
+>  	tristate "Imagination Technologies PowerVR (Series 6 and later) & IMG=
+ Graphics"
+> -	depends on (ARM64 || RISCV && 64BIT)
+> +	depends on ARM || ARM64 || RISCV
 
+This seems fine to me. Do you know any reason why the single change
+below might *not* be sufficient to support non-64-bit riscv? I can't
+think of any, I just wanted to double check this had been considered.
+
+Otherwise I'm happy to R-b and take this as-is.
+
+Cheers,
+Matt
+
+>  	depends on DRM
+>  	depends on MMU
+>  	depends on PM
+> diff --git a/drivers/gpu/drm/imagination/pvr_device.h b/drivers/gpu/drm=
+/imagination/pvr_device.h
+> index ab8f56ae15df..efdd355005c0 100644
+> --- a/drivers/gpu/drm/imagination/pvr_device.h
+> +++ b/drivers/gpu/drm/imagination/pvr_device.h
+> @@ -20,6 +20,7 @@
+>  #include <linux/compiler_types.h>
+>  #include <linux/device.h>
+>  #include <linux/io.h>
+> +#include <linux/io-64-nonatomic-hi-lo.h>
+>  #include <linux/iopoll.h>
+>  #include <linux/kernel.h>
+>  #include <linux/math.h>
+> diff --git a/drivers/gpu/drm/imagination/pvr_mmu.h b/drivers/gpu/drm/im=
+agination/pvr_mmu.h
+> index a8ecd460168d..6431e4314735 100644
+> --- a/drivers/gpu/drm/imagination/pvr_mmu.h
+> +++ b/drivers/gpu/drm/imagination/pvr_mmu.h
+> @@ -85,7 +85,7 @@ struct sg_table;
+>   *    notes on that constant apply here.
+>   */
+>  #define PVR_PAGE_TABLE_ADDR_SPACE_SIZE SZ_1T
+> -#define PVR_PAGE_TABLE_ADDR_BITS __ffs(PVR_PAGE_TABLE_ADDR_SPACE_SIZE)=
+
+> +#define PVR_PAGE_TABLE_ADDR_BITS __ffs64(PVR_PAGE_TABLE_ADDR_SPACE_SIZ=
+E)
+>  #define PVR_PAGE_TABLE_ADDR_MASK (PVR_PAGE_TABLE_ADDR_SPACE_SIZE - 1)
+> =20
+>  void pvr_mmu_flush_request_all(struct pvr_device *pvr_dev);
+
+--=20
+Matt Coster
+E: matt.coster@imgtec.com
+
+--------------g1CvrC8tnWXFlu7H9GrkGQV1--
+
+--------------tdUAgJCGkvVTEV30LAhLuHs5
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wnsEABYIACMWIQS4qDmoJvwmKhjY+nN5vBnz2d5qsAUCaVu4FwUDAAAAAAAKCRB5vBnz2d5qsEq7
+AQDaLnD5UaF0i2rSD0aRbNkEg2VpXl/XyFFVD9clK5G6twEAyaRv9MbCHqGoC7O1L4uJtmnHSidg
+pVZD+pVIDu3wxQo=
+=5T5S
+-----END PGP SIGNATURE-----
+
+--------------tdUAgJCGkvVTEV30LAhLuHs5--
 
