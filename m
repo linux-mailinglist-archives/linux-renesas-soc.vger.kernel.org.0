@@ -1,235 +1,340 @@
-Return-Path: <linux-renesas-soc+bounces-26308-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26309-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6754CF517B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 05 Jan 2026 18:53:42 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EACDCF52E3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 05 Jan 2026 19:11:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id CD94830341B4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Jan 2026 17:53:16 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id F267A3018F5D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Jan 2026 18:06:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 794DB2FD697;
-	Mon,  5 Jan 2026 17:53:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1003322DC1;
+	Mon,  5 Jan 2026 18:06:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="iZFy1usK";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Xc3f6UBe"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="hWOBfJUG"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011004.outbound.protection.outlook.com [40.107.74.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 432272E65D;
-	Mon,  5 Jan 2026 17:53:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767635588; cv=none; b=nEpUqCRxXgzfwpt0XUyCHBMI4FLh2TE2bnfeld8AwFZEd3vnbDptDaqNlMJ20rWAxO/An4xWSf+JorckLiFmHeC/eJQajFnTwoQfMnj3h9GrF5pMvinWvlpc3bPJymIsp0SSdUX5DJkkr4uMeFX5r4h8bPaU7m/0LEBsFLODv74=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767635588; c=relaxed/simple;
-	bh=lCiCf/XC7B3kc67ZN41wbPvKknJELjJSALJ9hoomOVg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VgctxtT8du2Zr88N4Pnt5iBWEVkOja6Pq93O/Qd07K380PL6K4Pg+xUy5161WkKZc3LCdiaH6TTBlqxBixMPf8Uz/V0miVv42LqRMIk/OkVjJY1wHdtYB2ly90VSuh+2Z9xWBnaB5OFfyF0FWLcADa/2kJ/vvf1M7BwSuaaK9Ew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=iZFy1usK; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Xc3f6UBe; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4dlMMz1dkfz9tQq;
-	Mon,  5 Jan 2026 18:53:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1767635583;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=mlFYT/HEOvUY7CDKakI9f1tmEuOow/Z3hA5FQFme7mI=;
-	b=iZFy1usK2fdQj0XU3g3+JdxY/JSJ+ylW8JeV5uq8c9f0qo3R3muAx39MlLs4UWDbgkTuah
-	7MTSOaplzhptD0plupo4tdzWB0Vt1kmh95U6naHbV49afTsZ8hvkAEzajzlXfEHQC18Uk1
-	WdTQWhaIBUc/DfEiv8Ji5Ut0BA2+WePHAvjEJtOarV1pqVSAhRbE85j7h6SlcgvWF1y99b
-	Um3Yhas5G9kTyxs81TeZRVpdtbf3PVkTDGQpfbrzkJfCym2dXsV/mupY3R8NVzsZyfcKNW
-	uV3K1hzMZKUDAuIM8gd2F+NUwBcyXJRpOGqArKnEY/T+ycg2YQTYjRYnddSmBA==
-From: Marek Vasut <marek.vasut+renesas@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1767635580;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=mlFYT/HEOvUY7CDKakI9f1tmEuOow/Z3hA5FQFme7mI=;
-	b=Xc3f6UBe9tmQN9xVsvtBBJ+depcCxoJX3bhMBBQMV5iWEqhkSXlZF3pDGaXvL+ytc6n+e7
-	y1rjHv9MBnrzhwnoPgDXVTWd3QD6y+EAgqHrmaVxqyLwOD3OfWJ5PL99cgsranRHFqfVdC
-	J63Dx9mGRAkh1WyEpnUPLdIlVKZh9FVJFdL5N3/Zfgev0i7fxC506ucZaN/CUmKzgjM1WF
-	V9hvC0TOIYM4SeXpOTlH8D2XbSUGQQa9oPJgpPbNe0xHo14xvYYmyXaMtFuuDkafIM5Yk2
-	ZzA0xI2iJyufGskZmUTNOqF9AAOlMIlk22F8aCoGxYIwgUqhJXyYzNVRU9AN5w==
-To: dri-devel@lists.freedesktop.org
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	kernel test robot <lkp@intel.com>,
-	David Airlie <airlied@gmail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Simona Vetter <simona@ffwll.ch>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2] drm/rcar-du: dsi: Clean up VCLK divider calculation
-Date: Mon,  5 Jan 2026 18:52:04 +0100
-Message-ID: <20260105175250.64309-1-marek.vasut+renesas@mailbox.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02CD32FFFA5;
+	Mon,  5 Jan 2026 18:06:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.4
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767636388; cv=fail; b=r8HKmCZ6hJHMPAz7tbVoNcc0bdxdTf8rvLnPwPsYltvdsqohA8HTHBhPBk6lveQs/XHM/FIBrlaDE2hZA3xOQelxWboS0xMgrrcjmQHIru2a5foRPxr7Ca4a3YyO3Q2F9jKNrtDliN2IYBst8aY+gUwq3zTA6Ex/H4GvBQ1NEoM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767636388; c=relaxed/simple;
+	bh=4XK+6EF7Ox7Ww0j6Nq1vZkZFZvDrSwCpj32qP5gltw4=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=Vy5EiJK8Y2SCQbR2dtsI3UJcLf15dXMh2oZpY5L4rgBHkTJZHtEQNkGM0XLnws8q5Ut1KdKAaaxLJO+5dKjTINK8oc4wSSCRJm+REDF3NmQC6jcj36WVw3Jw0F7xWBmo0NfWz0R2Aj7DhGitn0Mvqdgi6sfj3mZMeApVq5yUBVM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=hWOBfJUG; arc=fail smtp.client-ip=40.107.74.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tD6jpO+rGC68BqzGXPWncz12Zl6NOClnZ7Jhw/suq/3kS4GQTlzX1d74588Hjr5NXq1rVGM/Civbn/eIAbykKrgJ2iTY9/BPusZ11+ycj8462HP9O3B9bgi8RLcyFQyVapbh2249knG/gvc3Vrz0sIpS936GX2HAMOouF4eI0VLfDL3OBMmUJwI3E4yUp/mTapp6Us3TCd9G4mwvWK4GfVrSLV6ByuFiEm6bO3oC9H23ze2D8hymnRSRrQ+/+UW0ByjGplmmEl1kLZeFRdG07YmKd61TtoXtBd5eb6FP9Jx6JFjlxpYgCbYgaghY8KO+tQM9FWlBOJXGgfpaX4ltgA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=u3LcWsllV+mgOrtKktG0gko816OeurStZJuhI8LX1/g=;
+ b=PFhsErravpZdQFOu+iRBNsHf0jaPeaz7cxWT01cfFegFE+yMDHq55MtsxHx1oTb1ppTFrKn9B02Gao2gr7NfgPkfmVvALAlGHsxzvRxaX2Is9BZohvwAC58i68hkupRbl4xIP1PgDh8LSYSqmNT9mEAC9jSY/xFAFFZfddE5z9FYLFt5+70m6G7QojfRvBRR/a7TksUM5wRJ32iqGyMDCQuoikcI5W9h+DjXIfgm2M+gBWnwAVyPiFSleycY21xEccuFbyjtIjST6xx0IKsmcDs1v46lFsgmNkdr1khWFqbmTtIPLSLPIGX2kPKVMBEMsEvsp91ZB41kR+Et3nsK1g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=u3LcWsllV+mgOrtKktG0gko816OeurStZJuhI8LX1/g=;
+ b=hWOBfJUGVpL2ZieoIjzATryGvuQnffHjkmzKZf4lBwYvnrH9hx9iU1Bzy2kbnoabl47XK4Qgdl3WjtnbNGKwvbo0HfM7hU3X4BKiO+vrvsA/qcrV8kvBuFje5oLJ/i9uvv47z51T6sfRilbLpe4aARu0hwGThbz6zu0f7OSxjBM=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by TYYPR01MB10480.jpnprd01.prod.outlook.com (2603:1096:400:2f7::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.1; Mon, 5 Jan
+ 2026 18:06:20 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1%6]) with mapi id 15.20.9499.001; Mon, 5 Jan 2026
+ 18:06:19 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Frank Li <Frank.li@nxp.com>, Tommaso Merciai
+	<tommaso.merciai.xr@bp.renesas.com>
+CC: Tommaso Merciai <tomm.merciai@gmail.com>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	wsa+renesas <wsa+renesas@sang-engineering.com>, Alexandre Belloni
+	<alexandre.belloni@bootlin.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+	Geert Uytterhoeven <geert+renesas@glider.be>, magnus.damm
+	<magnus.damm@gmail.com>, "linux-i3c@lists.infradead.org"
+	<linux-i3c@lists.infradead.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v4 1/4] i3c: renesas: Switch to clk_bulk API and store
+ clocks in private data
+Thread-Topic: [PATCH v4 1/4] i3c: renesas: Switch to clk_bulk API and store
+ clocks in private data
+Thread-Index: AQHcfjEd/HHAzFY+c0mlsn4qV6uoULVD0GoAgAAOSSA=
+Date: Mon, 5 Jan 2026 18:06:19 +0000
+Message-ID:
+ <TY3PR01MB113466E129D0970F0E2541F7B8686A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <cover.1767608450.git.tommaso.merciai.xr@bp.renesas.com>
+ <94d378e99ded450ba118813b35239f9a10a73daa.1767608450.git.tommaso.merciai.xr@bp.renesas.com>
+ <aVvw3pjhphnVv7g2@lizhi-Precision-Tower-5810>
+In-Reply-To: <aVvw3pjhphnVv7g2@lizhi-Precision-Tower-5810>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYYPR01MB10480:EE_
+x-ms-office365-filtering-correlation-id: 78c9fe08-7394-4013-0ef6-08de4c8520a5
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|7416014|376014|366016|1800799024|38070700021;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?BYTiTmEhMMqj2di2VKVYSA8ri77BeY7p6b0UV9JSny00II8rjrkMvEZsgZdc?=
+ =?us-ascii?Q?fiQmI+E2AXf6hIfBVFK2XIddh5RrVojBoAW118L39oahshKEPZYkleu4dL+/?=
+ =?us-ascii?Q?IvSWcfn/OCR2QPgLsj6DVYknamaKaAbhuOhhMvPO8UlJSBkneGbNZrovn8ax?=
+ =?us-ascii?Q?/lu+R7u5Tfno8NdXTgnrOvUzjoKYZShJdzbs8vwWaqOzp/nH2+TmXMFYZxI3?=
+ =?us-ascii?Q?/LAV83egJuZZ349/DzxOiHRCQltiTsAc9cGpiI0g+EGA9Bf8pCP6dDsCfCh7?=
+ =?us-ascii?Q?BzNvE/v8IjkW+M7gcoA4TUMqITFyeA3320/2JsJsDCyo89b6TIXccVTekk7M?=
+ =?us-ascii?Q?qFEAo8qXX9cpEnKP5+U5D2RIdEutK6dElr9MPCC/O8V/shleGvduASg4n6Ko?=
+ =?us-ascii?Q?D8PM4aUpcj78bU+3MI8MJLSkmqLex4Me8G9r3Y/jnkG/5YN9z6JqZlq3MFel?=
+ =?us-ascii?Q?W4sqfTxn0zCjck/ZG9vzWuhioE8mHixePSilTfwWxvgMS1ZWi7itQN0bA7OX?=
+ =?us-ascii?Q?JgjtTuF4F633LCLjZ3tD5TKiqeTaJ5TsKQpVIzLfSOCEzCF5gBK8l38ACHZ3?=
+ =?us-ascii?Q?MvjCceenKbsy+2h+RO6+pV72Pt+46/gzBFNYqXmvHCSGltoriJeTXCGj+Q2p?=
+ =?us-ascii?Q?MghgWnsiXcxcksmq+Z2FSgvad6+gbPcffx/HHxM4XO8Y+9dM7EmX+AtFoDxr?=
+ =?us-ascii?Q?pB4Zq7oYHWLtyFiazEqNx4jlg1BM3lvqa4ltA7QkiRz0Ko7TRhnQ9/fF6NeW?=
+ =?us-ascii?Q?Ur8Fvi+xmX4lRR+wD1YrAtlQMB8FbnR9IwQqGRNNEPE2W5RqXw++/kQgzs34?=
+ =?us-ascii?Q?vRd6fgbv5kp75NmXw0gpxkUkJWGBWUkWYKHTuNEN8kvczgvEdAHcpPIoYPzK?=
+ =?us-ascii?Q?NnnJEgdzfDqMHWt/dk1Zqzq/pUojT32F5MaUh6y0Z8vpdBLAy+JKDhlvhRY3?=
+ =?us-ascii?Q?AWtxXgrX9MM3y3owcP2OZAD93H6TJff+Oc9H//36mvjJSpntPPYyKzw2jH3f?=
+ =?us-ascii?Q?XlPE5WMfUmQkHBPs4NDtceSXcoV2W6FrfOx5LobY8djyAqDT8zJonUog5wEQ?=
+ =?us-ascii?Q?EdZ6LZZWDi1PlhoiPHyckQtzhDYIBy5XwNmFbySD0SboJQQy2RGn2cxkJ/NP?=
+ =?us-ascii?Q?59ySxg/JAuXUla/6hT4dfTQ8yZjv0FByKN/t9CtcSZsd3i70/je2z9C7G4T8?=
+ =?us-ascii?Q?awRgwPp72Vajzi3hfwUIlEeqOFJ5FID4MeTnD252fsQoxV9cP81gazluy+aY?=
+ =?us-ascii?Q?bZl0cBAg/0bC8UXiUsX1FjNk3uzIhvYJicXiJRP5vWrL0gNU105etFMIuRLm?=
+ =?us-ascii?Q?ejWFO9QrAxToL7XIhrih3HO1BX0NJzb2iSEI0KrL7CQ2zfGq9m7hD3EQ2oFi?=
+ =?us-ascii?Q?fcuC3jcGXjLJZtX/thue5+AMZ2RYIaW4ztB8buMDZQ6KEnjZQB6f462+4R1e?=
+ =?us-ascii?Q?Chj4V7TQdWhcwuz22T3EcNXzQwTibF7Q5R3lMWMFkEHj6fEnenLUKQId36PZ?=
+ =?us-ascii?Q?gkHuN/Fzo0P5x+GotyZowpPZWRV8fwbvCemB?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?8ilV/7+TbodA0Kx2D4413T4bOlxghmNojgvUe9iUIzRJ4anzcQIffZqpL1zv?=
+ =?us-ascii?Q?6mXW8ralYh8Pb7ub44aYFkdSYSpllJ/0WCqJ3kfUPgqED5qGVhB7WmJDtf5w?=
+ =?us-ascii?Q?o/lM6MtASlleAaUaIs6n4967/l2XpBz7M1kQ7Xzruv8IG4WB3IYhS2AwY8a+?=
+ =?us-ascii?Q?aRJfX/o9XG2mWf4tFMji0caR/SrFtnph1fh28OdQGo4Q1sS8uWc5a46Uj+eN?=
+ =?us-ascii?Q?jU3PpFTCRsnnpS/z1VcMCCQC5l827I8VnCDj7M2hpiS7O9fRjkA+J3KlmsNL?=
+ =?us-ascii?Q?leLb/ECSqZ86HV8dIzLpg5BPORUpGNeu5/GABy7HMvO98o9alm1LAV8ghgDt?=
+ =?us-ascii?Q?f38Wn/nd1uqcd9Xf8OKn2p60+5ZA+VvJM9xMnndPPjLuH1+Pw7iM+4PPtoD3?=
+ =?us-ascii?Q?q1beEP/FhLaaQVxl1AyP+Nhidrs5coTfXSqBMN3EwCZQL1jWtG61b6wqZGh3?=
+ =?us-ascii?Q?HTrtZS2njDTdBIxqwBeZ56jzRAbYKJ+7cBPLDqs4TAoSsyjruwhIAuezBHSd?=
+ =?us-ascii?Q?JjlHdYriWP5NYpkYJNIyBpL925e7Nc+Ina9NUP4qF7TfzfzJ9VuWlEYlJWmv?=
+ =?us-ascii?Q?GpOwisRKBzhb/1q7ullyOMNF7Ui4uBSKhIABi+Rf+wb32AeMAbwwxpoMZwx/?=
+ =?us-ascii?Q?WN8a6FojE/00+lUnsZLYbzuAW0CKoDs8iVyS2fZcz8FWuLXhQ4QtuuGd7w5F?=
+ =?us-ascii?Q?8EsgdsA/mcM0487HzObd5N7o10h4M+SuzCzkuqvfl2bT+d5Qn322iVPfGhuF?=
+ =?us-ascii?Q?oetD8v7SH/KXAd7MRSWy/Xv6ntwLOkbIVFAFJzAtGNsnzJxd/GezqmeSi8Ek?=
+ =?us-ascii?Q?2Cm4yeEB7e+1kpQ1Vpwc4SytXnZVOtgYr7o0GnnT3fztFSuMfTQHTlYH8qdH?=
+ =?us-ascii?Q?XWKY/OamRyaJk8ZsLqlUpzKqNzUjcf87k5ZEu7u8UmqxOkZNN10IsUy+HyP6?=
+ =?us-ascii?Q?AWYgWDbCiu1IXI2I0WA+M1FA7v3RA5ykMcicwOxCzDPjnFXTCmbqB8paNZ17?=
+ =?us-ascii?Q?edu0i1JmZojabLMIh/vjcCPBEiakXx/0CoVbYNvmDwOv34vyn70KnF6h1ITV?=
+ =?us-ascii?Q?zbhD0Zsuoypdr2cnkwSImAXxgsllgv0X56bEizRcWHGGAApZHrgw4mHTdsZO?=
+ =?us-ascii?Q?B7EVWAfZQtrKNvU8kDBhRgybOdjhOGDZ35xMAN+pvM6q+2SZi0eiXWQkqC6U?=
+ =?us-ascii?Q?xORexez1t/CGsdBRjqkiB+wpWZYxojKU9VrcVrw2XWPNbEtVc8udquYaZNg4?=
+ =?us-ascii?Q?ZR6zTCBYc+nq0vVABoIdkNJS/fQKmRpXBjVvDd7FGSs90Jt9o7Lzop019458?=
+ =?us-ascii?Q?oB8dwSYGYiDvPorbct599P1AuCjfubmk5AUDEov+RZdKYPNf/KwNFUi7CB0o?=
+ =?us-ascii?Q?PdumyOzie/qomZAkX2oUJ8nBD9mb0z1mSR/ms5c4iIqE8c51NbPUKKTYxVoN?=
+ =?us-ascii?Q?nNJt8i4ANcK2XSSiF5Z98U3dm5IJ26rxei0HooTQqRHFeyMdvqbezcH7m+l3?=
+ =?us-ascii?Q?cK7ofamiZCtGkOakSPtEnbozTDWaC3lv/I6tRoMp4/yHDiV0XL+udjD6+MiY?=
+ =?us-ascii?Q?/1CE+5YhGGnmnjGgfb/keUpwYssPlUdVtsTntK11QKtD07e/zbxuon51g74o?=
+ =?us-ascii?Q?7HF7lFnelvagxV4vE8JWxTOMDWfAemJ4EwpCpMxcY7Nw97PqGcUt+dBiNDcW?=
+ =?us-ascii?Q?0ptRigobAf7AXQdW5hnQ6bVzG3sBRViaHlUKdOQPlcMliwTBOg1bmP9IDGYr?=
+ =?us-ascii?Q?A+pc0cQEeg=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: 6czwgu3o71sasbatj75ppfox5y8wi7nc
-X-MBO-RS-ID: 22b2408a7d8588c0a71
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 78c9fe08-7394-4013-0ef6-08de4c8520a5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Jan 2026 18:06:19.4743
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: x7NgQnnXsh9cfnGgwg87xLekyazuI+0hHcLaJVT+UE7RXAu5VW++5sxB9MO52/IBJWCtp8ARCGsBhFslZvJXGflelRsO5Vnc/JXDpYsZV88=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB10480
 
-Currently, in rcar_mipi_dsi_parameters_calc(), the VCLK divider is stored
-in setup_info structure as BIT(divider). The rcar_mipi_dsi_parameters_calc()
-is called at the early beginning of rcar_mipi_dsi_startup() function. Later,
-in the same rcar_mipi_dsi_startup() function, the stored BIT(divider) value
-is passed to __ffs() to calculate back the divider out of the value again.
+Hi Frank Li,
 
-Factor out VCLK divider calculation into rcar_mipi_dsi_vclk_divider()
-function and call the function from both rcar_mipi_dsi_parameters_calc()
-and rcar_mipi_dsi_startup() to avoid this back and forth BIT() and _ffs()
-and avoid unnecessarily storing the divider value in setup_info at all.
+> -----Original Message-----
+> From: Frank Li <Frank.li@nxp.com>
+> Sent: 05 January 2026 17:12
+> Subject: Re: [PATCH v4 1/4] i3c: renesas: Switch to clk_bulk API and stor=
+e clocks in private data
+>=20
+> On Mon, Jan 05, 2026 at 11:49:59AM +0100, Tommaso Merciai wrote:
+> > Replace individual devm_clk_get_enabled() calls with the clk_bulk API
+> > and store the clock handles in the driver's private data structure.
+> >
+> > All clocks required by the controller are now acquired and enabled
+> > using devm_clk_bulk_get_all_enabled(), removing the need for per-SoC
+> > clock handling and the renesas_i3c_config data.
+> > The TCLK is accessed via a fixed index in the bulk clock array.
+> >
+> > Simplify the code and prepare the driver for upcoming suspend/resume
+> > support.
+> >
+> > No functional change intended.
+> >
+> > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> > ---
+> > v3->v4:
+> >  - Collected Biju Das tag.
+> >
+> > v2->v3:
+> >  - Added define for TCLK index.
+> >  - Use devm_clk_bulk_get_all_enabled() into renesas_i3c_probe().
+> >  - Improved commit body.
+> >  - Dropped unnecessary static const char * const renesas_i3c_clks[].
+> >  - Removed the need for per-SoC clock handling and the renesas_i3c_conf=
+ig data.
+> >
+> > v1->v2:
+> >  - New patch.
+> >
+> >  drivers/i3c/master/renesas-i3c.c | 43
+> > ++++++++------------------------
+> >  1 file changed, 11 insertions(+), 32 deletions(-)
+> >
+> > diff --git a/drivers/i3c/master/renesas-i3c.c
+> > b/drivers/i3c/master/renesas-i3c.c
+> > index 426a418f29b6..1b8f4be9ad67 100644
+> > --- a/drivers/i3c/master/renesas-i3c.c
+> > +++ b/drivers/i3c/master/renesas-i3c.c
+> > @@ -198,6 +198,8 @@
+> >  #define RENESAS_I3C_MAX_DEVS	8
+> >  #define I2C_INIT_MSG		-1
+> >
+> > +#define RENESAS_I3C_TCLK_IDX	1
+> > +
+> >  enum i3c_internal_state {
+> >  	I3C_INTERNAL_STATE_DISABLED,
+> >  	I3C_INTERNAL_STATE_CONTROLLER_IDLE,
+> > @@ -259,7 +261,8 @@ struct renesas_i3c {
+> >  	u8 addrs[RENESAS_I3C_MAX_DEVS];
+> >  	struct renesas_i3c_xferqueue xferqueue;
+> >  	void __iomem *regs;
+> > -	struct clk *tclk;
+> > +	struct clk_bulk_data *clks;
+> > +	u8 num_clks;
+> >  };
+> >
+> >  struct renesas_i3c_i2c_dev_data {
+> > @@ -272,10 +275,6 @@ struct renesas_i3c_irq_desc {
+> >  	const char *desc;
+> >  };
+> >
+> > -struct renesas_i3c_config {
+> > -	unsigned int has_pclkrw:1;
+> > -};
+> > -
+> >  static inline void renesas_i3c_reg_update(void __iomem *reg, u32
+> > mask, u32 val)  {
+> >  	u32 data =3D readl(reg);
+> > @@ -489,7 +488,7 @@ static int renesas_i3c_bus_init(struct i3c_master_c=
+ontroller *m)
+> >  	int od_high_ticks, od_low_ticks, i2c_total_ticks;
+> >  	int ret;
+> >
+> > -	rate =3D clk_get_rate(i3c->tclk);
+> > +	rate =3D clk_get_rate(i3c->clks[RENESAS_I3C_TCLK_IDX].clk);
+> >  	if (!rate)
+> >  		return -EINVAL;
+> >
+> > @@ -1302,13 +1301,8 @@ static int renesas_i3c_probe(struct
+> > platform_device *pdev)  {
+> >  	struct renesas_i3c *i3c;
+> >  	struct reset_control *reset;
+> > -	struct clk *clk;
+> > -	const struct renesas_i3c_config *config =3D of_device_get_match_data(=
+&pdev->dev);
+> >  	int ret, i;
+> >
+> > -	if (!config)
+> > -		return -ENODATA;
+> > -
+> >  	i3c =3D devm_kzalloc(&pdev->dev, sizeof(*i3c), GFP_KERNEL);
+> >  	if (!i3c)
+> >  		return -ENOMEM;
+> > @@ -1317,19 +1311,11 @@ static int renesas_i3c_probe(struct platform_de=
+vice *pdev)
+> >  	if (IS_ERR(i3c->regs))
+> >  		return PTR_ERR(i3c->regs);
+> >
+> > -	clk =3D devm_clk_get_enabled(&pdev->dev, "pclk");
+> > -	if (IS_ERR(clk))
+> > -		return PTR_ERR(clk);
+> > -
+> > -	if (config->has_pclkrw) {
+> > -		clk =3D devm_clk_get_enabled(&pdev->dev, "pclkrw");
+> > -		if (IS_ERR(clk))
+> > -			return PTR_ERR(clk);
+> > -	}
+> > +	ret =3D devm_clk_bulk_get_all_enabled(&pdev->dev, &i3c->clks);
+> > +	if (ret < 0)
+> > +		return ret;
+> >
+> > -	i3c->tclk =3D devm_clk_get_enabled(&pdev->dev, "tclk");
+> > -	if (IS_ERR(i3c->tclk))
+> > -		return PTR_ERR(i3c->tclk);
+> > +	i3c->num_clks =3D ret;
+>=20
+> Need check num_clks > RENESAS_I3C_TCLK_IDX to avoid outbound access at
+> i3c->clks[RENESAS_I3C_TCLK_IDX].clk
 
-This rework has a slight side-effect, in that it should allow the compiler
-to better evaluate the code and avoid compiler warnings about variable
-value overflows, which can never happen.
+I guess dt binding check validate this as well. Eg: a single clk defined
+in the DT instead of minimum 2, will give DT warnings.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202512051834.bESvhDiG-lkp@intel.com/
-Closes: https://lore.kernel.org/oe-kbuild-all/202512222321.TeY4VbvK-lkp@intel.com/
-Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
----
-Cc: David Airlie <airlied@gmail.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Magnus Damm <magnus.damm@gmail.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org
----
-V2: Use BIT_U16()
----
- .../gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c   | 35 ++++++++++++++-----
- 1 file changed, 26 insertions(+), 9 deletions(-)
+Do you expect additional check in C code as well?
 
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-index 4ef2e3c129ed7..508977b9e8926 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-@@ -84,7 +84,6 @@ struct dsi_setup_info {
- 	unsigned long fout;
- 	u16 m;
- 	u16 n;
--	u16 vclk_divider;
- 	const struct dsi_clk_config *clkset;
- };
- 
-@@ -335,10 +334,24 @@ rcar_mipi_dsi_post_init_phtw_v4h(struct rcar_mipi_dsi *dsi,
-  * Hardware Setup
-  */
- 
-+static unsigned int rcar_mipi_dsi_vclk_divider(struct rcar_mipi_dsi *dsi,
-+					       struct dsi_setup_info *setup_info)
-+{
-+	switch (dsi->info->model) {
-+	case RCAR_DSI_V3U:
-+	default:
-+		return (setup_info->clkset->vco_cntrl >> 4) & 0x3;
-+
-+	case RCAR_DSI_V4H:
-+		return (setup_info->clkset->vco_cntrl >> 3) & 0x7;
-+	}
-+}
-+
- static void rcar_mipi_dsi_pll_calc(struct rcar_mipi_dsi *dsi,
- 				   unsigned long fin_rate,
- 				   unsigned long fout_target,
--				   struct dsi_setup_info *setup_info)
-+				   struct dsi_setup_info *setup_info,
-+				   u16 vclk_divider)
- {
- 	unsigned int best_err = -1;
- 	const struct rcar_mipi_dsi_device_info *info = dsi->info;
-@@ -360,7 +373,7 @@ static void rcar_mipi_dsi_pll_calc(struct rcar_mipi_dsi *dsi,
- 			if (fout < info->fout_min || fout > info->fout_max)
- 				continue;
- 
--			fout = div64_u64(fout, setup_info->vclk_divider);
-+			fout = div64_u64(fout, vclk_divider);
- 
- 			if (fout < setup_info->clkset->min_freq ||
- 			    fout > setup_info->clkset->max_freq)
-@@ -390,7 +403,9 @@ static void rcar_mipi_dsi_parameters_calc(struct rcar_mipi_dsi *dsi,
- 	unsigned long fout_target;
- 	unsigned long fin_rate;
- 	unsigned int i;
-+	unsigned int div;
- 	unsigned int err;
-+	u16 vclk_divider;
- 
- 	/*
- 	 * Calculate Fout = dot clock * ColorDepth / (2 * Lane Count)
-@@ -412,18 +427,20 @@ static void rcar_mipi_dsi_parameters_calc(struct rcar_mipi_dsi *dsi,
- 
- 	fin_rate = clk_get_rate(clk);
- 
-+	div = rcar_mipi_dsi_vclk_divider(dsi, setup_info);
-+
- 	switch (dsi->info->model) {
- 	case RCAR_DSI_V3U:
- 	default:
--		setup_info->vclk_divider = 1 << ((clk_cfg->vco_cntrl >> 4) & 0x3);
-+		vclk_divider = BIT_U16(div);
- 		break;
- 
- 	case RCAR_DSI_V4H:
--		setup_info->vclk_divider = 1 << (((clk_cfg->vco_cntrl >> 3) & 0x7) + 1);
-+		vclk_divider = BIT_U16(div + 1);
- 		break;
- 	}
- 
--	rcar_mipi_dsi_pll_calc(dsi, fin_rate, fout_target, setup_info);
-+	rcar_mipi_dsi_pll_calc(dsi, fin_rate, fout_target, setup_info, vclk_divider);
- 
- 	/* Find hsfreqrange */
- 	setup_info->hsfreq = setup_info->fout * 2;
-@@ -439,7 +456,7 @@ static void rcar_mipi_dsi_parameters_calc(struct rcar_mipi_dsi *dsi,
- 	dev_dbg(dsi->dev,
- 		"Fout = %u * %lu / (%u * %u * %u) = %lu (target %lu Hz, error %d.%02u%%)\n",
- 		setup_info->m, fin_rate, dsi->info->n_mul, setup_info->n,
--		setup_info->vclk_divider, setup_info->fout, fout_target,
-+		vclk_divider, setup_info->fout, fout_target,
- 		err / 100, err % 100);
- 
- 	dev_dbg(dsi->dev,
-@@ -653,11 +670,11 @@ static int rcar_mipi_dsi_startup(struct rcar_mipi_dsi *dsi,
- 	switch (dsi->info->model) {
- 	case RCAR_DSI_V3U:
- 	default:
--		vclkset |= VCLKSET_DIV_V3U(__ffs(setup_info.vclk_divider));
-+		vclkset |= VCLKSET_DIV_V3U(rcar_mipi_dsi_vclk_divider(dsi, &setup_info));
- 		break;
- 
- 	case RCAR_DSI_V4H:
--		vclkset |= VCLKSET_DIV_V4H(__ffs(setup_info.vclk_divider) - 1);
-+		vclkset |= VCLKSET_DIV_V4H(rcar_mipi_dsi_vclk_divider(dsi, &setup_info));
- 		break;
- 	}
- 
--- 
-2.51.0
+Cheers,
+Biju
 
+
+> >
+> >  	reset =3D devm_reset_control_get_optional_exclusive_deasserted(&pdev-=
+>dev, "tresetn");
+> >  	if (IS_ERR(reset))
+> > @@ -1374,16 +1360,9 @@ static void renesas_i3c_remove(struct platform_d=
+evice *pdev)
+> >  	i3c_master_unregister(&i3c->base);
+> >  }
+> >
+> > -static const struct renesas_i3c_config empty_i3c_config =3D { -};
+> > -
+> > -static const struct renesas_i3c_config r9a09g047_i3c_config =3D {
+> > -	.has_pclkrw =3D 1,
+> > -};
+> > -
+> >  static const struct of_device_id renesas_i3c_of_ids[] =3D {
+> > -	{ .compatible =3D "renesas,r9a08g045-i3c", .data =3D &empty_i3c_confi=
+g },
+> > -	{ .compatible =3D "renesas,r9a09g047-i3c", .data =3D &r9a09g047_i3c_c=
+onfig },
+> > +	{ .compatible =3D "renesas,r9a08g045-i3c" },
+> > +	{ .compatible =3D "renesas,r9a09g047-i3c" },
+> >  	{ /* sentinel */ },
+> >  };
+> >  MODULE_DEVICE_TABLE(of, renesas_i3c_of_ids);
+> > --
+> > 2.43.0
+> >
 
