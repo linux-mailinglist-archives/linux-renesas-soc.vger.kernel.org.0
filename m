@@ -1,133 +1,113 @@
-Return-Path: <linux-renesas-soc+bounces-26302-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26303-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93C85CF4A1F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 05 Jan 2026 17:19:55 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4985ACF4A78
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 05 Jan 2026 17:24:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id A567F30049EA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Jan 2026 16:19:52 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 065033004EC7
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Jan 2026 16:24:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAA63348896;
-	Mon,  5 Jan 2026 16:19:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KhHlARlN"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E4AB332EA5;
+	Mon,  5 Jan 2026 16:24:24 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B6C433D6E7;
-	Mon,  5 Jan 2026 16:19:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8A1E333745
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  5 Jan 2026 16:24:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767629990; cv=none; b=Ipv4jDqgwdkDw9hVMj1DHVJupncBnuTMKHViuODOrro7MgvdPFT7fLfH/MNSaX+kXnj+ybAuqcehMgoUWgRws4yUakW4tYkHKWNIBK7vumI3NZoiMpzRJWYthAaZ81EToYbFMnqxM/rC1gM8qZ0TkiTo766XdPZMQVE2aZoOv4k=
+	t=1767630263; cv=none; b=rhzKr+jFp5E+POCeRDb6tlSwWp+Xuk+sfk8JTPdre5rqtA5YBcPlCurhHd5RNWEU3bNkOgZ80eRb2WLalR/6i83xgLPX6rStEBRpQu+viqJSL1esCZ0WXAMobazRH/uzuO6yrWaDGOhAtOxzA61XM/lSTiceFVQDNlQwJadTTwk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767629990; c=relaxed/simple;
-	bh=AtN7od0JeLsN9YbMUfbbQk/4L1P9KKm0XcoR8cmj7CA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YKPLrjf/ItY5RMRjrzzH/6sollMb93DI9JiG8kx4fNJYhu8KbHjDe/drx0zYANSddQYo48jV7rSuEXuzJ0nqkBUR66iCWhgCGNje5PcOTEl9dLu9JwsTuYQ5PY5sRlJa9JqYV7Ti4srftLzRPobAbhSg8FZZGRDITk4FjFhenT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KhHlARlN; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE25AC116D0;
-	Mon,  5 Jan 2026 16:19:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767629990;
-	bh=AtN7od0JeLsN9YbMUfbbQk/4L1P9KKm0XcoR8cmj7CA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KhHlARlNAGXphZOOMOLPXXdYboH6rQGoEW00D0fi7fuAHJOXGzeRgKYG5X1gpaPFj
-	 uzXh4SM8KE4Na2K2V9fmxDxkWzBKNxqKopKgrNor3jKn7aZ4gRQLdsF3X5+jLkxh4U
-	 0SjmlPwW3RkL7OZV9qDHm54Wi5IR/Al4nYVxEV392JoniVlmeAEahNMfp1JOK7ns/o
-	 liXgqtNjg/fiLGTcysf30O4NzJSIrFMFIdeHpIqm/F1jF8Uc7Kjsgi/Ihe8FPPnrY3
-	 DDJqu93pjX4IWDHcObkDD4CagtAouZaUKOTXJ3tft846K9m7kLSRbZtQZs8CYaPD91
-	 0Xn6ZM8O1egOQ==
-Date: Mon, 5 Jan 2026 17:19:38 +0100
-From: Niklas Cassel <cassel@kernel.org>
-To: Sumit Kumar <sumit.kumar@oss.qualcomm.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, Jingoo Han <jingoohan1@gmail.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Richard Zhu <hongxing.zhu@nxp.com>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Yue Wang <yue.wang@amlogic.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Greentime Hu <greentime.hu@sifive.com>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Chuanhua Lei <lchuanhua@maxlinear.com>,
-	Marek Vasut <marek.vasut+renesas@gmail.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Pratyush Anand <pratyush.anand@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, imx@lists.linux.dev,
-	linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH 2/2] PCI: dwc: Add multi-port controller support
-Message-ID: <aVvkmkd5mWPmxeiS@ryzen>
-References: <20260105-dt-parser-v1-0-b11c63cb5e2c@oss.qualcomm.com>
- <20260105-dt-parser-v1-2-b11c63cb5e2c@oss.qualcomm.com>
+	s=arc-20240116; t=1767630263; c=relaxed/simple;
+	bh=MQJHVWGVMvEgY0pTCRXhfF0hcdx5A6vuZ3OGEmwJLyc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=G2kzPi/bOlrovxJhOCSzgs36JM1BmqJgLkd0AxG78MKByht1kpaoaMgXPt54LUbP8mQgiWcVttt1HowBHZG+rSZ9iwMJjiPwn4MNVC5pVsy0yBUVpmLaezbF5RhNX/apRsocU7GaiigM8tWfaox4ZcyqcXCBJrwgIUpN0Dpd7hs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-55b4dafb425so1244551e0c.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 05 Jan 2026 08:24:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767630258; x=1768235058;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JG5F5JQHgu2xOW906W6PARHJHbrMbK+KGI+iRwpYzNQ=;
+        b=umD9OezwNmGTnDdxgoribbdl8HfVWuzoVgm572pSY4HYCGDaPf/fwncUWdOtOqERsX
+         u0t5opwQLbTuKQ50H/5sBHrZkO/NWjuw1VBEd6YM2YpRr7PjcTvfX6VituFzYqPT0Xiz
+         jZzMBcxLkFykbASFpjoH9xb/iDw69Qdve0DaEfdyJXjfFg4M0/vA++VnpjuoUM4+TCxE
+         tTSjJ7QhjaUbasiJfXUURIhs12T0YxXZjoDkjak5FbZzW6fZVXevQc5EeCQKAa7S0M22
+         7PCYbWUHIB9ouJxm5HpF5Z22PBRearVlp29tnnLPKjk0+km9oRZVIzcm71zRdjHAv67W
+         8h6Q==
+X-Forwarded-Encrypted: i=1; AJvYcCW5JqoVE/qrjLw+8foKqt5YccU/bGsdsZfRcAX1IvByGOzQuJ8Fe5sLo4ob/Dlq4O/PbPW/KaT4AyTgaUFnSG8K8w==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxa5PTm8KW1QMG6d6QTaq0lVz7UdNibTRiBMO+x2BghKbUPpoB8
+	27SOaZZDwubxsC9C2mbb+ms1B73vg36HwZJxkd3lr7RC8tnrgTWij0iKFg/bsDmt
+X-Gm-Gg: AY/fxX4z9MOLb07b1KnjSzxARc2fOfK/tERFNscfiRe1JiOqm5+OS6HMc04Us5XqmOD
+	52MKbMvTW01KYUgzXwrsSkcScGC2qhI/Ve/8V9yU6c+SbT9jpl+PLsnETJgnh3JfVle1tFoXBRJ
+	vsnIuAIcM6cg8Av9WXZ88+ke2VkOcJaelSFxpppPlUFv859oeGnfA4QSQJnr29Eyzpyc81Fwb5m
+	WGuN8p/6K3S39+McSaoOg/5nwDDVc6NODmyhBdmN2o7nJsq9sjiY6dW72+8K/eWCxJxdQcxZwqO
+	54gasKqBepcRuTzH4bJcJjQhMJPmINzu517qNzs4Zpdb/ySwoSAfGJXcenWbsa7RpEvbwkd3HLs
+	5UXn+QeYb0LBJFIo0Wv/q58EkF5pfqT9lMQcmXqQh+nDRYP5Y28tSNUfQeib3RZd2scackaHVHi
+	3of2sUft1zjkns9v1i2r3IHd9hO7NXYH151T+dVGjGOGmJITk5kOQWPl6u8XE=
+X-Google-Smtp-Source: AGHT+IEjf3mGxCIpzrjbSLI0TFU2su26+7N5A+JrraeLmCihGBZUPDMZylqemUh21kwGakEe7ARNuA==
+X-Received: by 2002:a05:6122:1e06:b0:55b:9bf6:da7d with SMTP id 71dfb90a1353d-563190444a9mr2490804e0c.2.1767630256967;
+        Mon, 05 Jan 2026 08:24:16 -0800 (PST)
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com. [209.85.222.50])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-563384f7bc3sm111790e0c.11.2026.01.05.08.24.16
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 05 Jan 2026 08:24:16 -0800 (PST)
+Received: by mail-ua1-f50.google.com with SMTP id a1e0cc1a2514c-93f5910b06cso57290241.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 05 Jan 2026 08:24:16 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWVqu4MfaEZa58V0tyPpdoO2okTRqMeDlN0x6RPx4ex8MQUWIv5bQLqNc6wqP3J1p4PuTMWjE164sP8EIIvVQr89g==@vger.kernel.org
+X-Received: by 2002:a05:6102:5544:b0:5db:dad4:840 with SMTP id
+ ada2fe7eead31-5ec30b2d62amr3150905137.12.1767630256405; Mon, 05 Jan 2026
+ 08:24:16 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260105-dt-parser-v1-2-b11c63cb5e2c@oss.qualcomm.com>
+References: <20251127145654.3253992-1-cosmin-gabriel.tanislav.xa@renesas.com> <TYRPR01MB1561941846EC8C92EEB39E1278586A@TYRPR01MB15619.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYRPR01MB1561941846EC8C92EEB39E1278586A@TYRPR01MB15619.jpnprd01.prod.outlook.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 5 Jan 2026 17:24:03 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVnY2D8vLMd0Y2ypeSr_nm6ziiyG57sUNqkgNM-Jn-_OA@mail.gmail.com>
+X-Gm-Features: AQt7F2owp4Lx4gxw43Zb9iibAIGGiEAsj4FfeLdF5mBM8hUhf0xrJMxP_puaoqc
+Message-ID: <CAMuHMdVnY2D8vLMd0Y2ypeSr_nm6ziiyG57sUNqkgNM-Jn-_OA@mail.gmail.com>
+Subject: Re: [PATCH 0/2] Fix CPG suspend/resume on RZ/T2H and RZ/N2H
+To: Cosmin-Gabriel Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Thierry Bultel <thierry.bultel.yh@bp.renesas.com>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
+	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Jan 05, 2026 at 05:57:55PM +0530, Sumit Kumar wrote:
-> The current DesignWare PCIe RC implementation supports only the controller
-> (Host Bridge) node for specifying the Root Port properties in an assumption
-> that the underlying platform only supports a single root Port per
-> controller instance. This limits support for multi-port controllers where
-> different ports may have different lane configurations and speed limits.
-> 
-> Introduce a separate dw_pcie_port structure to enable multi-port support.
-> Each Root Port can have independent lane count, speed limit through pcie@N
-> child nodes in device tree. Add dw_pcie_parse_root_ports()
-> API to parse these child nodes.
-> 
-> Equalization presets and link width detection currently use common DBI
-> space for all the root ports. Per-port DBI space assignment for these
-> features will be added in future.
-> 
-> Signed-off-by: Sumit Kumar <sumit.kumar@oss.qualcomm.com>
+Hi Cosmin,
 
-Hello Sumit,
+On Mon, 5 Jan 2026 at 08:42, Cosmin-Gabriel Tanislav
+<cosmin-gabriel.tanislav.xa@renesas.com> wrote:
+> > -----Original Message-----
+> > This series fixes an issue when entering s2idle on RZ/T2H and RZ/N2H, as
+> > the register layout in use by them was not accounted for, causing
+> > aborts.
+>
+> Hi Geert! Was this skipped intentionally?
 
-Is there a reason why you represent this as a list of ports rather than a
-simple array?
+No, it is just suffering badly from the conference and holiday season...
 
-The number of ports is known by parsing the device tree, so it should be
-static, no?
+Gr{oetje,eeting}s,
 
-At least to me, this seem similar to e.g. how a gpio_device has multiple
-gpio_descriptors "struct gpio_desc *descs":
-https://github.com/torvalds/linux/blob/master/drivers/gpio/gpiolib.h#L68C1-L68C26
+                        Geert
 
-A list is usually used for something that is dynamic.
-I don't think that the number of ports to a PCIe controller will be dynamic.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-I can see that struct qcom_pcie in pcie-qcom.c has struct list_head ports,
-but that does not necessarily mean that we need to have a list of ports in
-pcie-designware-host.c. (pcie-qcom could also be modified to have an array
-of ports if there is a desire for similar design pattern.)
-
-
-Kind regards,
-Niklas
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
