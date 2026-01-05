@@ -1,122 +1,161 @@
-Return-Path: <linux-renesas-soc+bounces-26287-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26288-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47AC7CF354A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 05 Jan 2026 12:46:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21E77CF367C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 05 Jan 2026 13:02:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D315030141C6
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Jan 2026 11:46:12 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C5964310627F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Jan 2026 11:57:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 098CA332EB9;
-	Mon,  5 Jan 2026 11:46:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39A433376A7;
+	Mon,  5 Jan 2026 11:50:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="oxF9pWVx"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7209B332918;
-	Mon,  5 Jan 2026 11:46:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 662543375D5;
+	Mon,  5 Jan 2026 11:50:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767613570; cv=none; b=fxjmKQgsSz3pLjJMOCQfi6uT5XYQ/tLzLffhKTftAI5V2ki4AeyTBQM7jFzNBffqwI01c6tXAWRSRrxqGvzuO5XneUt2HHmgPWA6Ek9IF0+mdh4U2XnTPOlPA0ll3m3Zs7yowK++vUxZdR0AXS1IWBZ3x0s7Eh5bIFjI970h6Q0=
+	t=1767613837; cv=none; b=m4mvoWqvXYuKg/vgJ1u7dQ1ocpD00N77MOCXHA7iyPxNgx1tL79uGY9H35px+GnE28RQIACbbHivPMvU1FjLgSeEp41w1Rtu7caOXGhiety9nMDaivjI6st8bI0azLHeV+jUVsH2EzA9Z6JKoKHekU+1QydE/MxWjYxR4VdkQ8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767613570; c=relaxed/simple;
-	bh=5NaoM49GzV7popx8iNvV5GKjrT/oZGdOz547aUUDssM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=j2CkDEhP3jWrBNq7BENzgzQUGoLEEN1xPODwn+zwm1DPs/YiEW2PzdtVYeCkwQYNDsL/2gjurXr7Qk9BC8vhqx54Lsk1RJuzMBjNI0cI3WDZM0Mcvd7IVOohl8MzAltq+jC84yKghutHEfRVR4oemmABDpyDYtFurakmTeQndQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-X-CSE-ConnectionGUID: 5PqvRYpgSXeutxZjwFSE4w==
-X-CSE-MsgGUID: fH5+xeNzRLiF8vipSL6zmw==
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 05 Jan 2026 20:46:06 +0900
-Received: from demon-pc.localdomain (unknown [10.226.92.160])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 6DD8D41AF7F0;
-	Mon,  5 Jan 2026 20:46:01 +0900 (JST)
-From: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-To: Vinod Koul <vkoul@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Johan Hovold <johan@kernel.org>,
-	Biju Das <biju.das.jz@bp.renesas.com>
-Cc: dmaengine@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v4 4/4] dmaengine: sh: rz_dmac: add RZ/{T2H,N2H} support
-Date: Mon,  5 Jan 2026 13:44:45 +0200
-Message-ID: <20260105114445.878262-5-cosmin-gabriel.tanislav.xa@renesas.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260105114445.878262-1-cosmin-gabriel.tanislav.xa@renesas.com>
-References: <20260105114445.878262-1-cosmin-gabriel.tanislav.xa@renesas.com>
+	s=arc-20240116; t=1767613837; c=relaxed/simple;
+	bh=+8QxQpjufdyJMy7el1fqrY7czYiD2WczNRj/lU10VIU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=u6V8x6BerwmmoarPkLFMVM1dYKBLvb55VJEfWTZMsnSIz+HV4ES0vTEGAwhhF+J9yXUdD4K60dj7QGyGIrLSqDHlB6UX9HSanywtlZq+02mi3bNqFKhOQqdDm+rAJftFLBNy+3tIFkK/OdpvbkkkziLQlzjjhQhcSYH7KJF+3BU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=oxF9pWVx; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 12978664;
+	Mon,  5 Jan 2026 12:50:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1767613812;
+	bh=+8QxQpjufdyJMy7el1fqrY7czYiD2WczNRj/lU10VIU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=oxF9pWVxaiOAWxxskOLoXUnimXMo36pxMna949tF5n79yf4UiZ5t81dpD3Ap8PrQN
+	 FAkpqCu1Pajuc8/wUWrXqYBsTy96PYa/JyMVCLHaCRxKq4EqFQWBug+wmB3w4773qG
+	 p8xXdb+0bGSmXmlso6TiBTcc/cRD57yMjx7diKCQ=
+Message-ID: <215b8c33-d803-4a4c-a7c4-f6be231e15a0@ideasonboard.com>
+Date: Mon, 5 Jan 2026 13:50:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/rcar-du: dsi: Clean up VCLK divider calculation
+To: David Laight <david.laight.linux@gmail.com>,
+ Marek Vasut <marek.vasut@mailbox.org>
+Cc: dri-devel@lists.freedesktop.org, kernel test robot <lkp@intel.com>,
+ David Airlie <airlied@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20251231145712.60816-1-marek.vasut+renesas@mailbox.org>
+ <20260101114221.6a401790@pumpkin>
+ <15e7f0e9-9862-4606-83d2-d95e0cb6e821@mailbox.org>
+ <20260101231320.16766226@pumpkin>
+ <4116865c-f3a5-4d3c-887e-bbf8ae1fd8a1@mailbox.org>
+ <20260101234438.504b3c48@pumpkin>
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Content-Language: en-US
+In-Reply-To: <20260101234438.504b3c48@pumpkin>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The Renesas RZ/T2H (R9A09G077) and RZ/N2H (R9A09G087) SoCs use a
-completely different ICU unit compared to RZ/V2H, which requires a
-separate implementation.
+Hi,
 
-Add support for them.
+On 02/01/2026 01:44, David Laight wrote:
+> On Fri, 2 Jan 2026 00:25:54 +0100
+> Marek Vasut <marek.vasut@mailbox.org> wrote:
+> 
+>> On 1/2/26 12:13 AM, David Laight wrote:
+>>> On Thu, 1 Jan 2026 22:26:34 +0100
+>>> Marek Vasut <marek.vasut@mailbox.org> wrote:
+>>>   
+>>>> On 1/1/26 12:42 PM, David Laight wrote:
+>>>>
+>>>> Hello David,
+>>>>  
+>>>>>>    static void rcar_mipi_dsi_pll_calc(struct rcar_mipi_dsi *dsi,
+>>>>>>    				   unsigned long fin_rate,
+>>>>>>    				   unsigned long fout_target,
+>>>>>> -				   struct dsi_setup_info *setup_info)
+>>>>>> +				   struct dsi_setup_info *setup_info,
+>>>>>> +				   u16 vclk_divider)  
+>>>>>
+>>>>> There is no need for this to be u16, unsigned int will generate better code.  
+>>>>
+>>>> Can you please elaborate on the "better code" part ?  
+>>>
+>>> Basically the compiler has to generate extra code to ensure the value
+>>> doesn't exceed 65535.
+>>> So there will be a mask of the function parameter (passes in a 32bit register).
+>>> Any arithmetic needs similar masking of the result.
+>>> You won't see the latter (as much) on x86 (or m68k) because the compiler
+>>> can use the C 'as if' rule and use the cpu's 8/16 bit registers and alu.
+>>> But pretty much no other cpu can do that, so extra instructions are needed
+>>> to stop the value (in a 32bit register) exceeding the limit for the variable.
+>>>
+>>> Remember that while C variables can be char/short the values they contain
+>>> are promoted to 'signed int' before (pretty much) anything is done with
+>>> the value, any calculated value is then truncated before being assigned back.
+>>> For on-stack values this is fine - but modern compilers was to keep values
+>>> in registers as much as possible.
+>>>   
+>>>>  
+>>>>>>    {
+>>>>>>    	unsigned int best_err = -1;
+>>>>>>    	const struct rcar_mipi_dsi_device_info *info = dsi->info;
+>>>>>> @@ -360,7 +373,7 @@ static void rcar_mipi_dsi_pll_calc(struct rcar_mipi_dsi *dsi,
+>>>>>>    			if (fout < info->fout_min || fout > info->fout_max)
+>>>>>>    				continue;
+>>>>>>    
+>>>>>> -			fout = div64_u64(fout, setup_info->vclk_divider);
+>>>>>> +			fout = div64_u64(fout, vclk_divider);  
+>>>>>
+>>>>> Since vclk_divider is BIT_U32(div [+ 1]) this is just a shift right.
+>>>>> So pass the bit number instead.  
+>>>>
+>>>> While I agree this is a shift in the end, it also makes the code harder
+>>>> to understand. I can add the following change into V2, but I would like
+>>>> input from Tomi/Laurent on whether we should really push the
+>>>> optimization in that direction:  
+>>>
+>>> The shift really is a lot faster.
+>>> Even on 64bit x86 cpus it can be slow - 35-88 clocks prior to 'Cannon Lake'.
+>>> AMD cpu get better with Zen3, and using a 64bit divide with 32bits values
+>>> doesn't slow things down (it does on the Intel cpu).
+>>> Don't even think about what happens on 32bit cpus.
+>>> I don't know about other architectures.
+>>> Just comment as 'x >> n' rather than 'x / (1 << n)'
+>>
+>> Please note that this code is built primarily for arm64 , so discussing 
+>> x86 or m68k optimizations doesn't make much sense here.
+> 
+> ARM definitely only has 32 and 64bit maths - so you will see masking
+> instructions for arithmetic on char/short values (unless the compiler
+> can tell that the values cannot get too large.)
+> 
+> Divide performance is cpu dependant - the only arm cpu I've used only
+> had software divide (but a fast barrel shifter).
+> If you think that Intel haven't thrown much silicon at integer divide
+> it isn't that likely that arm will have a divide that is much faster
+> than 1 clock for each bit in the quotient.
+> (Of course I might be wrong...)
+The division is done once when enabling the display? If so, I'd
+prioritize readability. That said, division done with shift if quite
+common, so I'm not sure if it would be that bad with a few comments.
 
-RZ/N2H will use RZ/T2H as a fallback.
+ Tomi
 
-Signed-off-by: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-
-V4:
- * pick up Geert's Reviewed-by
-
-V3:
- * no changes
-
-V2:
- * remove notes
-
- drivers/dma/sh/rz-dmac.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/drivers/dma/sh/rz-dmac.c b/drivers/dma/sh/rz-dmac.c
-index b3e38bd294b2..3dde4b006bcc 100644
---- a/drivers/dma/sh/rz-dmac.c
-+++ b/drivers/dma/sh/rz-dmac.c
-@@ -15,6 +15,7 @@
- #include <linux/interrupt.h>
- #include <linux/iopoll.h>
- #include <linux/irqchip/irq-renesas-rzv2h.h>
-+#include <linux/irqchip/irq-renesas-rzt2h.h>
- #include <linux/list.h>
- #include <linux/module.h>
- #include <linux/of.h>
-@@ -1075,12 +1076,18 @@ static const struct rz_dmac_info rz_dmac_v2h_info = {
- 	.default_dma_req_no = RZV2H_ICU_DMAC_REQ_NO_DEFAULT,
- };
- 
-+static const struct rz_dmac_info rz_dmac_t2h_info = {
-+	.icu_register_dma_req = rzt2h_icu_register_dma_req,
-+	.default_dma_req_no = RZT2H_ICU_DMAC_REQ_NO_DEFAULT,
-+};
-+
- static const struct rz_dmac_info rz_dmac_generic_info = {
- 	.default_dma_req_no = 0,
- };
- 
- static const struct of_device_id of_rz_dmac_match[] = {
- 	{ .compatible = "renesas,r9a09g057-dmac", .data = &rz_dmac_v2h_info },
-+	{ .compatible = "renesas,r9a09g077-dmac", .data = &rz_dmac_t2h_info },
- 	{ .compatible = "renesas,rz-dmac", .data = &rz_dmac_generic_info },
- 	{ /* Sentinel */ }
- };
--- 
-2.52.0
 
