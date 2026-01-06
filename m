@@ -1,141 +1,156 @@
-Return-Path: <linux-renesas-soc+bounces-26320-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26321-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B3E3CF86FC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 06 Jan 2026 14:13:31 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id D96CACF8C23
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 06 Jan 2026 15:24:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 3F0D930245B0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Jan 2026 13:13:30 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 192BE301DB8E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Jan 2026 14:18:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 719CC32ED27;
-	Tue,  6 Jan 2026 13:13:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FC1230E84F;
+	Tue,  6 Jan 2026 14:18:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HGg7dzc9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bOOHiz+z"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A9030B53D
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  6 Jan 2026 13:13:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79F1530EF90
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  6 Jan 2026 14:18:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767705209; cv=none; b=QxE7I3Prl6/0xw1XSbXNB87pDgtUTluPh7vs9sswHyyGRv/MM2ixlHiZO9+Peu2sAlwNR6g/60jZArXGWd2Zei/Oe33deAmC8BtYr8xQefDbSXoftXLVIqHxWAsWpMUxKkPq1Vi/lfmq8ptbzySY/tcvbYU8cwAl6I+lgFsuOMY=
+	t=1767709087; cv=none; b=AmkLKQSkViZ+wkWDprCKNU12IDDXkLpgIBiBSBn4POfGNEczThtO0d6nsLBKiTSH1LQxFmSHSq25EOVJVwAXA9AKbTMjwJFko04R/m+mHV8A3MUPHBEj7cHBS26MXoMd/3TFHaAxpgqpkI6/rTDHbkQhPdsxzk0osMwqkU9/9N4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767705209; c=relaxed/simple;
-	bh=CnrWL5jxLBtsPQPzTImnrD6+ygHOBaEgz9tcXcYP7w0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CyIgUz1KUpI9qw3zJp9oODFeQ7Jbxq/RtI7FsIQhFNZu4V1MX+ox/QmsWwc9kQ0bSFJc6uDcbOruvqfV/faWUIQTX9CqR4vuDpB3STL29iI1mPTS/sF0FBgLh8xJAdNIix06ObqfmmriOIgy4S+RbCNqkIsKecCF5/MQXhh5fyc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HGg7dzc9; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-47d5e021a53so6989315e9.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 06 Jan 2026 05:13:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767705206; x=1768310006; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JFcROr4jX4jERoJicZp1BEaBPn597lFbf82O5xGWRGE=;
-        b=HGg7dzc94gVTmwdLKVSNUpZypNqKkoJD/NjlwccDH7Vg9ybt7YYfUPk0x57omBsLPB
-         /qbsQ13yNBY1meaw22Ev9qvH8OB2RZAhGTtaR/AKVDEedbDbEk/K2x2eg7AM2KCPgC8A
-         H7xQ/+wH8uvlVkZwUaaAv4WXhhy9KHu6JBbFtDPcAvqWPzDxS9PqwFBRI9GkEKVKdHJZ
-         DCevX1LqhtRT51vsO4Rn5lmLg80mHKbY7BhTJXMlVoqs3t+xZ6eTBtc/tQy6Op7H5JHc
-         6AnnTrLjF6Ed6+G5NzxaYjuBHwV0KHMtaNFbledpPlLeShh2ow5ydRr6Wa7vjqP8ZopS
-         X5Mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767705206; x=1768310006;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JFcROr4jX4jERoJicZp1BEaBPn597lFbf82O5xGWRGE=;
-        b=nAuSI/uF5/WGH9Ux7nZ3HHTdKFvI82bC1I4mJ6Eh3y+nXPDbL/OzeAyPdxYEclOJal
-         780I0AaUBXvAtMIiPxxDyVpd7fYyWOmhbTxV05c0aVNmzTMDKLsMLNr55WjvDV2UbYDb
-         XDOaKHHQinMrt3iHDqfAZsKWLJcSLsVmXL4V2dqUOnTLXrDMhtm5fzwIeUQN5kjD+zgn
-         LLVpRZB4aVooJNCRtcItaRjjZHb9RrYP5XjEW5Rdp827iI9fYBzMRKsqP7aqW0pgKtGU
-         tPKEGPtlYvJ5uM6S6z8sK1m/Nvbh/Sbv17XVsoLJcceUx4SbzGrtp8t6yXlZpJsBW4io
-         8Q+Q==
-X-Gm-Message-State: AOJu0YxNDECwvrzovM4qPJcs4gHapXH3i/CkWbm/jah7ApWtgI15CMZF
-	3qvlg7CthGrAmmdtSmAovMWfDc3EPJFdR+r9RUCBV8lBMG1d1iYBNjwt
-X-Gm-Gg: AY/fxX6EHDm6MSwAWrRcHnDGzQVG0krWxA03A7ir8KXCYbGEebZpiEi5fMTkWqjEXY3
-	hXfdjMGi5OM8frYUvoJoQuWec33jL6vQJ/xr1YN63J7HFxDTcLHCwK78nllpYBHs5aCXHCXvqEe
-	BVRbSdzl31LLu6fUBVRqv5yv636clPcjmhhFk1LCbJ8x7uJspPHMyVRcM8ngvGDKVax6XVVFGB0
-	hA4SdCd0admYdfReR1QMWYEiw4WbTxZnZwx9GIruQRSIeYpNukNDMEQPSFShEyeYDr/ey843BWu
-	+yobSqhQI2FUBn/jqgYtCVMlVb+uM6dE/f3owZsGBf6WyQ6TEtT2yzRfFq51p7DiaAvhid1MFw/
-	bowF3aXhjFL8U3NN8XjcP1gEBdvhoox9vSlyrYM1dyABzk+9JFN82CuKfg0n2xVtMxNZ2/HV/96
-	U6Iwz5eXF+Qu21SJs3G4Wxap7dN0HNYOq4Ki9L8k+sjyZ+GBu+43mwYbpnLnLJ5OQm2svmI7V7y
-	1r+t7932VdKMLZ6AoBt1Fo=
-X-Google-Smtp-Source: AGHT+IFjV5LDHgJ+1K9BD5N4MoCfpd10KLhluqcuTGK1HP8OZNwU7NwI0OtnTG36Agt1J+dQV1sa7A==
-X-Received: by 2002:a05:600c:3b27:b0:47a:75b6:32c with SMTP id 5b1f17b1804b1-47d7f06cf41mr30284955e9.2.1767705205831;
-        Tue, 06 Jan 2026 05:13:25 -0800 (PST)
-Received: from iku.Home ([2a06:5906:61b:2d00:bb5c:1e3d:b053:da0])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d7f653cd6sm45796855e9.9.2026.01.06.05.13.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jan 2026 05:13:25 -0800 (PST)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] arm64: dts: renesas: rzt2h-n2h-evk-common: Use GPIO for SD0 write protect
-Date: Tue,  6 Jan 2026 13:13:19 +0000
-Message-ID: <20260106131319.643084-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.52.0
+	s=arc-20240116; t=1767709087; c=relaxed/simple;
+	bh=9Ym168jY0juUmceNY7e8j0i+6pSJU5pRFOBf6YtVzDo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WLibY4Fgu8bphwU5GktKaWj/naEUlVF8zeyzDvDxus+21W/XuUaUjeDGuViqRlkqr9g07sKEJa1NL6fyVSHJIIhH12zuWXYMxSJRCyFFax4OBUqE/WV78rYHjzi4kVsi/lhrr91e+zQNzSWTIQoAxb9/8FaZjuFYMOKmsd+/Lmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bOOHiz+z; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58BEEC2BCB2
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  6 Jan 2026 14:18:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767709087;
+	bh=9Ym168jY0juUmceNY7e8j0i+6pSJU5pRFOBf6YtVzDo=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=bOOHiz+z351DggBlKZJG1l4SIBZi5rGrJuMJFrTSuCC2bhYg3GVmw+EzTJ8+4o8d6
+	 mfYKrjdZQleutU3LNIOJvytnRti1+tJxYEb5+FMc6i0af14bQLGN0lgtW7mtsU2Nzu
+	 6ryFz4M8Vn1p9iUNI1fLTWCa+m4bpeR2lNFEDKERvGn1VG6CP12akkl/4e/LRbhqaQ
+	 62Twt75lEl7bQuHsNLBEHkd+BPwKedPvj2JfLdCbCO/vQwTZc6DBtiCiXsT/Efz4cM
+	 7UiMgJqXCVK8SCkbDxCkKvsHQiwcHjxf2pPEiyTaEp11J2cA9WDICgY+7wYxuhNMRE
+	 KZcuMKroFvL4g==
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-37d056f5703so8412151fa.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 06 Jan 2026 06:18:07 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWn/kUs1yGeAUhGj0ZPInqCa+8QszqwBJFKpiB95CfNtwFJFSWJiBzWqSPB/hcHZylbm4rG4PL1ICsyoTlzJV0Dmw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJPtk6ajVrgj5iIaizbP/yKEaz145pLEBaK8xP+xhuBCz75/xc
+	gzLWWmHoAgwLLpwqqvnyHGTCP9S+UHp2YQMnnuQZ48oSdc+QK55qrctXU0jJI0HuxVYvgIghHxX
+	07RVVBZZsVXy1kf5ImS5VE12qCoJYiyNiCeLmKLEGaA==
+X-Google-Smtp-Source: AGHT+IGMmSz6Ltdahe1rVY6f+YVLJmMwESu8W203AziADCClkRGLN7rkSW5dIW6LKxsDjFSC7ntBorz6/82D0HbV854=
+X-Received: by 2002:a2e:bc15:0:b0:37a:9558:5bda with SMTP id
+ 38308e7fff4ca-382eaa05568mr8077901fa.14.1767709085885; Tue, 06 Jan 2026
+ 06:18:05 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251223-i2c-adap-dev-config-v1-0-4829b1cf0834@oss.qualcomm.com>
+ <20251223-i2c-adap-dev-config-v1-6-4829b1cf0834@oss.qualcomm.com> <CAMuHMdW5ffiW_vEuDjV5bnmTeduhoqph7t8rsaFEVO7RXOM8jg@mail.gmail.com>
+In-Reply-To: <CAMuHMdW5ffiW_vEuDjV5bnmTeduhoqph7t8rsaFEVO7RXOM8jg@mail.gmail.com>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Tue, 6 Jan 2026 15:17:54 +0100
+X-Gmail-Original-Message-ID: <CAMRc=MctSufFn4Ku_8KBHmThvNOXo94DJDep-hzBem1yGw4wkg@mail.gmail.com>
+X-Gm-Features: AQt7F2rlYGWw0wYVcdfcu_38DzK8jJE5ZLbWHuaZHuyFfl6BwHPNSW4tcfiCMeQ
+Message-ID: <CAMRc=MctSufFn4Ku_8KBHmThvNOXo94DJDep-hzBem1yGw4wkg@mail.gmail.com>
+Subject: Re: [PATCH 06/12] i2c: rcar: set device parent and of_node through
+ the adapter struct
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>, 
+	Viken Dadhaniya <viken.dadhaniya@oss.qualcomm.com>, Andi Shyti <andi.shyti@kernel.org>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Vignesh R <vigneshr@ti.com>, 
+	Aaro Koskinen <aaro.koskinen@iki.fi>, Janusz Krzysztofik <jmkrzyszt@gmail.com>, 
+	Tony Lindgren <tony@atomide.com>, Andreas Kemnade <andreas@kemnade.info>, 
+	Kevin Hilman <khilman@baylibre.com>, Roger Quadros <rogerq@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Patrice Chotard <patrice.chotard@foss.st.com>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Linus Walleij <linusw@kernel.org>, linux-i2c@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev, 
+	linux-rpi-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Tue, Jan 6, 2026 at 10:14=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
+>
+> Hi Bartosz,
+>
+> On Tue, 23 Dec 2025 at 11:05, Bartosz Golaszewski
+> <bartosz.golaszewski@oss.qualcomm.com> wrote:
+> > Configure the parent device and the OF-node using dedicated fields in
+> > struct i2c_adapter and avoid dereferencing the internal struct device.
+> >
+> > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.co=
+m>
+>
+> Thanks for your patch!
+>
+> > --- a/drivers/i2c/busses/i2c-rcar.c
+> > +++ b/drivers/i2c/busses/i2c-rcar.c
+> > @@ -1149,8 +1149,8 @@ static int rcar_i2c_probe(struct platform_device =
+*pdev)
+> >         adap->algo =3D &rcar_i2c_algo;
+> >         adap->class =3D I2C_CLASS_DEPRECATED;
+> >         adap->retries =3D 3;
+> > -       adap->dev.parent =3D dev;
+> > -       adap->dev.of_node =3D dev->of_node;
+> > +       adap->parent =3D dev;
+> > +       adap->of_node =3D dev->of_node;
+> >         adap->bus_recovery_info =3D &rcar_i2c_bri;
+> >         adap->quirks =3D &rcar_i2c_quirks;
+> >         i2c_set_adapdata(adap, priv);
+>
+>     [....]
+>     ret =3D rcar_i2c_clock_calculate(priv);
+>     [...]
+>     ret =3D i2c_add_numbered_adapter(adap);
+>
+> As rcar_i2c_clock_calculate() uses rcar_i2c_priv_to_dev(priv):
+>
+>     #define rcar_i2c_priv_to_dev(p)         ((p)->adap.dev.parent)
+>
+> I believe this will deference dev.parent before it is initialized by
+> the newly added code in i2c_register_adapter().
+>
+> Let's check...
+>
+>     Unable to handle kernel NULL pointer dereference at virtual
+> address 0000024c when read
+>     [0000024c] *pgd=3D80000040004003, *pmd=3D00000000
+>     Internal error: Oops: 206 [#1] SMP ARM
+>     Modules linked in:
+>     CPU: 1 UID: 0 PID: 1 Comm: swapper/0 Not tainted
+> 6.19.0-rc3-koelsch-04401-g9e22366a23cd #2288 NONE
+>     Hardware name: Generic R-Car Gen2 (Flattened Device Tree)
+>     PC is at device_property_read_u32_array+0x0/0x14
+>     LR is at i2c_parse_timing+0x14/0x30
+>     [...]
+>     Call trace:
+>      device_property_read_u32_array from i2c_parse_timing+0x14/0x30
+>      i2c_parse_timing from i2c_parse_fw_timings+0x28/0x12c
+>      i2c_parse_fw_timings from rcar_i2c_probe+0x1cc/0x534
+>      rcar_i2c_probe from platform_probe+0x58/0x90
+>
 
-Switch SD0 write-protect detection to a GPIO on the RZ/T2H and RZ/N2H
-EVKs. Both boards use a full-size SD card slot on the SD0 channel with
-a dedicated WP pin.
+Thanks for the heads-up. I'm still waiting for Wolfram to decide if
+these changes will be accepted or not before sending a v2.
 
-The RZ/T2H and RZ/N2H SoCs use of_data_rcar_gen3, which sets
-MMC_CAP2_NO_WRITE_PROTECT and causes the core to ignore the WP signal
-unless a wp-gpios property is provided. Describe the WP pin as a GPIO
-to allow the MMC core to evaluate the write-protect status correctly.
-
-Fixes: d065453e5ee0 ("arm64: dts: renesas: rzt2h-rzn2h-evk: Enable SD card slot")
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi b/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi
-index 04e45f560eef..02bcefda6c99 100644
---- a/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi
-@@ -380,8 +380,7 @@ data-pins {
- 		ctrl-pins {
- 			pinmux = <RZT2H_PORT_PINMUX(12, 0, 0x29)>, /* SD0_CLK */
- 				 <RZT2H_PORT_PINMUX(12, 1, 0x29)>, /* SD0_CMD */
--				 <RZT2H_PORT_PINMUX(22, 5, 0x29)>, /* SD0_CD */
--				 <RZT2H_PORT_PINMUX(22, 6, 0x29)>; /* SD0_WP */
-+				 <RZT2H_PORT_PINMUX(22, 5, 0x29)>; /* SD0_CD */
- 		};
- 	};
- 
-@@ -491,6 +490,7 @@ &sdhi0 {
- 	pinctrl-names = "default", "state_uhs";
- 	vmmc-supply = <&reg_3p3v>;
- 	vqmmc-supply = <&vqmmc_sdhi0>;
-+	wp-gpios = <&pinctrl RZT2H_GPIO(22, 6) GPIO_ACTIVE_HIGH>;
- 	bus-width = <4>;
- 	sd-uhs-sdr50;
- 	sd-uhs-sdr104;
--- 
-2.52.0
-
+Bartosz
 
