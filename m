@@ -1,180 +1,141 @@
-Return-Path: <linux-renesas-soc+bounces-26319-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26320-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67F44CF86E7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 06 Jan 2026 14:11:30 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B3E3CF86FC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 06 Jan 2026 14:13:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id E9B8030188D1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Jan 2026 13:11:26 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 3F0D930245B0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Jan 2026 13:13:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E44932ED27;
-	Tue,  6 Jan 2026 13:11:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 719CC32ED27;
+	Tue,  6 Jan 2026 13:13:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n9VSxyA6"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HGg7dzc9"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4FD830C60D;
-	Tue,  6 Jan 2026 13:11:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A9030B53D
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  6 Jan 2026 13:13:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767705085; cv=none; b=LubNjq0+T1lWN66DbymIkecvzhvQ6fmyzEZocwQQVZwHh+W5yAtXhmzpsZxyVAFLTE/jORt9+OUeUmJoevTZevi3oyJux/gR2MDEUEBbfQFvA+EnRntnaQgOG/Jtvkcgdg6CtPFT6y/qTOEQf4EKovZJBstcGfY8Hq4rckQ4FTU=
+	t=1767705209; cv=none; b=QxE7I3Prl6/0xw1XSbXNB87pDgtUTluPh7vs9sswHyyGRv/MM2ixlHiZO9+Peu2sAlwNR6g/60jZArXGWd2Zei/Oe33deAmC8BtYr8xQefDbSXoftXLVIqHxWAsWpMUxKkPq1Vi/lfmq8ptbzySY/tcvbYU8cwAl6I+lgFsuOMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767705085; c=relaxed/simple;
-	bh=up2iff1BZxa94kRdGC8JpHKlWbcnvKvXoZYjbXT7JJI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GqhGKYaUpTxXn5YIZiLPjyQtVH6B3x2js4LXmJv/Qgk588aE2WeTFuiua2gPbMTREjGZAmkgKaZ3o0q9KEj1pBqLCEhYCof9b2m0QCOgzzugnFwOMtkPAsgKXByAetUF6UzwjQQBfvz+dEzsQUgFe3yM7F4TzODxdDWuWrCssb0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n9VSxyA6; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B83DC116C6;
-	Tue,  6 Jan 2026 13:11:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767705084;
-	bh=up2iff1BZxa94kRdGC8JpHKlWbcnvKvXoZYjbXT7JJI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=n9VSxyA6dLZYidFmR3YKrnuiZmFCzcB/BXSKq32qKyENyNq4aYaGeJAl6It6ZWDae
-	 fNHETbHe0yBHeHjen+HujqOr71J0UL8kKlDhPZPwBXLp5KOJzvtamRwgbC1dTWtzoU
-	 dU8zDzs8a3uCTCqPdqAaHawnWUWhg0/LDiK9aM5Vnv5eyd/YlNschdxUR68oCwFSuq
-	 lsb+Yem3dGUbajGYyEcIG1jGg3tb4MFgBauIq1kXi/bjkYNnEjRcZYahTuLaT6sg8S
-	 43n3wc587dSole11rjV87w4Lq2gF90tg+wVYlie+AZg/u/3/SL0a3CFyoH3K0toWyp
-	 KnseknnkVQXOg==
-Date: Tue, 6 Jan 2026 18:41:09 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Niklas Cassel <cassel@kernel.org>
-Cc: Sumit Kumar <sumit.kumar@oss.qualcomm.com>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Jingoo Han <jingoohan1@gmail.com>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, Richard Zhu <hongxing.zhu@nxp.com>, 
-	Lucas Stach <l.stach@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Yue Wang <yue.wang@amlogic.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
-	Jerome Brunet <jbrunet@baylibre.com>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Greentime Hu <greentime.hu@sifive.com>, 
-	Samuel Holland <samuel.holland@sifive.com>, Chuanhua Lei <lchuanhua@maxlinear.com>, 
-	Marek Vasut <marek.vasut+renesas@gmail.com>, Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Pratyush Anand <pratyush.anand@gmail.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, imx@lists.linux.dev, 
-	linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-tegra@vger.kernel.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH 2/2] PCI: dwc: Add multi-port controller support
-Message-ID: <5gne3bureusi45sy4zqr2zrfvt4ba4uxgnsfdnjeh2eno5zspe@ldvhq2nilsan>
-References: <20260105-dt-parser-v1-0-b11c63cb5e2c@oss.qualcomm.com>
- <20260105-dt-parser-v1-2-b11c63cb5e2c@oss.qualcomm.com>
- <aVvkmkd5mWPmxeiS@ryzen>
- <m5ukeugo2lazipljqpubyvm7j3xk2j5o7i2xgdbkkhii57xmyk@lh32qdzjhe4n>
- <aVzqMqTUWIuKhgmC@fedora>
+	s=arc-20240116; t=1767705209; c=relaxed/simple;
+	bh=CnrWL5jxLBtsPQPzTImnrD6+ygHOBaEgz9tcXcYP7w0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CyIgUz1KUpI9qw3zJp9oODFeQ7Jbxq/RtI7FsIQhFNZu4V1MX+ox/QmsWwc9kQ0bSFJc6uDcbOruvqfV/faWUIQTX9CqR4vuDpB3STL29iI1mPTS/sF0FBgLh8xJAdNIix06ObqfmmriOIgy4S+RbCNqkIsKecCF5/MQXhh5fyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HGg7dzc9; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-47d5e021a53so6989315e9.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 06 Jan 2026 05:13:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1767705206; x=1768310006; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JFcROr4jX4jERoJicZp1BEaBPn597lFbf82O5xGWRGE=;
+        b=HGg7dzc94gVTmwdLKVSNUpZypNqKkoJD/NjlwccDH7Vg9ybt7YYfUPk0x57omBsLPB
+         /qbsQ13yNBY1meaw22Ev9qvH8OB2RZAhGTtaR/AKVDEedbDbEk/K2x2eg7AM2KCPgC8A
+         H7xQ/+wH8uvlVkZwUaaAv4WXhhy9KHu6JBbFtDPcAvqWPzDxS9PqwFBRI9GkEKVKdHJZ
+         DCevX1LqhtRT51vsO4Rn5lmLg80mHKbY7BhTJXMlVoqs3t+xZ6eTBtc/tQy6Op7H5JHc
+         6AnnTrLjF6Ed6+G5NzxaYjuBHwV0KHMtaNFbledpPlLeShh2ow5ydRr6Wa7vjqP8ZopS
+         X5Mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767705206; x=1768310006;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JFcROr4jX4jERoJicZp1BEaBPn597lFbf82O5xGWRGE=;
+        b=nAuSI/uF5/WGH9Ux7nZ3HHTdKFvI82bC1I4mJ6Eh3y+nXPDbL/OzeAyPdxYEclOJal
+         780I0AaUBXvAtMIiPxxDyVpd7fYyWOmhbTxV05c0aVNmzTMDKLsMLNr55WjvDV2UbYDb
+         XDOaKHHQinMrt3iHDqfAZsKWLJcSLsVmXL4V2dqUOnTLXrDMhtm5fzwIeUQN5kjD+zgn
+         LLVpRZB4aVooJNCRtcItaRjjZHb9RrYP5XjEW5Rdp827iI9fYBzMRKsqP7aqW0pgKtGU
+         tPKEGPtlYvJ5uM6S6z8sK1m/Nvbh/Sbv17XVsoLJcceUx4SbzGrtp8t6yXlZpJsBW4io
+         8Q+Q==
+X-Gm-Message-State: AOJu0YxNDECwvrzovM4qPJcs4gHapXH3i/CkWbm/jah7ApWtgI15CMZF
+	3qvlg7CthGrAmmdtSmAovMWfDc3EPJFdR+r9RUCBV8lBMG1d1iYBNjwt
+X-Gm-Gg: AY/fxX6EHDm6MSwAWrRcHnDGzQVG0krWxA03A7ir8KXCYbGEebZpiEi5fMTkWqjEXY3
+	hXfdjMGi5OM8frYUvoJoQuWec33jL6vQJ/xr1YN63J7HFxDTcLHCwK78nllpYBHs5aCXHCXvqEe
+	BVRbSdzl31LLu6fUBVRqv5yv636clPcjmhhFk1LCbJ8x7uJspPHMyVRcM8ngvGDKVax6XVVFGB0
+	hA4SdCd0admYdfReR1QMWYEiw4WbTxZnZwx9GIruQRSIeYpNukNDMEQPSFShEyeYDr/ey843BWu
+	+yobSqhQI2FUBn/jqgYtCVMlVb+uM6dE/f3owZsGBf6WyQ6TEtT2yzRfFq51p7DiaAvhid1MFw/
+	bowF3aXhjFL8U3NN8XjcP1gEBdvhoox9vSlyrYM1dyABzk+9JFN82CuKfg0n2xVtMxNZ2/HV/96
+	U6Iwz5eXF+Qu21SJs3G4Wxap7dN0HNYOq4Ki9L8k+sjyZ+GBu+43mwYbpnLnLJ5OQm2svmI7V7y
+	1r+t7932VdKMLZ6AoBt1Fo=
+X-Google-Smtp-Source: AGHT+IFjV5LDHgJ+1K9BD5N4MoCfpd10KLhluqcuTGK1HP8OZNwU7NwI0OtnTG36Agt1J+dQV1sa7A==
+X-Received: by 2002:a05:600c:3b27:b0:47a:75b6:32c with SMTP id 5b1f17b1804b1-47d7f06cf41mr30284955e9.2.1767705205831;
+        Tue, 06 Jan 2026 05:13:25 -0800 (PST)
+Received: from iku.Home ([2a06:5906:61b:2d00:bb5c:1e3d:b053:da0])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d7f653cd6sm45796855e9.9.2026.01.06.05.13.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Jan 2026 05:13:25 -0800 (PST)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH] arm64: dts: renesas: rzt2h-n2h-evk-common: Use GPIO for SD0 write protect
+Date: Tue,  6 Jan 2026 13:13:19 +0000
+Message-ID: <20260106131319.643084-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <aVzqMqTUWIuKhgmC@fedora>
 
-On Tue, Jan 06, 2026 at 11:55:46AM +0100, Niklas Cassel wrote:
-> On Tue, Jan 06, 2026 at 10:49:19AM +0530, Manivannan Sadhasivam wrote:
-> > On Mon, Jan 05, 2026 at 05:19:38PM +0100, Niklas Cassel wrote:
-> > > On Mon, Jan 05, 2026 at 05:57:55PM +0530, Sumit Kumar wrote:
-> > > > The current DesignWare PCIe RC implementation supports only the controller
-> > > > (Host Bridge) node for specifying the Root Port properties in an assumption
-> > > > that the underlying platform only supports a single root Port per
-> > > > controller instance. This limits support for multi-port controllers where
-> > > > different ports may have different lane configurations and speed limits.
-> > > > 
-> > > > Introduce a separate dw_pcie_port structure to enable multi-port support.
-> > > > Each Root Port can have independent lane count, speed limit through pcie@N
-> > > > child nodes in device tree. Add dw_pcie_parse_root_ports()
-> > > > API to parse these child nodes.
-> > > > 
-> > > > Equalization presets and link width detection currently use common DBI
-> > > > space for all the root ports. Per-port DBI space assignment for these
-> > > > features will be added in future.
-> > > > 
-> > > > Signed-off-by: Sumit Kumar <sumit.kumar@oss.qualcomm.com>
-> > > 
-> > > Hello Sumit,
-> > > 
-> > > Is there a reason why you represent this as a list of ports rather than a
-> > > simple array?
-> > > 
-> > > The number of ports is known by parsing the device tree, so it should be
-> > > static, no?
-> > > 
-> > > At least to me, this seem similar to e.g. how a gpio_device has multiple
-> > > gpio_descriptors "struct gpio_desc *descs":
-> > > https://github.com/torvalds/linux/blob/master/drivers/gpio/gpiolib.h#L68C1-L68C26
-> > > 
-> > > A list is usually used for something that is dynamic.
-> > > I don't think that the number of ports to a PCIe controller will be dynamic.
-> > > 
-> > > I can see that struct qcom_pcie in pcie-qcom.c has struct list_head ports,
-> > > but that does not necessarily mean that we need to have a list of ports in
-> > > pcie-designware-host.c. (pcie-qcom could also be modified to have an array
-> > > of ports if there is a desire for similar design pattern.)
-> > > 
-> > 
-> > Only reason why I went with lists in pcie-qcom is flexibility. There are useful
-> > helpers available for traversing the lists and they seem much more elegant to
-> > use rather than manually traversing the array in C.
-> > 
-> > But to be frank, I don't really care which one is used as there is going to be
-> > only a handful of ports at max anyway and there is not much overhead.
-> 
-> Personally, when I see lists, I automatically think of something that is
-> dynamic, so using lists for something static just looks a little bit out of
-> place IMHO.
-> 
-> Technically, the difference is speed. If we want a specific element, we
-> will need to traverse the list. With an array, we can access the element
-> directly. However, looking at the current patch, it seems like it never
-> looks for a specific port, it always does an operation for all ports.
-> So from a speed perspective, it doesn't matter, at least not for now.
-> 
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Yes. I don't envision the driver doing element based lookup even in the future.
+Switch SD0 write-protect detection to a GPIO on the RZ/T2H and RZ/N2H
+EVKs. Both boards use a full-size SD card slot on the SD0 channel with
+a dedicated WP pin.
 
-> 
-> One advantage I can see, instead of doing:
-> 
-> +	struct dw_pcie_port *port = list_first_entry(&pci->pp.ports,
-> +						struct dw_pcie_port, list);
-> +	return dw_pcie_wait_for_link(pci, port);
-> 
-> for drivers with only one port (most drivers), we could just instead do:
-> 
-> +	return dw_pcie_wait_for_link(pci, pci->pp.port);
-> 
-> To simply get the first element in the array. No need to sprinkle
-> list_first_entry() everywhere in all the drivers if they just have one port.
-> 
-> 
-> For iterating, to avoid manually traversing the array, we could do like
-> libata and create a simple macro, e.g. ata_qc_for_each():
-> https://github.com/torvalds/linux/blob/v6.19-rc4/drivers/ata/libata-eh.c#L851-L854
-> https://github.com/torvalds/linux/blob/v6.19-rc4/include/linux/libata.h#L1657-L1659
-> 
+The RZ/T2H and RZ/N2H SoCs use of_data_rcar_gen3, which sets
+MMC_CAP2_NO_WRITE_PROTECT and causes the core to ignore the WP signal
+unless a wp-gpios property is provided. Describe the WP pin as a GPIO
+to allow the MMC core to evaluate the write-protect status correctly.
 
-I specifically do not want to introduce custom helpers. That's one of my primary
-motivation for using lists :)
+Fixes: d065453e5ee0 ("arm64: dts: renesas: rzt2h-rzn2h-evk: Enable SD card slot")
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+ arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> And at least personally, I think my brain will parse dw_pcie_port_for_each() { }
-> faster than it parses list_for_each_entry(port, &pcie->ports, list) { },
-> since it is more unique, but perhaps I am the weird one here :)
-> 
-
-Arrays for sure will allow us to do O(1) lookups, but considering that we will
-only be traversing the ports from the start, I still prefer using lists.
-
-- Mani
-
+diff --git a/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi b/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi
+index 04e45f560eef..02bcefda6c99 100644
+--- a/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi
++++ b/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi
+@@ -380,8 +380,7 @@ data-pins {
+ 		ctrl-pins {
+ 			pinmux = <RZT2H_PORT_PINMUX(12, 0, 0x29)>, /* SD0_CLK */
+ 				 <RZT2H_PORT_PINMUX(12, 1, 0x29)>, /* SD0_CMD */
+-				 <RZT2H_PORT_PINMUX(22, 5, 0x29)>, /* SD0_CD */
+-				 <RZT2H_PORT_PINMUX(22, 6, 0x29)>; /* SD0_WP */
++				 <RZT2H_PORT_PINMUX(22, 5, 0x29)>; /* SD0_CD */
+ 		};
+ 	};
+ 
+@@ -491,6 +490,7 @@ &sdhi0 {
+ 	pinctrl-names = "default", "state_uhs";
+ 	vmmc-supply = <&reg_3p3v>;
+ 	vqmmc-supply = <&vqmmc_sdhi0>;
++	wp-gpios = <&pinctrl RZT2H_GPIO(22, 6) GPIO_ACTIVE_HIGH>;
+ 	bus-width = <4>;
+ 	sd-uhs-sdr50;
+ 	sd-uhs-sdr104;
 -- 
-மணிவண்ணன் சதாசிவம்
+2.52.0
+
 
