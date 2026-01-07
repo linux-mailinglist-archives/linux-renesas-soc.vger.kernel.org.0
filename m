@@ -1,156 +1,219 @@
-Return-Path: <linux-renesas-soc+bounces-26383-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26384-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id AACABD0045D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 07 Jan 2026 23:06:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3851D005E3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 08 Jan 2026 00:11:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C7EE830133BD
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Jan 2026 22:06:07 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2638E300C5EB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Jan 2026 23:10:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E266D255E43;
-	Wed,  7 Jan 2026 22:06:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44E4D296BB6;
+	Wed,  7 Jan 2026 23:10:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b="So8EKM/p"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I4tHnfRy"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97B6F25CC6C;
-	Wed,  7 Jan 2026 22:06:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.120.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88C1013B293
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  7 Jan 2026 23:10:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767823566; cv=none; b=mGFtYcdZjYnSmxUzb50skPBgrBkjEdaCSHja9nL77tVd7sZVjX26r9X62rALmS3ItLfenI8czd5Dfe2cQIxyzHYdF8kT2k/beVeOkmvwqgX1pMTfKPaXR1YfhA9sS45jCIawXt+hIRVh/snSqekEAGCXEPfWd69wDvAw/VvyAEs=
+	t=1767827425; cv=none; b=Pw4sWqYiwEzPHz8155L9h6g6M1xLs0KjLfP2WbYxHp7woqKvtHsYj4RHf4hBig1JoXCeCyg6RsdwRx5h69yHlpiAvJGCxjiAFYJO13yVh0xQU1LYFIcwtCjXWGeTxYb8Ni6BvO53Euy4ojPW9QRSCzt4SI+MM4mG0WHgJ44QXlA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767823566; c=relaxed/simple;
-	bh=p4H5V/IUMkWIH0uC7Qe4v+0MIek/OHvzsolhoyNV6Pg=;
-	h=Date:From:To:Cc:Message-Id:Mime-Version:Content-Type:Subject; b=V6UBUDsmzzyA+2QQ3ay57zcbhuwjyWfhDxaX7Isk5uhDGgd0JkGtOUNYJQN6wyicKVLNhLhcU6qHIK6282x8GCe4IaSoeeDJNkiQixsR0VDWB+5gCmW4gYwNzAjg34RPlZbyqAOUEd8B67ZOuAHVLMyGGJITFR2AHWyk0VDegUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com; spf=pass smtp.mailfrom=hugovil.com; dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b=So8EKM/p; arc=none smtp.client-ip=162.243.120.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hugovil.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
-	; s=x; h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
-	:Date:subject:date:message-id:reply-to;
-	bh=wxhJiYBfHBK5O6NwVGJb00vyXaqPiPEmmOU64D8Kgfc=; b=So8EKM/pUWMvChNkrAerRuiB4c
-	csxckWK/oRKOSXqFQNrU6m5Ey94xsMOW4NdznR8NwoHmc4BYu9URDBpOjeKzLDykY9CctkPjvAnqg
-	5/ByJXlDvYaaebD9pCNSVXm9YeFNZyJb2FUQAY9elYTD7GclXLzAgINnnsBQQ7NAIsE8=;
-Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:54936 helo=pettiford.lan)
-	by mail.hugovil.com with esmtpa (Exim 4.92)
-	(envelope-from <hugo@hugovil.com>)
-	id 1vdbOS-0005PG-9i; Wed, 07 Jan 2026 16:48:40 -0500
-Date: Wed, 7 Jan 2026 16:48:39 -0500
-From: Hugo Villeneuve <hugo@hugovil.com>
-To: dri-devel@lists.freedesktop.org
-Cc: linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-kernel@vger.kernel.org, Claudiu Beznea
- <claudiu.beznea.uj@bp.renesas.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Jessica Zhang <jesszhan0024@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Biju Das Biju Das
- <biju.das.jz@bp.renesas.com>, Chris Brandt <Chris.Brandt@renesas.com>
-Message-Id: <20260107164839.a490a194d975edc399d72d01@hugovil.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1767827425; c=relaxed/simple;
+	bh=UScmI6ttkK/MiCkY3f7udVbTKkr8CR+N8o6GL5R0J5A=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=JavFQJKO0Gqo7iWYLKjYTTIEREd8uznhKUianuvH3uZXrJEWQX027+8W/K/guxlz80YOlunhKqViMXECdMyVtgHwYM0xQ96VUYPh3aqFarm7is57ckCgHXp3jeJEU/SVQLmTqV0f4IzSv/EBDOI0TFasUQgeBePfxWoII53vwbk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I4tHnfRy; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1767827424; x=1799363424;
+  h=date:from:to:cc:subject:message-id;
+  bh=UScmI6ttkK/MiCkY3f7udVbTKkr8CR+N8o6GL5R0J5A=;
+  b=I4tHnfRyh3K37CZy10ZFAMKD/EhFVFynVNNOPHD6Q+SjaK650I2qtj2V
+   yBY4VET66o5/sQIOQWTj920SOTgCYddjVUzHmhrLXSKov0u6DsVd6sRuc
+   lAF6usFZGo31lIG6WaFU1HbP9VcdXLruBRV1/Fsi66FnH+PnaNCDofuHr
+   l0qfotgdlTvIx0/iiZMArKryHkoETdYOWX6lTYeu0eMISeqyBM4k3PeuZ
+   kH6rJzn5P9MW43Aa7MQmQBO5kBokdFVvcUg3hhxaOoZeLH2ap1ZiBLUBm
+   9e2qabErel1d492ZbpOg2F1K1dWCu6Ypeo9xecb8FvQbxFgPdYmLvZnTr
+   Q==;
+X-CSE-ConnectionGUID: KJ3N+YK5SDCvJ24UwsY6Tg==
+X-CSE-MsgGUID: 5w04XZLCRfO8Qs5U13zcjA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11664"; a="69364742"
+X-IronPort-AV: E=Sophos;i="6.21,209,1763452800"; 
+   d="scan'208";a="69364742"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2026 15:10:23 -0800
+X-CSE-ConnectionGUID: KXmfcZ78SVeS9tC6ai0S4A==
+X-CSE-MsgGUID: Ce2PnPtkR/qBYfP7STrTsQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,209,1763452800"; 
+   d="scan'208";a="207527428"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 07 Jan 2026 15:10:20 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vdcfS-000000004Ej-1srb;
+	Wed, 07 Jan 2026 23:10:18 +0000
+Date: Thu, 08 Jan 2026 07:09:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:next] BUILD SUCCESS
+ 469eafbe3b5472954dc9a2081b533c8093afd82b
+Message-ID: <202601080711.JWjFMaQF-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 70.80.174.168
-X-SA-Exim-Mail-From: hugo@hugovil.com
-X-Spam-Level: 
-X-Spam-Report: 
-	* -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-Subject: [BUG] drm/panel: ilitek-ili9881c:  kernel panic on reboot
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
 
-Hi,
-when issuing a reboot command, I encounter the following kernel panic:
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
+branch HEAD: 469eafbe3b5472954dc9a2081b533c8093afd82b  Merge branches 'renesas-arm-defconfig-for-v6.20', 'renesas-drivers-for-v6.20' and 'renesas-dts-for-v6.20' into renesas-next
 
-[   36.183478] SError Interrupt on CPU1, code 0x00000000be000011 -- SError
-[   36.183492] CPU: 1 UID: 0 PID: 1 Comm: systemd-shutdow Tainted: G   M                6.19.0-rc4-arm64-renesas-00019-g067a81578add #62 NONE 
-[   36.183504] Tainted: [M]=MACHINE_CHECK
-[   36.183507] Hardware name: Gecko ECO2 nxtpad (DT)
-[   36.183512] pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[   36.183519] pc : rzg2l_mipi_dsi_host_transfer+0x114/0x458
-[   36.183538] lr : rzg2l_mipi_dsi_host_transfer+0x98/0x458
-[   36.183547] sp : ffff8000813db860
-[   36.183550] x29: ffff8000813db890 x28: ffff800080c602c0 x27: ffff000009dd7450
-[   36.183563] x26: ffff800080c5fcc0 x25: ffff000009dd7450 x24: ffff800080e1f7a8
-[   36.183573] x23: ffff000009dd7400 x22: 0000000000000000 x21: ffff000009dd7430
-[   36.183582] x20: ffff8000813db8e8 x19: 0000000002050028 x18: 00000000ffffffff
-[   36.183592] x17: 0000000000000000 x16: 0000000000000000 x15: ffff8000813db220
-[   36.183602] x14: 0000000000000000 x13: ffff800081255bc0 x12: 00000000000009a2
-[   36.183611] x11: 0000000000000336 x10: ffff8000812b28d0 x9 : ffff800081255bc0
-[   36.183621] x8 : ffff800081399000 x7 : ffff00000a042600 x6 : 0000000000000000
-[   36.183631] x5 : 0000000000000805 x4 : 0000000002000000 x3 : 0000000000000028
-[   36.183640] x2 : 0000000049627000 x1 : ffff800080c60b40 x0 : ffff800081780000
-[   36.183652] Kernel panic - not syncing: Asynchronous SError Interrupt
-[   36.183657] CPU: 1 UID: 0 PID: 1 Comm: systemd-shutdow Tainted: G   M                6.19.0-rc4-arm64-renesas-00019-g067a81578add #62 NONE 
-[   36.183665] Tainted: [M]=MACHINE_CHECK
-[   36.183668] Hardware name: devboard1 (DT)
-[   36.183672] Call trace:
-[   36.183675]  show_stack+0x18/0x24 (C)
-[   36.183692]  dump_stack_lvl+0x34/0x8c
-[   36.183702]  dump_stack+0x18/0x24
-[   36.183708]  vpanic+0x314/0x35c
-[   36.183716]  nmi_panic+0x0/0x64
-[   36.183722]  add_taint+0x0/0xbc
-[   36.183728]  arm64_serror_panic+0x70/0x80
-[   36.183735]  do_serror+0x28/0x68
-[   36.183742]  el1h_64_error_handler+0x34/0x50
-[   36.183751]  el1h_64_error+0x6c/0x70
-[   36.183758]  rzg2l_mipi_dsi_host_transfer+0x114/0x458 (P)
-[   36.183770]  mipi_dsi_device_transfer+0x44/0x58
-[   36.183781]  mipi_dsi_dcs_set_display_off_multi+0x9c/0xc4
-[   36.183792]  ili9881c_unprepare+0x38/0x88
-[   36.183802]  drm_panel_unprepare+0xbc/0x108
-[   36.183814]  panel_bridge_atomic_post_disable+0x50/0x60
-[   36.183823]  drm_atomic_bridge_call_post_disable+0x24/0x4c
-[   36.183835]  drm_atomic_bridge_chain_post_disable+0xa8/0x100
-[   36.183845]  drm_atomic_helper_commit_modeset_disables+0x2fc/0x5f8
-[   36.183856]  drm_atomic_helper_commit_tail_rpm+0x24/0x7c
-[   36.183865]  commit_tail+0xa4/0x18c
-[   36.183874]  drm_atomic_helper_commit+0x17c/0x194
-[   36.183884]  drm_atomic_commit+0x8c/0xcc
-[   36.183892]  drm_atomic_helper_disable_all+0x200/0x210
-[   36.183901]  drm_atomic_helper_shutdown+0xa8/0x150
-[   36.183911]  rzg2l_du_shutdown+0x18/0x24
-[   36.183920]  platform_shutdown+0x24/0x34
-[   36.183931]  device_shutdown+0x128/0x284
-[   36.183938]  kernel_restart+0x44/0xa4
-[   36.183950]  __do_sys_reboot+0x178/0x270
-[   36.183959]  __arm64_sys_reboot+0x24/0x30
-[   36.183968]  invoke_syscall.constprop.0+0x50/0xe4
-[   36.183979]  do_el0_svc+0x40/0xc0
-[   36.183988]  el0_svc+0x3c/0x164
-[   36.183995]  el0t_64_sync_handler+0xa0/0xe4
-[   36.184002]  el0t_64_sync+0x198/0x19c
-[   36.184020] Kernel Offset: disabled
-[   36.184022] CPU features: 0x200000,00020001,4000c501,0400720b
-[   36.184028] Memory Limit: none
-[   36.495305] ---[ end Kernel panic - not syncing: Asynchronous SError Interrupt ]---
+elapsed time: 2172m
 
-The problem is present since linux-6.18-rc1, but not in linux-6.17. I also confirm the bug is present in linux-6.19-rc4.
+configs tested: 128
+configs skipped: 2
 
-The bug seems to be happening in rzg2l_mipi_dsi_host_transfer().
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-After bisecting, here is the first bad commit:
+tested configs:
+alpha                             allnoconfig    gcc-15.1.0
+alpha                               defconfig    gcc-15.1.0
+arc                               allnoconfig    gcc-15.1.0
+arc                                 defconfig    gcc-15.1.0
+arc                   randconfig-001-20260108    gcc-9.5.0
+arc                   randconfig-002-20260108    gcc-9.5.0
+arm                               allnoconfig    clang-22
+arm                               allnoconfig    gcc-15.1.0
+arm                                 defconfig    gcc-15.1.0
+arm                          pxa168_defconfig    clang-22
+arm                   randconfig-001-20260108    gcc-9.5.0
+arm                   randconfig-002-20260108    gcc-9.5.0
+arm                   randconfig-003-20260108    gcc-9.5.0
+arm                   randconfig-004-20260108    gcc-9.5.0
+arm64                            alldefconfig    clang-22
+arm64                             allnoconfig    gcc-15.1.0
+arm64                               defconfig    gcc-15.1.0
+arm64                 randconfig-001-20260108    gcc-10.5.0
+arm64                 randconfig-002-20260108    gcc-10.5.0
+arm64                 randconfig-003-20260108    gcc-10.5.0
+arm64                 randconfig-004-20260108    gcc-10.5.0
+csky                              allnoconfig    gcc-15.1.0
+csky                                defconfig    gcc-15.1.0
+csky                  randconfig-001-20260108    gcc-10.5.0
+csky                  randconfig-002-20260108    gcc-10.5.0
+hexagon                           allnoconfig    clang-22
+hexagon                           allnoconfig    gcc-15.1.0
+hexagon                             defconfig    gcc-15.1.0
+i386                              allnoconfig    gcc-14
+i386                              allnoconfig    gcc-15.1.0
+i386        buildonly-randconfig-001-20260108    clang-20
+i386        buildonly-randconfig-002-20260108    clang-20
+i386        buildonly-randconfig-003-20260108    clang-20
+i386        buildonly-randconfig-004-20260108    clang-20
+i386        buildonly-randconfig-005-20260108    clang-20
+i386        buildonly-randconfig-006-20260108    clang-20
+i386                                defconfig    gcc-15.1.0
+i386                  randconfig-011-20260108    gcc-14
+i386                  randconfig-012-20260108    gcc-14
+i386                  randconfig-013-20260108    gcc-14
+i386                  randconfig-014-20260108    gcc-14
+i386                  randconfig-015-20260108    gcc-14
+i386                  randconfig-016-20260108    gcc-14
+i386                  randconfig-017-20260108    gcc-14
+loongarch                         allnoconfig    clang-22
+loongarch                         allnoconfig    gcc-15.1.0
+loongarch                           defconfig    clang-19
+m68k                              allnoconfig    gcc-15.1.0
+m68k                                defconfig    clang-19
+m68k                        m5407c3_defconfig    clang-22
+microblaze                        allnoconfig    gcc-15.1.0
+microblaze                          defconfig    clang-19
+mips                              allnoconfig    gcc-15.1.0
+nios2                             allnoconfig    clang-22
+nios2                             allnoconfig    gcc-11.5.0
+nios2                               defconfig    clang-19
+openrisc                          allnoconfig    clang-22
+openrisc                          allnoconfig    gcc-15.1.0
+openrisc                            defconfig    gcc-15.1.0
+parisc                            allnoconfig    clang-22
+parisc                            allnoconfig    gcc-15.1.0
+parisc                              defconfig    gcc-15.1.0
+parisc                randconfig-001-20260108    clang-22
+parisc                randconfig-002-20260108    clang-22
+parisc64                            defconfig    clang-19
+powerpc                           allnoconfig    clang-22
+powerpc                           allnoconfig    gcc-15.1.0
+powerpc                      pmac32_defconfig    clang-22
+powerpc               randconfig-001-20260108    clang-22
+powerpc               randconfig-002-20260108    clang-22
+powerpc64             randconfig-001-20260108    clang-22
+powerpc64             randconfig-002-20260108    clang-22
+riscv                             allnoconfig    clang-22
+riscv                             allnoconfig    gcc-15.1.0
+riscv                               defconfig    gcc-15.1.0
+s390                              allnoconfig    clang-22
+s390                                defconfig    gcc-15.1.0
+sh                                allnoconfig    clang-22
+sh                                allnoconfig    gcc-15.1.0
+sh                                  defconfig    gcc-14
+sh                ecovec24-romimage_defconfig    clang-22
+sh                            shmin_defconfig    clang-22
+sparc                             allnoconfig    clang-22
+sparc                             allnoconfig    gcc-15.1.0
+sparc                               defconfig    gcc-15.1.0
+sparc                 randconfig-001-20260108    gcc-8.5.0
+sparc                 randconfig-002-20260108    gcc-8.5.0
+sparc64                             defconfig    gcc-14
+sparc64               randconfig-001-20260108    gcc-8.5.0
+sparc64               randconfig-002-20260108    gcc-8.5.0
+um                                allnoconfig    clang-22
+um                                  defconfig    gcc-14
+um                             i386_defconfig    gcc-14
+um                    randconfig-001-20260108    gcc-8.5.0
+um                    randconfig-002-20260108    gcc-8.5.0
+um                           x86_64_defconfig    gcc-14
+x86_64                            allnoconfig    clang-20
+x86_64                            allnoconfig    clang-22
+x86_64      buildonly-randconfig-001-20260108    gcc-14
+x86_64      buildonly-randconfig-002-20260108    gcc-14
+x86_64      buildonly-randconfig-003-20260108    gcc-14
+x86_64      buildonly-randconfig-004-20260108    gcc-14
+x86_64      buildonly-randconfig-005-20260108    gcc-14
+x86_64      buildonly-randconfig-006-20260108    gcc-14
+x86_64                              defconfig    gcc-14
+x86_64                                  kexec    clang-20
+x86_64                randconfig-001-20260108    gcc-12
+x86_64                randconfig-002-20260108    gcc-12
+x86_64                randconfig-003-20260108    gcc-12
+x86_64                randconfig-004-20260108    gcc-12
+x86_64                randconfig-005-20260108    gcc-12
+x86_64                randconfig-006-20260108    gcc-12
+x86_64                randconfig-071-20260108    gcc-14
+x86_64                randconfig-072-20260108    gcc-14
+x86_64                randconfig-073-20260108    gcc-14
+x86_64                randconfig-074-20260108    gcc-14
+x86_64                randconfig-075-20260108    gcc-14
+x86_64                randconfig-076-20260108    gcc-14
+x86_64                               rhel-9.4    clang-20
+x86_64                           rhel-9.4-bpf    gcc-14
+x86_64                          rhel-9.4-func    clang-20
+x86_64                    rhel-9.4-kselftests    clang-20
+x86_64                         rhel-9.4-kunit    gcc-14
+x86_64                           rhel-9.4-ltp    gcc-14
+xtensa                            allnoconfig    clang-22
+xtensa                            allnoconfig    gcc-15.1.0
+xtensa                randconfig-001-20260108    gcc-8.5.0
+xtensa                randconfig-002-20260108    gcc-8.5.0
 
-    commit 56de5e305d4b ("clk: renesas: r9a07g044: Add MSTOP for RZ/G2L")
-
-Reverting this change makes the bug disappear.
-
-My limited understanding seems to indicate that the MIPI/DSI host may
-no longer be available/on when the panel tries to send MIPI/DSI
-commands in ili9881c_unprepare(), maybe because the MIPI/DSI clock has been stopped...
-
-The exact same board with two other panels (jd9365da and st7703) doesn't have the bug.
-
--- 
-Hugo Villeneuve
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
