@@ -1,150 +1,112 @@
-Return-Path: <linux-renesas-soc+bounces-26367-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26358-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA767CFEEC8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 07 Jan 2026 17:42:07 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11D7ECFF44D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 07 Jan 2026 19:04:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9DE0A33DB261
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Jan 2026 16:34:13 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 513F0329EE4F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Jan 2026 16:54:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3878638F232;
-	Wed,  7 Jan 2026 16:23:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="0PBXQU1I"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72512339878;
+	Wed,  7 Jan 2026 15:21:59 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAD0737F75B;
-	Wed,  7 Jan 2026 16:22:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F66330B520
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  7 Jan 2026 15:21:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767802985; cv=none; b=TDuMMoJv2+qO6rKteg3TbWTuWmxhSfM5sLjobXTQXi8pRRqb2eXMqN+OsyYi+FzlHesTRvrjWPLC8/WCZN9WMFvWtQtg5tnJSyy+D00/BblgVyVRnAsXY35Yxc9WAuNVERdUMslSMCOce7NrbR/S58/mOc+24xQMh6YgDsYmKO4=
+	t=1767799319; cv=none; b=hqO9BJf/3DbGlEwY/+M65CrF/tx/1IUdcqUtkcErxnKFoNcycpY6RHyaephh80Plvd+wu72rskzLJ9eHyDu5bV6J5DYoBLfVRqoyADJf3WSWkZLnI4fYCCgg6db5BF2YGTxXkPujOpLX4ijqnFWdPX4wJVPhppMCcKzF6EIYWfk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767802985; c=relaxed/simple;
-	bh=TlE3YDvy+t5RtC+Km6LkK0CiyIuQKjYCOd/3ddkTIKk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=IhB20KPBEwnN0fRiJP1Y4HHE2JaRtv0oGAhk4igadZKLSLcZEP+DjHzwS8jVT5TwprDfMN0pNddjyqfzSzHZzlTTP7U1MMU9M4hovFJ/NGWOC4+YAO02oDSp6K2jH9uotdTZiIJWP+vKmw/WaZ+/XM3edfzP23fttpFFhbN76LA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=0PBXQU1I; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id A94114E41FE1;
-	Wed,  7 Jan 2026 16:22:50 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 7C448606F8;
-	Wed,  7 Jan 2026 16:22:50 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CA559103C821A;
-	Wed,  7 Jan 2026 17:22:43 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1767802968; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=SA0cq6vwDyGvyP6SIBlq9HJkNg1w6ZLReUneEYt+F+A=;
-	b=0PBXQU1IufSv9OAninwcHSoJr31ZcYtsGaC0anMJOqmxGaJiXaUsN7KM3zbRJlmgQ/00cN
-	2rozTMU32C/x2p83caDuDJtst5RQQL6r9XKMCkeYActN2bR5+sagZOR/Cw3VkgZ/26Pk2u
-	2iZKtRENzWlZf4JWjtnx7FvPTQrBEVuRRoPYW/CGOYHIezJxXcgz4KneTFZNAVpIP0pjDJ
-	+24Mk1qaBmnA/usF75Sj7y2oXum8CDyme0KNsBfl5B1AvnjQW9RN/LSYJiJVzIl59oTWNN
-	6V2A+y8X+LGvZNLzzscItdC2jdgJuwEGmWOPpp6IFlC3nl7ett+ZgnqJ1LrnCA==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Wed, 07 Jan 2026 17:22:04 +0100
-Subject: [PATCH 6/6] drm: rcar-du: lvds: convert to
- of_drm_find_and_get_bridge()
+	s=arc-20240116; t=1767799319; c=relaxed/simple;
+	bh=xirnzd+sOTLBfOoqrKyZ5orvmCZslNDx5L/n4t/ve2s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qXmxVe2Y073kQ2OO/tOdYTAhU/TWD9mzvCW4Ff3q07MfnaS4DsnJmAKfw+5LvSS4l7U32+AVVOoZqIy8dSSuhHQvPIAf/WlmzEMetkh2x0Tho3Sb4ddl8Wucng6S/4DkM8hn0PzoLObkn7XKm9Q37muMxTQtqIChwF0gamHbX9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-93f4f04d9f6so531792241.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 07 Jan 2026 07:21:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767799306; x=1768404106;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VGXfYeh3k2PdpEfY5u5umPkWwmBYjzfyvyHueENf/WA=;
+        b=Z2HDJpS4TJpwXgS1ApTXB+WDjBl7me6worwXqER56vMeggVtQ91RmUR4DZXlSrdNkY
+         klIUYmprhQr0ACyUz+Kk1nPsIFY0BvTZdeqKoF21XgjgWhhCV2FkFknZg9GniRCRP0nn
+         2RNWRfuq1yQ8YLqsDVXUAH3m24wnbb9Kdbylu3vth7DU6h9CtephDJOJ0ZSQOf1OkdvB
+         FrZyx9oY7bzJnEO7ogtaRUR5S0vxmRkqzhoeNpuT3h4RuPhYOV90n/S8Fq58dJM7bP7Z
+         YA1gkLzo4VlxQYAOntTbiJRIhy7vJIOdl3TUJE3nt8UU242DKBYmN4f2Ul5Wn2woRp6Q
+         HT0A==
+X-Forwarded-Encrypted: i=1; AJvYcCVuGR0tVQrBOct2B99Jvb61ePoYM63mC9I5DqEA5q8BYnoZwHlThH4+OOtkNKhvp4A8EUdoSDHYCRWuH2SlRLibdw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6bYvnzUPHEB8AxbelQ5ygXHEJDBuJKtmIRpPgpbOtihUFT2FD
+	KcaLsVXKpfuT6L6CYofi/4Lwa6mDObo2TxHWc3urZniqj6XDXARhK3GX/1OVjC1V
+X-Gm-Gg: AY/fxX6I7ZpOgDwReFbvcQdgX2ntrRnYxShf4r3VoNIOT81L1l1KZklcp072x63J0Es
+	+cfREWRsuHc1A4NGq+hDiqmR8OtY+7OJCHtMJyodcFvv+UbkJN9TDXCCiC0qRZPGOk3enzXITZR
+	EeOU6QkDFVXsxL0pFZpim/THhYH+Lf6LSd9JjuPjUNhE3kzw0hs1WZ/0QMbb0gDhKrvilESHzqO
+	IqLgU2imIUHeRxV2yn7p2SmGSD8gdW/TJYU18tj/0kERRX6SlyKhxCpI4s5krsYZ8pyn9aosaV6
+	Lehz5UinRPplQl65ifMi+1lF4e5aRhL0oJkkSNsAnl7GjWXrSHGBS1J+Y9JGKRLZrZi/Vv15wLE
+	LUn8wr05oWMqZMXcQuY39XgYkKeAFqptM3iLbiSrnGNMHKLV/fsapVd1x4GFlo5Y9NMJAAoK+7m
+	4Kdd1xf7lBTjMVgR4rIzRpp3hmjAxkHHaS0AvdyPIb/qbPKAZB
+X-Google-Smtp-Source: AGHT+IHCz9qTsFxZGB9WrFdIsz5G/1ng2t67JWUtEnOHfPOSmtxuYRFmD09NOH87ZHyg9ITIjzsApg==
+X-Received: by 2002:a05:6102:944:b0:5dd:37a3:c389 with SMTP id ada2fe7eead31-5ec75566566mr2627265137.2.1767799306503;
+        Wed, 07 Jan 2026 07:21:46 -0800 (PST)
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com. [209.85.217.52])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-944122aee82sm3031166241.1.2026.01.07.07.21.46
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Jan 2026 07:21:46 -0800 (PST)
+Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-5ecddf73062so482454137.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 07 Jan 2026 07:21:46 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWgqlIz6aykycIbgszUfYp96hH3zD1/Mz9yAV7WOIGmpflS3W53y3WoQk9KYXwWT4Q/erzIIzbh7SZUX0g9iThsZQ==@vger.kernel.org
+X-Received: by 2002:a05:6102:f0a:b0:5db:cfff:fd66 with SMTP id
+ ada2fe7eead31-5ec75774023mr2670446137.22.1767799305872; Wed, 07 Jan 2026
+ 07:21:45 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260107-drm-bridge-alloc-getput-drm_of_find_bridge-3-v1-6-ef48a517828e@bootlin.com>
-References: <20260107-drm-bridge-alloc-getput-drm_of_find_bridge-3-v1-0-ef48a517828e@bootlin.com>
-In-Reply-To: <20260107-drm-bridge-alloc-getput-drm_of_find_bridge-3-v1-0-ef48a517828e@bootlin.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- Philipp Zabel <p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
- Kyungmin Park <kyungmin.park@samsung.com>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Alim Akhtar <alim.akhtar@samsung.com>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Magnus Damm <magnus.damm@gmail.com>
-Cc: Hui Pu <Hui.Pu@gehealthcare.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- imx@lists.linux.dev, linux-mediatek@lists.infradead.org, 
- linux-samsung-soc@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>
-X-Mailer: b4 0.14.3
-X-Last-TLS-Session-Version: TLSv1.3
+References: <20251224165049.3384870-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20251224165049.3384870-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20251224165049.3384870-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 7 Jan 2026 16:21:34 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWAbdVfTGtAdVCfq31yTNYVgmXoVB5JvPOHde-ZsVMBhw@mail.gmail.com>
+X-Gm-Features: AQt7F2o6g6AUCQi8FFgmNntpDHUQy0QJrCdwxLZBZDunb38OI9ggwtqmRVYkm64
+Message-ID: <CAMuHMdWAbdVfTGtAdVCfq31yTNYVgmXoVB5JvPOHde-ZsVMBhw@mail.gmail.com>
+Subject: Re: [PATCH 3/4] clk: renesas: r9a09g057: Add entries for CANFD
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
+	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 
-of_drm_find_bridge() is deprecated. Move to its replacement
-of_drm_find_and_get_bridge() which gets a bridge reference, and ensure it
-is put when done.
+On Wed, 24 Dec 2025 at 17:51, Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Add clock and reset entries for the CANFD IP.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Since the companion bridge pointer is used by .atomic_enable, putting its
-reference in the remove function would be dangerous. Use .destroy to put it
-on final deallocation.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-clk for v6.20.
 
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
----
- drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+Gr{oetje,eeting}s,
 
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c b/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c
-index 001b3543924a..227818e37390 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c
-@@ -633,6 +633,13 @@ static bool rcar_lvds_mode_fixup(struct drm_bridge *bridge,
- 	return true;
- }
- 
-+static void rcar_lvds_destroy(struct drm_bridge *bridge)
-+{
-+	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
-+
-+	drm_bridge_put(lvds->companion);
-+}
-+
- static int rcar_lvds_attach(struct drm_bridge *bridge,
- 			    struct drm_encoder *encoder,
- 			    enum drm_bridge_attach_flags flags)
-@@ -648,6 +655,7 @@ static int rcar_lvds_attach(struct drm_bridge *bridge,
- 
- static const struct drm_bridge_funcs rcar_lvds_bridge_ops = {
- 	.attach = rcar_lvds_attach,
-+	.destroy = rcar_lvds_destroy,
- 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
- 	.atomic_reset = drm_atomic_helper_bridge_reset,
-@@ -740,7 +748,7 @@ static int rcar_lvds_parse_dt_companion(struct rcar_lvds *lvds)
- 		goto done;
- 	}
- 
--	lvds->companion = of_drm_find_bridge(companion);
-+	lvds->companion = of_drm_find_and_get_bridge(companion);
- 	if (!lvds->companion) {
- 		ret = -EPROBE_DEFER;
- 		goto done;
+                        Geert
 
 -- 
-2.52.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
