@@ -1,177 +1,156 @@
-Return-Path: <linux-renesas-soc+bounces-26382-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26383-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id B735BD00220
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 07 Jan 2026 22:18:24 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id AACABD0045D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 07 Jan 2026 23:06:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 4FF1F302A455
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Jan 2026 21:18:13 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C7EE830133BD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Jan 2026 22:06:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CC91277C9A;
-	Wed,  7 Jan 2026 21:16:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E266D255E43;
+	Wed,  7 Jan 2026 22:06:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OlOF02yC"
+	dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b="So8EKM/p"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA1BF2D8DC3
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  7 Jan 2026 21:16:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97B6F25CC6C;
+	Wed,  7 Jan 2026 22:06:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.120.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767820579; cv=none; b=Dusn8r3guDm9Nb3anUaEPmc8P+UM7DZIZ/swVdyHZodM+8Whf8WcD/MTQGwsV0m2cyViPKcdZxic0tq3P54ye57ThySsMUadGTUQ7MNsyYyRmcNashkZxSex78e7vC7mL09DFdgWF/Uvm+aaNpouFFyJGOH0zQAYk/YCvjVQiLA=
+	t=1767823566; cv=none; b=mGFtYcdZjYnSmxUzb50skPBgrBkjEdaCSHja9nL77tVd7sZVjX26r9X62rALmS3ItLfenI8czd5Dfe2cQIxyzHYdF8kT2k/beVeOkmvwqgX1pMTfKPaXR1YfhA9sS45jCIawXt+hIRVh/snSqekEAGCXEPfWd69wDvAw/VvyAEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767820579; c=relaxed/simple;
-	bh=Y2hxfStZTU5bifGNtZaCaokJ7qeOXiwJTbYrpCk8+h4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZF/O4bTr49b/+EVIPDoFLRsN1bhHBefh4uaEO5TrRXlMTWhDcG9X3WV+BS9HrNYbBnkJI7OibTINJFb7dLTlslFwCgweS55egUcKCl8h0XIJHMtm/xo1d0denU1dP/A/DmU03JSJMKjCbQoT+NYp3vmskHMBM4VtjgOC0OdNsP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OlOF02yC; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-477bf34f5f5so20132035e9.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 07 Jan 2026 13:16:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767820573; x=1768425373; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dCitwE55o8IqWyri41ymTAwTLamoPm8KtfcEJm7bnsM=;
-        b=OlOF02yCmV7wS+7sjWPowc0qIgq+xFi+QiFFxJ6pvolXCPHLHl0/VzZky2vP0cVAZG
-         YiRbXc9pEE1IOIcYTKlcqDyFZ/CuCIO6d4ZXy/VkpfpT58uGCSmSY5F0SHVc35gkw1g9
-         Op0ZvLp4UMVoltdNUqGNzasc4v5gdOCaS1zA8bMMZk+ZXy0+8hUG9r57RbdaDMTfIXai
-         B492xcLAOICMPSJcAS6yF3j6nZ0b0HsQbKZwoZ62g6Ao6whrj+5QBU6eZkdvC/QTrRZB
-         +EDuOC7uImhF+Pt6W19K0p1eRvbz42hjUCSzM7CpaNV9pAjfKVwQe8jFdnuaVKADIGUV
-         h9tA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767820573; x=1768425373;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=dCitwE55o8IqWyri41ymTAwTLamoPm8KtfcEJm7bnsM=;
-        b=lU1zbowX68Vd4Kt1V3pBgyvH0RwhK5X8N39F6yzuiHCd9DbO65bhIjQPlzeTg6XKh5
-         tYYK8vTlL2WV39RQqnVMUKpr49TWU8jOSPihxI3p8vfcObdnfDXbEbsXFcDbcp0vwOiM
-         X6MLhxwLxb6JDb5bIsd3d1b/mDRXysQBYue7lND+/vIFJqbFYqPim8QRRwFNIXIQtg61
-         M58C1jN4FFW4aXdkAUVQFPslJ6EBCn/dr125aOERiM7S7z5CuMXPyre0GsbqPKv6eV19
-         oRMmqRpwoSDyIdTSCWBtX+bCd4RwMpLOcliwaLYHRiHaMFnbOr2aG0GLcKp6LqRxcILT
-         /Zsw==
-X-Forwarded-Encrypted: i=1; AJvYcCUUEvbMpHf0JtXqoUe/snuicw1uehuErnzaY4RXfHkjeyni/Dku9d3qFx1OvssViKj3KfZsYNZEVopzTtrCgfSRNQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyJ1TXoBlY6aqCAml0YawlJq2sQIF1EQXFA1exOWbs8NTjAOp5u
-	dlhV/DAUzBJSuMDnkOgIhoXW0rBFoDFt4jibXurtinOM09IlxF6JuLnLjtjN3G9yyNxncRrOfv1
-	Y3Ej82rMK72dkCXHOL3G2uta8vC3XG/w=
-X-Gm-Gg: AY/fxX4aMtVI7/FsHgn5t1twSYD9/p8y6YLc+4fDESwLUANQJCIyRcLFGQZnWJt1iKF
-	Q3g/61hvKUT0ggY2dYrjI1i1lkkk0n33GbGlhh79LLTGA2WLYdvTYlLSxrW/Ik4n5D1+6pim4w2
-	QAKF8OPLKfTCgKx9ed6AdxI3LRUgM2RHKC5kFhx2W58Y+FIwNSURB1zD6jcU0M15scfiXlx44oM
-	8RmT5IKZyPvgYOG/DJsAnYc3GfL9rEsEiztkJK8/gJKqiwSrtZ9oZTG+nshFaNX/sGRf+m8Z/b6
-	tKdFgXFdvLdYwD3/VmFKpVPynmu1wULBd3L5fR8b+RJBJTC5fU17cf/VVApS8eBhCpTNecqHS91
-	1Fcj9J3a7PPWDRg==
-X-Google-Smtp-Source: AGHT+IGve208ZokXE/8tqVsqRpRaLA6g/AVfp11AspT3v34uPzJmUuLmgL0Vxdkq3s+EP2zdeokZvc4oYXJlvNhydjM=
-X-Received: by 2002:a05:600c:4709:b0:479:1348:c614 with SMTP id
- 5b1f17b1804b1-47d84b41b2dmr47018015e9.26.1767820573184; Wed, 07 Jan 2026
- 13:16:13 -0800 (PST)
+	s=arc-20240116; t=1767823566; c=relaxed/simple;
+	bh=p4H5V/IUMkWIH0uC7Qe4v+0MIek/OHvzsolhoyNV6Pg=;
+	h=Date:From:To:Cc:Message-Id:Mime-Version:Content-Type:Subject; b=V6UBUDsmzzyA+2QQ3ay57zcbhuwjyWfhDxaX7Isk5uhDGgd0JkGtOUNYJQN6wyicKVLNhLhcU6qHIK6282x8GCe4IaSoeeDJNkiQixsR0VDWB+5gCmW4gYwNzAjg34RPlZbyqAOUEd8B67ZOuAHVLMyGGJITFR2AHWyk0VDegUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com; spf=pass smtp.mailfrom=hugovil.com; dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b=So8EKM/p; arc=none smtp.client-ip=162.243.120.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hugovil.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
+	; s=x; h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
+	:Date:subject:date:message-id:reply-to;
+	bh=wxhJiYBfHBK5O6NwVGJb00vyXaqPiPEmmOU64D8Kgfc=; b=So8EKM/pUWMvChNkrAerRuiB4c
+	csxckWK/oRKOSXqFQNrU6m5Ey94xsMOW4NdznR8NwoHmc4BYu9URDBpOjeKzLDykY9CctkPjvAnqg
+	5/ByJXlDvYaaebD9pCNSVXm9YeFNZyJb2FUQAY9elYTD7GclXLzAgINnnsBQQ7NAIsE8=;
+Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:54936 helo=pettiford.lan)
+	by mail.hugovil.com with esmtpa (Exim 4.92)
+	(envelope-from <hugo@hugovil.com>)
+	id 1vdbOS-0005PG-9i; Wed, 07 Jan 2026 16:48:40 -0500
+Date: Wed, 7 Jan 2026 16:48:39 -0500
+From: Hugo Villeneuve <hugo@hugovil.com>
+To: dri-devel@lists.freedesktop.org
+Cc: linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Claudiu Beznea
+ <claudiu.beznea.uj@bp.renesas.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Jessica Zhang <jesszhan0024@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Biju Das Biju Das
+ <biju.das.jz@bp.renesas.com>, Chris Brandt <Chris.Brandt@renesas.com>
+Message-Id: <20260107164839.a490a194d975edc399d72d01@hugovil.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20251230115814.53536-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20251230115814.53536-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20260102-quirky-hornet-of-downpour-ddda69@quoll> <CA+V-a8sY0QneUWQ4A0XCKUGPL8VYkU5NQE2h_cOK=06JG_1c2g@mail.gmail.com>
- <e49bca1a-7fc7-4213-b4e0-6b6ed08fdedd@kernel.org>
-In-Reply-To: <e49bca1a-7fc7-4213-b4e0-6b6ed08fdedd@kernel.org>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Wed, 7 Jan 2026 21:15:46 +0000
-X-Gm-Features: AQt7F2o45GC9wvdTVWt_M5nbtcntmbiN2eZaPfQPJ_GZHvGZEjLVr_yjo4DTGW8
-Message-ID: <CA+V-a8uFnm0oJqbkHZURi9vGXxnfG7cvxgZ2GH5b8nYOUohXDw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] dt-bindings: can: renesas,rcar-canfd: Specify reset-names
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Marc Kleine-Budde <mkl@pengutronix.de>, Vincent Mailhol <mailhol@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, linux-can@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 70.80.174.168
+X-SA-Exim-Mail-From: hugo@hugovil.com
+X-Spam-Level: 
+X-Spam-Report: 
+	* -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+Subject: [BUG] drm/panel: ilitek-ili9881c:  kernel panic on reboot
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
 
-Hi Krzysztof,
+Hi,
+when issuing a reboot command, I encounter the following kernel panic:
 
-On Wed, Jan 7, 2026 at 8:25=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.org=
-> wrote:
->
-> On 06/01/2026 18:17, Lad, Prabhakar wrote:
-> > Hi Krzysztof,
-> >
-> > Thank you for the review.
-> >
-> > On Fri, Jan 2, 2026 at 11:16=E2=80=AFAM Krzysztof Kozlowski <krzk@kerne=
-l.org> wrote:
-> >>
-> >> On Tue, Dec 30, 2025 at 11:58:11AM +0000, Prabhakar wrote:
-> >>> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >>>
-> >>> Specify the expected reset-names for the Renesas CAN-FD controller on
-> >>> RZ/G2L and RZ/G3E SoCs.
-> >>
-> >> You should explain here from where you got the actual names.
-> >>
-> >> Otherwise you got following review:
-> >>
-> >>>
-> >>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com=
->
-> >>> ---
-> >>> v1->v2:
-> >>> - Moved reset-names to top-level properties.
-> >>> ---
-> >>>  .../bindings/net/can/renesas,rcar-canfd.yaml  | 33 +++++++++++------=
---
-> >>>  1 file changed, 19 insertions(+), 14 deletions(-)
-> >>>
-> >>> diff --git a/Documentation/devicetree/bindings/net/can/renesas,rcar-c=
-anfd.yaml b/Documentation/devicetree/bindings/net/can/renesas,rcar-canfd.ya=
-ml
-> >>> index e129bdceef84..9bfd4f44e4d4 100644
-> >>> --- a/Documentation/devicetree/bindings/net/can/renesas,rcar-canfd.ya=
-ml
-> >>> +++ b/Documentation/devicetree/bindings/net/can/renesas,rcar-canfd.ya=
-ml
-> >>> @@ -122,6 +122,11 @@ properties:
-> >>>
-> >>>    resets: true
-> >>>
-> >>> +  reset-names:
-> >>> +    items:
-> >>> +      - const: rstp_n
-> >>> +      - const: rstc_n
-> >>
-> >> rst seems redundant. _n as well. Are these names from datasheet? How a=
-re
-> >> they called in this device (not the soc) datasheet exactly? Because it
-> >> feels you use pin or SoC names which is not useful.
-> >>
-> > rstp_n/rstc_n are coming from the SoC HW manual and is already used by
-> > the driver (since commit 76e9353a80e9 "can: rcar_canfd: Add support
-> > for RZ/G2L family"). The reset-names existed previously but were
-> > dropped as of commit 466c8ef7b66b "dt-bindings: can:
-> > renesas,rcar-canfd: Simplify the conditional schema". Let me know if
-> > you want me to rename them but the driver will have to maintain the
->
-> No, I want to follow my first comment in my reply.
->
-Ok. As replied to Rob earlier I'll include the below info in the commit mes=
-sage:
+[   36.183478] SError Interrupt on CPU1, code 0x00000000be000011 -- SError
+[   36.183492] CPU: 1 UID: 0 PID: 1 Comm: systemd-shutdow Tainted: G   M                6.19.0-rc4-arm64-renesas-00019-g067a81578add #62 NONE 
+[   36.183504] Tainted: [M]=MACHINE_CHECK
+[   36.183507] Hardware name: Gecko ECO2 nxtpad (DT)
+[   36.183512] pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[   36.183519] pc : rzg2l_mipi_dsi_host_transfer+0x114/0x458
+[   36.183538] lr : rzg2l_mipi_dsi_host_transfer+0x98/0x458
+[   36.183547] sp : ffff8000813db860
+[   36.183550] x29: ffff8000813db890 x28: ffff800080c602c0 x27: ffff000009dd7450
+[   36.183563] x26: ffff800080c5fcc0 x25: ffff000009dd7450 x24: ffff800080e1f7a8
+[   36.183573] x23: ffff000009dd7400 x22: 0000000000000000 x21: ffff000009dd7430
+[   36.183582] x20: ffff8000813db8e8 x19: 0000000002050028 x18: 00000000ffffffff
+[   36.183592] x17: 0000000000000000 x16: 0000000000000000 x15: ffff8000813db220
+[   36.183602] x14: 0000000000000000 x13: ffff800081255bc0 x12: 00000000000009a2
+[   36.183611] x11: 0000000000000336 x10: ffff8000812b28d0 x9 : ffff800081255bc0
+[   36.183621] x8 : ffff800081399000 x7 : ffff00000a042600 x6 : 0000000000000000
+[   36.183631] x5 : 0000000000000805 x4 : 0000000002000000 x3 : 0000000000000028
+[   36.183640] x2 : 0000000049627000 x1 : ffff800080c60b40 x0 : ffff800081780000
+[   36.183652] Kernel panic - not syncing: Asynchronous SError Interrupt
+[   36.183657] CPU: 1 UID: 0 PID: 1 Comm: systemd-shutdow Tainted: G   M                6.19.0-rc4-arm64-renesas-00019-g067a81578add #62 NONE 
+[   36.183665] Tainted: [M]=MACHINE_CHECK
+[   36.183668] Hardware name: devboard1 (DT)
+[   36.183672] Call trace:
+[   36.183675]  show_stack+0x18/0x24 (C)
+[   36.183692]  dump_stack_lvl+0x34/0x8c
+[   36.183702]  dump_stack+0x18/0x24
+[   36.183708]  vpanic+0x314/0x35c
+[   36.183716]  nmi_panic+0x0/0x64
+[   36.183722]  add_taint+0x0/0xbc
+[   36.183728]  arm64_serror_panic+0x70/0x80
+[   36.183735]  do_serror+0x28/0x68
+[   36.183742]  el1h_64_error_handler+0x34/0x50
+[   36.183751]  el1h_64_error+0x6c/0x70
+[   36.183758]  rzg2l_mipi_dsi_host_transfer+0x114/0x458 (P)
+[   36.183770]  mipi_dsi_device_transfer+0x44/0x58
+[   36.183781]  mipi_dsi_dcs_set_display_off_multi+0x9c/0xc4
+[   36.183792]  ili9881c_unprepare+0x38/0x88
+[   36.183802]  drm_panel_unprepare+0xbc/0x108
+[   36.183814]  panel_bridge_atomic_post_disable+0x50/0x60
+[   36.183823]  drm_atomic_bridge_call_post_disable+0x24/0x4c
+[   36.183835]  drm_atomic_bridge_chain_post_disable+0xa8/0x100
+[   36.183845]  drm_atomic_helper_commit_modeset_disables+0x2fc/0x5f8
+[   36.183856]  drm_atomic_helper_commit_tail_rpm+0x24/0x7c
+[   36.183865]  commit_tail+0xa4/0x18c
+[   36.183874]  drm_atomic_helper_commit+0x17c/0x194
+[   36.183884]  drm_atomic_commit+0x8c/0xcc
+[   36.183892]  drm_atomic_helper_disable_all+0x200/0x210
+[   36.183901]  drm_atomic_helper_shutdown+0xa8/0x150
+[   36.183911]  rzg2l_du_shutdown+0x18/0x24
+[   36.183920]  platform_shutdown+0x24/0x34
+[   36.183931]  device_shutdown+0x128/0x284
+[   36.183938]  kernel_restart+0x44/0xa4
+[   36.183950]  __do_sys_reboot+0x178/0x270
+[   36.183959]  __arm64_sys_reboot+0x24/0x30
+[   36.183968]  invoke_syscall.constprop.0+0x50/0xe4
+[   36.183979]  do_el0_svc+0x40/0xc0
+[   36.183988]  el0_svc+0x3c/0x164
+[   36.183995]  el0t_64_sync_handler+0xa0/0xe4
+[   36.184002]  el0t_64_sync+0x198/0x19c
+[   36.184020] Kernel Offset: disabled
+[   36.184022] CPU features: 0x200000,00020001,4000c501,0400720b
+[   36.184028] Memory Limit: none
+[   36.495305] ---[ end Kernel panic - not syncing: Asynchronous SError Interrupt ]---
 
-The reset names rstp_n and rstc_n are defined in the SoC hardware
-manual and are already used by the driver (since commit 76e9353a80e9
-"can: rcar_canfd: Add support for RZ/G2L family"). The reset-names
-property existed previously but was dropped in commit 466c8ef7b66b
-"dt-bindings: can: renesas,rcar-canfd: Simplify the conditional
-schema".
+The problem is present since linux-6.18-rc1, but not in linux-6.17. I also confirm the bug is present in linux-6.19-rc4.
 
-Cheers,
-Prabhakar
+The bug seems to be happening in rzg2l_mipi_dsi_host_transfer().
+
+After bisecting, here is the first bad commit:
+
+    commit 56de5e305d4b ("clk: renesas: r9a07g044: Add MSTOP for RZ/G2L")
+
+Reverting this change makes the bug disappear.
+
+My limited understanding seems to indicate that the MIPI/DSI host may
+no longer be available/on when the panel tries to send MIPI/DSI
+commands in ili9881c_unprepare(), maybe because the MIPI/DSI clock has been stopped...
+
+The exact same board with two other panels (jd9365da and st7703) doesn't have the bug.
+
+-- 
+Hugo Villeneuve
 
