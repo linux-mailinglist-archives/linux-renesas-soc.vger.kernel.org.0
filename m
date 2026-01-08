@@ -1,122 +1,142 @@
-Return-Path: <linux-renesas-soc+bounces-26421-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26422-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91A92D030B6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 08 Jan 2026 14:32:45 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EC35D02DE5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 08 Jan 2026 14:09:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id CE89E3102E1B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Jan 2026 13:11:08 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 6C091300090F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Jan 2026 13:09:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26E8E3A4AA4;
-	Thu,  8 Jan 2026 13:04:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C8A4470BDF;
+	Thu,  8 Jan 2026 13:09:43 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66C7844CF2A
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  8 Jan 2026 13:04:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5A7346B7CB
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  8 Jan 2026 13:09:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767877497; cv=none; b=brCEnEFxZ2upOMa5OuZmMaIbE1rWxdxPeQgJh8BDQFd/Nnt26dB7EP2bpEqfKTccWUGg2H09vf33ndcOo2sm1mt4okiuDMZkEnB7OnuV8Huomvg+4YnN5jqsWhPyy8S/28NQE8qx6FDv1QOkihroRYCPeZZNrmuzYHhFF8QfVx8=
+	t=1767877783; cv=none; b=JKTUs6G6enGGkP6VRimMLZuLOL5GzX5xj0D0KveFTL2/oAhFOJoOM/JKpBErSeUr6oC8pp5TgccOj0YpTUA74ZqPa/pLpGyubos4FxMey2sqelRWlIB+lHSbb6OqaEa8SYA7W7HaDS6Zg+rqqA4t8TzM3pLOeMmR60qDxo2VjTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767877497; c=relaxed/simple;
-	bh=UZBP9LltUKCgdKghtTpFSSv5shldPOHJBJ+GUwodsig=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DjGxQsofhPxVSbrBKxDDI5YBeDbmkh3B/fQeRtmZi/SMASr13zFS2afA4nl3O/aLqkYuIm3UjNUfBJolrjYBqastssWY6c5Ss681qdGHjoBnNKzFC3fVHUHBydyN5qXMHfBukwHPCuB61f3tXOllG+WEZtOyDkFZPhfcXYFxqCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-55b26332196so956668e0c.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 08 Jan 2026 05:04:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767877494; x=1768482294;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rbirfKArtvPXfcrolWVTN+mUFNZXS0ov5PTdW+8bcGw=;
-        b=KyP5Q3de3OeXGMxI6PSKMvcRNUBd0L2rWZSUhRAWZ4kBgqgVJxoSXlWNJYDUwbxoHw
-         8OqIyZoE5fh+N7j5FGOzX84W0NpcmUyAzSwKGqkaPIH1bULhK8MtbMvO3xUvPLE6J+ek
-         ahXdeLrXP8bljvDhxR2R3JYCaEsOvxkCJC7DYGIDSkZdM1erquZFwBY9O3UPAZdmL7sm
-         ExudmvNqC/LzJKp7rrCas8JeK2DjPuXx5XCzAOiCVgZDyIrkUVh4ihQUAjXJUzcALpQW
-         zzoUjbwX9y3af8sqV1qNJvrYk78wZ4Qh2gYGf5ld5ZOH8aZRMumTXOnFLxlI8czbMgQE
-         7YQw==
-X-Forwarded-Encrypted: i=1; AJvYcCXnwzo035jM/KLakPKSMuemUPqbFvhAJFq3cuVRctsZWn5PXGj6FSHwCwZq1D7vTuIwUJsnzUAvHxeKVlB4qj0TxQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwwzrqIp9vyVf8Y0ytdjpD+2krC1VK5O7xdQD0AbS+rmx7vHhQj
-	Cfq54lTvnkoDURTo1XPYVE86FHUQst2onk18cKf2ma5jS6TF9RGiJGBVaQSJzOsm
-X-Gm-Gg: AY/fxX6yQiEeou0Nk6EXrSaxP6jnHGfNHa+2TIJk2PRt0Oy8DCFVtdFK6NZeZUuGpXI
-	1bGibg5pAhJH/V0QW6NaBWw+qm50URr5GcRFPCTQwRl3USX/LXSLeUsV/D6BSY5rEzt6JnIBdl+
-	4IjwNI3xwoG/NhrbuJ4xDuigqN+avTgWaUplWAg6mHlGDRtdoYgUJXKXUbDG0s5zBbzSROyjhPI
-	CcKRfQMY9eGPoPzl2YX0wPad/XXbg2ik/xVmZNMuaF8wtsDgY0LJl7UQStNV9lasWdr1fpnUd08
-	Sr68y/UalYDJ6CnhpLtrI4cWOqv1R7uA7noVC5Z4zWVMuR1ojDfyVyOSHn3J6oJzwQPR7EsJ9rx
-	9JXG1kbMRS4N4tIoox+/upUOFTP272V5irmmUQazdivlnDgro71CfNz8rBr4Hbl7psXfBWcBXKN
-	DAj0ANCWwZDWCbLAfHEMW1rrEp1+AMvZWKkXVPLmNUFrGiPaZgkX94
-X-Google-Smtp-Source: AGHT+IEPhvk4Xnyv6p+TnwtL+ccAv9s7mMAHSS+89Jvlce9RKfwwfQjzhdnFjIb2WdB9DHmu6PqNLA==
-X-Received: by 2002:a05:6122:32d1:b0:55e:4bcb:6baf with SMTP id 71dfb90a1353d-56347faf5e7mr1868094e0c.11.1767877492593;
-        Thu, 08 Jan 2026 05:04:52 -0800 (PST)
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com. [209.85.221.169])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-944124e97b1sm5753806241.15.2026.01.08.05.04.51
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Jan 2026 05:04:51 -0800 (PST)
-Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-56021b53e9eso924916e0c.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 08 Jan 2026 05:04:51 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXtWTPNAlu5hhgTXKqOk+mcHalCd2QerAdQeLm7UwVYNR8mhvSLwqyJ7gYiL0iFdgIMh6jJZsy0r5HgB+yRpMgDCw==@vger.kernel.org
-X-Received: by 2002:a05:6122:2210:b0:55e:76ed:e6c with SMTP id
- 71dfb90a1353d-56347d4b3cemr2104979e0c.7.1767877491037; Thu, 08 Jan 2026
- 05:04:51 -0800 (PST)
+	s=arc-20240116; t=1767877783; c=relaxed/simple;
+	bh=W79c8cd9Bh8vqYzKHEhPnqpfQnUTWg4xPXQh4d2yIbw=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=h9Bs6oC0/ceFt5tpYDMAzVQFn0H5e+dUIiBnbV2pwCFwB8iTW6xeKB5pq9sYNhqOi4QudPL+MHoKPMWKIyAMtYKoxAgNkKfYQ+7gK+iWQm/fJg+UdKrHBXsZ5D0y3fnwiPnxxPafwcxpzn6gLL6eyKsfkNeJYxO2oWyhlYwABck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1vdplg-00045l-Iz; Thu, 08 Jan 2026 14:09:36 +0100
+Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1vdplg-009gKZ-1G;
+	Thu, 08 Jan 2026 14:09:36 +0100
+Received: from pza by lupine with local (Exim 4.98.2)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1vdplg-000000007dP-1Mby;
+	Thu, 08 Jan 2026 14:09:36 +0100
+Message-ID: <f2c7583d863feb767b59f6b82b47a621aae8fb86.camel@pengutronix.de>
+Subject: Re: [PATCH v3 2/2] reset: rzg2l-usbphy-ctrl: Add suspend/resume
+ support
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Cc: linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Date: Thu, 08 Jan 2026 14:09:36 +0100
+In-Reply-To: <83ead495-04c9-4dad-b971-29dca4c45898@tuxon.dev>
+References: <20260108102600.3477012-1-claudiu.beznea.uj@bp.renesas.com>
+	 <20260108102600.3477012-3-claudiu.beznea.uj@bp.renesas.com>
+	 <7b4aa36772039d6607bf0aee38bd897b773e3f7f.camel@pengutronix.de>
+	 <83ead495-04c9-4dad-b971-29dca4c45898@tuxon.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-0+deb13u1 
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251222164238.156985-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20251222164238.156985-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20251222164238.156985-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 8 Jan 2026 14:04:39 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVaYnFnu3Z0F1xCYkCRXRapaSfnyQEjWZjXMN2P-V=xfA@mail.gmail.com>
-X-Gm-Features: AQt7F2r2vN35MH7pxD4ru9ycuOzZa4x7pBwoQoSqGriaeLsEyjncMZxDZnkFNRI
-Message-ID: <CAMuHMdVaYnFnu3Z0F1xCYkCRXRapaSfnyQEjWZjXMN2P-V=xfA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] arm64: dts: renesas: r9a09g057: Add RSCI nodes
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 
-On Mon, 22 Dec 2025 at 17:42, Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Add RSCI nodes to RZ/V2H(P) ("R9A09G057") SoC DTSI.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Hi Claudiu,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.20.
+On Do, 2026-01-08 at 13:44 +0200, Claudiu Beznea wrote:
+[...]
+> > > +	ret =3D reset_control_deassert(priv->rstc);
+> > > +	if (ret)
+> > > +		goto pwrrdy_off;
+> >=20
+> > Do I understand correctly that this reset clears PHY_RESET_PORT[12]
+> > bits in the RESET register such that rzg2l_usbphy_ctrl_init() must be
+> > called below?
+>=20
+> No, this reset is the reset of this HW block, controlled by another HW=
+=20
+> block (the clock controller).
+>=20
+> Bits in PHY_RESET_PORT and other registers specific to this driver could=
+=20
+> be cleared due to the fact the power to this USB PHY CTRL HW block is=20
+> turned off in suspend.
+>=20
+> The Renesas RZ/G3S SoC, that uses this HW block, has a power saving mode=
+=20
+> where power to most of the SoC components, including USB PHY CTRL, is=20
+> turned off.
+>=20
+> Due to this, we need to restore the previous settings. priv->rstc need=
+=20
+> to also be restored as power to the clock controller is also lost.
 
-> --- a/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
-> @@ -948,6 +948,226 @@ i2c8: i2c@11c01000 {
->                         status = "disabled";
->                 };
->
-> +               rsci0: serial@12800c00 {
+Ok, thank you for the explanation.
 
-I will move these up (between rspi2 and i2c0) while applying, to
-preserve sort order (by unit address, but grouped per type).
+> >=20
+> > > +	ret =3D pm_runtime_resume_and_get(dev);
+> > > +	if (ret)
+> > > +		goto reset_assert;
+> > > +
+> > > +	rzg2l_usbphy_ctrl_init(priv);
+> >=20
+> > This assumes that consumers requested PHY_RESET_PORT[12] resets to be
+> > asserted in their suspend function.
+>=20
+> That's right!
+>=20
+> > I think you should warn if that is
+> > not the case during suspend.
+>=20
+> AFAICT, that could be done by adding extra logic in this driver to store=
+=20
+> the state of the de-asserted bits. We can't interrogate directly the=20
+> registers as there might be the case where these resets are used by=20
+> previous bootloaders (that might let them in the de-assert state) but=20
+> not by Linux.
 
-Gr{oetje,eeting}s,
+Isn't the RESET register initialized during rzg2l_usbphy_ctrl_probe()
+before rzg2l_usbphy_ctrl_suspend() can ever be called? It seems to me
+that read-back in suspend should never return a value left behind by a
+previous bootloader.
 
-                        Geert
+[...]
+> I can add those extra software cache for the hw registers but this is=20
+> what I've tried to avoid.
+>=20
+> Please let me know how do you want me to proceed and I'll update.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+If reading back the RESET register during suspend can be used, please
+add a warning. Otherwise let me know what I'm missing, and I'll take
+this as-is.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+regards
+Philipp
 
