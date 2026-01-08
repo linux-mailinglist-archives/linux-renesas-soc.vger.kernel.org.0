@@ -1,89 +1,88 @@
-Return-Path: <linux-renesas-soc+bounces-26425-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26426-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A671D03083
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 08 Jan 2026 14:29:41 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8F10D03092
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 08 Jan 2026 14:30:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 9A7ED3018373
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Jan 2026 13:26:22 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 0D4A23023506
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Jan 2026 13:28:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23D20441052;
-	Thu,  8 Jan 2026 13:26:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D1253FB572;
+	Thu,  8 Jan 2026 13:27:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mdR70xF1"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D/uvnkbf"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5D4E4534A2
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  8 Jan 2026 13:26:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C6E23B9602
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  8 Jan 2026 13:27:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767878777; cv=none; b=WQ7RCPc2v0s9Xmu9ijc6szfJETL1nO0lYhsgp+ITm47AxYNn1FMv1NQi4GfzuxI9JWW/j2IT/HrYbNvaLuKTniu/ufpmcXjSpZw4wOgTHFMo8wMW+LKPPp1CJKmoabIT9VTDVU05WXXUDKxEmg9e1q2EOMWg0EUIOGqk/89t6IE=
+	t=1767878852; cv=none; b=Ao6ve5uoCWWMedQTWmp4oztQidaG8xKl0dD6UncKK1UK3HfG4b6YGfsYY6tg6LmVbb1ETH0ubcwAHZqIt1tBDvNaeGHx0dNhwnpTpuIMnLIcqQHyBcaAjd4ZeuQpyfs9NgYj6mWltOiXYxcgGVK+DFSVsRgVFDNLidrvjesSrl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767878777; c=relaxed/simple;
-	bh=AhWB8FeIcZOb6oxQqNzP/hgfhN7GxABAnKUpTT6vcWU=;
+	s=arc-20240116; t=1767878852; c=relaxed/simple;
+	bh=CzgFGKs6HS/zf0Y+XJiMsF0ZMAFz2xG9sHuo34e/vss=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=s99rPPdEEXXX2krd6qqN2T2g0hCxEh2O/0mYiDSf8p+wd8Mf1I5timdhqg6JxpvIjuNQZOF6PSAKQfhuFa2Dois8QPTFIO3zNqpFDvwVp2gKrUixyte6xnvxhD1rPJBBu1FwSMSzrMzLQ+7ao3+09/eTEKmjvnwVEcKh7ey9bbk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mdR70xF1; arc=none smtp.client-ip=209.85.128.41
+	 To:Cc:Content-Type; b=j43myp2OhXUPhSqeJMPbLBBur2KuqZCHgx+YUzCzCIP+cs3brw4G2Xz+5q1nAG3/6VDHhZmqM4RK3RUqjEyN9QI0Jrc0MxPGr+9X+3f4iCHryU7EHy3oPJmRoPhjtjIJOiwDrAgAcKT3TuEkYW0wAZQv0e9Tl85WMSAbR7fdru4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D/uvnkbf; arc=none smtp.client-ip=209.85.221.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-47aa03d3326so27313995e9.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 08 Jan 2026 05:26:11 -0800 (PST)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-42fbc305882so1644152f8f.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 08 Jan 2026 05:27:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767878769; x=1768483569; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1767878848; x=1768483648; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QcQu9MgsYqPcPRxHwtVvdPBUpRPuS0gMQ6xD2N4xZDw=;
-        b=mdR70xF1Hw8lJZwl/8H6pFoZlb8M7Rj5Vf/XK4ytHVTBrueCETUTJHkW5Ru3djtwa8
-         QYQIaVcxr4vNAoAJvCms0sOf4HkjHG/AwqolvP7ed8hW84KlwoIudPHb069UDkuBKX4F
-         43PhpeI2NGGCWY/qpEbIik0zgQVw941dsWPN13yVOKPgSOpyryIZkSheU9N/3xLciUoj
-         X0RJ7On6QY2VxiLnmxm3Kj5K/CZ8jvyqw4b9CQ5u5sfi+RturwL9pkCvmD4BMNcvXFYD
-         7+ncezeOw3n4eSNF9aNusrgh7RWlcOiwc62i/W1ucvybL4NjR5ywIQNbIpx0yU9sEQYo
-         fxMA==
+        bh=qrDwI8d1XgXdXIPyff9BEM4755izxCfosEt2rtEy3EU=;
+        b=D/uvnkbf77VF1hFQIeyFuaYJue7W9V2lYrPPvEW/0ySyWIzcFJTLU/4fxZTYu6XA+g
+         Mz4HBYOHjpX1WGhiS9qoWAewsuPng+Ka295S3+ZqS+X0a2YyKv3z8mv0TBpm8al6SepI
+         C8nrLckNsealW7IV/H7H93g+4hgp39+YPRiMWDw3q1Wiqspeo7OsbdqtDMRGYa+ylvGS
+         y2zEmXQAUVN9/1N/cxAgdokMQ3Hb5RG8jAC4TIcUxF6HRW9GffGQQBBCmL4PSSd0/Q/y
+         aLcdjEamhfgL3UHCDEzNQhM7gdu0VVBQKbTtR+twbXL8iiLQw+4erXh+UoUyLlZe35Wr
+         LCdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767878769; x=1768483569;
+        d=1e100.net; s=20230601; t=1767878848; x=1768483648;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=QcQu9MgsYqPcPRxHwtVvdPBUpRPuS0gMQ6xD2N4xZDw=;
-        b=EirVyvuojZXQw/hL0jw9LGPhWOv/0uytLJL7wpGHyadOuBT9j+8X4Sgzs0+3B5x3ct
-         pT19hULv79Ky9UnsXwKNbH0vVvHOD+40bfTcDy/9gmJPBy7BnueQqLWHK1RZlp1BGvrq
-         CMg8BDjvdz5tskmmwKELV6b90TaN0KQ2qE9Vl+cEMJHz/koyrri7I5lp2Ba0xcvXdUWe
-         PtlQMea0Gg/KCQdv/DQECl9+YRmRhbwdwnhTZQ1cYUKM5c/7gXgxHYTCucvxvosqR6La
-         +zrGzNwMtvCTi6bl1W9+6BEr1hAIQJHbV1f6DvB1SARw4GGcNCM0NMvBy8af2ITsL13F
-         ozMg==
-X-Forwarded-Encrypted: i=1; AJvYcCU11abTfxuuJm+lR8Dw99eFWHmAUziqPQUlvfCj3IP4lv44V7hxjOd3C9rCJjDSHR6yI05dwnwuHv/1lnAWQ3j32Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxiZPfGnuVycsP9lsiRu+reBsoqjUW4Gumz5/WHDtcU2hdubkBF
-	JyJ2Yrfoon2Ydwk165Uk0y753wc7VNNnfzAZDT+6YEHtCGwlClLw606q0Z0ctR9WJMUR8lK8h1x
-	FxA5snRcFyuD9CGv3/IEgy2lfWAHCaNc=
-X-Gm-Gg: AY/fxX5+Xv4EsuxgNok35saotGGP8caKq/NRaWbpCd2ANrPOArZmSNpWDPLrCK2Ra4n
-	nw01zlI0KGjWqbKB1E5RQ3t8g5AKBUMpEMHDqVK2TA64j9s3/pLLx9n3eG2bT/bdAGG/qAk6nT3
-	l6LoZIFHh4iwXFkImTo2RkO5WhQwbCdvRWdZIhEGB4dTMGzYljzpekiQh67FpW24s46Jj2gwvcY
-	hkaH6ukHsN7k51AgGvJqWprfqOAIHZ02jV0E5Nm+h0vU2Rx2+i0E8hcZ5emtVxw1nSyf1zt3yLW
-	7nip566TxcK3kqUj7Xu4XxJcPSwltujXfCP7QQKT+UShJHDdlz8X9Ce6hy8M8vQZuzCEuvH2C2S
-	9dKmJHNG8ZDMmZQKoD9fY2WuT
-X-Google-Smtp-Source: AGHT+IF7Lo5XViCZxQx+HFdJfTIACGfh2fExkV5wgmD+uVl0l+uu/OYSxOaXLyzeOhYCc0lfHxycdUiMVb8IEbrLjzA=
-X-Received: by 2002:a05:600c:1d0e:b0:475:dd9a:f791 with SMTP id
- 5b1f17b1804b1-47d84b3bc9emr60164745e9.28.1767878769158; Thu, 08 Jan 2026
- 05:26:09 -0800 (PST)
+        bh=qrDwI8d1XgXdXIPyff9BEM4755izxCfosEt2rtEy3EU=;
+        b=HJGaj0ky2ts/zR2BkNWndxS6vBZWhfgtfZAgorlKpe+4k15cbZWWi0Csb1MR1tvV3I
+         Fnkp50jry4gV0HfFnSItbF7FauIOMde7h+gBf0x8m+fYia1pOAB/4YYcahDUlAR0aKY4
+         U6OBK1/LPejy78yULvJkg2Yth0Ohfsa5oxLstOU6kL08m6GSdngOXC+nhUWPSwNHoxt7
+         1+xW8m9vYcP61/ApR5HIxXLsYDpwPEaKjAxv1nW9cWv4uYjuhJ89ZrNHa0CQvClBSdnR
+         a55PY0K3HbIwQ8RLIKXCzfdX5jk+sfSIY3sTgM/T8slnsIOPvtv1qPFQPRMghIxgjzwA
+         mOpQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUdSRpoODw8hl3MAKXfNaoEyryLsv79DkatHl3RoG7mg5BtIYTT/+3ht3kK3f8bZx9MGwZ4Kv4gIQ4GdQHRAKpCXw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyfWmKmwvybJJ1qoAYv8wEBUTyfXfqytVCuud9A6mt0fvGDNDYP
+	L3hiWTEr0z5r6LTroit+iU3PcD1LqfQqq2IJnWmc7wweOmy0OQEk8Lwd8RaSk6w/L9CHyVg1COX
+	Ke5D7Oi8g4JxyRwJ4tbgG/czPcS40eHg=
+X-Gm-Gg: AY/fxX6EvHhNGtts9geXfGGRL6y52J9NBiEMSuaikUzTc6pHbmU0MWs72N5JWeYZqnL
+	3rCBpwGtv1Mi2HVQAzbm46fb9mwS4RkRsM+KBU7zuWdz29vz2qpexC+DsYR/NF46HBu6XJpjY7l
+	HkRwWr8eNsbmb6ynXzaWGMoYHEE0ZleaJVe5ISF0shAhX34HOulVAM2GmMXCBzLdiZ+21PlCW0D
+	ptrPdIGDddnPsWn/Advcp1rsuRNCaEwiykx7BAeKpasSah+hVQa5NrryFHwsYYySws+UgG9weCt
+	GJ1T8VjR0oqulvujv0vOVjfX++dF3BPuW587GOfDuB5eUvxRPXYRK/lJp3VhRB4L4yGpe7HqURl
+	RQIu/2pcU5U/0/Q==
+X-Google-Smtp-Source: AGHT+IHZNMPZoabAevWagghi/XxqV/1z4IYucnFW0BxW4DQVfZky9VEvN5CnFse6qxelLN61y98xL3oRSsimunAyf7U=
+X-Received: by 2002:a5d:64e6:0:b0:432:851d:3676 with SMTP id
+ ffacd0b85a97d-432c3774267mr8110940f8f.57.1767878847545; Thu, 08 Jan 2026
+ 05:27:27 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251215163230.227849-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20251215163230.227849-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdVeB0xYbnHx-RYf3F4aw4TQOzC39A_MWc8PoROo8-p1mA@mail.gmail.com>
-In-Reply-To: <CAMuHMdVeB0xYbnHx-RYf3F4aw4TQOzC39A_MWc8PoROo8-p1mA@mail.gmail.com>
+References: <20251222164238.156985-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20251222164238.156985-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdWCskceV-qQiUsPtzy8U_c-rsoFzUHfm3fsrq3CkXtg_A@mail.gmail.com>
+In-Reply-To: <CAMuHMdWCskceV-qQiUsPtzy8U_c-rsoFzUHfm3fsrq3CkXtg_A@mail.gmail.com>
 From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Thu, 8 Jan 2026 13:25:42 +0000
-X-Gm-Features: AQt7F2qJu7YlTe_s7httbFzp-RrC1xn212O6qdhDNe3hJAJbcx71VTTHqtZOEcA
-Message-ID: <CA+V-a8vqVm9-kO_hMhN5WcsEXamUU8=hafGFzmsbKXFwv0UL_g@mail.gmail.com>
-Subject: Re: [PATCH 1/2] arm64: dts: renesas: r9a09g056: Add DMA support for
- RSPI channels
+Date: Thu, 8 Jan 2026 13:27:01 +0000
+X-Gm-Features: AQt7F2pxFnzsh-4XES-ACA8O6vgHcTncNbVwqui2BozboXpV_b2KnbqYFWLVhL4
+Message-ID: <CA+V-a8t65AcFO4QTyGHxy+17aNEOxHeMuDsE13hrfCbxvr-SQw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] arm64: dts: renesas: r9a09g056: Add RSCI nodes
 To: Geert Uytterhoeven <geert@linux-m68k.org>
 Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
@@ -98,74 +97,40 @@ Hi Geert,
 
 Thank you for the review.
 
-On Thu, Jan 8, 2026 at 1:18=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68k=
+On Thu, Jan 8, 2026 at 1:04=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68k=
 .org> wrote:
 >
-> Hi Prabhakar,
->
-> On Mon, 15 Dec 2025 at 17:34, Prabhakar <prabhakar.csengg@gmail.com> wrot=
+> On Mon, 22 Dec 2025 at 17:42, Prabhakar <prabhakar.csengg@gmail.com> wrot=
 e:
 > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > >
-> > Enable DMA support for RSPI channels.
+> > Add RSCI nodes to RZ/V2N ("R9A09G056") SoC DTSI.
 > >
 > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> Thanks for your patch!
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> i.e. will queue in renesas-devel for v6.20.
 >
+> > ---
+> >  arch/arm64/boot/dts/renesas/r9a09g056.dtsi | 220 +++++++++++++++++++++
+> >  1 file changed, 220 insertions(+)
+> >
+> > diff --git a/arch/arm64/boot/dts/renesas/r9a09g056.dtsi b/arch/arm64/bo=
+ot/dts/renesas/r9a09g056.dtsi
+> > index 5740f04a6222..35cd6b70856e 100644
 > > --- a/arch/arm64/boot/dts/renesas/r9a09g056.dtsi
 > > +++ b/arch/arm64/boot/dts/renesas/r9a09g056.dtsi
-> > @@ -679,6 +679,8 @@ rspi0: spi@12800000 {
-> >                         clock-names =3D "pclk", "pclk_sfr", "tclk";
-> >                         resets =3D <&cpg 0x7b>, <&cpg 0x7c>;
-> >                         reset-names =3D "presetn", "tresetn";
-> > +                       dmas =3D <&dmac0 0x448c>, <&dmac0 0x448d>;
-> > +                       dma-names =3D "rx", "tx";
+> > @@ -922,6 +922,226 @@ i2c8: i2c@11c01000 {
+> >                         status =3D "disabled";
+> >                 };
+> >
+> > +               rsci0: serial@12800c00 {
 >
-> RZ/V2N does not seem to have restrictions about which DMA controllers
-> can be used by which SPI instance.  Hence shouldn't these point to
-> all five DMA controllers?
+> I will move these up (between rspi2 and i2c0) while applying, to
+> preserve sort order (by unit address, but grouped per type).
 >
->     dmas =3D <&dmac0 0x448c>, <&dmac0 0x448d>,
->            <&dmac1 0x448c>, <&dmac1 0x448d>,
->            <&dmac2 0x448c>, <&dmac2 0x448d>,
->            <&dmac3 0x448c>, <&dmac3 0x448d>,
->            <&dmac4 0x448c>, <&dmac4 0x448d>;
->     dma-names =3D "rx", "tx", "rx", "tx", "rx", "tx",
->                 "rx", "tx", "rx", "tx";
->
-So the driver would choose the DMA channel based on the available one?
-For example if all the 16 channels are consumed for dmac0 the driver
-would switch to the next available one dmacX? and this would be the
-job of a consumer driver? Or do we want to let the board user
-choose/override in board DTS based on the available DMAC channels?
-
-> Note that this requires updating the DT bindings, as they currently
-> restrict dma to two entries.
->
-Agreed.
+Thank you for taking care of it (and also for patch 2/2).
 
 Cheers,
 Prabhakar
-
-> >                         power-domains =3D <&cpg>;
-> >                         #address-cells =3D <1>;
-> >                         #size-cells =3D <0>;
->
-> The actual DMA specifier values are OK, so
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
-8k.org
->
-> In personal conversations with technical people, I call myself a hacker. =
-But
-> when I'm talking to journalists I just say "programmer" or something like=
- that.
->                                 -- Linus Torvalds
 
