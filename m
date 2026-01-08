@@ -1,36 +1,37 @@
-Return-Path: <linux-renesas-soc+bounces-26445-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26449-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 625A5D04B8D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 08 Jan 2026 18:09:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E98C7D04CE9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 08 Jan 2026 18:15:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 221A93056C7E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Jan 2026 16:55:29 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 367C630D166E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Jan 2026 16:56:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C8402EACF9;
-	Thu,  8 Jan 2026 16:54:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 287482E03E3;
+	Thu,  8 Jan 2026 16:55:08 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C83F2DCF46;
-	Thu,  8 Jan 2026 16:54:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8C133033C4;
+	Thu,  8 Jan 2026 16:55:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767891288; cv=none; b=GpQOCzG+DVFtOJqQWKgoiFyhIBzQ8/62tNwp/Olba/D+wUP8vxpKTp32z/qNyNCkCFwTeOeNe6byXRt18JODBuKwl6IPZKdkDA+lYSpv3wGlUFZ6FCOSxsHpBXQWtuuMIoGtfsur7dAZWpGcThMBPASLdFUhB41aP3cW54EY0lY=
+	t=1767891308; cv=none; b=pqErvSVTZ+eIUcdqmYJAfPg5p35N/uvXMHWAowKrQWA0iFuLqM7BRFyv9AknAMcxIUyiMskOVa/YohgWHAvPd0nceqfJtJX85aH7Ra/zYtiYLSCgEAERAiIOdR4syGBUq0dE7MzZ8R926GWInzB10pI9MVAlIiZDPU38exS0Sv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767891288; c=relaxed/simple;
-	bh=SXCIemVsSq+men+Rn57f4sIO/YU2PfLkAli871bNEdo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lM+4MmBgz6Rle95GKj3Evvj3ZIroVP9I+KMW36UN9IoJ+P3th6hvBbS2nNlsDKQuBjsuOlhtorow9hlF2tB7yhZZWQRXuGi/EEdEoq0x53VaoU9nj8HQjMdOz0xe7BcX7t2myYEbVGW2ahtqRassF0p24muIgjgIfJePdJEY9ec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.171
+	s=arc-20240116; t=1767891308; c=relaxed/simple;
+	bh=+Zkezj7uvbiBG14Tg8BKdZ+WlfNZ8CVuM7wTTsJqCEA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=jd2x/MB3o4Y3caBOw6tqRIVS68aZZZHtNv8JH/8iyYdy2aD22wJWyze2ppJ7YVDsGAnubgtjCngJYWEbIUTswpYpMj3/2jaNP3YNbOe9fVRWGyomapKPe53j1du3LhGxRi5hXHyFD2OXPYHJHSiH0hNNPnWQgsLgCn58b+2R5AA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-X-CSE-ConnectionGUID: /yMf67akRw6C6sks2BJknQ==
-X-CSE-MsgGUID: AkLhgZ2sQgag+jRrEIQk+g==
+X-CSE-ConnectionGUID: vdGn4W7bQ0yB20MMJZBpvQ==
+X-CSE-MsgGUID: 5XUHxmaFQjCy2lpyyl8cCA==
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 09 Jan 2026 01:54:39 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 09 Jan 2026 01:55:05 +0900
 Received: from demon-pc.localdomain (unknown [10.226.92.68])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 70D8B403137F;
-	Fri,  9 Jan 2026 01:54:34 +0900 (JST)
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 48CD740313E8;
+	Fri,  9 Jan 2026 01:55:00 +0900 (JST)
 From: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
 To: John Madieu <john.madieu.xa@bp.renesas.com>,
 	"Rafael J . Wysocki" <rafael@kernel.org>,
@@ -47,11 +48,14 @@ Cc: linux-pm@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
-	Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-Subject: Add TSU support for RZ/T2H and RZ/N2H
-Date: Thu,  8 Jan 2026 18:53:19 +0200
-Message-ID: <20260108165324.11376-1-cosmin-gabriel.tanislav.xa@renesas.com>
+	Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: [PATCH v4 4/5] dt-bindings: thermal: r9a09g047-tsu: document RZ/T2H and RZ/N2H
+Date: Thu,  8 Jan 2026 18:53:23 +0200
+Message-ID: <20260108165324.11376-5-cosmin-gabriel.tanislav.xa@renesas.com>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260108165324.11376-1-cosmin-gabriel.tanislav.xa@renesas.com>
+References: <20260108165324.11376-1-cosmin-gabriel.tanislav.xa@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -60,50 +64,90 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Renesas RZ/T2H (R9A09G077) and RZ/N2H (R9A09G087) SoCs expose the
-temperature calibration via SMC SIP and do not have a reset for the
-TSU peripheral, and use different minimum and maximum temperature values
-compared to RZ/G3E.
+The Renesas RZ/T2H (R9A09G077) and RZ/N2H (R9A09G087) SoCs include a
+Temperature Sensor Unit (TSU). The device provides real-time temperature
+measurements for thermal management, utilizing a single dedicated
+channel for temperature sensing.
 
-Although the calibration data is stored in an OTP memory, the OTP itself
-is not memory-mapped, and instead, access to it is done through an OTP
-controller. The OTP controller is only accessible from the secure world,
-but the temperature calibration data stored in the OTP is exposed via
-SMC.
+Compared to the previously supported RZ/G3E, the RZ/T2H and RZ/N2H SoCs
+do not have a reset for the TSU peripheral, and the OTP data is exposed
+via ARM SMC, as opposed to a system register.
+
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+---
 
 V4:
  * pick up Geert's Reviewed-by
- * pick up John's Reviewed-by and Tested-by
  * pick up Conor's Acked-by
- * replace new macro TSU_TEMP_MASK usage with existing macro
-   TSU_CODE_MAX
- * remove "Validate calibration data" comments
- * inline rzg3e_validate_calibration() into rzg3e_thermal_probe()
- * drop dts patches queued up by Geert
 
 V3:
- * dt-bindings: rebase on top of [1]
- * dt-bindings: conditionally add `resets: false` and
+ * rebase on top of [1]
+ * conditionally add `resets: false` and
    `renesas,tsu-trim: false` for renesas,r9a09g077-tsu compatibles
 
 V2:
- * drop clk patch already present in linux-next
- * dt-bindings: merge two items into a single enum
+ * merge two items into a single enum
 
-[1]: https://patchwork.kernel.org/project/linux-pm/cover/20251020143107.13974-1-ovidiu.panait.rb@renesas.com/
+ .../thermal/renesas,r9a09g047-tsu.yaml        | 30 +++++++++++++++++--
+ 1 file changed, 27 insertions(+), 3 deletions(-)
 
-Cosmin Tanislav (5):
-  thermal: renesas: rzg3e: make reset optional
-  thermal: renesas: rzg3e: make min and max temperature per-chip
-  thermal: renesas: rzg3e: make calibration value retrieval per-chip
-  dt-bindings: thermal: r9a09g047-tsu: document RZ/T2H and RZ/N2H
-  thermal: renesas: rzg3e: add support for RZ/T2H and RZ/N2H
-
- .../thermal/renesas,r9a09g047-tsu.yaml        |  30 ++++-
- drivers/thermal/renesas/rzg3e_thermal.c       | 122 +++++++++++-------
- 2 files changed, 100 insertions(+), 52 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/thermal/renesas,r9a09g047-tsu.yaml b/Documentation/devicetree/bindings/thermal/renesas,r9a09g047-tsu.yaml
+index befdc8b7a082..a04e5048eadf 100644
+--- a/Documentation/devicetree/bindings/thermal/renesas,r9a09g047-tsu.yaml
++++ b/Documentation/devicetree/bindings/thermal/renesas,r9a09g047-tsu.yaml
+@@ -17,10 +17,15 @@ description:
+ properties:
+   compatible:
+     oneOf:
+-      - const: renesas,r9a09g047-tsu # RZ/G3E
++      - enum:
++          - renesas,r9a09g047-tsu # RZ/G3E
++          - renesas,r9a09g077-tsu # RZ/T2H
+       - items:
+           - const: renesas,r9a09g057-tsu # RZ/V2H
+           - const: renesas,r9a09g047-tsu # RZ/G3E
++      - items:
++          - const: renesas,r9a09g087-tsu # RZ/N2H
++          - const: renesas,r9a09g077-tsu # RZ/T2H
+ 
+   reg:
+     maxItems: 1
+@@ -63,12 +68,31 @@ required:
+   - compatible
+   - reg
+   - clocks
+-  - resets
+   - power-domains
+   - interrupts
+   - interrupt-names
+   - "#thermal-sensor-cells"
+-  - renesas,tsu-trim
++
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: renesas,r9a09g047-tsu
++    then:
++      required:
++        - resets
++        - renesas,tsu-trim
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: renesas,r9a09g077-tsu
++    then:
++      properties:
++        resets: false
++        renesas,tsu-trim: false
+ 
+ additionalProperties: false
+ 
 -- 
 2.52.0
-
 
