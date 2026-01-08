@@ -1,149 +1,155 @@
-Return-Path: <linux-renesas-soc+bounces-26399-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26398-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CF3FD02182
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 08 Jan 2026 11:21:53 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9EF5D0218B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 08 Jan 2026 11:21:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8A16F3010A83
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Jan 2026 10:14:04 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B04B83008E9A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Jan 2026 10:14:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D84883B95E7;
-	Thu,  8 Jan 2026 10:14:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB5293B95FD;
+	Thu,  8 Jan 2026 10:14:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hdYgb6tY"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ZZyzgQ6M"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAF2E3AEF5B
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  8 Jan 2026 10:13:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D75BF3B95E0;
+	Thu,  8 Jan 2026 10:13:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767867241; cv=none; b=aOgQIBFOYLuxM56sHhzp8SWlo8bPkwzlxIr6vScPNyjZ7ktOpKw8z0zgUUF8V/4W32f5BikXvB80Zo56FJEmw/mchapeI7lUXOTsa8W73X7mE1LnqRD04a8ZYFWXoTpQJyeULHmTMeaXDHgJ7S0lgmjGz/BmyszcuoD0v8RJvio=
+	t=1767867240; cv=none; b=hY8B5iWZ5kL5FdutX4kZfr6jyQMBSDZLt3lndYVA4E4XLAgGwflo0W200tr427d++QU6+KqBFNI0VOAGzuyJY+J01OYX9qhWUvfyEheHRlFW0y4OqWTRW6Z+H41rXShte8Wh9sya3XJm2TjTpcoRS3Kq9MBT02Yi7Pf+4c350rI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767867241; c=relaxed/simple;
-	bh=sXoW4mVTyRQzIbKcvvJZzwtyNNh7crECPosOAqfEHSI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rxuG5qFryg5HlPgnN0hNyBMOwD9Mu6tmjnAVtQb7GVaBhGa+DRNg8HdgbfvbuO7aNUzCjwN3rl2UPeARkrVSE9t/ibFsWN8xLd223bDFw+IFEmz0Dhh36IAFpeZWTLfUYSlnFf4hWdX20YqnDISzwhxEb+KZclTD7PCJ6MMBOIU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hdYgb6tY; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-47d1d8a49f5so20042125e9.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 08 Jan 2026 02:13:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767867237; x=1768472037; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qhDPeXMLOmbhNZMmayEqn2Xyh0RUQfbS2x0SaXmYylI=;
-        b=hdYgb6tYe8y13ML2C51MbA7pxqTImRwxAl3Jv+1dG009POEsUfy6fjaCiMdC3wpJ7k
-         ABHjdEhOMxn41RQEnNsblqclCJGl6wtqDf+/kfWGZpwFIBhZPGmjnsA/gnu/IWlLhmK4
-         SBas7yMPZaGbv1y1Gn49VPQNckLLkVELo2jKXGOUIecdhoMsxjyElDAoUH+44PwjmbWa
-         W4YMUGCa0wPaTX7PRB182RCQQ2RTf5kXmT0lXRDbeXNV8I5w9wY20Oqdi1SFeleUWW7Y
-         vyHjhg2rmkVwt7gd/SPShNZpWF5WJBoho3VmpCw3isJRKMO6ucEPjDovdQWocGEUB7d3
-         oR1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767867237; x=1768472037;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=qhDPeXMLOmbhNZMmayEqn2Xyh0RUQfbS2x0SaXmYylI=;
-        b=SSq8mxPpcQiZHe4UkdA2bAMyffeei4N2Nfim1bS9GTd5Yy6IzuG+hptCj+bRFCbXi6
-         L9hbi4nQFSbsE0VzPrd5k5Z8+pc2bigAR/bMdly/m0zIJTQRwP7I+MG8atz2QiDfGOaS
-         ZniB6omZq63kcZG8a6f3b5PZMREn2dV/NFQHI4/J7hnDNuqt2TbN93mTdO9TFw/6mxZm
-         kNufqDVcGG+Igsa8/0vXdjPBFKZAfrg+CgwOnTjImZS3masx4qlS2ign61+VKVOriJg9
-         C1BfP+tJIl8dT34NolQ9Ee3NZw8WXqXkva9Flq/mOFOITonbdsbBgZnz8eE9QUlcmIEd
-         ZQMw==
-X-Forwarded-Encrypted: i=1; AJvYcCXB2s+VnyynqAzuSbCbcN/j5enLg7qNnh8vng017ohMXsI6LYGBmUjZPT2WYhOoqxnhKyWJUrbEKaUu1M0Cvjen5w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyiQQLVNneCnalykMuFUrK1AoPBYV0pgcSXIjc00LPtHHzzj+28
-	jFY3SBnBeJKjOn7jsV/DobDaZ+VXGgET5z3X9xusidUE2i15UBArKJgue19Pg0WSyZi9uQAVBKI
-	eHuhPJwIGRM+ERggBxDbD2Jxgt2GqK2Y=
-X-Gm-Gg: AY/fxX7tZtghE7/jHNzKcGAZMtKLS+qHIfnKE5prbYSSoUUEsiOQRCctyWKkpngRrS+
-	GxGY3kk0n8HaFmAzfup7XFIBgX8CTVIwjxKGd5U8OHGwwFf4qivRngho2ez0ZFtcGD0+T/b1FTE
-	WhOpxifJWQ8Z7lODnUxaEHUXrITL2dqfsi2h0KPuQcTSg4OjEZV9fyzpb7PxGNrXENGLaAXWXUV
-	96OUv7RfTGdHHH4J4pLkHmhChVFd1MQ0hT6jrDbIBlZqCLxtOOvr25IIt5tWMmosj4epMBbCWm9
-	2GoMT+e4CQ30tPlxwnLJcBjFJK8a63jhFZ8AE97gqpo8tC4M8h615e+B4w==
-X-Google-Smtp-Source: AGHT+IFP0dUQJo6LOh2kBlHH57wWlfc/4287ppA81OjmXtNFTh6Sm1IDnpOcmlyPE+R331Nvt9CzRNqdOsB9pumwoec=
-X-Received: by 2002:a05:6000:40dc:b0:432:5bf9:cf2e with SMTP id
- ffacd0b85a97d-432c377298amr7420571f8f.13.1767867236499; Thu, 08 Jan 2026
- 02:13:56 -0800 (PST)
+	s=arc-20240116; t=1767867240; c=relaxed/simple;
+	bh=NcceqwipxLHqnW2SLk553bX3Nibm3gYRYwZL21IRn0c=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=VL3GP665e9LMg9YwB2BTA+sZ4OP46Is5wV+Fy4Xeoujru9uFcq38SRKG7ry3WFJZxl1lNOtVM2d91NL5IeiBGF927rZiQWOahzl84yApX++x+8/3bgb7/SQzSihHaYB5D+RZCoMS5NdhDpF9t6+XYDgwajWqUNSXiCp9iMA8PuY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ZZyzgQ6M; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 8C9C3C1ECB2;
+	Thu,  8 Jan 2026 10:13:21 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 67284606B6;
+	Thu,  8 Jan 2026 10:13:47 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 67281103C880E;
+	Thu,  8 Jan 2026 11:13:34 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1767867225; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=oktYwHpBxwEHcRdG+441TRw1haM/iQZSRwVoxeIKxoE=;
+	b=ZZyzgQ6MhWJyRaP/AtUlqfOLAs4SdmGpIbrTgke2e9hMzTVnklegqCUfH8QRCn5O6RABoj
+	16WnFZasjj07Z4qzlbvRLkvzc2VVEUrg/PHo/0hVGUvCveJoVMaKNXpF33qlmGO3FehhOf
+	k7pfb4T0ys97YT7G8i9diw0OFkt8LkWxEl7ROtseRInXV4+MdbzVUcQO+WCebz50Eut4hk
+	N211JQ6oSlZbRFWPNyySKeXJAaetMVLV8ifWRu/QK0qxRKoWEHucX05hpurrxyD91ZMn27
+	K3uokXirBg+StnQE60kwcRSzgmtPXJN8KxmDnZ6moWwxpHk0yjZsOiEyjdf8kA==
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20251230115814.53536-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20251230115814.53536-5-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdX5_TkFmgqv29Nddo4bZzEWQrL87kwqTdiLwfq+qMtsXg@mail.gmail.com>
-In-Reply-To: <CAMuHMdX5_TkFmgqv29Nddo4bZzEWQrL87kwqTdiLwfq+qMtsXg@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Thu, 8 Jan 2026 10:13:30 +0000
-X-Gm-Features: AQt7F2pfXBaU0qS8scxlI8e3JZryt-q1cuaCgkd0suVDe9HGuILaVv9inKd0-_U
-Message-ID: <CA+V-a8to1W2xbA7LpzLa5RSy02hyUFG0AeDR4iSsj7jt36VKVQ@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] can: rcar_canfd: Add RZ/T2H support
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Marc Kleine-Budde <mkl@pengutronix.de>, Vincent Mailhol <mailhol@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	linux-can@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 08 Jan 2026 11:13:33 +0100
+Message-Id: <DFJ4MHZJ1DTL.10AMTN5NW6VGS@bootlin.com>
+Subject: Re: [PATCH 5/6] drm/exynos: hdmi: convert to
+ of_drm_find_and_get_bridge()
+Cc: "Andrzej Hajda" <andrzej.hajda@intel.com>, "Neil Armstrong"
+ <neil.armstrong@linaro.org>, "Robert Foss" <rfoss@kernel.org>, "Laurent
+ Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
+ <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, "Thomas Zimmermann"
+ <tzimmermann@suse.de>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>, "Kevin Hilman" <khilman@baylibre.com>, "Jerome Brunet"
+ <jbrunet@baylibre.com>, "Martin Blumenstingl"
+ <martin.blumenstingl@googlemail.com>, "Philipp Zabel"
+ <p.zabel@pengutronix.de>, "Shawn Guo" <shawnguo@kernel.org>, "Sascha Hauer"
+ <s.hauer@pengutronix.de>, "Pengutronix Kernel Team"
+ <kernel@pengutronix.de>, "Fabio Estevam" <festevam@gmail.com>, "Chun-Kuang
+ Hu" <chunkuang.hu@kernel.org>, "Matthias Brugger" <matthias.bgg@gmail.com>,
+ "AngeloGioacchino Del Regno" <angelogioacchino.delregno@collabora.com>,
+ "Inki Dae" <inki.dae@samsung.com>, "Seung-Woo Kim"
+ <sw0312.kim@samsung.com>, "Kyungmin Park" <kyungmin.park@samsung.com>,
+ "Krzysztof Kozlowski" <krzk@kernel.org>, "Alim Akhtar"
+ <alim.akhtar@samsung.com>, "Laurent Pinchart"
+ <laurent.pinchart+renesas@ideasonboard.com>, "Tomi Valkeinen"
+ <tomi.valkeinen+renesas@ideasonboard.com>, "Kieran Bingham"
+ <kieran.bingham+renesas@ideasonboard.com>, "Geert Uytterhoeven"
+ <geert+renesas@glider.be>, "Magnus Damm" <magnus.damm@gmail.com>, "Hui Pu"
+ <Hui.Pu@gehealthcare.com>, "Thomas Petazzoni"
+ <thomas.petazzoni@bootlin.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <linux-amlogic@lists.infradead.org>,
+ <linux-arm-kernel@lists.infradead.org>, <imx@lists.linux.dev>,
+ <linux-mediatek@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>,
+ <linux-renesas-soc@vger.kernel.org>
+To: "Maxime Ripard" <mripard@kernel.org>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+X-Mailer: aerc 0.20.1
+References: <20260107-drm-bridge-alloc-getput-drm_of_find_bridge-3-v1-0-ef48a517828e@bootlin.com> <20260107-drm-bridge-alloc-getput-drm_of_find_bridge-3-v1-5-ef48a517828e@bootlin.com> <20260108-acoustic-groovy-shark-1c6850@houat>
+In-Reply-To: <20260108-acoustic-groovy-shark-1c6850@houat>
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Geert,
+Hi Maxime,
 
-Thank you for the review.
+On Thu Jan 8, 2026 at 9:14 AM CET, Maxime Ripard wrote:
+> On Wed, Jan 07, 2026 at 05:22:03PM +0100, Luca Ceresoli wrote:
+>> of_drm_find_bridge() is deprecated. Move to its replacement
+>> of_drm_find_and_get_bridge() which gets a bridge reference, and ensure i=
+t
+>> is put when done.
+>>
+>> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+>
+> Why can't we use next_bridge for this one?
 
-On Wed, Jan 7, 2026 at 4:37=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68k=
-.org> wrote:
->
-> Hi Prabhakar,
->
-> On Tue, 30 Dec 2025 at 12:58, Prabhakar <prabhakar.csengg@gmail.com> wrot=
-e:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > The CAN-FD IP on the RZ/T2H SoC is similar to R-Car Gen4, but differs i=
-n
-> > the AFLPN and CFTML bits and supports two channels with eight interrupt=
-s.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Thanks for your patch!
->
-> LGTM, so
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
->
-> However, compared to other SoCs, CFDCnNCFG.NSJW[6:0] has:
->
->     0x00: Setting prohibited
->
-Sharp eye!
+Because this device is not a bridge, so we have no struct drm_bridge.
 
-> Perhaps this is a documentation issue, as the same limitation was
-> dropped in RZ/V2H Hardware User Manual Rev.1.30?
-> Linux also has no can_bittiming_const.sjw_min field.
+>> ---
+>>  drivers/gpu/drm/exynos/exynos_hdmi.c | 4 +++-
+>>  1 file changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/exynos/exynos_hdmi.c b/drivers/gpu/drm/exyn=
+os/exynos_hdmi.c
+>> index 01813e11e6c6..bfcf2fa62fe1 100644
+>> --- a/drivers/gpu/drm/exynos/exynos_hdmi.c
+>> +++ b/drivers/gpu/drm/exynos/exynos_hdmi.c
+>> @@ -1779,7 +1779,7 @@ static int hdmi_bridge_init(struct hdmi_context *h=
+data)
+>>  		return -EINVAL;
+>>  	}
+>>
+>> -	hdata->bridge =3D of_drm_find_bridge(np);
+>> +	hdata->bridge =3D of_drm_find_and_get_bridge(np);
+>>  	of_node_put(np);
+>>
+>>  	if (!hdata->bridge)
+>> @@ -2096,6 +2096,8 @@ static void hdmi_remove(struct platform_device *pd=
+ev)
+>>
+>>  	put_device(&hdata->ddc_adpt->dev);
+>>
+>> +	drm_bridge_put(hdata->bridge);
+>> +
+>>  	mutex_destroy(&hdata->mutex);
+>>  }
 >
-I've notified the HW team to get it clarified.
+> Same story than in your part 2 series, it should be dropped in destroy.
 
-Cheers,
-Prabhakar
+hdata->bridge is only used for drm_bridge_attach(), it won't be referenced
+after that. So this is safe, unless I'm missing something.
 
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
-8k.org
->
-> In personal conversations with technical people, I call myself a hacker. =
-But
-> when I'm talking to journalists I just say "programmer" or something like=
- that.
->                                 -- Linus Torvalds
+Also as we don't have a struct drm_bridge (as mentioned above) we have no
+bridge destroy. We have the encoder destroy, but that will never be called
+on bridge hotplug.
+
+Luca
+
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
