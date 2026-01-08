@@ -1,142 +1,144 @@
-Return-Path: <linux-renesas-soc+bounces-26422-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26423-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EC35D02DE5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 08 Jan 2026 14:09:48 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD102D02FC7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 08 Jan 2026 14:24:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 6C091300090F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Jan 2026 13:09:45 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 98624302D5C9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Jan 2026 13:18:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C8A4470BDF;
-	Thu,  8 Jan 2026 13:09:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68EB7499CB3;
+	Thu,  8 Jan 2026 13:18:10 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5A7346B7CB
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  8 Jan 2026 13:09:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 323744B8135
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  8 Jan 2026 13:18:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767877783; cv=none; b=JKTUs6G6enGGkP6VRimMLZuLOL5GzX5xj0D0KveFTL2/oAhFOJoOM/JKpBErSeUr6oC8pp5TgccOj0YpTUA74ZqPa/pLpGyubos4FxMey2sqelRWlIB+lHSbb6OqaEa8SYA7W7HaDS6Zg+rqqA4t8TzM3pLOeMmR60qDxo2VjTo=
+	t=1767878289; cv=none; b=f5LvWo0V/JtYpHaGTl/nSjO+g9ZDfy0YsUKpn/l8SCnfmuaJBDuAyrpuKmMdzwQlJtmV+NS59uRjOxR+NVhPqjDXvE5QbGqMWqhSuFxmLnD3k4cmKh499VFqt1/p/YpJr7yMb+sDvtsuZPv2dOpSHRWiEzY06ojWA7GGxf7NdIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767877783; c=relaxed/simple;
-	bh=W79c8cd9Bh8vqYzKHEhPnqpfQnUTWg4xPXQh4d2yIbw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=h9Bs6oC0/ceFt5tpYDMAzVQFn0H5e+dUIiBnbV2pwCFwB8iTW6xeKB5pq9sYNhqOi4QudPL+MHoKPMWKIyAMtYKoxAgNkKfYQ+7gK+iWQm/fJg+UdKrHBXsZ5D0y3fnwiPnxxPafwcxpzn6gLL6eyKsfkNeJYxO2oWyhlYwABck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1vdplg-00045l-Iz; Thu, 08 Jan 2026 14:09:36 +0100
-Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1vdplg-009gKZ-1G;
-	Thu, 08 Jan 2026 14:09:36 +0100
-Received: from pza by lupine with local (Exim 4.98.2)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1vdplg-000000007dP-1Mby;
-	Thu, 08 Jan 2026 14:09:36 +0100
-Message-ID: <f2c7583d863feb767b59f6b82b47a621aae8fb86.camel@pengutronix.de>
-Subject: Re: [PATCH v3 2/2] reset: rzg2l-usbphy-ctrl: Add suspend/resume
- support
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Cc: linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Date: Thu, 08 Jan 2026 14:09:36 +0100
-In-Reply-To: <83ead495-04c9-4dad-b971-29dca4c45898@tuxon.dev>
-References: <20260108102600.3477012-1-claudiu.beznea.uj@bp.renesas.com>
-	 <20260108102600.3477012-3-claudiu.beznea.uj@bp.renesas.com>
-	 <7b4aa36772039d6607bf0aee38bd897b773e3f7f.camel@pengutronix.de>
-	 <83ead495-04c9-4dad-b971-29dca4c45898@tuxon.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+	s=arc-20240116; t=1767878289; c=relaxed/simple;
+	bh=vgDrmkhic27ZLjMSwj4J99A0KVVOhBHys+2vQZ9+pyI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AJv9UKZzvZYP748rQjXr2DgRneIsISK3ODucvXmQm68kKQXXXlaBk3bfcxOc1CzkM8h+GJlcPmZBbfcRjhm0sL/EAtZCEh/N9rhAhwh50BOKFHCNr1v7I98e7Jy2pOwhzLbO6tjsk7hOp855dOr/v5AsGj7qi54IXzXsJrWtabg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-5634feea416so1075014e0c.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 08 Jan 2026 05:18:05 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767878283; x=1768483083;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CsLKYiyEuA/wgueTeV19R3a6MuyQrCJBTiLN9VGhTa4=;
+        b=Kl5JxX5NLRGi9Uohfg4rWIAwFE8i9eU+TPld0EUjmBJAqunfxKxwouUSZLndM/rpWd
+         UDvVqz2QCOT7c7pQLw/xoJpXRsQ3BiJLzEdsREHXhRZ1cvLL0bHDXcQ651/ZgKUNzKPh
+         aQMfcZ0E57V/slWSorhAGqnoEihUcvuLtPzMREGyHA7y1ZaE2YG/BLwE4wiRL7rNYrT9
+         VNTZccuDzfvApDAQPj5BXcsNy/4mjs+crVzSpVNUWpYb4ou1pAqvFvwqQjEiEXhWyrDV
+         TZ/NcTHAR4GGMmhQRH+MEFp/5wJXbRDXG1ct0IDz2oYwtGJ25NIJesGBWD6War1BxP9h
+         zj5A==
+X-Forwarded-Encrypted: i=1; AJvYcCUgdchfBjeGnJ3IUJueD1zXilFhgP67kh72Uoha468B3oAzfrLQuzVw4WK5tI7oHlRj3/q3/ZWIsYKXnzkS8otrPw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwQRV7VaugW/JuO7EBLPxVn3WFYNjocFuCLlGC2zLzsOKygwZNx
+	6WfcM9gFUOmDsiD2/s9y8lskTjw8Fa2L6zGPPPU5E+/owVKVNXyD1XYw9zZKXNUf
+X-Gm-Gg: AY/fxX5DcxBIu2Hpb+hI2ll1F50dqn9PiD9dFu+WEE4BpgxqJcDNvgya5k3eZZyYMNV
+	wWaj1aq36jIbMqrrLeNxdzhevK9QbO58w7IMO9nEZVGCViYEJtGCBYsvkN0ba+GjyYumQ7Cnznj
+	uWovn+mA8k+9qPYDTBKdltn5m4sWROtOJFbRa0Bye7sPTi0wnfL7TqOYQmoyBRgeaM747td2a7G
+	eW09RQy8NdkxdDPltvZfPTdY44CZb7z7/qmtssTHEmQJxflP5MS3CDWh9NpskMrjZ13zQMjXwxF
+	dDXmJMYtYtoKjy7XY3pfLW6KzK4U7AC/9qTVhrIrKYMvzvgyzasj4VNTfH6OghlJn3jMUJoyh+v
+	oZikNg8l0GOJTgz3mKumexfxmOR4ocLfj+3QA1B3vgF8M1krFxdSyjXUiVPV51HbnDkhTHsDIwy
+	rBcjSd4QPz2jADTW1HTG6PuD26ErdVRnkE8/NIq+7FZhppF66x
+X-Google-Smtp-Source: AGHT+IGjBW1N7yyZZfOLaCLzvuTA/Kr4+IACl6svxHLJZomg5MfXNPayb7DB/by4fpDNMrwq0/sjjw==
+X-Received: by 2002:a05:6122:2a14:b0:55b:305b:4e32 with SMTP id 71dfb90a1353d-56347ffc521mr2244833e0c.18.1767878283001;
+        Thu, 08 Jan 2026 05:18:03 -0800 (PST)
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com. [209.85.217.44])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5633a443e32sm6101491e0c.22.2026.01.08.05.18.02
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Jan 2026 05:18:02 -0800 (PST)
+Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-5eea6f90d7fso60321137.3
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 08 Jan 2026 05:18:02 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCW5vMCmdlMcUaNo6ngQIQDsa9Vfbwd4s+yuGkmcWGPR/Q9+i7KRJPDdF8cVc4S+aGaVTFrPvXTmDm6s87lrYM65JA==@vger.kernel.org
+X-Received: by 2002:a05:6102:3e11:b0:5ed:b56:67b9 with SMTP id
+ ada2fe7eead31-5ed0b566b64mr2014198137.8.1767878281214; Thu, 08 Jan 2026
+ 05:18:01 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+References: <20251215163230.227849-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20251215163230.227849-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20251215163230.227849-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 8 Jan 2026 14:17:50 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVeB0xYbnHx-RYf3F4aw4TQOzC39A_MWc8PoROo8-p1mA@mail.gmail.com>
+X-Gm-Features: AQt7F2pOTVZIlAlsJmiNPps5MsL7sfU1mNamtPPYLMcacskS9XE4-d2ETNOQ2lo
+Message-ID: <CAMuHMdVeB0xYbnHx-RYf3F4aw4TQOzC39A_MWc8PoROo8-p1mA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] arm64: dts: renesas: r9a09g056: Add DMA support for
+ RSPI channels
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Claudiu,
+Hi Prabhakar,
 
-On Do, 2026-01-08 at 13:44 +0200, Claudiu Beznea wrote:
-[...]
-> > > +	ret =3D reset_control_deassert(priv->rstc);
-> > > +	if (ret)
-> > > +		goto pwrrdy_off;
-> >=20
-> > Do I understand correctly that this reset clears PHY_RESET_PORT[12]
-> > bits in the RESET register such that rzg2l_usbphy_ctrl_init() must be
-> > called below?
->=20
-> No, this reset is the reset of this HW block, controlled by another HW=
-=20
-> block (the clock controller).
->=20
-> Bits in PHY_RESET_PORT and other registers specific to this driver could=
-=20
-> be cleared due to the fact the power to this USB PHY CTRL HW block is=20
-> turned off in suspend.
->=20
-> The Renesas RZ/G3S SoC, that uses this HW block, has a power saving mode=
-=20
-> where power to most of the SoC components, including USB PHY CTRL, is=20
-> turned off.
->=20
-> Due to this, we need to restore the previous settings. priv->rstc need=
-=20
-> to also be restored as power to the clock controller is also lost.
+On Mon, 15 Dec 2025 at 17:34, Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Enable DMA support for RSPI channels.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Ok, thank you for the explanation.
+Thanks for your patch!
 
-> >=20
-> > > +	ret =3D pm_runtime_resume_and_get(dev);
-> > > +	if (ret)
-> > > +		goto reset_assert;
-> > > +
-> > > +	rzg2l_usbphy_ctrl_init(priv);
-> >=20
-> > This assumes that consumers requested PHY_RESET_PORT[12] resets to be
-> > asserted in their suspend function.
->=20
-> That's right!
->=20
-> > I think you should warn if that is
-> > not the case during suspend.
->=20
-> AFAICT, that could be done by adding extra logic in this driver to store=
-=20
-> the state of the de-asserted bits. We can't interrogate directly the=20
-> registers as there might be the case where these resets are used by=20
-> previous bootloaders (that might let them in the de-assert state) but=20
-> not by Linux.
+> --- a/arch/arm64/boot/dts/renesas/r9a09g056.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r9a09g056.dtsi
+> @@ -679,6 +679,8 @@ rspi0: spi@12800000 {
+>                         clock-names = "pclk", "pclk_sfr", "tclk";
+>                         resets = <&cpg 0x7b>, <&cpg 0x7c>;
+>                         reset-names = "presetn", "tresetn";
+> +                       dmas = <&dmac0 0x448c>, <&dmac0 0x448d>;
+> +                       dma-names = "rx", "tx";
 
-Isn't the RESET register initialized during rzg2l_usbphy_ctrl_probe()
-before rzg2l_usbphy_ctrl_suspend() can ever be called? It seems to me
-that read-back in suspend should never return a value left behind by a
-previous bootloader.
+RZ/V2N does not seem to have restrictions about which DMA controllers
+can be used by which SPI instance.  Hence shouldn't these point to
+all five DMA controllers?
 
-[...]
-> I can add those extra software cache for the hw registers but this is=20
-> what I've tried to avoid.
->=20
-> Please let me know how do you want me to proceed and I'll update.
+    dmas = <&dmac0 0x448c>, <&dmac0 0x448d>,
+           <&dmac1 0x448c>, <&dmac1 0x448d>,
+           <&dmac2 0x448c>, <&dmac2 0x448d>,
+           <&dmac3 0x448c>, <&dmac3 0x448d>,
+           <&dmac4 0x448c>, <&dmac4 0x448d>;
+    dma-names = "rx", "tx", "rx", "tx", "rx", "tx",
+                "rx", "tx", "rx", "tx";
 
-If reading back the RESET register during suspend can be used, please
-add a warning. Otherwise let me know what I'm missing, and I'll take
-this as-is.
+Note that this requires updating the DT bindings, as they currently
+restrict dma to two entries.
 
-regards
-Philipp
+>                         power-domains = <&cpg>;
+>                         #address-cells = <1>;
+>                         #size-cells = <0>;
+
+The actual DMA specifier values are OK, so
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
