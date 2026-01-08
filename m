@@ -1,174 +1,148 @@
-Return-Path: <linux-renesas-soc+bounces-26429-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26430-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94391D03EE3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 08 Jan 2026 16:40:16 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56EB9D04330
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 08 Jan 2026 17:10:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id EF2C2341DADD
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Jan 2026 15:19:09 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 4A399311D510
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Jan 2026 15:53:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 213CA40F8FC;
-	Thu,  8 Jan 2026 13:57:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iMXshUmD"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6AD14F108D;
+	Thu,  8 Jan 2026 14:05:12 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E896A3EF0C0;
-	Thu,  8 Jan 2026 13:57:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B08A94F1071
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  8 Jan 2026 14:05:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767880640; cv=none; b=PQrw6OG8N9nde/lXMy4hv7YakOkXuK1MxyMRBkFUQb46j74MB0kwgKHO5MuuNGOJp9qf3tbNi+NoZAyXgP36OlICE74QCQ/OPXjGjNusj146J89mLQ/p+0hTgLOP7/InJ+ZDr/IqpHXj+4YIBFFxYmhLvEcOB6FZqgieiQiQ644=
+	t=1767881112; cv=none; b=s/PSFg4NgiK80P6+agQNyxXFw7HAx8xETLNPeHu63TRTKV81cZ+robbX3N5PauTN+l6ufDbwbmtVhYj5AHRwJauEc4110MHEZBoLAvKR+EZ0laW6bOGrpDxUPkAHTL0UnnOZiple/XZ2O+VDEKMmWCH33UmrZbrJVKrX3ZLDOFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767880640; c=relaxed/simple;
-	bh=OhHA0eiU//TrBNRmklDdGYlUq5mXP8Cp8oS03aXdCYs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UlvkV37dvyKdlkW6eNfMEmxU65ygGbZWj3kIG68eeFcq36KBri5ZZSR8Bf1qpVRP0ew1eAwno6RV8O9bEo/aXwyC1EB74yQeg683Siiet688HTh/Nk7DyaTL7vS7VssRdPYh9fYjWZSudJobmm76AmoqMW1IIsvHclJ0yiWIC/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=iMXshUmD; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 59016557;
-	Thu,  8 Jan 2026 14:56:51 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1767880611;
-	bh=OhHA0eiU//TrBNRmklDdGYlUq5mXP8Cp8oS03aXdCYs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=iMXshUmD+UDKTDziY3G91hBa6LzsYjYgmVKP99BDy0LGerDLiP6ZXnrSzACaoCcQP
-	 RIF+Lg06qMWSXkVyrv742257giYOivBEzB13++twaP9ZUy/wDdgqjvuYXCp9/sLj67
-	 LhrYstJKoGuy3ww/Rnl4q5+e4b7ZYKcB2RqaxtQY=
-Message-ID: <459d26bc-f847-42cc-91fa-a939b6f205a8@ideasonboard.com>
-Date: Thu, 8 Jan 2026 15:57:10 +0200
+	s=arc-20240116; t=1767881112; c=relaxed/simple;
+	bh=HlrnZ8e7cEsDtIu1iGGmzbLViXvTPSBzBPsUVB4+7EA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ItrSOS5jzJg9wwkvzS5/uMhdvuvMgRapIsvN1vhuTNH/ryt30w6C8lq778JbMctuWZnRKNTtejlVsvD9WnMFtel9WtuXpZ9Abiqi7EeJa1B5S2hb8a0gOCI47tjXEr7atEBl6ua6J/9iGF/GOVoGUck1VqQ48DGVmHfjFFtiN/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-56021b53e9eso948661e0c.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 08 Jan 2026 06:05:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767881108; x=1768485908;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gjOIXZ6fEDhVPcVriijkgDsDTtSfEVFEHTyea+pXJEc=;
+        b=nn/OWiI4w9hj7UIuq3Z8UPX47LwjUSxP2Mj+Kb6r4QAXcPg8hULEgy9IsKTEGvqSw8
+         bMeYTmGwMZK5QoIw5pNcSTfKVEZmV5iWBeTq1bDfZdUA0BtOtmgWZy93AGchGTviHBR6
+         YkLdRYtU3vBeCGYOxR5MviOIk5G5VGMxK/mOpKltkqhmHiVU3iGXGYtXO6W/0gCGUsOZ
+         aSI+VkpyBvDrEAMG+XLOdstJf65Y2r/xsLBMZGB0h5qbWBa4BeHdSEnk9SPTQIYMgY7a
+         n5E7/pe+wFuJ867BjtW3LyFJca/iDK8Tj0/RLyiqqriWRDZ0UmOqm86RdTgvtHqmLRte
+         oNsQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXVyLEOo8ESfhu29EvN1PAL6HdnCDR41jOEwdKmph/aDkOIRuOVBh6HstztqcAOIJyBW/O3IJpHFzSBzFN9A0TNHA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxfc6fDpIUZFvLD5s59eXyTZWVVs3jQPX0TklFQ5ZQQP+haX5Cf
+	g8YeOlA1dfUhj9U5HDCfYg6ilQp7Wm2PmssWKmzup1PFWctaGMe59YLutmaP65gi
+X-Gm-Gg: AY/fxX6BI9Bxv+j75c/7Im9hRcYGEWD+Lfoi9t3XAnZoAajKSJxSSaOg37CgZ4Y7uNG
+	kCC3rvG45vzd4udtL964IbRzgBzWKolIFlLCx4c4CU0tAh57vRLcJYh8tQUQTKvAc890lBLucER
+	OLC0ydyWelByB130iNwdFPJ3NlCR7oV4BG9aVw9D86xT+u26JS3teIZ3iwzhwwpnCsMiTJNvvHd
+	u6Pxzy550Wk9qOzqzIevJE41/ENKEB74CnB2kKvmr9+KiXE5KAyFxFrSHuaWHNnBrV56rGRWAYp
+	GcVstOjSGK9mJ56m6KcmQNixSUOVaEAU81OsAuUpHj5DVQ8j9RErlGnPGKKepOmMBdamBMPIV3a
+	8dZm07bDQ1cjRKR7Zg66lPbvBKp2R9qzmUoowxBdf624YOpSYa77S2XsEJRfxP4A88ljaH3x1iD
+	Sj/pYyrNOUYY2H+DjXtEVCropIMdRbDWApEjObe5AUt1+XFwBjptujIUhuuXl9cUo=
+X-Google-Smtp-Source: AGHT+IG0V/7bEBdbcHjXntHol0WYmz2FiHRbweBGo7Fz4KLkMtVCUWEnZRwsWnlC+2HbDyx7oPTo+Q==
+X-Received: by 2002:a05:6122:32d1:b0:55e:4bcb:6baf with SMTP id 71dfb90a1353d-56347faf5e7mr1941532e0c.11.1767881106764;
+        Thu, 08 Jan 2026 06:05:06 -0800 (PST)
+Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com. [209.85.221.180])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5633a41f813sm6101055e0c.18.2026.01.08.06.05.05
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Jan 2026 06:05:06 -0800 (PST)
+Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-56021b53e9eso948629e0c.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 08 Jan 2026 06:05:05 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWYCnE+evPLRFwdXYCVI1J4EmkkaXoUwZ6C9VsvWLCq++VjSplPly+z9jCfjQ8kQwLfiUd4fXnD5SE4sxuM339gfw==@vger.kernel.org
+X-Received: by 2002:a05:6122:d15:b0:544:75d1:15ba with SMTP id
+ 71dfb90a1353d-56347d61e20mr1818171e0c.8.1767881105589; Thu, 08 Jan 2026
+ 06:05:05 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 00/15] media: rcar: Streams support
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-References: <20251216-rcar-streams-v4-0-f28b4831cc67@ideasonboard.com>
- <20251231095739.GA3091492@ragnatech.se>
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Content-Language: en-US
-In-Reply-To: <20251231095739.GA3091492@ragnatech.se>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20260106131319.643084-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20260106131319.643084-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 8 Jan 2026 15:04:54 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUrQR2rSHw-n2_CYCtRqF6JtHoguWWpxxVb=Sc6VoujBQ@mail.gmail.com>
+X-Gm-Features: AQt7F2rafNUyBmgIwD2Yf6vBHnotvexE9agKVZAsYDW5ipRGhdmreE715xYNYLo
+Message-ID: <CAMuHMdUrQR2rSHw-n2_CYCtRqF6JtHoguWWpxxVb=Sc6VoujBQ@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: rzt2h-n2h-evk-common: Use GPIO for
+ SD0 write protect
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Niklas,
+Hi Prabhakar,
 
-On 31/12/2025 11:57, Niklas Söderlund wrote:
-> Hi Tomi,
-> 
-> Thanks for your persistent work on this series!
-> 
-> On 2025-12-16 17:18:17 +0200, Tomi Valkeinen wrote:
->> Add streams support to Renesas rcar platform driver.
->>
->> The series keaps compatibility with the current upstream for a single
->> stream use case. However, in upstream there's a limited custom
->> multi-stream support implemented to the rcar driver, which will be
->> replaced with the upstream's Streams API.
->>
->> I have tested this series on Sparrow-Hawk board, with a few different
->> setups:
->>
->> IMX219 connected to the CSI0 connector
->> - The following patches applied to my test branch in addition to this
->>   series:
->>   1) The v4l2_subdev_get_frame_desc_passthrough dependency
->>   2) Revert of commit e7376745ad5c8548e31d9ea58adfb5a847e017a4 ("media:
->>      rcar-vin: Fix stride setting for RAW8 formats"), as that commit
->>      breaks RAW8
-> 
-> That is so odd, I do grab RAW8 on V4H with a IMX219. In what way is do 
-> you see RAW8 breaking?
+CC wsa
 
-I also used V4H with IMX219. Let's compare our setups and results on irc
-and find out what's going on.
+On Tue, 6 Jan 2026 at 14:13, Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Switch SD0 write-protect detection to a GPIO on the RZ/T2H and RZ/N2H
+> EVKs. Both boards use a full-size SD card slot on the SD0 channel with
+> a dedicated WP pin.
+>
+> The RZ/T2H and RZ/N2H SoCs use of_data_rcar_gen3, which sets
+> MMC_CAP2_NO_WRITE_PROTECT and causes the core to ignore the WP signal
+> unless a wp-gpios property is provided. Describe the WP pin as a GPIO
+> to allow the MMC core to evaluate the write-protect status correctly.
+>
+> Fixes: d065453e5ee0 ("arm64: dts: renesas: rzt2h-rzn2h-evk: Enable SD card slot")
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
->> - Tested with a single video stream
->>
->> IMX219 connected to the CSI0 connector
->> - Plenty of other patches applied to enable full streams support and
->>   embedded data support in imx219 and v4l2 framework
->> - Tested with video and embedded data streams
->>  
->> Arducam FPD-Link board + 4 x IMX219 connected to the CSI0 connector
->> - Plenty of other patches applied to enable full streams support and
->>   embedded data support in imx219 and v4l2 framework, and TPG support in
->>   ub953
->> - Tested with video and embedded data streams from all four cameras (so
->>   8 streams in total)
->> - Also tested with ub953's TPG, combined with video & embedded streams
->>   from other cameras.
-> 
-> As there are dependencies on patches that have been on the list for a 
-> long time that would block merging this work. Could we try and shift 
-> focus and get some of the nice fixups and cleanups merged first? IMHO we 
-> could even aim for merging the rework (reduction) of the ad-hoc VC 
-> support done in the graph ASAP to get it out of the way.
-> 
-> It would also be nice if we could sort the RAW8 issue separately to get 
-> it out of the way.
+In light of commit ef5332c10d4f332a ("mmc: renesas_sdhi: really fix
+WP logic regressions"), this LGTM so
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.20.
 
-Sounds fine to me.
+> --- a/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi
+> @@ -380,8 +380,7 @@ data-pins {
+>                 ctrl-pins {
+>                         pinmux = <RZT2H_PORT_PINMUX(12, 0, 0x29)>, /* SD0_CLK */
+>                                  <RZT2H_PORT_PINMUX(12, 1, 0x29)>, /* SD0_CMD */
+> -                                <RZT2H_PORT_PINMUX(22, 5, 0x29)>, /* SD0_CD */
+> -                                <RZT2H_PORT_PINMUX(22, 6, 0x29)>; /* SD0_WP */
+> +                                <RZT2H_PORT_PINMUX(22, 5, 0x29)>; /* SD0_CD */
+>                 };
+>         };
+>
+> @@ -491,6 +490,7 @@ &sdhi0 {
+>         pinctrl-names = "default", "state_uhs";
+>         vmmc-supply = <&reg_3p3v>;
+>         vqmmc-supply = <&vqmmc_sdhi0>;
+> +       wp-gpios = <&pinctrl RZT2H_GPIO(22, 6) GPIO_ACTIVE_HIGH>;
+>         bus-width = <4>;
+>         sd-uhs-sdr50;
+>         sd-uhs-sdr104;
 
-> I have other work touching these drivers I'm holding of on to not cause 
-> conflicts with your nice work, and it will make my work smaller/easier 
-> too!
-> 
-> Could we start by breaking this out into:
-> 
-> - A series that just removes the ad-hoc VC thru media graph in the R-Car 
->   VIN and CSI-2 drivers.
+Gr{oetje,eeting}s,
 
-That's just the patch 6, "media: rcar-vin: Link VINs on Gen3 to a single
-channel on each CSI-2" patch, isn't it?
+                        Geert
 
-> - And then we can follow up with the cleanup of each of the drivers as 
->   separate series.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-How about merging 1-6 as a first step (assuming they pass reviews and
-tests =)? I'm not sure if there's any benefit in sending the above VIN
-patch alone, then the cleanups after that. Or perhaps patches 1-8.
-
-> This would make it easier for everybody I think. Each series becomes 
-> smaller to review, we can get fixes and cleanup in now and not wait for 
-> all stream dependences to land first.
-
-I'm fine with breaking it to smaller pieces than 1-8 if you want. I
-think the split could then be 1-5, 6-8, and the rest later. But I think
-1-5 are quite small and straightforward, so I'm hoping we can work with
-smaller amount of patch sets.
-
->> I have observed one issue with the embedded data (i.e. requiring bunch
->> of patches not in upstream): when stopping streaming, VIN says that it
->> cannot stop the stream. I haven't debugged that, but a possible issue is
->> that the if the video stream for the imx219 is stopped first, the
->> embedded data stops also, and VIN does not get the frame-end it is
->> waiting for.
-> 
-> I would not be comfortable merging with this regression. I have bad 
-> experiences when VIN report it can't stop the stream. More often then 
-> not it also means it then can't start streaming again...
-
-It's not a regression, and on the "why it doesn't matter" side is that
-embedded data is not supported upstream, so the user cannot hit this
-issue. Also, I did not notice any issues in restarting the streaming again.
-
-That said, I agree that it must be sorted out.
-
- Tomi
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
