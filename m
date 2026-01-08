@@ -1,112 +1,105 @@
-Return-Path: <linux-renesas-soc+bounces-26443-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26446-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7DD9D04953
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 08 Jan 2026 17:56:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91083D04AB2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 08 Jan 2026 18:05:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 4D7313040115
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Jan 2026 16:50:45 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 8A392305A8FC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Jan 2026 16:55:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53FEC2DC32D;
-	Thu,  8 Jan 2026 16:50:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B23B2E8E16;
+	Thu,  8 Jan 2026 16:54:55 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 342F02DB7B4
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  8 Jan 2026 16:50:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.51
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 311992E5B3D;
+	Thu,  8 Jan 2026 16:54:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767891043; cv=none; b=LpgNwOpoImg3oZ8b4S/LMh+63pT/B/yVizBS7l0829PGGglTIlc+s5HvaNRYAmKP8U/V+7vTdpHsHx66qdPnKgOAM/aDccCJG8hVywCa4fxWU7J9HQtzzb5Jaifu0aFhDwpEo/a7KokZyuT2zy+Z4qQm7Rp4gw9EosrFepyZ3nc=
+	t=1767891295; cv=none; b=Ztf1BRyswt+BNLOe7eY6bqP2rAKTn47OfWj0DBx0ury9oAuqthJT8rwS6Mz9HVwAv7x1kqRtOeT4E0EIf4ZOlEYwFNGLYOPj8Nc3lHF5zcHcccqT+D7BZwqcpTWS3nr0EofaxMEQ0J47TQPZWmtLnQI9w8zcU2wRdAxN1sWYBqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767891043; c=relaxed/simple;
-	bh=7/Taf5CwvaYEOCNOJhdbHbsMsm1VSLNTMWyH4dTVXlM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VDtz8eO8Xo5wj8QUokFn+ds/h/N78N1nV3xcTUhG7oWJ6EilzuYo60Zo8IwPEaPb4m+fNnf9ljpYg7qOThjDdxG9iBUv+6DfZIl6PGKWCAix2nSlVCynyCKsujJFiJi6rQDVWO/Ekox6ZE+NlmMCAn0KVycGFGz/tAkjc0ykrPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-93f5774571eso1092428241.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 08 Jan 2026 08:50:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767891040; x=1768495840;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vjpM9ymjUwivlVyTiA/MPU+wu4L18L3+Ii3s1slBXsE=;
-        b=TGN0u7cvA7ZIdbt5QyD3Q7Cj6/uDVLIlzI0k/34382HwkCeZvjImlG1j1TG9Wyg4DD
-         z+pPyQlBm6+FBl4MuKM2HRSIz/uoVt5/GMmsTd+Tw5ovUtB+ZSRM/ceM7NyIBnZAa8wd
-         obBvsRa1OHpSPU6tBpM+AyCoMyRz6li0vklBID0G6rbf/wZ/p2ZVaJVH1q8kVQ4Zo9u4
-         7UEtba2sdQLJ20PZOCxtWXfaAFTcui2L/hOVIHwUisLGSSAUVfvhGzdbCecQuUU6zgOF
-         FxKRdq2M5J4W3X/AQ/e4zc6DLjXZNiazLsQdJ2TdepHHxYMRxykGFOImsLQwwy/o6Ex/
-         z2CQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXBqEwDZ+5K7DBm6BCVcltOlKIogyhh31zmGUJc9A0AO8Al2wXHxnY1u8tOT78qgFgN0eC2WWpil+2V/DoLgz6rtA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxekaGYWMdmdKNTphSuPQS4nxhaHm9Mw1SoIkOy0bTnTdXz0GYx
-	Q05U08wQqfE3dC79OD2CGlGPsKE3e7lKvZAuNCI18k7jT5JGXpKfpeTqr9f2hntV
-X-Gm-Gg: AY/fxX7MuRWTp24BsHonPV/Iue5DZ9onWoHQf15XiEz10sYWvW1kWwwJGThgL4Ag1JW
-	4S/x/hzH7Lu5FJHla7M6wqkm1ccRBg/mCg4ecN8xCGjVgCgjMhBF18zAL3I1fjIteRieMMk9K7G
-	gpt6j/QTo5+5M3fRDbNJz83t7pNZfjUQmonnLunaslFKJFsjMJI5uACP0waJ0327JRUEay0CJit
-	InPqdCQhY1k7YlF6fOII2nC9OgndE3RO0LXw5b3vZ6EfmOTgYq6kJeKuU/2Y3lFfa605MsQEDj4
-	JnPQOXgI0QzG5GLr67dreLSUX28xe4jyaK1/wWEg+WDn56bjHM+zGZEvK1c7qsV70eHly7dqANL
-	IXdq/TVR81G7sj60KyF4qUNkkEF/fphILUd75EWA9kjKNaW/DHxH56fwG3zDQNMxMvgnA5tbaO4
-	Z9hkBvOHF6Mjllj0BzAyerv3a0CMEwHkPYxeN0BR5g1lOAhaCNg8AIWUI7ek3LwiY=
-X-Google-Smtp-Source: AGHT+IFgTFysw69hiXD/8OBAaWK2b1D5KUf7uXvk7vWkbft/DaMEhcQ7H7w9RiMmpG5O88rWruRJ3w==
-X-Received: by 2002:a05:6102:2b90:b0:5db:ebb4:fde3 with SMTP id ada2fe7eead31-5ecb6875afamr2637276137.16.1767891039702;
-        Thu, 08 Jan 2026 08:50:39 -0800 (PST)
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com. [209.85.221.170])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5633a074d30sm6711108e0c.0.2026.01.08.08.50.39
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Jan 2026 08:50:39 -0800 (PST)
-Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-5635f3eff8aso184063e0c.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 08 Jan 2026 08:50:39 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWbIbI7cu27gPJAZK8PkUuUNgGXod1dmb9S9yr7j0nrrPt9TJOUKTE952QlQPrWqT2wvVtYIR0gdy/xKfvDdovUzg==@vger.kernel.org
-X-Received: by 2002:a05:6102:3349:b0:5db:ebb4:fdcf with SMTP id
- ada2fe7eead31-5ecb687b063mr2554646137.17.1767891039245; Thu, 08 Jan 2026
- 08:50:39 -0800 (PST)
+	s=arc-20240116; t=1767891295; c=relaxed/simple;
+	bh=O5aoQ6ov7cgWwpFvqnKGbB0NtkF/D8HX0xQBgawJjuE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=cgBORp/0BjAdZKH9QU+CV0+TUHF/8eez+p9G518ttct8TveU3l/+pj7NBX3oioHJEWBf/YWoZ8YdWNcj5obfYA5g1unDeucBvv31dyPn0HxuYF4NwziXnLNCycjCwaPvQC7OeHeT1ojV/LEcXQEjuW2uOpwSgwOgyne/m4cMUls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+X-CSE-ConnectionGUID: 5AhPmNnvQA28NYtH1U5Djg==
+X-CSE-MsgGUID: 4mqWx47+TPax5oPHHI1Z2A==
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 09 Jan 2026 01:54:45 +0900
+Received: from demon-pc.localdomain (unknown [10.226.92.68])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 1B09D40313E8;
+	Fri,  9 Jan 2026 01:54:40 +0900 (JST)
+From: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+To: John Madieu <john.madieu.xa@bp.renesas.com>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Zhang Rui <rui.zhang@intel.com>,
+	Lukasz Luba <lukasz.luba@arm.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: linux-pm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+Subject: [PATCH v4 1/5] thermal: renesas: rzg3e: make reset optional
+Date: Thu,  8 Jan 2026 18:53:20 +0200
+Message-ID: <20260108165324.11376-2-cosmin-gabriel.tanislav.xa@renesas.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260108165324.11376-1-cosmin-gabriel.tanislav.xa@renesas.com>
+References: <20260108165324.11376-1-cosmin-gabriel.tanislav.xa@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251205150234.2958140-1-cosmin-gabriel.tanislav.xa@renesas.com> <20251205150234.2958140-2-cosmin-gabriel.tanislav.xa@renesas.com>
-In-Reply-To: <20251205150234.2958140-2-cosmin-gabriel.tanislav.xa@renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 8 Jan 2026 17:50:28 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXTKVzB1LhOp2jHima+_ZWHCZZYqrExpLjfuF2KV3QZmg@mail.gmail.com>
-X-Gm-Features: AQt7F2qEe-jh4MC04jZgvw61EVfKsP_55-29gu7PCGMB9-MBqtO4ZeaLC4gjeeY
-Message-ID: <CAMuHMdXTKVzB1LhOp2jHima+_ZWHCZZYqrExpLjfuF2KV3QZmg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/8] pinctrl: renesas: rzt2h: move GPIO enable/disable
- into separate function
-To: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-Cc: Linus Walleij <linusw@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-renesas-soc@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, 5 Dec 2025 at 16:03, Cosmin Tanislav
-<cosmin-gabriel.tanislav.xa@renesas.com> wrote:
-> GPIO is enabled or disabled in multiple places, simplify code by moving
-> this logic into a separate function.
->
-> Signed-off-by: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+The Renesas RZ/T2H (R9A09G077) and RZ/N2H (R9A09G087) SoCs do not have a
+reset line.
+
+Prepare for them by making it optional.
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-pinctrl for v6.20.
+Reviewed-by: John Madieu <john.madieu.xa@bp.renesas.com>
+Tested-by: John Madieu <john.madieu.xa@bp.renesas.com>
+Signed-off-by: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+---
 
-Gr{oetje,eeting}s,
+V4:
+ * pick up Geert's Reviewed-by
+ * pick up John's Reviewed-by and Tested-by
 
-                        Geert
+V3:
+ * no changes
 
+V2:
+ * no changes
+
+ drivers/thermal/renesas/rzg3e_thermal.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/thermal/renesas/rzg3e_thermal.c b/drivers/thermal/renesas/rzg3e_thermal.c
+index e66d73ca6752..86c10810e5bf 100644
+--- a/drivers/thermal/renesas/rzg3e_thermal.c
++++ b/drivers/thermal/renesas/rzg3e_thermal.c
+@@ -412,7 +412,7 @@ static int rzg3e_thermal_probe(struct platform_device *pdev)
+ 				     "Clock rate %lu Hz too low (min %u Hz)\n",
+ 				     clk_get_rate(clk), TSU_MIN_CLOCK_RATE);
+ 
+-	priv->rstc = devm_reset_control_get_exclusive_deasserted(dev, NULL);
++	priv->rstc = devm_reset_control_get_optional_exclusive_deasserted(dev, NULL);
+ 	if (IS_ERR(priv->rstc))
+ 		return dev_err_probe(dev, PTR_ERR(priv->rstc),
+ 				     "Failed to get/deassert reset control\n");
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+2.52.0
 
