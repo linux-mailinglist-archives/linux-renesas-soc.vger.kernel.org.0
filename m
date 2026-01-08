@@ -1,547 +1,268 @@
-Return-Path: <linux-renesas-soc+bounces-26455-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26456-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EA7ED05547
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 08 Jan 2026 19:04:48 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56C7DD051C6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 08 Jan 2026 18:41:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 83C3F317774F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Jan 2026 17:28:29 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 9132330D4102
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Jan 2026 17:31:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10C3E33345E;
-	Thu,  8 Jan 2026 17:24:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b="JXrKhROL"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05BAB299948;
+	Thu,  8 Jan 2026 17:31:16 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11021087.outbound.protection.outlook.com [40.107.74.87])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 240FE3321B0;
-	Thu,  8 Jan 2026 17:24:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.87
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767893058; cv=fail; b=TDFUTQS962wtVtKMgYFS78pZ1uaAXjCTv77aj1RyX9K8enmQkbP2VZrD9mDKq7GzP1mKn31BE4CEIsvRKbf38XHVTmeGdCb33mKCzMU8Mm9KiNMrdQooNL0hJL0Nx8RW9M4TFghsR3/9pt4UlrcntIrn9gfIcORmEfUwgAyn4Do=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767893058; c=relaxed/simple;
-	bh=Nme0QTPYgAt1k/YaP0+rhJOUZvgQbAEGzraYJ9H4epI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=pxFvuz6FMUAm/ygCeoCEevg9yu6ZmDcaTqjHMUb28wLhdU6yf56sh1GzXP91mE/gAHwZjtDkRo+7RSY1fZD9+R5zXquS7Z1uFlsiBPNKr0zoDUTsCPqFRCkBi4iCpgKHXlBLMIKLwmSCvXGQsDp6RVFLePqJSwrOKHHSZMdGZp4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp; spf=pass smtp.mailfrom=valinux.co.jp; dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b=JXrKhROL; arc=fail smtp.client-ip=40.107.74.87
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valinux.co.jp
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yqP0NL3eJj6pYw9LGBrsNCgBbc4ese7a/KgUApAQe/W1PhKUh9VTziokaii9+7Z5kGeafCYTty2GFt67fKN2TcnMMi+mIHxUrxtSvXJJCtgyf/e28aCrMvVttz3ZycRbfuN36AagJohf7cD9MJYYmFNYR5ixHheuk9QzTPrtUiNGj6YzDqsTLY+T+RLEnZ0seIBtHa3Ig0sVTbo1vGLJBqYMmoZ1/+e/yCtrnJpFaxG6AIuRGfmLEMokjd6c1MboTBL7LYaUivXNr2sRAzJ6fTAHGgWRjCpVLDc7xQLtmr7AD/oqxFS3AG/SF/mKb2iurPXCpBll+V9BV5QS16DCyg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=75dvJDSfkBp8tOkhejdnZa7L5gqYY8qqC+jo97YGPwE=;
- b=nZ43rko2jUJH1Ku4Fv6lWbUsgcon/xpv1qpMCJ/MO4OkJw7U+otJc2VB2kACUn0GUSBERfpxEDkQdlGpk4Wt5tgiPDl7WGiQ22zW938tLcJxu4DaKloEfb/BV14WOK9rFfwt5yWWZtpIxSXX0K110Pe2wkR/P38PxyCnSAjVDxW8ephVP2/0y96OkZ/hc972at5gfwFNuV5xEc3waMabuMwlQ/SOwhTFhgbu569Qy18MvX19HwnV59dtstNwPn0zakFaBp5vFMNzz0n+b0d4qkdrgsuDRY4JSUcuZ/dGqL0bj1YcVFangEOfNyl5/PC+M5fdPneYrjV7jE4hexEh+g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=valinux.co.jp; dmarc=pass action=none
- header.from=valinux.co.jp; dkim=pass header.d=valinux.co.jp; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valinux.co.jp;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=75dvJDSfkBp8tOkhejdnZa7L5gqYY8qqC+jo97YGPwE=;
- b=JXrKhROL2S8+heU5Q9qryJmLEbtVTUKMYKDwYnUV8CSofCfzJ1DHBwPTgZnAstUz8mfCHCDT35zZFKDrZi2wCN0ngS6wPAB1WnZsioUi78gvDVtAfZMC88FT+YQeZaOrbMfDNk390zn2QyM21Ju5HWYmL+vesefhh1OUEawIups=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=valinux.co.jp;
-Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:38f::10)
- by TYRP286MB5284.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:11a::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.3; Thu, 8 Jan
- 2026 17:24:08 +0000
-Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- ([fe80::2305:327c:28ec:9b32]) by TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- ([fe80::2305:327c:28ec:9b32%5]) with mapi id 15.20.9499.002; Thu, 8 Jan 2026
- 17:24:08 +0000
-From: Koichiro Den <den@valinux.co.jp>
-To: jingoohan1@gmail.com,
-	mani@kernel.org,
-	lpieralisi@kernel.org,
-	kwilczynski@kernel.org,
-	robh@kernel.org,
-	bhelgaas@google.com,
-	cassel@kernel.org
-Cc: vigneshr@ti.com,
-	s-vadapalli@ti.com,
-	hongxing.zhu@nxp.com,
-	l.stach@pengutronix.de,
-	shawnguo@kernel.org,
-	s.hauer@pengutronix.de,
-	kernel@pengutronix.de,
-	festevam@gmail.com,
-	minghuan.Lian@nxp.com,
-	mingkai.hu@nxp.com,
-	roy.zang@nxp.com,
-	jesper.nilsson@axis.com,
-	heiko@sntech.de,
-	srikanth.thokala@intel.com,
-	marek.vasut+renesas@gmail.com,
-	yoshihiro.shimoda.uh@renesas.com,
-	geert+renesas@glider.be,
-	magnus.damm@gmail.com,
-	christian.bruel@foss.st.com,
-	mcoquelin.stm32@gmail.com,
-	alexandre.torgue@foss.st.com,
-	thierry.reding@gmail.com,
-	jonathanh@nvidia.com,
-	hayashi.kunihiko@socionext.com,
-	mhiramat@kernel.org,
-	kishon@kernel.org,
-	jirislaby@kernel.org,
-	rongqianfeng@vivo.com,
-	18255117159@163.com,
-	shawn.lin@rock-chips.com,
-	nicolas.frattaroli@collabora.com,
-	linux.amoon@gmail.com,
-	vidyas@nvidia.com,
-	Frank.Li@nxp.com,
-	linux-omap@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	imx@lists.linux.dev,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-arm-kernel@axis.com,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-tegra@vger.kernel.org
-Subject: [PATCH v5 3/3] PCI: dwc: ep: Support BAR subrange inbound mapping via Address Match Mode iATU
-Date: Fri,  9 Jan 2026 02:24:03 +0900
-Message-ID: <20260108172403.2629671-4-den@valinux.co.jp>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260108172403.2629671-1-den@valinux.co.jp>
-References: <20260108172403.2629671-1-den@valinux.co.jp>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TYCPR01CA0001.jpnprd01.prod.outlook.com (2603:1096:405::13)
- To TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:38f::10)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BDB71EBFE0
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  8 Jan 2026 17:31:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767893475; cv=none; b=ZroJNoCxKFlEFqLDmQHu4XvZrn4N4Q24kMcnVLkkCCaSyFZ3Z9//bLF8kjACpTeSGqpAA/GQt+deqpF8HHUNbezFyw86Tsrgi6V5eGHkluEtb/DBI/fLqgPjPNg81NkdsuCe7I4wCCn+LD9gKyZcGArdAeynlwAbl6BjRLCvcIo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767893475; c=relaxed/simple;
+	bh=6Y/PEiuX8F2nfVedwNRlHLJB8LCK+B2XWyMnAPnOdcw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dsifpVVVt360s/5NWYbnm+Jem4p/MdMhF5zf01b3rS5wwmzOcn+mNS5Pi9t0f1s3SctyrUiZTSAsA45FA+ZJJC+O8HKFkI4nnNiCFA7c9lomr6/RccS/qBdxbbblRqPE/AnSY+vMvlp3zXH1iv0z/Wce8V2bFQOLZJvIBOFwfVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-5636470c344so5895e0c.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 08 Jan 2026 09:31:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767893473; x=1768498273;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ue0J1j0aj6DWC6mYUAkG3yhlZfjuLnCsNmeQNbfJJJs=;
+        b=p+VfEgSL/i40twPxAPggsgFEOy0Ut/DW/8ydHPSz0VoEDVSIDy8QBcz9sTaspDlW9C
+         twLxaF3bKGWxQuO/+1M5otMLhomWNMPpvGPg1DJvdfcbbCslRq+nss2yH3OVQH3Rjk+m
+         2G7N/Tt7vgYftbP7glxemzuTaIOyXYN1bNNdkURy+nWQ0sZYubzqw7rUaxyie77UlPIb
+         FyRLRcptuHMaDgC44wQS1fPSSCCcFaqCv98FqqX6afKXVfS+gNJs3X1JqDsOU90UbvK6
+         a4OeTPLR/jbWxIAH49PdNYDc4v3CynfrnwbW5BdYHBGQJxJdudxxrcZn9qdDKf1ajmsL
+         BgEQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXhh/cZc++Y5aEDCCNHkNV4rqFYSSsz5BUgVBpxVmSfqOXAvBWmqjLKHDAsTMSJNfB/CEtMxPaxYSaWvz+1PiZgKg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx6CGVJMSRfVDae8KYBZ9oNsh6XyJSDNM30YdKKFKnxTe75SUmN
+	253zbfM8L9InXmZKWt4KM013NSN1VzO/Rk1aI2n37DT3/F5oHE6vmhPhF4+9f+AM
+X-Gm-Gg: AY/fxX4K4gz5HQOS57kKGi8c4ybWwgS5iKMPpDh1x6bC4J3ko+JBapa+LbeNJaZX7Uf
+	N0pAPpRuUuHh611wkd45owRviBwMPxEioFOQYxyrh1a0vRa40d1EAgDMG/1AgWnvRcr5v58Vy8o
+	HyUa3u2yPtlS26XKskxiWMVmpself+XwHJ0/HUIFOPA6PvZa1k6xuaFXKZ4eWWd4q6BosFYAoH2
+	7Tf+IZIgQJ2YPYEJYOe+UvGZ0K/fFGOOOlsSrYhAJLP9/ADUSzoZElZZTHuVNPY8QyvmZttlkM7
+	MWBKY4HZFPanqdSMHgdgl9/zrILC0nsa/JVqfcwqc6y5BPQsW/sQ+206Abode1pYXFzLSMkInRK
+	4ddH8ouGLiLkUurro9tEDByvZLA4Q6JXU0EJ6HSxYIFGQYF2Lk49f14fipAPIfitvR8BpiPxlRA
+	rRINIzqa1RWD97WyVFxM12oJxwjr+WdAePD7ls48+ruF9b6EyX1DCR
+X-Google-Smtp-Source: AGHT+IHPN9BfZ6N1bKaxtRkK4su/Ncv7QM8tPGNinNypqeKEcSTiNcRaokiBBRCuO5UbbehlYeFKBw==
+X-Received: by 2002:a05:6122:31a6:b0:55b:6b20:a17a with SMTP id 71dfb90a1353d-56347e96ac2mr2615292e0c.9.1767893473165;
+        Thu, 08 Jan 2026 09:31:13 -0800 (PST)
+Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com. [209.85.221.176])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5633a20a183sm6687615e0c.9.2026.01.08.09.31.12
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Jan 2026 09:31:12 -0800 (PST)
+Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-563497c549cso1397509e0c.3
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 08 Jan 2026 09:31:12 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUfM0ddPkE2DtHC84ksJUrRrVhPWeUjEx3DBIFlSzHUS9ULF78uu3AqWK2h6O5yLRv0+nSkfbMcuEpHUsVSDpDjsw==@vger.kernel.org
+X-Received: by 2002:a05:6102:2acd:b0:5df:a98f:ca85 with SMTP id
+ ada2fe7eead31-5ecb68d3054mr2835192137.21.1767893472628; Thu, 08 Jan 2026
+ 09:31:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY7P286MB7722:EE_|TYRP286MB5284:EE_
-X-MS-Office365-Filtering-Correlation-Id: ba346560-21e4-4281-cfc1-08de4edabb6e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|10070799003|366016|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?roAtOmEmeiUYo1mQEQe52tmcAaVCuAYeJA7B4n2K5TxvV5ZLwvAIyRqnv/fm?=
- =?us-ascii?Q?rDTOnVsqN7dbL1UPNTMazsALFVFR/XmLMlIZAsYBu3AdV9xD0/v0gC1OVE8P?=
- =?us-ascii?Q?MY1LVGknbQRfYzUbapby4BbjgeOgCmfd6qbHLVIfC2sxSXXxgcUdkJ1aB3L4?=
- =?us-ascii?Q?JoLlSjvCVHQwnSu+gGjaL8SI1ITtygDpI3+1PeDPmNbkIw5H/mwI2aLKVFvy?=
- =?us-ascii?Q?a7oNrCfdr6AZ4gIfEWw5e5Wox3goeSNLTBRFUo6sHY6PbxtJb39Ecy8pq9TJ?=
- =?us-ascii?Q?siJdob4GEHfSFi11QzqFPfsW+lgnAIU/tEwavOIlvMxmJZvEXfQgKTna2E4g?=
- =?us-ascii?Q?2mwWa/7WhP9GBdE6fMYzSoDw0q/eW94GYfsZPkqyxtiZDtyjCvsqSUm/IfL9?=
- =?us-ascii?Q?YGscVppL0LbJBGNN8CBouXpmRaLou/Xh7i5Fwh83qVkk9vc4trdrJ2OK25E8?=
- =?us-ascii?Q?LmbZcunLi4vblsgg7zxvCvnDy/RgkAp2Y6VwWfGROXDEsKILFzsDSq8ad4o+?=
- =?us-ascii?Q?7yyE/o/N7pHaxtkr1JiXI10HB3AA6o6im9RjqSttaZsvyWqmIhf8aphRuOda?=
- =?us-ascii?Q?mJzxMym9N5QaTJax+/vgp4zFjBi36a4AqwcTzQ1wtBqLfvkBIE69lOh4+mTs?=
- =?us-ascii?Q?Eyq2blawegVIhpzwVyekDYKzMm7AtYQy0uLEuHAurMEt0WE+BPGj24NpZueq?=
- =?us-ascii?Q?6bVjWzBfJVb7cESid9JF5tGClgS5qJgV9/f9FsygdFHP5iAyOKun4YNeIbPo?=
- =?us-ascii?Q?xQ7zemL6Mhf33APcAJN/xzOZhpV5rv4XgmKGX+suUsMBT/nuqfvSz9jYCdw+?=
- =?us-ascii?Q?3+DfzdgTkghxALCc7l+mjSe8P+TVmHG+tZavKLhSEKBZFPw4bipjJVvX+OaP?=
- =?us-ascii?Q?uRdvG7U6GJDXPDTLVukqYkVrq4ViJaKBQy6s5Vgp0+Iasww8X47L7j5LFbgF?=
- =?us-ascii?Q?r+bJcwDtFdPj3Ib18ehtgWoQfQzf417yGOXI25GhFQReUjflGsPfr9ca5FQR?=
- =?us-ascii?Q?ckTe7MAHOp3g6I8fr9oDOQmXll9xpfac2rQkhUsSIIlNRC7QlCsTyMGAeYat?=
- =?us-ascii?Q?ygwKcArP7M6+wsKsxXcdD9YHxLVMkjZH87vWpTnmwcZC0KaXoixQeKJBMpRb?=
- =?us-ascii?Q?Eu/N3F1EZ6CA03NZU6OQtW4CYNbFD1T+J9DoU3Ikm5PxzocaHSMDUzS89jFg?=
- =?us-ascii?Q?A9+kkt3fqd7/mafRuIpCvjO4bc5nd13Hk716E6ah2e42CtGWjO0pRTvBSgqn?=
- =?us-ascii?Q?dyCiDNvJxU89l35SuMEgmLOgRp8JplCNycEGYUOeF0qnrVLDy65DJFwA3Z8d?=
- =?us-ascii?Q?DN7GYN11tj0LxustWE0q08dONcxNLBrWKdiM50vd8CHxGMi/wtbCb2PjpFWw?=
- =?us-ascii?Q?pSxG6IHSfUu3w8DaOYXHPE6MTml4m+Oj37Eel9BKuortL/5KvNEYCy8Y/E2Y?=
- =?us-ascii?Q?FNIk+7W4UkalEgdzgyeWL9ySOgFOgAJT?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(10070799003)(366016)(7416014)(376014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?vgMY4+aI08vSua7Lgw6Jjxvo8abemPb+UQxQ2rznFa/iYCyNWjaMht0v4Hyq?=
- =?us-ascii?Q?sLtTj3rU4g/QtdkSqpd0deWsXDrGlc7Kfx0/ceIDkjMgYSeTt2HsqAN7/MAd?=
- =?us-ascii?Q?G6uVhbMPbjuPwpVTHaWGA6JYrm8eT0Xw9VWrI9Yq/QrPIq6jLKAnLHuZqu1v?=
- =?us-ascii?Q?3Obvn7s/3QwcRaKPI+5prjMEFDmqjbLDCBac1g5gV+5rlBU++nkxoMivbKAI?=
- =?us-ascii?Q?7YCtZrJu+SnhUhsIU4b67VgheKBfMIvhAtMi5rP1Zxh4c+dij5CVfrRs7Bhz?=
- =?us-ascii?Q?N/Bu6JIxFqjOHyrt/G3JxQtqYA6sImSl49Gcgor9ZTggGMr1EOHY5CCezZd9?=
- =?us-ascii?Q?ZtFaFVUaRmlqzP3gZiPCRSZVU14sfyRE/W7YCaRDrzxj+keUXD453nLwHNk1?=
- =?us-ascii?Q?2EN55Aqdp+ZgbV+EX/dIIby7vVJl3dvDyuzOPCaAXRWxwx84kWC748MMHSOu?=
- =?us-ascii?Q?1yioo6b2lHOIv7SmdMh0A+GN/cxlCMMJDBPHh3KA/+X+F3lG5sEiUf4gtl5o?=
- =?us-ascii?Q?YcvkMq0NUN3eHmDX1uSTKFFt16iQZk37T69ECp65hjLQ2RkO+fUmQ7R1acit?=
- =?us-ascii?Q?50auoY7PSpIsYBgA9t1MZI0wJWM9zRUp6r7pSObBABzdTtEdkDL4qxNS561j?=
- =?us-ascii?Q?+n8GgoiTbqUs9e7cBL2S/ZzXvQw5bxow9ZkRnerk5KlvvcAOoYjxjaVbeEuS?=
- =?us-ascii?Q?AlC9jGZOC+FfFoJv6g83czNXBisXJjQkNVB2xuEFVuxcjU4lbtQSKRcBJFda?=
- =?us-ascii?Q?MyIX7HP/Oc+yu6oJG1ZuWhiZep8ybkN1SDKQaF96vs1Bn0NDxdAGpBj7Ilr3?=
- =?us-ascii?Q?5YxCyHWedgy72T9rLNr+BMXmuwHMavY8kvBGISsX+MtzNHfRYfln/lIMGN//?=
- =?us-ascii?Q?G+WyiarzDhe2TKqZMtn64Q0Waa/hNvcwwP30AtwDINiWwKiDlPmCS80UB0Lu?=
- =?us-ascii?Q?ThW/3e82ma/SLKht7tR0z04DtOmpybgUYzxC3nLQav2FB8zeQFpyXhe05ru3?=
- =?us-ascii?Q?LadZxqoTvzSmti7uZw7XZ4jkigf9UpdATQxx+cUip/ZgoW7Dse53D7GX2I+5?=
- =?us-ascii?Q?Y8p/9uxrSx7Xl3nFoegXMI+4r0k3LW+xCbor373P9eKDwfYV1/zMT5Hc3c0V?=
- =?us-ascii?Q?eil8hRyrPEbuDo6d9iccfb1YdoXqKyEYkXiQWe7BAlnWcXBsa05EfSyo8U+w?=
- =?us-ascii?Q?CZ/V3tRncJQaVrb7J6sMBecGXF7W3Gq1So09BcbCAPEl/u/zZ108nqO8hKTy?=
- =?us-ascii?Q?BZv4ivxtUahIvjWERBMRmxh4hkCgxfZ9ijMtlt3X8e5ymlpZ874Gbs/CMOjU?=
- =?us-ascii?Q?/SlhCX6AjchEw5ePFKXZ3XsdJLZoN/TzQYf2eFvCC+JR7kbdjRmxXoltea4/?=
- =?us-ascii?Q?JkP8uANzg7vU/+HLDaUBwOCby0oxq+n3U7ozD4XHaNvn/JJfMCu2e4Luup3F?=
- =?us-ascii?Q?mtyBZ5kouXk+CeFmm9ESm1LCm5fz0pa89YmJ3QuIhINUfK1142pEf8vLHcfY?=
- =?us-ascii?Q?ryIosRO68ef+MfJlTrzHr1Ema1WHh3GS69ljREp9HOfvWWwawQ4zdXR+JIA2?=
- =?us-ascii?Q?FrdVGvVtlHJpzErzCaGJpkMMLGTt/zZBK3ZKQCjxNWKYPUVpyW+iBYTDq+Q/?=
- =?us-ascii?Q?ShE5WdKbtF8ACpCIGYeYrHL/3IoF1nHc+ENVmVeNbk8z/BS0X9C83Diz23Wo?=
- =?us-ascii?Q?UB3IagbzxVynwEjiK75UMh13ZT2KdOsoYyoFspztk45qasWH7h5rJv4NXngQ?=
- =?us-ascii?Q?VrBiPaeO9rK0p649mCWhjpnbmarQ66eHMx3bz1id3KDt13rTBv6a?=
-X-OriginatorOrg: valinux.co.jp
-X-MS-Exchange-CrossTenant-Network-Message-Id: ba346560-21e4-4281-cfc1-08de4edabb6e
-X-MS-Exchange-CrossTenant-AuthSource: TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2026 17:24:08.8136
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 7a57bee8-f73d-4c5f-a4f7-d72c91c8c111
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DTqjl7Nk96f7TIMzmHv6ROaySR0cycaYHlWc8B5suLWBcHrp2y1eFzHv6dhcEMe5Od04zsApwvRtiyz+fKOYUw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYRP286MB5284
+References: <20251205150234.2958140-1-cosmin-gabriel.tanislav.xa@renesas.com> <20251205150234.2958140-5-cosmin-gabriel.tanislav.xa@renesas.com>
+In-Reply-To: <20251205150234.2958140-5-cosmin-gabriel.tanislav.xa@renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 8 Jan 2026 18:31:01 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX_ezZMYc3BRJRLFVwir6NPnxNUPw1Z0+oQDZjx_unJjA@mail.gmail.com>
+X-Gm-Features: AQt7F2qqDC6QTfmP9u1liaa7gLEyyN7-59wLYd5yvmPeQ7bjaUsCdlwPUmuKCIA
+Message-ID: <CAMuHMdX_ezZMYc3BRJRLFVwir6NPnxNUPw1Z0+oQDZjx_unJjA@mail.gmail.com>
+Subject: Re: [PATCH v2 4/8] pinctrl: renesas: rzt2h: add GPIO IRQ chip to
+ handle interrupts
+To: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+Cc: Linus Walleij <linusw@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-renesas-soc@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Extend dw_pcie_ep_set_bar() to support inbound mappings for BAR
-subranges using Address Match Mode IB iATU.
+Hi Cosmin,
 
-Rename the existing BAR-match helper into dw_pcie_ep_ib_atu_bar() and
-introduce dw_pcie_ep_ib_atu_addr() for Address Match Mode. When
-use_submap is set, read the assigned BAR base address and program one
-inbound iATU window per subrange. Validate the submap array before
-programming:
-- each subrange is aligned to pci->region_align
-- subranges cover the whole BAR (no gaps and no overlaps)
-- subranges are sorted in ascending order by offset
+On Fri, 5 Dec 2025 at 16:03, Cosmin Tanislav
+<cosmin-gabriel.tanislav.xa@renesas.com> wrote:
+> The Renesas RZ/T2H (R9A09G077) and Renesas RZ/N2H (R9A09G087) SoCs have
+> IRQ-capable pins handled by the ICU, which forwards them to the GIC.
+>
+> The ICU supports 16 IRQ lines, the pins map to these lines arbitrarily,
+> and the mapping is not configurable.
+>
+> Add a GPIO IRQ chip to the pin controller that can be used to configure
+> these pins as IRQ lines.
+>
+> The pin controller places the requested pins into IRQ function,
+> disabling GPIO mode. A hierarchical IRQ domain is used to forward other
+> functionality to the parent IRQ domain, the ICU. The ICU does level
+> translation and then forwards other functionality to the GIC.
+>
+> Wakeup capability is implemented by placing the entire pin controller on
+> the wakeup path if any pins are requested to be wakeup-capable.
+>
+> Signed-off-by: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
 
-Track Address Match Mode mappings and tear them down on clear_bar() and
-on set_bar() error paths to avoid leaving half-programmed state or
-untranslated BAR holes.
+Thanks for your patch!
 
-Advertise this capability by setting subrange_mapping in the EPC
-features returned from dw_pcie_ep_get_features().
+> --- a/drivers/pinctrl/renesas/pinctrl-rzt2h.c
+> +++ b/drivers/pinctrl/renesas/pinctrl-rzt2h.c
 
-Signed-off-by: Koichiro Den <den@valinux.co.jp>
----
- .../pci/controller/dwc/pcie-designware-ep.c   | 242 +++++++++++++++++-
- drivers/pci/controller/dwc/pcie-designware.h  |   2 +
- 2 files changed, 232 insertions(+), 12 deletions(-)
+> @@ -644,14 +650,194 @@ static const char * const rzt2h_gpio_names[] = {
+>         "P35_0", "P35_1", "P35_2", "P35_3", "P35_4", "P35_5", "P35_6", "P35_7",
+>  };
+>
+> +/*
+> + * Interrupts 0-15 are for INTCPUn, which are not exposed externally.
+> + * Interrupts 16-31 are for IRQn. SEI is 32.
 
-diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
-index 1195d401df19..406e9218e4ea 100644
---- a/drivers/pci/controller/dwc/pcie-designware-ep.c
-+++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
-@@ -139,9 +139,10 @@ static int dw_pcie_ep_write_header(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
- 	return 0;
- }
- 
--static int dw_pcie_ep_inbound_atu(struct dw_pcie_ep *ep, u8 func_no, int type,
--				  dma_addr_t parent_bus_addr, enum pci_barno bar,
--				  size_t size)
-+/* Bar Match Mode inbound iATU mapping */
-+static int dw_pcie_ep_ib_atu_bar(struct dw_pcie_ep *ep, u8 func_no, int type,
-+				 dma_addr_t parent_bus_addr, enum pci_barno bar,
-+				 size_t size)
- {
- 	int ret;
- 	u32 free_win;
-@@ -174,6 +175,208 @@ static int dw_pcie_ep_inbound_atu(struct dw_pcie_ep *ep, u8 func_no, int type,
- 	return 0;
- }
- 
-+/* Inbound mapping bookkeeping for Address Match Mode */
-+struct dw_pcie_ib_map {
-+	struct list_head	list;
-+	enum pci_barno		bar;
-+	u64			pci_addr;
-+	u64			parent_bus_addr;
-+	u64			size;
-+	u32			index;
-+};
-+
-+static void dw_pcie_ep_clear_ib_maps(struct dw_pcie_ep *ep, enum pci_barno bar)
-+{
-+	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
-+	struct dw_pcie_ib_map *m, *tmp;
-+	struct device *dev = pci->dev;
-+	u32 atu_index;
-+
-+	/* Tear down the BAR Match Mode mapping, if any. */
-+	if (ep->bar_to_atu[bar]) {
-+		atu_index = ep->bar_to_atu[bar] - 1;
-+		dw_pcie_disable_atu(pci, PCIE_ATU_REGION_DIR_IB, atu_index);
-+		clear_bit(atu_index, ep->ib_window_map);
-+		ep->bar_to_atu[bar] = 0;
-+	}
-+
-+	/* Tear down all Address Match Mode mappings, if any. */
-+	guard(spinlock_irqsave)(&ep->ib_map_lock);
-+	list_for_each_entry_safe(m, tmp, &ep->ib_map_list, list) {
-+		if (m->bar != bar)
-+			continue;
-+		dw_pcie_disable_atu(pci, PCIE_ATU_REGION_DIR_IB, m->index);
-+		clear_bit(m->index, ep->ib_window_map);
-+		list_del(&m->list);
-+		devm_kfree(dev, m);
-+	}
-+}
-+
-+static u64 dw_pcie_ep_read_bar_assigned(struct dw_pcie_ep *ep, u8 func_no,
-+					enum pci_barno bar, int flags)
-+{
-+	u32 reg = PCI_BASE_ADDRESS_0 + (4 * bar);
-+	u32 lo, hi;
-+	u64 addr;
-+
-+	lo = dw_pcie_ep_readl_dbi(ep, func_no, reg);
-+
-+	if (flags & PCI_BASE_ADDRESS_SPACE)
-+		return lo & PCI_BASE_ADDRESS_IO_MASK;
-+
-+	addr = lo & PCI_BASE_ADDRESS_MEM_MASK;
-+	if (!(flags & PCI_BASE_ADDRESS_MEM_TYPE_64))
-+		return addr;
-+
-+	hi = dw_pcie_ep_readl_dbi(ep, func_no, reg + 4);
-+	return addr | ((u64)hi << 32);
-+}
-+
-+static int dw_pcie_ep_validate_submap(struct dw_pcie_ep *ep,
-+				      const struct pci_epf_bar_submap *submap,
-+				      unsigned int num_submap, size_t bar_size)
-+{
-+	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
-+	u32 align = pci->region_align;
-+	size_t expected = 0;
-+	size_t size, off;
-+	unsigned int i;
-+
-+	if (!align || !IS_ALIGNED(bar_size, align))
-+		return -EINVAL;
-+
-+	/*
-+	 * The array is expected to be sorted by offset before calling this
-+	 * helper. With sorted entries, we can enforce a strict, gapless
-+	 * decomposition of the BAR:
-+	 *  - each entry has a non-zero size
-+	 *  - offset/size/phys_addr are aligned to pci->region_align
-+	 *  - each entry lies within the BAR range
-+	 *  - entries are contiguous (no overlaps, no holes)
-+	 *  - the entries exactly cover the whole BAR
-+	 *
-+	 * Note: dw_pcie_prog_inbound_atu() also checks alignment for
-+	 * offset/phys_addr, but validating up-front avoids partially
-+	 * programming iATU windows in vain.
-+	 */
-+	for (i = 0; i < num_submap; i++) {
-+		off = submap[i].offset;
-+		size = submap[i].size;
-+
-+		if (!size)
-+			return -EINVAL;
-+
-+		if (!IS_ALIGNED(size, align) || !IS_ALIGNED(off, align))
-+			return -EINVAL;
-+
-+		if (!IS_ALIGNED(submap[i].phys_addr, align))
-+			return -EINVAL;
-+
-+		if (off > bar_size || size > bar_size - off)
-+			return -EINVAL;
-+
-+		/* Enforce contiguity (no overlaps, no holes). */
-+		if (off != expected)
-+			return -EINVAL;
-+
-+		expected += size;
-+	}
-+	if (expected != bar_size)
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+/* Address Match Mode inbound iATU mapping */
-+static int dw_pcie_ep_ib_atu_addr(struct dw_pcie_ep *ep, u8 func_no, int type,
-+				  const struct pci_epf_bar *epf_bar)
-+{
-+	const struct pci_epf_bar_submap *submap = epf_bar->submap;
-+	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
-+	enum pci_barno bar = epf_bar->barno;
-+	struct device *dev = pci->dev;
-+	u64 pci_addr, parent_bus_addr;
-+	struct dw_pcie_ib_map *new;
-+	u64 size, off, base;
-+	unsigned long flags;
-+	int free_win, ret;
-+	unsigned int i;
-+
-+	if (!epf_bar->num_submap || !submap || !epf_bar->size)
-+		return -EINVAL;
-+
-+	ret = dw_pcie_ep_validate_submap(ep, submap, epf_bar->num_submap,
-+					 epf_bar->size);
-+	if (ret)
-+		return ret;
-+
-+	base = dw_pcie_ep_read_bar_assigned(ep, func_no, bar, epf_bar->flags);
-+	if (!base) {
-+		dev_err(dev,
-+			"BAR%u not assigned, cannot set up sub-range mappings\n",
-+			bar);
-+		return -EINVAL;
-+	}
-+
-+	/* Tear down any existing mappings before (re)programming. */
-+	dw_pcie_ep_clear_ib_maps(ep, bar);
-+
-+	for (i = 0; i < epf_bar->num_submap; i++) {
-+		off = submap[i].offset;
-+		size = submap[i].size;
-+		parent_bus_addr = submap[i].phys_addr;
-+
-+		if (off > (~0ULL) - base) {
-+			ret = -EINVAL;
-+			goto err;
-+		}
-+
-+		pci_addr = base + off;
-+
-+		new = devm_kzalloc(dev, sizeof(*new), GFP_KERNEL);
-+		if (!new) {
-+			ret = -ENOMEM;
-+			goto err;
-+		}
-+
-+		spin_lock_irqsave(&ep->ib_map_lock, flags);
-+
-+		free_win = find_first_zero_bit(ep->ib_window_map,
-+					       pci->num_ib_windows);
-+		if (free_win >= pci->num_ib_windows) {
-+			spin_unlock_irqrestore(&ep->ib_map_lock, flags);
-+			devm_kfree(dev, new);
-+			ret = -ENOSPC;
-+			goto err;
-+		}
-+		set_bit(free_win, ep->ib_window_map);
-+
-+		new->bar = bar;
-+		new->index = free_win;
-+		new->pci_addr = pci_addr;
-+		new->parent_bus_addr = parent_bus_addr;
-+		new->size = size;
-+		list_add_tail(&new->list, &ep->ib_map_list);
-+
-+		spin_unlock_irqrestore(&ep->ib_map_lock, flags);
-+
-+		ret = dw_pcie_prog_inbound_atu(pci, free_win, type,
-+					       parent_bus_addr, pci_addr, size);
-+		if (ret) {
-+			spin_lock_irqsave(&ep->ib_map_lock, flags);
-+			list_del(&new->list);
-+			clear_bit(free_win, ep->ib_window_map);
-+			spin_unlock_irqrestore(&ep->ib_map_lock, flags);
-+			devm_kfree(dev, new);
-+			goto err;
-+		}
-+	}
-+	return 0;
-+err:
-+	dw_pcie_ep_clear_ib_maps(ep, bar);
-+	return ret;
-+}
-+
- static int dw_pcie_ep_outbound_atu(struct dw_pcie_ep *ep,
- 				   struct dw_pcie_ob_atu_cfg *atu)
- {
-@@ -204,17 +407,15 @@ static void dw_pcie_ep_clear_bar(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
- 	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
- 	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
- 	enum pci_barno bar = epf_bar->barno;
--	u32 atu_index = ep->bar_to_atu[bar] - 1;
- 
--	if (!ep->bar_to_atu[bar])
-+	if (!ep->epf_bar[bar])
- 		return;
- 
- 	__dw_pcie_ep_reset_bar(pci, func_no, bar, epf_bar->flags);
- 
--	dw_pcie_disable_atu(pci, PCIE_ATU_REGION_DIR_IB, atu_index);
--	clear_bit(atu_index, ep->ib_window_map);
-+	dw_pcie_ep_clear_ib_maps(ep, bar);
-+
- 	ep->epf_bar[bar] = NULL;
--	ep->bar_to_atu[bar] = 0;
- }
- 
- static unsigned int dw_pcie_ep_get_rebar_offset(struct dw_pcie *pci,
-@@ -408,10 +609,17 @@ static int dw_pcie_ep_set_bar(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
- 	else
- 		type = PCIE_ATU_TYPE_IO;
- 
--	ret = dw_pcie_ep_inbound_atu(ep, func_no, type, epf_bar->phys_addr, bar,
--				     size);
--	if (ret)
-+	if (epf_bar->use_submap)
-+		ret = dw_pcie_ep_ib_atu_addr(ep, func_no, type, epf_bar);
-+	else
-+		ret = dw_pcie_ep_ib_atu_bar(ep, func_no, type,
-+					    epf_bar->phys_addr, bar, size);
-+
-+	if (ret) {
-+		if (epf_bar->use_submap)
-+			dw_pcie_ep_clear_bar(epc, func_no, vfunc_no, epf_bar);
- 		return ret;
-+	}
- 
- 	ep->epf_bar[bar] = epf_bar;
- 
-@@ -626,11 +834,19 @@ static const struct pci_epc_features*
- dw_pcie_ep_get_features(struct pci_epc *epc, u8 func_no, u8 vfunc_no)
- {
- 	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
-+	struct pci_epc_features *features;
- 
- 	if (!ep->ops->get_features)
- 		return NULL;
- 
--	return ep->ops->get_features(ep);
-+	features = ep->ops->get_features(ep);
-+	if (!features)
-+		return NULL;
-+
-+	/* All DWC-based glue drivers support inbound subrange mapping */
-+	features->subrange_mapping = true;
-+
-+	return features;
- }
- 
- static const struct pci_epc_ops epc_ops = {
-@@ -1120,6 +1336,8 @@ int dw_pcie_ep_init(struct dw_pcie_ep *ep)
- 	struct device *dev = pci->dev;
- 
- 	INIT_LIST_HEAD(&ep->func_list);
-+	INIT_LIST_HEAD(&ep->ib_map_list);
-+	spin_lock_init(&ep->ib_map_lock);
- 	ep->msi_iatu_mapped = false;
- 	ep->msi_msg_addr = 0;
- 	ep->msi_map_size = 0;
-diff --git a/drivers/pci/controller/dwc/pcie-designware.h b/drivers/pci/controller/dwc/pcie-designware.h
-index 4dda9a38d46b..969b1f32dddf 100644
---- a/drivers/pci/controller/dwc/pcie-designware.h
-+++ b/drivers/pci/controller/dwc/pcie-designware.h
-@@ -479,6 +479,8 @@ struct dw_pcie_ep {
- 	phys_addr_t		*outbound_addr;
- 	unsigned long		*ib_window_map;
- 	unsigned long		*ob_window_map;
-+	struct list_head	ib_map_list;
-+	spinlock_t		ib_map_lock;
- 	void __iomem		*msi_mem;
- 	phys_addr_t		msi_mem_phys;
- 	struct pci_epf_bar	*epf_bar[PCI_STD_NUM_BARS];
+Isn't SEI 406, and DMAC0_INT0 32?
+
+> + * This table matches the information found in User Manual's Table 17.2,
+> + * List of multiplexed pin configurations (5 of 51).
+
+3-6 of 51
+
+However, the mapping is much easier to derive from the "Interrupt" rows
+in the various tables in Section 17.5 ("Multiplexed Pin Configurations"),
+as these match the order in rzt2h_gpio_irq_map[].
+
+> + * RZ/N2H has the same GPIO to IRQ mapping, except for the pins which
+> + * are not present.
+> + */
+> +static const u8 rzt2h_gpio_irq_map[] = {
+> +       32, 16, 17, 18, 19,  0, 20, 21,
+
+s/32/406/, but that doesn't fit in u8, and would overflow .used_irqs[],
+so you probably should translate it in the code instead.
+
+> +       22,  0,  0,  0,  0,  0,  0,  0,
+> +       23, 24, 25, 26, 27,  0,  0,  0,
+> +        0,  0, 28, 29, 30, 31,  0,  0,
+> +        0,  0,  0,  0,  0, 32, 16, 17,
+> +       18, 19, 20, 21, 22,  0,  0,  0,
+> +        0,  0, 24, 25, 26, 27,  0, 28,
+> +       29, 30, 31,  0,  0,  0,  0,  0,
+> +        0,  0,  0,  0,  0, 24, 32, 16,
+> +        0,  0,  0,  0,  0,  0,  0,  0,
+> +       20, 23, 17, 18, 19,  0, 16, 25,
+> +       29, 20, 21, 22, 23,  0,  0,  0,
+> +        0,  0,  0,  0, 17,  0,  0, 18,
+> +        0,  0, 19,  0,  0, 20,  0, 30,
+> +       21,  0,  0, 22,  0,  0, 24, 25,
+> +        0,  0,  0,  0,  0, 16, 17,  0,
+> +       18,  0,  0, 26, 27,  0,  0,  0,
+> +       28, 29, 30, 31,  0,  0,  0,  0,
+> +       23, 31, 32, 16, 17, 18, 19, 20,
+> +        0,  0,  0,  0,  0,  0,  0,  0,
+> +        0,  0,  0,  0,  0,  0,  0,  0,
+> +        0,  0,  0,  0,  0,  0,  0,  0,
+> +       27,  0,  0, 21, 22, 23, 24, 25,
+> +       26,  0,  0,  0,  0,  0,  0,  0,
+> +       27, 28, 29, 30, 31,  0,  0,  0,
+> +        0,  0,  0,  0,  0,  0,  0,  0,
+> +        0,  0,  0,  0,  0, 28, 32, 16,
+> +       17, 18, 19,  0,  0,  0,  0, 20,
+> +       21, 22, 23,  0,  0,  0,  0,  0,
+> +        0,  0,  0,  0, 24, 25,  0,  0,
+> +        0,  0, 26, 27,  0,  0,  0, 30,
+> +        0, 29,  0,  0,  0,  0,  0,  0,
+> +        0,  0,  0,  0,  0,  0,  0,  0,
+> +        0,  0,  0, 28, 29, 30, 31,  0,
+> +        0,  0,  0,  0,  0,  0,  0, 30,
+> +        0,  0,  0,  0,  0,  0,  0,  0,
+> +};
+
+> +static int rzt2h_pinctrl_suspend_noirq(struct device *dev)
+> +{
+> +       struct rzt2h_pinctrl *pctrl = dev_get_drvdata(dev);
+> +
+> +       if (atomic_read(&pctrl->wakeup_path))
+> +               device_set_wakeup_path(dev);
+> +
+> +       return 0;
+> +}
+
+Please move this function closer to the location where it is used,
+i.e. just above rzt2h_pinctrl_pm_ops.
+
+>+ static int rzt2h_gpio_child_to_parent_hwirq(struct gpio_chip *gc,
+>+                                            unsigned int child,
+>+                                            unsigned int child_type,
+>+                                            unsigned int *parent,
+>+                                            unsigned int *parent_type)
+>+ {
+>+        struct rzt2h_pinctrl *pctrl = gpiochip_get_data(gc);
+>+        u8 port = RZT2H_PIN_ID_TO_PORT(child);
+>+        u8 pin = RZT2H_PIN_ID_TO_PIN(child);
+>+        u8 parent_irq;
+>+
+>+        parent_irq = rzt2h_gpio_irq_map[child];
+>+        if (parent_irq < RZT2H_INTERRUPTS_START)
+
+Or !parent_irq, cfr. the check in rzt2h_gpio_init_irq_valid_mask()?
+
+>+                return -EINVAL;
+>+
+>+        if (test_and_set_bit(parent_irq - RZT2H_INTERRUPTS_START,
+>+                             pctrl->used_irqs))
+>+                return -EBUSY;
+>+
+>+        rzt2h_pinctrl_set_pfc_mode(pctrl, port, pin, PFC_FUNC_INTERRUPT);
+>+
+>+        *parent = parent_irq;
+>+        *parent_type = child_type;
+>+
+>+        return 0;
+>+ }
+
+> +
+>  static int rzt2h_gpio_register(struct rzt2h_pinctrl *pctrl)
+>  {
+>         struct pinctrl_gpio_range *range = &pctrl->gpio_range;
+>         struct gpio_chip *chip = &pctrl->gpio_chip;
+> +       struct device_node *np = pctrl->dev->of_node;
+> +       struct irq_domain *parent_domain;
+>         struct device *dev = pctrl->dev;
+>         struct of_phandle_args of_args;
+> +       struct device_node *parent_np;
+> +       struct gpio_irq_chip *girq;
+>         int ret;
+>
+> +       parent_np = of_irq_find_parent(np);
+> +       if (!parent_np)
+> +               return -ENXIO;
+
+Despite your claim that the interrupts properties are optional,
+I think  this will abort probing when they are actually missing?
+
+> +
+> +       parent_domain = irq_find_host(parent_np);
+> +       of_node_put(parent_np);
+> +       if (!parent_domain)
+> +               return -EPROBE_DEFER;
+> +
+>         ret = of_parse_phandle_with_fixed_args(dev->of_node, "gpio-ranges", 3, 0, &of_args);
+>         if (ret)
+>                 return dev_err_probe(dev, ret, "Unable to parse gpio-ranges\n");
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.51.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
