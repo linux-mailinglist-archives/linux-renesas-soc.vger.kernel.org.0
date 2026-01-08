@@ -1,166 +1,363 @@
-Return-Path: <linux-renesas-soc+bounces-26459-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26460-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BC1AD05295
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 08 Jan 2026 18:47:13 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CD3AD059EC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 08 Jan 2026 19:43:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 4D9593019E0D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Jan 2026 17:43:10 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6F30A3186F51
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Jan 2026 17:51:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56AEA2F9DA1;
-	Thu,  8 Jan 2026 17:43:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01B082E7635;
+	Thu,  8 Jan 2026 17:51:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b="PwZDLJ4c"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4BBD2DFA31
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  8 Jan 2026 17:43:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3471299A90;
+	Thu,  8 Jan 2026 17:51:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.120.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767894187; cv=none; b=GE7MDCmgRmoCwZX2HM8/cfo+MFqNG3RfEZwZSEXua68IYNhIKWwkE222lB42UQ2z5HiLWL3KwKu7iPFUzcTgDhfnr8AfXOyepcr43H1PP6kSWK5I/0Y/vpK2TSP21kpwuV7EHc5AxXviUUuq51O70LsdECoO91DzzzyM7pBMoW0=
+	t=1767894701; cv=none; b=YOQeP/IbxbRwEpH0MyHW9luE0WAXjh690RkkaUUqDKiGTiRT9apJdA6uiH7ltCMq5csTjd+mbi1QPqFIeptNBs8FskuyBIKm4QE8N2abzqst+aCI0tJ0/zal3YH6iTOl6xyaVlVk6QrDeDQAnLxVDLXarK+GBCbt3iJCZTB9zrI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767894187; c=relaxed/simple;
-	bh=GAMmRH8WG4SuwJpSk40B1/V0uVXYQJKFg56MoYwmk70=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kcHaX+gICMaoZ7+ic911lJVJ8xEyBwjeyXcGD9rhg1Voi9tTLuM0koVBBHHmZ21eyus3H51BzZ8d0VIGNSn2YuBkaUSX+wAmIgFS0ZcFW9X0sVe4kHyLfHwg6V4P7tY0RDI/HaPyB15wFpg7iPENWyCXRonMfyGNyhuzYMZPwvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-5636227a6e6so154433e0c.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 08 Jan 2026 09:43:02 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767894179; x=1768498979;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Pfe9XNi/Cjru8cNLH+ivGd+Nm2hyK8hmMgtx6v7K+ro=;
-        b=e2yRhWt2szDBBoiMBM1a04MTEjC0UG52koeropwr4I1HQe6hs6c6k/hujsa4/e3r+c
-         IMiK2qmp+DrrgoFKCbI1mA3BmUB9IUI9IQDZ+gHrQ5bwk6t3uowiuHl18+lKZV9Bk6XA
-         Y3y3RMkl6GEYMAY3MbwpLzmB2VByuZuqaX8r9HYQRQIvMtwx5Kuj1u+kB8LJ05Xoobe0
-         5BzNeKuF8dixH23QCZMYYgPzVcmWt9hzQwZSDJIABxJD3Tt35zLpYteUzWh4flu69lYY
-         kwtSlDXxCPbqrj7wM7Jmg7/7adPVuIlwCRdsHDSn5GRGqrZ0lQcVbvMJNQUQUEVkXV4L
-         yPKQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXY71MeOJ0UimjHpjvcSSiNOCrcy933SjQPFT+ocA4/5ac24fCyVWkPcXESdVX6mAS8VRyeHaYjE4/1yH9FUzzi1A==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyhs5/MKoVCIO1T9crO8kWwL9iqDrMSuVxncqsgMN1CVqKgjn+N
-	KArRUqi6uKAv2+lDdVelvIX+LKlzePYi7n7ZIpHMNxg47HafeiacKSJwo105k5xA
-X-Gm-Gg: AY/fxX7r595naDOjgODARUrNao4PtF5hTHBlI41d3jcn4i4sTnYrcE/1jbtiNIyerX6
-	Pf+mUltnt4JhAJ8BRo2Xs5/7zgQ1zvUofaJojwKGDc0vbnuQewZ1Db/9RWNJcyvtT7kttTZ/ea4
-	G3UhMz4ifqNHmLvudQzOKWoPv8BqHWdeVJPZzQjX7AFBbYprQB8vfyrmjO7UaKu6IVA+hTIaLEn
-	xlhjn5VmjTxDYqkcE1ZuwyBix44gybHJ2Dv3p1fcvlMc2xxQ6fqmI4bDP2GZJskb/QD5RHGXrRj
-	EGNZ5gR0khMju4uvBAxBwg4ECaxtlG31pig43o+0V2YOLMGIJzUQvDrVIPvDqQW1ms5/QAikzKM
-	D91K7qszM+8ATeGJl4a0rsfIq1Oh/1oPZ/7K9+P64gmwbY0HJLmoBX9PyTYrh9mDQr6rPWGftm7
-	0b3XApiay0hJn38CPQdIeUj7YfZp8wFw034i5fswQbnpH3djtk
-X-Google-Smtp-Source: AGHT+IGitEkJWpLfsKMfrH2+GcphEvJV7Z6ipiQXz2SbCYkowEKWmVedJJ20/B5naTOvO+JhDbhCuA==
-X-Received: by 2002:a05:6122:8292:b0:559:ed61:46d8 with SMTP id 71dfb90a1353d-56347fb4492mr2100959e0c.10.1767894179371;
-        Thu, 08 Jan 2026 09:42:59 -0800 (PST)
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com. [209.85.217.50])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5634d9162a4sm4992658e0c.15.2026.01.08.09.42.58
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Jan 2026 09:42:58 -0800 (PST)
-Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-5ec84929ddcso584948137.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 08 Jan 2026 09:42:58 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWZrvcPsh2i40Lavw1F1gMaZXUOIhTDSoeYMTTh94O7LEMSROcZTQV24R/07ree1B5ODG9M9jqmBf4n6/cGwg8sLA==@vger.kernel.org
-X-Received: by 2002:a05:6102:5cc7:b0:5dd:89ad:1100 with SMTP id
- ada2fe7eead31-5ecb5cbb74bmr2376260137.6.1767894178396; Thu, 08 Jan 2026
- 09:42:58 -0800 (PST)
+	s=arc-20240116; t=1767894701; c=relaxed/simple;
+	bh=XRfbwIrNhnIWMfy4CEVMyXBuMHC+Nuy54ziYRmP/7wU=;
+	h=Date:From:To:Cc:Message-Id:In-Reply-To:References:Mime-Version:
+	 Content-Type:Subject; b=n7vh/8awGzkQOkV8jILx3S/aNIhpxgcCX+cgMZIu3OFSPzHIlIHr5jERVo0U6/OpSwWwMdyzgMmifJN1YSnJYtvLiAfEaO4aakrrQrE0J73yS3CoSvzjgwLZ1XAjUz2Xra8qTVPp2I1bmns0UVih996hl0yWEyDAYde8S4oP2jM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com; spf=pass smtp.mailfrom=hugovil.com; dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b=PwZDLJ4c; arc=none smtp.client-ip=162.243.120.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hugovil.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
+	; s=x; h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
+	:Date:subject:date:message-id:reply-to;
+	bh=e/2Mg764qb0weUn02TeW6PviD+BVmN/Wp9ueVxWLVG8=; b=PwZDLJ4cER8TklH5SQi3epcIuK
+	Ef5g6zxqlNcqvZl5k7asShLjEC994Tw+zV4CafFql1RRtW2Rp6J+80NNZ734EEN1kdFvYctyFyjog
+	K9G99xSTrR1xbgmXxG/7zV1/lO1M51EE2M8Ot+x8X73PR/aW2Hz8coAcJ5STx5JjKKr4=;
+Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:45838 helo=pettiford.lan)
+	by mail.hugovil.com with esmtpa (Exim 4.92)
+	(envelope-from <hugo@hugovil.com>)
+	id 1vduAY-0005J2-LO; Thu, 08 Jan 2026 12:51:35 -0500
+Date: Thu, 8 Jan 2026 12:51:34 -0500
+From: Hugo Villeneuve <hugo@hugovil.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Claudiu.Beznea <claudiu.beznea@tuxon.dev>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Claudiu
+ Beznea <claudiu.beznea.uj@bp.renesas.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Jessica Zhang <jesszhan0024@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Chris Brandt
+ <Chris.Brandt@renesas.com>
+Message-Id: <20260108125134.6ce05fd214a217a37de9ed4b@hugovil.com>
+In-Reply-To: <TY3PR01MB11346AA75CAA2496A06BCEC438685A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20260107164839.a490a194d975edc399d72d01@hugovil.com>
+	<f2aaa95a-fb69-46d8-ba0b-fdc793273455@tuxon.dev>
+	<20260108105319.6bef21d3fc60b261792d07c6@hugovil.com>
+	<TY3PR01MB11346AA75CAA2496A06BCEC438685A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260108165324.11376-1-cosmin-gabriel.tanislav.xa@renesas.com> <20260108165324.11376-6-cosmin-gabriel.tanislav.xa@renesas.com>
-In-Reply-To: <20260108165324.11376-6-cosmin-gabriel.tanislav.xa@renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 8 Jan 2026 18:42:47 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdX0G92JmwneZp1h+AOF-Cit2scVGGWXCBZGwBVmJjUAVg@mail.gmail.com>
-X-Gm-Features: AQt7F2oaRcSSM-TJ2lzWvwve1kr4JhP9eX1Et_7XoG_piUmKankXGgTr0tEIJaU
-Message-ID: <CAMuHMdX0G92JmwneZp1h+AOF-Cit2scVGGWXCBZGwBVmJjUAVg@mail.gmail.com>
-Subject: Re: [PATCH v4 5/5] thermal: renesas: rzg3e: add support for RZ/T2H
- and RZ/N2H
-To: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-Cc: John Madieu <john.madieu.xa@bp.renesas.com>, "Rafael J . Wysocki" <rafael@kernel.org>, 
-	Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>, 
-	Lukasz Luba <lukasz.luba@arm.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Magnus Damm <magnus.damm@gmail.com>, linux-pm@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 70.80.174.168
+X-SA-Exim-Mail-From: hugo@hugovil.com
+X-Spam-Level: 
+X-Spam-Report: 
+	* -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+	* -1.6 NICE_REPLY_A Looks like a legit reply (A)
+Subject: Re: [BUG] drm/panel: ilitek-ili9881c: kernel panic on reboot
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
 
-Hi Cosmin,
+Hi Biju,
 
-On Thu, 8 Jan 2026 at 17:55, Cosmin Tanislav
-<cosmin-gabriel.tanislav.xa@renesas.com> wrote:
-> The Renesas RZ/T2H (R9A09G077) and RZ/N2H (R9A09G087) SoCs expose the
-> temperature calibration via SMC SIP and do not have a reset for the
-> TSU peripheral, and use different minimum and maximum temperature values
-> compared to the already supported RZ/G3E.
->
-> Although the calibration data is stored in an OTP memory, the OTP itself
-> is not memory-mapped, access to it is done through an OTP controller.
->
-> The OTP controller is only accessible from the secure world,
-> but the temperature calibration data stored in the OTP is exposed via
-> SMC.
->
-> Add support for retrieving the calibration data using arm_smcc_smc().
->
-> Add a compatible for RZ/T2H, RZ/N2H can use it as a fallback.
->
-> Reviewed-by: John Madieu <john.madieu.xa@bp.renesas.com>
-> Tested-by: John Madieu <john.madieu.xa@bp.renesas.com>
-> Signed-off-by: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-> ---
->
-> V4:
->  * pick up John's Reviewed-by and Tested-by
->  * replace new macro TSU_TEMP_MASK usage with existing macro
->    TSU_CODE_MAX
+On Thu, 8 Jan 2026 16:44:37 +0000
+Biju Das <biju.das.jz@bp.renesas.com> wrote:
 
-Thanks for the update!
+> Hi Hugo Villeneuve,
+> 
+> > -----Original Message-----
+> > From: Hugo Villeneuve <hugo@hugovil.com>
+> > Sent: 08 January 2026 15:53
+> > Subject: Re: [BUG] drm/panel: ilitek-ili9881c: kernel panic on reboot
+> > 
+> > Hi Claudiu,
+> > 
+> > On Thu, 8 Jan 2026 11:12:54 +0200
+> > Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
+> > 
+> > > Hi, Hugo,
+> > >
+> > > On 1/7/26 23:48, Hugo Villeneuve wrote:
+> > > > Hi,
+> > > > when issuing a reboot command, I encounter the following kernel panic:
+> > > >
+> > > > [   36.183478] SError Interrupt on CPU1, code 0x00000000be000011 -- SError
+> > > > [   36.183492] CPU: 1 UID: 0 PID: 1 Comm: systemd-shutdow Tainted: G   M                6.19.0-
+> > rc4-arm64-renesas-00019-g067a81578add #62 NONE
+> > > > [   36.183504] Tainted: [M]=MACHINE_CHECK
+> > > > [   36.183507] Hardware name: Gecko ECO2 nxtpad (DT)
+> > > > [   36.183512] pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> > > > [   36.183519] pc : rzg2l_mipi_dsi_host_transfer+0x114/0x458
+> > > > [   36.183538] lr : rzg2l_mipi_dsi_host_transfer+0x98/0x458
+> > > > [   36.183547] sp : ffff8000813db860
+> > > > [   36.183550] x29: ffff8000813db890 x28: ffff800080c602c0 x27: ffff000009dd7450
+> > > > [   36.183563] x26: ffff800080c5fcc0 x25: ffff000009dd7450 x24: ffff800080e1f7a8
+> > > > [   36.183573] x23: ffff000009dd7400 x22: 0000000000000000 x21: ffff000009dd7430
+> > > > [   36.183582] x20: ffff8000813db8e8 x19: 0000000002050028 x18: 00000000ffffffff
+> > > > [   36.183592] x17: 0000000000000000 x16: 0000000000000000 x15: ffff8000813db220
+> > > > [   36.183602] x14: 0000000000000000 x13: ffff800081255bc0 x12: 00000000000009a2
+> > > > [   36.183611] x11: 0000000000000336 x10: ffff8000812b28d0 x9 : ffff800081255bc0
+> > > > [   36.183621] x8 : ffff800081399000 x7 : ffff00000a042600 x6 : 0000000000000000
+> > > > [   36.183631] x5 : 0000000000000805 x4 : 0000000002000000 x3 : 0000000000000028
+> > > > [   36.183640] x2 : 0000000049627000 x1 : ffff800080c60b40 x0 : ffff800081780000
+> > > > [   36.183652] Kernel panic - not syncing: Asynchronous SError Interrupt
+> > > > [   36.183657] CPU: 1 UID: 0 PID: 1 Comm: systemd-shutdow Tainted: G   M                6.19.0-
+> > rc4-arm64-renesas-00019-g067a81578add #62 NONE
+> > > > [   36.183665] Tainted: [M]=MACHINE_CHECK
+> > > > [   36.183668] Hardware name: devboard1 (DT)
+> > > > [   36.183672] Call trace:
+> > > > [   36.183675]  show_stack+0x18/0x24 (C)
+> > > > [   36.183692]  dump_stack_lvl+0x34/0x8c
+> > > > [   36.183702]  dump_stack+0x18/0x24
+> > > > [   36.183708]  vpanic+0x314/0x35c
+> > > > [   36.183716]  nmi_panic+0x0/0x64
+> > > > [   36.183722]  add_taint+0x0/0xbc
+> > > > [   36.183728]  arm64_serror_panic+0x70/0x80
+> > > > [   36.183735]  do_serror+0x28/0x68
+> > > > [   36.183742]  el1h_64_error_handler+0x34/0x50
+> > > > [   36.183751]  el1h_64_error+0x6c/0x70
+> > > > [   36.183758]  rzg2l_mipi_dsi_host_transfer+0x114/0x458 (P)
+> > > > [   36.183770]  mipi_dsi_device_transfer+0x44/0x58
+> > > > [   36.183781]  mipi_dsi_dcs_set_display_off_multi+0x9c/0xc4
+> > > > [   36.183792]  ili9881c_unprepare+0x38/0x88
+> > > > [   36.183802]  drm_panel_unprepare+0xbc/0x108
+> > > > [   36.183814]  panel_bridge_atomic_post_disable+0x50/0x60
+> > > > [   36.183823]  drm_atomic_bridge_call_post_disable+0x24/0x4c
+> > > > [   36.183835]  drm_atomic_bridge_chain_post_disable+0xa8/0x100
+> > > > [   36.183845]  drm_atomic_helper_commit_modeset_disables+0x2fc/0x5f8
+> > > > [   36.183856]  drm_atomic_helper_commit_tail_rpm+0x24/0x7c
+> > > > [   36.183865]  commit_tail+0xa4/0x18c
+> > > > [   36.183874]  drm_atomic_helper_commit+0x17c/0x194
+> > > > [   36.183884]  drm_atomic_commit+0x8c/0xcc
+> > > > [   36.183892]  drm_atomic_helper_disable_all+0x200/0x210
+> > > > [   36.183901]  drm_atomic_helper_shutdown+0xa8/0x150
+> > > > [   36.183911]  rzg2l_du_shutdown+0x18/0x24
+> > > > [   36.183920]  platform_shutdown+0x24/0x34
+> > > > [   36.183931]  device_shutdown+0x128/0x284
+> > > > [   36.183938]  kernel_restart+0x44/0xa4
+> > > > [   36.183950]  __do_sys_reboot+0x178/0x270
+> > > > [   36.183959]  __arm64_sys_reboot+0x24/0x30
+> > > > [   36.183968]  invoke_syscall.constprop.0+0x50/0xe4
+> > > > [   36.183979]  do_el0_svc+0x40/0xc0
+> > > > [   36.183988]  el0_svc+0x3c/0x164
+> > > > [   36.183995]  el0t_64_sync_handler+0xa0/0xe4
+> > > > [   36.184002]  el0t_64_sync+0x198/0x19c
+> > > > [   36.184020] Kernel Offset: disabled
+> > > > [   36.184022] CPU features: 0x200000,00020001,4000c501,0400720b
+> > > > [   36.184028] Memory Limit: none
+> > > > [   36.495305] ---[ end Kernel panic - not syncing: Asynchronous SError Interrupt ]---
+> > > >
+> > > > The problem is present since linux-6.18-rc1, but not in linux-6.17. I also confirm the bug is
+> > present in linux-6.19-rc4.
+> > > >
+> > > > The bug seems to be happening in rzg2l_mipi_dsi_host_transfer().
+> > > >
+> > > > After bisecting, here is the first bad commit:
+> > > >
+> > > >      commit 56de5e305d4b ("clk: renesas: r9a07g044: Add MSTOP for
+> > > > RZ/G2L")
+> > > >
+> > > > Reverting this change makes the bug disappear.
+> > > >
+> > > > My limited understanding seems to indicate that the MIPI/DSI host
+> > > > may no longer be available/on when the panel tries to send MIPI/DSI
+> > > > commands in ili9881c_unprepare(), maybe because the MIPI/DSI clock has been stopped...
+> > > >
+> > > > The exact same board with two other panels (jd9365da and st7703) doesn't have the bug.
+> > >
+> > > Could you please provide the output of command:
+> > >
+> > > cat /sys/kernel/debug/mstop
+> > >
+> > > for both cases?
+> > 
+> > Here it is for the panel which has the bug:
+> > 
+> > ----------------------------------
+> >                            MSTOP
+> >                      clk   -------------------------
+> > clk_name             cnt   cnt   off   val    shared
+> > --------             ----- ----- ----- ------ ------
+> > gic                  1     1     0xb80 0x0
+> > ia55_clk             2     2     0xb70 0x0    ia55_pclk ia55_clk
+> > ia55_pclk            1     2     0xb70 0x0    ia55_pclk ia55_clk
+> > dmac_aclk            2     1     0xb80 0x0
+> > dmac_pclk            1     1     0xb80 0x0
+> > ostm0_pclk           0     0     0xb7c 0x10
+> > ostm1_pclk           1     1     0xb7c 0x0
+> > ostm2_pclk           1     1     0xb7c 0x0
+> > mtu_x_mck            0     0     0xb64 0x4
+> > gpt_pclk             1     1     0xb64 0x0
+> > poeg_a_clkp          0     0     0xb64 0x20
+> > poeg_b_clkp          0     0     0xb64 0x40
+> > poeg_c_clkp          0     0     0xb64 0x80
+> > poeg_d_clkp          0     0     0xb64 0x100
+> > wdt0_pclk            1     2     0xb7c 0x0    wdt0_pclk wdt0_clk
+> > wdt0_clk             1     2     0xb7c 0x0    wdt0_pclk wdt0_clk
+> > wdt1_pclk            0     0     0xb7c 0x8    wdt1_pclk wdt1_clk
+> > wdt1_clk             0     0     0xb7c 0x8    wdt1_pclk wdt1_clk
+> > spi_clk2             0     0     0xb64 0x2    spi_clk2 spi_clk
+> > spi_clk              0     0     0xb64 0x2    spi_clk2 spi_clk
+> > sdhi0_imclk          1     4     0xb6c 0x0    sdhi0_imclk sdhi0_imclk2 sdhi0_clk_hs sdhi0_aclk
+> > sdhi0_imclk2         2     4     0xb6c 0x0    sdhi0_imclk sdhi0_imclk2 sdhi0_clk_hs sdhi0_aclk
+> > sdhi0_clk_hs         1     4     0xb6c 0x0    sdhi0_imclk sdhi0_imclk2 sdhi0_clk_hs sdhi0_aclk
+> > sdhi0_aclk           1     4     0xb6c 0x0    sdhi0_imclk sdhi0_imclk2 sdhi0_clk_hs sdhi0_aclk
+> > sdhi1_imclk          0     0     0xb6c 0x2    sdhi1_imclk sdhi1_imclk2 sdhi1_clk_hs sdhi1_aclk
+> > sdhi1_imclk2         0     0     0xb6c 0x2    sdhi1_imclk sdhi1_imclk2 sdhi1_clk_hs sdhi1_aclk
+> > sdhi1_clk_hs         0     0     0xb6c 0x2    sdhi1_imclk sdhi1_imclk2 sdhi1_clk_hs sdhi1_aclk
+> > sdhi1_aclk           0     0     0xb6c 0x2    sdhi1_imclk sdhi1_imclk2 sdhi1_clk_hs sdhi1_aclk
+> > gpu_clk              1     1     0xb80 0x0
+> > cru_sysclk           0     0     0xb78 0x8    cru_sysclk cru_vclk cru_pclk cru_aclk
+> > cru_vclk             0     0     0xb78 0x8    cru_sysclk cru_vclk cru_pclk cru_aclk
+> > cru_pclk             0     0     0xb78 0x8    cru_sysclk cru_vclk cru_pclk cru_aclk
+> > cru_aclk             0     0     0xb78 0x8    cru_sysclk cru_vclk cru_pclk cru_aclk
+> > dsi_pll_clk          1     6     0xb78 0x0    dsi_pll_clk dsi_sys_clk dsi_aclk dsi_pclk dsi_vclk
+> > dsi_lpclk
+> > dsi_sys_clk          1     6     0xb78 0x0    dsi_pll_clk dsi_sys_clk dsi_aclk dsi_pclk dsi_vclk
+> > dsi_lpclk
+> > dsi_aclk             1     6     0xb78 0x0    dsi_pll_clk dsi_sys_clk dsi_aclk dsi_pclk dsi_vclk
+> > dsi_lpclk
+> > dsi_pclk             1     6     0xb78 0x0    dsi_pll_clk dsi_sys_clk dsi_aclk dsi_pclk dsi_vclk
+> > dsi_lpclk
+> > dsi_vclk             1     6     0xb78 0x0    dsi_pll_clk dsi_sys_clk dsi_aclk dsi_pclk dsi_vclk
+> > dsi_lpclk
+> > dsi_lpclk            1     6     0xb78 0x0    dsi_pll_clk dsi_sys_clk dsi_aclk dsi_pclk dsi_vclk
+> > dsi_lpclk
+> > lcdc_a               3     1     0xb78 0x0    lcdc_a lcdc_p
+> > lcdc_p               3     1     0xb78 0x0    lcdc_a lcdc_p
+> > lcdc_clk_d           3     1     0xb78 0x0
+> > ssi0_pclk            0     0     0xb64 0x400  ssi0_pclk ssi0_sfr
+> > ssi0_sfr             0     0     0xb64 0x400  ssi0_pclk ssi0_sfr
+> > ssi1_pclk            0     0     0xb64 0x800  ssi1_pclk ssi1_sfr
+> > ssi1_sfr             0     0     0xb64 0x800  ssi1_pclk ssi1_sfr
+> > ssi2_pclk            0     0     0xb64 0x1000 ssi2_pclk ssi2_sfr
+> > ssi2_sfr             0     0     0xb64 0x1000 ssi2_pclk ssi2_sfr
+> > ssi3_pclk            0     0     0xb64 0x2000 ssi3_pclk ssi3_sfr
+> > ssi3_sfr             0     0     0xb64 0x2000 ssi3_pclk ssi3_sfr
+> > usb0_host            3     1     0xb6c 0x0
+> > usb1_host            0     0     0xb6c 0x80
+> > usb0_func            1     1     0xb6c 0x0
+> > usb_pclk             5     1     0xb6c 0x0
+> > eth0_axi             0     0     0xb6c 0x4    eth0_axi eth0_chi
+> > eth0_chi             0     0     0xb6c 0x4    eth0_axi eth0_chi
+> > eth1_axi             0     0     0xb6c 0x8    eth1_axi eth1_chi
+> > eth1_chi             0     0     0xb6c 0x8    eth1_axi eth1_chi
+> > i2c0                 0     0     0xb68 0x400
+> > i2c1                 0     0     0xb68 0x800
+> > i2c2                 0     0     0xb68 0x1000
+> > i2c3                 0     0     0xb68 0x2000
+> > scif0                2     1     0xb68 0x0
+> > scif1                0     0     0xb68 0x4
+> > scif2                0     0     0xb68 0x8
+> > scif3                0     0     0xb68 0x10
+> > scif4                0     0     0xb68 0x20
+> > sci0                 0     0     0xb68 0x80
+> > sci1                 0     0     0xb68 0x100
+> > rspi0                0     0     0xb64 0x4000
+> > rspi1                0     0     0xb64 0x8000
+> > rspi2                0     0     0xb68 0x1
+> > canfd                0     0     0xb68 0x200
+> > gpio                 1     1     0xb70 0x0
+> > adc_adclk            0     0     0xb68 0x4000 adc_adclk adc_pclk
+> > adc_pclk             0     0     0xb68 0x4000 adc_adclk adc_pclk
+> > tsu_pclk             1     1     0xb68 0x0
+> > ----------------------------------
+> > 
+> > I do not have acces to the other panels for the moment to run the same command.
+> > 
+> > 
+> > > Also, could you please check if the following diff solves your problem:
+> > >
+> > > diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > > b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > > index 5edd45424562..62957632a96f 100644
+> > > --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > > @@ -1282,6 +1282,10 @@ static ssize_t
+> > > rzg2l_mipi_dsi_host_transfer(struct mipi_dsi_host *host,
+> > >                  value |= SQCH0DSC0AR_FMT_SHORT;
+> > >          }
+> > >
+> > > +       ret = pm_runtime_resume_and_get(dsi->dev);
+> > > +       if (ret)
+> > > +               return ret;
+> > > +
+> > >          rzg2l_mipi_dsi_link_write(dsi, SQCH0DSC0AR, value);
+> > >
+> > >          /*
+> > > @@ -1322,6 +1326,8 @@ static ssize_t
+> > > rzg2l_mipi_dsi_host_transfer(struct
+> > > mipi_dsi_host *host,
+> > >                          ret = packet.payload_length;
+> > >          }
+> > >
+> > > +       pm_runtime_put(dsi->dev);
+> > > +
+> > >          return ret;
+> > >   }
+> > 
+> > I confirm that it fixes the bug, altought I assume this is just for testing and is not the "proper"
+> > fix.
+> 
+> Pre-MSTOP case during reboot, without clk it is accessing registers)(mstop off always)
+> it won't crash. But looks like you may have ignored timeout error from [1].
 
-Looks like Gmail blocked my review comments on v4 :-(
+In case of a timeout error, it is not really ignored as the proper error
+code -ETIMEDOUT will be returned by rzg2l_mipi_dsi_host_transfer() (see log below). The
+hardware manual doesn't seem to properly explain how to deal with a
+timeout (or I could not find it). Do you have any suggestion on how to
+improve this?
 
-> index c1b586128fa6..ba13ca8cbb8c 100644
-> --- a/drivers/thermal/renesas/rzg3e_thermal.c
-> +++ b/drivers/thermal/renesas/rzg3e_thermal.c
+> 
+> Post MSTOP case, if you access registers with mstop on, it will lead to crash.
+> 
+> and the patch fixes crash. 
+> 
+> Basically, you are accessing link register after video is stopped with this panel.
+> Looks like it is a fix for me. 
 
-> @@ -362,6 +366,21 @@ static int rzg3e_thermal_get_syscon_trim(struct rzg3e_thermal_priv *priv)
->         return 0;
->  }
->
-> +static int rzg3e_thermal_get_smc_trim(struct rzg3e_thermal_priv *priv)
-> +{
-> +       struct arm_smccc_res local_res;
+Ok, like I said I am not an expert on this, but I was just
+assuming that there was a better way to ensure that the mipi/dsi
+interface was still active until the panel unprepare() function
+could do its work. I was looking at some other drivers mipi/dsi
+host_transfer() functions and did not see a similar
+pm_runtime_resume_and_get() scheme, hence my confusion.
 
-Missing #include <linux/arm-smccc.h> (on e.g. arm and riscv).
+> Better check if there is any timeout error[1] with this patch. if not,
+> It is proper fix.
 
-> +
-> +       arm_smccc_smc(RZ_SIP_SVC_GET_SYSTSU, OTP_TSU_REG_ADR_TEMPLO,
-> +                     0, 0, 0, 0, 0, 0, &local_res);
+The patch does fixes the kernel panic, but
+doesn't allow the panel to be properly unprepared,
+as I just noticed the timeout message:
 
-Can this crash? E.g. if this SMC call is not supported by the firmware?
+    [   39.321153] ili9881c-dsi 10850000.dsi.0: sending DCS SET_DISPLAY_OFF failed: -110
 
-> +       priv->trmval0 = local_res.a0 & TSU_CODE_MAX;
-> +
-> +       arm_smccc_smc(RZ_SIP_SVC_GET_SYSTSU, OTP_TSU_REG_ADR_TEMPHI,
-> +                     0, 0, 0, 0, 0, 0, &local_res);
-> +       priv->trmval1 = local_res.a0 & TSU_CODE_MAX;
-> +
-> +       return 0;
-> +}
+In my case, for a reboot, this is not a problem, but it may be a problem for systems where it can be suspended (I assume)?
 
-Gr{oetje,eeting}s,
+Thank you for your help with this.
 
-                        Geert
+Hugo.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> 
+> [1] https://elixir.bootlin.com/linux/v6.19-rc4/source/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c#L893
 
