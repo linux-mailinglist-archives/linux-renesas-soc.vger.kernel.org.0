@@ -1,228 +1,145 @@
-Return-Path: <linux-renesas-soc+bounces-26393-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26394-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id A65D5D046C9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 08 Jan 2026 17:35:21 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44F78D03D45
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 08 Jan 2026 16:27:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9FAB93215A4A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Jan 2026 15:25:52 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 839EF30124C3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Jan 2026 15:21:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F7F23BF310;
-	Thu,  8 Jan 2026 09:13:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E77A3033CE;
+	Thu,  8 Jan 2026 09:51:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="mhVbFqOo"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="UTRxRKAk"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6FBD38E5EF
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  8 Jan 2026 09:13:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46EF338736D;
+	Thu,  8 Jan 2026 09:51:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767863584; cv=none; b=LrbeKAkVDeLv2Znjj4wUCBwj+0+RbRdUFWDhg+NeePmijbM2h9hRQx8QEKUVKooqaLXELcf7zXLUt/dS6Kx+H61A4LL2y80JbJf8UmcK868E+ZoiUv5bI/YvrP3OF9xM6IhM3QYtlPnlIXVcDSDJ+nbLBp36EyHPt0wllDFCBWs=
+	t=1767865895; cv=none; b=LRhQIFNyqQ4a+LD5/iaZy+wFbvm8I2hF907wAFe5xJ2L6cnXU9i7b/W2/brDSL0F+/5IQw9IoW04wlzjuf1tEseteIeaVBbV/8kp7bgBAgc98t+fmQEQmfuMwFsosHZ2vpCAc/oHNsQrs4QRcVEiKiZisht1Bcsxi5GsavTWBiU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767863584; c=relaxed/simple;
-	bh=/B5yiqA+ekMUmtc6Bq+Hgdkj26PJlhDLIdx4NpvlZcY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=j4Ayo9kNBa8gl42h/lxxx43iFDrj7dJ+iw41fssN6e9kajN33YYgrZu+nXFcCxo1NEQXNrsN7nty/38TvHpyh22wIQxnbgesZcvPL9FZACtwDBfFOrdq2oEW26lMg5LNbpn/5OcPg0sDoqW9p4/u0/lSJhGHPo6fiQRbTtiBNEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=mhVbFqOo; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-47d1d8a49f5so19584335e9.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 08 Jan 2026 01:12:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1767863576; x=1768468376; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qcvzzJMrh0MsjpTIZP7Mzs3g/YqR5+Qi1rSgpNg9db0=;
-        b=mhVbFqOopEU9ULbv80Yr8Yt9hyJx8n0T2RG49I6JZZy7GUCZ3asmt1tx6l5OLgqPlJ
-         /sjBXJfN4O1sXP5kMeCcbUfhnX7Ugr4EBKadfYOLk0EF3vQF3aLZU8Ck2ujzmDbudZ78
-         yKCfhY1fAqTyNwOcp3IYKf6n0Z5y9Tym2FtqYL07EzhYJDSElHeEnCNFr7DbS8CJk2hP
-         qQZZVoTbiTXcWEbbFcDur5Klo0tFFakhjpHud29Ckk6t9bViyiOCsoX7lvtKpQ1DrcYC
-         iEZ69iAddlWPN+yrHBoLzbA/KioFHWnW8c3+1xhRqtiHl4wjcnzJuvuydgNdGePCIjkZ
-         RktA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767863576; x=1768468376;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qcvzzJMrh0MsjpTIZP7Mzs3g/YqR5+Qi1rSgpNg9db0=;
-        b=vvNWp2VPuLOiev606ObJzDdG7QboD08q0oaZkKIh10P9mYuzmTW7i6+3Bpkwga8405
-         T6dGoIxAieRwZdnJB1Jfvm2zywinI7J2vYCX1QEz0oNhEsR776nv/4DkbPhNumZyp5HI
-         JMln073mb5pssG0k8qXe6VgvSb7PQfnJSACI8PReaPuqCLCwer5UK5Cl6t6tyOj55NgN
-         9Fu67M2e5zXlP7qRyydUmWOnS71RBVfq9r3CrZ6r8YJigjBC6xHfhKZSOkkAtEagyNHm
-         qKyx2MyLGkxbiqTHyDhDPRqvTJ2gNsC2lsXh16h2aNPRxJwqguJcD61vUYGob244Nrzu
-         xHXQ==
-X-Gm-Message-State: AOJu0Yx1P5JVaLR53igZHacNS2bGdRvyk52oBjhM3ouQFeMkxMQy7Gr+
-	U0HkvHGzPX98E6WrZPNv8pc6L7z7oORb8dCTFGNLuHaH1p9EDnaPlhoLXMC74KZwzo0=
-X-Gm-Gg: AY/fxX5Acqh2LFiFKEJMJ17YZfQwANiNVqTT6Hc9FleRq+pZS+qCJk/OvvWZu1ExO4r
-	WugrI0yz5d2xTc8qqqSeKWzyHBAOb0TZmYpZcsWwcdmS5F1I0ZDg0NlymmZ2vyTBKBF5giifv2y
-	REUJ01bhLw5turuxjgjzB6rBadodE2xdir7TZjFOnNz3F+0u0ui5sTtKIYaz7BmsQ5RK3vFI6Lc
-	yj7m8SiI93mCzQzlIH9d8dwZKBqfhVJ+BpKPPfq0qsyFlnihlXuNR1qKlMSuQQ3WsYavCNscCph
-	Lc3k2yMaKOWrmSk5v8HGU6QhhR4z4S6Ixvk38UkbkF76qMzF6YlTiwUZmazxJs6vF2utjna17Gp
-	+XFtqx/cvXvh3q7niq+/q19QkOM1GWew6Xx4CWwAf/gCnA8kmhPV2jaV9DJaAhb2L07VklGp/bE
-	SrG2EM6Z3OCn0oi/3TTQ==
-X-Google-Smtp-Source: AGHT+IEP9/Gf0jNEPP/nIaOJ3PVVTz+nOM75oWhn7OGPLdOsoh+kDwG2RY2j3+SjdUgMnPGB8cg9XA==
-X-Received: by 2002:a05:600c:470c:b0:46e:53cb:9e7f with SMTP id 5b1f17b1804b1-47d84b3b4ccmr57983425e9.18.1767863576326;
-        Thu, 08 Jan 2026 01:12:56 -0800 (PST)
-Received: from [192.168.50.4] ([82.78.167.17])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d7f4184cbsm151578795e9.6.2026.01.08.01.12.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Jan 2026 01:12:55 -0800 (PST)
-Message-ID: <f2aaa95a-fb69-46d8-ba0b-fdc793273455@tuxon.dev>
-Date: Thu, 8 Jan 2026 11:12:54 +0200
+	s=arc-20240116; t=1767865895; c=relaxed/simple;
+	bh=sAn9UDScFSheyrjIXcvRWUlnisYOCcmbB9snokjQpBs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
+	 Content-Type:References; b=osKgRXlUexI2pyAp13ZIG8EirXxTa7+VKcCln3PnKogydBP1jgpsypy7EbwySRaKYG0W5D+erZtQsabVksnaNyu3E5j9UIgl68rH+TjkUZucRRF6BlYRcC24mDqklwIJuByVdQLs3DXF4o059SKiiHf5OdgVf6Rt3cXRrgKyOlk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=UTRxRKAk; arc=none smtp.client-ip=210.118.77.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20260108095119euoutp012e7ad1462b8b6546e4cff164dba8ea55~IuKaJVawL1372713727euoutp01r;
+	Thu,  8 Jan 2026 09:51:19 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20260108095119euoutp012e7ad1462b8b6546e4cff164dba8ea55~IuKaJVawL1372713727euoutp01r
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1767865879;
+	bh=qIhgIeQrfxHoSwY6/8Qg78ZyXWur/EQhKlbMMeWRoFE=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=UTRxRKAkfvHrYXb9uuCmebd05iS7yvKrvvnJwRrRGhnYTQOLlD9QO1+EdwnMJ+ehI
+	 u+g5bCtH0fF1cWkIawNRR2L1XBWHErXWwnjERy/ax6OfO/jSXefKZQPQG4zziy4O0D
+	 g+iU8AvXlmt/VOaAS6kHTAjcr9t0XASl+sQYc+ow=
+Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20260108095118eucas1p1a2ae95ae60fa870c35c955b087ba4649~IuKZz7bdM1725517255eucas1p1B;
+	Thu,  8 Jan 2026 09:51:18 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20260108095116eusmtip22f2b99fa0f4ed0d118e1c4afbe18750f~IuKXrldR10240202402eusmtip2j;
+	Thu,  8 Jan 2026 09:51:16 +0000 (GMT)
+Message-ID: <af154ebb-53b9-40eb-8ff9-089ed8bc3f04@samsung.com>
+Date: Thu, 8 Jan 2026 10:51:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [BUG] drm/panel: ilitek-ili9881c: kernel panic on reboot
-To: Hugo Villeneuve <hugo@hugovil.com>, dri-devel@lists.freedesktop.org
-Cc: linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jesszhan0024@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Biju Das Biju Das <biju.das.jz@bp.renesas.com>,
- Chris Brandt <Chris.Brandt@renesas.com>
-References: <20260107164839.a490a194d975edc399d72d01@hugovil.com>
+User-Agent: Betterbird (Windows)
+Subject: Re: [PATCH 5/6] drm/exynos: hdmi: convert to
+ of_drm_find_and_get_bridge()
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>, Andrzej Hajda
+	<andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>, Laurent Pinchart
+	<Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, Jernej
+	Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
+	<maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>, Kevin Hilman <khilman@baylibre.com>, Jerome
+	Brunet <jbrunet@baylibre.com>, Martin Blumenstingl
+	<martin.blumenstingl@googlemail.com>, Philipp Zabel
+	<p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
+	<s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, Inki Dae <inki.dae@samsung.com>,
+	Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin Park
+	<kyungmin.park@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, Alim
+	Akhtar <alim.akhtar@samsung.com>, Laurent Pinchart
+	<laurent.pinchart+renesas@ideasonboard.com>, Tomi Valkeinen
+	<tomi.valkeinen+renesas@ideasonboard.com>, Kieran Bingham
+	<kieran.bingham+renesas@ideasonboard.com>, Geert Uytterhoeven
+	<geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>
+Cc: Hui Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni
+	<thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
+	linux-mediatek@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
 Content-Language: en-US
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <20260107164839.a490a194d975edc399d72d01@hugovil.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <20260107-drm-bridge-alloc-getput-drm_of_find_bridge-3-v1-5-ef48a517828e@bootlin.com>
 Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20260108095118eucas1p1a2ae95ae60fa870c35c955b087ba4649
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20260107164213eucas1p21ed81372d4acebdf02a825b66b0e75de
+X-EPHeader: CA
+X-CMS-RootMailID: 20260107164213eucas1p21ed81372d4acebdf02a825b66b0e75de
+References: <20260107-drm-bridge-alloc-getput-drm_of_find_bridge-3-v1-0-ef48a517828e@bootlin.com>
+	<CGME20260107164213eucas1p21ed81372d4acebdf02a825b66b0e75de@eucas1p2.samsung.com>
+	<20260107-drm-bridge-alloc-getput-drm_of_find_bridge-3-v1-5-ef48a517828e@bootlin.com>
 
-Hi, Hugo,
+On 07.01.2026 17:22, Luca Ceresoli wrote:
+> of_drm_find_bridge() is deprecated. Move to its replacement
+> of_drm_find_and_get_bridge() which gets a bridge reference, and ensure it
+> is put when done.
+>
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> ---
+>   drivers/gpu/drm/exynos/exynos_hdmi.c | 4 +++-
 
-On 1/7/26 23:48, Hugo Villeneuve wrote:
-> Hi,
-> when issuing a reboot command, I encounter the following kernel panic:
-> 
-> [   36.183478] SError Interrupt on CPU1, code 0x00000000be000011 -- SError
-> [   36.183492] CPU: 1 UID: 0 PID: 1 Comm: systemd-shutdow Tainted: G   M                6.19.0-rc4-arm64-renesas-00019-g067a81578add #62 NONE
-> [   36.183504] Tainted: [M]=MACHINE_CHECK
-> [   36.183507] Hardware name: Gecko ECO2 nxtpad (DT)
-> [   36.183512] pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> [   36.183519] pc : rzg2l_mipi_dsi_host_transfer+0x114/0x458
-> [   36.183538] lr : rzg2l_mipi_dsi_host_transfer+0x98/0x458
-> [   36.183547] sp : ffff8000813db860
-> [   36.183550] x29: ffff8000813db890 x28: ffff800080c602c0 x27: ffff000009dd7450
-> [   36.183563] x26: ffff800080c5fcc0 x25: ffff000009dd7450 x24: ffff800080e1f7a8
-> [   36.183573] x23: ffff000009dd7400 x22: 0000000000000000 x21: ffff000009dd7430
-> [   36.183582] x20: ffff8000813db8e8 x19: 0000000002050028 x18: 00000000ffffffff
-> [   36.183592] x17: 0000000000000000 x16: 0000000000000000 x15: ffff8000813db220
-> [   36.183602] x14: 0000000000000000 x13: ffff800081255bc0 x12: 00000000000009a2
-> [   36.183611] x11: 0000000000000336 x10: ffff8000812b28d0 x9 : ffff800081255bc0
-> [   36.183621] x8 : ffff800081399000 x7 : ffff00000a042600 x6 : 0000000000000000
-> [   36.183631] x5 : 0000000000000805 x4 : 0000000002000000 x3 : 0000000000000028
-> [   36.183640] x2 : 0000000049627000 x1 : ffff800080c60b40 x0 : ffff800081780000
-> [   36.183652] Kernel panic - not syncing: Asynchronous SError Interrupt
-> [   36.183657] CPU: 1 UID: 0 PID: 1 Comm: systemd-shutdow Tainted: G   M                6.19.0-rc4-arm64-renesas-00019-g067a81578add #62 NONE
-> [   36.183665] Tainted: [M]=MACHINE_CHECK
-> [   36.183668] Hardware name: devboard1 (DT)
-> [   36.183672] Call trace:
-> [   36.183675]  show_stack+0x18/0x24 (C)
-> [   36.183692]  dump_stack_lvl+0x34/0x8c
-> [   36.183702]  dump_stack+0x18/0x24
-> [   36.183708]  vpanic+0x314/0x35c
-> [   36.183716]  nmi_panic+0x0/0x64
-> [   36.183722]  add_taint+0x0/0xbc
-> [   36.183728]  arm64_serror_panic+0x70/0x80
-> [   36.183735]  do_serror+0x28/0x68
-> [   36.183742]  el1h_64_error_handler+0x34/0x50
-> [   36.183751]  el1h_64_error+0x6c/0x70
-> [   36.183758]  rzg2l_mipi_dsi_host_transfer+0x114/0x458 (P)
-> [   36.183770]  mipi_dsi_device_transfer+0x44/0x58
-> [   36.183781]  mipi_dsi_dcs_set_display_off_multi+0x9c/0xc4
-> [   36.183792]  ili9881c_unprepare+0x38/0x88
-> [   36.183802]  drm_panel_unprepare+0xbc/0x108
-> [   36.183814]  panel_bridge_atomic_post_disable+0x50/0x60
-> [   36.183823]  drm_atomic_bridge_call_post_disable+0x24/0x4c
-> [   36.183835]  drm_atomic_bridge_chain_post_disable+0xa8/0x100
-> [   36.183845]  drm_atomic_helper_commit_modeset_disables+0x2fc/0x5f8
-> [   36.183856]  drm_atomic_helper_commit_tail_rpm+0x24/0x7c
-> [   36.183865]  commit_tail+0xa4/0x18c
-> [   36.183874]  drm_atomic_helper_commit+0x17c/0x194
-> [   36.183884]  drm_atomic_commit+0x8c/0xcc
-> [   36.183892]  drm_atomic_helper_disable_all+0x200/0x210
-> [   36.183901]  drm_atomic_helper_shutdown+0xa8/0x150
-> [   36.183911]  rzg2l_du_shutdown+0x18/0x24
-> [   36.183920]  platform_shutdown+0x24/0x34
-> [   36.183931]  device_shutdown+0x128/0x284
-> [   36.183938]  kernel_restart+0x44/0xa4
-> [   36.183950]  __do_sys_reboot+0x178/0x270
-> [   36.183959]  __arm64_sys_reboot+0x24/0x30
-> [   36.183968]  invoke_syscall.constprop.0+0x50/0xe4
-> [   36.183979]  do_el0_svc+0x40/0xc0
-> [   36.183988]  el0_svc+0x3c/0x164
-> [   36.183995]  el0t_64_sync_handler+0xa0/0xe4
-> [   36.184002]  el0t_64_sync+0x198/0x19c
-> [   36.184020] Kernel Offset: disabled
-> [   36.184022] CPU features: 0x200000,00020001,4000c501,0400720b
-> [   36.184028] Memory Limit: none
-> [   36.495305] ---[ end Kernel panic - not syncing: Asynchronous SError Interrupt ]---
-> 
-> The problem is present since linux-6.18-rc1, but not in linux-6.17. I also confirm the bug is present in linux-6.19-rc4.
-> 
-> The bug seems to be happening in rzg2l_mipi_dsi_host_transfer().
-> 
-> After bisecting, here is the first bad commit:
-> 
->      commit 56de5e305d4b ("clk: renesas: r9a07g044: Add MSTOP for RZ/G2L")
-> 
-> Reverting this change makes the bug disappear.
-> 
-> My limited understanding seems to indicate that the MIPI/DSI host may
-> no longer be available/on when the panel tries to send MIPI/DSI
-> commands in ili9881c_unprepare(), maybe because the MIPI/DSI clock has been stopped...
-> 
-> The exact same board with two other panels (jd9365da and st7703) doesn't have the bug.
+Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
 
-Could you please provide the output of command:
-
-cat /sys/kernel/debug/mstop
-
-for both cases?
-
-Also, could you please check if the following diff solves your problem:
-
-diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c 
-b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-index 5edd45424562..62957632a96f 100644
---- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-+++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-@@ -1282,6 +1282,10 @@ static ssize_t 
-rzg2l_mipi_dsi_host_transfer(struct mipi_dsi_host *host,
-                 value |= SQCH0DSC0AR_FMT_SHORT;
-         }
-
-+       ret = pm_runtime_resume_and_get(dsi->dev);
-+       if (ret)
-+               return ret;
-+
-         rzg2l_mipi_dsi_link_write(dsi, SQCH0DSC0AR, value);
-
-         /*
-@@ -1322,6 +1326,8 @@ static ssize_t rzg2l_mipi_dsi_host_transfer(struct 
-mipi_dsi_host *host,
-                         ret = packet.payload_length;
-         }
-
-+       pm_runtime_put(dsi->dev);
-+
-         return ret;
-  }
-
-Thank you,
-Claudiu
-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/exynos/exynos_hdmi.c b/drivers/gpu/drm/exynos/exynos_hdmi.c
+> index 01813e11e6c6..bfcf2fa62fe1 100644
+> --- a/drivers/gpu/drm/exynos/exynos_hdmi.c
+> +++ b/drivers/gpu/drm/exynos/exynos_hdmi.c
+> @@ -1779,7 +1779,7 @@ static int hdmi_bridge_init(struct hdmi_context *hdata)
+>   		return -EINVAL;
+>   	}
+>   
+> -	hdata->bridge = of_drm_find_bridge(np);
+> +	hdata->bridge = of_drm_find_and_get_bridge(np);
+>   	of_node_put(np);
+>   
+>   	if (!hdata->bridge)
+> @@ -2096,6 +2096,8 @@ static void hdmi_remove(struct platform_device *pdev)
+>   
+>   	put_device(&hdata->ddc_adpt->dev);
+>   
+> +	drm_bridge_put(hdata->bridge);
+> +
+>   	mutex_destroy(&hdata->mutex);
+>   }
+>   
+>
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
 
