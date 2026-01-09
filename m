@@ -1,54 +1,54 @@
-Return-Path: <linux-renesas-soc+bounces-26501-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26502-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBAF1D08788
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 09 Jan 2026 11:15:05 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F0A8D08793
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 09 Jan 2026 11:15:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 43EC530D1EAD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Jan 2026 10:05:47 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id AA60A30D568F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Jan 2026 10:05:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0CD8337B86;
-	Fri,  9 Jan 2026 10:03:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98E4D33ADAC;
+	Fri,  9 Jan 2026 10:03:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ZJSYFvqh"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="KSZfI1Sa"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E034C3382D6;
-	Fri,  9 Jan 2026 10:03:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0297A337BA1
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Jan 2026 10:03:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767953027; cv=none; b=MARZ8lAKgXowidDFDqjrL6sJKQfh7ANpxeq/xf2HPwO9wo8alQmUFlY25qUdSyWl8MvU2Pk9RR+nNX2Az+TkPpYs3wb4B3Y4CIuSjkozfDSM0fjRuq0RKOarRciQ91zAE0ajGK65e6Ax8cts4mAxQX9iHABukYGlDu21TooPPK8=
+	t=1767953032; cv=none; b=pskyOz5bTek8RmtMXVqf7X7Auqvre1QLQzi8t/T6LLPW6NmcMEFdmnC7sTZWNDvSmY334PCeNZNSbLxn74O8dsHZyoRifVwPHqA+Hs56ZeHtBDEtsvyh2eVr4q8pQr52xcz3vFtySxpVfFpQ6+cYaEAx9nc50glN4KeHCSh9P48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767953027; c=relaxed/simple;
-	bh=3J9dz6aUhMlQ/wrxlSxKNQyAKi2R12Yexa8xs9/DvN8=;
+	s=arc-20240116; t=1767953032; c=relaxed/simple;
+	bh=TlE3YDvy+t5RtC+Km6LkK0CiyIuQKjYCOd/3ddkTIKk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=QGn+/3RWOJcVRoHr4hXHCcJ4A8HGaCgVNFACw4xYbSyrpgVxUwtWQLKXfMOcfZNRswgvatgVwV43nSo538IBGuwUSteq6gdY5yIvPArGe5tahikurqgUmZoSf+B+P0n6kXf1jnvDhp4ivdi0zFF8flNF0gtR0jT94ebdHyaHJaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ZJSYFvqh; arc=none smtp.client-ip=185.246.84.56
+	 In-Reply-To:To:Cc; b=t+TZyM6ypebVNf8lEBbzXGLdR+hBr+ZiWLZ6eMHs9/0qpJrSfnVsWGxNXE1mqINFLR8TiAKuf30vuKIwlCLqsAI1wBlsRqQ3bd1p/ofYPQtKa/RXXKvQUwm7HzQJ7FLGmKHe9coK8Mpve9dEF2rQL1tKYvK/CD3jL8/ONUTHZr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=KSZfI1Sa; arc=none smtp.client-ip=185.171.202.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 9F4151A273D;
-	Fri,  9 Jan 2026 10:03:44 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 825C4C1F6D4;
+	Fri,  9 Jan 2026 10:03:23 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 6BAFE60734;
-	Fri,  9 Jan 2026 10:03:44 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 47C31103C88D4;
-	Fri,  9 Jan 2026 11:03:36 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id C397160734;
+	Fri,  9 Jan 2026 10:03:49 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id A7926103C88D0;
+	Fri,  9 Jan 2026 11:03:42 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1767953022; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1767953028; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=sDYasl3TO+ykUDgltsiebhB15xiF9vjquBvH4qBcVHM=;
-	b=ZJSYFvqhklyH3Vwt24dpnaBUo8OPit1uS9BZYNEbqIBp0HfvE4SbWkyhACiyoS872ce5ot
-	Hn5BN62UXidJKbd2f7/wtAoXH141rhnGrFQDsmDvDVaQWopM55T+4Jgc6M4yVx1Wqj5WZQ
-	KyteiRTpHK4ob8ILlsfcBPXafKwvl/D9uowH4pMC3GjPKM/MTYto1ArHSbFPJJ2TfjWRfs
-	vcRIAPWYY48xjSFr787foREYv2/8pWqgazzHIn1GRe0XLrW5IqaeymG51zNkB5R1+trpCf
-	1DswaF+HFw3D/rJ3x3cCdOtICEyhGJdFrbQyxxlXhEatRedBDZ1amnhSf3EOTQ==
+	bh=SA0cq6vwDyGvyP6SIBlq9HJkNg1w6ZLReUneEYt+F+A=;
+	b=KSZfI1SaMumTTlA7aUO6fknx5ClPCFywopEJddmgU9FBvO0pmHTfpu2e904RhR6gPPoMSB
+	ZPe00R76Xz/t/ZaLShL8VZs2/VQbhzctQtsji7KJ4/m4s9zXyFup7MJcoAA8x8Zv7qeSoR
+	Pq18G1V6UTxRFRfxEIHCBQkmOxiOHdSF7fb5Pzu8WyzjbAczpR7CYY5L7Jmp7bCyerI1RI
+	WRVm2ww91LMZFoNvTkNMzRhdIHSA2YI64XzE99H+xp5GGHdf1oLkQ7Pu3fXg2sjZAhss1E
+	NXN9D3QTghu/aY1qyCeS6OHAoXBaM+hwIbn+Sm4gLdBkf1Gqh+Fr9rsU3YGqyA==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 09 Jan 2026 11:02:54 +0100
-Subject: [PATCH v2 5/6] drm/exynos: hdmi: convert to
+Date: Fri, 09 Jan 2026 11:02:55 +0100
+Subject: [PATCH v2 6/6] drm: rcar-du: lvds: convert to
  of_drm_find_and_get_bridge()
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -58,7 +58,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-3-v2-5-8d7a3dbacdf4@bootlin.com>
+Message-Id: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-3-v2-6-8d7a3dbacdf4@bootlin.com>
 References: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-3-v2-0-8d7a3dbacdf4@bootlin.com>
 In-Reply-To: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-3-v2-0-8d7a3dbacdf4@bootlin.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -100,34 +100,50 @@ of_drm_find_bridge() is deprecated. Move to its replacement
 of_drm_find_and_get_bridge() which gets a bridge reference, and ensure it
 is put when done.
 
-Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
+Since the companion bridge pointer is used by .atomic_enable, putting its
+reference in the remove function would be dangerous. Use .destroy to put it
+on final deallocation.
+
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/exynos/exynos_hdmi.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/exynos/exynos_hdmi.c b/drivers/gpu/drm/exynos/exynos_hdmi.c
-index 01813e11e6c6..bfcf2fa62fe1 100644
---- a/drivers/gpu/drm/exynos/exynos_hdmi.c
-+++ b/drivers/gpu/drm/exynos/exynos_hdmi.c
-@@ -1779,7 +1779,7 @@ static int hdmi_bridge_init(struct hdmi_context *hdata)
- 		return -EINVAL;
- 	}
- 
--	hdata->bridge = of_drm_find_bridge(np);
-+	hdata->bridge = of_drm_find_and_get_bridge(np);
- 	of_node_put(np);
- 
- 	if (!hdata->bridge)
-@@ -2096,6 +2096,8 @@ static void hdmi_remove(struct platform_device *pdev)
- 
- 	put_device(&hdata->ddc_adpt->dev);
- 
-+	drm_bridge_put(hdata->bridge);
-+
- 	mutex_destroy(&hdata->mutex);
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c b/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c
+index 001b3543924a..227818e37390 100644
+--- a/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c
++++ b/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c
+@@ -633,6 +633,13 @@ static bool rcar_lvds_mode_fixup(struct drm_bridge *bridge,
+ 	return true;
  }
  
++static void rcar_lvds_destroy(struct drm_bridge *bridge)
++{
++	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
++
++	drm_bridge_put(lvds->companion);
++}
++
+ static int rcar_lvds_attach(struct drm_bridge *bridge,
+ 			    struct drm_encoder *encoder,
+ 			    enum drm_bridge_attach_flags flags)
+@@ -648,6 +655,7 @@ static int rcar_lvds_attach(struct drm_bridge *bridge,
+ 
+ static const struct drm_bridge_funcs rcar_lvds_bridge_ops = {
+ 	.attach = rcar_lvds_attach,
++	.destroy = rcar_lvds_destroy,
+ 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+ 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+ 	.atomic_reset = drm_atomic_helper_bridge_reset,
+@@ -740,7 +748,7 @@ static int rcar_lvds_parse_dt_companion(struct rcar_lvds *lvds)
+ 		goto done;
+ 	}
+ 
+-	lvds->companion = of_drm_find_bridge(companion);
++	lvds->companion = of_drm_find_and_get_bridge(companion);
+ 	if (!lvds->companion) {
+ 		ret = -EPROBE_DEFER;
+ 		goto done;
 
 -- 
 2.52.0
