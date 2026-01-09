@@ -1,134 +1,99 @@
-Return-Path: <linux-renesas-soc+bounces-26561-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26563-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14624D0C6C1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 09 Jan 2026 23:13:08 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21B97D0C878
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 10 Jan 2026 00:21:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0E914303B18F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Jan 2026 22:11:20 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id D0FA430049C7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Jan 2026 23:21:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABA272EA169;
-	Fri,  9 Jan 2026 22:11:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C57DF26E71E;
+	Fri,  9 Jan 2026 23:21:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OyfYkk/T"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fG6J/COS"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44C5D303A0F
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Jan 2026 22:11:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A25DC11CA0
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Jan 2026 23:21:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767996679; cv=none; b=f42JaRTFTbGizat+i+M1Ue/Lnjyn/4to+v1cYvZyPnRlQRN6UPFtNpFnzMid1Po+hSyH2QIMGWtNsbfuOR7JDHPblZvdOWZyungHJi5OCFxmw1vUrPTgLrMhuYaDy5As/Ypp74130jpg/XxXxQXYsnLiIPjStoZdBq5JT5A8kAw=
+	t=1768000892; cv=none; b=YrVgJ4phyCs361FkxzT5ejMtD54D+DEnpNnKAGVo3XtYJHa782hpVRYw/7rdVdd/x/8IquURV6O4T7s8IymZ8UfA3gZ7KCt8JVzqWBFluQmzacxh/yAFlq9w7QTMSXG4MglJKlerbwL3xE7EsgC7g0Li9AJ4RVLez3450jPcJOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767996679; c=relaxed/simple;
-	bh=R5Do4/w4LV+M4OYcCoPCvYZSX4xUkM8QUdWEFqvuFV0=;
+	s=arc-20240116; t=1768000892; c=relaxed/simple;
+	bh=uvdR7r59FKUaW78KQHB72Cl/f9vfJAJTYyJhPhMtCf4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kKADdNAi0ndyChbIiz3ZU6IW7r4+HWagBRdjv6XHARC/o98pUpPYknhuZaQmlHAhAd5FRKA8w/24FsrEDRcjw8s1vHda9f2Nia+jwBPDqSKYFSkRUTUQU/VjUKBkAsizBaGNFh3F7mWJk7RBlwbR1HVwxXVYmz4cDW/dQLQgYpo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OyfYkk/T; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-4327790c4e9so2395870f8f.2
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 09 Jan 2026 14:11:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767996677; x=1768601477; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yJAnP27Y4Fg6m5YuP6Z5EKo9hS0YnZFZlZA3ta9U+jY=;
-        b=OyfYkk/T4b0Gry+v3qGDrW6ObyYXOyorBKJdyKd5wYntVMlfiu1f1ooB1KyAGVQKNL
-         lrEwNu8xJ28xoJ352dsfJ+iqRCaHoNgcpcGI3J0luTsmz5JVf8etCcV6PdDwvBZxHlDZ
-         J/Jtc+VlxcGTnAR0MT5nYY5faGKk4wfRH2lPVjWpPZazXIx9YwAkU4dx/N8J2DIJa5Iy
-         QBjEAEfYh4j0iOq3gTogVCt1sM3V1WtZ99+1xXqds8SIBssxEk9m2bxrXU10p25vSXqk
-         6S2PwavE/T2Tg7QN7yarC9/8TgY+T9Ud1YulEXeBlxE35tyzNxHFCPZDfQUcj2gRhadI
-         vEPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767996677; x=1768601477;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=yJAnP27Y4Fg6m5YuP6Z5EKo9hS0YnZFZlZA3ta9U+jY=;
-        b=qMgrilHDsNAOFxC8m217QVftnH6XQYFGFkfTWQm0J0rtmv/Pdwz9zA9ev5bjB7LzFF
-         77TZqQrYUt5ZYboAobGUSub5uudTpddjFT0/GzyiGpzOmuGvsq1GOR2rJKJhv+WyHrd0
-         Cnga75ADZ7ux0yExuJ/K2qknq1p6TYP4rcvTmTEm5MKGH47SQeUMHvUJDMz1PZd6vMPs
-         fJDkiGLJ1JMLVyabywpoExpXAPd8bKSVx/aNQ5OV1DsYp2W2To5csWaLzG8XTnyM1y6Y
-         yUhRPp8998uJcy667hoi8+M+2whwrTq+x6qg05iPFuFfSBSceCzoqUKdtPXhMD3doYnq
-         ch8Q==
-X-Forwarded-Encrypted: i=1; AJvYcCV3QCzv0fvsSWa/NZ80bajO9f0/pronVxdK4NQqZww4EUHnTq6YwMDIn5XCul7DI1kaOIOIJQUUIsFl2BkVXdddIQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzvummN0zM36incAzn03Rl18Ry9lUdoYkwR1MVrYqTqJJtxLg49
-	t2xSKqhBQuT0Jj09F7AKn9ZvX4aupsGEwgKh7husBeuvDIxObxWY63TQWYqTUanTe7EpY4mbBNr
-	jGoXTAqGYAB4+VHyWlzKwGgxmFeChffw=
-X-Gm-Gg: AY/fxX4XTwEduhtSbMG9KcB/W3DbwzNOdrO4UsO5E1GHVpz71AsPrvCUzngjdHyQP/3
-	LSnR15C6vCizBB//8GENp2+xuO3oqyKEJb/Oxsrs5Uzj9xcMQACPfUqP4UTbAEdJpacIJ5LIXiF
-	Io18wNPHooaGD7wiuTpKYodG7puIQlXaxVZeDfr0RFoMQygpVHxl7BzX01BYXDSdGerkyd1fIzP
-	g3wjhXoF528T28xvIJOLzEt8ErmqY5dqD1PY6hWVoq0SXtHe87zMmMoZY5wdv6a3tZlDHqHu/aO
-	WBS7Omw9Wr3apkJM10TVCldGs0MiDFD4jKigLFM5ZGjuXBZBVoibZjKKHA==
-X-Google-Smtp-Source: AGHT+IEv9F2TE9alvzSAaWWvHAOaOzQkaWEQ73Q6cawx9cBLTLWPaIJAupHAzQr3PBKhgFozn6nbDHkKRuF6Z3FVUo8=
-X-Received: by 2002:a05:6000:25c6:b0:431:9b2:61dd with SMTP id
- ffacd0b85a97d-432c374f48dmr14339503f8f.38.1767996676484; Fri, 09 Jan 2026
- 14:11:16 -0800 (PST)
+	 To:Cc:Content-Type; b=WCkumtVIh3cltEvKaUWabS5zklhEXUyxG4cy95QOLySCzVC4s2hNAQBKJpGcEqV9s62ufBVQ7j4TFGZkTtJIst9gVZu3nY30kuLhflryJn40C3wx3oqhC4VuFr5NdwwnNscLK0yX4qwjTyEZNVOgl6sy2SerZSTSbD4KlfNxpMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fG6J/COS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85F0BC4CEF1
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Jan 2026 23:21:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768000892;
+	bh=uvdR7r59FKUaW78KQHB72Cl/f9vfJAJTYyJhPhMtCf4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=fG6J/COS2MRojToR9og3/QXU+chj5T+FFxNXb3GoQhwQVgBXOXunOCGZ05Z5K+w1b
+	 G2drRrodWAL6i6EGbEpdL7WxdTlnOWL0TwqPKGdnNJUskAtyy/3M/f5kz7pmKQa/xZ
+	 7qoOozSyK8j0uAxaP2O0jQNmmGrwgG78Md8B5JxU09T3jOi8VdBytKZWM3vYt1AUy4
+	 g5XRcCto8vxCa12FXFZ2sgPzCguwVtWZF+pI8/BIfzmExUyjeUnxtKizLWvnvGaIM8
+	 XF3qjpqJbi+opXXw5Pb+0CJhZ8u01o1r9HQyhr3tXbzC5/gYKS4T7QXOFKdBdjsxhP
+	 9eBTEKNvdlD0g==
+Received: by mail-yx1-f45.google.com with SMTP id 956f58d0204a3-64760131fc1so1686286d50.2
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 09 Jan 2026 15:21:32 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWFwFO/5yUFjUkrQKTOGbNvgXRHg8rwk55Tvl7u+JWUFaDadfOGyG2Ys5XUdBhPHn6ul4MCEKFPUjiRXUT/woyV8g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxMb0T6O1XSeIdGcxitP35FofnK17MJMT81KdRkRuclRMlEJm3a
+	Q8UCDDyX/3vn9fzeyAHHOU0vDJ6GQaHS4aVnHDsVB5CVs+qozG7TcxeH13yYp5Od6+9AB643pcw
+	7bkadwXjam4AAmDug8ZuYfQjUYJ9g0Xc=
+X-Google-Smtp-Source: AGHT+IEkBLq/lAAdOeX43YDvqmebeTfxKMv+A5cSEvJCNt569S38es3u5lB7LBS6bcr8KI97iNecxJxjOG3acFdkAwk=
+X-Received: by 2002:a05:690c:4449:b0:78f:ac82:51e7 with SMTP id
+ 00721157ae682-790b5802185mr219222787b3.40.1768000891922; Fri, 09 Jan 2026
+ 15:21:31 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1767114395.git.tommaso.merciai.xr@bp.renesas.com> <a9eefb0e3bfd7c989fc537fa6caed37f18084215.1767114395.git.tommaso.merciai.xr@bp.renesas.com>
-In-Reply-To: <a9eefb0e3bfd7c989fc537fa6caed37f18084215.1767114395.git.tommaso.merciai.xr@bp.renesas.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Fri, 9 Jan 2026 22:10:48 +0000
-X-Gm-Features: AZwV_Qg1Zb6okpm8iExAr_5JEcgpUrB_Ww7dFmqug7FTRe7N-V5EDDCfGAHEhBU
-Message-ID: <CA+V-a8tmw8QX7T6yo3Zd6PKno=K9BseYRTTT006hWOHYrX2Cvw@mail.gmail.com>
-Subject: Re: [PATCH 3/3] media: rzg2l-cru: Drop redundant buffer address clearing
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org, 
-	biju.das.jz@bp.renesas.com, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
-	Hans Verkuil <hverkuil@kernel.org>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Daniel Scally <dan.scally+renesas@ideasonboard.com>, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+References: <20260109143910.645628-1-cosmin-gabriel.tanislav.xa@renesas.com> <20260109143910.645628-2-cosmin-gabriel.tanislav.xa@renesas.com>
+In-Reply-To: <20260109143910.645628-2-cosmin-gabriel.tanislav.xa@renesas.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Sat, 10 Jan 2026 00:21:21 +0100
+X-Gmail-Original-Message-ID: <CAD++jLmxZL=S+b8x6JqKQqmMF6JCvdZFH5JjQjN-3=UxSgz3ng@mail.gmail.com>
+X-Gm-Features: AZwV_Qgmj2xObTYPNp62A04ypx-HjwejVPQuEHhehVURYUOOPPbjFyxmgmTi8Uw
+Message-ID: <CAD++jLmxZL=S+b8x6JqKQqmMF6JCvdZFH5JjQjN-3=UxSgz3ng@mail.gmail.com>
+Subject: Re: [PATCH v3 1/1] pinctrl: renesas: rzt2h: add GPIO IRQ chip to
+ handle interrupts
+To: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, linux-renesas-soc@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 30, 2025 at 5:16=E2=80=AFPM Tommaso Merciai
-<tommaso.merciai.xr@bp.renesas.com> wrote:
->
-> Remove the clearing of cru->buf_addr[slot] in rzg3e_cru_irq().
->
-> The buffer address is already managed by rzg2l_cru_set_slot_addr(),
-> and explicitly setting it to zero here has no effect on the driver
-> behavior. Removing this assignment simplifies the code and avoids
-> unnecessary operations.
->
-> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> ---
->  drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c | 1 -
->  1 file changed, 1 deletion(-)
->
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Fri, Jan 9, 2026 at 3:40=E2=80=AFPM Cosmin Tanislav
+<cosmin-gabriel.tanislav.xa@renesas.com> wrote:
 
-Cheers,
-Prabhakar
+> The Renesas RZ/T2H (R9A09G077) and Renesas RZ/N2H (R9A09G087) SoCs have
+> IRQ-capable pins handled by the ICU, which forwards them to the GIC.
+>
+> The ICU supports 16 IRQ lines, the pins map to these lines arbitrarily,
+> and the mapping is not configurable.
+>
+> Add a GPIO IRQ chip to the pin controller that can be used to configure
+> these pins as IRQ lines.
+>
+> The pin controller places the requested pins into IRQ function,
+> disabling GPIO mode. A hierarchical IRQ domain is used to forward other
+> functionality to the parent IRQ domain, the ICU. The ICU does level
+> translation and then forwards other functionality to the GIC.
+>
+> Wakeup capability is implemented by placing the entire pin controller on
+> the wakeup path if any pins are requested to be wakeup-capable.
+>
+> Signed-off-by: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
 
-> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/dri=
-vers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> index 34e74e5796e8..8ae6ef82a0da 100644
-> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> @@ -709,7 +709,6 @@ irqreturn_t rzg3e_cru_irq(int irq, void *data)
->                         return IRQ_HANDLED;
->
->                 dev_dbg(cru->dev, "Current written slot: %d\n", slot);
-> -               cru->buf_addr[slot] =3D 0;
->
->                 /*
->                  * To hand buffers back in a known order to userspace sta=
-rt
-> --
-> 2.43.0
->
->
+Reviewed-by: Linus Walleij <linusw@kernel.org>
+
+Yours,
+Linus Walleij
 
