@@ -1,406 +1,396 @@
-Return-Path: <linux-renesas-soc+bounces-26528-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26529-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7C90D0ABF6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 09 Jan 2026 15:53:02 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B2C4D0AC9F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 09 Jan 2026 16:04:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0C63B30056DB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Jan 2026 14:50:20 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 7BFC830119AB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Jan 2026 15:04:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58AAA311957;
-	Fri,  9 Jan 2026 14:50:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EAE33148D9;
+	Fri,  9 Jan 2026 15:04:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KgZqYfPf"
+	dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b="JPH91PrQ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C4F53115B0;
-	Fri,  9 Jan 2026 14:50:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.10
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767970218; cv=fail; b=ESOml+/3+G/V6Dyt99jMO05UMvSmfYDFukucTncs3Wz0VfJrYFqpKuJgbBtbthqidwqgXQm1DJYQOcvPrV1Z/QF7BTYnxmIWobf+sfNi5g+cweKTPz/tFx0vu4yySpmm7M4P4Sx6cK5tqHK/4KJCM5jwn+XI/J+AXhukh7bwcuY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767970218; c=relaxed/simple;
-	bh=BAyyTBlWg3zO6IyFWXwng6kQrEYXjRCAk/iE9xun5ig=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=QxdP15yfaYq8FGCsmDYb2njDvGcnPtY7oCU0CdwH0dnmURGwz8CoaxTkulrsMjESCB+K7mYn27d/77qFW5+Wi/efUUX2Z/JLfA5mhTDFeJzOKFSS0j1F2iYQ8mNRdLbVPyRapapfUqfFBnXk1z28HUV1VllzhkbWlVdXh3JqeOA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KgZqYfPf; arc=fail smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767970214; x=1799506214;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=BAyyTBlWg3zO6IyFWXwng6kQrEYXjRCAk/iE9xun5ig=;
-  b=KgZqYfPfPtjXk6pjpJfloF/VxWE9biypzplA4p+g4KFEnGbh8cZRb6gn
-   kp0rF/zJ1ZkF9F+vMio3HytTXzCaOegn9/f7TMkktzLsQSRIb+8dnqTex
-   t5kIjA4oho2DFyUVeIPS1/KWMP7wW/dpLmhdAJwG6GnqUgujHN+94R3+3
-   VCQXpVrooAB6lozKD5i57UUQNyF+Ef8R6J8W84OyuyETTa8HPiaEewEnk
-   WJsrSFDpxZ0LzEokk7CgxfXHKMGfx0yZ2oH96R0O9hyELGOK1ZLBW30h/
-   gCOjBt+rwB7etqUbddyaIfZn6cpccozRAc4eORVtHouaKZiwS5jzmkDOy
-   Q==;
-X-CSE-ConnectionGUID: XtautBs5T1Kt8vUjYy28Pg==
-X-CSE-MsgGUID: eeq9v9i3RXavjBDu5fjNoA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11666"; a="80718147"
-X-IronPort-AV: E=Sophos;i="6.21,214,1763452800"; 
-   d="scan'208";a="80718147"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2026 06:50:11 -0800
-X-CSE-ConnectionGUID: PrCNv1bdSuiJyQ/yBA0ePQ==
-X-CSE-MsgGUID: LflS+stMS725dI7+1fC4rg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,214,1763452800"; 
-   d="scan'208";a="240995766"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
-  by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2026 06:50:11 -0800
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Fri, 9 Jan 2026 06:50:10 -0800
-Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29 via Frontend Transport; Fri, 9 Jan 2026 06:50:10 -0800
-Received: from PH7PR06CU001.outbound.protection.outlook.com (52.101.201.52) by
- edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Fri, 9 Jan 2026 06:50:10 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lyMYIsaw1YNcISDEM4GX0sUzxVNT3TlSJxiNtV2QJXA7zBSEf0nSVjzX3aiUmBaushZrvDWNn4fNlxEOf0inAdE6ARLIT/IqRBgh5lG8lcXFpV3izc2P8vta80km9E9WJW5HT1oU5ZniS45MUHhZNzzZQXjXWMG0NjA+/AozBT5s4DaGYkd9k0wO/+KkeHHxadcLAFUII+rcMVO9zpR14/7AdyktRnw/3n9XbyNeRj1FI9jYNFvZnLao0xIkE9AwPvkhEzZ2OkuJv05hA1DCS5dEo8bDQer/9PNPxn6X+1+pAUQRXODkYRpzgwPbgIFO7rL2hk4PVLanB9NzGWfgMw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Nba0OndqyfjvkNA5aWyIgRab6jf8Fmb7+arUrqqvi5c=;
- b=OqiD4YuBXh5iegma0BxJagipaQn6vWl/ckdM1kWIpTwQHThShX9bmzvgwx6Oh1rm1cxbmzq4PvCNRPgISzzTkRt7IkcjDztSb4OUEFK9JlW99EHmnLMPdHU3xX5Ryt/+a8pZv8Ze5XKNTK9GbFDjyuO/jImbXAnrTFpqHeg2QdqyIWJakFI2HzPYy1EPxw1mfKDAvFGDk11NZpxvRUPAIGDjYWEqk0/8Ou5HDL7BWZGVKVqmhJvhBSq8VgyROzBbb038Y8w/8H7nuf5RiV8FtGH4BEwH0cJPOdpadynZM/GiTyp07UWUug3FsxgRSlUQ2cGqBWoJ5nGldOIwZs12gg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from IA1PR11MB7198.namprd11.prod.outlook.com (2603:10b6:208:419::15)
- by IA1PR11MB8151.namprd11.prod.outlook.com (2603:10b6:208:44d::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.4; Fri, 9 Jan
- 2026 14:50:08 +0000
-Received: from IA1PR11MB7198.namprd11.prod.outlook.com
- ([fe80::2c4e:e92a:4fa:a456]) by IA1PR11MB7198.namprd11.prod.outlook.com
- ([fe80::2c4e:e92a:4fa:a456%6]) with mapi id 15.20.9499.003; Fri, 9 Jan 2026
- 14:50:08 +0000
-Message-ID: <3d448d3d-ec1c-4be1-ab98-c1e47511f299@intel.com>
-Date: Fri, 9 Jan 2026 16:50:00 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 4/4] i3c: renesas: Add suspend/resume support
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
-	<tomm.merciai@gmail.com>
-CC: <linux-renesas-soc@vger.kernel.org>, <biju.das.jz@bp.renesas.com>,
-	"Wolfram Sang" <wsa+renesas@sang-engineering.com>, Alexandre Belloni
-	<alexandre.belloni@bootlin.com>, Frank Li <Frank.Li@nxp.com>, Philipp Zabel
-	<p.zabel@pengutronix.de>, Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>, <linux-i3c@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>
-References: <cover.1767781092.git.tommaso.merciai.xr@bp.renesas.com>
- <c469ef89e0156d37746a85bfc314232847d1185a.1767781092.git.tommaso.merciai.xr@bp.renesas.com>
-Content-Language: en-US
-From: Adrian Hunter <adrian.hunter@intel.com>
-Organization: Intel Finland Oy, Registered Address: c/o Alberga Business Park,
- 6 krs, Bertel Jungin Aukio 5, 02600 Espoo, Business Identity Code: 0357606 -
- 4, Domiciled in Helsinki
-In-Reply-To: <c469ef89e0156d37746a85bfc314232847d1185a.1767781092.git.tommaso.merciai.xr@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BYAPR04CA0009.namprd04.prod.outlook.com
- (2603:10b6:a03:40::22) To IA1PR11MB7198.namprd11.prod.outlook.com
- (2603:10b6:208:419::15)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A89E8314D1F;
+	Fri,  9 Jan 2026 15:04:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.120.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767971092; cv=none; b=UI/yFhVhcKoRFv1EQLhpNvBa4hss55/xJkIDdxi3Ill5ghvTYclasNJqQ+VmR4Q1vmjMVEvHfOHYDK9xcKN+sGBZulR9KMdLJy4SVdGPhdAW60Xh8GKP2R6OAz2vTmBNnh28F9crml9zGH9/M7eGMvdf0VowH/WdjY1U2SG+Org=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767971092; c=relaxed/simple;
+	bh=WivP9Zi2Q+ffMhbeD2liWgbBmkqkdtj2EAE1Vn/CuLM=;
+	h=Date:From:To:Cc:Message-Id:In-Reply-To:References:Mime-Version:
+	 Content-Type:Subject; b=RRudHTvKk33Bfxn8eafU0LwtWrZEGBf775GkY+fyDRMV6F94K3cgtzGxRK/wEfv6DoG7pd0ErZqFYMc+qk3m8bnWh7x/jIrEPSYUXsMNFF4wcWXz/gpI2T8BSklV3wT8DYQjuQvYtS5T4pGqgdFO/yYFvr5JAVZ0OvJ1/4YJtKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com; spf=pass smtp.mailfrom=hugovil.com; dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b=JPH91PrQ; arc=none smtp.client-ip=162.243.120.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hugovil.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
+	; s=x; h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
+	:Date:subject:date:message-id:reply-to;
+	bh=qkIpYE7E2QFWeCBnb4EIVkrZiK4H3YHDoWTpZcRtKJ4=; b=JPH91PrQLf7oVix5Vbd6o36PPQ
+	OWw3qgOkPgCMj6DU4th+3gyWnDpw1K+2gS+6gMQbdH5gKpv2UgF/BVxw8Q4cgRxlvkOtBaboIz+PB
+	UrucbphFpxRBkyl6M2A3P4kFfmSnuFDQGUx92l/S1QkDdMVdLP/w3CFId1Wuvnphj/UI=;
+Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:60784 helo=pettiford.lan)
+	by mail.hugovil.com with esmtpa (Exim 4.92)
+	(envelope-from <hugo@hugovil.com>)
+	id 1veE2X-00024c-KU; Fri, 09 Jan 2026 10:04:38 -0500
+Date: Fri, 9 Jan 2026 10:04:36 -0500
+From: Hugo Villeneuve <hugo@hugovil.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Claudiu.Beznea <claudiu.beznea@tuxon.dev>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Claudiu
+ Beznea <claudiu.beznea.uj@bp.renesas.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Jessica Zhang <jesszhan0024@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Chris Brandt
+ <Chris.Brandt@renesas.com>
+Message-Id: <20260109100436.f499618affc1fecd11c25097@hugovil.com>
+In-Reply-To: <TY3PR01MB113467DBEE7A2A0B3A93050788685A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20260107164839.a490a194d975edc399d72d01@hugovil.com>
+	<f2aaa95a-fb69-46d8-ba0b-fdc793273455@tuxon.dev>
+	<20260108105319.6bef21d3fc60b261792d07c6@hugovil.com>
+	<TY3PR01MB11346AA75CAA2496A06BCEC438685A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+	<20260108125134.6ce05fd214a217a37de9ed4b@hugovil.com>
+	<TY3PR01MB113467DBEE7A2A0B3A93050788685A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA1PR11MB7198:EE_|IA1PR11MB8151:EE_
-X-MS-Office365-Filtering-Correlation-Id: c521325d-1b65-4a72-adf8-08de4f8e61d8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?L3k3VWtobmhYbGVGU0gyYW02MWFOZHN5OWxxbnhsY2VKRDl4Z015V3ZTYjZY?=
- =?utf-8?B?V0dnRVFoTGQ2QTUvK0J4SGNzcFIyNEJtOFdjM3ByZE5KZ2xYMTU2Z241eTJT?=
- =?utf-8?B?UUxGTkUxRk1pa3dMbEVieGNRaE1rdXgzaHJFcXRGSXE1RndQVXdxMkxsakd2?=
- =?utf-8?B?MmRhT2RMbVFFdXVPRGlHdDFnRllLZU5RS080T2hFUW5sZzJjdXRDSW5NcjBF?=
- =?utf-8?B?MDFZVkp1NW5xSk9NbjNZem5nYmpubm5lNy9JQ2VpNlF2RFNRbTE4eDM0MG1m?=
- =?utf-8?B?cGhHR05QTWFSTzRKZWIxS2IyUXZ1TTRoOUtoTjJ4WnVneXJIOE54aWt3UGc3?=
- =?utf-8?B?WlA1elZ3MDlOMkJlcmtlamhLdTR2a0swYjljTUtwM0RuSk5EVWpRbUZlTThY?=
- =?utf-8?B?NGFCWkJzSGtIWUd0SW9NWGxmN0hYdzhNK2QzcDRua3U4U2xJNjdrRWIvZzND?=
- =?utf-8?B?eXF5TWpHTUNXdyt5by9pU2JEaVNEMDVHZDJVdEQ2elRLaVlkV1F3cWdCcTRK?=
- =?utf-8?B?L2JodVUzdTI5M1VIdzlHY1VzMWlLRzRjWER4SVJOdEFPblN6b2IvVXE3cTVG?=
- =?utf-8?B?MmxKUHRzaERvWnRzM2lUOXNQZjNXeEZJZDNLRjgrdXdHNnJ1cmw2akI5dmhE?=
- =?utf-8?B?bWJkS2p2eXBEUDdPZlRDLy9wQTRBVENTZi9jYlJaNHQ2TnMwOHRNLzdKOEIz?=
- =?utf-8?B?L29rbW9Wc0dmM3h5aDdoYXI1L1NOd0NEdVdreXZ0dkVaazhBQ3J1bjcxeVg2?=
- =?utf-8?B?NHArQmRBRlhTaDhpWjZ0NEZjQmdPWUczMXN4ejMwOU1EczFJaHdac3NnS0xz?=
- =?utf-8?B?bTZCSk1CMGdQbUE3eEt5SkxMd2IvQkJZSUtvM3A3QTlJL1ZDUDNwZ3dPN0Vk?=
- =?utf-8?B?QkI1MmNRbDhEMjhGdGloM21SNHdOMkdOeHlGM2t1VnpjNllCNUgxeTdRaDBX?=
- =?utf-8?B?MkhVVmNXYXQ4YkhBNmNVQ29wZ0w3cFF1c2pBUzRJUXVBSkJMalNJVFpRUzVu?=
- =?utf-8?B?WGhaNVlGcmI4OGd0T0lSV0IzQTFhaThoSHlRaUVBM0oyeVZXbnREWk91dkRB?=
- =?utf-8?B?TThsdXFQdXp0aTQrY0tPZnVvakd4NkJ4c25Hd3RKeHJLTGNIdGh4a0NsUWRu?=
- =?utf-8?B?U3JkeWhldlEwUkovQ0c3TXRJWk90TkhlRzdzV0tabjZETjl0eXpENGxNYjU1?=
- =?utf-8?B?RmREbHliZzJzTWR6QlZvMlNITmsrUmRpTkRRR1JkODVEZldMQWZaL093dWhK?=
- =?utf-8?B?RXIyc3lRQXRWTkNNK2FNaUk4UXltRW1ER0laWUhLV2N2TzJET2Z4WjhWUlg5?=
- =?utf-8?B?clZUbW5vbVc1Sjd1UWRVRmVjbWVTUi9xSDMvbEVzTHNOSVZ6eGpoZVB1Tk5V?=
- =?utf-8?B?SkwrZmNaUEsyR1BWRmoxaURJRHFEVlJ4MVN3VVVDYjBZUDR6dWkxcTJxdDha?=
- =?utf-8?B?NkNsYm1SWHR6WGlrSmRlR1hCNStvc1l1VkI5ckFoNzgzRSt0QXJvUFlrSDEy?=
- =?utf-8?B?cHJ4UGgrVG1CMGhicFpnQzYxTy9nRVJVUTBhbmVNS0dEbmNlaVBkYkxHc1BH?=
- =?utf-8?B?SHVySkVXV210cFd0YzYrWFpGMDNydjc4OGxvS1FzbkdGdjIrTjNsN0Q1RFJh?=
- =?utf-8?B?TVdySVdyY1M0eWdHNmUwNklsNzRxaDNJNUxrYThTTHVYY0ViOTFZY3ZOV1hF?=
- =?utf-8?B?QzRKTVR0OVZHdk9aTGpPcHFxc2xRRW1EaFErMHorZ3dlRVhnQUhqTzVuNFRO?=
- =?utf-8?B?VUp6UGVOcFdBeXZCUHFYT3dkVVNMT3lGMWZudXdIVWZFcmw4MjhSTnp3WWhK?=
- =?utf-8?B?MzAySU9ZMUh1N0IwU2JpcjBpWWR4WFpXSGZIdGI1RXd5UTUwVm1aaHpwcjRO?=
- =?utf-8?B?UnQweUlKRk5NMENFTWhmZUZsSDVJODczSVFtSHdMSFlKTGEwYXIva3lwKzVy?=
- =?utf-8?Q?Jz45tZWU0Uluicb/JbjMFe8fTDhhyf7o?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR11MB7198.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V3NqQTM3S2hHUjVucWlnZ1NOdEMwQnltUWdBY2l0Rkw1RVVUUU5aclh6OHdN?=
- =?utf-8?B?SnBucVZKcGo2akNDOThOYmhoeGdYaWZybUliTUNkYU1oT1g0OVpwdG9vOFlh?=
- =?utf-8?B?WFJ2Z0hEVE44bGw0S2Y2RTZ5QlE4b2pXdzZ6SkJTUCtNb2hQMW1YZ0JwRGN0?=
- =?utf-8?B?ZE1URXM5a2xPZUlwcGo5bnlkVW1tYi8zc3k0RzA3Q2I1QXhLdHNKSE1GSHpv?=
- =?utf-8?B?RHBxRzVxZWR4OHA5cE1UMU1rWGpDOFIzeVRtNnRzT3NyYmF3akRBM284cUJR?=
- =?utf-8?B?Q3JCQXN4Q3JGZzVvWEVTUHdsU2VNTXZIdmVpQnhkSWNuaXlzZlhOTDhRelJv?=
- =?utf-8?B?RG5JalBRQVhrT3ByRWpyRkQ2aUZQSklSQ2F3OEFaZ3NPK0tHWTRwSDIxWHNw?=
- =?utf-8?B?U2x0cWRmL0dSZzd3L3JOQmtsM0Rjd3JpN3RDUGZJUzFUb251RG5Za2RRQlFn?=
- =?utf-8?B?WlVSMzZJNFdIVStDdjRSeFV2RHBDK3IxVTV2SW1QRTZtNEIvUkVLakxUK1lE?=
- =?utf-8?B?V3FFVkU5SUV6dlBwcCsxVnBCZU5qVTk0eDRIVTZNdG9PaGNIeFI0cUpkQ25M?=
- =?utf-8?B?T1dFYnZ0VGlGTFlaNWdDdHM4VDcwUUxEbndvdUtONW45a2tLM3lCTklEa2xt?=
- =?utf-8?B?OFMvMXhzQnlleCtLdnBmVTJpVG9TbExKZ2ZYVGI2ZnplanE5T0ZRY20xbm54?=
- =?utf-8?B?SUxoZ2dsL2xManIwR3RtVnhyQjczM0Rqdk80UXRKemwvcG1mQjBqUlZSTXdk?=
- =?utf-8?B?RU1pSUZweTI1a1NEQlhmbW53L3NwRVpadDlNUTEzVDdISUUrUWMvbnU3bDBJ?=
- =?utf-8?B?NDFWdTFmdVFYOFBGdkhNcjRqRHdvMGRWYjlmSXY3elMzeER6dE5mYUdtczky?=
- =?utf-8?B?NklRdkdNOWFXaXZzcUFSUFQxdkszam9HazNjanNZa2VJTEdYVDNmKzdtaGFP?=
- =?utf-8?B?TmRoV0Q5SG1IN0hGeTZxR0I0am4zRzBDc3Y5WERkaGFRdEp6RFV6UzJUQnlm?=
- =?utf-8?B?VmJwQ0ovVHArNEZza0tzZVM1MjNyWVc5MExIS2VKR2x6ZTJ0elZTMlYza2dV?=
- =?utf-8?B?eFJFc3ZBb2dOZWViMFl0eW9vSnRMS0RxbFdsVG5veStZTzNMcXJ3YnpkeUxJ?=
- =?utf-8?B?YUZHU3dWVFlYZHJCcnEwcFFZZE94YkEvajkrbjh5dzdibkk3R1k4VWUrWEJI?=
- =?utf-8?B?T3hoQXo5azBoQSt6Q0pvNmR0amZLVlR1aGhqcmlzN0FJdHlIQXNwbFlhWGIy?=
- =?utf-8?B?T2tzMzBHMytDc1Zub0swUldBQTk1QnhtdWR0VTh2TTdvelpRRTJPYmk2clNL?=
- =?utf-8?B?T3pySm03RXJ6Sk11ZExHemNhYlJoOW03bEdEZ3loUkhrU1dUTUd0NU4vNEty?=
- =?utf-8?B?bDdRUWdSV2pSbEErb3lLRXZyZFdKSEVBRTdtMW1Ob29UR3lvN2lnZmpDQTRh?=
- =?utf-8?B?aEFxdW5VcHBuR1JUZ01lZHRvaG90UU8zL3E5cXlEYjdwTEFiZXFScDZwRVpu?=
- =?utf-8?B?UmMxNnlPeW9IbVFVUTNCaUZZZDlzYXllZFRUQmg3SDFEQTYzeHdGTSt0Nktq?=
- =?utf-8?B?ODg1OXFmR1lXK1U0YlRWaFRoWTlTNGxFZzZneUxqaDNJT0VlZUdhVVFZelpv?=
- =?utf-8?B?UXJHN0JUanA1d0ErYWh1OHBtVm05ZkpSa05uWmpwWTc0RUNqdG5ZN25HNDJQ?=
- =?utf-8?B?dHpxQUxySVhVYjBIalZSY05vYzF2VW5JWjczTEQrMkNWSXFKR3EvZXRhODly?=
- =?utf-8?B?bE8zcXVOdllpK2RGVjIveFpkaCswMFpaRlVnZldVMTR2QjVmcjlxMSt3NlFr?=
- =?utf-8?B?Y20vZHl3eUZqWTdYRXhoMmFOcW0rSWZDTGwxbmdOaDNJTU5kam1nK1RXb3l2?=
- =?utf-8?B?TE9Jc3pYRkRPWFp1bVpRWis3UUtReDYvbTA3bzFGUzBlTHV6em5EKzlBZ09y?=
- =?utf-8?B?MUJQUWlRblJpZ0VwSXdWQ05JYS9TSU5ackY5SG5UMzhTWTYzUDZOaGVWT3Vn?=
- =?utf-8?B?a1FGeEpJUEZGMWxtc3Q1dHlPRmFPUEJYakpkOGhHWkZVZHVIaE92SVdqcXpI?=
- =?utf-8?B?d3d6S3FGVlBKekFIYVZSdDJDVEppejdaSVBJUDBKd3NqL1M0VS9oVEVuR1N5?=
- =?utf-8?B?STNzLzhubjhrZXJ6aDMwUFVsamF4aVo3QzJuVEtoVWszanlCeVJaUFRvOEU4?=
- =?utf-8?B?djdWaDR3c1FaZEZZSDh1TWVpWFBjYVZjUUpobHplZG5uSFVQaEZETUd0d1h5?=
- =?utf-8?B?NHl4Q256dGxGSjVncXhBbTZGY2NVK1ArVEJRaHFIQk5wT1dGUUZwdUZHSC9x?=
- =?utf-8?B?WENTb2ZIWEZ5d2dtOHdnbElNYXN6cGtIUUlvVHNuMDZXcTE4WjMrdz09?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: c521325d-1b65-4a72-adf8-08de4f8e61d8
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB7198.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jan 2026 14:50:08.4443
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5xKbcYHFvvpFPr/wpx+WvgPcX3BdsOAOXI3Z2mKyVuYf3Wg92/sqkdix/1ayCi5yBKyvDTMaFtJpIk93mGgbFA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB8151
-X-OriginatorOrg: intel.com
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 70.80.174.168
+X-SA-Exim-Mail-From: hugo@hugovil.com
+X-Spam-Level: 
+X-Spam-Report: 
+	* -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+	* -1.6 NICE_REPLY_A Looks like a legit reply (A)
+Subject: Re: [BUG] drm/panel: ilitek-ili9881c: kernel panic on reboot
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
 
-On 07/01/2026 12:33, Tommaso Merciai wrote:
-> The Renesas I3C controller does not retain its register state across system
-> suspend, requiring the driver to explicitly save and restore hardware
-> configuration.
-> 
-> Add suspend and resume NOIRQ callbacks to handle system sleep transitions.
-> 
-> During suspend, save the Device Address Table (DAT) entries, assert reset
-> lines, and disable all related clocks to allow the controller to enter a
-> low-power state.
-> 
-> On resume, re-enable clocks and reset lines in the proper order. Restore
-> the REFCKCTL register, master dynamic address, and all DAT entries, then
-> reinitialize the controller.
-> 
-> Store the REFCLK divider value, and the master dynamic address to restore
-> timing and addressing configuration after resume.
-> 
-> Reviewed-by: Frank Li <Frank.Li@nxp.com>
-> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> ---
-> v4->v5:
->  - Collected tag.
-> 
-> v3->v4:
->  - Use clk_bulk_disable/enable() into renesas_i3c_suspend/resume_noirq()
->    instead of clk_bulk_prepare_enable()/clk_bulk_disable_unprepare()
-> 
-> v2->v3:
->  - Fixed error path into renesas_i3c_resume_noirq() and
->    renesas_i3c_suspend_noirq() function.
->  - Moved up one line sizeof(u32) * i3c->maxdevs into devm_kzalloc() call.
-> 
-> v1->v2:
->  - Updated commit as v1 has been split into smaller patches.
->  - Use clock bulk API into renesas_i3c_suspend_noirq() and
->    renesas_i3c_resume_noirq().
-> 
->  drivers/i3c/master/renesas-i3c.c | 89 ++++++++++++++++++++++++++++++++
->  1 file changed, 89 insertions(+)
-> 
-> diff --git a/drivers/i3c/master/renesas-i3c.c b/drivers/i3c/master/renesas-i3c.c
-> index 008b6ee60e26..528bccc2c68e 100644
-> --- a/drivers/i3c/master/renesas-i3c.c
-> +++ b/drivers/i3c/master/renesas-i3c.c
-> @@ -256,16 +256,19 @@ struct renesas_i3c {
->  	enum i3c_internal_state internal_state;
->  	u16 maxdevs;
->  	u32 free_pos;
-> +	u32 dyn_addr;
->  	u32 i2c_STDBR;
->  	u32 i3c_STDBR;
->  	unsigned long rate;
->  	u8 addrs[RENESAS_I3C_MAX_DEVS];
->  	struct renesas_i3c_xferqueue xferqueue;
->  	void __iomem *regs;
-> +	u32 *DATBASn;
->  	struct clk_bulk_data *clks;
->  	struct reset_control *presetn;
->  	struct reset_control *tresetn;
->  	u8 num_clks;
-> +	u8 refclk_div;
->  };
->  
->  struct renesas_i3c_i2c_dev_data {
-> @@ -609,6 +612,7 @@ static int renesas_i3c_bus_init(struct i3c_master_controller *m)
->  					   EXTBR_EBRHP(pp_high_ticks));
->  
->  	renesas_writel(i3c->regs, REFCKCTL, REFCKCTL_IREFCKS(cks));
-> +	i3c->refclk_div = cks;
->  
->  	/* I3C hw init*/
->  	renesas_i3c_hw_init(i3c);
-> @@ -617,6 +621,7 @@ static int renesas_i3c_bus_init(struct i3c_master_controller *m)
->  	if (ret < 0)
->  		return ret;
->  
-> +	i3c->dyn_addr = ret;
->  	renesas_writel(i3c->regs, MSDVAD, MSDVAD_MDYAD(ret) | MSDVAD_MDYADV);
->  
->  	memset(&info, 0, sizeof(info));
-> @@ -1363,6 +1368,12 @@ static int renesas_i3c_probe(struct platform_device *pdev)
->  	i3c->maxdevs = RENESAS_I3C_MAX_DEVS;
->  	i3c->free_pos = GENMASK(i3c->maxdevs - 1, 0);
->  
-> +	/* Allocate dynamic Device Address Table backup. */
-> +	i3c->DATBASn = devm_kzalloc(&pdev->dev, sizeof(u32) * i3c->maxdevs,
-> +				    GFP_KERNEL);
-> +	if (!i3c->DATBASn)
-> +		return -ENOMEM;
-> +
->  	return i3c_master_register(&i3c->base, &pdev->dev, &renesas_i3c_ops, false);
->  }
->  
-> @@ -1373,6 +1384,83 @@ static void renesas_i3c_remove(struct platform_device *pdev)
->  	i3c_master_unregister(&i3c->base);
->  }
->  
-> +static int renesas_i3c_suspend_noirq(struct device *dev)
-> +{
-> +	struct renesas_i3c *i3c = dev_get_drvdata(dev);
-> +	int i, ret;
-> +
-> +	i2c_mark_adapter_suspended(&i3c->base.i2c);
-> +
-> +	/* Store Device Address Table values. */
-> +	for (i = 0; i < i3c->maxdevs; i++)
-> +		i3c->DATBASn[i] = renesas_readl(i3c->regs, DATBAS(i));
-> +
-> +	ret = reset_control_assert(i3c->presetn);
-> +	if (ret)
-> +		goto err_mark_resumed;
-> +
-> +	ret = reset_control_assert(i3c->tresetn);
-> +	if (ret)
-> +		goto err_presetn;
-> +
-> +	clk_bulk_disable(i3c->num_clks, i3c->clks);
-> +
-> +	return 0;
-> +
-> +err_presetn:
-> +	reset_control_deassert(i3c->presetn);
-> +err_mark_resumed:
-> +	i2c_mark_adapter_resumed(&i3c->base.i2c);
-> +
-> +	return ret;
-> +}
-> +
-> +static int renesas_i3c_resume_noirq(struct device *dev)
-> +{
-> +	struct renesas_i3c *i3c = dev_get_drvdata(dev);
-> +	int i, ret;
-> +
-> +	ret = reset_control_deassert(i3c->presetn);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = reset_control_deassert(i3c->tresetn);
-> +	if (ret)
-> +		goto err_presetn;
-> +
-> +	ret = clk_bulk_enable(i3c->num_clks, i3c->clks);
-> +	if (ret)
-> +		goto err_tresetn;
-> +
-> +	/* Re-store I3C registers value. */
-> +	renesas_writel(i3c->regs, REFCKCTL,
-> +		       REFCKCTL_IREFCKS(i3c->refclk_div));
-> +	renesas_writel(i3c->regs, MSDVAD, MSDVAD_MDYADV |
-> +		       MSDVAD_MDYAD(i3c->dyn_addr));
-> +
-> +	/* Restore Device Address Table values. */
-> +	for (i = 0; i < i3c->maxdevs; i++)
-> +		renesas_writel(i3c->regs, DATBAS(i), i3c->DATBASn[i]);
-> +
-> +	/* I3C hw init. */
-> +	renesas_i3c_hw_init(i3c);
-> +
-> +	i2c_mark_adapter_resumed(&i3c->base.i2c);
-> +
-> +	return 0;
+Hi Biju,
 
-Is it assumed I3C target devices do not lose their dynamic addresses
-during suspend?
+On Thu, 8 Jan 2026 21:21:00 +0000
+Biju Das <biju.das.jz@bp.renesas.com> wrote:
 
-> +
-> +err_tresetn:
-> +	reset_control_assert(i3c->tresetn);
-> +err_presetn:
-> +	reset_control_assert(i3c->presetn);
-> +	return ret;
-> +}
-> +
-> +static const struct dev_pm_ops renesas_i3c_pm_ops = {
-> +	NOIRQ_SYSTEM_SLEEP_PM_OPS(renesas_i3c_suspend_noirq,
-> +				  renesas_i3c_resume_noirq)
-> +};
-> +
->  static const struct of_device_id renesas_i3c_of_ids[] = {
->  	{ .compatible = "renesas,r9a08g045-i3c" },
->  	{ .compatible = "renesas,r9a09g047-i3c" },
-> @@ -1386,6 +1474,7 @@ static struct platform_driver renesas_i3c = {
->  	.driver = {
->  		.name = "renesas-i3c",
->  		.of_match_table = renesas_i3c_of_ids,
-> +		.pm = pm_sleep_ptr(&renesas_i3c_pm_ops),
->  	},
->  };
->  module_platform_driver(renesas_i3c);
+> Hi Hugo,
+> 
+> > From: Hugo Villeneuve <hugo@hugovil.com>
+> > Sent: 08 January 2026 17:52
+> > Subject: Re: [BUG] drm/panel: ilitek-ili9881c: kernel panic on reboot
+> > 
+> > Hi Biju,
+> > 
+> > On Thu, 8 Jan 2026 16:44:37 +0000
+> > Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > 
+> > > Hi Hugo Villeneuve,
+> > >
+> > > > -----Original Message-----
+> > > > From: Hugo Villeneuve <hugo@hugovil.com>
+> > > > Sent: 08 January 2026 15:53
+> > > > Subject: Re: [BUG] drm/panel: ilitek-ili9881c: kernel panic on
+> > > > reboot
+> > > >
+> > > > Hi Claudiu,
+> > > >
+> > > > On Thu, 8 Jan 2026 11:12:54 +0200
+> > > > Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
+> > > >
+> > > > > Hi, Hugo,
+> > > > >
+> > > > > On 1/7/26 23:48, Hugo Villeneuve wrote:
+> > > > > > Hi,
+> > > > > > when issuing a reboot command, I encounter the following kernel panic:
+> > > > > >
+> > > > > > [   36.183478] SError Interrupt on CPU1, code 0x00000000be000011 -- SError
+> > > > > > [   36.183492] CPU: 1 UID: 0 PID: 1 Comm: systemd-shutdow Tainted: G   M
+> > 6.19.0-
+> > > > rc4-arm64-renesas-00019-g067a81578add #62 NONE
+> > > > > > [   36.183504] Tainted: [M]=MACHINE_CHECK
+> > > > > > [   36.183507] Hardware name: Gecko ECO2 nxtpad (DT)
+> > > > > > [   36.183512] pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> > > > > > [   36.183519] pc : rzg2l_mipi_dsi_host_transfer+0x114/0x458
+> > > > > > [   36.183538] lr : rzg2l_mipi_dsi_host_transfer+0x98/0x458
+> > > > > > [   36.183547] sp : ffff8000813db860
+> > > > > > [   36.183550] x29: ffff8000813db890 x28: ffff800080c602c0 x27: ffff000009dd7450
+> > > > > > [   36.183563] x26: ffff800080c5fcc0 x25: ffff000009dd7450 x24: ffff800080e1f7a8
+> > > > > > [   36.183573] x23: ffff000009dd7400 x22: 0000000000000000 x21: ffff000009dd7430
+> > > > > > [   36.183582] x20: ffff8000813db8e8 x19: 0000000002050028 x18: 00000000ffffffff
+> > > > > > [   36.183592] x17: 0000000000000000 x16: 0000000000000000 x15: ffff8000813db220
+> > > > > > [   36.183602] x14: 0000000000000000 x13: ffff800081255bc0 x12: 00000000000009a2
+> > > > > > [   36.183611] x11: 0000000000000336 x10: ffff8000812b28d0 x9 : ffff800081255bc0
+> > > > > > [   36.183621] x8 : ffff800081399000 x7 : ffff00000a042600 x6 : 0000000000000000
+> > > > > > [   36.183631] x5 : 0000000000000805 x4 : 0000000002000000 x3 : 0000000000000028
+> > > > > > [   36.183640] x2 : 0000000049627000 x1 : ffff800080c60b40 x0 : ffff800081780000
+> > > > > > [   36.183652] Kernel panic - not syncing: Asynchronous SError Interrupt
+> > > > > > [   36.183657] CPU: 1 UID: 0 PID: 1 Comm: systemd-shutdow Tainted: G   M
+> > 6.19.0-
+> > > > rc4-arm64-renesas-00019-g067a81578add #62 NONE
+> > > > > > [   36.183665] Tainted: [M]=MACHINE_CHECK
+> > > > > > [   36.183668] Hardware name: devboard1 (DT)
+> > > > > > [   36.183672] Call trace:
+> > > > > > [   36.183675]  show_stack+0x18/0x24 (C)
+> > > > > > [   36.183692]  dump_stack_lvl+0x34/0x8c
+> > > > > > [   36.183702]  dump_stack+0x18/0x24
+> > > > > > [   36.183708]  vpanic+0x314/0x35c
+> > > > > > [   36.183716]  nmi_panic+0x0/0x64
+> > > > > > [   36.183722]  add_taint+0x0/0xbc
+> > > > > > [   36.183728]  arm64_serror_panic+0x70/0x80
+> > > > > > [   36.183735]  do_serror+0x28/0x68
+> > > > > > [   36.183742]  el1h_64_error_handler+0x34/0x50
+> > > > > > [   36.183751]  el1h_64_error+0x6c/0x70
+> > > > > > [   36.183758]  rzg2l_mipi_dsi_host_transfer+0x114/0x458 (P)
+> > > > > > [   36.183770]  mipi_dsi_device_transfer+0x44/0x58
+> > > > > > [   36.183781]  mipi_dsi_dcs_set_display_off_multi+0x9c/0xc4
+> > > > > > [   36.183792]  ili9881c_unprepare+0x38/0x88
+> > > > > > [   36.183802]  drm_panel_unprepare+0xbc/0x108
+> > > > > > [   36.183814]  panel_bridge_atomic_post_disable+0x50/0x60
+> > > > > > [   36.183823]  drm_atomic_bridge_call_post_disable+0x24/0x4c
+> > > > > > [   36.183835]  drm_atomic_bridge_chain_post_disable+0xa8/0x100
+> > > > > > [   36.183845]  drm_atomic_helper_commit_modeset_disables+0x2fc/0x5f8
+> > > > > > [   36.183856]  drm_atomic_helper_commit_tail_rpm+0x24/0x7c
+> > > > > > [   36.183865]  commit_tail+0xa4/0x18c
+> > > > > > [   36.183874]  drm_atomic_helper_commit+0x17c/0x194
+> > > > > > [   36.183884]  drm_atomic_commit+0x8c/0xcc
+> > > > > > [   36.183892]  drm_atomic_helper_disable_all+0x200/0x210
+> > > > > > [   36.183901]  drm_atomic_helper_shutdown+0xa8/0x150
+> > > > > > [   36.183911]  rzg2l_du_shutdown+0x18/0x24
+> > > > > > [   36.183920]  platform_shutdown+0x24/0x34
+> > > > > > [   36.183931]  device_shutdown+0x128/0x284
+> > > > > > [   36.183938]  kernel_restart+0x44/0xa4
+> > > > > > [   36.183950]  __do_sys_reboot+0x178/0x270
+> > > > > > [   36.183959]  __arm64_sys_reboot+0x24/0x30
+> > > > > > [   36.183968]  invoke_syscall.constprop.0+0x50/0xe4
+> > > > > > [   36.183979]  do_el0_svc+0x40/0xc0
+> > > > > > [   36.183988]  el0_svc+0x3c/0x164
+> > > > > > [   36.183995]  el0t_64_sync_handler+0xa0/0xe4
+> > > > > > [   36.184002]  el0t_64_sync+0x198/0x19c
+> > > > > > [   36.184020] Kernel Offset: disabled
+> > > > > > [   36.184022] CPU features: 0x200000,00020001,4000c501,0400720b
+> > > > > > [   36.184028] Memory Limit: none
+> > > > > > [   36.495305] ---[ end Kernel panic - not syncing: Asynchronous SError Interrupt ]---
+> > > > > >
+> > > > > > The problem is present since linux-6.18-rc1, but not in
+> > > > > > linux-6.17. I also confirm the bug is
+> > > > present in linux-6.19-rc4.
+> > > > > >
+> > > > > > The bug seems to be happening in rzg2l_mipi_dsi_host_transfer().
+> > > > > >
+> > > > > > After bisecting, here is the first bad commit:
+> > > > > >
+> > > > > >      commit 56de5e305d4b ("clk: renesas: r9a07g044: Add MSTOP
+> > > > > > for
+> > > > > > RZ/G2L")
+> > > > > >
+> > > > > > Reverting this change makes the bug disappear.
+> > > > > >
+> > > > > > My limited understanding seems to indicate that the MIPI/DSI
+> > > > > > host may no longer be available/on when the panel tries to send
+> > > > > > MIPI/DSI commands in ili9881c_unprepare(), maybe because the MIPI/DSI clock has been
+> > stopped...
+> > > > > >
+> > > > > > The exact same board with two other panels (jd9365da and st7703) doesn't have the bug.
+> > > > >
+> > > > > Could you please provide the output of command:
+> > > > >
+> > > > > cat /sys/kernel/debug/mstop
+> > > > >
+> > > > > for both cases?
+> > > >
+> > > > Here it is for the panel which has the bug:
+> > > >
+> > > > ----------------------------------
+> > > >                            MSTOP
+> > > >                      clk   -------------------------
+> > > > clk_name             cnt   cnt   off   val    shared
+> > > > --------             ----- ----- ----- ------ ------
+> > > > gic                  1     1     0xb80 0x0
+> > > > ia55_clk             2     2     0xb70 0x0    ia55_pclk ia55_clk
+> > > > ia55_pclk            1     2     0xb70 0x0    ia55_pclk ia55_clk
+> > > > dmac_aclk            2     1     0xb80 0x0
+> > > > dmac_pclk            1     1     0xb80 0x0
+> > > > ostm0_pclk           0     0     0xb7c 0x10
+> > > > ostm1_pclk           1     1     0xb7c 0x0
+> > > > ostm2_pclk           1     1     0xb7c 0x0
+> > > > mtu_x_mck            0     0     0xb64 0x4
+> > > > gpt_pclk             1     1     0xb64 0x0
+> > > > poeg_a_clkp          0     0     0xb64 0x20
+> > > > poeg_b_clkp          0     0     0xb64 0x40
+> > > > poeg_c_clkp          0     0     0xb64 0x80
+> > > > poeg_d_clkp          0     0     0xb64 0x100
+> > > > wdt0_pclk            1     2     0xb7c 0x0    wdt0_pclk wdt0_clk
+> > > > wdt0_clk             1     2     0xb7c 0x0    wdt0_pclk wdt0_clk
+> > > > wdt1_pclk            0     0     0xb7c 0x8    wdt1_pclk wdt1_clk
+> > > > wdt1_clk             0     0     0xb7c 0x8    wdt1_pclk wdt1_clk
+> > > > spi_clk2             0     0     0xb64 0x2    spi_clk2 spi_clk
+> > > > spi_clk              0     0     0xb64 0x2    spi_clk2 spi_clk
+> > > > sdhi0_imclk          1     4     0xb6c 0x0    sdhi0_imclk sdhi0_imclk2 sdhi0_clk_hs sdhi0_aclk
+> > > > sdhi0_imclk2         2     4     0xb6c 0x0    sdhi0_imclk sdhi0_imclk2 sdhi0_clk_hs sdhi0_aclk
+> > > > sdhi0_clk_hs         1     4     0xb6c 0x0    sdhi0_imclk sdhi0_imclk2 sdhi0_clk_hs sdhi0_aclk
+> > > > sdhi0_aclk           1     4     0xb6c 0x0    sdhi0_imclk sdhi0_imclk2 sdhi0_clk_hs sdhi0_aclk
+> > > > sdhi1_imclk          0     0     0xb6c 0x2    sdhi1_imclk sdhi1_imclk2 sdhi1_clk_hs sdhi1_aclk
+> > > > sdhi1_imclk2         0     0     0xb6c 0x2    sdhi1_imclk sdhi1_imclk2 sdhi1_clk_hs sdhi1_aclk
+> > > > sdhi1_clk_hs         0     0     0xb6c 0x2    sdhi1_imclk sdhi1_imclk2 sdhi1_clk_hs sdhi1_aclk
+> > > > sdhi1_aclk           0     0     0xb6c 0x2    sdhi1_imclk sdhi1_imclk2 sdhi1_clk_hs sdhi1_aclk
+> > > > gpu_clk              1     1     0xb80 0x0
+> > > > cru_sysclk           0     0     0xb78 0x8    cru_sysclk cru_vclk cru_pclk cru_aclk
+> > > > cru_vclk             0     0     0xb78 0x8    cru_sysclk cru_vclk cru_pclk cru_aclk
+> > > > cru_pclk             0     0     0xb78 0x8    cru_sysclk cru_vclk cru_pclk cru_aclk
+> > > > cru_aclk             0     0     0xb78 0x8    cru_sysclk cru_vclk cru_pclk cru_aclk
+> > > > dsi_pll_clk          1     6     0xb78 0x0    dsi_pll_clk dsi_sys_clk dsi_aclk dsi_pclk dsi_vclk
+> > > > dsi_lpclk
+> > > > dsi_sys_clk          1     6     0xb78 0x0    dsi_pll_clk dsi_sys_clk dsi_aclk dsi_pclk dsi_vclk
+> > > > dsi_lpclk
+> > > > dsi_aclk             1     6     0xb78 0x0    dsi_pll_clk dsi_sys_clk dsi_aclk dsi_pclk dsi_vclk
+> > > > dsi_lpclk
+> > > > dsi_pclk             1     6     0xb78 0x0    dsi_pll_clk dsi_sys_clk dsi_aclk dsi_pclk dsi_vclk
+> > > > dsi_lpclk
+> > > > dsi_vclk             1     6     0xb78 0x0    dsi_pll_clk dsi_sys_clk dsi_aclk dsi_pclk dsi_vclk
+> > > > dsi_lpclk
+> > > > dsi_lpclk            1     6     0xb78 0x0    dsi_pll_clk dsi_sys_clk dsi_aclk dsi_pclk dsi_vclk
+> > > > dsi_lpclk
+> > > > lcdc_a               3     1     0xb78 0x0    lcdc_a lcdc_p
+> > > > lcdc_p               3     1     0xb78 0x0    lcdc_a lcdc_p
+> > > > lcdc_clk_d           3     1     0xb78 0x0
+> > > > ssi0_pclk            0     0     0xb64 0x400  ssi0_pclk ssi0_sfr
+> > > > ssi0_sfr             0     0     0xb64 0x400  ssi0_pclk ssi0_sfr
+> > > > ssi1_pclk            0     0     0xb64 0x800  ssi1_pclk ssi1_sfr
+> > > > ssi1_sfr             0     0     0xb64 0x800  ssi1_pclk ssi1_sfr
+> > > > ssi2_pclk            0     0     0xb64 0x1000 ssi2_pclk ssi2_sfr
+> > > > ssi2_sfr             0     0     0xb64 0x1000 ssi2_pclk ssi2_sfr
+> > > > ssi3_pclk            0     0     0xb64 0x2000 ssi3_pclk ssi3_sfr
+> > > > ssi3_sfr             0     0     0xb64 0x2000 ssi3_pclk ssi3_sfr
+> > > > usb0_host            3     1     0xb6c 0x0
+> > > > usb1_host            0     0     0xb6c 0x80
+> > > > usb0_func            1     1     0xb6c 0x0
+> > > > usb_pclk             5     1     0xb6c 0x0
+> > > > eth0_axi             0     0     0xb6c 0x4    eth0_axi eth0_chi
+> > > > eth0_chi             0     0     0xb6c 0x4    eth0_axi eth0_chi
+> > > > eth1_axi             0     0     0xb6c 0x8    eth1_axi eth1_chi
+> > > > eth1_chi             0     0     0xb6c 0x8    eth1_axi eth1_chi
+> > > > i2c0                 0     0     0xb68 0x400
+> > > > i2c1                 0     0     0xb68 0x800
+> > > > i2c2                 0     0     0xb68 0x1000
+> > > > i2c3                 0     0     0xb68 0x2000
+> > > > scif0                2     1     0xb68 0x0
+> > > > scif1                0     0     0xb68 0x4
+> > > > scif2                0     0     0xb68 0x8
+> > > > scif3                0     0     0xb68 0x10
+> > > > scif4                0     0     0xb68 0x20
+> > > > sci0                 0     0     0xb68 0x80
+> > > > sci1                 0     0     0xb68 0x100
+> > > > rspi0                0     0     0xb64 0x4000
+> > > > rspi1                0     0     0xb64 0x8000
+> > > > rspi2                0     0     0xb68 0x1
+> > > > canfd                0     0     0xb68 0x200
+> > > > gpio                 1     1     0xb70 0x0
+> > > > adc_adclk            0     0     0xb68 0x4000 adc_adclk adc_pclk
+> > > > adc_pclk             0     0     0xb68 0x4000 adc_adclk adc_pclk
+> > > > tsu_pclk             1     1     0xb68 0x0
+> > > > ----------------------------------
+> > > >
+> > > > I do not have acces to the other panels for the moment to run the same command.
+> > > >
+> > > >
+> > > > > Also, could you please check if the following diff solves your problem:
+> > > > >
+> > > > > diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > > > > b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > > > > index 5edd45424562..62957632a96f 100644
+> > > > > --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > > > > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > > > > @@ -1282,6 +1282,10 @@ static ssize_t
+> > > > > rzg2l_mipi_dsi_host_transfer(struct mipi_dsi_host *host,
+> > > > >                  value |= SQCH0DSC0AR_FMT_SHORT;
+> > > > >          }
+> > > > >
+> > > > > +       ret = pm_runtime_resume_and_get(dsi->dev);
+> > > > > +       if (ret)
+> > > > > +               return ret;
+> > > > > +
+> > > > >          rzg2l_mipi_dsi_link_write(dsi, SQCH0DSC0AR, value);
+> > > > >
+> > > > >          /*
+> > > > > @@ -1322,6 +1326,8 @@ static ssize_t
+> > > > > rzg2l_mipi_dsi_host_transfer(struct
+> > > > > mipi_dsi_host *host,
+> > > > >                          ret = packet.payload_length;
+> > > > >          }
+> > > > >
+> > > > > +       pm_runtime_put(dsi->dev);
+> > > > > +
+> > > > >          return ret;
+> > > > >   }
+> > > >
+> > > > I confirm that it fixes the bug, altought I assume this is just for testing and is not the
+> > "proper"
+> > > > fix.
+> > >
+> > > Pre-MSTOP case during reboot, without clk it is accessing
+> > > registers)(mstop off always) it won't crash. But looks like you may have ignored timeout error from
+> > [1].
+> > 
+> > In case of a timeout error, it is not really ignored as the proper error code -ETIMEDOUT will be
+> > returned by rzg2l_mipi_dsi_host_transfer() (see log below). The hardware manual doesn't seem to
+> > properly explain how to deal with a timeout (or I could not find it). Do you have any suggestion on
+> > how to improve this?
+> > 
+> > >
+> > > Post MSTOP case, if you access registers with mstop on, it will lead to crash.
+> > >
+> > > and the patch fixes crash.
+> > >
+> > > Basically, you are accessing link register after video is stopped with this panel.
+> > > Looks like it is a fix for me.
+> > 
+> > Ok, like I said I am not an expert on this, but I was just assuming that there was a better way to
+> > ensure that the mipi/dsi interface was still active until the panel unprepare() function could do its
+> > work. I was looking at some other drivers mipi/dsi
+> > host_transfer() functions and did not see a similar
+> > pm_runtime_resume_and_get() scheme, hence my confusion.
+> > 
+> > > Better check if there is any timeout error[1] with this patch. if not,
+> > > It is proper fix.
+> > 
+> > The patch does fixes the kernel panic, but doesn't allow the panel to be properly unprepared, as I
+> > just noticed the timeout message:
+> > 
+> >     [   39.321153] ili9881c-dsi 10850000.dsi.0: sending DCS SET_DISPLAY_OFF failed: -110
+> > 
+> > In my case, for a reboot, this is not a problem, but it may be a problem for systems where it can be
+> > suspended (I assume)?
+> > 
+> > Thank you for your help with this.
+> 
+> Can you please try implement .atomic_post_disable() symmetrical to rzg2l_mipi_dsi_atomic_pre_enable?
+> 
+> Ie, move just rzg2l_mipi_dsi_stop(dsi) from rzg2l_mipi_dsi_atomic_disable() to rzg2l_mipi_dsi_atomic_post_disable()
+> 
+> and check  you can send DCS SET_DISPLAY_OFF successfully.
 
+I reverted the previous fix (pm_runtime_resume_and_get), and implemented
+.atomic_post_disable as you suggested, and this works great: the bug is
+ no longer present and I do not see timeout errors:
+
+[  537.727556] systemd-shutdown[1]: Syncing filesystems and block devices.
+[  537.734544] systemd-shutdown[1]: Rebooting.
+[  538.520174] rzg2l-mipi-dsi 10850000.dsi: rzg2l_mipi_dsi_atomic_disable(): entry
+[  538.547848] ili9881c-dsi 10850000.dsi.0: ili9881c_unprepare(): entry
+[  538.564524] rzg2l-mipi-dsi 10850000.dsi: rzg2l_mipi_dsi_atomic_post_disable(): entry
+[  538.574016] reboot: Restarting system
+
+Hugo.
 
