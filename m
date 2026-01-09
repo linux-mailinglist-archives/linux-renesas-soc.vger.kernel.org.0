@@ -1,306 +1,376 @@
-Return-Path: <linux-renesas-soc+bounces-26492-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26493-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A3AED0856E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 09 Jan 2026 10:52:30 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3F7DD085F8
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 09 Jan 2026 10:58:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5A4CB306389A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Jan 2026 09:49:30 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 2602F3041F62
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Jan 2026 09:57:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F7DA335086;
-	Fri,  9 Jan 2026 09:49:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D852335090;
+	Fri,  9 Jan 2026 09:57:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="Ba2EdRp2"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="BYLUdhZl"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010051.outbound.protection.outlook.com [52.101.229.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DF80334C1E
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Jan 2026 09:49:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767952170; cv=none; b=sUrt4OGa4tPFl+Y7dRwq1RNM39OvY9FGEp6gdVBIcAbHUMUlptqRaMWqDOS2lMnupFWy6c6hsdmp7mprl6/VyhjiMOW/XJDfpt7uqGSwXQqBAzUM9bTPODkG0k08JNavsAhoeF9tO0OhnzznlGU8NE0qHYbmTtG/BCUTV1ZJqD4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767952170; c=relaxed/simple;
-	bh=P6ym1pKlcArn1VJ4w3ggn4ZfGn1mbCofeDl/fgc8FfI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=flOIOwW1J6IMaCdThvvXnUyZucbPJXtss/PzOA/86QkWHW2ggv22RoMmBngf0JHg3ybdJCGc9pHzvXFXuWBmNftl2VQWuU12l6WaRXv11qSPLcunE57m6ht9I6SodYUnu/8Qa8/AvbxIUhCawvVPF1fgAqdn+6zAvv/oFWsrHYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=Ba2EdRp2; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b7a6e56193cso683058566b.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 09 Jan 2026 01:49:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1767952166; x=1768556966; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=g6jwkAOZXv8yK/1ZVco7YXGM+PEJF0jRilnjoWS+qQE=;
-        b=Ba2EdRp2hA7FhZM0Svn7FhxQ6W7qd3UKTwGMBWo4+QVMA+JNvodASvZWMkcXP0BCHl
-         JV3RlvktvfF+49s+INz+nZwOxCObWWtd8LWiGdRaD4DWVa9RhDu22dRTEOgLbG49D4LT
-         CPGkk/k2VBGw4D1h9ej7BxFHPin47QXBsfhcq1n7s4a6X5SxRCaohRXN3Lrv9hGF+vBF
-         01Gq3AL8IKGH6rpPPkx2eIP+ANBbtX/87uKJtlU96umumjkpPJopPQ1c/Y6Gx0MLR5Za
-         q5jd4eIeyDioI241RGqZJrCg3B0Jo2KSM8QeCDnvFjKPsfTb3EZk5nSd2bFlYT0J9hlS
-         b2aA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767952166; x=1768556966;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=g6jwkAOZXv8yK/1ZVco7YXGM+PEJF0jRilnjoWS+qQE=;
-        b=OKYsxOX76qsChh7Z43tfRnkC0IQYd548yfrv1ntJUxoOZOW1JUFEJ14Nun91sOOjaa
-         dbkxAXW/T16G+AlPIv7r+m772SflmngZdxXEn26WkEYya2kCQPsmMNVmlZl83zB/KA16
-         A5hQtipWtOuTcGnCiNeDqxwTeuPmAR27NVu5j6BqUSmBGgy919E15sLtb45RhGsHkJ6Q
-         lO6cYb0edc+w36QdNUdJsL2aAy6zqSDrSgYQhtCBGDb3hsWeKDVYhjVX3rZ122a46p4v
-         ZqW3jrxq4gaI5LQrjKhOXsLrpxwmQmDqvhHxMMfhUYewvsQl7Uu7SHZXl1felQNCimLC
-         Fh9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWS+5QsQLP+Gc8r/UhO5A8KXr6ibVmQ6lD1r2oWTBU+8MgaV+svTTqzTIB/Ud2vh9KlnRtFOYzAGAk9gsgvqijBVg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwqCapo9lSep4snInFiMZNcMNokbIXfbJ1MtGLJdZsbLVMnXXoI
-	xZN4sQMe6wVXPOZtVplsUHECmUmzuF+UpVUNZ8FTksMZDvN7ln/eFnrVVMwnaAHf9Wo=
-X-Gm-Gg: AY/fxX5irEtxNwCMmXTHSEMkKyp9L+N1FM0PtWS7mvRThRTxLvWFhi0Q+I2icnN/d2P
-	VShQo4lfwvmDULktev2x0Dkj6vzz6r26965HDI781Msj4L3kUbKye1V0xhbw6D6I9y962Q/zCmL
-	ORGaNAtyie4Vom2nWi47uAX+1rjAsgnhmPPOjL9SmL8e8qB0dM0kfvfHfPLP5G9gHoz7q7mv0y7
-	OzHSNfP7wQQ/VgIy3cWwBG6OZQQSXXuQX+I+sPmIRB6GzvF5pDIwVPFBEtsYMcjcE/Yyc15fFyz
-	KYEAvdjI/SyXvxeimRiz5dVMppNH/npsaoI7udntQCZI5hehBp7mENP+3WMR1cwbAsll7QZABiV
-	na2qhgXVY1P5dRWKi2MUAcEQi3/uibxRKxI4JYCZn+gqQKwYa3aX27rY8eWDz5+laLCAlKp4uFY
-	oIzivHfwDkL7G7Z1ca1g==
-X-Google-Smtp-Source: AGHT+IFlGLXBLJjwIMP1Y+bwdPXzgZ9u/rkR2C7JIn4koWtHtP9uBeT/1shQNVRN1Wd+lohf55QRLA==
-X-Received: by 2002:a17:907:3d0b:b0:b83:a88c:b4e7 with SMTP id a640c23a62f3a-b8445461628mr714987366b.65.1767952165413;
-        Fri, 09 Jan 2026 01:49:25 -0800 (PST)
-Received: from [192.168.50.4] ([82.78.167.17])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6507bf667fcsm9624950a12.29.2026.01.09.01.49.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 Jan 2026 01:49:24 -0800 (PST)
-Message-ID: <02e48c5d-439f-4292-9df9-c0bba6f44f16@tuxon.dev>
-Date: Fri, 9 Jan 2026 11:49:23 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43AD1296BCB;
+	Fri,  9 Jan 2026 09:57:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767952645; cv=fail; b=QE72HgJu6bctJb7YoiMIXF/IYaZ1nswHq/KroYLOyTV4SFhMrFUls3najfpgXtKHFdtXn3tZZJWFyZcudqJAkfKFaREl8cUx/Pjycxq+suw/xuWSQdxMO57t2GaiTgZjIXSh0mD4DyS8r3JUjclQOgvb6iZxRqfKhRsTQtTKrDI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767952645; c=relaxed/simple;
+	bh=5M334h7+Lly14RdUbWfUDvOrrw6x2P5p1c7YBDpr0cU=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=ag6eeogCz28LBsv34aHwsZBANieyABsF6uOc67gpBQNMJnnbtWPPJfPprPRhkW9Zz/o1fWC/L6i/2jka9FkDwkmlgN272EeLpBjoKyeIVqoLvfXk5I6YCQQV1MfFlpXCAjRUXe0obYNc/d/6OQziS9m+5fcuYqqUXPakWtUlEKU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=BYLUdhZl; arc=fail smtp.client-ip=52.101.229.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=hpSw7BGywQ46rpas9/P+CR/EAXrCNdOvJATReC4o9/QWHGbgQfE1uCZP+Q89Oz85RPA1Ct3PJk7/2WozHkecefNEFHdnolCjnI5uNXkMpSKOc2lZGQn0kz61uonYRSyLSMXWvM6cZgSjvdWYvGQvLG56u/swjjUCFDYeVDBYRe5+8crAeCQt9tIMwdWc9GQi2jFm4kBy/jjdrpvTaw0depg9erC87JhqsqzPN+gmtuzUwHxsWnG1QWNLmo1/OcQr9JMKr53D3M/01CeVVi2cjh2bcASS/j5jPG5TAN/Stk+ea8+pgwWc4Y1CMwjkdxMtgdVWoMzaSZcL6ZYB/pz8Gw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JN8nhHVOs3qHIr+gKX4e8mV/qc/vbScv+iZ/8FEvEjY=;
+ b=Efm04ECbvgj+nphUGTTEf7Vrl1a+MMxMzscOtFo/KKl/NlCrK4uNCl6vnsfyggpO2P2oxJ0WyjUk9jpQIn7yA9oFlmouLxRnjt4mH1iiZcbdczbfn1uRXzmqnBYm9ZZ6HzUAZvw8NBiuXvcDJrujix2mZMkMfZabTkNeM7r65sRKkjG/SOac06xQpXKbE+jFsKHlUaVSuFxSmMbkBuIitwb9WERQmHzjMbpuJObhjvYky4nDFZc6Ori0q8Yxm90HNK/seEPnnwgTKTQEbC6M6Dt80+z9WKow7DVimD+pNLFatskHzvOjzga0WHFBv3EJff/eKFtiJ5ZWUQwN1ASFPw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JN8nhHVOs3qHIr+gKX4e8mV/qc/vbScv+iZ/8FEvEjY=;
+ b=BYLUdhZlVq0E/pbMYBHsvUvfm1BSgw9u8zSgSlmYb47P8JW5SktXAZ1npinFnJca/0ssU1BavYDzj4gJ6kUWFDgKFCLQa8TfsOoUWCSuzJqYUK27yHIicZKv+Yrsun5CcD8jquAWqYAgJunbA14gdeFDD6V59T5ZqQqL/F4fEBc=
+Received: from TYYPR01MB15615.jpnprd01.prod.outlook.com
+ (2603:1096:405:291::13) by TY3PR01MB10484.jpnprd01.prod.outlook.com
+ (2603:1096:400:310::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.1; Fri, 9 Jan
+ 2026 09:57:18 +0000
+Received: from TYYPR01MB15615.jpnprd01.prod.outlook.com
+ ([fe80::4ba6:4f37:7226:aabd]) by TYYPR01MB15615.jpnprd01.prod.outlook.com
+ ([fe80::4ba6:4f37:7226:aabd%5]) with mapi id 15.20.9520.001; Fri, 9 Jan 2026
+ 09:57:18 +0000
+From: Cosmin-Gabriel Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>, John Madieu
+	<john.madieu.xa@bp.renesas.com>, "Rafael J . Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>,
+	Lukasz Luba <lukasz.luba@arm.com>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Philipp
+ Zabel <p.zabel@pengutronix.de>, Geert Uytterhoeven <geert+renesas@glider.be>,
+	magnus.damm <magnus.damm@gmail.com>
+CC: "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH v5 5/5] thermal: renesas: rzg3e: add support for RZ/T2H
+ and RZ/N2H
+Thread-Topic: [PATCH v5 5/5] thermal: renesas: rzg3e: add support for RZ/T2H
+ and RZ/N2H
+Thread-Index: AQHcgNiGYhiwEGfBgEGPuaKI9I9oWrVJXCsAgAAo+GCAAAebgIAACb7A
+Date: Fri, 9 Jan 2026 09:57:18 +0000
+Message-ID:
+ <TYYPR01MB15615737AD71FC9DBE4923D778582A@TYYPR01MB15615.jpnprd01.prod.outlook.com>
+References: <20260108195223.193531-1-cosmin-gabriel.tanislav.xa@renesas.com>
+ <20260108195223.193531-6-cosmin-gabriel.tanislav.xa@renesas.com>
+ <TY3PR01MB113464DB06BD82F3CC72B5B458682A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <TYRPR01MB15619CB167FAD4042FE45D95A8582A@TYRPR01MB15619.jpnprd01.prod.outlook.com>
+ <TY3PR01MB1134624FF7929D32670CA90F68682A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+In-Reply-To:
+ <TY3PR01MB1134624FF7929D32670CA90F68682A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYYPR01MB15615:EE_|TY3PR01MB10484:EE_
+x-ms-office365-filtering-correlation-id: b7793ef8-1bd0-4108-3d92-08de4f6579b2
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|7416014|376014|366016|1800799024|38070700021|921020;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?89eEj4DjhNU1cLfdxvQGH0zKzTB0k5EZYCpXfeoe+Fa8dRe8rVTwGa46Ctvd?=
+ =?us-ascii?Q?ugDuywMw3jice3bKK+b5y8TTEBE4Ccz/Knljus+uis36kef4HbvsAuuGPFfk?=
+ =?us-ascii?Q?geOwyR9RFqy4bYu/ZNzrEVsGjCMLqvCag1p2aQhwi3deGQtFDb9JC5RiEgEA?=
+ =?us-ascii?Q?zE8jtakXtcHEo6ox2WPSlfcZ3LWExuMp1xA6Ac9f3VGPqA2rXRfK2t9qKIrn?=
+ =?us-ascii?Q?16+1XI5sG1W/XpiHXdL2UEydHHYNHAm4tD34CIu71/40wC7r2mONBZas7ULt?=
+ =?us-ascii?Q?pC5BrluzyG93sVw3eSxI354PPcApruPccYQ86eiVu+O0AIa9VtbiQUASgowg?=
+ =?us-ascii?Q?fMtRsem1U4ph+S1Tc91+oVCVzQ+hyggE5f4ckuxpp7oAN3DAf5JnHYw19lBY?=
+ =?us-ascii?Q?Sbkkitzd3o9sQRtTEiE66HH/FCs4mQGUjos/MVTeDPz5cGXaT7w5b/JBKgCc?=
+ =?us-ascii?Q?S46YyMB0hAFJA9egNlnmALYMTy43ZGuI1MQBJGX0PyPoW4JRZZ/nLyj31YrM?=
+ =?us-ascii?Q?fg8OqvSH6nXZwkgEAqUT+y8alwf8zKFPllBQ++XfBRSQBlatHbuoenSlBv14?=
+ =?us-ascii?Q?8FLcJME6SanCjBKf6MUfU2pmMw33Kh2hP1Im+LhQ1HgBcepAlUVRMYjDEa5t?=
+ =?us-ascii?Q?M3boyMwxKqnJr/ain21SfxB9xOpXUSXdWgzbC5WW/AKc2fAtEViFBTldQjFa?=
+ =?us-ascii?Q?JJEEFAhmRrGvgCS6MF+TFmiLgNjI7uBQRP16L1lixvE6TCi/aALotGBWAv0t?=
+ =?us-ascii?Q?2hARnqrprGNy1d3EVMic5PH1yJ57/wkIL5xbDzRKZGpLnO/npSXsCJme/mOH?=
+ =?us-ascii?Q?4SsHDC4bN4o90JwN9INZcVi8+dtJyo+4tba62pBAuP3jf7EX8poMDmje/QY8?=
+ =?us-ascii?Q?F9mHoCjWjPL5hyT6xuxu4NpMEN+5cIBq2gc9Nl+Wit/iqGsNOMS5IAMCRo0D?=
+ =?us-ascii?Q?jfzJoTLI1SGtrGmHfV6OG/N0ru+Q9SLvij550mEd84+U9P19oI4puK7/3K2y?=
+ =?us-ascii?Q?Ys/R/6xRLptn8zsBiJx6GVGmyuND55dmCB1qipM/0ZpKZUQLKqwmOGWbfpLy?=
+ =?us-ascii?Q?X2aXtL6Jr7tcBjhzWIQKMcD20A0GiME+2TpPjcYlXA1zpBbJdEvt5ZWprTq1?=
+ =?us-ascii?Q?S0WdysebttiPYXaQ8gXDFsc4aLNDiu86R08//JiQHUMowBuh3fY6eDqb8/lA?=
+ =?us-ascii?Q?wTY3wu4riD2ohEaYOF3r9JkSuJFw7sXWuGR2K6uQ7okGIN/1g/wJYZ93uSGc?=
+ =?us-ascii?Q?i9EGlQQM7+uaPvaSMdrKEMxyvkQlqqdyAXAH/4X/RjJI93Msig9dhJQGutmd?=
+ =?us-ascii?Q?/Jk6MOr5Ai7zHmQ+8qlMk4fYxQNPNIfTsHjWP9c6EVO95w1dZLbk0Y1rxRf2?=
+ =?us-ascii?Q?jFQxuYQmDzC6vQO25LjYX1kIYeZOs849TRkYMvkletO5zaZh/YwoopLCapob?=
+ =?us-ascii?Q?f5rdU1ui3QWIfiz1P4lU/ohnXOwlOG1p/HRCh/17oPIxcIPI3IoQlKEYTk1O?=
+ =?us-ascii?Q?5Ia7YaE/ODFoNIOrIDN5o62lDkaGu/lZUWdm+sbX33cWC4DMZ2/Wqjt8Cw?=
+ =?us-ascii?Q?=3D=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYYPR01MB15615.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(38070700021)(921020);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?QCPdWSCnbeHxqCUAZoNWKzUGyDcwNFsDc2AHRER2EEhj/yEC+MDDZiXx5jc/?=
+ =?us-ascii?Q?zE34DNh/FP6/52cZIJ8RiOdAXasDzxxCaW6uP2UlwpQBU+u9dVYoJvCXNICo?=
+ =?us-ascii?Q?LjwebtS+AmD6oACLUC74OY/7r/B2f7zIDdqaTcp4Ec/PO5+sih3H8HTU7aHL?=
+ =?us-ascii?Q?SVNwtsApgNN6aYDIwhQjZyGdeHXBEFBjegd+rHSgCTn6rAS0ZZX9PF2z12C8?=
+ =?us-ascii?Q?FBCtHiH67kE1f7xJorIROO8X7J6SlrBzK06p6IpTQykIZPG3uMdMDRMoeK0A?=
+ =?us-ascii?Q?+vK74DNAjav/Lo0skDcLBCkJWzWm9plcIn7pdwHTTQxnec0Lm0qI/esRxbDQ?=
+ =?us-ascii?Q?Ef0rMAMKHlCieD05QtpdpexK+vvQ1LguuH6odfwH2/vci85/fQLAftQYGma3?=
+ =?us-ascii?Q?tAb9TerOV4TnfWrBr84Y0EeCFPU9cNrN8W5lBXQbvZy9nwf0a/9V880R8nRE?=
+ =?us-ascii?Q?gXqhR1LZyHY+3X2nQGXCM10N0X7NrQHjMkKpbKvoaQRaH7Ypbf+1sIoz/rAF?=
+ =?us-ascii?Q?QU73bHpc2na0cmFt9II4XfX7BAUTag4Bisl+JVo6fUaoge5qTnyuePJZA39h?=
+ =?us-ascii?Q?ykG4MWMYN66OsEO9Fdi2toc4tyEFxLHXqDjw1I/KzFZks3ioasn5J1DCtDgo?=
+ =?us-ascii?Q?wHUcgJ+XIh2xQn9SlRuK4eE1U3P2G0YQ1B06qFa4w8BEErW3iXFg/ucgt+Lj?=
+ =?us-ascii?Q?28x6HDdQ6CITDBDuhlW8la9Pghgz8l3ijd/yPAkGooK28jw+krqvulEg1UvU?=
+ =?us-ascii?Q?RchdRkTOXeTyWECAfzAGw20Cp+WiTvBJqLUtiHDnjVVN0VMmRWiBlbGmDcNU?=
+ =?us-ascii?Q?EXy27Q43nr9uRKdlRYAMIgqrJe2Pf/3C8Zeq088YVr2pQQkZSXEh4M0vKjJc?=
+ =?us-ascii?Q?nRXm0XIgmLrK/GEzuMwh+MyKhXsHciwk+/jFX71oPsWWoKFcHEw+6udlcHhK?=
+ =?us-ascii?Q?I0o/tXPU2JMFWVdDLosDZxQ7Beh53IomRoQPT1ssPDlcFms3D2gz7rJ8RGvS?=
+ =?us-ascii?Q?lunchSN6MidFCoYmHK0zPy2O9bDvT/PqBK7/JW1Lh9idFs5v5u8NhIMEIYfl?=
+ =?us-ascii?Q?rPh5DDnbIpyEUYsbYLdg/bquY/EppioxjnPfpwvTfsgAPUALy6O1QzjOOU5O?=
+ =?us-ascii?Q?9ygs53UU+DTt9ykdCsPyVJ+jh4Pgg5koXu+80big8jt37PMWRDAtLg1+tnsb?=
+ =?us-ascii?Q?djJTtPJ8sbBN2xkLlGjhG0boRAa6S7xOAugswEHM8sK4ViSi7e9zvtpVYqkL?=
+ =?us-ascii?Q?WFW6xYiHrJ8ZxvoCxC9TxKSQwdheWzWNFySTv4/ZEr4VwM2+BRrbAn/yIDWW?=
+ =?us-ascii?Q?E9Ts4K4nPVpKVmY1sDKBR9mEiLKttBx95OXyCri8zb3u8qtRVCIIOFgpswlv?=
+ =?us-ascii?Q?/tbn4JtTJqnV7ytvC8Rtk2BLntXRRUqUy2nJera8a40xxqF0At7gALafhzqs?=
+ =?us-ascii?Q?+yrTX/4wO4tsl+URhw99rAFmVXRYMlRbSiP5lcuh4xWxLX/prHy7lPBrf65n?=
+ =?us-ascii?Q?AvAtdOLC78ECxFuOOHicvDYEQ7QQ7YqNnk5p459u7GAcgXMC2+pRfSvoSsFu?=
+ =?us-ascii?Q?8Fdv+5xoofeb/ecRUEMUQYM9nzKA20YCYnSCEWG/FwC8WUMiJxLQijvr7L0j?=
+ =?us-ascii?Q?6slsydqzCi/df2BQf28XPC2i2FqX36xhOo8PB6U+xjMrjggYaqEM9GozxKhq?=
+ =?us-ascii?Q?QlyVt5RFOSltavWmYBgRdc3fYWRZJ6TG7mfGQvtD56nZMUK48cV7VIbM5Khm?=
+ =?us-ascii?Q?yyKJudOSoomtP1u3vNtzVVrTMvJEmlCxccJuQ6RnYHcKlJaLxvub?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [BUG] drm/panel: ilitek-ili9881c: kernel panic on reboot
-To: Hugo Villeneuve <hugo@hugovil.com>
-Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jesszhan0024@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Biju Das Biju Das <biju.das.jz@bp.renesas.com>,
- Chris Brandt <Chris.Brandt@renesas.com>
-References: <20260107164839.a490a194d975edc399d72d01@hugovil.com>
- <f2aaa95a-fb69-46d8-ba0b-fdc793273455@tuxon.dev>
- <20260108105319.6bef21d3fc60b261792d07c6@hugovil.com>
-Content-Language: en-US
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <20260108105319.6bef21d3fc60b261792d07c6@hugovil.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYYPR01MB15615.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b7793ef8-1bd0-4108-3d92-08de4f6579b2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jan 2026 09:57:18.5132
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: qzKpDHWB5EQc3DmqlV3CQ5p3JjvMQampzaPgaSiFlsZVjTwJdWEFy4nsCxVyYdI0Im5s54tGTXPMQ5mQ0NRIjD6wb+qjLe7Wo4743lMkO87xwI89C37FtsgGLm1WoBfn
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB10484
 
-Hi, Hugo,
+> From: Biju Das <biju.das.jz@bp.renesas.com>
+> Sent: Friday, January 9, 2026 11:06 AM
+>=20
+>=20
+> Hi Cosmin,
+>=20
+> > -----Original Message-----
+> > From: Cosmin-Gabriel Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+> > Sent: 09 January 2026 08:51
+> > Subject: RE: [PATCH v5 5/5] thermal: renesas: rzg3e: add support for RZ=
+/T2H and RZ/N2H
+> >
+> > > From: Biju Das <biju.das.jz@bp.renesas.com>
+> > > Sent: Friday, January 9, 2026 8:12 AM
+> > >
+> > > Hi Geert/Cosmin/John,
+> > >
+> > > > -----Original Message-----
+> > > > From: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+> > > > Sent: 08 January 2026 19:52
+> > > > Subject: [PATCH v5 5/5] thermal: renesas: rzg3e: add support for
+> > > > RZ/T2H and RZ/N2H
+> > > >
+> > > > The Renesas RZ/T2H (R9A09G077) and RZ/N2H (R9A09G087) SoCs expose
+> > > > the temperature calibration via
+> > > SMC
+> > > > SIP and do not have a reset for the TSU peripheral, and use
+> > > > different minimum and maximum
+> > > temperature
+> > > > values compared to the already supported RZ/G3E.
+> > > >
+> > > > Although the calibration data is stored in an OTP memory, the OTP
+> > > > itself is not memory-mapped,
+> > > access
+> > > > to it is done through an OTP controller.
+> > > >
+> > > > The OTP controller is only accessible from the secure world, but th=
+e
+> > > > temperature calibration data stored in the OTP is exposed via SMC.
+> > > >
+> > > > Add support for retrieving the calibration data using arm_smcc_smc(=
+).
+> > > >
+> > > > Add a compatible for RZ/T2H, RZ/N2H can use it as a fallback.
+> > > >
+> > > > Reviewed-by: John Madieu <john.madieu.xa@bp.renesas.com>
+> > > > Tested-by: John Madieu <john.madieu.xa@bp.renesas.com>
+> > > > Signed-off-by: Cosmin Tanislav
+> > > > <cosmin-gabriel.tanislav.xa@renesas.com>
+> > > > ---
+> > > >
+> > > > V5:
+> > > >  * add arm-smccc.h include
+> > > >
+> > > > V4:
+> > > >  * pick up John's Reviewed-by and Tested-by
+> > > >  * replace new macro TSU_TEMP_MASK usage with existing macro
+> > > >    TSU_CODE_MAX
+> > > >
+> > > > V3:
+> > > >  * no changes
+> > > >
+> > > > V2:
+> > > >  * no changes
+> > > >
+> > > >  drivers/thermal/renesas/rzg3e_thermal.c | 27
+> > > > +++++++++++++++++++++++++
+> > > >  1 file changed, 27 insertions(+)
+> > > >
+> > > > diff --git a/drivers/thermal/renesas/rzg3e_thermal.c
+> > > > b/drivers/thermal/renesas/rzg3e_thermal.c
+> > > > index 97c4053303e0..dde021e283b7 100644
+> > > > --- a/drivers/thermal/renesas/rzg3e_thermal.c
+> > > > +++ b/drivers/thermal/renesas/rzg3e_thermal.c
+> > > > @@ -4,6 +4,7 @@
+> > > >   *
+> > > >   * Copyright (C) 2025 Renesas Electronics Corporation
+> > > >   */
+> > > > +#include <linux/arm-smccc.h>
+> > > >  #include <linux/clk.h>
+> > > >  #include <linux/cleanup.h>
+> > > >  #include <linux/delay.h>
+> > > > @@ -70,6 +71,10 @@
+> > > >  #define TSU_POLL_DELAY_US	10	/* Polling interval */
+> > > >  #define TSU_MIN_CLOCK_RATE	24000000  /* TSU_PCLK minimum 24MHz */
+> > > >
+> > > > +#define RZ_SIP_SVC_GET_SYSTSU	0x82000022
+> > >
+> > > Maybe add a comment mentioning firmware should support this index and
+> > > the otp value is stored in
+> > > arm_smccc_res.a0
+> > >
+> >
+> > The fact that the calibration value is stored in .a0 is clear from the =
+retrieval code, let's not add
+> > comments where the code is straightforward.
+>=20
+> If you have just a0, then driver expect a0 from firmware
+> is either error and OTP value.
+>=20
+> If you have a0 and a1
+>=20
+> Success case a0=3D0
+> Error case a0=3DSMC_UNK
+>=20
+> a1 will have the value from OTP.
+>=20
+>=20
+> >
+> > Regarding the firmware support, it's obvious that the firmware needs to=
+ support this and that the
+> > values don't just magically appear, no?
+>=20
+> How do you share this info to customers that they have their own firmware=
+?
+>=20
+> Eg: Customer firmware is using different service ID and driver uses diffe=
+rent one.
+>=20
 
-On 1/8/26 17:53, Hugo Villeneuve wrote:
-> Hi Claudiu,
-> 
-> On Thu, 8 Jan 2026 11:12:54 +0200
-> Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
-> 
->> Hi, Hugo,
->>
->> On 1/7/26 23:48, Hugo Villeneuve wrote:
->>> Hi,
->>> when issuing a reboot command, I encounter the following kernel panic:
->>>
->>> [   36.183478] SError Interrupt on CPU1, code 0x00000000be000011 -- SError
->>> [   36.183492] CPU: 1 UID: 0 PID: 1 Comm: systemd-shutdow Tainted: G   M                6.19.0-rc4-arm64-renesas-00019-g067a81578add #62 NONE
->>> [   36.183504] Tainted: [M]=MACHINE_CHECK
->>> [   36.183507] Hardware name: Gecko ECO2 nxtpad (DT)
->>> [   36.183512] pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
->>> [   36.183519] pc : rzg2l_mipi_dsi_host_transfer+0x114/0x458
->>> [   36.183538] lr : rzg2l_mipi_dsi_host_transfer+0x98/0x458
->>> [   36.183547] sp : ffff8000813db860
->>> [   36.183550] x29: ffff8000813db890 x28: ffff800080c602c0 x27: ffff000009dd7450
->>> [   36.183563] x26: ffff800080c5fcc0 x25: ffff000009dd7450 x24: ffff800080e1f7a8
->>> [   36.183573] x23: ffff000009dd7400 x22: 0000000000000000 x21: ffff000009dd7430
->>> [   36.183582] x20: ffff8000813db8e8 x19: 0000000002050028 x18: 00000000ffffffff
->>> [   36.183592] x17: 0000000000000000 x16: 0000000000000000 x15: ffff8000813db220
->>> [   36.183602] x14: 0000000000000000 x13: ffff800081255bc0 x12: 00000000000009a2
->>> [   36.183611] x11: 0000000000000336 x10: ffff8000812b28d0 x9 : ffff800081255bc0
->>> [   36.183621] x8 : ffff800081399000 x7 : ffff00000a042600 x6 : 0000000000000000
->>> [   36.183631] x5 : 0000000000000805 x4 : 0000000002000000 x3 : 0000000000000028
->>> [   36.183640] x2 : 0000000049627000 x1 : ffff800080c60b40 x0 : ffff800081780000
->>> [   36.183652] Kernel panic - not syncing: Asynchronous SError Interrupt
->>> [   36.183657] CPU: 1 UID: 0 PID: 1 Comm: systemd-shutdow Tainted: G   M                6.19.0-rc4-arm64-renesas-00019-g067a81578add #62 NONE
->>> [   36.183665] Tainted: [M]=MACHINE_CHECK
->>> [   36.183668] Hardware name: devboard1 (DT)
->>> [   36.183672] Call trace:
->>> [   36.183675]  show_stack+0x18/0x24 (C)
->>> [   36.183692]  dump_stack_lvl+0x34/0x8c
->>> [   36.183702]  dump_stack+0x18/0x24
->>> [   36.183708]  vpanic+0x314/0x35c
->>> [   36.183716]  nmi_panic+0x0/0x64
->>> [   36.183722]  add_taint+0x0/0xbc
->>> [   36.183728]  arm64_serror_panic+0x70/0x80
->>> [   36.183735]  do_serror+0x28/0x68
->>> [   36.183742]  el1h_64_error_handler+0x34/0x50
->>> [   36.183751]  el1h_64_error+0x6c/0x70
->>> [   36.183758]  rzg2l_mipi_dsi_host_transfer+0x114/0x458 (P)
->>> [   36.183770]  mipi_dsi_device_transfer+0x44/0x58
->>> [   36.183781]  mipi_dsi_dcs_set_display_off_multi+0x9c/0xc4
->>> [   36.183792]  ili9881c_unprepare+0x38/0x88
->>> [   36.183802]  drm_panel_unprepare+0xbc/0x108
->>> [   36.183814]  panel_bridge_atomic_post_disable+0x50/0x60
->>> [   36.183823]  drm_atomic_bridge_call_post_disable+0x24/0x4c
->>> [   36.183835]  drm_atomic_bridge_chain_post_disable+0xa8/0x100
->>> [   36.183845]  drm_atomic_helper_commit_modeset_disables+0x2fc/0x5f8
->>> [   36.183856]  drm_atomic_helper_commit_tail_rpm+0x24/0x7c
->>> [   36.183865]  commit_tail+0xa4/0x18c
->>> [   36.183874]  drm_atomic_helper_commit+0x17c/0x194
->>> [   36.183884]  drm_atomic_commit+0x8c/0xcc
->>> [   36.183892]  drm_atomic_helper_disable_all+0x200/0x210
->>> [   36.183901]  drm_atomic_helper_shutdown+0xa8/0x150
->>> [   36.183911]  rzg2l_du_shutdown+0x18/0x24
->>> [   36.183920]  platform_shutdown+0x24/0x34
->>> [   36.183931]  device_shutdown+0x128/0x284
->>> [   36.183938]  kernel_restart+0x44/0xa4
->>> [   36.183950]  __do_sys_reboot+0x178/0x270
->>> [   36.183959]  __arm64_sys_reboot+0x24/0x30
->>> [   36.183968]  invoke_syscall.constprop.0+0x50/0xe4
->>> [   36.183979]  do_el0_svc+0x40/0xc0
->>> [   36.183988]  el0_svc+0x3c/0x164
->>> [   36.183995]  el0t_64_sync_handler+0xa0/0xe4
->>> [   36.184002]  el0t_64_sync+0x198/0x19c
->>> [   36.184020] Kernel Offset: disabled
->>> [   36.184022] CPU features: 0x200000,00020001,4000c501,0400720b
->>> [   36.184028] Memory Limit: none
->>> [   36.495305] ---[ end Kernel panic - not syncing: Asynchronous SError Interrupt ]---
->>>
->>> The problem is present since linux-6.18-rc1, but not in linux-6.17. I also confirm the bug is present in linux-6.19-rc4.
->>>
->>> The bug seems to be happening in rzg2l_mipi_dsi_host_transfer().
->>>
->>> After bisecting, here is the first bad commit:
->>>
->>>       commit 56de5e305d4b ("clk: renesas: r9a07g044: Add MSTOP for RZ/G2L")
->>>
->>> Reverting this change makes the bug disappear.
->>>
->>> My limited understanding seems to indicate that the MIPI/DSI host may
->>> no longer be available/on when the panel tries to send MIPI/DSI
->>> commands in ili9881c_unprepare(), maybe because the MIPI/DSI clock has been stopped...
->>>
->>> The exact same board with two other panels (jd9365da and st7703) doesn't have the bug.
->>
->> Could you please provide the output of command:
->>
->> cat /sys/kernel/debug/mstop
->>
->> for both cases?
-> 
-> Here it is for the panel which has the bug:
-> 
-> ----------------------------------
->                             MSTOP
->                       clk   -------------------------
-> clk_name             cnt   cnt   off   val    shared
-> --------             ----- ----- ----- ------ ------
-> gic                  1     1     0xb80 0x0
-> ia55_clk             2     2     0xb70 0x0    ia55_pclk ia55_clk
-> ia55_pclk            1     2     0xb70 0x0    ia55_pclk ia55_clk
-> dmac_aclk            2     1     0xb80 0x0
-> dmac_pclk            1     1     0xb80 0x0
-> ostm0_pclk           0     0     0xb7c 0x10
-> ostm1_pclk           1     1     0xb7c 0x0
-> ostm2_pclk           1     1     0xb7c 0x0
-> mtu_x_mck            0     0     0xb64 0x4
-> gpt_pclk             1     1     0xb64 0x0
-> poeg_a_clkp          0     0     0xb64 0x20
-> poeg_b_clkp          0     0     0xb64 0x40
-> poeg_c_clkp          0     0     0xb64 0x80
-> poeg_d_clkp          0     0     0xb64 0x100
-> wdt0_pclk            1     2     0xb7c 0x0    wdt0_pclk wdt0_clk
-> wdt0_clk             1     2     0xb7c 0x0    wdt0_pclk wdt0_clk
-> wdt1_pclk            0     0     0xb7c 0x8    wdt1_pclk wdt1_clk
-> wdt1_clk             0     0     0xb7c 0x8    wdt1_pclk wdt1_clk
-> spi_clk2             0     0     0xb64 0x2    spi_clk2 spi_clk
-> spi_clk              0     0     0xb64 0x2    spi_clk2 spi_clk
-> sdhi0_imclk          1     4     0xb6c 0x0    sdhi0_imclk sdhi0_imclk2 sdhi0_clk_hs sdhi0_aclk
-> sdhi0_imclk2         2     4     0xb6c 0x0    sdhi0_imclk sdhi0_imclk2 sdhi0_clk_hs sdhi0_aclk
-> sdhi0_clk_hs         1     4     0xb6c 0x0    sdhi0_imclk sdhi0_imclk2 sdhi0_clk_hs sdhi0_aclk
-> sdhi0_aclk           1     4     0xb6c 0x0    sdhi0_imclk sdhi0_imclk2 sdhi0_clk_hs sdhi0_aclk
-> sdhi1_imclk          0     0     0xb6c 0x2    sdhi1_imclk sdhi1_imclk2 sdhi1_clk_hs sdhi1_aclk
-> sdhi1_imclk2         0     0     0xb6c 0x2    sdhi1_imclk sdhi1_imclk2 sdhi1_clk_hs sdhi1_aclk
-> sdhi1_clk_hs         0     0     0xb6c 0x2    sdhi1_imclk sdhi1_imclk2 sdhi1_clk_hs sdhi1_aclk
-> sdhi1_aclk           0     0     0xb6c 0x2    sdhi1_imclk sdhi1_imclk2 sdhi1_clk_hs sdhi1_aclk
-> gpu_clk              1     1     0xb80 0x0
-> cru_sysclk           0     0     0xb78 0x8    cru_sysclk cru_vclk cru_pclk cru_aclk
-> cru_vclk             0     0     0xb78 0x8    cru_sysclk cru_vclk cru_pclk cru_aclk
-> cru_pclk             0     0     0xb78 0x8    cru_sysclk cru_vclk cru_pclk cru_aclk
-> cru_aclk             0     0     0xb78 0x8    cru_sysclk cru_vclk cru_pclk cru_aclk
+If you think it will help customers, we can add a comment like below.
 
-> dsi_pll_clk          1     6     0xb78 0x0    dsi_pll_clk dsi_sys_clk dsi_aclk dsi_pclk dsi_vclk dsi_lpclk
-> dsi_sys_clk          1     6     0xb78 0x0    dsi_pll_clk dsi_sys_clk dsi_aclk dsi_pclk dsi_vclk dsi_lpclk
-> dsi_aclk             1     6     0xb78 0x0    dsi_pll_clk dsi_sys_clk dsi_aclk dsi_pclk dsi_vclk dsi_lpclk
-> dsi_pclk             1     6     0xb78 0x0    dsi_pll_clk dsi_sys_clk dsi_aclk dsi_pclk dsi_vclk dsi_lpclk
-> dsi_vclk             1     6     0xb78 0x0    dsi_pll_clk dsi_sys_clk dsi_aclk dsi_pclk dsi_vclk dsi_lpclk
-> dsi_lpclk            1     6     0xb78 0x0    dsi_pll_clk dsi_sys_clk dsi_aclk dsi_pclk dsi_vclk dsi_lpclk
+/*
+ * SMC function ID for reading TSU calibration values from OTP needs to
+ * be supported by the TF-A firmware. Calibration value must be returned
+ * in the a0 register.
+ */
+#define RZ_SIP_SVC_GET_SYSTSU	0x82000022
+#define OTP_TSU_REG_ADR_TEMPHI	0x01DC
+#define OTP_TSU_REG_ADR_TEMPLO	0x01DD
 
-I was expected the MSTOP for these to be set to anythong other than 0x0 
-here. But I presume, they are somehow set in the reboot process before 
-exectution reach rzg2l_mipi_dsi_host_transfer(). To be honest, I don't 
-know the rz-du code.
+> >
+> > Let's see what Geert thinks.
+> >
+> > > > +#define OTP_TSU_REG_ADR_TEMPHI	0x01DC
+> > > > +#define OTP_TSU_REG_ADR_TEMPLO	0x01DD
+> > > > +
+> > > >  struct rzg3e_thermal_priv;
+> > > >
+> > > >  struct rzg3e_thermal_info {
+> > > > @@ -362,6 +367,21 @@ static int rzg3e_thermal_get_syscon_trim(struc=
+t rzg3e_thermal_priv *priv)
+> > > >  	return 0;
+> > > >  }
+> > > >
+> > > > +static int rzg3e_thermal_get_smc_trim(struct rzg3e_thermal_priv
+> > > > +*priv) {
+> > > > +	struct arm_smccc_res local_res;
+> > > > +
+> > > > +	arm_smccc_smc(RZ_SIP_SVC_GET_SYSTSU, OTP_TSU_REG_ADR_TEMPLO,
+> > > > +		      0, 0, 0, 0, 0, 0, &local_res);
+> > > > +	priv->trmval0 =3D local_res.a0 & TSU_CODE_MAX;
+> > >
+> > > Do you think it is worth to ask firmware team to return error values
+> > > in a0 and actual OTP value in a1.
+> > >
+> > > So that driver can check the error code and propagate to the caller.
+> > >
+> >
+> > If we do that, we will have one more variant to handle here, as we cann=
+ot make sure that the TF-A
+> > running on the board is always the latest.
+>=20
+> Mainline will use new variant, that can have both a0 and a1, if we take t=
+hat route.
+>=20
 
-[...]
+Mainline code will be backported to CIP, and customers might try to
+use old firmware with CIP. Not adding another variant is the better
+way in my opinion.
 
-> 
-> I do not have acces to the other panels for the moment to run the same command.
-> 
-> 
->> Also, could you please check if the following diff solves your problem:
->>
->> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
->> b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
->> index 5edd45424562..62957632a96f 100644
->> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
->> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
->> @@ -1282,6 +1282,10 @@ static ssize_t
->> rzg2l_mipi_dsi_host_transfer(struct mipi_dsi_host *host,
->>                   value |= SQCH0DSC0AR_FMT_SHORT;
->>           }
->>
->> +       ret = pm_runtime_resume_and_get(dsi->dev);
->> +       if (ret)
->> +               return ret;
->> +
->>           rzg2l_mipi_dsi_link_write(dsi, SQCH0DSC0AR, value);
->>
->>           /*
->> @@ -1322,6 +1326,8 @@ static ssize_t rzg2l_mipi_dsi_host_transfer(struct
->> mipi_dsi_host *host,
->>                           ret = packet.payload_length;
->>           }
->>
->> +       pm_runtime_put(dsi->dev);
->> +
->>           return ret;
->>    }
-> 
-> I confirm that it fixes the bug, altought I assume this is just for testing and is not the "proper" fix.
+We can wait for Geert's opinion.
 
-To me, this, or something similar should be done anyway. Previously it 
-used to work because there was no MSTOP support available.
+> >
+> > Right now things are simple as it's either supported or not supported.
+> >
+> > If a0 is some error value, how would you distinguish between an error i=
+n the new variant and a
+> proper
+> > value in the old variant? Both cases would only populate a0.
+> >
+> > Also, I'm not sure how much use we can get out of a TF-A error value.
+> >
+> > The error that TF-A already returns in SMC_UNK =3D -1, or 0xFFFFFFFF in=
+ u32, it is pretty standard for
+> > SMC calls and the probe() function already checks against it.
+>=20
+> The OTP value can be 0xFFFFFFFF, if it is not programmed, if that is case
+> How do you distinguish error with respect actual otp value.
+>=20
 
-The MSTOP is now set when all of the clocks sharing it are disabled. 
-With the MSTOP set, any master accessing a HW block that has MSTOP set 
-will get sync abort. That wasn't the case previously, when the HW 
-registers could have been accessed w/o generating such exeception.
+From the kernel's standpoint both error case and an unprogrammed value
+stored in OTP have the same effect: missing calibration data, cannot use
+the TSU.
 
-Thank you,
-Claudiu
+> Cheers,
+> Biju
 
