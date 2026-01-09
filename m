@@ -1,190 +1,195 @@
-Return-Path: <linux-renesas-soc+bounces-26490-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26491-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C8E5D08241
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 09 Jan 2026 10:16:37 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ABB8D08257
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 09 Jan 2026 10:19:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 78A2930060EB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Jan 2026 09:16:36 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id B523C300645D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Jan 2026 09:19:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB69F3590C5;
-	Fri,  9 Jan 2026 09:16:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14FD9350A12;
+	Fri,  9 Jan 2026 09:19:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HeeiqsSJ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D91063590BF
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Jan 2026 09:16:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 156023254A3
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Jan 2026 09:19:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767950195; cv=none; b=q4bJTHAIjwAMVU1AlkVBxUJLisIvqDmaTyAtlpiWGEIaNDPCMU+uEsK3HSVBCY4TGEEAnBNP561JU/fkYAYCEYIeLSr5a/EGMVBNLNDhyg/5I9Ibkm4/c0vUOnwzl6EgYxQwsxwGkl30Ww2zciGGtdOQ8hvsl2OtRLdHYH7Yeic=
+	t=1767950375; cv=none; b=GyYHfCF+q+j9XF6XKiiA1NmEKHqJACrY6ts53e/07+F5wqwwdMsLxK5VcdHWWxEVIj1sWO+Hskh3joUvwa7Yt4PL91Ijye+3JvCw/lRBBa+s6bH8jxlF+0+BYihw2DrA3wQMCW5X833lzOM/0J11tL8fAa3GBuf16maQPXKb7gA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767950195; c=relaxed/simple;
-	bh=E0edNL5B3rP6w3+T0Ub2/VKHaC3rr+HLeEDX8RHsn8o=;
+	s=arc-20240116; t=1767950375; c=relaxed/simple;
+	bh=i8EAGqlGkdioBJ+426x2kqrVYP/t6CIiIJg3LnnAuBM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qrAU4PxENbL5FM4PAk3Rj62fahXFzaa/um3qDZgjnZaqWtlyOCBPk55ZIT7x0bROkWytNGNrxBcIAq49BS/6MBk0McVHGW9NH+qklsLBt+b5BmxORFUferL3JfTFcjdUi6Nptg8e9IkCcH6eeHCpTZ70AD4/cvelZg+KBv4hPps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	 To:Cc:Content-Type; b=EAG5hV2Gx1j6c8f5kgdACjpyAzfmv8MRary5FfCCFfyTekkWGmOoEUd6v/W4J7o9RBiJ0b6ZRF2wctmg3L8/sWudfRKvz+vojEQtRDPLCj5oq+qdARbjZHGijUsoP2y7ZJH/HFszsbKu+NBqvkqk3PDXooPtu2WokedAWrHlUYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HeeiqsSJ; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f196.google.com with SMTP id af79cd13be357-8b2d7c38352so291020385a.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 09 Jan 2026 01:16:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767950191; x=1768554991;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-47d493a9b96so23728735e9.1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 09 Jan 2026 01:19:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1767950369; x=1768555169; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fiQ5XxZuQA23XgqzTfwN/M3quzujtTsdQBOQmuJCqAs=;
-        b=cRSaGR3R5JRL8mDbzrbFsvupNWgTF5JrxWULd/Tpxcev6afEAnHTCjb48fQCZECRC5
-         hHqlXOE0x3lC5Oz0mBf1fyibDG/N97b82knt2oZ0Rkl7wvXuC9vSOHMKGi+ieQWLmiBY
-         LAXFqwg/JQ12qan1i6K5q9ZBqAuA+8uuEEti77AK2GDnlAHE8M3FIcHrUVgALIHNuP+N
-         oFm4SVy50vnhykePg8EPiiNcWqNA9OEQfz8n7Mz0CoqC1GLxFu38hF4pywk5voeZeeCP
-         mhev9kqtJn25qKFNNP7cl8YW5d2TJXC+eiw6VR/AwKjPYBvwWyz75Us3XOcNwtH1XaEi
-         OAqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWMvXR6y5cGf46qmxjdFdyYVuy9krvcwWGM51BGv/SbPtHpNyTEUGRsiBKKScVRkJQw0DA1qv4l1VCCRRPBJXnY5Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxbiKoznkPv4whZxyvSmipPs938xn4zXcZiNnmY7H6eHc3EiLTS
-	S7njhB20CCwLPqbugCizGvinZYJDz6BgeQYvMQ44EenEUtrYUPpYwoqQ4kxwfCh+89U=
-X-Gm-Gg: AY/fxX4XjTkHAWsT5m+Ml2d5hrdSkWBOtD/ftftpyfyFSBgKXWieCISx+oLXreVm+9w
-	0hoVbpHUO7tvRBomkqF4QpYgZjykswGcoo2D91TwSW2d9J7h9hFwfoZ7QZTJaQWb1RPs7O69C8f
-	HOb9x9hrkjZYZ7Lxhn6KYhamqfeu6aqKK4wtFL8gcBs7r1/8XCcKO92j4upkogRwxpYTDJRis5Q
-	E1F8GGjS9RM+4O9ViQqh//N76F6Fa0/8bmKxRCi91aX7U4mQ11f15tjI15GhP3Z9j4W/IKWugyG
-	0dJqeF+H4zMprOrPdDdtBW2WxBgiOkK5Ytt4CcNkBj35OAsjhdV135bOksR+g3iWPl6/flbPekN
-	GaTXpZST1iccF0x4VFjDsJVygItzjurml23bEXAvu1zFf2Uq4OmX9x6VKakGgXpAzychH8WgvPa
-	Xowx3D8Q6OqSyqwWyjibmx1TeWFu3obZW6Cnoeji08aY6SzpPY
-X-Google-Smtp-Source: AGHT+IH41XUaf1Q6N1Z9c4ALOtGPYefQX+OfDfNCY9Pw2hkatdEeiHTi2e1O4Cejuy2D0ckxn5f7ww==
-X-Received: by 2002:a05:620a:25d1:b0:8a2:595f:657 with SMTP id af79cd13be357-8c37f51e7d5mr1705426685a.21.1767950191418;
-        Fri, 09 Jan 2026 01:16:31 -0800 (PST)
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com. [209.85.219.45])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c37f51b787sm765705785a.29.2026.01.09.01.16.30
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 Jan 2026 01:16:31 -0800 (PST)
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-888bd3bd639so33172526d6.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 09 Jan 2026 01:16:30 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVrJxAxUYaPnjW654RiaxxnlaAnE35stlyK/Jjvp3/jhyolVK7HI6eh2knDIpcUp9xfgWaLjXEQ8mWZwXKg/rSlRA==@vger.kernel.org
-X-Received: by 2002:a05:6102:2b92:b0:5dd:a0bf:8c89 with SMTP id
- ada2fe7eead31-5ec755c2d49mr4919224137.7.1767949880413; Fri, 09 Jan 2026
- 01:11:20 -0800 (PST)
+        bh=i8EAGqlGkdioBJ+426x2kqrVYP/t6CIiIJg3LnnAuBM=;
+        b=HeeiqsSJl7/hkNDgU7yTVeteIo2nTwJQ00bO6ToTeUIb5I34+YcjWfCPxJ9bfUrmpQ
+         G+lB19JlCjHhhjsvx907+NoQIuhA2AaG4bThOfiJwKniIa1XBBLQmrRquFrM/fEicP8G
+         DRcXyGnhH66MPZmKsZzYbcEBODOuJqdUDDe9depq5Klsdby2TZQJwhsjYctrPsd8v2sY
+         R5HTXYlvpNc+kVyhA67Y7zpHyijwOillwuEM75+0yydVybh+m6KxhR61Lm21NzyqX28P
+         MypgsH0+5yLJm3nyyIRlhUvjsNIGe3lBP1dvV1TPOAIn7w5kWRCF8gaI2tXrbv5IoSdW
+         xVoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767950369; x=1768555169;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=i8EAGqlGkdioBJ+426x2kqrVYP/t6CIiIJg3LnnAuBM=;
+        b=l5x8cuWucve+iTR1AQ2aWcqSTnSnElTXMiavdlbSDPu/sqmVNs0WgS0Qtvl46lFVZL
+         ZFdt25kWyOHtdYpUy+4Vyzq6ZUzWrEJRCsc4Ckx6PlI3T6bBJThfKERZLqPzN6y9gCpX
+         VJqs96opzLzAtBeyGGoSA6ifj2rc6/jQAc2kOkoEBCqRNg7ImkiOAzq8spUhuuNhU1wh
+         DBTF5pUk2fhUlrrXKntrwqtnlSzIF91YMM3J59T7B0tk+UCYk3RyCR/YZPDnOuVs5n41
+         KjmeflJFJWvFlFCTU2qqe1G4iS5QNGcfMB0f1WnIjH5iMhv70uez5E3cXzRMXN46zq54
+         lS6w==
+X-Forwarded-Encrypted: i=1; AJvYcCU2rfHZNaYZGEr8PY1ku89I8dWYM0FlIR24XfxkhTCywdQ+VIMJB7bT0p5Zly8j0aNGS5Q++tfQfbBLH5ZYfGJmFQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwbbJj+QILTZVQQ1/yEM70cOiLn8b+2lP2Z5Q3A5Qol+QCrETAI
+	CXyf/hzJJOEXIKpEsJIhy5ggF6Z3/9PbfHFnR0ntbM4vZGBqm3LUTEWP868/SnlTfnQiXoSnBhu
+	sGPg1SXFy7N31Hp8m2Rrp0QNpJD0cXLE=
+X-Gm-Gg: AY/fxX4qHbP4EQ2F1rw+iFwL7HDodAWuvnALR/Wi1Ve2gz3ElYHMtFEjj7elHii33Wq
+	/l1FCQMvvR3L2++CqdXb5PfktyVIn1oIqbsR7XR35CQav1l2MkMZFQYCFvd3y9Dx15BgmwnMxG7
+	83vLdeKCp0ZT0J0NqwslDHY3WU34IPn8cWKCpDe4xH+mJ2jRI9dUY1o5QO7SRjJ8hNgZqoknuhs
+	axq22wpZdKVlfo3sDuE5GzYUapbTaorODcX6zQ3YD+EitQkHWtazu2Z9VmSk7xiX5xqhVpKMkLY
+	q0YmGjisZ8eAeCJX5+YqnnjNBHGP1mkota9Xpy5qdGGuuI1tSkr6/EFdMA==
+X-Google-Smtp-Source: AGHT+IHlN+mSmvjaq8KJG/vwMIL+nxuQojpEhdEewYe8DHGKczJpKSan/fIqm3KvXe1+oQeC/+ZVhFDWt9+JSXLL3/0=
+X-Received: by 2002:a05:600c:500d:b0:476:d494:41d2 with SMTP id
+ 5b1f17b1804b1-47d84b3bc37mr77626185e9.29.1767950364610; Fri, 09 Jan 2026
+ 01:19:24 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260108203004.3538449-1-andriy.shevchenko@linux.intel.com> <20260108203004.3538449-3-andriy.shevchenko@linux.intel.com>
-In-Reply-To: <20260108203004.3538449-3-andriy.shevchenko@linux.intel.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 9 Jan 2026 10:11:09 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdV2B9sRmy-k5ucmo6WukvNFq3QqxM0BkB-qS=+-AP4M3Q@mail.gmail.com>
-X-Gm-Features: AZwV_QjXHpmtcr0h8pnp_-HCv95C85A8pbrG70DRu5Hp0BWpB8DvCNd7K_eVFa4
-Message-ID: <CAMuHMdV2B9sRmy-k5ucmo6WukvNFq3QqxM0BkB-qS=+-AP4M3Q@mail.gmail.com>
-Subject: Re: [PATCH v1 2/4] spi: Drop duplicate of_node assignment
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Mark Brown <broonie@kernel.org>, 
-	Varshini Rajendran <varshini.rajendran@microchip.com>, 
-	Mikhail Kshevetskiy <mikhail.kshevetskiy@iopsys.eu>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Sunny Luo <sunny.luo@amlogic.com>, 
-	Janne Grunau <j@jannau.net>, Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>, 
-	CL Wang <cl634@andestech.com>, Manikandan Muralidharan <manikandan.m@microchip.com>, 
-	David Lechner <dlechner@baylibre.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Jonas Gorski <jonas.gorski@gmail.com>, Hang Zhou <929513338@qq.com>, Jun Guo <jun.guo@cixtech.com>, 
-	Philipp Stanner <phasta@kernel.org>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
-	Bartosz Golaszewski <brgl@kernel.org>, =?UTF-8?Q?Beno=C3=AEt_Monin?= <benoit.monin@bootlin.com>, 
-	Shiji Yang <yangshiji66@outlook.com>, James Clark <james.clark@linaro.org>, 
-	Jonathan Marek <jonathan@marek.ca>, Carlos Song <carlos.song@nxp.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Huacai Chen <chenhuacai@kernel.org>, 
-	Xianwei Zhao <xianwei.zhao@amlogic.com>, 
-	Prajna Rajendra Kumar <prajna.rajendrakumar@microchip.com>, 
-	Sergio Perez Gonzalez <sperezglz@gmail.com>, Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Qianfeng Rong <rongqianfeng@vivo.com>, Haibo Chen <haibo.chen@nxp.com>, 
-	Gabor Juhos <j4g8y7@gmail.com>, Md Sadre Alam <quic_mdalam@quicinc.com>, 
-	Rosen Penev <rosenp@gmail.com>, Luis de Arquer <luis.dearquer@inertim.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>, 
-	Tudor Ambarus <tudor.ambarus@linaro.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Longbin Li <looong.bin@gmail.com>, Patrice Chotard <patrice.chotard@foss.st.com>, 
-	=?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>, 
-	Alessandro Grassi <alessandro.grassi@mailbox.org>, Chen-Yu Tsai <wens@kernel.org>, 
-	Darshan R <rathod.darshan.0896@gmail.com>, Aaron Kling <webgeek1234@gmail.com>, 
-	Vishwaroop A <va@nvidia.com>, Haixu Cui <quic_haixcui@quicinc.com>, 
-	Darshan Rathod <darshanrathod475@gmail.com>, linux-spi@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-amlogic@lists.infradead.org, asahi@lists.linux.dev, 
-	linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, 
-	linux-rpi-kernel@lists.infradead.org, linux-sound@vger.kernel.org, 
-	patches@opensource.cirrus.com, imx@lists.linux.dev, 
-	linux-arm-msm@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org, 
-	linux-renesas-soc@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, virtualization@lists.linux.dev, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Lorenzo Bianconi <lorenzo@kernel.org>, Ray Liu <ray.liu@airoha.com>, Sven Peter <sven@kernel.org>, 
-	Neal Gompa <neal@gompa.dev>, =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
-	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
-	Ryan Wanner <ryan.wanner@microchip.com>, 
-	Michael Hennerich <michael.hennerich@analog.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Kamal Dasu <kamal.dasu@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, William Zhang <william.zhang@broadcom.com>, 
-	Kursad Oney <kursad.oney@broadcom.com>, Anand Gore <anand.gore@broadcom.com>, 
-	=?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>, 
-	David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
-	Vladimir Oltean <olteanv@gmail.com>, Frank Li <Frank.Li@nxp.com>, Jean-Marie Verdun <verdun@hpe.com>, 
-	Nick Hawkins <nick.hawkins@hpe.com>, Yang Shen <shenyang39@huawei.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Lixu Zhang <lixu.zhang@intel.com>, Yinbo Zhu <zhuyinbo@loongson.cn>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
-	Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
-	Conor Dooley <conor.dooley@microchip.com>, Daire McNamara <daire.mcnamara@microchip.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, Avi Fishman <avifishman70@gmail.com>, 
-	Tomer Maimon <tmaimon77@gmail.com>, Tali Perry <tali.perry1@gmail.com>, 
-	Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>, 
-	Benjamin Fair <benjaminfair@google.com>, Han Xu <han.xu@nxp.com>, 
-	Yogesh Gaur <yogeshgaur.83@gmail.com>, Linus Walleij <linusw@kernel.org>, 
-	Daniel Mack <daniel@zonque.org>, Haojian Zhuang <haojian.zhuang@gmail.com>, 
-	Robert Jarzmik <robert.jarzmik@free.fr>, Chris Packham <chris.packham@alliedtelesis.co.nz>, 
-	Heiko Stuebner <heiko@sntech.de>, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Andi Shyti <andi.shyti@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Paul Walmsley <pjw@kernel.org>, Samuel Holland <samuel.holland@sifive.com>, 
-	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Chunyan Zhang <zhang.lyra@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Alain Volmat <alain.volmat@foss.st.com>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Li-hao Kuo <lhjeff911@gmail.com>, 
-	Masahisa Kojima <masahisa.kojima@linaro.org>, Jassi Brar <jaswinder.singh@linaro.org>, 
-	Laxman Dewangan <ldewangan@nvidia.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Sowjanya Komatineni <skomatineni@nvidia.com>, 
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	=?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
-	Michal Simek <michal.simek@amd.com>, Max Filippov <jcmvbkbc@gmail.com>
+References: <20251112201937.1336854-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20251112201937.1336854-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <de098757-2088-4b34-8a9a-407f9487991c@lunn.ch> <CA+V-a8vgJcJ+EsxSwQzQbprjqhxy-QS84=wE6co+D50wOOOweA@mail.gmail.com>
+ <0d13ed33-cb0b-4cb0-8af3-b54c2ad7537b@lunn.ch> <CA+V-a8vx5KTUD_j7+1TC9r5JrGo2fJ0D7XXJCc-oHidtbUN=ZA@mail.gmail.com>
+ <116b3a93-2b65-4464-821a-cbc7aa1b3dc1@lunn.ch>
+In-Reply-To: <116b3a93-2b65-4464-821a-cbc7aa1b3dc1@lunn.ch>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Fri, 9 Jan 2026 09:18:58 +0000
+X-Gm-Features: AZwV_QhimVeaj0BZo6vXeCQ2DEHzUWu3cuaX8HijxvgSw9R7wuUKdQOxBALTGcw
+Message-ID: <CA+V-a8tJp8bNNPAFmRN3WMmo1e+QPARCOkkoUdwsaiv1oDfG_A@mail.gmail.com>
+Subject: Re: [PATCH net-next 1/2] dt-bindings: net: pcs: renesas,rzn1-miic:
+ Add renesas,miic-phylink-active-low property
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 8 Jan 2026 at 21:30, Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
-> The SPI core provides the default of_node for the controller,
-> inherited from the actual (parent) device. No need to repeat it
-> in the driver.
+Hi Andrew,
+
+On Wed, Nov 26, 2025 at 9:28=E2=80=AFPM Andrew Lunn <andrew@lunn.ch> wrote:
 >
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> On Wed, Nov 26, 2025 at 08:55:53PM +0000, Lad, Prabhakar wrote:
+> > Hi Andrew,
+> >
+> > On Thu, Nov 13, 2025 at 9:58=E2=80=AFPM Andrew Lunn <andrew@lunn.ch> wr=
+ote:
+> > >
+> > > > Each of these IPs has its own link status pin as an input to the So=
+C:
+> > >
+> > > > The above architecture is for the RZ/N1 SoC. For RZ/T2H SoC we dont
+> > > > have a SERCOS Controller. So in the case of RZ/T2H EVK the
+> > > > SWITCH_MII_LINK status pin is connected to the LED1 of VSC8541 PHY.
+> > > >
+> > > > The PHYLNK register [0] (section 10.2.5 page 763) allows control of
+> > > > the active level of the link.
+> > > > 0: High active (Default)
+> > > > 1: Active Low
+> > > >
+> > > > For example the SWITCH requires link-up to be reported to the switc=
+h
+> > > > via the SWITCH_MII_LINK input pin.
+> > >
+> > > Why does the switch require this? The switch also needs to know the
+> > > duplex, speed etc. Link on its own is of not enough. So when phylink
+> > > mac_link_up is called, you tell it the speed, duplex and also that th=
+e
+> > > link is up. When the link goes down, mac_link_down callback will be
+> > > called and you tell it the link is down.
+> > >
+> > Sorry for the delayed response. I was awaiting more info from the HW
+> > team on this. Below is the info I got from the HW info.
+> >
+> > EtherPHY link-up and link-down status is required as a hardware IP
+> > feature, regardless of whether GMAC or ETHSW is used.
+> > In the case of GMAC, the software retrieves this information from
+> > EtherPHY via MDC/MDIO and then configures GMAC accordingly. In
+> > contrast, ETHSW provides dedicated pins for this purpose.
+> > For ETHSW, this information is also necessary for communication
+> > between two external nodes (e.g., Node A to Node B) that does not
+> > involve the host CPU, as the switching occurs entirely within ETHSW.
+> > This is particularly important for DLR (Device Level Ring: a
+> > redundancy protocol used in EtherNet/IP). DLR relies on detecting
+> > link-down events caused by cable issues as quickly as possible to
+> > enable fast switchover to a redundant path. Handling such path
+> > switching in software introduces performance impacts, which is why
+> > ETHSW includes dedicated pins.
+> > As for Active Level configuration, it is designed to provide
+> > flexibility to accommodate the specifications of external EtherPHY
+> > devices.
+> >
+> > Please share your thoughts.
+>
+> Please add this to the commit, to make it clear what these pins are
+> for.
+>
+Sure, I will add this in the commit message.
 
->  drivers/spi/spi-rspi.c               | 1 -
->  drivers/spi/spi-sh-hspi.c            | 1 -
->  drivers/spi/spi-sh-msiof.c           | 1 -
+> It actually seems like it is mostly relevant for link down, not up.
+> If the link goes down, it does not matter if it is 10Half, or 1G Full.
+> All you want to do is swap to a redundant path as soon as possible.
+>
+> It would however be interesting it know more about link up. Does the
+> hardware start using the port as soon as link up is reported by this
+> pin? So it could be blasting frames out at 1G, until software catches
+> up and tells the MAC to slow down and do 10Half? So all those frames
+> are corrupted, causing your nice redundant network to break for a
+> while?
+>
+Sorry for the delay, Ive now got the answer from the HW team:
 
-LGTM, so
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be> # renesas
+When a link-up is reported by this pin, the hardware starts using the
+port. If a 1Gbps connection is lost and then re-established at 1Gbps,
+the ETHSW will transmit the buffered data. In general cases, there is
+a possibility that a link that was previously at 1Gbps/Full-duplex
+could, for some reason, change to 10Mbps/Half-duplex, but this is
+usually unlikely. At least when using DLR, it is common to set
+auto-negotiation so that both speed and duplex are fixed. If the link
+comes back up at 10Mbps (a different speed than before), the EthPHY
+will likely follow at 10Mbps if auto-negotiation is enabled, but the
+ETHSW will continue operating at 1Gbps and start sending out the
+buffered data.
 
-Gr{oetje,eeting}s,
+If you are happy with this, I will send a v2 series updating the commit mes=
+sage.
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Cheers.
+Prabhakar
 
