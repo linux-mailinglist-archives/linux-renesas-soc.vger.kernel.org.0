@@ -1,401 +1,200 @@
-Return-Path: <linux-renesas-soc+bounces-26495-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26503-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B795D0869F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 09 Jan 2026 11:05:42 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84B04D087C3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 09 Jan 2026 11:16:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id B55FD30260FA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Jan 2026 10:04:09 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 73A69302B27D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Jan 2026 10:13:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 409B233BBD5;
-	Fri,  9 Jan 2026 10:03:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62C6E3375C5;
+	Fri,  9 Jan 2026 10:13:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="Wt01WdBU"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PtBlWZhK"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010060.outbound.protection.outlook.com [52.101.228.60])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCC9933B97A;
-	Fri,  9 Jan 2026 10:03:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.60
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767952989; cv=fail; b=BG/277OSedWBIS58DR/iEERcpa38cCZc4070/QXGY/hCflZ7q9JyZchAciEc0sdS74o1DcJUc0xewzWzOUYwIRcw17WO1+SFGdA7WVic9+UYRAv2opwLD1g/cJNNcnnr2z/mrmy+x+9yxm6lu+qTchQfWQ1hHuXgzyX6SvZ8bwc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767952989; c=relaxed/simple;
-	bh=gnZLbT45+8c/Y4GOd0BYq7vq0IdplkExHa46Aybh4wY=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=s++uiIj+4Op4zeTiHbgwdsD2kcbXfjAHIbjr43P/3jCOF0e4hZcsQbKm4QiyvJH7UQYdnqjj/H5n0I07gHyCSRAxiltB4Y44CV12nmMte7cqte+a8H+IGv8iGMLq5/3QbzKyy9g/Gpg9D1/3R+/19/y/TJDRZ18K1+IfSgH4zh4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=Wt01WdBU; arc=fail smtp.client-ip=52.101.228.60
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=l2eOXi0W0EJ96ZnPjz7fWQDELqeFuzuTkxJH72C8kdRaY1w2jmdb9p/Pcct1Rk4M4Q0f33rVNhBTWLb4e5eTiOFxrA2D8T/1VbYTrOnazpV3UXYnH0aUqVcNBePC0gUd6LE0RR3qmVjBbuBXObCVG2jYGsRTc2xT/9rtoOHFMf4FlwZ0KwqYS/HeeKXkgxQTJ3c95TucuGKimcKrqMa0FpU22PEeeKkAIldVCd/71kkH4doo+34gGeKxGWApL9oT7hqGD1kCgap1qLRuP57WeRKBQkEId+F5g5WyjXLO1cFUEA/T2wd5k5wFNP2+st6Ae+xXkdmCfwRtSY7/w6KQPg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jOzPa9FvzNOOha0PUGYYTzKc2UJI3m1rB761PeDimgo=;
- b=OtsptzAybIchyQqqOAChzUp04QJ+FYOjacSIHq0jwM5ocZ/JY84p2/J0a4Bwgunb3HEB8y1YgLVAnr1Gg7MQT7YoMVfXszwVjKxKEcBT3n4MOAtynuuRg77nMjVGWBzpd/W68HTgV2U0H0iQ/Yj6x3UAx5lClVrrfv65+bDYgwEvgtBv2bINuM4a1+nGY93ucRvrVY+OUvuCED0C2xykwO9qtgm8mOj+0SLyX25z0DuyaITXEAol2Q/L9mEMI3UW7xv1USHZJCf67ATe5KJYHEad+A6su1pU/Jk9U6MXoBGJZsph94fVZNsDcZEpc01zidwy7bmkoRM77UCNdybFZA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jOzPa9FvzNOOha0PUGYYTzKc2UJI3m1rB761PeDimgo=;
- b=Wt01WdBUY7FbFamaZeNDLeXjyDAiq7WctjNU0RX5gl0T3DSGcR70ZVxqBBQ/TNNbbLmI4xZYs807mLT4A7NUhI5N9MlTBV6AgnEjmXLNsB7KU4/37UDoNzJwb586vlHbtFWvLw5IKc+hraJ/UbNJmnQS87ETv1EeVnXDkhYFe44=
-Received: from TYCPR01MB11332.jpnprd01.prod.outlook.com (2603:1096:400:3c0::7)
- by OSZPR01MB8204.jpnprd01.prod.outlook.com (2603:1096:604:1a5::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.1; Fri, 9 Jan
- 2026 10:03:01 +0000
-Received: from TYCPR01MB11332.jpnprd01.prod.outlook.com
- ([fe80::2511:10cd:e497:4d97]) by TYCPR01MB11332.jpnprd01.prod.outlook.com
- ([fe80::2511:10cd:e497:4d97%2]) with mapi id 15.20.9520.001; Fri, 9 Jan 2026
- 10:03:01 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Cosmin-Gabriel Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>, John
- Madieu <john.madieu.xa@bp.renesas.com>, "Rafael J . Wysocki"
-	<rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui
-	<rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, Rob Herring
-	<robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
-	<conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, Geert
- Uytterhoeven <geert+renesas@glider.be>, magnus.damm <magnus.damm@gmail.com>
-CC: "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v5 5/5] thermal: renesas: rzg3e: add support for RZ/T2H
- and RZ/N2H
-Thread-Topic: [PATCH v5 5/5] thermal: renesas: rzg3e: add support for RZ/T2H
- and RZ/N2H
-Thread-Index: AQHcgNjpP7tWju4kVEOD2PeFnHW2A7VJWgkggAAujYCAAABl0IAAEgEAgAAAlKA=
-Date: Fri, 9 Jan 2026 10:03:01 +0000
-Message-ID:
- <TYCPR01MB11332D8F192023ADF4D8490398682A@TYCPR01MB11332.jpnprd01.prod.outlook.com>
-References: <20260108195223.193531-1-cosmin-gabriel.tanislav.xa@renesas.com>
- <20260108195223.193531-6-cosmin-gabriel.tanislav.xa@renesas.com>
- <TY3PR01MB113464DB06BD82F3CC72B5B458682A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <TYRPR01MB15619CB167FAD4042FE45D95A8582A@TYRPR01MB15619.jpnprd01.prod.outlook.com>
- <TY3PR01MB1134624FF7929D32670CA90F68682A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <TYYPR01MB15615737AD71FC9DBE4923D778582A@TYYPR01MB15615.jpnprd01.prod.outlook.com>
-In-Reply-To:
- <TYYPR01MB15615737AD71FC9DBE4923D778582A@TYYPR01MB15615.jpnprd01.prod.outlook.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB11332:EE_|OSZPR01MB8204:EE_
-x-ms-office365-filtering-correlation-id: 73cbed54-baf7-4c13-7835-08de4f6645f6
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|7416014|376014|1800799024|921020|38070700021;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?SzZizeyd1sv4pbBlI6wIkvH/kfADlhR5IXdkRZwa+lL+SrhNWHvnffph6Qui?=
- =?us-ascii?Q?nmbuR+qk9Z6iHYii/6h+K4vEyQ13pUbcDxkJA1I6vnhdWCaXmTzkbOoicmQT?=
- =?us-ascii?Q?P1VwldXCxTHPrKmwhn6iNg/b+k+tcZFV8H4vk987EXf7FK9AFMNPoqypBUkA?=
- =?us-ascii?Q?yuMQVNr32+LjrXzUkP4niB/FkDrAv+Uu1AY3lnBpwLg8SURKLyMmYe6AgQoe?=
- =?us-ascii?Q?wANVFd8szk5uhmOco5L1TPvDSkNbJVyyV3fWbeoQFia4mPeyMtklBptZjRPX?=
- =?us-ascii?Q?/ce27eX3XtW+2/KESwFB+zSMmtoGSRwR5Ryehk+VrayC9uvxSsCv4AU/AWuq?=
- =?us-ascii?Q?cWssEgoZsFIEZWptXXvOwKTSHoofXpWCO4yCUHghIOnXz+bRPVuUSrR/Yd5Z?=
- =?us-ascii?Q?U0zT05pH5OSPyOTYMdzJGjxEzM6I2KCrrn/ctRx1SiAh6vAkZaN1NLIQFt1x?=
- =?us-ascii?Q?PaRDtGCNGxy9m3iuMzbvAzgw0fmlCFvfUf+CMzY68lLvnj+cfY5ePNx09ee3?=
- =?us-ascii?Q?YoPGgweQEuPsHU3Oc9EOw2kQ1jOxa6ndHY6HUxun0tmD8FjEO9RzWOgSVNcb?=
- =?us-ascii?Q?H+TnJF2GMQL4pX1Spisqj4AV5yHqUz2L74vOsAaeJ8Uqf+MDo/YUxR1djFKv?=
- =?us-ascii?Q?3R3yGzOjSVlfePnZpJmGJtRDBoV/KK6RNPMWa1eHNznQIr1rCKTCC8ifMqfB?=
- =?us-ascii?Q?gUt7J1MKnLvw3/fnfQrLlo4ME1fHcLIEDEWrr+xcVaUie00poUHVouH3rL4l?=
- =?us-ascii?Q?rWNa3a4EP7d1dC9asBx/3m8ZMUXu1Bx0AmuBzBdNgjYIuvxdING0AerVCEpU?=
- =?us-ascii?Q?8qlyj5QEDuZW3nDFb9QbDVnMXkmSHUwsKBu/0cZZAdhGNOjs3ZvfAJZWy/Vp?=
- =?us-ascii?Q?i5UbZkbCWrRdE1vS/HyAH2ylSeW4iMsvr2vY9Fs1kFwWY/aDVwLUdVqcuwY2?=
- =?us-ascii?Q?8yoVd8K5pMRDrMUno9knir45KvXchLBI4cBqncN+VMiQZl9eFbFNgu8B8uAr?=
- =?us-ascii?Q?v9FRsD9VtRgXLytbq+FuGShWoCpQH4IIz8ye90wKAAKD/iO+M4J5X4HsLQzK?=
- =?us-ascii?Q?uynzxwyST9H+25hi6MPlLTKrKMmTuRj0N85hRIMbJaJ174p57e0Av30YMGjF?=
- =?us-ascii?Q?wORN2Cxn6+LZLH4xt8k8QJHX6Z7u1tZ2MzKKnCdtBobc+UgukpJ0PH07v64z?=
- =?us-ascii?Q?ipVT0olfFkGloFENOAYEc7QAIwwCiK0BGMdpLERxhcw1LQ79c/myF9O4hbxs?=
- =?us-ascii?Q?9V+88GI7qSCXe0njGxLi/KdgQ7pmBgpEk+aTe9RIufzKBVCfjwaEG10XGBQs?=
- =?us-ascii?Q?n8x/WNWOh7A/iRSFq0xipo5AQrHg6ZlH5M3euLrAkCf5Y20Ab0wQVSXHX0Lu?=
- =?us-ascii?Q?U56oL2h+mADjGtVlSt1dZMeuKWuud8KzPf/zT2l9UBWOeOBAJL1QnSf3UAKQ?=
- =?us-ascii?Q?rmNkr2tpDH2JuuAeCIAs0sU+B+OuTPkpHnlyCgfpCuOGpLK672Ap4TufTy9K?=
- =?us-ascii?Q?n7YAC4s9wO1opwTdeLNFF9KLUFD/nS4ejaMyHAGzI2N9c12bTjfaTKyg/g?=
- =?us-ascii?Q?=3D=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11332.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(921020)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?zA7T0KgS03qmtCcx69FlLQyJVu2xxUZO/tuHe0dlvmfZx86CmWuruSldBOYI?=
- =?us-ascii?Q?rFJjpHJblR0cCSmGpTg87oNqm/FkrE/pbKlZH5qM4bYQbF03Tv8ySmQd6zGs?=
- =?us-ascii?Q?bIK1zpHrg0F14W2W8U755z+j+zAwU23TOkPJnx96il9tQ1lcUkwKIdq9p8Qr?=
- =?us-ascii?Q?Ek0g042jy8TZd9LMSZyx+enXbb5q2B0h9+svn1w8MX26UxGT2hge3hn0xhr3?=
- =?us-ascii?Q?u0OQxOTWC7iyQTrZaa4PiCexGC6UOcthDOzBuEriDFUQ//Oi3Hc+k/IuyH2m?=
- =?us-ascii?Q?5G3tr4cjzQfSYoP7eCStcEY1dgiMVFmP0A5pfKlw+PlECW+i6dyWqylNuqn7?=
- =?us-ascii?Q?KejINzgaR9ODehaIdz3Ew31xicu/y0IjADuSbEYwSq0UBRfSL+wW+RoF0v3H?=
- =?us-ascii?Q?FDwObpvX9QjXhAgn2mUj5fjzbziMt+gHwI6cWISa65dN8VNw0eculeSGxbkD?=
- =?us-ascii?Q?b2vWqyS9c5GBgTKMo7MkeHBcb+cV074mGlEJ9Ka1GaBdbAoej8hwCzkQNZvI?=
- =?us-ascii?Q?vr2j7NKD2Qm2KUSuqBr4PkSSq6k3urMeKg3r3UkLKi0hMeLJCFoV3cYTUJTb?=
- =?us-ascii?Q?zmz5Fen3k7zmrGXh8K08wCFYNNDiGgvqLmaYPjAah3ota8ECIy/GrJ0G8k4M?=
- =?us-ascii?Q?kIQ7XGQ5uGO1yekeyGefpjFGKIuzZ2pm4uUtEOo5BuWeKMocRCA2eQbV5nm8?=
- =?us-ascii?Q?f8i1exICmMfFlsDG0ClwniKwvXKkjx1xqgkKN5wwJogoIQtoCYJEvDUigPH+?=
- =?us-ascii?Q?1c09htZfdgBS5ihmT0Xv/TXkBFX0rwN+i6xRQuAosFr9Eh7B0uPLJObEyw7N?=
- =?us-ascii?Q?6vM96Djbu7NNsbJ14u7LW3lmKdYvoruHW8aenBQmlG9nr2bu47XhQSuROV04?=
- =?us-ascii?Q?NSvUmFOy0eYVZMvVB82EgZXwr2iQULK9Cs6paq0X+l/rXno/f6pG5qPG7t1z?=
- =?us-ascii?Q?AAT5zfJ5ISMrgLHeQkY8leg/DhK0YHe58tRUqSe2hZ29n91DTNqWsyh9mYYJ?=
- =?us-ascii?Q?NKJHM5dH/KPZ3x8d9nODdwKpilHkj0w9VGms7bFZ7XRcWKsKFwYK6GfXWrQ5?=
- =?us-ascii?Q?8sEcQVonrzbpTCVEkjGDVZ4chccyslrXMjBM2hvIL5aco32+cfn0nvcno04t?=
- =?us-ascii?Q?YTBqXiMhKRJAn5Vn0h5FG++sKSXDpFZzckjpfyEr6hdssptkkQ72R3kyUoQL?=
- =?us-ascii?Q?CadLiUb54pNVf01vPPN8tubT4V+zZc4lK7kaaMo3m6g811Ts40Kv4csQGs/h?=
- =?us-ascii?Q?jZZbkaJr9VX26mC5m6pvIPAi5xq00uQjGaP92HVVFJ8Dh1Ui/YEWmJWcK/Um?=
- =?us-ascii?Q?RGF4YpaO0VZhcZLrI++WLJhmgc+YcNT6wPgPjSHRHU/t7mQasDXbrWyI5CLA?=
- =?us-ascii?Q?6mykUuwaLoe+rlfHyOLYYnGeFjhrH3iUwS6NB/rxthBXLT+zx43/yDVkcPqR?=
- =?us-ascii?Q?aCLHNbvvkrGCJ2pmkZNuiZtK56D4y5mSviMrCZJqDLgshrdMzUe1nh364iup?=
- =?us-ascii?Q?lyEaNNypZo+cmbl40aBPCmTUfPnqQWTKY7Ejt+fDsn3pIyT3j/dZQ0zcGiGd?=
- =?us-ascii?Q?24jo0t1Djz6ASPS2xVHK3qbLWLXjYWRuwXIYImLFQrVwIvdsGp3q29lgXAx2?=
- =?us-ascii?Q?qB9d2/GYiGhCfip0dSKUhZU2MBAzR0PRMR48TVXBMMfDLAvFnFS9v1Ugk0I+?=
- =?us-ascii?Q?XYZZ9oOWxx9eu8H3/yIDKl+7NVLqeBtbSqwO8/8zd0BT4OI1zB7KUbm4sysu?=
- =?us-ascii?Q?SaKeBwo3/A=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AA1E3328F3
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Jan 2026 10:13:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767953611; cv=none; b=q1P49BPaouymJNs4Zs0jkbgBJpwA1efBaBAvdEdHpm7efueA1FIU8GwcJaqL1ZDj0GEJhc76X1rKm70cwdUS9+l6ZnCOp5r4r5SAom5CiYTdbgeCuSygEWbjZyIqPKySKSNPjAeKajFVvAIGEB1k4rlAHCphVOpPCmGHQ9gKNdM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767953611; c=relaxed/simple;
+	bh=yXMsr8zM5W0NidfzhDEAVyLX6qDA6qMap15O3IWhwt0=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=TN2LK8Xc8pE1WrQigjPrChYYy+tRuXhAteuzGP07JVOInCKMO7NGDLmLecOtTlLX5aNcWUeG7l4BQGG4+bvBAKeqbYLcJPT1bEw154yIu16CMArFtugDYnfB/bvDQeO70+3ElDwvHrfhPuJUYNKFsqU+X77yHeEEFToZluVqoaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PtBlWZhK; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-42fb6ce71c7so3244744f8f.1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 09 Jan 2026 02:13:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1767953607; x=1768558407; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=azmATrh1ehd50qg4sLH5mbIDJwpy+FR7iJS1nCS0pn0=;
+        b=PtBlWZhKRvqBlP48R+aGjUhHrx+27cdPDRR02K9AM++q+0jZwzL7BdQHeSsJxy4Ec/
+         LNx66h8ccKeGvM5ExF1rlikPCyPRgpbbsCYJCtNJw1YJNygGoZ7PSEyIis789RfH6pXf
+         FOfXHhw1Nu5+hPNWBLYsBCMJLTA1flsuc65oMxgIpyjerqarXDNebGyGfGqOgJwnJV/f
+         avt8RV1oVTsCSkizFogUf8XLjiPvcOKQJBBqUX8n6QFEgw/2L4o66T/3jaxFCgxZF96P
+         EZyksb91FqQPbix6dTTnHkTShXQ+m/460NV6g75btfGGUhcogicpChc4uQuGpKHNSHLD
+         TjjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767953607; x=1768558407;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=azmATrh1ehd50qg4sLH5mbIDJwpy+FR7iJS1nCS0pn0=;
+        b=CBncAvncx9fm2oQcFjZDHqgCuwbSzbvI7ZfdsnhUtNJg96QocG7mXiBtGjESkPpB01
+         JvTRgKgYkjcoJUEX8hObMl2akJkYz74WLj+saJoEkUxknRIbUtV530fYSrl2OKMHbH5v
+         iOG34TLl84J8Ul5SxgMYdaxEUkbOBFAW/xCGo7MS6A44KNq3P01lsRknWGSOLepe9l8M
+         seyUVIj8JnK5klz+ZwyiLWj2I1C669HH/MiHkypnS5AfG615FqGub1ZGd41RWmoBRCn5
+         OFtqSF9vLyn3Wsw/4mmrVSnlILMUKm5VWf7KXhz4pT44RJbV4aFzXffaOviMVCpZ7b5q
+         OeXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXs0l3rgpH997xi8RRi18zBaYL5Bm2aHbnk+X4g9dgnsJoL7OMgSq7XDnoc7nEAtaar6viuA7fYIrytNmdweLfdRQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yytd0W0VHXBGDPJRyxINcC7J7M5nowAmpnIthJKSGvTlmFEJhX3
+	YQZgnCxDkdoNtfzD8XqngBu72MmbS7ZZHJIUoSmwnq01s7oJlPn+xGAkJYlWstEReqY=
+X-Gm-Gg: AY/fxX43BjmuymFwu1NNNCwt0SgyzK5xFTgM9CRlQ1EsEXqhok8fy6j2iHQLHb3N2+/
+	hGpl/PjsCJRDtY8fIp0UWXKoiCGCK2M9ZZCOh9jt1W5G0WFWa3WOfFJzs+pH6Z9kcSbEM8qq6nJ
+	/Qsz9NcdnA9CspZylPQyjbgkHTo0lgAPTY8HgEeGbzfO1pnFBkcq261FnVYkRI13DfALeV0uoTU
+	B8ppA+SzU1pLFJ07dmBB22R6F1PClmSbfvmjRt4sXQhbLYO2M63+baximLYajnnlobpvir/fiVB
+	blkgtffMVYKtAIXl67arQZxaTkrvcRWsauUQJ64ckhkTwU2b+NCXNnP9INaABwEXRT2pucVqRdj
+	DKgF9Knb7t4p53wiv2m58GAIBhsyDkfnWzHJrHp5DMBr7W3bBB5OnUoiuUI1iL9AcMUrJenwQXQ
+	ZhqXbbBdnSmNn7YlSEXJnCMvzezLFTvWHyy1xKBB6LgjeP4YRkn6ZFbdI+GAFB4B8=
+X-Google-Smtp-Source: AGHT+IFCikJ03J/WgyrsSQPwxIM5AkWewsU7YWY0NL1QPgGkyLNv66hXXYzshWOTAsB92VRUvv8j1A==
+X-Received: by 2002:a5d:5f94:0:b0:432:5bac:3915 with SMTP id ffacd0b85a97d-432c37c87e4mr11007824f8f.39.1767953607247;
+        Fri, 09 Jan 2026 02:13:27 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:3d9:2080:d283:7a7e:4c57:678d? ([2a01:e0a:3d9:2080:d283:7a7e:4c57:678d])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd0e175csm21370007f8f.14.2026.01.09.02.13.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 09 Jan 2026 02:13:26 -0800 (PST)
+Message-ID: <ef2c22a0-3335-456c-9281-e54085c849d2@linaro.org>
+Date: Fri, 9 Jan 2026 11:13:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11332.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 73cbed54-baf7-4c13-7835-08de4f6645f6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jan 2026 10:03:01.1923
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: tXQS6N+1VKLB16ErDXQkiFxh/djVDPNhZEmcfTuhPEs1NytqVvFR7a5hu+LGCu0cTCtYFbJwzYq2eH9QfqOE1ZnY1PgJfnWRna30CwuSlp8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB8204
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v2 2/6] drm/meson/dw-hdmi: convert to
+ of_drm_find_and_get_bridge()
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar
+ <alim.akhtar@samsung.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
+ Hui Pu <Hui.Pu@gehealthcare.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ imx@lists.linux.dev, linux-mediatek@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-3-v2-0-8d7a3dbacdf4@bootlin.com>
+ <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-3-v2-2-8d7a3dbacdf4@bootlin.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-3-v2-2-8d7a3dbacdf4@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Cosmin,
+On 1/9/26 11:02, Luca Ceresoli wrote:
+> of_drm_find_bridge() is deprecated. Move to its replacement
+> of_drm_find_and_get_bridge() which gets a bridge reference, and ensure it
+> is put when done.
+> 
+> dw_hdmi->bridge is used only in dw_hdmi_top_thread_irq(), so in order to
+> avoid potential use-after-free ensure the irq is freed before putting the
+> dw_hdmi->bridge reference.
+> 
+> Acked-by: Maxime Ripard <mripard@kernel.org>
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> ---
+>   drivers/gpu/drm/meson/meson_dw_hdmi.c | 6 +++++-
+>   1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/meson/meson_dw_hdmi.c b/drivers/gpu/drm/meson/meson_dw_hdmi.c
+> index 0d7c68b29dff..fef1702acb14 100644
+> --- a/drivers/gpu/drm/meson/meson_dw_hdmi.c
+> +++ b/drivers/gpu/drm/meson/meson_dw_hdmi.c
+> @@ -778,7 +778,7 @@ static int meson_dw_hdmi_bind(struct device *dev, struct device *master,
+>   	if (IS_ERR(meson_dw_hdmi->hdmi))
+>   		return PTR_ERR(meson_dw_hdmi->hdmi);
+>   
+> -	meson_dw_hdmi->bridge = of_drm_find_bridge(pdev->dev.of_node);
+> +	meson_dw_hdmi->bridge = of_drm_find_and_get_bridge(pdev->dev.of_node);
+>   
+>   	DRM_DEBUG_DRIVER("HDMI controller initialized\n");
+>   
+> @@ -789,8 +789,12 @@ static void meson_dw_hdmi_unbind(struct device *dev, struct device *master,
+>   				   void *data)
+>   {
+>   	struct meson_dw_hdmi *meson_dw_hdmi = dev_get_drvdata(dev);
+> +	struct platform_device *pdev = to_platform_device(dev);
+> +	int irq = platform_get_irq(pdev, 0);
+>   
+> +	devm_free_irq(dev, irq, meson_dw_hdmi);
+>   	dw_hdmi_unbind(meson_dw_hdmi->hdmi);
+> +	drm_bridge_put(meson_dw_hdmi->bridge);
+>   }
+>   
+>   static const struct component_ops meson_dw_hdmi_ops = {
+> 
 
-> -----Original Message-----
-> From: Cosmin-Gabriel Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-> Sent: 09 January 2026 09:57
-> Subject: RE: [PATCH v5 5/5] thermal: renesas: rzg3e: add support for RZ/T=
-2H and RZ/N2H
->=20
-> > From: Biju Das <biju.das.jz@bp.renesas.com>
-> > Sent: Friday, January 9, 2026 11:06 AM
-> >
-> >
-> > Hi Cosmin,
-> >
-> > > -----Original Message-----
-> > > From: Cosmin-Gabriel Tanislav
-> > > <cosmin-gabriel.tanislav.xa@renesas.com>
-> > > Sent: 09 January 2026 08:51
-> > > Subject: RE: [PATCH v5 5/5] thermal: renesas: rzg3e: add support for
-> > > RZ/T2H and RZ/N2H
-> > >
-> > > > From: Biju Das <biju.das.jz@bp.renesas.com>
-> > > > Sent: Friday, January 9, 2026 8:12 AM
-> > > >
-> > > > Hi Geert/Cosmin/John,
-> > > >
-> > > > > -----Original Message-----
-> > > > > From: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-> > > > > Sent: 08 January 2026 19:52
-> > > > > Subject: [PATCH v5 5/5] thermal: renesas: rzg3e: add support for
-> > > > > RZ/T2H and RZ/N2H
-> > > > >
-> > > > > The Renesas RZ/T2H (R9A09G077) and RZ/N2H (R9A09G087) SoCs
-> > > > > expose the temperature calibration via
-> > > > SMC
-> > > > > SIP and do not have a reset for the TSU peripheral, and use
-> > > > > different minimum and maximum
-> > > > temperature
-> > > > > values compared to the already supported RZ/G3E.
-> > > > >
-> > > > > Although the calibration data is stored in an OTP memory, the
-> > > > > OTP itself is not memory-mapped,
-> > > > access
-> > > > > to it is done through an OTP controller.
-> > > > >
-> > > > > The OTP controller is only accessible from the secure world, but
-> > > > > the temperature calibration data stored in the OTP is exposed via=
- SMC.
-> > > > >
-> > > > > Add support for retrieving the calibration data using arm_smcc_sm=
-c().
-> > > > >
-> > > > > Add a compatible for RZ/T2H, RZ/N2H can use it as a fallback.
-> > > > >
-> > > > > Reviewed-by: John Madieu <john.madieu.xa@bp.renesas.com>
-> > > > > Tested-by: John Madieu <john.madieu.xa@bp.renesas.com>
-> > > > > Signed-off-by: Cosmin Tanislav
-> > > > > <cosmin-gabriel.tanislav.xa@renesas.com>
-> > > > > ---
-> > > > >
-> > > > > V5:
-> > > > >  * add arm-smccc.h include
-> > > > >
-> > > > > V4:
-> > > > >  * pick up John's Reviewed-by and Tested-by
-> > > > >  * replace new macro TSU_TEMP_MASK usage with existing macro
-> > > > >    TSU_CODE_MAX
-> > > > >
-> > > > > V3:
-> > > > >  * no changes
-> > > > >
-> > > > > V2:
-> > > > >  * no changes
-> > > > >
-> > > > >  drivers/thermal/renesas/rzg3e_thermal.c | 27
-> > > > > +++++++++++++++++++++++++
-> > > > >  1 file changed, 27 insertions(+)
-> > > > >
-> > > > > diff --git a/drivers/thermal/renesas/rzg3e_thermal.c
-> > > > > b/drivers/thermal/renesas/rzg3e_thermal.c
-> > > > > index 97c4053303e0..dde021e283b7 100644
-> > > > > --- a/drivers/thermal/renesas/rzg3e_thermal.c
-> > > > > +++ b/drivers/thermal/renesas/rzg3e_thermal.c
-> > > > > @@ -4,6 +4,7 @@
-> > > > >   *
-> > > > >   * Copyright (C) 2025 Renesas Electronics Corporation
-> > > > >   */
-> > > > > +#include <linux/arm-smccc.h>
-> > > > >  #include <linux/clk.h>
-> > > > >  #include <linux/cleanup.h>
-> > > > >  #include <linux/delay.h>
-> > > > > @@ -70,6 +71,10 @@
-> > > > >  #define TSU_POLL_DELAY_US	10	/* Polling interval */
-> > > > >  #define TSU_MIN_CLOCK_RATE	24000000  /* TSU_PCLK minimum 24MHz *=
-/
-> > > > >
-> > > > > +#define RZ_SIP_SVC_GET_SYSTSU	0x82000022
-> > > >
-> > > > Maybe add a comment mentioning firmware should support this index
-> > > > and the otp value is stored in
-> > > > arm_smccc_res.a0
-> > > >
-> > >
-> > > The fact that the calibration value is stored in .a0 is clear from
-> > > the retrieval code, let's not add comments where the code is straight=
-forward.
-> >
-> > If you have just a0, then driver expect a0 from firmware is either
-> > error and OTP value.
-> >
-> > If you have a0 and a1
-> >
-> > Success case a0=3D0
-> > Error case a0=3DSMC_UNK
-> >
-> > a1 will have the value from OTP.
-> >
-> >
-> > >
-> > > Regarding the firmware support, it's obvious that the firmware needs
-> > > to support this and that the values don't just magically appear, no?
-> >
-> > How do you share this info to customers that they have their own firmwa=
-re?
-> >
-> > Eg: Customer firmware is using different service ID and driver uses dif=
-ferent one.
-> >
->=20
-> If you think it will help customers, we can add a comment like below.
->=20
-> /*
->  * SMC function ID for reading TSU calibration values from OTP needs to
->  * be supported by the TF-A firmware. Calibration value must be returned
->  * in the a0 register.
->  */
+Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
 
-
-OK.
-
-> #define RZ_SIP_SVC_GET_SYSTSU	0x82000022
-> #define OTP_TSU_REG_ADR_TEMPHI	0x01DC
-> #define OTP_TSU_REG_ADR_TEMPLO	0x01DD
->=20
-> > >
-> > > Let's see what Geert thinks.
-> > >
-> > > > > +#define OTP_TSU_REG_ADR_TEMPHI	0x01DC
-> > > > > +#define OTP_TSU_REG_ADR_TEMPLO	0x01DD
-> > > > > +
-> > > > >  struct rzg3e_thermal_priv;
-> > > > >
-> > > > >  struct rzg3e_thermal_info {
-> > > > > @@ -362,6 +367,21 @@ static int rzg3e_thermal_get_syscon_trim(str=
-uct rzg3e_thermal_priv *priv)
-> > > > >  	return 0;
-> > > > >  }
-> > > > >
-> > > > > +static int rzg3e_thermal_get_smc_trim(struct rzg3e_thermal_priv
-> > > > > +*priv) {
-> > > > > +	struct arm_smccc_res local_res;
-> > > > > +
-> > > > > +	arm_smccc_smc(RZ_SIP_SVC_GET_SYSTSU, OTP_TSU_REG_ADR_TEMPLO,
-> > > > > +		      0, 0, 0, 0, 0, 0, &local_res);
-> > > > > +	priv->trmval0 =3D local_res.a0 & TSU_CODE_MAX;
-> > > >
-> > > > Do you think it is worth to ask firmware team to return error
-> > > > values in a0 and actual OTP value in a1.
-> > > >
-> > > > So that driver can check the error code and propagate to the caller=
-.
-> > > >
-> > >
-> > > If we do that, we will have one more variant to handle here, as we
-> > > cannot make sure that the TF-A running on the board is always the lat=
-est.
-> >
-> > Mainline will use new variant, that can have both a0 and a1, if we take=
- that route.
-> >
->=20
-> Mainline code will be backported to CIP, and customers might try to use o=
-ld firmware with CIP. Not
-> adding another variant is the better way in my opinion.
->=20
-> We can wait for Geert's opinion.
-
-OK.
-
->=20
-> > >
-> > > Right now things are simple as it's either supported or not supported=
-.
-> > >
-> > > If a0 is some error value, how would you distinguish between an
-> > > error in the new variant and a
-> > proper
-> > > value in the old variant? Both cases would only populate a0.
-> > >
-> > > Also, I'm not sure how much use we can get out of a TF-A error value.
-> > >
-> > > The error that TF-A already returns in SMC_UNK =3D -1, or 0xFFFFFFFF
-> > > in u32, it is pretty standard for SMC calls and the probe() function =
-already checks against it.
-> >
-> > The OTP value can be 0xFFFFFFFF, if it is not programmed, if that is
-> > case How do you distinguish error with respect actual otp value.
-> >
->=20
-> From the kernel's standpoint both error case and an unprogrammed value st=
-ored in OTP have the same
-> effect: missing calibration data, cannot use the TSU.
-
-If a0 =3D -1
-Error case could be missing SVC handler in TF_A, Wrong ID.
-
-If a0=3D0 , a1 =3D -1
-Unprogrammed value: missing calibration data, cannot use the TSU.
-
-Cheers,
-Biju
+Thanks,
+Neil
 
