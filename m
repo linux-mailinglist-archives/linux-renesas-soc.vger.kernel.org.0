@@ -1,54 +1,54 @@
-Return-Path: <linux-renesas-soc+bounces-26498-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26499-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDE88D0875D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 09 Jan 2026 11:13:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BD71D08772
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 09 Jan 2026 11:14:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 4FB4B304D06C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Jan 2026 10:05:12 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 326AA3054672
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Jan 2026 10:05:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D1B0337689;
-	Fri,  9 Jan 2026 10:03:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 476E6339847;
+	Fri,  9 Jan 2026 10:03:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="SmyxDa9z"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="0Y4aL+Wh"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00BE233984C
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Jan 2026 10:03:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71670339872;
+	Fri,  9 Jan 2026 10:03:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767953011; cv=none; b=GauXcIGrJmWFRy7yzl5d8ShKkku2Su/M6Wtli0jTG5SW+roDKtep3tXY9wFBivEuJUUP5/ZU4uv/TZfLuuvE6KwWNNeNcuij4qILb2qfFl0KidgkDSU2X0AM3IB8Lr9FyemcVRIaPP3mlwpx/PNd4JCqtXeYqo46MFBt4kYENP4=
+	t=1767953015; cv=none; b=qe1bVbSptDPwkOe6ota/wBEv4a2KdRftGmFZicA12kKRDXA1rjBv5OUuW43SZvbHHSngVLtiPCxY1Xfcc9N9PtdoA6huVudj8iXAgtxXHUzZQ5MOra9aaXq+aWgVL+Q5Wev8l8gMokJ0rDXf/U3+aO9SqnQX2ViIgILTmMoz5Do=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767953011; c=relaxed/simple;
-	bh=9D/tzTV0y+6LkHxJJbCE3MtNXkeUS0FEL6aD1jS2Dbc=;
+	s=arc-20240116; t=1767953015; c=relaxed/simple;
+	bh=tYPQSk3+RVozImxJ3ZhyeViwADjWKkDqW0MwWKrrNSM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=WOxTqNxdK+zWPfPuKltilrmECn96QljK+XgygWW62YLyuIAuXFssOkjHpPPPlSJiNXMCojr2euxb/OoPguF3UOiThlccNsTv1K7SX2WT3azD6u7kDdOkqZX5cKkss4KG0mtQ8R53V5anDK1XKcD4BiMU6bZ0GWwMPYSvCCh31eg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=SmyxDa9z; arc=none smtp.client-ip=185.246.84.56
+	 In-Reply-To:To:Cc; b=ZkFxPIhoYPmgAOEOByMlfQQ1pLQD60MsvOKOb9ouBw5hBeCM5W0N4oOphqLdLw8ounIQZpERei8gagxKp0qK8T2TpOqzECOl8bpFRnivo5WKcv/ofZLM/BDBxLmmeC0HhJvND1S4LyvMDNVgq0bxXdReGtgoaWlgucPR1ERpHS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=0Y4aL+Wh; arc=none smtp.client-ip=185.171.202.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id B8F991A273D;
-	Fri,  9 Jan 2026 10:03:26 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id E9617C1F6D3;
+	Fri,  9 Jan 2026 10:03:05 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 8BD6D60734;
-	Fri,  9 Jan 2026 10:03:26 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4F74F103C88D1;
-	Fri,  9 Jan 2026 11:03:17 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 33F5A60734;
+	Fri,  9 Jan 2026 10:03:32 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 32C3E103C88A8;
+	Fri,  9 Jan 2026 11:03:24 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1767953003; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1767953009; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=ib1nz3VLzG2xhR1bhye/UhbvLr/fQIlc7RSiXX3o9Bw=;
-	b=SmyxDa9zAG9bif8RB++6AmduXnnWz7659efxtK4+GQljZ7+zSP7k5HnW9hgRBXkMWquTmT
-	Gubt8xZ8kpuFL1+ZDJgwiUyE/4kSiJSthdaRlcGKDft2Q+jMWXHZUEM0HFCVxxlrzYZwmR
-	MH//fmgQ9RZKJSsrzYS4KfFamGQ5sMD6XAGubE0Yr/NoVgHoPpq3FI92TyxDRYNp7/xywj
-	xx4TKfRgW/9R/ww8hC/mIZjXcS4OZVkCzfagCwRp7ZDfmUAngxGY7t2wzFcxGR1gClj6i/
-	/dGo7Nm+lnDOHYic2YOPxzRYDiCWMgIpuD66Gl5HBh2nYjiT6VWEttZgwmOg/Q==
+	bh=e7yKYTktaJ5QBYIv/riMau9mtMOQxGCnsiL5HskQuQs=;
+	b=0Y4aL+WhrqX8pFZoSHXt+GHmfUVCLeSuTr+X3dQAvdxLYKoCo/T47xKtVtnl13bEHRzgER
+	OiUc1Rxr0DZAN1DpP/MZ8T9yxTDShFSiU4WPVzdnZL7JRdZMto8U/SaRiuKcT/Zm2eY9Ig
+	AYWB4UoLm+w/n+7PmJttTEbXGZmEeIN1D1WKUrOdGEXIKqgYrX/S7dIYT5PoCgKjwR24jH
+	YQEUIK0pSwHRjiqSXEg5Uc/ybUUVKGaItruo4ogLPrNsGUlN3lRyC8UhJjUQJL0KSzk6OQ
+	TJBwqIM+d/FQizQHv8ds7ex8LeiOIpHdOfpBgG1dsNQpYPq8UGexwV/I/4OC5Q==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 09 Jan 2026 11:02:51 +0100
-Subject: [PATCH v2 2/6] drm/meson/dw-hdmi: convert to
+Date: Fri, 09 Jan 2026 11:02:52 +0100
+Subject: [PATCH v2 3/6] drm/imx/dw-hdmi: convert to
  of_drm_find_and_get_bridge()
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -58,7 +58,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-3-v2-2-8d7a3dbacdf4@bootlin.com>
+Message-Id: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-3-v2-3-8d7a3dbacdf4@bootlin.com>
 References: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-3-v2-0-8d7a3dbacdf4@bootlin.com>
 In-Reply-To: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-3-v2-0-8d7a3dbacdf4@bootlin.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -100,42 +100,50 @@ of_drm_find_bridge() is deprecated. Move to its replacement
 of_drm_find_and_get_bridge() which gets a bridge reference, and ensure it
 is put when done.
 
-dw_hdmi->bridge is used only in dw_hdmi_top_thread_irq(), so in order to
-avoid potential use-after-free ensure the irq is freed before putting the
-dw_hdmi->bridge reference.
-
-Acked-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
----
- drivers/gpu/drm/meson/meson_dw_hdmi.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/meson/meson_dw_hdmi.c b/drivers/gpu/drm/meson/meson_dw_hdmi.c
-index 0d7c68b29dff..fef1702acb14 100644
---- a/drivers/gpu/drm/meson/meson_dw_hdmi.c
-+++ b/drivers/gpu/drm/meson/meson_dw_hdmi.c
-@@ -778,7 +778,7 @@ static int meson_dw_hdmi_bind(struct device *dev, struct device *master,
- 	if (IS_ERR(meson_dw_hdmi->hdmi))
- 		return PTR_ERR(meson_dw_hdmi->hdmi);
+---
+
+Changes  in v2:
+- add missing drm_bridge_put() on component_add() failure
+- reorder lines in dw_hdmi_imx_remove()
+---
+ drivers/gpu/drm/imx/ipuv3/dw_hdmi-imx.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/imx/ipuv3/dw_hdmi-imx.c b/drivers/gpu/drm/imx/ipuv3/dw_hdmi-imx.c
+index 07e5f96202d4..398f3cce5532 100644
+--- a/drivers/gpu/drm/imx/ipuv3/dw_hdmi-imx.c
++++ b/drivers/gpu/drm/imx/ipuv3/dw_hdmi-imx.c
+@@ -241,7 +241,7 @@ static int dw_hdmi_imx_probe(struct platform_device *pdev)
+ 	if (IS_ERR(hdmi->hdmi))
+ 		return PTR_ERR(hdmi->hdmi);
  
--	meson_dw_hdmi->bridge = of_drm_find_bridge(pdev->dev.of_node);
-+	meson_dw_hdmi->bridge = of_drm_find_and_get_bridge(pdev->dev.of_node);
+-	hdmi->bridge = of_drm_find_bridge(np);
++	hdmi->bridge = of_drm_find_and_get_bridge(np);
+ 	if (!hdmi->bridge) {
+ 		dev_err(hdmi->dev, "Unable to find bridge\n");
+ 		dw_hdmi_remove(hdmi->hdmi);
+@@ -249,8 +249,10 @@ static int dw_hdmi_imx_probe(struct platform_device *pdev)
+ 	}
  
- 	DRM_DEBUG_DRIVER("HDMI controller initialized\n");
+ 	ret = component_add(&pdev->dev, &dw_hdmi_imx_ops);
+-	if (ret)
++	if (ret) {
++		drm_bridge_put(hdmi->bridge);
+ 		dw_hdmi_remove(hdmi->hdmi);
++	}
  
-@@ -789,8 +789,12 @@ static void meson_dw_hdmi_unbind(struct device *dev, struct device *master,
- 				   void *data)
- {
- 	struct meson_dw_hdmi *meson_dw_hdmi = dev_get_drvdata(dev);
-+	struct platform_device *pdev = to_platform_device(dev);
-+	int irq = platform_get_irq(pdev, 0);
+ 	return ret;
+ }
+@@ -260,6 +262,7 @@ static void dw_hdmi_imx_remove(struct platform_device *pdev)
+ 	struct imx_hdmi *hdmi = platform_get_drvdata(pdev);
  
-+	devm_free_irq(dev, irq, meson_dw_hdmi);
- 	dw_hdmi_unbind(meson_dw_hdmi->hdmi);
-+	drm_bridge_put(meson_dw_hdmi->bridge);
+ 	component_del(&pdev->dev, &dw_hdmi_imx_ops);
++	drm_bridge_put(hdmi->bridge);
+ 	dw_hdmi_remove(hdmi->hdmi);
  }
  
- static const struct component_ops meson_dw_hdmi_ops = {
 
 -- 
 2.52.0
