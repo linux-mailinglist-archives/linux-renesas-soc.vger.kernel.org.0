@@ -1,192 +1,146 @@
-Return-Path: <linux-renesas-soc+bounces-26605-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26607-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C3BFD13063
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Jan 2026 15:12:08 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91535D13D2B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Jan 2026 16:54:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4F89F300E030
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Jan 2026 14:11:43 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 4C32B3021A6D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Jan 2026 15:43:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2E1235CB73;
-	Mon, 12 Jan 2026 14:11:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DFD536166A;
+	Mon, 12 Jan 2026 15:43:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="CakAumhF"
+	dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b="uyzmgjaT"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F413327E054;
-	Mon, 12 Jan 2026 14:11:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38E0A13FEE;
+	Mon, 12 Jan 2026 15:43:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.120.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768227101; cv=none; b=MuF0OMYQnTgpXI4mMQezNVvbiNopYL08xpUoiSEZeGRKgBHGOjcG4DCzhwlmf564vVkSgF+uaePZdnHsi2BZRsWM/Oci6JzxtaJx1QNVCqKhRy3rvVelLVRR+p0vI7WBczaSK+JaYB8FpjZZlmxV7CuJuOksKl/ARM78hOJmJfA=
+	t=1768232637; cv=none; b=GEIgKIWyBp7Nsr4YS3A1HGv91c96s01XYerwhc6UVtTUoTmMCQU1W499tkiyvSvdwyohY4i6umNUz40EOBpowH0YxeD9OWI5i4NDSnpwn1KkVx4GTliCBObYnqn2ot/4p+BlTzQv4U3PJkSTbgP1ddWkzaZfBZoIIyxV2gqO+5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768227101; c=relaxed/simple;
-	bh=bgJaNUM5VIgE3jmg2aRlC1+4Tim4pBQlk9u6DJ16NrA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lldfFWVv5mMhtqAgDVHr2qJ/OuLOewpFGXDSMWS4qJm3KOsbScMeCQkJsBmkpIm+3hp1STz8Z4lE5LqAhRbpqasI2fxLwxXIyOextQP2QW14kIBAFTw9RCHHahcLr3GeWYM+BJ/RfhAz0Ls/hwe07bluxknEHR3uByZPS+gxuEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=CakAumhF; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 9C2B7C2086A;
-	Mon, 12 Jan 2026 14:11:10 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 0D1FB6074A;
-	Mon, 12 Jan 2026 14:11:37 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 736BF103C8C61;
-	Mon, 12 Jan 2026 15:10:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1768227090; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=S8c2ARP9HcnV+reUeOF4Vcg2quHBkPmCAqYrhfyr6c0=;
-	b=CakAumhFpasu+3ZI3BaB812kdRiuu+v1Tg/Sp3TTEi8pdVKDZEtVO84AoLEgEc1xrnFluT
-	i+SAwVNTU/VK298rD4GgfOlbL1x1IRBq+LMtmjrslvr8iNw/wqHBq7SowNZ+1bxrqAdaPR
-	ziVMPo032s+fSJqG9mpYJmDIazpKyi53yb/qGj1zj4VwwbAj77lJfzPnCy7GfnRvSCaoiG
-	VLNhV0T9IC//MbbHQG1tnGAF03XNmqvN+K3xG6/Renyw+hJ5Ia+fO3n6d7mTvuZI7e4oUm
-	CIup66ln9btW8iWglHRpKXcMS5I6EydGAat63GN0yLYYuyDF497mBLdXxOQ06g==
-From: =?UTF-8?B?QmVub8OudA==?= Monin <benoit.monin@bootlin.com>
-To: Mark Brown <broonie@kernel.org>,
- Varshini Rajendran <varshini.rajendran@microchip.com>,
- Mikhail Kshevetskiy <mikhail.kshevetskiy@iopsys.eu>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Sunny Luo <sunny.luo@amlogic.com>, Janne Grunau <j@jannau.net>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>, CL Wang <cl634@andestech.com>,
- Manikandan Muralidharan <manikandan.m@microchip.com>,
- David Lechner <dlechner@baylibre.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Jonas Gorski <jonas.gorski@gmail.com>, Hang Zhou <929513338@qq.com>,
- Jun Guo <jun.guo@cixtech.com>, Philipp Stanner <phasta@kernel.org>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Bartosz Golaszewski <brgl@kernel.org>, Shiji Yang <yangshiji66@outlook.com>,
- James Clark <james.clark@linaro.org>, Jonathan Marek <jonathan@marek.ca>,
- Carlos Song <carlos.song@nxp.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Huacai Chen <chenhuacai@kernel.org>, Xianwei Zhao <xianwei.zhao@amlogic.com>,
- Prajna Rajendra Kumar <prajna.rajendrakumar@microchip.com>,
- Sergio Perez Gonzalez <sperezglz@gmail.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Qianfeng Rong <rongqianfeng@vivo.com>, Haibo Chen <haibo.chen@nxp.com>,
- Gabor Juhos <j4g8y7@gmail.com>, Md Sadre Alam <quic_mdalam@quicinc.com>,
- Rosen Penev <rosenp@gmail.com>, Luis de Arquer <luis.dearquer@inertim.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>,
- Tudor Ambarus <tudor.ambarus@linaro.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, Longbin Li <looong.bin@gmail.com>,
- Patrice Chotard <patrice.chotard@foss.st.com>,
- =?UTF-8?B?Q2zDqW1lbnQ=?= Le Goffic <clement.legoffic@foss.st.com>,
- Alessandro Grassi <alessandro.grassi@mailbox.org>,
- Chen-Yu Tsai <wens@kernel.org>, Darshan R <rathod.darshan.0896@gmail.com>,
- Aaron Kling <webgeek1234@gmail.com>, Vishwaroop A <va@nvidia.com>,
- Haixu Cui <quic_haixcui@quicinc.com>,
- Darshan Rathod <darshanrathod475@gmail.com>, linux-spi@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-amlogic@lists.infradead.org, asahi@lists.linux.dev,
- linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
- linux-rpi-kernel@lists.infradead.org, linux-sound@vger.kernel.org,
- patches@opensource.cirrus.com, imx@lists.linux.dev,
- linux-arm-msm@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
- linux-tegra@vger.kernel.org, virtualization@lists.linux.dev,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Lorenzo Bianconi <lorenzo@kernel.org>, Ray Liu <ray.liu@airoha.com>,
- Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>,
- =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>,
- Ryan Wanner <ryan.wanner@microchip.com>,
- Michael Hennerich <michael.hennerich@analog.com>,
- Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
- Kamal Dasu <kamal.dasu@broadcom.com>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
- William Zhang <william.zhang@broadcom.com>,
- Kursad Oney <kursad.oney@broadcom.com>, Anand Gore <anand.gore@broadcom.com>,
- =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
- David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Vladimir Oltean <olteanv@gmail.com>, Frank Li <Frank.Li@nxp.com>,
- Jean-Marie Verdun <verdun@hpe.com>, Nick Hawkins <nick.hawkins@hpe.com>,
- Yang Shen <shenyang39@huawei.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Lixu Zhang <lixu.zhang@intel.com>,
- Yinbo Zhu <zhuyinbo@loongson.cn>, Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Conor Dooley <conor.dooley@microchip.com>,
- Daire McNamara <daire.mcnamara@microchip.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>,
- Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>,
- Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>,
- Han Xu <han.xu@nxp.com>, Yogesh Gaur <yogeshgaur.83@gmail.com>,
- Linus Walleij <linusw@kernel.org>, Daniel Mack <daniel@zonque.org>,
- Haojian Zhuang <haojian.zhuang@gmail.com>,
- Robert Jarzmik <robert.jarzmik@free.fr>,
- Chris Packham <chris.packham@alliedtelesis.co.nz>,
- Heiko Stuebner <heiko@sntech.de>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Andi Shyti <andi.shyti@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>,
- Paul Walmsley <pjw@kernel.org>, Samuel Holland <samuel.holland@sifive.com>,
- Orson Zhai <orsonzhai@gmail.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Alain Volmat <alain.volmat@foss.st.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Li-hao Kuo <lhjeff911@gmail.com>,
- Masahisa Kojima <masahisa.kojima@linaro.org>,
- Jassi Brar <jaswinder.singh@linaro.org>,
- Laxman Dewangan <ldewangan@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Jonathan =?UTF-8?B?TmV1c2Now6RmZXI=?= <j.neuschaefer@gmx.net>,
- Michal Simek <michal.simek@amd.com>, Max Filippov <jcmvbkbc@gmail.com>
-Subject: Re: [PATCH v1 4/4] spi: Drop duplicate device_set_node() call
-Date: Mon, 12 Jan 2026 15:10:36 +0100
-Message-ID: <2776743.vuYhMxLoTh@benoit.monin>
-In-Reply-To: <20260108203004.3538449-5-andriy.shevchenko@linux.intel.com>
-References:
- <20260108203004.3538449-1-andriy.shevchenko@linux.intel.com>
- <20260108203004.3538449-5-andriy.shevchenko@linux.intel.com>
+	s=arc-20240116; t=1768232637; c=relaxed/simple;
+	bh=iieFf6Wt28F+pg7k/9CDxA1aMlMJQOEPRhBat/DQWZ0=;
+	h=From:To:Cc:Date:Message-ID:MIME-Version:Subject; b=LRvZaysUcvzR/lAUV0McU3mRIDbfJ2kBd+6wHrsaC+uchE9wznjhEOZBkvEfL8qXrj93h0iAc5+Sv7rph4mG4wJETNkxlgENJdRbeZ9odJ/FbGTC9ef3rY+T+rbv7J1uYETtDHSZZVdmgNMfvumR16VDhBp1Ck+CyfigylyM//g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com; spf=pass smtp.mailfrom=hugovil.com; dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b=uyzmgjaT; arc=none smtp.client-ip=162.243.120.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hugovil.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
+	; s=x; h=Subject:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Cc:To
+	:From:subject:date:message-id:reply-to;
+	bh=cybwSK8LyqAMNEb3Rji+neE2rEFziHN4FtKei8xzkPk=; b=uyzmgjaTOKSdo4/rDU++CatflH
+	+wQIDkUTocJ5+J6otP5fSJiamM7y9o6XPCEudd8c6prZ/0CCTr4qkxuc7AumrUTiLVFQlVTAH+a08
+	HguoMkbasOJhfaj60qWRcoMYat0qQKPpQZ0NiQdIzPzagtkRYh/qPJYzMST+u6UNGlhU=;
+Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:57378 helo=pettiford.lan)
+	by mail.hugovil.com with esmtpa (Exim 4.92)
+	(envelope-from <hugo@hugovil.com>)
+	id 1vfK4u-0005ho-Pi; Mon, 12 Jan 2026 10:43:37 -0500
+From: Hugo Villeneuve <hugo@hugovil.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>
+Cc: hugo@hugovil.com,
+	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
+	dri-devel@lists.freedesktop.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Date: Mon, 12 Jan 2026 10:43:18 -0500
+Message-ID: <20260112154333.655352-1-hugo@hugovil.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 70.80.174.168
+X-SA-Exim-Mail-From: hugo@hugovil.com
+X-Spam-Level: 
+X-Spam-Report: 
+	* -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+Subject: [PATCH] drm: renesas: rz-du: mipi_dsi: fix kernel panic when rebooting for some panels
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
 
-On Thursday, 8 January 2026 at 21:23:41 CET, Andy Shevchenko wrote:
-> The SPI core provides the default fwnode for the controller,
-> assigned by device_set_node(). No need to repeat it in the driver.
->=20
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+From: Hugo Villeneuve <hvilleneuve@dimonoff.com>
 
->  drivers/spi/spi-dw-core.c           | 2 --
->=20
-Works fine on Mobileye EyeQ6Lplus SoC in both host and target mode.
+Since commit 56de5e305d4b ("clk: renesas: r9a07g044: Add MSTOP for RZ/G2L")
+we may get the following kernel panic, for some panels, when rebooting:
 
-Tested-by: Beno=C3=AEt Monin <benoit.monin@bootlin.com> # dw mobileye
+  systemd-shutdown[1]: Rebooting.
+  Call trace:
+   ...
+   do_serror+0x28/0x68
+   el1h_64_error_handler+0x34/0x50
+   el1h_64_error+0x6c/0x70
+   rzg2l_mipi_dsi_host_transfer+0x114/0x458 (P)
+   mipi_dsi_device_transfer+0x44/0x58
+   mipi_dsi_dcs_set_display_off_multi+0x9c/0xc4
+   ili9881c_unprepare+0x38/0x88
+   drm_panel_unprepare+0xbc/0x108
 
-Thanks,
-=2D-=20
-Beno=C3=AEt Monin, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+This happens for panels that need to send MIPI-DSI commands in their
+unprepare() callback. Since the MIPI-DSI interface is stopped at that
+point, rzg2l_mipi_dsi_host_transfer() triggers the kernel panic.
 
+Fix by moving rzg2l_mipi_dsi_stop() to new callback function
+rzg2l_mipi_dsi_atomic_post_disable().
 
+With this change we now have the correct power-down/stop sequence:
+
+  systemd-shutdown[1]: Rebooting.
+  rzg2l-mipi-dsi 10850000.dsi: rzg2l_mipi_dsi_atomic_disable(): entry
+  ili9881c-dsi 10850000.dsi.0: ili9881c_unprepare(): entry
+  rzg2l-mipi-dsi 10850000.dsi: rzg2l_mipi_dsi_atomic_post_disable(): entry
+  reboot: Restarting system
+
+Suggested-by: Biju Das <biju.das.jz@bp.renesas.com>
+Signed-off-by: Hugo Villeneuve <hvilleneuve@dimonoff.com>
+---
+Tested on a custom RZ/G2L board with three different panels/drivers:
+   ili9881c -> sending DSI commands in unprepare()
+   jd9365da -> not sending DSI commands in unprepare()
+   st7703   -> not sending DSI commands in unprepare()
+---
+ drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+index 3b52dfc0ea1e0..b164e3a62cc2f 100644
+--- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
++++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+@@ -646,6 +646,13 @@ static void rzg2l_mipi_dsi_atomic_disable(struct drm_bridge *bridge,
+ 
+ 	rzg2l_mipi_dsi_stop_video(dsi);
+ 	rzg2l_mipi_dsi_stop_hs_clock(dsi);
++}
++
++static void rzg2l_mipi_dsi_atomic_post_disable(struct drm_bridge *bridge,
++					       struct drm_atomic_state *state)
++{
++	struct rzg2l_mipi_dsi *dsi = bridge_to_rzg2l_mipi_dsi(bridge);
++
+ 	rzg2l_mipi_dsi_stop(dsi);
+ }
+ 
+@@ -681,6 +688,7 @@ static const struct drm_bridge_funcs rzg2l_mipi_dsi_bridge_ops = {
+ 	.atomic_pre_enable = rzg2l_mipi_dsi_atomic_pre_enable,
+ 	.atomic_enable = rzg2l_mipi_dsi_atomic_enable,
+ 	.atomic_disable = rzg2l_mipi_dsi_atomic_disable,
++	.atomic_post_disable = rzg2l_mipi_dsi_atomic_post_disable,
+ 	.mode_valid = rzg2l_mipi_dsi_bridge_mode_valid,
+ };
+ 
+
+base-commit: 0f61b1860cc3f52aef9036d7235ed1f017632193
+-- 
+2.47.3
 
 
