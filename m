@@ -1,137 +1,153 @@
-Return-Path: <linux-renesas-soc+bounces-26613-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26614-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B86EED1413B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Jan 2026 17:36:08 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BFF6D1420A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Jan 2026 17:44:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 34C8F3104AB1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Jan 2026 16:30:50 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 82A593007517
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Jan 2026 16:44:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEA6E364EA0;
-	Mon, 12 Jan 2026 16:30:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56C3C36A02E;
+	Mon, 12 Jan 2026 16:44:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PPt+r9qI"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DkglunHp"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89CE9364046;
-	Mon, 12 Jan 2026 16:30:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AC1236A006
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 12 Jan 2026 16:44:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768235443; cv=none; b=ahO21X/oqNchvWhXlwBP6ZbpSidOGa6js2Kt1357y5FBeBKYGNGxa+bXYWaz5teRBdjfBXw8lNGAtkos/VXc2Pg4Q5Piwed05IoGfAkZxpl134fJEdDew+4o0CcOGdBOC4OTAKKYZBCSUPeBq+aq40gPZc5JnMZy/gC0Z37FeU4=
+	t=1768236278; cv=none; b=t3cavJbp0J8g1ifen6KQH34UKVFLDK22rivW3DHnqOWt3qb+yMVM4J413amNAdOu4SsULn32p7nwtm49DXU5Wy7m3PEU6auOK7wMQaRaoF/EIpc0fIkZqarih0S6sqPTkqEPKqmaq4z0Eis2/8s+B7eMN9QzOXCdSZcqvHgMftg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768235443; c=relaxed/simple;
-	bh=/U1bAA9jEK+gLxl+zJrnIOjbJpnXDq6EJ0/3M6gnvtM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ApzLC8KLVN+KpHWmsMsyHi8rEwNCaY/VHhwYxUNnfRb4UuDC+rCKe5upMKuvsSINeYRD8Ty4dFbueugz6VlT2a5cQAgqbzkWJesr2kJ6iWFtFx0wbJxefs9Hso9RnVix86zxsKbEnm0afunSeRHE7dIjoHzZBYfFSMU23+n/WWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PPt+r9qI; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6368C116D0;
-	Mon, 12 Jan 2026 16:30:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768235443;
-	bh=/U1bAA9jEK+gLxl+zJrnIOjbJpnXDq6EJ0/3M6gnvtM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=PPt+r9qILe/bpJGHgP3YZLTPYAgof+0JzHqWnPE6aufgRYU+BtjZxEuSoOlKLEOQ+
-	 2VPJWU1IRdF532D6IYBMa391QLRsY7nxt7CEaZWMtYPvCkyApQnWiasV4sn1nqnFnm
-	 X0lEG5WqsQTQ6191EEXGunOXQ7XVX3AEoZ5WZHeadkChXxQHgWF3yC3HtII7VnGXKp
-	 HCiYLkfqVRF3tw95g/zm4irufNMrqO1RHHrYPJ1WsStyQGoemWtn6zkbhOcXhjzYhd
-	 fk1LdjauIQTc4bSotZ4McqacCh8SOo2cAktAhip3vB0O+Bydt8EAhhYKlWOK6D1KpW
-	 jNyOcUGaXmMzA==
-Message-ID: <dd053cff-af8f-4378-9550-9f99f91cea20@kernel.org>
-Date: Mon, 12 Jan 2026 17:30:38 +0100
+	s=arc-20240116; t=1768236278; c=relaxed/simple;
+	bh=15bJV717b3BmCRep7g3f3eqDSXeQzdRiVGChJjyTeQY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uURS7K30EZyi7OmY9bnTCDJvTnSPnUZ8zwmTrFLdtNN6V7ZPhre/Bk+cTg75CFRs36B3CMgPYvs4BjMBphYrOvK/rS3Ak+3+/FISOe17IMEvq3UnStXdExapMP2SvcPxQYtvOauJC4FH8kG6PcV2LkkbSCd+5CAFnem11JOf0cI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DkglunHp; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-477632d9326so40000985e9.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 12 Jan 2026 08:44:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768236274; x=1768841074; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cD2W84EqNYwKoDXJN6AUPaelb23t6+j5pqlOt/nW9so=;
+        b=DkglunHpD7ozJZNE8HfofRjDdLTa+qjy9K1ApeixeqdqvEZttvrmSW3Qw4CUG4vNhm
+         9gBe6rkq71PcDqDa9LZb6ZiMb6jva1eTIh1IRGcJOySy25c2B2xEhFJTRFRv9Gem8dQh
+         wj0uDTWcNa3l2AKbrJYggEPrKcuGi7dX9jgExlWhKU8z/rTxzrG4oKvLz91EuM7Idpj0
+         eP7gCChU7qBQw8k+TkKkFS0qls+y4ka6vOAb2S4Tr6rH393sVh5OA1JaEiFpgtUAXryQ
+         vZDEcx6UgOtozd3IXIPcz20IuI3NMt1+3RO38FlMhX4xeUCAN4ZLeSr8KCSGBrC8xnyN
+         u1Sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768236274; x=1768841074;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=cD2W84EqNYwKoDXJN6AUPaelb23t6+j5pqlOt/nW9so=;
+        b=n2MnxCHz8z/DW3V+zUzfXFAW3o8muEuL5MdSkCFMOqAo3B+H1/jhmrFTcem+5Pslv4
+         yICgq9r6+Ok3hvqExi6rR5BgwPtBJXZxwpbNwkjde1KzlRiDeCbnmf1TvUSNpbmNuW07
+         TvIuCnr45rsWmpEoBRcNZtTR1eDO2bP8IoDRUctaBIZBGx3BZqBxEC3PWXHEAjHEWNTo
+         Byat49QcY1MuiyjZzPPgZIlhzOMPlk1d5I/2ZzwiJW/DOUTbNj47+mnp219+migbf6pN
+         PO+2vU4rDZX/tbPrizp0IhB8bl/dSxC+pkztFb9b4/sR+P/kGHuNqlDHlDg8P7MhcZdZ
+         7yPw==
+X-Forwarded-Encrypted: i=1; AJvYcCUfmCoeP0Z1yz22u9TQnfcC1mhQOBydVJYszAjY7sBvXMtWSs39HGZUxq+quFj7BwtUiZxafvO+THqiQbed01kr7A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwbtBbwY9QavjM2vSXSAvW6Du8S0MKS5w6IDm83E4mlHnr58Gme
+	ElapvMEiJiXQlL/sN1cxygOpnqsnmfQoXYSolcmr4JnfiF3s3B1u/mEoWjJZyUmJCIoUwT+npJv
+	LqrFqlVAafDUXasjSaa1QhyJ3qNnO77s=
+X-Gm-Gg: AY/fxX4u+fyR4OEcOEF3fa+nV/b6kHXsHJaA9UtO2Hf7lLLVM2xAlN35hwxzYAaxgVe
+	t1+18x5vso89vMbSFxNSjcNpCO3AV+yRwK9nTEIuDSlConuFBU7EJNd40Om+AcRqtklPWMcobBM
+	tFyNrubUa6OjY3EZjld/attcnQEZZI0s9AvPqGCb5+J1DJwiKP0oofpA98vgt2Y3SJJf/BCtQUq
+	0J8w/IAAxqs6g1S3+iecmkKxlh1cEJ27Xa0qYrcGSZgzW3tbp4ieyZmSoUgtZIXzLsl0uhalswT
+	w3znuA9fUp51KyRG+ydhQca2//Adhb0VWTSGPVvpB3cIhnyEW/qu3fI=
+X-Google-Smtp-Source: AGHT+IGau+W3RGt608fIO3PobvK9WHuMcah1IGzOIOuD1jKefcV1nFFm2JOlx2I3P0NzrOE0nXKM9dKGfg70UFuX9rs=
+X-Received: by 2002:a05:600c:8b0a:b0:46f:c55a:5a8d with SMTP id
+ 5b1f17b1804b1-47d84b0aa97mr211947485e9.4.1768236273225; Mon, 12 Jan 2026
+ 08:44:33 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/4] dt-bindings: can: renesas,rcar-canfd: Document
- RZ/T2H and RZ/N2H SoCs
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: Marc Kleine-Budde <mkl@pengutronix.de>,
- Vincent Mailhol <mailhol@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, linux-can@vger.kernel.org,
- devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20260109125128.2474156-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20260109125128.2474156-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20260111-poetic-dark-butterfly-97993f@quoll>
- <CA+V-a8un48Gfqg-K6YToxUgnZawOcb-nQHsBcOfHdpAR7_Uu4Q@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <CA+V-a8un48Gfqg-K6YToxUgnZawOcb-nQHsBcOfHdpAR7_Uu4Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20251103194554.54313-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20251104120141.GC27255@pendragon.ideasonboard.com>
+In-Reply-To: <20251104120141.GC27255@pendragon.ideasonboard.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Mon, 12 Jan 2026 16:44:07 +0000
+X-Gm-Features: AZwV_Qig6PsppKVhEERX8F-92Y9pCzvropDxY-lGZwStB3z6BiMeRd5H2J_Pg1I
+Message-ID: <CA+V-a8sP6o2GUju2ub0q1exiV87zHrkTddvkv8GKR_7wBF+vSA@mail.gmail.com>
+Subject: Re: [PATCH] media: dt-bindings: media: renesas,fcp: Allow three
+ clocks for RZ/V2N SoC
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, 
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 12/01/2026 15:04, Lad, Prabhakar wrote:
->   - if:
->       properties:
->         compatible:
->           contains:
->             # SoCs WITH resets but WITHOUT reset-names
->             enum:
->               - renesas,rcar-gen3-canfd
->               - renesas,rcar-gen4-canfd
->     then:
->       required:
->         - resets
->       properties:
->         reset-names: false
-> 
+Hi Laurent,
 
-Yes, although now I wonder why do you have such case... There are no
-benefits in disallowing reset-names, even for single entries.
+Thank you for the review.
 
-Best regards,
-Krzysztof
+On Tue, Nov 4, 2025 at 12:01=E2=80=AFPM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Prabhakar,
+>
+> Thank you for the patch.
+>
+> On Mon, Nov 03, 2025 at 07:45:54PM +0000, Prabhakar wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Update the FCP DT schema to permit three clock inputs for the RZ/V2N So=
+C.
+> > The FCP block on this SoC requires three separate clocks, unlike other
+> > variants which use only one.
+> >
+> > Fixes: f42eddf44fbf ("media: dt-bindings: media: renesas,fcp: Document =
+RZ/V2N SoC")
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+>
+> > ---
+> > Note, there are no current users of the RZ/V2N FCP compatible string in
+> > the kernel tree.
+> > ---
+> >  Documentation/devicetree/bindings/media/renesas,fcp.yaml | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+Can you please pick this patch.
+
+Cheers,
+Prabhakar
+
+> > diff --git a/Documentation/devicetree/bindings/media/renesas,fcp.yaml b=
+/Documentation/devicetree/bindings/media/renesas,fcp.yaml
+> > index cf92dfe69637..b5eff6fec8a9 100644
+> > --- a/Documentation/devicetree/bindings/media/renesas,fcp.yaml
+> > +++ b/Documentation/devicetree/bindings/media/renesas,fcp.yaml
+> > @@ -77,6 +77,7 @@ allOf:
+> >                - renesas,r9a07g043u-fcpvd
+> >                - renesas,r9a07g044-fcpvd
+> >                - renesas,r9a07g054-fcpvd
+> > +              - renesas,r9a09g056-fcpvd
+> >                - renesas,r9a09g057-fcpvd
+> >      then:
+> >        properties:
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 
