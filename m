@@ -1,224 +1,167 @@
-Return-Path: <linux-renesas-soc+bounces-26596-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26595-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6220AD12721
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Jan 2026 13:04:42 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD67ED12715
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Jan 2026 13:04:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id EB21B301B8A2
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Jan 2026 12:04:31 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D39AF3006F58
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Jan 2026 12:04:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42B92356A07;
-	Mon, 12 Jan 2026 12:04:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61548352942;
+	Mon, 12 Jan 2026 12:04:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DDjZfSNy"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mjMe152x"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35D7935770A;
-	Mon, 12 Jan 2026 12:04:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B12582C21F0
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 12 Jan 2026 12:04:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768219471; cv=none; b=OtyawGBfk/6y5GsMarBvC70GGYMgOjgynMf5JfWj1shfCkgFoow7CbRPTqPlwVtpfoOAuNzc3BY6sK9nXINdHyIUUJMKZQvlU/Bv2W9CR5JK+aJ5JSpzrN40U+5tdhPpq51Q4G9TnMCqQ3iK0Qr2PT9gzCCJ+Vx9NKgWyclWwR8=
+	t=1768219465; cv=none; b=ckSejkH+DWgLzxdYSGlpiGoy6C8SmmqITiYkmqUyPxVRiAVtZYNEFXclJG8WhGMfLGdPJFNtEEGLq51X7oVCf+UJH1ATh1EuhggIRMeTQn774a36R8OTc6d66aS6OSaJ31dWXicrEFkDN67H6bQ1yzxy5vMjxpZVqQSrdaR7M0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768219471; c=relaxed/simple;
-	bh=5BiEA3YT3OvxJlu4+BexDLoaIF8cPC1fj4FQDGyymNA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EJ5uEKtUbZgGrw52JQfiwWiI5ZrSU9H7e+2mc66gSerWspd1ZbNmPbJ0u5ORj8tKCrgRCSHLqdLh3EdFplOf4c0tfjgt8e02cN2DO2hdVIrRAkAMg34/PHHktAgLFUK3Lq8pjiZw+RVcQt5SX3M4tR3/ur2YZcgl+Qz1JBNXRHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DDjZfSNy; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768219467; x=1799755467;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5BiEA3YT3OvxJlu4+BexDLoaIF8cPC1fj4FQDGyymNA=;
-  b=DDjZfSNyxTncEYNcrrpaxY4o5VtVjcXdYOXq/x8lftRhErNZCpQ/Kzft
-   qAQlLZibtjd7ee65KFFe57SPs8Wb1MC+9/h685Fz+G563QhlG075o2ubE
-   Ls+guReaAN78mfXonpc/yp/dwU/T46JOVmA0YQgajSUBML807N63sbm13
-   fh/gDDdBj+osRUna6Zw1b4+hssbUCMLbT/T/ME09AU0pqJDNAU9bzjax1
-   gFgiyNsj69/P50pwKUQrpqADF7AV6qM7YCuLQTbifg4SHX5S5l5Ogl3nt
-   9vrUXgsCTBjLYSRgBp4XoTWzszvj6Q4zwg/1DSlMZxyTvvrxPN+EtHmrA
-   Q==;
-X-CSE-ConnectionGUID: ciGn0PVuQNmJDVqQ6KhXbQ==
-X-CSE-MsgGUID: j7AyeWHIS/iybjCMfnBoJQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="80597332"
-X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="80597332"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 04:04:25 -0800
-X-CSE-ConnectionGUID: XAibRldxTZ6xSE7cKV3erw==
-X-CSE-MsgGUID: kqm52HRnSw29im3jfiPOTw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="208554124"
-Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost) ([10.245.245.37])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 04:03:57 -0800
-Date: Mon, 12 Jan 2026 14:03:54 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: Mark Brown <broonie@kernel.org>,
-	Varshini Rajendran <varshini.rajendran@microchip.com>,
-	Mikhail Kshevetskiy <mikhail.kshevetskiy@iopsys.eu>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Sunny Luo <sunny.luo@amlogic.com>, Janne Grunau <j@jannau.net>,
-	Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>,
-	CL Wang <cl634@andestech.com>,
-	Manikandan Muralidharan <manikandan.m@microchip.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Jonas Gorski <jonas.gorski@gmail.com>, Hang Zhou <929513338@qq.com>,
-	Jun Guo <jun.guo@cixtech.com>, Philipp Stanner <phasta@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	=?iso-8859-1?Q?Beno=EEt?= Monin <benoit.monin@bootlin.com>,
-	Shiji Yang <yangshiji66@outlook.com>,
-	James Clark <james.clark@linaro.org>,
-	Jonathan Marek <jonathan@marek.ca>,
-	Carlos Song <carlos.song@nxp.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Xianwei Zhao <xianwei.zhao@amlogic.com>,
-	Prajna Rajendra Kumar <prajna.rajendrakumar@microchip.com>,
-	Sergio Perez Gonzalez <sperezglz@gmail.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Qianfeng Rong <rongqianfeng@vivo.com>,
-	Haibo Chen <haibo.chen@nxp.com>, Gabor Juhos <j4g8y7@gmail.com>,
-	Md Sadre Alam <quic_mdalam@quicinc.com>,
-	Rosen Penev <rosenp@gmail.com>,
-	Luis de Arquer <luis.dearquer@inertim.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>,
-	Tudor Ambarus <tudor.ambarus@linaro.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Longbin Li <looong.bin@gmail.com>,
-	Patrice Chotard <patrice.chotard@foss.st.com>,
-	=?iso-8859-1?Q?Cl=E9ment?= Le Goffic <clement.legoffic@foss.st.com>,
-	Alessandro Grassi <alessandro.grassi@mailbox.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Darshan R <rathod.darshan.0896@gmail.com>,
-	Aaron Kling <webgeek1234@gmail.com>, Vishwaroop A <va@nvidia.com>,
-	Haixu Cui <quic_haixcui@quicinc.com>,
-	Darshan Rathod <darshanrathod475@gmail.com>,
-	linux-spi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
-	asahi@lists.linux.dev, linux-aspeed@lists.ozlabs.org,
-	openbmc@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org,
-	linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
-	imx@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-mediatek@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-	virtualization@lists.linux.dev,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Lorenzo Bianconi <lorenzo@kernel.org>, Ray Liu <ray.liu@airoha.com>,
-	Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>,
-	=?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Ryan Wanner <ryan.wanner@microchip.com>,
-	Michael Hennerich <michael.hennerich@analog.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Kamal Dasu <kamal.dasu@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	William Zhang <william.zhang@broadcom.com>,
-	Kursad Oney <kursad.oney@broadcom.com>,
-	Anand Gore <anand.gore@broadcom.com>,
-	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Vladimir Oltean <olteanv@gmail.com>, Frank Li <Frank.Li@nxp.com>,
-	Jean-Marie Verdun <verdun@hpe.com>,
-	Nick Hawkins <nick.hawkins@hpe.com>,
-	Yang Shen <shenyang39@huawei.com>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Lixu Zhang <lixu.zhang@intel.com>, Yinbo Zhu <zhuyinbo@loongson.cn>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Daire McNamara <daire.mcnamara@microchip.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Avi Fishman <avifishman70@gmail.com>,
-	Tomer Maimon <tmaimon77@gmail.com>,
-	Tali Perry <tali.perry1@gmail.com>,
-	Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>,
-	Benjamin Fair <benjaminfair@google.com>, Han Xu <han.xu@nxp.com>,
-	Yogesh Gaur <yogeshgaur.83@gmail.com>,
-	Linus Walleij <linusw@kernel.org>, Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Chris Packham <chris.packham@alliedtelesis.co.nz>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Paul Walmsley <pjw@kernel.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Li-hao Kuo <lhjeff911@gmail.com>,
-	Masahisa Kojima <masahisa.kojima@linaro.org>,
-	Jassi Brar <jaswinder.singh@linaro.org>,
-	Laxman Dewangan <ldewangan@nvidia.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>,
-	Michal Simek <michal.simek@amd.com>,
-	Max Filippov <jcmvbkbc@gmail.com>
-Subject: Re: [PATCH v1 1/4] spi: Propagate default fwnode to the SPI
- controller device
-Message-ID: <aWTjKvbThxx9hSuL@smile.fi.intel.com>
-References: <20260108203004.3538449-1-andriy.shevchenko@linux.intel.com>
- <20260108203004.3538449-2-andriy.shevchenko@linux.intel.com>
- <aWTgzqXrGMcdpFOr@opensource.cirrus.com>
+	s=arc-20240116; t=1768219465; c=relaxed/simple;
+	bh=owV/mzAQMgSgZqT2YNEQVofDEFHHk/+21LmjhX5q+Rk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rCt2j7tKwW9SfEvj0J43rHPHt9Xs8BuY6YkEAXN97xkRSC5uYVRjd1BeuAV/cj5l1Qpf/l7ovEoTBR38mvGDdTji/+5+ypnEykIKbr4C1Wh1UEvwzxdKrFjb4rNlTENGN1gceu2hzHFmHRbCDgJL8iTa+Ppcce0wPw7ISrWH8es=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mjMe152x; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-42fbc305914so4477116f8f.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 12 Jan 2026 04:04:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768219462; x=1768824262; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4qCjJpPI4Nv2Sruqvo8JVCZ2nInrDNeq4vKMW92xMvc=;
+        b=mjMe152xj/lPCBJAHZ9j3TmmJeIqUB9yWgDVSCCq8IErpZkM9IDqFS7uBJQqMzrRJQ
+         K424xE1wXa6ksNhB8HVwYme4Hhiwk2YuI45VKs9bQjVDigh5rgFkb7P0OV9h98mBsKF5
+         GyCeIiwkYj9KeP6UZE5EkGYm600zXjrcug87jT6IKrSr99ky3Ihne17fieVcfqyPMT1h
+         SnFa8eOm2RwMZd401qv/Tx5FV/Xop5o2g196KNkVX/Z/jt+bOmPYtKaafG5QPpIcc58O
+         0G+jNr60tTKlUXxWRQ0tkcrSw23noR3updlySnTaSH4K77kWQZMvqAil+cHT5yKNpK16
+         ArFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768219462; x=1768824262;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=4qCjJpPI4Nv2Sruqvo8JVCZ2nInrDNeq4vKMW92xMvc=;
+        b=fjE65KDy4v5i6O33e8ueofOxGiMrC8MKJpBbk04fvhLqVWq7i0qER2S3ZKkTOU8I2T
+         HN4ylpsiS6QA8YsILagWoUhsUDM/xXFstUeJltPBxKIdDXVFG/fRuddfBolWAtEr4Wnw
+         S29hMwfC3RH2qs257hCPEHbftyl2oT18G8pCHV0ANwl78wLiYyp5If6vD5DBbKR9swCm
+         Ss2oEBkD5z4f5zyGm/118Gieb6Ikx4rsV/WpbwtnY5HzKLOOuV/gpTzcl8hVExlcCN+7
+         1C8BBXcBnfeJP+rqV8f4JVHopWUOEJwklUSbvrjMwIbI8xAeTnY+NMZnM62AoBXYWHhs
+         ZX4w==
+X-Forwarded-Encrypted: i=1; AJvYcCWVhfO04pGszFLnNp4s2AZy9UDx8OIu/5UftLrCC+M4pot+DILUNwNYlKpJFz2kBAL+TabvD6ZvMiRXxWGDUfFhVQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZhnIVHYWdY5+oQQ1ae6bYTl4xVb3i9e64bWilIzPIGKrS0EKE
+	8FmVS2CVxRM/M81n5c3/pKVB6Cpf/UMPlsjKr3gQNoMmJoNJrlBFWdlnw/t2NxllioqdiAqLgkj
+	RVYamloJUBvX7bSnnuej4mtTxu2KIO2I=
+X-Gm-Gg: AY/fxX7Q+cxu3SagZucfC3KpNvslD27n7a956iuRZq4J+IuzqhG041wIxkMyWYKOKMC
+	/Q5WSglt2CVQrqRYHG6i+sbrD37nTra4XudA1P273j3lI0MIOI2FxnefEpIZcU3x/6wyTAenm0f
+	CwnF2Nyq4f0BTvy7m4FMxuvWDAqukD4dQBD0YKfO88KGTKbMLT+JwiZEEWP5yFvHEkAcu/RCQuV
+	LS+LDL+ryHfLNNhOz16Nw+S/A/mVY2vVHt1ER+b2OceRTGl5gOGVkjtTifgGIUa873vFhJuaOVr
+	5h6zVwdq6akcSAOPC6oDLIbSZsY3+jM574T2B4vMBzM9IEY5XOVp8uo=
+X-Google-Smtp-Source: AGHT+IFleqUzD9PdoNRtoRImQZ9LCtOvaSoUd+ku2Uay3M7C+gWLGIYYIGe551DYKQUEtcgJaYVpbuo5ppnL49v+1SM=
+X-Received: by 2002:a05:6000:1844:b0:42f:bab5:953b with SMTP id
+ ffacd0b85a97d-432c37758demr20987353f8f.16.1768219461649; Mon, 12 Jan 2026
+ 04:04:21 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aWTgzqXrGMcdpFOr@opensource.cirrus.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+References: <20260109142250.3313448-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20260109142250.3313448-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <aWEUvef4eDlmuOic@shell.armlinux.org.uk>
+In-Reply-To: <aWEUvef4eDlmuOic@shell.armlinux.org.uk>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Mon, 12 Jan 2026 12:03:55 +0000
+X-Gm-Features: AZwV_QioW4DXXcjEyYpawN9Qxe7RxIEI2XGhrh2bEmXD6OAYa4cj6ZYh-0RkOlQ
+Message-ID: <CA+V-a8vKJ6Z3Xp-u69oGzXr7ju+5RVdMXQcqErm8m8rU7pvauQ@mail.gmail.com>
+Subject: Re: [PATCH net-next v2 2/2] net: pcs: rzn1-miic: Add support for PHY
+ link active-level configuration
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Heiner Kallweit <hkallweit1@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
+	netdev@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 12, 2026 at 11:53:50AM +0000, Charles Keepax wrote:
-> On Thu, Jan 08, 2026 at 09:23:38PM +0100, Andy Shevchenko wrote:
-> > Most of the SPI controller drivers share the parent's fwnode
-> > by explicit assignment. Propagate the default by SPI core,
-> > so they may drop that in the code. Only corner cases may require
-> > a special treatment and we simply (re)assign the controller's
-> > fwnode explicitly (as it's done right now, no changes required
-> > for that).
-> 
-> Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-> Tested-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Hi Russell,
 
-Thank you very much! I'm now pretty much confident about the change.
+Thank you for the review.
 
--- 
-With Best Regards,
-Andy Shevchenko
+On Fri, Jan 9, 2026 at 2:46=E2=80=AFPM Russell King (Oracle)
+<linux@armlinux.org.uk> wrote:
+>
+> On Fri, Jan 09, 2026 at 02:22:50PM +0000, Prabhakar wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Add support to configure the PHY link signal active level per converter
+> > using the DT property "renesas,miic-phylink-active-low".
+> >
+> > Introduce the MIIC_PHYLINK register definition and extend the MIIC driv=
+er
+> > with a new `phylink` structure to store the mask and value for PHY link
+> > configuration. Implement `miic_configure_phylink()` to determine the bi=
+t
+> > position and polarity for each port based on the SoC type, such as RZ/N=
+1
+> > or RZ/T2H/N2H.
+> >
+> > The accumulated configuration is stored during DT parsing and applied
+> > later in `miic_probe()` after hardware initialization, since the MIIC
+> > registers can only be modified safely once the hardware setup is comple=
+te.
+>
+> Please do not re-use "phylink", we have a subsystem in the kernel named
+> as such, and, for example, it too defines "struct phylink".
+>
+> > +/**
+> > + * struct phylink - Phylink configuration
+> > + * @mask: Mask of phylink bits
+> > + * @val: Value of phylink bits
+> > + */
+> > +struct phylink {
+> > +     u32 mask;
+> > +     u32 val;
+> > +};
+> > +
+>
+> You don't get a warning for this, because, although you have:
+>
+> #include <linux/phylink.h>
+>
+> which delares "struct phylink" as:
+>
+> struct phylink;
+>
+> The definition of this structure is entirely private to
+> drivers/net/phy/phylink.c and is intentionally not exposed.
+>
+> By redefining "struct phylink" here, it means that anyone using gdb
+> is going to run into problems - which version of this struct is the
+> right one for any particular pointer.
+>
+Ack, I will rename the struct to `miic_phy_link_cfg`.
 
+> You describe this feature as "PHY-link" and "PHY link" in your commit
+> and cover messages. Please use "phy_link" and "PHY_LINK" as identifies
+> for this so that grep can distinguish between your PHY link feature
+> and the phylink infrastructure.
+>
+Ok, I will use "phy_link"/ "PHY_LINK".
 
+Cheers,
+Prabhakar
 
