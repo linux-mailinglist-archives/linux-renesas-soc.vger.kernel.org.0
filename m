@@ -1,145 +1,165 @@
-Return-Path: <linux-renesas-soc+bounces-26579-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26580-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97E77D11842
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Jan 2026 10:34:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92DF7D11B1A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Jan 2026 11:02:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E57353071B88
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Jan 2026 09:30:42 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B47B430F090B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Jan 2026 09:57:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A222E25B1DA;
-	Mon, 12 Jan 2026 09:30:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EACF927AC4D;
+	Mon, 12 Jan 2026 09:57:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="OsUA9GSJ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nHBh9bM8"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FA0E246770
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 12 Jan 2026 09:30:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 844512777F3
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 12 Jan 2026 09:57:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768210242; cv=none; b=bzKJVyUfggiVqVJ+dm4TkWDg2T2sw40XGJ2kTATBkzlpwwunF6rr1wCJtvCrjjmzkvLpIJnb8BjzCCL4yALx9cKLDKsljHmRmLu8sJGpdUoWjxcbQDRN4360rebGJyFamnQi/LKT6urbtymk9pczNNZ/YJJgvRSDVBA2E9jn+BI=
+	t=1768211851; cv=none; b=TBNGza/tg/S+x6R+aU9twOM8grmLO5HN0U0r5GNzuuPC9fEQIAxZ4ZTaP5RyjYFV6qQBXR9IoTQ8hX3Rn1JCE3Pt51S9KRJPMY3eQh5rTJuGRJBPBdGP4YA7iH5eF4Bl2xNIjijTP+1LbRP+MXHWCUOsLaFx6Ely92MXPwkxJeg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768210242; c=relaxed/simple;
-	bh=GWV28/vmpmO8SPm3F91Gti98N5Hg36koBeIE519B3i8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=B5MjhvC55c94tntOo+NWn/DElYFioLtONHcEV2er9UDAIyUlDucgQlmeeKjNRdnUevtnSW1r+Ruo+9k+sXEAUN/QrtlWIJz6BMsCcO8YiD+yVf3AKqceGvcN6DU687W0+NoBTvwyHIR3y3cIGq7DtfNeC5GXHiXmibVJaMv/vos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=OsUA9GSJ; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-b87018f11e3so192372166b.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 12 Jan 2026 01:30:39 -0800 (PST)
+	s=arc-20240116; t=1768211851; c=relaxed/simple;
+	bh=LugxlYbsy+Qfs3ph7wJKDXpwM4nYBdQrHLWsWqrkdFI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TFUKOFiQa5g9XN0RYfJAeNfMKjWeTVNkcIUSiwOkGbjn140GdjrZxi/xD1inn5pF91QdSX4C4WpA+OH39UhtZu5bHzuB2rHnX7mButqeDWuCgxThd7DJENC3UZUIkjZ7koP2MLoy4034cnvN5Ran2RR8UMBg0eCOY0cKHVoIzwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nHBh9bM8; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-4327778df7fso3851017f8f.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 12 Jan 2026 01:57:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1768210238; x=1768815038; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lNLrzr3qkVx4OIY6GjV8r8rlvuM/wNc6aOYx08xVrrQ=;
-        b=OsUA9GSJiQJnuR4akDZDQgEHpG3KntWMVfYqn/jnln94cFOp6IK2+zuCgsx5iITR4/
-         ZtK6Udk1c17cnG1DBmNhCtfDNk+RF1z364tVbEhTB96KEOIJ3BW0VVbexGPQQro+i2+m
-         LSW2QP5LXqypZKOCB4t6ury7aazAFlbYbbAKlkMxeoU/MFouYgB6Q6RLcW68ccLUzeBg
-         M/MtY62qG2RaFXw/fE0PcxEsu/BHBLU5Zy4yplijU4Vve3/UXAl5iBMGFue15j4sajSR
-         P6j6UjFHspU1BQ3Vr8KRwjwjAfVGOkrkiuOvqEz62tpfMxF5f0rVqUCpmO6q4t988OHA
-         /BHQ==
+        d=gmail.com; s=20230601; t=1768211847; x=1768816647; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Mzvt2RNei64w7LNow6KpAr3At/3c7C1LxeBgW5hPbzQ=;
+        b=nHBh9bM8L5Qcppt7wd4Dxx480Cv2Y/bZ5/pHahDuDTUGUkLzlnvNhqA3LWKoL6nxi9
+         tlsveaPdifbXZ6l6cUyJcmolNXMnECnHGtmf25lIXwcjs4JyMD77Wn7MS3vcwvp37Fas
+         uhXfdc2aSTKis08wZhWSgGc6XO9hBEF0RfnybweQ9Rd/jWPXWm83CAljOd7bGvLwvGRk
+         btyIkaQLy/o1LdvDGH6gz0yqGwAWt/SeQge6y8DQ9WQ1MAiUJJ1+SduPCtcUwz5O+oEH
+         ziNxFtGGyRvg2XglC1FQf2amkDSOfWQOnHRIrfT65EqMogFMMV3kaNVoiyrYZSyAYXx7
+         5szg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768210238; x=1768815038;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lNLrzr3qkVx4OIY6GjV8r8rlvuM/wNc6aOYx08xVrrQ=;
-        b=Xr8pyiBwp1ZQpHJAo9XKyrYg0dDv6Wx5Gd6rzwj06k0gQ8X++KyuoUCoxYyX6zoeGK
-         AO2Sdoz1gWgyShlDy+V7lEsdZyutgVuulsmeVnehlC8w0ZpZmqIWyMToDFJrmW2cOLfD
-         wdBxVXfjUQ+r9X4i3nX4T6g73wEe43CjntcnXOA+YiEtb+Xn1qltCc3cfXwUZfIdnUf9
-         //xvNAgc7jtKpD3volTzZYvc0oGc8Pyj+Z2G6gm86WdNgb+Q6BBcqvkhWpUgdm9v/twd
-         2QelkRnubA5jx9e1jAasfy5J7BEBQHg38RrpAVIoU1mSgyIZQvU/Hy7ZvvDBk14aMcGo
-         A/0A==
-X-Gm-Message-State: AOJu0YxQxUH/jLmep1iTitSTr1EBqqZXpsDrSe55manAeCfan6Y/filH
-	p7tAc5wYlnUAc5B1aSt9MGrJG6ojMao9LGOEauHa/AbYcSgU1wLKJdAbUi/4n9PNvFc=
-X-Gm-Gg: AY/fxX6aQ4T2rjH4et5Sb3Ismc7GiJtl9tkHYhaSrH+pk/TBo+K+PnudorYlGkzYmyy
-	JDDnqLIk1q3MBPcfrLARAyLLc1upBzNU9vSe+SM+zgic1YMaIl1oSoMe+R8UbIRep8sqI246Idu
-	Z0K9sx9AuQGP8iCZ8vsQ59S2dgSTRCxOGcqAUoSkhGKKs/4QpNz3oL5M3SFX1ancyFs7vNhgeNX
-	+h667PdnwmQOUd7XB4OnI2rCf5WYIW0q8mvkPqPvuY8ui416agRIKNmnV9T/qWlXcpea0GnpVmz
-	9iCmni+rHtBpdfLWo2I9ufjxDevY3cLcr1OD6pAAqrYtmNc5+wNQl/tQxTHe9+gjqpnxjw7Czdn
-	a/vXRrR9UyTLj5ZE3oprh8Gx3XmlIga+wJT5iMQIoOlbRyYhd5cFK7wb3CreSUuOECEEAd/iXTf
-	+pWnv7pEJXAiP0IDSSxQ==
-X-Google-Smtp-Source: AGHT+IE3jERyAgUMeyNFYUFeB+yy2mozpdQFjJ6f8BNz9krP4mlTPOQQ5ezMeogXcOrzxqj3jJR6fg==
-X-Received: by 2002:a17:906:f5a1:b0:b7a:72bd:ac65 with SMTP id a640c23a62f3a-b8444c3fc39mr1534919766b.9.1768210237758;
-        Mon, 12 Jan 2026 01:30:37 -0800 (PST)
-Received: from [192.168.50.4] ([82.78.167.31])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b844e46ee63sm1446817366b.15.2026.01.12.01.30.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Jan 2026 01:30:37 -0800 (PST)
-Message-ID: <2ad40570-102e-448b-bf40-06af8ecdfca2@tuxon.dev>
-Date: Mon, 12 Jan 2026 11:30:35 +0200
+        d=1e100.net; s=20230601; t=1768211847; x=1768816647;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Mzvt2RNei64w7LNow6KpAr3At/3c7C1LxeBgW5hPbzQ=;
+        b=Bc8we0vKRrbOgFKhL10e7hYJZhEZpO+gmY7Pg/j7YgU2K8SUhpVWQ8GF3XA+stzNeQ
+         tQ9GVIsQ7S9aKomYKoqk/9wYzM2pUNsWhQbj9h/vMY6XSux/EsoODUOUog+jnqvidhTB
+         MaogLZJuVpCaw33Z4qur5SWbzNrlMblHBLLxYTT3D/Ws9NcUnRogw2h+lfU5WZ41brOw
+         Lug7sDBLvnIBw7A1anonbFaMgPcXVD2Ilw5QT7CARHySeHU77QQxiQK8xAkVfyDAApbX
+         vU8hHIMWlmYQ3L0SIENiFp9OxdBuW4jdyJNit6Lis/299WZV0GiAi4R5XXTXteaatPNb
+         ImAg==
+X-Forwarded-Encrypted: i=1; AJvYcCWByrmV0cRxWimFwKY3vZ+0viVQQfWU5/dfrqrUxnDaJBmSSuXxrDR++fl38KjtlWs+Eh/InXgRrBhYqsubMAkhEQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz8E0AiGWEo/M14bxgaNzsxMizUEesLEsHIG+XoiRvTWoP/MJR+
+	K4ihsBGrUCKKZVFIuKEEYhOEWqEwe2ztORwcNqpu+DT39TIuqcAuWXNe
+X-Gm-Gg: AY/fxX6DGFnyiah4uqgATELdDVyXVFkFuW53AWgiVBSlysHi5DlcJx7NeXGQyUXxHdn
+	smBCc08Vb4VtbKHTF79MRq8622k4+XvVOK5xhPBjPemf/nstQMLi52xPpSjrfrsOvO5Yd1WN51S
+	kzVQWANpFLxX3/WkqeUHblnYONJCxAeEFr7PEB01EVOkCngA7CrBj5hyw7JdgqN/MHGzZ4KLEvK
+	uFy+Qc7xwW+rV6I9V/dDhQ5BcudE/sEmTtWR5G6UhLOGnh5fmbY+7ZcXMtAJxvdorort+AoX26E
+	++WWkaOJFpumCDGv+6HsYBZVNDQo3Y1qoMmPgd2Fhc0RI6MKt1V+lblovPTAH6RVqkPQ8OTnZo+
+	PLy2UrVXGFwMKzdX/v5/U0sfYGzXznk4EW8MCeQtGlgqpX23X+Y5EviqjlW6AcKOu14XNctGu9q
+	eGy7Yuujm8reZagLRBCoEVeEvjW7FzdkSwH2eDSw//wFFnxdg6bgBznEaAS3Hgb7FvOTjt8UKMy
+	sTzOZi9oWzNm1F+QIYMfxt2
+X-Google-Smtp-Source: AGHT+IHiMx0miHXV1Prj6ALTq018isqRXrCy6aZ7AnOL0DZCWJCV1GIa1Uskao4vqlEinSE11baR0w==
+X-Received: by 2002:a05:6000:616:b0:431:9f1:e4c7 with SMTP id ffacd0b85a97d-432c363418dmr19272921f8f.21.1768211847238;
+        Mon, 12 Jan 2026 01:57:27 -0800 (PST)
+Received: from iku.Home ([2a06:5906:61b:2d00:9336:b2a5:a8c1:722e])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd5ee5e3sm37359450f8f.35.2026.01.12.01.57.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Jan 2026 01:57:26 -0800 (PST)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: linux-kernel@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2] dt-bindings: serial: sh-sci: Fold single-entry compatibles into enum
+Date: Mon, 12 Jan 2026 09:57:22 +0000
+Message-ID: <20260112095722.25556-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] dmaengine: sh: rz-dmac: Refactor runtime PM handling
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
- tomm.merciai@gmail.com
-Cc: linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com,
- Vinod Koul <vkoul@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
- dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250905144427.1840684-1-tommaso.merciai.xr@bp.renesas.com>
- <20250905144427.1840684-4-tommaso.merciai.xr@bp.renesas.com>
-Content-Language: en-US
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <20250905144427.1840684-4-tommaso.merciai.xr@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi, Tommaso,
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On 9/5/25 17:44, Tommaso Merciai wrote:
-> Refactor runtime PM handling to ensure correct power management and prevent
-> resource leaks.  Invoke pm_runtime_get_sync() when allocating DMA channel
-> resources and pm_runtime_put() when freeing them.  Add pm_runtime_put() in
-> rz_dmac_probe() to balance the usage count during device initialization,
-> and remove the unnecessary pm_runtime_put() from rz_dmac_remove() to avoid
-> PM inconsistencies.
-> 
-> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> ---
->   drivers/dma/sh/rz-dmac.c | 6 ++++--
->   1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/dma/sh/rz-dmac.c b/drivers/dma/sh/rz-dmac.c
-> index 0bc11a6038383..4ab6076f5499e 100644
-> --- a/drivers/dma/sh/rz-dmac.c
-> +++ b/drivers/dma/sh/rz-dmac.c
-> @@ -455,7 +455,7 @@ static int rz_dmac_alloc_chan_resources(struct dma_chan *chan)
->   	if (!channel->descs_allocated)
->   		return -ENOMEM;
->   
-> -	return channel->descs_allocated;
-> +	return pm_runtime_get_sync(chan->device->dev);
+Group single compatibles into enum.
 
-This looks wrong to me as, rz_dmac_alloc_chan_resources() could be 
-called from the following path:
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+v1->v2:
+- Dropped "- items:" to reduce indentation level.
+- Added Reviewed-by tag. 
+---
+ .../devicetree/bindings/serial/renesas,scif.yaml  | 15 +++++----------
+ 1 file changed, 5 insertions(+), 10 deletions(-)
 
-dma_request_chan() ->
-   find_candidate() ->
-     dma_chan_get() ->
-       rz_dmac_alloc_chan_resources()
+diff --git a/Documentation/devicetree/bindings/serial/renesas,scif.yaml b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
+index 72483bc3274d..a6ef02327be8 100644
+--- a/Documentation/devicetree/bindings/serial/renesas,scif.yaml
++++ b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
+@@ -12,15 +12,16 @@ maintainers:
+ properties:
+   compatible:
+     oneOf:
++      - enum:
++          - renesas,scif-r7s9210          # RZ/A2
++          - renesas,scif-r9a07g044        # RZ/G2{L,LC}
++          - renesas,scif-r9a09g057        # RZ/V2H(P)
++
+       - items:
+           - enum:
+               - renesas,scif-r7s72100     # RZ/A1H
+           - const: renesas,scif           # generic SCIF compatible UART
+ 
+-      - items:
+-          - enum:
+-              - renesas,scif-r7s9210      # RZ/A2
+-
+       - items:
+           - enum:
+               - renesas,scif-r8a7778      # R-Car M1
+@@ -76,10 +77,6 @@ properties:
+           - const: renesas,rcar-gen5-scif # R-Car Gen5
+           - const: renesas,scif           # generic SCIF compatible UART
+ 
+-      - items:
+-          - enum:
+-              - renesas,scif-r9a07g044      # RZ/G2{L,LC}
+-
+       - items:
+           - enum:
+               - renesas,scif-r9a07g043      # RZ/G2UL and RZ/Five
+@@ -87,8 +84,6 @@ properties:
+               - renesas,scif-r9a08g045      # RZ/G3S
+           - const: renesas,scif-r9a07g044   # RZ/G2{L,LC} fallback
+ 
+-      - const: renesas,scif-r9a09g057       # RZ/V2H(P)
+-
+       - items:
+           - enum:
+               - renesas,scif-r9a09g047      # RZ/G3E
+-- 
+2.52.0
 
-With this, the runtime PM reference counter is incremented on 
-dma_request_chan() calls, when DMA consumers request DMA channels, and 
-remains different than zero until the DMA channel is put. But, on 
-suspend path, the runtime PM reference counter is not touched even when 
-there are DMA channels requested.
-
-Am I missing something?
-
-Thank you,
-Claudiu
 
