@@ -1,330 +1,224 @@
-Return-Path: <linux-renesas-soc+bounces-26594-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26596-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95B81D126E5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Jan 2026 13:00:23 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6220AD12721
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Jan 2026 13:04:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 7BFB3304EBE2
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Jan 2026 12:00:08 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id EB21B301B8A2
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Jan 2026 12:04:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08825357730;
-	Mon, 12 Jan 2026 12:00:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42B92356A07;
+	Mon, 12 Jan 2026 12:04:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="VRUDcRsx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DDjZfSNy"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010065.outbound.protection.outlook.com [52.101.228.65])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEF5D346FD1;
-	Mon, 12 Jan 2026 12:00:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.65
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768219203; cv=fail; b=c6gRosjDS6d5NoCyr7RAaJcfM8rRA81md46NKzDzA59LFji4J/1GBmwWlIg2v1huRRv4RUhE2f9IWcq6mTXy7v3n1FtS+Q53swzH9eTs4ws3WxT30xg7QtPa5SYnroZyMKrEzk8xDM2N0MOFFkcAXf18LKUARdM78rgDIXHJbEw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768219203; c=relaxed/simple;
-	bh=kmgAtHV5w3ARoRWmHTZrmgy+3fPbOUWngoXgNDT6uTM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=W+17S9DssktqKeBkgL8E7joRvHZSLV3/345c9JZviU4sMPdyUaoOH+OC9kcyYqpOCmgc/QiqjImmlADGGI1rzQnptVWBIMfzpLIP5eKjrSjTsc6m0lhcvPTvtujO4iXP1/cXZtu9gNkfNPitfkRyWCWXBpEmk9kdgXLuIh37luM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=VRUDcRsx; arc=fail smtp.client-ip=52.101.228.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=n0OlHXnlCiWF7KP1ASO9m1KCAE4pU0R7KG582lRm7F8FCChCuPVapi4kMqkXJMlZfSkgjIZOekv0hlKJCsnGCubHgtDTjSC4NqL3sph/9IwfS5Huy64jtXMUKiAmwgZ2HGPMD1d0bCyLxHFI3DoXQAU88ObVa5vYc7FihXyiSNaqLBZMij/fHtEyechVKh8hM0vEBhzcfzGU2CE276LqV9U0+Rs8DwtKDxInEo4v27OCc7dbp0e8E6yBYqns0l7lTNd3y5JAxGjEVVr4ih2/rHWKF5986E4bK9VNnKOBSscwwvtGdu0x/OrHj8hE9W9L62IIbT793xp1HIrS+xH16Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Gyqu2gF4PpmoD8ysDPqfYjBYqBHS8NS8AectZQO6fB4=;
- b=Io+T9draECsplCHJF0nxZfrugkSdp7FMFKKl0YwmBjWMnZ62UnZPaJxgFT3g6zzkenH7BgS7h6WqcL4xPlFB1d8PjVwSt/fPIgYdeIVpfsrNmwnpSndqNaMo5o+ceYg+9t5snlUUFvMcEJadpDEPi/EyeeyclEI97S9uOCpkNje3hhHJQ/oMZI1tUeMftq1jJE17uru8tbEUDbxUTPWslsngobEUYhWr9c/OQqVYkBsKYv22KyK5Q4nzDSY6R+Eub9Ib1BotrTWH+xM0Mq/b8ivO/622qBlAplrviqoF7XBFuXhJ2+6XRLIdn5pQnd6EkEABic0mrmvC4Lhw15fOsA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Gyqu2gF4PpmoD8ysDPqfYjBYqBHS8NS8AectZQO6fB4=;
- b=VRUDcRsxynVl8dlHHFTvPvBJd47gz8EsU2qs0GRcXd25BOCMmo2KKqLga+PczelS1iUSsdUSpfZ8jA78dc7uYHJMP/SBWdyfuqSOgWKJV0PzLy6N2roRDUifLIUPXTNa+wAkg3T8SMbp69mL2W+tusZBf6xucqhgtg6zpGeNf4M=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com (2603:1096:400:3e1::6)
- by TYYPR01MB12544.jpnprd01.prod.outlook.com (2603:1096:405:198::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.4; Mon, 12 Jan
- 2026 11:59:56 +0000
-Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com
- ([fe80::33f1:f7cd:46be:e4d8]) by TYCPR01MB11947.jpnprd01.prod.outlook.com
- ([fe80::33f1:f7cd:46be:e4d8%5]) with mapi id 15.20.9520.003; Mon, 12 Jan 2026
- 11:59:56 +0000
-Date: Mon, 12 Jan 2026 12:59:37 +0100
-From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, tomm.merciai@gmail.com,
-	linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35D7935770A;
+	Mon, 12 Jan 2026 12:04:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768219471; cv=none; b=OtyawGBfk/6y5GsMarBvC70GGYMgOjgynMf5JfWj1shfCkgFoow7CbRPTqPlwVtpfoOAuNzc3BY6sK9nXINdHyIUUJMKZQvlU/Bv2W9CR5JK+aJ5JSpzrN40U+5tdhPpq51Q4G9TnMCqQ3iK0Qr2PT9gzCCJ+Vx9NKgWyclWwR8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768219471; c=relaxed/simple;
+	bh=5BiEA3YT3OvxJlu4+BexDLoaIF8cPC1fj4FQDGyymNA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EJ5uEKtUbZgGrw52JQfiwWiI5ZrSU9H7e+2mc66gSerWspd1ZbNmPbJ0u5ORj8tKCrgRCSHLqdLh3EdFplOf4c0tfjgt8e02cN2DO2hdVIrRAkAMg34/PHHktAgLFUK3Lq8pjiZw+RVcQt5SX3M4tR3/ur2YZcgl+Qz1JBNXRHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DDjZfSNy; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768219467; x=1799755467;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5BiEA3YT3OvxJlu4+BexDLoaIF8cPC1fj4FQDGyymNA=;
+  b=DDjZfSNyxTncEYNcrrpaxY4o5VtVjcXdYOXq/x8lftRhErNZCpQ/Kzft
+   qAQlLZibtjd7ee65KFFe57SPs8Wb1MC+9/h685Fz+G563QhlG075o2ubE
+   Ls+guReaAN78mfXonpc/yp/dwU/T46JOVmA0YQgajSUBML807N63sbm13
+   fh/gDDdBj+osRUna6Zw1b4+hssbUCMLbT/T/ME09AU0pqJDNAU9bzjax1
+   gFgiyNsj69/P50pwKUQrpqADF7AV6qM7YCuLQTbifg4SHX5S5l5Ogl3nt
+   9vrUXgsCTBjLYSRgBp4XoTWzszvj6Q4zwg/1DSlMZxyTvvrxPN+EtHmrA
+   Q==;
+X-CSE-ConnectionGUID: ciGn0PVuQNmJDVqQ6KhXbQ==
+X-CSE-MsgGUID: j7AyeWHIS/iybjCMfnBoJQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="80597332"
+X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
+   d="scan'208";a="80597332"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 04:04:25 -0800
+X-CSE-ConnectionGUID: XAibRldxTZ6xSE7cKV3erw==
+X-CSE-MsgGUID: kqm52HRnSw29im3jfiPOTw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
+   d="scan'208";a="208554124"
+Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost) ([10.245.245.37])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 04:03:57 -0800
+Date: Mon, 12 Jan 2026 14:03:54 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: Mark Brown <broonie@kernel.org>,
+	Varshini Rajendran <varshini.rajendran@microchip.com>,
+	Mikhail Kshevetskiy <mikhail.kshevetskiy@iopsys.eu>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Sunny Luo <sunny.luo@amlogic.com>, Janne Grunau <j@jannau.net>,
+	Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>,
+	CL Wang <cl634@andestech.com>,
+	Manikandan Muralidharan <manikandan.m@microchip.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Jonas Gorski <jonas.gorski@gmail.com>, Hang Zhou <929513338@qq.com>,
+	Jun Guo <jun.guo@cixtech.com>, Philipp Stanner <phasta@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	=?iso-8859-1?Q?Beno=EEt?= Monin <benoit.monin@bootlin.com>,
+	Shiji Yang <yangshiji66@outlook.com>,
+	James Clark <james.clark@linaro.org>,
+	Jonathan Marek <jonathan@marek.ca>,
+	Carlos Song <carlos.song@nxp.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Xianwei Zhao <xianwei.zhao@amlogic.com>,
+	Prajna Rajendra Kumar <prajna.rajendrakumar@microchip.com>,
+	Sergio Perez Gonzalez <sperezglz@gmail.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Qianfeng Rong <rongqianfeng@vivo.com>,
+	Haibo Chen <haibo.chen@nxp.com>, Gabor Juhos <j4g8y7@gmail.com>,
+	Md Sadre Alam <quic_mdalam@quicinc.com>,
+	Rosen Penev <rosenp@gmail.com>,
+	Luis de Arquer <luis.dearquer@inertim.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: Re: [PATCH 09/22] dt-bindings: display: bridge: renesas,dsi: Add
- support for RZ/G3E SoC
-Message-ID: <aWTiKQFBZT4hpaG_@tom-desktop>
-References: <cover.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
- <1c7657d6c06d99bc2f90251995ad272b5704717d.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
- <42bbdec7-ce6d-417c-a13d-ce0a6782bc9a@kernel.org>
- <aWEnfJonv4egKhXo@tom-desktop>
- <CAMuHMdUm-yHkRw0k42pfq9BD8urLO7rqF2yD7s2JbkMFpRTQwQ@mail.gmail.com>
- <aWE8ikhsthB_0VQV@tom-desktop>
- <CAMuHMdWGf7MgFzxjuea8agZgSyAMzXwFYO22NmRZ7i1-VPzqFw@mail.gmail.com>
- <aWTYS9BjWn2bY5Lz@tom-desktop>
- <CAMuHMdVdntJrcT8d4sCBXdnYr1m3X7s-_58KBiEDV5+GAW353A@mail.gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdVdntJrcT8d4sCBXdnYr1m3X7s-_58KBiEDV5+GAW353A@mail.gmail.com>
-X-ClientProxiedBy: FR2P281CA0186.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9f::20) To TYCPR01MB11947.jpnprd01.prod.outlook.com
- (2603:1096:400:3e1::6)
+	Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>,
+	Tudor Ambarus <tudor.ambarus@linaro.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Longbin Li <looong.bin@gmail.com>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	=?iso-8859-1?Q?Cl=E9ment?= Le Goffic <clement.legoffic@foss.st.com>,
+	Alessandro Grassi <alessandro.grassi@mailbox.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Darshan R <rathod.darshan.0896@gmail.com>,
+	Aaron Kling <webgeek1234@gmail.com>, Vishwaroop A <va@nvidia.com>,
+	Haixu Cui <quic_haixcui@quicinc.com>,
+	Darshan Rathod <darshanrathod475@gmail.com>,
+	linux-spi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
+	asahi@lists.linux.dev, linux-aspeed@lists.ozlabs.org,
+	openbmc@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org,
+	linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
+	imx@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-mediatek@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	virtualization@lists.linux.dev,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Lorenzo Bianconi <lorenzo@kernel.org>, Ray Liu <ray.liu@airoha.com>,
+	Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>,
+	=?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Ryan Wanner <ryan.wanner@microchip.com>,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Kamal Dasu <kamal.dasu@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	William Zhang <william.zhang@broadcom.com>,
+	Kursad Oney <kursad.oney@broadcom.com>,
+	Anand Gore <anand.gore@broadcom.com>,
+	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Vladimir Oltean <olteanv@gmail.com>, Frank Li <Frank.Li@nxp.com>,
+	Jean-Marie Verdun <verdun@hpe.com>,
+	Nick Hawkins <nick.hawkins@hpe.com>,
+	Yang Shen <shenyang39@huawei.com>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Lixu Zhang <lixu.zhang@intel.com>, Yinbo Zhu <zhuyinbo@loongson.cn>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Daire McNamara <daire.mcnamara@microchip.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Avi Fishman <avifishman70@gmail.com>,
+	Tomer Maimon <tmaimon77@gmail.com>,
+	Tali Perry <tali.perry1@gmail.com>,
+	Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>,
+	Benjamin Fair <benjaminfair@google.com>, Han Xu <han.xu@nxp.com>,
+	Yogesh Gaur <yogeshgaur.83@gmail.com>,
+	Linus Walleij <linusw@kernel.org>, Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Chris Packham <chris.packham@alliedtelesis.co.nz>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Paul Walmsley <pjw@kernel.org>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Li-hao Kuo <lhjeff911@gmail.com>,
+	Masahisa Kojima <masahisa.kojima@linaro.org>,
+	Jassi Brar <jaswinder.singh@linaro.org>,
+	Laxman Dewangan <ldewangan@nvidia.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>,
+	Michal Simek <michal.simek@amd.com>,
+	Max Filippov <jcmvbkbc@gmail.com>
+Subject: Re: [PATCH v1 1/4] spi: Propagate default fwnode to the SPI
+ controller device
+Message-ID: <aWTjKvbThxx9hSuL@smile.fi.intel.com>
+References: <20260108203004.3538449-1-andriy.shevchenko@linux.intel.com>
+ <20260108203004.3538449-2-andriy.shevchenko@linux.intel.com>
+ <aWTgzqXrGMcdpFOr@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB11947:EE_|TYYPR01MB12544:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6ddfa839-8381-4206-6f76-08de51d21aa0
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|1800799024|366016|7416014|376014|52116014|38350700014;
-X-Microsoft-Antispam-Message-Info:
- =?us-ascii?Q?k/0kQWHaTwZ1DVMr8WBJS8U0DXI7xsWp8GYh3Mz0gu5NQlLiGA7GeNBosg3R?=
- =?us-ascii?Q?bcw/RRgaH8mMs9EAj57QZLwAhellxox84pSa0+9oGrglLOKIOgGwEVpedoAN?=
- =?us-ascii?Q?N6qiJaTJ5B35pojoD2MU0ArFReaeTGV1Z6PKEyCR+Y+DO0a/o0S5GmVb9oUi?=
- =?us-ascii?Q?Z8DjPUANnIdaKjrfEjDFEK5L9HS1Lt96/9VfhimQFjedWBZqL5OKvsUzh/mo?=
- =?us-ascii?Q?fMAyPC2a3zNPl59Lv2ndVL98jXRE3yLjRAcqc/0WZkn4Q58WyPWQe29TLHOl?=
- =?us-ascii?Q?Jhp5UC99PBuH7Xf9e6d/E/jO0W9Q5+2LreUigyP6jM5gl+5YoGgVwFT2Bwws?=
- =?us-ascii?Q?CCqOgOGVtaMHKtsV4+Hw6YzPrO/FxnE5OyD1M315bVIDv9DJhPQxq/szDVMu?=
- =?us-ascii?Q?IyMSzZb3kMOyRxTUfCHmSL9pawwX0jHtS7KHnx/PVClMV0L0kF4GFMheos4q?=
- =?us-ascii?Q?89eLNxLr+0etO9nDXwm740FWphaXnyi8lzq6Uxd4zvO/qgcpGSK+SF1f2akH?=
- =?us-ascii?Q?Ih3kE8gYLceqlHKwKsHkLkfQNWmroILlNBnNvROD6A/SmbRk0LWIIEE8Nhak?=
- =?us-ascii?Q?wLaoAyDS8cNZ4dj9ppSzZElcIDQapICCw17XglukODQuoMqMP9kKN9ZAsaqD?=
- =?us-ascii?Q?jwZcv+taAs4eVorJmGDwneT9XQ3ca9saylq/c63olkwYgjWXKu+vZy6uoC/7?=
- =?us-ascii?Q?FJYOt/7zF4VbGAWEtTkDNK1sL8gnxgjqLRopBBvXSzKJo+J9GaSr2i9HCZFC?=
- =?us-ascii?Q?rNKdC1yUJfkkLvmkEGI7pQH4h5xLmjci22GRdKKxfqfDlYmko1GIqr3A+97Z?=
- =?us-ascii?Q?C724rXz9LTe+qYmB7Uk2GYgss0Ul5MOi2gDxZ0vvFPV3eJuX7KanlVDXzKTr?=
- =?us-ascii?Q?owY6TQrKcHYK82tC4T36T4Hgg7KYnqjchPsj2Dh6Fkn9Ew/nCqfKe9W5xreF?=
- =?us-ascii?Q?zyVY3jW8+hX1m1NBsQxVCEDprYQ1QaLBGvsISr5STzFNZ/L3WdNLkL2iXYap?=
- =?us-ascii?Q?a73RI3NUtwz3pg6UFmPeNFjw4hl07lOsRN2HEiIT/ZWsKH6+IlfLLsEeAsQx?=
- =?us-ascii?Q?MoK8yfjyySMPVmf/jqxwrw0/WAP19vqiL9HCf3079nEREIQVxz6a6fOortsH?=
- =?us-ascii?Q?ZpAMgas+Wl4xx/YZo8Ulc90BBWAxVkhOEcmpOBVWU45YCX4hHYypIoQlD2qM?=
- =?us-ascii?Q?XROVmp4qTkrvvuNDMYy1FetTxBxxYUPzO5+SS9bn+kQjBI4741hpL65164YR?=
- =?us-ascii?Q?IsP/v05Cq23NAY15w2Oqy+sWxCH7WclRGyyjju1md7ZQHOr7j3e5arL5tA1Q?=
- =?us-ascii?Q?n2YjpaJCpSTwDgbR98k0CD/BsW2KFWnFmDOBNR+ZY4XfVR0ORkv1ILOjmbEc?=
- =?us-ascii?Q?w+yqJWa+gVxLFZQDIQqtjpmMbNd2lCmeMGbLkdACwxZKdaBTE7fMj53xGJbz?=
- =?us-ascii?Q?NdQ2TVzd4QED8YjGoYAupgaqcu7BVvhZ27f4H+hCf3uaumiyKVHhC1kfuRYG?=
- =?us-ascii?Q?o4+EK3f4z22JalzTjDToQYr6qJrp5i4ZtdnC?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11947.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(52116014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?0rw9xftp5YClaxp2M+YO+A0laYDRmchTrZ1yQLGfVtP7ScHIHB1Rinq8mVp6?=
- =?us-ascii?Q?oYhlJmDsHo2VDkobs+FGylkGdq9cYzWS5FfpGuSBEyOyN2ifibjr3q/Bkm2e?=
- =?us-ascii?Q?yktiW0PYEOeiu4FCEqoPpW41GjOHIoze2ci8/+XjiT9Azrrg5jAa08j3xAN8?=
- =?us-ascii?Q?xcw1KWzCERkYojJosoyUV3yB8/VbnN1hBRSwtCogY5K8YFHX/329zfFJVTJ8?=
- =?us-ascii?Q?EjI38wtveKFcsrksgsk4OlogsQMtyCfxUPg9OMhzNFxL4t+iD1Td6FwHpI90?=
- =?us-ascii?Q?cUd7BJUBasuyLSbj5gXyhxonAZCZWeZ+/EAcYuiRFJqwu0bj+/BR9ZtWSUS6?=
- =?us-ascii?Q?52mJ+nsblv2eUZj0Ij21J216VBDUXXhf5B3DNr9uqNbnK7GdpnDAhHFJvslV?=
- =?us-ascii?Q?8K/i3r0pi1gt85srgD7f2QzfwlvYiDIKbk8SNbR1G8aNG6ZeMCuGK9gPUNQE?=
- =?us-ascii?Q?3GJrbUwc6KnaeM87lw72NBaMFvPp+FFn7LgbARWRtUbfj3y7sRBiRLhGTqmv?=
- =?us-ascii?Q?g4FX+78r/P0dmVS+zu22KBlUvFk8GIHblzhsa+cbR09n8Ga+QBc7EtJhA/Yd?=
- =?us-ascii?Q?o2iPTx54YVocx5BjSRfWkNZC6WrF6wjTpsUTysWnfSy5lKUVVmT2KLNOoyhQ?=
- =?us-ascii?Q?yMGGajEuu53T5oBdUKlXgjlmBtAHmiPJzqJNJQtfG9AwJSWhKd/NRhMAvPjp?=
- =?us-ascii?Q?JTkHe/r9f8dROpxPO9p4p9CLWrcrC0wgdGbnQ6gnkbXMIB5iBolJFKwVckre?=
- =?us-ascii?Q?3Nvub/JTChWcfTjx66Td+nSkfVZup2MBcMvzc1AJ1fGuTM9zN96T/3f/4LH5?=
- =?us-ascii?Q?e/KpLgixr2Yl3N54gxAQ3SJXpTvdteqIlJsHO5ScabGUVSVBENOVyGeelL/H?=
- =?us-ascii?Q?HYajA6QEs0jbR5tUA9+mpyeqRykvyOIE6T5Xw4P0iDHS/GV16GRseN1lpeaW?=
- =?us-ascii?Q?Mred1DSl4vMLQhHWrUOJy+WCsoyBEZT2cliOL5f0KBpcLAgiE3RhLYFkwgN9?=
- =?us-ascii?Q?8XvZ1G5cs+oIkRiZF4l6a0srBn02YuKRJsRPEXv3umZwW8VXVoxKxmi02Izi?=
- =?us-ascii?Q?2/UTo6zCd+N5+UQhyv/4H1m56wJnFuabsOXXN2rXqZER3GafB9g0BOwE5hbA?=
- =?us-ascii?Q?g6Du1B+2cCPgVmVd3i9DDENLYg++2mNsM67t9urhfpIYtyQYz/oHhKxlt4RQ?=
- =?us-ascii?Q?0vl3749xxpWpw32Iai+Gwl4NTskhH2tZHxL2fwo3yoc6UINEZ7o8IP43Jn15?=
- =?us-ascii?Q?W9jSQRg+bOpwt6Mep4ggdbW6RjfrDBZdsew+rugq7NpOK4Diwmi2xUUueSHG?=
- =?us-ascii?Q?vbOQxSACVEDQ/UPjVkP1hHTP/h+CkFNPCuqTjKwy0BNmmXRVAtxUqvB2eF2c?=
- =?us-ascii?Q?I7X93VMRWNvFSVMduf9H1gJgN01HCU6eUjYmqpdk1L/J9YvunIL0WznVmMz3?=
- =?us-ascii?Q?FuN8VdlX5b3yPfqDWUcwIm9iUsJa6AAQr7qROydCIx1A//AMpmSZ+wtxBiI2?=
- =?us-ascii?Q?HyN72ZxtnuQ4POV84t3GzYfO1X5alna+t1f6LolUXBIhDiL/zCoDIG1c40i9?=
- =?us-ascii?Q?hPdNRi6Y2w3Pln6T5LYQ/u1rXcaJ1vEvC7C3qPl4zXDOByIshKxE9q4X4oQi?=
- =?us-ascii?Q?HEQ6lO7IM6ou9KicWXxmRt4IwxovsejZtCC6A+dCo2wsXqTJRW73G4GmTi9V?=
- =?us-ascii?Q?W/GZWrjNS0j128SrAHlJHdUEAiDY15vMwyH54Xh76RakB8BJ1wZsjnfVgwqb?=
- =?us-ascii?Q?yaDmcfLOvxAvXQD4muLJ4x8VODy71WppQAKkN4K1SU6VAUOCGRTE?=
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6ddfa839-8381-4206-6f76-08de51d21aa0
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11947.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2026 11:59:56.8113
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 10YYqQvxrfs9ZoqF08opFdpVeZiOBKtGVDVtPDIfhJnOxIpdXI7pzuT/7n56ZSf12naSN3WTm3v8AY4ZiV3uHfXu8M5ytqYRQlT7Pzd41pA3o3Le1TnKUs4S1aiZQaLL
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB12544
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aWTgzqXrGMcdpFOr@opensource.cirrus.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Hi Geert,
-Thanks for your comment.
+On Mon, Jan 12, 2026 at 11:53:50AM +0000, Charles Keepax wrote:
+> On Thu, Jan 08, 2026 at 09:23:38PM +0100, Andy Shevchenko wrote:
+> > Most of the SPI controller drivers share the parent's fwnode
+> > by explicit assignment. Propagate the default by SPI core,
+> > so they may drop that in the code. Only corner cases may require
+> > a special treatment and we simply (re)assign the controller's
+> > fwnode explicitly (as it's done right now, no changes required
+> > for that).
+> 
+> Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+> Tested-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-On Mon, Jan 12, 2026 at 12:35:15PM +0100, Geert Uytterhoeven wrote:
-> Hi Tommaso,
-> 
-> On Mon, 12 Jan 2026 at 12:18, Tommaso Merciai
-> <tommaso.merciai.xr@bp.renesas.com> wrote:
-> > On Fri, Jan 09, 2026 at 06:59:12PM +0100, Geert Uytterhoeven wrote:
-> > > On Fri, 9 Jan 2026 at 18:36, Tommaso Merciai
-> > > <tommaso.merciai.xr@bp.renesas.com> wrote:
-> > > > On Fri, Jan 09, 2026 at 05:22:02PM +0100, Geert Uytterhoeven wrote:
-> > > > > On Fri, 9 Jan 2026 at 17:06, Tommaso Merciai
-> > > > > <tommaso.merciai.xr@bp.renesas.com> wrote:
-> > > > > > On Sun, Nov 30, 2025 at 09:24:57AM +0100, Krzysztof Kozlowski wrote:
-> > > > > > > On 26/11/2025 15:07, Tommaso Merciai wrote:
-> > > > > > > > The MIPI DSI interface on the RZ/G3E SoC is nearly identical to that of
-> > > > > > > > the RZ/V2H(P) SoC, except that this have 2 input port and can use vclk1
-> > > > > > > > or vclk2 as DSI Video clock, depending on the selected port.
-> > > > > > > >
-> > > > > > > > To accommodate these differences, a SoC-specific
-> > > > > > > > `renesas,r9a09g047-mipi-dsi` compatible string has been added for the
-> > > > > > > > RZ/G3E SoC.
-> > > > > > > >
-> > > > > > > > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> 
-> > > > > > > > --- a/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
-> > > > > > > > +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
-> > > > > > > > @@ -28,6 +28,7 @@ properties:
-> > > > > > > >            - const: renesas,r9a09g057-mipi-dsi
-> > > > > > > >
-> > > > > > > >        - enum:
-> > > > > > > > +          - renesas,r9a09g047-mipi-dsi # RZ/G3E
-> > > > > > > >            - renesas,r9a09g057-mipi-dsi # RZ/V2H(P)
-> > > > > > > >
-> > > > > > > >    reg:
-> > > > > > > > @@ -84,6 +85,13 @@ properties:
-> > > > > > > >            - const: pclk
-> > > > > > > >            - const: vclk
-> > > > > > > >            - const: lpclk
-> > > > > > > > +      - items:
-> > > > > > > > +          - const: pllrefclk
-> > > > > > > > +          - const: aclk
-> > > > > > > > +          - const: pclk
-> > > > > > > > +          - const: vclk1
-> > > > > > > > +          - const: vclk2
-> > > > > > > > +          - const: lpclk
-> > > > > > >
-> > > > > > > Why are you creating completely new lists every time?
-> > > > > > >
-> > > > > > > No, come with unified approach.
-> > > > > >
-> > > > > > The intent is not to create a completely new clock list per IP, but to keep a
-> > > > > > unified clock definition that can scale with feature differences.
-> > > > > >
-> > > > > > The previous IP supports a single DSI input port, whereas this IP supports two
-> > > > > > DSI input ports.
-> > > > > >
-> > > > > > Because of this added capability, the hardware naturally introduced an
-> > > > > > additional clock.
-> > > > > >
-> > > > > > Can you please suggest how to handle it?
-> > > > >
-> > > > > Keep on calling the first vclk "vclk", and add "vclk2" at the end of the list?
-> > > > > Then RZ/V2H can specify the first 5 clocks, and RZ/G3E can specify all 6.
-> > > >
-> > > > Testing a bit your suggestion
-> > > > we can do:
-> > > >
-> > > >   clock-names:
-> > > >     oneOf:
-> > > >       - items:
-> > > >           - const: pllclk
-> > > >           - const: sysclk
-> > > >           - const: aclk
-> > > >           - const: pclk
-> > > >           - const: vclk
-> > > >           - const: lpclk
-> > > >       - minItems: 5
-> > > >         items:
-> > > >           - const: pllrefclk
-> > > >           - const: aclk
-> > > >           - const: pclk
-> > > >           - const: vclk
-> > > >           - const: lpclk
-> > > >           - const: vclk2
-> > > >
-> > > > Then later into the compatible if switch we can do:
-> > > >
-> > > >
-> > > >   - if:
-> > > >       properties:
-> > > >         compatible:
-> > > >           contains:
-> > > >             const: renesas,r9a09g047-mipi-dsi
-> > > >     then:
-> > > >       properties:
-> > > >         clocks:
-> > > >           items:
-> > > >             - description: DSI PLL reference input clock
-> > > >             - description: DSI AXI bus clock
-> > > >             - description: DSI Register access clock
-> > > >             - description: DSI Video clock
-> > > >             - description: DSI D-PHY Escape mode transmit clock
-> > > >             - description: DSI Video clock (2nd input clock)
-> > >
-> > > All descriptions belong at the top level. Just add the 6th one.
-> >
-> > Please correct me if I'm wrong but if we move up:
-> >
-> >         - description: DSI Video clock (2nd input clock)
-> >
-> > To the top level description we will have 6 clocks for G3E and 6 for
-> > RZ/G2L. With that I think dt_binding_check will fail ("is valid under
-> > each of") because of the oneOf.
-> 
-> RZ/G2L and RZ/V2H need "maxItems: 5" in their if-sections.
+Thank you very much! I'm now pretty much confident about the change.
 
-RZ/V2H -> maxItems: 5 is fine.
-RZ/G2L -> needs 6 clocks no?
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Please correct me if I'm wrong.
 
-Kind Regards,
-Tommaso
-
-> 
-> > > >         clock-names:
-> > > >           minItems: 6
-> > >
-> > > Exactly.
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-> -- 
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
-> 
 
