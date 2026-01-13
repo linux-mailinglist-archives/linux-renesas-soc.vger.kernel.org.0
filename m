@@ -1,104 +1,146 @@
-Return-Path: <linux-renesas-soc+bounces-26694-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26695-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22F08D1AE08
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Jan 2026 19:45:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C34AD1AEDE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Jan 2026 20:03:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 86AC8301F8CD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Jan 2026 18:44:40 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 536ED3012268
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Jan 2026 19:02:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7627034F47C;
-	Tue, 13 Jan 2026 18:44:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 287C12D47E1;
+	Tue, 13 Jan 2026 19:02:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mJ/epLMx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h/rgtU3A"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43536284662;
-	Tue, 13 Jan 2026 18:44:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3D3BA41
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Jan 2026 19:02:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768329879; cv=none; b=tTVFDpr0LLT7CQSnBAbZ1/u1Is0YMg23xPNSmRJQW0/sEa5bBqFwAEGsR6t1fUFQFDuuElm0qCgIQKEysLbCugxHwfknRc1vHjdItqhcoKQKe1bj+rds52Ur1xzsyzOggr+sfrcm282cYet+Q9o1M+n3mC0Vzop5dKhWJBe3ijQ=
+	t=1768330961; cv=none; b=ByYfYNATPjXWzMYCtfN0A7x1Ek2G6w1yCU0uyo8OtdixOnv4KJlBNgsW08p4x8LbQS7IoKrXAFbwpm4JEwftEXDlnQZLO2Ugz4xaPBhcghU9eFL+ckxC3VJyTm/KN1ulborT1XylG3X1wHeFO0Quo39hd+BNobTEZNiQAbkUYLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768329879; c=relaxed/simple;
-	bh=guH+X5X5Zw5RK4+z7WReUiSq/PEpKm6VSIBaw1TF1Wk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jKStZ9Rgl8Xk5i/Aci5R+FMjAZpxcs5b5utDwtL4vVMoqtg5hi0pN/gZ+T4IOXlReBYOHWZzTOdA+AXeZh/+ByqxMceQsHuxCEa2By+s5wAtWRQVHp0eN5MWeid+66yVArW/TXrvMm12Bb/BFQ636r+2M2b4OOlalvg/4Sr9nnM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mJ/epLMx; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC54FC116C6;
-	Tue, 13 Jan 2026 18:44:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768329878;
-	bh=guH+X5X5Zw5RK4+z7WReUiSq/PEpKm6VSIBaw1TF1Wk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mJ/epLMx61KYA6qPjpRXqerwQQ3NcjyRncy5NLUppRcvNbs2ALyBM6FjEhD9uCvW2
-	 eg+DxvUNeugL74YCHEYOOv4VS+A/BfA6G/dMZqmg4UIxaOswYQMpqwbpy7mH2VJssd
-	 pryhg1yTNddK0bWY9Uq9gE7ggwr1D0Kf4ak8pCyjAuuQxjtChOyO00kugpRuZ29n40
-	 WzTS8Cd0E4qQJrBcO9qMgrhYRyavxl9eWt+/iAY5yX2qEdebOKThI+hfkrhzfqh5HQ
-	 VQ0q4gLY53Z/GZ66GOvRjkXfxIKgJEY7/T6uorHk2QfWRmmEUeUhwAT/SFYMOSF+KF
-	 80DfzL+JVf/oA==
-Date: Tue, 13 Jan 2026 19:44:25 +0100
-From: Niklas Cassel <cassel@kernel.org>
-To: Koichiro Den <den@valinux.co.jp>
-Cc: jingoohan1@gmail.com, mani@kernel.org, lpieralisi@kernel.org,
-	kwilczynski@kernel.org, robh@kernel.org, bhelgaas@google.com,
-	vigneshr@ti.com, s-vadapalli@ti.com, hongxing.zhu@nxp.com,
-	l.stach@pengutronix.de, shawnguo@kernel.org, s.hauer@pengutronix.de,
-	kernel@pengutronix.de, festevam@gmail.com, minghuan.Lian@nxp.com,
-	mingkai.hu@nxp.com, roy.zang@nxp.com, jesper.nilsson@axis.com,
-	heiko@sntech.de, srikanth.thokala@intel.com,
-	marek.vasut+renesas@gmail.com, yoshihiro.shimoda.uh@renesas.com,
-	geert+renesas@glider.be, magnus.damm@gmail.com,
-	christian.bruel@foss.st.com, mcoquelin.stm32@gmail.com,
-	alexandre.torgue@foss.st.com, thierry.reding@gmail.com,
-	jonathanh@nvidia.com, hayashi.kunihiko@socionext.com,
-	mhiramat@kernel.org, kishon@kernel.org, jirislaby@kernel.org,
-	rongqianfeng@vivo.com, 18255117159@163.com,
-	shawn.lin@rock-chips.com, nicolas.frattaroli@collabora.com,
-	linux.amoon@gmail.com, vidyas@nvidia.com, Frank.Li@nxp.com,
-	linux-omap@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	imx@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-	linux-arm-kernel@axis.com, linux-rockchip@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v7 4/6] PCI: dwc: Advertise dynamic inbound mapping
- support
-Message-ID: <aWaSggUJpnxjAPA_@ryzen>
-References: <20260113162719.3710268-1-den@valinux.co.jp>
- <20260113162719.3710268-5-den@valinux.co.jp>
+	s=arc-20240116; t=1768330961; c=relaxed/simple;
+	bh=DVG5V6pRmTUH6lRH0AkErLl1PuE7Vum2OnJivBKJnjI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=nSu42Z+nn6OEjHFIuHlpEy9xUcohJTPx2Amc3UfG7wfZ5wwj1ZPuWETv7P6K4yJRMSvcPlVUHthZ2oubi3AKsxqA5KQBoa91BHw1aTKhXqN9niqORVl7qNWlllzllAkaqWMZHBoNy895uRuaesyuS0lkN8T97pvlUMia/TsLFRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h/rgtU3A; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768330960; x=1799866960;
+  h=date:from:to:cc:subject:message-id;
+  bh=DVG5V6pRmTUH6lRH0AkErLl1PuE7Vum2OnJivBKJnjI=;
+  b=h/rgtU3A6sZE9P+Vebe7CDbAjk9tcnnMa7g6bD0Oxx3niK3163PfEUs+
+   Fng2NRlakqI1HypQvr/fCIIIQqwRobkmxfnOD1gS415YbVpMo1prCsdve
+   Rl/mDLMJzzGz4URfe3mh/XnnWcsOnsQvyACZUJAZck5AdXG9lKjGqFiE9
+   WJ+xW92SK6Pond3EhhWkOVFty/XirgriJTUNj13ukH4AsEJm1lnvhWF8F
+   NSMy2CDlRaYkHQ3T3ty1N0jKJDJMcDQcUsQTMMhUwymBh+uhAltvGOvMF
+   OLZhqfMPt4TPOlhOcj8WhAp4q8g7H8gCX76EubWmMzcZJK7cIaVUhnjws
+   A==;
+X-CSE-ConnectionGUID: 9AhrnvqxRjqB67CQ5RmP3Q==
+X-CSE-MsgGUID: Rm3gdEBERUW5qDhGiWnqCg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="69705725"
+X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
+   d="scan'208";a="69705725"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 11:02:39 -0800
+X-CSE-ConnectionGUID: mCzowF1aQuKUuK60/L3Ltg==
+X-CSE-MsgGUID: wQFznltmT9mtIf77XPqwEw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
+   d="scan'208";a="204744075"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 13 Jan 2026 11:02:38 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vfjf1-00000000FFk-3UnP;
+	Tue, 13 Jan 2026 19:02:35 +0000
+Date: Wed, 14 Jan 2026 03:02:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:renesas-r9a09g077-dt-binding-defs]
+ BUILD SUCCESS 481b64376c3fb72557725acf2f4fbc4f73bc3188
+Message-ID: <202601140302.ZHnGjRVN-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260113162719.3710268-5-den@valinux.co.jp>
 
-On Wed, Jan 14, 2026 at 01:27:17AM +0900, Koichiro Den wrote:
-> The DesignWare EP core has supported updating the inbound iATU mapping
-> for an already configured BAR (i.e. allowing pci_epc_set_bar() to be
-> called again without a prior pci_epc_clear_bar()) since
-> commit 4284c88fff0e ("PCI: designware-ep: Allow pci_epc_set_bar() update
-> inbound map address").
-> 
-> Now that the EPC layer exposes this capability via the
-> dynamic_inbound_mapping feature bit, set the bit centrally in the
-> DesignWare EP layer so that all DWC-based EP glue drivers report it
-> consistently, without duplicating the same flag in each individual
-> driver.
-> 
-> No functional change intended. This only advertises existing behavior to
-> EPF drivers.
-> 
-> Suggested-by: Niklas Cassel <cassel@kernel.org>
-> Signed-off-by: Koichiro Den <den@valinux.co.jp>
-> ---
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-r9a09g077-dt-binding-defs
+branch HEAD: 481b64376c3fb72557725acf2f4fbc4f73bc3188  dt-bindings: clock: renesas,r9a09g077/87: Add PCLKCAN ID
 
-Reviewed-by: Niklas Cassel <cassel@kernel.org>
+elapsed time: 7735m
+
+configs tested: 55
+configs skipped: 0
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha         allnoconfig    gcc-15.2.0
+alpha        allyesconfig    gcc-15.2.0
+arc          allmodconfig    gcc-15.2.0
+arc           allnoconfig    gcc-15.2.0
+arc          allyesconfig    gcc-15.2.0
+arm           allnoconfig    clang-22
+arm          allyesconfig    gcc-15.2.0
+arm64        allmodconfig    clang-19
+arm64         allnoconfig    gcc-15.2.0
+csky         allmodconfig    gcc-15.2.0
+csky          allnoconfig    gcc-15.2.0
+hexagon      allmodconfig    clang-17
+hexagon       allnoconfig    clang-22
+i386         allmodconfig    gcc-14
+i386          allnoconfig    gcc-14
+i386         allyesconfig    gcc-14
+loongarch    allmodconfig    clang-19
+loongarch     allnoconfig    clang-22
+m68k         allmodconfig    gcc-15.2.0
+m68k          allnoconfig    gcc-15.2.0
+m68k         allyesconfig    gcc-15.2.0
+microblaze    allnoconfig    gcc-15.2.0
+microblaze   allyesconfig    gcc-15.2.0
+mips         allmodconfig    gcc-15.2.0
+mips          allnoconfig    gcc-15.2.0
+mips         allyesconfig    gcc-15.2.0
+nios2        allmodconfig    gcc-11.5.0
+nios2         allnoconfig    gcc-11.5.0
+openrisc     allmodconfig    gcc-15.2.0
+openrisc      allnoconfig    gcc-15.2.0
+parisc       allmodconfig    gcc-15.2.0
+parisc        allnoconfig    gcc-15.2.0
+parisc       allyesconfig    gcc-15.2.0
+powerpc      allmodconfig    gcc-15.2.0
+powerpc       allnoconfig    gcc-15.2.0
+riscv        allmodconfig    clang-22
+riscv         allnoconfig    gcc-15.2.0
+riscv        allyesconfig    clang-16
+s390         allmodconfig    clang-18
+s390          allnoconfig    clang-22
+s390         allyesconfig    gcc-15.2.0
+sh           allmodconfig    gcc-15.2.0
+sh            allnoconfig    gcc-15.2.0
+sh           allyesconfig    gcc-15.2.0
+sparc         allnoconfig    gcc-15.2.0
+sparc64      allmodconfig    clang-22
+um           allmodconfig    clang-19
+um            allnoconfig    clang-22
+um           allyesconfig    gcc-14
+x86_64       allmodconfig    clang-20
+x86_64        allnoconfig    clang-20
+x86_64       allyesconfig    clang-20
+x86_64      rhel-9.4-rust    clang-20
+xtensa        allnoconfig    gcc-15.2.0
+xtensa       allyesconfig    gcc-15.2.0
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
