@@ -1,236 +1,172 @@
-Return-Path: <linux-renesas-soc+bounces-26653-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26654-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE701D173B8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Jan 2026 09:16:16 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2583D175A2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Jan 2026 09:44:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id BC8A5302AAC2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Jan 2026 08:16:15 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5AAB2300A1E6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Jan 2026 08:43:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E2F337F8DC;
-	Tue, 13 Jan 2026 08:16:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="UxfOpXIM"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2FEA3803EE;
+	Tue, 13 Jan 2026 08:43:42 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013003.outbound.protection.outlook.com [40.107.159.3])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f65.google.com (mail-ua1-f65.google.com [209.85.222.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66CD037F8BF;
-	Tue, 13 Jan 2026 08:16:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.3
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768292175; cv=fail; b=WhnxaidCT9yXg8cB4+bmmcfx2Ptx3XmfpE+JbTityOjCSLKpCQQcQudGdxpgI5O8dLWQQkAyv7rxslChl9pnp19FxSAUCOR6oeSGsCAG7tJB+psO0OCppstsx/Oc7bLApengB+FX4jyjSclI7CwPhiUu4BVUqcbAnwhQ9DXTuoI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768292175; c=relaxed/simple;
-	bh=J6aRaX7S2cu5bW/RzHP16z4WfmiAQkzI/Z+cTSj2Its=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=uFNImwR5IRk1XdHrV18aPk0XY3JxIa/WNc2FO6dNZ/wVnC0RYqrxQtD7PwwsBq6TTpeuzI9MstoUujEj/eQl1k/+PK82GU2fb60siRbcQXME6go0LD8xwNjzZlpR9Qeh6tQ3lJaab6Qlm41ydCzI0SOTr25Gz7V97hPbFTqQaL8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=UxfOpXIM; arc=fail smtp.client-ip=40.107.159.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HoJ0JnLum1TbSCl4Nsbx0eTp2kFuwj93Sb5x6qYo06QSf1xHjA967tN5aa8N3gyeaV4HQ56mW1NGlF6QYHAg/TGvYIFTWS4s8XLyZXz6HtHq1rlrtjYRyvbl4+N30wYzfMzu3+c7Qz3ObSt6gyzVmuWbnb3tLGLo3GzqDBjiN7QWCa/7ZakcGhKGWwR+xvj7gbRlL3e9WrutBKI/jhuHBHnizamvWRAtcLpY2hp5dzoCX59kRXKXOmpbkl/zd7NaVqhjQQplK3vPR8P9W3AAGQAA86bxhEr85fBCHIRLHVqAMgRfP1vIPXFgoBKLXTZ5Ogcs4gZ8Zs/IJ7wvM0lykw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=t2Tzb9oO2ZFXSFNJBKacscVkIn8W/r6oLEHp7d4mfqk=;
- b=IkaHAc2Zt8bJX9FA/zeQ4KSX9TjJnXZeXX+qFYY0K0WwhA4V12xj01ZTHu3Xhh+TGIp9aSPsCuL1ZjmhgS4S1aOBqk8fYRjPXSci9k2glSiXVS6k5+qZLWNb+ttueG7r1ZbBa+EXY835qNfU5TOXqwcVUEZQm6tEWYOfoUdHO/0woDBabsLvfbH71qS0oUEk4i1Y+spz7JMNswSt7LPita93iAaakGwm1fpC8q83JMz+OTPrTSN0mYshBO8uNrhb79I8pZkhI5eXBriznpSuBfEpYt62cB6BlT2kTL2nmeiWq8/IfxiLKqeANJXgJWzesID1TqTJpEmVibJwARGBVA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t2Tzb9oO2ZFXSFNJBKacscVkIn8W/r6oLEHp7d4mfqk=;
- b=UxfOpXIMNMlvnxPGdClK5O97BcjwjRqA61oLkh2uKLMr7/Y5X7TmFCMfVgPXbTdRBPfbVtR/3eO5MPjXP0BqrUafDKTmCh1Kk+g6WFvqGcFqa7MG2cI5fowoJQdWquaU6EUXG+zu+aDH7hy4RgKPiq+LTVczTDhM3vlE4c0O30dUDttgoSK1s++vSDb3AhLgRJ7hySVmZ2mW9S87Gur2adNWUJ1TbMSCagCaW/fjggx/edemzd8wGc514C09jrPTOvC0rVvAnUUP55XYqOKiTRWcxCBdDijTTgjSPg3bptdD+KLUnuqDNB1gMjb+9G/P9L/L2zjfG5gmDVygL1AgvQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from MRWPR04MB12117.eurprd04.prod.outlook.com (2603:10a6:501:97::14)
- by GV1PR04MB9515.eurprd04.prod.outlook.com (2603:10a6:150:24::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.7; Tue, 13 Jan
- 2026 08:16:08 +0000
-Received: from MRWPR04MB12117.eurprd04.prod.outlook.com
- ([fe80::9a10:5b39:708:7f43]) by MRWPR04MB12117.eurprd04.prod.outlook.com
- ([fe80::9a10:5b39:708:7f43%6]) with mapi id 15.20.9499.005; Tue, 13 Jan 2026
- 08:16:08 +0000
-Message-ID: <409cdcf0-af9b-4084-845f-d863ad6303c5@nxp.com>
-Date: Tue, 13 Jan 2026 16:15:57 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [EXT] [PATCH 2/2] drm/bridge: waveshare-dsi: Add support for 1..4
- DSI data lanes
-To: Marek Vasut <marek.vasut@mailbox.org>, dri-devel@lists.freedesktop.org
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
- Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20260112234834.226128-1-marek.vasut+renesas@mailbox.org>
- <20260112234834.226128-2-marek.vasut+renesas@mailbox.org>
- <773b6e43-4f86-4b11-8e6b-a9f2561a75de@nxp.com>
- <65ccfeb6-4962-4964-be1d-cfb0ed41773e@mailbox.org>
-Content-Language: en-US
-From: Joseph Guo <qijian.guo@nxp.com>
-In-Reply-To: <65ccfeb6-4962-4964-be1d-cfb0ed41773e@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SI1PR02CA0049.apcprd02.prod.outlook.com
- (2603:1096:4:1f5::18) To MRWPR04MB12117.eurprd04.prod.outlook.com
- (2603:10a6:501:97::14)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25CB636AB4A
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Jan 2026 08:43:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.65
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768293822; cv=none; b=vAyZM82jooa+oiZt2Ah8wr1QMdIPpJnLwjxlnkkT7g8bN5E2qgzssghcUW1kdgpabQWgbLVU1J4qw0/18oq7W4ut+7KcCDvbbGcpfIf5JAw5DaHvojqQEDUDt5Ol6YmF5f9E9R9K2onRRp6nszQOxxKV3CJoIuTdqG2gWPpUO9c=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768293822; c=relaxed/simple;
+	bh=Kw29Mu6HT2HxD5ti7IZmn4LO6W3EDHSFizK6jJGxelw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=R2+JJIJaPQdRK4DJ/l7axtHRnE/xtcyFyoPzQ0U4wu9hztFEFjMBAuYGNJVenOtkD/bs+qEtZzBABccCkbcl7a0PtL1pSnMsySIu9xZ0+PJ2HwrwGwHxq11coHLWqYOMbgZLuw3q6zCb1wyMLmh6TDCe1MlCItxuzHySjSdZC0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f65.google.com with SMTP id a1e0cc1a2514c-93a9f6efe8bso2141772241.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Jan 2026 00:43:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768293820; x=1768898620;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=E1oQ15jpRcmphl58tx08AUKGIdjS+7SOa3S3k4/U/kw=;
+        b=ZCycXtqF/KYdVltDghzFZ6TAohA1pyVCZ100+OVipFMZ58D1ti1FftNzj8fm5L6U+N
+         f6uaWKFOOn78Kej0IirBlSZvWI4azutelbe5kCKs3gM6pi76jHYMrQO1qXbtdChuvVdE
+         RG5I1wLLQgNwcIdJJiHPE7MvzbAJoAkbaI3MBLbofGyq7RPjGTf/6TFBlbfjYhrdFO1M
+         cuznlzGMtBk/zH/S9Jap/EaHTIypoKvcRNYEFjsqlDVCiqZHahifyClxWqUKUnOgtKIK
+         W1LHzd27QYVft4cfj8/UqbsK84EOUBc0/azV+ZQ6KO5HpBX7WBet20XYrqu6IG59TZ8s
+         r4Jw==
+X-Forwarded-Encrypted: i=1; AJvYcCVlRRHkFwXfmgxmcemrR4BoFrja/n1IBY2BOVVRr5jO7IRrAEDxhBF0qFVX7tANHlfK1aRybfgLyo0Rj2ao+l3kfg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz1L8pYbGIODLdZe7Ga4RrWCKOXU908pm9POcrBd8OWH8OyBZue
+	90AMKjvzGpCB7GwLcVXrqlXVEGTf4Jawh6Dl/4JizzO73ksPVuwOJEEA8GJR9DvZ
+X-Gm-Gg: AY/fxX429UyI5eJbRXE6iCoKIXGc+/AXWdBAfD5P7wV3PFB+FTAW9J9XOa/XVVCXDUM
+	55814EqsoLbqHAKsRryvzhtoVR/GZLt3EZoKJJ5esB/aD4v+Atx4lEMTDSLPGfqe06iNQjTaoh5
+	SVBXjiTQBFOACBoZwbCzU+R4C7NNU8RAZM01fozHAeCAm4FT535S4CgRlnObdYZvqzlEncsKGkJ
+	su6uAqcKnLrrcUBdSHBp2s3a5j+w56CmSF/wAHmNFlUdyZ7TehQilWDRcFJmL+0mR+TaZlkK2Cq
+	D1EjDhjeHNEp8uqaeRfDEFQuG0fR61SNupb01KLAdx+QDzSE8DUEqXQR52WoowbMqz30zuLxa1t
+	9zZHVUpMraIsmMIwDtEW4FCOl2Nsen/3xJ5ygRPq78DZ7N0sQzUSesYN0f2M8WbZn6s5L9HQONM
+	y0Dz6X2EjIwMy6W3+SK0wLuGNOETj8z8wWf5GoxqO90hUxrkqZw2lvfjtN7Z4=
+X-Google-Smtp-Source: AGHT+IHWvUdAZoWoNJcRJSG6WMRQ9FprWOeEozpa9m/JqzLdN7cYrKwBeUqCCVGZhebRLn2+UnWg1Q==
+X-Received: by 2002:a05:6102:8088:b0:5dd:b2a1:a5a4 with SMTP id ada2fe7eead31-5ecb1e731d9mr7613209137.5.1768293819905;
+        Tue, 13 Jan 2026 00:43:39 -0800 (PST)
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com. [209.85.222.51])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5efb5bb6d11sm8358054137.4.2026.01.13.00.43.38
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 Jan 2026 00:43:39 -0800 (PST)
+Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-94240659ceaso2406837241.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Jan 2026 00:43:38 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCV66cTrkaDTelbUAhu3qRe33fpQg7fu7RgnuRs1oj5WyRTijX9VUefKtJQ8Uz8mCFfedkHZ8554D0fFuYfJ6JhDfA==@vger.kernel.org
+X-Received: by 2002:a05:6102:290d:b0:5ef:b3fa:c89a with SMTP id
+ ada2fe7eead31-5efb3facb2bmr3596566137.32.1768293818629; Tue, 13 Jan 2026
+ 00:43:38 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MRWPR04MB12117:EE_|GV1PR04MB9515:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9556bbb5-b4a5-4e46-fd55-08de527c010b
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|7416014|376014|1800799024|366016|19092799006|7053199007|13003099007;
-X-Microsoft-Antispam-Message-Info:
- =?utf-8?B?TEMrRTAyaDRFdEl0a1ZyRUZUMzU1V2RoK0dUdXI0SkFRdGluMEFmWlBWUE01?=
- =?utf-8?B?cjVFUHpobHhDVnEvUWgvZCtaZUZSTmRNZEs2RjdXWTNaeS9SUkErRkVxK0dN?=
- =?utf-8?B?aXJaNW1JU1phWWZmVnlOR3V0TERBL05RNXZLaWxjd0xxVnAyY0xIbzJWSS9D?=
- =?utf-8?B?NURkZFV0OXlEVEsyVm55SmdLSmF4Q2REdmk0RGlKakU5N1RXZjFVQnowdGdv?=
- =?utf-8?B?ekhnMnl0MVhwK3lRYlhZaXFmeG5nUEhGQklQc3lzQmlQMGZPemxHWnJLcUpv?=
- =?utf-8?B?RG5yUFp1VmhJOWg5QUE1ejN3cm4wSFJUTzRGL2RmYUR1UmNweUsxdXI2YXVm?=
- =?utf-8?B?cGxoNm9VUm0yUUxqa0l3bTVJOTFyQXh0ckhsS1NGVWpMMWxwNnhLL01GeGgv?=
- =?utf-8?B?bi9mZmNjc09OVWQ3Z2lEWVdOSmFLZSs3aXdLZGFTQjVRWVc1RWRtLzU5U0h1?=
- =?utf-8?B?VUxGS0luRUxCbG5UdG9SQlRndEdmbEZuQ2dDWDE5Tm40ekJsWTRMeXdjSDhV?=
- =?utf-8?B?NCt1OUhNNld1dXQ3bXhLa01Ia0k5U0taaXNieG01dDAydDViczBGSXdpV2N0?=
- =?utf-8?B?aGJrdXBNK3FwSVcrTVI3TU02ZkdMVXZJTUcvZzdrelkvWSsyb1hGQ2xqM3cx?=
- =?utf-8?B?aEhZQmc0cE96UmxIRlZ0bDlmSVova0t0VzJseERWdjNocVZIM2tBVk1ESUFo?=
- =?utf-8?B?cUNYODFuZUFKY09FZDhIdHp4WGdIYWFrZU1yZHhvSkRqZnZHSThXYXg2NWZt?=
- =?utf-8?B?WTZlcUpERCtNNU9nTHdibllWQkQzaW12RlVjZExTSnVzQ3IvanMrcHhpbllL?=
- =?utf-8?B?bi9QUVNpK2lrYWFpMGQyRVI0RFYxcHZFaWVGNmU1czk5UnR3Q09ZaWx2R2t4?=
- =?utf-8?B?WkxBRE9pOFVCQ1dFTytjOEhaTW1RVUtiNEkwbGpSUzdZZGNMbnNycGN5elU5?=
- =?utf-8?B?RGt0T3k0UmZLWFFRQUxmaEpPUkw3bzMrRnEybGdwdkhOWHVNYTUxenBMbUhZ?=
- =?utf-8?B?M2JNdlk5cnVXczY0K2wwL3FNZlphVWlSSE85MnU5OCtaODhORGVYR1hsTkhl?=
- =?utf-8?B?UkRXTTR2Qmlzd3piemlrZnZ1ZnE2Tmp6amcxL0pDK25TYTVRYUFLa1AyUVly?=
- =?utf-8?B?dW93Vk5haXVXTW5YbUkzTHdXRjJ1dG10Z2ZiODJYbmkrc0kxK2VidTdLT2Qr?=
- =?utf-8?B?Z01QYVJadkNvWUZ2eGFtRS93TnhGL1U5Qk5uYXRNRElaNGxvU3dBTEllMWly?=
- =?utf-8?B?WGhCclBtKy9nK3FKTForZGFPbXVsTXZoci91N1BBVjN6MWsxZ1pWQWEzYjFo?=
- =?utf-8?B?cTE4bTFGSExGTVYyVkdYNy9XbTRsV2thZFJUcStlY21xVEFHTU5zMFlyYVNz?=
- =?utf-8?B?SHJhL3ZoeUUza2NBSFZ3T2tZODgrQ0tJZ2ZJM1UyUmd0ZjlqL3BjdHBpMU14?=
- =?utf-8?B?bEg4dlJBNTlTNUptUVJUYnNmeWx4SG52aDQzV1g5aUhJSzhoWVVMc0FUQTg2?=
- =?utf-8?B?R0pzVVhkNGFWSmc0Z2JBK0FrUFYwMlhKVUlIbnlwRlZvYkF1RVVvTnVnMEVZ?=
- =?utf-8?B?TFFZQUc1OGRnQ2xBdFp5Q3FLemM3Zi90S2VzZHo1dlBLZ1ZvQXVBRG40UlU0?=
- =?utf-8?B?ODlQOTJydjRvUGwwSDZTOUJBUUJBSWVUd25tZGdCSEpVMktSUm9Hc256d1hu?=
- =?utf-8?B?aXhCSXNPTWg4bTZWUWpkMTVyaERYRStvN0tCTGFQZG9PWWd5YndaS092cXU3?=
- =?utf-8?B?Rm8wTkpESFpyWmVqSHNwT0pNcngxZkFQWHV5azIzZm44VlZPTm15SlBEeFpl?=
- =?utf-8?B?ZExucDJmdUVDTHdFdmgydDdjN2pSKzZ1MWw4aVF6RGh5MkFZc0xpTDhURHN2?=
- =?utf-8?B?RDlkWUJFUUppbk1SS3FKQVFQc2NabFVibytsQm95enJDSzhMVWRUTXl5Ry83?=
- =?utf-8?Q?pVG0XMnjnJ7nWIHsfqNkXTwVk7ZWaXfZ?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MRWPR04MB12117.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(19092799006)(7053199007)(13003099007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?utf-8?B?UG1iczBHZ3RGRGdGelNFcCtIZDI0VlA0eExOYXRrbVY5Q2NHUDQzTkVGclZa?=
- =?utf-8?B?R3M5eVJXVkVxSmVqOHFnVWRvd05ubGhRb09FbmRUZDN6ZDh0dzdNVFJSQnNB?=
- =?utf-8?B?L0VJSmZxM251OFlNdzV2YndHU1pnc1dGaGZrRWpNcUMzTVFFeDhqcTRsbXBC?=
- =?utf-8?B?QU05eGxaS0FQV1BFWDhiNDJhYVNHUGVvaUlPbU4xYmdJRXpQNC9TTDJqektn?=
- =?utf-8?B?aHRmZDM2OWhjeTcwQ1cvK1g1blBKM2x1VkZIbmk4TVFQTXhWN2ZKelZhN1Ja?=
- =?utf-8?B?US93OXg0MmVQNGVoU3huRUVodHZuSUtpaWNPQmZJVU1sOVRTbGJnQkNLVit0?=
- =?utf-8?B?eENYOE85ajlqdHBpWmZKaTRVUTV4b0NYdVZyT094ZnFLbUd2bHRMV2JTUXJJ?=
- =?utf-8?B?WmdtRmRReW1jeHF5Q2pTeFFuQkQ2UGxDM29SU0I0b2VMTVAwWE8zUS9tLzEw?=
- =?utf-8?B?aFVLclUwS1IvWFg2RkNhZTh0VlhCRWdDWmVCU1o3VWQ1Yk8xSzN0dy9ZRytE?=
- =?utf-8?B?MDZ1ZDFWRlg1ZjFiL1J5NEg3REVodTFZRFhHY3FpRktPL2xMY2RvamtMU2Ny?=
- =?utf-8?B?d1JpbTRPQ1RoOTMxWFcvdGtVQ0plVDlyNnJqdXNZTFF3WEpFbFIrZXY4WWJy?=
- =?utf-8?B?N3J4OEQ1blErUVV2WldnekpHU21tNmg4N3dEbzROallYSUduanhMejNZREtK?=
- =?utf-8?B?ZXRhVWpEcncyVExwVHlyNFVVSTV4NmF0NGh6ZXdwOWsrYmVieElnMWpTL1Jx?=
- =?utf-8?B?VzB4cGFjUjlKYlY3UVNwZkZHTEhZWGZlMjlMRFVzSFZnMzVidEZtcUEzWUx2?=
- =?utf-8?B?WU5ReHF0YTVCV3gxMVMxS3VBOEtmL1NVdDdsKzBvNDNBRVIyZFVKTkFCTFJC?=
- =?utf-8?B?c1hodDJMZnhBbkdFVUpobWRNbU9xUmpnc1FPNm44SzN1UFc3elBQS3YvQXc3?=
- =?utf-8?B?b2VHdlpKSXJPLzVpYWt1Z3ZJd1JmMWRzZkI5eHgxZHNBeUdFd1lETkVLSlJn?=
- =?utf-8?B?cG5Ca2FvUllrUmd3WDdmbGhQaFNBS1FTb2Q4bXpwVWpOdUtrRGFCOXVkMkYz?=
- =?utf-8?B?a0ZWeWZQSVJDeFFnUnVieGI2UCtWTEk3R2VuWG9MeWl3dmpDZW5ReVhoRXBD?=
- =?utf-8?B?MHhINFFnUFluRHNWaVRwd3g5VldTdTZsaXJhQ3JlQU8xL20zb3R1MVVxaVhP?=
- =?utf-8?B?V29LOGRIQXl4bGFrWXJwV2hFQnIwZ1p0cDRqclorWkh3MENvVUFvMzZCQXpm?=
- =?utf-8?B?Zzh4N2JRWjFWaUtFS3d6MUI4T1FKVnh2VXVxV3lKbU1kZE0xYVZmKzcxMkhs?=
- =?utf-8?B?eEI0MW9CRUQ3aEh0QzFPanpkN1Z3MmdFQVpjY3RhMDF3K2pFWmNqZjNTY001?=
- =?utf-8?B?YjhIbnFiR1ZCSVN5K1FJUDBjaW5mdXNRckxXM1MvWk5sTjA4NE9Kd0hPbGow?=
- =?utf-8?B?NnJQTGtGSlZxSDlyVXpvdk9JTGNMYy9XclNXV2R2VUtLbVVlMjZVbkVSNGNJ?=
- =?utf-8?B?d0loV3ZIZHZqb2ZQZlNqd3lWY3pXWVc0WkhHd1ZDczBTcmlNU2FWNVVuWkhy?=
- =?utf-8?B?MnRTRzJ1blgweXkwOGh3R1BsWVhvb09xbFpBTmM2YkdXY05sMGJTUTBiUEhO?=
- =?utf-8?B?Y2lzZTNDSm92eWE1bTVIZm84c0hrdkJydGtWMmVxT29WcHhndzNqRzJqV2E4?=
- =?utf-8?B?dDRhbXU2dnBmN1ZpenU5Vmkyc0ZlZ1NDQlY1WU82aktYakR2M0podUQ0WXlm?=
- =?utf-8?B?anowMVovdnlicVlZT0tLcGR6Mlh1UWNhQU5uaWl4VWhpRFVBSUVnQlV1VnRY?=
- =?utf-8?B?YWc4cmYzc2E2NVZoV2hKVEtHV0ErR2R3QjdQMkVjNGpnSy9CTWFZOGNVV0lF?=
- =?utf-8?B?cWRSbHg0Rm5OZmdvZVJmelE4dWJNbDlRUU91cGRSRHVnb0ROOTZLMjhGMXhP?=
- =?utf-8?B?QjhJY08xQnBsR1gyMW1VSnRFRnllbmlRL1RSUkV0a3NuYnVFYzhKVVJMNHFL?=
- =?utf-8?B?ejJLZFB4dldqZjdzL0xYSytHWUtzSzNOY1pDT054bk5aNitLZjNPc2tabDRt?=
- =?utf-8?B?MVBEdkw2NGthUDFJdTg1emRvcnR1WlFsTTQ4YUdpYzFMSDRSanJzOVJEb0tE?=
- =?utf-8?B?SFZkRTZEOGs4UGhjN3N5b1FTTnMrK2V6WDBRZURnajVaVWVteVBaQXVWYzAz?=
- =?utf-8?B?QlF6TS91clE2dW1zSDJzZHFSQm03VTZrRU9yaDR2QWtocTJIanUzK2RCMjVN?=
- =?utf-8?B?c25NOG5OSkR1YkVBMCtpVmtySE1LK2V2dlNyWVVSYTMzRlhjUFE5STIwNEdr?=
- =?utf-8?B?NDFMRkc1Q3dzbm1vbk03aXFqWnJicEQyekw0WjFrQ3pqdE9QR3pTUT09?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9556bbb5-b4a5-4e46-fd55-08de527c010b
-X-MS-Exchange-CrossTenant-AuthSource: MRWPR04MB12117.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2026 08:16:08.2694
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 29E29JSpyd1xyor3FA5Sqibec7b7IrqmpbUBiHnxyp3kxk+7f76VZL7HOK9MivB3UOIqMToEFWUwFqyZz6GYVA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR04MB9515
+References: <2b66577296583a6787f770f0eb13c42a6b50768b.1768233569.git.geert+renesas@glider.be>
+ <20260112174945.GC26365@pendragon.ideasonboard.com>
+In-Reply-To: <20260112174945.GC26365@pendragon.ideasonboard.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 13 Jan 2026 09:43:26 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVH9v_Yn4+UA8TAyPu3st55yWFEPFmA6-ZeGkkxs44O+g@mail.gmail.com>
+X-Gm-Features: AZwV_QgQdMvlnOnaTNIaFzNr0xfqYvjdFzLdwf3uc17UQjijTlMqSdyHwcT5Hzk
+Message-ID: <CAMuHMdVH9v_Yn4+UA8TAyPu3st55yWFEPFmA6-ZeGkkxs44O+g@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: display: bridge: nxp,tda998x: Add missing clocks
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Russell King <linux@armlinux.org.uk>, 
+	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, dri-devel@lists.freedesktop.org, 
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-omap@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 1/13/2026 4:04 PM, Marek Vasut wrote:
-> [You don't often get email from marek.vasut@mailbox.org. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
-> 
-> Caution: This is an external email. Please take care when clicking links or opening attachments. When in doubt, report the message using the 'Report this email' button
-> 
-> 
-> On 1/13/26 7:41 AM, Joseph Guo wrote:
->> On 1/13/2026 7:47 AM, Marek Vasut wrote:
->>> [You don't often get email from marek.vasut+renesas@mailbox.org. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
->>>
->>> Caution: This is an external email. Please take care when clicking links or opening attachments. When in doubt, report the message using the 'Report this email' button
->>>
->>>
->>> Parse the data lane count out of DT. Limit the supported data lanes
->>> to 1..4 which is the maximum available DSI pairs on the connector of
->>> any known panels which may use this bridge. Internally, this bridge
->>> is an ChipOne ICN6211 which loads its register configuration from a
->>> dedicated storage and its I2C does not seem to be accessible. The
->>> ICN6211 also supports up to 4 DSI lanes, so this is a hard limit.
->>>
->>> To avoid any breakage on old DTs where the parsing of data lanes from
->>> DT may fail, fall back to the original hard-coded value of 2 lanes and
->>> warn user.
->>>
->>> The lane configuration is preconfigured in the bridge for each of the
->>> WaveShare panels. The 13.3" DSI panel works with 4-lane configuration,
->>> others seem to use 2-lane configuration. This is a hardware property,
->>> so the actual count should come from DT.
->>>
->>>
->> Hi Marek,
->>
->> I don't have 4 lanes waveshare panel on my hands. Have you tested with the 4-lane panel already?
-> Yes, the 13.3" DSI panel is 4-lane
-> https://www.waveshare.com/13.3inch-dsi-lcd.htm, I have it connected to
-> Retronix Sparrow Hawk board which has 4-lane port.
-> 
-> See also this patch I submitted, that is the DT binding for it:
-> 
-> [PATCH 2/2] arm64: dts: renesas: sparrow-hawk: Add overlay for WaveShare
-> Display 13.3"
+Hi Laurent,
 
-OK, thank you.
-Reviewed-by: Joseph Guo <qijian.guo@nxp.com>
+On Mon, 12 Jan 2026 at 18:50, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Mon, Jan 12, 2026 at 05:02:40PM +0100, Geert Uytterhoeven wrote:
+> > Some TDA998x variants (e.g. TDA19988) have an OSC_IN pin, to connect
+> > an external oscillator circuit or clock source.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > ---
+> > This fixes "make dtbs_check":
+> >
+> >     arch/arm64/boot/dts/renesas/r8a774c0-ek874-mipi-2.1.dtb: tda19988@70 (nxp,tda998x): Unevaluated properties are not allowed ('clocks' was unexpected)
+> >           from schema $id: http://devicetree.org/schemas/display/bridge/nxp,tda998x.yaml
+> >     arch/arm64/boot/dts/renesas/r8a774c0-cat874.dtb: tda19988@70 (nxp,tda998x): Unevaluated properties are not allowed ('clocks' was unexpected)
+> >           from schema $id: http://devicetree.org/schemas/display/bridge/nxp,tda998x.yaml
+> >     arch/arm64/boot/dts/renesas/r8a774c0-ek874.dtb: tda19988@70 (nxp,tda998x): Unevaluated properties are not allowed ('clocks' was unexpected)
+> >           from schema $id: http://devicetree.org/schemas/display/bridge/nxp,tda998x.yaml
+> >     arch/arm64/boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dtb: tda19988@70 (nxp,tda998x): Unevaluated properties are not allowed ('clocks' was unexpected)
+> >           from schema $id: http://devicetree.org/schemas/display/bridge/nxp,tda998x.yaml
+> >
+> > This patch can be considered v3 of "[PATCH v2 2/3] [RFC] arm64: dts:
+> > renesas: cat874: Drop bogus clocks property"[1], as the pin is actually
+> > connected to a clock source on that board.  On BeagleBone Black, it is
+> > also connected to a clock source, but not described in DT.
+> >
+> > The linux driver does not use this clock directly, but I suspect[2] the
+> > use of this pin is controlled through the AP_ENA register value, as
+> > specified in the second cell of the the audio-ports property.
+> >
+> > [1] https://lore.kernel.org/97b949cddd7e30e9c05873800330dccd3483b12b.1663165552.git.geert+renesas@glider.be
+> > [2] I do not have access to the programming manual.
+> > ---
+> >  .../devicetree/bindings/display/bridge/nxp,tda998x.yaml        | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/display/bridge/nxp,tda998x.yaml b/Documentation/devicetree/bindings/display/bridge/nxp,tda998x.yaml
+> > index 3fce9e698ea1d2dd..1205c8e9de329bbc 100644
+> > --- a/Documentation/devicetree/bindings/display/bridge/nxp,tda998x.yaml
+> > +++ b/Documentation/devicetree/bindings/display/bridge/nxp,tda998x.yaml
+> > @@ -19,6 +19,9 @@ properties:
+> >    interrupts:
+> >      maxItems: 1
+> >
+> > +  clocks:
+> > +    maxItems: 1
+> > +
+>
+> I wonder if we should add a compatible string for the variants with a
+> clock pin, to let drivers manage the clock.
 
-Regards,
-Joseph
+I am not sure if that is necessary, as the clock is optional, and thus
+devm_clk_get_optional() can just be added to the driver.
+
+> If the clock does not need to be controlled, an alternative would be to
+
+I think the driver should control the clock. Currently it works by
+accident, as on (at least) cat874 and boneblack the external clock is
+a fixed clock that is always running.
+
+A simple solution would be to use e.g. devm_clk_get_optional_enabled().
+A more complex solution would probably involve using the AP_ENA
+register value.  Anyone who has the programming manual for tda998x?
+
+> drop the clocks property from
+> arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts.
+
+Cfr. my RFC v2 linked above[1] ;-)
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
