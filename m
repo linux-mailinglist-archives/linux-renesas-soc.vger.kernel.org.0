@@ -1,172 +1,131 @@
-Return-Path: <linux-renesas-soc+bounces-26654-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26655-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2583D175A2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Jan 2026 09:44:38 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE1C9D17949
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Jan 2026 10:22:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5AAB2300A1E6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Jan 2026 08:43:43 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 7293D3038D17
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Jan 2026 09:16:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2FEA3803EE;
-	Tue, 13 Jan 2026 08:43:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2C65389DEA;
+	Tue, 13 Jan 2026 09:15:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="cP8pqTgt"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f65.google.com (mail-ua1-f65.google.com [209.85.222.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25CB636AB4A
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Jan 2026 08:43:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E17963815F2;
+	Tue, 13 Jan 2026 09:15:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768293822; cv=none; b=vAyZM82jooa+oiZt2Ah8wr1QMdIPpJnLwjxlnkkT7g8bN5E2qgzssghcUW1kdgpabQWgbLVU1J4qw0/18oq7W4ut+7KcCDvbbGcpfIf5JAw5DaHvojqQEDUDt5Ol6YmF5f9E9R9K2onRRp6nszQOxxKV3CJoIuTdqG2gWPpUO9c=
+	t=1768295742; cv=none; b=WrdBUzplm6+wRPcqvUP5PFg3XFrP/i5cD1X7y7s20TP9jVSdw/nszEIDWHMOzIvgNMz18wtSa4e03/02TXU5J569rxUGkY9v5Fn9h6IMFjO9qcM61/PRIFgZ02HJhwuTdbTIFFZSK7x74o4ZH4YvPb3wxQkEfWmteMLzvAzVqTU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768293822; c=relaxed/simple;
-	bh=Kw29Mu6HT2HxD5ti7IZmn4LO6W3EDHSFizK6jJGxelw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=R2+JJIJaPQdRK4DJ/l7axtHRnE/xtcyFyoPzQ0U4wu9hztFEFjMBAuYGNJVenOtkD/bs+qEtZzBABccCkbcl7a0PtL1pSnMsySIu9xZ0+PJ2HwrwGwHxq11coHLWqYOMbgZLuw3q6zCb1wyMLmh6TDCe1MlCItxuzHySjSdZC0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f65.google.com with SMTP id a1e0cc1a2514c-93a9f6efe8bso2141772241.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Jan 2026 00:43:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768293820; x=1768898620;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=E1oQ15jpRcmphl58tx08AUKGIdjS+7SOa3S3k4/U/kw=;
-        b=ZCycXtqF/KYdVltDghzFZ6TAohA1pyVCZ100+OVipFMZ58D1ti1FftNzj8fm5L6U+N
-         f6uaWKFOOn78Kej0IirBlSZvWI4azutelbe5kCKs3gM6pi76jHYMrQO1qXbtdChuvVdE
-         RG5I1wLLQgNwcIdJJiHPE7MvzbAJoAkbaI3MBLbofGyq7RPjGTf/6TFBlbfjYhrdFO1M
-         cuznlzGMtBk/zH/S9Jap/EaHTIypoKvcRNYEFjsqlDVCiqZHahifyClxWqUKUnOgtKIK
-         W1LHzd27QYVft4cfj8/UqbsK84EOUBc0/azV+ZQ6KO5HpBX7WBet20XYrqu6IG59TZ8s
-         r4Jw==
-X-Forwarded-Encrypted: i=1; AJvYcCVlRRHkFwXfmgxmcemrR4BoFrja/n1IBY2BOVVRr5jO7IRrAEDxhBF0qFVX7tANHlfK1aRybfgLyo0Rj2ao+l3kfg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz1L8pYbGIODLdZe7Ga4RrWCKOXU908pm9POcrBd8OWH8OyBZue
-	90AMKjvzGpCB7GwLcVXrqlXVEGTf4Jawh6Dl/4JizzO73ksPVuwOJEEA8GJR9DvZ
-X-Gm-Gg: AY/fxX429UyI5eJbRXE6iCoKIXGc+/AXWdBAfD5P7wV3PFB+FTAW9J9XOa/XVVCXDUM
-	55814EqsoLbqHAKsRryvzhtoVR/GZLt3EZoKJJ5esB/aD4v+Atx4lEMTDSLPGfqe06iNQjTaoh5
-	SVBXjiTQBFOACBoZwbCzU+R4C7NNU8RAZM01fozHAeCAm4FT535S4CgRlnObdYZvqzlEncsKGkJ
-	su6uAqcKnLrrcUBdSHBp2s3a5j+w56CmSF/wAHmNFlUdyZ7TehQilWDRcFJmL+0mR+TaZlkK2Cq
-	D1EjDhjeHNEp8uqaeRfDEFQuG0fR61SNupb01KLAdx+QDzSE8DUEqXQR52WoowbMqz30zuLxa1t
-	9zZHVUpMraIsmMIwDtEW4FCOl2Nsen/3xJ5ygRPq78DZ7N0sQzUSesYN0f2M8WbZn6s5L9HQONM
-	y0Dz6X2EjIwMy6W3+SK0wLuGNOETj8z8wWf5GoxqO90hUxrkqZw2lvfjtN7Z4=
-X-Google-Smtp-Source: AGHT+IHWvUdAZoWoNJcRJSG6WMRQ9FprWOeEozpa9m/JqzLdN7cYrKwBeUqCCVGZhebRLn2+UnWg1Q==
-X-Received: by 2002:a05:6102:8088:b0:5dd:b2a1:a5a4 with SMTP id ada2fe7eead31-5ecb1e731d9mr7613209137.5.1768293819905;
-        Tue, 13 Jan 2026 00:43:39 -0800 (PST)
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com. [209.85.222.51])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5efb5bb6d11sm8358054137.4.2026.01.13.00.43.38
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Jan 2026 00:43:39 -0800 (PST)
-Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-94240659ceaso2406837241.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Jan 2026 00:43:38 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV66cTrkaDTelbUAhu3qRe33fpQg7fu7RgnuRs1oj5WyRTijX9VUefKtJQ8Uz8mCFfedkHZ8554D0fFuYfJ6JhDfA==@vger.kernel.org
-X-Received: by 2002:a05:6102:290d:b0:5ef:b3fa:c89a with SMTP id
- ada2fe7eead31-5efb3facb2bmr3596566137.32.1768293818629; Tue, 13 Jan 2026
- 00:43:38 -0800 (PST)
+	s=arc-20240116; t=1768295742; c=relaxed/simple;
+	bh=nIIksL5mUlWdTnTjhPHMrEehI9aA1snjhXPcWS3H0qs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Jk/kbUrKCGrqOECa1ymT3KU/oRP7pLYa2rb0WyWUwFiEeHprwqWvHOxdUF6QSS83YqFGSukcJStscXeO+OaB+eUyDba+Iamczl+9kGQYMNaOi5fCKvJJwgNXgE0/YrkznltAFkmOJksHMTMC42lV3PU2IwHsdzYP/WtgX99OMEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=cP8pqTgt; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4dr3Vz5gLqz9sbt;
+	Tue, 13 Jan 2026 10:15:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1768295723;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wQ7AtPjQ2Ronaqwmz5J5bM5bR7wWBP2yp8oCfP+eth0=;
+	b=cP8pqTgtxZhtLZglYZrNCDjSY1DlxxBf8Nc39IYaS5vLeGZ1cXqNaQoSAj80RykGRkZZRx
+	clLouFGJSJt5ib18IoC/Lqcp+fZ6N6BYpRVk6sbmfVKqzcQVveZ2Kl4JPsHAoIt6KFIoYy
+	xrNxStCJdEM/niCTkMI003ySVC8b7tUc8nOdoRHs3TXLFF2gxmZZQRXSmY6tiIsApU0vAB
+	q8JkCD69W979TVzpnPuaF6+9A3pDm9rr/ItBkmWbO1RN6FVVygyLgVIgximr7WIE/KpFjh
+	GQV2zrnFkGw97l46Yo6DwRQ1OiUFlYofE5zM4OnS4VQi2BRUotV50vaUfKwZ4w==
+Message-ID: <9c59661e-98e6-473e-9a5e-b6002048c51a@mailbox.org>
+Date: Tue, 13 Jan 2026 10:15:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <2b66577296583a6787f770f0eb13c42a6b50768b.1768233569.git.geert+renesas@glider.be>
- <20260112174945.GC26365@pendragon.ideasonboard.com>
-In-Reply-To: <20260112174945.GC26365@pendragon.ideasonboard.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 13 Jan 2026 09:43:26 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVH9v_Yn4+UA8TAyPu3st55yWFEPFmA6-ZeGkkxs44O+g@mail.gmail.com>
-X-Gm-Features: AZwV_QgQdMvlnOnaTNIaFzNr0xfqYvjdFzLdwf3uc17UQjijTlMqSdyHwcT5Hzk
-Message-ID: <CAMuHMdVH9v_Yn4+UA8TAyPu3st55yWFEPFmA6-ZeGkkxs44O+g@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: display: bridge: nxp,tda998x: Add missing clocks
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Russell King <linux@armlinux.org.uk>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, dri-devel@lists.freedesktop.org, 
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-omap@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [EXT] [PATCH 2/2] drm/bridge: waveshare-dsi: Add support for 1..4
+ DSI data lanes
+To: Joseph Guo <qijian.guo@nxp.com>, dri-devel@lists.freedesktop.org
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
+ Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20260112234834.226128-1-marek.vasut+renesas@mailbox.org>
+ <20260112234834.226128-2-marek.vasut+renesas@mailbox.org>
+ <773b6e43-4f86-4b11-8e6b-a9f2561a75de@nxp.com>
+ <65ccfeb6-4962-4964-be1d-cfb0ed41773e@mailbox.org>
+ <409cdcf0-af9b-4084-845f-d863ad6303c5@nxp.com>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <409cdcf0-af9b-4084-845f-d863ad6303c5@nxp.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-META: zhhta6mtoru8d4m813ormdjwi7reu7uu
+X-MBO-RS-ID: 0283d1e8558795067bf
 
-Hi Laurent,
-
-On Mon, 12 Jan 2026 at 18:50, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Mon, Jan 12, 2026 at 05:02:40PM +0100, Geert Uytterhoeven wrote:
-> > Some TDA998x variants (e.g. TDA19988) have an OSC_IN pin, to connect
-> > an external oscillator circuit or clock source.
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> > This fixes "make dtbs_check":
-> >
-> >     arch/arm64/boot/dts/renesas/r8a774c0-ek874-mipi-2.1.dtb: tda19988@70 (nxp,tda998x): Unevaluated properties are not allowed ('clocks' was unexpected)
-> >           from schema $id: http://devicetree.org/schemas/display/bridge/nxp,tda998x.yaml
-> >     arch/arm64/boot/dts/renesas/r8a774c0-cat874.dtb: tda19988@70 (nxp,tda998x): Unevaluated properties are not allowed ('clocks' was unexpected)
-> >           from schema $id: http://devicetree.org/schemas/display/bridge/nxp,tda998x.yaml
-> >     arch/arm64/boot/dts/renesas/r8a774c0-ek874.dtb: tda19988@70 (nxp,tda998x): Unevaluated properties are not allowed ('clocks' was unexpected)
-> >           from schema $id: http://devicetree.org/schemas/display/bridge/nxp,tda998x.yaml
-> >     arch/arm64/boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dtb: tda19988@70 (nxp,tda998x): Unevaluated properties are not allowed ('clocks' was unexpected)
-> >           from schema $id: http://devicetree.org/schemas/display/bridge/nxp,tda998x.yaml
-> >
-> > This patch can be considered v3 of "[PATCH v2 2/3] [RFC] arm64: dts:
-> > renesas: cat874: Drop bogus clocks property"[1], as the pin is actually
-> > connected to a clock source on that board.  On BeagleBone Black, it is
-> > also connected to a clock source, but not described in DT.
-> >
-> > The linux driver does not use this clock directly, but I suspect[2] the
-> > use of this pin is controlled through the AP_ENA register value, as
-> > specified in the second cell of the the audio-ports property.
-> >
-> > [1] https://lore.kernel.org/97b949cddd7e30e9c05873800330dccd3483b12b.1663165552.git.geert+renesas@glider.be
-> > [2] I do not have access to the programming manual.
-> > ---
-> >  .../devicetree/bindings/display/bridge/nxp,tda998x.yaml        | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/display/bridge/nxp,tda998x.yaml b/Documentation/devicetree/bindings/display/bridge/nxp,tda998x.yaml
-> > index 3fce9e698ea1d2dd..1205c8e9de329bbc 100644
-> > --- a/Documentation/devicetree/bindings/display/bridge/nxp,tda998x.yaml
-> > +++ b/Documentation/devicetree/bindings/display/bridge/nxp,tda998x.yaml
-> > @@ -19,6 +19,9 @@ properties:
-> >    interrupts:
-> >      maxItems: 1
-> >
-> > +  clocks:
-> > +    maxItems: 1
-> > +
->
-> I wonder if we should add a compatible string for the variants with a
-> clock pin, to let drivers manage the clock.
-
-I am not sure if that is necessary, as the clock is optional, and thus
-devm_clk_get_optional() can just be added to the driver.
-
-> If the clock does not need to be controlled, an alternative would be to
-
-I think the driver should control the clock. Currently it works by
-accident, as on (at least) cat874 and boneblack the external clock is
-a fixed clock that is always running.
-
-A simple solution would be to use e.g. devm_clk_get_optional_enabled().
-A more complex solution would probably involve using the AP_ENA
-register value.  Anyone who has the programming manual for tda998x?
-
-> drop the clocks property from
-> arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts.
-
-Cfr. my RFC v2 linked above[1] ;-)
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+On 1/13/26 9:15 AM, Joseph Guo wrote:
+> On 1/13/2026 4:04 PM, Marek Vasut wrote:
+>> [You don't often get email from marek.vasut@mailbox.org. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+>>
+>> Caution: This is an external email. Please take care when clicking links or opening attachments. When in doubt, report the message using the 'Report this email' button
+>>
+>>
+>> On 1/13/26 7:41 AM, Joseph Guo wrote:
+>>> On 1/13/2026 7:47 AM, Marek Vasut wrote:
+>>>> [You don't often get email from marek.vasut+renesas@mailbox.org. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+>>>>
+>>>> Caution: This is an external email. Please take care when clicking links or opening attachments. When in doubt, report the message using the 'Report this email' button
+>>>>
+>>>>
+>>>> Parse the data lane count out of DT. Limit the supported data lanes
+>>>> to 1..4 which is the maximum available DSI pairs on the connector of
+>>>> any known panels which may use this bridge. Internally, this bridge
+>>>> is an ChipOne ICN6211 which loads its register configuration from a
+>>>> dedicated storage and its I2C does not seem to be accessible. The
+>>>> ICN6211 also supports up to 4 DSI lanes, so this is a hard limit.
+>>>>
+>>>> To avoid any breakage on old DTs where the parsing of data lanes from
+>>>> DT may fail, fall back to the original hard-coded value of 2 lanes and
+>>>> warn user.
+>>>>
+>>>> The lane configuration is preconfigured in the bridge for each of the
+>>>> WaveShare panels. The 13.3" DSI panel works with 4-lane configuration,
+>>>> others seem to use 2-lane configuration. This is a hardware property,
+>>>> so the actual count should come from DT.
+>>>>
+>>>>
+>>> Hi Marek,
+>>>
+>>> I don't have 4 lanes waveshare panel on my hands. Have you tested with the 4-lane panel already?
+>> Yes, the 13.3" DSI panel is 4-lane
+>> https://www.waveshare.com/13.3inch-dsi-lcd.htm, I have it connected to
+>> Retronix Sparrow Hawk board which has 4-lane port.
+>>
+>> See also this patch I submitted, that is the DT binding for it:
+>>
+>> [PATCH 2/2] arm64: dts: renesas: sparrow-hawk: Add overlay for WaveShare
+>> Display 13.3"
+> 
+> OK, thank you.
+> Reviewed-by: Joseph Guo <qijian.guo@nxp.com>
+Thank you too.
 
