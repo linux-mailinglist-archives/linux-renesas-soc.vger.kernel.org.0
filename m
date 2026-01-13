@@ -1,158 +1,104 @@
-Return-Path: <linux-renesas-soc+bounces-26693-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26694-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83EF2D1AA36
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Jan 2026 18:31:19 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22F08D1AE08
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Jan 2026 19:45:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 09052300519A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Jan 2026 17:31:19 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 86AC8301F8CD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Jan 2026 18:44:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35F5D1DC985;
-	Tue, 13 Jan 2026 17:31:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7627034F47C;
+	Tue, 13 Jan 2026 18:44:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="SbsgZNDg"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mJ/epLMx"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37A141CD1E4;
-	Tue, 13 Jan 2026 17:31:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43536284662;
+	Tue, 13 Jan 2026 18:44:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768325477; cv=none; b=ZnXC2Jxp633I1IiH9f5+/K/jfTAezPeixqu3I3fNzWvJWLibhTmlT6h04OA044QYJDeBIOizGcwNHKEw0dMzRNeiEJr+dvuxcCYikVF+iB3RdVIXS00LwvGVdBppcRekAdXOlEilbOgwg3VqVVcPVAMLXBKUyhUQ3bUMtmvGe/I=
+	t=1768329879; cv=none; b=tTVFDpr0LLT7CQSnBAbZ1/u1Is0YMg23xPNSmRJQW0/sEa5bBqFwAEGsR6t1fUFQFDuuElm0qCgIQKEysLbCugxHwfknRc1vHjdItqhcoKQKe1bj+rds52Ur1xzsyzOggr+sfrcm282cYet+Q9o1M+n3mC0Vzop5dKhWJBe3ijQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768325477; c=relaxed/simple;
-	bh=xiQuj7dIdAYhRuOpndzUxPTm1DTPZHyZFRRtiPvKkQw=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:Subject:Cc:To:
-	 References:In-Reply-To; b=n4HJKX5tTE3vCx2loZNZsdmTlz3WrV7Uy/6B/zR1TkboV/fTBhnZfnfulkLdqMK1nwsKwyWi4/tFZhN7ux7rXw3tww4tX9VJ1bNtMX6rmQpUQ/bBDq2iZn5k143PEoeO0n/MPdLZrVQPwNYl5+Ius7mbzDro7EsJpQ92Zy5KZ3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=SbsgZNDg; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 907654E420AF;
-	Tue, 13 Jan 2026 17:31:12 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 43C8360701;
-	Tue, 13 Jan 2026 17:31:12 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 089C0103C81D3;
-	Tue, 13 Jan 2026 18:30:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1768325470; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=ArN+gzNluv41ve7tNs9bCuLTGUt8HRF4hQp5onhOiSg=;
-	b=SbsgZNDgkfZHCx/r34yGumijNEEAujBA1Asley4Zy9v924+EMnfgnRIOcSjOdM5mvGqWPR
-	lWsq+4rbWv1be42TFPaquIJOTEqiazGpexh6KgVqdj/vsp21Futc53PdAYnOxHNcXKfXWM
-	UPMA6t4YXAPOUmX4w/xDnACUO3E4LMeMErPwCMH1EWAjKXwOnIsQ28a7Nib3ZS84y0pFQm
-	0r3v24ZarNzuyfppzipCFobDWeOQLNpJc0/4gSmi7B9gJ2tirl0htm/b1q7gv8HVWCGTPs
-	rlMphTDPohwx9XlNXbinFpmLjBit+nuMZZCTpdBFpyRuhJNgeuQUSxvN+fm7cQ==
+	s=arc-20240116; t=1768329879; c=relaxed/simple;
+	bh=guH+X5X5Zw5RK4+z7WReUiSq/PEpKm6VSIBaw1TF1Wk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jKStZ9Rgl8Xk5i/Aci5R+FMjAZpxcs5b5utDwtL4vVMoqtg5hi0pN/gZ+T4IOXlReBYOHWZzTOdA+AXeZh/+ByqxMceQsHuxCEa2By+s5wAtWRQVHp0eN5MWeid+66yVArW/TXrvMm12Bb/BFQ636r+2M2b4OOlalvg/4Sr9nnM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mJ/epLMx; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC54FC116C6;
+	Tue, 13 Jan 2026 18:44:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768329878;
+	bh=guH+X5X5Zw5RK4+z7WReUiSq/PEpKm6VSIBaw1TF1Wk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mJ/epLMx61KYA6qPjpRXqerwQQ3NcjyRncy5NLUppRcvNbs2ALyBM6FjEhD9uCvW2
+	 eg+DxvUNeugL74YCHEYOOv4VS+A/BfA6G/dMZqmg4UIxaOswYQMpqwbpy7mH2VJssd
+	 pryhg1yTNddK0bWY9Uq9gE7ggwr1D0Kf4ak8pCyjAuuQxjtChOyO00kugpRuZ29n40
+	 WzTS8Cd0E4qQJrBcO9qMgrhYRyavxl9eWt+/iAY5yX2qEdebOKThI+hfkrhzfqh5HQ
+	 VQ0q4gLY53Z/GZ66GOvRjkXfxIKgJEY7/T6uorHk2QfWRmmEUeUhwAT/SFYMOSF+KF
+	 80DfzL+JVf/oA==
+Date: Tue, 13 Jan 2026 19:44:25 +0100
+From: Niklas Cassel <cassel@kernel.org>
+To: Koichiro Den <den@valinux.co.jp>
+Cc: jingoohan1@gmail.com, mani@kernel.org, lpieralisi@kernel.org,
+	kwilczynski@kernel.org, robh@kernel.org, bhelgaas@google.com,
+	vigneshr@ti.com, s-vadapalli@ti.com, hongxing.zhu@nxp.com,
+	l.stach@pengutronix.de, shawnguo@kernel.org, s.hauer@pengutronix.de,
+	kernel@pengutronix.de, festevam@gmail.com, minghuan.Lian@nxp.com,
+	mingkai.hu@nxp.com, roy.zang@nxp.com, jesper.nilsson@axis.com,
+	heiko@sntech.de, srikanth.thokala@intel.com,
+	marek.vasut+renesas@gmail.com, yoshihiro.shimoda.uh@renesas.com,
+	geert+renesas@glider.be, magnus.damm@gmail.com,
+	christian.bruel@foss.st.com, mcoquelin.stm32@gmail.com,
+	alexandre.torgue@foss.st.com, thierry.reding@gmail.com,
+	jonathanh@nvidia.com, hayashi.kunihiko@socionext.com,
+	mhiramat@kernel.org, kishon@kernel.org, jirislaby@kernel.org,
+	rongqianfeng@vivo.com, 18255117159@163.com,
+	shawn.lin@rock-chips.com, nicolas.frattaroli@collabora.com,
+	linux.amoon@gmail.com, vidyas@nvidia.com, Frank.Li@nxp.com,
+	linux-omap@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	imx@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+	linux-arm-kernel@axis.com, linux-rockchip@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v7 4/6] PCI: dwc: Advertise dynamic inbound mapping
+ support
+Message-ID: <aWaSggUJpnxjAPA_@ryzen>
+References: <20260113162719.3710268-1-den@valinux.co.jp>
+ <20260113162719.3710268-5-den@valinux.co.jp>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 13 Jan 2026 18:30:58 +0100
-Message-Id: <DFNN251V4JL9.2ECEDGOKN8I4F@bootlin.com>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v2 2/6] drm/meson/dw-hdmi: convert to
- of_drm_find_and_get_bridge()
-Cc: "Andrzej Hajda" <andrzej.hajda@intel.com>, "Neil Armstrong"
- <neil.armstrong@linaro.org>, "Robert Foss" <rfoss@kernel.org>, "Laurent
- Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
- <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
- Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Kevin
- Hilman" <khilman@baylibre.com>, "Jerome Brunet" <jbrunet@baylibre.com>,
- "Philipp Zabel" <p.zabel@pengutronix.de>, "Shawn Guo"
- <shawnguo@kernel.org>, "Sascha Hauer" <s.hauer@pengutronix.de>,
- "Pengutronix Kernel Team" <kernel@pengutronix.de>, "Fabio Estevam"
- <festevam@gmail.com>, "Chun-Kuang Hu" <chunkuang.hu@kernel.org>, "Matthias
- Brugger" <matthias.bgg@gmail.com>, "AngeloGioacchino Del Regno"
- <angelogioacchino.delregno@collabora.com>, "Inki Dae"
- <inki.dae@samsung.com>, "Seung-Woo Kim" <sw0312.kim@samsung.com>, "Kyungmin
- Park" <kyungmin.park@samsung.com>, "Krzysztof Kozlowski" <krzk@kernel.org>,
- "Alim Akhtar" <alim.akhtar@samsung.com>, "Laurent Pinchart"
- <laurent.pinchart+renesas@ideasonboard.com>, "Tomi Valkeinen"
- <tomi.valkeinen+renesas@ideasonboard.com>, "Kieran Bingham"
- <kieran.bingham+renesas@ideasonboard.com>, "Geert Uytterhoeven"
- <geert+renesas@glider.be>, "Magnus Damm" <magnus.damm@gmail.com>, "Marek
- Szyprowski" <m.szyprowski@samsung.com>, "Hui Pu" <Hui.Pu@gehealthcare.com>,
- "Thomas Petazzoni" <thomas.petazzoni@bootlin.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <linux-amlogic@lists.infradead.org>,
- <linux-arm-kernel@lists.infradead.org>, <imx@lists.linux.dev>,
- <linux-mediatek@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>,
- <linux-renesas-soc@vger.kernel.org>
-To: "Martin Blumenstingl" <martin.blumenstingl@googlemail.com>
-X-Mailer: aerc 0.20.1
-References: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-3-v2-0-8d7a3dbacdf4@bootlin.com> <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-3-v2-2-8d7a3dbacdf4@bootlin.com> <CAFBinCBWUXNwEDCJNEmdCtOcGO9eVFfZFC9p9fpdRTesZ7xBSQ@mail.gmail.com>
-In-Reply-To: <CAFBinCBWUXNwEDCJNEmdCtOcGO9eVFfZFC9p9fpdRTesZ7xBSQ@mail.gmail.com>
-X-Last-TLS-Session-Version: TLSv1.3
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260113162719.3710268-5-den@valinux.co.jp>
 
-Hello Martin,
+On Wed, Jan 14, 2026 at 01:27:17AM +0900, Koichiro Den wrote:
+> The DesignWare EP core has supported updating the inbound iATU mapping
+> for an already configured BAR (i.e. allowing pci_epc_set_bar() to be
+> called again without a prior pci_epc_clear_bar()) since
+> commit 4284c88fff0e ("PCI: designware-ep: Allow pci_epc_set_bar() update
+> inbound map address").
+> 
+> Now that the EPC layer exposes this capability via the
+> dynamic_inbound_mapping feature bit, set the bit centrally in the
+> DesignWare EP layer so that all DWC-based EP glue drivers report it
+> consistently, without duplicating the same flag in each individual
+> driver.
+> 
+> No functional change intended. This only advertises existing behavior to
+> EPF drivers.
+> 
+> Suggested-by: Niklas Cassel <cassel@kernel.org>
+> Signed-off-by: Koichiro Den <den@valinux.co.jp>
+> ---
 
-On Mon Jan 12, 2026 at 11:21 PM CET, Martin Blumenstingl wrote:
-> Hi Luca,
->
-> On Fri, Jan 9, 2026 at 11:03=E2=80=AFAM Luca Ceresoli <luca.ceresoli@boot=
-lin.com> wrote:
->>
->> of_drm_find_bridge() is deprecated. Move to its replacement
->> of_drm_find_and_get_bridge() which gets a bridge reference, and ensure i=
-t
->> is put when done.
->>
->> dw_hdmi->bridge is used only in dw_hdmi_top_thread_irq(), so in order to
->> avoid potential use-after-free ensure the irq is freed before putting th=
-e
->> dw_hdmi->bridge reference.
->>
->> Acked-by: Maxime Ripard <mripard@kernel.org>
->> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> Reviewed-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
->
-> [...]
->> @@ -789,8 +789,12 @@ static void meson_dw_hdmi_unbind(struct device *dev=
-, struct device *master,
->>                                    void *data)
->>  {
->>         struct meson_dw_hdmi *meson_dw_hdmi =3D dev_get_drvdata(dev);
->> +       struct platform_device *pdev =3D to_platform_device(dev);
->> +       int irq =3D platform_get_irq(pdev, 0);
->>
->> +       devm_free_irq(dev, irq, meson_dw_hdmi);
-> I have one question (so I can understand things better):
-> is there a particular reason why you went with free'ing the IRQ
-> instead of "just" masking it (so the hardware won't fire anymore of
-> those IRQs)?
-
-One reason is symmetry: _bind requests the irq, so _unbind does the
-reverse.
-
-Another is I don't have the hardware, so I wanted my changes to be as small
-and clear as possible.
-
-In principle one could request/free the irq in probe/remove and then
-enable/disable it in bind/unbind. Whether it would be a good or bad idea I
-don't know, but surely it would be more complex and I wouldn't want to do
-it without any chance to test it on hardware.
-
-Also, that would only optimize the case of multiple bind/unbind cycles,
-which are not quite realistic without bridge hotplug. And brigde hotplug
-does not exist yet in mainline, and when it will arrive it will be used
-only for a few use cases.
-
-I hope this answers your question.
-
-Best regards,
-Luca
-
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Reviewed-by: Niklas Cassel <cassel@kernel.org>
 
