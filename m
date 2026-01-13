@@ -1,133 +1,117 @@
-Return-Path: <linux-renesas-soc+bounces-26669-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26670-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FBFCD18DE1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Jan 2026 13:43:53 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD7DBD18F40
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Jan 2026 13:55:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 0C90930350F6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Jan 2026 12:41:10 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 81D7C3014A28
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Jan 2026 12:53:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEBCF38FF07;
-	Tue, 13 Jan 2026 12:38:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1915B38F939;
+	Tue, 13 Jan 2026 12:53:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DMKO3wDO"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="deNlVGWB"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CBC638FF13
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Jan 2026 12:38:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74C0E38E5DB
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Jan 2026 12:53:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768307902; cv=none; b=Fh/vb3v746W2IJXjWktcwtdOgIAFhUQZxRVqBn/k+We1ZH0ll6EKNr53xTgCXdRfug3OdTiBUy/pFmmN81huCNsHa/Hqm5qIqjJ448mNFa672pR3zC6Fp4SQEy+olyQ841OFnLPFSTIJTOvhPcFu0qef/BlLwx3KB5xwhGO7Jbs=
+	t=1768308800; cv=none; b=egZk2lzWJlyJwtKaTBUnU2VDqkg7V+XeMS9Xcc535AWntH2bd6UMXGroyPiEU1IlQJ/+lBQ2MhYnzubN9spS23q5X+JwGMlNzMRiOEcFKAust6Wg//+E91ZhtkPQ7K7z8X27wLp8YQm9ANOMH+RSBcJFu68Xkv48o917E9zjH1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768307902; c=relaxed/simple;
-	bh=qXScHYuCzd215t8hnmVMyfAJzYu9LaTDkfUenYtogos=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mGnl+pYnqDZTrhubotv7FS8qyUEYK31FTWE/X40Hz2P8FyEeroQRU6jiiuicDP55tQbD3/lBA6CgP4KGY8zW5mzUntRWebt2n6SD+vpH9ZT2kkc8jGfszIN5ZuFB9jLnqySj82sHL9qdVO8QLAia3KZre6SXrvbMg+oEvEr/oSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DMKO3wDO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15703C19424
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Jan 2026 12:38:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768307901;
-	bh=qXScHYuCzd215t8hnmVMyfAJzYu9LaTDkfUenYtogos=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=DMKO3wDOQyqAMkRsF3KjP1QgKWLmG/bIgkwkqikQWX7/JxeRnNe7RTYQnbhOkMfPE
-	 G+G+GVnK7BcA67OKp/w9uYGtoDKb6gYsPJFta0W9o3WbrjYSxf+gdK+PIoWXEDVRpB
-	 Q5EBZu76fgMusQwSmXX/liK7piEEVzbTmPGCiEh5Np1ueLICoCxv+JeymLWcnk+8zE
-	 HJZlIdI9MFRGAndmHTk7bTK8js1iFU5lIaAW8gyi5nhPAB7QNOe9kboOVP1zt4i3+k
-	 wUKGh42sKh+F35XHH38iMuMWdGE+RTZk9+LCDvYE3jVMx6N3ZypoG2kBxgAbxjzKHh
-	 WESRwPJzz6AdA==
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-383022729d5so40941811fa.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Jan 2026 04:38:20 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWN8AXuyAtu9cPmCBAX5/qNpBRvV322lfpioIUTDq6j7+Z4OVXdmKILDaA1/7bi03TSIzr6te1iwtkK6ClE9M3NrA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxzR47nQtPnJdO9AatPoHsI6I646sla96CDQxhXEu9/Tee7hNPw
-	t3SvXY8G/qWo0He4jRk6DUAS/E794XzOnVMiuUcW9+JlqfahBpRdsrjcyTy7TPLj8uEmu/PnVYf
-	5qI7DPRNYLwwi2omnYF6JFjbugRF4FxgVdbBgGIqAnw==
-X-Google-Smtp-Source: AGHT+IHqazDCuLxwH7Iu/G2PkGJgVTJ7/k1UTcZwajhZd9YF9n/CenHYLasZcuGAB0SV4lL43Mgtox5RINYhxwkIRxc=
-X-Received: by 2002:a05:651c:30c9:b0:37b:967e:d73 with SMTP id
- 38308e7fff4ca-382ff8115efmr73607701fa.29.1768307899461; Tue, 13 Jan 2026
- 04:38:19 -0800 (PST)
+	s=arc-20240116; t=1768308800; c=relaxed/simple;
+	bh=IosZQnDIkZE84/fX6gm7UGmM/IZKDMbdBOr+shTDotU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iPFiKsUyHs5FCBfUNXGIq267aJ61OJKEmdcJPkcJUcEQfGwM2qZh/JygUvUvMnMNSMouJgPWh8MR64daSHNhH7gq4+5z47tHjrpyBEKNdVIZJKK7tYBQdNXgFEQkKlxIsiLUMEvN1bIElngWlpDWVGvsWHV63GFpzMehz1thGDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=deNlVGWB; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-47d63594f7eso45266915e9.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Jan 2026 04:53:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768308798; x=1768913598; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Vt0DzlDylE+25xem1xZIrwqAOO9o/UpWn2FFY1GBi8A=;
+        b=deNlVGWBFyMtuCHzmmGC2jb9/rmBRKewWeaMWziAgYzsCNo9cmpLIPebm0zNgBSkRu
+         lYuhE2kh7ISqZFk2Me6wrvd1b9cOmvVXIWtDHW0plKUXHBH5NbWH0tdoeUvRNFx8sLGg
+         tgOPeDkb/iRj5bu95Ihe3D+6aqd9OAt20h2vjCLrgwV1iR90J7FvdGthAC5aT4duTo4Y
+         3nUZV1IJjfYUW7FnuXk1kL/kvarEfhJQOyU21nuoAbKLWc+bOtGSQRstv5IccBY4b4Vw
+         o+qRzDR1qpEl/I6Vc2sWcISk6HuXL2+oblvoJ8bYqQF0K4AFQ6HuhfIC4iH3/D/Po0wT
+         JrEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768308798; x=1768913598;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Vt0DzlDylE+25xem1xZIrwqAOO9o/UpWn2FFY1GBi8A=;
+        b=agZqInHScD80YNxH7kGAoWuaf/ADvkvHVUczSDixQ9GZ9/gd2vR3zrPC5qdrzqXU7t
+         nJJuRRYSj9Zco7fI85ZJZEzD11g1pTssy1pbem30sTwzFytC+kwCl4NvVJtUZm70VTeS
+         8Pyzsl3BBJA+yu9aHqroHsLNNCsIKtJWgowVULkjBl/IYO0EG03u3OZQR1lq/x9SAu2N
+         7846byFl3dtekdp7mh+Y65g05DllU/ltp58ze49GITC029VRXd1yeoY2Qy9DEeB6LVgU
+         v37i99R3YXD5daTyB0P8m+ojFNIRUyRp4kOUgJG6ob4qHUA8VsWkflVJhlw8xGOco0oM
+         fBSw==
+X-Forwarded-Encrypted: i=1; AJvYcCVKEDk1ML7tNgNihhmAXWMirw1tf7OQjQmps+YyPIdfkcA4Qld6s0el1A8j09vckRM/bwyl5+NTSu8IEEZ0HKUoiA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwIaqLqCv5i6tczkpH5hnZOedRmSlx1ke18naBhaLj4NMfkt2+q
+	bH93U0Pf16ggfndNVU9oXAXoGKM3XQo7M1WxXENCnNSsVgzA42mEaa+V
+X-Gm-Gg: AY/fxX4RGz/iGMsn27titpnwiudWRzgnqM28gh29i5Uoi6Nebl3MZuSDY8kGgdvo+pF
+	l39siWJpCQdMVAynqRf84YPXMH3kBWWYuQ0qDp0QNJTv6jETemBgF/vcPyh+zBVYbtozFG5LYNc
+	knLel68bJoVULX0wt/HowF/ViDSqVmJLJnk1sAy/oylH036qjCF0CR2kQ2bYruWFexBRhbeBbNj
+	uPnTjFS96mYmfzskUe6Ihauc6ngvDt78UWCV6LPqj2KbTaNdBpGF8fQsqCAWWc3gbjuYWHbsEpN
+	H9kw/hX42RuIIsiFu6R6atslcNN0Uhau4CCGPTWfT7Vi/bdifXW4S3pgdvorRGAMyFJZf5JjqJt
+	uO0xR+oobTdYzoe3k0qnCki1eS6uPHqBxmYa2siXp/F1J/sODdmktbOqey7FWuXV64AJbfoECqq
+	2QNgNzFmbMKhi9cAp4Bw==
+X-Google-Smtp-Source: AGHT+IGXPpg/vAeyzVf71nvro3wrSRnNxBtUKvPSAc7VScTokSYxlvmtkl/uMOs5ejnz+5dNxebYYA==
+X-Received: by 2002:a05:600c:470c:b0:47a:7fbf:d5c8 with SMTP id 5b1f17b1804b1-47d84b3b3c1mr219233985e9.26.1768308797796;
+        Tue, 13 Jan 2026 04:53:17 -0800 (PST)
+Received: from biju.lan ([2a00:23c4:a758:8a01:6e35:f12b:dc2b:8e25])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d7f4184cbsm423744265e9.6.2026.01.13.04.53.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Jan 2026 04:53:17 -0800 (PST)
+From: Biju <biju.das.au@gmail.com>
+X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
+To: Thomas Gleixner <tglx@kernel.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH 0/2] Prevent TINT spurious interrupt during resume
+Date: Tue, 13 Jan 2026 12:53:10 +0000
+Message-ID: <20260113125315.359967-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260112-qcom-sa8255p-emac-v6-0-86a3d4b2ad83@oss.qualcomm.com>
- <20260112-qcom-sa8255p-emac-v6-7-86a3d4b2ad83@oss.qualcomm.com> <41b9a414-55a0-4602-9be5-54137a691d9f@lunn.ch>
-In-Reply-To: <41b9a414-55a0-4602-9be5-54137a691d9f@lunn.ch>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Tue, 13 Jan 2026 13:38:07 +0100
-X-Gmail-Original-Message-ID: <CAMRc=McP7vt2VS=2FpzYcXNG_+beb9O0AAvAJ9E2g8DT2WTfPA@mail.gmail.com>
-X-Gm-Features: AZwV_QhJCTDCGsC5t4RHVGQlo_Vyd1Okk9vVsia2jA5DJVHGvVefyoWQdJ752O4
-Message-ID: <CAMRc=McP7vt2VS=2FpzYcXNG_+beb9O0AAvAJ9E2g8DT2WTfPA@mail.gmail.com>
-Subject: Re: [PATCH RESEND net-next v6 7/7] net: stmmac: qcom-ethqos: add
- support for sa8255p
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Richard Cochran <richardcochran@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Vinod Koul <vkoul@kernel.org>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, 
-	Jose Abreu <joabreu@synopsys.com>, Chen-Yu Tsai <wens@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Matthew Gerlach <matthew.gerlach@altera.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
-	Keguang Zhang <keguang.zhang@gmail.com>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Jan Petrous <jan.petrous@oss.nxp.com>, s32@nxp.com, 
-	Romain Gantois <romain.gantois@bootlin.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, Heiko Stuebner <heiko@sntech.de>, 
-	Chen Wang <unicorn_wang@outlook.com>, Inochi Amaoto <inochiama@gmail.com>, 
-	Emil Renner Berthing <kernel@esmil.dk>, Minda Chen <minda.chen@starfivetech.com>, 
-	Drew Fustini <fustini@kernel.org>, Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>, 
-	Nobuhiro Iwamatsu <nobuhiro.iwamatsu.x90@mail.toshiba>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Maxime Ripard <mripard@kernel.org>, Shuang Liang <liangshuang@eswincomputing.com>, 
-	Zhi Li <lizhi2@eswincomputing.com>, Shangjuan Wei <weishangjuan@eswincomputing.com>, 
-	"G. Jaya Kumaran" <vineetha.g.jaya.kumaran@intel.com>, Clark Wang <xiaoning.wang@nxp.com>, 
-	Linux Team <linux-imx@nxp.com>, Frank Li <Frank.Li@nxp.com>, David Wu <david.wu@rock-chips.com>, 
-	Samin Guo <samin.guo@starfivetech.com>, 
-	Christophe Roullier <christophe.roullier@foss.st.com>, Swathi K S <swathi.ks@samsung.com>, 
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, Drew Fustini <dfustini@tenstorrent.com>, 
-	linux-sunxi@lists.linux.dev, linux-amlogic@lists.infradead.org, 
-	linux-mips@vger.kernel.org, imx@lists.linux.dev, 
-	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	sophgo@lists.linux.dev, linux-riscv@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jan 12, 2026 at 2:55=E2=80=AFPM Andrew Lunn <andrew@lunn.ch> wrote:
->
-> On Mon, Jan 12, 2026 at 11:15:46AM +0100, Bartosz Golaszewski wrote:
-> > From: Bartosz Golaszewski <brgl@kernel.org>
-> >
-> > Extend the driver to support a new model - sa8255p. Unlike the
-> > previously supported variants, this one's power management is done in
-> > the firmware using SCMI. This is modeled in linux using power domains s=
-o
-> > add support for them.
->
-> >  static const struct of_device_id qcom_ethqos_match[] =3D {
-> >       { .compatible =3D "qcom,qcs404-ethqos", .data =3D &emac_qcs404_da=
-ta},
-> > +     { .compatible =3D "qcom,sa8255p-ethqos", .data =3D &emac_sa8255p_=
-data},
->
-> Is this device being probed via DT or ACPI?
->
+From: Biju Das <biju.das.jz@bp.renesas.com>
 
-On the sa8255p it's probed via DT but all its resources are managed in
-firmware over SCMI.
+Currently, a spurious IRQ is generated on the resume path of s2idle for
+the PMIC RTC TINT interrupt due to a glitch related to unnecessary
+enabling/disabling of the TINT enable bit.
 
-Bartosz
+Fix this issue by not setting TSSR(TINT Source) and TITSR(TINT Detection
+Method Selection) registers if the values are the same as those set
+in these registers.
+
+Also added suspend/resume support by restoring IRQ type register values.
+
+Biju Das (2):
+  irqchip/renesas-rzv2h: Prevent TINT spurious interrupt during resume
+  irqchip/renesas-rzv2h: Add suspend/resume support
+
+ drivers/irqchip/irq-renesas-rzv2h.c | 69 +++++++++++++++++++++++++++--
+ 1 file changed, 65 insertions(+), 4 deletions(-)
+
+-- 
+2.43.0
+
 
