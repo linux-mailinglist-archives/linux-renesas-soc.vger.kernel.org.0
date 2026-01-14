@@ -1,124 +1,112 @@
-Return-Path: <linux-renesas-soc+bounces-26728-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26730-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF1ADD1E4F0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jan 2026 12:07:03 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12A82D1E94A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jan 2026 12:56:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E85B63003059
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jan 2026 11:07:02 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id EC9EF30985DE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jan 2026 11:51:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F048638A730;
-	Wed, 14 Jan 2026 11:07:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4645139903B;
+	Wed, 14 Jan 2026 11:50:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="J18n4ggm"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Z+N4yast"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE05B38E11C
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Jan 2026 11:06:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7EFA396B6D
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Jan 2026 11:50:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768388821; cv=none; b=QvA0NKa5n9+OUyH299ztpr76v0zr1yl6O9UHXBAn3x14hsgdOJWTrFF8M4NAxqIgpSJwI0vzyGSoTVR3Sg2+6s/l6qFd9P/JFPzvGGIQu6rN1vH6okt1bBDMUKcBmzbEjjkNCp5KdhzbEd2SYeWoEcZHXiDHfgSj+CDuwf3DABA=
+	t=1768391405; cv=none; b=SzAotfXca7uA8dK4CjoRiUmkbF4YROdv9ca0b9CfWMv9ms5z5LyAn/iKD4NDg8Dmer3wEyHwITkoCOYIrpxTJ2J1aau4VZxZ7RRPYID/kf8D76QGEOh78BQFCUuYGJPSMcBoiGXFwfDLx5FXL9X7rOIjn5DCfLJUBZIYBbudqic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768388821; c=relaxed/simple;
-	bh=lZNQT/lVvB3aRMXapPy5xduNiS/QYtu/j2dRCMggPtk=;
+	s=arc-20240116; t=1768391405; c=relaxed/simple;
+	bh=5G3bZDFv1qBG7SvPosgBK8cERnxjv6HIzxzWgJHcMAI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Va7hwTlyy4YNxRFPtEZXYtSi21IgGCgo3xwFgcvRlTcEeXg8uY3/oBHuxRoJKNBxz30nVNPdK3yvNWHGRjlQWXdDG73ZYU6KPCwtckRDwgHK044DCJaX80ItwjhU5mEZT9zRztyKQ2WnJqvMnEwod2xd8OYBBdDWcBe6LzwZJC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=J18n4ggm; arc=none smtp.client-ip=194.117.254.33
+	 Content-Type:Content-Disposition:In-Reply-To; b=acCm/C3igXtBMUAVbWB3bBWt8xDXBhSJB1I0WanETKYTusIwn3hAzcO65Haet5nxUNLRoj3lqfDFglKZn6AzXXLIgN6rIClG6apzX1JfLZJmKGBCqmANioM+MEDoaBcAGqsB/0c/BNjdvkDTXJ1Yokd5WNlmOryXYigD1nzeURk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Z+N4yast; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=lZNQ
-	T/lVvB3aRMXapPy5xduNiS/QYtu/j2dRCMggPtk=; b=J18n4ggmxqEwAd771RRC
-	jDpl64Haa2Yut/ObJwU0FDpvi2X9JinBEKOGEXkBKNRJcCBL/CZMcocx0hMbrnhk
-	Z7uHLFpXjZN9GjkFrHRGsjPmhMAJiGSBPX8iIJhbWu6eCfENkAg3DNiI1yCKui4d
-	yTaoQ5XvnnpJmtcSGrvk2IHrEOpVyLQLfI2zMNeFDQN3ve2YMmhOZ432uT/tq7m7
-	zA33zcUaj+TIHghjOiN9GkuMOspLnl5wqJeH/KHKf2be96A+pMGxAsXPT4lebNKh
-	ebReGpnq+6PUcbYRKWjSknFpxJXui2jUrbfFl+Bt1LT4+nft1c6sEoimTtqccLRi
-	1w==
-Received: (qmail 2092519 invoked from network); 14 Jan 2026 12:06:50 +0100
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 14 Jan 2026 12:06:50 +0100
-X-UD-Smtp-Session: l3s3148p1@51PZGldIDNkujnsM
-Date: Wed, 14 Jan 2026 12:06:49 +0100
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=gNMi
+	hpzhf2NxKZIcbZg7O2NEUbdwfbHtTszJtzgTj5I=; b=Z+N4yastOsG1hmW6/MpE
+	qJn3S1j5gjDiWLbMXPIr5OKNab4rVxTQ1ISuU/PcwKJNFCP4kxxx0cMd9ocJEYwl
+	rBtM208IDnsTl8YCpApJaEv88+NT0Em1NPc6Tbvj3/9uHqA8vQBIxg0QH3KVhUAz
+	SwzHYADFiSMrJvV/ycsNqExqc0zRxVlOU39NKRHInFy+QXnjDjIz30avvFuZ8F5g
+	Gri7hALcq59mlzxXhbANhpN56BlQ/DVpj6Snpm6iAjr2YruLmkQC+vnuhFN6BWmF
+	JGzVQI/FhDVQVlpXXlNU8Dcyl5bl8RnycG1yAVJyIZ51ICoNtHhpMUKvwBQ20Fi/
+	7Q==
+Received: (qmail 2113255 invoked from network); 14 Jan 2026 12:49:58 +0100
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 14 Jan 2026 12:49:58 +0100
+X-UD-Smtp-Session: l3s3148p1@tokXtVdIoNkujnsM
+Date: Wed, 14 Jan 2026 12:49:57 +0100
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
+To: Josua Mayer <josua@solid-run.com>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Magnus Damm <magnus.damm@gmail.com>,
-	Saravana Kannan <saravanak@kernel.org>, linux-gpio@vger.kernel.org,
+	Marc Kleine-Budde <mkl@pengutronix.de>,
+	Vincent Mailhol <mailhol@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Peter Rosin <peda@axentia.se>, Aaro Koskinen <aaro.koskinen@iki.fi>,
+	Andreas Kemnade <andreas@kemnade.info>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>,
+	Vignesh R <vigneshr@ti.com>,
+	Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Mikhail Anikin <mikhail.anikin@solid-run.com>,
+	Yazan Shhady <yazan.shhady@solid-run.com>,
+	Jon Nettleton <jon@solid-run.com>, linux-mmc@vger.kernel.org,
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Pascal Eberhard <pascal.eberhard@se.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v8 0/8] gpio: renesas: Add support for GPIO and related
- interrupts in RZ/N1 SoC
-Message-ID: <aWd4yZA6GXey8Q_S@ninjato>
-References: <20260114093938.1089936-1-herve.codina@bootlin.com>
- <aWdp_jMVUBN04is3@ninjato>
- <CAMuHMdWkGevDsBuUs1k=r5yeKJZHvs93b2SDfPwKoF4fFr-3Ow@mail.gmail.com>
+	linux-renesas-soc@vger.kernel.org, linux-can@vger.kernel.org,
+	linux-phy@lists.infradead.org, linux-omap@vger.kernel.org,
+	linux-i2c@vger.kernel.org
+Subject: Re: [PATCH v4 7/7] mmc: host: renesas_sdhi_core: support selecting
+ an optional mux
+Message-ID: <aWeC5brP_KdrCmHz@ninjato>
+References: <20251229-rz-sdio-mux-v4-0-a023e55758fe@solid-run.com>
+ <20251229-rz-sdio-mux-v4-7-a023e55758fe@solid-run.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ZxrGIdy71iEIqHwl"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdWkGevDsBuUs1k=r5yeKJZHvs93b2SDfPwKoF4fFr-3Ow@mail.gmail.com>
-
-
---ZxrGIdy71iEIqHwl
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251229-rz-sdio-mux-v4-7-a023e55758fe@solid-run.com>
 
+Hi Josua,
 
-> The irq and SoC stuff depend on the of stuff, so doing so would
-> delay the former by one cycle.
+thanks for your work and kudos for striving for a generic solution. It
+seems worthwhile to me to add the helpers. I have questions, though:
 
-I know, but it is still better than nothing happening ;)
+> +	priv->mux_state = devm_mux_state_get_optional_selected(&pdev->dev, NULL);
 
-> On IRC, Rob sort of agreed to option A from my proposal (see v7 cover
-> letter):
+The minor nit (which may be bike-shedding): Maybe the function name
+could be '*_select' instead of '*_selected'. To make more explicit that
+this function is actively changing the selection and not passively
+retrieving the current state?
 
-Cool, didn't know this.
+The bigger thing is that with devm_* I had the expectation that
+deselection is also handled automatically...
 
-> Unfortunately that part hasn't happened yet...
+> +edselmux:
+> +	if (priv->mux_state)
+> +		mux_state_deselect(priv->mux_state);
 
-IRC to the rescue again? I'd think it will be easier for Thomas if he
-gets a PR from Rob. Maybe Rob should take the first 4 patches even, then
-Thomas only needs to review the PR.
+... so I was a bit surprised to see this manual cleanup. Has it been
+discussed if that deselection can also be in the helpers?
 
-Thanks!
+Happy hacking,
 
+   Wolfram
 
---ZxrGIdy71iEIqHwl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmlneMUACgkQFA3kzBSg
-Kba3Qg//ZNBhfcFimNZVrYxvCimeSv+NJdUPbyUFaGZIIg/EPKrqrqfLgk1grdhN
-fUOL9CdUCGn0jd8UsLfq4PhpZb85MhbFnuiC/WmIxWdiJyYmTLaoYX/d3MKQRaDj
-aK19RiPoP24C7UfkuXb+BHTF3FkNdC9fCN0ldcWwiiBO8596sUiDS2TCSG0zJgha
-qYnMnCem0suW7orbWHIkUtMqlBJnsWePZkm2WKNqvLDjbpdeu+lMoIwQRWVvHCw5
-UM6ODFxR2W5MgvF/JOmpiaIs74GhFPSz44F7ZCrURCkjwpmqKlZoSgcZcVxdfl7z
-307ZGTyEw35vX6Y3YQ6atAD+lmr3oyw83VwJvoHc+1q8a5P7Nuc5d7JFeu2PQILs
-oolEE/k9px0maFsDFDaG3aCj5kaztlsG6d/CRT1XfnllI2yX0VATv5Ayb/9FkGJX
-Ncz9hQq5HtGYXVsE2af5dzsLy784s3ftYcV2OOZdc9a85Mf7166ei4nP5FrodlgJ
-FrBEql3NUjyivf51hxk81EgRumlu9lx+B0armCoWadjraRiTm5RVmYNioFFUqNc6
-Xy8w3rVFim0J/1U1RevTDFM0dO7r5QWolqDypr5sH2eZn09eWCb/Z65L9Gl0u81I
-mCBAzr/P7k4Njb3u0JzMKZqQmsaqI63K3cQqDQWWRipuQ7vxKIw=
-=46i1
------END PGP SIGNATURE-----
-
---ZxrGIdy71iEIqHwl--
 
