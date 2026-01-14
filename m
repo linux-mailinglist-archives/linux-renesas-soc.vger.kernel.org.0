@@ -1,141 +1,121 @@
-Return-Path: <linux-renesas-soc+bounces-26775-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26776-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7FBFD1FF27
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jan 2026 16:51:32 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62ACAD2016F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jan 2026 17:10:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 5687F30031B6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jan 2026 15:51:32 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 07B77305FC40
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jan 2026 16:07:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E78E03A1A22;
-	Wed, 14 Jan 2026 15:51:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE6AA3A1D1D;
+	Wed, 14 Jan 2026 16:07:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oV99po6T"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="1ZU7l5da"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E23F3A0EAC
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Jan 2026 15:51:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C9D63A1A2E;
+	Wed, 14 Jan 2026 16:07:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768405886; cv=none; b=ln2wYoMv0cofDtWb62m8bO85ghJsDTwCIzn6dX8m/sOaK2Qrgo8+Wx3twP3I/9UrCj1z06frVpKaDNpiJ5Y0UiSQ2zQpbOETU0IAftiOGvBk6EwXpP2nMs+hx3l8SyyPgsq/ybujzt5h2pw/jG+mOUaKVh7zwPi4YuqaxR1GCSY=
+	t=1768406860; cv=none; b=F6gd2sYuaDCCX0xNZRC1YAsHmiJlbByBOtBR1bmvhXPbgu9XPNxzNv2swFY7OMEdQvVCmd2helEpoioKwC4fr22+x6RjsgBKxJEskd6GeIm6IuqbjZ0czQEGoGRIoZip1Dj3J/1BR+gZejUJQ20leGcGdorNipON+IqeE4EIXmU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768405886; c=relaxed/simple;
-	bh=o+OEjagxl3Dsp9tfzVfdkpH30i7BI82gz0LPNnSdpig=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NVJJCVFiieW0a/blZOUNAXzAv5YS/gETLIrKZLq3J1KCvYYgFjS6bHgcu//BpdhFiy5MP2+a4rKI2YXBlpqXzbj+q7N1/3g1W0mekpROAgeK03GnvqTXlNz6djKENe9uDD376i5VHAlU2EFwxFHurdufKPi/dRguHY3/B+zEQO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oV99po6T; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2888C2BC9E
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Jan 2026 15:51:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768405884;
-	bh=o+OEjagxl3Dsp9tfzVfdkpH30i7BI82gz0LPNnSdpig=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=oV99po6TWGN66FZNu68+tXjcgzzqBQtGJvf2c8saHanKFdPhspHdN1GZhrIuKHsjA
-	 SSaK553cE8RqTE9v+zDUd5FQKz+/3T4i9cqDqTRHzBm3/BfwNeUg+rXwCFPNMv3lfP
-	 VpSxIlY+dw1Fw7wsW+/9LYbD+RutrbCzTA8Mylhfhov3GmNi+rucwYfFT/X3vZWGiA
-	 WILUNvyzJnrTxcvlnKleNtMnCmVjlMG583qwqABoqIIkKBYV1e3BEvsmgTI2szUAqe
-	 uW6qTnrSALTVmaXdGHVC8vuISvQJ799TukaeaRMWgtsFbsmto7ZcgaMc4ENjXC9NuD
-	 DG6xpGwrOmAuw==
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-59b7882e605so8818847e87.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Jan 2026 07:51:24 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWnlDlZf5D8WN9t7MVhRR0JtnStIcexFwrc2hN9+/8mlWOAzhjGUaYItXAbkkG8p1VS4zRFa/aZWBdfFd3fcJ2Hzw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzmdTOWMEMb7+sU96R3ZG/YZhzpMgLN54gSgzKfwBfI6t1oa4Pb
-	Pf/NXUC1y3eOqlpJW2C/yokpeotebyurMmOLM2+KAyORN5P4HFU/YLPwJsBq6qfgdG7lRDEl4Yq
-	MBrjmmCODvRb2mNwKmFV8+N8TFRbHb4BSUOcpQSAh6A==
-X-Received: by 2002:a05:6512:2316:b0:59b:8472:48ca with SMTP id
- 2adb3069b0e04-59ba0f63088mr1131918e87.12.1768405882412; Wed, 14 Jan 2026
- 07:51:22 -0800 (PST)
+	s=arc-20240116; t=1768406860; c=relaxed/simple;
+	bh=hKfoS2hwknGcM53kdGxag6tH2rYC5QGCeO/FU7hXV+w=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=U9GS7Imkm22xa6sq569h7PDabjM60oxG4nqb1LnT0BmJUVEDOgy2p+VR2umPxMWbvCixQIOwQ4QsISSisIkALjyK190uGCd0crHwhkSj+nxJPeVu8k6QQF+cE3Cw/OzCAt9UwjZCZS7lDuF0KekmOPMNUNUbgLHq7+FiLNW0CWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=1ZU7l5da; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id B45564E420D7;
+	Wed, 14 Jan 2026 16:07:35 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 8780E6074A;
+	Wed, 14 Jan 2026 16:07:35 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id BF9D810B6828C;
+	Wed, 14 Jan 2026 17:07:31 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1768406854; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=7GHhvNDeEejFF40Vr4lqZtPBvamQWVFjBd1GvEqK998=;
+	b=1ZU7l5daZYARt8ZZ3NihYRpoz9rBPLNo8BZmlvdL0kq1omKbsRWaeXhaxv18icLCIDluIC
+	C3Z28E5/92lc3au+2nM/zMv36+VPQeLvmn5H7cVx/BURIGPpYyasPZ2YUOeGf62dPCJVoU
+	cbhAIgSDr3sJy2dLdiDsPdMGIkMiayGnEzRdonK6+YfoZ5T2hJDfKEXaIeu064AnGlkXV9
+	2ZU4a6qiuaMbeVj5XNyXiqaS0rKJ2QzqjZiKoP4RQyswFfpJqIgvvcdROiemLJlX2+61gB
+	qV8jcveLm3TUKXefCixh7L8OLflUWuXUa0IFD8sApPaD6nau6WU+yD3Lc449KA==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Pratyush Yadav <pratyush@kernel.org>
+Cc: Mark Brown <broonie@kernel.org>,  Rob Herring <robh@kernel.org>,
+  Krzysztof Kozlowski <krzk+dt@kernel.org>,  Conor Dooley
+ <conor+dt@kernel.org>,  Geert Uytterhoeven <geert+renesas@glider.be>,
+  Magnus Damm <magnus.damm@gmail.com>,  Vaishnav Achath
+ <vaishnav.a@ti.com>,  Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+  =?utf-8?Q?Herv=C3=A9?= Codina <herve.codina@bootlin.com>,  Wolfram Sang
+ <wsa+renesas@sang-engineering.com>,  Vignesh Raghavendra
+ <vigneshr@ti.com>,  Santhosh Kumar K <s-k6@ti.com>,  Pascal Eberhard
+ <pascal.eberhard@se.com>,  linux-spi@vger.kernel.org,
+  devicetree@vger.kernel.org,  linux-kernel@vger.kernel.org,
+  linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 03/13] spi: cadence-qspi: Fix style and improve readability
+In-Reply-To: <86pl85b7cy.fsf@kernel.org> (Pratyush Yadav's message of "Tue, 23
+	Dec 2025 15:28:13 +0100")
+References: <20251219-schneider-6-19-rc1-qspi-v1-0-8ad505173e44@bootlin.com>
+	<20251219-schneider-6-19-rc1-qspi-v1-3-8ad505173e44@bootlin.com>
+	<86pl85b7cy.fsf@kernel.org>
+User-Agent: mu4e 1.12.7; emacs 30.2
+Date: Wed, 14 Jan 2026 17:07:31 +0100
+Message-ID: <87wm1kuqik.fsf@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260112-qcom-sa8255p-emac-v6-0-86a3d4b2ad83@oss.qualcomm.com>
- <20260112-qcom-sa8255p-emac-v6-2-86a3d4b2ad83@oss.qualcomm.com>
- <a2a610a3-aead-4e85-8a4c-7b83ccf276dc@lunn.ch> <CAMRc=Mf8TTTcU9A3gc_LQF3Ow6Ww0omVJH6x-DQEnOSPXfaUQw@mail.gmail.com>
- <7865a1fb-91bb-4aec-ab3a-b53050d992e8@lunn.ch>
-In-Reply-To: <7865a1fb-91bb-4aec-ab3a-b53050d992e8@lunn.ch>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Wed, 14 Jan 2026 16:51:10 +0100
-X-Gmail-Original-Message-ID: <CAMRc=Md-z9+RdVPB9kKeVwWWJni7se7HfbhwGmvQ9Wd3CwJqeQ@mail.gmail.com>
-X-Gm-Features: AZwV_QiTx85beob9IcsRkXcH-FzLKf11MkfoXrcsCiRgQ4kLBhgc1kcRpkaBWZY
-Message-ID: <CAMRc=Md-z9+RdVPB9kKeVwWWJni7se7HfbhwGmvQ9Wd3CwJqeQ@mail.gmail.com>
-Subject: Re: [PATCH RESEND net-next v6 2/7] net: stmmac: qcom-ethqos: use
- generic device properties
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Richard Cochran <richardcochran@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Vinod Koul <vkoul@kernel.org>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, 
-	Jose Abreu <joabreu@synopsys.com>, Chen-Yu Tsai <wens@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Matthew Gerlach <matthew.gerlach@altera.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
-	Keguang Zhang <keguang.zhang@gmail.com>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Jan Petrous <jan.petrous@oss.nxp.com>, s32@nxp.com, 
-	Romain Gantois <romain.gantois@bootlin.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, Heiko Stuebner <heiko@sntech.de>, 
-	Chen Wang <unicorn_wang@outlook.com>, Inochi Amaoto <inochiama@gmail.com>, 
-	Emil Renner Berthing <kernel@esmil.dk>, Minda Chen <minda.chen@starfivetech.com>, 
-	Drew Fustini <fustini@kernel.org>, Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>, 
-	Nobuhiro Iwamatsu <nobuhiro.iwamatsu.x90@mail.toshiba>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Maxime Ripard <mripard@kernel.org>, Shuang Liang <liangshuang@eswincomputing.com>, 
-	Zhi Li <lizhi2@eswincomputing.com>, Shangjuan Wei <weishangjuan@eswincomputing.com>, 
-	"G. Jaya Kumaran" <vineetha.g.jaya.kumaran@intel.com>, Clark Wang <xiaoning.wang@nxp.com>, 
-	Linux Team <linux-imx@nxp.com>, Frank Li <Frank.Li@nxp.com>, David Wu <david.wu@rock-chips.com>, 
-	Samin Guo <samin.guo@starfivetech.com>, 
-	Christophe Roullier <christophe.roullier@foss.st.com>, Swathi K S <swathi.ks@samsung.com>, 
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, Drew Fustini <dfustini@tenstorrent.com>, 
-	linux-sunxi@lists.linux.dev, linux-amlogic@lists.infradead.org, 
-	linux-mips@vger.kernel.org, imx@lists.linux.dev, 
-	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	sophgo@lists.linux.dev, linux-riscv@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Tue, Jan 13, 2026 at 11:06=E2=80=AFPM Andrew Lunn <andrew@lunn.ch> wrote=
-:
->
-> On Tue, Jan 13, 2026 at 01:36:53PM +0100, Bartosz Golaszewski wrote:
-> > On Mon, Jan 12, 2026 at 2:45=E2=80=AFPM Andrew Lunn <andrew@lunn.ch> wr=
-ote:
-> > >
-> > > On Mon, Jan 12, 2026 at 11:15:41AM +0100, Bartosz Golaszewski wrote:
-> > > > From: Bartosz Golaszewski <brgl@kernel.org>
-> > > >
-> > > > In order to drop the dependency on CONFIG_OF, convert all device pr=
-operty
-> > > > getters from OF-specific to generic device properties and stop pull=
-ing
-> > > > in any linux/of.h symbols.
-> > >
-> > > Is the intention to read these properties from ACPI tables?
-> > >
-> >
-> > No. Other than a couple property getters which can use the fwnode
-> > abstraction, there's nothing here that requires the OF dependence.
->
-> So what is the need for not using OF? Why do you want this patch?
->
+Hi Pratyush,
 
-We've had a higher-level abstraction for OF nodes for years now. Since
-I'm already touching the driver, it makes sense to switch to using it,
-as OF-centric APIs are not recommended in new code even if it's an
-OF-only driver.
+>> +	} else {
+>> +		if (!cqspi->slow_sram)
+>> +			irq_status &=3D CQSPI_IRQ_MASK_RD | CQSPI_IRQ_MASK_WR;
+>> +		else
+>> +			irq_status &=3D CQSPI_REG_IRQ_WATERMARK | CQSPI_IRQ_MASK_WR;
+>>  	}
+>>=20=20
+>> -	else if (!cqspi->slow_sram)
+>> -		irq_status &=3D CQSPI_IRQ_MASK_RD | CQSPI_IRQ_MASK_WR;
+>> -	else
+>> -		irq_status &=3D CQSPI_REG_IRQ_WATERMARK | CQSPI_IRQ_MASK_WR;
+>> -
+>
+> I suppose you can further simplify the if-else chain to:
+>
+>
+> 	if (cqspi->use_dma_read && ddata && ddata->get_dma_status) {
+> 		irq_status =3D ddata->get_dma_status(cqspi);
+> 	else if (cqspi->slow_sram)
+> 		irq_status &=3D CQSPI_REG_IRQ_WATERMARK | CQSPI_IRQ_MASK_WR;
+> 	else
+> 		irq_status &=3D CQSPI_IRQ_MASK_RD | CQSPI_IRQ_MASK_WR;
+>
+> 	if (irq_status)
+> 		complete(&cqspi->transfer_complete);
+>
+> 	return IRQ_HANDLED;
+>
+> Note that I swapped the latter two if statements to get rid of the
+> unnecessary negation of slow_sram. I suppose the overloading of
+> irq_status isn't the nicest thing, but I still find this easier to
+> read.
 
-Bartosz
+I'm fine with this approach too, I'll take it!
+
+Thanks for the proposal.
+
+Miqu=C3=A8l
 
