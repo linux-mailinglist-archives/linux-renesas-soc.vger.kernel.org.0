@@ -1,51 +1,51 @@
-Return-Path: <linux-renesas-soc+bounces-26713-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26714-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 016EBD1DA06
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jan 2026 10:41:14 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6B66D1DA76
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jan 2026 10:43:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id A0EDC30131FF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jan 2026 09:41:03 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 6360F30223C1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jan 2026 09:41:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA52B38A705;
-	Wed, 14 Jan 2026 09:40:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EBF938A9A0;
+	Wed, 14 Jan 2026 09:40:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="MFdRkedO"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jgxA5TGo"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 517E5389DEE;
-	Wed, 14 Jan 2026 09:40:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96176389E0C;
+	Wed, 14 Jan 2026 09:40:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768383649; cv=none; b=q/CGZ8AKPi8BHiaCn9KZdqbBQ7HDgNO8S5ZX0OWDCp7wR8tdpvyXAsaQSh9Ba93LlSPdbanwrxk9wBAe3RA5reXy/q8kz1ZpL+ZJW/qlJVxp0l4xHjfKGRIRBBwe10VlOkoTQlTMFGjo07YgaBGxnpcMyUSrh+YQSiLeo4aw9xU=
+	t=1768383652; cv=none; b=kzXj7WmDBjoiL6nu2M+kQGTIFYhrvzhWiI3V6M4ccFkZuAxt4dpjsrrSK1b1tOurBu2lSZSx2UYcnBizeH8YpoRmOeWitnEu1ucv1YDb+UDpQuqpUgcPYCprX1FglLp4o4r4JcLH+f63rqqTpbOWpw6Rd9ux/287ZxD6z46f+/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768383649; c=relaxed/simple;
-	bh=pkHYFhneP/QcwzSSuUU2RRndmpCI+0dWRXesaXlZDg8=;
+	s=arc-20240116; t=1768383652; c=relaxed/simple;
+	bh=3fifJH6jPhjpUsOkz3ncUoHMaDbVCkbvrHplYvH2Uyg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=A+fz2VdXpVcUDZf3oJXwg9dCgs2MigE4VSQF6tDPJjOo5YPEV6oeYB4v8uNIEC14YYelCOnkpM+w6mpc7j2F7Ug1vJmHXAyR/cmvuulKxp0p7h9GVt4w3Xs+7xcT2cCjf026tQ7a5Rut1T2p8c5M/VQdqjmHQOSadbRSCzUb5Qc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=MFdRkedO; arc=none smtp.client-ip=185.171.202.116
+	 MIME-Version; b=syRyjpE3IJHnpG3+M71MipNN6+iGIA4gJexZQWkHWMzFp9udh0+PTvjsuUTncnIsxOQXbavbijimTeunF3I8LJl8M07JJKnBVOzUqaOr4z6e86gqd1OizaYnd4glZHGGuT4UfOqkbSKxJko5bug3s5+zAxe1Y9/9iYSbnouAG6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jgxA5TGo; arc=none smtp.client-ip=185.171.202.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id F1003C1F1CF;
-	Wed, 14 Jan 2026 09:40:19 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 674D6C1F1D3;
+	Wed, 14 Jan 2026 09:40:22 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 96AB66074A;
-	Wed, 14 Jan 2026 09:40:46 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6B124103C8951;
-	Wed, 14 Jan 2026 10:40:43 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 0BEC26074A;
+	Wed, 14 Jan 2026 09:40:49 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 338CC103C89EC;
+	Wed, 14 Jan 2026 10:40:46 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1768383645; h=from:subject:date:message-id:to:cc:mime-version:
+	t=1768383648; h=from:subject:date:message-id:to:cc:mime-version:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=uvqB8EXIwm8yUwJOSkCvzDM0SmaeJRSPO5ef2FNPe1I=;
-	b=MFdRkedOB2w72yhsGZqtMY5GGBZP3u3WajWGIFEcoF2zd0Gze8BuJZKUIVVaVkRCTdmuIc
-	P9DXSvAhdWzmblBrdyjZZouMxYdYNJ9S/4Xx7wWLBlGpK3TpckjBHfflcBtc/1dX2c4gQ9
-	728oUyViHf3eC9VUiQS0jFaX6NyoCx8DqmWecBAvyE7g0KuX/r4+oZ4GNFXojdRNMqx9fT
-	bPlnT7OCTDKNkUCwLfSyXFpkikN2sW5tPhSLf5ZuWYll5sRvoUw6IBW/8JGc7bI35HHDKB
-	C7F9kJQc4ovmYCT+V9mMLBKFK8BPNDdh2fo4pjw+UEAhaxyKpZ+MRpRYPMe43w==
+	bh=fQCpmqi0I/63GrT0ubc5oAKlmvHMRk4TMDR9BqlL+NY=;
+	b=jgxA5TGoVwWjBqutwlc+I6gW+2cmXyjgEuiXXlZFLGEtVzOd7IUM5baXiUR32XFNi+NqRP
+	ZVGT5dMuUFPmawCHThbBKk4p06v5BZjgkSJVPulIkLJ9XTORH433U+yT8Ht0WO6q2g4EmD
+	4Nsjjf2VBqH2KPyaKkkKhhvZ1Rs4SCpJecHzCpYbzRWDq3hLk38uR9VBubLj4K07siw2j0
+	JpUNV0NcRhyFGavaIotUcif61VqQ9G55RNkNAfwc+ttV7NZdy3Ze/yp67bK+Ei5MD3L/W7
+	fcX2/2GP/VetPTk2H5n7r8C1kwbLVJSBkvyOgsfElkwT/BnexrbvBMOud36inQ==
 From: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
 To: Thomas Gleixner <tglx@linutronix.de>,
 	Wolfram Sang <wsa+renesas@sang-engineering.com>,
@@ -65,9 +65,9 @@ Cc: linux-gpio@vger.kernel.org,
 	Pascal Eberhard <pascal.eberhard@se.com>,
 	Miquel Raynal <miquel.raynal@bootlin.com>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH v8 3/8] irqchip/ls-extirq: Use for_each_of_imap_item iterator
-Date: Wed, 14 Jan 2026 10:39:32 +0100
-Message-ID: <20260114093938.1089936-4-herve.codina@bootlin.com>
+Subject: [PATCH v8 4/8] irqchip/renesas-rza1: Use for_each_of_imap_item iterator
+Date: Wed, 14 Jan 2026 10:39:33 +0100
+Message-ID: <20260114093938.1089936-5-herve.codina@bootlin.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260114093938.1089936-1-herve.codina@bootlin.com>
 References: <20260114093938.1089936-1-herve.codina@bootlin.com>
@@ -80,88 +80,90 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-The ls-extirq driver parses the interrupt-map property. It does it using
-open code.
+The renesas-rza1 driver parses the interrupt-map property. It does it
+using open code.
 
 Recently for_each_of_imap_item iterator has been introduce to help
 drivers in this parsing.
 
-Convert the ls-extirq driver to use the for_each_of_imap_item
+Convert the renesas-rza1 driver to use the for_each_of_imap_item
 iterator instead of open code.
 
 Signed-off-by: Herve Codina (Schneider Electric) <herve.codina@bootlin.com>
+Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- drivers/irqchip/irq-ls-extirq.c | 47 ++++++++++++---------------------
- 1 file changed, 17 insertions(+), 30 deletions(-)
+ drivers/irqchip/irq-renesas-rza1.c | 43 +++++++++++-------------------
+ 1 file changed, 16 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/irqchip/irq-ls-extirq.c b/drivers/irqchip/irq-ls-extirq.c
-index 50a7b38381b9..ed8755777349 100644
---- a/drivers/irqchip/irq-ls-extirq.c
-+++ b/drivers/irqchip/irq-ls-extirq.c
-@@ -125,45 +125,32 @@ static const struct irq_domain_ops extirq_domain_ops = {
- static int
- ls_extirq_parse_map(struct ls_extirq_data *priv, struct device_node *node)
+diff --git a/drivers/irqchip/irq-renesas-rza1.c b/drivers/irqchip/irq-renesas-rza1.c
+index 6047a524ac77..370d968b2398 100644
+--- a/drivers/irqchip/irq-renesas-rza1.c
++++ b/drivers/irqchip/irq-renesas-rza1.c
+@@ -142,47 +142,36 @@ static const struct irq_domain_ops rza1_irqc_domain_ops = {
+ static int rza1_irqc_parse_map(struct rza1_irqc_priv *priv,
+ 			       struct device_node *gic_node)
  {
--	const __be32 *map;
--	u32 mapsize;
 +	struct of_imap_parser imap_parser;
+ 	struct device *dev = priv->dev;
+-	unsigned int imaplen, i, j;
 +	struct of_imap_item imap_item;
+ 	struct device_node *ipar;
+-	const __be32 *imap;
+-	u32 intsize;
++	unsigned int j;
++	u32 i = 0;
  	int ret;
  
--	map = of_get_property(node, "interrupt-map", &mapsize);
--	if (!map)
--		return -ENOENT;
--	if (mapsize % sizeof(*map))
+-	imap = of_get_property(dev->of_node, "interrupt-map", &imaplen);
+-	if (!imap)
 -		return -EINVAL;
--	mapsize /= sizeof(*map);
-+	ret = of_imap_parser_init(&imap_parser, node, &imap_item);
+-
+-	for (i = 0; i < IRQC_NUM_IRQ; i++) {
+-		if (imaplen < 3)
+-			return -EINVAL;
++	ret = of_imap_parser_init(&imap_parser, dev->of_node, &imap_item);
 +	if (ret)
 +		return ret;
  
--	while (mapsize) {
 +	for_each_of_imap_item(&imap_parser, &imap_item) {
- 		struct device_node *ipar;
--		u32 hwirq, intsize, j;
-+		u32 hwirq;
-+		int i;
- 
--		if (mapsize < 3)
--			return -EINVAL;
--		hwirq = be32_to_cpup(map);
--		if (hwirq >= MAXIRQ)
-+		hwirq = imap_item.child_imap[0];
-+		if (hwirq >= MAXIRQ) {
+ 		/* Check interrupt number, ignore sense */
+-		if (be32_to_cpup(imap) != i)
++		if (imap_item.child_imap[0] != i) {
 +			of_node_put(imap_item.parent_args.np);
  			return -EINVAL;
 +		}
- 		priv->nirq = max(priv->nirq, hwirq + 1);
  
--		ipar = of_find_node_by_phandle(be32_to_cpup(map + 2));
--		map += 3;
--		mapsize -= 3;
--		if (!ipar)
--			return -EINVAL;
--		priv->map[hwirq].fwnode = &ipar->fwnode;
+-		ipar = of_find_node_by_phandle(be32_to_cpup(imap + 2));
++		ipar  = imap_item.parent_args.np;
+ 		if (ipar != gic_node) {
+ 			of_node_put(ipar);
+ 			return -EINVAL;
+ 		}
+ 
+-		imap += 3;
+-		imaplen -= 3;
+-
 -		ret = of_property_read_u32(ipar, "#interrupt-cells", &intsize);
+-		of_node_put(ipar);
 -		if (ret)
 -			return ret;
 -
--		if (intsize > mapsize)
+-		if (imaplen < intsize)
 -			return -EINVAL;
-+		ipar = of_node_get(imap_item.parent_args.np);
-+		priv->map[hwirq].fwnode = of_fwnode_handle(ipar);
+-
+-		priv->map[i].args_count = intsize;
+-		for (j = 0; j < intsize; j++)
+-			priv->map[i].args[j] = be32_to_cpup(imap++);
++		priv->map[i].args_count = imap_item.parent_args.args_count;
++		for (j = 0; j < priv->map[i].args_count; j++)
++			priv->map[i].args[j] = imap_item.parent_args.args[j];
  
--		priv->map[hwirq].param_count = intsize;
--		for (j = 0; j < intsize; ++j)
--			priv->map[hwirq].param[j] = be32_to_cpup(map++);
--		mapsize -= intsize;
-+		priv->map[hwirq].param_count = imap_item.parent_args.args_count;
-+		for (i = 0; i < priv->map[hwirq].param_count; i++)
-+			priv->map[hwirq].param[i] = imap_item.parent_args.args[i];
+-		imaplen -= intsize;
++		i++;
  	}
+ 
  	return 0;
- }
 -- 
 2.52.0
 
