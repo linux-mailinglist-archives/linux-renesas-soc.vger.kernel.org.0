@@ -1,159 +1,347 @@
-Return-Path: <linux-renesas-soc+bounces-26709-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26710-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6336AD1D992
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jan 2026 10:38:22 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EFE0D1D9E0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jan 2026 10:40:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 510A530D1BC7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jan 2026 09:32:24 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id D7ADE30051BF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jan 2026 09:40:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA4653876BF;
-	Wed, 14 Jan 2026 09:32:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E4E538944F;
+	Wed, 14 Jan 2026 09:40:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Dr6X19Pm"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E71C3876B1
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Jan 2026 09:32:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94B7635E544;
+	Wed, 14 Jan 2026 09:40:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768383142; cv=none; b=KF7MnQpM7wTs55TahmJMBeoNm3eSH6C7nWF06gflyCDuVOBhZnT/2XK5aSAav34aSnruD7+NyKEkvPM5oZ7gT/bOZY7LgjG7morfTI2dtTZsTUssgXCOSy2VbKYjB44Sqw5ronrtcOPYsqJv14+nOmj4YO7DkZVUu8o59wobUu0=
+	t=1768383640; cv=none; b=CmC9vuV+YD1SUyj4Sp0USmY2DnndELxYycmrVGsIFFUZtJlUWhOgtl1y7Fxkm8ZyjjvqmhgHAyJcyfGwFEBJCerV+RNr3Da2wpim+7stdmnKo608GHpCk9m5IGrr6ayAHWTBU/F8OAl3Y8kHl5kyc8oagTggjVlolRv8E53qjO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768383142; c=relaxed/simple;
-	bh=yoneIDgg3Px7HEZFC9PfXSJccPcj273iQf1nmWmPzLc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AVlG0edvgdLECbgfqWgmvEfYurFl5oMXLuC+cceGrz9/r4AfvRpk6gX6B6dBEGzYP1+inO6DrbSzt3FgrlOKxygjIaSInLIecYeLO23JzkUoIswUaIN/2uAaW+5LJ9NPtJHKkTK8QMS6U2GIFJnelwktX5RkEsijbnuKUqd7hw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-5636274b362so1655458e0c.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Jan 2026 01:32:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768383140; x=1768987940;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8zDJce+CzgnUUMSOqtY7/Bi9afy0UIdZaZUJnldMOyg=;
-        b=Ib4J2cLhFd/Kwp1tHBmrixuWBnP5UWF5w2oFiex2zlOoLNGTbOuySLiaF3Cb48aeVy
-         pNVjq34G+i70UnLUcE5kZDpz1VBui6vzMZrEKVDWuQGAHkKP6NceOooa+DFkD6QTorjA
-         LOv/2b//xPMpBmmO6Cgge32HljRzo3BlvjOyFK7sUJudNHsUt4mjzxazck/AmnV5K7MQ
-         /n805zB5EUiZmIy2LXo/QzNcMYBqYQ2Hd+casj4V1zkN3riLE8Q7EN/3F1majU4+1X+C
-         OwBopR2G1GHBTFcCCXNvXpcR2au64hJ9QcK1ibhEBcVpgmI4F4QQbNa3xCDZW4njeCZp
-         aH0w==
-X-Forwarded-Encrypted: i=1; AJvYcCXtu7jQM5YBgjLjauEGdt5l2n9TGE3EiITidC8traL0DDYI8VGJzkc2wE7ZKsbGnWjZnv98rCjqI9EaJ/lk8bsuwg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy+w5/gujEJiemLRVC3vjL+lKcON6wvxURrwqPT+EicEJGu9+XW
-	rngpb/gNpCv94DJcwobeBxx/n75QudWZRHDMdtIpo0zU1gabF0obtEniWBIzgPNO
-X-Gm-Gg: AY/fxX4pOeEVTnW0Z3wdZCe5Ah2IWppcfQU2h+kg7rKaDZYaKGJd4aEQRElP9+mC3V+
-	D2k4DRJvOwzSYH3NeTIz0JGFqTWS6yO6fzCsHTVbFwkIyPOG4jXh725bDRh5zS88J6rP6+kdtKP
-	5BudYmGpqNOieUyEU4i8KoJEbr7SomyHF6mPipNNdehRIztcRuZtFV85d6+XFPHJehYUTsEXBdS
-	TT1Se89IHpRk439hYyqEkAOKtreyRpQGxocEZldfsledAr3XF2Eb42yph507GLq+9wkR3DbYzRp
-	Y3PWJLZ/dc+LU4mVx7Dosvn84+9RYcODHTzwidtTtVat8738LEMDsn1EmKzuXLipW0FpmV9VCwm
-	Q7MRb6B7b6q7aeta4sDA3eygYD4P14SaTChowNq2LjkatZznd7nhiNy6bN3W8R+AjEahWg5ylJg
-	iv5QcGU/eN9+dt9lvP+Gk3AGJMtPtZUrP/FRrFDn5OnQFAYQCQ
-X-Received: by 2002:a05:6122:3d0c:b0:563:78a0:2509 with SMTP id 71dfb90a1353d-563a0a4ab9fmr650653e0c.17.1768383139881;
-        Wed, 14 Jan 2026 01:32:19 -0800 (PST)
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com. [209.85.222.43])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56375cd7cd6sm11938786e0c.10.2026.01.14.01.32.18
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Jan 2026 01:32:18 -0800 (PST)
-Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-93f63d46f34so2633240241.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Jan 2026 01:32:18 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV5VgH2VMPLMk/nS4J3h4IfywRuLBHcg9aT7dhjYppOoLrQPFbH6ER3sfdfYYfIlsO6YUE5Oi/fkA6fwjyjohI3hA==@vger.kernel.org
-X-Received: by 2002:a05:6102:3f11:b0:5dd:b2a1:a5a4 with SMTP id
- ada2fe7eead31-5f17f3f0042mr733928137.5.1768383138240; Wed, 14 Jan 2026
- 01:32:18 -0800 (PST)
+	s=arc-20240116; t=1768383640; c=relaxed/simple;
+	bh=HHGswl8v8utssXScS0C1Q1e8yPAx6kp/n3FGPq1s9Zc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Jrun30DlpEQczROcQ0y0E0kaBGrZ+WMSieFc4L6PC/XrvxHgKTwXNSVz0XiId8Er7Jy/AwprkdVPqD7nFH7FEKvyz15VIzcqn7n8F80Ghq8/q1he3fxnf55OQ1W/9qKfFQwGDDB8oLXo79HNF/UHSpFsE15K48BLmodLCDsSmKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Dr6X19Pm; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id DD9971A2863;
+	Wed, 14 Jan 2026 09:40:36 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 9F5F16074A;
+	Wed, 14 Jan 2026 09:40:36 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 483C2103C80C0;
+	Wed, 14 Jan 2026 10:40:30 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1768383635; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=wNlTq5+sXEV5vuUlibQqX7wALBw1mFwogSXLZfKoJY4=;
+	b=Dr6X19PmNYwCx+E/PYA3wm674g23DBUKN0cbMSWAeyhsQLUIDK0C2/SGwNhz0Y+VQUgNmc
+	o5w+9ZVasr4zVw4qJUWSmYeiRPKB93tlbsbSYmGQsCp9KTtX9BAHPapj/L8fqtFDwwGT0i
+	hX+WRq0Gpe97mzNLwVzYXCG9KubKd8qyAIYnHHbJlXo1jvoAHqKHCRLgOU1dPeWjP04H4P
+	nYSh/6+YGULyUHTVizhbVJn3rWD3rUvMT6zJoxqs1EKXIXW5zIlBZaqd+ms4PNN+QHguX6
+	8fUZmmV9SmeDOH5JXTHHmwO0EEz2YmTaC9cfIrkH+kRNtQ3DSsogj1VbWP9+7w==
+From: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
+To: Thomas Gleixner <tglx@linutronix.de>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Herve Codina <herve.codina@bootlin.com>
+Cc: linux-gpio@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Pascal Eberhard <pascal.eberhard@se.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: [PATCH v8 0/8] gpio: renesas: Add support for GPIO and related interrupts in RZ/N1 SoC
+Date: Wed, 14 Jan 2026 10:39:29 +0100
+Message-ID: <20260114093938.1089936-1-herve.codina@bootlin.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260112234834.226128-1-marek.vasut+renesas@mailbox.org> <20260112234834.226128-2-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20260112234834.226128-2-marek.vasut+renesas@mailbox.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 14 Jan 2026 10:32:06 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUJBKnqU_HtF1KpZY-75iTWjZwedLbFSYLpgDfVHGsW1g@mail.gmail.com>
-X-Gm-Features: AZwV_QiKgVRnWvbmqW5MDnkyAYhxg5wrvIwNyBPnn7EJexnd8UAobHHJuJB4uzo
-Message-ID: <CAMuHMdUJBKnqU_HtF1KpZY-75iTWjZwedLbFSYLpgDfVHGsW1g@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/bridge: waveshare-dsi: Add support for 1..4 DSI
- data lanes
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Joseph Guo <qijian.guo@nxp.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>, 
-	Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Marek,
+Hi,
 
-On Tue, 13 Jan 2026 at 00:48, Marek Vasut
-<marek.vasut+renesas@mailbox.org> wrote:
-> Parse the data lane count out of DT. Limit the supported data lanes
-> to 1..4 which is the maximum available DSI pairs on the connector of
-> any known panels which may use this bridge. Internally, this bridge
-> is an ChipOne ICN6211 which loads its register configuration from a
-> dedicated storage and its I2C does not seem to be accessible. The
-> ICN6211 also supports up to 4 DSI lanes, so this is a hard limit.
->
-> To avoid any breakage on old DTs where the parsing of data lanes from
-> DT may fail, fall back to the original hard-coded value of 2 lanes and
-> warn user.
->
-> The lane configuration is preconfigured in the bridge for each of the
-> WaveShare panels. The 13.3" DSI panel works with 4-lane configuration,
-> others seem to use 2-lane configuration. This is a hardware property,
-> so the actual count should come from DT.
->
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+This series adds support for GPIO and GPIO IRQ mux available in the
+RZ/N1 SoCs.
 
-Thanks for your patch!
+The first patches in this series are related to a new helper introduced
+to parse an interrupt-map property.
+  - patch 1: Introduce the helper (for_each_of_imap_item)
+  - patch 2: Add a unittest for the new helper
+  - patch 3 and 4: convert existing drivers to use this new helper
 
-> --- a/drivers/gpu/drm/bridge/waveshare-dsi.c
-> +++ b/drivers/gpu/drm/bridge/waveshare-dsi.c
-> @@ -66,7 +66,11 @@ static int ws_bridge_attach_dsi(struct ws_bridge *ws)
->         dsi->mode_flags = MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_MODE_VIDEO |
->                           MIPI_DSI_CLOCK_NON_CONTINUOUS;
->         dsi->format = MIPI_DSI_FMT_RGB888;
-> -       dsi->lanes = 2;
-> +       dsi->lanes = drm_of_get_data_lanes_count_ep(dev->of_node, 0, 0, 1, 4);
-> +       if (dsi->lanes < 0) {
-> +               dev_warn(dev, "Invalid DSI lane count %d, falling back to 2 lanes\n", dsi->lanes);
+Patch 5 adds support for GPIO (device-tree description)
 
-"Invalid or missing"?
+The last patches (6, 7 and 8) of the series are related to GPIO
+interrupts and GPIO IRQ multiplexer.
 
-BTW, I doubt the kerneldoc for drm_of_get_data_lanes_count_ep()
-is correct:
+In the RZ/N1 SoCs, GPIO interrupts are wired to a GPIO IRQ multiplexer.
 
- * Return:
- * * min..max - positive integer count of "data-lanes" elements
- * * -EINVAL - the "data-mapping" property is unsupported
- * * -ENODEV - the "data-mapping" property is missing
+This multiplexer does nothing but select 8 GPIO IRQ lines out of the 96
+available to wire them to the GIC input lines.
 
-1. s/data-mapping/data-lanes/,
-2. of_property_count_u32_elems() never returns -ENODEV?
+One upstreaming attempt have been done previously by Phil Edworthy [1]
+but the series has never been applied.
 
-> +               dsi->lanes = 2; /* Old DT backward compatibility */
-> +       }
->
->         ret = devm_mipi_dsi_attach(dev, dsi);
->         if (ret < 0)
+Based on my understanding, I have fully reworked the driver proposed by
+Phil and removed the IRQ domain. Indeed, the device doesn't handle
+interrupts. It just routes signals.
 
-Gr{oetje,eeting}s,
+Also, as an interrupt-map property is used, the driver cannot be
+involved as an interrupt controller itself. It is a nexus node.
 
-                        Geert
+With that in mind,
+  - Patch 6 is related to the irq-mux binding.
+
+  - Patch 7 introduces the irq-mux driver.
+    This driver uses the 'for_each_of_imap_item' helper introduced
+    previously. Indeed, the lines routing is defined by the
+    interrupt-map property and the driver needs to set registers to
+    apply this routing.
+
+  - Patch 8 is the RZ/N1 device-tree description update to have the
+    support for the GPIO interrupts.
+
+The series was already ready in its v7 iteration. This v8 iteration just
+add the 'Tested-by' tag sent by Wolfram on v7.
+
+Even if the series touches several subsystems, the whole series could be
+merged through the renesas-devel tree as suggested in the v7 iteration
+[2].
+
+Rob, Thomas, this series is blocked waiting for your feedback and your
+acks if you are okay.
+
+[1] https://lore.kernel.org/all/20190219155511.28507-1-phil.edworthy@renesas.com/
+[2] https://lore.kernel.org/all/aV6wcIE0D7ozKeQn@ninjato/
+
+Best regards,
+Hervé
+
+Changes v7 -> v8
+  v7: https://lore.kernel.org/all/20251215142836.167101-1-herve.codina@bootlin.com/
+
+  Patches 1 to 7:
+   - No changes
+
+  Patch 8:
+   - Add 'Tested-by: Wolfram Sang'.
+
+Changes v6 -> v7
+  v6: https://lore.kernel.org/all/20251027123601.77216-1-herve.codina@bootlin.com/
+
+  Rebase on top of v6.19-rc1.
+
+  Patches 1 to 4 :
+   - Add 'Reviewed-by: Linus Walleij'.
+
+  Patch 5:
+   - Fix a typo (Synopsys) in commit log.
+   - GPIO controllers enabled by default.
+   - Move "reg" just below "compatible".
+   - Add 'Reviewed-by: Linus Walleij'.
+   - Add 'Reviewed-by: Geert Uytterhoeven'.
+
+  Patch 6:
+   - Add 'Reviewed-by: Linus Walleij'.
+   - Add 'Reviewed-by: Geert Uytterhoeven'.
+
+  Patch 7:
+   - Enable RZN1_IRQMUX only if GPIO_DWAPB is enabled.
+   - Move a 'if' condition to a single line.
+   - Print the output line index in the 'already defined' error message.
+   - Move rzn1_irqmux_setup() code directly into rzn1_irqmux_probe().
+   - Add 'Reviewed-by: Linus Walleij'.
+   - Add 'Tested-by: Wolfram Sang'.
+   - Add 'Reviewed-by: Wolfram Sang'.
+   - Add 'Reviewed-by: Geert Uytterhoeven'.
+
+  Patch 8:
+   - Remove unneeded spaces.
+   - Add 'Reviewed-by: Linus Walleij'
+   - Add 'Reviewed-by: Wolfram Sang'
+   - Add 'Reviewed-by: Geert Uytterhoeven'
+
+Changes v5 -> v6
+  v5: https://lore.kernel.org/lkml/20251020080648.13452-1-herve.codina@bootlin.com/
+
+  Patches 1 and 2:
+    Add 'Reviewed-by: Rob Herring'
+
+  Patches 3, and 5:
+    No changes
+
+  Patch 6:
+    Add 'Reviewed-by: Rob Herring'
+
+  Patch 7:
+    Remove an unneeded TAB in Makefile.
+    Use RZN1_IRQMUX_GIC_SPI_BASE and RZN1_IRQMUX_NUM_OUTPUTS to replace
+    the irq/output mapping table.
+    Use DECLARE_BITMAP().
+
+  Patch 8:
+    No changes
+
+Changes v4 -> v5
+  v4: https://lore.kernel.org/lkml/20250922152640.154092-1-herve.codina@bootlin.com/
+
+  Rebase on top of v6.18-rc1
+
+  Patches 1 to 3:
+    No changes
+
+  Patch 4:
+    Fix conflict.
+    Add 'Tested-by: Wolfram Sang'.
+
+  Patch 5:
+    Add 'Reviewed-by: Bartosz Golaszewski'.
+
+  Patch 6:
+    Add 'Reviewed-by: Wolfram Sang'.
+
+  Patch 7:
+    Add a missing 'const' qualifier.
+    Remove an unneeded dev_err_probe() call.
+    Add a check to avoid setting the same output line multiple times.
+
+  Patch 8:
+    Update comment
+    Add 'Reviewed-by: Bartosz Golaszewski'
+
+Changes v3 -> v4
+  v3: https://lore.kernel.org/lkml/20250918104009.94754-1-herve.codina@bootlin.com/
+
+  Patch 1:
+    - Add 'Tested-by: Wolfram Sang'
+
+  Patch 2..5:
+    - No changes
+
+  Patch 6:
+    - Add minItems and maxItems
+    - Update the 'interrup-map' description
+
+  Patch 7:
+    - Use rzn1_irqmux prefix instead of irqmux.
+    - Introduce rzn1_irqmux_output_lines[] to give the mapping between
+      the interrupt output line index and the GIC controller interrupt
+      number.
+    - Remove of_irq_count() call and related checks
+
+  Patch 8:
+    - Describe the irq mux node using a reduced (one item) interrupt-map
+      property.
+
+Changes v2 -> v3
+  v2: https://lore.kernel.org/lkml/20250909120041.154459-1-herve.codina@bootlin.com/
+
+  Reordered patches as suggested by Thomas Gleixner.
+
+  Patch 1: (3 in v2)
+    - Replace a wrong 'extern' by 'static inline' in of_irq.h  (detected
+      by test robots)
+
+  Patch 2: (4 in v2)
+  Patch 3: (5 in v2)
+  Patch 4: (6 in v2)
+    - No changes
+
+  Patch 5: (1 in v2)
+    - Add 'Reviewed-by: Wolfram Sang'
+    - Add 'Tested-by: Wolfram Sang'
+
+  Patch 6: (2 in v2)
+    - Add '#address-cells = <0>;' in the interrupt-controller node
+      present in the example.
+
+  Patch 7:
+  Patch 8:
+    - No changes
+
+Changes v1 -> v2
+  v1: https://lore.kernel.org/lkml/20250725152618.32886-1-herve.codina@bootlin.com/
+
+  Rebase on top of v6.17-rc5
+
+  Patch 1 in v1
+    - Removed in v2 (no need for RZ/N1 compatible strings).
+
+  Patch 1 (2 in v1)
+    - Fix node names (issue reported by Rob's bot)
+    - Fix compatible RZ/N1 compatible strings
+    - Removed undocumented and unused 'bank-name' properties
+
+  Patch 2 (3 in v1)
+   - Remove 'interrupts' property
+   - Update 'interrupt-map' description
+
+  Patch 3 (4 in v1)
+   - Rework of_irq_foreach_imap() to provide the for_each_of_imap_item
+     iterator (similar to for_each_of_range)
+
+  Patch 4 (new in v2)
+   - Add a unittest for for_each_of_imap_item
+
+  Patch 5 (new in v2)
+   - Convert irqchip/ls-extirq to use for_each_of_imap_item
+
+  Patch 6 (new in v2)
+   - Convert irqchip/renesas-rza1 to use for_each_of_imap_item
+
+  Patch 7 (5 in v1)
+   - Use for_each_of_imap_item
+   - Remove 'interrupts' property usage
+
+  Patch 8 (6 in v1)
+   - Remove 'interrupts' property
+
+Herve Codina (Schneider Electric) (8):
+  of/irq: Introduce for_each_of_imap_item
+  of: unittest: Add a test case for for_each_of_imap_item iterator
+  irqchip/ls-extirq: Use for_each_of_imap_item iterator
+  irqchip/renesas-rza1: Use for_each_of_imap_item iterator
+  ARM: dts: r9a06g032: Add GPIO controllers
+  dt-bindings: soc: renesas: Add the Renesas RZ/N1 GPIO Interrupt
+    Multiplexer
+  soc: renesas: Add support for Renesas RZ/N1 GPIO Interrupt Multiplexer
+  ARM: dts: r9a06g032: Add support for GPIO interrupts
+
+ .../soc/renesas/renesas,rzn1-gpioirqmux.yaml  |  87 ++++++++++
+ arch/arm/boot/dts/renesas/r9a06g032.dtsi      | 159 ++++++++++++++++++
+ drivers/irqchip/irq-ls-extirq.c               |  47 ++----
+ drivers/irqchip/irq-renesas-rza1.c            |  43 ++---
+ drivers/of/irq.c                              |  70 ++++++++
+ .../of/unittest-data/tests-interrupts.dtsi    |   9 +
+ drivers/of/unittest.c                         | 116 +++++++++++++
+ drivers/soc/renesas/Kconfig                   |   4 +
+ drivers/soc/renesas/Makefile                  |   1 +
+ drivers/soc/renesas/rzn1_irqmux.c             | 127 ++++++++++++++
+ include/linux/of_irq.h                        |  41 ++++-
+ 11 files changed, 646 insertions(+), 58 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/soc/renesas/renesas,rzn1-gpioirqmux.yaml
+ create mode 100644 drivers/soc/renesas/rzn1_irqmux.c
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.52.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
