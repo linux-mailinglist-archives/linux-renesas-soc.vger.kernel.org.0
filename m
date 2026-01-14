@@ -1,171 +1,116 @@
-Return-Path: <linux-renesas-soc+bounces-26722-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26725-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9AADD1E298
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jan 2026 11:43:28 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D888D1E43E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jan 2026 11:59:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 87D443074E67
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jan 2026 10:39:18 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 70419301AD1B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jan 2026 10:48:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0ED6A38B984;
-	Wed, 14 Jan 2026 10:39:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c1cx4AN6"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB652304BCB;
+	Wed, 14 Jan 2026 10:48:47 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCC041E98E6;
-	Wed, 14 Jan 2026 10:39:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 809D638F230
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Jan 2026 10:48:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768387157; cv=none; b=ZfrAqyoTKAl4qMr2klRkiEvtX1g9Z9sHwu0/6O7mWrygM+CKLTYQGpl+x1aSEySEISD9/azt4tdxS9rLq0XUTKKLIB8iB7IuTKGtxTjMMxUUZmqe58rlbQFByJkYa2PvzXZi/YcsW9ZraY9Dqx1ZVvImxY7fAV62unCvB4x4gXY=
+	t=1768387727; cv=none; b=kY2FqTVRHoqjrcMZgwYxwG5BMSUoF5MvLlAx1pwlNRDS1zgJRDOS/YI0a9d01xkMDazdc7uOlbKWP48f0GRibVkCToHFVO3ANb0jLyPFVX8MW2Ia9lEf1mruOz/B+OtlAiRCb4cVtf38xUNfjvmHUap2J9o/TK2GmMogJ1XRPFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768387157; c=relaxed/simple;
-	bh=GXOUS5IVA/W+B1bIiXQJ9wm/cqS9Cfmo4/ZzvR1iFTY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QvSRYZNGFYqYGC2wZO/++RWfwJHURaJtApLjqiZ+3brltGZO9LhaqrHleAMnZaZ/jqYgh27ZNVMKPjvfJMY8nwPK2UzU3KCjtacymGytdPSO2eTnPu6vRXRjmfYHn8O1Zwx3dSx29zQ4pI4OW/gbyULNYq1Ctv0JkKC7TnRn1gw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c1cx4AN6; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26CFAC4CEF7;
-	Wed, 14 Jan 2026 10:39:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768387157;
-	bh=GXOUS5IVA/W+B1bIiXQJ9wm/cqS9Cfmo4/ZzvR1iFTY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=c1cx4AN6qnW//qfPtg+YU+kBK0Fwi1qx7TD4KI7OcyvNk84LcaOGokwsZbcc85njb
-	 qNE/fDPQvFv/hrK3hmEx5+u9dS2ysExw/sZMu59+B6tkrQgcsiR0HoyBLL0SqDaJNl
-	 lZiiHfClvv5U5qlwltVlii620fXgPEmppvSDIBUFS8QaAvEzvcf7lbCi351zOc3W8f
-	 OSyJms1RzaBtduqCcc4R6U9FLBKh2qAsW/1bGu/5Vq+EF+x+/uK/2ZYuVFmug/pbtL
-	 IQE5Pt8WGKFCXfH5aCcnYzBH4PHJ3+KmYKvQ4C17LfDVYZ564TGrXzWP3iZN+7Q5zE
-	 l1TuhhZkNiuDQ==
-Date: Wed, 14 Jan 2026 11:39:03 +0100
-From: Niklas Cassel <cassel@kernel.org>
-To: Koichiro Den <den@valinux.co.jp>
-Cc: jingoohan1@gmail.com, mani@kernel.org, lpieralisi@kernel.org,
-	kwilczynski@kernel.org, robh@kernel.org, bhelgaas@google.com,
-	vigneshr@ti.com, s-vadapalli@ti.com, hongxing.zhu@nxp.com,
-	l.stach@pengutronix.de, shawnguo@kernel.org, s.hauer@pengutronix.de,
-	kernel@pengutronix.de, festevam@gmail.com, minghuan.Lian@nxp.com,
-	mingkai.hu@nxp.com, roy.zang@nxp.com, jesper.nilsson@axis.com,
-	heiko@sntech.de, srikanth.thokala@intel.com,
-	marek.vasut+renesas@gmail.com, yoshihiro.shimoda.uh@renesas.com,
-	geert+renesas@glider.be, magnus.damm@gmail.com,
-	christian.bruel@foss.st.com, mcoquelin.stm32@gmail.com,
-	alexandre.torgue@foss.st.com, thierry.reding@gmail.com,
-	jonathanh@nvidia.com, hayashi.kunihiko@socionext.com,
-	mhiramat@kernel.org, kishon@kernel.org, jirislaby@kernel.org,
-	rongqianfeng@vivo.com, 18255117159@163.com,
-	shawn.lin@rock-chips.com, nicolas.frattaroli@collabora.com,
-	linux.amoon@gmail.com, vidyas@nvidia.com, Frank.Li@nxp.com,
-	linux-omap@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	imx@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-	linux-arm-kernel@axis.com, linux-rockchip@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v7 5/6] PCI: dwc: ep: Support BAR subrange inbound
- mapping via Address Match Mode iATU
-Message-ID: <aWdyR4Xkh2_ZgOf8@fedora>
-References: <20260113162719.3710268-1-den@valinux.co.jp>
- <20260113162719.3710268-6-den@valinux.co.jp>
- <5kexuvze2a4m6bd3yhv2cd7yrzo4r6ubbbouktdsurv7n22v7o@7s3pgf6ftgur>
+	s=arc-20240116; t=1768387727; c=relaxed/simple;
+	bh=+CpkI+BgHc6zaB6k60VnTXT0jloiPS7gjdxb71LJsAI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eoEKDmQ6Xvs51EaDAsHcZxETF9S42q2bj2mO/ftvOmlIsKDHtLiM3p88ZY3fjoZjcUcjxSrYJRND2i7spn5jIruoj5EwgFj4a0zD+SFH0d2q/qIV6XSw6s8R3nhRrBi0C7ImG66Gt/2ZwuYiwrv09r2of60p5RqcageqDvfZz5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-8907f0b447aso96054906d6.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Jan 2026 02:48:46 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768387725; x=1768992525;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tyHAPthnDWEMy7Xz8e1fs/6rcFrRy4CPLB9pLiuxF3I=;
+        b=qPKePtz2R9mbWs3kKpkYJjVP76679ra1T8/vvfoprvW+T+SlMoQeoVwik9jI5tbvBM
+         EEG4pT00qf1/qLMZJmeBEXG5uvSdVrXHBtx2tP0eLLV0A4WHucziXgnJD+0QFNDMjZ7X
+         g54YVn4AjVhT+iqyE1jz46RV2jQcaRFlUrq0byYZKS6rujb/Oc3O2c2cHtGNlw0M4d9g
+         I3u7a9KWgCRlhVaQQC2eSrFTNfmHvqdEm7vW4kkiCnfPR6jwWaVhe2uLIu+BWw2xzys0
+         zQ3uWb5BI8FTRp6Y48VB0BOu4jBKyClMDTVrsSdR/8UEL0DnW6wZcExbRskKsXI6535G
+         Yztw==
+X-Forwarded-Encrypted: i=1; AJvYcCVzPNkY/h929i27mwe75Ar+z1LYIoSIKMBE4hjEElpSwVL9Eb4i2Z1BYuK2hHFVUuuSmSQLjN4INePirG2A+mqdFA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzuKfUGpJ3dp4ePr7Iqfz4VhHg3PGshfjXb4CdLSJ1F8yRYHSEt
+	JzjS7vIOJ6/2xukbWRPZ+6f8QvkgQ8E+vDkh/X1rpY30l17/f+A/gBQNOECD3+AQ
+X-Gm-Gg: AY/fxX4005p0NtFovadkgEHcewSqaEBJOzYEviDIGoGUv55O2FCL6Rl3gyz/bIV9Voz
+	cIV23HS6IlY674aJsNS2GmM5YycyqzvMOQdl5kX4Al51r2an0nNFX94SCenpcoqzz0pLMO60Qby
+	ZRD0rai2zDor2trquWQsHm3kdX0eNa9b+2lWdCmhFTXEpEzQ1giFefwZ8YYp5s/MP/0L9YJJu3V
+	3LwcmuVp3cXDFMxXNwEcMINXu1rr8fS1vt8K/QggAYMDG8FAfDpHnmcAAP7wFlRieH1aexy3XW8
+	gBD2PMyjcxg4BRTeXkHGbBUFaNAuhK2eBJDy0kAb/q+4uyie+EmG0AKiBcsAS57WcFjsBAvpoqt
+	01U4QLahQOY3XUR5leLeyc0vhE02iwKTfbBVM7tsaKaeFPyGtpW6jthVK46Bq8WGt+VvQBSrwAj
+	k/Ii/ponZIRAfiiSg4Pq69KpTpcP4LA4W1mEJhfyQMAtg0z91bfeAA
+X-Received: by 2002:a05:6214:f0d:b0:890:6331:7e88 with SMTP id 6a1803df08f44-892743d2a5amr28909316d6.44.1768387725209;
+        Wed, 14 Jan 2026 02:48:45 -0800 (PST)
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com. [209.85.222.179])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-890770cc7b1sm173500326d6.5.2026.01.14.02.48.45
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Jan 2026 02:48:45 -0800 (PST)
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-8c537a42b53so2202985a.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Jan 2026 02:48:45 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVeNy3uKEv0ejRCXXNNi1h1xVnkOZ0HsrKwqxF3WulSI52G7RkDT5Tha/94Ugpx4PeDPMCMcooovkc3b3AwtwgFXw==@vger.kernel.org
+X-Received: by 2002:a05:6102:149c:b0:5ef:a4b0:bdba with SMTP id
+ ada2fe7eead31-5f17f4325b5mr758488137.8.1768387256797; Wed, 14 Jan 2026
+ 02:40:56 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5kexuvze2a4m6bd3yhv2cd7yrzo4r6ubbbouktdsurv7n22v7o@7s3pgf6ftgur>
+References: <20260114093938.1089936-1-herve.codina@bootlin.com> <20260114093938.1089936-6-herve.codina@bootlin.com>
+In-Reply-To: <20260114093938.1089936-6-herve.codina@bootlin.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 14 Jan 2026 11:40:45 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXBD5W8GSvSJt73PXcTD-pbdgR6LvR37ESzEx5s6nrQgw@mail.gmail.com>
+X-Gm-Features: AZwV_QjGV8YAOz6mJPMHZ_hZCfKnrX7OINnAGBUggG34taCywTbcQHE61jaJ6l8
+Message-ID: <CAMuHMdXBD5W8GSvSJt73PXcTD-pbdgR6LvR37ESzEx5s6nrQgw@mail.gmail.com>
+Subject: Re: [PATCH v8 5/8] ARM: dts: r9a06g032: Add GPIO controllers
+To: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, Saravana Kannan <saravanak@kernel.org>, linux-gpio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, Pascal Eberhard <pascal.eberhard@se.com>, 
+	Miquel Raynal <miquel.raynal@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Jan 14, 2026 at 12:54:37PM +0900, Koichiro Den wrote:
-> I realized that I missed one case in v7.
-> 
-> I think dw_pcie_ep_clear_ib_maps() should also be called from
-> dw_pcie_ep_ib_atu_bar() to tear down any existing inbound mappings for the
-> same BAR before re-programming it in BAR Match Mode.
-> 
-> This matters when updating inbound mappings for a BAR without resetting the
-> BAR in between. There are four possible transition patterns, and pattern #4
-> below was overlooked:
-> 
->   1. BAR Match Mode -> BAR Match Mode
->      As the current implementation does, the mapping is simply updated
->      (with the same atu index)
-> 
->   2. BAR Match Mode -> Address Match Mode
->      This patch series already ensures the old BAR Match mapping is
->      torn down before reprogramming.
-> 
->   3. Address Match Mode -> Address Match Mode
->      Likewise, existing Address Match mappings are cleared first.
-> 
->   4. Address Match Mode  -> BAR Match Mode
->      This case was not handled. The change below adds the missing
->      teardown so that stale Address Match mappings do not remain active.
-> 
->      --- a/drivers/pci/controller/dwc/pcie-designware-ep.c
->      +++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
->      @@ -148,9 +148,12 @@ static int dw_pcie_ep_ib_atu_bar(struct dw_pcie_ep *ep, u8 func_no, int type,
->              u32 free_win;
->              struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
->      
->      -       if (!ep->bar_to_atu[bar])
->      +       if (!ep->bar_to_atu[bar]) {
->      +               /* Tear down existing mappings before (re)programming. */
->      +               dw_pcie_ep_clear_ib_maps(ep, bar);
->      +
->                      free_win = find_first_zero_bit(ep->ib_window_map,
->                                                    pci->num_ib_windows);
->      -       else
->      +       } else
->                      free_win = ep->bar_to_atu[bar] - 1;
+On Wed, 14 Jan 2026 at 10:40, Herve Codina (Schneider Electric)
+<herve.codina@bootlin.com> wrote:
+> Add GPIO controllers (Synopsys DesignWare IPs) available in the
+> r9a06g032 (RZ/N1D) SoC.
+>
+> Signed-off-by: Herve Codina (Schneider Electric) <herve.codina@bootlin.com>
+> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-If one of the branches has braces, both branches should have braces:
-https://www.kernel.org/doc/html/latest/process/coding-style.html#placing-braces-and-spaces
+Thanks, will queue in renesas-devel for v6.20.
 
+Gr{oetje,eeting}s,
 
-> 
-> Unless there are objections, I'll include this fix in v8.
+                        Geert
 
-Isn't it easier/cleaner if we call dw_pcie_ep_clear_ib_maps() in
-dw_pcie_ep_set_bar(), rather than calling it in both dw_pcie_ep_ib_atu_addr()
-and dw_pcie_ep_ib_atu_bar() ?
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-dw_pcie_ep_set_bar() knows the condition if we are dynamically reprogramming
-a BAR or not, and all the four cases are when dynamically reprogramming a BAR.
-
-I.e. instead of adding additional code to dw_pcie_ep_ib_atu_bar(), we do
-something like:
-
-diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
-index b2ea2c2c986f..63ae5471fe13 100644
---- a/drivers/pci/controller/dwc/pcie-designware-ep.c
-+++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
-@@ -318,9 +318,6 @@ static int dw_pcie_ep_ib_atu_addr(struct dw_pcie_ep *ep, u8 func_no, int type,
-                return -EINVAL;
-        }
- 
--       /* Tear down any existing mappings before (re)programming. */
--       dw_pcie_ep_clear_ib_maps(ep, bar);
--
-        for (i = 0; i < epf_bar->num_submap; i++) {
-                off = submap[i].offset;
-                size = submap[i].size;
-@@ -571,6 +568,9 @@ static int dw_pcie_ep_set_bar(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
-                    ep->epf_bar[bar]->flags != flags)
-                        return -EINVAL;
- 
-+               if (ep->epf_bar[bar]->num_submap || epf_bar->num_submap)
-+                       dw_pcie_ep_clear_ib_maps(ep, bar);
-+
-                /*
-                 * When dynamically changing a BAR, skip writing the BAR reg, as
-                 * that would clear the BAR's PCI address assigned by the host.
-
-
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
