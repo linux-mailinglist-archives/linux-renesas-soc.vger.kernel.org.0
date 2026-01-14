@@ -1,108 +1,118 @@
-Return-Path: <linux-renesas-soc+bounces-26741-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26750-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBED7D1F9E3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jan 2026 16:07:56 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22823D1FB10
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jan 2026 16:20:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B2C40304790F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jan 2026 15:03:00 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 45F133012948
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jan 2026 15:17:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A0D33043DC;
-	Wed, 14 Jan 2026 15:03:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="LtjnaUw2"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EC1F225397;
+	Wed, 14 Jan 2026 15:17:23 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com [209.85.217.68])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C744E26CE3B;
-	Wed, 14 Jan 2026 15:02:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A4DD31D36A
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Jan 2026 15:17:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768402980; cv=none; b=VO/hjXfOY/vBhJYCldNa3u7uf8ZWKxpnjNZF5JQJt/Gc6mO4Y8I2BXWpdQbadwVZhQFI2FjpU1nHBbM4w9kW4CjuAnESuqssCTb4FlWnwn3z7Jz5SysoAZj02BuZgQBdrq8v83jiOwc9yTmIxTx4y92uqEqaZpsmYs/zl79Ru08=
+	t=1768403843; cv=none; b=rCJEA3vqj6CDoZOu59USR9rAH4O7ts5gjdOnTjCl+3vfx9es126/JoPuQCy2VTpJDEHhRERKjF16nfITTnj46fG5dI7XuLXgSzPrnPupWFruApbBATvMJyoQ1vhiLlvgLGX4kFSNkw9PNFmDdtKD+H/Dh8H/z1N4D341WzOI+bE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768402980; c=relaxed/simple;
-	bh=C/NxO34wAs4axmDEnS4wOzXceNFCXcCC6a1VTiqqhEw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eZqzPVhDiumIShHVJzLnQ/xHkj4gu/EOmgZ8AY4DBdC3rMZZalbTtXn1+QIrZHSXF6/YWqzxNMX7gAk8PnxbrHy497bxfTFSR/WToMMu3PR9MXeLUNqG+PG+qzGEX4U1TgasE2nXfnz5DFmqOTXFC6cnwqIjyLlnDjDtu2DsNKQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=LtjnaUw2; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 936434E420D7;
-	Wed, 14 Jan 2026 15:02:57 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 68BB76074A;
-	Wed, 14 Jan 2026 15:02:57 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B60C710B68265;
-	Wed, 14 Jan 2026 16:02:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1768402976; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=QO5VB5UcoX6yJGvOy61nbzpj4avb0kRK9ECr1RMHGB0=;
-	b=LtjnaUw2ZeD7BIR2wERCFl/9IeGVCeexdSu3q+ie4yCeAU/mKCOfzsfUiXkiFAOrezX5m7
-	EPZZ08Te3boZUTT0v0Ndp+zEUvQxKCgOBhmr9x6TyDmbHws5Ic7X5eDTj1SsTqs+a+2kyN
-	clIPAh2f49RMBOP0WaA3IbNhyGqFVNDgklUluf9aZyvfS/KNCAOPSARd2hlsz7A+7k5cDr
-	oS9VvmGU4hZMy+IYDhwaf4V5XdBiALjoWwx8DckOAG5r1997muUBPR6NsMzFQZ1G8i7H7I
-	GrHwCRuGjiA5v7BLs9ifmN7d9Jden02+6uYPqiBcYM9kMlF5YoPpfqypofXq1g==
-Date: Wed, 14 Jan 2026 16:02:54 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: tomm.merciai@gmail.com,
-	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Frank Li <Frank.Li@nxp.com>, Philipp Zabel <p.zabel@pengutronix.de>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>, linux-i3c@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 0/4] i3c: renesas: Add suspend/resume support
-Message-ID: <176840281755.1259180.1971003582485935072.b4-ty@bootlin.com>
-References: <cover.1767781092.git.tommaso.merciai.xr@bp.renesas.com>
+	s=arc-20240116; t=1768403843; c=relaxed/simple;
+	bh=INLiR/9sKC5Ezv7y9MjS952KSFl9npMrRQs9Q37l+jo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WVwKcvMxXV9c1rt6Y1KqDRqeX+GuTq0NlCzJXo/LLfPdo0eBUrR4OZp4XTiIEyoroEFQF9V8a1CeSoZ5lZOVoOc0HMHGtQTBbX7zWrpzfRBKh76p9lT1F2tmSIzABUvJQT/OjbuHsi8MT0dE+Q7mJwsH4VSBPHAiMj5x+9fo+yY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f68.google.com with SMTP id ada2fe7eead31-5eea9f9c29bso4293203137.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Jan 2026 07:17:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768403835; x=1769008635;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fL62Bf3LdEer05zL+X5t7sIPwEJerT2IEVhS6PXvpSg=;
+        b=KfqlOg+Oia/ZwHKnv5WgHnDC5Nn+OlIqAEH7cyEGRxYur5fO3SCulSbloMvDFTjw/k
+         vvk2FP+jepVyjmJyncfzVAdE62YI3F6q5HJV1xhCmz9O9TaSlqQ0dXmM7qrE72ZKdKIB
+         13cxKA/a0uwzHGoIyPjSJIWVl+BmF4+2TaqfReOzf0QqemJLNJZh0FsD0uePhqU7Q6b+
+         vg+Pbla6W7X5rIRl7ZfUHqIp47g6Fk2eS9vsCMC6Ibsgeza5g+n7qOZ43AnbZ6A0Ljee
+         l20lrpm5isb+WnyOSL4LDbm9zZ5Cp6Y6FbCP5sSj+wGayOM4sm/L/JY/2jE98tNjbgVR
+         xw9g==
+X-Forwarded-Encrypted: i=1; AJvYcCV+Ea6E5iQzkjmrmNBAYKwBh4l2RcutlDlfe8q4Yaw4PUwlpR+IjjKUGHRPpBJYfy/BuHPE9ANvwgfxb850E8LPJA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzx8jHeT0eusqg/ERk4a9VYP4W3xFSIKttrv6fy96yWgusSo8RI
+	24lZZit8Xpzg8dsmPrMr99CgS4u1JEdStEzRuH9dTvp4d+naq5p9/yJgQE1yLQEfBtE=
+X-Gm-Gg: AY/fxX5F9WZyKqC6wjhd6sMQhVHWJZDUtRUkZmog+kpPaqZEy7/AOtfbRBv+v6/BjqO
+	tzrIVDOBGi3Supj0EUfjteDqtewOs+a9cilIdm94NwhafxsEj0iwPq5A5n9ZssZrgF9v0b9rLym
+	Z0dCrmQZKgZBxp2qnZnSPo2cOOfSAUQEx25XGuXnBbM5KtNLpp1WOtxERccDky/48KRV8yq3z2o
+	dVAyjJEzZ7D8sVTbypafxwtdrP16MkX2Z9juAjzUNC0E7cnH2u6M/+5ihosc8/mTpZ1mPlpxROc
+	Qq9trGOHuxNlvCQfDrZoxRoBemQZko2rZfBvURvPdRHrIcB7pg6FogaJ/W0tknqB1KNomE2yWcY
+	Z9Xxw7/MKJZEPuUtApcUt/Ud07nFf/E8WIge/zuFGlsYMYOZB5gdTEIf4fm0l0kqLLtWUfpY0DW
+	cn//x4GvGIvscHXKqhXkdcvrNjuQxVsCTiaXoroiZ6tj8mHWcI
+X-Received: by 2002:a67:e708:0:b0:5ee:a0e6:a9f4 with SMTP id ada2fe7eead31-5f17f484fa3mr1576847137.12.1768403835251;
+        Wed, 14 Jan 2026 07:17:15 -0800 (PST)
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com. [209.85.217.43])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5ee9d013b3csm19342058137.5.2026.01.14.07.17.15
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Jan 2026 07:17:15 -0800 (PST)
+Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-5ec87b1f525so3660209137.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Jan 2026 07:17:15 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVYsqXZ3DfG02Mg4F8tTDmdADQ6fYYZC+YQfdH8tOi0tf6xqhQf099cIPDbwWGbzev8e1C3MvGYgvJBdC8qr78zZw==@vger.kernel.org
+X-Received: by 2002:a05:6122:3113:b0:55a:ba0d:d84d with SMTP id
+ 71dfb90a1353d-563a093abc8mr1234630e0c.7.1768403465377; Wed, 14 Jan 2026
+ 07:11:05 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1767781092.git.tommaso.merciai.xr@bp.renesas.com>
-X-Last-TLS-Session-Version: TLSv1.3
+References: <cover.1764165783.git.tommaso.merciai.xr@bp.renesas.com> <2483415f35dabe42ba3c35a0c50a3e9b28dd724a.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
+In-Reply-To: <2483415f35dabe42ba3c35a0c50a3e9b28dd724a.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 14 Jan 2026 16:10:54 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVrr11wufh569kSyCo72bEknos7UiuyxadThRQmt2_5rQ@mail.gmail.com>
+X-Gm-Features: AZwV_QhVNfKomHEkvFsmWk2qp5dVEkSvsae2sIrEVsngj9ZQvyn6LkRdKtdcLBk
+Message-ID: <CAMuHMdVrr11wufh569kSyCo72bEknos7UiuyxadThRQmt2_5rQ@mail.gmail.com>
+Subject: Re: [PATCH 15/22] media: dt-bindings: media: renesas,vsp1: Document RZ/G3E
+To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org, 
+	biju.das.jz@bp.renesas.com, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-clk@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 07 Jan 2026 11:33:46 +0100, Tommaso Merciai wrote:
-> This series adds suspend/resume support to the Renesas I3C controller driver.
-> 
-> Thanks & Regards,
-> Tommaso
-> 
-> v4->v5:
->  - Rebased on top of next-20260107
->  - PATCH 1/4:
->      - Improved check for clk_bulk_get_all_enabled() failure into
->        renesas_i3c_probe().
->  - PATCH 2/4:
->      - Moved presetn and tresetn reset controls renesas_i3c struct
->        entries above num_clks to avoid padding.
->  - PATCH 4/4:
->      - Collected tag.
-> 
-> [...]
+On Wed, 26 Nov 2025 at 15:10, Tommaso Merciai
+<tommaso.merciai.xr@bp.renesas.com> wrote:
+> The VSPD block on the RZ/G3E SoC is identical to the one found on the
+> RZ/G2L SoC.
+>
+> No driver changes are required, as `renesas,r9a07g044-vsp2` will be used
+> as a fallback compatible string on the RZ/G3E SoC.
+>
+> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 
-Applied, thanks!
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-[1/4] i3c: renesas: Switch to clk_bulk API and store clocks in private data
-      https://git.kernel.org/i3c/c/579c7255922a
-[2/4] i3c: renesas: Store clock rate and reset controls in struct renesas_i3c
-      https://git.kernel.org/i3c/c/ff4e4f03f008
-[3/4] i3c: renesas: Factor out hardware initialization to separate function
-      https://git.kernel.org/i3c/c/5eb3e8763e07
-[4/4] i3c: renesas: Add suspend/resume support
-      https://git.kernel.org/i3c/c/e7218986319b
+Gr{oetje,eeting}s,
 
-Best regards,
+                        Geert
 
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
