@@ -1,143 +1,149 @@
-Return-Path: <linux-renesas-soc+bounces-26733-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26734-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32A44D1ED44
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jan 2026 13:40:52 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2622BD1EFA7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jan 2026 14:08:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 41C0430519ED
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jan 2026 12:38:13 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id B88303040F1A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jan 2026 13:07:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFBD2395DBE;
-	Wed, 14 Jan 2026 12:38:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98241349B0A;
+	Wed, 14 Jan 2026 13:07:24 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 542193559F0
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Jan 2026 12:38:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E1281487E9
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Jan 2026 13:07:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768394292; cv=none; b=Pxf87Ay8g4xJIBIRVLVAOM0PsfrzirOlDy/+kTdSs8M/AwUmQ6B9gT7HwPEXf7cGZVg3B1w/33xh1z/E/dhdjrWpfmo/HMVJn2zGjgJJCh+Jig+TX2YxCHCoOxavV0SWwpemcdJgPhRpyCckPa3P3w7XdPR26Z/6QU3gITUFpOw=
+	t=1768396044; cv=none; b=MuQLNmHM4Q/woCcEiKHiPiw3EZTtwduy85MPJW9C1R0RB1+qwBJxYDYTXlRCToQzhxJ0apAnGO4mreSvC2LkjslHkngU1DDX61iGd4wx4zF5HaKIfN3orvDMyepjF23PmQlhG2iX+P/m6Es0MMjvrrQ19VWcb/6aBP7q00tgkGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768394292; c=relaxed/simple;
-	bh=uvyq84vfqLkBb8SFLfNReYm5TtcOjgPQQ2g9fXWWq84=;
+	s=arc-20240116; t=1768396044; c=relaxed/simple;
+	bh=/5eWFDEf6KwzasaJ03bBW4Tg2xk5g+Pd7eH2QVdydoY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CL2YSm53mY2B/FWjAA4coHOROEgveifJRT4JxWa4EWfH6FtYeya3BU8vSyM2iCmJMKVv5pOzqI8XFeQSU2CnG2ASq0WnbAenrfbUokQQVVUZLNPJLi9HKaD4w+yjfehelGPJAbRLUbo3AgBDcOWntOMnJjgqfoxKNMz3hjYeOV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.175
+	 To:Cc:Content-Type; b=rUDb/1dp0EByZZe7hYs5uXfWbNYJjMGXEtVAQLH9hA8gTNJkalFO60Hizl25LAl/coqTRvsUP5zZngwoNKPiUTqBB1DcmF/d8RrbBS9alE7OOxmZftqiC3O8IUw/ELuFBjK/7AA1OzuzjL2EejG9HujspW058/zn51DX8IznQKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-55ab217bb5eso1422211e0c.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Jan 2026 04:38:11 -0800 (PST)
+Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-7ce229972f1so7557854a34.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Jan 2026 05:07:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768394290; x=1768999090;
+        d=1e100.net; s=20230601; t=1768396042; x=1769000842;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hj+1g0xoern/NZa0KoVGvEg+BidqfC0JY8V0QW/WQj4=;
-        b=C+eOuGu9Q0NI+OiAxgyzVc5OAp9aEXAfQ/inGpAYB7LKPsjPV03LFCVIOfWpl2vRYY
-         p2SuYIt8SxOV6CCIsrJeUxgomqaDFH4qHuvsuYX83uuJZ8sSLv+7IMKB6hes8JZ1cBay
-         x3s0MDmaNFBIYN0T3+z641pDA+/M8JpjmNTSUh05Su0FZXhQsQZ2UGbkgatyky7CSSlM
-         kfzc2VEpRlopwwQ/aWamWy/qoivwF+nty53+KR7XlKe2LS1fvOWi5p5WCq/rEpicc9OA
-         epms366TTYr6huF+AQxkikI+dlzRKpimBJHdYxpNRucPhimXn7XYVed4AdGLISexzhY0
-         gvOg==
-X-Forwarded-Encrypted: i=1; AJvYcCXtAmrFVbMKk17uhNwTbqkFYNFeAhTs3iEu2AUkSL6zKqm/FxYMdxGOatT1Hy+1NUXTbPiViFk6KEd+WtG2kxnSdg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyzziebOd/TJj7wFhRqCHh7bp4hAxXe59M1IfLvaKDoCs44Vz9N
-	2Y70dQcWJQCCYVj7GU/fqMWqQfVOcc66ncbfTKfbiq4rxB4CBSPRHoNRZhZEYw59
-X-Gm-Gg: AY/fxX5l+y5GfDbDKzBWh2B352phYcbjACM5uWvNZlcLEJ6z1QQdYHvqpxsan8hiISy
-	YSz9fPbhwOEGY2GP/P9VhscSW+BkJOy8KdourieB/ThetzbHVM+NL4eZf3TC8s28TOoh8YT4rHd
-	b766cnCouseVrp+qELZgL/WJIS5BhTp0QUSNuktP9ob4+c6q5X6ty1pWz/rTgOALAVWPhgQmIp0
-	DnRUf8c06nF4ghOFLG5uBLCQvM7zsRaH4nE7P2MZLnY1IjbUEMlD0wVU7K/LFslo19d57rJWbhg
-	PUfpCVOrjoLgTUbLxDcs/jSRfFr4XtNRh0h/1it1k/yQP7QCR+0/7KwtCghhrD6uejZ8yw67W3J
-	tZBYfOvmaGturwNkcRbYhHnJ+POTl4w3fMJIZ6D9istqC+CiIWV4f7BareeukZ4rWWI1OV4S/1v
-	33/XdAhd3VkCNqM+s1nVHbZb7NVCL6PIdejzZsK1xbeL3rDQrJ
-X-Received: by 2002:a05:6122:2a02:b0:563:4a88:6eb0 with SMTP id 71dfb90a1353d-563a09567eemr809958e0c.5.1768394290264;
-        Wed, 14 Jan 2026 04:38:10 -0800 (PST)
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com. [209.85.222.48])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5634ca16da7sm20618671e0c.17.2026.01.14.04.38.09
+        bh=dOi1xuIgOKeNmhtu/zXsVbi5AW8T0pSjiAWSdoOenWg=;
+        b=vNjIA0LMBvDwzuoBhiA6LB/yLIfLev3vErNhkSx1Y0E9uvHa8Rfzj+Bea7NKqL+XWI
+         NVVG/C91OtHFM7ebCb3589S9+kU4A8z7nnLkCmsar3lkDDqjXk7CZhKtOozG5no47FHV
+         uIW3dDaVMvYySDtgfLv1EoSaT5OLJzRRENs2l+lOR5n5c1kh5K3hjuiGTeBPc0JY8LCW
+         skDcTQBfkxrmSSqMJXl4pgdLvy6OAJygjwJGIjkkDZzQxODnuKKyWZ8wAfTV+sKsK+1X
+         COocSl8wYOox3QxcFSQ7RhRhQRJH4jqxkaNWGbv7ArWWAgcXa1PWL0IjkZ/t6zYi4CAW
+         XHIw==
+X-Forwarded-Encrypted: i=1; AJvYcCWOztn6JGdmnrTPLSD3q9eKDYj9vjDGWwzS80CNS5v29mzsSX1RmmLuhrGpBr1mep8oNVDWxDnyjz4q0Ny8M6ZgtA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz2ORvfc1xF3t/8qAAKu7fWRdRbDViUNj2tpyYsGp/IXRap9wpj
+	OpALDE7/XtvTm5nUTy2bUDIWKWWnQ6Vj8IDFyahjjcED5abTNWyztU0Db7DBZXKr
+X-Gm-Gg: AY/fxX66LkMocnr2AW5F+Vuu1J0u7do6GvJ8MUaDAL4sXjhqoKIW01K5x+BMISes/Kz
+	KIDqfRm3WYjVkP4NqRA4SSsm45lqLczfPVpfwsez0qcDcKFN8zaRDISBSn7HnqTNyo5s5QXYPY+
+	emrRTUD8C4vor2BRGfNeZSFa/Y2QzLslbuSCA6ABtSeGVvJIRGGdsoHXPsQ6jsJwCay51Kf3XZW
+	GgFdxn7knDbMX/cJaXY8KAUWXzlV2k01MpYSOtZrT8pGvWjS2Knp3Yvma13S0+5KFTWIUrx6Z9F
+	EBcHcO/ioygEncg/vsapyF7adOXfCcBRDipaiPO4Rm2J38V3YQ9L2dTchmMVU49sM9DRAoO4Nvf
+	5o1Zoxf44i/OJdgf6sJoD9JfYbCckgO5atfzJ6yUVRzOXOut4QQCBwM0wKz6W0KAQa9v9RWPUc2
+	+aZzaCR+b6dYS9L8qFyW7JqtJJEZ6f/3Ipxw9q4RFExum9MBkM
+X-Received: by 2002:a05:6830:2701:b0:7c9:5a1d:335b with SMTP id 46e09a7af769-7cfcb5d7bb6mr1409156a34.9.1768396041954;
+        Wed, 14 Jan 2026 05:07:21 -0800 (PST)
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com. [209.85.160.42])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7ce478af63bsm17528826a34.16.2026.01.14.05.07.21
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Jan 2026 04:38:09 -0800 (PST)
-Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-93f63d46f34so2684758241.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Jan 2026 04:38:09 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVy3M908NRbsqcwta25+7bdW3jEjvk0GDPHcRpBbLTwk5US4dB1TpGz02COu2WTLbkT/nJir54y6Db6T3dGemJx2Q==@vger.kernel.org
-X-Received: by 2002:a05:6102:3e0f:b0:5ea:67f4:c1ad with SMTP id
- ada2fe7eead31-5f17f5c4c79mr942660137.21.1768394289171; Wed, 14 Jan 2026
- 04:38:09 -0800 (PST)
+        Wed, 14 Jan 2026 05:07:21 -0800 (PST)
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-3e8f418e051so6589434fac.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Jan 2026 05:07:21 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXh/d1hKNtMZvgsWoXx0SeXaUgsuDTuDiO1wLfIESIhdHp/HYWAytRhmrd+1kEfVVkr+pEqHfBabMp6dOOvK0+iiA==@vger.kernel.org
+X-Received: by 2002:a05:6102:38c9:b0:5f1:555e:a0b4 with SMTP id
+ ada2fe7eead31-5f183bdce22mr616871137.32.1768395587922; Wed, 14 Jan 2026
+ 04:59:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
- <fcfc4fc5123c2351d96ac102aa5081bd99c8a40e.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
- <20251203-shrew-of-original-tempering-8a8cfc@quoll> <aTA-Hj6DvjN4zeK6@tom-desktop>
-In-Reply-To: <aTA-Hj6DvjN4zeK6@tom-desktop>
+References: <cover.1764165783.git.tommaso.merciai.xr@bp.renesas.com> <3ab81490b7bdbd2dafd7a940ae242f07d30aaa17.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
+In-Reply-To: <3ab81490b7bdbd2dafd7a940ae242f07d30aaa17.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 14 Jan 2026 13:37:58 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW=UkZxhf-pbtp6OBFd_3jPcjUaKFmH4piuc+P=kgxzGA@mail.gmail.com>
-X-Gm-Features: AZwV_Qj82EmcdFo9GBygajeXpLdMczZEl-yzaqrHERtstQ_T42ZqMwts5Zu_4K4
-Message-ID: <CAMuHMdW=UkZxhf-pbtp6OBFd_3jPcjUaKFmH4piuc+P=kgxzGA@mail.gmail.com>
-Subject: Re: [PATCH 10/22] dt-bindings: display: renesas,rzg2l-du: Add support
- for RZ/G3E SoC
+Date: Wed, 14 Jan 2026 13:59:36 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUBN0OKOOTw+j3XuWi+hVYBVRyzp=J-+0yMfem2BfT+Eg@mail.gmail.com>
+X-Gm-Features: AZwV_QjCdG9CLFFvTy17z_yoeEbQmRYHkFE3zh-jRCvSjUp5PEJNAk_rO0NIbA8
+Message-ID: <CAMuHMdUBN0OKOOTw+j3XuWi+hVYBVRyzp=J-+0yMfem2BfT+Eg@mail.gmail.com>
+Subject: Re: [PATCH 01/22] clk: renesas: rzv2h: Add PLLDSI clk mux support
 To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, tomm.merciai@gmail.com, 
-	linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
-	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org, 
+	biju.das.jz@bp.renesas.com, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-clk@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
 Hi Tommaso,
 
-On Wed, 3 Dec 2025 at 14:42, Tommaso Merciai
+On Wed, 26 Nov 2025 at 15:08, Tommaso Merciai
 <tommaso.merciai.xr@bp.renesas.com> wrote:
-> On Wed, Dec 03, 2025 at 09:23:53AM +0100, Krzysztof Kozlowski wrote:
-> > On Wed, Nov 26, 2025 at 03:07:22PM +0100, Tommaso Merciai wrote:
-> > > The RZ/G3E Soc has 2 LCD controller (LCDC), contain a Frame Compression
-> > > Processor (FCPVD), a Video Signal Processor (VSPD), Video Signal
-> > > Processor (VSPD), and Display Unit (DU).
-> > >
-> > >  - LCDC0 supports DSI and LVDS (single or dual-channel) outputs.
-> > >  - LCDC1 supports DSI, LVDS (single-channel), and RGB outputs.
-> > >
-> > > Add then two new SoC-specific compatible strings 'renesas,r9a09g047-du0'
-> > > and 'renesas,r9a09g047-du1'.
-> >
-> > LCDC0/1 but compatibles du0/du1...
-> >
-> > What are the differences between DU0 and DU1? Just different outputs? Is
-> > the programming model the same?
+> Add PLLDSI clk mux support to select PLLDSI clock from different clock
+> sources.
 >
-> The hardware configurations are different: these are two distinct hardware blocks.
+> Introduce the DEF_PLLDSI_SMUX() macro to define these muxes and register
+> them in the clock driver.
 >
-> Based on the block diagrams shown in Figures 9.4-2 (LCDC1) and 9.4-1 (LCDC0),
-> the only difference concerns the output, but this variation is internal to the
-> hardware blocks themselves.
-> Therefore, LCDC0 and LCDC1 are not identical blocks, and their programming models
-> differ as a result.
+> Extend the determine_rate callback to calculate and propagate PLL
+> parameters via rzv2h_get_pll_dtable_pars() when LVDS output is selected,
+> using a new helper function rzv2h_cpg_plldsi_smux_lvds_determine_rate().
 >
-> In summary, although most of the internal functions are the same, the two blocks
-> have output signals connected to different components within the SoC.
-> This requires different hardware configurations and inevitably leads to different
-> programming models for LCDC0 and LCDC1.
+> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 
-Isn't that merely an SoC integration issue?
-Are there any differences in programming LCDC0 or LCDC1 for the
-common output types supported by both (single channel LVDS and 4-lane
-MIPI-DSI)?
+Thanks for your patch!
 
-Of there are no such differences, both instances should use the same
-compatible value.
+> --- a/drivers/clk/renesas/rzv2h-cpg.c
+> +++ b/drivers/clk/renesas/rzv2h-cpg.c
+
+> +
+> +static int rzv2h_cpg_plldsi_smux_lvds_determine_rate(struct rzv2h_cpg_priv *priv,
+> +                                                    struct pll_clk *pll_clk,
+> +                                                    struct clk_rate_request *req)
+> +{
+> +       struct rzv2h_pll_div_pars *dsi_params;
+> +       struct rzv2h_pll_dsi_info *dsi_info;
+> +       u8 lvds_table[] = { 7 };
+> +       u64 rate_millihz;
+> +
+> +       dsi_info = &priv->pll_dsi_info[pll_clk->pll.instance];
+> +       dsi_params = &dsi_info->pll_dsi_parameters;
+> +
+> +       rate_millihz = mul_u32_u32(req->rate, MILLI);
+> +       if (!rzv2h_get_pll_divs_pars(dsi_info->pll_dsi_limits, dsi_params,
+> +                                    lvds_table, 1, rate_millihz)) {
+
+s/1/ARRAY_SIZE(lvds_table)/
+
+> +               dev_err(priv->dev, "failed to determine rate for req->rate: %lu\n",
+> +                       req->rate);
+> +               return -EINVAL;
+> +       }
+> +
+> +       req->rate = DIV_ROUND_CLOSEST_ULL(dsi_params->div.freq_millihz, MILLI);
+> +       req->best_parent_rate = req->rate;
+> +       dsi_info->req_pll_dsi_rate = req->best_parent_rate * dsi_params->div.divider_value;
+> +
+> +       return 0;
+> +}
 
 Gr{oetje,eeting}s,
 
