@@ -1,217 +1,140 @@
-Return-Path: <linux-renesas-soc+bounces-26752-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26753-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 050D7D1FC3C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jan 2026 16:32:37 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id BFE8CD1FCB4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jan 2026 16:35:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 6E0C030514F4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jan 2026 15:23:58 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id F1C063018414
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Jan 2026 15:35:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A41B7392C42;
-	Wed, 14 Jan 2026 15:23:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C74439E6C1;
+	Wed, 14 Jan 2026 15:35:42 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4709A39B4A5
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Jan 2026 15:23:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F367839C653;
+	Wed, 14 Jan 2026 15:35:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768404203; cv=none; b=kt/hpEjnqnUORZyUM3IV5MAcmqalQOg3Po1A++46BPxpCEx24xwo2U+9l5HPat4yI2ObAs5PG3bWnaXYM3UYImBUDOscvzUwBcGQdlBHRxq/zUY82gmjPtNlXDsgjESN/LuqoMIjsZkgBBBWP8VGgsLDpBLnnezZTSjL+LGfHxQ=
+	t=1768404942; cv=none; b=qHT02ULkzSKtJpjb2GqgMnGmmyMGjvPfPBS4tCw3y3tpWMf2zJcd4+dppQjYyvzBue8xA1/cvhVJ2kVz95G5xbyn2megl/OT/qg6jGUW6W6vnHv7tsbNNiRAmiPwBMlDTlI3UTVomPepV7TIaQCXzbKcbbrxISufiB6hPGEtt4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768404203; c=relaxed/simple;
-	bh=FbjFSImaY2k0aKJ3OzRfQKg0m0OC/lVVuYVOsRiP1wQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KcZK0VDWTpHv98Ew/sF8BzF9jDrVvLQxkgsmLQs16iEz1tA/JTaKvTlG7JloGCyLoImuQ8b5oRvNib0nIxNKK1ZYM+Ow8xSEL9S7aTUjq0jFw75W4DeXfO+uLgDiLpZBxt6Hl+Revs+4sW7JkzAhRnQtos/A3QmS+8kZ7MSAStY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-5636470c344so4136344e0c.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Jan 2026 07:23:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768404201; x=1769009001;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=h9PHoycvBsjA0Sy0VbLTIHVLWHYGM3MD8TXsWVqyh2U=;
-        b=j6J/b08emp1cFIFN9aS3rt6RM3T4z79WQvJUP06yJL/W0wABqiu7R55CJuIGISbqAW
-         wK0KmQqLd06Vy5OfIjVXPlneokocFOwmBZa/UN7jyEGC3xFHI1/Oj7GiiVeBViz6cxzs
-         MBMuPRXdIxIm3oWp4V4o4Ugmr7UVLDlKUWjVTVVBxF3k2fosCo7OcbU88Jg029OIWloV
-         0eak8GxJYWy2ouMtS4CwmwDgDyFeiOWvXL21arY/ssglka0JIiGmi4Jnk7wlWxIGt0aB
-         7zR3q4dhMAIS16TI7xkyFTAljFjDoyziBtZb5U/c54IiTYDaaZvw9haMb9FKlwKzV4Ar
-         v7fw==
-X-Forwarded-Encrypted: i=1; AJvYcCUUdoNpReEktFMwsezsEL9nibrn0dNPeC0bc97Sgg1ANpGLd82ysZr6EDSvSWD5KzgnD6OmhnRAk6JSWqRHuumFWA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw6frWXXQ40GcOywErHFLK+/bytvAytksxzsT0fxuhGsQYZTdJi
-	EJAqnLIik/qCt0PG8HGX7Wc0bs2AQyfSFwRFMJxqhqgkSDQ8tEFHC0ouYmVtyLyi
-X-Gm-Gg: AY/fxX71EG0PtJG6rVdX6uJ6bqziUZMUZxEPNUxgtk0od78gM13+xflWyd5FPvO4A83
-	6AJ3x4k1xyjfIAvzPobk4RPfEaijKEh1owGvPE8nx09HX4c8HyXr4x3KLq+qG66er8mzeVL0TpD
-	mKmwsoEfK33USffjfLLZAWLOlz6vyE/0MRjhPUfurbU3n3sG/k0v9gaZH0kKJPDa3nqoKO/RLtp
-	faYomLzBtuQP5SY0Hwv65ORinzcC4Sd2Pl3oo8Rq6ThOnlLkGgoU03UOxLe1cLvY5h0ZsJkS0G2
-	wUQmnZq3pw5XFwMPNdIZW4SEbCtt4yk153W6uIFK1rLyeBjCHD4Cb1yIl6JSt6SdQW2hwy9sxMJ
-	cxd2q+u1m2VOXFiIi5EwicmceMgjWcMtrec5J4lxYFjB3tXDiaoyhxvcVqmsZBecDifmBddfQ7f
-	5Y+Z42TjVNHEZqXH3dYhnitEEeihxVfzzyXp47ndiBSnMERbZZ
-X-Received: by 2002:a05:6122:8c1a:b0:55b:f45:1874 with SMTP id 71dfb90a1353d-563a09cfde2mr1159399e0c.11.1768404200811;
-        Wed, 14 Jan 2026 07:23:20 -0800 (PST)
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com. [209.85.217.46])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5633a1ea810sm22746168e0c.5.2026.01.14.07.23.19
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Jan 2026 07:23:19 -0800 (PST)
-Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-5eea31b5c48so4613782137.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Jan 2026 07:23:19 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWEDlPZ3ZFT6vZgngYxLQF6QxoRrSB4XtFnH4oIeucjrnNBlwBEy838UXgb8PszA7bYclwqlkPRhhlBQ7uaKbVQmA==@vger.kernel.org
-X-Received: by 2002:a05:6102:c05:b0:5f1:5c43:936a with SMTP id
- ada2fe7eead31-5f17f5b855bmr1345435137.25.1768404199242; Wed, 14 Jan 2026
- 07:23:19 -0800 (PST)
+	s=arc-20240116; t=1768404942; c=relaxed/simple;
+	bh=9gAY3V2wbf2rLFZaoA3bjuRd6UoDK+5vIl1eJCX4BII=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tNINREK2Ppy6iZIWJzg47GRSG6nD9lOdNdbbcbhbk63lwYxpPBhFVRMdZJb6RZPwKB83VB9odLMmigIR2+u/hHQDE1en3puI+D7/+m+c+cj5bjwpLiwuWBDq/qqR5wZarFJnqYn6tIabec7AIw6WcqT4gKXFEP9byVFtaJAMwlw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-CSE-ConnectionGUID: 9PX1YUblQoO521vUhdjzIg==
+X-CSE-MsgGUID: Ufgy+vKuQca/bKELF7PmAQ==
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 15 Jan 2026 00:35:37 +0900
+Received: from ubuntu.adwin.renesas.com (unknown [10.226.92.178])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 6CDBC4022B3F;
+	Thu, 15 Jan 2026 00:35:32 +0900 (JST)
+From: John Madieu <john.madieu.xa@bp.renesas.com>
+To: claudiu.beznea.uj@bp.renesas.com,
+	lpieralisi@kernel.org,
+	kwilczynski@kernel.org,
+	mani@kernel.org,
+	geert+renesas@glider.be,
+	krzk+dt@kernel.org
+Cc: robh@kernel.org,
+	bhelgaas@google.com,
+	conor+dt@kernel.org,
+	magnus.damm@gmail.com,
+	biju.das.jz@bp.renesas.com,
+	linux-pci@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	john.madieu@gmail.com,
+	John Madieu <john.madieu.xa@bp.renesas.com>
+Subject: [PATCH 00/16] PCI: renesas: Add RZ/G3E PCIe controller support
+Date: Wed, 14 Jan 2026 16:33:21 +0100
+Message-ID: <20260114153337.46765-1-john.madieu.xa@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1764165783.git.tommaso.merciai.xr@bp.renesas.com> <9188e9aca69fb0076941bd1cd62693b381cf6f00.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
-In-Reply-To: <9188e9aca69fb0076941bd1cd62693b381cf6f00.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 14 Jan 2026 16:23:08 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW+ZvuJg0ivCM2CHJkRBdx8sgiku1jGgrD_mcO4yV9vHg@mail.gmail.com>
-X-Gm-Features: AZwV_QheoOAURJQgELAszsWwxDhSryviUTqnKNYp1N8Uc4IoJlBrWL72cLThIqU
-Message-ID: <CAMuHMdW+ZvuJg0ivCM2CHJkRBdx8sgiku1jGgrD_mcO4yV9vHg@mail.gmail.com>
-Subject: Re: [PATCH 21/22] arm64: dts: renesas: r9a09g047: Add DU{0,1} and DSI nodes
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org, 
-	biju.das.jz@bp.renesas.com, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-clk@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Tommaso,
+The Renesas RZ/G3E SoC features a PCIe controller that shares similarities with
+the existing RZ/G3S PCIe controller, but with several key differences.
+This series adds support for the RZ/G3E PCIe controller by extending the existing
+RZ/G3S driver and device tree bindings.
 
-On Wed, 26 Nov 2025 at 15:11, Tommaso Merciai
-<tommaso.merciai.xr@bp.renesas.com> wrote:
-> Add DU0, DU1, DSI nodes to RZ/RZG3E SoC DTSI.
->
-> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Key differences between RZ/G3E and RZ/G3S PCIe controllers:
 
-Thanks for your patch!
+Link Speed Support:
+ - RZ/G3E: Supports PCIe Gen3 (8.0 GT/s) alongside Gen2 (5.0 GT/s)
+ - RZ/G3S: Supports PCIe Gen2 (5.0 GT/s) only
 
-> --- a/arch/arm64/boot/dts/renesas/r9a09g047.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r9a09g047.dtsi
+Reset Control:
+ - RZ/G3E: Uses register-based reset control mechanism
+ - RZ/G3S: Uses exclusively external reset control signals
 
-> +
-> +               du0: du0@16460000 {
+Inbound Window Configuration:
+ - RZ/G3E: Requires precise power-of-2 window coverage with strict address
+   alignment constraints. Non-power-of-2 memory regions must be split into
+   multiple windows to avoid over-mapping, ensuring proper hardware address
+   decoding for DMA operations.
+ - RZ/G3S: Uses a simpler approach that rounds up to the next power-of-2,
+   creating single larger windows. The hardware tolerates over-mapped regions.
 
-display@
+Class/Revision IDs:
+ - RZ/G3E: Requires explicit setting of class/revision values
+ - RZ/G3S: Has default values in hardware
 
-> +                       compatible = "renesas,r9a09g047-du0";
+Clock Naming:
+ - RZ/G3E: Uses "clkpmu" PM control clock while CLKREQ_B is deasserting
+ - RZ/G3S: Uses "clkl1pm" clock for power management
 
-I doubt this compatible value will survive review...
+Phy Settings:
+ - RZ/G3E: Does not need PHY settings as it works with default hw values
+ - RZ/G3S: Requires explicit PHY settings
 
-> +                       reg = <0 0x16460000 0 0x10000>;
-> +                       interrupts = <GIC_SPI 882 IRQ_TYPE_LEVEL_HIGH>;
-> +                       clocks = <&cpg CPG_MOD 0xed>,
-> +                                <&cpg CPG_MOD 0xee>,
-> +                                <&cpg CPG_MOD 0xef>;
-> +                       clock-names = "aclk", "pclk", "vclk";
-> +                       power-domains = <&cpg>;
-> +                       resets = <&cpg 0xdc>;
-> +                       renesas,vsps = <&vspd0 0>;
-> +                       status = "disabled";
-> +
-> +                       ports {
-> +                               #address-cells = <1>;
-> +                               #size-cells = <0>;
-> +
-> +                               port@0 {
-> +                                       reg = <0>;
-> +                                       du0_out_dsi0: endpoint {
-> +                                       };
-> +                               };
-> +
-> +                               port@1 {
-> +                                       reg = <1>;
-> +                                       du0_out_lvds0: endpoint {
-> +                                       };
-> +                               };
-> +
-> +                               port@2 {
-> +                                       reg = <2>;
-> +                                       du0_out_lvds1: endpoint {
-> +                                       };
-> +                               };
-> +                       };
-> +               };
-> +
-> +               du1: du1@16490000 {
+This series extends the existing driver to detect the SoC type from the device
+tree compatible string and configure the controller appropriately. The updates
+are minimal and focused on the hardware-specific differences while keeping the
+common code paths unified.
 
-display@
+Note: The clks "PCIE_0_REFCLK_IN" and "PCIE_0_CORECLKIN" are added by mistake in
+hardware manual
 
-> +                       compatible = "renesas,r9a09g047-du1";
+John Madieu (16):
+  PCI: rzg3s-host: Fix reset handling in probe error path
+  PCI: rzg3s-host: Fix inbound window size tracking
+  clk: renesas: rzv2h-cpg: Add support for init_off clocks
+  clk: renesas: r9a09g047: Add PCIe clocks and reset
+  dt-bindings: PCI: renesas,r9a08g045s33-pcie: Document RZ/G3E SoC
+  PCI: rzg3s-host: Make SYSC register offsets SoC-specific
+  PCI: rzg3s-host: Make configuration reset lines optional
+  PCI: rzg3s-host: Make inbound window setup SoC-specific
+  PCI: rzg3s-host: Add SoC-specific configuration and initialization
+    callbacks
+  PCI: rzg3s-host: Explicitly set class code for RZ/G3E compatibility
+  PCI: rzg3s-host: Add PCIe Gen3 (8.0 GT/s) link speed support
+  PCI: rzg3s-host: Add support for RZ/G3E PCIe controller
+  arm64: dts: renesas: r9a09g047: Add PCIe node
+  arm64: dts: renesas: r9a09g047e57-smarc-som: Add PCIe reference clock
+  arm64: dts: renesas: r9a09g047e57-smarc: Add PCIe pincontrol
+  arm64: dts: renesas: r9a09g047e57-smarc: Enable PCIe
 
-I doubt this compatible value will survive review...
-
-> +                       reg = <0 0x16490000 0 0x10000>;
-> +                       interrupts = <GIC_SPI 922 IRQ_TYPE_LEVEL_HIGH>;
-> +                       clocks = <&cpg CPG_MOD 0x1a8>,
-> +                                <&cpg CPG_MOD 0x1a9>,
-> +                                <&cpg CPG_MOD 0x1aa>;
-> +                       clock-names = "aclk", "pclk", "vclk";
-> +                       power-domains = <&cpg>;
-> +                       resets = <&cpg 0x11e>;
-> +                       renesas,vsps = <&vspd1 0>;
-> +                       status = "disabled";
-> +
-> +                       ports {
-> +                               #address-cells = <1>;
-> +                               #size-cells = <0>;
-> +
-> +                               port@0 {
-> +                                       reg = <0>;
-> +                                       du1_out_dsi0: endpoint {
-> +                                       };
-> +                               };
-> +
-> +                               port@1 {
-> +                                       reg = <1>;
-> +                                       du1_out_lvds0: endpoint {
-> +                                       };
-> +                               };
-> +
-> +                               port@2 {
-> +                                       reg = <2>;
-
-I expect this will become "port@3" and "reg = <3>" with a unified compatible
-value?
-
-> +                                       du1_out_rgb0: endpoint {
-> +                                       };
-> +                               };
-> +
-> +                       };
-> +               };
-> +
->                 fcpvd0: fcp@16470000 {
->                         compatible = "renesas,r9a09g047-fcpvd",
->                                      "renesas,fcpv";
-
-The rest LGTM.
-
-Gr{oetje,eeting}s,
-
-                        Geert
+ .../bindings/pci/renesas,r9a08g045-pcie.yaml  | 243 +++++++----
+ arch/arm64/boot/dts/renesas/r9a09g047.dtsi    |  68 +++
+ .../boot/dts/renesas/r9a09g047e57-smarc.dts   |  11 +
+ .../boot/dts/renesas/renesas-smarc2.dtsi      |   7 +
+ .../boot/dts/renesas/rzg3e-smarc-som.dtsi     |  11 +
+ drivers/clk/renesas/r9a09g047-cpg.c           |   5 +
+ drivers/clk/renesas/rzv2h-cpg.c               |   9 +
+ drivers/clk/renesas/rzv2h-cpg.h               |  18 +-
+ drivers/pci/controller/pcie-rzg3s-host.c      | 393 +++++++++++++++---
+ 9 files changed, 632 insertions(+), 133 deletions(-)
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.25.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
