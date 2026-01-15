@@ -1,100 +1,160 @@
-Return-Path: <linux-renesas-soc+bounces-26879-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26880-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id A66DFD25BD9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 17:28:26 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CE90D25C86
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 17:37:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 2824930022D6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 16:28:26 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id E2AB730019F1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 16:37:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80B203B961B;
-	Thu, 15 Jan 2026 16:28:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B61213B8BB1;
+	Thu, 15 Jan 2026 16:37:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="nsos3ou+"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eusNISs0"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D82C134216C;
-	Thu, 15 Jan 2026 16:28:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 931D73A1E77;
+	Thu, 15 Jan 2026 16:37:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768494505; cv=none; b=K7UYCSMXewuBJO28FEEoixDuAIUZIH2wwOnUNBj6jlP+/T5bFMbyiSx4O4ZSgeM5brkXKALTMk7lc41OxrBsMhtppxhDQxvNqcQ5fNmGR7rEJxfqw18oBAMkPp+sgBeVGGkgGkqGrgvJpKp9RWa7R8V/S3HCAxMA/TqunR3PP/w=
+	t=1768495055; cv=none; b=r+s5GEVopT78/1mcq9Jy0WwXTg0lGQ5PWlUFS08ONq2bUTl+56P6qIeAT9cfsTeJ/kk8cNjMiuYsI/mNI4fqbRYyHAZLps2V58NUq+D7p6DZa0OdsbVlm83KHVuvd2CKwlzGWJU2M5MXwTLo0rnqlcC0cTSOscz8QtPsmiZObNg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768494505; c=relaxed/simple;
-	bh=YpovNE568W7Ac7JnxxhQPe1OhnL5OXlrDs3EhBUHymE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dSN9OBYQPgt4UgvJ7W1YAa1WeB5fQoW5QDxObtp8WkO6HF3bForETZbQ4inL0qEX1aJnM8vxYB0VennYoCaGDSATgBiuIMdjYxda/Qp0bvIBVDfxHutLGq0RaGNaSjo/iYgFEW0OrJYEK3F7OzoN5xDXiPnpMh3vvkJdERAQ9GQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=nsos3ou+; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id BA70E4E42043;
-	Thu, 15 Jan 2026 16:28:19 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 74A0E606E0;
-	Thu, 15 Jan 2026 16:28:19 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C7EDD10B6865E;
-	Thu, 15 Jan 2026 17:28:15 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1768494498; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=aV+DHh3fdXtaIC3u63Krwbos/wLBUxocMbVXSHDTP1g=;
-	b=nsos3ou+0dXnC+RTWJ3hjdNwPF9N+Nhroxkq56MKVWzboSPQhnpHjLZFHBKBY4Co+VdNPe
-	HQeRGlOamfthtZ3pn1misdY7cecaAj+lcQ3kT2ha5rBlQDvsz55prcppoOjGZboPcswcgN
-	bDuT7XDNXDUHQvopnEw832capF2AP3nsF23uuXkGhvNw+KXOUnDgpGBWL2lUhNexV6dnWc
-	TEtloAK7L61M/Hk5vjJS3qGNG3vNjAiQbYvlrIhWXX/8TfSGcZNA+9pOnPWxnhnbfuAsB/
-	lQ5FHmXBECLdx26HKjbizF9ZZOXOVkMb9PwQ1TgT1wfIPoA4eFzN5fu594GIhw==
-Date: Thu, 15 Jan 2026 17:28:14 +0100
-From: Herve Codina <herve.codina@bootlin.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, Geert Uytterhoeven
- <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>
-Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Pascal Eberhard <pascal.eberhard@se.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH] ARM: dts: renesas: r9a06g032: Add support for CPU
- frequency scaling
-Message-ID: <20260115172814.10c46b51@bootlin.com>
-In-Reply-To: <20260115160144.1200270-1-herve.codina@bootlin.com>
-References: <20260115160144.1200270-1-herve.codina@bootlin.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1768495055; c=relaxed/simple;
+	bh=1++S04BfsZ4kNdUF/obcwax38D/1M1lsT8MCZfkO7Kg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UZnyxrvTxnun9BSoguEtH3chd6Afre547ZUdS6Fa6fB6Q3aQP4fokPt0jeejPjAb28EcsGxieuVQ/01HQi3OtppRnqc2aBCZnYtzwRJcFYxjgebu2S7TKAPUOzMSRSEvEGl8rTobFFzqthp+aoXU9KePJOWGEqB3VGBwhwnPcsA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eusNISs0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF30AC116D0;
+	Thu, 15 Jan 2026 16:37:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768495055;
+	bh=1++S04BfsZ4kNdUF/obcwax38D/1M1lsT8MCZfkO7Kg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eusNISs0jvhqUodVoP6xzNRjMRh51/8d+VnGeS1AvxGhVwQVhXK+nwYccRiV4UCSa
+	 YEAlV1lE7qQ7uS8sYGJ0pJTDmF4Vva6eheGqLmlleR6L2OSsGR4xmkr+q6KEPzkC72
+	 KmHdzATn3lWagAKC97A+ZnLYbQAK5vr2R5pYbhWfra85NRfzw+2Dx0gkwyFR+RugF2
+	 Jnd3qmfrQZ/vYauY78n8TIsenH57npRJe0+fT6CNAEBpb0Nee8xzaoxzMgi6X6QeuG
+	 xXMJ6xhdc0eQCPrIru7Qq2DqZog2igmaKe9CV1F1Y6SjZk4nS34h+EzuyixmklDpcH
+	 51WKiHDZzVfkg==
+Date: Thu, 15 Jan 2026 17:37:32 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Marek Vasut <marek.vasut@mailbox.org>
+Cc: linux-pwm@vger.kernel.org, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3] regulator: rpi-panel-v2: Convert to new PWM waveform
+ ops
+Message-ID: <xsjwvmlqclctnf6dgwyuoi7zits27is2s7r7taprb2w2lhsf7i@uiljd7o3ivbk>
+References: <20260104194224.41245-1-marek.vasut+renesas@mailbox.org>
+ <x25kxyh4t4u6c3ilj7nxp6sywab5dsar46b2foesrwfux2l4b2@d5iwqqcpdhlm>
+ <797047eb-e422-4a8b-80eb-ab130066c1d7@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
-
-Hi all,
-
-SOB lines and author are not correct.
-
-Even if it's me (Herve Codina) in all cases, I messed me up with the
-"(Schneider Electric)" part.
-
-Please ignore this v1. I will send a v2 with correct SoB and author.
-
-Sorry for the noise.
-
-Best regards,
-Hervé
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="iqvylxh5u5rrvdvq"
+Content-Disposition: inline
+In-Reply-To: <797047eb-e422-4a8b-80eb-ab130066c1d7@mailbox.org>
 
 
-On Thu, 15 Jan 2026 17:01:44 +0100
-"Herve Codina (Schneider Electric)" <herve.codina@bootlin.com> wrote:
+--iqvylxh5u5rrvdvq
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3] regulator: rpi-panel-v2: Convert to new PWM waveform
+ ops
+MIME-Version: 1.0
 
-> From: Herve Codina <herve.codina@bootlin.com>
-> 
-...
-> 
-> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
-> Signed-off-by: Herve Codina (Schneider Electric) <herve.codina@bootlin.com>
+Hello Marek,
+
+On Thu, Jan 15, 2026 at 02:14:15PM +0100, Marek Vasut wrote:
+> On 1/15/26 11:12 AM, Uwe Kleine-K=F6nig wrote:
+> > On Sun, Jan 04, 2026 at 08:41:43PM +0100, Marek Vasut wrote:
+> > > -	struct regmap *regmap =3D pwmchip_get_drvdata(chip);
+> > > -	unsigned int duty;
+> > > +	u8 *wfhw =3D _wfhw;
+> > > +
+> > > +	if (wf->duty_length_ns > wf->period_length_ns)
+> > > +		*wfhw =3D PWM_BL_MASK;
+> > > +	else
+> > > +		*wfhw =3D mul_u64_u64_div_u64(wf->duty_length_ns, PWM_BL_MASK, wf-=
+>period_length_ns);
+> >=20
+> > This is wrong. There was already a discussion about this in reply to v2.
+> > I'll discard this patch from my queue and continue the v2 thread.
+>=20
+> Instead of resuscitating the old thread, could you please tell me how to
+> make the conversion, so it won't break with existing bindings and the res=
+ult
+> would work as well as the current code ?
+
+the only way you can do this correctly is to measure or research the
+actual period length of the device. As this seems hard, the function I
+suggested in v2 works for me, too.
+
+The specified binding is unaffected by that. The only dts I found using
+this device
+(arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-rpi-display-2.dtsi)
+has
+
+	backlight {
+		compatible =3D "pwm-backlight";
+		pwms =3D <&mcu 0 255 0>;
+	};
+
+	mcu: gpio@45 {
+                compatible =3D "raspberrypi,touchscreen-panel-regulator-v2";
+		...
+	};
+
+=2E Given that the dt specifies something made up and the driver was
+written in a way that is wrong but does the right thing in combination
+with the made up .dts, you cannot fix the driver to be a correct PWM
+driver without having to adapt the invented values in the .dts, too.
+
+(An option would be to adapt the pwm-backlight driver to ignore the
+provided period, but I think that isn't sensible and badly affects many
+other machines that have a working PWM driver. Or assume the PWM's
+period is 255 ns which is probably wrong, but so is 100 ms (the latter
+probably to a lesser extend).)
+
+Maybe the lesson to take away here is: if a driver implements a PWM, Cc:
+the linux-pwm list and the pwm maintainer on the submission. And let me
+point out that even get-maintainers.pl knows about that:
+
+	$ git format-patch -1 --stdout d49305862fdc4d9ff1b1093b4ed7d8e0cb9971b4 | =
+scripts/get_maintainer.pl
+	...
+	"Uwe Kleine-K=F6nig" <ukleinek@kernel.org> (maintainer:PWM SUBSYSTEM:Keywo=
+rd:pwm_(config|apply_might_sleep|apply_atomic|ops))
+	...
+	linux-pwm@vger.kernel.org (open list:PWM SUBSYSTEM:Keyword:pwm_(config|app=
+ly_might_sleep|apply_atomic|ops))
+	...
+
+Best regards
+Uwe
+
+--iqvylxh5u5rrvdvq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmlpF8oACgkQj4D7WH0S
+/k5IAwf9G/aVgTUL/t7ktmvoHgKT0SuCXVBgz5AuMC1abbdQfCOWWscjD1PJt+j/
+soD6pZ93TRo821dQifsFNwvOyeULNpzSR1fg5AKUURcH0PCLeSBADvS2PHCwTOuJ
+/c1jJzTFj2Bq2HWjIkEuW+E5jFxK/PEz5C6cON8hLlnDEt31B3LhGevRsNwk5tJr
+F7HJyoTiO+YuVEPe4dLwEyMZNtn2FN5DxcyOCyaVKFYh1FgLN5fFYsmt1X09Gh+7
+KR/QQfQ73jd7G55TTsfXct6U4gfC6ChJ9h3dAeTfM1nAp9s6e5Ze5bjdhAvCOovB
+d/IFXX4fCdogl61Y9fjL638uik9iPQ==
+=r04d
+-----END PGP SIGNATURE-----
+
+--iqvylxh5u5rrvdvq--
 
