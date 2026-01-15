@@ -1,96 +1,77 @@
-Return-Path: <linux-renesas-soc+bounces-26869-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26870-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FF1AD2550D
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64150D2550A
 	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 16:26:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 5B4BF3020529
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 15:24:26 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 9E7DA3017FBD
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 15:26:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36D383ACA4E;
-	Thu, 15 Jan 2026 15:24:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 653EF3B5311;
+	Thu, 15 Jan 2026 15:25:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="eJQqDVLN"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="YPiLiqmP"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013038.outbound.protection.outlook.com [40.107.162.38])
+Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013002.outbound.protection.outlook.com [40.107.162.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D694399A5C;
-	Thu, 15 Jan 2026 15:24:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.38
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EFBD3AEF50;
+	Thu, 15 Jan 2026 15:25:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.2
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768490660; cv=fail; b=AxazHVjTHxf5jvbj6wNlerh7G45cEM4+vn05h6JDAbr7bJW5x7iWJNCfaK2QM5qHg3jKkWK9RvTyu6FvSlIHmKg/R3B+f0jpRHtUeILoE+bwPwYGfh7aO9wEQq+LbouHCqEdXsDS9HE9n28mSpaefVOrdef5r7X6GcCZ8Vt0uXs=
+	t=1768490748; cv=fail; b=o0uRUUbb+5NbmgsnFFriATEheMr5ZPaUyfV/jWjr5+SRZ9akjw+qC+aFm7f8G+zsqPJD53ARFE+mB9RRoS79JyTDcJHwGtIX/2QOdanME2L88EmX/gVEwujKYMxbIlHvut1+oe39kPW9PpIzYew8A3a+mQxaRauYfQ/3f7FpJ+s=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768490660; c=relaxed/simple;
-	bh=xaK/V7MWVU50QcPR66k3Ml9GHqzBZ5sq1okfqz2QEgg=;
+	s=arc-20240116; t=1768490748; c=relaxed/simple;
+	bh=YcWLtDRb+B4HnMG4IO6zi4d+/2id71VIsCcoms62Rd8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=nCPuCPzYb0sGvRYkewkEPyHQuRQfrU+WJhl53VaATgswVLO4zeCE7WZwJXKGIL3qfYRAYj1WEGmtbmyY4iQmboFiIxT8ZM0lRwgpemlOvWUrpKdYkWuikjstHN7VYKP+bqJzIoMUwwJZTMMn7xW7IoG55hif4F9rFkIp8S63UWo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=eJQqDVLN; arc=fail smtp.client-ip=40.107.162.38
+	 Content-Disposition:In-Reply-To:MIME-Version; b=LXMsuv67VNg3Bhj8OZZGIKHyclDFU4tYfLOnVfcki689aeOeJXdACl4WF9tS2oOPU3EGGRhgvdDlgpf8fC2sInsDW4d8L+gafGUrifO5XEtGe2HYIS9Hr0Q4MehCe4n4VwMuhcc+6docEimEBYRLPBbdjcRdnpq15g+zAwVoUac=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=YPiLiqmP; arc=fail smtp.client-ip=40.107.162.2
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UmIMQ/gFliVjMFiRBq1mbQr0xraGi72ISGKI7wHBeRSgjSdIfJzyaot29N4V+tGbeH3ejwnRGD5RKoRvZQhvtMDTXzXA1vduZR2yOZhyJ1un9n9R+ghQI2nc8dfDt3lzERpgPzOMrIN1UCJ2sBsfbVD5jyYxLmIYto7DFS3KfaUITIGdqTbeYSdDFzMeKvegtCf7jIdCTHga+VbgPxDwXJT4HTTort9Ugpe54b6MgG2F/Hpxlnjd3w37owZt9TdStkwpZJbNuKBbrx/2ORPbFpMLSW2Lt5S44G61qzbIoe+yzJqrvzk2PXD3m3NwKOZ66LeDzKN+WIqb9xxXxfHprg==
+ b=gcM0yZCp9T0DCtT+70JcY6FPAmHCqGSLzLPGDZ+/seliFNKa7HZBHCtEpdsuZE+gfuVTXcDcSFzR+PPaRs+kA2KIjO8PfpY/plBdM8yjllIXsU8KvZdNwEQRB+FCIK6RD2MBIx3oaosipNCx8jxvQd9vPTkLL5U6/BkN92z85rzR35GBFtqP7G8CxCEd9tb0SO9w1s35YGa2DjrlzLK8/WXbQZNh+zBsrXxEwfkOYcsw5DXJfHzTV17L9Y35K3Vd29tnOWYZMMgMR2KykvR2OaNn4yI5Y1Qkl7Cqh1yKJN1Knl2dK7p9Z7NscwduIMuv4zZypQS59I6WR4wEqe5Ozg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+hUgYjH7OCHSFJB6K819F9UmTPlFrHa18xEmMODxPk8=;
- b=hL/ZvTRHO2QA8WdLQW8ZVGlvsFUpEhCFyP01ns4a1nZBwNKKDWdNRdyjuCE72cAaqMaCxP/2ZptAcUyhHHhb79vU9KF6ngbuvSe+36MXCPQjrgcYlisCybiLko9EvDPEYQ3O/PRFw6KaPnTyaYyLLPulnCXPteV+h2f4MlelLMC+VT4aj3Kxw3Oytn8rfw5c6lyA02QHGCBsmr1aXWpt5h+Lz2QOYp9o1Ap+q6ckAr45O8xjT85evo6Ox5gRN9PV1Gl+WgN6Pnyv+udDiR3YLZSNKIc9XXp4eOBn8Vk5ETD53q4v8KKYX0KJ4JC5QcFrjiSmLo06KOLZjR+3HH7Qnw==
+ bh=HEvra4kHTZjjds2WQkSBuq47WpHcBnLf4qzyylzTv6c=;
+ b=C3PBGZAUd2r7ojyvWrAeqTwzN2BjxdmjFA8bJi9QwhUn0nfEEIxECApdIHfu2JrFah8F8zFi7K4p9o4yq6wJ3vbRbYgvpj1/NMAr+O08D2Movgox9t97ZlpjyPpPRCK7Mjb7tdn6SdyLLfPy4Ff6aqFj/I9FjGFotuhS1/2SnWKlENkkeKtaJFNOEJ1/v27df5boKn7SruO9NR2aww9M/gHCkmujNu0zQP2AbDPU6TXY4A6p7zMgj83wJLQWc64f9u27eW+JhGMIJOl4hyp6aBIdEJ3ZoV88tQH/r+CLZwROjGindNuPtKnU9Ltip9VhJJzOUHpqwA6+/1RH1+iCKQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+hUgYjH7OCHSFJB6K819F9UmTPlFrHa18xEmMODxPk8=;
- b=eJQqDVLNBkQShyy8zz6kfd/nE/KI9To2cYfQJxnV99IdUdlIzOqQq1ja9G5mVq3LlvNPO6zXJYhzvDdZiYNqEkoPLr6JTEjy5F0R5EBHBe7STB4nb9vvvo2MEJgKjCJMK5TlD7iuDfYWFzoedtk4Lf0QwPHkDuyBPDQDZVJ15LEG/y1WTb56P66NVBktJFVsfaCFnSt/Xsju1y3oAw9Evdu8zJypL1ny92CyLEtGgrM0UDZSk3B9xFku19T0bUfA47rjxJkyzXAvrROA9y+mSZTRI+sqnVe4OlWrFcoXq6t82fqEr/g28Q4UE/89+12w8pjwtpeU+YzjKoqTFdNPtQ==
+ bh=HEvra4kHTZjjds2WQkSBuq47WpHcBnLf4qzyylzTv6c=;
+ b=YPiLiqmPQT4UFKFinCtpWWdHUPkKC+KtsXOY53HuJlz6croCqWS0og69Alt8P22x1vaLVvOP0eIPYhfiW0yzmVdc1DNN8mdg9B5oUAA8zcL6tRz8PY8CeVqndVsj7Z3XadDI3T6BmOeHZ0idoYjsWMTGLxv1Ia2DV2w1KAvnRYAHoe9lcg5OUIZBwPXLvHKo4YrbT0QAJbl52zEuY5m7DwulWhPye/yDYYZAv6V8SXPcRnkjHaKKUfJmM7iKnOlRlhlrwSZsWuQ49+4PZs1jr2+rTbKn6o/PF15bHzGJ9HiNR3wXztLG3sfEdC3R1F6HHAM6RFDNKB/kE7Lk9rzKdg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AS8PR04MB8948.eurprd04.prod.outlook.com (2603:10a6:20b:42f::17)
  by DU2PR04MB8662.eurprd04.prod.outlook.com (2603:10a6:10:2dd::5) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.5; Thu, 15 Jan
- 2026 15:24:05 +0000
+ 2026 15:25:33 +0000
 Received: from AS8PR04MB8948.eurprd04.prod.outlook.com
  ([fe80::843f:752e:60d:3e5e]) by AS8PR04MB8948.eurprd04.prod.outlook.com
  ([fe80::843f:752e:60d:3e5e%4]) with mapi id 15.20.9499.002; Thu, 15 Jan 2026
- 15:24:05 +0000
-Date: Thu, 15 Jan 2026 10:23:48 -0500
+ 15:25:33 +0000
+Date: Thu, 15 Jan 2026 10:25:26 -0500
 From: Frank Li <Frank.li@nxp.com>
-To: Koichiro Den <den@valinux.co.jp>
-Cc: jingoohan1@gmail.com, mani@kernel.org, lpieralisi@kernel.org,
-	kwilczynski@kernel.org, robh@kernel.org, bhelgaas@google.com,
-	cassel@kernel.org, vigneshr@ti.com, s-vadapalli@ti.com,
-	hongxing.zhu@nxp.com, l.stach@pengutronix.de, shawnguo@kernel.org,
-	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-	minghuan.Lian@nxp.com, mingkai.hu@nxp.com, roy.zang@nxp.com,
-	jesper.nilsson@axis.com, heiko@sntech.de,
-	srikanth.thokala@intel.com, marek.vasut+renesas@gmail.com,
-	yoshihiro.shimoda.uh@renesas.com, geert+renesas@glider.be,
-	magnus.damm@gmail.com, christian.bruel@foss.st.com,
-	mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
-	thierry.reding@gmail.com, jonathanh@nvidia.com,
-	hayashi.kunihiko@socionext.com, mhiramat@kernel.org,
-	kishon@kernel.org, jirislaby@kernel.org, rongqianfeng@vivo.com,
-	18255117159@163.com, shawn.lin@rock-chips.com,
-	nicolas.frattaroli@collabora.com, linux.amoon@gmail.com,
-	vidyas@nvidia.com, linux-omap@vger.kernel.org,
-	linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, imx@lists.linux.dev,
-	linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@axis.com,
-	linux-rockchip@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v8 5/5] Documentation: PCI: endpoint: Clarify
- pci_epc_set_bar() usage
-Message-ID: <aWkGhPM3WRK+Xq+C@lizhi-Precision-Tower-5810>
-References: <20260115084928.55701-1-den@valinux.co.jp>
- <20260115084928.55701-6-den@valinux.co.jp>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-input@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Job Noorman <job@noorman.info>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: touchscreen: trivial-touch: Drop
+ 'interrupts' requirement for old Ilitek
+Message-ID: <aWkG5lWGM3FUfdKn@lizhi-Precision-Tower-5810>
+References: <20260115023530.656645-1-marek.vasut+renesas@mailbox.org>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260115084928.55701-6-den@valinux.co.jp>
-X-ClientProxiedBy: BY3PR04CA0017.namprd04.prod.outlook.com
- (2603:10b6:a03:217::22) To AS8PR04MB8948.eurprd04.prod.outlook.com
+In-Reply-To: <20260115023530.656645-1-marek.vasut+renesas@mailbox.org>
+X-ClientProxiedBy: PH8P220CA0029.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:510:348::13) To AS8PR04MB8948.eurprd04.prod.outlook.com
  (2603:10a6:20b:42f::17)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -100,141 +81,193 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AS8PR04MB8948:EE_|DU2PR04MB8662:EE_
-X-MS-Office365-Filtering-Correlation-Id: ffd74b9c-e802-427a-b22e-08de544a1e8f
+X-MS-Office365-Filtering-Correlation-Id: 2fb716d4-b354-405e-469c-08de544a5359
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|366016|19092799006|1800799024|52116014|376014|7416014|38350700014|7053199007;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?c6ENE8n5Hc1Xjx+7u7TsVLXN/UPBYFdpjh9LoCzxNjH8mmH+QrYj7NgVgVKt?=
- =?us-ascii?Q?XRzFdRWqWZcBWw8rEWgHzj/EioXCb92fWL12p4XgwCLM6qRZPJLG5QPNwJJu?=
- =?us-ascii?Q?ugFABMUdI4MqcXRmXTu3jpVE6V/uOhmr1N2BKjFkxJ8Hmak4TaJSd5gjKg+y?=
- =?us-ascii?Q?SdOESSL1uGv7W2tcEKMDXCrFvYvGWfdxFNA2C1U1bHmS4NE1zjrofg3jcm0T?=
- =?us-ascii?Q?uKjgdwhVHHlWeW3j/2+wIXq169U53LC3DKx7LfbzIGjyUDhCboIeAzp4nOmx?=
- =?us-ascii?Q?efkwPRo1wNRmWeuVGLJV/5uPoX/SL4ImZ8DGv8qhyBpQdAJleMfU6W7kDRVU?=
- =?us-ascii?Q?7t7SKyhtlyVH8JrmyhscWbaSl+aezSnMZPzxmt1BBhw4eL8glZ9V60n2oEQN?=
- =?us-ascii?Q?GG9OnEMmdB9ekWkObk4P06QOHlnNHS2V8L4xQVnaRjV1S6k/2R7KgSS+XQEK?=
- =?us-ascii?Q?Q2GroyvXa/08X64Vwksieaz+EXDZWMsQtFzhi/TB/nb0WQ5MXPRUlKHXbteF?=
- =?us-ascii?Q?owm9q3r+J3w/NyRT6pvNWIoPAYFj6A2iOKFihfz/AafKC6GjBs1+lmXIZbbK?=
- =?us-ascii?Q?pvKo7MQl9EDah/9McpvN4KZR4hk6RpwxD1lDH0BpOj4jQgp6ZHlRnb6oKfu3?=
- =?us-ascii?Q?NWss+5KZhpeJBTsRrxCjUghhGwCZmP1wulAWquDliS9rg3ziQ05qDhlK3kLT?=
- =?us-ascii?Q?R6nQ/XLYt09KC7xGOJVdlU8jPb3bmtLC3EHgDqGQJo106WHt1rvHcUb1sz4Y?=
- =?us-ascii?Q?/bD47xjfDx7ypC05tWopCxbZgbS0nVMEBWuiiA3WVOAD0OhIQAROWZdO1ico?=
- =?us-ascii?Q?Ipj3TJh/eSRJVmyfflL4quusCjedcrJmy7tqKBm4UYyH+seI50AF/zzQFg5z?=
- =?us-ascii?Q?t7sy3/Ey4bzqm+8Jma4iTmRDF0tTOa2B42WXr4MvKkJHl7vNVck++7Zcnfkd?=
- =?us-ascii?Q?diZWw/hx7B0rKT92c3j3PIeMGP5vMCbWJ3DuFE6NPAZO3lZz4V1XviPTxI/m?=
- =?us-ascii?Q?ZAfJNJ0StIlsh34l2aaaEZLd34UOzVZ9LDpHr//cGStFT3XAqa2M8ldxktPi?=
- =?us-ascii?Q?4W6LzYnrl5CsWfn79ZHUaXT08V/grAihyPZUmpaNavemTIDvhuYIv9qML4Yf?=
- =?us-ascii?Q?B48gtSqvYgwPyfKnUKhMLDTF4cap/tvJhK4utlD4LseJqZdKZSg81FIGnFf3?=
- =?us-ascii?Q?qf8ILoGOJqf00DJt8u1pOOIr3ciDBEWlF3fZGxGTPTlz4O8XFApJSw4yX3f8?=
- =?us-ascii?Q?x3df+X0kmuLixScHCCWx0RQNB3g54VsLPjVRvQwuss3X1Ad35Ki+jHQkOTM4?=
- =?us-ascii?Q?5SrNkmbrM2ZDi+Z18Dxtlh7z8n50S0HdnqffSAB5dCV1HuOCGOWxnmH0WuP1?=
- =?us-ascii?Q?dt7VMQNybRxaZxMT7SeJQCe16nb1VCk564fjHL9OA0BEbVioFvECpVx4FssH?=
- =?us-ascii?Q?lupq8u0cGgfctt59us4jJr4YnivRoIlG1OehG3YvIwYVXlZ/YNP6FtfLyKir?=
- =?us-ascii?Q?SbDJFZpbT4yg7SWNTZ1yaXvdM7Bl906GtRhuvX/OHsimis/6qjLSPCSzqZLg?=
- =?us-ascii?Q?iskHDDP0xLQ7jxY1dx/z0h3irwyfZaKpzDrO/bpD2Wc54sBD7NkIHbdCmwCI?=
- =?us-ascii?Q?KpFHqZa2Rg9Aju1Jo1A3DyE=3D?=
+	=?us-ascii?Q?BsvvCe1LrhrsunK8yo+JxgQtIJA2V/N7DibN48NH8JUBBEnVTnH+koA3JX+S?=
+ =?us-ascii?Q?sSS3SXyng7/+6gnovzywD6pKogVc75JmeF15pQDWXcxJt+rjDg8Li5Fx43qE?=
+ =?us-ascii?Q?505Fw2eB0gFogDo4sKMdYi3EGD3Ajylya1iOlpFIf5w+l26GNJ1JoQEztAow?=
+ =?us-ascii?Q?DqwORERGlWqUyGHb2VLSERP6gp78BbEtSyjauv8eM47MbDRNUSGohRlXGJ98?=
+ =?us-ascii?Q?ACawWv38NERlC0CBiJ0i0Q5gjNRBdzuIXGJEGXHid6tI75DhlLb875IfoYwH?=
+ =?us-ascii?Q?h0tREy9JFp5CbWm8P87UIoh63ygMUdYhccja7DaCWqNi8SZXHgEqNRGTXVfo?=
+ =?us-ascii?Q?ZiWJ3wolaVJg36f7fFx/F8uZpXGPYHIDTCYNC+PG8PdleENdS/6eWD5DwXBh?=
+ =?us-ascii?Q?8H0YgOppL7NDheRk7+Haqh7ey+y8hZJezvdOHbcNxjuAbOZAN7TL4OlbwMh2?=
+ =?us-ascii?Q?rG2w47yMzAnsyFI7z6l9uLOnzivrQUfj5yi/bKrBooKMy3cyFVkytD4thSu4?=
+ =?us-ascii?Q?00pRx1jyRZtmnmVU5fXOomQWwoEU2Yn7amGReIFuuX3rV5MYThRuVvDGu1kD?=
+ =?us-ascii?Q?n6yUJLd0Bz5P98A5f3Ywuo8pE7PG4Q/rJJvMLAe0mrWlJYoHkaPeUmXh4yTR?=
+ =?us-ascii?Q?0iApAlb+ujoRyndTyGbvTGZPkYh3pxHIJDftpO4Dl0p7Ys/hpkQ8+ZE9gnda?=
+ =?us-ascii?Q?he4udaXL5FSc1ohCNhiR3bSyV8icaf38MMBmphiq2jB63MKm8m0WtsgI+sHT?=
+ =?us-ascii?Q?TBr/DAYcj18hDEqic2gitLIRbb4PfjfoHpVmCuoy5WNpBoIZ9mlt6br8V5ah?=
+ =?us-ascii?Q?jwRO600byNtyTTzIZMgy6D/s6mNqyTvVCfKaby3fqszO7NsYYGDmS1k1KDUr?=
+ =?us-ascii?Q?twW/YS5CYMv8uHIIxS2VAhr96m+20S7ivWFsuZr1jTU66UZm/Nrtnhgbgz1+?=
+ =?us-ascii?Q?YCiGbN6ooqAnp1KJZesy8CgwyZ+34DTi4mpRO+7IP2kYMtgBjhj8Z+qgy7E4?=
+ =?us-ascii?Q?FHTx8ObB2tu72AVIlyhkuLW0PkzTMsltMwx2wbYtqRNVoCXjBe1QF2JihdW/?=
+ =?us-ascii?Q?nlxthz2GzZO+F2waM8zdd1jA0gfuoMAOBIrpLhvcYe3mQcRrkGI3zIOQ124k?=
+ =?us-ascii?Q?fGl9DFrsNOY74fNLRhP/mdaueIadtvWq3+GaNlBy3vsemXhV7scJTGxnE6X/?=
+ =?us-ascii?Q?oNwdfvIdaMLQg5kOTzHcTslujHrtqY3t4xMhBeHUw8fWZoxTZ3I951LRifI7?=
+ =?us-ascii?Q?oAIaHEHb+w+U9kKPt7pOxhwEuTWfIQ+zR0LZ/dY2v7NxtkH7XyaAFmjS3GKm?=
+ =?us-ascii?Q?i1/9xF9LrpRaHTNj9JvQFuV9gf7kFLuaWMQW5UU1nN6NuXRlDtP+GilDw1Xv?=
+ =?us-ascii?Q?XJO8eu4UYuX7PSbF2tl1lgeKErUu+PeNbeKfs/k6PMM0YzUV7XAAEb2eAsEx?=
+ =?us-ascii?Q?TAp5e1Kv5PGOLa5QrOQxtyxR5Sm21O9OR5X0r9moFtoNaUgPchHTNFkU+dhl?=
+ =?us-ascii?Q?VpzwFNZc+P3GL4pHlntgF78LnuUM7rgiyQcGFws6+vRVALo7L4wyNxmLc4aP?=
+ =?us-ascii?Q?PaILu3YtpBIt3ZOXt6J7AgbCUVdkufka6XvZD8vd?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8948.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(19092799006)(1800799024)(52116014)(376014)(7416014)(38350700014)(7053199007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?peQqdrQshvJ00g7WAL6fV6PkTTZgWJAJWrxoMpjB9Hyt2ezUOIkD4uf6s20l?=
- =?us-ascii?Q?2Dg+8y/ptpu1riis2V/AqCZwuhtnQcQLoDnpr0QzPGtNcNySWwu1qhnKn2/5?=
- =?us-ascii?Q?VSk4g1yzYs0kb6rmtDMMAPW20I6kFwKJ/1vMpY0NR5kz1UxZMvnRnxJTweuy?=
- =?us-ascii?Q?SSxL7yFYevtIKRLvBzDHnFKmWAhX9tPUO8b/ItsSHOuB0iCJechigPXvM+PL?=
- =?us-ascii?Q?9zO4I7G3GjaMm/juGXIHeYNbZdw+wYvTV+6JMtLEMV707B3fQ0uB9SMuLfTf?=
- =?us-ascii?Q?IUhU7/zN5FRrXhRb2gyidZc3DUCcBeXbTIoRrX+8HFrkPJ/NpxLfizvbPd/j?=
- =?us-ascii?Q?y4ZociiDEolrtE2j4Kf/2rO72c8U96Emkp3D+Y48kHUoOnqfJz6grLO5cAOr?=
- =?us-ascii?Q?87weAN5cT3k042Y3wAIBvBIP5rUOg/p9dnGHDGs39B/65cPJ/4o4c0QvsV0k?=
- =?us-ascii?Q?z3M0oSbenjM1hBoBrzH0ucNNle42gK+zjKcjLwS3fSMQ7LTIyjJyuDRvsvUr?=
- =?us-ascii?Q?uUy3vKodcUpQYe8PvMJpwmPMqqJC/DtaLlxCgKj5LbREMRJ/IfBG+ndJOx4c?=
- =?us-ascii?Q?I6oBWR5GQgBZiCTvNyPJsQA6i+WgaocMzX7bqziXnrVsmpgPAduNQmorfB3r?=
- =?us-ascii?Q?E9n5nZbcropwUfHawmzH/ZL6UnhGaNrcImespSqZu2ZIZSASfGNu3/RKBW6/?=
- =?us-ascii?Q?cZAfEaXKjf2fuUJyY0Qpp2NwKShKSRK7qUDUOSilFZRk1spb5s/YGFetpiMd?=
- =?us-ascii?Q?diWzaCbKCyD/nAnUriyN9Nz24S/Yv7fm0XxDt+oiY5vyDH6TZeXjc0cZ4JfQ?=
- =?us-ascii?Q?ma/KIxFHoklso6czAnLHkNQKgAmeUuQuEQaFiXr5d3lAcpxSRaZlcKvu6Bkl?=
- =?us-ascii?Q?CQyX68w/IBlCikFXhQNIqb25Kb/TcKmPvLlnlHYINOaYKbvHBWZYMvOU8K/p?=
- =?us-ascii?Q?v+u6FA6H2Pil5wsj4dHLA12UngQxn7H7JHJCQ1Kq0LWWOYVuiCGGlG4BZeRZ?=
- =?us-ascii?Q?8Kglz+tqb/2BZiL59Ov/jvC4rFe+PCzuX/aO/I7hDqnxWSsfCARshZnWnfLy?=
- =?us-ascii?Q?VjEgo9Px0lLrQ7d2hBYSz1Mb1wApORY8p2suV9JzPXsvUNKtv/AVDOgAbyE6?=
- =?us-ascii?Q?p8a5VrGck3O6y3xuSigjJ0BNLtCsmLTOG54W173znRIQ5CU7A2r+LY9BC/gm?=
- =?us-ascii?Q?mqMzjJXSCu+yDkBUtQoNvlyrfeaxTaCtKmMLnEfiVhGheDl6F2mzlB+ACDxj?=
- =?us-ascii?Q?xs6z8NcmheEYvny+6KyYULL8Wta7WDjGjTv2o3sb0L9ER3bW3GLieBRXiBzU?=
- =?us-ascii?Q?oN2ObEFQMHPNkF8fpoK+wbIJahuushybfJ3df+X+hf7jS1hQk7AMynglL+97?=
- =?us-ascii?Q?nhhBWUQWBtXwC9VZYpJYTYV6iA8fopAWbuH4PxaUmkxX0OZWBIcJ8o7NfprD?=
- =?us-ascii?Q?IBKXLVmoDn3ZTo/ZlmkaMXYd0x3jcigK4CYUUv+eV9nBIzZnYtRu8wodxKX7?=
- =?us-ascii?Q?dMCfusuN2W8TpGTXnPdjJxackAzZ0ym7NbrN0IygHHPAtoL8d/R+ypEPrczv?=
- =?us-ascii?Q?19wL6eaRCAl1HBfmcvUms6EPe8thqfPA3dlA1toM6Wj+VJGiPxEVE3bWbfzy?=
- =?us-ascii?Q?wj9OAnSHZ/+MDItOJVA1NXNZcTU9mFzYQ4LDdR++tiTjfxNa2ao31M8Metob?=
- =?us-ascii?Q?5NUxh12rRuSavywwtamT83d1POqhfNvCjr4EVlRMiTrhl3h3?=
+	=?us-ascii?Q?/ofK2qL+2mjE5AjRXdEm36WAhobW9ZSutWAgt447gmriLm73KNxikEiz0FqV?=
+ =?us-ascii?Q?s8+vmA4+udukJ7ugBi1zKjjiGZsghBex0k86/BIU9hr8Kzejdg9YyoB7OfFu?=
+ =?us-ascii?Q?5yYRciYvhHILZDSfU5seV39C8yFPx+37VYw97w5HyM0T7HpHD9sPbzPWicmY?=
+ =?us-ascii?Q?PvM3IUPq+NLMLs5C5zgaWH7CEuVgvIAfEmgb9tNXu6+euve4uaOdhlhWMeQb?=
+ =?us-ascii?Q?oGrCgB96YEq6nPcAKbz7JIJjsRVA60NrIyOwqGrsHctfbpa6uzOmRosepVdB?=
+ =?us-ascii?Q?FDpC2CVKzTgWsdk1Z6S0JFNU7KyZfvQVYXd/SUEbdCUZcfWje5O1mFHgPSGa?=
+ =?us-ascii?Q?kG3+AGzUlfyj1D7WfT+kc8NgKjYSYKEHDicJ2ERCEC0t6skkOprKybarkxTl?=
+ =?us-ascii?Q?HFav50eSBhE9vscY//DN82lDCQYgYRwu0MR5tjEwYtZkM/0jw1BTOy6ZpYBS?=
+ =?us-ascii?Q?L0TSL76UbVTbFhwWgV8peSfAoM6jmuHh/HDJuRwHZunJgTmJWFkqsj1/IykX?=
+ =?us-ascii?Q?ibdUw9Z9ZqVJsZRA4uTgKyxmsMcWI5/vMj6BwQqXFD4nwUQWLx4ho5ffomZC?=
+ =?us-ascii?Q?T0LgKnI6776WWC+D52x0aqHAhTOcTiz96T+3kDM5hh0ueIw73M9Uu2qqb6lM?=
+ =?us-ascii?Q?yoOHjZgzhtWidcyu3f1JTqhKbRoY41utj8POjIvWDIgGIbNrFn7iR2w+5Yly?=
+ =?us-ascii?Q?VV3Re0/eiA3VhKz6XZljZjE5mM/sbAvSSJEb4yOux7oAkxF9pOFIaOkYxvnI?=
+ =?us-ascii?Q?RVZeC1pcgwOQztl6Mth0KmfV2OXWOKzyE2rlD4NCr6eaY3Miq+nuMPGNBtvl?=
+ =?us-ascii?Q?TaB14FW71mx2Fg2GGr1sq0NPjVSxgf6/w14n1psgHV+DYasgP+Krb6APtpvd?=
+ =?us-ascii?Q?i49Ebo8VGqwpe7j8POMb9JVEcGd69RP7pb5+kg8ef9fYpZ4UuFwXlqF8rqD0?=
+ =?us-ascii?Q?g7oz9bs/nHO7tjU4NaQSzBbFoevF7q955N3TxTXB4dMSqY0pXkBvg58ILoW5?=
+ =?us-ascii?Q?ilV3Ush1DMZGyU8mWGvNBkiYAx30/ucnLFW6qooXUbUpzMrXHC4oFTrV/pAY?=
+ =?us-ascii?Q?94eL8OrNDUJzLKHMHLOnU/v627wcs9/18tD0aEmQ461vuzYcjPn2d2wu8Mo2?=
+ =?us-ascii?Q?y0xTBOL++YeMinMKghfMDAYdW2PgFFEb316jJl1X4P2hS2TV2XdicfF8WR5L?=
+ =?us-ascii?Q?dXlSa5AalYHDjz8UeLYnxRQeoyAb1dyr0wIyYn1xuk5T2FKsfHenw495sZrc?=
+ =?us-ascii?Q?xOmDj4x0LRHQrVB2X0MihoELZKiip+WYKVcnBTKp74mmp6LORfBQrrO9Xri7?=
+ =?us-ascii?Q?6dNkaOIIjY+uTs5m7xjFOfBz4v+UdSs1un3LT7Cg61gC3M9TXJDnKLwFFpOv?=
+ =?us-ascii?Q?jzxhXFLASNcLXo8ub4zIEHmve51+x0gyVtbkMG5gFleWD06VWXgZ6MlFMQf+?=
+ =?us-ascii?Q?swamXsGgohvkrKOh8Hqnt7vGoAPtv/AKuj38CGXp9bLoRC4O85/NcPBwlnqC?=
+ =?us-ascii?Q?oy0R6HGiI8M8znUMWH+4qxSmHXncEmmVQgt0CeR5qkug4NxYCFVtLCZFKA53?=
+ =?us-ascii?Q?IPhFGG41XE9AEnKyJM6X7JOYul9lZr+RB8cJbdhw+324T6tHhh2b9ysak3q3?=
+ =?us-ascii?Q?u2qSNuUR5Z90BufzBFMXhhRuU9V6tETfm7Yz5eV6bIX34W25pY0JC13QbJso?=
+ =?us-ascii?Q?LHVOKhx4MC6T1IMEvog3k5yUwSAVBGBeHfXmzMLCXxhWpZ+a?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ffd74b9c-e802-427a-b22e-08de544a1e8f
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2fb716d4-b354-405e-469c-08de544a5359
 X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8948.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2026 15:24:05.1535
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2026 15:25:33.7097
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: l790yAvTGYjBbFSUiagVmk9SsGvkT7IH2EyPpi2QYd39Q0BAyKc2UAmTxsQDZY+VttrAAcyLNstI8Uq7hvjh0Q==
+X-MS-Exchange-CrossTenant-UserPrincipalName: bJrvXToYlPHQDTBlZ6K9oKorLipLZTXEhc6e3Rs0eSPZgMTl2Gs4o6ztwbtWpKqxNJkHKEmbWL3h0XiohZD7Lg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB8662
 
-On Thu, Jan 15, 2026 at 05:49:28PM +0900, Koichiro Den wrote:
-> The current documentation implies that pci_epc_set_bar() is only used
-> before the host enumerates the endpoint.
+On Thu, Jan 15, 2026 at 03:34:58AM +0100, Marek Vasut wrote:
+> The old Ilitek touch controllers V3 and V6 can operate without
+> interrupt line, in polling mode. Drop the 'interrupts' property
+> requirement for those four controllers. To avoid overloading the
+> trivial-touch, fork the old Ilitek V3/V6 touch controller binding
+> into separate document.
 >
-> In practice, some Endpoint Controllers support calling pci_epc_set_bar()
-> multiple times for the same BAR (without clearing it) in order to update
-> inbound address translations after the host has programmed the BAR base
-> address, which some Endpoint Functions such as vNTB already rely on.
-> Add document text for that.
->
-> Also document the expected call flow for BAR subrange mapping
-> (pci_epf_bar.num_submap / pci_epf_bar.submap), which may require a
-> second pci_epc_set_bar() call after the host has programmed the BAR base
-> address.
->
-> Signed-off-by: Koichiro Den <den@valinux.co.jp>
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 > ---
+
 Reviewed-by: Frank Li <Frank.Li@nxp.com>
->  Documentation/PCI/endpoint/pci-endpoint.rst | 24 +++++++++++++++++++++
->  1 file changed, 24 insertions(+)
+
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Cc: Frank Li <Frank.Li@nxp.com>
+> Cc: Job Noorman <job@noorman.info>
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: devicetree@vger.kernel.org
+> Cc: linux-input@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> ---
+> V2: Fork the Ilitek V3/V6 bindings into separate document
+> ---
+>  .../input/touchscreen/ilitek,ili210x.yaml     | 51 +++++++++++++++++++
+>  .../input/touchscreen/trivial-touch.yaml      |  4 --
+>  2 files changed, 51 insertions(+), 4 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/ilitek,ili210x.yaml
 >
-> diff --git a/Documentation/PCI/endpoint/pci-endpoint.rst b/Documentation/PCI/endpoint/pci-endpoint.rst
-> index 0741c8cbd74e..4697377adeae 100644
-> --- a/Documentation/PCI/endpoint/pci-endpoint.rst
-> +++ b/Documentation/PCI/endpoint/pci-endpoint.rst
-> @@ -95,6 +95,30 @@ by the PCI endpoint function driver.
->     Register space of the function driver is usually configured
->     using this API.
->
-> +   Some endpoint controllers also support calling pci_epc_set_bar() again
-> +   for the same BAR (without calling pci_epc_clear_bar()) to update inbound
-> +   address translations after the host has programmed the BAR base address.
-> +   Endpoint function drivers can check this capability via the
-> +   dynamic_inbound_mapping EPC feature bit.
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/ilitek,ili210x.yaml b/Documentation/devicetree/bindings/input/touchscreen/ilitek,ili210x.yaml
+> new file mode 100644
+> index 0000000000000..1d02aaba64f97
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/ilitek,ili210x.yaml
+> @@ -0,0 +1,51 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/input/touchscreen/ilitek,ili210x.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +   When pci_epf_bar.num_submap is non-zero, the endpoint function driver is
-> +   requesting BAR subrange mapping using pci_epf_bar.submap. This requires
-> +   the EPC to advertise support via the subrange_mapping EPC feature bit.
+> +title: Ilitek ILI21xx/ILI251x V3/V6 touch screen controller with i2c interface
 > +
-> +   When an EPF driver wants to make use of the inbound subrange mapping
-> +   feature, it requires that the BAR base address has been programmed by
-> +   the host during enumeration. Thus, it needs to call pci_epc_set_bar()
-> +   twice for the same BAR (requires dynamic_inbound_mapping): first with
-> +   num_submap set to zero and configuring the BAR size, then after the PCIe
-> +   link is up and the host enumerates the endpoint and programs the BAR
-> +   base address, again with num_submap set to non-zero value.
+> +maintainers:
+> +  - Frank Li <Frank.Li@nxp.com>
+> +  - Marek Vasut <marek.vasut+renesas@mailbox.org>
 > +
-> +   Note that when making use of the inbound subrange mapping feature, the
-> +   EPF driver must not call pci_epc_clear_bar() between the two
-> +   pci_epc_set_bar() calls, because clearing the BAR can clear/disable the
-> +   BAR register or BAR decode on the endpoint while the host still expects
-> +   the assigned BAR address to remain valid.
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - ilitek,ili210x
+> +      - ilitek,ili2117
+> +      - ilitek,ili2120
+> +      - ilitek,ili251x
 > +
->  * pci_epc_clear_bar()
->
->     The PCI endpoint function driver should use pci_epc_clear_bar() to reset
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +
+> +  wakeup-source: true
+> +
+> +allOf:
+> +  - $ref: touchscreen.yaml
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        touchscreen@41 {
+> +            compatible = "ilitek,ili2120";
+> +            reg = <0x41>;
+> +        };
+> +    };
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/trivial-touch.yaml b/Documentation/devicetree/bindings/input/touchscreen/trivial-touch.yaml
+> index fa27c6754ca4e..6441d21223caf 100644
+> --- a/Documentation/devicetree/bindings/input/touchscreen/trivial-touch.yaml
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/trivial-touch.yaml
+> @@ -23,9 +23,6 @@ properties:
+>        # Hynitron cstxxx series touchscreen controller
+>        - hynitron,cst340
+>        # Ilitek I2C Touchscreen Controller
+> -      - ilitek,ili210x
+> -      - ilitek,ili2117
+> -      - ilitek,ili2120
+>        - ilitek,ili2130
+>        - ilitek,ili2131
+>        - ilitek,ili2132
+> @@ -33,7 +30,6 @@ properties:
+>        - ilitek,ili2322
+>        - ilitek,ili2323
+>        - ilitek,ili2326
+> -      - ilitek,ili251x
+>        - ilitek,ili2520
+>        - ilitek,ili2521
+>        # MAXI MAX11801 Resistive touch screen controller with i2c interface
 > --
 > 2.51.0
 >
