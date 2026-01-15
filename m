@@ -1,69 +1,66 @@
-Return-Path: <linux-renesas-soc+bounces-26883-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26884-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3040D26E93
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 18:54:42 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58E27D26D2C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 18:50:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id EA12431B2B63
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 17:37:15 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 72CA531531A2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 17:40:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A72A63BF301;
-	Thu, 15 Jan 2026 17:36:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BB392D9488;
+	Thu, 15 Jan 2026 17:40:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N6QHl9dh"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O3PF5a3e"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81AE72D9ECB;
-	Thu, 15 Jan 2026 17:36:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 180F82D595B;
+	Thu, 15 Jan 2026 17:40:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768498593; cv=none; b=LYtUOLcb0jXVMujgyBHq5ohlSbXp8VWgKTdMG70N6c7tRxceokj/W3pwxV9bBk23T7RtROES8osQ8ttICKaJ4HXSOVtTWIrTdJLUM/GRCkjg6Ra2rW+JNWtVYi7D/hc+96+rUX16y5I9TaNBrwmomuZ3dmrPw0M/c4J1RVfFk1Y=
+	t=1768498849; cv=none; b=amb7XfchM095qfazEWg1LtMD2wPguNcyo1QriQEGVwPtlZ7C5LBCWq0prA3NBEH8SEW7l8y3BQoUtdQQh1OXJELt5eewcKswt70t9yMqiNlxnVW+RaFib9+TZLaRZ6QHLjcs/Z6BEPG/T+QiZ2Fz52Yn+359lGKUuckWaAA4iB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768498593; c=relaxed/simple;
-	bh=VxVOkwPjSB73QjCmCUVQz2P5mMxY6iL0Y/MKyV9xB3o=;
+	s=arc-20240116; t=1768498849; c=relaxed/simple;
+	bh=vdsPn0752ZUNlaPfpcfVirjmE9to0sS9ZCmiPv19dTc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MqHQevRkhbhScdC8CJfOgxqOSsAOM3qz6c4aUscP1M5fK0coKEFPKdlb6+t9FbRGB6L8VRTChXBQyp4eN7d7kL3rEsUr7VjXmmPk3OspjWgvnhS7/YAVAyscSvVmoHfg4qtv70nhRH7MfxRzgokvUxkALCZximvH30T3okrQ+d4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N6QHl9dh; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35273C116D0;
-	Thu, 15 Jan 2026 17:36:33 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=fgrJnJwlB6yvZni6FMElhViNEFwKMbhV36sGk0lqkChSfiRQGUMVi0o5VlZdwYlm3TPo7T2T5dz6AsXNLFf4lL0RunUV4ORreGMMsaKcfoGSWDhRQkKQsYMBknThIt50Zad4Ae1sXcYG6Bu5SfopTT5Tcw97aPZbHdH3bDgd9Uo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O3PF5a3e; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5B0AC116D0;
+	Thu, 15 Jan 2026 17:40:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768498593;
-	bh=VxVOkwPjSB73QjCmCUVQz2P5mMxY6iL0Y/MKyV9xB3o=;
+	s=k20201202; t=1768498848;
+	bh=vdsPn0752ZUNlaPfpcfVirjmE9to0sS9ZCmiPv19dTc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=N6QHl9dhbvozxSAa4XnJxX/KfWwRlN6KV9+7VSye2Skj9AOF4ynxvG0isA6PYGb1R
-	 GGJK46jVMtXpOyzZzKpxV78XddsOrOAUjSUoKHc2DvdCzqlk+s5gq32zrY9jgAHYiH
-	 8z4iqldFJuCnhMjdF2G5/mQTAifGS8l+FHVcjwt/qJWUCkicTRXSe5dI/y9/pduon9
-	 hG2EISrSD0EDvrkwrvrFR5SupmQWd8oK7KAI5/aPNz6Lja8K0LlJVlR2N3A+WK2vDR
-	 2TrJmklDl/xfr2yNhTbIGYlBeKv3finQGaKrLF+O0kzY9OGEd3luSxGXGQ632gon3j
-	 tasxnaMPSCuUg==
-Date: Thu, 15 Jan 2026 11:36:32 -0600
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
-	Magnus Damm <magnus.damm@gmail.com>,
-	linux-renesas-soc@vger.kernel.org,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Eric Dumazet <edumazet@google.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>,
-	linux-kernel@vger.kernel.org,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>, devicetree@vger.kernel.org,
-	Paolo Abeni <pabeni@redhat.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	b=O3PF5a3eshlsBXUXlqRZeJ0irz0rLqZR3slSBrlLLEkXsssx6Iz9BwRG+XJZkSBU5
+	 pBE3zDZ8+U6SQcJuJvEada1Z5oTKZvq2x3LS+HaB4JELw6BZYmMT8BEdRyvdCad5Vf
+	 CSCBdyAKWvHg6GnbYGFuOf+Sub9mRnsfVj53sHjB6t9fYoHKYv8Heesr6P3n3dBaTi
+	 2dkHQX5aYbsaGwrtgH2cS/b0W7LuBRN4AaGnGNGs/TTs42fWeOg6EdaGGYpzfv8OWP
+	 v67nLdMMwcdBoym4l29C2gnT1PeTHK0U4yQr5wV1BeEeFT0JEad4JwfJtFSJRO7edG
+	 kfzeEwoQV6bPg==
+Date: Thu, 15 Jan 2026 11:40:47 -0600
+From: Rob Herring <robh@kernel.org>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-arm-kernel@lists.infradead.org,
 	Conor Dooley <conor+dt@kernel.org>,
-	Russell King <linux@armlinux.org.uk>
-Subject: Re: [PATCH net-next v3 1/2] dt-bindings: net: pcs:
- renesas,rzn1-miic: Add phy_link property
-Message-ID: <176849859188.929140.12375075368934726420.robh@kernel.org>
-References: <20260112173555.1166714-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20260112173555.1166714-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	David Airlie <airlied@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Jessica Zhang <jesszhan0024@gmail.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Sam Ravnborg <sam@ravnborg.org>, Simona Vetter <simona@ffwll.ch>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: display: panel: Fork Waveshare panels
+ into separate document
+Message-ID: <20260115174047.GA930768-robh@kernel.org>
+References: <20260113000715.231238-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -72,43 +69,16 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260112173555.1166714-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20260113000715.231238-1-marek.vasut+renesas@mailbox.org>
 
+On Tue, Jan 13, 2026 at 01:05:30AM +0100, Marek Vasut wrote:
+> Move the Waveshare panels description into separate document, so they
+> can be properly described with compatible = "waveshare,...", "panel-dpi"
+> and attached to "waveshare,dsi2dpi" bridge.
 
-On Mon, 12 Jan 2026 17:35:54 +0000, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> 
-> Add the renesas,miic-phy-link-active-low property to allow configuring
-> the active level of phy_link status signals provided by the MIIC block.
-> 
-> EtherPHY link-up and link-down status is required as a hardware IP
-> feature independent of whether GMAC or ETHSW is used. With GMAC, link
-> state is retrieved via MDC/MDIO and handled in software. In contrast,
-> ETHSW exposes dedicated PHY_LINK pins that provide this information
-> directly in hardware.
-> 
-> These PHY_LINK signals are required not only for host-controlled traffic
-> but also for switch-only forwarding paths where frames are exchanged
-> between external nodes without CPU involvement. This is particularly
-> important for redundancy protocols such as DLR (Device Level Ring),
-> which depend on fast detection of link-down events caused by cable or
-> port failures. Handling such events purely in software introduces
-> latency, which is why ETHSW provides dedicated hardware PHY_LINK pins.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> v2->v3:
-> - Updated commit message
-> - Renamed DT property from renesas,miic-phylink-active-low to
->   renesas,miic-phy-link-active-low.
-> 
-> v1->v2:
-> - Updated commit message to elaborate the necessity of PHY link signals.
-> ---
->  .../devicetree/bindings/net/pcs/renesas,rzn1-miic.yaml     | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
+But why do we need "panel-dpi"? Adding that requires changing a DT. 
+Can't you make the kernel handle these compatible strings as a 
+"panel-dpi" without the compatible?
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
-
+Rob
 
