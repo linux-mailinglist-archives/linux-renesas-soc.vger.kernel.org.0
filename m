@@ -1,124 +1,152 @@
-Return-Path: <linux-renesas-soc+bounces-26844-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26845-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D9C7D23DF1
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 11:14:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F3E8D23E1E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 11:15:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DE2D53016CC3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 10:12:41 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id DC4DE30C5CB3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 10:12:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BFB435EDA5;
-	Thu, 15 Jan 2026 10:12:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD04C35EDB7;
+	Thu, 15 Jan 2026 10:12:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TCwTXVrJ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2B6811CBA
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Jan 2026 10:12:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73CAF35502E;
+	Thu, 15 Jan 2026 10:12:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768471961; cv=none; b=tuQMu4XTj9+YOTovjYBOCnfRxa3LrRxOAn7cvaVjacD0UZQ68cFi814IW0x3c8qlWqYwHCv6R4raB7eO3uSIqHeDWUul6mSda+hjMuVvZBX3IYjtc+9Z/+UU8HTPvAOsiFQ9vTUTqpFsTonabINeV3hy1MIMBJvkEa6ToClg9dE=
+	t=1768471970; cv=none; b=Yhup0mnEdCmtWAdQb82jHrhvWZKzVCBLTCYW85eeDjZpu5mOCJRH+1EHgpHGNEdil/fEw+oKzRhoXd2atIF30hrBkemafof/hZl7OPeCjHGmcpg1fxriTanNLq6P84FG2KMpewznX5OAPpTzfTkNI/04iDFumKw/fhoENW2EW9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768471961; c=relaxed/simple;
-	bh=8N82thDgrk5p6pX6tvbenU7sVXEEobs2da6ZlAwkjnQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=V+puw5Da62i2+4mUQx2NOlyMszTYP4KZlFl3RuL+hLu5u5nY/qspQPD0ZBM1CUfxH+P7ii+i/UmD15rGmLOz3eSYNbpeMizdCkUUTz2NKWc+up85VVpADPwiasejuL1oRGAI54WsrgYX1s9OSyruwKTST1Iu6lGXaD1As6SJKHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f65.google.com with SMTP id a640c23a62f3a-b876b691fbcso150436966b.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Jan 2026 02:12:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768471958; x=1769076758;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NfY7yocCbDQpyXldKITKmah5CeSNudO2PtXu0jreSTc=;
-        b=kZFT5J3xiWm18rR5ESVer/OTVVceFm1Me/D9OgzR1kbqOagLTBjdgT5Mydi29N43YQ
-         aZOpLewaEgL78XLOBRJ39QtCtVat8HEUSZ2deiGBcG1of+UOfwRSO6y25APycEkJjOr0
-         Q6yE5nnlF9ClNkMEHw+0CveNYNfIhBzYyhfKLZtqkvU0TtuAqcogAPUPbTDtXBkAXI9y
-         kbQmLh2GL9uR1PV9Ish0RJ3xay+ofa3j2I3m1gF0Hn45C9QRZS5hRYZ2WZc7HIwM+9xz
-         ZL4Tl02wGDDqV+5OeauIePntU6eX6VbFNzwfpUieSaJy1fo8PD2WxDgq4JXbrIutIFXp
-         Cj3g==
-X-Forwarded-Encrypted: i=1; AJvYcCUWHJveJwLI0DxF6pm5O9Feu7rlwhae9CHmjLdwsTtzpG9F0i9V1oo+Bc59OhoETqrI90RHINRGUilYzHQBDtIXGQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwJJ70P5jwtIP27jS+3IyTcjAjliG3ywkx0A24adPC17NpUjAqG
-	HepZa4XkZiNWFSZZ+F1LetN5cIX54VV/955gpoode5XitNwGqIpsDgMLgceqdO/wVgV9lw==
-X-Gm-Gg: AY/fxX48ynQAv8x3BlmS+jj4eq8FgIY5JFrFh/jU4c9SyrQ8kJUO+SzLKO1I1Lzgmgd
-	NbHTDK0ryj5cEm35TpdhIHVKuNMjK8V/hLUQhM6PF/FXf+Z5UPhx15K9mfSgfAAEUrO5lLsItuN
-	k+z26TebRu+abopo15T0kVy3l3uvwg5Ukm62T8jS363GeMnu0WwdYYKKKZ/dMy6wNmNB6QL9KEd
-	cm0SNj+4b4jO63AkLV3VjpeF7KA58j/8SwcM254ltk9XAryy74+9I+AmibLHQpdQ0bZzeHvZsb2
-	lNjicXamf72fwOMU+68ER/kaNf2lRxMevkxm0qeoy3T+8xeDSlMEFQuqEAJxUUg8wziCeJGsx1J
-	FdkBNz7t8ivkMFl2ocjY4fnl9rYYnvX8yj0ubjyf+O4CPLFxDMEKo+G6KL9pJ65iorD/SybL8aO
-	PuC8lArfu0m3HN3z2JApuoKj5jlmEspYIiXQVOQZP2MNIfLZGR
-X-Received: by 2002:a17:907:d23:b0:b87:e58:e37d with SMTP id a640c23a62f3a-b8761283a13mr483161866b.48.1768471958326;
-        Thu, 15 Jan 2026 02:12:38 -0800 (PST)
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com. [209.85.208.47])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b871f50cdc4sm1038099066b.20.2026.01.15.02.12.36
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 Jan 2026 02:12:36 -0800 (PST)
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-64d02c01865so1179888a12.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Jan 2026 02:12:36 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVQxq0gu0D74zLmXpxDxEZD/T0SIPHp+uaKY1DdL+rSMLpEJKEDmvdQA8DVXtNAIkOPLCK9ZRw9bpfj98Gn1WTUAg==@vger.kernel.org
-X-Received: by 2002:a05:6402:234a:b0:64b:4745:11fa with SMTP id
- 4fb4d7f45d1cf-653ec101f96mr4387853a12.6.1768471956067; Thu, 15 Jan 2026
- 02:12:36 -0800 (PST)
+	s=arc-20240116; t=1768471970; c=relaxed/simple;
+	bh=b56RGhLOtRjjybNXQNgvNL72Y47QdshbNg6rQtKxVLM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Yo+o0fedUyShOWV+mSzGZ82+Tv/+hYGQU7dqUQm+7g1fgNqDLzJJFN4d6O24pYRY6Phr9SZ0aOYffji9hzhIUhnqvzQqkGANq9gEIjsV7FbM8forAWxc3hddOa3xDRonFt8s3pqX8Tgq01tRn35gEIetdw6+iXx+00C18jqLLPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TCwTXVrJ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84A13C16AAE;
+	Thu, 15 Jan 2026 10:12:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768471970;
+	bh=b56RGhLOtRjjybNXQNgvNL72Y47QdshbNg6rQtKxVLM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TCwTXVrJKq2DqL0aQJh5O7w2L/ZgGxkw0BaKNK/mLS15pU2EB8OleQ+cLmZh5er1+
+	 qEXNmYHa4zk/N++2zEwmcqhpQPIPM3wwU1Xkecg/96czfsdcTWGHzhZ1y9YZ6x10Aa
+	 xq/5sXrELWVVbdcRXbE7H2MPX5N1ZAgLMoTl6uw34T8QSBJKH6a647mEh//ZSuVhzM
+	 PdiNUsEE3umcVUGoGGq58GVQZaUrkYjiB4Ke8UXQaB3hAbyGsy5CpivhTOSnp6DlMy
+	 uxo1s+j+XRWXf8be7x1S604mMwTJWIRF86Nmxx0P5nYASh5MkOFuXzzgpJ8cLi7jke
+	 x2lT6Q+sNzvFg==
+Date: Thu, 15 Jan 2026 11:12:47 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-pwm@vger.kernel.org, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3] regulator: rpi-panel-v2: Convert to new PWM waveform
+ ops
+Message-ID: <x25kxyh4t4u6c3ilj7nxp6sywab5dsar46b2foesrwfux2l4b2@d5iwqqcpdhlm>
+References: <20260104194224.41245-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260114154525.3169992-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20260114154525.3169992-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20260114154525.3169992-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 15 Jan 2026 11:12:20 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWJhmOcem=Au9xnrUGawjCMEsj=7LJFStcMRH5ZSPpwJw@mail.gmail.com>
-X-Gm-Features: AZwV_QjFtS9gX1t1bcoAdGvEBCAD87MgrBFQL_PM1xjp6VHRWBnRuuHz0IuQFJA
-Message-ID: <CAMuHMdWJhmOcem=Au9xnrUGawjCMEsj=7LJFStcMRH5ZSPpwJw@mail.gmail.com>
-Subject: Re: [PATCH v4 3/4] dt-bindings: can: renesas,rcar-canfd: Document
- RZ/T2H and RZ/N2H SoCs
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Marc Kleine-Budde <mkl@pengutronix.de>, Vincent Mailhol <mailhol@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-can@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="aa5bmvbnmoppupnu"
+Content-Disposition: inline
+In-Reply-To: <20260104194224.41245-1-marek.vasut+renesas@mailbox.org>
 
-On Wed, 14 Jan 2026 at 16:45, Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Document the CAN-FD controller used on the RZ/T2H and RZ/N2H SoCs. The
-> CAN-FD IP is largely compatible with the R-Car Gen4 block, but differs
-> in that AFLPN and CFTML are different, there is no reset line for the IP,
-> and it only supports two channels.
->
-> Sync the resets and reset-names schema handling with other CAN-FD SoCs so
-> DT validation stays consistent and maintainable.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+
+--aa5bmvbnmoppupnu
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3] regulator: rpi-panel-v2: Convert to new PWM waveform
+ ops
+MIME-Version: 1.0
+
+On Sun, Jan 04, 2026 at 08:41:43PM +0100, Marek Vasut wrote:
+> Convert the driver from legacy PWM apply ops to modern waveform ops.
+> There is no functional change.
+>=20
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 > ---
-> v3->v4:
-> - Dropped Reviewed-by from Geert due to below changes.
-> - Updated commit message.
-> - Moved single compatible entries into an enum and to below oneOf.
-> - Synced the resets/reset-names handling with other similar SoCs.
+> Cc: "Uwe Kleine-K=F6nig" <ukleinek@kernel.org>
+> Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Cc: Liam Girdwood <lgirdwood@gmail.com>
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: linux-pwm@vger.kernel.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> ---
+> V2: - Safeguard against wf->duty_length_ns > wf->period_length_ns
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-But I am not sure this is better than v3, as it is 15 lines longer.
+I would claim that this is a bug in the core if a driver sees such a wf
+variable.
 
-Gr{oetje,eeting}s,
+> V3: - Use PWM_BL_MASK as the maximum period length
+> ---
+> Note this now generates warnings:
+> pwm pwmchip5: Wrong rounding: requested 162/255 [+0], result 19000/31000 =
+[+0]
 
-                        Geert
+So the driver is wrong, see below.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> ---
+>  drivers/regulator/rpi-panel-v2-regulator.c | 53 +++++++++++++++++-----
+>  1 file changed, 42 insertions(+), 11 deletions(-)
+>=20
+> diff --git a/drivers/regulator/rpi-panel-v2-regulator.c b/drivers/regulat=
+or/rpi-panel-v2-regulator.c
+> index 30b78aa75ee38..e5e12ff649804 100644
+> --- a/drivers/regulator/rpi-panel-v2-regulator.c
+> +++ b/drivers/regulator/rpi-panel-v2-regulator.c
+> @@ -35,24 +35,55 @@ static const struct regmap_config rpi_panel_regmap_co=
+nfig =3D {
+>  	.can_sleep =3D true,
+>  };
+> =20
+> -static int rpi_panel_v2_pwm_apply(struct pwm_chip *chip, struct pwm_devi=
+ce *pwm,
+> -				  const struct pwm_state *state)
+> +static int rpi_panel_v2_pwm_round_waveform_tohw(struct pwm_chip *chip,
+> +						struct pwm_device *pwm,
+> +						const struct pwm_waveform *wf,
+> +						void *_wfhw)
+>  {
+> -	struct regmap *regmap =3D pwmchip_get_drvdata(chip);
+> -	unsigned int duty;
+> +	u8 *wfhw =3D _wfhw;
+> +
+> +	if (wf->duty_length_ns > wf->period_length_ns)
+> +		*wfhw =3D PWM_BL_MASK;
+> +	else
+> +		*wfhw =3D mul_u64_u64_div_u64(wf->duty_length_ns, PWM_BL_MASK, wf->per=
+iod_length_ns);
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+This is wrong. There was already a discussion about this in reply to v2.
+I'll discard this patch from my queue and continue the v2 thread.
+
+Best regards
+Uwe
+
+--aa5bmvbnmoppupnu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmlovZwACgkQj4D7WH0S
+/k7sigf9HJJx5e1JMkOMuo9HfOkLSVR3uxUfSn5YyiNEco8qlh2Dse436Wn7rq7V
+8NP7TpVvswhH1jgkoh2Wed2VaMRP+kVc5yOpL5swpeeX4V8aS9bUAESnUiaRlOIL
+nH31FX463410PFiyw5FAloNZk0ocI99t1TkbF/GF9uBZO6wqhrtkVyFKzNeCOel5
+J93s1EHfLUFhnNg7NBfXTKjNAYDkWoQnar8OcFy6qroq3Y/+E23uERUMxrFNYPWT
+czlmXNQ3NzcGst8Wyi+cBqZpk6mI+S/w9MdtQVvxDAR2t2SWgQtjaFpTbcW37KqN
+PObaYtzOYYC2wtbXB0izMfaUcaNLGA==
+=3nFj
+-----END PGP SIGNATURE-----
+
+--aa5bmvbnmoppupnu--
 
