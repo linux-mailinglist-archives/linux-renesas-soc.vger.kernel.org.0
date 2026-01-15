@@ -1,313 +1,466 @@
-Return-Path: <linux-renesas-soc+bounces-26806-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26807-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B642ED233B5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 09:46:52 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BBBED233E6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 09:48:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DD5023017EEE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 08:44:05 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A62923018F78
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 08:48:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B47C2E9ED8;
-	Thu, 15 Jan 2026 08:44:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D0A133A708;
+	Thu, 15 Jan 2026 08:48:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b="nU3esTXL"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11020095.outbound.protection.outlook.com [52.101.229.95])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 463E813D521
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Jan 2026 08:44:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768466645; cv=none; b=NVLpEytycQXqBe0VJhfOETfl/FWHifU0WtV5XAwnWL2GlSilBM2SHxmO+FvQlwGAb0bWVDqLcWZ+mgdDq0sl0WSilmoyHX3NhTYSys0bLA1ZwtaXzGD2gDDnUEHK+AZejZtEmC2K+KWPWkan2It4oO6jcYv246npWU4mZyYmHZs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768466645; c=relaxed/simple;
-	bh=paTnkoL9xUak4CUxnRb/yoa9tXE3w3bGYQXVfiVJENY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SpBfGJlvWSSjujIu5dc0mQOAIRuggpHzW3QmHP9MT/42y+3ML9bvgjmU/8TEb/JrXoTt/+PSGJ3AL6gz5duZZNtGbqQcnKjWSVdDYpOBRYt8AS3lkx+yCB2sFrtcX1KBmXlBX9TrigtG45/NQP/JK1bsBfYGIECuUobPmWvn6aY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2a137692691so4291785ad.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Jan 2026 00:44:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768466643; x=1769071443;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yEhW79U6doUL/JqAk9Ut/HyEczQFD5R9B9xZcFtsnOI=;
-        b=tqopO3OVuEUO1NpQ8nWdhfNSKT6dtbErPO8w3HtCbMChkv3CHTW9PoNWanroEhf9hc
-         +iTNUobJkFMGe2MN1dKMaCY0y1TUxzNpNFQVmh0gOQQOnQJlI1U25WOOlF3bFZZGpLWW
-         SY6X3EGxlYMD06e8N72Tsa/73WnD13+YAvFB9sDULK+rXUHyIEMwpR4d5Xk9DfbUg0Ep
-         izZC/IP2WeOduRZ+lLTph+LypDMtPTZL6XwOgB6GYtShFRgP2Jp8YHbZKYfRlqa+6W8B
-         NvifL81Na5kW3pe+aNs5yqkp/YKKJawz17ygeapn7OtnlbpM9G2ZhcT6tHklOK/0LvzO
-         /+BA==
-X-Forwarded-Encrypted: i=1; AJvYcCU9F+X3ABswmOkgbuCKBESBzFnExAd044gO5vNNoEbOonW5/yOiy1dTA5vm2nWgKTUwpXafnoYpXhnVQidAXqVGvQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywiu0OiXi6MxF6HshAsis+3aAGLtD1Cbd0YOeJOv932E07v/51z
-	b+xvUGLhAAtXtoYqhWx7hsl96QvMA/QPwNQeFOVZlieT1hcoaJHgJGZkcrevx1MO
-X-Gm-Gg: AY/fxX4c03D7DMoMF6lnRgcAvi+QxCS62dIZdpvOvYHEz3/LXqsoSlWqDrpb/kiHymw
-	d2SUlcNG8CoRJPeQCgHZJ/fbi/d2Bw7Jqt/onqun4w65UlWDpCThKmpBbk62+xSVSpGdm071RAO
-	I18DCc9yDORqAZw0xkJFZUdB3lT/aRpNI19OYXUyZgMfs5VJFmcCEIebtwwgCceG3yVFk9Hs4ja
-	buB12oqGHN08v3qoduodusG7+Oft8ylxFg4d84G30Fb0XF8O4tGjYCeQK6pYnxtipCWu4henE2R
-	d0qY98wERDJNw95YkqarkHcTuQ1JbOtqCOR0YVqdvIr+TW62kVycex+3ELKyyfkTsLfxUXOw+vf
-	+mBNHRO52vZ6xCSMeHlrh4VG6XTOmmXrU5Qciy27rFwifWMTCfGij1ztPh5iypXLge/KMCV2e2l
-	zAtlzVlx3OlxqS1KLYac3TY+c/XVqg3QPP/rZ7QUAFMeWcNE0HPzY=
-X-Received: by 2002:a17:903:2450:b0:29f:1fad:8e50 with SMTP id d9443c01a7336-2a59bae71b8mr53910465ad.3.1768466642525;
-        Thu, 15 Jan 2026 00:44:02 -0800 (PST)
-Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com. [74.125.82.179])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-352678c6a3dsm1505512a91.13.2026.01.15.00.44.02
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 Jan 2026 00:44:02 -0800 (PST)
-Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-2ae53df0be7so1432681eec.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Jan 2026 00:44:02 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCW5PbLlbp0+Jx3KGK2QFg8sxIKwr2thIMQpVaWRFnJTguw2qjxeQWW8ip/cZz1DDZrxDZfDkbYeKdslUCOO+Bq5wA==@vger.kernel.org
-X-Received: by 2002:a05:6122:3b81:b0:563:4a88:6ea5 with SMTP id
- 71dfb90a1353d-563a2093a5dmr1838362e0c.5.1768466262231; Thu, 15 Jan 2026
- 00:37:42 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A939622A4EB;
+	Thu, 15 Jan 2026 08:48:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.95
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768466914; cv=fail; b=Mdk4OoCx7tdHSLNEJWlb9gcDyacu414teMB2pgnyn6jG5VNMdmIQ2mqOylkdYuKayn1xv8NQJEYizb9czsMWGIuz7ZcuJTF5NIP48ri2nFcGuP9GBYQtv0lwB5zd9/zsqClBTKkKr937rxoQZbshnldNvPuP1PCNii1zJDGeXik=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768466914; c=relaxed/simple;
+	bh=FGh9b34yNHOoSdE69E5hj8XJUaHlWIrA2aQiRoMHbcs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=gEdeUHSjDeP/TaexAlCxRmFa2rcPefA5h8ePcNxR2dt5GTipDIf/igrX/vKiHJjAygjeCyEeDBUpD9WrMUz+nb3FFqI8OZPJlOS+X7be7LacIXHaSHou3W2RdymGdZ6ssCTTDakua39Fy+m0DU9RFlV6ZbW5Obuj0Yji1YTqRMQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp; spf=pass smtp.mailfrom=valinux.co.jp; dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b=nU3esTXL; arc=fail smtp.client-ip=52.101.229.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valinux.co.jp
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bCZg6MS3FpjSL0FSPnxfWk4wl9hNClJiIkuFwV9hkpG40SAsHSarYohYf2QbaxvG4XL6nLYn9mwMIVIvovcGsjQKTCnYNw2xLVcS5ZjV+L0CPuDFoli9rF4RAwcDA+AUfAy3p38tOdZTlaux8Rpkl1ggzNmJR8WRvhgAYB/RBEsYVeG7vkjcJs6SQuk2y9rDsNjfM26qwXvd1pXg4BhBC8gKV0jIEJwZNnfpzpTojlyNOexOb5hAN5GBWm6UG/Nca6VLod9+Mpf/qP3PJjLhFPTdLE8lpcvnWF4H6pJH3JI3nUvRem+Sy2nldYd0hSRzQTxrZi65AjTq+7yEPdGu4Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vj6HCua9VgNVLHRLuKsELNBlr1wn7+0YzCgIrfJMghI=;
+ b=x/k7PbgYqUUz/kCOqDa8F4NzE0SsGV50rE+ri0zU8GnVpAz+yjDAbKIoXwmK/QHOBjX/Xlvb4DqWW3KUNWxGyQfw2O09PKJ+JJTWuvmAJnITMzFJ6CORnDrNhhk9xTeusAYN88mrXM48WWZ23Pa/gK2dIZpovqwLpNnk8MTwBfqrPh+IXXGdYcFnjxWQQFeqgqrzdm5/2f9saJr+rInqdJyoiI1U8Kp9YTV3I6HYWJvnLHSX3dZHVuM9azC0TGrHTICS52Ok9JW5jZ0O9I0KHRGb9r92DPadggd7brHkdNN8rFTgnJsDJnhmNl+o51YSvjky+TNzmY8Md8XRlvxiVw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=valinux.co.jp; dmarc=pass action=none
+ header.from=valinux.co.jp; dkim=pass header.d=valinux.co.jp; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valinux.co.jp;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vj6HCua9VgNVLHRLuKsELNBlr1wn7+0YzCgIrfJMghI=;
+ b=nU3esTXL3F6PXL0p7iFvGacMAbyb+XolAj1Bn4lFja4TsN+O0HSCEVsuPlL+h31DGhbUTzfeBx+Xt90efVQYKLouk0YdhOfDN9mC7cPxA+ozEj0h11B/FMG5R6aE7/O6fyimhlc/4yc3nlolEQt4lB0m3SpoR9A+v/fiXXbMzO8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=valinux.co.jp;
+Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:38f::10)
+ by TYCP286MB2911.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:303::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.6; Thu, 15 Jan
+ 2026 08:48:28 +0000
+Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::2305:327c:28ec:9b32]) by TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::2305:327c:28ec:9b32%5]) with mapi id 15.20.9520.005; Thu, 15 Jan 2026
+ 08:48:28 +0000
+Date: Thu, 15 Jan 2026 17:48:27 +0900
+From: Koichiro Den <den@valinux.co.jp>
+To: Frank Li <Frank.li@nxp.com>
+Cc: jingoohan1@gmail.com, mani@kernel.org, lpieralisi@kernel.org, 
+	kwilczynski@kernel.org, robh@kernel.org, bhelgaas@google.com, cassel@kernel.org, 
+	vigneshr@ti.com, s-vadapalli@ti.com, hongxing.zhu@nxp.com, l.stach@pengutronix.de, 
+	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
+	festevam@gmail.com, minghuan.Lian@nxp.com, mingkai.hu@nxp.com, roy.zang@nxp.com, 
+	jesper.nilsson@axis.com, heiko@sntech.de, srikanth.thokala@intel.com, 
+	marek.vasut+renesas@gmail.com, yoshihiro.shimoda.uh@renesas.com, geert+renesas@glider.be, 
+	magnus.damm@gmail.com, christian.bruel@foss.st.com, mcoquelin.stm32@gmail.com, 
+	alexandre.torgue@foss.st.com, thierry.reding@gmail.com, jonathanh@nvidia.com, 
+	hayashi.kunihiko@socionext.com, mhiramat@kernel.org, kishon@kernel.org, jirislaby@kernel.org, 
+	rongqianfeng@vivo.com, 18255117159@163.com, shawn.lin@rock-chips.com, 
+	nicolas.frattaroli@collabora.com, linux.amoon@gmail.com, vidyas@nvidia.com, 
+	linux-omap@vger.kernel.org, linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, imx@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	linux-arm-kernel@axis.com, linux-rockchip@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v7 5/6] PCI: dwc: ep: Support BAR subrange inbound
+ mapping via Address Match Mode iATU
+Message-ID: <g4txrmmww3werfhho6t625ciqknvyhvqhndceyf6z2pqiygnlr@2pktdkpwrcas>
+References: <20260113162719.3710268-1-den@valinux.co.jp>
+ <20260113162719.3710268-6-den@valinux.co.jp>
+ <aWaw4M6FGYWPo1ME@lizhi-Precision-Tower-5810>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aWaw4M6FGYWPo1ME@lizhi-Precision-Tower-5810>
+X-ClientProxiedBy: TYCP286CA0297.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:3c8::20) To TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:38f::10)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251230080115.2120612-1-zhenglifeng1@huawei.com>
- <20251230080115.2120612-4-zhenglifeng1@huawei.com> <CAMuHMdVeHk-Enc-M9ztwSdeAtE8YPKtJwq+273bGPEFOEsu=Rw@mail.gmail.com>
- <aWZriVlQZ5jRx2o4@arm.com> <CAMuHMdVgbQnaCQ8U8FK6J1vJLsqc0_MC7zSTX2B=rsuF2kpEKg@mail.gmail.com>
- <41b7398c-b1a4-4b87-b6f9-07eacf4f4752@huawei.com>
-In-Reply-To: <41b7398c-b1a4-4b87-b6f9-07eacf4f4752@huawei.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 15 Jan 2026 09:37:31 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUuTrF=eN5tMsjmOfWuuT9r7aCOTS7=YP6+KrSdNrhEpw@mail.gmail.com>
-X-Gm-Features: AZwV_QgJfgfwWgiDZ0xWQqvqqWOvLCpdrYhSVw3ZJkes_w8m6CntQRIYTUo-KYk
-Message-ID: <CAMuHMdUuTrF=eN5tMsjmOfWuuT9r7aCOTS7=YP6+KrSdNrhEpw@mail.gmail.com>
-Subject: Re: [REPOST PATCH v6 3/3] arm64: topology: Handle AMU FIE setup on
- CPU hotplug
-To: "zhenglifeng (A)" <zhenglifeng1@huawei.com>
-Cc: Beata Michalska <beata.michalska@arm.com>, catalin.marinas@arm.com, will@kernel.org, 
-	rafael@kernel.org, viresh.kumar@linaro.org, sudeep.holla@arm.com, 
-	gregkh@linuxfoundation.org, dakr@kernel.org, ionela.voinescu@arm.com, 
-	linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org, 
-	linuxarm@huawei.com, jonathan.cameron@huawei.com, vincent.guittot@linaro.org, 
-	zhanjie9@hisilicon.com, lihuisong@huawei.com, yubowen8@huawei.com, 
-	zhangpengjie2@huawei.com, wangzhi12@huawei.com, linhongye@h-partners.com, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY7P286MB7722:EE_|TYCP286MB2911:EE_
+X-MS-Office365-Filtering-Correlation-Id: caad76d8-208b-450c-bf3e-08de5412da6d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|10070799003|7416014|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?3H7drZXyXtfDUzHWOyena2WzwVkKthZUg0H9/2TPqWhqqHr3f/c+O2a4IpOb?=
+ =?us-ascii?Q?Bt57kgbRwFG27VYe1QAMOGbKcHv4/Jx9eiQFCwh8DGtjM+k8k08L4HrQLn59?=
+ =?us-ascii?Q?Gf7aELhf7e1f4qF7XjaHyJBfdyzfuo/vb6eumqvmhQV1/c9KqDJ7y9CIrg+n?=
+ =?us-ascii?Q?lqwPLwKiFfc4ZLr4P7Dbrg4JE4TPPaBJsBYrWsPNWw8vqfw+THCyyN1cMYs0?=
+ =?us-ascii?Q?GaqVBVcUTOYnqA7OuPHBG5sE2Ks8arzQPDz957eynJXks4OIRcaplhhkW4Qd?=
+ =?us-ascii?Q?lV2gLDmCHOJu+ocR0SiQtwXsG4932AMrBXEJsD7N5eCw304Fil3+RML0oBZt?=
+ =?us-ascii?Q?cFYZJ+dOKM6ha7NdXq2rCVhmHI+z46zkBEwyuVyPfnCMB4ozHDVQpE/Uxr34?=
+ =?us-ascii?Q?ioPaRaPQSpwSnI8wy0M+g97JVFy4SfjCGhxn9BlRvVju4sV4g3IqkO8hUhMM?=
+ =?us-ascii?Q?sXVJfgf+PWOjq9MWHnzbihEGRZKOZ37JLYd1gc+SxmnysE1IF8Z0GlznDlbQ?=
+ =?us-ascii?Q?tiocftZaRm1yzjnh4amlroo4PWdlkXv9Iw44be3j1YmOEChy6TE+va03M5e5?=
+ =?us-ascii?Q?oHUDyYSRso1fIzPn6TR8WhcjdkaSA+EPnSV12Yd9FBwbLevz1LGQAs0204yu?=
+ =?us-ascii?Q?OfB8W8Li40VDf6WijLErlLYgoI8p5B6KMgVQEm+nUvH4dVc7+KUyNFYxpj/a?=
+ =?us-ascii?Q?qiL4OpCb3A1ejn009YUGPyzd/whiJpdwr+RTpnNMSWlp40ImOMKmSAerKdsf?=
+ =?us-ascii?Q?jqPihf6hTTlvQRZKEMFf6+XBUXv4V8UxPaJ8od81do3yEd2QojdqMLCCbiRw?=
+ =?us-ascii?Q?PseOEZnaPoIXpaD83WmlYRAyGM9hNPsoj8sHeKh0DU9Po3YvPhPNrxXLnNs2?=
+ =?us-ascii?Q?oWtwHXS2gmbPSNdXcEmkOSa3Xy/o/sNPKlWsgpyZhCRvDswgruT759dXdiI9?=
+ =?us-ascii?Q?3NcjYjL9rx+OZS0iXdEsVAsLlF56H/2KHxpuaf9pmnEGC2es9oFzWoD0Fqo8?=
+ =?us-ascii?Q?D7iSk3XdOTVAD+T6iSh80Tl9FLowxJEXUldPDjHpBay+J0WgxMS9t6UklpT0?=
+ =?us-ascii?Q?1Rp2qf4WNKIZajj4otpzgw4CWT44RLz/RTNZYFWlIIOIL8mOXr38y6cz6tDB?=
+ =?us-ascii?Q?2SZ0vYRyFEcXTQy8riXqQs26WNfYVUf2LxfIMmFdg/x3xT8h+CgMNxkggvtA?=
+ =?us-ascii?Q?v9wyZ9sssyrauIWbCWMLD3hZgAdJBiFjv6eaHXmE4t0SItfJDidOWtx09PJt?=
+ =?us-ascii?Q?Jw4vQ4XNiUc/ioWbZL/mkGoc6VsVPbFUgJz0oqSQGzM8iu3KflgLgEuLMHZ8?=
+ =?us-ascii?Q?vsSwlSOyLiMZmfs2u+Gx0NXQhnJpzxPzkJzpjubSRnqaHbiATQnGB4Lq4R3T?=
+ =?us-ascii?Q?D9fQvZ3kup3Pb6KGtf++eUgIfjBjvGZGnDXhOMpxv+NBw32hCs7e06i4MFE8?=
+ =?us-ascii?Q?aKSL+7+OsvUb/Z90A6OYua0SEI1qSGfhrl/+jYrV6CQfOKOubshbRw9fijTK?=
+ =?us-ascii?Q?ObLDtEEXnFarNPs1xh7cb5ovCcr0aHiluq544WGvc7CDf57PJwDbL6l2FJtl?=
+ =?us-ascii?Q?eDtyedf5fwXJc3etoJc=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(10070799003)(7416014)(376014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?sfHGT59pOT3JP3tOX1CeUJam/r5hncWu7YSjbZhI5wYXSOznu+nF8pUARj4b?=
+ =?us-ascii?Q?tx5InepPJaV6wvYp3BLklD78Wxgk19XN9u2njsoUlip2zlosJWX2CN4zDxk/?=
+ =?us-ascii?Q?ZSPTpNfNXKNplc2/tnjEsIDmxGkNRsNXEqTDmQDmoSkEZznU59vk8ojuvgYe?=
+ =?us-ascii?Q?b57ybEpbO8e+Ci6nsmastLdRRoYUo8gnXoYSVigyX+rM7AzQKAOaREyB4AYy?=
+ =?us-ascii?Q?rDp88FTsEE24M6OR0+DdF2BxXuryDQVgMdE/sSq4Cr9bCTPIesVFwduD9Mvl?=
+ =?us-ascii?Q?2dpoUXidTsLWmxTGNZLERTZMVZ1qSOJR1W+EoaU0mvrPyMbzMf1lJJMJq7dA?=
+ =?us-ascii?Q?00F2I7U3DrWnIkUW13NHe1q9qBJvyV7Myi0dgZ3JLT7iFSlVOANQrF+Dg6Za?=
+ =?us-ascii?Q?Y7WjXzsDcyJJIUfqg/NcmrIDfdPiLamFZoUa1TuJGdtILjWBohP5M8JrbG5n?=
+ =?us-ascii?Q?PbmoBsmvTUzmpbIgv9wIugmDhqpDdICAiWyuLkLJ9QQhHJdk4323plPoYDFg?=
+ =?us-ascii?Q?mDqmQntjSWqBXIH/JXCEt0ij50en+cz6qPRrowkBRR5Rw/bK+hn2xh3oPZTk?=
+ =?us-ascii?Q?RONuj/B+xN6tleG/APSIuj31U900Yu/suXOJkMmFCpVaJMuBhEgcFcxLMmYp?=
+ =?us-ascii?Q?TynjLn+AJMxdu4qX6MmtloU1TzSLqpQ/O3RzQ5ja1WiWEfcQIJskd/Qe5K0q?=
+ =?us-ascii?Q?OH0DuJ5bePyAL8KdYlFoAOd9rjZSp8CZ9TiPjCViiI7i8ltu+3fNP5KNgysP?=
+ =?us-ascii?Q?9LnzdntjLKzZx+z/TZnoE3lB/0CKAkZUYrXICjk2rH1HE7dx7n74HKPS37Xj?=
+ =?us-ascii?Q?rKx93gTXyFrkYRGA11kxzKESk7UKxdOhd7J/LcW86K7fvjcOgPkEjlDPR8oA?=
+ =?us-ascii?Q?vrydgiyK41RGeAKPHMUGWDauGSsBE2A5j2T3d35qTkDkILnjVwSK6kvdDt/H?=
+ =?us-ascii?Q?ddTdq3DSIqvDKKpm9zS+uBufRR13qAk2zu8wBh320MOy6gfwEPzssnZG9whY?=
+ =?us-ascii?Q?d4ySU4pv1V3hKE+ju7LvUxp/O8hvvPQ6WZbxqjtVeCwoX1a7KsWonDaUPs6T?=
+ =?us-ascii?Q?r0I2Vb0NPKXnRDRPb1BJjHWD6cKYIzkqeucxEjehfTwIIkhCQusMkZPAX0my?=
+ =?us-ascii?Q?o+cE/aAc/r3ADWdeyaqT/6Y61TkGacwgPUdF/1r2k6GXB3IF8Vb1MkJmVm+e?=
+ =?us-ascii?Q?8ZsrxpWRuitjd3fzYi+VULZ8tWiLfvJElHvPAcau6bb14Ak4dCaOTBhbZlfX?=
+ =?us-ascii?Q?vQ0DsPw2g1q6fwxGHZSnwm5upkNGErUJsFgtYHXBs6iX0Yr515Tw6fNyiM0K?=
+ =?us-ascii?Q?X3ZtWgqCrhr0v9b4bmd556cAz9fyDvqgRAmM3+pwsnBxUVPUYLyX+3FLwulm?=
+ =?us-ascii?Q?pchpOYdgMCW76Chj4set+/DtVby7cMGYeZZtvIwnDOA1viEPb2xmTIA+0vU2?=
+ =?us-ascii?Q?rs+soNOmVoVjU5IpUYb6Gm3T26aLrgT44eoTkShJ1s0srYEEg7U6s72D7w+u?=
+ =?us-ascii?Q?LpnjpaakUEM9fI9LWcCFVosL1wITnV0imsZd9IWiq/POznAm/5c+cCgNh4Gg?=
+ =?us-ascii?Q?LwfcFWlP0mcGcJDW/37jGFu1cZAjibqiOBgVkP8MCxCgpJsZIodml8zsMqeJ?=
+ =?us-ascii?Q?H27jhsDn7RH1tDK0UgtjakSqFGAJJORX46aaU7YXgGUE7igiYEAeiib6paSs?=
+ =?us-ascii?Q?1V9muAYENGIsQ1ShEz0fYvo81+igyEn7+dwX2ISk5BbcYdsGQHSirEUWsygJ?=
+ =?us-ascii?Q?OKfX+qxloXV0izrn/yBsJgI4vDtV2wEEcJI+ZGOWt7muVJfzBxvd?=
+X-OriginatorOrg: valinux.co.jp
+X-MS-Exchange-CrossTenant-Network-Message-Id: caad76d8-208b-450c-bf3e-08de5412da6d
+X-MS-Exchange-CrossTenant-AuthSource: TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2026 08:48:28.4706
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 7a57bee8-f73d-4c5f-a4f7-d72c91c8c111
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0gVCPRTkeOo4PAYudtqPyWFiD3ldm7YAWSQygbiwjZ1OD3znoExAGLxMrL/fGTmsLgUeIhMniy089/6Yx8cXrg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCP286MB2911
 
-Hi Lifeng,
-
-On Thu, 15 Jan 2026 at 03:25, zhenglifeng (A) <zhenglifeng1@huawei.com> wrote:
-> On 2026/1/14 21:54, Geert Uytterhoeven wrote:
-> > On Tue, 13 Jan 2026 at 16:58, Beata Michalska <beata.michalska@arm.com> wrote:
-> >> On Tue, Jan 13, 2026 at 11:51:45AM +0100, Geert Uytterhoeven wrote:
-> >>> On Tue, 30 Dec 2025 at 09:02, Lifeng Zheng <zhenglifeng1@huawei.com> wrote:
-> >>>> Currently, when a cpufreq policy is created, the AMU FIE setup process
-> >>>> checks all CPUs in the policy -- including those that are offline. If any
-> >>>> of these CPUs are offline at that time, their AMU capability flag hasn't
-> >>>> been verified yet, leading the check fail. As a result, AMU FIE is not
-> >>>> enabled, even if the CPUs that are online do support it.
-> >>>>
-> >>>> Later, when the previously offline CPUs come online and report AMU support,
-> >>>> there's no mechanism in place to re-enable AMU FIE for the policy. This
-> >>>> leaves the entire frequency domain without AMU FIE, despite being eligible.
-> >>>>
-> >>>> Restrict the initial AMU FIE check to only those CPUs that are online at
-> >>>> the time the policy is created, and allow CPUs that come online later to
-> >>>> join the policy with AMU FIE enabled.
-> >>>>
-> >>>> Signed-off-by: Lifeng Zheng <zhenglifeng1@huawei.com>
-> >>>> Acked-by: Beata Michalska <beata.michalska@arm.com>
-> >>>
-> >>> Thanks for your patch, which is now commit 6fd9be0b7b2e957d
-> >>> ("arm64: topology: Handle AMU FIE setup on CPU hotplug") in
-> >>> arm64/for-next/core (next-20260107 and later).
-> >>>
-> >>>> --- a/arch/arm64/kernel/topology.c
-> >>>> +++ b/arch/arm64/kernel/topology.c
-> >>>> @@ -284,7 +284,7 @@ static int init_amu_fie_callback(struct notifier_block *nb, unsigned long val,
-> >>>>         struct cpufreq_policy *policy = data;
-> >>>>
-> >>>>         if (val == CPUFREQ_CREATE_POLICY)
-> >>>> -               amu_fie_setup(policy->related_cpus);
-> >>>> +               amu_fie_setup(policy->cpus);
-> >>>>
-> >>>>         /*
-> >>>>          * We don't need to handle CPUFREQ_REMOVE_POLICY event as the AMU
-> >>>> @@ -303,10 +303,71 @@ static struct notifier_block init_amu_fie_notifier = {
-> >>>>         .notifier_call = init_amu_fie_callback,
-> >>>>  };
-> >>>>
-> >>>> +static int cpuhp_topology_online(unsigned int cpu)
-> >>>> +{
-> >>>> +       struct cpufreq_policy *policy = cpufreq_cpu_policy(cpu);
-> >>>> +
-> >>>> +       /* Those are cheap checks */
-> >>>> +
-> >>>> +       /*
-> >>>> +        * Skip this CPU if:
-> >>>> +        *  - it has no cpufreq policy assigned yet,
-> >>>> +        *  - no policy exists that spans CPUs with AMU counters, or
-> >>>> +        *  - it was already handled.
-> >>>> +        */
-> >>>> +       if (unlikely(!policy) || !cpumask_available(amu_fie_cpus) ||
-> >>>> +           cpumask_test_cpu(cpu, amu_fie_cpus))
-> >>>> +               return 0;
-> >>>> +
-> >>>> +       /*
-> >>>> +        * Only proceed if all already-online CPUs in this policy
-> >>>> +        * support AMU counters.
-> >>>> +        */
-> >>>> +       if (unlikely(!cpumask_subset(policy->cpus, amu_fie_cpus)))
-> >>>> +               return 0;
-> >>>> +
-> >>>> +       /*
-> >>>> +        * If the new online CPU cannot pass this check, all the CPUs related to
-> >>>> +        * the same policy should be clear from amu_fie_cpus mask, otherwise they
-> >>>> +        * may use different source of the freq scale.
-> >>>> +        */
-> >>>> +       if (!freq_counters_valid(cpu)) {
-> >>>> +               pr_warn("CPU[%u] doesn't support AMU counters\n", cpu);
-> >>>
-> >>> This is triggered during resume from s2ram on Renesas R-Car H3
-> >>> (big.LITTLE 4x Cortex-A57 + 4x Cortex-A53), when enabling the first
-> >>> little core:
-> >>>
-> >>>     AMU: CPU[4] doesn't support AMU counters
-> >>>
-> >>> Adding debug code:
-> >>>
-> >>>     pr_info("Calling
-> >>> topology_clear_scale_freq_source(SCALE_FREQ_SOURCE_ARCH, %*pbl)\n",
-> >>> cpumask_pr_args(policy->related_cpus));
-> >>>     pr_info("Calling cpumask_andnot(..., %*pbl, %*pbl)\n",
-> >>> cpumask_pr_args(amu_fie_cpus), cpumask_pr_args(policy->related_cpus));
-> >>>
-> >>> gives:
-> >>>
-> >>>     AMU: Calling topology_clear_scale_freq_source(SCALE_FREQ_SOURCE_ARCH, 4-7)
-> >>>     AMU: Calling cpumask_andnot(..., , 4-7)
-> >>>
-> >>> so AMU is disabled for all little cores.
-> >>>
-> >>> Since this only happens during s2ram, and not during initial CPU
-> >>> bring-up on boot, this looks wrong to me?
-> >> This does look rather surprising. If that CPU was marked as supporting AMUs at
-> >> the initial bring-up it should be part of amu_fie_cpus mask, so the hp callback
-> >> should bail out straight away. Would you be able to add some logs to see what
-> >> that mask actually contains ?
-> >> Furthermore, freq_counters_valid is logging issues when validating the counters.
-> >> Would you be able to re-run it with the debug level to see what might be
-> >> happening under the hood, although I am still unsure why it is even reaching
-> >> that point ...
+On Tue, Jan 13, 2026 at 03:53:52PM -0500, Frank Li wrote:
+> On Wed, Jan 14, 2026 at 01:27:18AM +0900, Koichiro Den wrote:
+> > Extend dw_pcie_ep_set_bar() to support inbound mappings for BAR
+> > subranges using Address Match Mode IB iATU.
 > >
-> > Adding extra debugging info, and "#define DEBUG" at the top.
+> > Rename the existing BAR-match helper into dw_pcie_ep_ib_atu_bar() and
+> > introduce dw_pcie_ep_ib_atu_addr() for Address Match Mode. When
+> > use_submap is set, read the assigned BAR base address and program one
+> > inbound iATU window per subrange. Validate the submap array before
+> > programming:
+> > - each subrange is aligned to pci->region_align
+> > - subranges cover the whole BAR (no gaps and no overlaps)
+> > - subranges are sorted in ascending order by offset
 > >
-> > During boot:
+> > Track Address Match Mode mappings and tear them down on clear_bar() and
+> > on set_bar() error paths to avoid leaving half-programmed state or
+> > untranslated BAR holes.
 > >
-> >     AMU: amu_fie_setup:260: cpus 0-3 amu_fie_cpus
-> >     ^^^ empty amu_fie_cpus
-> >     AMU: CPU0: counters are not supported.
-> >     ^^^ pr_debug
-> >     AMU: amu_fie_setup:260: cpus 4-7 amu_fie_cpus
-> >     ^^^ empty amu_fie_cpus
-> >     AMU: CPU4: counters are not supported.
-> >     ^^^ pr_debug
+> > Advertise this capability by setting subrange_mapping in the EPC
+> > features returned from dw_pcie_ep_get_features().
 > >
-> > During resume from s2ram:
+> > Reviewed-by: Niklas Cassel <cassel@kernel.org>
+> > Signed-off-by: Koichiro Den <den@valinux.co.jp>
+> > ---
+> >  .../pci/controller/dwc/pcie-designware-ep.c   | 230 +++++++++++++++++-
+> >  drivers/pci/controller/dwc/pcie-designware.h  |   2 +
+> >  2 files changed, 222 insertions(+), 10 deletions(-)
 > >
-> >     AMU: cpuhp_topology_online:314: cpu 1 amu_fie_cpus
-> >     AMU: cpuhp_topology_online:343: skipped
-> > (!cpumask_subset(policy->cpus, amu_fie_cpus))
-> >     AMU: cpuhp_topology_online:314: cpu 2 amu_fie_cpus
-> >     AMU: cpuhp_topology_online:343: skipped
-> > (!cpumask_subset(policy->cpus, amu_fie_cpus))
-> >     AMU: cpuhp_topology_online:314: cpu 3 amu_fie_cpus
-> >     AMU: cpuhp_topology_online:343: skipped
-> > (!cpumask_subset(policy->cpus, amu_fie_cpus))
-> >     AMU: cpuhp_topology_online:314: cpu 4 amu_fie_cpus
-> >     AMU: CPU4: counters are not supported.
-> >     ^^^ pr_debug
-> >     AMU: CPU[4] doesn't support AMU counters
-> >     ^^^ pr_warn
-> >     AMU: Calling topology_clear_scale_freq_source(SCALE_FREQ_SOURCE_ARCH, 4-7)
-> >     AMU: Calling cpumask_andnot(..., , 4-7)
->
-> Something strange here. If AMU is not supported at all, amu_fie_cpus should
-> never be available and cpuhp_topology_online() should return in the first
-> 'if'. Why it runs this far?
-
-You mean the "!cpumask_available(amu_fie_cpus)" test?
-
-include/linux/cpumask.h:
-
-    #ifdef CONFIG_CPUMASK_OFFSTACK
-    static __always_inline bool cpumask_available(cpumask_var_t mask)
-    {
-            return mask != NULL;
-    }
-    #else
-    static __always_inline bool cpumask_available(cpumask_var_t mask)
-    {
-            return true;
-    }
-    #endif /* CONFIG_CPUMASK_OFFSTACK */
-
-include/linux/cpumask_types.h:
-
-    #ifdef CONFIG_CPUMASK_OFFSTACK
-    typedef struct cpumask *cpumask_var_t;
-    #else
-    typedef struct cpumask cpumask_var_t[1];
-    #endif /* CONFIG_CPUMASK_OFFSTACK */
-
-So if CONFIG_CPUMASK_OFFSTACK is not enabled, it always returns true.
-
-arch/arm64/Kconfig:
-
-    config ARM64
-        [...]
-        select CPUMASK_OFFSTACK if NR_CPUS > 256
-
-> >     AMU: cpuhp_topology_online:314: cpu 5 amu_fie_cpus
-> >     AMU: cpuhp_topology_online:343: skipped
-> > (!cpumask_subset(policy->cpus, amu_fie_cpus))
-> >     AMU: cpuhp_topology_online:314: cpu 6 amu_fie_cpus
-> >     AMU: cpuhp_topology_online:343: skipped
-> > (!cpumask_subset(policy->cpus, amu_fie_cpus))
-> >     AMU: cpuhp_topology_online:314: cpu 7 amu_fie_cpus
-> >     AMU: cpuhp_topology_online:343: skipped
-> > (!cpumask_subset(policy->cpus, amu_fie_cpus))
+> > diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
+> > index 0e5a8d200b00..b2ea2c2c986f 100644
+> > --- a/drivers/pci/controller/dwc/pcie-designware-ep.c
+> > +++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
+> > @@ -139,9 +139,10 @@ static int dw_pcie_ep_write_header(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+> >  	return 0;
+> >  }
 > >
-> > Hence there is no issue, as AMU is not supported at all!
+> > -static int dw_pcie_ep_inbound_atu(struct dw_pcie_ep *ep, u8 func_no, int type,
+> > -				  dma_addr_t parent_bus_addr, enum pci_barno bar,
+> > -				  size_t size)
+> > +/* BAR Match Mode inbound iATU mapping */
+> > +static int dw_pcie_ep_ib_atu_bar(struct dw_pcie_ep *ep, u8 func_no, int type,
+> > +				 dma_addr_t parent_bus_addr, enum pci_barno bar,
+> > +				 size_t size)
+> >  {
+> >  	int ret;
+> >  	u32 free_win;
+> > @@ -174,6 +175,208 @@ static int dw_pcie_ep_inbound_atu(struct dw_pcie_ep *ep, u8 func_no, int type,
+> >  	return 0;
+> >  }
 > >
-> > The confusing part is in the (absence of) logging.
-> > If AMU is not supported, freq_counters_valid() uses:
-> >
-> >      pr_debug("CPU%d: counters are not supported.\n", cpu);
-> >
-> > which is typically not printed, unless DEBUG is enabled.
-> >
-> > If freq_counters_valid() failed, the new cpuhp_topology_online() uses:
-> >
-> >     pr_warn("CPU[%u] doesn't support AMU counters\n", cpu);
-> >
-> > which is always printed.
-> >
-> > Given freq_counters_valid() already prints a (debug) message, I think
-> > the pr_warn() should just be removed.  Do you agree, or is there still
-> > another incorrect check that should prevent getting this far?
->
-> I'm OK with removing it.
+> ...
+> > +static int dw_pcie_ep_validate_submap(struct dw_pcie_ep *ep,
+> > +				      const struct pci_epf_bar_submap *submap,
+> > +				      unsigned int num_submap, size_t bar_size)
+> > +{
+> > +	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+> > +	u32 align = pci->region_align;
+> > +	size_t expected = 0;
+> > +	size_t size, off;
+> > +	unsigned int i;
+> > +
+> > +	if (!align || !IS_ALIGNED(bar_size, align))
+> > +		return -EINVAL;
+> > +
+> > +	/*
+> > +	 * The array is expected to be sorted by offset before calling this
+> > +	 * helper. With sorted entries, we can enforce a strict, gapless
+> > +	 * decomposition of the BAR:
+> > +	 *  - each entry has a non-zero size
+> > +	 *  - offset/size/phys_addr are aligned to pci->region_align
+> > +	 *  - each entry lies within the BAR range
+> > +	 *  - entries are contiguous (no overlaps, no holes)
+> > +	 *  - the entries exactly cover the whole BAR
+> > +	 *
+> > +	 * Note: dw_pcie_prog_inbound_atu() also checks alignment for
+> > +	 * offset/phys_addr, but validating up-front avoids partially
+> > +	 * programming iATU windows in vain.
+> > +	 */
+> > +	for (i = 0; i < num_submap; i++) {
+> > +		off = submap[i].offset;
+> > +		size = submap[i].size;
+> > +
+> > +		if (!size)
+> > +			return -EINVAL;
+> > +
+> > +		if (!IS_ALIGNED(size, align) || !IS_ALIGNED(off, align))
+> > +			return -EINVAL;
+> > +
+> > +		if (!IS_ALIGNED(submap[i].phys_addr, align))
+> > +			return -EINVAL;
+> > +
+> > +		if (off > bar_size || size > bar_size - off)
+> > +			return -EINVAL;
+> > +
+> > +		/* Enforce contiguity (no overlaps, no holes). */
+> > +		if (off != expected)
+> > +			return -EINVAL;
+> 
+> submap[i].offset is unnecessary, you can use expected += size as off.
+> code logic will be simple.
 
-OK, I will send a patch.
+Will fix this. as per my earlier response:
+https://lore.kernel.org/all/ngvqrju3bi6sugynhksxsci6rmgqevzpoijjflp2373c6uxlum@vyepxqghbzvn/
 
-Gr{oetje,eeting}s,
+> 
+> Frank
+> > +
+> > +		expected += size;
+> > +	}
+> > +	if (expected != bar_size)
+> > +		return -EINVAL;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +/* Address Match Mode inbound iATU mapping */
+> > +static int dw_pcie_ep_ib_atu_addr(struct dw_pcie_ep *ep, u8 func_no, int type,
+> > +				  const struct pci_epf_bar *epf_bar)
+> > +{
+> > +	const struct pci_epf_bar_submap *submap = epf_bar->submap;
+> > +	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+> > +	enum pci_barno bar = epf_bar->barno;
+> > +	struct device *dev = pci->dev;
+> > +	u64 pci_addr, parent_bus_addr;
+> > +	struct dw_pcie_ib_map *new;
+> > +	u64 size, off, base;
+> > +	unsigned long flags;
+> > +	int free_win, ret;
+> > +	unsigned int i;
+> > +
+> > +	if (!epf_bar->num_submap || !submap || !epf_bar->size)
+> > +		return -EINVAL;
+> > +
+> > +	ret = dw_pcie_ep_validate_submap(ep, submap, epf_bar->num_submap,
+> > +					 epf_bar->size);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	base = dw_pcie_ep_read_bar_assigned(ep, func_no, bar, epf_bar->flags);
+> > +	if (!base) {
+> > +		dev_err(dev,
+> > +			"BAR%u not assigned, cannot set up sub-range mappings\n",
+> > +			bar);
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	/* Tear down any existing mappings before (re)programming. */
+> > +	dw_pcie_ep_clear_ib_maps(ep, bar);
+> > +
+> > +	for (i = 0; i < epf_bar->num_submap; i++) {
+> > +		off = submap[i].offset;
+> > +		size = submap[i].size;
+> > +		parent_bus_addr = submap[i].phys_addr;
+> > +
+> > +		if (off > (~0ULL) - base) {
+> > +			ret = -EINVAL;
+> > +			goto err;
+> > +		}
+> > +
+> > +		pci_addr = base + off;
+> > +
+> > +		new = devm_kzalloc(dev, sizeof(*new), GFP_KERNEL);
+> > +		if (!new) {
+> > +			ret = -ENOMEM;
+> > +			goto err;
+> > +		}
+> 
+> Simple alloc an array struct dw_pcie_ib_map[num_submap] should be simpler
+> than link list and alloc some small news.
 
-                        Geert
+I'll do so in v8. Thank you for the review!
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Koichiro
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> 
+> Frank
+> > +
+> > +		spin_lock_irqsave(&ep->ib_map_lock, flags);
+> > +
+> > +		free_win = find_first_zero_bit(ep->ib_window_map,
+> > +					       pci->num_ib_windows);
+> > +		if (free_win >= pci->num_ib_windows) {
+> > +			spin_unlock_irqrestore(&ep->ib_map_lock, flags);
+> > +			devm_kfree(dev, new);
+> > +			ret = -ENOSPC;
+> > +			goto err;
+> > +		}
+> > +		set_bit(free_win, ep->ib_window_map);
+> > +
+> > +		new->bar = bar;
+> > +		new->index = free_win;
+> > +		new->pci_addr = pci_addr;
+> > +		new->parent_bus_addr = parent_bus_addr;
+> > +		new->size = size;
+> > +		list_add_tail(&new->list, &ep->ib_map_list);
+> > +
+> > +		spin_unlock_irqrestore(&ep->ib_map_lock, flags);
+> > +
+> > +		ret = dw_pcie_prog_inbound_atu(pci, free_win, type,
+> > +					       parent_bus_addr, pci_addr, size);
+> > +		if (ret) {
+> > +			spin_lock_irqsave(&ep->ib_map_lock, flags);
+> > +			list_del(&new->list);
+> > +			clear_bit(free_win, ep->ib_window_map);
+> > +			spin_unlock_irqrestore(&ep->ib_map_lock, flags);
+> > +			devm_kfree(dev, new);
+> > +			goto err;
+> > +		}
+> > +	}
+> > +	return 0;
+> > +err:
+> > +	dw_pcie_ep_clear_ib_maps(ep, bar);
+> > +	return ret;
+> > +}
+> > +
+> >  static int dw_pcie_ep_outbound_atu(struct dw_pcie_ep *ep,
+> >  				   struct dw_pcie_ob_atu_cfg *atu)
+> >  {
+> > @@ -204,17 +407,15 @@ static void dw_pcie_ep_clear_bar(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+> >  	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
+> >  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+> >  	enum pci_barno bar = epf_bar->barno;
+> > -	u32 atu_index = ep->bar_to_atu[bar] - 1;
+> >
+> > -	if (!ep->bar_to_atu[bar])
+> > +	if (!ep->epf_bar[bar])
+> >  		return;
+> >
+> >  	__dw_pcie_ep_reset_bar(pci, func_no, bar, epf_bar->flags);
+> >
+> > -	dw_pcie_disable_atu(pci, PCIE_ATU_REGION_DIR_IB, atu_index);
+> > -	clear_bit(atu_index, ep->ib_window_map);
+> > +	dw_pcie_ep_clear_ib_maps(ep, bar);
+> > +
+> >  	ep->epf_bar[bar] = NULL;
+> > -	ep->bar_to_atu[bar] = 0;
+> >  }
+> >
+> >  static unsigned int dw_pcie_ep_get_rebar_offset(struct dw_pcie *pci,
+> > @@ -408,8 +609,12 @@ static int dw_pcie_ep_set_bar(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+> >  	else
+> >  		type = PCIE_ATU_TYPE_IO;
+> >
+> > -	ret = dw_pcie_ep_inbound_atu(ep, func_no, type, epf_bar->phys_addr, bar,
+> > -				     size);
+> > +	if (epf_bar->use_submap)
+> > +		ret = dw_pcie_ep_ib_atu_addr(ep, func_no, type, epf_bar);
+> > +	else
+> > +		ret = dw_pcie_ep_ib_atu_bar(ep, func_no, type,
+> > +					    epf_bar->phys_addr, bar, size);
+> > +
+> >  	if (ret)
+> >  		return ret;
+> >
+> > @@ -638,6 +843,9 @@ dw_pcie_ep_get_features(struct pci_epc *epc, u8 func_no, u8 vfunc_no)
+> >  	/* All DWC-based glue drivers support dynamic inbound mapping */
+> >  	features->dynamic_inbound_mapping = true;
+> >
+> > +	/* All DWC-based glue drivers support inbound subrange mapping */
+> > +	features->subrange_mapping = true;
+> > +
+> >  	return features;
+> >  }
+> >
+> > @@ -1128,6 +1336,8 @@ int dw_pcie_ep_init(struct dw_pcie_ep *ep)
+> >  	struct device *dev = pci->dev;
+> >
+> >  	INIT_LIST_HEAD(&ep->func_list);
+> > +	INIT_LIST_HEAD(&ep->ib_map_list);
+> > +	spin_lock_init(&ep->ib_map_lock);
+> >  	ep->msi_iatu_mapped = false;
+> >  	ep->msi_msg_addr = 0;
+> >  	ep->msi_map_size = 0;
+> > diff --git a/drivers/pci/controller/dwc/pcie-designware.h b/drivers/pci/controller/dwc/pcie-designware.h
+> > index 4dda9a38d46b..969b1f32dddf 100644
+> > --- a/drivers/pci/controller/dwc/pcie-designware.h
+> > +++ b/drivers/pci/controller/dwc/pcie-designware.h
+> > @@ -479,6 +479,8 @@ struct dw_pcie_ep {
+> >  	phys_addr_t		*outbound_addr;
+> >  	unsigned long		*ib_window_map;
+> >  	unsigned long		*ob_window_map;
+> > +	struct list_head	ib_map_list;
+> > +	spinlock_t		ib_map_lock;
+> >  	void __iomem		*msi_mem;
+> >  	phys_addr_t		msi_mem_phys;
+> >  	struct pci_epf_bar	*epf_bar[PCI_STD_NUM_BARS];
+> > --
+> > 2.51.0
+> >
 
