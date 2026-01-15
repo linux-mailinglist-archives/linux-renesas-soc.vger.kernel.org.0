@@ -1,134 +1,133 @@
-Return-Path: <linux-renesas-soc+bounces-26859-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26863-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AFD5D24B07
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 14:13:34 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D08F4D24E78
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 15:19:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 4FC413003FF1
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 13:13:30 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 321693004872
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 14:19:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B17039E6E0;
-	Thu, 15 Jan 2026 13:13:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EA9B2DEA68;
+	Thu, 15 Jan 2026 14:18:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="e8KMlEet"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="b8Pej4fN"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E89439E6D3
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Jan 2026 13:13:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2F5F24DFF3;
+	Thu, 15 Jan 2026 14:18:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768482807; cv=none; b=S/5ZS8P6eKsSHIsrOyiBYr7PCoiqlDw9pk7cXgoWldrRRTNp5nOHS4ovG6xLRnDWTCPDDpjab0wq9hCcF9DWS8dCA9zjn9ZAMfr+Ot6b5ylmI55/1E/+UmNlpRY0xUqLmqCsG4FCrPqtq8SPWm7tJHZ9aExDz2y21Mc4MsiaNc8=
+	t=1768486739; cv=none; b=j3AbG44IhO6dZJmPSKxtcut0ToXb8wvR0+AkhXY8TgcK63QZHQdAjmAlQhRQnaMfZ7VKRuWrWwuwbjweAlDkAYQRmdREUNku3SXrRXtJ3eihLfHp4EdgZ/1zOlSh/XqI5io0iiUSiKHxeBtv4FfP84iLnLXpdV+7yOZUlfcrjgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768482807; c=relaxed/simple;
-	bh=oGBIY8OHbiaA6AKM7iezNk4OT2UqUM41E+jU3AXFh04=;
+	s=arc-20240116; t=1768486739; c=relaxed/simple;
+	bh=xpyU9zcUbmshcLKlsAbdYRqBeQX3o5N+9k9R5x5sNYU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XLouGyyHFUmG/aKxKRbNZ5m87iW5oavUh4P6B7lxw0VNgbOIQZSrF7hyOeQVffw6fLQwrM4H0lC/hNW3MfcFq3ZLJHxiXh+ySmNR8NPayEYiRbIJPtd99Xda11codfrEkOEeUEHQ7kjE9IZpVmGubOE3rSh8j90uhgtw+26xLcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=e8KMlEet; arc=none smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-b8765b80a52so153086366b.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Jan 2026 05:13:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1768482803; x=1769087603; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=OcKT38A0UUvdoSzqayVq/UaeSYTimcTVzwN0DmjbeBE=;
-        b=e8KMlEetorsdjlDu4nCOoTy3aocLVWJp4SGBuk7cPT/nyqbs17/jVUSlljjAcH0029
-         YjJoNxfiJo5dWfbNVhiiFRZDoPxNpNAe4olDxz1YnU84kktRng7PUK+VuLwzBWrmrgMv
-         Pm/GaxLWAJN4ulMJAvrmwnpg2E7P3NQHa0L4IwkeO8THc7G2QGJSgEOVwxWMBy6D3wtF
-         RuFbc1t53DtFvVMIAxL/9TM8eTH8nJvXULwWBrWe+87wfngBJ7tvd50bi4gS4z7Qcctn
-         SYx+sBMVhLtdc83/I20p+/2zFWwYP8AUCpr9hbFV7QSQyl3gk6i7jjHGKFvko6GrY0Ge
-         8Fhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768482803; x=1769087603;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OcKT38A0UUvdoSzqayVq/UaeSYTimcTVzwN0DmjbeBE=;
-        b=JpBOftJZcpleC4JGKHqyU+/b9BhhTwkzsBTAmfo+2m4Hi7SG68VXB0HxStSrLBZ3lQ
-         HEZ5ptVANG+R7IF9qHSsUSoaQ8HBa1KMeKkVYKJyyjvZgZqtp05p5ZopphuMOw3UD9K+
-         qA7DZyP883D+Io6ppxeDFBKRQ/xrBWy0yObkg+00OxHlK0PQBZlaSzoW5gjy40/y9BqF
-         eNeXlj2jD12biUBJw6rsb5u/pQpscgLv2O8C2V01Ox/MRnOi7wFqMXbFSPem+ywuTxGl
-         v8VMTyCcYxTtN+BPdEH34rjD5RUUpk/YZ+ykmfvI74BtZkpgjEqBoWrfn6IEh+2Bu5ZZ
-         hF1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVs9oWTLCgoCdn7lWl7zcbpf0FGgmZ7exZVAKJ3zmzrqIQk2c2g/v8fvJyoW1BrVZabDmpwO8z+KxVpVDgB/A7PZg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzO/ow1GwR0OUp1w6ZKfzgYRAUrLMxt5qE0biGXFMGPp+ZytIzP
-	gFnOpiVvu5mtl31wKQ5dqFqtHpScXRrsW4QCaG4boX38ywWenbE2DlcBGFDzImvL5Wk=
-X-Gm-Gg: AY/fxX6U/pDSME8Z6XfH3gpbue8akKYiJGK9O0n11vR+V5DrJCsHO4PFIW1TTb5xQQb
-	RqD/ru1ttEa2VQ3WYcuSZ9okJaoHudmEwueaZlpgAGKHzsnuwPGSv6JhbqsIZjdob2nrB6X2AHv
-	/AmGGlrYlQxme+PoC1zy6e349h8vrs7xxFB8385nnv/+h3PT/a7pZR645WVobsUqAC6odJ7eYH1
-	m6z3OnQAUYoVs5NdkkZyintiZxqL1goSOxy8dZDEiAEpmQ1hP8Xocay0+GsDCWfWN6z99SZlvNm
-	w9MMtkGSYNqfVymk7boL/IspszKrRYjoY1FbodzxLgX096Pg28A71z4rgguvCiMIQv5fDCFg8US
-	mCCrXOAqp2hCjWeasu/8+flR7faGdl3cZjBsDDfcBKnvQiD6Fw9r22w1jnfPgs6e30PvKtSH03q
-	KTB6LoblrOzja3jSPuaWYEM/0Gig7twg==
-X-Received: by 2002:a17:907:72c6:b0:b87:5d59:8661 with SMTP id a640c23a62f3a-b87677a7930mr370290966b.42.1768482802627;
-        Thu, 15 Jan 2026 05:13:22 -0800 (PST)
-Received: from [10.78.104.246] ([46.97.176.64])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-654118772e5sm2534012a12.4.2026.01.15.05.13.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 Jan 2026 05:13:21 -0800 (PST)
-Message-ID: <2e05a458-b055-44d0-91d5-63091b9eab91@tuxon.dev>
-Date: Thu, 15 Jan 2026 15:13:18 +0200
+	 In-Reply-To:Content-Type; b=BR4guHfl8ktGUacESO0kkp6ajucmcsNyVFM5P9tBG67j25yVSQdxsokIlYsmTvVoHE7aq6IWRHYduRzyasjGIwRgyinAIHdW1KdmH94vPLohXTQSmu0EReuYZnjOeu0hCdNbTd3E4207gIqoTYjuODQJVo0Ax7rp0glGBp9i7kY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=b8Pej4fN; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4dsQ8D5Vfgz9tvl;
+	Thu, 15 Jan 2026 15:18:52 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1768486732;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sI940SyMyOcigxQb/EA7c1M4MnBebpW8r2OlWJz2Kh0=;
+	b=b8Pej4fNb4YW5B/VxGxk9Hz84qbnjee4Db7FD4cBAjsS2orXnRtt/tFBRDxe6tcoLTl5RR
+	KiuerrWx8AT6zrRaQnc7pSFNy398qRZV8P+KIKlTPc8DYXfxabv82mbNNHNkhJ+4JOmIs3
+	bJlMOKYKLf7sjDyGUFYfNyeWvRJQYptMpZ/uZnLMEnygQipafZw1tcra5xN1ZqnFWWQcva
+	ctfvZi/S0IvOpCAhujIBvLPUv9kLg4WijPDOYW85K1Fb0W+ODm7xiM0iHV1vErQCd258Za
+	ONQT5Dyt3mOIN6jtTGMwpeZo0TYRVOf2C3nQ8w6obaUczICtTqq+79m7MqG1VQ==
+Message-ID: <797047eb-e422-4a8b-80eb-ab130066c1d7@mailbox.org>
+Date: Thu, 15 Jan 2026 14:14:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/16] PCI: rzg3s-host: Fix reset handling in probe error
- path
-To: John Madieu <john.madieu.xa@bp.renesas.com>,
- claudiu.beznea.uj@bp.renesas.com, lpieralisi@kernel.org,
- kwilczynski@kernel.org, mani@kernel.org, geert+renesas@glider.be,
- krzk+dt@kernel.org
-Cc: robh@kernel.org, bhelgaas@google.com, conor+dt@kernel.org,
- magnus.damm@gmail.com, biju.das.jz@bp.renesas.com,
- linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- devicetree@vger.kernel.org, linux-clk@vger.kernel.org, john.madieu@gmail.com
-References: <20260114153337.46765-1-john.madieu.xa@bp.renesas.com>
- <20260114153337.46765-2-john.madieu.xa@bp.renesas.com>
+Subject: Re: [PATCH v3] regulator: rpi-panel-v2: Convert to new PWM waveform
+ ops
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+Cc: linux-pwm@vger.kernel.org, Dave Stevenson
+ <dave.stevenson@raspberrypi.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, linux-renesas-soc@vger.kernel.org
+References: <20260104194224.41245-1-marek.vasut+renesas@mailbox.org>
+ <x25kxyh4t4u6c3ilj7nxp6sywab5dsar46b2foesrwfux2l4b2@d5iwqqcpdhlm>
 Content-Language: en-US
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <20260114153337.46765-2-john.madieu.xa@bp.renesas.com>
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <x25kxyh4t4u6c3ilj7nxp6sywab5dsar46b2foesrwfux2l4b2@d5iwqqcpdhlm>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: b796058aedba4aef996
+X-MBO-RS-META: bcj9i3gmcwfckpxqnokhq6ywuor176gd
 
-Hi, John,
-
-On 1/14/26 17:33, John Madieu wrote:
-> Fix incorrect reset_control_bulk_deassert() call in the probe error
-> path. When unwinding from a failed pci_host_probe(), the configuration
-> resets should be asserted to restore the hardware to its initial state,
-> not deasserted again.
+On 1/15/26 11:12 AM, Uwe Kleine-König wrote:
+> On Sun, Jan 04, 2026 at 08:41:43PM +0100, Marek Vasut wrote:
+>> Convert the driver from legacy PWM apply ops to modern waveform ops.
+>> There is no functional change.
+>>
+>> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+>> ---
+>> Cc: "Uwe Kleine-König" <ukleinek@kernel.org>
+>> Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
+>> Cc: Liam Girdwood <lgirdwood@gmail.com>
+>> Cc: Mark Brown <broonie@kernel.org>
+>> Cc: linux-pwm@vger.kernel.org
+>> Cc: linux-renesas-soc@vger.kernel.org
+>> ---
+>> V2: - Safeguard against wf->duty_length_ns > wf->period_length_ns
 > 
-> Fixes: 7ef502fb35b2 ("PCI: rzg3s-host: Add Renesas RZ/G3S SoC host driver")
-> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
-> ---
->   drivers/pci/controller/pcie-rzg3s-host.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> I would claim that this is a bug in the core if a driver sees such a wf
+> variable.
 > 
-> diff --git a/drivers/pci/controller/pcie-rzg3s-host.c b/drivers/pci/controller/pcie-rzg3s-host.c
-> index 5aa58638903f..c1053f95bc95 100644
-> --- a/drivers/pci/controller/pcie-rzg3s-host.c
-> +++ b/drivers/pci/controller/pcie-rzg3s-host.c
-> @@ -1588,7 +1588,7 @@ static int rzg3s_pcie_probe(struct platform_device *pdev)
->   
->   host_probe_teardown:
->   	rzg3s_pcie_teardown_irqdomain(host);
-> -	reset_control_bulk_deassert(host->data->num_cfg_resets,
-> +	reset_control_bulk_assert(host->data->num_cfg_resets,
->   				    host->cfg_resets);
-
-This now fits on an 80 chars line, could you please update it like:
-
-	reset_control_bulk_assert(host->data->num_cfg_resets, host->cfg_resets);
-
-Thank you,
-Claudiu
+>> V3: - Use PWM_BL_MASK as the maximum period length
+>> ---
+>> Note this now generates warnings:
+>> pwm pwmchip5: Wrong rounding: requested 162/255 [+0], result 19000/31000 [+0]
+> 
+> So the driver is wrong, see below.
+> 
+>> ---
+>>   drivers/regulator/rpi-panel-v2-regulator.c | 53 +++++++++++++++++-----
+>>   1 file changed, 42 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/drivers/regulator/rpi-panel-v2-regulator.c b/drivers/regulator/rpi-panel-v2-regulator.c
+>> index 30b78aa75ee38..e5e12ff649804 100644
+>> --- a/drivers/regulator/rpi-panel-v2-regulator.c
+>> +++ b/drivers/regulator/rpi-panel-v2-regulator.c
+>> @@ -35,24 +35,55 @@ static const struct regmap_config rpi_panel_regmap_config = {
+>>   	.can_sleep = true,
+>>   };
+>>   
+>> -static int rpi_panel_v2_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+>> -				  const struct pwm_state *state)
+>> +static int rpi_panel_v2_pwm_round_waveform_tohw(struct pwm_chip *chip,
+>> +						struct pwm_device *pwm,
+>> +						const struct pwm_waveform *wf,
+>> +						void *_wfhw)
+>>   {
+>> -	struct regmap *regmap = pwmchip_get_drvdata(chip);
+>> -	unsigned int duty;
+>> +	u8 *wfhw = _wfhw;
+>> +
+>> +	if (wf->duty_length_ns > wf->period_length_ns)
+>> +		*wfhw = PWM_BL_MASK;
+>> +	else
+>> +		*wfhw = mul_u64_u64_div_u64(wf->duty_length_ns, PWM_BL_MASK, wf->period_length_ns);
+> 
+> This is wrong. There was already a discussion about this in reply to v2.
+> I'll discard this patch from my queue and continue the v2 thread.
+Instead of resuscitating the old thread, could you please tell me how to 
+make the conversion, so it won't break with existing bindings and the 
+result would work as well as the current code ?
 
