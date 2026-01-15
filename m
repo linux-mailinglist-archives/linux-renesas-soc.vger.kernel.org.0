@@ -1,109 +1,129 @@
-Return-Path: <linux-renesas-soc+bounces-26799-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26800-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 985FAD222E9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 03:47:50 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B8E2D2246F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 04:19:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 2DA673012772
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 02:47:49 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 987B43016BE8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 03:19:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3CAA2765C3;
-	Thu, 15 Jan 2026 02:47:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C05AA25A33A;
+	Thu, 15 Jan 2026 03:19:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Mt5MVZ8r"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="nM93/4Yf";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="hv4nyl8X"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C05D11CAF;
-	Thu, 15 Jan 2026 02:47:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2043EEC3;
+	Thu, 15 Jan 2026 03:19:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768445266; cv=none; b=iSuyrsZ3hkFRfSyZdgaMbR1IWfSlMzZPcn6h6JEGX/K6/rk7Txjhm98ZUWJXIWGGGxlqIps5zqp8gBWbO4e9wA5g3S2a+tHeHbTINpikGxqUpb2FMtb30JFMUQtqdmZX1IoPXreo4PJh5Y04BlMhdwLg+oOSdGf0FGBtsY5sO6g=
+	t=1768447164; cv=none; b=Ld0mnS9d6b8MSrhvjCFBJaL7aDYeLVZARVmYQFafPpdvIfsazdkPh0P2FKzsDySCXh7LvKm12Izw5R0AT/1Mi7Vcqnjfq8gGtZUQOsCYtwfGgGJZmGqmOeK5DCGpFwFsFe7XmzlDq6BtIG5FXFcIPlsVTqwuW4mjLXgVC0FkkoM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768445266; c=relaxed/simple;
-	bh=HpWGQ7KxmgI6u330vIsF6o1hSqFz0/VdjdpLHAUSvO4=;
+	s=arc-20240116; t=1768447164; c=relaxed/simple;
+	bh=a/s8RyFTmU26OHM5nZW9ZRFeSgDWYTDfKT5daB7jEEc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=S79yc26j3EvTY+ZgchwuMzBYjfVUC2cG8iwKWyvgXUv7Y+voIEbvFFBXDvWbt3J56tKi2KzBVehals7PL7NWMuMA+LIfN144XuYOR3KP+aJf5H2qLmmyPwd3zVWUTJolWuq63a9MhRoJE17rckFSIzDnfO3XKtoWcKrqFVEa1iI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Mt5MVZ8r; arc=none smtp.client-ip=80.241.56.171
+	 In-Reply-To:Content-Type; b=prdA0vQi/NZesw5Hm70nLWfM6MB+cNCWe7/kBDyaUv6k6OCEWdgDPs23ebp15Q25TbesG/jCO0XgeAzWD+opAd0HvKyKfQGjqNgZcjK66AxGgXsiDauuGT/zts385kcltpdIjLS0IlMQKcppUFAgtXOATqN7btCO0TvFBmSCPIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=nM93/4Yf; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=hv4nyl8X; arc=none smtp.client-ip=80.241.56.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4ds6ph1n1qz9tR9;
-	Thu, 15 Jan 2026 03:47:40 +0100 (CET)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4ds7WF0q2yz9tWv;
+	Thu, 15 Jan 2026 04:19:21 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1768445260;
+	t=1768447161;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=80JGlExrtvjtNMYhQZr3+IVGfbgWQXnBe/kFnPwN3mY=;
-	b=Mt5MVZ8rffif9xZf8CPJK1n5PgSiCMnxyofEvQIJtavtvNL/vFeotEO7xX55HmFD+B52VQ
-	S7YOAX26FFWcHKNeKny2O+uqn7sJBNbUVIjyNADlA9rWMGOVkhHMEy1GdMBDC5k5fu/SBr
-	CaSgjE11wKl3I3ZmppxvXfybDhwd9img7m2TED4KaLP8cLLCpzJ3X/QIB4WnFcVk9jN7tw
-	M2UT+pvk1RiOIxtfW/SBdj2xJ/oXQ2knoISjvmrvcvmMrjXne1NNmxdhKiBo4RgHNBKDi7
-	a2fcGW5Geva/k+NFyZ8G33MeM7KtsXESs9Gakm4oTcYN2LW/aTgSl2qD+lMErQ==
-Message-ID: <0b029410-d960-42a8-9d2a-e731234598fe@mailbox.org>
-Date: Thu, 15 Jan 2026 03:47:35 +0100
+	bh=SYCn//ajJFESdUktzLtjLLzzxgu2l08pIDEBu9Hx8UE=;
+	b=nM93/4YfzVH2s/CrCh47pIgBkEpHbhxGfP1VlZ/sBiHcIpiFEhGJ7oCEsEtfpwEyr0Eola
+	0rLSP5GEah3gvzS7MxAhtwayjlPSzFMrP/Ta2km6iVcgHiGtSjb5QeCKlx8t/gNtGiMvjH
+	ExZn2uJWu9T7EwzDcDN5POhxPCcH9GFrn9Qu4qBkI039zxAiUZ3ZM2U7KJTn2ioA93sOsr
+	Lcez8DpK+4hshlk5WRzdEwsW0bC2ctr3xEFrFih03gkwCTEadfuSt+5VLcprOUF4NJa2xa
+	PvKY3ub5f6IkZofwIcyxDdPR5NB3jUQtGELONv58KBQovwaxhdpGMSEXJM0NwA==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=hv4nyl8X;
+	spf=pass (outgoing_mbo_mout: domain of marek.vasut@mailbox.org designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=marek.vasut@mailbox.org
+Message-ID: <68333066-2065-422d-9582-11a4bbb41e59@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1768447159;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SYCn//ajJFESdUktzLtjLLzzxgu2l08pIDEBu9Hx8UE=;
+	b=hv4nyl8X+C5L0yfvBTRJHnkY2Wib3kwRJdVuWWmiaSkh1ZHTtvzODKKkzqd6QEuSTR0Xp9
+	MRxTHmFIPSvRMFqULlqmkzxSy2kR1yXhp1ER+y6YjQERGFRisJW6ENzPxITCsmwgMQ9NtO
+	JNi0qyZ/gu2SPk6V4JQ+s/5XnGgV41o62DxVG7iqOKOhfmc7vpoGD4EnHhRVJwc4VsAeTo
+	uXCT3jmip2uslp1VWvF9KHkmUW0aJp2aNHZOj5Bkv9jFtu1BhwyhmmGsjhoLaGBsuu22mN
+	eLEBA1QyOGeh4RhKP6p+cnHf2+TqU6nytuKp1QWQ7asxSQ499ZOW0FUnkmx43g==
+Date: Thu, 15 Jan 2026 03:09:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/2] drm/bridge: waveshare-dsi: Add support for 1..4 DSI
- data lanes
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Joseph Guo <qijian.guo@nxp.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
- Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20260112234834.226128-1-marek.vasut+renesas@mailbox.org>
- <20260112234834.226128-2-marek.vasut+renesas@mailbox.org>
- <CAMuHMdUJBKnqU_HtF1KpZY-75iTWjZwedLbFSYLpgDfVHGsW1g@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: touchscreen: trivial-touch: Drop
+ 'interrupts' requirement for old Ilitek
+To: Frank Li <Frank.li@nxp.com>, Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-input@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Job Noorman <job@noorman.info>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+References: <20260112234534.225954-1-marek.vasut+renesas@mailbox.org>
+ <aWZ0OQpQw814smri@lizhi-Precision-Tower-5810>
 Content-Language: en-US
 From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <CAMuHMdUJBKnqU_HtF1KpZY-75iTWjZwedLbFSYLpgDfVHGsW1g@mail.gmail.com>
+In-Reply-To: <aWZ0OQpQw814smri@lizhi-Precision-Tower-5810>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: sgar6do66mkip7ahr4a67x6pamtme99x
-X-MBO-RS-ID: af6e9444839cb156e47
+X-MBO-RS-META: 4fwnje3igz56gcg4bmf5i8bjq7ot69do
+X-MBO-RS-ID: 94cccf855b537ba6365
+X-Rspamd-Queue-Id: 4ds7WF0q2yz9tWv
 
-On 1/14/26 10:32 AM, Geert Uytterhoeven wrote:
+On 1/13/26 5:35 PM, Frank Li wrote:
 
-Hello Geert,
+Hello Frank,
 
->> +++ b/drivers/gpu/drm/bridge/waveshare-dsi.c
->> @@ -66,7 +66,11 @@ static int ws_bridge_attach_dsi(struct ws_bridge *ws)
->>          dsi->mode_flags = MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_MODE_VIDEO |
->>                            MIPI_DSI_CLOCK_NON_CONTINUOUS;
->>          dsi->format = MIPI_DSI_FMT_RGB888;
->> -       dsi->lanes = 2;
->> +       dsi->lanes = drm_of_get_data_lanes_count_ep(dev->of_node, 0, 0, 1, 4);
->> +       if (dsi->lanes < 0) {
->> +               dev_warn(dev, "Invalid DSI lane count %d, falling back to 2 lanes\n", dsi->lanes);
+>> +++ b/Documentation/devicetree/bindings/input/touchscreen/trivial-touch.yaml
+>> @@ -57,13 +57,25 @@ properties:
+>>
+>>     wakeup-source: true
+>>
+>> -allOf:
+>> -  - $ref: touchscreen.yaml
+>> -
+>>   required:
+>>     - compatible
+>>     - reg
+>> -  - interrupts
+>> +
+>> +allOf:
+>> +  - $ref: touchscreen.yaml
+>> +  - if:
+>> +      not:
+>> +        properties:
+>> +          compatible:
+>> +            contains:
+>> +              enum:
+>> +                - ilitek,ili210x
+>> +                - ilitek,ili2117
+>> +                - ilitek,ili2120
+>> +                - ilitek,ili251x
+>> +    then:
+>> +      required:
+>> +        - interrupts
 > 
-> "Invalid or missing"?
-
-Fixed in V2
-
-> BTW, I doubt the kerneldoc for drm_of_get_data_lanes_count_ep()
-> is correct:
-Nice find, fixed in
-
-[PATCH] drm: of: Fix drm_of_get_data_lanes_count_ep() return value 
-documentation
-
-Thanks !
+> Generally, if there are special requirements, move these to dedicated
+> yaml file to avoid complex if-else in trivial-touch.yaml.
+Done in V2, thanks.
 
