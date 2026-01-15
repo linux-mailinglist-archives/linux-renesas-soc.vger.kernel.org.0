@@ -1,47 +1,53 @@
-Return-Path: <linux-renesas-soc+bounces-26817-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26819-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ABB6D238D0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 10:32:06 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31364D237E6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 10:27:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 3130D308001A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 09:23:29 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id C0439302AFD1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 09:25:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E549C35EDAD;
-	Thu, 15 Jan 2026 09:22:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3724435B14C;
+	Thu, 15 Jan 2026 09:25:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="wfFyUtTb"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="akI8CD3R"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B6B435E53D;
-	Thu, 15 Jan 2026 09:22:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78419356A10;
+	Thu, 15 Jan 2026 09:25:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768468977; cv=none; b=STwusleqJYnkNpe61EjYur2glhm+kkb7qoWZj2cxDjGMNq9KPzEwyqNX/fd617yeg5pd9kIgsFYME/AVf1naS/XsK/UleNR6aQF27rGwoV1YGPs+XSj1E1ru4iLT66JVUzTW14tkE9kRSSSQsa3uOkKvwiuZ7Ljeim4j31SCuQ4=
+	t=1768469141; cv=none; b=FjBTudzONP5yAEbUh5/bJG6szT6lS4hECeoa+S0XMJ1HFQL1dSPtADi6yQGfRCKiawVP8V49bDHgYuAWkL06S6UR3Iz7yZ2mazkOrCRGDdxesC2MhjNZjVnuiiMIK+yMBKQ/JvcoMHGvsjEC7k3xwg7ngCXb0j852s+RMw6fvWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768468977; c=relaxed/simple;
-	bh=Kb6MvdpTQMwqChm7sjFl5Wmq+d2+V+W0i8ETbwbopBg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=V1ThDqJjcCEjVf9wX2byJSIzEYE2CLLDAM0QE6pY9aMNdObHJVH7jUXsxUojzX5FZb+YmKWA9NOmpCZ5Ci35x97njwRNz6tbU7Zt68P5A5Z6sXLVGBeTPgwX04tpWMf1EnM+n2Tx+PknVdhs/LFm2QF0yQ7q7yxNFNLjQXJR+bk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=wfFyUtTb; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AE32F4D3;
-	Thu, 15 Jan 2026 10:22:25 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1768468946;
-	bh=Kb6MvdpTQMwqChm7sjFl5Wmq+d2+V+W0i8ETbwbopBg=;
-	h=From:Date:Subject:To:Cc:From;
-	b=wfFyUtTbje8rHyr0Sd+EUSInIXU/xK+h2lnCFHIdfSJIPuZ5gjXWCYFADGqtcU8th
-	 NhKHE+yVNKaZ8SEibCvevb0ZI4Cl0CA5NAwiZisEEEj8PhP2u6VEN80Pt3ENwKkyWO
-	 HFsi899PJUwKHPurEdTnXQqaontbC8x/gWrYNiU0=
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Thu, 15 Jan 2026 11:22:35 +0200
-Subject: [PATCH] media: renesas: vsp1: Fix NULL pointer deref on module
- unload
+	s=arc-20240116; t=1768469141; c=relaxed/simple;
+	bh=/gd41pN+2oJIM9vptIsbXw8vPsTvmjAJ4LLt3mcWAEI=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=QJ6ECZA/Djd5Likrojd6EE8YY2/kSzBH1CA3fMfWP9JEUmYx0ZQvGN50yliMSaBMwk50AhoCEdsA89iPoXgbqX0L1/1CYKAW86oGhdXuwCbs4a1PLubgQWPv3V6taqM3BeL5cceD1afoKKBueEaKrK5OWjH3Y7ElubcalfaeUSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=akI8CD3R; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 9612AC1F1E5;
+	Thu, 15 Jan 2026 09:25:05 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 45027606B6;
+	Thu, 15 Jan 2026 09:25:32 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id AB45910B68454;
+	Thu, 15 Jan 2026 10:25:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1768469131; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=K1qbl7S2rlm9JCoeIkodciVRDJ3Iedcf5ILamFg+cZg=;
+	b=akI8CD3RJmrxk8tvBidwHPjmgLY26oOmJnPJCIDjAGoaBTuLLD9nIELbBll4eGRD15fCJa
+	ZJXm3JzUvYQOpAfZdnAz/eL+sbiWCLxIiJAk6GSOfwsjqSH1Bn9OdZVUYioOTmTyHDvUoI
+	KP/jn11nU95HrIz+P/fOHdFpUbO4ufM7NFSmMzblD5Q0hqrgQWyl5bnpgwDs6J7nYjzcIh
+	lvABoG7up2UVpPJna220IY/EJOBnm4XHQfIYpm8nFUTbXzuyCtWUOBgHhLYN3vXjbMxDpS
+	XVPuivGafNm48T3tnkLj+eAjTRtXrbTTQz+A9T2fjbxfg3Q2CiDV2mv/dD+yzw==
+From: "Miquel Raynal (Schneider Electric)" <miquel.raynal@bootlin.com>
+Subject: [PATCH v2 00/13] spi: cadence-qspi: Add Renesas RZ/N1 support
+Date: Thu, 15 Jan 2026 10:24:51 +0100
+Message-Id: <20260115-schneider-6-19-rc1-qspi-v2-0-7e6a06e1e17b@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -49,84 +55,89 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260115-rcar-vsp-crash-fix-v1-1-247bd51767fd@ideasonboard.com>
-X-B4-Tracking: v=1; b=H4sIANqxaGkC/x2MSQqAMAwAvyI5G2jd9SviodTU5lIlARGKf7d4n
- IGZDErCpLBUGYRuVj5TAVtX4KNLByHvhaExzWCs7VG8E7z1Qi9OIwZ+cNq7abTBhHYmKOElVPQ
- /Xbf3/QBF3nnWZAAAAA==
-X-Change-ID: 20260115-rcar-vsp-crash-fix-8d4871f0f39e
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Hans Verkuil <hverkuil@kernel.org>, 
- Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-X-Mailer: b4 0.15-dev-c25d1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1535;
- i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=EmWMaYoiY+Z68hrnNgn30lsDib3rsY8BgXCYwbfPChU=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBpaLHpL6xPNm6+thdITf9bLyFVm1ib3MAOKbA61
- 7t03Ll+bOuJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCaWix6QAKCRD6PaqMvJYe
- 9XHDD/9bPg62MoGMYuz+K1s2u25nThlBtpb29XqTykCfno/euRgAmK9k+t2Amuik2gfh0RGmyfk
- 4Rxg+SPc207Hk56Q0a9iHdSn9+c6VOCZe+aNfEdxEpQVSpXv67dhBHYPAQnLMYNDhz11lW/8gm5
- uU5nK3c9K8Uztd0FkSg5e2vkgnbjqd69oS4AlJwt2sZaPC3fO5foRGXc/tYsm22O39sB9MVOwcn
- gqqNvOIPCLIL0CceF1y5JY2OdocpxNs1f/vvdXKQLNf02G6ys2N4lzhuEcVRVnPM+rdDVEc+BIn
- +Fq5LAXfz9o9APYTArNnAiLsAN/wDEdRMELqCpLKmLFs4xuhKlNr52ux272rTDOwZEJookiGQ1J
- 55L8VO6Ju8eZo56Cl+euUFYegHSVsJZjP7Euw12Rn2ibYyxvu+69/VcVsrDhEG6Fn8lDDs5cgfo
- ZLg87P4VLRSJm1IXx0BCU/Lt7xxhsfYSYfrr9uG+KZ1zci9ek9lTl/re0pOcSI/+LfNUAzKt/JR
- UmoTkWWxaebW+Lv6OpT6ps3tGKu7iKlVx+pDE7Te0AtT/2b523DH7WgghZ0JsDdikkt3oEANCEM
- Q202vHrweHesmOEEDJjJPLU8FOb7A/89bh+UefzXtbeAqETGbdIfp9CDV3M3j++mGe4F2NCYwKd
- sQpHSUUZhmYbPxQ==
-X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
- fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/4XNQQ6CMBAF0KuQWTuGKRSUlfcwLGo7yCTaYkuIh
+ nB3Kxdw+X7y/18hcRRO0BUrRF4kSfAZ6lCAHY2/M4rLBlUqTYrOmOzoWRxHbDAzWsJXmgRbWzH
+ pujVD4yC3p8iDvPfla589SppD/OxHC/3S/5sLYYkn43Spqa24ri+3EOaH+KMNT+i3bfsCYG8BO
+ cAAAAA=
+X-Change-ID: 20251219-schneider-6-19-rc1-qspi-7c3e1547af6d
+To: Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, Vaishnav Achath <vaishnav.a@ti.com>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ =?utf-8?q?Herv=C3=A9_Codina?= <herve.codina@bootlin.com>, 
+ Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+ Vignesh Raghavendra <vigneshr@ti.com>, Santhosh Kumar K <s-k6@ti.com>, 
+ Pratyush Yadav <pratyush@kernel.org>, 
+ Pascal Eberhard <pascal.eberhard@se.com>, linux-spi@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org, 
+ "Miquel Raynal (Schneider Electric)" <miquel.raynal@bootlin.com>
+X-Mailer: b4 0.14.3
+X-Last-TLS-Session-Version: TLSv1.3
 
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Hello,
 
-When unloading the module on gen 4, we hit a NULL pointer dereference.
-This is caused by the cleanup code calling vsp1_drm_cleanup() where it
-should be calling vsp1_vspx_cleanup().
+This series adds support for the QSPI controller available on Renesas
+RZ/N1S and RZ/N1D SoC. It has been tested with a custom board (see last
+SPI patch for details).
 
-Fix this by checking the IP version and calling the drm or vspx function
-accordingly, the same way as the init code does.
+Adding support for this SoC required a few adaptations in the Cadence
+QSPI driver. The bulk of the work is in the few last patches. Everything
+else is just misc style fixes and improvements which bothered me while I
+was wandering.
 
-Fixes: d06c1a9f348d ("media: vsp1: Add VSPX support")
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+In order to support all constraints, I sometimes used a new quirk (for
+the write protection feature and the "no indirect mode"), and sometimes
+used the compatible directly. The ones I thought might not be RZ/N1
+specific have been implemented under the form of a quirk, in order to
+ease their reuse. The other adaptations, which I believe are more
+Renesas specific, have been handled using the compatible. This is all
+very arbitrary, and can be discussed.
+
+Thanks,
+Miquèl
+
+Signed-off-by: Miquel Raynal (Schneider Electric) <miquel.raynal@bootlin.com>
 ---
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
----
- drivers/media/platform/renesas/vsp1/vsp1_drv.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-index 6c64657fc4f3..30df9b36642d 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-@@ -240,8 +240,12 @@ static void vsp1_destroy_entities(struct vsp1_device *vsp1)
- 		media_device_unregister(&vsp1->media_dev);
- 	media_device_cleanup(&vsp1->media_dev);
- 
--	if (!vsp1->info->uapi)
--		vsp1_drm_cleanup(vsp1);
-+	if (!vsp1->info->uapi) {
-+		if (vsp1->info->version == VI6_IP_VERSION_MODEL_VSPX_GEN4)
-+			vsp1_vspx_cleanup(vsp1);
-+		else
-+			vsp1_drm_cleanup(vsp1);
-+	}
- }
- 
- static int vsp1_create_entities(struct vsp1_device *vsp1)
+Changes in v2:
+- Fix commit log of DT binding patch, following Krzysztof's comment.
+- Fix properties order in DTSI.
+- Rebase on top of spi/for-next and fix all conflicts.
+- Simplify even further the code in the cleanup patches following
+  Pratyush's advices.
+- Link to v1: https://lore.kernel.org/r/20251219-schneider-6-19-rc1-qspi-v1-0-8ad505173e44@bootlin.com
 
 ---
-base-commit: 7d0a66e4bb9081d75c82ec4957c50034cb0ea449
-change-id: 20260115-rcar-vsp-crash-fix-8d4871f0f39e
+Miquel Raynal (1):
+      spi: cadence-qspi: Make sure we filter out unsupported ops
+
+Miquel Raynal (Schneider Electric) (12):
+      spi: dt-bindings: cdns,qspi-nor: Add Renesas RZ/N1D400 to the list
+      spi: cadence-qspi: Align definitions
+      spi: cadence-qspi: Fix style and improve readability
+      spi: cadence-qspi: Fix ORing style and alignments
+      spi: cadence-qspi: Remove an useless operation
+      spi: cadence-qspi: Fix probe error path and remove
+      spi: cadence-qspi: Try hard to disable the clocks
+      spi: cadence-qspi: Kill cqspi_jh7110_clk_init
+      spi: cadence-qspi: Add a flag for controllers without indirect access support
+      spi: cadence-qspi: Make sure write protection is disabled
+      spi: cadence-qspi: Add support for the Renesas RZ/N1 controller
+      ARM: dts: r9a06g032: Describe the QSPI controller
+
+ .../devicetree/bindings/spi/cdns,qspi-nor.yaml     |   4 +
+ arch/arm/boot/dts/renesas/r9a06g032.dtsi           |  14 ++
+ drivers/spi/spi-cadence-quadspi.c                  | 260 ++++++++++-----------
+ 3 files changed, 144 insertions(+), 134 deletions(-)
+---
+base-commit: 0afb3ab76ffb521700af678ea931d31192f93260
+change-id: 20251219-schneider-6-19-rc1-qspi-7c3e1547af6d
 
 Best regards,
 -- 
-Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Miquel Raynal (Schneider Electric) <miquel.raynal@bootlin.com>
 
 
