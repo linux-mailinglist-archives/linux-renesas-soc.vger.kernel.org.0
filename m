@@ -1,185 +1,122 @@
-Return-Path: <linux-renesas-soc+bounces-26835-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26842-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4107D23BDA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 10:55:06 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37394D23D8E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 11:11:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 471FE3030D95
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 09:52:41 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 8ED80301275E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 10:10:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8E4135F8B1;
-	Thu, 15 Jan 2026 09:52:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wv0/ls4Q"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81B5E357705;
+	Thu, 15 Jan 2026 10:10:07 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3C5A2DA77F;
-	Thu, 15 Jan 2026 09:52:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB5B335C18C
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Jan 2026 10:10:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768470760; cv=none; b=blpjZZNAWj8VMmbrEoFTyvJUrhSuo27rYfaMnj4cfgtt4yN/CVnfJ4efSQIgOl0IeE4NoNIMRQuX7dQBSYIs1nuNcv9G5zqLs1o3W69pceFTZeCm42AX0rBVcnAZ4xPs91GalvifyhabpyQrAAt95QsoLeQ58trBJiDgwcyuy20=
+	t=1768471807; cv=none; b=HZZEVD53G6oiHxUu/lLMDAV2ePuGWy/udceZz57J4i6r8CMI6CamnHjb3RuiIfDJFhif65v5/keLLsaohPG04x8154JhwyFnnu9UqAlvWhCKt/Kgkz4MsxndRPQW8Y57VJyLI/PCxEPeqamZiDB9UhJZpECaIWxKuniggYaUy40=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768470760; c=relaxed/simple;
-	bh=ie3TmYI5cr3rUG7dAH0RXadAUzvgEe3WDQN3llnpLt0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s4BJkwa/lJEvVw936VqKeuL3KiN8ZYdFfMTYbLyKc4UZv7+0Uti8aaZp5rZm5bf+H6D3UqionIg46859uZe71dIObu8kzSfxYBgqVG//8TW+1mbrOZwY3AIqnthpUrGn/GV2Bvpe9eoWEWJSXGrsOXD+W9fwqBZCwpqStJ3IoAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wv0/ls4Q; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F21F5C116D0;
-	Thu, 15 Jan 2026 09:52:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768470760;
-	bh=ie3TmYI5cr3rUG7dAH0RXadAUzvgEe3WDQN3llnpLt0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Wv0/ls4QVoGKTVjl9268gU38Fsq3tsRrW5GWkUjGCnYiQEA6OOSlCDnor4N/1VZEn
-	 TOVOvR2UEvVOVTMfIkJr5P7gnDHwIRlyMupn+fwLDzB84tt9UHqvHnkV3rw/3dmSwD
-	 g+XSboVVh3kQdvS3fpkH++ASC7+f00PZZ7rXkrAQgt2ubr4Fsep1nDGhiz8YVkgp/o
-	 7ke7bJu+9IIPRBfauFviJDV0QZ3nHX84SAUtb145+/zizpJh5OFylc176G/LveiZqA
-	 bj/WsD57BqxTCGX76yNkW/cJnScyv28Q75bwZ6A5SGe6JbRQO1skknqev2S46mkPjA
-	 gydloRM32hoiQ==
-Date: Thu, 15 Jan 2026 10:52:37 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-To: Biju <biju.das.au@gmail.com>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>, linux-pwm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v4] pwm: rzg2l-gpt: Implementation of the waveform
- callbacks
-Message-ID: <elf2i3oefpflkcxup3howpikgwko6uvm5rkimqwyzhq35nwowk@vtdbe6ad4rkw>
-References: <20251128103431.161591-1-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1768471807; c=relaxed/simple;
+	bh=RE+BJgoRw2g5IS+v92/qs5tkLXWM/g8t4jE9iLZlX58=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sOPfjDtclK91URsgdV+U2zGU8hEIn3O15S4XO1C0tJJeTxD879WlrNXQZeGQAsplKNDtwXxq+H3brC4wk6zIHf5tVgs6QIwS00EoqFDFRDBTdy1etMIPKKEaWG9Cf8+eFbhRCwJ2VtNmsRVKvkRjKmZNe0rOjVwbt6arQTDrzTk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2a0d67f1877so4901925ad.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Jan 2026 02:10:05 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768471805; x=1769076605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CgC0QjrYtZFKzuf+BESjeNcO1FE23KHL3L5ezRaJhpA=;
+        b=kkX8f9ITvgVL8s7JHALj6mWtJzis0UxqtfskLp1DT9b6EbfRftiAFOitrMNhJN/VFA
+         7cxEFMWwRZWx9cVlkYzKflASONBjAkbKvlIXfyf7QQRD+REvtlYykWdkY3s475xVSEOy
+         AxKzheURDwDtvCJ4DLNrDDQug/7l4WfshX4JX7oOh8jEYaJuosvu77/Mgi072q+i0M+U
+         nRmlvR9qZFCwhmz/RIMNukWduQj3J9amIJx8d31DqcsaFn5z0T1XnUlndeto3oXNPPOx
+         /kePjsbiIkq76sW6YzAMVorKcgofIGwiiC+lTkXku2QWxNvvcnPCWAP4tURgvnlBhXdB
+         sFjA==
+X-Forwarded-Encrypted: i=1; AJvYcCW7TDdSG1e/INJNzeLjZQx0nzLj2IaKa6/tSSkykTRWtiSYrS8u4HSLjCm4wNyAKnPKFxaNC7OK8okvPwcjMb32zw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxFDzBcD3zrif5ySGUcrtE7thYn9d3j7IqrUCiXLUTdZdavvkze
+	5V6dHbcHQtTKWEiFDNi1x31rTeSgC0L1zi/vBe/prUpQcUtcb4fEFOyG7RLkXrax
+X-Gm-Gg: AY/fxX7H+hm5K7ofvBw7rpF3RsfK+K5HzpJ5jIMCn/egiaIug8vcR3PYOYw7apPTJdq
+	hsXyB4J/RwAaG/o6t7rZGKCYOBlTnG2EypiDu5b/gjtO8eZdyVR2GAN4i8/CLnljWxM6SOhWUFH
+	oYSfMZC2Tp6ieim0IOm0OJ0FKhlBK8TsUqy5aWXN7tAVz9OXVxUuwZfs6kmsq7gZKXQDrbZtLzP
+	Iu/jYnhov5pV3V18XAaf87Lfe44/BhH6jrJqqOlry4cSO20n9W7y1mavr+IoAVh3k5ZFSrSPKRL
+	orfZHLSIF8M+FLlWOYuwdqebMhGWOWYB6zeTez/X5kxrp6VMDn8F2VKlPgZOHeS30NRJ+z683pz
+	3KT+jqPzvhKHrsy3h12vmSx3y0coGvx6IxuYqI8taxhgO40jtRIG5ralOFN98Vb9pqKL1LLU2ZW
+	01dkYlVmwzIZcPOxyVblZf31rRDxIqpUB79A9yBa+tNTwtAgr8OYM=
+X-Received: by 2002:a17:903:2f05:b0:2a0:f469:1f56 with SMTP id d9443c01a7336-2a599e241bemr56320275ad.31.1768471805049;
+        Thu, 15 Jan 2026 02:10:05 -0800 (PST)
+Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com. [74.125.82.175])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3cd4be5sm251866495ad.99.2026.01.15.02.10.04
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 15 Jan 2026 02:10:04 -0800 (PST)
+Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-2b0ea1edf11so1967485eec.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Jan 2026 02:10:04 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCV/PugfLqjmnnClVmfSSin/2TiQY+J3y8nNpNyfhvgwWyXMCuMyavl7MKeGxpvgvCoMTvY+kj5Mvol8okT8HzhX4w==@vger.kernel.org
+X-Received: by 2002:a05:6102:3913:b0:5db:e6bf:c4d7 with SMTP id
+ ada2fe7eead31-5f17f5c0ffbmr2421625137.21.1768471418298; Thu, 15 Jan 2026
+ 02:03:38 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="limlu64r62pyvpna"
-Content-Disposition: inline
-In-Reply-To: <20251128103431.161591-1-biju.das.jz@bp.renesas.com>
+References: <20260114154525.3169992-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20260114154525.3169992-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20260114154525.3169992-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 15 Jan 2026 11:03:26 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVjYLQJDdqi_hShbOzeCQ6vcC0KCox4GqYTuGpDpF_FWw@mail.gmail.com>
+X-Gm-Features: AZwV_QitLLKMPfpHq9dKw_djeiwJFqwAAQTIpORIKL7aOAuxz5cFYxB71KZhGwc
+Message-ID: <CAMuHMdVjYLQJDdqi_hShbOzeCQ6vcC0KCox4GqYTuGpDpF_FWw@mail.gmail.com>
+Subject: Re: [PATCH v4 1/4] dt-bindings: can: renesas,rcar-canfd: Specify reset-names
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Marc Kleine-Budde <mkl@pengutronix.de>, Vincent Mailhol <mailhol@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-can@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
 
+On Wed, 14 Jan 2026 at 16:45, Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Specify the expected reset-names for the Renesas CAN-FD controller on
+> RZ/G2L and RZ/G3E SoCs.
+>
+> The reset names rstp_n and rstc_n are defined in the SoC hardware manual
+> and are already used by the driver since commit 76e9353a80e9 ("can:
+> rcar_canfd: Add support for RZ/G2L family"). The reset-names property
+> existed previously but was dropped by commit 466c8ef7b66b ("dt-bindings:
+> can: renesas,rcar-canfd: Simplify the conditional schema").
+>
+> Restore and constrain reset-names in the binding so DT schema checks
+> match the actual hardware requirements and driver expectations.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
---limlu64r62pyvpna
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v4] pwm: rzg2l-gpt: Implementation of the waveform
- callbacks
-MIME-Version: 1.0
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Hello Biju,
+Gr{oetje,eeting}s,
 
-On Fri, Nov 28, 2025 at 10:34:29AM +0000, Biju wrote:
-> -/* Caller holds the lock while calling rzg2l_gpt_config() */
-> -static int rzg2l_gpt_config(struct pwm_chip *chip, struct pwm_device *pw=
-m,
-> -			    const struct pwm_state *state)
-> +static int rzg2l_gpt_round_waveform_tohw(struct pwm_chip *chip,
-> +					 struct pwm_device *pwm,
-> +					 const struct pwm_waveform *wf,
-> +					 void *_wfhw)
-> +
->  {
->  	struct rzg2l_gpt_chip *rzg2l_gpt =3D to_rzg2l_gpt_chip(chip);
-> -	u8 sub_ch =3D rzg2l_gpt_subchannel(pwm->hwpwm);
-> +	struct rzg2l_gpt_waveform *wfhw =3D _wfhw;
-> +	bool is_small_second_period =3D false;
->  	u8 ch =3D RZG2L_GET_CH(pwm->hwpwm);
->  	u64 period_ticks, duty_ticks;
->  	unsigned long pv, dc;
-> -	u8 prescale;
-> +
-> +	guard(mutex)(&rzg2l_gpt->lock);
-> +	if (wf->period_length_ns =3D=3D 0) {
-> +		*wfhw =3D (struct rzg2l_gpt_waveform){
-> +			.gtpr =3D 0,
-> +			.gtccr =3D 0,
-> +			.prescale =3D 0,
-> +		};
-> +
-> +		return 0;
-> +	}
-> =20
->  	/* Limit period/duty cycle to max value supported by the HW */
-> -	period_ticks =3D mul_u64_u64_div_u64(state->period, rzg2l_gpt->rate_khz=
-, USEC_PER_SEC);
-> +	period_ticks =3D mul_u64_u64_div_u64(wf->period_length_ns, rzg2l_gpt->r=
-ate_khz, USEC_PER_SEC);
->  	if (period_ticks > RZG2L_MAX_TICKS)
->  		period_ticks =3D RZG2L_MAX_TICKS;
->  	/*
-> @@ -278,21 +273,25 @@ static int rzg2l_gpt_config(struct pwm_chip *chip, =
-struct pwm_device *pwm,
->  	if (rzg2l_gpt->channel_request_count[ch] > 1) {
->  		u8 sibling_ch =3D rzg2l_gpt_sibling(pwm->hwpwm);
-> =20
-> -		if (rzg2l_gpt_is_ch_enabled(rzg2l_gpt, sibling_ch)) {
-> +		if (rzg2l_gpt_is_ch_enabled(rzg2l_gpt, sibling_ch, NULL)) {
->  			if (period_ticks < rzg2l_gpt->period_ticks[ch])
-> -				return -EBUSY;
-> +				is_small_second_period =3D true;
-> =20
->  			period_ticks =3D rzg2l_gpt->period_ticks[ch];
->  		}
->  	}
-> =20
-> -	prescale =3D rzg2l_gpt_calculate_prescale(rzg2l_gpt, period_ticks);
-> -	pv =3D rzg2l_gpt_calculate_pv_or_dc(period_ticks, prescale);
-> +	wfhw->prescale =3D rzg2l_gpt_calculate_prescale(rzg2l_gpt, period_ticks=
-);
-> +	pv =3D rzg2l_gpt_calculate_pv_or_dc(period_ticks, wfhw->prescale);
-> +	wfhw->gtpr =3D pv;
-> +	if (is_small_second_period)
-> +		return 1;
+                        Geert
 
-Why don't you need to set .gtccr in this case? I think it's wrong, but
-even if 0 is ok, please initialize the value explicitly.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-> -	duty_ticks =3D mul_u64_u64_div_u64(state->duty_cycle, rzg2l_gpt->rate_k=
-hz, USEC_PER_SEC);
-> +	duty_ticks =3D mul_u64_u64_div_u64(wf->duty_length_ns, rzg2l_gpt->rate_=
-khz, USEC_PER_SEC);
->  	if (duty_ticks > period_ticks)
->  		duty_ticks =3D period_ticks;
-
-Orthogonal to this patch: The if condition can only become true if
-
-	if (period_ticks > RZG2L_MAX_TICKS)
-		period_ticks =3D RZG2L_MAX_TICKS;
-
-triggered above, right? So maybe it's more natural to do
-
-	if (duty_ticks > RZG2L_MAX_TICKS)
-		duty_ticks =3D RZG2L_MAX_TICKS;
-
-here, too?
-
-> -	dc =3D rzg2l_gpt_calculate_pv_or_dc(duty_ticks, prescale);
-> +	dc =3D rzg2l_gpt_calculate_pv_or_dc(duty_ticks, wfhw->prescale);
-> +	wfhw->gtccr =3D dc;
-> =20
->  	/*
->  	 * GPT counter is shared by multiple channels, we cache the period ticks
-
-Best regards
-Uwe
-
---limlu64r62pyvpna
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmlouOMACgkQj4D7WH0S
-/k6WJggArcDzWQgtRNk1bcgE5jTydUMbFwfJL+pJQpP23c5j5AV1LBE51i50ZWG1
-e88gTlaBUf/KxpKbskpwtuJfmQ5IIxPLLQFLoekVEanWGK4mCv5LnZM40ZWHwbYC
-x7giKZkMqDsfEzz2wGQyI6hWCyXvDAWbLyXXP3rLZgqsODCsOMk7f0nnspPNbRfT
-VxBY9dOgNV4c6tGN0yAu7KEaVmfMk/gMAcwaB3YqPgqhOu45Ros7oBslKF2Mulia
-d/yHyqLaqPm8pU5AmvIKJDawBiQoKoLI+UHaEuE4aKa0cCTmPPEDTAjBLWg3HFJL
-OoovaotpQqJr8sUoSUpy8hrV8oO5Dg==
-=6r58
------END PGP SIGNATURE-----
-
---limlu64r62pyvpna--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
