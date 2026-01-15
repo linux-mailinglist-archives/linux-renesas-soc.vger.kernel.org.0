@@ -1,144 +1,112 @@
-Return-Path: <linux-renesas-soc+bounces-26889-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26890-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6828D28438
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 20:58:14 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C6A8D2847A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 21:01:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id C634A300A37D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 19:58:13 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 6A8C9300251C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 20:01:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3066B31AA81;
-	Thu, 15 Jan 2026 19:58:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98A0531A7F3;
+	Thu, 15 Jan 2026 20:01:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JEPlgZRn"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WsGPH3Iv"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BB512E0925;
-	Thu, 15 Jan 2026 19:58:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75A632DF12F;
+	Thu, 15 Jan 2026 20:01:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768507091; cv=none; b=uaW17YTDWNKf/9/hiAfRSk6vY0XH4JNAIDpO86wyLKElfOwfQyqv/1/tLW0L1cXrjlM8yRc3MasFEoEPg2pOipcZGN3o/RbdrV861gPT2FVTaj+DhNM2UeQ1pyx93SgH/PDqkiFFYWpHpgMCoMhgy8IZ8sdvZoD+EIys2k7bAyE=
+	t=1768507309; cv=none; b=bVJDwhoeGG3fHAsS/4jVCiiej9GIATKnG70spF/E1KDcb3bqY3phq8NBTtAxpUlW/dKu0XQcqRbgB1hMNExrwkhtWrpiqvczyYiV0RG9C5CJPszJFE7nzbKGLf5anIpKbBrht1KDyVdEa3xJXF5GwIpAv3UJfKmKh4C3KJl4dik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768507091; c=relaxed/simple;
-	bh=CEPptNSL/+FCLqFJSQnu0FQS/H+mROxmw2mYR4q5S3I=;
+	s=arc-20240116; t=1768507309; c=relaxed/simple;
+	bh=zJzmID6LrfZsolTF0bdsRqEDmsoqKjjDc5djAfmj4l4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QG9vDpyRPQe/rYJ4p2URiuHeXQFleAKO+Qe4PKEG4lraVqzpaN0ecr2s2nqy/akaNo4eYInFKpWPe6P0/ndogcOsnXm1TCNW1zcUu9TvTnuLrISO3KhYFlrqsRV0baMTKAriIGwKPor3AuOB0odyO13zZxQuIPi1chuXaJYqqQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JEPlgZRn; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CF78C16AAE;
-	Thu, 15 Jan 2026 19:58:10 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=a1kY7eAygMAzvPKY+Hlkt0AW6vD3I6r9V3YGx8FbwRPyEnkdy+BpuL7dVmIYTIBkCX2DxFPTx4Ul4Ag3YUl8yHe7gZUJx++iBNgByXXMu/N3GgTzSMmrQg9DiMj66JV/LDBXnZlV9birJDJEVAe7D+WoY5H67y6QI5FLaMMrMfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WsGPH3Iv; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5F28C116D0;
+	Thu, 15 Jan 2026 20:01:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768507090;
-	bh=CEPptNSL/+FCLqFJSQnu0FQS/H+mROxmw2mYR4q5S3I=;
+	s=k20201202; t=1768507309;
+	bh=zJzmID6LrfZsolTF0bdsRqEDmsoqKjjDc5djAfmj4l4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JEPlgZRng09trAPveVtwXvgcHKps1k0fUJ2zhoqG2dKqvdXMhqvQMl51wRaoyBLIq
-	 6PaCs+NTIV2LsMOFdLWHKnqVLO8sL8OlvqIXKxyKrr+oEvuYQ64Ray+ESEQYWace4u
-	 a4fVxB6EE4jb+b3CRqoTyQ/TMkvpHKeJL4piRC+YoNd+0BJkrGHKTw9D53tWz+tXtA
-	 0vlbdsZwn1UNywwkuVmfbMoB1LKByrZJgnb5ACab9yDFChRekuV03d3Xg8p2rQxaXP
-	 awilHQsY9PaIpmWyazw6cRhqIS0SkwUdeVCsCou7+Aki9k8Al18/g8hU4u3u/fpb47
-	 KydNrFr4yLZfA==
-Date: Thu, 15 Jan 2026 13:58:09 -0600
-From: Rob Herring <robh@kernel.org>
-To: Sudeep Holla <sudeep.holla@arm.com>
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>, arm-scmi@vger.kernel.org,
+	b=WsGPH3IvDTZpkDAdmrFSsSJksFXsXDEIwUf4brF9zOSpK1BU4Srqp4VD5TgeQmjXf
+	 Gk2JGO/kSrV4sve6e1VR60Aj8rYmr/zOpdf0ZhbOO1IqT/KHxcJLwmyz00qSWt+43i
+	 WP8aadjzpLk4qIULQLKbLiMhKDTxrY1SIb2I4WQ8ldhfxI8BJzqnnErUgzFJg4CLub
+	 MtbHW6kLsSvEgr3BqOLmdTsI/9WQjn4EiaB64CwcEUiBJsSxni7vb3V4E4z5cRE/J6
+	 0HtwBcJpau83MI5acbqCgFRZ5vyUjNJ3vvbBZscBd1Rj9Obh4bUdBn/iaAh2nTRLds
+	 FOtRqet6YQP3w==
+Date: Thu, 15 Jan 2026 14:01:47 -0600
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: Maxime Ripard <mripard@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
+	David Airlie <airlied@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+	Simona Vetter <simona@ffwll.ch>, devicetree@vger.kernel.org,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Joseph Guo <qijian.guo@nxp.com>, linux-renesas-soc@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] dt-bindings: firmware: arm,scmi: Document
- arm,no-completion-irq property
-Message-ID: <20260115195809.GA1086054-robh@kernel.org>
-References: <20260115004921.548282-1-marek.vasut+renesas@mailbox.org>
- <aWjWLFi6xUIn3_GQ@bogus>
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Robert Foss <rfoss@kernel.org>
+Subject: Re: [PATCH v2 1/2] dt-bindings: display: bridge: waveshare,dsi2dpi:
+ Document 1..4 DSI lane support
+Message-ID: <176850730712.1093165.15441480948491259694.robh@kernel.org>
+References: <20260115024004.660986-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aWjWLFi6xUIn3_GQ@bogus>
+In-Reply-To: <20260115024004.660986-1-marek.vasut+renesas@mailbox.org>
 
-On Thu, Jan 15, 2026 at 11:57:32AM +0000, Sudeep Holla wrote:
-> On Thu, Jan 15, 2026 at 01:48:56AM +0100, Marek Vasut wrote:
-> > Document new property arm,no-completion-irq, which sets all SCMI
-> > operation into poll mode. This is meant to work around uncooperative
-> > SCP implementations, which do not generate completion interrupts.
-> > This applies primarily on mbox shmem based implementations.
-> > 
-> > With this property set, such implementations which do not generate
-> > interrupts can be interacted with, until they are fixed to generate
-> > interrupts properly.
-> > 
-> > Note that, because the original base protocol exchange also requires
-> > some sort of completion mechanism, it is not possible to query SCMI
-> > itself for this property and it must be described in DT. While this
-> > does look a bit like policy, the SCMI provider is part of the
-> > hardware, hence DT.
-> > 
-> > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-> > ---
-> > Cc: Conor Dooley <conor+dt@kernel.org>
-> > Cc: Cristian Marussi <cristian.marussi@arm.com>
-> > Cc: Florian Fainelli <florian.fainelli@broadcom.com>
-> > Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> > Cc: Rob Herring <robh@kernel.org>
-> > Cc: Sudeep Holla <sudeep.holla@arm.com>
-> > Cc: arm-scmi@vger.kernel.org
-> > Cc: devicetree@vger.kernel.org
-> > Cc: linux-arm-kernel@lists.infradead.org
-> > Cc: linux-renesas-soc@vger.kernel.org
-> > ---
-> > V2: s@mean@&t and limit poll transport to mailbox/shmem only
-> > V3: - Reformat the commit message, expand property description to
-> >       explicitly spell out this is hardware description.
-> >     - Rename property from arm,poll-transport to arm,no-completion-irq
-> > ---
-> >  .../devicetree/bindings/firmware/arm,scmi.yaml        | 11 +++++++++++
-> >  1 file changed, 11 insertions(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
-> > index be817fd9cc34b..46d9a0a9a0e58 100644
-> > --- a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
-> > +++ b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
-> > @@ -146,6 +146,14 @@ properties:
-> >        this platform. If set, the value should be non-zero.
-> >      minimum: 1
-> >  
-> > +  arm,no-completion-irq:
-> > +    type: boolean
-> > +    description:
-> > +      An optional property which unconditionally forces polling in all transports,
-> > +      meant for hardware which does not generate completion interrupts. This is
-> > +      mainly meant to work around uncooperative SCP or SCP firmware, which does
-> > +      not generate completion interrupts.
-> > +
-> 
-> I would swap the order of the above two points.
-> 
-> “This optional property is intended for hardware that does not generate
-> completion interrupts and can be used to unconditionally enable forced polling
-> mode of operation.”
-> 
-> You need to update the commit message accordingly. We do not want to indicate
-> how this property should be used, as that is left to the implementation. The
-> emphasis should be on what this property indicates to its users.
-> 
-> Please update only if DT maintainers are also in agreement. I have just
-> expressed my opinion. IIUC, it is aligned to standard DT binding rules but
-> I may be wrong.
 
-Makes sense to me.
-
-With Sudeep's suggestion:
+On Thu, 15 Jan 2026 03:39:42 +0100, Marek Vasut wrote:
+> Describe 1..4 DSI lanes as supported. Internally, this bridge is
+> an ChipOne ICN6211 which loads its register configuration from a
+> dedicated storage and its I2C does not seem to be accessible. The
+> ICN6211 supports up to 4 DSI lanes, so this is a hard limit for
+> this bridge. The lane configuration is preconfigured in the bridge
+> for each of the WaveShare panels.
+> 
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> ---
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Joseph Guo <qijian.guo@nxp.com>
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Robert Foss <rfoss@kernel.org>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: devicetree@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> ---
+> V2: No change
+> ---
+>  .../devicetree/bindings/display/bridge/waveshare,dsi2dpi.yaml  | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
 
 Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
-Rob
 
