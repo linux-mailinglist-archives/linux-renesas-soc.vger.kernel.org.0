@@ -1,66 +1,66 @@
-Return-Path: <linux-renesas-soc+bounces-26802-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26803-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C909D22601
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 05:43:57 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9125DD2287A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 07:20:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E10E8302A384
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 04:43:54 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 40C3B301D14B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 06:19:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07CA82C08AC;
-	Thu, 15 Jan 2026 04:43:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACA4B22CBD9;
+	Thu, 15 Jan 2026 06:19:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mmta06fk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CIN5DwOE"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C95029B224;
-	Thu, 15 Jan 2026 04:43:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8331221542;
+	Thu, 15 Jan 2026 06:19:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768452233; cv=none; b=LYAsVSg76AEi6LD0rmGXJ2QQP55bzXX+YE6kPI9XPYQWcXDJSlbysIaBwpJnnS67ryiJ5YAXo7W95/YuYS2lw2giNXPHdxwQyClGn449dxvhF/C2U/T+TR35abRgGekLBW3K8kvPtuEr/2h58xxYE4tEjreKR76GG2fw4eTkpWo=
+	t=1768457996; cv=none; b=iYiWdxVi42KQNjbSuLApj53FbKpKjl3X1wJ9Q0ZMAmx8e8Js/RLoJtuXalwarOtALt6Sg4zy0w3DbJA94xkjyeEPiKiC3eYu13hPrIJ3Z9Ce7wuTXCuxZRhD77UDBhEuoLlCgeVDQuX+NkZdkpCRvfStxFXG1TZeaSHW9dUmB5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768452233; c=relaxed/simple;
-	bh=PU18uA2LJk51uw3aVkod2MrmRi0NGqJm2Zlpr+b2mgI=;
+	s=arc-20240116; t=1768457996; c=relaxed/simple;
+	bh=bpp8jtdFQ8kAIB0QGTZOIG6j0EVnnFiTl/Izans+4Sc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nVdYI3f14gkV2QRejCEHET6k3r4w6qxBnrfRr/N3+lcH09m5BiclkQsWK+KWRRut1l5lkRdY1OdJmESCtEWZGvURfDFgZc0k3OF68sW8YDWccKWN6G7ICqSHjzt/BUthfEO9DHnFoFcBJp5U06LB6I2/ZKAjfGqAQiHMztlbr24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mmta06fk; arc=none smtp.client-ip=192.198.163.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=EgzpbxPB2TQOXFaf86p96hu6svMk+9djMY6LKi2GlrcJj0S/0AqM9Rat85k9MnB5exf1kzwgDBgIY+d5UDZbA6ZuSXCyHYWkpOhOfxWiU6fJ0ivnxl3XGMqug3CIY467S9/uBlsZglnxDhNgoK2IlW4qigx5WmfFRx/Pl3QnSr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CIN5DwOE; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768452230; x=1799988230;
+  t=1768457994; x=1799993994;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=PU18uA2LJk51uw3aVkod2MrmRi0NGqJm2Zlpr+b2mgI=;
-  b=Mmta06fk5N5JnR0s25UxnzGsyXb8yheJ01Rkf8JINm3HRHKDVRE7WfUA
-   zEGyHsR4FgU6RkxkrOBVzxP/eMXYZB5Y08hxrZA2CBqyz1GnKOtNCXSTE
-   apSQOnuq3qoioBy+oQUZYdTME4ddOEjcdwVifCgbpwSYVa4UUx+D4rQOg
-   TSSelCq+xyalpUBLXQc/qAGb+CJRMQOE6XBl902yxLPO8C4buGwIx1Ae4
-   nbMp0bbLtwuelDlunPxDGk4GNeglWdWANLOmYVeyYNGKacPE1aJ/jQ1Qt
-   B3kUZyuAUQNlEZz3tAv8F8EGQ131if+GiNH0V5B179tMH8OmILsEuy0DV
-   A==;
-X-CSE-ConnectionGUID: v/8hEP8IQgGfK0W/pyw2KA==
-X-CSE-MsgGUID: 0QBWAK+XQnSAUkORP6CE9A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="68767461"
+  bh=bpp8jtdFQ8kAIB0QGTZOIG6j0EVnnFiTl/Izans+4Sc=;
+  b=CIN5DwOErnK/x8CeUJalL3Rh51Sc4fGpB0uYOQ67uZmy4LYukL4Bd4uU
+   KC5g+GfRJnOBb93FcrznlpbIYJiKRCmBJTQW5f7x06YKq5cq3nhKy1Qt1
+   r9ypPWkckKGXlY/ksvvOUYvSqvfetMggVorC5Mp0b/cFRYupBgD8ccB3/
+   quOFC/Y53AZ7csNtfSUjcB9b13Or0S+VkOyA7S/EsGPbiBthUFapgc8Cm
+   /GwHEjwpV2yzkvKQaatmbDoWWFy7ntgxTXMRyTH9dfdIQYERAwO8de6G3
+   Drr2A+/EcJSLSVes1VNbf92Ff0Gqrz9e+yd/U3FepTbQiDaWLzSR9fqvv
+   Q==;
+X-CSE-ConnectionGUID: yKXuoeN7Sh2/h/saBifrlw==
+X-CSE-MsgGUID: nMcn8NU5Qu+wAYRkQwvYbA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="69811874"
 X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; 
-   d="scan'208";a="68767461"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 20:43:49 -0800
-X-CSE-ConnectionGUID: IesX45u0Sw2DyWyX5uh/Ig==
-X-CSE-MsgGUID: UZf1tsOzQpeOZpqjANL9XQ==
+   d="scan'208";a="69811874"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 22:19:54 -0800
+X-CSE-ConnectionGUID: bxldMNgSTYOBzneZ0/zV4Q==
+X-CSE-MsgGUID: PeDn7z8VQhWAMmzvHvJ/aw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; 
-   d="scan'208";a="209720405"
+   d="scan'208";a="204497410"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 14 Jan 2026 20:43:46 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 14 Jan 2026 22:19:50 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgFCx-00000000HYC-18v4;
-	Thu, 15 Jan 2026 04:43:43 +0000
-Date: Thu, 15 Jan 2026 12:43:11 +0800
+	id 1vgGhv-00000000Hei-3CcF;
+	Thu, 15 Jan 2026 06:19:47 +0000
+Date: Thu, 15 Jan 2026 14:19:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>,
 	John Madieu <john.madieu.xa@bp.renesas.com>,
@@ -73,13 +73,13 @@ To: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>,
 	Philipp Zabel <p.zabel@pengutronix.de>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Magnus Damm <magnus.damm@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
 	Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
 Subject: Re: [PATCH v4 5/5] thermal: renesas: rzg3e: add support for RZ/T2H
  and RZ/N2H
-Message-ID: <202601151246.oPHRcNB4-lkp@intel.com>
+Message-ID: <202601151305.gz45Wzg5-lkp@intel.com>
 References: <20260108165324.11376-6-cosmin-gabriel.tanislav.xa@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -105,27 +105,27 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Cosmin-Tanislav/thermal-r
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal
 patch link:    https://lore.kernel.org/r/20260108165324.11376-6-cosmin-gabriel.tanislav.xa%40renesas.com
 patch subject: [PATCH v4 5/5] thermal: renesas: rzg3e: add support for RZ/T2H and RZ/N2H
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260115/202601151246.oPHRcNB4-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601151246.oPHRcNB4-lkp@intel.com/reproduce)
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260115/202601151305.gz45Wzg5-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601151305.gz45Wzg5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601151246.oPHRcNB4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601151305.gz45Wzg5-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/thermal/renesas/rzg3e_thermal.c: In function 'rzg3e_thermal_get_smc_trim':
->> drivers/thermal/renesas/rzg3e_thermal.c:371:30: error: storage size of 'local_res' isn't known
+>> drivers/thermal/renesas/rzg3e_thermal.c:371:23: error: variable has incomplete type 'struct arm_smccc_res'
      371 |         struct arm_smccc_res local_res;
-         |                              ^~~~~~~~~
->> drivers/thermal/renesas/rzg3e_thermal.c:373:9: error: implicit declaration of function 'arm_smccc_smc' [-Wimplicit-function-declaration]
+         |                              ^
+   drivers/thermal/renesas/rzg3e_thermal.c:371:9: note: forward declaration of 'struct arm_smccc_res'
+     371 |         struct arm_smccc_res local_res;
+         |                ^
+>> drivers/thermal/renesas/rzg3e_thermal.c:373:2: error: call to undeclared function 'arm_smccc_smc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      373 |         arm_smccc_smc(RZ_SIP_SVC_GET_SYSTSU, OTP_TSU_REG_ADR_TEMPLO,
-         |         ^~~~~~~~~~~~~
->> drivers/thermal/renesas/rzg3e_thermal.c:371:30: warning: unused variable 'local_res' [-Wunused-variable]
-     371 |         struct arm_smccc_res local_res;
-         |                              ^~~~~~~~~
+         |         ^
+   2 errors generated.
 
 
 vim +371 drivers/thermal/renesas/rzg3e_thermal.c
