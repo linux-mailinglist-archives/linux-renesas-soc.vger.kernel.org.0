@@ -1,131 +1,498 @@
-Return-Path: <linux-renesas-soc+bounces-26851-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26852-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04EB3D24578
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 12:58:26 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67E05D246F0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 13:22:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 503D830034A7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 11:57:47 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8CF36304BD2F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 12:22:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84E4F38170E;
-	Thu, 15 Jan 2026 11:57:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26DAF395244;
+	Thu, 15 Jan 2026 12:22:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q6S3rl9N"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1844D3570AF;
-	Thu, 15 Jan 2026 11:57:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B07838BF8A
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Jan 2026 12:22:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768478264; cv=none; b=P7N+0JnffrZAlIvzDYj8VB0HcrCPaG79shLkC+ZQaH8wJ7ZGdyi4H2anNPLsGGckXiCXYc5x5ueplLsLfd+EEVjb/LhZd+4cFeJw1h7u5T9qRtX+WgVyGXKXqEzkU+TpVIbbpsrvk/Jza4Lvg35oruYj10585PZh6gNf7Nc4vp4=
+	t=1768479741; cv=none; b=c9HF73Zar2vZ+Gjo8iVj4jp+q0qV9qgu/r4ZfJhS4MEBxGBCnHEgj3dcRsNAmd7o3Bud0iCAd5onwbT+2dz22suqUnr7FCnNsPBmASSzQZDu160HoTxs0M3AmDhybCeGvveMe+2RGN92zkC8Dqn/tNgtgveJT9E7p9I+m1XkimU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768478264; c=relaxed/simple;
-	bh=I1TQmKi0aaoXQSeP6gDVQYQTUur5X3IXmANr2CC4U5Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E9m+taNbRW0cegvUdwWn833uEglZjYexxCo3y0zZ0mAgVwu7N39SnU5BHRJt7V9Lk/o7KOTi+sLgqM/w6a+j6i7q9Ky1hdLokFa7XD+4uwU6wFdFkXW8TB2blBogmW0nt3nzSgacyJKixR4K/BcLW2myjYGTlSuBOeIJxFTVOFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=foss.arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6F6D8FEC;
-	Thu, 15 Jan 2026 03:57:29 -0800 (PST)
-Received: from bogus (e133711.arm.com [10.1.197.51])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BDCFD3F632;
-	Thu, 15 Jan 2026 03:57:34 -0800 (PST)
-Date: Thu, 15 Jan 2026 11:57:32 +0000
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: arm-scmi@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
+	s=arc-20240116; t=1768479741; c=relaxed/simple;
+	bh=vy4CSU8booKrS42BndlVNBBMRMcmy89VbSVvDYyv2Jg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ExWGXE0VRNlStecb2HQPH5p71tawnASP4v08grwIUFDzNcoEGbDnw/QON8GyZlvsNO2IrG2tVkdjJLT6Y5e5A3bTFzA2VKG3Qg2JaEzAiMvDrq/EOtSCl4gyzY8rYjP6dbgS3KYqq5vzZw4A2pdW4qIcw5nTcFjI2SrQuTr88ZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q6S3rl9N; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-43246af170aso448489f8f.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Jan 2026 04:22:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768479737; x=1769084537; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=E0imKrbxPxIWsgp9bTODWcq7WlyZpknj6TWfq+JQKdU=;
+        b=Q6S3rl9NphNGISddfCupoIcBW+QZftUQ4XGjgrJyQsJY1fXfVS8i4uMjjfWrcpNtC5
+         AgvH25WB7b4uJGqS5EdD+TLWe/Obffylh2ypK6dbobqDNzzAGoqaj8huGZFoFgB6l2YF
+         VIDSam7QRacTu9gVAGkuPD/TX+CWi3PlO3G8RvxFSLNRi4amZHbmoGwDgYwv3lOC/lx3
+         rfnUKlAsUnAdruxELWKMiI0UbJJMJZTmgUd6gZNYTlMI3uOKyN08J4i/k/nkYnLx3eie
+         8F8P+l8Lwn4x9EQUHgaVsY71RwTt9jC1lfEz3mCgQbPDVtho2T2GvtpgsStlg0+/bvzv
+         vCqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768479737; x=1769084537;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=E0imKrbxPxIWsgp9bTODWcq7WlyZpknj6TWfq+JQKdU=;
+        b=H1vSSLCxee+J6Hr6hC3xFs3FYJHgAPLkeTSRa/2OpA3H9yWMI72d6dFmhYq56fimrE
+         HlY+rHLNylxsTYt8dA1AKrBGzVivXuv0D/i4xk3I6wwDqr8ZT84KZv5H2+aPOJ4d3tqT
+         P37hXPaf/iqYR/OWOfEZWpJBCrOqOy9hBgdNO7AptRfaXZvQvnDOzOh61/6t55fN7Khg
+         8GVund63bM1v7lBmDxbqBiiQ+Ahj2ufGx2j7tVqNeXvghfTF+Wf4W6MVz3ruMtWusJV3
+         308PEqMTqfuxQ9LEToxV2qSRQOXpmn/NgnbzErg5/GFNu3F9qiMPU6r4CA8to2DgLujx
+         wPzg==
+X-Forwarded-Encrypted: i=1; AJvYcCVLVO0vrRPXibifdWtXo5NwMYsrCp5TBddNfF787VutQ6oBJHEtmgrm4VA52g+V+66dKs55zaSJP6Q9CIA//PSbBA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxMZOU7HFHR9g6S8TSNPFFCK+eKPGQOOmFO65/SXX7MZMQlX5on
+	GYa05MT4WKoz1c60Rknm5EYa66C4e3uhyBShzXOPNNf6m2VRVJcHOnED
+X-Gm-Gg: AY/fxX7USakvFNAYaP3YLTmtj1JNnVADhBqMJg0i/2dMr+28cJBPthTOzqVPifkj3RG
+	cWnwDw6FfjAuuv2zNyyanlAUMcPHI7nxZ/TutnkChxvqraY+wXdXM/mz1PMHNVb+W9zcEyYslrN
+	XOE3YCPnd3bRTJp8c6W4XMBfzQuvxiEBw/nBefuaXNxYJyS1FmfjGs3DmymTbhfgEXj5exTtJdg
+	EklkCxg9zHNbeCtceKNyIaly3KpX8uA00Yq2DFsA8w9sAHAbOtHtaxQahsW6KYy+eI7T1ceGtyZ
+	yXisxesWQyya3G/BxcsuF3fzphySwUV3Q1Fr7fZPo32hHhisBQt+PBew20fPi7pyKeeavK3Dl2u
+	zjxfEHqlaB63oHbg7fV/cDFJL1pkv42wpAZO6HtetDYVdtt5U6QaLj90/GUtUY6exwYhzHcKa7J
+	l93rbR8EYOJh9X/k3dLfBRidjYYU8aSsRd7ah1U2L1n+Gy1ER0jkhtxqSEhVMr+g15yDZJRfgNR
+	39X5FkngjKujBiNTZkxNSmP
+X-Received: by 2002:a05:6000:4027:b0:429:d3c9:b8af with SMTP id ffacd0b85a97d-434d75b7003mr3247068f8f.25.1768479736351;
+        Thu, 15 Jan 2026 04:22:16 -0800 (PST)
+Received: from iku.Home ([2a06:5906:61b:2d00:e531:127c:d5d3:3c41])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-434af6e1b7bsm5666146f8f.34.2026.01.15.04.22.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Jan 2026 04:22:15 -0800 (PST)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
+	Conor Dooley <conor+dt@kernel.org>,
 	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] dt-bindings: firmware: arm,scmi: Document
- arm,no-completion-irq property
-Message-ID: <aWjWLFi6xUIn3_GQ@bogus>
-References: <20260115004921.548282-1-marek.vasut+renesas@mailbox.org>
+Cc: devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH] arm64: dts: renesas: rzt2h/rzn2h-evk: Reorder ADC nodes
+Date: Thu, 15 Jan 2026 12:22:10 +0000
+Message-ID: <20260115122210.3971063-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260115004921.548282-1-marek.vasut+renesas@mailbox.org>
 
-On Thu, Jan 15, 2026 at 01:48:56AM +0100, Marek Vasut wrote:
-> Document new property arm,no-completion-irq, which sets all SCMI
-> operation into poll mode. This is meant to work around uncooperative
-> SCP implementations, which do not generate completion interrupts.
-> This applies primarily on mbox shmem based implementations.
-> 
-> With this property set, such implementations which do not generate
-> interrupts can be interacted with, until they are fixed to generate
-> interrupts properly.
-> 
-> Note that, because the original base protocol exchange also requires
-> some sort of completion mechanism, it is not possible to query SCMI
-> itself for this property and it must be described in DT. While this
-> does look a bit like policy, the SCMI provider is part of the
-> hardware, hence DT.
-> 
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-> ---
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: Cristian Marussi <cristian.marussi@arm.com>
-> Cc: Florian Fainelli <florian.fainelli@broadcom.com>
-> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Sudeep Holla <sudeep.holla@arm.com>
-> Cc: arm-scmi@vger.kernel.org
-> Cc: devicetree@vger.kernel.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-renesas-soc@vger.kernel.org
-> ---
-> V2: s@mean@&t and limit poll transport to mailbox/shmem only
-> V3: - Reformat the commit message, expand property description to
->       explicitly spell out this is hardware description.
->     - Rename property from arm,poll-transport to arm,no-completion-irq
-> ---
->  .../devicetree/bindings/firmware/arm,scmi.yaml        | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
-> index be817fd9cc34b..46d9a0a9a0e58 100644
-> --- a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
-> +++ b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
-> @@ -146,6 +146,14 @@ properties:
->        this platform. If set, the value should be non-zero.
->      minimum: 1
->  
-> +  arm,no-completion-irq:
-> +    type: boolean
-> +    description:
-> +      An optional property which unconditionally forces polling in all transports,
-> +      meant for hardware which does not generate completion interrupts. This is
-> +      mainly meant to work around uncooperative SCP or SCP firmware, which does
-> +      not generate completion interrupts.
-> +
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-I would swap the order of the above two points.
+Reorder the ADC nodes in the dts/i files so they follow the same
+alphabetical ordering used elsewhere in these files.
 
-“This optional property is intended for hardware that does not generate
-completion interrupts and can be used to unconditionally enable forced polling
-mode of operation.”
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+ .../dts/renesas/r9a09g077m44-rzt2h-evk.dts    |  55 +++---
+ .../dts/renesas/r9a09g087m44-rzn2h-evk.dts    | 127 +++++++-------
+ .../dts/renesas/rzt2h-n2h-evk-common.dtsi     | 157 +++++++++---------
+ 3 files changed, 171 insertions(+), 168 deletions(-)
 
-You need to update the commit message accordingly. We do not want to indicate
-how this property should be used, as that is left to the implementation. The
-emphasis should be on what this property indicates to its users.
-
-Please update only if DT maintainers are also in agreement. I have just
-expressed my opinion. IIUC, it is aligned to standard DT binding rules but
-I may be wrong.
-
+diff --git a/arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts b/arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts
+index eedea1ce57e6..e9639bbb2d70 100644
+--- a/arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts
++++ b/arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts
+@@ -171,6 +171,34 @@ led-8 {
+ 	};
+ };
+ 
++&adc2 {
++	status = "okay";
++
++	channel@0 {
++		reg = <0x0>;
++	};
++
++	channel@1 {
++		reg = <0x1>;
++	};
++
++	channel@2 {
++		reg = <0x2>;
++	};
++
++	channel@3 {
++		reg = <0x3>;
++	};
++
++	channel@4 {
++		reg = <0x4>;
++	};
++
++	channel@5 {
++		reg = <0x5>;
++	};
++};
++
+ &canfd {
+ 	pinctrl-0 = <&can0_pins>;
+ 	pinctrl-names = "default";
+@@ -310,30 +338,3 @@ usb_pins: usb-pins {
+ 	};
+ };
+ 
+-&adc2 {
+-	status = "okay";
+-
+-	channel@0 {
+-		reg = <0x0>;
+-	};
+-
+-	channel@1 {
+-		reg = <0x1>;
+-	};
+-
+-	channel@2 {
+-		reg = <0x2>;
+-	};
+-
+-	channel@3 {
+-		reg = <0x3>;
+-	};
+-
+-	channel@4 {
+-		reg = <0x4>;
+-	};
+-
+-	channel@5 {
+-		reg = <0x5>;
+-	};
+-};
+diff --git a/arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dts b/arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dts
+index 5d1da4de8af6..19f0a2c06753 100644
+--- a/arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dts
++++ b/arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dts
+@@ -210,6 +210,70 @@ led-11 {
+ 	};
+ };
+ 
++&adc2 {
++	status = "okay";
++
++	channel@0 {
++		reg = <0x0>;
++	};
++
++	channel@1 {
++		reg = <0x1>;
++	};
++
++	channel@2 {
++		reg = <0x2>;
++	};
++
++	channel@3 {
++		reg = <0x3>;
++	};
++
++	channel@4 {
++		reg = <0x4>;
++	};
++
++	channel@5 {
++		reg = <0x5>;
++	};
++
++	channel@6 {
++		reg = <0x6>;
++	};
++
++	channel@7 {
++		reg = <0x7>;
++	};
++
++	channel@8 {
++		reg = <0x8>;
++	};
++
++	channel@9 {
++		reg = <0x9>;
++	};
++
++	channel@a {
++		reg = <0xa>;
++	};
++
++	channel@b {
++		reg = <0xb>;
++	};
++
++	channel@c {
++		reg = <0xc>;
++	};
++
++	channel@d {
++		reg = <0xd>;
++	};
++
++	channel@e {
++		reg = <0xe>;
++	};
++};
++
+ #if CANFD_ENABLE
+ &canfd {
+ 	pinctrl-0 = <&can1_pins>;
+@@ -368,66 +432,3 @@ usb_pins: usb-pins {
+ 	};
+ };
+ 
+-&adc2 {
+-	status = "okay";
+-
+-	channel@0 {
+-		reg = <0x0>;
+-	};
+-
+-	channel@1 {
+-		reg = <0x1>;
+-	};
+-
+-	channel@2 {
+-		reg = <0x2>;
+-	};
+-
+-	channel@3 {
+-		reg = <0x3>;
+-	};
+-
+-	channel@4 {
+-		reg = <0x4>;
+-	};
+-
+-	channel@5 {
+-		reg = <0x5>;
+-	};
+-
+-	channel@6 {
+-		reg = <0x6>;
+-	};
+-
+-	channel@7 {
+-		reg = <0x7>;
+-	};
+-
+-	channel@8 {
+-		reg = <0x8>;
+-	};
+-
+-	channel@9 {
+-		reg = <0x9>;
+-	};
+-
+-	channel@a {
+-		reg = <0xa>;
+-	};
+-
+-	channel@b {
+-		reg = <0xb>;
+-	};
+-
+-	channel@c {
+-		reg = <0xc>;
+-	};
+-
+-	channel@d {
+-		reg = <0xd>;
+-	};
+-
+-	channel@e {
+-		reg = <0xe>;
+-	};
+-};
+diff --git a/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi b/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi
+index 63bd91690b54..510399febf29 100644
+--- a/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi
++++ b/arch/arm64/boot/dts/renesas/rzt2h-n2h-evk-common.dtsi
+@@ -69,6 +69,85 @@ vccq_sdhi1: regulator-vccq-sdhi1 {
+ #endif
+ };
+ 
++/*
++ * ADC0 AN000 can be connected to a potentiometer on the board or
++ * exposed on ADC header.
++ *
++ * T2H:
++ * SW17[1] = ON, SW17[2] = OFF - Potentiometer
++ * SW17[1] = OFF, SW17[2] = ON  - CN41 header
++ * N2H:
++ * DSW6[1] = OFF, DSW6[2] = ON - Potentiometer
++ * DSW6[1] = ON, DSW6[2] = OFF - CN3 header
++ */
++&adc0 {
++	status = "okay";
++
++	channel@0 {
++		reg = <0x0>;
++	};
++
++	channel@1 {
++		reg = <0x1>;
++	};
++
++	channel@2 {
++		reg = <0x2>;
++	};
++
++	channel@3 {
++		reg = <0x3>;
++	};
++};
++
++/*
++ * ADC1 AN100 can be exposed on ADC header or on mikroBUS connector.
++ *
++ * T2H:
++ * SW18[1] = ON, SW18[2] = OFF - CN42 header
++ * SW18[1] = OFF, SW18[2] = ON - mikroBUS
++ * N2H:
++ * DSW6[3] = ON, DSW6[4] = OFF - CN4 header
++ * DSW6[3] = OFF, DSW6[4] = ON - mikroBUS
++ *
++ * ADC1 AN101 can be exposed on ADC header or on Grove2 connector.
++ *
++ * T2H:
++ * SW18[3] = ON, SW18[4] = OFF - CN42 header
++ * SW18[3] = OFF, SW18[4] = ON - Grove2
++ * N2H:
++ * DSW6[5] = ON, DSW6[6] = OFF - CN4 header
++ * DSW6[5] = OFF, DSW6[6] = ON - Grove2
++ *
++ * ADC1 AN102 can be exposed on ADC header or on Grove2 connector.
++ *
++ * T2H:
++ * SW18[5] = ON, SW18[6] = OFF - CN42 header
++ * SW18[5] = OFF, SW18[6] = ON - Grove2
++ * N2H:
++ * DSW6[7] = ON, DSW6[8] = OFF - CN4 header
++ * DSW6[7] = OFF, DSW6[8] = ON - Grove2
++ */
++&adc1 {
++	status = "okay";
++
++	channel@0 {
++		reg = <0x0>;
++	};
++
++	channel@1 {
++		reg = <0x1>;
++	};
++
++	channel@2 {
++		reg = <0x2>;
++	};
++
++	channel@3 {
++		reg = <0x3>;
++	};
++};
++
+ &ehci {
+ 	dr_mode = "otg";
+ 	status = "okay";
+@@ -315,81 +394,3 @@ &wdt2 {
+ 	timeout-sec = <60>;
+ };
+ 
+-/*
+- * ADC0 AN000 can be connected to a potentiometer on the board or
+- * exposed on ADC header.
+- *
+- * T2H:
+- * SW17[1] = ON, SW17[2] = OFF - Potentiometer
+- * SW17[1] = OFF, SW17[2] = ON  - CN41 header
+- * N2H:
+- * DSW6[1] = OFF, DSW6[2] = ON - Potentiometer
+- * DSW6[1] = ON, DSW6[2] = OFF - CN3 header
+- */
+-&adc0 {
+-	status = "okay";
+-
+-	channel@0 {
+-		reg = <0x0>;
+-	};
+-
+-	channel@1 {
+-		reg = <0x1>;
+-	};
+-
+-	channel@2 {
+-		reg = <0x2>;
+-	};
+-
+-	channel@3 {
+-		reg = <0x3>;
+-	};
+-};
+-
+-/*
+- * ADC1 AN100 can be exposed on ADC header or on mikroBUS connector.
+- *
+- * T2H:
+- * SW18[1] = ON, SW18[2] = OFF - CN42 header
+- * SW18[1] = OFF, SW18[2] = ON - mikroBUS
+- * N2H:
+- * DSW6[3] = ON, DSW6[4] = OFF - CN4 header
+- * DSW6[3] = OFF, DSW6[4] = ON - mikroBUS
+- *
+- * ADC1 AN101 can be exposed on ADC header or on Grove2 connector.
+- *
+- * T2H:
+- * SW18[3] = ON, SW18[4] = OFF - CN42 header
+- * SW18[3] = OFF, SW18[4] = ON - Grove2
+- * N2H:
+- * DSW6[5] = ON, DSW6[6] = OFF - CN4 header
+- * DSW6[5] = OFF, DSW6[6] = ON - Grove2
+- *
+- * ADC1 AN102 can be exposed on ADC header or on Grove2 connector.
+- *
+- * T2H:
+- * SW18[5] = ON, SW18[6] = OFF - CN42 header
+- * SW18[5] = OFF, SW18[6] = ON - Grove2
+- * N2H:
+- * DSW6[7] = ON, DSW6[8] = OFF - CN4 header
+- * DSW6[7] = OFF, DSW6[8] = ON - Grove2
+- */
+-&adc1 {
+-	status = "okay";
+-
+-	channel@0 {
+-		reg = <0x0>;
+-	};
+-
+-	channel@1 {
+-		reg = <0x1>;
+-	};
+-
+-	channel@2 {
+-		reg = <0x2>;
+-	};
+-
+-	channel@3 {
+-		reg = <0x3>;
+-	};
+-};
 -- 
-Regards,
-Sudeep
+2.52.0
+
 
