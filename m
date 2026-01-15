@@ -1,92 +1,131 @@
-Return-Path: <linux-renesas-soc+bounces-26850-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26851-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE4D8D2426C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 12:24:56 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04EB3D24578
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 12:58:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id DE53A300A360
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 11:23:42 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 503D830034A7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Jan 2026 11:57:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 447A43793CA;
-	Thu, 15 Jan 2026 11:23:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SRg3Z2nu"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84E4F38170E;
+	Thu, 15 Jan 2026 11:57:44 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 225AA378D9E
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Jan 2026 11:23:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1844D3570AF;
+	Thu, 15 Jan 2026 11:57:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768476217; cv=none; b=Ox/nJRgYJle1IHeXCBICXj4br/dZ92dctSE3wYuA+OjkZYlCUk5ia9iJktZuVT2AS/2uJPUIhYvA2zXM+sVYAalR2CRowC5Y3V6ycJZzYR3Jk47wL8wUsvkUSNJAnkfRll8+x9T0gDOu0eMOcJIoEDPrQYz8Qud1wbcTSAvKyyk=
+	t=1768478264; cv=none; b=P7N+0JnffrZAlIvzDYj8VB0HcrCPaG79shLkC+ZQaH8wJ7ZGdyi4H2anNPLsGGckXiCXYc5x5ueplLsLfd+EEVjb/LhZd+4cFeJw1h7u5T9qRtX+WgVyGXKXqEzkU+TpVIbbpsrvk/Jza4Lvg35oruYj10585PZh6gNf7Nc4vp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768476217; c=relaxed/simple;
-	bh=qICV2IgMUWH4lppFsSxk9Mf8IhU74e+MDYf6uWu4Dqo=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=swmUMJSQ4SyAvB6BmDP5w3rzGkLM7cm0nC1gkzmbK5weTdRRNqIu/9OasX8HH6vtnPS3e5NaBSYSlL9kBP1FP2NrUb/k6gFhcMhWaYtOGo/rqRGQrIYiWac3xzuUI6zIDBDNC8y03YpcVo1oGKPJtvLAnwojQtU0FVgERHlV0IY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SRg3Z2nu; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D24DEC116D0
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Jan 2026 11:23:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768476216;
-	bh=qICV2IgMUWH4lppFsSxk9Mf8IhU74e+MDYf6uWu4Dqo=;
-	h=Subject:From:Date:To:From;
-	b=SRg3Z2nuM7CpHkHQguLZNNjoun8P1Dh2ULIdwiXBnzR/1W5ExCjHdVZIT8jDlBYk5
-	 DC+5AERFAEZ10VbDmWhd2uNr53Hx7ZfV7pUg6VCSZIsVp4VubvVGbHpU56gTXerNDh
-	 RG4GFdW1raypSxbTzGGD4fQT0Yi9w1YtHRDQsaCnTw62i7W91ZN5GbjvUVGafBaldH
-	 szHFuboxyMZiSrnwpK9dqqJXsmKOdDC75sm0WS5TVy8fUs6MZru8uN/g9tWDOhLm+3
-	 HTwXhV+Vn8/QNRLuzkX9HnLKuPQE6QI0VfJWxu0PCfoURH+6DoaSTLhEAO+sYIu8Yl
-	 1ZJD/7EPuyEPA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 47E453809A3D
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Jan 2026 11:20:10 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1768478264; c=relaxed/simple;
+	bh=I1TQmKi0aaoXQSeP6gDVQYQTUur5X3IXmANr2CC4U5Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E9m+taNbRW0cegvUdwWn833uEglZjYexxCo3y0zZ0mAgVwu7N39SnU5BHRJt7V9Lk/o7KOTi+sLgqM/w6a+j6i7q9Ky1hdLokFa7XD+4uwU6wFdFkXW8TB2blBogmW0nt3nzSgacyJKixR4K/BcLW2myjYGTlSuBOeIJxFTVOFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=foss.arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6F6D8FEC;
+	Thu, 15 Jan 2026 03:57:29 -0800 (PST)
+Received: from bogus (e133711.arm.com [10.1.197.51])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BDCFD3F632;
+	Thu, 15 Jan 2026 03:57:34 -0800 (PST)
+Date: Thu, 15 Jan 2026 11:57:32 +0000
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: arm-scmi@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] dt-bindings: firmware: arm,scmi: Document
+ arm,no-completion-irq property
+Message-ID: <aWjWLFi6xUIn3_GQ@bogus>
+References: <20260115004921.548282-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From: patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: 
- <176847600910.3949842.7843150690615448939.git-patchwork-summary@kernel.org>
-Date: Thu, 15 Jan 2026 11:20:09 +0000
-To: linux-renesas-soc@vger.kernel.org
+In-Reply-To: <20260115004921.548282-1-marek.vasut+renesas@mailbox.org>
 
-Hello:
+On Thu, Jan 15, 2026 at 01:48:56AM +0100, Marek Vasut wrote:
+> Document new property arm,no-completion-irq, which sets all SCMI
+> operation into poll mode. This is meant to work around uncooperative
+> SCP implementations, which do not generate completion interrupts.
+> This applies primarily on mbox shmem based implementations.
+> 
+> With this property set, such implementations which do not generate
+> interrupts can be interacted with, until they are fixed to generate
+> interrupts properly.
+> 
+> Note that, because the original base protocol exchange also requires
+> some sort of completion mechanism, it is not possible to query SCMI
+> itself for this property and it must be described in DT. While this
+> does look a bit like policy, the SCMI provider is part of the
+> hardware, hence DT.
+> 
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> ---
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: Cristian Marussi <cristian.marussi@arm.com>
+> Cc: Florian Fainelli <florian.fainelli@broadcom.com>
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Sudeep Holla <sudeep.holla@arm.com>
+> Cc: arm-scmi@vger.kernel.org
+> Cc: devicetree@vger.kernel.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> ---
+> V2: s@mean@&t and limit poll transport to mailbox/shmem only
+> V3: - Reformat the commit message, expand property description to
+>       explicitly spell out this is hardware description.
+>     - Rename property from arm,poll-transport to arm,no-completion-irq
+> ---
+>  .../devicetree/bindings/firmware/arm,scmi.yaml        | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+> index be817fd9cc34b..46d9a0a9a0e58 100644
+> --- a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+> +++ b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+> @@ -146,6 +146,14 @@ properties:
+>        this platform. If set, the value should be non-zero.
+>      minimum: 1
+>  
+> +  arm,no-completion-irq:
+> +    type: boolean
+> +    description:
+> +      An optional property which unconditionally forces polling in all transports,
+> +      meant for hardware which does not generate completion interrupts. This is
+> +      mainly meant to work around uncooperative SCP or SCP firmware, which does
+> +      not generate completion interrupts.
+> +
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
+I would swap the order of the above two points.
 
-Series: gpio: renesas: Add support for GPIO and related interrupts in RZ/N1 SoC
-  Submitter: Herve Codina <herve.codina@bootlin.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=1042214
-  Lore link: https://lore.kernel.org/r/20260114093938.1089936-1-herve.codina@bootlin.com
-    Patches: [v8,1/8] of/irq: Introduce for_each_of_imap_item
-             [v8,2/8] of: unittest: Add a test case for for_each_of_imap_item iterator
-             [v8,3/8] irqchip/ls-extirq: Use for_each_of_imap_item iterator
-             [v8,4/8] irqchip/renesas-rza1: Use for_each_of_imap_item iterator
-             [v8,5/8] ARM: dts: r9a06g032: Add GPIO controllers
-             [v8,6/8] dt-bindings: soc: renesas: Add the Renesas RZ/N1 GPIO Interrupt Multiplexer
-             [v8,7/8] soc: renesas: Add support for Renesas RZ/N1 GPIO Interrupt Multiplexer
-             [v8,8/8] ARM: dts: r9a06g032: Add support for GPIO interrupts
+“This optional property is intended for hardware that does not generate
+completion interrupts and can be used to unconditionally enable forced polling
+mode of operation.”
 
-Patch: arm64: dts: renesas: r9a09g047e57-smarc: Enable I3C
-  Submitter: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=1025787
-  Lore link: https://lore.kernel.org/r/cover.1763638659.git.tommaso.merciai.xr@bp.renesas.com
+You need to update the commit message accordingly. We do not want to indicate
+how this property should be used, as that is left to the implementation. The
+emphasis should be on what this property indicates to its users.
 
-
-Total patches: 9
+Please update only if DT maintainers are also in agreement. I have just
+expressed my opinion. IIUC, it is aligned to standard DT binding rules but
+I may be wrong.
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Regards,
+Sudeep
 
