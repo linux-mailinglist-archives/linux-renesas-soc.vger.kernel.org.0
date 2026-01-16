@@ -1,105 +1,181 @@
-Return-Path: <linux-renesas-soc+bounces-26921-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26922-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5308D307F9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Jan 2026 12:37:50 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8A62D30AAE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Jan 2026 12:50:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 25AF130D80E7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Jan 2026 11:31:58 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id A7980303C101
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Jan 2026 11:49:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AC55361DB8;
-	Fri, 16 Jan 2026 11:31:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60D9A37A49D;
+	Fri, 16 Jan 2026 11:49:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LBsnbGzU"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Gvp+mS9x"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6511E35BDD7
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Jan 2026 11:31:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77F6A34405F
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Jan 2026 11:49:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768563117; cv=none; b=DhocZjhx9+DTsbbBJE8Ec7LPfRvWdhLCim4wX2G82EMyQuojtBNskHT7A8YryUN1qnZu91Afob91G7/uAwcbfyhS/XGHtswV7QWqMK4opW2yVavRXXh98pJGdM5++bw2p9+Kqu9gRxE2uLcotylHP8wDHfDaijqNYsAESVUPL9k=
+	t=1768564147; cv=none; b=WjoF/cuK0VbyW5VTlQZSbzPIO9+2uF7Bf5rvpilIM0w5onxWkZyfnolmfVzKFqZL5Tx5dp6G5hfXhCSuzHz/VVQ7Wt6lO4CRkMbZDfp7nsYW/v0CiUB1HwBy2NAtPWGTrlA39yPfiWsBpTNcnK5aX7g7h2M77LJcZD0q94lvZMw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768563117; c=relaxed/simple;
-	bh=R9lZLajSMbJWA77KRJcCH4ZNqlwIE0hU836Al9rI4uU=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qI8VXGb5RhuXbzwD+eH/uqy/rJFmrTjwsLT0HnDqgrZR+djhuKsZ95gyhzNyn6OYSMBJt3NtFYy8rF0hvXbkNmVuUenp+DzNko1VGbF4Iq1Rxza5Po3YhBFsIDZhTFa5q7QojlXx/d+JnEimEthbbbkr3NX2Ou8J4CUYZZdtONg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LBsnbGzU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 202CFC2BCB1
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Jan 2026 11:31:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768563117;
-	bh=R9lZLajSMbJWA77KRJcCH4ZNqlwIE0hU836Al9rI4uU=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
-	b=LBsnbGzUlVBb3rMZbbaR8Ny1GaAOA4UmMnSiuRcUjIdG/o8NeA8KbXAYRgyeAn3zR
-	 UWHgeLl7XhuoxZjwSffDBiglthpeV2MLI8+ezlsffnor/7UMbLqa99sFxLl+1BFeDu
-	 1P/sIovY7IUUkc+pNLgUVorbpQcVowC5QaCTGuarjKD+6LtkH4D1IgZfdgV9+M+8vI
-	 N19pEClBTVS4AdH0dWMyhzNDPI5X5xMxcVmF4qXxXvC8oGRr+ndk6QHHgqBpEEbyrG
-	 /c6SWrUXsCYG4AeqZhmQ2T4cyIWIxXIXug78TMA0Gv4M1kb+7VlYagtzp5+JLvkAHD
-	 6uJ4Ey15m8frQ==
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-59b6d5bd575so1984099e87.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Jan 2026 03:31:57 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWL4rYATBjjY6FKf/YiCFt51CDEgAaj32gCzuy8BZM5Yzg8ODnzP4fDc5pWut9nis63BmCJee4VyIoYVjaaFX5dvg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyYO7BIH1iQFPqwV9VzppjSnr89+RjP5k8Xr3uSS9x86ugv6NBu
-	zMywHs8UA2CPco0GbSPqpaWkAm092XpTvTutvWYmXGB9CVidruupH4Im/k5Q1eaYX73vtFa/hYs
-	1Vm/xDn54+lKVaqX8X34aJBUYTDOTxp8F2mjAHYmxBw==
-X-Received: by 2002:a05:6512:3c8f:b0:59b:6f57:e3f9 with SMTP id
- 2adb3069b0e04-59baeeff3b8mr839800e87.37.1768563115688; Fri, 16 Jan 2026
- 03:31:55 -0800 (PST)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 16 Jan 2026 11:31:54 +0000
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 16 Jan 2026 11:31:54 +0000
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <aWkx4wa955UI5kKy@shikoro>
+	s=arc-20240116; t=1768564147; c=relaxed/simple;
+	bh=kdi77dDjklwKIumaOWuPiHVQMf/5l80PdjC+qGlq9kE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QBS+OYr9b/pl7K/zyphHJXTO6VrUU7gIFKarfNqLJQ8QfHSBko0n98tZWbAqUsQnz1yv7E27MrD2gI0+D/atu7UGOSBMpLALogQvA4duwNLbbHjBjoChn7ukWLaSFX36sUB+bHHJQ2IAUDbSrEQ+X+3S/sgmUVvxnHtHqX82+C0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Gvp+mS9x; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=lTYejoiy0xJzO5
+	ocw5GrDApAGo6xik7Xpi+P7zL3M9w=; b=Gvp+mS9xZkrKeHH3Qwpbc0sjj7cxLF
+	iInfXc0yuvUQwLTrvkinxwIIETbczdKz/szQJxJXpYx8Y4RyslpSNi1s8oQSRpGt
+	qq0WCoh6ZLLR/h7wObGaL4klsLNqA4pa+FquqsvjJsixBu6exinWZyjj2IpsJ0sq
+	8dikeyhV6JUiaZc8lCTZ3iUoIWuYHd7D6BXa44iALbi5Shy04JMU7qx077OxIB/5
+	+AUoJmurr6tpvx8cefIMZ0fKJ5Sudp+ua7xaN7EfaUvR6g4ArNcgrHgrlxaNHkP9
+	i+U8K3+pg89JaECwls1UcEfvbCxwigwJosVK2c5zHidJh04Rw4c0ivrQ==
+Received: (qmail 2903690 invoked from network); 16 Jan 2026 12:49:01 +0100
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 16 Jan 2026 12:49:01 +0100
+X-UD-Smtp-Session: l3s3148p1@cXlr7X9ICOMujnua
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	devicetree@vger.kernel.org
+Subject: [RFC PATCH] ARM: dts: renesas: r9a06g032-rzn1d400-db: add QSPI node including NOR flash
+Date: Fri, 16 Jan 2026 12:48:48 +0100
+Message-ID: <20260116114852.52948-2-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251223-i2c-ada-dev-set-node-v1-0-2e36e0e785b4@oss.qualcomm.com>
- <20251223-i2c-ada-dev-set-node-v1-3-2e36e0e785b4@oss.qualcomm.com> <aWkx4wa955UI5kKy@shikoro>
-Date: Fri, 16 Jan 2026 11:31:54 +0000
-X-Gmail-Original-Message-ID: <CAMRc=MdqfKX1U=ePhNWT5LAsrYyAk-86uF=+OjrifG=+CAnRUQ@mail.gmail.com>
-X-Gm-Features: AZwV_QhKZFE-Qm-qHpgZgIj_0ZljvjVWOOOHq-gipDI7-hYpixbZakgTnRh16Bw
-Message-ID: <CAMRc=MdqfKX1U=ePhNWT5LAsrYyAk-86uF=+OjrifG=+CAnRUQ@mail.gmail.com>
-Subject: Re: [PATCH 3/7] i2c: gpio: use i2c_adapter_set_node()
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Mika Westerberg <mika.westerberg@linux.intel.com>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Jan Dabros <jsd@semihalf.com>, 
-	Andi Shyti <andi.shyti@kernel.org>, Lixu Zhang <lixu.zhang@intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Binbin Zhou <zhoubinbin@loongson.cn>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Israel Cepeda <israel.a.cepeda.lopez@intel.com>, Hans de Goede <hansg@kernel.org>, 
-	Bartosz Golaszewski <brgl@kernel.org>, linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Thu, 15 Jan 2026 19:28:51 +0100, Wolfram Sang
-<wsa+renesas@sang-engineering.com> said:
-> On Tue, Dec 23, 2025 at 11:06:50AM +0100, Bartosz Golaszewski wrote:
->> Use the dedicated wrapper for setting the fwnode of the i2c_adapter.
->> This allows us to hide the dereferencing of the embedded struct device.
->>
->> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
->
-> Applying this patch fails for me. What is your base? I don't have the
-> commit referenced in the first patch series. I tried current top-of-tree
-> and current -next.
->
+Enable the QSPI controller to access the connected SPI NOR flash. The
+NOR datasheet may suggest faster tuning parameters but those did not
+work on my board.
 
-It's v6.19-rc2:
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
 
-$ git show 9448598b22c50c8a5bb77a9103e2d49f134c9578
-commit 9448598b22c50c8a5bb77a9103e2d49f134c9578 (tag: v6.19-rc2)
-Author: Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Sun Dec 21 15:52:04 2025 -0800
+Depends on the series "[PATCH v2 00/13] spi: cadence-qspi: Add Renesas
+RZ/N1 support". As this is still under discussion, this patch is RFC
+only.
 
-    Linux 6.19-rc2
+The tuning values used came from Miquel and work here as well. An
+interested party may try to tune this further but I will go the safe
+route here.
 
-Bart
+The partitioning comes from the BSP. Using these partitions, I actually
+discovered previous kernels and DTBs from the previous owner of the
+board :)
+
+Thanks and happy hacking, everyone!
+
+ .../dts/renesas/r9a06g032-rzn1d400-db.dts     | 78 +++++++++++++++++++
+ 1 file changed, 78 insertions(+)
+
+diff --git a/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts
+index 4a72aa7663f2..0e23aa8aa55b 100644
+--- a/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts
++++ b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts
+@@ -300,6 +300,84 @@ pins_mdio1: pins_mdio1 {
+ 		pinmux = <RZN1_PINMUX(152, RZN1_FUNC_MDIO1_SWITCH)>,
+ 			 <RZN1_PINMUX(153, RZN1_FUNC_MDIO1_SWITCH)>;
+ 	};
++
++	pins_qspi0: pins_qspi0 {
++		pinmux = <RZN1_PINMUX(74, RZN1_FUNC_QSPI)>,
++			 <RZN1_PINMUX(75, RZN1_FUNC_QSPI)>,
++			 <RZN1_PINMUX(76, RZN1_FUNC_QSPI)>,
++			 <RZN1_PINMUX(77, RZN1_FUNC_QSPI)>,
++			 <RZN1_PINMUX(78, RZN1_FUNC_QSPI)>,
++			 <RZN1_PINMUX(79, RZN1_FUNC_QSPI)>;
++		bias-disable;
++	};
++};
++
++&qspi0 {
++	pinctrl-0 = <&pins_qspi0>;
++	pinctrl-names = "default";
++	status = "okay";
++	bootph-all;
++
++	flash@0 {
++		reg = <0>;
++		compatible = "jedec,spi-nor";
++		spi-max-frequency = <62500000>;
++		spi-rx-bus-width = <4>;
++		spi-tx-bus-width = <4>;
++		cdns,read-delay = <1>;
++		cdns,tshsl-ns = <200>;
++		cdns,tsd2d-ns = <255>;
++		cdns,tchsh-ns = <20>;
++		cdns,tslch-ns = <20>;
++		bootph-all;
++
++		partitions {
++			compatible = "fixed-partitions";
++			#address-cells = <1>;
++			#size-cells = <1>;
++
++			partition@0 {
++				/* 64KB */
++				label = "qspi0:spl";
++				reg = <0x0000000 0x00010000>;
++			};
++			partition@1 {
++				/* 64KB */
++				label = "qspi0:pkgt";
++				reg = <0x0010000 0x00010000>;
++			};
++			partition@2 {
++				/* 512KB */
++				label = "qspi0:u-boot";
++				reg = <0x0020000 0x00080000>;
++			};
++			partition@3 {
++				/* 64KB */
++				label = "qspi0:env";
++				reg = <0x00a0000 0x00010000>;
++			};
++			partition@4 {
++				/* 128KB */
++				label = "qspi0:dtb";
++				reg = <0x00b0000 0x00020000>;
++			};
++			partition@5 {
++				/* 1MB */
++				label = "qspi0:cm3";
++				reg = <0x00d0000 0x00100000>;
++			};
++			partition@6 {
++				/* 6MB */
++				label = "qspi0:kernel";
++				reg = <0x01d0000 0x00600000>;
++			};
++			partition@7 {
++				/* Remaining */
++				label = "qspi0:data";
++				reg = <0x07d0000 0>;
++			};
++		};
++	};
+ };
+ 
+ &rtc0 {
+-- 
+2.47.3
+
 
