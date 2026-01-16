@@ -1,45 +1,41 @@
-Return-Path: <linux-renesas-soc+bounces-26916-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26917-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2639D2FED0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Jan 2026 11:54:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DBD1D2FED3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Jan 2026 11:54:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 170DA30A5E93
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Jan 2026 10:50:30 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 187A1300943D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Jan 2026 10:51:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D756236166E;
-	Fri, 16 Jan 2026 10:50:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBF733612E0;
+	Fri, 16 Jan 2026 10:51:08 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE5EF32AACE;
-	Fri, 16 Jan 2026 10:50:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B32DE2D97AB;
+	Fri, 16 Jan 2026 10:51:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768560629; cv=none; b=HKTYbsAOMDkV5nBQftXpdEK8sSj7TrUEXDy41ak0rucMCZo3LkZcpil8ivhcvbG05Lr6jjAS3WXepxVOeyUjfdST4nLTHC2GCguNzrM25fYj15teKpOBFAdq+HKEt5/YAZohQNzNMS0LsWgE3IUOqTLeP0TdNXKj06HKHd977XI=
+	t=1768560668; cv=none; b=P2TOVdiMStudTyxPHTgwftt4dYYwCmGgQstGQMDknLaCY0LMlgBpWcnIEL/lvceLZlJKobL6QpsPytv7bjtTxJRU+SJJ2L5H08t2UkK90vlJZYDxtv2IhemPViC4+3yMC6OeslwoN831F3xZeT5qOhMAUnV1Fp1X84Jvz8pkbeM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768560629; c=relaxed/simple;
-	bh=VHDp5cJhQVLSC4kLT36zM48yybRw9fcOacP2WroYvzw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jhyGIHO+gGwg1gqjDVUFgsxRtQ6Wts+MwsU8vuWN9gb4l3CIBY5Ty7rI0kdGDlvgcN6EcasEMu/HV0L7fhV16WZ5lDGEIJcmj+FpCfTIXygRFsviNmSyhR5eGZ7XF0t6gJnyd+ibaP5Stmlu3A5hEFNDnCz+vxK8n+h7/ktS9cg=
+	s=arc-20240116; t=1768560668; c=relaxed/simple;
+	bh=KBpbA7Ryv1uTG1ceWsoOiLWATvIVPJhzUwj24hmQws8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AEDY3HLN19stfxGE/M7+rBGqWNlCEU11HqpG09x2IAg39+WdP7WQG5hqo4z/lwHSlI6sVoFsel96DHlRYfUa5gMxl9DC3EOcwFGbkUiOaLaJk2afVdfhmC109o4uDMXjQLQY4Z6l041Co1/hs6GL2o/5mdDyDmp238VubJVlfts=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FAD3C2BCC4;
-	Fri, 16 Jan 2026 10:50:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30573C116C6;
+	Fri, 16 Jan 2026 10:51:07 +0000 (UTC)
 From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: soc@lists.linux.dev,
-	soc <soc@kernel.org>
-Cc: Magnus Damm <magnus.damm@gmail.com>,
-	linux-arm-kernel@lists.infradead.org,
+To: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>
+Cc: linux-clk@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL 3/3] Renesas DTS updates for v6.20 (take two)
-Date: Fri, 16 Jan 2026 11:50:18 +0100
-Message-ID: <cover.1768559769.git.geert+renesas@glider.be>
+Subject: [GIT PULL] clk: renesas: Updates for v6.20 (take two)
+Date: Fri, 16 Jan 2026 11:51:04 +0100
+Message-ID: <cover.1768559843.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1768559762.git.geert+renesas@glider.be>
-References: <cover.1768559762.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -48,133 +44,75 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The following changes since commit aca3bbde0fdb263081b5ff1e60f066704dd1a19e:
+	Hi Mike, Stephen,
 
-  arm64: dts: renesas: r8a779h0: Add WWDT nodes (2026-01-05 14:37:18 +0100)
+The following changes since commit ebb3acf4d7c95b52265084168b59a565bf972883:
+
+  clk: renesas: r9a09g056: Add clock and reset entries for TSU (2025-12-29 11:43:22 +0100)
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git tags/renesas-dts-for-v6.20-tag2
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-clk-for-v6.20-tag2
 
-for you to fetch changes up to 5979010bcc665e9bcf41b22f111b3fe7fc4eadb1:
+for you to fetch changes up to 4fef3fd633be4a1a18c490a63f4131284f6ee0f4:
 
-  arm64: dts: renesas: rzt2h-rzn2h-evk: Reorder ADC nodes (2026-01-16 10:51:41 +0100)
+  clk: renesas: Add missing log message terminators (2026-01-16 10:48:33 +0100)
 
 ----------------------------------------------------------------
-Renesas DTS updates for v6.20 (take two)
+clk: renesas: Updates for v6.20 (take two)
 
-  - Add cpufreq, thermal, GPIO IRQ, and CAN-FD support for the RZ/T2H
-    and RZ/N2H SoCs and their EVK boards,
-  - Add more serial (RSCI) and CAN-FD support for the RZ/V2H and RZ/V2N
-    SoCs,
-  - Drop unused .dtsi files,
-  - Add I3C support for the RZ/G3E SMARC SoM,
-  - Add GPIO support for the RZ/N1 SoC,
+  - Fix s2ram on RZ/T2H and RZ/N2H,
+  - Add CAN-FD clocks and resets on RZ/T2H, RZ/N2H, RZ/V2H, and RZ/V2N,
   - Miscellaneous fixes and improvements.
 
+Note that this includes DT binding definition updates for the RZ/T2H and
+RZ/N2H SoCs, which are shared by clock driver and DT source files.
+
+Thanks for pulling!
+
 ----------------------------------------------------------------
-Cosmin Tanislav (8):
-      arm64: dts: renesas: r9a09g077: Add OPP table
-      arm64: dts: renesas: r9a09g087: Add OPP table
-      arm64: dts: renesas: r9a09g077: Add TSU and thermal zones support
-      arm64: dts: renesas: r9a09g087: Add TSU and thermal zones support
-      arm64: dts: renesas: r9a09g077: Add GPIO IRQ support
-      arm64: dts: renesas: r9a09g087: Add GPIO IRQ support
-      arm64: dts: renesas: r9a09g077m44-rzt2h-evk: Add GPIO keys
-      arm64: dts: renesas: r9a09g087m44-rzn2h-evk: Add GPIO keys
+Biju Das (2):
+      clk: renesas: rzg2l: Deassert reset on assert timeout
+      clk: renesas: rzv2h: Deassert reset on assert timeout
+
+Chris Brandt (1):
+      clk: renesas: rzg2l: Remove DSI clock rate restrictions
+
+Cosmin Tanislav (2):
+      clk: renesas: cpg-mssr: Simplify pointer math in cpg_rzt2h_mstp_read()
+      clk: renesas: cpg-mssr: Handle RZ/T2H register layout in PM callbacks
 
 Geert Uytterhoeven (2):
-      riscv: dts: renesas: r9a07g043f: Move interrupt-parent to top node
-      Merge tag 'renesas-r9a09g077-dt-binding-defs-tag6' into renesas-dts-for-v6.20
+      Merge tag 'renesas-r9a09g077-dt-binding-defs-tag6' into renesas-clk-for-v6.20
+      clk: renesas: Add missing log message terminators
 
-Herve Codina (Schneider Electric) (2):
-      ARM: dts: r9a06g032: Add GPIO controllers
-      ARM: dts: r9a06g032: Add support for GPIO interrupts
-
-Krzysztof Kozlowski (2):
-      arm64: dts: renesas: Use hyphens in node names
-      arm64: dts: renesas: Use lowercase hex
-
-Lad Prabhakar (12):
-      dt-bindings: clock: renesas,r9a09g077/87: Add XSPI0/1 IDs
+Lad Prabhakar (5):
       dt-bindings: clock: renesas,r9a09g077/87: Add PCLKCAN ID
-      arm64: dts: renesas: r9a09g056: Add RSCI nodes
-      arm64: dts: renesas: r9a09g057: Add RSCI nodes
-      arm64: dts: renesas: r9a09g077: Add CANFD node
-      arm64: dts: renesas: r9a09g087: Add CANFD node
-      arm64: dts: renesas: r9a09g077m44-rzt2h-evk: Enable CANFD
-      arm64: dts: renesas: r9a09g087m44-rzn2h-evk: Enable CANFD
-      arm64: dts: renesas: r9a09g056: Add CANFD node
-      arm64: dts: renesas: r9a09g057: Add CANFD node
-      arm64: dts: renesas: rzt2h-n2h-evk-common: Use GPIO for SD0 write protect
-      arm64: dts: renesas: rzt2h-rzn2h-evk: Reorder ADC nodes
+      clk: renesas: r9a09g077: Add CANFD clocks
+      clk: renesas: r9a09g057: Add entries for CANFD
+      clk: renesas: r9a09g056: Add entries for CANFD
+      clk: renesas: cpg-mssr: Unlock before reset verification
 
-Rob Herring (Arm) (1):
-      arm/arm64: dts: renesas: Drop unused .dtsi
+ drivers/clk/renesas/clk-vbattb.c                   |   4 +-
+ drivers/clk/renesas/r9a09g056-cpg.c                |  10 ++
+ drivers/clk/renesas/r9a09g057-cpg.c                |  10 ++
+ drivers/clk/renesas/r9a09g077-cpg.c                |  13 +-
+ drivers/clk/renesas/renesas-cpg-mssr.c             |  54 +++---
+ drivers/clk/renesas/rzg2l-cpg.c                    | 189 ++++++++++++++++-----
+ drivers/clk/renesas/rzv2h-cpg.c                    |  15 +-
+ .../dt-bindings/clock/renesas,r9a09g077-cpg-mssr.h |   1 +
+ .../dt-bindings/clock/renesas,r9a09g087-cpg-mssr.h |   1 +
+ include/linux/clk/renesas.h                        |  11 ++
+ 10 files changed, 237 insertions(+), 71 deletions(-)
 
-Tommaso Merciai (1):
-      arm64: dts: renesas: rzg3e-smarc-som: Enable I3C support
+Gr{oetje,eeting}s,
 
- .../dts/renesas/gr-peach-audiocamerashield.dtsi    |  75 -----
- .../boot/dts/renesas/r8a77xx-aa121td01-panel.dtsi  |  39 ---
- arch/arm/boot/dts/renesas/r9a06g032.dtsi           | 159 ++++++++++
- .../arm64/boot/dts/renesas/beacon-renesom-som.dtsi |   2 +-
- arch/arm64/boot/dts/renesas/condor-common.dtsi     |   4 +-
- arch/arm64/boot/dts/renesas/draak.dtsi             |   2 +-
- arch/arm64/boot/dts/renesas/ebisu.dtsi             |   2 +-
- arch/arm64/boot/dts/renesas/gmsl-cameras.dtsi      | 332 ---------------------
- arch/arm64/boot/dts/renesas/hihope-rev4.dtsi       |   2 +-
- arch/arm64/boot/dts/renesas/r8a774a1.dtsi          |  52 ++--
- arch/arm64/boot/dts/renesas/r8a774b1.dtsi          |  52 ++--
- arch/arm64/boot/dts/renesas/r8a774e1.dtsi          |  52 ++--
- arch/arm64/boot/dts/renesas/r8a77951.dtsi          |  52 ++--
- arch/arm64/boot/dts/renesas/r8a77960.dtsi          |  52 ++--
- arch/arm64/boot/dts/renesas/r8a77961.dtsi          |  52 ++--
- arch/arm64/boot/dts/renesas/r8a77965.dtsi          |  52 ++--
- arch/arm64/boot/dts/renesas/r8a77970-eagle.dts     |   4 +-
- arch/arm64/boot/dts/renesas/r8a77970-v3msk.dts     |   4 +-
- arch/arm64/boot/dts/renesas/r8a77980-v3hsk.dts     |   4 +-
- arch/arm64/boot/dts/renesas/r8a779m0.dtsi          |  12 -
- arch/arm64/boot/dts/renesas/r8a779m2.dtsi          |  12 -
- arch/arm64/boot/dts/renesas/r8a779m4.dtsi          |  12 -
- arch/arm64/boot/dts/renesas/r8a779m6.dtsi          |  12 -
- arch/arm64/boot/dts/renesas/r8a779m7.dtsi          |  12 -
- arch/arm64/boot/dts/renesas/r8a779m8.dtsi          |  17 --
- arch/arm64/boot/dts/renesas/r8a779mb.dtsi          |  12 -
- arch/arm64/boot/dts/renesas/r9a07g044.dtsi         |   2 +-
- arch/arm64/boot/dts/renesas/r9a07g044c1.dtsi       |  25 --
- arch/arm64/boot/dts/renesas/r9a07g044l1.dtsi       |  18 --
- arch/arm64/boot/dts/renesas/r9a07g054.dtsi         |   2 +-
- arch/arm64/boot/dts/renesas/r9a07g054l1.dtsi       |  18 --
- arch/arm64/boot/dts/renesas/r9a09g047e37.dtsi      |  18 --
- arch/arm64/boot/dts/renesas/r9a09g056.dtsi         | 280 +++++++++++++++++
- arch/arm64/boot/dts/renesas/r9a09g057.dtsi         | 280 +++++++++++++++++
- .../boot/dts/renesas/r9a09g057h44-rzv2h-evk.dts    |   2 +-
- arch/arm64/boot/dts/renesas/r9a09g057h48-kakip.dts |   2 +-
- arch/arm64/boot/dts/renesas/r9a09g077.dtsi         |  99 ++++++
- .../boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts    | 109 +++++--
- arch/arm64/boot/dts/renesas/r9a09g087.dtsi         |  99 ++++++
- .../boot/dts/renesas/r9a09g087m44-rzn2h-evk.dts    | 186 ++++++++----
- arch/arm64/boot/dts/renesas/rzg3e-smarc-som.dtsi   |  14 +
- .../boot/dts/renesas/rzt2h-n2h-evk-common.dtsi     | 161 +++++-----
- arch/arm64/boot/dts/renesas/salvator-common.dtsi   |   4 +-
- arch/arm64/boot/dts/renesas/ulcb.dtsi              |   2 +-
- arch/riscv/boot/dts/renesas/r9a07g043f.dtsi        |   3 +-
- .../dt-bindings/clock/renesas,r9a09g077-cpg-mssr.h |   3 +
- .../dt-bindings/clock/renesas,r9a09g087-cpg-mssr.h |   3 +
- 47 files changed, 1426 insertions(+), 986 deletions(-)
- delete mode 100644 arch/arm/boot/dts/renesas/gr-peach-audiocamerashield.dtsi
- delete mode 100644 arch/arm/boot/dts/renesas/r8a77xx-aa121td01-panel.dtsi
- delete mode 100644 arch/arm64/boot/dts/renesas/gmsl-cameras.dtsi
- delete mode 100644 arch/arm64/boot/dts/renesas/r8a779m0.dtsi
- delete mode 100644 arch/arm64/boot/dts/renesas/r8a779m2.dtsi
- delete mode 100644 arch/arm64/boot/dts/renesas/r8a779m4.dtsi
- delete mode 100644 arch/arm64/boot/dts/renesas/r8a779m6.dtsi
- delete mode 100644 arch/arm64/boot/dts/renesas/r8a779m7.dtsi
- delete mode 100644 arch/arm64/boot/dts/renesas/r8a779m8.dtsi
- delete mode 100644 arch/arm64/boot/dts/renesas/r8a779mb.dtsi
- delete mode 100644 arch/arm64/boot/dts/renesas/r9a07g044c1.dtsi
- delete mode 100644 arch/arm64/boot/dts/renesas/r9a07g044l1.dtsi
- delete mode 100644 arch/arm64/boot/dts/renesas/r9a07g054l1.dtsi
- delete mode 100644 arch/arm64/boot/dts/renesas/r9a09g047e37.dtsi
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
 
