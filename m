@@ -1,116 +1,105 @@
-Return-Path: <linux-renesas-soc+bounces-26920-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26921-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95F15D30707
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Jan 2026 12:33:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5308D307F9
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Jan 2026 12:37:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 319E0314F2B5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Jan 2026 11:27:14 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 25AF130D80E7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Jan 2026 11:31:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DF7F378D78;
-	Fri, 16 Jan 2026 11:27:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AC55361DB8;
+	Fri, 16 Jan 2026 11:31:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="DxVUHhQv"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LBsnbGzU"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCB41378D76
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Jan 2026 11:26:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6511E35BDD7
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Jan 2026 11:31:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768562823; cv=none; b=hwWfViycO2vrq+K8Sd7CfpLJUif5SysHRi/6jvTeEYfBhW6NcxC6PYtMh2VazFy/XsyVqm3pbvIm8HVcv2lDGi/2xIhWOO+78IdsrHhcTXmCeavPE/bIoNl9/alN+42hsWTz+3bA9+8KYyXDy3B0Fg6U329wa7/GukmI3FUeLUk=
+	t=1768563117; cv=none; b=DhocZjhx9+DTsbbBJE8Ec7LPfRvWdhLCim4wX2G82EMyQuojtBNskHT7A8YryUN1qnZu91Afob91G7/uAwcbfyhS/XGHtswV7QWqMK4opW2yVavRXXh98pJGdM5++bw2p9+Kqu9gRxE2uLcotylHP8wDHfDaijqNYsAESVUPL9k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768562823; c=relaxed/simple;
-	bh=UD5nhW/byvJ+BqnsUq5Zxgn9awz6cxrGdcE03QAcfN4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r5cTSwpnAUTGL1uBc55JzEoukLvSzG537WhKLI97f29LqbXQy6sJ5KaAx7IDpvB7D5cAgPHRdcq4O0XLSXnBMJKe4G3uIwpx8qctzZJDR1oa7RQphgnYxGxT/FeaUyDDhz/qKKQkVHniJY1ljynFXQN+H3h0eQsFqCtY2b25yBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=DxVUHhQv; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=UD5n
-	hW/byvJ+BqnsUq5Zxgn9awz6cxrGdcE03QAcfN4=; b=DxVUHhQvCY9EWZScBCxP
-	im5RRclNw0qZpqdiR+YAkCJzgp+8TX2yAUPTlR7CWCPwQ5hwWxh8ewm4vUlqolSg
-	x+B8rpY/m7RgmU796AAJiPHQpfuKNzrftgojWjwNeX3SU2o/Q9HUit65iwOCtHj4
-	WhticAUIsUzjt4nZgvTya8gShR8KCnaKsrG18q0ueFQZQA9WvsYzrAUdlsa5SRrk
-	HgXaqGr8ULuokaCkmfLdc46Sxoin/7SPqhzgwKW0T7yorniAEHAD5LouOLlDNmVX
-	TGqHfSU2pmCftQ+octncdTpE3jbzFXbbGN+yLe4bfyKJf0WK1P0vKPbcIxt7IcaX
-	qA==
-Received: (qmail 2892996 invoked from network); 16 Jan 2026 12:26:51 +0100
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 16 Jan 2026 12:26:51 +0100
-X-UD-Smtp-Session: l3s3148p1@EeImnn9IVqIujnua
-Date: Fri, 16 Jan 2026 12:26:51 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: "Miquel Raynal (Schneider Electric)" <miquel.raynal@bootlin.com>
-Cc: Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Vaishnav Achath <vaishnav.a@ti.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	=?utf-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Santhosh Kumar K <s-k6@ti.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Pascal Eberhard <pascal.eberhard@se.com>, linux-spi@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 00/13] spi: cadence-qspi: Add Renesas RZ/N1 support
-Message-ID: <aWoge3-IkPqVxmf4@ninjato>
-References: <20260115-schneider-6-19-rc1-qspi-v2-0-7e6a06e1e17b@bootlin.com>
+	s=arc-20240116; t=1768563117; c=relaxed/simple;
+	bh=R9lZLajSMbJWA77KRJcCH4ZNqlwIE0hU836Al9rI4uU=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qI8VXGb5RhuXbzwD+eH/uqy/rJFmrTjwsLT0HnDqgrZR+djhuKsZ95gyhzNyn6OYSMBJt3NtFYy8rF0hvXbkNmVuUenp+DzNko1VGbF4Iq1Rxza5Po3YhBFsIDZhTFa5q7QojlXx/d+JnEimEthbbbkr3NX2Ou8J4CUYZZdtONg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LBsnbGzU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 202CFC2BCB1
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Jan 2026 11:31:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768563117;
+	bh=R9lZLajSMbJWA77KRJcCH4ZNqlwIE0hU836Al9rI4uU=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
+	b=LBsnbGzUlVBb3rMZbbaR8Ny1GaAOA4UmMnSiuRcUjIdG/o8NeA8KbXAYRgyeAn3zR
+	 UWHgeLl7XhuoxZjwSffDBiglthpeV2MLI8+ezlsffnor/7UMbLqa99sFxLl+1BFeDu
+	 1P/sIovY7IUUkc+pNLgUVorbpQcVowC5QaCTGuarjKD+6LtkH4D1IgZfdgV9+M+8vI
+	 N19pEClBTVS4AdH0dWMyhzNDPI5X5xMxcVmF4qXxXvC8oGRr+ndk6QHHgqBpEEbyrG
+	 /c6SWrUXsCYG4AeqZhmQ2T4cyIWIxXIXug78TMA0Gv4M1kb+7VlYagtzp5+JLvkAHD
+	 6uJ4Ey15m8frQ==
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-59b6d5bd575so1984099e87.1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Jan 2026 03:31:57 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWL4rYATBjjY6FKf/YiCFt51CDEgAaj32gCzuy8BZM5Yzg8ODnzP4fDc5pWut9nis63BmCJee4VyIoYVjaaFX5dvg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyYO7BIH1iQFPqwV9VzppjSnr89+RjP5k8Xr3uSS9x86ugv6NBu
+	zMywHs8UA2CPco0GbSPqpaWkAm092XpTvTutvWYmXGB9CVidruupH4Im/k5Q1eaYX73vtFa/hYs
+	1Vm/xDn54+lKVaqX8X34aJBUYTDOTxp8F2mjAHYmxBw==
+X-Received: by 2002:a05:6512:3c8f:b0:59b:6f57:e3f9 with SMTP id
+ 2adb3069b0e04-59baeeff3b8mr839800e87.37.1768563115688; Fri, 16 Jan 2026
+ 03:31:55 -0800 (PST)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 16 Jan 2026 11:31:54 +0000
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 16 Jan 2026 11:31:54 +0000
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <aWkx4wa955UI5kKy@shikoro>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="tYBdv2s2XUNiSNx0"
-Content-Disposition: inline
-In-Reply-To: <20260115-schneider-6-19-rc1-qspi-v2-0-7e6a06e1e17b@bootlin.com>
+References: <20251223-i2c-ada-dev-set-node-v1-0-2e36e0e785b4@oss.qualcomm.com>
+ <20251223-i2c-ada-dev-set-node-v1-3-2e36e0e785b4@oss.qualcomm.com> <aWkx4wa955UI5kKy@shikoro>
+Date: Fri, 16 Jan 2026 11:31:54 +0000
+X-Gmail-Original-Message-ID: <CAMRc=MdqfKX1U=ePhNWT5LAsrYyAk-86uF=+OjrifG=+CAnRUQ@mail.gmail.com>
+X-Gm-Features: AZwV_QhKZFE-Qm-qHpgZgIj_0ZljvjVWOOOHq-gipDI7-hYpixbZakgTnRh16Bw
+Message-ID: <CAMRc=MdqfKX1U=ePhNWT5LAsrYyAk-86uF=+OjrifG=+CAnRUQ@mail.gmail.com>
+Subject: Re: [PATCH 3/7] i2c: gpio: use i2c_adapter_set_node()
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Mika Westerberg <mika.westerberg@linux.intel.com>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Jan Dabros <jsd@semihalf.com>, 
+	Andi Shyti <andi.shyti@kernel.org>, Lixu Zhang <lixu.zhang@intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Binbin Zhou <zhoubinbin@loongson.cn>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Israel Cepeda <israel.a.cepeda.lopez@intel.com>, Hans de Goede <hansg@kernel.org>, 
+	Bartosz Golaszewski <brgl@kernel.org>, linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
 
+On Thu, 15 Jan 2026 19:28:51 +0100, Wolfram Sang
+<wsa+renesas@sang-engineering.com> said:
+> On Tue, Dec 23, 2025 at 11:06:50AM +0100, Bartosz Golaszewski wrote:
+>> Use the dedicated wrapper for setting the fwnode of the i2c_adapter.
+>> This allows us to hide the dereferencing of the embedded struct device.
+>>
+>> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+>
+> Applying this patch fails for me. What is your base? I don't have the
+> commit referenced in the first patch series. I tried current top-of-tree
+> and current -next.
+>
 
---tYBdv2s2XUNiSNx0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+It's v6.19-rc2:
 
-On Thu, Jan 15, 2026 at 10:24:51AM +0100, Miquel Raynal (Schneider Electric) wrote:
+$ git show 9448598b22c50c8a5bb77a9103e2d49f134c9578
+commit 9448598b22c50c8a5bb77a9103e2d49f134c9578 (tag: v6.19-rc2)
+Author: Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Sun Dec 21 15:52:04 2025 -0800
 
-> This series adds support for the QSPI controller available on Renesas
-> RZ/N1S and RZ/N1D SoC. It has been tested with a custom board (see last
-> SPI patch for details).
+    Linux 6.19-rc2
 
-I can access the SPI-NOR on the Renesas Eval board
-(r9a06g032-rzn1d400-db.dts) just fine with it. So, for all patches:
-
-Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-
-I'll send the board DTS addition as RFC in a minute.
-
-
---tYBdv2s2XUNiSNx0
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmlqIHMACgkQFA3kzBSg
-KbYHHA//c8oRrN42MUJUoNq6ioR19Cgx/RKcbbcfUCqLeg+RXkn0RD2jzEJdj4Py
-ra8hrHjZtlRCjZKwlJXGtTGjVMvKP+4fE/QeCKzjaQZZivtza3Whkr24dDSL1vRH
-PSD5tuMUja8l+8q3dSdy8AcCYA01JzP2Bgn/O2BsWsYa0YIHpfQuPjH0ECSyFjVb
-6RPGxruFPj+Zc31B05NRKC+uPZLYUQIxOp76ooSIx0wiEanvokk1JUqo7IEWNEyl
-nab18iw5oz+2nRlwiKZOMgjnzIoocqmPAN6r8V9y6yTHARKkpoQHGXpJv7/YCd/P
-GsnZdCw2toSq+TQBsawxDPkAWTDFv50RhI/+o+zpAvVWnVdC0Iay+n2bFSpyUwB2
-SWsOPwrclpmhf/nKx7mMAOVYbK5AXQFnNT/WnIZ97CSO9hgbT7boWMcR1x7e42WU
-C6bENfRhb91fk8tazlRTFvPWTWYgCTjJtrP0FKbIYkKCw/JUPMLkRdMaD5lXZ1t1
-YPW52wKrZcGBrLXXxK5bujwtw8tMREl+KbxQ085ogf546Jq9DOPOnf3bIW0JYkkB
-WCvjycwBGyGygIEU0zTqCdIrstT8XZ2yDMgXhJAeKMr3IxAxugnU6hfbjuqciKtQ
-1vAS7WDulcl5QBQ0miw4K2ww/Rpro/Ozzhcx7aeLvSKkItooAX8=
-=cuJn
------END PGP SIGNATURE-----
-
---tYBdv2s2XUNiSNx0--
+Bart
 
