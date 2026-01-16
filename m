@@ -1,119 +1,82 @@
-Return-Path: <linux-renesas-soc+bounces-26898-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-26899-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60B58D29967
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Jan 2026 02:23:27 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCD58D29BCD
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Jan 2026 02:50:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C20A93015161
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Jan 2026 01:23:25 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 5D3663002D38
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Jan 2026 01:50:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22804328B76;
-	Fri, 16 Jan 2026 01:23:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10BAD26AA93;
+	Fri, 16 Jan 2026 01:50:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="G/oOI5xT";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="B9C4LkeT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Aof5HGd7"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F02CE32720C
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Jan 2026 01:23:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B1162F692C
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Jan 2026 01:50:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768526604; cv=none; b=sASdS7LyC7qWtENrKTRKzdSG4Q/P1rqmx/ViIv6A0Xx3PIcMVlQkd4PS7JDKXtIMuFUXmRPKeRSuf/YI7t1/lSskMetXlg+hr9s8vJtFS12ybLNLfJr8QmYbVBzzqo3YlJ8ZyNb5duiYD7NpL+DhVozhay2j1v6ckjlVPjUC8jk=
+	t=1768528233; cv=none; b=rYUvSVTHwBO7cOuP/AS1bEEQXYu1FbDOqItWrESnJoeaGMBUZ3cdqne++l4TDbh/4JvqBG+VRXDFs438UXq+LJq0Gjw0whLbPtbFV7I+G13bPqZ1uwwUxwyyy3y4NybkKwT5o2+xiY+LoUmBTv1c6Jd9aiLyyYsW+eXdEyY2xcw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768526604; c=relaxed/simple;
-	bh=R4xvYuUEoszUJEy7wrMslCnAbmam4wC/SnRLPqb7JyE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a/6TKxfxWjmDRLYZppvjeHQBxJn3PTKSNDg80OuLn69P8U+4FjJwAe71gEQto5zmHCKaAIea9XalJSXNZwcTCsdkBgEyHcHVWjFMP9xjjeruPq+OQWrj3ALqMClER9MvRRsrTDCNcfjPj+Kr2nTfSLPhzdd92smPMiFj8IRrKgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=G/oOI5xT; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=B9C4LkeT; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1768526593;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sNCU18zVmIawu4LQkxTSRVBM2Dsz2DQMMKhUjFF4BXM=;
-	b=G/oOI5xTnWfOhC2roHhLG4+kJeszC6DkTE+2KRY9SVvJ7b7XpV8DeD7tYdaufm9vz/u89n
-	njYy2jsyb8irzKGnSkbHe47IJmrvMUw896ZDvwuVKyzci0CNBiBN8i7kMmMQ8C5+3Ne+1x
-	HPADrCBeQG+77ArVlSF6C0M27xHtGW8=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-316-kwEAAjuuOk2HMSxazGO63g-1; Thu, 15 Jan 2026 20:23:11 -0500
-X-MC-Unique: kwEAAjuuOk2HMSxazGO63g-1
-X-Mimecast-MFC-AGG-ID: kwEAAjuuOk2HMSxazGO63g_1768526591
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-50145222233so41432971cf.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Jan 2026 17:23:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1768526591; x=1769131391; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sNCU18zVmIawu4LQkxTSRVBM2Dsz2DQMMKhUjFF4BXM=;
-        b=B9C4LkeTHsv6krppEts3kxQ7DOvbW302fk1rzwHmFZhQAMna//OdlT2g+7F+atHH0X
-         3N6ag2ylH6+JEz+Jeq2mK09KazrPg1gi6xdVM4CRSx1NnggEjbGZkQO2T+vapMWwukIJ
-         qxepEwexEqeKJli/qdrS2FzSZn9xyNSSbZAFij1T+wS7rCYXa1huJdBm2/qiT6O72pD/
-         aOFDPA350R+Wnmjipgj+QFSlSBKqHCpXkxaVgg5YAtBBdX5bsfCin/i5kgzAtqSBU4tv
-         kEq2PDC3pHTB2IA5b/eNj79mFAYBWJMlb5t/aypWj9b+7/ugSee+6FGT046O4hW1Gtjy
-         tRuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768526591; x=1769131391;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=sNCU18zVmIawu4LQkxTSRVBM2Dsz2DQMMKhUjFF4BXM=;
-        b=euzshLe2n0cx8x8eFjz/9BfhbkafYo15ry5D0QgKjzl23jHZLznyNg97jKiem2l0z+
-         S8QbFPlDkPOATvhKpRpbEvAPBNWEBnruxgF//3WQF51k1/gnTmfwsjuvQ/3Um8a5I99s
-         mH0TTRSjJ2fOlkZ8qbF3RBnAVSqFN3fcDmg5S2r+YvGStap3lKNp5Mb09HGRJF9iwLjN
-         7R43wPFEuuo7E8N5/fFoBo4T8kHSws/6VVGktRnG4/yNdhuBT063wAWT9C5a7vVnGGGP
-         RChZbzc8E7RgcNzHtWuZEgCCx9nKpGzHUkmHrSe/Ej6CUI8rOxJ6HPYDpuP30czl4+6d
-         vDZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX9eZDJ0x/PDNmJ3rzQ6gNgvTcmup+OrNGCpdDFQ7o1/5OqT6hTAPnE3OX/+ZdjWZgP4LC+ea1iQm/b1Sc84iMCuw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwjadBOlOjTJYUG6H1ATy+q6V9HK1f+rx/CSN13ODQjhlzw/ofS
-	lJZDqXyUXz76bl+XBwmvTeV0atRZ3vgXbcH5+iSqBFxpMd4NVh3NqnSDTf9KjweP/2m0k0V2pep
-	5L+0oSrXDcR4RjvR2Z9fVnMhUx5FZLsOL/r0wk7NR5GzTXqW2oOExKJA7aT0kR/Fgz+PNC2Zz
-X-Gm-Gg: AY/fxX5A4hC+mf2ItWaU+yhmfY0koeML13jgaY1/Wr82AwU3JZv/2t4mTFlgi7QdB1n
-	/ghSm5JjdunALvqIj4H0StmMl+lr9Fpqoeb4VED0Ve3hTHbbdpbncKPxDhM1VaKiecFR50WM6rt
-	hRNVErGGJkQlXp+uaI6psn965757w7Se5Dur8yLREaFxpR75wZ2yMNsR5CvXijWNyn50LhbHYt/
-	F/W+OBAEixxE7rGfLvA2cMCi+X2bVb7BUxD/NqpAxEWcxPdJmUumBMGvuyB1fk2Ur0IcEP2I3QF
-	MFZFVaPvfkXntQeHXRNg3FVt+6d4UC9g9OZrgBR3M5jK3RF4/dbsJ6ZCV+t5mUD55rTpmvUR80H
-	3t3BAscVBUdZKYDSg3phB9csAdDKkxRmw0WxFzS9orb+J
-X-Received: by 2002:a05:622a:58e:b0:4ee:43b0:b053 with SMTP id d75a77b69052e-502a1ddba73mr16020141cf.9.1768526591387;
-        Thu, 15 Jan 2026 17:23:11 -0800 (PST)
-X-Received: by 2002:a05:622a:58e:b0:4ee:43b0:b053 with SMTP id d75a77b69052e-502a1ddba73mr16019991cf.9.1768526591065;
-        Thu, 15 Jan 2026 17:23:11 -0800 (PST)
-Received: from redhat.com (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-502a1ed2844sm9167641cf.18.2026.01.15.17.23.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Jan 2026 17:23:10 -0800 (PST)
-Date: Thu, 15 Jan 2026 20:23:09 -0500
-From: Brian Masney <bmasney@redhat.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org
-Subject: Re: [PATCH] clk: renesas: Add missing log message terminators
-Message-ID: <aWmS_bBzZO2FjIb5@redhat.com>
-References: <cd0b3624066b80ed0bb00d489c99e2c1a06d755f.1768480559.git.geert+renesas@glider.be>
+	s=arc-20240116; t=1768528233; c=relaxed/simple;
+	bh=wTJkF1ObFmb6vTCmdOsPYMsKK6ryfl9IIoIdiRKDHew=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=ibw6+vlXe5HP7bxR4zfnrX1kZOEdO9weXt2zQ3c1Rak1K9V8KIUBZ6Dq6wCDUXoz0f7gbA5eTVmJ1l1eJsDtOIWSaD/8GKmTKgToCEXvG/qHdJdNWeeKxA744yNLvPPmwwxvUPOLVZVjwPaMjEkpxn95FLYcYqrGp+oTtO1LwSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Aof5HGd7; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7E6BC116D0;
+	Fri, 16 Jan 2026 01:50:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768528232;
+	bh=wTJkF1ObFmb6vTCmdOsPYMsKK6ryfl9IIoIdiRKDHew=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=Aof5HGd7eeeGhg0d9X58wUsnwOofyQFyqnZdvr/0ivyMJMdnv3LHyIFsrtfleUmtz
+	 P8WwY0qLKaSHYY3tzqWiWiwSB3FiJdhcN8BrJ9LEVp6UgAmxU1gRShrQotEoPOfVZP
+	 uc3aH2/wlzmkAHksHMtNs1OIdoczMvfxs4EQVBUwMu/xzHAXGfXTjSCMDBmxI7tkQB
+	 fG+hPd5ULmNSo9eLQJ0QRkRh/2wF0faW53xbTNUMUMqfTrx6REgCpPcIHWM172Te6B
+	 uuuVHvuSxIF51r9HfI3yPEsursM7aL53XSo0FC/Ob+KequEJCZ6smxzJ0CkPc/xcD9
+	 N8cuum6Ls+fjQ==
+Date: Thu, 15 Jan 2026 18:50:30 -0700 (MST)
+From: Paul Walmsley <pjw@kernel.org>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+cc: Conor Dooley <conor.dooley@microchip.com>, 
+    Geert Uytterhoeven <geert+renesas@glider.be>, 
+    Magnus Damm <magnus.damm@gmail.com>, Paul Walmsley <pjw@kernel.org>, 
+    Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+    Paul Gazzillo <paul@pgazz.com>, 
+    Necip Fazil Yildiran <fazilyildiran@gmail.com>, 
+    linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org, 
+    linuxarm@huawei.com, Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH 1/2] riscv: ERRATA_STARFIVE_JH7100: Fix missing dependency
+ on new CONFIG_CACHEMAINT_FOR_DMA
+In-Reply-To: <20251210160047.201379-2-Jonathan.Cameron@huawei.com>
+Message-ID: <7b2ce9e7-7261-690c-c5db-f4c70389bd22@kernel.org>
+References: <20251210160047.201379-1-Jonathan.Cameron@huawei.com> <20251210160047.201379-2-Jonathan.Cameron@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cd0b3624066b80ed0bb00d489c99e2c1a06d755f.1768480559.git.geert+renesas@glider.be>
-User-Agent: Mutt/2.2.14 (2025-02-20)
+Content-Type: text/plain; charset=US-ASCII
 
-On Thu, Jan 15, 2026 at 01:36:56PM +0100, Geert Uytterhoeven wrote:
-> Complete printed messages should be terminated by newline characters.
+On Wed, 10 Dec 2025, Jonathan Cameron wrote:
+
+> The Kconfig menu entry was converted to a menuconfig to allow it to be
+> hidden for !CONFIG_RISCV. The drivers under this new option were selected
+> by some other Kconfig symbols and so an extra select CACHEMAINT_FOR_DMA is
+> needed.
 > 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Fixes: 4d1608d0ab33 ("cache: Make top level Kconfig menu a boolean dependent on RISCV")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202512100509.g6llkMMr-lkp@intel.com/
+> Signed-off-by: Jonathan Cameron <jonathan.cameron@huawei.com>
 
-Reviewed-by: Brian Masney <bmasney@redhat.com>
+Thanks, queued for v6.19-rc.
 
+
+- Paul
 
