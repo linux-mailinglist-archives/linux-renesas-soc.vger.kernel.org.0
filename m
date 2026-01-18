@@ -1,87 +1,77 @@
-Return-Path: <linux-renesas-soc+bounces-27015-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27016-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBFC1D3984A
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 18 Jan 2026 18:06:12 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 009F8D3985D
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 18 Jan 2026 18:19:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 52DB1300B991
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 18 Jan 2026 17:06:06 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 7639A3001033
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 18 Jan 2026 17:19:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BF3D23F40D;
-	Sun, 18 Jan 2026 17:06:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D009B242D7F;
+	Sun, 18 Jan 2026 17:19:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="XdWCMZV9"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="CW7GuYAH"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013000.outbound.protection.outlook.com [52.101.83.0])
+Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013043.outbound.protection.outlook.com [52.101.83.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A75D91FBCA7;
-	Sun, 18 Jan 2026 17:06:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9E37222590;
+	Sun, 18 Jan 2026 17:19:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.43
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768755965; cv=fail; b=NeAqqu5jOGGHKQ8EpnsYuLXyNZm97yCVuPxxUPU4Dxk+LpXdanlNL5MBq7YB25JpsZBCb+mmxi3LyH3cJ+DnGNnUcuOYmHEW4YWne4VrIZYyq/+Z7NTugjdVT1NiWmXY/5tTEx+KowI0EUXwcVv5/gPfHIFuhobruZHUOj7lmUk=
+	t=1768756761; cv=fail; b=eYOKpberm7nxl1Q+a7PlHCn3bXnQhSEygJkl1yCxVO8IHu8D4MDsSunYTRc0adANrbmkG3IYSUtwzshF2BA5Jg5dx0zlc3167ttImvgH7BXH7rykQ5kHEh4t0dJCR+KaEidgdKIh2XqHcqHpjcjGWlupfQVQnvaYC4o3fJnkvRM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768755965; c=relaxed/simple;
-	bh=zXQcwql6ATi8dcCXyKxOOW7Nf9pVMcQ56cCkmxFv6Rw=;
+	s=arc-20240116; t=1768756761; c=relaxed/simple;
+	bh=AMuj9nnZn6empO06nnKGumJwDZV+nINZ+YSuZ/iSMLw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=dQCNqF/F5i/dFAo0DxaQU6mZwvfpopPWI8ogoy3uYuOJjZjm0QdikkNUZSnDvJWr4k38uwJrl15x3fwi2sLfIQlKXpdE9DO5/8OFpgtSvapFqjywLCuZtTMHmwNCXX96pgBfK2dlawOEo8Z4oLjF8axqvaWUifidICMy5ztJqK0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=XdWCMZV9; arc=fail smtp.client-ip=52.101.83.0
+	 Content-Disposition:In-Reply-To:MIME-Version; b=JNVXDZzlfWrfvNMVJiZorg9vuQU3WgmUPFAWtM/V3IggmQK8a2DfgmQS5ZC5gnMezxPZoB5LyojyuJAyQ17rp2/bJ5ErSHStHVCsmrNfZ0Pcv/lO1+IeotiFx25UAH6lKiJxpzmAfRa3bApYzEqyEDaGAskDpuavNDVLGMp1Ggo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=CW7GuYAH; arc=fail smtp.client-ip=52.101.83.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tsOeIEVjiMUkNhcQ2PUiOasEix7U6MaMpP2jlvCm5WWCsCCZG4K36z1ehrS2zzJg+5KVoX1sZpRjOWyzTYXh/GOoJTMq/BHARVK0FdjIj5vUhOa0iKjf3Rcq83lmYjSUikErRGFEoiQzbIZOf+BS+IofQFkeUB0+TaEbr7mpHFhUXTVWbN4TvDU6g4vrsdnaONrPxJBMvBckH/e1EQgXS36AbFXKGfnfqSV4Bti7n+bEtPN2176Jy6E1JmUI/Pjt9UkIePA7aDxLXeC6WwrlO0awRhy1ZqPf0N0tOHbVaNBAcutoIg4ie1QQFJn61hMftTb6Hczu50i3zQYWap5K2w==
+ b=TlylaQaz6Rh68oj0VAjUSmlt8yAh7+P7O5HOJ9xf9yzmNI3jHDSDo+p+QVWU6Fl1LunlpaGIgv21eiojbY9ni13zXC6OcXTrQvbT1IQfIka/6xt8ldZ1RK/++lbPX2FQsKNQ7ICoBDIy8CsSuabjQAv13nzfESNSqSmQjUSQORhSPs56Up9aSFVvD6lC4dhdzlDbyG+cYf0jaJ2ul6FaNItwy1qrWn0fYugeVcTZO4gbNSSe2f4oOsZf+FT16l9z4d51Ggbz1Umip3HWg4EGuiZnamjIHElwkzNXGbMz/Br4ogwjC8mDbKf8NjllTzPm0TSfDFOhBdLvOoiokxSR0w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GsqWmCo273fOm/omFvQdKZAdFvB1NzgJ/lyWKg/ymgk=;
- b=chWGMWOltnq1xjUuid7uxSAceXJO8Sfr8848jrzOoBcXYxSutl6wdV6j+QAGsslnHfOEmZmsgjYjun9qYU0FTHjjHYWhiFAZSV792KHT3ara4x0LG/wgFVGlsSrMlx6gOHdS92MWnuZBz6Op2Y52SfGt13c2bo8l/zLGUHtPYAAqTmY3g3R4pyvxZ+B74F0Wdd/0egDInXoyvnMA4OeStASzKJJfY7SADmNJ3iUDYDLaF4MS2vcbSmM0hXzq3UZ2EsQp2f3OZ23OPBtCHwIL3l38ILncb3iqai0cfrQOsSSKPoImpt/+rGeqY1QPRxiY+BVDlNVRrj0LLbQz2VHvew==
+ bh=Up3G3COTaALHjc3CeXuH2qmhOXeCf5ciagn9zYv/2u8=;
+ b=bNgeLxJCtjgWuNoGOqPsioSve0g3n7wY4TBx8Pi906kbslAosI5Tm+x3hIJAK8rjQYa5fr1W+w5C3b3DQ3cOxJBaHIG1PwJVy5JuXeUes6+otSoe89IVBWzZg2/FD9ePY2Ioo/IQ9Ln/vj/N81YsMGaqLdKXaqq54vL/CgALGlsQurVa7Nq6oMPeraFFKoOleu23UZkpy4h7T7Py04xkAagIz7aBCAqFQ162RD+7vba4Wm6wTPeZ6Jw5adgqDcYy/MyWC+ugeCRFWI90x8lMFfuCx9brpQ/VFVTI+ZeIC/daQuCu1lJINacGa3rxasQ1lWvn5YIu2gjbtMHm8wSn4w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GsqWmCo273fOm/omFvQdKZAdFvB1NzgJ/lyWKg/ymgk=;
- b=XdWCMZV9bRceycq4wWR6Gy1qobPMnn0MGACsoO3iIm7grx4vWRL4MSeQuXVbsWGBjBsnOugS+i0ALkEenWEXfxdwqBJ2+VBQxydqzZPg+MFKNeDL5GjnxEDqF1un3+eLttC5YjPyHMmTIU+DsSVEhOZ7o2lxgtYV57Rv0pEXW22Blrh6ONXyuC5RUNZdO9E56kj58/jlUwsUMdr3NPqtjQ9AiNvEDU5VKSQHq+KIpFgwRZ4CGs4EEiE8u8m1iECG5muTgU69icxXGsvWcze+THLFj0ne8OP5pu64pnt6TkTKFm6p9TJ88f/T7Ns4zmRMQN4agRe7AcO55NPY1eD2kA==
+ bh=Up3G3COTaALHjc3CeXuH2qmhOXeCf5ciagn9zYv/2u8=;
+ b=CW7GuYAH8ACZ5QmjM3dUjnvl0BzQlT+lGMQ8wXZNCquNmeaZnyyPOka+txpkrTX0CseH5O+1E656Y+r7db9Sl8Q9LCSX3D3ndtwTOgmuY8X6PJg+CsG/FMXbmLhedzhomB6sV6KJHIvTEYPm5WlYGVflpayBRQfeTBjQWvvxM4YlavZ/oa8lMm1EFMJ4hFKnUXNPCSKdkQXLvQWiX9cii0g+L0efXnq1xoPS1BY0RJvDs6ebcKs+U7lbzZxnvpozAtTEdXQ0lP8GT3W/b/u3Flo5Sc92b33uzqBSBDKTEQpTYTHTFKZwQAe/KtfX2EfjKPqGgRYFrzIT8JjtLiv6DQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from DU2PR04MB8951.eurprd04.prod.outlook.com (2603:10a6:10:2e2::22)
- by AM0PR04MB11932.eurprd04.prod.outlook.com (2603:10a6:20b:6fe::15) with
+ by VI0PR04MB11644.eurprd04.prod.outlook.com (2603:10a6:800:302::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.11; Sun, 18 Jan
- 2026 17:06:00 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.5; Sun, 18 Jan
+ 2026 17:19:16 +0000
 Received: from DU2PR04MB8951.eurprd04.prod.outlook.com
  ([fe80::753c:468d:266:196]) by DU2PR04MB8951.eurprd04.prod.outlook.com
  ([fe80::753c:468d:266:196%4]) with mapi id 15.20.9520.006; Sun, 18 Jan 2026
- 17:06:00 +0000
-Date: Sun, 18 Jan 2026 12:05:47 -0500
+ 17:19:16 +0000
+Date: Sun, 18 Jan 2026 12:19:10 -0500
 From: Frank Li <Frank.li@nxp.com>
-To: Koichiro Den <den@valinux.co.jp>
-Cc: dave.jiang@intel.com, cassel@kernel.org, mani@kernel.org,
-	kwilczynski@kernel.org, kishon@kernel.org, bhelgaas@google.com,
-	geert+renesas@glider.be, robh@kernel.org, vkoul@kernel.org,
-	jdmason@kudzu.us, allenbh@gmail.com, jingoohan1@gmail.com,
-	lpieralisi@kernel.org, linux-pci@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-	dmaengine@vger.kernel.org, iommu@lists.linux.dev,
-	ntb@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, arnd@arndb.de,
-	gregkh@linuxfoundation.org, joro@8bytes.org, will@kernel.org,
-	robin.murphy@arm.com, magnus.damm@gmail.com, krzk+dt@kernel.org,
-	conor+dt@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
-	andriy.shevchenko@linux.intel.com, jbrunet@baylibre.com,
-	utkarsh02t@gmail.com
-Subject: Re: [RFC PATCH v4 05/38] dmaengine: dw-edma: Add a helper to query
- linked-list region
-Message-ID: <aW0S60D2uALBXdtQ@lizhi-Precision-Tower-5810>
-References: <20260118135440.1958279-1-den@valinux.co.jp>
- <20260118135440.1958279-6-den@valinux.co.jp>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-input@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Job Noorman <job@noorman.info>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v4 3/3] Input: ili210x - add support for polling mode
+Message-ID: <aW0WDhDRSh34TzW6@lizhi-Precision-Tower-5810>
+References: <20260117001215.59272-1-marek.vasut+renesas@mailbox.org>
+ <20260117001215.59272-3-marek.vasut+renesas@mailbox.org>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260118135440.1958279-6-den@valinux.co.jp>
-X-ClientProxiedBy: SJ0PR05CA0141.namprd05.prod.outlook.com
- (2603:10b6:a03:33d::26) To DU2PR04MB8951.eurprd04.prod.outlook.com
+In-Reply-To: <20260117001215.59272-3-marek.vasut+renesas@mailbox.org>
+X-ClientProxiedBy: SN7PR04CA0051.namprd04.prod.outlook.com
+ (2603:10b6:806:120::26) To DU2PR04MB8951.eurprd04.prod.outlook.com
  (2603:10a6:10:2e2::22)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -90,175 +80,250 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU2PR04MB8951:EE_|AM0PR04MB11932:EE_
-X-MS-Office365-Filtering-Correlation-Id: 36623560-a3c5-42d7-bffb-08de56b3dae7
+X-MS-TrafficTypeDiagnostic: DU2PR04MB8951:EE_|VI0PR04MB11644:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5919bc83-4112-493d-7309-08de56b5b539
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|19092799006|376014|7416014|52116014|366016|1800799024|38350700014|7053199007;
+	BCL:0;ARA:13230040|366016|1800799024|376014|7416014|52116014|19092799006|38350700014|18082099003|7053199007;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?aSXxhZLW6zbkMJs0LOMmgLosL0nVrgLdmPYBINDSZRkXkOYOFrJIL7Qg5o4U?=
- =?us-ascii?Q?3c7dC2VFSC+S7P6j8QeRzXAU/cnF0PUrAze/A3qNjE7gJoqqj4QvH8zCBVaG?=
- =?us-ascii?Q?RNVEglvRavmfZqGYhJFMaiRoUMBRzL14e7EHrBlRbkWlDMc6VJo8Mq5ksbRz?=
- =?us-ascii?Q?iQInzzpXEtiLlK+q3wCUiLeSuULXy8GGWyvhPjHeos7gC7MMJaGWIdOn0HNF?=
- =?us-ascii?Q?DzgnImqYdhxLRqXb5kkPxQgK3CDe38FUgNnjWvpN3QmRu7I9i17CyXtIhWuK?=
- =?us-ascii?Q?IO/FG8dJEl7rAJbj5pqWrOhYVN2FvE3ap5z/D1fPhGaJmBfcCIg0UGl81fiW?=
- =?us-ascii?Q?p9kAKNIFtZWDF8npqOviCIaTPkTiLU+D5qgv3m0hKGH9UpzNoaGYe0f7c6Mk?=
- =?us-ascii?Q?psQzKCNXZFRsdJLd0knP7eJA23Z4ThqU+phzsey6HZKZLlPmNlzYPLD1mD0h?=
- =?us-ascii?Q?4f/ljbKhBX5QKZ4j5oXpwxUmJVCeBold9D+ov2YnOmgrbJla81mRw2U3tqFu?=
- =?us-ascii?Q?jX9dhI2rz3XcLWjLf+coOVIGCcYavOUA7bRvJfFT26YrC15yzMIcWhn2w5LB?=
- =?us-ascii?Q?G4q9yJfiaI0MkNYd5zunOkrIalx4G9vzmdnWfmkzg7hhbrDaeUGXBE97PMNM?=
- =?us-ascii?Q?/uXOTts6fUutP8KInfBZC+a2sJtxJ4L0XY3owfRjGIYEkOiPj+HuiasXJk1o?=
- =?us-ascii?Q?V3R4KSip57AMOhvJNwUx5LpV/TEA4VY0fwEJE+LgTO5Gz/MKejQFN8CGw7fe?=
- =?us-ascii?Q?RkRaWJSSykwEchtY9Bp/TdRqCObfV+LA0JA223BU/q4mbmgY6Kzub+6fCHH0?=
- =?us-ascii?Q?2YxJDkzGryXchDxRaGjTEyzgjQI1UYCZb80nyeMx+gyr5U13OfD8TEGbNubi?=
- =?us-ascii?Q?6dBFlUBcxLLYcGf2WRKghWNximHBQSr/2QfoVSlG81/O7au0jaEz6WsCV+ua?=
- =?us-ascii?Q?hjwWrScvTFfdfakcd/e5iRPQFFzOqaI6UrxTIbIj0IFGG6HmDWZFyU7iVcoI?=
- =?us-ascii?Q?/RNr5+qwdQlnpuJOizoWLFjF06Peb/KM3840hUmPG1EbXZnEk19f+EQKrpkF?=
- =?us-ascii?Q?dNahPlv5Tq0rMtztCAK3qOE5sSKUbAJ6C8f1oloop1qoT736Bbf/nv/MdgS+?=
- =?us-ascii?Q?RaMMB46G/6AVPKwC/Xr5tuqkdmYCmZbW6xy/SNKaSvq6WQn9dkvk26M90eG9?=
- =?us-ascii?Q?aRr+JRIxSYvNUAhG42jIQ5cBI6qyM6G2xglJi6yJm8dYxWQqI/AK/vIQKQfY?=
- =?us-ascii?Q?TbFipslQJuB5OShaPjls0cpqCy0guSob+4ryGgmjhboQqhQ4HR4jvdp7CjR5?=
- =?us-ascii?Q?aT6GsKtQrRVvf/iIZPYksR4pEDuPafaYAKpo4mZ+O7tShIJNPqvSdbSROb5s?=
- =?us-ascii?Q?Ra0Pec32681OVxXgKHtUHUXV+l48fzVy8gh/Xwdtg75gfQ2+B/VMY07K+w/Z?=
- =?us-ascii?Q?R/PDguq/NzDbj8XyN0nrJkpwU6LNOXJ34Qs1CVpfa+hAhx4wCGvl4mev0mNB?=
- =?us-ascii?Q?CtbdGW79Ao/OaeLHFSLnxtNhygWJZMmvOFGLqV7OiwY7or3pjf/kh3vafqVH?=
- =?us-ascii?Q?L5Z8+n1shGbdaMgD+Dt5XLo1poo9YsBAU5qoAznlg4zWQ8XgZU1GCMlpfp40?=
- =?us-ascii?Q?SKD4QO5YAhbLOHsPy2qEv3M=3D?=
+	=?us-ascii?Q?l+GAqqkxaomgvI9aeeb9krKDXBIb2LMIiEA//tOhF8AxIARS+hpio1xNbVEK?=
+ =?us-ascii?Q?X95WAZz8EAPYVPKotwChBYeThsT+UJim8e/BMbh/vsM6mjolXCchatiiInkw?=
+ =?us-ascii?Q?YHtYYLabGmBNKSfI+eC2w4KSo4uumRYIJleT9W89Uu1klUYdjuNRUx/nK6jo?=
+ =?us-ascii?Q?WWzJl0aeQTKaThsyZsNBbmtJWszvTRFi8FmMidUKNKrzD1zDp7EKTXUGZf79?=
+ =?us-ascii?Q?9BOZbFc6+8++ywTclU/PsEhAX+ZGsQtmWZc7fHCM8L+SOxXs4QAm/A+IaVGC?=
+ =?us-ascii?Q?roNGTOuoPZgjnx5I0KIiQY+4l5S3mdKJz+NJwengymnTFMJ0tfo/0NEM/WF2?=
+ =?us-ascii?Q?fjg9tHVojlYqhAJcci3ltI3Tr0dtNAJNa+Ft7aW9FFMPh+w7pFzRJctz36iy?=
+ =?us-ascii?Q?q3XCDbyEOJBQolFgXwGxe61C2S8J7svhbMNRsrCOT6RWlhfF82kMXyNTHPXm?=
+ =?us-ascii?Q?KwzEn+Qc4EsUXvN0UrkHBh48NHXb79LyyiE6i3qRBBwOmO9Xk3mU4/eUUOU3?=
+ =?us-ascii?Q?9uCDTKFHq0MwT1R/ab9wEjklnGZz7jejrQYTpLbQbMCTEQ2C82UxYDL1zsIr?=
+ =?us-ascii?Q?UTQASE/s1U+mEoaGhdueQKpL3erkbz15Vn+L3wTT+Nj4kz1PHq8X1o/OOhgp?=
+ =?us-ascii?Q?UQNiRgvt7ju84cBCN+e6xm85IXjhyGUJWma4bHFoUt+CyxwnsO6v7HMNEWb8?=
+ =?us-ascii?Q?KTo3O9XcRXpoEp2uZ1hN4rJFGmpPNwF5R4SCpeWTiFsM+kN+V5wmISpgv2nQ?=
+ =?us-ascii?Q?OrUlyKCfFxQ9lKccxW6nQ5kivSoHcEicRgEQ5ELzSc/+bJk9Z8/Ti20ZCAyD?=
+ =?us-ascii?Q?EfC2eCvGHwyj7dekX/6SWxLPIJzh8ZZYlRlkp/r26s/aDUhaoezcMs/gzzsL?=
+ =?us-ascii?Q?24VCAPr6S2tmOKdYJAjFXUMUq3EdipVwazbyeGpl9AvglK/UOmoGSxJ30SlG?=
+ =?us-ascii?Q?TZbld9glfcxCvkdaMpdhImdEWjO2oxs4idWHURFohp8yDsVlErGo2bp6JKex?=
+ =?us-ascii?Q?e91n1h/4Nr4cYBkgy9UgtxAwCvGA8WSK/T1K0beH3oLYfNtYBvWM5GQa3/gd?=
+ =?us-ascii?Q?JPzO/HzCH8G/8ZnwtvRRJM6+gd+fG9t03JRsMAm4kmYGZzRw3tx+C27pLdvB?=
+ =?us-ascii?Q?Kpb34v9o1cZic+ZVdUM5M2eNdXpsfYuo5nie73aYQIdUKluALaf1Xra/u8Y8?=
+ =?us-ascii?Q?6RpAUxVYBxvB/iXvvxWLNfUip1pFfsB0GZy3Vl7BRQtDqXNH4OWZmBHJL/ZS?=
+ =?us-ascii?Q?Gq8U+9+OyTygLDyZM6Gn1xM3W0YH9E91u79px1oaV7w0+D7CSFbGnaVzxjqt?=
+ =?us-ascii?Q?HNSnbhF7d8I+oXQHvfP0ZsAThlTSg4d6C2lB0eU2QsaTsr/Uq8XFa4oDsgXb?=
+ =?us-ascii?Q?hTVBMI4/A6+IxDmq8jRoYaEKT9zqmXW/nP5PBm4tooNKhvGTeolOVyja5nm5?=
+ =?us-ascii?Q?7PzWzuc2mnihmI5CQsz1+9gcBw08K386VmuN55Tzn+Qj/xsLwKjF0uHfIe2F?=
+ =?us-ascii?Q?Hp9wvHnKPhAgH35AtVyB8rzsWrHIcXIdWFMfd7/aZoY9BChqI5xZTr1egYTB?=
+ =?us-ascii?Q?jxMFfPsytWP9637eyZY8ovhqKfufBLjryjoaR1EckvwoaF+wIGL+gD0wRczG?=
+ =?us-ascii?Q?gUDGIi9y7pVN8BlOCxj1GUs=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8951.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(376014)(7416014)(52116014)(366016)(1800799024)(38350700014)(7053199007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8951.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(52116014)(19092799006)(38350700014)(18082099003)(7053199007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?9U8owrwWS738VnS2acLwYCW2lzSihNUpng2lYn9B4ShramrVPGSoKrGCg3WT?=
- =?us-ascii?Q?fsz1lZt2NvXKOvLBMKpA9kmQvNueKAkiUrdZoyvyKfYHNWjRGDFsQa6oNoWv?=
- =?us-ascii?Q?/PzrJWG83KAEkDD1yTr+KZwZNNFiM7aISPeEw5VSQi5fej9S6MPlAv1mzLAR?=
- =?us-ascii?Q?bUzJOoH5pKix3/X75Wg0uXVlvnnftzV5xC9RTSg+JmKSAKfbnk/d0+ooW+wV?=
- =?us-ascii?Q?2D6w3f3585veh3PwYPJ/g+yOPiaWx8Zt34NvRRP0JzGpDGcrMEXNgTRgPvtI?=
- =?us-ascii?Q?ZLZ7fdp0EzlNGjEsihn2Wtdjp7k6dZO9H3iTlF8Dj4ahhK298g0UvpGqQqLU?=
- =?us-ascii?Q?mLeTINSYHqlstEsKvlu99cP32nJ1XL4nZbYa8iYviym1rLrj99Be3hgsbZCg?=
- =?us-ascii?Q?upa4rmHZW/wVFktw95lYz7e8z+FmzbIG2A1O5yIAinCcFMRidWHW8YW7uPmM?=
- =?us-ascii?Q?FV3lf6VNaTgOGo93EcxtrftLnRQ1t6sBL7PkNHuUtFDiBtebAGqMuA9JnNDK?=
- =?us-ascii?Q?uhwkyOS0Q0RYYpq8CyZNh2nAuN3ilt1Oei7D2AsLbLXXCAUkCwCwXxfIpVAX?=
- =?us-ascii?Q?hqrBBoWMCBldwq61BaBXOjpXkBDFVQkp1m/jJj6aGR4ndXJOvcjbLU/xwZOX?=
- =?us-ascii?Q?hAkmQbGOeJqvOmy1l7AjgG9il8lognyy/EK5zEzHp2gLQGnjBhE0jzK3sYZJ?=
- =?us-ascii?Q?SjR22xCv+c6uMHQ/1Zj6GTx5YnWCP7d1uGQUvaRsDE6aj7U6Uxw+QE47WfMO?=
- =?us-ascii?Q?bweeslh0sh0caaZggiOOjwZh1LSxOBNjc+pic21MMnLAS1KRHMdjYo3owuMX?=
- =?us-ascii?Q?CCZ72An5xQ6N9BcYbhLpGYco5c3PHUUzaDim1jVCA3IMieDQgwIUDfwgwmts?=
- =?us-ascii?Q?NPKm1TS0YbBqLVbFfvWhwcSn4kSJZHNL7FyA6owlLOlrOt55ruchHJYBxFLI?=
- =?us-ascii?Q?kWZr4kVT/3JLUhBeuns7LG8ASXg/+k/E4RS4qBsmT1dXZBm9HdTspwx61W5k?=
- =?us-ascii?Q?PcbKevy5y1+Ulzu6WvdPE9TYVIEd9wB8inaSySK+DXEFIRFvGI2+vAySt6mZ?=
- =?us-ascii?Q?xQHzbbVRLE2+oWGlnaWPZGNSKafwVP8aslY+Z4oyPheCZbzPdYLqmwvcJ5/v?=
- =?us-ascii?Q?xq/rmtRG2E4vSoyznFuixILKr91h3qc6k02Pn8yNFyOl0D+y+rqFGvL8eTTP?=
- =?us-ascii?Q?4a5scyzefLxrk5W5FKfz1Tg2IC/IxkromMe9fpTI/nkk0A/XzcBr1MxkOzS3?=
- =?us-ascii?Q?AyvFtsxdL9iFUmT+NJwhc3/Uu23uT8i4Iqg6XAWFhhL+mUG5E5weNZz5BDry?=
- =?us-ascii?Q?BmCZkFrzW9VDXVoM/EhQM5JJf63cy6BYrpBVEWKaFFRiAAGx2VPTTXOqEy68?=
- =?us-ascii?Q?28SdNoq2Ow2QwuQOJjLB/OAu0S9rG7YwWubQrwsM7R7CAkgOgdWkLSgduW4p?=
- =?us-ascii?Q?40m7rxYz1+bi9JOdeFY02cXLgSOrdJmvBQTr20q4PoqMVVcmKl3IUQ0Xb6j+?=
- =?us-ascii?Q?cgJ/tD6iyB7xDgvNrVOty6btMoFyUhdBFmrsdVOrIMEW+yVF9BYZZFpz5MIb?=
- =?us-ascii?Q?ESz2Ufg2rO91nC/rDdvyHBcYPt/Zj5z2MeOE+H5BxUxy1s81R/VDCuIBhj9v?=
- =?us-ascii?Q?7cy9BFx5/is0PkgX8A/a9KBBFbSH9o0X0FQsrgCPY8PPOgcWSmoH/Ukq7qQF?=
- =?us-ascii?Q?8IRSYQy6kUri8fix/9r+VYZ6X/A1UEOoE+9+YqfouEiaoLoRGPUabz5jRlKl?=
- =?us-ascii?Q?hhHGfO/5tw=3D=3D?=
+	=?us-ascii?Q?igVBLpz9mT90ebfGMm7MITseY9fzQhHJgncmycRoBgIZyBpiWg8W+45hfa0f?=
+ =?us-ascii?Q?ppKHMEXkw37iheI/JrfcjWAZfdZzJbHxAutJK83yMjR3WXctMXGoDtNaImIC?=
+ =?us-ascii?Q?kXF7Sm36U1Nd9fUahTci/Wk9VSFRG2AjTCvcSE98/LaIhL66tnLlIIH3BN7N?=
+ =?us-ascii?Q?typWLn9/uMGtFLzh5+zkRv39tjEsHsQkenCIDsj34mCE4+KW+6op97InvZ/0?=
+ =?us-ascii?Q?6hG3pFBWpSg++0wSSMGZsmB0bt7iPlZVm7+cj5QW9xjW9hQTkZSgC1x+ioro?=
+ =?us-ascii?Q?ixjjQm2/6hIUrubtT0Ch/hcBCtaexB84inkA0seiLmsdw7OiKD1gUCTDao+S?=
+ =?us-ascii?Q?0aHFm4aiPVhhfzgLCkST75EsHJQQ0Ctt9bReAyIWO+B1MGDi8F9hhZwRsxKt?=
+ =?us-ascii?Q?nUhu6kAPLDkikAKmc9SlQ8ccpMVMiS7S9sBpbA/m+638nZHCRquZpaOyKBzX?=
+ =?us-ascii?Q?aFx96JLn984ezRz9/NpXC83Am/c0KYJCIP1fBr/hdKY0R7xChLqakxjgjq1u?=
+ =?us-ascii?Q?LCSbzhcDvEyk252hUM4hae/j2czEueXi+2p1utDVLlQDQrrMHzUaJmyPexYF?=
+ =?us-ascii?Q?cWNZ2LK+LvvUcYyki7nfJmb0dwWgcDzknVNi0PFX1T+KdP6PoNJshauwVZQf?=
+ =?us-ascii?Q?8Iyve43/MYKk+QkdCi2rk1jvGrvMW+uSr/0sK2UXFCL0PO2wVumJKdLuerbA?=
+ =?us-ascii?Q?/5gNC87dNVCxQDDeDzlX/7qzil//sUkn2y/5WEAEXSH7LNla1OMZlXEKqokQ?=
+ =?us-ascii?Q?SIBNYPcZfILvA23Kw+X8hjlvpNPmIG1EooeIAc/5ZtNxqiOzoqrcb258DBUr?=
+ =?us-ascii?Q?ni/1dedJ7JkZipmc3tTesYdRKA90uEwm6rvnOx5F91dI3AjQSbshswnKe6wk?=
+ =?us-ascii?Q?xRzKwl4sRcRykSt64XoOfCVyrfHLxWY/SDwMcD3oH72+i8uIzFzAs5TRAFGG?=
+ =?us-ascii?Q?e2S50GB8Z/DuYKwmAz/IMbkojEeWPoBEpQj0GhWg8QJ6SJKlnCMKwlA+rzqC?=
+ =?us-ascii?Q?Aks/sE98YdZsyS14kjq2g4wKsT/K/oWgvIcVZmR/qGsjCD6mnA+F8jRR1DZu?=
+ =?us-ascii?Q?KwlPrNCR86rSSHtJQ8xoWsikINZbatK0yVN9wF2sqS8EqdfwTqi4pFCIvri8?=
+ =?us-ascii?Q?6gXa698I0F/36DL3z/umBfmrtBF3AMMbKBglb/GBTH/JXzeMnz1E6cc+NaRx?=
+ =?us-ascii?Q?x3QFammX4b2K0dasM2CtJbR9HzvpNALYr37msj83DhV1vL9L+0bIiOD87Mfr?=
+ =?us-ascii?Q?Xhae9V0Pt3Ydv6PBx8gjGRYWms0S4DHx4kVRjyMgE4svG6bn4R3D6e36hJlB?=
+ =?us-ascii?Q?h9ALuQx4io+c36baZv2COZJaYNQB17GvnGHvvrS7C8E9DtQ53PZ73Lv5nbD2?=
+ =?us-ascii?Q?7K2qJLs7blQwyR2EduXTVXoFcbKYreo332q3xqrseFV2pMdkurK936PTBScp?=
+ =?us-ascii?Q?lN36a5AbngLyptOcxq+THKJJX+rAscVS8CLpNIUVE7AQxSVMoHOCAaSBp2TB?=
+ =?us-ascii?Q?WAD+px0t3l8pb/m2jgTQH+yDQ3WGzxtcF0cGM6HuG6aauu0ZdB6k2uQteBEK?=
+ =?us-ascii?Q?oOpoxD9DszVHqBDjtbYqwPaRuNADT3wzvbGpgUiVXTBliceqmSSZcJdpxrPb?=
+ =?us-ascii?Q?/Ma1ItwWjBMRL/WXfncHgmEF448YbNnmxf9HuvTnWt+Mm6PXsuFJ8J+Q8XCK?=
+ =?us-ascii?Q?c9hCRNygHrh+GvPJgjj/E7X1mPszhkzy81HCLuXCX+Xk37Hv?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 36623560-a3c5-42d7-bffb-08de56b3dae7
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5919bc83-4112-493d-7309-08de56b5b539
 X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB8951.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jan 2026 17:06:00.6642
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jan 2026 17:19:16.3994
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QoKFWC+skoOAj7VDkV0ZtxEwCkuWO+/e4tCZnP5Wg/RdNRSExT21Hicy2p0ioJLWpopREoAr6mZQ5KdIhlcPSg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB11932
+X-MS-Exchange-CrossTenant-UserPrincipalName: S71jxcg/gl4AAIrfkYXMwspHi9Zm4oWXIF1HvfgPW0ZBzWJlQINQjupJbVqYupicN9pYRKPce2SoANLsOUdd5w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB11644
 
-On Sun, Jan 18, 2026 at 10:54:07PM +0900, Koichiro Den wrote:
-> A remote eDMA provider may need to expose the linked-list (LL) memory
-> region that was configured by platform glue (typically at boot), so the
-> peer (host) can map it and operate the remote view of the controller.
+On Sat, Jan 17, 2026 at 01:12:04AM +0100, Marek Vasut wrote:
+> There are designs incorporating Ilitek ILI2xxx touch controller that
+> do not connect interrupt pin, for example Waveshare 13.3" DSI display.
+> To support such systems use polling mode for the input device when I2C
+> client does not have interrupt assigned to it.
 >
-> Export dw_edma_chan_get_ll_region() to return the LL region associated
-> with a given dma_chan.
-
-This informaiton passed from dwc epc driver. Is it possible to get it from
-EPC driver.
-
-Frank
+> Factor out ili210x_firmware_update_noirq() to allow conditional scoped
+> guard around this code. The scoped guard has to be applied only in case
+> the IRQ line is connected, and not applied otherwise.
 >
-> Signed-off-by: Koichiro Den <den@valinux.co.jp>
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
+
 > ---
->  drivers/dma/dw-edma/dw-edma-core.c | 26 ++++++++++++++++++++++++++
->  include/linux/dma/edma.h           | 14 ++++++++++++++
->  2 files changed, 40 insertions(+)
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Cc: Frank Li <Frank.Li@nxp.com>
+> Cc: Job Noorman <job@noorman.info>
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: devicetree@vger.kernel.org
+> Cc: linux-input@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> ---
+> V2: Test client->irq > 0 for IRQ presence
+> V3: - Rebase on dev_err_probe() conversion
+>     - Fix if (client->irq > 0) in ili210x_firmware_update_store()
+> V4: No change
+> ---
+>  drivers/input/touchscreen/ili210x.c | 76 +++++++++++++++++++++--------
+>  1 file changed, 56 insertions(+), 20 deletions(-)
 >
-> diff --git a/drivers/dma/dw-edma/dw-edma-core.c b/drivers/dma/dw-edma/dw-edma-core.c
-> index 0eb8fc1dcc34..c4fb66a9b5f5 100644
-> --- a/drivers/dma/dw-edma/dw-edma-core.c
-> +++ b/drivers/dma/dw-edma/dw-edma-core.c
-> @@ -1209,6 +1209,32 @@ int dw_edma_chan_register_notify(struct dma_chan *dchan,
+> diff --git a/drivers/input/touchscreen/ili210x.c b/drivers/input/touchscreen/ili210x.c
+> index 264eee3e61d0a..22917a5825778 100644
+> --- a/drivers/input/touchscreen/ili210x.c
+> +++ b/drivers/input/touchscreen/ili210x.c
+> @@ -327,9 +327,8 @@ static bool ili210x_report_events(struct ili210x *priv, u8 *touchdata)
+>  	return contact;
 >  }
->  EXPORT_SYMBOL_GPL(dw_edma_chan_register_notify);
 >
-> +int dw_edma_chan_get_ll_region(struct dma_chan *dchan,
-> +			       struct dw_edma_region *region)
-> +{
-> +	struct dw_edma_chip *chip;
-> +	struct dw_edma_chan *chan;
-> +
-> +	if (!dchan || !region || !dchan->device)
-> +		return -ENODEV;
-> +
-> +	chan = dchan2dw_edma_chan(dchan);
-> +	if (!chan)
-> +		return -ENODEV;
-> +
-> +	chip = chan->dw->chip;
-> +	if (!(chip->flags & DW_EDMA_CHIP_LOCAL))
-> +		return -EINVAL;
-> +
-> +	if (chan->dir == EDMA_DIR_WRITE)
-> +		*region = chip->ll_region_wr[chan->id];
-> +	else
-> +		*region = chip->ll_region_rd[chan->id];
-> +
-> +	return 0;
+> -static irqreturn_t ili210x_irq(int irq, void *irq_data)
+> +static void ili210x_process_events(struct ili210x *priv)
+>  {
+> -	struct ili210x *priv = irq_data;
+>  	struct i2c_client *client = priv->client;
+>  	const struct ili2xxx_chip *chip = priv->chip;
+>  	u8 touchdata[ILI210X_DATA_SIZE] = { 0 };
+> @@ -356,8 +355,22 @@ static irqreturn_t ili210x_irq(int irq, void *irq_data)
+>  				usleep_range(time_delta, time_delta + 1000);
+>  		}
+>  	} while (!priv->stop && keep_polling);
 > +}
-> +EXPORT_SYMBOL_GPL(dw_edma_chan_get_ll_region);
 > +
->  MODULE_LICENSE("GPL v2");
->  MODULE_DESCRIPTION("Synopsys DesignWare eDMA controller core driver");
->  MODULE_AUTHOR("Gustavo Pimentel <gustavo.pimentel@synopsys.com>");
-> diff --git a/include/linux/dma/edma.h b/include/linux/dma/edma.h
-> index 3c538246de07..c9ec426e27ec 100644
-> --- a/include/linux/dma/edma.h
-> +++ b/include/linux/dma/edma.h
-> @@ -153,6 +153,14 @@ bool dw_edma_chan_ignore_irq(struct dma_chan *chan);
->  int dw_edma_chan_register_notify(struct dma_chan *chan,
->  				 void (*cb)(struct dma_chan *chan, void *user),
->  				 void *user);
+> +static irqreturn_t ili210x_irq(int irq, void *irq_data)
+> +{
+> +	struct ili210x *priv = irq_data;
 > +
-> +/**
-> + * dw_edma_chan_get_ll_region - get linked list (LL) memory for a dma_chan
-> + * @chan: the target DMA channel
-> + * @region: output parameter returning the corresponding LL region
-> + */
-> +int dw_edma_chan_get_ll_region(struct dma_chan *chan,
-> +			       struct dw_edma_region *region);
->  #else
->  static inline int dw_edma_probe(struct dw_edma_chip *chip)
->  {
-> @@ -182,6 +190,12 @@ static inline int dw_edma_chan_register_notify(struct dma_chan *chan,
->  {
->  	return -ENODEV;
+> +	ili210x_process_events(priv);
+>
+>  	return IRQ_HANDLED;
+> +};
+> +
+> +static void ili210x_work_i2c_poll(struct input_dev *input)
+> +{
+> +	struct ili210x *priv = input_get_drvdata(input);
+> +
+> +	ili210x_process_events(priv);
 >  }
-> +
-> +static inline int dw_edma_chan_get_ll_region(struct dma_chan *chan,
-> +					     struct dw_edma_region *region)
-> +{
-> +	return -EINVAL;
-> +}
->  #endif /* CONFIG_DW_EDMA */
 >
->  struct pci_epc;
+>  static int ili251x_firmware_update_resolution(struct device *dev)
+> @@ -829,12 +842,32 @@ static int ili210x_do_firmware_update(struct ili210x *priv,
+>  	return 0;
+>  }
+>
+> +static ssize_t ili210x_firmware_update_noirq(struct device *dev,
+> +					     const u8 *fwbuf, u16 ac_end, u16 df_end)
+> +{
+> +	struct i2c_client *client = to_i2c_client(dev);
+> +	struct ili210x *priv = i2c_get_clientdata(client);
+> +	const char *fwname = ILI251X_FW_FILENAME;
+> +	int error;
+> +
+> +	dev_dbg(dev, "Firmware update started, firmware=%s\n", fwname);
+> +
+> +	ili210x_hardware_reset(priv->reset_gpio);
+> +
+> +	error = ili210x_do_firmware_update(priv, fwbuf, ac_end, df_end);
+> +
+> +	ili210x_hardware_reset(priv->reset_gpio);
+> +
+> +	dev_dbg(dev, "Firmware update ended, error=%i\n", error);
+> +
+> +	return error;
+> +}
+> +
+>  static ssize_t ili210x_firmware_update_store(struct device *dev,
+>  					     struct device_attribute *attr,
+>  					     const char *buf, size_t count)
+>  {
+>  	struct i2c_client *client = to_i2c_client(dev);
+> -	struct ili210x *priv = i2c_get_clientdata(client);
+>  	const char *fwname = ILI251X_FW_FILENAME;
+>  	u16 ac_end, df_end;
+>  	int error;
+> @@ -860,16 +893,12 @@ static ssize_t ili210x_firmware_update_store(struct device *dev,
+>  	 * the touch controller to disable the IRQs during update, so we have
+>  	 * to do it this way here.
+>  	 */
+> -	scoped_guard(disable_irq, &client->irq) {
+> -		dev_dbg(dev, "Firmware update started, firmware=%s\n", fwname);
+> -
+> -		ili210x_hardware_reset(priv->reset_gpio);
+> -
+> -		error = ili210x_do_firmware_update(priv, fwbuf, ac_end, df_end);
+> -
+> -		ili210x_hardware_reset(priv->reset_gpio);
+> -
+> -		dev_dbg(dev, "Firmware update ended, error=%i\n", error);
+> +	if (client->irq > 0) {
+> +		scoped_guard(disable_irq, &client->irq) {
+> +			error = ili210x_firmware_update_noirq(dev, fwbuf, ac_end, df_end);
+> +		}
+> +	} else {
+> +		error = ili210x_firmware_update_noirq(dev, fwbuf, ac_end, df_end);
+>  	}
+>
+>  	return error ?: count;
+> @@ -945,9 +974,6 @@ static int ili210x_i2c_probe(struct i2c_client *client)
+>  	if (!chip)
+>  		return dev_err_probe(&client->dev, -ENODEV, "unknown device model\n");
+>
+> -	if (client->irq <= 0)
+> -		return dev_err_probe(dev, -EINVAL, "No IRQ!\n");
+> -
+>  	reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
+>  	if (IS_ERR(reset_gpio))
+>  		return PTR_ERR(reset_gpio);
+> @@ -997,10 +1023,20 @@ static int ili210x_i2c_probe(struct i2c_client *client)
+>  	if (error)
+>  		return dev_err_probe(dev, error, "Unable to set up slots\n");
+>
+> -	error = devm_request_threaded_irq(dev, client->irq, NULL, ili210x_irq,
+> -					  IRQF_ONESHOT, client->name, priv);
+> -	if (error)
+> -		return dev_err_probe(dev, error, "Unable to request touchscreen IRQ\n");
+> +	input_set_drvdata(input, priv);
+> +
+> +	if (client->irq > 0) {
+> +		error = devm_request_threaded_irq(dev, client->irq, NULL, ili210x_irq,
+> +						  IRQF_ONESHOT, client->name, priv);
+> +		if (error)
+> +			return dev_err_probe(dev, error, "Unable to request touchscreen IRQ\n");
+> +	} else {
+> +		error = input_setup_polling(input, ili210x_work_i2c_poll);
+> +		if (error)
+> +			return dev_err_probe(dev, error, "Could not set up polling mode\n");
+> +
+> +		input_set_poll_interval(input, ILI2XXX_POLL_PERIOD);
+> +	}
+>
+>  	error = devm_add_action_or_reset(dev, ili210x_stop, priv);
+>  	if (error)
 > --
 > 2.51.0
 >
