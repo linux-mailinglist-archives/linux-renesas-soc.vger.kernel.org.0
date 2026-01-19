@@ -1,77 +1,76 @@
-Return-Path: <linux-renesas-soc+bounces-27075-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27076-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46FC9D3B7BE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Jan 2026 20:55:41 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6AD1D3B7A9
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Jan 2026 20:53:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6CE0D30BBBEF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Jan 2026 19:53:19 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 737BD301D60D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Jan 2026 19:53:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D1CD2DCF58;
-	Mon, 19 Jan 2026 19:53:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BBDB2DB7A3;
+	Mon, 19 Jan 2026 19:53:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="QgR28dfC"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="D7ymDlD2"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7977E2DEA6F
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Jan 2026 19:53:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6CF42DC792
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Jan 2026 19:53:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768852399; cv=none; b=VBxzLnI1m677AJQxAR/msoDehI9QFpiGv0RwJDLrIhHFbn3w5gbnWLyuy7SQmothXhagVIgVTWe50lDEv7L9ov7qiNE7HTKL5+ySmsc47ndNgwBd7Ct9DGe0f2pyzjnhMa8v1txZK1CwuC3MFWnSpwpEpZJL6ruoIBTXugqk4pg=
+	t=1768852404; cv=none; b=MbkEWwvjHkC1rEtbCMcoAQ5VcILFjI3ZNGRudfN3jon0fbl/jAFCLnxYErZSWdahRRG71Om9mHMHuTtlS9h2CLlRB4uSvj0jW4gPL2abKYTgl23qpHicOH16CiElPNiqAliWGwbeFd5oJPTl1hvLzJ6run6XT4O5NSkUPDu3Eeo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768852399; c=relaxed/simple;
-	bh=Snxh1hWiJUkWobs14saFJw6n6BxULznOgNBMqPgvlxQ=;
+	s=arc-20240116; t=1768852404; c=relaxed/simple;
+	bh=OkSIcX1TDdic1UCogaglUYNDHLLvjkuOMxDbsuQWufY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Xx+EagSo50NQbK/eMZQZDAW1DJsluvH5fn8h9WZCAu9/bBLcjeoE+eCqdcikngJbGPRW+IeWPzuHXibGTpoSGREgzXlB3NfducOBENv4BeXabv1FO2ipbyk+OzbM06K9+vl01KAaRIxsqhS0tx4i2xBgaUJqay73ottC7ZJb684=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=QgR28dfC; arc=none smtp.client-ip=209.85.218.45
+	 MIME-Version; b=pL2VH6nHQlsyWRLUdlxJgD/NXC21yU6Rn1MCOs+SraOC3tkNoorWYZyZTEreP8J86L1rQ6bg/+0KiLqk8UEhEV9WGizL+QH/gN5M/jmnuR168hCdq3UrIzp81YcmbmU7v3ASRrWW3sAPTwxpwnZv+BPomKG1usnyYG/4LhgqmkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=D7ymDlD2; arc=none smtp.client-ip=209.85.208.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b87693c981fso788586766b.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Jan 2026 11:53:14 -0800 (PST)
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-64b9230f564so6127062a12.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Jan 2026 11:53:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1768852393; x=1769457193; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1768852394; x=1769457194; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=p/yDyZcj8ePhaL/yIl3vTy9lauZCAE87dk0c2WvASW8=;
-        b=QgR28dfCOE0HruI7ZSu4R+yrnWEfD8Wq9VwBNM8/P49h8N2aWZXhhafkKEKBmPeEO3
-         WZUzyKrnSBnbg7XS2OStqkFFJ9TkD5TBCg1/3JDQ5jQ0G78UxBYHtq9EufUkhIEbYG+i
-         niIlPQjkEWcGZs4sfsfNgRBR3f28bTRhc77lh27iPcAY56dvtBz5q5jz6+EbcpFBRwEI
-         DlqWaoZHgLvHLgJd7o6L9MXMNgL4tZ7XaHeTx6Jw1s+AsrlzyRIP8kKX4BhjC0lkwnvx
-         67OzLZGwrLR07645ty+w1HAIFSf9p5IZoiobZfvBzoZygJuatbtygWuyVJS9gyj94BO0
-         Aqkg==
+        bh=jFLMF0ktRrYnvXvDNuXEPfc/Kts5kt/g8ss5+3byzFE=;
+        b=D7ymDlD20jDqkMCgzVm6nMMpmIFYd5wNCzelk/+ogD0CxY3Rn2Yq3Y+LPWw4opHe6A
+         gIosvZdxmi3la82fQSuILCEW4tNtwfCbwwQ4h57ZqllJB7YAhLtsiSzWIVbJGJjXz7nn
+         G1ouviBl2A9nhoNm+EidcStHPgKF+WhwQ2miJHp0UTlyLSQXwrHx52VvZancaoavvcA5
+         M+YAmhHypEfJny0UWBbry9Fq3jixOVBIK6On6WvUraPk0uBFL3t/N8KRZ4k3QJM401Cy
+         PSnmt5HazzxHM0VSWE4vypKGYYS/3dZJfcLq2dlvqZ5cjoLnqNsgo03LEffCyfthlx0x
+         00nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768852393; x=1769457193;
+        d=1e100.net; s=20230601; t=1768852394; x=1769457194;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=p/yDyZcj8ePhaL/yIl3vTy9lauZCAE87dk0c2WvASW8=;
-        b=BbwSfOYkg+nywM4LQujeoK7GBJoOXhann2M7LfDCTrp+eIQJcALVu+QU+cBMZ3vSbE
-         qwQ4yzLL5nOI5rHLnh3cT05z5KtUeZ8C+/8P4XTjusW93EKQ8YpQ2WhZuDymbr9q4MQ5
-         wSnW2lvxKvmmu9kn2r8hWUtSuLY3SwIsXj0P76hMzuPmfX8qe2B0loFJLWbLKi9V1eEA
-         j2iUsSrURHwAi5yGsWQsZ4T7m1Kp6i77hJLhX068FOiyPoToII7LMsG4gCfMePfofJKY
-         dpGdCuiFsuIKbg5UgbnehQET0VfKoTOCNQ4aE84dqNvTjdVRupIGyquvLTFZ1OKfcUPb
-         Bhhw==
-X-Forwarded-Encrypted: i=1; AJvYcCVQnlvgmsEmi07utEIb6RvHYklSgZuIUtvhV13Je0xKaqcKbzYqOpJOt/iHZzj+oUW2JZSiF2mUf1quehh3CFWE0A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwSfEiyR4sEX5Yg7MzhmHYMG/oFJWLcGLUHN7AwOfxWEgYPHsMH
-	x6ccE/DKXzhQ6CG5macb3pAaM/auUrYGoAwIvHA5sF9mdyV5ZaGrTMd5WtcvfdS2CCDIXjduIJi
-	i+REd
-X-Gm-Gg: AY/fxX5sy8IjlHyFnBR78oMvYocd5d49Lrb00pkB6ytjnkjUxLUubMgdzskScclFVoU
-	H7SOyXV2xzooNjVhQxgSulXByb/jb1yzc2MJBrtxZU0t47AZW8kdFaOSZeBxOimz2i3WnHEnMXT
-	6o/qbR1QuSEbuL+4ztkKE7tx8w3hD+81gqvbjnmFpABtess3sbck9cFkK0d1tl9WgQf8WTZaWaA
-	bgY5PC43Hqerfo7exO+YKoMHPKlRVPtW8ivODtlX5LsS5yyC3pZ2oUs2TIda/3o9lWRUlGSWqT/
-	iHH7xu5FWOVoj2A5k0kn55cFg6AxebhS2m3oxpUhQ4AQPgYV4GrKkOtx4Z2HCC7K6D0bDr/eQYz
-	9V6/FcdXBDSpatf59sg8Hb/eDxBULPCx/OKmlKZqwKnufWEwAe4d2egsoRiOnG/MeVJqgxw9Hb7
-	kQ/sl5+irMOdLqKmshYgRPp6BtqML/1hpL7Ll2as8=
-X-Received: by 2002:a17:907:2d13:b0:b73:210a:44e with SMTP id a640c23a62f3a-b8792f79a90mr1044358866b.30.1768852392504;
-        Mon, 19 Jan 2026 11:53:12 -0800 (PST)
+        bh=jFLMF0ktRrYnvXvDNuXEPfc/Kts5kt/g8ss5+3byzFE=;
+        b=FwJKIr59Xod5WGFD9BPGvdMBaIsR4IiCeiOGsqtQK/M4ESwxYx9wLyJrLFGn5rwpsj
+         ShgCdMnTYy/edeoyRY8Tx30lKij2shtjml7BIEhnUdSOSOJ08EWdG5oJK/i1ANRjFcpO
+         gF2By4CUCxVAgfvJieyndInjl6PLkb+hqYydqsIB1sLAj6uEfHt+c6OHs7BDHAPeXDzN
+         ZmbEd933cB48WChPdHpt4PfkqMafuhScFFa/URTlOO3m+/zScvoc9Od1QgunYZEMJTS+
+         tW2GxM+NWcHeyKvDS+FDKo92Zc5W4xH4m3dQirdLhhZCBQT54j7LrMaoweKi5n490Wxh
+         XDhQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUHztx5zgOy/LTuVY86A2gIwuAihT/Cy4/v8oVs86fYUuECDl3sUsDpCYf4YC7dA1NcoCcyBluBp6Wj5i3AH6H1Ew==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzENwV6T363nho/y6/PrKxgYaKNS4zkF/WkQCGHd8HltxZwM9MC
+	ElfbqZV7ESrVoCx4vvH7loEYbJwva9xZgjzh6oQv+Cm8Zltjq5vG8wKe2wo9ZNGC17A=
+X-Gm-Gg: AZuq6aLvvG7t9Nik92FtqrW/oZKSNMdcf4mMIK7tdc1aL0H+VJ4Ir5vKGRwpb5jPn9a
+	PRMenGiU5h9+pqy0jmOKh9WSjZCiniNK5t/AAC7Pp1NFhP6oj8nIFwLvYpuh4lW2mhpVk5Tclaa
+	E4/Ry3T7eBwsx7roCEHUV9al9XIij5XAATFMkY2xzDz2XOrVxoO9Nc/xi/l5NVBOhbsIkG6GynM
+	UH7JPYAwJ0PdUKk6T7lKC6nglsW+QUbOlS2cfUSDDYD5ZEHbXP+a8f4damUm7bHb8ZjZpnOmCGC
+	4HOorPldM9jF4xnQO+7JPeXriDmoW6l/CjaITb2Qi+o18lIMMUEza8NVz9g0EBmVAXSCR2cuSJW
+	TV56aCYlihshRiE3kkdeL1osMoSAgbcBaBmur+HbRuaUDdHJtGXBZH8dJUJLVur9KfgZwtIhKzh
+	iV9m/AT8oQvL0HmrdE44WoXsMcfaTuQreCKqwkbFU=
+X-Received: by 2002:a17:907:74e:b0:b87:2579:b6cf with SMTP id a640c23a62f3a-b8792fc4376mr1132619266b.41.1768852394000;
+        Mon, 19 Jan 2026 11:53:14 -0800 (PST)
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.31])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b87959fbb38sm1167248266b.52.2026.01.19.11.53.11
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b87959fbb38sm1167248266b.52.2026.01.19.11.53.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Jan 2026 11:53:12 -0800 (PST)
+        Mon, 19 Jan 2026 11:53:13 -0800 (PST)
 From: Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To: biju.das.jz@bp.renesas.com,
@@ -85,9 +84,9 @@ Cc: claudiu.beznea@tuxon.dev,
 	linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH 2/4] ASoC: renesas: rz-ssi: Drop unnecessary if condition
-Date: Mon, 19 Jan 2026 21:52:50 +0200
-Message-ID: <20260119195252.3362486-3-claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH 3/4] ASoC: renesas: rz-ssi: Drop the & operator in front of function name
+Date: Mon, 19 Jan 2026 21:52:51 +0200
+Message-ID: <20260119195252.3362486-4-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260119195252.3362486-1-claudiu.beznea.uj@bp.renesas.com>
 References: <20260119195252.3362486-1-claudiu.beznea.uj@bp.renesas.com>
@@ -101,39 +100,52 @@ Content-Transfer-Encoding: 8bit
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-The is_stopped variable can be initialized directly at declaration,
-removing the need for an extra if condition. Drop the if condition and
-initialize is_stopped at declaration.
+There is no need for & operator in front of the function name. Drop it.
 
 Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 ---
- sound/soc/renesas/rz-ssi.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ sound/soc/renesas/rz-ssi.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/sound/soc/renesas/rz-ssi.c b/sound/soc/renesas/rz-ssi.c
-index 35239ed7f916..694b32214109 100644
+index 694b32214109..76e7f0fe9df9 100644
 --- a/sound/soc/renesas/rz-ssi.c
 +++ b/sound/soc/renesas/rz-ssi.c
-@@ -604,7 +604,8 @@ static irqreturn_t rz_ssi_interrupt(int irq, void *data)
- 		return IRQ_HANDLED; /* Left over TX/RX interrupt */
+@@ -1188,7 +1188,7 @@ static int rz_ssi_probe(struct platform_device *pdev)
+ 		goto err_release_dma_chs;
+ 	}
  
- 	if (irq == ssi->irq_int) { /* error or idle */
--		bool is_stopped = false;
-+		bool is_stopped = !!(ssisr & (SSISR_RUIRQ | SSISR_ROIRQ |
-+					      SSISR_TUIRQ | SSISR_TOIRQ));
- 		int i, count;
+-	ret = devm_request_irq(dev, ssi->irq_int, &rz_ssi_interrupt,
++	ret = devm_request_irq(dev, ssi->irq_int, rz_ssi_interrupt,
+ 			       0, dev_name(dev), ssi);
+ 	if (ret < 0) {
+ 		dev_err_probe(dev, ret, "irq request error (int_req)\n");
+@@ -1205,7 +1205,7 @@ static int rz_ssi_probe(struct platform_device *pdev)
+ 				return ssi->irq_rt;
  
- 		if (rz_ssi_is_dma_enabled(ssi))
-@@ -612,9 +613,6 @@ static irqreturn_t rz_ssi_interrupt(int irq, void *data)
- 		else
- 			count = 1;
+ 			ret = devm_request_irq(dev, ssi->irq_rt,
+-					       &rz_ssi_interrupt, 0,
++					       rz_ssi_interrupt, 0,
+ 					       dev_name(dev), ssi);
+ 			if (ret < 0)
+ 				return dev_err_probe(dev, ret,
+@@ -1218,14 +1218,14 @@ static int rz_ssi_probe(struct platform_device *pdev)
+ 				return ssi->irq_rx;
  
--		if (ssisr & (SSISR_RUIRQ | SSISR_ROIRQ | SSISR_TUIRQ | SSISR_TOIRQ))
--			is_stopped = true;
--
- 		if (ssi->capture.substream && is_stopped) {
- 			if (ssisr & SSISR_RUIRQ)
- 				strm_capture->uerr_num++;
+ 			ret = devm_request_irq(dev, ssi->irq_tx,
+-					       &rz_ssi_interrupt, 0,
++					       rz_ssi_interrupt, 0,
+ 					       dev_name(dev), ssi);
+ 			if (ret < 0)
+ 				return dev_err_probe(dev, ret,
+ 						"irq request error (dma_tx)\n");
+ 
+ 			ret = devm_request_irq(dev, ssi->irq_rx,
+-					       &rz_ssi_interrupt, 0,
++					       rz_ssi_interrupt, 0,
+ 					       dev_name(dev), ssi);
+ 			if (ret < 0)
+ 				return dev_err_probe(dev, ret,
 -- 
 2.43.0
 
