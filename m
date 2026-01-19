@@ -1,111 +1,125 @@
-Return-Path: <linux-renesas-soc+bounces-27054-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27055-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1D02D3AFCA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Jan 2026 16:58:59 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41458D3AFE3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Jan 2026 17:01:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 09A4A30019FA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Jan 2026 15:58:56 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id B4BAC301DE0C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Jan 2026 16:00:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B52B822B5A3;
-	Mon, 19 Jan 2026 15:58:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 981A8205E26;
+	Mon, 19 Jan 2026 16:00:10 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
+Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6080A23D7F4
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Jan 2026 15:58:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 142851F4615
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Jan 2026 16:00:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768838332; cv=none; b=NIsKRI8/u7EwybwaxhjLrbjZLe9KhopqxgfjMMj09WXHoTlKh9oFMx/OpLF1cdywLBslWqbRUE3qDXBLX8mL/FRgha5HuYKZVODNIufLLEAQYvPluI5Y5vQHrZNvarTzlcluxal+b96a2tgvriyjJ6wg0MPqijyCfVlhmFpP6SU=
+	t=1768838410; cv=none; b=SZyHJLnjEzO9n9X3E19m8zMNtQM+8dX2WzZixT3DNy4PoSUOFTfj6XwiG55O3OwKqJIDAmHQDu8kO/bhlCkqF1H1wahGnvlyIVhtej+J6YRIildRD8gLXz98ZAkqX4KcJ3/CoYSwAoCZiXcyQ3eC2Wck4t2JxyvNOsLnyC2miq4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768838332; c=relaxed/simple;
-	bh=19bTvFO2oXBa4nAZxK9G/wlSld0cACHrB0Ghe6tTkDc=;
+	s=arc-20240116; t=1768838410; c=relaxed/simple;
+	bh=eb6D6/a55vm9al21kajs54FVPI2y4Ag9eZRWr0kdwgI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JHbpKNLOOo96QksTE4eqzZ7F5m60H8bVN3JUqtrJlNYZlcZnsZM7hSSWk5eUHedpBjUHBWPfRmRBnaIpOkfeLPy6K5A4N/OCzTTZYseC3IM8UtTLETKNke5imhk2aLlqe5sd9601y7Bz3ZGZSQKF/apJK1HF5dsI7oajk7f9po4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.181
+	 To:Cc:Content-Type; b=VJGltvrjEpPMgF704eAVZm2s4nSihVGcb5Q8+cCeDMzhRGLw88xRLGMdZlHU9srXGa5RWa97ulLi1DUo1h6wWFP0p3LlG1S4956UyIOhAwieUNn16pwpz+ivMm8TlKpN5px5xv0xIxyF2k7a1WRGe9BvVkvHgPsTnqsUiqeg6RE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-55b219b2242so2775119e0c.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Jan 2026 07:58:51 -0800 (PST)
+Received: by mail-vs1-f45.google.com with SMTP id ada2fe7eead31-5eea75115ceso3973086137.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Jan 2026 08:00:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768838330; x=1769443130;
+        d=1e100.net; s=20230601; t=1768838408; x=1769443208;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kwYpB7OUoD7RGVXAKZghgG2fL8VsvMsrJb3SXVA7oO4=;
-        b=MhtLieR/szB1bWlv28A1KZk1Cz0EpBlPqIpPYDN2JZ9ph2ZNpah/lcG6NAf6INlDf1
-         ukuZaSRZ6W6MSa1Yc/yM5aE97Gk3T9ESZdF8RPODwzXzGYErG11GoIKYH7ow+dl+y9l+
-         wpYmaCiniZHpfm4/9S5VlOd9CBeRkol70cVzsXr87KyyXEJTjO1q+PgY2JGlOachhSHl
-         DCP14nDjH62Ax5PKvbPPT3PG/bgycNFSCBrDFB+VIezYUeRahRIwRh0lkz0juLDYHnow
-         7uMg2itJQC677q88n539cI0zMdE08b1QC6CY7GGPA+C3vaAblukOAq9oauna+d6oWrKQ
-         lrgg==
-X-Forwarded-Encrypted: i=1; AJvYcCXtjKrsANwQiB5MKnziZ/pyP1KTRQgESwK31MgsN6gzrzCryFH0l3jnXrheO7bCPQfLjxBKGVQjRY1/Z0GywJSN7g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxGEg6cQ2Wi3htL8h/RtBpNQh3+SCznn689393xj64YgmPPMaHp
-	lm2ngpeVhsDAnibu+74k0bxEsnfYCZxhyuM8mef7pT9+tlvaT44HurCh8JbQtepl
-X-Gm-Gg: AY/fxX7x8XZnpQiX1+fUV3eNhcVFl1Gr/UMh2jwMtzCLutdVqzsIdQw/G1+3FgIgV98
-	LkcdpKL/Fo0z12UgYROe1rPXKvg50JLUDwvHLLAvQeY5iHkkahgMBJ557Y+eVP6+N7LdyWNiURw
-	uae1ZoTpJg9Lkuc9QrdvITlCzkVgNZrGggbVtQh4NWzkb0wo5hyZRZOD1hLxWb+8iNTS/ny6o2a
-	jZNhQhzz/mnB2jag2S4Fv/KEFXCx8R5Ajmgrb3KPs0zcJrgjbI7AZVqz+Q00kqdULJxJcVxkF7N
-	q+FXGepjaqx99747jOY0CoUzzvXvNCD+bMg/UChY3Om4ETySMOprE7K3/e1vVNF0dcxHU1eFaBX
-	uTCJPnud8ltU2vLJ5y9UhMV2XysPGzI2JU4fTFNBj5OBl6cqzeR8wqtstN0I4qcABnRDJl68VJS
-	FWQINcs2ZwSKas9QTU6NgPcFcQuEd27++loD9vF+Lh1a2Jpnznu5vy
-X-Received: by 2002:a05:6122:4685:b0:54a:a3b1:db63 with SMTP id 71dfb90a1353d-563b63dc48cmr3650788e0c.6.1768838330071;
-        Mon, 19 Jan 2026 07:58:50 -0800 (PST)
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com. [209.85.221.172])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-563b6fddedesm2795492e0c.1.2026.01.19.07.58.49
+        bh=1hT58BDTF1pvqexWRcVDA+bO694WnbhM+to2RCxxMZI=;
+        b=WOEQJw5LgYuHvvYvow0tC2PdAcujCRQo4azclMcgSDTecR8c5IVxZ2C30fuSFv637s
+         17+BCW/CEHxNHRkbo2Ol6FddJS2B3tXn87+3406GPIf6Z47wLG4o/iHR+wqZbLJgMmim
+         rT3HnO/LJ+iUX6Q/Jt+i9/o6ZIqGrzxCXG0RcsuOs3Jd0kAK8jx5IzJHRcIlf/gvph38
+         230uAq9stwolkY8d6F17pEXvYep366obSIS6OBIjKoV++MDunm48SaeIF3EpiIvCCWuX
+         BLWW54IwzEqwayScj54zmQHoEVGKPYhVB223lJLdNxXxtXjaFw8zmPcTUim4iYgT/rLi
+         RoAg==
+X-Forwarded-Encrypted: i=1; AJvYcCUqqGKwzF3XnO9aQOOACqXz1i4Qmb3q+EQQC0F5G0jF+bShtDDHMD665x2fJNkspaXDNhbGt99vh3UZamcnWO3oXg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyqN1rVnpmaNX785k2FkjoFMGHzgFl+hXrB0bT392d5wFxYOFHA
+	wlnHSDbrpqzhDLjo192t2St4D+oHDVs5jcXE2NugqCdYvOLnd9UYGTg/MbspsUe6
+X-Gm-Gg: AY/fxX4ZipBXHaQQP9HyZJAwQvwCgaF2/h8pmAHy2Cq2iQHLSQZlM2BHI9v2ihRGjOm
+	A/e6rZA48SXKCcAogd2KxNaVhCJ2R8f/5MQDooEOPxJi/dC/93BIhSF4++Zj1thhXST3n1PDtf9
+	Xrex1MCFd0ppk2CyRJamdQzgYz8jUU7Q4u39nKlWgDeDVFDcD7ydWkQgDHeZxifPyIgfrGQ8ceR
+	QRVcL3dRTRpxIezXghVjmXde3q4JUpCH69/3+wixfrCzucaI027W31/gIovvOS8+xy7RnjZSZJo
+	AFk2SwHY/Z3KmP4LKIrDrNoAZDcKamX5Em+/hEPT4PKqzrwRDQNeWRvhLHeGrW1je9EfjlVzpg2
+	Eghe743PPrTnJxDwLZI0i9bPEh52CsLMVa57RGjoT157281I5nrj4V1Q5aaVLwhKBynPuC5Z42e
+	A5pQH11RjcAECOtCtdwwo5oo85Hf2REJRsYBUrIodP25bnEgo9
+X-Received: by 2002:a05:6102:1a11:10b0:5f1:b685:e654 with SMTP id ada2fe7eead31-5f1b685e992mr1916301137.8.1768838407975;
+        Mon, 19 Jan 2026 08:00:07 -0800 (PST)
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com. [209.85.217.48])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5f1a6772b70sm3688206137.0.2026.01.19.08.00.07
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Jan 2026 07:58:49 -0800 (PST)
-Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-56367b39e3eso3832566e0c.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Jan 2026 07:58:49 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWqLeQn11ACNigCVtBFtdg68dPpTmZOXWvocM8em8RUCDdKkvBv/4VGZQ1uZFKaHRaN7dYO35R7AFqXvxUn3+/kRw==@vger.kernel.org
-X-Received: by 2002:a05:6102:3e96:b0:5ef:b32c:dff8 with SMTP id
- ada2fe7eead31-5f1923fb2c1mr5628745137.5.1768838329404; Mon, 19 Jan 2026
- 07:58:49 -0800 (PST)
+        Mon, 19 Jan 2026 08:00:07 -0800 (PST)
+Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-5ef31a77afbso3690825137.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Jan 2026 08:00:07 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXY8z7yjkhj1UuXBZk5pNM5fSRgybJYrNSssjch/g+Y8fNh8tdNAjkuh0+smwEk8QqWCMYVCwlaBQgAlGrLrr8psw==@vger.kernel.org
+X-Received: by 2002:a05:6102:c54:b0:5df:abc1:e6b5 with SMTP id
+ ada2fe7eead31-5f192539aa3mr5432025137.17.1768838406940; Mon, 19 Jan 2026
+ 08:00:06 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260101203938.159161-1-marek.vasut+renesas@mailbox.org>
- <CAMuHMdVyQpOBT+Ho+mXY07fndFN9bKJdaaWGn91WOFnnYErLyg@mail.gmail.com> <2b6f19f3-aaf9-4fb7-bef7-f38e19f94351@mailbox.org>
-In-Reply-To: <2b6f19f3-aaf9-4fb7-bef7-f38e19f94351@mailbox.org>
+References: <20260119150242.29444-1-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20260119150242.29444-1-marek.vasut+renesas@mailbox.org>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 19 Jan 2026 16:58:38 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUfinX6K622_ThmX-srfq2Mb3CTHD-LdAR3YgDTZq51oA@mail.gmail.com>
-X-Gm-Features: AZwV_QiA0q5O-g1daJUkKfsigh6f9aOP9tnmWWUeAh4TC3ZblJYVL42xTYixBq0
-Message-ID: <CAMuHMdUfinX6K622_ThmX-srfq2Mb3CTHD-LdAR3YgDTZq51oA@mail.gmail.com>
-Subject: Re: [PATCH 00/11] Describe PCIe/USB3.0 clock generator on R-Car Gen3
-To: Marek Vasut <marek.vasut@mailbox.org>
-Cc: linux-arm-kernel@lists.infradead.org, Conor Dooley <conor+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>, 
-	Vinod Koul <vkoul@kernel.org>, Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
-	devicetree@vger.kernel.org, linux-phy@lists.infradead.org, 
+Date: Mon, 19 Jan 2026 16:59:54 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUwD9+hYbut37gnJML-Fhz+6kDqUWOcgKSo1eycZRgsvw@mail.gmail.com>
+X-Gm-Features: AZwV_QiLc3qN2dSh2kpzFDVeY21PCd07Pkeq9W0NJqI963gYqgaIk1PGN_jervk
+Message-ID: <CAMuHMdUwD9+hYbut37gnJML-Fhz+6kDqUWOcgKSo1eycZRgsvw@mail.gmail.com>
+Subject: Re: [PATCH v2] clk: rs9: Reserve 8 struct clk_hw slots for for 9FGV0841
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-clk@vger.kernel.org, stable@vger.kernel.org, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, linux-kernel@vger.kernel.org, 
 	linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Marek,
-
-On Sun, 18 Jan 2026 at 14:54, Marek Vasut <marek.vasut@mailbox.org> wrote:
-> On 1/13/26 3:19 PM, Geert Uytterhoeven wrote:
-> > I do not know what is the actual issue.  Adding debug prints to
-> > rs9_suspend() and rs9_resume() shows these functions are not called,
-> > while adding 'status = "disabled"' to the renesas,9fgv0841 clock node
-> > in arch/arm64/boot/dts/renesas/salvator-common.dtsi does fix the issue.
-> >
-> > Perhaps you have pending patches for the rs9 or PCIe drivers?
-> > Do you have a clue?
-> I believe this one should address the problem:
+On Mon, 19 Jan 2026 at 16:02, Marek Vasut
+<marek.vasut+renesas@mailbox.org> wrote:
+> The 9FGV0841 has 8 outputs and registers 8 struct clk_hw, make sure
+> there are 8 slots for those newly registered clk_hw pointers, else
+> there is going to be out of bounds write when pointers 4..7 are set
+> into struct rs9_driver_data .clk_dif[4..7] field.
 >
-> [PATCH] clk: rs9: Reserve 8 struct clk_hw slots for for 9FGV0841
+> Since there are other structure members past this struct clk_hw
+> pointer array, writing to .clk_dif[4..7] fields corrupts both
+> the struct rs9_driver_data content and data around it, sometimes
+> without crashing the kernel. However, the kernel does surely
+> crash when the driver is unbound or during suspend.
 >
-> https://lore.kernel.org/linux-clk/20260118025756.96377-1-marek.vasut+renesas@mailbox.org/
+> Fix this, increase the struct clk_hw pointer array size to the
+> maximum output count of 9FGV0841, which is the biggest chip that
+> is supported by this driver.
+>
+> Cc: stable@vger.kernel.org
+> Fixes: f0e5e1800204 ("clk: rs9: Add support for 9FGV0841")
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Yes it does, thanks!
+Closes: https://lore.kernel.org/CAMuHMdVyQpOBT+Ho+mXY07fndFN9bKJdaaWGn91WOFnnYErLyg@mail.gmail.com
+
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> ---
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Michael Turquette <mturquette@baylibre.com>
+> Cc: Stephen Boyd <sboyd@kernel.org>
+> Cc: linux-clk@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> ---
+> V2: - Update the commit message crash paragraph
+>     - Add RB/TB from Geert
 
 Gr{oetje,eeting}s,
 
