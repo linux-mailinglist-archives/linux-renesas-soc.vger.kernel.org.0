@@ -1,80 +1,79 @@
-Return-Path: <linux-renesas-soc+bounces-27042-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27043-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E64AAD3AB21
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Jan 2026 15:06:12 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E32FD3AB45
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Jan 2026 15:10:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id D0890300F1B1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Jan 2026 14:03:55 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 776E5307BF4D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Jan 2026 14:04:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 772D036C0AF;
-	Mon, 19 Jan 2026 14:03:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F03A136D513;
+	Mon, 19 Jan 2026 14:04:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="oijIVXgQ"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="cREaGaRF"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C06F36D4E1
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Jan 2026 14:03:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61C5735CB84
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Jan 2026 14:04:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768831433; cv=none; b=t/IFq8/87j9fC6KTa8duXFWfRKoMcnYby0W055q1pkhXY4zVnCEIazXPUTjMztryuUVX4JzoqJIK69ZLEgsjp08sAwu7G2HuQpYNqtjoDXPPRywNBRYDL4z/wD6G60T8ys6WWiK48KdRv826zFjQ7D8fHDXB4FSC6M6fumL0Hj8=
+	t=1768831479; cv=none; b=tPgRzBE/zOlFEwhD6f0dqZlEANipHXzu0rKqcV3kYC2tg2pdctvwJRc1bAauq7R7KetKnPOeSGOIk8aYetavm3sP0yBR/dh0VN+l/inlKyVSg20cieDvklSkmzaqpMGhLnqrn1FAb5t9GIWcg1KYGRvZ9exQ4A0MC8f/9Hqcgqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768831433; c=relaxed/simple;
-	bh=mTAE+Uz1BGS1b5G0yeV0TYVfbfqnRu+U7F6kK79xBH4=;
+	s=arc-20240116; t=1768831479; c=relaxed/simple;
+	bh=m2uBx0rH9BBwtr/Uco1kTewsgSVG+SUQOTeuEoSlDOQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=h19swCfx9Jnd1zgIuccdWyyPy1kxcMbb3BHywUHPUUPjj9EUnSi+TLdHUUmqPKt0xxmbnTHb+9D+GejGrarMLvMvHEOrRYcVvtjFng3hajXoI/ZFWQ3n/MCmi5lxQOAbBjmpbREiP8GlZI4Sk1bTPX/kuCsnepGytpYVhXIf92o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=oijIVXgQ; arc=none smtp.client-ip=209.85.128.51
+	 In-Reply-To:Content-Type; b=C3b8n8sRDWvaVYTni+ps/6rxItgLvpQWnlSz68c6DF453melzEhVfALFIdEbMMhnQuyH9SheWj2wSUh1pOPa3H0adUI4qz8+V0oUGlURHuqVFEXmyuDeWNcmuPIFpfG+p0MLC1o5M3a8dY+crwfxsUaV6SIejWxUHDimAA1Kssk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=cREaGaRF; arc=none smtp.client-ip=209.85.221.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-47ee974e230so35202955e9.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Jan 2026 06:03:50 -0800 (PST)
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-430f5ecaa08so2087916f8f.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Jan 2026 06:04:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1768831429; x=1769436229; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1768831477; x=1769436277; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Qi0fMsnbGNNAqeW2KXFtzgi15jKwvRfrQtKC+NHQLH0=;
-        b=oijIVXgQ4xqiS2NrmPLq6TR0f50MbnFwamEvVEThd4u5/cgjFxI8Fpocc0jELJE8Un
-         wzvavK7XRcjYMvB11KowGsyzSBDjqwkxWPYeBGg3vb6zoCSfcvuvxqk4VvVngzLEblPe
-         Q62S41vvzGwYYP/wqJlp2PvMr6Uq10aOT4gO+2lj39uGKOsACT3+oBnNPeH9aB+gErew
-         6Km1zv/o/EhoBpzf+u273glZp17hZLZB+jjPOy/FEz2+x3P5WMpUaeehYmsWAK1SxkmZ
-         YTV1PyclP+6opjHTt9Y/AsH4McuFDDSi78LsqpYdLxP6EuyYphQB1hlB245BmCzbm8zu
-         gXpQ==
+        bh=S+uiJg79CSTOd7IU+Zjr8vG48esanihoaH1GIX6WcHY=;
+        b=cREaGaRFDQFI5hL97AT7ZRhouQ8ZAcoaODf9B8xIP2SiQfkWbmPLLndfGFr21SwMN4
+         fYryGwaaikaOtlOtw9W/OyX2SC1vKlU7lCEZfGzmS1AA56bhj5S3dZpxmbIPgao0nIYK
+         WiJb4ob6B4Q72iRlsaqHB8ekMcSdg8lk9oLDb1YZQJ6MOzbEHXmCrQNzE9FavQyI1hZD
+         1ooOigIQR8Bzqul48yt68DS4j15LIGY9EImCMWyBsP/SRboorOxhXV47JrpAi6+8xNQC
+         pfsZ4oVs42SbZ9k9fVUGfIwiXc2kMGhhKTOEZcO4B/YPU8d8HGLuwKFvBweYQ7wtgLTm
+         2jzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768831429; x=1769436229;
+        d=1e100.net; s=20230601; t=1768831477; x=1769436277;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Qi0fMsnbGNNAqeW2KXFtzgi15jKwvRfrQtKC+NHQLH0=;
-        b=V1ge1rz3hxne8h4ISd1WcH1w6vLp1g5FG+DTia4BeaXL+kPIThxxP6I5WSejWOnSwN
-         wr51XbJCPqR/GJr5ttD/RAQc94gErh98uY+3WyC0jXrdrqtokWiZO589NkP3gqN3ntJ4
-         1JjPdT2oyRmOZD6d50pDCtvC0LN5DN97rZ9VFuJKLa9PD2DlhBk47tR5Zv5U2gbmYiV7
-         Uf3xrfPVO0/WJCMHQ/0UA+WFt16ImPtEJDOWYHyE2BeeKAspmpx+gb/Ssou8bn9npMZy
-         NcKsRBVj/Z3qTsE/M4a35+Tx+lZbmeTTXGCv1eVNYIE35X8skpdAahaO5UZh0KKzom8F
-         VNhg==
-X-Forwarded-Encrypted: i=1; AJvYcCUCmpnwLATE+d0p36XWyoNpI9JKtOT2RSbJTGd739Fb2dApX9RdwE+DoU4WHmfPKTv2KemCYpH55/8BJ0OZg0/MuQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyH5gKLK1dht/myZUVPdxYPzxDc1UZUz6UlO+fXMw2c/XO+EThd
-	rHkT8+D1lcpsbvPXm6TJdWmwf/PKh2x32jSCzKkB3eeTa8leVc4DJhGrgrB520dVwYFEtN4L6fp
-	XvmHA
-X-Gm-Gg: AY/fxX6EQVi3Nxcan1zt+3nyCtlXPJ4L1iXAMfu7PMDlIHul8/bH2M1rzDmAQ2hjLTI
-	TcpTzEcoPjMtB9nGHqSvFTAv09ai4gJVIOhaa+xsvPrKst1ajPLQOcDq8FKv7TeEIALfNQPI+zr
-	aY6zvzqrXMBI5S/0juo6j5dUTCk79H81ERhQICm9wR4NKUSKWYTIJytzUlKR9ci0a8LG7uEJApZ
-	a4LxbDdKpCyo9aizkmKGMYGqEZb4IFzFntGCqzqi99hn0yg3WdHKOsBzgVZzmMlntJP2+uk+cJA
-	MoYQGNqU5oZzw40X4sW7+I/i7VMqK8HOdpnINBrFwz7u4Ud1fdTUh/AcHiQl7pjZ75ZYDc6CYrx
-	XFLWL+dNuK49vPd8Y3amB/8VNtk9ntQsdgsdvubBFHzlaalk1IkRkcMGIbGBM/8TBwpUgdrktgJ
-	qqjLDvtz2feguV4VjOJw==
-X-Received: by 2002:a05:600c:c48e:b0:47e:e970:b4e4 with SMTP id 5b1f17b1804b1-4801e3494b7mr155374755e9.29.1768831428511;
-        Mon, 19 Jan 2026 06:03:48 -0800 (PST)
+        bh=S+uiJg79CSTOd7IU+Zjr8vG48esanihoaH1GIX6WcHY=;
+        b=CDhWEpVO+TtR2UWcelsQCV1eY1WGJd505ZtsyI/cdR8rqyt3z8uF8sgaruHvop1xHx
+         ptdeQhYvVphWtO0DDF3a4oYQC+PmiqT9+oNW8S+hjdqwZt53bZhbxp/H6tG8Jpa9GORK
+         6rROOtHaHAEoj01CZwJTqlzHRSVCRpI8Soq2Ab6SIeWbVRKHsWTCumH4O1XJHNEDLHT5
+         XfXde3xf2zbE4pPNfP60OcYag1KcbEyFoSySLuYFAjr7QyzBvYH0rI1vF5Lo/V30NNfT
+         i3JmS6zbQxYU8JsCNqofrh1ZTgScEC+iJrpUXnMIdoq7Wh+ukXdXj7b4h8WUgax51auW
+         6GzA==
+X-Forwarded-Encrypted: i=1; AJvYcCW9yP+Dq648Ptb0b21bJ1aLTwoOPQJRE8iRZxIQbD+0lBKco5lfDgC5++TgKTus+3QiuBdtUc/t8YfXhEN5w7K46Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxB9PKbznv0biP0Nweniyee0at0MnrwiHTmJWhoURy0MZkJjhCm
+	aL1d59ac9y7vbWmvD3SZS98FYqapdLe0i8yyXJxW0LQSu4zgOOKyIJZXnTf18vw06Mc=
+X-Gm-Gg: AZuq6aIvnF+cPWy5C7G7yVqqh5K/xlShPuvzVzT2Z0vXDLT8XwmAiUE5XrznwWCQ8RI
+	TGal4A458ne5tSX8vzAGm3Rb2kObkez0Cw0eUMjGNj8gOaO+OhvdwMPVfYRV7nMsgWD1Tz69/Y7
+	u6Kh4iV/cz2uvJ3Zibt5ZLoAwQ6+q4ri28HV/FnciEfqC/57xmTMP+8T+vk/GVcMbDHGhkOFE28
+	nJTMjsow/pjner7KpRwSYL/G3Phaw+bkJIP1ANYefz9BpwBO0vTyK/7QvbUKyiQeAe/IU4xWRLr
+	cSoDO/0h8g1d0m46XCh9Zb3W84J0numwz0vovZN/4kxi20dnNbGHXz49Z7USLT/XlpCqG8ox6JK
+	+NQMdKZI8Xv9mdaEWg0n19+ek6baJ+7KRDzeRAUm+aOpjoIECrBtqCO10KEBrGCEToMZh7maz5f
+	CMJhLXovF1s3XVrbkFHg==
+X-Received: by 2002:a05:6000:400c:b0:430:f742:fbc7 with SMTP id ffacd0b85a97d-4356a0296e9mr13698492f8f.14.1768831476764;
+        Mon, 19 Jan 2026 06:04:36 -0800 (PST)
 Received: from [192.168.50.4] ([82.78.167.31])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47f3b7a5f94sm266035795e9.0.2026.01.19.06.03.46
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43569921df9sm24010322f8f.3.2026.01.19.06.04.34
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Jan 2026 06:03:47 -0800 (PST)
-Message-ID: <fb7ec096-372b-48f4-b6ed-e224a05d55e2@tuxon.dev>
-Date: Mon, 19 Jan 2026 16:03:45 +0200
+        Mon, 19 Jan 2026 06:04:35 -0800 (PST)
+Message-ID: <f6c7cea6-fbd0-4b3a-ab89-a3c26be11ce6@tuxon.dev>
+Date: Mon, 19 Jan 2026 16:04:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -111,9 +110,7 @@ On 1/14/26 17:33, John Madieu wrote:
 > Fixes: 7ef502fb35b2 ("PCI: rzg3s-host: Add Renesas RZ/G3S SoC host driver")
 
 The title of the commit with SHA1 7ef502fb35b2 is "PCI: Add Renesas RZ/G3S host 
-controller driver". With that addressed:
-
-Reviewed-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+controller driver".
 
 > Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
 > ---
