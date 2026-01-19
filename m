@@ -1,114 +1,161 @@
-Return-Path: <linux-renesas-soc+bounces-27068-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27069-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56A38D3B6EC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Jan 2026 20:12:03 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C97ED3B718
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Jan 2026 20:17:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 20F9B30BBBF9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Jan 2026 19:08:32 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id B29C73000B5B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Jan 2026 19:17:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4CC338FF16;
-	Mon, 19 Jan 2026 19:08:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="nAlJpI8+"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0F4E215F42;
+	Mon, 19 Jan 2026 19:17:45 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com [209.85.221.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7E183933F8;
-	Mon, 19 Jan 2026 19:08:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B801550095A
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Jan 2026 19:17:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768849711; cv=none; b=anw53ZwfRgEVcTY5meXCSnhJbJPDcEixbP0WXxcULBlPemZLugJLdh6lX4mIWWEJ2yvo8KHDc1Qta1SaUc2L7ait10bNzP1kdj/zoOR+f+P4ZHKz0A2Cc2piUFDotOpNFCsDW3bd/rsZbfSMOSNJqwzHFaDbCxqDNX8ObNbV2sY=
+	t=1768850265; cv=none; b=bhoI1EZlJjIc5CopLIdk5qMBephkgzlU6UsDM+Um8cWRczdK0lva9qNu/vyzGgCqLWG+jY/F6gu0yJuWEJeWu3Kp3sX0IwtW1QoC2d9x513S16r8kcIrr2DqfKXGuzNyVdj8HK49OmfqJTQTFxc0wr3Ag1A0ZP7EFV6pxsrzdR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768849711; c=relaxed/simple;
-	bh=A/+25W6bjnENQP1RgSnEQTUnp1GII3INaK1yeHHizWM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rTuTf5K1Xo+UfMeNOgfEx5nl1dshPNdJBv/EwstHmrflrB/44p+XResF9ndN3117VcPrDK/uw9xDst8vrjtWDlJrkiQBtGyq3Q8FP7ryIPW7Ts6HT5Q1mcfE9Mf2zjiTNm0pWIjZqHKllc2dYP6NluIciRIcu/wYjMv0qQ2ibns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=nAlJpI8+; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4dw0N95hsKz9tfx;
-	Mon, 19 Jan 2026 20:08:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1768849689;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9H8nBGgFVL91FP93JHfkjVwv7xUFyqUQw76ZtrBZ/LA=;
-	b=nAlJpI8+f+GbVqBtJXHTc9jgoQhITv0Yp/9IGgnAoKMm6kX3setz/pdCJ08xUe+no/DU8g
-	nIb/yge3IB3iFjC35uJ7g3kIk+npNebiJL6TcRaXB9MQ59AIl80O8wLug9yPiKUdwPhH0C
-	BcIafKAzM+N4wZaqshe/7nXI2D7BPNk+2bE5n86ic/wuJJ/NSETkNOKLIsfmGWT4DfNSR+
-	1b4yZwftdADN5akvGiJjvqT35bNag4XXSxVwKgd4xnROo90aJ+OYhEXzxhnX/FSBnoOYTU
-	9f7B9XQ7TnlUu8RJUqRuOmbyojWGInhCFZ9XNlPSQXqIfhINTrUd2ZSLwzKeww==
-Message-ID: <926a0b23-5159-4f4e-b278-b545ae281410@mailbox.org>
-Date: Mon, 19 Jan 2026 20:08:04 +0100
+	s=arc-20240116; t=1768850265; c=relaxed/simple;
+	bh=/6iwuNMZc5kIHFz9+eHrkjYu4KucuYpwvc1o9G18MMw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oopKl1ROtOKEnP5SBGyRX6S0ng3nlagoaaAmQYXXOCVVan1CDImpy3GrOMoOA8EkJ6psxCxafreIXTt122PYx3iR2vOb1ZmqOPtMIlqTQQXOT2PyUjf6PCv+9JZaNLlmq22YpSglZ7pjZJhfioPRKjUkKF/Yv1vuD5cRqEDDk7s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-56378a18ba4so1162907e0c.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Jan 2026 11:17:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768850263; x=1769455063;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=S/ksvhxDAHEK6GRShjDfoLa3UE0f58CuM5UI6afaKhU=;
+        b=M+voG2kb8SxfWEIijZ21JTNOsCrIK//9kADChaNcKxQdOb0ulemPKAQJ2x0+zVNf9t
+         l2NAT1yAFE0fHVRFrRA+hGyDwaNC3X0ptkexIec9b54TCjE5HiQeqhC+Z18XdPTXJRf+
+         4Pop+yYHcz3DW8wCHvsDpHH9wNUxvLelZoLyfqGiDmrkswrSxdMXmoWZR0NdN2/V6AKu
+         iWxgfUA1Wm17MU4RqapQaSgwJh6C2AnMgMCvnB/9qCR3ENeb1QYJjqf0PSNhS+xUu7Hw
+         8Y/caBzARAIy9RXuorYkVyjiBPSvXZUkcQYck3iYJ5sj2ESvTSyAMhKxwziVhPxKz1t2
+         0PYw==
+X-Forwarded-Encrypted: i=1; AJvYcCV8AEJdPH/ngbrKZwtZgJbbDoesXw1XpI5HEGs10dtAfizL+QJ3T3jSYdu/HtvwjG9hfvOJR6KJnsHuFqRRC6MmxA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQk+/x4A/uLCbHNJOSM6JqD6VlbqM/Ex6B3WXP8+WCBEkOQeLG
+	CANX93nrwsiFf+f3uqMmDA20xnY/2FKe4IuEg/exHfUPxO3FEq4ugF6boaUqvjaF
+X-Gm-Gg: AY/fxX7ebhru5gJizuY2ksinUr1a48zk0LjNSnzlRB6Ap9t/Vc9kqYuQ1nnlWilmV87
+	wPNhHA5iW4Yyl8n/EtlGf3ugfG3nLS1i0NbTfUAnUe6fO1NsgiSa9h8k0MYkVQkPov4GzreLZK2
+	6DYVtCr/I4tTpTy63h0iVt/i+crZSOsQ6zyjSMrPEVxn9eZxFBt+fWmhBo6WPEnzHerLTPBvoN2
+	J5KvuyMCDEXrzfMkqGXOzj/FNhb/b3B29/RQPx2+6V9YIM+Ab6FmzCYE3VrimQm5BOXj4U5D0DZ
+	OVzLsDtxWyo4g6ZhiohrMMQHFgec2Ztyz1JbQ/8GJ7ababTuS+QyNzviCAb3S5AA7TmLFng88TL
+	JuepDFjEX0CwkmQSCv2BB4UliPrzHFItOkuAaGiVbIzoije8I62hO5B7m9f1fQObElaAxCw5sct
+	dypPWcLy1yWV4MYB+TYWquARqsf/WRXrZEpP+HB64wepUtazMo
+X-Received: by 2002:a05:6122:3c82:b0:563:6566:b2d9 with SMTP id 71dfb90a1353d-563b73b90b8mr3269276e0c.18.1768850262640;
+        Mon, 19 Jan 2026 11:17:42 -0800 (PST)
+Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com. [209.85.222.53])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-563b7004ff8sm2940504e0c.9.2026.01.19.11.17.41
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Jan 2026 11:17:42 -0800 (PST)
+Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-9412cb281acso1417529241.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Jan 2026 11:17:41 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVKsfPcAVNZoigNhozSiIn5w73FsXY0Te1hyL9re63KTixPtL8ZqUVcIgJyiLvdGxybGYbOH6NneCx0LsEd6du4Mg==@vger.kernel.org
+X-Received: by 2002:a05:6102:dcb:b0:5dd:84f1:b51a with SMTP id
+ ada2fe7eead31-5f1a720e344mr3315725137.43.1768850261678; Mon, 19 Jan 2026
+ 11:17:41 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v3 1/2] drm/panel: simple: Add Waveshare 13.3" panel
- support
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: dri-devel@lists.freedesktop.org, Conor Dooley <conor+dt@kernel.org>,
- David Airlie <airlied@gmail.com>, Jessica Zhang <jesszhan0024@gmail.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
- Sam Ravnborg <sam@ravnborg.org>, Simona Vetter <simona@ffwll.ch>,
- Thierry Reding <thierry.reding@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20260117005028.126361-1-marek.vasut+renesas@mailbox.org>
- <CAMuHMdXHKJYcP78WLUfGrN8v+PmChj7jEsjhnVXYnSOzZ7mkpw@mail.gmail.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <CAMuHMdXHKJYcP78WLUfGrN8v+PmChj7jEsjhnVXYnSOzZ7mkpw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: 73tz3ja79h57j79bgs1gw4jdpfmor78o
-X-MBO-RS-ID: 8b5673dbed978ea5937
+References: <20260119-soc-of-root-v1-0-32a0fa9a78b4@oss.qualcomm.com> <20260119-soc-of-root-v1-1-32a0fa9a78b4@oss.qualcomm.com>
+In-Reply-To: <20260119-soc-of-root-v1-1-32a0fa9a78b4@oss.qualcomm.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 19 Jan 2026 20:17:30 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVG-2qucH5dB40CO=8Haw080NqxE-zg=GyVmD2njs-ibg@mail.gmail.com>
+X-Gm-Features: AZwV_QiDYUVl5G1JTvUBamxzE_5VCyogXoHB30dVWIYjGOrIgN6mvoOLoE2_KFA
+Message-ID: <CAMuHMdVG-2qucH5dB40CO=8Haw080NqxE-zg=GyVmD2njs-ibg@mail.gmail.com>
+Subject: Re: [PATCH 1/8] of: provide of_machine_get_compatible()
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Magnus Damm <magnus.damm@gmail.com>, 
+	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev, 
+	linux-renesas-soc@vger.kernel.org, linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On 1/19/26 4:56 PM, Geert Uytterhoeven wrote:
+Hi Bartosz,
 
-Hello Geert,
+On Mon, 19 Jan 2026 at 11:40, Bartosz Golaszewski
+<bartosz.golaszewski@oss.qualcomm.com> wrote:
+> Provide a helper function allowing users to read the compatible string
+> of the machine, hiding the access to the root node.
+>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
->> --- a/drivers/gpu/drm/panel/panel-simple.c
->> +++ b/drivers/gpu/drm/panel/panel-simple.c
->> @@ -4998,6 +4998,33 @@ static const struct panel_desc vl050_8048nt_c01 = {
->>          .bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE,
->>   };
->>
->> +static const struct drm_display_mode waveshare_133inch_mode = {
->> +       .clock = 148500,
->> +       .hdisplay = 1920,
->> +       .hsync_start = 1920 + 88,
->> +       .hsync_end = 1920 + 88 + 44,
->> +       .htotal = 1920 + 88 + 44 + 148,
->> +       .vdisplay = 1080,
->> +       .vsync_start = 1080 + 4,
->> +       .vsync_end = 1080 + 4 + 5,
->> +       .vtotal = 1080 + 4 + 5 + 36,
->> +       .flags = DRM_MODE_FLAG_PVSYNC | DRM_MODE_FLAG_PHSYNC,
->> +};
-> 
-> That looks like the plain standard 60Hz Full HD mode.
-> Is there really no other copy of that structure available in the kernel?
-> 
-> auo_t215hvn01_mode is almost the same, except for .clock and .flags.
-> drivers/video/fbdev/core/modedb.c has the same mode, but in a different
-> structure.
+Thanks for your patch!
 
-The panel-simple.c is full of similar-ish panel timings . The timings 
-above are adapted from the waveshare DTO for this panel. What else would 
-you suggest I do/use for this device ?
+> --- a/drivers/of/base.c
+> +++ b/drivers/of/base.c
+> @@ -434,6 +434,19 @@ bool of_machine_compatible_match(const char *const *compats)
+>  }
+>  EXPORT_SYMBOL(of_machine_compatible_match);
+>
+> +/**
+> + * of_machine_get_compatible - Get the compatible string of this machine
+
+... the first compatible string...
+
+Do you see a need for adding an index parameter?
+
+> + * @compatible: address at which the compatible string will be stored
+> + *
+> + * Returns:
+> + * 0 on success, negative error number on failure.
+> + */
+> +int of_machine_get_compatible(const char **compatible)
+> +{
+> +       return of_property_read_string(of_root, "compatible", compatible);
+> +}
+> +EXPORT_SYMBOL_GPL(of_machine_get_compatible);
+> +
+>  /**
+>   * of_machine_device_match - Test root of device tree against a of_device_id array
+>   * @matches:   NULL terminated array of of_device_id match structures to search in
+
+> --- a/include/linux/of.h
+> +++ b/include/linux/of.h
+> @@ -426,6 +426,8 @@ static inline bool of_machine_is_compatible(const char *compat)
+>         return of_machine_compatible_match(compats);
+>  }
+>
+> +int of_machine_get_compatible(const char **compatible);
+> +
+>  extern int of_add_property(struct device_node *np, struct property *prop);
+>  extern int of_remove_property(struct device_node *np, struct property *prop);
+>  extern int of_update_property(struct device_node *np, struct property *newprop);
+>
+
+Do you need a dummy for the !CONFIG_OF case?
+This is only used by drivers/soc/fsl/guts.c, and FSL_GUTS is selected
+by MMC_SDHCI_OF_ESDHC, which is OF-only, but can be enabled
+when PPC || COMPILE_TEST.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
