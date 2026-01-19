@@ -1,100 +1,118 @@
-Return-Path: <linux-renesas-soc+bounces-27072-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27073-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DBDFD3B763
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Jan 2026 20:36:59 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E232D3B7A6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Jan 2026 20:53:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 27C7330066DD
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Jan 2026 19:36:58 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 297043000DDE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Jan 2026 19:53:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4669A2D978B;
-	Mon, 19 Jan 2026 19:36:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21731299948;
+	Mon, 19 Jan 2026 19:53:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="IMSLc4o7"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="R1aTZ08R"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C19D1DF987;
-	Mon, 19 Jan 2026 19:36:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C16821ABC1
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Jan 2026 19:53:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768851417; cv=none; b=LDoXzyHOpVfNW67l7T4vE7H25kbt6ciBkzAmtfL2nr/jY5elNWHyfpFD4Uhl9VGMB3Uni7YcHKF3fDfoOt1+IImhgUwhEOl0mIMs70s8n/A07XqaaeEe/ips5y7s0Yw46/iQJ2Om0AStTsws1sy2LiK6WczrKR41pk985k7tE1w=
+	t=1768852393; cv=none; b=TbURTSNh6cOvHHvlApp1V1RmSKUmQQVzo9JDOdK69e4pZnh+vwQVrs6i803RQMNfFvHhm1+fWKr/E4QWlVbrAB3tyFJk4ZycDjcQkXyP9aFlbV9IPQqnMNvMDGlIHFaf8SiI1dKaMXtPo0QJnmg0tinw2/mvb8ogj+77O/ZMgZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768851417; c=relaxed/simple;
-	bh=7eJs1js0kzkykoWC9UfncMbeJwi/Au6UVBsFkGUutdc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CiRw9j3MAIAfPAGr08Qlz55DI15ARBDzB8iCpQaPizdRFhm/lex4TeJ9p/L4ykGWrOLunPfvJ0y+pl5JOuBQLzEeEj0/AiMBwqBESmz3bzD7SR/ou4Efb9nwdfJfHt3qGzaed1msRJKbEv/tARp/VMHCbVwXJkYKdvTmn/c1NHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=IMSLc4o7; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4dw11H6w78z9ty2;
-	Mon, 19 Jan 2026 20:36:51 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1768851412;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Z1iSB+HjxfdTbn/qJazSyM/WPRoVcW0kk2zyYVSmsRw=;
-	b=IMSLc4o71oCuud3/mgU0vqtL2aGaucGMYe9ldiVOXDBvIysI1UwL8QpXHe+T8/cx9O0/dh
-	GaMbYmma77UIYQGVk3MvmFG5wsuRSZbZZmX58Oj6LrSIUBNeJ3/kDKmTzov/MNwmdMEjU3
-	uK0PJHjQ0ozp0TuAJEafXJgCSLKLBo0vZp6rz6cvfWiP30gYV6FzZ+ZPio8TZkJopoTHiV
-	+N8I2bn5mnlkc2JLlCfoH415gxCRD6xA0h6Ch4hI33TmJcCzi6a4nfqJjp1CxDnOWuTI8G
-	ZxuBrRzivHNazLkGdhLf4dsYyFIxbZ/8OOv/qYBwXLC4EREELABrqKuOFpFr7A==
-Message-ID: <d921ff48-caa3-4d79-80e8-35c4848258da@mailbox.org>
-Date: Mon, 19 Jan 2026 20:36:49 +0100
+	s=arc-20240116; t=1768852393; c=relaxed/simple;
+	bh=cCOGMatOjCygJhaLm5dX8JbCRPMR6iiz7g0izRcmSi0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ozjaJDl6Fummlc0Q7ymI47mjgKw6bjiC8/fBHyiqSYaLrZYv4Y8kqo4rTs6WM+a3h6oHO5MBi5omfebEziLwDqIuV3qVCrynbIoubDdtXa5zp6OP4Ldb1Z3pQ0BcRVxlql3uGXYXTs7pgnemyfBbLE96igrNg1EjJSaFqIE0lxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=R1aTZ08R; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b8718187eb6so711134466b.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Jan 2026 11:53:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1768852390; x=1769457190; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=62M9fYxW6bxhQFoqWyOWxOUBKTY2WZNqWwY8w9HHiSM=;
+        b=R1aTZ08RH6ZHNku6iw0E1BRVrnMJI0KDgf1o+dYgDGhb1W0yZcDd+CAt1IKExp/TTD
+         lgD85kummfkh03GSsOORCmhRtRDq7FuFEFvCk3UrTIyl5y0G10BOzBpstK8V0cS6k5fV
+         sxOjxBmAeMV6D4xmCMG2TBnw5T5cGxdJV8WklwStt1hezoXWA7Brq5oNuV2X6o8QcSiH
+         bL0SRUmGWNxm3DtbCvFxbYEhR13mU7M8/Pv7Rr7AOAsLTDkaFsPRHL4UodP54JFvk9rG
+         QzSwxE+rK+ewNoYLhjLqHrew5ppyyavq37+hDgOjFDEpr/XgV39/RYUhSp3o6Du1bLio
+         hUBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768852390; x=1769457190;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=62M9fYxW6bxhQFoqWyOWxOUBKTY2WZNqWwY8w9HHiSM=;
+        b=a9WiuJiyexk2TsksSnTFIfRUKcE3wZyqjtS4LGsrfYtgMKrlfAgdt+0WCgjtEmmmKh
+         eKh7PMSpre/LwQ6YcfLjAkd+dYt9dmlj51La26JUJ4RrIykM0K8gWwpxo6CSiocSVEKT
+         Eltvue3bWrN5UtvuIqkXBW4/Zkwm8lCMDTJm7mqgDw35n+IDFO+PmFACoeeOXNadrwgp
+         Typ03cZfcOAw5HQ1eYgdIHEV7fY4Ux0oHbO7vP/AxX87JijYQcBjYSd3/fOGO9rqXSus
+         LHAOy+6JLxJJkpAEbDb8F7FqrAFn5UoPvVPAgvORPZ1K3wuCG4dS7wDlZ1wUNeDFQeW/
+         x49A==
+X-Forwarded-Encrypted: i=1; AJvYcCXzJsJPXvUTtCaCH8aCA4KaW6BZ7A4S7oO4h44GUsqtKipB23+23veuBjqXdjPMHJ3xjr5F05BTuS15qP/jTlLTWg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/1hS2QIhWmQqYKJ2QRz+ohY+hm4lmlU0gzzzf3Caat9tUC9JY
+	g0oO70eyUZLgQHKCA4Stc9C3UVdvtHy9prHoDbLX81cB06/jbIcqx1mY7Rpn4A5tva8=
+X-Gm-Gg: AY/fxX6ZnTcbK8BynKks6aojGZQYDBpJR7CTJykuVnb/nsPwRWCINrivyqdguWvu0he
+	GXGR/jzXUS+uC3pF4GOB1bAm2tQ8876R2JCYmbpqpbN36PtIDvebmMBcH+smrdbl7k3m8QqOw/n
+	AMt8Yu7keJFQrIZdRFWdnyv93nWlRsdEJPdKCELlD2g8IfI6IS9xdoiY675JJd/kDCEmJu/VArz
+	aMLmkyOm8v1/pC8OersSQokPQk7fKUluXnrYdrfPlagGMfCM8naphw19emaOEdamGr99yToktaQ
+	8Owz7JaHecSU5Hk1EdGYP1bvTTF3AHwxGOIvrgC5oDSliXZGQ+vtdv+hbOjyIYkaDYRVFASM/oq
+	zlsXbqM/Qxgu2oP7RmbJid48TIZmUsKTLyNrgqjsHoXEFwT/HGpqDINxNTIB9y7yN5OoRk7FNCU
+	NIJpxHQNBUamyh9yohn17kR5HnLrhWc6Szp65CBy4=
+X-Received: by 2002:a17:907:2d09:b0:b86:e938:1b3a with SMTP id a640c23a62f3a-b8792e37fc8mr1025443766b.17.1768852389914;
+        Mon, 19 Jan 2026 11:53:09 -0800 (PST)
+Received: from claudiu-X670E-Pro-RS.. ([82.78.167.31])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b87959fbb38sm1167248266b.52.2026.01.19.11.53.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Jan 2026 11:53:09 -0800 (PST)
+From: Claudiu <claudiu.beznea@tuxon.dev>
+X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
+To: biju.das.jz@bp.renesas.com,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com
+Cc: claudiu.beznea@tuxon.dev,
+	linux-sound@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH 0/4] ASoC: renesas: rz-ssi: Cleanups
+Date: Mon, 19 Jan 2026 21:52:48 +0200
+Message-ID: <20260119195252.3362486-1-claudiu.beznea.uj@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] clk: rs9: Convert to clk_hw_onecell_data and
- of_clk_hw_onecell_get()
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>
-Cc: linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <a6dce17b15d29a257d09fe0edc199a14c297f1a8.1768836042.git.geert+renesas@glider.be>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <a6dce17b15d29a257d09fe0edc199a14c297f1a8.1768836042.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: hroataoz38uemmwm6ipktpdnc3ty38xi
-X-MBO-RS-ID: 5c469c576e36adb1d1d
+Content-Transfer-Encoding: 8bit
 
-On 1/19/26 4:23 PM, Geert Uytterhoeven wrote:
-> rs9_of_clk_get() does not validate the clock index in the passed
-> DT clock specifier.  If DT specifies an incorrect and out-of-range
-> index, this may access memory beyond the end of the fixed-size clk_dif[]
-> array.
-> 
-> Instead of fixing this by adding a range check to rs9_of_clk_get(),
-> convert the driver to use the of_clk_hw_onecell_get() helper, which
-> already contains such a check.  Embedding a clk_hw_onecell_data
-> structure in the rs9_driver_data structure has the added benefit that
-> the clock array always has the correct size, and thus can no longer
-> become out of sync when adding support for new rs9 variants.
-> 
-> Fixes: 892e0ddea1aa6f70 ("clk: rs9: Add Renesas 9-series PCIe clock generator driver")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> While this patch applies on top of "[PATCH v2] clk: rs9: Reserve 8
-> struct clk_hw slots for for 9FGV0841", it can be applied or backported
-> without, by ignoring the change from "clk_dif[4]" to "clk_dif[8]".
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Since the 9FGV0841 is the biggest part in the 9FGV series, the one-liner 
-fix I posted is better suited as a stable backport. This rework 
-shouldn't have the Fixes tag, since it is only that, a rework.
+Hi,
 
-With that fixed:
+This series adds cleanups for the Renesas RZ SSI driver.
 
-Reviewed-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Thank you,
+Claudiu
+
+Claudiu Beznea (4):
+  ASoC: renesas: rz-ssi: Simplify the logic in rz_ssi_stream_is_play()
+  ASoC: renesas: rz-ssi: Drop unnecessary if condition
+  ASoC: renesas: rz-ssi: Drop the & operator in front of function name
+  ASoC: renesas: rz-ssi: Drop goto label
+
+ sound/soc/renesas/rz-ssi.c | 24 ++++++++----------------
+ 1 file changed, 8 insertions(+), 16 deletions(-)
+
+-- 
+2.43.0
+
 
