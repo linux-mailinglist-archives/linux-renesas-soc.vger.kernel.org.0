@@ -1,151 +1,128 @@
-Return-Path: <linux-renesas-soc+bounces-27122-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27124-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GMybEZmnb2ndEgAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27122-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 17:04:41 +0100
+	id kCBxOCylb2lIDwAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27124-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 16:54:20 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA5B247078
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 17:04:40 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3049046CF8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 16:54:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id BD1E6760E3F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 15:09:57 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 20EA29C21D0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 15:24:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8F2B43CEC6;
-	Tue, 20 Jan 2026 14:55:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="xg6Q/50E"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1671944D6A9;
+	Tue, 20 Jan 2026 15:06:22 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4631335FF47;
-	Tue, 20 Jan 2026 14:55:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E91243C076;
+	Tue, 20 Jan 2026 15:06:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768920924; cv=none; b=q5Lc0xepEEn5yXgg7VUIv69ldr1/2vXCSkX+QIXR4CMTVrC6GE0RprkQr7CkQf1Zg+EJO6mu9pp5HeqNvRHs8mvb27aqy5J/dhw+OhPBYVJy9q3yO8WjUOzsNWoqLn+xBycO/gG2uRI7ARJ320Fz9UyUkDfCCrsdgQO32W1A724=
+	t=1768921582; cv=none; b=RKmSFlhtAuu4dClepe4FQyFiA5juEBjmOs+ZlQn019cjvD7q5/NMsDL8+jkCQ7qtmlrB+sJn/pUwIXrZPFnR3qWIWv0b0Kdz2FpWKsf8tez0VmZRGu+eTzjbgWpplIKK+mT/j+hx4vIyShvW08Hk8zb6cggvf+fNawrpSaTaKkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768920924; c=relaxed/simple;
-	bh=L5WFAOB92nyW0Q54sPrHqzKx+kgCiTHOP124BL6cjcM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UyHFqBoojChedd+rkJGwtv+fCweHmBRAb7o7WtYfyMKpyuEXxxtVaWD9vvscQYil49bflO122rgdsy6Jct5hys6XDsLviA1p699KdrEmrHwLDHJfQjMFXcUvPTLxu41unZJ5k/V7p7MwRLRVT5pdYahduQe+TAfKtYFAlNCsW8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=xg6Q/50E; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4dwVjz37pwz9v0t;
-	Tue, 20 Jan 2026 15:55:19 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1768920919;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fpc1SDn2qhCusp6Gb2ZoVVuFPour3yCpuH5Nk4o3jcc=;
-	b=xg6Q/50EJPBVGETsSzG+aWApaCCLy1haUfr6IicMD455bY8tgF1j2X3Kjhy0udkNFaAOD6
-	DnOA5AaVGznPrjmaMQitJihF2kb426Kgm3CvKwRrqRj/xvoIf8DUQvzUXjQOgmJf5sHtIh
-	RmMVvF/knRYgBN88p6U1xevUSLx9eQii+x18C4ylF1cDApE1Zx4b+0YBKmkeRkAfxrKw3p
-	0tJkkD2KLrkdd7zwN8o/8heDQl84ZPZoZkqwDVYmNybm4j0rHDkRFjF6ly6hukrSLXfdIz
-	vfl5ILeX/R5hX/xkmbuk7zbL6RAjjj3Sk25C8Nwjo3tQeQjF7VgBbI5Tsl3lZQ==
-Message-ID: <6f2b7a15-5d43-4a63-b374-6a452d1ccba7@mailbox.org>
-Date: Tue, 20 Jan 2026 15:52:41 +0100
+	s=arc-20240116; t=1768921582; c=relaxed/simple;
+	bh=iMcAVcZi0JvK1BoRXW/xhNQDvSGDtgDC6QX7DEPzLcw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AXrkeDi25rylG/R6kxd3HNwqttVa5954+cFVlYYPe53lF5CrlW1jTWcWxnUlY13NKyjDEYimhohIJ7x3xu2oFHw4UPnZ/hTRkhwyL3Lk5fiFRyFRMeHZI6jMHiccdauUN4FT8Kmj1Ri57gdiQsppym8oPKEvizYjQnKm3QYUE1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+X-CSE-ConnectionGUID: W7e0F+Q8RK6LGWO1Q/TJBw==
+X-CSE-MsgGUID: NHrdqL1ZRfqwDoJrc+m9UQ==
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 21 Jan 2026 00:06:12 +0900
+Received: from vm01.adwin.renesas.com (unknown [10.226.92.24])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 1E8BE402261F;
+	Wed, 21 Jan 2026 00:06:07 +0900 (JST)
+From: Ovidiu Panait <ovidiu.panait.rb@renesas.com>
+To: geert+renesas@glider.be,
+	magnus.damm@gmail.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	mturquette@baylibre.com,
+	sboyd@kernel.org,
+	biju.das.jz@bp.renesas.com,
+	fabrizio.castro.jz@renesas.com
+Cc: linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-clk@vger.kernel.org
+Subject: [PATCH v2 0/5] Add versaclock3 support for RZ/V2H and RZ/V2N EVKs
+Date: Tue, 20 Jan 2026 15:06:01 +0000
+Message-ID: <20260120150606.7356-1-ovidiu.panait.rb@renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v3] regulator: rpi-panel-v2: Convert to new PWM waveform
- ops
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
- linux-pwm@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, linux-renesas-soc@vger.kernel.org
-References: <20260104194224.41245-1-marek.vasut+renesas@mailbox.org>
- <x25kxyh4t4u6c3ilj7nxp6sywab5dsar46b2foesrwfux2l4b2@d5iwqqcpdhlm>
- <797047eb-e422-4a8b-80eb-ab130066c1d7@mailbox.org>
- <xsjwvmlqclctnf6dgwyuoi7zits27is2s7r7taprb2w2lhsf7i@uiljd7o3ivbk>
- <855e5015-98c8-48f6-9320-ca8163591940@mailbox.org>
- <CAPY8ntACxpoZV2_8-9028AaA1mBScUOuK06a6x-XwdSeobiauw@mail.gmail.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <CAPY8ntACxpoZV2_8-9028AaA1mBScUOuK06a6x-XwdSeobiauw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: 1wimnp1x37mihjn1ognx35xa1xwm847i
-X-MBO-RS-ID: 92f34e3b36060c25839
-X-Spamd-Result: default: False [-1.96 / 15.00];
+X-Spamd-Result: default: False [1.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
-	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[renesas.com : No valid SPF, No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,gmail.com];
-	TAGGED_FROM(0.00)[bounces-27122-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-27124-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DMARC_POLICY_ALLOW(0.00)[mailbox.org,reject];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[mailbox.org:+];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
+	FREEMAIL_TO(0.00)[glider.be,gmail.com,kernel.org,baylibre.com,bp.renesas.com,renesas.com];
 	R_SPF_SOFTFAIL(0.00)[~all:c];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[marek.vasut@mailbox.org,linux-renesas-soc@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_NEQ_ENVFROM(0.00)[ovidiu.panait.rb@renesas.com,linux-renesas-soc@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:7979, ipnet:213.196.21.0/24, country:US];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ams.mirrors.kernel.org:rdns,ams.mirrors.kernel.org:helo,mailbox.org:mid,mailbox.org:dkim]
-X-Rspamd-Queue-Id: EA5B247078
+	ASN(0.00)[asn:7979, ipnet:142.0.200.0/24, country:US];
+	TO_DN_NONE(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	R_DKIM_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo,renesas.com:mid]
+X-Rspamd-Queue-Id: 3049046CF8
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 1/20/26 3:41 PM, Dave Stevenson wrote:
+Hi,
 
-Hello Dave,
+This series extends the versaclock3 driver to support the internal
+freerunning 32.768 kHz clock, which is used on the Renesas RZ/V2H
+and RZ/V2N SoCs as RTC counter clock. It also adds the dts nodes for
+the RZ/V2H and RZ/V2N EVKs.
 
->>> On Thu, Jan 15, 2026 at 02:14:15PM +0100, Marek Vasut wrote:
->>>> On 1/15/26 11:12 AM, Uwe Kleine-König wrote:
->>>>> On Sun, Jan 04, 2026 at 08:41:43PM +0100, Marek Vasut wrote:
->>>>>> -  struct regmap *regmap = pwmchip_get_drvdata(chip);
->>>>>> -  unsigned int duty;
->>>>>> +  u8 *wfhw = _wfhw;
->>>>>> +
->>>>>> +  if (wf->duty_length_ns > wf->period_length_ns)
->>>>>> +          *wfhw = PWM_BL_MASK;
->>>>>> +  else
->>>>>> +          *wfhw = mul_u64_u64_div_u64(wf->duty_length_ns, PWM_BL_MASK, wf->period_length_ns);
->>>>>
->>>>> This is wrong. There was already a discussion about this in reply to v2.
->>>>> I'll discard this patch from my queue and continue the v2 thread.
->>>>
->>>> Instead of resuscitating the old thread, could you please tell me how to
->>>> make the conversion, so it won't break with existing bindings and the result
->>>> would work as well as the current code ?
->>>
->>> the only way you can do this correctly is to measure or research the
->>> actual period length of the device. As this seems hard, the function I
->>> suggested in v2 works for me, too.
->>
->> Sadly, that does not work on the board I use , which is the one below.
->>
->> I was also hoping that Dave might have some input on the PWM frequency
->> of this display.
-> 
-> Sorry, I don't have that information, which is part of the reason why
-> I originally wrote the driver as a backlight driver rather than PWM.
-Is there someone you can ask by any chance? Is this hardware made by 
-waveshare ? Maybe they would know ?
+Best regards,
+Ovidiu
+
+v2:
+- Added versaclock3 dts node for RZ/V2N EVK.
+
+v1: https://lore.kernel.org/all/20251021175311.19611-1-ovidiu.panait.rb@renesas.com/
+
+Ovidiu Panait (5):
+  clk: versaclock3: Remove unused SE2 clock select macro
+  clk: versaclock3: Use clk_parent_data arrays for clk_mux
+  clk: versaclock3: Add freerunning 32.768kHz clock support
+  arm64: dts: renesas: r9a09g057h44-rzv2h-evk: Add versa3 clock
+    generator node
+  arm64: dts: renesas: r9a09g056n48-rzv2n-evk: Add versa3 clock
+    generator node
+
+ .../dts/renesas/r9a09g056n48-rzv2n-evk.dts    |  25 ++++
+ .../dts/renesas/r9a09g057h44-rzv2h-evk.dts    |  25 ++++
+ drivers/clk/clk-versaclock3.c                 | 126 +++++++++++++-----
+ 3 files changed, 145 insertions(+), 31 deletions(-)
+
+-- 
+2.51.0
+
 
