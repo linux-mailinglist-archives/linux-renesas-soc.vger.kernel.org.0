@@ -1,101 +1,120 @@
-Return-Path: <linux-renesas-soc+bounces-27100-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27101-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FB9FD3C577
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 11:37:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 735FED3C59A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 11:40:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 478965A45B3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 10:21:02 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 3C23A4EA788
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 10:23:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 771E93ECBD5;
-	Tue, 20 Jan 2026 10:20:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30A7B3ED13D;
+	Tue, 20 Jan 2026 10:23:18 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45])
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5BF03E9F88
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Jan 2026 10:20:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A8F43ECBEB
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Jan 2026 10:23:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768904447; cv=none; b=O/fcr9iOFB7o1/zxq4jaotr8UNI7OzRsG91LviT11uxnRNz7wYjrIfTjQ1n6xEeFD4aEsOMYoqcT58RHOsj+eY4RqCWi8no0LDnIh4qdjNDSe0ULbuc1EH742R1VQLeJE61XUtafpqD3caya56kdjcXt+wiaybTcpWLrUsd5gvQ=
+	t=1768904598; cv=none; b=q2CrjAvFRReZ0AXlSAXkriFFUaqLm4ihhSKHxaYpQX9gyLanlEAsFqKHc+vDT7Gw/Aq/gPIJYYiE1zeiLM82uQzpFSKoXM8fOnNrZb5l2TqjHh2JbEYsH5ZMoIhXgk4o6YxfdJ00KAEIWzutV1znOWuJHsd7bH7jP/dKxjjV4bM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768904447; c=relaxed/simple;
-	bh=aAg7Ezp3FuZ606SiZuKQuwvHZ2cnjOgD6370edqmDyI=;
+	s=arc-20240116; t=1768904598; c=relaxed/simple;
+	bh=ly0/vW5IDlDw+5wI+QKQKa0L1EivDoecPfiopYcWyII=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=paknGqNi2DGdDk3nH3DIb0gMaVqmfAf/tD2hYP5pWpYgxIyYpquYNeS+mM4EiyvAdDM+jdoyloecUJ4MmaW96Cu3Aodv7YOEaR030E3UqcWRYMXPnTO/DdKlXBSYJ7zUGJ2G8VL0WB8ES9rG9htMsrSTppD+DujXm8kmQw+EHMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.45
+	 To:Cc:Content-Type; b=LbJxe75sLAoNcC1RRP+SY1N5vjxOf/yoZlZnqdYLVKvyOzm+IfpnvP1ua4gl1Flag109KUeY0xmjzn1/zFzyGP4VUMcCiXp7G3YMoV7NpGztCZiGHQp7h95CWCffoSSGpjV9V2FDhVIdNgOp+hDm9OhmeVAIXnZ5y5kFLCLLWiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f45.google.com with SMTP id ada2fe7eead31-5eea9fbe4a4so1819332137.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Jan 2026 02:20:45 -0800 (PST)
+Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-5ebb6392f58so1620138137.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Jan 2026 02:23:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768904445; x=1769509245;
+        d=1e100.net; s=20230601; t=1768904595; x=1769509395;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Nyv07j23r/do4ZgfLqH89KjdmB98dkcyShTfl8D+6CI=;
-        b=gfd5+E4V4SWPxgKj1NDuwhcEO2il7izlowXy/VREYBLTJaURoiCNHJz7AvLLv90LmZ
-         /0yS08FvKCNFK6mdK6lawDfDSJtA5eSwohBpYva+rwIyGdP3LkfxTxMXiRCsUaSR7fMF
-         zbu3gY2pqeKkN434deBrimgiL0FAgqlhP8SoeavnUau7GNM/G+jhJp/e6PfMJVueW4dF
-         E+0OR4cmubrmaqo9HRyXJLbNG3PVONlQRN4SKcYu0H6er2As7+TfQxn9jbB4omaiLeXh
-         6Ix732/EFppBuOrNusIyrY5duyJriFcUpYlqQH2YB7W20DwVlT6hrAxYFlzSitQJjWbQ
-         8h6A==
-X-Forwarded-Encrypted: i=1; AJvYcCXtjrENeupk3eqIvj00yhxSDkyAMqm456TGdXvOy6lMiF7dyf/OCBg/MfrkPqyRpRjTpZzGt6f2WYjtohmckovmZg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxvTiSWqWITMjkTarg83JZoCvS/BVMpvAagbu6e+aczHEDhXSGT
-	CO3rQQ+Hsuf9Ou+G4Le0nNY0oWfx5bZhx+pcsmf8vPUmTRup82LVe7zFOmqVIXJC
-X-Gm-Gg: AZuq6aLOYF/+PssVgT0R7sD6cY1tthVMRd2O9030p/WtuiG3Dj/2URSG2wUqBaNodnA
-	GoYLV1CisG7jKTL+VLTk8yHxrWyNJXG3iuFJfVaYFsb97zJUF7OrWlH8swBOR0zb8pVf96gdsVG
-	QDV8iyi2HkfNioMekfONZfViXg0SJ8ttpsLF9+qciAo54AQOQdJEhjAMEaNiirBDfaUeO7Q3KD9
-	RM9iXP7/QlyhSFPkhlc3Wf8M936Hgg+uLdRxHuY8b9FtdzWc7CxT8ni0M7zDd9fprer/+l6+Ywn
-	8W9HSfW7eyjp+z+zaofQl54bjBDqVmlQ0TSakyA8XLe5ffdUToahQJBTZrbZ9K009N1dxP9BUaG
-	zxLIp39Ttjp2W+CQQQwVmIOIwgEXLdJAA1OENoCHfQTjhFDgfOxX+VnGstzDoUVc9alb0wiwP+G
-	jOY9idGQpuRWJu7PdHNdr+igqJJLB1z8HTCoViWqDuAV5vxYvs
-X-Received: by 2002:a05:6102:3909:b0:5db:fe41:747b with SMTP id ada2fe7eead31-5f1a53b7a74mr4017206137.18.1768904444648;
-        Tue, 20 Jan 2026 02:20:44 -0800 (PST)
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com. [209.85.222.43])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5f1a6d3ca2esm4557152137.10.2026.01.20.02.20.43
+        bh=N0ac9c/OTxQ/f6N2lklbqJQ1hEcN+Ckhb/mx79x7PYg=;
+        b=SyBmpZ1/brBMcVEf+jp9CYGviejuuukv4tjA6NZFJ3F9J7SMyHQkVuwYfySNmcY668
+         u9E1o41o3Brpe7P+T6psgdhh9uiK9SmBvwiMrD5k6Dv3wMTr889oss5MxM1x+DtQhbSf
+         O/xggg/OR2QFrqyxSYIKwArzk66beLLbOjiIRFwhklht7+YgTvfELQJHNDPuZCU59f6g
+         hBiSxU1Tfnhv4/YM/l4SysAJdY3K1QQUUocfNdWsiX/+gc7B+mE9PCtgAV3e8jAqflK1
+         x4rLU1rzMlI5FKrYOSIRpBayx5A+xHVbLUmCf7SSrI8MYijG4GL5R1k5pOqLYCCXzXNj
+         cVgA==
+X-Forwarded-Encrypted: i=1; AJvYcCUCHj6Y9JDohgx4WqpSMWS0oomnjW1bn2c0wQRoFbM7hdXlxpSOtlZQfS/xX2Pu23yVCRPJoaRtVss83x3hwIzeDg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyQSKoSOqEU9SeyVwcVPQduODSdUUA4rbE+XDHBL2iT1QssphVs
+	unsh0ghMeSSi3S2q5S5cXn3n6klOdxqxEjnge8VRDPUNiY3af6g89lNk2w1+H+4S
+X-Gm-Gg: AZuq6aIJlxx9A9AieP8gpnfsN5zkqzxxemvyInZl8Ue2fGw3776F3JWdNWqnSNp/91h
+	MVpxkpeQ4xWAYuRBbemUOVnjCUv6XnIszgxN21DoxOVn77Zy4G2iRlf8FCWxZT7k+fs/rOQ98dE
+	+Q9sRuqnRnJfwVOv6ADbpWmkSrbb40uatT3kjCjaP+4QxTH8pXAkhPzJ98F1mf4CRwiigpLwUSG
+	pVVRRWzRQ2abLGSN0LU4msvw9a0onwiLyuieD7q4TmM87CT170NbiOyZHR2BAyfiMk+fX2C5JF3
+	yUpIyc2LNMGSc4UWyM1rqLHm/PpLxWOGhtVjLBAd7FbjvnS06kIPwPrJAwMcFTMZEMR6Q2yxoLV
+	2dfD4rRyIk5qkr5xKASLU143B5lRup9UyWjfY2/QIGvPLy2jaTVAJfh853iw9bevA3p2wwyekB1
+	b5oW9FU3kpBBDV5xuRrL/iP5ZPYKvDeul0hFTccQ1wGNZBCJLNRPdm
+X-Received: by 2002:a05:6102:e10:b0:5dd:b288:e780 with SMTP id ada2fe7eead31-5f1a6d21b7amr3527860137.0.1768904595156;
+        Tue, 20 Jan 2026 02:23:15 -0800 (PST)
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com. [209.85.221.173])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5f1a6925726sm4438033137.5.2026.01.20.02.23.14
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Jan 2026 02:20:44 -0800 (PST)
-Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-94240659ceaso1443896241.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Jan 2026 02:20:43 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUERBq7y6tKJYvYYZdY7mOeoa9CB3daAUWTVaTdujdEF5o/B3XaMI8315lvx+4vRuQfxUnbBYMSfgOuTPTM5wbIAQ==@vger.kernel.org
-X-Received: by 2002:a05:6102:374c:b0:5e5:5ed7:60b6 with SMTP id
- ada2fe7eead31-5f1a55b92famr3532144137.39.1768904443274; Tue, 20 Jan 2026
- 02:20:43 -0800 (PST)
+        Tue, 20 Jan 2026 02:23:14 -0800 (PST)
+Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-55999cc2a87so1149023e0c.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Jan 2026 02:23:14 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCW0Gq+XV+JKrGfT9ibbHwYIaHujmYI01KzDYFbwgR3DHCfyJqBEp4Mc3cuYuFODFKP91YtEVdgQS+176dsOvy/P5w==@vger.kernel.org
+X-Received: by 2002:a05:6102:dcb:b0:5dd:84f1:b51a with SMTP id
+ ada2fe7eead31-5f1a720e344mr3802674137.43.1768904593920; Tue, 20 Jan 2026
+ 02:23:13 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260117001215.59272-1-marek.vasut+renesas@mailbox.org> <20260117001215.59272-2-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20260117001215.59272-2-marek.vasut+renesas@mailbox.org>
+References: <20260117001215.59272-1-marek.vasut+renesas@mailbox.org>
+ <20260117-grinning-heavy-crab-11f245@quoll> <38a146cf-8eee-4fbb-8783-231108a01b54@mailbox.org>
+ <578745f0-0865-4195-9237-6d41c7fd55f2@kernel.org>
+In-Reply-To: <578745f0-0865-4195-9237-6d41c7fd55f2@kernel.org>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 20 Jan 2026 11:20:32 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVWrnn0vkgKra8mPzTLk5sWzE=CeQv-FXJ7-Jb+-mqU0A@mail.gmail.com>
-X-Gm-Features: AZwV_QjATqdrAwQiQ-9Ivrk8GAW5lhpXxjdgsjHmeMx-cj4-rn9YTbwg6Jsj-98
-Message-ID: <CAMuHMdVWrnn0vkgKra8mPzTLk5sWzE=CeQv-FXJ7-Jb+-mqU0A@mail.gmail.com>
-Subject: Re: [PATCH v4 2/3] Input: ili210x - convert to dev_err_probe()
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-input@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Frank Li <Frank.Li@nxp.com>, 
-	Job Noorman <job@noorman.info>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
+Date: Tue, 20 Jan 2026 11:23:03 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUuYJ6pSFXy9KBsgkbJ003HEEKhMPgUHkQbdJPFchR39w@mail.gmail.com>
+X-Gm-Features: AZwV_Qg0GRK3xtZRzMXlXd6nCURzar6s0zix0S_d3ClYfwO2CsgqrBgFFjQMPVY
+Message-ID: <CAMuHMdUuYJ6pSFXy9KBsgkbJ003HEEKhMPgUHkQbdJPFchR39w@mail.gmail.com>
+Subject: Re: [PATCH v4 1/3] dt-bindings: touchscreen: trivial-touch: Drop
+ 'interrupts' requirement for old Ilitek
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Marek Vasut <marek.vasut@mailbox.org>, linux-input@vger.kernel.org, 
+	Frank Li <Frank.Li@nxp.com>, Conor Dooley <conor+dt@kernel.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Job Noorman <job@noorman.info>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Sat, 17 Jan 2026 at 01:12, Marek Vasut
-<marek.vasut+renesas@mailbox.org> wrote:
-> Simplify error return handling, use dev_err_probe() where possible.
-> No functional change.
+On Sat, 17 Jan 2026 at 19:34, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> On 17/01/2026 16:33, Marek Vasut wrote:
+> > On 1/17/26 12:22 PM, Krzysztof Kozlowski wrote:
+> >> On Sat, Jan 17, 2026 at 01:12:02AM +0100, Marek Vasut wrote:
+> >>> The old Ilitek touch controllers V3 and V6 can operate without
+> >>> interrupt line, in polling mode. Drop the 'interrupts' property
+> >>> requirement for those four controllers. To avoid overloading the
+> >>> trivial-touch, fork the old Ilitek V3/V6 touch controller binding
+> >>> into separate document.
+> >>
+> >> One if: block is fine, so IMO, this should stay in original binding
+> >> especially that more devices like some azoteq or semtech might have same
+> >> rule of not requiring interrupt line. Anyway, no big deal.
+> > I am not sure about the other non-ilitek devices, but the fruitboards do
+> > use at least goodix and etm/edt touch controllers without interrupt line
+> > too, those I have on my desk (those two have separate, more extensive,
+> > binding document). I also suspect we will see more of those touch
+> > controllers with optional interrupt line, so if we do, I think we can
+> > re-combine the binding documents again ?
 >
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> Yes.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+IMHO more churn, and more git blame mismatches...
+Why not keep them in a single document in the first place, like in v1?
 
 Gr{oetje,eeting}s,
 
