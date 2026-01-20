@@ -1,90 +1,90 @@
-Return-Path: <linux-renesas-soc+bounces-27102-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27103-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qImfFZJhcGkVXwAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27102-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Jan 2026 06:18:10 +0100
+	id MO6CIjBRcGlvXQAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27103-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Jan 2026 05:08:16 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC151516A3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Jan 2026 06:18:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F182450CD2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Jan 2026 05:08:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 209867CA0E9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 10:49:54 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 5B21F7E6C9A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 11:04:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AA4E3F0756;
-	Tue, 20 Jan 2026 10:49:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8353A41C31A;
+	Tue, 20 Jan 2026 11:03:37 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06D0B3D1CCA
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Jan 2026 10:49:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B407041C300
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Jan 2026 11:03:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768906190; cv=none; b=BBvx5tfVttRbSngCQhN2y+hZ+YVwPKSSEU+Gj05SpH1d+Jy3+DrV34tc99wqNgDkzcN0hAH09iYxj9iqjSYdTpMu5Gvo5l2lDDUIDKTzNkxveBm92HyEy52zVBUxtROHEdw6e4h3CO7pat7qLuYFai14SBFRPJFvFGyr/25asTY=
+	t=1768907017; cv=none; b=ajLPHGlua9JV3qpySmjaShFiMskOFM9RzCakFrLvpGaIectG9DSSlDaOm/7jEB5rWZ3mNvRBrsZcl6c2D0eijWCxmI8ohaG9iiX/ZZ06lX4MXtxz2VblwgNOJE3GTDWBDDjZFIq+DOiVSMBVe/RuQeqQC+pVLyVgOIlCRTX20cI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768906190; c=relaxed/simple;
-	bh=Jo14SNVvgAvpmCa6sHx3d7iO2VYD3GagcaTjUOnITWw=;
+	s=arc-20240116; t=1768907017; c=relaxed/simple;
+	bh=Yt74Pwf1lMdOPJDNa5I9rk37qMEnD4Vx9P4hWUTzXJI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=s5wZKoZGVmH1XYGWese8waG7/7o9hUiLLXPWC9Ghfh4Ikcc092BHhuFNfy3VQyfcGNxMYHQBj9jCV+VtcxZG3OHsilqzFKnF18m2aIt7D3HNvJrAUPO90pdPotGsJ2DODISwgE7eERmS7ys+8ZdtVr/jCk76ZpyqPpE5rq2QIs0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.54
+	 To:Cc:Content-Type; b=JKb2OtsVpkRvS5GtNxa2TpJlkotH8ljVHcx5+c81vVk92rW0tnf9YWvf4iLLQmFODow3qu6hAiUBuxF9H09ZIjwnyvmSuIzJxkF9PYCtmmFqiaiAVTsbfXyYGtrH/K3JUvuXHgDLmrEJWAuXmqAZYcSlBL7GMteCO5K/IM7vIfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-5efa4229bd2so3413793137.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Jan 2026 02:49:45 -0800 (PST)
+Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-563610de035so4008408e0c.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Jan 2026 03:03:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768906185; x=1769510985;
+        d=1e100.net; s=20230601; t=1768907015; x=1769511815;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=EZ0wVYmrXY0w9NWoQKTsT/lFDBKGzH8gk5CbiyOvxNo=;
-        b=XAFWol/P8Hth1qhWVGwpbzQSO8C+GaVH1hxlic4A/r7VtdzALO48zb6d9fxK4qHp+l
-         e2+4ViDHCp3xdX5oxGgd3STNmW6EjedlzWPhmX0djYG/LFuHZazVx+jxNvlVXRfKmSsy
-         KXmpIQ2JS/61jcu6g7pEIsS2Nn4sc6uaDcBOW4D90s2KdF+6Z6P4Eo47sLc4X9EgYP63
-         FHvLJ1ckN0cIFVnRzMEDm0IRxWn2Ue/6DjY72ZdBj3c5K7BqVURF0yDh2UN5S3XZyygP
-         aOm45k+tjnSrRgS8hLoU9p7jHb3d6nxdLXbuneDZSkvgVSRk4RUxYkZC5nIuAYYeurHv
-         7Hpg==
-X-Forwarded-Encrypted: i=1; AJvYcCVkqkBQARE7B49d1MDIdSxN/eDVihvz2Uwopt1WgfNFgwvJPl5A3sR1S9QZMJx8A0RTGftmw4XlDFFJiYnsitO2QA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyrAFMefIrGv4lG7RRAsn5uSFypu4JTTP4rLAt6JXoPR44RFqTV
-	QhbbIFl13HUxEgqsbWITU+gPr5kraPWE8z6vuiylVbKo/ApZ7S0XGnFBEYmwGoZ5
-X-Gm-Gg: AZuq6aIC+bNwIphwIcNu0hP3l/7PPytiBp2PSvCVBENSKPqv8jYJx7PTvAOIOesSiCr
-	kCTi5hUVDZwI+LzsfSZINwRKFb8CHkb1BbpjOMf/SFBEQNqujKaz/HZFMt9R2sAfKPhHHKPmZoP
-	mQNUOVYBfT9iXURz937BhROiyXLQyCWabnTUhgmZ37F3pOZDxOYgtT98LEU25ymtzLLbWqJI5Ej
-	7hR466V/QIUzBN3FvXavdhNTvTe+7wSTn3m0vtKDbfcmDM2qYc1GzPRPDlZaz5X2lfKNJjdQsrj
-	rtod5vKDSf4rNbBhLDrXxnlgBPTm301onTPenNgGcQQt5AJjHiXnzS3dOyL9zPiyug1Rv0iKsL3
-	LcNYmL/Dex83gLysJTK6aSX3wRXqNcOxjWssx4RGyTTfFWqyv/0hDwdF8K5B8+/MGqH4KP8UKWI
-	yymurrBt2y5SVxMwOuGaBNNj+J1uusybskq8fXkkWlKSdubvAb
-X-Received: by 2002:a05:6102:3a10:b0:5ef:23a3:205d with SMTP id ada2fe7eead31-5f50aa0ed54mr334562137.31.1768906184621;
-        Tue, 20 Jan 2026 02:49:44 -0800 (PST)
+        bh=mc4ovVXcdd2t1CG9+kKl14hd1FxE21SIum3OHqj6bo8=;
+        b=WqviFzPe+ztMnudeLCDq6U4NtmveNdNfaX5HUqzObdwix0BmZ3r+y4HI0SudhBYTlU
+         T0mc+Y0zguTwC3ZMS9D27mIcWJW1U3MrVDkH5wqoJsbuq0L6RUo2uPJ/ykS1yTSnuyeN
+         wsuxZX6N7Y/bDx8UeA7eZ9KpMtGasBk/kG2jY/nyQfdvcKCYpIPIZLdwd55CmQ2eGzJJ
+         xWEdgnPFgmoOfwA2OWnZ6vUguWZJ7cqxhWKJNjUPliZS03d3ASZut1PRRsG4IG4Kp4VZ
+         kv9/J3z901X1zRKK2dfpklXN5uUcJoAgJaaSoDuxL0/VtNTK9/jXYTaSGiz1A2MZsaKG
+         5rmA==
+X-Forwarded-Encrypted: i=1; AJvYcCUjF9q+7IYfGx92yN/ySSQXwdcAb1gPGluXSAQxgcij69GmUEXbpLR8oNrOedCMjfr0X+UtfeAyX/MKmfOEk8fprg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx8Xs0fmPqkyee122/lvr1xLlcG4rfuifMmuUr+sFazcSZx5zdh
+	g4CEUs/9Cgq+ANTqO2bLOCVhATf3ebep0Dl3FcfBBKoT3OEBf3KYX+v36TkMehlv
+X-Gm-Gg: AZuq6aIZKaLiq2NsPBQhpvBQX0u31BrEsA7DJTrJE/1OmO4Hjanmc24ioX/a/cY1LXF
+	oGCLSqN3T6OzSC4ufwGjZGJKQpk6qqCWrVlgBltsJwZ7iUKLvIeOhNx91CIX1IoNZgH2hZdDDsS
+	1zrPGMcdM5umIZ2IZ6zkX+axgRAMBCninIEzH4CSur9+NPWcdlHfHUambZVmu6Y8AMoSaQoxmYn
+	0N1s+uz8LC3FnP9PG9ZKhxOW40OREh1PWnw0vxkOuTae8qwEllzR0GgJyi6SHXwE8BWmpVuzWxn
+	qQJ91906tZquGfwE4W1xxy3Y/fKCLvz/nDKeMQCdkR4PStkggbKarXtEYv9N1gsz6MnNYpKsOgp
+	jOP7aghZnmzgJyXO9PcgHlR/DtCMANiX/fNM/qNO+/+3EBlyUsBMKcCJRkXGLpq8FBB7EgpMgXI
+	AT2U2tx7NvSNe7/xJk7wALvWNa5A6my09JU+RCbdiwstdbn6ab
+X-Received: by 2002:a05:6102:304f:b0:5ee:9fef:68d5 with SMTP id ada2fe7eead31-5f50a9e7091mr388320137.41.1768907014535;
+        Tue, 20 Jan 2026 03:03:34 -0800 (PST)
 Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com. [209.85.222.44])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5f1a6925223sm4179306137.4.2026.01.20.02.49.44
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5f1a69444f0sm4229393137.7.2026.01.20.03.03.33
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Jan 2026 02:49:44 -0800 (PST)
-Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-93f5761e09aso3134065241.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Jan 2026 02:49:44 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXx3ZiyM676/FE+ZmBieFT6hBjS+EpR1orM/MeZ0jF70l84+xcSbImopWxUFjBQ7prqGLsh7XXwk/p3oCdY/wudjA==@vger.kernel.org
-X-Received: by 2002:a05:6102:3f56:b0:5f1:4fb8:6b92 with SMTP id
- ada2fe7eead31-5f50a9d3b46mr342934137.22.1768906183803; Tue, 20 Jan 2026
- 02:49:43 -0800 (PST)
+        Tue, 20 Jan 2026 03:03:33 -0800 (PST)
+Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-9413e5ee53eso3285797241.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Jan 2026 03:03:33 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWjPyZ9+KQLZ0q2S+3dXEcFkDIXPCz1l19TobpPX0QB9X/LwvVINcNK6LP+Jv5EOIMYYjK0vLRNLNllaue7jbRQnw==@vger.kernel.org
+X-Received: by 2002:a05:6102:390b:b0:5ef:a59e:617a with SMTP id
+ ada2fe7eead31-5f50a95f019mr413993137.21.1768907013323; Tue, 20 Jan 2026
+ 03:03:33 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260114153337.46765-1-john.madieu.xa@bp.renesas.com> <20260114153337.46765-4-john.madieu.xa@bp.renesas.com>
-In-Reply-To: <20260114153337.46765-4-john.madieu.xa@bp.renesas.com>
+References: <20260114153337.46765-1-john.madieu.xa@bp.renesas.com> <20260114153337.46765-5-john.madieu.xa@bp.renesas.com>
+In-Reply-To: <20260114153337.46765-5-john.madieu.xa@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 20 Jan 2026 11:49:32 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXAAUe_0kboQ9C0AMPn5re-1kCagecp1fMCGramDpXGRA@mail.gmail.com>
-X-Gm-Features: AZwV_QiaybW_I-1gR5s_n3JOLx29V6BZF-xoPK94FskYw67mu-RW2omq6aWspo4
-Message-ID: <CAMuHMdXAAUe_0kboQ9C0AMPn5re-1kCagecp1fMCGramDpXGRA@mail.gmail.com>
-Subject: Re: [PATCH 03/16] clk: renesas: rzv2h-cpg: Add support for init_off clocks
+Date: Tue, 20 Jan 2026 12:03:21 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXKvfRr2us9YhXh5a_qtZcv8wCvz_EnVa4PEANocg_0_Q@mail.gmail.com>
+X-Gm-Features: AZwV_QgrKR7tnicz6yGCyKjhkngXRza_8zoEMe8PqpfHwLCDwwFyDmgdfB6vgIY
+Message-ID: <CAMuHMdXKvfRr2us9YhXh5a_qtZcv8wCvz_EnVa4PEANocg_0_Q@mail.gmail.com>
+Subject: Re: [PATCH 04/16] clk: renesas: r9a09g047: Add PCIe clocks and reset
 To: John Madieu <john.madieu.xa@bp.renesas.com>
 Cc: claudiu.beznea.uj@bp.renesas.com, lpieralisi@kernel.org, 
 	kwilczynski@kernel.org, mani@kernel.org, krzk+dt@kernel.org, robh@kernel.org, 
@@ -100,7 +100,7 @@ X-Spamd-Result: default: False [0.24 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-27102-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-27103-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	DMARC_NA(0.00)[linux-m68k.org];
 	RCPT_COUNT_TWELVE(0.00)[16];
@@ -118,32 +118,54 @@ X-Spamd-Result: default: False [0.24 / 15.00];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt];
 	R_DKIM_NA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo,mail.gmail.com:mid,linux-m68k.org:email,glider.be:email]
-X-Rspamd-Queue-Id: AC151516A3
+	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,linux-m68k.org:email,dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: F182450CD2
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 Hi John,
 
 On Wed, 14 Jan 2026 at 16:36, John Madieu <john.madieu.xa@bp.renesas.com> wrote:
-> Some peripherals may be left enabled by the bootloader but should be
-> explicitly disabled by the kernel to ensure a known initial state.
-> This is particularly important for PCIe which requires proper
-> initialization sequencing.
->
-> Add new macros DEF_MOD_INIT_OFF() to declare module clocks that should be
-> turned off during CPG probe if found in the opposite state.
+> Add necessary clocks and reset entries for the PCIe controller
 >
 > Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
 
 Thanks for your patch!
 
-LGTM, so
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> --- a/drivers/clk/renesas/r9a09g047-cpg.c
+> +++ b/drivers/clk/renesas/r9a09g047-cpg.c
+> @@ -438,6 +438,10 @@ static const struct rzv2h_mod_clk r9a09g047_mod_clks[] __initconst = {
+>                                                 BUS_MSTOP(3, BIT(4))),
+>         DEF_MOD("tsu_1_pclk",                   CLK_QEXTAL, 16, 10, 8, 10,
+>                                                 BUS_MSTOP(2, BIT(15))),
+> +       DEF_MOD_INIT_OFF("pcie_aclk",           CLK_PLLDTY_ACPU_DIV2, 12, 4, 6, 4,
 
-However, I am still wondering if there are any possible bad side effects
-of disabling the PCIe clocks, e.g. when PCIe is in use (network card,
-SATA card, ...)?
+"pcie_0_aclk", to match the documentation.
+
+> +                                               BUS_MSTOP(1, BIT(15))),
+> +       DEF_MOD_INIT_OFF("pcie_clk_pmu",        CLK_PLLDTY_ACPU_DIV2, 12, 5, 6, 5,
+
+"pcie_0_clk_pmu"
+
+> +                                               BUS_MSTOP(1, BIT(15))),
+
+Do you need pcie_refclk_in and pcie_coreclkin?
+Especially the latter seems to be document sparsely.
+
+>  };
+>
+>  static const struct rzv2h_reset r9a09g047_resets[] __initconst = {
+> @@ -503,6 +507,7 @@ static const struct rzv2h_reset r9a09g047_resets[] __initconst = {
+>         DEF_RST(10, 15, 5, 0),          /* USB2_0_PRESETN */
+>         DEF_RST(11, 0, 5, 1),           /* GBETH_0_ARESETN_I */
+>         DEF_RST(11, 1, 5, 2),           /* GBETH_1_ARESETN_I */
+> +       DEF_RST(11, 2, 5, 3),           /* PCIE_ARESETN */
+
+PCIE_0_ARESETN
+
+>         DEF_RST(12, 5, 5, 22),          /* CRU_0_PRESETN */
+>         DEF_RST(12, 6, 5, 23),          /* CRU_0_ARESETN */
+>         DEF_RST(12, 7, 5, 24),          /* CRU_0_S_RESETN */
 
 Gr{oetje,eeting}s,
 
