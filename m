@@ -1,134 +1,111 @@
-Return-Path: <linux-renesas-soc+bounces-27097-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27098-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9257D3C4B9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 11:12:30 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A307D3C49E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 11:08:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id BE6CE5AAA8C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 09:59:00 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 95D956C6C44
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 09:59:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EF2D346782;
-	Tue, 20 Jan 2026 09:57:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC22A350A2E;
+	Tue, 20 Jan 2026 09:59:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="vyE0oalM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com [209.85.210.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A18853C008E
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Jan 2026 09:57:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1B603BC4E4;
+	Tue, 20 Jan 2026 09:59:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768903054; cv=none; b=Am2pIpl/Mk1OcIzlsUaPakfBpUTiIclVbULW/vvAYY80JasXWoTkfYEbZoRLqD9Es2npcVRZ6y0uao4+l1Pcsjlnlbb31AjymDgrFC22Xhd5I/QmJbnWY/fQ+bTC7KyqC3Dk6AyS0ig0RLY2Llm1ZfD08Vd456VvHXQYINKCjYE=
+	t=1768903162; cv=none; b=LFGXp0e50utqbDRlxfPuafZSlxkkTrj40ZfsN9Tg+6bw0RuS5xQGHz8YAvXg7D8z9M4r/+OfrAo9i2uMXF9xPTCQuXX+hZA2tb9689wZu0Ecq78r6WebBpLqJyr3bNwWbMklNBIyYWRGxauSpfbKtP2QENH0ZHa75T4pXZrq354=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768903054; c=relaxed/simple;
-	bh=PhelJ3YKLy0g5664IUc1xRM3vK2MnAcXyilLWshEZX0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Q6KrBisI7qlkZR7t40RF0KuHauZICPD1X50jZDyFiuIPuQlfB0+K8ALfMOCiJ0TRNcoetvO6jhKgcl5nq928A7rhP1G0Vj/+efDpXeXudbI+CHvPneF/LQXT0mx19FbsANapYprh4Qu76ZTx2myaSzMoAKjQV2c+OBOXEEvRhwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f66.google.com with SMTP id 46e09a7af769-7cfcebf1725so3340710a34.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Jan 2026 01:57:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768903051; x=1769507851;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cMqHiB2kIqqBrLa59wdqxa2/T5exJBY1xL1A1svqwlE=;
-        b=sdbxFiV5wmxGOcuAY15ng4cz39rMXx3H2k3X6HlGDMdBtehLlzAQnEDdLWhUQQ8xQy
-         Mr4LTW2jQcOFdhgmPxQMpuiLYrL38V93Cjf98xjY7moSzoZ9MBrLE1ekN0JXKjk68dxT
-         FeTQYXJQxDHCuXHmvfXmi4AsB3ISU01lcwCI9Xb0Nl7+2rNDLHaY4EGZWqji+4pR6G/r
-         zCVSzHm0uyOdaUcMn7kZzg3YvIqxJcwWNTMrnoGLjdZn9po7N82JQKqEhqZBW5Sbmhwe
-         pboLSZfcPRMUDm+65Jtqi8bczYOQlhz5F9Y8PaQ3JBC8dK+0OCyn8aINAaUfyfQo2khM
-         ZPMQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUeov+GEOljx5ZMZZyC0+0HfafoMekeZgdmK61p1bhkh8ClZflF6R6Vvi6NYlYVHKc5i5dZ0Bp7VKqXK61xMZkzkQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwNJzTlsJNuHcBb7n9BSxk74LMXDgCAW4KcJUpjCPLJqBPYRxeo
-	kUi7vuuvHLv5owRsVg150PFYjRyFF5138J0VtRjL+kvBRkw8wqjbmVKqCjbPd6R3uf0=
-X-Gm-Gg: AY/fxX6BUGM9fI9lTSWtOdiX/2f1nNmC+UqNxvZHIw/hR9+r7DILrShAuO/0TKOziS7
-	nFR3spk8amI5EAtSIIrZ5f6aHz+pXa+fqesmiiMJ3rrsseAGl3/jIjWv9rg4z9zrq4DZ6oxMRbj
-	r4K81gV90DGuyk31xUt60avrhZyfU92urxyuH1GVXiXiil5OJQzxGBmq/ZbBrFwXBs8BwI6wxhG
-	cKun+tVIvVLBQFE4ICNLPfy/bK33X+L2j1WmBdvtr/DfAnxUkS8KP7I/sl1+yfsfCtWCTakLkXk
-	IQ/DJ4hXbXfq7BSQiYqISv4GjnPzktasP7RLTnPC78Vy11H0KfvRmlGJySPNZJFjw8q/c7GkBCi
-	+auLlePkQq/UQoOCCMz54WjcuQDJKCMNONQKfBAq42eJDUBbaDYqgNwFTCm5cA4ncLzZAZCnmwj
-	rZufwEv5ruyRQFOa4pgi+rJ4PqadPB/BHKm+f7u1/YaTdlLOxA
-X-Received: by 2002:a05:6830:6afa:b0:7c6:9eac:2385 with SMTP id 46e09a7af769-7d140a3a75dmr644231a34.5.1768903051417;
-        Tue, 20 Jan 2026 01:57:31 -0800 (PST)
-Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com. [209.85.161.54])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7cfdf28f223sm8200841a34.19.2026.01.20.01.57.30
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Jan 2026 01:57:31 -0800 (PST)
-Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-6611c401aa2so2135924eaf.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Jan 2026 01:57:30 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVtUNKmP3TxOmzImiPXdRqTNNGC9vw1Ps8E/DY5EzgpvPGf1A5yOmh1eFL3ts2aOjSXP2q9PVry1Oe7+7i05Zquhg==@vger.kernel.org
-X-Received: by 2002:a05:6102:2928:b0:5db:f6ef:560 with SMTP id
- ada2fe7eead31-5f50ae0a099mr264663137.28.1768902583158; Tue, 20 Jan 2026
- 01:49:43 -0800 (PST)
+	s=arc-20240116; t=1768903162; c=relaxed/simple;
+	bh=KsXTxhw/FCt6iktKIcL9L2KBZh5XM5570tm4QHU4ZG8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IqEb5oeChH1RCsSnozfpy3a7IeWWBAat0dVKq4NOkUc9myvi6ORXAdhGI7rgrg3x8chotwcORziDNzSpb1HFzfFC2bTPfpEAeMrKcisXIwp74ijZVn8MPfQciUSkly6D3Y1LGS4OWNgPjJEedEYXHNSYWAJ1unUYcrs2KH3errM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=vyE0oalM; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4dwN8P1djBz9v4c;
+	Tue, 20 Jan 2026 10:59:17 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1768903157;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HqQ5oQ5ZE0vnjaJiWS061etez0QGOyLm2rhNRT0GO9M=;
+	b=vyE0oalMmMdTVQxyAErA66P/Te+6OdQJd11rm39F4k8g5/K0aTtu8+f4TAtL5MDiT5Od0f
+	dCnHGx1x8maN+7z6WKc9s0yo7SAAhEAnvCZvCQeN1/6rdhRMajrk7aMzCgrns+npytKfK+
+	LzQditNawinAcRWjYoPUnVXfkLozzy5tbLXOf4qN1sFk4n4tj0e1sz9QUcldix5RzFMc3u
+	4RHeOkhladesK8BZRRoUSiOvKPGV+6V91lIvK3xgLzBUmK1EVFGmEQOJXO8wLJ0H0mpqM+
+	Hw7igxlbWfnYrqZC63jl2NSl/FFPvKDEGPgnapnSE/mA00BKgme6dd0IOX/8qg==
+Message-ID: <6d7b4e5f-fb33-47f7-8600-4127d2eef069@mailbox.org>
+Date: Tue, 20 Jan 2026 10:59:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260118-rz-sdio-mux-v5-0-3c37e8872683@solid-run.com> <20260118-rz-sdio-mux-v5-7-3c37e8872683@solid-run.com>
-In-Reply-To: <20260118-rz-sdio-mux-v5-7-3c37e8872683@solid-run.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 20 Jan 2026 10:49:32 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU5shzYs27wO2A0SoisGBMo8RHf9DO-ubC6VrhWECEPCw@mail.gmail.com>
-X-Gm-Features: AZwV_QjEUqevj8OUxZ5xnP3V3BgNbEzQSiuy0CgomAkdvyQGaaSlv633jCWavtA
-Message-ID: <CAMuHMdU5shzYs27wO2A0SoisGBMo8RHf9DO-ubC6VrhWECEPCw@mail.gmail.com>
-Subject: Re: [PATCH v5 7/7] mmc: host: renesas_sdhi_core: support selecting an
- optional mux
-To: Josua Mayer <josua@solid-run.com>
-Cc: Marc Kleine-Budde <mkl@pengutronix.de>, Vincent Mailhol <mailhol@kernel.org>, 
-	Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Peter Rosin <peda@axentia.se>, Aaro Koskinen <aaro.koskinen@iki.fi>, 
-	Andreas Kemnade <andreas@kemnade.info>, Kevin Hilman <khilman@baylibre.com>, 
-	Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>, 
-	Janusz Krzysztofik <jmkrzyszt@gmail.com>, Vignesh R <vigneshr@ti.com>, 
-	Andi Shyti <andi.shyti@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Yazan Shhady <yazan.shhady@solid-run.com>, Jon Nettleton <jon@solid-run.com>, 
-	Mikhail Anikin <mikhail.anikin@solid-run.com>, linux-can@vger.kernel.org, 
-	linux-phy@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-omap@vger.kernel.org, linux-i2c@vger.kernel.org, 
-	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH] clk: rs9: Convert to clk_hw_onecell_data and
+ of_clk_hw_onecell_get()
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <a6dce17b15d29a257d09fe0edc199a14c297f1a8.1768836042.git.geert+renesas@glider.be>
+ <d921ff48-caa3-4d79-80e8-35c4848258da@mailbox.org>
+ <CAMuHMdWfEHcNwPCVPXeAO3Sk8U=p0nMVUksiwmMnnkf0LYmnjg@mail.gmail.com>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <CAMuHMdWfEHcNwPCVPXeAO3Sk8U=p0nMVUksiwmMnnkf0LYmnjg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-META: pxxdzz4bjz6mgso4nq4yuu46ngpb81bz
+X-MBO-RS-ID: 5b57db8c2ba6a9c9a90
 
-On Sun, 18 Jan 2026 at 11:29, Josua Mayer <josua@solid-run.com> wrote:
-> Some hardware designs route data or control signals through a mux to
-> support multiple devices on a single sdhi controller.
->
-> In particular SolidRun RZ/G2L/G2LC/V2L System on Module use a mux for
-> switching between soldered eMMC and an optional microSD on a carrier
-> board, e.g. for development or provisioning.
->
-> SD/SDIO/eMMC are not well suited for runtime switching between different
-> cards, however boot-time selection is possible and useful - in
-> particular considering dt overlays.
->
-> Add support for an optional SD/SDIO/eMMC mux defined in dt, and select
-> it during probe.
->
-> Similar functionality already exists in other places, e.g. i2c-omap.
->
-> Signed-off-by: Josua Mayer <josua@solid-run.com>
+On 1/20/26 10:12 AM, Geert Uytterhoeven wrote:
 
-LGTM, so
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Hello Geert,
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> On Mon, 19 Jan 2026 at 20:36, Marek Vasut <marek.vasut@mailbox.org> wrote:
+>> On 1/19/26 4:23 PM, Geert Uytterhoeven wrote:
+>>> rs9_of_clk_get() does not validate the clock index in the passed
+>>> DT clock specifier.  If DT specifies an incorrect and out-of-range
+>>> index, this may access memory beyond the end of the fixed-size clk_dif[]
+>>> array.
+>>>
+>>> Instead of fixing this by adding a range check to rs9_of_clk_get(),
+>>> convert the driver to use the of_clk_hw_onecell_get() helper, which
+>>> already contains such a check.  Embedding a clk_hw_onecell_data
+>>> structure in the rs9_driver_data structure has the added benefit that
+>>> the clock array always has the correct size, and thus can no longer
+>>> become out of sync when adding support for new rs9 variants.
+>>>
+>>> Fixes: 892e0ddea1aa6f70 ("clk: rs9: Add Renesas 9-series PCIe clock generator driver")
+>>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>>> ---
+>>> While this patch applies on top of "[PATCH v2] clk: rs9: Reserve 8
+>>> struct clk_hw slots for for 9FGV0841", it can be applied or backported
+>>> without, by ignoring the change from "clk_dif[4]" to "clk_dif[8]".
+>>
+>> Since the 9FGV0841 is the biggest part in the 9FGV series, the one-liner
+>> fix I posted is better suited as a stable backport. This rework
+>> shouldn't have the Fixes tag, since it is only that, a rework.
+> 
+> This is not just a rework, as it also fixes a second issue.
+> But since you prefer simpler fixes, I have submitted a v2 that just
+> adds the missing range check[2].  We can revisit the conversion to
+> of_clk_hw_onecell_get() later, after all fixes have landed.
+This is nice, thank you !
 
