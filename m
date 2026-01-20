@@ -1,52 +1,52 @@
-Return-Path: <linux-renesas-soc+bounces-27150-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27151-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cHQVLqDub2m+UQAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27150-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 22:07:44 +0100
+	id qKNZGVv0b2m+UQAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27151-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 22:32:11 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36B424BF6C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 22:07:44 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA5814C4DE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 22:32:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 281F550DF9F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 19:51:10 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 494F050EC38
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 19:51:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7ACD3A0E84;
-	Tue, 20 Jan 2026 19:50:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EDD83A1E9E;
+	Tue, 20 Jan 2026 19:50:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gnz6b1xg"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pZ6qGrHy"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB2E739E6F7;
-	Tue, 20 Jan 2026 19:50:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67EDB39A7EA;
+	Tue, 20 Jan 2026 19:50:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768938641; cv=none; b=iHZgeMFw45bcGLQGWcpV7VhKEFZRPr+ldyetxk9IwsyFyokZMrGftOnPRFg6wwoCkZp9GmUqm89T0uCLPIQzbgbXYdmL7aEiJcbh3M5RlKQt//v66wfwG4xH+bttLleNRsyORj3IDH9RvUwNzH5jW7IIbYS8x3fUF4pYoZGXZ6k=
+	t=1768938658; cv=none; b=Ofz5iB1VWm+GSdo4u3QTgPlP5TLTZlHObt9HqpWRprUcYEJfw+Uzo8SUiXGlrufUEJMPji82V0VnwXSYhYd+F+N5SM6KduwzDGPKApQyCqBdlfjXVCbspe4dAWXBFCHpDa4qr0agSAz2KJhl/YkHZlBpiyxlDufy0YnWWEB8dls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768938641; c=relaxed/simple;
-	bh=bcr7h1HEx/p1F9ZAFbA4WhXTu3jDw99iIyRD5cwF9Pc=;
+	s=arc-20240116; t=1768938658; c=relaxed/simple;
+	bh=rNm/BkKJ2SsiZEmOA6OjQ7wXIRmMYA9ar56PDVxN4+E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pOoUFnF6S9WW6nJrIN0bE0XwLSr9x69t5J95ogU7CSWzAvjAb/C7TA5cWZfVObRxC2Msr316KezBT4wwTP17RU6HLLqqo2QGcEX31LkbnBsmsac/eGfMM4jiW5eYrGwsltexENpkDldIzJZSDLR5OSBv/hu+7VwFtqpDzey9NHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gnz6b1xg; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A222C16AAE;
-	Tue, 20 Jan 2026 19:50:39 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=hZcN08eODpTuxzwHcjcVXSK8fFJfh0XGAW64BLG5OSlIKxSdobZY3zo6P83Fd53mERUsCFO2Uz7BBEolXekwi2rV3fRQn74Pq+PDmWH+JVtS6wdfZe3Sdugaa34q7ywsdLvLYdjU0xd34RUHUL/+JJo/vzHfY3C+pFboVeXJMgM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pZ6qGrHy; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C426DC16AAE;
+	Tue, 20 Jan 2026 19:50:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768938641;
-	bh=bcr7h1HEx/p1F9ZAFbA4WhXTu3jDw99iIyRD5cwF9Pc=;
+	s=k20201202; t=1768938657;
+	bh=rNm/BkKJ2SsiZEmOA6OjQ7wXIRmMYA9ar56PDVxN4+E=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Gnz6b1xgqfUVbYUnfsNGhKK3UYjDpsxSU4+78z923hsPDOaDDTst5TGQJmy4sCpZp
-	 Zyvax1mpVCNfyLPLOVipqOdQnmJM6Bi0bhQJ3TEHaoWqc/3R8F5HT9/V6pnBgqJ0tX
-	 xFgiEQ0/rK/XrdZ/DdDVnHZ56f//0fcLHpq51wjQSRp15ci8Z2EWMafyntF31Iutqf
-	 XZY26kniZqiI/zYgO9ItP4cyS09lJvtqElLRJbZqhNn9lmGrJ0Klx0b9MEfppotxBW
-	 D4rf7V7fALU24cLFVa2caKH9+91OHF/fIhdq1aZPJGEM33GIZxik6/S55R24+ydGim
-	 YXyVd/1MW6Vgw==
-Date: Tue, 20 Jan 2026 19:50:37 +0000
+	b=pZ6qGrHyuB96elpG2KxNCHyAp6Kodbkn6r+hDHyimuRLW/+UYbXKjNC9i1K3n3/Up
+	 7YME1JkYRcvH/pAQkT1mvgryKQyxcSv2FLHPP3VB9zggrn+B6cRRfxzjTHnYGgFFQw
+	 80VTeXr/ddjR87k8k1fFuxrIRkRf1xBTzv+GssbIA/KqmppgyVZYDCE+tuh/ZCb7UZ
+	 kIcgYJiqi9hTQRgPXZ6eelpPTMb6cv5w8C3elYUiUYuyeAIxff0Y6MglbVnEPVt9Qc
+	 3CiriA0xixEaN6hCjbHrXNxpq+ZSyUCCB6ZtXGAVWCUOzBjLBvzSGMB3QlLrtwqep8
+	 E1nw6i+y/gWiw==
+Date: Tue, 20 Jan 2026 19:50:53 +0000
 From: Conor Dooley <conor@kernel.org>
 To: Biju <biju.das.au@gmail.com>
 Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -57,11 +57,11 @@ Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
 	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH 03/12] dt-bindings: soc: renesas: Document Renesas RZ/G3L
- SoC variants
-Message-ID: <20260120-disabled-underdone-c86197af27f2@spud>
+Subject: Re: [PATCH 05/12] dt-bindings: soc: renesas: renesas,rzg2l-sysc:
+ Document RZ/G3L SoC
+Message-ID: <20260120-payphone-aloft-eda520f321b8@spud>
 References: <20260120125232.349708-1-biju.das.jz@bp.renesas.com>
- <20260120125232.349708-4-biju.das.jz@bp.renesas.com>
+ <20260120125232.349708-6-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -69,9 +69,9 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="fjffJhyK95FsIJNw"
+	protocol="application/pgp-signature"; boundary="3PWG9u3tglYC55KE"
 Content-Disposition: inline
-In-Reply-To: <20260120125232.349708-4-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20260120125232.349708-6-biju.das.jz@bp.renesas.com>
 X-Spamd-Result: default: False [-3.56 / 15.00];
 	SIGNED_PGP(-2.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
@@ -81,7 +81,7 @@ X-Spamd-Result: default: False [-3.56 / 15.00];
 	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-27150-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-27151-lists,linux-renesas-soc=lfdr.de];
 	FREEMAIL_CC(0.00)[glider.be,gmail.com,kernel.org,bp.renesas.com,vger.kernel.org];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
@@ -100,72 +100,30 @@ X-Spamd-Result: default: False [-3.56 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:7979, ipnet:142.0.200.0/24, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo]
-X-Rspamd-Queue-Id: 36B424BF6C
+	ASN(0.00)[asn:7979, ipnet:2605:f480::/32, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[microchip.com:email,dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo]
+X-Rspamd-Queue-Id: DA5814C4DE
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 
---fjffJhyK95FsIJNw
+--3PWG9u3tglYC55KE
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 20, 2026 at 12:52:14PM +0000, Biju wrote:
-> From: Biju Das <biju.das.jz@bp.renesas.com>
->=20
-> Document Renesas RZ/G3L (R9A08G046) SoC variants.
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+pw-bot: not-applicable
 
-I don't get why this is a standalone commit, when you come along in the
-next patch and add required items to the list. Think that should be a
-single patch.
-
->=20
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
->  .../devicetree/bindings/soc/renesas/renesas.yaml         | 9 +++++++++
->  1 file changed, 9 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/soc/renesas/renesas.yaml b=
-/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
-> index f4947ac65460..be61a71c7305 100644
-> --- a/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
-> +++ b/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
-> @@ -548,6 +548,15 @@ properties:
->            - const: renesas,r9a08g045s33 # PCIe support
->            - const: renesas,r9a08g045
-> =20
-> +      - description: RZ/G3L (R9A08G046)
-> +        items:
-> +          - enum:
-> +              - renesas,r9a08g046l26 # Dual Cortex-A55 + Cortex-M33 (14m=
-m LFBGA)
-> +              - renesas,r9a08g046l28 # Dual Cortex-A55 + Cortex-M33 (17m=
-m LFBGA)
-> +              - renesas,r9a08g046l46 # Quad Cortex-A55 + Cortex-M33 (14m=
-m LFBGA)
-> +              - renesas,r9a08g046l48 # Quad Cortex-A55 + Cortex-M33 + GE=
-3D/VCP (17mm LFBGA)
-> +          - const: renesas,r9a08g046
-> +
->        - description: RZ/V2M (R9A09G011)
->          items:
->            - enum:
-> --=20
-> 2.43.0
->=20
-
---fjffJhyK95FsIJNw
+--3PWG9u3tglYC55KE
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaW/cjAAKCRB4tDGHoIJi
-0gYLAP4hgPkfv97vVBE5BiH4s8eSV48OFmKnKrsM62ur7VPf7gD/VXaxcb6FEEV2
-onWpxAJfQBKWZwoGXTlWoVO7a3smmg4=
-=0iPT
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaW/cnQAKCRB4tDGHoIJi
+0hBCAP49o8uP93CKKSVtfEoeB92gILJ5vr4IxKiN7AIbN4p6VgD/aFXv8y8h7dLo
+pmPE8pZ3AWtsbU1mJqM5hDOTBJrDGwA=
+=qhC4
 -----END PGP SIGNATURE-----
 
---fjffJhyK95FsIJNw--
+--3PWG9u3tglYC55KE--
 
