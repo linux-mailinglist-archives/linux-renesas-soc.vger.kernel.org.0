@@ -1,248 +1,257 @@
-Return-Path: <linux-renesas-soc+bounces-27141-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27131-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IDiQNQbeb2n8RwAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27141-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 20:56:54 +0100
+	id CHuzI2Pgb2n8RwAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27131-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 21:06:59 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D2154ADF2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 20:56:54 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 007874B006
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 21:06:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 97ED538DBF1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 17:52:39 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 1041D58E215
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 17:20:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D9BA33DEF0;
-	Tue, 20 Jan 2026 17:52:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CEF63BFE2F;
+	Tue, 20 Jan 2026 17:20:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="MTgGCC0r"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010005.outbound.protection.outlook.com [52.101.228.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AEB536403C
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Jan 2026 17:52:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.42
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768931548; cv=none; b=q4geiPnPtSGKPwIRYWUktDbfW8yHMwRimS67v7F4qdJ0KRtOhGRae9dPKbdSx9DORUEemwiwuxWErAC1+GzDgp+GFKwclXTq7pSxIJuXJMnITl/YCYtsM7P8/y7NTerMGJgebwXG4H0WgJVyYi0V14Yb50CRMf2P83KEzeD4jRA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768931548; c=relaxed/simple;
-	bh=3/JP3tCIvtYedAAyMYL0a51zMnc14SZU20ikWY9BXqM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=A8pS7mIVlB/7HjLZEem5o/UnkKfrxEi4+iXIf8t3MBqnfa6va1qJ2zkkj3Z6r3axNC+jvxTt8/VRIFBO0ltmhE6AN+291pydH1QQH6Tc9/LiN9ZoMCCwswnOrZYvIKgviero52mUxiUsI8ISP9DuyTNFoZYZtcJ4K+i53dI0OyI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=74.125.82.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-11f1fb91996so12740454c88.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Jan 2026 09:52:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768931545; x=1769536345;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dcPNSr1vco6+E9e0XJi5xyBPxmbRiBl/7/yDisLqrnI=;
-        b=lbED4rRP06obIWLb9KOF2CmigKUHb5eASx8DChywoTZVwvh0hIw6kND4Z3L1JRTKKH
-         XyLX+5nQKblMmK5IQkffoI74jfftHSzHklu9DkmHBEDPMBdm1PRQT7P7MIWhIpaKYLSU
-         yOgLc7aNuuVlbjOYqeykn5J88ZUQr8kP6NORDSKzbtWqmbXLSiTCEjBWCNQsolk3a0o7
-         lC3r1m4mFaI0+1ODAGS3O/IZ2WrRX0rcXkg4F/mDcFIat+5GdTabHPZ70XA988udd46s
-         n6lrAINaV3DXhtheWkS3dZir6Nk6KuZzZzhJSH4jLULM81nOW2rY60P3ruhCTvr1yTZb
-         ymuA==
-X-Forwarded-Encrypted: i=1; AJvYcCV6ar1ycMYNvzk9VRw2TuTs+yuF15TzISZimSgHNOpvad94acW9jGkHmvs5mZtjaIpoycpWp5/C41AilIZgCxZ6aA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxNBjHCMDvLa60hVb/Cgv5dcfbA9MnH3GmhSWURuKUpiO7a5ykH
-	I0ooiKYyNJLfcCumi4dKtpFTSwqv/VhLgvekGQ+YjBVhJAx2yzyoIYU7w3xTsg==
-X-Gm-Gg: AY/fxX4eConWuPtDmZxid48rEtFgSkPxFjDRp/EPHq1PEQgURjJdz7+9m4k80HImUth
-	9dZxM3FR4cVPTe1Nzd6Vmm4UCiiEefWHWMQ3Xij+RcDNG184j0K/mSf8/H0NM1+cRQZlYC118+g
-	RyLFIDjd9J4m43NqFrCzHmVpyXDePlV66lLIIaxPiwsPGtxGtoOAdAoN29vXjIfL/spf0nSesVy
-	AkGfCDOUa9wqnqhCFWpDHsuzTRujgMqZBc7VDxFwMU2OxjOf4o8Lz6IrOuVKYNm6U9dtwIdjZMH
-	ySnHUD13Y4Ja4jXfLNERS44C/SOF0cdya9oV9nObCwAe8hgryfrYY+2hrSJrUh4cGMoLzs3GyL3
-	NazlQCBuVg0eb21xzOEr53tt5/NMUE/lGJxVzauwx+5fgOtjmi4ECSZsR7KW6gnAs7yNHVVxzpp
-	/e/5h6mXTCenbrY6X1RuwjSEKzZlOXzuYQJ6Q0gEvRKFKYDDBV
-X-Received: by 2002:a05:6102:c94:b0:5df:b1f4:77dc with SMTP id ada2fe7eead31-5f1a717f708mr3996003137.31.1768924654118;
-        Tue, 20 Jan 2026 07:57:34 -0800 (PST)
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com. [209.85.222.45])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5f1a6d3ca2esm4830627137.10.2026.01.20.07.57.32
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Jan 2026 07:57:32 -0800 (PST)
-Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-93f56a97064so1682608241.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Jan 2026 07:57:32 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVD69UQVy86r9xA1eq2Yk4DD9epE2UxtImcocbRMPYvE8VUJNWyhJk32xNVoYxcs7ICwm7yxxLK3XnzA44cWhNpYQ==@vger.kernel.org
-X-Received: by 2002:a05:6102:b15:b0:5df:c094:628d with SMTP id
- ada2fe7eead31-5f1a6fa3ca2mr4116825137.3.1768924652088; Tue, 20 Jan 2026
- 07:57:32 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5943034B693;
+	Tue, 20 Jan 2026 17:20:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.5
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768929645; cv=fail; b=NY5zlBedxzzXfbsmhp1HENacMYBmDZ6XzX/YZuBG0roGBwDiUat319TkK97hOAt3lcAcmah1zPhf/exwOQHQkg1WV8z/RfGXM08ty63PzXsgqaz6Kgy5ix20SLw2Ji/z/CMtJgBALvg/9Sh5PAWp3tngLqEgvVkYYov+050Mhxg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768929645; c=relaxed/simple;
+	bh=skU8QXVIYdch+f1Rlk/B/4cuDVStkuthVvs/v8khi40=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=Wh3HtVp5bFgosh/eFJD2jYhqn1fr719ywlA7tzjkABIXwOTQC9gHjjepc6Se9DqxGPLF+VBKNKzLmKO0GGkTAHmDdwFvgaEBuGX30BmB1FbcrSMFtXdj3zWHJFKuDkckeqsWVKFPMb2hw3XA33JKEUUhRGWUSEuv9/qKbfktrP8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=MTgGCC0r; arc=fail smtp.client-ip=52.101.228.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qjA4DJB98JU2Q2NiCDgPhYho8l13SWTHND20o9321kbA5rYb6cx6fPe5LNGEqjFR5dT4SiolpVYDaQRYrxZQLBSXiwgynXShsxOYQgGZOGtuEV0zCBAOA84Ya2vDA6D24ZlUKY1WwrEKHxb9s+UgGZcVHUyo1/HvWbIklKY0dcyoPEtWqbTBI3/3OKyPmROt2IykcHFWKdH7oVJtPiudyW2Y9DDgsotRIBgk0aTPT6Fum4c3+/8Qb0YZMOaGg644/0z1Exo3tUmq9vysDQxVwpQdIzlWQ79DvoImpW7pgHtYFwwMRlHf1roPzKag95j8o6ttaaDZdtNL60wc6iF/Vg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=o8zzrtXJeP2YmsHcamfuINhe3MBzW9Cro+RbUNLH46g=;
+ b=yql0Kzv0LAzspDI3Vnx0WGsDmVyqv1u7laaF96CdTVOZmAth8t63b41Neg+xePNMor6RI0cyxWWiuTM8b4+GiG10O2iZilAZaAzYSJEUBMyX/T5wRJbRsC/5imkTYI8q+HFLKHOaJBwy9mU+zPtaS/iSQwDWX1ddrQIQZiFJrE2qvyTgVC3/M0/tT/FNNAzUnakDxObRkw7zIreh3O20qAcETKYSIW/N9GUWKuiDEt059bBrIv2/326qiizjAdUQ7MK8wBvkWO2EmjWeRwLVsr9ZAnBdJY882A1oSI6ITBOCdw1Il0qn7Br0PrKhd9wfvhKUWZFzABccGwaciq1+LQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=o8zzrtXJeP2YmsHcamfuINhe3MBzW9Cro+RbUNLH46g=;
+ b=MTgGCC0rxTVDJn/2blXJIW+AtPZlU5qrlh2NnF5t9d05DOsXny3sBJlwI4J1NOFt8vHJdeNIfukMC2MicSb/19U8Epklhqnw8+gOxGEjU3UxdojHfWr7EskTFidaxxKL2ZOilZ5dFlayH8rLNMOU9H96Lc1tkNi/GdzwJvSb94g=
+Received: from TYCPR01MB12093.jpnprd01.prod.outlook.com (2603:1096:400:448::7)
+ by TYYPR01MB13021.jpnprd01.prod.outlook.com (2603:1096:405:1c5::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.12; Tue, 20 Jan
+ 2026 17:20:29 +0000
+Received: from TYCPR01MB12093.jpnprd01.prod.outlook.com
+ ([fe80::439:42dd:2bf:a430]) by TYCPR01MB12093.jpnprd01.prod.outlook.com
+ ([fe80::439:42dd:2bf:a430%4]) with mapi id 15.20.9520.011; Tue, 20 Jan 2026
+ 17:20:29 +0000
+From: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+To: Ovidiu Panait <ovidiu.panait.rb@renesas.com>, "geert+renesas@glider.be"
+	<geert+renesas@glider.be>, magnus.damm <magnus.damm@gmail.com>,
+	"robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
+	<krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
+	"mturquette@baylibre.com" <mturquette@baylibre.com>, "sboyd@kernel.org"
+	<sboyd@kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>
+CC: "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>
+Subject: RE: [PATCH v2 1/5] clk: versaclock3: Remove unused SE2 clock select
+ macro
+Thread-Topic: [PATCH v2 1/5] clk: versaclock3: Remove unused SE2 clock select
+ macro
+Thread-Index: AQHcih5VzGx8IGGfMUSPpaSPNWEpd7VbTY6Q
+Date: Tue, 20 Jan 2026 17:20:29 +0000
+Message-ID:
+ <TYCPR01MB120936F6433948C6C8C307B37C289A@TYCPR01MB12093.jpnprd01.prod.outlook.com>
+References: <20260120150606.7356-1-ovidiu.panait.rb@renesas.com>
+ <20260120150606.7356-2-ovidiu.panait.rb@renesas.com>
+In-Reply-To: <20260120150606.7356-2-ovidiu.panait.rb@renesas.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYCPR01MB12093:EE_|TYYPR01MB13021:EE_
+x-ms-office365-filtering-correlation-id: d2579e4b-f8b4-4369-6060-08de584835d7
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|376014|7416014|1800799024|38070700021|7053199007;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?Grj9xtkAy2E2WIGESCJ0aa2SsuFdwAdnUdIdc3A73nxifpAzRYk9V9A6QPov?=
+ =?us-ascii?Q?pEG+R8MS8/tyd3pLo+lk2QGOG03XwybAFhkAqiXgS8I9t+NdXqgemVWWmVjE?=
+ =?us-ascii?Q?5ubQDA8YqALEOCN5NTCGJRuleauR38gQjB24GOh9YXFymMdF0uyxr6FYRbok?=
+ =?us-ascii?Q?VOlxVa9AtcJ6cdSGN1OGccIyfXlP+a6HGJReOyJZ6eAAVO/kwXkmhrChusm5?=
+ =?us-ascii?Q?25oKw6FkkGsjaVFNFzJ6H5R4yrXoaVRleDfPLLjEEMgszva9JdIy6TTAwSkA?=
+ =?us-ascii?Q?Nm5LPg8YBg02nrxeSqDw3UHEn1YjoIIRNjbFI+yx9msEPYT/rJQTBKPSRjoK?=
+ =?us-ascii?Q?XSuQ+ho4A1c+5JEud7YdhYjVa+fL/r3cgwlCpeoPVjyNqRmPw45kTjDtnMrd?=
+ =?us-ascii?Q?rqLMjNFZNWi62to6ULErjHXBtKZsRPpmDnd6GG0v6zzgQzJbJtReRveupCuV?=
+ =?us-ascii?Q?aG2369VsIp81wkxQxmdG+vaV8iMc96fhXKvnwnQCcTLqao+pE4EF8VhgQY+d?=
+ =?us-ascii?Q?OeQgYZJBu70OHPDYvXTua7ccYfAWbEZq/S8wjSl69SuvRcNe6TcRwSHXcSAR?=
+ =?us-ascii?Q?ksvJRDaQORCna12MNB4luoaGddP9fcOWysBuLVQJ0/H0OE8i00R2cJphQyPQ?=
+ =?us-ascii?Q?sf/PLYGqpMhJgRgfgsqOXJWRRFMhOsYwZ9JwLIkn/qsyq2se/j3dOKaLJFB0?=
+ =?us-ascii?Q?NXMZ4VGdpaJMn6q313uZN0RTaJg5cYK8Ey9sUGYG4ovU9mYYXkdd650O+Sm8?=
+ =?us-ascii?Q?aMfXYvhqaRAk7dpI+QlREMui6cQXxD+Cq1CnyArT2iYW6DdBUSJucT337H1b?=
+ =?us-ascii?Q?sV9U06sqlZttKS7jhnt5TRwBW7HopCMZlyYwwr3YK7e7+jnLZhrjYJWGQs4U?=
+ =?us-ascii?Q?K+ku1xVLaHp/jCkIOjwAeBqxPxHkUjqburmk8HcHo4NQEAEmkw6leWEJcPTF?=
+ =?us-ascii?Q?g+XPF28WMZywnugZ4Pm66V53xKSolDhQRFblA9MIBbshYXIrwh/JDQOyuMYb?=
+ =?us-ascii?Q?6KK1LSrt8phKtreLwvCTdJqzztC86SiPLVqN42agUyqUByTOh7wo60vp485B?=
+ =?us-ascii?Q?BhNATL8IdE8yv3PSO5yoHbRng7j2GQuBk2fcPEgP8zk43YjrDKZCtKAVhmEn?=
+ =?us-ascii?Q?luseZ7V66m+GcxhqKckOx0sqmIr8SN7V1CPpK5NxzIvhXrEVF21slI50eE+j?=
+ =?us-ascii?Q?iO/PQFB/U8UgIJWVqhhaSeWfBfoJvrpNc+3gFmsfcdbkYl6BiUOydvXPdHLQ?=
+ =?us-ascii?Q?VtzlNYnHXQ8oNu/k0/ZfINZH9jJTbA6kJenbqQbwkW6uyeUYz/7w4CO/Up37?=
+ =?us-ascii?Q?4vo04npyQZlRDxlIQczGzkYGJ+LEDN5PWVehzehyyDi05HCVqbhVwCY5Qmqc?=
+ =?us-ascii?Q?mnli8GRVpVd10OY7YYY6SrUybNbQsNqFHdZM+dwM/jSZ4RiRm1hTv81VjaZd?=
+ =?us-ascii?Q?XcbByA6daQ7IP0Bjojss0vD6KpjphEQZbHrh8p/9TUqNCZYhszuvpwXNwwp5?=
+ =?us-ascii?Q?1hjgbDEDyjF8ePdwmaXy3OnvOQ/yeHLuecwhUrnfCfWB806UmC8t3Ab20EnB?=
+ =?us-ascii?Q?Bgt26vdLmtZ7UxwC3UcuIBbU8PJi6Wi5vSRUfIo/wwOyBbJcEyn0Aa/9Ln5/?=
+ =?us-ascii?Q?yduKWYOKMH9JRJxw3y9qUBM=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB12093.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(38070700021)(7053199007);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?MxTbhzZvmWXyE1AuRXUY0A52/h5d1ixs52JQ4FHjeXSFBN5brKR0bycbFTFp?=
+ =?us-ascii?Q?odlr5PqeVnZ7PZBZT5d7vd3p874ztGqQb3MbvhfmoiYjCOeySI/NOVD0yTcz?=
+ =?us-ascii?Q?JB3pI59uA8JaQHOilAmquIebG1oGry2Kg7Izqw//PztbLl4rJg+BLr5+Oedk?=
+ =?us-ascii?Q?lDGbHzl85x9g9tRVBoRRNpVS0XxJdD4sbUS9FZzIun3jDd9dgh8Tc24LZL8T?=
+ =?us-ascii?Q?gT+jvbI3T5IV8VFoBQkNo4WnkKpaidb8VxlEx9L5mgO3VzwHIRJuOh/w1YTQ?=
+ =?us-ascii?Q?Zwf9/jfI2et+0RTCQ0DzzesWd6rv1WPhs8kqtvXi6XeaaRw8yTzP4/2jOjPT?=
+ =?us-ascii?Q?mru5KdnW2qxof9NG5NoHqmKu2VlfP3oTdE68psHMjjq7+pVlWnsLjtaUrN76?=
+ =?us-ascii?Q?R2DyhzLbRWJKq6QbVn4Y2BYNxEPiaFfJW0k5w+p+MXoOr7pxm9JdOvbXhcxm?=
+ =?us-ascii?Q?OQ3Bncpv+W0khnX2Ac8SrellZgZARgWwfdNM8OcAxJQ8UyToVj3Su2S8vTWF?=
+ =?us-ascii?Q?NyVkGFtnnlyV5P5gglHDouQQN6SEQuBNi//w7yB0kBYKyB/r+vZRV0W+NQK6?=
+ =?us-ascii?Q?g2blyKJYZ2GujTflXiR8vn97r6Wto4FSidyzpNmIARN73iLLYJ5ycX9UQytc?=
+ =?us-ascii?Q?orOSpAJQJa5IFdmJE9mtJh09AnISadyhmOaefMwBg8AIStc1idlQhY536MfO?=
+ =?us-ascii?Q?TeGJIlIofKaf2CXuPNjZtwbHKWTRdjJuCZ3b9ybEThEsW28oqybQMnsDpFJC?=
+ =?us-ascii?Q?+PN2vR1zZwrcNm6xcOMF+DUJihAOYCkIViip30Q8hRO7qUiAuN9Nu/tdyhJ7?=
+ =?us-ascii?Q?aUU5uOlQGkjcj3mrXF/wCjyjRy8lDnXswzhCYzfJT7WWW7AuZjKbwZBABMbt?=
+ =?us-ascii?Q?SbqV111TzWz5xgGS6m7plGhrY7Muk2nLWPlDFkK+SGvYDGW5X4maOkmC0nbV?=
+ =?us-ascii?Q?Gk8XhQYjfBPp4cQKFRwH3KeisWTMVVb4U1aLWBkzmzbXOiD9qqGGykF6jvvS?=
+ =?us-ascii?Q?MV6N6KNU3ZjPSp5u41DHHIfnCxwtEYTxlFJ+tGVJ1TZrjPG5iFBPvRhsrmA8?=
+ =?us-ascii?Q?24M7+W756GlUFlGKbr2ur+NxyPp7peU3kkf6XpwX+gi26w8HuSlRvz9PLa3d?=
+ =?us-ascii?Q?8+c31eTzR3EX9b9/G5A3acA5acVseIz0Enq2GJWsalRHFr1AdfSuCh5Uk/Qk?=
+ =?us-ascii?Q?z8rmSPuY7FJl4Ci3sRcbaucFw3zBrXfZYo1aWP1WODknbYGEidUk3TIgaFqJ?=
+ =?us-ascii?Q?XQ6/udPzkXHHKZCLhXud5BRo+aTUrcYC2+doqnepKG8DyEYNPKEzibggblEj?=
+ =?us-ascii?Q?Yf0rMBb/RgICVrjWChxESARZl3MgS+uHoYRoZ2JQpi15GkOOTdQTsICHuyF/?=
+ =?us-ascii?Q?iOgdtuOK22b2qOTLA3CxbPVILqwL3CvZ+/ABelzKlPxxfFAX9mTzw14gRqz3?=
+ =?us-ascii?Q?LcCh0+KXmiwszunJb6WSy+dTbPKdnyZbSTBqrXoviQoSlM0NdvrxhLlnrkxX?=
+ =?us-ascii?Q?qvoDgNdnoTugUJT7pQ+hs2KENSnGdU3J2892q2q57d7jYq6k74NQiV7kvFCa?=
+ =?us-ascii?Q?SFBWBfCjZMr42rNOafb5Dmp7BBrPRrFWPJqw2deUA4GPX8nFYfxc+ELDSr9o?=
+ =?us-ascii?Q?3RFZP+NP0IdBLQxJuGlfkooVaTDAjk2LBaQ0++9UY7VlPRyhE3k9iE5wMePG?=
+ =?us-ascii?Q?bwK2Fp33l6ScjpuSQWwVeSPyho5P4D8BHrT+W++7r91YqlgxCkOKkgxgQz45?=
+ =?us-ascii?Q?r0kPwyq+iMZSrajkKV8G1G/JS5LDnSM=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260118-rz-sdio-mux-v5-0-3c37e8872683@solid-run.com> <20260118-rz-sdio-mux-v5-2-3c37e8872683@solid-run.com>
-In-Reply-To: <20260118-rz-sdio-mux-v5-2-3c37e8872683@solid-run.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 20 Jan 2026 16:57:21 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU=wDmDJFYvtzxptAkkOQ8r7sPGUxp9u71e64ikY85+Zw@mail.gmail.com>
-X-Gm-Features: AZwV_QgiDRrYV1BByFjO2lg9vbxQpf_lMefb8OE6E5E-nZ3iF4svsU32o-Zkiz4
-Message-ID: <CAMuHMdU=wDmDJFYvtzxptAkkOQ8r7sPGUxp9u71e64ikY85+Zw@mail.gmail.com>
-Subject: Re: [PATCH v5 2/7] mux: Add helper functions for getting optional and
- selected mux-state
-To: Josua Mayer <josua@solid-run.com>
-Cc: Marc Kleine-Budde <mkl@pengutronix.de>, Vincent Mailhol <mailhol@kernel.org>, 
-	Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Peter Rosin <peda@axentia.se>, Aaro Koskinen <aaro.koskinen@iki.fi>, 
-	Andreas Kemnade <andreas@kemnade.info>, Kevin Hilman <khilman@baylibre.com>, 
-	Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>, 
-	Janusz Krzysztofik <jmkrzyszt@gmail.com>, Vignesh R <vigneshr@ti.com>, 
-	Andi Shyti <andi.shyti@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Yazan Shhady <yazan.shhady@solid-run.com>, Jon Nettleton <jon@solid-run.com>, 
-	Mikhail Anikin <mikhail.anikin@solid-run.com>, linux-can@vger.kernel.org, 
-	linux-phy@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-omap@vger.kernel.org, linux-i2c@vger.kernel.org, 
-	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spamd-Result: default: False [0.24 / 15.00];
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB12093.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d2579e4b-f8b4-4369-6060-08de584835d7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jan 2026 17:20:29.7359
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: oLkv4H9z4a1e5LDQk+ADpeGI5w3SnxXLSEcCVFzOsb39BDJrTUIxNoZZXbzXH3mxcZnMKEuW1AaldvaUj0GNPA2x78anViWXCV2j/1A1KGI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB13021
+X-Spamd-Result: default: False [1.54 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
+	R_DKIM_ALLOW(-0.20)[renesas.com:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-27131-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-27141-lists,linux-renesas-soc=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	DMARC_NA(0.00)[linux-m68k.org];
-	RCPT_COUNT_TWELVE(0.00)[32];
-	FREEMAIL_CC(0.00)[pengutronix.de,kernel.org,linaro.org,axentia.se,iki.fi,kemnade.info,baylibre.com,atomide.com,gmail.com,ti.com,glider.be,sang-engineering.com,solid-run.com,vger.kernel.org,lists.infradead.org];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[renesas.com,glider.be,gmail.com,kernel.org,baylibre.com,bp.renesas.com];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	MIME_TRACE(0.00)[0:+];
+	DMARC_POLICY_ALLOW(0.00)[renesas.com,none];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:7979, ipnet:2a01:60a::/32, country:US];
 	TO_DN_SOME(0.00)[];
-	R_SPF_SOFTFAIL(0.00)[~all:c];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[fabrizio.castro.jz@renesas.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[renesas.com:+];
+	R_SPF_SOFTFAIL(0.00)[~all:c];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	RCVD_COUNT_FIVE(0.00)[5];
 	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	R_DKIM_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ams.mirrors.kernel.org:rdns,ams.mirrors.kernel.org:helo,mail.gmail.com:mid,linux-m68k.org:email]
-X-Rspamd-Queue-Id: 7D2154ADF2
+	ASN(0.00)[asn:7979, ipnet:142.0.200.0/24, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo,renesas.com:email,renesas.com:dkim,TYCPR01MB12093.jpnprd01.prod.outlook.com:mid,baylibre.com:email]
+X-Rspamd-Queue-Id: 007874B006
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Josua,
+> From: Ovidiu Panait <ovidiu.panait.rb@renesas.com>
+> Sent: 20 January 2026 15:06
+> To: geert+renesas@glider.be; magnus.damm <magnus.damm@gmail.com>; robh@ke=
+rnel.org; krzk+dt@kernel.org;
+> conor+dt@kernel.org; mturquette@baylibre.com; sboyd@kernel.org; Biju Das =
+<biju.das.jz@bp.renesas.com>;
+> Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> Cc: linux-renesas-soc@vger.kernel.org; devicetree@vger.kernel.org; linux-=
+kernel@vger.kernel.org; linux-
+> clk@vger.kernel.org
+> Subject: [PATCH v2 1/5] clk: versaclock3: Remove unused SE2 clock select =
+macro
+>=20
+> The VC3_SE2_CTRL_REG0_SE2_CLK_SEL macro is no longer used since
+> commit ae6040cd7c7f8 ("clk: versaclock3: Prepare for the addition of
+> 5L35023 device"), which switched SE2 clock select handling to use
+> variant-specific OF data (se2_clk_sel_msk).
+>=20
+> Signed-off-by: Ovidiu Panait <ovidiu.panait.rb@renesas.com>
 
-On Sun, 18 Jan 2026 at 11:29, Josua Mayer <josua@solid-run.com> wrote:
-> In-tree phy-can-transceiver driver has already implemented a local
-> version of devm_mux_state_get_optional.
->
-> The omap-i2c driver gets and selects an optional mux in its probe
-> function without using any helper.
->
-> Add new helper functions covering both aforementioned use-cases:
->
-> - mux_control_get_optional:
->   Get a mux-control if specified in dt, return NULL otherwise.
-> - devm_mux_state_get_optional:
->   Get a mux-state if specified in dt, return NULL otherwise.
-> - devm_mux_state_get_selected:
->   Get and select a mux-state specified in dt, return error otherwise.
-> - devm_mux_state_get_optional_selected:
->   Get and select a mux-state if specified in dt, return error or NULL.
->
-> Existing mux_get helper function is changed to take an extra argument
-> indicating whether the mux is optional.
-> In this case no error is printed, and NULL returned in case of ENOENT.
->
-> Calling code is adapted to handle NULL return case, and to pass optional
-> argument as required.
->
-> To support automatic deselect for _selected helper, a new structure is
-> created storing an exit pointer similar to clock core which is called on
-> release.
->
-> To facilitate code sharing between optional/mandatory/selected helpers,
-> a new internal helper function is added to handle quiet (optional) and
-> verbose (mandatory) errors, as well as storing the correct callback for
-> devm release: __devm_mux_state_get
->
-> Due to this structure devm_mux_state_get_*_selected can no longer print
-> a useful error message when select fails. Instead callers should print
-> errors where needed.
->
-> Commit e153fdea9db04 ("phy: can-transceiver: Re-instate "mux-states"
-> property presence check") noted that "mux_get() always prints an error
-> message in case of an error, including when the property is not present,
-> confusing the user."
->
-> The first error message covers the case that a mux name is not matched
-> in dt. The second error message is based on of_parse_phandle_with_args
-> return value.
->
-> In optional case no error is printed and NULL is returned.
-> This ensures that the new helper functions will not confuse the user
-> either.
->
-> With the addition of optional helper functions it became clear that
-> drivers should compile and link even if CONFIG_MULTIPLEXER was not enabled.
-> Add stubs for all symbols exported by mux core.
->
-> Signed-off-by: Josua Mayer <josua@solid-run.com>
+Reviewed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 
-Thanks for your patch!
+> ---
+> v2 changes: None.
+>=20
+>  drivers/clk/clk-versaclock3.c | 1 -
+>  1 file changed, 1 deletion(-)
+>=20
+> diff --git a/drivers/clk/clk-versaclock3.c b/drivers/clk/clk-versaclock3.=
+c
+> index 1849863dbd67..f387cdb12f48 100644
+> --- a/drivers/clk/clk-versaclock3.c
+> +++ b/drivers/clk/clk-versaclock3.c
+> @@ -61,7 +61,6 @@
+>  #define VC3_OUTPUT_CTR_DIV4_SRC_SEL	BIT(3)
+>=20
+>  #define VC3_SE2_CTRL_REG0		0x1f
+> -#define VC3_SE2_CTRL_REG0_SE2_CLK_SEL	BIT(6)
+>=20
+>  #define VC3_SE3_DIFF1_CTRL_REG		0x21
+>  #define VC3_SE3_DIFF1_CTRL_REG_SE3_CLK_SEL	BIT(6)
+> --
+> 2.51.0
 
-> --- a/drivers/mux/core.c
-> +++ b/drivers/mux/core.c
-> @@ -46,6 +46,16 @@ static const struct class mux_class = {
->         .name = "mux",
->  };
->
-> +/*
-> + * struct devm_mux_state_state -       Tracks managed resources for mux-state objects.
-
-Please run scripts/checkpatch.pl:
-
-    WARNING: please, no space before tabs
-    #80: FILE: drivers/mux/core.c:50:
-    + * struct devm_mux_state_state - ^ITracks managed resources for
-mux-state objects.$
-
-> + * @mux:                               Pointer to a mux state.
-> + * @exit:                              An optional callback to execte before free.
-> + */
-> +struct devm_mux_state_state {
-> +       struct mux_state *mstate;
-> +       int (*exit)(struct mux_state *mstate);
-> +};
-> +
->  static DEFINE_IDA(mux_ida);
->
->  static int __init mux_init(void)
-
-> --- a/include/linux/mux/consumer.h
-> +++ b/include/linux/mux/consumer.h
-
-> +static inline void mux_control_put(struct mux_control *mux)
-> +{
-> +       return;
-> +}
-
-    WARNING: void function return statements are not generally useful
-    #441: FILE: include/linux/mux/consumer.h:139:
-    + return;
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
