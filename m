@@ -1,208 +1,181 @@
-Return-Path: <linux-renesas-soc+bounces-27126-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27120-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sO99KPmob2kZEwAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27126-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 17:10:33 +0100
+	id UIH/AaKyb2nHMAAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27120-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 17:51:46 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 695C347217
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 17:10:33 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDED847FBC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 17:51:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 18CB97C5742
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 15:24:57 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 43A9B763706
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 14:26:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD9C54657FB;
-	Tue, 20 Jan 2026 15:06:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD98743C064;
+	Tue, 20 Jan 2026 14:19:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q1RW/Ngr"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D0314657EA;
-	Tue, 20 Jan 2026 15:06:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F5523A962A;
+	Tue, 20 Jan 2026 14:19:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768921590; cv=none; b=jXqs63zGZR/9EfuqIMgAY61F4i04+6UE4ZCusWvKXg2f6xnVLiVVGLgHE29ATXESG22GSWUCQ2jnN6ql8cKPE5kzKMuhlrbBqxpPWAVxmd43yHFQdw4hrAxS/juD0IEvNWD9vdINEbEBZyMfdLf5N6Rk40km2BBtAwwY1OvBoRk=
+	t=1768918778; cv=none; b=sIWQRXfbPFhRsox13k82qDIfpJyGfVFUsulfNKUzluFwJhIiHa3WLmFRCWl3mexzjhxcu2j5GDhdzU7xAK+nVjbNsxRH9lNDqdDVSS9+CIZBOGXPz7pKlAKHp5MkVmx8wjJKSmXYsZ7xSBx/f4wsQYPRWqzG881ob6VfHrw5FeI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768921590; c=relaxed/simple;
-	bh=X+Hf/miYtwn8mLMNSub6ZRCadjeTxEICFVNeXeYg1Uk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PUO/lfWv1upUhOzj3IlllHZ+xBlmILGC4ZEHA2b/ve2HcaoB+aZtmKmfjwqVHKGLJdVFNg76/hyVg/SBkDBz3q4vKbDA+TLtz7y5jFe9o/7ARWqDbOEQXfC9N5/eSORDkQjxXWYxHEJR2tZQa/AKBF4JFbiRFf9I4s2H8oojRrU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-X-CSE-ConnectionGUID: 6rtea5VQRTmKzgffk2w0sA==
-X-CSE-MsgGUID: V8VhoD5nQja+AnoRf8zdjw==
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 21 Jan 2026 00:06:21 +0900
-Received: from vm01.adwin.renesas.com (unknown [10.226.92.24])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 81016402261F;
-	Wed, 21 Jan 2026 00:06:17 +0900 (JST)
-From: Ovidiu Panait <ovidiu.panait.rb@renesas.com>
-To: geert+renesas@glider.be,
-	magnus.damm@gmail.com,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	mturquette@baylibre.com,
-	sboyd@kernel.org,
-	biju.das.jz@bp.renesas.com,
-	fabrizio.castro.jz@renesas.com
-Cc: linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-clk@vger.kernel.org
-Subject: [PATCH v2 2/5] clk: versaclock3: Use clk_parent_data arrays for clk_mux
-Date: Tue, 20 Jan 2026 15:06:03 +0000
-Message-ID: <20260120150606.7356-3-ovidiu.panait.rb@renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260120150606.7356-1-ovidiu.panait.rb@renesas.com>
-References: <20260120150606.7356-1-ovidiu.panait.rb@renesas.com>
+	s=arc-20240116; t=1768918778; c=relaxed/simple;
+	bh=0EqlVac/TAXb6i3OqtFhx2Hv2zoj/4CI4DLtAy5JmzQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=USKPoN30d58rohySDvXq7KzjvwEUGs+L0l7yBxrDRg85OP0VNf9A2bWULZoLf2TQpgdL7tCDFMiBnj+xDADKDKV2EebTMK65x2c1umKI7l/FZcdySFA8WgvnuuNP7nvqLCcDA5j6EfaThMID2sh+gpuVji/PX0EsW+7AgNJ58WQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q1RW/Ngr; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF678C16AAE;
+	Tue, 20 Jan 2026 14:19:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768918778;
+	bh=0EqlVac/TAXb6i3OqtFhx2Hv2zoj/4CI4DLtAy5JmzQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=q1RW/Ngre5Nn7fCZL0oyaPJmmwEaiEPs2NCJPSBOxhgyka1zQizSxdFCuvNSsNqsC
+	 JFQ5ZdphxGpdZX0xJS56GgzLPoLN1kljbgbLyY2iDwv7ja/LvS7yEMxTU5Z4f5vd0Y
+	 QSDlw0vpXLhZOyFiS9loOo6rxUeoWfxhGNEoOVcL9AbsDXbBBbkMGwlH6feo6LrFMN
+	 EprcGUUTeL7v+9aP3AglbmmgPgBaST8FGE9KpXmHmdphCjX4SbirCJCDpsXq9zMtgg
+	 DPxaS4BU8O0fUkeCk/FGnH7otF/J0zt1svA7zAoYikgc5+ICQzt6fKAxbCJUDTFLTn
+	 s+RMsyPndp2rg==
+Date: Tue, 20 Jan 2026 15:19:35 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Marek Vasut <marek.vasut@mailbox.org>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	linux-pwm@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3] regulator: rpi-panel-v2: Convert to new PWM waveform
+ ops
+Message-ID: <izui2w7jddvnji3nbw57yivdoohrs6tabkb42gtklhy53v7byg@zkcjf4js5fbl>
+References: <20260104194224.41245-1-marek.vasut+renesas@mailbox.org>
+ <x25kxyh4t4u6c3ilj7nxp6sywab5dsar46b2foesrwfux2l4b2@d5iwqqcpdhlm>
+ <797047eb-e422-4a8b-80eb-ab130066c1d7@mailbox.org>
+ <xsjwvmlqclctnf6dgwyuoi7zits27is2s7r7taprb2w2lhsf7i@uiljd7o3ivbk>
+ <855e5015-98c8-48f6-9320-ca8163591940@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [1.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ld45a7p5cyvqifvp"
+Content-Disposition: inline
+In-Reply-To: <855e5015-98c8-48f6-9320-ca8163591940@mailbox.org>
+X-Spamd-Result: default: False [-3.56 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[renesas.com : No valid SPF, No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-27126-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[glider.be,gmail.com,kernel.org,baylibre.com,bp.renesas.com,renesas.com];
-	R_SPF_SOFTFAIL(0.00)[~all:c];
+	TAGGED_FROM(0.00)[bounces-27120-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_CC(0.00)[raspberrypi.com,vger.kernel.org,gmail.com,kernel.org];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	RCVD_COUNT_THREE(0.00)[4];
+	DMARC_POLICY_ALLOW(0.00)[kernel.org,quarantine];
 	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_NEQ_ENVFROM(0.00)[ovidiu.panait.rb@renesas.com,linux-renesas-soc@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:7979, ipnet:213.196.21.0/24, country:US];
-	TO_DN_NONE(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	R_SPF_SOFTFAIL(0.00)[~all:c];
 	PRECEDENCE_BULK(0.00)[];
-	R_DKIM_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,renesas.com:mid,ams.mirrors.kernel.org:rdns,ams.mirrors.kernel.org:helo]
-X-Rspamd-Queue-Id: 695C347217
+	FROM_NEQ_ENVFROM(0.00)[ukleinek@kernel.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	ASN(0.00)[asn:7979, ipnet:2a01:60a::/32, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ams.mirrors.kernel.org:rdns,ams.mirrors.kernel.org:helo,msgid.link:url]
+X-Rspamd-Queue-Id: BDED847FBC
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Replace the inline parent_hws initializers with static clk_parent_data
-arrays for the clk muxes. This provides more flexibility in how
-parents are described and will simplify extending the parent lists in
-the next commit.
 
-Signed-off-by: Ovidiu Panait <ovidiu.panait.rb@renesas.com>
----
-v2 changes: None.
+--ld45a7p5cyvqifvp
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3] regulator: rpi-panel-v2: Convert to new PWM waveform
+ ops
+MIME-Version: 1.0
 
- drivers/clk/clk-versaclock3.c | 48 ++++++++++++++++++++---------------
- 1 file changed, 28 insertions(+), 20 deletions(-)
+Hello Marek,
 
-diff --git a/drivers/clk/clk-versaclock3.c b/drivers/clk/clk-versaclock3.c
-index f387cdb12f48..ebd9d75d7f55 100644
---- a/drivers/clk/clk-versaclock3.c
-+++ b/drivers/clk/clk-versaclock3.c
-@@ -900,6 +900,29 @@ static struct vc3_hw_data clk_div[] = {
- 	}
- };
- 
-+static const struct clk_parent_data clk_mux_parent_data[][2] = {
-+	[VC3_SE1_MUX] = {
-+		{ .hw = &clk_div[VC3_DIV5].hw },
-+		{ .hw = &clk_div[VC3_DIV4].hw }
-+	},
-+	[VC3_SE2_MUX] = {
-+		{ .hw = &clk_div[VC3_DIV5].hw },
-+		{ .hw = &clk_div[VC3_DIV4].hw }
-+	},
-+	[VC3_SE3_MUX] = {
-+		{ .hw = &clk_div[VC3_DIV2].hw },
-+		{ .hw = &clk_div[VC3_DIV4].hw }
-+	},
-+	[VC3_DIFF1_MUX] = {
-+		{ .hw = &clk_div[VC3_DIV1].hw },
-+		{ .hw = &clk_div[VC3_DIV3].hw }
-+	},
-+	[VC3_DIFF2_MUX] = {
-+		{ .hw = &clk_div[VC3_DIV1].hw },
-+		{ .hw = &clk_div[VC3_DIV3].hw }
-+	},
-+};
-+
- static struct vc3_hw_data clk_mux[] = {
- 	[VC3_SE1_MUX] = {
- 		.data = &(struct vc3_clk_data) {
-@@ -909,10 +932,7 @@ static struct vc3_hw_data clk_mux[] = {
- 		.hw.init = &(struct clk_init_data) {
- 			.name = "se1_mux",
- 			.ops = &vc3_clk_mux_ops,
--			.parent_hws = (const struct clk_hw *[]) {
--				&clk_div[VC3_DIV5].hw,
--				&clk_div[VC3_DIV4].hw
--			},
-+			.parent_data = clk_mux_parent_data[VC3_SE1_MUX],
- 			.num_parents = 2,
- 			.flags = CLK_SET_RATE_PARENT
- 		}
-@@ -924,10 +944,7 @@ static struct vc3_hw_data clk_mux[] = {
- 		.hw.init = &(struct clk_init_data) {
- 			.name = "se2_mux",
- 			.ops = &vc3_clk_mux_ops,
--			.parent_hws = (const struct clk_hw *[]) {
--				&clk_div[VC3_DIV5].hw,
--				&clk_div[VC3_DIV4].hw
--			},
-+			.parent_data = clk_mux_parent_data[VC3_SE2_MUX],
- 			.num_parents = 2,
- 			.flags = CLK_SET_RATE_PARENT
- 		}
-@@ -940,10 +957,7 @@ static struct vc3_hw_data clk_mux[] = {
- 		.hw.init = &(struct clk_init_data) {
- 			.name = "se3_mux",
- 			.ops = &vc3_clk_mux_ops,
--			.parent_hws = (const struct clk_hw *[]) {
--				&clk_div[VC3_DIV2].hw,
--				&clk_div[VC3_DIV4].hw
--			},
-+			.parent_data = clk_mux_parent_data[VC3_SE3_MUX],
- 			.num_parents = 2,
- 			.flags = CLK_SET_RATE_PARENT
- 		}
-@@ -956,10 +970,7 @@ static struct vc3_hw_data clk_mux[] = {
- 		.hw.init = &(struct clk_init_data) {
- 			.name = "diff1_mux",
- 			.ops = &vc3_clk_mux_ops,
--			.parent_hws = (const struct clk_hw *[]) {
--				&clk_div[VC3_DIV1].hw,
--				&clk_div[VC3_DIV3].hw
--			},
-+			.parent_data = clk_mux_parent_data[VC3_DIFF1_MUX],
- 			.num_parents = 2,
- 			.flags = CLK_SET_RATE_PARENT
- 		}
-@@ -972,10 +983,7 @@ static struct vc3_hw_data clk_mux[] = {
- 		.hw.init = &(struct clk_init_data) {
- 			.name = "diff2_mux",
- 			.ops = &vc3_clk_mux_ops,
--			.parent_hws = (const struct clk_hw *[]) {
--				&clk_div[VC3_DIV1].hw,
--				&clk_div[VC3_DIV3].hw
--			},
-+			.parent_data = clk_mux_parent_data[VC3_DIFF2_MUX],
- 			.num_parents = 2,
- 			.flags = CLK_SET_RATE_PARENT
- 		}
--- 
-2.51.0
+On Tue, Jan 20, 2026 at 02:50:03PM +0100, Marek Vasut wrote:
+> On 1/15/26 5:37 PM, Uwe Kleine-K=F6nig wrote:
+> > . Given that the dt specifies something made up and the driver was
+> > written in a way that is wrong but does the right thing in combination
+> > with the made up .dts, you cannot fix the driver to be a correct PWM
+> > driver without having to adapt the invented values in the .dts, too.
+>=20
+> I think this is what this V3 does. Would that be an option here ?
 
+No, the driver doesn't become a correct one with your patch.
+
+Another option I see is to make the driver directly a backlight driver,
+instead of a (broken) pwm driver + pwm-backlight.
+
+> > Maybe the lesson to take away here is: if a driver implements a PWM, Cc:
+> > the linux-pwm list and the pwm maintainer on the submission. And let me
+> > point out that even get-maintainers.pl knows about that:
+> >=20
+> > 	$ git format-patch -1 --stdout d49305862fdc4d9ff1b1093b4ed7d8e0cb9971b=
+4 | scripts/get_maintainer.pl
+> > 	...
+> > 	"Uwe Kleine-K=F6nig" <ukleinek@kernel.org> (maintainer:PWM SUBSYSTEM:K=
+eyword:pwm_(config|apply_might_sleep|apply_atomic|ops))
+> > 	...
+> > 	linux-pwm@vger.kernel.org (open list:PWM SUBSYSTEM:Keyword:pwm_(config=
+|apply_might_sleep|apply_atomic|ops))
+> > 	...
+>=20
+> I do use get_maintainer to CC people when sending patches, hmmmm.
+
+What I looked at before writing this was:
+
+	$ git log linus/master -- drivers/regulator/rpi-panel-v2-regulator.c | gre=
+p Link:
+	    Link: https://patch.msgid.link/20250616154018.430004-1-marek.vasut+ren=
+esas@mailbox.org
+	    Link: https://patch.msgid.link/20250609223012.87764-1-marek.vasut+rene=
+sas@mailbox.org
+	    Link: https://patch.msgid.link/20250609000748.1665219-2-marek.vasut+re=
+nesas@mailbox.org
+
+and neither I nor linux-pwm was on Cc: for these. Maybe you used
+get_maintainer.pl from before 8f960106c150a9733f5d7408b975c0a687617961?
+:-D
+
+Best regards
+Uwe
+
+--ld45a7p5cyvqifvp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmlvjuwACgkQj4D7WH0S
+/k795Qf/bdUx6+IsxkCaHyE7d4QAurHelpaVYegFvKJjePU31Pwienrr363Pnt2n
+wdOA94sdqt/G9UMBIQHGK+392cwctqwxUZBXamfYW3YqGY2qFjIwxU9tzgUnI8/k
+jx2bdQoACn8vgy2BHI9B5xbYWVXQ2ZW9InfRWDEzD73xzrR5HG6LPiXloAAijtJh
+NZUGGwjx20kDgMPBqTITLXEUw38XReypUGj+Zr88Hrl9U2numFOMjDwJSUkIynhS
+yBLIQk2cADRjPHcSJmtKhtBTaTZhi2R9Hn3980tVvBrFJ1K6t0qlFrYy4g6wAoPC
+NH2XtpH3EjN8wWCfMdIUpjhdJBEaZQ==
+=hVsv
+-----END PGP SIGNATURE-----
+
+--ld45a7p5cyvqifvp--
 
