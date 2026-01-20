@@ -1,140 +1,249 @@
-Return-Path: <linux-renesas-soc+bounces-27092-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27093-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A3D2D3C341
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 10:19:24 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E065D3C3EA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 10:42:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 50974500DD4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 09:13:17 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 7BA1F56A0BD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 09:26:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E993C3BF2FD;
-	Tue, 20 Jan 2026 09:13:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D8F93D6489;
+	Tue, 20 Jan 2026 09:22:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="fofYft7q"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f194.google.com (mail-vk1-f194.google.com [209.85.221.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012029.outbound.protection.outlook.com [52.101.48.29])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A87C3BF2F0
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Jan 2026 09:13:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.194
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768900387; cv=none; b=LuclZb8adr+AJjfqVeBoPN2NehIYaZNMdXCrtlfYrJufjehWu1n55craO63T1nzMdHS1IwTXimD3/V3T4U1kghwTdRi1UjhLoMPci2iUz/LQBwLFKYL+fC/T5JTdeRbRkhymBKZw5OiRuydhsmo3eNebxGVTBAOEtkujrwqVVZE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768900387; c=relaxed/simple;
-	bh=JCo/vy6Mwha6m9EVmscxyQkIBKW1GkAN6H9safd5cfE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XLZ6B51FXYAB/6PDNK1+b2AUBmAeYucwHBPp6/06KKFilRGkVI+ywSasE4vHE+izpi/uB7YiJHau6ratZz/HhJhPI6zgD/KSe2k3PzrV33DQdTlCXSP5lurnvzVm8e1Dx92S0zweuVY5KzuBlPYsBgLMrQlHPjpR8INRUZL12DQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f194.google.com with SMTP id 71dfb90a1353d-560227999d2so1582228e0c.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Jan 2026 01:13:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768900385; x=1769505185;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/wC+91lBXGmHL8JSojiXe3IoVS0gwXwfT6Yt1dj4exs=;
-        b=tTnT09HqjRiaWX4H0U5B1ofZpuzZP6vpWukJWs9QQsASkjhtscOqI+ZyOGb0g6lc4x
-         +JZuzqzQXXViBloDcVRc+c8XGtwStjyr2nVaH2l+sbBbRegpe4GfGDz7fIVnhE4uLSJ3
-         Iusr+RaBYf4m3dIVj9auQhBuL3Ymv5a72czyVS5sfU7Lym4YKi5bXF3CUgjZKEVvfajd
-         FR2QhUFkd/2XcI4VcLJaGDesqAROywaZM91UXNP5u07MdLO2lTIw1oBi8azKxZD45+cd
-         Hc0Wz8dHcid+h6Ux2lhA8gJdy7eAiXclFJr2RlQozmkBEFIO7pj30ZxNnBZbUF0aV5SZ
-         PrxQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUFAqOAG4ZChfxE4umUxUFjWeEACCM2n84PDVZMwVaWlMFLK9EDW6G5u2uUJmz/9RMbfhyMNMLPvX3Ic1hQudrPjw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw4N/f07gyCKh8MMSqj7WAccbnecWJY/GH2enHQojOPT9BZPAsG
-	KeLmiTmmnQwAhcRwjQIQnG/xNvQPrzeQXY0w9MTHkmm4E2dS3SPO24XvUaO4CgAF
-X-Gm-Gg: AZuq6aLBiEmh0zdaePg6WIgOGVqAywiSlN3KJUTqw13GwUvR3+Ah7CfCbNQ9u8BNMHy
-	gfBWDEH3bSC2Cr61pH2IF6coH8CWJdk9sNVU6L3JwFetuEfumUl0LyV/iaMSUGLdObxwEjYqniR
-	9btsoQKsILGdZaCcskBoCE5zUMCREh4VbYRRRupRuN4AysQebRQUnizjkWA8rXlAO1TNPda5o9C
-	zigw2DEfMD4M2ORLOfihma6xdvJs+fYNF/4aAvcNPAWuRLJE6Z4p92RCaBaaOR0jw7A1XqBzTpG
-	LLnOlX4e/gpIIA8VUNoyYGeKuYt7SUxQDD6mYohnoqUOZ3CRRCo/U1j5rZwJqSymziCa1CQUDIX
-	u4er0vosBLIrhS5VdT5u0kRhzeJ0WhbK9J486Kn55j31FP13xWoN9lavVs+V9rBRvKQx9xs/OJS
-	eaPhvniyRMlBmZJuCWLDjDYxGNeB/dQM7AKEx1gmPzbgH/ZJqW
-X-Received: by 2002:a05:6122:3d48:b0:55b:74ac:72cf with SMTP id 71dfb90a1353d-563b738c487mr3406076e0c.17.1768900384872;
-        Tue, 20 Jan 2026 01:13:04 -0800 (PST)
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com. [209.85.222.53])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-563b7123621sm3403544e0c.22.2026.01.20.01.13.04
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Jan 2026 01:13:04 -0800 (PST)
-Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-947fea7590cso249987241.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Jan 2026 01:13:04 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVlVAPiMBPvl4fYTvg36StMllmwf/CQi/LFCwLcziZfNPFEDZagg5LG9t2t7t/qdqkTOnELkjmu64UIYbdu+TmMXA==@vger.kernel.org
-X-Received: by 2002:a05:6102:134f:b0:5ec:c528:4df0 with SMTP id
- ada2fe7eead31-5f1a71a7154mr3003863137.34.1768900384198; Tue, 20 Jan 2026
- 01:13:04 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DB053D6466;
+	Tue, 20 Jan 2026 09:22:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.29
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768900972; cv=fail; b=NAmwFWDnPyu7cW4L9K1CEGDTcdKcQrYCgmYVUdeZ4OxZyLx7akitq8ZKY90vRqxjVg9Xrpb0fQ5ZQaqwAR1MYeB21xzNrGOXARWN9jNN0wGdAOSEAX90xAwUT8WxwUuaUprrMs1GR/uB2doru6rTILHApwgaxiqAj5DRM5wgGHA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768900972; c=relaxed/simple;
+	bh=jRrgVPM9lFT6/laLRA+nEMZt+EmsiIN1hR/exxXaXxo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=MMvFEIe9bdSgloeDlaeNPc9E3GhIGZCUNGm7IFWSQi1siS+G2rGEvcih0Ard9ZPFeGB5Ac6ulbfmaQVaxoQ2CKMyFeQm51UiLSWGY6BLPVTIeypLsS0sMUt8ivacSB/zKcf9RpLGyduw4QxsDq3wbnJXpf/jXUVV3/bbsOGUiz8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=fofYft7q; arc=fail smtp.client-ip=52.101.48.29
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=dO0NZo/XPXtXnCa5EwDdbMcNnoe4vSQnCMVDD5re4d2CF9nwIglCJNkExT8IvAon3oCRkXfS9Ny5JZsrOhtLvucFPa026/VXEupDUqHtojcbmd9fzyPoUhvwQ5dk9Xm98R7vXtddCiT2FOQq1E4rg8GunAeUVRK+Veqs3/xvRoXAUueovReTVDfYCmjvFTUxi87XL+gPyC/YmAFJDML82wUClyk6qtitwRmaGCVko25rD4Cf+fo0O9FqS5tl037GNt2SuFv+JAyBenqaqgufU3FYF4yrfkffWAytNwha+iSzs2MDbM+XIJ62fvwGd8Z3mZdTCSvsfoWGDB3vCC8cIQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=64uXVn3C7QEFViuztSbuaquwA+MXTDoJolrecgzOywo=;
+ b=M9FowJo4qMU5H51TXMGqAq4q9a82uaU2uhriGLv/LwhVg79amIvtjjf5aRbpwetBH9GPAPiS4TPMBWzRIGCSAvR0HI9C3zdlChFMgekEFwPFnure9t2pJ8hpC0TjtW5dk8fZkfBuZC6xfHqHhLCipxFiJgEf0kGanKIC3hFKY6rujOswP9Kr8mExOGOjRJFKkffvxElRb9unQKHn4EZMD6vaY5tOUseqdsauM48DCbw4PCR+GU1KpFLgevNeEMsU4abzheYDzYnIZL+ZRGaod1L6NNNsi09Z8fqz7ZvYA6I9T6iY9OWYVXFi/azJVqPEmf7s9Jm2fYx6V4tGQOqvVg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.21.195) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=64uXVn3C7QEFViuztSbuaquwA+MXTDoJolrecgzOywo=;
+ b=fofYft7qjjOU61e6Z/rDBzBP0rY2MZRZvrEhirtbbSTp7wyX93B4/auXjJ9Zsbmb0F1gRHQCmqN0cUfH/HmCtLcTiW0+6Z60z1Zs1mfs4jFtRbRx1fpevlAsPm5UQwuXyS2bF4HSMxavvFYGpMFTWZaSmZPJO93cnTi0AqBNuKI=
+Received: from DS7PR06CA0041.namprd06.prod.outlook.com (2603:10b6:8:54::10) by
+ SJ0PR10MB6424.namprd10.prod.outlook.com (2603:10b6:a03:44e::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.12; Tue, 20 Jan
+ 2026 09:22:48 +0000
+Received: from CY4PEPF0000EDD3.namprd03.prod.outlook.com
+ (2603:10b6:8:54:cafe::28) by DS7PR06CA0041.outlook.office365.com
+ (2603:10b6:8:54::10) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9520.12 via Frontend Transport; Tue,
+ 20 Jan 2026 09:22:47 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.195)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.21.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.195; helo=flwvzet201.ext.ti.com; pr=C
+Received: from flwvzet201.ext.ti.com (198.47.21.195) by
+ CY4PEPF0000EDD3.mail.protection.outlook.com (10.167.241.199) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9542.4 via Frontend Transport; Tue, 20 Jan 2026 09:22:46 +0000
+Received: from DFLE204.ent.ti.com (10.64.6.62) by flwvzet201.ext.ti.com
+ (10.248.192.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 20 Jan
+ 2026 03:22:46 -0600
+Received: from DFLE201.ent.ti.com (10.64.6.59) by DFLE204.ent.ti.com
+ (10.64.6.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 20 Jan
+ 2026 03:22:44 -0600
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE201.ent.ti.com
+ (10.64.6.59) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Tue, 20 Jan 2026 03:22:44 -0600
+Received: from [172.24.233.254] (santhoshkumark.dhcp.ti.com [172.24.233.254])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 60K9McbT973005;
+	Tue, 20 Jan 2026 03:22:39 -0600
+Message-ID: <80e7a578-4636-48bd-b92b-54fa33cc076d@ti.com>
+Date: Tue, 20 Jan 2026 14:52:38 +0530
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <a6dce17b15d29a257d09fe0edc199a14c297f1a8.1768836042.git.geert+renesas@glider.be>
- <d921ff48-caa3-4d79-80e8-35c4848258da@mailbox.org>
-In-Reply-To: <d921ff48-caa3-4d79-80e8-35c4848258da@mailbox.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 20 Jan 2026 10:12:53 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWfEHcNwPCVPXeAO3Sk8U=p0nMVUksiwmMnnkf0LYmnjg@mail.gmail.com>
-X-Gm-Features: AZwV_Qj9V8xzMgGDE9Ei_APB41OLIDWWyCZ0s_oMJRaqKrdIGg3tj-xH88Zkkk0
-Message-ID: <CAMuHMdWfEHcNwPCVPXeAO3Sk8U=p0nMVUksiwmMnnkf0LYmnjg@mail.gmail.com>
-Subject: Re: [PATCH] clk: rs9: Convert to clk_hw_onecell_data and of_clk_hw_onecell_get()
-To: Marek Vasut <marek.vasut@mailbox.org>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 00/13] spi: cadence-qspi: Add Renesas RZ/N1 support
+To: "Miquel Raynal (Schneider Electric)" <miquel.raynal@bootlin.com>, "Mark
+ Brown" <broonie@kernel.org>, Rob Herring <robh@kernel.org>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, "Geert
+ Uytterhoeven" <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>,
+	Vaishnav Achath <vaishnav.a@ti.com>
+CC: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	=?UTF-8?Q?Herv=C3=A9_Codina?= <herve.codina@bootlin.com>, Wolfram Sang
+	<wsa+renesas@sang-engineering.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+	Pratyush Yadav <pratyush@kernel.org>, Pascal Eberhard
+	<pascal.eberhard@se.com>, <linux-spi@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-renesas-soc@vger.kernel.org>, <s-k6@ti.com>
+References: <20260115-schneider-6-19-rc1-qspi-v2-0-7e6a06e1e17b@bootlin.com>
+Content-Language: en-US
+From: Santhosh Kumar K <s-k6@ti.com>
+In-Reply-To: <20260115-schneider-6-19-rc1-qspi-v2-0-7e6a06e1e17b@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000EDD3:EE_|SJ0PR10MB6424:EE_
+X-MS-Office365-Filtering-Correlation-Id: aa71e4b6-5626-40d6-e5f8-08de58057948
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|36860700013|82310400026|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?K3FYMEFBK3hZc1NsL0hTeG9ramJBc2VFSmNTYWVLeDhQNDIzOGp0ODVYRnNZ?=
+ =?utf-8?B?b1R6UWxCa3ZxTzlGNXRaQXp1MGh4RVpPWnpaRHA0UjYzQlVUQVVNQVlnVnpU?=
+ =?utf-8?B?NG1PRHllcVJBNFUxUFAwK1VTUnBQSldlUHR0M1Z3emI5TkNrSXVqeDhpZE1C?=
+ =?utf-8?B?c2JTbU5aRC9SVlFXVXhpaFEyeXJkNkorVmVqa1djaHRSeFhVRW82cGk1a3VQ?=
+ =?utf-8?B?OWdzT214U2xzMVJVaFErUHhkOVJvdUVoQXUwVzZUK2hJN0lpeFZSSHhnRm1u?=
+ =?utf-8?B?Ny9mODQ1eTlQdmNodEh5N2sxeUFydWtrTG45d0xyRVFBSTRDc0pHdXBrMkkz?=
+ =?utf-8?B?WHJEYWtMdUdUa2FmelNPeVZBcEh1UmdiZHRCMnVJV3lHbXVSbTlHNW1SOCsw?=
+ =?utf-8?B?bkhlWVFFT29JamtSblRuMTRoRnNVY3ZWT0g3RVhFV3RmSWJFVlhqOVllVjlx?=
+ =?utf-8?B?VU84eDdXVmNuQVRyWjNSSCtDNW5mbTZWMzR2K0tKdmI5ZWd4ckh2Y1hISXhI?=
+ =?utf-8?B?bTlkWi9ONGhVbkRuUnhPc01halQ0WkV2OXUvbVN3djFqWGN0RHJtOVpsWlQ4?=
+ =?utf-8?B?K1c5VTVYWjhDM0tJa3FSbWErbWpheERzNnRxZWxPUG4rdXE1S0FVYzVGNzFV?=
+ =?utf-8?B?WE93dDFiZ2J0Z1Jxb3ZrK3JnMklrYU9VZDhLWVczeVZNWjIzSDR4OVVaVVlI?=
+ =?utf-8?B?d3FkTlNSRm1ZZ0JBcXZlcUpDcGk4OGxJMzN5clYrdXVleUFLRWpHdFVqVkNn?=
+ =?utf-8?B?M0VIMS90U010VGJ1QndWdUVZUGJqVjM3bjk3ZzlNQUoxNUliR1pQNitJNGtz?=
+ =?utf-8?B?TWRmYnh1alNDTlBhZ1BWMGo1UllTM0t6M0J1UHBDRmd3U3Rkd2pMYjlvM3U5?=
+ =?utf-8?B?ZkJOR1E2cDB5SWxta0dHTnZuZDAxNkhESk4vU2N0cmkvaXhyakgzNzlLeWVs?=
+ =?utf-8?B?anUwS1U2K1ZkSTF1UGFDRFdscG1KNDErNnRnN25BSlFKbzhkQ2hOR2p3MXpQ?=
+ =?utf-8?B?SjJDcmJQbGEwQzUwanZkYldKdDRoTFZCN2R3aVczT3M3eWlGNndDb3lqR3VO?=
+ =?utf-8?B?TlU1Y21jTG1zV2JvNk9mYms2amJRUElKbmFDcU5CNTFWb2dEOFBaSlJoMWpP?=
+ =?utf-8?B?QUZMaXIwOTBYL29NQ3pKbTdhd0RtcnFMWmQ0Q1lmVlY0bUFwRTcxTHVFalRz?=
+ =?utf-8?B?MWRCdW1iZTVHc3hmOWxUbVdmUTBwV0FuREVtVS8xQjlrVlkxVER0cDlYT3lZ?=
+ =?utf-8?B?ZUFKUVRoakRYaGFLd0NsS01GV0VTQzhJYlUvdlNndjVNdk00bFlZMzM1QVBU?=
+ =?utf-8?B?dmVlaXhaODJrZjJGdDUrajlzODRoa3B1Z0czK2RmUEdDUUZjTUltVHhRdnNF?=
+ =?utf-8?B?TVc1NS9qdkU2Y3BYeHRyZW1Fb1RXWXVuQjVXcFVaaUtVV0ZGOFhIMUV4c3Z1?=
+ =?utf-8?B?YXhqbkhHTkRaQkJyejJVZjdFempwMmdZR3hlMEk2MU5yVU03R0Z6ZjQ4NllU?=
+ =?utf-8?B?bkE3eERZdGtRclNHT2s0ZTZUTGppTUx1bHpHVklrZ25GY1NHZHNNSEEvb0Np?=
+ =?utf-8?B?d2gyRVF2a2dzM2p0UmNWNTA4WGhQT2F3SmdPUk9GS0tUOEtBMStqZXZtZEFP?=
+ =?utf-8?B?dnhkLzk1M21wWmlISStMNko5MFBrSmMvVldmRkljY09sZ1RFQkQwZkg4S0di?=
+ =?utf-8?B?Q1B2SmV6aUlzVUpaMmp2M0w1UmhNUmhKY1UwWEVCY0lUM0ZZODdYaXJHVFE2?=
+ =?utf-8?B?R2k0T212RFo0UHhmcTc0bGtqaFBBRzhSWWxmZVdGd2ZXVFAwbmhYSGNoUXUr?=
+ =?utf-8?B?SzBLbi96dG5Tb3ZqSVJSR0M3K1RDUU5xeC9pbkVZd3FaakM5L1BTMzZ0aXJT?=
+ =?utf-8?B?QlQ4K0xZUUI2MHhZOFFLT3JCSTF2aWhsVExNOXU4RllHNEZWeG53VVFPbkxK?=
+ =?utf-8?B?YVV6aU5qZDY3aVdwOThSNHkrWGVSQWY2MEZMS1M4NXJmdUFDSDF3NGNzT3Bp?=
+ =?utf-8?B?SW1wSUhaanI0RkluWXgwZTcxUGMydkdYK0ZBNldWUkIxVlFpQkxSWGV3M3A5?=
+ =?utf-8?B?Szc0Vm5FbzhuYXdVYVROaEtoU1FWTkp1QTIzNS92dXpvMjhSSUpSRzhuVmtD?=
+ =?utf-8?B?MmxsV2JTSHdJY3lHUXY4NE9KTlE1b0ZZMDdtZmxIVmk1djR2V0p2UTZtRVMw?=
+ =?utf-8?B?TjgxamZvczdHcGFHNlpEaVJEUXU5aWNidElkRmFzWnFqdnhDYXVlejhJRTRr?=
+ =?utf-8?B?bEZ0MkJRQkM3NEpDdEFDeGYyM1dBPT0=?=
+X-Forefront-Antispam-Report:
+	CIP:198.47.21.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet201.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(7416014)(376014)(36860700013)(82310400026)(1800799024);DIR:OUT;SFP:1101;
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2026 09:22:46.5178
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: aa71e4b6-5626-40d6-e5f8-08de58057948
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.195];Helo=[flwvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CY4PEPF0000EDD3.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB6424
 
-Hi Marek,
+Hello Miquel,
 
-On Mon, 19 Jan 2026 at 20:36, Marek Vasut <marek.vasut@mailbox.org> wrote:
-> On 1/19/26 4:23 PM, Geert Uytterhoeven wrote:
-> > rs9_of_clk_get() does not validate the clock index in the passed
-> > DT clock specifier.  If DT specifies an incorrect and out-of-range
-> > index, this may access memory beyond the end of the fixed-size clk_dif[]
-> > array.
-> >
-> > Instead of fixing this by adding a range check to rs9_of_clk_get(),
-> > convert the driver to use the of_clk_hw_onecell_get() helper, which
-> > already contains such a check.  Embedding a clk_hw_onecell_data
-> > structure in the rs9_driver_data structure has the added benefit that
-> > the clock array always has the correct size, and thus can no longer
-> > become out of sync when adding support for new rs9 variants.
-> >
-> > Fixes: 892e0ddea1aa6f70 ("clk: rs9: Add Renesas 9-series PCIe clock generator driver")
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> > While this patch applies on top of "[PATCH v2] clk: rs9: Reserve 8
-> > struct clk_hw slots for for 9FGV0841", it can be applied or backported
-> > without, by ignoring the change from "clk_dif[4]" to "clk_dif[8]".
->
-> Since the 9FGV0841 is the biggest part in the 9FGV series, the one-liner
-> fix I posted is better suited as a stable backport. This rework
-> shouldn't have the Fixes tag, since it is only that, a rework.
+On 15/01/26 14:54, Miquel Raynal (Schneider Electric) wrote:
+> Hello,
+> 
+> This series adds support for the QSPI controller available on Renesas
+> RZ/N1S and RZ/N1D SoC. It has been tested with a custom board (see last
+> SPI patch for details).
+> 
+> Adding support for this SoC required a few adaptations in the Cadence
+> QSPI driver. The bulk of the work is in the few last patches. Everything
+> else is just misc style fixes and improvements which bothered me while I
+> was wandering.
+> 
+> In order to support all constraints, I sometimes used a new quirk (for
+> the write protection feature and the "no indirect mode"), and sometimes
+> used the compatible directly. The ones I thought might not be RZ/N1
+> specific have been implemented under the form of a quirk, in order to
+> ease their reuse. The other adaptations, which I believe are more
+> Renesas specific, have been handled using the compatible. This is all
+> very arbitrary, and can be discussed.
+> 
+> Thanks,
+> Miquèl
+> 
+> Signed-off-by: Miquel Raynal (Schneider Electric) <miquel.raynal@bootlin.com>
 
-This is not just a rework, as it also fixes a second issue.
-But since you prefer simpler fixes, I have submitted a v2 that just
-adds the missing range check[2].  We can revisit the conversion to
-of_clk_hw_onecell_get() later, after all fixes have landed.
+Thank you for the series! Tested it on TI's AM62A SK with
+OSPI NAND (Winbond's W35N01JW).
 
-> With that fixed:
->
-> Reviewed-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Controller fails to probe with the following message:
 
-Thanks!
+[    1.868863] cadence-qspi fc40000.spi: Cannot claim mandatory QSPI ref 
+clock.
 
-[2] "[PATCH] clk: rs9: Add clock index range check to rs9_of_clk_get()"
-    https://lore.kernel.org/all/4cb63bd8b1e49407831431fbc88b218f720a74fd.1768899891.git.geert+renesas@glider.be
+Regards,
+Santhosh.
 
-Gr{oetje,eeting}s,
+> ---
+> Changes in v2:
+> - Fix commit log of DT binding patch, following Krzysztof's comment.
+> - Fix properties order in DTSI.
+> - Rebase on top of spi/for-next and fix all conflicts.
+> - Simplify even further the code in the cleanup patches following
+>    Pratyush's advices.
+> - Link to v1: https://lore.kernel.org/r/20251219-schneider-6-19-rc1-qspi-v1-0-8ad505173e44@bootlin.com
+> 
+> ---
+> Miquel Raynal (1):
+>        spi: cadence-qspi: Make sure we filter out unsupported ops
+> 
+> Miquel Raynal (Schneider Electric) (12):
+>        spi: dt-bindings: cdns,qspi-nor: Add Renesas RZ/N1D400 to the list
+>        spi: cadence-qspi: Align definitions
+>        spi: cadence-qspi: Fix style and improve readability
+>        spi: cadence-qspi: Fix ORing style and alignments
+>        spi: cadence-qspi: Remove an useless operation
+>        spi: cadence-qspi: Fix probe error path and remove
+>        spi: cadence-qspi: Try hard to disable the clocks
+>        spi: cadence-qspi: Kill cqspi_jh7110_clk_init
+>        spi: cadence-qspi: Add a flag for controllers without indirect access support
+>        spi: cadence-qspi: Make sure write protection is disabled
+>        spi: cadence-qspi: Add support for the Renesas RZ/N1 controller
+>        ARM: dts: r9a06g032: Describe the QSPI controller
+> 
+>   .../devicetree/bindings/spi/cdns,qspi-nor.yaml     |   4 +
+>   arch/arm/boot/dts/renesas/r9a06g032.dtsi           |  14 ++
+>   drivers/spi/spi-cadence-quadspi.c                  | 260 ++++++++++-----------
+>   3 files changed, 144 insertions(+), 134 deletions(-)
+> ---
+> base-commit: 0afb3ab76ffb521700af678ea931d31192f93260
+> change-id: 20251219-schneider-6-19-rc1-qspi-7c3e1547af6d
+> 
+> Best regards,
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
