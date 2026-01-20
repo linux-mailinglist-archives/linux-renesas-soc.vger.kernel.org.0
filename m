@@ -1,129 +1,240 @@
-Return-Path: <linux-renesas-soc+bounces-27101-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
-X-Original-To: lists+linux-renesas-soc@lfdr.de
+Return-Path: <linux-renesas-soc+bounces-27121-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 735FED3C59A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 11:40:01 +0100 (CET)
+Received: from mail.lfdr.de
+	by lfdr with LMTP
+	id 4P6EAE2pb2kZEwAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27121-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 17:11:57 +0100
+X-Original-To: lists+linux-renesas-soc@lfdr.de
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4540047280
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 17:11:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 3C23A4EA788
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 10:23:56 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 53BC388B780
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 14:51:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30A7B3ED13D;
-	Tue, 20 Jan 2026 10:23:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D511444DB64;
+	Tue, 20 Jan 2026 14:41:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="YBpD+GcP"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A8F43ECBEB
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Jan 2026 10:23:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.48
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768904598; cv=none; b=q2CrjAvFRReZ0AXlSAXkriFFUaqLm4ihhSKHxaYpQX9gyLanlEAsFqKHc+vDT7Gw/Aq/gPIJYYiE1zeiLM82uQzpFSKoXM8fOnNrZb5l2TqjHh2JbEYsH5ZMoIhXgk4o6YxfdJ00KAEIWzutV1znOWuJHsd7bH7jP/dKxjjV4bM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768904598; c=relaxed/simple;
-	bh=ly0/vW5IDlDw+5wI+QKQKa0L1EivDoecPfiopYcWyII=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC3BE438FE6
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Jan 2026 14:41:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.174
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768920104; cv=pass; b=Ro0R4eA/Wue0M21ev/whsDbLlp4/TMp7cMlWXhQE9TQMR3so5wm1eCT+LT2b0Zn9PlvariquSEAjJkEJpnoVfbmWodAPA9aj8jdUCXXp+27ht9U1KMpmRwsUjtafRTraWeS7pRD7nhJ4/TM6D4YP/vWtuqPJ+S/vkNvz7WHUTIg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768920104; c=relaxed/simple;
+	bh=FnhOZFFzbVVzIYVojcDRn86X+5qaUjeiK0QPjcy1S1k=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LbJxe75sLAoNcC1RRP+SY1N5vjxOf/yoZlZnqdYLVKvyOzm+IfpnvP1ua4gl1Flag109KUeY0xmjzn1/zFzyGP4VUMcCiXp7G3YMoV7NpGztCZiGHQp7h95CWCffoSSGpjV9V2FDhVIdNgOp+hDm9OhmeVAIXnZ5y5kFLCLLWiY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-5ebb6392f58so1620138137.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Jan 2026 02:23:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768904595; x=1769509395;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+	 To:Cc:Content-Type; b=eTrJ+ECMlnarN1HL8Hlf6vvAKUJgwKv4wB/1wRedfthKXCcKbr0K9Ysl0+oUwHmjA/XrGcWz1QwEP7XSZG7ZG/559AEILqTHSnmJfHv3w48v9FgxZyerVX5uU1hM9rrzciRDjHSryH57A5P/TsN8dWvr16Nrww0MLS7diLhvi2s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=YBpD+GcP; arc=pass smtp.client-ip=209.85.128.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-78f89501423so61130217b3.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Jan 2026 06:41:42 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768920102; cv=none;
+        d=google.com; s=arc-20240605;
+        b=RP4y35kUXcB+MGR3gUIdLUa837QgPDi0KGSeR6irtmLBBKyh2ia1ODbd+6Hrwuq/SE
+         ysfVAdCwVT5cb9kudDi0cw7eINyPqwawhCjeE74srCEd0EJVsvVIk8Po/Hd5tmPEsrcs
+         tpGkukV1l+fTrV3j00nuqt8YgexzV+NvnDbelA9bsMmCzhDIXsH5C1z0iQl/kp3tRVqz
+         x+Vnyu3YMG40thm0Al5npiWZ+x3j3arg7HrazXtqRyJPw71i/lruT2yLbhUHGXAEde6T
+         Q3Vj/ys4s3yad1zxRPA15TtudDN3Le5oagUEAt91BMtXesAlfADAa1ZLJC5DsPMiE7bA
+         7o+Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=dwvfsH0axGRKvYYmd5lZV7RDUOkXm5uPzF6BS5XKPv8=;
+        fh=BVEDg/zHsEX+lPFyI/ZB84FR+0L9pEfNe4x5ApC5yS4=;
+        b=V3bFSDChbcQm/urj4buZBjG63ARBs6rK4a2bznNzCCPM0yRrQIJ9rxxe246b4y0USp
+         M+cFPMxoaNt6erPIWq6ESrCVRW+QyFm2PmnQgT4hMBOoz0eqarpjS7O1m5+H4YgCAzcS
+         ZYd814cc9bm8euJzme2lv0gJ7KNXV2zt879oJ8hLYU6gb1NYdcAfBlBr5dlcxRkzVR6D
+         Gl8yhDo9z726J/jvY/ruFScNofh0SzsNWAea9GgsfgXDzhKoSWRMdUUcMhIOZxJAnYXB
+         w/9BdOmsgjZKyii6zWwbp6aVb6E0IIdgPsM6NvDAJntnarnoE5tb037cNu7jCX52xRYm
+         7ffg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1768920102; x=1769524902; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=N0ac9c/OTxQ/f6N2lklbqJQ1hEcN+Ckhb/mx79x7PYg=;
-        b=SyBmpZ1/brBMcVEf+jp9CYGviejuuukv4tjA6NZFJ3F9J7SMyHQkVuwYfySNmcY668
-         u9E1o41o3Brpe7P+T6psgdhh9uiK9SmBvwiMrD5k6Dv3wMTr889oss5MxM1x+DtQhbSf
-         O/xggg/OR2QFrqyxSYIKwArzk66beLLbOjiIRFwhklht7+YgTvfELQJHNDPuZCU59f6g
-         hBiSxU1Tfnhv4/YM/l4SysAJdY3K1QQUUocfNdWsiX/+gc7B+mE9PCtgAV3e8jAqflK1
-         x4rLU1rzMlI5FKrYOSIRpBayx5A+xHVbLUmCf7SSrI8MYijG4GL5R1k5pOqLYCCXzXNj
-         cVgA==
-X-Forwarded-Encrypted: i=1; AJvYcCUCHj6Y9JDohgx4WqpSMWS0oomnjW1bn2c0wQRoFbM7hdXlxpSOtlZQfS/xX2Pu23yVCRPJoaRtVss83x3hwIzeDg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQSKoSOqEU9SeyVwcVPQduODSdUUA4rbE+XDHBL2iT1QssphVs
-	unsh0ghMeSSi3S2q5S5cXn3n6klOdxqxEjnge8VRDPUNiY3af6g89lNk2w1+H+4S
-X-Gm-Gg: AZuq6aIJlxx9A9AieP8gpnfsN5zkqzxxemvyInZl8Ue2fGw3776F3JWdNWqnSNp/91h
-	MVpxkpeQ4xWAYuRBbemUOVnjCUv6XnIszgxN21DoxOVn77Zy4G2iRlf8FCWxZT7k+fs/rOQ98dE
-	+Q9sRuqnRnJfwVOv6ADbpWmkSrbb40uatT3kjCjaP+4QxTH8pXAkhPzJ98F1mf4CRwiigpLwUSG
-	pVVRRWzRQ2abLGSN0LU4msvw9a0onwiLyuieD7q4TmM87CT170NbiOyZHR2BAyfiMk+fX2C5JF3
-	yUpIyc2LNMGSc4UWyM1rqLHm/PpLxWOGhtVjLBAd7FbjvnS06kIPwPrJAwMcFTMZEMR6Q2yxoLV
-	2dfD4rRyIk5qkr5xKASLU143B5lRup9UyWjfY2/QIGvPLy2jaTVAJfh853iw9bevA3p2wwyekB1
-	b5oW9FU3kpBBDV5xuRrL/iP5ZPYKvDeul0hFTccQ1wGNZBCJLNRPdm
-X-Received: by 2002:a05:6102:e10:b0:5dd:b288:e780 with SMTP id ada2fe7eead31-5f1a6d21b7amr3527860137.0.1768904595156;
-        Tue, 20 Jan 2026 02:23:15 -0800 (PST)
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com. [209.85.221.173])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5f1a6925726sm4438033137.5.2026.01.20.02.23.14
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Jan 2026 02:23:14 -0800 (PST)
-Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-55999cc2a87so1149023e0c.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Jan 2026 02:23:14 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCW0Gq+XV+JKrGfT9ibbHwYIaHujmYI01KzDYFbwgR3DHCfyJqBEp4Mc3cuYuFODFKP91YtEVdgQS+176dsOvy/P5w==@vger.kernel.org
-X-Received: by 2002:a05:6102:dcb:b0:5dd:84f1:b51a with SMTP id
- ada2fe7eead31-5f1a720e344mr3802674137.43.1768904593920; Tue, 20 Jan 2026
- 02:23:13 -0800 (PST)
+        bh=dwvfsH0axGRKvYYmd5lZV7RDUOkXm5uPzF6BS5XKPv8=;
+        b=YBpD+GcPIZGmpM77MQWo2SYT09ZichSf9AZfPJ3fiNmOPpElQnzlnyVc82GL79ncRM
+         5GhQUB0ONcLgHfvzcYVvbKiqK/HGflwf5S6khiRGg4bzbuQ428niLD9hms2YtuwxnGHA
+         0Imm0n7dzxzdrjjd29S+ISHoB9Kpne+NUk9jjC6WwsBrkvhflT+z1nV6Mg8GUaBio09x
+         7XXNyoGEO36+LrnXojDSns0hLTkPu/4qMNPRFOcqh9p7kfsx5dUOOFRKyX1Kmz+Jdz0i
+         uuTAl2VBCVEfJSs7eOEGLEhyshM+AgJvCZ1homBsJr0bItWgaSZkCjgnbA1VxESL6sUi
+         VCPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768920102; x=1769524902;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=dwvfsH0axGRKvYYmd5lZV7RDUOkXm5uPzF6BS5XKPv8=;
+        b=DI59Fjb7LsMSPTafJgtqeLMCn980tXJSAiv3eZzmHSaVIvlC23Zvl4adKTlkg422g8
+         d/bT3EByoXLnXgvLSuaCEoAcZxt03OFT6xNePg9vgUbjwOJqWMDl+Q74PXA5LJx25nLL
+         vdI3dLFM6JGq6swDHnsr7kZLKOioWBgO4/dKD7vqOeOv6JBHvInIVHHU0hEI6Liz4M26
+         jFtWCQSHQ7jcPaosmCQjM7Z6IJtGPA59YSRaWg3VuHKuxnX9jiT+QwGhR8v2/VXddarh
+         te5kP9O54QndBeoPD0YhiqFK/Ohuba8fwIT+rcJuSUM6cpcKOSflwIUKge8FnKoRUPWX
+         962g==
+X-Forwarded-Encrypted: i=1; AJvYcCVoZBUFXzt29KwxN2cwrx7Lu9CO0+euecK+5Hpz6i15uLc1tPhAi/yjfDUHpVTttF4nX6IxIqFld2Xm/0m8CcYb/g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwXk/6N4QuHuSzf8sb8wJEXyLBDWNX8PrdYbtwvNaeL7a21HHP6
+	IeLjPtxrAWx3rmVbtg0DJxwZLh5/qPeUAZ7lpKuqndUbrHMuJzPuNzP3aqZaCt0zd/tTW6/KpjC
+	wK4NRkwP2If1HAhVjX/djJn9S7ONXixmE5WIGO761JQ==
+X-Gm-Gg: AZuq6aIvZ8bKNjAt2jgsRm7aFqB0nz44wrQIELrtNgZwi3KNiK47XqPuidb6cH243Nh
+	xSdHHjZlMcuyHsyu9Axw7aQcJrT28+dHDIAQRSgvAHPLQ5s8M3uVCyOUGDMsFLjkPMx9mKsI1CA
+	jw8ku2dsLAECPngxQMt2QAQQnn5WGJXY6rdUp1DWU4GUs8zytZy1YquykEdiUTti1pEGPOGR8iy
+	2OaDQDwy5TtNof6Z0HjxmZMcG/qOro6SYDJE3JVK9XWVwwu4SHYa9Z5G08m0qMRt8tMGnt5zASl
+	/NKoJfrieWxwrG8ixcSFUyf4o38=
+X-Received: by 2002:a05:690e:1c1c:b0:644:50c7:a50a with SMTP id
+ 956f58d0204a3-6490a67e8f3mr13021072d50.32.1768920101695; Tue, 20 Jan 2026
+ 06:41:41 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260117001215.59272-1-marek.vasut+renesas@mailbox.org>
- <20260117-grinning-heavy-crab-11f245@quoll> <38a146cf-8eee-4fbb-8783-231108a01b54@mailbox.org>
- <578745f0-0865-4195-9237-6d41c7fd55f2@kernel.org>
-In-Reply-To: <578745f0-0865-4195-9237-6d41c7fd55f2@kernel.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 20 Jan 2026 11:23:03 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUuYJ6pSFXy9KBsgkbJ003HEEKhMPgUHkQbdJPFchR39w@mail.gmail.com>
-X-Gm-Features: AZwV_Qg0GRK3xtZRzMXlXd6nCURzar6s0zix0S_d3ClYfwO2CsgqrBgFFjQMPVY
-Message-ID: <CAMuHMdUuYJ6pSFXy9KBsgkbJ003HEEKhMPgUHkQbdJPFchR39w@mail.gmail.com>
-Subject: Re: [PATCH v4 1/3] dt-bindings: touchscreen: trivial-touch: Drop
- 'interrupts' requirement for old Ilitek
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Marek Vasut <marek.vasut@mailbox.org>, linux-input@vger.kernel.org, 
-	Frank Li <Frank.Li@nxp.com>, Conor Dooley <conor+dt@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Job Noorman <job@noorman.info>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20260104194224.41245-1-marek.vasut+renesas@mailbox.org>
+ <x25kxyh4t4u6c3ilj7nxp6sywab5dsar46b2foesrwfux2l4b2@d5iwqqcpdhlm>
+ <797047eb-e422-4a8b-80eb-ab130066c1d7@mailbox.org> <xsjwvmlqclctnf6dgwyuoi7zits27is2s7r7taprb2w2lhsf7i@uiljd7o3ivbk>
+ <855e5015-98c8-48f6-9320-ca8163591940@mailbox.org>
+In-Reply-To: <855e5015-98c8-48f6-9320-ca8163591940@mailbox.org>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Tue, 20 Jan 2026 14:41:25 +0000
+X-Gm-Features: AZwV_QjWaUa_a7faZZuf7zJEt6ishs_xbFjuO7jz3JnzKJFtb2ov21CgCG1WR4M
+Message-ID: <CAPY8ntACxpoZV2_8-9028AaA1mBScUOuK06a6x-XwdSeobiauw@mail.gmail.com>
+Subject: Re: [PATCH v3] regulator: rpi-panel-v2: Convert to new PWM waveform ops
+To: Marek Vasut <marek.vasut@mailbox.org>
+Cc: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>, 
+	linux-pwm@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-1.96 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
+	R_DKIM_ALLOW(-0.20)[raspberrypi.com:s=google];
+	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
+	HAS_LIST_UNSUB(-0.01)[];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,gmail.com];
+	TAGGED_FROM(0.00)[bounces-27121-lists,linux-renesas-soc=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DMARC_POLICY_ALLOW(0.00)[raspberrypi.com,reject];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	DKIM_TRACE(0.00)[raspberrypi.com:+];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	R_SPF_SOFTFAIL(0.00)[~all:c];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dave.stevenson@raspberrypi.com,linux-renesas-soc@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_PROHIBIT(0.00)[0.0.0.45:email];
+	ASN(0.00)[asn:7979, ipnet:2605:f480::/32, country:US];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: 4540047280
+X-Rspamd-Action: no action
+X-Rspamd-Server: lfdr
 
-On Sat, 17 Jan 2026 at 19:34, Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> On 17/01/2026 16:33, Marek Vasut wrote:
-> > On 1/17/26 12:22 PM, Krzysztof Kozlowski wrote:
-> >> On Sat, Jan 17, 2026 at 01:12:02AM +0100, Marek Vasut wrote:
-> >>> The old Ilitek touch controllers V3 and V6 can operate without
-> >>> interrupt line, in polling mode. Drop the 'interrupts' property
-> >>> requirement for those four controllers. To avoid overloading the
-> >>> trivial-touch, fork the old Ilitek V3/V6 touch controller binding
-> >>> into separate document.
-> >>
-> >> One if: block is fine, so IMO, this should stay in original binding
-> >> especially that more devices like some azoteq or semtech might have same
-> >> rule of not requiring interrupt line. Anyway, no big deal.
-> > I am not sure about the other non-ilitek devices, but the fruitboards do
-> > use at least goodix and etm/edt touch controllers without interrupt line
-> > too, those I have on my desk (those two have separate, more extensive,
-> > binding document). I also suspect we will see more of those touch
-> > controllers with optional interrupt line, so if we do, I think we can
-> > re-combine the binding documents again ?
+Hi Marek
+
+On Tue, 20 Jan 2026 at 13:50, Marek Vasut <marek.vasut@mailbox.org> wrote:
 >
-> Yes.
+> On 1/15/26 5:37 PM, Uwe Kleine-K=C3=B6nig wrote:
+>
+> Hello Uwe,
+>
+> > On Thu, Jan 15, 2026 at 02:14:15PM +0100, Marek Vasut wrote:
+> >> On 1/15/26 11:12 AM, Uwe Kleine-K=C3=B6nig wrote:
+> >>> On Sun, Jan 04, 2026 at 08:41:43PM +0100, Marek Vasut wrote:
+> >>>> -  struct regmap *regmap =3D pwmchip_get_drvdata(chip);
+> >>>> -  unsigned int duty;
+> >>>> +  u8 *wfhw =3D _wfhw;
+> >>>> +
+> >>>> +  if (wf->duty_length_ns > wf->period_length_ns)
+> >>>> +          *wfhw =3D PWM_BL_MASK;
+> >>>> +  else
+> >>>> +          *wfhw =3D mul_u64_u64_div_u64(wf->duty_length_ns, PWM_BL_=
+MASK, wf->period_length_ns);
+> >>>
+> >>> This is wrong. There was already a discussion about this in reply to =
+v2.
+> >>> I'll discard this patch from my queue and continue the v2 thread.
+> >>
+> >> Instead of resuscitating the old thread, could you please tell me how =
+to
+> >> make the conversion, so it won't break with existing bindings and the =
+result
+> >> would work as well as the current code ?
+> >
+> > the only way you can do this correctly is to measure or research the
+> > actual period length of the device. As this seems hard, the function I
+> > suggested in v2 works for me, too.
+>
+> Sadly, that does not work on the board I use , which is the one below.
+>
+> I was also hoping that Dave might have some input on the PWM frequency
+> of this display.
 
-IMHO more churn, and more git blame mismatches...
-Why not keep them in a single document in the first place, like in v1?
+Sorry, I don't have that information, which is part of the reason why
+I originally wrote the driver as a backlight driver rather than PWM.
 
-Gr{oetje,eeting}s,
+  Dave
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> > The specified binding is unaffected by that. The only dts I found using
+> > this device
+> > (arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-rpi-display-2.dtsi)
+> > has
+> >
+> >       backlight {
+> >               compatible =3D "pwm-backlight";
+> >               pwms =3D <&mcu 0 255 0>;
+> >       };
+> >
+> >       mcu: gpio@45 {
+> >                  compatible =3D "raspberrypi,touchscreen-panel-regulato=
+r-v2";
+> >               ...
+> >       };
+> >
+> > . Given that the dt specifies something made up and the driver was
+> > written in a way that is wrong but does the right thing in combination
+> > with the made up .dts, you cannot fix the driver to be a correct PWM
+> > driver without having to adapt the invented values in the .dts, too.
+>
+> I think this is what this V3 does. Would that be an option here ?
+>
+> > (An option would be to adapt the pwm-backlight driver to ignore the
+> > provided period, but I think that isn't sensible and badly affects many
+> > other machines that have a working PWM driver. Or assume the PWM's
+> > period is 255 ns which is probably wrong, but so is 100 ms (the latter
+> > probably to a lesser extend).)
+> >
+> > Maybe the lesson to take away here is: if a driver implements a PWM, Cc=
+:
+> > the linux-pwm list and the pwm maintainer on the submission. And let me
+> > point out that even get-maintainers.pl knows about that:
+> >
+> >       $ git format-patch -1 --stdout d49305862fdc4d9ff1b1093b4ed7d8e0cb=
+9971b4 | scripts/get_maintainer.pl
+> >       ...
+> >       "Uwe Kleine-K=C3=B6nig" <ukleinek@kernel.org> (maintainer:PWM SUB=
+SYSTEM:Keyword:pwm_(config|apply_might_sleep|apply_atomic|ops))
+> >       ...
+> >       linux-pwm@vger.kernel.org (open list:PWM SUBSYSTEM:Keyword:pwm_(c=
+onfig|apply_might_sleep|apply_atomic|ops))
+> >       ...
+> I do use get_maintainer to CC people when sending patches, hmmmm.
 
