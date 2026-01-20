@@ -1,44 +1,44 @@
-Return-Path: <linux-renesas-soc+bounces-27128-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27129-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IMp6BEC7b2kOMQAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27128-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 18:28:32 +0100
+	id CK0iHjbOb2mgMQAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27129-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 19:49:26 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0FDF488F1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 18:28:31 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9F6249C82
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 19:49:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id C645D7C5E4E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 15:25:19 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E88869C432A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 15:25:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20D02478E59;
-	Tue, 20 Jan 2026 15:06:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26EE447A0B9;
+	Tue, 20 Jan 2026 15:06:38 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01F95466B50;
-	Tue, 20 Jan 2026 15:06:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D204947A0BD;
+	Tue, 20 Jan 2026 15:06:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768921594; cv=none; b=QPE5jYVGXohA5lVod4wcoyaYcMTz2mH4KLrnwcK6abD7TNp1jj6v0wDWc0JYXeRDyfjwre31OXdrujEypoBWTM3ONSrpuu/4zyqbib6dY7DAuqKvJJpZJlf/4oV1X8qyziq52mjtuiyTLNg1fKpZeUWQI0ZSmDHS3Nvt28YjAxk=
+	t=1768921598; cv=none; b=Vf4tqF/5bzLRzCnZ+D6dQX7Iju1tw9GfyOc4X3d075Vr5c0BMma6P8Ln/a7SJrLcE6ZlX8Azpp9M8P2KaUQyCVRTjgp3HaGIlrT+msiyo2iIR/z1t3wVujMFiCGd7v5t8HxRFTLyHPkKg8Ey7Qqjgq2lIiPX/VMkcdOaKPySVR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768921594; c=relaxed/simple;
-	bh=vgIXuJTGjYgFHqOU/AjAXxtKNjUamkHUF8We3gLEPZE=;
+	s=arc-20240116; t=1768921598; c=relaxed/simple;
+	bh=HwnOiUZ/RWt0dPC99yeATkbRtqsbXpXMaimFxLxXPd4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=h/ZEYKLD9t/ZWklu3SO7+ZkTNGVKasfX9UQEUw8HvCBIg7nbvj7BbjoVNjXKHLV7ujrezSPbw8X5/TwZtYAgAfJIpIH5SnE7AuoHPDIve3bIUnmaSygcnfOr/SaAmCdwPwg+LYhAQ6DmrqotpD1UGH2YDf0RjsYnwsQpp3WQ7xc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.172
+	 MIME-Version; b=dF9qfkbTMfr7+EdEbbdcizPYxelWS5GUFDmxKn0H4cHcfhR/loDyi36SCTnnrumLlB8pCvLnmb5u9yHMZFqKJpCmY16GqCW5lsZ+2HT+oPtJZd3LOOngA3bCWRjRKXBaZ4+5Crcf1gdb1OarLGeGzQiYxmEUwz8Z0/bCrqk0Xi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-X-CSE-ConnectionGUID: O3X+MApoTZKD71CsGiiHpA==
-X-CSE-MsgGUID: Fk0qRjr3RRe3wIeUmI+QQw==
+X-CSE-ConnectionGUID: it7hc4pmSfCLjwohDXpBcg==
+X-CSE-MsgGUID: Ibvn49FOQWeHXGv3xtef7w==
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 21 Jan 2026 00:06:30 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 21 Jan 2026 00:06:35 +0900
 Received: from vm01.adwin.renesas.com (unknown [10.226.92.24])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id D8173402261F;
-	Wed, 21 Jan 2026 00:06:26 +0900 (JST)
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 887C44022B00;
+	Wed, 21 Jan 2026 00:06:31 +0900 (JST)
 From: Ovidiu Panait <ovidiu.panait.rb@renesas.com>
 To: geert+renesas@glider.be,
 	magnus.damm@gmail.com,
@@ -53,9 +53,9 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-clk@vger.kernel.org
-Subject: [PATCH v2 4/5] arm64: dts: renesas: r9a09g057h44-rzv2h-evk: Add versa3 clock generator node
-Date: Tue, 20 Jan 2026 15:06:05 +0000
-Message-ID: <20260120150606.7356-5-ovidiu.panait.rb@renesas.com>
+Subject: [PATCH v2 5/5] arm64: dts: renesas: r9a09g056n48-rzv2n-evk: Add versa3 clock generator node
+Date: Tue, 20 Jan 2026 15:06:06 +0000
+Message-ID: <20260120150606.7356-6-ovidiu.panait.rb@renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260120150606.7356-1-ovidiu.panait.rb@renesas.com>
 References: <20260120150606.7356-1-ovidiu.panait.rb@renesas.com>
@@ -77,11 +77,11 @@ X-Spamd-Result: default: False [1.84 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-27128-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-27129-lists,linux-renesas-soc=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_TO(0.00)[glider.be,gmail.com,kernel.org,baylibre.com,bp.renesas.com,renesas.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:7979, ipnet:213.196.21.0/24, country:US];
+	ASN(0.00)[asn:7979, ipnet:142.0.200.0/24, country:US];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
 	R_DKIM_NA(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
@@ -91,9 +91,9 @@ X-Spamd-Result: default: False [1.84 / 15.00];
 	R_SPF_SOFTFAIL(0.00)[~all:c];
 	TO_DN_NONE(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	DBL_PROHIBIT(0.00)[0.0.0.69:email,0.0.0.12:email];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ams.mirrors.kernel.org:rdns,ams.mirrors.kernel.org:helo,renesas.com:email,renesas.com:mid]
-X-Rspamd-Queue-Id: A0FDF488F1
+	DBL_PROHIBIT(0.00)[0.0.0.12:email];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,renesas.com:mid,dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo,0.0.0.69:email]
+X-Rspamd-Queue-Id: A9F6249C82
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
@@ -102,16 +102,16 @@ and audio devices.
 
 Signed-off-by: Ovidiu Panait <ovidiu.panait.rb@renesas.com>
 ---
-v2 changes: None.
+v2 changes: New patch.
 
- .../dts/renesas/r9a09g057h44-rzv2h-evk.dts    | 25 +++++++++++++++++++
+ .../dts/renesas/r9a09g056n48-rzv2n-evk.dts    | 25 +++++++++++++++++++
  1 file changed, 25 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk.dts b/arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk.dts
-index dc4577ebf2e9..4a70e0707b38 100644
---- a/arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk.dts
-+++ b/arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk.dts
-@@ -108,6 +108,12 @@ vqmmc_sdhi1: regulator-vccq-sdhi1 {
+diff --git a/arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dts b/arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dts
+index 9af50198d2f1..8399f4f705c4 100644
+--- a/arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dts
++++ b/arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dts
+@@ -100,6 +100,12 @@ vqmmc_sdhi1: regulator-vqmmc-sdhi1 {
  		states = <3300000 0>, <1800000 1>;
  	};
  
@@ -124,7 +124,7 @@ index dc4577ebf2e9..4a70e0707b38 100644
  	/* 32.768kHz crystal */
  	x6: x6-clock {
  		compatible = "fixed-clock";
-@@ -277,6 +283,25 @@ raa215300: pmic@12 {
+@@ -256,6 +262,25 @@ raa215300: pmic@12 {
  		clocks = <&x6>;
  		clock-names = "xin";
  	};
