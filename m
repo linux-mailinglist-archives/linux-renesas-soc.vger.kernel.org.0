@@ -1,181 +1,158 @@
-Return-Path: <linux-renesas-soc+bounces-27120-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27123-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UIH/AaKyb2nHMAAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27120-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 17:51:46 +0100
+	id YBGSBt7Eb2lsMQAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27123-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 19:09:34 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDED847FBC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 17:51:45 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B7F54922C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 19:09:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 43A9B763706
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 14:26:49 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 2A3EA9C1B8B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Jan 2026 15:23:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD98743C064;
-	Tue, 20 Jan 2026 14:19:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1447443901C;
+	Tue, 20 Jan 2026 15:05:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q1RW/Ngr"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="oaYWcXbs"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F5523A962A;
-	Tue, 20 Jan 2026 14:19:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1933D421880;
+	Tue, 20 Jan 2026 15:05:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768918778; cv=none; b=sIWQRXfbPFhRsox13k82qDIfpJyGfVFUsulfNKUzluFwJhIiHa3WLmFRCWl3mexzjhxcu2j5GDhdzU7xAK+nVjbNsxRH9lNDqdDVSS9+CIZBOGXPz7pKlAKHp5MkVmx8wjJKSmXYsZ7xSBx/f4wsQYPRWqzG881ob6VfHrw5FeI=
+	t=1768921544; cv=none; b=meouN3s+ebeyn31qZNEpKW5ahfRr2327WPyDUvdV5yINvM/BgnGpMR4gutkcyt9RAMCkvIFkygXuQsRKa3f5OAVt/66OdwFhZ7pCKX/mdUeP+lCu1jUPF12lyohc4ue+7vHV6W1Ni0JuTZu42gVURwDu9IIuGzX9Br7uf/qwhtk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768918778; c=relaxed/simple;
-	bh=0EqlVac/TAXb6i3OqtFhx2Hv2zoj/4CI4DLtAy5JmzQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=USKPoN30d58rohySDvXq7KzjvwEUGs+L0l7yBxrDRg85OP0VNf9A2bWULZoLf2TQpgdL7tCDFMiBnj+xDADKDKV2EebTMK65x2c1umKI7l/FZcdySFA8WgvnuuNP7nvqLCcDA5j6EfaThMID2sh+gpuVji/PX0EsW+7AgNJ58WQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q1RW/Ngr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF678C16AAE;
-	Tue, 20 Jan 2026 14:19:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768918778;
-	bh=0EqlVac/TAXb6i3OqtFhx2Hv2zoj/4CI4DLtAy5JmzQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=q1RW/Ngre5Nn7fCZL0oyaPJmmwEaiEPs2NCJPSBOxhgyka1zQizSxdFCuvNSsNqsC
-	 JFQ5ZdphxGpdZX0xJS56GgzLPoLN1kljbgbLyY2iDwv7ja/LvS7yEMxTU5Z4f5vd0Y
-	 QSDlw0vpXLhZOyFiS9loOo6rxUeoWfxhGNEoOVcL9AbsDXbBBbkMGwlH6feo6LrFMN
-	 EprcGUUTeL7v+9aP3AglbmmgPgBaST8FGE9KpXmHmdphCjX4SbirCJCDpsXq9zMtgg
-	 DPxaS4BU8O0fUkeCk/FGnH7otF/J0zt1svA7zAoYikgc5+ICQzt6fKAxbCJUDTFLTn
-	 s+RMsyPndp2rg==
-Date: Tue, 20 Jan 2026 15:19:35 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-To: Marek Vasut <marek.vasut@mailbox.org>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	linux-pwm@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3] regulator: rpi-panel-v2: Convert to new PWM waveform
- ops
-Message-ID: <izui2w7jddvnji3nbw57yivdoohrs6tabkb42gtklhy53v7byg@zkcjf4js5fbl>
-References: <20260104194224.41245-1-marek.vasut+renesas@mailbox.org>
- <x25kxyh4t4u6c3ilj7nxp6sywab5dsar46b2foesrwfux2l4b2@d5iwqqcpdhlm>
- <797047eb-e422-4a8b-80eb-ab130066c1d7@mailbox.org>
- <xsjwvmlqclctnf6dgwyuoi7zits27is2s7r7taprb2w2lhsf7i@uiljd7o3ivbk>
- <855e5015-98c8-48f6-9320-ca8163591940@mailbox.org>
+	s=arc-20240116; t=1768921544; c=relaxed/simple;
+	bh=0ler8iCtqk2EiGfm/2ocxMEnXXml/ihrwsqRs5L067M=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=fM990LGz8m+9U8e8niSH6ExEp764DAf5XAdbzLLBkXfb9WjGJYDo/GViIOYFFN6tbQAlPf9M8KMSZmWFfV/wFm+bra41+TqPd3GLUpEz5y4eB5Ksi4GFnd4EF6ddodL4DqKEOTSk5bgF9m6j9ndXd/WvsOQMEmqVk17Xx3BcvCY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=oaYWcXbs; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 46CCBC214F3;
+	Tue, 20 Jan 2026 15:05:14 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 62337606AB;
+	Tue, 20 Jan 2026 15:05:41 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9FF8B10B6943D;
+	Tue, 20 Jan 2026 16:05:36 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1768921540; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=g12cAMZNPPtUUPqHd1kwBTs8XQb3e9bnrWcT2IaKQyg=;
+	b=oaYWcXbsd4xRk588Tj9Z0c2I8AIf1b2pBiPrk3C+vTgsUfvrKVkgx7S3SyYVauN66Vi1uK
+	rp3hkKpJv0D7y7S9sWd6KXau6mev7uMm6590rS0t25cBNpvJsbOqhMNHyO8FlycPakn8cp
+	jv6J03DfnHP/5lycRu4WZ0UAieIPF2XGyjYv96FjHRxVJbNHmVIg3HGMMMUJC9gNoeW7av
+	tFj3Tqly0nfBaqDI6jdtn0WMneBbuF+upADv+1Z01BojfDQTNdi5Uu0FStQv/YH9qRO6sX
+	lEy+nDaqk1cljv+VjOJH2IOHjtZ6Dbx8MoMQJsPvebjwW386W8xERbkJiThmbA==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Santhosh Kumar K <s-k6@ti.com>
+Cc: "Mark Brown" <broonie@kernel.org>,  Rob Herring <robh@kernel.org>,
+  "Krzysztof Kozlowski" <krzk+dt@kernel.org>,  Conor Dooley
+ <conor+dt@kernel.org>,  "Geert Uytterhoeven" <geert+renesas@glider.be>,
+  Magnus Damm <magnus.damm@gmail.com>,  Vaishnav Achath
+ <vaishnav.a@ti.com>,  Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+  =?utf-8?Q?Herv=C3=A9?= Codina <herve.codina@bootlin.com>,  Wolfram Sang
+ <wsa+renesas@sang-engineering.com>,  Vignesh Raghavendra
+ <vigneshr@ti.com>,  Pratyush Yadav <pratyush@kernel.org>,  Pascal Eberhard
+ <pascal.eberhard@se.com>,  <linux-spi@vger.kernel.org>,
+  <devicetree@vger.kernel.org>,  <linux-kernel@vger.kernel.org>,
+  <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v2 00/13] spi: cadence-qspi: Add Renesas RZ/N1 support
+In-Reply-To: <80e7a578-4636-48bd-b92b-54fa33cc076d@ti.com> (Santhosh Kumar
+	K.'s message of "Tue, 20 Jan 2026 14:52:38 +0530")
+References: <20260115-schneider-6-19-rc1-qspi-v2-0-7e6a06e1e17b@bootlin.com>
+	<80e7a578-4636-48bd-b92b-54fa33cc076d@ti.com>
+User-Agent: mu4e 1.12.7; emacs 30.2
+Date: Tue, 20 Jan 2026 16:05:35 +0100
+Message-ID: <87cy34s4sg.fsf@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ld45a7p5cyvqifvp"
-Content-Disposition: inline
-In-Reply-To: <855e5015-98c8-48f6-9320-ca8163591940@mailbox.org>
-X-Spamd-Result: default: False [-3.56 / 15.00];
-	SIGNED_PGP(-2.00)[];
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Last-TLS-Session-Version: TLSv1.3
+X-Spamd-Result: default: False [-1.96 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FREEMAIL_CC(0.00)[kernel.org,glider.be,gmail.com,ti.com,bootlin.com,sang-engineering.com,se.com,vger.kernel.org];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	TAGGED_FROM(0.00)[bounces-27123-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-27120-lists,linux-renesas-soc=lfdr.de];
-	FREEMAIL_CC(0.00)[raspberrypi.com,vger.kernel.org,gmail.com,kernel.org];
-	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	RCVD_COUNT_THREE(0.00)[4];
-	DMARC_POLICY_ALLOW(0.00)[kernel.org,quarantine];
+	DMARC_POLICY_ALLOW(0.00)[bootlin.com,reject];
+	DKIM_TRACE(0.00)[bootlin.com:+];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	R_SPF_SOFTFAIL(0.00)[~all:c];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ukleinek@kernel.org,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	ASN(0.00)[asn:7979, ipnet:2a01:60a::/32, country:US];
+	FROM_NEQ_ENVFROM(0.00)[miquel.raynal@bootlin.com,linux-renesas-soc@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:7979, ipnet:142.0.200.0/24, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ams.mirrors.kernel.org:rdns,ams.mirrors.kernel.org:helo,msgid.link:url]
-X-Rspamd-Queue-Id: BDED847FBC
+	DBL_BLOCKED_OPENRESOLVER(0.00)[dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo,ti.com:email,bootlin.com:email,bootlin.com:dkim,bootlin.com:mid]
+X-Rspamd-Queue-Id: 9B7F54922C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+Hi Santhosh,
 
---ld45a7p5cyvqifvp
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3] regulator: rpi-panel-v2: Convert to new PWM waveform
- ops
-MIME-Version: 1.0
+On 20/01/2026 at 14:52:38 +0530, Santhosh Kumar K <s-k6@ti.com> wrote:
 
-Hello Marek,
+> Hello Miquel,
+>
+> On 15/01/26 14:54, Miquel Raynal (Schneider Electric) wrote:
+>> Hello,
+>> This series adds support for the QSPI controller available on Renesas
+>> RZ/N1S and RZ/N1D SoC. It has been tested with a custom board (see last
+>> SPI patch for details).
+>> Adding support for this SoC required a few adaptations in the Cadence
+>> QSPI driver. The bulk of the work is in the few last patches. Everything
+>> else is just misc style fixes and improvements which bothered me while I
+>> was wandering.
+>> In order to support all constraints, I sometimes used a new quirk (for
+>> the write protection feature and the "no indirect mode"), and sometimes
+>> used the compatible directly. The ones I thought might not be RZ/N1
+>> specific have been implemented under the form of a quirk, in order to
+>> ease their reuse. The other adaptations, which I believe are more
+>> Renesas specific, have been handled using the compatible. This is all
+>> very arbitrary, and can be discussed.
+>> Thanks,
+>> Miqu=C3=A8l
+>> Signed-off-by: Miquel Raynal (Schneider Electric)
+>> <miquel.raynal@bootlin.com>
+>
+> Thank you for the series! Tested it on TI's AM62A SK with
+> OSPI NAND (Winbond's W35N01JW).
+>
+> Controller fails to probe with the following message:
+>
+> [    1.868863] cadence-qspi fc40000.spi: Cannot claim mandatory QSPI ref
+> clock.
 
-On Tue, Jan 20, 2026 at 02:50:03PM +0100, Marek Vasut wrote:
-> On 1/15/26 5:37 PM, Uwe Kleine-K=F6nig wrote:
-> > . Given that the dt specifies something made up and the driver was
-> > written in a way that is wrong but does the right thing in combination
-> > with the made up .dts, you cannot fix the driver to be a correct PWM
-> > driver without having to adapt the invented values in the .dts, too.
->=20
-> I think this is what this V3 does. Would that be an option here ?
+Strange, I was nonetheless careful not to change the existing
+behaviour on other SoCs. I have that board, I will give it a try.
 
-No, the driver doesn't become a correct one with your patch.
-
-Another option I see is to make the driver directly a backlight driver,
-instead of a (broken) pwm driver + pwm-backlight.
-
-> > Maybe the lesson to take away here is: if a driver implements a PWM, Cc:
-> > the linux-pwm list and the pwm maintainer on the submission. And let me
-> > point out that even get-maintainers.pl knows about that:
-> >=20
-> > 	$ git format-patch -1 --stdout d49305862fdc4d9ff1b1093b4ed7d8e0cb9971b=
-4 | scripts/get_maintainer.pl
-> > 	...
-> > 	"Uwe Kleine-K=F6nig" <ukleinek@kernel.org> (maintainer:PWM SUBSYSTEM:K=
-eyword:pwm_(config|apply_might_sleep|apply_atomic|ops))
-> > 	...
-> > 	linux-pwm@vger.kernel.org (open list:PWM SUBSYSTEM:Keyword:pwm_(config=
-|apply_might_sleep|apply_atomic|ops))
-> > 	...
->=20
-> I do use get_maintainer to CC people when sending patches, hmmmm.
-
-What I looked at before writing this was:
-
-	$ git log linus/master -- drivers/regulator/rpi-panel-v2-regulator.c | gre=
-p Link:
-	    Link: https://patch.msgid.link/20250616154018.430004-1-marek.vasut+ren=
-esas@mailbox.org
-	    Link: https://patch.msgid.link/20250609223012.87764-1-marek.vasut+rene=
-sas@mailbox.org
-	    Link: https://patch.msgid.link/20250609000748.1665219-2-marek.vasut+re=
-nesas@mailbox.org
-
-and neither I nor linux-pwm was on Cc: for these. Maybe you used
-get_maintainer.pl from before 8f960106c150a9733f5d7408b975c0a687617961?
-:-D
-
-Best regards
-Uwe
-
---ld45a7p5cyvqifvp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmlvjuwACgkQj4D7WH0S
-/k795Qf/bdUx6+IsxkCaHyE7d4QAurHelpaVYegFvKJjePU31Pwienrr363Pnt2n
-wdOA94sdqt/G9UMBIQHGK+392cwctqwxUZBXamfYW3YqGY2qFjIwxU9tzgUnI8/k
-jx2bdQoACn8vgy2BHI9B5xbYWVXQ2ZW9InfRWDEzD73xzrR5HG6LPiXloAAijtJh
-NZUGGwjx20kDgMPBqTITLXEUw38XReypUGj+Zr88Hrl9U2numFOMjDwJSUkIynhS
-yBLIQk2cADRjPHcSJmtKhtBTaTZhi2R9Hn3980tVvBrFJ1K6t0qlFrYy4g6wAoPC
-NH2XtpH3EjN8wWCfMdIUpjhdJBEaZQ==
-=hVsv
------END PGP SIGNATURE-----
-
---ld45a7p5cyvqifvp--
+Thanks a lot for the feedback.
+Miqu=C3=A8l
 
