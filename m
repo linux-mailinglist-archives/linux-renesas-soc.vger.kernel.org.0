@@ -1,62 +1,62 @@
-Return-Path: <linux-renesas-soc+bounces-27233-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27234-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KHD0LIMqcWniewAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27233-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Jan 2026 20:35:31 +0100
+	id 0O8NKMIhcWl8eQAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27234-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Jan 2026 19:58:10 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 470BB5C475
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Jan 2026 20:35:31 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 307BA5BA97
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Jan 2026 19:58:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 159C3B03F15
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Jan 2026 17:32:51 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id EB0F87AF7EF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Jan 2026 17:33:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 436D04DA556;
-	Wed, 21 Jan 2026 17:05:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D02854DB548;
+	Wed, 21 Jan 2026 17:05:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="JN1wMIae"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="L5om0/kD"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 967854D9919
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 21 Jan 2026 17:05:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70A734D9912;
+	Wed, 21 Jan 2026 17:05:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769015140; cv=none; b=k/Y+HyqkYlNe4gYd2g1KlNSVOIpZwgGa70elssKRbtrDCd/Jpmf6AVRgbDGHiQ7Kyurko1TZdKJYiad0hBJFgUQd7Z71VkAR7mqn7paAiCGnv4NZFzFTxLSEH5abd4KcC1Seu2zo1o9keoA5lGTDoVBpoSTaDkSdXDbXJ706kxc=
+	t=1769015141; cv=none; b=NH7DHdY64fA5X2DnwSo5MELtRoXPx7mS6SpYJxheNEc42OoUirzZOjYrwodJt1JH3i50raQNL934EcOms1hkt4N9S59MRktfMJuf4PUSlZhZcyOhX7PhfJfviORUUJeWFoCuQwMZhhu2NV8xAcpKgiBnvnxs8NpOysF49+IqyuM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769015140; c=relaxed/simple;
-	bh=7UMMSpTRFRksgUS7dSZabu6uzWVcK75/uzorszirfjQ=;
+	s=arc-20240116; t=1769015141; c=relaxed/simple;
+	bh=s5qeqBhzqXvBR0yVd6ehmw1JmdAeCogqylKOKRTU5a0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=sLmkzV1LW3AZHmNbJOLyDpA85oqzW/lwwbnnI540+lNWLGIYDQJrxQIEHjV+yJ4KKR73S9SuHdHmUAUvbsJw5OwV0JSexAPyleXEZ0enYaOvqSHItCAmQna1IlwViZRQSqePuIUxHKQYN6cg/bVo/fU+EYi1+V8vZaTtQKVtaA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=JN1wMIae; arc=none smtp.client-ip=185.246.85.4
+	 In-Reply-To:To:Cc; b=qw/zq6MrnbrYcIHEf2opEn65RBbQff1VGK5Jeh6TCOQ0ADU/TrIsW/fAlg4cpuRC0LURWkxLcrnQVwPeCznWVfMoraxU0ToQlO2uNga3mCexQWWa5LZyW0VYhykA6/dj+zTKmcAqPEtBc+Ci4cjdtKkZVM5KHVFYg0l+vV8BTDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=L5om0/kD; arc=none smtp.client-ip=185.246.85.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 315E14E421CB;
-	Wed, 21 Jan 2026 17:05:36 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 11C504E421CC;
+	Wed, 21 Jan 2026 17:05:38 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 0164F6070A;
-	Wed, 21 Jan 2026 17:05:36 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9C017119B18D4;
-	Wed, 21 Jan 2026 18:05:33 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id D61C36070A;
+	Wed, 21 Jan 2026 17:05:37 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5ABF7119B18DD;
+	Wed, 21 Jan 2026 18:05:35 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1769015135; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1769015136; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=WIFqPskiDM9IjrZs85Iqodhn/D6pSUk1OJXi0KZ7anY=;
-	b=JN1wMIaeDUKDCERcrdVvdA9LjV3So1tTmGvPS6HNjf5KaPDaWm0CaeDoXYXv6SecjnZcyv
-	Ht4SZs2EwQATmllbldoBEFLZTaNx+1wHG5odMmYiw5u3pfV0ruv4xUCFowOrzf5nC0mfIk
-	UYf8MKXajxdRi0F0u0WD0boGRtOcYYo2N2bq/AFkfmO7sEJRLjZ2/wwztpXrnvRbhuKrg2
-	6lGQvGfzD85R5aIt6J8q8+jPZtBUUexLKO4c3kNXrUMBBCT9KNHH8WPdqfjTcwYXKa9AqC
-	WNZ1gLRrybHfDAe/b+J1K4udaqMc8cXMMRj4AAoLMtvICWWaoGpxgyrrNHEb1g==
+	bh=QegLxnXsPbyMpFnnOsyJbRiNNWksSHe1X3JonRazV2o=;
+	b=L5om0/kDVbhd1Yu4xbOO0TP9ULP8vxO2C7fdJX48QBoU8YOdmxkBsy71mWfMJsEcn6GsqL
+	1JafuysnawmyHfVsYjsETPnCxcuYp5j0zZjxJSk+awzMrtWstLCxnQDbr67wMsmltAdOsF
+	bO/rKJe97Z6vgGoP0DOZxb9aipfg+LqWdS5IMckJV+nBlr4x73oq5NP1zMkjLWyGSeqCn3
+	bDy3Q2M+yAXrDFI8KciJ0IFefv9+eij3WoPYW8M5kChR/34vk+DCk1PPm9Ej0W2usEm2+I
+	W51qtCmQhcNCOThat3ltU5sQzPG2PF30M8A7XHhqIFwdyMnJ9UuHLx+RaAmrig==
 From: "Miquel Raynal (Schneider Electric)" <miquel.raynal@bootlin.com>
-Date: Wed, 21 Jan 2026 18:05:09 +0100
-Subject: [PATCH v3 13/17] spi: cadence-qspi: Add a flag for controllers
- without indirect access support
+Date: Wed, 21 Jan 2026 18:05:10 +0100
+Subject: [PATCH v3 14/17] spi: cadence-qspi: Make sure write protection is
+ disabled
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -65,7 +65,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260121-schneider-6-19-rc1-qspi-v3-13-43e70fab4444@bootlin.com>
+Message-Id: <20260121-schneider-6-19-rc1-qspi-v3-14-43e70fab4444@bootlin.com>
 References: <20260121-schneider-6-19-rc1-qspi-v3-0-43e70fab4444@bootlin.com>
 In-Reply-To: <20260121-schneider-6-19-rc1-qspi-v3-0-43e70fab4444@bootlin.com>
 To: Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
@@ -91,17 +91,17 @@ X-Spamd-Result: default: False [-1.96 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-27233-lists,linux-renesas-soc=lfdr.de];
-	FREEMAIL_TO(0.00)[kernel.org,glider.be,gmail.com,ti.com];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-27234-lists,linux-renesas-soc=lfdr.de];
 	DMARC_POLICY_ALLOW(0.00)[bootlin.com,reject];
-	DKIM_TRACE(0.00)[bootlin.com:+];
+	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,glider.be,gmail.com,ti.com];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[bootlin.com:+];
+	ASN(0.00)[asn:7979, ipnet:2605:f480::/32, country:US];
+	RCPT_COUNT_TWELVE(0.00)[19];
 	R_SPF_SOFTFAIL(0.00)[~all:c];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[miquel.raynal@bootlin.com,linux-renesas-soc@vger.kernel.org];
@@ -109,80 +109,60 @@ X-Spamd-Result: default: False [-1.96 / 15.00];
 	RCVD_COUNT_FIVE(0.00)[6];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:7979, ipnet:142.0.200.0/24, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:email,bootlin.com:dkim,bootlin.com:mid,dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo,sang-engineering.com:email]
-X-Rspamd-Queue-Id: 470BB5C475
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 307BA5BA97
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 Renesas RZ/N1 QSPI controllers embed the Cadence IP with some
-limitations/simplifications. One of the is that only direct access is
-supported, none of the registers related to indirect writes are
-populated, so create a flag to avoid these accesses and make sure only
-direct accessors are called.
+modifications. For instance, they feature a write protection of the
+direct mapping at the controller level, with this feature all data
+writes to the AHB region are aborted.
+
+Despite the fact that the flag setting write protection is disabled by
+default, Bootloaders may (and actually do) set it, so mark this feature
+as being available with a specific flag to, if applicable, make sure it
+is disabled.
 
 Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 Signed-off-by: Miquel Raynal (Schneider Electric) <miquel.raynal@bootlin.com>
 ---
- drivers/spi/spi-cadence-quadspi.c | 29 ++++++++++++++++-------------
- 1 file changed, 16 insertions(+), 13 deletions(-)
+ drivers/spi/spi-cadence-quadspi.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/drivers/spi/spi-cadence-quadspi.c b/drivers/spi/spi-cadence-quadspi.c
-index 35379546c3b4..e1ec20684b0a 100644
+index e1ec20684b0a..e0e4423baed9 100644
 --- a/drivers/spi/spi-cadence-quadspi.c
 +++ b/drivers/spi/spi-cadence-quadspi.c
-@@ -47,6 +47,7 @@ static_assert(CQSPI_MAX_CHIPSELECT <= SPI_DEVICE_CS_CNT_MAX);
- #define CQSPI_SUPPORT_DEVICE_RESET	BIT(8)
+@@ -48,6 +48,7 @@ static_assert(CQSPI_MAX_CHIPSELECT <= SPI_DEVICE_CS_CNT_MAX);
  #define CQSPI_DISABLE_STIG_MODE		BIT(9)
  #define CQSPI_DISABLE_RUNTIME_PM	BIT(10)
-+#define CQSPI_NO_INDIRECT_MODE		BIT(11)
+ #define CQSPI_NO_INDIRECT_MODE		BIT(11)
++#define CQSPI_HAS_WR_PROTECT		BIT(12)
  
  /* Capabilities */
  #define CQSPI_SUPPORTS_OCTAL		BIT(0)
-@@ -1423,7 +1424,8 @@ static ssize_t cqspi_read(struct cqspi_flash_pdata *f_pdata,
- 	if (ret)
- 		return ret;
+@@ -218,6 +219,8 @@ struct cqspi_driver_platdata {
+ #define CQSPI_REG_IRQSTATUS			0x40
+ #define CQSPI_REG_IRQMASK			0x44
  
--	if (cqspi->use_direct_mode && ((from + len) <= cqspi->ahb_size))
-+	if ((cqspi->use_direct_mode && ((from + len) <= cqspi->ahb_size)) ||
-+	    (cqspi->ddata && cqspi->ddata->quirks & CQSPI_NO_INDIRECT_MODE))
- 		return cqspi_direct_read_execute(f_pdata, buf, from, len);
++#define CQSPI_REG_WR_PROT_CTRL			0x58
++
+ #define CQSPI_REG_INDIRECTRD			0x60
+ #define CQSPI_REG_INDIRECTRD_START_MASK		BIT(0)
+ #define CQSPI_REG_INDIRECTRD_CANCEL_MASK	BIT(1)
+@@ -1641,6 +1644,10 @@ static void cqspi_controller_init(struct cqspi_st *cqspi)
+ 		       cqspi->iobase + CQSPI_REG_INDIRECTWRWATERMARK);
+ 	}
  
- 	if (cqspi->use_dma_read && ddata && ddata->indirect_read_dma &&
-@@ -1624,19 +1626,20 @@ static void cqspi_controller_init(struct cqspi_st *cqspi)
- 	/* Disable all interrupts. */
- 	writel(0, cqspi->iobase + CQSPI_REG_IRQMASK);
- 
--	/* Configure the SRAM split to 1:1 . */
--	writel(cqspi->fifo_depth / 2, cqspi->iobase + CQSPI_REG_SRAMPARTITION);
-+	if (!(cqspi->ddata && cqspi->ddata->quirks & CQSPI_NO_INDIRECT_MODE)) {
-+		/* Configure the SRAM split to 1:1 . */
-+		writel(cqspi->fifo_depth / 2, cqspi->iobase + CQSPI_REG_SRAMPARTITION);
-+		/* Load indirect trigger address. */
-+		writel(cqspi->trigger_address,
-+		       cqspi->iobase + CQSPI_REG_INDIRECTTRIGGER);
- 
--	/* Load indirect trigger address. */
--	writel(cqspi->trigger_address,
--	       cqspi->iobase + CQSPI_REG_INDIRECTTRIGGER);
--
--	/* Program read watermark -- 1/2 of the FIFO. */
--	writel(cqspi->fifo_depth * cqspi->fifo_width / 2,
--	       cqspi->iobase + CQSPI_REG_INDIRECTRDWATERMARK);
--	/* Program write watermark -- 1/8 of the FIFO. */
--	writel(cqspi->fifo_depth * cqspi->fifo_width / 8,
--	       cqspi->iobase + CQSPI_REG_INDIRECTWRWATERMARK);
-+		/* Program read watermark -- 1/2 of the FIFO. */
-+		writel(cqspi->fifo_depth * cqspi->fifo_width / 2,
-+		       cqspi->iobase + CQSPI_REG_INDIRECTRDWATERMARK);
-+		/* Program write watermark -- 1/8 of the FIFO. */
-+		writel(cqspi->fifo_depth * cqspi->fifo_width / 8,
-+		       cqspi->iobase + CQSPI_REG_INDIRECTWRWATERMARK);
-+	}
- 
++	/* Disable write protection at controller level */
++	if (cqspi->ddata && cqspi->ddata->quirks & CQSPI_HAS_WR_PROTECT)
++		writel(0, cqspi->iobase + CQSPI_REG_WR_PROT_CTRL);
++
  	/* Disable direct access controller */
  	if (!cqspi->use_direct_mode) {
+ 		reg = readl(cqspi->iobase + CQSPI_REG_CONFIG);
 
 -- 
 2.51.1
