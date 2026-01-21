@@ -1,185 +1,162 @@
-Return-Path: <linux-renesas-soc+bounces-27244-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27238-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aI2uFdNXcWkNEwAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27244-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Jan 2026 23:48:51 +0100
+	id 0IFzIZotcWmcfAAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27238-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Jan 2026 20:48:42 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2B5C5F080
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Jan 2026 23:48:50 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE8245C835
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Jan 2026 20:48:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 46D1E42636E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Jan 2026 22:46:45 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 173DC8EF708
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Jan 2026 18:07:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCD3744CF59;
-	Wed, 21 Jan 2026 22:44:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A03E354AC0;
+	Wed, 21 Jan 2026 18:07:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="DuI7x1B8"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="c7QJ7UVs"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB4D1449ECF;
-	Wed, 21 Jan 2026 22:44:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA47821767D
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 21 Jan 2026 18:07:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769035498; cv=none; b=np9BVOOwWfjy4TVxHEeoITuOkvy2JYqsVL8TCyp92JDw6AURJpqkMxsHzHZnhbUzQzR6YNmmOkPE1Ou9TX3klN5zI+LpWgJFnTeFUfx1PWmVXcGeS7xywsKlcfUyVNLZbfNYgILE6HUG3In9Ja5tBbXjuuciRbPN5ojAb41Wn+E=
+	t=1769018856; cv=none; b=ogTG5Iz5BajnDBC2nIOX4hkQBiWJI++XqRtTpzMsGhvHJIEm/1PXH8pGQ2t7ncD5H9z9GgJQlG3CWZ/xsxd3QPBarL9HHrBsaHD8XO6ZiEBoKlmauURItMtxD/n5BnIjck37pONG2vO8ocTNEVtv4iRjm7SQi/C54xErD/KVsfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769035498; c=relaxed/simple;
-	bh=NfNLgGaNG8tEtO+T+PCm2QyL9in0BOFgaju7GrOY8Kw=;
+	s=arc-20240116; t=1769018856; c=relaxed/simple;
+	bh=0wix78J+oRKHXLt6hmkz9fVUcHgh7+lJ2gOgzCD/oXw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DJ0KRReoF8hDL9/JhbymVnv8TZIwMDmkQt6YPrzUYuT3jdUwHwuJwcGIQXVhM6wb3rB3VwajWNbLcB61GaukAbq6qEPhD+YyGV5iV/tl7kGaQsn5lJbdFQbLsvaehPRidleH1yFmZwyT1sM2xioV8MrR3YhPIfKq2m2lHf6djRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=DuI7x1B8; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4dxK5K05kfz9tCQ;
-	Wed, 21 Jan 2026 23:44:53 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1769035493;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=h4erEKk/kx2Qi8GHsQ10UVtCdb2WmHG32BZt6WMNptI=;
-	b=DuI7x1B8S110FS9yoF8xVuV6H+z5vkYnTZ3oIMRcCqQSFBaSfM4onXalKS/sfmzRhRzbQE
-	9B2rBwudxnufsjs9p3y1hp+LQDdlwUoUogr4aE6M16iuydbiYFJGWZBCEFdiCXVwJ7DShD
-	w9EdDavzF/C8j30v50nFwCLHl5i7dxBZkE09tOCTt9JIAu3IpXedZVVgOUFgBHe5tZO4Yi
-	PVEo4IpSRnJL9YOYDNIM0g7tH1l8Q/sfgRe0GQp53rF+jQscNS+rFyllZl+kKfi6tgmD8U
-	wjlppTs44RxzATpA8yW/jIQQ8Q/+qovkAhBGHi1/WpgCC9Lo4+DhRUo9cfd6Jg==
-Message-ID: <6f817993-1b4a-4600-a771-d6c25efc668b@mailbox.org>
-Date: Wed, 21 Jan 2026 18:38:00 +0100
+	 In-Reply-To:Content-Type; b=B8SG4/XrFpE84TPVV/FXv8HZ171FkUERMQgIm4rFMh1yaO1Epim+/tYvD5WZhB7tPdNdl5pshSm/uRJ4BrDCFo0q1eyDlmVPTw9et4R7jISbTD1TsXQ0a0e0CXpueYBuj5Yk6klevxKfS5B2wowHEKoNqrsrTUmtxPhaYfBC4QA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=c7QJ7UVs; arc=none smtp.client-ip=209.85.128.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-47ee0291921so1211585e9.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 21 Jan 2026 10:07:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1769018852; x=1769623652; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nL8x1nhynzlORWDLr//wqOzaruj70zMwzKxcsaB/Ebw=;
+        b=c7QJ7UVsd+TuyWE16el0eX81HUT9pCnk06lL2tgZGUWpB9pP4kMKma5JRL4qQbXz/H
+         lQP4cAPbxegP5a1V4xVEf/Aduw0DFQyltyl9StaZ4U4r/3nCQ9Q6wpg4AvEBvOF6Vd6w
+         wSyVLXuztxuC7rkrtXnfZAZBP8XWgq8mNNrooPLRy8nVyY8u6pqmIxyOf5OsBN5mvFXj
+         97BMrxOqqgIotilBrdGbXTKCF7uJ90cEJWVTdAHhb7+WLrDSgWbxavGqx/eO401Vz5kH
+         rgBI0ZgRMPULCQXDWAdfPbY+Q5BCvEf1qgHyp/5PsXuKysz98WimgHr3HJY8dTHBl0iL
+         /tTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769018852; x=1769623652;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nL8x1nhynzlORWDLr//wqOzaruj70zMwzKxcsaB/Ebw=;
+        b=wX8XXD002J9MqcX2Jo0pJ+17G9TdJ/0FotGDBSLWfVSxsREvNJh/eoi+qcJVFp4sP9
+         iZfJtHOcEuKIyCHWb8jwxJGyFuXubGFX6Yit+i8bjjB5Af0tW7ZowzvNmT3DRJDivC+e
+         PfNB6WZXiF1oun3mr/X/+IAjFS4lX3dGvD+XeXygwLspjfD5exRpzlVhsydBw1LEx6G/
+         dP+oTReKZ26xeqWfLF9OTlu2+HpngbCNLupfwR97+Wmo3vj991T9QQVpjwSM8xwGlWFS
+         x/4w3M5tfkS/mm6rH8JJAWZHhYOZjhsrl6uphPwGPHVMupX+6+z4MVWXbcInQ6iM/Pjl
+         IVeA==
+X-Forwarded-Encrypted: i=1; AJvYcCUJ8erpzxg6730lbsqK9x0yFDnnNxEYaHR36Gmm+uBC0MaOayEAGRWRk34ZcCLF3MPaZSvhEjhBNvVa59uph5dIDQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxuMElCHTNfFBQJJCUeSfvLgyCtdymcV5I959bvC4e3itJWwCi8
+	uMns/zYwMc1AJOCegE9b/RRV/mOiBVzeEJW+cZg4G57VbiHRgaECEDMDXHNNSt5oaLI=
+X-Gm-Gg: AZuq6aICQ+zb4c8YgysRl28n+zAjeKVHX5p9p+hs3fhgUiQz5SWHDDV/Gi2Tx+fUxQj
+	E9kw2hc0rimTlCkZyWoOL2fvMePDQm/q9ayCY6STXRhPOB/WIxBKVkR+GRqz3n71Ic1LGdg/ZAp
+	nwf93xa0VycYjk20akUosnK0F63dYB7ypFICV0nErG2BENHrumBkYZP+hT6d+aQlGfjFvPZrIi4
+	mWjFpVlDCSJEuD+rOlmGlaCNi/vwBDnXw75MzCx+w7hyh3GX7bJrKNQsOnc1QoCJgshOyrN1KHO
+	UBaj7zcsJ/koB/EJBV/5Z/8KGAMkRTSIpKICB5UKOZen1a+SEQ+jmV52tbN2WeNbrOQY3SKxN/K
+	dxp5ue5uQahSEJfXIA/g18ffCR/8c/uqQEAXT4StmfXSEcsyEYJbKXZKDvVYHdHOc52G2octOPB
+	M4rhyIe3ejfR1cz95TyEXSZrD4udYVt3sLIvgnNT5VQ2A/PSatoz/sG2Qk8Cd546UUtg==
+X-Received: by 2002:a05:600c:811a:b0:480:1dc6:2686 with SMTP id 5b1f17b1804b1-4801eac0cfcmr217187915e9.13.1769018851700;
+        Wed, 21 Jan 2026 10:07:31 -0800 (PST)
+Received: from ?IPV6:2a05:6e02:1041:c10:c29a:525d:d900:4d71? ([2a05:6e02:1041:c10:c29a:525d:d900:4d71])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-435a431c189sm2135611f8f.24.2026.01.21.10.07.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 21 Jan 2026 10:07:31 -0800 (PST)
+Message-ID: <eea8470c-6659-4d9d-9b91-28fbbd1d2814@linaro.org>
+Date: Wed, 21 Jan 2026 19:07:30 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 9/9] arm64: dts: renesas: ebisu: Describe PCIe/USB3.0
- clock generator
-To: Geert Uytterhoeven <geert@linux-m68k.org>, Mark Brown <broonie@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, Conor Dooley <conor+dt@kernel.org>,
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 1/5] thermal: renesas: rzg3e: make reset optional
+To: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>,
+ John Madieu <john.madieu.xa@bp.renesas.com>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
+ Lukasz Luba <lukasz.luba@arm.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
  Geert Uytterhoeven <geert+renesas@glider.be>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Magnus Damm
- <magnus.damm@gmail.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Rob Herring <robh@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- devicetree@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org
-References: <20260118135038.8033-1-marek.vasut+renesas@mailbox.org>
- <20260118135038.8033-10-marek.vasut+renesas@mailbox.org>
- <CAMuHMdWfkHMQFvUzaHpso-fMFAS5u8ABHpEA9ZXq1fxcR-oN6Q@mail.gmail.com>
+ Magnus Damm <magnus.damm@gmail.com>
+Cc: linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20260108195223.193531-1-cosmin-gabriel.tanislav.xa@renesas.com>
+ <20260108195223.193531-2-cosmin-gabriel.tanislav.xa@renesas.com>
 Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <CAMuHMdWfkHMQFvUzaHpso-fMFAS5u8ABHpEA9ZXq1fxcR-oN6Q@mail.gmail.com>
+From: Daniel Lezcano <daniel.lezcano@linaro.org>
+In-Reply-To: <20260108195223.193531-2-cosmin-gabriel.tanislav.xa@renesas.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: b4aobdw146wnxrmuf1fpjp7jzwxghan6
-X-MBO-RS-ID: 8813b9a2c165de6f9d5
-X-Rspamd-Server: lfdr
+Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-0.46 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
-	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FREEMAIL_CC(0.00)[lists.infradead.org,kernel.org,glider.be,gmail.com,linaro.org,renesas.com,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-27244-lists,linux-renesas-soc=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-27238-lists,linux-renesas-soc=lfdr.de];
+	DMARC_POLICY_ALLOW(0.00)[linaro.org,none];
 	RCVD_TLS_LAST(0.00)[];
-	DMARC_POLICY_ALLOW(0.00)[mailbox.org,reject];
-	DKIM_TRACE(0.00)[mailbox.org:+];
 	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[renesas.com,bp.renesas.com,kernel.org,intel.com,arm.com,pengutronix.de,glider.be,gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[linaro.org:+];
+	ASN(0.00)[asn:7979, ipnet:142.0.200.0/24, country:US];
 	TO_DN_SOME(0.00)[];
 	R_SPF_SOFTFAIL(0.00)[~all:c];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[marek.vasut@mailbox.org,linux-renesas-soc@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[daniel.lezcano@linaro.org,linux-renesas-soc@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_PROHIBIT(0.00)[0.0.0.70:email];
+	RCVD_COUNT_FIVE(0.00)[5];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
 	MID_RHS_MATCH_FROM(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:7979, ipnet:2a01:60a::/32, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.68:email,ams.mirrors.kernel.org:helo,ams.mirrors.kernel.org:rdns,mailbox.org:mid,mailbox.org:dkim]
-X-Rspamd-Queue-Id: F2B5C5F080
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	REDIRECTOR_URL(0.00)[twitter.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,glider.be:email,dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo,linaro.org:dkim,linaro.org:mid,linaro.org:url]
+X-Rspamd-Queue-Id: EE8245C835
 X-Rspamd-Action: no action
+X-Rspamd-Server: lfdr
 
-On 1/21/26 2:48 PM, Geert Uytterhoeven wrote:
+On 1/8/26 20:52, Cosmin Tanislav wrote:
+> The Renesas RZ/T2H (R9A09G077) and RZ/N2H (R9A09G087) SoCs do not have a
+> reset line.
+> 
+> Prepare for them by making it optional.
+> 
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: John Madieu <john.madieu.xa@bp.renesas.com>
+> Tested-by: John Madieu <john.madieu.xa@bp.renesas.com>
+> Signed-off-by: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+> ---
 
-Hello Geert,
+Applied, thanks
 
->> @@ -439,6 +445,13 @@ adv7511_out: endpoint {
->>                  };
->>          };
->>
->> +       pcie_usb_clk: clk@68 {
->> +               compatible = "renesas,9fgv0841";
->> +               reg = <0x68>;
->> +               clocks = <&pcie_usb_refclk>;
->> +               #clock-cells = <1>;
->> +       };
-> 
-> During boot, the rs9 prints a warning:
-> 
->      clk-renesas-pcie-9series 0-0068: No cache defaults, reading back from HW
-> 
-> which probably shouldn't be printed at the warning level?
+-- 
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
 
-+CC Mark . Reading the (default) register values from hardware on first 
-boot is the valid/right thing to do, so this could be demoted to 
-dev_dbg() . Or is there some specific usecase where this should be a 
-warning ?
-
->> +
->>          video-receiver@70 {
->>                  compatible = "adi,adv7482";
->>                  reg = <0x70>;
-> 
->> @@ -871,7 +902,19 @@ &usb2_phy0 {
->>          status = "okay";
->>   };
->>
->> +&usb3_phy0 {
->> +       clocks = <&pcie_usb_clk 6>;
->> +       status = "okay";
->> +};
-> 
-> This does not work, probing fails with:
-> 
->      usb_phy_generic usb-phy: dummy supplies not allowed for exclusive
-> requests (id=vbus)
-> 
-> Adding a fixed regulator that serves as vbus-supply like in commit
-> fec2d8fcdedaeeb0 ("arm64: dts: freescale: imx93-phyboard-nash: Add USB
-> vbus regulators") fixes that issue (and my USB3.0 FLASH driver is
-> detected, yeah!), but a more accurate description would be better.
-This piece of code in drivers/usb/phy/phy-generic.c [1] shouldn't fail 
-the probe if "vbus-supply" property is not present in DT. If 
-"vbus-supply" property is not present in DT, then 
-PTR_ERR(nop->vbus_draw) == -ENODEV is true, nop->vbus_draw will be set 
-to NULL, but won't encode error, so the dev_err_probe() won't trigger.
-
-"
-259         nop->vbus_draw = devm_regulator_get_exclusive(dev, "vbus");
-260         if (PTR_ERR(nop->vbus_draw) == -ENODEV)
-261                 nop->vbus_draw = NULL;
-262         if (IS_ERR(nop->vbus_draw))
-263                 return dev_err_probe(dev, PTR_ERR(nop->vbus_draw),
-264                                      "could not get vbus regulator\n");
-"
-
-[1] 
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/usb/phy/phy-generic.c#n259
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
 
