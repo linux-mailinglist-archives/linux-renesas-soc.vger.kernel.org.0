@@ -1,61 +1,62 @@
-Return-Path: <linux-renesas-soc+bounces-27228-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27229-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gOhgDmkYcWmodQAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27228-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Jan 2026 19:18:17 +0100
+	id IOkMEocncWniewAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27229-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Jan 2026 20:22:47 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id D42BB5B2AC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Jan 2026 19:18:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0609A5C141
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Jan 2026 20:22:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id DC33346D93D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Jan 2026 17:30:55 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id B97BE840086
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Jan 2026 17:31:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B99594D90AB;
-	Wed, 21 Jan 2026 17:05:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDA7E4D90CB;
+	Wed, 21 Jan 2026 17:05:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="g9yrjLCZ"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="SJPNe9a/"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E11495536;
-	Wed, 21 Jan 2026 17:05:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7ED44D90AE;
+	Wed, 21 Jan 2026 17:05:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769015130; cv=none; b=pGsTGrfG/R3Eu8Wlpm/Hzi+VaBcNruJZ9jAbsw2nhqwIRVS92j5ZBskFfBjMNbjet4ozrqJRot8SOckKZX42Cluu+Y2sPNyoy28jPvqPQPSoybaxx+tO054QyfOuUbzCxTFNt0VHfHkI1sLugblMYFXp1rJDyHEBP1v7XiXKaKs=
+	t=1769015132; cv=none; b=iY9w/oDwFdB8jyE86qPGeoJzIBtAd+uwhBrs59ASSFwPtmBeKWEDpLPBp/rMKkuMPL9yyCw7/HsAwCdmuVa6Pi9T4YdpQRVCH7w+Cn4XcgqM5PGzF5mJ5C7wmPM6wbb/GGWQzTMlps+eCxncnlvH5oOJCLab+uA4rQreHvQOlDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769015130; c=relaxed/simple;
-	bh=559NB4IOTgnH1uJ0ZdWt70Ud/UBZ6oL2OyETCCjV31k=;
+	s=arc-20240116; t=1769015132; c=relaxed/simple;
+	bh=ZQUmRyH3AswY8FGRKszIfF3sz0k1NkGxrNlVU2gJVCk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=pIC2d75WNw8CDYKvOTRHlsLlmjBW24T+0t4iat5G5TTPmX1CihLG3YzZosRgSzkac4rcx+l5IPmJrUeNAOEzBJQ6Oq4hFUJgpjTAhiZTWXm6bZeXvCU6rOmpTb+9DbcX/LkhirQtJlIGgdmRg/WKmDYBlJgDqBoAHoZZOvUdJF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=g9yrjLCZ; arc=none smtp.client-ip=185.246.84.56
+	 In-Reply-To:To:Cc; b=V2sAGSx+EMtF91C8XOCoM51V61MJYGkbr5CUFlH2thMG22B3H3+K5rPXYzKkg+vDuqB5IPF3+gt2jhng1oeGsgkHGLNWzy012qhlQeJs2R7crseBQPaYR/bDopXiSQGUrNIg4jO8WufQ0UdVGAiEzIMskHKyWnipYqiJ/NNDvIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=SJPNe9a/; arc=none smtp.client-ip=185.246.85.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 58DF61A28FD;
-	Wed, 21 Jan 2026 17:05:27 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 54ACB4E421CA;
+	Wed, 21 Jan 2026 17:05:29 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 2557D6070A;
-	Wed, 21 Jan 2026 17:05:27 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 7A0FB119B17F5;
-	Wed, 21 Jan 2026 18:05:24 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 2A4286070A;
+	Wed, 21 Jan 2026 17:05:29 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 7659F119B189E;
+	Wed, 21 Jan 2026 18:05:26 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1769015126; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1769015128; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=viq42YFuPmM9zMZsx8Z+unGAElfNEyain450dehUnTs=;
-	b=g9yrjLCZaMcpYTgmSyN+a4pE8PPKLlqxvxpIcvpUL5iACBLZvATo3Er5ZbKeQOPej4Ho7W
-	Yo2+eYU8z81QbYhcuGnjd7Oj4Hd4eKqreBlHBk7X/lSeCEgVTcN1f71Z++rIHYX3r2zKda
-	X0rFc9gNeAfVpIN3nNu8EbnyiCopTmKo/kWXwRaUjSimrHKlQsVplNniglSZjXrSKHdrlB
-	4IEm/gLxr87hGzdz4CGrdfja3QDADslRWHriUslO2/e3KgBgqfJhY9NfdD7gLlURBEwTjV
-	pFMXUsY+IhP9swCRVzymTlL0OU5WuZdBDHimFzDszVK+LyN04BOu/gtdYX1RcA==
+	bh=EMbLn4ztip/MZhDqXh4OQPXIi4Ml+zoGnNkz7bb0Ccs=;
+	b=SJPNe9a/hQnDHzK5IBUuKWjA2y2IE12UaMobjIzT+AUV7FBc9DozolpSjRc3i93H/Vn3/O
+	5KvJIzdln+vvycfyfXOtz41aOIvCorcTJTylgJ3sTgjdOOjM2escffMF/qSP2sar1fVgBn
+	OhTezcElJ6UDLyHo+0lPR6ySsHpKcE6SBimT1ILQePVpAQGxq76mQa6ZL+lVQ7Fdf0Vddl
+	Pbm4FVmumv8ANvQzE9Vo2bFQfdwgZPKWNTtXobNNRYnYRgPWZkLU2NX5Ma5yUbF5QT7tcT
+	CA1RcL6PD8vHifzLPPC34//osf5sGkuoIzM9pyL+kyV1Vgbc6fSfmIC91ivmUg==
 From: "Miquel Raynal (Schneider Electric)" <miquel.raynal@bootlin.com>
-Date: Wed, 21 Jan 2026 18:05:04 +0100
-Subject: [PATCH v3 08/17] spi: cadence-qspi: Remove an useless operation
+Date: Wed, 21 Jan 2026 18:05:05 +0100
+Subject: [PATCH v3 09/17] spi: cadence-qspi: Make sure we filter out
+ unsupported ops
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -64,7 +65,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260121-schneider-6-19-rc1-qspi-v3-8-43e70fab4444@bootlin.com>
+Message-Id: <20260121-schneider-6-19-rc1-qspi-v3-9-43e70fab4444@bootlin.com>
 References: <20260121-schneider-6-19-rc1-qspi-v3-0-43e70fab4444@bootlin.com>
 In-Reply-To: <20260121-schneider-6-19-rc1-qspi-v3-0-43e70fab4444@bootlin.com>
 To: Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
@@ -90,7 +91,7 @@ X-Spamd-Result: default: False [-1.96 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-27228-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-27229-lists,linux-renesas-soc=lfdr.de];
 	FREEMAIL_TO(0.00)[kernel.org,glider.be,gmail.com,ti.com];
 	RCPT_COUNT_TWELVE(0.00)[19];
 	RCVD_TLS_LAST(0.00)[];
@@ -110,41 +111,37 @@ X-Spamd-Result: default: False [-1.96 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:7979, ipnet:2a01:60a::/32, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sang-engineering.com:email,ams.mirrors.kernel.org:rdns,ams.mirrors.kernel.org:helo,bootlin.com:email,bootlin.com:dkim,bootlin.com:mid]
-X-Rspamd-Queue-Id: D42BB5B2AC
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ams.mirrors.kernel.org:rdns,ams.mirrors.kernel.org:helo,bootlin.com:email,bootlin.com:dkim,bootlin.com:mid,sang-engineering.com:email]
+X-Rspamd-Queue-Id: 0609A5C141
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Right above writing the register value back based on 'div' value, there
-is the following check:
-
-    if (div > CQSPI_REG_CONFIG_BAUD_MASK)
-            div = CQSPI_REG_CONFIG_BAUD_MASK;
-
-which means div does not need to be AND'ed against the bitfield mask.
-
-Remove this redundant operation.
+The Cadence driver does not support anything else than repeating the
+command opcode twice while in octal DTR mode. Make this clear by
+checking for this in the ->supports_op() hook.
 
 Reviewed-by: Pratyush Yadav <pratyush@kernel.org>
 Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 Signed-off-by: Miquel Raynal (Schneider Electric) <miquel.raynal@bootlin.com>
 ---
- drivers/spi/spi-cadence-quadspi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/spi/spi-cadence-quadspi.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/drivers/spi/spi-cadence-quadspi.c b/drivers/spi/spi-cadence-quadspi.c
-index 8eb80b4b76eb..06f6c5979229 100644
+index 06f6c5979229..fc9f6e8dd549 100644
 --- a/drivers/spi/spi-cadence-quadspi.c
 +++ b/drivers/spi/spi-cadence-quadspi.c
-@@ -1258,7 +1258,7 @@ static void cqspi_config_baudrate_div(struct cqspi_st *cqspi)
- 
- 	reg = readl(reg_base + CQSPI_REG_CONFIG);
- 	reg &= ~(CQSPI_REG_CONFIG_BAUD_MASK << CQSPI_REG_CONFIG_BAUD_LSB);
--	reg |= (div & CQSPI_REG_CONFIG_BAUD_MASK) << CQSPI_REG_CONFIG_BAUD_LSB;
-+	reg |= div << CQSPI_REG_CONFIG_BAUD_LSB;
- 	writel(reg, reg_base + CQSPI_REG_CONFIG);
- }
- 
+@@ -1531,6 +1531,10 @@ static bool cqspi_supports_mem_op(struct spi_mem *mem,
+ 			return false;
+ 		if (op->data.nbytes && op->data.buswidth != 8)
+ 			return false;
++
++		/* A single opcode is supported, it will be repeated */
++		if ((op->cmd.opcode >> 8) != (op->cmd.opcode & 0xFF))
++			return false;
+ 	} else if (!all_false) {
+ 		/* Mixed DTR modes are not supported. */
+ 		return false;
 
 -- 
 2.51.1
