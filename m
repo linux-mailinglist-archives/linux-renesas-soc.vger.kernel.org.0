@@ -1,489 +1,497 @@
-Return-Path: <linux-renesas-soc+bounces-27260-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27261-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oFInCTmPcWkLJAAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27260-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 03:45:13 +0100
+	id iP3pJsvecWk+MgAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27261-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 09:24:43 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77FC4610D2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 03:45:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD9276304F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 09:24:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 2E1A04EFC47
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 02:45:11 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B09CE4EECE7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 08:20:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B41F38FEF3;
-	Thu, 22 Jan 2026 02:45:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC523366540;
+	Thu, 22 Jan 2026 08:20:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b="t46NvV5P"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="E3Pqs21d"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11021094.outbound.protection.outlook.com [40.107.74.94])
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010030.outbound.protection.outlook.com [52.101.229.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF40038F959;
-	Thu, 22 Jan 2026 02:44:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.94
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA1D329C60;
+	Thu, 22 Jan 2026 08:20:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.30
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769049909; cv=fail; b=oQJ1Xl2XiKExBOd10v7bmSeP/oVQMGf9YkTifI9sFOsHknML3FTQRN+6xv+AbIkjEa5ZCK2XD+m4vQwXS3AsIj5rE59kESSHE35pLtzByufo0R4v3rrFY1UbA0OyUnTbzk5qT5ee4aXvsciRsTnwCPU6HAOjMzc0HCdir70smzA=
+	t=1769070039; cv=fail; b=jq8jAClxXDK8eDaRHhPB52uMT2vov8nuwvYTt0E1iVf9wiCZ10Zg2lGWlGALSJOr002kevf+9yr2466VLbzRr8XyaLtV1x7MXqo+bvKOuv+lSwaZOkaqOppBqrjq/JAAuv4M74yBoxWSPfmuHYWjKrPCAHuATfUjBhGrvDRk6pg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769049909; c=relaxed/simple;
-	bh=I7gTURczqGeW+Nim1GnAG3IvY7VInwnjK4coR6RXe6Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=WGuKYYY6HB4dHzwM7zKg0Z4syi2mcNiCIx/msg1Ul2No3PtibE1UEpja9GnLenOaZ10sfTv8HwlS2beB55/Xa1LxeODOvp9KIovInSsk2APCuMD6oh6K4UlUby/iqtQMI6cqFyeCfcLBKzmlIu7qX40zYOZVLF2BcZevk9xJW68=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp; spf=pass smtp.mailfrom=valinux.co.jp; dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b=t46NvV5P; arc=fail smtp.client-ip=40.107.74.94
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valinux.co.jp
+	s=arc-20240116; t=1769070039; c=relaxed/simple;
+	bh=91Jl89I4kG9ZUvISeEpCSi+Z++dsPqYPYA7qV7R+H9g=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=U2Tan1rD1QdKYXIsNzuQ5zG99c6tqE11zEakTButg7nD3blUj+L65mqvUMgCN5HMO/DsM2gAlR7EV9rmlYDnGam/pdJWTeALRCmG2aWUNLaL0ilYLudeCVida9SProul/g0LL0U2EBnLrP5PBG87QWy7uVIV9Q2JVFUjfCAYFlY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=E3Pqs21d; arc=fail smtp.client-ip=52.101.229.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nw+BYvUVMmVekBjLUFx5P7Nzun0YVCj/otTfQSSgUluv1AX5WDdJ5Tg3EByR91xdLzv8FUgQ+djBUYC83tHSjjvD2as+dgA+hgocMcsSDDjmFIGAL9GjVvO6HTryTpUp3FFZ+bw4hmkqTfm0dhRijEIqJQgG2gy6PQ4520CGqDXjeIo0jRIL2qYDS5sTvyFb2Q1mz1jLDKfI0CT1jLzhMaNaoBDQOitsIpPdTRuVd0sjq2D5xe7Wf/bKSzxyqDBzH2ewaxuYBd/RFbhwRYMeg2tuL3YOVKhOlErePfmQNrL51stUR6ax6imgKoq+w2iCYC0ibPs4lPGHDFeAw0PCuQ==
+ b=nBUOD6y1PSFIZ7wEPxA6mOF1Jtzuj9pF41H+1dIIrZqQ3iZaxGzp5zWFkGnvykuPW1DlHVHbqtwD15SQsys/JqR5xy5omFcj+LfyWhQqZ93f1lwHVT4Ob2fsvEGf+6aGdqKSaDp/EHbxhDFv0jnysWZvru/hv4JBKlr+74ba7ZXvU442xNOAFBpQmCaNK2V7mL4JVUZM7c7LGSGUgDWt5H33cLm7kYEiPFbIo6xnT5jr4KaCK7IIimTet1dXawlRs0ykBM6lOqWEke+7cB99wDEZImG7I+NDK8mjKbMHWp/00eS+9Fy/ra6iI0pjnI6TO0UcKnzDmwDZIuZZzF8bQA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VqWtMc7THSY1QrczuZxjNDiDeZH+w0H6sIYKEeueZUk=;
- b=BnQ12pdKRTSyE7TYawkb3TDO9gPpt/H7u3AdtWPb6wKLBlLMujLgyhr/w5RFn8OHygiF8EEgVhrL52FDKXEKZFfXJ+uNYPtWcNHIYw6V+UgRP02GuYSSK1LlduDoJfrEMG4V8wmpvO6iWezKYDqEkKZPGpdhN3XSBK8thBa2FZ8db2VHiAH4jFZuZUH+JIFStPj2svu9GRjrMwJE4Np69AVKWYmY/YcuzLmhNY5g42C42DqEqqBKq0NdX5jpkRo8CcuIXQfFK2a8HgbRJtPHhw6w+vMxJBsbtqjmyZYiiQjT1Jtg40XHBVtbR1LSXRprgHQtFu1GUgk8nkPuVkxZtg==
+ bh=Qm56hDP8T9HyIgvJOPplcSDUxqM8tk7IJKmoMrhWYb4=;
+ b=qNPID64wSXx01k9w5bDhiPrR2aKKeXKAp+I3Xk/Bb1V3xDUT3PpASRHewXRda+Svrnu6MShH6SKwk8m3CsTvwdY45o52wBbi5W8Qxk0lSYMfTnkLjMEhaPhHOLvSQkW3Cy4moOk+2sIMbnC7LuT3CnJF2jn/QeKjFy1DuC/91aiVnGNskXd0PY+T4JJ68cf4ndnuz/yn+/WvfZ6eFn9fmDWsWsjpi1XD2sZPrZjWqRBa1Gd2iPw449X2TnZ1/wSACHqJlSSL/KgD5P01qy36btDA0fa8Xig+/t2yhC63uTX5xvPBwXTDt03/rj4hAd4xDOj9td1BukM5CdPf16CpCA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=valinux.co.jp; dmarc=pass action=none
- header.from=valinux.co.jp; dkim=pass header.d=valinux.co.jp; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valinux.co.jp;
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VqWtMc7THSY1QrczuZxjNDiDeZH+w0H6sIYKEeueZUk=;
- b=t46NvV5PW/EeJVB5qSQFtqabet+O7XuTAoW9k8ImwhlPf7TJwgoZelVSSthxLv3mFF+i27brB0GHvvjIGsEx84wDUVk//97TCOnGks07G0W1kJNOznefC08h/ZF8pz9urDTiMZvoeCkByEVfd5SYZZxjumQ1vd5rrNi7dknHwOE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=valinux.co.jp;
-Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:38f::10)
- by OS7P286MB6555.JPNP286.PROD.OUTLOOK.COM (2603:1096:604:42e::11) with
+ bh=Qm56hDP8T9HyIgvJOPplcSDUxqM8tk7IJKmoMrhWYb4=;
+ b=E3Pqs21dqhcgE9g7dQA2NJOV630CAQm+s3zWBUH1RDtnloaGd+/ISYFoG6vzasD5kGj7tA8uvo/kaMQPgPMTtu846nphKj1IVZgI8HgzYUyA/AfvmSLr9I8AaDP0G//pwuMxliVYkjhuqjbWobvCxjqgSTtL9ISfi11HxiccUk0=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by TYRPR01MB14287.jpnprd01.prod.outlook.com (2603:1096:405:21d::9) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.10; Thu, 22 Jan
- 2026 02:44:54 +0000
-Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- ([fe80::2305:327c:28ec:9b32]) by TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- ([fe80::2305:327c:28ec:9b32%5]) with mapi id 15.20.9542.009; Thu, 22 Jan 2026
- 02:44:54 +0000
-Date: Thu, 22 Jan 2026 11:44:53 +0900
-From: Koichiro Den <den@valinux.co.jp>
-To: Vinod Koul <vkoul@kernel.org>, mani@kernel.org
-Cc: Frank Li <Frank.li@nxp.com>, dave.jiang@intel.com, cassel@kernel.org, 
-	kwilczynski@kernel.org, kishon@kernel.org, bhelgaas@google.com, geert+renesas@glider.be, 
-	robh@kernel.org, jdmason@kudzu.us, allenbh@gmail.com, jingoohan1@gmail.com, 
-	lpieralisi@kernel.org, linux-pci@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	dmaengine@vger.kernel.org, iommu@lists.linux.dev, ntb@lists.linux.dev, 
-	netdev@vger.kernel.org, linux-kselftest@vger.kernel.org, arnd@arndb.de, 
-	gregkh@linuxfoundation.org, joro@8bytes.org, will@kernel.org, robin.murphy@arm.com, 
-	magnus.damm@gmail.com, krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net, 
-	skhan@linuxfoundation.org, andriy.shevchenko@linux.intel.com, jbrunet@baylibre.com, 
-	utkarsh02t@gmail.com
-Subject: Re: [RFC PATCH v4 02/38] dmaengine: dw-edma: Add per-channel
- interrupt routing control
-Message-ID: <2bcksnyuxj33bjctjombrstfvjrcdtap6i3v6xhfxtqjmbdkwm@jcaoy2iuh5pr>
-References: <20260118135440.1958279-1-den@valinux.co.jp>
- <20260118135440.1958279-3-den@valinux.co.jp>
- <aW0SVx11WCxfTHoY@lizhi-Precision-Tower-5810>
- <32egn4uhx3dll5es4nzpivg5rdv3hvvrceyznsnnnbbyze7qxu@5z6w45v3jwyf>
- <aXD4ncvjZWljUyxe@vaman>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aXD4ncvjZWljUyxe@vaman>
-X-ClientProxiedBy: TY4P286CA0055.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:36e::14) To TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:38f::10)
+ 2026 08:20:30 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1%6]) with mapi id 15.20.9542.009; Thu, 22 Jan 2026
+ 08:20:30 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Prabhakar <prabhakar.csengg@gmail.com>, Thomas Gleixner <tglx@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>, Geert Uytterhoeven
+	<geert+renesas@glider.be>, magnus.damm <magnus.damm@gmail.com>
+CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Prabhakar Mahadev Lad
+	<prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: RE: [PATCH 5/6] irqchip/renesas-rzv2h: Handle ICU error IRQ and add
+ SWPE trigger
+Thread-Topic: [PATCH 5/6] irqchip/renesas-rzv2h: Handle ICU error IRQ and add
+ SWPE trigger
+Thread-Index: AQHciubnS/5c+t9510mREMj1ku8eh7Vd2TCw
+Date: Thu, 22 Jan 2026 08:20:30 +0000
+Message-ID:
+ <TY3PR01MB11346DB069193A06BB45DC62A8697A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20260121150137.3364865-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20260121150137.3364865-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To:
+ <20260121150137.3364865-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYRPR01MB14287:EE_
+x-ms-office365-filtering-correlation-id: a9549f68-4d8d-4f92-b26d-08de598f1b21
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|38070700021;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?vVRBYsJ2pzAQZSkfS56RgG4ejItEu545J0OJ8ZaNFFLuqbmqf5vRxL6IZgB3?=
+ =?us-ascii?Q?/LP0XXo9EuL+598skuk1mbu5BodC+4hQOTVXf7oMGdz8Oq2de/nApm2gg/ks?=
+ =?us-ascii?Q?ZuZSSj8cWNuT1NC+xKrCuSCpFQzlvT+MaXWzVoaMZkvpKqBt+OdUxIS74YGu?=
+ =?us-ascii?Q?sb6b+/zCD/WxXUDBrD1xx8W0iVi/cqG8R2GIVuM+BCOg2jVQ9k3k0AC9RLvO?=
+ =?us-ascii?Q?dgvuDDn0+YykU5jgTtp+Ihx7I7YyYywrEaZIoFRFfNthD0LYs6/mBlzD7N7z?=
+ =?us-ascii?Q?AR7gxma+VROik2tDs9pcIsZrfS4/1dGLdcUaodKXYtb6mpQtVh5fijeEIMBO?=
+ =?us-ascii?Q?vUrAJYXZLK0ZT/R6sTFNQzWXNDrVtoibQllzj2q4dWlb1oR9pzHCBc2N+y/G?=
+ =?us-ascii?Q?radV/4QKkO49B9RYKOtreWIEhVi+TZyF+VV/PdIPM6O1AWnEl5qIH2ROgtzh?=
+ =?us-ascii?Q?Xt20JpEqgsoGIGVSvOJrN8JdIV6++JatgR25FC1ubv1hDo+dwxQ8vwkui7yB?=
+ =?us-ascii?Q?Ht/CAZPh6x5B+u7A8K15BpUNr6Hhlh1hNo2odDgl438Y/82TzY4z2YIshvnV?=
+ =?us-ascii?Q?Mav4BzHr6jDdwhihSXwN1TawqOnSLt/Phz9qJbEOE/WtV3p/ZAX2OKxWO3wH?=
+ =?us-ascii?Q?/zgjRqe03RJuzCfYQ7MwB5ouKU+cIggJbcD7yWHiTDcoZSpEQgA+8PqMseai?=
+ =?us-ascii?Q?QI0tZcaTccN7nyYTY3ZCTetkbKJMjCQudSM246bD80K2rcD1kKQLjDWNpq/0?=
+ =?us-ascii?Q?ao3kQTV3fbxdDto7JnOcS0XqldH1QNQ3AqO2k7skcJMaKynWLf5pONpguF6+?=
+ =?us-ascii?Q?+1a2a/llfvPoPW/JdTTVx6vQYpDVZXURtH90m1dtNXkRswdUyQUg6LSRee6l?=
+ =?us-ascii?Q?UaJV9SFBvjBGs7zkz/paNBH3NGSLL8VA+caYqP8pKNCuI4urGeUh3I15YVB3?=
+ =?us-ascii?Q?7kuILSAqSk9idkKcKCj7ZNWaEEIG86XhnpEW1k4xm6r94I/o7qEbHzVhB5Q3?=
+ =?us-ascii?Q?JUh1z6pRUlJ0MyQiQNTeaJI5iu51cv+TIoOfmjhFoTjiXZnECV4a6ted3xh9?=
+ =?us-ascii?Q?4c84m/GvH7XgtVeZGtMy9UOZnvluhz5D52mA+J4yv+8rWfRe/MkM9PxhrA9Y?=
+ =?us-ascii?Q?/PxqBTAM93N6SlGtFEhtyHaiTGDwuY1oi2JVDl5tbPU2MM8nmH++A/ZSUTvD?=
+ =?us-ascii?Q?8xvdqV7ULnSnwx1FrT6kJMCt80bFV+KIZtDcfy3DeBnFEYXk5Zlhg16abdVj?=
+ =?us-ascii?Q?V1H7HZmuPSMXK7IPdq2aoEZzI3SFILsSF/lyTHtWqvB0zs3JPOjxhM8YQdZF?=
+ =?us-ascii?Q?MrV9SK0o/Qancggl/7KLyX20D3EetVOq1e67Caiy2iuW8S+Tza5yDqPxkGjP?=
+ =?us-ascii?Q?FYahszUZT8aSx0IzBVTl2Z5YYcQ++sOblChVAtxzWrFnig7XdV8ZzovB/viC?=
+ =?us-ascii?Q?gYYyFtKQHe0XF17VVUrURAeijNMEi5LptH0jo1FQWUD4kr41AasCqQn+UTLS?=
+ =?us-ascii?Q?zxI18d26GdROvX7v5LiUw2cPUKU+Y39IgQYJ+WyJJ1iXqTm2VGNwOiuEG0bo?=
+ =?us-ascii?Q?VHX62A4TTpwVvv8v02fHFncz6sJutopWghXaUqWIluB3Emhm4iubfFz7lgcl?=
+ =?us-ascii?Q?DZ199O3d8cgrl6CaHv9UVqw=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?NFIRo0xPnztkud5q3Pu1vjQXChuKdvtuMcAIyWy0NQyacDvYsAMgAaIvgRiG?=
+ =?us-ascii?Q?cjdBW7huZf/yBYac/CHHKU6tf8uc+OjcKbGNvYm4SzAnXeA0OMR1S248GC4q?=
+ =?us-ascii?Q?/pOk3s8T4mGKkLYk7JkpaqyOkzUX3FGZFcBNe8PRKM4AOPf3tZsAGFU6lw6d?=
+ =?us-ascii?Q?5QNfwX/QHJMjU+uqAg5USX4DjFQt55c9Vf0xekXL8gmzA2eDy4vH9XmDCC6b?=
+ =?us-ascii?Q?L00JPipGnrcYgBssP1cZiWdL0C3NKyK8mNCXOtk/qSmtGLNhjZiXKRLZXdZN?=
+ =?us-ascii?Q?2I54N2BrCQJWtm7xrwLtA20h9fQtOPkoRYxLN9gR1BCfc+fiGzcMc6gdIfyb?=
+ =?us-ascii?Q?1NwjiJfWIPtUcyg8l/EdjlZimes5osy8WK7KQxlys1ifcpr9ivbK6jMQ2gBv?=
+ =?us-ascii?Q?0qO/BkEljS9KDV56ssZAebDQGvjcAHmnjlzy96BM1ZOBNjvbC+I03fwHPBTs?=
+ =?us-ascii?Q?7PWXojyuN38mWs620CLHFIMmNHCMll2HcNKPw3WrOcdwnQaLUTZ3N2vkN9eH?=
+ =?us-ascii?Q?8y0cJFe4YuUB3bG5juDIVyWLDDRGouSW3Qk5rZqD3B9l6NcJYHCw/z9PvpjL?=
+ =?us-ascii?Q?m7AOFw+Es9xtxptAnyBlazfce+XCwTw5ueoHa3+k25UnMQczLj9AXFNNby/a?=
+ =?us-ascii?Q?xcdFIfa/rQq+shBTv5Xx2xQaP72GLyzKhqQ89Apn5wauwxJD2n1c3xEFo07W?=
+ =?us-ascii?Q?atXNu2pH93HKYoMxdQzozxynxTLQnpFNpGSLfnibbqQp+LRayQEqnLRIwXm5?=
+ =?us-ascii?Q?KTLTx6HoZNlRfP5kB0I9/pMgXkjAzs98TLQt1f570SevxdJgFv9abNr6HlyT?=
+ =?us-ascii?Q?e3wXl0vOfE5TEDJGD2tS9JIxa/tJwXpP72lNNXji5FQeaAf5/DD7gXTXc4KQ?=
+ =?us-ascii?Q?o2xQKyTJpu0yJZxJxpVqq2BuTZJqEoTSAZN4hWnuAtAsIZa0v74Wkkx10Qwk?=
+ =?us-ascii?Q?iYmjJnw7QzvdhUTt/LGRhvwcF6ySsTBbZVuDUqJ3UBf6bWzwftk8LL/1e9Or?=
+ =?us-ascii?Q?TepqrPZ+I1kYCrcdyjsCU2VVQTMVasJyN9lGnQ9hPici9kJc5KWUUAEeddZe?=
+ =?us-ascii?Q?XjB8vHhTDiW7SN1aByHEiy7ICvQuTz30bq8RBOL3tMTQtZb/sPLBN2YFc+AE?=
+ =?us-ascii?Q?wDh9AzW0T/ibZpaSaBhj5OFP9yK9BUJ8csSdlbwzjRlbfMnfQsAiaTs+9BOD?=
+ =?us-ascii?Q?MlZT27YXM2BUg5JzipksCOww6Sl3OW/j4H7bHKpjEva2EnjCIQ0Q0NNoQswV?=
+ =?us-ascii?Q?qpymtVnrC/fr0Q2Ygqf70tUCQvKXrWmazC2PtD9nfhK0Bq/y9JyAWb+ecqMT?=
+ =?us-ascii?Q?ENB6sHRdtxelo+hXTAVjiNaOrTFZPnVhy3A3NQ+KcSZxckO5pfhpfKIfbfjE?=
+ =?us-ascii?Q?3nSKPM66KiLTPTPObGN3gpd0Mr7TnFCTDWLZxXl+ZeSbmdpynspkeX9HxAE9?=
+ =?us-ascii?Q?Feh5EyfXJzoX3pKJT1LmN8EFz3PfMGxLk+0jzYeIOkIDv8qqylnZFZLaIXQ2?=
+ =?us-ascii?Q?B7pR8yAG7TFEtu6JFtdytAIPgWQci52d0l/DBGS/HaUMN/ksQvKhMTzv/UwW?=
+ =?us-ascii?Q?bMFIKKJnuuXXuc1xturn6HdsLKSZoKTw8xHdzavgJZvpDPhLDHmnhSElrh7W?=
+ =?us-ascii?Q?1IYi7XkqFF9cye+0wfwF8MAqs2ht61/C+QLiQc+AE4oqXLCvHWXVuAtrMk2t?=
+ =?us-ascii?Q?BCrd28WxMxVaojFM0z4Wik8rKWyBJshcz2wpTc0l8fDUqUrvLo6195QHEhWt?=
+ =?us-ascii?Q?cCD8lPVGhA=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY7P286MB7722:EE_|OS7P286MB6555:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2591d0ce-ca4b-49d6-31d3-08de59603920
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|10070799003|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?sR5IKVaqKwINMMH4NfA4UeEwDoFoww+riJsfveT13p5n5WBTM+hfcbrCUPhR?=
- =?us-ascii?Q?Dvic7xP+qdIcvqyzrRu0d348Hom+Jc7tEOBKY25uLPZPme88jBnaaxmTvWz8?=
- =?us-ascii?Q?nP5EIoXfecFlsJJQ7V5LAdcRFg8tM+LRwp/vXmQwOjteQJe/waGTnMXd+tSb?=
- =?us-ascii?Q?p6On2scaSKDN+Iylzj59keOi8h3GgdKCrTHsKaAxFKEStn3CQs6TK8qu8G+k?=
- =?us-ascii?Q?HGaf7EnmJGsB30IL7GnqmauM9Mi13Md8ZM3DGN6Z3ZBctUCDkDy8+XuPu7eR?=
- =?us-ascii?Q?Lmk1gl+AecfuyGPM08JvxCmEoJwNOYdmIbFu+baE2Y9onyZ0/l+F8cKwgVn5?=
- =?us-ascii?Q?YhSDRLOJgTJnZOPi9TUANSFy9Uy+XgsSp1FhmzOJwVPVPGUSL/gCx5kYo8mG?=
- =?us-ascii?Q?5R2LtwgPjIsAmwMTQsnOIq0NwBQEVphyaV4Rh7OvZCzo+2q913fp1CS/M0tG?=
- =?us-ascii?Q?plRMSN0gWzXILePCymjPUhXfsMcHIh7aYGYhLVEAigx2nIdIoDy5t5rpQfla?=
- =?us-ascii?Q?AMJ0M2XIWS2d9VKU5JrHMnDGeu61Bp6k+Kzne0CWEqEvvn1ZwW8RF3ydYFPE?=
- =?us-ascii?Q?7Sv9+T1ydHgLnwL9ZLfAKIcRdYSc/dAxPtfqjmE1QIkgvWso/r66XTjk5mhU?=
- =?us-ascii?Q?1xLfUaW+sMHAiAwhM535s7Q4dO93Xo81BnFabgbhhlkxcPnq7IXPvPT/Ackm?=
- =?us-ascii?Q?iVB84z7GnWAN5rIoTaHWTsDdXvjqILEN0XQtO+nFl5IHk8wxLPg2U9P+wpMR?=
- =?us-ascii?Q?4T15HkkDM4s8X2y7KcqtZaUreXGUwXLFgnYQ55Nfw1mhlX5qQQ8yBgh1b4Yf?=
- =?us-ascii?Q?eZ735QFDzIlb5KKtCunTU8LFCtz3Qqp6LJsthMLtuOL/iVsu2Mgb1PbVihAy?=
- =?us-ascii?Q?GJQlwOm1M01Uzzf/wPKyrsGtsh1P2Vw0tW+bsuh9ILIEb2OQNzlOPB0QnyGW?=
- =?us-ascii?Q?6vmPHR8QinbiOTRwgAe+FrZJ/YC3HargedpJLHKHPIYpHV4pM/AivZIot8mG?=
- =?us-ascii?Q?kSteg51e1t0mHsWlZXwgodtjRT6SQc6f29fVEUtMa9xnYTD2xOpZpPMys9Ai?=
- =?us-ascii?Q?UuyGYpxy4H5JysuTcPEw55tC9bLaADGR1k5GouX4o+9DbESTUV4GszQJvaK7?=
- =?us-ascii?Q?vEgjpeiYMpyFA8luSFi7zRSW1iUGbVN/A4A+gRHJb9UO/24Yapn9Bz4/bDkb?=
- =?us-ascii?Q?OXmA6X5+9zkXejEsPJNSS/stGqDyyrNifCDCuYUpneQq5LmEwha1Dw/kF93O?=
- =?us-ascii?Q?gyp1sst/jomDC8izUWBZF5Xj+lggzqADQSmM+qQhpa2Q+o1nsN3RAFIKJXnb?=
- =?us-ascii?Q?y+fqRPagxVOZvnAZpqDKkd8spoPY7Lu3jwSGGjaWqE7uzpe7rrmHOQGDQH03?=
- =?us-ascii?Q?vPEUvYg59oo0Kwvui9dEusSidHhXfHkou0KF2xL/CbtavPL2HyetFuNlUiT5?=
- =?us-ascii?Q?lnSLWi2ScH4hvtjppO7TbE2H8JGZpbxBR4vU54TbmVrjjQqMd8ttsXxmf+hJ?=
- =?us-ascii?Q?m/XGTI0awDSZt/ejV5d66SJ7q0E16iBOsp2/voYTZC4ZQ48Qjd4GeRHPQ/Yt?=
- =?us-ascii?Q?lP5x8k8cAosyq+Q9S44=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(10070799003)(7416014)(376014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?oP06ncj7cHlYa2Do1Ap5a8XcXsIwNKFO15dpH5awV9S5G210OfSWRzNpZpRN?=
- =?us-ascii?Q?jdDkuKQRBu65sTqLYoWndhlN0ww6NCgYvb2TJZ99AoMPcYkYOfhEbSxGYKaN?=
- =?us-ascii?Q?5UkPYhnZN1z9rwv1/WTGhrS0lAxdUqAsRe9ivj8AUYEcLMs65jUP1L/OOkj0?=
- =?us-ascii?Q?s0lubFciocv2JTlWVz7yc7nC2lpjXQEP/iewqg3uyqPlmYi1BaNA+nTvwzWC?=
- =?us-ascii?Q?2YBGqoVbR3ll3GzsDVPhNvbs6ms3f/z6LnZWi7rVFpIuK6/s/PpwbEydOOab?=
- =?us-ascii?Q?5GHNmcTa3g+nnd/SM+/VLTFL6fLgoNTu0NvnF+/XPt0QUsLRnweVGsUf4fl5?=
- =?us-ascii?Q?x7q7GNfFKfAOYtfyS9XmAyXoy0cIzFvg9mmoRqHILYxd1/PRaabaycEFRFE2?=
- =?us-ascii?Q?kkrbdbjNqmAx8pzPerIW35TGGk4enljRwPQs+g7WH3/rU6XWlPMNk1T8WGrQ?=
- =?us-ascii?Q?oDsdov2E42QUcjeEjort8bDKBAqh6wBpTilEWaW/A83hMrIq4JQFsL1Fquv3?=
- =?us-ascii?Q?c2wVumxXIhcyC1/1ONfEbFRTzlmbxWSLU4No+OO8UvXPzHMLm19GIiNGKfIW?=
- =?us-ascii?Q?6QJ1wyVHVcJ36HC619sNS9ai5tRLitAgmVv3OuJIvNceiJvZQjuY7PN8HhJc?=
- =?us-ascii?Q?Uhm0I8gxoyBYpVuC9iF3hrt2RW4YQS9d6ZVrpqziWQsVwe2WVE5zY8rv2BD5?=
- =?us-ascii?Q?inH0gs5as63oHcw8/eojjmEA0M4z88uPl92J05YUAp6n61P5XCJhAD5ibPYu?=
- =?us-ascii?Q?vCSwRfRw5ef9CSqDvemP1RTZjRmlsRGhAX0y/Gr+WaYaU9eQk1TZvJyfvbS5?=
- =?us-ascii?Q?VBtDBiHSyndvqGVB+a52ihNKG7zS6S0u7gVaKCzwqstweoMezgdpMC/sp7Uc?=
- =?us-ascii?Q?VfKrsa33nXVWRMTTfTekM5EgKYb+ocyrUDMrCCxzarF2deliM88OA6Uwof5V?=
- =?us-ascii?Q?W/8DXg9JDIS4ovW0lSLD8GZPaEXM0U3pNv3kcjRYB50s7F+su4VwlatPPlTk?=
- =?us-ascii?Q?HL1aXJ3H809oHp2KHEIv6hzg5qc5rsu10BUNUmLEXnVI59o1uIJ4Q+flumbP?=
- =?us-ascii?Q?P6lGHs95QVi2VLKeadi1rLk+IECkrjOWSuEQshbonFrShjg3riyUxuypyBM7?=
- =?us-ascii?Q?n13JbaJpq5xcQZOJd/C8tT9RJs+f0Xo3tPcbZK7OwCU+Urd6JkyIofZiqQM6?=
- =?us-ascii?Q?WZ6IYeLeW9yeIa+9fm5Ymn0sh3JKI9uxjRcTDGDk9PSdaJ07wOC2IKvLQTSA?=
- =?us-ascii?Q?SERlkHh6YkcctWN8kASJ1oK+hMsIhWLbaugwm/IK8TJwugMTDaqPEiQV9B1U?=
- =?us-ascii?Q?YGc6MpGhz1aI4jJA1HcZmAVCs7fLwaSeIsRC1v6MF8E3fYujEARSzLAXLenQ?=
- =?us-ascii?Q?0sjXjqrEksYEN5DBL+xcHleZ5sscJ6UoVjEwOGb1fN73T3hgEbaltCtimUI0?=
- =?us-ascii?Q?Dky0tnEMZqj9eMbPVp0Hp9cy4Ej2Zd/7NDtasKtFIeGpYH1NPFtRywGA4b12?=
- =?us-ascii?Q?/GeJPgzOkJbjefb+DBk4dP90Jy6HWiFvRMPONbsEn8xLaBHPYKqG48fdNA3i?=
- =?us-ascii?Q?xNjFC9vrkSmGXRAvsCH0JrGtcYjZP7XHBsCq9WmF/6dHVPeBbDWW4XC1AYvr?=
- =?us-ascii?Q?RjmlVtKw1nD5qIFXlnsg5pPxTT1oS+pKQCwTgo/nvoK3FGXYnluq7TS5Qj6v?=
- =?us-ascii?Q?Y0ut6ssDl8yRuQa7U9M9/6AFoEKVxlUOfihIzwhtCe4sqlpRGIcglMEwEExY?=
- =?us-ascii?Q?Im2loV8Q7Om0hubVm1kE18jGjGXLaSuMBOHzNTwuguuNaUFiR/bR?=
-X-OriginatorOrg: valinux.co.jp
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2591d0ce-ca4b-49d6-31d3-08de59603920
-X-MS-Exchange-CrossTenant-AuthSource: TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+X-OriginatorOrg: bp.renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jan 2026 02:44:54.4447
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a9549f68-4d8d-4f92-b26d-08de598f1b21
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Jan 2026 08:20:30.3134
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 7a57bee8-f73d-4c5f-a4f7-d72c91c8c111
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gSw7GmGOYlPcC3bUoMKXaKvCoKIitKJ9F7rj+DHoWrg20E283VCQN7U7HV1e5RlqffCs3KQdFukEnwHA3rf2rg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS7P286MB6555
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: hTtzuSw4u2kjWske6wpDPMk/bskXaEkkdsyc5TybpinV0U6eKKaf++aOxJxswQWtrV5HYkyVUKFaN6oaziCfzCnT/sdPDngEA7lcY8WAGkc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYRPR01MB14287
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [2.04 / 15.00];
+X-Spamd-Result: default: False [1.54 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_REJECT(1.00)[cv is fail on i=2];
-	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
-	R_DKIM_ALLOW(-0.20)[valinux.co.jp:s=selector1];
+	R_DKIM_ALLOW(-0.20)[bp.renesas.com:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-27260-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-27261-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[37];
-	FREEMAIL_CC(0.00)[nxp.com,intel.com,kernel.org,google.com,glider.be,kudzu.us,gmail.com,vger.kernel.org,lists.linux.dev,arndb.de,linuxfoundation.org,8bytes.org,arm.com,lwn.net,linux.intel.com,baylibre.com];
-	DKIM_TRACE(0.00)[valinux.co.jp:+];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,kernel.org,pengutronix.de,glider.be];
 	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DMARC_POLICY_ALLOW(0.00)[renesas.com,none];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	R_SPF_SOFTFAIL(0.00)[~all:c];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[den@valinux.co.jp,linux-renesas-soc@vger.kernel.org];
-	DMARC_POLICY_ALLOW(0.00)[valinux.co.jp,none];
+	FROM_NEQ_ENVFROM(0.00)[biju.das.jz@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[bp.renesas.com:+];
 	RCVD_COUNT_FIVE(0.00)[5];
-	ASN(0.00)[asn:7979, ipnet:142.0.200.0/24, country:US];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[dfw.mirrors.kernel.org:helo,dfw.mirrors.kernel.org:rdns]
-X-Rspamd-Queue-Id: 77FC4610D2
+	ASN(0.00)[asn:7979, ipnet:142.0.200.0/24, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[dfw.mirrors.kernel.org:helo,dfw.mirrors.kernel.org:rdns,TY3PR01MB11346.jpnprd01.prod.outlook.com:mid]
+X-Rspamd-Queue-Id: BD9276304F
 X-Rspamd-Action: no action
 
-On Wed, Jan 21, 2026 at 09:32:37PM +0530, Vinod Koul wrote:
-> On 19-01-26, 23:26, Koichiro Den wrote:
-> > On Sun, Jan 18, 2026 at 12:03:19PM -0500, Frank Li wrote:
-> > > On Sun, Jan 18, 2026 at 10:54:04PM +0900, Koichiro Den wrote:
-> > > > DesignWare EP eDMA can generate interrupts both locally and remotely
-> > > > (LIE/RIE). Remote eDMA users need to decide, per channel, whether
-> > > > completions should be handled locally, remotely, or both. Unless
-> > > > carefully configured, the endpoint and host would race to ack the
-> > > > interrupt.
-> > > >
-> > > > Introduce a per-channel interrupt routing mode and export small APIs to
-> > > > configure and query it. Update v0 programming so that RIE and local
-> > > > done/abort interrupt masking follow the selected mode. The default mode
-> > > > keeps the original behavior, so unless the new APIs are explicitly used,
-> > > > no functional changes.
-> > > >
-> > > > Signed-off-by: Koichiro Den <den@valinux.co.jp>
-> > > > ---
-> > > >  drivers/dma/dw-edma/dw-edma-core.c    | 52 +++++++++++++++++++++++++++
-> > > >  drivers/dma/dw-edma/dw-edma-core.h    |  2 ++
-> > > >  drivers/dma/dw-edma/dw-edma-v0-core.c | 26 +++++++++-----
-> > > >  include/linux/dma/edma.h              | 44 +++++++++++++++++++++++
-> > > >  4 files changed, 116 insertions(+), 8 deletions(-)
-> > > >
-> > > > diff --git a/drivers/dma/dw-edma/dw-edma-core.c b/drivers/dma/dw-edma/dw-edma-core.c
-> > > > index b9d59c3c0cb4..059b3996d383 100644
-> > > > --- a/drivers/dma/dw-edma/dw-edma-core.c
-> > > > +++ b/drivers/dma/dw-edma/dw-edma-core.c
-> > > > @@ -768,6 +768,7 @@ static int dw_edma_channel_setup(struct dw_edma *dw, u32 wr_alloc, u32 rd_alloc)
-> > > >  		chan->configured = false;
-> > > >  		chan->request = EDMA_REQ_NONE;
-> > > >  		chan->status = EDMA_ST_IDLE;
-> > > > +		chan->irq_mode = DW_EDMA_CH_IRQ_DEFAULT;
-> > > >
-> > > >  		if (chan->dir == EDMA_DIR_WRITE)
-> > > >  			chan->ll_max = (chip->ll_region_wr[chan->id].sz / EDMA_LL_SZ);
-> > > > @@ -1062,6 +1063,57 @@ int dw_edma_remove(struct dw_edma_chip *chip)
-> > > >  }
-> > > >  EXPORT_SYMBOL_GPL(dw_edma_remove);
-> > > >
-> > > > +int dw_edma_chan_irq_config(struct dma_chan *dchan,
-> > > > +			    enum dw_edma_ch_irq_mode mode)
-> > > > +{
-> > > > +	struct dw_edma_chan *chan;
-> > > > +
-> > > > +	switch (mode) {
-> > > > +	case DW_EDMA_CH_IRQ_DEFAULT:
-> > > > +	case DW_EDMA_CH_IRQ_LOCAL:
-> > > > +	case DW_EDMA_CH_IRQ_REMOTE:
-> > > > +		break;
-> > > > +	default:
-> > > > +		return -EINVAL;
-> > > > +	}
-> > > > +
-> > > > +	if (!dchan || !dchan->device)
-> > > > +		return -ENODEV;
-> > > > +
-> > > > +	chan = dchan2dw_edma_chan(dchan);
-> > > > +	if (!chan)
-> > > > +		return -ENODEV;
-> > > > +
-> > > > +	chan->irq_mode = mode;
-> > > > +
-> > > > +	dev_vdbg(chan->dw->chip->dev, "Channel: %s[%u] set irq_mode=%u\n",
-> > > > +		 str_write_read(chan->dir == EDMA_DIR_WRITE),
-> > > > +		 chan->id, mode);
-> > > > +
-> > > > +	return 0;
-> > > > +}
-> > > > +EXPORT_SYMBOL_GPL(dw_edma_chan_irq_config);
-> > > > +
-> > > > +bool dw_edma_chan_ignore_irq(struct dma_chan *dchan)
-> > > > +{
-> > > > +	struct dw_edma_chan *chan;
-> > > > +	struct dw_edma *dw;
-> > > > +
-> > > > +	if (!dchan || !dchan->device)
-> > > > +		return false;
-> > > > +
-> > > > +	chan = dchan2dw_edma_chan(dchan);
-> > > > +	if (!chan)
-> > > > +		return false;
-> > > > +
-> > > > +	dw = chan->dw;
-> > > > +	if (dw->chip->flags & DW_EDMA_CHIP_LOCAL)
-> > > > +		return chan->irq_mode == DW_EDMA_CH_IRQ_REMOTE;
-> > > > +	else
-> > > > +		return chan->irq_mode == DW_EDMA_CH_IRQ_LOCAL;
-> > > > +}
-> > > > +EXPORT_SYMBOL_GPL(dw_edma_chan_ignore_irq);
-> > > > +
-> > > >  MODULE_LICENSE("GPL v2");
-> > > >  MODULE_DESCRIPTION("Synopsys DesignWare eDMA controller core driver");
-> > > >  MODULE_AUTHOR("Gustavo Pimentel <gustavo.pimentel@synopsys.com>");
-> > > > diff --git a/drivers/dma/dw-edma/dw-edma-core.h b/drivers/dma/dw-edma/dw-edma-core.h
-> > > > index 71894b9e0b15..8458d676551a 100644
-> > > > --- a/drivers/dma/dw-edma/dw-edma-core.h
-> > > > +++ b/drivers/dma/dw-edma/dw-edma-core.h
-> > > > @@ -81,6 +81,8 @@ struct dw_edma_chan {
-> > > >
-> > > >  	struct msi_msg			msi;
-> > > >
-> > > > +	enum dw_edma_ch_irq_mode	irq_mode;
-> > > > +
-> > > >  	enum dw_edma_request		request;
-> > > >  	enum dw_edma_status		status;
-> > > >  	u8				configured;
-> > > > diff --git a/drivers/dma/dw-edma/dw-edma-v0-core.c b/drivers/dma/dw-edma/dw-edma-v0-core.c
-> > > > index 2850a9df80f5..80472148c335 100644
-> > > > --- a/drivers/dma/dw-edma/dw-edma-v0-core.c
-> > > > +++ b/drivers/dma/dw-edma/dw-edma-v0-core.c
-> > > > @@ -256,8 +256,10 @@ dw_edma_v0_core_handle_int(struct dw_edma_irq *dw_irq, enum dw_edma_dir dir,
-> > > >  	for_each_set_bit(pos, &val, total) {
-> > > >  		chan = &dw->chan[pos + off];
-> > > >
-> > > > -		dw_edma_v0_core_clear_done_int(chan);
-> > > > -		done(chan);
-> > > > +		if (!dw_edma_chan_ignore_irq(&chan->vc.chan)) {
-> > > > +			dw_edma_v0_core_clear_done_int(chan);
-> > > > +			done(chan);
-> > > > +		}
-> > > >
-> > > >  		ret = IRQ_HANDLED;
-> > > >  	}
-> > > > @@ -267,8 +269,10 @@ dw_edma_v0_core_handle_int(struct dw_edma_irq *dw_irq, enum dw_edma_dir dir,
-> > > >  	for_each_set_bit(pos, &val, total) {
-> > > >  		chan = &dw->chan[pos + off];
-> > > >
-> > > > -		dw_edma_v0_core_clear_abort_int(chan);
-> > > > -		abort(chan);
-> > > > +		if (!dw_edma_chan_ignore_irq(&chan->vc.chan)) {
-> > > > +			dw_edma_v0_core_clear_abort_int(chan);
-> > > > +			abort(chan);
-> > > > +		}
-> > > >
-> > > >  		ret = IRQ_HANDLED;
-> > > >  	}
-> > > > @@ -331,7 +335,8 @@ static void dw_edma_v0_core_write_chunk(struct dw_edma_chunk *chunk)
-> > > >  		j--;
-> > > >  		if (!j) {
-> > > >  			control |= DW_EDMA_V0_LIE;
-> > > > -			if (!(chan->dw->chip->flags & DW_EDMA_CHIP_LOCAL))
-> > > > +			if (!(chan->dw->chip->flags & DW_EDMA_CHIP_LOCAL) &&
-> > > > +			    chan->irq_mode != DW_EDMA_CH_IRQ_LOCAL)
-> > > >  				control |= DW_EDMA_V0_RIE;
-> > > >  		}
-> > > >
-> > > > @@ -408,12 +413,17 @@ static void dw_edma_v0_core_start(struct dw_edma_chunk *chunk, bool first)
-> > > >  				break;
-> > > >  			}
-> > > >  		}
-> > > > -		/* Interrupt unmask - done, abort */
-> > > > +		/* Interrupt mask/unmask - done, abort */
-> > > >  		raw_spin_lock_irqsave(&dw->lock, flags);
-> > > >
-> > > >  		tmp = GET_RW_32(dw, chan->dir, int_mask);
-> > > > -		tmp &= ~FIELD_PREP(EDMA_V0_DONE_INT_MASK, BIT(chan->id));
-> > > > -		tmp &= ~FIELD_PREP(EDMA_V0_ABORT_INT_MASK, BIT(chan->id));
-> > > > +		if (chan->irq_mode == DW_EDMA_CH_IRQ_REMOTE) {
-> > > > +			tmp |= FIELD_PREP(EDMA_V0_DONE_INT_MASK, BIT(chan->id));
-> > > > +			tmp |= FIELD_PREP(EDMA_V0_ABORT_INT_MASK, BIT(chan->id));
-> > > > +		} else {
-> > > > +			tmp &= ~FIELD_PREP(EDMA_V0_DONE_INT_MASK, BIT(chan->id));
-> > > > +			tmp &= ~FIELD_PREP(EDMA_V0_ABORT_INT_MASK, BIT(chan->id));
-> > > > +		}
-> > > >  		SET_RW_32(dw, chan->dir, int_mask, tmp);
-> > > >  		/* Linked list error */
-> > > >  		tmp = GET_RW_32(dw, chan->dir, linked_list_err_en);
-> > > > diff --git a/include/linux/dma/edma.h b/include/linux/dma/edma.h
-> > > > index ffad10ff2cd6..6f50165ac084 100644
-> > > > --- a/include/linux/dma/edma.h
-> > > > +++ b/include/linux/dma/edma.h
-> > > > @@ -60,6 +60,23 @@ enum dw_edma_chip_flags {
-> > > >  	DW_EDMA_CHIP_LOCAL	= BIT(0),
-> > > >  };
-> > > >
-> > > > +/*
-> > > > + * enum dw_edma_ch_irq_mode - per-channel interrupt routing control
-> > > > + * @DW_EDMA_CH_IRQ_DEFAULT:   LIE=1/RIE=1, local interrupt unmasked
-> > > > + * @DW_EDMA_CH_IRQ_LOCAL:     LIE=1/RIE=0
-> > > > + * @DW_EDMA_CH_IRQ_REMOTE:    LIE=1/RIE=1, local interrupt masked
-> > > > + *
-> > > > + * Some implementations require using LIE=1/RIE=1 with the local interrupt
-> > > > + * masked to generate a remote-only interrupt (rather than LIE=0/RIE=1).
-> > > > + * See the DesignWare endpoint databook 5.40, "Hint" below "Figure 8-22
-> > > > + * Write Interrupt Generation".
-> > > > + */
-> > > > +enum dw_edma_ch_irq_mode {
-> > > > +	DW_EDMA_CH_IRQ_DEFAULT	= 0,
-> > > > +	DW_EDMA_CH_IRQ_LOCAL,
-> > > > +	DW_EDMA_CH_IRQ_REMOTE,
-> > > > +};
-> > > > +
-> > > >  /**
-> > > >   * struct dw_edma_chip - representation of DesignWare eDMA controller hardware
-> > > >   * @dev:		 struct device of the eDMA controller
-> > > > @@ -105,6 +122,22 @@ struct dw_edma_chip {
-> > > >  #if IS_REACHABLE(CONFIG_DW_EDMA)
-> > > >  int dw_edma_probe(struct dw_edma_chip *chip);
-> > > >  int dw_edma_remove(struct dw_edma_chip *chip);
-> > > > +/**
-> > > > + * dw_edma_chan_irq_config - configure per-channel interrupt routing
-> > > > + * @chan: DMA channel obtained from dma_request_channel()
-> > > > + * @mode: interrupt routing mode
-> > > > + *
-> > > > + * Returns 0 on success, -EINVAL for invalid @mode, or -ENODEV if @chan does
-> > > > + * not belong to the DesignWare eDMA driver.
-> > > > + */
-> > > > +int dw_edma_chan_irq_config(struct dma_chan *chan,
-> > > > +			    enum dw_edma_ch_irq_mode mode);
-> > > > +
-> > > > +/**
-> > > > + * dw_edma_chan_ignore_irq - tell whether local IRQ handling should be ignored
-> > > > + * @chan: DMA channel obtained from dma_request_channel()
-> > > > + */
-> > > > +bool dw_edma_chan_ignore_irq(struct dma_chan *chan);
-> > > >  #else
-> > > >  static inline int dw_edma_probe(struct dw_edma_chip *chip)
-> > > >  {
-> > > > @@ -115,6 +148,17 @@ static inline int dw_edma_remove(struct dw_edma_chip *chip)
-> > > >  {
-> > > >  	return 0;
-> > > >  }
-> > > > +
-> > > > +static inline int dw_edma_chan_irq_config(struct dma_chan *chan,
-> > > > +					  enum dw_edma_ch_irq_mode mode)
-> > > > +{
-> > > > +	return -ENODEV;
-> > > > +}
-> > > > +
-> > > > +static inline bool dw_edma_chan_ignore_irq(struct dma_chan *chan)
-> > > > +{
-> > > > +	return false;
-> > > > +}
-> > > 
-> > > I think it'd better go thought
-> > > 
-> > > struct dma_slave_config {
-> > > 	...
-> > >         void *peripheral_config;
-> > > 	size_t peripheral_size;
-> > > 
-> > > };
-> > > 
-> > > So DMA consumer can use standard DMAengine API, dmaengine_slave_config().
-> > 
-> > Using .peripheral_config wasn't something I had initially considered, but I
-> > agree that this is preferable in the sense that it avoids introducing the
-> > additional exported APIs. I'm not entirely sure whether it's clean to use
-> > it for non-peripheral settings in the strict sense, but there seem to be
-> > precedents such as stm32_mdma_dma_config, so I guess it seems acceptable.
-> > If I'm missing something, please correct me.
-> 
-> Strictly speaking slave config should be used for peripheral transfers.
-> For memcpy users (this seems more like that), I would argue slave config
-> does not make much sense.
+Hi Prabhakar,
 
-Thank you for the comment. Understood, so it seems outside the intended
-semantics of .peripheral_config.
+> -----Original Message-----
+> From: Prabhakar <prabhakar.csengg@gmail.com>
+> Sent: 21 January 2026 15:02
+> Subject: [PATCH 5/6] irqchip/renesas-rzv2h: Handle ICU error IRQ and add =
+SWPE trigger
+>=20
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>=20
+> Handle the RZ/V2H ICU error interrupt to help diagnose latched bus, ECC R=
+AM, and CA55/IP error
+> conditions during bring-up and debugging.
 
-Now I see two possible directions:
 
-1. Keep my original approach (i.e. add a dw-edma specific exported helper in
-   dw-edma-core, like dw_edma_chan_irq_config()).
+Just a question,
+If the irq handler is meant for debugging/bring-up, can this irq handler ac=
+tivated only for debug session
+instead of unconditionally enabling it?
 
-2. Introduce a more generic mechanism than .peripheral_config/size (e.g.
-   .hw_config/size), and use that instead.
+Cheers,
+Biju
+>=20
+> When debug support is enabled, register the error IRQ handler and provide=
+ a debugfs write interface to
+> trigger pseudo error generation via ICU_SWPE for validation.
+>=20
+> Account for SoC differences in ECC RAM error register coverage so the han=
+dler only iterates over valid
+> ECC status/clear banks, and route the RZ/V2N compatible to a probe path w=
+ith the correct ECC range
+> while keeping the existing RZ/V2H and RZ/G3E handling.
+>=20
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  drivers/irqchip/irq-renesas-rzv2h.c | 141 +++++++++++++++++++++++++++-
+>  1 file changed, 140 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/irqchip/irq-renesas-rzv2h.c b/drivers/irqchip/irq-re=
+nesas-rzv2h.c
+> index 7d3ce1d762f0..6dc297220f05 100644
+> --- a/drivers/irqchip/irq-renesas-rzv2h.c
+> +++ b/drivers/irqchip/irq-renesas-rzv2h.c
+> @@ -21,6 +21,7 @@
+>  #include <linux/irqdomain.h>
+>  #include <linux/kconfig.h>
+>  #include <linux/kstrtox.h>
+> +#include <linux/minmax.h>
+>  #include <linux/moduleparam.h>
+>  #include <linux/of_platform.h>
+>  #include <linux/pm_runtime.h>
+> @@ -47,7 +48,15 @@
+>  #define ICU_TSCLR				0x24
+>  #define ICU_TITSR(k)				(0x28 + (k) * 4)
+>  #define ICU_TSSR(k)				(0x30 + (k) * 4)
+> +#define ICU_BEISR(k)				(0x70  + (k) * 4)
+> +#define ICU_BECLR(k)				(0x80  + (k) * 4)
+> +#define ICU_EREISR(k)				(0x90  + (k) * 4)
+> +#define ICU_ERCLR(k)				(0xE0  + (k) * 4)
+>  #define ICU_SWINT				0x130
+> +#define ICU_ERINTA55CTL(k)			(0x338 + (k) * 4)
+> +#define ICU_ERINTA55CRL(k)			(0x348 + (k) * 4)
+> +#define ICU_ERINTA55MSK(k)			(0x358 + (k) * 4)
+> +#define ICU_SWPE				0x370
+>  #define ICU_DMkSELy(k, y)			(0x420 + (k) * 0x20 + (y) * 4)
+>  #define ICU_DMACKSELk(k)			(0x500 + (k) * 4)
+>=20
+> @@ -99,6 +108,9 @@
+>  #define ICU_RZV2H_TSSEL_MAX_VAL			0x55
+>=20
+>  #define ICU_SWINT_NUM				4
+> +#define ICU_SWPE_NUM				16
+> +#define ICU_NUM_BE				4
+> +#define ICU_NUM_A55ERR				4
+>=20
+>  static bool enable_icu_debug;
+>  module_param_named(debug, enable_icu_debug, bool, 0644); @@ -123,12 +135=
+,16 @@ struct
+> rzv2h_irqc_reg_cache {
+>   * @t_offs:		TINT offset
+>   * @max_tssel:		TSSEL max value
+>   * @field_width:	TSSR field width
+> + * @ecc_start:		Start index of ECC RAM interrupts
+> + * @ecc_end:		End index of ECC RAM interrupts
+>   */
+>  struct rzv2h_hw_info {
+>  	const u8	*tssel_lut;
+>  	u16		t_offs;
+>  	u8		max_tssel;
+>  	u8		field_width;
+> +	u8		ecc_start;
+> +	u8		ecc_end;
+>  };
+>=20
+>  /* DMAC */
+> @@ -565,6 +581,48 @@ static int rzv2h_icu_parse_interrupts(struct rzv2h_i=
+cu_priv *priv, struct device
+>  	return 0;
+>  }
+>=20
+> +static irqreturn_t rzv2h_icu_error_irq(int irq, void *data) {
+> +	struct rzv2h_icu_priv *priv =3D data;
+> +	const struct rzv2h_hw_info *hw_info =3D priv->info;
+> +	void __iomem *base =3D priv->base;
+> +	unsigned int k;
+> +	u32 st;
+> +
+> +	/* 1) Bus errors (BEISR0..3) */
+> +	for (k =3D 0; k < ICU_NUM_BE; k++) {
+> +		st =3D readl(base + ICU_BEISR(k));
+> +		if (!st)
+> +			continue;
+> +
+> +		writel(st, base + ICU_BECLR(k));
+> +		pr_debug("rzv2h-icu: BUS error k=3D%u status=3D0x%08x\n", k, st);
+> +	}
+> +
+> +	/* 2) ECC RAM errors (EREISR0..X) */
+> +	for (k =3D hw_info->ecc_start; k <=3D hw_info->ecc_end; k++) {
+> +		st =3D readl(base + ICU_EREISR(k));
+> +		if (!st)
+> +			continue;
+> +
+> +		writel(st, base + ICU_ERCLR(k));
+> +		pr_debug("rzv2h-icu: ECC error k=3D%u status=3D0x%08x\n", k, st);
+> +	}
+> +
+> +	/* 3) IP/CA55 error interrupt status (ERINTA55CTL0..3) */
+> +	for (k =3D 0; k < ICU_NUM_A55ERR; k++) {
+> +		st =3D readl(base + ICU_ERINTA55CTL(k));
+> +		if (!st)
+> +			continue;
+> +
+> +		/* there is no relation with status bits so clear all the interrupts *=
+/
+> +		writel(0xffffffff, base + ICU_ERINTA55CRL(k));
+> +		pr_debug("rzv2h-icu: IP/CA55 error k=3D%u status=3D0x%08x\n", k, st);
+> +	}
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+>  static irqreturn_t rzv2h_icu_swint_irq(int irq, void *data)  {
+>  	u8 cpu =3D *(u8 *)data;
+> @@ -611,13 +669,47 @@ static const struct file_operations rzv2h_icu_swint=
+_fops =3D {
+>  	.llseek	=3D noop_llseek,
+>  };
+>=20
+> +static ssize_t rzv2h_icu_swpe_write(struct file *file,
+> +				    const char __user *ubuf,
+> +				    size_t len, loff_t *ppos)
+> +{
+> +	struct rzv2h_icu_priv *priv =3D file->private_data;
+> +	unsigned long swpe;
+> +	char buf[32];
+> +	int ret;
+> +
+> +	len =3D min(len, sizeof(buf) - 1);
+> +	if (copy_from_user(buf, ubuf, len))
+> +		return -EFAULT;
+> +	buf[len] =3D '\0';
+> +
+> +	ret =3D kstrtoul(strim(buf), 0, &swpe);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (swpe >=3D ICU_SWPE_NUM)
+> +		return -EINVAL;
+> +
+> +	writel(BIT(swpe), priv->base + ICU_SWPE);
+> +	return len;
+> +}
+> +
+> +static const struct file_operations rzv2h_icu_swpe_fops =3D {
+> +	.open	=3D simple_open,
+> +	.write	=3D rzv2h_icu_swpe_write,
+> +	.llseek	=3D noop_llseek,
+> +};
+> +
+>  static int rzv2h_icu_setup_debug_irqs(struct platform_device *pdev)  {
+> +	const struct rzv2h_hw_info *hw_info =3D rzv2h_icu_data->info;
+>  	static const u8 swint_idx[ICU_SWINT_NUM] =3D { 0, 1, 2, 3 };
+>  	static const char * const rzv2h_swint_names[] =3D {
+>  		"int-ca55-0", "int-ca55-1",
+>  		"int-ca55-2", "int-ca55-3",
+>  	};
+> +	static const char *icu_err =3D "icu-error-ca55";
+> +	void __iomem *base =3D rzv2h_icu_data->base;
+>  	struct device *dev =3D &pdev->dev;
+>  	struct dentry *dentry;
+>  	struct dentry *dir;
+> @@ -654,6 +746,36 @@ static int rzv2h_icu_setup_debug_irqs(struct platfor=
+m_device *pdev)
+>  	if (IS_ERR(dentry))
+>  		return PTR_ERR(dentry);
+>=20
+> +	ret =3D devm_add_action_or_reset(dev, rzv2h_icu_remove_debugfs, dentry)=
+;
+> +	if (ret)
+> +		return ret;
+> +
+> +	icu_irq =3D platform_get_irq_byname(pdev, icu_err);
+> +	if (icu_irq < 0)
+> +		return dev_err_probe(dev, icu_irq, "Failed to get %s IRQ\n",
+> +icu_err);
+> +
+> +	/* Unmask and clear all IP/CA55 error interrupts */
+> +	for (i =3D 0; i < ICU_NUM_A55ERR; i++) {
+> +		writel(0xffffff, base + ICU_ERINTA55CRL(i));
+> +		writel(0x0, base + ICU_ERINTA55MSK(i));
+> +	}
+> +
+> +	/* Clear all Bus errors */
+> +	for (i =3D 0; i < ICU_NUM_BE; i++)
+> +		writel(0xffffffff, base + ICU_BECLR(i));
+> +
+> +	/* Clear all ECCRAM errors */
+> +	for (i =3D hw_info->ecc_start; i <=3D hw_info->ecc_end; i++)
+> +		writel(0xffffffff, base + ICU_ERCLR(i));
+> +
+> +	ret =3D devm_request_irq(dev, icu_irq, rzv2h_icu_error_irq, 0, dev_name=
+(dev), rzv2h_icu_data);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "Failed to request %s IRQ\n",
+> +icu_err);
+> +
+> +	dentry =3D debugfs_create_file("swpe", 0200, dir, rzv2h_icu_data, &rzv2=
+h_icu_swpe_fops);
+> +	if (IS_ERR(dentry))
+> +		return PTR_ERR(dentry);
+> +
+>  	return devm_add_action_or_reset(dev, rzv2h_icu_remove_debugfs, dentry);=
+  }
+>=20
+> @@ -759,12 +881,24 @@ static const struct rzv2h_hw_info rzg3e_hw_params =
+=3D {
+>  	.t_offs		=3D ICU_RZG3E_TINT_OFFSET,
+>  	.max_tssel	=3D ICU_RZG3E_TSSEL_MAX_VAL,
+>  	.field_width	=3D 16,
+> +	.ecc_start	=3D 1,
+> +	.ecc_end	=3D 4,
+> +};
+> +
+> +static const struct rzv2h_hw_info rzv2n_hw_params =3D {
+> +	.t_offs		=3D 0,
+> +	.max_tssel	=3D ICU_RZV2H_TSSEL_MAX_VAL,
+> +	.field_width	=3D 8,
+> +	.ecc_start	=3D 0,
+> +	.ecc_end	=3D 2,
+>  };
+>=20
+>  static const struct rzv2h_hw_info rzv2h_hw_params =3D {
+>  	.t_offs		=3D 0,
+>  	.max_tssel	=3D ICU_RZV2H_TSSEL_MAX_VAL,
+>  	.field_width	=3D 8,
+> +	.ecc_start	=3D 0,
+> +	.ecc_end	=3D 11,
+>  };
+>=20
+>  static int rzg3e_icu_probe(struct platform_device *pdev, struct device_n=
+ode *parent) @@ -772,6
+> +906,11 @@ static int rzg3e_icu_probe(struct platform_device *pdev, struc=
+t device_node *par
+>  	return rzv2h_icu_probe_common(pdev, parent, &rzg3e_hw_params);  }
+>=20
+> +static int rzv2n_icu_probe(struct platform_device *pdev, struct
+> +device_node *parent) {
+> +	return rzv2h_icu_probe_common(pdev, parent, &rzv2n_hw_params); }
+> +
+>  static int rzv2h_icu_probe(struct platform_device *pdev, struct device_n=
+ode *parent)  {
+>  	return rzv2h_icu_probe_common(pdev, parent, &rzv2h_hw_params); @@ -779,=
+7 +918,7 @@ static int
+> rzv2h_icu_probe(struct platform_device *pdev, struct device_node *par
+>=20
+>  IRQCHIP_PLATFORM_DRIVER_BEGIN(rzv2h_icu)
+>  IRQCHIP_MATCH("renesas,r9a09g047-icu", rzg3e_icu_probe) -IRQCHIP_MATCH("=
+renesas,r9a09g056-icu",
+> rzv2h_icu_probe)
+> +IRQCHIP_MATCH("renesas,r9a09g056-icu", rzv2n_icu_probe)
+>  IRQCHIP_MATCH("renesas,r9a09g057-icu", rzv2h_icu_probe)
+>  IRQCHIP_PLATFORM_DRIVER_END(rzv2h_icu)
+>  MODULE_AUTHOR("Fabrizio Castro <fabrizio.castro.jz@renesas.com>");
+> --
+> 2.52.0
 
-If you see a better approach, I'd be glad to hear it. Also, Mani's input on
-whether or not (1) is acceptable in the overall picture would be helpful
-(from a dw-edma-core maintainer perspective).
-
-Regards,
-Koichiro
-
-> 
-> -- 
-> ~Vinod
 
