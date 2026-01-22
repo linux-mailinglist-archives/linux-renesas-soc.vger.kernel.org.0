@@ -1,52 +1,52 @@
-Return-Path: <linux-renesas-soc+bounces-27269-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27270-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UIQdMbDqcWl6ZAAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27269-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 10:15:28 +0100
+	id 2JqvIwDrcWl6ZAAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27270-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 10:16:48 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EA01645F8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 10:15:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E42066462C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 10:16:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 87ED86002DB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 09:07:09 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id C2DE1602550
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 09:09:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D9DD38A721;
-	Thu, 22 Jan 2026 09:03:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89C15387579;
+	Thu, 22 Jan 2026 09:07:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mzS2xZFu"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hgCpabng"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6067033FE17;
-	Thu, 22 Jan 2026 09:03:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4150333ADBE;
+	Thu, 22 Jan 2026 09:07:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769072630; cv=none; b=aD+VR2QM9SfDdL3Co6TEjgbO8wJGGMON1Tqi/NA94rp1H6IlPhIzuBnGo8hOZDlPThuyr4lDXuOVHh8TSCspUmF3kaBylu7T82ZslS4PFAyg4zhbK4Ad+2DZxlL7GRfoaNLvYyOpo/TWB3iyI2Z/uGBAsO9ReWcI30EorTJffVo=
+	t=1769072872; cv=none; b=XRjYmFzjEtBYXysx1nucEYhCepYdqETa5Aj73/NQc+lDWLKAOzJi5OtVWI8zcv4DO8fvmdR8q/bKv4DkAZJHN5nItk6FDUJUXO0uqJn7ER+ofewiKrQEylZjuEqO4LQ5F78jea+ElVgJy77fgG9Zw8M6+RD3FA9uLgWkpjpatjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769072630; c=relaxed/simple;
-	bh=/MehKJmORgEwpJF+msBgFBXkm59BZbIQr2N6eBZwaBU=;
+	s=arc-20240116; t=1769072872; c=relaxed/simple;
+	bh=AgonMyAfa9uiPAYfh9C/Bgq2TL9WZTm/OGzex9FWfw4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RVZilleJ97NAvbRgk7VgNjTFRg721I1B6lCsgxQ5AuaHnkhBRlIkiw/ou6mW6ZJkVkxcsP49BRQv32js1Rmc2/FEz/OuIuGItRGPnv/A6etfLmtwpBQvjj8f9ZJLPU6svGFnD0hCFxwDi/xVfyB0HVPcvISJyhs8HH2lZwRUbks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mzS2xZFu; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84B24C116C6;
-	Thu, 22 Jan 2026 09:03:38 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=VHYfevWIb7PLsIrGal6ewtFLqn4kmWRmVZHLRnioccnqLYZMb4PcFP9Y0+pl041Dlpwov9PthaE0X1l5OFMNFoJQVQCPOWEsCBr/CqbqBC2070pnvl5dcLOxhNEv2h/eEIpDj8YzODLLTej5h0XmJ04wQV8Y2cM2b8Vx4EVNJJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hgCpabng; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 850BEC116C6;
+	Thu, 22 Jan 2026 09:07:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769072627;
-	bh=/MehKJmORgEwpJF+msBgFBXkm59BZbIQr2N6eBZwaBU=;
+	s=k20201202; t=1769072871;
+	bh=AgonMyAfa9uiPAYfh9C/Bgq2TL9WZTm/OGzex9FWfw4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mzS2xZFueyQor31YESEgMROI8UCRsNdNneVBo50jCEGgFSMndbkcVLiq094C9Jgwo
-	 35xH5C7NvzIFyWXvYPRYokoInGijcOBS0s7kTSD2rs1/MqN9zduYtpaudJCO+JuAqG
-	 qcWHYywg7hKt7GdHjeGmWDOUYJB6iwtmm/ueYCQLgRuZFzV2GbCuKXuU2MXYlJakLG
-	 aH44EBU6o0ftXLIKcH4ybHu24Fk6i93FHqusQwGGBCq7PliSXGB5LtBmwErA8ofuSI
-	 1bNHoT4dAhRVT8PtymGXeVJ7cNMHyPdS0U6tbkBKYlgKT3Kc03EbDVdYMvih9iEmwv
-	 v/QGCAMt1Lw/Q==
-Date: Thu, 22 Jan 2026 10:03:33 +0100
+	b=hgCpabng6JJHn8xRpFIZe3jTHR9hU+5UBwyWFBOynni6OUUO5/1LoqwoNeWABlfHH
+	 gFmvsu+Ub6HroBHFQTsKy+WnxPMz/gQd32yzv35wwosxYpo/r5KPPNHf3S8poDZQ1t
+	 HISyuOKpUtPye2gQr26v0sinjWCgnIQYxi5rUZ8wg/pqcqs5ipg8mXkbJumpMhnWR7
+	 EXBy2GsYM/M4JjzUfFP3ECw10Z7D8Bfohlp4OSOeSOPVyRSQRir/Lo2mT1CUbha70Z
+	 A3+ca+pqctDTrEzrRZ1OKIfJYqzm2ukB26n/6MxUMKSJjmcRWe9D5UpYHAncWnxW3r
+	 TwSzrWaOtE4jA==
+Date: Thu, 22 Jan 2026 10:07:37 +0100
 From: Niklas Cassel <cassel@kernel.org>
 To: Koichiro Den <den@valinux.co.jp>
 Cc: jingoohan1@gmail.com, mani@kernel.org, lpieralisi@kernel.org,
@@ -72,10 +72,11 @@ Cc: jingoohan1@gmail.com, mani@kernel.org, lpieralisi@kernel.org,
 	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
 	linux-stm32@st-md-mailman.stormreply.com,
 	linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v9 2/5] PCI: endpoint: Add BAR subrange mapping support
-Message-ID: <aXHn3zuxxfBN1yps@ryzen>
+Subject: Re: [PATCH v9 5/5] Documentation: PCI: endpoint: Clarify
+ pci_epc_set_bar() usage
+Message-ID: <aXHo2YDMkMnFb2LI@ryzen>
 References: <20260122084909.2390865-1-den@valinux.co.jp>
- <20260122084909.2390865-3-den@valinux.co.jp>
+ <20260122084909.2390865-6-den@valinux.co.jp>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -84,7 +85,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260122084909.2390865-3-den@valinux.co.jp>
+In-Reply-To: <20260122084909.2390865-6-den@valinux.co.jp>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -95,7 +96,7 @@ X-Spamd-Result: default: False [0.04 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-27269-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-27270-lists,linux-renesas-soc=lfdr.de];
 	FREEMAIL_CC(0.00)[gmail.com,kernel.org,google.com,ti.com,nxp.com,pengutronix.de,axis.com,sntech.de,intel.com,renesas.com,glider.be,foss.st.com,nvidia.com,socionext.com,vivo.com,163.com,rock-chips.com,collabora.com,vger.kernel.org,lists.infradead.org,lists.linux.dev,lists.ozlabs.org,st-md-mailman.stormreply.com];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -114,33 +115,26 @@ X-Spamd-Result: default: False [0.04 / 15.00];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:7979, ipnet:2a01:60a::/32, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ams.mirrors.kernel.org:helo,ams.mirrors.kernel.org:rdns,valinux.co.jp:email]
-X-Rspamd-Queue-Id: 6EA01645F8
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ams.mirrors.kernel.org:helo,ams.mirrors.kernel.org:rdns,nxp.com:email,valinux.co.jp:email]
+X-Rspamd-Queue-Id: E42066462C
 X-Rspamd-Action: no action
 
-On Thu, Jan 22, 2026 at 05:49:06PM +0900, Koichiro Den wrote:
-> Some endpoint platforms have only a small number of usable BARs. At the
-> same time, EPF drivers (e.g. vNTB) may need multiple independent inbound
-> regions (control/scratchpad, one or more memory windows, and optionally
-> MSI or other feature-related regions). Subrange mapping allows these to
-> share a single BAR without consuming additional BARs that may not be
-> available, or forcing a fragile layout by aggressively packing into a
-> single contiguous memory range.
+On Thu, Jan 22, 2026 at 05:49:09PM +0900, Koichiro Den wrote:
+> The current documentation implies that pci_epc_set_bar() is only used
+> before the host enumerates the endpoint.
 > 
-> Extend the PCI endpoint core to support mapping subranges within a BAR.
-> Add an optional 'submap' field in struct pci_epf_bar so an endpoint
-> function driver can request inbound mappings that fully cover the BAR.
+> In practice, some Endpoint Controllers support calling pci_epc_set_bar()
+> multiple times for the same BAR (without clearing it) in order to update
+> inbound address translations after the host has programmed the BAR base
+> address, which some Endpoint Functions such as vNTB already rely on.
+> Add document text for that.
 > 
-> Introduce a new EPC feature bit, subrange_mapping, and reject submap
-> requests from pci_epc_set_bar() unless the controller advertises both
-> subrange_mapping and dynamic_inbound_mapping features.
+> Also document the expected call flow for BAR subrange mapping
+> (pci_epf_bar.num_submap / pci_epf_bar.submap), which may require a
+> second pci_epc_set_bar() call after the host has programmed the BAR base
+> address.
 > 
-> The submap array describes the complete BAR layout (no overlaps and no
-> gaps are allowed to avoid exposing untranslated address ranges). This
-> provides the generic infrastructure needed to map multiple logical
-> regions into a single BAR at different offsets, without assuming a
-> controller-specific inbound address translation mechanism.
-> 
+> Reviewed-by: Frank Li <Frank.Li@nxp.com>
 > Signed-off-by: Koichiro Den <den@valinux.co.jp>
 > ---
 
