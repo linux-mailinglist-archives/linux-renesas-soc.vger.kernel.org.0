@@ -1,60 +1,60 @@
-Return-Path: <linux-renesas-soc+bounces-27297-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27298-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id INE5IJRDcmnpfAAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27297-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 16:34:44 +0100
+	id yM7CBflAcmlpfwAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27298-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 16:23:37 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBF1D68F7C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 16:34:43 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id E66F168AC3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 16:23:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7D23C306A006
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 15:25:52 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 58FCA3000097
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 15:23:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A766138947C;
-	Thu, 22 Jan 2026 15:14:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED89938B7BD;
+	Thu, 22 Jan 2026 15:14:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="lXh3iqFC"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="O7nk/K1a"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C261389443
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Jan 2026 15:14:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 925F93876DD;
+	Thu, 22 Jan 2026 15:14:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769094863; cv=none; b=Mr3nrciBgJlp5tx+SMHDrmv5uP91qEepzKSQpCaFDdR5wKOS+p8wEm5YuIXkGIA614hpuMqyqhu18c8RiDNm5frgschUuHkaBOE83xvcSEiiPPlZs5C8YBpoBWtGp2lx7KMe2jj5kw8/RG5uQtQTER/6UZPdkkV3X/rJdfHlQQ0=
+	t=1769094865; cv=none; b=DUsBDeDb0mNK7fyQQBjgmtiKZrISbS6pGFTugI6/WZUMQ7u6ysGWEXnn/JdLN9JQ/FzWO4JAp6L44N9zTVM/2MAcRrtuDGqLBjuLU1Y/yBTkNu1aQi+XHHpBO2EAAEISzN4RXmMEnEiwkhjdTsRPfPqH320qtlWO68/7afDzycw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769094863; c=relaxed/simple;
-	bh=s5qeqBhzqXvBR0yVd6ehmw1JmdAeCogqylKOKRTU5a0=;
+	s=arc-20240116; t=1769094865; c=relaxed/simple;
+	bh=dFUCWl21YbgvBCq8xPVkOI7yQqSUl80HaquGBhW8og0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=X7BwZKea2UDYE7Kv6JfW+7HfnYvJRmUtRnHxd2pqe9D8mxwO+FUTh42j76G5TEZqZkjx2dgkSBmtvVVhJVR+BuefaY5bQCzCdvMoUqf48b5HUtf+56hgDVdromfXOyW/SUbTz/ufgR+cn+ZS0Ufn39NhFIp+Qz+O+/nxJ+pOiEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=lXh3iqFC; arc=none smtp.client-ip=185.246.85.4
+	 In-Reply-To:To:Cc; b=ipBEKsGemMltLYpgrY7rhch5e0kwmr83Z6OomEi1PzYjJ10C9de04XMWskO4OQK865WiMVOuSnQPd9D/HhtsaYLGr0Ke+I39ffv+Wue+TYpA3ht1tu0xeUR7Ay2fK1S38OXKIjYtaAISKuXTPs4S5S+oHM6yw9yLOQii7JtFvk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=O7nk/K1a; arc=none smtp.client-ip=185.246.85.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 977C94E421F3;
-	Thu, 22 Jan 2026 15:14:19 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 2672B4E421F2;
+	Thu, 22 Jan 2026 15:14:22 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 6E78A606B6;
-	Thu, 22 Jan 2026 15:14:19 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9DA42119B82C1;
-	Thu, 22 Jan 2026 16:14:16 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id F152A606B6;
+	Thu, 22 Jan 2026 15:14:21 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C8485119B82CA;
+	Thu, 22 Jan 2026 16:14:18 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1769094858; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1769094860; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=QegLxnXsPbyMpFnnOsyJbRiNNWksSHe1X3JonRazV2o=;
-	b=lXh3iqFCuehpD4zHg1NoHByMIiq86jeu/zSpMQiQj1x1Eg0BcuSJ4UVTDaNGecT0eV4ZVm
-	bW16OjHQUHhBKWtJbfGtd4elyUjHK3hxK9n9XMjqV+S2TLIzV2ozJXANcSo3lIv7joE0WD
-	XKKAa7i4MV4b7djmKB7pOywNiGiS0b6l9w7ByZTx1+W7dpX0Ie99jm71D1Mq5H23WI1lNZ
-	hfA7S1JqgBazM7rvd71SDgmy22puFptRch6Aw3bope0zLbukgP4+eIO2qgZv/vDmgYBPxz
-	vMtplKsW0n5AxNygyMRKgj/rN121bJxvqwSCRTjwMDJIC6AQs0pJwv12+u/e5A==
+	bh=HV3WvR0v32aL9umhOvkyMORoTk5J59HmOATBu7qOfE8=;
+	b=O7nk/K1aD43An8ypmicbRKMP6V3vrpJBh0te44LpnHf+3igHOqoxCNN0dk2C5rH3nCMMFq
+	UQKI3GVzYqM+gCS9uIOfXRbSQvcF+SuvUgRuLmWM89jX2dgr0FQHnoW4PeUXwiKKzQl0OS
+	D3BK/UUJLn/OoYzJy0D54HdGMH2wDZ4u9ktNt5qC5q3yB5k0oP98MD7aj19qJsNG/2Lpr/
+	mHCwZ8tqRl/iwJkzg+wZFyC0Q+HjNSbSAgIazvq8rExdp2YzEw+EBX/FOUWEjy44GE1D/B
+	Z4M90MhnFAvzuTmPKhM+bGjrccsIhsTsrtsZm3GeMUCH7Kqcl9S6LXt3MCOugQ==
 From: "Miquel Raynal (Schneider Electric)" <miquel.raynal@bootlin.com>
-Date: Thu, 22 Jan 2026 16:13:37 +0100
-Subject: [PATCH v4 12/15] spi: cadence-qspi: Make sure write protection is
- disabled
+Date: Thu, 22 Jan 2026 16:13:38 +0100
+Subject: [PATCH v4 13/15] spi: cadence-qspi: Use a default value for
+ cdns,fifo-width
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -63,7 +63,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260122-schneider-6-19-rc1-qspi-v4-12-f9c21419a3e6@bootlin.com>
+Message-Id: <20260122-schneider-6-19-rc1-qspi-v4-13-f9c21419a3e6@bootlin.com>
 References: <20260122-schneider-6-19-rc1-qspi-v4-0-f9c21419a3e6@bootlin.com>
 In-Reply-To: <20260122-schneider-6-19-rc1-qspi-v4-0-f9c21419a3e6@bootlin.com>
 To: Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
@@ -86,83 +86,66 @@ X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[172.234.253.10:from];
-	TAGGED_FROM(0.00)[bounces-27297-lists,linux-renesas-soc=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[19];
 	FREEMAIL_TO(0.00)[kernel.org,glider.be,gmail.com,ti.com];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-27298-lists,linux-renesas-soc=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[miquel.raynal@bootlin.com,linux-renesas-soc@vger.kernel.org];
 	DKIM_TRACE(0.00)[bootlin.com:+];
 	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[212.83.139.233:received,185.246.85.4:received,212.83.136.155:received];
-	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,sang-engineering.com:email,bootlin.com:email,bootlin.com:dkim,bootlin.com:mid]
-X-Rspamd-Queue-Id: DBF1D68F7C
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sang-engineering.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,bootlin.com:email,bootlin.com:dkim,bootlin.com:mid]
+X-Rspamd-Queue-Id: E66F168AC3
 X-Rspamd-Action: no action
 
-Renesas RZ/N1 QSPI controllers embed the Cadence IP with some
-modifications. For instance, they feature a write protection of the
-direct mapping at the controller level, with this feature all data
-writes to the AHB region are aborted.
+Bindings expect 4 to be the default value for cdns,fifo-width. Said
+otherwise, if the property (which is not mandatory) is not provided, the
+OS, in order to comply with the bindings, should not error out and take
+4 as default value.
 
-Despite the fact that the flag setting write protection is disabled by
-default, Bootloaders may (and actually do) set it, so mark this feature
-as being available with a specific flag to, if applicable, make sure it
-is disabled.
+Comply with the bindings. This would have slighlty simplyfied my testing
+if it had been implemented correctly in the first place, but in practice
+it should have no impact on the existing boards using this controller, as
+they all set cdns,fifo-width to 4 explicitly in their upstream DTS.
 
 Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 Signed-off-by: Miquel Raynal (Schneider Electric) <miquel.raynal@bootlin.com>
 ---
- drivers/spi/spi-cadence-quadspi.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/spi/spi-cadence-quadspi.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/spi/spi-cadence-quadspi.c b/drivers/spi/spi-cadence-quadspi.c
-index e1ec20684b0a..e0e4423baed9 100644
+index e0e4423baed9..5f3a914e45f7 100644
 --- a/drivers/spi/spi-cadence-quadspi.c
 +++ b/drivers/spi/spi-cadence-quadspi.c
-@@ -48,6 +48,7 @@ static_assert(CQSPI_MAX_CHIPSELECT <= SPI_DEVICE_CS_CNT_MAX);
- #define CQSPI_DISABLE_STIG_MODE		BIT(9)
- #define CQSPI_DISABLE_RUNTIME_PM	BIT(10)
- #define CQSPI_NO_INDIRECT_MODE		BIT(11)
-+#define CQSPI_HAS_WR_PROTECT		BIT(12)
- 
- /* Capabilities */
- #define CQSPI_SUPPORTS_OCTAL		BIT(0)
-@@ -218,6 +219,8 @@ struct cqspi_driver_platdata {
- #define CQSPI_REG_IRQSTATUS			0x40
- #define CQSPI_REG_IRQMASK			0x44
- 
-+#define CQSPI_REG_WR_PROT_CTRL			0x58
-+
- #define CQSPI_REG_INDIRECTRD			0x60
- #define CQSPI_REG_INDIRECTRD_START_MASK		BIT(0)
- #define CQSPI_REG_INDIRECTRD_CANCEL_MASK	BIT(1)
-@@ -1641,6 +1644,10 @@ static void cqspi_controller_init(struct cqspi_st *cqspi)
- 		       cqspi->iobase + CQSPI_REG_INDIRECTWRWATERMARK);
+@@ -1596,10 +1596,8 @@ static int cqspi_of_get_pdata(struct cqspi_st *cqspi)
+ 		cqspi->fifo_depth = 0;
  	}
  
-+	/* Disable write protection at controller level */
-+	if (cqspi->ddata && cqspi->ddata->quirks & CQSPI_HAS_WR_PROTECT)
-+		writel(0, cqspi->iobase + CQSPI_REG_WR_PROT_CTRL);
-+
- 	/* Disable direct access controller */
- 	if (!cqspi->use_direct_mode) {
- 		reg = readl(cqspi->iobase + CQSPI_REG_CONFIG);
+-	if (of_property_read_u32(np, "cdns,fifo-width", &cqspi->fifo_width)) {
+-		dev_err(dev, "couldn't determine fifo-width\n");
+-		return -ENXIO;
+-	}
++	if (of_property_read_u32(np, "cdns,fifo-width", &cqspi->fifo_width))
++		cqspi->fifo_width = 4;
+ 
+ 	if (of_property_read_u32(np, "cdns,trigger-address",
+ 				 &cqspi->trigger_address)) {
 
 -- 
 2.51.1
