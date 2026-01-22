@@ -1,60 +1,59 @@
-Return-Path: <linux-renesas-soc+bounces-27289-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27290-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OIGrHVJBcmnpfAAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27289-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 16:25:06 +0100
+	id OAX0N/1AcmlpfwAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27290-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 16:23:41 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E65A68B53
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 16:25:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44A2268ADC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 16:23:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 008EF304A665
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 15:15:26 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B2A03304C964
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 15:15:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 206F930DEBD;
-	Thu, 22 Jan 2026 15:14:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3425037FF68;
+	Thu, 22 Jan 2026 15:14:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="w0SnOLTR"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="UxKPR/C8"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2B60378D83
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Jan 2026 15:14:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0149F37E2FE;
+	Thu, 22 Jan 2026 15:14:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769094847; cv=none; b=Cx2upRGGVbvQk8oX+HmK/qJ3htei9p9PaKATiSF3b+KGGbkzD/dBafBh/e4f1jUXE2+VSZQoedDasckE9S9C+/Zbl603XdpNJBmqge58c54l+xkfS5MNlCOXI/H5f2dtcGpdv1vgQnRDUvvPZbv71trDly/Ej35IseG5LJU5SA4=
+	t=1769094848; cv=none; b=kdHsHTENEWCB35TWuMEFgZvpy5EU2g599pttIwlxpOz/YHcq0ZMxV4WAN+09tfe1jnciA5NVITR2RhY+3y4o8iX3vjvBshU+AL1H9JwHnEVHK4fITSyzFa5eA5odAT0g1R16DEl0VF69llhfdeOK5IxUwUGeAJMx42Y7vqIARnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769094847; c=relaxed/simple;
-	bh=JD9J15FD3+7Fo755XEIaI+M7RJcrkXyMm5ZCiSP5OnY=;
+	s=arc-20240116; t=1769094848; c=relaxed/simple;
+	bh=UBxp+mVMENkbjzOOwcVuVl5Ky0LH3WVdPATL+cPvJLw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=sz/M4+w8Nx0vfiD68Vb92UMUPFpCvrHmPgcxk3N4UclUbHPmOYhtMjhz1Wnymr7a8OPCWNsku3c9u3bw6XLSWwX6d3SLQRM0I3SqFDaO5a7lKYpg38/ez1vExL4NKrPm5uO0rB/yBCBrBIyOeJa6JUAEH/3XZmPekspzQgVsmw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=w0SnOLTR; arc=none smtp.client-ip=185.246.84.56
+	 In-Reply-To:To:Cc; b=FedrICLqGD5FkepuMMI/McYzu/NusKtuS/iYToA1m9HtkrwAlHe/IokU5Q5lY+fAsoyM8OeZuj60mXgSKAObdNPgZqcasCKhe83saaK3RrQ5j+2Jm2MdQxOU9YKxsMtG4027RDKpc6Jy1q3x/69Ill5WKUv5+etFDuV8IhT5LdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=UxKPR/C8; arc=none smtp.client-ip=185.171.202.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 58F0B1A2AAD;
-	Thu, 22 Jan 2026 15:14:02 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 5B5BDC21AA6;
+	Thu, 22 Jan 2026 15:14:04 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 2C40F606B6;
-	Thu, 22 Jan 2026 15:14:02 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 420A0119B82C1;
-	Thu, 22 Jan 2026 16:13:59 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 7D335606B6;
+	Thu, 22 Jan 2026 15:14:04 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6A397119B82D7;
+	Thu, 22 Jan 2026 16:14:01 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1769094841; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1769094843; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=+kIY2+d5nqykmYBPmHAWFbCHhJxDmjtvUjwEBEl1LRg=;
-	b=w0SnOLTRxT0OH53Rq8wTI/+GZs5AEISLfobmHtrkNHxDziP8uyWrftxs2upQcukBeIfLCa
-	pRurbmrLk4e7AWrD4ioOwpHQOLV6u8MqFlTbYumGVvBusbk0w2SHr5vSSWs3V7vM4dIudl
-	wilPtl22x2bnUAh/P7x4l2iMjkJtJm+3i1BrfKMZTFk0zCoFxwyVqyzmQCHc2sNw/sAj2i
-	81t3bsbPk7Mn4oPYHBNGog36mio4+t49cimwm72PQCzSSOcMKMPX17IjoYw3nlt41Rmlxc
-	bAyRFzyt1v9CCb3aGnKxWnI0Z6Tol6XbCIoP6a2qvJZ4GfEF91srbLDHfMEiUg==
+	bh=fO0SkS9+T7rGUtUKsShIOFxIB6cpqmbBl3frX7gVrxI=;
+	b=UxKPR/C8pOVfrKE3cNIgfIBeqSZhkng0Eo1tBE68Hb8OHKc5SbfKpj1EWBDVmjr9g0fP7x
+	1SV5IB7Oq5A6J7jS5kWymwWM3ONUmsy4J8NtsIJ/mzDTfz5Vh8joCBVQPxkOHPDUey1aqU
+	imgrO5qErC7R/oN5C1JZb2DGbKc6DVtc38Sfsk09kvUz6E1XU6vlGFG24l9J9fxv1tH9o3
+	SmUI9oJVguPFWAFkLKJVvlV1mvnFFIKksaPEKMoTEuPHC90SU67gojRVM2dS8nQ0C3ah+J
+	lEaUjJpBtd+6W3fNbsmQqTpuXpicB3Dou7eVqqthvkwz90vyrxmAOZFpvHrWTw==
 From: "Miquel Raynal (Schneider Electric)" <miquel.raynal@bootlin.com>
-Date: Thu, 22 Jan 2026 16:13:29 +0100
-Subject: [PATCH v4 04/15] spi: cadence-qspi: Fix style and improve
- readability
+Date: Thu, 22 Jan 2026 16:13:30 +0100
+Subject: [PATCH v4 05/15] spi: cadence-qspi: Fix ORing style and alignments
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -63,7 +62,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260122-schneider-6-19-rc1-qspi-v4-4-f9c21419a3e6@bootlin.com>
+Message-Id: <20260122-schneider-6-19-rc1-qspi-v4-5-f9c21419a3e6@bootlin.com>
 References: <20260122-schneider-6-19-rc1-qspi-v4-0-f9c21419a3e6@bootlin.com>
 In-Reply-To: <20260122-schneider-6-19-rc1-qspi-v4-0-f9c21419a3e6@bootlin.com>
 To: Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
@@ -95,7 +94,7 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FREEMAIL_TO(0.00)[kernel.org,glider.be,gmail.com,ti.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-27289-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-27290-lists,linux-renesas-soc=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[19];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
@@ -109,49 +108,70 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,bootlin.com:email,bootlin.com:dkim,bootlin.com:mid,sang-engineering.com:email]
-X-Rspamd-Queue-Id: 1E65A68B53
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sang-engineering.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,bootlin.com:email,bootlin.com:dkim,bootlin.com:mid]
+X-Rspamd-Queue-Id: 44A2268ADC
 X-Rspamd-Action: no action
 
-It took me several seconds to correctly understand this block. I
-understand the goal: showing that we are in the if, or in one of the two
-other cases. Improve the organization of the code to both improve
-readability and fix the style.
+These definitions do not follow the standard patterns. Alignments are
+incoherent and the logical OR symbols '|' are misplaced. Reorganize
+these definitions.
 
-Suggested-by: Pratyush Yadav <pratyush@kernel.org>
+There is no functional change.
+
+Acked-by: Pratyush Yadav <pratyush@kernel.org>
 Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 Signed-off-by: Miquel Raynal (Schneider Electric) <miquel.raynal@bootlin.com>
 ---
- drivers/spi/spi-cadence-quadspi.c | 15 +++++----------
- 1 file changed, 5 insertions(+), 10 deletions(-)
+ drivers/spi/spi-cadence-quadspi.c | 19 ++++++++-----------
+ 1 file changed, 8 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/spi/spi-cadence-quadspi.c b/drivers/spi/spi-cadence-quadspi.c
-index cc28da7fc686..c0a507953c58 100644
+index c0a507953c58..8eb80b4b76eb 100644
 --- a/drivers/spi/spi-cadence-quadspi.c
 +++ b/drivers/spi/spi-cadence-quadspi.c
-@@ -374,17 +374,12 @@ static irqreturn_t cqspi_irq_handler(int this_irq, void *dev)
- 	/* Clear interrupt */
- 	writel(irq_status, cqspi->iobase + CQSPI_REG_IRQSTATUS);
+@@ -2130,26 +2130,23 @@ static const struct cqspi_driver_platdata intel_lgm_qspi = {
+ };
  
--	if (cqspi->use_dma_read && ddata && ddata->get_dma_status) {
--		if (ddata->get_dma_status(cqspi)) {
--			complete(&cqspi->transfer_complete);
--			return IRQ_HANDLED;
--		}
--	}
--
--	else if (!cqspi->slow_sram)
--		irq_status &= CQSPI_IRQ_MASK_RD | CQSPI_IRQ_MASK_WR;
--	else
-+	if (cqspi->use_dma_read && ddata && ddata->get_dma_status)
-+		irq_status = ddata->get_dma_status(cqspi);
-+	else if (cqspi->slow_sram)
- 		irq_status &= CQSPI_IRQ_MASK_RD_SLOW_SRAM | CQSPI_IRQ_MASK_WR;
-+	else
-+		irq_status &= CQSPI_IRQ_MASK_RD | CQSPI_IRQ_MASK_WR;
+ static const struct cqspi_driver_platdata socfpga_qspi = {
+-	.quirks = CQSPI_DISABLE_DAC_MODE
+-			| CQSPI_NO_SUPPORT_WR_COMPLETION
+-			| CQSPI_SLOW_SRAM
+-			| CQSPI_DISABLE_STIG_MODE
+-			| CQSPI_DISABLE_RUNTIME_PM,
++	.quirks = CQSPI_DISABLE_DAC_MODE | CQSPI_NO_SUPPORT_WR_COMPLETION |
++		  CQSPI_SLOW_SRAM | CQSPI_DISABLE_STIG_MODE |
++		  CQSPI_DISABLE_RUNTIME_PM,
+ };
  
- 	if (irq_status)
- 		complete(&cqspi->transfer_complete);
+ static const struct cqspi_driver_platdata versal_ospi = {
+ 	.hwcaps_mask = CQSPI_SUPPORTS_OCTAL,
+-	.quirks = CQSPI_DISABLE_DAC_MODE | CQSPI_SUPPORT_EXTERNAL_DMA
+-			| CQSPI_DMA_SET_MASK,
++	.quirks = CQSPI_DISABLE_DAC_MODE | CQSPI_SUPPORT_EXTERNAL_DMA |
++		  CQSPI_DMA_SET_MASK,
+ 	.indirect_read_dma = cqspi_versal_indirect_read_dma,
+ 	.get_dma_status = cqspi_get_versal_dma_status,
+ };
+ 
+ static const struct cqspi_driver_platdata versal2_ospi = {
+ 	.hwcaps_mask = CQSPI_SUPPORTS_OCTAL,
+-	.quirks = CQSPI_DISABLE_DAC_MODE | CQSPI_SUPPORT_EXTERNAL_DMA
+-			| CQSPI_DMA_SET_MASK
+-			| CQSPI_SUPPORT_DEVICE_RESET,
++	.quirks = CQSPI_DISABLE_DAC_MODE | CQSPI_SUPPORT_EXTERNAL_DMA |
++		  CQSPI_DMA_SET_MASK | CQSPI_SUPPORT_DEVICE_RESET,
+ 	.indirect_read_dma = cqspi_versal_indirect_read_dma,
+ 	.get_dma_status = cqspi_get_versal_dma_status,
+ };
+@@ -2166,7 +2163,7 @@ static const struct cqspi_driver_platdata pensando_cdns_qspi = {
+ static const struct cqspi_driver_platdata mobileye_eyeq5_ospi = {
+ 	.hwcaps_mask = CQSPI_SUPPORTS_OCTAL,
+ 	.quirks = CQSPI_DISABLE_DAC_MODE | CQSPI_NO_SUPPORT_WR_COMPLETION |
+-			CQSPI_RD_NO_IRQ,
++		  CQSPI_RD_NO_IRQ,
+ };
+ 
+ static const struct of_device_id cqspi_dt_ids[] = {
 
 -- 
 2.51.1
