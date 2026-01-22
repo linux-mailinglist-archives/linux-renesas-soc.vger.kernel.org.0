@@ -1,58 +1,60 @@
-Return-Path: <linux-renesas-soc+bounces-27285-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27286-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4HvjGrw+cmnpfAAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27285-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 16:14:04 +0100
+	id yKOiD7s+cmnpfAAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27286-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 16:14:03 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8667968823
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 16:14:03 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1A4D68815
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 16:14:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id E885C300059F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 15:14:00 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 27F643000095
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 15:14:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6314F346A04;
-	Thu, 22 Jan 2026 15:13:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F05436AB6C;
+	Thu, 22 Jan 2026 15:13:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ftWtvHs0"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="c969SLpJ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 466F0369961
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Jan 2026 15:13:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71CD01F8AC8;
+	Thu, 22 Jan 2026 15:13:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769094838; cv=none; b=mcvAieJZuU9YvJQCdYEaRI5W8BSyui0RdvXLzzfxgNEfrrsLhu/ntZ9sQrNcmpuAmrwxUpoClE8bybVA4UqQOYWlF3XTn/UeZE79N4R5kg9ilO7m4PymA+ezH7Px4hzhX8AIh6ADdUBsZKmZKMsFxS7hI2EquPUesYXf3ii3UwQ=
+	t=1769094839; cv=none; b=Bd53sDc1h1+uD1ZueKtnppEq6V+KkEYADuGnsjKFBs89qDGdd5UKllZ9nHO//yNjkA2N+aDMIKS68rVp6lHwb3PEYQ9QkD+zHpuQeAAA/A3/vtFROlR8YMQh/zysnWRsEDcL3h3x6Pt/r6kpaHNWSgvSNHQOblhIWdmFhPQ3pK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769094838; c=relaxed/simple;
-	bh=GoBlrP+xx9Qc9HOwCO15fgAlmfgolawxP9BPWkoewKI=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=c/ashZHHgIb3ybhgmkXYw0eOq/YcI4T/0ZMX519xBz+GxTZyqvkC5iYzN0vy7ZNYXha2fBazgr1oWumEljDRyxAkDVXxgYK3K6cGFdCh/1OysGImTNwKmCFJ6Z7pcmg3fazmwoZFs2Gq6uF4wUzo2ZaGSp7fuR31rddDBw6s+HU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ftWtvHs0; arc=none smtp.client-ip=185.171.202.116
+	s=arc-20240116; t=1769094839; c=relaxed/simple;
+	bh=WC/+eOZMKY42nVOoDX/04sXysusom37jMeJSBZtm6Og=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=F3CIaUHHz2AXvKCQJkEC68DlG8nrVkIfg8dS3X41cY3vtMjdXIat5nPReQzrLxJwhX4Yyn7zCrmyjccbVcE7RUuPvui9UQtqFP4IRBb/G9IX21ifv/IUW1yEaSSv3qe3IsdZsxc3v1OpYQABCirDvz/UI8UVe0F8jToIJjggoLs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=c969SLpJ; arc=none smtp.client-ip=185.246.84.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 5AEC2C21AA6;
-	Thu, 22 Jan 2026 15:13:53 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id DB86F1A2A60;
+	Thu, 22 Jan 2026 15:13:55 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 70DFA606B6;
-	Thu, 22 Jan 2026 15:13:53 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4A6ED119B82CA;
-	Thu, 22 Jan 2026 16:13:48 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id B00A1606B6;
+	Thu, 22 Jan 2026 15:13:55 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9FA77119B82D7;
+	Thu, 22 Jan 2026 16:13:52 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1769094832; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding; bh=MqP3qGlM2WmuWsK0tfj/T6xCCsShk8aEX5blVIcNoL8=;
-	b=ftWtvHs070A7kCz2pBRHxTF+lTj0j3gicwtscTuKHAmuQNdC4+Jg9phkFQGRHx7CC0TRlG
-	8nSZw+3orm9CqKxVtr2yyrL/3apDoqbJTD9kIIB337bcgd1jgW2d98AfwvktWlAajU3zEL
-	UbqJdYLL3PNLR+FRxiI5q3XIiY08FRsw9ubhXMfiSPfS1XbFjcgz5vnLV6CQ/ZXpou60Ge
-	wMKdodIPRtU5GMmrJCSgqhRjLPbYc+ak5fbXZLGxvq3ZwKcjaFm9oCVF9ezKZCmQlDFQRN
-	XjXWP+xk3i7thlWILMU2I9skDsf/nrgw/R/HXahcrevLctYgo/fiJ1KSJDMi4g==
+	t=1769094834; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=UxtsaoqIg+6AYy2V/7KjnfLwIE5YKNYS6+v8qGxpVDA=;
+	b=c969SLpJsCfXnLlhPT0ApfUbwwcMHJBi7eFwe0drjUkYGXIcSbJb85FS8vrL8/G9lxd1lf
+	+6mF/vN7GCPB6mo0A+B8Nfxs5+a+3SUi+QM1r5dbtLPS9GGw3vB5JojSM0DlSkg+ADz384
+	UQOvJsVco+Zr/8LEP5Hs2JhEOJspqDYuOKg58lHN1eOx0ph7LUdfjFJq11CtAbhrgXJ5GX
+	lW452Yj/TqA2bEeqWjokSS2YBhQih5fBQ2bbLW4HrjhFwRW2lWsBcVNpGUF/isi5oeo5Nj
+	u/X59mmOdTHgqCIYc+/O1COi58CAtd/mBAo8UsvVcMBVGFBZkubBIebJ+GoxzA==
 From: "Miquel Raynal (Schneider Electric)" <miquel.raynal@bootlin.com>
-Subject: [PATCH v4 00/15] spi: cadence-qspi: Add Renesas RZ/N1 support
-Date: Thu, 22 Jan 2026 16:13:25 +0100
-Message-Id: <20260122-schneider-6-19-rc1-qspi-v4-0-f9c21419a3e6@bootlin.com>
+Date: Thu, 22 Jan 2026 16:13:26 +0100
+Subject: [PATCH v4 01/15] spi: dt-bindings: cdns,qspi-nor: Drop label in
+ example
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -60,12 +62,10 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/4XOzQrCMAzA8VeRnq00/VRPvod46LrMBXSdrQxF9
- u52A0EU8fgP5Jc8WMZEmNl28WAJB8oUuxJ6uWCh9d0ROdWlmRTSgIQNz6HtkGpM3PKSKQC/5J6
- 4CwrBaOcbW7Oy3Sds6DbL+0PplvI1pvt8aIBp+t8cgAu+9rURBpxCrXdVjNcTdasQz2xSB/mSr
- AAwvyVZJIfWC4uA4KpvSb1JEn5LqkhaoRONr7T+/GkcxydN7gdTVAEAAA==
-X-Change-ID: 20251219-schneider-6-19-rc1-qspi-7c3e1547af6d
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260122-schneider-6-19-rc1-qspi-v4-1-f9c21419a3e6@bootlin.com>
+References: <20260122-schneider-6-19-rc1-qspi-v4-0-f9c21419a3e6@bootlin.com>
+In-Reply-To: <20260122-schneider-6-19-rc1-qspi-v4-0-f9c21419a3e6@bootlin.com>
 To: Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
  Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, 
@@ -86,7 +86,7 @@ X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -95,11 +95,11 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FREEMAIL_TO(0.00)[kernel.org,glider.be,gmail.com,ti.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-27285-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-27286-lists,linux-renesas-soc=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[19];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
@@ -109,90 +109,34 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:email,bootlin.com:dkim,bootlin.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 8667968823
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,bootlin.com:email,bootlin.com:dkim,bootlin.com:mid,ff705000:email]
+X-Rspamd-Queue-Id: B1A4D68815
 X-Rspamd-Action: no action
 
-Hello,
+The label is useless here. Plus, if there are several examples with the
+same label, we'll get very useless yet annoying warnings.
 
-This series adds support for the QSPI controller available on Renesas
-RZ/N1S and RZ/N1D SoC. It has been tested with a custom board (see last
-SPI patch for details), but has been tested by Wolfram (thank you!) on
-the DB board.
-Link: https://lore.kernel.org/linux-devicetree/20260116114852.52948-2-wsa+renesas@sang-engineering.com/
-
-Adding support for this SoC required a few adaptations in the Cadence
-QSPI driver. The bulk of the work is in the few last patches. Everything
-else is just misc style fixes and improvements which bothered me while I
-was wandering.
-
-In order to support all constraints, I sometimes used a new quirk (for
-the write protection feature and the "no indirect mode"), and sometimes
-used the compatible directly. The ones I thought might not be RZ/N1
-specific have been implemented under the form of a quirk, in order to
-ease their reuse. The other adaptations, which I believe are more
-Renesas specific, have been handled using the compatible. This is all
-very arbitrary, and can be discussed.
-
-Thanks,
-Miquèl
-
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 Signed-off-by: Miquel Raynal (Schneider Electric) <miquel.raynal@bootlin.com>
 ---
-Changes in v4:
-- Drop two binding patches judged useless.
-- Collected Rob's acks.
-- Fixed the RZ/N1D400 DTSI (removed the properties no longer relevant
-  after my binding changes).
-- Link to v3: https://lore.kernel.org/r/20260121-schneider-6-19-rc1-qspi-v3-0-43e70fab4444@bootlin.com
+ Documentation/devicetree/bindings/spi/cdns,qspi-nor.yaml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Changes in v3:
-- Collected tags from Wolfram and Geert.
-- Dropped the Cadence compatible as this fallback would simply not work
-  alone.
-- Fixed the clock issue reported by Santhosh.
-- Fixed the DT snippet following the discussion with Geert.
-- Modified more deeply the binding, to no longer expect a fifo
-  size/depth nor any trigger address, as these values have no meaning in
-  the score of the Renesas implementation.
-- Link to v2: https://lore.kernel.org/r/20260115-schneider-6-19-rc1-qspi-v2-0-7e6a06e1e17b@bootlin.com
+diff --git a/Documentation/devicetree/bindings/spi/cdns,qspi-nor.yaml b/Documentation/devicetree/bindings/spi/cdns,qspi-nor.yaml
+index 6f9730783d34..e005869a76c8 100644
+--- a/Documentation/devicetree/bindings/spi/cdns,qspi-nor.yaml
++++ b/Documentation/devicetree/bindings/spi/cdns,qspi-nor.yaml
+@@ -172,7 +172,7 @@ unevaluatedProperties: false
+ 
+ examples:
+   - |
+-    qspi: spi@ff705000 {
++    spi@ff705000 {
+         compatible = "intel,socfpga-qspi", "cdns,qspi-nor";
+         #address-cells = <1>;
+         #size-cells = <0>;
 
-Changes in v2:
-- Fix commit log of DT binding patch, following Krzysztof's comment.
-- Fix properties order in DTSI.
-- Rebase on top of spi/for-next and fix all conflicts.
-- Simplify even further the code in the cleanup patches following
-  Pratyush's advices.
-- Link to v1: https://lore.kernel.org/r/20251219-schneider-6-19-rc1-qspi-v1-0-8ad505173e44@bootlin.com
-
----
-Miquel Raynal (Schneider Electric) (15):
-      spi: dt-bindings: cdns,qspi-nor: Drop label in example
-      spi: dt-bindings: cdns,qspi-nor: Add Renesas RZ/N1D400 to the list
-      spi: cadence-qspi: Align definitions
-      spi: cadence-qspi: Fix style and improve readability
-      spi: cadence-qspi: Fix ORing style and alignments
-      spi: cadence-qspi: Remove an useless operation
-      spi: cadence-qspi: Make sure we filter out unsupported ops
-      spi: cadence-qspi: Fix probe error path and remove
-      spi: cadence-qspi: Try hard to disable the clocks
-      spi: cadence-qspi: Kill cqspi_jh7110_clk_init
-      spi: cadence-qspi: Add a flag for controllers without indirect access support
-      spi: cadence-qspi: Make sure write protection is disabled
-      spi: cadence-qspi: Use a default value for cdns,fifo-width
-      spi: cadence-qspi: Add support for the Renesas RZ/N1 controller
-      ARM: dts: r9a06g032: Describe the QSPI controller
-
- .../devicetree/bindings/spi/cdns,qspi-nor.yaml     |  35 ++-
- arch/arm/boot/dts/renesas/r9a06g032.dtsi           |  12 +
- drivers/spi/spi-cadence-quadspi.c                  | 279 ++++++++++-----------
- 3 files changed, 177 insertions(+), 149 deletions(-)
----
-base-commit: 7a3f3fdb79a26125b38fb91b68dab298ca7b44e0
-change-id: 20251219-schneider-6-19-rc1-qspi-7c3e1547af6d
-
-Best regards,
 -- 
-Miquel Raynal (Schneider Electric) <miquel.raynal@bootlin.com>
+2.51.1
 
 
