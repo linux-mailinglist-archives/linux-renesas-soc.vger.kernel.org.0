@@ -1,100 +1,95 @@
-Return-Path: <linux-renesas-soc+bounces-27275-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27277-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wN4zKIT9cWmvZwAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27275-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 11:35:48 +0100
+	id SEy6JLojcmnhdgAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27277-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 14:18:50 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 118706553A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 11:35:48 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC1EA672CB
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 14:18:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id DA9BD881C56
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 10:28:07 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 1A0FB906A3A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 12:32:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5ED73385AE;
-	Thu, 22 Jan 2026 10:25:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 471AC32936C;
+	Thu, 22 Jan 2026 12:32:42 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f193.google.com (mail-vk1-f193.google.com [209.85.221.193])
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FD4833509A
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Jan 2026 10:25:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E27223164C8
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Jan 2026 12:32:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769077514; cv=none; b=Hg/m0lgtFZc8oYbIzhRKAS8hhRMJKC3wNmGpZF4cNjllCVWy/yWg+NItFipD0gu+ug6CZqZjgEJU9MHz/hHdNt3aDsFFkn9RqPewwL68uVgvZiPenRiVwKWU+EtgeptcCSKinkMnINBbEz7QgKxUvvuYtS3TTwN1DuxS+rP3Q8s=
+	t=1769085162; cv=none; b=p/Z+xkIpIrCsdT6GGduo/e9ilJSL+BV1jtcfmauzOIDe2eAgoXsdRUgpp8KeFpgD7V43rbhmw5pNYWhjclN7ulI+yx+bceBmReIPRXG0trwsXTsDNk9zh0f/IhqYjF9U4v0/1sLr+fFWggks5yR+EJc5xM1LeINQaaCTVv0HGSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769077514; c=relaxed/simple;
-	bh=tzCu6s+P00F9BxBbrZV8bsVUzyJIUMZRriM+ZWggqa0=;
+	s=arc-20240116; t=1769085162; c=relaxed/simple;
+	bh=BZu/5Fim3WbSmBgZucW+Oc0ZzQIc/F/G6KlUlmjvOc4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eOyEqS0ZhskXQwY0s8eNpPQFOtBveFU6QatbAmYPNAKj0Fop4NLs6k8kVny1Mw2jQiB8/hWxiXD+4JtN4monM8czncwR1REZNUg75XKfnCm2DZqmaHyaHc/DD3AuM+8L+swQ9/Z7k/FAXMDSgxKxU90+34b3TdhJt996NxBJMBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.193
+	 To:Cc:Content-Type; b=Cp9PNC9hK14/EZkh7OidpOEat4wVAg8ebmaUIvuLY2niSdfCA1UDErkbGlMkXP6kj+BoD19S4jVZ9azBjrwqeT8HdBPaDXbr26+jZXNl5UwuKx0HOEkNm6viSvv2+yRWv3kMVtHfNWlTveHqr58vMkt6DhZisrKRM1RJ1qn6fpI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f193.google.com with SMTP id 71dfb90a1353d-560227999d2so305105e0c.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Jan 2026 02:25:12 -0800 (PST)
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-81f5381d168so941859b3a.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Jan 2026 04:32:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769077511; x=1769682311;
+        d=1e100.net; s=20230601; t=1769085159; x=1769689959;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DU8rGFe6B3mE/xdQKQTWoBiiNLtj1+ih/vdN/GH7wsM=;
-        b=tImqTf4p9+DDsJQ8DksuahF5K0I78GRoPfdGVl9WLriV0D8516efYiAO9O9OG1XoLT
-         EenIVTkjcOFm8lJVBDflxOqGGG/1uKP4Z53FhlxDzQwRevN99KYVxrjmwIM7AxQwi4qE
-         hG1QRepBXeNBXpaHWQOmSG+2HUbyhuWvPvf+kXDZ5tLRW49czJbmyKmon6A3kyynCgCE
-         4R6lSH98BKn43AaW82lFHLGEv6HJhFHRo182rMCt6DLcN2qN5sQA/ebKMREF1eMdhDZQ
-         f4eXuDDx2t8T33cPks/90TnrySX/JpG6qSYnueshQRZ4G5kOBHckgTRGyr1TO9LXfAGb
-         MnnA==
-X-Forwarded-Encrypted: i=1; AJvYcCVRIkVqdqiikT3YRsNBV2FIk432P9iyLGv7ezvPyGqJW3S/INgUOeSP66ZmBe1iKePo4XYRVqIfL3LszY1vfRBv7A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzvEYKIlP6pV5qUhMgU3VHL+pzdX8pvTQtYnsVSU+jbaunrC8zw
-	m2hHK7+hnolHqx+6VQjP++M1jvVKJWBvUlP5qc8o33MwjcPgze/Noj7jK+LlcN9t
-X-Gm-Gg: AZuq6aKenPqWp9o5PH6y/WUP9Xvxd+Hlw/Jddu3x2c5qUsVVTT9M1LX0FzbxGfD+Y/X
-	j3nYc+wrZWGXj1Wyg2dTPqvw7w8hXQNy7ax//x5r65DrwwaKmMPLxwwSH9G0IlZ1KT7c3M9prT3
-	fTsTJYRCNS/+UeOrgvl71PybFF1/aFzX1Ta4QNfGtMyZ68mR5ljkTuFK1NoNMSaYOG/ovocTuQk
-	iv/lUoDY06TyuPMC+db9Lgjq5FdcLXzmRtzvqlgPYRMnVG8syVsYEnfr55UuO0cZYil/IJaKG5H
-	Aj9X2QQRGa5QhcNxaxo4UgpbAhkjXuCHWrFxkeyB822Ceovcu34UgbhA4rPIIXzqBW6WTYy9yEe
-	JHehYuWq5ypxclUGFZrDxlNpniTdhZmq5ceRzy9zAEx06yG0wylkg1dopE3iyrvZYX5oZQxX4MB
-	anLkyIH8hwZBD/J0sIH2AXTg6OYt/6bBfxVb25zQgHl4kdb9Jl
-X-Received: by 2002:a05:6122:1828:b0:558:251:f0e8 with SMTP id 71dfb90a1353d-563b736b4a0mr5642139e0c.11.1769077511234;
-        Thu, 22 Jan 2026 02:25:11 -0800 (PST)
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com. [209.85.222.47])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-563b70e6042sm4424246e0c.10.2026.01.22.02.25.10
+        bh=NshjYFUffTPn7Y/VWXqwFCdDoXaersEomkK4SDzB2hg=;
+        b=UVOweVev6gl3HU7MSh2yWKXHxNNOX3umt5/CiN4R0XxSnYf6+8ZYpnBbHCZ898uBlJ
+         fqpI3N8jLb+7Rh0FQ2cnpqPpQZ/ajfB//uU4a9q/UPBmhOuXGsz9C9hSWHpWQ+6xjX09
+         oOrsEE+PzH/iv2iYMIqE1nAjuRl7anXKM8YNAqnw+4kT+0hFEM4tqrhKo5F3QtdrJ4fJ
+         WR7446B5SFebewNVa4Y+eBflGsrdy3wqbQPxKC+c45yWdRqAJ6y4OzGekcpCkM2aXddD
+         Y1RJcoxBMEQEiNtozl++YgK0+sWvQLi6pkKqFxRiQKQsL8QHokFVSn3gjOFBftjfP5Ke
+         DhDA==
+X-Forwarded-Encrypted: i=1; AJvYcCWS2xrLi+IKfcMGwPz5oRExQ5KKYfBcSszViUj4VYh9KLayPjAN3VgCb3IOqzb5hyzJ4yNR1GUapfZtHNv4BKI5TA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YygUhJzrll860dTSqvzYmfmcybySZ81md8MpVzEI2WBiz0aFv7X
+	EjuBr5lUeEej/2NpLHPW4f98suGQZTzpVRQ4kgEGGIKcPcskY1V+V9f9XEHW8Wce
+X-Gm-Gg: AZuq6aJCrtgpNSc7AW7rIF+xaVphoujuUQl58lPoHoXQmhqUbQb/LrtJf4gc3q279G0
+	FlgXpFr1kvDQ6BwWb1ih5lSMOsgJ290ZUj0EfHd9pAzLH4GJFwB75V9jNsYuQ/QOMchuFY+uQRV
+	X2FbujKzGQolVuP5tcnORadCZX+/VvwgdINKZuVm5o1X9XVn1JneNrnkv5a310Qly/69Obf2gQC
+	t+9BUdgZaC/n6cbNCVYwl6G7BlJGijZ0VjdOVI6VabMsc/INL1Fio2OryRKsqadz75X44xKnls+
+	oMisV36GEPuEwi/G0oULwSrDOlC7wN2k7qbtZBcW6ojxq2+C6fkmmRc6w4dQo+gPqg+bs7XTF+P
+	eoYhc7mLxPCD7JULLutpFt31ZNCBIuZw+tpCWVJapZyMbMOoVyUJdifiReJXituxgBZDSBU9PPE
+	XidXQZcHxUeJjWLOqDj4OpPg8gsnPLYypwbdkw+rJLVRzyx8mt6MLQ
+X-Received: by 2002:a05:6102:41a0:b0:5f5:3abd:9301 with SMTP id ada2fe7eead31-5f53abdb352mr317847137.35.1769078727079;
+        Thu, 22 Jan 2026 02:45:27 -0800 (PST)
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com. [209.85.221.178])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5f1a6d3ca93sm5529337137.11.2026.01.22.02.45.26
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 Jan 2026 02:25:10 -0800 (PST)
-Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-947fea7590cso218984241.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Jan 2026 02:25:10 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVxGBq/wOmXA+jC1bpOoH9yc3Gq/T00aaMoVEkD4UzTlLhRt8dsNdOB2sVV5J1DWnQOJVUn4WQoF49rwZ6bv1UZlg==@vger.kernel.org
-X-Received: by 2002:a05:6102:c8e:b0:5f5:3826:3cfb with SMTP id
- ada2fe7eead31-5f5382646b2mr467462137.27.1769077510009; Thu, 22 Jan 2026
- 02:25:10 -0800 (PST)
+        Thu, 22 Jan 2026 02:45:26 -0800 (PST)
+Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-5636784884eso243091e0c.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Jan 2026 02:45:26 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVpmNVPikCsaP0vFw46f2N+kshzkAvLUlz2wEl5YHTFRtKuvopJc8I5NlGvf6CJDiczhhhwugzQzj6pghCm9TtDzQ==@vger.kernel.org
+X-Received: by 2002:a05:6102:304f:b0:5f5:3719:19d8 with SMTP id
+ ada2fe7eead31-5f537191b24mr421545137.31.1769078726495; Thu, 22 Jan 2026
+ 02:45:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260118135038.8033-1-marek.vasut+renesas@mailbox.org>
- <20260118135038.8033-10-marek.vasut+renesas@mailbox.org> <CAMuHMdWfkHMQFvUzaHpso-fMFAS5u8ABHpEA9ZXq1fxcR-oN6Q@mail.gmail.com>
- <6f817993-1b4a-4600-a771-d6c25efc668b@mailbox.org>
-In-Reply-To: <6f817993-1b4a-4600-a771-d6c25efc668b@mailbox.org>
+References: <cover.1768559762.git.geert+renesas@glider.be> <cover.1768559767.git.geert+renesas@glider.be>
+ <20260122-fragrant-auburn-oxpecker-33aa7b@quoll>
+In-Reply-To: <20260122-fragrant-auburn-oxpecker-33aa7b@quoll>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 22 Jan 2026 11:24:58 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdX0iuyUhGRPFf4x==e_ZEMjaB_dP6mrM81F+yxqwam0FA@mail.gmail.com>
-X-Gm-Features: AZwV_QjuP8FSEPCU0Lg3L4U6GH5gFTYqAWXZrFYKPuIZu4sDlAHvOrdK6rQ4B2g
-Message-ID: <CAMuHMdX0iuyUhGRPFf4x==e_ZEMjaB_dP6mrM81F+yxqwam0FA@mail.gmail.com>
-Subject: Re: [PATCH v2 9/9] arm64: dts: renesas: ebisu: Describe PCIe/USB3.0
- clock generator
-To: Marek Vasut <marek.vasut@mailbox.org>
-Cc: Mark Brown <broonie@kernel.org>, linux-arm-kernel@lists.infradead.org, 
-	Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Rob Herring <robh@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, devicetree@vger.kernel.org, 
-	linux-phy@lists.infradead.org, linux-renesas-soc@vger.kernel.org
+Date: Thu, 22 Jan 2026 11:45:15 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWHJY1774N5m_S99u6ETJdyuj7GdrXv75DRoDty9j8tcg@mail.gmail.com>
+X-Gm-Features: AZwV_Qh9OPSpjre26zYtA49UvfUvRCXHMaoKfRQXbtFLez-kbSzjI0P07of02JY
+Message-ID: <CAMuHMdWHJY1774N5m_S99u6ETJdyuj7GdrXv75DRoDty9j8tcg@mail.gmail.com>
+Subject: Re: [GIT PULL 2/3] Renesas DT binding updates for v6.20
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: soc@lists.linux.dev, soc <soc@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-arm-kernel@lists.infradead.org, 
+	linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.24 / 15.00];
@@ -104,73 +99,62 @@ X-Spamd-Result: default: False [0.24 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-27275-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-27277-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	DMARC_NA(0.00)[linux-m68k.org];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FREEMAIL_CC(0.00)[kernel.org,lists.infradead.org,gmail.com,linaro.org,renesas.com,vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[lists.linux.dev,kernel.org,gmail.com,lists.infradead.org,vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:7979, ipnet:142.0.200.0/24, country:US];
-	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:7979, ipnet:2605:f480::/32, country:US];
+	RCPT_COUNT_FIVE(0.00)[6];
 	R_SPF_SOFTFAIL(0.00)[~all:c];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
 	MISSING_XM_UA(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
 	R_DKIM_NA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[dfw.mirrors.kernel.org:helo,dfw.mirrors.kernel.org:rdns,mailbox.org:email,mail.gmail.com:mid,linux-m68k.org:email]
-X-Rspamd-Queue-Id: 118706553A
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,dfw.mirrors.kernel.org:helo,dfw.mirrors.kernel.org:rdns]
+X-Rspamd-Queue-Id: EC1EA672CB
 X-Rspamd-Action: no action
 
-Hi Marek,
+Hi Krzysztof,
 
-On Wed, 21 Jan 2026 at 23:44, Marek Vasut <marek.vasut@mailbox.org> wrote:
-> On 1/21/26 2:48 PM, Geert Uytterhoeven wrote:
-> >> @@ -871,7 +902,19 @@ &usb2_phy0 {
-> >>          status = "okay";
-> >>   };
-> >>
-> >> +&usb3_phy0 {
-> >> +       clocks = <&pcie_usb_clk 6>;
-> >> +       status = "okay";
-> >> +};
+On Thu, 22 Jan 2026 at 11:02, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> On Fri, Jan 16, 2026 at 11:50:17AM +0100, Geert Uytterhoeven wrote:
+> > The following changes since commit 8f0b4cce4481fb22653697cced8d0d04027cb1e8:
 > >
-> > This does not work, probing fails with:
+> >   Linux 6.19-rc1 (2025-12-14 16:05:07 +1200)
 > >
-> >      usb_phy_generic usb-phy: dummy supplies not allowed for exclusive
-> > requests (id=vbus)
+> > are available in the Git repository at:
 > >
-> > Adding a fixed regulator that serves as vbus-supply like in commit
-> > fec2d8fcdedaeeb0 ("arm64: dts: freescale: imx93-phyboard-nash: Add USB
-> > vbus regulators") fixes that issue (and my USB3.0 FLASH driver is
-> > detected, yeah!), but a more accurate description would be better.
+> >   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git tags/renesas-dt-bindings-for-v6.20-tag1
+> >
+> > for you to fetch changes up to f3b795d298a280687ed70211d51043ed5fc7a96a:
+> >
+> >   dt-bindings: soc: renesas: Document RZ/N1 GPIO Interrupt Multiplexer (2026-01-15 11:56:09 +0100)
+> >
+> > ----------------------------------------------------------------
+> > Renesas DT binding updates for v6.20
+> >
+> >   - Document the RZ/N1 GPIO Interrupt Multiplexer.
 >
-> This piece of code in drivers/usb/phy/phy-generic.c [1] shouldn't fail
-> the probe if "vbus-supply" property is not present in DT. If
-> "vbus-supply" property is not present in DT, then
-> PTR_ERR(nop->vbus_draw) == -ENODEV is true, nop->vbus_draw will be set
-> to NULL, but won't encode error, so the dev_err_probe() won't trigger.
->
-> "
-> 259         nop->vbus_draw = devm_regulator_get_exclusive(dev, "vbus");
-> 260         if (PTR_ERR(nop->vbus_draw) == -ENODEV)
-> 261                 nop->vbus_draw = NULL;
-> 262         if (IS_ERR(nop->vbus_draw))
-> 263                 return dev_err_probe(dev, PTR_ERR(nop->vbus_draw),
-> 264                                      "could not get vbus regulator\n");
-> "
->
-> [1]
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/usb/phy/phy-generic.c#n259
+> This belongs to the driver patch (see submitting patches in DT) and is
+> not supposed to be separate pull. If you wanted to share with your DTS
+> branch then maybe just pull it as dependency, but the problem is that
+> Arnd just merged all driver pulls and this one was skipped.
 
-Sorry, you are right. I missed the PHY driver ignores the error and
-probes successfully, and thus didn't bother doing "echo ee000000.usb >
-/sys/bus/platform/drivers/xhci-renesas-hcd/bind" after /lib/firmware
-became available.
+Right, in this particular case including it with my drivers PR would
+have been more appropriate. Sorry for missing that.
+
+> I'll leave this one to Arnd to decide where to pull this.
+
+As soc no longer has a dt-bindings branch, he usually pulls my
+dt-bindings PR just before my dts PR (which he also hasn't pulled yet)
+into the soc dt branch.
 
 Gr{oetje,eeting}s,
 
