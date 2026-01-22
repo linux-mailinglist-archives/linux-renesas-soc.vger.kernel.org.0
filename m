@@ -1,60 +1,60 @@
-Return-Path: <linux-renesas-soc+bounces-27292-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27293-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qKtqD81EcmnpfAAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27292-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 16:39:57 +0100
+	id IMcFIgxDcmnpfAAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27293-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 16:32:28 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E53A690C8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 16:39:56 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CDE568E81
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 16:32:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 43B6E300A8C8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 15:32:25 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id B8D5F30004D8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 15:32:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 479AB3815F6;
-	Thu, 22 Jan 2026 15:14:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46EA43815F9;
+	Thu, 22 Jan 2026 15:14:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="qifbUPyz"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="mNFOhN0A"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C9243806A4;
-	Thu, 22 Jan 2026 15:14:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1B7A3815DB;
+	Thu, 22 Jan 2026 15:14:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769094852; cv=none; b=tUSGE6Mn7IlTThmdhOCXBhmiC/vvKxMKyZm5fu+cmABv7uf4p7C8Xxz7FvNiUfEMigLBNKD3pjeVvhLsS8Eo0t3WpvPGYEef1osZLtI0KjJWGwbtRK+pyYK3ZDcDPIPg3z7Xz6TQ9dF97qZqTtOis5RbRv19t8QqSdUStukQu2A=
+	t=1769094856; cv=none; b=AFgtsFRSmuhjDbGVChAPYtobY1QhZuZmZjs6iG/V4HLv254kmFPYLsqcwVzrM6urabYb4lyC42fBhK/ssKI683J6GKjQD2e/oPM1y2QUDjtT6Zb+pZo7QmGB+OZ0qQRzYl3hTPqdV7VPsO5+oY6oI4png7v7LHyAqWXvkdbZ5AQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769094852; c=relaxed/simple;
-	bh=ZQUmRyH3AswY8FGRKszIfF3sz0k1NkGxrNlVU2gJVCk=;
+	s=arc-20240116; t=1769094856; c=relaxed/simple;
+	bh=wqzgTKFg6ppbuBFV3yXjEvMJbs7TMKIWizW6DK2qIQw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=IgvUd+iRlFrfvafGiwM6mB8Cx/kKnTU8rLg1h96Cs6XmANMUy73enA9u+FACBLcoICiy51aNKbxFbOwwTxvCBCuC7KVCVey+On+xwbJN3FyG9qjxolyxH3RK+FU2EGUUVjbyCg6JVT/DLzBc7zoIuj6xKRstZQdctT2R0lUUcOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=qifbUPyz; arc=none smtp.client-ip=185.171.202.116
+	 In-Reply-To:To:Cc; b=Z8QxKawnF/9xwiMGOe3XQ+XMnnKVvlOVmadXLTmL/kWW0/3OJiwkpECegTyEHbvA/Ow2RklWJ4ttI9sWflOeZI50402EAZjH/jJhVzBAXWYSlgOHHOp984aQka9QeuKHmquxA8Odks28z6QRAxe0CIavQdMnpz8YKWN8vNPccLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=mNFOhN0A; arc=none smtp.client-ip=185.246.85.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id BE71EC21AA6;
-	Thu, 22 Jan 2026 15:14:08 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 55EE44E421F2;
+	Thu, 22 Jan 2026 15:14:11 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id E4AF6606B6;
-	Thu, 22 Jan 2026 15:14:08 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B927F119B82E8;
-	Thu, 22 Jan 2026 16:14:05 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 2C08F606B6;
+	Thu, 22 Jan 2026 15:14:11 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1EC66119B82E0;
+	Thu, 22 Jan 2026 16:14:07 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1769094847; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1769094849; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=EMbLn4ztip/MZhDqXh4OQPXIi4Ml+zoGnNkz7bb0Ccs=;
-	b=qifbUPyzj8LbihQP0mseso0NVEZqoyfwKgP3szFvykL5kam/m0A0ELd9qJfug7GfAOgfyu
-	L60NUbUHClHBawJv+KVWw1S2BhVpdhtKnLuB/xkBAHrYY/B2sWPRr4v3LcP633JxH+yHt7
-	8+Pd3t2MzYDHsIC6uhkikAzT1pj37LQjejgCr51zS6c0l++FKTRuO55M2bGBpk0+n05WqB
-	yuBtMGtHWwSORUUvpXkI7k/ITxc2kOUKP46clhn81x+VQ4hHRSwLkUg2jZJfzr2Zqtc1CH
-	jLKr7qMZQH/lICD0HEBp9VPJed6IV8eueSxlSKjhBBOWED+pQ0HqJ87P7aW1tg==
+	bh=y4t0ZhlqcETe6yz8RMe/Zn2ajMMv2vHDxX8bYifqwF8=;
+	b=mNFOhN0ANirpMvgh9+MWUPMwFHjCbagYDd4Tqyeg5juh7c7J2rpnepDaYXt8RMFL7DQJJ9
+	GASX8xVs+fgOD2buKs7jU4ieU3Ikz4s38yl+rlAiT6GEpTV6WS9wEXw5dE6HCpO+kKRtG2
+	rBRVXKYhYVz/mWMn/XjCSYrRfUum2wPaBNXD3bU8/zmqzrBDVNjfYVnRNH6tolaAn797gg
+	lIMuwdY7VXNDTb+9hSjRhnBItAAZ0qxw0kR27Qw/oNtaUezMA8IVet1XW3cTQ4aJZde6VJ
+	1YmOP0ncrdBGwuFoRFAg7qzeWKGPdmscNDJ+j9jzPWFtwBqe+xgRG2XFopFvsg==
 From: "Miquel Raynal (Schneider Electric)" <miquel.raynal@bootlin.com>
-Date: Thu, 22 Jan 2026 16:13:32 +0100
-Subject: [PATCH v4 07/15] spi: cadence-qspi: Make sure we filter out
- unsupported ops
+Date: Thu, 22 Jan 2026 16:13:33 +0100
+Subject: [PATCH v4 08/15] spi: cadence-qspi: Fix probe error path and
+ remove
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -63,7 +63,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260122-schneider-6-19-rc1-qspi-v4-7-f9c21419a3e6@bootlin.com>
+Message-Id: <20260122-schneider-6-19-rc1-qspi-v4-8-f9c21419a3e6@bootlin.com>
 References: <20260122-schneider-6-19-rc1-qspi-v4-0-f9c21419a3e6@bootlin.com>
 In-Reply-To: <20260122-schneider-6-19-rc1-qspi-v4-0-f9c21419a3e6@bootlin.com>
 To: Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
@@ -86,7 +86,7 @@ X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -95,11 +95,11 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FREEMAIL_TO(0.00)[kernel.org,glider.be,gmail.com,ti.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-27292-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-27293-lists,linux-renesas-soc=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[19];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
@@ -109,36 +109,160 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sang-engineering.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 8E53A690C8
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,sang-engineering.com:email,bootlin.com:email,bootlin.com:dkim,bootlin.com:mid]
+X-Rspamd-Queue-Id: 4CDE568E81
 X-Rspamd-Action: no action
 
-The Cadence driver does not support anything else than repeating the
-command opcode twice while in octal DTR mode. Make this clear by
-checking for this in the ->supports_op() hook.
+The probe has been modified by many different users, it is hard to track
+history, but for sure its current state is partially broken. One easy
+rule to follow is to drop/free/release the resources in the opposite
+order they have been queried.
 
-Reviewed-by: Pratyush Yadav <pratyush@kernel.org>
+Fix the labels, the order for freeing the resources, and add the
+missing DMA channel step. Replicate these changes in the remove path as
+well.
+
 Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 Signed-off-by: Miquel Raynal (Schneider Electric) <miquel.raynal@bootlin.com>
 ---
- drivers/spi/spi-cadence-quadspi.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/spi/spi-cadence-quadspi.c | 44 ++++++++++++++++++++++-----------------
+ 1 file changed, 25 insertions(+), 19 deletions(-)
 
 diff --git a/drivers/spi/spi-cadence-quadspi.c b/drivers/spi/spi-cadence-quadspi.c
-index 06f6c5979229..fc9f6e8dd549 100644
+index fc9f6e8dd549..4bfe65af458e 100644
 --- a/drivers/spi/spi-cadence-quadspi.c
 +++ b/drivers/spi/spi-cadence-quadspi.c
-@@ -1531,6 +1531,10 @@ static bool cqspi_supports_mem_op(struct spi_mem *mem,
- 			return false;
- 		if (op->data.nbytes && op->data.buswidth != 8)
- 			return false;
+@@ -1890,7 +1890,7 @@ static int cqspi_probe(struct platform_device *pdev)
+ 	ret = clk_prepare_enable(cqspi->clk);
+ 	if (ret) {
+ 		dev_err(dev, "Cannot enable QSPI clock.\n");
+-		goto probe_clk_failed;
++		goto disable_rpm;
+ 	}
+ 
+ 	/* Obtain QSPI reset control */
+@@ -1898,14 +1898,14 @@ static int cqspi_probe(struct platform_device *pdev)
+ 	if (IS_ERR(rstc)) {
+ 		ret = PTR_ERR(rstc);
+ 		dev_err(dev, "Cannot get QSPI reset.\n");
+-		goto probe_reset_failed;
++		goto disable_clk;
+ 	}
+ 
+ 	rstc_ocp = devm_reset_control_get_optional_exclusive(dev, "qspi-ocp");
+ 	if (IS_ERR(rstc_ocp)) {
+ 		ret = PTR_ERR(rstc_ocp);
+ 		dev_err(dev, "Cannot get QSPI OCP reset.\n");
+-		goto probe_reset_failed;
++		goto disable_clk;
+ 	}
+ 
+ 	if (of_device_is_compatible(pdev->dev.of_node, "starfive,jh7110-qspi")) {
+@@ -1913,7 +1913,7 @@ static int cqspi_probe(struct platform_device *pdev)
+ 		if (IS_ERR(rstc_ref)) {
+ 			ret = PTR_ERR(rstc_ref);
+ 			dev_err(dev, "Cannot get QSPI REF reset.\n");
+-			goto probe_reset_failed;
++			goto disable_clk;
+ 		}
+ 		reset_control_assert(rstc_ref);
+ 		reset_control_deassert(rstc_ref);
+@@ -1955,7 +1955,7 @@ static int cqspi_probe(struct platform_device *pdev)
+ 		if (ddata->jh7110_clk_init) {
+ 			ret = cqspi_jh7110_clk_init(pdev, cqspi);
+ 			if (ret)
+-				goto probe_reset_failed;
++				goto disable_clk;
+ 		}
+ 		if (ddata->quirks & CQSPI_DISABLE_STIG_MODE)
+ 			cqspi->disable_stig_mode = true;
+@@ -1963,7 +1963,7 @@ static int cqspi_probe(struct platform_device *pdev)
+ 		if (ddata->quirks & CQSPI_DMA_SET_MASK) {
+ 			ret = dma_set_mask(&pdev->dev, DMA_BIT_MASK(64));
+ 			if (ret)
+-				goto probe_reset_failed;
++				goto disable_clks;
+ 		}
+ 	}
+ 
+@@ -1974,7 +1974,7 @@ static int cqspi_probe(struct platform_device *pdev)
+ 			       pdev->name, cqspi);
+ 	if (ret) {
+ 		dev_err(dev, "Cannot request IRQ.\n");
+-		goto probe_reset_failed;
++		goto disable_clks;
+ 	}
+ 
+ 	cqspi_wait_idle(cqspi);
+@@ -2001,31 +2001,36 @@ static int cqspi_probe(struct platform_device *pdev)
+ 		ret = cqspi_request_mmap_dma(cqspi);
+ 		if (ret == -EPROBE_DEFER) {
+ 			dev_err_probe(&pdev->dev, ret, "Failed to request mmap DMA\n");
+-			goto probe_setup_failed;
++			goto disable_controller;
+ 		}
+ 	}
+ 
+ 	ret = spi_register_controller(host);
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "failed to register SPI ctlr %d\n", ret);
+-		goto probe_setup_failed;
++		goto release_dma_chan;
+ 	}
+ 
+ 	if (!(ddata && (ddata->quirks & CQSPI_DISABLE_RUNTIME_PM)))
+ 		pm_runtime_put_autosuspend(dev);
+ 
+ 	return 0;
+-probe_setup_failed:
+-	if (!(ddata && (ddata->quirks & CQSPI_DISABLE_RUNTIME_PM)))
+-		pm_runtime_disable(dev);
 +
-+		/* A single opcode is supported, it will be repeated */
-+		if ((op->cmd.opcode >> 8) != (op->cmd.opcode & 0xFF))
-+			return false;
- 	} else if (!all_false) {
- 		/* Mixed DTR modes are not supported. */
- 		return false;
++release_dma_chan:
++	if (cqspi->rx_chan)
++		dma_release_channel(cqspi->rx_chan);
++disable_controller:
+ 	cqspi_controller_enable(cqspi, 0);
+-probe_reset_failed:
++disable_clks:
+ 	if (cqspi->is_jh7110)
+ 		cqspi_jh7110_disable_clk(pdev, cqspi);
+-
++disable_clk:
+ 	if (pm_runtime_get_sync(&pdev->dev) >= 0)
+ 		clk_disable_unprepare(cqspi->clk);
+-probe_clk_failed:
++disable_rpm:
++	if (!(ddata && (ddata->quirks & CQSPI_DISABLE_RUNTIME_PM)))
++		pm_runtime_disable(dev);
++
+ 	return ret;
+ }
+ 
+@@ -2043,18 +2048,19 @@ static void cqspi_remove(struct platform_device *pdev)
+ 		cqspi_wait_idle(cqspi);
+ 
+ 	spi_unregister_controller(cqspi->host);
+-	cqspi_controller_enable(cqspi, 0);
+ 
+ 	if (cqspi->rx_chan)
+ 		dma_release_channel(cqspi->rx_chan);
+ 
+-	if (!(ddata && (ddata->quirks & CQSPI_DISABLE_RUNTIME_PM)))
+-		if (pm_runtime_get_sync(&pdev->dev) >= 0)
+-			clk_disable(cqspi->clk);
++	cqspi_controller_enable(cqspi, 0);
+ 
+ 	if (cqspi->is_jh7110)
+ 		cqspi_jh7110_disable_clk(pdev, cqspi);
+ 
++	if (!(ddata && (ddata->quirks & CQSPI_DISABLE_RUNTIME_PM)))
++		if (pm_runtime_get_sync(&pdev->dev) >= 0)
++			clk_disable(cqspi->clk);
++
+ 	if (!(ddata && (ddata->quirks & CQSPI_DISABLE_RUNTIME_PM))) {
+ 		pm_runtime_put_sync(&pdev->dev);
+ 		pm_runtime_disable(&pdev->dev);
 
 -- 
 2.51.1
