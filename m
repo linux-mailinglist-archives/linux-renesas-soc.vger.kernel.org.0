@@ -1,161 +1,178 @@
-Return-Path: <linux-renesas-soc+bounces-27308-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27309-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yBxQFtVZcmkpiwAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27308-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 18:09:41 +0100
+	id IP+ELp9fcmnbjAAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27309-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 18:34:23 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE35D6ADA5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 18:09:40 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7AE96B683
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 18:34:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 9460F30268AB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 16:59:44 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id B4AAC305C53E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Jan 2026 17:18:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03A7836F419;
-	Thu, 22 Jan 2026 16:32:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2126C3994DA;
+	Thu, 22 Jan 2026 16:59:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WK8Qdiy+"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 288E628E0F
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Jan 2026 16:32:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88298357A29;
+	Thu, 22 Jan 2026 16:59:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769099528; cv=none; b=b+L0IhI8czj8b+qWfUPrlDyhCwUPeup6r85pv6faaJVZQG9HGEEC8yPkbxF0tEi5ljopMNww65sLMeJvweqUqxncKqycIWa/14nwuqhniMs7Lfcw1iHT8Ii52NdH/tvq8TPoPGI70f38PsdDK4YEr4yb08aAImTyyicDpx+Sel0=
+	t=1769101162; cv=none; b=GoGyk6Q7P3doZhoCvzLekpVxjn+jfRyZH4GK70MSfGNFCwqOgInrwLifpTq8993ytI/N7e3iJjWqiHqlQ9obOBtj19rpARUpIXVUJkIT++mnWTezaLB/InzevbkJLJVhEVDlhJQ5DXtIiLoJsZOyVlLj/VAo/3MjiUK0FxyQqfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769099528; c=relaxed/simple;
-	bh=yjVvYWruYiurilUZGx3YmchtTkWBm32mvE2sRniBUkA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oLYcH6E9j5iNL2ESFXoHhDuy32cMW08yJLwAfjf72XHYt+NIvKTl+NZC5TmgYlGut+Hzvlu4Ox5fpm75IvuCT+Vdtz4vR6ZvebYmoMhhR1xj6UlzS6blcP1B6TL83snh/WBqjA30RvWKQA+S+NVonSevcBgJcSVx4zCB4if9690=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-5efa6d5dbf5so347200137.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Jan 2026 08:32:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769099519; x=1769704319;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RivxhFW3aLIuA4wf02xkjYz2Qc8LREwOTlCZIGLK+7s=;
-        b=Ksud6G42hFD3XFXw010hiRs4atz70j4K6H6m+vog0WasnqZYDrQH24nV0hpNBdqRiG
-         F/lEMMGmJ8r49vWkRz49sLSdudmbuTs03A1kQEO5vSgiVDfER3oucTqOG/TBQmli493A
-         8F6Mog7Rw918+VG+2cH2DjGgo9Cp4EMDztA3lNfzAHfg7fB9f7EwY+hu9jwenxNutP/8
-         fvJ+BztE4yK8+LiojAC5fnRlT5Shz+h2Gidplmx2u+YMuV6t/BT58IGU0ympoV8Xnv8a
-         vfgtCaiP3EbjeQuu+RnhR41laWKT7niM3+7VXOqO2OZcPvEsab0qte0sXkguR0W2GetI
-         uWdw==
-X-Forwarded-Encrypted: i=1; AJvYcCXq70M10853DO3enNbeJD1UJF+aSG4Vz4toet4m1LMZraIe/5bP+i2cJ6FU1KAcmxo+7Vq+FVKl9t3aZx8Xak1D/A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxbeLsABEjiVBn/NuzaKOOVmoewcMiapzQ2i8AZ411DGo/ygqEC
-	TXAS21nRrsm4NUnZ2lZX04QrFj995kLNjPKRk8U/afL1LPLtOfMPg17HOh5IpOC+
-X-Gm-Gg: AZuq6aLmxgc/uM98Hk5AYPfnMdDkt0Kc7Vt9HATf26D7UF2Xn/VLjUTWhvv4PGHNvwC
-	rUMZ/lGdnEYl0H5ce+HWsgf/RYI8P6a75UYdkpjTFJ70pJyjlpP9ySquXQCgou8y9VdEnJAugmp
-	D3xw9+E5H1vfGOis0kyyaKj2+V+iZZCoV+lzFeZKbrFxxuXuF3ucxbXT/5xuVP5rkrtApTE76XV
-	BmyNwsZmBMUSYJj4tezv3UT3D4RvwjxczvYlr0J6IvZvhuYaXUDtgPuxPT/Icks2SmSt1C9nsFp
-	/DoETln9xv/iQqpzlSj9YT4IslQfKXGezfWyZx4u7xF+Id9ZnSg+9JtxvcdkGktG/oS/MBwgXch
-	89cjfZNWdZmPjD8vqZlhW1rCfDWuU8CzDd8ngqEZIV2DvsIwwlMoMN3ovggkDtYdDyTcN7Hw2yh
-	7d+K0uMFdXXpeUT6gkjdby+oBVhU5KWqCbNnaWLRtNMRLB7pOmrBWg
-X-Received: by 2002:a05:6102:292c:b0:5f5:266a:d8ac with SMTP id ada2fe7eead31-5f54bd5abb5mr82637137.45.1769099518577;
-        Thu, 22 Jan 2026 08:31:58 -0800 (PST)
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com. [209.85.221.171])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5f1a6900c1esm5701473137.3.2026.01.22.08.31.55
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 Jan 2026 08:31:56 -0800 (PST)
-Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-566360cab07so164410e0c.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Jan 2026 08:31:55 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXnA2VkzGV3tc/GtDCkeX+lQhMAvjOIkiIW/MgNavH1f8BxGhYBriFnHA6JnBI0+4feY26Jm4cgWF+yLy3NmdrmTQ==@vger.kernel.org
-X-Received: by 2002:a05:6122:8c1e:b0:563:4d66:359c with SMTP id
- 71dfb90a1353d-5663e92322amr105461e0c.0.1769099515330; Thu, 22 Jan 2026
- 08:31:55 -0800 (PST)
+	s=arc-20240116; t=1769101162; c=relaxed/simple;
+	bh=J5VqdBfB3qJLKokwNzHgugj/xR5O2h1qw7xFVlfjZa4=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=kdVv66cO9V25zknpSrBPGzvo/bTFhjspeHbx0Xr4Uvgz8dqhdjBf2UtAmW9Nc7k9YPGZvQz57y1WD84lME4Of3Jzm1Burw08Dv8ISPf4trnAzlucasSRIpFqbVUoKS8PBfExv7Dg/2pQhGvv7FO4HCds2IBqe2HdQg2tDzgH1Os=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WK8Qdiy+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2E2BC116D0;
+	Thu, 22 Jan 2026 16:59:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769101161;
+	bh=J5VqdBfB3qJLKokwNzHgugj/xR5O2h1qw7xFVlfjZa4=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=WK8Qdiy+OYob7AaCGw51BnlD5QnCxxjuxB5EckU4dxg2pceWfpf2hxcKJkAGzgwFv
+	 OYvOTfFdeWLftjTHM3KIMbaNG3YhhMm3cp18/6v/6az/gI/YGsh+WTX1ANIJxUNjYh
+	 cl/mjuaSdgT3rWYuCgUTf6UHnlg/1tRcJrYbOBdEOp6sNTpKOEKcgzWV5UUBmJd0NX
+	 F4SohSFUcSgon4U5tz/wv89xMjr8qloLQOeEn/d6QBDjT0SbWdWqo9mkOmFYG0Sf7l
+	 MKr9b6ddz/dSiwuBXDx4us3AZ2sp9epXfvMoT66uX2n8zu/GB8+2jbN0aSSOs+eDIg
+	 xXk9RSb1r82KA==
+Date: Thu, 22 Jan 2026 17:59:18 +0100
+From: Niklas Cassel <cassel@kernel.org>
+To: Koichiro Den <den@valinux.co.jp>
+CC: jingoohan1@gmail.com, mani@kernel.org, lpieralisi@kernel.org,
+ kwilczynski@kernel.org, robh@kernel.org, bhelgaas@google.com,
+ vigneshr@ti.com, s-vadapalli@ti.com, hongxing.zhu@nxp.com,
+ l.stach@pengutronix.de, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ kernel@pengutronix.de, festevam@gmail.com, minghuan.Lian@nxp.com,
+ mingkai.hu@nxp.com, roy.zang@nxp.com, jesper.nilsson@axis.com,
+ heiko@sntech.de, srikanth.thokala@intel.com, marek.vasut+renesas@gmail.com,
+ yoshihiro.shimoda.uh@renesas.com, geert+renesas@glider.be,
+ magnus.damm@gmail.com, christian.bruel@foss.st.com,
+ mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
+ thierry.reding@gmail.com, jonathanh@nvidia.com,
+ hayashi.kunihiko@socionext.com, mhiramat@kernel.org, kishon@kernel.org,
+ jirislaby@kernel.org, rongqianfeng@vivo.com, 18255117159@163.com,
+ shawn.lin@rock-chips.com, nicolas.frattaroli@collabora.com,
+ linux.amoon@gmail.com, vidyas@nvidia.com, Frank.Li@nxp.com,
+ linux-omap@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ imx@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+ linux-arm-kernel@axis.com, linux-rockchip@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v9_4/5=5D_PCI=3A_dwc=3A_ep=3A_Support_BAR_sub?=
+ =?US-ASCII?Q?range_inbound_mapping_via_Address_Match_Mode_iATU?=
+User-Agent: Thunderbird for Android
+In-Reply-To: <s6bnqkbuugi7oio7ybekdbk3dokpbe2bui2wjltdwajxix2app@wosgmhrfsriv>
+References: <20260122084909.2390865-1-den@valinux.co.jp> <20260122084909.2390865-5-den@valinux.co.jp> <aXHsd7-WWAGyhy_w@ryzen> <s6bnqkbuugi7oio7ybekdbk3dokpbe2bui2wjltdwajxix2app@wosgmhrfsriv>
+Message-ID: <19D609EC-F850-4B43-A83C-0B8C70E641B5@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260121232522.154771-1-marek.vasut+renesas@mailbox.org> <20260122162206.9wrHkrTZ@linutronix.de>
-In-Reply-To: <20260122162206.9wrHkrTZ@linutronix.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 22 Jan 2026 17:31:42 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVs_ODx3eByHkU03vopUuLuY7=uRnfTKuai65jNr+xMhA@mail.gmail.com>
-X-Gm-Features: AZwV_Qhrjqav4P9LaAmfkNarIMkgQPtcyvVLyM7bNci-hkGtkEP1lpbMFk1IY3o
-Message-ID: <CAMuHMdVs_ODx3eByHkU03vopUuLuY7=uRnfTKuai65jNr+xMhA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] linux/interrupt.h: allow "guard" notation to disable
- and reenable IRQ with valid IRQ check
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>, linux-input@vger.kernel.org, 
-	"Peter Zijlstra (Intel)" <peterz@infradead.org>, Cheng-Yang Chou <yphbchou0911@gmail.com>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Frank Li <Frank.Li@nxp.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Jinjie Ruan <ruanjinjie@huawei.com>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, Marc Zyngier <maz@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.04 / 15.00];
+X-Spamd-Result: default: False [0.55 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	SUBJ_EXCESS_QP(1.20)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-27308-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_CC(0.00)[gmail.com,kernel.org,google.com,ti.com,nxp.com,pengutronix.de,axis.com,sntech.de,intel.com,renesas.com,glider.be,foss.st.com,nvidia.com,socionext.com,vivo.com,163.com,rock-chips.com,collabora.com,vger.kernel.org,lists.infradead.org,lists.linux.dev,lists.ozlabs.org,st-md-mailman.stormreply.com];
 	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[linux-m68k.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[mailbox.org,vger.kernel.org,infradead.org,gmail.com,nxp.com,glider.be,huawei.com,oss.qualcomm.com,kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[14];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-27309-lists,linux-renesas-soc=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[53];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[cassel@kernel.org,linux-renesas-soc@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.994];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	R_DKIM_NA(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linutronix.de:email,mail.gmail.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: CE35D6ADA5
+	DBL_BLOCKED_OPENRESOLVER(0.00)[valinux.co.jp:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: E7AE96B683
 X-Rspamd-Action: no action
 
-Hi Sebastian,
-
-On Thu, 22 Jan 2026 at 17:22, Sebastian Andrzej Siewior
-<bigeasy@linutronix.de> wrote:
-> On 2026-01-22 00:23:47 [+0100], Marek Vasut wrote:
-> > @@ -242,6 +242,21 @@ extern void irq_wake_thread(unsigned int irq, void *dev_id);
-> >  DEFINE_LOCK_GUARD_1(disable_irq, int,
-> >                   disable_irq(*_T->lock), enable_irq(*_T->lock))
-> >
-> > +static inline void disable_valid_irq(unsigned int irq)
-> > +{
-> > +     if (irq > 0)
-> > +             disable_irq(irq);
-> > +}
+On 22 January 2026 15:29:02 CET, Koichiro Den <den@valinux=2Eco=2Ejp> wrote=
+:
 >
-> | $ grep " 0:" /proc/interrupts
-> |    0:         43          0          IO-APIC  2-edge      timer
+>> To make sure that dw_pcie_ep_ib_atu_addr() cannot be called without alr=
+eady
+>> having a BAR configured, to we perhaps want something like:
 >
-> in other words, interrupt 0 is valid.
+>Thanks for the review=2E
+>Isn't the existing guard in dw_pcie_ep_ib_atu_addr sufficient?
+>
+>        [=2E=2E=2E]
+>        base =3D dw_pcie_ep_read_bar_assigned(ep, func_no, bar, epf_bar->=
+flags);
+>        if (!base) {
+>                dev_err(dev,
+>                        "BAR%u not assigned, cannot set up sub-range mapp=
+ings\n",
+>                        bar);
+>                return -EINVAL;
+>        }
+>
 
-AFAIK, the x86 legacy timer interrupt is the sole remaining valid user
-of interrupt number zero.
-Nowadays lots of code assumes valid interrupt numbers are non-zero
-positive numbers.
+Well, for a driver that does not call dw_pcie_ep_reset_bar() in their =2Ei=
+nit() to disable all BARs that are enabled in the controller by default, th=
+e host side will assign an PCI address even if no EPF has called set_bar() =
+on that BAR=2E
 
-Gr{oetje,eeting}s,
+See e=2Eg=2E
+https://git=2Ekernel=2Eorg/pub/scm/linux/kernel/git/pci/pci=2Egit/commit/d=
+rivers/pci/controller/dwc/pcie-tegra194=2Ec?h=3Dcontroller/dwc&id=3D42f9c66=
+a6d0cc45758dab77233c5460e1cf003df
 
-                        Geert
+There might be other EPC drivers that don't disable all BARs in their =2Ei=
+nit(), so I would say that simply checking if the BAR has an address is not=
+ sufficient to guarantee that an EPF driver has called set_bar()=2E
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+I think the safest option is my second suggestion because then we know tha=
+t we will only call
+dw_pcie_ep_ib_atu_addr()
+
+When:
+
+1) If ep->epf_bar[bar] is set:
+https://github=2Ecom/torvalds/linux/blob/v6=2E19-rc6/drivers/pci/controlle=
+r/dwc/pcie-designware-ep=2Ec#L363
+
+
+2) All the other requirements to dynamically update a BAR is also met:
+
+https://github=2Ecom/torvalds/linux/blob/v6=2E19-rc6/drivers/pci/controlle=
+r/dwc/pcie-designware-ep=2Ec#L368-L370
+
+
+
+Kind regards,
+Niklas
+
 
