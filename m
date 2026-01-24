@@ -1,214 +1,205 @@
-Return-Path: <linux-renesas-soc+bounces-27384-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27385-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 3Qk1KBD1dGnI/QAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27384-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 24 Jan 2026 17:36:32 +0100
+	id cF2DBBUidWmYBAEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27385-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 24 Jan 2026 20:48:37 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 456AA7E21D
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 24 Jan 2026 17:36:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 178C87EC11
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 24 Jan 2026 20:48:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3D1D7300875A
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 24 Jan 2026 16:36:22 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C1C303005D12
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 24 Jan 2026 19:48:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EABB25393B;
-	Sat, 24 Jan 2026 16:36:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E394142E83;
+	Sat, 24 Jan 2026 19:48:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qx64dh2Z"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="ei/22MAe";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="WLvRo9AP"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD4452472AA
-	for <linux-renesas-soc@vger.kernel.org>; Sat, 24 Jan 2026 16:36:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C67191400C;
+	Sat, 24 Jan 2026 19:48:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769272580; cv=none; b=fGUhc1awtKcu72sMNeDNCQ22bD6tK1UcJXW0HUlZspFusXYxK5Bmul9aqN/BvGzWbCuQvkRV8O+X6XQy3Rp8EfGFZ29JoI9vP6iKsojBh6T6BVXDJphlylrpf6nCg+tt1avHfh117wwZyURrn0xb9PTG0HRR8Q5PmZkOObALLAA=
+	t=1769284113; cv=none; b=NE33/BypuPWuFN49fdKS0LddZBabguLWf/varoMyrAaG+X92v2VEsUaz6oU0za3zZZbh/9H4AsqgUvQBumZzo+oatIDfSkXi0npsWHlArjcoIg7b3jiQxF007/056btrASi87tQtXv1K/sRGll/+qUK/KGNZXNRRii8lCnsXOnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769272580; c=relaxed/simple;
-	bh=iHtGDYtOxr8tS3SepN5RyHEb8OP8PvoGueEQpKdOTz8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AgzheuTApgl3LzonOdikg2DzPc8LyYwrLcDvhVWTRFpet67aHCkk8qVp9cWhaj3Q3G5cITyFcdGhni9U8PhjhtrX4F1HPKlTbLxsNctgl0XPSqGhPY2E/nO/o4XiJ387zgubVS7M//Oqmc7jxtuXeG1Bw+78VhwOYngMBeSuM9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qx64dh2Z; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2a7bced39cfso35897535ad.1
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 24 Jan 2026 08:36:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769272578; x=1769877378; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zuI/R50Wdcwx6KxKTASaO5ixcmo8VN+zl7gMypAg/WA=;
-        b=Qx64dh2ZfC1wwdYX1GpcZ9u65lQQaGWeEvdVj0qlpLGxyD+xESdyhmCu4bDO/crOF/
-         q4ggsmhPuhaSDF+l4jVbqFxuC/kSJRVFN9r2291miPWuEi/1YsHJCHBG2e19wWqk8HX1
-         i7IU+SBrE/YcG1uZ9ehdgUlaW9gViVcmmXALV1SExy/v221kpTsf5ubFLh9ndkgOkK6x
-         zR09B8KCT60KQpXyuM8dD9tV0tpdPvoRTlw5iV++Vq+HmBUoAPSM/n0wKxoiQZ7cYoxX
-         qyTcaz0EOeGo0CKeI0b/7jz4azNFZZyOw/heNqyULLorzuOrTNLnxXP3+JOn05nOkOvF
-         OQSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769272578; x=1769877378;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zuI/R50Wdcwx6KxKTASaO5ixcmo8VN+zl7gMypAg/WA=;
-        b=U+uEsRIIaoNPic4SBz+A+1x+OCM6JCD1HlIHdr411Sd6CNBatwl8+4GwhmDYBrgLe1
-         0gKsrlsj+Izu+0ZCRgpWOW4ZjNxTvH5r9MYNOjCUDDDKpmqHRVCuYph0GIto2G6jAUB+
-         fUTfwQlarvnyp9zi0RmfuAZ2exnWpuffKkkik6I/N893cav8WpDgIPpgzvaClnSo4wS9
-         aLj8q/TubRodU12tRzc/PCZeiOe265HFxBqF1fKrv2AWWSJ19bBwINwB88J4WqgJ2QnT
-         iF1bHhfNpkYTd9lsxGesGOa/WP1AYEUUZs+y5O3hwa6dSkUmvVjHNggfDsdWOcFInDLI
-         u+sA==
-X-Forwarded-Encrypted: i=1; AJvYcCWFxP9sm9KEY95zlean5SdKxM3I3rWoI+9dlw9BHtDw9shCSGlTolr9+y1dsW4Cbj0nShYOcSUMzPELY1JR8/4kmw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzaQAGaZ29rIrG9b0+UvRNgLiq0Ntvx8DwlFMBHFlyIBmNM+goT
-	ScHYMfXTo493OtWj2/RenSpXdftOr8RnF9gb1azjmqanvJXjcqSwveKv
-X-Gm-Gg: AZuq6aJLhzyUN58HSaQndD8TpJZzjXNygpTd2qM8hTEB4s8dhEfW9zDGpn5wOU7AhmA
-	g/D9NJQzYDYhXsrVidGzjNumucRlupdfhBafKzTDJxkKsmETpNapF7HG19WWMfrDpfJOngLkeE/
-	Ck40m3PRmmIyY+DBe+AfD5tVkUvpHE//6yZvy/ZSr9K0tP+G2NTOYXhCTvKbz/ur/q4b6sJRfNa
-	t+QQlIW8ufdmag/Cnh7Z1bwUdLDbRdLc/2FgJUoguE3aLURIQaWC0fKrum1zB/P+P8/rzJD5a2Q
-	j+OrxEny0TKpvDMaFi1GAm8vF8aStd7DVMbD5NHOf/gMxqflu+FHV729Cm2UGLLpxzjNCVMzWts
-	fPSmLiDbs/ll0J787SwowR8azfd1xxnT8INWWRw2L5yZUbS3ERZjVHXEJkaDAbKdhbXf22LkUWO
-	WY6bpbqvR65drr7HN5iBGuSGv7mKkxdDCEgjnOMdS+qtnAxg90tlT+4tY=
-X-Received: by 2002:a17:902:e54e:b0:2a0:d5bf:b271 with SMTP id d9443c01a7336-2a7fe625e4amr63347525ad.32.1769272577428;
-        Sat, 24 Jan 2026 08:36:17 -0800 (PST)
-Received: from wig-Precision-3660.. (125-227-154-99.hinet-ip.hinet.net. [125.227.154.99])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a802fdd0c9sm49900895ad.95.2026.01.24.08.36.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Jan 2026 08:36:16 -0800 (PST)
-From: Wig Cheng <onlywig@gmail.com>
-To: geert+renesas@glider.be,
-	magnus.damm@gmail.com
-Cc: robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	zaq14760@gmail.com,
-	Wig Cheng <onlywig@gmail.com>
-Subject: [PATCH] arm64: dts: renesas: Add pixpaper display overlay for RZ/V2H Kakip board
-Date: Sun, 25 Jan 2026 00:36:11 +0800
-Message-ID: <20260124163611.3279104-1-onlywig@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1769284113; c=relaxed/simple;
+	bh=4SUkpAZUG81QwT6ygsF9A+r4K1zrCy8hBU/DzGVJfVw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GTGe7YM0+CJNKpLF3SYEd6Nz/2LpSK2U28yN8fWI1rqcGoPtKj4yofGFUvrVdEQLwY/QHardqdaWSC7xDWfxtN1bFLjmIsxFKmMCYxHi3G7L59SjeiMQzYSGhKnD25vq3LRPBXw57Qwy0WwyQsWobS2dVRaFQr7C/ME9TJvk5oo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=ei/22MAe; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=WLvRo9AP; arc=none smtp.client-ip=202.12.124.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfout.stl.internal (Postfix) with ESMTP id BAB391D0015C;
+	Sat, 24 Jan 2026 14:48:29 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-06.internal (MEProxy); Sat, 24 Jan 2026 14:48:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1769284109;
+	 x=1769370509; bh=6Z9KZekhcIHngRJZiRo7Pl0gc3lR9dx/2JP7RuL4efc=; b=
+	ei/22MAecVvlJUyeA1rQN1l+2PdknZhantHJlsjNYYOB+aZ0tTEghyapOMHzALmk
+	4KKcw4IzkZqBBq9inb0FciMj70v9RcJ/84A01oFTm/FvXvFk/KJtgZnsqK7+o7iD
+	LtENDrL3KxT/tVIEo7sm7w2FoUMhGv5Yt6GQcz8WVoKCrByS0juqjMNfDHGaosQV
+	nS1EBYx34Nfj5r0169tsFdjm35SeS61sBODavmw+Mnphdra8UbUAVx30M9+TRYyJ
+	DQmuKsX8RxJDK7073q8lD/X7J1TcidQ7G5FzS9NcQz6kZDrAcHsvIddFT6eRX+qB
+	g+P+7rg8J25yJ/vQ8PQOfQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1769284109; x=
+	1769370509; bh=6Z9KZekhcIHngRJZiRo7Pl0gc3lR9dx/2JP7RuL4efc=; b=W
+	LvRo9APO5CJLFdyMJPYtUGe5qVRZfROXd+JyFspipFVInKseTSXylUCLXFtlWKsW
+	pkI6ZwWDX5bnayM1N4hABWvKtAiU41934+f/1pSrviJueb/zwMQlFI4/WEBi0LK1
+	bI/G0VnB3mqYPk+fWX1WLx1IvFQBfHckl4Ofc8V1hiDJYkToMbX8LwQctxZZKJ/7
+	5x+MTc41PsH5iGZq9zAZAteLkgvobfedNFc+gzjrKWcY12FCMr2baNnEV382bY+0
+	rcyhkl6qouixGgb09J65rVj+is2M3a16KT2auPPHQy0p9I1nYszKB4NY5lVP7Bo5
+	p6lEG1YfHL9ki3AB4/cGQ==
+X-ME-Sender: <xms:DSJ1aXzsYKOoaaVtfSgzoWa0unmRdVy0iIJ9KbZetdX4IqtIkdBDPg>
+    <xme:DSJ1afvOrUDVb30D8S23bAWNR4VX2uNMJ7IG4VR2Pow_VhYfzzh2QvIGzGL-m39Ux
+    7oDo3cCL0HfNR9ZscyIrqJDmFEeJ5sqv8n5tc1SqgT4KlyJAreK8A>
+X-ME-Received: <xmr:DSJ1aSCfYfSFQQE4xmPZAT7Cn9M23o9CShxHNCoghvzWU0DwLqqsFMjRN40FYyb0cGfji_Qe3WvpTVn6MxdZxr4_KH7q2vs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduhedvkedtucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhklhgr
+    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrg
+    htvggthhdrshgvqeenucggtffrrghtthgvrhhnpeevteegtddvvdfhtdekgefhfeefheet
+    heekkeegfeejudeiudeuleegtdehkeekteenucevlhhushhtvghrufhiiigvpedtnecurf
+    grrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhn
+    rghtvggthhdrshgvpdhnsggprhgtphhtthhopeelpdhmohguvgepshhmthhpohhuthdprh
+    gtphhtthhopehtohhmihdrvhgrlhhkvghinhgvnhdorhgvnhgvshgrshesihguvggrshho
+    nhgsohgrrhgurdgtohhmpdhrtghpthhtohepmhgthhgvhhgrsgeskhgvrhhnvghlrdhorh
+    hgpdhrtghpthhtohepghgvvghrthdorhgvnhgvshgrshesghhlihguvghrrdgsvgdprhgt
+    phhtthhopehmrghgnhhushdruggrmhhmsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplh
+    gruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgt
+    phhtthhopehkihgvrhgrnhdrsghinhhghhgrmhdorhgvnhgvshgrshesihguvggrshhonh
+    gsohgrrhgurdgtohhmpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvhhgvghrrdhk
+    vghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrvghnvghsrghsqdhsohgtse
+    hvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghl
+    sehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:DSJ1aZFn06tCR_UDHEr0sONbUTJOYVT0U3cD8cntKIVCsecedsTBHA>
+    <xmx:DSJ1aaCXYcMotriuV0hH4j1QW4kaLGWLONuPS1JqJZl7KfgJlu9dyQ>
+    <xmx:DSJ1aXlQvJa1vakPgHRWbGcLkke9ljqibMRuDGSjkpeVIZ4i1-sYrg>
+    <xmx:DSJ1aYPRJNjzAqI2SdF9yZY4g4ngP1iV-HB9R3kjaFj9g_cRqFr3qQ>
+    <xmx:DSJ1ac8ENaTqpNG8VmTWim28aKOksiW1ItA7vd92IHlnJVVtTdEhbPnJ>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 24 Jan 2026 14:48:28 -0500 (EST)
+Date: Sat, 24 Jan 2026 20:48:27 +0100
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/5] media: rcar-csi2: Improve FLD_FLD_EN macros
+Message-ID: <20260124194827.GA3395783@ragnatech.se>
+References: <20260115-rcar-streams-prep-1-v1-0-f87700926c11@ideasonboard.com>
+ <20260115-rcar-streams-prep-1-v1-2-f87700926c11@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260115-rcar-streams-prep-1-v1-2-f87700926c11@ideasonboard.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	DMARC_POLICY_ALLOW(-0.50)[ragnatech.se,none];
+	R_DKIM_ALLOW(-0.20)[ragnatech.se:s=fm1,messagingengine.com:s=fm2];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,gmail.com];
-	TAGGED_FROM(0.00)[bounces-27384-lists,linux-renesas-soc=lfdr.de];
+	DKIM_TRACE(0.00)[ragnatech.se:+,messagingengine.com:+];
+	FREEMAIL_CC(0.00)[kernel.org,glider.be,gmail.com,ideasonboard.com,vger.kernel.org];
 	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-27385-lists,linux-renesas-soc=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[glider.be,gmail.com];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[onlywig@gmail.com,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FROM_NEQ_ENVFROM(0.00)[niklas.soderlund@ragnatech.se,linux-renesas-soc@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: 456AA7E21D
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[messagingengine.com:dkim]
+X-Rspamd-Queue-Id: 178C87EC11
 X-Rspamd-Action: no action
 
-Add device tree overlay to support the MayQueen PixPaper e-paper display
-on the Renesas RZ/V2H EVK (KAKIP board). The display is connected via
-SPI0 interface and uses GPIO pins for reset, busy, and DC control.
+Hi Tomi,
 
-The overlay configures:
-    - RSPI0 pinmux for SPI communication (MOSI, MISO, CLK, CE0)
-    - PixPaper display device with proper GPIO assignments
-    - SPI frequency set to 1MHz for stable operation
+Thanks for your work.
 
-This enables support for the Open-EP Community pixpaper-213-c module on
-the RZ/V2H platform.
+On 2026-01-15 12:06:58 +0200, Tomi Valkeinen wrote:
+> Instead of having four macros for FLD_FLD_EN for different channels,
+> have just one FLD_FLD_EN(ch).
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
-Signed-off-by: Wig Cheng <onlywig@gmail.com>
----
- arch/arm64/boot/dts/renesas/Makefile          |  3 ++
- .../renesas/r9a09g057h48-kakip-pixpaper.dtso  | 40 +++++++++++++++++++
- 2 files changed, 43 insertions(+)
- create mode 100644 arch/arm64/boot/dts/renesas/r9a09g057h48-kakip-pixpaper.dtso
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
-index 1fab1b50f20e..d4dfb7fd973b 100644
---- a/arch/arm64/boot/dts/renesas/Makefile
-+++ b/arch/arm64/boot/dts/renesas/Makefile
-@@ -202,6 +202,9 @@ dtb-$(CONFIG_ARCH_R9A09G057) += rzv2-evk-cn15-sd.dtbo
- r9a09g057h44-rzv2h-evk-cn15-sd-dtbs := r9a09g057h44-rzv2h-evk.dtb rzv2-evk-cn15-sd.dtbo
- dtb-$(CONFIG_ARCH_R9A09G057) += r9a09g057h44-rzv2h-evk-cn15-sd.dtb
- dtb-$(CONFIG_ARCH_R9A09G057) += r9a09g057h48-kakip.dtb
-+dtb-$(CONFIG_ARCH_R9A09G057) += r9a09g057h48-kakip-pixpaper.dtbo
-+r9a09g057h48-kakip-pixpaper-dtbs := r9a09g057h48-kakip.dtb r9a09g057h48-kakip-pixpaper.dtbo
-+dtb-$(CONFIG_ARCH_R9A09G057) += r9a09g057h48-kakip-pixpaper.dtb
- 
- dtb-$(CONFIG_ARCH_R9A09G077) += r9a09g077m44-rzt2h-evk.dtb
- 
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g057h48-kakip-pixpaper.dtso b/arch/arm64/boot/dts/renesas/r9a09g057h48-kakip-pixpaper.dtso
-new file mode 100644
-index 000000000000..e36cfc9227f4
---- /dev/null
-+++ b/arch/arm64/boot/dts/renesas/r9a09g057h48-kakip-pixpaper.dtso
-@@ -0,0 +1,40 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Device Tree Overlay for Mayqueen (Open-EP Community) pixpaper display
-+ * support on Renesas RZ/V2H platform (KAKIP board).
-+ *
-+ * Copyright (C) 2026 Wig Cheng <onlywig@gmail.com>
-+ */
-+
-+/dts-v1/;
-+/plugin/;
-+
-+#include <dt-bindings/pinctrl/renesas,r9a09g057-pinctrl.h>
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/interrupt-controller/irq.h>
-+
-+&pinctrl {
-+	rspi0_pins: rspi0 {
-+		pinmux = <RZV2H_PORT_PINMUX(9, 0, 1)>, /* SPI0 MOSI */
-+			 <RZV2H_PORT_PINMUX(9, 1, 1)>, /* SPI0 MISO */
-+			 <RZV2H_PORT_PINMUX(9, 2, 1)>, /* SPI0 CLK */
-+			 <RZV2H_PORT_PINMUX(9, 3, 1)>; /* SPI0 CE0 */
-+	};
-+};
-+
-+&rspi0 {
-+	pinctrl-0 = <&rspi0_pins>;
-+	pinctrl-names = "default";
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+	status = "okay";
-+
-+	display0: display@0 {
-+		compatible = "mayqueen,pixpaper";
-+		reg = <0>;
-+		spi-max-frequency = <1000000>;
-+		reset-gpios = <&pinctrl RZV2H_GPIO(A, 7) GPIO_ACTIVE_HIGH>;
-+		busy-gpios = <&pinctrl RZV2H_GPIO(B, 3) GPIO_ACTIVE_HIGH>;
-+		dc-gpios = <&pinctrl RZV2H_GPIO(7, 4) GPIO_ACTIVE_HIGH>;
-+	};
-+};
+> ---
+>  drivers/media/platform/renesas/rcar-csi2.c | 9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/platform/renesas/rcar-csi2.c
+> index d1b31ab8b8c4..3cd35adb6803 100644
+> --- a/drivers/media/platform/renesas/rcar-csi2.c
+> +++ b/drivers/media/platform/renesas/rcar-csi2.c
+> @@ -71,10 +71,7 @@ struct rcar_csi2;
+>  #define FLD_REG				0x1c
+>  #define FLD_FLD_NUM(n)			(((n) & 0xff) << 16)
+>  #define FLD_DET_SEL(n)			(((n) & 0x3) << 4)
+> -#define FLD_FLD_EN4			BIT(3)
+> -#define FLD_FLD_EN3			BIT(2)
+> -#define FLD_FLD_EN2			BIT(1)
+> -#define FLD_FLD_EN			BIT(0)
+> +#define FLD_FLD_EN(ch)			BIT(ch)
+>  
+>  /* Automatic Standby Control */
+>  #define ASTBY_REG			0x20
+> @@ -1082,8 +1079,8 @@ static int rcsi2_start_receiver_gen3(struct rcar_csi2 *priv,
+>  	}
+>  
+>  	if (fmt->field == V4L2_FIELD_ALTERNATE)
+> -		fld = FLD_DET_SEL(1) | FLD_FLD_EN4 | FLD_FLD_EN3 | FLD_FLD_EN2
+> -			| FLD_FLD_EN;
+> +		fld = FLD_DET_SEL(1) | FLD_FLD_EN(3) | FLD_FLD_EN(2) |
+> +		      FLD_FLD_EN(1) | FLD_FLD_EN(0);
+>  
+>  	/*
+>  	 * Get the number of active data lanes inspecting the remote mbus
+> 
+> -- 
+> 2.43.0
+> 
+
 -- 
-2.43.0
-
+Kind Regards,
+Niklas Söderlund
 
