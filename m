@@ -1,85 +1,58 @@
-Return-Path: <linux-renesas-soc+bounces-27392-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27393-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8HgTKWBmdmkmQQEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27392-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 25 Jan 2026 19:52:16 +0100
+	id gFAkOF1mdmkmQQEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27393-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 25 Jan 2026 19:52:13 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6777781D6A
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 25 Jan 2026 19:52:16 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7A7181D40
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 25 Jan 2026 19:52:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id B812730036C2
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 25 Jan 2026 18:52:10 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 0A8253001025
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 25 Jan 2026 18:52:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE63523D2A1;
-	Sun, 25 Jan 2026 18:52:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F9D01E9B3D;
+	Sun, 25 Jan 2026 18:52:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="SMLgbxB1"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="gYbwWaos"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0263923182D
-	for <linux-renesas-soc@vger.kernel.org>; Sun, 25 Jan 2026 18:52:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9A79248880
+	for <linux-renesas-soc@vger.kernel.org>; Sun, 25 Jan 2026 18:52:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769367128; cv=none; b=RuZfMrgqC2T4Qv3LZ8BdyHgCyKWjHlFQwH8XXsvLVFg2z1/zN8E5tYQ5dKliSR1IVNT8GvD7r8SvLmrxnLN9KCH5nAW7HAsWa8JFiSHbx1bwZwgRVRkIRPYTTP9WupTztMavK176g02xjHvH1oxQkyBxpIZ5w7Rv/tzwJx5+UOs=
+	t=1769367132; cv=none; b=bZN9tVrb+fA30uG8tdfLU/ZZbN0CBXBDg0X2D7O40Wi9EUsUEAVwWuarfRWHFwrLkHZbU908PszmaLxGNzjoKc4VJbtx9TFkuzHJpjKisPrglW9ODFYN1EkZHw7HPxbQWA8DfGayaqYAUkM70WGMkY1/6/FYt1IT2gF49AAEM/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769367128; c=relaxed/simple;
-	bh=VL247n96oRPcfuixpfOIb+O7qbGpBQQK2ECt48CpKvI=;
+	s=arc-20240116; t=1769367132; c=relaxed/simple;
+	bh=W7ntiEhgZn/T9SK9RAONWpu7pdiWIJHEWtGeTz8qc5k=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uXhFLjtTIwxt9Qn3uw+5WcNIdtwqOD85rn4pG3v6tpDnaAH2oNtjuJCF+NaSx3Vb1x3BmTqnqmmFClXfmWx9SDKxZf6vQZ2LmYFXYk+lW1UW3hWcrxd7IbHxJy/ZmOjUpnk6B86cegJGrnlJneFBucC8azvjhzwKUzxdUqtdhh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=SMLgbxB1; arc=none smtp.client-ip=194.117.254.33
+	 MIME-Version; b=cpx7DDsvVevo+601IaGKe5Oq9TsidlXEQPhxZz2ydQb+DDp9Vo7mEOplXYIgUEH2tD8D9tg1ds3NqOreVxbo5BC+inW77BOpZhiLLhdzB6j3XUfnsCI4GkViLKlcxfZ9qqQxBy++hEqaSALt8EpodSeK1i3Kjz/m78x2V4eyUA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=gYbwWaos; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=from:to:cc:subject:date:message-id
 	:in-reply-to:references:mime-version:content-transfer-encoding;
-	 s=k1; bh=z4r+DipmsGc4TALWGuhn2ZwJzaRHArRzwqq3J+v552E=; b=SMLgbx
-	B1PEXNHJ5oir0k+1bSIbdpgScGfVkkJqi4T1aeQJNKLvxOiELtzrDIYETfuMTHrz
-	9nhfTkASTyg72yoIiSOEzmV88opLRXCuYnsNzg+ORzFMDBwOrHaDfsjHp1WBtz6T
-	Pr+ksqXw4UcNCrgibeE6AWs8dlhHokeFlklrQnT5DVl59U1h46ti8F8TffE2V9/5
-	w7voaGRF+dsySf1Lv4AzRv40XAR+6BM+9sxzXGKj34TCOext62ibuI2u349hMyU4
-	45iM+UbF9nng0Js/2oiM5Q6GHup0dd5jN62IVMLGKrbh0hyHI1A817GCrbdIgJqx
-	g6x26A0RPSKXRlcQ==
-Received: (qmail 2369640 invoked from network); 25 Jan 2026 19:51:54 +0100
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 25 Jan 2026 19:51:54 +0100
-X-UD-Smtp-Session: l3s3148p1@rcBK4jpJXzptKXAW
+	 s=k1; bh=E6BeMEJlgjSIUTQuX6JMUqaREyvh2C86tjXwrXmK7To=; b=gYbwWa
+	osf8rgik0phuteZv6GqU7iUnQQbe82XkcN5tRAnuxbsfuSYAKOsfz6mHH9D1eVrV
+	TP/AG0NYXJ+Dq0mclXVqkqdpsRgX8MVP+iNvJ4vbId1G2Q5TEZX2ojEkmtdXfnGy
+	A9PWNLOeUJpgulXgKYVRLzx4F2pOoxYTza0za+KL5mHYXvH1XQcCuopXqN4g37pP
+	H+/3RQ8XkoTEcz8f+RkpmLygQqFHafYDFiPxwM+S/tuPcKAOYzmkoigbFdk3fxR5
+	GKlz+b7VbgVaeP66IIG9Qg9Orw5aYWDsxV2NlE4v/XHPxbsJ/ShgUQ/dcedL7CDF
+	O2hqiBKoYW9yQ45w==
+Received: (qmail 2369669 invoked from network); 25 Jan 2026 19:51:55 +0100
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 25 Jan 2026 19:51:55 +0100
+X-UD-Smtp-Session: l3s3148p1@c4Be4jpJxSBtKXAW
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Mark Brown <broonie@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Lee Jones <lee@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Antonio Borneo <antonio.borneo@foss.st.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	linux-iio@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-gpio@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-spi@vger.kernel.org
-Subject: [RFC PATCH 3/4] treewide: convert hwspinlock users to the new consumer header file
-Date: Sun, 25 Jan 2026 19:46:54 +0100
-Message-ID: <20260125184654.17843-9-wsa+renesas@sang-engineering.com>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [RFC PATCH 4/4] hwspinlock: remove old header file
+Date: Sun, 25 Jan 2026 19:46:55 +0100
+Message-ID: <20260125184654.17843-10-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260125184654.17843-6-wsa+renesas@sang-engineering.com>
 References: <20260125184654.17843-6-wsa+renesas@sang-engineering.com>
@@ -91,167 +64,65 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.34 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[sang-engineering.com:s=k1];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[29];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-27392-lists,linux-renesas-soc=lfdr.de,renesas];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DMARC_NA(0.00)[sang-engineering.com];
-	DKIM_TRACE(0.00)[sang-engineering.com:+];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[wsa@sang-engineering.com,linux-renesas-soc@vger.kernel.org];
-	FREEMAIL_CC(0.00)[sang-engineering.com,kernel.org,linuxfoundation.org,baylibre.com,analog.com,gmail.com,linux.alibaba.com,foss.st.com,arndb.de,vger.kernel.org,st-md-mailman.stormreply.com,lists.infradead.org];
-	NEURAL_HAM(-0.00)[-0.993];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	NEURAL_HAM(-0.00)[-1.000];
+	DMARC_NA(0.00)[sang-engineering.com];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWO(0.00)[2];
+	FROM_NEQ_ENVFROM(0.00)[wsa@sang-engineering.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: 6777781D6A
+	PRECEDENCE_BULK(0.00)[];
+	TAGGED_FROM(0.00)[bounces-27393-lists,linux-renesas-soc=lfdr.de,renesas];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[sang-engineering.com:+]
+X-Rspamd-Queue-Id: A7A7181D40
 X-Rspamd-Action: no action
 
-Point the drivers to the new header file. No functional changes.
+All hwspinlock users are converted to the new header files. Time to
+remove the old one.
 
 Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
- drivers/base/regmap/regmap.c          | 2 +-
- drivers/iio/adc/sc27xx_adc.c          | 2 +-
- drivers/irqchip/irq-stm32mp-exti.c    | 2 +-
- drivers/mfd/syscon.c                  | 2 +-
- drivers/nvmem/sc27xx-efuse.c          | 2 +-
- drivers/nvmem/sprd-efuse.c            | 2 +-
- drivers/pinctrl/stm32/pinctrl-stm32.c | 2 +-
- drivers/soc/qcom/smem.c               | 2 +-
- drivers/spi/spi-sprd-adi.c            | 2 +-
- 9 files changed, 9 insertions(+), 9 deletions(-)
+ MAINTAINERS                | 1 -
+ include/linux/hwspinlock.h | 4 ----
+ 2 files changed, 5 deletions(-)
+ delete mode 100644 include/linux/hwspinlock.h
 
-diff --git a/drivers/base/regmap/regmap.c b/drivers/base/regmap/regmap.c
-index ae2215d4e61c..ec2348e199c1 100644
---- a/drivers/base/regmap/regmap.c
-+++ b/drivers/base/regmap/regmap.c
-@@ -16,7 +16,7 @@
- #include <linux/sched.h>
- #include <linux/delay.h>
- #include <linux/log2.h>
--#include <linux/hwspinlock.h>
-+#include <linux/hwspinlock/consumer.h>
- #include <linux/unaligned.h>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 18f4991044ee..308ed5d7ac8d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -11188,7 +11188,6 @@ F:	Documentation/devicetree/bindings/hwlock/
+ F:	Documentation/locking/hwspinlock.rst
+ F:	drivers/hwspinlock/
+ F:	include/linux/hwspinlock/
+-F:	include/linux/hwspinlock.h
  
- #define CREATE_TRACE_POINTS
-diff --git a/drivers/iio/adc/sc27xx_adc.c b/drivers/iio/adc/sc27xx_adc.c
-index 6209499c5c37..8a881d63b7dd 100644
---- a/drivers/iio/adc/sc27xx_adc.c
-+++ b/drivers/iio/adc/sc27xx_adc.c
-@@ -1,7 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0
- // Copyright (C) 2018 Spreadtrum Communications Inc.
- 
--#include <linux/hwspinlock.h>
-+#include <linux/hwspinlock/consumer.h>
- #include <linux/iio/iio.h>
- #include <linux/module.h>
- #include <linux/mutex.h>
-diff --git a/drivers/irqchip/irq-stm32mp-exti.c b/drivers/irqchip/irq-stm32mp-exti.c
-index a24f4f1a4f8f..25d5aa67728a 100644
---- a/drivers/irqchip/irq-stm32mp-exti.c
-+++ b/drivers/irqchip/irq-stm32mp-exti.c
-@@ -6,7 +6,7 @@
-  */
- 
- #include <linux/bitops.h>
--#include <linux/hwspinlock.h>
-+#include <linux/hwspinlock/consumer.h>
- #include <linux/interrupt.h>
- #include <linux/io.h>
- #include <linux/irq.h>
-diff --git a/drivers/mfd/syscon.c b/drivers/mfd/syscon.c
-index e5d5def594f6..49473669e84e 100644
---- a/drivers/mfd/syscon.c
-+++ b/drivers/mfd/syscon.c
-@@ -11,7 +11,7 @@
- #include <linux/cleanup.h>
- #include <linux/clk.h>
- #include <linux/err.h>
--#include <linux/hwspinlock.h>
-+#include <linux/hwspinlock/consumer.h>
- #include <linux/list.h>
- #include <linux/mutex.h>
- #include <linux/of.h>
-diff --git a/drivers/nvmem/sc27xx-efuse.c b/drivers/nvmem/sc27xx-efuse.c
-index 4e2ffefac96c..309090cd4ff0 100644
---- a/drivers/nvmem/sc27xx-efuse.c
-+++ b/drivers/nvmem/sc27xx-efuse.c
-@@ -1,7 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0
- // Copyright (C) 2018 Spreadtrum Communications Inc.
- 
--#include <linux/hwspinlock.h>
-+#include <linux/hwspinlock/consumer.h>
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/platform_device.h>
-diff --git a/drivers/nvmem/sprd-efuse.c b/drivers/nvmem/sprd-efuse.c
-index 1a7e4e5d8b86..92e3092719ba 100644
---- a/drivers/nvmem/sprd-efuse.c
-+++ b/drivers/nvmem/sprd-efuse.c
-@@ -3,7 +3,7 @@
- 
- #include <linux/clk.h>
- #include <linux/delay.h>
--#include <linux/hwspinlock.h>
-+#include <linux/hwspinlock/consumer.h>
- #include <linux/io.h>
- #include <linux/module.h>
- #include <linux/nvmem-provider.h>
-diff --git a/drivers/pinctrl/stm32/pinctrl-stm32.c b/drivers/pinctrl/stm32/pinctrl-stm32.c
-index 6a99708a5a23..17b2072d609e 100644
---- a/drivers/pinctrl/stm32/pinctrl-stm32.c
-+++ b/drivers/pinctrl/stm32/pinctrl-stm32.c
-@@ -10,7 +10,7 @@
- #include <linux/clk.h>
- #include <linux/export.h>
- #include <linux/gpio/driver.h>
--#include <linux/hwspinlock.h>
-+#include <linux/hwspinlock/consumer.h>
- #include <linux/io.h>
- #include <linux/irq.h>
- #include <linux/mfd/syscon.h>
-diff --git a/drivers/soc/qcom/smem.c b/drivers/soc/qcom/smem.c
-index 088b2bbee9e6..4cc65b6a7f24 100644
---- a/drivers/soc/qcom/smem.c
-+++ b/drivers/soc/qcom/smem.c
-@@ -4,7 +4,7 @@
-  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-  */
- 
--#include <linux/hwspinlock.h>
-+#include <linux/hwspinlock/consumer.h>
- #include <linux/io.h>
- #include <linux/module.h>
- #include <linux/of.h>
-diff --git a/drivers/spi/spi-sprd-adi.c b/drivers/spi/spi-sprd-adi.c
-index e7d83c16b46c..04313e4a63dd 100644
---- a/drivers/spi/spi-sprd-adi.c
-+++ b/drivers/spi/spi-sprd-adi.c
-@@ -5,7 +5,7 @@
-  */
- 
- #include <linux/delay.h>
--#include <linux/hwspinlock.h>
-+#include <linux/hwspinlock/consumer.h>
- #include <linux/init.h>
- #include <linux/io.h>
- #include <linux/kernel.h>
+ HARDWARE TRACING FACILITIES
+ M:	Alexander Shishkin <alexander.shishkin@linux.intel.com>
+diff --git a/include/linux/hwspinlock.h b/include/linux/hwspinlock.h
+deleted file mode 100644
+index 7220f7f2368b..000000000000
+--- a/include/linux/hwspinlock.h
++++ /dev/null
+@@ -1,4 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-/* Temporary. Until all users are converted. */
+-
+-#include <hwspinlock/consumer.h>
 -- 
 2.47.3
 
