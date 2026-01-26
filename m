@@ -1,190 +1,314 @@
-Return-Path: <linux-renesas-soc+bounces-27450-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27451-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uONeFIOdd2n0iwEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27450-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Jan 2026 17:59:47 +0100
+	id MH6+KYKjd2mWjgEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27451-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Jan 2026 18:25:22 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 557E08B2EF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Jan 2026 17:59:46 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 088D28B6EA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Jan 2026 18:25:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 589BA300E472
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Jan 2026 16:59:20 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5B4D93009FA3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Jan 2026 17:25:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 737AE32B9A8;
-	Mon, 26 Jan 2026 16:59:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A668D34A3C4;
+	Mon, 26 Jan 2026 17:25:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DvJLTQhg"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B884433554D
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 26 Jan 2026 16:59:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5363347FD9
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 26 Jan 2026 17:25:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769446758; cv=none; b=JeVIggnhn2TtV2sCO1CkvjeEuK8rmtWc9Nbewrmb9OIDG+zFDr8c0h+LQaKLMMfP0p2yX9dhL42vdidrMzYow/aISRhS5dFnC1u86mMcocdBHwKYHNOEXJ2b+zJ3/+kG11O9iA4wtd+51PMlG8LtIzwijuTXSDFMkNOyoaBVhgU=
+	t=1769448319; cv=none; b=iTt+LfEv77qeYWihzrl9yecG8RSNr/28nEWQ6UoStNM9lbaBT6cRnqeeZFfGTzd+JMd6LCUqW5vKTj8kLnFnTrtt5AoR1EBnFMYx5UJWaWSaXMlyPwMCkjG4QU+Eys8/stYCDQCidE5O3cWAerKnzCdN0Plfp/OT9cILamJmNlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769446758; c=relaxed/simple;
-	bh=r226rCK4LUmTjUdkw/d4TzoTnxW8rmQ0SA+5j+h9MbE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MqRuZjcPUFwUiqjirMjT7OEbkWITOUNLGg39zCEtdJxr8GqEKaar6GUpiraWZSlaxB+tJBP85AazoD1jFtv7nvsrksGFw1vKPdVeKOBK0DeXBQlhENH4xbBUAzoJv00mCCegvJgBkDb4tKrtkkNUq7I/4RzOk7Um6Lj1SA/lJKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	s=arc-20240116; t=1769448319; c=relaxed/simple;
+	bh=Z9egbW4PzribQ2BUsv8FP0Zs6A2lyVBkqKP8TaaVKRw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GArB87U9Du7KbwB9OY6nOYSWnpTzpNSMeV7JyKsIa+sAjM9BkrpvaE8vga0Uqy+67ZFTTM6VNOt9ctvrV7QtCCkLPaDmYeGBxMRXsyoOQDGrBoQd4uAjfyP3egou1FsIhkJJgA8be0DDI/Vfr/SyfDg6ekgrklZhxP0c7vMWslg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DvJLTQhg; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-5f56066aa01so1726614137.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 26 Jan 2026 08:59:16 -0800 (PST)
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-42fb4eeb482so3242509f8f.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 26 Jan 2026 09:25:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769448316; x=1770053116; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=I8NCqtdKCDQg/h+vlP7+WRT2HIbB0HaXTUJf1+ishbw=;
+        b=DvJLTQhgXOROjdcWLdlvc6eZZjQWHpHRFNHNbXVOTc2KfyRdXMGxD2xnR5N1L8lwNe
+         bLSWYDX96uxWq1hfajZIxiWLJAm5Eqw0YO96L8g3iYUGqIujmHWeRy9aM4Yvuws0fXNl
+         q7IZSWfVbwXpTfbcsrWXGnABOz0mcXCvmxlZEsH9cCooFV5En8Odx4rNCPNnjkyJLIAN
+         6/WJGthpTwE/xtKVVbyi9+cOH6+yDMHSUxXWDWN93TGlbACKgJI1vLCF9dWf5pCcO5rZ
+         5ftncT9I5u4wdmRl/vzfwv46amYfqo4NDJaCqbMcLApAU/LCEzT7QGV23Mtg72JeAeI/
+         OGFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769446756; x=1770051556;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1769448316; x=1770053116;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DX+hzkzvZlTATTRkV+7hBeNOQ+pb6333spkvwFjnnA4=;
-        b=j4IW/HRC1CXy6nx1zti2YH3YoPi4AryiBqMsJx8cA8BVpPr/8dGTghUGfB/BHQvwLW
-         DR5UmL4C/NGqQY41feInQJM9Eilqy1TAplGx9FOAcT3FkPItbVB/kO/s8/SjvoZ7SRLb
-         lnNFJ4LyakswvK8FYh3sureXkA6PTE0YLWzCa73QrnfrCI8vwEa0udUadtYOS1SP9s0q
-         7rwb6eIz0jAOQpxoiiZFz+cTJvVK/6K2/oA9ErjDl/uMZhgmBiUtrbOyKG8IIPS8LMmq
-         q+S4xn+CZxTr0iXCWmgmIpQdcpdnZn6uAiLF19LhQ1gjrHWKUex9+9HwE0HoQrglhXpq
-         ga9A==
-X-Forwarded-Encrypted: i=1; AJvYcCXL7r/5nIZtV+izJBaZTjlWvJEV62BjrVicT3jJ/wdPFWx9GyM0131kk+26Xvti7qWPlvfJLMOo0zeuLiB0c9tdYw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzfMeSrwNYtZw2qA/j5EN9b+HUVIdlaL1vssiughLqJdueZKhx4
-	LpPFe+40E5aU0wpZsabHBMS0JvMj6q9S4N0S9PeT+1Xu1Rh7Rx+ypGIc/IgpVRdB
-X-Gm-Gg: AZuq6aK64PylOGimFyXMdorsOQ/3dhNYsc+8bZ7PZMY9gRL1K1Oyfppun9FB1MUwFOv
-	QyH+Eh9HnphpcEsaUzpC+6p6gLPOe73RPC+f19ov6YHin2nMAgoYhLRvRNmZAdp2wbLdbOo7T/G
-	qrglyoBd206b9yrcq0HP94/QJ8gyRLosbIBArYHxKs8Okc24MGYu8gQxGHbDEav9Q2sS/aw6Yw3
-	MtQohibSg1OsLeEGjOW2klHTiM9vwrlt+KTQENlJKs2jjMu1rEAa4USux7p2paj/opkzndP/TqV
-	jLd68nZp4XEdX4x9EW7ZPTTP647+BhbPgVC62OEZ9dzwV6ddNa6K1brF/b+QLe2MlRz/3hOOW4P
-	hdlFYVWaxjhlWzSYrKRoQDgzPJuIYj3tTckK7jEebPnLyb7dHQp8/uwoUbjY2+GKj3RjmBdLn2P
-	6Q4zfTJESLAy4ITVu0zpSfxF3HwJ3m9zbCHSof5xxSefs4Or3y
-X-Received: by 2002:a05:6102:c51:b0:5f1:606f:2a14 with SMTP id ada2fe7eead31-5f5764a4897mr1568673137.23.1769446755600;
-        Mon, 26 Jan 2026 08:59:15 -0800 (PST)
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com. [209.85.217.47])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5f54d157564sm2162871137.0.2026.01.26.08.59.14
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Jan 2026 08:59:14 -0800 (PST)
-Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-5ed065f1007so3100215137.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 26 Jan 2026 08:59:14 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV7BtP+u8rRVKYiLZ/I3NdFPEaWesedfrEmTGuyzeRHOSD1CIBWJXpwGrK+HJpmxl8QmJMmRZF+1+PR44r6z+PECg==@vger.kernel.org
-X-Received: by 2002:a67:c48a:0:b0:5f1:9641:4f2a with SMTP id
- ada2fe7eead31-5f57638a4edmr1135520137.18.1769446754221; Mon, 26 Jan 2026
- 08:59:14 -0800 (PST)
+        bh=I8NCqtdKCDQg/h+vlP7+WRT2HIbB0HaXTUJf1+ishbw=;
+        b=RsGOZYtjC2zOTlXc6JiTNec3cfUhP26ofvoOogPiUWKgWMZNdw1FoykBBP4LOwTbZP
+         qz1Nd2xkFFfyZHv/1YUpwDCMzOZ0E3k14fEdfUlMjFoehTnK7Xf7QdtRPniR9rY0SVQy
+         UOiuI6qO0PzrJc26JA+zTs0jWX3aKGRcItNXbvNFRs3u3RPdurSBLBxzL9Vf7P3eJoo6
+         PXHwwecB7ipA98UNUtJXOa5QwVEF3CyPseP2EfIAGx7qKTgyD+Nhqv8p4+WqywW6bjtO
+         lNI115bvi/viWvrkQsfqZuytj+zEpbhix0aurUdUZvLzJogVUr9wtODklPH38Nt3ZhER
+         Aj5Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWGDm0CtRYZEuXm9X0sedMgCef+TbcgS29Z8gJqql3Ke5IfyqQfDnw4L4lPD+uXiRW21A5s8d+it1Stmhu5mVMz1A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyoQOjjPVcti4Gp2nj5RApEMnE17vt7dZA7pc26UzL6CtvMzjsf
+	nA7eki+L6kQM4KgPuBjZkpHnBuLHcnd4gZUfQihY6xRYMQshW6a+Tokj
+X-Gm-Gg: AZuq6aI/qevKLaJ32DYLzm44X38UOCCGMGFecwejMpoEuOtgeN7KvoZFztsTIoAAjrz
+	fFAtlHVqKwyOYJIpH2AQkWRb6SeJatMzXpO1IgC0urLTCKiLT8NiiEwqQdAwDyYW+DoY/dLVmS+
+	lcC5tmkXm6JImKPpyJ9Aknn3esWaxUD7VQVh4wAmB/6t3ywg56VbpApGia4Vn9GMR7+GmqWUro3
+	mOniZEB8dcv6xTundOn5k6TgPnxoJlGySQFgQu9ENkXxEeAFBqypgIgfSuomzI2N3p4aB7RmoT4
+	3/Ir2iYECWy7czXTWlC53s26vxFl7MTSfAO9g0AE1yhvfVWCUpW9zFAhZhKZxGKAxOnIjYaLHon
+	DkuhFd/j22dshwb2yoRtMljFBvtSf+bkZpJzwJe9uOlLHJOCO7V5vwtI16cYQvBB3SyWp6R9HlR
+	5vn7yV2GqpVkPKLuHqyQWN7DnLA70ZtWdUJnd5erqvxAnexy0FMkdYuL0OfSIUEyqmIGES9o/PY
+	vzY7tTcyTrNW81BAY0yvDEo9xgTvx87iJrnUkx/ShkR
+X-Received: by 2002:a05:6000:2889:b0:435:9e32:2b78 with SMTP id ffacd0b85a97d-435ca0f7b5cmr7897753f8f.1.1769448315992;
+        Mon, 26 Jan 2026 09:25:15 -0800 (PST)
+Received: from iku.example.org ([2a06:5906:61b:2d00:6788:ac2b:89cc:7ade])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435b1c24bf8sm31288531f8f.11.2026.01.26.09.25.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Jan 2026 09:25:15 -0800 (PST)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	netdev@vger.kernel.org
+Cc: linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [RFC PATCH net-next] net: stmmac: Preserve bootloader MAC address across unconditional reset
+Date: Mon, 26 Jan 2026 17:25:03 +0000
+Message-ID: <20260126172503.238724-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1764241212.git.tommaso.merciai.xr@bp.renesas.com> <63e8022438eb0d485505c262cac383d76c804403.1764241212.git.tommaso.merciai.xr@bp.renesas.com>
-In-Reply-To: <63e8022438eb0d485505c262cac383d76c804403.1764241212.git.tommaso.merciai.xr@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 26 Jan 2026 17:59:02 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVfsO1NVv6+N37C8ss3thKz+sANCtO00PRhgnD5M1cs0Q@mail.gmail.com>
-X-Gm-Features: AZwV_QjJzffyx5kQPgMaSLBq9RR4EDkJTeL5IelsyAZXDhJ2Ar_AWtIKRIoFYWc
-Message-ID: <CAMuHMdVfsO1NVv6+N37C8ss3thKz+sANCtO00PRhgnD5M1cs0Q@mail.gmail.com>
-Subject: Re: [PATCH v5 15/22] arm64: dts: renesas: r9a09g057: Add USB2.0
- VBUS_SEL mux-controller support
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org, 
-	biju.das.jz@bp.renesas.com, Peter Rosin <peda@axentia.se>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
-	Kishon Vijay Abraham I <kishon@kernel.org>, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, 
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Magnus Damm <magnus.damm@gmail.com>, 
-	Guenter Roeck <linux@roeck-us.net>, Mark Brown <broonie@kernel.org>, 
-	Jonathan Cameron <jonathan.cameron@huawei.com>, Georgi Djakov <djakov@kernel.org>, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.04 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,bp.renesas.com,axentia.se,kernel.org,renesas.com,pengutronix.de,roeck-us.net,huawei.com,linaro.org,arndb.de,linuxfoundation.org,lists.infradead.org];
-	TAGGED_FROM(0.00)[bounces-27450-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[linux-m68k.org];
+	TAGGED_FROM(0.00)[bounces-27451-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[19];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[25];
 	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[st-md-mailman.stormreply.com,lists.infradead.org,vger.kernel.org,gmail.com,bp.renesas.com,renesas.com];
+	FREEMAIL_TO(0.00)[lunn.ch,davemloft.net,google.com,kernel.org,redhat.com,gmail.com,foss.st.com,pengutronix.de,armlinux.org.uk,glider.be,vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	NEURAL_HAM(-0.00)[-0.998];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt];
-	R_DKIM_NA(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,netdev,kernel,renesas];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,0.241.62.152:email,0.241.23.136:email]
-X-Rspamd-Queue-Id: 557E08B2EF
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,bp.renesas.com:mid,renesas.com:email]
+X-Rspamd-Queue-Id: 088D28B6EA
 X-Rspamd-Action: no action
 
-Hi Tommaso,
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On Thu, 27 Nov 2025 at 12:51, Tommaso Merciai
-<tommaso.merciai.xr@bp.renesas.com> wrote:
-> Enable control of USB2.0 VBUSEN via the VBUS_SEL bit in the VBENCTL
-> register. According to the RZ/V2H(P) SoC hardware manual, OTG channels
-> require VBUS_SEL set, while HOST-only channels require it cleared.
->
-> Add `#mux-state-cell` to the usb20phyrst and usb21phyrst reset
-> nodes to expose them as mux controllers.
->
-> Set the required mux-states in usb2_phy0 (OTG: state 1) and usb2_phy1
-> (HOST: state 0) nodes.
->
-> This enables proper VBUSEN management for OTG and HOST-only USB2.0
-> channels.
->
-> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Commit 90f522a20e3d1 ("NET: dwmac: Make dwmac reset unconditional")
+asserts a reset in probe when a reset controller is present. This reset
+clears the MAC address registers, so a valid address programmed by the
+bootloader gets lost and the driver falls back to a random address.
 
-Thanks for your patch!
+Read the MAC address from the hardware registers before resetting the
+hardware. Keep the existing address selection logic when no valid
+address is found, and program the selected address back into the MAC
+after probe so it remains consistent in hardware.
 
-> --- a/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r9a09g057.dtsi
-> @@ -1034,6 +1034,7 @@ usb2_phy0: usb-phy@15800200 {
->                         resets = <&usb20phyrst>;
->                         #phy-cells = <1>;
->                         power-domains = <&cpg>;
-> +                       mux-states = <&usb20phyrst 1>;
+Export stmmac_bus_clks_config() so the early read path can enable the
+bus clocks before accessing the MAC registers.
 
-I am no USB expert, and didn't really follow the USB specifics of
-this series, but isn't the selection of host (VBUSEN = 1) or function
-(VBUSEN = 0) mode decided at runtime?
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+Hi all,
 
->                         status = "disabled";
->                 };
->
-> @@ -1047,6 +1048,7 @@ usb2_phy1: usb-phy@15810200 {
->                         resets = <&usb21phyrst>;
->                         #phy-cells = <1>;
->                         power-domains = <&cpg>;
-> +                       mux-states = <&usb21phyrst 0>;
+Sending this patch as an RFC if there is an alternative/better way to
+achieve this.
 
-The second controller is always used in host mode, so 0 is correct.
+Cheers,
+Prabhakar
+---
+ .../net/ethernet/stmicro/stmmac/stmmac_main.c | 66 ++++++++++++++++++-
+ .../ethernet/stmicro/stmmac/stmmac_platform.c |  3 +-
+ .../ethernet/stmicro/stmmac/stmmac_platform.h |  2 +
+ 3 files changed, 69 insertions(+), 2 deletions(-)
 
->                         status = "disabled";
->                 };
->
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+index 347a0078f622..171bf08d6242 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+@@ -44,6 +44,7 @@
+ #include <net/page_pool/helpers.h>
+ #include <net/pkt_cls.h>
+ #include <net/xdp_sock_drv.h>
++#include "stmmac_platform.h"
+ #include "stmmac_ptp.h"
+ #include "stmmac_fpe.h"
+ #include "stmmac.h"
+@@ -7659,11 +7660,65 @@ struct plat_stmmacenet_data *stmmac_plat_dat_alloc(struct device *dev)
+ }
+ EXPORT_SYMBOL_GPL(stmmac_plat_dat_alloc);
+ 
++static int stmmac_read_mac_before_reset(struct stmmac_priv *priv,
++					u8 *mac_addr)
++{
++	unsigned int hi_addr, lo_addr;
++	int ret;
++
++	eth_zero_addr(mac_addr);
++
++	/* Deassert reset to allow hardware access */
++	if (priv->plat->stmmac_rst) {
++		ret = reset_control_deassert(priv->plat->stmmac_rst);
++		if (ret)
++			return ret;
++	}
++
++	/* Enable bus clocks to read MAC address */
++	ret = stmmac_bus_clks_config(priv, true);
++	if (ret) {
++		dev_warn(priv->device, "failed to enable clocks: %d\n", ret);
++		goto assert_reset;
++	}
++
++	switch (priv->plat->core_type) {
++	case DWMAC_CORE_GMAC4:
++	case DWMAC_CORE_XGMAC:
++		/* GMAC4/XGMAC: MAC Address0 High/Low Register */
++		hi_addr = 0x300;  /* GMAC_ADDR_HIGH(0) */
++		lo_addr = 0x304;  /* GMAC_ADDR_LOW(0) */
++		break;
++	case DWMAC_CORE_GMAC:
++	case DWMAC_CORE_MAC100:
++		/* GMAC/GMAC3/MAC100: MAC Address0 High/Low Register */
++		hi_addr = 0x40;   /* GMAC_ADDR_HIGH(0) */
++		lo_addr = 0x44;   /* GMAC_ADDR_LOW(0) */
++		break;
++	default:
++		hi_addr = 0;
++	}
++
++	if (hi_addr)
++		stmmac_get_mac_addr(priv->ioaddr, mac_addr, hi_addr, lo_addr);
++
++	ret = 0;
++
++	stmmac_bus_clks_config(priv, false);
++
++assert_reset:
++	if (priv->plat->stmmac_rst)
++		reset_control_assert(priv->plat->stmmac_rst);
++
++	return ret;
++}
++
+ static int __stmmac_dvr_probe(struct device *device,
+ 			      struct plat_stmmacenet_data *plat_dat,
+ 			      struct stmmac_resources *res)
+ {
+ 	struct net_device *ndev = NULL;
++	u8 saved_mac_addr[ETH_ALEN];
+ 	struct stmmac_priv *priv;
+ 	u32 rxq;
+ 	int i, ret = 0;
+@@ -7740,6 +7795,9 @@ static int __stmmac_dvr_probe(struct device *device,
+ 	if ((phyaddr >= 0) && (phyaddr <= 31))
+ 		priv->plat->phy_addr = phyaddr;
+ 
++	/* Save MAC address before reset (if bootloader programmed it) */
++	stmmac_read_mac_before_reset(priv, saved_mac_addr);
++
+ 	if (priv->plat->stmmac_rst) {
+ 		ret = reset_control_assert(priv->plat->stmmac_rst);
+ 		reset_control_deassert(priv->plat->stmmac_rst);
+@@ -7768,7 +7826,13 @@ static int __stmmac_dvr_probe(struct device *device,
+ 	if (priv->synopsys_id < DWMAC_CORE_5_20)
+ 		priv->plat->dma_cfg->dche = false;
+ 
+-	stmmac_check_ether_addr(priv);
++	if (is_valid_ether_addr(saved_mac_addr))
++		eth_hw_addr_set(priv->dev, saved_mac_addr);
++	else
++		stmmac_check_ether_addr(priv);
++
++	/* Store the MAC address in hardware */
++	stmmac_set_umac_addr(priv, priv->hw, priv->dev->dev_addr, 0);
+ 
+ 	ndev->netdev_ops = &stmmac_netdev_ops;
+ 
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c
+index 8979a50b5507..6f0393f2992d 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c
+@@ -857,7 +857,7 @@ void stmmac_pltfr_remove(struct platform_device *pdev)
+ }
+ EXPORT_SYMBOL_GPL(stmmac_pltfr_remove);
+ 
+-static int stmmac_bus_clks_config(struct stmmac_priv *priv, bool enabled)
++int stmmac_bus_clks_config(struct stmmac_priv *priv, bool enabled)
+ {
+ 	struct plat_stmmacenet_data *plat_dat = priv->plat;
+ 	int ret;
+@@ -888,6 +888,7 @@ static int stmmac_bus_clks_config(struct stmmac_priv *priv, bool enabled)
+ 
+ 	return 0;
+ }
++EXPORT_SYMBOL_GPL(stmmac_bus_clks_config);
+ 
+ static int __maybe_unused stmmac_runtime_suspend(struct device *dev)
+ {
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.h b/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.h
+index 6e6561e29d6e..2d52197020a7 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.h
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.h
+@@ -20,6 +20,8 @@ struct clk *stmmac_pltfr_find_clk(struct plat_stmmacenet_data *plat_dat,
+ int stmmac_get_platform_resources(struct platform_device *pdev,
+ 				  struct stmmac_resources *stmmac_res);
+ 
++int stmmac_bus_clks_config(struct stmmac_priv *priv, bool enabled);
++
+ int stmmac_pltfr_probe(struct platform_device *pdev,
+ 		       struct plat_stmmacenet_data *plat,
+ 		       struct stmmac_resources *res);
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.52.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
