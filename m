@@ -1,142 +1,227 @@
-Return-Path: <linux-renesas-soc+bounces-27432-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27433-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +EKnIs9zd2n7ggEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27432-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Jan 2026 15:01:51 +0100
+	id yCBPHdl5d2n7ggEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27433-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Jan 2026 15:27:37 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 757E3893DB
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Jan 2026 15:01:50 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id E72A08971C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Jan 2026 15:27:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id EDB983001FA8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Jan 2026 14:01:46 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 33456303C2B7
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Jan 2026 14:26:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2E783385B2;
-	Mon, 26 Jan 2026 14:01:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="PKvpJ32S"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CE5433E349;
+	Mon, 26 Jan 2026 14:26:35 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6B431EA7F4;
-	Mon, 26 Jan 2026 14:01:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1C7133DECE
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 26 Jan 2026 14:26:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769436104; cv=none; b=Ogp0GpgwG+Wm44dU59Aggp6Hu3MJ8h24I7P0rie87dah5fWnJ5DNqwkg1voyA/7Di7VWt9KwmC9jsca5V/zgec5ldsQMG0qqYBGM5G2xAbs1eQt2n9JgZYcQdC5/tJhQPxNF/Mbn6pM+CdNHG2z+0RGVyINcEELHnr8/CLyg+Uc=
+	t=1769437595; cv=none; b=pSnJcViZ8oV34FzgZFbeJNhgq5hauD0jxelIAU5MajEwDm2P81zPKHFVLPjwrZbyKUcTzdhE5IYNLri7ECE0whNW+wODGGsZg/EuFgLWybLD+VRSGU2yr40B9WIyiqcYQlMk0dSmWOuokYx6Oqxexc/k4vObid7sewk6Ht/WpeY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769436104; c=relaxed/simple;
-	bh=22RF8237uvCNNw+Vgrfmq8nxaV0B4xiccDu6+ja3EMU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CA3hhLQ6Ka69IKwQQIomWXm/zf+ZO6ANFlaaY56S3kLguS5BHseNm1RYdLN1hOnktHGTDLAv3yYWG5fnFj9/Cq0C84HLMNPgBkvm6z61bqcYVkKNJPA3GY9Fi7HmJy3Xgkk7tuEwVEf5Svh6fK/q8AGMkRQpi+rn0dKIODHd6qA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=PKvpJ32S; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E15AD12D6;
-	Mon, 26 Jan 2026 15:01:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1769436064;
-	bh=22RF8237uvCNNw+Vgrfmq8nxaV0B4xiccDu6+ja3EMU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=PKvpJ32SqLnDxx3bV4ke8kVNCr61d4QsFJ3Qbn7QAShdWr0NcdNidFp6HWOTqWG12
-	 lqpJc/yc02/ityoxK+bl9Zj36LueUCCX5MC4rYaRH/pJWNeF64My3FRartTPmyqzRh
-	 OPvvzOPl0VNyekGwSwf5UoIwUnOtRZ7yVUUVK/cM=
-Message-ID: <9878845f-c403-492c-a673-90c91472ecc2@ideasonboard.com>
-Date: Mon, 26 Jan 2026 16:01:36 +0200
+	s=arc-20240116; t=1769437595; c=relaxed/simple;
+	bh=PsOC2v/AYbvlfb4MfXbU5AGiA/whklG4mc3MblwxpCc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mwQPlPA5MGkhU4xoJPwtTFM7oR2viE83PgWLd7Bbih3OXWd+TQ4VP9gEwE03r2OLppxfI1ztMqDW/V4FrcrbM/C1cIiDKW2RcUjIv0s+E1l4HJ3Pld9rv0GEyjO2fyo/ODTltxNPbTPjYCgrptQ2V5Z8HhyLGaw0hGXQz9RRAFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-56376c3e866so4402101e0c.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 26 Jan 2026 06:26:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769437592; x=1770042392;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7iJqQHbebbJvqdS+f32gVVmPeXTBs2LPTWdyCk8n5XQ=;
+        b=ZzNUNU67zcdv+RSP24oBjLl0EPgHoa9+bODhgQfpwN2u/h2ObYO/yjDv5I3mgJaSOr
+         paxt8JcKWTNn6xXrWK+oXy6AR1O0o+FhKdx6/Rh+q1mQ71nx7F2URuQIcilQ3lyRQs0N
+         PibSAR5w33B9A4pS0QSe+bQLPTnaDiYwWXhUHTv6KUDGX5uH0XozGz3Kgmt930hUjFRF
+         nLjidNvc9uDelouQkHLKskuWCg/Je/64JuhCVAs5J/9QJO7J/A2ETBdCblp+U+Ieykhi
+         ItOs3FxbMHDG93OJU0/CVp1D2jDbC9R28QMms3MPGsy7K/eQLymHOYUTMWd4GRFc8k4F
+         laKg==
+X-Forwarded-Encrypted: i=1; AJvYcCU3iXQXFO0GMVpuKtDoUD1VgdJjTJeOQvtLmUTBqbsiIVSm0Rx5lkLRKdYGJBHQ1RU8XeKLCGtAbuHn1UYHcvseVw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyT2LCQlyFHGQ5PKi76iRh0EHmIKKM4fnQEvrVNGd931qtTOih1
+	nRwZrHNS4KFSmHd90+4JGIwQpbHUffKnn0be7vlvGckGXsmqFkIvizzd9kiPdRW3
+X-Gm-Gg: AZuq6aIRK0XYtYU4tTjN3P5cLeB/QkGu1T55fsLd+ox2AQwA2BCnchPk7ItwK9ixVgs
+	N9NwYqMg8+jnbVr68G52oa2cP0u226D1toK7uqPBaIq/0+ExU7Htl8WA6O7Kb6nGSwiy8K8Ssxr
+	yIOkWFftQmM+nGqNEFl60IU+of0Nr96hIVu//SMzvz2nEqfM32GYqxwJg978JOQHmjCvWBFYSea
+	RLUlpJ4TuQU4vDp4i2a1cvYedqOLO2JSZVk2p0Ao0PBmTPqM/4dsxbVXs69iFK8zOI8MPw6lWxA
+	cy+vzAvMZGqj5IDc4+Rpxkt3PWkmGP9zeg9VbYgUIfwiX0dJR2CITe9rsFozkXf5XeMPEtMeWMk
+	vCxM6BNgsFRi/VKZBAG9CwL8V9X9iUbNANQrUNrYrYsgItIW/5VoPTSnj7saQSjO+1cXPHC4F97
+	Sdp6rTAjWfap9M52AGzM+rf/hjfdYYhay21wUW9NMAEiYeDC+5DB94
+X-Received: by 2002:a05:6122:2382:b0:55b:305b:4e40 with SMTP id 71dfb90a1353d-5665ca018ecmr1264843e0c.17.1769437591743;
+        Mon, 26 Jan 2026 06:26:31 -0800 (PST)
+Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com. [209.85.221.180])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5663fb7e5c2sm1667529e0c.17.2026.01.26.06.26.27
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 26 Jan 2026 06:26:29 -0800 (PST)
+Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-5665171836cso1476267e0c.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 26 Jan 2026 06:26:27 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCV9XL7W8vo3h8Hm41KZPnwwizvkOa+aS9FHnHdeKN1FZ/ecudQYMDfUheInJuhiEa2wPnFgjrrpIobhPPIWgqvzEw==@vger.kernel.org
+X-Received: by 2002:a05:6122:82a9:b0:566:395c:ed5d with SMTP id
+ 71dfb90a1353d-5665c9d2073mr1538350e0c.11.1769437587151; Mon, 26 Jan 2026
+ 06:26:27 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 00/15] media: rcar: Streams support
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-References: <20251216-rcar-streams-v4-0-f28b4831cc67@ideasonboard.com>
- <20251231095739.GA3091492@ragnatech.se>
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Content-Language: en-US
-In-Reply-To: <20251231095739.GA3091492@ragnatech.se>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20260126103155.2644586-1-claudiu.beznea.uj@bp.renesas.com> <20260126103155.2644586-7-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20260126103155.2644586-7-claudiu.beznea.uj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 26 Jan 2026 15:26:16 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWhY7nNanQ=h8HGrWyDfpCSL33QFJorhLCgnKASbmHiYw@mail.gmail.com>
+X-Gm-Features: AZwV_QjS0M2A0ks0k6a-mivuyl26TKVYOh4l03PhTFHHbbMOHWiHryV9qXisIqI
+Message-ID: <CAMuHMdWhY7nNanQ=h8HGrWyDfpCSL33QFJorhLCgnKASbmHiYw@mail.gmail.com>
+Subject: Re: [PATCH 6/7] ASoC: renesas: rz-ssi: Use generic PCM dmaengine APIs
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: vkoul@kernel.org, biju.das.jz@bp.renesas.com, 
+	prabhakar.mahadev-lad.rj@bp.renesas.com, lgirdwood@gmail.com, 
+	broonie@kernel.org, perex@perex.cz, tiwai@suse.com, p.zabel@pengutronix.de, 
+	fabrizio.castro.jz@renesas.com, dmaengine@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.46 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[kernel.org,bp.renesas.com,gmail.com,perex.cz,suse.com,pengutronix.de,renesas.com,vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-27432-lists,linux-renesas-soc=lfdr.de,renesas];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	TAGGED_FROM(0.00)[bounces-27433-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	DMARC_NA(0.00)[linux-m68k.org];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tomi.valkeinen@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,huawei,renesas];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	NEURAL_HAM(-0.00)[-0.993];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	R_DKIM_NA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 757E3893DB
+	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,linux-m68k.org:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid,tuxon.dev:email]
+X-Rspamd-Queue-Id: E72A08971C
 X-Rspamd-Action: no action
 
-Hi,
+Hi Claudiu,
 
-On 31/12/2025 11:57, Niklas Söderlund wrote:
-> Hi Tomi,
-> 
-> Thanks for your persistent work on this series!
-> 
-> On 2025-12-16 17:18:17 +0200, Tomi Valkeinen wrote:
->> Add streams support to Renesas rcar platform driver.
->>
->> The series keaps compatibility with the current upstream for a single
->> stream use case. However, in upstream there's a limited custom
->> multi-stream support implemented to the rcar driver, which will be
->> replaced with the upstream's Streams API.
->>
->> I have tested this series on Sparrow-Hawk board, with a few different
->> setups:
->>
->> IMX219 connected to the CSI0 connector
->> - The following patches applied to my test branch in addition to this
->>   series:
->>   1) The v4l2_subdev_get_frame_desc_passthrough dependency
->>   2) Revert of commit e7376745ad5c8548e31d9ea58adfb5a847e017a4 ("media:
->>      rcar-vin: Fix stride setting for RAW8 formats"), as that commit
->>      breaks RAW8
-> 
-> That is so odd, I do grab RAW8 on V4H with a IMX219. In what way is do 
-> you see RAW8 breaking?
-I think I found it. It's broken for all formats and resolutions, based
-on luck:
+On Mon, 26 Jan 2026 at 11:32, Claudiu <claudiu.beznea@tuxon.dev> wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>
+> On Renesas RZ/G2L and RZ/G3S SoCs (where this was tested), captured audio
+> files occasionally contained random spikes when viewed with a profiling
+> tool such as Audacity. These spikes were also audible as popping noises.
+>
+> Using cyclic DMA resolves this issue. The driver was reworked to use the
+> existing support provided by the generic PCM dmaengine APIs. In addition
+> to eliminating the random spikes, the following issues were addressed:
+> - blank periods at the beginning of recorded files, which occurred
+>   intermittently, are no longer present
+> - no overruns or underruns were observed when continuously recording
+>   short audio files (e.g. 5 seconds) in a loop
+> - concurrency issues in the SSI driver when enqueuing DMA requests were
+>   eliminated; previously, DMA requests could be prepared and submitted
+>   both from the DMA completion callback and the interrupt handler, which
+>   led to crashes after several hours of testing
+> - the SSI driver logic is simplified
+> - the number of generated interrupts is reduced by approximately 250%
+>
+> In the SSI platform driver probe function, the following changes were
+> made:
+> - the driver-specific DMA configuration was removed in favor of the
+>   generic PCM dmaengine APIs. As a result, explicit cleanup goto labels
+>   are no longer required and the driver remove callback was dropped,
+>   since resource management is now handled via devres helpers
+> - special handling was added for IP variants operating in half-duplex
+>   mode, where the DMA channel name in the device tree is "rt"; this DMA
+>   channel name is taken into account and passed to the generic PCM
+>   dmaengine configuration data
+>
+> All code previously responsible for preparing and completing DMA
+> transfers was removed, as this functionality is now handled entirely by
+> the generic PCM dmaengine APIs.
+>
+> Since DMA channels must be paused and resumed during recovery paths
+> (overruns and underruns), the DMA channel references are stored in
+> rz_ssi_hw_params().
+>
+> The logic in rz_ssi_is_dma_enabled() was updated to reflect that the
+> driver no longer manages DMA transfers directly.
+>
+> Finally, rz_ssi_stream_is_play() was removed, as it had only a single
+> remaining user after this rework, and its logic was inlined at the call
+> site.
+>
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-VNIS_REG has the lowest 4 bits always 0. From the doc: "These bits
-specify the width of the transfer destination memory in 16-pixel
-unit."
+Thanks for your patch!
 
-We do nothing to comply with that.
+> --- a/sound/soc/renesas/rz-ssi.c
+> +++ b/sound/soc/renesas/rz-ssi.c
 
- Tomi
+> @@ -1116,15 +936,19 @@ static struct snd_soc_dai_driver rz_ssi_soc_dai[] = {
+>  static const struct snd_soc_component_driver rz_ssi_soc_component = {
+>         .name                   = "rz-ssi",
+>         .open                   = rz_ssi_pcm_open,
+> -       .pointer                = rz_ssi_pcm_pointer,
+> -       .pcm_construct          = rz_ssi_pcm_new,
+>         .legacy_dai_naming      = 1,
+>  };
+>
+> +static struct snd_dmaengine_pcm_config rz_ssi_dmaegine_pcm_conf = {
+> +       .prepare_slave_config   = snd_dmaengine_pcm_prepare_slave_config,
 
+This fails to link if CONFIG_SND_SOC_GENERIC_DMAENGINE_PCM is not
+enabled (e.g. renesas_defconfig):
+
+    aarch64-linux-gnu-ld: sound/soc/renesas/rz-ssi.o: in function
+`rz_ssi_probe':
+    rz-ssi.c:(.text+0x538): undefined reference to
+`devm_snd_dmaengine_pcm_register'
+    aarch64-linux-gnu-ld: sound/soc/renesas/rz-ssi.o:(.data+0xc8):
+undefined reference to `snd_dmaengine_pcm_prepare_slave_config'
+
+Adding a select like this white-space damaged snippet:
+
+    --- a/sound/soc/renesas/Kconfig
+    +++ b/sound/soc/renesas/Kconfig
+    @@ -56,6 +56,7 @@ config SND_SOC_MSIOF
+     config SND_SOC_RZ
+            tristate "RZ/G2L series SSIF-2 support"
+            depends on ARCH_RZG2L || COMPILE_TEST
+    +       select SND_SOC_GENERIC_DMAENGINE_PCM
+            help
+              This option enables RZ/G2L SSIF-2 sound support.
+
+would fix the build.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
