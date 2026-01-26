@@ -1,241 +1,222 @@
-Return-Path: <linux-renesas-soc+bounces-27453-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27454-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QDVaIV2ud2ngkAEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27453-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Jan 2026 19:11:41 +0100
+	id kDqTAZ7Dd2nckgEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27454-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Jan 2026 20:42:22 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE7998BEB8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Jan 2026 19:11:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27DA58CB19
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Jan 2026 20:42:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D357E3019818
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Jan 2026 18:11:36 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 998CB301693B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Jan 2026 19:39:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7787734D4C4;
-	Mon, 26 Jan 2026 18:11:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04A0628468E;
+	Mon, 26 Jan 2026 19:39:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="NrPEk1J1"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="BxCiu/QJ";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="uNEfCxao"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79E6F2E54D3;
-	Mon, 26 Jan 2026 18:11:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5BA8283FE2;
+	Mon, 26 Jan 2026 19:39:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769451096; cv=none; b=qH3heGtf2OzxhXPVQIgODp5aGJ055DtP87vyFVAboI9R69nhMo9Fc45e68gfode1TqX3Tf2/QUKga+IjJfZokz6ZfJl/65+Aqa3HRlhxk0NGNMjC/HzXbBpQxo2DI9jFbeFoeO4D2kNfCsxb5Nu481uX5KARdgtox7GfCtM2RGk=
+	t=1769456375; cv=none; b=K7GlRMAm9IZ6ucNdUnkja+hhWYGlDsFWRsVEZwFCHQW6ynEGWOQ/8nWVHoGqeFoVVjSDYTnKT2bcfBYsupZceLCRb8YwDtRTHhJR7eZfCU4bItauLN9+SJmxeHwoH4GbKaeQSRHE/aZCqsc8cPXy2x83SOlBBSYBMEPKqj7w8mg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769451096; c=relaxed/simple;
-	bh=3V0RDusxbh6pnXCeXi+v91jcVPHVAE66LeVm2jo3hH4=;
+	s=arc-20240116; t=1769456375; c=relaxed/simple;
+	bh=nYYL8O9zQPabbyC6Vgp2CslTQEc9YVsXAoqFYnuzC6I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i0oWxhK+0f7AqVbkCEU5zxt6d4KW8eQLaaK6xU7DPLW38n5rkzdqumhdiZj40L2xZAJciXxylOsnPgJ+9Q47mo20/C3a+2IrMuTW9+d5ip94aSqhDAcqBuVHafYoDCjIChzGjYbO8dHdpkLtxNpj+bz660DKAMEQblReobmgCWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=NrPEk1J1; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=vicu6lpUE90FAgN2xtfuOumDUR1Qg4VnW5GWRXk4y9o=; b=NrPEk1J1La77hJglDtJdiD8za9
-	IGx3mDMOahM9R9I2Epz3BcUKZV0mEwhrhJowvHeWenHhHLJRQmcsbU5jlB66JkVEvQS2Co5khEXlF
-	asdrMDH6hVzJxOHU2z65VzC4+izMIh1i573mzJbt9dxmqTpS+HtuGU2tgNpoX+XId54JueRF3XNIF
-	LpV/dq8Ej88/zNas8S35JPhVSeA8skdIZWOdx3nPPsnkHPXiP97M1UY8xNnAHJVZi6ipsJJ1MHpZF
-	PAlyizJyryjDuVP54qj98ob9nRsfq+XB3t4GOkzjGe85CZRYRnTbfos0P7CnvrtLmXfVuSo8b1zma
-	Zh7SYR1Q==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:36042)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1vkR3c-000000005Co-0yVO;
-	Mon, 26 Jan 2026 18:11:24 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1vkR3X-00000000595-3RUR;
-	Mon, 26 Jan 2026 18:11:19 +0000
-Date: Mon, 26 Jan 2026 18:11:19 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [RFC PATCH net-next] net: stmmac: Preserve bootloader MAC
- address across unconditional reset
-Message-ID: <aXeuR_YLoAFYEAVi@shell.armlinux.org.uk>
-References: <20260126172503.238724-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=ushoq3+VnCr2DpMHlpO31qGz7eibQVaq+nY6IQ0/EALJsvSsrBuq9qTXZea3Ia8qGff6WBI8qeLhoDMoxMWftzucvG+Bz/FF+QNiu3q1A7XWG7rRn7VGJM88ojZdyafba0dUA4Rd8Ixxq7QyyjRKpcV57pmVcWNu07/GEi0nEFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=BxCiu/QJ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=uNEfCxao; arc=none smtp.client-ip=202.12.124.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfout.stl.internal (Postfix) with ESMTP id D0E4F1D000B8;
+	Mon, 26 Jan 2026 14:39:32 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-06.internal (MEProxy); Mon, 26 Jan 2026 14:39:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1769456372;
+	 x=1769542772; bh=ApT/fwFNRvGjeYzf4B5FFOaefArM3ka1bdOWIt/W1IA=; b=
+	BxCiu/QJeJrrSb5IXu6KGKs+ca+VPhAMbKWfjSgR8P9dVILl8/MJ/kfFzDSTS54G
+	Jv3ytLjiD9H+q0mdp4vpsw2QfNYGBRTGxZE1565ZHT9OD3gMq+SS+QP249iOSV+Q
+	etAFxSvQ1UVeryB/Dyq3/1dQ9G8+RH+FLb2n/aJRfEdqLMfWHYv40N+5esPlhbAa
+	eqC9ololzAPFwB9wQ8jlX8/t2Reom4B0M3CJjtY3/bQpW6gAdRjwQQ9SvsMrbLW4
+	28z26LmsRmfVkOFXEroHkWKtyVpoOM3JvTtR8zNYYnWfWH8w2jr3pssaFIc5bNcs
+	ZCQCwbwJ8hTkbsqDd3WVXw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1769456372; x=
+	1769542772; bh=ApT/fwFNRvGjeYzf4B5FFOaefArM3ka1bdOWIt/W1IA=; b=u
+	NEfCxaoxXgQyVTGztnuRR9KbllN0SzG6NNYJlepGChM+xerobt939YaVE5FGs+uA
+	szRNScwxY9ux+zVhPvu57ZIEVLiQGO+nbZzQhG1CQAr56Gc9KUeU4EmRZEgoOzh8
+	/4czxoJOcDytXAdb2NodxeIRuEayPGGb2/s42WKlCSpjZN4k9Lx7OTPYSIj7bbZa
+	TIANXvkoPlTSsG236KjwOXIsi20WdRayyiFimtWXMRtruCKosY8RKP7zIQhFmiiE
+	puANtWhZlmbLL9mTUdUTOFJ7aDlbtGc98svfXzYPqkG+GBqvwQtQUrfrLGedwi+v
+	b19RY3mNnnLktNrwOM5jw==
+X-ME-Sender: <xms:9MJ3aamNXxulKXhu_8hZC1PKQGVCBxVjnbvlIF9IJtOBT9PF74sqBg>
+    <xme:9MJ3aaA3M2mHvTrby147-_MtLe-KT_LA5QP4HUh-6DHS6SwZAAwAyS443YvofxT6R
+    7beX5ctmdmg0d6--BajbnH7zC8jnX138h2IVW68YVOEcsQ_1DQcnyYI>
+X-ME-Received: <xmr:9MJ3aUMxw19S1zrh8MdhP_vqZ2jchrUGg0L-NUCPPlAgwuJFBGOmmaaH5OGRYQw-082qurL5WRZRqq22xehR_rJpgBz5ngU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduheekheefucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhklhgr
+    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrg
+    htvggthhdrshgvqeenucggtffrrghtthgvrhhnpeevteegtddvvdfhtdekgefhfeefheet
+    heekkeegfeejudeiudeuleegtdehkeekteenucevlhhushhtvghrufhiiigvpedtnecurf
+    grrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhn
+    rghtvggthhdrshgvpdhnsggprhgtphhtthhopedutddpmhhouggvpehsmhhtphhouhhtpd
+    hrtghpthhtohepthhomhhirdhvrghlkhgvihhnvghnodhrvghnvghsrghssehiuggvrghs
+    ohhnsghorghrugdrtghomhdprhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdroh
+    hrghdprhgtphhtthhopehsrghkrghrihdrrghilhhusheslhhinhhugidrihhnthgvlhdr
+    tghomhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrd
+    horhhgpdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhk
+    vghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrd
+    hkvghrnhgvlhdrohhrghdprhgtphhtthhopehmtghhvghhrggsodhhuhgrfigviheskhgv
+    rhhnvghlrdhorhhgpdhrtghpthhtoheplhgruhhrvghnthdrphhinhgthhgrrhhtsehiug
+    gvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehjrggtohhpohdrmhhonhguihes
+    ihguvggrshhonhgsohgrrhgurdgtohhm
+X-ME-Proxy: <xmx:9MJ3aZOxmgpbbSWyGtxSVrsjlbkQUwx-PO3u_VZCGLCZSNlcze57SA>
+    <xmx:9MJ3aUnxOaTi8T9muaLGBMns9QJt4dcdoYqkYriuy03BykAasl8qqA>
+    <xmx:9MJ3afskpK92c7RKOzS0gabBkxSmn08iaaTBCeASlzW9cQ6wGjLgGw>
+    <xmx:9MJ3afpbTNO3DusDQ8AxE5Ar9tz_3YiHZFNRjtcuWE4b3i6E8XqzMw>
+    <xmx:9MJ3adZ8B-g1rt3RR9lU1IY_LIKzaZ_ngGdfMS1K0OVCn4QrzM24eJmX>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 26 Jan 2026 14:39:31 -0500 (EST)
+Date: Mon, 26 Jan 2026 20:39:29 +0100
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH v4 00/15] media: rcar: Streams support
+Message-ID: <20260126193929.GB3751370@ragnatech.se>
+References: <20251216-rcar-streams-v4-0-f28b4831cc67@ideasonboard.com>
+ <20251231095739.GA3091492@ragnatech.se>
+ <9878845f-c403-492c-a673-90c91472ecc2@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260126172503.238724-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <9878845f-c403-492c-a673-90c91472ecc2@ideasonboard.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.14 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_DKIM_REJECT(1.00)[armlinux.org.uk:s=pandora-2019];
+	DMARC_POLICY_ALLOW(-0.50)[ragnatech.se,none];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[ragnatech.se:s=fm1,messagingengine.com:s=fm2];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[armlinux.org.uk : SPF not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-27453-lists,linux-renesas-soc=lfdr.de];
+	DKIM_TRACE(0.00)[ragnatech.se:+,messagingengine.com:+];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FREEMAIL_CC(0.00)[lunn.ch,davemloft.net,google.com,kernel.org,redhat.com,gmail.com,foss.st.com,pengutronix.de,glider.be,vger.kernel.org,st-md-mailman.stormreply.com,lists.infradead.org,bp.renesas.com,renesas.com];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-27454-lists,linux-renesas-soc=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[armlinux.org.uk:-];
 	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[linux@armlinux.org.uk,linux-renesas-soc@vger.kernel.org];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,netdev,renesas];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[niklas.soderlund@ragnatech.se,linux-renesas-soc@vger.kernel.org];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email,shell.armlinux.org.uk:mid]
-X-Rspamd-Queue-Id: CE7998BEB8
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,huawei];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,messagingengine.com:dkim,ragnatech.se:mid,ragnatech.se:dkim]
+X-Rspamd-Queue-Id: 27DA58CB19
 X-Rspamd-Action: no action
 
-On Mon, Jan 26, 2026 at 05:25:03PM +0000, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Hi Tomi,
+
+Thanks for digging in this.
+
+On 2026-01-26 16:01:36 +0200, Tomi Valkeinen wrote:
+> Hi,
 > 
-> Commit 90f522a20e3d1 ("NET: dwmac: Make dwmac reset unconditional")
-> asserts a reset in probe when a reset controller is present. This reset
-> clears the MAC address registers, so a valid address programmed by the
-> bootloader gets lost and the driver falls back to a random address.
+> On 31/12/2025 11:57, Niklas Söderlund wrote:
+> > Hi Tomi,
+> > 
+> > Thanks for your persistent work on this series!
+> > 
+> > On 2025-12-16 17:18:17 +0200, Tomi Valkeinen wrote:
+> >> Add streams support to Renesas rcar platform driver.
+> >>
+> >> The series keaps compatibility with the current upstream for a single
+> >> stream use case. However, in upstream there's a limited custom
+> >> multi-stream support implemented to the rcar driver, which will be
+> >> replaced with the upstream's Streams API.
+> >>
+> >> I have tested this series on Sparrow-Hawk board, with a few different
+> >> setups:
+> >>
+> >> IMX219 connected to the CSI0 connector
+> >> - The following patches applied to my test branch in addition to this
+> >>   series:
+> >>   1) The v4l2_subdev_get_frame_desc_passthrough dependency
+> >>   2) Revert of commit e7376745ad5c8548e31d9ea58adfb5a847e017a4 ("media:
+> >>      rcar-vin: Fix stride setting for RAW8 formats"), as that commit
+> >>      breaks RAW8
+> > 
+> > That is so odd, I do grab RAW8 on V4H with a IMX219. In what way is do 
+> > you see RAW8 breaking?
+> I think I found it. It's broken for all formats and resolutions, based
+> on luck:
 > 
-> Read the MAC address from the hardware registers before resetting the
-> hardware. Keep the existing address selection logic when no valid
-> address is found, and program the selected address back into the MAC
-> after probe so it remains consistent in hardware.
+> VNIS_REG has the lowest 4 bits always 0. From the doc: "These bits
+> specify the width of the transfer destination memory in 16-pixel
+> unit."
 > 
-> Export stmmac_bus_clks_config() so the early read path can enable the
-> bus clocks before accessing the MAC registers.
+> We do nothing to comply with that.
 
-I don't think this is a good idea. stmmac_bus_clks_config() is specific
-to using platform devices, but the core stmmac driver also supports
-PCI that doesn't use stmmac_bus_clks_config().
+Yes we do, but maybe not enough?
 
-stmmac_bus_clks_config() handles:
+In rvin_format_bytesperline() we align for this, we even consider the 
+special cases for NV12 and NV16.
 
- - plat_dat->stmmac_clk
- - plat_dat->pclk
- - any clock handled by the plat_dat->clks_config() method
+The value written to VNIS_REG is vin->format.bytesperline / fmt->bpp, 
+and the value writen to vin->format.bytesperline is ALIGN(pix->width, 
+align) * fmt->bpp. And for all formats (not NV12 or NV16) is 0x10, so we 
+do align it to the 16-pixel unit no?
 
-For platform devices, stmmac_probe_config_dt() gets these two clocks
-from DT, and prepares and enables them both. So, by the time the
-probe function is called, these clocks are already running.
+Maybe their is a corner case I have missed or maybe I'm missing some 
+other angle? And I agree adding and removing the fmt->bpp multiplier is 
+not the best here. As we have finally moved this driver to media graph 
+only there are lots of areas things can be cleaned up and improved as we 
+no longer need to consider all that Gen2 special cases. I bet this can 
+likely be cleaned up.
 
-For those handled by the platform glue, the glues that populate
-this function:
-
-eic7700: eic7700_clks_config() - this is called from the init/exit
-handlers. Will be invoked to enable the clocks by stmmac_dvr_probe().
-
-imx: imx_dwmac_clks_config() - called by imx_dwmac_probe() to enable
-clocks prior to stmmac_dvr_probe() being invoked.
-
-mediaktek: mediatek_dwmac_clks_config() - called by
-mediatek_dwmac_probe() to enable clocks prior to stmmac_dvr_probe()
-being invoked.
-
-qcom-ethqos: ethqos_clks_config() - called by qcom_ethqos_probe() to
-enable clocks prior to stmmac_dvr_probe() being invoked.
-
-So, I can confidently say that all clocks should be running by the
-time __stmmac_dvr_probe() is called, and thus there should be no
-requirement to call stmmac_bus_clks_config() in this code.
-
-
-The next problem: you place this code to read registers from stmmac
-before:
-
-	ret = reset_control_deassert(priv->plat->stmmac_ahb_rst);
-
-Sadly, the binding documentation is too vague to pin down what this
-is, as dwmac can have AHB master (which generates bus cycles for
-accessing memory) and AHB slave (which would be the target for
-register accesses) interfaces.
-
-The problem here is that if some platform glue has wired this reset
-such that it resets the AHB slave side, that will prevent register
-access, and thus your attempt to read the MAC across all devices
-will fail.
-
-
-The next question that comes up is that we have a perfectly good way
-that's been around for years to pass a MAC address from the boot
-loader into the kernel for any network interface. I notice that it
-isn't mentioned in the DT bindings, presumably to prevent people
-from adding it to their in-kernel DT files.
-
-	mac-address =
-	local-mac-address =
-
-The old documentation in ethernet.txt was:
-
-- mac-address: array of 6 bytes, specifies the MAC address that was last used by
-  the boot program; should be used in cases where the MAC address assigned to
-  the device by the boot program is different from the "local-mac-address"
-  property;
-- local-mac-address: array of 6 bytes, specifies the MAC address that was
-  assigned to the network device;
-
-Given that these are interfaces between the boot loader and the kernel,
-they can't be deprecated, as platforms will rely upon these properties
-to pass the MAC address from the boot loader to the kernel. For example
-on one of my systems:
-
-$ vdir /sys/class/net/eth0/of_node/
-total 0
--r--r--r-- 1 root root  4 Jan 26 18:08 gop-port-id
--r--r--r-- 1 root root 50 Jan 26 18:08 interrupt-names
--r--r--r-- 1 root root 80 Jan 26 18:08 interrupts
--r--r--r-- 1 root root  6 Jan 26 18:08 local-mac-address
--r--r--r-- 1 root root 14 Jan 26 18:08 name
--r--r--r-- 1 root root  4 Jan 26 18:08 phy
--r--r--r-- 1 root root 10 Jan 26 18:08 phy-mode
--r--r--r-- 1 root root  8 Jan 26 18:08 phys
--r--r--r-- 1 root root  4 Jan 26 18:08 port-id
--r--r--r-- 1 root root  4 Jan 26 18:08 reg
--r--r--r-- 1 root root  5 Jan 26 18:08 status
-
-where "local-mac-address" states the MAC address to be used for eth0,
-as specified by the boot loader.
-
-I don't think stmmac needs this extra complication provided platforms
-make use of mechanisms that already exist... and I feel it's time to
-start saying no to platform specific quirks that can be handled by
-those mechanisms.
-
-Thanks.
+> 
+>  Tomi
+> 
 
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+Kind Regards,
+Niklas Söderlund
 
