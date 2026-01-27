@@ -1,206 +1,210 @@
-Return-Path: <linux-renesas-soc+bounces-27460-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27461-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qBZWE+V6eGnBqAEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27460-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jan 2026 09:44:21 +0100
+	id eoMtH+B+eGmcqQEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27461-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jan 2026 10:01:20 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B841891341
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jan 2026 09:44:20 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id DBFED9166E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jan 2026 10:01:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 074EB3046F38
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jan 2026 08:44:05 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5BD893006B7B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jan 2026 08:56:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D85DA2C0F6D;
-	Tue, 27 Jan 2026 08:44:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2CF01E2858;
+	Tue, 27 Jan 2026 08:56:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="KeSVjp4U"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jXZyAEVH"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.17.11])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8C8D2C0F75;
-	Tue, 27 Jan 2026 08:43:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7262330329;
+	Tue, 27 Jan 2026 08:56:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769503440; cv=none; b=AQ5ZfnSvtscEuINjJ4LuTFi5zngKqQ8mlsF2DCUosJZra5DNnCCHK5wfBVBJdtxv95K7B4OpKYcc6LF42EK4uDubodbmsrzh/bWZ8n9y1t2YsyoHNgOIN4VHw3qoOpDkdVuSZWIMUB5OcOq6Xi6ysXIXFIoxebT+qKIg3r01zBk=
+	t=1769504201; cv=none; b=F3TrjXQQgz5amyPV7IKUL8/HmbYZ9HkZPmhOpH2BdtIQPaQgtjMTxgGN7VbMBpClriOYv9/thzLn+/GuAcHkLHT/YCqPYuAXIOTaSpcHvheT5nxVHQ5opLZ6+VKro8rfX4gGY4IMvRzAD8E14XI0J6Ta3BU4wZqM0RzVoRWKrg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769503440; c=relaxed/simple;
-	bh=OhuL4GnTVFlBbzmyO6Y/9GVwzYIwIHzhUztR87iIeso=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=umlV9HubM4Tt9TxvxyLRCSj9FwX6Pa588TQ56rKWNOU7HWRf8yBCxrwVI/gLvdmXmyVwEE/spe0R7kh4nN/zfkTbs1YqiUv1YBHGB0sTVKh9RUJPee0mQDyA885OOqC29HIlc067XSyl4Gx5DnhtMR0mmo49dOPGfwvzKUrLc8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=KeSVjp4U; arc=none smtp.client-ip=212.227.17.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1769503411; x=1770108211; i=markus.elfring@web.de;
-	bh=XBpRxxk4mS1poL30jYwAHiqZVpwRB7SDDALxwri6ILE=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=KeSVjp4Ux9b60mVCjbYLzgu6sIaZBwR7mcyJKkNkAcZS4SiUeHXOkcKN5LFeetW7
-	 8qXODhcsImERC0YDJadQX4eHOdiOVwOxXsHor8ovBLSY5iXLoGtX4MQYeftZ4chC9
-	 olTNgY3SaWOioMx0YDSGlDTiAFAhULN0A4J2UoNyrrPAl36AgpYd7PGZ4Lgc7ireS
-	 MsQP53IW1CE6sZB7fN7Tp0XAvaUlM2Or8GyuHLfxSw5Ott4JwLfef30LkG09oAKxC
-	 1176SEF9p3yS5EN8j+3B326zMBmu8PjchE94sCe8nml+FcrDGMVGqRysDO1Iwg+ZV
-	 WtQU83XxLUawtGtV3A==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.92.251]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1Mtgub-1w22fM1PA7-013euq; Tue, 27
- Jan 2026 09:43:31 +0100
-Message-ID: <83b45da4-53d7-4fb3-8099-77ad7f6bf5c0@web.de>
-Date: Tue, 27 Jan 2026 09:43:12 +0100
+	s=arc-20240116; t=1769504201; c=relaxed/simple;
+	bh=YSC8kL8Rjr8EC8MeFfA+OjR6ATnoKTBFb320XpZmk00=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=eGM+RLjs8yVLRv4kUimmg4pxsDv7QVT6waP15KyIJyFOVEL8JfCoiGOfIDGDdHpOIE8yA9jPl96nwTLUQ/WqvnVdMg5rlNUO8NVTRXb1+zUxIMHqLgmtd7gEE7b6Vi/CrLosvx5szghJG55ww4E8R7hlv/CD84JBckBUg1EI2RA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=jXZyAEVH; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 66C1D186F;
+	Tue, 27 Jan 2026 09:55:56 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1769504156;
+	bh=YSC8kL8Rjr8EC8MeFfA+OjR6ATnoKTBFb320XpZmk00=;
+	h=From:Date:Subject:To:Cc:From;
+	b=jXZyAEVHpDYsdDlv0oceFn9gcj8AJTibtpCPYyBjrIJ1br9U3oTcrDzNRzKxYvozx
+	 8t9F6DRDaKMQje0VVX7cWO4pGbnQ4gkfbu5mVKiaJFaGhGT3zVl9oadtmTLspjTnGq
+	 6JEBpJV4/iYuF9xGYOeDOxTaSVRxytVUnC9wb1wY=
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Date: Tue, 27 Jan 2026 10:56:12 +0200
+Subject: [PATCH] media: renesas: vin: Fix RAW8 (again)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Felix Gu <ustc.gu@gmail.com>, linux-renesas-soc@vger.kernel.org,
- linux-gpio@vger.kernel.org
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Jianhao Xu <jianhao.xu@seu.edu.cn>, Linus Walleij <linusw@kernel.org>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Thierry Bultel <thierry.bultel.yh@bp.renesas.com>,
- Zilin Guan <zilin@seu.edu.cn>
-References: <20260127-rzt2h-v1-1-86472e7421b8@gmail.com>
-Subject: Re: [PATCH] pinctrl: renesas: rzt2h: Fix device node leak in
- rzt2h_gpio_register()
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20260127-rzt2h-v1-1-86472e7421b8@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:iJShoBkAfBxZp+mDT5yvO8EYMaDGH9hit1n5Frvgb7klI7UGupg
- M/njEp0MsiZHb1D7SMJHH/aIyWuXZbBR1yxNx0N75JT49vG5/6MW3ugKByHBRgP58ChTvC2
- 4MMvpthmsZRn1T+O8+JxJNj7iMHsE9OzPflMRAHxRTui83jPUh48ZE2wpcDZU+8uWrj952O
- RpiTDsMqpw3mg4kZg3ZvQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:ryfITqY3yvs=;mGQnYJ5mFNA+vleINoMffQ1LSXr
- 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
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260127-rcar-fix-raw8-again-v1-1-642283bc0fa4@ideasonboard.com>
+X-B4-Tracking: v=1; b=H4sIAKt9eGkC/x2MQQqAMAzAviI9W3AbOPUr4qFuVXuZ0oEK4t8dH
+ gNJHsiswhmG6gHlU7LsqYCpKwgbpZVRYmGwjW0bYz1qIMVFblS6OqSVJGEfKdDceYrOQSkP5WL
+ 813F63w/kdWM1ZQAAAA==
+X-Change-ID: 20260127-rcar-fix-raw8-again-9dacab87ad33
+To: =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ Hans Verkuil <hverkuil@kernel.org>
+Cc: =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+ linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+X-Mailer: b4 0.15-dev-c25d1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3149;
+ i=tomi.valkeinen+renesas@ideasonboard.com; h=from:subject:message-id;
+ bh=YSC8kL8Rjr8EC8MeFfA+OjR6ATnoKTBFb320XpZmk00=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBpeH296bDP6mbvLctvWmEdn0UOCvPTmrJ6f1Ajx
+ RltEpMp2ESJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCaXh9vQAKCRD6PaqMvJYe
+ 9ZKDD/94kt/m4UeGr/1EG80Ky390bkC0Pq8wYgOSduOcHACXNUXeveYYskuz8dpfzBDlXquja3A
+ 3IlrVItVD9kA2nhdhU2hRUBAzy2pFPgniYun2XiY8VNtNBg90mnBCzIpUKZdbjqq3ezfEKcDj2p
+ j+uzHY5MT5hyuHWqDQosu+6Y+WIsC2q7yc7l7s9UiOTHq0ZR2ifB6ElYBLzeoyk+b+8KbOYyRYy
+ jNXKJdBRX564NUVyvRwH4rE0LvHDC9S2zeMfx+68m1A2bk7mwKDOH/9ZU2B1qwAVCNGETZNJdjB
+ SfU5ZbWFKLOcgnooK2nEhgo5Znks/NJTh3Hq9Zq/3VuWoj+TmD3Fp2YKL7W2oNORtSO2KQOw4/N
+ HCB75KMEr4BDEnXmtL/DBQuAKYfKFTcm6PA9UQFcO5+gBYxNOrQMU884xvQM03yg3ie1fAKQr5F
+ 4QK4DtOY42EqLM9RyC/Nvu3pvlNKFx3XglV7f9EY5s6nagl15z2Yu/fw2KQTWLofKx0vtdxBZPv
+ vs/42DiRu5D4T5VSW1bXBK2ggeME+1DOnw87M2RlMXZer39sfHW0c8+lztMtttetxkcyM70Glqg
+ kegEz3C/uafpB3XAlUfISA87WNg/kyHFB7XWkI8Z/QURqSwzYqAN22aPjRns2Z9lPBwT3aP6KNq
+ UJVZ/0gxyfVrAwg==
+X-Developer-Key: i=tomi.valkeinen+renesas@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[web.de,quarantine];
-	R_DKIM_ALLOW(-0.20)[web.de:s=s29768273];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-27461-lists,linux-renesas-soc=lfdr.de,renesas];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-27460-lists,linux-renesas-soc=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[ragnatech.se,kernel.org,glider.be,gmail.com,ideasonboard.com];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[web.de:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	FREEMAIL_FROM(0.00)[web.de];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[Markus.Elfring@web.de,linux-renesas-soc@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MAILSPIKE_FAIL(0.00)[2600:3c0a:e001:db::12fc:5321:query timed out];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tomi.valkeinen@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	RCPT_COUNT_SEVEN(0.00)[10];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: B841891341
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: DBFED9166E
 X-Rspamd-Action: no action
 
-=E2=80=A6
-> In rzt2h_gpio_register(), the driver fails to call of_node_put() to
-> release the reference in of_args.np, which causes a memory leak.
-=E2=80=A6
+Commit e7376745ad5c ("media: rcar-vin: Fix stride setting for RAW8
+formats") removed dividing the stride by two for RAW8 formats. It is
+unclear how this was tested, but in any of the recent tests this does
+not seem to work and produces quite distorted images.
 
-                                                      reference count?
+However, reverting the patch fixes the issues only partially. VNIS_REG
+requires alignment to 16 bytes, and when dividing the stride by 2, in
+some cases we end up with a non-aligned stride, producing a tilted
+image. This issue has to be fixed in rvin_format_bytesperline() where we
+do the alignment for bytesperline.
 
-* Were any source code analysis tools involved here?
+Adding back the stride division and increasing the alignment for RAW8
+formats to 0x20 fixes the problems related to RAW8.
 
-* See also once more:
-  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/=
-Documentation/process/stable-kernel-rules.rst?h=3Dv6.19-rc7#n34
+Fixes: e7376745ad5c ("media: rcar-vin: Fix stride setting for RAW8 formats")
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+---
+ drivers/media/platform/renesas/rcar-vin/rcar-dma.c | 22 ++++++++++++++++++++++
+ .../media/platform/renesas/rcar-vin/rcar-v4l2.c    | 12 ++++++++++++
+ 2 files changed, 34 insertions(+)
 
+diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+index b619d1436a41..f9af9177e02f 100644
+--- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
++++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+@@ -676,8 +676,30 @@ void rvin_crop_scale_comp(struct rvin_dev *vin)
+ 	if (vin->scaler)
+ 		vin->scaler(vin);
+ 
++	/*
++	 * VNIS_REG has four lowest bits always 0, i.e. the stride has to be
++	 * aligned to 16 bytes. This is done in rvin_format_bytesperline().
++	 */
++
+ 	fmt = rvin_format_from_pixel(vin, vin->format.pixelformat);
+ 	stride = vin->format.bytesperline / fmt->bpp;
++
++	/*
++	 * RAW8 format bpp is 1, but the hardware process RAW8 format in 2 pixel
++	 * units, so we need to divide the stride by 2.
++	 */
++	switch (vin->format.pixelformat) {
++	case V4L2_PIX_FMT_SBGGR8:
++	case V4L2_PIX_FMT_SGBRG8:
++	case V4L2_PIX_FMT_SGRBG8:
++	case V4L2_PIX_FMT_SRGGB8:
++	case V4L2_PIX_FMT_GREY:
++		stride /= 2;
++		break;
++	default:
++		break;
++	}
++
+ 	rvin_write(vin, stride, VNIS_REG);
+ }
+ 
+diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
+index 079dbaf016c2..9d45e11898c1 100644
+--- a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
++++ b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
+@@ -155,6 +155,18 @@ static u32 rvin_format_bytesperline(struct rvin_dev *vin,
+ 	case V4L2_PIX_FMT_NV16:
+ 		align = 0x20;
+ 		break;
++	case V4L2_PIX_FMT_SBGGR8:
++	case V4L2_PIX_FMT_SGBRG8:
++	case V4L2_PIX_FMT_SGRBG8:
++	case V4L2_PIX_FMT_SRGGB8:
++	case V4L2_PIX_FMT_GREY:
++		/*
++		 * RAW8 format bpp is 1, but the hardware process RAW8 format in
++		 * 2 pixel units, and we need to align to 32 bytes. See
++		 * rvin_crop_scale_comp().
++		 */
++		align = 0x20;
++		break;
+ 	default:
+ 		align = 0x10;
+ 		break;
 
-Regards,
-Markus
+---
+base-commit: 7d0a66e4bb9081d75c82ec4957c50034cb0ea449
+change-id: 20260127-rcar-fix-raw8-again-9dacab87ad33
+
+Best regards,
+-- 
+Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+
 
