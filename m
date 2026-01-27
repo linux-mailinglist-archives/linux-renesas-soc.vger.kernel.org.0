@@ -1,248 +1,224 @@
-Return-Path: <linux-renesas-soc+bounces-27464-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27465-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uEv1BqmEeGmqqgEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27464-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jan 2026 10:26:01 +0100
+	id 8GALKzyMeGmqqwEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27465-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jan 2026 10:58:20 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6994C91AB8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jan 2026 10:26:00 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 578F5923B0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jan 2026 10:58:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 891833011773
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jan 2026 09:25:27 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 96AF6301AB95
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jan 2026 09:57:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5ED382DB78A;
-	Tue, 27 Jan 2026 09:25:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23B873382F9;
+	Tue, 27 Jan 2026 09:57:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="JcvwXJcB";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="eXPVl2CE"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rG/0sAbR"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CC1A2DAFB4;
-	Tue, 27 Jan 2026 09:25:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B68AA3382DA
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Jan 2026 09:57:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769505926; cv=none; b=bz6RvMmhos+usD39K2VB8z/tVlCC9EIG/yLVP14HNq/yP/gH3gCQIjFeuSizD8wdkqEr41HLtQ5cEr1FZHpdTxELKhvJqAUqqqlq3je0xkA16pN4nFPkwPpq2vXGnhXP7a2WeLfc/rwqgGTXHrGwH9yWoQDz9b1hHQc3IxnD4xs=
+	t=1769507866; cv=none; b=cvpamd9Clpebidy3JLl622mQV+NbeU5NTUOgPpcbcgxLaB31Psky7lfUnOy4IMkjhygt0m41C+VS+sP2vXi0kOikpWepMxrs+XZGb8mUxRS20IbItff0+/E0tLst1S8BA7MQRxgNI3PPW8B/4+8WuBsy8Ba7hv00XMzrGovYLZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769505926; c=relaxed/simple;
-	bh=4uZOQExB7Kh+y9IhhRujsk7E6W9q79jvd4nThNHsm5U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nOG52qHA+i9FFTB05dpjeDR1yvm5DxfyQXuQmEq3FDjKF1MNcSEEpv0v0+QBlwYJj1uJe0meTiHP7t8eYG3O8kpf2RNCae5ASiEMoBp/sI9OyqAZPM2HDzhKHB8sX7MjgR8mHVHyEWU1xtItFxJGNrzUzoycss1M0LtSjiAHocw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=JcvwXJcB; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=eXPVl2CE; arc=none smtp.client-ip=202.12.124.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfout.stl.internal (Postfix) with ESMTP id E21201D001C9;
-	Tue, 27 Jan 2026 04:25:22 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-03.internal (MEProxy); Tue, 27 Jan 2026 04:25:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1769505922;
-	 x=1769592322; bh=3TwL/hl4eNVbqtZyQvcpQoQvEIT4/Vej02qJ3FuxI0c=; b=
-	JcvwXJcBAE2OTbYYo94QY894OjvEQxoOcgoy39Va5j+gF2wbg4KelYXvOyQdXdqh
-	R/3wGkZ+YSrdgaTkAWc5tgRJVA5elEU2oqSJQTaAiq4ZY7B+xI0aBBLXlZQ4Dgnx
-	r5svVOM3qU2utXKpredi+Zv5yU++vGz7wu/Y1WvivO8B1yjl4MccWDRX8rkPjWmY
-	xnf8DI8c/V9gHTk5AjLOxcCmlkErCTjRi3C6WxoyY0P1z/eI7MClmOfnKnN0cO0A
-	4dKSFn5/7YHjGOzGUKhN0uEc4sIHth3sB6QIi2ZJvOIT7xNk49mLECCBSN+Psiru
-	mPfQanSykr6pl9s748OWKg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1769505922; x=
-	1769592322; bh=3TwL/hl4eNVbqtZyQvcpQoQvEIT4/Vej02qJ3FuxI0c=; b=e
-	XPVl2CExWBjWDMRWowyR97A8K4KCwsnGBcPz4dlPQAdUlt9AU4JuOE2NWpGx8DqV
-	NqMU7eGOjBvmQ/mOMYD3fVPintnbHSMOkcIygygIoIyjxQNj/yD1eLkdfdmWhnnB
-	/qnova0rqZFuyZBg3R9TSwY87Agzbo7eT01UQH0ZEYyPnHUpxJ4Yjjp9+cMurDgu
-	pDT/gARgct8geIxTxl/41w7iwymtWYTVr0y2ZwOQW12XAwvqygYsNKwwyb0/0tAH
-	282VsG2jD2RCbyHiGmo1mlOStJ2uta6nzlxsDxHhyWiXZW+tIT5TxNd5xMIRKBGH
-	6jdu85llUzMMrYc7bZ5OA==
-X-ME-Sender: <xms:goR4aToI9bq11PRXRZ4bCbIgq6MkTofZ-J20UwOHhUivY4KZT2kSEw>
-    <xme:goR4aV2tomNKpCeHu0CAPQIIlBRWheLBdQ9quBoCCfgHjKIjcADMwsed9Hc9VNX9U
-    _dI1xe4QDP2utwvzUkuSIPpQcvOQLc3eEVg5U_AmQmNDoGNf0x2Ckk>
-X-ME-Received: <xmr:goR4abwgPJUZx9rYbHVowfODMP6bT-DS87ANv4zBIKyYsPi2m7OHGec4jwgzFq3QteieOVO6YXwNTz7HLbOCCg6d4DsrLss>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduiedtudeiucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhklhgr
-    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrg
-    htvggthhdrshgvqeenucggtffrrghtthgvrhhnpeevteegtddvvdfhtdekgefhfeefheet
-    heekkeegfeejudeiudeuleegtdehkeekteenucevlhhushhtvghrufhiiigvpedtnecurf
-    grrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhn
-    rghtvggthhdrshgvpdhnsggprhgtphhtthhopedutddpmhhouggvpehsmhhtphhouhhtpd
-    hrtghpthhtohepthhomhhirdhvrghlkhgvihhnvghnodhrvghnvghsrghssehiuggvrghs
-    ohhnsghorghrugdrtghomhdprhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdroh
-    hrghdprhgtphhtthhopehsrghkrghrihdrrghilhhusheslhhinhhugidrihhnthgvlhdr
-    tghomhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrd
-    horhhgpdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhk
-    vghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrd
-    hkvghrnhgvlhdrohhrghdprhgtphhtthhopehmtghhvghhrggsodhhuhgrfigviheskhgv
-    rhhnvghlrdhorhhgpdhrtghpthhtoheplhgruhhrvghnthdrphhinhgthhgrrhhtsehiug
-    gvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehjrggtohhpohdrmhhonhguihes
-    ihguvggrshhonhgsohgrrhgurdgtohhm
-X-ME-Proxy: <xmx:goR4aRheyyfQpQ07PD59Vu2s4z5buXK1NT9yIWBERQyE7OH3R9lbqw>
-    <xmx:goR4aerjji31xyW3VK-4g1QQJgYdSjJQa9qP2-jjyVUqZi-VjsnLLQ>
-    <xmx:goR4aYgZOMUJa2f6FMync1Juc_eLocVmrThyGKuavgiaXlhLHmWUKQ>
-    <xmx:goR4aQMq_qjuSatP_W_I4joQp9g_P3bfI4Manh3FhHY6Vbsj6c6xnA>
-    <xmx:goR4aS_7wKpiYxECtziNgc74MjkPlSLsglqhjxtIHWoh9YjgNhIH-gTK>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 27 Jan 2026 04:25:21 -0500 (EST)
-Date: Tue, 27 Jan 2026 10:25:19 +0100
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [PATCH v4 00/15] media: rcar: Streams support
-Message-ID: <20260127092519.GC3751370@ragnatech.se>
-References: <20251216-rcar-streams-v4-0-f28b4831cc67@ideasonboard.com>
- <20251231095739.GA3091492@ragnatech.se>
- <9878845f-c403-492c-a673-90c91472ecc2@ideasonboard.com>
- <20260126193929.GB3751370@ragnatech.se>
- <4d1556bc-7a57-407a-a124-a83accc7afc8@ideasonboard.com>
+	s=arc-20240116; t=1769507866; c=relaxed/simple;
+	bh=1Ho0XG7dS+YggQv/oK2R0s/FYzjIvQaih1Dhu9EIl4g=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=E4naGGa3JfshsGsfGqdJKfMvyguBAmscfoC8OBTzN3g7xGVmFIXDa+lwLvN3J2YficDJmVSHoKMGzUdJ1QOxwRtKWDShafiy8WdDD0SW0mdj38P/kmiVbSBWX6Tjvint/3gUhf7y4KH+etYdxuwdD6kzvD/3RcEXPwX5bAa/OK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rG/0sAbR; arc=none smtp.client-ip=209.85.128.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-48049955f7fso47013905e9.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Jan 2026 01:57:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1769507862; x=1770112662; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2e0LebsihOgK1n8wthh7i3DWNd7QqTelv44kSjU7JJE=;
+        b=rG/0sAbR8B6CvOpWrh/ZdIMnfrKv6AU+3ggyZNk+A5ehS4g5E3hz4zdxCZsJpRzMFd
+         8iDT8f5u83qjoxzyC8IkIcLIhraI3O9K/X7IiI8FUPRnfoK+A11Rx/q4bMZ83nj/DTBN
+         EzHwZjtNf5s83ZTnX3nBPq/is4AbzJZTtNGp6dYnk8CAVOCgm1W1JhRHHkSpWQaRxkYZ
+         PdFXPl6YhxTMgfZ4xhjV+ckD4KI1kVNImfNoPsplzB8Cyx0jmvTPp4lZ4HbBvlhDI/qq
+         1Ve8pdSfEUtnfFNx8HTLRQtgtTk/u8fYPE0SALTV+jNKjM8pw+ani2dBadFQR/7IROLx
+         S/6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769507862; x=1770112662;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2e0LebsihOgK1n8wthh7i3DWNd7QqTelv44kSjU7JJE=;
+        b=EfSCZMR+/vMYpR4R5zeD3QzFa/jMlQeoPOm+EIanPrI8j0M0qPHCLHy2dDwXbJogZU
+         mFz9KtPrOKP5bII2bRAwwO0rH4q4ra9NlV8/diYtyz1IdnFP1QMg2nkOBjP4gA83uDMD
+         LYlf9+YH5vR4IjZOHBsctqfE1DQS7vFxuJ2aAKb8d4kAEo/ck46IZpbXf8ZqCIG333F3
+         ROj8nHPXrjtr5M9M1D2j0d5De+EQEIk6L8xKbyu48VtuVnIbq1lX8s6Ozvt1j/tCqEQk
+         I1QHwwP6fh2zZo8/biFzZ99slB0bmrTqEt8Wr9avGGMPwBlktAGCks1cXMvK3mOx6mnN
+         uOSQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVxSkg4HgY9z+C6vo49AXRFZG5n7mA7XlvnAm0PAn5KLsqAnYKrCr71LxrADpjtEGc/kuXy0J64xml4Fn76arRPkQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw87UhkodPSE7XdJSAehn45E1860N5QqTSzcHx26/cqpy8MJi/J
+	K4mvZzp19rPOy+X5RXD9z+0vvaAtLLFFoq1UJlSow5OBdxVX1xpbPrATrIsaQ32VO9o=
+X-Gm-Gg: AZuq6aLDCPC2d8iSuSP6dnlO5P3FkNm7Rsham/ydSnL0RN2adTk3Al+JQ6PANe5aur9
+	68G7hyAvYOh/9P+37SbfWUd+VS5U2phwdZlTGuEysl/OmCnFr2a5BanosQCUqYr6MZ1xuIiBtIP
+	J0SUdDzqLGPiYPXC6RvKhoO/BDJkdBfgF8rDXwEcrT6vqgSdQ+cp/sGCO6bm5a9lCNzH/6bqtqG
+	f7aSD2fzRyemft7SfndBO8U5suXy2+VDBJb4bH8SK7od/lZCy/q3jfeqxjaUURLpdqswN3IWiLR
+	HAyGhxdkkZzs2RCE0XwoCzSR9OMZDBUR3vjItXBKhEpi0kihPvV5AxzgPMLEkLLF2unZf0Zu3rB
+	QFBCoEOt6vO96bOuTwhDXS+z/alCKXhLPDtCTrNRn3spL5IgBe9CF0m2ud/IjOkyPnuatZSxvUf
+	dDQaw7JuicKJsrwAikHwLZYBEwEDZnPJA=
+X-Received: by 2002:a05:600c:350b:b0:480:49ce:42cc with SMTP id 5b1f17b1804b1-48069c0de5cmr14612455e9.9.1769507861972;
+        Tue, 27 Jan 2026 01:57:41 -0800 (PST)
+Received: from arrakeen.starnux.net ([2a01:e0a:3d9:2080:8261:5fff:fe11:bdda])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48066bf93cesm49056225e9.9.2026.01.27.01.57.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Jan 2026 01:57:41 -0800 (PST)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: [PATCH v2 0/7] arm64: dts: qcom: Add support for the Ayaneo Pocket
+ S2
+Date: Tue, 27 Jan 2026 10:57:27 +0100
+Message-Id: <20260127-topic-sm8650-ayaneo-pocket-s2-base-v2-0-c55ec1b5d8bf@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4d1556bc-7a57-407a-a124-a83accc7afc8@ideasonboard.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAeMeGkC/5WNQQ6CMBAAv0J6dk1bLKme/IfhUMoWNmpLuoRIC
+ H+38gOPM4eZTTBmQha3ahMZF2JKsYA+VcKPLg4I1BcWWupGKq1gThN54LdtjAS3uogJpuSfOAN
+ r6BwjSOPri8XQ26YXJTRlDPQ5Jo+28Eg8p7wez0X97F/5RYGErqvD1QTlpTX3F0WX0znlQbT7v
+ n8B1huUUdUAAAA=
+X-Change-ID: 20260121-topic-sm8650-ayaneo-pocket-s2-base-05c348efd86d
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, 
+ Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, Bartosz Golaszewski <brgl@kernel.org>, 
+ Manivannan Sadhasivam <mani@kernel.org>, 
+ Bjorn Helgaas <bhelgaas@google.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-usb@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org, linux-pci@vger.kernel.org, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, 
+ KancyJoe <kancy2333@outlook.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2479;
+ i=neil.armstrong@linaro.org; h=from:subject:message-id;
+ bh=1Ho0XG7dS+YggQv/oK2R0s/FYzjIvQaih1Dhu9EIl4g=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBpeIwRROCpb0TMHeAc6TMUdXNXB9/fuPUVBZL9uXyU
+ 2FlCoHWJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCaXiMEQAKCRB33NvayMhJ0aEaEA
+ CFi7NkRxXRZmDOfjdMNhmQFgH9m9TO18dvcYR4Szl4XAM66hsfrAr2BzHliKhGsuZGVQCn21OEacn1
+ 2psYd7D5fe821xwIpunC1uX3v5BxWozwN1D1h+ZMYLTyRLiOfWeboymDJvSvpQb7bivUNVwQKG5O4y
+ maY86FceNdv8JJwC8sx96Bzf2R4r2aPtUJwFU/ua8IYGbGtUAOc8L2DuQhM6RPz1wRNcXiggPUzhyP
+ jwaPYUsqvJeCW5+PXLUSHu2yYQKbxVt8d1RC+rzY+a+u7Ur5H9B23XHwGHUl6MnC//pDNtHoPeri3v
+ X8F6MS2V/EudvIBqHZeTU4OOlEzEDtHXrMqR2+ZkK1DL/is/kkSFX48e5gJkKEL6J5BFR0gXGC1dE0
+ Pkas7nXik4ArNrYr4EsYR1odk5y/a1Ix68QBRSA3M3hn+O9OgTZtveQyM1LuIHx86NiAKVNnrJnkFf
+ 7ZonrJyjqpd1ei/d+t/ELDeQrNxydxQi0jLuga8L2ZNm03YgRkSeL1/rukXbQ8Iior/wdS0YB2WN+W
+ iGHVYXymMyCW1c2ZtKs97b2qGEc1EpoAllwjD2LwdJfFvDLdlsc+mfBbyKANuVDVHRTypu9Af2UY5Y
+ X6N+TMHRPHf7v8/JbJ+3SlI3zqCz80sBujApWp0WGIJCilnZgrDhN6eVHVQg==
+X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
+ fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ragnatech.se,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[ragnatech.se:s=fm2,messagingengine.com:s=fm2];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[ragnatech.se:+,messagingengine.com:+];
+	TAGGED_FROM(0.00)[bounces-27465-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-27464-lists,linux-renesas-soc=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[kernel.org,oss.qualcomm.com,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,linuxfoundation.org,glider.be,google.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,linaro.org,oss.qualcomm.com,outlook.com];
+	RCPT_COUNT_TWELVE(0.00)[30];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[niklas.soderlund@ragnatech.se,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[neil.armstrong@linaro.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[linaro.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
 	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,huawei];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,messagingengine.com:dkim]
-X-Rspamd-Queue-Id: 6994C91AB8
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linaro.org:email,linaro.org:dkim,linaro.org:mid,ayaneo.com:url,msgid.link:url]
+X-Rspamd-Queue-Id: 578F5923B0
 X-Rspamd-Action: no action
 
-Hi Tomi,
+The Ayaneo Pocket S2 is a gaming console based on the Qualcomm
+Snapdragon 8 Gen 3. It has an internal UFS storage, WiFi,
+Bluetooth, gaming buttons, SDCard, 2K display and USB-C
+connector.
 
-On 2026-01-27 10:59:21 +0200, Tomi Valkeinen wrote:
-> Hi,
-> 
-> On 26/01/2026 21:39, Niklas Söderlund wrote:
-> > Hi Tomi,
-> > 
-> > Thanks for digging in this.
-> > 
-> > On 2026-01-26 16:01:36 +0200, Tomi Valkeinen wrote:
-> >> Hi,
-> >>
-> >> On 31/12/2025 11:57, Niklas Söderlund wrote:
-> >>> Hi Tomi,
-> >>>
-> >>> Thanks for your persistent work on this series!
-> >>>
-> >>> On 2025-12-16 17:18:17 +0200, Tomi Valkeinen wrote:
-> >>>> Add streams support to Renesas rcar platform driver.
-> >>>>
-> >>>> The series keaps compatibility with the current upstream for a single
-> >>>> stream use case. However, in upstream there's a limited custom
-> >>>> multi-stream support implemented to the rcar driver, which will be
-> >>>> replaced with the upstream's Streams API.
-> >>>>
-> >>>> I have tested this series on Sparrow-Hawk board, with a few different
-> >>>> setups:
-> >>>>
-> >>>> IMX219 connected to the CSI0 connector
-> >>>> - The following patches applied to my test branch in addition to this
-> >>>>   series:
-> >>>>   1) The v4l2_subdev_get_frame_desc_passthrough dependency
-> >>>>   2) Revert of commit e7376745ad5c8548e31d9ea58adfb5a847e017a4 ("media:
-> >>>>      rcar-vin: Fix stride setting for RAW8 formats"), as that commit
-> >>>>      breaks RAW8
-> >>>
-> >>> That is so odd, I do grab RAW8 on V4H with a IMX219. In what way is do 
-> >>> you see RAW8 breaking?
-> >> I think I found it. It's broken for all formats and resolutions, based
-> >> on luck:
-> >>
-> >> VNIS_REG has the lowest 4 bits always 0. From the doc: "These bits
-> >> specify the width of the transfer destination memory in 16-pixel
-> >> unit."
-> >>
-> >> We do nothing to comply with that.
-> > 
-> > Yes we do, but maybe not enough?
-> > 
-> > In rvin_format_bytesperline() we align for this, we even consider the 
-> > special cases for NV12 and NV16.
-> > 
-> > The value written to VNIS_REG is vin->format.bytesperline / fmt->bpp, 
-> > and the value writen to vin->format.bytesperline is ALIGN(pix->width, 
-> > align) * fmt->bpp. And for all formats (not NV12 or NV16) is 0x10, so we 
-> > do align it to the 16-pixel unit no?
-> > 
-> > Maybe their is a corner case I have missed or maybe I'm missing some 
-> > other angle? And I agree adding and removing the fmt->bpp multiplier is 
-> > not the best here. As we have finally moved this driver to media graph 
-> > only there are lots of areas things can be cleaned up and improved as we 
-> > no longer need to consider all that Gen2 special cases. I bet this can 
-> > likely be cleaned up.
-> Right, but if we have the stride / 2 code in, we will get strides not
-> aligned to 16 bytes unless the bytesperline happened to be aligned to 32
-> bytes.
-> 
-> I sent "[PATCH] media: renesas: vin: Fix RAW8 (again)". I still don't
-> understand exactly how the RAW8 processing goes in the hardware, but
-> afaics the stride / 2 is required, I cannot get any proper images
-> without that. The documentation doesn't really describe it so I'm not
-> totally content with all this.
-> 
-> Anyway, please test the new patch on your end, perhaps we'll finally
-> have a conclusion on the RAW8 =).
+Product Page [1].
 
-Reading the comments in that patch and the documentation and I now see 
-the other way the docs could be interpreted :-) I agree that if it works 
-(I'm sure it does) it also satisfy the documentation. I will give it a 
-spin and reply in that patch. It would indeed be super to solve this 
-correctly, thanks for your efforts!
+The Initial linux port was done by KancyJoe (Sunflower2333)
+at [2].
 
-> 
->  Tomi
-> 
+[1] https://www.ayaneo.com/goods/9344082149621
+[2] https://github.com/sunflower2333/linux/tree/master
 
+Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+---
+Changes in v2:
+- Add proper regulators for the USB controller, with bindings & power ctrl
+- Add proper regulators for FAN
+- Dropped support for headset over USB-C, audio is connected to a jack port
+- Cleaned up Audio routing and fixed the DP endpoint index
+- Added i2c clk frequencies
+- Renamed fan node and used interrupts-extended
+- Dropped the usb-c self-powered
+- Reordered nodes alphabetically
+- Renamed pcieport1 to pcie1_port0
+- Link to v1: https://patch.msgid.link/20260121-topic-sm8650-ayaneo-pocket-s2-base-v1-0-bb3f95f1c085@linaro.org
+
+---
+KancyJoe (1):
+      arm64: dts: qcom: add basic devicetree for Ayaneo Pocket S2 gaming console
+
+Neil Armstrong (6):
+      dt-bindings: usb: document the Renesas UPD720201/UPD720202 USB 3.0 xHCI Host Controller
+      pci: pwrctrl: add PCI pwrctrl driver for the UPD720201/UPD720202 USB 3.0 xHCI Host Controller
+      arm64: defconfig: enable pci-pwrctrl-upd720201 as module
+      dt-binding: vendor-prefixes: document the Ayaneo brand
+      dt-bindings: arm: qcom: document the Ayaneo Pocket S2
+      arm64: dts: qcom: sm8650: Add sound DAI prefix for DP
+
+ Documentation/devicetree/bindings/arm/qcom.yaml    |    1 +
+ .../bindings/usb/renesas,upd720201-pci.yaml        |   55 +
+ .../devicetree/bindings/vendor-prefixes.yaml       |    2 +
+ arch/arm64/boot/dts/qcom/Makefile                  |    1 +
+ .../boot/dts/qcom/sm8650-ayaneo-pocket-s2.dts      | 1559 ++++++++++++++++++++
+ arch/arm64/boot/dts/qcom/sm8650.dtsi               |   47 +-
+ arch/arm64/configs/defconfig                       |    1 +
+ drivers/pci/pwrctrl/Kconfig                        |   10 +
+ drivers/pci/pwrctrl/Makefile                       |    2 +
+ drivers/pci/pwrctrl/pci-pwrctrl-upd720201.c        |   88 ++
+ 10 files changed, 1743 insertions(+), 23 deletions(-)
+---
+base-commit: cd31ece0d7a4f2fb2266d6d6abd4d33f45e93dac
+change-id: 20260121-topic-sm8650-ayaneo-pocket-s2-base-05c348efd86d
+
+Best regards,
 -- 
-Kind Regards,
-Niklas Söderlund
+Neil Armstrong <neil.armstrong@linaro.org>
+
 
