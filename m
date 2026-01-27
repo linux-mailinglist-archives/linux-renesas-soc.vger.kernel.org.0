@@ -1,133 +1,121 @@
-Return-Path: <linux-renesas-soc+bounces-27490-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27491-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KDF5I4oUeWl3vAEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27490-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jan 2026 20:39:54 +0100
+	id cLgFE4YdeWkQvgEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27491-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jan 2026 21:18:14 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04C2B9A08D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jan 2026 20:39:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9893C9A4B5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jan 2026 21:18:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 16BEF3022F7A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jan 2026 19:38:10 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 99810301474C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jan 2026 20:18:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF82536E49D;
-	Tue, 27 Jan 2026 19:38:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AD3136EA8F;
+	Tue, 27 Jan 2026 20:18:12 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C34D7346A0E;
-	Tue, 27 Jan 2026 19:38:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63323265CC2;
+	Tue, 27 Jan 2026 20:18:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769542687; cv=none; b=X8woeglx8qvCM2p+i/lYqz4iFG16FserFhQMg1S780/UzU2tofk3vZZRVEnIdp0+oGvSmk5ZPXtdSwe9bSv2cYHiheL06ANpaCBk/OB5GMFFU5rEMCr5IJ3kofYoM8ktZVxZljFSgRoi5XlzLRPuC6djmT0c6NQpA2OA6kuGIA0=
+	t=1769545092; cv=none; b=PINyuOKnTi4tvIe8NlWPf5gwdxCyVLY3Oq8JSrMf9KOG6Pu0Jt2PB+ywRllnpROuAy+fLwTMc32UCgpppMF7IyTeYcW0WCcfnxPuY7ID2IqQnGCPU9ShMgXKP+dwdcMARx7qLNTO7MPjuoedDxsAPqE5mjfYBckK3arwozapj8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769542687; c=relaxed/simple;
-	bh=7JZ8eOfeyzXUJwc1ev7M4s+cnApmIeXL2LCfgmGC+6c=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mGFUoboo+9r5cJDPV0G1pX/rRsvu7UmrcHwqYjMPBJA/KNXBZV6Mxa8NboqXffcHs65GlYwW3DzcE+fXCkbyyqnrs2t5J4dYPeqwkjq9eEVJ58LrRcnaulvMGV58N0kGC5GkpT9aooiC9U2WSa/i4wMAVWnbjoCpC35fahAnpBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36FC2C116C6;
-	Tue, 27 Jan 2026 19:38:03 +0000 (UTC)
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: bigeasy@linutronix.de
-Cc: andy@kernel.org,
-	dlechner@baylibre.com,
-	jic23@kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	nuno.sa@analog.com,
-	tglx@kernel.org,
+	s=arc-20240116; t=1769545092; c=relaxed/simple;
+	bh=mCoaBNPu3rA4vkKYBX41SOIXOOS2bbtUrm3BsqaZL80=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sRAezXclc8VwtZzWmIhtlJRQoHNh1Xb+2mARECU4Toxpkj4Kjqo/UH7BLdkTgtOLI/zNNsnR/mHkaUBUu9WMZnWkKMGRIo9PWpDRiOCsiQxEtOhwYqCQMNnX8bTAoWqrFrKGEPzrzxOJciFDT053c5JfsyduMYamqOQ1nvm0LS8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+X-CSE-ConnectionGUID: myhtBSzlSRejUx04eld1JQ==
+X-CSE-MsgGUID: c8mOL1O3TFGijSk8Vxu4Uw==
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 28 Jan 2026 05:18:02 +0900
+Received: from demon-pc.localdomain (unknown [10.226.93.69])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id BC99240869DB;
+	Wed, 28 Jan 2026 05:17:58 +0900 (JST)
+From: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: linux-spi@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH 20/21] iio: magnetometer: Remove IRQF_ONESHOT
-Date: Tue, 27 Jan 2026 20:37:55 +0100
-Message-ID: <20260127193755.3091995-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260123113708.416727-21-bigeasy@linutronix.de>
-References: <20260123113708.416727-21-bigeasy@linutronix.de>
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+Subject: [PATCH v2 0/3] Add DMA support for RZ/T2H RSPI
+Date: Tue, 27 Jan 2026 22:17:03 +0200
+Message-ID: <20260127201706.616374-1-cosmin-gabriel.tanislav.xa@renesas.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.04 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [0.14 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[renesas.com : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-27490-lists,linux-renesas-soc=lfdr.de,renesas];
-	RCVD_TLS_LAST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	RCVD_COUNT_THREE(0.00)[4];
-	DMARC_NA(0.00)[glider.be];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	NEURAL_HAM(-0.00)[-0.999];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@glider.be,linux-renesas-soc@vger.kernel.org];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[renesas.com,kernel.org,glider.be,gmail.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-27491-lists,linux-renesas-soc=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[cosmin-gabriel.tanislav.xa@renesas.com,linux-renesas-soc@vger.kernel.org];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	R_DKIM_NA(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 04C2B9A08D
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 9893C9A4B5
 X-Rspamd-Action: no action
 
-	Hi Sebastian,
+The DMA controller can be used to transfer data to and from the SPI
+controller without involving the CPU for each word of a SPI transfer.
 
-> Passing IRQF_ONESHOT ensures that the interrupt source is masked until
-> the secondary (threaded) handler is done. If only a primary handler is
-> used then the flag makes no sense because the interrupt can not fire
-> (again) while its handler is running.
-> The flag also disallows force-threading of the primary handler and the
-> irq-core will warn about this.
-> The force-threading functionality is required on PREEMPT_RT because the
-> handler is using locks with can sleep on PREEMPT_RT.
-> 
-> Remove IRQF_ONESHOT from irqflags.
-> 
-> Cc: Jonathan Cameron <jic23@kernel.org>
-> Cc: David Lechner <dlechner@baylibre.com>
-> Cc: "Nuno Sá" <nuno.sa@analog.com>
-> Cc: Andy Shevchenko <andy@kernel.org>
-> Cc: linux-iio@vger.kernel.org
-> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Add support for DMA mode, and do some other cleanups while touching the
+same code.
 
-Thanks for your patch!
+The dts changes in this series depend on the DMA series [1].
 
-This fixes the
+[1]: https://lore.kernel.org/lkml/20260105114445.878262-1-cosmin-gabriel.tanislav.xa@renesas.com/#t
 
-    WARNING: kernel/irq/manage.c:1491 at __setup_irq+0xb0/0x79c, CPU#0: swapper/0/1
+V2:
+ * drop patches picked up by Mark
+ * add new dt-bindings patch to allow multiple DMAs
+ * wire up all DMA controllers for every SPI controller
 
-I was seeing on the KZM-A9-GT board since commit aef30c8d569c0f31
-("genirq: Warn about using IRQF_ONESHOT without a threaded handler") in
-irqchip/irq/core.
+Cosmin Tanislav (3):
+  dt-bindings: spi: renesas,rzv2h-rspi: allow multiple DMAs
+  arm64: dts: renesas: r9a09g077: wire up DMA support for SPI
+  arm64: dts: renesas: r9a09g087: wire up DMA support for SPI
 
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+ .../bindings/spi/renesas,rzv2h-rspi.yaml         | 10 ++++++----
+ arch/arm64/boot/dts/renesas/r9a09g077.dtsi       | 16 ++++++++++++++++
+ arch/arm64/boot/dts/renesas/r9a09g087.dtsi       | 16 ++++++++++++++++
+ 3 files changed, 38 insertions(+), 4 deletions(-)
 
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
+-- 
+2.52.0
 
 
