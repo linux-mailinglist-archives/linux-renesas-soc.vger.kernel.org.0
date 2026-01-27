@@ -1,293 +1,133 @@
-Return-Path: <linux-renesas-soc+bounces-27489-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27490-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kL0lKDLxeGmGuAEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27489-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jan 2026 18:09:06 +0100
+	id KDF5I4oUeWl3vAEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27490-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jan 2026 20:39:54 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F34A9834E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jan 2026 18:09:06 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04C2B9A08D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jan 2026 20:39:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A29B130AF486
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jan 2026 17:04:57 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 16BEF3022F7A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Jan 2026 19:38:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EA0B363C55;
-	Tue, 27 Jan 2026 17:04:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EXj9+9tF"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF82536E49D;
+	Tue, 27 Jan 2026 19:38:07 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D810A3624BF;
-	Tue, 27 Jan 2026 17:04:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C34D7346A0E;
+	Tue, 27 Jan 2026 19:38:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769533496; cv=none; b=CAKElr4wbOIBP5AhLaHD0zTsIA4M+WyBnXRsmoSC5lOc2GY17HMhENsqTTWZjaZzaRNXPKWoCnBT8Qhci9Mg7eH6H0O8O1EDUMxUef3GaxnEctAAjX5ckwljC5CUJKBWX+AOpmQPGJe9QlrL3oW+cUXMM2aDDieWf/zmxJ5+QmQ=
+	t=1769542687; cv=none; b=X8woeglx8qvCM2p+i/lYqz4iFG16FserFhQMg1S780/UzU2tofk3vZZRVEnIdp0+oGvSmk5ZPXtdSwe9bSv2cYHiheL06ANpaCBk/OB5GMFFU5rEMCr5IJ3kofYoM8ktZVxZljFSgRoi5XlzLRPuC6djmT0c6NQpA2OA6kuGIA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769533496; c=relaxed/simple;
-	bh=poCPnd4zFMjtSit8xD03/GV5rPSvHmcbMOzBQ9KlptE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=bWpdOkedU60TU5nMGi/bolXWf59wRI0TRaHcKQ7Fj5Oy+5bJ2N2ck9gLHKw+oqhm8EZzIbjl58zzcXikQIFb+OZS2wgF1tOrG6YMd1H6OY8MYBiy4NguTLiSYkx0V5fi4wQKmaWATKMZTQJuVR8+mc4L0FZr/WoAk1BdglZ6pJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EXj9+9tF; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CD6BC116C6;
-	Tue, 27 Jan 2026 17:04:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769533496;
-	bh=poCPnd4zFMjtSit8xD03/GV5rPSvHmcbMOzBQ9KlptE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=EXj9+9tFbUrcdXOg/gNZ0xtF0AANmEMZn7gE9OmsDvKPWFilOXbzhgganOOqg0a5h
-	 QxlN29XF4sYATOJ+A72JrE4WEjRMG+yw01F0oZNDKW53UG86h7zKvwkJBiU7ezZ7+w
-	 NfjFs7sUmjmzJ4YJprHnkc3Q5Ktdj8tsQql5XfJKIMtRI0SywIyKabPZFe78+eWd5W
-	 DGSSoMZtSGXB7TPPZUoln5ulzw3FTd1anFe6dEDFiphujvDfDFq512lX4TDir6fsk8
-	 myWqw96UvNR6VrKwSLL1zpJJH+3BkoXmA3i/l6GZwlyrb8d4zv9hHMnncTL43nb8BC
-	 gDheOQS+ka2UQ==
-Date: Tue, 27 Jan 2026 11:04:55 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Rob Clark <robin.clark@oss.qualcomm.com>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-	linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-pci@vger.kernel.org
-Subject: Re: [PATCH v2 2/7] pci: pwrctrl: add PCI pwrctrl driver for the
- UPD720201/UPD720202 USB 3.0 xHCI Host Controller
-Message-ID: <20260127170455.GA364177@bhelgaas>
+	s=arc-20240116; t=1769542687; c=relaxed/simple;
+	bh=7JZ8eOfeyzXUJwc1ev7M4s+cnApmIeXL2LCfgmGC+6c=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mGFUoboo+9r5cJDPV0G1pX/rRsvu7UmrcHwqYjMPBJA/KNXBZV6Mxa8NboqXffcHs65GlYwW3DzcE+fXCkbyyqnrs2t5J4dYPeqwkjq9eEVJ58LrRcnaulvMGV58N0kGC5GkpT9aooiC9U2WSa/i4wMAVWnbjoCpC35fahAnpBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36FC2C116C6;
+	Tue, 27 Jan 2026 19:38:03 +0000 (UTC)
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: bigeasy@linutronix.de
+Cc: andy@kernel.org,
+	dlechner@baylibre.com,
+	jic23@kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	nuno.sa@analog.com,
+	tglx@kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH 20/21] iio: magnetometer: Remove IRQF_ONESHOT
+Date: Tue, 27 Jan 2026 20:37:55 +0100
+Message-ID: <20260127193755.3091995-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260123113708.416727-21-bigeasy@linutronix.de>
+References: <20260123113708.416727-21-bigeasy@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260127-topic-sm8650-ayaneo-pocket-s2-base-v2-2-c55ec1b5d8bf@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [0.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-27489-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[28];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[kernel.org,oss.qualcomm.com,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,linuxfoundation.org,glider.be,google.com,vger.kernel.org,lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-27490-lists,linux-renesas-soc=lfdr.de,renesas];
+	RCVD_TLS_LAST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCVD_COUNT_THREE(0.00)[4];
+	DMARC_NA(0.00)[glider.be];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	NEURAL_HAM(-0.00)[-0.999];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[helgaas@kernel.org,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[geert@glider.be,linux-renesas-soc@vger.kernel.org];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 1F34A9834E
+	R_DKIM_NA(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 04C2B9A08D
 X-Rspamd-Action: no action
 
-On Tue, Jan 27, 2026 at 10:57:29AM +0100, Neil Armstrong wrote:
-> Add support fo the Renesas UPD720201/UPD720202 USB 3.0 xHCI Host Controller
-> power control which connects over PCIe and requires specific power supplies
-> to start up.
+	Hi Sebastian,
 
-s/fo /for /
-
-In subject, "PCI/pwrctrl: Add ..." to match history (see
-"git log --oneline drivers/pci/pwrctrl/")
-
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-> ---
->  drivers/pci/pwrctrl/Kconfig                 | 10 ++++
->  drivers/pci/pwrctrl/Makefile                |  2 +
->  drivers/pci/pwrctrl/pci-pwrctrl-upd720201.c | 88 +++++++++++++++++++++++++++++
->  3 files changed, 100 insertions(+)
+> Passing IRQF_ONESHOT ensures that the interrupt source is masked until
+> the secondary (threaded) handler is done. If only a primary handler is
+> used then the flag makes no sense because the interrupt can not fire
+> (again) while its handler is running.
+> The flag also disallows force-threading of the primary handler and the
+> irq-core will warn about this.
+> The force-threading functionality is required on PREEMPT_RT because the
+> handler is using locks with can sleep on PREEMPT_RT.
 > 
-> diff --git a/drivers/pci/pwrctrl/Kconfig b/drivers/pci/pwrctrl/Kconfig
-> index e0f999f299bb..5a94e60d0d3e 100644
-> --- a/drivers/pci/pwrctrl/Kconfig
-> +++ b/drivers/pci/pwrctrl/Kconfig
-> @@ -11,6 +11,16 @@ config PCI_PWRCTRL_PWRSEQ
->  	select POWER_SEQUENCING
->  	select PCI_PWRCTRL
->  
-> +config PCI_PWRCTRL_UPD720201
-> +	tristate "PCI Power Control driver for the UPD720201 USB3 Host Controller"
-> +	select PCI_PWRCTRL
-> +	help
-> +	  Say Y here to enable the PCI Power Control driver of the UPD720201
-> +	  USB3 Host Controller.
-> +
-> +	  The voltage regulators powering the rails of the PCI slots
-> +	  are expected to be defined in the devicetree node of the PCI device.
-
-I assume this is a function of the platform design, not an intrinsic
-feature of UPD720201?  I.e., my guess is that this driver is not
-required for every platform that includes a UPD720201 device?
-
-Maybe this is just another way of asking Mani's question about using
-pwrctrl-slot.  *Every* device requires specific power supplies to
-start up (re patch 1/7), and this driver doesn't appear to depend on
-anything unique about UPD720201.
-
->  config PCI_PWRCTRL_SLOT
->  	tristate "PCI Power Control driver for PCI slots"
->  	select PCI_PWRCTRL
-> diff --git a/drivers/pci/pwrctrl/Makefile b/drivers/pci/pwrctrl/Makefile
-> index 13b02282106c..a99f85de8a3d 100644
-> --- a/drivers/pci/pwrctrl/Makefile
-> +++ b/drivers/pci/pwrctrl/Makefile
-> @@ -5,6 +5,8 @@ pci-pwrctrl-core-y			:= core.o
->  
->  obj-$(CONFIG_PCI_PWRCTRL_PWRSEQ)	+= pci-pwrctrl-pwrseq.o
->  
-> +obj-$(CONFIG_PCI_PWRCTRL_UPD720201)	+= pci-pwrctrl-upd720201.o
-> +
->  obj-$(CONFIG_PCI_PWRCTRL_SLOT)		+= pci-pwrctrl-slot.o
->  pci-pwrctrl-slot-y			:= slot.o
->  
-> diff --git a/drivers/pci/pwrctrl/pci-pwrctrl-upd720201.c b/drivers/pci/pwrctrl/pci-pwrctrl-upd720201.c
-> new file mode 100644
-> index 000000000000..db96bbb69c21
-> --- /dev/null
-> +++ b/drivers/pci/pwrctrl/pci-pwrctrl-upd720201.c
-> @@ -0,0 +1,88 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Based on upd720201.c:
-> + * Copyright (C) 2024 Linaro Ltd.
-> + * Author: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> + */
-> +
-> +#include <linux/device.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/module.h>
-> +#include <linux/pci-pwrctrl.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/regulator/consumer.h>
-> +#include <linux/slab.h>
-> +
-> +struct pci_pwrctrl_upd720201_data {
-> +	struct pci_pwrctrl ctx;
-> +	struct regulator_bulk_data *supplies;
-> +	int num_supplies;
-> +};
-
-To match recent rework of nearby drivers:
-
-s/pci_pwrctrl_upd720201_data/upd720201_pwrctrl/
-s/ctx/pwrctrl/
-
-> +static void devm_pci_pwrctrl_upd720201_power_off(void *data)
-
-and:
-
-s/devm_pci_pwrctrl_upd720201_power_off/devm_upd720201_release/
-s/pci_pwrctrl_upd720201_probe/upd720201_pwrctrl_probe/
-
-Might be more opportunities to be more similar to slot.c and
-pci-pwrctrl-tc9563.c, e.g., adding:
-
-  upd720201->pwrctrl.power_on = ...;
-  upd720201->pwrctrl.power_off = ...;
-
-(would have to be based on pci/pwrctrl branch, which is where this
-patch would be applied)
-
-> +{
-> +	struct pci_pwrctrl_upd720201_data *upd720201 = data;
-> +
-> +	regulator_bulk_disable(upd720201->num_supplies, upd720201->supplies);
-> +	regulator_bulk_free(upd720201->num_supplies, upd720201->supplies);
-> +}
-> +
-> +static int pci_pwrctrl_upd720201_probe(struct platform_device *pdev)
-> +{
-> +	struct pci_pwrctrl_upd720201_data *upd720201;
-> +	struct device *dev = &pdev->dev;
-> +	int ret;
-> +
-> +	upd720201 = devm_kzalloc(dev, sizeof(*upd720201), GFP_KERNEL);
-> +	if (!upd720201)
-> +		return -ENOMEM;
-> +
-> +	ret = of_regulator_bulk_get_all(dev, dev_of_node(dev),
-> +					&upd720201->supplies);
-> +	if (ret < 0) {
-> +		dev_err_probe(dev, ret, "Failed to get upd720201 regulators\n");
-> +		return ret;
-> +	}
-> +
-> +	upd720201->num_supplies = ret;
-> +	ret = regulator_bulk_enable(upd720201->num_supplies, upd720201->supplies);
-> +	if (ret < 0) {
-> +		dev_err_probe(dev, ret, "Failed to enable upd720201 regulators\n");
-> +		regulator_bulk_free(upd720201->num_supplies, upd720201->supplies);
-> +		return ret;
-> +	}
-> +
-> +	ret = devm_add_action_or_reset(dev, devm_pci_pwrctrl_upd720201_power_off,
-> +				       upd720201);
-> +	if (ret)
-> +		return ret;
-> +
-> +	pci_pwrctrl_init(&upd720201->ctx, dev);
-> +
-> +	ret = devm_pci_pwrctrl_device_set_ready(dev, &upd720201->ctx);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to register pwrctrl driver\n");
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id pci_pwrctrl_upd720201_of_match[] = {
-> +	{
-> +		.compatible = "pci1912,0014",
-> +	},
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(of, pci_pwrctrl_upd720201_of_match);
-> +
-> +static struct platform_driver pci_pwrctrl_upd720201_driver = {
-> +	.driver = {
-> +		.name = "pci-pwrctrl-upd720201",
-> +		.of_match_table = pci_pwrctrl_upd720201_of_match,
-> +	},
-> +	.probe = pci_pwrctrl_upd720201_probe,
-> +};
-> +module_platform_driver(pci_pwrctrl_upd720201_driver);
-> +
-> +MODULE_AUTHOR("Neil Armstrong <neil.armstrong@linaro.org>");
-> +MODULE_DESCRIPTION("PCI Power Control driver for UPD720201 USB3 Host Controller");
-> +MODULE_LICENSE("GPL");
+> Remove IRQF_ONESHOT from irqflags.
 > 
-> -- 
-> 2.34.1
-> 
+> Cc: Jonathan Cameron <jic23@kernel.org>
+> Cc: David Lechner <dlechner@baylibre.com>
+> Cc: "Nuno Sá" <nuno.sa@analog.com>
+> Cc: Andy Shevchenko <andy@kernel.org>
+> Cc: linux-iio@vger.kernel.org
+> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+
+Thanks for your patch!
+
+This fixes the
+
+    WARNING: kernel/irq/manage.c:1491 at __setup_irq+0xb0/0x79c, CPU#0: swapper/0/1
+
+I was seeing on the KZM-A9-GT board since commit aef30c8d569c0f31
+("genirq: Warn about using IRQF_ONESHOT without a threaded handler") in
+irqchip/irq/core.
+
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
+
 
