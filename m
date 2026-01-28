@@ -1,42 +1,42 @@
-Return-Path: <linux-renesas-soc+bounces-27574-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27573-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EF2/MjKFemnx7AEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27574-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Jan 2026 22:52:50 +0100
+	id cOAoEzCFemnx7AEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27573-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Jan 2026 22:52:48 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE724A944F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Jan 2026 22:52:50 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF19AA9448
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Jan 2026 22:52:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 82C9D3009897
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Jan 2026 21:52:48 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id F1E0A300B455
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Jan 2026 21:52:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19A2333EB09;
-	Wed, 28 Jan 2026 21:52:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F19333D6C9;
+	Wed, 28 Jan 2026 21:52:45 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2A6E338925;
-	Wed, 28 Jan 2026 21:52:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B221B33B6CD;
+	Wed, 28 Jan 2026 21:52:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769637166; cv=none; b=Ie4SbOUzkFcX8YzoZAsLVoNzcyBgjOVO6UBuM4FpX1y0cObKgJrYF4uggtvbBZ3JiYB1LRs4eQDTmecb5VrPgcFm/kdNNMhHihU3F1JLjc5Ao/bYLRk7okqnxCLP9+1MF9l+sbEEQ3cMV8Sn8zlWCMAwPveLt6eeAinYhWGcPZM=
+	t=1769637165; cv=none; b=RhGpMOcjkVcTY8BgKsJ/XhfRu40PeO/oxaPtr/Roq6Y2Dac1G6cx4dbTaTV/BytdEk8XrzwK7xp6FL6trFZOMr+1Z7KS2RI+NfH13EUbo8+rTynwiA6pgJV2QQ5NXL4xW4/x8zNsKW6n1FFM6Xodfv5JQYYUtJBefmKEIrTZhLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769637166; c=relaxed/simple;
-	bh=p45FhIOPq/qep+pt6ysojP4K2PfFPQ2/qQkqRPTw1Ew=;
+	s=arc-20240116; t=1769637165; c=relaxed/simple;
+	bh=uTrULJ8aJSpXyvMsV9/PAe8y/ntDL0VojKifbduqPtM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GQTeYgG8X477TSqi1IPRbWFHxExCofX8GtkETmQXOx6stBNePRrVKDqFsbqOMXuOy0LjvAsc2hku8SgVv5RRWzq4UX8Bx9/7Drk1/UGMTuWkv6k3+weeBXQr9thSP5m3Tgw5fw/L25/2hGFB2v7xu0Rfe4nHAkuGdUaPJe7gTCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.172
+	 MIME-Version; b=fciv2w+ue2IDBktcjgapR5kmgSwKFTTHXjJCyILuR7kGM7V7jzvc3+Oeac6gaYeHNWD0oPCn2+lqdTPoTbBaS926W2xSEyWPCoBN6HNvEei8S9889AT3OYACipk+1A//4UgcUucvP7kW8ybK0ag19rpfCHTSWZZN7X56dNLlbh0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-X-CSE-ConnectionGUID: TxMLTiH+RwyeOwNCalY64A==
-X-CSE-MsgGUID: CcpxWbMFRfe6E2lTNleUHQ==
+X-CSE-ConnectionGUID: 21J3LKGLRsGVKfy72+xo8Q==
+X-CSE-MsgGUID: ZTQ8BbJbQKqpVPX3rGn8xA==
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 29 Jan 2026 06:52:36 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 29 Jan 2026 06:52:41 +0900
 Received: from demon-pc.localdomain (unknown [10.226.92.19])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id C8E3540C0B68;
-	Thu, 29 Jan 2026 06:52:32 +0900 (JST)
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id BDCA940C0B68;
+	Thu, 29 Jan 2026 06:52:37 +0900 (JST)
 From: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
 To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Mark Brown <broonie@kernel.org>,
@@ -50,9 +50,9 @@ Cc: linux-spi@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-Subject: [PATCH v3 2/3] arm64: dts: renesas: r9a09g077: wire up DMA support for SPI
-Date: Wed, 28 Jan 2026 23:51:31 +0200
-Message-ID: <20260128215132.1353381-3-cosmin-gabriel.tanislav.xa@renesas.com>
+Subject: [PATCH v3 3/3] arm64: dts: renesas: r9a09g087: wire up DMA support for SPI
+Date: Wed, 28 Jan 2026 23:51:32 +0200
+Message-ID: <20260128215132.1353381-4-cosmin-gabriel.tanislav.xa@renesas.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260128215132.1353381-1-cosmin-gabriel.tanislav.xa@renesas.com>
 References: <20260128215132.1353381-1-cosmin-gabriel.tanislav.xa@renesas.com>
@@ -68,7 +68,7 @@ X-Spamd-Result: default: False [0.14 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	DMARC_POLICY_SOFTFAIL(0.10)[renesas.com : SPF not aligned (relaxed), No valid DKIM,none];
@@ -78,10 +78,10 @@ X-Spamd-Result: default: False [0.14 / 15.00];
 	FREEMAIL_TO(0.00)[renesas.com,kernel.org,glider.be,gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-27574-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-27573-lists,linux-renesas-soc=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[12];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	FROM_NEQ_ENVFROM(0.00)[cosmin-gabriel.tanislav.xa@renesas.com,linux-renesas-soc@vger.kernel.org];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_COUNT_FIVE(0.00)[5];
@@ -89,11 +89,11 @@ X-Spamd-Result: default: False [0.14 / 15.00];
 	R_DKIM_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[4.196.207.88:email,4.212.17.152:email,glider.be:email,renesas.com:mid,renesas.com:email,4.196.208.232:email,4.196.210.120:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: AE724A944F
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,renesas.com:mid,renesas.com:email,glider.be:email,4.212.17.152:email,4.196.208.232:email,4.196.210.120:email,4.196.207.88:email]
+X-Rspamd-Queue-Id: DF19AA9448
 X-Rspamd-Action: no action
 
-RZ/T2H (R9A09G077) has three DMA controllers that can be used by
+RZ/N2H (R9A09G087) has three DMA controllers that can be used by
 peripherals like SPI to offload data transfers from the CPU.
 
 Wire up the DMA channels for the SPI peripherals.
@@ -108,15 +108,15 @@ V3:
 V2:
  * wire up all DMA controllers
 
- arch/arm64/boot/dts/renesas/r9a09g077.dtsi | 16 ++++++++++++++++
+ arch/arm64/boot/dts/renesas/r9a09g087.dtsi | 16 ++++++++++++++++
  1 file changed, 16 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g077.dtsi b/arch/arm64/boot/dts/renesas/r9a09g077.dtsi
-index 14d7fb6f8952..0e44b01a56c7 100644
---- a/arch/arm64/boot/dts/renesas/r9a09g077.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a09g077.dtsi
+diff --git a/arch/arm64/boot/dts/renesas/r9a09g087.dtsi b/arch/arm64/boot/dts/renesas/r9a09g087.dtsi
+index 4a1339561332..7d1c669ad262 100644
+--- a/arch/arm64/boot/dts/renesas/r9a09g087.dtsi
++++ b/arch/arm64/boot/dts/renesas/r9a09g087.dtsi
 @@ -200,6 +200,10 @@ rspi0: spi@80007000 {
- 			clocks = <&cpg CPG_CORE R9A09G077_CLK_PCLKM>,
+ 			clocks = <&cpg CPG_CORE R9A09G087_CLK_PCLKM>,
  				 <&cpg CPG_MOD 104>;
  			clock-names = "pclk", "pclkspi";
 +			dmas = <&dmac0 0x267a>, <&dmac0 0x267b>,
@@ -127,7 +127,7 @@ index 14d7fb6f8952..0e44b01a56c7 100644
  			#address-cells = <1>;
  			#size-cells = <0>;
 @@ -218,6 +222,10 @@ rspi1: spi@80007400 {
- 			clocks = <&cpg CPG_CORE R9A09G077_CLK_PCLKM>,
+ 			clocks = <&cpg CPG_CORE R9A09G087_CLK_PCLKM>,
  				 <&cpg CPG_MOD 105>;
  			clock-names = "pclk", "pclkspi";
 +			dmas = <&dmac0 0x267f>, <&dmac0 0x2680>,
@@ -138,7 +138,7 @@ index 14d7fb6f8952..0e44b01a56c7 100644
  			#address-cells = <1>;
  			#size-cells = <0>;
 @@ -236,6 +244,10 @@ rspi2: spi@80007800 {
- 			clocks = <&cpg CPG_CORE R9A09G077_CLK_PCLKM>,
+ 			clocks = <&cpg CPG_CORE R9A09G087_CLK_PCLKM>,
  				 <&cpg CPG_MOD 106>;
  			clock-names = "pclk", "pclkspi";
 +			dmas = <&dmac0 0x2684>, <&dmac0 0x2685>,
@@ -149,7 +149,7 @@ index 14d7fb6f8952..0e44b01a56c7 100644
  			#address-cells = <1>;
  			#size-cells = <0>;
 @@ -254,6 +266,10 @@ rspi3: spi@81007000 {
- 			clocks = <&cpg CPG_CORE R9A09G077_CLK_PCLKM>,
+ 			clocks = <&cpg CPG_CORE R9A09G087_CLK_PCLKM>,
  				 <&cpg CPG_MOD 602>;
  			clock-names = "pclk", "pclkspi";
 +			dmas = <&dmac0 0x2689>, <&dmac0 0x268a>,
