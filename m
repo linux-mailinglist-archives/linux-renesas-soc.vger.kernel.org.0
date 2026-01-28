@@ -1,126 +1,148 @@
-Return-Path: <linux-renesas-soc+bounces-27503-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27504-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WO8uKhHBeWl/ywEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27503-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Jan 2026 08:56:01 +0100
+	id QORRL4jBeWl/ywEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27504-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Jan 2026 08:58:00 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0430A9DE4C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Jan 2026 08:56:00 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32C199DEA9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Jan 2026 08:58:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4A6AF300B11A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Jan 2026 07:55:47 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 7B776300E263
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Jan 2026 07:57:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF71532B982;
-	Wed, 28 Jan 2026 07:55:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CA6232BF21;
+	Wed, 28 Jan 2026 07:57:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p1QBYHdd"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UvJ0Hx6f"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCA11296BDA
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 28 Jan 2026 07:55:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 565DD2C0F8C;
+	Wed, 28 Jan 2026 07:57:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769586946; cv=none; b=QEtiroTc5kuUQcPvsyCZI4F1Lgut/i6uYakGW5lsF0crLkx+Y8i2E4SNkZn1zzwqlX3E6gS6+JKfXredrUiKK+KHHz5BP7ifAp8GCOMT1PCRLCqXPE9QnCGKhj67C6KlwbRg6oZgBfjOLl4VgCO7CSfkuhC9QE+u1YiD+7Qa2IQ=
+	t=1769587048; cv=none; b=bnREF3ts97Bv+F8fERJBrRGReWZVrPtCYDMzi0OBwcgCsI25cNUzch3Lyo9ly2Icp9G3DUU+bfx+F86qoAnqXOIYBopQgYYbVKWZ26wAYvW5LjICQpmURsyfmoKIrhv0bRlk4UqkLT8EOpYHNjW2jJ1Q/yGzGhmzhgP2NRU39sE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769586946; c=relaxed/simple;
-	bh=vHn2iFtgy5GJQaM61wjSRdXAzs8HZg3PzkMlU90FWtw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gNtuYmAF93oNf5vUCzC4FNyOo0iG3kLtM8gkWMUVgbFNe76J924fluUWSXutDHJnaGIFF8X6E+3SsYwIJ2a+kn/4H9M8qAgXBC8ow7vhHIQkDejrdOJuj5UXClVCRLk8R3BYHsY6AO+btCFktzJtLIgQssdR/ievQGMZuZmybr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p1QBYHdd; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74A33C2BC9E
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 28 Jan 2026 07:55:46 +0000 (UTC)
+	s=arc-20240116; t=1769587048; c=relaxed/simple;
+	bh=Edxazn8QS4dzQlUgaoJvS2lJwVXq0yRqauGtKDHAMGc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mLwaCCU9Fcjd1Yb9r+7+fKJwzwF8suejEJ9JdZ29LCXflbFlAqEZ/3a3CHRbcscFwong9984NGeHO9tYvr+rOwnemZFEzvvLUj42tWczhpJXX+zpSlp80p2uehyS19g1vAmXXKElbvIw80EkSfY3Y5csWU7bP9qCFBpUyQOGb/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UvJ0Hx6f; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEF4AC4CEF1;
+	Wed, 28 Jan 2026 07:57:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769586946;
-	bh=vHn2iFtgy5GJQaM61wjSRdXAzs8HZg3PzkMlU90FWtw=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=p1QBYHddKBdREEF1g9cRnsvEkHtzruaxFIiRGsM34fqZ8OBU0orUhh6WQMGq5xNL6
-	 HL41NbHbdQ1+7PXhz14aDvuEZ7yE50CtThAv1BBCgn05hrFDeMNer37tx+6CkAP5eZ
-	 RdteQ7bA4TYaLWXjgnCcstw3sE6NiqnoXxuHf0cAPekdvxUtz7jQqBIdPOmhYek841
-	 qcoXac7mtvi26SkXLcyLVFSblkmWO/HXaTtA5g2OcGogHt56Bhv7x/NClOukBnyVHF
-	 p7Xjow2uthIXElbWErRjMDZXRZHRUm88VfJFKB4KF5rssBjl33eTOuEZL25JXTAR/y
-	 XdWtsQK6eHVFA==
-Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-6481bd173c0so5644334d50.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Jan 2026 23:55:46 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCX/2InfFem545ZMrEerc2uXPa0hePxqUPL8cMYkFxvbmHVnAkins5doykDeCY5eYsALkEF4eUkS8Nz5YG444ivNpA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw/trZ2UuHI0f0ci6mGdxg7Y1TucBD/bilZGM3T6fha/7Kf/RV8
-	EGs6upFoxWErOFwi1P4mNNVL/RFEQSWFI8khSB0eUn7isttfjlXoqSIgFn1K1/azV7cUEkUZy5d
-	aUWU9ih6A/AIPl3qfZA2zevGSKHHYxTI=
-X-Received: by 2002:a53:d013:0:b0:649:437a:977d with SMTP id
- 956f58d0204a3-6498fc57a82mr2894937d50.77.1769586945820; Tue, 27 Jan 2026
- 23:55:45 -0800 (PST)
+	s=k20201202; t=1769587048;
+	bh=Edxazn8QS4dzQlUgaoJvS2lJwVXq0yRqauGtKDHAMGc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UvJ0Hx6fEVhv2jb1LSVkEQLToIpw9cNVss0Rnqo1n3hSjVuN5KgSN9s/95Ut7EIou
+	 bFD2BKZjRl9MmGNDLIL81X+rwLYoaTU2zOC0EJGmUNLCh/DYFlZusV0S5d4zhdx8jf
+	 rS4JVEjsHlAJ93oLeXNseazRIp0vQkzkQw0nRr32ZLGFzjjs/QJ17apYUgf0I2QY22
+	 /aTvbu7/qdiBjOepoXE+V7ndBmBNFJmlA29n7j7rZmCw1lBeN9niSuuv9LhrYPlfIY
+	 OcOALjnZuHyTnBp7SN3wWT6Zi6Vmiad/N9Ux23JF3KFsnN8iClXPFlcILqKjM8skmG
+	 ix5wDgU9Hc4CA==
+Date: Wed, 28 Jan 2026 13:27:15 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Shawn Lin <shawn.lin@rock-chips.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, Rob Clark <robin.clark@oss.qualcomm.com>, 
+	Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
+	Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>, 
+	Marijn Suijten <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	freedreno@lists.freedesktop.org, linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-pci@vger.kernel.org
+Subject: Re: [PATCH v2 2/7] pci: pwrctrl: add PCI pwrctrl driver for the
+ UPD720201/UPD720202 USB 3.0 xHCI Host Controller
+Message-ID: <ppe6w2h32vx2jh73bcv7ip7ubr2wgwjsz4ooruplpx7gx5s4rv@qfasjbocku4r>
+References: <20260127-topic-sm8650-ayaneo-pocket-s2-base-v2-0-c55ec1b5d8bf@linaro.org>
+ <20260127-topic-sm8650-ayaneo-pocket-s2-base-v2-2-c55ec1b5d8bf@linaro.org>
+ <llbnkm72mgcsrucnp7pdkwbgyzenvhe4kudxkdixplgaoirdem@3q3me34o5drf>
+ <0104896e-44d0-485a-a44e-694864c819b7@linaro.org>
+ <33bbb3ec-5659-4d50-a5ff-dafa44e291dd@rock-chips.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260127-rzt2h-v1-1-86472e7421b8@gmail.com>
-In-Reply-To: <20260127-rzt2h-v1-1-86472e7421b8@gmail.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Wed, 28 Jan 2026 08:55:34 +0100
-X-Gmail-Original-Message-ID: <CAD++jLkmywtWQfZzRYNSqFGNDGp6_MWq2k7YH_aiNGo01cWpqA@mail.gmail.com>
-X-Gm-Features: AZwV_QhIWyc0dcIVn5xQhcEzZQsk0RyGQ53A4s3SNkcAPAgStyzaNIu-yE4Jom0
-Message-ID: <CAD++jLkmywtWQfZzRYNSqFGNDGp6_MWq2k7YH_aiNGo01cWpqA@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: renesas: rzt2h: Fix device node leak in rzt2h_gpio_register()
-To: Felix Gu <ustc.gu@gmail.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Thierry Bultel <thierry.bultel.yh@bp.renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-renesas-soc@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <33bbb3ec-5659-4d50-a5ff-dafa44e291dd@rock-chips.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_FROM(0.00)[bounces-27504-lists,linux-renesas-soc=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-27503-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[28];
 	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[linusw@kernel.org,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mani@kernel.org,linux-renesas-soc@vger.kernel.org];
+	FREEMAIL_CC(0.00)[linaro.org,kernel.org,oss.qualcomm.com,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,linuxfoundation.org,glider.be,google.com,vger.kernel.org,lists.freedesktop.org];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	MISSING_XM_UA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid,of_args.np:url]
-X-Rspamd-Queue-Id: 0430A9DE4C
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 32C199DEA9
 X-Rspamd-Action: no action
 
-Hi Felix,
+On Wed, Jan 28, 2026 at 02:22:50PM +0800, Shawn Lin wrote:
+> 在 2026/01/28 星期三 5:53, Neil Armstrong 写道:
+> > On 1/27/26 16:53, Manivannan Sadhasivam wrote:
+> > > On Tue, Jan 27, 2026 at 10:57:29AM +0100, Neil Armstrong wrote:
+> > > > Add support fo the Renesas UPD720201/UPD720202 USB 3.0 xHCI Host
+> > > > Controller
+> > > > power control which connects over PCIe and requires specific
+> > > > power supplies
+> > > > to start up.
+> > > > 
+> > > 
+> > > This driver only handles the supplies. So why can't you use the existing
+> > > pwrctrl-slot driver as a fallback?
+> > 
+> > It would fit with no change, but the name "slot" doesn't match the goal
+> > here,
+> > it's not a slot at all, it's an actual pcie IC.
+> > 
+> 
+> How about renaming slot.cto something like pci-pwrctrl-simple.c, especially
+> if most power sequences fit into this category? This would follow the naming
+> example seen in other subsystems, such as drivers/mmc/core/pwrseq_simple.c.
+> 
 
-thanks for your patch!
+Yes. There is no point in duplicating the drivers just for a different name.
+Slot driver is relatively new. So I don't think there would be issues in
+renaming the module name.
 
-On Mon, Jan 26, 2026 at 5:35=E2=80=AFPM Felix Gu <ustc.gu@gmail.com> wrote:
+I'd prefer for 'pci-pwrctrl-generic.ko' for module name and 'generic.c' for
+driver name.
 
-> +       of_node_put(of_args.np);
->         if (of_args.args[0] !=3D 0 || of_args.args[1] !=3D 0 ||
->             of_args.args[2] !=3D pctrl->data->n_port_pins)
->                 return dev_err_probe(dev, -EINVAL,
+- Mani
 
-To me it's a bit odd to dereference .np and then use other parts of
-the args the next line but maybe that works.
-
-Geert will decide on the patch.
-
-Yours,
-Linus Walleij
+-- 
+மணிவண்ணன் சதாசிவம்
 
