@@ -1,41 +1,42 @@
-Return-Path: <linux-renesas-soc+bounces-27571-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27572-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kNP9ND6Femnx7AEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27571-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Jan 2026 22:53:02 +0100
+	id 2GgYBkyFemnx7AEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27572-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Jan 2026 22:53:16 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E1CFA9456
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Jan 2026 22:53:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91481A9464
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Jan 2026 22:53:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 81DFF3020FD8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Jan 2026 21:52:36 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id D69A1301A408
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Jan 2026 21:52:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E290833D4E6;
-	Wed, 28 Jan 2026 21:52:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF33733B6D0;
+	Wed, 28 Jan 2026 21:52:43 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F5E433B6F9;
-	Wed, 28 Jan 2026 21:52:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FACC2EC0A3;
+	Wed, 28 Jan 2026 21:52:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769637155; cv=none; b=mDyZRdN+U0ZuWuWck5RSbHwL10gMQjswx4qch0lPycVW8Mtj/OPvhjxfEz2ZFuslobNBHrY5eubDGdhPeAbicdqId1nYZBgtGieSMIPo3eKjNPxDfHHKNefzXvJPPYBbkJDCCXT8h6oI7deIs8CA1f0ZI/Zb0DHMl/M3Oq9vqUc=
+	t=1769637163; cv=none; b=l7NY+LFjs9vVEbAMiDv/Qrfpd/Qm1dihTIFVBoOIVJDHGXRaURW4oj+ElCdcwo5wEVDVbMP2B8LDvhiM7mHJ2bG9XYZQM1mOW9LcPF7TgirxvZjmiiuScd5wLMFIg/oSDqdy4IbY4nktLTz7L9O7KOp6WAZpUua0n39s9rvy6d4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769637155; c=relaxed/simple;
-	bh=EAxXFzluNTGqwriAEY40/4tNtnYUQQnL2Rr3iGk7l7E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HDksGeV/OhLp3Xh+x/l5w1Ucds7sH22UcLt6YXcjdC8TN0L8HyxoyTA3UxgCOx6dXbaZIgGD8bb5Ips8mwnbDvdL/K6KxQ+YW3a0dRQtqtxv4kOzz5NmxtzX3zLiusp1bAA3dudMjsGQ93RFgjiqZSEwIuGxmXfTf/aML9MxsMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.171
+	s=arc-20240116; t=1769637163; c=relaxed/simple;
+	bh=jnJMzLc1I79LAa7AGEwtS4d5b7aIHGIqVNJ48Y9+KtE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=hScFIB3gAHDC8recOhL7GmLATMj9Y8VNJMhlX2f+2UCUYi5jAJ1WpihKt4qHs4hqN7zAynbS6rKY4DsA3MWX/oASMIMIj5VeMR9H9NwEEUrIyY7fE2sH9jT9YNyp0yZde33hPH0IZZJ3upLR6+oA5VzBW4bfKSiv4oUQL+dEnxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-X-CSE-ConnectionGUID: f68bQ5daSu+DM4JrDIx7AA==
-X-CSE-MsgGUID: yuNnU2BhQeuncPXrimBbqA==
+X-CSE-ConnectionGUID: MoubSkylT86Ab4fM6LEA5A==
+X-CSE-MsgGUID: 3aPy9+SDTHKooAQNk6/fNg==
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 29 Jan 2026 06:52:26 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 29 Jan 2026 06:52:31 +0900
 Received: from demon-pc.localdomain (unknown [10.226.92.19])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id C7CC040C0B68;
-	Thu, 29 Jan 2026 06:52:22 +0900 (JST)
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id D0B3540C0B84;
+	Thu, 29 Jan 2026 06:52:27 +0900 (JST)
 From: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
 To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Mark Brown <broonie@kernel.org>,
@@ -49,10 +50,12 @@ Cc: linux-spi@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-Subject: [PATCH v3 0/3] Add DMA support for RZ/T2H RSPI
-Date: Wed, 28 Jan 2026 23:51:29 +0200
-Message-ID: <20260128215132.1353381-1-cosmin-gabriel.tanislav.xa@renesas.com>
+Subject: [PATCH v3 1/3] dt-bindings: spi: renesas,rzv2h-rspi: allow multiple DMAs
+Date: Wed, 28 Jan 2026 23:51:30 +0200
+Message-ID: <20260128215132.1353381-2-cosmin-gabriel.tanislav.xa@renesas.com>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260128215132.1353381-1-cosmin-gabriel.tanislav.xa@renesas.com>
+References: <20260128215132.1353381-1-cosmin-gabriel.tanislav.xa@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -75,7 +78,7 @@ X-Spamd-Result: default: False [0.14 / 15.00];
 	FREEMAIL_TO(0.00)[renesas.com,kernel.org,glider.be,gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-27571-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-27572-lists,linux-renesas-soc=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[12];
 	FROM_HAS_DN(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
@@ -86,40 +89,87 @@ X-Spamd-Result: default: False [0.14 / 15.00];
 	R_DKIM_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,renesas.com:mid]
-X-Rspamd-Queue-Id: 5E1CFA9456
+	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:mid,renesas.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 91481A9464
 X-Rspamd-Action: no action
 
-The DMA controller can be used to transfer data to and from the SPI
-controller without involving the CPU for each word of a SPI transfer.
+All supported SoCs have multiple DMA controllers that can be used with
+the RSPI peripheral. The current bindings only allow a single pair of RX
+and TX DMAs.
 
-Add support for DMA mode, and do some other cleanups while touching the
-same code.
+The DMA core allows specifying multiple DMAs with the same name, and it
+will pick the first available one.
 
-The dts changes in this series depend on the DMA series [1].
+There is an exception in the base dt-schema rules specifically for
+allowing this behavior (dtschema/schemas/dma/dma.yaml).
 
-[1]: https://lore.kernel.org/lkml/20260105114445.878262-1-cosmin-gabriel.tanislav.xa@renesas.com/#t
+dma-names:
+  anyOf:
+    - uniqueItems: true
+    - items:
+        # Hack around Renesas bindings which repeat entries to support
+        # multiple possible DMA providers
+        enum: [rx, tx]
+
+Allow multiple DMAs to have the same name and only restrict the possible
+names of the DMA channels, not their count.
+
+For RZ/T2H and RZ/N2H SoCs, limit the number of DMA channels to 6, as
+they have 3 DMA controllers.
+
+For RZ/V2H and RZ/V2N SoCs, limit the number of DMA channels to 10, as
+they have 5 DMA controllers.
+
+Signed-off-by: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+---
 
 V3:
  * impose proper maxItems for each device
  * impose maxItems for dmas property
 
 V2:
- * drop patches picked up by Mark
- * add new dt-bindings patch to allow multiple DMAs
- * wire up all DMA controllers for every SPI controller
-
-Cosmin Tanislav (3):
-  dt-bindings: spi: renesas,rzv2h-rspi: allow multiple DMAs
-  arm64: dts: renesas: r9a09g077: wire up DMA support for SPI
-  arm64: dts: renesas: r9a09g087: wire up DMA support for SPI
+ * new patch
 
  .../bindings/spi/renesas,rzv2h-rspi.yaml         | 16 +++++++++++++---
- arch/arm64/boot/dts/renesas/r9a09g077.dtsi       | 16 ++++++++++++++++
- arch/arm64/boot/dts/renesas/r9a09g087.dtsi       | 16 ++++++++++++++++
- 3 files changed, 45 insertions(+), 3 deletions(-)
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
+diff --git a/Documentation/devicetree/bindings/spi/renesas,rzv2h-rspi.yaml b/Documentation/devicetree/bindings/spi/renesas,rzv2h-rspi.yaml
+index a588b112e11e..cf8b733b766d 100644
+--- a/Documentation/devicetree/bindings/spi/renesas,rzv2h-rspi.yaml
++++ b/Documentation/devicetree/bindings/spi/renesas,rzv2h-rspi.yaml
+@@ -58,12 +58,16 @@ properties:
+       - const: tresetn
+ 
+   dmas:
+-    maxItems: 2
++    minItems: 2
++    maxItems: 10
+ 
+   dma-names:
++    minItems: 2
++    maxItems: 10
+     items:
+-      - const: rx
+-      - const: tx
++      enum:
++        - rx
++        - tx
+ 
+   power-domains:
+     maxItems: 1
+@@ -121,6 +125,12 @@ allOf:
+         resets: false
+         reset-names: false
+ 
++        dmas:
++          maxItems: 6
++
++        dma-names:
++          maxItems: 6
++
+ unevaluatedProperties: false
+ 
+ examples:
 -- 
 2.52.0
-
 
