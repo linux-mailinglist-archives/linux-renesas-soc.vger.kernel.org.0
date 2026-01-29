@@ -1,166 +1,168 @@
-Return-Path: <linux-renesas-soc+bounces-27606-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27607-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WB2+A7lYe2mZEAIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27606-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Jan 2026 13:55:21 +0100
+	id GGRxDYpee2kdEQIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27607-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Jan 2026 14:20:10 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 536DDB02DA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Jan 2026 13:55:20 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7D8BB052F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Jan 2026 14:20:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E324530166FB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Jan 2026 12:55:15 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id D40A53019C92
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Jan 2026 13:20:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 682783876DD;
-	Thu, 29 Jan 2026 12:55:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D837F1FE451;
+	Thu, 29 Jan 2026 13:20:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="hrZQUM6C"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="ZmTLJFmy"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011065.outbound.protection.outlook.com [52.101.125.65])
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010042.outbound.protection.outlook.com [52.101.229.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CC4734FF72;
-	Thu, 29 Jan 2026 12:55:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D73DD1D5178;
+	Thu, 29 Jan 2026 13:19:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.42
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769691314; cv=fail; b=t8225f+yGKkopTHaKM6Gck5IzPtbTNBBVtPFwM2DoV1j9sM0k6PUiBoiociIyGDHd/yaAnMpoETBO1EX/sHGFXY1ccgcDVw+EHlZwuiknbv+8up+h1ZKX7sBeYR58KOXAjDD9jnAW+BdCfcQG2wNU4F73pUgLIZkrC7tdtwGj+g=
+	t=1769692804; cv=fail; b=lMl5wUnFQNQtIQnadNOhuFdUSMjQ2FcpUHsZI4dIIMTLh60eQTq9Ha0SXsfSVHngo3mZlAEvf2kt9iUVBz5mMkuOVvkukSGFsudhk7JNXm0UGNX8LGlX8SZztnO/4AjVOLce08lavUe8lw7B3wLLqNV/v29KW3bEdzLjiWbSRgM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769691314; c=relaxed/simple;
-	bh=s/VHAHdreR7p/RF+hjcW0hs6YbXJ5y+Z/1KJduGtbgs=;
+	s=arc-20240116; t=1769692804; c=relaxed/simple;
+	bh=f2EojiUY4iZNtSOILfbUPOBTzP98T2X3LtyX4lHKFMI=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=Viqq/1w9CTVJBQcxdmNXzTXVvCIkHLOQt/AfjsighIBXsp8dkofziuC0Jp0w5vgboDdI4aJLHcJBEaq3WHsiVcj3tu/9Y8Pn8jR/erayqFf63axLqtRqq+Ab3zw6CCrxcZPzcImsge+awz2+oARqne6lmBxhodBIPM1+hI+VaA8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=hrZQUM6C; arc=fail smtp.client-ip=52.101.125.65
+	 Content-Type:MIME-Version; b=GRU9/5ASZcS2pxWZDI2f5Ax4NsdGo3PUD135mUyVKakIOkbo69SQO97OU0kUTLwpujFEAOMJq8zH+vbl8mLRm/ngd9OJgmbLiYQlmJpqaYe9inWu1uyNmtqnuLCunnsxy5aWSNbprgBpRy7zYsyj+21fJVtjILiwrXT8DxNdZIo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=ZmTLJFmy; arc=fail smtp.client-ip=52.101.229.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PKqt9+1UpS784TV0DaookkoJKI9sJjQCMuXZ54/jvE5tV0+y+W8rvaIP9EIrb9mOTu4FgIc3yv8uePxQG0HGBGoomGYw0dvi+bUO4WzQPQNe7LWKna7LIp4Ck0T5lfRhHA2g540faTX5NyWgtWAxJ1RSrtpPk0NhvZYzg7E8T9hZfYeilNk9PHuhXILzy8/8CcyEUH77g2v21Uf6bTfdbXzcbMR7+8KUjcoSfQ976LAxqDOKQ3wKc0kL0PK2RHnj4eVtTLlGdVhpceyTweshSo+oyyUvIWlxaDjY1lCnrn1N0gWRsJPZYn3h830bWvTSPTl273pY+4MrbHFT31HLXA==
+ b=siGDKOkMDTj4Nu8a/Rk79xD72qSUW6Ne74VY8JTjDxgFK8qqZFYMasBQgXxzdyv9XUcn7Gwzhmx4VKYK7PEDtY2XXoDvFBqBHYh3IsUcWVD5P1/ZjcXpV5zjdlDBo8bB1lOefbe+NGo11Z3a2/451CLPdlOIupy+h+sV2Rix5pq4ic2GnC8YKdtXvvBgS4IZQxqPGEaEjOF0gUYkvYQ1wYbmQghTIB0Z8DqhNGCySIxPnUMq4g/9gxNeWKk16kXKyW7VocPy04O0UjLKt4JYkwrzicAtImhUtm9iEWQcM33oi+92q3kWubp6/NvUaG7sD8jsXrjoIqhmv/3OZAY0ig==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9AjW8xHM1oDDbNBxYSnLamInxAEePNvPHRSzTGOhPu8=;
- b=BCvhPvbm6mySl84nXw+Y82cC/lfjWjUbo3Z8spwVebNN/v0sYSjE2tlWUeLyXDFbp3Wq8Ff1aVYoik8xwYXiHFe3uAsUzH8f6s1G+Li4ALTTSexx7YkyOcb3BCAVJhpZtwuBSEsslcVChroNn3fnjYEWF655tkD3s7EYQ3kf5ETgOrLNKgiwLKPQg79kMLu5VcEMUXHgB9YgcpVmv9ErE+ce/s8iWFhhBmPVdfWr5DifDxs85I1IO4uHkQvqQZSb3D8io/+pR/y1zMb4D0ycNWTGIA/pdnY2IGO4EzHPcB8igH1XImH1/rb5IiEfAoNtSA2ndb86Ui5E3SAr9YiSXw==
+ bh=VvNRTsyUj97/s/sZlAbCH2uElCaczDCBeKikH7fJ/Jc=;
+ b=ObxMUE9IPXn7UpBbs+KFq5rA1s9IN2seumgrcUhlVtTr0mByyjWxrdy5i8zCDobPv51x0L19ulfN9T03EnGYDwETALV2Y1IDxiPT3W1Zp3hp8VOjizbH5o3qtgz4b8kUoTM13jRIbkFeqPKnzP1C7gGi0++pNVo6Tfikadc27x89CVK78ajZtTuxZhIfAMFBlJtIlROuz9tYpEgEa7byK2z5BHOZ7pwd87+VDU9UDES9n2KC0UA17HDPK27MEnlpvDg1mtOxI+zqVHTRJIO4U6ECWuxSlPbmJ02pmkByouF+Zbxd94wePcXVt+aOvVhw95j5hHaPnscQAxHm01DCOw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
  header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9AjW8xHM1oDDbNBxYSnLamInxAEePNvPHRSzTGOhPu8=;
- b=hrZQUM6CyQ05zMCaKrJLRahDmVwz3iFvfQDfHaUGFkS6qi3/ngR7NF2nZWWBMCujXHiRvqKmbx6lJvCXS7oy1H/GnzgwZfUZS3DlItbwsXf0AthYFpD3TakICHtiIyAmM9YNdInmIHFQaBALtQUjiMlvX9eJjfUhrf9+zO1MgV4=
-Received: from OS7PR01MB17371.jpnprd01.prod.outlook.com (2603:1096:604:43e::6)
- by TYWPR01MB7425.jpnprd01.prod.outlook.com (2603:1096:400:c6::8) with
+ bh=VvNRTsyUj97/s/sZlAbCH2uElCaczDCBeKikH7fJ/Jc=;
+ b=ZmTLJFmy6h65MHBbxr5lWHtXrqYEdfRedl281LYZVzD7QirV/b5QUwXUDv04xZdRWsuMrgM5NUolF1cS9MHkaUc5J16ovyYpAQ4Pgwyisessmz/1EBO8uVvK1A2jWKwETiWxMBUOiwlxv2XVMZQfTXk9YP9Xngdc98ttSidFtMU=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by TYCPR01MB9750.jpnprd01.prod.outlook.com (2603:1096:400:20c::9) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.10; Thu, 29 Jan
- 2026 12:55:07 +0000
-Received: from OS7PR01MB17371.jpnprd01.prod.outlook.com
- ([fe80::7c48:4e26:72a5:7960]) by OS7PR01MB17371.jpnprd01.prod.outlook.com
- ([fe80::7c48:4e26:72a5:7960%4]) with mapi id 15.20.9564.008; Thu, 29 Jan 2026
- 12:55:07 +0000
-From: John Madieu <john.madieu.xa@bp.renesas.com>
-To: Conor Dooley <conor@kernel.org>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.11; Thu, 29 Jan
+ 2026 13:19:55 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1%6]) with mapi id 15.20.9564.006; Thu, 29 Jan 2026
+ 13:19:55 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: John Madieu <john.madieu.xa@bp.renesas.com>, Conor Dooley
+	<conor@kernel.org>
 CC: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, "lpieralisi@kernel.org"
 	<lpieralisi@kernel.org>, "kwilczynski@kernel.org" <kwilczynski@kernel.org>,
 	"mani@kernel.org" <mani@kernel.org>, "geert+renesas@glider.be"
 	<geert+renesas@glider.be>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
 	"robh@kernel.org" <robh@kernel.org>, "bhelgaas@google.com"
 	<bhelgaas@google.com>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
-	magnus.damm <magnus.damm@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>,
-	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-	"john.madieu@gmail.com" <john.madieu@gmail.com>
+	magnus.damm <magnus.damm@gmail.com>, "linux-pci@vger.kernel.org"
+	<linux-pci@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "linux-clk@vger.kernel.org"
+	<linux-clk@vger.kernel.org>, "john.madieu@gmail.com" <john.madieu@gmail.com>
 Subject: RE: [PATCH v3 06/15] dt-bindings: PCI: renesas,r9a08g045s33-pcie:
  Document RZ/G3E SoC
 Thread-Topic: [PATCH v3 06/15] dt-bindings: PCI: renesas,r9a08g045s33-pcie:
  Document RZ/G3E SoC
-Thread-Index: AQHckFiD5LutvuE/wUOWR6pxx30ky7Vn2aOAgAE/wiA=
-Date: Thu, 29 Jan 2026 12:55:07 +0000
+Thread-Index: AQHckFiDnpgJp618gE6ral+EOPGvP7Vn2aOAgAFCqICAAAVecA==
+Date: Thu, 29 Jan 2026 13:19:55 +0000
 Message-ID:
- <OS7PR01MB173719D8E22176F897D0757C1FF9EA@OS7PR01MB17371.jpnprd01.prod.outlook.com>
+ <TY3PR01MB113463F7E7E5FD1F5D71E2F44869EA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 References: <20260128131647.120511-1-john.madieu.xa@bp.renesas.com>
  <20260128131647.120511-7-john.madieu.xa@bp.renesas.com>
  <20260128-chaperone-hydrogen-421d911b964b@spud>
-In-Reply-To: <20260128-chaperone-hydrogen-421d911b964b@spud>
-Accept-Language: en-US, en-GB
+ <OS7PR01MB173719D8E22176F897D0757C1FF9EA@OS7PR01MB17371.jpnprd01.prod.outlook.com>
+In-Reply-To:
+ <OS7PR01MB173719D8E22176F897D0757C1FF9EA@OS7PR01MB17371.jpnprd01.prod.outlook.com>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
 X-MS-Has-Attach:
 X-MS-TNEF-Correlator:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=bp.renesas.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS7PR01MB17371:EE_|TYWPR01MB7425:EE_
-x-ms-office365-filtering-correlation-id: b4695118-81c6-459b-3cdb-08de5f35a11e
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYCPR01MB9750:EE_
+x-ms-office365-filtering-correlation-id: 2dabf044-169e-4bed-e420-08de5f3917fd
 x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|376014|7416014|1800799024|38070700021;
+ BCL:0;ARA:13230040|1800799024|366016|7416014|376014|38070700021;
 x-microsoft-antispam-message-info:
- =?us-ascii?Q?zUAw13NEu2n+hExP0BCmuTjyxRHbrU8N5tYTStJPpx4JZGNZ3PkGkSp3eGCy?=
- =?us-ascii?Q?wnGxk8iseNOsQ5xcQRdaza0kJmd3glqq64tKzy6cG8m8QxN8jqtiyGHtpftz?=
- =?us-ascii?Q?dtsgR1sAxzmRGmi26L5kp18Fos+z30FfUPCCpNoYkkxJ145AYSuUj0MwMJPK?=
- =?us-ascii?Q?670n8TpaTyi9QGhGS8QjUVUSzCMjus31GrgioZMPWQG6vVgSnXwDn6dqiZ4T?=
- =?us-ascii?Q?yfl6gFA5WoXIVzfEAy+CKe4E4DeF6XMnEo4h/eiW2yqvl5LaeAnLECBnzn4P?=
- =?us-ascii?Q?NIR3hXT2k0Z57nJwFUJZhVoElIPrZbXn+3ZoActWXh9dnCEFINwf7n0kxu3k?=
- =?us-ascii?Q?rCd3eyp4pjkdrYV/KM60SGdvtvGKYJdxSPoS46odomTosCEP33UtdTYASOB2?=
- =?us-ascii?Q?2YmfwqFRoBPzJMQzfWX0nAamWCDszZbMwQxE4PatBaurTcgHr7+HkMD1vlPs?=
- =?us-ascii?Q?xBi27gqzajDKWTPj1q6Cd32GMd+WcvT2M96oeOcCmYM0iMP2BjixAx8eQLAy?=
- =?us-ascii?Q?KYbuKYKZ4+7t9j3me0jJV2OrydNjMzLJC7wxassluSLE1x2GagwEUj57qdWF?=
- =?us-ascii?Q?TqPTdkxIUeYVxWMZ0+gyvykGQP73uQyjR2ZolhCSWhhOyo8R0jtBALpE221Q?=
- =?us-ascii?Q?ziZL1FxCE8IhAYjRRsEKYTnfaxScH5MM3zYWepUMJyqmjsk7/pFiE8N3H+AO?=
- =?us-ascii?Q?F5NmpwVCRU6129lRVZh//ItuJq5alM/VsU4DPWITKlvaLYymjFvBQyIJbtxR?=
- =?us-ascii?Q?+FbCWESMZ7fIZUxT/TSM7aj04lsahj1Nr0aAfeTdAuqWYdqVdGvYxQ2rPP8a?=
- =?us-ascii?Q?09AlwTxVUnVWO+rGFbpigG0eT6DxSJmOhXoOwPGyAHHTT2eJADR3IVzdQP8L?=
- =?us-ascii?Q?BOaxgWlvixcFVFJGV8iAOBpHCoX1jHR+nS0/3cjXPJgP2XekgMQ3E3H6Dnpo?=
- =?us-ascii?Q?xG55BlZtBeUCd9F9CnIqC0zObcS5N351rZ7jg+uKTrJBBTnCO2hiyBiCtxrM?=
- =?us-ascii?Q?zyu/Jll2IttyIQ7iQ3wMAiclhzXkyJAsC/DWr/2OFmGH+TrhpwtIFlzobxiR?=
- =?us-ascii?Q?GFf5FPwlPUdVsRdAG58msalM+Wr7s3DybmowYATiShxi++KtQS5jKlLfp6rc?=
- =?us-ascii?Q?kGEWPkyNG4J5LFu6aY9r0KHaGpe8lYseZuCplQGVkCIG3qO2uexjGgUI6qU3?=
- =?us-ascii?Q?2TKDHQtu5U+OMkOQYyKF6A8Tb3fJ1ubkn7ktIZsIK9F/NaqT3wqwMBQv9eVp?=
- =?us-ascii?Q?pXh+EaFXKcelTr8Pmo1JfIQ66AyNiRD6pvU/0oUFqsOiRclKwg+qAwDJvfly?=
- =?us-ascii?Q?eXY82pkH1BRFI9fW8ssXQg4Kvk4lhawscJflmqbLtp287Ib48RqpBBXE/sFn?=
- =?us-ascii?Q?f9LaaS+0Wrp+R4nxe0KBYFHRNTNuuwxkutx6pxvFiV0z5DtGxCQuIxSCqmQR?=
- =?us-ascii?Q?QQlUeG2VUR+wlECemi9KVCbzlwOm7vr4IAHP/NMFpnCfSqWR7c2BanxT5Krk?=
- =?us-ascii?Q?y3ayMyVQZ0D2CU5MOzM54riY367ek/0LqrxRqCZ0ZzA8YaHpW34RCXUcrhoW?=
- =?us-ascii?Q?uamFsxKzbQxKQiK0niRyFRq7uBjuyOc7gGTVp2wstuCsRr8ZEWzKMx0nZLcA?=
- =?us-ascii?Q?iq+rDF3ynmHc10BTMCtk81Q=3D?=
+ =?us-ascii?Q?Nr2CFdkgVY7OhuGTWfxjl/XwgBrPmVPmGlXejZkPiI0t7Qnw6BNr4bhoRxfv?=
+ =?us-ascii?Q?prZgMwhMon+VYS/6y1KRlWVKhW7pYAdkeHU6eQxOtCfRzg+IfvfFy6S3O+ZC?=
+ =?us-ascii?Q?018hnGeHKB69HvyiKItouyVJrZx8uH+tJ9Pqmqgb82fYctiKm+RNnj9dZGoE?=
+ =?us-ascii?Q?0WosAm52wjm2wTCzJyvaAIQKD6geXSSfhgmVXQVT9nlGawtRUOj277agPWJY?=
+ =?us-ascii?Q?vAE78HlTFXHQSgFldOdMFS47FiP8U/7k5lIXwRvMoqoDrPOi+BE8ersLTKnQ?=
+ =?us-ascii?Q?91AjAhGQqPecMandkLt5ZscYlqR1cN+kAU9IUWuAs5Jc4fOyN3IVFceT4vKc?=
+ =?us-ascii?Q?fSUNvqAkZPi3tt274pJpyLeSsgtmxDeG1mGSg0y6zZSao45eidnJgg+rEtaE?=
+ =?us-ascii?Q?jQIAXL8Hx2tXxEcFQD0NMsWAZxM5GX3ZoCPT82J+E5eLrzK1u2CwV3Sp2l5u?=
+ =?us-ascii?Q?rHKkceGAbeKpu5yqWrx4zI9gmj1i7/65iaVUGhLiSy7NfI53rNMsoiTND/od?=
+ =?us-ascii?Q?+JnhyMz5hKVhrP9vnwMK9xVsCHmH4Xg+SCg2s4qi/iNo/b7ZLqkMdcWCkK/6?=
+ =?us-ascii?Q?PpJ3Jm/u3S+6Sy439ab8WwjJdEZe/mhoSAmhe0X//yy7gxdQx9Rlw1Z2Hz08?=
+ =?us-ascii?Q?Y7pf1b3W/SBwSCtNV0134mLzIfhDbkEBW+lSJQNkUFfl7zaZSJKgK/aByME0?=
+ =?us-ascii?Q?qbODBqfu+3A6Xc188RVgzxrDWzjNiFN5J2GFSGd/gkRQL9y16ip+bk06taju?=
+ =?us-ascii?Q?sgYTcj7snvik35f+OZ1c8njeD53T074X232PAr/4Gzclv9SJJ6vq0XrxHD6T?=
+ =?us-ascii?Q?l1ZaLhRc3JR6GhYy27smzo8LTA/XBkTZCFJmfHYBmre33W611Xy/0UeXc0oq?=
+ =?us-ascii?Q?LW7cFIZLFtQBmoS86urq+NpdTC+AjvLl2nXp1PSxd8XvsyH3GQEQzIBINReC?=
+ =?us-ascii?Q?IJ/vRtvJiRMlTjoLVtgqOTpL1w1IWrLJ4Ubgfbu/STIkEgKEXqnhBWEFZ3DT?=
+ =?us-ascii?Q?d4Qms6hcpcjk1mUOcDCYPdotqnweuqjZ0NWlsza6MT0MDRcbG2gSRXtjszK7?=
+ =?us-ascii?Q?1WGHq2T6K3ifyGdAB2n/84V2u5hKoPEOV620kDD2UCHzwa0RaTmzfZGZI7og?=
+ =?us-ascii?Q?FayYYcvY/jFj/ctVeOadQHqf+Y33iDSNtztF7BqJXCEQzgJTv5+Wy2dsC2Kq?=
+ =?us-ascii?Q?Up8HAaXxZWn82JUQbwp1HeHCKUzxFxcB9ICPNLba2vcYuaFCQ66HeCjkGmKV?=
+ =?us-ascii?Q?0qyKor0yWkyDMs01upS6RtSSKe56eckll02OyN7hehrDZ4cvohC9nfT1fc5z?=
+ =?us-ascii?Q?DRpVEaUgg1K5zQ2q/2jmyD/0YFK4eniQV1qjYupzm0XlCaiNgEziEJ23eh+e?=
+ =?us-ascii?Q?Nw+h7QxULmr2nMDbORIuWJHnrv+Jz47rbtImAgbSCFMOtbslYYQEeLWTnh9w?=
+ =?us-ascii?Q?ERBkIFyefUvhWDrFexFWYqa0JuoOMlwFYkBF0TthMLCejDckeEhkRzCIgA3O?=
+ =?us-ascii?Q?7s8DDDWiEEKG1xuMYJN84cl9QjWvk59N1UrTfPAC9FP2qh44lIIjvxGeQd2N?=
+ =?us-ascii?Q?14EVdXF5gGPiH0OtApADghnFJS5U6cL955m/kY8z/RT9rhFUQs3vVs5OQc6b?=
+ =?us-ascii?Q?DW8Ab23l6TO7r/4wpPWZKy4=3D?=
 x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS7PR01MB17371.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(38070700021);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(38070700021);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?hKzAjXh4fSisCkOLxZGF51RpqXH/hxeOko+Eufc8/Z9/qYi0KJn59+5NFjpj?=
- =?us-ascii?Q?Jy9b3uouqWbLirCJ0npUS2VCZTERv2f+sWgjBETyrTlZaGBP5T/7rY9t0aI9?=
- =?us-ascii?Q?3UUFgWgXacYTZlUsN0TL2ySWk69CXlXh3z3hBwQtzVvGE8w6B7nzls+5OcN1?=
- =?us-ascii?Q?+NFfVxeIR94zkW8csfnCqsrCwQKVrXYXvQB5iuSlVq4n3/yLxAemQ0SC7DPU?=
- =?us-ascii?Q?IeePq+xuFycyr/F5gsXdm8/9PMt/y7W3nLOqq1kXiAqAf1lvUIKrIrkWrLTW?=
- =?us-ascii?Q?5rMIsC5z6BT9ikzU999B7UP9uoxIjLj/szFJAT33ccjASWEphn4f1HrrISDk?=
- =?us-ascii?Q?LFYsQFZzipQrqZDPcGj+TCGg+7xu0OU8Z6TCV+aXCIA+ocil9mXbZ/wj2jZ8?=
- =?us-ascii?Q?oQrh79zcdEsAHGaTFQu2Hzb2GWcdB+TQsnKcTM/sRsYY0Qumi80qE3eWDZYV?=
- =?us-ascii?Q?3Tvx5Z9Qj3l1D9Qy4CUv5eQ+ryalJcY0QOKpixIkGNs2DsN8HassD12b3ie+?=
- =?us-ascii?Q?M2DnQdh/YKeyP0Ld7Mxd4DuEkEVWcojJpIvN6yxQR7hsmgZ3InhaX+HYglrH?=
- =?us-ascii?Q?GiSOR0yl4efto7nxq3VcqDEa++v8w3s0ihSZQ6JauN64e0zwFVJhaPxRwLuu?=
- =?us-ascii?Q?dEZipsYppMWDXhXFoIOQVzdRuHTIImL1rcpabFtAHG3bqx5eksVr4+d9IOAe?=
- =?us-ascii?Q?rEm3oiDhmd/2nRYoQiXZ6Q4gHjBepf9dXw1JLrQWIBrgxSiCqzfTYBobAPeN?=
- =?us-ascii?Q?MRTNRftqqsvtDhQv7zSH4csIo2RCcW78k44tHU6csh64D2ixL+T4fo3Mhenx?=
- =?us-ascii?Q?G3zLW7XGsN42Cc46hKuFZKtD4wFxHjx8j/+5UPXK9aEbJkB4loKFsduT2PzD?=
- =?us-ascii?Q?PAG/84C0yeHLvP8SjR6Ywzh/PxpTX/33e6bS5MZo6b60ZqlhXpzWzQB/AYmU?=
- =?us-ascii?Q?q3jPwfrdImxL4RGpKATMs0EYMW57mTYc8GhzwGF0uGU/y4uU8IZgpyerCmec?=
- =?us-ascii?Q?NJVImOYXjb4SqcYlKoQ+ITjyu6T1QmjmvFjX04IS0VQFzZ5JqP4aMCJHZNBt?=
- =?us-ascii?Q?Z5pNJiamTg1QiOq46C0rEQ1mHbZz0mMhjuYwOpld3lUFRz1wljU4QWUlpdev?=
- =?us-ascii?Q?wRSC9w8mSdnyneeIl8/ASGqpF/GB6dYWvTS2nKRX7fU1NMFu92PTCaTpLXr6?=
- =?us-ascii?Q?BEdlCVipkvOHgaxI//4aDJMJ5XPuNbHXtYzq3PSuo64nSWlHutghVmaLQKW6?=
- =?us-ascii?Q?ohNKLEy2SyFJcqfnAzqe1U4V8igRjkyrEdC3SEIquUvhPmW3qiPmTt3+Trsz?=
- =?us-ascii?Q?k8C8/rP1dmAQ7ceZV/WZGPLhMCRQfDYKD+Q3CMHhm2AqIMGIFL6t3zfbDBIA?=
- =?us-ascii?Q?odFi12wLOj0I8RtaxiCKK9WDEGsB8rPr+SSUHn8icbr0QdhKrdAsHktr4s22?=
- =?us-ascii?Q?tG11pkeSlrBy2U0T/wRRPQ1MN46G8DuKMG1qHUnozSXn0iTDJ072Dy2XJUTI?=
- =?us-ascii?Q?VRxnBK+OYwdbouzN6tyiM/iWeOulIg47w7jOBiN6ffn0ZlUKfJZ+ayjq8w0I?=
- =?us-ascii?Q?0tIOeLmYlstLCr2IyeK2CrbqO4UPL7LEXGXaoeoDxFApHndBdzOlu0Ut9AYZ?=
- =?us-ascii?Q?1eaVXb4tNvUMAT65BlSWv9MkaOwP5NFC4Y5nlFb3PTbgEYvTzuKp8Jj0OUab?=
- =?us-ascii?Q?mPQFVOBeIme7wvWt6hh3veC5VK5TIpxCx+xTYcD5jX//dSHBNWlP2qcp6zHK?=
- =?us-ascii?Q?cMFQr/ET5dUIjLhZ6PumaIU3049m3yo=3D?=
+ =?us-ascii?Q?2D50/yjZrTmiUTueThOU36AIgFI1ozk1r9KW8K7Fo1C5t7igSPHVGb2O62Nj?=
+ =?us-ascii?Q?pG8emUw1U8N5ntwCSNbEjP5IZbra3AOAIf6ne+a021tJvoYjNCOQuXTnon0I?=
+ =?us-ascii?Q?IwpiD6jkKseAn4hvSyXqTQ8pys67g3RG5tBVs61KlFvQc4OI8TWLm7zkbxW5?=
+ =?us-ascii?Q?mV7ERlHcEoOFHTIaACBh8nZWEIl9kK6H5uMZfXHGK50jRrxS2zDAnCOhS7Cs?=
+ =?us-ascii?Q?S3W/LUupdIsh2pWjGG+RqUuw5aa7GR0IJA4rHE6cpngzvANKeYn1fI8iMvNB?=
+ =?us-ascii?Q?5trgRksaaojZP9VepOIVLRlhX5uJKmsBQDHOZA4tEg/B/U4SQ98g7pubpyKJ?=
+ =?us-ascii?Q?0f5n/NnL5cTbv0sZ8UEC7LbEw+JdO6MbNklJk0N3jFW6COMs+oCxlBv1qzpV?=
+ =?us-ascii?Q?RDNoPQwKvsvD8BCL7qFTWLB5TMcbYK6dF4z4jsM8v9Ho1YPB9ZdQQ7Ux2feu?=
+ =?us-ascii?Q?zI4s6sel5c9cZ4lWthmgqlaWY+EaQpUR136S/uy6QmaimZIMdUVdsqTjhUvZ?=
+ =?us-ascii?Q?jl98aW6jniU/prP78HUAuJggZurbwf/i4zvI5KJ6tu5DV/VkZHUkHhoUbxJJ?=
+ =?us-ascii?Q?PL0V0jsBgBgEpc4fCPpkGD81zlSG/35fwsr1+mwJ+eGknlUF3pRim5CszH3L?=
+ =?us-ascii?Q?ZeVFWog06PFJ63lDe3iXtkvL29dDYOfy8vrFQFRNapWB3VDaeNcKyKpox/KD?=
+ =?us-ascii?Q?Ay3zBPSgZspjU7SMExoHJZzHXMaedb7oSDXdUyahfT3NVItBCHkVOoxk9e2R?=
+ =?us-ascii?Q?jYU7Y6glaAYn6LF+DFm4F5GR05qCNHGyN3MAJeHoVC+V6887CquKct0EPUDF?=
+ =?us-ascii?Q?KRzIr1dWzmkyalFZySgmEXtxNmzwfqUeguw/1csYwjoXiplxdMSCcM29fk5M?=
+ =?us-ascii?Q?nLZcGV6VjjBag5uc7oOx/ZZk2gZEKcrrzzu6eIrnlXfRhIDBpR0tHPquS+Eu?=
+ =?us-ascii?Q?AndvSJyAKMZoFnMyMFINiReUXMtgvwgIojPYP6YyWjq4VtN5IhBOj/chqydo?=
+ =?us-ascii?Q?+dLtW4RbVDka/mV14v3u3Cu1KPAFxc2dwEPc2uQ2LwiCVo49N6cndntNpIPC?=
+ =?us-ascii?Q?uWefS6/jzApVbjjQhs+XNteN7llHt34b2RokNhZtA0gTRGYUjO/ym1OWJ/ca?=
+ =?us-ascii?Q?IOO6aE2z527PmJq1fgngp2k6ECYOkP+qY0Cjin/yRknzUbp1Cqp3MJ9t5usY?=
+ =?us-ascii?Q?iYNOugE9RpS7jiqTpV0rAV0IGmilPlGhitxLHp/RA0rQ4sgzskxcxE86iFmE?=
+ =?us-ascii?Q?XTBOJIb4S6OnssWASDPmsztu5fCkAjmHC0QnYD75edXFduAE4Fk6iVDoAnX5?=
+ =?us-ascii?Q?96RdJBmoT40TVtAN688/Nmh0EhFFE8FOWxzDbZYFsOppSZLX11wkzo//tzlo?=
+ =?us-ascii?Q?7P+TQ9AyoGJzLtY7rTW1s3FQo5mtKgo/TF3uVGm23XPRaBT3OiwpOyaj/p5S?=
+ =?us-ascii?Q?+QbPLv94xirX5sz5KdgLchu2jiNsMXYUwSSUmjTgulhbMEUhKHvnQJfKevMe?=
+ =?us-ascii?Q?HMRNnTeWwZ6qjP31JbfPo7BNMsQPTS7xfUoDr6DrQLo8AnaXyfwZZoafuFzO?=
+ =?us-ascii?Q?+GJqrWLVKtdeU+aa9v1rxGrTSDZyNWYyIL1kVk+0jiwoVPhKZ0L8OlGHCnTC?=
+ =?us-ascii?Q?ig9MARNkFR2CKgxQmRIwajtRdaQtmWQpCNtSAkJ5OTTg3K1NbPWQ1HikJcZX?=
+ =?us-ascii?Q?28y4WencEbErCzaheVDcDymlDJWyyUkffoBMe1UGt/7uETo2OaUi/pU3sNca?=
+ =?us-ascii?Q?Jsy3XaJU5g=3D=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -171,21 +173,21 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-OriginatorOrg: bp.renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS7PR01MB17371.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b4695118-81c6-459b-3cdb-08de5f35a11e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jan 2026 12:55:07.3979
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2dabf044-169e-4bed-e420-08de5f3917fd
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jan 2026 13:19:55.2916
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: pPhmapl3Ebydjc1mWckxBeHXqdPXdO9tY1n8PwNmE6PkZDZn6SvOHlr944CjIKrvV6NQ2TK/fMyJxrSWyGrqDsrUv/H7z9pntfWt4K2pHDs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB7425
+X-MS-Exchange-CrossTenant-userprincipalname: BSGn5DerHK4Wuv8MbxOaf1VwA5/tDOlWoX1z3X0RxevhEE23zmNEpuEpltCeabl//NIgFLa2S0+4I2B0LVzZWtlidz0aoaXLnrvBjKu+mkQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB9750
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [1.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_REJECT(1.00)[cv is fail on i=2];
 	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[bp.renesas.com:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -194,262 +196,209 @@ X-Spamd-Result: default: False [1.34 / 15.00];
 	RCPT_COUNT_TWELVE(0.00)[17];
 	TO_DN_EQ_ADDR_SOME(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-27606-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-27607-lists,linux-renesas-soc=lfdr.de];
 	FREEMAIL_CC(0.00)[bp.renesas.com,kernel.org,glider.be,google.com,gmail.com,vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[john.madieu.xa@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[biju.das.jz@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[bp.renesas.com:+];
 	RCVD_COUNT_FIVE(0.00)[5];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
 	NEURAL_HAM(-0.00)[-1.000];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[OS7PR01MB17371.jpnprd01.prod.outlook.com:mid,renesas.com:email,bp.renesas.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 536DDB02DA
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: E7D8BB052F
 X-Rspamd-Action: no action
 
-Hi Conor,
 
-Thanks for your review.
 
 > -----Original Message-----
-> From: Conor Dooley <conor@kernel.org>
-> Sent: Wednesday, January 28, 2026 6:40 PM
-> To: John Madieu <john.madieu.xa@bp.renesas.com>
-> Subject: Re: [PATCH v3 06/15] dt-bindings: PCI: renesas,r9a08g045s33-pcie=
-:
-> Document RZ/G3E SoC
+> From: John Madieu <john.madieu.xa@bp.renesas.com>
+> Sent: 29 January 2026 12:55
+> Subject: RE: [PATCH v3 06/15] dt-bindings: PCI: renesas,r9a08g045s33-pcie=
+: Document RZ/G3E SoC
 >=20
-> On Wed, Jan 28, 2026 at 02:16:37PM +0100, John Madieu wrote:
-> > Extend the existing device tree bindings for Renesas RZ/G3S PCIe
-> > controller to include support for the RZ/G3E
-> > (renesas,r9a09g047e57-pcie) PCIe controller. The RZ/G3E PCIe
-> > controller is similar to RZ/G3S but has some key
-> > differences:
-> >
-> >  - Uses a different device ID
-> >  - Supports PCIe Gen3 (8.0 GT/s) link speeds
-> >  - Uses a different clock naming (clkpmu vs clkl1pm)
-> >  - Has a different set of interrupts, interrupt ordering, and reset
-> > signals
-> >
-> > Add device tree bindings for renesas,r9a09g047e57-pcie compatible IPs.
-> >
-> > Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
-> > ---
-> >
-> > Changes:
-> >
-> > v3:
-> >  - Moved interrupt/clock description in distinct PATCH
-> >  - Fixed clock name constraints
+> Hi Conor,
 >=20
-> Can you explain why "pm" isn't close enough to "pmu", when it suffices fo=
-r
-> "l1pm", and therefore the same across both devices?
+> Thanks for your review.
 >=20
-
-Regarding using "pm" for both, the underlying hardware clocks have differen=
-t
-names (CLK1PM for RZ/G3S vs CLKPMU for RZ/G3E) and serve slightly different
-purposes - the RZ/G3S clock is specifically for L1 substate power managemen=
-t
-while the RZ/G3E clock is for the PMU block. Therefore, I wanted the bindin=
-g
-to reflect the actual hardware clock naming.
-
-There are also SoCs (such as the RZ/G3L) that have both clocks (CLK1PM and =
-CMLPMU)
-as Biju stated.
-
-Is the explanation ok for you ?
-
-> >  - Updated clock descriptions
+> > -----Original Message-----
+> > From: Conor Dooley <conor@kernel.org>
+> > Sent: Wednesday, January 28, 2026 6:40 PM
+> > To: John Madieu <john.madieu.xa@bp.renesas.com>
+> > Subject: Re: [PATCH v3 06/15] dt-bindings: PCI: renesas,r9a08g045s33-pc=
+ie:
+> > Document RZ/G3E SoC
 > >
-> > v2: Reuse G3S names
+> > On Wed, Jan 28, 2026 at 02:16:37PM +0100, John Madieu wrote:
+> > > Extend the existing device tree bindings for Renesas RZ/G3S PCIe
+> > > controller to include support for the RZ/G3E
+> > > (renesas,r9a09g047e57-pcie) PCIe controller. The RZ/G3E PCIe
+> > > controller is similar to RZ/G3S but has some key
+> > > differences:
+> > >
+> > >  - Uses a different device ID
+> > >  - Supports PCIe Gen3 (8.0 GT/s) link speeds
+> > >  - Uses a different clock naming (clkpmu vs clkl1pm)
+> > >  - Has a different set of interrupts, interrupt ordering, and reset
+> > > signals
+> > >
+> > > Add device tree bindings for renesas,r9a09g047e57-pcie compatible IPs=
+.
+> > >
+> > > Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
+> > > ---
+> > >
+> > > Changes:
+> > >
+> > > v3:
+> > >  - Moved interrupt/clock description in distinct PATCH
+> > >  - Fixed clock name constraints
 > >
-> >  .../bindings/pci/renesas,r9a08g045-pcie.yaml  | 76
-> > +++++++++++++++++--
-> >  1 file changed, 68 insertions(+), 8 deletions(-)
+> > Can you explain why "pm" isn't close enough to "pmu", when it suffices
+> > for "l1pm", and therefore the same across both devices?
 > >
-> > diff --git
-> > a/Documentation/devicetree/bindings/pci/renesas,r9a08g045-pcie.yaml
-> > b/Documentation/devicetree/bindings/pci/renesas,r9a08g045-pcie.yaml
-> > index d1eb92995e2c..d48187ca0849 100644
-> > ---
-> > a/Documentation/devicetree/bindings/pci/renesas,r9a08g045-pcie.yaml
-> > +++ b/Documentation/devicetree/bindings/pci/renesas,r9a08g045-pcie.yam
-> > +++ l
-> > @@ -10,17 +10,21 @@ maintainers:
-> >    - Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >
-> >  description:
-> > -  Renesas RZ/G3S PCIe host controller complies with PCIe Base
-> > Specification
-> > -  4.0 and supports up to 5 GT/s (Gen2).
-> > +  Renesas RZ/G3{E,S} PCIe host controllers comply with PCIe  Base
-> > + Specification 4.0 and support up to 5 GT/s (Gen2) for RZ/G3S and  up
-> > + to 8 GT/s (Gen3) for RZ/G3E.
-> >
-> >  properties:
-> >    compatible:
-> > -    const: renesas,r9a08g045-pcie # RZ/G3S
-> > +    enum:
-> > +      - renesas,r9a08g045-pcie # RZ/G3S
-> > +      - renesas,r9a09g047-pcie # RZ/G3E
-> >
-> >    reg:
-> >      maxItems: 1
-> >
-> >    interrupts:
-> > +    minItems: 16
-> >      items:
-> >        - description: System error interrupt
-> >        - description: System error on correctable error interrupt @@
-> > -38,8 +42,16 @@ properties:
-> >        - description: PCIe event interrupt
-> >        - description: Message interrupt
-> >        - description: All interrupts
-> > +      - description: Link equalization request interrupt
-> > +      - description: Turn off event interrupt
-> > +      - description: PMU power off interrupt
-> > +      - description: D3 event function 0 interrupt
-> > +      - description: D3 event function 1 interrupt
-> > +      - description: Configuration PMCSR write clear function 0
-> interrupt
-> > +      - description: Configuration PMCSR write clear function 1
-> > + interrupt
-> >
-> >    interrupt-names:
-> > +    minItems: 16
-> >      items:
-> >        - const: serr
-> >        - const: serr_cor
-> > @@ -57,20 +69,27 @@ properties:
-> >        - const: pcie_evt
-> >        - const: msg
-> >        - const: all
-> > +      - const: link_equalization_request
-> > +      - const: turn_off_event
-> > +      - const: pmu_poweroff
-> > +      - const: d3_event_f0
-> > +      - const: d3_event_f1
-> > +      - const: cfg_pmcsr_writeclear_f0
-> > +      - const: cfg_pmcsr_writeclear_f1
-> >
-> >    interrupt-controller: true
-> >
-> >    clocks:
-> >      items:
-> >        - description: System clock
-> > -      - description: PM control clock
-> > +      - description: PM control clock or clock for L1 substate and
-> > + CLKREQ_B handling
-> >
-> >    clock-names:
-> > -    items:
-> > -      - const: aclk
-> > -      - const: pm
 >=20
-> and I'd like to see an attempt to keep an items list here, by making the
-> second item and enum if you keep using "pm" and "pmu".
+> Regarding using "pm" for both, the underlying hardware clocks have differ=
+ent names (CLK1PM for RZ/G3S
+> vs CLKPMU for RZ/G3E) and serve slightly different purposes - the RZ/G3S =
+clock is specifically for L1
+> substate power management while the RZ/G3E clock is for the PMU block. Th=
+erefore, I wanted the binding
+> to reflect the actual hardware clock naming.
 >=20
-
-I'll use something like this in v3:
-
-       clock-names:
-         items:
-           - const: aclk
-           - enum:
-             - pm
-             - pmu
-
-If this is Ok for you, I'll keep this approach with both names.
-What do you think ?
-
-Regards,
-John
-
-> Cheers,
-> Conor.
+> There are also SoCs (such as the RZ/G3L) that have both clocks (CLK1PM an=
+d CMLPMU) as Biju stated.
 >=20
-> > +    minItems: 2
-> > +    maxItems: 2
+> Is the explanation ok for you ?
+>=20
+> > >  - Updated clock descriptions
+> > >
+> > > v2: Reuse G3S names
+> > >
+> > >  .../bindings/pci/renesas,r9a08g045-pcie.yaml  | 76
+> > > +++++++++++++++++--
+> > >  1 file changed, 68 insertions(+), 8 deletions(-)
+> > >
+> > > diff --git
+> > > a/Documentation/devicetree/bindings/pci/renesas,r9a08g045-pcie.yaml
+> > > b/Documentation/devicetree/bindings/pci/renesas,r9a08g045-pcie.yaml
+> > > index d1eb92995e2c..d48187ca0849 100644
+> > > ---
+> > > a/Documentation/devicetree/bindings/pci/renesas,r9a08g045-pcie.yaml
+> > > +++ b/Documentation/devicetree/bindings/pci/renesas,r9a08g045-pcie.y
+> > > +++ am
+> > > +++ l
+> > > @@ -10,17 +10,21 @@ maintainers:
+> > >    - Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> > >
+> > >  description:
+> > > -  Renesas RZ/G3S PCIe host controller complies with PCIe Base
+> > > Specification
+> > > -  4.0 and supports up to 5 GT/s (Gen2).
+> > > +  Renesas RZ/G3{E,S} PCIe host controllers comply with PCIe  Base
+> > > + Specification 4.0 and support up to 5 GT/s (Gen2) for RZ/G3S and
+> > > + up to 8 GT/s (Gen3) for RZ/G3E.
+> > >
+> > >  properties:
+> > >    compatible:
+> > > -    const: renesas,r9a08g045-pcie # RZ/G3S
+> > > +    enum:
+> > > +      - renesas,r9a08g045-pcie # RZ/G3S
+> > > +      - renesas,r9a09g047-pcie # RZ/G3E
+> > >
+> > >    reg:
+> > >      maxItems: 1
+> > >
+> > >    interrupts:
+> > > +    minItems: 16
+> > >      items:
+> > >        - description: System error interrupt
+> > >        - description: System error on correctable error interrupt @@
+> > > -38,8 +42,16 @@ properties:
+> > >        - description: PCIe event interrupt
+> > >        - description: Message interrupt
+> > >        - description: All interrupts
+> > > +      - description: Link equalization request interrupt
+> > > +      - description: Turn off event interrupt
+> > > +      - description: PMU power off interrupt
+> > > +      - description: D3 event function 0 interrupt
+> > > +      - description: D3 event function 1 interrupt
+> > > +      - description: Configuration PMCSR write clear function 0
+> > interrupt
+> > > +      - description: Configuration PMCSR write clear function 1
+> > > + interrupt
+> > >
+> > >    interrupt-names:
+> > > +    minItems: 16
+> > >      items:
+> > >        - const: serr
+> > >        - const: serr_cor
+> > > @@ -57,20 +69,27 @@ properties:
+> > >        - const: pcie_evt
+> > >        - const: msg
+> > >        - const: all
+> > > +      - const: link_equalization_request
+> > > +      - const: turn_off_event
+> > > +      - const: pmu_poweroff
+> > > +      - const: d3_event_f0
+> > > +      - const: d3_event_f1
+> > > +      - const: cfg_pmcsr_writeclear_f0
+> > > +      - const: cfg_pmcsr_writeclear_f1
+> > >
+> > >    interrupt-controller: true
+> > >
+> > >    clocks:
+> > >      items:
+> > >        - description: System clock
+> > > -      - description: PM control clock
+> > > +      - description: PM control clock or clock for L1 substate and
+> > > + CLKREQ_B handling
+> > >
+> > >    clock-names:
+> > > -    items:
+> > > -      - const: aclk
+> > > -      - const: pm
 > >
-> >    resets:
-> > +    minItems: 1
-> >      items:
-> >        - description: AXI2PCIe Bridge reset
-> >        - description: Data link layer/transaction layer reset @@ -81,6
-> > +100,7 @@ properties:
-> >        - description: Configuration register reset
+> > and I'd like to see an attempt to keep an items list here, by making
+> > the second item and enum if you keep using "pm" and "pmu".
 > >
-> >    reset-names:
-> > +    minItems: 1
-> >      items:
-> >        - const: aresetn
-> >        - const: rst_b
-> > @@ -128,7 +148,9 @@ patternProperties:
-> >          const: 0x1912
-> >
-> >        device-id:
-> > -        const: 0x0033
-> > +        enum:
-> > +          - 0x0033
-> > +          - 0x0039
-> >
-> >        clocks:
-> >          items:
-> > @@ -167,6 +189,44 @@ required:
-> >
-> >  allOf:
-> >    - $ref: /schemas/pci/pci-host-bridge.yaml#
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            const: renesas,r9a08g045-pcie
-> > +    then:
-> > +      properties:
-> > +        interrupts:
-> > +          maxItems: 16
-> > +        interrupt-names:
-> > +          maxItems: 16
-> > +        clock-names:
-> > +          items:
-> > +            - const: aclk
-> > +            - const: pm
-> > +        resets:
-> > +          minItems: 7
-> > +        reset-names:
-> > +          minItems: 7
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            const: renesas,r9a09g047-pcie
-> > +    then:
-> > +      properties:
-> > +        interrupts:
-> > +          minItems: 23
-> > +        interrupt-names:
-> > +          minItems: 23
-> > +        clock-names:
-> > +          items:
-> > +            - const: aclk
-> > +            - const: pmu
-> > +        resets:
-> > +          maxItems: 1
-> > +        reset-names:
-> > +          maxItems: 1
-> >
-> >  unevaluatedProperties: false
-> >
-> > --
-> > 2.25.1
-> >
+>=20
+> I'll use something like this in v3:
+>=20
+>        clock-names:
+>          items:
+>            - const: aclk
+>            - enum:
+>              - pm
+>              - pmu
+>=20
+> If this is Ok for you, I'll keep this approach with both names.
+> What do you think ?
+
+So, for RZ/G3L addition, it will be
+
+clock-names:
+   oneof:
+     items:
+       - const: aclk
+       - enum:
+          - pm
+          - pmu
+     items:
+       - const: aclk
+       - const: pm
+       - const: pmu
+
+
+RZ/G3S: aclk, pm
+RZ/G3E: aclk, pmu
+RZ/G3L: aclk, pm, pmu
+
+Cheers,
+Biju
 
