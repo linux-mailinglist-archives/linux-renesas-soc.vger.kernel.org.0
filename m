@@ -1,70 +1,68 @@
-Return-Path: <linux-renesas-soc+bounces-27625-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27626-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SDfNF1Cbe2nOGAIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27625-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Jan 2026 18:39:28 +0100
+	id +Dq7Ebabe2nOGAIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27626-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Jan 2026 18:41:10 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC0ECB3073
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Jan 2026 18:39:27 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FE2AB317B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Jan 2026 18:41:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id ACCE4301548C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Jan 2026 17:39:26 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id B695E300722C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Jan 2026 17:40:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6CA1287247;
-	Thu, 29 Jan 2026 17:39:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78A0D353EFB;
+	Thu, 29 Jan 2026 17:40:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R/bz7/nU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uf+22fm2"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A19F618BC3B;
-	Thu, 29 Jan 2026 17:39:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 544E5279DCD;
+	Thu, 29 Jan 2026 17:40:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769708365; cv=none; b=NlwPqwu16xV07pMWAOJ1UYTHW02U7UUjXqXluBoMHJqVJ/z0ikYWOLvPYJZEng/b9wjNKkIZ9twa3SW/C5SiLKUcxBHZai9optOe42PPFWggi64JKvtXcuthmkAKz4b0h2sUsezcRfMXORhDU5jGfy7ZB7MA/ARWmmc+EHCjVOY=
+	t=1769708439; cv=none; b=fG8LMLmLZrCsc3JKSrJDO5gnKnWlpb8hVULx4jyodMqEgJxIvIeOoObVu+Fl2W10nuhL6saN1SWgEsBwuIZv8aYepj2Rgb9AnGJrz1Ng8u4ILts69+8xA78ILGBrnCKEXWLfwJ0QbbVNGx9e/LqF6080Xjs/czX93M2nzJPy/Gk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769708365; c=relaxed/simple;
-	bh=KT9Y+oFfVF9aQj5amwkO7yZGPBVgZJex/Cd1L2xGskk=;
+	s=arc-20240116; t=1769708439; c=relaxed/simple;
+	bh=gCjwA3hE/GnvpZ10EZBDQacrzRoWrpJ+prNQ7EUtPrE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sQ/3dSvRmsQtgCmlrnkZGJqlrPFmXeQ9m2ACwJ6yPb22WasIIsX6RoLFs0gcpNaM04TqvaH2huBOTxxGJj8uynvpELzLCkuMRCNaMz21rmKHXpQch6pzm1GIrrVT03tX7NhhtBTIfdv/Bp8HBH1dFFOgIpkgqJdejDrqkdYi4pA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R/bz7/nU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDA3CC4CEF7;
-	Thu, 29 Jan 2026 17:39:21 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=mv+/Ep+qb9wA+Lsa72Xy12U0ImaN+RCUGrIDNcAHvzTL/pMaHaW7jGpYRueNkQXT4n6dgEw4eWCmnVttCQusS7Eih7epcX6KEx9zkGEzpgezdo+fZKrepAtZoB6SMsdGQa+EWeT4EEX/PLiPX6tksw/3zjDdS1BgL1uUeG1XeDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uf+22fm2; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8152C4CEF7;
+	Thu, 29 Jan 2026 17:40:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769708365;
-	bh=KT9Y+oFfVF9aQj5amwkO7yZGPBVgZJex/Cd1L2xGskk=;
+	s=k20201202; t=1769708438;
+	bh=gCjwA3hE/GnvpZ10EZBDQacrzRoWrpJ+prNQ7EUtPrE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=R/bz7/nUcm73NNHYaXDjV6LlDtTC/cbxkrnckPacaYuKwkpLN2JIqD8MBfcF4Usbl
-	 BYynq79zVE8C4QxGbq7Dx/bL9qczwl8MXMWF99/mHTlcCeDiFtuSZ9dNtfecCKWddD
-	 yyX/d+ZDzhoiKiL38eld+fGuPo8qyEiaB3iz4U4indW3UFg1J/ww/5GW13AWIerv9g
-	 2G0o/3wm1FFTcRBcA+tRrpGldtjgZDVVn7AhxsTMV7nXvQ+3ka6Sc9Vb/qcgzk/c8G
-	 KosTS+EWSAf5k5pnDLWbWRQ+2IsPctDu41Ll5SVAlex53VCZg1CSdfg008d+DI7IOK
-	 bEBv8PFlxpEeA==
-Date: Thu, 29 Jan 2026 17:39:19 +0000
+	b=uf+22fm2XSK0YryLMKf5yTP3f7H1Y4rrCbsVCsZV5KS946E2ib8MmzC9xVVgVxuAO
+	 k3AdHwexgWmGgLrYQ0ZBLzEkCWwXKtuBNLEUnb93zD0h91LVblInbr59hnl8la/MBP
+	 OdP5n1nBC4Y/V0mhrIBOk9elKaDsr2odGFritBtuEosFkpdnWJVBWMyftJ09GQveeH
+	 wPBdUfbaEnPcAED5kB/jI2aAT2e1/bbRH7yERem1pFS+seCLzh0kRO0D0MrodnGdpr
+	 XLvzcSHwGIhBlsyT/9HY52nYFqorQYf392ojNMQNLu1QKYE/AoMvQI0CpqLfnJPvKa
+	 hRe7yBdSpRcAw==
+Date: Thu, 29 Jan 2026 17:40:33 +0000
 From: Conor Dooley <conor@kernel.org>
-To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc: Rob Herring <robh@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+To: Biju <biju.das.au@gmail.com>
+Cc: linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Linus Walleij <linusw@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Magnus Damm <magnus.damm@gmail.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	linux-watchdog@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	linux-clk@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH mainline-linux 1/3] dt-bindings: watchdog:
- renesas,r9a09g057-wdt: Rework example
-Message-ID: <20260129-stapling-nemesis-66ba56d68967@spud>
-References: <20260129140731.12633-1-fabrizio.castro.jz@renesas.com>
- <20260129140731.12633-2-fabrizio.castro.jz@renesas.com>
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
+Subject: Re: [PATCH RESEND 1/9] dt-bindings: pinctrl: renesas: Document
+ reset-names
+Message-ID: <20260129-skyline-romp-e81f8ec9ae1f@spud>
+References: <cover.1769681553.git.biju.das.jz@bp.renesas.com>
+ <e70c010cb8c599d342807af146bd5c2a6d6cb4c5.1769681553.git.biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -72,109 +70,115 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="36Iy0USQuZYBEeUt"
+	protocol="application/pgp-signature"; boundary="2ELZqKEquqy7vHuA"
 Content-Disposition: inline
-In-Reply-To: <20260129140731.12633-2-fabrizio.castro.jz@renesas.com>
+In-Reply-To: <e70c010cb8c599d342807af146bd5c2a6d6cb4c5.1769681553.git.biju.das.jz@bp.renesas.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.26 / 15.00];
+X-Spamd-Result: default: False [-3.76 / 15.00];
 	SIGNED_PGP(-2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MID_RHS_NOT_FQDN(0.50)[];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-27625-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-27626-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,roeck-us.net,baylibre.com,linux-watchdog.org,glider.be,gmail.com,bp.renesas.com,vger.kernel.org,sang-engineering.com];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FREEMAIL_CC(0.00)[vger.kernel.org,bp.renesas.com,glider.be,kernel.org,gmail.com,baylibre.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_PROHIBIT(0.00)[0.219.186.0:email];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[conor@kernel.org,linux-renesas-soc@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: CC0ECB3073
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 6FE2AB317B
 X-Rspamd-Action: no action
 
 
---36Iy0USQuZYBEeUt
+--2ELZqKEquqy7vHuA
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 29, 2026 at 02:07:29PM +0000, Fabrizio Castro wrote:
-> When the bindings for the Renesas RZ/V2H(P) SoC were factored
-> out IP WDT0 was selected for the example, however the HW user
-> manual states that only IP WDT1 can be used by Linux.
+On Thu, Jan 29, 2026 at 10:16:36AM +0000, Biju wrote:
+> From: Biju Das <biju.das.jz@bp.renesas.com>
 >=20
-> This commit is part of a series that removes WDT{0,2,3} support
-> from the kernel, therefore the example from the bindings has
-> lost its meaning.
+> All SoCs has multiple resets. Document reset-names property.
 >=20
-> Update the example accordingly.
->=20
-> Fixes: fcba2855251f ("dt-bindings: watchdog: factor out RZ/V2H(P) watchdo=
-g")
-
-Given this is an example, I don't think a fixes tag is appropriate here.
-
-> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
->  .../bindings/watchdog/renesas,r9a09g057-wdt.yaml          | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+>  .../bindings/pinctrl/renesas,rzg2l-pinctrl.yaml   | 15 +++++++++++++++
+>  arch/arm64/boot/dts/renesas/r9a07g043.dtsi        |  1 +
+>  arch/arm64/boot/dts/renesas/r9a07g044.dtsi        |  1 +
+>  arch/arm64/boot/dts/renesas/r9a07g054.dtsi        |  1 +
+>  arch/arm64/boot/dts/renesas/r9a08g045.dtsi        |  1 +
+>  arch/arm64/boot/dts/renesas/r9a09g047.dtsi        |  1 +
+>  arch/arm64/boot/dts/renesas/r9a09g056.dtsi        |  1 +
+>  arch/arm64/boot/dts/renesas/r9a09g057.dtsi        |  1 +
+>  8 files changed, 22 insertions(+)
 >=20
-> diff --git a/Documentation/devicetree/bindings/watchdog/renesas,r9a09g057=
--wdt.yaml b/Documentation/devicetree/bindings/watchdog/renesas,r9a09g057-wd=
-t.yaml
-> index 099200c4f136..975c5aa4d747 100644
-> --- a/Documentation/devicetree/bindings/watchdog/renesas,r9a09g057-wdt.ya=
-ml
-> +++ b/Documentation/devicetree/bindings/watchdog/renesas,r9a09g057-wdt.ya=
-ml
-> @@ -89,11 +89,11 @@ examples:
->    - |
->      #include <dt-bindings/clock/renesas,r9a09g057-cpg.h>
+> diff --git a/Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinc=
+trl.yaml b/Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.=
+yaml
+> index 00c05243b9a4..fbbba53cde9b 100644
+> --- a/Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml
+> +++ b/Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml
+> @@ -78,6 +78,16 @@ properties:
+>            - description: PFC main reset
+>            - description: Reset for the control register related to WDTUD=
+FCA and WDTUDFFCM pins
 > =20
-> -    watchdog@11c00400 {
-> +    watchdog@14400000 {
->              compatible =3D "renesas,r9a09g057-wdt";
-> -            reg =3D <0x11c00400 0x400>;
-> -            clocks =3D <&cpg CPG_MOD 0x4b>, <&cpg CPG_MOD 0x4c>;
-> +            reg =3D <0x14400000 0x400>;
-> +            clocks =3D <&cpg CPG_MOD 0x4d>, <&cpg CPG_MOD 0x4e>;
->              clock-names =3D "pclk", "oscclk";
-> -            resets =3D <&cpg 0x75>;
-> +            resets =3D <&cpg 0x76>;
->              power-domains =3D <&cpg>;
->      };
-> --=20
-> 2.34.1
->=20
+> +  reset-names:
+> +    oneOf:
+> +      - items:
+> +          - const: rstn
+> +          - const: port
+> +          - const: spare
+> +      - items:
+> +          - const: main
+> +          - const: error
+> +
+>  additionalProperties:
+>    anyOf:
+>      - type: object
+> @@ -152,10 +162,14 @@ allOf:
+>        properties:
+>          resets:
+>            maxItems: 2
+> +        reset-names:
+> +          maxItems: 2
+>      else:
+>        properties:
+>          resets:
+>            minItems: 3
+> +        reset-names:
+> +          maxItems: 3
 
---36Iy0USQuZYBEeUt
+This is minItems, no?
+
+--2ELZqKEquqy7vHuA
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaXubRwAKCRB4tDGHoIJi
-0lBcAQC0EDSn53pnjYPwW7yaAQRSTfdNWkeeDh0Helx+Uio94QD/c6Dq+BmG2MpU
-dkCXXyCps/axpgVwbMc1XZ3mmP6/cA0=
-=ebJj
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaXubkQAKCRB4tDGHoIJi
+0vXVAQCgVC2FzAAm9cgjpn+Zq3lguj4voCYomAaRBfQa+BIT+QD5AaFUgkOYoCXx
+dBvCZTsoYC/c5UjWubiSVut3QkslGgQ=
+=IG6/
 -----END PGP SIGNATURE-----
 
---36Iy0USQuZYBEeUt--
+--2ELZqKEquqy7vHuA--
 
