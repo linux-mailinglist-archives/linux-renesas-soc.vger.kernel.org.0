@@ -1,160 +1,313 @@
-Return-Path: <linux-renesas-soc+bounces-27612-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27613-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kO/5Jvppe2lEEgIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27612-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Jan 2026 15:08:58 +0100
+	id uJbSKZ2Fe2mvFAIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27613-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Jan 2026 17:06:53 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9468B0BAE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Jan 2026 15:08:57 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D819B1D29
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Jan 2026 17:06:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 5F3E3300EE9B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Jan 2026 14:08:03 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 5F91230039BC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Jan 2026 16:06:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 832C0385527;
-	Thu, 29 Jan 2026 14:07:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E6043382C3;
+	Thu, 29 Jan 2026 16:06:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DXCleRDE"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52DBE3803E9;
-	Thu, 29 Jan 2026 14:07:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769695677; cv=none; b=GzIZk6A6n1pPWEZsnqs8cATD5wwrcwuU7YnTS0bFHf5nOvB9dvzi757nLom5BeWedR0G/yI0lsEwQXci0nIVzrXtVwHfP621cGRkNcu/RVqnjb2lcuHzbQrgBg61VmP8RXvfiDkeEvggUWEDxNkkqY5yV6KSOCZE3kNnEWIn/NE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769695677; c=relaxed/simple;
-	bh=9AdNRmTLv2TBYasRLPF96bHBRA1VsfdKQApevADhUhs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=P9o9uKyT6l0YRLF80XhwVcm8lt8wwQ1oP+rgu9MjIYkCHImrMW8RmJnTjuym4EAQEbcYvms2nK9lwIdaVHrGqb5pmRKM6xU8QwHEcFz9PsK0Htdlr/CyTyXn5glO1eb/ph8i71RpmnAc3WAjtpjrGBE6ciATjSv0f9UBA+bhmPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-X-CSE-ConnectionGUID: rDlCGX/uRO2/2VuTpoy3XA==
-X-CSE-MsgGUID: dAeBYHMeSrOd+yNW/vRa+A==
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 29 Jan 2026 23:07:54 +0900
-Received: from mind-2s.example.org (unknown [10.226.36.118])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 5DDBE41AE66A;
-	Thu, 29 Jan 2026 23:07:49 +0900 (JST)
-From: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-To: Rob Herring <robh@kernel.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>
-Cc: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	linux-watchdog@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	linux-clk@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>
-Subject: [PATCH mainline-linux 3/3] clk: renesas: r9a09g057: Remove entries for WDT{0,2,3}
-Date: Thu, 29 Jan 2026 14:07:31 +0000
-Message-ID: <20260129140731.12633-4-fabrizio.castro.jz@renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260129140731.12633-1-fabrizio.castro.jz@renesas.com>
-References: <20260129140731.12633-1-fabrizio.castro.jz@renesas.com>
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36C6633122E
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 29 Jan 2026 16:06:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769702811; cv=pass; b=UI9Z6Dvm7BSM2YG7JE4fXjCnjuYyuMgrOBlt0lRtFU9PuwK/iy8dIu/gRVY92MPwMK/uaTGPFZWSbRvDNsZ43p/Knea1MIZNXFxvRll+1O9LE1F7Btirz2pt8o0dRdFdsSQXMHZpPXYGv7pW/jM/zRfSAYT8uH+DnmmIaAwFlS4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769702811; c=relaxed/simple;
+	bh=07694nkibp+Ukt/3oCjWp5i0EIYQ4hrhXlidSnaNpN4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=V4E+iRifq35fcuJQwlCB34h4myA3TiCAi4tq/Iw1aSfmw2qkoYGNuuEGKeM+NN4Udp0O+2D6nvsKiWdoS43ZRIyMhocrVb4kffCfFDwV97XDDXdkqfwQa6/C9SLrvCHeAIc64l+LZ8NR0nkxGc2UHfy+HeEnGc3d7x8Z7zM8smE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DXCleRDE; arc=pass smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-59ddb31ddcaso1198873e87.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 29 Jan 2026 08:06:49 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769702807; cv=none;
+        d=google.com; s=arc-20240605;
+        b=hBmkqRBDoXAOadzumW2/TCH7TDlCP0QQ8YOWNVAf383MlQVTg9HJM8HXuTUstculiO
+         Nh9s2TV7sPqQytAIGrkh+LvWD8Ab8uv9o5wlKkSD6tgGjxVcrUfYV37dm1YpLOAYQNO7
+         3CREqy+yr+vB/rY0t4QGkudcHTFqMa+SY+l6SfGYjZ+XGfMi3OA4jWKxuIETWJM/8i7d
+         SQV2lZe31dxfJaVwnsatPCHwxDuefDykOxqOseArOgfs6HDchZwwczcmfezRTt0bGIJ7
+         duKpTima7diR4nP4GqLsYUsYF/hktB2vbHeBL8qGqO28jRjnn64S1BBhsC6MSn8iEWWg
+         v6cQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=sjBE9CcEx3FGX02UcUqw+G+HOHlTgyZhIWMhdAQnoXg=;
+        fh=g63ty4gJE0yMNaqC46fouAuguFWBlxfNZpJ39NuYgts=;
+        b=kpD6GxsK/dSZmZfwyCp4kNC+0B+x9LhXH0nD+qDijx4ueR20WTz3DwhSSu3nDj3FJp
+         92Oo6eTQYdFhz7kGmcgqF4ZR5DHqedR5RzGMeUA7W9BoztS4xIShEjIrVDTQJMDCLgCh
+         N8oPkAtvsEN46EF3XrUDmRbw5pVae+NQwuVa6d9q8tFooaFDRQgjvIAKynxQXcksEirW
+         9XZsxzVrrrkvfue8RBZ+YD81+v910SVrk4OPg8cvfkdl0KAtcwmG6loTmpEws0VwUXcX
+         d1um2IJK84yLA7z2TT/t9skFa3qFO5+fKUY/h4OBs9gC4LqwUZcAnTCgJVGuHxRubLAE
+         aizg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1769702807; x=1770307607; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=sjBE9CcEx3FGX02UcUqw+G+HOHlTgyZhIWMhdAQnoXg=;
+        b=DXCleRDExChl/h8Dg365AhW/r2JRAOHymIXupLWJFbwgmikGA4eODDcSKgC+rsAUw8
+         Gbtqv3xam1Iq2YgyRShLO6ZY+gE7W1cb5FSqCtwdFbAFpfZ20B5S5hBZ0c5QfL/Y3kp3
+         0fkeMTyY4dpHbo68v70VVRELvZymtLFJBdr7P83S9290IfRJ6mvImZdqKzYo+DOYNRmM
+         GRRF70fAKQBP5txyVS77t55eFa3cu8f7N8k6hKVThxV31rX3xacnejRqFHLA+NyG464d
+         jCbjC3xPS0kQM2aoDQNfidex/DN41SePdLmegi0BMnL9PuGWZirC8TW/c64TVnhi0LnV
+         9fFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769702807; x=1770307607;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sjBE9CcEx3FGX02UcUqw+G+HOHlTgyZhIWMhdAQnoXg=;
+        b=k1r7HM56QjWRQBWpjs1eMdCb8c7XprlJ+6KmmTx4uFoW5UlWOw3xCAmHU/zfI0bS2O
+         9Y0fOJ/IHDLcMIR0QoPcG9oc9Xhr3oTCI8g3t2udebuYdOM31oL+nvHXTdbRQhPeuTG5
+         jUZ5DOAsG5KuMvkfOqhoYtpbqqFANHgRYWVdlXA1zDUopJg8kEsVH/5TeZM5cmZmNamZ
+         eysc0qGIr/XAg7khjlKsu1or/qyAqkIA16R7tXNLiWEgSEQN43d/s7uPkjZ7tD03f8pa
+         6WWRemA26K6VFtWobJSdb9zxku9vwKrHMruXGNVJK0R5ndqvIms5Qif6yBeM3vQuXYWX
+         iOHw==
+X-Forwarded-Encrypted: i=1; AJvYcCWXUNTwiHI1HDHfJrc759yh70MV9tUSkQF21ZVoHnehPSbtM5G+L9CT93fkEgFrry/kOr9HHbIcXwGWdhvd59BQDA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz56FIOtZ+tljnJwYF8wfGHMdA0Iu51/IXoToJeKTrh5sQmV4u+
+	Br/o+U9ELPQbAWQ2IV4LrzyEdLymGjLGgQ8vVduFW3LeXsHKFfZQndqILA1HBBKtDF6SUA3DJ/p
+	W3q5K6Fx+SCIxtBKUHRFTnRHxpzjJNK35F0ezJIdaOg==
+X-Gm-Gg: AZuq6aKXM2mvDahKh6C3w507xBL37IL6Um4/6Mq/tel+CaCeSRyW/hGFxIZpjLg+xi5
+	NO/tXzu6mwa5onWMXm7Q+AdV6ZCiJ4lPFcRepFFVxfXftKM+jbihD2yu4+LoS0tJnOKE4WgT7nW
+	iOcOiQpqaJNNGs2JFG1NuXaiXyZSPR4cAZwn982r2DWK0fwj9UyV8YJqiQeh0HeDCjlhfIIp6dv
+	Gf3b3AAn0gjTbu6OnBa9Hum/xpErbavgpak3R5VE4JU+HVJ+sZCWaop/stX8Ueb7zpofGb6
+X-Received: by 2002:a05:6512:234e:b0:59d:d799:b7a0 with SMTP id
+ 2adb3069b0e04-59e040299admr4006653e87.36.1769702806877; Thu, 29 Jan 2026
+ 08:06:46 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260128-rz-sdio-mux-v7-0-92ebb6da0df8@solid-run.com> <20260128-rz-sdio-mux-v7-2-92ebb6da0df8@solid-run.com>
+In-Reply-To: <20260128-rz-sdio-mux-v7-2-92ebb6da0df8@solid-run.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Thu, 29 Jan 2026 17:06:10 +0100
+X-Gm-Features: AZwV_QhXWgEPoSG5cEeDEK7X9sYP3SyTXeMqEgA9rOrQCY9Is43DwQw7rMGTcAc
+Message-ID: <CAPDyKFrBuL+747QUJJUejtcvjm0V7Lt=vHwjvcMdCt_h4=sFwg@mail.gmail.com>
+Subject: Re: [PATCH v7 2/7] mux: Add helper functions for getting optional and
+ selected mux-state
+To: Josua Mayer <josua@solid-run.com>
+Cc: Marc Kleine-Budde <mkl@pengutronix.de>, Vincent Mailhol <mailhol@kernel.org>, 
+	Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Peter Rosin <peda@axentia.se>, Aaro Koskinen <aaro.koskinen@iki.fi>, 
+	Andreas Kemnade <andreas@kemnade.info>, Kevin Hilman <khilman@baylibre.com>, 
+	Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>, 
+	Janusz Krzysztofik <jmkrzyszt@gmail.com>, Vignesh R <vigneshr@ti.com>, 
+	Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Yazan Shhady <yazan.shhady@solid-run.com>, Jon Nettleton <jon@solid-run.com>, 
+	Mikhail Anikin <mikhail.anikin@solid-run.com>, linux-can@vger.kernel.org, 
+	linux-phy@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-omap@vger.kernel.org, linux-i2c@vger.kernel.org, 
+	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.64 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[renesas.com : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,roeck-us.net,baylibre.com,linux-watchdog.org,glider.be,gmail.com];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-27612-lists,linux-renesas-soc=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[17];
+	TAGGED_FROM(0.00)[bounces-27613-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[31];
+	FREEMAIL_CC(0.00)[pengutronix.de,kernel.org,linaro.org,axentia.se,iki.fi,kemnade.info,baylibre.com,atomide.com,gmail.com,ti.com,glider.be,sang-engineering.com,solid-run.com,vger.kernel.org,lists.infradead.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[fabrizio.castro.jz@renesas.com,linux-renesas-soc@vger.kernel.org];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:mid,renesas.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: C9468B0BAE
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ulf.hansson@linaro.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[linaro.org:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,linaro.org:dkim,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 4D819B1D29
 X-Rspamd-Action: no action
 
-The HW user manual for the Renesas RZ/V2H(P) SoC specifies
-that only the WDT1 IP is supposed to be used by Linux,
-while the WDT{0,2,3} IPs are supposed to be used by the CM33
-and CR8 cores.
+On Wed, 28 Jan 2026 at 15:46, Josua Mayer <josua@solid-run.com> wrote:
+>
+> In-tree phy-can-transceiver driver has already implemented a local
+> version of devm_mux_state_get_optional.
+>
+> The omap-i2c driver gets and selects an optional mux in its probe
+> function without using any helper.
+>
+> Add new helper functions covering both aforementioned use-cases:
+>
+> - mux_control_get_optional:
+>   Get a mux-control if specified in dt, return NULL otherwise.
+> - devm_mux_state_get_optional:
+>   Get a mux-state if specified in dt, return NULL otherwise.
+> - devm_mux_state_get_selected:
+>   Get and select a mux-state specified in dt, return error otherwise.
+> - devm_mux_state_get_optional_selected:
+>   Get and select a mux-state if specified in dt, return error or NULL.
+>
+> Existing mux_get helper function is changed to take an extra argument
+> indicating whether the mux is optional.
+> In this case no error is printed, and NULL returned in case of ENOENT.
+>
+> Calling code is adapted to handle NULL return case, and to pass optional
+> argument as required.
+>
+> To support automatic deselect for _selected helper, a new structure is
+> created storing an exit pointer similar to clock core which is called on
+> release.
+>
+> To facilitate code sharing between optional/mandatory/selected helpers,
+> a new internal helper function is added to handle quiet (optional) and
+> verbose (mandatory) errors, as well as storing the correct callback for
+> devm release: __devm_mux_state_get
+>
+> Due to this structure devm_mux_state_get_*_selected can no longer print
+> a useful error message when select fails. Instead callers should print
+> errors where needed.
+>
+> Commit e153fdea9db04 ("phy: can-transceiver: Re-instate "mux-states"
+> property presence check") noted that "mux_get() always prints an error
+> message in case of an error, including when the property is not present,
+> confusing the user."
+>
+> The first error message covers the case that a mux name is not matched
+> in dt. The second error message is based on of_parse_phandle_with_args
+> return value.
+>
+> In optional case no error is printed and NULL is returned.
+> This ensures that the new helper functions will not confuse the user
+> either.
+>
+> With the addition of optional helper functions it became clear that
+> drivers should compile and link even if CONFIG_MULTIPLEXER was not enabled.
+> Add stubs for all symbols exported by mux core.
+>
+> Signed-off-by: Josua Mayer <josua@solid-run.com>
+> ---
+>  drivers/mux/core.c           | 178 ++++++++++++++++++++++++++++++++++++-------
+>  include/linux/mux/consumer.h | 108 +++++++++++++++++++++++++-
+>  2 files changed, 253 insertions(+), 33 deletions(-)
+>
+> diff --git a/drivers/mux/core.c b/drivers/mux/core.c
+> index a3840fe0995f..b01ec126caaf 100644
+> --- a/drivers/mux/core.c
+> +++ b/drivers/mux/core.c
 
-Remove the clock and reset entries for WDT{0,2,3} to prevent
-interfering with the CM33 and CR8 cores.
+[...]
 
-This change is harmless as only WDT1 is used by Linux, there
-are no users for the WDT{0,2,3} cores.
+>  static void devm_mux_state_release(struct device *dev, void *res)
+>  {
+> -       struct mux_state *mstate = *(struct mux_state **)res;
+> +       struct devm_mux_state_state *devm_state = res;
+>
+> -       mux_state_put(mstate);
+> +       if (devm_state->exit)
+> +               devm_state->exit(devm_state->mstate);
+> +
+> +       mux_state_put(devm_state->mstate);
+>  }
+>
+>  /**
+> - * devm_mux_state_get() - Get the mux-state for a device, with resource
+> - *                       management.
+> - * @dev: The device that needs a mux-control.
+> - * @mux_name: The name identifying the mux-control.
+> + * __devm_mux_state_get() - Get the optional mux-state for a device,
+> + *                         with resource management.
+> + * @dev: The device that needs a mux-state.
+> + * @mux_name: The name identifying the mux-state.
+> + * @optional: Whether to return NULL and silence errors when mux doesn't exist.
+> + * @init: Optional function pointer for mux-state object initialisation.
+> + * @exit: Optional function pointer for mux-state object cleanup on release.
+>   *
+>   * Return: Pointer to the mux-state, or an ERR_PTR with a negative errno.
+>   */
+> -struct mux_state *devm_mux_state_get(struct device *dev,
+> -                                    const char *mux_name)
+> +static struct mux_state *__devm_mux_state_get(struct device *dev, const char *mux_name,
+> +                                             bool optional,
+> +                                             int (*init)(struct mux_state *mstate),
+> +                                             int (*exit)(struct mux_state *mstate))
+>  {
+> -       struct mux_state **ptr, *mstate;
+> +       struct devm_mux_state_state *devm_state;
+> +       struct mux_state *mstate;
+> +       int ret;
+>
+> -       ptr = devres_alloc(devm_mux_state_release, sizeof(*ptr), GFP_KERNEL);
+> -       if (!ptr)
+> +       devm_state = devres_alloc(devm_mux_state_release, sizeof(*devm_state), GFP_KERNEL);
+> +       if (!devm_state)
+>                 return ERR_PTR(-ENOMEM);
+>
+> -       mstate = mux_state_get(dev, mux_name);
+> -       if (IS_ERR(mstate)) {
+> -               devres_free(ptr);
+> -               return mstate;
+> +       mstate = mux_state_get(dev, mux_name, optional);
+> +       if (IS_ERR_OR_NULL(mstate)) {
+> +               ret = PTR_ERR(mstate);
 
-Fixes: 3aeccbe08171 ("clk: renesas: r9a09g057: Add clock and reset entries for GTM/RIIC/SDHI/WDT")
-Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
----
- drivers/clk/renesas/r9a09g057-cpg.c | 15 ---------------
- 1 file changed, 15 deletions(-)
+Should this be PTR_ERR_OR_ZERO?
 
-diff --git a/drivers/clk/renesas/r9a09g057-cpg.c b/drivers/clk/renesas/r9a09g057-cpg.c
-index 6943cad318b5..07803e0c91de 100644
---- a/drivers/clk/renesas/r9a09g057-cpg.c
-+++ b/drivers/clk/renesas/r9a09g057-cpg.c
-@@ -280,22 +280,10 @@ static const struct rzv2h_mod_clk r9a09g057_mod_clks[] __initconst = {
- 						BUS_MSTOP(11, BIT(15))),
- 	DEF_MOD("gtm_7_pclk",			CLK_PLLCLN_DIV16, 4, 10, 2, 10,
- 						BUS_MSTOP(12, BIT(0))),
--	DEF_MOD("wdt_0_clkp",			CLK_PLLCM33_DIV16, 4, 11, 2, 11,
--						BUS_MSTOP(3, BIT(10))),
--	DEF_MOD("wdt_0_clk_loco",		CLK_QEXTAL, 4, 12, 2, 12,
--						BUS_MSTOP(3, BIT(10))),
- 	DEF_MOD("wdt_1_clkp",			CLK_PLLCLN_DIV16, 4, 13, 2, 13,
- 						BUS_MSTOP(1, BIT(0))),
- 	DEF_MOD("wdt_1_clk_loco",		CLK_QEXTAL, 4, 14, 2, 14,
- 						BUS_MSTOP(1, BIT(0))),
--	DEF_MOD("wdt_2_clkp",			CLK_PLLCLN_DIV16, 4, 15, 2, 15,
--						BUS_MSTOP(5, BIT(12))),
--	DEF_MOD("wdt_2_clk_loco",		CLK_QEXTAL, 5, 0, 2, 16,
--						BUS_MSTOP(5, BIT(12))),
--	DEF_MOD("wdt_3_clkp",			CLK_PLLCLN_DIV16, 5, 1, 2, 17,
--						BUS_MSTOP(5, BIT(13))),
--	DEF_MOD("wdt_3_clk_loco",		CLK_QEXTAL, 5, 2, 2, 18,
--						BUS_MSTOP(5, BIT(13))),
- 	DEF_MOD("rsci0_pclk",			CLK_PLLCLN_DIV16, 5, 13, 2, 29,
- 						BUS_MSTOP(11, BIT(3))),
- 	DEF_MOD("rsci0_tclk",			CLK_PLLCLN_DIV16, 5, 14, 2, 30,
-@@ -598,10 +586,7 @@ static const struct rzv2h_reset r9a09g057_resets[] __initconst = {
- 	DEF_RST(7, 2, 3, 3),		/* GTM_5_PRESETZ */
- 	DEF_RST(7, 3, 3, 4),		/* GTM_6_PRESETZ */
- 	DEF_RST(7, 4, 3, 5),		/* GTM_7_PRESETZ */
--	DEF_RST(7, 5, 3, 6),		/* WDT_0_RESET */
- 	DEF_RST(7, 6, 3, 7),		/* WDT_1_RESET */
--	DEF_RST(7, 7, 3, 8),		/* WDT_2_RESET */
--	DEF_RST(7, 8, 3, 9),		/* WDT_3_RESET */
- 	DEF_RST(8, 1, 3, 18),		/* RSCI0_PRESETN */
- 	DEF_RST(8, 2, 3, 19),		/* RSCI0_TRESETN */
- 	DEF_RST(8, 3, 3, 20),		/* RSCI1_PRESETN */
--- 
-2.34.1
+> +               goto err_mux_state_get;
+>         }
+>
+> -       *ptr = mstate;
+> -       devres_add(dev, ptr);
+> +       if (init) {
+> +               ret = init(mstate);
+> +               if (ret)
+> +                       goto err_mux_state_init;
+> +       }
+> +
+> +       devm_state->mstate = mstate;
+> +       devm_state->exit = exit;
+> +       devres_add(dev, devm_state);
+>
+>         return mstate;
+> +
+> +err_mux_state_init:
+> +       mux_state_put(mstate);
+> +err_mux_state_get:
+> +       devres_free(devm_state);
+> +       return ERR_PTR(ret);
 
+If PTR_ERR_OR_ZERO is used above as I suggested, ret may be 0 here.
+
+Then it is probably clearer to add a check if (!ret) and return NULL
+explicitly for that case, I think.
+
+[...]
+
+Kind regards
+Uffe
 
