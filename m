@@ -1,42 +1,42 @@
-Return-Path: <linux-renesas-soc+bounces-27645-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27646-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iFt1KUfUe2klIwIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27645-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	id cHoPGkfUe2kjIwIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27646-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
 	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Jan 2026 22:42:31 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16313B4E7F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Jan 2026 22:42:31 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id BFEE0B4E7E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Jan 2026 22:42:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3E7063011743
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Jan 2026 21:42:22 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 6E0533003BC2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Jan 2026 21:42:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C44EE35F8A1;
-	Thu, 29 Jan 2026 21:42:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB8943612D3;
+	Thu, 29 Jan 2026 21:42:26 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8001353EE6;
-	Thu, 29 Jan 2026 21:42:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A445F35F8D2;
+	Thu, 29 Jan 2026 21:42:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769722941; cv=none; b=NprLnXJj+c09F7MIadwYuPTXlA4SR3oZmDIIIhDoxMd8MS9d5wXru2jtPA5sMk0lCeWyV696vWnL00K1MGUEkemkd3cQqNKanl0mmdywKMb10V371ePgQCVAASvQmMV1v+kFJCJM0IG/eiYGavqiUv1PDVZKabMJY2t+yD+L6OY=
+	t=1769722946; cv=none; b=tWjxpDtXecZtRwAXFmH0fTmx5Jdm+Pu6bO47r+SrBdkEy4xlMBHFqfuyB89Uq4Mq9cQVFljfDSkV8/7GjPe4EFVxGE8wsOd47tK9XEps4QGmXbLqtZyAvabQe6q8TbYtfCGgJFDUCqoxs75NVoRGMLXacvDPKCamxBM2+dlpPuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769722941; c=relaxed/simple;
-	bh=9Lzz0d7QA08JhXlb+InqbYhPGJK5mmOePicITaocHcM=;
+	s=arc-20240116; t=1769722946; c=relaxed/simple;
+	bh=RV7u/gr74DRg8TAtNLHx9LHWqr5lAtobbCgnmJ242fg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=W94zXgQu7lBY0HYtp7OWEyMml6qSJ+tBsOzP/KCxtfpAlI60Y5luLwI19dyYI1sEphPx+WQrRPALKFP0exHwMjKo1WJKvU1zSlddGqei23eP8ung35cTHNN5mf4mhz10WfAbAjv4bg2rUBkKi1DeVlHxIK0WXevgpnZrXq/cxVc=
+	 MIME-Version; b=ddjhFXuxJwrb7eGWxlCKzd7CC6O4o/GrTEsMGpKVMYsWI7iGUMVQ3OkAczWSZQvAbcICnkUc/duLObFct40nrdE4jMsVchu3W3xrK5+pItadhRBYFqVK3CU46YO2TCPL18dx8oZdz78EIXsvdeohSi7tndhKcoPjkxrnFmvTwag=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: h4JCfQC9SpayGRSslxinbA==
-X-CSE-MsgGUID: V1rQjYqMQJue9Sw0Z+RLMw==
+X-CSE-ConnectionGUID: XTmA697rSS6DIspaAlqwHQ==
+X-CSE-MsgGUID: Axtv6N1BRGe9QlebzXb3iw==
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 30 Jan 2026 06:42:18 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 30 Jan 2026 06:42:24 +0900
 Received: from ubuntu.adwin.renesas.com (unknown [10.226.92.73])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id D35EA408FDE1;
-	Fri, 30 Jan 2026 06:42:13 +0900 (JST)
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 575B1408FDE1;
+	Fri, 30 Jan 2026 06:42:19 +0900 (JST)
 From: John Madieu <john.madieu.xa@bp.renesas.com>
 To: claudiu.beznea.uj@bp.renesas.com,
 	lpieralisi@kernel.org,
@@ -55,9 +55,9 @@ Cc: robh@kernel.org,
 	linux-clk@vger.kernel.org,
 	john.madieu@gmail.com,
 	John Madieu <john.madieu.xa@bp.renesas.com>
-Subject: [PATCH v4 03/15] clk: renesas: rzv2h-cpg: Add support for init_{off|asserted} clocks/resets
-Date: Thu, 29 Jan 2026 22:41:17 +0100
-Message-ID: <20260129214130.16067-4-john.madieu.xa@bp.renesas.com>
+Subject: [PATCH v4 04/15] clk: renesas: r9a09g047: Add PCIe clocks and reset
+Date: Thu, 29 Jan 2026 22:41:18 +0100
+Message-ID: <20260129214130.16067-5-john.madieu.xa@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260129214130.16067-1-john.madieu.xa@bp.renesas.com>
 References: <20260129214130.16067-1-john.madieu.xa@bp.renesas.com>
@@ -74,13 +74,13 @@ X-Spamd-Result: default: False [1.64 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	DMARC_POLICY_SOFTFAIL(0.10)[renesas.com : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-27645-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-27646-lists,linux-renesas-soc=lfdr.de];
 	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -90,24 +90,18 @@ X-Spamd-Result: default: False [1.64 / 15.00];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.885];
+	NEURAL_HAM(-0.00)[-0.831];
 	FROM_NEQ_ENVFROM(0.00)[john.madieu.xa@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,bp.renesas.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 16313B4E7F
+	DBL_BLOCKED_OPENRESOLVER(0.00)[glider.be:email,renesas.com:email,bp.renesas.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: BFEE0B4E7E
 X-Rspamd-Action: no action
 
-Some peripherals may be left enabled by the bootloader but should be
-explicitly disabled by the kernel to ensure a known initial state.
-This is particularly important for PCIe which requires proper
-initialization sequencing.
+Add necessary clocks and reset entries for the PCIe controller
 
-Add new macros DEF_MOD_INIT_OFF() and DEF_RST_INIT_ASSERTED() to declare
-module clocks that should be turned off and resets that should be
-asserted during CPG probe if found in the opposite state.
-
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
 ---
 
@@ -115,170 +109,40 @@ Changes:
 
 v4: No changes
 
-v3: 
- - Fixed potential unitialized rcdev crash
- - Removed duplicated message
+v3:
+ - Collected Rb tag
+ - Preserved sort order (by _onindex, _onbit); 
 
 v2:
- - Added reset-specific assert on probe
- - Removed Rb tag from Geert due to previous point
+ - Fixed clock names
+ - Used assert-variant for reset
 
+ drivers/clk/renesas/r9a09g047-cpg.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
- drivers/clk/renesas/rzv2h-cpg.c | 24 ++++++++++++++++++++++-
- drivers/clk/renesas/rzv2h-cpg.h | 34 +++++++++++++++++++++++++--------
- 2 files changed, 49 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/clk/renesas/rzv2h-cpg.c b/drivers/clk/renesas/rzv2h-cpg.c
-index 3f6299b9fec0..8e45f6f48e29 100644
---- a/drivers/clk/renesas/rzv2h-cpg.c
-+++ b/drivers/clk/renesas/rzv2h-cpg.c
-@@ -1337,6 +1337,13 @@ rzv2h_cpg_register_mod_clk(const struct rzv2h_mod_clk *mod,
- 		spin_unlock_irqrestore(&priv->rmw_lock, flags);
- 	}
- 
-+	/*
-+	 * Turn off clocks marked with init_off flag if they were left
-+	 * enabled by the bootloader. This ensures a known initial state.
-+	 */
-+	if (mod->init_off && rzv2h_mod_clock_is_enabled(&clock->hw))
-+		rzv2h_mod_clock_endisable(&clock->hw, false);
-+
- 	return;
- 
- fail:
-@@ -1585,7 +1592,7 @@ static int __init rzv2h_cpg_probe(struct platform_device *pdev)
- 	struct rzv2h_cpg_priv *priv;
- 	unsigned int nclks, i;
- 	struct clk **clks;
--	int error;
-+	int error, ret;
- 
- 	info = of_device_get_match_data(dev);
- 
-@@ -1635,6 +1642,21 @@ static int __init rzv2h_cpg_probe(struct platform_device *pdev)
- 	for (i = 0; i < info->num_mod_clks; i++)
- 		rzv2h_cpg_register_mod_clk(&info->mod_clks[i], priv);
- 
-+	/*
-+	 * Assert resets marked with init_asserted flag if they were left
-+	 * deasserted by the bootloader. This ensures a known initial state.
-+	 */
-+	priv->rcdev.dev = dev;
-+	for (i = 0; i < info->num_resets; i++) {
-+		if (!info->resets[i].init_asserted)
-+			continue;
-+
-+		/* Check if reset is currently deasserted (status == 0) */
-+		ret = rzv2h_cpg_status(&priv->rcdev, i);
-+		if (ret == 0)
-+			rzv2h_cpg_assert(&priv->rcdev, i);
-+	}
-+
- 	error = of_clk_add_provider(np, rzv2h_cpg_clk_src_twocell_get, priv);
- 	if (error)
- 		return error;
-diff --git a/drivers/clk/renesas/rzv2h-cpg.h b/drivers/clk/renesas/rzv2h-cpg.h
-index dc957bdaf5e9..927009431a73 100644
---- a/drivers/clk/renesas/rzv2h-cpg.h
-+++ b/drivers/clk/renesas/rzv2h-cpg.h
-@@ -250,6 +250,7 @@ enum clk_types {
-  * @parent: id of parent clock
-  * @critical: flag to indicate the clock is critical
-  * @no_pm: flag to indicate PM is not supported
-+ * @init_off: flag to indicate the clock should be turned off during probe
-  * @on_index: control register index
-  * @on_bit: ON bit
-  * @mon_index: monitor register index
-@@ -262,6 +263,7 @@ struct rzv2h_mod_clk {
- 	u16 parent;
- 	bool critical;
- 	bool no_pm;
-+	bool init_off;
- 	u8 on_index;
- 	u8 on_bit;
- 	s8 mon_index;
-@@ -269,14 +271,15 @@ struct rzv2h_mod_clk {
- 	s8 ext_clk_mux_index;
- };
- 
--#define DEF_MOD_BASE(_name, _mstop, _parent, _critical, _no_pm, _onindex, \
--		     _onbit, _monindex, _monbit, _ext_clk_mux_index) \
-+#define DEF_MOD_BASE(_name, _mstop, _parent, _critical, _no_pm, _init_off, \
-+		     _onindex, _onbit, _monindex, _monbit, _ext_clk_mux_index) \
- 	{ \
- 		.name = (_name), \
- 		.mstop_data = (_mstop), \
- 		.parent = (_parent), \
- 		.critical = (_critical), \
- 		.no_pm = (_no_pm), \
-+		.init_off = (_init_off), \
- 		.on_index = (_onindex), \
- 		.on_bit = (_onbit), \
- 		.mon_index = (_monindex), \
-@@ -285,17 +288,20 @@ struct rzv2h_mod_clk {
- 	}
- 
- #define DEF_MOD(_name, _parent, _onindex, _onbit, _monindex, _monbit, _mstop) \
--	DEF_MOD_BASE(_name, _mstop, _parent, false, false, _onindex, _onbit, _monindex, _monbit, -1)
-+	DEF_MOD_BASE(_name, _mstop, _parent, false, false, false, _onindex, _onbit, _monindex, _monbit, -1)
- 
- #define DEF_MOD_CRITICAL(_name, _parent, _onindex, _onbit, _monindex, _monbit, _mstop) \
--	DEF_MOD_BASE(_name, _mstop, _parent, true, false, _onindex, _onbit, _monindex, _monbit, -1)
-+	DEF_MOD_BASE(_name, _mstop, _parent, true, false, false, _onindex, _onbit, _monindex, _monbit, -1)
-+
-+#define DEF_MOD_INIT_OFF(_name, _parent, _onindex, _onbit, _monindex, _monbit, _mstop) \
-+	DEF_MOD_BASE(_name, _mstop, _parent, false, false, true, _onindex, _onbit, _monindex, _monbit, -1)
- 
- #define DEF_MOD_NO_PM(_name, _parent, _onindex, _onbit, _monindex, _monbit, _mstop) \
--	DEF_MOD_BASE(_name, _mstop, _parent, false, true, _onindex, _onbit, _monindex, _monbit, -1)
-+	DEF_MOD_BASE(_name, _mstop, _parent, false, true, false, _onindex, _onbit, _monindex, _monbit, -1)
- 
- #define DEF_MOD_MUX_EXTERNAL(_name, _parent, _onindex, _onbit, _monindex, _monbit, _mstop, \
- 			     _ext_clk_mux_index) \
--	DEF_MOD_BASE(_name, _mstop, _parent, false, false, _onindex, _onbit, _monindex, _monbit, \
-+	DEF_MOD_BASE(_name, _mstop, _parent, false, false, false, _onindex, _onbit, _monindex, _monbit, \
- 		     _ext_clk_mux_index)
- 
- /**
-@@ -305,24 +311,36 @@ struct rzv2h_mod_clk {
-  * @reset_bit: reset bit
-  * @mon_index: monitor register index
-  * @mon_bit: monitor bit
-+ * @init_asserted: flag to indicate the reset should be asserted during probe
-  */
- struct rzv2h_reset {
- 	u8 reset_index;
- 	u8 reset_bit;
- 	u8 mon_index;
- 	u8 mon_bit;
-+	bool init_asserted;
- };
- 
--#define DEF_RST_BASE(_resindex, _resbit, _monindex, _monbit)	\
-+#define DEF_RST_BASE(_resindex, _resbit, _monindex, _monbit, _init_asserted)	\
- 	{ \
- 		.reset_index = (_resindex), \
- 		.reset_bit = (_resbit), \
- 		.mon_index = (_monindex), \
- 		.mon_bit = (_monbit), \
-+		.init_asserted = (_init_asserted), \
- 	}
- 
- #define DEF_RST(_resindex, _resbit, _monindex, _monbit)	\
--	DEF_RST_BASE(_resindex, _resbit, _monindex, _monbit)
-+	DEF_RST_BASE(_resindex, _resbit, _monindex, _monbit, false)
-+
-+/**
-+ * DEF_RST_INIT_ASSERTED - Define a reset that should be asserted during probe
-+ *
-+ * Use this for peripherals that require their reset to be asserted at boot
-+ * to ensure a known initial state before the peripheral driver takes over.
-+ */
-+#define DEF_RST_INIT_ASSERTED(_reset_index, _reset_bit, _mon_index, _mon_bit) \
-+	DEF_RST_BASE(_reset_index, _reset_bit, _mon_index, _mon_bit, true)
- 
- /**
-  * struct rzv2h_cpg_info - SoC-specific CPG Description
+diff --git a/drivers/clk/renesas/r9a09g047-cpg.c b/drivers/clk/renesas/r9a09g047-cpg.c
+index 1e9896742a06..567169194ee8 100644
+--- a/drivers/clk/renesas/r9a09g047-cpg.c
++++ b/drivers/clk/renesas/r9a09g047-cpg.c
+@@ -424,6 +424,10 @@ static const struct rzv2h_mod_clk r9a09g047_mod_clks[] __initconst = {
+ 						BUS_MSTOP(8, BIT(6))),
+ 	DEF_MOD("gbeth_1_aclk_i",		CLK_PLLDTY_DIV8, 12, 3, 6, 3,
+ 						BUS_MSTOP(8, BIT(6))),
++	DEF_MOD_INIT_OFF("pcie_0_aclk",		CLK_PLLDTY_ACPU_DIV2, 12, 4, 6, 4,
++						BUS_MSTOP(1, BIT(15))),
++	DEF_MOD_INIT_OFF("pcie_0_clk_pmu",	CLK_PLLDTY_ACPU_DIV2, 12, 5, 6, 5,
++						BUS_MSTOP(1, BIT(15))),
+ 	DEF_MOD("cru_0_aclk",			CLK_PLLDTY_ACPU_DIV2, 13, 2, 6, 18,
+ 						BUS_MSTOP(9, BIT(4))),
+ 	DEF_MOD_NO_PM("cru_0_vclk",		CLK_PLLVDO_CRU0, 13, 3, 6, 19,
+@@ -503,6 +507,7 @@ static const struct rzv2h_reset r9a09g047_resets[] __initconst = {
+ 	DEF_RST(10, 15, 5, 0),		/* USB2_0_PRESETN */
+ 	DEF_RST(11, 0, 5, 1),		/* GBETH_0_ARESETN_I */
+ 	DEF_RST(11, 1, 5, 2),		/* GBETH_1_ARESETN_I */
++	DEF_RST_INIT_ASSERTED(11, 2, 5, 3),		/* PCIE_0_ARESETN */
+ 	DEF_RST(12, 5, 5, 22),		/* CRU_0_PRESETN */
+ 	DEF_RST(12, 6, 5, 23),		/* CRU_0_ARESETN */
+ 	DEF_RST(12, 7, 5, 24),		/* CRU_0_S_RESETN */
 -- 
 2.25.1
 
