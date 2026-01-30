@@ -1,81 +1,81 @@
-Return-Path: <linux-renesas-soc+bounces-27665-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27666-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IAASFAadfGn2NwIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27665-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Jan 2026 12:59:02 +0100
+	id wKn/BA6dfGn2NwIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27666-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Jan 2026 12:59:10 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3C4CBA43D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Jan 2026 12:59:01 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 784DBBA45C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Jan 2026 12:59:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 06376300EF9A
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8AB323019056
 	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Jan 2026 11:58:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 335EF372B34;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8CFE374172;
 	Fri, 30 Jan 2026 11:58:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mSGxCtJ1"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aXTiwbgZ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8245136E475
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF68336C0C3
 	for <linux-renesas-soc@vger.kernel.org>; Fri, 30 Jan 2026 11:58:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769774336; cv=none; b=Tgok4VCyIFS3M48Bd4KOzPd1VbMLbisgPPW5oR3+nqv9D22B5+X1iWXhblJgiXLOGGV74mtpQcVTnsrhlUC/xNvIkfin8AI9/pzvkAzXSJFXHuzQ+LzE0XgW+Ycj8928PUU8Y+ASO80OB5V8fuFpcRZrt8lh8CytJqU6F0bxm5E=
+	t=1769774336; cv=none; b=N1qBjhAz0UWhpjYdcgjjrZioWDtE6ghu08CZDmmxyGL1fFMCcf1xDXjc/33/dKJMfOjAvalbPSbv8P4S02PLs1iyCwJtIPMPIcWWyvZ2TKwJKGFJFKEdgXa9GmPYSj+K8a9n1Mon1wPSBY9dr4n+ZCqayPMwnFHYZt1und3xJic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1769774336; c=relaxed/simple;
-	bh=wUvy3QQiQeAOG1bMC0djoJvJvuxkTXceaEm1ZvLPvV4=;
+	bh=RFS3L+HoKH/ZpUq4IYPiZn2EYx+MJ9MMW1dc0w7GCLw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hwqy8qHQaT+Gm7wyaTdXJ2h0gIWf+10ZHl/mPeQz2axwPVh5lPR4g+yjp3GZn90GLveu42kne76a0yUn+LQ7QDjmONHSsacCWW1Nr3mkDcd6Iu/DJqayehsG/VIqbLPQWVK1j+zEl/qCZqBf+oiX/ncMW8uHqRQXHOXJm2HZlHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mSGxCtJ1; arc=none smtp.client-ip=209.85.218.48
+	 MIME-Version; b=Ll9RhevTLPu6cZkl76l6cNp8mh7/tYOFtlZ1RdBByOiFCvlSez74FiRcEmn8A2/L+U5chPijB4L1Ja9sh4ijsnDysYKbPXVxqyxUhx20++wVPjrgYi2INH72n7Bgg0AX2YOZyTMTbG12e8mN0Ox37jmGxjGCBrDASa3G+bu3slg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aXTiwbgZ; arc=none smtp.client-ip=209.85.218.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b883c8dfb00so477771366b.1
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-b884d5c787bso357868366b.0
         for <linux-renesas-soc@vger.kernel.org>; Fri, 30 Jan 2026 03:58:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1769774333; x=1770379133; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hrk2D5glHxinFpEivMEobZUHDU8krg32pwTF1WkjNCk=;
-        b=mSGxCtJ1tG4lBO8X8fD6W8fQ3b/pz4jZY3JZk7qNuJxdSLRbFqaQs0NfAsSoSgbh0N
-         ugLJQTxfmr0D2eIR0/+S3pPRDRuFKQpIibCxg0BRAku7WDY/L7EV4L3B5Jsr1qHWKA8a
-         V0gukHT7wYD4JJLGFlNj4TD3QntnSUFLbIR1KqdVYXo/vfutB1lnLwaYUaWUC8MROdYo
-         W1NE3vdfPQukQPV8Qo3SZY6/DejKKLYbvrV3hWW5J+iJp7JD+WtHSF+Og1kYeg7qeZfi
-         O5v1bvkIbp+2lAd8phU0AKlZw6RpPvMBRWbL+sX1N4rbnnxs296WmtVn7sIH05Kccb5q
-         jPiQ==
+        bh=HGMFI6tCot74p730gmYxB0ganfKY4B4oFGS/FHtw0j4=;
+        b=aXTiwbgZVk5XMABOxFNKhCMNg6zjF0PYYeZi6KQJziMeRfgDl8RiWo1L0ipNXunSuj
+         mX3g6bBv+e4vT5b39bbYoSwq1oGZLiHw6K3VSWZXVzUwpRLw+8taX4Ek+kHVTZmXeQxm
+         ajBzdzOgZJkVKtQFZPlLlzg9M7Nnzcc76Vls21a88Q28x0bOOPWMTLJmg5emQHaE1g48
+         Qv/oRFdLpqYEwrwWG8HSK6zFN86OB1dbWWDGapzR76nwzKwRI+HtIl65xSpSFq7IASN3
+         AeoqiAdqJ5EI+DcqqBBgf3CTsF2EACNev3yjVpWVkoz3eK7r1q0LnT0wmcQOgbFjIP0X
+         C+ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1769774333; x=1770379133;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=hrk2D5glHxinFpEivMEobZUHDU8krg32pwTF1WkjNCk=;
-        b=pQgi27jhAsaJ2M0ONX/3iud0wns2rSUhaX8JX/iW2ZDPKZW1JEkZA4jVlCcy93dqd2
-         XKaMsh5pbQXFcos7Hnud9aaxS2ZwI/Ds9r/FZ92twU+oBZrSnlK5VACzgRAETAfZSid4
-         NTCaLdLwQ6c9JY/P4FQjE1zP1am8fNUDewrksTI0B1scsJmN/EQfaMjCd1WFoG/oSof/
-         C7s5TiEdd75d9uGgKnU7rg2sW6qpOEOX4YW/zzc3HvD/Qfx37nF7rjyQAbvmDbXephbV
-         Zy+SY/F3d3+Bmwei+DDWu1DrSQYMJKOQpOnlBjIKAG4XVBZlrNGmkoIeBzPa02CMfo8M
-         Z5pg==
-X-Forwarded-Encrypted: i=1; AJvYcCVrBVQqCwtc5HoBoKqZJRNOHOB2mILUlM+MPQ9PN83Xe9jqtgmvJciUBI+T4hScFyqD59vhVRr8I0AptIcrgHihww==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwXMA9Ng/MQsQqrZr2Ygyg75TCVIDKB8J+ln7sWwsfCakn0C1bV
-	VtKX/F6205XJPFNeKfElFXCALxKdC8fGD4sJxdzDn2DmIH47UooICYwi8L4X/w==
-X-Gm-Gg: AZuq6aL96W5Z9KiYQNUOirRRmO01zNmHkqvrWQpfjL1KezCB4qJ+TyFWIRV2km3oMYX
-	LKQDTdOYwpZrDefap207sob+ulXnchtR9RO7ecNByn2AA3diQLa6g9MrAJFaTBn6bJ1s8urHXeb
-	Xxvr1K0FXAro7PTMBFGZTVoxfv5VglbSTLqB5yQ0478Lij5ttjQROVM+CrzcEZwLwNYRd5G0q5N
-	on1p7/6qebl/Y9QX6VAE++A18PYBq2Tuaufu2trU2WOLXVhcCGE/DGwXgzC5VYWoVhBAgcGKlVo
-	ujNI8SM2sK1e+85ti+85nvKd9t/8l0oMGcJRH5PqWVw3Lb92ks3yjJkUuGUjEIYtOobwubwdtDN
-	HTzXL3aw+br62dDNOXqhhn8OzLgrCd1ieP3Qn8qdJMEgL4byD7gNY+AJld6vi3jfAWUKb24ulLR
-	Wl0jbP+TLN9dRKUC6klojHBnyZW2Rg6cVQiZc=
-X-Received: by 2002:a17:907:3d43:b0:b84:40e1:c1c8 with SMTP id a640c23a62f3a-b8dff6678c1mr156980666b.33.1769774332758;
-        Fri, 30 Jan 2026 03:58:52 -0800 (PST)
+        bh=HGMFI6tCot74p730gmYxB0ganfKY4B4oFGS/FHtw0j4=;
+        b=c7aCGn1ZHQH7GaGrI3xbl50SMG27RyNuiaNTZz5AAsIbCoSsqushX16m7MUD+bUwz8
+         6LMVBLJvLrji5dqIyMr0j4X8+nLhMY/Kgp5/D+YnvO4QAzWG7dgKblfS3+GOsn3iASp+
+         f/2Z72uAvejALRJGL1NresFuZEXxrWK2Xn0gzWdJk6su+aTz/wDII9JWDfeN2Zg5BmZz
+         6X8TZP8INBX/ddkPQjwfFjUWLr44bP32inxqI8TzU2Z3QOCMg/Vr35NqWuxso3vHX4fl
+         GEfCH9X+mJXTmtukJWLPvccrEHUL1nGkjtDiMFpNRb6XNHD7fnieQtr9/out2ESwm6Wb
+         pNQA==
+X-Forwarded-Encrypted: i=1; AJvYcCX9lUtyUjPXbZg9wrpF+EDebhuFqygQT+7KqRsrG+g/xjEcGndLLl8b8wTtllOJitFRX96t6upL9ioOLxiEcZ4XVg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywdey+hFtRtCmSvPe/xgAm3OtIzCzCrDMt4BDEJXZ6iGkWBDva7
+	JlnaaYAuNEPe1tgBwC5Y2NCk5PhWVnnJA+a5OQvWtvC1BQfVwfDSYWN3
+X-Gm-Gg: AZuq6aKq8jpl+6PF6Vt/tf13VBIlZa5P1k/KWn7GVAWKtvWdUFtTh23MHmpv+ZIVyD4
+	NN9X6JqXNQARclvlrllVOErHjkGGIttwtpUeOhxatq87moOmNhj9TAi85Eiot4fRpNToc3jWSEY
+	pq3gMiw2x1Hu3I66l2hbhnn71IxSxV34zwDUBt3K8ivu4fJDOs5TINCCA9FVZGSF07gv0Ue0Evd
+	X8uIylBnjzAYnnOl3YzVNqT2k8Rl1VSkm2OIgeXT8mAGfYt8rI/HuXjJNJNT2t9qXSn2H6ojMr1
+	z2hZfd6Q0cb65+d14GjhU+Sn8yIoQUnqKlcP/UwkaMs3GnWU874udj6dQtkthycg2nd4nVzNmKV
+	5k+nGg0tCbAliSnUukZ3veVGpXp9mfuiafVpnFAoyd8Yj8uB+h94hMfnBDwVTkmgEINgO1FWGd8
+	T1hpxy0yh3nAEeAJbQvdtZgmX0+PMTk4QjFl0Rm1UsakR50w==
+X-Received: by 2002:a17:906:d554:b0:b88:5722:700 with SMTP id a640c23a62f3a-b8dff52ba80mr155016866b.5.1769774333210;
+        Fri, 30 Jan 2026 03:58:53 -0800 (PST)
 Received: from localhost.localdomain ([2a00:23c4:a758:8a01:bd64:2984:fe71:7633])
         by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8dbeffed15sm404671566b.31.2026.01.30.03.58.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Jan 2026 03:58:52 -0800 (PST)
+        Fri, 30 Jan 2026 03:58:53 -0800 (PST)
 From: Biju <biju.das.au@gmail.com>
 X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -87,9 +87,9 @@ Cc: Biju Das <biju.das.jz@bp.renesas.com>,
 	linux-kernel@vger.kernel.org,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH v2 1/4] clk: renesas: rzg2l: Drop a check in rzg3s_cpg_pll_clk_recalc_rate()
-Date: Fri, 30 Jan 2026 11:58:42 +0000
-Message-ID: <20260130115850.253555-2-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v2 2/4] clk: renesas: rzg2l: Add support for enabling PLLs
+Date: Fri, 30 Jan 2026 11:58:43 +0000
+Message-ID: <20260130115850.253555-3-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260130115850.253555-1-biju.das.jz@bp.renesas.com>
 References: <20260130115850.253555-1-biju.das.jz@bp.renesas.com>
@@ -107,13 +107,13 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-27665-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-27666-lists,linux-renesas-soc=lfdr.de];
 	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -128,38 +128,145 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email,bp.renesas.com:mid]
-X-Rspamd-Queue-Id: E3C4CBA43D
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[bp.renesas.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email]
+X-Rspamd-Queue-Id: 784DBBA45C
 X-Rspamd-Action: no action
 
 From: Biju Das <biju.das.jz@bp.renesas.com>
 
-Drop the unwanted check in rzg3s_cpg_pll_clk_recalc_rate() as the function
-is SoC specific.
+Add support for enabling PLL clocks in the RZ/G3L CPG driver to turn off
+some PLLs, if they are not in use(eg: PLL6, PLL7)
+
+Introduce `is_enabled` and `enable` callbacks to handle PLL state
+transitions. With the `enable` callback, PLL will be turned ON only when
+the PLL consumer device is enabled; otherwise, it will remain off. Define
+new macros for PLL standby and monitor registers to facilitate this
+process.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
 v1->v2:
  * No change
 ---
- drivers/clk/renesas/rzg2l-cpg.c | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/clk/renesas/rzg2l-cpg.c | 67 +++++++++++++++++++++++++++++++++
+ drivers/clk/renesas/rzg2l-cpg.h |  4 ++
+ 2 files changed, 71 insertions(+)
 
 diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-cpg.c
-index 16771a0101bd..ee92d07c6ff7 100644
+index ee92d07c6ff7..dfb36e6e6a7b 100644
 --- a/drivers/clk/renesas/rzg2l-cpg.c
 +++ b/drivers/clk/renesas/rzg2l-cpg.c
-@@ -1113,9 +1113,6 @@ static unsigned long rzg3s_cpg_pll_clk_recalc_rate(struct clk_hw *hw,
- 	u32 nir, nfr, mr, pr, val, setting;
- 	u64 rate;
+@@ -58,6 +58,13 @@
+ #define RZG3S_DIV_NF		GENMASK(12, 1)
+ #define RZG3S_SEL_PLL		BIT(0)
  
--	if (pll_clk->type != CLK_TYPE_G3S_PLL)
--		return parent_rate;
--
- 	setting = GET_REG_SAMPLL_SETTING(pll_clk->conf);
- 	if (setting) {
- 		val = readl(priv->base + setting);
++#define RZG3L_PLL_STBY_OFFSET(x)	(GET_REG_SAMPLL_CLK1(x) - 0x4)
++#define RZG3L_PLL_STBY_RESETB		BIT(0)
++#define RZG3L_PLL_STBY_RESETB_WEN	BIT(16)
++#define RZG3L_PLL_MON_OFFSET(x)		(GET_REG_SAMPLL_CLK1(x) + 0x8)
++#define RZG3L_PLL_MON_RESETB		BIT(0)
++#define RZG3L_PLL_MON_LOCK		BIT(4)
++
+ #define CLK_ON_R(reg)		(reg)
+ #define CLK_MON_R(reg)		(0x180 + (reg))
+ #define CLK_RST_R(reg)		(reg)
+@@ -1181,6 +1188,63 @@ rzg2l_cpg_pll_clk_register(const struct cpg_core_clk *core,
+ 	return pll_clk->hw.clk;
+ }
+ 
++static int rzg3l_cpg_pll_clk_is_enabled(struct clk_hw *hw)
++{
++	struct pll_clk *pll_clk = to_pll(hw);
++	struct rzg2l_cpg_priv *priv = pll_clk->priv;
++	u32 val = readl(priv->base + RZG3L_PLL_MON_OFFSET(pll_clk->conf));
++	u32 mon_val = RZG3L_PLL_MON_RESETB | RZG3L_PLL_MON_LOCK;
++
++	/* Ensure both RESETB and LOCK bits are set */
++	return (mon_val == (val & mon_val));
++}
++
++static int rzg3l_cpg_pll_clk_endisable(struct clk_hw *hw, bool enable)
++{
++	struct pll_clk *pll_clk = to_pll(hw);
++	struct rzg2l_cpg_priv *priv = pll_clk->priv;
++	u32 stby_offset, mon_offset;
++	u32 val, mon_val;
++	int ret;
++
++	stby_offset = RZG3L_PLL_STBY_OFFSET(pll_clk->conf);
++	mon_offset = RZG3L_PLL_MON_OFFSET(pll_clk->conf);
++
++	if (enable) {
++		val = RZG3L_PLL_STBY_RESETB_WEN | RZG3L_PLL_STBY_RESETB;
++		mon_val = RZG3L_PLL_MON_RESETB | RZG3L_PLL_MON_LOCK;
++	} else {
++		val = RZG3L_PLL_STBY_RESETB_WEN;
++		mon_val = 0;
++	}
++
++	writel(val, priv->base + stby_offset);
++
++	/* ensure PLL is in normal/stanby mode */
++	ret = readl_poll_timeout_atomic(priv->base + mon_offset, val, mon_val ==
++					(val & (RZG3L_PLL_MON_RESETB | RZG3L_PLL_MON_LOCK)),
++					10, 100);
++	if (ret)
++		dev_err(priv->dev, "Failed to %s PLL 0x%x/%pC\n", enable ?
++			"enable" : "disable", stby_offset, hw->clk);
++
++	return ret;
++}
++
++static int rzg3l_cpg_pll_clk_enable(struct clk_hw *hw)
++{
++	if (rzg3l_cpg_pll_clk_is_enabled(hw))
++		return 0;
++
++	return rzg3l_cpg_pll_clk_endisable(hw, true);
++}
++
++static const struct clk_ops rzg3l_cpg_pll_ops = {
++	.is_enabled = rzg3l_cpg_pll_clk_is_enabled,
++	.enable = rzg3l_cpg_pll_clk_enable,
++	.recalc_rate = rzg3s_cpg_pll_clk_recalc_rate,
++};
++
+ static struct clk
+ *rzg2l_cpg_clk_src_twocell_get(struct of_phandle_args *clkspec,
+ 			       void *data)
+@@ -1264,6 +1328,9 @@ rzg2l_cpg_register_core_clk(const struct cpg_core_clk *core,
+ 	case CLK_TYPE_SAM_PLL:
+ 		clk = rzg2l_cpg_pll_clk_register(core, priv, &rzg2l_cpg_pll_ops);
+ 		break;
++	case CLK_TYPE_G3L_PLL:
++		clk = rzg2l_cpg_pll_clk_register(core, priv, &rzg3l_cpg_pll_ops);
++		break;
+ 	case CLK_TYPE_G3S_PLL:
+ 		clk = rzg2l_cpg_pll_clk_register(core, priv, &rzg3s_cpg_pll_ops);
+ 		break;
+diff --git a/drivers/clk/renesas/rzg2l-cpg.h b/drivers/clk/renesas/rzg2l-cpg.h
+index 1db413bb433d..7de4cb7af1cc 100644
+--- a/drivers/clk/renesas/rzg2l-cpg.h
++++ b/drivers/clk/renesas/rzg2l-cpg.h
+@@ -123,6 +123,7 @@ enum clk_types {
+ 	CLK_TYPE_IN,		/* External Clock Input */
+ 	CLK_TYPE_FF,		/* Fixed Factor Clock */
+ 	CLK_TYPE_SAM_PLL,
++	CLK_TYPE_G3L_PLL,
+ 	CLK_TYPE_G3S_PLL,
+ 
+ 	/* Clock with divider */
+@@ -152,6 +153,9 @@ enum clk_types {
+ 	DEF_TYPE(_name, _id, _type, .parent = _parent)
+ #define DEF_SAMPLL(_name, _id, _parent, _conf) \
+ 	DEF_TYPE(_name, _id, CLK_TYPE_SAM_PLL, .parent = _parent, .conf = _conf)
++#define DEF_G3L_PLL(_name, _id, _parent, _conf, _default_rate) \
++	DEF_TYPE(_name, _id, CLK_TYPE_G3L_PLL, .parent = _parent, .conf = _conf, \
++		 .default_rate = _default_rate)
+ #define DEF_G3S_PLL(_name, _id, _parent, _conf, _default_rate) \
+ 	DEF_TYPE(_name, _id, CLK_TYPE_G3S_PLL, .parent = _parent, .conf = _conf, \
+ 		 .default_rate = _default_rate)
 -- 
 2.43.0
 
