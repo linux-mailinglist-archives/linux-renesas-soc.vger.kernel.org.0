@@ -1,301 +1,246 @@
-Return-Path: <linux-renesas-soc+bounces-27660-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27661-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mBLKF/OHfGmbNgIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27660-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Jan 2026 11:29:07 +0100
+	id KHQHBxWUfGlPNwIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27661-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Jan 2026 12:20:53 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8D14B95C8
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Jan 2026 11:29:06 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 918EBBA009
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Jan 2026 12:20:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id BB75930166E5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Jan 2026 10:29:05 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id A90D33016285
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Jan 2026 11:17:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CC3435F8B7;
-	Fri, 30 Jan 2026 10:29:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64E3A271A71;
+	Fri, 30 Jan 2026 11:17:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oln1L8NE"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YdqmmDEy"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4383435E52D
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 30 Jan 2026 10:29:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C835421ABB9
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 30 Jan 2026 11:17:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.44
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769768944; cv=pass; b=mbggKK6EVx0CQC/BdKAIpf2jQWAd/OSBFVpsd7rS0yEZdD7tzs6UDH6XQRCqO6gMWVnetO4McKzOYVidzoDapk2moKCGl1MGlkKdwK1aJa4dplvEgmpXLFhCGyfcF/buIZsCiclI4ZL098Q0XlINwnV3zgojtNK/D7OD7jmty2A=
+	t=1769771858; cv=pass; b=FRmlXJiNe0hQ70rmrBoesnzxvzrDxyhkWazXXWGVnC4vt/WW8IBOtiAV15oa8gRh+mLCXBNA5M2Zji6TpHy5o5vOPtYY4jJnxeAR6AIyNu5h9Hk0SuG1NVp7p3K2Kg12Q/IbPfNiHPitBPUdia3CtMDUsKfry+6mE9LbIsnxr2A=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769768944; c=relaxed/simple;
-	bh=4IZOypoh2mxenIel1BEB+3XJOHnFitDgJDIz3Q5JdHk=;
+	s=arc-20240116; t=1769771858; c=relaxed/simple;
+	bh=ieMzSSdmrsaSxdwMH87qOa9PeH77tWwoNBVCM3sLEoM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=d3KZZjAlxeU/wlYCaJGtagiR+Puo0AeuPcVF2xSUKoJSLOXHP8NExL9WoWS7DIp8pupTfPMzLOEI9hHbvo5+Xai3tLw7jE8a+SVVhdxJRj5Bx30xcAOOqMTGlct51HcMvq0P28ZndzNjwG6NnHJKAudpGCJ0bJs+D8DzcJAZAI0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oln1L8NE; arc=pass smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-59b6c13b68dso2783385e87.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 30 Jan 2026 02:29:02 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769768940; cv=none;
+	 To:Cc:Content-Type; b=PaJE7XDgmlrK4q2c5Jj/kDrcMpFca9E2slxqYsxT1scMQ/MTkpL6d7hum9XjBM/yCmK5XCumNITAwxNV19FZWePNBl98CVCs2Ue/rXZsL0G6BRSHzpOq287BruiT5ETWQ1LN0ZplQmdjXe2N8VCSFNEFpksg8Uu79uP0sLBVQzs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YdqmmDEy; arc=pass smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-4359108fd24so1202711f8f.2
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 30 Jan 2026 03:17:36 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769771855; cv=none;
         d=google.com; s=arc-20240605;
-        b=kKFAF+r25LtmwLifjuazLzq1b5gHknIwVcWZ/1LJE25qS47FH+5fDDSRq67bsXnTbH
-         TDxk/aHhfAxsd4JlPjNvqA8MRMVujldBKShf/7cFexOqFIbOLYE56P5VNwqhoPxN6qKe
-         RoB9uZ4HuWuroI0HIbEOmDjzb7k3RzuHlFNSL7VBv0cdnHtnpdUqMO7y+wHrZ4H3bhDN
-         ncmcP+mXW63whHS+Na/bTKtaAoG9So4tR/ZW+9bSRxZbsqC8QK+OpnVEVnAdUuU7hpwF
-         oLrWtWQph9rd5vNKSZfcqyxi3J/F8y9EYDE86Ovx/Ei6UVn2nHQeRQbLgCNb4oZUHfbh
-         bqNg==
+        b=edqN915BX3r7kP6YBD0QKZG+doEc6JSgdE4ARKGR+8wIyNyDZYhnerBc+lCCYv22UY
+         yxc3nFSzhgWWdgWr51ig0+WUYrxRZHqJ0wBcOcBFrwc1DZPwSlIWM/r7bDSmtslynY6c
+         R2CTL2oU1pVU7+5M0KIUiBOMPje7Y7HLgXIQqYvS+J8q/O1KY1alEs9YnAPHgIxslWDP
+         q3e6Ly0sYDD5qPc/r433V20lzW4vzhMhf9Edh9mtbuaGVzk3b85ZtliMEP1BCyQNb4TV
+         TPRzGT+Ip0PGtRPFHBeJj3fe1X03MfKYLAief5aIFdmLRJ2TAH0p5rYRa/Xq6ez9dLUn
+         TXeA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=UyyRc5JdnkROBEHu+xYdCyJ2Awi4tcsQvb7pPKheNS8=;
-        fh=TwEVXJd6HF1vNzn6ZVEJzRbyanBSfF08sT3VawNdEO0=;
-        b=HLiGTU6beS8VoTt58kVEliNU5LmgScZBsH6gDDZaqysTnnOkl3/uEwquWN0cXEEWjS
-         pJjEvH6VkuJi2vgP/Nu/bDb3/xlqI2Jv/C80qdcsuj/a6I+jhhtPKrJi4fstB6L9oxnA
-         HkY6lSeJPl6rjiAN1KJjBRH9E4gdE8Yhko3g8L2aGasR+gxSFgr+8S6XNyiJb0zBOCCq
-         pAR7uvsraST5hSGif6yDS8assth6Uit6k52by9suBvjnjwbc2WT/rbcQJ5jrfRsubuXq
-         22yWFDRQnHT3OFsRUeEcB92yOOK81A+Drf93GWGcB27KWioulXQwfsnUkNLr20VYkjdK
-         hyag==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ybE6TLXkR2uOs1A0XOgGgUR8zOB5QCwOEC9SXGGyumA=;
+        fh=KPR0pIGPucjeu/qGWcXVAzz3woFNOS5bhVorxSO4aOQ=;
+        b=XySDGI+7pkdXyOWeeC8Apaha7qwYutiWdkeNjS6OB1wlAQna5x62P0cbY32/qanNBV
+         wJwaikWUfX2sp1BI/P7LQdaCt9L5aymC0MYqboe3UNCPDrB2PiQIz9821gTrTEIfqLRn
+         pybcnmitMMjg/YK2BwadFV4PIa8Uwyc7a/WIKSKdDhdwQnoDOVElg2yY3BMRlG3KHPEr
+         rIil4bbtEez26Jwd4QD8JdRiPrtj/rBmwgukmTgqiPkONNMUrDutYYNtII6IO5ky6Z38
+         rxWPHy22NSQPZXAbCxJtRuNYDgQOFHgQOXL0r0odNVe7Yu4fJbN2lyH8oKt1/Ff35qQx
+         OYSg==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1769768940; x=1770373740; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=UyyRc5JdnkROBEHu+xYdCyJ2Awi4tcsQvb7pPKheNS8=;
-        b=oln1L8NESX4rFb4aQJM6o8+hQcZgtNvlDrkk5mWrDRGAqBdlUxeNxMcw2eX8cve9/k
-         /B/tgoSqfiLOIQ6n5A7FGYAnfj5EkEFL8G5PmeCNy5FvfcKTZeeYcb2oSeEK7SPS4D8e
-         AveR4t8N/Rp88C06eoXuFV1HaAjukzyQGL78WB1q/NBX2S2iW4b37uTbndAiZcD8Y53S
-         yszc4WtoiN/tvRc5QBRssoUdiZyxH0VsMZ2fxnhKCwbFVUuo7ahbde+gcZ+cU5/AhEdd
-         giiAjMR47BZz/ObY0X3fCnsdeDveajpO1Ikp0KpWblJ/09ymDA34ELw6z8uXK7gTFL4x
-         OZUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769768940; x=1770373740;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1769771855; x=1770376655; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UyyRc5JdnkROBEHu+xYdCyJ2Awi4tcsQvb7pPKheNS8=;
-        b=eMSccv131AzT8tH9Gjk8dA2lvKsANMmUAmg+a/VmodFAQbHKOSLm6dGKDJGWiTlbp+
-         HhJ7eWYQf/lO0tgYXTuZMMUom/T+yViAdrgKPfk+wu95cjjB4BsToVB8puZsYC2vXuPX
-         W7XhDw5jnO8eazNT9ecMyv7qcYyKByvbjxuQHvzDg7h4lTbO9c8Onhc6yTSLoSumlrjZ
-         BvQzFUCzxvFHKD6A7l+UWIl1909guqTqpFvGRBK+Rr86JRRS11xAg1FjhdHUQLkaoR4X
-         TNqHRNJ1ZTZdEiLSMqrFDPPAE6T/kwQi3qjzS30egwf3OeOL/jf4iQ/6cFfucZWhJXEV
-         xpzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVpJrO2suUz0PlakImKOABYHKlcUdrNH2wKoJscw/4uxpop2jBTPLVnJTzBke68SRC3Ylz9Dm22BXAyjlCE2+u7FA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyt9fSieH40HH0Po1kMPPKOHB0mZd9DmOihOTO6eEOwyeFejdTa
-	fzv/Gou3XpyDIPPXwdQpphb4fMyATvwrQppx4Rc2K2th81RBRuo4lKt2muSE8kPrUp/st1cVNcC
-	GdclEwzaQBJgpqyb2f2V3hZTQFj6LOpzojLKrt7lISw==
-X-Gm-Gg: AZuq6aKzLMQgIx+vz2yatCuQ8B0s8oXpRL9wcYsvPSFrpzLahmg+s+wnozDlMwP+8Ib
-	4hgZk8JH/BqWBHpfKE/Z2c1V0cni7+criAxhZIEjHQtvqmzm66NY9pMiQ4Ksi67v/FtyVGQrTLL
-	sWE+umB4aSqcFjTIgqQlPF18RE5Gug8wNjIN12PpYkOd8Xma9ubYHgoau19It+iM2uUF9Hl1HhL
-	nt51/R8zPmjxfIawfCrCv4snCHqCQHpR4mjp7r+YFx9HBoy4Qc2ryzmFiMSdz03oEyQ7fAh
-X-Received: by 2002:a05:6512:3090:b0:59e:19f8:e7e5 with SMTP id
- 2adb3069b0e04-59e19f8e879mr389940e87.10.1769768940222; Fri, 30 Jan 2026
- 02:29:00 -0800 (PST)
+        bh=ybE6TLXkR2uOs1A0XOgGgUR8zOB5QCwOEC9SXGGyumA=;
+        b=YdqmmDEy8CYd+M7GsfKRb0hGhmrs1+OAUKSiajd+P4p18cVyZ/mRkNK9F3g2NBs00j
+         stkeX6YWs7Pbnkp4XHtr8pBSWNUb/UyBNq0QSuaPB7uqczCkQlbKzrH9mNIX8CSeCx8C
+         bwR3VStbV5pFlAkm3/6C6yRAJgQMJ/P9NKNSwAJOU/9A4QVWw8eDnfcg+flBgAZHbUd4
+         aawF+sQFZvdpGuI27Gj1Vqg0b12gOvEiWL0TgBTm0OLmixaEiA0jCxsM0oBZxOLbdhMX
+         c20Sq754XGrl7SfzuBBQXRiSwkCji+wvLVgCxGJeTtTgxftjVPTnafuX1IDhxukDCeU4
+         i4Eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769771855; x=1770376655;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ybE6TLXkR2uOs1A0XOgGgUR8zOB5QCwOEC9SXGGyumA=;
+        b=pydbv3yaH+CP0myfdY7EJ7kzF1NUEk9LjLmnwus/4Je5MIpyEaodz2ogpDkEwhjxV1
+         AuIxUcRQ8N6+Gq20hmi2IPh7SLDEAJTa8GEusd2nVwQLMpG3Iick+9B50nPuQ9uCqrOt
+         zjFV+rRwC4QJnq18g+WKz0srp1ObIBcWzc7WlKUCV5byP1CGoplLSdEWlVYe2eJKPkxo
+         nvxrZKgCW/cmai9KLY2lLuwAq9erNcHrqCm1vIm5T2miCpi65eimCSB6kC31e/Z2cuyH
+         HB2Sk0hTQ1o2fDW5UMClWiKt8zpAJP2445mmDujxSuNEXEaCIDBfcWaK+XQYNpgj7Dp8
+         gDng==
+X-Forwarded-Encrypted: i=1; AJvYcCUUJjo7d2IcoOAJpaGER6hX/bN9Uu/OchLJh7/nAHXHEZWrja0LZ3YcuUItuDmgl74JnX7KbUdkO2PmY+acXeT2+Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz0Q4OeTSSnjFtYjGhuMmAzsbjssUDld4tM1O/ff9UYVMsrr8ME
+	uvNRBAJvuhfgJvdvINfm2tcKqP2Zum9TUafl/Q/xppyoTplcR95MmywFYGLHWi6Xvi3Oq9tOWvV
+	OzZkZHSeQT2EwGlz6mpl+Mbj4DiCCV2DDnzagOvw=
+X-Gm-Gg: AZuq6aLvdnk3jnHm3kwa5AmCV6+vTYpwXhROr3rsMWN6YupB/K3ZC83Mn5UF3fBnVk2
+	G3KyCV8pQoWowZ83xNt8IA/c1jmgotc61v2zWxnR2Mww/nrQl4aMcfK+d43hPPwYPQwnpuuG60x
+	2XPu+nRqxeHMUEEmtZEhVxOlRa+9AAAZ3Eu5d4h1BkdGb6VasyrihmDLRomT2SzGQeuh1+kXB4W
+	ThAX7qIZoTNYXF9SfD+yufe5pUv78WufkK0680SvHJ5HNK0HQLHWzlfPHAEHM2bv9DrC7mow1RM
+	LgXU+jQcXS8y2NvfMRu+f/PB58AwtdlHdgya7wHredmVtpW4DQdj2GjPYv6OysysCyCB1gg79Wl
+	GIWf2115RMfHCKvaniVnYWYk2
+X-Received: by 2002:a5d:64e6:0:b0:435:9241:37c2 with SMTP id
+ ffacd0b85a97d-435f3a7c031mr3752578f8f.9.1769771854874; Fri, 30 Jan 2026
+ 03:17:34 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260128-rz-sdio-mux-v7-0-92ebb6da0df8@solid-run.com>
- <20260128-rz-sdio-mux-v7-2-92ebb6da0df8@solid-run.com> <CAPDyKFrBuL+747QUJJUejtcvjm0V7Lt=vHwjvcMdCt_h4=sFwg@mail.gmail.com>
- <CAMuHMdXgLR9yeLa5JKNdAOtNEirJ8263bmn1zRNAnKnmf8F-Sg@mail.gmail.com>
-In-Reply-To: <CAMuHMdXgLR9yeLa5JKNdAOtNEirJ8263bmn1zRNAnKnmf8F-Sg@mail.gmail.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Fri, 30 Jan 2026 11:28:24 +0100
-X-Gm-Features: AZwV_QjKt-7WVZ6iCRSlLFm6WIvZGroCu2x79LzMFz95tWuDMfGW172v0QkfhHE
-Message-ID: <CAPDyKFrvSp6tmhP=2=9kca1d3+b6MezvxJWwMOW=Gv6D8TKrgA@mail.gmail.com>
-Subject: Re: [PATCH v7 2/7] mux: Add helper functions for getting optional and
- selected mux-state
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Josua Mayer <josua@solid-run.com>, Marc Kleine-Budde <mkl@pengutronix.de>, 
-	Vincent Mailhol <mailhol@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Peter Rosin <peda@axentia.se>, 
-	Aaro Koskinen <aaro.koskinen@iki.fi>, Andreas Kemnade <andreas@kemnade.info>, 
-	Kevin Hilman <khilman@baylibre.com>, Roger Quadros <rogerq@kernel.org>, 
-	Tony Lindgren <tony@atomide.com>, Janusz Krzysztofik <jmkrzyszt@gmail.com>, Vignesh R <vigneshr@ti.com>, 
-	Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Yazan Shhady <yazan.shhady@solid-run.com>, Jon Nettleton <jon@solid-run.com>, 
-	Mikhail Anikin <mikhail.anikin@solid-run.com>, linux-can@vger.kernel.org, 
-	linux-phy@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-omap@vger.kernel.org, linux-i2c@vger.kernel.org, 
-	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>
+References: <20260121150137.3364865-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20260121150137.3364865-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <87cy2wcqe2.ffs@tglx> <CA+V-a8trA53J5xt-p1odHkqeHgk_qXKQeXsf-QOfz2=JmTOSYA@mail.gmail.com>
+ <87bjicm66u.ffs@tglx>
+In-Reply-To: <87bjicm66u.ffs@tglx>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Fri, 30 Jan 2026 11:17:08 +0000
+X-Gm-Features: AZwV_QhTbiF_Oo5dnEL0l0eoTSNtQr0S69GE8V4RWrNjV_NU86PPR4SKtXB-S3k
+Message-ID: <CA+V-a8sjADs_=81h=5R1nEFt3LWVNuHS1y-kH6Z5ANNp0Sci0w@mail.gmail.com>
+Subject: Re: [PATCH 4/6] irqchip/renesas-rzv2h: Add CA55 software interrupt support
+To: Thomas Gleixner <tglx@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>, Magnus Damm <magnus.damm@gmail.com>, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-27661-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-27660-lists,linux-renesas-soc=lfdr.de];
-	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[33];
-	FREEMAIL_CC(0.00)[solid-run.com,pengutronix.de,kernel.org,linaro.org,axentia.se,iki.fi,kemnade.info,baylibre.com,atomide.com,gmail.com,ti.com,glider.be,sang-engineering.com,vger.kernel.org,lists.infradead.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[pengutronix.de,gmail.com,vger.kernel.org,bp.renesas.com,renesas.com];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ulf.hansson@linaro.org,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,linaro.org:email,linaro.org:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linux-m68k.org:email]
-X-Rspamd-Queue-Id: C8D14B95C8
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,renesas.com:email]
+X-Rspamd-Queue-Id: 918EBBA009
 X-Rspamd-Action: no action
 
-On Thu, 29 Jan 2026 at 18:46, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+Hi Thomas,
+
+On Thu, Jan 29, 2026 at 9:59=E2=80=AFPM Thomas Gleixner <tglx@kernel.org> w=
+rote:
 >
-> On Thu, 29 Jan 2026 at 17:06, Ulf Hansson <ulf.hansson@linaro.org> wrote:
-> > On Wed, 28 Jan 2026 at 15:46, Josua Mayer <josua@solid-run.com> wrote:
-> > >
-> > > In-tree phy-can-transceiver driver has already implemented a local
-> > > version of devm_mux_state_get_optional.
-> > >
-> > > The omap-i2c driver gets and selects an optional mux in its probe
-> > > function without using any helper.
-> > >
-> > > Add new helper functions covering both aforementioned use-cases:
-> > >
-> > > - mux_control_get_optional:
-> > >   Get a mux-control if specified in dt, return NULL otherwise.
-> > > - devm_mux_state_get_optional:
-> > >   Get a mux-state if specified in dt, return NULL otherwise.
-> > > - devm_mux_state_get_selected:
-> > >   Get and select a mux-state specified in dt, return error otherwise.
-> > > - devm_mux_state_get_optional_selected:
-> > >   Get and select a mux-state if specified in dt, return error or NULL.
-> > >
-> > > Existing mux_get helper function is changed to take an extra argument
-> > > indicating whether the mux is optional.
-> > > In this case no error is printed, and NULL returned in case of ENOENT.
-> > >
-> > > Calling code is adapted to handle NULL return case, and to pass optional
-> > > argument as required.
-> > >
-> > > To support automatic deselect for _selected helper, a new structure is
-> > > created storing an exit pointer similar to clock core which is called on
-> > > release.
-> > >
-> > > To facilitate code sharing between optional/mandatory/selected helpers,
-> > > a new internal helper function is added to handle quiet (optional) and
-> > > verbose (mandatory) errors, as well as storing the correct callback for
-> > > devm release: __devm_mux_state_get
-> > >
-> > > Due to this structure devm_mux_state_get_*_selected can no longer print
-> > > a useful error message when select fails. Instead callers should print
-> > > errors where needed.
-> > >
-> > > Commit e153fdea9db04 ("phy: can-transceiver: Re-instate "mux-states"
-> > > property presence check") noted that "mux_get() always prints an error
-> > > message in case of an error, including when the property is not present,
-> > > confusing the user."
-> > >
-> > > The first error message covers the case that a mux name is not matched
-> > > in dt. The second error message is based on of_parse_phandle_with_args
-> > > return value.
-> > >
-> > > In optional case no error is printed and NULL is returned.
-> > > This ensures that the new helper functions will not confuse the user
-> > > either.
-> > >
-> > > With the addition of optional helper functions it became clear that
-> > > drivers should compile and link even if CONFIG_MULTIPLEXER was not enabled.
-> > > Add stubs for all symbols exported by mux core.
-> > >
-> > > Signed-off-by: Josua Mayer <josua@solid-run.com>
-> > > ---
-> > >  drivers/mux/core.c           | 178 ++++++++++++++++++++++++++++++++++++-------
-> > >  include/linux/mux/consumer.h | 108 +++++++++++++++++++++++++-
-> > >  2 files changed, 253 insertions(+), 33 deletions(-)
-> > >
-> > > diff --git a/drivers/mux/core.c b/drivers/mux/core.c
-> > > index a3840fe0995f..b01ec126caaf 100644
-> > > --- a/drivers/mux/core.c
-> > > +++ b/drivers/mux/core.c
-> >
-> > [...]
-> >
-> > >  static void devm_mux_state_release(struct device *dev, void *res)
-> > >  {
-> > > -       struct mux_state *mstate = *(struct mux_state **)res;
-> > > +       struct devm_mux_state_state *devm_state = res;
-> > >
-> > > -       mux_state_put(mstate);
-> > > +       if (devm_state->exit)
-> > > +               devm_state->exit(devm_state->mstate);
-> > > +
-> > > +       mux_state_put(devm_state->mstate);
-> > >  }
-> > >
-> > >  /**
-> > > - * devm_mux_state_get() - Get the mux-state for a device, with resource
-> > > - *                       management.
-> > > - * @dev: The device that needs a mux-control.
-> > > - * @mux_name: The name identifying the mux-control.
-> > > + * __devm_mux_state_get() - Get the optional mux-state for a device,
-> > > + *                         with resource management.
-> > > + * @dev: The device that needs a mux-state.
-> > > + * @mux_name: The name identifying the mux-state.
-> > > + * @optional: Whether to return NULL and silence errors when mux doesn't exist.
-> > > + * @init: Optional function pointer for mux-state object initialisation.
-> > > + * @exit: Optional function pointer for mux-state object cleanup on release.
-> > >   *
-> > >   * Return: Pointer to the mux-state, or an ERR_PTR with a negative errno.
-> > >   */
-> > > -struct mux_state *devm_mux_state_get(struct device *dev,
-> > > -                                    const char *mux_name)
-> > > +static struct mux_state *__devm_mux_state_get(struct device *dev, const char *mux_name,
-> > > +                                             bool optional,
-> > > +                                             int (*init)(struct mux_state *mstate),
-> > > +                                             int (*exit)(struct mux_state *mstate))
-> > >  {
-> > > -       struct mux_state **ptr, *mstate;
-> > > +       struct devm_mux_state_state *devm_state;
-> > > +       struct mux_state *mstate;
-> > > +       int ret;
-> > >
-> > > -       ptr = devres_alloc(devm_mux_state_release, sizeof(*ptr), GFP_KERNEL);
-> > > -       if (!ptr)
-> > > +       devm_state = devres_alloc(devm_mux_state_release, sizeof(*devm_state), GFP_KERNEL);
-> > > +       if (!devm_state)
-> > >                 return ERR_PTR(-ENOMEM);
-> > >
-> > > -       mstate = mux_state_get(dev, mux_name);
-> > > -       if (IS_ERR(mstate)) {
-> > > -               devres_free(ptr);
-> > > -               return mstate;
-> > > +       mstate = mux_state_get(dev, mux_name, optional);
-> > > +       if (IS_ERR_OR_NULL(mstate)) {
-> > > +               ret = PTR_ERR(mstate);
-> >
-> > Should this be PTR_ERR_OR_ZERO?
+> On Thu, Jan 29 2026 at 21:24, Prabhakar Lad wrote:
+> > On Mon, Jan 26, 2026 at 4:03=E2=80=AFPM Thomas Gleixner <tglx@kernel.or=
+g> wrote:
+> >>
+> >> On Wed, Jan 21 2026 at 15:01, Prabhakar wrote:
+> >> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >> >
+> >> > The Renesas RZ/V2H ICU provides a software interrupt register (ICU_S=
+WINT)
+> >> > that allows software to explicitly assert interrupts toward individu=
+al
+> >> > CA55 cores. Writing BIT(n) to ICU_SWINT triggers the corresponding
+> >> > interrupt.
+> >> >
+> >> > Introduce a debug mechanism to trigger software interrupts on indivi=
+dual
+> >> > Cortex-A55 cores via the RZ/V2H ICU. The interface is gated behind
+> >> > CONFIG_DEBUG_FS and a module parameter to ensure it only exists when
+> >> > explicitly enabled.
+> >>
+> >> Can't you reuse/extend the existing mechanism provided by
+> >> CONFIG_GENERIC_IRQ_INJECTION (irq_inject_interrupt(), irq_debug_write(=
+))
+> >> instead of implementing yet another ad hoc debugfs magic?
+> >>
+> > Can you please point me to a driver which makes use of it? In my case
+> > the interrupt needs to be triggered when BIT(n) (n=3D0-3) is written to
+> > ICU_SWINT.
 >
-> "mux_state_get() never returns NULL"
-> https://lore.kernel.org/202601221036.J0kR78Uw-lkp@intel.com
+> Care to look what irq_inject_interrupt() does?
+>
+> It tries first to inject the interrupt via irq_set_irqchip_state(),
+> which only works when a chip in the hierarchy implements the
+> chip::irq_set_irqchip_state() callback.
+>
+I did implement irq_set_irqchip_state but it doesn't land in the
+rzv2h_icu_irq_set_irqchip_state(). So I was wondering if I missed
+something.
 
-By looking at the code in mux_state_get() and mux_get() that $subject
-patch changes, it intends to add a "bool optional" as in-parameter. If
-it's set, it looks like the intent is to allow returning NULL, which
-makes sense to me.
+#Trigger int-ca55-0
+root@rzv2h-evk:/sys/kernel/debug/irq/irqs# echo trigger > 14
 
-Anyway, there seems to be some additional smatch warnings to fix
-before this is ready to go.
+#The trace looks like below:
+irq_debug_write()
+  -> irq_inject_interrupt()
+     -> irq_set_irqchip_state()
 
-[...]
+This lands in GICV3. For the RZ/V2H ICU only interrupts port_irqx and
+tintx interrupts are registered  in irq_domain_create_hierarchy() for
+the rest of the interrupts these are supposed to be directly handled
+by GICv3.
 
-Kind regards
-Uffe
+root@rzv2h-evk:/sys/kernel/debug/irq/irqs# cat /proc/interrupts | grep
+interr | grep 294
+ 14:          1          0          0          0    GICv3 294 Edge
+ 10400000.interrupt-controller
+root@rzv2h-evk:/sys/kernel/debug/irq/irqs# cat 14
+handler:  handle_fasteoi_irq
+device:   (null)
+status:   0x00000001
+istate:   0x00004000
+ddepth:   0
+wdepth:   0
+dstate:   0x0b400201
+            IRQ_TYPE_EDGE_RISING
+            IRQD_ACTIVATED
+            IRQD_IRQ_STARTED
+            IRQD_SINGLE_TARGET
+            IRQD_DEFAULT_TRIGGER_SET
+            IRQD_HANDLE_ENFORCE_IRQCTX
+node:     -1
+affinity: 0-3
+effectiv: 0
+domain:  :soc:interrupt-controller@14900000-1
+ hwirq:   0x126
+ chip:    GICv3
+  flags:   0x15
+             IRQCHIP_SET_TYPE_MASKED
+             IRQCHIP_MASK_ON_SUSPEND
+             IRQCHIP_SKIP_SET_WAKE
+
+How do you propose to handle this? irq_inject_interrupt() would work
+if I move int-ca55-x and icu-error-ca55 under
+irq_domain_create_hierarchy().
+
+Cheers,
+Prabhakar
 
