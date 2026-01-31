@@ -1,81 +1,81 @@
-Return-Path: <linux-renesas-soc+bounces-27749-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27750-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SESpLh0qfmkJWQIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27749-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 31 Jan 2026 17:13:17 +0100
+	id cEp1NFcqfmkJWQIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27750-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 31 Jan 2026 17:14:15 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12A9BC2EBE
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 31 Jan 2026 17:13:17 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C7ADC2EDC
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 31 Jan 2026 17:14:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B48163041BDD
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 31 Jan 2026 16:12:59 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 18DB9304EA98
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 31 Jan 2026 16:13:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C92A733C180;
-	Sat, 31 Jan 2026 16:12:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9ABC33F363;
+	Sat, 31 Jan 2026 16:12:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="InMKtvxB"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WAwNn3lJ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com [209.85.208.67])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 143F63358AF
-	for <linux-renesas-soc@vger.kernel.org>; Sat, 31 Jan 2026 16:12:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3334933ADA8
+	for <linux-renesas-soc@vger.kernel.org>; Sat, 31 Jan 2026 16:12:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769875977; cv=none; b=ZlRWmKkVRztguKIDayiOvNVo3R1Vcynp9X6D+/65auz3+P8NCA3qrLcNOrymfjjMdwD4lwxM9JOseqVZP0EjUKMYCSvDL8g+UeNXr5bPV7pHl5RolS4QV9SApcsL72Yr5p70ERW1X/X1XF/RTuz4zr9dX6vFW1i68lFOTocBq6I=
+	t=1769875978; cv=none; b=qmQwpcgmXLFXX9TAG4avLuvJ5kbC+xuBoyTJvBjsNzvw2FZSlXUGg3Zaf8XKc2ncTgdZj6RPDUTASYu/XOKtmTVqZ7dvcg8ZKy+spmRQZpw9stpL6bEPvVEAyfm5KmDnwRw6ip4gwLjW6r2M4WrrnFeSCOj5zr+XHOFzetSQgj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769875977; c=relaxed/simple;
-	bh=sQScBiEgeO0wGbgeHfQgG+cDDApKVGzbwk0hFHjqGeo=;
+	s=arc-20240116; t=1769875978; c=relaxed/simple;
+	bh=wWlQDWVTHIyD2w74yQV82Lw2rsusocwhOpWbuGfQW5U=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=S80dm5piuzc9nS0n05wAXEkL1PMvDtz8QMYYYRB5+4tI0lucVaqw31eejJoZIdM6dujiNt5/7i/cOxTML3GIc7wEnnC5798BWE2iL/VMZdymheFGER0jxHYXZpq3U6Rn54oKGHkgqPL5eHCYukBndQo6T/9O0aT/PT2CUz+bLjc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=InMKtvxB; arc=none smtp.client-ip=209.85.208.67
+	 MIME-Version; b=WjZu3CMisANTUDVRAQzee3AuP3ueYR12OYNJJEoYn9OiJd6udpQtLYxgaMeKHFhAgOxnPKTNrADOIl1BbQEnJvKi9qdUc7KCM9Om3eR8i+KiONvt26Uz766LJiyQ0n9TXcH4ZQJcWfd9MxTuGbzBQQJ7BV6uyhL0CSmP7otRQqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WAwNn3lJ; arc=none smtp.client-ip=209.85.208.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f67.google.com with SMTP id 4fb4d7f45d1cf-658d54197d3so4715966a12.0
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 31 Jan 2026 08:12:55 -0800 (PST)
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-64c893f3a94so6386904a12.0
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 31 Jan 2026 08:12:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769875974; x=1770480774; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1769875975; x=1770480775; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QWAoU7oEt3xC1fxIE+2lnHAybgV6QoQOF+ETbUXX1fA=;
-        b=InMKtvxBjFcSSaCXvYjHvnmUKu1DGhAkgfSWXa1DS2GbPe+3IcNZ7VEL4RZqlBinte
-         Srg8TH6YHCOcEyReDmEgzD3hkFUc6yw2Q2pcfF8NJMNU8Y1sknnTXUwUMD1WU3+32Ru1
-         3mq5KoKAp7FMGdNqHdZaWCgt/BBDj1qK3pbiswaXt4Nwur1juaj2wZW+7imicudhTS+2
-         PUJSwOYBh3MkOUxDJXUFO/thCoooDZZcm6bia5+197XeugE1atW3K0yLdtuNTVBSbbSy
-         ukl21LzXgfD9QBfg9iTVbIyGmwd/12KQcrC0nB3n21IsTUeA1o0iOm0nbHb5NC9DZJBT
-         79sQ==
+        bh=XTq2LBbLb5L85nE2s4woY/0r3B7VxHgm3zekbSlXMv4=;
+        b=WAwNn3lJcZJW+kwyL10xcJ+Qr95ZudUH7bl/cLZswB1zpV/CnLQuIIL5xm2hjjrZSe
+         fOwA+CsrLwvzjo+J74c4HKEd4HtxfHSZHlMnb//9tqnhkZbes5AoN6G2DOJtLlnFeDKv
+         Gp7IcVBTJ12dTc94mV1esBZmMXqyoznZzz5Cf0TojbWopcdCWalsKRrwg3hsDS71jGZ3
+         y4HJH75Km2zkJ5ScOaS2V54xg/YT8f65PGTiabSHoAmqW5oPc/+4QjYWt/xASxFU6kR/
+         W+QL4il11Nt+WxvBxLbuCUuSgmLzXHa87/gkW31NdqZRrVvmYkwRjCoBT8dJeJAh1pm1
+         kSmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769875974; x=1770480774;
+        d=1e100.net; s=20230601; t=1769875975; x=1770480775;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=QWAoU7oEt3xC1fxIE+2lnHAybgV6QoQOF+ETbUXX1fA=;
-        b=CQKMWMvHJZp5Uhtl/mCiaVt6u9B+QwozERwpE3C5fDhvuFCJa6zZP+x+3QsCP7aouF
-         2rTYqKM6LhWRPqdGFuSJiVP32NN5/AYe/Kmh7rdt7swPo2mxkL2wsLKivI7VmGlrAlEb
-         v+CUU1DKHi1ePmz9X/jtlLg8CPbJV5ItAhSt00pfdtiHZh9ans9kl29b8MhL0JNcn3/X
-         UR1qu+G4rnH4CsjMjUqaXfuVFG8JY37Rzccys761hQkpIGRHzSTAPyH3BVPAVz5B3oSe
-         tGn4ZbU7pVa4OegY7kVlpqRj4+FcwzO20vq3y8GdJDNOKKLuhARZmdsVuzIrQ/f9IRFc
-         DYqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXAc4/6IBW4Q74dmdhzwyFe0QCG4NF4j5YgD0Q3msxfYbefOmk//oa3iKQtHZuAsjmOkXHm7zLn8yHRYDVcW14ngw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw05ZrhMPHQJ/iao9Z7rSE/P+VvaZcWPPXNgVvnw1/ESKyL453G
-	aTPZpx4gWE5kKvQIsq+rHCjyud8EjxPBoYpQkmyzRucEvaWX1buSB99K
-X-Gm-Gg: AZuq6aK4jlxdGJ+uedsLAPbO+9G4BjfJCNfGPt+szF9ETeSm98JvsrhxD6CirvN/+rm
-	dK/E5iTjSDMvevsQ2su/B7CDonpxDEjl4Jsqtk4TL/Burj6TgiC290OfVIGN3b3/UIQH0FbBbBO
-	n4AUJorjHGIVad02dtOOHaxRDvQBAz7zm+QU0LnYtgVT83JufBnlpvSMc1kYf/HTeJcbbfmcCyy
-	oO4c7Luf1ADdeiiM621/DiiNIDt8V5ETz9jx88ullIvoLPxbwHbh3yzrmTN4Ec2tnrjehrZgP46
-	reLV+81iM5XojGWwAj4GdLTEwFf976k1hGd13ZBtYARgpHQ7beZ/Oq2B3xMqndYJeXy0kUzrQKY
-	Y1Anfj6JgBhARz4jQjnOeQJt0aTSHOmB+z9r7BHTfScmgmJIUbJYkZxvs6cRWCKhRr15AkKOf7I
-	aWJJezz+IFB9GNfQLzKtvjQ7pPeac1JAj1HDI=
-X-Received: by 2002:a05:6402:350b:b0:658:bd67:bc16 with SMTP id 4fb4d7f45d1cf-658de589e89mr3855793a12.20.1769875974263;
-        Sat, 31 Jan 2026 08:12:54 -0800 (PST)
+        bh=XTq2LBbLb5L85nE2s4woY/0r3B7VxHgm3zekbSlXMv4=;
+        b=VV8n9ZVUUq9ykpjEYGQR8zHPnvNDjmPAHQbAzItDWtqToIu4xVTsDh5F1ntHiBc9Fk
+         RiLI9lgzxXf57v7FIPpE/cTmmIny6f7KXHD1W066cKvOxDYIIA4AhdCibf9sQfTtJgdZ
+         kI9/igAor6R7qck1/WjlEHmDQAtPznneXc5ft6K6+2a4Kc4zOORXmzCrQC950hPmW/CY
+         YsNQhG1R08HBabkx6Qg73eB5QYSeTKnTO0K95TxZtZKML9cQhNggpS4c5y9uonNOR/1o
+         SSLaVWn9pcD2fM6XTX9EMZNzLZ9+e+256CBGdUAJ5dtKwbmaxYYCuxeBXub4q+C1FUTQ
+         ZFIA==
+X-Forwarded-Encrypted: i=1; AJvYcCXYEKG+rgh76PRH6pARujAi54qH73NZS0m38VdsBAfSNGI6dKCDbBVLF0H0jCEVqkfhUFJ7lLuXGueTL2uw2mkC4w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyddGXaZs9F6UjhkoYZiYs4bWPL3uaY7GZpwB2Sq2lrv/Edcqm0
+	2Sl3zZKBZAUiBTUEK+fq4WMtsEh97zj+ZEsmhlMud7FL4fGPoCzTZ7ka
+X-Gm-Gg: AZuq6aIVJynVnFql9x7urAeN5zT95E+VmHXMbVOHZ156H+PJ5Gtr9I14ozy8r5mriSu
+	xsizaM9K3C+3bmVQNzRIoircyPkH6ffIW60UR5TXgARHC7N3k18cB+f46VG57Hke5Unm28ZnTxJ
+	jYQ0d9Vbe8Z0NeQFArUdcWrV22Nt6JojSm/YJ54nY9kY833jMmcFnjCZJDJe68GAIFHG13AreNg
+	rcHweN2PTuPmD00LCmxhNL8LQjZ6CvmwSa2bjCBliqD7ztVQFgZCQVt4Ik3mJB/K/e3w2SUprtx
+	tV09USQE79jiZ+WWWjgJ3RnM+40Yw+T7iEFxiCVU9xicAtQ8kassdsmb1GYeT0l3qELovHUn7hk
+	wYN9PsL/bRBJO4sYbtj54XO94PLslxWNMDnyl119kF6lKQIpBDfg5E4MbuffffP+VvmNQg/EMqm
+	4zKpBGskxN9r5wGHQUDH0i60VZU5/1Ergfq5s=
+X-Received: by 2002:a17:907:9701:b0:b88:5b72:ec39 with SMTP id a640c23a62f3a-b8ddf805340mr625902766b.5.1769875975203;
+        Sat, 31 Jan 2026 08:12:55 -0800 (PST)
 Received: from localhost.localdomain ([2a00:23c4:a758:8a01:46ad:7674:ff90:13f3])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-658b46ac0e8sm5433232a12.34.2026.01.31.08.12.53
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-658b46ac0e8sm5433232a12.34.2026.01.31.08.12.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Jan 2026 08:12:53 -0800 (PST)
+        Sat, 31 Jan 2026 08:12:54 -0800 (PST)
 From: Biju <biju.das.au@gmail.com>
 X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
 To: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
@@ -84,25 +84,22 @@ To: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Eric Dumazet <edumazet@google.com>,
 	Jakub Kicinski <kuba@kernel.org>,
 	Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
 	Richard Cochran <richardcochran@gmail.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Magnus Damm <magnus.damm@gmail.com>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-	Jose Abreu <joabreu@synopsys.com>,
 	netdev@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	Biju Das <biju.das.au@gmail.com>,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: [PATCH net-next v3 1/2] dt-bindings: net: renesas,rzv2h-gbeth: Document Renesas RZ/G3L SoC
-Date: Sat, 31 Jan 2026 16:12:42 +0000
-Message-ID: <20260131161250.5047-2-biju.das.jz@bp.renesas.com>
+	Russell King <rmk+kernel@armlinux.org.uk>
+Subject: [PATCH net-next v3 2/2] net: stmmac: dwmac-renesas-gbeth: Add support for RZ/G3L SoC
+Date: Sat, 31 Jan 2026 16:12:43 +0000
+Message-ID: <20260131161250.5047-3-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260131161250.5047-1-biju.das.jz@bp.renesas.com>
 References: <20260131161250.5047-1-biju.das.jz@bp.renesas.com>
@@ -120,221 +117,65 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-27749-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-27750-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[bp.renesas.com,lunn.ch,davemloft.net,google.com,kernel.org,redhat.com,gmail.com,glider.be];
+	FREEMAIL_TO(0.00)[bp.renesas.com,lunn.ch,davemloft.net,google.com,kernel.org,redhat.com,gmail.com,foss.st.com,glider.be];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	FREEMAIL_CC(0.00)[bp.renesas.com,foss.st.com,st.com,synopsys.com,vger.kernel.org,gmail.com,microchip.com];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	FREEMAIL_CC(0.00)[bp.renesas.com,vger.kernel.org,st-md-mailman.stormreply.com,lists.infradead.org,gmail.com,armlinux.org.uk];
 	FROM_NEQ_ENVFROM(0.00)[bijudasau@gmail.com,linux-renesas-soc@vger.kernel.org];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,netdev,dt,renesas];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,netdev,renesas,kernel];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,bp.renesas.com:mid,microchip.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 12A9BC2EBE
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,bp.renesas.com:mid,renesas.com:email,armlinux.org.uk:email]
+X-Rspamd-Queue-Id: 3C7ADC2EDC
 X-Rspamd-Action: no action
 
 From: Biju Das <biju.das.jz@bp.renesas.com>
 
-Add device tree binding support for the Gigabit Ethernet (GBETH) IP on
-Renesas RZ/G3L SoC. This SoC uses different Synopsys DesignWare MAC
-version 5.30 compared to RZ/G3E.
+Compared to other Renesas GBETH stmmac glue drivers, RZ/G3L GBETH IP use
+the version Synopsys DesignWare MAC (version 5.30). It has an extra clock
+compared to RZ/V2H and has ptp_pps_o interrupts. Add support for RZ/G3L
+GBETH by reusing device data of RZ/V2H and can be extended to add other
+functionalities later.
 
-RZ/G3L requires an extra clock compared to RZ/G3E and has pps interrupts.
-
-Add a new compatible string "renesas,r9a08g046-gbeth" for RZ/G3L SoC and
-update the schema to handle hardware differences between SoC variants.
-
-Extend the base snps,dwmac.yaml schema to accommodate the PPS interrupts.
-
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Reviewed-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
 v2->v3:
- * Fixed the typo ppt->ptp as pointed by netdev-ai[1].
- * Keep the tag as the change is trivial
-[1]https://netdev-ai.bots.linux.dev/ai-review.html?id=495cbea4-c154-4027-9ecf-0167906492fe
+ * Collected tag.
 v1->v2:
- * Collected tag
+ * No change.
 ---
- .../bindings/net/renesas,rzv2h-gbeth.yaml     | 77 ++++++++++++++++---
- .../devicetree/bindings/net/snps,dwmac.yaml   |  3 +
- 2 files changed, 69 insertions(+), 11 deletions(-)
+ drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/net/renesas,rzv2h-gbeth.yaml b/Documentation/devicetree/bindings/net/renesas,rzv2h-gbeth.yaml
-index bd53ab300f50..fb60f745a1ff 100644
---- a/Documentation/devicetree/bindings/net/renesas,rzv2h-gbeth.yaml
-+++ b/Documentation/devicetree/bindings/net/renesas,rzv2h-gbeth.yaml
-@@ -26,6 +26,9 @@ select:
- properties:
-   compatible:
-     oneOf:
-+      - items:
-+          - const: renesas,r9a08g046-gbeth # RZ/G3L
-+          - const: snps,dwmac-5.30a
-       - items:
-           - enum:
-               - renesas,r9a09g047-gbeth # RZ/G3E
-@@ -47,13 +50,17 @@ properties:
-   clocks:
-     oneOf:
-       - items:
--          - description: CSR clock
--          - description: AXI system clock
-+          - description: CSR/Register access clock
-+          - description: AXI system/Main clock
-           - description: PTP clock
-           - description: TX clock
-           - description: RX clock
-           - description: TX clock phase-shifted by 180 degrees
-           - description: RX clock phase-shifted by 180 degrees
-+          - description: RMII clock
-+
-+        minItems: 7
-+
-       - items:
-           - description: CSR clock
-           - description: AXI system clock
-@@ -69,6 +76,10 @@ properties:
-           - const: rx
-           - const: tx-180
-           - const: rx-180
-+          - const: rmii
-+
-+        minItems: 7
-+
-       - items:
-           - const: stmmaceth
-           - const: pclk
-@@ -88,6 +99,22 @@ properties:
-           - const: tx-queue-1
-           - const: tx-queue-2
-           - const: tx-queue-3
-+      - items:
-+          - const: macirq
-+          - const: eth_wake_irq
-+          - const: eth_lpi
-+          - const: rx-queue-0
-+          - const: rx-queue-1
-+          - const: rx-queue-2
-+          - const: rx-queue-3
-+          - const: tx-queue-0
-+          - const: tx-queue-1
-+          - const: tx-queue-2
-+          - const: tx-queue-3
-+          - const: ptp-pps-0
-+          - const: ptp-pps-1
-+          - const: ptp-pps-2
-+          - const: ptp-pps-3
-       - items:
-           - const: macirq
-           - const: eth_wake_irq
-@@ -135,6 +162,27 @@ required:
- allOf:
-   - $ref: snps,dwmac.yaml#
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c
+index be7f5eb2cdcf..19f34e18bfef 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c
+@@ -214,6 +214,7 @@ static const struct renesas_gbeth_of_data renesas_gmac_of_data = {
+ };
  
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: renesas,r9a08g046-gbeth
-+    then:
-+      properties:
-+        clocks:
-+          minItems: 8
-+
-+        clock-names:
-+          minItems: 8
-+
-+        interrupts:
-+          minItems: 15
-+          maxItems: 15
-+
-+        interrupt-names:
-+          minItems: 15
-+          maxItems: 15
-+
-   - if:
-       properties:
-         compatible:
-@@ -163,12 +211,26 @@ allOf:
-       required:
-         - reset-names
-     else:
-+      properties:
-+        resets:
-+          maxItems: 1
-+
-+        pcs-handle: false
-+
-+        reset-names: false
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: renesas,rzv2h-gbeth
-+    then:
-       properties:
-         clocks:
--          minItems: 7
-+          maxItems: 7
- 
-         clock-names:
--          minItems: 7
-+          maxItems: 7
- 
-         interrupts:
-           minItems: 11
-@@ -178,13 +240,6 @@ allOf:
-           minItems: 11
-           maxItems: 11
- 
--        resets:
--          maxItems: 1
--
--        pcs-handle: false
--
--        reset-names: false
--
- unevaluatedProperties: false
- 
- examples:
-diff --git a/Documentation/devicetree/bindings/net/snps,dwmac.yaml b/Documentation/devicetree/bindings/net/snps,dwmac.yaml
-index dd3c72e8363e..38bc34dc4f09 100644
---- a/Documentation/devicetree/bindings/net/snps,dwmac.yaml
-+++ b/Documentation/devicetree/bindings/net/snps,dwmac.yaml
-@@ -75,6 +75,7 @@ properties:
-         - qcom,sc8280xp-ethqos
-         - qcom,sm8150-ethqos
-         - renesas,r9a06g032-gmac
-+        - renesas,r9a08g046-gbeth
-         - renesas,r9a09g077-gbeth
-         - renesas,rzn1-gmac
-         - renesas,rzv2h-gbeth
-@@ -142,6 +143,8 @@ properties:
-           pattern: '^rx-queue-[0-7]$'
-         - description: Per channel transmit completion interrupt
-           pattern: '^tx-queue-[0-7]$'
-+        - description: PPS interrupt
-+          pattern: '^ptp-pps-[0-3]$'
- 
-   clocks:
-     minItems: 1
+ static const struct of_device_id renesas_gbeth_match[] = {
++	{ .compatible = "renesas,r9a08g046-gbeth", .data = &renesas_gbeth_of_data },
+ 	{ .compatible = "renesas,r9a09g077-gbeth", .data = &renesas_gmac_of_data },
+ 	{ .compatible = "renesas,rzv2h-gbeth", .data = &renesas_gbeth_of_data },
+ 	{ /* Sentinel */ }
 -- 
 2.43.0
 
