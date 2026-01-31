@@ -1,60 +1,60 @@
-Return-Path: <linux-renesas-soc+bounces-27744-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27745-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uKp3B/ImfmmLWAIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27744-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 31 Jan 2026 16:59:46 +0100
+	id wOyKJzwnfmmLWAIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27745-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 31 Jan 2026 17:01:00 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3802CC2D7D
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 31 Jan 2026 16:59:45 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1817BC2DCB
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 31 Jan 2026 17:00:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 50557300D26C
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 31 Jan 2026 15:59:12 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id A71723042D43
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 31 Jan 2026 15:59:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EF3933B955;
-	Sat, 31 Jan 2026 15:58:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D91733C52A;
+	Sat, 31 Jan 2026 15:59:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="1ydRNdvw"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="fzMmmqFn"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA53A33EAEA
-	for <linux-renesas-soc@vger.kernel.org>; Sat, 31 Jan 2026 15:58:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25CEE340DB1;
+	Sat, 31 Jan 2026 15:59:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769875139; cv=none; b=b4MaDJPwLpxkDMc/kiTgp52g/oCaz4x279orq4gmjzA62yoHvH19/y9lvBlKX5jyiS/hQuvril303FNh/BTYmCmUCz6RpMPtdp+qEPB8VRVqPQ9QuBsMDqZIOj6LdzdPGDz+mNJIgfvtNY3tZoherm9skN4QDWkeDRanXzS/Tmk=
+	t=1769875142; cv=none; b=dWi6u389rRPb5uw4orcxsuIFlJwIQNruINTajQ3AGPh4OyoZKab6QRnocFjdZ/hFJxOB/5wNzEkq3ocoPODF66wOdz8EUullCPaTCWDg54uqNFUG4pOg1mqphageG8YCkZS46ZQ007gtC+I5v+NM+TqOUuozdXw+Y8pjKvbBzgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769875139; c=relaxed/simple;
-	bh=bczyOOkseIGllZ1KI2kQH9CHNFzTuiU+IBawx++FApo=;
+	s=arc-20240116; t=1769875142; c=relaxed/simple;
+	bh=m2qDoKi91f3lAIwsCV6C3vIi8YqJ6O3APi5f5Uf5onY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=cRR9NqPSEGBGr+IAL7aTMPgm23IEPma0DBCM+fstoQ2g9Z75IQcP1lP00PfyiPnHfkER84rZouFg0RBEAFl8gmNEtN6inY7PUt02R4XFVZJ7FBxrS3VGJNwaK42abQhKFqJhJNlPRdWiisO4zJ5h+gck1cRzCnQ24EBAZm40qWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=1ydRNdvw; arc=none smtp.client-ip=185.171.202.116
+	 In-Reply-To:To:Cc; b=gw6qvMTfXAE9Nc5KYhjAxNKZzCVu7gp4QXjMYKyfMHUIZJsvez56WO+VQlmfgakZqX+xil0zlgSzj3qZaU4wKUzrGu1RKEzitW85eH+qAmQdN+F6D9AGkyvLREZImN0CxOJnXIC/904+Ip8rknwMvPEmmUxvTFfSoVMyY5vVjaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=fzMmmqFn; arc=none smtp.client-ip=185.171.202.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 5347DC22F7D;
-	Sat, 31 Jan 2026 15:59:00 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 939F2C22F7F;
+	Sat, 31 Jan 2026 15:59:03 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 68B45606B6;
-	Sat, 31 Jan 2026 15:58:56 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E32EE119A88ED;
-	Sat, 31 Jan 2026 16:58:51 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id AA1A1606B6;
+	Sat, 31 Jan 2026 15:58:59 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9735E119A88F3;
+	Sat, 31 Jan 2026 16:58:55 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1769875135; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1769875138; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=D7K4F1HrIRTsPGZNGwzk5i8tsCCw6aOJmgJvAPraxf8=;
-	b=1ydRNdvwB7R0kZe9ZPntmALDCX7si7xmTy1IchtGSw9oszcrW9Vt3sq2TOT3gZx9uPAezZ
-	7xuKOFJgwqssR2HkmiHi5JUDIWrgt81+4ha3+1Dmww0vXw3oDGvVNFMNfS49o/rXLQyA1U
-	rCcnlZLrPKpsrZSbkRHb5gbYX/dWSLdjhDJEA+Fh8faGzPDevw46hnIuG/WBmSzzzGM+47
-	C/X3JubjViBGxR4vl8VOEJ2F5GVn0glpiq4UJasjXXaZ9nag593Dhn46UIvXpqqag66Hm3
-	iD08uQFI8dvWrJtvkWMqmwVBAmjtg1Zayt9xuc8JJLWld0OKPRyB2pCiUTkT0w==
+	bh=rN3xt3h5v4YQ9J23cLsAxFTBdfizY8hmnA3Lo4/tdxE=;
+	b=fzMmmqFnipcPBSbm3bJCtchU+67qXPft4La/14Rp1esg5WA85F1cyD0Oh97WbaA3nSoQxi
+	VC+LnwQ3RITlnkoto/J7GiN9FU3XnwV4UdDme37IAUj2xQA7pIHj0GC8uyP0T527anWvda
+	iG+wCgUPXh7LicPwmJh2RswEAyjNkPTgVzITS6OKTBtWvhkRI3Zl7+kfZ45wgEckjOYFMT
+	73jSnetbMzMzy5On+HtYhvADonMZqt71mKN1PJWHXjLDrUkS5adxxiDfX6+spKAVh/aRpy
+	6EM9judsNxy0bqCJzMjsZeqDYNFfIWBErZI7aKzlzsc7aR7ZI6T5pZo9F+hWpQ==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Sat, 31 Jan 2026 16:58:35 +0100
-Subject: [PATCH v2 3/6] drm/mcde: dsi: mcde_dsi_bind: break when a panel or
- bridge is found
+Date: Sat, 31 Jan 2026 16:58:36 +0100
+Subject: [PATCH v2 4/6] drm/mcde: dsi: convert to
+ of_drm_find_and_get_bridge()
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -63,7 +63,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260131-drm-bridge-alloc-getput-drm_of_find_bridge-4-v2-3-e081bcdc1467@bootlin.com>
+Message-Id: <20260131-drm-bridge-alloc-getput-drm_of_find_bridge-4-v2-4-e081bcdc1467@bootlin.com>
 References: <20260131-drm-bridge-alloc-getput-drm_of_find_bridge-4-v2-0-e081bcdc1467@bootlin.com>
 In-Reply-To: <20260131-drm-bridge-alloc-getput-drm_of_find_bridge-4-v2-0-e081bcdc1467@bootlin.com>
 To: Biju Das <biju.das.jz@bp.renesas.com>, 
@@ -89,20 +89,20 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-27744-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-27745-lists,linux-renesas-soc=lfdr.de];
 	FREEMAIL_TO(0.00)[bp.renesas.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,intel.com,ideasonboard.com,glider.be];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[21];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
@@ -113,46 +113,102 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,bootlin.com:email,bootlin.com:dkim,bootlin.com:mid]
-X-Rspamd-Queue-Id: 3802CC2D7D
+	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:email,bootlin.com:dkim,bootlin.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 1817BC2DCB
 X-Rspamd-Action: no action
 
-mcde_dsi_bind() has a loop over all subnodes looking for a panel, but does
-not exit when a match is found and only stores the last match. However this
-will be problematic when introducing refcounting on the struct drm_device
-pointer in a following commit, because of_drm_find_and_get_bridge() would
-get a reference to multiple bridges.
+of_drm_find_bridge() is deprecated. Move to its replacement
+of_drm_find_and_get_bridge() which gets a bridge reference, and ensure it
+is put when done.
 
-There seem to be no real reason for looking for multiple panels, so just
-break as soon as a match is found.
+We need to handle the two cases: when a panel is found and when it isn't,
+even though the latter is not supported. So:
+
+ * in case a panel is not found and bridge is, get a reference to the
+   found bridge
+ * in case a panel is found, get a reference to the panel_bridge when it
+   is added, so the following code always get exactly one reference that
+   it needs to put
+
+Finally, use the next_bridge pointer in struct drm_bridge in order to
+simplify putting the reference.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-
 ---
 
 Changes in v2:
-- break instead of warning as suggested by Linus Walleij:
-  https://lore.kernel.org/r/CAD++jLm_Va+7c_usgoPDhsDiCr4NQMZWsQ3iJW5-a1ETP4EaJQ@mail.gmail.com
+- Removed drm_bridge_put(), not needed after the previous patch changes:
+  the loop cannot assign 'bridge' more than once now
+- Not added Linus' R-by because of this change
 ---
- drivers/gpu/drm/mcde/mcde_dsi.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/gpu/drm/mcde/mcde_dsi.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/mcde/mcde_dsi.c b/drivers/gpu/drm/mcde/mcde_dsi.c
-index a3423459dd7a..5893fd2681b3 100644
+index 5893fd2681b3..47d45897ed06 100644
 --- a/drivers/gpu/drm/mcde/mcde_dsi.c
 +++ b/drivers/gpu/drm/mcde/mcde_dsi.c
-@@ -1116,6 +1116,11 @@ static int mcde_dsi_bind(struct device *dev, struct device *master,
- 				return -EINVAL;
- 			}
- 		}
-+
-+		if (panel || bridge) {
-+			of_node_put(child);
-+			break;
-+		}
+@@ -40,7 +40,6 @@ struct mcde_dsi {
+ 	struct mcde *mcde;
+ 	struct drm_bridge bridge;
+ 	struct drm_panel *panel;
+-	struct drm_bridge *bridge_out;
+ 	struct mipi_dsi_host dsi_host;
+ 	struct mipi_dsi_device *mdsi;
+ 	const struct drm_display_mode *mode;
+@@ -1060,7 +1059,7 @@ static int mcde_dsi_bridge_attach(struct drm_bridge *bridge,
  	}
- 	if (panel) {
- 		bridge = drm_panel_bridge_add_typed(panel,
+ 
+ 	/* Attach the DSI bridge to the output (panel etc) bridge */
+-	return drm_bridge_attach(encoder, d->bridge_out, bridge, flags);
++	return drm_bridge_attach(encoder, d->bridge.next_bridge, bridge, flags);
+ }
+ 
+ static const struct drm_bridge_funcs mcde_dsi_bridge_funcs = {
+@@ -1076,7 +1075,7 @@ static int mcde_dsi_bind(struct device *dev, struct device *master,
+ 	struct mcde_dsi *d = dev_get_drvdata(dev);
+ 	struct device_node *child;
+ 	struct drm_panel *panel = NULL;
+-	struct drm_bridge *bridge = NULL;
++	struct drm_bridge *bridge __free(drm_bridge_put) = NULL;
+ 
+ 	if (!of_get_available_child_count(dev->of_node)) {
+ 		dev_info(dev, "unused DSI interface\n");
+@@ -1109,7 +1108,7 @@ static int mcde_dsi_bind(struct device *dev, struct device *master,
+ 				PTR_ERR(panel));
+ 			panel = NULL;
+ 
+-			bridge = of_drm_find_bridge(child);
++			bridge = of_drm_find_and_get_bridge(child);
+ 			if (!bridge) {
+ 				dev_err(dev, "failed to find bridge\n");
+ 				of_node_put(child);
+@@ -1129,6 +1128,7 @@ static int mcde_dsi_bind(struct device *dev, struct device *master,
+ 			dev_err(dev, "error adding panel bridge\n");
+ 			return PTR_ERR(bridge);
+ 		}
++		drm_bridge_get(bridge);
+ 		dev_info(dev, "connected to panel\n");
+ 		d->panel = panel;
+ 	} else if (bridge) {
+@@ -1140,7 +1140,7 @@ static int mcde_dsi_bind(struct device *dev, struct device *master,
+ 		return -ENODEV;
+ 	}
+ 
+-	d->bridge_out = bridge;
++	d->bridge.next_bridge = drm_bridge_get(bridge);
+ 
+ 	/* Create a bridge for this DSI channel */
+ 	d->bridge.of_node = dev->of_node;
+@@ -1160,7 +1160,7 @@ static void mcde_dsi_unbind(struct device *dev, struct device *master,
+ 	struct mcde_dsi *d = dev_get_drvdata(dev);
+ 
+ 	if (d->panel)
+-		drm_panel_bridge_remove(d->bridge_out);
++		drm_panel_bridge_remove(d->bridge.next_bridge);
+ 	regmap_update_bits(d->prcmu, PRCM_DSI_SW_RESET,
+ 			   PRCM_DSI_SW_RESET_DSI0_SW_RESETN, 0);
+ }
 
 -- 
 2.52.0
