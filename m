@@ -1,82 +1,82 @@
-Return-Path: <linux-renesas-soc+bounces-27864-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27865-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QMeKDnOCgmneVgMAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27864-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Feb 2026 00:19:15 +0100
+	id qLmABKmCgmneVgMAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27865-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Feb 2026 00:20:09 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB3D0DFA9F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Feb 2026 00:19:14 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7180DFACE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Feb 2026 00:20:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 7273C304808E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Feb 2026 23:18:57 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id CA20830B0001
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Feb 2026 23:18:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49055374194;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBCD5376BCC;
 	Tue,  3 Feb 2026 23:18:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e0xf5gJN"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O3/Kco8Q"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F9F6329E43
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  3 Feb 2026 23:18:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6AB936165E
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  3 Feb 2026 23:18:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770160717; cv=none; b=ZtVxR2dSoLOOJ3jR3Y8W9LU92Pdl0mE+efSjaeXU8cZ9p95WEv14/K1wCBx97QMGMDqv0G4FLLpQqfgW6UikqtebPAS4O2wtvgKv07s9AHmt+TKOmkGHxs7c1Qv8zObW1ghpiABJjfoeOqCnDwvfQ4wXElLf5u2uHZBrYtSt1SA=
+	t=1770160717; cv=none; b=VEjhklUIiKZzDrAQ2qlIkeUAhOBcwSeI7NznfNvv8NsaEEBayxpnGQitRXVoWfRM9hiXgKJfkcNwB5CnvrdklAAOzfP20g+bHulHIWAnDMZH9o2SDKow3nxhdWqpqNMGZWtfdHqdjIE5CdJ2HB4KiEQNlrQlWBT/qQ14w3xrXaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1770160717; c=relaxed/simple;
-	bh=1uF0wBkSjxeFSATeAkszaNl/BxV9vt5+gPDNPaKaTo4=;
+	bh=+8PL5Ixzxv6q40l8iUL9vZ9LOzsZmNxHJKAkQAAjwYU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XprS3/FO7oEOFdQScbo93Cq8Wi+plOIlHhmtlPM7hzV1hUuA+80GKagKlJdy2lmNkH6WnERcxXaYZELQT/fEFcV9OwWRvyqhS9HY6fL7wnPB7+QkKcO3V52w02CWuB10qsmeJZTd8xx32HcpBY4mH+YLfcS5B8GOiEldvys4VBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e0xf5gJN; arc=none smtp.client-ip=209.85.221.45
+	 MIME-Version; b=Kxq2lOB6KMYisJsQPyR1l2WQOxaqB0P3av9JzuRJ4wZqQsRLhYrzgOYpcxzmdrr18O6vWSgrK9mU+aTORek6qQbuJyaHOPlflAqWz3CfprYQdNjpY7O6CLy/X+GsZ3+TVYGLf6YFezsEVykkeyHD5v3ah3r1nXjaciWCrYaGKzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O3/Kco8Q; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-42fb2314f52so3663310f8f.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 03 Feb 2026 15:18:34 -0800 (PST)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4806ce0f97bso52231535e9.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 03 Feb 2026 15:18:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770160713; x=1770765513; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1770160714; x=1770765514; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/5hoJf68rQR7rnJWTnRUztO/z8AoqWtSofT0jabEpYg=;
-        b=e0xf5gJNMBstCMedophYAmeF0kK3f8X2jc7Vk0360QTfAZd6VU5jgSa3FMbcRTy+IZ
-         RK4ugBnEaYK0h5BdElAF/tt9bo2ltVZclFyKs1c4uayc0YgagVsnmnokbf30M9BiyKrB
-         45aR/sBye9IYxkPjCuxAx8drht3SGfQK+dpv1O98t4WhAJzHSrpqla8EfLALokRMa1k/
-         JPFvCyFd8487+qw7UadK1AuR7sjPElwntlniNCKXSpC2LY6LDPepnOi+Ph/CY8ENV/7s
-         KiD/ozDNkl82oIQXRQao/Wu2l99kPHwBrnR0JF6v/BpuIHMLb6JUeGQPwBK3CrKQyNaG
-         U9sQ==
+        bh=BShUaX58BJSoQ+jnQUrTyp17jL8XdIs4C5TLsuymRCo=;
+        b=O3/Kco8QilzA5fua2h1tbqVnNgW03m/PjJ+ompr+xAAqPBDRkdp6GIKJfEE+JRqIl4
+         lCbbR7B1Oup2CSXHRs9NDJM2S9A1l9Y0azuy/ncTKHXoKSfrT5uuLSw99J3r53rZhyvs
+         xJPmw+0ci9vjk9z5T0lzFcU1gwd3H3RnmmnB7MDCpnfMY93kVGDR0EVQF4fDegitw8Iy
+         ngfLDzKdkVY/GhMWmHhB9wiYw/qrzBDnxyAQtX0/MalQnmllU6Y53IU/GCuTXN4QPxFg
+         LpSsIBnuN844C4Mqt5PWuqbq2l2nJ8Xw5bAZkQOR09OuAa7GccZ5e0Q3kgRJHHmr9MpX
+         m1Dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770160713; x=1770765513;
+        d=1e100.net; s=20230601; t=1770160714; x=1770765514;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=/5hoJf68rQR7rnJWTnRUztO/z8AoqWtSofT0jabEpYg=;
-        b=hm4kdw5c52dMxkpr/gKOtvIvlMBKCKDbCoUbGeyZq86/omL8qXsVRKsi9ZlJVT9c2e
-         uAmfMUP1eNxvqFc+1rHHQjbBQyLFB9LELAB/it5dD2sdJX9uZ2ATKvebPRJH8OdWqf1P
-         Pe0Op+noCL0lkSq1YoP/9CEMFe/F1qnkJvIQmrGi8ZG9ASjzbYjTmjrd3aXyQ/mpNvge
-         l9dfObTlkZoO+sGP1093AHGtWIhVe9g3ggQUvN0yVOdxjHXFIYibTr9KGMoqLe9okklV
-         pxEM8yhT2ScK+NeBgHploQtCb0VtIErupFhHMV2734mNFaPssK355g8uX3Z9DWxiupkc
-         I0rw==
-X-Forwarded-Encrypted: i=1; AJvYcCUnyXkSZsUDn8L3eWlU06/VlE/8ZCoGEwhr0usqYV00Y3z8WKCHdOpQrWpI788F9Z1stndtMpdX3x90819FX8qv7Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzVbCkq90V7CLxnhVRmZn9joe9msg04TGnRgneETxYqGxVllmfZ
-	/LhQR6FXUaknBB7JUhYMEFK4WLzWOX8miHI5WVuTdxIMd+In3kVTUjVV
-X-Gm-Gg: AZuq6aJNuy4DFpKxCrdkxJOAPfMEj9Pd0kkXuVjxd5mz9EnJ9BuJb6IwUEtxiV+zfCP
-	zmaxI//2GbrstPpcGikS9vrl+bvR6Im+pYYp5xRhI83ZbQ/MgSiiAwGQhI84wgdPnZkNlYcDDXJ
-	tuA1IplgX8cejfnFPq5uV05M93Zv6y7O/NrRbDPIFwit8Bk8r2mcaai/BYhGqrV+ewNocD2McHw
-	ctIDZQsFb4I9SV8+7rZ4XAIc9AE8N9nJgooSXfKR9OO7wvkyhhWsKSfonh51V6qHdBMSf4HBv8a
-	an6qNJALa/kDeoZfCUzdltKnBoZNVIZFydaw7RcX+I7EN6AlxcLKj3dkYXx8D3TGj7aajHS2UXF
-	ncLOn6WP0Ici7oUlCwnWuLyTj8+1hgCaUI4oZSd5SrQzdl8v9Hpq46HQu/EoMYnXYrJsRkQzG0a
-	Ew59zJ25jlGvX1XEQTXAADT0UoXqq7Iw7A1DVq4wxFmlzWNJRrDp9Vx/3jsZ8QM7W3+Qs11NH7/
-	3y/Js+D43aa3B6EoNrzevuN
-X-Received: by 2002:a05:6000:2387:b0:435:9522:2bc9 with SMTP id ffacd0b85a97d-43617e398c0mr1519895f8f.5.1770160712641;
-        Tue, 03 Feb 2026 15:18:32 -0800 (PST)
+        bh=BShUaX58BJSoQ+jnQUrTyp17jL8XdIs4C5TLsuymRCo=;
+        b=joSMgcplTMAhBmmYkdwuCuzQRCOEswYd3KK57UWYtzYTEJgYPamfE/VKpMOEb4TXdp
+         eTR/tECPuj2cHO8VdJLaTMptWL9bYGfGWKH9IAoLw6/yAGdP+W904vuktFhBhMwqaVYb
+         18pUQuICaGWVWea+Hu8FIia+SKSVN2tP2Ye0CcqLRoYd5IgUo0++oYjfoX6Y1HZ8qVvm
+         3F/mj0m5rrDCqjnTwpqiT/THgL9DLPVdDFzi1LjG2QMCFtSGhnoJi6QjG2ThhV1Bkn4x
+         fPjSuGTiZcFBfl4SmYUr0jQxU/dsZUQomxO7+g+Oys95UetNfICLo2VZCo+VItEDHTVm
+         cMSg==
+X-Forwarded-Encrypted: i=1; AJvYcCWkxdmko3bOq0SOvbH/yYQTahDBK5IM6Lupt3VIY+P/nPYTm/nR0J9i5Ho5bsW+1sKSX/D0wxajpAWBx07nmqv86g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyIm+OvGFNleEbKCAMtlqwlgq1wrbOtJvFvZ7P/giBV78SUqVA8
+	kPb+bB12t7xGHs8OfQwh28Zl4+vjKmqfbpRXYekf+z7Mklr0R/X8SJl3
+X-Gm-Gg: AZuq6aIe5jYk5IBO1skVatl2exvTSDPzwDUtlAQ/K1xjPJhEUX71aKg6BrJnAyAT7ge
+	iKgdW++AVodMBeEmymICcggY/4G+lfBHQzluaBB8I+uiay/pclz7QHkGh3fJCTE7uMpalpEAXUJ
+	FgCo+BGMt/AiCcydM9QUeXIJoXkRog17/nesEWVMyNIBq/xhgjnHJAV0e5qwyYXxncB/RUQsDdp
+	SBw6Dmv0H+nvv2Rms/rJUDwbgkmEVN+AeAG6qA2Gi7fah0xztq4A+qj+a3kPWKrHHnx1uNaoDCj
+	KDLD3RP9kJMpO9lJPHhPj9dArtMC8ljcB8qcR2AwatDT0zF91uwMuLrBOVHd1teiaXuW+lxW9iZ
+	il/ldLvDbj1SfcZdBd6uC8KmSFa46NQd8vo8dseOMjX93UF1SgkVsiThmPzwojeXGRYbjpYZNcE
+	+Hb/LkKmK+pUGAqCbscAVZV15Z3rYgO8sY1eRrQWsdZyjH7pW6W634IGIJ2ye2J+s9vJ0VZkPvE
+	bW03seYSpDqWGQjwNB/pUvb
+X-Received: by 2002:a05:600c:1c1e:b0:47a:7fd0:9eea with SMTP id 5b1f17b1804b1-4830e92a706mr17809735e9.3.1770160713792;
+        Tue, 03 Feb 2026 15:18:33 -0800 (PST)
 Received: from iku.Home ([2a06:5906:61b:2d00:2e50:5c7f:afca:5f9f])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-436180647aasm1739832f8f.41.2026.02.03.15.18.31
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-436180647aasm1739832f8f.41.2026.02.03.15.18.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Feb 2026 15:18:31 -0800 (PST)
+        Tue, 03 Feb 2026 15:18:32 -0800 (PST)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Thomas Gleixner <tglx@kernel.org>,
@@ -89,9 +89,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Biju Das <biju.das.jz@bp.renesas.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 5/6] irqchip/renesas-rzv2h: Add CA55 software interrupt support
-Date: Tue,  3 Feb 2026 23:18:22 +0000
-Message-ID: <20260203231823.208661-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 6/6] irqchip/renesas-rzv2h: Handle ICU error IRQ and add SWPE trigger
+Date: Tue,  3 Feb 2026 23:18:23 +0000
+Message-ID: <20260203231823.208661-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260203231823.208661-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20260203231823.208661-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -108,7 +108,7 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -118,10 +118,10 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,bp.renesas.com,renesas.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-27864-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-27865-lists,linux-renesas-soc=lfdr.de];
 	FREEMAIL_TO(0.00)[kernel.org,pengutronix.de,glider.be,gmail.com];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
@@ -132,196 +132,300 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bp.renesas.com:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,renesas.com:email]
-X-Rspamd-Queue-Id: DB3D0DFA9F
+	DBL_BLOCKED_OPENRESOLVER(0.00)[bp.renesas.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,renesas.com:email]
+X-Rspamd-Queue-Id: B7180DFACE
 X-Rspamd-Action: no action
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-The Renesas RZ/V2H ICU provides a software interrupt register (ICU_SWINT)
-that allows software to explicitly assert interrupts toward individual
-CA55 cores. Writing BIT(n) to ICU_SWINT triggers the corresponding
-interrupt.
+Handle the RZ/V2H ICU error interrupt to help diagnose latched bus,
+ECC RAM, and CA55/IP error conditions.
 
-Extend the RZ/V2H ICU IRQ domain to include CA55 software interrupts as
-part of the hierarchical IRQ numbering, backed by the ICU_SWINT
-register.
+Extend the hardware IRQ numbering to include a single error interrupt
+line and route IRQCHIP_STATE_PENDING requests to hardware-triggered
+error injection via ICU_SWPE.
 
-SW interrupts can now be triggered when GENERIC_IRQ_INJECTION is enabled.
+Account for SoC differences in ECC RAM error register coverage so the
+handler only iterates over valid ECC status/clear banks, and route the
+RZ/V2N compatible to a probe path with the correct ECC range while
+keeping the existing RZ/V2H and RZ/G3E handling.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
 v1->v2:
-- Made CA55 SW interrupt as part of ICU IRQ domain.
-- Implemented rzv2h_icu_irq_set_irqchip_state() to trigger SWINT.
+- Made Error interrupt as part of ICU IRQ domain.
+- Updated rzv2h_icu_irq_set_irqchip_state() to trigger pseudo interrupt.
 - Updated commit message accordingly.
 ---
- drivers/irqchip/irq-renesas-rzv2h.c | 89 ++++++++++++++++++++++++++++-
- 1 file changed, 86 insertions(+), 3 deletions(-)
+ drivers/irqchip/irq-renesas-rzv2h.c | 149 ++++++++++++++++++++++++++--
+ 1 file changed, 143 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/irqchip/irq-renesas-rzv2h.c b/drivers/irqchip/irq-renesas-rzv2h.c
-index 6c7bbb04c6e4..a2ff7524889c 100644
+index a2ff7524889c..3937a857af8b 100644
 --- a/drivers/irqchip/irq-renesas-rzv2h.c
 +++ b/drivers/irqchip/irq-renesas-rzv2h.c
-@@ -12,6 +12,7 @@
- #include <linux/bitfield.h>
- #include <linux/cleanup.h>
- #include <linux/err.h>
-+#include <linux/interrupt.h>
- #include <linux/io.h>
- #include <linux/irqchip.h>
- #include <linux/irqchip/irq-renesas-rzv2h.h>
-@@ -29,7 +30,10 @@
- #define ICU_TINT_START				(ICU_IRQ_LAST + 1)
- #define ICU_TINT_COUNT				32
- #define ICU_TINT_LAST				(ICU_TINT_START + ICU_TINT_COUNT - 1)
--#define ICU_NUM_IRQ				(ICU_TINT_LAST + 1)
-+#define ICU_CA55_INT_START                      (ICU_TINT_LAST + 1)
-+#define ICU_CA55_INT_COUNT                      4
-+#define ICU_CA55_INT_LAST                       (ICU_CA55_INT_START + ICU_CA55_INT_COUNT - 1)
-+#define ICU_NUM_IRQ                             (ICU_CA55_INT_LAST + 1)
+@@ -33,7 +33,10 @@
+ #define ICU_CA55_INT_START                      (ICU_TINT_LAST + 1)
+ #define ICU_CA55_INT_COUNT                      4
+ #define ICU_CA55_INT_LAST                       (ICU_CA55_INT_START + ICU_CA55_INT_COUNT - 1)
+-#define ICU_NUM_IRQ                             (ICU_CA55_INT_LAST + 1)
++#define ICU_ERR_INT_START                      (ICU_CA55_INT_LAST + 1)
++#define ICU_ERR_INT_COUNT                      1
++#define ICU_ERR_INT_LAST                       (ICU_ERR_INT_START + ICU_ERR_INT_COUNT - 1)
++#define ICU_NUM_IRQ                             (ICU_ERR_INT_LAST + 1)
  
  /* Registers */
  #define ICU_NSCNT				0x00
-@@ -42,6 +46,7 @@
+@@ -46,7 +49,15 @@
  #define ICU_TSCLR				0x24
  #define ICU_TITSR(k)				(0x28 + (k) * 4)
  #define ICU_TSSR(k)				(0x30 + (k) * 4)
-+#define ICU_SWINT				0x130
++#define ICU_BEISR(k)				(0x70 + (k) * 4)
++#define ICU_BECLR(k)				(0x80 + (k) * 4)
++#define ICU_EREISR(k)				(0x90 + (k) * 4)
++#define ICU_ERCLR(k)				(0xE0 + (k) * 4)
+ #define ICU_SWINT				0x130
++#define ICU_ERINTA55CTL(k)			(0x338 + (k) * 4)
++#define ICU_ERINTA55CRL(k)			(0x348 + (k) * 4)
++#define ICU_ERINTA55MSK(k)			(0x358 + (k) * 4)
++#define ICU_SWPE				0x370
  #define ICU_DMkSELy(k, y)			(0x420 + (k) * 0x20 + (y) * 4)
  #define ICU_DMACKSELk(k)			(0x500 + (k) * 4)
  
-@@ -248,6 +253,30 @@ static void rzv2h_icu_irq_enable(struct irq_data *d)
- 	irq_chip_enable_parent(d);
+@@ -97,6 +108,10 @@
+ #define ICU_RZG3E_TSSEL_MAX_VAL			0x8c
+ #define ICU_RZV2H_TSSEL_MAX_VAL			0x55
+ 
++#define ICU_SWPE_NUM				16
++#define ICU_NUM_BE				4
++#define ICU_NUM_A55ERR				4
++
+ /**
+  * struct rzv2h_irqc_reg_cache - registers cache (necessary for suspend/resume)
+  * @nitsr: ICU_NITSR register
+@@ -115,12 +130,16 @@ struct rzv2h_irqc_reg_cache {
+  * @t_offs:		TINT offset
+  * @max_tssel:		TSSEL max value
+  * @field_width:	TSSR field width
++ * @ecc_start:		Start index of ECC RAM interrupts
++ * @ecc_end:		End index of ECC RAM interrupts
+  */
+ struct rzv2h_hw_info {
+ 	const u8	*tssel_lut;
+ 	u16		t_offs;
+ 	u8		max_tssel;
+ 	u8		field_width;
++	u8		ecc_start;
++	u8		ecc_end;
+ };
+ 
+ /* DMAC */
+@@ -259,10 +278,10 @@ static int rzv2h_icu_irq_set_irqchip_state(struct irq_data *d,
+ {
+ 	unsigned int hwirq = irqd_to_hwirq(d);
+ 	struct rzv2h_icu_priv *priv;
++	void __iomem *offset;
+ 	unsigned int bit;
+ 
+-	if (hwirq < ICU_CA55_INT_START || hwirq > ICU_CA55_INT_LAST ||
+-	    which != IRQCHIP_STATE_PENDING)
++	if (which != IRQCHIP_STATE_PENDING)
+ 		return irq_chip_set_parent_state(d, which, state);
+ 
+ 	if (!state)
+@@ -271,9 +290,33 @@ static int rzv2h_icu_irq_set_irqchip_state(struct irq_data *d,
+ 	priv = irq_data_to_priv(d);
+ 	bit = BIT(hwirq - ICU_CA55_INT_START);
+ 
++	switch (hwirq) {
++	case ICU_CA55_INT_START ... ICU_CA55_INT_LAST:
++		bit = BIT(hwirq - ICU_CA55_INT_START);
++		offset = priv->base + ICU_SWINT;
++		break;
++	case ICU_ERR_INT_START ... ICU_ERR_INT_LAST: {
++		static u8 swpe;
++
++		bit = BIT(swpe);
++		/*
++		 * SWPE has 16 bits; the bit position is rotated on each trigger
++		 * and wraps around once all bits have been used.
++		 */
++		if (++swpe >= ICU_SWPE_NUM)
++			swpe = 0;
++
++		offset = priv->base + ICU_SWPE;
++		break;
++	}
++	default:
++		return irq_chip_set_parent_state(d, which, state);
++	}
++
+ 	guard(raw_spinlock)(&priv->lock);
+-	/* Trigger the software interrupt */
+-	writel_relaxed(bit, priv->base + ICU_SWINT);
++	/* Trigger the error/software interrupt */
++	writel_relaxed(bit, offset);
++
+ 	return 0;
  }
  
-+static int rzv2h_icu_irq_set_irqchip_state(struct irq_data *d,
-+					   enum irqchip_irq_state which,
-+					   bool state)
-+{
-+	unsigned int hwirq = irqd_to_hwirq(d);
-+	struct rzv2h_icu_priv *priv;
-+	unsigned int bit;
-+
-+	if (hwirq < ICU_CA55_INT_START || hwirq > ICU_CA55_INT_LAST ||
-+	    which != IRQCHIP_STATE_PENDING)
-+		return irq_chip_set_parent_state(d, which, state);
-+
-+	if (!state)
-+		return 0;
-+
-+	priv = irq_data_to_priv(d);
-+	bit = BIT(hwirq - ICU_CA55_INT_START);
-+
-+	guard(raw_spinlock)(&priv->lock);
-+	/* Trigger the software interrupt */
-+	writel_relaxed(bit, priv->base + ICU_SWINT);
-+	return 0;
-+}
-+
- static int rzv2h_nmi_set_type(struct irq_data *d, unsigned int type)
- {
- 	struct rzv2h_icu_priv *priv = irq_data_to_priv(d);
-@@ -429,6 +458,7 @@ static int rzv2h_tint_set_type(struct irq_data *d, unsigned int type)
- 
- static int rzv2h_icu_set_type(struct irq_data *d, unsigned int type)
- {
-+	unsigned int gic_type = IRQ_TYPE_LEVEL_HIGH;
- 	unsigned int hw_irq = irqd_to_hwirq(d);
- 	int ret;
- 
-@@ -445,6 +475,11 @@ static int rzv2h_icu_set_type(struct irq_data *d, unsigned int type)
- 		/* TINT */
- 		ret = rzv2h_tint_set_type(d, type);
+@@ -480,6 +523,10 @@ static int rzv2h_icu_set_type(struct irq_data *d, unsigned int type)
+ 		gic_type = IRQ_TYPE_EDGE_RISING;
+ 		ret = 0;
  		break;
-+	case ICU_CA55_INT_START ... ICU_CA55_INT_LAST:
-+		/* CA55 Software Interrupts have EDGE_RISING type */
-+		gic_type = IRQ_TYPE_EDGE_RISING;
++	case ICU_ERR_INT_START ... ICU_ERR_INT_LAST:
++		/* Error Interrupts */
 +		ret = 0;
 +		break;
  	default:
  		ret = -EINVAL;
  	}
-@@ -452,7 +487,7 @@ static int rzv2h_icu_set_type(struct irq_data *d, unsigned int type)
- 	if (ret)
- 		return ret;
- 
--	return irq_chip_set_type_parent(d, IRQ_TYPE_LEVEL_HIGH);
-+	return irq_chip_set_type_parent(d, gic_type);
- }
- 
- static int rzv2h_irqc_irq_suspend(void *data)
-@@ -501,7 +536,7 @@ static const struct irq_chip rzv2h_icu_chip = {
- 	.irq_disable		= rzv2h_icu_irq_disable,
- 	.irq_enable		= rzv2h_icu_irq_enable,
- 	.irq_get_irqchip_state	= irq_chip_get_parent_state,
--	.irq_set_irqchip_state	= irq_chip_set_parent_state,
-+	.irq_set_irqchip_state	= rzv2h_icu_irq_set_irqchip_state,
- 	.irq_retrigger		= irq_chip_retrigger_hierarchy,
- 	.irq_set_type		= rzv2h_icu_set_type,
- 	.irq_set_affinity	= irq_chip_set_affinity_parent,
-@@ -571,6 +606,50 @@ static int rzv2h_icu_parse_interrupts(struct rzv2h_icu_priv *priv, struct device
+@@ -606,6 +653,48 @@ static int rzv2h_icu_parse_interrupts(struct rzv2h_icu_priv *priv, struct device
  	return 0;
  }
  
-+static irqreturn_t rzv2h_icu_swint_irq(int irq, void *data)
++static irqreturn_t rzv2h_icu_error_irq(int irq, void *data)
 +{
-+	u8 cpu = *(u8 *)data;
++	struct rzv2h_icu_priv *priv = data;
++	const struct rzv2h_hw_info *hw_info = priv->info;
++	void __iomem *base = priv->base;
++	unsigned int k;
++	u32 st;
 +
-+	pr_debug("SWINT interrupt for CA55 core %u\n", cpu);
++	/* 1) Bus errors (BEISR0..3) */
++	for (k = 0; k < ICU_NUM_BE; k++) {
++		st = readl(base + ICU_BEISR(k));
++		if (!st)
++			continue;
++
++		writel_relaxed(st, base + ICU_BECLR(k));
++		pr_debug("rzv2h-icu: BUS error k=%u status=0x%08x\n", k, st);
++	}
++
++	/* 2) ECC RAM errors (EREISR0..X) */
++	for (k = hw_info->ecc_start; k <= hw_info->ecc_end; k++) {
++		st = readl(base + ICU_EREISR(k));
++		if (!st)
++			continue;
++
++		writel_relaxed(st, base + ICU_ERCLR(k));
++		pr_debug("rzv2h-icu: ECC error k=%u status=0x%08x\n", k, st);
++	}
++
++	/* 3) IP/CA55 error interrupt status (ERINTA55CTL0..3) */
++	for (k = 0; k < ICU_NUM_A55ERR; k++) {
++		st = readl(base + ICU_ERINTA55CTL(k));
++		if (!st)
++			continue;
++
++		/* there is no relation with status bits so clear all the interrupts */
++		writel_relaxed(0xffffffff, base + ICU_ERINTA55CRL(k));
++		pr_debug("rzv2h-icu: IP/CA55 error k=%u status=0x%08x\n", k, st);
++	}
++
 +	return IRQ_HANDLED;
 +}
 +
-+static int rzv2h_icu_setup_irqs(struct platform_device *pdev,
-+				struct irq_domain *irq_domain)
-+{
-+	bool irq_inject = IS_ENABLED(CONFIG_GENERIC_IRQ_INJECTION);
-+	static const char * const rzv2h_swint_names[] = {
-+		"int-ca55-0", "int-ca55-1",
-+		"int-ca55-2", "int-ca55-3",
-+	};
-+	static const u8 swint_idx[] = { 0, 1, 2, 3 };
-+	struct device *dev = &pdev->dev;
-+	struct irq_fwspec fwspec;
-+	unsigned int virq;
-+	unsigned int i;
-+	int ret;
-+
-+	for (i = 0; i < ICU_CA55_INT_COUNT && irq_inject; i++) {
-+		fwspec.fwnode = irq_domain->fwnode;
-+		fwspec.param_count = 2;
-+		fwspec.param[0] = ICU_CA55_INT_START + i;
-+		fwspec.param[1] = IRQ_TYPE_EDGE_RISING;
-+
-+		virq = irq_create_fwspec_mapping(&fwspec);
-+		if (!virq)
-+			return dev_err_probe(dev, -EINVAL, "failed to create IRQ mapping for %s\n",
-+					     rzv2h_swint_names[i]);
-+
-+		ret = devm_request_irq(dev, virq, rzv2h_icu_swint_irq, 0, dev_name(dev),
-+				       (void *)&swint_idx[i]);
-+		if (ret)
-+			return dev_err_probe(dev, ret, "Failed to request %s IRQ\n",
-+					     rzv2h_swint_names[i]);
+ static irqreturn_t rzv2h_icu_swint_irq(int irq, void *data)
+ {
+ 	u8 cpu = *(u8 *)data;
+@@ -617,12 +706,15 @@ static irqreturn_t rzv2h_icu_swint_irq(int irq, void *data)
+ static int rzv2h_icu_setup_irqs(struct platform_device *pdev,
+ 				struct irq_domain *irq_domain)
+ {
++	const struct rzv2h_hw_info *hw_info = rzv2h_icu_data->info;
+ 	bool irq_inject = IS_ENABLED(CONFIG_GENERIC_IRQ_INJECTION);
+ 	static const char * const rzv2h_swint_names[] = {
+ 		"int-ca55-0", "int-ca55-1",
+ 		"int-ca55-2", "int-ca55-3",
+ 	};
++	static const char *icu_err = "icu-error-ca55";
+ 	static const u8 swint_idx[] = { 0, 1, 2, 3 };
++	void __iomem *base = rzv2h_icu_data->base;
+ 	struct device *dev = &pdev->dev;
+ 	struct irq_fwspec fwspec;
+ 	unsigned int virq;
+@@ -647,6 +739,34 @@ static int rzv2h_icu_setup_irqs(struct platform_device *pdev,
+ 					     rzv2h_swint_names[i]);
+ 	}
+ 
++	/* Unmask and clear all IP/CA55 error interrupts */
++	for (i = 0; i < ICU_NUM_A55ERR; i++) {
++		writel_relaxed(0xffffff, base + ICU_ERINTA55CRL(i));
++		writel_relaxed(0x0, base + ICU_ERINTA55MSK(i));
 +	}
 +
-+	return 0;
++	/* Clear all Bus errors */
++	for (i = 0; i < ICU_NUM_BE; i++)
++		writel_relaxed(0xffffffff, base + ICU_BECLR(i));
++
++	/* Clear all ECCRAM errors */
++	for (i = hw_info->ecc_start; i <= hw_info->ecc_end; i++)
++		writel_relaxed(0xffffffff, base + ICU_ERCLR(i));
++
++	fwspec.fwnode = irq_domain->fwnode;
++	fwspec.param_count = 2;
++	fwspec.param[0] = ICU_ERR_INT_START;
++	fwspec.param[1] = IRQ_TYPE_LEVEL_HIGH;
++
++	virq = irq_create_fwspec_mapping(&fwspec);
++	if (!virq)
++		return dev_err_probe(dev, -EINVAL, "failed to create IRQ mapping for %s\n",
++				     icu_err);
++
++	ret = devm_request_irq(dev, virq, rzv2h_icu_error_irq, 0, dev_name(dev), rzv2h_icu_data);
++	if (ret)
++		return dev_err_probe(dev, ret, "Failed to request %s IRQ\n", icu_err);
++
+ 	return 0;
+ }
+ 
+@@ -752,12 +872,24 @@ static const struct rzv2h_hw_info rzg3e_hw_params = {
+ 	.t_offs		= ICU_RZG3E_TINT_OFFSET,
+ 	.max_tssel	= ICU_RZG3E_TSSEL_MAX_VAL,
+ 	.field_width	= 16,
++	.ecc_start	= 1,
++	.ecc_end	= 4,
++};
++
++static const struct rzv2h_hw_info rzv2n_hw_params = {
++	.t_offs		= 0,
++	.max_tssel	= ICU_RZV2H_TSSEL_MAX_VAL,
++	.field_width	= 8,
++	.ecc_start	= 0,
++	.ecc_end	= 2,
+ };
+ 
+ static const struct rzv2h_hw_info rzv2h_hw_params = {
+ 	.t_offs		= 0,
+ 	.max_tssel	= ICU_RZV2H_TSSEL_MAX_VAL,
+ 	.field_width	= 8,
++	.ecc_start	= 0,
++	.ecc_end	= 11,
+ };
+ 
+ static int rzg3e_icu_probe(struct platform_device *pdev, struct device_node *parent)
+@@ -765,6 +897,11 @@ static int rzg3e_icu_probe(struct platform_device *pdev, struct device_node *par
+ 	return rzv2h_icu_probe_common(pdev, parent, &rzg3e_hw_params);
+ }
+ 
++static int rzv2n_icu_probe(struct platform_device *pdev, struct device_node *parent)
++{
++	return rzv2h_icu_probe_common(pdev, parent, &rzv2n_hw_params);
 +}
 +
- static int rzv2h_icu_probe_common(struct platform_device *pdev, struct device_node *parent,
- 				  const struct rzv2h_hw_info *hw_info)
+ static int rzv2h_icu_probe(struct platform_device *pdev, struct device_node *parent)
  {
-@@ -626,6 +705,10 @@ static int rzv2h_icu_probe_common(struct platform_device *pdev, struct device_no
+ 	return rzv2h_icu_probe_common(pdev, parent, &rzv2h_hw_params);
+@@ -772,7 +909,7 @@ static int rzv2h_icu_probe(struct platform_device *pdev, struct device_node *par
  
- 	register_syscore(&rzv2h_irqc_syscore);
- 
-+	ret = rzv2h_icu_setup_irqs(pdev, irq_domain);
-+	if (ret)
-+		goto pm_put;
-+
- 	/*
- 	 * coccicheck complains about a missing put_device call before returning, but it's a false
- 	 * positive. We still need dev after successfully returning from this function.
+ IRQCHIP_PLATFORM_DRIVER_BEGIN(rzv2h_icu)
+ IRQCHIP_MATCH("renesas,r9a09g047-icu", rzg3e_icu_probe)
+-IRQCHIP_MATCH("renesas,r9a09g056-icu", rzv2h_icu_probe)
++IRQCHIP_MATCH("renesas,r9a09g056-icu", rzv2n_icu_probe)
+ IRQCHIP_MATCH("renesas,r9a09g057-icu", rzv2h_icu_probe)
+ IRQCHIP_PLATFORM_DRIVER_END(rzv2h_icu)
+ MODULE_AUTHOR("Fabrizio Castro <fabrizio.castro.jz@renesas.com>");
 -- 
 2.52.0
 
