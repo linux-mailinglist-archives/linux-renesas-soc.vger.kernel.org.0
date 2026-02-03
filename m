@@ -1,197 +1,171 @@
-Return-Path: <linux-renesas-soc+bounces-27856-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27857-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aO3ODVc4gmmVQgMAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27856-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 03 Feb 2026 19:03:03 +0100
+	id wCVWD552gmm+UwMAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27857-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 03 Feb 2026 23:28:46 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C67FDD42F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 03 Feb 2026 19:03:02 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id CEFD0DF3DD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 03 Feb 2026 23:28:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6E9CA3011112
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Feb 2026 17:56:59 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 3AC03300E5A2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Feb 2026 22:28:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02C0D364EB2;
-	Tue,  3 Feb 2026 17:56:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D8AD36F41F;
+	Tue,  3 Feb 2026 22:28:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dYtW/Tsk"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="o2mZa+JW"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B360527A916;
-	Tue,  3 Feb 2026 17:56:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C66D12E11AA;
+	Tue,  3 Feb 2026 22:28:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770141418; cv=none; b=Ea6xfYni6fNNW9XuHJrxINKWYrYIoqTc2RhpRWn8uPnYN8teBmuHL7TFmK/or0SO9aOIh9VW2bZZ0vKXw3ggHH1JoNjZF7UguvqFItOvlpc4O8u7LAL/4HKRTmcYcFCZ33ldRG36NwnjLDZWchGIaTke1XBvF5uZ3zTYuMenzSA=
+	t=1770157723; cv=none; b=AS6FiOmBGOWrweW0hiEJgIPV9NEPEW0dIhpzQ0L/p8NS369R5rRjb2dZQJ+/6nljtkyDEGfSMJ0oHQ6TnZah2zHSFMDnganTmCoI44A9B+zzii4Eluoxt8YHPzaShBZwz0wLVb/hLY956wtzdG4zJ97MsKnN3Y2NbdAJEGV2uxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770141418; c=relaxed/simple;
-	bh=2o1PTbDuStWjTBoqYDX9/qLgrhUfoQCc8nPocn80vVg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ljc3LRc5MN73Tw8kjDZosmYLPaoOcfc7dLdpU/Ptmlkx88SK6GqP1MaxqGK91Ep/fD/kHsLPotkE1S62DFMszwlk41rkMgVNc9n1xJQngQiQxOSnC4DDEceEqOc6qSnswqZGMV194hFAZCjRPOSjcGcetk2BUU563ZsXKqzmcAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dYtW/Tsk; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AB36C116D0;
-	Tue,  3 Feb 2026 17:56:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770141418;
-	bh=2o1PTbDuStWjTBoqYDX9/qLgrhUfoQCc8nPocn80vVg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dYtW/TskrnqRFsS8wAKitJbUEZ8gOVvf9FOzsIDGkonJeSEmCtwkuxYOdaRnu8Dxz
-	 6nldus+ijoPHusCh1rIFuEKs0+Tfdm9ecpy9EEcmvvKGC8rnckJVagyWJRpnkydn+1
-	 kNlc5ZqzNTfMakn5vW3b/95lzSPS3FlG7J3rdkSNwsPUrb9Q/C7/Merw1DIye6AC0P
-	 izLoO+hGOiHPcqgoFTG230A/GWPUGau8NOVIFbjuC3cfvEL6tDcY//Uz7VsvThhyBg
-	 kSRcJWLWvvjEfMhFSNnIbYFEZlKpUaMWmhXo+a6nfAjP3w2AGXRtYVoanntsllEhqZ
-	 Z+ftaUZcs6Y7w==
-Date: Tue, 3 Feb 2026 11:56:57 -0600
-From: Rob Herring <robh@kernel.org>
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: devicetree@vger.kernel.org, biju.das.jz@bp.renesas.com,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	linux-kernel@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>,
-	linux-renesas-soc@vger.kernel.org,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, tomm.merciai@gmail.com,
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH v7 1/4] dt-bindings: reset: renesas,rzv2h-usb2phy: Add
- '#mux-state-cells' property
-Message-ID: <20260203175657.GA2788294-robh@kernel.org>
-References: <cover.1769704000.git.tommaso.merciai.xr@bp.renesas.com>
- <af75145b08e24034dcf367932002079363e5dd81.1769704000.git.tommaso.merciai.xr@bp.renesas.com>
- <176971213156.1637421.14962977334514056951.robh@kernel.org>
- <aYG2ostrecBVuMPs@tom-desktop>
+	s=arc-20240116; t=1770157723; c=relaxed/simple;
+	bh=l4RNNUHLX/moEp8ihVd7H0HLeHfSNwK7YcCqcN1/+3c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ja8xxTMGYbLTck2C6DhhBFylwXylRPAZrCXe18FyFURlJ+pdmTyBLuHEKJ8MhW7qVr9C1g0E+2z2/YKtqkfwezG5oDvdMxbfWiG6HQ/CEXkiwscL08VEGzoZVsfhvowmgCaOK5z45hzaUEKIMLRm4Pqzid67FofIC9VS7Yenw4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=o2mZa+JW; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4f5J6X4jHQz9tjW;
+	Tue,  3 Feb 2026 23:28:36 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1770157716;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=f1o9nsF9YwvZWpGmMUWR2zMYlmkS0PV7dw8KDeOPo2k=;
+	b=o2mZa+JWIjUtAWsm8GylAKwi0CRpo3hyrPxMhO7TDg4u1bN5fTRifX4Uor/7P0crcyCQGy
+	fwS3CzFz2uOBprnGT3dtkrxcRfSys4g+KnEq5mlQXK9OAAeP/wyRI1abrsAfm4aDGcNQVK
+	wDfTAKg795QMinjfaja7WDNYt142oGAR/kGNbFLD0Ri0SP0xX61MM0CJGByNn4EKxMB4L8
+	hDNGhp6nqMObwR2VXqOQixA9hVygnyijRXfDTkGSd0QevKWZvEsEisJ7fR1jd6s2o2Xafz
+	ofuXIBttfQQ7RI91Xg7Jk4/su1OJ+3hBMSBU0F4FfJA+NW+lz6gQDmhbV8H+9Q==
+Message-ID: <ffd8b675-687e-457b-bbd0-88e91ee3520c@mailbox.org>
+Date: Tue, 3 Feb 2026 23:28:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aYG2ostrecBVuMPs@tom-desktop>
+Subject: Re: [PATCH] drm/bridge: waveshare-dsi: Register and attach our DSI
+ device at probe
+To: dri-devel@lists.freedesktop.org, Joseph Guo <qijian.guo@nxp.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, David Airlie
+ <airlied@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20260112234726.226092-1-marek.vasut+renesas@mailbox.org>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <20260112234726.226092-1-marek.vasut+renesas@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: 8b8c1e99ae5774b79aa
+X-MBO-RS-META: fkiwtde55yfuoi81otfpjf4mqimdbpc1
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.34 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,bp.renesas.com,renesas.com,pengutronix.de,gmail.com,kernel.org,oss.qualcomm.com,glider.be];
-	TAGGED_FROM(0.00)[bounces-27856-lists,linux-renesas-soc=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-27857-lists,linux-renesas-soc=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[intel.com,gmail.com,kwiboo.se,ideasonboard.com,linux.intel.com,kernel.org,linaro.org,ffwll.ch,suse.de,vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_PROHIBIT(0.00)[0.241.139.240:email];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[marek.vasut@mailbox.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[mailbox.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,qualcomm.com:email,renesas.com:email]
-X-Rspamd-Queue-Id: 8C67FDD42F
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,kwiboo.se:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,ideasonboard.com:email]
+X-Rspamd-Queue-Id: CEFD0DF3DD
 X-Rspamd-Action: no action
 
-On Tue, Feb 03, 2026 at 09:49:38AM +0100, Tommaso Merciai wrote:
-> Hi Rob,
+On 1/13/26 12:47 AM, Marek Vasut wrote:
+> In order to avoid any probe ordering issue, the best practice is to move
+> the secondary MIPI-DSI device registration and attachment to the
+> MIPI-DSI host at probe time.
 > 
-> On Thu, Jan 29, 2026 at 12:42:11PM -0600, Rob Herring (Arm) wrote:
-> > 
-> > On Thu, 29 Jan 2026 17:52:55 +0100, Tommaso Merciai wrote:
-> > > Add the '#mux-state-cells' property to support describing the USB VBUS_SEL
-> > > multiplexer as a mux-controller in the Renesas RZ/V2H(P) USB2PHY binding.
-> > > 
-> > > The mux-controller cannot be integrated into the parent USB2PHY node
-> > > because the VBUS source selector is part of a separate hardware block,
-> > > not the USB2PHY block itself.
-> > > 
-> > > This is required to properly configure USB PHY power selection on
-> > > RZ/V2H(P) and RZ/G3E SoCs.
-> > > 
-> > > Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-> > > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> > > ---
-> > > v6->v7:
-> > >  - No changes
-> > > 
-> > > v5->v6:
-> > >  - Collected KKrzysztof tag
-> > > 
-> > > v4->v5:
-> > >  - No changes
-> > > 
-> > > v3->v4:
-> > >  - Switch back to v2 implementation.
-> > >  - Improve commit body.
-> > > 
-> > > v2->v3:
-> > >  - Manipulate mux-controller as an internal node.
-> > >  - Improved commit body.
-> > > 
-> > > v1->v2:
-> > >  - New patch
-> > > 
-> > >  .../bindings/reset/renesas,rzv2h-usb2phy-reset.yaml          | 5 +++++
-> > >  1 file changed, 5 insertions(+)
-> > > 
-> > 
-> > My bot found errors running 'make dt_binding_check' on your patch:
-> > 
-> > yamllint warnings/errors:
-> > 
-> > dtschema/dtc warnings/errors:
-> > /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/reset/renesas,rzv2h-usb2phy-reset.example.dtb: reset-controller@15830000 (renesas,r9a09g057-usb2phy-reset): $nodename:0: 'reset-controller@15830000' does not match '^mux-controller(@.*|-([0-9]|[1-9][0-9]+))?$'
-> > 	from schema $id: http://devicetree.org/schemas/mux/mux-controller.yaml
-> > 
-> > doc reference errors (make refcheckdocs):
-> > 
-> > See https://patchwork.kernel.org/project/devicetree/patch/af75145b08e24034dcf367932002079363e5dd81.1769704000.git.tommaso.merciai.xr@bp.renesas.com
-> > 
-> > The base for the series is generally the latest rc1. A different dependency
-> > should be noted in *this* patch.
-> > 
-> > If you already ran 'make dt_binding_check' and didn't see the above
-> > error(s), then make sure 'yamllint' is installed and dt-schema is up to
-> > date:
-> > 
-> > pip3 install dtschema --upgrade
-> > 
-> > Please check and re-submit after running the above command yourself. Note
-> > that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-> > your schema. However, it must be unset to test all examples with your schema.
-> > 
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> ---
+> Note that this is similar to e.g. commit
+> 6ef7ee48765f ("drm/bridge: sn65dsi83: Register and attach our DSI device at probe")
+> and pretty much what every other DSI-to-DPI bridge does.
+> ---
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Robert Foss <rfoss@kernel.org>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> ---
+>   drivers/gpu/drm/bridge/waveshare-dsi.c | 7 +------
+>   1 file changed, 1 insertion(+), 6 deletions(-)
 > 
-> This series depends on related mux series [0].
-> Was splitted the series into per subsystem series for easy merging.
+> diff --git a/drivers/gpu/drm/bridge/waveshare-dsi.c b/drivers/gpu/drm/bridge/waveshare-dsi.c
+> index 43f4e7412d722..9254446f54958 100644
+> --- a/drivers/gpu/drm/bridge/waveshare-dsi.c
+> +++ b/drivers/gpu/drm/bridge/waveshare-dsi.c
+> @@ -80,11 +80,6 @@ static int ws_bridge_bridge_attach(struct drm_bridge *bridge,
+>   				   enum drm_bridge_attach_flags flags)
+>   {
+>   	struct ws_bridge *ws = bridge_to_ws_bridge(bridge);
+> -	int ret;
+> -
+> -	ret = ws_bridge_attach_dsi(ws);
+> -	if (ret)
+> -		return ret;
+>   
+>   	return drm_bridge_attach(encoder, ws->next_bridge,
+>   				 &ws->bridge, flags);
+> @@ -179,7 +174,7 @@ static int ws_bridge_probe(struct i2c_client *i2c)
+>   	ws->bridge.of_node = dev->of_node;
+>   	devm_drm_bridge_add(dev, &ws->bridge);
+>   
+> -	return 0;
+> +	return ws_bridge_attach_dsi(ws);
+>   }
+>   
+>   static const struct of_device_id ws_bridge_of_ids[] = {
 
-It's not easier when there's a dependency. I don't care so much as long 
-as this series is merged after [0] is in linux-next. But don't make the 
-maintainer figure that out. Either make it clear there is a warning 
-until that happens or just wait to send this until the dependency is 
-applied (still need to mention any dependency that's only in linux-next 
-and not mainline).
-
-Rob
-
-> 
-> [0] https://lore.kernel.org/all/cover.1769703480.git.tommaso.merciai.xr@bp.renesas.com/
-> 
-> Thanks & Regards,
-> Tommaso
-> 
+Is there anything that should be done with this patch ?
 
