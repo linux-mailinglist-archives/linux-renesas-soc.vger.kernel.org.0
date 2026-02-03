@@ -1,101 +1,97 @@
-Return-Path: <linux-renesas-soc+bounces-27814-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27815-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eFl3OdDogWkFMAMAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27814-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 03 Feb 2026 13:23:44 +0100
+	id IHswFnbsgWkFMAMAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27815-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 03 Feb 2026 13:39:18 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CBB4D8F5F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 03 Feb 2026 13:23:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B29C2D91B6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 03 Feb 2026 13:39:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5F9AC30E46A6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Feb 2026 12:17:30 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2BA353023DF6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Feb 2026 12:35:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 229E833EB01;
-	Tue,  3 Feb 2026 12:17:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AE6D3446AC;
+	Tue,  3 Feb 2026 12:35:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l2UeWlRe"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cWOjw/RI"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C2A533C53F
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  3 Feb 2026 12:17:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7172C2DCF46
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  3 Feb 2026 12:35:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770121049; cv=none; b=lM3d5RAm+0WRGBnT2aeeKZe6EKu4jaNOWh3VYlItgcKK39AeXfRbHXPSvdF5W9OW+kkO0+dCRsdBnuynMCQ/AoCcYNxUTH4D5rvlkdQD+TB/7vK+Ozvf7s1uitovRFzRWxRu0208o7YbEXCbucinvJWANBiUl2tIV4OX53H94Hk=
+	t=1770122110; cv=none; b=FPpuHnX8EKv+rWvLW3iLySOySPZPJL5wlpQ8Kv40z5+znBL741L1C9YM0xpuFXEzFC80qY8aGIQJN6+fBspYcYk+Ly9ZJGpabwMZdA0Kab+ax5/uJVgv8HeVvjcvrAIsGofhMcc4M6yHdmKzjRNYTPZeSt410C2UMxhVO8vyzdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770121049; c=relaxed/simple;
-	bh=gninZlBoLuHNxge4GK5ffuEcWrBCJW7xBMyZoit0cSQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LMmfmYPSHup+723wJDBPdNnIfVmGzgEjnRtoHVXef6aXd1tE337e9WJ3nm3m03I9nzbEFniCfL50jBd1lFt2N9ivVTd9D2RlaqvNZvWc8fVUCX+vsDbim97DDTnVH5uARZT5TTz+wDn1ZS0enRzqEbg+c9rIo0NXkYGLWXMMBEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l2UeWlRe; arc=none smtp.client-ip=209.85.128.41
+	s=arc-20240116; t=1770122110; c=relaxed/simple;
+	bh=XmY0cObD+izZ6Dt7mSBTI7kx5XJ7r42/XOxn/HRfsQE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=REMz2aq+zC0QWhiZFR2RSyrcLs7TcpMC+/viQfnusn06EFV9+2VzX4tSIrmf33wotFOU9YyJtC72NaW3dMC3HsoB3fsIEUCTavM0OIMbc/qWvQac5qqRf193Irp4Ezo1WpZu4ip2VM/S0L78WZKtdJbifhaoPwa6QSuM2h9mJRQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cWOjw/RI; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4806fbc6bf3so59310135e9.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 03 Feb 2026 04:17:27 -0800 (PST)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4806f9e61f9so28756075e9.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 03 Feb 2026 04:35:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770121046; x=1770725846; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1770122107; x=1770726907; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fcy8M4BGhMrAt0/LmVopycDbCegF7gwE/HhYCJa6vg4=;
-        b=l2UeWlReGN5RKajqvFD8OpnPtmrYkmCLDlD2uf0WV3VcsKlWIowdYrObskQA+y735b
-         fd76Mjhh9LExpS4yY5mtrBEKNW7llQBzSu60VGR/hcjurP1AdBcR+yHDUAtdV/tl/eNL
-         uUmozzaVaiKyoHBhn1o722CAs1ReE/6GmszA6PuQgnMM47dFUF7gYeNvb92TrX2eD7bL
-         NAKqPmntTVz8d60vvDXrqW+ASJtQOpgITRxDHCgDBnptK6uT5Dob3BAq3PGD3QZ3a4pv
-         SXJFaSdtyVZvncPfXyMusnNPvPHGNRbET1qZkg+q2GAJ17ggWwo8UqDTuF6m80KYUmD0
-         hjXA==
+        bh=aPrqs1CjhbI5+kaToQ6RF5dGRbNhXSkxmd+EPfDPP5I=;
+        b=cWOjw/RIMogr1RhxlmKkwc+oecUl8RsH6r5hRfxGzgZQ97cOY8LLOZo2WcdQwJN6dL
+         /ep11gs6Q1lg8MDBdl4j7oNnmbVos4dYqok7/opbLhRz32PdA43wNT+ccLrr1F8rIWGV
+         78Dp6KtvgSnvE/2+MAE62WQ4WJjiNPrrXrcQUyN/ciQtO/sDRcXQvVtPYul4RKTuVsV4
+         00SVu6Fq/7cakWWXJHE4d2jucC1q+yk8rxXd+l9piYl2jRtL5eMSHIQ0QBPJqOveWevn
+         HwYp3pbnrqZbnZiJjXT1/PRyTL6SnbgLfy5bSWLTHNQU6h3Rq/lXgEXoB/hhv9G0nVUX
+         izCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770121046; x=1770725846;
+        d=1e100.net; s=20230601; t=1770122107; x=1770726907;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fcy8M4BGhMrAt0/LmVopycDbCegF7gwE/HhYCJa6vg4=;
-        b=IEJycEdccO40Pr3Id9AdQ8Zp9dlQ4U6z5GlArqauuJCqiZtv8Ect9YIaUzons8jJLA
-         DwzQnggW9rJ4IgQyjx+LpUgR2Wvno8SMomeUU18om+BsgF/cMgb3oMt9wlghwRZI0JTy
-         tJmrUNFPObI33XuUkvn58kAUi3V7kdG6K/HaM5FV1ryEJBzeFPbxOeeo+hpvwRV7w8Fl
-         J7QWYNCoM+UaXADYBl5hE1BZ5SmuCJky4Yql0oy7j65fGVUIHgKfIXYteJgdN8Wh0omA
-         x/Pz6bwEhGMXuDjDKy6MmfP4ualKxkeTRIwSfDjT2DZolInqM244hPH3oGkBDKZcn0CJ
-         FShw==
-X-Forwarded-Encrypted: i=1; AJvYcCUVV3UrYj23WQTANNQJfWPr4Geeqx7nxRCcBiMYUzGA+XCHdmvO7RJuf0WGnMJKsNFlEdJMtpCXsk4VWXqlfQJqmg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwqKYeRAdwhhxHcxYgN6jEZ2JyshDyArIrJAlRvzyVIszOeKx7d
-	hBjPFDIh61VMqwdGOoMG918oPlp1V7e+wjQAs7nUD4cxbt41gwdiP4H5
-X-Gm-Gg: AZuq6aJR9xCCou2t1p+xvGerXpiaDvJQStz2wjG1NzEJT3Yy5otb2+x/7Z38S1n5SjN
-	REeNPF6DDYtq6gGm1Lmn1A82DZt9UY4TWkdbm5jHmV4bah1pv+TW5bARrHPd4EVdOunh5vydvTk
-	GqeipTyLno3jCH1jPtCaQAGBLG391KEtQwmq8lWp6y+30luNKXje3vKtyhE2AaLVnMwbMa1dYk/
-	D724ClsAb4btrqaGrn+LAyBz0oqZfySh2yDC4sD1rCd1atxrxUNxunfGhDLXp5Eqt7/4yzy5IWi
-	Eq1dlYEXCYvh+lkQPzmQ2TRdBSRr9MInaO3wyJbJf8G4W8LVXyuw6Bv2Q+/a64fFsEpydeOnWrB
-	XUj7vX5CmFzrn0JkwCV5YoLT95mmZFQqOYY/xZYpSAJqJAnt8ObuRg9+1+vHwLpEZ1CLdrPlG9k
-	S5u2Qo1Iv0sgL+ZvAfb+eXFfDOi9It
-X-Received: by 2002:a05:600c:4451:b0:477:639d:bca2 with SMTP id 5b1f17b1804b1-482db457724mr217768105e9.4.1770121045688;
-        Tue, 03 Feb 2026 04:17:25 -0800 (PST)
+        bh=aPrqs1CjhbI5+kaToQ6RF5dGRbNhXSkxmd+EPfDPP5I=;
+        b=bC+AL/N2EZDgnQWPlCI3PNosTlCb/8992gN6lhYWmz0XGh7Kh5QISZrFfO0VldxzQM
+         eDswLkrMAjnPCvtxm6r5bLBOGx7h93gVh+qjLyzJY2tGoT5nXdbIHzV2qDKDC+i2Mcx7
+         Zw3q7v5++/sgjoTgz9AcBwAMd1BZgUQqPEsJwK0Fmny/rxyWZb50GWveAbwSxAo7OISx
+         BlSnT4EsDc7yfMTSxTRkfxy+hR8VeuDgm4Md/e6G2LKYd/vOEu94ttmbxAMefP2jkpEf
+         exgl0+UjD0rxJKSuLKHeVDMZux764KaHpIi2CFgh4/WzD0npBpQ4zrd9t9Snp/62W9hY
+         g/Gg==
+X-Forwarded-Encrypted: i=1; AJvYcCWFk8SB3AkmYvMCVOzbDdA7OZRtDXFgMefwWi0smPfoU12KealBVqFbfhIeh1LZlq0j4HvnSMRdNU0IJbGieZfmCg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZeWMKF2WZg6oXNrsymXLLbMEqzwZXrujmtfxd29KTUAWAHwUh
+	lj/tdLB2+jcFLq7QDSN7QMrpWUCrt8IT0cU3UB7aDbyPs1K2NzEGb0WB
+X-Gm-Gg: AZuq6aIwFEODmD43pbGYCJSNAgeeEoMk0H4CDHZwO8exuSYalnSI1kn6bNsBNuf7lJ2
+	RBN9rlzoj+Wmdl8iv6HGPz3qO8wNdFhFasB7AkLYzGgGVLZIFaAdtScE6TssZGDQzUHADJiCoc4
+	wdZEmVjeEXH5KQzADwVAjJczgCjkNZVuK5cy+YSFpqbWIUS2xBm4R5/h6bO9X9/P5eTx+8w7kwN
+	6CW9OfLuX0MRaI9agZTT5FlstqjtrK+LigW3P3Ii9c81LhqxlupKL3CrxeqorAzENZrsf5Kt5J8
+	P/JgG/2NOOu/P8UvLLEw0yV79NirdUdF6SquGHjfpDpV4vjGbhgsTwQm4x9lX7GhoR4Z8AkTAvl
+	cx2ZHe7fn2PN6MsThfpHPFGMCX4ADNgmxcq4NhtFYQHr4WEr7RP0Kdn7jJJICxhojNNBZBnvGd6
+	nY99xGGMWArIJw9IJhvA==
+X-Received: by 2002:a05:600c:1f94:b0:480:3338:292d with SMTP id 5b1f17b1804b1-482db492928mr210069475e9.31.1770122106665;
+        Tue, 03 Feb 2026 04:35:06 -0800 (PST)
 Received: from biju.lan ([2a00:23c4:a758:8a01:9cd9:f748:166d:55fc])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48305129419sm56042495e9.6.2026.02.03.04.17.25
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483051379c4sm60618205e9.15.2026.02.03.04.35.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Feb 2026 04:17:25 -0800 (PST)
+        Tue, 03 Feb 2026 04:35:05 -0800 (PST)
 From: Biju <biju.das.au@gmail.com>
 X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
-To: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
+	Conor Dooley <conor+dt@kernel.org>,
+	Richard Cochran <richardcochran@gmail.com>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Stefan Eichenberger <eichest@gmail.com>,
-	netdev@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
+	netdev@vger.kernel.org,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH net-next] dt-bindings: net: micrel: Fix dtbs compatible too long warnings
-Date: Tue,  3 Feb 2026 12:17:21 +0000
-Message-ID: <20260203121723.312336-1-biju.das.jz@bp.renesas.com>
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH v2 0/2] Enable Renesas RZ/G3L GBETH0
+Date: Tue,  3 Feb 2026 12:34:58 +0000
+Message-ID: <20260203123503.314755-1-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -105,8 +101,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
@@ -115,13 +110,14 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[bounces-27814-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[bp.renesas.com,gmail.com,vger.kernel.org,glider.be];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-27815-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[glider.be,gmail.com,kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	FREEMAIL_CC(0.00)[bp.renesas.com,vger.kernel.org,gmail.com];
+	MIME_TRACE(0.00)[0:+];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
@@ -129,95 +125,37 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,netdev,dt,renesas];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
 	NEURAL_HAM(-0.00)[-1.000];
 	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email]
-X-Rspamd-Queue-Id: 4CBB4D8F5F
+	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,bp.renesas.com:mid]
+X-Rspamd-Queue-Id: B29C2D91B6
 X-Rspamd-Action: no action
 
 From: Biju Das <biju.das.jz@bp.renesas.com>
 
-The KSZ9131 PHY is suitable for IEEE 802.3 applications.
+Enable the Gigabit Ethernet Interface (GBETH0) populated on the RZ/G3L
+SMARC EVK. The eth1, pincontrol definitions and hotplug support will be
+added later.
 
-Fix the below dtbs warning "compatible: ['ethernet-phy-id0022.1640',
-'ethernet-phy-ieee802.3-c22'] is too long" on the below dts:
+This patch series depend upon [1]
 
-r8a774b1-beacon-rzg2n-kit.dtb
-r8a774a1-beacon-rzg2m-kit.dtb
-r8a774e1-beacon-rzg2h-kit.dtb
-r9a08g046l48-smarc.dtb
-r9a07g043u11-smarc.dtb
-r9a07g044c2-smarc.dtb
-r9a07g044l2-smarc.dtb
-r9a07g044l2-smarc.dtb
-r9a07g054l2-smarc.dtb
-r9a07g054l2-smarc.dtb
-r9a09g047e57-smarc.dtb
-r9a09g047e57-smarc.dtb
-r9a09g056n48-rzv2n-evk.dtb
-r9a09g056n48-rzv2n-evk.dtb
-r9a09g057h44-rzv2h-evk.dtb
-r9a09g057h44-rzv2h-evk.dtb
-r9a07g043u11-smarc-cru-csi-ov5645.dtb
-r9a07g043u11-smarc-pmod.dtb
-r9a07g043u11-smarc-du-adv7513.dtb
-r9a09g047e57-smarc-cru-csi-ov5645.dtb
-r9a07g044c2-smarc-cru-csi-ov5645.dtb
-r9a09g047e57-smarc-cru-csi-ov5645.dtb
-r9a07g044l2-smarc-cru-csi-ov5645.dtb
-r9a07g044l2-smarc-cru-csi-ov5645.dtb
-r9a07g054l2-smarc-cru-csi-ov5645.dtb
-r9a07g054l2-smarc-cru-csi-ov5645.dtb
-r9a09g056n48-rzv2n-evk-cn15-emmc.dtb
-r9a09g056n48-rzv2n-evk-cn15-emmc.dtb
-r9a09g056n48-rzv2n-evk-cn15-sd.dtb
-r9a09g057h44-rzv2h-evk-cn15-sd.dtb
-r9a09g056n48-rzv2n-evk-cn15-sd.dtb
-r9a09g057h44-rzv2h-evk-cn15-emmc.dtb
-r9a09g057h44-rzv2h-evk-cn15-sd.dtb
-r9a09g057h44-rzv2h-evk-cn15-emmc.dtb
+v1->v2:
+ * Separated ethernet dts patches from series [2]
+ * Added rmii_{tx,rx) clocks.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- .../bindings/net/micrel,gigabit.yaml          | 23 +++++++++++--------
- 1 file changed, 14 insertions(+), 9 deletions(-)
+[1] https://lore.kernel.org/all/20260203104541.264759-1-biju.das.jz@bp.renesas.com/
+[2] https://lore.kernel.org/all/20260128125850.425264-1-biju.das.jz@bp.renesas.com/
 
-diff --git a/Documentation/devicetree/bindings/net/micrel,gigabit.yaml b/Documentation/devicetree/bindings/net/micrel,gigabit.yaml
-index 384b4ea6181e..284c3ba379f3 100644
---- a/Documentation/devicetree/bindings/net/micrel,gigabit.yaml
-+++ b/Documentation/devicetree/bindings/net/micrel,gigabit.yaml
-@@ -17,15 +17,20 @@ description:
- 
- properties:
-   compatible:
--    enum:
--      - ethernet-phy-id0022.1610  # KSZ9021
--      - ethernet-phy-id0022.1611  # KSZ9021RLRN
--      - ethernet-phy-id0022.1620  # KSZ9031
--      - ethernet-phy-id0022.1631  # KSZ9477
--      - ethernet-phy-id0022.1640  # KSZ9131
--      - ethernet-phy-id0022.1650  # LAN8841
--      - ethernet-phy-id0022.1660  # LAN8814
--      - ethernet-phy-id0022.1670  # LAN8804
-+    oneOf:
-+      - items:
-+          - const: ethernet-phy-id0022.1640
-+          - const: ethernet-phy-ieee802.3-c22
-+      - items:
-+          - enum:
-+              - ethernet-phy-id0022.1610  # KSZ9021
-+              - ethernet-phy-id0022.1611  # KSZ9021RLRN
-+              - ethernet-phy-id0022.1620  # KSZ9031
-+              - ethernet-phy-id0022.1631  # KSZ9477
-+              - ethernet-phy-id0022.1640  # KSZ9131
-+              - ethernet-phy-id0022.1650  # LAN8841
-+              - ethernet-phy-id0022.1660  # LAN8814
-+              - ethernet-phy-id0022.1670  # LAN8804
- 
-   micrel,force-master:
-     type: boolean
+Biju Das (2):
+  arm64: dts: renesas: r9a08g046: Add GBETH nodes
+  arm64: dts: renesas: rzg3l-smarc-som: Enable eth0 (GBETH0) interface
+
+ arch/arm64/boot/dts/renesas/r9a08g046.dtsi    | 241 ++++++++++++++++++
+ .../boot/dts/renesas/rzg3l-smarc-som.dtsi     |  35 +++
+ 2 files changed, 276 insertions(+)
+
 -- 
 2.43.0
 
