@@ -1,53 +1,53 @@
-Return-Path: <linux-renesas-soc+bounces-27894-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27895-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sDooFU9mg2nUmQMAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27894-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Feb 2026 16:31:27 +0100
+	id mA4vKuBqg2l+mgMAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27895-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Feb 2026 16:50:56 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCE6BE8C4C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Feb 2026 16:31:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DC6BE9787
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Feb 2026 16:50:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B435E31BD5DC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Feb 2026 15:21:15 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 50D1831F1700
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Feb 2026 15:21:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EA67421F06;
-	Wed,  4 Feb 2026 15:19:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3118421F1F;
+	Wed,  4 Feb 2026 15:20:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="UtxhRZQp"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="me/u1gQI"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A24B9421EFF
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  4 Feb 2026 15:19:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00E13421888
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  4 Feb 2026 15:20:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770218377; cv=none; b=EDiB2kawipocPtPJIX4JppR22yAGIi/G6OysdRkbwmPMONvtdOxWuAFfsGVJ656/KD9oX9EgIpkyByBGXFrJqw0m9BqBbQ0g/dU0vS+rmsOHuJHNgLcofTaVIDWhG1+1epMDuYY9N39py9RUWIwrY8nku3fvb9gXdQWp4Cgr2tE=
+	t=1770218402; cv=none; b=SjSZRQaNH/4pPdX6V9lRfbz1GBqlxUEifhGP0xODjf8qkNx1whPrYSxgydMY1JwoDPUkbtPB9K8795jnZyuqDbWkcgxxS9Adnnwg3n8u239zoWCOwpoi+1qDzNqaafFOKkDSgRubFOstXWAd+fLGr+c7Gk39aOhKdJLwPf7c8iE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770218377; c=relaxed/simple;
-	bh=qPxQNtGmi+kGxs81RDSwL5bUWcmDn8jzdraMp3aRxbg=;
+	s=arc-20240116; t=1770218402; c=relaxed/simple;
+	bh=EPJA/uh8iTFDZsW7kgP1KlgwFkZNsETk3q8ogYxI8+Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e0N7gtTuwHu72AJO+sbIFK0v+975s17rfDKQj3uLCJ9iT/B3didFj6eINXpLEWGDOkvGxxYw9Z8JHy4JWY/tnOD5KI3ekNkzgN1zd4mrkjRsi/EZIY81xl8C1CZAnMiolQBGHK/wkwvnVmOU+r4Q2bCsqAPYvB4E62ar0ethhmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=UtxhRZQp; arc=none smtp.client-ip=194.117.254.33
+	 Content-Type:Content-Disposition:In-Reply-To; b=HRQvyE0ebCIOUc0tf2k1E90eFun2Wp+2iGk/rFVK1GzAGMaOZltvClemOUBx7bsI+TTrOPOZd+rw+u7RHxXkBzbA4D7Gi4yzdqlKnfvjgP/ht0Lz+lzq6xhWkft70Kiq55Fl/KDaP6vlk1uNzKCyVgjl9wNGyWtUWkDv3cvl0/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=me/u1gQI; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=1kjN
-	zYV+DhUEOHybsWvNysvirHq9WhwXXhcWawVljJ4=; b=UtxhRZQpEveOkPj2Cp2C
-	dfK9THyLx83FFhrJhcjtcva8peb3SR4ncBdcXL+MqGak8PQJzCxL6e2iFg8WZgqk
-	HpVNGWbNzK1t1zrDE6sil1V/cu7mLOwVHLLouWd2a9qb4YCe2ohfIADm77lyELwM
-	nbN4U5Jb4HUgwFAshA71Qirt41wlYNIqQ3Z7ICcm4/iTv2baBMC5NPkc57S9hbOn
-	/oHzfRx6efQWPYgk73SiEfLc4nc+ayqeYgT/2sHmJhT/xuP6YsAns/Kn6/9aECeF
-	uV7wvFGH9IJG2GBTVX39HKunrS7281jYQanuxOwlmXjaMyBdWCh07roFn2W2yxAJ
-	aQ==
-Received: (qmail 2408303 invoked from network); 4 Feb 2026 16:19:32 +0100
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 4 Feb 2026 16:19:32 +0100
-X-UD-Smtp-Session: l3s3148p1@OJFEFQFKCJ4qAAAQagvIAoH29ntsUY5F
-Date: Wed, 4 Feb 2026 16:19:32 +0100
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=RTl3
+	4GdapOHrIFn2PsIr7Sa6lCunHmnETaAYG/rtoLw=; b=me/u1gQID+44jQjIesVI
+	qxsadN9LfXybobPB9QcuFB8skQaPT+uIozPEagA/w+78A09XQP/zu3W07vGxYxNu
+	R9DgZPmtDhZu/8vG/MA/U3QCizJ6h5rVTBV/XVv4Lgaq8n81m3swfOOhBs9+uwog
+	seJ76VcdLcG1LqPz0toy0VR8+bsNUW+AcvokqjjeergnSxqvAFLMvUP6tofpPv6X
+	QacoOUtIQ6/km4mduTorqF+DV44PFzt56fch+KJNRe72JaP05yGVSn9IBVae2Wu0
+	hetMvSlaz7Qv2rp70r8IchiOtk2wUpMFESyLtXYmqlGyNSbMfYVYFntOAyu878kC
+	ww==
+Received: (qmail 2408564 invoked from network); 4 Feb 2026 16:19:58 +0100
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 4 Feb 2026 16:19:58 +0100
+X-UD-Smtp-Session: l3s3148p1@cTHPFgFKnLgqAAAQagvIAoH29ntsUY5F
+Date: Wed, 4 Feb 2026 16:19:58 +0100
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: Josua Mayer <josua@solid-run.com>
 Cc: Marc Kleine-Budde <mkl@pengutronix.de>,
@@ -71,10 +71,11 @@ Cc: Marc Kleine-Budde <mkl@pengutronix.de>,
 	linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
 	linux-i2c@vger.kernel.org, linux-mmc@vger.kernel.org,
 	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v8 3/7] mux: add help text for MULTIPLEXER config option
-Message-ID: <aYNjhBJrmnjFainB@shikoro>
+Subject: Re: [PATCH v8 4/7] phy: can-transceiver: drop temporary helper
+ getting optional mux-state
+Message-ID: <aYNjniyEZ355QE28@shikoro>
 References: <20260203-rz-sdio-mux-v8-0-024ea405863e@solid-run.com>
- <20260203-rz-sdio-mux-v8-3-024ea405863e@solid-run.com>
+ <20260203-rz-sdio-mux-v8-4-024ea405863e@solid-run.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -83,7 +84,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260203-rz-sdio-mux-v8-3-024ea405863e@solid-run.com>
+In-Reply-To: <20260203-rz-sdio-mux-v8-4-024ea405863e@solid-run.com>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -98,7 +99,7 @@ X-Spamd-Result: default: False [0.34 / 15.00];
 	RCVD_COUNT_THREE(0.00)[4];
 	DMARC_NA(0.00)[sang-engineering.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-27894-lists,linux-renesas-soc=lfdr.de,renesas];
+	TAGGED_FROM(0.00)[bounces-27895-lists,linux-renesas-soc=lfdr.de,renesas];
 	RCPT_COUNT_TWELVE(0.00)[31];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
@@ -112,17 +113,20 @@ X-Spamd-Result: default: False [0.34 / 15.00];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[solid-run.com:email,sang-engineering.com:email,sang-engineering.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: CCE6BE8C4C
+	DBL_BLOCKED_OPENRESOLVER(0.00)[glider.be:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,sang-engineering.com:email,sang-engineering.com:dkim,solid-run.com:email]
+X-Rspamd-Queue-Id: 0DC6BE9787
 X-Rspamd-Action: no action
 
-On Tue, Feb 03, 2026 at 03:01:36PM +0200, Josua Mayer wrote:
-> Add prompt and help text for CONFIG_MULTIPLEXER to allow enabling this
-> option thorugh the kernel configuration without explicit "select" driver
-> dependencies.
+On Tue, Feb 03, 2026 at 03:01:37PM +0200, Josua Mayer wrote:
+> Multiplexer subsystem has now added helpers for getting managed optional
+> mux-state.
 > 
-> Select it by default when COMPILE_TEST is set for better coverage.
+> Switch to the new devm_mux_state_get_optional helper.
 > 
+> This change is only compile-tested.
+> 
+> Acked-by: Vinod Koul <vkoul@kernel.org>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > Signed-off-by: Josua Mayer <josua@solid-run.com>
 
 Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
