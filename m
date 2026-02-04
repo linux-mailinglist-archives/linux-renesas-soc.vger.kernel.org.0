@@ -1,77 +1,77 @@
-Return-Path: <linux-renesas-soc+bounces-27913-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27914-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GKF0MY6Mg2lWpAMAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27913-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Feb 2026 19:14:38 +0100
+	id wLttB5GMg2lWpAMAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27914-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Feb 2026 19:14:41 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CBC3EB80D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Feb 2026 19:14:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6503EB814
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Feb 2026 19:14:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 45CDB30619B8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Feb 2026 18:09:20 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 18187312D432
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Feb 2026 18:09:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0BD843C05D;
-	Wed,  4 Feb 2026 18:06:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6773A43C072;
+	Wed,  4 Feb 2026 18:06:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F/MX2tge"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h+VViknb"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6125143C052
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0397543C065
 	for <linux-renesas-soc@vger.kernel.org>; Wed,  4 Feb 2026 18:06:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770228398; cv=none; b=AqAwqjEu0kPX5dZkDX256RqeW7sZNacNbXICkJ5Fl9YpYt4MyPAFIa/Y2szOeQLeFk2V9pqxTrgkjTQHZ13O7dwkP83JQBPON+caf/yRSynh46LSF84nbo+ZBplR63lMu86UsS7o4hpyNx1VZq9NmejFPQI/HKklSCTNJwEqsM4=
+	t=1770228399; cv=none; b=eWNLRMRpFydcMArGxZfB/ZE+xh11UgE5fn7SY8ET2wqtZSvswF6BTXlzU3OZ7S8+fjCAlb0bVc+d76RZDk5jrc5Qe2pPrWdVG3XJtRgYIHRYS/V0PL8/W+/LLDVzvq1KnRfjQGIToU5dBPZakRzPNx4+Iv014DG1RgIpIGz9tiw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770228398; c=relaxed/simple;
-	bh=RZsRRRI12m0n+ZiH68KhLTNm8HB+lQV8PiDlcecoEtQ=;
+	s=arc-20240116; t=1770228399; c=relaxed/simple;
+	bh=tv+a+smc6Vysg6ywq2AmkZN9OuKVGlpxPBEMh5SQ1N0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PAbd9d61pa+Q2EpgSK63tr4Yn9xfXlWX0EyHzJlSKWUV4JVI/ChA8rMgGFfrL0VZ0Xy3R1WHuuw5mzwbkG1CLjHusPyH25+tsdpRH4E8oVoYGAZI+xViCwPEA/0lOmLetf74G5JlNIIcfmnlrHfw8Nrrvd79Mo4tX8jVXFMpY3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F/MX2tge; arc=none smtp.client-ip=209.85.218.52
+	 MIME-Version; b=by8MO7cR1FSG7OqCPvWoZ/49686Dth1AUF7HQl0P1Pk8wAl3nR4C1EKV7ItrlR8zFnAnrWkehMhS3De5A7DJT9y+7ViJFjCEtZoQ7IBimQ1la1c9zLKs1Z4lQgIXs4WTr0dq76RmwwfetA3TNPIcT50/3q/Okhh+M0Z11hdeuX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h+VViknb; arc=none smtp.client-ip=209.85.218.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b8ea3d15580so6416866b.0
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-b8eafb515aeso4336566b.1
         for <linux-renesas-soc@vger.kernel.org>; Wed, 04 Feb 2026 10:06:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1770228397; x=1770833197; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=R6/TMNgZtCLtmsMEKI62ghyVfgfskVPeqvtedY25OWo=;
-        b=F/MX2tgecNHMudQRWcld9doG0iSQ8iLNjfolcZyi7mD2vXP2rqLKfVlHdfrDrdQHJs
-         FrZHEGlS0WmMbtOHaj+ZbM/EbV59M2l2ZRR20ERf8h0fli96bOMUCxhfX72dmYLsTTBS
-         wtInECp+P4wNu/Dq7IMIDD3n9uGdFX939Fp4L7rGas9hwrdLP56BeJvHx4gZcZBXN4pv
-         bcM8LlKGxvpR9Wm8TwhvvP54fGqh8GtgWr01vk5yfOhUBWBMk1/JRk3PPWScynwhDBZs
-         5KUmBVax3VEcpmqQmDe1YOMTPhqo2Tq1YoKVKzsjTfcM9PO35LgpnjCWYUxZS7JfcU4P
-         Mzag==
+        bh=GrSRmF8o4AbG1UXNB7lUj6awW5UvNb2/KuM9GmAaDSo=;
+        b=h+VViknbeLTOcEbK5x/EDl9TyD1x5ZCmlynRIAXTtG99JXX5vfTJ5EYUbatx+yuQcy
+         lZqV/f/nCE36X+4sZ+Ci1M/i4dFXgTfPt8OLdQaLV+CF7cxu9OB57I7Oya9WANH+ObQg
+         u381pJKr8ybTQyJboJ/tisjJZQPFtZIVATjtlTH7uwfCdQxoD4ltmA969Khq6xWBTEq5
+         6PTu/QUHj2x0CuXjuj0mIsiEFQeSwOUS4GJU6CSZMAjsQ1aRt/3c7KuhRHLvMIEp8nRX
+         Q7zAD/LSxU5nv2k285hpkz3ztV+qo3E2N1g8ERWyF9e+6sS4e1qp945N1x076ANpy5kA
+         7V/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1770228397; x=1770833197;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=R6/TMNgZtCLtmsMEKI62ghyVfgfskVPeqvtedY25OWo=;
-        b=T1Jlydy6f1ykAzjzbv5020ByBXM2AcCuwy9Y7bGohAf2E/SA2BGnwitJpnzgOwPiB0
-         9/DLcq73wpX5/8QVAn2AmhYjkrQ+R5rHFpVN1eQiGOlbg0vyfNjk/TwEdiewMfefiixV
-         XQ3LAylPZIdu87KppPUDDkDNAMgbuaVX/mEUR1DPkUUdpKykRvZ2nvF+w1dAPooMaocO
-         68LNvO2eHAyylAklF0oIAC73Qt46ERvkvtlmN5B0nUssCQAIPhQNPwSZQonp5Ghll80O
-         TfPhY0Ej4paavmidvfrPU3HpZ23iHtH+7452dHIpZ7IFCnJ30kOYHgNUFahlNB2DfnyA
-         l4jA==
-X-Forwarded-Encrypted: i=1; AJvYcCXWgr5g/YBEn6EkLmbfr3Br+EZYCidqp8oRRK67WewYMqTmi836HT+y7f0A0sHPcmjXxwi1vE6lk6ghS5U0/+fVEw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0pyOJda0Y6LPZyPEG0bT4DBTEALlU8TGG6sks1v6oafqXnRKh
-	IMA09TzB0qHdw8YUyLmZx1xNdlCM5A9+nzWGDz84sg/o1Q/1bZc03yDl
-X-Gm-Gg: AZuq6aIjlmwJje/0nQL/y8kxnrKmhlqbaUOVm/O1ZGN9WQMqL5C18j0cW1YsT7FQPhz
-	IgrF4KcmaYO7skND/4ltmakqEHhzhXtxsqvsxGKuafjxO0hlruHoFvkUSzBvKCTgaS3yJkmNyxD
-	tjJwLCHowahusUNIJg5Yp89OSK6mB2F8+7o1NGZW9rt8AEibYB6CJa7ndQiInEaIlQU2tqGeVtp
-	vWPtBfVFy8wqXqUnMke0ohIB1jECYn+08Qlvaj6iG6N8x3ia3xSnPZ9tD6TnxpgfwNdZosJZZyD
-	dM545yjNkSIuV6FOZFJCy6tySnhtp1MHC1HhTgbg+/ILUyxrXGk0Sm2dg5/otSU2F1IY18n/tTB
-	cW5rAIHgzMwnMWzmwOF/C2iOvknsc0fogsZB/yV9xHszUWq3JMXmcSawl2Ag1lrP4CjIqVM8f78
-	dc/+tmtNmevhcUemDdQd1s3x6StlTIY147uzM=
-X-Received: by 2002:a17:907:7b9a:b0:b8d:bf4d:7464 with SMTP id a640c23a62f3a-b8e9f1757b9mr290694266b.39.1770228396538;
-        Wed, 04 Feb 2026 10:06:36 -0800 (PST)
+        bh=GrSRmF8o4AbG1UXNB7lUj6awW5UvNb2/KuM9GmAaDSo=;
+        b=B9m2G0nnFTrMR0vG99JFlOE6nBJANF+FCPa1+w+sxYNOxkDA9MqgQOImIRSu4ChErl
+         vvPxrlKiPHjtpypgF9BtpWszBqRzp3wo2tYgiUcT+74EVmzUPePbIIC076MrxI9YfUKt
+         U/e30cmzRTl3Lf634VVE2T9QuHwG8Nr11o7RDOFanUd/SEV3L3IblWH5NwfiRSHcVKxG
+         hZcbUszikZXNmjrG360mcRG4Xy0vrtCLDEVcaqGfF8Je5SD7KefbE8SFssKOSC/+Mknn
+         H7Dm+5Hlgjup4geszRw4odCP9i/rpO+jkHE/MClkbB41ZW1FrmpD6Z28rX54p2/Dq+WJ
+         XBiA==
+X-Forwarded-Encrypted: i=1; AJvYcCUsNMvgxsBmNPsPgBRn842EQ9oOuhhPbvVJdbG0iuJf+qsFMuiR7+aAYL3sc0rlTNnsiejaKmXwbMqG2VhrTB4QHg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6vfjFCqO2+O/RUW+X03Mt0nfdUf2xOpmteL9ibDrm2NbQ/JHG
+	MW+3BQbtn1TBpdQj/v26OWVVAB+k2ihsAS7Ssc/w/LK08YyEXENUUVv3
+X-Gm-Gg: AZuq6aK2Ejxgn8pjARZ5WijKfQS7mcPdbwPqk8mAEasGQia26j0W0sIHywD8eoqLBcc
+	+eWMVH6x3TAYcWXxz562XV33qj+zNPVwx5dFr7CIENQeHt1VuZRzgCdnjhwkiLUa1t4ND26nRV7
+	fMNGptXy+Edcs/7pjfHAj373TfQWrT7Ok3M6JaaTgskN/N85zkOtcPoA8s165em9u+k9otTjiKb
+	qvIb17MLhdZTgOhrCL4FO6bTswBqb8h4GmOqmHRPirYsqi4gfGAIgohkJ19+ctU5Bpii3zx1OK3
+	3x7CDJfJKcwSZXzdck/gjSWI18Z0DQJjDHUmc/Fev3W0BgNyZkKD7Dusufg1cjFnV3swodpecvt
+	m5dnwyc26KVw96BGr0wzn7wcUWLTaDf10kNFXvaZTKjlj0MrbRqVBBpoRPA+76hQGwQ+5Do7b/2
+	ut9JH1PoDcC0nD+xuvJTipsK5T3w5n/RDXMsM=
+X-Received: by 2002:a17:907:3cd4:b0:b87:38e0:4403 with SMTP id a640c23a62f3a-b8e9f3e28d7mr278637466b.40.1770228397239;
+        Wed, 04 Feb 2026 10:06:37 -0800 (PST)
 Received: from localhost.localdomain ([2a00:23c4:a758:8a01:3c9f:a100:4d45:ebc7])
         by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8ea0057dd1sm149677666b.65.2026.02.04.10.06.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
@@ -85,9 +85,9 @@ Cc: Biju Das <biju.das.jz@bp.renesas.com>,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>,
 	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 3/9] irqchip/renesas-rzg2l: Make fwspec variable as pointer in struct rzg2l_irqc_priv
-Date: Wed,  4 Feb 2026 18:06:19 +0000
-Message-ID: <20260204180632.249139-4-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v2 4/9] irqchip/renesas-rzg2l: Drop IRQC_NUM_IRQ macro
+Date: Wed,  4 Feb 2026 18:06:20 +0000
+Message-ID: <20260204180632.249139-5-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260204180632.249139-1-biju.das.jz@bp.renesas.com>
 References: <20260204180632.249139-1-biju.das.jz@bp.renesas.com>
@@ -109,7 +109,7 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-27913-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-27914-lists,linux-renesas-soc=lfdr.de];
 	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -126,49 +126,198 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: 2CBC3EB80D
+X-Rspamd-Queue-Id: A6503EB814
 X-Rspamd-Action: no action
 
 From: Biju Das <biju.das.jz@bp.renesas.com>
 
-The total number of IRQs in RZ/G2L and RZ/G3L SoC are different. The
-RZ/G3L has 16 external IRQs where as RZ/G2L has only 8 external IRQ.
-Dynamicaly allocate fwspec memory instead of static allocation to support
-both SoCs.
+The total number of IRQs in RZ/G2L and RZ/G3L SoC are different.
+Introduce struct rzg2l_hw_info to handle the hardware differences and
+replace the macro IRQC_NUM_IRQ with num_irq variable in struct
+rzg2l_hw_info.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
 v1->v2:
  * No change
 ---
- drivers/irqchip/irq-renesas-rzg2l.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/irqchip/irq-renesas-rzg2l.c | 46 ++++++++++++++++++++---------
+ 1 file changed, 32 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/irqchip/irq-renesas-rzg2l.c b/drivers/irqchip/irq-renesas-rzg2l.c
-index e73d426cea6d..20e2b1c4587b 100644
+index 20e2b1c4587b..cd9909a85280 100644
 --- a/drivers/irqchip/irq-renesas-rzg2l.c
 +++ b/drivers/irqchip/irq-renesas-rzg2l.c
-@@ -79,7 +79,7 @@ struct rzg2l_irqc_reg_cache {
+@@ -24,7 +24,6 @@
+ #define IRQC_IRQ_COUNT			8
+ #define IRQC_TINT_START			(IRQC_IRQ_START + IRQC_IRQ_COUNT)
+ #define IRQC_TINT_COUNT			32
+-#define IRQC_NUM_IRQ			(IRQC_TINT_START + IRQC_TINT_COUNT)
+ 
+ #define ISCR				0x10
+ #define IITSR				0x14
+@@ -68,12 +67,21 @@ struct rzg2l_irqc_reg_cache {
+ 	u32	titsr[2];
+ };
+ 
++/**
++ * struct rzg2l_hw_info - Interrupt Control Unit controller hardware info structure.
++ * @num_irq:		Total Number of interrupts
++ */
++struct rzg2l_hw_info {
++	u8	num_irq;
++};
++
+ /**
+  * struct rzg2l_irqc_priv - IRQ controller private data structure
+  * @base:	Controller's base address
+  * @irqchip:	Pointer to struct irq_chip
+  * @fwspec:	IRQ firmware specific data
+  * @lock:	Lock to serialize access to hardware registers
++ * @info:	Pointer to struct rzg2l_hw_info
+  * @cache:	Registers cache for suspend/resume
+  */
  static struct rzg2l_irqc_priv {
- 	void __iomem			*base;
+@@ -81,6 +89,7 @@ static struct rzg2l_irqc_priv {
  	const struct irq_chip		*irqchip;
--	struct irq_fwspec		fwspec[IRQC_NUM_IRQ];
-+	struct irq_fwspec		*fwspec;
+ 	struct irq_fwspec		*fwspec;
  	raw_spinlock_t			lock;
++	const struct rzg2l_hw_info	*info;
  	struct rzg2l_irqc_reg_cache	cache;
  } *rzg2l_irqc_data;
-@@ -554,6 +554,11 @@ static int rzg2l_irqc_common_probe(struct platform_device *pdev, struct device_n
+ 
+@@ -136,7 +145,7 @@ static void rzg2l_irqc_eoi(struct irq_data *d)
+ 	raw_spin_lock(&priv->lock);
+ 	if (hw_irq >= IRQC_IRQ_START && hw_irq <= IRQC_IRQ_COUNT)
+ 		rzg2l_clear_irq_int(priv, hw_irq);
+-	else if (hw_irq >= IRQC_TINT_START && hw_irq < IRQC_NUM_IRQ)
++	else if (hw_irq >= IRQC_TINT_START && hw_irq < priv->info->num_irq)
+ 		rzg2l_clear_tint_int(priv, hw_irq);
+ 	raw_spin_unlock(&priv->lock);
+ 	irq_chip_eoi_parent(d);
+@@ -182,7 +191,7 @@ static void rzfive_irqc_mask(struct irq_data *d)
+ 	raw_spin_lock(&priv->lock);
+ 	if (hwirq >= IRQC_IRQ_START && hwirq <= IRQC_IRQ_COUNT)
+ 		rzfive_irqc_mask_irq_interrupt(priv, hwirq);
+-	else if (hwirq >= IRQC_TINT_START && hwirq < IRQC_NUM_IRQ)
++	else if (hwirq >= IRQC_TINT_START && hwirq < priv->info->num_irq)
+ 		rzfive_irqc_mask_tint_interrupt(priv, hwirq);
+ 	raw_spin_unlock(&priv->lock);
+ 	irq_chip_mask_parent(d);
+@@ -196,7 +205,7 @@ static void rzfive_irqc_unmask(struct irq_data *d)
+ 	raw_spin_lock(&priv->lock);
+ 	if (hwirq >= IRQC_IRQ_START && hwirq <= IRQC_IRQ_COUNT)
+ 		rzfive_irqc_unmask_irq_interrupt(priv, hwirq);
+-	else if (hwirq >= IRQC_TINT_START && hwirq < IRQC_NUM_IRQ)
++	else if (hwirq >= IRQC_TINT_START && hwirq < priv->info->num_irq)
+ 		rzfive_irqc_unmask_tint_interrupt(priv, hwirq);
+ 	raw_spin_unlock(&priv->lock);
+ 	irq_chip_unmask_parent(d);
+@@ -207,7 +216,7 @@ static void rzfive_tint_irq_endisable(struct irq_data *d, bool enable)
+ 	struct rzg2l_irqc_priv *priv = irq_data_to_priv(d);
+ 	unsigned int hwirq = irqd_to_hwirq(d);
+ 
+-	if (hwirq >= IRQC_TINT_START && hwirq < IRQC_NUM_IRQ) {
++	if (hwirq >= IRQC_TINT_START && hwirq < priv->info->num_irq) {
+ 		u32 offset = hwirq - IRQC_TINT_START;
+ 		u32 tssr_offset = TSSR_OFFSET(offset);
+ 		u8 tssr_index = TSSR_INDEX(offset);
+@@ -249,9 +258,10 @@ static void rzfive_irqc_irq_enable(struct irq_data *d)
+ 
+ static void rzg2l_tint_irq_endisable(struct irq_data *d, bool enable)
+ {
++	struct rzg2l_irqc_priv *priv = irq_data_to_priv(d);
+ 	unsigned int hw_irq = irqd_to_hwirq(d);
+ 
+-	if (hw_irq >= IRQC_TINT_START && hw_irq < IRQC_NUM_IRQ) {
++	if (hw_irq >= IRQC_TINT_START && hw_irq < priv->info->num_irq) {
+ 		struct rzg2l_irqc_priv *priv = irq_data_to_priv(d);
+ 		u32 offset = hw_irq - IRQC_TINT_START;
+ 		u32 tssr_offset = TSSR_OFFSET(offset);
+@@ -385,12 +395,13 @@ static int rzg2l_tint_set_edge(struct irq_data *d, unsigned int type)
+ 
+ static int rzg2l_irqc_set_type(struct irq_data *d, unsigned int type)
+ {
++	struct rzg2l_irqc_priv *priv = irq_data_to_priv(d);
+ 	unsigned int hw_irq = irqd_to_hwirq(d);
+ 	int ret = -EINVAL;
+ 
+ 	if (hw_irq >= IRQC_IRQ_START && hw_irq <= IRQC_IRQ_COUNT)
+ 		ret = rzg2l_irq_set_type(d, type);
+-	else if (hw_irq >= IRQC_TINT_START && hw_irq < IRQC_NUM_IRQ)
++	else if (hw_irq >= IRQC_TINT_START && hw_irq < priv->info->num_irq)
+ 		ret = rzg2l_tint_set_edge(d, type);
+ 	if (ret)
+ 		return ret;
+@@ -496,7 +507,7 @@ static int rzg2l_irqc_alloc(struct irq_domain *domain, unsigned int virq,
+ 			return -EINVAL;
+ 	}
+ 
+-	if (hwirq > (IRQC_NUM_IRQ - 1))
++	if (hwirq > (priv->info->num_irq - 1))
+ 		return -EINVAL;
+ 
+ 	ret = irq_domain_set_hwirq_and_chip(domain, virq, hwirq, priv->irqchip,
+@@ -520,7 +531,7 @@ static int rzg2l_irqc_parse_interrupts(struct rzg2l_irqc_priv *priv,
+ 	unsigned int i;
+ 	int ret;
+ 
+-	for (i = 0; i < IRQC_NUM_IRQ; i++) {
++	for (i = 0; i < priv->info->num_irq; i++) {
+ 		ret = of_irq_parse_one(np, i, &map);
+ 		if (ret)
+ 			return ret;
+@@ -532,7 +543,8 @@ static int rzg2l_irqc_parse_interrupts(struct rzg2l_irqc_priv *priv,
+ }
+ 
+ static int rzg2l_irqc_common_probe(struct platform_device *pdev, struct device_node *parent,
+-				   const struct irq_chip *irq_chip)
++				   const struct irq_chip *irq_chip,
++				   const struct rzg2l_hw_info *info)
+ {
+ 	struct irq_domain *irq_domain, *parent_domain;
+ 	struct device_node *node = pdev->dev.of_node;
+@@ -554,7 +566,9 @@ static int rzg2l_irqc_common_probe(struct platform_device *pdev, struct device_n
  	if (IS_ERR(rzg2l_irqc_data->base))
  		return PTR_ERR(rzg2l_irqc_data->base);
  
-+	rzg2l_irqc_data->fwspec = devm_kcalloc(&pdev->dev, IRQC_NUM_IRQ,
-+					       sizeof(*rzg2l_irqc_data->fwspec), GFP_KERNEL);
-+	if (!rzg2l_irqc_data->fwspec)
-+		return -ENOMEM;
+-	rzg2l_irqc_data->fwspec = devm_kcalloc(&pdev->dev, IRQC_NUM_IRQ,
++	rzg2l_irqc_data->info = info;
 +
- 	ret = rzg2l_irqc_parse_interrupts(rzg2l_irqc_data, node);
- 	if (ret)
- 		return dev_err_probe(dev, ret, "cannot parse interrupts: %d\n", ret);
++	rzg2l_irqc_data->fwspec = devm_kcalloc(&pdev->dev, info->num_irq,
+ 					       sizeof(*rzg2l_irqc_data->fwspec), GFP_KERNEL);
+ 	if (!rzg2l_irqc_data->fwspec)
+ 		return -ENOMEM;
+@@ -579,7 +593,7 @@ static int rzg2l_irqc_common_probe(struct platform_device *pdev, struct device_n
+ 
+ 	raw_spin_lock_init(&rzg2l_irqc_data->lock);
+ 
+-	irq_domain = irq_domain_create_hierarchy(parent_domain, 0, IRQC_NUM_IRQ, dev_fwnode(dev),
++	irq_domain = irq_domain_create_hierarchy(parent_domain, 0, info->num_irq, dev_fwnode(dev),
+ 						 &rzg2l_irqc_domain_ops, rzg2l_irqc_data);
+ 	if (!irq_domain) {
+ 		pm_runtime_put(dev);
+@@ -591,14 +605,18 @@ static int rzg2l_irqc_common_probe(struct platform_device *pdev, struct device_n
+ 	return 0;
+ }
+ 
++static const struct rzg2l_hw_info rzg2l_hw_params = {
++	.num_irq	= IRQC_IRQ_START + IRQC_IRQ_COUNT + IRQC_TINT_COUNT,
++};
++
+ static int rzg2l_irqc_probe(struct platform_device *pdev, struct device_node *parent)
+ {
+-	return rzg2l_irqc_common_probe(pdev, parent, &rzg2l_irqc_chip);
++	return rzg2l_irqc_common_probe(pdev, parent, &rzg2l_irqc_chip, &rzg2l_hw_params);
+ }
+ 
+ static int rzfive_irqc_probe(struct platform_device *pdev, struct device_node *parent)
+ {
+-	return rzg2l_irqc_common_probe(pdev, parent, &rzfive_irqc_chip);
++	return rzg2l_irqc_common_probe(pdev, parent, &rzfive_irqc_chip, &rzg2l_hw_params);
+ }
+ 
+ IRQCHIP_PLATFORM_DRIVER_BEGIN(rzg2l_irqc)
 -- 
 2.43.0
 
