@@ -1,57 +1,97 @@
-Return-Path: <linux-renesas-soc+bounces-27909-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27910-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GB7mM8mKg2lWpAMAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27909-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Feb 2026 19:07:05 +0100
+	id MKNvCIeMg2lWpAMAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27910-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Feb 2026 19:14:31 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11A0FEB651
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Feb 2026 19:07:05 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7877AEB7F8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Feb 2026 19:14:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 24F9830117E4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Feb 2026 18:06:50 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 699753127F23
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Feb 2026 18:09:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2A3042981A;
-	Wed,  4 Feb 2026 18:05:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DD44428849;
+	Wed,  4 Feb 2026 18:06:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GWHgpdWW"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 047F7429813;
-	Wed,  4 Feb 2026 18:05:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6E16428840
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  4 Feb 2026 18:06:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770228344; cv=none; b=ui+q3xPC23rCi4Cap6zn4oYm5wRD72IFOFSATNIrsieHhiMr20fLDMjLhbtAH+8EI9T3V1arv3aeMMh4jSTLzwS8eKFkl8o/YH/S/SdfG08Fp3m7w+GS8LeOhbr8dEfcL3Q2YoJt6Chrp9n+JYu0YHz44Su2no00VVzfv1ae1mk=
+	t=1770228397; cv=none; b=I7+wlqlXsptIg4161Qbf0npIpFErvGD3/M3BigssMxVr4/nlMGwkCUgY+8hlXN3JrparHiy6eyaEc3pduOXoalGS86b9mKIOqAjuQEwVK/c/lXPZONugbf8SZquIwIriOZTLPcjXwYzCYgcMf5Od0IuKyZ8z21Bo0g7w8UpIGm0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770228344; c=relaxed/simple;
-	bh=pT4o1mgPI2G+9EijsmDovnmvI/n8xcF1ylZgs4OGlN0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=A/5yssB8BhIPBdpqWW2ZL2t1tKaPh9JSN2lsti76V6/Q3oBQ3ZG16emTV7cRLVjwq5Md53K3xxlZdaRCpjSEdsrdEKvdfXm9qMiU14KyLj+XWVOUlS99LfXt6m+LDCxrZrPcTbDZ9P2xLmbbk8psKRmNEDHVKHWF78Ne9ZXbA6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-X-CSE-ConnectionGUID: nzZd/Y/gSUWKBVCrCRjDPA==
-X-CSE-MsgGUID: xsULi3QPRE2EWdI/VxqcYg==
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 05 Feb 2026 03:05:42 +0900
-Received: from demon-pc.localdomain (unknown [10.226.92.27])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 235EB405560F;
-	Thu,  5 Feb 2026 03:05:38 +0900 (JST)
-From: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Linus Walleij <linusw@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
+	s=arc-20240116; t=1770228397; c=relaxed/simple;
+	bh=JFBlGU4Xvp1F0FTzk80+WzdmniBWd4w8yA5cERclmuc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=R4/kXuz0KyiX36IfhapozVfryN5u7+WwdlUWJmEO6sWY5gGm02h+slHKcXM+NaCKd1oHhx53Dbjv2fYoxEgI2M9pkUDv4Pr0eVSJRbLnTwMOSCEYF4U7fxPRt+fJNv1x+EhY4asLrl9zB+lKaA4ukUtcVP/14nxJIIFSRXB+H88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GWHgpdWW; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b87677a8abeso4265066b.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 04 Feb 2026 10:06:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770228395; x=1770833195; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yh8VPX4Qi6iYs+jPcVaLzIK7A97eSnHakigPQRv+gxE=;
+        b=GWHgpdWW0hhpjgJb6oxrermIK6EsU1/feV1TbzSXQaGwd2s2aKiP4uUp4qt1Wx84Ul
+         zJ1fmPCQfsT9Zdz4PVSrcpEo79Qa3pbW7cUQzzwjq9WzTf+TdZ/SF+BBAcJyO0j3nFIj
+         JATetc28mfsnPeIg0fv+phIALaGv+LPt52m3ElQ/ABp8KHyDcSGIepD5McF/qflaSyko
+         +AEUE19szIA5vDIqqq+uoDw8EbafjP0c6evmIpvuaVlt2KEb0XzCHOp7xA3HWkLeYw53
+         4+rb/A5z78WuoG2R/uArkazzHL7Jz4XMtjUom3GNNC3nr8dlB58YB7uHdSzwYFistFIM
+         HMFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770228395; x=1770833195;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yh8VPX4Qi6iYs+jPcVaLzIK7A97eSnHakigPQRv+gxE=;
+        b=sskJpj48DpgETMyWH4pTcc1c8OFuqHNpOe0z9s4bBipRCoF7RvBaS3UQcDZJ9JChhX
+         +eFU1D+JnY+VC7b/ysDRrMZ2AqAKmFVpTFkHnMbXeAMuEabQyGnFC2nyTxDB3BPseVje
+         +JpZjDtM/7ILpf+CGLQiKxXAnOhFPgN+0zCrn3M6VSYrG4UPOJ5CzALUiHQQc/btbx6T
+         nznJmYw0WPQ4Iu4o2Fd/gFYELL/PF/XdMw2N5gGLURljdrq7cRO1YfI7xEv52eo/gcie
+         vznnNp4Ysu0AypMbTRYxK2eDULhJvFCGfC9DfQB8KGK4vBhQOmV7eitayotDwomubr2z
+         4P9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCW88OMv/uI2PXYYcoHDCTttCIaz6zu6yi+xrwa2rT8VtxK9vVQ/+uIIsjfSnK3gC94z+y3A9vH2tduxm4n6PJGhAg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzq4V+/0dNXktd7bhTf7Rj7G9TJZMt00T74QHfZZBGmMj8Z600i
+	p6A4Rl0oNmtNA3DWCS6s23a8qccPMwGzlItE0sKCDEMMbgCEL2U4RKym
+X-Gm-Gg: AZuq6aKxvzLmO4QSJIYcK/2nIg2tm3Y99tVcI2dgilg1ZlBsAn+X4BQKjHoADz2HvP8
+	tPonlevEyCHqiqN9oqjJLvIbyv5ErTutRy+7y/nK2QcCPrDmfsMmJKwobriX+/ejDPNmmHS8Bnc
+	z+e2cHTqkWP0qiqrjV66C6eBnHFLatdkGpU3BNt2XMvoEPjbZhTkedGpdcBtDtx0qbs+SeElOSr
+	hnOGvcGRChxt221euQrVkYXtjQRp/2+vjRySFm6MirONsacYqXIPYHlfDHV6rX10Qex7RSoEn9+
+	MjkkzsuSXA4X8SFXl9VaHWqzyEm2mKZkvLC+YFs8C+qpkbEzrJtTYFBB7dUt9VQdr1jsbNqjN3B
+	J6gZ8f90terVos7w9b7+opqzjIJmJlqNSxiZpPTDsp/9LQ9D2CL/eYCK+epHM8ERJ2EnvVXqq0s
+	IV8ZmLoJiqo9tlzJLBL+/84aoDi8nggS1nPxI=
+X-Received: by 2002:a17:907:26c9:b0:b87:892:f43b with SMTP id a640c23a62f3a-b8e9f196585mr261606666b.42.1770228394883;
+        Wed, 04 Feb 2026 10:06:34 -0800 (PST)
+Received: from localhost.localdomain ([2a00:23c4:a758:8a01:3c9f:a100:4d45:ebc7])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8ea0057dd1sm149677666b.65.2026.02.04.10.06.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Feb 2026 10:06:34 -0800 (PST)
+From: Biju <biju.das.au@gmail.com>
+X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
+To: Thomas Gleixner <tglx@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: [PATCH] pinctrl: renesas: rzt2h: fix invalid wait context
-Date: Wed,  4 Feb 2026 20:04:48 +0200
-Message-ID: <20260204180448.529313-1-cosmin-gabriel.tanislav.xa@renesas.com>
-X-Mailer: git-send-email 2.52.0
+	devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH v2 0/9] Add RZ/G3L IRQC support
+Date: Wed,  4 Feb 2026 18:06:16 +0000
+Message-ID: <20260204180632.249139-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -60,180 +100,72 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.64 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[renesas.com : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-27909-lists,linux-renesas-soc=lfdr.de];
-	FROM_NEQ_ENVFROM(0.00)[cosmin-gabriel.tanislav.xa@renesas.com,linux-renesas-soc@vger.kernel.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-27910-lists,linux-renesas-soc=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[kernel.org,glider.be,gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FREEMAIL_CC(0.00)[bp.renesas.com,vger.kernel.org,gmail.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	PRECEDENCE_BULK(0.00)[];
-	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.948];
-	RCVD_COUNT_FIVE(0.00)[5];
-	RCPT_COUNT_SEVEN(0.00)[11];
 	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 11A0FEB651
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bijudasau@gmail.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FROM_HAS_DN(0.00)[]
+X-Rspamd-Queue-Id: 7877AEB7F8
 X-Rspamd-Action: no action
 
-The following invalid wait context BUG is observed when running with
-CONFIG_PROVE_LOCKING enabled.
+From: Biju Das <biju.das.jz@bp.renesas.com>
 
-This seems to stem from the fact that __setup_irq() takes a
-raw_spinlock_t, while we take a spinlock_t inside gpiod_get_direction().
+The IRQC block on RZ/G3L SoC is almost identical to one found on the
+RZ/G3S SoC with the difference like it support more External IRQs, GPT
+Error Interrupts and also has additional registers for GPT/MTU IRQ
+selection, shared IRQ selection between external IRQ and TINT.
 
-raw_spinlock_t is a strictly spinning lock, while spinlock_t can sleep
-if PREEMPT_RT is enabled.
+It has 16 external interrupts of which 8 interrupts are shared with
+TINT[24:31] and are mutually exclusive. The external IRQ/TINT IRQ
+selection is based on a register in the ICU block.
 
-Switch to raw_spinlock_t to fix this.
+v1->v2:
+ * Simplified the binding by using pattern for intterrupt-names
+ * Fixed the binding warnings reported by bot.
 
-[   20.641809] =============================
-[   20.646336] [ BUG: Invalid wait context ]
-[   20.650964] 6.19.0-rc8-next-20260202+ #417 Not tainted
-[   20.656892] -----------------------------
-[   20.661517] (udev-worker)/235 is trying to lock:
-[   20.666842] ffff000182d4ab58 (&pctrl->lock){....}-{3:3}, at: rzt2h_gpio_get_direction+0x3c/0x150
-[   20.676928] other info that might help us debug this:
-[   20.682560] context-{5:5}
-[   20.685572] 4 locks held by (udev-worker)/235:
-[   20.690701]  #0: ffff000180b398f8 (&dev->mutex){....}-{4:4}, at: __driver_attach+0x10c/0x210
-[   20.700480]  #1: ffff000186f41a60 (request_class){+.+.}-{4:4}, at: __setup_irq+0x10c/0x740
-[   20.709952]  #2: ffff000186f418c8 (lock_class){....}-{2:2}, at: __setup_irq+0x12c/0x740
-[   20.719057]  #3: ffff000182d4a690 (&gdev->srcu){.+.+}-{0:0}, at: gpiod_get_direction+0x40/0x24c
-[   20.729135] stack backtrace:
-[   20.732450] CPU: 2 UID: 0 PID: 235 Comm: (udev-worker) Not tainted 6.19.0-rc8-next-20260202+ #417 PREEMPT
-[   20.732459] Hardware name: Renesas RZ/T2H EVK Board based on r9a09g077m44 (DT)
-[   20.732464] Call trace:
-[   20.732467]  show_stack+0x18/0x30 (C)
-[   20.732479]  dump_stack_lvl+0x70/0x98
-[   20.732489]  dump_stack+0x18/0x24
-[   20.732497]  __lock_acquire+0x910/0x1594
-[   20.732508]  lock_acquire+0x2f0/0x42c
-[   20.732517]  _raw_spin_lock_irqsave+0x5c/0x94
-[   20.732529]  rzt2h_gpio_get_direction+0x3c/0x150
-[   20.732538]  gpiochip_get_direction+0x34/0x90
-[   20.732547]  gpiod_get_direction+0xd8/0x24c
-[   20.732556]  gpiochip_lock_as_irq+0x68/0x144
-[   20.732565]  gpiochip_irq_domain_activate+0x18/0x30
-[   20.732574]  __irq_domain_activate_irq+0x60/0xb0
-[   20.732583]  irq_domain_activate_irq+0x34/0x5c
-[   20.732593]  irq_activate+0x2c/0x38
-[   20.732600]  __setup_irq+0x2d8/0x740
-[   20.732610]  request_threaded_irq+0xb0/0x180
-[   20.732620]  request_any_context_irq+0x58/0xac
-[   20.732629]  devm_request_any_context_irq+0x78/0x160
-[   20.732637]  gpio_keys_probe+0x344/0xb40 [gpio_keys]
-[   20.732657]  platform_probe+0x5c/0xa4
-[   20.732666]  really_probe+0xbc/0x2ac
-[   20.732675]  __driver_probe_device+0x78/0x118
-[   20.732684]  driver_probe_device+0x3c/0x170
-[   20.732693]  __driver_attach+0x118/0x210
-[   20.732701]  bus_for_each_dev+0x7c/0xdc
-[   20.732710]  driver_attach+0x24/0x3c
-[   20.732718]  bus_add_driver+0xe4/0x204
-[   20.732727]  driver_register+0x68/0x124
-[   20.732736]  __platform_driver_register+0x20/0x2c
-[   20.732746]  gpio_keys_init+0x20/0x1000 [gpio_keys]
-[   20.732758]  do_one_initcall+0x7c/0x530
-[   20.732770]  do_init_module+0x54/0x23c
-[   20.732780]  load_module+0x181c/0x1ed0
-[   20.732789]  init_module_from_file+0xd8/0xfc
-[   20.732797]  idempotent_init_module+0x1e0/0x2d0
-[   20.732806]  __arm64_sys_finit_module+0x60/0xa4
-[   20.732814]  invoke_syscall.constprop.0+0x40/0xf0
-[   20.732824]  el0_svc_common.constprop.0+0xb8/0xd8
-[   20.732832]  do_el0_svc+0x1c/0x28
-[   20.732839]  el0_svc+0x4c/0x2dc
-[   20.732850]  el0t_64_sync_handler+0xa0/0xe4
-[   20.732860]  el0t_64_sync+0x198/0x19c
+Biju Das (9):
+  dt-bindings: interrupt-controller: renesas,rzg2l-irqc: Use pattern for
+    interrupt-names
+  dt-bindings: interrupt-controller: renesas,rzg2l-irqc: Document RZ/G3L
+    SoC
+  irqchip/renesas-rzg2l: Make fwspec variable as pointer in struct
+    rzg2l_irqc_priv
+  irqchip/renesas-rzg2l: Drop IRQC_NUM_IRQ macro
+  irqchip/renesas-rzg2l: Drop IRQC_TINT_START macro
+  irqchip/renesas-rzg2l: Drop IRQC_IRQ_COUNT macro
+  irqchip/renesas-rzg2l: Add RZ/G3L support
+  irqchip/renesas-rzg2l: Add shared irq support
+  arm64: dts: renesas: r9a08g046: Add ICU node
 
-Fixes: 829dde3369a9 ("pinctrl: renesas: rzt2h: Add GPIO IRQ chip to handle interrupts")
-Signed-off-by: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
----
- drivers/pinctrl/renesas/pinctrl-rzt2h.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ .../renesas,rzg2l-irqc.yaml                   | 156 +++++--------
+ arch/arm64/boot/dts/renesas/r9a08g046.dtsi    |  91 ++++++++
+ drivers/irqchip/irq-renesas-rzg2l.c           | 218 +++++++++++++++---
+ 3 files changed, 336 insertions(+), 129 deletions(-)
 
-diff --git a/drivers/pinctrl/renesas/pinctrl-rzt2h.c b/drivers/pinctrl/renesas/pinctrl-rzt2h.c
-index 9949108a35bb..d810dc0dae95 100644
---- a/drivers/pinctrl/renesas/pinctrl-rzt2h.c
-+++ b/drivers/pinctrl/renesas/pinctrl-rzt2h.c
-@@ -85,7 +85,7 @@ struct rzt2h_pinctrl {
- 	struct gpio_chip		gpio_chip;
- 	struct pinctrl_gpio_range	gpio_range;
- 	DECLARE_BITMAP(used_irqs, RZT2H_INTERRUPTS_NUM);
--	spinlock_t			lock; /* lock read/write registers */
-+	raw_spinlock_t			lock; /* lock read/write registers */
- 	struct mutex			mutex; /* serialize adding groups and functions */
- 	bool				safety_port_enabled;
- 	atomic_t			wakeup_path;
-@@ -145,7 +145,7 @@ static void rzt2h_pinctrl_set_pfc_mode(struct rzt2h_pinctrl *pctrl,
- 	u64 reg64;
- 	u16 reg16;
- 
--	guard(spinlock_irqsave)(&pctrl->lock);
-+	guard(raw_spinlock_irqsave)(&pctrl->lock);
- 
- 	/* Set pin to 'Non-use (Hi-Z input protection)'  */
- 	reg16 = rzt2h_pinctrl_readw(pctrl, port, PM(port));
-@@ -474,7 +474,7 @@ static int rzt2h_gpio_request(struct gpio_chip *chip, unsigned int offset)
- 	if (ret)
- 		return ret;
- 
--	guard(spinlock_irqsave)(&pctrl->lock);
-+	guard(raw_spinlock_irqsave)(&pctrl->lock);
- 
- 	/* Select GPIO mode in PMC Register */
- 	rzt2h_pinctrl_set_gpio_en(pctrl, port, bit, true);
-@@ -487,7 +487,7 @@ static void rzt2h_gpio_set_direction(struct rzt2h_pinctrl *pctrl, u32 port,
- {
- 	u16 reg;
- 
--	guard(spinlock_irqsave)(&pctrl->lock);
-+	guard(raw_spinlock_irqsave)(&pctrl->lock);
- 
- 	reg = rzt2h_pinctrl_readw(pctrl, port, PM(port));
- 	reg &= ~PM_PIN_MASK(bit);
-@@ -509,7 +509,7 @@ static int rzt2h_gpio_get_direction(struct gpio_chip *chip, unsigned int offset)
- 	if (ret)
- 		return ret;
- 
--	guard(spinlock_irqsave)(&pctrl->lock);
-+	guard(raw_spinlock_irqsave)(&pctrl->lock);
- 
- 	if (rzt2h_pinctrl_readb(pctrl, port, PMC(port)) & BIT(bit)) {
- 		/*
-@@ -547,7 +547,7 @@ static int rzt2h_gpio_set(struct gpio_chip *chip, unsigned int offset,
- 	u8 bit = RZT2H_PIN_ID_TO_PIN(offset);
- 	u8 reg;
- 
--	guard(spinlock_irqsave)(&pctrl->lock);
-+	guard(raw_spinlock_irqsave)(&pctrl->lock);
- 
- 	reg = rzt2h_pinctrl_readb(pctrl, port, P(port));
- 	if (value)
-@@ -964,7 +964,7 @@ static int rzt2h_pinctrl_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
--	spin_lock_init(&pctrl->lock);
-+	raw_spin_lock_init(&pctrl->lock);
- 	mutex_init(&pctrl->mutex);
- 	platform_set_drvdata(pdev, pctrl);
- 
 -- 
-2.52.0
+2.43.0
 
 
