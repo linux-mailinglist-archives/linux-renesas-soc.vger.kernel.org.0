@@ -1,99 +1,99 @@
-Return-Path: <linux-renesas-soc+bounces-27870-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27871-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UCirDmcdg2nWhwMAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27870-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Feb 2026 11:20:23 +0100
+	id CK0KIlIeg2nWhwMAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27871-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Feb 2026 11:24:18 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50D69E463B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Feb 2026 11:20:22 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AA99E4725
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Feb 2026 11:24:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id E34163000BBF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Feb 2026 10:20:17 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 8AA693004DF3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Feb 2026 10:24:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D912C3D6471;
-	Wed,  4 Feb 2026 10:20:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6623E3D902A;
+	Wed,  4 Feb 2026 10:24:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lcv5oSTn"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kbCCuIpf"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60E733D412E
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  4 Feb 2026 10:20:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E81903D7D9D
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  4 Feb 2026 10:24:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.41
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770200415; cv=pass; b=a9pdqPoYy0VGaX5gj2Eyc19unoQGmMoLCsT/N3hpt7FH5J99r5/qOZvpwW6a+Mv5jhEJ/StMFuuFprtEUZOuF8NP6wP75uEiNVwtbTPEhOUELRhVeYPYmyj5azNLKKuieIRB23L3VQg++RlBqMwoSOsa7lwrNGAF3OG9MwXyY4o=
+	t=1770200656; cv=pass; b=GSR0M/DUjt0IU/0KtFMJlnTgzJfO+CvWPOXylxUagCDkShPFtKDX+H4+WiltWjRKai8xSY61AHV/ljpnlxsaqfUKDwVLB9hIJxWa2IDg3gCHxV21iWYO9K/9rMfCzVNLijombD6Zp5kNl1rDpSnK4TIYlO4T4QAE/dLS7wv//+0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770200415; c=relaxed/simple;
-	bh=kEJyoDKH/UHjxXyptZe8iP6IBbkNvRh8+DOSqHLS+f4=;
+	s=arc-20240116; t=1770200656; c=relaxed/simple;
+	bh=vXGB7bHAVBuVVZiy2s+gdsY4ntOkkOVKzudlXhWiu+M=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VotZWUVN7/UX1Ow96LFoQjA1YFsW0eGxg3PsvzX1nM+Uc1lrW4Ti8xEi5uA0Z7yhMFjiTC3uhr8oIGzZ5iqCGhB5I2OOjLtZwNJu/LkCd4TUhfYve8z5z7MRR8X8YSiIEfZcSvg2vUNbM2xBJ9JbzQ0xtmPSqhvcxwbOsgNxCgw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Lcv5oSTn; arc=pass smtp.client-ip=209.85.221.51
+	 To:Cc:Content-Type; b=uvXu3tzxv0gCth6TGa3V0IY7jZLczrNpeHbx1TBFH2XBT+gjSUytAIY4O/9ZwwZ3rFscPplhHqkEdYfBTVf8SEwnvpLUlvdPBUJoNhh9znEm1tQbDZTrj9AezTAk8e4G+jsYlDVXRzF+7M9QKaLQILdHMVegRbHBAChWJtnwLsc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kbCCuIpf; arc=pass smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-4359249bbacso456367f8f.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 04 Feb 2026 02:20:15 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770200414; cv=none;
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-42fbc305914so5958562f8f.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 04 Feb 2026 02:24:15 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770200654; cv=none;
         d=google.com; s=arc-20240605;
-        b=fUP7e5630lTRZh9naDNKgQ6wum9rSU2gpHvM+7GcHwyz67mFxadmWBfKoC5TNvGT+N
-         SpjB7LPvJwj42/ijHDa6PzDkFn+JZTiezW7a5yEX/nWUfF7vi6ZbbD9tulIuprSZSvJJ
-         W5UYidB47YUmP/v+FQp3r2GZGVXCVE3V6S4lyevf5IRHDyC23N0sP3g+RT3MjTiqO9Qc
-         Op9LfM4qgAPmNJUr5U8YqkIXya2T0OlT0BNILW0Ira3UvNirkzHT2CQl/Md2FICGrH/p
-         thgntBL0YQuXrZZAlb8/GEbA/FgT/iqFHfyioTQcSYWk3DihWtHnNMr3BzwDxGRbBBrE
-         nLNg==
+        b=fxAe0gVHVykQ+06DPuEzTJZauuNL3/+lkPCrArrauIUkdJP9lopk5dflAjvIwGyFS4
+         nKOZ7ksqWo7Bf/q1XPF6K9DgMcjZLR56qdK/i0lAPWeif7QaKBWOwgCaqBcoXrhiJrCq
+         pVc/qyl8uZUl1W6OqbjgQwrubJlaruIbIcW6HCFRKIpxy0Gr6pVuQaCTevXWdDQPFUhx
+         o5HaHypXPGDtb4kYEUdZrRdGdFqncgbjw+vzHIYS/23cTNVe7lFCdukH+TuYT7PBimXQ
+         wwDLzfHvt0C8/DpXg3AB4Nn9oRBXPEFHK7SCbTmH3+pyn+6gInx4qnb7Vkz57oakTAIZ
+         PMAw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=lmYeNNZYcYY/s3lZlCGPqG5fIV23Lyf+wUBXBk2RJ0s=;
-        fh=80diA85hnCNNi3XHAP6dpXWTuhOdOnVlVFUvtlac9p0=;
-        b=Rdzins/+mth7XbOfZqMgbDxviCTtoaXQnX373sg99+XuynG9UyozutJpmeAUp7YZBp
-         fRi9Vr5kzJniBVYhu6lCvXIuHUgQQNsbtuwiqt2TX5TMkIMKlFvx8MkWPyU7SFcSz8l7
-         UA01Y1mpRLI6sRCmZ/R7tGkG4fWYBSz7SVoM8+eHhqkF+HIMW0xVkYSkP9ibtqsY9Ik9
-         9k/8wPWiQrPbPo/CcCMdddvdvybXuP9e4uwXPAQW75YrEpErQTfZWkBpJqr9VsWLzd/a
-         zLd4pZW3YdHSn9lo3drWXMs15Mh9mCvM5Ls+8zMtk+MBtCr34DkpQ9aHOh7NDr08htgF
-         yXVQ==;
+        bh=tgcb4OGHhZ+btZ8qY4cbsk5u3dOLo0nCnPlfAj5FzpQ=;
+        fh=Cc/xAEiJjh3G8qYzulnv2uPPa9xEPPZZQo2BOP6M8lM=;
+        b=QXNH+bFuibi8RGAGjKbSR1Tiqo8Aov8KYUYxcgGZo6eKHhfsgcEB6A0tXaBNENsFN1
+         cJPLLGA0SIcW9wIZK5s3XjweSmzytHW0hxH3pPPhZEdjke5wRhy7Hl7q4A5Admulta5G
+         uyijvAtddp7BUL7SEcN/avCnzljL8YCm0Akt4Ux2SDftibcwGHzfX5Zn0fmoJDuKVlvk
+         qeLvVcaz/rr6KlqNrhYj3Y2Qp3NiICBi5q2JuxEmRhHn1eDFqifZ2M5kE9GyZ7K8FuBY
+         YJa8RYHV0ftWjAkA7aDmi6M88DatZQLVzXSy3kUv5bplgGwXuhJd5HrWJk5f9yFu8Dxx
+         l9jg==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770200414; x=1770805214; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1770200654; x=1770805454; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lmYeNNZYcYY/s3lZlCGPqG5fIV23Lyf+wUBXBk2RJ0s=;
-        b=Lcv5oSTn1tadj/oJ3u901fclXBdWz0o7+UlKVZzH4RJv6msTPSmz0iYbf2EQXW9v5e
-         kFRpcClpzWRyha6GAiO2YLLy7JRELboKyvgLgornZII7VqJZPVnnx7YXAnpwFxyyl8NW
-         26auhGArIp92UTab2Ee73+8yJnKiKFpcFwpUW7bol9DWkJkWzG/bUsw6O9Y2ytRtHQCI
-         JKl9nemCmDcLgFYPz1c0AQgOAviZxRZQSMUNM/k/RurVOp8Gh/DFgUCAAWEfF41ZGiQw
-         rdn3Q2x7TL1Smgha/neBblFtree/tUnarOJneNgPr7K+MPBj6HBQhv4vzrlDjBnaKtRy
-         hsoQ==
+        bh=tgcb4OGHhZ+btZ8qY4cbsk5u3dOLo0nCnPlfAj5FzpQ=;
+        b=kbCCuIpfhWio56kPPcAY8QeanIM+hdmUZlL7NcURyr9NOqTXQQBk4bdmTs7JoeWCVV
+         HjJNi85dr929tNimpJqi1dAzZdZWsfh71zVTtfSCWqO2u+vgnGyqiBeLPYt9mMeK2xG7
+         RmfLtBynh8bCsSPPVRY59G4SMVA71kSReI5vyXZVYXTKHNDY68V1awj1mfr1fcJ0/nqX
+         353CL5vWCDhDsfsINaDwOkz8myED7+wRmgcgyMrua6Cd5SeA3hYpBY33NissHZQGpb7c
+         PaKdh2JTFMr04UOL428hFKsC7O/iYF+0cZ0aZ3/daz6rmu7JpC74duR1EWaeDWnwBizk
+         /KkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770200414; x=1770805214;
+        d=1e100.net; s=20230601; t=1770200654; x=1770805454;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=lmYeNNZYcYY/s3lZlCGPqG5fIV23Lyf+wUBXBk2RJ0s=;
-        b=bQLV1jeKTY8Qbk/IIXtHw+C/kOSIPFFohdMLyJlDfQCV0TjT/krmIAuELtcUaL42cQ
-         ngC5LQLLrduKbn4roJF8mrwdVLP4Uoq7uixIHM+orA1u8I6Jxwnqt9UPKR9Z1qhQQY1S
-         iFHD0pzpDxv6i+5GzOF4/lRPxRWeFjxDl4JTPuhfSio5dmDmWy9F4/qJNJhouSx23t74
-         /p+w4k2gJy8Zkhrz8EMbuTPaC7V2goXovjqph8jr/M96yF1sSgdIdlfkpd3gPUb5hk5+
-         3uTBSRxFtB6dfacorhvz74yEVH4Ejgywycu7IF0gUscOmqposEgYW+bLzJryd1vgKg0G
-         aNig==
-X-Forwarded-Encrypted: i=1; AJvYcCXEuJ2kr9vo1NGvVO0iQrK7Vf8VAKkvnoc/F6bTwEHFnY0SxRhVytPh1QoCmjvVhv21/ktDWrjETwGvc9c21hf/Og==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyC2XFs6x8NrgG1wLbNHXPaMzX2so4tEFGnk2Yvf7Ew9mGvZ09/
-	ox9QBErJEfuiAR2eH4qBWZM3+rh9zwgTGYHCaprK2QYYrq05ZRNng/Io3iYS2nfcJBHBxjvyubY
-	2hkjRlmg0hvRawa8crBqp7zf7126r9Hk=
-X-Gm-Gg: AZuq6aJ5g6HQ5qAG+hUaaZASSWyJ4vgQgDilFjYpEbESZ8yYUG2ys3DC0EtRQ9bU6up
-	1GRCKw4vEXa9pzB2Xo/uWjNm6sQ6TSANPsz/iNMUHpoubLbVf6mA3cssPsKKz5CFOYHOCmL4hTb
-	QAjXeNemjobl4qVS2UfWMYRv+CSiLGxWGuqLZR5vd6KgOIdE8ujchEgiBY3fEu04Mq6WBiQ3V8K
-	OW2RBqJPLhiILq+RdhC6B8LF4ETsAOFvRuGRp2nLNcaKjGjRnNVgIecypUlnVaRGWvWoLxMuuXC
-	AqrD30MDmUg94f+Es1wQki+xaQOgzyie12kr7RP21vjiuSP8dD41wKgdUeen0ZeFBbpu27t5B2n
-	Y2dcM4/lUsSu0jQ==
-X-Received: by 2002:a05:6000:186b:b0:435:953e:5897 with SMTP id
- ffacd0b85a97d-43611447c43mr8675347f8f.25.1770200413439; Wed, 04 Feb 2026
- 02:20:13 -0800 (PST)
+        bh=tgcb4OGHhZ+btZ8qY4cbsk5u3dOLo0nCnPlfAj5FzpQ=;
+        b=liAyb/AIbgq3uh0rEPO/UkhFH4W75h99wiSK3XOdF5iO/YMEZ+lzS2HfIiz/l+/O8G
+         WabtqFmXIbjfL+ZEWD+4bIF5WjqEGkYEfRfQZO7x7/b4+GFXbvIWh8f1Hyh570kuM2YU
+         E+7BlGgA8Qfqc4R9NhUcB2/R54AgmVGkKOyt2uMzYn2s3nwc6bT4cAUC0ODJLox22Pz9
+         o416UAN303IT4+5ywyLvvZ2yxCtzD10jTozrV3N3kf6+Qm881HakzJnU+GPlDyCSTVfP
+         RcdCbmfV75C3VGVdnHI00N4P6nkluRoHDJM8BCikKoxHkkIgYnmOE7pMKmfypi5dbSPY
+         ZS9g==
+X-Forwarded-Encrypted: i=1; AJvYcCX47fxizDR3Avtr+VxtXl1EqhJE/tn1tCqMC2jkvC2cuy/2OnfCZ624SrWo2sEO9ur/6PzBmq5sj2udoqUZqfzhsg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwTxhFt0Z7MRyzOjKBeGqmXWvoUVivwSU0ukmsnLKzM1KB/nL+C
+	pEpD/0KzD0DMHx89LuB59mDNCn5CKvNLb/kV2etAg3e+qZj5KsQek7JuoG9BtwaQ3GMdBhhcbZa
+	qtmMjrAb/v8b81s984TV4UEnUgaw0/V8=
+X-Gm-Gg: AZuq6aIGvJ4PQ5Padv3bFxM6ZOloR309t037FsbeRk+DhyZ24pPQ2eWaq6kMD0A+9pp
+	YTUXJF0ZWAD/1mTSlh+juU/v6PlmMQ6Fkzo/qmM9OH7Hn6DTI4POBpxKu20ER+25MYYoxYlZxO+
+	sKPZ/vpsySmftc1IOo2zrKv/0iI1Lh5UNbsWkE2GdyhGRHtWJLG2m7NIcma3LJigSO6GKoEPKLu
+	x1Vl1waMvdklJQBWWa0SVAETjVJKr73sQGbEFAsFJ0pz3AFVrkZOkgR0v8ZuF8+/QSIfDQHNtNE
+	gYU8NjQFJ5VzI8eq810B2MhMnWsB39Xgw7yw9jtkAAqmXdOldNSFD9wSMFnUNeFDhGEPdbUutQ9
+	0dQcRL9x2MlN7MQ==
+X-Received: by 2002:a05:6000:40cd:b0:42f:f627:3aa3 with SMTP id
+ ffacd0b85a97d-4361805edb7mr3933035f8f.56.1770200654099; Wed, 04 Feb 2026
+ 02:24:14 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -101,13 +101,13 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20260203231823.208661-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20260203231823.208661-5-prabhakar.mahadev-lad.rj@bp.renesas.com> <TY3PR01MB11346474FD45870A1047FB1F98698A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-In-Reply-To: <TY3PR01MB11346474FD45870A1047FB1F98698A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <20260203231823.208661-6-prabhakar.mahadev-lad.rj@bp.renesas.com> <TY3PR01MB1134655D9D775609DDD421DA48698A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY3PR01MB1134655D9D775609DDD421DA48698A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Wed, 4 Feb 2026 10:19:47 +0000
-X-Gm-Features: AZwV_QgA2kuK8ODgFee6o8VhNpgzLblB5OI36bD45G1Ebd5NFebfT0WLO7HYhd4
-Message-ID: <CA+V-a8tsUeZ6PsVxm3jHgS0X2wKRtuyuUWOfpp1r718mj_ay4w@mail.gmail.com>
-Subject: Re: [PATCH v2 4/6] irqchip/renesas-rzv2h: Make IRQ type handling range-aware
+Date: Wed, 4 Feb 2026 10:23:47 +0000
+X-Gm-Features: AZwV_QgYKos7mNAJOPPYGIajBSVDRuJb3J_1GtjjaOo9aW_we1f01IvyXM6tFuI
+Message-ID: <CA+V-a8tCb4puraPLZKxoro-FemWshDdZa_vagoKguvMLcj9NCg@mail.gmail.com>
+Subject: Re: [PATCH v2 5/6] irqchip/renesas-rzv2h: Add CA55 software interrupt support
 To: Biju Das <biju.das.jz@bp.renesas.com>
 Cc: Thomas Gleixner <tglx@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
 	Geert Uytterhoeven <geert+renesas@glider.be>, "magnus.damm" <magnus.damm@gmail.com>, 
@@ -122,13 +122,13 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-27870-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-27871-lists,linux-renesas-soc=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	TO_DN_EQ_ADDR_SOME(0.00)[];
 	FREEMAIL_FROM(0.00)[gmail.com];
@@ -146,168 +146,82 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
 	RCPT_COUNT_SEVEN(0.00)[9];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: 50D69E463B
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 2AA99E4725
 X-Rspamd-Action: no action
 
 Hi Biju,
 
-On Wed, Feb 4, 2026 at 6:52=E2=80=AFAM Biju Das <biju.das.jz@bp.renesas.com=
+On Wed, Feb 4, 2026 at 7:08=E2=80=AFAM Biju Das <biju.das.jz@bp.renesas.com=
 > wrote:
 >
-> Hi Prabhakar,
 >
-> Thanks for the patch.
+> Hi Prabhakar,
 >
 > > -----Original Message-----
 > > From: Prabhakar <prabhakar.csengg@gmail.com>
 > > Sent: 03 February 2026 23:18
-> > Subject: [PATCH v2 4/6] irqchip/renesas-rzv2h: Make IRQ type handling r=
-ange-aware
+> > Subject: [PATCH v2 5/6] irqchip/renesas-rzv2h: Add CA55 software interr=
+upt support
 > >
 > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > >
-> > Refine IRQ type handling to explicitly bound IRQ and TINT ranges and di=
-spatch based on the hardware
-> > IRQ number.
+> > The Renesas RZ/V2H ICU provides a software interrupt register (ICU_SWIN=
+T) that allows software to
+> > explicitly assert interrupts toward individual
+> > CA55 cores. Writing BIT(n) to ICU_SWINT triggers the corresponding inte=
+rrupt.
 > >
-> > This restructures the logic to clearly separate NMI, IRQ, and TINT hand=
-ling and ensures out-of-range
-> > interrupts are ignored safely. The change prepares the driver for addin=
-g CA55 interrupts into the IRQ
-> > hierarchy domain by making the interrupt classification explicit and ex=
-tensible.
+> > Extend the RZ/V2H ICU IRQ domain to include CA55 software interrupts as=
+ part of the hierarchical IRQ
+> > numbering, backed by the ICU_SWINT register.
+> >
+> > SW interrupts can now be triggered when GENERIC_IRQ_INJECTION is enable=
+d.
 > >
 > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > > ---
 > > v1->v2:
-> > - New patch.
+> > - Made CA55 SW interrupt as part of ICU IRQ domain.
+> > - Implemented rzv2h_icu_irq_set_irqchip_state() to trigger SWINT.
+> > - Updated commit message accordingly.
 > > ---
-> >  drivers/irqchip/irq-renesas-rzv2h.c | 59 +++++++++++++++++++----------
-> >  1 file changed, 40 insertions(+), 19 deletions(-)
+> >  drivers/irqchip/irq-renesas-rzv2h.c | 89 ++++++++++++++++++++++++++++-
+> >  1 file changed, 86 insertions(+), 3 deletions(-)
 > >
 > > diff --git a/drivers/irqchip/irq-renesas-rzv2h.c b/drivers/irqchip/irq-=
 renesas-rzv2h.c
-> > index 4aa772ba1a1f..6c7bbb04c6e4 100644
+> > index 6c7bbb04c6e4..a2ff7524889c 100644
 > > --- a/drivers/irqchip/irq-renesas-rzv2h.c
 > > +++ b/drivers/irqchip/irq-renesas-rzv2h.c
-> > @@ -25,9 +25,11 @@
-> >  /* DT "interrupts" indexes */
-> >  #define ICU_IRQ_START                                1
-> >  #define ICU_IRQ_COUNT                                16
-> > -#define ICU_TINT_START                               (ICU_IRQ_START + =
-ICU_IRQ_COUNT)
-> > +#define ICU_IRQ_LAST                         (ICU_IRQ_START + ICU_IRQ_=
-COUNT - 1)
-> > +#define ICU_TINT_START                               (ICU_IRQ_LAST + 1=
+> > @@ -12,6 +12,7 @@
+> >  #include <linux/bitfield.h>
+> >  #include <linux/cleanup.h>
+> >  #include <linux/err.h>
+> > +#include <linux/interrupt.h>
+> >  #include <linux/io.h>
+> >  #include <linux/irqchip.h>
+> >  #include <linux/irqchip/irq-renesas-rzv2h.h>
+> > @@ -29,7 +30,10 @@
+> >  #define ICU_TINT_START                               (ICU_IRQ_LAST + 1=
 )
 > >  #define ICU_TINT_COUNT                               32
-> > -#define ICU_NUM_IRQ                          (ICU_TINT_START + ICU_TIN=
-T_COUNT)
-> > +#define ICU_TINT_LAST                                (ICU_TINT_START +=
+> >  #define ICU_TINT_LAST                                (ICU_TINT_START +=
  ICU_TINT_COUNT - 1)
-> > +#define ICU_NUM_IRQ                          (ICU_TINT_LAST + 1)
-> >
-> >  /* Registers */
-> >  #define ICU_NSCNT                            0x00
-> > @@ -175,18 +177,27 @@ static void rzv2h_icu_eoi(struct irq_data *d)
-> >       u32 bit;
-> >
-> >       scoped_guard(raw_spinlock, &priv->lock) {
-> > -             if (hw_irq >=3D ICU_TINT_START) {
-> > -                     tintirq_nr =3D hw_irq - ICU_TINT_START;
-> > -                     bit =3D BIT(tintirq_nr);
-> > -                     if (!irqd_is_level_type(d))
-> > -                             writel_relaxed(bit, priv->base + priv->in=
-fo->t_offs + ICU_TSCLR);
-> > -             } else if (hw_irq >=3D ICU_IRQ_START) {
-> > +             switch (hw_irq) {
-> > +             case 0:
-> > +                     /* Clear NMI */
-> > +                     writel_relaxed(ICU_NSCLR_NCLR, priv->base + ICU_N=
-SCLR);
-> > +                     break;
-> > +             case ICU_IRQ_START ... ICU_IRQ_LAST:
-> > +                     /* Clear IRQ */
-> >                       tintirq_nr =3D hw_irq - ICU_IRQ_START;
-> >                       bit =3D BIT(tintirq_nr);
-> >                       if (!irqd_is_level_type(d))
-> >                               writel_relaxed(bit, priv->base + ICU_ISCL=
-R);
-> > -             } else {
-> > -                     writel_relaxed(ICU_NSCLR_NCLR, priv->base + ICU_N=
-SCLR);
-> > +                     break;
-> > +             case ICU_TINT_START ... ICU_TINT_LAST:
-> > +                     /* Clear TINT */
-> > +                     tintirq_nr =3D hw_irq - ICU_TINT_START;
-> > +                     bit =3D BIT(tintirq_nr);
-> > +                     if (!irqd_is_level_type(d))
-> > +                             writel_relaxed(bit, priv->base + priv->in=
-fo->t_offs + ICU_TSCLR);
-> > +                     break;
-> > +             default:
-> > +                     break;
-> >               }
-> >       }
-> >
-> > @@ -200,7 +211,7 @@ static void rzv2h_tint_irq_endisable(struct irq_dat=
-a *d, bool enable)
-> >       u32 tint_nr, tssel_n, k, tssr;
-> >       u8 nr_tint;
-> >
-> > -     if (hw_irq < ICU_TINT_START)
-> > +     if (hw_irq < ICU_TINT_START || hw_irq > ICU_TINT_LAST)
-> >               return;
-> >
-> >       tint_nr =3D hw_irq - ICU_TINT_START;
-> > @@ -421,12 +432,22 @@ static int rzv2h_icu_set_type(struct irq_data *d,=
- unsigned int type)
-> >       unsigned int hw_irq =3D irqd_to_hwirq(d);
-> >       int ret;
-> >
-> > -     if (hw_irq >=3D ICU_TINT_START)
-> > -             ret =3D rzv2h_tint_set_type(d, type);
-> > -     else if (hw_irq >=3D ICU_IRQ_START)
-> > -             ret =3D rzv2h_irq_set_type(d, type);
-> > -     else
-> > +     switch (hw_irq) {
-> > +     case 0:
-> > +             /* NMI */
-> >               ret =3D rzv2h_nmi_set_type(d, type);
-> > +             break;
-> > +     case ICU_IRQ_START ... ICU_IRQ_LAST:
-> > +             /* IRQ */
-> > +             ret =3D rzv2h_irq_set_type(d, type);
-> > +             break;
-> > +     case ICU_TINT_START ... ICU_TINT_LAST:
-> > +             /* TINT */
-> > +             ret =3D rzv2h_tint_set_type(d, type);
-> > +             break;
-> > +     default:
-> > +             ret =3D -EINVAL;
-> > +     }
-> >
-> >       if (ret)
-> >               return ret;
-> > @@ -507,11 +528,11 @@ static int rzv2h_icu_alloc(struct irq_domain *dom=
-ain, unsigned int virq, unsigne
-> >        * fwspec->param[0].
-> >        * hwirq is embedded in bits 0-15.
-> >        * TINT is embedded in bits 16-31.
-> > +      * Check if bits 16-31 are set to identify TINT interrupts.
-> >        */
-> > -     if (hwirq >=3D ICU_TINT_START) {
-> > -             tint =3D ICU_TINT_EXTRACT_GPIOINT(hwirq);
-> > +     tint =3D ICU_TINT_EXTRACT_GPIOINT(hwirq);
-> > +     if (tint) {
+> > -#define ICU_NUM_IRQ                          (ICU_TINT_LAST + 1)
+> > +#define ICU_CA55_INT_START                      (ICU_TINT_LAST + 1)
 >
-> Is tint =3D=3D 0 does not happen??  I mean GPIOint =3D=3D 0 is invalid??
+> Maybe define this after defining GPT IRQ macros[1] for continuity, when
+> CONFIG_GENERIC_IRQ_INJECTION is disabled ??
 >
-For the P0_0 case, tint =3D 0 and hwirq =3D=3D ICU_TINT_EXTRACT_HWIRQ(hwirq=
-).
-In this situation, we do not need to enter the if condition.
+This cannot be done, as these macros need to match the DT binding [0].
+They index the interrupt names defined in the DT, so their placement
+must remain aligned with the binding.
+
+[0] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tre=
+e/Documentation/devicetree/bindings/interrupt-controller/renesas,rzv2h-icu.=
+yaml?h=3Dnext-20260203#n105
 
 Cheers,
 Prabhakar
