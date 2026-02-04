@@ -1,262 +1,192 @@
-Return-Path: <linux-renesas-soc+bounces-27919-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27920-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OL3RFRuMg2lWpAMAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27919-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Feb 2026 19:12:43 +0100
+	id YHMgOZ+ag2nppwMAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27920-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Feb 2026 20:14:39 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BC2EEB79C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Feb 2026 19:12:42 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CF3CEBF8F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Feb 2026 20:14:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 3ADCA30175F1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Feb 2026 18:10:16 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C0588302924A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Feb 2026 19:14:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D98C843DA32;
-	Wed,  4 Feb 2026 18:06:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15898428496;
+	Wed,  4 Feb 2026 19:14:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bkUE2R+r"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="nS6k0ILO";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Cgtz93kO"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B28543DA29
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  4 Feb 2026 18:06:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA74C31A551;
+	Wed,  4 Feb 2026 19:14:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770228404; cv=none; b=lXdZZYZrrCCrj8NWzA/fK2I5xkVQ7wC8L4UxcRnpoqh1aSxUj0cSaVykOW5D0ssq9BRqMGed+UABS2QA4yEjqIKypl8jRFQBEC6HO9Op6eXLK8u13uAaJEl/vdnU9n1kclmHmCP/dpl3kSvpDYfDlRok2ILL0x94VJghfIk1oMc=
+	t=1770232467; cv=none; b=c5l2nMwAScua0DJfutu4RkflHTR75+/XLtUWtFqBJrTDJ87MKd3aBl1RANVyQjA0wcQGN1QFn5NBU5bE5ET84O3bSnEfCKDNB5OpzyP8NXJlAK/gHEkHUHFe+ElUckngCM/H+n2of5AboTTHbeT2k9qQy6Oj8YCdEDBGLC+AtmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770228404; c=relaxed/simple;
-	bh=UP+9KdRnkLsvToA8MtZEcm32tDDxPt9OHWzvcibE/xg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GRuVAVL0xiFLB4nCQx34roLCBCNjToqxn8tnLN5U3XWGjLCEdlBoFyjDFnef/OoOgtGa8nr9sdosuCaDnVMdoSVNNVysS7EOGrTcNP0AhHmcagJ1r2pheE7oCAwjStRXfh/ZZOREsxuImB7vQ1BGlECiUgFvLmLSThTcyDqnzLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bkUE2R+r; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-b885e8c679bso4762166b.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 04 Feb 2026 10:06:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770228403; x=1770833203; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+JoeGOuekatIj2w4dOO9r1vdS0XM/ncxVioEhSKM/u4=;
-        b=bkUE2R+r8ejPqoX6b9azWfEnRsmny7Ep7/ngIjSRmQcE2VLqOZyUxziQKdFPeAgxyA
-         e5Br382OF/LWXqfZVy0b4cdMffcZkxFfyWf3O3bgAErbJybNikp9MPhDEG2jla4iW5Y+
-         HgMSiVFoBr7NlHa1sdiuBCIIY5LRr7tNMkZd/FTzP2yXJ6i/Q/j20DxeAytteyHBjm1Z
-         hPNGK5bpP3eG8yq1U2TlMufZk0PmhIaLFzd2xJC3LhLuRj6v8IMq/gZ70L0Dq2r8xmZv
-         cOrSi1Xd/bblEiQC6UiIboAWs2HktEmMchq/JGiJ//Kpz/yRgHN2WjlRiwDOYXvIDGx4
-         fEHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770228403; x=1770833203;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=+JoeGOuekatIj2w4dOO9r1vdS0XM/ncxVioEhSKM/u4=;
-        b=D8eegKI2k54+CGds9dzM3r4mpEwH5IotvJ6U0gz9AzosdysJalZoUF9LxPLcgcRLAi
-         4QiR/iLweBdNvyPdRjI+MStCe/IUS7Lf/eBdm4grQ1/gnKb1ke3uX9/GyVC/RfvXSTzu
-         xoiusIpXzGMYbRdApRQhO5jyfOpqHoBZoHuGI8DrW0cQT2d0XmrgBQPFdHn/KCfXA16q
-         F+pKmgVVNY0ny0h319baFfqa1N1qNQPdNLdBqfCn1+ELLufR4xUiedlVHtAqHt3DwFTI
-         XpI0EUWzSpzNNYWFIAo9UeMmZGLmh+PXVEnKXw/ZhEWF3fWmmVvC1/bNXwhgFUh2H69M
-         d+FA==
-X-Forwarded-Encrypted: i=1; AJvYcCXMOFUvXLD2zV4xqs5X1V9SiZV0iNGFOTbMD6J1rB7wLYJG07NaZ0PINPwuwPYhkUl+mtyvktZuDQUsgMnoaw9ZrA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxcNj7d5WjI6draAWe6JDvBVb79ilFNtt0lMr22/x5fQaQsCKyf
-	cFO9ulr/iieB4X0eIiG9deyRaxyjhgySAumFU0pLjQqkr5/NzmFnYy6F
-X-Gm-Gg: AZuq6aIC9haQ89UZV6zP9fgFCD5wNW8nMXLTFyT71AN75x77OiZvrIhsTxBfgW06X/k
-	dVrjvQD6Ny19IrxpNgGF5OfrLE49moDp1RD3fBr/xZcXlRfgcUnsk6+oUbo5iEpIqwLJRg1cEOV
-	u0TbarnkmJXN4PzhAxEmrXVNulSWm20kqwgZVsOQeElJ/jFeYLg+Ph0zTEa7eoTemw30j/SM/gy
-	NA3iVOctbdi5L1erELSFy/9oSlkBGL9nVZxV5MW9SFzhBDyb1zaEbNz5sBKTT5E4DW7lfPnwid5
-	ohbq8hWogy5UzVOPoHdM0aW3n/NERRGkKJU76xKDsEFDFxqHONYD3fAQAH09xD7d0TMeNbZbyqN
-	qk2mYUEcwXOsfhdnq6gvQfZdZw/eIFvbCE7CCNZclcaSHSUOfviEOTtZQ+YJis114xjuSn24oz6
-	VjkgBQ1ty9ZlQKxL7xfRCH3HNYDmgigUYRSvY=
-X-Received: by 2002:a17:907:971a:b0:b73:544d:b963 with SMTP id a640c23a62f3a-b8e9f04c8ecmr240160866b.13.1770228402745;
-        Wed, 04 Feb 2026 10:06:42 -0800 (PST)
-Received: from localhost.localdomain ([2a00:23c4:a758:8a01:3c9f:a100:4d45:ebc7])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8ea0057dd1sm149677666b.65.2026.02.04.10.06.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Feb 2026 10:06:42 -0800 (PST)
-From: Biju <biju.das.au@gmail.com>
-X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH v2 9/9] arm64: dts: renesas: r9a08g046: Add ICU node
-Date: Wed,  4 Feb 2026 18:06:25 +0000
-Message-ID: <20260204180632.249139-10-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260204180632.249139-1-biju.das.jz@bp.renesas.com>
-References: <20260204180632.249139-1-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1770232467; c=relaxed/simple;
+	bh=XqpFA/NYx33FQAft2HXpUO53aObwTnNv/2D2jgkdn7A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qb9Smncu/3UCOrjXyVJC9flmcS6WPt1TSnyxpO4Yxx4WG9Kgpl7TKKkLlwELoKgSyYbce8nZ3jU0+8uEJYypIK3JSAld+msAdo+Jv516xgfapZdPyhd9LwpQmhJroSAnTMnMAln5XUdF2lmsMtzIGGCMlxfhnJLwJSB1L1UvAN8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=nS6k0ILO; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Cgtz93kO; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Date: Wed, 4 Feb 2026 20:14:23 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1770232464;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WII2kn7u3/Xalkz9NiyLRXgVNGB3TXXXNldyGhtrXXQ=;
+	b=nS6k0ILOBr6RxEmhzKDTFcaKsG5+pwJoj2BQ5Bxv1WVDghib14vLAsFzyuHlMHUoOA0Emx
+	ZzWqyXMFxTD7zZLPHffdRrRRY7Ll4hRfJrlZu5dDLBYjMyxQJb/1fsIkjQq+BO57fOtdUa
+	mUBGWKvQSYmrqFfz8yIWC6xvKWfoBwfu91/n+DVDhFBIdtv2mQCFtLsVfTlfL8Q3dDVnwo
+	pUDtgvwbuWOHe2r1PI80emxhcfrgpe9KFxv8shYG+4EPE8hb8dtwuUYz1C5R/IB12JQ2H8
+	Mnyew5Qdd7TXBgZ51ETdLYmSbx20/YBCB5zQeLQ2afhiZK7Cnypwuo5rwT5LCQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1770232464;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WII2kn7u3/Xalkz9NiyLRXgVNGB3TXXXNldyGhtrXXQ=;
+	b=Cgtz93kOUDN3jjr7d9hFgw/QvU9xFDJ2CfZSUeSFF97GAFniryxy742SpXmf2ih/ekgUv7
+	FT5XdWLkWiSZyKBw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Linus Walleij <linusw@kernel.org>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH] pinctrl: renesas: rzt2h: fix invalid wait context
+Message-ID: <20260204191423.9mmBtJOn@linutronix.de>
+References: <20260204180448.529313-1-cosmin-gabriel.tanislav.xa@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260204180448.529313-1-cosmin-gabriel.tanislav.xa@renesas.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[linutronix.de,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[linutronix.de:s=2020,linutronix.de:s=2020e];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-27919-lists,linux-renesas-soc=lfdr.de];
-	FREEMAIL_CC(0.00)[bp.renesas.com,vger.kernel.org,gmail.com];
-	FREEMAIL_TO(0.00)[glider.be,gmail.com,kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-27920-lists,linux-renesas-soc=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bijudasau@gmail.com,linux-renesas-soc@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[linutronix.de:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	MISSING_XM_UA(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: 3BC2EEB79C
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bigeasy@linutronix.de,linux-renesas-soc@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linutronix.de:mid,linutronix.de:dkim,renesas.com:email]
+X-Rspamd-Queue-Id: 4CF3CEBF8F
 X-Rspamd-Action: no action
 
-From: Biju Das <biju.das.jz@bp.renesas.com>
+On 2026-02-04 20:04:48 [+0200], Cosmin Tanislav wrote:
+> The following invalid wait context BUG is observed when running with
+> CONFIG_PROVE_LOCKING enabled.
+> 
+> This seems to stem from the fact that __setup_irq() takes a
+> raw_spinlock_t, while we take a spinlock_t inside gpiod_get_direction().
 
-Add interrupt control node to RZ/G3L ("R9A08G046") SoC DTSI
-and add icu as interrupt-parent of pincontrol.
+From the backtrace yes. It is more that the irqchip used interrupt chip
+needs to be able to mask interrupts in hardirq context which it needs a
+raw_spinlock_t.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-This patch depend upon [1]
-[1] https://lore.kernel.org/linux-renesas-soc/20260203131048.421708-9-biju.das.jz@bp.renesas.com/T/#u
----
- arch/arm64/boot/dts/renesas/r9a08g046.dtsi | 91 ++++++++++++++++++++++
- 1 file changed, 91 insertions(+)
+> raw_spinlock_t is a strictly spinning lock, while spinlock_t can sleep
+> if PREEMPT_RT is enabled.
+> 
+> Switch to raw_spinlock_t to fix this.
+> 
+> [   20.641809] =============================
+> [   20.646336] [ BUG: Invalid wait context ]
+> [   20.650964] 6.19.0-rc8-next-20260202+ #417 Not tainted
+> [   20.656892] -----------------------------
+> [   20.661517] (udev-worker)/235 is trying to lock:
+> [   20.666842] ffff000182d4ab58 (&pctrl->lock){....}-{3:3}, at: rzt2h_gpio_get_direction+0x3c/0x150
+> [   20.676928] other info that might help us debug this:
+> [   20.682560] context-{5:5}
+> [   20.685572] 4 locks held by (udev-worker)/235:
+> [   20.690701]  #0: ffff000180b398f8 (&dev->mutex){....}-{4:4}, at: __driver_attach+0x10c/0x210
+> [   20.700480]  #1: ffff000186f41a60 (request_class){+.+.}-{4:4}, at: __setup_irq+0x10c/0x740
+> [   20.709952]  #2: ffff000186f418c8 (lock_class){....}-{2:2}, at: __setup_irq+0x12c/0x740
+> [   20.719057]  #3: ffff000182d4a690 (&gdev->srcu){.+.+}-{0:0}, at: gpiod_get_direction+0x40/0x24c
+> [   20.729135] stack backtrace:
+> [   20.732450] CPU: 2 UID: 0 PID: 235 Comm: (udev-worker) Not tainted 6.19.0-rc8-next-20260202+ #417 PREEMPT
+> [   20.732459] Hardware name: Renesas RZ/T2H EVK Board based on r9a09g077m44 (DT)
+> [   20.732464] Call trace:
+> [   20.732467]  show_stack+0x18/0x30 (C)
+> [   20.732479]  dump_stack_lvl+0x70/0x98
+> [   20.732489]  dump_stack+0x18/0x24
+> [   20.732497]  __lock_acquire+0x910/0x1594
+> [   20.732508]  lock_acquire+0x2f0/0x42c
+> [   20.732517]  _raw_spin_lock_irqsave+0x5c/0x94
+> [   20.732529]  rzt2h_gpio_get_direction+0x3c/0x150
+> [   20.732538]  gpiochip_get_direction+0x34/0x90
+> [   20.732547]  gpiod_get_direction+0xd8/0x24c
+> [   20.732556]  gpiochip_lock_as_irq+0x68/0x144
+> [   20.732565]  gpiochip_irq_domain_activate+0x18/0x30
+> [   20.732574]  __irq_domain_activate_irq+0x60/0xb0
+> [   20.732583]  irq_domain_activate_irq+0x34/0x5c
+> [   20.732593]  irq_activate+0x2c/0x38
+> [   20.732600]  __setup_irq+0x2d8/0x740
+> [   20.732610]  request_threaded_irq+0xb0/0x180
+> [   20.732620]  request_any_context_irq+0x58/0xac
+> [   20.732629]  devm_request_any_context_irq+0x78/0x160
+> [   20.732637]  gpio_keys_probe+0x344/0xb40 [gpio_keys]
+> [   20.732657]  platform_probe+0x5c/0xa4
+> [   20.732666]  really_probe+0xbc/0x2ac
+> [   20.732675]  __driver_probe_device+0x78/0x118
+> [   20.732684]  driver_probe_device+0x3c/0x170
+> [   20.732693]  __driver_attach+0x118/0x210
+> [   20.732701]  bus_for_each_dev+0x7c/0xdc
+> [   20.732710]  driver_attach+0x24/0x3c
+> [   20.732718]  bus_add_driver+0xe4/0x204
+> [   20.732727]  driver_register+0x68/0x124
+> [   20.732736]  __platform_driver_register+0x20/0x2c
+> [   20.732746]  gpio_keys_init+0x20/0x1000 [gpio_keys]
+> [   20.732758]  do_one_initcall+0x7c/0x530
+> [   20.732770]  do_init_module+0x54/0x23c
+> [   20.732780]  load_module+0x181c/0x1ed0
+> [   20.732789]  init_module_from_file+0xd8/0xfc
+> [   20.732797]  idempotent_init_module+0x1e0/0x2d0
+> [   20.732806]  __arm64_sys_finit_module+0x60/0xa4
+> [   20.732814]  invoke_syscall.constprop.0+0x40/0xf0
+> [   20.732824]  el0_svc_common.constprop.0+0xb8/0xd8
+> [   20.732832]  do_el0_svc+0x1c/0x28
+> [   20.732839]  el0_svc+0x4c/0x2dc
+> [   20.732850]  el0t_64_sync_handler+0xa0/0xe4
+> [   20.732860]  el0t_64_sync+0x198/0x19c
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a08g046.dtsi b/arch/arm64/boot/dts/renesas/r9a08g046.dtsi
-index a92a4e07cc10..65dfa145ef59 100644
---- a/arch/arm64/boot/dts/renesas/r9a08g046.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a08g046.dtsi
-@@ -188,6 +188,7 @@ pinctrl: pinctrl@11030000 {
- 			gpio-ranges = <&pinctrl 0 0 232>;
- 			interrupt-controller;
- 			#interrupt-cells = <2>;
-+			interrupt-parent = <&icu>;
- 			clocks = <&cpg CPG_MOD R9A08G046_GPIO_HCLK>;
- 			power-domains = <&cpg>;
- 			resets = <&cpg R9A08G046_GPIO_RSTN>,
-@@ -196,6 +197,96 @@ pinctrl: pinctrl@11030000 {
- 			reset-names = "rstn", "port", "spare";
- 		};
- 
-+		icu: interrupt-controller@11050000 {
-+			compatible = "renesas,r9a08g046-irqc";
-+			#interrupt-cells = <2>;
-+			#address-cells = <0>;
-+			interrupt-controller;
-+			reg = <0 0x11050000 0 0x10000>;
-+			interrupts = <GIC_SPI 0 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 1 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 2 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 3 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 529 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 530 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 531 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 532 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 533 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 534 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 535 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 536 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 505 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 506 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 507 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 508 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 509 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 510 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 511 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 512 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 513 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 514 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 515 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 516 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 517 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 518 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 519 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 520 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 521 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 522 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 523 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 524 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 525 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 526 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 527 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 528 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 529 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 530 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 531 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 532 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 533 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 534 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 535 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 536 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 33 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 35 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 36 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 37 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 212 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 224 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 236 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 248 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 260 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 272 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 284 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 296 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "nmi",
-+					  "irq0", "irq1", "irq2", "irq3",
-+					  "irq4", "irq5", "irq6", "irq7",
-+					  "irq8", "irq9", "irq10", "irq11",
-+					  "irq12", "irq13", "irq14", "irq15",
-+					  "tint0", "tint1", "tint2", "tint3",
-+					  "tint4", "tint5", "tint6", "tint7",
-+					  "tint8", "tint9", "tint10", "tint11",
-+					  "tint12", "tint13", "tint14", "tint15",
-+					  "tint16", "tint17", "tint18", "tint19",
-+					  "tint20", "tint21", "tint22", "tint23",
-+					  "tint24", "tint25", "tint26", "tint27",
-+					  "tint28", "tint29", "tint30", "tint31",
-+					  "bus-err", "ec7tie1-0", "ec7tie2-0", "ec7tiovf-0",
-+					  "ovfunf0", "ovfunf1", "ovfunf2", "ovfunf3",
-+					  "ovfunf4", "ovfunf5", "ovfunf6", "ovfunf7";
-+			clocks = <&cpg CPG_MOD R9A08G046_IA55_CLK>,
-+				 <&cpg CPG_MOD R9A08G046_IA55_PCLK>;
-+			clock-names = "clk", "pclk";
-+			power-domains = <&cpg>;
-+			resets = <&cpg R9A08G046_IA55_RESETN>;
-+		};
-+
- 		dmac: dma-controller@11820000 {
- 			compatible = "renesas,r9a08g046-dmac", "renesas,rz-dmac";
- 			reg = <0 0x11820000 0 0x10000>,
--- 
-2.43.0
+Please get rid of this backtrace. It adds no value to the description.
 
+> Fixes: 829dde3369a9 ("pinctrl: renesas: rzt2h: Add GPIO IRQ chip to handle interrupts")
+> Signed-off-by: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+
+Sebastian
 
