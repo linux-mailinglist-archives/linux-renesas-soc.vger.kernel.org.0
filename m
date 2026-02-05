@@ -1,59 +1,60 @@
-Return-Path: <linux-renesas-soc+bounces-27963-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27964-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SPXYAjbdhGkV6AMAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27963-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 05 Feb 2026 19:11:02 +0100
+	id QNC5OlPdhGkV6AMAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27964-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 05 Feb 2026 19:11:31 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D9D3F65C5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 05 Feb 2026 19:11:01 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 910C4F65F1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 05 Feb 2026 19:11:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C30183021EB1
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Feb 2026 18:10:16 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 91551304B237
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Feb 2026 18:10:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76754306B1B;
-	Thu,  5 Feb 2026 18:10:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BA89308F26;
+	Thu,  5 Feb 2026 18:10:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="pR6IxgBA"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="FNfpNoPw"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E32A2FE595;
-	Thu,  5 Feb 2026 18:10:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6743306D36;
+	Thu,  5 Feb 2026 18:10:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770315016; cv=none; b=mc3ekUO0yLLs2LvJduoO7hTz/U499ix7xlXmR6Cm4wfHRBi4LSAppYCK1SDlSTgK4KPLsqAfk1waHnUbHuh7nxUFZqlNcJaGob6DfAoyknQaM714zvBGRVFfCS6p8Z81PODllPpEEMapp/DitE4eDY70gRp0xVclkAvT2yLl7gg=
+	t=1770315020; cv=none; b=twEgPjCu+BNGDpqTfDDVuIE6fTSC/eo/K+j9ry3QmGPiuxIB1+xEZtWxj64z5YLNyC2HNepyHEafgcVYuTZCdMsFILWBAt5Dde8m2AvJgwHO92kwkiOE9ssJx1DQLtTTyR+ne58FMVTbr9Gvk9S9QS5KMNVvBmfVeK0UQqQz560=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770315016; c=relaxed/simple;
-	bh=OaCfM389F1IU5t6YuzQr8NKmD6z9YNA3TH/grNI/l+8=;
+	s=arc-20240116; t=1770315020; c=relaxed/simple;
+	bh=VCOm2/nc5Cxnat/9vtuNKzKlL1wiWJ2VScWGW55hzWQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=eSyb8bNpKBXd9HBKRrBM0gF1mhjyDJH90SqPW5yn6rFJhqQZdSPc+SWM9Cf2kg811urS/5OIOlZKcAbsEGRh4f5Djqr90vpnMHVReHMAniqF57h8fWNXeWDXwCM0lisWWpgbbF6sWCx0EAVqspdIJkyJ08tr82SdDSM1YrhOUCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=pR6IxgBA; arc=none smtp.client-ip=185.246.84.56
+	 In-Reply-To:To:Cc; b=pLdxIofMWBjMkJ/lEvt9h4zpCQcqcSfUgTs/3ihKL/IuNV4znsx+4KNSv9TtGMMdDQnDonbFeQ/tf1ZPlYLYyUfaECnZNafJdzh88FlNiwmyGoW9VVgCI+Sqnsc2drPRsvFJtwUMkefa6PWkfT6TKHe83Sa9Mrw3iWApv03g1hs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=FNfpNoPw; arc=none smtp.client-ip=185.171.202.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id DB3E01A2C34;
-	Thu,  5 Feb 2026 18:10:14 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 62D15C243B3;
+	Thu,  5 Feb 2026 18:10:24 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id B0D486074D;
-	Thu,  5 Feb 2026 18:10:14 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 7F426119D1711;
-	Thu,  5 Feb 2026 19:10:10 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 38DEE6074D;
+	Thu,  5 Feb 2026 18:10:18 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4D84B119D1712;
+	Thu,  5 Feb 2026 19:10:14 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1770315013; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1770315017; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=fSuCg3K7Jx0Gwv/8AMmGnZqgPu9OCuOQpbJh8hioD/g=;
-	b=pR6IxgBA0tLEiL2O2qlWJXGpPWGZRegEJFUqpkFXEuJ5yOlan38RwbwEi28Yxbs8Gns3L4
-	+Jd7ecWoSqYRLSPyagvuxnfWhJzrHPWXOz9cLFQpXHqMary/3OzLW+gO7We4MEV0AVsbYf
-	UIZf3DJsIeIxwOoe59q0WSXl0S92H6e+i9p4+8nUp1qVMhGcU6zLJFfmPDzBlrB/vdSnGC
-	Hoa7mhp3KAyzXAsQOjvl3awrzSFGt53+pfKcwR1on/ZUmZmsl4yTB41g74zOjM4cnG2+EM
-	l2NYgVM0EAMwUGDq4LA+oxL7hy7TSg259pNqJS9EHO1W5cnrkCPbC8l8uJFHjA==
+	bh=mR7XAiGJra7qny9q0wG+Oj8yvbVuVM9EXlKbzgvfsYE=;
+	b=FNfpNoPwo6up1h/3oIfqsGQ9psH+M9FsbOFIbWbYveWEw1jZV9YWqfHbHGcAxDjO/Utphe
+	h40N9X0dO+2dpmKXLEVx7vf3yRQvWu9p5+OHWoe7UX7eYFQpIxWdscO5urzdUEMGerVv1f
+	llBQ730DmKut+JHL2mUnXQ0KveehT53wXMc/a6CtOm7642KT96MlXGjKB7lW6+hTmCsYPr
+	TVTAMf4LzIrDRznx3olXwMAKU6vpATX1dfiW5pCMjT5S2xguTg/8+6vRnfB4d5A5+dzxPh
+	rOWvoU5zm9wu9ddt/nqERMVfV3hF/FT1lfxOOHDWSmQ3jiZB/njWnrlpPi2z2Q==
 From: "Miquel Raynal (Schneider Electric)" <miquel.raynal@bootlin.com>
-Date: Thu, 05 Feb 2026 19:09:49 +0100
-Subject: [PATCH v5 2/4] spi: cadence-qspi: Kill cqspi_jh7110_clk_init
+Date: Thu, 05 Feb 2026 19:09:50 +0100
+Subject: [PATCH v5 3/4] spi: cadence-qspi: Add support for the Renesas
+ RZ/N1 controller
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -62,7 +63,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260205-schneider-6-19-rc1-qspi-v5-2-843632b3c674@bootlin.com>
+Message-Id: <20260205-schneider-6-19-rc1-qspi-v5-3-843632b3c674@bootlin.com>
 References: <20260205-schneider-6-19-rc1-qspi-v5-0-843632b3c674@bootlin.com>
 In-Reply-To: <20260205-schneider-6-19-rc1-qspi-v5-0-843632b3c674@bootlin.com>
 To: Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
@@ -85,12 +86,12 @@ X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-27963-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-27964-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FREEMAIL_TO(0.00)[kernel.org,glider.be,gmail.com,ti.com];
@@ -103,299 +104,203 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[miquel.raynal@bootlin.com,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	NEURAL_HAM(-0.00)[-0.999];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 6D9D3F65C5
+X-Rspamd-Queue-Id: 910C4F65F1
 X-Rspamd-Action: no action
 
-This controller can be fed by either a main "ref" clock, or three clocks
-("ref" again, "ahb", "apb"). In practice, it is likely that all
-controllers have the same inputs, but a single clock feeds the three
-interfaces (ref is used for controlling the external interface, ahb/apb
-the internal ones). Handling these clocks is in no way SoC specific,
-only the number of expected clocks may change. Plus, we will soon be
-adding another controller requiring an AHB and an APB clock as well, so
-it is time to align the whole clock handling.
+Renesas RZ/N1 QSPI controllers embed a modified version of the Cadence
+IP with the following settings:
+- a limited bus clock range
+- no DTR support
+- no DMA
+- no useful interrupt flag
+- only direct accesses (no INDAC mode)
+- write protection
 
-Furthermore, the use of the cqspi_jh7110_clk_init() helper, which
-specifically grabs and enables the "ahb" and "apb" clocks, is a bit
-convoluted:
-- only the JH7110 compatible provides the ->jh7110_clk_init() callback,
-- in the probe, if the above callback is set in the driver data, the
-  driver does not call the callback (!) but instead calls the helper
-  directly (?),
-- in the helper, the is_jh7110 boolean is set.
-
-This logic does not make sense. Instead:
-- in the probe, set the is_jh7110 boolean based on the compatible,
-- collect all available clocks with the "bulk" helper,
-- enable the extra clocks if they are available,
-- kill the SoC specific cqspi_jh7110_clk_init() helper.
-
-This also allows to group the clock handling instead of depending on the
-driver data pointer, which further simplifies the error path and the
-remove callback.
+The controller has been tested by running the SPI NOR check list with a
+custom RZ/N1D400 based board mounted with a Spansion s25fl128s1 quad
+SPI.
 
 Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 Signed-off-by: Miquel Raynal (Schneider Electric) <miquel.raynal@bootlin.com>
 ---
- drivers/spi/spi-cadence-quadspi.c | 112 ++++++++++----------------------------
- 1 file changed, 29 insertions(+), 83 deletions(-)
+Output of the SPI NOR test procedure:
+s25fl128s1
+0120184d0180
+spansion
+xxd: /sys/bus/spi/devices/spi0.0/spi-nor/sfdp: No such file or directory
+md5sum: can't open '/sys/bus/spi/devices/spi0.0/spi-nor/sfdp': No such file or directory
+1+0 records in
+1+0 records out
+Copied 65536 bytes from qspi_test to address 0x00000000 in flash
+Erased 65536 bytes from address 0x00000000 in flash
+Copied 65536 bytes from address 0x00000000 in flash to qspi_read
+0000000 ffff ffff ffff ffff ffff ffff ffff ffff
+*
+0010000
+Copied 65536 bytes from qspi_test to address 0x00000000 in flash
+Copied 65536 bytes from address 0x00000000 in flash to qspi_read
+71f8b056a4bf5f51639a972dc9aac55eb8654fdc  qspi_test
+71f8b056a4bf5f51639a972dc9aac55eb8654fdc  qspi_read
+
+Read speed:
+* page read speed is 6464 KiB/s
+* 2 page read speed is 9014 KiB/s
+* eraseblock read speed is 14222 KiB/s
+Write speed:
+* page write speed is 621 KiB/s
+* 2 page write speed is 626 KiB/s
+* eraseblock write speed is 633 KiB/s
+Erase speed:
+* erase speed is 617 KiB/s
+---
+ drivers/spi/spi-cadence-quadspi.c | 56 +++++++++++++++++++++++++++++----------
+ 1 file changed, 42 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/spi/spi-cadence-quadspi.c b/drivers/spi/spi-cadence-quadspi.c
-index 2d287950d44c..f14a746cba2d 100644
+index f14a746cba2d..649ff55333f0 100644
 --- a/drivers/spi/spi-cadence-quadspi.c
 +++ b/drivers/spi/spi-cadence-quadspi.c
-@@ -57,7 +57,8 @@ static_assert(CQSPI_MAX_CHIPSELECT <= SPI_DEVICE_CS_CNT_MAX);
- #define CQSPI_OP_WIDTH(part) ((part).nbytes ? ilog2((part).buswidth) : 0)
+@@ -110,6 +110,7 @@ struct cqspi_st {
+ 	bool			apb_ahb_hazard;
  
- enum {
--	CLK_QSPI_APB = 0,
-+	CLK_QSPI_REF = 0,
-+	CLK_QSPI_APB,
- 	CLK_QSPI_AHB,
- 	CLK_QSPI_NUM,
- };
-@@ -78,8 +79,7 @@ struct cqspi_flash_pdata {
- struct cqspi_st {
- 	struct platform_device	*pdev;
- 	struct spi_controller	*host;
--	struct clk		*clk;
--	struct clk		*clks[CLK_QSPI_NUM];
-+	struct clk_bulk_data	clks[CLK_QSPI_NUM];
- 	unsigned int		sclk;
- 
- 	void __iomem		*iobase;
-@@ -123,8 +123,6 @@ struct cqspi_driver_platdata {
- 	int (*indirect_read_dma)(struct cqspi_flash_pdata *f_pdata,
- 				 u_char *rxbuf, loff_t from_addr, size_t n_rx);
- 	u32 (*get_dma_status)(struct cqspi_st *cqspi);
--	int (*jh7110_clk_init)(struct platform_device *pdev,
--			       struct cqspi_st *cqspi);
- };
- 
- /* Operation timeout value */
-@@ -1771,51 +1769,6 @@ static int cqspi_setup_flash(struct cqspi_st *cqspi)
- 	return 0;
- }
- 
--static int cqspi_jh7110_clk_init(struct platform_device *pdev, struct cqspi_st *cqspi)
--{
--	static struct clk_bulk_data qspiclk[] = {
--		{ .id = "apb" },
--		{ .id = "ahb" },
--	};
--
--	int ret = 0;
--
--	ret = devm_clk_bulk_get(&pdev->dev, ARRAY_SIZE(qspiclk), qspiclk);
--	if (ret) {
--		dev_err(&pdev->dev, "%s: failed to get qspi clocks\n", __func__);
--		return ret;
--	}
--
--	cqspi->clks[CLK_QSPI_APB] = qspiclk[0].clk;
--	cqspi->clks[CLK_QSPI_AHB] = qspiclk[1].clk;
--
--	ret = clk_prepare_enable(cqspi->clks[CLK_QSPI_APB]);
--	if (ret) {
--		dev_err(&pdev->dev, "%s: failed to enable CLK_QSPI_APB\n", __func__);
--		return ret;
--	}
--
--	ret = clk_prepare_enable(cqspi->clks[CLK_QSPI_AHB]);
--	if (ret) {
--		dev_err(&pdev->dev, "%s: failed to enable CLK_QSPI_AHB\n", __func__);
--		goto disable_apb_clk;
--	}
--
--	cqspi->is_jh7110 = true;
--
--	return 0;
--
--disable_apb_clk:
--	clk_disable_unprepare(cqspi->clks[CLK_QSPI_APB]);
--
--	return ret;
--}
--
--static void cqspi_jh7110_disable_clk(struct platform_device *pdev, struct cqspi_st *cqspi)
--{
--	clk_disable_unprepare(cqspi->clks[CLK_QSPI_AHB]);
--	clk_disable_unprepare(cqspi->clks[CLK_QSPI_APB]);
--}
- static int cqspi_probe(struct platform_device *pdev)
+ 	bool			is_jh7110; /* Flag for StarFive JH7110 SoC */
++	bool			is_rzn1; /* Flag for Renesas RZ/N1 SoC */
+ 	bool			disable_stig_mode;
+ 	refcount_t		refcount;
+ 	refcount_t		inflight_ops;
+@@ -1337,8 +1338,9 @@ static ssize_t cqspi_write(struct cqspi_flash_pdata *f_pdata,
+ 	 * mode. So, we can not use direct mode when in DTR mode for writing
+ 	 * data.
+ 	 */
+-	if (!op->cmd.dtr && cqspi->use_direct_mode &&
+-	    cqspi->use_direct_mode_wr && ((to + len) <= cqspi->ahb_size)) {
++	if ((!op->cmd.dtr && cqspi->use_direct_mode &&
++	     cqspi->use_direct_mode_wr && ((to + len) <= cqspi->ahb_size)) ||
++	    (cqspi->ddata && cqspi->ddata->quirks & CQSPI_NO_INDIRECT_MODE)) {
+ 		memcpy_toio(cqspi->ahb_base + to, buf, len);
+ 		return cqspi_wait_idle(cqspi);
+ 	}
+@@ -1512,6 +1514,7 @@ static int cqspi_exec_mem_op(struct spi_mem *mem, const struct spi_mem_op *op)
+ static bool cqspi_supports_mem_op(struct spi_mem *mem,
+ 				  const struct spi_mem_op *op)
  {
- 	const struct cqspi_driver_platdata *ddata;
-@@ -1824,8 +1777,7 @@ static int cqspi_probe(struct platform_device *pdev)
- 	struct spi_controller *host;
- 	struct resource *res_ahb;
- 	struct cqspi_st *cqspi;
--	int ret;
--	int irq;
-+	int ret, irq;
++	struct cqspi_st *cqspi = spi_controller_get_devdata(mem->spi->controller);
+ 	bool all_true, all_false;
  
- 	host = devm_spi_alloc_host(&pdev->dev, sizeof(*cqspi));
- 	if (!host)
-@@ -1836,10 +1788,11 @@ static int cqspi_probe(struct platform_device *pdev)
- 	host->mem_caps = &cqspi_mem_caps;
+ 	/*
+@@ -1538,6 +1541,9 @@ static bool cqspi_supports_mem_op(struct spi_mem *mem,
+ 		/* A single opcode is supported, it will be repeated */
+ 		if ((op->cmd.opcode >> 8) != (op->cmd.opcode & 0xFF))
+ 			return false;
++
++		if (cqspi->is_rzn1)
++			return false;
+ 	} else if (!all_false) {
+ 		/* Mixed DTR modes are not supported. */
+ 		return false;
+@@ -1591,18 +1597,20 @@ static int cqspi_of_get_pdata(struct cqspi_st *cqspi)
  
+ 	cqspi->is_decoded_cs = of_property_read_bool(np, "cdns,is-decoded-cs");
+ 
+-	if (of_property_read_u32(np, "cdns,fifo-depth", &cqspi->fifo_depth)) {
+-		/* Zero signals FIFO depth should be runtime detected. */
+-		cqspi->fifo_depth = 0;
+-	}
++	if (!(cqspi->ddata && cqspi->ddata->quirks & CQSPI_NO_INDIRECT_MODE)) {
++		if (of_property_read_u32(np, "cdns,fifo-depth", &cqspi->fifo_depth)) {
++			/* Zero signals FIFO depth should be runtime detected. */
++			cqspi->fifo_depth = 0;
++		}
+ 
+-	if (of_property_read_u32(np, "cdns,fifo-width", &cqspi->fifo_width))
+-		cqspi->fifo_width = 4;
++		if (of_property_read_u32(np, "cdns,fifo-width", &cqspi->fifo_width))
++			cqspi->fifo_width = 4;
+ 
+-	if (of_property_read_u32(np, "cdns,trigger-address",
+-				 &cqspi->trigger_address)) {
+-		dev_err(dev, "couldn't determine trigger-address\n");
+-		return -ENXIO;
++		if (of_property_read_u32(np, "cdns,trigger-address",
++					 &cqspi->trigger_address)) {
++			dev_err(dev, "couldn't determine trigger-address\n");
++			return -ENXIO;
++		}
+ 	}
+ 
+ 	if (of_property_read_u32(np, "num-cs", &cqspi->num_chipselect))
+@@ -1666,6 +1674,9 @@ static void cqspi_controller_detect_fifo_depth(struct cqspi_st *cqspi)
+ 	struct device *dev = &cqspi->pdev->dev;
+ 	u32 reg, fifo_depth;
+ 
++	if (cqspi->ddata && cqspi->ddata->quirks & CQSPI_NO_INDIRECT_MODE)
++		return;
++
+ 	/*
+ 	 * Bits N-1:0 are writable while bits 31:N are read as zero, with 2^N
+ 	 * the FIFO depth.
+@@ -1790,6 +1801,8 @@ static int cqspi_probe(struct platform_device *pdev)
  	cqspi = spi_controller_get_devdata(host);
-+	if (of_device_is_compatible(pdev->dev.of_node, "starfive,jh7110-qspi"))
-+		cqspi->is_jh7110 = true;
+ 	if (of_device_is_compatible(pdev->dev.of_node, "starfive,jh7110-qspi"))
+ 		cqspi->is_jh7110 = true;
++	if (of_device_is_compatible(pdev->dev.of_node, "renesas,rzn1-qspi"))
++		cqspi->is_rzn1 = true;
  
  	cqspi->pdev = pdev;
  	cqspi->host = host;
--	cqspi->is_jh7110 = false;
- 	cqspi->ddata = ddata = of_device_get_match_data(dev);
- 	platform_set_drvdata(pdev, cqspi);
- 
-@@ -1856,12 +1809,14 @@ static int cqspi_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
--	/* Obtain QSPI clock. */
--	cqspi->clk = devm_clk_get(dev, NULL);
--	if (IS_ERR(cqspi->clk)) {
--		dev_err(dev, "Cannot claim QSPI clock.\n");
--		ret = PTR_ERR(cqspi->clk);
--		return ret;
-+	/* Obtain QSPI clocks. */
-+	ret = devm_clk_bulk_get_optional(dev, CLK_QSPI_NUM, cqspi->clks);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to get clocks\n");
-+
-+	if (!cqspi->clks[CLK_QSPI_REF].clk) {
-+		dev_err(dev, "Cannot claim mandatory QSPI ref clock.\n");
-+		return -ENODEV;
- 	}
- 
- 	/* Obtain and remap controller address. */
-@@ -1893,10 +1848,9 @@ static int cqspi_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
--
--	ret = clk_prepare_enable(cqspi->clk);
-+	ret = clk_bulk_prepare_enable(CLK_QSPI_NUM, cqspi->clks);
- 	if (ret) {
--		dev_err(dev, "Cannot enable QSPI clock.\n");
-+		dev_err(dev, "Cannot enable QSPI clocks.\n");
- 		goto disable_rpm;
- 	}
- 
-@@ -1905,22 +1859,22 @@ static int cqspi_probe(struct platform_device *pdev)
- 	if (IS_ERR(rstc)) {
- 		ret = PTR_ERR(rstc);
- 		dev_err(dev, "Cannot get QSPI reset.\n");
--		goto disable_clk;
-+		goto disable_clks;
- 	}
- 
- 	rstc_ocp = devm_reset_control_get_optional_exclusive(dev, "qspi-ocp");
- 	if (IS_ERR(rstc_ocp)) {
- 		ret = PTR_ERR(rstc_ocp);
- 		dev_err(dev, "Cannot get QSPI OCP reset.\n");
--		goto disable_clk;
-+		goto disable_clks;
- 	}
- 
--	if (of_device_is_compatible(pdev->dev.of_node, "starfive,jh7110-qspi")) {
-+	if (cqspi->is_jh7110) {
- 		rstc_ref = devm_reset_control_get_optional_exclusive(dev, "rstc_ref");
- 		if (IS_ERR(rstc_ref)) {
- 			ret = PTR_ERR(rstc_ref);
- 			dev_err(dev, "Cannot get QSPI REF reset.\n");
--			goto disable_clk;
-+			goto disable_clks;
- 		}
- 		reset_control_assert(rstc_ref);
- 		reset_control_deassert(rstc_ref);
-@@ -1932,7 +1886,7 @@ static int cqspi_probe(struct platform_device *pdev)
- 	reset_control_assert(rstc_ocp);
+@@ -1887,7 +1900,12 @@ static int cqspi_probe(struct platform_device *pdev)
  	reset_control_deassert(rstc_ocp);
  
--	cqspi->master_ref_clk_hz = clk_get_rate(cqspi->clk);
-+	cqspi->master_ref_clk_hz = clk_get_rate(cqspi->clks[CLK_QSPI_REF].clk);
- 	host->max_speed_hz = cqspi->master_ref_clk_hz;
+ 	cqspi->master_ref_clk_hz = clk_get_rate(cqspi->clks[CLK_QSPI_REF].clk);
+-	host->max_speed_hz = cqspi->master_ref_clk_hz;
++	if (!cqspi->is_rzn1) {
++		host->max_speed_hz = cqspi->master_ref_clk_hz;
++	} else {
++		host->max_speed_hz = cqspi->master_ref_clk_hz / 2;
++		host->min_speed_hz = cqspi->master_ref_clk_hz / 32;
++	}
  
  	/* write completion is supported by default */
-@@ -1958,12 +1912,6 @@ static int cqspi_probe(struct platform_device *pdev)
- 			cqspi->slow_sram = true;
- 		if (ddata->quirks & CQSPI_NEEDS_APB_AHB_HAZARD_WAR)
- 			cqspi->apb_ahb_hazard = true;
--
--		if (ddata->jh7110_clk_init) {
--			ret = cqspi_jh7110_clk_init(pdev, cqspi);
--			if (ret)
--				goto disable_clk;
--		}
- 		if (ddata->quirks & CQSPI_DISABLE_STIG_MODE)
- 			cqspi->disable_stig_mode = true;
+ 	cqspi->wr_completion = true;
+@@ -1952,7 +1970,7 @@ static int cqspi_probe(struct platform_device *pdev)
+ 	if (ddata && (ddata->quirks & CQSPI_SUPPORT_DEVICE_RESET))
+ 		cqspi_device_reset(cqspi);
  
-@@ -2029,11 +1977,8 @@ static int cqspi_probe(struct platform_device *pdev)
- disable_controller:
- 	cqspi_controller_enable(cqspi, 0);
- disable_clks:
--	if (cqspi->is_jh7110)
--		cqspi_jh7110_disable_clk(pdev, cqspi);
--disable_clk:
- 	if (pm_runtime_get_sync(&pdev->dev) >= 0)
--		clk_disable_unprepare(cqspi->clk);
-+		clk_bulk_disable_unprepare(CLK_QSPI_NUM, cqspi->clks);
- disable_rpm:
- 	if (!(ddata && (ddata->quirks & CQSPI_DISABLE_RUNTIME_PM)))
- 		pm_runtime_disable(dev);
-@@ -2062,14 +2007,12 @@ static void cqspi_remove(struct platform_device *pdev)
- 
- 	cqspi_controller_enable(cqspi, 0);
- 
--	if (cqspi->is_jh7110)
--		cqspi_jh7110_disable_clk(pdev, cqspi);
- 
- 	if (!(ddata && (ddata->quirks & CQSPI_DISABLE_RUNTIME_PM)))
- 		ret = pm_runtime_get_sync(&pdev->dev);
- 
- 	if (ret >= 0)
--		clk_disable(cqspi->clk);
-+		clk_bulk_disable_unprepare(CLK_QSPI_NUM, cqspi->clks);
- 
- 	if (!(ddata && (ddata->quirks & CQSPI_DISABLE_RUNTIME_PM))) {
- 		pm_runtime_put_sync(&pdev->dev);
-@@ -2082,15 +2025,19 @@ static int cqspi_runtime_suspend(struct device *dev)
- 	struct cqspi_st *cqspi = dev_get_drvdata(dev);
- 
- 	cqspi_controller_enable(cqspi, 0);
--	clk_disable_unprepare(cqspi->clk);
-+	clk_bulk_disable_unprepare(CLK_QSPI_NUM, cqspi->clks);
- 	return 0;
- }
- 
- static int cqspi_runtime_resume(struct device *dev)
- {
- 	struct cqspi_st *cqspi = dev_get_drvdata(dev);
-+	int ret;
-+
-+	ret = clk_bulk_prepare_enable(CLK_QSPI_NUM, cqspi->clks);
-+	if (ret)
-+		return ret;
- 
--	clk_prepare_enable(cqspi->clk);
- 	cqspi_wait_idle(cqspi);
- 	cqspi_controller_enable(cqspi, 0);
- 	cqspi_controller_init(cqspi);
-@@ -2173,7 +2120,6 @@ static const struct cqspi_driver_platdata versal2_ospi = {
- 
- static const struct cqspi_driver_platdata jh7110_qspi = {
- 	.quirks = CQSPI_DISABLE_DAC_MODE,
--	.jh7110_clk_init = cqspi_jh7110_clk_init,
+-	if (cqspi->use_direct_mode) {
++	if (cqspi->use_direct_mode && !cqspi->is_rzn1) {
+ 		ret = cqspi_request_mmap_dma(cqspi);
+ 		if (ret == -EPROBE_DEFER) {
+ 			dev_err_probe(&pdev->dev, ret, "Failed to request mmap DMA\n");
+@@ -2132,6 +2150,12 @@ static const struct cqspi_driver_platdata mobileye_eyeq5_ospi = {
+ 		  CQSPI_RD_NO_IRQ,
  };
  
- static const struct cqspi_driver_platdata pensando_cdns_qspi = {
++static const struct cqspi_driver_platdata renesas_rzn1_qspi = {
++	.hwcaps_mask = CQSPI_SUPPORTS_QUAD,
++	.quirks = CQSPI_NO_SUPPORT_WR_COMPLETION | CQSPI_RD_NO_IRQ |
++		  CQSPI_HAS_WR_PROTECT | CQSPI_NO_INDIRECT_MODE,
++};
++
+ static const struct of_device_id cqspi_dt_ids[] = {
+ 	{
+ 		.compatible = "cdns,qspi-nor",
+@@ -2173,6 +2197,10 @@ static const struct of_device_id cqspi_dt_ids[] = {
+ 		.compatible = "amd,versal2-ospi",
+ 		.data = &versal2_ospi,
+ 	},
++	{
++		.compatible = "renesas,rzn1-qspi",
++		.data = &renesas_rzn1_qspi,
++	},
+ 	{ /* end of table */ }
+ };
+ 
 
 -- 
 2.51.1
