@@ -1,183 +1,162 @@
-Return-Path: <linux-renesas-soc+bounces-27935-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27936-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QFsAKPBOhGkE2gMAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27935-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 05 Feb 2026 09:04:00 +0100
+	id 0L2YLkJPhGkE2gMAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27936-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 05 Feb 2026 09:05:22 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10918EFB2C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 05 Feb 2026 09:04:00 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E967EFB6B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 05 Feb 2026 09:05:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id EDA963020D5A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Feb 2026 07:58:55 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 24472301916C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Feb 2026 08:05:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FC8C36072B;
-	Thu,  5 Feb 2026 07:58:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1737E2C11D5;
+	Thu,  5 Feb 2026 08:05:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cogentembedded-com.20230601.gappssmtp.com header.i=@cogentembedded-com.20230601.gappssmtp.com header.b="OTLFZ8JU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VxkP9BDL"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 343AF35FF79
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  5 Feb 2026 07:58:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E83D225A640;
+	Thu,  5 Feb 2026 08:05:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770278335; cv=none; b=G3PMQ8a59cMLpDU7jHVUQZSb7pGXAoyZH5XkVXfnk4w30dP4wrw90uVKOlPcMwq6W8iGhBg8I8SCQyUT7hQU+M/adcIgmjaynogoH7n9glxmQDV6Niz7EiADf0xBs+uHkxITIXBxU0aNX2/kvCs9sfRqFJTmhscoXtV2ROY65xA=
+	t=1770278719; cv=none; b=eYqxTXFljvBIVZ1FOPTCK8XE1JLpjvjYW9+CM1A8+yuEY6ou56GeiTtoRFkk3D0MdCFEu0UOUhFc5t3qOnFxEE0oYGZPpDBpFl1cl2rlso7ZiBiu/UpGYLmm1s/x/Z8Ts8G6g6GLgOFWvXG0kJqBwjwz3SepM8oBkQbOYoR3ars=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770278335; c=relaxed/simple;
-	bh=sZQ3YwewM9Ai+7WG00Ix8G/HdOMYfSXLaxEv1z7nGr4=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=qYjyJY9lC/Zkq4GCiESedlPERSHUYcelquJJdwrjDyBSMNSpR1yWd5ajz0MR4N9qtvL6uzb1HLymZKqjUTsbE7LHSkLELyNW+zYBwYrmIAtJPJKCteJFL0q2tDOPwNVNXwiM9uaS8Z+pMvXeHemZaUPJcWZwhVMlkn0vlx5xmAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cogentembedded.com; spf=pass smtp.mailfrom=cogentembedded.com; dkim=pass (2048-bit key) header.d=cogentembedded-com.20230601.gappssmtp.com header.i=@cogentembedded-com.20230601.gappssmtp.com header.b=OTLFZ8JU; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cogentembedded.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cogentembedded.com
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4807068eacbso5089995e9.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 04 Feb 2026 23:58:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20230601.gappssmtp.com; s=20230601; t=1770278334; x=1770883134; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=kv4UVvtp9oTgfg4NwZs5j17xsQoACWxzr3TeGIM+1uc=;
-        b=OTLFZ8JUwzyHB61KICJ/1PQ18g5HGVT7ZgNC/swVn9PjHsytoKdwI8g96lVNb5wEpY
-         Rh/ReKrNM+AdxTCtbpBooPNiVMo9O9GvfkXGDySmI3ibQBvq0hnKrjs+KgTDfCFwtGAD
-         XebrjxO6fDNe0SZoHk4gqbRbzIB8w0B9j0Kncsmj7v5wmNpEuqZjS/h8yq2XyxUwvPaI
-         4NpGrJ0NgOK/rGUS2WdSdYZdabvkMuLHzHqPEnweLu35CUf9KhEGieoRDalJqSjHC0ps
-         /6xXDmeGOv8ym7AjtApliErqaZM+qhS6lUErnPC7cbLSf5nmvxuv3fmZF9PS0WBP9+s6
-         2/fQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770278334; x=1770883134;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kv4UVvtp9oTgfg4NwZs5j17xsQoACWxzr3TeGIM+1uc=;
-        b=ni0lF9H867/R45teRO+uS3NPElPHN+9FWbBaySN7qB2+REStPLk5WxFK4M/FmCzK95
-         crlwWZShS2oE3uk03lFlm05x9jNm+RdRU7A61JFG0ZUGWMYXcFk0d9fH9QEhjgltPGiv
-         s5IMusHTIvzSbkJU5gfHN5KZfSgfUDbhd/ScVYOLQeCN4wspSg0dlAMvVEEBEtRfjdxl
-         ksW03qDJ0NtiI9NHLxxUJA7euqurkSN7hLugvtgDc0xusY37OsUv0akqqt4qdwL/6Pbv
-         Oxqt4lwR0v1w3qFQVpSGql/k4fZfBFCz3i6L3hzpkEJNluV0PifrYokFc7kW95TCI70k
-         aFXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXUvat6Uevnz3ub7O/A9wtXVhuha5zLGvGEihImdWDZnVLfI6WXMS5Yyo9BFSTQC7tJjlFQkUPIvh86EOxYKqC7kg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxcNdbU3eWP5ZWig2D+mhC/eryre2e1wq8BxomUmCpx/Q+rA2Mo
-	0zoVQMwkayV87GDW42ga5Aqh0kXVmEmp2ZbtjJgFrwydh7F+94PgOhk0s0uRmZXCZ8I=
-X-Gm-Gg: AZuq6aLUjyNcjKhZX0gnJNj0ckvqWq852VTVJVzh7ck12/OGaWN1b7MaT9U/n7wId6m
-	Q8+nd/oCAKdl1ulQGHfH4XQaPjMciH6dzow9dbtSx1bESyS0QIsagH2UBD8uTypJ/AmUfkjCB8j
-	5G4VGuhS4f9Szm7U+hyjHqIYcACCFD3Hruh+WCfy8ixNflhW5uv3FehYq76RWM1CD/Qoo9qZY6n
-	liKYWbmmvo4A7l6uvcCS5QktFRzVVZjhJeKhmbYz2zIJxo9gdtS+38GpNILIJNxvYS3yQxMZHfC
-	X36fnHYcd+9VCRSCGRnsvgdRqPEsCHmp9bPsegrum2Zt+hbkXMLChsynh2NG+lYCo2c03KI0c8C
-	o/tFkaNG7mk7f2KTOXO89rFIKslylTu23qsUdR1vSVhDaKijnY97f1Y7CN9dV1gXZ4RdGuGk0/a
-	CJfQ6zgW1eLKJ23Q/ncWeRGIbl7dToYN0wdFaSB4QUypOYS38=
-X-Received: by 2002:a05:600c:154c:b0:477:abea:9028 with SMTP id 5b1f17b1804b1-4830e92a7c4mr78949725e9.6.1770278333677;
-        Wed, 04 Feb 2026 23:58:53 -0800 (PST)
-Received: from ?IPV6:2a02:810a:b98:a000::b3d5? ([2a02:810a:b98:a000::b3d5])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4830fe69e9fsm51569315e9.6.2026.02.04.23.58.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Feb 2026 23:58:53 -0800 (PST)
-Message-ID: <d6a9356d-6fd4-459b-9c5a-2f3e20368bbd@cogentembedded.com>
-Date: Thu, 5 Feb 2026 08:58:52 +0100
+	s=arc-20240116; t=1770278719; c=relaxed/simple;
+	bh=2DFLxlQRe/rzNiKeyKOF9vMMK7CYEmVHNpQxUYsuLcI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jZrdtUf2qPbZCBiFQRJwA7tkkYWP8QLxvjAX9DUQcEz4Sh94ANY7FcUBo+rqOyXbuH07mflUB47g0yt5zTQqYB1uJIdjvFUb8w73n0uDpuZmNyXF3iIzrC47pDUo4S2RigfCII6mthFZmJue5YHRJfwCpnspwwsGTZB4a60q2DU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VxkP9BDL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85EDDC4CEF7;
+	Thu,  5 Feb 2026 08:05:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770278718;
+	bh=2DFLxlQRe/rzNiKeyKOF9vMMK7CYEmVHNpQxUYsuLcI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VxkP9BDL1EPDPGbg6M2As5yGjvdUmNWS5XP4P9Z37LwtLbuVCXQUMmL0iw1mRLAJg
+	 hU38MVKCuiArE1lkhYUirn8sxlMcc99udyyv3EMdxVKhUSQ+ubVUKKFCmfU+LDLRaK
+	 O1cLVMnDvDzkjxDe16cxrYN/CxeBwCLXMoyVUwqgQpcZxfcooYshAAAipICqetjr78
+	 Ta1vdzb0OiSoVGX0Zzn1gjx4xGFLqyAVR72aW2ouFzpA/I+1Hf3YxPvhlN+maI+wPO
+	 yA5/1C+p9l0zSKakn7zAWPMXNP3nWgydDvV4TMFtNAP2gE998BQMWEvxTyPdRsHtMZ
+	 Dr8p3T37EM36g==
+Date: Thu, 5 Feb 2026 13:35:07 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Felix Gu <ustc.gu@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>
+Cc: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	Rob Herring <robh@kernel.org>, linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] PCI: rzg3s-host: Fix device node reference leak in
+ rzg3s_pcie_host_parse_port()
+Message-ID: <3fpgdpvfgnif6fir4ijr3m2qnh75zna6nx5ob4dpgukwgqflcm@aib4ctdaox3m>
+References: <20260204-rzg3s-v1-1-142bc81c3312@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net] net: renesas: rswitch: fix forwarding offload
- statemachine
-From: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-To: Michael Dege <michael.dege@renesas.com>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260205-fix-offloading-statemachine-v1-1-640224a531d0@renesas.com>
- <3b1405cd-6c7f-4883-95fb-151cab223a68@cogentembedded.com>
-Content-Language: en-US, ru-RU
-In-Reply-To: <3b1405cd-6c7f-4883-95fb-151cab223a68@cogentembedded.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260204-rzg3s-v1-1-142bc81c3312@gmail.com>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_DKIM_ALLOW(-0.20)[cogentembedded-com.20230601.gappssmtp.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[cogentembedded-com.20230601.gappssmtp.com:+];
-	TAGGED_FROM(0.00)[bounces-27935-lists,linux-renesas-soc=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	DMARC_NA(0.00)[cogentembedded.com];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-27936-lists,linux-renesas-soc=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,google.com];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nikita.yoush@cogentembedded.com,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,netdev];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[cogentembedded-com.20230601.gappssmtp.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,cogentembedded.com:mid]
-X-Rspamd-Queue-Id: 10918EFB2C
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mani@kernel.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 2E967EFB6B
 X-Rspamd-Action: no action
 
+On Wed, Feb 04, 2026 at 12:46:24AM +0800, Felix Gu wrote:
+> In rzg3s_pcie_host_parse_port(), of_get_next_child() returns a device
+> node with an incremented reference count that must be released with
+> of_node_put(). The current code fails to call of_node_put() which
+> causes a reference leak.
+> 
+> Use the __free(device_node) attribute to ensure automatic cleanup when
+> the variable goes out of scope.
+> 
+> Fixes: 7ef502fb35b2 ("PCI: Add Renesas RZ/G3S host controller driver")
+> Signed-off-by: Felix Gu <ustc.gu@gmail.com>
 
+Patch LGTM. But we are nearing the merge window. So I'm not sure if Bjorn would
+be happy for me to merge any patches atm.
 
-WBR,
-Nikita Yushchenko,
-System Software Engineer @ Cogent Embedded
+Since this fix is trivial, we can defer it for 7.1.
 
-05.02.2026 08:47, Nikita Yushchenko wrote:
-> Hello Michael
-> 
->> -        } else if (rdev->forwarding_offloaded) {
->> +        } else if (rdev->forwarding_offloaded &&
->> +               !rdev->forwarding_requested) {
->>               rswitch_change_l2_hw_offloading(rdev, false, false);
->>           }
-> 
-> Although indeed the condition in the current code is not correct, I'm not sure comfortable with this fix.
-> 
-> Full condition for a port to be a valid candidate for hardware forwarding is
-> 
->    rdev_for_l2_offload() && rdev->forwarding_requested
-> 
-> It is not obvious if at this point rdev_for_l2_offload() could get changed from the last call to 
-> rswitch_change_l2_hw_offloading(), so using only the partial condition at this point does not look good 
-> for me.
-> 
-> I'd suggest to either change to something like
-> 
-> if (rdev_for_l2_offload() && rdev->forwarding_requested && !rdev->forwarding_offloaded)
->      rswitch_change_l2_hw_offloading(rdev, true, false);
-> if (!(rdev_for_l2_offload() && rdev->forwarding_requested) && rdev->forwarding_offloaded)
->      rswitch_change_l2_hw_offloading(rdev, false, false);
-> 
-> Or maybe just
-> 
-> if (rdev_for_l2_offload() && rdev->forwarding_requested)
->      rswitch_change_l2_hw_offloading(rdev, true, false);
-> else
->      rswitch_change_l2_hw_offloading(rdev, false, false);
-> 
-> since rswitch_change_l2_hw_offloading() has internal check for the current state and returns early if 
-> the requested change is already applied.
+Bjorn, if you decide to merge this still, feel free to add:
 
-May be even better to add
+Acked-by: Manivannan Sadhasivam <mani@kernel.org>
 
-   bool new_forwarding_offloaded = rdev_for_l2_offload(rdev) && rdev->forwarding_requested;
+On a side note, I see that this driver just parses the first Root Port instead
+of parsing all Root Port nodes because the current IP design has only one RP.
+But for uniformity, it should parse all nodes so that if the IP gets extended
+in the future, driver can still hoepfully work.
 
-at the beginning of the loop body, and use this flag over the loop - it will make the code shorter and 
-cleaner.
+This further motivates me to come up with host controller generic APIs to parse
+the Root Ports :)
+
+- Mani
+
+> ---
+>  drivers/pci/controller/pcie-rzg3s-host.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/pci/controller/pcie-rzg3s-host.c b/drivers/pci/controller/pcie-rzg3s-host.c
+> index 5aa58638903f..2809112e6317 100644
+> --- a/drivers/pci/controller/pcie-rzg3s-host.c
+> +++ b/drivers/pci/controller/pcie-rzg3s-host.c
+> @@ -1142,7 +1142,8 @@ static int rzg3s_pcie_resets_prepare_and_get(struct rzg3s_pcie_host *host)
+>  
+>  static int rzg3s_pcie_host_parse_port(struct rzg3s_pcie_host *host)
+>  {
+> -	struct device_node *of_port = of_get_next_child(host->dev->of_node, NULL);
+> +	struct device_node *of_port __free(device_node) =
+> +		of_get_next_child(host->dev->of_node, NULL);
+>  	struct rzg3s_pcie_port *port = &host->port;
+>  	int ret;
+>  
+> 
+> ---
+> base-commit: 193579fe01389bc21aff0051d13f24e8ea95b47d
+> change-id: 20260204-rzg3s-bc7c27c80a89
+> 
+> Best regards,
+> -- 
+> Felix Gu <ustc.gu@gmail.com>
+> 
+
+-- 
+மணிவண்ணன் சதாசிவம்
 
