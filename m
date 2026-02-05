@@ -1,154 +1,218 @@
-Return-Path: <linux-renesas-soc+bounces-27946-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27947-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WHf7IPCdhGmI3wMAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27946-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 05 Feb 2026 14:41:04 +0100
+	id CFGcKIOdhGmI3wMAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27947-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 05 Feb 2026 14:39:15 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id D521DF36B7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 05 Feb 2026 14:41:03 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AF57F3626
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 05 Feb 2026 14:39:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id AD0E3301AF46
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Feb 2026 13:38:39 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 190FB301A501
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Feb 2026 13:39:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3CFE233722;
-	Thu,  5 Feb 2026 13:38:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA47D238C0D;
+	Thu,  5 Feb 2026 13:39:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cogentembedded-com.20230601.gappssmtp.com header.i=@cogentembedded-com.20230601.gappssmtp.com header.b="xs+IQunU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Itbsta7c"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A68F22DA1C
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  5 Feb 2026 13:38:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5E1922FE11;
+	Thu,  5 Feb 2026 13:39:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770298718; cv=none; b=DID3WA5WbJGr7KhBdd37gyy2q5OelYRyu2IP8zCsV6TByVvuFzcQmmTJgeaGzog+yhXUJqV/N5Gg8pjdujrOpd0CmUujeTL85xxYSBu6Ep3+/8x4xLKHoGt5gyR23c0EU3hl3tgE3bLW7nMfp3PnVV//LVTR9e/0Hitp9haHFaQ=
+	t=1770298751; cv=none; b=R4/trLZl0oWqbZcZRQ+GHeKu3bgxn/iVcWBgCwsbwjujKuL9ryOAjmjv/ByMc44reIgidmiUn/TorddODe5dg5OBnDbeggGfpJAiVS9myWTPRywh6rubgbQnwa4OpF1EEwyTteL05QgkjXryXnA4fEl8qQQMuBUq76PNi7yUnDM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770298718; c=relaxed/simple;
-	bh=Z6L3fl09q9kSrubjFQ88R/6yrh72aTeNMdVC+nRTLfo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rpSm00NP66If3mldHI36XR24R4K/lzcpjG27IL2DqytQev3PSy/8schD15DmKS5YeQZiN82OMZkhedwCUl3FsEzQFkVo6nbO48X4Mwp5Bk5pJiuBEePJ+0bG3L/O/DL1fmUbECADnWwdkx6PRXyx1Yk4mlJUrFTVa6HdgGB89K8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cogentembedded.com; spf=pass smtp.mailfrom=cogentembedded.com; dkim=pass (2048-bit key) header.d=cogentembedded-com.20230601.gappssmtp.com header.i=@cogentembedded-com.20230601.gappssmtp.com header.b=xs+IQunU; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cogentembedded.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cogentembedded.com
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-4359249bbacso1324841f8f.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 05 Feb 2026 05:38:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20230601.gappssmtp.com; s=20230601; t=1770298716; x=1770903516; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=02iWfztf973elI54X0voRTm4GyeDYKJI/pJtF0EYb1U=;
-        b=xs+IQunUW0ewWnaS/QzrLa7nEmdLnPA75CewTe7vq5eNs6GBj1hpb+KlPPuE3kKcA4
-         TO8Kl0YJrMcPS34PymPDjU7QieDqRlaOCLb9uEpSSxLGegVfd6HQOgtAW4TOM76P9eih
-         bZRbjdKe1Cd6VGwRkEvPpIr1apgRP0ytNeJxBZVeRdB5pq2yzJKW7W84fZ1VRIj0cQ36
-         vm7nYTaKgRli6iVpUx66ZZtQ9tm2tLICW2HXTtE1wVL2uuyvvt3lXwORDQnaIAHKT4y7
-         oUE6pHxIEqdWZS5hRXJJgDgA5joyFvfoohFPOl1l9xPv6Ml62s7c5/r8rYBjLBN7Evwp
-         wN7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770298716; x=1770903516;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=02iWfztf973elI54X0voRTm4GyeDYKJI/pJtF0EYb1U=;
-        b=UGB/EDopxoJoqR04m5TJzqZcXASdUSVNAUD/cUR4Ae04n5zuypdJwcWkpIszeYLohC
-         eLmZAy1mDb6B2w121P1Obn5Q69MJGpB5VjvSnm8dn7Rwpvh8Pzc0Pw4JQ+RzYDQT+6vi
-         1nnrb6yGqdfAEyhIKJBAoeRiD+/LOrETh8hYKNZMKGahO8aXhHi//mk/nnBbA71QLJy5
-         3lCaieUeZBOILp/8V2/9e5Nrt7TfYdSY28xb85AA2gAlBDvjhU5frqCLnqaZopS2hqIS
-         RiFZQBz982P8ytwz4rIszIjeYp1PHKicpwpFHBCCOu4sbhRnBpqO56X6SVFC9ojeUEqZ
-         whiQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUzsG5YOaM6Wyho6lx1c6MzuiZWXbAiZioA9rYS0biPIQgNw+e0aVEa2cdYDn/d9JeJMonaFgbqcxc4ItHzVgBOMQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzn1laSF2uY7EGUFelvRP+4dKc9j5UFjqMB/jQ8OgMcR61WD9P+
-	cA69Wwr3bEcZyYJTQVELclStypP1pED6qZj4n+4ZS7Tzz6htehx8nNpHmEBWberZxks=
-X-Gm-Gg: AZuq6aKMDYpqcA0IfLG6ZrAo/7gj8si8F1SMhjnRqtsq0s+zqGUwuR0lM79XfCcan4S
-	KpUqTXVWrfemsgKfqCxvKN/PXQ7hCJaLnW/XGDfFiwuFIGuY5hPbqzqNckK5q9X8HlF/qFB0QW5
-	laWSrdLINRYxksMIM9/gjLd69/GM/SXoLauH2WXEhx9NUHjQuqKeJHGYzUdFCcqak5iG4017Edk
-	qTPIpAJmnleLJ9Qmmo/SPd28f0p43oBxDDrXkiYgMA+InUnHgo6Tx7HXU7EkH7xepaAuTkGiIvA
-	EcCx7AiQzFzp4syA/Mmm2F2zYMiOR/z0yrRO1jm0k7Y4vzLPt22nXnfbozEajesg/SabDqEmzF0
-	dAqUykuqR1X6ybR/zrfd0nRovu+wkGhcLTCpS0joYfmy3Bw3en9+UFxc+w0cuLnwwprtW7any96
-	P35J5XlRjtd/raaDs/gE+wjyGUccXLCPF8HCi6+JvUCmcUkcY=
-X-Received: by 2002:a05:6000:2887:b0:425:86da:325f with SMTP id ffacd0b85a97d-436213eb7d6mr4362010f8f.27.1770298716349;
-        Thu, 05 Feb 2026 05:38:36 -0800 (PST)
-Received: from ?IPV6:2a02:810a:b98:a000::b3d5? ([2a02:810a:b98:a000::b3d5])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43617e38fbbsm14752532f8f.13.2026.02.05.05.38.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Feb 2026 05:38:35 -0800 (PST)
-Message-ID: <25ff0841-545b-433a-8e88-6e463ea718e7@cogentembedded.com>
-Date: Thu, 5 Feb 2026 14:38:34 +0100
+	s=arc-20240116; t=1770298751; c=relaxed/simple;
+	bh=wN0q/0KPZHRLq6xmnBKir/PT2rWwEvSZPoOZn/Yc3JY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lHAfjNsJcG0sFCV0CFqRLdtMC1DTSUU+8d09bDipy30PwjObZzZIVZldViKEBS1/V3jw1ebyVWL3+Jnedq6/LSPHvaA5dyKrANxASJWUuZquBUtfBoFidSCFfcVEIIzgWyfC2AVAMiv4yhEgWrb1/r9A4CBdBVyvQt3xjKsrsMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Itbsta7c; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C2A7C4CEF7;
+	Thu,  5 Feb 2026 13:39:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770298751;
+	bh=wN0q/0KPZHRLq6xmnBKir/PT2rWwEvSZPoOZn/Yc3JY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Itbsta7c4LVDCkw8q4sdyBfuc9CWpzGL8pDHY3+8ngZ6E9HtvZPgHZvoy/oeO8oLY
+	 Mzju2TuVb9HWvRTO4sF/tk2gwDWwhZxgcvpRDvsJXzSu/bYBb/Z7sbNzxVHWeC0EoW
+	 ptvajtV+u1sUrx2wdn3xtti2r04+0V8xylRJ1BAoW8FCFOauM4VmgwD4EHe2JCz7HE
+	 4zcnAyAIhOrAdubW4GnWT5VRW+/LHmhcFl3y5uyct4CevpT1sVXaD3zCS2ciMRb2lU
+	 /y+5Y4LRKkNYruJM6vA/Tot8r5puBHDdXVNLxmC/lU0Leq64ZO48lVsad9ApgQ3mkO
+	 hbTs8f4wVsknQ==
+Date: Thu, 5 Feb 2026 14:39:09 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Biju <biju.das.au@gmail.com>
+Cc: Thomas Gleixner <tglx@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 2/9] dt-bindings: interrupt-controller:
+ renesas,rzg2l-irqc: Document RZ/G3L SoC
+Message-ID: <20260205-polar-gifted-lionfish-ef8a8d@quoll>
+References: <20260204180632.249139-1-biju.das.jz@bp.renesas.com>
+ <20260204180632.249139-3-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net] net: renesas: rswitch: fix forwarding offload
- statemachine
-To: Michael Dege <michael.dege@renesas.com>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20260205-fix-offloading-statemachine-v1-1-640224a531d0@renesas.com>
- <3b1405cd-6c7f-4883-95fb-151cab223a68@cogentembedded.com>
- <d6a9356d-6fd4-459b-9c5a-2f3e20368bbd@cogentembedded.com>
- <TY4PR01MB142829D9748A483ECAF19FD3D8299A@TY4PR01MB14282.jpnprd01.prod.outlook.com>
-Content-Language: en-US, ru-RU
-From: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-In-Reply-To: <TY4PR01MB142829D9748A483ECAF19FD3D8299A@TY4PR01MB14282.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260204180632.249139-3-biju.das.jz@bp.renesas.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[cogentembedded-com.20230601.gappssmtp.com:s=20230601];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-27946-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[cogentembedded.com];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	DKIM_TRACE(0.00)[cogentembedded-com.20230601.gappssmtp.com:+];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-27947-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nikita.yoush@cogentembedded.com,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FREEMAIL_CC(0.00)[kernel.org,glider.be,gmail.com,bp.renesas.com,vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	MID_RHS_MATCH_FROM(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,netdev];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,cogentembedded-com.20230601.gappssmtp.com:dkim]
-X-Rspamd-Queue-Id: D521DF36B7
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,renesas.com:email]
+X-Rspamd-Queue-Id: 3AF57F3626
 X-Rspamd-Action: no action
 
->>> if (rdev_for_l2_offload() && rdev->forwarding_requested)
->>>       rswitch_change_l2_hw_offloading(rdev, true, false); else
->>>       rswitch_change_l2_hw_offloading(rdev, false, false);
->>>
->>> since rswitch_change_l2_hw_offloading() has internal check for the
->>> current state and returns early if the requested change is already applied.
+On Wed, Feb 04, 2026 at 06:06:18PM +0000, Biju wrote:
+> From: Biju Das <biju.das.jz@bp.renesas.com>
 > 
-> Unfortunately, this has a side effect, e.g., if you pull the cable on tsn0 and the link
-> goes down, you will see that the offloading is disabled on all ports connected to the
-> bridge and not just on tsn0.
+> Document RZ/G3L (R9A08G046) IRQC bindings. The IRQC block on RZ/G3L SoC
+> is almost identical to one found on the RZ/G3S SoC with the difference
+> like it support more External IRQs, GPT Error Interrupts and also has
+> additional registers for GPT/MTU IRQ selection, shared IRQ selection
+> between external IRQ and TINT. Hence new generic compatible string
+> "renesas,r9a08g046-irqc" is added for RZ/G3L SoC.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v1->v2:
+>  * Simplified the binding using pattern
+> ---
+>  .../renesas,rzg2l-irqc.yaml                   | 42 +++++++++++++++----
+>  1 file changed, 35 insertions(+), 7 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml b/Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml
+> index a0b57d808639..311741122b05 100644
+> --- a/Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml
+> +++ b/Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml
+> @@ -30,7 +30,10 @@ properties:
+>                - renesas,r9a08g045-irqc     # RZ/G3S
+>            - const: renesas,rzg2l-irqc
+>  
+> -      - const: renesas,r9a07g043f-irqc     # RZ/Five
+> +      - items:
 
-Quite strange, is anything else logged?  E.g. some messages from linux bridge layer?
+Drop items. The point was to simplify, so just enum.
 
-Nikita
+> +          - enum:
+> +              - renesas,r9a07g043f-irqc    # RZ/Five
+> +              - renesas,r9a08g046-irqc     # RZ/G3L
+>  
+>    '#interrupt-cells':
+>      description: The first cell should contain a macro RZG2L_{NMI,IRQX} included in the
+> @@ -48,17 +51,17 @@ properties:
+>  
+>    interrupts:
+>      minItems: 45
+> -    maxItems: 48
+> +    maxItems: 61
+>  
+>    interrupt-names:
+>      minItems: 45
+> -    maxItems: 48
+> +    maxItems: 61
+>      items:
+>        oneOf:
+>          - description: NMI interrupt
+>            const: nmi
+>          - description: External IRQ interrupt
+> -          pattern: '^irq([0-7])$'
+> +          pattern: '^irq([0-9]|1[0-5])$'
+>          - description: GPIO interrupt
+>            pattern: '^tint([0-9]|1[0-9]|2[0-9]|3[0-1])$'
+>          - description: Bus error interrupt
+> @@ -75,6 +78,8 @@ properties:
+>            const: ec7tie2-1
+>          - description: ECCRAM1 error overflow interrupt
+>            const: ec7tiovf-1
+> +        - description: Integrated GPT Error interrupt
+> +          pattern: '^ovfunf([0-7])$'
+>  
+>    clocks:
+>      maxItems: 2
+> @@ -106,6 +111,22 @@ required:
+>  allOf:
+>    - $ref: /schemas/interrupt-controller.yaml#
+>  
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - renesas,r9a07g043f-irqc
+> +              - renesas,r9a07g043u-irqc
+> +              - renesas,r9a07g044-irqc
+> +              - renesas,r9a07g054-irqc
+> +    then:
+> +      properties:
+> +        interrupts:
+
+Missing minitems. Previously it was not 45, was it?
+
+> +          maxItems: 48
+> +        interrupt-names:
+> +          maxItems: 48
+> +
+>    - if:
+>        properties:
+>          compatible:
+> @@ -118,12 +139,19 @@ allOf:
+>            maxItems: 45
+>          interrupt-names:
+>            maxItems: 45
+> -    else:
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - renesas,r9a08g046-irqc
+> +    then:
+>        properties:
+>          interrupts:
+> -          minItems: 48
+> +          maxItems: 61
+
+minItems instead. Just like it was in the old code.
+
+Best regards,
+Krzysztof
+
 
