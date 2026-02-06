@@ -1,81 +1,81 @@
-Return-Path: <linux-renesas-soc+bounces-27995-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27994-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4GODAVXRhWmOGwQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27995-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Feb 2026 12:32:37 +0100
+	id YAp3I1HRhWmOGwQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27994-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Feb 2026 12:32:33 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C66EFD46E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Feb 2026 12:32:36 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id F14B0FD460
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Feb 2026 12:32:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 378FD306376F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Feb 2026 11:30:21 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id DAC4D306055A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Feb 2026 11:30:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B41F13A0E8F;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96D6E3A1A5D;
 	Fri,  6 Feb 2026 11:30:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y5Fs/cgG"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GTGu7rBp"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4639C3A1A36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42A813A0E8F
 	for <linux-renesas-soc@vger.kernel.org>; Fri,  6 Feb 2026 11:30:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770377419; cv=none; b=T9hcImqgbegDU9ksoHdd/Hu707BeWgqT6lhCHy7kPd0sKfOvOwgSv/CeE3TUOG54r0+gmot6+wKSDw2ghaGqm/WmWD2AbR6Z2fx4YWlLFGLWXkplbjbdtLLXy3Tc6/zVGf4/2oQc2nY73o2np57GtWzEG2cBj5bMQIuXvX/lI7U=
+	t=1770377419; cv=none; b=ViMtTlNciFrilJiBGbDrE7VtZpcdEVydo/QOn9bZ88R+vql+H6Vh0VdhdA1e+rwgyz7KUItba8gefA7GKPOqN5/m3MI/SqJkxW04tlJBZxtEVzBAnOWzLBYKcmGmYK5cLsYV5yh6NNvq5q/FhkJIi7o31aQE1RyYmXeev5jWLeQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1770377419; c=relaxed/simple;
-	bh=fRFREbmT01jfYpBr1PG4D6aL8uCT6THD5/lfmNdbvqA=;
+	bh=BTx4WOXMeHUHVYxoavX4wm/her8LbKRpDgkVrU+FqEc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IKREsCpPAGULGPAHqA7ezThs5qnfZf89KUiI7RfJ0CAw3cAeStjur/1Wx3tX+ThjNN5mxlL7K2xbkLH+ix+xPl/qdTnRZH3i2W6lC9HfSynMNv7cHkNndDF6Ifx2Ceyl9RFh1kUPpczQw3P0bfDLAKReY8UWd7pPTkFTRJlhSnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y5Fs/cgG; arc=none smtp.client-ip=209.85.221.47
+	 MIME-Version; b=uOkaDkIf9o6bEaC5PtJX+oRE1KUrxI5nH71MsRHqNMPIyrQz6VPw9V6iUSWgHKiBOxxwDd0+rdPaoXWbmV7cq1HI+EcvSOuiuOh9m5SgXV31RQOgISE5wP6UOFAKSr9Fyo2U1W8nUDYlf+9DWonZxASu7pHPG1ExKoDEVqi8UFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GTGu7rBp; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-4362ab556f5so454121f8f.3
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-43628a01c32so441346f8f.0
         for <linux-renesas-soc@vger.kernel.org>; Fri, 06 Feb 2026 03:30:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1770377418; x=1770982218; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=aqVtpir5i9HPxHrDDRZAtkC+rLB9QDEYhWMhLfdT6MI=;
-        b=Y5Fs/cgGw+FTsrBzilE6SaoQeVZ6ZxWeOTSFCQ8uVDaXMz5QI/Q/TEQe1EBHw/9Wpz
-         irXCXnwPVdEX7pb6PacfdjtIHYH/zbKiKcBzxzbePirLPVGU6cZiQENlmyi0IMpAKVrT
-         UWDqHME/nDnG+t25CF4f9GoesWU4t5ta5vjfNda7oCHMXgpNQXMqYY7KWcE+xiHH2JPL
-         AtinY/lLxOHtInnqk4bUOyhb9X+X23rtgw2VL0DJfUMpkhVGXcYoVK2vY2eGvBXvYhgy
-         FR4QbZgDk4ZVN2Z4NYYUhP/diBcsnBJ7Ot2H5keTrD52a4keY+aCLX0m6DQtI8LZCTt/
-         RJKA==
+        bh=EKwmbBUyV+FUkyuhoc4dTbfXs9M5ae9G0YS2ltMaFQ4=;
+        b=GTGu7rBp21eAe3rqO6i9EdkXhQ5EszVZXvr62yyPLrgyZR7XRY1aAZ7wH8aiS5JNOJ
+         HKGFUWsZhCuLko4dih6v0LUGm6gW2WGiQ1aIwHJmPsmGpczAfHgEUY1+WevKE18n/rwA
+         Y4WufG1vro1W153TipsUr4tzLy9g4ji9aT/t3zUbS6NKcFWmRvLJqlq++OMKrwAAZPqN
+         07+FQAJakCIoAkAhxxhjikQ7jNCEWRKzdz4tCGmAkgd6IvR/lMRpgsF0pcQPiy7nOfLV
+         iuqi6dWVdYCNtwsu7pJ63DbpD3lEB7iK9YAF/C6ok3lkjteamD0EKp/qmyOlUbQdORVS
+         GkYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1770377418; x=1770982218;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=aqVtpir5i9HPxHrDDRZAtkC+rLB9QDEYhWMhLfdT6MI=;
-        b=Um90Ul0zcYDJ0hWi+O9YBdoc3l7HXWrRNz1dLORU04B5voD1LXNf7OGJrZRM34jRqJ
-         X5dPmu8bUKEm71uckMkjc7MtbF+A52YvDYMzha7mlqh3PudFdGYRJb2+WWk3nVKgpyi4
-         ZrD9cPH1U9sjQdS6qoyf1w9h8AS0Zqqo4VIBmb0oOWvrfuzXJRcenHiSlkewBAft45jk
-         k52faSHOZyaHsJugomb0++ELfymNW7aqIkpJKKFcXExlt9jvUWT4bxhucF0deXCzRYBU
-         xS/NxZMG9dXeR7/wDIWPPgENFH8SiW1xKxAp/5hRTnKf0Qm5UzR2tvk3flFu1ZxoRIBx
-         jBmw==
-X-Forwarded-Encrypted: i=1; AJvYcCURp85WiVhE1oL38jfZiXObkdx80libBDz9R+DqKtJPB+yGbkNQXhG3N+2oPcKIwwDOzZ3Ix4hPZdRttESVwjPwmQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz8ZK1uEWn+MoBLGhgCDsfGPSTSwY6L+BHNMzbfDrfTNgHLUtnx
-	kfDiuGlQKz6FNl4HNnd3oAowIg52nINXUwa9N0qUy0Jk/k0HtplkeJq+
-X-Gm-Gg: AZuq6aKW/ltOJnZE2HOSHBhIhoGBSXKGTb5BG/AXz345ioA7GqoT87E0zYblLZAwogj
-	vbBeK9ASGczAwrvIILfYBS5LYMhK6a0XRL62LH8gMy9UT0aqzLUJlrH0NSIy7Fyg+gVn++pWIZe
-	fxePswNfGx5whjkeorY00B3X9L+Mk8/JfNYmcnb1H9hrplE0jwQIk1zglq/idbOrh3QWMpP+JLr
-	ocZCwSi6+a60ARCoZmGiaw/zR5RnxcGgy9oJQKceDOxfp8YfmEBnmwanNYfvjD9mELad6jhXlc5
-	+4NBIOYFQZ2DVLzvCHNM35kuVqYEWmxu6XVFUGSAFekYPhlQqOtpr2l9Qop9faAE8UjcGWngUnz
-	uGqDZUasIQ+WQBNjoM0Nq3euYzRaHsLjJahDB3VckwIva+j3l4c/51MUhM7+5okwwiDiPkVWM73
-	vf4runfy54BfGGJUMZVg==
-X-Received: by 2002:a5d:584e:0:b0:435:8f88:7235 with SMTP id ffacd0b85a97d-4362967dc28mr3473624f8f.33.1770377416936;
-        Fri, 06 Feb 2026 03:30:16 -0800 (PST)
+        bh=EKwmbBUyV+FUkyuhoc4dTbfXs9M5ae9G0YS2ltMaFQ4=;
+        b=DcyufXSTMrv2BfQIHQJym5Yiyxe38aLihMnboCfmyeoJ82wPK3mwhD3DhEKa3vREJN
+         BuB+7RAsjpbYkWTfyhqTk0f4bCgHyxFC5y1djd7oqQgsBD5QL1t5Bz/UxfLtNbr3qLy2
+         dUJWt9QjaLp+jVMuyG55a94M9DQcx23xOqmHuFmOSEKTze9gFLupYdqDnbNDXX/X208F
+         rnYilnlQ5F2VEJgU105uoyFpNhxkmRic3+srtejYkVDJVWUUqoL/9RwK/HwvDL3tNj26
+         FCnY75mEmogijSGwecQRYmdFQpfC104tARfh4sN/hf6+wWDrZOB0gxt0VANxxfqxBTYj
+         GkZA==
+X-Forwarded-Encrypted: i=1; AJvYcCVlizwhlOIjZgvtNBVuKb1D4eVCrSGEBqq48s1HiZndiwl5QpvotE9dKGbojwfR/xvLuig04ot6ax7D6b16IgpENg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzTlVqDQEzGnYDTUItgx8gNyxBX0cf7vczvv+KGPPhmLCmMU5Cu
+	MqUz2H66rYw2Dg8jH+De6WU5rhOejM+ZCK/yYXyQIg4pwcUUD9nebrTw
+X-Gm-Gg: AZuq6aLaYgjQs9YlmpKn5ddqZfe9LSXQhh+EmSiSf/rZSpuIlXlDkL8SOVsMizOzTNt
+	xN03HCHuGRGi0Af3+5Mungy1Qst1P5hc6Ndth093Bkkp9CtRTLd7F7E51cTVybfgROXKCjlZkIc
+	Pm1gYyfIPUXFQMsdXEZUia4xUhLDiYtr0MoWvefWs0U9xaWvwQ6J37SEB/DTquglGl1v+NPlnTS
+	A2Fuw0L6PR8k7apVEHtIODc9ojgj28sQIHBKIglAt70xkyHKa05emNoEwVu3aQiOmdIzgXdSG25
+	+YjRFtqFU3Qode//tiAng+mxu4VSueab5+abYud9kMq3JyLDXkfJwh63ILo1vkA92g2Oxb+OVoT
+	L9GfGtcshw431TiSg7irDoaj5jU6mkEU43O4GqpdLILa8fIO8jAg6sX1g/lfVyZpiLwrvWpL5NU
+	EGNaruixK586xhOF7NTA==
+X-Received: by 2002:a05:6000:2909:b0:435:6c8d:d017 with SMTP id ffacd0b85a97d-436293b38f3mr3781165f8f.32.1770377417469;
+        Fri, 06 Feb 2026 03:30:17 -0800 (PST)
 Received: from biju.lan ([2a00:23c4:a758:8a01:1e64:f8d5:9d7a:19d4])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4362972fc1bsm5309670f8f.28.2026.02.06.03.30.16
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4362972fc1bsm5309670f8f.28.2026.02.06.03.30.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Feb 2026 03:30:16 -0800 (PST)
+        Fri, 06 Feb 2026 03:30:17 -0800 (PST)
 From: Biju <biju.das.au@gmail.com>
 X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -87,9 +87,9 @@ Cc: Biju Das <biju.das.jz@bp.renesas.com>,
 	linux-kernel@vger.kernel.org,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH 1/2] clk: renesas: r9a08g046: Add CA55 core clocks
-Date: Fri,  6 Feb 2026 11:30:07 +0000
-Message-ID: <20260206113013.233432-2-biju.das.jz@bp.renesas.com>
+Subject: [PATCH 2/2] clk: renesas: r9a08g046: Add WDT clocks/reset
+Date: Fri,  6 Feb 2026 11:30:08 +0000
+Message-ID: <20260206113013.233432-3-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260206113013.233432-1-biju.das.jz@bp.renesas.com>
 References: <20260206113013.233432-1-biju.das.jz@bp.renesas.com>
@@ -107,13 +107,13 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-27995-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-27994-lists,linux-renesas-soc=lfdr.de];
 	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -128,106 +128,43 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email]
-X-Rspamd-Queue-Id: 8C66EFD46E
+X-Rspamd-Queue-Id: F14B0FD460
 X-Rspamd-Action: no action
 
 From: Biju Das <biju.das.jz@bp.renesas.com>
 
-Add CA55 core clock entries.
+Add WDT clock and reset entries.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- drivers/clk/renesas/r9a08g046-cpg.c | 31 +++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+ drivers/clk/renesas/r9a08g046-cpg.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/drivers/clk/renesas/r9a08g046-cpg.c b/drivers/clk/renesas/r9a08g046-cpg.c
-index b7753a331772..6cb3991cfeb6 100644
+index 6cb3991cfeb6..4deaa60dbc23 100644
 --- a/drivers/clk/renesas/r9a08g046-cpg.c
 +++ b/drivers/clk/renesas/r9a08g046-cpg.c
-@@ -17,6 +17,7 @@
- /* RZ/G3L Specific registers. */
- #define G3L_CPG_PL2_DDIV		(0x204)
- #define G3L_CPG_PL3_DDIV		(0x208)
-+#define G3L_CPG_CA55CORE_DDIV		(0x234)
- #define G3L_CLKDIVSTATUS		(0x280)
- #define G3L_CPG_ETH_SSEL		(0x410)
- #define G3L_CPG_ETH_SDIV		(0x434)
-@@ -25,15 +26,24 @@
- #define G3L_DIVPL2A		DDIV_PACK(G3L_CPG_PL2_DDIV, 0, 2)
- #define G3L_DIVPL2B		DDIV_PACK(G3L_CPG_PL2_DDIV, 4, 2)
- #define G3L_DIVPL3A		DDIV_PACK(G3L_CPG_PL3_DDIV, 0, 2)
-+#define G3L_DIV_CA55_CORE0	DDIV_PACK(G3L_CPG_CA55CORE_DDIV, 0, 3)
-+#define G3L_DIV_CA55_CORE1	DDIV_PACK(G3L_CPG_CA55CORE_DDIV, 4, 3)
-+#define G3L_DIV_CA55_CORE2	DDIV_PACK(G3L_CPG_CA55CORE_DDIV, 8, 3)
-+#define G3L_DIV_CA55_CORE3	DDIV_PACK(G3L_CPG_CA55CORE_DDIV, 12, 3)
- #define G3L_SDIV_ETH_A		DDIV_PACK(G3L_CPG_ETH_SDIV, 0, 2)
- #define G3L_SDIV_ETH_B		DDIV_PACK(G3L_CPG_ETH_SDIV, 4, 1)
- #define G3L_SDIV_ETH_C		DDIV_PACK(G3L_CPG_ETH_SDIV, 8, 2)
- #define G3L_SDIV_ETH_D		DDIV_PACK(G3L_CPG_ETH_SDIV, 12, 1)
- 
- /* RZ/G3L Clock status configuration. */
-+#define G3L_DIVPL1_STS		DDIV_PACK(G3L_CLKDIVSTATUS, 0, 1)
- #define G3L_DIVPL2A_STS		DDIV_PACK(G3L_CLKDIVSTATUS, 4, 1)
- #define G3L_DIVPL2B_STS		DDIV_PACK(G3L_CLKDIVSTATUS, 5, 1)
- #define G3L_DIVPL3A_STS		DDIV_PACK(G3L_CLKDIVSTATUS, 8, 1)
-+#define G3L_DIV_CA55_CORE0_STS	DDIV_PACK(G3L_CLKDIVSTATUS, 12, 1)
-+#define G3L_DIV_CA55_CORE1_STS	DDIV_PACK(G3L_CLKDIVSTATUS, 13, 1)
-+#define G3L_DIV_CA55_CORE2_STS	DDIV_PACK(G3L_CLKDIVSTATUS, 14, 1)
-+#define G3L_DIV_CA55_CORE3_STS	DDIV_PACK(G3L_CLKDIVSTATUS, 15, 1)
- 
- /* RZ/G3L Specific clocks select. */
- #define G3L_SEL_ETH0_TX		SEL_PLL_PACK(G3L_CPG_ETH_SSEL, 0, 1)
-@@ -62,6 +72,7 @@ enum clk_ids {
- 	CLK_ETH1_RXC_RX_CLK_IN,
- 
- 	/* Internal Core Clocks */
-+	CLK_PLL1,
- 	CLK_PLL2,
- 	CLK_PLL2_DIV2,
- 	CLK_PLL3,
-@@ -84,6 +95,16 @@ enum clk_ids {
- };
- 
- /* Divider tables */
-+static const struct clk_div_table dtable_1_32[] = {
-+	{ 0, 1 },
-+	{ 1, 2 },
-+	{ 2, 4 },
-+	{ 3, 8 },
-+	{ 4, 16 },
-+	{ 5, 32 },
-+	{ 0, 0 },
-+};
-+
- static const struct clk_div_table dtable_2_20[] = {
- 	{ 0, 2 },
- 	{ 1, 20 },
-@@ -134,6 +155,8 @@ static const struct cpg_core_clk r9a08g046_core_clks[] __initconst = {
- 	DEF_INPUT("eth1_rxc_rx_clk", CLK_ETH1_RXC_RX_CLK_IN),
- 
- 	/* Internal Core Clocks */
-+	DEF_G3L_PLL(".pll1", CLK_PLL1, CLK_EXTAL, G3L_PLL1467_CONF(0x4, 0x8, 0x100),
-+		    1200000000UL),
- 	DEF_FIXED(".pll2", CLK_PLL2, CLK_EXTAL, 200, 3),
- 	DEF_FIXED(".pll3", CLK_PLL3, CLK_EXTAL, 200, 3),
- 	DEF_G3L_PLL(".pll6", CLK_PLL6, CLK_EXTAL, G3L_PLL1467_CONF(0x54, 0x58, 0),
-@@ -153,6 +176,14 @@ static const struct cpg_core_clk r9a08g046_core_clks[] __initconst = {
- 	DEF_DIV(".div_eth1_rm", CLK_ETH1_RM, CLK_SEL_ETH1_RM, G3L_SDIV_ETH_D, dtable_2_20),
- 
- 	/* Core output clk */
-+	DEF_G3S_DIV("IC0", R9A08G046_CLK_IC0, CLK_PLL1, G3L_DIV_CA55_CORE0, G3L_DIV_CA55_CORE0_STS,
-+		    dtable_1_32, 0, 0, 0, NULL),
-+	DEF_G3S_DIV("IC1", R9A08G046_CLK_IC1, CLK_PLL1, G3L_DIV_CA55_CORE1, G3L_DIV_CA55_CORE1_STS,
-+		    dtable_1_32, 0, 0, 0, NULL),
-+	DEF_G3S_DIV("IC2", R9A08G046_CLK_IC2, CLK_PLL1, G3L_DIV_CA55_CORE2, G3L_DIV_CA55_CORE2_STS,
-+		    dtable_1_32, 0, 0, 0, NULL),
-+	DEF_G3S_DIV("IC3", R9A08G046_CLK_IC3, CLK_PLL1, G3L_DIV_CA55_CORE3, G3L_DIV_CA55_CORE3_STS,
-+		    dtable_1_32, 0, 0, 0, NULL),
- 	DEF_G3S_DIV("P0", R9A08G046_CLK_P0, CLK_PLL2_DIV2, G3L_DIVPL2B, G3L_DIVPL2B_STS,
- 		    dtable_8_256, 0, 0, 0, NULL),
- 	DEF_G3S_DIV("P1", R9A08G046_CLK_P1, CLK_PLL3_DIV2, G3L_DIVPL3A, G3L_DIVPL3A_STS,
+@@ -219,6 +219,10 @@ static const struct rzg2l_mod_clk r9a08g046_mod_clks[] = {
+ 					MSTOP(BUS_REG1, BIT(2))),
+ 	DEF_MOD("dmac_pclk",		R9A08G046_DMAC_PCLK, R9A08G046_CLK_P3, 0x52c, 1,
+ 					MSTOP(BUS_REG1, BIT(3))),
++	DEF_MOD("wdt0_pclk",		R9A08G046_WDT0_PCLK, R9A08G046_CLK_P0, 0x548, 0,
++					MSTOP(BUS_REG0, BIT(0))),
++	DEF_MOD("wdt0_clk",		R9A08G046_WDT0_CLK, R9A08G046_OSCCLK, 0x548, 1,
++					MSTOP(BUS_REG0, BIT(0))),
+ 	DEF_MOD("eth0_clk_axi",		R9A08G046_ETH0_CLK_AXI, R9A08G046_CLK_P1, 0x57c, 0,
+ 					MSTOP(BUS_PERI_COM, BIT(2))),
+ 	DEF_MOD("eth1_clk_axi",		R9A08G046_ETH1_CLK_AXI, R9A08G046_CLK_P1, 0x57c, 1,
+@@ -275,6 +279,7 @@ static const struct rzg2l_reset r9a08g046_resets[] = {
+ 	DEF_RST(R9A08G046_IA55_RESETN, 0x818, 0),
+ 	DEF_RST(R9A08G046_DMAC_ARESETN, 0x82c, 0),
+ 	DEF_RST(R9A08G046_DMAC_RST_ASYNC, 0x82c, 1),
++	DEF_RST(R9A08G046_WDT0_PRESETN, 0x848, 0),
+ 	DEF_RST(R9A08G046_ETH0_ARESET_N, 0x87c, 0),
+ 	DEF_RST(R9A08G046_ETH1_ARESET_N, 0x87c, 1),
+ 	DEF_RST(R9A08G046_SCIF0_RST_SYSTEM_N, 0x884, 0),
 -- 
 2.43.0
 
