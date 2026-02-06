@@ -1,98 +1,93 @@
-Return-Path: <linux-renesas-soc+bounces-27984-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27985-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CF/iFW7OhWn0GgQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27984-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Feb 2026 12:20:14 +0100
+	id 9mW3BYPOhWlBGwQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27985-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Feb 2026 12:20:35 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B17E0FD227
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Feb 2026 12:20:13 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9498DFD245
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Feb 2026 12:20:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CEAE1303C295
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Feb 2026 11:17:05 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0E781304AD98
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Feb 2026 11:17:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDA8D39E6E8;
-	Fri,  6 Feb 2026 11:17:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 628513A0B32;
+	Fri,  6 Feb 2026 11:17:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ROy3lGR7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ord80ujy"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8652739B490
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E3893A0B0C
 	for <linux-renesas-soc@vger.kernel.org>; Fri,  6 Feb 2026 11:17:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.68
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770376623; cv=none; b=TrczrmdwXhTJ27fBXX/Kc80PkowfOT1ji6KWcHurdZtJokmPHuPrlUOJHS32HmD58fbK5ZnL976QTPG55tTB6BKL/P2dXVlDOfyJDLf477F3SGbg9gMxzmLmBwEkcgXVcM0ldTg2Ay0b65hMX6OXp3zMZR+E7fQRPFyzatcGpb0=
+	t=1770376624; cv=none; b=RY5ZiaRT1Qkg8f161ESNrPSzM30bcxvE9w1ya0isF2k2Sg5lQ3tH51tK0RqtlL8RxXY7IJJOedmpbDOCN185F0eSdK164Wiw2Vrshh70vPufdqvCLv5bMTrLYWLUmy9ZHbH2JrDE7t+HqaPsnZHF9GhOQZfPkkDC4sD9JCFZF+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770376623; c=relaxed/simple;
-	bh=sRZ8NNxWKbYHIVgVsApwxzatEQoFGwYTfEOA+5UQKjs=;
+	s=arc-20240116; t=1770376624; c=relaxed/simple;
+	bh=Hbg3emuCT1am9B/27fxHBDXfsVOms2s0E6GBR0y519g=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FiBrABys6RwJo8ULchvdvISo1idlwS3X3Hji3x+6V3yUVv4Ru6Q84znDGhDI29k4heqKLTvU5wTACwN+BtbqeHyTId+BmiPCcs+TRM6slie7JI0aWkiXVfcInwko4sK6LL1XoRGt1os9B7mFfrrsIc0EwBLGDBAuWst1SkTaKuU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ROy3lGR7; arc=none smtp.client-ip=209.85.221.68
+	 MIME-Version; b=qqyXnFOAX84g26awv2mlBtENus/H5Jls6NMsLXaZ/pRQw+H0A1R0lNDLnLY5eVRofG215rmnR28mRQ8k28w0sXXfAtaa75HUPccksRoamwpZNeN5IVzS2rWMr7W4dy1VCrTcDIvF72oB6yW06X85+rFMbbRJt83eErL1h1FV5Ao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ord80ujy; arc=none smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f68.google.com with SMTP id ffacd0b85a97d-43284ed32a0so1272516f8f.3
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-4362d4050c1so301822f8f.2
         for <linux-renesas-soc@vger.kernel.org>; Fri, 06 Feb 2026 03:17:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1770376622; x=1770981422; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=eq8ZhxrGXuOTWmcmPXPAszI3EhqRT9WZnElfRiN+dWk=;
-        b=ROy3lGR7T1zT7wHgGk/8q7SEA2fHS07X99AN9Y4fCuEv8P/vbhCWVMDaLGMiWcrp99
-         UQXbPPQsa6u43fyFjCQLvtVD2lwYfw7pwoUUMhs0k213cTeY2S5LF+LWpavM2xHA6Cn3
-         UIa4/Af0ZC+M18i3a1Pu3HKeHQJtd4kMOSp4HVi92r848vMh4ZIAt3M5JtnwvULsf7Ve
-         sX+6cYR7QnU+oJ0TrJwa7Wyy1bpFigIQ8Cr6lLr8u7mmEtjpLKsPyTYnsNYq6luvH7BV
-         lT+gKKVND1keMnX0vPdOvxm/+XoZrwDhgH1KpVXXNq+1bWwtVvho10BOn/AV0mFfM5Cn
-         YyFQ==
+        bh=9J1iVCwTS7iX2pXRRIO5Px5zYQH04DMA0QCRC7iMC5A=;
+        b=Ord80ujym7lLzDywtwiUip3on4aExg8wVEHQ7LsysNwdQxWAdeO+bhdk6l6odhvXC0
+         SXm4ZKTXtkgZWCaHOGB4GVdVdeadx3Y76jrEaHzOMey3MZIp1hiaGfchpLYhCY71a89t
+         TSaP5ComZyTFQyjeRweUSihEgnRe50Kr+mXVpOYSkS+7ANZI3jHt0i5WnXORrPDjmffD
+         8U24tk9yNUfwtCPiNleRlklDaW6RLrk2AlMtZ74NfZNoftgUci0X8wGVgl16euxZd0iS
+         zU39OwcxRS8R9qB6gw4JjCsF2k6YLcnNMH4lSRNe866qk4aPeZENskRXJOkxHaa6SMh4
+         z2nQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1770376622; x=1770981422;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=eq8ZhxrGXuOTWmcmPXPAszI3EhqRT9WZnElfRiN+dWk=;
-        b=XyAlw60+y86KREZa9aIt0KnJfBqwMHw6Nzc5NCmxNCZya4Hy6cx9QfnDHHUkLhNnHp
-         Doiqx73xqpWT/yU/jKWbiXNcf3V808k2wHr3haqdBEokCG217Ua2liL2Jftp3cyddWga
-         6FQYhMWYxwjkZs758SEGT6O5LsPpqxOlSf5CY4IaHBRP2BNmkZUkHSADxr70C9ZN2ErC
-         V2JxPp/LqJesYiDn1L/f61tnny58/f4sd6v/qZLgLr2TgFWuYkSeIa8DUB2hqweAjp3B
-         1+XU9Yne3bkNKjNw3MzFKsdI5PiTFdHROQIvPVEsiHYF6b25qHHVplPw1icNXbxQRBtc
-         GVDw==
-X-Forwarded-Encrypted: i=1; AJvYcCXspnqpB/uKOHoO9UZqDYS0oZfqdHRIdkJbQUq+lNORBlfpsD/dLnASXxt24CuD/p1qxDFjZjsVvf/yaaC0SECzTg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywklf2I3pmMdMLBpCJyfW6eQatvboV1aca8TdIQ+tkxYQ+ydObJ
-	do4ZYUYHBr4CgHoP7seVcBh5ZcbpEvhcSV57AJq2rYqriqsThOsPXpJ2
-X-Gm-Gg: AZuq6aJKwZibqyC/UFlIrB3JVO2gaSjvNC0/1d2fe061MsWDDsDdiNnDB74OQymq/aU
-	RKA3ofe+NwODX9TdCPvtEWz1UddxyU2dU4wRqpVYEEWVAs8vuh1jGRdDHPUcvYU6Yim8yApUYG1
-	+UvvB7zrp2NRE4k8Sbs9kF6E2Kn9mJuP/lEG22OQpvF2YAB+sB2MLYuDFQ5FKeQOuSvoflB147r
-	f/gVKD3J91v02ocBr7KDAWrVUWL1QaMMMJZbBysojNy3GXaY2g9CRqR4UiuU0JvTAad9sxsr+tL
-	EmbziKYmxgFGV1HE0Jl1dHGJYkdKKG/sRi0GHNIa5gigT9Nez1rIM3OdPwy5ieQcLguO/FCBbBl
-	bzy5K9SDgSQq3yUmTxOE5BPkmuywXmwSEnjA/LucNpYxF4Py7S8zNxaV/GVXV2jegB2aJb1pMiN
-	3Ry0H3HLbUvZUx5GZfOQ==
-X-Received: by 2002:a5d:5d87:0:b0:435:9f41:d54 with SMTP id ffacd0b85a97d-436293b29c8mr3344918f8f.60.1770376621784;
-        Fri, 06 Feb 2026 03:17:01 -0800 (PST)
+        bh=9J1iVCwTS7iX2pXRRIO5Px5zYQH04DMA0QCRC7iMC5A=;
+        b=elet6DnpgiFhiytROY714Wm83veY/TbjSNFBG06CxTJKBS8JL0TYTs3vQIiA8RlMpC
+         jJtXzxIxCxbI3lcajNhKQvuIB+5ajPQ4dkeLHYy86XfCPgNfM/g+M6zZbmmLY1hYKpug
+         Q98N7qlr+K724NuF11S22HnPQnZV1zRfxuzuY0Nvr101Mftd2cUTD55NCnHaFjWd6gLu
+         lAuPMumj5fCKiK4f4IjXuZa0LKpeOesmE0jOzynSPRvGYFj2LOB6TXU+1VXprq7BrklB
+         7Qoa6ZJvdqFmR0NKAzoHp5favPGlk4sHSwFkPtrV0yZ52ioEJ5orJ2d1rjbxDdIeOsIK
+         +rkA==
+X-Forwarded-Encrypted: i=1; AJvYcCX1UYuY/tAeJoAc+mNF+sT4IuS096eIbnZUupMw82ahCCKecRb5e5PPkkoRHQeWNfaSzb+7z8F4aSKm96hp5Rihrg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwsFHfnYUHT7Bg8XcRn4cVWGM8cc/KsFaOsbPNmhaoM+ORl5hho
+	F4/kAlOwVM4MwCB2u6APMI/UYKJT+3ncGQC0UwTHNzb7asBsTPpgJdqS
+X-Gm-Gg: AZuq6aIWym651QmtoBaQvxFmsc2zDORU2IDJIB+7SNuQkWQRC3mod7yF6gdgRWyaUAe
+	xPUR0j2yZU3b+AjVQyQGcZ2yX/+qUlbBg6BkBpvOmCDfod3Ancq6txuP/5YrRvy2TND9bhgEhjp
+	GuhfsThq2nEpX9yu68pxZCa2FsIpVfMMVCSJRXpRklQGwPnQakfO52IP7gH9GMD3kDtyO5xmTz7
+	YBNoGZSRQcbXnLx0Z2P3QM/fhtdwJB3Z5udD6ACEjosvwUqypjX0tHYkVVtGnb0Kjsd28BzoYqK
+	Er3X8taOE2fLN1v17iN3NjLzRP/K0LyerJJ1bMnWVwr4/SPjnwCbA1gGvlPFUjptE1pnLgX31qO
+	uklSol32Nru2DISZWib2D0qtOyEwbQP7lcARS6PNPbg64hpEwviD71Rsf301iZzUmEiJeQw34Nz
+	kNNfY8bdg4aOOrqAf7Ew==
+X-Received: by 2002:a05:6000:25c7:b0:431:5ac:1fc with SMTP id ffacd0b85a97d-43629341bb4mr3445076f8f.14.1770376622281;
+        Fri, 06 Feb 2026 03:17:02 -0800 (PST)
 Received: from biju.lan ([2a00:23c4:a758:8a01:1e64:f8d5:9d7a:19d4])
         by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4362972fa4csm4746380f8f.26.2026.02.06.03.17.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Feb 2026 03:17:01 -0800 (PST)
+        Fri, 06 Feb 2026 03:17:02 -0800 (PST)
 From: Biju <biju.das.au@gmail.com>
 X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
-To: Thomas Gleixner <tglx@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>
+To: Thomas Gleixner <tglx@kernel.org>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH v3 2/9] dt-bindings: interrupt-controller: renesas,rzg2l-irqc: Document RZ/G3L SoC
-Date: Fri,  6 Feb 2026 11:16:45 +0000
-Message-ID: <20260206111658.231934-3-biju.das.jz@bp.renesas.com>
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v3 3/9] irqchip/renesas-rzg2l: Make fwspec variable as pointer in struct rzg2l_irqc_priv
+Date: Fri,  6 Feb 2026 11:16:46 +0000
+Message-ID: <20260206111658.231934-4-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260206111658.231934-1-biju.das.jz@bp.renesas.com>
 References: <20260206111658.231934-1-biju.das.jz@bp.renesas.com>
@@ -106,152 +101,77 @@ Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-27984-lists,linux-renesas-soc=lfdr.de];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,glider.be,gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FREEMAIL_CC(0.00)[bp.renesas.com,vger.kernel.org,gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-27985-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_CC(0.00)[bp.renesas.com,vger.kernel.org,glider.be,gmail.com];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bijudasau@gmail.com,linux-renesas-soc@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	NEURAL_HAM(-0.00)[-1.000];
 	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[bijudasau@gmail.com,linux-renesas-soc@vger.kernel.org];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,bp.renesas.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: B17E0FD227
+X-Rspamd-Queue-Id: 9498DFD245
 X-Rspamd-Action: no action
 
 From: Biju Das <biju.das.jz@bp.renesas.com>
 
-Document RZ/G3L (R9A08G046) IRQC bindings. The IRQC block on RZ/G3L SoC
-is almost identical to one found on the RZ/G3S SoC with the difference
-like it support more External IRQs, GPT Error Interrupts and also has
-additional registers for GPT/MTU IRQ selection, shared IRQ selection
-between external IRQ and TINT. Hence new generic compatible string
-"renesas,r9a08g046-irqc" is added for RZ/G3L SoC.
+The total number of IRQs in RZ/G2L and RZ/G3L SoC are different. The
+RZ/G3L has 16 external IRQs where as RZ/G2L has only 8 external IRQ.
+Dynamicaly allocate fwspec memory instead of static allocation to support
+both SoCs.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
 v2->v3:
- * Dropped items and instead used enum for single compatible values
- * Add minItems for interrupts and interrupt-names properties of 
-   the RZ/{G2L,G2UL,Five,V2L} SoCs
- * Replaced maxItems->minItems for interrupts and interrupt-names
-   properties of the RZ/G3L SoC.
+ * No change
 v1->v2:
- * Simplified the binding using pattern
+ * No change
 ---
- .../renesas,rzg2l-irqc.yaml                   | 43 ++++++++++++++++---
- 1 file changed, 36 insertions(+), 7 deletions(-)
+ drivers/irqchip/irq-renesas-rzg2l.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml b/Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml
-index a0b57d808639..3a221e1800a0 100644
---- a/Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml
-+++ b/Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml
-@@ -30,7 +30,9 @@ properties:
-               - renesas,r9a08g045-irqc     # RZ/G3S
-           - const: renesas,rzg2l-irqc
+diff --git a/drivers/irqchip/irq-renesas-rzg2l.c b/drivers/irqchip/irq-renesas-rzg2l.c
+index e73d426cea6d..20e2b1c4587b 100644
+--- a/drivers/irqchip/irq-renesas-rzg2l.c
++++ b/drivers/irqchip/irq-renesas-rzg2l.c
+@@ -79,7 +79,7 @@ struct rzg2l_irqc_reg_cache {
+ static struct rzg2l_irqc_priv {
+ 	void __iomem			*base;
+ 	const struct irq_chip		*irqchip;
+-	struct irq_fwspec		fwspec[IRQC_NUM_IRQ];
++	struct irq_fwspec		*fwspec;
+ 	raw_spinlock_t			lock;
+ 	struct rzg2l_irqc_reg_cache	cache;
+ } *rzg2l_irqc_data;
+@@ -554,6 +554,11 @@ static int rzg2l_irqc_common_probe(struct platform_device *pdev, struct device_n
+ 	if (IS_ERR(rzg2l_irqc_data->base))
+ 		return PTR_ERR(rzg2l_irqc_data->base);
  
--      - const: renesas,r9a07g043f-irqc     # RZ/Five
-+      - enum:
-+          - renesas,r9a07g043f-irqc    # RZ/Five
-+          - renesas,r9a08g046-irqc     # RZ/G3L
- 
-   '#interrupt-cells':
-     description: The first cell should contain a macro RZG2L_{NMI,IRQX} included in the
-@@ -48,17 +50,17 @@ properties:
- 
-   interrupts:
-     minItems: 45
--    maxItems: 48
-+    maxItems: 61
- 
-   interrupt-names:
-     minItems: 45
--    maxItems: 48
-+    maxItems: 61
-     items:
-       oneOf:
-         - description: NMI interrupt
-           const: nmi
-         - description: External IRQ interrupt
--          pattern: '^irq([0-7])$'
-+          pattern: '^irq([0-9]|1[0-5])$'
-         - description: GPIO interrupt
-           pattern: '^tint([0-9]|1[0-9]|2[0-9]|3[0-1])$'
-         - description: Bus error interrupt
-@@ -75,6 +77,8 @@ properties:
-           const: ec7tie2-1
-         - description: ECCRAM1 error overflow interrupt
-           const: ec7tiovf-1
-+        - description: Integrated GPT Error interrupt
-+          pattern: '^ovfunf([0-7])$'
- 
-   clocks:
-     maxItems: 2
-@@ -106,6 +110,24 @@ required:
- allOf:
-   - $ref: /schemas/interrupt-controller.yaml#
- 
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - renesas,r9a07g043f-irqc
-+              - renesas,r9a07g043u-irqc
-+              - renesas,r9a07g044-irqc
-+              - renesas,r9a07g054-irqc
-+    then:
-+      properties:
-+        interrupts:
-+          minItems: 48
-+          maxItems: 48
-+        interrupt-names:
-+          minItems: 48
-+          maxItems: 48
++	rzg2l_irqc_data->fwspec = devm_kcalloc(&pdev->dev, IRQC_NUM_IRQ,
++					       sizeof(*rzg2l_irqc_data->fwspec), GFP_KERNEL);
++	if (!rzg2l_irqc_data->fwspec)
++		return -ENOMEM;
 +
-   - if:
-       properties:
-         compatible:
-@@ -118,12 +140,19 @@ allOf:
-           maxItems: 45
-         interrupt-names:
-           maxItems: 45
--    else:
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - renesas,r9a08g046-irqc
-+    then:
-       properties:
-         interrupts:
--          minItems: 48
-+          minItems: 61
-         interrupt-names:
--          minItems: 48
-+          minItems: 61
- 
- unevaluatedProperties: false
- 
+ 	ret = rzg2l_irqc_parse_interrupts(rzg2l_irqc_data, node);
+ 	if (ret)
+ 		return dev_err_probe(dev, ret, "cannot parse interrupts: %d\n", ret);
 -- 
 2.43.0
 
