@@ -1,84 +1,84 @@
-Return-Path: <linux-renesas-soc+bounces-28010-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28011-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UEwyNtv/hWnUIwQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28010-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Feb 2026 15:51:07 +0100
+	id SAdTA+D/hWlXJAQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28011-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Feb 2026 15:51:12 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AC39FF334
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Feb 2026 15:51:07 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07307FF344
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Feb 2026 15:51:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 8B6A7302C316
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Feb 2026 14:50:46 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 0526A300E181
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Feb 2026 14:50:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D384425CD6;
-	Fri,  6 Feb 2026 14:50:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65E3442668E;
+	Fri,  6 Feb 2026 14:50:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pIWoxU3Z"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EjwNNDEB"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F264A425CC0
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  6 Feb 2026 14:50:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B72D4219F9
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  6 Feb 2026 14:50:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770389443; cv=none; b=JjG/BDFghzm9X4PEHdTbuJoyZWe0z7IAc9O0PCAoQUsMDJZrP1oZ967YaIoPc7VpCIqglJXeRrIxQ5xE/+QWuScnahQnRKV6wWoK8dYL4gpdnV3tGrL1yK9V/Dn3TdPXKPHW0sX0ojXiekyCb8UXnNas1ipeg6BrVmURGknnimY=
+	t=1770389444; cv=none; b=l/wtgiayaA77KTPc4hAcc83FDL1EvRZbIZBBUjhKTlqbA6t3r/f6cX1K3CKQptA79sBG8bzVBYrYWsE9GsxyIE9hb39LJ7Mf4hluwn5ezMuuzcXpYbKA3eaBoSGQtlSGbKpbV0g/Jkhd4nRR6aloZoD3fzigR3FfVbXpKrjlq+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770389443; c=relaxed/simple;
-	bh=33n8yIN+nVndHUM92vsEWQbIZQCGyEl0FMmvY5W0kN8=;
+	s=arc-20240116; t=1770389444; c=relaxed/simple;
+	bh=4+PpkEvLVppBd9AStXNzeyj47I1zwulcWEqE+HFfUW8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Svp3kX9V/6LqSLkk5FcQviB6vS6muxhNUqgQE2eC5HK0u+k2Unc1fbXZYQjGucE0XcnRFi6GCGsqLdpAXavaZOnYRMsOBPRZV6E4rNaEPRMzD3NIa/eiCCoW8U6yR3nnHDQNK6zberqVt9mlA4lzfF+pZ8kYf8R41UqT1cMDAaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pIWoxU3Z; arc=none smtp.client-ip=209.85.128.51
+	 In-Reply-To:To:Cc; b=TKaHCSj3qw1YwNsNZQPFM9J+mSaoCu8oLnXvQYLd5rmyn78UKchm4kNUQx8CozlebBDQL+JERBgTrP9Gjo4HBwu4G0U8PDd498WCnYWCbFm6CZQNe1RSOHq9TiUyUuHu52eCZ6tBxBAELXEHF+eFVoaapIuZk8+cTaCzs3np9oc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EjwNNDEB; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-480706554beso8442575e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 06 Feb 2026 06:50:42 -0800 (PST)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-47ee0291921so7942155e9.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 06 Feb 2026 06:50:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1770389441; x=1770994241; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1770389442; x=1770994242; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2jYI1uALYJkFrAPwPw3yluO6uCrxkdhLf+K00rEaGlg=;
-        b=pIWoxU3ZxjGMqR7oN9B8mOPd9Z2Wq/F6XXZHPmFus4jVNo3JlS6PxYNBMYfe1kVc0H
-         gAmvDD354q4xIkJld53LTeAWdJIT/hVQdYtaH9pjoZ1zR/TL3E4YZqU5fY70wmpCZz5s
-         xZlGkDeKetFUx1pOA4GilIemCaDeqQclAj7SvsqhoJxCnZUsFgmsustfGZW/LbwT+sCr
-         pHR3ZJ5J/L4olbo7XJB2hnqAWrsGuI5MW2NRqqBcifyMmwU9yTYenYjZrA9EeqILuARa
-         DpKTKYNYdWInYIYZLhw//zfB66/DwTt5sSvqDDf0NnezJr2bUvQlzmTMm2NxVJPyMbLU
-         AKTw==
+        bh=q6ZulV8DKnWt3EyGwh9rVroKMQ2zfFhCEaYa/TnkFaA=;
+        b=EjwNNDEBrrKSyjdg178gf0CV7JDaH01NHlFgqVuX7+G/2Rewnzem8vNuN9BAszuq7/
+         h0grdjbqPkmycLvqYy/wnA9pyi6GJhP4iXs91sFjD90wxrcl6uVQ6RWoJZgAuWOPNHPp
+         qt6oVX5gAA8dtPwyRGCEKglWqWHUWC3/CRrpFFMqtSda4IbPy2FeMw1oiJw9I+h7WL4P
+         +BopJ4rXC33+lnEa6/SWIkFCp/lqttilYhp4L/pzOVLjmQM1qz/UOQ/UIj3p9wjjNM7v
+         PI4+iFnoTSuc6+1ZS347azDynRAJbq+LlwKqbkNAGWd/+sODjvUSY+xHCJXlW9whYJzJ
+         uJ9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770389441; x=1770994241;
+        d=1e100.net; s=20230601; t=1770389442; x=1770994242;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=2jYI1uALYJkFrAPwPw3yluO6uCrxkdhLf+K00rEaGlg=;
-        b=Y1qi8dGt8TL3SJeP8WxiTfvKD8xWxVEtYFov/rncl2xd1lYMeJ+RXs8q5jTd423POJ
-         5XtkMJPx7ndipNzV3tvk99jNI/6gY1ORmsdx9Dg/52tzbZw3hP2D39Gx0QJ9gC87udAy
-         /kN9iT+9CNmdTggZSzHtKXHyHs+/JR57VLovZHIWsxxLi4+VK9LCnHH4KMWgMKzpNvYh
-         iLdLsi0Wr13ojyy7/5cJvURFSfSc243jiy/oYTlLnrm/iMdu5ws34QkAEMH2+n0XXRq7
-         7ZbHPRVQ+0Dby6yuttAsCZVREtxdHAiR6cw7ujZXqSraryla3GYlDno04vaouYzPBtei
-         wjcQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU2emBtWgutBxhfMBHGDyvxXi0zVsjdQKZea6kViRhdywlsmwn/jlKoTYLcIuPRzmDivAa1nHifbI7Az5sndOHfFA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxNXvXhDudiCv75Hpy6q5aiPmtM06aHaHhIaPpr7G9hdkNjnqzF
-	IslUMR2GINbZHj3NV97OtmCPviv4z3Rb6qNA3qkBTYS4SHo0L5jl2E1mrRpPk2IAmxo=
-X-Gm-Gg: AZuq6aIU2HAZH65SCXS9ozloaClJuQ0X7ejeUyz3AG75cm8ZTJpTwXdoj88VIXQSfE5
-	Qz/IEuTHzxDdhumLi4q9uqZG5D+8TAEAdDXpc4uJIu7vBQXzNTHSSLhGm5tjLioOjI68ZjE7NAD
-	17uvkeh1Vijq+zGtcXRSyy67qHu9P47XOpXFtCrvQc8EkKpfqZlgSFBn5vgGTTxfti6Eb3w6m61
-	877V7M0XLz3pKr+MQcICA2d8EeM2Kke5fsCq3HrUAUKOqNxsAE9r++9+mCq5YOHT+VGEgboupdj
-	zZ214f0EBF4AAxNi4RmCTFwrKybXOU3anb8gebP1IFqJYzbrJNsG+IU5PW8/fxS5wUXcS//rMZw
-	8pp7AKJVcsGWetmRNKmrIDwVERUA5Xm7wOp2gczIZsI7DrcOOFnGWoE6aeHRwzcdUUu3mB7VepC
-	iwhdLUHtNXNnXkFiBXetaoRTPcyfQ1ToXS
-X-Received: by 2002:a05:600c:3553:b0:477:9976:9e1a with SMTP id 5b1f17b1804b1-483201dc5bamr44985425e9.6.1770389441261;
-        Fri, 06 Feb 2026 06:50:41 -0800 (PST)
+        bh=q6ZulV8DKnWt3EyGwh9rVroKMQ2zfFhCEaYa/TnkFaA=;
+        b=b47Fyspt6L22XeYCuljqLSTNtp/+a4evO4g0c/H3Za9cxnk2pSRoGuNBIQXSZhPczZ
+         IKCDawaN7tmcgQ5LqdoppEI7ZMnDMYKwNdRP4lHlvhan83DuePMMLNpiakNiiLjrrFi+
+         aCgLV1mBRQ7h1DDOBKuBVeeiHrYqdTbFCgHy8i2alZxqBpKNJgR8Oe4Cq+N7b+rxSAVN
+         zciRqe/UWWhmzL/xeCATEQWqCkb9QpaYM7AfQLSEZt923u0OmNqqvAfmPABq2UlYeYd3
+         k8ZFzZQec0N0sW7nlsJOvTQnfnTq/16xk0k4YNbPXn9uZ/vh3UWX5Ry6Awk0+/Pahwra
+         4ccQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXiMPWKu3ka3XKTvoju4KTLyDJrxr0QNo63dKeHIjTG9Ilya9ECg37QKQ5YZLndEqvHRLV7zSIzNTNcEE43oDO4iQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzxUd6OSDR0FoTJ8KlnG7/SnWhnkETj7GLQ0u9Q1rCi908iIrOq
+	BmqTcjdhW80cezPa87liLF+tVtpc/PNhFb3nDtbGGTfiBI0NiTFP8zJ6leB74RXclxY=
+X-Gm-Gg: AZuq6aKsptcIJWB2Gc6vlhrY8O/S11EGd1JVPidUKlKYOMKHZ+H2g9gGEN24sLrqwmy
+	OmZEG5C24s/m1gVZlAViHmy3kErocMxLopX73L8lzhRaIUmlP1FXKRRJRPiomjxCHE5+wVfjA6r
+	a+CAT+dIFsvfpTOtGiPc7+LwqigOkx+Em3mZ5txy4YaKcatON0Wd7B2toY2EMehugB8c37uKafL
+	blNSrCI3oi7XETB+ehsIW4TzYeTMubthQfif6IZpdgiczjbs9FzXGE7zd+Yw5ZtC+no0pHYpWLi
+	viBoUmSaxRb+pLlS+TAMfcnqkBON7DgQMGobcFGdnsF1DvpgOwUon6nqZvxWnTxZo2h7EJ7fWBK
+	4JkFNun3IZqrrJ2XQ900P+/e514vgMzZpVP+AeRlQIVswr9vWn5AHW+MVe41CYCa/z2Xy49XCwC
+	m96ezrir8CnNirNMyQgs15xy+8Q+Rwf0ns
+X-Received: by 2002:a05:600c:524a:b0:47a:94fc:d057 with SMTP id 5b1f17b1804b1-483201da912mr43057215e9.2.1770389442285;
+        Fri, 06 Feb 2026 06:50:42 -0800 (PST)
 Received: from arrakeen.starnux.net ([2a01:e0a:106d:1080:8261:5fff:fe11:bdda])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4832a38425asm3825805e9.7.2026.02.06.06.50.40
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4832a38425asm3825805e9.7.2026.02.06.06.50.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Feb 2026 06:50:40 -0800 (PST)
+        Fri, 06 Feb 2026 06:50:41 -0800 (PST)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Fri, 06 Feb 2026 15:50:30 +0100
-Subject: [PATCH v3 2/9] pci: pwrctrl: slot: fix dev_err_probe() usage
+Date: Fri, 06 Feb 2026 15:50:31 +0100
+Subject: [PATCH v3 3/9] pci: pwrctrl: rename pci-pwrctrl-slot as generic
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -87,7 +87,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260206-topic-sm8650-ayaneo-pocket-s2-base-v3-2-5b79c5d61a03@linaro.org>
+Message-Id: <20260206-topic-sm8650-ayaneo-pocket-s2-base-v3-3-5b79c5d61a03@linaro.org>
 References: <20260206-topic-sm8650-ayaneo-pocket-s2-base-v3-0-5b79c5d61a03@linaro.org>
 In-Reply-To: <20260206-topic-sm8650-ayaneo-pocket-s2-base-v3-0-5b79c5d61a03@linaro.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -103,20 +103,20 @@ Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
  linux-pci@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  Neil Armstrong <neil.armstrong@linaro.org>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1634;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2079;
  i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=33n8yIN+nVndHUM92vsEWQbIZQCGyEl0FMmvY5W0kN8=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBphf+6wfd9X2ApDg141fdSpbDng+mO6Z+zOXHu9eg6
- M4/mWo+JAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCaYX/ugAKCRB33NvayMhJ0c/nD/
- 91EiA3VEDhUX6UIxmCvfy9W4XChkZ1cEtc5g8VE/cQHAGkWoZIL91prNqzrXrmUlPenRlsw8fq/b45
- iDe4m/UwhnGI+dNzJEu0VzEddTbWZxSIkbCFkKvOPhFt2U8BFNFOhlyZkV9dUEWvRkAAlrWSHFMlNz
- kFcD5IsJb7dskSKhtbpeSCS3CoP7ORsCb3QumrzrLXBVHj/uKevbNjO99n3M80ucYUi6Vtdk0+eWb6
- YECx3oBKx+l5FTNm5ywUPrwXSViI9gB4mQBWu0hZb0vwHh0ybA13JFezljGtKmuBmJjdVccyD7MVVp
- HfDQ1OYUcX24Blyl+uwehjf3cnreBtsiln5bSp9M44GLxXkzv8few8SC5+gdn2VFofFeZpQA/c1tdW
- Y7DHfZ9Cf4PVKDnwNcDSwWdDUhJa2HqQH0RQF/4cWGMEfA6DRjy1Doxvf/Wg7CNVUkXI0r8mlY0w5U
- 4/SYb23Ibxkg2aT1hxJkog6Crwizr7R8MZr3uaBmrzQobDvZoRcRQN7/VjcnWyML3xgapKjZEfPLSH
- gxUxHSlu6vtKECu49Hr3dl0ngZdu1j/Hw8OmAi2KGb2YVJz0yYM1EPxK4PHUhtMeHZGekDAHJhC32O
- 1nx2BwpXKFT0B1UekV4lCL0EY86zq8rU06mQyPZL/M2/AvFdx+Nd5mKcVDAg==
+ bh=4+PpkEvLVppBd9AStXNzeyj47I1zwulcWEqE+HFfUW8=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBphf+7ocCG2ZjDcT8cW5NLfgp2ZrgwZ4re/8MlPEy+
+ c8vWDU2JAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCaYX/uwAKCRB33NvayMhJ0a5IEA
+ DGRiJWHJEvqohf/fG+dsJZloy1MSYYe+hZVPyJqK23mr6VDpwsiJHQL+QAbJFV5d7d+aONZ/RFn+7t
+ vhZV6zK1gZMbGGLH8lC+j3BQK+R5WoYxUPcm6RhjjEeoPHLPj/JP0zxedFbX6L/MUMwVwKO5Eg1R5v
+ xgZXb394v3MBaqN+g5QLWk3WryeefOdiy6a3oEPjMvAsOesnkh4NpMuBopsDUlMjZn/igHkD5FMOqA
+ gwXF6GVV3yt5yrEEY48EHKkeW+KvTE/6Ez6zaqHmye1I6IsRL8Es0fbZMQ8uBFWPvjmuyjr8UqgXFJ
+ C3OT3KKB8HVDGIAME9ORRYnYE8H4JsrCgeYENEuS28GpHhmNXhVSQxpt1cmZAgRD3B4Zu6BA7ZWVdf
+ MeKcpp/MflV4WL+ERiDYEZA5OLWZdsNgc0AsARDGABgZ54jSsX28hHcpQvKiiojPjyZzOK1NBuAetO
+ 7tU4lwa3xeAJD4gNRhIFEkyggPJEGQXMtqsQcYYTh9xQkvVkVefp2WN+eWaSs5le9cYma2f2P5XuLz
+ Eyge+KwAnGLokcLolQwdHEGJVQU739qKWn1P0tg7tafLJvdLyp1egOUSsCw66rXpB8eE2mBhOJq/DZ
+ UkF6JsgUDbm6yQgf08c9NkBHSUIy/jNydTyB2ra1CepS0cwPOXYR5mT4VLnw==
 X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
  fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 X-Rspamd-Server: lfdr
@@ -125,11 +125,11 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
 	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-28010-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-28011-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	FREEMAIL_TO(0.00)[linuxfoundation.org,kernel.org,glider.be,gmail.com,google.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -137,66 +137,71 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCPT_COUNT_TWELVE(0.00)[18];
 	MIME_TRACE(0.00)[0:+];
 	DKIM_TRACE(0.00)[linaro.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[neil.armstrong@linaro.org,linux-renesas-soc@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.985];
+	NEURAL_HAM(-0.00)[-0.983];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 9AC39FF334
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 07307FF344
 X-Rspamd-Action: no action
 
-The code was not returning dev_err_probe() but dev_err_probe()
-returns the error code, so simplify the code.
+The driver is pretty generic and would fit for either
+PCI Slots or PCI devices connected to PCI ports, so rename
+the driver and module as pci-pwrctrl-generic.
 
-Suggested-by: Bartosz Golaszewski <brgl@kernel.org>
+Suggested-by: Manivannan Sadhasivam <mani@kernel.org>
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
- drivers/pci/pwrctrl/slot.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ drivers/pci/pwrctrl/Kconfig               | 8 ++++----
+ drivers/pci/pwrctrl/Makefile              | 4 ++--
+ drivers/pci/pwrctrl/{slot.c => generic.c} | 0
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/pci/pwrctrl/slot.c b/drivers/pci/pwrctrl/slot.c
-index 3320494b62d8..08e53243cdbd 100644
---- a/drivers/pci/pwrctrl/slot.c
-+++ b/drivers/pci/pwrctrl/slot.c
-@@ -40,17 +40,14 @@ static int pci_pwrctrl_slot_probe(struct platform_device *pdev)
+diff --git a/drivers/pci/pwrctrl/Kconfig b/drivers/pci/pwrctrl/Kconfig
+index e0f999f299bb..0a93ac4cd11b 100644
+--- a/drivers/pci/pwrctrl/Kconfig
++++ b/drivers/pci/pwrctrl/Kconfig
+@@ -11,12 +11,12 @@ config PCI_PWRCTRL_PWRSEQ
+ 	select POWER_SEQUENCING
+ 	select PCI_PWRCTRL
  
- 	ret = of_regulator_bulk_get_all(dev, dev_of_node(dev),
- 					&slot->supplies);
--	if (ret < 0) {
--		dev_err_probe(dev, ret, "Failed to get slot regulators\n");
--		return ret;
--	}
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret, "Failed to get slot regulators\n");
+-config PCI_PWRCTRL_SLOT
+-	tristate "PCI Power Control driver for PCI slots"
++config PCI_PWRCTRL_GENERIC
++	tristate "Generic PCI Power Control driver for PCI slots"
+ 	select PCI_PWRCTRL
+ 	help
+-	  Say Y here to enable the PCI Power Control driver to control the power
+-	  state of PCI slots.
++	  Say Y here to enable the generic PCI Power Control driver to control
++	  the power state of PCI slots.
  
- 	slot->num_supplies = ret;
- 	ret = regulator_bulk_enable(slot->num_supplies, slot->supplies);
- 	if (ret < 0) {
--		dev_err_probe(dev, ret, "Failed to enable slot regulators\n");
- 		regulator_bulk_free(slot->num_supplies, slot->supplies);
--		return ret;
-+		return dev_err_probe(dev, ret, "Failed to enable slot regulators\n");
- 	}
+ 	  This is a generic driver that controls the power state of different
+ 	  PCI slots. The voltage regulators powering the rails of the PCI slots
+diff --git a/drivers/pci/pwrctrl/Makefile b/drivers/pci/pwrctrl/Makefile
+index 13b02282106c..f6bb4fb9a410 100644
+--- a/drivers/pci/pwrctrl/Makefile
++++ b/drivers/pci/pwrctrl/Makefile
+@@ -5,7 +5,7 @@ pci-pwrctrl-core-y			:= core.o
  
- 	ret = devm_add_action_or_reset(dev, devm_pci_pwrctrl_slot_power_off,
-@@ -59,10 +56,9 @@ static int pci_pwrctrl_slot_probe(struct platform_device *pdev)
- 		return ret;
+ obj-$(CONFIG_PCI_PWRCTRL_PWRSEQ)	+= pci-pwrctrl-pwrseq.o
  
- 	clk = devm_clk_get_optional_enabled(dev, NULL);
--	if (IS_ERR(clk)) {
-+	if (IS_ERR(clk))
- 		return dev_err_probe(dev, PTR_ERR(clk),
- 				     "Failed to enable slot clock\n");
--	}
+-obj-$(CONFIG_PCI_PWRCTRL_SLOT)		+= pci-pwrctrl-slot.o
+-pci-pwrctrl-slot-y			:= slot.o
++obj-$(CONFIG_PCI_PWRCTRL_GENERIC)	+= pci-pwrctrl-generic.o
++pci-pwrctrl-generic-y			:= generic.o
  
- 	pci_pwrctrl_init(&slot->ctx, dev);
- 
+ obj-$(CONFIG_PCI_PWRCTRL_TC9563)	+= pci-pwrctrl-tc9563.o
+diff --git a/drivers/pci/pwrctrl/slot.c b/drivers/pci/pwrctrl/generic.c
+similarity index 100%
+rename from drivers/pci/pwrctrl/slot.c
+rename to drivers/pci/pwrctrl/generic.c
 
 -- 
 2.34.1
