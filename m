@@ -1,59 +1,69 @@
-Return-Path: <linux-renesas-soc+bounces-27965-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-27966-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MP18LXrdhGkV6AMAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-27965-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 05 Feb 2026 19:12:10 +0100
+	id sOYRG3czhWkl+AMAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-27966-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Feb 2026 01:19:03 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16434F6610
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 05 Feb 2026 19:12:10 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0A6FF88BA
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Feb 2026 01:19:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4DF9930580BE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Feb 2026 18:10:24 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id C0F32300F167
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Feb 2026 00:19:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15756308F23;
-	Thu,  5 Feb 2026 18:10:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25C531DFDB8;
+	Fri,  6 Feb 2026 00:19:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="t+lxdw18"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zrgdw+iR"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C241E3081A2;
-	Thu,  5 Feb 2026 18:10:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02104CA4E;
+	Fri,  6 Feb 2026 00:19:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770315024; cv=none; b=HKB2HhIweK82IX0ExeZH+pxtbyuHEysFxa2P6/psZpbrQ0Wk09A+Qd2kJfJQTCjwJGyvITo3imhG8Q958saHKZGyno5QrS04MZoeSIgrAapmeWtQ1T3dK1gQlkzKWC3w0Xejy/wf88tiYPqDAqY8KhCy6Mt5GjnSlq+7jXLmskE=
+	t=1770337141; cv=none; b=lweKwvuXKcQDuOt6cekBjW1nv33bkgyh6mY7KDCBpDcqgIDXnLlrjctHoIswCvPquzb9pekUIDbDJpVmAViCPmR++VhLyDkVc0IG176XMbd42EHwB5Bqp7iJWNHHhcC0/md5Wd1D3YE0dXdkEhm+/tbM5+UpWhbwQHtAIJSBIN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770315024; c=relaxed/simple;
-	bh=Kp1EiYbHl52gcoo53/+Mm7ZQjp2iu07iybEcu+QABEU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=oGfF3GjoIDgX3X7bzvURX9+HO7kuGA2UuF6Rb5Pzg4n73gnA3C7JYsHnMdZNWJswmT6cg8w0Cb3CMpxswe6siQ7qdv+5sab6cPX1yVdZz/nvMYWE4Y8v8KdHLYdwjgj34F6WCDhQ8aCtRVP04hqDEGYbc5Fz8umdheZf35VKWd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=t+lxdw18; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 7D50D4E42425;
-	Thu,  5 Feb 2026 18:10:22 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 498466074D;
-	Thu,  5 Feb 2026 18:10:22 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CE2F5119D1708;
-	Thu,  5 Feb 2026 19:10:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1770315020; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=WccFrzV37pjQDcMtab7f2QieezsSKecv42H/QrPd54o=;
-	b=t+lxdw18M+1R7h+F5pljwNQw+inxi8Dm8uL8YZcM4mmOzXxVuuv7PMwwfY55sn3+5d/jtb
-	IHzC+NNdEXkDXeU0GMU/N7M4yO2OEdidRYsyJnPum2yAnUuBDhCCWgoqL8bCii5WyLX1+N
-	40w5ziXD7v73gx9IqBuKRNcy/VRqxElzqdi/qso3nUJGf+mBaBPmrPiXEV9gV6EUQh+Ff9
-	C/j/7aAAHW/N62KNUrhIb7ySTrcXJMLON0lELzKCNv4+LhzAG92AwS2+K47u2snA18aiNn
-	A6naD5E2BffC59m5jfUPQEhVLbhJtgQRyqeejK48je84Xk75V3D2ZXI1p7ojTw==
-From: "Miquel Raynal (Schneider Electric)" <miquel.raynal@bootlin.com>
-Date: Thu, 05 Feb 2026 19:09:51 +0100
-Subject: [PATCH v5 4/4] ARM: dts: r9a06g032: Describe the QSPI controller
+	s=arc-20240116; t=1770337141; c=relaxed/simple;
+	bh=V8opFpQ39R30vQfM2h6i3ZrP+S7JGt1EHVc/iQHSGPI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=VkZuC8KDqkqRdugVWbNs3kd+W1PXg9cq6AcTJz5tCEHljNSK70xjDpPep4XSKhd4mYi8pSWwj2fKNbDa8FEKOqZcRKVzm7NUdhyCJNYK2r8qcB7r6CSNHlyp3BEhW/vcaBhxV2XYYY/+hQD+Pne1h5exJUXjuPVUazls0KioHCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zrgdw+iR; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70F94C4CEF7;
+	Fri,  6 Feb 2026 00:18:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770337140;
+	bh=V8opFpQ39R30vQfM2h6i3ZrP+S7JGt1EHVc/iQHSGPI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Zrgdw+iRA1ATXi9YtrIOUNfoEGQyYcVZflrperRFRa7onPiiZVy/Z2Uh5CCr6oqxT
+	 2mzx/Fb2hQDFQT42VmM9KoTfxJUFSyhrmj7SxJe4t6By/burc8tdjmHVORQjS2G6/j
+	 B8vUO912/d/BKqOQRmV+9F0H78jmRLwiTBcAc5dh7kfZk9YYwjiSrNKqF/euwtwk2O
+	 P2HXmmrNc7Pjktu9GEtFNFvRnKELssJKl5oj5Ujb3mQVnZfZYNsi45FWnsDGPmej4B
+	 8qhksnacuaRzyzN5ayXz6WkjiDBiT1VJR4wcNxi6xWDdjTBzCOZooiueUT8EKUS35b
+	 cwhrWilWdVDCw==
+From: Mark Brown <broonie@kernel.org>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, Vaishnav Achath <vaishnav.a@ti.com>, 
+ "Miquel Raynal (Schneider Electric)" <miquel.raynal@bootlin.com>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ =?utf-8?q?Herv=C3=A9_Codina?= <herve.codina@bootlin.com>, 
+ Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+ Vignesh Raghavendra <vigneshr@ti.com>, Santhosh Kumar K <s-k6@ti.com>, 
+ Pratyush Yadav <pratyush@kernel.org>, 
+ Pascal Eberhard <pascal.eberhard@se.com>, linux-spi@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org
+In-Reply-To: <20260205-schneider-6-19-rc1-qspi-v5-0-843632b3c674@bootlin.com>
+References: <20260205-schneider-6-19-rc1-qspi-v5-0-843632b3c674@bootlin.com>
+Subject: Re: (subset) [PATCH v5 0/4] spi: cadence-qspi: Add Renesas RZ/N1
+ support
+Message-Id: <177033713720.233295.10091402789767547570.b4-ty@kernel.org>
+Date: Fri, 06 Feb 2026 00:18:57 +0000
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -62,95 +72,82 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260205-schneider-6-19-rc1-qspi-v5-4-843632b3c674@bootlin.com>
-References: <20260205-schneider-6-19-rc1-qspi-v5-0-843632b3c674@bootlin.com>
-In-Reply-To: <20260205-schneider-6-19-rc1-qspi-v5-0-843632b3c674@bootlin.com>
-To: Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Magnus Damm <magnus.damm@gmail.com>, Vaishnav Achath <vaishnav.a@ti.com>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- =?utf-8?q?Herv=C3=A9_Codina?= <herve.codina@bootlin.com>, 
- Wolfram Sang <wsa+renesas@sang-engineering.com>, 
- Vignesh Raghavendra <vigneshr@ti.com>, Santhosh Kumar K <s-k6@ti.com>, 
- Pratyush Yadav <pratyush@kernel.org>, 
- Pascal Eberhard <pascal.eberhard@se.com>, linux-spi@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org, 
- "Miquel Raynal (Schneider Electric)" <miquel.raynal@bootlin.com>
-X-Mailer: b4 0.14.3
-X-Last-TLS-Session-Version: TLSv1.3
+X-Mailer: b4 0.15-dev-47773
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-27965-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,glider.be,gmail.com,ti.com];
-	DKIM_TRACE(0.00)[bootlin.com:+];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[kernel.org,glider.be,gmail.com,ti.com,bootlin.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-27966-lists,linux-renesas-soc=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	RCVD_COUNT_FIVE(0.00)[6];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[miquel.raynal@bootlin.com,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	FROM_NEQ_ENVFROM(0.00)[broonie@kernel.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 16434F6610
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: E0A6FF88BA
 X-Rspamd-Action: no action
 
-Add a node describing the QSPI controller.
-There are 2 clocks feeding this controller:
-- one for the reference clock
-- one that feeds both the ahb and the apb interfaces
-As the binding expect either the ref clock, or all three (ref, ahb and
-apb) clocks, it makes sense to provide the same clock twice.
+On Thu, 05 Feb 2026 19:09:47 +0100, Miquel Raynal (Schneider Electric) wrote:
+> This series adds support for the QSPI controller available on Renesas
+> RZ/N1S and RZ/N1D SoC. It has been tested with a custom board (see last
+> SPI patch for details), but has been tested by Wolfram (thank you!) on
+> the DB board.
+> Link: https://lore.kernel.org/linux-devicetree/20260116114852.52948-2-wsa+renesas@sang-engineering.com/
+> 
+> Adding support for this SoC required a few adaptations to the Cadence
+> QSPI driver which have already been merged (except one regarding clocks
+> handling). This series contains the remaining patches, the ones actually
+> adding support for the RZ/N1 flavour.
+> 
+> [...]
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Signed-off-by: Miquel Raynal (Schneider Electric) <miquel.raynal@bootlin.com>
----
- arch/arm/boot/dts/renesas/r9a06g032.dtsi | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Applied to
 
-diff --git a/arch/arm/boot/dts/renesas/r9a06g032.dtsi b/arch/arm/boot/dts/renesas/r9a06g032.dtsi
-index 8debb77803bb..47143e6636d2 100644
---- a/arch/arm/boot/dts/renesas/r9a06g032.dtsi
-+++ b/arch/arm/boot/dts/renesas/r9a06g032.dtsi
-@@ -66,6 +66,18 @@ soc {
- 		#size-cells = <1>;
- 		ranges;
- 
-+		qspi0: spi@40005000 {
-+			compatible = "renesas,r9a06g032-qspi", "renesas,rzn1-qspi";
-+			reg = <0x40005000 0x1000>, <0x10000000 0x10000000>;
-+			interrupts = <GIC_SPI 64 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&sysctrl R9A06G032_CLK_QSPI0>, <&sysctrl R9A06G032_HCLK_QSPI0>,
-+				 <&sysctrl R9A06G032_HCLK_QSPI0>;
-+			clock-names = "ref", "ahb", "apb";
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			status = "disabled";
-+		};
-+
- 		rtc0: rtc@40006000 {
- 			compatible = "renesas,r9a06g032-rtc", "renesas,rzn1-rtc";
- 			reg = <0x40006000 0x1000>;
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 
--- 
-2.51.1
+Thanks!
+
+[1/4] spi: dt-bindings: cdns,qspi-nor: Add Renesas RZ/N1D400 to the list
+      commit: 2b97f5cd1a956a9ac948ec57775600158988dadd
+[2/4] spi: cadence-qspi: Kill cqspi_jh7110_clk_init
+      commit: 324ecc7788c2e21d0d9197a8c015ff75382122d9
+[3/4] spi: cadence-qspi: Add support for the Renesas RZ/N1 controller
+      commit: a40236feb62ccbf2b36d288550a483122b3205e5
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
 
