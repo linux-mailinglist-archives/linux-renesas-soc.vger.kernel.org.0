@@ -1,61 +1,61 @@
-Return-Path: <linux-renesas-soc+bounces-28001-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28002-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uCARB5HVhWl7HAQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28001-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Feb 2026 12:50:41 +0100
+	id WN/SHUHZhWlZHQQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28002-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Feb 2026 13:06:25 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73977FD5F2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Feb 2026 12:50:40 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8368FD778
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Feb 2026 13:06:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 22B5E301AA71
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Feb 2026 11:50:17 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 357C2301F9E2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Feb 2026 11:58:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7BC136404D;
-	Fri,  6 Feb 2026 11:50:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CF9D35EDC0;
+	Fri,  6 Feb 2026 11:58:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fREOkgcG"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RKCEudLI"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9575E33CEB2;
-	Fri,  6 Feb 2026 11:50:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A5D021A447;
+	Fri,  6 Feb 2026 11:58:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770378616; cv=none; b=RiRahXUMHZx0gxU80Z32danbHkagTbwB9trDG3S/i3MXa450SlUvfRIiT8Z4qi3jRXVPTjzOiOlXw+HeginovirNNSy0JJhc2sJ0rz3Eu6/0mkYt/A6pXkv3rPQNgSmEcXB3Hdzhlvp4vpdf2f3JP8oejfS4K01lKvN3Hj61NjQ=
+	t=1770379114; cv=none; b=hCo0+2vSrsNckku4AmUPpPsj13DO3DcsbAZ3HWiYB5SIr+bdPY3WodnmOJa5dlAYty2Z6DmiLgGGnqh5hHWIlYdMv7/dp6peIpdYn3UudQBdNQ/mR2wG/qJz25ghtYL80vppPCV+hXQZuR5G+WHHt5STC8evrM12UlDNcnMauZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770378616; c=relaxed/simple;
-	bh=mtO+0AyoAlMKJC5KjXWpuclRRsTnwlWxefNVs0FBL44=;
+	s=arc-20240116; t=1770379114; c=relaxed/simple;
+	bh=eYTjUXr65pge3pSl4dp1wBDg1m2SjkHvIF/XJPWTftA=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=qCJ6LWacJuTECQO1yabEpG3+89bmap9zlORMk/avWOxEbRNfY0rHpy+nuyfkAAoFlob7aGkw2q9yObA3he9dLoMTexh5fc2w3oommeHkQkBUganZXM5S3TiHF47W6ikQhsWlpjZYJINIGRxCpLRSBbQffAEJ94v3OHG0NqJxJ88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fREOkgcG; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97E3BC116C6;
-	Fri,  6 Feb 2026 11:50:15 +0000 (UTC)
+	 MIME-Version:Content-Type; b=WCGBSom8qGT7b0fkvsqP5uYZRWPYAkB5hbWx9DSyLV0yFEqhRwvMh0HXRVwI+mwFLcNKKTzNotb2l7wT7nYrmR66BDppvGiT0KyW5fCQLtKJZPegAzv3MlMHSVfYNlUjZweazTTD5t3BuLk7HEofdeVmVUdioxW5HpkaOO7svag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RKCEudLI; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74EE4C116C6;
+	Fri,  6 Feb 2026 11:58:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770378616;
-	bh=mtO+0AyoAlMKJC5KjXWpuclRRsTnwlWxefNVs0FBL44=;
+	s=k20201202; t=1770379113;
+	bh=eYTjUXr65pge3pSl4dp1wBDg1m2SjkHvIF/XJPWTftA=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=fREOkgcGKYWJkKMtp29SVFxTtiayYRcy4Y8mGmyWMry+ah41KuCG0Govqf0akA9IZ
-	 cm6tJjNCwYTlhY2DJ8LNudS0PqTOJat+oxpABTXwC6IWEkm+nWmYbAqRIkuhoqrgYA
-	 zyMkc6J0FlM1ukLJD0aT+biFCO63wkUnUSZCePizoktxFszlBl5dslKQc134FXOBUO
-	 HHw5OEEp/vlAgGviPq5Ga6YAtCucmgUOPDju419KmnQgEXp26CspDmjaHnmfD6D/F0
-	 vCffanr/M4s1Y7s7cfT1v4Qphnczs29V/XwA0qhVTJBYbW62UmknWIDF+KyspqUcEr
-	 2TbDEc8lX9K/A==
+	b=RKCEudLIByIbaCxi4dNo8gUwrQnr5YdjrSKCcIKICAS9EVJAG/0bdKaWmL8/ORfZJ
+	 WFykl5AvL9Q1T4nSrJDaIVzJ4WDFcdRrXHk9YX5yuIrMGu+dsjk3C3wnnz1jO/qiAA
+	 bqko67pKgU/zlOO3oxxNZA5JZmEoPcLFFPb9EsUGvxEzwyk6ahwrl2CGjtBJXCjT6Y
+	 aHu03/4kXi0iOWs5BDlDo0cOgcN2Dw81d8ZtYhwuEEnfcSlgszmdiWCRmkRWzpLtPM
+	 G01K/3H4EAeOuivD7aagWZLwWXcwkZNXQQ3hTqc5j2IxUZhjqgGkt+kZP4LITRy+IZ
+	 bdmiMYW1oRHrQ==
 From: Thomas Gleixner <tglx@kernel.org>
 To: Biju <biju.das.au@gmail.com>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>, linux-kernel@vger.kernel.org,
  Geert Uytterhoeven <geert+renesas@glider.be>, Prabhakar Mahadev Lad
  <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das
  <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 4/9] irqchip/renesas-rzg2l: Drop IRQC_NUM_IRQ macro
-In-Reply-To: <20260206111658.231934-5-biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v3 7/9] irqchip/renesas-rzg2l: Add RZ/G3L support
+In-Reply-To: <20260206111658.231934-8-biju.das.jz@bp.renesas.com>
 References: <20260206111658.231934-1-biju.das.jz@bp.renesas.com>
- <20260206111658.231934-5-biju.das.jz@bp.renesas.com>
-Date: Fri, 06 Feb 2026 12:50:12 +0100
-Message-ID: <878qd6147f.ffs@tglx>
+ <20260206111658.231934-8-biju.das.jz@bp.renesas.com>
+Date: Fri, 06 Feb 2026 12:58:30 +0100
+Message-ID: <874inu13tl.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -72,14 +72,14 @@ X-Spamd-Result: default: False [4.34 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-28001-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-28002-lists,linux-renesas-soc=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	GREYLIST(0.00)[pass,meta];
+	GREYLIST(0.00)[pass,body];
 	FREEMAIL_CC(0.00)[bp.renesas.com,vger.kernel.org,glider.be,gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_TO(0.00)[gmail.com];
@@ -95,62 +95,66 @@ X-Spamd-Result: default: False [4.34 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 73977FD5F2
+X-Rspamd-Queue-Id: C8368FD778
 X-Rspamd-Action: no action
 
 On Fri, Feb 06 2026 at 11:16, Biju wrote:
-> +/**
-> + * struct rzg2l_hw_info - Interrupt Control Unit controller hardware info structure.
-> + * @num_irq:		Total Number of interrupts
-> + */
-> +struct rzg2l_hw_info {
-> +	u8	num_irq;
-
-Odd data type. Whats wrong with a good old unsigned int?
-
-> +};
-> +
 >  /**
->   * struct rzg2l_irqc_priv - IRQ controller private data structure
->   * @base:	Controller's base address
->   * @irqchip:	Pointer to struct irq_chip
->   * @fwspec:	IRQ firmware specific data
->   * @lock:	Lock to serialize access to hardware registers
-> + * @info:	Pointer to struct rzg2l_hw_info
-
-Why a pointer?
-
->   * @cache:	Registers cache for suspend/resume
+>   * struct rzg2l_hw_info - Interrupt Control Unit controller hardware info structure.
+> + * @tssel_lut:		TINT lookup table
+>   * @irq_count:		Number of IRQC interrupts
+>   * @tint_start:		Start of TINT interrupts
+>   * @num_irq:		Total Number of interrupts
 >   */
->  static struct rzg2l_irqc_priv {
-> @@ -81,6 +89,7 @@ static struct rzg2l_irqc_priv {
->  	const struct irq_chip		*irqchip;
->  	struct irq_fwspec		*fwspec;
->  	raw_spinlock_t			lock;
-> +	const struct rzg2l_hw_info	*info;
->  	struct rzg2l_irqc_reg_cache	cache;
->  } *rzg2l_irqc_data;
+>  struct rzg2l_hw_info {
+> -	u8	irq_count;
+> -	u8	tint_start;
+> -	u8	num_irq;
+> +	const u8	*tssel_lut;
+
+You can spare that churn by indenting this correctly from the beginning.
+
+> +	u8		irq_count;
+> +	u8		tint_start;
+> +	u8		num_irq;
+>  };
+
+> @@ -343,6 +345,9 @@ static u32 rzg2l_disable_tint_and_set_tint_source(struct irq_data *d, struct rzg
+>  	u32 tint = (u32)(uintptr_t)irq_data_get_irq_chip_data(d);
+>  	u32 tien = reg & (TIEN << TSSEL_SHIFT(tssr_offset));
 >  
-> @@ -136,7 +145,7 @@ static void rzg2l_irqc_eoi(struct irq_data *d)
->  	raw_spin_lock(&priv->lock);
->  	if (hw_irq >= IRQC_IRQ_START && hw_irq <= IRQC_IRQ_COUNT)
->  		rzg2l_clear_irq_int(priv, hw_irq);
-> -	else if (hw_irq >= IRQC_TINT_START && hw_irq < IRQC_NUM_IRQ)
-> +	else if (hw_irq >= IRQC_TINT_START && hw_irq < priv->info->num_irq)
+> +	if (priv->info->tssel_lut)
+> +		tint = priv->info->tssel_lut[tint];
 
-Ah I see. To make this more expensive by accessing yet another cache
-line. Simply embed a struct hwinfo into irqc_priv and copy the data into
-it at probe time.
+I'd rather make it very clear in the code:
 
- 
-> -	if (hwirq > (IRQC_NUM_IRQ - 1))
-> +	if (hwirq > (priv->info->num_irq - 1))
+	if (priv->info->tssel_lut)
+		tint = priv->info->tssel_lut[tint];
+        else
+        	tint = (u32)(uintptr_t)irq_data_get_irq_chip_data(d);
 
-  hwirq >= priv->info.num_irq
+rather than read first and overwrite somewhere else.
+  
+> +/* Mapping based on port index on Table 4.2-1 and GPIOINT on Table 4.6-7 */
+> +static const u8 rzg3l_tssel_lut[] = {
+> +	83, 84,					/* P20-P21 */
+> +	7, 8, 9, 10, 11, 12, 13,		/* P30-P36 */
+> +	85, 86, 87, 88, 89, 90, 91,		/* P50-P56 */
+> +	92, 93, 94, 95, 96, 97, 98,		/* P60-P66 */
+> +	99, 100, 101, 102, 103, 104, 105, 106,	/* P70-P77 */
 
-This -1 logic is horrible and error prone.
+Please format it so it looks like a table:
+
+	 83,  84,				/* P20-P21 */
+	  7,   8,   9,  10,  11,  12,  13,	/* P30-P36 */
+	 85,  86,  87,  88,  89,  90,  91,	/* P50-P56 */
+	 92,  93,  94,  95,  96,  97,  98,	/* P60-P66 */
+	 99, 100, 101, 102, 103, 104, 105, 106,	/* P70-P77 */
+
+That's makes it easy to read and to identify the number of entries for a
+particular port. The condensed format does not. No?
 
 Thanks,
 
