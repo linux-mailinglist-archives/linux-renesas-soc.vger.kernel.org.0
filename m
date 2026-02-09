@@ -1,200 +1,195 @@
-Return-Path: <linux-renesas-soc+bounces-28045-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28046-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EAHIOuOliWk0AQUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28045-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 09 Feb 2026 10:16:19 +0100
+	id WNAYMsCwiWndAgUAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28046-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 09 Feb 2026 11:02:40 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DFC110D6BE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 09 Feb 2026 10:16:19 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70F2F10DEB8
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 09 Feb 2026 11:02:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 66CE6301778D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Feb 2026 09:15:55 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CD9513059A92
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Feb 2026 09:57:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 491CD353EEC;
-	Mon,  9 Feb 2026 09:15:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEFB133B6F8;
+	Mon,  9 Feb 2026 09:57:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dS/QXwJY"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IHe4hmOl"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5344353EDC
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  9 Feb 2026 09:15:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770628555; cv=none; b=gCq00F77zvCiqOcmBRRO/dPrp7KJZMyCzfhCQVWL5DZ8jZArZnZYYjbKq0vt3DHM2IWYepJMf/1O8Td4/JjuQQMbrC/Pt75hUyNxbi2YxbLKwNm4ybU/y3WA+EQL13qdnSU/A+kd8xLWtHEPrJJKA5Ryc+xwxF8Tfbhqzn3VZKQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770628555; c=relaxed/simple;
-	bh=hCRbplKa9XIjvclI+PlB/dolhnudbQakjP8h3tdWGJY=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=SSb1Qt8OfL1k8SOEOfz9sks0iiMcG4RotWHtNVI4p1D8wiYIilzjm6dvXxgHFgrzRr2vrb4QBLM/MRZ0MvomDLKQxhop24MBpS6mTHZ6k+guy3yMt7PPShKL5GGu/9Ou/KuvFsNJVvH/UHZvrX+kkt2bo7fEwpcbfXq1uPVSlqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dS/QXwJY; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2447B366054
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  9 Feb 2026 09:57:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770631069; cv=pass; b=aCv60lx2B7SGE6Gwpw4DOfwXjYDZvTBxrN/kZwmRKwSOrSlBAka9SIU5fLDgB4GkgadL9fwtpjHZKUQNCDWT3p/DqUZdLEdTF+r9BuXHjdVArWu1eXZEN9ZZqVx9Ye11mnl3zm5vOgDOKjV6RJC1hlp6FqTMKUZbwbEZssVMOA4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770631069; c=relaxed/simple;
+	bh=bC10K83OlDdfvr2htwpjLlKwvpR995Jtaa8b2VaNWRw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QjUke2LAvMPXZjEUzngqXNcMYZOlbM1hl/V7uP1czWy1fz5bKdO0ovQacjfUN9CEctxLAySjqDXhf2TzcKLqGrd8x1A+ias3v7mpwj4CU10oUbhvrqpfKOtqagRPr2TwwfAMmq9vGUiy2g3YFA0iDFp8EUIznuFQdfq6cORjSeI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IHe4hmOl; arc=pass smtp.client-ip=209.85.167.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-4359228b7c6so1642174f8f.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 09 Feb 2026 01:15:54 -0800 (PST)
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-59deec3d8dcso3874594e87.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 09 Feb 2026 01:57:46 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770631065; cv=none;
+        d=google.com; s=arc-20240605;
+        b=PII/ONgVMrjRSgBam5T4WbAdPXXZsDTI3GQw/IN1kP/rWOaLQ6QearVuUgkcA+Pftw
+         wKBwUFChuJE1L0ZVOF7qTIN70r3YfsOtsyqmHJmesnpXG3Y54N6WHxJRZF/RGbpq6FfT
+         ZGejYVafpkTHoIA3pu+20sfNuH8q17GKTy8CeW5V7bBf9Jov5IascUjIpyKLopApI5ee
+         nTVIDsDvQNQK6x7srxSdtVHlcamWvliauxpoqvrDIWa1BWHRnzhN8TnxPqdlpXmexsZm
+         KYXZQ/Evb1ROde7hDFVmWqeoO+Gopv4cySWeUxLURj8Avj5AbWkQB7rUnGHDsrH5GuB6
+         OiCQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=fzG/baFh/xjTaP0Ii0cvwWmrEVxPL+eR3yu7Xbk6kuo=;
+        fh=ME2Ezha2TK9eXHB6xf1rPgvqlU1uvuXn/kudABpwPes=;
+        b=jqVRDXUt5tyxbMh51+cV1ZtRI4CjWnCnIrVIWWcGTsad1KlLAj2OaredImj+gxY/cQ
+         +5cEH70qA3G22lMGwgBZ//RrBvQ8gpZaqgaLaDUTq29eh5SQEsxLMatRIbUMbeOOnzgH
+         VV1UlBh2noQ98J8SmXCnHwIKtx0LzYV65KyWnlf+hYgprgbziMpirDSEDtDxD0sopOEa
+         ze6rXA4pK6pNjGP4tbJYAG+JPyAMPIuxiuZjIKlLEQjqoeWKpjoUFS78+mCXtvoZap/Z
+         ksF907xAXqBZEyhoPeH2GusIcYJ1wjKrIjIAtsWFqbvBUwJvICKNZ2d2lHLPTUJRHQGq
+         WyGQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1770628553; x=1771233353; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=j7LKhseSnGFUF6qSBmsqnML3SyQVCy/4OXLMkuV0OQQ=;
-        b=dS/QXwJYsoXoptVs/ChdDm8fn0UZ5G5HFysH7DAaLNzoKWCsvG+5ukFiW5c6L6FVsQ
-         Qt6ebL3f1APwTEQtSjSiKp65CHJlwB5+VGIUGn+cdpcWzEPSt4WcrqognjMdt9E6KDWh
-         5s83U7TTOT2CxGsCvvzKyjZ53vYD9Xs6WGfo7P0nbU1lNafqFIgm5gkGyWHsVqnEyR3T
-         8PF2MKHIjvIYt0U/0o9PgMdEJIE2MLJm0DDwrnQvNheG9l5Yv4J4t3fu1OEZeiFi9eK5
-         2N/XDk3lbBnWlxnL7LmqhxRM/rqeo8ICMwNs5N4kcS3BYPcJaBtJMBy/XbNk8k4Erbua
-         SMZQ==
+        d=linaro.org; s=google; t=1770631065; x=1771235865; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=fzG/baFh/xjTaP0Ii0cvwWmrEVxPL+eR3yu7Xbk6kuo=;
+        b=IHe4hmOl9w7pUpUQyLkq/OgztYofxuV5/j5kZqVf8IuLW8jsfSkKju7oFLOuFmO+Ok
+         OuFB7tI5XhFwXmudwca2G0nYRBQ7eEr59JH2p9nQqOTDdW7Y2gLLMsCnKuWV4LpK8sMg
+         QEhJgWugZkGH8AlPG3KIjl+KmD0zJUnuheHF85f1h7T24sKIswi0tGubJyQrgfXVOHcH
+         068szk1RA7QB0OCEWzd4kP3VEp4dtKPFLkidYA4mXBpOOysC+6s4HXG+8zne7P8+mUJC
+         0JfCkcMfokYv8neInNUS7ZSf0KHQvK4NmCQEumO+4rTfN36qUquObsdAu9osKWCZSwzx
+         gwzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770628553; x=1771233353;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=j7LKhseSnGFUF6qSBmsqnML3SyQVCy/4OXLMkuV0OQQ=;
-        b=lBmP9VhwICoYGz7fih2PRhz0gsJYZRW0DYFs4h95wp59Hq6BALCJvTShJpoSyJipFh
-         PzWWBQxUwai58YId6fQQ1enFI3tHs2ijqRe353Uw4bbMmjQMgJpd5NWQ9ixBzqD/SuEZ
-         2Cra7AAYFGO8xAkEhjOA7XbC8/oYhXSRC2/P9TN+spIleFb7Yn0Lc8gbCJUloiJrOcFB
-         kHMi9bJoJp8c5/wQrbDQSDyBFRRgHZLBYcfq0etlSLjGz5qOWUKLxBBYep0bboUrzp17
-         rAM5bCYw+fMc4gV+RDmUrf7rmxinaxi7tZ1IM76Z+Ho7V8YavqmvBkki/Uh6StaqpMC5
-         v7Tw==
-X-Forwarded-Encrypted: i=1; AJvYcCXGZRyFf28rbg2NM3I9pHjuNXLcgP0XDSjITAEjEagMtpuyxhoyadqVy9+FJou/SYLprNtc28pw74B73RqNxlu9hw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2dW90W6XYcxvAYbkCixJ7MmChk+MRF5LYUhLg07bu/DgMZ0mB
-	V62kaJPnhbuCIzy5dJwv5YNFP/PomS9vWTFQlFQTVzwn8ggzO27P3GFGV2QQNr1VO4o=
-X-Gm-Gg: AZuq6aJj2C10tAQzaePAOIjEqMe9nDyhwhQkWeLJ69D7U4G9UZ8f3zu/8b6v6XF2bLY
-	Fgc7CkfJpjdo/OwdCeNlStiAhkSG6lVL4x/8dskzaArzNUp3CwNDEdyC3k6ApqpClLzvCtsF0il
-	s0BTB8ZuColPZF/lfwvhkbA7jD6cSer3QLVaBtU68cX+cn6aDzNrPGmbC7Z7/IYo40l8ThHRkvk
-	fXpxTjJ/4tCg3EJQLF4lxXcNFL8EeIpiHG5GzBX5TqgBpr3yjamare9YB6F6nMwNpuWx/w5NhmI
-	lomvinKVwrQga65mHUpcLrEkVFF2lNEnajX1dcxFbXBwqefk6k/VoL6aEAI0CBJPe0RO7HYxU8W
-	95lh2FN6Rhl9D/HdtJaBPdktL8eBndj9yUQyu5/nH5MjZxSByQdthXn0azs1Zgb62LRI7E3hv5t
-	xN5AsYax46JCCUxqzZQS3QrycigjHakYyrujGrLCREwx2kFlqyh/eUZrksFzew5cI=
-X-Received: by 2002:a05:6000:1ace:b0:435:b068:d3c4 with SMTP id ffacd0b85a97d-43629380e94mr16816180f8f.33.1770628553209;
-        Mon, 09 Feb 2026 01:15:53 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:106d:1080:44e3:9198:bd5d:a3f? ([2a01:e0a:106d:1080:44e3:9198:bd5d:a3f])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4376a78d796sm9493687f8f.20.2026.02.09.01.15.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Feb 2026 01:15:52 -0800 (PST)
-Message-ID: <b28c3d31-607d-431e-845e-c12e3e44fc23@linaro.org>
-Date: Mon, 9 Feb 2026 10:15:51 +0100
+        d=1e100.net; s=20230601; t=1770631065; x=1771235865;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fzG/baFh/xjTaP0Ii0cvwWmrEVxPL+eR3yu7Xbk6kuo=;
+        b=QPdHLex4HQ29OtUpoacyK4eOJpke8VMbCmqQzjEjSjylwbOXtAjHxvlasXoe+vLEHc
+         rSXOLqO0xPIeowbS1gW3/GzbjuCcOtGCk93GaJUmL+bapYVLIUI6/HC/ue5RJeXFTman
+         IqwXFOeCrd1557jJpQmCH0anV5vxt6BgtOpkfk6xdbWOYRLccYlZc1Gqhs6XEtbWDeCb
+         TqsZCWAsdg+FjaIQ/CVlW+IdGU3oV5NdziyrEV78rsEBLk/sD+xJtvBLJ180P68n4yeP
+         nOkyZsmatFzCdb5A+erYKWk8F3BoPftk9UW5RBu/QvJPM9VmeEsphkv7VOuG/1spckWt
+         P9uQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV5vxI8CCdRKUi0+fDt8ScDTp/xYbDH75HE37rbul4xviR89stF3CnGXi6NG2QvIVu2lczlpWJsvq+IJQux+38gJQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDakbMq82ojmLmDZT1RSR4M8L44PJVHrS95qjPjZpgw+b1qA0N
+	Zi23IMJsA/DxnLaUvyElobN2Tpml8PJZRoQqQooy2uXYcBfDdfYlq/1ByoDAOiKVFjkjWAQcMOu
+	BhwAbeEXT6QFzqBQRUbRKO7O03492iQbmulLQzNELuQ==
+X-Gm-Gg: AZuq6aI4S6nEMGU688W+8Mqsfw2nvAfE5N/3Tk1NvWscy/0cnl/J9qfW6NaooXNSNFk
+	JkFAKGNA7wcziC7YvWH5M0f9TQwfcfBwAR5J1jU+l/d9Aw50oA1oYmTDQp00poqAQDWV8JRiwlU
+	AV4R5x8U9PA0cP4DSz5uEtRXYRxpgjnD2bbgh53qSmCON/TBiKvWC6QaNnSZFosZBynsMyXPEML
+	tVeO5tBvfYiIwWB9cCpTsy3waqsSEjL0BJTDqhszzd+LK6c/3v9ts8j4KxOrzD391RBim4v
+X-Received: by 2002:a05:6512:230e:b0:59e:25a7:e46e with SMTP id
+ 2adb3069b0e04-59e4517351bmr3165761e87.36.1770631065180; Mon, 09 Feb 2026
+ 01:57:45 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v3 0/9] arm64: dts: qcom: Add support for the Ayaneo
- Pocket S2
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Bartosz Golaszewski <brgl@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>, Bjorn Helgaas
- <bhelgaas@google.com>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-arm-msm@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- KancyJoe <kancy2333@outlook.com>
-References: <20260206213557.GA83922@bhelgaas>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20260206213557.GA83922@bhelgaas>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20260208-rz-sdio-mux-v9-0-9a3be13c1280@solid-run.com>
+In-Reply-To: <20260208-rz-sdio-mux-v9-0-9a3be13c1280@solid-run.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Mon, 9 Feb 2026 10:57:09 +0100
+X-Gm-Features: AZwV_QjtuvXehDumL81rfo3XecEhBGMIVZdeTW9qGb9n_Rk2fTCxSh0YYaQSYSY
+Message-ID: <CAPDyKFpbpcg3ei51hEcG5FzJL7tK44PdBcMbxfOdON7ozxP2Xg@mail.gmail.com>
+Subject: Re: [PATCH v9 0/7] mmc: host: renesas_sdhi_core: support configuring
+ an optional sdio mux
+To: Josua Mayer <josua@solid-run.com>
+Cc: Marc Kleine-Budde <mkl@pengutronix.de>, Vincent Mailhol <mailhol@kernel.org>, 
+	Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Peter Rosin <peda@axentia.se>, Aaro Koskinen <aaro.koskinen@iki.fi>, 
+	Andreas Kemnade <andreas@kemnade.info>, Kevin Hilman <khilman@baylibre.com>, 
+	Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>, 
+	Janusz Krzysztofik <jmkrzyszt@gmail.com>, Vignesh R <vigneshr@ti.com>, 
+	Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Yazan Shhady <yazan.shhady@solid-run.com>, Jon Nettleton <jon@solid-run.com>, 
+	Mikhail Anikin <mikhail.anikin@solid-run.com>, linux-can@vger.kernel.org, 
+	linux-phy@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-omap@vger.kernel.org, linux-i2c@vger.kernel.org, 
+	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
 	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[linuxfoundation.org,kernel.org,glider.be,gmail.com,google.com,vger.kernel.org,oss.qualcomm.com,outlook.com];
-	TAGGED_FROM(0.00)[bounces-28045-lists,linux-renesas-soc=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	TO_DN_SOME(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	HAS_REPLYTO(0.00)[neil.armstrong@linaro.org];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[neil.armstrong@linaro.org,linux-renesas-soc@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-28046-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[31];
+	FREEMAIL_CC(0.00)[pengutronix.de,kernel.org,linaro.org,axentia.se,iki.fi,kemnade.info,baylibre.com,atomide.com,gmail.com,ti.com,glider.be,sang-engineering.com,solid-run.com,vger.kernel.org,lists.infradead.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ulf.hansson@linaro.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[linaro.org:+];
+	NEURAL_HAM(-0.00)[-0.999];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	REPLYTO_EQ_FROM(0.00)[]
-X-Rspamd-Queue-Id: 8DFC110D6BE
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,solid-run.com:email]
+X-Rspamd-Queue-Id: 70F2F10DEB8
 X-Rspamd-Action: no action
 
-On 2/6/26 22:35, Bjorn Helgaas wrote:
-> On Fri, Feb 06, 2026 at 03:50:28PM +0100, Neil Armstrong wrote:
->> The Ayaneo Pocket S2 is a gaming console based on the Qualcomm
->> Snapdragon 8 Gen 3. It has an internal UFS storage, WiFi,
->> Bluetooth, gaming buttons, SDCard, 2K display and USB-C
->> connector.
-> 
->>        pci: pwrctrl: slot: fix dev_err_probe() usage
->>        pci: pwrctrl: rename pci-pwrctrl-slot as generic
-> 
-> These look fine (but please update subject lines to follow past
-> history).
+On Sun, 8 Feb 2026 at 16:39, Josua Mayer <josua@solid-run.com> wrote:
+>
+> Some Renesas SoC based boards mux SD and eMMC on a single sdio
+> controller, exposing user control by dip switch and software control by
+> gpio.
+>
+> Purpose is to simplify development and provisioning by selecting boot
+> media at power-on, and again before starting linux.
+>
+> Add binding and driver support for linking a (gpio) mux to renesas sdio
+> controller.
+>
+> Introduce generic helper functions for getting managed and selected
+> mux-state objects, and switch i2c-omap and phy-can-transceiver drivers.
+>
+> Signed-off-by: Josua Mayer <josua@solid-run.com>
+> ---
+> Changes in v9:
+> - compile-tested on x86 with MULTIPLEXER=m/y/unset.
+> - fixed Kconfig changes so that CONFIG_MULTIPLEXER can be selected.
+>   through menuconfig / .config as intended.
+> - updated trailers
+> - document null return value for mux_control_get_optional.
+> - fix build error for CONFIG_MULTIPLEXER=m, found with x86_64
+>   allmodconfig: replaced ifdef ... with if IS_ENABLED(...).
+>   (Reported-by: Mark Brown <broonie@kernel.org>)
+> - Link to v8: https://lore.kernel.org/r/20260203-rz-sdio-mux-v8-0-024ea405863e@solid-run.com
 
-Ack will do
+[...]
 
-> 
->>        pci: pwrctrl: generic: support for the UPD720201/UPD720202 USB 3.0 xHCI Host Controller
-> 
-> I don't see anything here specific to UPD720201/UPD720202.  I don't
-> want a stream of patches to add more devices in the future.  Is there
-> any better design?
+I have already applied for v8 and it's going to be in my pull-request
+for v7.0 in a few hours.
 
-Not really, I don't see how we can avoid changing the driver compatible list
-here, I don't think we can use fallbacks here.
+Please send incremental fixes on top instead of a new version of the
+series, then I can pick them as fixes for v7.0.
 
-Neil
+Kind regards
+Uffe
 
