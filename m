@@ -1,159 +1,196 @@
-Return-Path: <linux-renesas-soc+bounces-28150-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28152-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oCECFMV3jGktpAAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28150-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Feb 2026 13:36:21 +0100
+	id eKGEIIl4jGktpAAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28152-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Feb 2026 13:39:37 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9354A1245D9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Feb 2026 13:36:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D892B12468D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Feb 2026 13:39:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8547C3014109
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Feb 2026 12:32:34 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 15FC330338A0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Feb 2026 12:36:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E34B63595D;
-	Wed, 11 Feb 2026 12:32:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E6E833B946;
+	Wed, 11 Feb 2026 12:36:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JRzzLydh"
+	dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="QjI782Oz"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mx-relay47-hz3.antispameurope.com (mx-relay47-hz3.antispameurope.com [94.100.134.236])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94E181C84BD
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Feb 2026 12:32:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770813153; cv=none; b=J3QNg4NKpE/JN3crK9Bc3wxdKhqHep4IU9boSlStp0JQQSUxmRdPh9lHh5BbLJDVWOvWeW5cKbxVmqAxutDxuDQL/wsUDF2EHrmHfa/EPUhAa1WD4G4/yCtpJc6ivv4ySdweaQqH52PdcOmVVteRISmK670iEaWfLgWv3uEWZO8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770813153; c=relaxed/simple;
-	bh=gKqsUY8QiFOiqbi69Ne3X2+9oK3B3tyFLBelCaADXTQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=EAXFwZA5IBv8ZNKiRwL45vyC8wbU3t8ADhPnw9tYmd9fFU/p7qIpDYDMjdI8wW2MsUEd6IkbzFQYA/4lZTiJxtigeAtOFf8CKIgwvMSAcaRKtfPcgeSELHDUI1GkZaz91/HccQGoSlyc3B0bHFbWBF+cCkEIZrNscBoM/rIofDI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JRzzLydh; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770813150; x=1802349150;
-  h=date:from:to:cc:subject:message-id;
-  bh=gKqsUY8QiFOiqbi69Ne3X2+9oK3B3tyFLBelCaADXTQ=;
-  b=JRzzLydhMuHD76FqSPd67sMo5Dg52raa6k9xgIAMC7sYKobioOZthLYO
-   9S+S0GTOTmK6vzp66JzCNDgFwUha1XFm3fS6Lb01uQkr8IQyY2utbsMuC
-   9OyxP0LG4y5ndh7ua0zGfMRSRoqNnEytmr3zbQLNWbTBULXk2MZzhHi/i
-   y2C5CL0akgQTvTn+0xS5TTrQ11pl+2YCqRrLjZp7DkwfP6/o7GNkACHU1
-   chFDvvNqhmsZ0Z+wR16usa6nJztqylplJkjyiZOscChN5sa/XQa9NQ9/r
-   k14M5Klue5V+AVGqRauMhASqO3wWfwUFwCBV+ikSEC9T4Rqo5utLe9ntL
-   A==;
-X-CSE-ConnectionGUID: kL5/kZjHSm2LZaCTjnISWA==
-X-CSE-MsgGUID: HBo/x1z5Tji8TR0f6bK5IQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="82596825"
-X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="82596825"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2026 04:32:30 -0800
-X-CSE-ConnectionGUID: MXSdDXjsQHijgetgHVpAoQ==
-X-CSE-MsgGUID: Afu+bkvdQJ2flQWJHaccJg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="217198190"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 11 Feb 2026 04:32:28 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vq9OL-00000000pyA-3wbT;
-	Wed, 11 Feb 2026 12:32:25 +0000
-Date: Wed, 11 Feb 2026 20:31:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dave Airlie <airlied@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
- Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [geert-renesas-drivers:master 13/53]
- drivers/gpu/drm/xe/xe_survivability_mode.c:241:17: error: implicit
- declaration of function 'xe_nvm_fini'; did you mean 'xe_nvm_init'?
-Message-ID: <202602112026.Di2Vv6FF-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C64929D28B
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Feb 2026 12:36:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=94.100.134.236
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770813365; cv=pass; b=dX7J3CWZ5Hp0Gcx3uEnAWqHYNLPw5q+lPftXEzCzsHXKng9al1kSeKtABa4hTnG6M4ziVvtoQD80Xa84Htjvr7T5FMonV9Xy4wc6OvV2n37YnJOiGROOpuAcGGEDODjWIIpM9Ap0DA46jNZsToNxRUOoy7QuJUQ5bT0PsQsL1pA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770813365; c=relaxed/simple;
+	bh=Bj8++Zqu3+fMRDp8KEV/HrWS2/CAZIerr5uJ2LpxVIg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aRWGkijTuqkQpgRISYu9IGQ5UayExTWS61VTH2jL3ouKptYu2uG/emtKcZjpR3IqEaEIcoH0Gs56Aq5JsrUpfui1hMRKH6XQC6ucQdrQyxInd0PKvxlFr1QMu/VROlv4PkZtzFCpAHLc8PovwW+4V43SPSnntp2sCCmnmjjjZU4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=QjI782Oz; arc=pass smtp.client-ip=94.100.134.236
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ew.tq-group.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
+ARC-Authentication-Results: i=1; mx-gate47-hz3.hornetsecurity.com 1; spf=pass
+ reason=mailfrom (ip=94.100.132.6, headerfrom=ew.tq-group.com)
+ smtp.mailfrom=ew.tq-group.com smtp.helo=smtp-out02-hz1.hornetsecurity.com;
+ dmarc=pass header.from=ew.tq-group.com orig.disposition=pass
+ARC-Message-Signature: a=rsa-sha256;
+ bh=9a8119aWt/faL8kIM3FP7wFXRRc93I8ASt1myHt9FTc=; c=relaxed/relaxed;
+ d=hornetsecurity.com; h=from:to:date:subject:mime-version:; i=1; s=hse1;
+ t=1770813310;
+ b=AZTCAuAuKkNdF0JeYVP740cQSjM2MUTcJIG3Qld8SxpLLfSNNJUzy+HAGCceLhDz21XkG3F7
+ 2KszZAfmq1ADdVuGm1WzHfmfBU9LEyucobZRNAvMRozhJn9tRiMCodPXisLm1hipjIAkH+uyEaD
+ fi3me4NCO1pdtxCYz2ncIhQ8fa/vFb9+a/o8P6rEYou8UFxm0WyPxu1QeAfohvUzVDI392pDHz4
+ b4HkqbfEkxqz1AS5H1MxCJ7hleaOnjvUElgHPGzh7fL9fosN0fL6iyk59AijgfMwJsItd79pTFb
+ Op+M6dP+Ao+p4lKgofidxElzZKYB0uB8hEIWl9rXXKfQA==
+ARC-Seal: a=rsa-sha256; cv=none; d=hornetsecurity.com; i=1; s=hse1;
+ t=1770813310;
+ b=gJk2bZVlzevBEiWqj/FZaJ3vqbYMuyvALJeY4a5PN4sHVdWIv/vyVSLJv/BChq8Z4bMRyXb1
+ UzM1cA77gdctvX3ReSjhfre+oajBcPagSqzZBCsJxRjaCNnC2CgAiMAIPh1XhidEYkzjtI1M2a5
+ FT+wHJun3eJ6XYnIqUpM+JJ0LH1gZV2p5ryWEE5pWxdJPy9tWbZRZcdXrlG58SwMmmqJpTWFKBd
+ fuzilMhIAqad1BDjD4R5+8dYZDzAwFjGvWEBqBOIT4CPywZVfALp/mqWLh7e664xktXIsXRDMJc
+ mez4j+bz/TXhLxHRv8f1oDwuDGGqjTMEiIR+qkJ8fLsUQ==
+Received: from he-nlb01-hz1.hornetsecurity.com ([94.100.132.6]) by mx-relay47-hz3.antispameurope.com;
+ Wed, 11 Feb 2026 13:35:10 +0100
+Received: from steina-w.tq-net.de (host-82-135-125-110.customer.m-online.net [82.135.125.110])
+	(Authenticated sender: alexander.stein@ew.tq-group.com)
+	by smtp-out02-hz1.hornetsecurity.com (Postfix) with ESMTPSA id C2BD85A03D9;
+	Wed, 11 Feb 2026 13:34:41 +0100 (CET)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Peter Chen <peter.chen@kernel.org>,
+	Pawel Laszczak <pawell@cadence.com>,
+	Roger Quadros <rogerq@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Marek Vasut <marex@denx.de>
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux@ew.tq-group.com
+Subject: [PATCH v2 0/5] Support TQMa8QM
+Date: Wed, 11 Feb 2026 13:34:27 +0100
+Message-ID: <20260211123436.1077513-1-alexander.stein@ew.tq-group.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-cloud-security-sender:alexander.stein@ew.tq-group.com
+X-cloud-security-recipient:linux-renesas-soc@vger.kernel.org
+X-cloud-security-crypt: load encryption module
+X-cloud-security-Mailarchiv: E-Mail archived for: alexander.stein@ew.tq-group.com
+X-cloud-security-Mailarchivtype:outbound
+X-cloud-security-Virusscan:CLEAN
+X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on mx-relay47-hz3.antispameurope.com with 4f9yYb0fGlz4MQWf
+X-cloud-security-connect: he-nlb01-hz1.hornetsecurity.com[94.100.132.6], TLS=1, IP=94.100.132.6
+X-cloud-security-Digest:8727f709344811bd075061d5eca82f5b
+X-cloud-security:scantime:2.347
+DKIM-Signature: a=rsa-sha256;
+ bh=9a8119aWt/faL8kIM3FP7wFXRRc93I8ASt1myHt9FTc=; c=relaxed/relaxed;
+ d=ew.tq-group.com;
+ h=content-type:mime-version:subject:from:to:message-id:date; s=hse1;
+ t=1770813309; v=1;
+ b=QjI782OznN5gXcii7nUhbtCMtfvRNjWjAncgb00K7JTTrVBawLZp1XSEdmNir/SqVW5g4/eX
+ vb51rEwE2JHfYxb7VauLN6GCbAhF3T4+0qEmp4di5yjn0H0NtiG/xYArrORIQftVVA2QxdvyW19
+ S5QC8u1VU/6QDzo5aICGAQcDmyLw0pgxKR7GVX/OnwiFWLzL2qzfi2xghEO4GCHRxuCDgX4vweo
+ lL898wPp6pywNSdUkD5CwqYVUQFSkSmlTueJu61NKX1CEFIJ/QJHLirk2K/ddcrJ/3VTKITgpks
+ pgIyu7WmFpge5bsyprXKMrhkz2fSd+RipDfC8wyVI63AA==
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.84 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
 	MID_CONTAINS_FROM(1.00)[];
-	SUBJECT_ENDS_QUESTION(1.00)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	DMARC_POLICY_ALLOW(-0.50)[ew.tq-group.com,reject];
+	R_DKIM_ALLOW(-0.20)[ew.tq-group.com:s=hse1];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-28150-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_TO(0.00)[kernel.org,glider.be,baylibre.com,cadence.com,linuxfoundation.org,pengutronix.de,gmail.com,denx.de];
+	RCPT_COUNT_TWELVE(0.00)[25];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-28152-lists,linux-renesas-soc=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-renesas-soc@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	PRECEDENCE_BULK(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	RCVD_COUNT_FIVE(0.00)[6];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:mid,intel.com:dkim,intel.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,01.org:url]
-X-Rspamd-Queue-Id: 9354A1245D9
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[alexander.stein@ew.tq-group.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[ew.tq-group.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ew.tq-group.com:mid,ew.tq-group.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: D892B12468D
 X-Rspamd-Action: no action
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
-head:   7f66ef0ac030a3da0d0a0e8c0dfee1aa9c266dfa
-commit: 2f8a7331e1404f4364092565c145c7cf3cd377d4 [13/53] Merge remote-tracking branch 'drm/drm-next' into renesas-drivers
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260211/202602112026.Di2Vv6FF-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602112026.Di2Vv6FF-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602112026.Di2Vv6FF-lkp@intel.com/
+this series adds support for TQ's TQMa8QM. The first 2 patches are prepatory:
+1. Add support for USB devices in cdns USB3 host controller, namely
+onboard-devices as USB hubs. Implemented similarily to snps,dwc3-common.yaml.
 
-All errors (new ones prefixed by >>):
+2. Add DMA IRQ for PCIe controller. Similar to commit 0b4c46f9ad79c
+("arm64: dts: imx8qm-ss-hsio: Wire up DMA IRQ for PCIe") which was only tested
+on imx8qxp which just has one PCIe controller.
 
-   drivers/gpu/drm/xe/xe_survivability_mode.c: In function 'xe_survivability_mode_fini':
->> drivers/gpu/drm/xe/xe_survivability_mode.c:241:17: error: implicit declaration of function 'xe_nvm_fini'; did you mean 'xe_nvm_init'? [-Wimplicit-function-declaration]
-     241 |                 xe_nvm_fini(xe);
-         |                 ^~~~~~~~~~~
-         |                 xe_nvm_init
+3 & 4. Device bindings and platform DT
 
+5. Workaround for missing "ERR050104: Arm/A53: Cache coherency issue"
+workaround. See [1] for details. Split into separate commit for easy revert
+once an errata workaround has been integrated.
 
-vim +241 drivers/gpu/drm/xe/xe_survivability_mode.c
+Changes in v2:
+The need for clock-output-names properties for renesas,9fgv0441 has
+been removed by reworkging the PCIe clocking
 
-5e940312a2ac64 Riana Tauro     2025-01-28  232  
-d40f275d96e890 Lucas De Marchi 2025-02-21  233  static void xe_survivability_mode_fini(void *arg)
-d40f275d96e890 Lucas De Marchi 2025-02-21  234  {
-d40f275d96e890 Lucas De Marchi 2025-02-21  235  	struct xe_device *xe = arg;
-1987ea95ac37ea Riana Tauro     2025-12-08  236  	struct xe_survivability *survivability = &xe->survivability;
-d40f275d96e890 Lucas De Marchi 2025-02-21  237  	struct pci_dev *pdev = to_pci_dev(xe->drm.dev);
-d40f275d96e890 Lucas De Marchi 2025-02-21  238  	struct device *dev = &pdev->dev;
-d40f275d96e890 Lucas De Marchi 2025-02-21  239  
-1987ea95ac37ea Riana Tauro     2025-12-08  240  	if (survivability->fdo_mode)
-1987ea95ac37ea Riana Tauro     2025-12-08 @241  		xe_nvm_fini(xe);
-1987ea95ac37ea Riana Tauro     2025-12-08  242  
-f4e9fc967afdb5 Riana Tauro     2025-12-08  243  	device_remove_file(dev, &dev_attr_survivability_mode);
-d40f275d96e890 Lucas De Marchi 2025-02-21  244  }
-d40f275d96e890 Lucas De Marchi 2025-02-21  245  
+Best regards,
+Alexander
 
-:::::: The code at line 241 was first introduced by commit
-:::::: 1987ea95ac37ea3f9299d220974676207d5262f6 drm/xe/xe_survivability: Add support for survivability mode v2
+[1] https://lore.kernel.org/all/20230420112952.28340-1-iivanov@suse.de/
 
-:::::: TO: Riana Tauro <riana.tauro@intel.com>
-:::::: CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Alexander Stein (5):
+  dt-bindings: usb: cdns,usb3: support USB devices in DT
+  arm64: dts: imx8qm-ss-hsio: Wire up DMA IRQ for PCIe
+  dt-bindings: arm: fsl: add bindings for TQMa8x
+  arm64: dts: freescale: add initial device tree for TQMa8x
+  arm64: dts: imx8qm-tqma8qm-mba8x: Disable Cortex-A72 cluster
+
+ .../devicetree/bindings/arm/fsl.yaml          |  10 +
+ .../devicetree/bindings/usb/cdns,usb3.yaml    |   1 +
+ arch/arm64/boot/dts/freescale/Makefile        |   1 +
+ .../boot/dts/freescale/imx8qm-ss-hsio.dtsi    |   5 +-
+ .../dts/freescale/imx8qm-tqma8qm-mba8x.dts    | 869 ++++++++++++++++++
+ .../boot/dts/freescale/imx8qm-tqma8qm.dtsi    | 325 +++++++
+ 6 files changed, 1209 insertions(+), 2 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/freescale/imx8qm-tqma8qm-mba8x.dts
+ create mode 100644 arch/arm64/boot/dts/freescale/imx8qm-tqma8qm.dtsi
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0
+
 
