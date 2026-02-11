@@ -1,65 +1,65 @@
-Return-Path: <linux-renesas-soc+bounces-28151-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28153-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wB/aDp93jGktpAAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28151-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Feb 2026 13:35:43 +0100
+	id YPnnIrh3jGktpAAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28153-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Feb 2026 13:36:08 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69B761245AD
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Feb 2026 13:35:42 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1337B1245BC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Feb 2026 13:36:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id B80483004D0F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Feb 2026 12:35:39 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id DF0DD300CCB8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Feb 2026 12:36:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77A92313287;
-	Wed, 11 Feb 2026 12:35:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF4F5350A03;
+	Wed, 11 Feb 2026 12:36:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="HWA87fcq"
+	dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="OOKK5Q3r"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx-relay50-hz3.antispameurope.com (mx-relay50-hz3.antispameurope.com [94.100.134.239])
+Received: from mx-relay95-hz2.antispameurope.com (mx-relay95-hz2.antispameurope.com [94.100.136.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 033E0281525
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Feb 2026 12:35:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=94.100.134.239
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DF6D306480
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Feb 2026 12:36:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=94.100.136.195
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770813338; cv=pass; b=adHjRPEu1g+5FZGObvWvtWpv+UpkZCnVoPcFaSAAEg3mGIN6QY9uu/9YBdNLoz8n4+3JLyN62h/bPV80ITJYk5q+GtwASUOnVa9u5zfoTEzxd72bUiWATIuOj/F+PuQznxzNaXpSubWQB2+fx+D+zvbbAICod+TfZ9pt4Y+ITVg=
+	t=1770813365; cv=pass; b=Dbe8ArGxUDMafQsDEfXl8malpymCDj1JbQX5A9EK3mRJ0D/G49BTJJjp/FK4nHnG6awyf2YQR1EJuTo1iOxOaTnxXfdmy8anvdJIrO1b2z1OnSIlRL2iDIjGsA0sSL6VeLc63WT83jzGRU5xvwzQHTT6d96iDSu6geDBSk7VtVU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770813338; c=relaxed/simple;
-	bh=DDxMMwSEPx4y7ICS/1B6rQvV6CMJXqzIvms5szSqGy8=;
+	s=arc-20240116; t=1770813365; c=relaxed/simple;
+	bh=wJazHtN9709bx5vXU3VSNca9S8moIeQOsgpt1xQauOo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nwil6Bh/T0LqTOQF+DEt16Nr3HD1Wgo9aLQvvwjDwVDoLxTzsBaTiYr4aQICXKKxDgkywm6eqnA65vU8g2XEMn5QRYnc/RjbjpWTmqZYP2fbS4SEi7+JFKMDOFmswCiRAIZXyyLEwH5nwIT6ECJtt4ShuyymD2drMcp2zCEvlYQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=HWA87fcq; arc=pass smtp.client-ip=94.100.134.239
+	 MIME-Version; b=Z3mnOrp6D5WIjlv3hd8oSnMjZ+FaurwKA/iVQnzUlnq8SBVy3fj2NlRjYUxHH1Xzr3qYQsh/5jorAUbEDVOP2CJI/Cd8dJXWuJAqhNkhdX7sqeKxVzUX5g+x/CIxiYjCmrAKMBLW64sZZhpKCE8/HSwPaw4LHYbykTKK+QPl1EU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=OOKK5Q3r; arc=pass smtp.client-ip=94.100.136.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ew.tq-group.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
-ARC-Authentication-Results: i=1; mx-gate50-hz3.hornetsecurity.com 1; spf=pass
+ARC-Authentication-Results: i=1; mx-gate95-hz2.hornetsecurity.com 1; spf=pass
  reason=mailfrom (ip=94.100.132.6, headerfrom=ew.tq-group.com)
  smtp.mailfrom=ew.tq-group.com smtp.helo=smtp-out02-hz1.hornetsecurity.com;
  dmarc=pass header.from=ew.tq-group.com orig.disposition=pass
 ARC-Message-Signature: a=rsa-sha256;
- bh=p7pDwaK17CdUZh/u5Iy4Xmvwxf0XguEjLtkZgT9LWWU=; c=relaxed/relaxed;
+ bh=ls/S0m9WGUgqWCy8vJncgSdsx/isbkuq3kh3sRBurJc=; c=relaxed/relaxed;
  d=hornetsecurity.com; h=from:to:date:subject:mime-version:; i=1; s=hse1;
- t=1770813312;
- b=fsqyV6PayKYyrmlVRuUh9ZH13oKx202zfXbV+6byYMCy3P/31omfORfd2rE36IHyHxF/f7U7
- bx//SjSqOniJbiSCSQBoIBo5o7E7Rm+78fnCU4Sgi82xV5bRShghaDg/446tE7eK/PdOVCwuq7s
- BT2CQDDlwfFSH+IJ2p4WHPpQ9cRs0LLUDG07UnEQd4j3JPuE49ULSL97I8SsETwXIYThFjNFAKM
- USjCAzXyD5Z1CCh6Z3aE16F1InsEIcZOveVuA0BaXOVrHrVsJXPNOpU1s9PuALtcMmE7JalAWxU
- bwgxSpkdUdIYV76X7sB4u3cA7SSY0CMJmbniE4D+IiEgg==
+ t=1770813307;
+ b=Lk/RMYI1VegKUluixKhcJrX0XqRgZlH7a44+uo2CE0mSBcf7AsoNSMoQWIU8VCL69ggnxOEj
+ ERE149Gwp2WQKvGwLFE7UFusYgNxehrDS8aAbbYSb5NUHjeXlMkL5jttbu++nyDpcZabfIbL0w4
+ HzFVB5J27T4fyYYhh/U4p6/LxrnP6uuHd1gMsXS2pYL1NXv2M0OPSgGW36lKeDTtNFny3EuVbko
+ Bx+qmZ6GlIlzjCtHLH0CpkK2HYI8JrQ04jnKjSKMy4tZ2zmnpySUOiFYoccUR1lUsDGWbreEG3k
+ 61SjBOI3z25gHtQJeQRmkXdgq8sRC/qTd8yUB+YOfbv2w==
 ARC-Seal: a=rsa-sha256; cv=none; d=hornetsecurity.com; i=1; s=hse1;
- t=1770813312;
- b=BkXA4pTUG7OFH/UHP1LOQBSa9JqB10sneReOnKEIjS9ve1KpczZLTkASXRE0YjHSS1LoQV2d
- xuCMqtf6MfZlZ3ADG3GgAFoUIRAzWwp9/0/JuL60Fkect+COgKjFxPIulgM5opqJt1Xv/y8q8JY
- 1nY6gJVUXTqP6pD8biw7Mntq2SHtQMPh7JLrGK7tDjVoL+iZSGnncQBmvGQSDlAwC72z1nebtFa
- ej6TWpYtycGkBD4550/xAlf+OZ6ArNYgvsZ2CcsFp+Tk0MbPe1VCgYy8aoFSFkAznaAnVEaI4bX
- CDFr1I4c+D3/pZw2hYNoQY+Xu2FinW+sqU5Pdqbl4NvtA==
-Received: from he-nlb01-hz1.hornetsecurity.com ([94.100.132.6]) by mx-relay50-hz3.antispameurope.com;
- Wed, 11 Feb 2026 13:35:12 +0100
+ t=1770813307;
+ b=j3O+g28xR1yBUFrYFb0GcslTKIWAmnBueuvUk5/AlyNM5JmT+0KkjGeuvn0v+PThjqOC9usr
+ 0fZPh621AsK4f0FsT7uEu6CWmnMOdwHwLlDVKpW6ogJYuLkdMScDRNWJsjCRHFiaX7EOnzqVOkP
+ 6CKXwRs2C6ZcTX/RBkUrGNlpOZ1pZo/A4nd6IuYqdqVt46eLWzO8UrCGPVhCu8Ld05cDtP+mRNe
+ 7q2rtXdsoyb6hxz/fccZAjEysHfcAz/+2ZkwXLBFR2jjoUUq7xiWwaQtDBVxGXOPy1FB7M4vOIi
+ T9+0HPS4xtcFtVyQ3OUZiCW4rqalxOnmlpMv3Lci8QzPA==
+Received: from he-nlb01-hz1.hornetsecurity.com ([94.100.132.6]) by mx-relay95-hz2.antispameurope.com;
+ Wed, 11 Feb 2026 13:35:07 +0100
 Received: from steina-w.tq-net.de (host-82-135-125-110.customer.m-online.net [82.135.125.110])
 	(Authenticated sender: alexander.stein@ew.tq-group.com)
-	by smtp-out02-hz1.hornetsecurity.com (Postfix) with ESMTPSA id 01C7E5A1345;
-	Wed, 11 Feb 2026 13:34:44 +0100 (CET)
+	by smtp-out02-hz1.hornetsecurity.com (Postfix) with ESMTPSA id 9C0BC5A0F22;
+	Wed, 11 Feb 2026 13:34:46 +0100 (CET)
 From: Alexander Stein <alexander.stein@ew.tq-group.com>
 To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -76,8 +76,7 @@ To: Rob Herring <robh@kernel.org>,
 	Pengutronix Kernel Team <kernel@pengutronix.de>,
 	Fabio Estevam <festevam@gmail.com>,
 	Magnus Damm <magnus.damm@gmail.com>,
-	Marek Vasut <marex@denx.de>,
-	Frank Li <Frank.Li@nxp.com>
+	Marek Vasut <marex@denx.de>
 Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
@@ -86,10 +85,11 @@ Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
 	linux-usb@vger.kernel.org,
 	imx@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
-	linux@ew.tq-group.com
-Subject: [PATCH v2 2/5] arm64: dts: imx8qm-ss-hsio: Wire up DMA IRQ for PCIe
-Date: Wed, 11 Feb 2026 13:34:29 +0100
-Message-ID: <20260211123436.1077513-3-alexander.stein@ew.tq-group.com>
+	linux@ew.tq-group.com,
+	Markus Niebel <Markus.Niebel@tq-group.com>
+Subject: [PATCH v2 3/5] dt-bindings: arm: fsl: add bindings for TQMa8x
+Date: Wed, 11 Feb 2026 13:34:30 +0100
+Message-ID: <20260211123436.1077513-4-alexander.stein@ew.tq-group.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260211123436.1077513-1-alexander.stein@ew.tq-group.com>
 References: <20260211123436.1077513-1-alexander.stein@ew.tq-group.com>
@@ -106,20 +106,20 @@ X-cloud-security-crypt: load encryption module
 X-cloud-security-Mailarchiv: E-Mail archived for: alexander.stein@ew.tq-group.com
 X-cloud-security-Mailarchivtype:outbound
 X-cloud-security-Virusscan:CLEAN
-X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on mx-relay50-hz3.antispameurope.com with 4f9yYf1s13z2nJDK
+X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on mx-relay95-hz2.antispameurope.com with 4f9yYg6lFBz2F1Th
 X-cloud-security-connect: he-nlb01-hz1.hornetsecurity.com[94.100.132.6], TLS=1, IP=94.100.132.6
-X-cloud-security-Digest:445cfd46aa584c7bfd22defe62d9001c
-X-cloud-security:scantime:1.964
+X-cloud-security-Digest:ddedd737b3f16a1ef86df4ac688a2a62
+X-cloud-security:scantime:1.584
 DKIM-Signature: a=rsa-sha256;
- bh=p7pDwaK17CdUZh/u5Iy4Xmvwxf0XguEjLtkZgT9LWWU=; c=relaxed/relaxed;
+ bh=ls/S0m9WGUgqWCy8vJncgSdsx/isbkuq3kh3sRBurJc=; c=relaxed/relaxed;
  d=ew.tq-group.com;
  h=content-type:mime-version:subject:from:to:message-id:date; s=hse1;
- t=1770813311; v=1;
- b=HWA87fcq3UF2aEiamx2oxaAlbaeqHKcOBjjzkgei4Y8qKItDCnOqRtfrU1HgKM3qb+vN1xco
- o9SCW2PToNK48Vtq9xx25ck3PLefj8QecwSglqhvxcdAPwwqHaClpsohNbYSnMwACryUIer0nNJ
- Y+kYk2QAajSgjjTD9sp0Ic5SblPrCqRuDG2PHLxd9uxI5rkYFpIWnk1OpRtRQGlzy48R+wRmNJ+
- I8roi4uG8rpNF/uqEY49V3VYrnGKyevHUMn0kWW+WlYOunByv3wQfovtwohU6t8JRFl91bKzDqk
- Ei9kLhnUiSiC3WnoOrj/mBa7yiPA4Xi6ygjc0qq4PD26Q==
+ t=1770813306; v=1;
+ b=OOKK5Q3reXtBbRoVG5mak8Q+A6A713D4fSa/Jn06X/NGHEkEPAR8Byt7u0c1/vwI95TIGUZj
+ O8WpvUrLcTC7PgTh8bEDlNyum3s0sLTS+peqp3fnbeU9TaLePqsFRieqfXx4cIxjsewSpRXps2x
+ Ba+Bd3Q0eRjEKDg0grVLeEslPfZ88h3gCB1u80PAvK4is+eqB2jOIE+rBlzwlYhXhByLUmb9rKb
+ AxAocED1dCNCS3QEbBV202ijkMKksklaGM2ZWPMluDqlBw5V/v9kM0c47W9zC0MSg6p7Svdqw1d
+ Ng1s9perliMLasF3u78A31KJsEZ4269ewmW9YA1ppixow==
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -128,14 +128,14 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[ew.tq-group.com,reject];
 	R_DKIM_ALLOW(-0.20)[ew.tq-group.com:s=hse1];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_TO(0.00)[kernel.org,glider.be,baylibre.com,cadence.com,linuxfoundation.org,pengutronix.de,gmail.com,denx.de,nxp.com];
+	FREEMAIL_TO(0.00)[kernel.org,glider.be,baylibre.com,cadence.com,linuxfoundation.org,pengutronix.de,gmail.com,denx.de];
 	RCPT_COUNT_TWELVE(0.00)[26];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-28151-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-28153-lists,linux-renesas-soc=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
@@ -147,39 +147,45 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	RCVD_COUNT_FIVE(0.00)[5];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,ew.tq-group.com:mid,ew.tq-group.com:dkim]
-X-Rspamd-Queue-Id: 69B761245AD
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,ew.tq-group.com:mid,ew.tq-group.com:dkim,tq-group.com:email]
+X-Rspamd-Queue-Id: 1337B1245BC
 X-Rspamd-Action: no action
 
-IRQ mapping is already present. Add the missing DMA interrupt. This is
-similar to commit 0b4c46f9ad79c ("arm64: dts: imx8qm-ss-hsio: Wire up
-DMA IRQ for PCIe")
+TQMa8x is a SOM family using NXP i.MX8QM CPU family
+MBa8x is an evaluation mainboard for this SOM.
 
+Signed-off-by: Markus Niebel <Markus.Niebel@tq-group.com>
 Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 ---
 Changes in v2:
-* None
+* Collected Rob's R-b
 
- arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ Documentation/devicetree/bindings/arm/fsl.yaml | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi b/arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi
-index bd6e0aa27efe9..f2c94cdb682b9 100644
---- a/arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8qm-ss-hsio.dtsi
-@@ -20,8 +20,9 @@ pcie0: pciea: pcie@5f000000 {
- 		ranges = <0x81000000 0 0x00000000 0x4ff80000 0 0x00010000>,
- 			 <0x82000000 0 0x40000000 0x40000000 0 0x0ff00000>;
- 		#interrupt-cells = <1>;
--		interrupts = <GIC_SPI 70 IRQ_TYPE_LEVEL_HIGH>;
--		interrupt-names = "msi";
-+		interrupts = <GIC_SPI 70 IRQ_TYPE_LEVEL_HIGH>,
-+			     <GIC_SPI 72 IRQ_TYPE_LEVEL_HIGH>;
-+		interrupt-names = "msi", "dma";
- 		#address-cells = <3>;
- 		#size-cells = <2>;
- 		clocks = <&pciea_lpcg IMX_LPCG_CLK_6>,
+diff --git a/Documentation/devicetree/bindings/arm/fsl.yaml b/Documentation/devicetree/bindings/arm/fsl.yaml
+index 5716d701292cf..ad6edd75c4ff7 100644
+--- a/Documentation/devicetree/bindings/arm/fsl.yaml
++++ b/Documentation/devicetree/bindings/arm/fsl.yaml
+@@ -1420,6 +1420,16 @@ properties:
+               - const: tq,imx8dxp-tqma8xdps         # TQ-Systems GmbH TQMa8XDPS SOM
+               - const: fsl,imx8dxp
+ 
++      - description:
++          TQMa8x is a series of SOM featuring NXP i.MX8 system-on-chip
++          variants. It is designed to be clicked on different carrier boards
++          MBa8x is the starterkit
++        items:
++          - enum:
++              - tq,imx8qm-tqma8qm-mba8x   # TQ-Systems GmbH TQMa8QM SOM on MBa8x
++          - const: tq,imx8qm-tqma8qm      # TQ-Systems GmbH TQMa8QM SOM
++          - const: fsl,imx8qm
++
+       - description: i.MX8ULP based Boards
+         items:
+           - enum:
 -- 
 2.43.0
 
