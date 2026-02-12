@@ -1,193 +1,217 @@
-Return-Path: <linux-renesas-soc+bounces-28173-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28174-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +EEsOi7vjWlw8wAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28173-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Feb 2026 16:18:06 +0100
+	id WGE0JlP6jWnz9wAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28174-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Feb 2026 17:05:39 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 616C912ED11
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Feb 2026 16:18:06 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B38212F37F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Feb 2026 17:05:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 0C9393041D4E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Feb 2026 15:18:00 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 429AA3006B3F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Feb 2026 16:03:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD9E11E5714;
-	Thu, 12 Feb 2026 15:18:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D66E4331A46;
+	Thu, 12 Feb 2026 16:03:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="klC2+tU5"
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="KXaABoxW"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay.yourmailgateway.de (relay.yourmailgateway.de [188.68.63.102])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 856697E110;
-	Thu, 12 Feb 2026 15:18:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E680010785;
+	Thu, 12 Feb 2026 16:03:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.68.63.102
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770909480; cv=none; b=M3aj0hF63O/9l2u7TyIL4kWGPPrpURuywcCZOb8EOGA1wZF7FXUnO5pC32GAyeE6fzs2563TPbR6FLZ7TPmtsOCa2rmgSvbQhYFGgtBzFg6hBLOHAOz+zbeTi+upqOIqIN/bq/NKk8NFVlLTYBEUTFks7xt9GwGCaG7Tg+P6PHM=
+	t=1770912207; cv=none; b=AaL7pbl8NQ3ogtXYSDGVS2uyMhzZoE+MnLVHB+vYy8VIvGDWlARe/czGQVUWarCyVuSaXOTZi11fayVKpfHCWC1L4tUzpG7Gkqqh39zEIVcoqnzGOYCrtSS1DCqey6KHlkx9VKabTXaNQUjMC+X/75qKDC8IJzq8Sj2n72z8NPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770909480; c=relaxed/simple;
-	bh=GNWaPpbr53BU3Z840pm9s1F3R3YM8PUA8uCQhf9EXyk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=glkbaMrLkSkUZEuRob784FCaL61gftwxIWkBny/uTMt9oPSSuhypYVv4TG9LX0qYa1Dxk0EbM4R5O/oHr3wl+VJJR/K4gF7RjddA/nrRGgC2A6pgnLjyzVXC4aWp8Wmv1tHG9rQ0gKRJ9/WSjRPuD6ZInCgaffAOm+tlCcOU/jw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=klC2+tU5; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C9A8C19425;
-	Thu, 12 Feb 2026 15:17:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770909480;
-	bh=GNWaPpbr53BU3Z840pm9s1F3R3YM8PUA8uCQhf9EXyk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=klC2+tU5ThyeaPGiln5kckSlgVK801hTcmdB64aKcQtluNwnGEb+N29aJ4mrAqWIg
-	 38Mm4pu/e7bYwLL0ujY6BYSMHD1nXV+t5CPpKSBrxFd4RX42863yQTuRcPpj6i+Nko
-	 TXHo/7Yy136kkxCE9uNU01qQSPefY8yMTu5xYVQ/hSjqqtsRhLRi8QbeVPw/VXUPqx
-	 3gpCSunUXMgOcb8B5nZDmmMWLmTOwnIlFrU6LMRu0daaCgmuTNTlO6xImpeni1QYJD
-	 DXVigqwGyL4IkzMlc4auTqqCPa04NruKsLZEpCPQ9tPHYhY4+wSL0+00bDXj3zFtoh
-	 TNjDhElNtAyEQ==
-Date: Thu, 12 Feb 2026 09:17:56 -0600
-From: Bjorn Andersson <andersson@kernel.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Magnus Damm <magnus.damm@gmail.com>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Konrad Dybcio <konradybcio@kernel.org>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v3 1/9] dt-bindings: usb: document the Renesas
- UPD720201/UPD720202 USB 3.0 xHCI Host Controller
-Message-ID: <7kkwkjnucx3cpvegilske2qd4u24vvjkykrljosi2uyknte4bz@3xvh57q5lpcv>
-References: <20260206-topic-sm8650-ayaneo-pocket-s2-base-v3-0-5b79c5d61a03@linaro.org>
- <20260206-topic-sm8650-ayaneo-pocket-s2-base-v3-1-5b79c5d61a03@linaro.org>
+	s=arc-20240116; t=1770912207; c=relaxed/simple;
+	bh=fs4w3huEAMgTOhifbnB9LHX97Yl+dRlz32ijMU82YCo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AZbSCC2ZsAX81puE3xIyMPVFEkxrqGdTqn7oq2YQNC/eemM5uOG8eiyJyn/vJKpsMrLmdRwflWojQz/0QPrRTR+5+XeB0FVtbcZbGz9t7t49LYJvhjSZe6TGwl5i9ULN/bLWC1/TtgwE8ioU1Vxur0k7qscBxoq5q1mFZlFYqJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=KXaABoxW; arc=none smtp.client-ip=188.68.63.102
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+Received: from mors-relay-2502.netcup.net (localhost [127.0.0.1])
+	by mors-relay-2502.netcup.net (Postfix) with ESMTPS id 4fBfzT2Gd0z6Fd4;
+	Thu, 12 Feb 2026 16:56:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=leemhuis.info;
+	s=key2; t=1770911765;
+	bh=fs4w3huEAMgTOhifbnB9LHX97Yl+dRlz32ijMU82YCo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=KXaABoxWVsYbLH1gh5xbpYr4RkIYvFazojx35JpLiQfH4ESE2DGnzN62Q3Ua94F37
+	 siKuyCVms2KCwFOC433ahcfrLiJ3fER3bl0SM6TK0TeBO0qdMP+UK4s9nvoARTjh1z
+	 dol/CxH7oRK5iugLIQ+Vr1cmsz9/jKLWRPdLnjFE/hC0zTMQ3wZW3IuygXylAW5l+h
+	 zc53JMrZd0ZP7wDIrWoaww/COLQNBdB4aaW/bRYELE4M4AQiDSyPl5blYRVvVmct4P
+	 Pl9DbSHpjFZp3TnN8vmUdLfwycIUswEED7pXhiBHG1CjDfHT/ehNxviJSXRYV5wsP3
+	 fhQ9BqZN/rxeg==
+Received: from policy01-mors.netcup.net (unknown [46.38.225.35])
+	by mors-relay-2502.netcup.net (Postfix) with ESMTPS id 4fBfzT1XlZz4xhk;
+	Thu, 12 Feb 2026 16:56:05 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at policy01-mors.netcup.net
+X-Spam-Flag: NO
+X-Spam-Score: -2.898
+X-Spam-Level: 
+Received: from mxe9fb.netcup.net (unknown [10.243.12.53])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by policy01-mors.netcup.net (Postfix) with ESMTPS id 4fBfzR3jgZz8sbV;
+	Thu, 12 Feb 2026 16:56:03 +0100 (CET)
+Received: from [IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f] (unknown [IPv6:2a02:8108:8984:1d00:a0cf:1912:4be:477f])
+	by mxe9fb.netcup.net (Postfix) with ESMTPSA id 0A9F1671B1;
+	Thu, 12 Feb 2026 16:56:02 +0100 (CET)
+Authentication-Results: mxe9fb;
+        spf=pass (sender IP is 2a02:8108:8984:1d00:a0cf:1912:4be:477f) smtp.mailfrom=regressions@leemhuis.info smtp.helo=[IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f]
+Received-SPF: pass (mxe9fb: connection is authenticated)
+Message-ID: <f82b7734-6ddc-4029-b38d-147e9a1de021@leemhuis.info>
+Date: Thu, 12 Feb 2026 16:56:01 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260206-topic-sm8650-ayaneo-pocket-s2-base-v3-1-5b79c5d61a03@linaro.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/imagination: Convert to
+ dev_pm_domain_{at,de}tach_list()
+To: Marek Vasut <marek.vasut@mailbox.org>,
+ Matt Coster <Matt.Coster@imgtec.com>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Frank Binns <Frank.Binns@imgtec.com>,
+ Brajesh Gupta <Brajesh.Gupta@imgtec.com>,
+ Alessio Belle <Alessio.Belle@imgtec.com>,
+ Alexandru Dadu <Alexandru.Dadu@imgtec.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "regressions@lists.linux.dev" <regressions@lists.linux.dev>
+References: 
+ <194465eda54d1f852a9226cf691ddc5aa208e0a3.1769097977.git.geert+renesas@glider.be>
+ <ffdf3982-e22c-4d01-afa6-5449ed381000@imgtec.com>
+ <CAMuHMdWMh_oJFg-KtapcTDGvYWZ-hg_ZEJ2=E5Tp1apOEc8tnQ@mail.gmail.com>
+ <b3b4f10e-1222-44f7-b308-db7199c67147@mailbox.org>
+ <3e0def93-2f6c-4bcf-8ee5-bf607f2ca382@imgtec.com>
+ <f5d3dde6-edec-42f4-93cb-459c8677245a@mailbox.org>
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+Content-Language: de-DE, en-US
+In-Reply-To: <f5d3dde6-edec-42f4-93cb-459c8677245a@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-PPP-Message-ID: <177091176259.2119832.3617988698706173767@mxe9fb.netcup.net>
+X-NC-CID: J5czT71szw5Ql5dY1Tz1SLQRGPcYJeYH0q9GxvoioYLNmk5ORlI=
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[leemhuis.info:s=key2];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-28173-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[linuxfoundation.org,kernel.org,glider.be,gmail.com,google.com,vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[linux-m68k.org,imgtec.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org,lists.linux.dev];
+	DMARC_NA(0.00)[leemhuis.info];
+	TAGGED_FROM(0.00)[bounces-28174-lists,linux-renesas-soc=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[17];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	DKIM_TRACE(0.00)[leemhuis.info:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,leemhuis.info:mid,leemhuis.info:dkim,imgtec.com:email];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andersson@kernel.org,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[regressions@leemhuis.info,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 616C912ED11
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 0B38212F37F
 X-Rspamd-Action: no action
 
-On Fri, Feb 06, 2026 at 03:50:29PM +0100, Neil Armstrong wrote:
-> Document the Renesas UPD720201/UPD720202 USB 3.0 xHCI Host Controller,
-> which connects over PCIe and requires specific power supplies to
-> start up.
+On 2/12/26 15:38, Marek Vasut wrote:
+> On 2/12/26 10:00 AM, Matt Coster wrote:
+>> On 11/02/2026 19:17, Marek Vasut wrote:
+>>> On 1/23/26 2:50 PM, Geert Uytterhoeven wrote:
+>>>> On Fri, 23 Jan 2026 at 14:36, Matt Coster <Matt.Coster@imgtec.com>
+>>>> wrote:
+>>>>> On 22/01/2026 16:08, Geert Uytterhoeven wrote:
+>>>>>> Call the dev_pm_domain_attach_list() and dev_pm_domain_detach_list()
+>>>>>> helpers instead of open-coding multi PM Domain handling.
+>>>>>>
+>>>>>> This changes behavior slightly:
+>>>>>>     - The new handling is also applied in case of a single PM Domain,
+>>>>>>     - PM Domains are now referred to by index instead of by name, but
+>>>>>>       "make dtbs_check" enforces the actual naming and ordering
+>>>>>> anyway,
+>>>>>>     - There are no longer device links created between virtual domain
+>>>>>>       devices, only between virtual devices and the parent device.
+>>>>>
+>>>>> We still need this guarantee, both at start and end of day. In the
+>>>>> current implementation dev_pm_domain_attach_list() iterates forwards,
+>>>>> but so does dev_pm_domain_detach_list(). Even if we changed that, I'd
+>>>>> prefer not to rely on the implementation details when we can
+>>>>> declare the
+>>>>> dependencies explicitly.
+>>>>
+>>>> Note that on R-Car, the PM Domains are nested (see e.g.
+>>>> r8a7795_areas[]),
+>>>> so they are always (un)powered in the correct order.  But that may not
+>>>> be the case in the integration on other SoCs.
+>>>>
+>>>>> We had/have a patch (attached) kicking around internally to use the
+>>>>> *_list() functions but keep the inter-domain links in place; it got
+>>>>> held
+>>>>> up by discussions as to whether we actually need those dependencies
+>>>>> for
+>>>>> the hardware to behave correctly. Your patch spurred me to run around
+>>>>> the office and nag people a bit, and it seems we really do need to
+>>>>> care
+>>>>> about the ordering.
+>>>>
+>>>> OK.
+>>>>
+>>>>> Can you add the links back in for a V2 or I can properly send the
+>>>>> attached patch instead, I don't mind either way.
+>>>>
+>>>> Please move forward with your patch, you are the expert.
+>>>> I prefer not to be blamed for any breakage ;-)
+>>>
+>>> Has there been any progress on fixing this kernel crash ?
+>>>
+>>> There are already two proposed solutions, but no fix is upstream.
+>>
+>> Yes and no. Our patch to use dev_pm_domain_attach_list() has landed in
+>> drm-misc-next as commit e19cc5ab347e3 ("drm/imagination: Use>> dev_pm_domain_attach_list()"), but this does not fix the underlying
+>> issue of missing synchronization in the PM core[1] is still unresolved
+>> as far as I'm aware.
 > 
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-> ---
->  .../bindings/usb/renesas,upd720201-pci.yaml        | 61 ++++++++++++++++++++++
->  1 file changed, 61 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/usb/renesas,upd720201-pci.yaml b/Documentation/devicetree/bindings/usb/renesas,upd720201-pci.yaml
-> new file mode 100644
-> index 000000000000..34acee62cdd2
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/usb/renesas,upd720201-pci.yaml
-> @@ -0,0 +1,61 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/usb/renesas,upd720201-pci.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: UPD720201/UPD720202 USB 3.0 xHCI Host Controller (PCIe)
-> +
-> +maintainers:
-> +  - Neil Armstrong <neil.armstrong@linaro.org>
-> +
-> +description:
-> +  UPD720201 USB 3.0 xHCI Host Controller via PCIe x1 Gen2 interface.
-> +  The UPD720202 supports up to two downstream ports, while UPD720201
-> +  supports up to four downstream USB 3.0 rev1.0 ports.
-> +
-> +properties:
-> +  compatible:
-> +    const: pci1912,0014
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  avdd33-supply:
-> +    description: +3.3 V power supply for analog circuit
-> +
-> +  vdd10-supply:
-> +    description: +1.05 V power supply
-> +
-> +  vdd33-supply:
-> +    description: +3.3 V power supply
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - avdd33-supply
-> +  - vdd10-supply
-> +  - vdd33-supply
-> +
-> +allOf:
-> +  - $ref: usb-xhci.yaml
-> +
-> +additionalProperties: false
+> OK, but the pvr driver can currently easily crash the kernel on boot if
+> firmware is missing, so that should be fixed soon, right ?
 
-I'm trying to hang a onboard_hub off this controller and #address-cells,
-#size-cells, and hub@ comes back as invalid children. 
+Well, drm-misc-next afaik means that the above mentioned fix would only
+be merged in 7.1, which is ~4 months away, which is not really "soon"
+I'd say. Or did I misjudge this?
 
-I think this should be unevaluatedProperties instead.
+> I added the regressions list onto CC, because this seems like a problem
+> worth tracking.
 
-Regards,
-Bjorn
+Noticed that and wondered what change caused the regression. Did not
+find a answer in a quick search on lore[1]. Because if it's a
+regression, we maybe should just revert the culprit for now according to
+Linus:
+https://lore.kernel.org/lkml/CAHk-=wi86AosXs66-yi54+mpQjPu0upxB8ZAfG+LsMyJmcuMSA@mail.gmail.com/
 
-> +
-> +examples:
-> +  - |
-> +    pcie@0 {
-> +        reg = <0x0 0x1000>;
-> +        ranges = <0x02000000 0x0 0x100000 0x10000000 0x0 0x0>;
-> +        #address-cells = <3>;
-> +        #size-cells = <2>;
-> +        device_type = "pci";
-> +
-> +        usb-controller@0 {
-> +            compatible = "pci1912,0014";
-> +            reg = <0x0 0x0 0x0 0x0 0x0>;
-> +            avdd33-supply = <&avdd33_reg>;
-> +            vdd10-supply = <&vdd10_reg>;
-> +            vdd33-supply = <&vdd33_reg>;
-> +        };
-> +    };
-> 
-> -- 
-> 2.34.1
-> 
+Ciao, Thorsten
+
+[1] I guess this was the initial report from Geert?
+https://lore.kernel.org/all/CAMuHMdWapT40hV3c+CSBqFOW05aWcV1a6v_NiJYgoYi0i9_PDQ@mail.gmail.com/
 
