@@ -1,181 +1,222 @@
-Return-Path: <linux-renesas-soc+bounces-28212-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28213-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EBmoFdOfkWlMkgEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28212-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 15 Feb 2026 11:28:35 +0100
+	id YDMrMtdOkmlvswEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28213-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 15 Feb 2026 23:55:19 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B006513E7A9
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 15 Feb 2026 11:28:34 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2504413FEFB
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 15 Feb 2026 23:55:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3D928300DF70
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 15 Feb 2026 10:28:33 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B8E6030097C1
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 15 Feb 2026 22:55:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B40C32C0F75;
-	Sun, 15 Feb 2026 10:28:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A85C30BF62;
+	Sun, 15 Feb 2026 22:55:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kdj/ttr7"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Khem6T/L"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FE8824BBF0;
-	Sun, 15 Feb 2026 10:28:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7873E182B7
+	for <linux-renesas-soc@vger.kernel.org>; Sun, 15 Feb 2026 22:55:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771151311; cv=none; b=Mp4ouSDuDwrrLI0/CCabNOy15ZNmVZZLNHFy/kjHsWAv5B6YAdUtTty3A0pAvN1d7wom0SEPEiOO8+xLfMu89R3KQdU+Xsxxcz+E5KoY/W608EW+Pb9oZPVRRnnrvuZuBnONqxlDD5Oclrj4uyzglVkvQISj92esZpjNKE/QDFg=
+	t=1771196117; cv=none; b=VUePaUETMTN/38vo+l6y25q/AEbdv1D2OK+ixyGq+jYsAmsSK7UvBRATLKDuLdDCxFRXc2wVhGlNqjRA9dFOn/gmUQm4B7HK3lU5j0pORHpqLFonPXWaleWVhJTbnV8VJOjJ/fUF36VDKuctTbJLAdFQbFTmpcMZmyFTifGPMzU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771151311; c=relaxed/simple;
-	bh=bGxgpM8q1KtuaIR5W2mi8ypkghhvkWa49uvXgAGIbZc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=IeYtCN+4t6otoWLeAyUuxlDegudOFOvOxaeLf/5eRDOh7OMQzUQH43RvKEnJiOcCknCmdICsw2kChLzCfwINL5cLclEzg8MPkFil7GzUDSuKUqNqthy2yvtR4KmM6A9ssjFAjiro6J2NlCGSwCXKn2wCB6Vu+AgWzpQfX+boQtI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kdj/ttr7; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F8E4C4CEF7;
-	Sun, 15 Feb 2026 10:28:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771151311;
-	bh=bGxgpM8q1KtuaIR5W2mi8ypkghhvkWa49uvXgAGIbZc=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=Kdj/ttr7V6ZOO32v/GouOpUDsEbrxgqw39j/gBi0e4VWvx1VT0KSG6ZIaCuUXoqxJ
-	 YUV9TZjYgt2Dm2zr3w9hhWv2Nx0JknpX581wZfldfbWqQPJd43wBcWVHLZ27bj72Z5
-	 MMa83PteR0hCY8sT3eyTySM4S9iyU80G035BmT+al7PMwM3q6sX0ktN/52/EEt5OOF
-	 pPmdfQJkjVfABF1BwdTwQu+F/c4ZGknSpaCNw1NkIt0nNtKO/kXSHvZpiKyz4MjCPe
-	 Htg4tH6dnjN2+yZjwO5nbN7JQxM2V5oJ+ruYxZX5atPEQCsk+U1BwWcFT82E/Gi2T5
-	 9/67B192ldLTg==
-Message-ID: <6a7cae58-f1a2-4641-832f-cd479a0bcc43@kernel.org>
-Date: Sun, 15 Feb 2026 11:28:22 +0100
+	s=arc-20240116; t=1771196117; c=relaxed/simple;
+	bh=TNyRzSBr/AtNCce67q749OZFUSphAmrWNkHgydf587w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GlNYYSzaEq8XF/Yn5bF3zg9fO2J/z3FZczUvKLakIqHNlAvjsKb9Ik28d5fNORzGpRE55mgLAgk9so3/nat1IW1PvCIdvZwCfxigP4r6c+SeNYvrDGas8YT3P8SjQjWyNHLe/DxgP/BGMvixBakDOX07hmWFVjNsVaNcWF7tvfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Khem6T/L; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=fjqK1CnmMLnynK
+	mUkq2NGNXQxQWHiqDXRDV1cxXQMFc=; b=Khem6T/LPXw9DcbGo2IAw6sOzSG6U5
+	H+3X7IjRDdV59N8cB8IV56DQabVc5sY0EGs7isNQKWgzIcrflS0xfTsyWykrOCIN
+	uXqpNDup5wRHcdl/ovjJEz4Kph6I3yNxxllxraRzP/cLNeSBfT24ixK4hIpVTbFu
+	KPhRq0XDDSGz0w/xy9Jv1AYH2A9nrni1JQ2Z+U+GiSqkbGNbWo9dEOvx68PTFusm
+	BA+a4Gt8A7K2lky5w3aEzE14WxR8ylMT5G5nh+AxRcgKht+aPrFfq2KQigyR28W+
+	r4SDphAActIw7+YT8hOnwMb1RpfMPbwjCPddRcsyeOy0MBMvVqYD3Zag==
+Received: (qmail 3011230 invoked from network); 15 Feb 2026 23:55:04 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 15 Feb 2026 23:55:04 +0100
+X-UD-Smtp-Session: l3s3148p1@reycuuRKXIQujns5
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Andy Shevchenko <andriy.shevchenko@intel.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Antonio Borneo <antonio.borneo@foss.st.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	driver-core@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Lee Jones <lee@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	linux-arm-msm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org,
+	linux-spi@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev,
+	Mark Brown <broonie@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Waiman Long <longman@redhat.com>,
+	Wilken Gottwalt <wilken.gottwalt@posteo.net>,
+	Will Deacon <will@kernel.org>
+Subject: [RFC v2 PATCH 00/13] hwspinlock: move device alloc into core and refactor includes
+Date: Sun, 15 Feb 2026 23:54:40 +0100
+Message-ID: <20260215225501.6365-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 0/2] arm64: dts + drm/panthor: require explicit GPU
- sram-supply
-To: =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
- Alim Akhtar <alim.akhtar@samsung.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Chen-Yu Tsai <wens@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Geert Uytterhoeven
- <geert+renesas@glider.be>, Heiko Stuebner <heiko@sntech.de>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
- linux-sunxi@lists.linux.dev, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Maxime Ripard
- <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
- Samuel Holland <samuel@sholland.org>, Simona Vetter <simona@ffwll.ch>,
- Steven Price <steven.price@arm.com>, Thomas Zimmermann <tzimmermann@suse.de>
-References: <20260215100156.135374-1-work@onurozkan.dev>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20260215100156.135374-1-work@onurozkan.dev>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[sang-engineering.com:s=k1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-28212-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[onurozkan.dev,samsung.com,collabora.com,kernel.org,gmail.com,vger.kernel.org,lists.freedesktop.org,glider.be,sntech.de,lists.infradead.org,lists.linux.dev,arm.com,linux.intel.com,sholland.org,ffwll.ch,suse.de];
+	TAGGED_FROM(0.00)[bounces-28213-lists,linux-renesas-soc=lfdr.de,renesas];
+	DMARC_NA(0.00)[sang-engineering.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[30];
+	RCPT_COUNT_TWELVE(0.00)[46];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[intel.com,lists.infradead.org,sang-engineering.com,foss.st.com,kernel.org,arndb.de,linux.alibaba.com,gmail.com,baylibre.com,lists.linux.dev,linuxfoundation.org,redhat.com,lwn.net,vger.kernel.org,st-md-mailman.stormreply.com,analog.com,infradead.org,sholland.org,posteo.net];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FROM_NEQ_ENVFROM(0.00)[wsa@sang-engineering.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[sang-engineering.com:+];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: B006513E7A9
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,sang-engineering.com:mid,sang-engineering.com:dkim]
+X-Rspamd-Queue-Id: 2504413FEFB
 X-Rspamd-Action: no action
 
-On 15/02/2026 11:01, Onur Özkan wrote:
-> Hi all,
-> 
-> This series follows the discussion around panthor's SRAM regulator handling
-> and the DT expectations for mali GPU nodes.
-> 
-> Today, if sram-supply is missing in the DT file, panthor falls back to
-> a dummy regulator with a warning. This implicit behavior hides missing
-> DT wiring behind regulator core fallback.
-> 
-> As discussed in [1], the agreed direction is:
-> - Update DTs to explicitly provide sram-supply, when no separate SRAM
->   rail exists, use the same regulator as mali-supply.
-> - Make panthor to treat sram-supply as mandatory for all compatibles
->   except mt8196-mali (as that SoC manages SRAM outside panthor).
-> 
+My ultimate goal is to allow hwspinlock provider drivers outside of the
+subsystem directory. It turned out that a simple split of the headers
+files into a public provider and a public consumer header file is not
+enough because core internal structure need to stay hidden. Even more,
+their opaqueness could and should even be increased. That would also
+allow the core to handle the de-/allocation of the hwspinlock device
+itself.
 
-Your threading is messed/broken. Start using b4 or just use git
-format-patch in a standard way (so one command and then one command for
-sending).
+This series does all that. Patches 1-7 abstract access to internal
+structures away using helpers. Patch 8 then move hwspinlock device
+handling to the core, simplifying drivers. The remaining patches
+refactor the headers until the internal one is gone and the public ones
+are divided into provider and consumer parts. More details are given in
+the patch descriptions.
 
-Best regards,
-Krzysztof
+One note about using a callback to initialize hwspinlock priv: I also
+experimented with a dedicated 'set_priv' helper function. It felt a bit
+clumsy to me. Drivers would need to save the 'bank' pointer again and
+iterate over it. Because most drivers will only have a simple callback
+anyhow, it looked leaner to me.
+
+This series is based on the cleanup series "hwspinlock: remove
+platform_data from subsystem" and has been tested on a Renesas
+SparrowHawk board (R-Car V4H) with a yet-to-be-upstreamed hwspinlock
+driver for the MFIS IP core. A branch can be found here (the MFIS driver
+is still WIP):
+
+git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/hwspinlock/refactor-alloc-buildtest
+
+Buildbots seem to be happy, too.
+
+Looking forward to comments. I especially wonder if the last patch
+should stay as-is or if it should be broken out, so individual
+subsystems can pick up their part (with a fallback in place, of course,
+until the last user is converted).
+
+Happy hacking,
+
+   Wolfram
+
+
+Wolfram Sang (13):
+  hwspinlock: add helpers to retrieve core data
+  hwspinlock: add callback to fill private data of a hwspinlock
+  hwspinlock: omap: use new callback to initialize hwspinlock priv
+  hwspinlock: qcom: use new callback to initialize hwspinlock priv
+  hwspinlock: sprd: use new callback to initialize hwspinlock priv
+  hwspinlock: stm32: use new callback to initialize hwspinlock priv
+  hwspinlock: sun6i: use new callback to initialize hwspinlock priv
+  hwspinlock: handle hwspinlock device allocation in the core
+  hwspinlock: move entries from internal to public header
+  hwspinlock: remove internal header
+  hwspinlock: sort include and update copyright
+  hwspinlock: refactor provider.h from public header
+  hwspinlock: refactor consumer.h from public header
+
+ Documentation/locking/hwspinlock.rst          |   2 +-
+ MAINTAINERS                                   |   2 +-
+ drivers/base/regmap/regmap.c                  |   2 +-
+ drivers/hwspinlock/hwspinlock_core.c          | 129 +++++++++++++-----
+ drivers/hwspinlock/hwspinlock_internal.h      |  72 ----------
+ drivers/hwspinlock/omap_hwspinlock.c          |  29 ++--
+ drivers/hwspinlock/qcom_hwspinlock.c          |  69 +++++-----
+ drivers/hwspinlock/sprd_hwspinlock.c          |  41 +++---
+ drivers/hwspinlock/stm32_hwspinlock.c         |  28 ++--
+ drivers/hwspinlock/sun6i_hwspinlock.c         |  38 ++----
+ drivers/iio/adc/sc27xx_adc.c                  |   2 +-
+ drivers/irqchip/irq-stm32mp-exti.c            |   2 +-
+ drivers/mfd/syscon.c                          |   2 +-
+ drivers/nvmem/sc27xx-efuse.c                  |   2 +-
+ drivers/nvmem/sprd-efuse.c                    |   2 +-
+ drivers/pinctrl/stm32/pinctrl-stm32.c         |   2 +-
+ drivers/soc/qcom/smem.c                       |   2 +-
+ drivers/spi/spi-sprd-adi.c                    |   2 +-
+ .../{hwspinlock.h => hwspinlock/consumer.h}   |  29 +---
+ include/linux/hwspinlock/provider.h           |  60 ++++++++
+ 20 files changed, 268 insertions(+), 249 deletions(-)
+ delete mode 100644 drivers/hwspinlock/hwspinlock_internal.h
+ rename include/linux/{hwspinlock.h => hwspinlock/consumer.h} (93%)
+ create mode 100644 include/linux/hwspinlock/provider.h
+
+-- 
+2.51.0
+
 
