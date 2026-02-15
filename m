@@ -1,51 +1,51 @@
-Return-Path: <linux-renesas-soc+bounces-28211-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28212-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EGhcHJCfkWlMkgEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28211-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 15 Feb 2026 11:27:28 +0100
+	id EBmoFdOfkWlMkgEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28212-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 15 Feb 2026 11:28:35 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9414F13E791
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 15 Feb 2026 11:27:27 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id B006513E7A9
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 15 Feb 2026 11:28:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id F316D3002D2C
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 15 Feb 2026 10:27:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3D928300DF70
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 15 Feb 2026 10:28:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4F5B29ACFC;
-	Sun, 15 Feb 2026 10:27:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B40C32C0F75;
+	Sun, 15 Feb 2026 10:28:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VvIzAzBT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kdj/ttr7"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E61424BBF0;
-	Sun, 15 Feb 2026 10:27:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FE8824BBF0;
+	Sun, 15 Feb 2026 10:28:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771151243; cv=none; b=f+Kwhxd+aFB6hpThlo+71XIQk3wRi7YoZj09ErnvWQu6MOPpxBhfegT5edRkjAYjjwlogSpUFUxR/5HrDvZc0EJCT35fC8jFTzmzK6W6Lvung4/r3Vj3pXfzd9IR5D9JrNiLqzQL2qUmGIaFhFI/0sPgTrrv0Ht3opS9C9AJ+Hg=
+	t=1771151311; cv=none; b=Mp4ouSDuDwrrLI0/CCabNOy15ZNmVZZLNHFy/kjHsWAv5B6YAdUtTty3A0pAvN1d7wom0SEPEiOO8+xLfMu89R3KQdU+Xsxxcz+E5KoY/W608EW+Pb9oZPVRRnnrvuZuBnONqxlDD5Oclrj4uyzglVkvQISj92esZpjNKE/QDFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771151243; c=relaxed/simple;
-	bh=WW2sJsLiN33IDcNFD+yTcKRGRq/XHiHSNUnM6YBZQkM=;
+	s=arc-20240116; t=1771151311; c=relaxed/simple;
+	bh=bGxgpM8q1KtuaIR5W2mi8ypkghhvkWa49uvXgAGIbZc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=IOk88x5csNDLTVuTWHZ7SQlXvCNfbtc9wMUBWATvbkOewKAlnpVmKbnluUAIuBuqGYkght15uLI2I2MV63gmebyM9xNdTKJTEQqB3vlTIseWuDApbxf9BM9JSy8nM4jQmtwRAubkUBnhQSGGaXIW1hRAROtOPEoCXcrVtrjrRNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VvIzAzBT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7704C4CEF7;
-	Sun, 15 Feb 2026 10:27:18 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=IeYtCN+4t6otoWLeAyUuxlDegudOFOvOxaeLf/5eRDOh7OMQzUQH43RvKEnJiOcCknCmdICsw2kChLzCfwINL5cLclEzg8MPkFil7GzUDSuKUqNqthy2yvtR4KmM6A9ssjFAjiro6J2NlCGSwCXKn2wCB6Vu+AgWzpQfX+boQtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kdj/ttr7; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F8E4C4CEF7;
+	Sun, 15 Feb 2026 10:28:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771151243;
-	bh=WW2sJsLiN33IDcNFD+yTcKRGRq/XHiHSNUnM6YBZQkM=;
+	s=k20201202; t=1771151311;
+	bh=bGxgpM8q1KtuaIR5W2mi8ypkghhvkWa49uvXgAGIbZc=;
 	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=VvIzAzBTIP/IqXKObvuFK84rwbWIKYqZg29R7/1yft27bGFFhjpHqokO00++7FFOj
-	 J++OkHol5jj90i4mFg5i1YteTUMxz6+dJi6MVOYppmGYCYPxEp1bnh9qSBJLTwYreL
-	 /DkIwHHLKHycscmSMG+XgnfzIr++svu1J6eVt2T0rZcsJeT16e+unUaKUb0ai5XzHa
-	 HFXSSNDw9kAxDvnrRGT8nZo4Q79Ea4C7gcqHn0dDn/hfc7WXqgqeTnHA3SHLWAz70v
-	 ml+LH5hEP8SolRQ+Hso+dklpeWl0lWIl50fEDfYv9lMumvFM05cfSbaunY78OXyesF
-	 Al07vUaXHTNcw==
-Message-ID: <738a4531-fec8-4ca7-98fd-a3971c666bd5@kernel.org>
-Date: Sun, 15 Feb 2026 11:27:16 +0100
+	b=Kdj/ttr7V6ZOO32v/GouOpUDsEbrxgqw39j/gBi0e4VWvx1VT0KSG6ZIaCuUXoqxJ
+	 YUV9TZjYgt2Dm2zr3w9hhWv2Nx0JknpX581wZfldfbWqQPJd43wBcWVHLZ27bj72Z5
+	 MMa83PteR0hCY8sT3eyTySM4S9iyU80G035BmT+al7PMwM3q6sX0ktN/52/EEt5OOF
+	 pPmdfQJkjVfABF1BwdTwQu+F/c4ZGknSpaCNw1NkIt0nNtKO/kXSHvZpiKyz4MjCPe
+	 Htg4tH6dnjN2+yZjwO5nbN7JQxM2V5oJ+ruYxZX5atPEQCsk+U1BwWcFT82E/Gi2T5
+	 9/67B192ldLTg==
+Message-ID: <6a7cae58-f1a2-4641-832f-cd479a0bcc43@kernel.org>
+Date: Sun, 15 Feb 2026 11:28:22 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -53,22 +53,29 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/2] arm64: dts: add missing sram-supply to mali gpu
- nodes
+Subject: Re: [PATCH v1 0/2] arm64: dts + drm/panthor: require explicit GPU
+ sram-supply
 To: =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Alim Akhtar <alim.akhtar@samsung.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Heiko Stuebner <heiko@sntech.de>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org
-References: <20260215100302.136719-1-work@onurozkan.dev>
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Chen-Yu Tsai <wens@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Geert Uytterhoeven
+ <geert+renesas@glider.be>, Heiko Stuebner <heiko@sntech.de>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Maxime Ripard
+ <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
+ Samuel Holland <samuel@sholland.org>, Simona Vetter <simona@ffwll.ch>,
+ Steven Price <steven.price@arm.com>, Thomas Zimmermann <tzimmermann@suse.de>
+References: <20260215100156.135374-1-work@onurozkan.dev>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -114,7 +121,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20260215100302.136719-1-work@onurozkan.dev>
+In-Reply-To: <20260215100156.135374-1-work@onurozkan.dev>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
@@ -122,17 +129,17 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-28211-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-28212-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[onurozkan.dev,kernel.org,gmail.com,sholland.org,samsung.com,collabora.com,glider.be,sntech.de,vger.kernel.org,lists.infradead.org,lists.linux.dev];
+	FREEMAIL_TO(0.00)[onurozkan.dev,samsung.com,collabora.com,kernel.org,gmail.com,vger.kernel.org,lists.freedesktop.org,glider.be,sntech.de,lists.infradead.org,lists.linux.dev,arm.com,linux.intel.com,sholland.org,ffwll.ch,suse.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[21];
+	RCPT_COUNT_TWELVE(0.00)[30];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
@@ -143,69 +150,31 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[onurozkan.dev:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 9414F13E791
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: B006513E7A9
 X-Rspamd-Action: no action
 
-On 15/02/2026 11:02, Onur Özkan wrote:
-> Some arm64 Mali GPU DT nodes define mali-supply but
-> are missing sram-supply.
+On 15/02/2026 11:01, Onur Özkan wrote:
+> Hi all,
 > 
-> As discussed in [1], sram-supply should be explicitly
-> defined for all relevant compatibles. If there is no
-> separate SRAM rail, it can reference the same regulator
-> as mali-supply.
-
-But is this then a sram-supply?
-
-For me it seems you just want to get rid of the warning from [1] and
-that is not correct patch. I don't care about that warning and you
-should not add DTS changes just to remove the warning.
-
-You should add a CORRECT supply, if one exist. If one does not exist,
-you cannot add it.
-
-Please wrap commit message according to Linux coding style / submission
-process (neither too early nor over the limit):
-https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
-
+> This series follows the discussion around panthor's SRAM regulator handling
+> and the DT expectations for mali GPU nodes.
 > 
-> This change adds the missing sram-supply properties to
-> affected DT files. This aligns DTs with expected regulator
-> modeling and avoids relying on implicit fallback behavior.
+> Today, if sram-supply is missing in the DT file, panthor falls back to
+> a dummy regulator with a warning. This implicit behavior hides missing
+> DT wiring behind regulator core fallback.
 > 
-> [1]: https://lore.kernel.org/all/20260213155937.6af75786@nimda/
-
-That's not really relevant... and my first impression was that you miss
-bindings. You should rather explain this all in terms of hardware or
-bindings - e.g. this supply is or is not in the bindings and you are
-adding it because it's missing.
-
+> As discussed in [1], the agreed direction is:
+> - Update DTs to explicitly provide sram-supply, when no separate SRAM
+>   rail exists, use the same regulator as mali-supply.
+> - Make panthor to treat sram-supply as mandatory for all compatibles
+>   except mt8196-mali (as that SoC manages SRAM outside panthor).
 > 
-> Signed-off-by: Onur Özkan <work@onurozkan.dev>
 
-
-
-Please split your patch per Soc subsystems.
-
-
-> ---
-
-...
-
-> diff --git a/arch/arm64/boot/dts/exynos/exynos5433-tm2-common.dtsi b/arch/arm64/boot/dts/exynos/exynos5433-tm2-common.dtsi
-> index a1fb354dea9f..aba7f7325d8c 100644
-> --- a/arch/arm64/boot/dts/exynos/exynos5433-tm2-common.dtsi
-> +++ b/arch/arm64/boot/dts/exynos/exynos5433-tm2-common.dtsi
-> @@ -356,6 +356,7 @@ &dsi {
->  
->  &gpu {
->  	mali-supply = <&buck6_reg>;
-> +	sram-supply = <&buck6_reg>;
-
-There is no dedicated sram supply. It is probably routed internally, so
-I don't think we should expose it.
+Your threading is messed/broken. Start using b4 or just use git
+format-patch in a standard way (so one command and then one command for
+sending).
 
 Best regards,
 Krzysztof
