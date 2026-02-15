@@ -1,313 +1,296 @@
-Return-Path: <linux-renesas-soc+bounces-28208-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28209-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UIZMN81/kWl9jQEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28208-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 15 Feb 2026 09:11:57 +0100
+	id UIpGKsKZkWnbkAEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28209-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 15 Feb 2026 11:02:42 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F05513E48C
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 15 Feb 2026 09:11:57 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C073D13E6F1
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 15 Feb 2026 11:02:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A6BB4300D930
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 15 Feb 2026 08:11:51 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 238503002D30
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 15 Feb 2026 10:02:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97D4C2BEFE7;
-	Sun, 15 Feb 2026 08:11:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96E582C21DC;
+	Sun, 15 Feb 2026 10:02:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="TIUHd2Zt"
+	dkim=pass (1024-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b="B9UjE9Sz"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011010.outbound.protection.outlook.com [40.107.74.10])
+Received: from forward101a.mail.yandex.net (forward101a.mail.yandex.net [178.154.239.84])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F8512BE639;
-	Sun, 15 Feb 2026 08:11:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.10
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771143109; cv=fail; b=ssEZ4SNaNo0YlpAyZueCirN0hkq0vTYKE1UGCH1mKvZ8n5dJN3Ex46DNJnIjnGeiw031+nlCtfHcRVoYIWCUXBs+88gyHV+0X4CF2I/3TXnEsDF2FrDUbBX+1IEFJPyB4gtSkztUGM36BWe203z7Rk6U5MSvLsWr4NrI0FLY1Uo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771143109; c=relaxed/simple;
-	bh=Kz6AHMhhSAtlljstQ99N6ro44/xKyWZOcHgYcA7oAcA=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=OPEKpjgEQE0Wb/0N8ymQleLyeN2w+ESzDcXqoNLrIbnFlIpKN1HpczIws6sLqN6ARQGnbvnvlie2WRN2CQNjo3xI6T85bKQs3fBHlCVlrA4y5oHKJlsntqWKXCjo5MLqmgLG7baXx8K81ZwJjl6ovY1WtGkC6Hw0N4MSgLPMTVg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=TIUHd2Zt; arc=fail smtp.client-ip=40.107.74.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ip+hDVJtsZXNW5ecB7UH3ew+PQNUIz0WygQx83ISFLZRmJtGrR4dG6gtV25DMnMfKTrpfO9XVF3qj8n89Asu0eaVY0LmYZBIa4SyOupsV9fH2r8WWmiPLKIVZgOe7GSSkXYp1yhF1p+kD9Of99uvoSwMHufM7PmtqoMtm+O3Te82CZT9u6f3hkqEsgCuU3//str5yWI147TNYpUb87/sz3FkK0LQCydDhq25NJA2CDKhvkL3M9r+/88a4txLBzS1tASVaWHyHg5GguIgldkx+cQRCJjbFg0bQpNaLsKGQdG6VXW42HRDKc/Ick3U3RS7rJI5XuOtpUdP5KnAGpi6bg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XOvaiyZ9GFLOrpOMmwiADOXcMGl1FQR7vw2BLxiULjI=;
- b=c0ULLC7eXn/Q88kzDvO/L0fBOruMssflFqfKrHNscbanGQkqh12BUuxc2+qMGejF1pUAi3Y7B10BjegkJN8ubzAvpTFOF+t0ZD+jtJcNCYDpsT4VtcnYZ83IcQH/QhsEc2piRG0ubyxWU7guX6zimKDXXZHc75JNEzuEoN87g+Gy7aGbIjQI0exbd/cDYb0r7Ja4oQG2ALsrDX9tIc4XLJh7Nyx98HW1oOfcoq5oKQSN1fNuIEErdRtkHnAsFGQPx8JZFT/iS6F40XDP/wcR0p4caK8KCMcjcHFgK+IXHWWDtv8LPj68s0RXRcxvddgStgqm3T43V8iJga1MMNGVzQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XOvaiyZ9GFLOrpOMmwiADOXcMGl1FQR7vw2BLxiULjI=;
- b=TIUHd2Ztqqk5tRXs0KEDmHQP4Wl2r7hhMgTX0s6PV22FmrLGhvwE75x2Zm40mUqorSvl47KpomTMb/ErGQqvvwRa3BU7NMPURnzS93fB1zDFc0tyAvXyrqPcTK2Jar1nKt8Nr1awPCSinW6tVkYToBBlVbVWJz/qbCcybLNx7RA=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by TY7PR01MB16885.jpnprd01.prod.outlook.com (2603:1096:405:329::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9611.15; Sun, 15 Feb
- 2026 08:11:42 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::87d1:4928:d55:97de]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::87d1:4928:d55:97de%4]) with mapi id 15.20.9611.013; Sun, 15 Feb 2026
- 08:11:37 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, Tommaso Merciai
-	<tomm.merciai@gmail.com>, geert <geert@linux-m68k.org>, laurent.pinchart
-	<laurent.pinchart@ideasonboard.com>
-CC: "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
-	<mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring
-	<robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
-	<conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, Michael
- Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
-	magnus.damm <magnus.damm@gmail.com>, Laurent Pinchart
-	<laurent.pinchart+renesas@ideasonboard.com>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>
-Subject: RE: [PATCH v5 09/20] dt-bindings: display: renesas,rzg2l-du: Add
- support for RZ/G3E SoC
-Thread-Topic: [PATCH v5 09/20] dt-bindings: display: renesas,rzg2l-du: Add
- support for RZ/G3E SoC
-Thread-Index: AQHcnQXxMzM3EUraMkKoWbnYkqyBArWDaewQ
-Date: Sun, 15 Feb 2026 08:11:37 +0000
-Message-ID:
- <TY3PR01MB113460BED5F6F944C0FD4DDB8866FA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <cover.1770996493.git.tommaso.merciai.xr@bp.renesas.com>
- <ca022fdbba5236c36e0cb3095db4c31e8e0cb1b8.1770996493.git.tommaso.merciai.xr@bp.renesas.com>
-In-Reply-To:
- <ca022fdbba5236c36e0cb3095db4c31e8e0cb1b8.1770996493.git.tommaso.merciai.xr@bp.renesas.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TY7PR01MB16885:EE_
-x-ms-office365-filtering-correlation-id: f7a550e0-8072-442b-0a8c-08de6c69d792
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|366016|7416014|376014|38070700021;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?wzANXy+1HAmTq+/6XFyoBzj7t5TpDx5LsxBeUe5l1x4lAwD7bDsAJ8gm6ww1?=
- =?us-ascii?Q?hnrk6pPoTPVKMPzYypOlHL49rXfLo0X0vu0aMO1H+ICp3t/+8ujkHZ80x7iA?=
- =?us-ascii?Q?Y/Hz65LGRgi3Rq3oE2BkCX3l0ibTn6uMv8tl6+bIDEeppORfImyq+idOooSa?=
- =?us-ascii?Q?9XHiGlAbkL0GtIslpqS7hzS5/LPtp0e3NTdYxKm5S7ZZHrcrYuDK3120ljZD?=
- =?us-ascii?Q?r5P/okcmaLVNKNacngwTLC7Nv/k/g8vQ87nji6mMxFdOvd7jZmpHXwYhB6ob?=
- =?us-ascii?Q?HJ+AzOEKESLxRev4hSfRTTeWcyHE77o/t+Ypj7xJAYNQu34vqcSY3T2Qp5DL?=
- =?us-ascii?Q?Cl9wSIdg79K2fSj+3K4hJW4PE9xAhTNOA091BRmBc9tz587w7nX4AI0/qJsC?=
- =?us-ascii?Q?MkLz66dyAAyzmy3Aadw29xTQqhF19g5GR9+OlMWRKrRGTG6lR9zZMaaY7fLY?=
- =?us-ascii?Q?XadKtRha5k8rYBr6OM7QgxMapwv7M3Fvt6ODKmnJL9kdHU5rG/qHt4uwgqmv?=
- =?us-ascii?Q?L7Q0Ysfvo677PHzdL7n3TwjpTPxO1KxQtWhv13orxm4uI6544Q1v/QsTG0M9?=
- =?us-ascii?Q?k8PRGQwvTRmLMWGkm48018BWX0gbwcohaZlPHalaF4r0t/pZ8rtWFk1ZuZ7h?=
- =?us-ascii?Q?ezOy58LqKTNC0H+9Wcdl0Db26DSpu+f5Y6+hxAOfE0wJuy6ThFSEQyC06kzV?=
- =?us-ascii?Q?U/iYe0mge8u4r31K3mpwoDTjQRACb39c30UH/QwhFODBWNglLEbiDbw/+TgY?=
- =?us-ascii?Q?6t/lT8FddfhNjFKFvURXiKwBuaBe093tlESjBNZsYdLz+UwJQAB9LqV2ZjIf?=
- =?us-ascii?Q?b3CIPwksIAG06jSzPLdLDNbokvdJ/P0ad1qiVVE9BvFXo/uyvKEkWrfXnV4B?=
- =?us-ascii?Q?FlgliFsmsN8whYKXnjRjmKXvmJS6G8rtFTRsaWc+lHpzzdZiSonSbBKCz0OE?=
- =?us-ascii?Q?MyV75MlXmH9+uWKibscruNlmFrUKNZh4RNFyfV5XdywkztaVWoMOagwjM+HE?=
- =?us-ascii?Q?8uCT+C1QkPRsKWsY39K2BulCqB2cmk05ItnFutoswhm8lC8WWXTii8MJrGlR?=
- =?us-ascii?Q?nGW/YCGmUbc66zGetti8S3fb+ddZOJkm+yC7P3BaCwHjr5r2l4x4Jp17rT3W?=
- =?us-ascii?Q?RZR7g9Bq1rrXzjIr+HAsj0zqoys7ZlnsQev06/sLt7ZMwQqG9TLh6uW86Tix?=
- =?us-ascii?Q?zn2j0qXC5lytS+S4XXrcdEsme6YzvDmQraUQM+FXDylHhhiuWbMY4QVObB7S?=
- =?us-ascii?Q?DMz9njPgJVU8VSqtWs9StfmiolJQCtqrojq0g7v8OCvlhPDycTwqR8auYQWf?=
- =?us-ascii?Q?c+yE1JqKZZ/nnn4XWSS7zrE5F+WZS/aI8kB87FJoVKkhWFvn7s6PfQ8Z/wJe?=
- =?us-ascii?Q?SYCxmkhgXSgUqGR3qOhDhyxAEbpBGvFIBNSxOaGDirS+LvP6qcvLXNG9JUel?=
- =?us-ascii?Q?YYi74K+q7hdClrAL97gVYeRc0gMfg6AYzhXxZmPQdj3Tnt0bugl2i+Vf4lDq?=
- =?us-ascii?Q?wogycMvLepgeaHKipIkxyYC5MLSBdVgWznLfyCqR11Nn0/fa/BzoqwFw4vNy?=
- =?us-ascii?Q?tVvJjI7TluhdZZnYCLlCgUZAAWSjlQE8jWGLqt2bAEKhukYc36714lotQTwI?=
- =?us-ascii?Q?aA=3D=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?UJ1iXtWqhSuQ4rUAHVOofNqm+gfcCgQ3TEovmeKKCRTVaxMPSS3twCQEhOV0?=
- =?us-ascii?Q?c3VvhJx1tKII3lbNyBMCPdYCh2iG66aJvCn+DC4ndF0Wgqc/5FYh/IU0K8Iz?=
- =?us-ascii?Q?0v66OpdMKc42wplGXm/HEdeiMzz2RGQ+aF7yUNLN6flV/3NXP3XOdkwQf2gw?=
- =?us-ascii?Q?sZlzoHVwhNjJTkUwWPlvZOHv4MocCjVSMJIqUt9z3qZE+CeQIh5ZgywpN2jw?=
- =?us-ascii?Q?W/coBQijidnDYJeI0aSvyUc3AxnxXX2OKeoL2kbw1BCVPmjtIvQ8at2MSwMw?=
- =?us-ascii?Q?kXUx1q3iilyVi5lLtJxmVp21r36ttn8CihG+FfM0fZuXNUiW36Gd+NtRhICg?=
- =?us-ascii?Q?Z0Z6MucWTB3BUVhrd9kVGXbQyIMQDy5Cgnga6IZU5nFCpbk8f4SyyNCNKJ8E?=
- =?us-ascii?Q?Fx3w4lW9y8iGRpGL3K3cmVQhN7YBXtscUOOrLqxnE+2foaC9FWFzD23on8dr?=
- =?us-ascii?Q?L6SBp9q9c0Ut0WSQ67nB9QkNTL7MUHW3FK/Hvlk4UjKkruITTVyht7PCz1SA?=
- =?us-ascii?Q?QwV6Rh8xk3yjNblyoeCDkSwF3iK7Ug3EiGDewiRm+2NdxT+8SsU3AF0prs6u?=
- =?us-ascii?Q?OcIfOnIIA65V3SPO0KXh5/53UeyvnDhN5MeXwJUQDOCmTH1R5uqata+Y0hZk?=
- =?us-ascii?Q?tiID6VW/XpbvDY/F/gTfQv5QqVq2M7XRQPGzYKj5preTSFGVSdIcahdNBBlT?=
- =?us-ascii?Q?UAEXEvjV0QB1FK1XxizCcyFGNrrHccd89DzWNTaGdRiool6vQ5SyComCRclb?=
- =?us-ascii?Q?q5t0rAB3yQeqePCXWxWJGJUIkIRLwGGWvi94JeHUYoclZphH8IgXbBqslqFi?=
- =?us-ascii?Q?ic5X5JCpUDu8B7Rgda0B3S4kUW4wj5UgVPxx3oi8UqL87mwHEih6d7Qh+ndK?=
- =?us-ascii?Q?VDoL8FXcaNx0TcsEJBjOecg/EcEdCX1Y3MEwsyLriXpEfcALbjjkhHC68Ynz?=
- =?us-ascii?Q?aHEHDTLe9IUUGvC91TBThs7BwKCdYZ7Quemo3CqaUsn63G7Bl8ZBb1OfyuF2?=
- =?us-ascii?Q?RNwr0LuI8vubkWzFy57mvErCITK0UHtbzb191WOaMrgyd/zMUqF3tRSEXAZc?=
- =?us-ascii?Q?C6uY3XDVdsIfi0hFqzUCgW3g2uxnfb0Y/FhXXDkpIocSJN7LAVSEwdzPitoM?=
- =?us-ascii?Q?UFqUGkxRwhTvTlFuysApsezHcd22x0SRms9/tBdhwDsn3qJ5k6bIUN3Hi77b?=
- =?us-ascii?Q?YZ1HUHhEa+DNc+O8GGYV++M9oWpZuC2sWEJ5nwQeMsDphVuihY2BEqFfUxLO?=
- =?us-ascii?Q?2w+Moanrte1LSTozyUML2TnMPm/N8lFTe+h0V0KYFhfa63+K4zeUkdipG3m1?=
- =?us-ascii?Q?dD8fOStl7DsrA+0pQLmdR/q6BQOfAacSKNys7IGukBJX4Rc1HH5bH+CvI+sE?=
- =?us-ascii?Q?MW068uAzKyBSrDXfaIqOtzrBkLjaRvEtB1YD29Xv/5BjdVf9ESYfgomYyEpm?=
- =?us-ascii?Q?35cHjiriEZtZv97w51moHfMNUL3eoCPySGqjQeHG3wW0fqHwSMQz/NZwcnTe?=
- =?us-ascii?Q?fH7BX1jLlYIm/caRftqMx/umzQn5m3PdErKdbghJeM5Ablh+U4VgzFEDn5ps?=
- =?us-ascii?Q?pI+AW5O9d6DGZJmMksxRSekmN7iueIknvy3jL75ZuH1WZntagO/Qz1Z5k6IO?=
- =?us-ascii?Q?3abIWqyJ2kPpRQCObn8/R/tLFzCTMRYOrwAbD937U5xpFdL7EVI94ZRxQ9oM?=
- =?us-ascii?Q?0sY3rOhoa0bbPv7YsvQBM46d/9Ce+ZSxmUN3v6+Hnw6NbRl4ws48DTDjTIsh?=
- =?us-ascii?Q?Hqzwi1ppDQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E38C280308;
+	Sun, 15 Feb 2026 10:02:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.84
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771149758; cv=none; b=RDLNR70rNekUwkPccKfGTWueMY/dJEkp/7YTc3NYYnzd8l4LcafW4lTFYEMf06Ggj6cs0kjJAHL6V6JV7mpPhMFEdEOscDq97B6AD5xoDXWKSLxFLQOQQScGPrOx5Tg4Gg3Vc4wCpzKd07+bl5e4fT3alclkC1+XDRrgNipgga0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771149758; c=relaxed/simple;
+	bh=rqX/hYgmpeWpQhyUc1faR9/+n8bX8YL0ob3h4O4i5KA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=K5tLqCkaU6/Z0pbN23EaEGJIlBH8D2Ao9xpA6QSZmJgd90eXzJ3XzDLZFXbF6cpSqTBm2N1LjY4b79ejHtbWJLx1xIxNFUTtPzPI651EUMU1Yo/NQM5RGOGG2Fq9yYHxmmF5jHVT4E1iK3WH+7q3FE6I1F+hj7GFGcflsLGSyWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onurozkan.dev; spf=pass smtp.mailfrom=onurozkan.dev; dkim=pass (1024-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b=B9UjE9Sz; arc=none smtp.client-ip=178.154.239.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onurozkan.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onurozkan.dev
+Received: from mail-nwsmtp-smtp-production-main-54.vla.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-54.vla.yp-c.yandex.net [IPv6:2a02:6b8:c17:2010:0:640:2180:0])
+	by forward101a.mail.yandex.net (Yandex) with ESMTPS id C762280C19;
+	Sun, 15 Feb 2026 13:02:25 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-54.vla.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id 02U6OQUG14Y0-rqjbwYxY;
+	Sun, 15 Feb 2026 13:02:25 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onurozkan.dev;
+	s=mail; t=1771149745;
+	bh=EK56X4yUyK6p90PJP+pf1u3MX2f+sfz3TRR04+2G4T8=;
+	h=Message-ID:Date:Cc:Subject:To:From;
+	b=B9UjE9SzXK5scnpObCqr7CuifSEFqaFsMpm86WX89Sf1FM6OjeTWgWmEl5Uc/IX/1
+	 k2hRFfCdjZ6yTOm17+R2SxqNFY3wsYET9Rtzh6lN3nbUrIIBAEkPKKRLRc3/anF3jw
+	 YpvpfGJW/Y6mrAB3bLVLw0tpe6E+UurPtKGuJEks=
+Authentication-Results: mail-nwsmtp-smtp-production-main-54.vla.yp-c.yandex.net; dkim=pass header.i=@onurozkan.dev
+From: =?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>
+To: Alim Akhtar <alim.akhtar@samsung.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Boris Brezillon <boris.brezillon@collabora.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	David Airlie <airlied@gmail.com>,
+	devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Simona Vetter <simona@ffwll.ch>,
+	Steven Price <steven.price@arm.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Cc: =?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>
+Subject: [PATCH v1 0/2] arm64: dts + drm/panthor: require explicit GPU sram-supply
+Date: Sun, 15 Feb 2026 13:01:56 +0300
+Message-ID: <20260215100156.135374-1-work@onurozkan.dev>
+X-Mailer: git-send-email 2.51.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f7a550e0-8072-442b-0a8c-08de6c69d792
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Feb 2026 08:11:37.6777
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: YikoY7Zug0zDLktPOFgTLVBO051i6w+VY9Q2jOEAC0QY5TWYUKDhCbEhxSY4CK9uRFZR8kP8WSmHHpRk6tGeIoNpkSPa/sbZwtV8unJg+KM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY7PR01MB16885
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.34 / 15.00];
+X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[bp.renesas.com:s=selector1];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[onurozkan.dev,reject];
+	R_DKIM_ALLOW(-0.20)[onurozkan.dev:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,glider.be,baylibre.com,ideasonboard.com,lists.freedesktop.org];
-	TAGGED_FROM(0.00)[bounces-28208-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-28209-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[bp.renesas.com,gmail.com,linux-m68k.org,ideasonboard.com];
+	FREEMAIL_TO(0.00)[samsung.com,collabora.com,kernel.org,gmail.com,vger.kernel.org,lists.freedesktop.org,glider.be,sntech.de,lists.infradead.org,lists.linux.dev,arm.com,linux.intel.com,sholland.org,ffwll.ch,suse.de];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[30];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[biju.das.jz@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[bp.renesas.com:+];
+	FROM_NEQ_ENVFROM(0.00)[work@onurozkan.dev,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[onurozkan.dev:+];
 	RCVD_COUNT_FIVE(0.00)[5];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	DBL_PROHIBIT(0.00)[0.0.0.3:email,0.0.0.2:email];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.0:email,0.0.0.1:email,bp.renesas.com:dkim,TY3PR01MB11346.jpnprd01.prod.outlook.com:mid]
-X-Rspamd-Queue-Id: 9F05513E48C
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,onurozkan.dev:mid,onurozkan.dev:dkim]
+X-Rspamd-Queue-Id: C073D13E6F1
 X-Rspamd-Action: no action
 
-Hi Tommaso,
+Hi all,
 
-Thanks for the patch.
+This series follows the discussion around panthor's SRAM regulator handling
+and the DT expectations for mali GPU nodes.
 
-> -----Original Message-----
-> From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> Sent: 13 February 2026 16:28
-> Subject: [PATCH v5 09/20] dt-bindings: display: renesas,rzg2l-du: Add sup=
-port for RZ/G3E SoC
->=20
-> The RZ/G3E Soc has 2 LCD controller (LCDC), contain a Frame Compression P=
-rocessor (FCPVD), a Video
-> Signal Processor (VSPD), Video Signal Processor (VSPD), and Display Unit =
-(DU).
->=20
->  - LCDC0 supports DSI and LVDS (single or dual-channel) outputs.
->  - LCDC1 supports DSI, LVDS (single-channel), and RGB outputs.
->=20
-> Add new SoC-specific compatible string 'renesas,r9a09g047-du'.
->=20
-> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> ---
-> v4->v5:
->  - Dropped renesas,id property and updated bindings
->    accordingly.
->=20
-> v2->v3:
->  - No changes.
->=20
-> v2->v3:
->  - No changes.
->=20
-> v1->v2:
->  - Use single compatible string instead of multiple compatible strings
->    for the two DU instances, leveraging a 'renesas,id' property to
->    differentiate between DU0 and DU1.
->  - Updated commit message accordingly.
->=20
->  .../bindings/display/renesas,rzg2l-du.yaml    | 22 +++++++++++++++++++
->  1 file changed, 22 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/display/renesas,rzg2l-du.y=
-aml
-> b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-> index 2cc66dcef870..be50b153d651 100644
-> --- a/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-> +++ b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-> @@ -20,6 +20,7 @@ properties:
->        - enum:
->            - renesas,r9a07g043u-du # RZ/G2UL
->            - renesas,r9a07g044-du # RZ/G2{L,LC}
-> +          - renesas,r9a09g047-du # RZ/G3E
->            - renesas,r9a09g057-du # RZ/V2H(P)
->        - items:
->            - enum:
-> @@ -137,6 +138,27 @@ allOf:
->=20
->            required:
->              - port@0
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: renesas,r9a09g047-du
-> +    then:
-> +      properties:
-> +        ports:
-> +          properties:
-> +            port@0:
-> +              description: DSI
-> +            port@1:
-> +              description: LVDS Channel 0
-> +            port@2:
-> +              description: LVDS Channel 1
-> +            port@3:
-> +              description: DPAD
-> +
-> +          required:
-> +            - port@0
-> +            - port@1
+Today, if sram-supply is missing in the DT file, panthor falls back to
+a dummy regulator with a warning. This implicit behavior hides missing
+DT wiring behind regulator core fallback.
+
+As discussed in [1], the agreed direction is:
+- Update DTs to explicitly provide sram-supply, when no separate SRAM
+  rail exists, use the same regulator as mali-supply.
+- Make panthor to treat sram-supply as mandatory for all compatibles
+  except mt8196-mali (as that SoC manages SRAM outside panthor).
 
 
-LCDC0 has port@0, port@1 and port@2
-LCDC1 has port@0, port@1 and port@3
+- First patch applies the DT updates across affected files.
+- Second patch makes panthor to treat sram-supply as mandatory
+  except mt8196-mali.
 
-Looks like from the above port@2 and port@3 are optional??
+[1]: https://lore.kernel.org/all/20260213155937.6af75786@nimda/
 
-Also not sure to make port@1 for DPAD for consistency with RZ/G2L??
-Do you see any advantage by making port@1 for LVDS0?
+BR,
+Onur
 
-Cheers,
-Biju
+Onur Özkan (2):
+  arm64: dts: add missing sram-supply to mali gpu nodes
+  drm/panthor: treat sram as mandatory except mt8196
 
+ .../boot/dts/allwinner/sun50i-h313-tanix-tx1.dts    |  1 +
+ arch/arm64/boot/dts/allwinner/sun50i-h313-x96q.dts  |  1 +
+ .../boot/dts/allwinner/sun50i-h6-beelink-gs1.dts    |  1 +
+ .../boot/dts/allwinner/sun50i-h6-orangepi-3.dts     |  1 +
+ .../boot/dts/allwinner/sun50i-h6-orangepi.dtsi      |  1 +
+ .../arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts |  1 +
+ arch/arm64/boot/dts/allwinner/sun50i-h6-tanix.dtsi  |  1 +
+ .../dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi  |  1 +
+ .../dts/allwinner/sun50i-h616-orangepi-zero2.dts    |  1 +
+ .../boot/dts/allwinner/sun50i-h616-x96-mate.dts     |  1 +
+ .../dts/allwinner/sun50i-h618-longan-module-3h.dtsi |  1 +
+ .../dts/allwinner/sun50i-h618-orangepi-zero2w.dts   |  1 +
+ .../dts/allwinner/sun50i-h618-orangepi-zero3.dts    |  1 +
+ .../dts/allwinner/sun50i-h618-transpeed-8k618-t.dts |  1 +
+ .../allwinner/sun50i-h700-anbernic-rg35xx-2024.dts  |  1 +
+ .../boot/dts/allwinner/sun55i-a527-cubie-a5e.dts    |  1 +
+ .../boot/dts/allwinner/sun55i-h728-x96qpro+.dts     |  1 +
+ .../boot/dts/allwinner/sun55i-t527-avaota-a1.dts    |  1 +
+ .../boot/dts/allwinner/sun55i-t527-orangepi-4a.dts  |  1 +
+ .../boot/dts/exynos/exynos5433-tm2-common.dtsi      |  1 +
+ arch/arm64/boot/dts/exynos/exynos7-espresso.dts     |  1 +
+ arch/arm64/boot/dts/mediatek/mt8183-evb.dts         |  1 +
+ arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi      |  1 +
+ arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dts     |  1 +
+ arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi    |  1 +
+ arch/arm64/boot/dts/mediatek/mt8188-geralt.dtsi     |  1 +
+ arch/arm64/boot/dts/mediatek/mt8192-asurada.dtsi    |  1 +
+ arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi     |  1 +
+ arch/arm64/boot/dts/mediatek/mt8365-evk.dts         |  1 +
+ .../boot/dts/mediatek/mt8390-genio-common.dtsi      |  1 +
+ .../boot/dts/mediatek/mt8390-grinn-genio-sbc.dtsi   |  1 +
+ .../boot/dts/mediatek/mt8395-genio-common.dtsi      |  1 +
+ .../dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dts   |  1 +
+ .../boot/dts/mediatek/mt8395-radxa-nio-12l.dts      |  1 +
+ arch/arm64/boot/dts/renesas/r9a07g044l2-remi-pi.dts |  1 +
+ .../boot/dts/renesas/r9a09g056n48-rzv2n-evk.dts     |  1 +
+ .../boot/dts/renesas/r9a09g057h44-rzv2h-evk.dts     |  1 +
+ arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi    |  1 +
+ arch/arm64/boot/dts/renesas/rzg2lc-smarc-som.dtsi   |  1 +
+ arch/arm64/boot/dts/renesas/rzg3e-smarc-som.dtsi    |  1 +
+ arch/arm64/boot/dts/rockchip/px30-cobra.dtsi        |  1 +
+ arch/arm64/boot/dts/rockchip/px30-evb.dts           |  1 +
+ .../boot/dts/rockchip/px30-firefly-jd4-core.dtsi    |  1 +
+ arch/arm64/boot/dts/rockchip/px30-pp1516.dtsi       |  1 +
+ arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dts     |  1 +
+ .../boot/dts/rockchip/rk3326-anbernic-rg351m.dtsi   |  1 +
+ .../boot/dts/rockchip/rk3326-gameforce-chi.dts      |  1 +
+ arch/arm64/boot/dts/rockchip/rk3326-odroid-go.dtsi  |  1 +
+ arch/arm64/boot/dts/rockchip/rk3328-a1.dts          |  1 +
+ arch/arm64/boot/dts/rockchip/rk3328-roc.dtsi        |  1 +
+ arch/arm64/boot/dts/rockchip/rk3328-rock64.dts      |  1 +
+ arch/arm64/boot/dts/rockchip/rk3399-eaidk-610.dts   |  1 +
+ arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dts     |  1 +
+ arch/arm64/boot/dts/rockchip/rk3399-firefly.dts     |  1 +
+ arch/arm64/boot/dts/rockchip/rk3399-gru.dtsi        |  1 +
+ arch/arm64/boot/dts/rockchip/rk3399-hugsun-x99.dts  |  1 +
+ .../arm64/boot/dts/rockchip/rk3399-khadas-edge.dtsi |  1 +
+ arch/arm64/boot/dts/rockchip/rk3399-leez-p710.dts   |  1 +
+ arch/arm64/boot/dts/rockchip/rk3399-nanopi4.dtsi    |  1 +
+ arch/arm64/boot/dts/rockchip/rk3399-orangepi.dts    |  1 +
+ .../arm64/boot/dts/rockchip/rk3399-pinebook-pro.dts |  1 +
+ .../boot/dts/rockchip/rk3399-pinephone-pro.dts      |  1 +
+ arch/arm64/boot/dts/rockchip/rk3399-puma.dtsi       |  1 +
+ arch/arm64/boot/dts/rockchip/rk3399-roc-pc.dtsi     |  1 +
+ .../arm64/boot/dts/rockchip/rk3399-rock-4c-plus.dts |  1 +
+ arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4.dtsi  |  1 +
+ arch/arm64/boot/dts/rockchip/rk3399-rock960.dtsi    |  1 +
+ arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtsi  |  1 +
+ arch/arm64/boot/dts/rockchip/rk3399-sapphire.dtsi   |  1 +
+ .../arm64/boot/dts/rockchip/rk3528-armsom-sige1.dts |  1 +
+ .../arm64/boot/dts/rockchip/rk3528-nanopi-zero2.dts |  1 +
+ arch/arm64/boot/dts/rockchip/rk3528-radxa-e20c.dts  |  1 +
+ arch/arm64/boot/dts/rockchip/rk3528-rock-2.dtsi     |  1 +
+ .../boot/dts/rockchip/rk3566-anbernic-rgxx3.dtsi    |  1 +
+ .../boot/dts/rockchip/rk3566-bigtreetech-cb2.dtsi   |  1 +
+ arch/arm64/boot/dts/rockchip/rk3566-lckfb-tspi.dts  |  1 +
+ arch/arm64/boot/dts/rockchip/rk3566-lubancat-1.dts  |  1 +
+ arch/arm64/boot/dts/rockchip/rk3566-nanopi-r3s.dts  |  1 +
+ arch/arm64/boot/dts/rockchip/rk3566-odroid-m1s.dts  |  1 +
+ .../arm64/boot/dts/rockchip/rk3566-orangepi-3b.dtsi |  1 +
+ arch/arm64/boot/dts/rockchip/rk3566-pinetab2.dtsi   |  1 +
+ .../boot/dts/rockchip/rk3566-powkiddy-rk2023.dtsi   |  1 +
+ .../arm64/boot/dts/rockchip/rk3566-powkiddy-x55.dts |  1 +
+ arch/arm64/boot/dts/rockchip/rk3566-quartz64-a.dts  |  1 +
+ arch/arm64/boot/dts/rockchip/rk3566-quartz64-b.dts  |  1 +
+ arch/arm64/boot/dts/rockchip/rk3566-radxa-cm3.dtsi  |  1 +
+ .../boot/dts/rockchip/rk3566-radxa-zero-3.dtsi      |  1 +
+ arch/arm64/boot/dts/rockchip/rk3566-roc-pc.dts      |  1 +
+ arch/arm64/boot/dts/rockchip/rk3566-rock-3c.dts     |  1 +
+ arch/arm64/boot/dts/rockchip/rk3566-soquartz.dtsi   |  1 +
+ .../boot/dts/rockchip/rk3568-9tripod-x3568-v4.dts   |  1 +
+ arch/arm64/boot/dts/rockchip/rk3568-bpi-r2-pro.dts  |  1 +
+ arch/arm64/boot/dts/rockchip/rk3568-easepi-r1.dts   |  1 +
+ arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dts    |  1 +
+ .../boot/dts/rockchip/rk3568-fastrhino-r66s.dtsi    |  1 +
+ .../arm64/boot/dts/rockchip/rk3568-hinlink-opc.dtsi |  1 +
+ arch/arm64/boot/dts/rockchip/rk3568-lubancat-2.dts  |  1 +
+ arch/arm64/boot/dts/rockchip/rk3568-mecsbc.dts      |  1 +
+ arch/arm64/boot/dts/rockchip/rk3568-nanopi-r5s.dtsi |  1 +
+ arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dts   |  1 +
+ arch/arm64/boot/dts/rockchip/rk3568-photonicat.dts  |  1 +
+ arch/arm64/boot/dts/rockchip/rk3568-qnap-tsx33.dtsi |  1 +
+ arch/arm64/boot/dts/rockchip/rk3568-radxa-cm3i.dtsi |  1 +
+ arch/arm64/boot/dts/rockchip/rk3568-roc-pc.dts      |  1 +
+ arch/arm64/boot/dts/rockchip/rk3568-rock-3a.dts     |  1 +
+ arch/arm64/boot/dts/rockchip/rk3568-rock-3b.dts     |  1 +
+ .../boot/dts/rockchip/rk3568-wolfvision-pf5.dts     |  1 +
+ .../boot/dts/rockchip/rk3576-100ask-dshanpi-a1.dts  |  1 +
+ .../arm64/boot/dts/rockchip/rk3576-armsom-sige5.dts |  1 +
+ arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dts    |  1 +
+ .../boot/dts/rockchip/rk3576-luckfox-core3576.dtsi  |  1 +
+ arch/arm64/boot/dts/rockchip/rk3576-nanopi-m5.dts   |  1 +
+ arch/arm64/boot/dts/rockchip/rk3576-nanopi-r76s.dts |  1 +
+ arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dts      |  1 +
+ arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dts     |  1 +
+ arch/arm64/boot/dts/rockchip/rk3588-armsom-lm7.dtsi |  1 +
+ .../arm64/boot/dts/rockchip/rk3588-armsom-sige7.dts |  1 +
+ arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5.dtsi |  1 +
+ arch/arm64/boot/dts/rockchip/rk3588-h96-max-v58.dts |  1 +
+ arch/arm64/boot/dts/rockchip/rk3588-jaguar.dts      |  1 +
+ arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtsi  |  1 +
+ arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dts    |  1 +
+ arch/arm64/boot/dts/rockchip/rk3588-orangepi-5.dtsi |  1 +
+ arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dts  |  1 +
+ .../boot/dts/rockchip/rk3588-rock-5b-5bp-5t.dtsi    |  1 +
+ arch/arm64/boot/dts/rockchip/rk3588-tiger.dtsi      |  1 +
+ arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dtsi |  1 +
+ arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dts  |  1 +
+ .../boot/dts/rockchip/rk3588s-gameforce-ace.dts     |  1 +
+ .../boot/dts/rockchip/rk3588s-indiedroid-nova.dts   |  1 +
+ .../boot/dts/rockchip/rk3588s-khadas-edge2.dts      |  1 +
+ arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6.dtsi |  1 +
+ arch/arm64/boot/dts/rockchip/rk3588s-odroid-m2.dts  |  1 +
+ .../arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtsi |  1 +
+ arch/arm64/boot/dts/rockchip/rk3588s-roc-pc.dts     |  1 +
+ arch/arm64/boot/dts/rockchip/rk3588s-rock-5a.dts    |  1 +
+ arch/arm64/boot/dts/rockchip/rk3588s-rock-5c.dts    |  1 +
+ drivers/gpu/drm/panthor/panthor_devfreq.c           | 13 +++++++++----
+ 138 files changed, 146 insertions(+), 4 deletions(-)
+
+-- 
+2.51.2
 
 
