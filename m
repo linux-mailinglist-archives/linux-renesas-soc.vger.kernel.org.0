@@ -1,231 +1,199 @@
-Return-Path: <linux-renesas-soc+bounces-28257-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28258-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GOwjMj0vk2ke2QEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28257-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Feb 2026 15:52:45 +0100
+	id sJcDI303k2mV2gEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28258-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Feb 2026 16:27:57 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40291144D50
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Feb 2026 15:52:45 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DD05145920
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Feb 2026 16:27:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8E9553008211
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Feb 2026 14:52:15 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 945803020D41
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Feb 2026 15:22:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0623E313276;
-	Mon, 16 Feb 2026 14:52:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85F6C32570A;
+	Mon, 16 Feb 2026 15:22:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b="HBGVAsml"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bVke98TK"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3797C3128CF;
-	Mon, 16 Feb 2026 14:52:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.120.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D38632549E;
+	Mon, 16 Feb 2026 15:22:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771253534; cv=none; b=LlTxtNmb0bRwRhvvy0whduHRgKh6UcdCGK5ue/GUEZr+bHakdJwNH2hsddVMAjx0bIXYHDM1hrsM5ZVkcfM0mYz/HzBUyvaxpzg7cSm9FJ7jlFT2F4ULaG8/+2j71sFeEW34Mu55aC3RB1meJRcS2WmcWfoCR0rUi/G6rzo3/iw=
+	t=1771255335; cv=none; b=V0mF8SoGHaaueXTuJH0k8DjkbWZ2b8FNXZBHik4Uu9tOXdoyWbVMyvGOK9pm8bKbgQcKR7lZIHtG8EpTBNfMk11Kv/anoqc+B0FNMR8/rLC1iQNnBmbr7Xd2JZIUqoMF8MZx1F9C41gWHwH8MsWM7+ubwSigp2BO62tPx2CEjfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771253534; c=relaxed/simple;
-	bh=pp5KALY37BRgqXcaZ/tw5QIMdqA4TE/5rH42IBU2z9g=;
-	h=Date:From:To:Cc:Message-Id:In-Reply-To:References:Mime-Version:
-	 Content-Type:Subject; b=s3/CrQxvbbJTk0pLKIRpAJe4czbF+UTSIoq29i3Pl7ZOalvnjBJPWBQoVTVLjL31G0do60yaR2NUqE12gujjhmbz6k/lvccM8JJDI7o1ExKMrc2hsXTpyneNavU2fYYaJ+P/OrixyqbPUTx/iMIfilHwbDZLecZrYVHJW2EetYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com; spf=pass smtp.mailfrom=hugovil.com; dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b=HBGVAsml; arc=none smtp.client-ip=162.243.120.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hugovil.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
-	; s=x; h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
-	:Date:subject:date:message-id:reply-to;
-	bh=RPnQgcHxYfbqFjlRYnFLS1cwYlgOh/zM07Hp6vPSqdM=; b=HBGVAsml8V0fl71ZgnRoczazyI
-	Der0yqO2h4bblNHhZAYf2fh6fL8owWxjRzX+m8xKcgS4ufglrfccsTPGkFVzD+2mIsYFYgxyfyKA8
-	StXoXhESvNmqWNFM94SsXnR84zI3G60QQF8dVhvUKUWe7duwmqK0pvP9BQgwBbn43spk=;
-Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:34398 helo=pettiford.lan)
-	by mail.hugovil.com with esmtpa (Exim 4.92)
-	(envelope-from <hugo@hugovil.com>)
-	id 1vrzxD-0003SL-Gz; Mon, 16 Feb 2026 09:52:04 -0500
-Date: Mon, 16 Feb 2026 09:52:02 -0500
-From: Hugo Villeneuve <hugo@hugovil.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: patches@lists.linux.dev, stable@vger.kernel.org, Hugo Villeneuve
- <hvilleneuve@dimonoff.com>, Biju Das <biju.das.jz@bp.renesas.com>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Message-Id: <20260216095202.0d28465b7059aaf8b7506f2c@hugovil.com>
-In-Reply-To: <20260214010245.3671907-37-sashal@kernel.org>
-References: <20260214010245.3671907-1-sashal@kernel.org>
-	<20260214010245.3671907-37-sashal@kernel.org>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1771255335; c=relaxed/simple;
+	bh=+AXEKgqENXU9fJ8gY4Qy3D4BbMROQCeB1cT+WULKFsE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MQfEJpr1qM0mevO7CbsEVhs0dVnktzMSnTMTQkOGdWqh+U9JM7M5fmgUlhvj2ByzTaJGXSxJqE22ndpv5j3/kwcf+LvQBkwBHUWzKsN8N+RGu+KTibkPUghhUL9vSXClfHHG/CzM3Q6y/fPnVEAvkkLXowtrg942XIs/LGszitE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bVke98TK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8B5FC116C6;
+	Mon, 16 Feb 2026 15:22:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771255335;
+	bh=+AXEKgqENXU9fJ8gY4Qy3D4BbMROQCeB1cT+WULKFsE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bVke98TKQHCmPp7aYCSq+FzJJwd1N7cDuLhGNulVsi3kDISO5a7AJFBm3a7kNw1Zs
+	 5Iw5iKyil96Yjb2kaa996XtcP99USdiZnGFwboQyf93SxLti2oOp6RGusQa6tt0bF4
+	 0vFtMznN3MpwWhSDzdS8LxrL4xOzXYaj2wJ8GWUrAJQmsxB/Oz7vODRYewD2J5wMOt
+	 n/r6PbRevelbv2CgDMGB0hBJqf0/kttTTaqCaKmPDvRwbv46S7eNobKjhJZnoznYuD
+	 xBCbX73IzTj1XGCShRVaUjJ2yNu4RTgdTUiUhws1iLJYbGP9PhfuNu3gDI2EgmCiUz
+	 8W3J0k0Pz4V9A==
+Date: Mon, 16 Feb 2026 20:51:51 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Sumit Kumar <sumit.kumar@oss.qualcomm.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>, Jingoo Han <jingoohan1@gmail.com>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Richard Zhu <hongxing.zhu@nxp.com>, 
+	Lucas Stach <l.stach@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Yue Wang <yue.wang@amlogic.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
+	Jerome Brunet <jbrunet@baylibre.com>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Greentime Hu <greentime.hu@sifive.com>, 
+	Samuel Holland <samuel.holland@sifive.com>, Chuanhua Lei <lchuanhua@maxlinear.com>, 
+	Marek Vasut <marek.vasut+renesas@gmail.com>, Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Pratyush Anand <pratyush.anand@gmail.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, imx@lists.linux.dev, 
+	linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-tegra@vger.kernel.org, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH 1/2] PCI: API changes for multi-port controller support
+Message-ID: <qoz2odrfe5w47ibjskg2fa3bkgtqd3ctkqqeua446sfjrc2e2m@tg4vynyonu3r>
+References: <20260105-dt-parser-v1-0-b11c63cb5e2c@oss.qualcomm.com>
+ <20260105-dt-parser-v1-1-b11c63cb5e2c@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 70.80.174.168
-X-SA-Exim-Mail-From: hugo@hugovil.com
-X-Spam-Level: 
-X-Spam-Report: 
-	* -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-	* -2.4 NICE_REPLY_A Looks like a legit reply (A)
-Subject: Re: [PATCH AUTOSEL 6.19-6.18] drm: renesas: rz-du: mipi_dsi: fix
- kernel panic when rebooting for some panels
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
+In-Reply-To: <20260105-dt-parser-v1-1-b11c63cb5e2c@oss.qualcomm.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.16 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MV_CASE(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[hugovil.com:s=x];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-28257-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[hugovil.com];
-	DKIM_TRACE(0.00)[hugovil.com:+];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-28258-lists,linux-renesas-soc=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[40];
 	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hugo@hugovil.com,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	FROM_NEQ_ENVFROM(0.00)[mani@kernel.org,linux-renesas-soc@vger.kernel.org];
+	FREEMAIL_CC(0.00)[google.com,gmail.com,kernel.org,samsung.com,nxp.com,pengutronix.de,amlogic.com,linaro.org,baylibre.com,googlemail.com,sifive.com,maxlinear.com,renesas.com,glider.be,nvidia.com,vger.kernel.org,lists.infradead.org,lists.linux.dev];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[dimonoff.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,hugovil.com:mid,hugovil.com:dkim,renesas.com:email,msgid.link:url]
-X-Rspamd-Queue-Id: 40291144D50
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 2DD05145920
 X-Rspamd-Action: no action
 
-Hi Sasha,
+On Mon, Jan 05, 2026 at 05:57:54PM +0530, Sumit Kumar wrote:
+> For multi-port controllers, equalization preset properties should be
+> specified in individual root port nodes rather than the controller node,
 
-On Fri, 13 Feb 2026 19:58:37 -0500
-Sasha Levin <sashal@kernel.org> wrote:
+s/root port/Root Port
 
-> From: Hugo Villeneuve <hvilleneuve@dimonoff.com>
+- Mani
+
+> allowing each port to have its own configuration.
 > 
-> [ Upstream commit 64aa8b3a60a825134f7d866adf05c024bbe0c24c ]
+> Change of_pci_get_equalization_presets() to accept a device_node pointer.
+> This allows parsing equalization presets from any device tree node,
+> which is needed for multi-port PCIe controllers.
 > 
-> Since commit 56de5e305d4b ("clk: renesas: r9a07g044: Add MSTOP for RZ/G2L")
-> we may get the following kernel panic, for some panels, when rebooting:
-> 
->   systemd-shutdown[1]: Rebooting.
->   Call trace:
->    ...
->    do_serror+0x28/0x68
->    el1h_64_error_handler+0x34/0x50
->    el1h_64_error+0x6c/0x70
->    rzg2l_mipi_dsi_host_transfer+0x114/0x458 (P)
->    mipi_dsi_device_transfer+0x44/0x58
->    mipi_dsi_dcs_set_display_off_multi+0x9c/0xc4
->    ili9881c_unprepare+0x38/0x88
->    drm_panel_unprepare+0xbc/0x108
-> 
-> This happens for panels that need to send MIPI-DSI commands in their
-> unprepare() callback. Since the MIPI-DSI interface is stopped at that
-> point, rzg2l_mipi_dsi_host_transfer() triggers the kernel panic.
-> 
-> Fix by moving rzg2l_mipi_dsi_stop() to new callback function
-> rzg2l_mipi_dsi_atomic_post_disable().
-> 
-> With this change we now have the correct power-down/stop sequence:
-> 
->   systemd-shutdown[1]: Rebooting.
->   rzg2l-mipi-dsi 10850000.dsi: rzg2l_mipi_dsi_atomic_disable(): entry
->   ili9881c-dsi 10850000.dsi.0: ili9881c_unprepare(): entry
->   rzg2l-mipi-dsi 10850000.dsi: rzg2l_mipi_dsi_atomic_post_disable(): entry
->   reboot: Restarting system
-> 
-> Suggested-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Signed-off-by: Hugo Villeneuve <hvilleneuve@dimonoff.com>
-> Tested-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Link: https://patch.msgid.link/20260112154333.655352-1-hugo@hugovil.com
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> Signed-off-by: Sumit Kumar <sumit.kumar@oss.qualcomm.com>
 > ---
+>  drivers/pci/of.c  | 6 ++++--
+>  drivers/pci/pci.h | 2 ++
+>  2 files changed, 6 insertions(+), 2 deletions(-)
 > 
-> LLM Generated explanations, may be completely bogus:
-> 
-> This is important context: The MSTOP commit (56de5e305d4b) that causes
-> the regression is only in v6.18+. However, looking at the commit message
-> more carefully — the issue is about the **ordering** of DSI stop vs
-> panel unprepare. The MSTOP commit may have just made the issue more
-> visible (by making the clock gating more aggressive), but the
-> fundamental ordering bug (stopping DSI before the panel can send its
-> shutdown commands) could potentially affect earlier kernels too, even if
-> it manifests differently.
-> 
-> That said, for stable trees before 6.18, the triggering commit doesn't
-> exist, so this specific panic may not manifest. For 6.18.y stable, this
-> would be very relevant.
-
-This analysis is correct.
-
-Hugo.
-
-
-> 
-> ### Summary
-> 
-> - **What it fixes**: Kernel panic on reboot for systems using Renesas
->   RZ/G2L MIPI-DSI with panels that send commands during `unprepare()`
-> - **Severity**: High — kernel panic prevents clean reboot
-> - **Fix quality**: Small, surgical, follows standard DRM bridge
->   patterns, tested by maintainer
-> - **Risk**: Very low — same operations in correct order, limited to one
->   driver
-> - **Scope**: Single file, ~15 lines changed
-> - **Dependencies**: Driver exists in v6.12+; the specific regression
->   trigger (MSTOP) is only in v6.18+, but the fix is still correct
->   ordering regardless
-> 
-> This is a clear, well-tested fix for a kernel panic. It's small,
-> surgical, obviously correct (using `atomic_post_disable` is the standard
-> pattern for this), and has been tested by the subsystem maintainer. It
-> meets all stable kernel criteria.
-> 
-> **YES**
-> 
->  drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> index 3b52dfc0ea1e0..b164e3a62cc2f 100644
-> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> @@ -646,6 +646,13 @@ static void rzg2l_mipi_dsi_atomic_disable(struct drm_bridge *bridge,
+> diff --git a/drivers/pci/of.c b/drivers/pci/of.c
+> index 3579265f119845637e163d9051437c89662762f8..d09eff40b523c920c9ca3eaa64f784765b3c5bf8 100644
+> --- a/drivers/pci/of.c
+> +++ b/drivers/pci/of.c
+> @@ -971,6 +971,7 @@ EXPORT_SYMBOL_GPL(of_pci_get_slot_power_limit);
+>   * of_pci_get_equalization_presets - Parses the "eq-presets-Ngts" property.
+>   *
+>   * @dev: Device containing the properties.
+> + * @node: Device tree node containing the properties.
+>   * @presets: Pointer to store the parsed data.
+>   * @num_lanes: Maximum number of lanes supported.
+>   *
+> @@ -981,6 +982,7 @@ EXPORT_SYMBOL_GPL(of_pci_get_slot_power_limit);
+>   * errno otherwise.
+>   */
+>  int of_pci_get_equalization_presets(struct device *dev,
+> +				    struct device_node *node,
+>  				    struct pci_eq_presets *presets,
+>  				    int num_lanes)
+>  {
+> @@ -988,7 +990,7 @@ int of_pci_get_equalization_presets(struct device *dev,
+>  	int ret;
 >  
->  	rzg2l_mipi_dsi_stop_video(dsi);
->  	rzg2l_mipi_dsi_stop_hs_clock(dsi);
-> +}
-> +
-> +static void rzg2l_mipi_dsi_atomic_post_disable(struct drm_bridge *bridge,
-> +					       struct drm_atomic_state *state)
-> +{
-> +	struct rzg2l_mipi_dsi *dsi = bridge_to_rzg2l_mipi_dsi(bridge);
-> +
->  	rzg2l_mipi_dsi_stop(dsi);
+>  	presets->eq_presets_8gts[0] = PCI_EQ_RESV;
+> -	ret = of_property_read_u16_array(dev->of_node, "eq-presets-8gts",
+> +	ret = of_property_read_u16_array(node, "eq-presets-8gts",
+>  					 presets->eq_presets_8gts, num_lanes);
+>  	if (ret && ret != -EINVAL) {
+>  		dev_err(dev, "Error reading eq-presets-8gts: %d\n", ret);
+> @@ -998,7 +1000,7 @@ int of_pci_get_equalization_presets(struct device *dev,
+>  	for (int i = 0; i < EQ_PRESET_TYPE_MAX - 1; i++) {
+>  		presets->eq_presets_Ngts[i][0] = PCI_EQ_RESV;
+>  		snprintf(name, sizeof(name), "eq-presets-%dgts", 8 << (i + 1));
+> -		ret = of_property_read_u8_array(dev->of_node, name,
+> +		ret = of_property_read_u8_array(node, name,
+>  						presets->eq_presets_Ngts[i],
+>  						num_lanes);
+>  		if (ret && ret != -EINVAL) {
+> diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
+> index 34f65d69662e9f61f0c489ec58de2ce17d21c0c6..72fa6db95b8a75f6e69b8019d1eb2262b6a46c13 100644
+> --- a/drivers/pci/pci.h
+> +++ b/drivers/pci/pci.h
+> @@ -965,6 +965,7 @@ void pci_release_bus_of_node(struct pci_bus *bus);
+>  int devm_of_pci_bridge_init(struct device *dev, struct pci_host_bridge *bridge);
+>  bool of_pci_supply_present(struct device_node *np);
+>  int of_pci_get_equalization_presets(struct device *dev,
+> +				    struct device_node *node,
+>  				    struct pci_eq_presets *presets,
+>  				    int num_lanes);
+>  #else
+> @@ -1013,6 +1014,7 @@ static inline bool of_pci_supply_present(struct device_node *np)
 >  }
 >  
-> @@ -681,6 +688,7 @@ static const struct drm_bridge_funcs rzg2l_mipi_dsi_bridge_ops = {
->  	.atomic_pre_enable = rzg2l_mipi_dsi_atomic_pre_enable,
->  	.atomic_enable = rzg2l_mipi_dsi_atomic_enable,
->  	.atomic_disable = rzg2l_mipi_dsi_atomic_disable,
-> +	.atomic_post_disable = rzg2l_mipi_dsi_atomic_post_disable,
->  	.mode_valid = rzg2l_mipi_dsi_bridge_mode_valid,
->  };
->  
+>  static inline int of_pci_get_equalization_presets(struct device *dev,
+> +						  struct device_node *node,
+>  						  struct pci_eq_presets *presets,
+>  						  int num_lanes)
+>  {
+> 
 > -- 
-> 2.51.0
+> 2.34.1
 > 
 
-
 -- 
-Hugo Villeneuve
+மணிவண்ணன் சதாசிவம்
 
