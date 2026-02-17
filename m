@@ -1,143 +1,136 @@
-Return-Path: <linux-renesas-soc+bounces-28286-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28287-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +Lh8GMe9lGnHHQIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28286-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Feb 2026 20:13:11 +0100
+	id iG5TAXzAlGkXHgIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28287-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Feb 2026 20:24:44 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B971014F890
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Feb 2026 20:13:10 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E93714F984
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Feb 2026 20:24:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 41ADA3018AE1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Feb 2026 19:13:09 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0713B30160C0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Feb 2026 19:24:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2FD514A62B;
-	Tue, 17 Feb 2026 19:13:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65E682C11DB;
+	Tue, 17 Feb 2026 19:24:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MmjmmS0Y"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Es+E5cJM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CABF513DDAA;
-	Tue, 17 Feb 2026 19:13:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41580264A97;
+	Tue, 17 Feb 2026 19:24:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771355587; cv=none; b=uo9kwOtv1wam32yRUj/8WyGjN0NX7hlPq4GeC9mzq39emAezK/DbtQXJmNo8qjuupjRDiz0xeXm7+n8SP5ZHGIIw8UVHEcjNtgwZvpxmYoVptj24ElX+/ONwHw6oH1JP0L/O3w2VBPu4Tx+iI4WCejSA1RWjxy4mBxpt8Q0xHSA=
+	t=1771356281; cv=none; b=Lm51gfSNg9uo9uG88SH2PdJ9R7dzUdozGC/m6rVmleutDFJ/e0G0ZfbBTV+5hryuPfeoeS88cJT3NlRQCX6HgTYzCSlUzwxwtz5qWvV56sZg0mM5mwMAI3eRMZWtHGMGp0L25OcifZZQREzsHg2fLHcGmKw8V5t9tIEK82HHUCc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771355587; c=relaxed/simple;
-	bh=6gkR/8mmL5ODed7UXbZkKKkGCA6Xth+MsYcOlHyWUCo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YGuZx93k6WaleYFO0C/ZJ6lv/mAvfnHHP6WM19/iNgHfQBp20DnQl+tbvev7iDNLYf1/5xXSHJhMSeYrka5OvJGRcqzznR3T8NXrg2r4N79a6TOsKEVPr5S5l3K8A/fBkfHCkbn2+73q+lQKHFGKuFCdGkMvb2DB4ku4hbvW4V4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MmjmmS0Y; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC869C4CEF7;
-	Tue, 17 Feb 2026 19:13:04 +0000 (UTC)
+	s=arc-20240116; t=1771356281; c=relaxed/simple;
+	bh=8ghGAV5BxOgH283VZgsGWAPOfml4IsqZmeuT3P3pPGA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=G4/aLhgBEQkcako1gFQzLafIoo9wMqCdr3NCjHMQzdA3RqjhNwjXMBWeFWAyNJhvFCowj32xly+YUyLY1MUTyldIGwq5t/sZYVIMMwIumX8o/1rapcmet/8zMNqv0U+sWX1Sj4/UzHKTY2bDFIaAPnXOKupy1NN5BEDKsWiGjf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Es+E5cJM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10060C19421;
+	Tue, 17 Feb 2026 19:24:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771355587;
-	bh=6gkR/8mmL5ODed7UXbZkKKkGCA6Xth+MsYcOlHyWUCo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MmjmmS0YS58mNWwNthHJzm2WF51L4T1ZDiCfTBhgsFynir1a1LKb3bNv6/ZpN2v5j
-	 6ZcLNvE803eQS713HX2ctXZC+Rtp8hsgzDdx9Oa9mhmAFwoqmK388GuArZwI6ZupmG
-	 /RFQrFUvwL/BngawWGjcmJ+p3fDfZUM7efTYRZToLnl2343K1rob63rmFOhjvXGjCS
-	 ww3qnsrWyEemaUQBkJi4662iwVngb/2uiCSAfLOtrSodAMVC1Yy64qisL72t/3ir5f
-	 6L2nlon9hqUttj+k8qB7dchrQh+Ntk24klAJelo6yphio6WSwAdW6OBVcqixs+dL7h
-	 iTjQVfi8dESJg==
-Date: Tue, 17 Feb 2026 19:13:01 +0000
+	s=k20201202; t=1771356280;
+	bh=8ghGAV5BxOgH283VZgsGWAPOfml4IsqZmeuT3P3pPGA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Es+E5cJMKEEF4PKdnglxC2Ff4C0FRKZFDscrE0pViTuy906rPTZnA14vh2HC81t9R
+	 ZupJNpBXy2z/edWWB7Ip/K+uYy0SbN0CyRSlk6RkZjdDVIKcK8lkojssz6pX2aDUqd
+	 jE8n0GK0z86tGuOVDm1ng7tKk0n/9nHltF9/komb7TH94+DEpqngi4c2TXWO2KMe0b
+	 3DRiSCLAGMH+bgyc95Zrf8J2/fshfMhUS19aWE3j6SznxG7U5Cflql6xIDQjRbCUJe
+	 XYbjrwS2ky99Qnk70Y0Bn9Ozztf0hDqSh0JuE2z9zGwrH7ogByNvGB9ax7B2LziN1b
+	 nxCOBesE7aISA==
 From: Mark Brown <broonie@kernel.org>
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org,
-	biju.das.jz@bp.renesas.com,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, linux-spi@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-clk@vger.kernel.org
-Subject: Re: [PATCH 2/5] spi: dt-bindings: renesas,rzv2h-rspi: Document dmas
- property
-Message-ID: <101b81ea-a24a-47b7-9067-6bec513d9015@sirena.org.uk>
-References: <cover.1771344527.git.tommaso.merciai.xr@bp.renesas.com>
- <ea6ed3b82c5a326732adfc0fcdb2922bfcad2591.1771344527.git.tommaso.merciai.xr@bp.renesas.com>
+To: biju.das.jz@bp.renesas.com, prabhakar.mahadev-lad.rj@bp.renesas.com, 
+ lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ Claudiu <claudiu.beznea@tuxon.dev>
+Cc: linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20260213172434.3801015-1-claudiu.beznea.uj@bp.renesas.com>
+References: <20260213172434.3801015-1-claudiu.beznea.uj@bp.renesas.com>
+Subject: Re: [PATCH] ASoC: renesas: rz-ssi: Fix playback and capture
+Message-Id: <177135627881.310944.2441265883960352070.b4-ty@kernel.org>
+Date: Tue, 17 Feb 2026 19:24:38 +0000
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="3FL+LVhofxFAjtpG"
-Content-Disposition: inline
-In-Reply-To: <ea6ed3b82c5a326732adfc0fcdb2922bfcad2591.1771344527.git.tommaso.merciai.xr@bp.renesas.com>
-X-Cookie: I'm into SOFTWARE!
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-47773
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.76 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-28286-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-28287-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,bp.renesas.com,renesas.com,kernel.org,glider.be,baylibre.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[bp.renesas.com,gmail.com,perex.cz,suse.com,tuxon.dev];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[broonie@kernel.org,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sirena.org.uk:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: B971014F890
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 4E93714F984
 X-Rspamd-Action: no action
 
+On Fri, 13 Feb 2026 19:24:34 +0200, Claudiu wrote:
+> In the current codebase the rz_ssi_stream_get() is called at the beginning
+> of rz_ssi_dai_trigger() before rz_ssi_stream_init() is called.
+> Since rz_ssi_stream_init() sets the ssi->{playback, capture}->substream,
+> relying on it in rz_ssi_stream_get() is incorrect. Fix this by checking
+> substream->stream instead as the original code did.
+> 
+> 
+> [...]
 
---3FL+LVhofxFAjtpG
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Tue, Feb 17, 2026 at 05:23:46PM +0100, Tommaso Merciai wrote:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
->  - This patch depend up on [0]
->  - [0] https://lore.kernel.org/all/20260128215132.1353381-2-cosmin-gabriel.tanislav.xa@renesas.com/
+Thanks!
 
-Please include human readable descriptions of things like commits and
-issues being discussed in e-mail in your mails, this makes them much
-easier for humans to read especially when they have no internet access.
-I do frequently catch up on my mail on flights or while otherwise
-travelling so this is even more pressing for me than just being about
-making things a bit easier to read.
+[1/1] ASoC: renesas: rz-ssi: Fix playback and capture
+      commit: 82e3265487c018814b789e251fb8aee8e683674c
 
---3FL+LVhofxFAjtpG
-Content-Type: application/pgp-signature; name="signature.asc"
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
------BEGIN PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmmUvbwACgkQJNaLcl1U
-h9Aj4gf+IxZvFOSmxTb7NRTWuM/XXxF352c9febObhl/Ayg91y+oNidXvkBtf9Ou
-QWvuGKcdFtOneeA5/U8UPNF8uAuRfEX0rGiMYPpWZ3PrG/SvXAKK0rBUmhYmF8kE
-4qi60JYIcaIn/dwtjgoiGvT1N9/OvOPWQgmk5M+6dYADJWvqBrudtEAI4scQ+Fob
-uUqXzVC6Cd4bjYjlir6lPx5slWBtmwfA3fRPTb21jQc7PrXFRbQ53vqvjvla6izZ
-L9EYRGytCOX6ymTIpOHTj8pxPhD8latGpPjgUXzfJR+ndM8upeNiVU7APIFWUgG4
-D1JHop4TJ7soYIVEaRpgdVlf8y9BlQ==
-=ZSyK
------END PGP SIGNATURE-----
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
---3FL+LVhofxFAjtpG--
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
 
