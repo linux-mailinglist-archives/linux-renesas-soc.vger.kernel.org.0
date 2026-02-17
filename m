@@ -1,137 +1,239 @@
-Return-Path: <linux-renesas-soc+bounces-28272-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28273-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kQ6HN/6bk2n56wEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28272-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Feb 2026 23:36:46 +0100
+	id 6Ma+D+a9k2l78AEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28273-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Feb 2026 02:01:26 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34AA4147EFE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Feb 2026 23:36:46 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C82AE148578
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Feb 2026 02:01:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A847A3003EA0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Feb 2026 22:36:42 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id A894F300827D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Feb 2026 01:01:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A002275AE1;
-	Mon, 16 Feb 2026 22:36:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88883231836;
+	Tue, 17 Feb 2026 01:01:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vC6CD9i/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eFlKrI5R"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 665C1219A71
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Feb 2026 22:36:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 651FA22541B;
+	Tue, 17 Feb 2026 01:01:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771281400; cv=none; b=VjpK3OFVwJqSi99f16V8HeMWunq2LpoI68na45zVyjqm/F6iEjVdNTgeG0bgAtZhvoI9nLM3WC448Jn1c3ERPLNvh7VNYuvgMwaKKlRR+3TaIuIqBtj6HumuwfczL1iBQqwsfmCl3Z90SYGzq2mJCVTDhnLnDMnvD+exWkura/M=
+	t=1771290082; cv=none; b=QLLsA2LbFjezeRXgzKrWYhJbd3KCawG/P7LXS7fTZyxZ1l/OPHhQ8NAAnKqmihLaR7CCmRbbVnWYDLmmo+d9G4Tz9C8fGbeaAYuLxILy25hqQvVyJQHkPgftg1VwfH4wlnQtST6bIGN6s4qELWotsR/iefw1D52Maa0USRyvBKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771281400; c=relaxed/simple;
-	bh=n6mzMQlYwCosdp7sPTHeQmdtXI7vJYrza0mNgrfXASU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PhF8flWBS6O1JYa61/jnVKdVUxStXrsV4xfOg8nDO4TN9UD5dXOIMam9BCjxktis2RCVkVrCMyK4W0lhglaYEDvOSDSWAnb+8icbBAg7Uv1/31pkDnxdZqGRx/Nr0UZPuch9ZF1WjbJKWvWi32g4wl6aaKMUqLoa3Uxz0SoOP+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vC6CD9i/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DC72C2BC87
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Feb 2026 22:36:40 +0000 (UTC)
+	s=arc-20240116; t=1771290082; c=relaxed/simple;
+	bh=aBlsoCKqIY1rr8x2s305PSeMwbnfVD32M/6FirNmeEU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UWbPdO3Y7WTYwylJ0Om6Zt3CsjI56XBQ+9heNrcRiZ4pGsO+TPcGKFGl0cp6PJ55BRYtGHiF/gNZZBzJfCBDL3mDHCnIJqdPYt2MD3vrccokBgcjxo4AN1WJ5v326p3gcbi2M+akCzi2Vz+KBGCcv/9IqcuFB9qHmjXXJOoJOY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eFlKrI5R; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30749C19423;
+	Tue, 17 Feb 2026 01:01:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771281400;
-	bh=n6mzMQlYwCosdp7sPTHeQmdtXI7vJYrza0mNgrfXASU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=vC6CD9i/GF69AG52oQMHsirMlaYZLdl8hgW/t+OEMhTOztg0GfX6u4oDdcwbIh8FV
-	 z4v9ONxl0x5vMRF/FcnAbT8TVw/Sb6eAVS2CyoWGbjuudo53GtQ+lMwlKvf+SKraNc
-	 4ynbUdmjw2F2RrLUt3/x9Fodn97mEpRLH/tQejxln9x69iqmwpNg+/YQwWyqH8UPcn
-	 S47oMUQYVqmxcNhUAV+YRsfmn6EBinNZkG/pep2R2UkZ1C1SqDhh2EyYV21udsKCib
-	 5yBGlse0PYzm2Y/L2O+r4mUKF9zEwCie4re62LPhJQ6DbaP+0Eh6N2CZ2MWZTA85XY
-	 Mti/R3ZRA3pQg==
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-7964fb9ae3dso34696427b3.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Feb 2026 14:36:40 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV18qTi4yj0ASNatJtzc8tuqw5M1q/JXor14UwOJFAvoJxg0k4blIJRdePhB9ieNbfy880Oz3G2MCMpWo7FBzVOPQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwwUqHtx4mBnJxr2JSwdAVzWhNT93n6Vy6W0xOZRLBv4PI/+cro
-	lLjv7olzQBX13DBvoyF7LPCgrwksRrfEX8y0uDRJ6SVHYa33a4ZfWf2IfuBGwtj7l/sGb1tap5T
-	1TLILVFjvMx+pf9N96j/xAHrzxzCSqgY=
-X-Received: by 2002:a05:690c:e3ce:b0:794:2fc8:8358 with SMTP id
- 00721157ae682-797a0bd4349mr94993897b3.6.1771281399276; Mon, 16 Feb 2026
- 14:36:39 -0800 (PST)
+	s=k20201202; t=1771290082;
+	bh=aBlsoCKqIY1rr8x2s305PSeMwbnfVD32M/6FirNmeEU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=eFlKrI5RgHc+GLaQTN75d4zO4QH9zfsjTvHGYxwkRrTnQC1XWsZ5DY5b5bz8oIkJk
+	 dhHYC7j3wI0RfDGvjjgb7Zn6LWjrWjp+GmBWwvtWrhllyeQzX2WH+N1WHLufX6K1xr
+	 ss07hXcYY3M1T8N22j4HMdV0ZZoosm0XJk9QLpOn0Tb9g78p9S/wvZRaa9EO3ZxQkw
+	 36/YFAEi9vXNeJGf8hnlnTc/dCyCfRHDhPMKy+0WoTw2NslUwQB+yf7C7MxY0xGpQT
+	 5OlWL0d1ypQhQudNn15eRJldiX4M4xiGeGX/t0OSy5Q0JM/RxGj9WDVV7BhhwB6iCb
+	 yQLU1etBUSu6Q==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Sasha Levin <sashal@kernel.org>,
+	mturquette@baylibre.com,
+	sboyd@kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.19-6.18] clk: renesas: rzg2l: Deassert reset on assert timeout
+Date: Mon, 16 Feb 2026 20:01:13 -0500
+Message-ID: <20260217010118.3503621-2-sashal@kernel.org>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260217010118.3503621-1-sashal@kernel.org>
+References: <20260217010118.3503621-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260205103930.666051-1-cosmin-gabriel.tanislav.xa@renesas.com>
-In-Reply-To: <20260205103930.666051-1-cosmin-gabriel.tanislav.xa@renesas.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Mon, 16 Feb 2026 23:36:28 +0100
-X-Gmail-Original-Message-ID: <CAD++jLmwij-tD5k+XtxtoRKzKasKnAdkG2CCzPVoEU5wGiL=yQ@mail.gmail.com>
-X-Gm-Features: AaiRm51aDtjLHR3s0vdfZKxoqoT_51wOkzrkrxp8tUVDONKVqGvf7RWeQVGKsUc
-Message-ID: <CAD++jLmwij-tD5k+XtxtoRKzKasKnAdkG2CCzPVoEU5wGiL=yQ@mail.gmail.com>
-Subject: Re: [PATCH v2] pinctrl: renesas: rzt2h: fix invalid wait context
-To: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Bartosz Golaszewski <brgl@kernel.org>, linux-renesas-soc@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.19.2
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_FROM(0.00)[bounces-28272-lists,linux-renesas-soc=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-28273-lists,linux-renesas-soc=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[linusw@kernel.org,linux-renesas-soc@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	RCPT_COUNT_SEVEN(0.00)[10];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: 34AA4147EFE
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: C82AE148578
 X-Rspamd-Action: no action
 
-On Thu, Feb 5, 2026 at 11:40=E2=80=AFAM Cosmin Tanislav
-<cosmin-gabriel.tanislav.xa@renesas.com> wrote:
+From: Biju Das <biju.das.jz@bp.renesas.com>
 
-> The rzt2h_gpio_get_direction() function is called from
-> gpiod_get_direction(), which ends up being used within the __setup_irq()
-> call stack when requesting an interrupt.
->
-> __setup_irq() holds a raw_spinlock_t with IRQs disabled, which creates
-> an atomic context. spinlock_t cannot be used within atomic context
-> when PREEMPT_RT is enabled, since it may become a sleeping lock.
->
-> An "[ BUG: Invalid wait context ]" splat is observed when running with
-> CONFIG_PROVE_LOCKING enabled, describing exactly the aforementioned call
-> stack.
->
-> __setup_irq() needs to hold a raw_spinlock_t with IRQs disabled to
-> serialize access against a concurrent hard interrupt.
->
-> Switch to raw_spinlock_t to fix this.
->
-> Fixes: 829dde3369a9 ("pinctrl: renesas: rzt2h: Add GPIO IRQ chip to handl=
-e interrupts")
-> Signed-off-by: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+[ Upstream commit 0b0201f259e1158a875c5fd01adf318ae5d32352 ]
 
-I'm waiting for Geert's verdict on this one, I can merge it directly
-for fixes unless Geert want to accumulate a few fixes first.
+If the assert() fails due to timeout error, set the reset register bit
+back to deasserted state. This change is needed especially for handling
+assert error in suspend() callback that expect the device to be in
+operational state in case of failure.
 
-Yours,
-Linus Walleij
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Link: https://patch.msgid.link/20260108123433.104464-2-biju.das.jz@bp.renesas.com
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+
+LLM Generated explanations, may be completely bogus:
+
+The suspend/resume directly in this driver doesn't call assert. The
+commit message mentions "suspend() callback" — this likely refers to
+peripheral device drivers that use reset_control_assert() during their
+own suspend callbacks, which then calls `rzg2l_cpg_assert()` through the
+reset_control_ops.
+
+## Summary of Analysis
+
+### What the commit fixes:
+1. **Variable shadowing bug**: `readl_poll_timeout_atomic` overwrites
+   `value`, which is then needed for the error recovery path. The patch
+   introduces a separate `mon` variable for the poll output, keeping
+   `value` intact.
+2. **Missing error recovery on assert timeout**: The original code only
+   rolls back on deassert failure. If assert fails (e.g., during
+   suspend), the device is left in an asserted (reset) state with no
+   recovery, making the device non-operational even though the suspend
+   callback returns an error. The fix uses `value ^= mask` to undo
+   either direction of the operation.
+
+### Dependencies:
+This commit has **hard dependencies** on two v6.18 commits:
+- `341b0f1b6cba5` - introduces `__rzg2l_cpg_assert()` helper
+- `f8c5f0dc77d86` - introduces the deassert-only rollback code that this
+  commit modifies
+
+Without these two prerequisite commits, the patch cannot apply to any
+stable tree older than v6.18.
+
+### Risk Assessment:
+- **Scope**: Small, contained change in one function (~10 lines changed)
+- **Risk**: Low — only affects error paths in Renesas RZ/G2L clock/reset
+  driver
+- **Correctness**: The XOR approach is elegant and correct for both
+  assert and deassert cases
+- **Review**: Has "Reviewed-by: Geert Uytterhoeven" (Renesas clk
+  subsystem maintainer)
+
+### Stable Tree Applicability:
+The fix only applies to v6.18.y since its prerequisites were merged in
+v6.18-rc1. For older stable trees (6.12.y, 6.6.y, etc.), the code
+structure is completely different (separate functions, no rollback
+logic), so this specific bug doesn't exist there.
+
+## Verification
+
+- **git log master** showed the prerequisite commits 341b0f1b6cba5 and
+  f8c5f0dc77d86 are only in v6.18+
+- **git tag --contains** confirmed both prerequisites are in v6.18-rc1+,
+  not in any earlier release
+- **git show v6.12:drivers/clk/renesas/rzg2l-cpg.c** confirmed older
+  stable trees have separate assert/deassert functions without the
+  `__rzg2l_cpg_assert()` helper and without any error rollback logic
+- **Read of current file** confirmed the code matches the "before" state
+  of the diff
+- **Code analysis** verified the XOR-based rollback logic is correct:
+  when asserting, `value = mask << 16` (no lower mask), XOR with mask
+  adds it → deasserts; when deasserting, `value = (mask << 16) | mask`,
+  XOR with mask removes it → re-asserts
+- **Variable shadowing confirmed**: `readl_poll_timeout_atomic` modifies
+  the `value` parameter in-place, so using it for both the initial write
+  value and poll output is a real bug (though in practice the old code's
+  `if (ret && !assert)` branch reassigned `value`, masking the issue for
+  deassert)
+
+## Decision
+
+This is a legitimate bug fix that:
+1. Fixes a real issue where assert failure during suspend leaves
+   hardware in a non-operational state
+2. Also fixes a variable shadowing bug (reusing `value` for two
+   different purposes)
+3. Is small, contained, reviewed by the subsystem maintainer
+4. Meets stable kernel criteria
+
+However, it has hard dependencies on two refactoring/feature commits
+from v6.18 that are not in any current stable tree. The only applicable
+stable tree would be 6.18.y. Given that this is a genuine fix for an
+error recovery path that matters during suspend/resume, and it's
+applicable to 6.18.y, it should be backported.
+
+**YES**
+
+ drivers/clk/renesas/rzg2l-cpg.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-cpg.c
+index 64d1ef6e4c943..c20ea1212b360 100644
+--- a/drivers/clk/renesas/rzg2l-cpg.c
++++ b/drivers/clk/renesas/rzg2l-cpg.c
+@@ -1647,6 +1647,7 @@ static int __rzg2l_cpg_assert(struct reset_controller_dev *rcdev,
+ 	u32 mask = BIT(info->resets[id].bit);
+ 	s8 monbit = info->resets[id].monbit;
+ 	u32 value = mask << 16;
++	u32 mon;
+ 	int ret;
+ 
+ 	dev_dbg(rcdev->dev, "%s id:%ld offset:0x%x\n",
+@@ -1667,10 +1668,10 @@ static int __rzg2l_cpg_assert(struct reset_controller_dev *rcdev,
+ 		return 0;
+ 	}
+ 
+-	ret = readl_poll_timeout_atomic(priv->base + reg, value,
+-					assert == !!(value & mask), 10, 200);
+-	if (ret && !assert) {
+-		value = mask << 16;
++	ret = readl_poll_timeout_atomic(priv->base + reg, mon,
++					assert == !!(mon & mask), 10, 200);
++	if (ret) {
++		value ^= mask;
+ 		writel(value, priv->base + CLK_RST_R(info->resets[id].off));
+ 	}
+ 
+-- 
+2.51.0
+
 
