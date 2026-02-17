@@ -1,70 +1,69 @@
-Return-Path: <linux-renesas-soc+bounces-28278-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28279-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8JfzKayDlGlBFQIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28278-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Feb 2026 16:05:16 +0100
+	id 0LwmBuODlGlBFQIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28279-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Feb 2026 16:06:11 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B41814D60A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Feb 2026 16:05:16 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9208014D631
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Feb 2026 16:06:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 4B2F83012D0C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Feb 2026 15:05:12 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 11C413044668
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Feb 2026 15:05:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A10B636CDF5;
-	Tue, 17 Feb 2026 15:05:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E97C36CDEA;
+	Tue, 17 Feb 2026 15:05:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="AA26+UwB"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="tBM20F6v"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 488C036CDEE;
-	Tue, 17 Feb 2026 15:05:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4091E36CE03;
+	Tue, 17 Feb 2026 15:05:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771340707; cv=none; b=uJNcOIoiw3TyLjv1X4jmGxIn35Le5tVSDSyboQvPVvYY0pU2DM7CQsF9nYu08sOKBZg6ywCJEE/zdfTo95uMcpLayoUKprE7+wlfXKfeAbANZJ98O732SrEYx/vl/m9OaB+cjWDZKac+/LqHuIsy9GmKBpAwoIk1eIrMZpuGXeQ=
+	t=1771340711; cv=none; b=Xo5f6GLXXUNjT+ht3J/kr3pp1BhxmRruIsC5pRsA47EXGcWXEoeCIp4HIFYG6qbPd52cgjzRdX6oppU3fgD/vNNrt5ROZtiCcMGZB5SYoyFQjW1ol/EEqb2XQkMp2Tv5m3rDDladd1MF6K1yMJHKrmiNESoqJv9qFO1pt8OZziI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771340707; c=relaxed/simple;
-	bh=yG8zQDCwzOhAW4Izqvn1Dp0UUty854ByCPd6E0gUYGw=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=jktusZMGjCO8ocbK06VJZ46hyufIZOCzXN6N7yRJcgCm1KolpavLfvHaIOitPrk8yfu/mIftplhqta4IyxS3c/REg5KhmIZXHgXR6zfC6kl74yjazUL3B71V9zgkwQQTH9nH+EkymGKOcsmpBSjyP5g1xsxZMHwQLl+ar1Mzze4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=AA26+UwB; arc=none smtp.client-ip=80.241.56.152
+	s=arc-20240116; t=1771340711; c=relaxed/simple;
+	bh=Uj3A+uw54BzyCfx95n4zmoy30oYwLQtauz/Cs7N3a38=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IZEBSl48HST6FXuiv2xy/Rwgkkn4+5ncc2jPgG56eHlizY9RQKdwkchI2h5N//7NHkHcVR5gDYXwhTcTGe/qMhSAiqgfPB7UuN480D0vwwisjbLu68CSCXxAWHrMySswKOxxCrx7A32ShhJOvvTh9gY9MnWV/uQubPxCy0qDFBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=tBM20F6v; arc=none smtp.client-ip=80.241.56.161
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4fFjcG5FHzz9tW3;
-	Tue, 17 Feb 2026 16:05:02 +0100 (CET)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4fFjcM01nbz9t7D;
+	Tue, 17 Feb 2026 16:05:07 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1771340702;
+	t=1771340707;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=m3UklnL2l1wJyZoRWMsGabIbrw1jRJeamlGBukUrD5c=;
-	b=AA26+UwBk5TWo/D8dcdSI1nYyoJ29GfOwoasxd1kzgzpxSS9ZOxgSx7qncfbvHaMOYyEcz
-	bMwwz9P4D3G5d28V08GeR8AcohFavX3zjVfdrd3SXRppRUEhvEQoBIEyJjogNHzY2OCFvw
-	G8UN7S8TjdH3JJK1A7yTO+E8uSRp8xmKLdy5//S9Hl6BTUhUkjHD9cVPw1ySLrdu1Gjuge
-	Jml9SBEcREfebIix2gu8nLAwc4WbL/n4P74Eqobd7xIqh8qrFSDEgVCpLwOKQ9VCuf14sU
-	63Zvqsxh2mLMOaDphhCZjvzrZkCw7H5jrYR4DwG0ShqlpGhsACcbQOLzKb5xLA==
-Message-ID: <22bd258d-c6ea-4ad2-b95d-e56c061f8a71@mailbox.org>
-Date: Tue, 17 Feb 2026 15:52:27 +0100
+	bh=IELzt1btZWNz2sWorU6uElBs2/8ePm1rr87gY2eyhpk=;
+	b=tBM20F6vy+PwjgtJyif1W55HpRRImexlGgIc9ppk+sPnju2au9UcbE7ER1nQLLxzjWcJc8
+	sqqPueTUNw6bpS73HFvfl3wHMcG510MErYAQAyuqfMlEf2t5tBDZhhP/lgKRVutI+jzI77
+	sJIFezk2JpQafxvKpcoS2qA7dAVLgaBnq/eKZwpi7BYJRRGuASA63InjRuMYW4X+8x69Cw
+	SJR+cA0qpwLd72ORRweULnHiL7VJdAZjpl9uFVCeVLJ2MIXq9ZfSSp9wcKCEB7M5KzekH1
+	VQNL3cgAxgUnu10FkF4H4IrRsxmV9rBZmuiNLtLLaiRZwxqHs4s7yugRdBZUtw==
+Message-ID: <01531a0e-b7e8-43b4-98c8-016fbbea6081@mailbox.org>
+Date: Tue, 17 Feb 2026 15:54:23 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Marek Vasut <marek.vasut@mailbox.org>
 Subject: Re: [PATCH] drm/imagination: Convert to
  dev_pm_domain_{at,de}tach_list()
-To: Matt Coster <Matt.Coster@imgtec.com>,
- Thorsten Leemhuis <regressions@leemhuis.info>,
+To: Thorsten Leemhuis <regressions@leemhuis.info>,
+ Matt Coster <Matt.Coster@imgtec.com>,
  Geert Uytterhoeven <geert@linux-m68k.org>
 Cc: Frank Binns <Frank.Binns@imgtec.com>,
  Brajesh Gupta <Brajesh.Gupta@imgtec.com>,
@@ -92,23 +91,25 @@ References: <194465eda54d1f852a9226cf691ddc5aa208e0a3.1769097977.git.geert+renes
  <21b1fd77-252e-4fb3-aa65-1c26043c5412@imgtec.com>
  <9c1b2671-3374-4d84-ad14-07dd499bb934@leemhuis.info>
  <86e23062-e439-41f3-9750-d87fa5b85447@imgtec.com>
+ <973ca923-3654-46be-a9b8-8d38cd7d4a59@leemhuis.info>
 Content-Language: en-US
-In-Reply-To: <86e23062-e439-41f3-9750-d87fa5b85447@imgtec.com>
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <973ca923-3654-46be-a9b8-8d38cd7d4a59@leemhuis.info>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: 3b426e9dacb9a44bdc1
-X-MBO-RS-META: sbdouupt3i1drrwqa46zctktwpiue3p8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 608b86c2272fd929af8
+X-MBO-RS-META: hjp3nb4da91yuydp1zpcadnfoofodi57
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-28278-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-28279-lists,linux-renesas-soc=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	TO_DN_EQ_ADDR_SOME(0.00)[];
 	FREEMAIL_CC(0.00)[imgtec.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org,lists.linux.dev];
@@ -122,87 +123,50 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[mailbox.org:+];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	TAGGED_RCPT(0.00)[linux-renesas-soc];
 	TO_DN_SOME(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:mid,mailbox.org:dkim]
-X-Rspamd-Queue-Id: 4B41814D60A
+X-Rspamd-Queue-Id: 9208014D631
 X-Rspamd-Action: no action
 
-On 2/16/26 2:37 PM, Matt Coster wrote:
-> On 16/02/2026 11:38, Thorsten Leemhuis wrote:
->> On 2/16/26 11:58, Matt Coster wrote:
->>> On 16/02/2026 10:11, Thorsten Leemhuis wrote:
+On 2/16/26 6:28 PM, Thorsten Leemhuis wrote:
+> On 2/16/26 14:37, Matt Coster wrote:
+>> On 16/02/2026 11:38, Thorsten Leemhuis wrote:
+>>> On 2/16/26 11:58, Matt Coster wrote:
+>>>> On 16/02/2026 10:11, Thorsten Leemhuis wrote:
+>>>>
+>>>> We're currently trying to force this issue to reproduce on hardware we
+>>>> have on hand; we'd like to see it fixed properly as much as anyone.
 >>>
->>> We're currently trying to force this issue to reproduce on hardware we
->>> have on hand; we'd like to see it fixed properly as much as anyone.
->>
->> Yeah, no worries, I never doubted that. But getting things properly fixed
->> can mean "revert, fix, reapply" when it comes to regressions in Linux --
->> which is something that should not be seen as something bad, as Linus said
->> himself (see below)!
->>
->>>  From our side at least, I don't believe this is a regression at all.
->> In the end what matters is: some change afaics caused systems to not work
->> anymore that used to be working -- that makes it a regression my the Linux
->> kernels standards. And those by the same standards must be fixed, ideally
->> quickly. Find a few quotes on that from Linus below that explains this
->> better.
+>>> Yeah, no worries, I never doubted that. But getting things properly fixed
+>>> can mean "revert, fix, reapply" when it comes to regressions in Linux --
+>>> which is something that should not be seen as something bad, as Linus said
+>>> himself (see below)!
+>>>
+>>>>  From our side at least, I don't believe this is a regression at all.
+>>> In the end what matters is: some change afaics caused systems to not work
+>>> anymore that used to be working -- that makes it a regression my the Linux
+>>> kernels standards. And those by the same standards must be fixed, ideally
+>>> quickly. Find a few quotes on that from Linus below that explains this
+>>> better.
+>> I feel like I should reiterate that the commit we're talking about
+>> reverting is fundamental to support for one of the only two platforms
+>> currently supported.
 > 
-> I feel like I should reiterate that the commit we're talking about
-> reverting is fundamental to support for one of the only two platforms
-> currently supported. And that the changes to add "support" (just
-> bindings and DT) for the affected Renesas platforms came several months
-> *after* this.
-
-I would argue, that the problem at hand is not related to any specific 
-platform, this is a driver bug. That some platform triggers it means, 
-that the driver bug is real and has to be fixed. Whether the bug is in 
-this driver or PM core.
-
-> The "regression" here is that we allowed DTS changes to land for
-> unsupported platforms in the interest of allowing further development to
-> happen incrementally upstream. There has been no further progress on
-> that front beyond the DTS patches, however.
-
-Those specific DTS patches were put on hold, they couldn't be applied 
-because they would lead to kernel crash in this driver, so the hold is 
-to be expected.
-
-> We have never declared that
-> these platforms should be functional and error-free, and have taken
-> measures to ensure this is clear to users[1].
-
-I would argue, we should not mix functional issues with outright kernel 
-crashes. If the GPU misrenders something, that is a functional issue. If 
-the GPU driver crashes the kernel, that is a kernel bug and should be fixed.
-
-And in this case, it is the later, the driver can trigger a kernel crash.
-
-> There are currently two platforms on which this has been reproduced:
+> That might or might not be relevant, see the "back and forth" section
+> from the Linus quotes.
 > 
->   - Renesas Gray Hawk Single (R-Car V4M) -- this was the original report
->     from Geert, and it should be noted that there are no bindings or DTS
->     support for the GPU in this platform in tree at this time.
->   - Renesas Salvator-X (R-Car M3-W) -- this was Geert's follow-up
->     reproduction case, and the upstream bindings and DTS do contain the
->     GPU, but it required adding delays to PM core code to trigger the
->     race condition(?) that causes the crash.
+>> And that the changes to add "support" (just
+>> bindings and DT) for the affected Renesas platforms came several months
+>> *after* this.
 > 
-> As far as we know, there are no other situations where this crash
-> occurs.
+> Ohh? That might change things then. I relied on the info from Geert and
+> Marek – and would be glad if you guys could sort this out, as you are
+> the experts here (and I already got myself way deeper involved then I
+> wanted to).
 
-It seems the crash would occur on any platform with hierarchical power 
-domains.
-
-> Would you consider a suitable "revert" to be fully gating support for
-> these platforms (or even the entire group of Renesas platforms added in
-> this "experimental" manner just to be safe) behind the exp_hw_support
-> paramater until they can be properly tested? Specifically, I'm talking
-> about masking them off at the of_match level so that no hardware
-> interaction is even attempted without explicit user opt-in to
-> experimental hardware.
-
-No, that is only hiding the kernel crash without actually fixing it. 
-This is not good.
+I already replied to Matt on this part -- I don't think the kernel crash 
+is related to any specific platform. That the R-Car platform triggers it 
+only means, that the crash is real and should be fixed.
 
