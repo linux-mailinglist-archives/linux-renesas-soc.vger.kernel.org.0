@@ -1,252 +1,670 @@
-Return-Path: <linux-renesas-soc+bounces-28300-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28301-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2GzhFbWAlWlOSAIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28300-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Feb 2026 10:04:53 +0100
+	id WGwwFSqKlWnqSAIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28301-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Feb 2026 10:45:14 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7493F15468F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Feb 2026 10:04:51 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CB8B154D38
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Feb 2026 10:45:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id CD3D93003821
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Feb 2026 09:04:48 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 53D98300443D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Feb 2026 09:45:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC2D7311971;
-	Wed, 18 Feb 2026 09:04:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A51CA33D6FE;
+	Wed, 18 Feb 2026 09:45:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="W90yctvY"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="O10WuU5K"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010031.outbound.protection.outlook.com [52.101.229.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02DDB2F5A22;
-	Wed, 18 Feb 2026 09:04:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.31
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771405487; cv=fail; b=HVSiMEJD/wRoffI5Dv3CHrHqbGo/S8TVWtHUBnXBNHV73FtK6AzIuD37i5eORfTylYecZKBQCDP5ATnpVwwvFFqx4aBVIQn+GKdWhVlUfPby62zUWlrPcF92x3bV0hDh2OFGYa/27yO0+x7arE1hLX/S3CCYxWW1YYeKr5iThnk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771405487; c=relaxed/simple;
-	bh=nog+rk6krFAjW2Ps5scNZYBVjIfjIVTZmigeJ7lMM84=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=MqNqQfYIo+i7r8MwYhe+NrgcUfH0RCZZFJUJ6NUKX3426Ze6G3cuCD9QGdMMtSUOtwY97nNCHEL7ck7BmVN2thLp9JdhE/M6cyRpoUJp4d+tGpo20SPvxE9OZc+QLG3WIzi4DHJNzSlG/QuJ5T/FvPIcBD08oswFqBSu0WOMFH8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=W90yctvY; arc=fail smtp.client-ip=52.101.229.31
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jUPYEcR0St//5zWb9UeaQcwY4DUJVRJU/5NVXw5i+dw10mNKjzbZCt/Zl4FSjCnhxwPTsrwd9an6G/xokLdiBvTiEe1NvgUo6AzxIrbmIzAbTrsSBOGJiQQbCaZQX7zQBYdElSK7wb50loAGoB3RgTyI3wLOVqxQmbqcap30Y95r9e52tfDzVYL5oPW8gp4a+ZGO7Mbk39hbuJ+MpZ8qKkePZr6AYIHUAKEu0VA+PkxoKpOzuZCR6pGu4FBzujdrwKReSbz8eTNdpgLRdOgtu38bygAz5fz4Zmt2hxqR2RlJdGE05kUit4Wz7N4V9cCLqHMG+EGF9DzLNqZuXhZAjw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IKUtd8jmWCm5IqWGZz7adgFDRjgN/+wmKGYTUhPx/Vk=;
- b=xzFPxFwpdf2j9u/XBSD7+51RfpaaF2mdLL0k8joLvLjgqR0f8IF3jq4U4zs7zNvcDL2FidzcFVGGQnMvHTgwJRIgA3alq99kPVRczwwIo2l0Ci13Sive693wMdQUCy513w3mmQK4MTq0dUasfSisv7Ulo7j3FbKB96sPTMkr3mBYTY7yeu1lcQ4bbPymyJVSnd8Kuy9yNFr1hz8Wz+0NqJI1gLBrs7zxAymMDZZncy7MNZFrjDhLPDa94K44L28kzk/c1ODhyaBT36BftuNQWUPf4zkPeghANpCAKF6xMtV9+uJW+Mgp4WJ/KMvIfl4TASkCjHKSug1TlQiH4TfmmQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IKUtd8jmWCm5IqWGZz7adgFDRjgN/+wmKGYTUhPx/Vk=;
- b=W90yctvYYR80AVDW/lJ0lvxqPKJYccFGiqUK1R61wAQXAYP2BWb5zR5Gp9/VIQPKEpJEpRaBW/jglPuksCC6vWXjp0T/nwE0pc8aA3cICUCM8RngvyDydNiIwUIY+7fSf+58KAyxYse0fb6us9goSm0eYrX7TxUAl0sMrHMb8pw=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by TYCPR01MB10763.jpnprd01.prod.outlook.com (2603:1096:400:297::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.13; Wed, 18 Feb
- 2026 09:04:42 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::87d1:4928:d55:97de]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::87d1:4928:d55:97de%4]) with mapi id 15.20.9632.010; Wed, 18 Feb 2026
- 09:04:35 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Claudiu.Beznea <claudiu.beznea@tuxon.dev>, "p.zabel@pengutronix.de"
-	<p.zabel@pengutronix.de>
-CC: Claudiu.Beznea <claudiu.beznea@tuxon.dev>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, Claudiu Beznea
-	<claudiu.beznea.uj@bp.renesas.com>, "open list:PIN CONTROLLER - RENESAS"
-	<linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH] reset: rzg2l-usbphy-ctrl: Check pwrrdy is valid before
- using it
-Thread-Topic: [PATCH] reset: rzg2l-usbphy-ctrl: Check pwrrdy is valid before
- using it
-Thread-Index: AQHcldsA6SwoZJU54kOOwSNySMhUm7WIPsGQ
-Date: Wed, 18 Feb 2026 09:04:35 +0000
-Message-ID:
- <TY3PR01MB113465C481AD1CA21B8C9B121866AA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20260204133427.3762840-1-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20260204133427.3762840-1-claudiu.beznea.uj@bp.renesas.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYCPR01MB10763:EE_
-x-ms-office365-filtering-correlation-id: 06ec617c-b60f-4776-947a-08de6eccbcb5
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|1800799024|38070700021;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?q8Xjur2u/8+mpSXAW9dCFsx/qPNfw9Vlf52ywGoW/qbH4mkKiEQ50nOWzGg0?=
- =?us-ascii?Q?LcvlLpVLo4T0pGaKxc5qpqkjVLt1zZB9m5XB0Yyi6d/9SRN4BkYFITObmSeF?=
- =?us-ascii?Q?z8OW7tf5X3V4Wh54czuILNyl3rO9peOl6cD4OCZQpXp/CFEhoNLmPMtPBq4g?=
- =?us-ascii?Q?nsnXuOWKDj3rSZNhtPmMAEnqYHFGKd/fovHdDBlr4p0uz7dSBEGh5IiZILoj?=
- =?us-ascii?Q?vzBau7Y3O7Y2OzVhNRq3WulvI80aSdv7EqT7/1HqbQw6xfzycY2CnLTSMZn7?=
- =?us-ascii?Q?Rj8XYFVEwazvKqqHIMjoYcxpI+zASlcJXGctVxS7ypyQ9bnrQvKAG9cUZc2+?=
- =?us-ascii?Q?o1HfhRP8dZOgnOlYJccikWIVAJUaVQb7zDNedqViszSy5FBr8ja9rcUVjBU3?=
- =?us-ascii?Q?wuO6h61PdrCBu885semvaNGztZXFGQKweI6WZjvXtvgM5Gh6KI7Zm9W2ST+E?=
- =?us-ascii?Q?qPfD8+ml19qn16o0T0ayI1Ef0WWmWRLIYgrmkb4ZLK1DfdngCfJyDh5ntTbK?=
- =?us-ascii?Q?rwVqlSLEmx1mgAzIpujtjK+rW2ROVntVgsxaC8bvOWke/jFsMM8IsRsKAr0A?=
- =?us-ascii?Q?3u/iELbyrGS1kE+4PMmXuT4I/+emEFjNZNZgzW5mvZPSVOYigwGQU3sCZPv4?=
- =?us-ascii?Q?CMvbrmssWJtWgG/kPm/USww8GwPA9jZQre9U6VkyzFPFS1cObQTuwjLvPMmT?=
- =?us-ascii?Q?+azIC/9NBTvrx15UOn01W5xY1TJ2/MmXA5BsXdc/zcLXdOCcXtBLzbj3rJGG?=
- =?us-ascii?Q?+4Tw7jBcaUYNQQi4I7+ocTa2W2LeQqxkWcEwZcT9QqlX8dUZIFNV3MnZQV1G?=
- =?us-ascii?Q?Txa21q9w8ngHnCLLIdJpOZYs5FqcS0LiIFi25nzn3OgUTlt95BJfzfGgCbpp?=
- =?us-ascii?Q?S9obh/7lZTRpSh3n/g5xcCQkfy8LmxlfBdk8byc+Gqc7EoUTjKrAnnhIB5Uy?=
- =?us-ascii?Q?RRBFwmzytX9/EHWhD01s7LFAyOJZMT8Ca6lQO4MdlLnaTw1ZSByKZabUk787?=
- =?us-ascii?Q?gWu5mNX5tCqDTWMunzhk70VaFuyTB0XLs7Uj85CsvK+aoH/qY+52DwappMKR?=
- =?us-ascii?Q?sGqqSBMAzEjtQOekCXP32em6qNXDVXw44VyqEUsEVdNwMm498J1z4o3K9yFk?=
- =?us-ascii?Q?GOqcTMIxsm2/C675lo2bEhn/X5AfFpJF7TAH9P7/TDcoUqdiNsLirp6pcXZL?=
- =?us-ascii?Q?kZScnBXBG6GaDNcZ9/WCSyNn3vyCUdTb9MKf7HMKD2cmZr5J0XGBo+RLEbaO?=
- =?us-ascii?Q?dVi5Ik1FCmhtjha2aZShm+vTyY8MFGbduB/y029/xIsUFPawl9HdwQRd0ABb?=
- =?us-ascii?Q?5ANu03fXiIgrDfIwwrGyDDdCl6PlFcgLPzmI87BcCZ7bJeQTME0TgZMtSe7K?=
- =?us-ascii?Q?R4LwLxSW1mmM/xDE7RUTQUB0b2zx28WwcyW2tfj3z6IWKHVWjrvqtKWC59H5?=
- =?us-ascii?Q?cB5/9C2T4VWsl0Ntzp36dVcuKGp+1gVJRSZsOp8F8m9fBPNuAGYCC2R00adr?=
- =?us-ascii?Q?pCRY/m1F6/NkFCaIomSO3UVvKHV3dsD/JITvSvtXqVpUfBq4Wru8Uvjs3xCl?=
- =?us-ascii?Q?ZrRmUJPjSYMyE4BWYl+4xi3QfN2rb25ivSMMt36DQgCMVPCgoOHZrBmjAdBC?=
- =?us-ascii?Q?cFhvqbDC52emmJZEPAyzAVY=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?R37PIyC4y+jOm50Baf6pfFRuNiiDaJgcATXkcJ2nDaTo5ca3TkETJOrADToe?=
- =?us-ascii?Q?pzXC0ZFGd/8VitaCQOAsAYILj6uCe4+q7HGaIMiAfhNH6vqsGN77fhdAJr0k?=
- =?us-ascii?Q?83LKGRD0N05utWEC5eWCg5gw2VwLmf+NIs4wXkzwaTMU90epvgdI/agIXI83?=
- =?us-ascii?Q?7DsO+7Avd+rLpuOqgiIt7ab56Kr2MJkqJoCg/9UVuJQDwAcd48Ub5WnYu/2O?=
- =?us-ascii?Q?gCaQRwF/0ZDlxDTPpWcJdyVaQwNFMLDghvidDAnU8u8/iqtdNtEAPjl8NTSd?=
- =?us-ascii?Q?Ch0/WCHraRvABYrYfln0e4NT9Q7JZoIB0DeQ8b4PqZu44PFbrKvqRUPUL/5e?=
- =?us-ascii?Q?tJ8I8wpAmsIET7W/NZ+rZ5neBdtDDipr6/JsLNvnzRjCDW32tQTNADj/E1nG?=
- =?us-ascii?Q?0bOaDEKUI+DF3zNqn6Gg7MMJOTf/T2UHq4+WnY3WuIyJGZQJ33WqudvI/J5K?=
- =?us-ascii?Q?WUFDlQaLkb7Q3Fpa1zMbXx2tnwjsKGN1ZgXJg/khMDOc48FGMjBmezGrU/Ba?=
- =?us-ascii?Q?gmZ4aJMs/2vnotNLD9IH21tof9xtZN1MQ6/EOvrSWTcykj63gi9Ueph0Acg4?=
- =?us-ascii?Q?JzAExotUzBM+2Hm1201DPo3Q6Lo4nQMzK4Y8zKni2c/Rg79b3jyyfH2GaCaD?=
- =?us-ascii?Q?hIOKBsJOoHco/a7+mCAxLARH7uSnMue2pub/SCBJNjC19JHJlQHsIpGZojzO?=
- =?us-ascii?Q?V6JaWmBMTuS7MZYGBEhAbEdJNgGkeGMBdV4gTw2xy4NJXGi1Jx4pTtUIYB0O?=
- =?us-ascii?Q?xBJOUKjlKYehLLrI9TmLDBGpIWdzBQKq6gdUYZLhzr7U9nxXP0QuCot4yz65?=
- =?us-ascii?Q?ZTHV819V2T/UfESwz8e3dIZGD0yvpIjkF7Kt4/5TakmmnLWme5YHxyAW7bI0?=
- =?us-ascii?Q?nh9FoJGtW4JpS20eaLlaDcjAUPNjpQcWTFIjBRYTJiDaknoDNf2pIiBhm58B?=
- =?us-ascii?Q?mJqGsBtPp90/wFyxKyoQQJR1tITgHpBhNR7hA3INZXEAmwv4F67SqPDtXeJv?=
- =?us-ascii?Q?3hsUc4xENNvikUjPZ1Nn7cyvheK4rLhmQbZ+YbFZdsOphkCyNCznF/zBHTb8?=
- =?us-ascii?Q?Ejig+Q/Utesjb6Vrm7Ia+Raa5c8oXl/vqmVgBV/0ySQUtw1NZlKP6j44XuWr?=
- =?us-ascii?Q?ZjvQ3WWIpG3XYUfz7+/cR78qWaLDmK895GcxDGQGTZCtS3LVfUruGBuNcviq?=
- =?us-ascii?Q?yNokWvvFqLTARKEJ2WUsw1XBXF3vGa3UsVKN4HUkFatSuukpV79Wb/qHZGf2?=
- =?us-ascii?Q?6RrHFMfqQ1fgP8kjzq49oV9yBzbGTwchEceE5VasyvfXC3s5k+ZVQyUR544y?=
- =?us-ascii?Q?TqkkYFQRLXjYEpsNiGsqotgSf3f4fz8ZMHPckPOCg3UWdqS0X2pm/JiwUHGZ?=
- =?us-ascii?Q?BPhdz1ICIVsOwnmpQAnMoFz1cEfYiZVL7EailyAJzUYGNnttQJk4PNghNGcY?=
- =?us-ascii?Q?raxuhZVzxZEulY732ENqdPpdyxvte+nrnoXmWOjm4tBHgVmtJptcSskgfeue?=
- =?us-ascii?Q?Z6UaAP+SoPdar518cwgUx0c0XNQAJxVY28cDCLC67X7U5ewGWdRJxsBnR14N?=
- =?us-ascii?Q?IsffheCh0EwTybJ5MDXvCUkcwVzNehI1TORTVB5xuU9PArbq4HOSU3Ve/TaO?=
- =?us-ascii?Q?yXjnAK4NdaITf1STiIQpDVbOnP6m5KqObwugKzikCFDmnqurrgSN+Jdtk4QD?=
- =?us-ascii?Q?XVk9efjk0DBsgemtjmBQQ2+faryl8bhO+aV+itxChqDkRXuqhx9Sgnt72i2U?=
- =?us-ascii?Q?o8IZuFM1tw=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A347833D504
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 18 Feb 2026 09:45:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771407905; cv=none; b=gIoapq+Dd1dNJ88Vxs7gG6o/lWVwo4teuvp5cOrvUr62+F69XBAEkiUXhwXmuxj64V94s0K77UeTZ4HqmfGzv3aMo7sqtLD11mYjc43QyNe8idtBhsSctIRpEgdUv5kWVGiKIU7kCSB33LNVv4e325sxG1NrZwvI3hI+GMJxSIc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771407905; c=relaxed/simple;
+	bh=CL9soAKZWnSZZkdKPe8QbrfJgbx6ptDGhfh7XJANNiM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nja8JLd05mYisxIOM5PwxJWi0fgC8HlQmJ0YpbMs91KnVR4vmYiqZV+M/qHIdotrFd9su3YmR+WtiETOn8YYSO0w61Hux8JowjHml5itgKfp5VI8LwLno9snlGPv16UDpdFfp8q1zF2LYu0Cg3ZmYNqvlTltwluz7OoMNQGSaPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=O10WuU5K; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-48371bb515eso58570985e9.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 18 Feb 2026 01:45:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1771407901; x=1772012701; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hSgaH5qN66tTg9I9+UItJTauIg80NYLcXtWxdyYbWoQ=;
+        b=O10WuU5KbCw5KB108YKVwVaWMKCoKqVu6h4NJZavl9oaP6uw1fPpohFzvaIsCFEsZP
+         cN1vu1kduYwW8foGaMk39VSIlxmItn2a6OrESUYKneYDpJGmK0fkBuJZAruNjglU2x/C
+         R71Q75019mZ62hThPr7O8+9zQD17u/IUdMkwXfg5xVb9jW3YiTuHZXd4qT+MvDS+lLWt
+         aN3bPBmfdmKDazKNIDyX7WnQdWVOq3uHW2fz+iQHZdjGoiIDm5UzzdMZeAX1hTnHpobd
+         mL1lf/BKgLMZZAokyk5d6pQm7w1lawF4oMP1mh+0/P6HrshWYY6s6xAY4CPVEj8MHbPK
+         U5Yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771407901; x=1772012701;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hSgaH5qN66tTg9I9+UItJTauIg80NYLcXtWxdyYbWoQ=;
+        b=oWjdw5+ImfbgHVFLQOuqtiVb5kbp/GOP9HAPHBvR23qk15I9xdfhdhAHv3Kf3MBbPH
+         vGtdNSWhY5ILztGQN3Ul1jXuHYOqDLCNlOoSoReyIYSUrf8V5OIrLcKZ+RSXpV7tNAsx
+         Yb1WWoS8u1rdkQmGgn3ham+Jot9723H/WqRqdAdshe1yhAZmhRlWc+maf7Rd7MW5bThD
+         dA8PdF9/fDHioKrYCqazU+2r7KynsBwj0k0kLId6CrHUJstGSCDJeOzZL8cXHbZKVpmU
+         Nqk4NgvvSBGWO0D2/XsCgOq11idXKUmxUpyZyKiaPBbechdhaAGI+RM2Hs8IEXJHvPG3
+         WmfA==
+X-Forwarded-Encrypted: i=1; AJvYcCU6fI/W8BBbfGkYcO9gOyJbVlT0AxogCFV+Aw/JFHW8Jp2S8yVJ7eXUkO5daZ/D8kuw2m79aXItiJiP1Dtzw/J+dA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+Z9tgOzGCfH0a7+PR/2c9lYqwktmqND5X35vVZz1cyp/xlksd
+	z4o0ePqHn1L0G9VU14thWYhn6PQUxHYCcRtCd4dTAQk+NqIp0wkW0Wamwl2Dbpr2NtM=
+X-Gm-Gg: AZuq6aIfSMVpo4RN+c9M87nvjw/1l34mPr4XlQfYfNfZDQXqCCopLJWb6PU8JfbFLFE
+	QDtLQNOk5N+Gl+jDYhs70ZDL0E0g2PzYyccLNFV67VIFcBqBx+S5s7aDGLZ2BUHh/YHWcT0ZnWx
+	qZPpdEKvo9xDRTkEpP2uZp3MJ7Db8pTafW/lvvlkYAcdkqYxp2k0m22L1kCQLMLY6GraI/JD5lw
+	vPVuG50v0BfOYgaGNx5sjt8ardZI4kzjwQrVmVsTJhMvwIh9VU+Qb6bpCjNViigipGIWUaqd/AI
+	jlHfBxSSH1B6fcaD8VFhI6xbvRYaC4QwwzTjo45tt7VgtglLcwwB6DTh60TG1gQVdFJZopgfXJN
+	/9aqOvnHdO59gzt8uF9nm3MCFuE5uoMWiiwKjGJZ54Qe32pRzgqkmYi79MrCXakMuxrburQkKuJ
+	Trf/dgHiXColLGun9D0cdnDuN0j55Oyw==
+X-Received: by 2002:a05:600c:458a:b0:477:5c58:3d42 with SMTP id 5b1f17b1804b1-48398a7e1e2mr23585475e9.10.1771407900211;
+        Wed, 18 Feb 2026 01:45:00 -0800 (PST)
+Received: from [192.168.50.4] ([82.78.167.73])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4834d5d78cfsm835667815e9.1.2026.02.18.01.44.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Feb 2026 01:44:59 -0800 (PST)
+Message-ID: <d09e741a-8ad2-4386-9c88-98694fbcf644@tuxon.dev>
+Date: Wed, 18 Feb 2026 11:44:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 06ec617c-b60f-4776-947a-08de6eccbcb5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Feb 2026 09:04:35.1387
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Fiu10TkdUz9oyYWL9QT8Uo8MG72HgzU0l5NzvYWV3FeRSYj+kDMXkJxwgHI2yw6QG28udALcNOF0Rhi8xSaFDFf3YOCiRKP+0Yd9EtZU2qc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB10763
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 13/16] PCI: rzg3s-host: Add support for RZ/G3E PCIe
+ controller
+To: John Madieu <john.madieu.xa@bp.renesas.com>,
+ claudiu.beznea.uj@bp.renesas.com, lpieralisi@kernel.org,
+ kwilczynski@kernel.org, mani@kernel.org, geert+renesas@glider.be,
+ krzk+dt@kernel.org
+Cc: robh@kernel.org, bhelgaas@google.com, conor+dt@kernel.org,
+ magnus.damm@gmail.com, biju.das.jz@bp.renesas.com,
+ linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-clk@vger.kernel.org, john.madieu@gmail.com
+References: <20260210113041.138430-1-john.madieu.xa@bp.renesas.com>
+ <20260210113041.138430-14-john.madieu.xa@bp.renesas.com>
+Content-Language: en-US
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <20260210113041.138430-14-john.madieu.xa@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.16 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[bp.renesas.com:s=selector1];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_DKIM_ALLOW(-0.20)[tuxon.dev:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-28301-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-28300-lists,linux-renesas-soc=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
+	DMARC_NA(0.00)[tuxon.dev];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	FREEMAIL_CC(0.00)[kernel.org,google.com,gmail.com,bp.renesas.com,vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[biju.das.jz@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[bp.renesas.com:+];
 	RCVD_COUNT_FIVE(0.00)[5];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tuxon.dev:email,bp.renesas.com:dkim,TY3PR01MB11346.jpnprd01.prod.outlook.com:mid]
-X-Rspamd-Queue-Id: 7493F15468F
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[claudiu.beznea@tuxon.dev,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[tuxon.dev:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,tuxon.dev:mid,tuxon.dev:dkim,renesas.com:email]
+X-Rspamd-Queue-Id: 8CB8B154D38
 X-Rspamd-Action: no action
 
-Hi Claudiu,
+Hi, John,
 
-Thanks for the patch.
-
-> -----Original Message-----
-> From: Claudiu <claudiu.beznea@tuxon.dev>
-> Sent: 04 February 2026 13:34
-> Subject: [PATCH] reset: rzg2l-usbphy-ctrl: Check pwrrdy is valid before u=
-sing it
->=20
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->=20
-> The pwrrdy regmap_filed is allocated in rzg2l_usbphy_ctrl_pwrrdy_init() o=
-nly if the driver data is set
-> to RZG2L_USBPHY_CTRL_PWRRDY. Check that pwrrdy is valid before using it t=
-o avoid "Unable to handle
-> kernel NULL pointer dereference at virtual address" errors.
->=20
-> Fixes: c5b7cd9adefc ("reset: rzg2l-usbphy-ctrl: Add suspend/resume suppor=
-t")
-
-Thanks for fixing it, as it leads to crash on non-RZ/G3S platforms.
-
-Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-
-Cheers,
-Biju
-
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+On 2/10/26 13:30, John Madieu wrote:
+> Add support for the PCIe controller found in RZ/G3E SoCs to the existing
+> RZ/G3S PCIe host driver. The RZ/G3E PCIe controller is similar to the
+> RZ/G3S's, with the following key differences:
+> 
+>   - Supports PCIe Gen3 (8.0 GT/s) link speeds alongside Gen2 (5.0 GT/s)
+>   - Uses a different reset control mechanism via AXI registers instead
+>     of the Linux reset framework
+>   - Requires specific SYSC configuration for link state control and
+>     Root Complex mode selection
+> 
+> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
 > ---
->  drivers/reset/reset-rzg2l-usbphy-ctrl.c | 3 +++
->  1 file changed, 3 insertions(+)
->=20
-> diff --git a/drivers/reset/reset-rzg2l-usbphy-ctrl.c b/drivers/reset/rese=
-t-rzg2l-usbphy-ctrl.c
-> index 32bc268c9149..05dd9b4a02df 100644
-> --- a/drivers/reset/reset-rzg2l-usbphy-ctrl.c
-> +++ b/drivers/reset/reset-rzg2l-usbphy-ctrl.c
-> @@ -136,6 +136,9 @@ static int rzg2l_usbphy_ctrl_set_pwrrdy(struct regmap=
-_field *pwrrdy,  {
->  	u32 val =3D power_on ? 0 : 1;
->=20
-> +	if (!pwrrdy)
-> +		return 0;
+> 
+> Changes:
+> 
+> v5:
+>   - Introduce rzg3s_sysc_config() helper for sys configuration
+> 
+> v4: No changes
+> v3: No changes
+> v2: Collected tag.
+> 
+>   drivers/pci/controller/pcie-rzg3s-host.c | 152 ++++++++++++++++++++---
+>   1 file changed, 137 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/pci/controller/pcie-rzg3s-host.c b/drivers/pci/controller/pcie-rzg3s-host.c
+> index 22858a876fd8..77313cc01c02 100644
+> --- a/drivers/pci/controller/pcie-rzg3s-host.c
+> +++ b/drivers/pci/controller/pcie-rzg3s-host.c
+> @@ -111,6 +111,16 @@
+>   #define RZG3S_PCI_PERM_CFG_HWINIT_EN		BIT(2)
+>   #define RZG3S_PCI_PERM_PIPE_PHY_REG_EN		BIT(1)
+>   
+> +/* RZ/G3E specific registers */
+> +#define RZG3E_PCI_RESET				0x310
+> +#define RZG3E_PCI_RESET_RST_OUT_B		BIT(6)
+> +#define RZG3E_PCI_RESET_RST_PS_B		BIT(5)
+> +#define RZG3E_PCI_RESET_RST_LOAD_B		BIT(4)
+> +#define RZG3E_PCI_RESET_RST_CFG_B		BIT(3)
+> +#define RZG3E_PCI_RESET_RST_RSM_B		BIT(2)
+> +#define RZG3E_PCI_RESET_RST_GP_B		BIT(1)
+> +#define RZG3E_PCI_RESET_RST_B			BIT(0)
 > +
->  	/* The initialization path guarantees that the mask is 1 bit long. */
->  	return regmap_field_update_bits(pwrrdy, 1, val);  }
-> --
-> 2.43.0
+>   #define RZG3S_PCI_MSIRE(id)			(0x600 + (id) * 0x10)
+>   #define RZG3S_PCI_MSIRE_ENA			BIT(0)
+>   
+> @@ -183,9 +193,13 @@ struct rzg3s_sysc_function {
+>   /**
+>    * struct rzg3s_sysc_info - RZ/G3S System Controller function info
+>    * @rst_rsm_b: Reset RSM_B function descriptor
+> + * @l1_allow: L1 power state management function descriptor
+> + * @mode: Mode configuration function descriptor
+>    */
+>   struct rzg3s_sysc_info {
+>   	struct rzg3s_sysc_function rst_rsm_b;
+> +	struct rzg3s_sysc_function l1_allow;
+> +	struct rzg3s_sysc_function mode;
+>   };
+>   
+>   /**
+> @@ -1124,6 +1138,49 @@ static int rzg3s_config_deinit(struct rzg3s_pcie_host *host)
+>   					 host->cfg_resets);
+>   }
+>   
+> +/* RZ/G3E SoC-specific config implementations */
+> +static void rzg3e_pcie_config_pre_init(struct rzg3s_pcie_host *host)
+> +{
+> +	/*
+> +	 * De-assert LOAD_B and CFG_B during configuration phase.
+> +	 * These are part of the RZ/G3E reset register, not reset framework.
+> +	 * Other reset bits remain asserted until config_post_init.
+> +	 */
+> +	rzg3s_pcie_update_bits(host->axi, RZG3E_PCI_RESET,
+> +			       RZG3E_PCI_RESET_RST_LOAD_B | RZG3E_PCI_RESET_RST_CFG_B,
+> +			       RZG3E_PCI_RESET_RST_LOAD_B | RZG3E_PCI_RESET_RST_CFG_B);
+> +}
+> +
+> +static int rzg3e_config_deinit(struct rzg3s_pcie_host *host)
+> +{
+> +	writel_relaxed(0, host->axi + RZG3E_PCI_RESET);
+> +	return 0;
+> +}
+> +
+> +static int rzg3e_config_post_init(struct rzg3s_pcie_host *host)
+> +{
+> +	/* De-assert PS_B, GP_B, RST_B */
+> +	rzg3s_pcie_update_bits(host->axi, RZG3E_PCI_RESET,
+> +			       RZG3E_PCI_RESET_RST_PS_B | RZG3E_PCI_RESET_RST_GP_B |
+> +			       RZG3E_PCI_RESET_RST_B,
+> +			       RZG3E_PCI_RESET_RST_PS_B | RZG3E_PCI_RESET_RST_GP_B |
+> +			       RZG3E_PCI_RESET_RST_B);
+> +
+> +	/*
+> +	 * According to the RZ/G3E HW manual (Rev.1.15, Table 6.6-130
+> +	 * Initialization Procedure (RC)), hardware requires >= 500us delay
+> +	 * before final reset deassert.
+> +	 */
+> +	fsleep(500);
+> +
+> +	/* De-assert OUT_B and RSM_B to complete reset sequence */
+> +	rzg3s_pcie_update_bits(host->axi, RZG3E_PCI_RESET,
+> +			       RZG3E_PCI_RESET_RST_OUT_B | RZG3E_PCI_RESET_RST_RSM_B,
+> +			       RZG3E_PCI_RESET_RST_OUT_B | RZG3E_PCI_RESET_RST_RSM_B);
+> +
+> +	return 0;
+> +}
+> +
+>   static void rzg3s_pcie_irq_init(struct rzg3s_pcie_host *host)
+>   {
+>   	/*
+> @@ -1266,6 +1323,47 @@ static int rzg3s_pcie_host_init_port(struct rzg3s_pcie_host *host)
+>   	return ret;
+>   }
+>   
+> +/**
+> + * rzg3s_sysc_config - Configure SYSC registers for PCIe
+> + * @sysc: SYSC descriptor
+> + * @mode: Mode value to set (-1 to skip)
+> + * @rsm_b: RST_RSM_B value to set (-1 to skip)
+> + * @l1_allow: L1_ALLOW value to set (-1 to skip)
+> + *
+> + * Return: 0 on success, negative error code on failure
+> + */
+> +static int rzg3s_sysc_config(struct rzg3s_sysc *sysc, int mode, int rsm_b,
+> +			     int l1_allow)
+> +{
+> +	const struct rzg3s_sysc_info *info = sysc->info;
+> +	int ret;
+> +
+> +	if (mode >= 0 && info->mode.mask) {
+> +		ret = regmap_write(sysc->regmap, info->mode.offset,
+> +				   field_prep(info->mode.mask, mode));
+
+Can't we use regmap_update_bits() here as well to have everything using the same 
+pattern?
+
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	if (rsm_b >= 0 && info->rst_rsm_b.mask) {
+> +		ret = regmap_update_bits(sysc->regmap, info->rst_rsm_b.offset,
+> +					 info->rst_rsm_b.mask,
+> +					 field_prep(info->rst_rsm_b.mask, rsm_b));
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	if (l1_allow >= 0 && info->l1_allow.mask) {
+> +		ret = regmap_update_bits(sysc->regmap, info->l1_allow.offset,
+> +					 info->l1_allow.mask,
+> +					 field_prep(info->l1_allow.mask, l1_allow));
+> +		if (ret)
+> +			return ret;
+> +	}
+
+Seeing how this function looks like, I think the overall code (and this 
+function) would be simpler if instead of describing functions in
+struct rzg3s_sysc_info as individual struct members, would use an array of 
+functions. This is how this function will looks like in the end:
+
+static int rzg3s_sysc_config_func(struct rzg3s_sysc *sysc,
+				  enum rzg3s_sysc_func_id fid,
+				  u32 val)
+{
+	const struct rzg3s_sysc_info *info = sysc->info;
+	const struct rzg3s_sysc_function *functions = info->functions;
+
+	if (fid >= RZG3S_SYSC_FUNC_ID_MAX)
+		return -EINVAL;
+
+	if (!functions[fid].mask)
+		return 0;
+
+	return regmap_update_bits(sysc->regmap, functions[fid].offset,
+				  functions[fid].mask,
+				  field_prep(functions[fid].mask, val));
+}
+
+The following diff could be applied on top of this series to give you a clue:
+
+diff --git a/drivers/pci/controller/pcie-rzg3s-host.c 
+b/drivers/pci/controller/pcie-rzg3s-host.c
+index 639b2d781d66..fc61ac02a4ea 100644
+--- a/drivers/pci/controller/pcie-rzg3s-host.c
++++ b/drivers/pci/controller/pcie-rzg3s-host.c
+@@ -190,16 +190,26 @@ struct rzg3s_sysc_function {
+         u32 mask;
+  };
+
++/**
++ * enum rzg3s_sysc_func_id - System controller function IDs
++ * @RZG3S_SYSC_FUNC_ID_RST_RSM_B: RST_RSM_B SYSC function ID
++ * @RZG3S_SYSC_FUNC_ID_L1_ALLOW: L1 allow SYSC function ID
++ * @RZG3S_SYSC_FUNC_ID_MODE: Mode SYSC function ID
++ * @RZG3S_SYSC_FUNC_ID_MAX: Max SYSC function ID
++ */
++enum rzg3s_sysc_func_id {
++       RZG3S_SYSC_FUNC_ID_RST_RSM_B,
++       RZG3S_SYSC_FUNC_ID_L1_ALLOW,
++       RZG3S_SYSC_FUNC_ID_MODE,
++       RZG3S_SYSC_FUNC_ID_MAX,
++};
++
+  /**
+   * struct rzg3s_sysc_info - RZ/G3S System Controller function info
+- * @rst_rsm_b: Reset RSM_B function descriptor
+- * @l1_allow: L1 power state management function descriptor
+- * @mode: Mode configuration function descriptor
++ * @functions: SYSC function descriptors array
+   */
+  struct rzg3s_sysc_info {
+-       struct rzg3s_sysc_function rst_rsm_b;
+-       struct rzg3s_sysc_function l1_allow;
+-       struct rzg3s_sysc_function mode;
++       const struct rzg3s_sysc_function functions[RZG3S_SYSC_FUNC_ID_MAX];
+  };
+
+  /**
+@@ -1324,45 +1334,22 @@ static int rzg3s_pcie_host_init_port(struct 
+rzg3s_pcie_host *host)
+         return ret;
+  }
+
+-/**
+- * rzg3s_sysc_config - Configure SYSC registers for PCIe
+- * @sysc: SYSC descriptor
+- * @mode: Mode value to set (-1 to skip)
+- * @rsm_b: RST_RSM_B value to set (-1 to skip)
+- * @l1_allow: L1_ALLOW value to set (-1 to skip)
+- *
+- * Return: 0 on success, negative error code on failure
+- */
+-static int rzg3s_sysc_config(struct rzg3s_sysc *sysc, int mode, int rsm_b,
+-                            int l1_allow)
++static int rzg3s_sysc_config_func(struct rzg3s_sysc *sysc,
++                                 enum rzg3s_sysc_func_id fid,
++                                 u32 val)
+  {
+         const struct rzg3s_sysc_info *info = sysc->info;
+-       int ret;
+-
+-       if (mode >= 0 && info->mode.mask) {
+-               ret = regmap_write(sysc->regmap, info->mode.offset,
+-                                  field_prep(info->mode.mask, mode));
+-               if (ret)
+-                       return ret;
+-       }
++       const struct rzg3s_sysc_function *functions = info->functions;
+
+-       if (rsm_b >= 0 && info->rst_rsm_b.mask) {
+-               ret = regmap_update_bits(sysc->regmap, info->rst_rsm_b.offset,
+-                                        info->rst_rsm_b.mask,
+-                                        field_prep(info->rst_rsm_b.mask, rsm_b));
+-               if (ret)
+-                       return ret;
+-       }
++       if (fid >= RZG3S_SYSC_FUNC_ID_MAX)
++               return -EINVAL;
+
+-       if (l1_allow >= 0 && info->l1_allow.mask) {
+-               ret = regmap_update_bits(sysc->regmap, info->l1_allow.offset,
+-                                        info->l1_allow.mask,
+-                                        field_prep(info->l1_allow.mask, l1_allow));
+-               if (ret)
+-                       return ret;
+-       }
++       if (!functions[fid].mask)
++               return 0;
+
+-       return 0;
++       return regmap_update_bits(sysc->regmap, functions[fid].offset,
++                                 functions[fid].mask,
++                                 field_prep(functions[fid].mask, val));
+  }
+
+  static int rzg3s_pcie_host_init(struct rzg3s_pcie_host *host)
+@@ -1384,7 +1371,8 @@ static int rzg3s_pcie_host_init(struct rzg3s_pcie_host *host)
+                 goto config_deinit;
+
+         /* Enable ASPM L1 transition for SoCs that use it */
+-       ret = rzg3s_sysc_config(host->sysc, -1, -1, 1);
++       ret = rzg3s_sysc_config_func(host->sysc,
++                                    RZG3S_SYSC_FUNC_ID_L1_ALLOW, 1);
+         if (ret)
+                 goto config_deinit;
+
+@@ -1735,12 +1723,13 @@ static int rzg3s_pcie_probe(struct platform_device *pdev)
+                 goto port_refclk_put;
+         }
+
+-       /*
+-        * Put controller in RC (Root Complex) mode for SoCs that
+-        * support it. These can operate in either EP or RC mode.
+-        * While at it, do also de-assert RST_RSM_B.
+-        */
+-       ret = rzg3s_sysc_config(sysc, 1, 1, -1);
++       /* Put controller in RC (Root Complex) mode. */
++       ret = rzg3s_sysc_config_func(sysc, RZG3S_SYSC_FUNC_ID_RST_RSM_B, 1);
++       if (ret)
++               goto port_refclk_put;
++
++       /* De-assert RST_RSM_B. */
++       ret = rzg3s_sysc_config_func(sysc, RZG3S_SYSC_FUNC_ID_MODE, 1);
+         if (ret)
+                 goto port_refclk_put;
+
+@@ -1792,7 +1781,7 @@ static int rzg3s_pcie_probe(struct platform_device *pdev)
+          * SYSC RST_RSM_B signal need to be asserted before turning off the
+          * power to the PHY.
+          */
+-       rzg3s_sysc_config(sysc, -1, 0, -1);
++       rzg3s_sysc_config_func(sysc, RZG3S_SYSC_FUNC_ID_RST_RSM_B, 0);
+  port_refclk_put:
+         clk_put(host->port.refclk);
+
+@@ -1823,7 +1812,7 @@ static int rzg3s_pcie_suspend_noirq(struct device *dev)
+         if (ret)
+                 goto config_reinit;
+
+-       ret = rzg3s_sysc_config(sysc, -1, 0, -1);
++       ret = rzg3s_sysc_config_func(sysc, RZG3S_SYSC_FUNC_ID_RST_RSM_B, 0);
+         if (ret)
+                 goto power_resets_restore;
+
+@@ -1848,7 +1837,11 @@ static int rzg3s_pcie_resume_noirq(struct device *dev)
+         struct rzg3s_sysc *sysc = host->sysc;
+         int ret;
+
+-       ret = rzg3s_sysc_config(sysc, 1, 1, -1);
++       ret = rzg3s_sysc_config_func(sysc, RZG3S_SYSC_FUNC_ID_MODE, 1);
++       if (ret)
++               return ret;
++
++       ret = rzg3s_sysc_config_func(sysc, RZG3S_SYSC_FUNC_ID_RST_RSM_B, 1);
+         if (ret)
+                 return ret;
+
+@@ -1877,7 +1870,7 @@ static int rzg3s_pcie_resume_noirq(struct device *dev)
+         reset_control_bulk_assert(data->num_power_resets,
+                                   host->power_resets);
+  assert_rst_rsm_b:
+-       rzg3s_sysc_config(sysc, -1, 0, -1);
++       rzg3s_sysc_config_func(sysc, RZG3S_SYSC_FUNC_ID_RST_RSM_B, 0);
+         return ret;
+  }
+
+@@ -1903,9 +1896,11 @@ static const struct rzg3s_pcie_soc_data rzg3s_soc_data = {
+         .config_deinit = rzg3s_config_deinit,
+         .init_phy = rzg3s_soc_pcie_init_phy,
+         .sysc_info = {
+-               .rst_rsm_b = {
+-                       .offset = 0xd74,
+-                       .mask = BIT(0),
++               .functions = {
++                       [RZG3S_SYSC_FUNC_ID_RST_RSM_B] = {
++                               .offset = 0xd74,
++                               .mask = BIT(0),
++                       },
+                 },
+         },
+  };
+@@ -1919,13 +1914,15 @@ static const struct rzg3s_pcie_soc_data rzg3e_soc_data = {
+         .config_post_init = rzg3e_config_post_init,
+         .config_deinit = rzg3e_config_deinit,
+         .sysc_info = {
+-               .l1_allow = {
+-                       .offset = 0x1020,
+-                       .mask = BIT(0),
+-               },
+-               .mode = {
+-                       .offset = 0x1024,
+-                       .mask = BIT(0),
++               .functions = {
++                       [RZG3S_SYSC_FUNC_ID_L1_ALLOW] = {
++                               .offset = 0x1020,
++                               .mask = BIT(0),
++                       },
++                       [RZG3S_SYSC_FUNC_ID_MODE] = {
++                               .offset = 0x1024,
++                               .mask = BIT(0),
++                       },
+                 },
+         },
+  };
+
+To have this implemented, patch 07/16 "PCI: rzg3s-host: Make SYSC register 
+offsets SoC-specific" would have to be update with enum rzg3s_sysc_func_id, 
+rzg3s_sysc_config_func() should be introduced and used there.
+
+With that addressed, this patch will have to only introduce SYSC function IDs 
+for L1 allow and mode and set it accordingly though rzg3s_sysc_config_func().
+
+That would, in the end, drop the usage of -1 as argument for rzg3s_sysc_config() 
+which is a bit ugly.
+
+Sorry for not spotting this earlier.
+
+Thank you,
+Claudiu
+
+> +
+> +	return 0;
+> +}
+> +
+>   static int rzg3s_pcie_host_init(struct rzg3s_pcie_host *host)
+>   {
+>   	u32 val;
+> @@ -1284,6 +1382,11 @@ static int rzg3s_pcie_host_init(struct rzg3s_pcie_host *host)
+>   	if (ret)
+>   		goto config_deinit;
+>   
+> +	/* Enable ASPM L1 transition for SoCs that use it */
+
+"Enable ASPM L1 transitions should be enough". But if using the above proposed 
+code, the function ID macro would be meaningful enough and thus, I don't 
+consider a comment would be needed anymore.
+
+> +	ret = rzg3s_sysc_config(host->sysc, -1, -1, 1);
+> +	if (ret)
+> +		goto config_deinit;
+> +
+>   	/* Initialize the interrupts */
+>   	rzg3s_pcie_irq_init(host);
+>   
+> @@ -1631,9 +1734,12 @@ static int rzg3s_pcie_probe(struct platform_device *pdev)
+>   		goto port_refclk_put;
+>   	}
+>   
+> -	ret = regmap_update_bits(sysc->regmap, sysc->info->rst_rsm_b.offset,
+> -				 sysc->info->rst_rsm_b.mask,
+> -				 field_prep(sysc->info->rst_rsm_b.mask, 1));
+> +	/*
+> +	 * Put controller in RC (Root Complex) mode for SoCs that
+> +	 * support it. These can operate in either EP or RC mode.
+> +	 * While at it, do also de-assert RST_RSM_B.
+> +	 */
+
+This should be enough here:
+
+/* Put controller in RC mode and de-assert RST_RSM_B. */
+
+Thank you,
+Claudiu
+
+> +	ret = rzg3s_sysc_config(sysc, 1, 1, -1);
+>   	if (ret)
+>   		goto port_refclk_put;
+>   
+> @@ -1685,9 +1791,7 @@ static int rzg3s_pcie_probe(struct platform_device *pdev)
+>   	 * SYSC RST_RSM_B signal need to be asserted before turning off the
+>   	 * power to the PHY.
+>   	 */
+> -	regmap_update_bits(sysc->regmap, sysc->info->rst_rsm_b.offset,
+> -			   sysc->info->rst_rsm_b.mask,
+> -			   field_prep(sysc->info->rst_rsm_b.mask, 0));
+> +	rzg3s_sysc_config(sysc, -1, 0, -1);
+>   port_refclk_put:
+>   	clk_put(host->port.refclk);
+>   
+> @@ -1718,9 +1822,7 @@ static int rzg3s_pcie_suspend_noirq(struct device *dev)
+>   	if (ret)
+>   		goto config_reinit;
+>   
+> -	ret = regmap_update_bits(sysc->regmap, sysc->info->rst_rsm_b.offset,
+> -				 sysc->info->rst_rsm_b.mask,
+> -				 field_prep(sysc->info->rst_rsm_b.mask, 0));
+> +	ret = rzg3s_sysc_config(sysc, -1, 0, -1);
+>   	if (ret)
+>   		goto power_resets_restore;
+>   
+> @@ -1745,9 +1847,7 @@ static int rzg3s_pcie_resume_noirq(struct device *dev)
+>   	struct rzg3s_sysc *sysc = host->sysc;
+>   	int ret;
+>   
+> -	ret = regmap_update_bits(sysc->regmap, sysc->info->rst_rsm_b.offset,
+> -				 sysc->info->rst_rsm_b.mask,
+> -				 field_prep(sysc->info->rst_rsm_b.mask, 1));
+> +	ret = rzg3s_sysc_config(sysc, 1, 1, -1);
+>   	if (ret)
+>   		return ret;
+>   
+> @@ -1776,9 +1876,7 @@ static int rzg3s_pcie_resume_noirq(struct device *dev)
+>   	reset_control_bulk_assert(data->num_power_resets,
+>   				  host->power_resets);
+>   assert_rst_rsm_b:
+> -	regmap_update_bits(sysc->regmap, sysc->info->rst_rsm_b.offset,
+> -			   sysc->info->rst_rsm_b.mask,
+> -			   field_prep(sysc->info->rst_rsm_b.mask, 0));
+> +	rzg3s_sysc_config(sysc, -1, 0, -1);
+>   	return ret;
+>   }
+>   
+> @@ -1811,11 +1909,35 @@ static const struct rzg3s_pcie_soc_data rzg3s_soc_data = {
+>   	},
+>   };
+>   
+> +static const char * const rzg3e_soc_power_resets[] = { "aresetn" };
+> +
+> +static const struct rzg3s_pcie_soc_data rzg3e_soc_data = {
+> +	.power_resets = rzg3e_soc_power_resets,
+> +	.num_power_resets = ARRAY_SIZE(rzg3e_soc_power_resets),
+> +	.config_pre_init = rzg3e_pcie_config_pre_init,
+> +	.config_post_init = rzg3e_config_post_init,
+> +	.config_deinit = rzg3e_config_deinit,
+> +	.sysc_info = {
+> +		.l1_allow = {
+> +			.offset = 0x1020,
+> +			.mask = BIT(0),
+> +		},
+> +		.mode = {
+> +			.offset = 0x1024,
+> +			.mask = BIT(0),
+> +		},
+> +	},
+> +};
+> +
+>   static const struct of_device_id rzg3s_pcie_of_match[] = {
+>   	{
+>   		.compatible = "renesas,r9a08g045-pcie",
+>   		.data = &rzg3s_soc_data,
+>   	},
+> +	{
+> +		.compatible = "renesas,r9a09g047-pcie",
+> +		.data = &rzg3e_soc_data,
+> +	},
+>   	{}
+>   };
+>   
 
 
