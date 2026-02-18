@@ -1,137 +1,154 @@
-Return-Path: <linux-renesas-soc+bounces-28310-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28311-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kOdbCZwZlmkSaAIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28310-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Feb 2026 20:57:16 +0100
+	id ILuVNBwolmnxbQIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28311-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Feb 2026 21:59:08 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD332159441
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Feb 2026 20:57:15 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C850159AED
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Feb 2026 21:59:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id D9EEE301D4F0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Feb 2026 19:57:13 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id BCA9A30011B9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Feb 2026 20:58:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95B8A348896;
-	Wed, 18 Feb 2026 19:57:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDD4D34889C;
+	Wed, 18 Feb 2026 20:58:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aU14TGs1"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lQTTGMZA"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C19D345741;
-	Wed, 18 Feb 2026 19:57:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1BD134846C
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 18 Feb 2026 20:58:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771444630; cv=none; b=VuKklZuxmTXk5cNmNAfOdBK438PNJAdQJXKCPejoFjI3PA0Xd10MCJjCaPOWq13pJH+naW5cR/rR27JW1vBHtXEMo5IX+TGvdGCJ7HAK6caY1BgDkJ4BEDnTdPeMg26iwgjC0wbvdlZXNwgwMqZ9H6bDY4Uj0sIxbi7hKO46eWM=
+	t=1771448294; cv=none; b=hXMxObpu8cgtowLoXBhoW2AFEvHW3F8wbpXDSENailDKI2C5qEyZnoD6AjjzupHlUWfLSLjTuN7iwHalA9j9X/nVkZqkf5tEjKhp5ZrmQyiyNhPgKrXlHAJ3Gcu44LGBznVWIMAMBadKEOGJf5xroME3NXYThLtGi+1c9tqnx7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771444630; c=relaxed/simple;
-	bh=gat+rnnrUbK/Y6WytC8CslzBWIw44IxAUqnSKe3YTrY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RbZUhAVcZA6bX/0Q9gFSDztrWQRZ1xL4wluKxnNK8VRg++AX/BZoOEWC6n6Ikuo7nx4p+TIgZgB1nmA/iAuDK0BPdL1/ceFgfmd5wzaJ+DxUZA0tguXqO/ecb8mwpT64kd2eQMSu4xJmY2LG4ZY/i6btWuX1HiHpwJ7rGhpXXLI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aU14TGs1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBA95C19422;
-	Wed, 18 Feb 2026 19:56:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771444630;
-	bh=gat+rnnrUbK/Y6WytC8CslzBWIw44IxAUqnSKe3YTrY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=aU14TGs1bcBdcieOvY4AjyQhrda6+MkmVlhMOuzrvau4aRL1lBtCrYeKF/2apBpWE
-	 mtVLTp11y3++lF+DvWTLWjTb3rlyub4/6jOkIIVa5jeoZLNmR0DC96Ra7y7J1/lxuZ
-	 2GVQh9+zp74dG9vcowhY3oIVqAYtnMacHVkIUgmCIYAltAz/P72ZBvohIaHePwfsqv
-	 Yu/fx6ueqX3LNWeImBl2d5Z60hIyYgqacrdddRFOO+r45TjKGzXtYHZ9QeMOub1KOH
-	 iDZxYI8pQ4LyAQeZ1R2jHqYJit4AjCi3njx2mjkvP8M/su6w101t1y/Y32+YMWQ0rs
-	 qpK63qWL1ooJg==
-Date: Wed, 18 Feb 2026 19:56:51 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, Andy Shevchenko
- <andriy.shevchenko@intel.com>, linux-arm-kernel@lists.infradead.org, Bjorn
- Andersson <andersson@kernel.org>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Peter Zijlstra <peterz@infradead.org>,
- Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, Boqun Feng
- <boqun@kernel.org>, Waiman Long <longman@redhat.com>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Mark Brown
- <broonie@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich
- <dakr@kernel.org>, David Lechner <dlechner@baylibre.com>, Nuno
- =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
- Orson Zhai <orsonzhai@gmail.com>, Chunyan Zhang <zhang.lyra@gmail.com>,
- Thomas Gleixner <tglx@kernel.org>, Maxime Coquelin
- <mcoquelin.stm32@gmail.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Lee Jones <lee@kernel.org>, Arnd Bergmann
- <arnd@arndb.de>, Srinivas Kandagatla <srini@kernel.org>, Antonio Borneo
- <antonio.borneo@foss.st.com>, Linus Walleij <linusw@kernel.org>, Konrad
- Dybcio <konradybcio@kernel.org>, linux-remoteproc@vger.kernel.org,
- linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
- linux-iio@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-gpio@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-spi@vger.kernel.org
-Subject: Re: [RFC PATCH v2 13/13] hwspinlock: refactor consumer.h from
- public header
-Message-ID: <20260218195651.6a3fe5e8@jic23-huawei>
-In-Reply-To: <20260215225501.6365-14-wsa+renesas@sang-engineering.com>
-References: <20260215225501.6365-1-wsa+renesas@sang-engineering.com>
-	<20260215225501.6365-14-wsa+renesas@sang-engineering.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1771448294; c=relaxed/simple;
+	bh=r6f5XA/yt5ijQxC9qj8PwFahd3U8KiCq5t1T39MZKU8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ZkNfsNNLDsLEcUKGy8WG6wublA7dv1nwZpPjuD66gW7DzT8X2wai7U842WX0xi7xr8+vmW6IX5P9cnQd8nDEN+/yqCKmtdWFAVCP0OKI/6VgDHw7DUJw/v1hoNW3/SRJmdN5n0r+7NVPwTRbSKWvIY7wsPJUKFoM1n9bSPmwQ6c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lQTTGMZA; arc=none smtp.client-ip=74.125.82.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-12721cd256bso224942c88.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 18 Feb 2026 12:58:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771448293; x=1772053093; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=AYz/iLeO6q0BGWWQxma927idbu7N5p49ytkQNprhL0s=;
+        b=lQTTGMZAZjiTraDUeAEqJMdNby/jTWB4DrE28iUD1stqL4w+8bBsAGndgtRAQmZHs+
+         OBF7bEoyd91uzjI22RtuqMWmTPJo974O9ExuDDO+9xLXdOxOH/u0GX9hudj3nY0p/NEd
+         +Vnp73F7iKRWMRSibibCjDjMh28nAyFU40MwOwCMU80bBMYIQ1Pn6uLAbY2lBsAth6cC
+         bRR0uXXn29SlT0d8vsFAkzXdlS6TZEYE4QqZOPfrhzymh0Ik9oAjwPzrEmWkNGkLn6wB
+         g7PZnwC7hzTI2G6cFdcHVWgaaP4YW6YzufLtGCH4nBCnq59CYOgXNWSbMeRnGS4kEEoe
+         ZVeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771448293; x=1772053093;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AYz/iLeO6q0BGWWQxma927idbu7N5p49ytkQNprhL0s=;
+        b=ub6JnxdYvBRj7c/PD0mm4DSiehh9yqp9qrKsR1bHBprsHdTs+X6/ZPLfsN2vihCmAk
+         7S0k4VmoaYoyb1Wr+LFQCfeXG1jnjpY6tSgNQWE2JSSvEyVxdC68TNlrJmOV9LE/9khP
+         QvM6eqGXMtfK9brTXd6otyB1n1ya9Q45jmR9XMsKreOLBqun57Ie4VjlJfB4fkswRaD/
+         3e9NyplYCZrA+M4g2TDZii0kTr8J8rTFD+69vnSxxtrvxnUc4j9apBzm+tiQ6PeJ5QGn
+         vnb07+N5NIGivt9YTvQmt4UcWFqMpfivXJJ0Q198y1focooMp1MjWNSnTjBNj6Ehxe5Q
+         MCPw==
+X-Forwarded-Encrypted: i=1; AJvYcCX7yu8IBrUJGZRq70NBgx2TZAiqNIyusws+iS+Veyx2i7G04HTgisu1SQ+eD0nk0eXFigBYoLQ7Wb80P1b9lsUEiw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyuFBXIzJ52VJDjvqKHmCJMuMh/ck5y+K0LsRc8Ut8z4TKmd2BA
+	Tn3Wj68coZEe+sEb1aXanZUwpqSWJqOFdtNRm+gWJbul8ePpRME/p4JHlZpddA==
+X-Gm-Gg: AZuq6aJP1JGJd1NkUljC68t9O3FfyiiJo9qHyrADqY7LTT0Bs08m8k3mFOuBBww8MRx
+	GsDExo1N7sm9Z2DPygRwo1I7y6vA+A3HV+C/rZJcQxQ7Bh6u6dyNq7+WPTRaXCzEOrZistL34gQ
+	n84RyzQvKFLAQ9h4YGJf3WGBKMnXtLHWTK3tHelDgPe5vk/M8XwscJxwTTTH+Vfkq4KgrpUBaGA
+	QiQ/c7HOt9p4dxe9vQw6AlAbUolYjaB5CthOkJ2MDU3R7zCP/Wcu3ScQed65/fRgBTGEB+25uOI
+	TkZ5Y2bGDOQYpRhx/R3CGLd9zxfOTThG/CkDmhxrncJP2igirAen2gEdbASdYTiCfbNzWB1uke4
+	AemxJZ+/4MscYWNpBfu4sP9ywTWG30dWeRpq4vGh8xi3MWJHa4atne/2dGghhksa3iY8x1CwWuM
+	DP5XcV72lV3CgxDEnxKjg0GhhSJnec0JX459MZDXLF+bQeKeTO8X86XaKOsKcLomJK
+X-Received: by 2002:a05:7022:2206:b0:123:330b:398 with SMTP id a92af1059eb24-12741b90b7cmr5415874c88.19.1771448292879;
+        Wed, 18 Feb 2026 12:58:12 -0800 (PST)
+Received: from google.com ([2a00:79e0:2ebe:8:265b:f5ad:9e03:677e])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12742c63feesm24200691c88.4.2026.02.18.12.58.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Feb 2026 12:58:12 -0800 (PST)
+Date: Wed, 18 Feb 2026 12:58:09 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Linus Walleij <linusw@kernel.org>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Andy Shevchenko <andy@kernel.org>, 
+	Marek Vasut <marek.vasut+renesas@mailbox.org>, linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] pinctrl: renesas: rza1: normalize return value of gpio_get
+Message-ID: <aZYnyl-Nf4S1U2yj@google.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-28310-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[39];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jic23@kernel.org,linux-renesas-soc@vger.kernel.org];
-	FREEMAIL_CC(0.00)[vger.kernel.org,intel.com,lists.infradead.org,kernel.org,linux.alibaba.com,infradead.org,redhat.com,lwn.net,linuxfoundation.org,baylibre.com,analog.com,gmail.com,foss.st.com,arndb.de,lists.linux.dev,st-md-mailman.stormreply.com];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-28311-lists,linux-renesas-soc=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[huawei.com:email,sang-engineering.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: CD332159441
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dmitrytorokhov@gmail.com,linux-renesas-soc@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 3C850159AED
 X-Rspamd-Action: no action
 
-On Sun, 15 Feb 2026 23:54:53 +0100
-Wolfram Sang <wsa+renesas@sang-engineering.com> wrote:
+The GPIO get callback is expected to return 0 or 1 (or a negative error
+code). Ensure that the value returned by rza1_gpio_get() is normalized
+to the [0, 1] range.
 
-> Factor out the entries only needed for consumers from the generic public
-> header. This allows for a clean separation between providers and
-> consumers.
-> 
-> FIXME: separate driver changes?
-> 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Acked-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+ drivers/pinctrl/renesas/pinctrl-rza1.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-for the IIO one.
+diff --git a/drivers/pinctrl/renesas/pinctrl-rza1.c b/drivers/pinctrl/renesas/pinctrl-rza1.c
+index 3cfa4c8be80e..d83c7d8ee82c 100644
+--- a/drivers/pinctrl/renesas/pinctrl-rza1.c
++++ b/drivers/pinctrl/renesas/pinctrl-rza1.c
+@@ -589,7 +589,7 @@ static inline unsigned int rza1_get_bit(struct rza1_port *port,
+ {
+ 	void __iomem *mem = RZA1_ADDR(port->base, reg, port->id);
+ 
+-	return ioread16(mem) & BIT(bit);
++	return !!(ioread16(mem) & BIT(bit));
+ }
+ 
+ /**
+-- 
+2.53.0.335.g19a08e0c02-goog
 
-Thanks,
 
-Jonathan
-
+-- 
+Dmitry
 
