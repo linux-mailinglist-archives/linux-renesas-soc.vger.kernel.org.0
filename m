@@ -1,42 +1,42 @@
-Return-Path: <linux-renesas-soc+bounces-28328-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28329-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ECbRNNOQl2mR0gIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28328-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 23:38:11 +0100
+	id YKVxOKmQl2mR0gIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28329-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 23:37:29 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70A7D163464
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 23:38:11 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CAE9163400
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 23:37:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 10C7A302528C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 22:37:21 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 5969330143F4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 22:37:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 528AE32C926;
-	Thu, 19 Feb 2026 22:37:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7190832C31B;
+	Thu, 19 Feb 2026 22:37:27 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A9222EDD52;
-	Thu, 19 Feb 2026 22:37:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC32A2EA754;
+	Thu, 19 Feb 2026 22:37:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771540640; cv=none; b=PViRX8++q1iokYg0XrwnKVaSmfqfrveVMR4I1jGcmxhmhRWevNf+W3Jr77s8taz3U1q3F7Lj/lrkGdnnZXcvKjJtN9bhVcDAznJzt+zZvISapVzHiLrCKMBlyxs54jhnU4k3k5fSZYZnFE5Y6X1fiVD6kzq5Hk/QoQX5vGqNa74=
+	t=1771540647; cv=none; b=IEng7e63X1oaFFsf3F5u7bnlBYNSdU3Qngv8G+d5jfazCqJbXuiHTPj3FgBfrQlhIH9PcZya/HZAJp1duQR0BrKIMDvKH3iwjyo2N8H5zz5/7LQZhxkFf1pJclgJi3HsfV7VmHOjXi2cRt05fBJqAhbVuM2Be1JsU8WyJ15vSr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771540640; c=relaxed/simple;
-	bh=qkIgsdJ0u0LTDJLeUY/eCgs/LQqcmGfsUF+7Oi1KYpU=;
+	s=arc-20240116; t=1771540647; c=relaxed/simple;
+	bh=9P9E2n4EpqHU7a7AXKLw4Xwj6h5eChNnrmrQCQ5NuXA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ty1iS+l4rvkffsoTGPi6z+z5P2OKnP9Hz0ixB+1UcuXec3vseFyel/YFXEijHc0emp2chHc5Nwys8/lLKMz+4TlMmLd6CnDFPuSJtbY2d1x2MJOJVza2WBAXPSdwdy4TbCrJiVylw+POTIUBI9U7P5sLSY2W99whkbRD5lbwhBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+	 MIME-Version; b=qBGtU+cCNEuPwbmCgfMVJiB5dy5PD+zbmzDjPOvHwmTC1BcygBBks3AfaN1WATy/nwj59ezftlpDFfucLyeOSN7fHNm29YqcKuwl1PfpY5kwu+Zbovybz+q5X+FXwr8qnqC9MBMOI+0lJJLS8WD++Moetr/5aB9w8MgDyHyrHE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: f2w25FvjSk+s/a+pPpuzEw==
-X-CSE-MsgGUID: RfQkhIdGSFGXsqIRZxS8JQ==
+X-CSE-ConnectionGUID: wlm90/1qTa6pyeUDT/Z9ig==
+X-CSE-MsgGUID: G0OtbCaAQQquhI+emZZMVQ==
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 20 Feb 2026 07:37:18 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 20 Feb 2026 07:37:24 +0900
 Received: from ubuntu.adwin.renesas.com (unknown [10.24.0.22])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 1216C4006196;
-	Fri, 20 Feb 2026 07:37:12 +0900 (JST)
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 04C4C4006196;
+	Fri, 20 Feb 2026 07:37:18 +0900 (JST)
 From: John Madieu <john.madieu.xa@bp.renesas.com>
 To: claudiu.beznea.uj@bp.renesas.com,
 	lpieralisi@kernel.org,
@@ -55,9 +55,9 @@ Cc: robh@kernel.org,
 	linux-clk@vger.kernel.org,
 	john.madieu@gmail.com,
 	John Madieu <john.madieu.xa@bp.renesas.com>
-Subject: [PATCH v6 13/16] PCI: rzg3s-host: Add support for RZ/G3E PCIe controller
-Date: Thu, 19 Feb 2026 23:35:39 +0100
-Message-ID: <20260219223542.6364-14-john.madieu.xa@bp.renesas.com>
+Subject: [PATCH v6 14/16] arm64: dts: renesas: r9a09g047: Add PCIe node
+Date: Thu, 19 Feb 2026 23:35:40 +0100
+Message-ID: <20260219223542.6364-15-john.madieu.xa@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260219223542.6364-1-john.madieu.xa@bp.renesas.com>
 References: <20260219223542.6364-1-john.madieu.xa@bp.renesas.com>
@@ -74,13 +74,13 @@ X-Spamd-Result: default: False [1.64 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	DMARC_POLICY_SOFTFAIL(0.10)[renesas.com : SPF not aligned (relaxed), No valid DKIM,none];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-28329-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-28328-lists,linux-renesas-soc=lfdr.de];
 	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -89,208 +89,114 @@ X-Spamd-Result: default: False [1.64 / 15.00];
 	FREEMAIL_CC(0.00)[kernel.org,google.com,gmail.com,bp.renesas.com,vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.970];
+	NEURAL_HAM(-0.00)[-0.977];
+	DBL_PROHIBIT(0.00)[0.213.167.80:email,0.0.0.0:email,0.204.119.192:email];
 	FROM_NEQ_ENVFROM(0.00)[john.madieu.xa@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	R_DKIM_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,bp.renesas.com:mid]
-X-Rspamd-Queue-Id: 70A7D163464
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,bp.renesas.com:mid,renesas.com:email,0.198.94.208:email]
+X-Rspamd-Queue-Id: 5CAE9163400
 X-Rspamd-Action: no action
 
-Add support for the PCIe controller found in RZ/G3E SoCs to the existing
-RZ/G3S PCIe host driver. The RZ/G3E PCIe controller is similar to the
-RZ/G3S's, with the following key differences:
-
- - Supports PCIe Gen3 (8.0 GT/s) link speeds alongside Gen2 (5.0 GT/s)
- - Uses a different reset control mechanism via AXI registers instead
-   of the Linux reset framework
- - Requires specific SYSC configuration for link state control and
-   Root Complex mode selection
+The RZ/G3E SoC family features an x2 PCIe IP. Add the PCIe node.
 
 Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
 ---
 
 Changes:
 
-v6:
-  - Use rzg3s_sysc_config_func() with per-function calls instead of
-    rzg3s_sysc_config() with -1 skip pattern, as suggested by Claudiu
-  - Extend enum rzg3s_sysc_func_id with L1_ALLOW and MODE entries
-  - Use regmap_update_bits() consistently for all SYSC accesses
-  - Shorten comment to "Put controller in RC mode and de-assert RST_RSM_B."
-  - Drop "Enable ASPM L1 transition" comment (function ID is self-documenting)
-
-v5:
-  - Introduce rzg3s_sysc_config() helper for sys configuration
-
+v6: No changes
+v5: No changes
 v4: No changes
 v3: No changes
+v2:
+ - Roerder interrupts and interrupt names to match binding
 
- drivers/pci/controller/pcie-rzg3s-host.c | 98 ++++++++++++++++++++++++
- 1 file changed, 98 insertions(+)
+ arch/arm64/boot/dts/renesas/r9a09g047.dtsi | 69 ++++++++++++++++++++++
+ 1 file changed, 69 insertions(+)
 
-diff --git a/drivers/pci/controller/pcie-rzg3s-host.c b/drivers/pci/controller/pcie-rzg3s-host.c
-index 413978feba1a..021b01746157 100644
---- a/drivers/pci/controller/pcie-rzg3s-host.c
-+++ b/drivers/pci/controller/pcie-rzg3s-host.c
-@@ -111,6 +111,16 @@
- #define RZG3S_PCI_PERM_CFG_HWINIT_EN		BIT(2)
- #define RZG3S_PCI_PERM_PIPE_PHY_REG_EN		BIT(1)
+diff --git a/arch/arm64/boot/dts/renesas/r9a09g047.dtsi b/arch/arm64/boot/dts/renesas/r9a09g047.dtsi
+index cbb48ff5028f..2eccaa7ed1c5 100644
+--- a/arch/arm64/boot/dts/renesas/r9a09g047.dtsi
++++ b/arch/arm64/boot/dts/renesas/r9a09g047.dtsi
+@@ -841,6 +841,75 @@ wdt3: watchdog@13000400 {
+ 			status = "disabled";
+ 		};
  
-+/* RZ/G3E specific registers */
-+#define RZG3E_PCI_RESET				0x310
-+#define RZG3E_PCI_RESET_RST_OUT_B		BIT(6)
-+#define RZG3E_PCI_RESET_RST_PS_B		BIT(5)
-+#define RZG3E_PCI_RESET_RST_LOAD_B		BIT(4)
-+#define RZG3E_PCI_RESET_RST_CFG_B		BIT(3)
-+#define RZG3E_PCI_RESET_RST_RSM_B		BIT(2)
-+#define RZG3E_PCI_RESET_RST_GP_B		BIT(1)
-+#define RZG3E_PCI_RESET_RST_B			BIT(0)
++		pcie: pcie@13400000 {
++			compatible = "renesas,r9a09g047-pcie";
++			reg = <0 0x13400000 0 0x10000>;
++			ranges = <0x02000000 0 0x30000000 0 0x30000000 0 0x8000000>,
++				 <0x43000000 4 0x40000000 4 0x40000000 6 0x00000000>;
++			dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 2 0x00000000>;
++			bus-range = <0x0 0xff>;
++			interrupts = <GIC_SPI 800 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 801 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 802 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 803 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 806 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 792 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 793 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 794 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 795 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 796 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 797 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 799 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 804 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 805 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 807 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 791 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 798 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 808 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 809 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 810 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 811 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 812 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 813 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "serr", "serr_cor", "serr_nonfatal",
++					  "serr_fatal", "axi_err", "inta",
++					  "intb", "intc", "intd", "msi",
++					  "link_bandwidth", "pm_pme", "dma",
++					  "pcie_evt", "msg", "all",
++					  "link_equalization_request",
++					  "turn_off_event", "pmu_poweroff",
++					  "d3_event_f0", "d3_event_f1",
++					  "cfg_pmcsr_writeclear_f0",
++					  "cfg_pmcsr_writeclear_f1";
++			#interrupt-cells = <1>;
++			interrupt-controller;
++			interrupt-map-mask = <0 0 0 7>;
++			interrupt-map = <0 0 0 1 &pcie 0 0 0 0>, /* INTA */
++					<0 0 0 2 &pcie 0 0 0 1>, /* INTB */
++					<0 0 0 3 &pcie 0 0 0 2>, /* INTC */
++					<0 0 0 4 &pcie 0 0 0 3>; /* INTD */
++			clocks = <&cpg CPG_MOD 0xc4>, <&cpg CPG_MOD 0xc5>;
++			clock-names = "aclk", "pmu";
++			resets = <&cpg 0xb2>;
++			reset-names = "aresetn";
++			power-domains = <&cpg>;
++			device_type = "pci";
++			#address-cells = <3>;
++			#size-cells = <2>;
++			renesas,sysc = <&sys>;
++			status = "disabled";
 +
- #define RZG3S_PCI_MSIRE(id)			(0x600 + (id) * 0x10)
- #define RZG3S_PCI_MSIRE_ENA			BIT(0)
- 
-@@ -184,10 +194,14 @@ struct rzg3s_sysc_function {
- /**
-  * enum rzg3s_sysc_func_id - System controller function IDs
-  * @RZG3S_SYSC_FUNC_ID_RST_RSM_B: RST_RSM_B SYSC function ID
-+ * @RZG3S_SYSC_FUNC_ID_L1_ALLOW: L1 allow SYSC function ID
-+ * @RZG3S_SYSC_FUNC_ID_MODE: Mode SYSC function ID
-  * @RZG3S_SYSC_FUNC_ID_MAX: Max SYSC function ID
-  */
- enum rzg3s_sysc_func_id {
- 	RZG3S_SYSC_FUNC_ID_RST_RSM_B,
-+	RZG3S_SYSC_FUNC_ID_L1_ALLOW,
-+	RZG3S_SYSC_FUNC_ID_MODE,
- 	RZG3S_SYSC_FUNC_ID_MAX,
- };
- 
-@@ -1135,6 +1149,49 @@ static int rzg3s_config_deinit(struct rzg3s_pcie_host *host)
- 					 host->cfg_resets);
- }
- 
-+/* RZ/G3E SoC-specific config implementations */
-+static void rzg3e_pcie_config_pre_init(struct rzg3s_pcie_host *host)
-+{
-+	/*
-+	 * De-assert LOAD_B and CFG_B during configuration phase.
-+	 * These are part of the RZ/G3E reset register, not reset framework.
-+	 * Other reset bits remain asserted until config_post_init.
-+	 */
-+	rzg3s_pcie_update_bits(host->axi, RZG3E_PCI_RESET,
-+			       RZG3E_PCI_RESET_RST_LOAD_B | RZG3E_PCI_RESET_RST_CFG_B,
-+			       RZG3E_PCI_RESET_RST_LOAD_B | RZG3E_PCI_RESET_RST_CFG_B);
-+}
++			pcie_port0: pcie@0,0 {
++				reg = <0x0 0x0 0x0 0x0 0x0>;
++				ranges;
++				device_type = "pci";
++				vendor-id = <0x1912>;
++				device-id = <0x0039>;
++				#address-cells = <3>;
++				#size-cells = <2>;
++			};
++		};
 +
-+static int rzg3e_config_deinit(struct rzg3s_pcie_host *host)
-+{
-+	writel_relaxed(0, host->axi + RZG3E_PCI_RESET);
-+	return 0;
-+}
-+
-+static int rzg3e_config_post_init(struct rzg3s_pcie_host *host)
-+{
-+	/* De-assert PS_B, GP_B, RST_B */
-+	rzg3s_pcie_update_bits(host->axi, RZG3E_PCI_RESET,
-+			       RZG3E_PCI_RESET_RST_PS_B | RZG3E_PCI_RESET_RST_GP_B |
-+			       RZG3E_PCI_RESET_RST_B,
-+			       RZG3E_PCI_RESET_RST_PS_B | RZG3E_PCI_RESET_RST_GP_B |
-+			       RZG3E_PCI_RESET_RST_B);
-+
-+	/*
-+	 * According to the RZ/G3E HW manual (Rev.1.15, Table 6.6-130
-+	 * Initialization Procedure (RC)), hardware requires >= 500us delay
-+	 * before final reset deassert.
-+	 */
-+	fsleep(500);
-+
-+	/* De-assert OUT_B and RSM_B to complete reset sequence */
-+	rzg3s_pcie_update_bits(host->axi, RZG3E_PCI_RESET,
-+			       RZG3E_PCI_RESET_RST_OUT_B | RZG3E_PCI_RESET_RST_RSM_B,
-+			       RZG3E_PCI_RESET_RST_OUT_B | RZG3E_PCI_RESET_RST_RSM_B);
-+
-+	return 0;
-+}
-+
- static void rzg3s_pcie_irq_init(struct rzg3s_pcie_host *host)
- {
- 	/*
-@@ -1320,6 +1377,12 @@ static int rzg3s_pcie_host_init(struct rzg3s_pcie_host *host)
- 	if (ret)
- 		goto config_deinit;
- 
-+	/* Enable ASPM L1 transition for SoCs that use it */
-+	ret = rzg3s_sysc_config_func(host->sysc,
-+				     RZG3S_SYSC_FUNC_ID_L1_ALLOW, 1);
-+	if (ret)
-+		goto config_deinit;
-+
- 	/* Initialize the interrupts */
- 	rzg3s_pcie_irq_init(host);
- 
-@@ -1667,6 +1730,11 @@ static int rzg3s_pcie_probe(struct platform_device *pdev)
- 		goto port_refclk_put;
- 	}
- 
-+	/* Put controller in RC mode and de-assert RST_RSM_B. */
-+	ret = rzg3s_sysc_config_func(sysc, RZG3S_SYSC_FUNC_ID_MODE, 1);
-+	if (ret)
-+		goto port_refclk_put;
-+
- 	ret = rzg3s_sysc_config_func(sysc, RZG3S_SYSC_FUNC_ID_RST_RSM_B, 1);
- 	if (ret)
- 		goto port_refclk_put;
-@@ -1781,6 +1849,10 @@ static int rzg3s_pcie_resume_noirq(struct device *dev)
- 	if (ret)
- 		return ret;
- 
-+	ret = rzg3s_sysc_config_func(sysc, RZG3S_SYSC_FUNC_ID_MODE, 1);
-+	if (ret)
-+		return ret;
-+
- 	ret = rzg3s_pcie_power_resets_deassert(host);
- 	if (ret)
- 		goto assert_rst_rsm_b;
-@@ -1841,11 +1913,37 @@ static const struct rzg3s_pcie_soc_data rzg3s_soc_data = {
- 	},
- };
- 
-+static const char * const rzg3e_soc_power_resets[] = { "aresetn" };
-+
-+static const struct rzg3s_pcie_soc_data rzg3e_soc_data = {
-+	.power_resets = rzg3e_soc_power_resets,
-+	.num_power_resets = ARRAY_SIZE(rzg3e_soc_power_resets),
-+	.config_pre_init = rzg3e_pcie_config_pre_init,
-+	.config_post_init = rzg3e_config_post_init,
-+	.config_deinit = rzg3e_config_deinit,
-+	.sysc_info = {
-+		.functions = {
-+			[RZG3S_SYSC_FUNC_ID_L1_ALLOW] = {
-+				.offset = 0x1020,
-+				.mask = BIT(0),
-+			},
-+			[RZG3S_SYSC_FUNC_ID_MODE] = {
-+				.offset = 0x1024,
-+				.mask = BIT(0),
-+			},
-+		},
-+	},
-+};
-+
- static const struct of_device_id rzg3s_pcie_of_match[] = {
- 	{
- 		.compatible = "renesas,r9a08g045-pcie",
- 		.data = &rzg3s_soc_data,
- 	},
-+	{
-+		.compatible = "renesas,r9a09g047-pcie",
-+		.data = &rzg3e_soc_data,
-+	},
- 	{}
- };
- 
+ 		tsu: thermal@14002000 {
+ 			compatible = "renesas,r9a09g047-tsu";
+ 			reg = <0 0x14002000 0 0x1000>;
 -- 
 2.25.1
 
