@@ -1,156 +1,212 @@
-Return-Path: <linux-renesas-soc+bounces-28318-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28319-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OKzhOQsfl2m9uwIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28318-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 15:32:43 +0100
+	id oAqqCvhel2m2xQIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28319-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 20:05:28 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C7A815F860
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 15:32:43 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE50B161D9F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 20:05:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 1E9663037F23
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 14:31:05 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id ED5DC3003D13
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 19:05:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D59D33F8B8;
-	Thu, 19 Feb 2026 14:31:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1FAA72D7384;
+	Thu, 19 Feb 2026 19:05:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PqPB7Xgm"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a5zvrvDd"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F7781F1315;
-	Thu, 19 Feb 2026 14:30:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771511461; cv=none; b=QohvwGQgBO+E1FlPIkeBDS4liUZ4yJhvBJoPJZoRLNrRagbW/+loDny7F4HlVBvkuP75vBgANTV7bS3BpzxzXtPomnHidYWm1jaKCYNQMAObJLVqs7xAnVgg2wpZGds8lMFbtLirIpEL30UukAyRqTs7P7DXjh7eKCaJBHc1fbM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771511461; c=relaxed/simple;
-	bh=rBpoBcixdo3XXI5AYO9izJdZq6HBdIuS1mca5ggHAQg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KyJ6l0O54H+vJUTN/VCi3J3pk2Z9vnKZgCc7KXUnD7F8qpq8+l0N+IU4lwfH474nKprRvg2l7Ct8vu727hwtez2l6NCeD/Sfj66PxHslj8+938CoOcTXhsBzoQsXl1+9eTayrtT2uwI5ZhdmWIMIDtSEdX/UG8+J//bGAchoQ9g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PqPB7Xgm; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771511459; x=1803047459;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rBpoBcixdo3XXI5AYO9izJdZq6HBdIuS1mca5ggHAQg=;
-  b=PqPB7XgmWIt2uAvQtMLiPcjJopVvNZZlRi/CrxmB2enIqA/EYwqsKOmN
-   oQDZJh29OxzG5IP04IcD4SzyaoY9dvrVCarsKPOmfyDT4/m6h7fjMEQ+M
-   kpMREID7IdEujXGzQ2IlYDRllkDf8UtqqSvGOYh3w7nN6fUH0qGmHl6FV
-   B9s2ZdOCcIOC0wWBsyZM4z9aM6THa4Sw5YRlcgh0b2s8cWRnEVBftdv51
-   IyKxkyeJ3n7XSz35bdmRpJf3avJHcmj1m+iMaKZHgX/9C32TA5pvE+ouC
-   JZ7GIv09E94MlI3Xtv0WW50QZcvOk2z1/sesDsmcybem0iMUTTrONX7Dk
-   A==;
-X-CSE-ConnectionGUID: 0OoYamSuRR+o/8FGIkKDCg==
-X-CSE-MsgGUID: zOuz66lhSFOqPfrRIQoU0A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11706"; a="72496453"
-X-IronPort-AV: E=Sophos;i="6.21,300,1763452800"; 
-   d="scan'208";a="72496453"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 06:30:58 -0800
-X-CSE-ConnectionGUID: WYAj0HUKSrCmLivtFbGXZQ==
-X-CSE-MsgGUID: oysE1EO2SM2Fwpy102YBmw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,300,1763452800"; 
-   d="scan'208";a="219530903"
-Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.114])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 06:30:56 -0800
-Date: Thu, 19 Feb 2026 16:30:53 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Carsten =?iso-8859-1?Q?Spie=DF?= <mail@carsten-spiess.de>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>
-Subject: Re: [PATCH v1 1/1] hwmon: (isl28022) Don't check for specific errors
- when parsing properties
-Message-ID: <aZcenabXYsOdBu84@smile.fi.intel.com>
-References: <20260219140532.2259235-1-andriy.shevchenko@linux.intel.com>
- <CAMuHMdX9CdQNBGegrfHz+-UpuyO-rmHEQ2HUa=JjVpG_0ryacg@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C36FF2D23B9
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Feb 2026 19:05:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771527925; cv=pass; b=FePNjVOv22LU3B0YuUnrdZbHf3F4ynSfFfFfzZpd4+rucvDXUGg+rLddencaWdIodlC+a3wmNNLDfyWpld2ULATYvFU040Hu04EG4+96Mnsn/d81I5eGB1OHqpzIQ9F3f0B1bX+ADSlxQMhu8w7qp3caYjQMDpi9Jt24Ef+3zls=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771527925; c=relaxed/simple;
+	bh=81m1P0GdGdANBBeAFNk/Jpcw9H/E01UVyMrvu0GY/0w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=X+8T5RoUhBW4UruBtzZzLLfI8wlRP/QOfVCPbJDtlbeZAefelYUk69fAJ+AmqVA4btylzvKzPzoZBCt7Ex+VeeSwoJ4kkEBMDeMneh4ca63uSE7ZcX7fzL8GNlORn395jzkBQZtJhO+i8MEgEc06r9YWFXibqE8ZBqJuiC7WuZU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a5zvrvDd; arc=pass smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-48334ee0aeaso10131735e9.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Feb 2026 11:05:23 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771527922; cv=none;
+        d=google.com; s=arc-20240605;
+        b=O9F1LJ9W2jv44d/uf1LyY3oaSpjwn6d5TfsGBJ0mIKq8X2a1ygRBeZHl0BpZ1mo7VV
+         2046ypp50zPomqkorSaWM+51v0C3P+0XxOnIATM1F9Lz2V2sL1LTsRzaW0hYA9FEwZbD
+         S4VotAyHq+Ujvgvzd+NiW9RVOLwrcF2SlGtKA16Z7Cl1K9tn9hDX5OWKPpGtnjN1TX8+
+         cUookyyQDxTMCwazionmpTnm1e37PDXi6Tz4FEozDi5KENT4tbLjKBuR7EgHPLhX/w2N
+         GZIT+OAzBIxXXBRXGCKZ/TYgw5ODh6b4Teo4+a7lEhkyCk+oy/ymAhEuoKv2mVW1ocje
+         +plA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=/T6p5K6ot9ZjuFcR36HvVc1irK+6UWOmwWMYSNdg9U8=;
+        fh=ynhyqsLslGl8j4fZv+uGLkBitc+vj/33yMKk8abLv0A=;
+        b=ZnqvJjZgEAMul/ZgGvsnslxFrqLuszQNuF2qlR1M/q1X9jJfgX5dRcMFG/t0BX86gs
+         25hlLV9hpfyu9U2h7ztfPRnvkxF9nAcb9vmg+nqlv5ttuVYHEcFjs4LgiSSWMS5udQ5m
+         4TMDJEaIM7zgEimJrFl3Q21YPOFcCybc50grc7Un5U8Rl0LnwDsoRFTdU3lVsjgnaOjf
+         6dQxVecjXy+b6elyzqgn01J5pA6YoJLPD8FRvlcFkf1m059PacBr4YoR2iaI760soQ0g
+         Co+TLUV91zdLBbrR72TsBDVgarz69sCXMR2D/HMMkLsMWn7S6tqXQm3BC0JLXtsPTZvo
+         2CNQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771527922; x=1772132722; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/T6p5K6ot9ZjuFcR36HvVc1irK+6UWOmwWMYSNdg9U8=;
+        b=a5zvrvDd6UPZJMkGCxLugvTkn/USbnaM0vWfktqLPTWyAZpAFOVBXHwPcID2QsJTeT
+         FDTJn79EOWZsl6NemVg2/5bv4IM3mui8TxmZTUVTJAMbu7pp0HgihmhCISoOhHIoIJiQ
+         6MVbp0MuLYvBMTWjCHIiFjArqiNmuPsSUbQW5/CXz7YvDEXrF2F74RE5U1wYBN0ujFBi
+         Z+v04HPAT+/qF3p+kFB1+mve31aX5cTEKehC7zCbbymShEizSbex0McUtW4vXVo6MeaU
+         P3v9SL2bpFevMGs0vg7JNLyJHLicGp5sIvzZjxusqGIZsqRAAbubjMrOgRItIpZiIOGx
+         Widg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771527922; x=1772132722;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=/T6p5K6ot9ZjuFcR36HvVc1irK+6UWOmwWMYSNdg9U8=;
+        b=dpsRhW46NDUSoE4bNe0uCxTjnFDwX/avOguPcAmfyDz8zGRaaHc9LVgNk9qV2PxcPV
+         AZTstKc3g+BMgWseNrcRxgpAIuOKmpboT+SDK8BiHDZTvjjULTfmpFmra2cebfiQjc91
+         Ss9QO3PBxik4jjYQ7CZmgftw27TDCvqFSlD0naROYZD/18u5nbM1vKZRUd6lVRoaAlNW
+         CeZf1KVL/PXPBMqo4Hhrh0bQWV+FMFyb/kBVHgJf4CT5bfLVfEqHLulsegrQ8PMIbfUT
+         kY8xxDydZRFH0rqXo5PevKYB0s2QBiCdP6onKudTp14WdPnUmDrn5AQ8ZnfmXVCPpExJ
+         8aIw==
+X-Forwarded-Encrypted: i=1; AJvYcCVJh2Ls+8brG588iCJELbU9rrg7tbapf7S0pCy5bznb20pJtBTSbIOrZVZfv33kUfzHwzWH34TboDGTy5ZItcbi8w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzG2iVc6fa5Jq24rzeF962Eo96mhB7W3F38d5rJ1+CsjaIVA+Xz
+	g485YHVRvw6GZFtfn+ZteS6aWB1TIWRb48kBZMM2ybB97zZelRrLEpGW0G0CmXi4uuJSza6tJdV
+	mKrDq97lwFDVtp0oTQNZcxRThqtD9vfk=
+X-Gm-Gg: AZuq6aIxShRg31k+e1GFCYVIchXIjS6aoTUaSJDMQdrigRcRSuolzcaTcJjk/Tx945B
+	1JZr3kB2iLvTYFO+IJgloETL933YA8igkCydUh6SIJ1y2dcKDkpQL9idwiTYpvPJo6XuDQSsDGq
+	STdXZLLBxCfcE0cahI/BQJw1X1r7wKY/Zmj+AAP0aoUF9hK8fvfxLXEZ3NfvoLklRGo/osUIIbp
+	BGUXaHTLJQShgK541yQwruabhJU/TiFSxJHzSW58D8dIZkF54lf+oxPvi0JXCiOev2uIVPewKuw
+	iYzx84TD6F7gJqw3G1fkcQw143mXxYvVuAnNiWMNXce7/GNv8x13U4YrZcius5V7hGmsQabA/R0
+	TiQ==
+X-Received: by 2002:a05:600c:871b:b0:483:8e43:6def with SMTP id
+ 5b1f17b1804b1-48398ae5461mr92319025e9.28.1771527921877; Thu, 19 Feb 2026
+ 11:05:21 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdX9CdQNBGegrfHz+-UpuyO-rmHEQ2HUa=JjVpG_0ryacg@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+References: <20260218151925.1104098-1-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20260218151925.1104098-1-claudiu.beznea.uj@bp.renesas.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Thu, 19 Feb 2026 19:04:55 +0000
+X-Gm-Features: AaiRm52iOuUsNkdftZ2dd-0NmouiNLVBadcGt_80jzF4MyMYCcuWjg899DEzzW8
+Message-ID: <CA+V-a8uU+md7QPtf9KoZs4hMu8Xfo6Rm9X-U8MZJBYPmz8qAXA@mail.gmail.com>
+Subject: Re: [PATCH] pinctrl: renesas: rzg2l: Add GPIO set_config
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: geert+renesas@glider.be, linusw@kernel.org, brgl@kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,carsten-spiess.de,roeck-us.net,glider.be,gmail.com];
-	TAGGED_FROM(0.00)[bounces-28318-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-28319-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@linux.intel.com,linux-renesas-soc@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,smile.fi.intel.com:mid]
-X-Rspamd-Queue-Id: 9C7A815F860
+	RCPT_COUNT_SEVEN(0.00)[8];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,mail.gmail.com:mid,tuxon.dev:email,renesas.com:email]
+X-Rspamd-Queue-Id: BE50B161D9F
 X-Rspamd-Action: no action
 
-On Thu, Feb 19, 2026 at 03:21:29PM +0100, Geert Uytterhoeven wrote:
-> On Thu, 19 Feb 2026 at 15:06, Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> > Instead of checking for the specific error codes (that can be considered
-> > a layering violation to some extent) check for the property existence first
-> > and then either parse it, or apply a default value.
+On Wed, Feb 18, 2026 at 3:19=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev> =
+wrote:
+>
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>
+> Add GPIO set_config to allow setting GPIO specific functionalities.
+>
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> ---
+>  drivers/pinctrl/renesas/pinctrl-rzg2l.c | 20 ++++++++++++++++++++
+>  1 file changed, 20 insertions(+)
+>
+Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-> IIRC, we have removed superfluous presence checks all over the tree
-> during the past few years? E.g. of_property_read_*() is documented to
-> return -EINVAL if a property does not exist.
+Cheers,
+Prabhakar
 
-Even though, it's still fragile. When we have a check for explicit device
-presence, we wouldn't care of the error code we get in case of unsuccessful
-parsing.
-
-> So this patch looks like a step back to me...
-
-Obviously I have a disagreement here, this is step forward to weaken
-the dependency on the certain error code in the cases when we can avoid
-that. Motivation is mentioned in the commit message.
-
-Also note, -EINVAL can sneak in tons of mysterious ways as it's one of
-the most overloaded error code in the kernel, its semantic is basically
-equals to "an error happened".
-
-Having the code above, we make it robust against some subtle nuances which
-may not be discovered in time.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+> diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/re=
+nesas/pinctrl-rzg2l.c
+> index 863e779dda02..641ae1adfd4a 100644
+> --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> @@ -1848,6 +1848,25 @@ static void rzg2l_gpio_free(struct gpio_chip *chip=
+, unsigned int offset)
+>         rzg2l_gpio_direction_input(chip, offset);
+>  }
+>
+> +static int rzg2l_gpio_set_config(struct gpio_chip *chip, unsigned int of=
+fset,
+> +                                unsigned long config)
+> +{
+> +       switch (pinconf_to_config_param(config)) {
+> +       case PIN_CONFIG_BIAS_DISABLE:
+> +       case PIN_CONFIG_BIAS_PULL_UP:
+> +       case PIN_CONFIG_BIAS_PULL_DOWN:
+> +       case PIN_CONFIG_DRIVE_OPEN_DRAIN:
+> +       case PIN_CONFIG_DRIVE_PUSH_PULL:
+> +       case PIN_CONFIG_SLEW_RATE:
+> +       case PIN_CONFIG_DRIVE_STRENGTH:
+> +       case PIN_CONFIG_DRIVE_STRENGTH_UA:
+> +       case PIN_CONFIG_POWER_SOURCE:
+> +               return pinctrl_gpio_set_config(chip, offset, config);
+> +       default:
+> +               return -EOPNOTSUPP;
+> +       }
+> +}
+> +
+>  static const char * const rzg2l_gpio_names[] =3D {
+>         "P0_0", "P0_1", "P0_2", "P0_3", "P0_4", "P0_5", "P0_6", "P0_7",
+>         "P1_0", "P1_1", "P1_2", "P1_3", "P1_4", "P1_5", "P1_6", "P1_7",
+> @@ -2819,6 +2838,7 @@ static int rzg2l_gpio_register(struct rzg2l_pinctrl=
+ *pctrl)
+>         chip->direction_output =3D rzg2l_gpio_direction_output;
+>         chip->get =3D rzg2l_gpio_get;
+>         chip->set =3D rzg2l_gpio_set;
+> +       chip->set_config =3D rzg2l_gpio_set_config;
+>         chip->label =3D name;
+>         chip->parent =3D pctrl->dev;
+>         chip->owner =3D THIS_MODULE;
+> --
+> 2.43.0
+>
+>
 
