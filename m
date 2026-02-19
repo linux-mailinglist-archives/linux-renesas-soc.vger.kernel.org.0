@@ -1,42 +1,42 @@
-Return-Path: <linux-renesas-soc+bounces-28335-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28320-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MN6dF5yRl2lf0wIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28335-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 23:41:32 +0100
+	id sGA0C3qQl2mR0gIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28320-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 23:36:42 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id D419D163552
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 23:41:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5A9016335C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 23:36:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D90A3300A773
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 22:41:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 43918300D47F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 22:36:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C434032D0E3;
-	Thu, 19 Feb 2026 22:41:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E7C8325496;
+	Thu, 19 Feb 2026 22:36:29 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0066232D0FE;
-	Thu, 19 Feb 2026 22:41:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 107CE2EDD52;
+	Thu, 19 Feb 2026 22:36:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771540884; cv=none; b=t0FtXM5hi8EYIqFlfQnp6YLEuQFL52UyJISJ2PuBS9X971ocBAu/RcBUbWUAmIFL45FxmuK4NhFJcJib2HsrREof2DYkN+lJTlc7e0YF2n5JOTVZGX8oq8O0rW06zWATNp3shmZS00oW9VxAomlO6G2xA0VhoNVxCwN8fCSDhPs=
+	t=1771540589; cv=none; b=q+NZtcx5sapdk8nGCIuXV06efxmaqgJzfy55gFnTTs1lo3WEeCXiSaVQ7U4ziweLRfptpF0+OKfZS1Gx22ESnS4uqW4I2g7vnBwTE+acxM0GwJ4v/hWuA+Y3csWEmhOueAbJznDArqY9+0KNH6HG+nqJwfHKnomfpUZA8IkGyYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771540884; c=relaxed/simple;
-	bh=EIiAFLCrjiZpH3SBI5Gg+wwoMUF9Kw69mNXGGGlaCzM=;
+	s=arc-20240116; t=1771540589; c=relaxed/simple;
+	bh=VepEKFoJVCzXFJ4mrg/0V57ellXKl1xlb3jR4CMxPgE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cudV+JzF3i0Y+hWdBlQiibuPHhklFRfConvAlDRUQPw5avlu/eXV9Atg7qhmeBlPV9jKal9OaKnazZ/NBw2T3vs7yqoA1bZlXOxnUxQ3vQ/mVISURtUXdkStM4gnFnw/cRaraIDHm9Odpe/A2obgUI5r/D1PNeUrvthGU6bfph0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+	 MIME-Version; b=RlUce5aE8t1wyM8WHT+PJKubpQDfr4U5OWp55Vnq/AbMzMzXbYnpJRQsfdWC2cJd5g/P+b+jaJ61dPi6hQ28faDNoSCfHXskJ1LmYYqKgqKMXGw1amYTktcHC2slPvnCMcm/xJW7Q1DekjQm2QI20yRlWer405/MN2HkHa976WE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: a/xfYw+JQPK7MF5w2E1FHw==
-X-CSE-MsgGUID: vPn6dvijR4eJI2jWjYSkNg==
+X-CSE-ConnectionGUID: 63UxcGnCSR606+GmGFyMHQ==
+X-CSE-MsgGUID: kMY8E3BUT9ugGEx4W/KIxA==
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 20 Feb 2026 07:36:18 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 20 Feb 2026 07:36:24 +0900
 Received: from ubuntu.adwin.renesas.com (unknown [10.24.0.22])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 3FAF64010DC2;
-	Fri, 20 Feb 2026 07:36:12 +0900 (JST)
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 49A5C4010DC2;
+	Fri, 20 Feb 2026 07:36:18 +0900 (JST)
 From: John Madieu <john.madieu.xa@bp.renesas.com>
 To: claudiu.beznea.uj@bp.renesas.com,
 	lpieralisi@kernel.org,
@@ -55,9 +55,9 @@ Cc: robh@kernel.org,
 	linux-clk@vger.kernel.org,
 	john.madieu@gmail.com,
 	John Madieu <john.madieu.xa@bp.renesas.com>
-Subject: [PATCH v6 03/16] PCI: renesas: rzg3s: Rework inbound window algorithm for multi-SoC support
-Date: Thu, 19 Feb 2026 23:35:29 +0100
-Message-ID: <20260219223542.6364-4-john.madieu.xa@bp.renesas.com>
+Subject: [PATCH v6 04/16] clk: renesas: rzv2h-cpg: Add support for init_{off|asserted} clocks/resets
+Date: Thu, 19 Feb 2026 23:35:30 +0100
+Message-ID: <20260219223542.6364-5-john.madieu.xa@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260219223542.6364-1-john.madieu.xa@bp.renesas.com>
 References: <20260219223542.6364-1-john.madieu.xa@bp.renesas.com>
@@ -80,7 +80,7 @@ X-Spamd-Result: default: False [1.64 / 15.00];
 	DMARC_POLICY_SOFTFAIL(0.10)[renesas.com : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-28335-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-28320-lists,linux-renesas-soc=lfdr.de];
 	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -90,150 +90,196 @@ X-Spamd-Result: default: False [1.64 / 15.00];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.970];
+	NEURAL_HAM(-0.00)[-0.967];
 	FROM_NEQ_ENVFROM(0.00)[john.madieu.xa@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,bp.renesas.com:mid,renesas.com:email]
-X-Rspamd-Queue-Id: D419D163552
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: C5A9016335C
 X-Rspamd-Action: no action
 
-The existing inbound window configuration algorithm has two issues that
-prevent proper operation on RZ/G3E:
+Some peripherals may be left enabled by the bootloader but should be
+explicitly disabled by the kernel to ensure a known initial state.
+This is particularly important for PCIe which requires proper
+initialization sequencing.
 
-1. Over-mapping: Using roundup_pow_of_two() on the remaining region size
-   can result in windows that extend beyond the intended memory region.
+Add new macros DEF_MOD_INIT_OFF() and DEF_RST_INIT_ASSERTED() to declare
+module clocks that should be turned off and resets that should be
+asserted during CPG probe if found in the opposite state.
 
-2. Alignment violation: Addresses are only aligned to 4K regardless of
-   the actual window size. According to the RZ/G3S HW manual (Rev.1.10,
-   section 34.6.6.7) and RZ/G3E HW manual (Rev.1.15, section 6.6.7.6),
-   bit carry must not occur when adding AXI Window Base and AXI Window
-   Mask registers. This effectively requires the base address to be
-   aligned to the window size.
-
-RZ/G3E strictly enforces these constraints and requires precise window
-boundaries with properly aligned addresses.
-
-Rework the algorithm to properly handle arbitrary region sizes and
-alignment constraints by splitting non-power-of-2 regions into multiple
-windows. The new approach iteratively selects the largest power-of-2
-size that:
- - Fits within the remaining region (__fls of remaining size)
- - Does not exceed the natural alignment of the CPU address (__ffs)
- - Does not exceed the natural alignment of the PCI address (__ffs)
-
-This ensures windows never over-map beyond the intended region and
-satisfies the hardware requirement that base address + mask must not
-cause bit carry, while maintaining the 4K * 2^N byte window size
-constraint.
-
-The reworked algorithm is required for RZ/G3E support and remains
-fully compatible with RZ/G3S.
-
-Reviewed-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
 ---
 
 Changes:
 
 v6: No changes
-
-v5:
- - Updated HW manual section specification
- - Collected Rb tag
-
+v5: No changes
 v4: No changes
-v3: No changes
-v2: New patch
 
- drivers/pci/controller/pcie-rzg3s-host.c | 53 +++++++++++++-----------
- 1 file changed, 29 insertions(+), 24 deletions(-)
+v3: 
+ - Fixed potential unitialized rcdev crash
+ - Removed duplicated message
 
-diff --git a/drivers/pci/controller/pcie-rzg3s-host.c b/drivers/pci/controller/pcie-rzg3s-host.c
-index 222891324374..7f5ffc5c218a 100644
---- a/drivers/pci/controller/pcie-rzg3s-host.c
-+++ b/drivers/pci/controller/pcie-rzg3s-host.c
-@@ -1270,50 +1270,55 @@ static int rzg3s_pcie_set_inbound_windows(struct rzg3s_pcie_host *host,
- 	u64 pci_addr = entry->res->start - entry->offset;
- 	u64 cpu_addr = entry->res->start;
- 	u64 cpu_end = entry->res->end;
--	u64 size_id = 0;
- 	int id = *index;
- 	u64 size;
- 
--	while (cpu_addr < cpu_end) {
-+	/*
-+	 * According to the RZ/G3S HW manual (Rev.1.10, section 34.6.6.7) and
-+	 * RZ/G3E HW manual (Rev.1.15, section 6.6.7.6):
-+	 * - Each window must be a single memory size of power of two
-+	 * - Mask registers must be set to (2^N - 1)
-+	 * - Bit carry must not occur when adding base and mask registers,
-+	 *   meaning the base address must be aligned to the window size
-+	 *
-+	 * Split non-power-of-2 regions into multiple windows to satisfy
-+	 * these constraints without over-mapping.
-+	 */
-+	while (cpu_addr <= cpu_end) {
-+		u64 remaining_size = cpu_end - cpu_addr + 1;
-+		u64 align_limit;
-+
- 		if (id >= RZG3S_MAX_WINDOWS)
- 			return dev_err_probe(host->dev, -ENOSPC,
- 					     "Failed to map inbound window for resource (%s)\n",
- 					     entry->res->name);
- 
--		size = resource_size(entry->res) - size_id;
-+		/* Start with largest power-of-two that fits in remaining size */
-+		size = 1ULL << __fls(remaining_size);
- 
- 		/*
--		 * According to the RZ/G3S HW manual (Rev.1.10,
--		 * section 34.3.1.71 AXI Window Mask (Lower) Registers) the min
--		 * size is 4K.
-+		 * The "no bit carry" rule requires base addresses to be
-+		 * aligned to the window size. Find the maximum window size
-+		 * that both addresses can support based on their natural
-+		 * alignment (lowest set bit).
- 		 */
--		size = max(size, SZ_4K);
-+		align_limit = min(cpu_addr ? (1ULL << __ffs(cpu_addr)) : ~0ULL,
-+				  pci_addr ? (1ULL << __ffs(pci_addr)) : ~0ULL);
- 
--		/*
--		 * According the RZ/G3S HW manual (Rev.1.10, sections:
--		 * - 34.3.1.69 AXI Window Base (Lower) Registers
--		 * - 34.3.1.71 AXI Window Mask (Lower) Registers
--		 * - 34.3.1.73 AXI Destination (Lower) Registers)
--		 * the CPU addr, PCIe addr, size should be 4K aligned and be a
--		 * power of 2.
--		 */
--		size = ALIGN(size, SZ_4K);
--		size = roundup_pow_of_two(size);
--
--		cpu_addr = ALIGN(cpu_addr, SZ_4K);
--		pci_addr = ALIGN(pci_addr, SZ_4K);
-+		size = min(size, align_limit);
- 
- 		/*
--		 * According to the RZ/G3S HW manual (Rev.1.10, section
--		 * 34.3.1.71 AXI Window Mask (Lower) Registers) HW expects first
--		 * 12 LSB bits to be 0xfff. Subtract 1 from size for this.
-+		 * Minimum window size is 4KB.
-+		 * See RZ/G3S HW manual (Rev.1.10, section 34.3.1.71) and
-+		 * RZ/G3E HW manual (Rev.1.15, section 6.6.4.1.3.(74)).
- 		 */
-+		size = max(size, SZ_4K);
-+
- 		rzg3s_pcie_set_inbound_window(host, cpu_addr, pci_addr,
- 					      size - 1, id);
- 
- 		pci_addr += size;
- 		cpu_addr += size;
--		size_id = size;
- 		id++;
+v2:
+ - Added reset-specific assert on probe
+ - Removed Rb tag from Geert due to previous point
+
+ drivers/clk/renesas/rzv2h-cpg.c | 24 ++++++++++++++++++++++-
+ drivers/clk/renesas/rzv2h-cpg.h | 34 +++++++++++++++++++++++++--------
+ 2 files changed, 49 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/clk/renesas/rzv2h-cpg.c b/drivers/clk/renesas/rzv2h-cpg.c
+index 3f6299b9fec0..8e45f6f48e29 100644
+--- a/drivers/clk/renesas/rzv2h-cpg.c
++++ b/drivers/clk/renesas/rzv2h-cpg.c
+@@ -1337,6 +1337,13 @@ rzv2h_cpg_register_mod_clk(const struct rzv2h_mod_clk *mod,
+ 		spin_unlock_irqrestore(&priv->rmw_lock, flags);
  	}
- 	*index = id;
+ 
++	/*
++	 * Turn off clocks marked with init_off flag if they were left
++	 * enabled by the bootloader. This ensures a known initial state.
++	 */
++	if (mod->init_off && rzv2h_mod_clock_is_enabled(&clock->hw))
++		rzv2h_mod_clock_endisable(&clock->hw, false);
++
+ 	return;
+ 
+ fail:
+@@ -1585,7 +1592,7 @@ static int __init rzv2h_cpg_probe(struct platform_device *pdev)
+ 	struct rzv2h_cpg_priv *priv;
+ 	unsigned int nclks, i;
+ 	struct clk **clks;
+-	int error;
++	int error, ret;
+ 
+ 	info = of_device_get_match_data(dev);
+ 
+@@ -1635,6 +1642,21 @@ static int __init rzv2h_cpg_probe(struct platform_device *pdev)
+ 	for (i = 0; i < info->num_mod_clks; i++)
+ 		rzv2h_cpg_register_mod_clk(&info->mod_clks[i], priv);
+ 
++	/*
++	 * Assert resets marked with init_asserted flag if they were left
++	 * deasserted by the bootloader. This ensures a known initial state.
++	 */
++	priv->rcdev.dev = dev;
++	for (i = 0; i < info->num_resets; i++) {
++		if (!info->resets[i].init_asserted)
++			continue;
++
++		/* Check if reset is currently deasserted (status == 0) */
++		ret = rzv2h_cpg_status(&priv->rcdev, i);
++		if (ret == 0)
++			rzv2h_cpg_assert(&priv->rcdev, i);
++	}
++
+ 	error = of_clk_add_provider(np, rzv2h_cpg_clk_src_twocell_get, priv);
+ 	if (error)
+ 		return error;
+diff --git a/drivers/clk/renesas/rzv2h-cpg.h b/drivers/clk/renesas/rzv2h-cpg.h
+index dc957bdaf5e9..927009431a73 100644
+--- a/drivers/clk/renesas/rzv2h-cpg.h
++++ b/drivers/clk/renesas/rzv2h-cpg.h
+@@ -250,6 +250,7 @@ enum clk_types {
+  * @parent: id of parent clock
+  * @critical: flag to indicate the clock is critical
+  * @no_pm: flag to indicate PM is not supported
++ * @init_off: flag to indicate the clock should be turned off during probe
+  * @on_index: control register index
+  * @on_bit: ON bit
+  * @mon_index: monitor register index
+@@ -262,6 +263,7 @@ struct rzv2h_mod_clk {
+ 	u16 parent;
+ 	bool critical;
+ 	bool no_pm;
++	bool init_off;
+ 	u8 on_index;
+ 	u8 on_bit;
+ 	s8 mon_index;
+@@ -269,14 +271,15 @@ struct rzv2h_mod_clk {
+ 	s8 ext_clk_mux_index;
+ };
+ 
+-#define DEF_MOD_BASE(_name, _mstop, _parent, _critical, _no_pm, _onindex, \
+-		     _onbit, _monindex, _monbit, _ext_clk_mux_index) \
++#define DEF_MOD_BASE(_name, _mstop, _parent, _critical, _no_pm, _init_off, \
++		     _onindex, _onbit, _monindex, _monbit, _ext_clk_mux_index) \
+ 	{ \
+ 		.name = (_name), \
+ 		.mstop_data = (_mstop), \
+ 		.parent = (_parent), \
+ 		.critical = (_critical), \
+ 		.no_pm = (_no_pm), \
++		.init_off = (_init_off), \
+ 		.on_index = (_onindex), \
+ 		.on_bit = (_onbit), \
+ 		.mon_index = (_monindex), \
+@@ -285,17 +288,20 @@ struct rzv2h_mod_clk {
+ 	}
+ 
+ #define DEF_MOD(_name, _parent, _onindex, _onbit, _monindex, _monbit, _mstop) \
+-	DEF_MOD_BASE(_name, _mstop, _parent, false, false, _onindex, _onbit, _monindex, _monbit, -1)
++	DEF_MOD_BASE(_name, _mstop, _parent, false, false, false, _onindex, _onbit, _monindex, _monbit, -1)
+ 
+ #define DEF_MOD_CRITICAL(_name, _parent, _onindex, _onbit, _monindex, _monbit, _mstop) \
+-	DEF_MOD_BASE(_name, _mstop, _parent, true, false, _onindex, _onbit, _monindex, _monbit, -1)
++	DEF_MOD_BASE(_name, _mstop, _parent, true, false, false, _onindex, _onbit, _monindex, _monbit, -1)
++
++#define DEF_MOD_INIT_OFF(_name, _parent, _onindex, _onbit, _monindex, _monbit, _mstop) \
++	DEF_MOD_BASE(_name, _mstop, _parent, false, false, true, _onindex, _onbit, _monindex, _monbit, -1)
+ 
+ #define DEF_MOD_NO_PM(_name, _parent, _onindex, _onbit, _monindex, _monbit, _mstop) \
+-	DEF_MOD_BASE(_name, _mstop, _parent, false, true, _onindex, _onbit, _monindex, _monbit, -1)
++	DEF_MOD_BASE(_name, _mstop, _parent, false, true, false, _onindex, _onbit, _monindex, _monbit, -1)
+ 
+ #define DEF_MOD_MUX_EXTERNAL(_name, _parent, _onindex, _onbit, _monindex, _monbit, _mstop, \
+ 			     _ext_clk_mux_index) \
+-	DEF_MOD_BASE(_name, _mstop, _parent, false, false, _onindex, _onbit, _monindex, _monbit, \
++	DEF_MOD_BASE(_name, _mstop, _parent, false, false, false, _onindex, _onbit, _monindex, _monbit, \
+ 		     _ext_clk_mux_index)
+ 
+ /**
+@@ -305,24 +311,36 @@ struct rzv2h_mod_clk {
+  * @reset_bit: reset bit
+  * @mon_index: monitor register index
+  * @mon_bit: monitor bit
++ * @init_asserted: flag to indicate the reset should be asserted during probe
+  */
+ struct rzv2h_reset {
+ 	u8 reset_index;
+ 	u8 reset_bit;
+ 	u8 mon_index;
+ 	u8 mon_bit;
++	bool init_asserted;
+ };
+ 
+-#define DEF_RST_BASE(_resindex, _resbit, _monindex, _monbit)	\
++#define DEF_RST_BASE(_resindex, _resbit, _monindex, _monbit, _init_asserted)	\
+ 	{ \
+ 		.reset_index = (_resindex), \
+ 		.reset_bit = (_resbit), \
+ 		.mon_index = (_monindex), \
+ 		.mon_bit = (_monbit), \
++		.init_asserted = (_init_asserted), \
+ 	}
+ 
+ #define DEF_RST(_resindex, _resbit, _monindex, _monbit)	\
+-	DEF_RST_BASE(_resindex, _resbit, _monindex, _monbit)
++	DEF_RST_BASE(_resindex, _resbit, _monindex, _monbit, false)
++
++/**
++ * DEF_RST_INIT_ASSERTED - Define a reset that should be asserted during probe
++ *
++ * Use this for peripherals that require their reset to be asserted at boot
++ * to ensure a known initial state before the peripheral driver takes over.
++ */
++#define DEF_RST_INIT_ASSERTED(_reset_index, _reset_bit, _mon_index, _mon_bit) \
++	DEF_RST_BASE(_reset_index, _reset_bit, _mon_index, _mon_bit, true)
+ 
+ /**
+  * struct rzv2h_cpg_info - SoC-specific CPG Description
 -- 
 2.25.1
 
