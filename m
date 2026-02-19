@@ -1,200 +1,178 @@
-Return-Path: <linux-renesas-soc+bounces-28316-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28317-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SA3sE/MYl2nKugIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28316-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 15:06:43 +0100
+	id 8Ob1I5gcl2ktuwIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28317-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 15:22:16 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id B04BB15F507
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 15:06:42 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B64115F70F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 15:22:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 9D44B30156D5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 14:06:41 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 931DF300D154
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 14:21:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 785FA33DEF7;
-	Thu, 19 Feb 2026 14:06:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kcMDN2W9"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBBBF33E368;
+	Thu, 19 Feb 2026 14:21:44 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B2C133A711;
-	Thu, 19 Feb 2026 14:06:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 327B31DE3A4
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Feb 2026 14:21:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771509998; cv=none; b=aUJduGdIc29i8u3FfnEk9N4PnwPtwIctGBTSRLAHLS+BYSbgw3qTjO24EhVxGMr/mtgAgipS3qpPcLovvzf9XfimJlBxHSf+pfMK5okUD0+prXiFSvfOTkWmp0G2Du63qwz01V7b9fuyaMNNOalqVZJa52yaIlXNKYIxn8mhP+s=
+	t=1771510904; cv=none; b=RLg8IVlIxSXFxQLi6j8EyIOw6qPVjNV6xGAPcY4y3EORUySf/tY+kt+mb1+HJhsl6OpjpUKjWiemzNfuHg7/2hXFTR7V7qf9+7ktUwaRoBZandLcFZNxktm5jZNUKd0eEjoQIvI5am5SWkZXTmn2CM+ugTFdDat+4g5xna3F2pc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771509998; c=relaxed/simple;
-	bh=IhI3L3rAWYl4pNKbiKS7sS+Pb5jF4gnLyZSTl98SmpQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VAH+Yep3p9qzi+KpTfTyLDfEkRW0kSIGY+52ZNT9QU8tK1nvTkR5Y7Wt2kpGOpVDiLSFWYX0+74GX3buS6AeMnWcO4N5SfXjdQQe3dD7Lw5hRnHv/Tbh8nXnkZwOsREG1TyvwlH+cxRtq4MUkyUSgya4lWjqXYmYy3PA6W1mm0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kcMDN2W9; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771509995; x=1803045995;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=IhI3L3rAWYl4pNKbiKS7sS+Pb5jF4gnLyZSTl98SmpQ=;
-  b=kcMDN2W9pr94KuedpELk5NBK+8QZOUyc+DxTEx6SLYa4xdnvAPpZEGDp
-   SG94N3FoNehAMXrFrvL3LQmU5Fq7E9OC4+swajO/vSaPspzM2V/1EGVMJ
-   EsLiYyu77sodafEnBDw3B+bQ3x4nW94nnb5MZ0SdtN55nsOXgeYcDLab0
-   B9S1cjXDOnYpdJxt1E05d6AJVjBUimg6DRSLrBnbTINZBj/5Zm0mMbj2M
-   TnhTwGO8YWGk25vxK/1+oeWvKrALYj468YHJII0XIfRDkDLNXTCktyQd5
-   Ir5PTcYmzmvLFP06W7aAFAXODTWF6/LcR43y0lZUQyqi3hlGHc+zV5lOk
-   Q==;
-X-CSE-ConnectionGUID: sOb+qwSnRqW8KMQgc7l/DA==
-X-CSE-MsgGUID: mjfBSSrXTPCzTz8lrjasdA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11706"; a="95212441"
-X-IronPort-AV: E=Sophos;i="6.21,300,1763452800"; 
-   d="scan'208";a="95212441"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 06:06:17 -0800
-X-CSE-ConnectionGUID: lqT8Vh8kQQOEufhfyOw52g==
-X-CSE-MsgGUID: mLgUEBQ3QHmEaf0HUQLCig==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,300,1763452800"; 
-   d="scan'208";a="218656746"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa003.jf.intel.com with ESMTP; 19 Feb 2026 06:06:15 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id 5F82795; Thu, 19 Feb 2026 15:05:33 +0100 (CET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Cc: =?UTF-8?q?Carsten=20Spie=C3=9F?= <mail@carsten-spiess.de>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>
-Subject: [PATCH v1 1/1] hwmon: (isl28022) Don't check for specific errors when parsing properties
-Date: Thu, 19 Feb 2026 15:05:32 +0100
-Message-ID: <20260219140532.2259235-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.50.1
+	s=arc-20240116; t=1771510904; c=relaxed/simple;
+	bh=/ZYYXgtgPRKj1olgFBbWehbpGHm+uMISOKI3+DRNfa0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tmWaGA7aqYsic2IwGjEfq1aM6vbUGGcVDzyvEX/jkwCGMOKyflgTo68Oh4YvSzYiIKqpNUdQLJsz5FqQSaJO94bvo72PWLBTjA5GJePG+a5rVvEm9C/eviVvZ5BMeR3nu5mOlyQbJC0VfO6YRkDDms7LiiIZjSBcjGkb+IDQSjY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-5674f3e80edso1370430e0c.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Feb 2026 06:21:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771510902; x=1772115702;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pnT2E6qzZtv6m4RxT1fh4Ezu4L7LN5MU6W5pzU+vKVg=;
+        b=qQdZIKVhahxWWDO1O7sJycuzf43UiyvWfnpdIrcWtfTpj4zlz2WJcIOhTiZ6SjxSfL
+         H3b54fV3tmk1FA8tBLLvWn1ufGKLwtMysR66pk3CA6+a3hMhcRtvnGN5hIXLJpmz9LRM
+         AHtKArHnsfHEyoB1uTAG02sVdnGD+yQB+Ro1fdc4y72ugvtGBH3wDOjmWa2Bs27ve4XV
+         V+aH1btX9X8bgInsg6CyKvevDaklLX7L6eRjMNzlMa5deEeAUTxaMFo8qtOI8VsMXBtJ
+         tA1mj7XUBDyMrUVeM8u+QD+hocVlGxGrSTTL9Sutpp4taALbGFq5fSTgOUxH/Fl1v/TM
+         7Ong==
+X-Forwarded-Encrypted: i=1; AJvYcCVCfzGrihE3qBMIeHLDcOcgPbKCuSJoLYkoaHSaES/zKanKGEFPU2IeBrrvENXp8113+5U7aX8pEd8iUdnGdhc7CA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzS9jMFXOmk/1UbRfQ0/SOJYOCCZy3l7RmGBEECMnISDWeJWuuv
+	uvAzsnpuz0giYBAtHivrAB8gFviJAdb3J+/UssJAr/x8qRslmKUGqRCK8LyhT2E9
+X-Gm-Gg: AZuq6aJgGl6RVR+Q+yzTZ3Wn/ytlsH/5sucFG6zfoLiJRrjNgj7j/GkrQdi4NcaBpxJ
+	3gWwIT7Tx3JSJfpXR6zyQJk5tt74xVbzAnMvqAag2gvIKorPHAoThc23tx9v8POD0LH5+yXJtuJ
+	DZDfWq4J8P7hgykjvBEhg/iraO9l48VCwCIPPTcWxtFw84R2J3W52VIaqgiSP9CTXESEQyL4Rl4
+	phsZKogyl5Kyueq2HQvzVvnvaVfvKWEAVWFgeG94nN7/aYSsHgv9JcH5akkB6TOxy0zYvDMsZ1K
+	m068hRxvLFSkml03/2F+turlyqBx1ggAZAc6kPaP/XqTykxwHfbb/6kMMz5q4q3yBc/UHjgQqOj
+	po8iDYwtZiRMgeNeAn97/VgyCZoocG77SVZAZiH992P1/aYywkgkryU0uDynOEBs3lcsH9ajJzV
+	86hNHFADw6NUrCScZIH7dhlNYs+h/QkQyKKWY8tQNgW9C0K3L7cCA1L8chViwG
+X-Received: by 2002:a05:6122:4193:b0:567:d49:da64 with SMTP id 71dfb90a1353d-568cdcbe536mr700012e0c.6.1771510901939;
+        Thu, 19 Feb 2026 06:21:41 -0800 (PST)
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com. [209.85.222.41])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56767276f8bsm13240387e0c.14.2026.02.19.06.21.41
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Feb 2026 06:21:41 -0800 (PST)
+Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-948e5592c9eso665464241.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Feb 2026 06:21:41 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWG4ZJ8PCdAGz8nGlKgj4Rf1lR/r6j9cWJl0CCb3D0aJ0bF3JtJvuP5g3T3kz3MoBywdKHZpY81Ol7HVeGbaDz4XQ==@vger.kernel.org
+X-Received: by 2002:a05:6102:3a0f:b0:5f7:246c:7d59 with SMTP id
+ ada2fe7eead31-5fe90c29394mr965190137.18.1771510901101; Thu, 19 Feb 2026
+ 06:21:41 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260219140532.2259235-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20260219140532.2259235-1-andriy.shevchenko@linux.intel.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 19 Feb 2026 15:21:29 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX9CdQNBGegrfHz+-UpuyO-rmHEQ2HUa=JjVpG_0ryacg@mail.gmail.com>
+X-Gm-Features: AaiRm520qeQadKACmPUSOomPwLBIUK1pbrc4MXCEiEjLJYebeqKw7k_Necoay4M
+Message-ID: <CAMuHMdX9CdQNBGegrfHz+-UpuyO-rmHEQ2HUa=JjVpG_0ryacg@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] hwmon: (isl28022) Don't check for specific errors
+ when parsing properties
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, =?UTF-8?Q?Carsten_Spie=C3=9F?= <mail@carsten-spiess.de>, 
+	Guenter Roeck <linux@roeck-us.net>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, 
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.84 / 15.00];
+X-Spamd-Result: default: False [0.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-28316-lists,linux-renesas-soc=lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,carsten-spiess.de,roeck-us.net,glider.be,gmail.com];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[linux-m68k.org];
+	TAGGED_FROM(0.00)[bounces-28317-lists,linux-renesas-soc=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[carsten-spiess.de,roeck-us.net,glider.be,gmail.com];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@linux.intel.com,linux-renesas-soc@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	NEURAL_HAM(-0.00)[-0.999];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	NEURAL_HAM(-0.00)[-0.980];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	R_DKIM_NA(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,intel.com:email,intel.com:dkim,linux.intel.com:mid]
-X-Rspamd-Queue-Id: B04BB15F507
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linux-m68k.org:email]
+X-Rspamd-Queue-Id: 0B64115F70F
 X-Rspamd-Action: no action
 
-Instead of checking for the specific error codes (that can be considered
-a layering violation to some extent) check for the property existence first
-and then either parse it, or apply a default value.
+Hi Andy,
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/hwmon/isl28022.c | 42 +++++++++++++++++++++++-----------------
- 1 file changed, 24 insertions(+), 18 deletions(-)
+CC devicetree
 
-diff --git a/drivers/hwmon/isl28022.c b/drivers/hwmon/isl28022.c
-index c2e559dde63f..c69ff4a46525 100644
---- a/drivers/hwmon/isl28022.c
-+++ b/drivers/hwmon/isl28022.c
-@@ -337,21 +337,28 @@ DEFINE_SHOW_ATTRIBUTE(shunt_voltage);
-  */
- static int isl28022_read_properties(struct device *dev, struct isl28022_data *data)
- {
-+	const char *propname;
- 	u32 val;
- 	int err;
- 
--	err = device_property_read_u32(dev, "shunt-resistor-micro-ohms", &val);
--	if (err == -EINVAL)
-+	propname = "shunt-resistor-micro-ohms";
-+	if (device_property_present(dev, propname)) {
-+		err = device_property_read_u32(dev, propname, &val);
-+		if (err)
-+			return err;
-+	} else {
- 		val = 10000;
--	else if (err < 0)
--		return err;
-+	}
- 	data->shunt = val;
- 
--	err = device_property_read_u32(dev, "renesas,shunt-range-microvolt", &val);
--	if (err == -EINVAL)
-+	propname = "renesas,shunt-range-microvolt";
-+	if (device_property_present(dev, propname)) {
-+		err = device_property_read_u32(dev, propname, &val);
-+		if (err)
-+			return err;
-+	} else {
- 		val = 320000;
--	else if (err < 0)
--		return err;
-+	}
- 
- 	switch (val) {
- 	case 40000:
-@@ -375,20 +382,19 @@ static int isl28022_read_properties(struct device *dev, struct isl28022_data *da
- 			goto shunt_invalid;
- 		break;
- 	default:
--		return dev_err_probe(dev, -EINVAL,
--				     "renesas,shunt-range-microvolt invalid value %d\n",
--				     val);
-+		return dev_err_probe(dev, -EINVAL, "%s invalid value %u\n", propname, val);
- 	}
- 
--	err = device_property_read_u32(dev, "renesas,average-samples", &val);
--	if (err == -EINVAL)
-+	propname = "renesas,average-samples";
-+	if (device_property_present(dev, propname)) {
-+		err = device_property_read_u32(dev, propname, &val);
-+		if (err)
-+			return err;
-+	} else {
- 		val = 1;
--	else if (err < 0)
--		return err;
-+	}
- 	if (val > 128 || hweight32(val) != 1)
--		return dev_err_probe(dev, -EINVAL,
--				     "renesas,average-samples invalid value %d\n",
--				     val);
-+		return dev_err_probe(dev, -EINVAL, "%s invalid value %u\n", propname, val);
- 
- 	data->average = val;
- 
+On Thu, 19 Feb 2026 at 15:06, Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+> Instead of checking for the specific error codes (that can be considered
+> a layering violation to some extent) check for the property existence first
+> and then either parse it, or apply a default value.
+>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+
+Thanks for your patch!
+
+> --- a/drivers/hwmon/isl28022.c
+> +++ b/drivers/hwmon/isl28022.c
+> @@ -337,21 +337,28 @@ DEFINE_SHOW_ATTRIBUTE(shunt_voltage);
+>   */
+>  static int isl28022_read_properties(struct device *dev, struct isl28022_data *data)
+>  {
+> +       const char *propname;
+>         u32 val;
+>         int err;
+>
+> -       err = device_property_read_u32(dev, "shunt-resistor-micro-ohms", &val);
+> -       if (err == -EINVAL)
+> +       propname = "shunt-resistor-micro-ohms";
+> +       if (device_property_present(dev, propname)) {
+> +               err = device_property_read_u32(dev, propname, &val);
+> +               if (err)
+> +                       return err;
+> +       } else {
+>                 val = 10000;
+> -       else if (err < 0)
+> -               return err;
+> +       }
+>         data->shunt = val;
+
+IIRC, we have removed superfluous presence checks all over the tree
+during the past few years? E.g. of_property_read_*() is documented to
+return -EINVAL if a property does not exist.
+So this patch looks like a step back to me...
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.50.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
