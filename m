@@ -1,41 +1,42 @@
-Return-Path: <linux-renesas-soc+bounces-28332-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28333-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4AaUIIuRl2mR0gIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28332-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 23:41:15 +0100
+	id YO7CJY+Rl2mR0gIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28333-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 23:41:19 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A26511634F6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 23:41:14 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39C9D163514
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 23:41:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 36DCE3001CEC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 22:41:12 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 08C69301DAC9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 22:41:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3421D32B985;
-	Thu, 19 Feb 2026 22:41:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E762A32D0E1;
+	Thu, 19 Feb 2026 22:41:12 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A254212F98;
-	Thu, 19 Feb 2026 22:41:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60E0132D0EE;
+	Thu, 19 Feb 2026 22:41:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771540871; cv=none; b=ipQCfxDU6Ed5sZD9kyizZhZsSI9m/qfXsFUpDDVmkwn5ikRRjt3HKnc36tl/VdUCgezx32xzTj+EmCfjAbMz5kV+yIjGI5QIgGYsNofGDwdmLRNS52+pAnAHGVQRLarXEL/bvH6VLmnZmZb3S8GF/wqT93LpRxg1sF/Y4Qbv/Zo=
+	t=1771540872; cv=none; b=Y55kWLuAZztv+LLBS8AhLaxksAbIwhGUidxWdAJSudJY1Qv8N+uvOHtTKS8GNcxT46WzMtg9pB4CL5+RfDqYM1GZxYZkYKquO1effjRWc7UtiUFxfS+QIHAHflt72lv+n1SkTq/AtvE64csztgwVkg9LRXs9DvB8S7bIdgqnyBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771540871; c=relaxed/simple;
-	bh=Ae8qLYFoZHhu8XDHiEzWL7f0/lzsdpI/ofjwFZLuhd0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TFQ8fgrCsGOZ2Rsbaj3M/+TcwTA0IE+8ElAZnPYvRL6QMXmuo/WVYKXFB3Jayn8NF7p7wRrTjc5OAGyRTztTBRpMNETgHjAvwTP1zzCy5Q8m3IQh4E+N5Hk6lyQdgQU0CIcO2ECg+yvPDA5Wr+Q2KeTAUTjbfLOqlNx75dRhlnE=
+	s=arc-20240116; t=1771540872; c=relaxed/simple;
+	bh=NNWeFzcSRtcO8mQESaxzO/A9Atf3QqpJJH6JiC2NIe8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=aI7DR0cYbI2fCX97f74s4YgEVNE2IwDjexAcRxzOyWYWAgrW26IuPttJBUHWitMrSwisEUH10IX8Mkm6xVciC5dWurxX00JNTYE1gy4RUimRq1oOtq6Qt/rDGtZPR/YDW/iIeTaG6cW7c4rEHK+gQbRcywtHpeVfRC84OuyvDkk=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: mss6xaU3SVa/pvhs9Mb3gw==
-X-CSE-MsgGUID: o6DaVZB8T/S+FUDGrvlSaA==
+X-CSE-ConnectionGUID: 6x3ZV4atRfiKJ/+u8yozSA==
+X-CSE-MsgGUID: b4kvY+yLTG+M5+lyzGf2pg==
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 20 Feb 2026 07:36:00 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 20 Feb 2026 07:36:06 +0900
 Received: from ubuntu.adwin.renesas.com (unknown [10.24.0.22])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 3B20B4010DDE;
-	Fri, 20 Feb 2026 07:35:54 +0900 (JST)
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 4F75B4010DC2;
+	Fri, 20 Feb 2026 07:36:01 +0900 (JST)
 From: John Madieu <john.madieu.xa@bp.renesas.com>
 To: claudiu.beznea.uj@bp.renesas.com,
 	lpieralisi@kernel.org,
@@ -54,10 +55,12 @@ Cc: robh@kernel.org,
 	linux-clk@vger.kernel.org,
 	john.madieu@gmail.com,
 	John Madieu <john.madieu.xa@bp.renesas.com>
-Subject: [PATCH v6 00/16] PCI: renesas: Add RZ/G3E PCIe controller support
-Date: Thu, 19 Feb 2026 23:35:26 +0100
-Message-ID: <20260219223542.6364-1-john.madieu.xa@bp.renesas.com>
+Subject: [PATCH v6 01/16] PCI: rzg3s-host: Fix reset handling in probe error path
+Date: Thu, 19 Feb 2026 23:35:27 +0100
+Message-ID: <20260219223542.6364-2-john.madieu.xa@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260219223542.6364-1-john.madieu.xa@bp.renesas.com>
+References: <20260219223542.6364-1-john.madieu.xa@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -71,13 +74,13 @@ X-Spamd-Result: default: False [1.64 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	DMARC_POLICY_SOFTFAIL(0.10)[renesas.com : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-28332-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-28333-lists,linux-renesas-soc=lfdr.de];
 	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -87,126 +90,50 @@ X-Spamd-Result: default: False [1.64 / 15.00];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.972];
+	NEURAL_HAM(-0.00)[-0.966];
 	FROM_NEQ_ENVFROM(0.00)[john.madieu.xa@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bp.renesas.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: A26511634F6
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email,bp.renesas.com:mid]
+X-Rspamd-Queue-Id: 39C9D163514
 X-Rspamd-Action: no action
 
-The Renesas RZ/G3E SoC features a PCIe controller that shares similarities with
-the existing RZ/G3S PCIe controller, but with several key differences.
-This series adds support for the RZ/G3E PCIe controller by extending the existing
-RZ/G3S driver and device tree bindings.
+Fix incorrect reset_control_bulk_deassert() call in the probe error
+path. When unwinding from a failed pci_host_probe(), the configuration
+resets should be asserted to restore the hardware to its initial state,
+not deasserted again.
 
-Key differences between RZ/G3E and RZ/G3S PCIe controllers:
-
-Link Speed Support:
- - RZ/G3E: Supports PCIe Gen3 (8.0 GT/s) alongside Gen2 (5.0 GT/s)
- - RZ/G3S: Supports PCIe Gen2 (5.0 GT/s) only
-
-Reset Control:
- - RZ/G3E: Uses register-based reset control mechanism
- - RZ/G3S: Uses exclusively external reset control signals
-
-Inbound Window Configuration:
- - RZ/G3E: Requires precise power-of-2 window coverage with strict address
-   alignment constraints. Non-power-of-2 memory regions must be split into
-   multiple windows to avoid over-mapping, ensuring proper hardware address
-   decoding for DMA operations.
- - RZ/G3S: Uses a simpler approach that rounds up to the next power-of-2,
-   creating single larger windows. The hardware tolerates over-mapped regions.
-
-Class/Revision IDs:
- - RZ/G3E: Requires explicit setting of class/revision values
- - RZ/G3S: Has default values in hardware
-
-Clock Naming:
- - RZ/G3E: Uses "clkpmu" clock for power management
- - RZ/G3S: Uses "clkl1pm" PM control clock while CLKREQ_B is deasserting
-
-Phy Settings:
- - RZ/G3E: Does not need PHY settings as it works with default hw values
- - RZ/G3S: Requires explicit PHY settings
-
-This series extends the existing driver to detect the SoC type from the device
-tree compatible string and configure the controller appropriately. The updates
-are minimal and focused on the hardware-specific differences while keeping the
-common code paths unified.
+Fixes: 7ef502fb35b2 ("PCI: Add Renesas RZ/G3S host controller driver")
+Reviewed-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
+---
 
 Changes:
 
-v6:
- - Replaced rzg3s_sysc_config() with enum-based rzg3s_sysc_config_func()
-   as suggested by Claudiu, dropping the -1 skip pattern
- - Introduced enum rzg3s_sysc_func_id and array-based SYSC function
-   descriptors in patch 08
- - Used regmap_update_bits() consistently for all SYSC accesses
- - Fixed config_reinit error path in suspend_noirq: call config_pre_init
-   before config_post_init as spotted by Claudiu
- - Fixed double config_deinit in rzg3s_pcie_host_init() error path by
-   separating config_deinit_post into a non-fall-through path
- - Shortened comments as per Claudiu's suggestions
- - Reordered patchset, moving v5's patch 09/16 to 02/16 and added Fixes tag 
+v6: No changes
+v5: No changes
+v4: No changes
+v3: No changes
+v2: Collected Rb tag
 
-v5:
- - Introduced new patch to reorder reset handling
- - Introduced rzg3s_sysc_config() helper to handle SYS config
- - Collected Tags on documentation
+ drivers/pci/controller/pcie-rzg3s-host.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-v4:
- - Collected Ab tag
- - Fixed binding clock name constraint
-
-v3:
- - Removed extra MaxItems in binding causing warnings
- - Fix potential crash for non-initialized rcdev in CPG driver
- - Fix binding contraints replacing 'description' with 'const' as per
-   Geert and Rob's comment
-
-v2:
- - Address Bjorn typo comments
- - Address Claidiu's comment on stylish
- - Use single inbound-window-configuration function for both G3E/G3S
- - Refactor goto laballing as per Claudiu's comments
- - Update bindings and reused G3S's interrupt ordering
-   * This involves reordering interrupts in dt
- - Remove Board-specific PCIe dma-range.
-
-John Madieu (16):
-  PCI: rzg3s-host: Fix reset handling in probe error path
-  PCI: rzg3s-host: Reorder reset assertion during suspend
-  PCI: renesas: rzg3s: Rework inbound window algorithm for multi-SoC
-    support
-  clk: renesas: rzv2h-cpg: Add support for init_{off|asserted}
-    clocks/resets
-  clk: renesas: r9a09g047: Add PCIe clocks and reset
-  dt-bindings: PCI: renesas,r9a08g045s33-pcie: Fix naming properties
-  dt-bindings: PCI: renesas,r9a08g045s33-pcie: Document RZ/G3E SoC
-  PCI: rzg3s-host: Make SYSC register offsets SoC-specific
-  PCI: rzg3s-host: Make configuration reset lines optional
-  PCI: rzg3s-host: Add SoC-specific configuration and initialization
-    callbacks
-  PCI: rzg3s-host: Explicitly set class code for RZ/G3E compatibility
-  PCI: rzg3s-host: Add PCIe Gen3 (8.0 GT/s) link speed support
-  PCI: rzg3s-host: Add support for RZ/G3E PCIe controller
-  arm64: dts: renesas: r9a09g047: Add PCIe node
-  arm64: dts: renesas: r9a09g047e57-smarc-som: Add PCIe reference clock
-  arm64: dts: renesas: r9a09g047e57-smarc: Enable PCIe
-
- .../bindings/pci/renesas,r9a08g045-pcie.yaml  | 121 ++++--
- arch/arm64/boot/dts/renesas/r9a09g047.dtsi    |  69 ++++
- .../boot/dts/renesas/r9a09g047e57-smarc.dts   |  16 +
- .../boot/dts/renesas/renesas-smarc2.dtsi      |   4 +
- .../boot/dts/renesas/rzg3e-smarc-som.dtsi     |  11 +
- drivers/clk/renesas/r9a09g047-cpg.c           |   5 +
- drivers/clk/renesas/rzv2h-cpg.c               |  24 +-
- drivers/clk/renesas/rzv2h-cpg.h               |  34 +-
- drivers/pci/controller/pcie-rzg3s-host.c      | 379 ++++++++++++++----
- 9 files changed, 544 insertions(+), 119 deletions(-)
-
+diff --git a/drivers/pci/controller/pcie-rzg3s-host.c b/drivers/pci/controller/pcie-rzg3s-host.c
+index 5aa58638903f..58e78fc52913 100644
+--- a/drivers/pci/controller/pcie-rzg3s-host.c
++++ b/drivers/pci/controller/pcie-rzg3s-host.c
+@@ -1588,8 +1588,7 @@ static int rzg3s_pcie_probe(struct platform_device *pdev)
+ 
+ host_probe_teardown:
+ 	rzg3s_pcie_teardown_irqdomain(host);
+-	reset_control_bulk_deassert(host->data->num_cfg_resets,
+-				    host->cfg_resets);
++	reset_control_bulk_assert(host->data->num_cfg_resets, host->cfg_resets);
+ rpm_put:
+ 	pm_runtime_put_sync(dev);
+ rpm_disable:
 -- 
 2.25.1
 
