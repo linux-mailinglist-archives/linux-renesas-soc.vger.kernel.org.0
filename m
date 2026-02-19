@@ -1,154 +1,265 @@
-Return-Path: <linux-renesas-soc+bounces-28311-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28312-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ILuVNBwolmnxbQIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28311-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Feb 2026 21:59:08 +0100
+	id eOnSEZNxlmlqfQIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28312-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 03:12:35 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C850159AED
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Feb 2026 21:59:08 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC98E15B97F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 03:12:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id BCA9A30011B9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Feb 2026 20:58:16 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id F1F16303EB75
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 02:08:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDD4D34889C;
-	Wed, 18 Feb 2026 20:58:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 934163101BA;
+	Thu, 19 Feb 2026 02:05:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lQTTGMZA"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SHlPGcmm"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1BD134846C
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 18 Feb 2026 20:58:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E79E30FF25;
+	Thu, 19 Feb 2026 02:05:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771448294; cv=none; b=hXMxObpu8cgtowLoXBhoW2AFEvHW3F8wbpXDSENailDKI2C5qEyZnoD6AjjzupHlUWfLSLjTuN7iwHalA9j9X/nVkZqkf5tEjKhp5ZrmQyiyNhPgKrXlHAJ3Gcu44LGBznVWIMAMBadKEOGJf5xroME3NXYThLtGi+1c9tqnx7k=
+	t=1771466707; cv=none; b=IG7Gkn7IoW0iSmlrd6A+dxByfjvtBO+jFrM34j8WQW0sbNbAq5xMhlJb3fTb2np1N1BR5sxZPvjZtFQdHcSQ+54UJoQhR4EOZ1jSg9ePVEaQVwaVAy0L6LVSWpsrHyvUZjTiE3rUBNBtL0Jh26+/e5xslez0wlI6+H28HySNQO0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771448294; c=relaxed/simple;
-	bh=r6f5XA/yt5ijQxC9qj8PwFahd3U8KiCq5t1T39MZKU8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZkNfsNNLDsLEcUKGy8WG6wublA7dv1nwZpPjuD66gW7DzT8X2wai7U842WX0xi7xr8+vmW6IX5P9cnQd8nDEN+/yqCKmtdWFAVCP0OKI/6VgDHw7DUJw/v1hoNW3/SRJmdN5n0r+7NVPwTRbSKWvIY7wsPJUKFoM1n9bSPmwQ6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lQTTGMZA; arc=none smtp.client-ip=74.125.82.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-12721cd256bso224942c88.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 18 Feb 2026 12:58:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771448293; x=1772053093; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=AYz/iLeO6q0BGWWQxma927idbu7N5p49ytkQNprhL0s=;
-        b=lQTTGMZAZjiTraDUeAEqJMdNby/jTWB4DrE28iUD1stqL4w+8bBsAGndgtRAQmZHs+
-         OBF7bEoyd91uzjI22RtuqMWmTPJo974O9ExuDDO+9xLXdOxOH/u0GX9hudj3nY0p/NEd
-         +Vnp73F7iKRWMRSibibCjDjMh28nAyFU40MwOwCMU80bBMYIQ1Pn6uLAbY2lBsAth6cC
-         bRR0uXXn29SlT0d8vsFAkzXdlS6TZEYE4QqZOPfrhzymh0Ik9oAjwPzrEmWkNGkLn6wB
-         g7PZnwC7hzTI2G6cFdcHVWgaaP4YW6YzufLtGCH4nBCnq59CYOgXNWSbMeRnGS4kEEoe
-         ZVeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771448293; x=1772053093;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AYz/iLeO6q0BGWWQxma927idbu7N5p49ytkQNprhL0s=;
-        b=ub6JnxdYvBRj7c/PD0mm4DSiehh9yqp9qrKsR1bHBprsHdTs+X6/ZPLfsN2vihCmAk
-         7S0k4VmoaYoyb1Wr+LFQCfeXG1jnjpY6tSgNQWE2JSSvEyVxdC68TNlrJmOV9LE/9khP
-         QvM6eqGXMtfK9brTXd6otyB1n1ya9Q45jmR9XMsKreOLBqun57Ie4VjlJfB4fkswRaD/
-         3e9NyplYCZrA+M4g2TDZii0kTr8J8rTFD+69vnSxxtrvxnUc4j9apBzm+tiQ6PeJ5QGn
-         vnb07+N5NIGivt9YTvQmt4UcWFqMpfivXJJ0Q198y1focooMp1MjWNSnTjBNj6Ehxe5Q
-         MCPw==
-X-Forwarded-Encrypted: i=1; AJvYcCX7yu8IBrUJGZRq70NBgx2TZAiqNIyusws+iS+Veyx2i7G04HTgisu1SQ+eD0nk0eXFigBYoLQ7Wb80P1b9lsUEiw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyuFBXIzJ52VJDjvqKHmCJMuMh/ck5y+K0LsRc8Ut8z4TKmd2BA
-	Tn3Wj68coZEe+sEb1aXanZUwpqSWJqOFdtNRm+gWJbul8ePpRME/p4JHlZpddA==
-X-Gm-Gg: AZuq6aJP1JGJd1NkUljC68t9O3FfyiiJo9qHyrADqY7LTT0Bs08m8k3mFOuBBww8MRx
-	GsDExo1N7sm9Z2DPygRwo1I7y6vA+A3HV+C/rZJcQxQ7Bh6u6dyNq7+WPTRaXCzEOrZistL34gQ
-	n84RyzQvKFLAQ9h4YGJf3WGBKMnXtLHWTK3tHelDgPe5vk/M8XwscJxwTTTH+Vfkq4KgrpUBaGA
-	QiQ/c7HOt9p4dxe9vQw6AlAbUolYjaB5CthOkJ2MDU3R7zCP/Wcu3ScQed65/fRgBTGEB+25uOI
-	TkZ5Y2bGDOQYpRhx/R3CGLd9zxfOTThG/CkDmhxrncJP2igirAen2gEdbASdYTiCfbNzWB1uke4
-	AemxJZ+/4MscYWNpBfu4sP9ywTWG30dWeRpq4vGh8xi3MWJHa4atne/2dGghhksa3iY8x1CwWuM
-	DP5XcV72lV3CgxDEnxKjg0GhhSJnec0JX459MZDXLF+bQeKeTO8X86XaKOsKcLomJK
-X-Received: by 2002:a05:7022:2206:b0:123:330b:398 with SMTP id a92af1059eb24-12741b90b7cmr5415874c88.19.1771448292879;
-        Wed, 18 Feb 2026 12:58:12 -0800 (PST)
-Received: from google.com ([2a00:79e0:2ebe:8:265b:f5ad:9e03:677e])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12742c63feesm24200691c88.4.2026.02.18.12.58.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Feb 2026 12:58:12 -0800 (PST)
-Date: Wed, 18 Feb 2026 12:58:09 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Linus Walleij <linusw@kernel.org>, 
-	Bartosz Golaszewski <brgl@kernel.org>, Andy Shevchenko <andy@kernel.org>, 
-	Marek Vasut <marek.vasut+renesas@mailbox.org>, linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	s=arc-20240116; t=1771466707; c=relaxed/simple;
+	bh=D73wScJAC375XHCH4oZKOpkSXn1g9xaFJmyXXU/9UKs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Q/kSckIXcpSFfdLzu9vC1dpysc5WrAEwaZI1wSxnt4NyXVqp0RXMH6/KR41KBphLMwRRGOKZymptFBcpD1UJoJWI2ilWSTtWug9y8e3y9EVCXinPq+mZFUWoMRgODqlFrq/pA6TvNkFSrAJkgOzJSwEeMsC+WF3AeH4w/ci+upw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SHlPGcmm; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69B6AC116D0;
+	Thu, 19 Feb 2026 02:05:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771466707;
+	bh=D73wScJAC375XHCH4oZKOpkSXn1g9xaFJmyXXU/9UKs=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=SHlPGcmmCWc0L3iooCbHuBf8E5HBd0k5RhB5XDrRKy8Bn9X5piuxN7GnplB4mR1SB
+	 c55XzbF3xdiMGp5KzfhShD+Ji4jJa621u2FyNSWxjDW0NFysOtxgyZbaphXIAkeRXQ
+	 WyB/wIjRPgkIgjq+9jm+0XsF5sCpavvKt/OyGbYsHu/DgDfMzIJCAXY0pJzDnLaGNi
+	 jiKqgUwNXx4sbEzwJk43vGFF+chfRrUnOy2UsS1zw49cJy3MXTQgc1IQH3UOyv631a
+	 pRlmcfLyFnwvpsVR+6V2+1hneJ/tPl80TfEjBK/c60RrHrj2dZ8lzX9Ut58HUl8EfI
+	 nBIVCw1wuOknQ==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Sasha Levin <sashal@kernel.org>,
+	linusw@kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] pinctrl: renesas: rza1: normalize return value of gpio_get
-Message-ID: <aZYnyl-Nf4S1U2yj@google.com>
+Subject: [PATCH AUTOSEL 6.19-6.18] pinctrl: renesas: rzt2h: Allow .get_direction() for IRQ function GPIOs
+Date: Wed, 18 Feb 2026 21:04:10 -0500
+Message-ID: <20260219020422.1539798-34-sashal@kernel.org>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260219020422.1539798-1-sashal@kernel.org>
+References: <20260219020422.1539798-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.19.2
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-28311-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-28312-lists,linux-renesas-soc=lfdr.de];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dmitrytorokhov@gmail.com,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 3C850159AED
+	DBL_BLOCKED_OPENRESOLVER(0.00)[msgid.link:url,renesas.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,glider.be:email]
+X-Rspamd-Queue-Id: DC98E15B97F
 X-Rspamd-Action: no action
 
-The GPIO get callback is expected to return 0 or 1 (or a negative error
-code). Ensure that the value returned by rza1_gpio_get() is normalized
-to the [0, 1] range.
+From: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
 
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+[ Upstream commit 49b039a61a314c18074c15a7047705399e1240e6 ]
+
+Setting up an IRQ would normally be done in the .activate() and
+.deactivate() ops of the IRQ domain, but for hierarchical IRQ domains
+the .activate() and .deactivate() ops are overridden in the
+gpiochip_hierarchy_setup_domain_ops() function.
+
+As such, activating and deactivating need to be done in the .translate()
+and .free() ops of the IRQ domain.
+
+For RZ/T2H and RZ/N2H, interrupts go through the pin controller, into
+the ICU, which level-translates them and forwards them to the GIC.
+
+To use a GPIO as an interrupt it needs to be put into peripheral
+function mode 0, which will connect it to the IRQ lines of the ICU.
+
+The IRQ chip .child_to_parent_hwirq() callback is called as part of the
+IRQ fwspec parsing logic (as part of irq_create_of_mapping()) which
+happens before the IRQ is requested (as part of gpiochip_lock_as_irq()).
+
+gpiochip_lock_as_irq() calls gpiod_get_direction() if the
+.get_direction() callback is provided to ensure that the GPIO line is
+set up as input.
+
+In our case, IRQ function is separate from GPIO, and both cannot be true
+at the same time.
+
+Return GPIO_LINE_DIRECTION_IN even if pin is in IRQ function to allow
+this setup to work.
+
+Hold the spinlock to ensure atomicity between reading the PMC register
+(which determines whether the pin is in GPIO mode or not) and reading
+the function of the pin when it is not in GPIO mode.
+
+Signed-off-by: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Link: https://patch.msgid.link/20251205150234.2958140-3-cosmin-gabriel.tanislav.xa@renesas.com
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/pinctrl/renesas/pinctrl-rza1.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/pinctrl/renesas/pinctrl-rza1.c b/drivers/pinctrl/renesas/pinctrl-rza1.c
-index 3cfa4c8be80e..d83c7d8ee82c 100644
---- a/drivers/pinctrl/renesas/pinctrl-rza1.c
-+++ b/drivers/pinctrl/renesas/pinctrl-rza1.c
-@@ -589,7 +589,7 @@ static inline unsigned int rza1_get_bit(struct rza1_port *port,
- {
- 	void __iomem *mem = RZA1_ADDR(port->base, reg, port->id);
+LLM Generated explanations, may be completely bogus:
+
+Confirmed: The PFC register read pattern with `rzt2h_pinctrl_readq` and
+the `PFC_MASK` at line 141 is consistent with what the fix does. The new
+code reads `PFC(port)` and masks with `PFC_MASK`, which is the same
+pattern used in the existing `rzt2h_pinctrl_set_pfc` function.
+
+### Verification
+
+- **Verified**: The driver `pinctrl-rzt2h.c` was introduced in commit
+  34d4d093077a5, first appearing in v6.18. Active stable trees v6.18.y
+  and v6.19.y contain this driver.
+- **Verified**: `gpiochip_lock_as_irq()` at gpiolib.c:4088-4095 calls
+  `gpiod_get_direction()` and fails if it returns negative, confirming
+  the bug mechanism described in the commit message.
+- **Verified**: The original `rzt2h_gpio_get_direction()` returns
+  `-EINVAL` unconditionally when PMC bit is set (line 496-497 of current
+  code), which would fail IRQ setup.
+- **Verified**: `rzt2h_pinctrl_readq` is generated by macro at line 104
+  and already used for PFC reads (line 140), so no new functions are
+  needed.
+- **Verified**: `PFC_MASK` is already defined (line 51: `GENMASK_ULL(5,
+  0)`), so the mask pattern is correct.
+- **Verified**: The PFC function 0 being the IRQ function is consistent
+  with the hardware description (peripheral function mode 0 connects to
+  ICU IRQ lines, as stated in the commit message).
+- **Verified**: The spinlock `pctrl->lock` is already used in other
+  functions (e.g., `rzt2h_gpio_set_direction` at line 475,
+  `rzt2h_pinctrl_set_pfc` at line 128), so adding it to `get_direction`
+  is consistent.
+- **Verified**: No additional commits are needed as dependencies - the
+  code being modified exists in the base driver.
+- **Unverified**: Whether the commit has been explicitly discussed on
+  linux-stable mailing list (did not search lore.kernel.org).
+
+### Summary
+
+**What the commit fixes**: GPIO pins on Renesas RZ/T2H and RZ/N2H SoCs
+cannot be used as interrupt sources because the GPIO direction query
+fails when the pin is in IRQ function mode, causing
+`gpiochip_lock_as_irq()` to fail.
+
+**Stable kernel criteria**:
+- **Obviously correct**: Yes - the logic is clear and well-explained.
+  When a pin is in IRQ mode (peripheral function 0), reporting it as
+  input direction is the correct semantic.
+- **Fixes a real bug**: Yes - GPIO IRQ functionality is broken without
+  this fix.
+- **Small and contained**: Yes - ~20 lines in a single function in a
+  single driver file.
+- **No new features**: Correct - this fixes existing GPIO/IRQ
+  interaction, not adding new functionality.
+- **Reviewed**: Yes - reviewed by Geert Uytterhoeven (Renesas subsystem
+  maintainer).
+
+**Risk vs benefit**: Very low risk (single driver, narrow hardware
+scope, no architectural changes) vs. high benefit (enables GPIO IRQ
+functionality on these SoCs).
+
+**Concern**: The driver only exists in v6.18+ stable trees, limiting the
+scope of backporting. No older stable trees are affected.
+
+**YES**
+
+ drivers/pinctrl/renesas/pinctrl-rzt2h.c | 21 ++++++++++++++++++++-
+ 1 file changed, 20 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/pinctrl/renesas/pinctrl-rzt2h.c b/drivers/pinctrl/renesas/pinctrl-rzt2h.c
+index 4826ff91cd906..40df706210119 100644
+--- a/drivers/pinctrl/renesas/pinctrl-rzt2h.c
++++ b/drivers/pinctrl/renesas/pinctrl-rzt2h.c
+@@ -51,6 +51,7 @@
  
--	return ioread16(mem) & BIT(bit);
-+	return !!(ioread16(mem) & BIT(bit));
- }
+ #define PFC_MASK		GENMASK_ULL(5, 0)
+ #define PFC_PIN_MASK(pin)	(PFC_MASK << ((pin) * 8))
++#define PFC_FUNC_INTERRUPT	0
  
- /**
+ /*
+  * Use 16 lower bits [15:0] for pin identifier
+@@ -486,6 +487,7 @@ static int rzt2h_gpio_get_direction(struct gpio_chip *chip, unsigned int offset)
+ 	struct rzt2h_pinctrl *pctrl = gpiochip_get_data(chip);
+ 	u8 port = RZT2H_PIN_ID_TO_PORT(offset);
+ 	u8 bit = RZT2H_PIN_ID_TO_PIN(offset);
++	u64 reg64;
+ 	u16 reg;
+ 	int ret;
+ 
+@@ -493,8 +495,25 @@ static int rzt2h_gpio_get_direction(struct gpio_chip *chip, unsigned int offset)
+ 	if (ret)
+ 		return ret;
+ 
+-	if (rzt2h_pinctrl_readb(pctrl, port, PMC(port)) & BIT(bit))
++	guard(spinlock_irqsave)(&pctrl->lock);
++
++	if (rzt2h_pinctrl_readb(pctrl, port, PMC(port)) & BIT(bit)) {
++		/*
++		 * When a GPIO is being requested as an IRQ, the pinctrl
++		 * framework expects to be able to read the GPIO's direction.
++		 * IRQ function is separate from GPIO, and enabling it takes the
++		 * pin out of GPIO mode.
++		 * At this point, .child_to_parent_hwirq() has already been
++		 * called to enable the IRQ function.
++		 * Default to input direction for IRQ function.
++		 */
++		reg64 = rzt2h_pinctrl_readq(pctrl, port, PFC(port));
++		reg64 = (reg64 >> (bit * 8)) & PFC_MASK;
++		if (reg64 == PFC_FUNC_INTERRUPT)
++			return GPIO_LINE_DIRECTION_IN;
++
+ 		return -EINVAL;
++	}
+ 
+ 	reg = rzt2h_pinctrl_readw(pctrl, port, PM(port));
+ 	reg = (reg >> (bit * 2)) & PM_MASK;
 -- 
-2.53.0.335.g19a08e0c02-goog
+2.51.0
 
-
--- 
-Dmitry
 
