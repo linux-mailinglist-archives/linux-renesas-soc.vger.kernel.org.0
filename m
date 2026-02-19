@@ -1,42 +1,42 @@
-Return-Path: <linux-renesas-soc+bounces-28321-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28322-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mIdzA3aQl2mR0gIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28321-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 23:36:38 +0100
+	id yPccI4qQl2mU0gIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28322-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 23:36:58 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C711163335
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 23:36:37 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10D5B163392
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 23:36:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 949C73007A6A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 22:36:34 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E42E4300A753
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 22:36:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BCD4325496;
-	Thu, 19 Feb 2026 22:36:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74D5D32B983;
+	Thu, 19 Feb 2026 22:36:39 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 218052EDD52;
-	Thu, 19 Feb 2026 22:36:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F5442EDD52;
+	Thu, 19 Feb 2026 22:36:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771540593; cv=none; b=ZGwkQRfUaGorvchRCjw3BwQ80P4brW9E30htcUtDH5WsMlqUSzkWBRKmzcbXslWiyqH80rzDp0ZfBDEyW6JQEx9gy6DnDxVEk5FYQ+1Nms6VgGkznNq8OctsZjn3VxWZhTA+6/T0dV7sasIWhWMwARwamiIPlA/+7+tjS9o3QgU=
+	t=1771540599; cv=none; b=HsA+3vkSf9IPvHI8JmldKPyI6k4kjygwcfwKFeJqe03+MQSqO3rRcsVkQ9Ct5JXzxOut63Khpor19AHM5XgwCtlwhChzryhVz5lO1R4glFWkOCZBnSwI7nB/NdV0Q6QvcEwfjo1/MpboB0cVkbCcR0Czw1Cw9I+L1mjNwCVx8sY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771540593; c=relaxed/simple;
-	bh=rormM2OAg3jX8kPzeLePAqOY1HdqsPAKj0qV/D5wxOc=;
+	s=arc-20240116; t=1771540599; c=relaxed/simple;
+	bh=rqJtoyRF3UsO1RC7WJzANBe9xF/AH6LArnxwPIw/49c=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XjRwZ1i1nwPrGGNR2sQnpSJFfZ2cdPHwVJDbuQe4btE+CfpuiSqIe/kCJU+y1D74u53rRLjqEb+2acAcJRqwe+2at3Or3KC2+FN6o3/ddhJpXsqDdyyyTUGEHsWcMxifAmtq/ZVXy0TXxqyuq2W5PEjZwGh1yMrJp/ZG7nI3FaI=
+	 MIME-Version; b=roTaRL/zf5+RjMlJ7ElQIoht5en1SMFikrlrGoppVLXQtulvchDh2+v7tNyahowikluuxjU/+DC0kmjlmek/DOWFNfuAya0dG/NCZau+NBBC5vNW5RZSUcbjoH0IT1f/lxDeqFZZYkN7mECpWuO/yB4iaX3anv+uyLOtTX7ETGw=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: hHW3HWI1QFKcWbihgPzdkg==
-X-CSE-MsgGUID: bZMrt3gxRlCTjEcvi69PdQ==
+X-CSE-ConnectionGUID: r5m0CdcmSHeD2MrGoATSQA==
+X-CSE-MsgGUID: irjHTqtDQJmaf/LtRVSJTQ==
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 20 Feb 2026 07:36:30 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 20 Feb 2026 07:36:37 +0900
 Received: from ubuntu.adwin.renesas.com (unknown [10.24.0.22])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 79BFA4010DC2;
-	Fri, 20 Feb 2026 07:36:25 +0900 (JST)
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 787464010DC2;
+	Fri, 20 Feb 2026 07:36:31 +0900 (JST)
 From: John Madieu <john.madieu.xa@bp.renesas.com>
 To: claudiu.beznea.uj@bp.renesas.com,
 	lpieralisi@kernel.org,
@@ -54,10 +54,11 @@ Cc: robh@kernel.org,
 	devicetree@vger.kernel.org,
 	linux-clk@vger.kernel.org,
 	john.madieu@gmail.com,
-	John Madieu <john.madieu.xa@bp.renesas.com>
-Subject: [PATCH v6 05/16] clk: renesas: r9a09g047: Add PCIe clocks and reset
-Date: Thu, 19 Feb 2026 23:35:31 +0100
-Message-ID: <20260219223542.6364-6-john.madieu.xa@bp.renesas.com>
+	John Madieu <john.madieu.xa@bp.renesas.com>,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: [PATCH v6 06/16] dt-bindings: PCI: renesas,r9a08g045s33-pcie: Fix naming properties
+Date: Thu, 19 Feb 2026 23:35:32 +0100
+Message-ID: <20260219223542.6364-7-john.madieu.xa@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260219223542.6364-1-john.madieu.xa@bp.renesas.com>
 References: <20260219223542.6364-1-john.madieu.xa@bp.renesas.com>
@@ -74,34 +75,41 @@ X-Spamd-Result: default: False [1.64 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	DMARC_POLICY_SOFTFAIL(0.10)[renesas.com : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-28321-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-28322-lists,linux-renesas-soc=lfdr.de];
 	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	FREEMAIL_CC(0.00)[kernel.org,google.com,gmail.com,bp.renesas.com,vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	FREEMAIL_CC(0.00)[kernel.org,google.com,gmail.com,bp.renesas.com,vger.kernel.org,microchip.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.975];
+	NEURAL_HAM(-0.00)[-0.979];
 	FROM_NEQ_ENVFROM(0.00)[john.madieu.xa@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,glider.be:email]
-X-Rspamd-Queue-Id: 2C711163335
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,bp.renesas.com:mid,microchip.com:email]
+X-Rspamd-Queue-Id: 10D5B163392
 X-Rspamd-Action: no action
 
-Add necessary clocks and reset entries for the PCIe controller
+Fix a typo in interrupt-names: "ser_cor" should be "serr_cor" (System
+Error Correctable).
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Also convert interrupt-names, clock-names, and reset-names properties
+from "description" to "const" to enable proper validation with
+dtbs_check.
+
+Fixes: e7534e790557 ("dt-bindings: PCI: renesas,r9a08g045s33-pcie: Document RZ/G3E SoC")
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Reviewed-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
 ---
 
@@ -109,42 +117,87 @@ Changes:
 
 v6: No changes
 v5: No changes
-v4: No changes
+v4: Collected Acked-by tag from Conor
+v3: New patch
 
-v3:
- - Collected Rb tag
- - Preserved sort order (by _onindex, _onbit); 
+ .../bindings/pci/renesas,r9a08g045-pcie.yaml  | 50 +++++++++----------
+ 1 file changed, 25 insertions(+), 25 deletions(-)
 
-v2:
- - Fixed clock names
- - Used assert-variant for reset
-
- drivers/clk/renesas/r9a09g047-cpg.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/drivers/clk/renesas/r9a09g047-cpg.c b/drivers/clk/renesas/r9a09g047-cpg.c
-index 1e9896742a06..567169194ee8 100644
---- a/drivers/clk/renesas/r9a09g047-cpg.c
-+++ b/drivers/clk/renesas/r9a09g047-cpg.c
-@@ -424,6 +424,10 @@ static const struct rzv2h_mod_clk r9a09g047_mod_clks[] __initconst = {
- 						BUS_MSTOP(8, BIT(6))),
- 	DEF_MOD("gbeth_1_aclk_i",		CLK_PLLDTY_DIV8, 12, 3, 6, 3,
- 						BUS_MSTOP(8, BIT(6))),
-+	DEF_MOD_INIT_OFF("pcie_0_aclk",		CLK_PLLDTY_ACPU_DIV2, 12, 4, 6, 4,
-+						BUS_MSTOP(1, BIT(15))),
-+	DEF_MOD_INIT_OFF("pcie_0_clk_pmu",	CLK_PLLDTY_ACPU_DIV2, 12, 5, 6, 5,
-+						BUS_MSTOP(1, BIT(15))),
- 	DEF_MOD("cru_0_aclk",			CLK_PLLDTY_ACPU_DIV2, 13, 2, 6, 18,
- 						BUS_MSTOP(9, BIT(4))),
- 	DEF_MOD_NO_PM("cru_0_vclk",		CLK_PLLVDO_CRU0, 13, 3, 6, 19,
-@@ -503,6 +507,7 @@ static const struct rzv2h_reset r9a09g047_resets[] __initconst = {
- 	DEF_RST(10, 15, 5, 0),		/* USB2_0_PRESETN */
- 	DEF_RST(11, 0, 5, 1),		/* GBETH_0_ARESETN_I */
- 	DEF_RST(11, 1, 5, 2),		/* GBETH_1_ARESETN_I */
-+	DEF_RST_INIT_ASSERTED(11, 2, 5, 3),		/* PCIE_0_ARESETN */
- 	DEF_RST(12, 5, 5, 22),		/* CRU_0_PRESETN */
- 	DEF_RST(12, 6, 5, 23),		/* CRU_0_ARESETN */
- 	DEF_RST(12, 7, 5, 24),		/* CRU_0_S_RESETN */
+diff --git a/Documentation/devicetree/bindings/pci/renesas,r9a08g045-pcie.yaml b/Documentation/devicetree/bindings/pci/renesas,r9a08g045-pcie.yaml
+index d668782546a2..d1eb92995e2c 100644
+--- a/Documentation/devicetree/bindings/pci/renesas,r9a08g045-pcie.yaml
++++ b/Documentation/devicetree/bindings/pci/renesas,r9a08g045-pcie.yaml
+@@ -41,22 +41,22 @@ properties:
+ 
+   interrupt-names:
+     items:
+-      - description: serr
+-      - description: ser_cor
+-      - description: serr_nonfatal
+-      - description: serr_fatal
+-      - description: axi_err
+-      - description: inta
+-      - description: intb
+-      - description: intc
+-      - description: intd
+-      - description: msi
+-      - description: link_bandwidth
+-      - description: pm_pme
+-      - description: dma
+-      - description: pcie_evt
+-      - description: msg
+-      - description: all
++      - const: serr
++      - const: serr_cor
++      - const: serr_nonfatal
++      - const: serr_fatal
++      - const: axi_err
++      - const: inta
++      - const: intb
++      - const: intc
++      - const: intd
++      - const: msi
++      - const: link_bandwidth
++      - const: pm_pme
++      - const: dma
++      - const: pcie_evt
++      - const: msg
++      - const: all
+ 
+   interrupt-controller: true
+ 
+@@ -67,8 +67,8 @@ properties:
+ 
+   clock-names:
+     items:
+-      - description: aclk
+-      - description: pm
++      - const: aclk
++      - const: pm
+ 
+   resets:
+     items:
+@@ -82,13 +82,13 @@ properties:
+ 
+   reset-names:
+     items:
+-      - description: aresetn
+-      - description: rst_b
+-      - description: rst_gp_b
+-      - description: rst_ps_b
+-      - description: rst_rsm_b
+-      - description: rst_cfg_b
+-      - description: rst_load_b
++      - const: aresetn
++      - const: rst_b
++      - const: rst_gp_b
++      - const: rst_ps_b
++      - const: rst_rsm_b
++      - const: rst_cfg_b
++      - const: rst_load_b
+ 
+   power-domains:
+     maxItems: 1
 -- 
 2.25.1
 
