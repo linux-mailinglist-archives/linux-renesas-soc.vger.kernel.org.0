@@ -1,42 +1,42 @@
-Return-Path: <linux-renesas-soc+bounces-28326-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28327-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IBuHH5uQl2mU0gIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28326-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 23:37:15 +0100
+	id WBjqIsyQl2mU0gIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28327-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 23:38:04 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E5101633D2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 23:37:14 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id E80CD163444
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 23:38:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id AA21C3002924
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 22:37:09 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A831B300A3B6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Feb 2026 22:37:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EC4F2FD7C3;
-	Thu, 19 Feb 2026 22:37:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 351D632C933;
+	Thu, 19 Feb 2026 22:37:15 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB77032B998;
-	Thu, 19 Feb 2026 22:37:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D42732C301;
+	Thu, 19 Feb 2026 22:37:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771540628; cv=none; b=Qkt6ciVyRUvKXqhxpm76Vf6Zg06MfuJq7zz/809ME1/M7V/fTh7tWpE7ZLD39EhDY5ED8EOxKS7E8flRCaxGFx7aP9WPLz/L4KfDdhOGdgP26xTWwDz1oGx51s726jTKi9NAPmUsO2+9S4n8CndiJ3UDGJFDB+mUvm+9wxp+Qys=
+	t=1771540635; cv=none; b=WR0XP9SjnGuqsYnXmhPymlfaT6ENY2nX5YA631RHAgfK+T4UxnXoWKnKBoJlJ6iu2pYzfk4A6M9AG5xoiBiQfJ6bUgcBzNl/jSNaCeycRqj5I+wslSVyvPw57rlD4FSb3UHM70kfhDFASHBCqu3xN95cDTsV6vkd9oqMYuinGYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771540628; c=relaxed/simple;
-	bh=Y2huyglotK1YuV1UuywFHwjjH1KMxtqF9NmFYVkvW+Y=;
+	s=arc-20240116; t=1771540635; c=relaxed/simple;
+	bh=1mPeSpMXavE+gP09/MG/rXjr73XDLO8TunG4lm0And0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jXlFQBC0qTbBMZnQVqqBQNw4nd2HANS7bD+LDqKmMOTFzVQMstOSfSDuXFiqJVJQ7uZvlP3HX5FK999z+ATKu3r+ogSCwM8A/vvqzAiZ4uBV6Np0zPqSCZNX2+hiW1b4JYHHK5ebfMYeU4VWy8jewmA9K/V8dkRFFj/YU/0lLCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+	 MIME-Version; b=HJZRFBsUf7nE9t3lTjW2e+emcquY3ApVTLU4Rcjz2rIHLjpLVDcMTPe/4FS8LTfxpZ/6e1rD/+E1XuwzW0tKcyXYCL9o+UeOLAkyu8b5qknyxIpMRHgqRNmW6+D1srXDWHItvcAD7U+6z5FnBEgSNYF5azIA8yDYMIKQAgCEW3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: Ab2tgKQiSViRPRBtA3H5pQ==
-X-CSE-MsgGUID: qkd44BxNTtWceztmXz7lHQ==
+X-CSE-ConnectionGUID: NUco/NHORUiCont253PKFg==
+X-CSE-MsgGUID: wbJ9mvlgSUCRRM66OemknA==
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 20 Feb 2026 07:37:06 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 20 Feb 2026 07:37:12 +0900
 Received: from ubuntu.adwin.renesas.com (unknown [10.24.0.22])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 2C33C4010DDE;
-	Fri, 20 Feb 2026 07:37:00 +0900 (JST)
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 1EF0D400619C;
+	Fri, 20 Feb 2026 07:37:06 +0900 (JST)
 From: John Madieu <john.madieu.xa@bp.renesas.com>
 To: claudiu.beznea.uj@bp.renesas.com,
 	lpieralisi@kernel.org,
@@ -55,9 +55,9 @@ Cc: robh@kernel.org,
 	linux-clk@vger.kernel.org,
 	john.madieu@gmail.com,
 	John Madieu <john.madieu.xa@bp.renesas.com>
-Subject: [PATCH v6 11/16] PCI: rzg3s-host: Explicitly set class code for RZ/G3E compatibility
-Date: Thu, 19 Feb 2026 23:35:37 +0100
-Message-ID: <20260219223542.6364-12-john.madieu.xa@bp.renesas.com>
+Subject: [PATCH v6 12/16] PCI: rzg3s-host: Add PCIe Gen3 (8.0 GT/s) link speed support
+Date: Thu, 19 Feb 2026 23:35:38 +0100
+Message-ID: <20260219223542.6364-13-john.madieu.xa@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260219223542.6364-1-john.madieu.xa@bp.renesas.com>
 References: <20260219223542.6364-1-john.madieu.xa@bp.renesas.com>
@@ -74,13 +74,13 @@ X-Spamd-Result: default: False [1.64 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	DMARC_POLICY_SOFTFAIL(0.10)[renesas.com : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-28326-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-28327-lists,linux-renesas-soc=lfdr.de];
 	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -93,19 +93,21 @@ X-Spamd-Result: default: False [1.64 / 15.00];
 	NEURAL_HAM(-0.00)[-0.968];
 	FROM_NEQ_ENVFROM(0.00)[john.madieu.xa@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bp.renesas.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 9E5101633D2
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email,bp.renesas.com:mid]
+X-Rspamd-Queue-Id: E80CD163444
 X-Rspamd-Action: no action
 
-Program the class code register explicitly during PCIe configuration
-initialization. RZ/G3E requires this register to be set, while RZ/G3S
-has these values as hardware defaults.
+Extend the link speed configuration to support Gen3 (8.0 GT/s) in addition
+to Gen2 (5.0 GT/s). This is required for RZ/G3E PCIe host support, which is
+Gen3 capable.
 
-This configuration is harmless for RZ/G3S where these match the hardware
-defaults, and necessary for RZ/G3E to properly identify the device as a
-PCI bridge.
+Instead of relying on DT max-link-speed for configuration, read the hardware
+capabilities from the PCI_EXP_LNKCAP register to determine the maximum
+supported speed. The DT max-link-speed property is now only used as an
+optional limit when explicitly specified, which aligns with PCIe subsystem
+expectations.
 
 Reviewed-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
@@ -113,43 +115,76 @@ Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
 
 Changes:
 
-v6: Collected Rb tag from Claudiu
-v5:
- - Used field_prep for non-constant mask to fix test robot warnings
-
+v6: No changes
+v5: No changes
 v4: No changes
 v3: No changes
-v2: No changes
+v2: Collected tag.
 
- drivers/pci/controller/pcie-rzg3s-host.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/pci/controller/pcie-rzg3s-host.c | 26 ++++++++++++++++++------
+ 1 file changed, 20 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/pci/controller/pcie-rzg3s-host.c b/drivers/pci/controller/pcie-rzg3s-host.c
-index c66532a3dae0..f7c23a56da5f 100644
+index f7c23a56da5f..413978feba1a 100644
 --- a/drivers/pci/controller/pcie-rzg3s-host.c
 +++ b/drivers/pci/controller/pcie-rzg3s-host.c
-@@ -1065,6 +1065,7 @@ static int rzg3s_pcie_set_max_link_speed(struct rzg3s_pcie_host *host)
- static int rzg3s_pcie_config_init(struct rzg3s_pcie_host *host)
+@@ -988,8 +988,9 @@ static int rzg3s_pcie_set_max_link_speed(struct rzg3s_pcie_host *host)
  {
- 	struct pci_host_bridge *bridge = pci_host_bridge_from_priv(host);
-+	u32 mask = GENMASK(31, 8);
- 	struct resource_entry *ft;
- 	struct resource *bus;
- 	u8 subordinate_bus;
-@@ -1088,6 +1089,13 @@ static int rzg3s_pcie_config_init(struct rzg3s_pcie_host *host)
- 	writel_relaxed(0xffffffff, host->pcie + RZG3S_PCI_CFG_BARMSK00L);
- 	writel_relaxed(0xffffffff, host->pcie + RZG3S_PCI_CFG_BARMSK00U);
+ 	u32 remote_supported_link_speeds, max_supported_link_speeds;
+ 	u32 cs2, tmp, pcie_cap = RZG3S_PCI_CFG_PCIEC;
+-	u32 cur_link_speed, link_speed;
++	u32 cur_link_speed, link_speed, hw_max_speed;
+ 	u8 ltssm_state_l0 = 0xc;
++	u32 lnkcap;
+ 	int ret;
+ 	u16 ls;
  
-+	/*
-+	 * Explicitly program class code. RZ/G3E requires this configuration.
-+	 * Harmless for RZ/G3S where this matches the hardware default.
-+	 */
-+	rzg3s_pcie_update_bits(host->pcie, PCI_CLASS_REVISION, mask,
-+			       field_prep(mask, PCI_CLASS_BRIDGE_PCI_NORMAL));
+@@ -1009,7 +1010,22 @@ static int rzg3s_pcie_set_max_link_speed(struct rzg3s_pcie_host *host)
+ 	ls = readw_relaxed(host->pcie + pcie_cap + PCI_EXP_LNKSTA);
+ 	cs2 = readl_relaxed(host->axi + RZG3S_PCI_PCSTAT2);
+ 
+-	switch (pcie_link_speed[host->max_link_speed]) {
++	/* Read hardware supported link speed from Link Capabilities Register */
++	lnkcap = readl_relaxed(host->pcie + pcie_cap + PCI_EXP_LNKCAP);
++	hw_max_speed = FIELD_GET(PCI_EXP_LNKCAP_SLS, lnkcap);
 +
- 	/* Disable access control to the CFGU */
- 	writel_relaxed(0, host->axi + RZG3S_PCI_PERM);
++	/*
++	 * Use DT max-link-speed only as a limit. If specified and lower
++	 * than hardware capability, cap to that value.
++	 */
++	if (host->max_link_speed > 0 && host->max_link_speed < hw_max_speed)
++		hw_max_speed = host->max_link_speed;
++
++	switch (pcie_link_speed[hw_max_speed]) {
++	case PCIE_SPEED_8_0GT:
++		max_supported_link_speeds = GENMASK(PCI_EXP_LNKSTA_CLS_8_0GB - 1, 0);
++		link_speed = PCI_EXP_LNKCTL2_TLS_8_0GT;
++		break;
+ 	case PCIE_SPEED_5_0GT:
+ 		max_supported_link_speeds = GENMASK(PCI_EXP_LNKSTA_CLS_5_0GB - 1, 0);
+ 		link_speed = PCI_EXP_LNKCTL2_TLS_5_0GT;
+@@ -1025,10 +1041,10 @@ static int rzg3s_pcie_set_max_link_speed(struct rzg3s_pcie_host *host)
+ 	remote_supported_link_speeds &= max_supported_link_speeds;
  
+ 	/*
+-	 * Return if max link speed is already set or the connected device
++	 * Return if target link speed is already set or the connected device
+ 	 * doesn't support it.
+ 	 */
+-	if (cur_link_speed == host->max_link_speed ||
++	if (cur_link_speed == hw_max_speed ||
+ 	    remote_supported_link_speeds != max_supported_link_speeds)
+ 		return 0;
+ 
+@@ -1640,8 +1656,6 @@ static int rzg3s_pcie_probe(struct platform_device *pdev)
+ 	host->pcie = host->axi + RZG3S_PCI_CFG_BASE;
+ 
+ 	host->max_link_speed = of_pci_get_max_link_speed(np);
+-	if (host->max_link_speed < 0)
+-		host->max_link_speed = 2;
+ 
+ 	ret = rzg3s_pcie_host_parse_port(host);
+ 	if (ret)
 -- 
 2.25.1
 
