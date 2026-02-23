@@ -1,133 +1,182 @@
-Return-Path: <linux-renesas-soc+bounces-28390-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28391-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EC84LiRHnGk7CgQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28390-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Feb 2026 13:25:08 +0100
+	id EJAgF21InGmODAQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28391-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Feb 2026 13:30:37 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09D7017615D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Feb 2026 13:25:07 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8BB91761C3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Feb 2026 13:30:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3B7AE302353F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Feb 2026 12:24:13 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 56D6D302B4EB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Feb 2026 12:30:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9552B3659E0;
-	Mon, 23 Feb 2026 12:24:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E3C61DFF0;
+	Mon, 23 Feb 2026 12:30:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ClSzMfw2"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="g05gBGUQ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 719D136073E
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Feb 2026 12:24:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26D823EBF38
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Feb 2026 12:30:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771849452; cv=none; b=C6m3zI/Z0SEEAK8+QGf33/t578h7ZpiqQr1Yvp914K4vcDwaFcete2DLpXMc58fhQDEHyFELIMLfzwlWGJukOZYxH9d/4jV0MbXq+BePa5Y92ctUuAG1DOkAmT2NWXMF5TLHCZw/VVCiGMwI8kSGkV6zxlK/Mct1S91tpChOj3o=
+	t=1771849834; cv=none; b=DedRF5/sU2AYI3gr7t8ena7mDiPEKidoPOk7mC31l8mYcB+slyaWc74nE10ebkrfUS7UjBYigHBomXf/15aU86nrRz6VnsATpZj6NV2S67SvLM8K5vavTgaXv0Mn7Er13Oe1I7JwwScD//0WybIYLTkxyW2xlvRtXcFZYjSOTPQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771849452; c=relaxed/simple;
-	bh=XHFXKaxBhs6qPw8s6WYbor1MvvJGijgDWMApY68L/Es=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ijIKIqe9CV4v6doR7F73+/TRPRLGCcCzZ83j6cgVE4ZZ7JX15Q6Pzk0l81+a+hhjhWPsSAb8VkAYM4+HPVm9aSkUiUAnLmS0xS+TtWOjKA8qR1bnPy+e6Va6hYPt/dqMhnG7FhlkazawAsVgk+c0cy8EBCLiodcRwPMpYYGQYiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ClSzMfw2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47E4CC116D0
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Feb 2026 12:24:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771849452;
-	bh=XHFXKaxBhs6qPw8s6WYbor1MvvJGijgDWMApY68L/Es=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=ClSzMfw2KGoHmbmLFUNqTHr5b1P9SdFYE4875XrXSwHp9EVpJcT4cAVStfcNuJpJT
-	 ywl4dHgQQJFGugpJybkmfUbs8tXr0PRNFva6SeKD2pY9cX9AfhjFt4hYVVJa91cTgu
-	 LDuXa3L4pss8seTX67/Q/1RD8qwzkl/cAvdq8vIGL/a7UqaT6bXgaz93V/3BA2958k
-	 vFmtE9yXjpTdbLVFMqhaAxebIF8A4jGHG4eobCg3trTYrPv8YlW/r4oyjPAZvoQXb3
-	 Avo4KOx2SZaLrhq4oLam2WFQbMRsIU5Sav0kNCPoiXSfL6PKGuJ0lP3BgX/lXXRHWr
-	 W3Hz8qqtvmfuw==
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-59b672f8ec4so4248121e87.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Feb 2026 04:24:12 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXGzdxZLnx7+UaiwtCDj43UZ7k8TSB3+w1SD9HHHf/BT229ye7c//PJHgEebuDzMvIEpTW7x08pt2f9sVlTSA1WUw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YySqh6X6d2q+A305lyGeCvTUeuGk1at3woqSUAKtJB2ehyIn2+w
-	FKzGVuQ9hPjEmUdnRZqHM6w8ad3Lw5yL6W1qc/w7LjHmM+pIa4ymaxA7GUKIokw1Va/3IfDukaQ
-	Xvh+t4U4fvb3W2g+cQE7kURsd/MOh8sswu32QcU5rqQ==
-X-Received: by 2002:a05:6512:2316:b0:59d:d615:4b72 with SMTP id
- 2adb3069b0e04-5a0ed9a83f8mr2281473e87.25.1771849450656; Mon, 23 Feb 2026
- 04:24:10 -0800 (PST)
+	s=arc-20240116; t=1771849834; c=relaxed/simple;
+	bh=923c3NqET0vxWLpiprjGMj8pd9vcKQT6DVGRruyY0g8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DLzD+f/ukkCV4ohC6EPCfv+maqVbsj8D+XqbJXtfmbROnyFoSSJCxUjLRjYNrZWD4xw4DnTnLwGtgewK2HKGRmWJRuQJnOCKeZU6QF7buRN0RUfsW1MfvohMS+eyC9uLLbfKddfGRiy4KCFJjM2AtublhyxCNqR2vzEoY3Q4VkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=g05gBGUQ; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=2vQfjcTzhHNIl6
+	+bGGQ3YxN3ez/JoP7MMD8Hva79Q2w=; b=g05gBGUQu5e6q97sB5RX3QUNYy5Qrn
+	Tdxc6FdGFrf/a5+EyYsRfMhx3LelXPqe+hsVNQmbE4YYYKA8ro0MQhqC4Ow4kQrm
+	YiAhgT1HGiRSO64ODrN3fQfg0RKvy6qO4okO/DvRIl7OaJeN+TKtyra9tW3wBamL
+	r6iuVxE8GS3c96yTztjglzAjVFYzGm2bSeLFQwZrUWkQiJvEVCUzx/zuWwrd96Na
+	xUJ4AKBymezIT8AcFCKUCNKOzCFT/Q4GERjrtTFMsFRrPIqQksAAziQJagJsQyhz
+	yoXbyQpEpDpS5PaqSymz2QrOdSgI7W6077dGfr5miA+6e0uI32AiG7LA==
+Received: (qmail 2306731 invoked from network); 23 Feb 2026 13:30:30 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 23 Feb 2026 13:30:30 +0100
+X-UD-Smtp-Session: l3s3148p1@ztK273xLqL0gAwDPXzF+ANZpdrMKUeLI
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Jassi Brar <jassisinghbrar@gmail.com>
+Subject: [PATCH v2] mailbox: test: really ignore optional memory resources
+Date: Mon, 23 Feb 2026 13:27:31 +0100
+Message-ID: <20260223123022.7657-2-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260223-i2c-ada-dev-set-node-v2-0-77018c536610@oss.qualcomm.com>
- <20260223-i2c-ada-dev-set-node-v2-8-77018c536610@oss.qualcomm.com> <aZw-MX4NvafqUVsy@smile.fi.intel.com>
-In-Reply-To: <aZw-MX4NvafqUVsy@smile.fi.intel.com>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Mon, 23 Feb 2026 13:23:54 +0100
-X-Gmail-Original-Message-ID: <CAMRc=Mf1==xy31_cf5sNS=GiGxhh8vXzZS1mgPzsro+BmsGEwQ@mail.gmail.com>
-X-Gm-Features: AaiRm52Edj1KUe1BtPU4aexOD31BhZqpGcyhXaRBZ1csZIdxbFf-D5NUM1cpEP8
-Message-ID: <CAMRc=Mf1==xy31_cf5sNS=GiGxhh8vXzZS1mgPzsro+BmsGEwQ@mail.gmail.com>
-Subject: Re: [PATCH v2 8/9] i2c: designware-amdisp: use i2c_adapter_set_node()
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Mika Westerberg <mika.westerberg@linux.intel.com>, Jan Dabros <jsd@semihalf.com>, 
-	Andi Shyti <andi.shyti@kernel.org>, Lixu Zhang <lixu.zhang@intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Binbin Zhou <zhoubinbin@loongson.cn>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Israel Cepeda <israel.a.cepeda.lopez@intel.com>, Hans de Goede <hansg@kernel.org>, 
-	Nirujogi Pratap <pratap.nirujogi@amd.com>, Bin Du <bin.du@amd.com>, Hans Hu <hanshu@zhaoxin.com>, 
-	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[sang-engineering.com:s=k1];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-28390-lists,linux-renesas-soc=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[brgl@kernel.org,linux-renesas-soc@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	TAGGED_FROM(0.00)[bounces-28391-lists,linux-renesas-soc=lfdr.de,renesas];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	DMARC_NA(0.00)[sang-engineering.com];
+	FREEMAIL_CC(0.00)[vger.kernel.org,sang-engineering.com,gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[sang-engineering.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 09D7017615D
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[wsa@sang-engineering.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sang-engineering.com:mid,sang-engineering.com:dkim,sang-engineering.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: E8BB91761C3
 X-Rspamd-Action: no action
 
-On Mon, Feb 23, 2026 at 12:47=E2=80=AFPM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> On Mon, Feb 23, 2026 at 10:08:26AM +0100, Bartosz Golaszewski wrote:
-> > Use the dedicated wrapper for setting the fwnode of the i2c_adapter.
-> > This allows us to hide the dereferencing of the embedded struct device.
->
-> This should be united with patch 2.
-> For this kind of patches I would not make the split like this.
->
-> But if Andi is okay to take as is, I won't object (this is minor thing).
->
+Memory resources are optional but if the resource is empty
+devm_platform_get_and_ioremap_resource() prints an error nonetheless.
+Refactor the code to check the resources locally first and process them
+only if they are present. The -EBUSY error message of ioremap_resource()
+is still kept because it is correct. The comment which explains that a
+plain ioremap() is tried as a workaround is turned into a info message.
+So, a user will be informed about it, too.
 
-Gah, I folded this into this series but forgot to squash it into the
-original designware patch. It can be squashed in-tree by Wolfram or I
-can resend it.
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
 
-Bart
+Change since v1:
+* don't fail if second region is empty but use the first region instead
+* refactor into separate function for consistent handling of both
+  regions and to make the logic in probe() more obvious
+
+ drivers/mailbox/mailbox-test.c | 40 ++++++++++++++++++++--------------
+ 1 file changed, 24 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/mailbox/mailbox-test.c b/drivers/mailbox/mailbox-test.c
+index 3a28ab5c42e5..309610ba43a1 100644
+--- a/drivers/mailbox/mailbox-test.c
++++ b/drivers/mailbox/mailbox-test.c
+@@ -355,11 +355,30 @@ mbox_test_request_channel(struct platform_device *pdev, const char *name)
+ 	return channel;
+ }
+ 
+-static int mbox_test_probe(struct platform_device *pdev)
++static void *mbox_test_ioremap(struct platform_device *pdev, unsigned int res_num)
+ {
+-	struct mbox_test_device *tdev;
+ 	struct resource *res;
+ 	resource_size_t size;
++	void *mmio = NULL;
++
++	res = platform_get_resource(pdev, IORESOURCE_MEM, res_num);
++	if (res) {
++		mmio = devm_ioremap_resource(&pdev->dev, res);
++		if (PTR_ERR(mmio) == -EBUSY) {
++			dev_info(&pdev->dev, "trying workaround with plain ioremap\n");
++			size = resource_size(res);
++			mmio = devm_ioremap(&pdev->dev, res->start, size);
++		} else if (IS_ERR(mmio)) {
++			mmio = NULL;
++		}
++	}
++
++	return mmio;
++}
++
++static int mbox_test_probe(struct platform_device *pdev)
++{
++	struct mbox_test_device *tdev;
+ 	int ret;
+ 
+ 	tdev = devm_kzalloc(&pdev->dev, sizeof(*tdev), GFP_KERNEL);
+@@ -367,23 +386,12 @@ static int mbox_test_probe(struct platform_device *pdev)
+ 		return -ENOMEM;
+ 
+ 	/* It's okay for MMIO to be NULL */
+-	tdev->tx_mmio = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+-	if (PTR_ERR(tdev->tx_mmio) == -EBUSY) {
+-		/* if reserved area in SRAM, try just ioremap */
+-		size = resource_size(res);
+-		tdev->tx_mmio = devm_ioremap(&pdev->dev, res->start, size);
+-	} else if (IS_ERR(tdev->tx_mmio)) {
+-		tdev->tx_mmio = NULL;
+-	}
++	tdev->tx_mmio = mbox_test_ioremap(pdev, 0);
+ 
+ 	/* If specified, second reg entry is Rx MMIO */
+-	tdev->rx_mmio = devm_platform_get_and_ioremap_resource(pdev, 1, &res);
+-	if (PTR_ERR(tdev->rx_mmio) == -EBUSY) {
+-		size = resource_size(res);
+-		tdev->rx_mmio = devm_ioremap(&pdev->dev, res->start, size);
+-	} else if (IS_ERR(tdev->rx_mmio)) {
++	tdev->rx_mmio = mbox_test_ioremap(pdev, 1);
++	if (!tdev->rx_mmio)
+ 		tdev->rx_mmio = tdev->tx_mmio;
+-	}
+ 
+ 	tdev->tx_channel = mbox_test_request_channel(pdev, "tx");
+ 	tdev->rx_channel = mbox_test_request_channel(pdev, "rx");
+-- 
+2.51.0
+
 
