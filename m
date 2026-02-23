@@ -1,251 +1,176 @@
-Return-Path: <linux-renesas-soc+bounces-28405-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28406-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MO9/H91ZnGmzEgQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28405-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Feb 2026 14:45:01 +0100
+	id QNSQHvtanGmzEgQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28406-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Feb 2026 14:49:47 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65F841772E2
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Feb 2026 14:45:01 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9ABD1774AB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Feb 2026 14:49:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id CB9C2302690B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Feb 2026 13:44:52 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D27E73046E88
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Feb 2026 13:46:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B2D0243951;
-	Mon, 23 Feb 2026 13:44:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48FF0246BC0;
+	Mon, 23 Feb 2026 13:46:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Mn6By/yF"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GEhfoMxg"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66A82235045
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Feb 2026 13:44:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771854288; cv=pass; b=YElLjyJG9MNmhM4i7x7Jlm1f7fkWxhSNKnl7Awq6GztlaGde2j1Xy4Uu+jj6gzcIzqnppIrg/1C3OP0NlhuBJ4urLcQesFrp3EBeCVgNUBA0IjGNxT9BTXT0Wan2mFj/8v9XltDdfweYuuhAvktN504urxto+dBm8fVO2WHtkbk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771854288; c=relaxed/simple;
-	bh=sR1JFSsAon01OtvSAsV6/RGrd106y8rHwXlJpuS8MH0=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26163246BC5
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Feb 2026 13:46:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771854372; cv=none; b=M8k/iG/EYuJKZcKkPnLvS7VRvxOTWLZx6X8XcQ8OeFH77x/hz1gCjpiNvV5XOsGnfvX2bVg1ALS9RZHOKQB0IjbjkFHooJZm4j0gHNnF68eaB5aQTHfGDo8m0gksKsGb7et/t4zOL4YFRkgrvCbOmDW+7BHa4+zLdWI0p6FVhm4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771854372; c=relaxed/simple;
+	bh=xHD4QsgF9yMDfM9DNpu+nmQETYKEDBFK3tSyRcSPFXU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=P/bJ2L1cLq6gw8gpLBr70iwS81vsy9TRM6m6U2ByHkZa/Ui9yHh/QYg6qjH0xbIXpp9UmElmNLjWej1cSuYBNgX71oM+6eMs0SyV27L7OKRrbJY5LMzi/q9bUUMAhZnmy11J3izh9nAQWYHHhOI6q5DkUhCD36D7uygGSGbH2QY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Mn6By/yF; arc=pass smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-59e4989dacdso4476978e87.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Feb 2026 05:44:46 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771854285; cv=none;
-        d=google.com; s=arc-20240605;
-        b=WiTbSuSthknuqu+iTqBNeezYzNQRlzItR83xJrT/piLQ2n6RC4nWmGe+tt+L2DHTCc
-         huIuhQDPtIFCSjozv3iDOLntYPl+9s4syx+WYu/WfOwmkY4OSqRkd/0sSgaYOleyTGbO
-         nO35q38zplN8MjTsNzPFs8J0PwBxpdX7fpH1ALbmTsMbe+dgV4sd6uWL4k/WxSa7A9wD
-         PYU9YKXGgHDBFRk4FC1uQt//wtdv6lyw7qobRlgZ9+TP+2SyZp7lkwZb9jVqRzOZz7EJ
-         yCiPQpn3on/+2ifWlcVtMMCzI9AGVgBWJmUDEH9PjENQqJ0KQ/TMtRLwx4ismh6DdVvr
-         axZA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Fhetx7uwtFJRgRkUexEhKn5KeWaKODjWdb8CIbVt7HA=;
-        fh=frSJcKOuZhCNUbDCbv8VvlEVXkm7PhqglxgHgYQnqbs=;
-        b=iXkXskre9abPZeljYBcFi39LDevUHviAR2RbdIPkrbHd9esaGiWcPAMmK9qiLJEzzz
-         VKNNLuslJv1waBXoTCx5j1g5Ycr0Wp9NJ38xRt/ieHcrRBN8H+i8swvfjaLTuUCSIvfV
-         wXZMmXkpeAL7KCcuQygpkEJrHrje4r59evZSya4CGcVO6r0DM6/MI0Us17XbPQ/E2GYi
-         qH5R2WMGYNVp0m+8adSAjtf8IsvoK/U2lESkS1RqYFAgoUdV4RKk6hIAozZpuFxN89Ri
-         feE2OC92LCp4hsHSGbpBWaNibhR/cqPE+BYPHzxz3IlJvhHTqNlTMEUL/RxJeXek4BsC
-         9jaQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1771854285; x=1772459085; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Fhetx7uwtFJRgRkUexEhKn5KeWaKODjWdb8CIbVt7HA=;
-        b=Mn6By/yFk66UzcpBhl82x6Y1icrzzwKx9TUqEq3avBMnSHH/WPGJyCzaC3X+5e5n2K
-         7bDTmcVGAZib/lFAPpQS4zMhkeXu1HrYYx1cv3XLXC2baXFEJz0XfoQAvyESmb3L+kov
-         m8dOcBWKh0Nd9Dk0z+OBiGcWj3EDk5E/1l49nKJqzfTmM0RsHFeSxMB2oY8IyO5gUP3i
-         9tFtVAJdHs0MvdjgqSktkuXY9C5WkZah8ldRFmKDb+zeQaNPVhQ1wVnpYdTyKVqJFi0z
-         k0hdwI1KdLLql/L472glJMnAZ1CMcfcaaKq/2ndxHwGkyetsnWfyB5b+Zi5aQxebeWze
-         YszA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771854285; x=1772459085;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Fhetx7uwtFJRgRkUexEhKn5KeWaKODjWdb8CIbVt7HA=;
-        b=IWsO2JCEGcsSKT6So4WfX64g32zGzyhX3wArvnUvgfW9j7tT9Gi2LGmORUJU27Wvon
-         dL3/erVmz5H5Bnj0BUfkI+O0YLCmRppUjMwDw46hH/9H5QfbBQBRwjLll1CCVQ5U1qAk
-         RXvXeQTQq8kuiRzl7c29DXL3wLwnUidhNNLxtfwGpnQgAPhrt8gLQKLaNZUuF1/Oehv0
-         FFoJJjIPFEajb31i7oQYeuMLjY//q0u24q8q1qCLUDs3l3D07lvnpk27HiSMpuCJcCjX
-         QPjuoZ3x5V5KqiyZCC/0Cav6PM67w36Uy12u15dNcgtfVzNXf3QRJSM/GiAqz9unQnZv
-         s5xg==
-X-Forwarded-Encrypted: i=1; AJvYcCW8F0Wp8JDdOhA6M3YIdLr8iag2/MaC5EbjFhReR3dxAvfSPLvA6aKdHj3wyelvI3so84blubL1INKfploYYszRfA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw5nfGFb+ocdptsRAMH4dhgCnQlg5bQeiPnQlCC4qaJbWjvpFel
-	p2RIBSvMkuXxVa3oEwYP7XmsDSCcyHh5AiI8lIELa1xy3q0etO3mnjwpsVCZZhlX1DgoFK4X3K4
-	f9XaXNHl5e9WEbtoT/cKNAGqoDg/u/66xkLrJwrQuoA==
-X-Gm-Gg: AZuq6aK3zq0QXCAfnjRzjRgKT+YWKw8vDpJCljJlNVqMP4uAH4vVPU8HGdaJpnnQZ/I
-	9KHacK5fuNfEW487tgSJ/nDLzO8Y4uMlYfy+U9XS8xMELahP3vgPjumgpBGPtAJ4YH0KsSh5WiW
-	ONdc4qAG/sCljw4J0iiew1b71Tunr6R2/hRdb5wp0YcLQaZSZ5Ib+Q1IsfKnA2VlqRpMuo3/pT0
-	5jWB/Paj6EC7+HCAK1HZ+y2nXWDIL1FhhCPEDLc4fJg9YhBsta4KQ/fsHnGhbVcjHCqZN70iLBq
-	aKE4CY34
-X-Received: by 2002:a05:6512:318f:b0:59e:63b7:585e with SMTP id
- 2adb3069b0e04-5a0ed99f1fcmr2755602e87.36.1771854284344; Mon, 23 Feb 2026
- 05:44:44 -0800 (PST)
+	 To:Cc:Content-Type; b=UjvOtmb0Ea6LmC/K6bnNRFOyXdPza/AVOYBuFzbEDd/vMUqiHfVKhjo/9GqRM4VN0f2Pzcuh2eyR0PTWPGvOjrR9k7zJuMQYjqsr4QjfAyI4yFPyqHH6nsZ6eOx/lB7wJVg6ZenWrXA9xuJaaZ5sJRUZNTyK9t8bkyMn0Uzl4nk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GEhfoMxg; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E916BC2BCB5
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Feb 2026 13:46:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771854371;
+	bh=xHD4QsgF9yMDfM9DNpu+nmQETYKEDBFK3tSyRcSPFXU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=GEhfoMxgLPcp6nwBkt61gmLigCTkVgwWzwT0WQNgF2v2B5l7cMU1ELQLt3YHmIdBn
+	 5SAQ9FzxXxdkTsua8QRJaj+XmvK4QG19qdTYwSzCjypit9H1KiTPwRh7FtCZ6tkqcX
+	 WXpeV/sajncXIUIIM0tJHwJ+863yKm8QK5ecZ7hYMEBA+EhmHfW947NBkxOv/P6+k/
+	 5GU11vmBKyLibQb0nd9eewN2w9Z4NQ7gR1ADROg8pSR6Ed5Wd9ZTSFn/kjg+XTxOHP
+	 BfaZYFe56E19NFL/uM6za8z+9EKP3PS01Q5PvG/36tELIOBRvrtFao503jbbYj73m9
+	 ywb3HTeKvIDsw==
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-59f850cdeafso4634962e87.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Feb 2026 05:46:11 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWH29bik+N+fY2zaQQ+asueZwRE7KHvo2LtXiGMKK8NL7MnPv9UvIn+jwTsZ1mKcps8lysJvsXW1upZNxl4gktelg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxWu2G3LEj68aITXPpQoa6F+nU6wKafEGBSKGHYj6asb/Jaet9P
+	OV/nQMBf05DcB7f8FbQQKUj82uezoOyWixO2yQIQ6CTpwfKEdhp5ooYOjCccNYQzOeTeQ5OWjvf
+	qJwSxLYrMqtdhYcZjE8iUxyyZgdXCvKlLtNKY4T+Psg==
+X-Received: by 2002:a05:6512:1553:20b0:5a0:ef6b:f613 with SMTP id
+ 2adb3069b0e04-5a0ef6bf704mr1540983e87.1.1771854370177; Mon, 23 Feb 2026
+ 05:46:10 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260208-rz-sdio-mux-v9-0-9a3be13c1280@solid-run.com>
- <20260208-rz-sdio-mux-v9-1-9a3be13c1280@solid-run.com> <20260212164823.mbeycqwzsy2dfq6e@skbuf>
- <CAMuHMdVOqovkugmCnR4FOfk8VkQyN_dmyKFzbsOSN0mPKQedeQ@mail.gmail.com>
- <f9ede0d3-6a37-449c-b62b-a5c761ece097@solid-run.com> <20260216092914.kmvl7aep7dantcsd@skbuf>
- <20260216162406.0121dd91@kemnade.info> <203a36fb-6ac9-41f6-80ce-b137b9db4ad1@solid-run.com>
-In-Reply-To: <203a36fb-6ac9-41f6-80ce-b137b9db4ad1@solid-run.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Mon, 23 Feb 2026 14:44:07 +0100
-X-Gm-Features: AaiRm53IT_Xzv6_ZjZsPbjTua3wzc0_3fH4fOJcUrcKMz5LLxYEEUcMyBCE8pyI
-Message-ID: <CAPDyKFrtTaJ5fqqbGrE_K6SAdTZYUfp-BycGjtWs4SabwBysKA@mail.gmail.com>
-Subject: Re: [PATCH v9 1/7] phy: can-transceiver: rename temporary helper
- function to avoid conflict
-To: Josua Mayer <josua@solid-run.com>
-Cc: Andreas Kemnade <andreas@kemnade.info>, Vladimir Oltean <olteanv@gmail.com>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, Marc Kleine-Budde <mkl@pengutronix.de>, 
-	Vincent Mailhol <mailhol@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Peter Rosin <peda@axentia.se>, 
-	Aaro Koskinen <aaro.koskinen@iki.fi>, Kevin Hilman <khilman@baylibre.com>, 
-	Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>, 
-	Janusz Krzysztofik <jmkrzyszt@gmail.com>, Vignesh R <vigneshr@ti.com>, 
-	Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Yazan Shhady <yazan.shhady@solid-run.com>, Jon Nettleton <jon@solid-run.com>, 
-	Mikhail Anikin <mikhail.anikin@solid-run.com>, 
-	"linux-can@vger.kernel.org" <linux-can@vger.kernel.org>, 
-	"linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-omap@vger.kernel.org" <linux-omap@vger.kernel.org>, 
-	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>, 
-	"linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+References: <20260119-soc-of-root-v1-0-32a0fa9a78b4@oss.qualcomm.com>
+ <20260119-soc-of-root-v1-7-32a0fa9a78b4@oss.qualcomm.com> <CAMuHMdU56p9jH8OZ5bpwKq8Q31C-8X85YAjiXZm8amYdo+Xotw@mail.gmail.com>
+In-Reply-To: <CAMuHMdU56p9jH8OZ5bpwKq8Q31C-8X85YAjiXZm8amYdo+Xotw@mail.gmail.com>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Mon, 23 Feb 2026 14:45:58 +0100
+X-Gmail-Original-Message-ID: <CAMRc=MeC-MTzEOVw0j4Kq9T0bSXk2gKJr=jn2jO8tqfS7BEteQ@mail.gmail.com>
+X-Gm-Features: AaiRm53YdoncmLlrYwWxzOjKhAAi91ZYzJ0VCyHsDsiPleMxR8Z5ZNNGKc2eDc4
+Message-ID: <CAMRc=MeC-MTzEOVw0j4Kq9T0bSXk2gKJr=jn2jO8tqfS7BEteQ@mail.gmail.com>
+Subject: Re: [PATCH 7/8] soc: renesas: don't access of_root directly
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Rob Herring <robh@kernel.org>, 
+	Saravana Kannan <saravanak@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, Chen-Yu Tsai <wens@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, 
+	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-28405-lists,linux-renesas-soc=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[kemnade.info,gmail.com,linux-m68k.org,pengutronix.de,kernel.org,linaro.org,axentia.se,iki.fi,baylibre.com,atomide.com,ti.com,glider.be,sang-engineering.com,solid-run.com,vger.kernel.org,lists.infradead.org];
-	RCPT_COUNT_TWELVE(0.00)[33];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ulf.hansson@linaro.org,linux-renesas-soc@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-28406-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_CC(0.00)[oss.qualcomm.com,kernel.org,linuxfoundation.org,pengutronix.de,gmail.com,glider.be,sholland.org,vger.kernel.org,lists.ozlabs.org,lists.infradead.org,lists.linux.dev];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	NEURAL_HAM(-0.00)[-0.999];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[24];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,infradead.org:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,linaro.org:dkim]
-X-Rspamd-Queue-Id: 65F841772E2
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[brgl@kernel.org,linux-renesas-soc@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,qualcomm.com:email,mail.gmail.com:mid,linux-m68k.org:email]
+X-Rspamd-Queue-Id: C9ABD1774AB
 X-Rspamd-Action: no action
 
-On Mon, 23 Feb 2026 at 13:44, Josua Mayer <josua@solid-run.com> wrote:
+On Mon, Jan 19, 2026 at 8:25=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
 >
-> Am 16.02.26 um 16:24 schrieb Andreas Kemnade:
-> > On Mon, 16 Feb 2026 11:29:14 +0200
-> > Vladimir Oltean <olteanv@gmail.com> wrote:
+> Hi Bartosz,
+>
+> On Mon, 19 Jan 2026 at 11:40, Bartosz Golaszewski
+> <bartosz.golaszewski@oss.qualcomm.com> wrote:
+> > Don't access of_root directly as it reduces the build test coverage for
+> > this driver with COMPILE_TEST=3Dy and OF=3Dn. Use existing helper funct=
+ions
+> > to retrieve the relevant information.
 > >
-> >> Hi Josua,
-> >>
-> >> On Mon, Feb 16, 2026 at 08:19:27AM +0000, Josua Mayer wrote:
-> >>>>> In the future, when you have a series with cross-tree dependencies,
-> >>>>> please try to think of it as individual mini-series for each tree's
-> >>>>> 'next' branch, and specify clearly that you need stable tags (to be
-> >>>>> pulled into other trees).
-> >>> I don't really understand how I could split my series up to avoid this
-> >>> issue.
-> >>>
-> >>> Due to the fact that one (and now two) drivers implemented local
-> >>> mux helpers, to undo that an atomic change must be made tree-wide.
-> >>>
-> >>> Meanwhile it must be avoided that while the mux core helpers are being
-> >>> tested / reviewed, that any tree adds another driver-local mux helper
-> >>> like appears to have happened here.
-> >>>
-> >>> Note that my patch-set did go to linux-phy@lists.infradead.org list, too.
-> >>>
-> >>> The second challenge for this series was that mux framework is being
-> >>> enabled only by drivers Kconfig "select" - and not possible by menuconfig.
-> >>> This is e.g. responsible for being unable to test =m build with arm64
-> >>> defconfig - and lead to it only being detected through kernel robot
-> >>> x86_64 allmodconfig.
-> >> To avoid this, a combination of developer due diligence + maintainer due
-> >> diligence is probably required.
-> >>
-> >> From linux-phy perspective, there will be some automated build testing
-> >> (which did not exist at the time of your submission). This would have
-> >> caught the 'hidden' devm_mux_state_get_optional() call present only in
-> >> linux-phy/next, when testing patch 2/7.
-> Excellent!
-> >>
-> >> But, to work, the build automation needs to be able to apply the entire
-> >> patch set on linux-phy/next. So expect some pushback if it doesn't
-> >> (hence the recommendation to send a mini-series to linux-phy first, and
-> >> request a stable tag).
-> It would help immensely if there was a way to get the patches renaming
-> driver-local conflicting helper-functions very early, before anything else.
+> > Suggested-by: Rob Herring <robh@kernel.org>
+> > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.co=
+m>
 >
-> Would this sort of patch be acceptable in linux-next now, so it can make
-> it into v7.0-rc1?
+> Thanks for your patch!
 >
-> If not then that mini-patchset would be the first one I shall submit after
-> v7.0-rc1 is released.
->
-> Then I can treat the actual implementation of the devm_mux_* helpers
-> as a second standalone patch-set.
->
-> And finally patching all drivers with local helpers to use the new global ones
-> can be patch-set number 3.
->
-> Any opinions on this?
->
-> > I do not think that is at all the duty of the patch submitter. I think as
-> > long as every dependencies and side effects are documented, it is IMHO up to the
-> > maintainers to decide how it can be merged best. They know best whether there
-> > is any danger of conflicts in their working tree because that is an area
-> > where people are working on. Especially this patchset is around for months.
+> > --- a/drivers/soc/renesas/renesas-soc.c
+> > +++ b/drivers/soc/renesas/renesas-soc.c
+> > @@ -6,6 +6,7 @@
+> >   */
 > >
-> >  In MFD where it is
-> > more common practice to have cross-subsystem patchsets, once acks from
-> > everyone are there, MFD Maintainer creates an immutable branch with a tag.
-> > The maintainers of the affected subsystems pull it in.
-> This seems like an option, if I can get the patch-set (or a partial one) ready early in the cycle.
+> >  #include <linux/bitfield.h>
+> > +#include <linux/cleanup.h>
+> >  #include <linux/io.h>
+> >  #include <linux/of.h>
+> >  #include <linux/of_address.h>
+> > @@ -468,7 +469,11 @@ static int __init renesas_soc_init(void)
+> >         const char *soc_id;
+> >         int ret;
+> >
+> > -       match =3D of_match_node(renesas_socs, of_root);
+> > +       struct device_node *root __free(device_node) =3D of_find_node_b=
+y_path("/");
+> > +       if (!root)
+> > +               return -ENOENT;
+> > +
+> > +       match =3D of_match_node(renesas_socs, root);
+>
+> I am not so fond of these of_find_node_by_path("/") + something replaceme=
+nts.
+> What about adding an of_match_root() helper?
+>
 
-I agree with this approach as it should provide less churns for all of
-us. Especially since the changes to the consumer drivers here are few
-and trivial.
+I removed other instances from this series but not this one. I don't
+want to grow this series with even more new helpers. How about
+addressing this separately?
 
-I am willing to help with hosting the immutable branch (unless someone
-else wants of course). Once all acks have been received for the
-series, I can set it up. Then other subsystem maintainers can pull it
-in if there is a need to avoid conflicts/build-errors.
+> However, in the previous patch you used a different strategy:
+>
+> -       if (!of_match_node(imx8_soc_match, of_root))
+> +       if (!of_machine_device_match(imx8_soc_match))
+>
 
-Kind regards
-Uffe
+Because here, we really need the match structure later into the function.
+
+Bart
 
