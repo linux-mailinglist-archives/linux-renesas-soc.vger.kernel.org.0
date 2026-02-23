@@ -1,355 +1,285 @@
-Return-Path: <linux-renesas-soc+bounces-28360-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28361-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oPm5Ltnbm2n98QMAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28360-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Feb 2026 05:47:21 +0100
+	id WEDTAlsZnGmq/gMAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28361-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Feb 2026 10:09:47 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6146A171CC5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Feb 2026 05:47:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 813461738BE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Feb 2026 10:09:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B13AD3020D67
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Feb 2026 04:47:19 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5DF793059AAF
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Feb 2026 09:06:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1127D18FDBD;
-	Mon, 23 Feb 2026 04:47:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E90F634E770;
+	Mon, 23 Feb 2026 09:06:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="MFh2b2kx"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Hkdj2Sw3";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="WmWCq2Nm"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012010.outbound.protection.outlook.com [52.101.43.10])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 916D32BB17;
-	Mon, 23 Feb 2026 04:47:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.10
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771822038; cv=fail; b=Qbc4ReQYi9Jwl1MrsY0LkZn8dbrziLtd8fd7p0mhBIfrYeoK1tvgTUme/79kGj9BdcovXH1N0teaQNBBodzhIleucEWOHUX13K2tM5RM+tlCbRm44LFTm4ff5YFDm0zzNWS/keRFubKgZWTRIKaPKOF497cBA65xAV1BXM2clKU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771822038; c=relaxed/simple;
-	bh=A9Sljt0mb4wtL3EZKqRAirQG8Ot+kWInSMXLeavq/Dg=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=nbRZwPn3HzV3GX89kYbWwmVhpgVQRxTIrQngubtlguDc0SPnsWUO7U22u7fBQXTokoVfEF+VkyqwQLgPXlpK2m8Bps5HAAa+fck2hPXk9bLKML55Qgpr5kus/uF2aBnwgcNirTbR8rBdmjaSJWbmGQX2vM4ks54Bx5HlpHCNdaA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=MFh2b2kx; arc=fail smtp.client-ip=52.101.43.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=g3ROuSl9QISza8m+jRriwDZCBClPX9/HbQYC9k3Y6Ri0NjywZYh7a/B41z57K0SOj8ShJBhZ3W6Ra93U7wl/LMH+6XV7cfg3kaaRW2f799gOlw1PSqcUS6AhlS1/eBALnI65Rk/aaYyf7LC/+HICy2jBJJGK59Q73bOLuDhmshwWOYlFzL1b2AaYYAM6niUfuD8ugkmDfM/9Bf3OF/xoi3GvW/1o0r4XWrc9ZSoX3B+NDMPU7cA46RsiySIPUwewrNwQ+7QwetD196sJg5D7yJWg+YVTxBc7cPfHRj7b1WkLS8ceqovmTfXDCDcpPF9pNFB0cLhqpOvkPg+NKZDrJw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NdxnlW1dAYeVpcxB+9cPMwRsm3aCok/F67z2cr3O9ss=;
- b=I/jwkjfiSMbedzka1RG0bo4RHbp0zTplvfyyjTz+9xWR9f/IWaAgx/JiDzYWZwKoK3cfnjoxQL7TsBMuwqC2VIUZsuen6w6rfpTe6rRJ4nOXE4GA8l9swwZv/a1ziXj12IvD/51Bgo4xc7CmOXAkcXmSTeOJ3mGabYTRIRXTE2diPuJ6fzn3o0QbOPIzmZe7WW8uiJz5p7L7hLb7r4QmQyzb7x96Id8AOn2ypl3e/+r2iAoySd17W6WNFhOlcH0sK3trmy1lPttRv/DuNLH4UHhsrarak/98Flfu04epEB6kyRQXZsCUsAnLr0nBUcG83F+PjHvSRGRurtCsWuZ3pw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NdxnlW1dAYeVpcxB+9cPMwRsm3aCok/F67z2cr3O9ss=;
- b=MFh2b2kxaOCpgtleaxHt0MYTO87cj351ptLHRSxsfe8o1hp/N6J+vwovIwaGUE04IJG7qoXmQAEZUgJCfOW13bnj5u4Ws8dJ47qvmoWcUAJpuu6Pn62CM5wSsP69P87dvrRK/nv9904un7Lkrydno9AmQJnfJW6aH0eygIyd9NFsvlPF77+ZI74LlB4nDg4W1Oh9dRDxIIFnB7PNP8jPl2LuzS/0Qs249rT5Z+MGKy4xFDRgw1CMVHtkzRzknnyE+k6EfB2N7PxcEzo33z6r3O+l9rpHG1OJZ6Ei/TNW9DPGi9/V0596fNBtp7tjUNtP3Jdv1R8GB3iUFLN3ll+Nyg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB8245.namprd12.prod.outlook.com (2603:10b6:8:f2::16) by
- DS7PR12MB5718.namprd12.prod.outlook.com (2603:10b6:8:71::10) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9632.21; Mon, 23 Feb 2026 04:47:05 +0000
-Received: from DS0PR12MB8245.namprd12.prod.outlook.com
- ([fe80::e7c5:cfca:a597:7fa4]) by DS0PR12MB8245.namprd12.prod.outlook.com
- ([fe80::e7c5:cfca:a597:7fa4%4]) with mapi id 15.20.9632.017; Mon, 23 Feb 2026
- 04:47:05 +0000
-Message-ID: <bc3e8be5-8ffa-47f3-91e2-b3c0e9f8a28b@nvidia.com>
-Date: Mon, 23 Feb 2026 10:16:51 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/9] PCI: dwc: Replace BAR_RESERVED with BAR_DISABLED in
- glue drivers
-To: Frank Li <Frank.li@nxp.com>, Niklas Cassel <cassel@kernel.org>
-Cc: Richard Zhu <hongxing.zhu@nxp.com>, Lucas Stach <l.stach@pengutronix.de>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>,
- Marek Vasut <marek.vasut+renesas@gmail.com>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
- Masami Hiramatsu <mhiramat@kernel.org>, Koichiro Den <den@valinux.co.jp>,
- Damien Le Moal <dlemoal@kernel.org>, linux-pci@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
- linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org
-References: <20260217212707.2450423-11-cassel@kernel.org>
- <20260217212707.2450423-16-cassel@kernel.org>
- <aZToh35w7GYrOmgc@lizhi-Precision-Tower-5810>
-Content-Language: en-US
-X-Nvconfidentiality: public
-From: Manikanta Maddireddy <mmaddireddy@nvidia.com>
-In-Reply-To: <aZToh35w7GYrOmgc@lizhi-Precision-Tower-5810>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PNYP287CA0067.INDP287.PROD.OUTLOOK.COM
- (2603:1096:c01:25a::6) To DS0PR12MB8245.namprd12.prod.outlook.com
- (2603:10b6:8:f2::16)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA9C2137923
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Feb 2026 09:06:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771837568; cv=none; b=FOfwS2ETbBtgLRRvhVHaXmdzif0wFLYElwN+hVs10DZS8E+t10TPyw/5l9WL/zpSGkOeN8NzB5pNSUyMKo2FY27TAmhsvyFi45NMEa+Aws+5BOughh+I8rhXeuhrjBSEqBxdapmQpVUmabkZdNXnJagcP2p61qlNloyKt8Ebf2k=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771837568; c=relaxed/simple;
+	bh=JpXrrkvz1SqkKT+f47q/u1Jea7thg425ucswYTBTXns=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=U1Mr//vCSB2sDd+ZUsnxPEKtV9EF7a35jHMMRZCGZDVeulH2kBhoms+xxTuGXN7xQR6rt1zMMy+ngWyvzfRkDb5mLUN3vFzBORM6SRl1NLSHESoBeeLqVjO66hYQFdKIse71U99T3Hw9FJwVs6rn9cqxNGkwMrLcqRYzp6YcYPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Hkdj2Sw3; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=WmWCq2Nm; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61MNQ6Bl2061057
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Feb 2026 09:06:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=d746oHHLRYVQIeqZlUVXE0
+	SwM2/yPUbSyBrXtuCBM8A=; b=Hkdj2Sw3YW5wYjJXb0Yo5KSdJDYZ6mNkjKglmt
+	HmIpjNRzyZcyIv30iqmZrVIu7F/Tx2xmWjo4hMquxsTBDozOXCx5yj9flUsE0lCf
+	W1j/CZkwXF0jRQFWdXD9rYTvOPYSjslacPJZK4HS0//hMA+uu4EjDrg+a/KArh/2
+	tONKtnjZs1D3baLsoo0wvSB38Xe/pXezA//8unJlDsTMUyDidspV0hDibBJhpEpP
+	rGQe1G1YtSaVMjupePw3YFoYy0jMPCwS4lFQBunN2odLW+NGvhr4WPquzMR7bgkH
+	1W+GKe9cisPIXIjZk1HysFVOD7JM/Q+yFi+wdAomaF3tDBBg==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cf5wav3b1-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Feb 2026 09:06:06 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-896fa0fcf27so572280776d6.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Feb 2026 01:06:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1771837566; x=1772442366; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=d746oHHLRYVQIeqZlUVXE0SwM2/yPUbSyBrXtuCBM8A=;
+        b=WmWCq2Nmbzzwt3ObF4e2Lh9szZlxYDz1x86UPgLort6YeFaK13K5LXXCwg3NKsNmmD
+         2Ary7Za/F8YFizeX25hH89aU2matBzxzdfSJEc95BOHFWxnbyqXlx/k0qSDhh3ETUe6n
+         JaCURK5ycsvy22jvOPS4t6iE9cGiMUrfybCVPscKcuI9/scP4qZRNrRau7wOEES0wIo9
+         DDUucCBz7CUDJHeC4RYOcYe1w16AyS2Up1eOB83R63bHWHWkGMrihV6jF7PMm8kTkE9u
+         dZbrALsSxLkGnR1jCVD9Mj8FSi1C8dZKCo5/SPK9Ozi7h7L1SFT7O5icRDyWzIEKnc13
+         OGKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771837566; x=1772442366;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=d746oHHLRYVQIeqZlUVXE0SwM2/yPUbSyBrXtuCBM8A=;
+        b=C4B9oj/hDzfZDh1QfAiiepn8tKdwdgoEod4zNixo6zGe+4dH7iYcvBSLMCXnb2+ZtT
+         QjdrnxtgnNlGia/MAtRfLLrr7hxHHnvquXz8g0t++fQGM6ntP5uWOJOUZZdZY+LH4TJv
+         y+ET9nxkDio79lCbrTc9s8w67+NagKa1adDYI/Ida8Bc970+C4DkGmOjio7Kc2e2JXRY
+         P0Wo1rsZ0XL9fEM3We0qhE2+fiTV6i+/TM8zQbe9FuRFw9mxpjH+nsFRwyO36OGaUEQG
+         gDozEi/VBQqSuLqoklDkiU/YhqX5Mt56kq2QarNLqQ8QeZCXDeIxgSzChFA+7PR+ym29
+         hOEQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUjVpyXe4K62XQUa8l6h7oMGdhq+pDfdvmf+4hw5WuWYcrmfNKS3EXp+L13fFn7vJ0iGZogdYYVKR2+LKyeif2RQA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxi9sIXAV3QPGrBSoD69spolBudXw+jPJQ2rFRKebGRICWKxCF6
+	+g+T4h49NsZrErdpgexM0QHQK3G+HxP5Mq3SZOoAVhT7IOgRagKHyl+jFP+rl/a+CZqDze9ejRv
+	rDKYMf5eI/5hlFUM4KZNw7lKwUSAraHX0VTFb1SfAsYGxu/1x5rjw9xJaodX8e8BKSR4ZmoT23A
+	==
+X-Gm-Gg: AZuq6aKXjuAy3+y56mPcQRe9pdOQ4rIRFPp0I2T7+sOr5KF1tyYRlKITifZZnBHOq0t
+	XYwtXVrG+Tw9VqX/VlgQWEkQW+PK0wGbfwPJog8uRAqhIHEdjx48vZeiKeRQajiFqZxjqerUIqg
+	AUTslNeGYczokt2j13nG1Pg7CLXIJG3gJ2jcXLVHklCjPEILYDKRu4DR2KdwUZ+v6jG6rGJoJod
+	qg6K5UkHFdRRq6CRYvRafPSfelTMCfBVXMyARWSRNaU1C6AAm0RT9uZQnoIy0kt3QLiRwCtMjMr
+	Np3NMAfr2d/7SE1BhJkfrgSSD8F4/9wpigDAAdlaa2AMoaFsMip+/2+i3/NpR/iK+VR284hXKe6
+	DDY/ppmnk3iDli8vrHJFNzX67KwfiG1rBXcFsESPKkgRNsMJozBCv
+X-Received: by 2002:a05:620a:440a:b0:8a2:ee8:e7cc with SMTP id af79cd13be357-8cb8c9cbf76mr933268085a.5.1771837565487;
+        Mon, 23 Feb 2026 01:06:05 -0800 (PST)
+X-Received: by 2002:a05:620a:440a:b0:8a2:ee8:e7cc with SMTP id af79cd13be357-8cb8c9cbf76mr933265285a.5.1771837565026;
+        Mon, 23 Feb 2026 01:06:05 -0800 (PST)
+Received: from brgl-qcom.local ([2a01:cb1d:dc:7e00:bd71:422c:5e83:8b37])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43970bf9feasm17791593f8f.6.2026.02.23.01.06.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Feb 2026 01:06:04 -0800 (PST)
+From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: [PATCH v2 00/12] i2c: configure parent device and OF node through
+ the adapter struct
+Date: Mon, 23 Feb 2026 10:05:46 +0100
+Message-Id: <20260223-i2c-adap-dev-config-v2-0-d78db0a6fcf7@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB8245:EE_|DS7PR12MB5718:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0bf370bf-62c6-4989-35f9-08de729697a9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?Qnp1UzQwY0J6MitocWllTUprbWF6WHVYR3k4RzByWU1aWS9LYnpSY25tM3Z0?=
- =?utf-8?B?azJpNEdZQkxEdXd3MWNNY0hUNFEzTFV0aGU2aGVpU3Z5WHRSc1BrN3JNMFpj?=
- =?utf-8?B?eFhDbXJ6blNyQWp3RTBFN1RvUmI1TVVlU2R2dUs0Mk1YNVVLN0pQbEVuRTU2?=
- =?utf-8?B?VW1qcmloRnRRR1hhZEZRR0JLYlhMMjVvd3pCOTRrczJ0MDZnajFrUnd2VFhV?=
- =?utf-8?B?MTZaaGhZY3V0SDM5d2xRdFdjTGVURzdHckdIbVFxWGthajBnZ0lOamtobDBM?=
- =?utf-8?B?c2xEM05ncC80SW5mVmtQaXBJWEZReXR5TEl3MmpDMHJKSnV1N0gzSlNJMmhL?=
- =?utf-8?B?RzRsK3kyNlVmOC9Zc0pyczVFQjhxMEdqOEwxNVhXRHJ4Y200em40Y3NacmxT?=
- =?utf-8?B?b205M2p2ZE9seWtlaVpLMDhQVnVDMldvdjAxaGJ5U055cEhSbitaYmVmY3N3?=
- =?utf-8?B?QjNSNE40M2s5bktjZGZYd29vaFlTMGw5aUhqUWxQUE9waTM4eFdGa0ZKSllh?=
- =?utf-8?B?bXZwL3RCTStWQkYyOGFRWDlSVUY3Zmt5YXRyTkdWaXM5NEcwQVpJNE9TYzRK?=
- =?utf-8?B?MVdKMnRSQ29lYTFGTisxaWI1NnRQdW9EVWxCYzhRcTlmc2gyd3I3dTFEMVlV?=
- =?utf-8?B?cDBqN09aUUQvK1Q3cnpRd1JwaVNDTjd3YnJseUV3RFo3YzNRbDc5Z215TnZO?=
- =?utf-8?B?SWN6SDBsS0k1ZkszaWNlaWF3M2VFL3dVRzBvMlpuOFNBMi9iQ2F2ZU1uM0cw?=
- =?utf-8?B?YzhaeE5kWVYxcVVMazhsV3lyUzF1NHd1amJDVXR2a25BUHlGWkZiSE9xRzVN?=
- =?utf-8?B?Tzk4UzJCYUoyajlTQkF5NFNDZCtOVm1EZU5pbVlIUUhTaEYvN05GWE9GNENk?=
- =?utf-8?B?QzVvelk0aXpJVUtIMGZSU2xEN0lidUZ6eHFZWkhPYllpb1JzYTc2VTlSdUNa?=
- =?utf-8?B?NWQzNU9JNFhuYTV4NjEwYmRyRlVodTBYN3BKSThUSEJCWUQ3ZjVlajB4S1RZ?=
- =?utf-8?B?UDhoNXlCRnpVVUM1dGh3UGwyeU1USkkxaWlBdGFPc3JIYUdTU0ZzdFJFekln?=
- =?utf-8?B?VnBCKzJOdzNjRnlLcXdQUXl6ejJqaktWazc3TE9YRFJYekRGck45Mk5DcCtW?=
- =?utf-8?B?WU5MaXo4ZFpyb2FJUHJNZXFKL09FenBZSjlBV2MycFRzV2NjNVA2UVV1dTRH?=
- =?utf-8?B?RjBFbEQwVGxNcU5ReUJXK0VlYm82blpKRTdyM2hEMDFWK2RHcHkwK1BHVFdl?=
- =?utf-8?B?Qlk0czJlUWZKdEFBM3ZobVRvZzRoekZqd1VzblQvTThKc2JkblJvZVE2Q0tJ?=
- =?utf-8?B?TGlzRlQ5ZHNsMTRCY0o2S25tSnpGQ1BWWjYzZzBiL3IreEQxRHlRdW03MDBa?=
- =?utf-8?B?NklyeTlpZWlCbXlFNERvaDU2RGx5Y3VYeTN1TFVoMmdSeE5neXZCd3UrTUUx?=
- =?utf-8?B?cWRUaVlLTDZVNm1paW1ydDd0V0VqSG9iOE1Eenl6RkoxZVpaQmg4eHlJU3Bw?=
- =?utf-8?B?dXQzTEVCMGdhVWxQQW01SWVxa0owWmU4OXJxcS9lMHI2K040bTdrZ3AxV09r?=
- =?utf-8?B?OFlmZXQvNXhiVE5NY2pQV3lWT3FyS0ZZc1NvY1VYZTNKQ2dGVUxlcW1Sb3hV?=
- =?utf-8?B?enQ4WGxEd3YxYVREY0xUcVNYU3lUWDRYUmFUdk00MmlEUE5zU1g5SzlWNGxi?=
- =?utf-8?B?NkJiek1GTUhWS3NjN3I4Y21iYkNDSHprbFh6cjcyV3czUVZwNHZhUlZwTEtK?=
- =?utf-8?B?U1F4SHBldlRSMjlIS0xRZTNVMUtOMUg4UkE1RXhlekhmSXk2b1FZeEJZNEJz?=
- =?utf-8?B?TGEyUHV2bDBlZTRucjdscHMrckU0eTcyZ3ViUWt4OXZ0RzVBWEJjNTA3WWVi?=
- =?utf-8?B?V1BWWjR5eDFSM0F3dWFkZ2VVRWtOeDloTVNhOGNnTE1WM0l1MHNNYzA5Z0Fh?=
- =?utf-8?B?ZXRNSlZiYjVCUFNHb09YeW1VaXlqYW82SU10MjhIZUhrSEtOclZqTlZiYTgy?=
- =?utf-8?B?cVNZSE9Md0ZkcVJONTJqS2JyY1hoQ3YzY21xVkNYYmRIbXIwR053eFFGcFFU?=
- =?utf-8?B?V28rK2RpMXZiUDVMTzBYSlJtY01jODBPQnY5ZU03ZWhhM2l4emNmeWZXejdE?=
- =?utf-8?Q?C8uk=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB8245.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?OE1GNE90SGJpN3NncjlaQk1pT1NXVTh4T05xemJXRjBPL1lrWHpYbEkzVFlC?=
- =?utf-8?B?UkNHdnJGaHA5VWRWQXUzQkJlTHkxTjRHd2NLVDVRTGZKQ3h6eUhOYWUxVkNE?=
- =?utf-8?B?bVpMN25PeVdDV1hMcXNacDFSTXhyQ282WDMyOG9IVU1VNWtnZ2NZWnVCSHNl?=
- =?utf-8?B?RXZKc0V2bTh6N01kVGhJaDA0Mm9DTUxmOG1jUzlkWEhLbzhuTUQyRDlnS1FU?=
- =?utf-8?B?VHF3S0luODFGdkJzUnBuZ2IrUWdXRkc1cndEdjRzejJnYXh4VUljbGYwekc1?=
- =?utf-8?B?aXNsMU91L214d1R6d0Z4VUdhSVpOdHJ0SDUyL3R0NGxlZmVPRTRLS3phZ2Ju?=
- =?utf-8?B?Q2FHTHFaSlQzL0ozdjJWWnZMZGpsclNrUTJLR2xMb1BVREZuNXE5blh2Rk1w?=
- =?utf-8?B?bmU2NGpIZThvcnZhWmEzdXROdUpvZ1dLR0RqVXNvQXUxVTZxbFpveTJnSzNX?=
- =?utf-8?B?OGlSRmZucFhLVzQ4WlQ3U1JxY0tMVmxDVHlVejVQc0tRRW11VGFtaGNpVERP?=
- =?utf-8?B?VWZwbitxQ2xDa0xtSW9NNVp2TWtRY1FrRW5DUE1jUHhPVzMyVktGaFlsRnRv?=
- =?utf-8?B?L21pMEpteElsZmZhOTdtbk5ralBmR3N3MDBxL3dYeGtHYzNHZytFeGorZ2hp?=
- =?utf-8?B?Z1krQWZlN05ubW1RNXNabTFOU3NBQ3F3eUpqMDJSZTUrWHBBNDhCU0xrMXdW?=
- =?utf-8?B?RE9rRk5nK0l3OTBRWFVTdEZzdDBkR3FvNzJ1Z2E3T3BvbGY4ZXhtYk5oZGdZ?=
- =?utf-8?B?Y1RqRThDTUhqV2dTS1RlenA0ejk3SVh5Yzlna3pOY3c4V2d2R0RTdEEvWTZ0?=
- =?utf-8?B?TDhYaElpa3ZJK3hUQ2NRR2lUSzhDQkpENWVLVFp1b2hyTW5UU25RRjFEdGIr?=
- =?utf-8?B?NmQvak5zUzZlK20xazc1elp5VEQyeHRaUmFjNTU1eTh4aTJ1Yjd3Q3BnclhR?=
- =?utf-8?B?QkUzeG1rNlhNNmttanRSSTlOMlNBTmRtZWR1c0NZdjFWdFMrRkMzWHI4dVJ5?=
- =?utf-8?B?VFJvWUpKSDhROGNMUiszUHZkeVczcnVTNnVSazBxcVJvUmZHYmhhWVk1aXRr?=
- =?utf-8?B?UU1pN2pEVENHS1MyYm9WSVh3eU1LMHlWRExiTGRBVlRMTnM3MmpRVlI1eHdv?=
- =?utf-8?B?ekVuWE1UTjhzM1J0S3ErK25mcFpzUkJIK2xtVlJvNmYxT25KZkVjQkRuMUdG?=
- =?utf-8?B?UWFUdGNaSC9TMmhFci85WngwN2Z2TG5EVENqanlUZmxHUUp6dTdHRVRCUDV1?=
- =?utf-8?B?UjF5dXBscDIxdzNoaUVlZ1ZiaWVQWEJjblExUTQ5UC9OelZvUHZVSXlPa0hN?=
- =?utf-8?B?SHpzK0tON0hWeHVpTXIzK2lKQW1rbXh2Y2JwbzIxa3pQZ3pSTjloa25FNGhm?=
- =?utf-8?B?OU56WG9jZlMzaXFwdE5PaGVIdHpkZ1V6M0JLRnBqRDZtVnpmaUorbWNUWDFK?=
- =?utf-8?B?cm5wdzZBc1VoaU5HbWxNdFJteXRVTk5YYUQzektteDV2V0FuUHFmT29KU25m?=
- =?utf-8?B?YmJBWXdpeDJpa2tTSDB1SlZFcXFDZnRKYk5OQ25rWDNjRUowTmd4eTFGbW13?=
- =?utf-8?B?TXBhcHBTcDU4aDJVd3ZWNGdKY3NlZUtSSGZFMVJHa2s5dXJXWmdMWndtcFhF?=
- =?utf-8?B?R29yU0tJSjYxb1Q2bEFpVjk0QlIyc2VIbndNeXNZdEF5ZkVxamovVFd3QjVC?=
- =?utf-8?B?dHVFaDN4am40Y2lBMFNaK0g5MnR1ZWRuVEt4eTlGZTVLdk4vRHJ0VEk1TnJF?=
- =?utf-8?B?aEFkbG5NYTQ4TmJwVHhDS0doMEhLN3NoZnFjK3hpQXJaWEhqYktLaDMzOEJJ?=
- =?utf-8?B?SzJiMThKUWNDd1ZkRDEvQkw4emw3djVWM3k5QnZuendtRWJlMGYzQWROeVZ2?=
- =?utf-8?B?NEdkQVhwalNvcnBPMVNBM2tEQllsYm9kOUJBL2pxT3JaOXNlRENwWWROLzQy?=
- =?utf-8?B?cml3Y0pVZHhETENqaEEyc1RoQWI0bmJnTWI0anYzbk1DOXJtZElBdlhKRVFM?=
- =?utf-8?B?NUFzTGM1aWZRcFRGa1loZER6bWZ0dVI0R3BNMUI0ZGR4VnJzNEJCa0pxYXlz?=
- =?utf-8?B?QlJDbUl3MmNtYVdVc1EvekhJK2RJZHEzV0c0MHYrZkdrblY1OVhMRUxHSGla?=
- =?utf-8?B?VGt6S29VMXdWR0p6ckZhTEpDT1NSUmw4MWRMaWtWc1VGWk9HR3RuOFJhd0Qr?=
- =?utf-8?B?VVNTb3FaTklRRGJzRlBraU4veEYrY2ZTS2Q1czMydnNSQTNnT3kzSy9qZVlR?=
- =?utf-8?B?bDd3NVFHenBYRUZPd2Y0cEM2NlV5bWgvaUJoQmk0RjBjR2ZhZFJzZUZxNE5h?=
- =?utf-8?B?SEk3bGpwM2l6V00waFJOT0dCM05LZGVMOXg3cFErRG5TSk5IdUhPQT09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0bf370bf-62c6-4989-35f9-08de729697a9
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB8245.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2026 04:47:05.1464
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SeJHeafxF3GC4Jrr2de09V9ggsYfXOcd6Lq6oQfLcX6RN1/Kx+p5AvyIwvKItoQpHeNp0Wsr6u7rq8vf8yPQGg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5718
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGsYnGkC/32NQQ6CMBBFr0Jm7ZB2KBFceQ/DopQWJhGKrTYaw
+ t2tHMDNT95P/vsbRBvYRrgUGwSbOLJfMtCpADPpZbTIQ2YgQbUkqpDJoB70ioNNaPzieMRWiUr
+ 3jZTntoa8XIN1/D6sty7zxPHpw+c4SfLX/vcliQJVQ20vjRNNpa4+xvLx0nfj57nMAd2+719Xe
+ PRnvQAAAA==
+X-Change-ID: 20251223-i2c-adap-dev-config-9403ab811795
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>,
+        Viken Dadhaniya <viken.dadhaniya@oss.qualcomm.com>,
+        Andi Shyti <andi.shyti@kernel.org>,
+        Florian Fainelli <florian.fainelli@broadcom.com>,
+        Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+        Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+        Vignesh R <vigneshr@ti.com>, Aaro Koskinen <aaro.koskinen@iki.fi>,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Andreas Kemnade <andreas@kemnade.info>,
+        Kevin Hilman <khilman@baylibre.com>, Roger Quadros <rogerq@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Patrice Chotard <patrice.chotard@foss.st.com>,
+        Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>, Linus Walleij <linusw@kernel.org>,
+        Frank Li <Frank.Li@nxp.com>
+Cc: Bartosz Golaszewski <brgl@kernel.org>, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
+        linux-rpi-kernel@lists.infradead.org,
+        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3636;
+ i=bartosz.golaszewski@oss.qualcomm.com; h=from:subject:message-id;
+ bh=JpXrrkvz1SqkKT+f47q/u1Jea7thg425ucswYTBTXns=;
+ b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBpnBhvxfpNuGH+Q1zSVb894hMaRDnJVHASheoKh
+ tGcI0PnAP+JAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCaZwYbwAKCRAFnS7L/zaE
+ w2YkD/42gmVI2glVDEDj52itfZw7ufLt0c/DcLJ+FZ7kHYFIsxyL1dHKGe4ip0B7AgIg3kjvham
+ 4i3sHarrlQxHhiXD6lHA7AnTlJUIwbMYiR16u0EENBjpiwcPFOtcEFsQ9SCYk1dWNQt3z2vO/Wm
+ RFF+dLTjTwIEiU5NJqAXHpTYFoXSdbIC/LKveT4OMA1CE+6F9Rooja6KT1Viqx5w9KYiqERenUs
+ KKEakJIRPwEdXmYJTw2amUBwkeQpse9u7vd9Vl3RzRobgSLiVNBMVK5qVwSSNrxpkR3W/LcISns
+ J6eQWlwN5lNv6ZNnvQ2/iMz/nG/VUHizCcwYan5P6cqRAaCdgLC0vnEvpU+BUUs+BlAD9aNcloG
+ YQzNfV2pb30/guwSgRWzyLvYk4NXFUGPMIZb/qNxSx8humADFCW2flXVUruER7lFEg9WN0d3TWT
+ qR2Im/+JgfarMzxldfnFXoDo6VLvHdDTkohcolEMMiWL5FelxokYgAi4ZTyecVtCK/BRXKyk6dB
+ ZKOBjFyRLll8ol5KO+xRrbOkNdJUCaOZzAf40SQRdALQyfA6qRh61awI926JLvDSJsbM+ZQImI3
+ fdEhPxSb1oKvTqdML31ygKLLfaLfNiiHdaQ2DrH2Zzvx3sbfEZUT6GzxcuQ7EdMo7Eo30MXyz4y
+ xexRaCGsVEHWxXA==
+X-Developer-Key: i=bartosz.golaszewski@oss.qualcomm.com; a=openpgp;
+ fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
+X-Authority-Analysis: v=2.4 cv=KJVXzVFo c=1 sm=1 tr=0 ts=699c187e cx=c_pps
+ a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22 a=VwQbUJbxAAAA:8
+ a=EUspDBNiAAAA:8 a=_sFN2lLQU9JdPEgOWvQA:9 a=QEXdDO2ut3YA:10
+ a=OIgjcC2v60KrkQgK7BGD:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjIzMDA4MSBTYWx0ZWRfX9AnySaApfPEO
+ zMvLFCaTnhBH9pNQb0BdOYZRdLQP60it7epJfRQ8H1YMcs5JnHJ0MuTWCI1zPW67HtSboUHGxFB
+ +r6bY+l8J7BTZY56grh52+3Kl5ZEhiCI5wyHIbPmmhf6Oz4MrMp5iyNV6kaL1NHrsXmxmV46n7I
+ S4JiIlrerxEENxcWbE7wnFULl89keylG0QeOK9GJafmwUHSNInaO3GjSHXKV9yBwx2V2Xex4CGD
+ m0hsOggs8PVFyfdFH4WZvSQOSou0dk4SL+zcP7kgeF11znToDHymsf5t5wWmZcoGlC9aYbzeOXV
+ ZIBTTgCmTtMuA8oCfL+ybMQ46szAtK55/YIzbJ4+h/RdKdYFEKs4fTgXKCu7XtvsGNepaxRqmW6
+ 8r1DthVNmOdb2/k92ARRMsar2La0GmcCihuX3HjSoM1+2qw2WGQft1n9bnBrGghXR7++el2aSpL
+ FKLmbq8DrMIBO1Hg+Vg==
+X-Proofpoint-ORIG-GUID: G9P5RYe4diFyDq8ejXvd12GxSgFiloj_
+X-Proofpoint-GUID: G9P5RYe4diFyDq8ejXvd12GxSgFiloj_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-23_01,2026-02-20_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 phishscore=0 bulkscore=0 lowpriorityscore=0
+ priorityscore=1501 clxscore=1015 spamscore=0 malwarescore=0 adultscore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2602130000
+ definitions=main-2602230081
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.34 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[27];
+	TAGGED_FROM(0.00)[bounces-28361-lists,linux-renesas-soc=lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:mid,oss.qualcomm.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,qualcomm.com:email,qualcomm.com:dkim];
+	FREEMAIL_TO(0.00)[sang-engineering.com,oss.qualcomm.com,kernel.org,broadcom.com,ti.com,iki.fi,gmail.com,atomide.com,kemnade.info,baylibre.com,glider.be,foss.st.com,pengutronix.de,nxp.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-28360-lists,linux-renesas-soc=lfdr.de];
-	FREEMAIL_CC(0.00)[nxp.com,pengutronix.de,kernel.org,google.com,gmail.com,renesas.com,glider.be,nvidia.com,socionext.com,valinux.co.jp,vger.kernel.org,lists.infradead.org,lists.linux.dev];
 	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[34];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bartosz.golaszewski@oss.qualcomm.com,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mmaddireddy@nvidia.com,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
-	NEURAL_HAM(-0.00)[-0.999];
+	NEURAL_HAM(-0.00)[-0.998];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:mid,nvidia.com:email,Nvidia.com:dkim]
-X-Rspamd-Queue-Id: 6146A171CC5
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 813461738BE
 X-Rspamd-Action: no action
 
+It's been another year of discussing the object life-time problems at
+conferences. I2C is one of the offenders and its problems are more
+complex than those of some other subsystems. It seems the revocable[1]
+API may make its way into the kernel this year but even with it in
+place, I2C won't be able to use it as there's currently nothing to
+*revoke*. The struct device is embedded within the i2c_adapter struct
+whose lifetime is tied to the provider device being bound to its driver.
 
-On 18/02/26 3:45 am, Frank Li wrote:
-> On Tue, Feb 17, 2026 at 10:27:11PM +0100, Niklas Cassel wrote:
->> Most DWC based EPC glue drivers that have BARs marked as BAR_RESERVED in
->> epc_features also call dw_pcie_ep_reset_bar() for these reserved BARs in
->> ep->ops->init().
->>
->> An EPF driver will be able to get/enable BARs that have been disabled/reset
->> unless they are marked as BAR_RESERVED (see pci_epc_get_next_free_bar()).
->>
->> Thus all EPC drivers that have a BAR marked as BAR_RESERVED in epc_features
->> AND call dw_pcie_ep_reset_bar() should really be marked as BAR_DISABLED.
->>
->> BARs that are marked as BAR_RESERVED in epc_features but for which
->> dw_pcie_ep_reset_bar() is not called in ep->ops->init() are still kept as
->> BAR_RESERVED.
-> combine the same condition together to make easy to read. like
->
-> "For BAR_RESERVED bars, change to BAR_DISABLED if call dw_pcie_ep_reset_bar().
-> and keep as BAR_RESERVED if not dw_pcie_ep_reset_bar() in ep-ops-init()"
->
-> Frank
->
->> No EPC drivers outside drivers/pci/controllers/dwc mark their BARs as
->> BAR_RESERVED, so there is nothing to do in non-DWC based EPC drivers.
->>
->> Signed-off-by: Niklas Cassel <cassel@kernel.org>
-Tested by: Manikanta Maddireddy <mmaddireddy@nvidia.com>
->> ---
->>   drivers/pci/controller/dwc/pci-imx6.c         | 12 ++++++------
->>   drivers/pci/controller/dwc/pcie-rcar-gen4.c   |  6 +++---
->>   drivers/pci/controller/dwc/pcie-tegra194.c    |  8 ++++----
->>   drivers/pci/controller/dwc/pcie-uniphier-ep.c |  4 ++--
-I see BAR_RESERVED in pci-keystone.c driver in linux-next branch.
-Do you have any patch which changed BAR_RESERVED to different type
-in pci-keystone.c driver?
->>   4 files changed, 15 insertions(+), 15 deletions(-)
->>
->> diff --git a/drivers/pci/controller/dwc/pci-imx6.c b/drivers/pci/controller/dwc/pci-imx6.c
->> index a5b8d0b71677..ec1e3557ca53 100644
->> --- a/drivers/pci/controller/dwc/pci-imx6.c
->> +++ b/drivers/pci/controller/dwc/pci-imx6.c
->> @@ -1433,19 +1433,19 @@ static int imx_pcie_ep_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
->>   static const struct pci_epc_features imx8m_pcie_epc_features = {
->>   	DWC_EPC_COMMON_FEATURES,
->>   	.msi_capable = true,
->> -	.bar[BAR_1] = { .type = BAR_RESERVED, },
->> -	.bar[BAR_3] = { .type = BAR_RESERVED, },
->> +	.bar[BAR_1] = { .type = BAR_DISABLED, },
->> +	.bar[BAR_3] = { .type = BAR_DISABLED, },
->>   	.bar[BAR_4] = { .type = BAR_FIXED, .fixed_size = SZ_256, },
->> -	.bar[BAR_5] = { .type = BAR_RESERVED, },
->> +	.bar[BAR_5] = { .type = BAR_DISABLED, },
->>   	.align = SZ_64K,
->>   };
->>
->>   static const struct pci_epc_features imx8q_pcie_epc_features = {
->>   	DWC_EPC_COMMON_FEATURES,
->>   	.msi_capable = true,
->> -	.bar[BAR_1] = { .type = BAR_RESERVED, },
->> -	.bar[BAR_3] = { .type = BAR_RESERVED, },
->> -	.bar[BAR_5] = { .type = BAR_RESERVED, },
->> +	.bar[BAR_1] = { .type = BAR_DISABLED, },
->> +	.bar[BAR_3] = { .type = BAR_DISABLED, },
->> +	.bar[BAR_5] = { .type = BAR_DISABLED, },
->>   	.align = SZ_64K,
->>   };
->>
->> diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4.c b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
->> index a6912e85e4dd..9dd05bac22b9 100644
->> --- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
->> +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
->> @@ -422,10 +422,10 @@ static int rcar_gen4_pcie_ep_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
->>   static const struct pci_epc_features rcar_gen4_pcie_epc_features = {
->>   	DWC_EPC_COMMON_FEATURES,
->>   	.msi_capable = true,
->> -	.bar[BAR_1] = { .type = BAR_RESERVED, },
->> -	.bar[BAR_3] = { .type = BAR_RESERVED, },
->> +	.bar[BAR_1] = { .type = BAR_DISABLED, },
->> +	.bar[BAR_3] = { .type = BAR_DISABLED, },
->>   	.bar[BAR_4] = { .type = BAR_FIXED, .fixed_size = 256 },
->> -	.bar[BAR_5] = { .type = BAR_RESERVED, },
->> +	.bar[BAR_5] = { .type = BAR_DISABLED, },
->>   	.align = SZ_1M,
->>   };
->>
->> diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
->> index 31aa9a494dbc..9f9453e8cd23 100644
->> --- a/drivers/pci/controller/dwc/pcie-tegra194.c
->> +++ b/drivers/pci/controller/dwc/pcie-tegra194.c
->> @@ -1994,10 +1994,10 @@ static const struct pci_epc_features tegra_pcie_epc_features = {
->>   	.bar[BAR_0] = { .type = BAR_FIXED, .fixed_size = SZ_1M,
->>   			.only_64bit = true, },
->>   	.bar[BAR_1] = { .type = BAR_64BIT_UPPER, },
->> -	.bar[BAR_2] = { .type = BAR_RESERVED, },
->> -	.bar[BAR_3] = { .type = BAR_RESERVED, },
->> -	.bar[BAR_4] = { .type = BAR_RESERVED, },
->> -	.bar[BAR_5] = { .type = BAR_RESERVED, },
->> +	.bar[BAR_2] = { .type = BAR_DISABLED, },
->> +	.bar[BAR_3] = { .type = BAR_DISABLED, },
->> +	.bar[BAR_4] = { .type = BAR_DISABLED, },
->> +	.bar[BAR_5] = { .type = BAR_DISABLED, },
->>   	.align = SZ_64K,
->>   };
->>
->> diff --git a/drivers/pci/controller/dwc/pcie-uniphier-ep.c b/drivers/pci/controller/dwc/pcie-uniphier-ep.c
->> index f873a1659592..5bde3ee682b5 100644
->> --- a/drivers/pci/controller/dwc/pcie-uniphier-ep.c
->> +++ b/drivers/pci/controller/dwc/pcie-uniphier-ep.c
->> @@ -429,8 +429,8 @@ static const struct uniphier_pcie_ep_soc_data uniphier_pro5_data = {
->>   		.bar[BAR_1] = { .type = BAR_64BIT_UPPER, },
->>   		.bar[BAR_2] = { .only_64bit = true, },
->>   		.bar[BAR_3] = { .type = BAR_64BIT_UPPER, },
->> -		.bar[BAR_4] = { .type = BAR_RESERVED, },
->> -		.bar[BAR_5] = { .type = BAR_RESERVED, },
->> +		.bar[BAR_4] = { .type = BAR_DISABLED, },
->> +		.bar[BAR_5] = { .type = BAR_DISABLED, },
->>   	},
->>   };
->>
->> --
->> 2.53.0
->>
+Fixing this won't be fast and easy but nothing's going to happen if we
+don't start chipping away at it. The ultimate goal in order to be able
+to use an SRCU-based solution (revocable or otherwise) is to convert the
+embedded struct device in struct i2c_adapter into an __rcu pointer that
+can be *revoked*. To that end we need to hide all dereferences of
+adap->dev in drivers.
+
+This series addresses the usage of adap->dev in probe() callbacks where
+drivers assign the parent device address and the associated OF-node
+directly to the struct device embedded in i2c_adapter. We extend the
+latter struct to accept the parent struct device and of_node directly
+and make it assign it to its internal struct device inside
+i2c_register_adapter(). For now just 12 patches but I'll keep on doing it
+if these get accepted. Once these get upstream for v6.20/7.0, we'll be
+able to also start converting i2c drivers outside of drivers/i2c/.
+
+Link: https://lore.kernel.org/all/20251106152330.11733-1-tzungbi@kernel.org/
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+---
+Changes in v2:
+- fix a NULL-pointer dereference in gpio-rcar (Geert)
+- rebase on top of v7.0-rc1
+- collect tags
+- Link to v1: https://lore.kernel.org/r/20251223-i2c-adap-dev-config-v1-0-4829b1cf0834@oss.qualcomm.com
+
+---
+Bartosz Golaszewski (12):
+      i2c: allow setting the parent device and OF node through the adapter struct
+      i2c: qcom-geni: set device parent and of_node through the adapter struct
+      i2c: bcm-kona: set device parent and of_node through the adapter struct
+      i2c: keba: set device parent and of_node through the adapter struct
+      i2c: omap: set device parent and of_node through the adapter struct
+      i2c: rcar: set device parent and of_node through the adapter struct
+      i2c: st: set device parent and of_node through the adapter struct
+      i2c: mxs: set device parent and of_node through the adapter struct
+      i2c: highlander: set device parent and of_node through the adapter struct
+      i2c: gpio: set device parent and of_node through the adapter struct
+      i2c: nomadik: set device parent and of_node through the adapter struct
+      i2c: bcm2835: set device parent and of_node through the adapter struct
+
+ drivers/i2c/busses/i2c-bcm-kona.c   | 4 ++--
+ drivers/i2c/busses/i2c-bcm2835.c    | 4 ++--
+ drivers/i2c/busses/i2c-gpio.c       | 2 +-
+ drivers/i2c/busses/i2c-highlander.c | 2 +-
+ drivers/i2c/busses/i2c-keba.c       | 2 +-
+ drivers/i2c/busses/i2c-mxs.c        | 4 ++--
+ drivers/i2c/busses/i2c-nomadik.c    | 4 ++--
+ drivers/i2c/busses/i2c-omap.c       | 4 ++--
+ drivers/i2c/busses/i2c-qcom-geni.c  | 4 ++--
+ drivers/i2c/busses/i2c-rcar.c       | 6 +++---
+ drivers/i2c/busses/i2c-st.c         | 4 ++--
+ drivers/i2c/i2c-core-base.c         | 5 +++++
+ include/linux/i2c.h                 | 4 ++++
+ 13 files changed, 29 insertions(+), 20 deletions(-)
+---
+base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+change-id: 20251223-i2c-adap-dev-config-9403ab811795
+
+Best regards,
+-- 
+Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+
 
