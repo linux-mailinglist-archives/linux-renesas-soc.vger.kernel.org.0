@@ -1,114 +1,99 @@
-Return-Path: <linux-renesas-soc+bounces-28359-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28360-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id xHuxKVrOm2lH7gMAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28359-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Feb 2026 04:49:46 +0100
+	id oPm5Ltnbm2n98QMAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28360-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Feb 2026 05:47:21 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22F8F171AD0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Feb 2026 04:49:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6146A171CC5
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Feb 2026 05:47:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C790C300C5AD
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Feb 2026 03:49:44 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B13AD3020D67
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Feb 2026 04:47:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6A97344039;
-	Mon, 23 Feb 2026 03:49:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1127D18FDBD;
+	Mon, 23 Feb 2026 04:47:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="P5mRR2LL"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="MFh2b2kx"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012068.outbound.protection.outlook.com [52.101.43.68])
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012010.outbound.protection.outlook.com [52.101.43.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 727DD2192F9;
-	Mon, 23 Feb 2026 03:49:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 916D32BB17;
+	Mon, 23 Feb 2026 04:47:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.10
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771818583; cv=fail; b=ryrptM1mgvFOkAmhuzbc7ZD3efUI5RecIL+XxNPjx8PjVVxOQ3Z1jllKHwiFjSA9JItH+mvhiK9JT+5FatApSLOA4TcgLLo5QEOLbOYe6p3J2p2YIxmCkdjgFlbY7larh13IboRoUreG/S0uoBncll/D58jeVTxT2zuh7mDzHPg=
+	t=1771822038; cv=fail; b=Qbc4ReQYi9Jwl1MrsY0LkZn8dbrziLtd8fd7p0mhBIfrYeoK1tvgTUme/79kGj9BdcovXH1N0teaQNBBodzhIleucEWOHUX13K2tM5RM+tlCbRm44LFTm4ff5YFDm0zzNWS/keRFubKgZWTRIKaPKOF497cBA65xAV1BXM2clKU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771818583; c=relaxed/simple;
-	bh=JYfjvSMeriy0QOthy5JLsp07J+tlNarg+UKGkV/HylU=;
+	s=arc-20240116; t=1771822038; c=relaxed/simple;
+	bh=A9Sljt0mb4wtL3EZKqRAirQG8Ot+kWInSMXLeavq/Dg=;
 	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=qZvrVZfiSbgDIAG7+mjMlhir9VzqTWPCVRY0y/82rOWuqaRvoNNYhXDAkNqyShnaq+WIUzpO52DJWJGzTHXmWikAuPnaK8BgHOtc0+RBeg3uFosXaitoyFKdFa+ticILYn5xgHaiJJWxMnUlLpys8VQ9Q8V526R4iFOqnuNV4/U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=P5mRR2LL; arc=fail smtp.client-ip=52.101.43.68
+	 Content-Type:MIME-Version; b=nbRZwPn3HzV3GX89kYbWwmVhpgVQRxTIrQngubtlguDc0SPnsWUO7U22u7fBQXTokoVfEF+VkyqwQLgPXlpK2m8Bps5HAAa+fck2hPXk9bLKML55Qgpr5kus/uF2aBnwgcNirTbR8rBdmjaSJWbmGQX2vM4ks54Bx5HlpHCNdaA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=MFh2b2kx; arc=fail smtp.client-ip=52.101.43.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uZKYVHsCP/RaGTTVpM+zb6CworRLtc05nRPcsFgcOtNrGUnaG5yruiWLBTpvcAhEMVg2wS6aLSVIKVca5sTc81Wl40KB2DGmvMypyS8uqxQ4DkW4YaRQJ43ksteRtXw3kCm13NcWYSt4iAE15b91tKXMxX+RfsiVlE6+VL7FBbrVun6f5wYJYcLdkuYLmTRSDVBfA2I0j+OvizxWOaBTgEIGeht1bUgwd64nqHceX6e3BZDZkvOnD/bYmFPPjTm2CIohtINWmwau4jsuR0utOc8FDOc2DIlcL5FvDoD2yudG0Z3UE/6EmZfQSbZgTgDgi/OlAJDLGAenPBom7ZB2Ig==
+ b=g3ROuSl9QISza8m+jRriwDZCBClPX9/HbQYC9k3Y6Ri0NjywZYh7a/B41z57K0SOj8ShJBhZ3W6Ra93U7wl/LMH+6XV7cfg3kaaRW2f799gOlw1PSqcUS6AhlS1/eBALnI65Rk/aaYyf7LC/+HICy2jBJJGK59Q73bOLuDhmshwWOYlFzL1b2AaYYAM6niUfuD8ugkmDfM/9Bf3OF/xoi3GvW/1o0r4XWrc9ZSoX3B+NDMPU7cA46RsiySIPUwewrNwQ+7QwetD196sJg5D7yJWg+YVTxBc7cPfHRj7b1WkLS8ceqovmTfXDCDcpPF9pNFB0cLhqpOvkPg+NKZDrJw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/1oTStWRmV2wBdfQLvC3P5Ij4ERm4Nt0ydB81rQE+9Y=;
- b=pcSCmQ4syVkBz8vBFGW6rKzDt71l0N/7KQEz77qeyr4AaBEvdHGLQifB/T0na1rLtrUshrw5QDb5K51uTMP/6iAYAdH+/MwQOZGYf8jEj/t7navFs/m/WzPPyckN+/wNHeOnPCkNXPbgc0Sbg7hTta1Er1Sn6WVf9O6ciwX2yFN0DWO/ecbGCpUmC7vbEKWVx89F6WhLpo0+fKxPiC/OrwuL3Ev0V/dfDSkajjsi/QwU8vtHKipZ1GWKXSe+twSWYsuvClfeS0DpN/+TY1OuhrOASoXDG7YTLLJ50Hqe36F78fAUq/JYVLFFsJ7dttSjLICluMdsyftZkENoTBhsNw==
+ bh=NdxnlW1dAYeVpcxB+9cPMwRsm3aCok/F67z2cr3O9ss=;
+ b=I/jwkjfiSMbedzka1RG0bo4RHbp0zTplvfyyjTz+9xWR9f/IWaAgx/JiDzYWZwKoK3cfnjoxQL7TsBMuwqC2VIUZsuen6w6rfpTe6rRJ4nOXE4GA8l9swwZv/a1ziXj12IvD/51Bgo4xc7CmOXAkcXmSTeOJ3mGabYTRIRXTE2diPuJ6fzn3o0QbOPIzmZe7WW8uiJz5p7L7hLb7r4QmQyzb7x96Id8AOn2ypl3e/+r2iAoySd17W6WNFhOlcH0sK3trmy1lPttRv/DuNLH4UHhsrarak/98Flfu04epEB6kyRQXZsCUsAnLr0nBUcG83F+PjHvSRGRurtCsWuZ3pw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/1oTStWRmV2wBdfQLvC3P5Ij4ERm4Nt0ydB81rQE+9Y=;
- b=P5mRR2LLKic+M/vs6FKtqlvJJaq78PfKH/DXWzMQh1NV1sGvDhAzJV0WpJ/MNiRuW0m8fptRgJnISzE2takTy7zamprdCogJXWXW0wjRy6svCy9zMHQdHqeB071XVTf2m4J0jee02nTPp63TQ+V0WR5DsPvMxG+cI6sdZ7YHFm3gW/gcM4p9Kdgbr+kWR9iMdoQnMSrVa4I4vsWRUPCPu6E13hfHFdBwiu1a51mzm0dIJj4zClh99xeJmBRglhhwLcM6M462aDY+GJxbO9kc7a5rZ/OKDcEp96miUd9TVWOErbH9CJAA3EieXGR5bcql5S2XeoIRQoJ4Vz60UmYt4g==
+ bh=NdxnlW1dAYeVpcxB+9cPMwRsm3aCok/F67z2cr3O9ss=;
+ b=MFh2b2kxaOCpgtleaxHt0MYTO87cj351ptLHRSxsfe8o1hp/N6J+vwovIwaGUE04IJG7qoXmQAEZUgJCfOW13bnj5u4Ws8dJ47qvmoWcUAJpuu6Pn62CM5wSsP69P87dvrRK/nv9904un7Lkrydno9AmQJnfJW6aH0eygIyd9NFsvlPF77+ZI74LlB4nDg4W1Oh9dRDxIIFnB7PNP8jPl2LuzS/0Qs249rT5Z+MGKy4xFDRgw1CMVHtkzRzknnyE+k6EfB2N7PxcEzo33z6r3O+l9rpHG1OJZ6Ei/TNW9DPGi9/V0596fNBtp7tjUNtP3Jdv1R8GB3iUFLN3ll+Nyg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from DS0PR12MB8245.namprd12.prod.outlook.com (2603:10b6:8:f2::16) by
- BL3PR12MB6452.namprd12.prod.outlook.com (2603:10b6:208:3bb::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.21; Mon, 23 Feb
- 2026 03:49:37 +0000
+ DS7PR12MB5718.namprd12.prod.outlook.com (2603:10b6:8:71::10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9632.21; Mon, 23 Feb 2026 04:47:05 +0000
 Received: from DS0PR12MB8245.namprd12.prod.outlook.com
  ([fe80::e7c5:cfca:a597:7fa4]) by DS0PR12MB8245.namprd12.prod.outlook.com
  ([fe80::e7c5:cfca:a597:7fa4%4]) with mapi id 15.20.9632.017; Mon, 23 Feb 2026
- 03:49:37 +0000
-Message-ID: <236a5eeb-e22e-4973-a693-319c1376f9d0@nvidia.com>
-Date: Mon, 23 Feb 2026 09:19:17 +0530
+ 04:47:05 +0000
+Message-ID: <bc3e8be5-8ffa-47f3-91e2-b3c0e9f8a28b@nvidia.com>
+Date: Mon, 23 Feb 2026 10:16:51 +0530
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/9] PCI: endpoint differentiate between disabled and
- reserved BARs
-To: Niklas Cassel <cassel@kernel.org>
-Cc: Koichiro Den <den@valinux.co.jp>, Damien Le Moal <dlemoal@kernel.org>,
- linux-pci@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
- linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@axis.com,
- linux-rockchip@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-tegra@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Manivannan Sadhasivam <mani@kernel.org>,
+Subject: Re: [PATCH 5/9] PCI: dwc: Replace BAR_RESERVED with BAR_DISABLED in
+ glue drivers
+To: Frank Li <Frank.li@nxp.com>, Niklas Cassel <cassel@kernel.org>
+Cc: Richard Zhu <hongxing.zhu@nxp.com>, Lucas Stach <l.stach@pengutronix.de>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
  =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Vignesh Raghavendra <vigneshr@ti.com>,
- Siddharth Vadapalli <s-vadapalli@ti.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>, Rob Herring <robh@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, Richard Zhu <hongxing.zhu@nxp.com>,
- Lucas Stach <l.stach@pengutronix.de>, Frank Li <Frank.Li@nxp.com>,
- Sascha Hauer <s.hauer@pengutronix.de>,
+ Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Sascha Hauer <s.hauer@pengutronix.de>,
  Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Minghuan Lian <minghuan.Lian@nxp.com>,
- Mingkai Hu <mingkai.hu@nxp.com>, Roy Zang <roy.zang@nxp.com>,
- Jesper Nilsson <jesper.nilsson@axis.com>, Jingoo Han <jingoohan1@gmail.com>,
- Heiko Stuebner <heiko@sntech.de>,
- Srikanth Thokala <srikanth.thokala@intel.com>,
+ Fabio Estevam <festevam@gmail.com>,
  Marek Vasut <marek.vasut+renesas@gmail.com>,
  Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
  Geert Uytterhoeven <geert+renesas@glider.be>,
  Magnus Damm <magnus.damm@gmail.com>,
- Christian Bruel <christian.bruel@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
  Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
  Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
- Masami Hiramatsu <mhiramat@kernel.org>, Shuah Khan <shuah@kernel.org>
+ Masami Hiramatsu <mhiramat@kernel.org>, Koichiro Den <den@valinux.co.jp>,
+ Damien Le Moal <dlemoal@kernel.org>, linux-pci@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
+ linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org
 References: <20260217212707.2450423-11-cassel@kernel.org>
+ <20260217212707.2450423-16-cassel@kernel.org>
+ <aZToh35w7GYrOmgc@lizhi-Precision-Tower-5810>
 Content-Language: en-US
 X-Nvconfidentiality: public
 From: Manikanta Maddireddy <mmaddireddy@nvidia.com>
-In-Reply-To: <20260217212707.2450423-11-cassel@kernel.org>
+In-Reply-To: <aZToh35w7GYrOmgc@lizhi-Precision-Tower-5810>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PN2PR01CA0230.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:eb::15) To DS0PR12MB8245.namprd12.prod.outlook.com
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PNYP287CA0067.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:c01:25a::6) To DS0PR12MB8245.namprd12.prod.outlook.com
  (2603:10b6:8:f2::16)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -117,237 +102,254 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB8245:EE_|BL3PR12MB6452:EE_
-X-MS-Office365-Filtering-Correlation-Id: b9b481c2-f603-4102-79d8-08de728e90cb
+X-MS-TrafficTypeDiagnostic: DS0PR12MB8245:EE_|DS7PR12MB5718:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0bf370bf-62c6-4989-35f9-08de729697a9
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|7416014|376014|13003099007;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?aXVEd2EwSlFYdmJvdjdKWVlRTXpWYStaUU54N2V2alBXQzVQYVYxYmRHMHBn?=
- =?utf-8?B?RFMvcnlFRktrd3duRlZKRGpQQ3pNM0tvT3o1bVIwK3V1WlBaUEFoamFjOGtI?=
- =?utf-8?B?bG9zMm13ckpQbDlBMFhEa0ZsMDdwNG5idnJCYmVTWXU2SlVPZUVFcWpSMmRG?=
- =?utf-8?B?Uk1WZ2JTdFM5ek50VWgweTI3UFZIWnRWbzRqYjQ1Tms3V01oQjltVllMTi9u?=
- =?utf-8?B?a21yeTIyOUl1WnY2N2QzSjNzcnJFbkRSaWdLeDR2eHN2TlU3a25OQzRTTlM2?=
- =?utf-8?B?SjNac0R4MDdzS01KMGgvSGkxR2xWcUg3Y3hsU2RIRTRQZ0JPbGd3YXAraGZU?=
- =?utf-8?B?RXFQakVKUlVlTDR3K0RTRGNQYmM0dnFiVE9nellUN081TkhXVlBXdENRRjJI?=
- =?utf-8?B?c1FldlUyQmZmbXVqeTF0YnRhTm5rZjNMWXp6R2VCVW1mVisxQTE5OFRYeEJP?=
- =?utf-8?B?ci9rU21XK1BaWFZGaExUaGdtMi9IOTRFQVE2NThkd0c3WUd0MDA4bm5jR2Fm?=
- =?utf-8?B?R1pYREcwSDM2akMrYVdiN2JlWFhoRldVMEN2d3FlV05oL3p6ckpYRzhFejlu?=
- =?utf-8?B?RkFoNGFzVTl3UGtmTkRoNVI4bTBPMGxEcngyMnFBZnJtNXVCZ0daTmM5NTFM?=
- =?utf-8?B?dU9vYjdIMEhMUXJNSHppVXZxa2lqQ24xU2U5OFlSVTZFUDB5MUlEamVMK0RT?=
- =?utf-8?B?MVY0QjRXeG9pblk4MENDVjAzRmRJZzFZUytVaU5HUHJrUVRBZENwd3EwQXVG?=
- =?utf-8?B?ZVFMbmprdTVIV2N6eDhuMHVYWC9lSnU5cVc2bm9oMWloeng0TDZGZVA2d3FE?=
- =?utf-8?B?SithVnNVRmxRb2N4K0lacHJCcUYwY0JYT3NjTkRjV2l5RnFSaHhURUtvM0Ri?=
- =?utf-8?B?SGxvS3luTHA0aEQ1Y0NpNkROcFVUcFVKR1FUVXE0MDRGWGh5OHQzbWVxSFA0?=
- =?utf-8?B?dVRiNVgrZEJqZ3F2eUJjNysyekFkU0ZFNW1rWHdBbkJjWVpVdmJqcllzdm0r?=
- =?utf-8?B?cHNGZlhDVHBvS3I4K2Z2Ym0vUVZndnJpQW5xRUFLWnpkSkE0d0Q0eGlFd0Fx?=
- =?utf-8?B?ZEljV2Q4bFpPNU9uczhCUUxvZUxzNW92eDEyYkJ4b2N5YmwzcnNrZmxRd1cz?=
- =?utf-8?B?R0haS29RTFc5T1pBVS9XN3hmRGoweC9GKzFtZFdtU1NTUG8xTzl1QUFwb3pN?=
- =?utf-8?B?dWt3c09rT3FUQ3V5TUZleW9tbDBmU2RPOGRHanptalBjWWxSLytWTXR3a2py?=
- =?utf-8?B?L1FKUnpsaERkSnZlVzd3bHo5UFBNOWRlOXNrWWFqR2pCeEpMdWRrM040L2g3?=
- =?utf-8?B?dnBpakk5MU5obHVCQWlVZllYSGMxQWYwTk9WclJmcERhbVcwT1hTbU1vT0xV?=
- =?utf-8?B?b0NETTdJMU03eExnb2VnL1FUdGNpeWtpWlVzVnhiaVp3bGhMeitoSjFSakVi?=
- =?utf-8?B?YWZrMmpqS1A2OXNadWgxVUUrVURncXE2eXhQZEpqbmlnSUxlQzlGc29xeHFR?=
- =?utf-8?B?VHBqUW9XVVpoV3NyTXYrUnJYRnYvRVM1VVhwV2VNQ1lQYXV4aHBuRzJMemZt?=
- =?utf-8?B?alEwem00U1poTlF4U1dyQ0g5bVZwM3BIUlo1YXVITkQwQ2l5eFdhUWhxRHA5?=
- =?utf-8?B?b2MrdnZKWlNlUlNQQml1a0NmeGpGQVBVQUZLNVVoUWUvcXI3OXl3QUtmZ3Z5?=
- =?utf-8?B?L0Q1dEdjS0lzVDdxMkJpYlN1bXI0SVJNb2dVeFlKbStwMndMeVJ1akc5Titu?=
- =?utf-8?B?UGFGSXFKTXNJbXo0cy9ZOXAwTmlpMXdjaVNLRVlHZkhUdjBpb2hUNmpXSkFG?=
- =?utf-8?B?ZkIzc2NDU1VCbkFhYXdWS3RNdVMxN3JpcjRaRGhCTnNQdGdPTTMvRFBIQVZL?=
- =?utf-8?B?dUFySlNDejg1UWMzaUw1TWxVRVV6ZjFsVTYySllsQlAzVG1HdVVjaEMvcjI2?=
- =?utf-8?B?ZXA3eXZQMzNlcHQzc2UzTkVWdmRRQlk2WVFEKzB3aSszYzdTU3NhUlZuZ0N3?=
- =?utf-8?B?MGQvMlh1bU1wRlJFS0hGd09GVHg0VklnSm1hcStKZ2JhREZPN3JyN3VKMzVL?=
- =?utf-8?B?QmhtSFlKODF0d1J1THo3eHplejlQdndNMHVTdzVtZldkYUFpdndiUlJyUXB3?=
- =?utf-8?Q?sIcw=3D?=
+	=?utf-8?B?Qnp1UzQwY0J6MitocWllTUprbWF6WHVYR3k4RzByWU1aWS9LYnpSY25tM3Z0?=
+ =?utf-8?B?azJpNEdZQkxEdXd3MWNNY0hUNFEzTFV0aGU2aGVpU3Z5WHRSc1BrN3JNMFpj?=
+ =?utf-8?B?eFhDbXJ6blNyQWp3RTBFN1RvUmI1TVVlU2R2dUs0Mk1YNVVLN0pQbEVuRTU2?=
+ =?utf-8?B?VW1qcmloRnRRR1hhZEZRR0JLYlhMMjVvd3pCOTRrczJ0MDZnajFrUnd2VFhV?=
+ =?utf-8?B?MTZaaGhZY3V0SDM5d2xRdFdjTGVURzdHckdIbVFxWGthajBnZ0lOamtobDBM?=
+ =?utf-8?B?c2xEM05ncC80SW5mVmtQaXBJWEZReXR5TEl3MmpDMHJKSnV1N0gzSlNJMmhL?=
+ =?utf-8?B?RzRsK3kyNlVmOC9Zc0pyczVFQjhxMEdqOEwxNVhXRHJ4Y200em40Y3NacmxT?=
+ =?utf-8?B?b205M2p2ZE9seWtlaVpLMDhQVnVDMldvdjAxaGJ5U055cEhSbitaYmVmY3N3?=
+ =?utf-8?B?QjNSNE40M2s5bktjZGZYd29vaFlTMGw5aUhqUWxQUE9waTM4eFdGa0ZKSllh?=
+ =?utf-8?B?bXZwL3RCTStWQkYyOGFRWDlSVUY3Zmt5YXRyTkdWaXM5NEcwQVpJNE9TYzRK?=
+ =?utf-8?B?MVdKMnRSQ29lYTFGTisxaWI1NnRQdW9EVWxCYzhRcTlmc2gyd3I3dTFEMVlV?=
+ =?utf-8?B?cDBqN09aUUQvK1Q3cnpRd1JwaVNDTjd3YnJseUV3RFo3YzNRbDc5Z215TnZO?=
+ =?utf-8?B?SWN6SDBsS0k1ZkszaWNlaWF3M2VFL3dVRzBvMlpuOFNBMi9iQ2F2ZU1uM0cw?=
+ =?utf-8?B?YzhaeE5kWVYxcVVMazhsV3lyUzF1NHd1amJDVXR2a25BUHlGWkZiSE9xRzVN?=
+ =?utf-8?B?Tzk4UzJCYUoyajlTQkF5NFNDZCtOVm1EZU5pbVlIUUhTaEYvN05GWE9GNENk?=
+ =?utf-8?B?QzVvelk0aXpJVUtIMGZSU2xEN0lidUZ6eHFZWkhPYllpb1JzYTc2VTlSdUNa?=
+ =?utf-8?B?NWQzNU9JNFhuYTV4NjEwYmRyRlVodTBYN3BKSThUSEJCWUQ3ZjVlajB4S1RZ?=
+ =?utf-8?B?UDhoNXlCRnpVVUM1dGh3UGwyeU1USkkxaWlBdGFPc3JIYUdTU0ZzdFJFekln?=
+ =?utf-8?B?VnBCKzJOdzNjRnlLcXdQUXl6ejJqaktWazc3TE9YRFJYekRGck45Mk5DcCtW?=
+ =?utf-8?B?WU5MaXo4ZFpyb2FJUHJNZXFKL09FenBZSjlBV2MycFRzV2NjNVA2UVV1dTRH?=
+ =?utf-8?B?RjBFbEQwVGxNcU5ReUJXK0VlYm82blpKRTdyM2hEMDFWK2RHcHkwK1BHVFdl?=
+ =?utf-8?B?Qlk0czJlUWZKdEFBM3ZobVRvZzRoekZqd1VzblQvTThKc2JkblJvZVE2Q0tJ?=
+ =?utf-8?B?TGlzRlQ5ZHNsMTRCY0o2S25tSnpGQ1BWWjYzZzBiL3IreEQxRHlRdW03MDBa?=
+ =?utf-8?B?NklyeTlpZWlCbXlFNERvaDU2RGx5Y3VYeTN1TFVoMmdSeE5neXZCd3UrTUUx?=
+ =?utf-8?B?cWRUaVlLTDZVNm1paW1ydDd0V0VqSG9iOE1Eenl6RkoxZVpaQmg4eHlJU3Bw?=
+ =?utf-8?B?dXQzTEVCMGdhVWxQQW01SWVxa0owWmU4OXJxcS9lMHI2K040bTdrZ3AxV09r?=
+ =?utf-8?B?OFlmZXQvNXhiVE5NY2pQV3lWT3FyS0ZZc1NvY1VYZTNKQ2dGVUxlcW1Sb3hV?=
+ =?utf-8?B?enQ4WGxEd3YxYVREY0xUcVNYU3lUWDRYUmFUdk00MmlEUE5zU1g5SzlWNGxi?=
+ =?utf-8?B?NkJiek1GTUhWS3NjN3I4Y21iYkNDSHprbFh6cjcyV3czUVZwNHZhUlZwTEtK?=
+ =?utf-8?B?U1F4SHBldlRSMjlIS0xRZTNVMUtOMUg4UkE1RXhlekhmSXk2b1FZeEJZNEJz?=
+ =?utf-8?B?TGEyUHV2bDBlZTRucjdscHMrckU0eTcyZ3ViUWt4OXZ0RzVBWEJjNTA3WWVi?=
+ =?utf-8?B?V1BWWjR5eDFSM0F3dWFkZ2VVRWtOeDloTVNhOGNnTE1WM0l1MHNNYzA5Z0Fh?=
+ =?utf-8?B?ZXRNSlZiYjVCUFNHb09YeW1VaXlqYW82SU10MjhIZUhrSEtOclZqTlZiYTgy?=
+ =?utf-8?B?cVNZSE9Md0ZkcVJONTJqS2JyY1hoQ3YzY21xVkNYYmRIbXIwR053eFFGcFFU?=
+ =?utf-8?B?V28rK2RpMXZiUDVMTzBYSlJtY01jODBPQnY5ZU03ZWhhM2l4emNmeWZXejdE?=
+ =?utf-8?Q?C8uk=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB8245.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(13003099007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB8245.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?S2JSYnRhbVhGWHFtWDBVTTZyTGgvbGsxSkJXUGk1U3VYU2RVYlFFL2RxWllV?=
- =?utf-8?B?cVF3dWIrRmZnWFhVL01sdE9xLzhrZUFaNEF0V1NoenJlcHUyVUxLb2hvOXJM?=
- =?utf-8?B?U296UHZzZkw4WGhnZTk5MTQ0bGNYMlduU3VLeWh1VFhpcjJZS0JvanBDSDVW?=
- =?utf-8?B?cGpuK3c0Vmd2blBtYXFaTXhWb29aSHg2eEFINzd1RVRWdWN3eVl2WUNuNGFj?=
- =?utf-8?B?Q0xpUzArUVpoWmpheHk2SFBwY090WWRyZmFTZWJ3eVk2VGcxaERxU2V1c0k2?=
- =?utf-8?B?ZlZHWU4waHgveVNBMVh5TXFHaDJEOWkxb01CSFY4cUJOYWpsZlVlbXNWR2FW?=
- =?utf-8?B?WHhwYWRZZ2J4VTd3d1Z2N2NOdHQ5VWlQOFpHN2VoVjdQdWFNdHJVWm04YnA4?=
- =?utf-8?B?bjZ4dkoybFBzQWEyYjlGVEN4WHhzYWd6TTNja05zdmRScHJTWVVrL29KM1lj?=
- =?utf-8?B?RjM5YjJSRktlYmV5WXB3L0ZQSlpET1JSQ1JxbGdRbVRuU0JlRE5kc0Qrakk1?=
- =?utf-8?B?L0xJMkdBWnBQNWo3WWxnSU9xOS9Zelg2VitscU1xZHhnOE9DaG5DcEV6VWl3?=
- =?utf-8?B?SmxyTm1IbEhVV2Q4SXExVVdZQUo0aW9ZeVFMRnRMZ1RyTTQrVE5CTy9EVldZ?=
- =?utf-8?B?eENIcWFEdGRPdGpwZzdieWlIWHVqd1BEUGhCcTU1L1k2WmhNYUFCMU1KZXBI?=
- =?utf-8?B?c1NUNW5LTW1xcjNxeU9ENVluak1mMmZoVEp2R1VWaCswc3FrZnpGN3BPM28x?=
- =?utf-8?B?cnN3SzBjN1p4QzRaWE1Lc3h0SUs3dlI4cXlQWHR6c3pxZit6SnZVRlBndlls?=
- =?utf-8?B?ZnVSYTJYNEExTW1UMENyRGoweTN6Yy81NVJza3FYek1UT3g0cEYydDhyOE1R?=
- =?utf-8?B?Qm4wdVRQNlh2UnJETzFVSWhBMXMrTkhmd1JHd1U5NzRQYWNuMGRoZ2VmUC95?=
- =?utf-8?B?OUxld3NhamxEYTNmeG4rWW5lN01wb0lzREdFL0dwUXFGTVdUb0ZRTEdVODUz?=
- =?utf-8?B?WDkvb2hCZzQyL2NsZXB1WG0rNnpKWVhpZW1GQk5TNU1INWNtNXBNOGxJQ0V4?=
- =?utf-8?B?STBFY1pjbklQVnZJL0IzdnQyNjhNZXl1SmVPRlErZVRSakRXN1cva3NGTFNp?=
- =?utf-8?B?aGtyR2c1V2ZmUlZjQjJHMXgwRG1NcCtHVGxCTlhzcEUxQTcvcWdQOW9rcXBi?=
- =?utf-8?B?OUZMdy9XVU1LKzNrdURvdkduTWxLdHJqb3VDTHF4RHVJb1lWbmJ2a0tLcTFK?=
- =?utf-8?B?Z3MrMGNobEpKUU1WZTM4S290N1N6VUxQSWJNTUVxa0t1cVlkd1AwVVNhU3dX?=
- =?utf-8?B?OFVSY2NVR1Y4NExOMkg5N1kxV2NSM1ozOFpzRTQ1ZnJoRHRVVWk2MUhYTFp0?=
- =?utf-8?B?Snk2eHpvaXJkbjZvVnBUVGZlaGxha1o1c3gyVmF5NFJPK1Y2WEQwSFhpcUsz?=
- =?utf-8?B?MmsrQks1NndoUlA1Q1M5eTB1cHgxdnFWNzlCTldXMzcydURBK1NIR1NYS1FC?=
- =?utf-8?B?dXNWbUtJVDFPd1lnTVFMOFZQNXhCM1V1NGVFcURUcmluaUpyaXVGRlFjME9n?=
- =?utf-8?B?RzdGdzZtVit3NVRJVW9laEdLV21kbHFHdG5ITWhNbU1aekVLSEVEMyt3RktQ?=
- =?utf-8?B?QmdiclNTNkhQSFcwZFMyU2JEbVlMV1NPQ0g4YmtWQmNDcFZjdHdmZzBNUThO?=
- =?utf-8?B?aFF4RHhrWENpd2xETFhuaEdoS2ZqbEV2MlVsd2ZMc0dmalRuNHc3RENJNFla?=
- =?utf-8?B?WjYxTW04Vlp2Q1VsMGtkbFhkMFlyVWZ2SW5EUFgzMVJkelVmbTJwd3hrbW1B?=
- =?utf-8?B?M0RTWlNWTDBhSDZ3RXpSMnliR2I1QnQ5Tkppejh0aTRMVzVPZDQ0bXU2RlNo?=
- =?utf-8?B?VmVlc0NyUkgwZVcyUDRMck4rSjV3VE5kQ0ZZaXNhVDRXR1BTMlZESlIyVW53?=
- =?utf-8?B?czluaEo0aitFMTIzWVpIelRqZzBrQUIxY1BLdFkrSHlaRUg4SlpZTWFqZ0xt?=
- =?utf-8?B?ZUNhOE9rUVRMVUZHWTdNaXZreUdWYUIzdjJwRmFzLzFGY2FPd1B6bnA4UEdz?=
- =?utf-8?B?ZWtVYit3eEZIYmVEa0pZbmlLeUQ5T29tdUlFTkhFd1VqcjBHZUMxczdUSmpC?=
- =?utf-8?B?Y1FJUUxLdkJjS1pGNzJPc0FUMU40NVBGU0szY1hqMkYwSXJNMzZKM1NJNWNV?=
- =?utf-8?B?QVAxbDNqYlRralRFeGpFcVpMR3JmVFI0MWw2cFJYRXc5ckxyNG52L1FKK3VS?=
- =?utf-8?B?V0VlQmRKclYzRk04amc2bmNHdzBwVDZsZ2Q1T0tkTjVZcXI3eWpDV3J4K3Ru?=
- =?utf-8?B?M0poSlhYTWVPbm9YR2ZYTWp1RWU1czRwemZDSFRyamsxOEIxRlhpNjdlZVZ5?=
- =?utf-8?Q?X9p8wdh0avJsP+dI=3D?=
+	=?utf-8?B?OE1GNE90SGJpN3NncjlaQk1pT1NXVTh4T05xemJXRjBPL1lrWHpYbEkzVFlC?=
+ =?utf-8?B?UkNHdnJGaHA5VWRWQXUzQkJlTHkxTjRHd2NLVDVRTGZKQ3h6eUhOYWUxVkNE?=
+ =?utf-8?B?bVpMN25PeVdDV1hMcXNacDFSTXhyQ282WDMyOG9IVU1VNWtnZ2NZWnVCSHNl?=
+ =?utf-8?B?RXZKc0V2bTh6N01kVGhJaDA0Mm9DTUxmOG1jUzlkWEhLbzhuTUQyRDlnS1FU?=
+ =?utf-8?B?VHF3S0luODFGdkJzUnBuZ2IrUWdXRkc1cndEdjRzejJnYXh4VUljbGYwekc1?=
+ =?utf-8?B?aXNsMU91L214d1R6d0Z4VUdhSVpOdHJ0SDUyL3R0NGxlZmVPRTRLS3phZ2Ju?=
+ =?utf-8?B?Q2FHTHFaSlQzL0ozdjJWWnZMZGpsclNrUTJLR2xMb1BVREZuNXE5blh2Rk1w?=
+ =?utf-8?B?bmU2NGpIZThvcnZhWmEzdXROdUpvZ1dLR0RqVXNvQXUxVTZxbFpveTJnSzNX?=
+ =?utf-8?B?OGlSRmZucFhLVzQ4WlQ3U1JxY0tMVmxDVHlVejVQc0tRRW11VGFtaGNpVERP?=
+ =?utf-8?B?VWZwbitxQ2xDa0xtSW9NNVp2TWtRY1FrRW5DUE1jUHhPVzMyVktGaFlsRnRv?=
+ =?utf-8?B?L21pMEpteElsZmZhOTdtbk5ralBmR3N3MDBxL3dYeGtHYzNHZytFeGorZ2hp?=
+ =?utf-8?B?Z1krQWZlN05ubW1RNXNabTFOU3NBQ3F3eUpqMDJSZTUrWHBBNDhCU0xrMXdW?=
+ =?utf-8?B?RE9rRk5nK0l3OTBRWFVTdEZzdDBkR3FvNzJ1Z2E3T3BvbGY4ZXhtYk5oZGdZ?=
+ =?utf-8?B?Y1RqRThDTUhqV2dTS1RlenA0ejk3SVh5Yzlna3pOY3c4V2d2R0RTdEEvWTZ0?=
+ =?utf-8?B?TDhYaElpa3ZJK3hUQ2NRR2lUSzhDQkpENWVLVFp1b2hyTW5UU25RRjFEdGIr?=
+ =?utf-8?B?NmQvak5zUzZlK20xazc1elp5VEQyeHRaUmFjNTU1eTh4aTJ1Yjd3Q3BnclhR?=
+ =?utf-8?B?QkUzeG1rNlhNNmttanRSSTlOMlNBTmRtZWR1c0NZdjFWdFMrRkMzWHI4dVJ5?=
+ =?utf-8?B?VFJvWUpKSDhROGNMUiszUHZkeVczcnVTNnVSazBxcVJvUmZHYmhhWVk1aXRr?=
+ =?utf-8?B?UU1pN2pEVENHS1MyYm9WSVh3eU1LMHlWRExiTGRBVlRMTnM3MmpRVlI1eHdv?=
+ =?utf-8?B?ekVuWE1UTjhzM1J0S3ErK25mcFpzUkJIK2xtVlJvNmYxT25KZkVjQkRuMUdG?=
+ =?utf-8?B?UWFUdGNaSC9TMmhFci85WngwN2Z2TG5EVENqanlUZmxHUUp6dTdHRVRCUDV1?=
+ =?utf-8?B?UjF5dXBscDIxdzNoaUVlZ1ZiaWVQWEJjblExUTQ5UC9OelZvUHZVSXlPa0hN?=
+ =?utf-8?B?SHpzK0tON0hWeHVpTXIzK2lKQW1rbXh2Y2JwbzIxa3pQZ3pSTjloa25FNGhm?=
+ =?utf-8?B?OU56WG9jZlMzaXFwdE5PaGVIdHpkZ1V6M0JLRnBqRDZtVnpmaUorbWNUWDFK?=
+ =?utf-8?B?cm5wdzZBc1VoaU5HbWxNdFJteXRVTk5YYUQzektteDV2V0FuUHFmT29KU25m?=
+ =?utf-8?B?YmJBWXdpeDJpa2tTSDB1SlZFcXFDZnRKYk5OQ25rWDNjRUowTmd4eTFGbW13?=
+ =?utf-8?B?TXBhcHBTcDU4aDJVd3ZWNGdKY3NlZUtSSGZFMVJHa2s5dXJXWmdMWndtcFhF?=
+ =?utf-8?B?R29yU0tJSjYxb1Q2bEFpVjk0QlIyc2VIbndNeXNZdEF5ZkVxamovVFd3QjVC?=
+ =?utf-8?B?dHVFaDN4am40Y2lBMFNaK0g5MnR1ZWRuVEt4eTlGZTVLdk4vRHJ0VEk1TnJF?=
+ =?utf-8?B?aEFkbG5NYTQ4TmJwVHhDS0doMEhLN3NoZnFjK3hpQXJaWEhqYktLaDMzOEJJ?=
+ =?utf-8?B?SzJiMThKUWNDd1ZkRDEvQkw4emw3djVWM3k5QnZuendtRWJlMGYzQWROeVZ2?=
+ =?utf-8?B?NEdkQVhwalNvcnBPMVNBM2tEQllsYm9kOUJBL2pxT3JaOXNlRENwWWROLzQy?=
+ =?utf-8?B?cml3Y0pVZHhETENqaEEyc1RoQWI0bmJnTWI0anYzbk1DOXJtZElBdlhKRVFM?=
+ =?utf-8?B?NUFzTGM1aWZRcFRGa1loZER6bWZ0dVI0R3BNMUI0ZGR4VnJzNEJCa0pxYXlz?=
+ =?utf-8?B?QlJDbUl3MmNtYVdVc1EvekhJK2RJZHEzV0c0MHYrZkdrblY1OVhMRUxHSGla?=
+ =?utf-8?B?VGt6S29VMXdWR0p6ckZhTEpDT1NSUmw4MWRMaWtWc1VGWk9HR3RuOFJhd0Qr?=
+ =?utf-8?B?VVNTb3FaTklRRGJzRlBraU4veEYrY2ZTS2Q1czMydnNSQTNnT3kzSy9qZVlR?=
+ =?utf-8?B?bDd3NVFHenBYRUZPd2Y0cEM2NlV5bWgvaUJoQmk0RjBjR2ZhZFJzZUZxNE5h?=
+ =?utf-8?B?SEk3bGpwM2l6V00waFJOT0dCM05LZGVMOXg3cFErRG5TSk5IdUhPQT09?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b9b481c2-f603-4102-79d8-08de728e90cb
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0bf370bf-62c6-4989-35f9-08de729697a9
 X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB8245.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2026 03:49:37.6692
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2026 04:47:05.1464
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Tzq2nK2r6dC5N37IyB3SjAtlJ2nlw0fKZESv9XnyqwR2LVXUhA+oHS5AtRU89vylSYS6BNxKY+srWljpoaELWg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6452
+X-MS-Exchange-CrossTenant-UserPrincipalName: SeJHeafxF3GC4Jrr2de09V9ggsYfXOcd6Lq6oQfLcX6RN1/Kx+p5AvyIwvKItoQpHeNp0Wsr6u7rq8vf8yPQGg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5718
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [1.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_REJECT(1.00)[cv is fail on i=2];
 	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[valinux.co.jp,kernel.org,vger.kernel.org,lists.infradead.org,lists.linux.dev,lists.ozlabs.org,axis.com,st-md-mailman.stormreply.com,arndb.de,linuxfoundation.org,ti.com,google.com,nxp.com,pengutronix.de,gmail.com,sntech.de,intel.com,renesas.com,glider.be,foss.st.com,nvidia.com,socionext.com];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-28359-lists,linux-renesas-soc=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[27];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_FROM(0.00)[bounces-28360-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_CC(0.00)[nxp.com,pengutronix.de,kernel.org,google.com,gmail.com,renesas.com,glider.be,nvidia.com,socionext.com,valinux.co.jp,vger.kernel.org,lists.infradead.org,lists.linux.dev];
+	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[mmaddireddy@nvidia.com,linux-renesas-soc@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[50];
-	MID_RHS_MATCH_FROM(0.00)[];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
 	NEURAL_HAM(-0.00)[-0.999];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[Nvidia.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,nvidia.com:mid]
-X-Rspamd-Queue-Id: 22F8F171AD0
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:mid,nvidia.com:email,Nvidia.com:dkim]
+X-Rspamd-Queue-Id: 6146A171CC5
 X-Rspamd-Action: no action
 
 
-On 18/02/26 2:57 am, Niklas Cassel wrote:
-> Hello all,
+On 18/02/26 3:45 am, Frank Li wrote:
+> On Tue, Feb 17, 2026 at 10:27:11PM +0100, Niklas Cassel wrote:
+>> Most DWC based EPC glue drivers that have BARs marked as BAR_RESERVED in
+>> epc_features also call dw_pcie_ep_reset_bar() for these reserved BARs in
+>> ep->ops->init().
+>>
+>> An EPF driver will be able to get/enable BARs that have been disabled/reset
+>> unless they are marked as BAR_RESERVED (see pci_epc_get_next_free_bar()).
+>>
+>> Thus all EPC drivers that have a BAR marked as BAR_RESERVED in epc_features
+>> AND call dw_pcie_ep_reset_bar() should really be marked as BAR_DISABLED.
+>>
+>> BARs that are marked as BAR_RESERVED in epc_features but for which
+>> dw_pcie_ep_reset_bar() is not called in ep->ops->init() are still kept as
+>> BAR_RESERVED.
+> combine the same condition together to make easy to read. like
 >
-> This series is written in response to the patch series from
-> Manikanta Maddireddy that was posted here:
-> https://lore.kernel.org/linux-pci/291dab65-3fa6-4fc8-90a2-4ad608ca015c@nvidia.com/T/#t
+> "For BAR_RESERVED bars, change to BAR_DISABLED if call dw_pcie_ep_reset_bar().
+> and keep as BAR_RESERVED if not dw_pcie_ep_reset_bar() in ep-ops-init()"
 >
-> The reasons why I decided to post this a new series was because the series
-> above:
+> Frank
 >
-> 1) Adds PCI device and vendor specific code to
-> drivers/misc/pci_endpoint_test.c. We've worked hard to make sure that
-> device specific quirks/limitations are communicated via the Capabilities
-> register, so let's do the same for reserved BARs.
->
-> 2) My review comment which suggested to convert all uses of BAR_RESERVED
-> to BAR_DISABLED (except for pci-keystone.c) was ignored.
->
-> 3) Koichiro has posted a series that allows an EPC driver to define exactly
-> which hardware backed resources are provided in a BAR_RESERVED BAR. Yet,
-> this nice improvement was not incorporated. (While Mankata was part of the
-> discussion, he was not CC:d on the patches that actually implemented this.)
->
-> 4) The selftests should return skip instead of silent success for a
-> reserved BAR.
->
-> 5) As Mankata points out, but did not address, BAR_RESERVED is quite
-> ambiguous, so it is better to introduce a new BAR_64BIT_UPPER to more
-> clearly mark the upper part of a 64-bit BAR as this, rather than reuse
-> BAR_RESERVED.
->
-> 6) It is possible to remove all the dw_pcie_ep_reset_bar() calls in the
-> DWC based glue drivers and move it to DWC common code.
->
->
-> Because of all of the above, I thought it was just easier to post a series
-> with all of the above addressed, as it seemed easier to just show what I
-> meant rather than to try to explain things with words.
->
-> The thing that is missing is to add a patch for pcie-tegra194.c which
-> converts the BARs to BAR_RESERVED.
-> Please see patch "PCI: dw-rockchip: Describe RK3588 BAR4 DMA ctrl window"
-> and do something similar to pcie-tegra194.c.
->
-> If we are missing some resources (right now we only have
-> PCI_EPC_BAR_RSVD_DMA_CTRL_MMIO), then I think we should simple add that
-> (e.g. PCI_EPC_BAR_RSVD_MSIX).
->
-> Mankata, it would be nice if you could test this series, and if you could
-> provide a pcie-tegra194.c patch that adds the sizes of the eDMA regs +
-> MSI-X table in BAR_2 and BAR_4.
->
->
-> Kind regards,
-> Niklas
->
->
-> Koichiro Den (2):
->    PCI: endpoint: Describe reserved subregions within BARs
->    PCI: dw-rockchip: Describe RK3588 BAR4 DMA ctrl window
->
-> Niklas Cassel (7):
->    PCI: endpoint: Introduce pci_epc_bar_type BAR_64BIT_UPPER
->    PCI: endpoint: Introduce pci_epc_bar_type BAR_DISABLED
->    PCI: dwc: Replace BAR_RESERVED with BAR_DISABLED in glue drivers
->    PCI: dwc: Disable BARs in common code instead of in each glue driver
->    PCI: endpoint: pci-epf-test: Advertise reserved BARs
->    misc: pci_endpoint_test: Give reserved BARs a distinct error code
->    selftests: pci_endpoint: Skip reserved BARs
->
->   drivers/misc/pci_endpoint_test.c              | 32 ++++++++++++-
->   drivers/pci/controller/dwc/pci-dra7xx.c       |  4 --
->   drivers/pci/controller/dwc/pci-imx6.c         | 22 +++------
->   .../pci/controller/dwc/pci-layerscape-ep.c    |  8 +---
->   drivers/pci/controller/dwc/pcie-artpec6.c     |  4 --
->   .../pci/controller/dwc/pcie-designware-ep.c   | 24 ++++++++++
->   .../pci/controller/dwc/pcie-designware-plat.c | 10 -----
->   drivers/pci/controller/dwc/pcie-dw-rockchip.c | 19 +++++---
->   drivers/pci/controller/dwc/pcie-keembay.c     |  6 +--
->   drivers/pci/controller/dwc/pcie-qcom-ep.c     | 14 +-----
->   drivers/pci/controller/dwc/pcie-rcar-gen4.c   | 16 ++-----
->   drivers/pci/controller/dwc/pcie-stm32-ep.c    | 10 -----
->   drivers/pci/controller/dwc/pcie-tegra194.c    | 20 +++------
->   drivers/pci/controller/dwc/pcie-uniphier-ep.c | 24 +++-------
->   drivers/pci/controller/pcie-rcar-ep.c         |  6 +--
->   drivers/pci/endpoint/functions/pci-epf-test.c | 24 ++++++++++
->   drivers/pci/endpoint/pci-epc-core.c           |  6 ++-
->   include/linux/pci-epc.h                       | 45 +++++++++++++++++--
->   .../pci_endpoint/pci_endpoint_test.c          |  4 ++
->   19 files changed, 173 insertions(+), 125 deletions(-)
->
-Hi Niklas,
-
-I verified this patch series, along with the one linked below, on the 
-Jetson AGX Orin platform:
-https://lore.kernel.org/linux-pci/20260222193456.2460963-1-mmaddireddy@nvidia.com/T/#t
-
-I reviewed the BAR details in the lspci -vvv output—all three BARs are 
-enabled.
-I also ran pci_endpoint_test, and all tests passed successfully.
-
-Thanks,
-Manikanta
+>> No EPC drivers outside drivers/pci/controllers/dwc mark their BARs as
+>> BAR_RESERVED, so there is nothing to do in non-DWC based EPC drivers.
+>>
+>> Signed-off-by: Niklas Cassel <cassel@kernel.org>
+Tested by: Manikanta Maddireddy <mmaddireddy@nvidia.com>
+>> ---
+>>   drivers/pci/controller/dwc/pci-imx6.c         | 12 ++++++------
+>>   drivers/pci/controller/dwc/pcie-rcar-gen4.c   |  6 +++---
+>>   drivers/pci/controller/dwc/pcie-tegra194.c    |  8 ++++----
+>>   drivers/pci/controller/dwc/pcie-uniphier-ep.c |  4 ++--
+I see BAR_RESERVED in pci-keystone.c driver in linux-next branch.
+Do you have any patch which changed BAR_RESERVED to different type
+in pci-keystone.c driver?
+>>   4 files changed, 15 insertions(+), 15 deletions(-)
+>>
+>> diff --git a/drivers/pci/controller/dwc/pci-imx6.c b/drivers/pci/controller/dwc/pci-imx6.c
+>> index a5b8d0b71677..ec1e3557ca53 100644
+>> --- a/drivers/pci/controller/dwc/pci-imx6.c
+>> +++ b/drivers/pci/controller/dwc/pci-imx6.c
+>> @@ -1433,19 +1433,19 @@ static int imx_pcie_ep_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
+>>   static const struct pci_epc_features imx8m_pcie_epc_features = {
+>>   	DWC_EPC_COMMON_FEATURES,
+>>   	.msi_capable = true,
+>> -	.bar[BAR_1] = { .type = BAR_RESERVED, },
+>> -	.bar[BAR_3] = { .type = BAR_RESERVED, },
+>> +	.bar[BAR_1] = { .type = BAR_DISABLED, },
+>> +	.bar[BAR_3] = { .type = BAR_DISABLED, },
+>>   	.bar[BAR_4] = { .type = BAR_FIXED, .fixed_size = SZ_256, },
+>> -	.bar[BAR_5] = { .type = BAR_RESERVED, },
+>> +	.bar[BAR_5] = { .type = BAR_DISABLED, },
+>>   	.align = SZ_64K,
+>>   };
+>>
+>>   static const struct pci_epc_features imx8q_pcie_epc_features = {
+>>   	DWC_EPC_COMMON_FEATURES,
+>>   	.msi_capable = true,
+>> -	.bar[BAR_1] = { .type = BAR_RESERVED, },
+>> -	.bar[BAR_3] = { .type = BAR_RESERVED, },
+>> -	.bar[BAR_5] = { .type = BAR_RESERVED, },
+>> +	.bar[BAR_1] = { .type = BAR_DISABLED, },
+>> +	.bar[BAR_3] = { .type = BAR_DISABLED, },
+>> +	.bar[BAR_5] = { .type = BAR_DISABLED, },
+>>   	.align = SZ_64K,
+>>   };
+>>
+>> diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4.c b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+>> index a6912e85e4dd..9dd05bac22b9 100644
+>> --- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+>> +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+>> @@ -422,10 +422,10 @@ static int rcar_gen4_pcie_ep_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
+>>   static const struct pci_epc_features rcar_gen4_pcie_epc_features = {
+>>   	DWC_EPC_COMMON_FEATURES,
+>>   	.msi_capable = true,
+>> -	.bar[BAR_1] = { .type = BAR_RESERVED, },
+>> -	.bar[BAR_3] = { .type = BAR_RESERVED, },
+>> +	.bar[BAR_1] = { .type = BAR_DISABLED, },
+>> +	.bar[BAR_3] = { .type = BAR_DISABLED, },
+>>   	.bar[BAR_4] = { .type = BAR_FIXED, .fixed_size = 256 },
+>> -	.bar[BAR_5] = { .type = BAR_RESERVED, },
+>> +	.bar[BAR_5] = { .type = BAR_DISABLED, },
+>>   	.align = SZ_1M,
+>>   };
+>>
+>> diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
+>> index 31aa9a494dbc..9f9453e8cd23 100644
+>> --- a/drivers/pci/controller/dwc/pcie-tegra194.c
+>> +++ b/drivers/pci/controller/dwc/pcie-tegra194.c
+>> @@ -1994,10 +1994,10 @@ static const struct pci_epc_features tegra_pcie_epc_features = {
+>>   	.bar[BAR_0] = { .type = BAR_FIXED, .fixed_size = SZ_1M,
+>>   			.only_64bit = true, },
+>>   	.bar[BAR_1] = { .type = BAR_64BIT_UPPER, },
+>> -	.bar[BAR_2] = { .type = BAR_RESERVED, },
+>> -	.bar[BAR_3] = { .type = BAR_RESERVED, },
+>> -	.bar[BAR_4] = { .type = BAR_RESERVED, },
+>> -	.bar[BAR_5] = { .type = BAR_RESERVED, },
+>> +	.bar[BAR_2] = { .type = BAR_DISABLED, },
+>> +	.bar[BAR_3] = { .type = BAR_DISABLED, },
+>> +	.bar[BAR_4] = { .type = BAR_DISABLED, },
+>> +	.bar[BAR_5] = { .type = BAR_DISABLED, },
+>>   	.align = SZ_64K,
+>>   };
+>>
+>> diff --git a/drivers/pci/controller/dwc/pcie-uniphier-ep.c b/drivers/pci/controller/dwc/pcie-uniphier-ep.c
+>> index f873a1659592..5bde3ee682b5 100644
+>> --- a/drivers/pci/controller/dwc/pcie-uniphier-ep.c
+>> +++ b/drivers/pci/controller/dwc/pcie-uniphier-ep.c
+>> @@ -429,8 +429,8 @@ static const struct uniphier_pcie_ep_soc_data uniphier_pro5_data = {
+>>   		.bar[BAR_1] = { .type = BAR_64BIT_UPPER, },
+>>   		.bar[BAR_2] = { .only_64bit = true, },
+>>   		.bar[BAR_3] = { .type = BAR_64BIT_UPPER, },
+>> -		.bar[BAR_4] = { .type = BAR_RESERVED, },
+>> -		.bar[BAR_5] = { .type = BAR_RESERVED, },
+>> +		.bar[BAR_4] = { .type = BAR_DISABLED, },
+>> +		.bar[BAR_5] = { .type = BAR_DISABLED, },
+>>   	},
+>>   };
+>>
+>> --
+>> 2.53.0
+>>
 
