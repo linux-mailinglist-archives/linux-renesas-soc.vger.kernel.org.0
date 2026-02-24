@@ -1,170 +1,232 @@
-Return-Path: <linux-renesas-soc+bounces-28426-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28427-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8CzBHICJnWnBQQQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28426-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Feb 2026 12:20:32 +0100
+	id EON7CbGqnWmgQwQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28427-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Feb 2026 14:42:09 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98C61186159
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Feb 2026 12:20:31 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6600187E52
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Feb 2026 14:42:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 926033062525
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Feb 2026 11:19:20 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 1DD6930058FB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Feb 2026 13:42:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 369CC37C0E6;
-	Tue, 24 Feb 2026 11:19:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D2B839E186;
+	Tue, 24 Feb 2026 13:41:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ec1Ad9rB"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nan6Fd9+"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 119C937BE83
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 24 Feb 2026 11:19:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771931960; cv=none; b=NUoUjySs71xB7PWQrIUHBJcZkhQ/5Ik9/gcFeAkAX9+w3+3+JyN1yTCI5vE6lssUiwfx1UtEP1MfYyb6cGS/1ZaiZMNaTqrrkm+RrJMNo0SzJWOjNOZrTLJ2aClkW0ZHLukv2p82AvA0APV25DqTX2tPvVt1E3MDQwbdUgxnCb4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771931960; c=relaxed/simple;
-	bh=B5BzWRm+eShin5kvq4aIMD1wYheUUZDI+gvled/jh1k=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D034D39E16A
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 24 Feb 2026 13:41:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771940518; cv=pass; b=TzHqD9VVmOWt9B2y59HQ6Xn6WmzOi+i4mT7Ry/YSgpTkgctWS/epnovhErXN7UJJo9KtO0gL7tPs+3iZrgjdV/9nHBrqQaNHhS9dgnA1bcCAsfn3++aaVa/ho516s7iizSI0CICOGHa2GsB5+XLUxNl7jWon7P1NIJx9tyKRgzk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771940518; c=relaxed/simple;
+	bh=mS9DrL2stmMKn/9Wjt0j3gd1vrdPtN5RQQyXm7lREBs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gadB8KjkHL14pKzqBN7QdXo9uwBOQN9F5/RC0PA+iyssBynE2JpBPyaRCyjhkt757u/Wr8Ss7rC3/881iwNfO4F2fMC+F6I5KQRzSKj+H9+dzpoMei1IkqqzvuGdZyIICwsheKwQgx2xRqotHqCzk94VTI3Npylkz3M9m4MFxoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ec1Ad9rB; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D77A9C2BCB6
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 24 Feb 2026 11:19:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771931959;
-	bh=B5BzWRm+eShin5kvq4aIMD1wYheUUZDI+gvled/jh1k=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=ec1Ad9rBGzW4ziKtYVy9VgteB4iquKM5tiiK76ayw7TSXjyfZqSM984jZYB+hudq3
-	 4erjiwp9x0G29uYKomhukDaq52V8ENp3Ovj+DXBJPABve4u5c61ycvUxQJ806cbJKU
-	 VI4jAUp3pHXtV7FAczbZFyWoB+iucpnPf+BKDMfRy40CE735aUY1/RVSGJJx983Pjg
-	 qPn/BfL6zmsJys0v1fTUJAoX+PdhmHpmajUUYj5fy59Bp/gDgnWtmby8+Sm82OApUu
-	 WUon+WH9alNLSf3Ig0ngIs8Ub1nLZIQm3yNfrW3h9KwLRLvYEk4y/pTF076Y2AI74M
-	 t9I7T49Q2tgdw==
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-59e65b8e268so5479207e87.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 24 Feb 2026 03:19:19 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUC2dWJPjDPQMOLvOxooijazNU+eBb8OWU2eABcasBti3VUC8HEIh2dR8xgTu2GU8ARn3dckseuFq9tmJWL8kR66w==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9fcS8EOWWuw5/rtf6VXbS2d2KYh58YETOP89/TUvrbaQFCqql
-	MP1PM4dK3ShmRob0bEfw2kVVRPphAk5/z/hog55YMDwbk40X3TfJeqOIznk5ZU7bgKvuut/yfC3
-	QnQIeZ6PL+Xk5+gmllLlm7NCouReBgfU=
-X-Received: by 2002:a05:6512:334b:b0:59e:5fc4:26b2 with SMTP id
- 2adb3069b0e04-5a0ed83e246mr3961609e87.0.1771931958134; Tue, 24 Feb 2026
- 03:19:18 -0800 (PST)
+	 To:Cc:Content-Type; b=Os2BKFdrOF7W2gXaulcFpXYTr3lDp7HrLt1cf+7la1cTUpUIU5Va8I8a3zR1OitpyUuhzCBuXxvpb3AW2xGWL7ZsPtwbnxZHrScnxFka+UAbam5+LTh2ceHKY0n4P6S0Gf253DhJCB2eSnyb4acqXC9k5GL0aUcLXgrtNiVe8WQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nan6Fd9+; arc=pass smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-48373a4bca3so33680995e9.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 24 Feb 2026 05:41:56 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771940515; cv=none;
+        d=google.com; s=arc-20240605;
+        b=MhnzF+hEO0Rb+oRRc7XG4JoFRLLVGSg1OVOG7VQg+3N7SqvEfx5AZBOefHIEZtoTjw
+         NB3vcYZxAQHifeWa+t5l03fv1VCleG49t0zcx33UWCWAotCDRYESWsTfHdS01USAcMTd
+         f67OaxVuLxL5NMcywNM+Dy26PL74fvtINvT93efXKI5w5uRPvRmhErrPwakpmOTdgLcX
+         UFGNIgbql8tBgg3pF4tVmuKsc7DSwiM51NM8GdGGvFI26rLHGlh9Muw7T6N76ZQuCakF
+         BaQbOmp4SNBe7oF6NAUhDkRGjfi3J4phYyjASOJ838sV2QAeD60YY4q8RAnNMmQ6nInv
+         Hi8g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=kSu2/qsgPa+J02kwm9s9uKyxWBqpWPCxKoDB2yjuD1Y=;
+        fh=LaH9YV7ndvZ92lYHCSGxzvhQi/wEYLV8jGGnSfxk+5M=;
+        b=iI6246du/b6NXdx9DAKMXOdK+0kS8wbk9KQp/W+kycWY/gyKdjPBQDrWlQiQcVFskt
+         k8yjzJBIz8D12IfZ54HVL6KGcNru3oL4abnPebT9PtS60iPjzrNlMlBzywrZBQRMgj9x
+         ynUBVinHvc8Ex4Ww6HJrCwdWLOwfbd9mXwJONYHYW1sDP0fgH0r0AN7ihPT0bwxCruuL
+         gRQ92crXEQvRZxGTLly8912g6SU5Aa55vYKBEV6JpcNybxgWq7YK99g3vPTwj4WU6SId
+         18GNq3c+t86QEh7Hqh24anyNeetzkJrO1NmNQr2y01iA2ce07Tx6U4aAOcW4K9T6fOLR
+         vthg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771940515; x=1772545315; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kSu2/qsgPa+J02kwm9s9uKyxWBqpWPCxKoDB2yjuD1Y=;
+        b=nan6Fd9++ECmK+VcWK2KHocB6A2J+0TuFWOhvrnyYRpDng1Nyj9sZgwJUWuuwDDsQ+
+         oYSGyIK5GCM13hmZ03zyclMQrHvEa2JATC1qQb/++qNDCAuH0D5zd2ZFfaF2uzdQXPUo
+         /udA6AmhnL6AvxVqxYbI9QZDZq7BKQrO/xNNIhERfmYrWCp9xLSJS1ELRZt3bVEN89DC
+         K8m71Hwmdt1BEmRSkjyt9uN9q6xaZEJERsYcNHTU5Pn+tnehezD0iSEnYFNHYdmHGr3x
+         9L0JaSMEyPs6LnpPSYaE9k9iMNzp9++ROqkpd4rNUjiitOSFBiZHKKJrLxGdnEm0Mp7e
+         NPIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771940515; x=1772545315;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=kSu2/qsgPa+J02kwm9s9uKyxWBqpWPCxKoDB2yjuD1Y=;
+        b=OQZDhVu5mc+h2tVeIULV12OEQtVG6g06EE0GnZ8AKKasB4bdbouboKG+qzQ9Nvf2Vz
+         09euSlnRSqKzIMkaxu6KdWt+WmZG3X2A3+5SDczfqVvXKvLq6Vj1NAhspVGZofSzoQaM
+         Z62U6FfL0sM9llayDSTb7EZh2d37Tpd0ZI0GE1/UXJMTnrMubEN1FH4EDTfr8zzPqydb
+         h5QbCq1GFLmhgK4jpKCDfXrx/0FuncONlFVxm5M0iDjQ3qLveCEqklPsikO9vxnnE+Br
+         6drgRcMKd/0nAszx2U9yWfPxNlBy7zy3enT5hE/D5W56SiVJFpFh9eRrVS68ru+y6Kkr
+         XiJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXs8tP6thQ2hoRxgLg4LusJqPvLqQHhEGzx5w1A5gP7bF2ttBBGF77dQ7pTCN5kKAoeulh7zAZj0XgeuCXDGGrqzw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy3cmyTNzS7QLNd9HzF/zZRYSsaGP9lQ1KVCcA5sLJLfLFbct1a
+	wOU7Y8Xenzdar5UuGSnEcZf9rzkXpAA/jabIdpmk4SIr6Z3ePkhvDc6DhPzgGBGU0DpdUBAEbT9
+	ABsy96LNVWAudQX4X/nj4k0WM2NFvlxY=
+X-Gm-Gg: AZuq6aJ8u71mar2HRwCk60pVb31+sqIQvxgs75Qt9xQxYwABfBtFahx+VzK5NtuCNyQ
+	c6DsjfC/VAmLlHuJbrz3mmA41xf62pb3zPd5ZeU4dEGtqKOVuMNNMaU2eGYEnotJPul+WQ0lERc
+	9CcF6yKT014mpGp4iXVSW7L1v3swzpbqjBojz7OgO3CnacJrthM7TzIP1UjDDEz+5IBr37iOOmj
+	Z08/Lweqxc+3f996qVxNgwO68Ij/1ZEeliKbnkqjGl8M10/4voVnGAwNvSo1GyGp2V08cPO2r0A
+	Hsdoa0o4lY4BARvU3tE67oCnFTA60R/sUAPKV3x6h7pDlsWx9225xv5ONKkup9PzpGgxKhO8ABi
+	IY7mvdFyvwhHiuKLokoGD0kqAoA==
+X-Received: by 2002:a05:600c:608f:b0:477:7ae0:cd6e with SMTP id
+ 5b1f17b1804b1-483a95bd7e8mr198553905e9.5.1771940515017; Tue, 24 Feb 2026
+ 05:41:55 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260215100302.136719-1-work@onurozkan.dev>
-In-Reply-To: <20260215100302.136719-1-work@onurozkan.dev>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Tue, 24 Feb 2026 19:19:04 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65ADpZYcwG+nd6sDE3j-wc7v5LEQft9tkbxDh7C-MnziA@mail.gmail.com>
-X-Gm-Features: AaiRm51ME-8YiE4AvLn72GWWw2sauxN-ScuBUrDsWnKr42ng_6yKdEudjebdqcE
-Message-ID: <CAGb2v65ADpZYcwG+nd6sDE3j-wc7v5LEQft9tkbxDh7C-MnziA@mail.gmail.com>
-Subject: Re: [PATCH v1 1/2] arm64: dts: add missing sram-supply to mali gpu nodes
-To: =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Heiko Stuebner <heiko@sntech.de>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org
+References: <20260209104121.26172-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20260209104121.26172-5-prabhakar.mahadev-lad.rj@bp.renesas.com> <87ecmavbs0.ffs@tglx>
+In-Reply-To: <87ecmavbs0.ffs@tglx>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Tue, 24 Feb 2026 13:41:28 +0000
+X-Gm-Features: AaiRm538_5sV0YA_JgHvXySKpqWgyzKSvN1iu34q-E5miLmWW1hPTcZXZsToOBU
+Message-ID: <CA+V-a8vOuGWjT6=1U8X9Qj34tVj7wbxhpOLYtMtfHDR_brJcEQ@mail.gmail.com>
+Subject: Re: [PATCH v3 4/6] irqchip/renesas-rzv2h: Make IRQ type handling range-aware
+To: Thomas Gleixner <tglx@kernel.org>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-28426-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-28427-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[pengutronix.de,glider.be,gmail.com,vger.kernel.org,bp.renesas.com,renesas.com];
 	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,sholland.org,samsung.com,collabora.com,glider.be,sntech.de,vger.kernel.org,lists.infradead.org,lists.linux.dev];
-	RCPT_COUNT_TWELVE(0.00)[20];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	REPLYTO_ADDR_EQ_FROM(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[wens@kernel.org,linux-renesas-soc@vger.kernel.org];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
 	NEURAL_HAM(-0.00)[-0.997];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	HAS_REPLYTO(0.00)[wens@kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,onurozkan.dev:email]
-X-Rspamd-Queue-Id: 98C61186159
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,renesas.com:email]
+X-Rspamd-Queue-Id: B6600187E52
 X-Rspamd-Action: no action
 
-On Sun, Feb 15, 2026 at 6:04=E2=80=AFPM Onur =C3=96zkan <work@onurozkan.dev=
-> wrote:
->
-> Some arm64 Mali GPU DT nodes define mali-supply but
-> are missing sram-supply.
->
-> As discussed in [1], sram-supply should be explicitly
-> defined for all relevant compatibles. If there is no
-> separate SRAM rail, it can reference the same regulator
-> as mali-supply.
->
-> This change adds the missing sram-supply properties to
-> affected DT files. This aligns DTs with expected regulator
-> modeling and avoids relying on implicit fallback behavior.
->
-> [1]: https://lore.kernel.org/all/20260213155937.6af75786@nimda/
->
-> Signed-off-by: Onur =C3=96zkan <work@onurozkan.dev>
-> ---
->  arch/arm64/boot/dts/allwinner/sun50i-h313-tanix-tx1.dts          | 1 +
->  arch/arm64/boot/dts/allwinner/sun50i-h313-x96q.dts               | 1 +
->  arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts          | 1 +
->  arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3.dts           | 1 +
->  arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi            | 1 +
->  arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts             | 1 +
->  arch/arm64/boot/dts/allwinner/sun50i-h6-tanix.dtsi               | 1 +
->  arch/arm64/boot/dts/allwinner/sun50i-h616-bigtreetech-cb1.dtsi   | 1 +
->  arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts     | 1 +
->  arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts           | 1 +
->  arch/arm64/boot/dts/allwinner/sun50i-h618-longan-module-3h.dtsi  | 1 +
->  arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts    | 1 +
->  arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts     | 1 +
->  arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts  | 1 +
->  .../boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts      | 1 +
->  arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts          | 1 +
->  arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts           | 1 +
->  arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts          | 1 +
->  arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts        | 1 +
+Hi Thomas,
 
-We don't know the internals of these SoCs, even though said power is
-likely from the same regulator, as that rail provides power to most
-of the SoC. But I would rather not speculate.
+Thank you for the review.
 
-I think these systems are at the other end of the spectrum: the power
-rail for the GPU and the rest of the SoC is simply never turned off.
-Neither is DVFS available. In theory you could make it work, but the
-voltage range is fixed so there is little savings to be had.
+On Tue, Feb 24, 2026 at 7:30=E2=80=AFAM Thomas Gleixner <tglx@kernel.org> w=
+rote:
+>
+> On Mon, Feb 09 2026 at 10:41, Prabhakar wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Refine IRQ type handling to explicitly bound IRQ and TINT ranges and
+> > dispatch based on the hardware IRQ number.
+>
+> Changelog should not start with an explanation of the what. See
+>
+> https://www.kernel.org/doc/html/latest/process/maintainer-tip.html#change=
+log
+>
+> > This restructures the logic to clearly separate NMI, IRQ, and TINT
+>
+> Restructure the ...
+>
+Sure, I will update it.
 
+>
+> > @@ -175,18 +177,27 @@ static void rzv2h_icu_eoi(struct irq_data *d)
+> >       u32 bit;
+> >
+> >       scoped_guard(raw_spinlock, &priv->lock) {
+> > -             if (hw_irq >=3D ICU_TINT_START) {
+> > -                     tintirq_nr =3D hw_irq - ICU_TINT_START;
+> > -                     bit =3D BIT(tintirq_nr);
+> > -                     if (!irqd_is_level_type(d))
+> > -                             writel_relaxed(bit, priv->base + priv->in=
+fo->t_offs + ICU_TSCLR);
+> > -             } else if (hw_irq >=3D ICU_IRQ_START) {
+> > +             switch (hw_irq) {
+> > +             case 0:
+> > +                     /* Clear NMI */
+> > +                     writel_relaxed(ICU_NSCLR_NCLR, priv->base + ICU_N=
+SCLR);
+> > +                     break;
+> > +             case ICU_IRQ_START ... ICU_IRQ_LAST:
+> > +                     /* Clear IRQ */
+> >                       tintirq_nr =3D hw_irq - ICU_IRQ_START;
+> >                       bit =3D BIT(tintirq_nr);
+> >                       if (!irqd_is_level_type(d))
+> >                               writel_relaxed(bit, priv->base + ICU_ISCL=
+R);
+> > -             } else {
+> > -                     writel_relaxed(ICU_NSCLR_NCLR, priv->base + ICU_N=
+SCLR);
+> > +                     break;
+> > +             case ICU_TINT_START ... ICU_TINT_LAST:
+> > +                     /* Clear TINT */
+> > +                     tintirq_nr =3D hw_irq - ICU_TINT_START;
+> > +                     bit =3D BIT(tintirq_nr);
+> > +                     if (!irqd_is_level_type(d))
+> > +                             writel_relaxed(bit, priv->base + priv->in=
+fo->t_offs + ICU_TSCLR);
+> > +                     break;
+> > +             default:
+> > +                     break;
+> >               }
+> >       }
+>
+> TBH, I personally do not care about the performance of your platform at
+> all, but are you really serious about having a switch case like that in
+> a hotpath function?
+>
+> Instead of sprinkling this switch case gunk all over the place you can
+> simply have separate interrupt chips for each region and install the
+> proper one at setup time. Then the functions are clearly separated and
+> just handling the type they are written for and nothing else. No?
+>
+Agreed, I will split them up in separate irq chips, thank you for the
+suggestion.
 
-ChenYu
+Cheers,
+Prabhakar
 
