@@ -1,122 +1,122 @@
-Return-Path: <linux-renesas-soc+bounces-28424-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28425-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UGkCF19rnWnhPwQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28424-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Feb 2026 10:11:59 +0100
+	id 8HT7OmRznWmAQAQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28425-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Feb 2026 10:46:12 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id E062E184520
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Feb 2026 10:11:58 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54710184E32
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Feb 2026 10:46:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 93C1B3092BAA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Feb 2026 09:08:38 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8912E3024127
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Feb 2026 09:44:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F260F369979;
-	Tue, 24 Feb 2026 09:08:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B7B1364EB6;
+	Tue, 24 Feb 2026 09:44:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YJTwKXw3"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CD7uR6J8"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF3BC368262
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 24 Feb 2026 09:08:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33BD2366DA7;
+	Tue, 24 Feb 2026 09:44:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771924117; cv=none; b=AfjK8Rf4yfCY85nnuMuJuX+N9fFVFDuZr8lM3eOqyKzWupWG8+crbL08x59krJO0JLdS4Ubv/KpBxFOzAXb13y/KQz7ypdEn5dBfRtv9oynRCmoqETj9DaqlgVow65Ot1jECHxsCRlCiPMCzQ2xuYCRyrH6vU7LhicDKUTYli48=
+	t=1771926275; cv=none; b=DaIH1DaCrHR0/fbIHH4UZ8SES7K9P/CL+66gmObhZtpWIFiTJvle3PIEldqYPbzprVWGFsH4OzCuChAd5kh7z+JfoKoEjJ3m1kuD7i7EObSqYPsggO1i/CBiRvhqg/i1aAQxOjdOtieTlreg17JjYen/arPay+WZAoOi4nbm3DM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771924117; c=relaxed/simple;
-	bh=Q9i5oBBNkQGmveB8LXq2i2SLSNV9fZ3TzjUBnqX7p78=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Jjo+r36ckhY1IY9BJmsJN+ovyoxtyVB/gA2prZs/k6KNafSo/s0NiOT+OCJFoFO8wcLBMsj8QF+zksWt+TMjo2hLGFFH9fyd+hEoOTn1QE7vx90vjM3k5Jp3wiAo3fr8wVoM33Dn88Adoi3YH8nY2l4zAS0ZkIYCY/WBxFp/MNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YJTwKXw3; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CA5CC19424
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 24 Feb 2026 09:08:37 +0000 (UTC)
+	s=arc-20240116; t=1771926275; c=relaxed/simple;
+	bh=HctdBnsORT395ESB7MJ8tadwd8gBNHYdqC/SecwtrmQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rTM0aiUVg/fz/QfhX4u62Bquab0rW2jV87n7BgrPS5HkorPGAM+zzQsndpQrHbUAiN2ISFK7+pZVcS5noYYdIAVOACyHI7MVX2zqvCOSPhJdE6D7vwIB99yj7Bj1ljj4ula+FptzJ9kyM6wPKN6dBRPdfNh03P/B7zrJMeVrMQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CD7uR6J8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0A84C116D0;
+	Tue, 24 Feb 2026 09:44:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771924117;
-	bh=Q9i5oBBNkQGmveB8LXq2i2SLSNV9fZ3TzjUBnqX7p78=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=YJTwKXw34O+Wqua0RWL/aMV9BsRMcwBA5KpyFOn8jxYjbpA6GqjXw3K9vfxsK/C8X
-	 SKg9lXB/uyIjFLDkGJw5iaQY014rXs0eP4uvIS1b93/bswppjr6z7b8G4TpH2Zz9En
-	 oPpyqtKSzfz7Z9IHZy4JoSgbUSUi6Kq/P7t4wPjC9sC5otRlVpdKvd4c1ZRBfofLbM
-	 +yL4RlGm1zxQITbfxgltEMUxxoVKi3drZy9+MzgZf3Un7Z1E/pXw+CwcOLvlq/qmaz
-	 pwITrW2E/Q/FLvHVuYdO19Y0Qy5eC0TrgdQJon23qt8al/M5uhm2fgrLAVM85kXntr
-	 E2l2n0sEA+vLw==
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-797d6f934e2so51379097b3.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 24 Feb 2026 01:08:37 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXOuolxMxS4vLcaPq7EWfcBnscFuukgkwgeYiKXhqWcpi44vHN6N1S1t0KUEK0MA+BVO2PRXl2yqzq1hOJ2oJLUjg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyhDK4/xHdCbJWGTFJpeeZa6cvmVpHeac9BCSwUqE+avdiy1k7h
-	eBXqOl2iIYxkRGitQ2OfgqIIlFGUQl7kngYAV7KSwVeGkaFXWuuEis2MVIjhqbnKNCw/qBsb3BY
-	BU6/8XIJl804ZKop0sOzmVoiFcrnGHiY=
-X-Received: by 2002:a05:690c:3390:b0:798:6042:12f8 with SMTP id
- 00721157ae682-798604216bdmr799927b3.55.1771924116974; Tue, 24 Feb 2026
- 01:08:36 -0800 (PST)
+	s=k20201202; t=1771926274;
+	bh=HctdBnsORT395ESB7MJ8tadwd8gBNHYdqC/SecwtrmQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CD7uR6J8TOmW2CcKz03WVUfVhQHDSyxUH+yZVjSd+HthiDXWCGBIabhquiZyLGw6m
+	 6pAmZ6wg0798MkvysoEY+h/CWsP1K9hvgIemcWPCJE9KcIyHEE5jJRHa6KFvZS/NZl
+	 CuUxXtDrT19e1P4ml95+3Pe+w2quTSS7VyCAD26sL5fibgHWWsC7KjEoBR1N7mKZn3
+	 Mhr3Q8wtCEDDJxeX9Y8rI34o22rdBAWplxMg3APGvbW3zYK7n3DzkQR4lrMUg/0pFl
+	 bn8yo4Mbxx7Ykml1GrGtwae8Ax73XXQrJ4BTSUcsKKO8w0Rn4o+GElPBuiKabKifi9
+	 BhKiFVRfSrsDQ==
+Date: Tue, 24 Feb 2026 09:44:29 +0000
+From: Sudeep Holla <sudeep.holla@kernel.org>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Peter Chen <peter.chen@cixtech.com>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	Fugang Duan <fugang.duan@cixtech.com>,
+	CIX Linux Kernel Upstream Group <cix-kernel-upstream@cixtech.com>,
+	Jassi Brar <jassisinghbrar@gmail.com>, Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
+	linux-acpi@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: Re: [RFC PATCH] mailbox: remove superfluous internal header
+Message-ID: <20260224-antique-fair-swift-89e5bc@sudeepholla>
+References: <20260224085720.18055-2-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260218151925.1104098-1-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20260218151925.1104098-1-claudiu.beznea.uj@bp.renesas.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Tue, 24 Feb 2026 10:08:26 +0100
-X-Gmail-Original-Message-ID: <CAD++jL=7WAdsXu0FEqMtH5_BhCEHdkFT=9jw9AFd9LD=qvX8Gg@mail.gmail.com>
-X-Gm-Features: AaiRm508KnJDrZsc8mpEevIY_lXIv05mpcGdwG_GATsrRW7vePmDNcyZVoA28pI
-Message-ID: <CAD++jL=7WAdsXu0FEqMtH5_BhCEHdkFT=9jw9AFd9LD=qvX8Gg@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: renesas: rzg2l: Add GPIO set_config
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: geert+renesas@glider.be, brgl@kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260224085720.18055-2-wsa+renesas@sang-engineering.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_FROM(0.00)[bounces-28425-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-28424-lists,linux-renesas-soc=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[vger.kernel.org,cixtech.com,kernel.org,gmail.com,nxp.com,pengutronix.de,nvidia.com,lists.infradead.org,lists.linux.dev];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[linusw@kernel.org,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	NEURAL_HAM(-0.00)[-0.999];
+	FROM_NEQ_ENVFROM(0.00)[sudeep.holla@kernel.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,renesas.com:email]
-X-Rspamd-Queue-Id: E062E184520
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 54710184E32
 X-Rspamd-Action: no action
 
-On Wed, Feb 18, 2026 at 4:19=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev> =
-wrote:
+On Tue, Feb 24, 2026 at 09:50:21AM +0100, Wolfram Sang wrote:
+> Quite some controller drivers use the defines from the internal header
+> already. This prevents controller drivers outside the mailbox directory.
+> Move the defines to the public controller header to allow this again as
+> the defines are not strictly internal anyhow.
+> 
 
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->
-> Add GPIO set_config to allow setting GPIO specific functionalities.
->
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Makes sense to me.
 
-Excellent use of the generic pinctrl backend facility.
-Reviewed-by: Linus Walleij <linusw@kernel.org>
+Reviewed-by: Sudeep Holla <sudeep.holla@kernel.org>
 
-Yours,
-Linus Walleij
+-- 
+Regards,
+Sudeep
 
