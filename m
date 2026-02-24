@@ -1,226 +1,194 @@
-Return-Path: <linux-renesas-soc+bounces-28434-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28435-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SJqPKbrFnWkRSAQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28434-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Feb 2026 16:37:30 +0100
+	id SMaxMDXqnWlDSgQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28435-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Feb 2026 19:13:09 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 489911891FF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Feb 2026 16:37:30 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0663C18B13E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Feb 2026 19:13:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 88F44303AC80
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Feb 2026 15:37:29 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6161130FAF01
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Feb 2026 18:02:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FADA288535;
-	Tue, 24 Feb 2026 15:37:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88CBC28A1E6;
+	Tue, 24 Feb 2026 18:00:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KGiR7UUB"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cnDECl49"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC12827B353
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 24 Feb 2026 15:37:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771947448; cv=pass; b=NL8OM7SLDHn7tMQB9y0st4PdqsRuPrho+bSb7iXXxYZ0mr42hehwbcpcHjfENQpwM4kvJiIShwDembo28B2YIjwQNy6NWpWKeFTAMuHICA7XpLK5gAyxT+FNo8dHER3hR9mwPwhiUH6UgzuwzMU4TPBF2aC6UjcHYIzOwh9p0Kc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771947448; c=relaxed/simple;
-	bh=qYjo0DiKv1b13O4Ma+wEhagLLrmulc+GzpMOHAc5Hog=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rrhojFyeoV/BoKbmaGgsjEFdzqRLA5VXFuSnXdoM+UNXJJv2FN6H4PNR5X42w4bVC2OR8Czb7aZKSWF/V0NvwHHQRiVPVjd0pE0JVb2GL9gTGDZzxTfPq6k6Tpw6BV7hsmWtq9OCa3/0RbbC7jyjcNhEXcpqwlrM5joKq4hXA/4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KGiR7UUB; arc=pass smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11AEE29BDA1
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 24 Feb 2026 18:00:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771956018; cv=none; b=BftzWe5DIzhxrV0i+aQDdGer8FzOuwIqqCo5eYlaxiBWO/I7XHa0qYxCzoGw8/40gzd1kx76OhudDItYOlOwEIr4VkeXcDiPOkSAPb7OBx2bXIDfrOpksOe1TobHGI6Wd2lyq1xasRosTBcpZX/GxQhVoxLYB8L3E4uKQ736CyA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771956018; c=relaxed/simple;
+	bh=mCpAtEZQfNjBGUaxYGJ0Ps9NlFclpgO25Fd5cvsO6Fc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PwKFXrWPJ4DZstIqoF9BA03qDlwS+aUmzmH3ijjFaCMv1PUsg7P4EHtbB25eznzZuiDZNUlSZDxHUuZ+sqrTUzAuaEwMdN3HVhqF9wKBsGRa2G0PlHOZuB2d7qmQJiDZDStcijAan/u++RvBxuAFF1R2b7PGeIyzN2WSpJVaaAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cnDECl49; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-43767807cf3so4250818f8f.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 24 Feb 2026 07:37:26 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771947445; cv=none;
-        d=google.com; s=arc-20240605;
-        b=EIVzcXPMjHd+53jZ74LxgFXrBJFJCcFxGmpidwLFJR6i4OgI9F9RbLDdv/ZcmGDEFx
-         qDZ8vKn+AbnRy5xvCS4jvnJ04VZfDvAlXhXwwMyNV/gkPBUTCBbld56ASEH4w0AqFJh8
-         Nd5W2b0g4nP7i0QL4ZroJdw052QrqXQn9NYa1FgT0UW05ccZ9wBeULaDZTVr664ftBTv
-         EkOgZ+Md6gArfzdv9Xu+iyrrE5E0retNXNW+Fl09VSx4niekUUUu4R3kebPyIeLwyvXJ
-         xLLMXPIcxf2CKa8le+IUBCyFA5vKGX+e/VIKtHjh+bqkRmOpIpyzX3Pvm1dDJT03xV2J
-         cu/Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=01tmSYpl5MaevmdqpJiG/+c3fnTc7/mPhbm0SdC8R2w=;
-        fh=IHObi2e9HWE4JUpBly/u/evY69XM0rTyp/2qyQhtbco=;
-        b=OufPGzUL8h1ahXlo31Txud8P2BE3R4BT/G6kAh6mb7I3oWxUYgGF77D7TSQgqqEgEo
-         IXr9iiGU6iilQwyAZrrnz3aWk8oTzrHV3EQnAq3sGc2xjZ2nXKoPqodaP0+UlhFr6ukv
-         CfDH7F73JUpnxFEAUaD42MpB3aswqTjDDSRWgSq3SJeeYD4j6sp4GeXfa3Lm2sxzrp6E
-         sDO3is++9BX62xK6EzyrXBpr5IxdlZYZoShCazWl3mL/gFuA6XLLE4HeiYqc5N84ANTw
-         AAPtIXOcUAj5HmO21HpJQtPzD6MtAZrVnRxgtyYyj47meq43MJHYG4MAyi4TQbjnx91n
-         2OHQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4806ce0f97bso47267985e9.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 24 Feb 2026 10:00:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771947445; x=1772552245; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=01tmSYpl5MaevmdqpJiG/+c3fnTc7/mPhbm0SdC8R2w=;
-        b=KGiR7UUBOEf+brl/SrFdj9woZx15c9aJT/sADeeH2v4xyAAXiTf61+R4PDZtAY4WLU
-         1DWMIxCALZ1RPTJAV7UrikIwDCmzn+zqk7vNxRChKEyx0NUd+vd+ajcJ8uLXBLdm+qtH
-         EpDsr3myRNMs3Rt/PHsQ/6av+7mIvq8VN0uaqdA4qaOWMLzjcANu9na00/hMXWEqabMc
-         coqFK1gBP4Qm57yk8SQx25f8q+xo092ChXnB7RIHzq8bRuS0E1G44R4E4BvHqu1tweuH
-         ZO2R/KNO/awZObFAtC0nzJes0eDuAh4hBHExqEer/OSRt37yQrOfnsw7AD/saVSU+020
-         pjUw==
+        d=gmail.com; s=20230601; t=1771956015; x=1772560815; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=o0ujq6p3OT5Y2D84aPGSFnd6N8adzqohs8kTk8SiDMI=;
+        b=cnDECl49YaYaxQi/V15/bQO9If2Hq27d3Zl2s6Gbz4i1mWbStdd00ziw1j8q5BBwr/
+         1EzZfeHQSTFlIlEZltjXlrhlUiq0VbUsd8TuYuIu/FqKsudiW4vIvRB3gQWCe5apceuU
+         LAkul1eZ2ONr8+V1LOhfWIE3ajXfBb3rUd9SuzqpOed/XHEIiwreVtQavaLN5wXw2/r8
+         sk6bWYLbyGbgt27M3ehcmCQwzatkopzw96Se1ghqmeLr56kNPyqQnwFknYXjzfBRxVCN
+         j4fkcvKTh2Y8gjh/KuGKNXAT4bFYdlBbuE+2qnzG1yctoJUOGc9QaHcAWBe8ykVqT0Ul
+         Yzcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771947445; x=1772552245;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=01tmSYpl5MaevmdqpJiG/+c3fnTc7/mPhbm0SdC8R2w=;
-        b=AdfquhfPgGDrtlqoNu4SNN3nknJ37HbZ9pfvOUUeOB4J5gm56FFSAMGmQYiNIWMMpq
-         23zLypGMpEsLZ0PLfxLADLvkdpPmkQJOekOsjdlZQxu5VDTv75Ev4w7Y9Ju1A/9RWtCq
-         k6eS/rQ3ZbpO06T36lE/UrwgYo+1QbKQZD+TPO17nhwDM2yzc/TzSt+wp3LfByaXdlOz
-         6WX9BtUHO9OkW8Wyg2BBg+cfYSrFf6VH8JZ4RF6EFoUjezeDwGRhCSxllHp2HCTb5X1C
-         zuBMXngj9rRl+cH4dsBXMTsYp1Yw0SIYmIZC6fpIUP1jfu2DS76TAVkB4YLHITYhDPwQ
-         fsHg==
-X-Forwarded-Encrypted: i=1; AJvYcCXxeoM9pt+AePY1Yk1TgqMWPxCus2wz3x88wPmbpTOgCVP69En3Vj9dNoQPPXdpawtWj/kRRr5sVRNM/HfA1xzlgQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx7LrkRiLuLXQnxPJyp600KGEDdozCquDMyXPWQzjKh7Pl12g3m
-	wQ+UfglRGHUf98Ie4MSeyyvZFLYuB/Lwhs5zbqVqcCsjIQpnwqBriowARuqAAZFWhfNGIfkycsQ
-	j2Hncb9o0j5T0c09WkMBLbX7aKG8nXlA=
-X-Gm-Gg: ATEYQzwqLyLrEc3KbLf07j0gC3oFsy+abKfW+THivN08D1MqfpibJRgI/uVb8ZxhPZj
-	4Q32YKlOM62RM1QJtty5EEVSG21DWSNOPSsTWosi7ud41fvwHn26zPpmkyaVUW+XZI+B5yddYy2
-	iZzf0kTEPhR1iCcRLQyml2p0FrBMogP2JyUGfdIcZSWRTPP1Bb6B6uZj8cmzy/SN1gvRxjNnR0w
-	MuifRXvB9qhEXegX6IsDqyfh0OIG8FViLnZ2DCJ3Iv1/cQa2TAXkBOBAAYP8led2V01Ds2FMrMA
-	eyn1/JIzOYbzHGTcRtMNAR2n36KyeU7uJo/kjpDgxKfcNS8KSGhBgekP+WFGABpVGXLD6RdFjWA
-	+X5/ezqHm1CEt7UTWmmOQZZP0Sg==
-X-Received: by 2002:a05:6000:2312:b0:439:8bff:3638 with SMTP id
- ffacd0b85a97d-4398bff367fmr2067441f8f.30.1771947445063; Tue, 24 Feb 2026
- 07:37:25 -0800 (PST)
+        d=1e100.net; s=20230601; t=1771956015; x=1772560815;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=o0ujq6p3OT5Y2D84aPGSFnd6N8adzqohs8kTk8SiDMI=;
+        b=lTQoaFn5G97NP/fO3GB8+i5NbW9+gg9gcj+plzwMVsKvb3P3YLiAzlryMovzy8PW0j
+         TLGVQ5MXNOMa/LN9qgVl6FiFBo5USFX7QsHushJx3sDB4vzhX3gkuQ9DKVEDvCm0jhAs
+         jHpTkFBQgXxLJ8ttEx3HjuwmitRMiAkoenlPULdX12LIvSgtZHTCeF/zey5818ccrFm3
+         pAA7XfWv92nQRpij+11SxRJDJBZbdVO60tZlCSjMVQ4znVX0FSlJ4/OXa3azNUECmcCG
+         +4cf0L4uFPDgyPg93lmXkd09rvMSMB8ZV6ARVrW/8TYzlQsDgyoNT29B8Q42NKcYr7lZ
+         eFbw==
+X-Forwarded-Encrypted: i=1; AJvYcCUCQzsAd9oJ1Sw7qQopeS3vvaC84QgGlMHN7IP3tYHsC9nVoVJsootGfMu6vc0yztWO0zdMSJMMsP+7xywJDrUipg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4qFF9aMheMVnBOmfhLPyMVD3x+XvTZ2zPHeEfzYK4DdvPUvDX
+	5coVz4yj8Y3OmTkHMRnEKzpq6a1rRHMQJUDXUj8pn8afRCYh4tJlPwro
+X-Gm-Gg: AZuq6aIjWeoEW8Ya7+MjxMmk7KllU1Ss+EL1CuvMnxqIDsRbsPyxeC+zIdzNIWdUYur
+	/e3fAwC3xaVgCIpq7F2diED+wH4q/0oipXZu9F+mTRmeWlXXGMj+mcSKa4GszTRPjx5jGABzgNi
+	uHLLLiB3+5MDj0lR3KVZAryrDd0q35EHOJJ2IR43+CSydmTziUxOfML9Aof0LDoWHzU8b2zirUc
+	F+7Zc0TNtQw/cNjZMil+23DqO6qwXR/TfyiyzoHwCJLd5OCg6IYeS+pN/LBVIZX7C69znv2lRFM
+	KQc/behrZdr9AGNI7KQH+oCfm3bk2qeeRwUdX4vilgGqO/+SrB6cvZwLrcvEmYFuRR3pzFvXOf5
+	atpVfODli0ycC3Ow/U8q1Nu5SUTGvAX8chdd1xid1WpLuKZOM8iePlRRjXkBGzH6nzUjJLSPFtN
+	lFeo5ekpOw6poQzL18o7Z1ZYNp+fnhskjpueIEVT0Cl/hVMfsSq9ZqwpUc12LB4c7BVPZndvy6J
+	HToq9dWSjWkmnIhcArAKsVlT7BxpZghgQoATjee2czgbAw=
+X-Received: by 2002:a05:600c:4749:b0:480:69b6:dfed with SMTP id 5b1f17b1804b1-483a95e5ab8mr222503645e9.24.1771956015015;
+        Tue, 24 Feb 2026 10:00:15 -0800 (PST)
+Received: from iku.example.org ([2a06:5906:61b:2d00:87da:e3e9:a9bf:6f1d])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bd72bd66sm13064095e9.11.2026.02.24.10.00.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Feb 2026 10:00:14 -0800 (PST)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Thomas Gleixner <tglx@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v4 0/7] irqchip/renesas-rzv2h: Add support to handle ICU error IRQ and add SWPE trigger
+Date: Tue, 24 Feb 2026 17:56:11 +0000
+Message-ID: <20260224175618.3160270-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260209104121.26172-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20260209104121.26172-6-prabhakar.mahadev-lad.rj@bp.renesas.com> <87bjhevbly.ffs@tglx>
-In-Reply-To: <87bjhevbly.ffs@tglx>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Tue, 24 Feb 2026 15:36:58 +0000
-X-Gm-Features: AaiRm52zTQ0YuU1rBNBcdj-UcKOM7U5K93Af3PwOWwvBqDae9YRe0wQz9hWFckw
-Message-ID: <CA+V-a8uhJOWmWnyJfcrG8=y9eHmfrcZ7SGsnoQNDVOG5fyw2RQ@mail.gmail.com>
-Subject: Re: [PATCH v3 5/6] irqchip/renesas-rzv2h: Add CA55 software interrupt support
-To: Thomas Gleixner <tglx@kernel.org>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-28434-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[pengutronix.de,glider.be,gmail.com,vger.kernel.org,bp.renesas.com,renesas.com];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,bp.renesas.com,renesas.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-28435-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_TO(0.00)[kernel.org,pengutronix.de,glider.be,gmail.com];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	NEURAL_HAM(-0.00)[-0.999];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: 489911891FF
+	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,bp.renesas.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 0663C18B13E
 X-Rspamd-Action: no action
 
-Hi Thomas,
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Thank you for the review.
+Hi All,
 
-On Tue, Feb 24, 2026 at 7:34=E2=80=AFAM Thomas Gleixner <tglx@kernel.org> w=
-rote:
->
-> On Mon, Feb 09 2026 at 10:41, Prabhakar wrote:
-> >  static int rzv2h_icu_set_type(struct irq_data *d, unsigned int type)
-> >  {
-> > +     unsigned int gic_type =3D IRQ_TYPE_LEVEL_HIGH;
-> >       unsigned int hw_irq =3D irqd_to_hwirq(d);
-> >       int ret;
-> >
-> > @@ -445,6 +475,11 @@ static int rzv2h_icu_set_type(struct irq_data *d, =
-unsigned int type)
-> >               /* TINT */
-> >               ret =3D rzv2h_tint_set_type(d, type);
-> >               break;
-> > +     case ICU_CA55_INT_START ... ICU_CA55_INT_LAST:
-> > +             /* CA55 Software Interrupts have EDGE_RISING type */
-> > +             gic_type =3D IRQ_TYPE_EDGE_RISING;
->
-> So this unconditionally selects EDGE_RISING independent of the type
-> provided by the caller. Interesting choice and compatible with the rest
-> of the code - _not_.
->
-Ok, I will update it to use the type which has been passed.
+This patch series aims to enhance the Renesas RZ/V2H ICU irqchip driver by
+adding support to handle ICU error IRQs and introducing a software
+generated interrupts using SWPE and SWINT. The series includes the
+following changes:
+1. Use local node pointer
+2. Use local device pointer in ICU probe
+3. Switch to using dev_err_probe()
+4. Make IRQ type handling range-aware
+5. Add CA55 software interrupt support
+6. Handle ICU error IRQ and add SWPE trigger
 
-> > +
-> > +static int rzv2h_icu_setup_irqs(struct platform_device *pdev,
-> > +                             struct irq_domain *irq_domain)
->
-> I told you before that you have 100 characters. Get rid of these line bre=
-aks.
->
-Ok.
+v3->v4:
+- Made a separate irq chip for tint/irq/nmi.
+- Added new patch for tint validation in irq allocation.
+- Made a separate irq chip for CA55 SWINT.
+- Made a separate irq chip for CA55 SWPE.
 
-> > +{
-> > +     bool irq_inject =3D IS_ENABLED(CONFIG_GENERIC_IRQ_INJECTION);
-> > +     static const char * const rzv2h_swint_names[] =3D {
-> > +             "int-ca55-0", "int-ca55-1",
-> > +             "int-ca55-2", "int-ca55-3",
-> > +     };
-> > +     static const u8 swint_idx[] =3D { 0, 1, 2, 3 };
-> > +     struct device *dev =3D &pdev->dev;
-> > +     struct irq_fwspec fwspec;
-> > +     unsigned int virq;
-> > +     unsigned int i;
->
-> Coalesce same types into a single line. See Documentation/....
->
-Ok.
+v2->v3:
+- Updated the check in rzv2h_icu_alloc() to ensure hwirq is within the
+  TINT range when extracting TINT information in patch 4/6.
+- Replaced pr_debug with pr_info in the SWINT handler in patch 5/6
+  and 6/6 to ensure  visibility of the message.
 
-> > +     int ret;
-> > +
-> > +     for (i =3D 0; i < ICU_CA55_INT_COUNT && irq_inject; i++) {
-> > +             fwspec.fwnode =3D irq_domain->fwnode;
-> > +             fwspec.param_count =3D 2;
-> > +             fwspec.param[0] =3D ICU_CA55_INT_START + i;
-> > +             fwspec.param[1] =3D IRQ_TYPE_EDGE_RISING;
-> > +
-> > +             virq =3D irq_create_fwspec_mapping(&fwspec);
-> > +             if (!virq)
-> > +                     return dev_err_probe(dev, -EINVAL, "failed to cre=
-ate IRQ mapping for %s\n",
-> > +                                          rzv2h_swint_names[i]);
->
-> This lacks curly brackets on the if(). See Documentation/.....
->
-Ok.
+v1->v2:
+- No changes for patches 1-3.
+- Patch 4 is a new patch.
+- Patch 5
+  - Made CA55 SW interrupt as part of ICU IRQ domain.
+  - Implemented rzv2h_icu_irq_set_irqchip_state() to trigger SWINT.
+  - Updated commit message accordingly.
+- Patch 6
+  - Made Error interrupt as part of ICU IRQ domain.
+  - Updated rzv2h_icu_irq_set_irqchip_state() to trigger pseudo interrupt.
+  - Updated commit message accordingly.
 
 Cheers,
 Prabhakar
+
+Lad Prabhakar (7):
+  irqchip/renesas-rzv2h: Use local node pointer
+  irqchip/renesas-rzv2h: Use local device pointer in ICU probe
+  irqchip/renesas-rzv2h: Switch to using dev_err_probe()
+  irqchip/renesas-rzv2h: Clarify IRQ range definitions and tighten TINT
+    validation
+  irqchip/renesas-rzv2h: Replace single irq_chip with per-region
+    irq_chip instances
+  irqchip/renesas-rzv2h: Add CA55 software interrupt support
+  irqchip/renesas-rzv2h: Handle ICU error IRQ and add SWPE trigger
+
+ drivers/irqchip/irq-renesas-rzv2h.c | 439 +++++++++++++++++++++++-----
+ 1 file changed, 361 insertions(+), 78 deletions(-)
+
+-- 
+2.53.0
+
 
