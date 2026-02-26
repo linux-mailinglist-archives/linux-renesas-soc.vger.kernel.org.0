@@ -1,220 +1,196 @@
-Return-Path: <linux-renesas-soc+bounces-28473-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28474-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WATXA+7cn2nEeQQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28473-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Feb 2026 06:41:02 +0100
+	id oL6XHcv0n2kyfAQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28474-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Feb 2026 08:22:51 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66EAB1A1143
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Feb 2026 06:41:01 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A2121A1CD9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Feb 2026 08:22:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 1F8843068EE0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Feb 2026 05:41:00 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 46E2E3014A09
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Feb 2026 07:22:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CE4C38A732;
-	Thu, 26 Feb 2026 05:40:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50A2138E11E;
+	Thu, 26 Feb 2026 07:22:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VhskgLD2"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="cTwcRpcr";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="fXTZV3RO"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E0302765ED
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Feb 2026 05:40:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 296A0385512
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Feb 2026 07:22:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772084459; cv=none; b=pMCAfkSeEytg8JEI6cpvtHxWkxRH4RB5dmHMqSXk6A1GnEJhI5fyweEcTOM8CYM7asSa6vWflM2DTS+nsnpUFPGHS1mra79ToBZ9hs90Lak6ULXrLl99Xi7NU9APNn33lgnzahsHPnTS9RYpwHnIld67wVM5GUilS40x0TxNYNI=
+	t=1772090567; cv=none; b=EhAWtc5IM63HHc0K1IetNah51b1KV7UdCbAzvJEvTCBg61w1DvFyUJE7egNJIyY3ngcQfzv6Du3zm8GFDDXCHWspXhEfukAvYDC65eJh7MvHqiH0dRjH/m+T89yTTemBy8QzMNEqLf/zhum1Z/nF982Nvk+faa3uUNH6ml6RO1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772084459; c=relaxed/simple;
-	bh=IHUuUsvpGlnLM4yHfGPnWG2ZQvQGkIAE8S9I+XFQDY0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qzMhx5g1/vCZ5KlnEv03Uz+9nYWlrApkNJrDwjH2wVA4oT/1QvccUMHmzjPDCZBzyOEAdD6nTQO3SEab72NJ3v6/30jpTfkK2cP+nnkncJ/F+gooTJtAGR8uD51IKsSPNvRy2kKQNseEsl+9bWS+mc+0c5ezeh4bpz3ZsqB/5k8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VhskgLD2; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2add623cb27so2760155ad.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 25 Feb 2026 21:40:57 -0800 (PST)
+	s=arc-20240116; t=1772090567; c=relaxed/simple;
+	bh=OHLeAB8c55abfsmY19EJaK81xEkxjGn3FfqX9pxfCS4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Y2E4H1ftKR/2SYtF/OOhZ6Q+zM1wFJn+/52MsnEfoKgGqQE9flOIVXpCsYSnoimq+X/XFkrpI89H39MbIR/75hpvKXDKXGdCcHpn504XGRMgALbQJXdTzNx88lN2I7DkcEpK586nd+nXfe6IfiiJntwz4lRKIAIdFsGGhEBsY4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=cTwcRpcr; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=fXTZV3RO; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61Q4VKts3721822
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Feb 2026 07:22:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	WlgdZ5gwHOxelqLHqWLVClyiL1bpxNzwG7E4VVeWOKY=; b=cTwcRpcrZEGp0oce
+	KFLyl73ySFlF8BEgTmvsbt6bAS1JK4vl7fRggQP260ktPSnFFtj0RZwzr4m0z/V0
+	OW6eZXzFjV1Z/RZH70LZPYmWkRAPyi3p4plnPDv+Z/SpvoU9UqDjkAxrzP3POOef
+	5Y6o4ApUWpjvwRhHCrhg7n0GlqIeqy/Qvpo6G4FdcxF+bNsN1WJRuTFn82G3maIu
+	F3/R9ZF0C87i6R23zWZwVFM+bv93VqFlbfsQSZkIo8NfVDWly91amUvNswNis9SA
+	2gvzzVjqe5mdlCHsT+tASEe4RkgosodWXmGBlozyXGVojgDvANoxxiVpWLaHAC+Q
+	g6QJkw==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4chyvf3avt-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Feb 2026 07:22:45 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2ae04f5897cso4490665ad.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 25 Feb 2026 23:22:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772084457; x=1772689257; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=oss.qualcomm.com; s=google; t=1772090564; x=1772695364; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VaZyUwACUA0Qe6gGb/aYaVkPcTkTUmYev0wediivZlU=;
-        b=VhskgLD2HCKQ5f2kFtLWzd0RPjBhbY75qPZWbMOigeW3HPm0OTCi/xAcZwnEwosrJb
-         v7kdv+9bOX5bqH9vuCOLPrpMO2FSJVvyFLg8HmHGrqjuRG8JZFNDatZApOKJX45+dNv8
-         QVTJCNsxYwkrNM336pxoi5UbTCRe/XK7Za0E3UzgztJR1SkE9PVeB6uyOa67rXgNOSFw
-         zJcpifIk4z3WJ/J77RMwxsxqpHn2YOgAzxibHApBx7STkcDwCbkzRK6U6KorEdMkBVkY
-         nuOcW4ykI6+yDTcTyYFYSRVebMf99sv+HrlU+ZMxS8i1tv0DE2qWt5vRPmUr8sxTT/wN
-         3K8Q==
+        bh=WlgdZ5gwHOxelqLHqWLVClyiL1bpxNzwG7E4VVeWOKY=;
+        b=fXTZV3ROG96qVAOA+MW5hHyahir4V30GKvwp/N1ycajrxmID1VTonbAValMe5GcCvI
+         TLYtacEbmZsK1bFZgIEz1IihfECQR4adQZfutgbHiXgVYiEltD5MBsfJnjL0/MA6KTQk
+         4gpJI6McUfwFrE+m9NfIsedcdySzM6iwb9uOGf5DIUSLCZDi7CbuYq2Q0Qzs3seuJ1EU
+         TUpSnjGNEJKhRP6iRVOwK5sEbGSBWY+N+d417RQHeq0OdxhCPG5nWivIuGQLByz+G1pr
+         okT6AnQrA12Itik71Fxk6WPAAoo3bS0m0OWusvCKAOfkiZs+wU4LanudNIvtDpisE4Vm
+         YHJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772084457; x=1772689257;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20230601; t=1772090564; x=1772695364;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=VaZyUwACUA0Qe6gGb/aYaVkPcTkTUmYev0wediivZlU=;
-        b=sYjkGMMGP4f4N/vKH/jlvS+N4VbBU0w+E/wcyuc4vZNOcfHCZZJrmCe7SsLdchJUAT
-         /10RuEIIap+QnMXYk84juZ1y4/RrnyHkzjjyym4KPYZ1toGqZtyWfmUq7VuHyqFeELme
-         9brhFKEhUdsiDSX5VHNJ1fIZFWy10kEPjCN/B8c8IdUK1M6XnYOttPBTvl4fSnnlO0SK
-         xgjkMA6K97KQ5ErMyfGf8maQu+SH9kCHOCzBV1gK45SEnMsyK+NNa0u5Kl0kGnOUkvAL
-         QvyaJSePuweHcFF56a7p6lmXNSNYmVTtuUqGD1Mms57BwiHig5MpHG1qo02zZmD5PIZ3
-         alpQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXSWU169Yf6YS9fajxlvzkmFD8ESrYKtNuTB/l+8Y95ul4Xu60h4QERRSAtLGUkD8q5vR1W8wjg9bLJ1XcdK76dCA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxVXzn2IHZvSAe9vs7WrAqI1hIYV39yPLTcf8O94thGstmlu7jP
-	xRurjyR2lamEfDAQNLDZYWQhoKd9vdOe1LRJnBCL4/S8NOFG1FhO4icM5pqHBw==
-X-Gm-Gg: ATEYQzzt8p6aYLnV2SOTA+mrnHf/hcAKQ9ySi4XLuPN7FnxgmiFAYnkYBru2f7LkGYS
-	62V0J6sUpeOjZcawqRC0gfxlX1PJxnVri/41ZvQONN6OKuVJA/hJs6QjrkQYXFd38U7pFCz12eW
-	Xlp7/3nvpNys4JPXNgQS1d604vcNR6Nkc+QNYX+3MAHFyQkwwh4TY1tKb1ihUjcYRqaa4IiJAKP
-	M2je0nSA9j3tJ37YM7e9u+jfENKNNPHYj6We77FRx+VKRrmxTHEO+LcP2Zd+KH0dxvYTqQ6m0P0
-	fueZmS6FR2sq4DYBv9VAdJVSlOEkUi7vahNemsTMyMBW7QY6xfIxl5CjogVoj2k4BL0n+qlU4uv
-	SOEiddICHTphFPVBEsys7zQWAywZd+I72jY81IV7wuNXZFOn2v7qFhgLDW9ELSCcFCvUVblUADa
-	QvsjzjV3lxkM3tHswRnJ2/HGUgEG+GxBx/ybe4uMp/rBsW0NM2lD7gYKa/yQ==
-X-Received: by 2002:a17:903:98d:b0:2a7:3dbe:353d with SMTP id d9443c01a7336-2ae03705fb6mr11325425ad.53.1772084457349;
-        Wed, 25 Feb 2026 21:40:57 -0800 (PST)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2adfb6f3436sm17026575ad.88.2026.02.25.21.40.54
+        bh=WlgdZ5gwHOxelqLHqWLVClyiL1bpxNzwG7E4VVeWOKY=;
+        b=ZPouuRECarZnaMrQX/qDhuG4s6iJXK8tL92d7YZP5XTcVj71WNqxhPJOv5EA3RnqCp
+         nb/fsb8cfTAfdjsDPNAZNZEWPfAwqYBte5mCATvZ/bB3SyOjq1+L2OpAjoWmXaGlF2XJ
+         6emaruuWPjt4fl/3oR3RSeOoz/YTGAjlM77L8TEeA48WiNN6Ow/h1Pgq6BotbIa63X2o
+         ACw+qXA0lfKIhREmLVa1HmtMXV9WAVzOnyCOGVJhOb0+yB6rJTs7nJMTeED3UuB709nC
+         addJuNQGr0EkjEp0MSBPEUu3iIIPPvTuhn+nqjMl3Pt+rLfDguidgVPoSGZrTwMnVHJf
+         /SBA==
+X-Forwarded-Encrypted: i=1; AJvYcCWU7o+gWAJWTYf+mBx/4FjJef8Nk7vZx5cL5NZrNL09N+Bnrs1Nn+9NHnIwBOSoDQ5FTn2CGzemxPUI0ZovO3XMXw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy5jcyr3Z5Ai0BCATZVRjbFfAiSKNs4N07UETvukNtPo1/leaNL
+	pcFV+ONB7EXXNjNOnZw+RQKfMZohtFiT3oDE/4WN5AaZ38xdGSGiAMTP3zGMq4uZFeKdvI4TxEd
+	ives7tcAyTNTqDh4HEWEGYJSvEd1BaNYr8k9gsrCpVGlg+sCaK0FxsUyU/AElkTGTObijjaiwOw
+	==
+X-Gm-Gg: ATEYQzxeqTyEpl9tgYDb9C8t6GA+OxLZo/rxw6uLKGN4KjQM44C+U0r9ess/6yFfVdx
+	gJbZHQ1bzXDqN2DGld+Vd18OZ4orKqtuph6/XwBBzuEZc9kxNvzc0VzqBFkC4cA2OOZvXbfYqvf
+	RBX5tr5wNMNEOIirKzxNNUw8skNqyr4I+18EoEiAf9gmZutc+iKEwmY5kHM0+O6HYMneuWCElUI
+	2nrvhYhtriosoON9jnxAariYEE2bocGsUkB9jK0oLf/sWprrxolwiZ9WDRWPyXXyyn/guOiHKUv
+	wdIIo2aaRLM7brwLCtoSZA2iInui+5exJHg5Y50WkL801aD0XJyp1pUzcQut3763G/jaE3/KMRD
+	GspfW3/iyl97lltPx3D7z9k0=
+X-Received: by 2002:a17:903:2ecd:b0:2aa:f43d:7c4c with SMTP id d9443c01a7336-2adf78d7941mr17686685ad.9.1772090563833;
+        Wed, 25 Feb 2026 23:22:43 -0800 (PST)
+X-Received: by 2002:a17:903:2ecd:b0:2aa:f43d:7c4c with SMTP id d9443c01a7336-2adf78d7941mr17686485ad.9.1772090563318;
+        Wed, 25 Feb 2026 23:22:43 -0800 (PST)
+Received: from [192.168.1.2] ([2401:4900:8fe5:3076:521d:50c0:367d:1d7b])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2adfb69f25esm14754535ad.47.2026.02.25.23.22.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Feb 2026 21:40:56 -0800 (PST)
-From: phucduc.bui@gmail.com
-To: phucduc.bui@gmail.com
-Cc: airlied@gmail.com,
-	dri-devel@lists.freedesktop.org,
-	geert+renesas@glider.be,
-	laurent.pinchart@ideasonboard.com,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	simona@ffwll.ch,
-	tzimmermann@suse.de
-Subject: [PATCH v2] drm: shmobile: Fix blank screen after resume when LCDC is stopped
-Date: Thu, 26 Feb 2026 12:40:35 +0700
-Message-ID: <20260226054035.30330-1-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260226051338.27460-1-phucduc.bui@gmail.com>
-References: <20260226051338.27460-1-phucduc.bui@gmail.com>
+        Wed, 25 Feb 2026 23:22:42 -0800 (PST)
+From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+X-Google-Original-From: Manivannan Sadhasivam <mani@kernel.org>
+To: marek.vasut+renesas@gmail.com, yoshihiro.shimoda.uh@renesas.com,
+        lpieralisi@kernel.org, kwilczynski@kernel.org, robh@kernel.org,
+        bhelgaas@google.com, geert+renesas@glider.be, magnus.damm@gmail.com,
+        cassel@kernel.org, Koichiro Den <den@valinux.co.jp>
+Cc: linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+In-Reply-To: <20260210160315.2272930-1-den@valinux.co.jp>
+References: <20260210160315.2272930-1-den@valinux.co.jp>
+Subject: Re: [PATCH v2] PCI: dwc: rcar-gen4-ep: Mark BAR0 and BAR2 as
+ Resizable BARs
+Message-Id: <177209055853.87053.17849057393556556577.b4-ty@kernel.org>
+Date: Thu, 26 Feb 2026 12:52:38 +0530
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.3
+X-Proofpoint-ORIG-GUID: W6gRr6Zs3Xnhfr9JuoDdlGQFFgw5Ms6c
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI2MDA2NCBTYWx0ZWRfX1bUnIUQwWVas
+ UsPdc/LnTNNCiDt5qBqHqWYdiBQJLXyDfPXL1uu4/8LaJUqWyTuAwS7s3NqNcTk1JlVHKiE31fC
+ Vhi1rKCOG1FVoxp3DUK7dE/PamPpuVO53p+mQl9kgqOeTlk8In5RqMj0aNxOGKR6/kxQ0x/E9Iv
+ qpTsKAgPDPqwY9Db+lk2NrVNf/9ReG8ZAA897Qf+LDjfqqXWkyqwADuBRWFz01WqOllg7eHzSm6
+ CVqWW0wpEtzOBD/T12lD7vG+vqW4fOT8/DqbaQ2Qu8DYbz0BXaEIoWB2QmV+plFi1k3dTqPyLiY
+ NGLEtUVCkbNv/WLcg8nlRX3RzVqAcmb87dC2Z+lGWzByEOvgIpWn6qj8yDzHdkHbvpMAysGOgkf
+ DY3bmgmGOdmvWvUNcOzBMDSBUae1Hbo8d9mtxgwGxbKzq4DYDo6pg9j8N75zqjY6Dk6+C55dDaV
+ 3dpjpVbsHugTwmAajjQ==
+X-Proofpoint-GUID: W6gRr6Zs3Xnhfr9JuoDdlGQFFgw5Ms6c
+X-Authority-Analysis: v=2.4 cv=dZWNHHXe c=1 sm=1 tr=0 ts=699ff4c5 cx=c_pps
+ a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22 a=VwQbUJbxAAAA:8
+ a=-fu8A8ogDAHwY6WL0e8A:9 a=QEXdDO2ut3YA:10 a=ZXulRonScM0A:10
+ a=GvdueXVYPmCkWapjIL-Q:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-25_04,2026-02-25_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 clxscore=1015 suspectscore=0 lowpriorityscore=0
+ phishscore=0 bulkscore=0 spamscore=0 impostorscore=0 adultscore=0
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2602130000
+ definitions=main-2602260064
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-28473-lists,linux-renesas-soc=lfdr.de];
-	FROM_NEQ_ENVFROM(0.00)[phucducbui@gmail.com,linux-renesas-soc@vger.kernel.org];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,lists.freedesktop.org,glider.be,ideasonboard.com,vger.kernel.org,linux.intel.com,kernel.org,ffwll.ch,suse.de];
-	TO_DN_NONE(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	PRECEDENCE_BULK(0.00)[];
+	TAGGED_FROM(0.00)[bounces-28474-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com,renesas.com,kernel.org,google.com,glider.be,valinux.co.jp];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	FROM_NO_DN(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,oss.qualcomm.com:dkim,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[manivannan.sadhasivam@oss.qualcomm.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 66EAB1A1143
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 1A2121A1CD9
 X-Rspamd-Action: no action
 
-From: bui duc phuc <phucduc.bui@gmail.com>
 
-The LCDC controller on R8A7740 loses its register state during
-deep sleep. Upon resume, the driver's Mirror Register mechanism
-(MRS) fails to update active registers because the controller is
-stopped (DO=0).
+On Wed, 11 Feb 2026 01:03:15 +0900, Koichiro Den wrote:
+> R-Car Gen4 (S4) implements the PCIe Resizable BAR capability for BAR0 and
+> BAR2. Advertise them as BAR_RESIZABLE so EPF-requested BAR sizes are
+> reflected to the host.
+> 
+> 
 
-According to the datasheet (Section 38.7.1, Figure 38.13), the
-Two-Set Register Switching logic only triggers a change between
-Set A and Set B when a Frame End Interrupt occurs at the
-completion of a display frame. During resume, as the LCDC is
-stopped, no frame is processed and no Frame End pulse is
-generated. This leaves the Display Data Start Address (SA)
-pending in the standby set, while the active register (Side A)
-remains at 0x00000000, preventing the display engine from
-starting.Debug logs collected during resume confirm this
-behavior, showing the start address written to the standby set
-while the active register remains unchanged.
+Applied, thanks!
 
-Prime both register sets when the LCDC is stopped:
+[1/1] PCI: dwc: rcar-gen4-ep: Mark BAR0 and BAR2 as Resizable BARs
+      commit: 7f0031b967fd68a1805a16857f5b3b0ca2d32d42
 
-    If DO=0: Use lcdc_write() to force the Start Address (SA)
-    into both Set A and Set B registers. This bypasses the
-    switching logic and ensures the engine has a valid base
-    address immediately upon being enabled.
-
-    If DO=1: Maintain the standard Mirror mechanism and MRS
-    toggle for normal, tear-free operation.
-
-Verified on R8A7740.
-
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
-
-Changes in v2:
- - Fix incorrect use of lcdc_write_mirror() for LDSA2R in
-   the DO=0 path; use lcdc_write() to update both register
-   sets as intended.
-
- .../gpu/drm/renesas/shmobile/shmob_drm_plane.c  | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
-index 9d166ab2af8b..6371bdc2371a 100644
---- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
-+++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
-@@ -70,6 +70,7 @@ static void shmob_drm_primary_plane_setup(struct shmob_drm_plane *splane,
- 	struct shmob_drm_plane_state *sstate = to_shmob_plane_state(state);
- 	struct shmob_drm_device *sdev = to_shmob_device(splane->base.dev);
- 	struct drm_framebuffer *fb = state->fb;
-+	u32 ldcnt2r;
- 
- 	/* TODO: Handle YUV colorspaces. Hardcode REC709 for now. */
- 	lcdc_write(sdev, LDDFR, sstate->format->lddfr | LDDFR_CF1);
-@@ -78,11 +79,19 @@ static void shmob_drm_primary_plane_setup(struct shmob_drm_plane *splane,
- 	/* Word and long word swap. */
- 	lcdc_write(sdev, LDDDSR, sstate->format->ldddsr);
- 
--	lcdc_write_mirror(sdev, LDSA1R, sstate->dma[0]);
--	if (shmob_drm_format_is_yuv(sstate->format))
--		lcdc_write_mirror(sdev, LDSA2R, sstate->dma[1]);
-+	ldcnt2r = lcdc_read(sdev, LDCNT2R);
-+
-+	if (ldcnt2r & LDCNT2R_DO) {
-+		lcdc_write_mirror(sdev, LDSA1R, sstate->dma[0]);
-+		if (shmob_drm_format_is_yuv(sstate->format))
-+			lcdc_write_mirror(sdev, LDSA2R, sstate->dma[1]);
- 
--	lcdc_write(sdev, LDRCNTR, lcdc_read(sdev, LDRCNTR) ^ LDRCNTR_MRS);
-+		lcdc_write(sdev, LDRCNTR, lcdc_read(sdev, LDRCNTR) ^ LDRCNTR_MRS);
-+	} else {
-+		lcdc_write(sdev, LDSA1R, sstate->dma[0]);
-+		if (shmob_drm_format_is_yuv(sstate->format))
-+			lcdc_write(sdev, LDSA2R, sstate->dma[1]);
-+	}
- }
- 
- static void shmob_drm_overlay_plane_setup(struct shmob_drm_plane *splane,
+Best regards,
 -- 
-2.43.0
+Manivannan Sadhasivam <mani@kernel.org>
 
 
