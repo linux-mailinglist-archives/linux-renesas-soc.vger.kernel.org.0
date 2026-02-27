@@ -1,81 +1,81 @@
-Return-Path: <linux-renesas-soc+bounces-28536-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28537-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8GNuENWloWmivQQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28536-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Feb 2026 15:10:29 +0100
+	id uKISH1OooWm1vQQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28537-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Feb 2026 15:21:07 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9AFE1B8708
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Feb 2026 15:10:28 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 236EC1B8C3A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Feb 2026 15:21:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 8F7C330B40B1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Feb 2026 14:09:32 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 9A3C6308BAD3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Feb 2026 14:09:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1ECE43C076;
-	Fri, 27 Feb 2026 14:03:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16A9643C07D;
+	Fri, 27 Feb 2026 14:03:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VdtXhE3D"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MfSRYqGJ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96CBF43901F
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Feb 2026 14:03:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 380D443C050
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Feb 2026 14:03:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772201010; cv=none; b=T4G//rfMNSk/dom1WqG4WyFUf/5dNlGauvaAsgnkkah0qeeW6W2oPCbvD2U2l7gDJ8H97UrOcQ++6ILgSJOcHmeyUxT0g/sZh80PpT+VbP/0uOL8/lCBUpkIAhzLFSDUUYbFcdqJ5YgVaw/YlF2Wn1wlI4mhBkpqENxY2n6x3BA=
+	t=1772201011; cv=none; b=t8eo8Y1RTWk3q+mkHRnworo9h9K7BTzNNDuqRg3kBji+tC4YyMYjXHh1uztJxd2B+rgIbD5DhTaZfeFtv1gYHVLbObwwJWjckuq4lkYUYSjEcJH4hwNw9ZKhZP4YeE230mzWlu/3XBDPe9Oo+SPElusHcooCC32No1JhI9K6QAE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772201010; c=relaxed/simple;
-	bh=MKUQLvFr1iT5myl4XHCt9t+le8qYMnyu662x3Ql5bY8=;
+	s=arc-20240116; t=1772201011; c=relaxed/simple;
+	bh=kL2l/vaaZH0Mjb/6DP2cEVtv8HOl6c9ULYdSdt/q2RY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VpA1XIah7UmIDsfuMNYNLow8DSplJ0k5w4LgSzAx3laeJYE3DzftmuSC+KmJ6HhjJrAHYwlJoORilr+2czqQU2vdlzR41eW+7r+WkuTrXGQNL9t6aucbzCXdgWlC4dTG323BdyFOUOz1EYWU9j9j8NRsMjg8hojmeFMxsmYEdE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VdtXhE3D; arc=none smtp.client-ip=209.85.221.45
+	 MIME-Version; b=m2V4LGPPpoOQcyeWNOYEgAOlP2IW7CUq51MQdDOIjif/yWcyek0ZoLkvk0uI5Pg8C7PqXwLJxDRgBku6KJ2uNI20zcuwMJpshTAAjmaaRWTyEFHwLszAVWsU5U4DBu0TixrTUlGk93SiCAp3QfjJfpxf8U+212jA9ePEGOTKtFo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MfSRYqGJ; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-4377174e1ebso1475467f8f.3
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-43945763558so1482571f8f.3
         for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Feb 2026 06:03:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1772201007; x=1772805807; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=warcM3LovriiR1qe/xbK+forV1iKLkvB/qLDY0EdHzA=;
-        b=VdtXhE3DwcNQCXF5SD8HttPjy3EWtABZVzPv53/aRJcZ/oOFltGXjgpE7Rvcr9c8O8
-         4DLYdBlU7zlRyDQw3MrwpX3fxFSKJLilWKNLZ3nbqSYRUBsCuwS0oGV4SxjXbgak3Vp7
-         FhAT7t6psxgyt9hMaDi7IUv3hPVIj9atENRjQHJUeB5LliqXhsOCpbFX8cJ/SQ4bZVpl
-         33/7ab9M7CoGrR9xXAX6ZS1aw+J56g2c+14ULJ7K30ALfDGQ8d6ElhOCyNAK1uAS83UT
-         lfTdZOwZoSmiL5Wrgmwi+nE7N69UwMedm3RTY0ODeIDrMGsTwplinc6C9VGjGKP/ReuG
-         461g==
+        bh=WTx1Ig68m3990TuaMC1o3YCGcen11kpdJBTmI/bujgA=;
+        b=MfSRYqGJT9Urwy1Q9fLTqNUTqLtpBO5jYKrSZhWJFP7Lqv5tIEVsOMkhbfY2IONR5x
+         czgxwY+M8626YvL9NUJnYLK8dNwzswO801NCKQcLVc2x8qvW0MbflkwkK6p4OV6hN47o
+         7hkkuPbo53TzmjBpyFkIo1y8q+B5vY/ZKUm1tBTbLNJvxQPDusEQaUnP08Nm6kjD3ZSg
+         FsaXIjBYZluskAE2Aq3qudFEXld0TMSwBWroR2xVUqn7e8rxYRI7uOayNGhsK30Cpg37
+         ffT7B1mtr/DLTBkXSf7i5PuMxgzanDPZbi+oFpC3MO7HN1eblXWpEvfi/jbCGm7TMxo+
+         Emug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1772201007; x=1772805807;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=warcM3LovriiR1qe/xbK+forV1iKLkvB/qLDY0EdHzA=;
-        b=jBpofpC+2eXksNQ/KCZWoscOGMrZjl4vjokaXXxFgEZmqvOf2hwXbF41UK9Ew+TaaI
-         SL1KBsrVrVV5E1UgsvQZTLrmBcbYXrLmXclwMZNGj93bcHmdZmKEEA69A4dLFfKysx4v
-         /xY6wowRThwgwZ+yC/96aOzIJrF0C9c9X70MB/3WVWNQhH5s5b8DFDfRwlnx/Mdsve0t
-         0V2NCav/NtojhaU/VqGCeKRDiy8wWBPzgM/7BmlCyA0e6gNc9A2VfXTq2v6iU1itBxBE
-         Zp+TI0pPsTrtjbv9h6MTvULd9lBXjTcfrIi/8yqFF6UKvLQaP93Cw+BlLBVZ4Mteh3he
-         Uf0A==
-X-Forwarded-Encrypted: i=1; AJvYcCU8lx4e/VTWQ/rU+3Txj+T3bZSnYBpQaduy1l8iavkegGi49bK10wdbl19d6gXITIeSEvOa2RgFixWhA3fehLL6tg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxHvP7eSosTOrnoxedjny+Tg3Z4b5IP+S6qQekdAYPv3/08ZuE7
-	Ub9ToPd/zDOLRvjcOF9/qlZySBIxH9J0K/SjTxPqcWCvm2WT+f0oXIOI
-X-Gm-Gg: ATEYQzwtFs5/Oqhc8GhEQ2lqL7a7XYaMhwWfgkaz4p13BukwMnJKAKp8Bt9mH+QpBwi
-	Oq6895cjZUDQFMmahQuUoMqHm08TT16YGvQWsqfe20W/G3ae0fspF+vIgLfL03RiTSvqrg2m/GF
-	It0uHdsgfNAvr60fpWTuAlYnduZkRS3gvBImdTLlJtuTcle7WBfWmJ9rMtBDKJfVGszQpB2+2EB
-	HM74WfVEYkhZ0/urmvIdLvLxZ82Ii6+yv268OMZqaMJgSObIPsc+VZYm7GYmUvMt9xivk7z+ZTX
-	hL69HWPCNZU8WaQjfBrgWx04VFKox24aQluUA1f1Y5AHbC0/w7MPxbkLPrIUe/M1djG1BynUqY6
-	VCqftbO1r0HCkJjHH07OkBlcAXGGNb24I5snv44flC+Y/fc9rSbpCU3yVe+4+6+X6Qzjwy/74rh
-	zrKZMQA6lXT4rwZGqA7k6oYG5j7JQDDg4=
-X-Received: by 2002:a05:6000:22c3:b0:437:70d3:44e7 with SMTP id ffacd0b85a97d-4399de2b5e7mr4991338f8f.30.1772201006634;
-        Fri, 27 Feb 2026 06:03:26 -0800 (PST)
+        bh=WTx1Ig68m3990TuaMC1o3YCGcen11kpdJBTmI/bujgA=;
+        b=d6N3csfTjbNV3CyLJhXeI0gim+oR116CPCik2k5A91i0/cGvTzs8fyAuoJDwu7ywt+
+         sw3Fe/vJIO1vJjyvT489TF6u+5iLwWreQgG1zrkYqnuOTW5aXocOfCiq0pQQXf245Q0L
+         mcpwzq2PaiyX/9AdcdgbySBv/sR483PGyI5iUrwXmTmGQmsW8Uy8GWM1C+qky1ltimmT
+         Ocx7RSZNTcVkj4L2THEaLFhn2TgyG7PHo137ppljZb1es5kzSVl2xjiN75iGJVRn/CyX
+         ZOTg/dqwA0V6N0+sM2FpwC/soa/hnMbkmZmKWh8EjyA1SkRIf+7yBcNnEM4HNYL6Eauv
+         Thtg==
+X-Forwarded-Encrypted: i=1; AJvYcCXKS9wZ920t+wbUL96mi/Bh8Ln1s4baFiempx8mNeZ8VarTQPZByoh/+Hau98PJKHx8ecS9ZoHh3LrPjsy+niU5sQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YykUwDsDMlErW/rmSphm9yGr5+YYGqLpvrfypl/TUL1rLj4FjzT
+	CpyGdD+tjySdDBFPitAaPiWaxMAf7hL6/8zOPHMjBH83ZMIFoC60FqGB
+X-Gm-Gg: ATEYQzxXHwNxFMNvYBgRNTfV2BfT4hAssL5NFQwffg70aKkADJ5IA/V4icxmGI5zwn5
+	Gx6+EuGCVf7czF/K01beNFfS6AMLEaKUfA9sIFXsuJNEkX7IF1/IeFFOcKvryNaX/feXYOQAj06
+	KJBinVHritypPvFPCsJhfTSXU+sI860tMQ0gx6605BpH83Okve0DtzI7sIcm1VShsD6vXjfkBX2
+	L5Q15HoSimtw51GRTcaNMcrcXDP+K0wQiX9MAXBqRBgNxavxM+jG/6GdW7j/SjKKeIUD6QyKYuL
+	TC9z3agVV98iLl0Y9U7nNuULXuZ2FPZbNNiMd6rEsA+wGHEsGQEqa6DNC21ZAL3VsJyMsKiOreZ
+	von68jwOcdAzxcKmcqXGBqiLaYs2pv82XtBJPFlpjr5Urz8urvmYkfH/X8YzSizpWTZ9F6LcR7F
+	FpwylNxuaWYwMoUVvEkzg8MYFJ79fbttZer5RNtlP7bw==
+X-Received: by 2002:a05:6000:2dc3:b0:439:8d96:55d1 with SMTP id ffacd0b85a97d-4399dde5f73mr5406205f8f.8.1772201007451;
+        Fri, 27 Feb 2026 06:03:27 -0800 (PST)
 Received: from biju.lan ([2a00:23c4:a758:8a01:4d8b:fefb:26cf:1906])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4399c60feeesm7658811f8f.1.2026.02.27.06.03.25
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4399c60feeesm7658811f8f.1.2026.02.27.06.03.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Feb 2026 06:03:25 -0800 (PST)
+        Fri, 27 Feb 2026 06:03:26 -0800 (PST)
 From: Biju <biju.das.au@gmail.com>
 X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
 To: Thomas Gleixner <tglx@kernel.org>
@@ -85,9 +85,9 @@ Cc: Biju Das <biju.das.jz@bp.renesas.com>,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>,
 	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v4 7/9] irqchip/renesas-rzg2l: Add RZ/G3L support
-Date: Fri, 27 Feb 2026 14:03:07 +0000
-Message-ID: <20260227140316.308106-8-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v4 8/9] irqchip/renesas-rzg2l: Add shared interrupt support
+Date: Fri, 27 Feb 2026 14:03:08 +0000
+Message-ID: <20260227140316.308106-9-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260227140316.308106-1-biju.das.jz@bp.renesas.com>
 References: <20260227140316.308106-1-biju.das.jz@bp.renesas.com>
@@ -103,13 +103,13 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-28536-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-28537-lists,linux-renesas-soc=lfdr.de];
 	FREEMAIL_CC(0.00)[bp.renesas.com,vger.kernel.org,glider.be,gmail.com];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -117,7 +117,7 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	FROM_NEQ_ENVFROM(0.00)[bijudasau@gmail.com,linux-renesas-soc@vger.kernel.org];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_COUNT_FIVE(0.00)[5];
@@ -126,125 +126,192 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
 	FREEMAIL_FROM(0.00)[gmail.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,bp.renesas.com:mid]
-X-Rspamd-Queue-Id: B9AFE1B8708
+	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,bp.renesas.com:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 236EC1B8C3A
 X-Rspamd-Action: no action
 
 From: Biju Das <biju.das.jz@bp.renesas.com>
 
-The IRQC block on the RZ/G3L SoC is almost identical to the one found on
-the RZ/G2L SoC, with the following differences:
-
- - The number of GPIO interrupts for TINT selection is 113 instead of 123.
- - The pin index and TINT selection index are not in the 1:1 map.
- - The number of external interrupts are 16 instead of 8, out of these
-   8 external interrupts are shared with TINT.
-
-Add support for the RZ/G3L driver by filling the rzg2l_hw_info table and
-adding LUT for mapping between pin index and TINT selection index.
+The total number of external interrupts in RZ/G2L and RZ/G3L SoC are
+different. The RZ/G3L has 16 external interrupts out of which it shares 8
+interrupts with TINT, whereas RZ/G2L has only 8 external interrupts. Add
+shared_irq variable in struct rzg2l_hw_info to handle these differences by
+adding the callback irq_{request,release}_resources().
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
 v3->v4:
+ * Updated commit header irq->interrupt.
  * Updated commit description IRQs->interrupts.
- * Updated rzg2l_disable_tint_and_set_tint_source() for making
-   tint assignment very clear in the code.
- * Formatted rzg3l_tssel_lut as table format.
+ * Updated shared_irq_cnt variable type from u8->unsigned int.
 v2->v3:
  * No change
 v1->v2:
  * No change
 ---
- drivers/irqchip/irq-renesas-rzg2l.c | 43 +++++++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
+ drivers/irqchip/irq-renesas-rzg2l.c | 90 +++++++++++++++++++++++++++++
+ 1 file changed, 90 insertions(+)
 
 diff --git a/drivers/irqchip/irq-renesas-rzg2l.c b/drivers/irqchip/irq-renesas-rzg2l.c
-index 5e30dc2328e0..3010247fe3ef 100644
+index 3010247fe3ef..491421cd9681 100644
 --- a/drivers/irqchip/irq-renesas-rzg2l.c
 +++ b/drivers/irqchip/irq-renesas-rzg2l.c
-@@ -67,11 +67,13 @@ struct rzg2l_irqc_reg_cache {
- 
+@@ -29,6 +29,8 @@
+ #define TITSR(n)			(0x24 + (n) * 4)
+ #define TITSR0_MAX_INT			16
+ #define TITSEL_WIDTH			0x2
++#define INTTSEL				0x2c
++#define TINTSEL(n)			BIT(n)
+ #define TSSR(n)				(0x30 + ((n) * 4))
+ #define TIEN				BIT(7)
+ #define TSSEL_SHIFT(n)			(8 * (n))
+@@ -58,10 +60,12 @@
  /**
-  * struct rzg2l_hw_info - Interrupt Control Unit controller hardware info structure.
-+ * @tssel_lut:		TINT lookup table
+  * struct rzg2l_irqc_reg_cache - registers cache (necessary for suspend/resume)
+  * @iitsr: IITSR register
++ * @inttsel: INTTSEL register
+  * @titsr: TITSR registers
+  */
+ struct rzg2l_irqc_reg_cache {
+ 	u32	iitsr;
++	u32	inttsel;
+ 	u32	titsr[2];
+ };
+ 
+@@ -71,12 +75,14 @@ struct rzg2l_irqc_reg_cache {
   * @irq_count:		Number of IRQC interrupts
   * @tint_start:		Start of TINT interrupts
   * @num_irq:		Total Number of interrupts
++ * @shared_irq_cnt:	Number of shared interrupts
   */
  struct rzg2l_hw_info {
-+	const u8	*tssel_lut;
+ 	const u8	*tssel_lut;
  	unsigned int	irq_count;
  	unsigned int	tint_start;
  	unsigned int	num_irq;
-@@ -343,6 +345,11 @@ static u32 rzg2l_disable_tint_and_set_tint_source(struct irq_data *d, struct rzg
- 	u32 tint = (u32)(uintptr_t)irq_data_get_irq_chip_data(d);
- 	u32 tien = reg & (TIEN << TSSEL_SHIFT(tssr_offset));
++	unsigned int	shared_irq_cnt;
+ };
  
-+	if (priv->info.tssel_lut)
-+		tint = priv->info.tssel_lut[tint];
-+	else
-+		tint = (u32)(uintptr_t)irq_data_get_irq_chip_data(d);
-+
- 	/* Clear the relevant byte in reg */
- 	reg &= ~(TSSEL_MASK << TSSEL_SHIFT(tssr_offset));
- 	/* Set TINT and leave TIEN clear */
-@@ -607,6 +614,36 @@ static int rzg2l_irqc_common_probe(struct platform_device *pdev, struct device_n
- 	return 0;
+ /**
+@@ -295,6 +301,83 @@ static void rzg2l_irqc_irq_enable(struct irq_data *d)
+ 	irq_chip_enable_parent(d);
  }
  
-+/* Mapping based on port index on Table 4.2-1 and GPIOINT on Table 4.6-7 */
-+static const u8 rzg3l_tssel_lut[] = {
-+	 83,  84,					/* P20-P21 */
-+	  7,   8,   9,  10,  11,  12,  13,		/* P30-P36 */
-+	 85,  86,  87,  88,  89,  90,  91,		/* P50-P56 */
-+	 92,  93,  94,  95,  96,  97,  98,		/* P60-P66 */
-+	 99, 100, 101, 102, 103, 104, 105, 106,		/* P70-P77 */
-+	107, 108, 109, 110, 111, 112,			/* P80-P85 */
-+	 45,  46,  47,  48,  49,  50,  51,  52,		/* PA0-PA7 */
-+	 53,  54,  55,  56,  57,  58,  59,  60,		/* PB0-PB7 */
-+	 61,  62,  63,					/* PC0-PC2 */
-+	 64,  65,  66,  67,  68,  69,  70,  71,		/* PD0-PD7 */
-+	 72,  73,  74,  75,  76,  77,  78,  79,		/* PE0-PE7 */
-+	 80,  81,  82,					/* PF0-PF2 */
-+	 27,  28,  29,  30,  31,  32,  33,  34,		/* PG0-PG7 */
-+	 35,  36,  37,  38,  39,  40,			/* PH0-PH5 */
-+	  2,   3,   4,   5,   6,			/* PJ0-PJ4 */
-+	 41,  42,  43,  44,				/* PK0-PK3 */
-+	 14,  15,  16,  17,  26,			/* PL0-PL4 */
-+	 18,  19,  20,  21,  22,  23,  24,  25,		/* PM0-PM7 */
-+	  0,   1					/* PS0-PS1 */
-+};
-+
-+static const struct rzg2l_hw_info rzg3l_hw_params = {
-+	.tssel_lut	= rzg3l_tssel_lut,
-+	.irq_count	= 16,
-+	.tint_start	= IRQC_IRQ_START + 16,
-+	.num_irq	= IRQC_IRQ_START + 16 + IRQC_TINT_COUNT,
-+};
-+
- static const struct rzg2l_hw_info rzg2l_hw_params = {
- 	.irq_count	= 8,
- 	.tint_start	= IRQC_IRQ_START + 8,
-@@ -618,6 +655,11 @@ static int rzg2l_irqc_probe(struct platform_device *pdev, struct device_node *pa
- 	return rzg2l_irqc_common_probe(pdev, parent, &rzg2l_irqc_chip, rzg2l_hw_params);
- }
- 
-+static int rzg3l_irqc_probe(struct platform_device *pdev, struct device_node *parent)
++static bool rzg2l_irqc_is_shared_irqc(const struct rzg2l_hw_info info, unsigned int hw_irq)
 +{
-+	return rzg2l_irqc_common_probe(pdev, parent, &rzg2l_irqc_chip, rzg3l_hw_params);
++	return ((hw_irq >= (info.tint_start - info.shared_irq_cnt)) && hw_irq < info.tint_start);
 +}
 +
- static int rzfive_irqc_probe(struct platform_device *pdev, struct device_node *parent)
++static bool rzg2l_irqc_is_shared_tint(const struct rzg2l_hw_info info, unsigned int hw_irq)
++{
++	return ((hw_irq >= (info.num_irq - info.shared_irq_cnt)) && hw_irq < info.num_irq);
++}
++
++static int rzg2l_irqc_irq_request_resources(struct irq_data *d)
++{
++	unsigned int hw_irq = irqd_to_hwirq(d);
++	struct rzg2l_irqc_priv *priv = irq_data_to_priv(d);
++	u32 offset, tssr_offset;
++	u8 tssr_index, tssel_shift;
++	u32 reg, inttsel_reg;
++	u8 value;
++
++	if (!priv->info.shared_irq_cnt)
++		return 0;
++
++	if (rzg2l_irqc_is_shared_irqc(priv->info, hw_irq)) {
++		offset = hw_irq + IRQC_TINT_COUNT - priv->info.tint_start;
++		tssr_offset = TSSR_OFFSET(offset);
++		tssr_index = TSSR_INDEX(offset);
++		tssel_shift = TSSEL_SHIFT(tssr_offset);
++
++		reg = readl_relaxed(priv->base + TSSR(tssr_index));
++		value = (reg & (TIEN << tssel_shift)) >> tssel_shift;
++		if (value)
++			goto err_conflict;
++
++		raw_spin_lock(&priv->lock);
++		inttsel_reg = readl_relaxed(priv->base + INTTSEL);
++		inttsel_reg |= TINTSEL(offset);
++		writel_relaxed(inttsel_reg, priv->base + INTTSEL);
++		raw_spin_unlock(&priv->lock);
++	} else if (rzg2l_irqc_is_shared_tint(priv->info, hw_irq)) {
++		offset = hw_irq - priv->info.tint_start;
++		tssr_offset = TSSR_OFFSET(offset);
++		tssr_index = TSSR_INDEX(offset);
++
++		inttsel_reg = readl_relaxed(priv->base + INTTSEL);
++		value = (inttsel_reg & TINTSEL(offset)) >> offset;
++		if (value)
++			goto err_conflict;
++	}
++
++	return 0;
++
++err_conflict:
++	pr_err("%s: Shared SPI conflict!\n", __func__);
++	return -EBUSY;
++}
++
++static void rzg2l_irqc_irq_release_resources(struct irq_data *d)
++{
++	unsigned int hw_irq = irqd_to_hwirq(d);
++	struct rzg2l_irqc_priv *priv = irq_data_to_priv(d);
++	u32 offset;
++	u8 inttsel_reg;
++
++	if (!priv->info.shared_irq_cnt)
++		return;
++
++	if (rzg2l_irqc_is_shared_irqc(priv->info, hw_irq)) {
++		offset = hw_irq + IRQC_TINT_COUNT - priv->info.tint_start;
++
++		raw_spin_lock(&priv->lock);
++		inttsel_reg = readl_relaxed(priv->base + INTTSEL);
++		inttsel_reg &= ~TINTSEL(offset);
++		writel_relaxed(inttsel_reg, priv->base + INTTSEL);
++		raw_spin_unlock(&priv->lock);
++	}
++}
++
+ static int rzg2l_irq_set_type(struct irq_data *d, unsigned int type)
  {
- 	return rzg2l_irqc_common_probe(pdev, parent, &rzfive_irqc_chip, rzg2l_hw_params);
-@@ -625,6 +667,7 @@ static int rzfive_irqc_probe(struct platform_device *pdev, struct device_node *p
+ 	struct rzg2l_irqc_priv *priv = irq_data_to_priv(d);
+@@ -424,6 +507,8 @@ static int rzg2l_irqc_irq_suspend(void *data)
+ 	void __iomem *base = rzg2l_irqc_data->base;
  
- IRQCHIP_PLATFORM_DRIVER_BEGIN(rzg2l_irqc)
- IRQCHIP_MATCH("renesas,rzg2l-irqc", rzg2l_irqc_probe)
-+IRQCHIP_MATCH("renesas,r9a08g046-irqc", rzg3l_irqc_probe)
- IRQCHIP_MATCH("renesas,r9a07g043f-irqc", rzfive_irqc_probe)
- IRQCHIP_PLATFORM_DRIVER_END(rzg2l_irqc)
- MODULE_AUTHOR("Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>");
+ 	cache->iitsr = readl_relaxed(base + IITSR);
++	if (rzg2l_irqc_data->info.shared_irq_cnt)
++		cache->inttsel = readl_relaxed(base + INTTSEL);
+ 	for (u8 i = 0; i < 2; i++)
+ 		cache->titsr[i] = readl_relaxed(base + TITSR(i));
+ 
+@@ -442,6 +527,8 @@ static void rzg2l_irqc_irq_resume(void *data)
+ 	 */
+ 	for (u8 i = 0; i < 2; i++)
+ 		writel_relaxed(cache->titsr[i], base + TITSR(i));
++	if (rzg2l_irqc_data->info.shared_irq_cnt)
++		writel_relaxed(cache->inttsel, base + INTTSEL);
+ 	writel_relaxed(cache->iitsr, base + IITSR);
+ }
+ 
+@@ -461,6 +548,8 @@ static const struct irq_chip rzg2l_irqc_chip = {
+ 	.irq_unmask		= irq_chip_unmask_parent,
+ 	.irq_disable		= rzg2l_irqc_irq_disable,
+ 	.irq_enable		= rzg2l_irqc_irq_enable,
++	.irq_request_resources	= rzg2l_irqc_irq_request_resources,
++	.irq_release_resources	= rzg2l_irqc_irq_release_resources,
+ 	.irq_get_irqchip_state	= irq_chip_get_parent_state,
+ 	.irq_set_irqchip_state	= irq_chip_set_parent_state,
+ 	.irq_retrigger		= irq_chip_retrigger_hierarchy,
+@@ -642,6 +731,7 @@ static const struct rzg2l_hw_info rzg3l_hw_params = {
+ 	.irq_count	= 16,
+ 	.tint_start	= IRQC_IRQ_START + 16,
+ 	.num_irq	= IRQC_IRQ_START + 16 + IRQC_TINT_COUNT,
++	.shared_irq_cnt	= 8,
+ };
+ 
+ static const struct rzg2l_hw_info rzg2l_hw_params = {
 -- 
 2.43.0
 
