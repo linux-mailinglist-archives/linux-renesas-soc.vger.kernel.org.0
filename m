@@ -1,316 +1,204 @@
-Return-Path: <linux-renesas-soc+bounces-28585-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28586-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YFQdKXjUoWlcwgQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28585-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Feb 2026 18:29:28 +0100
+	id 0IeEHkfkoWmUwwQAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28586-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Feb 2026 19:36:55 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3E8F1BB769
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Feb 2026 18:29:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFE7B1BC0AD
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Feb 2026 19:36:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5C6C63002283
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Feb 2026 17:24:38 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3474B3061E32
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Feb 2026 18:36:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD11A3559F5;
-	Fri, 27 Feb 2026 17:24:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="vBACnhPP"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94FAF392C28;
+	Fri, 27 Feb 2026 18:36:52 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010070.outbound.protection.outlook.com [52.101.228.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86F8C346A06;
-	Fri, 27 Feb 2026 17:24:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.70
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772213077; cv=fail; b=kDkhLTnWiGSNNa1WFfgEFVAF5gcnQSADYtQvFRlR0DLGswZD3UaSnyF7TG7aQRuyv7CjpgNMX+iqWsV6VzpDyfZ82EhRXFcsBJMezAvKBGhk0tXdamf8deqgzuxhUnN1lu/laHvg0nTBbDK5jGcKXd1sa4ZZVTo5J3LJZOZZ2wI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772213077; c=relaxed/simple;
-	bh=FG0uG8JVTE8+HJlxz3XPDjFyP3syhKQM0h6pK+ViDhs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=e/SmyysUdc77rPSR34pdlyqZw2W2IjngZcA82nl9sWoTC+iqxmWz7/l3aUDWEQUgaRT5KXYuVhU1NYOrquc0Ly09PYitDv/OPX3ap+et0OBqwOq0f5s2xyt2ZZOhunoITW+M5hZoppHq/6hXqeHGZXKZqj/TgiRpJzUxADGmfFc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=vBACnhPP; arc=fail smtp.client-ip=52.101.228.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HIfa7jg1NwC0Mf4GMw0FKAvuapXcNVJ/02gyLhteYNcYt81pyVuR/4LzVvsNR415ehI0LLB1ve8ThGyw/Y1t2ZCdxXjjF1mu/wMdM2aI2a8yxqq6ONMwBjixio0thIohpBU7AKh2HYRprVb4zOtbtxUImc6y16bZE0U+TIBx4Z2X4Gf7Le5If+yPGU1C0t8HX8gjHk/jZWhiF0NzRjzdVG7YwVacAWlz6Oh407WdqrDccDn8EPrzrzgL9OzwdTCcpKm/+yptGU6R50ykQiaOmfDIlyqPDMHH0zo3TzP+e7uvC3rSWyV/keoxQu71I/TAhs/04k4gS2yOLEkqzCMxOw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Y1tBfbqy5mJb7OBLVmgX8MSbq+9gtwOsdlnq0+UcoXU=;
- b=wTmCMrhg4lqr1QfmenDWTRqhKos0AWt3LARJrboyOwscstPDwb34XAIY1VljX9seIrO1Y2KDcWbnARn24p/osscpu5gCYYVOkS3lLN45lpLUjc9xIwLGZxZ1GLEiXhFPtDcHXVWj2kosnMid2ULvXX36fKW6OF8vpInzFA2DwtSOo2WtgUcVN9+M9QcOOdIbbFfmc0Msojr7XU6SP6ktAneb5kPy1wqIuCiNgt4Rp7+/S5Mv4AfPLM+lSEQq7YbyeKxbsBy9+a4uQtaP1CwRHQfTNrGYaLiSOD4hk6ka1uUh3w0NeyKdUqGqU63C4fCo/qzhdKj3qq4qRmVUrolo/A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Y1tBfbqy5mJb7OBLVmgX8MSbq+9gtwOsdlnq0+UcoXU=;
- b=vBACnhPPrJivnJyjvy6h2wjmoGaqH25vcjVph9FnzSmuWDh0+sTYA0c6g8IgGEkbxkN3PLOzgE42a8gP9/NJBgKGWDOgbXLlJIQ9QQIT6LKT2k3l0hgVf6JNOPTGJMtOJzq83uu0YMgEJAV9lNkmZOZxEZTmPoO+T0dWlePRuMw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com (2603:1096:400:3e1::6)
- by TY3PR01MB9777.jpnprd01.prod.outlook.com (2603:1096:400:22e::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.13; Fri, 27 Feb
- 2026 17:24:27 +0000
-Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com
- ([fe80::33f1:f7cd:46be:e4d8]) by TYCPR01MB11947.jpnprd01.prod.outlook.com
- ([fe80::33f1:f7cd:46be:e4d8%5]) with mapi id 15.20.9654.015; Fri, 27 Feb 2026
- 17:24:22 +0000
-Date: Fri, 27 Feb 2026 18:24:00 +0100
-From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: tomm.merciai@gmail.com, laurent.pinchart@ideasonboard.com,
-	linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: Re: [PATCH v5 01/20] clk: renesas: rzv2h: Add PLLDSI clk mux support
-Message-ID: <aaHTMGQHZwutlBIv@tom-desktop>
-References: <cover.1770996493.git.tommaso.merciai.xr@bp.renesas.com>
- <53c8d9e7fde7b176e05503a72af81e74c7a8a1c1.1770996493.git.tommaso.merciai.xr@bp.renesas.com>
- <CAMuHMdVAf=GyDR95BFD0Q3Wbjo5n5vnqSsfue=7fRWxs6=Hdgg@mail.gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdVAf=GyDR95BFD0Q3Wbjo5n5vnqSsfue=7fRWxs6=Hdgg@mail.gmail.com>
-X-ClientProxiedBy: MR1P264CA0145.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:501:54::10) To TYCPR01MB11947.jpnprd01.prod.outlook.com
- (2603:1096:400:3e1::6)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ECA935A382
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Feb 2026 18:36:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772217412; cv=none; b=ftVJQ1mc+nPBpsCYv1TA1oMeCmwduzlW7Z+gxvNY3cQUNwZme/+DbKCnxoSC2xg8ZpouKNCo/mIdwDyrva816dzOo6pSVhkNqljiF5n1P4hDrTCQXKu6Lf7+2mVakrnIKg5x1JiUhyQO1/Z4ObAo84i829K1QG8Je9vEIuUjlUY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772217412; c=relaxed/simple;
+	bh=8ZyYUZqdYO9RtAGZXJ34dn6k/pDj0jGAodzQsrEhkvY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HK4zxDFrdd6qljTgbRPyNJOJ2xNx+ldXg9XekWsdORDXYKw0PEOTfeBYPBLnkWTBs8qw0K+qNhKqK3WbmvlMKqlKQEV2OSU2Lsx0HqPcMYNs58vXpOVcQ7sO8+rTx1283tHr3aoeAx8W5Vcs40neEzFSG8WT+r+422YTBEcpRSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-56a88bfd4e3so1731609e0c.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Feb 2026 10:36:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772217410; x=1772822210;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Qcd8Oic1Sc8ZJu2YAJkZaSOQYT6Z1q9h1yoGvFgoj60=;
+        b=AQHDyxN9FYJ1o60M6ujbhGz9cQ0JUF8qmFi1MUOsRB9BoPqPVkJk6od3EbtsBdS93t
+         Gcl0TxVqnDJTF/ie5Bv9Qbk8qAqv8VRU3Pvmw57G4CuGrR/UyZD4iLAXUs7sGGssq54T
+         QEJtTlAmshdkQaaF+TyzdvjdWH8SCXmgJ+B+3S21ghu+t0hC4a6nQv1E1aiNuvjlV4uM
+         GhNdDToYjqpf+wzI4oQLM3G0+PCNTayIh7Mk30fr+psR86f7FRIfjqiGy+r5XO0l/sJp
+         7GRuQzg4VMT2lomAHmZl4QKERbLAjhRDn9Q1gvm73J3P6DAui1mtSiWQwh5MThAwmWEm
+         wDOA==
+X-Forwarded-Encrypted: i=1; AJvYcCUWn9seBty2cBGzq6YcxMhbL9tFrF+7ONa5b6N63nro6c4zeVFOrBfx98MSKPk02V6sYfIqtEQYhjOkcmE4zXcL9A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwhPj1c/WVLmsUYa69O+qVKhlMKlKA4F2wyKHCVwmwv4bXsk+l7
+	MGxWPS79ZrLGJa3z5tydwEptWkKykab+S/C20fyWgzoSHIoD9vmE9mYXK8GaEBqZEqI=
+X-Gm-Gg: ATEYQzyY+ooV9HQwbwldQQE+ipD3FpWQ/g4mY+v5y22Vsz38GzvE6Ir8JH+D6FBmno7
+	oBG9db4EmaRgAkqYVoFdH2AqFVl0vStg3gaom1ODrU9SkupP4PBH1K/QxMFFp51cWCzPnPKh12Z
+	ygyU44xtArAosR6n0wNlBn3evZJCQPlcvyk+tNc7m9rhXG1+UaHSVhxq+A9XYtU5/qCLx0qkmrG
+	Hov533ypby+pWw5l5rSSXms+9YbO6yvASkkoAfshgom6+Eu93VA/TeWdXhYdqSZNx7KeNoVRyKo
+	T2R7zvXNAu0NVOa/Hbr1P2gpNlzWSBbRLmQZsWDL1RCplD0bHTg09kBuNNUTkbq2axIIVF8pB8I
+	tP6uXJQdQ8CPKf54VPDZo+OwIG4UDFjLC9NkGneTKkZdRiBlvJnyJz4wCOQrbCDEL0qWBAl5oyF
+	sw/6TutvVu7Ij7FnQFO6TczO5NJCp7Ldp6pN/NsBJ4XuMRBIgybuEWlSUZnBrwkyu8
+X-Received: by 2002:a05:6122:3116:b0:563:667f:9f98 with SMTP id 71dfb90a1353d-56aa0a8f49emr2110145e0c.9.1772217410180;
+        Fri, 27 Feb 2026 10:36:50 -0800 (PST)
+Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com. [209.85.221.174])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56a91b8c96fsm7461567e0c.2.2026.02.27.10.36.49
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Feb 2026 10:36:49 -0800 (PST)
+Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-5675d609621so2207345e0c.2
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Feb 2026 10:36:49 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWoh1s3kSuS0BFpk9vbhA57RAFOFnD7ucAh7pRBqizVM00yIBZJ4dawEe82/fihi9JVnYi1TDZij9n+OllXeNHK0A==@vger.kernel.org
+X-Received: by 2002:a05:6102:3ed6:b0:5f8:e2eb:43d with SMTP id
+ ada2fe7eead31-5ff32331547mr2540585137.10.1772216995065; Fri, 27 Feb 2026
+ 10:29:55 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB11947:EE_|TY3PR01MB9777:EE_
-X-MS-Office365-Filtering-Correlation-Id: e8c084b2-68d4-4ea2-8899-08de76250c11
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|7416014|376014|52116014|366016|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info:
- 0uKuuXEVx5e9M0DoqXYoVMXBABS8eF9HNfXfLp0k2mRgdFjnlh7NNFJJbl2ygZd1WaO5P4qKNHd782B4xYsRQvuc1HkKLoW9siEa8GxRMorhHWIxeE8utUYt2KnCPJYQ+CzDlBbQMtVmi0wf8gEpYtpul+VmkksFRsJn4w+h+lp1IISofW1xAccbPpcp7fEfu/uQCWj+Pi52p76ydwpabEJivlqMkGjvyUuo2eewJWquNzNcyJn4Qp+Zdxn6mI/r1WFmb/hPfyMTzJkrWSBOu++jsOhCt7N9A2KaUMs15pPeXn3P7EEOXpONdJv4FiSxGrQheg16VmvOxNj+UjHD1KmoN7iUxR58zwCaLVsNlk5lARG2lboq/EFCEspsR9VdUQxTj2h1svIdPK2lWmcv6DOePC/aBvzbuTt5gDK5VDadSIl4JhdJjAe74gos8dylOGcTrtocxP2lGo1MCZNh5083WjdzpZF1eNxC7z5oVqi0/6p9JiLxRiCDvrcPIU2HQBTojBK2U1w9qnVfKuGiDBMEbKUBPNhWr73ETzTX0UbcAY75M/1k41H9l2LPuZDGBy2KSHZEFtYVZOPcbfjPi5WrK+M/rG00+74ofjdLo28hQg/H1T/DUCUrsOji/o+EJmguq2CwDEpPvctMnSUtdZuDqZA8r7ja5+/XjYrm5lIdfUo0B691IOb22tyM3P4CZUJHyQJVNc5WAJdKCwwNJhEK6ICdp6y7nMRSVprmHJgl03g+666I9LwF0ZYGwkGGJTVCFxYG6ATO9b3I6bFLVJSYuFryDneZnwfFgAMYD5Q=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11947.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(52116014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?aK7Vz2d/IEzGic+xHuaCqb4a7Vet5Ww+nOf9YMAeVh1JIUxhMh/McyhwG8Y9?=
- =?us-ascii?Q?TRj1Fd1wDWG8xtn6u5NYVO5bkHt8BFTfqwQe1buSvQSLVjO7bBdLSn4MxuE7?=
- =?us-ascii?Q?uNzv2aXadbQpFDyNJZJWBRdegZS1zoB3udLC0D2wcfCN9V6SxingILqFjxbW?=
- =?us-ascii?Q?iL6m0ZBSp0ggcOtxd5J1PIhD9MC9nFU0DuT4D7hEiXvIRXmmLaBXmax78vcA?=
- =?us-ascii?Q?jBeV7fBreqiSY5cNxLI2WLc+Fjy+1CaffWUbKBBVnpQI20Z46eQ1KKSxFVAZ?=
- =?us-ascii?Q?3/CUp9KwBRphAP8+Sr7c0ZJTHDT1JYFSjmLAxdl6H7mFG8ylqaNSpPy5DJHO?=
- =?us-ascii?Q?BWVtNb6j77OfxNS9LFtqzKScC/v30wMHH7ofKHlsCYSYLTC6y21hoosNUofH?=
- =?us-ascii?Q?U/Q2F4jtlJyXkswNYxZVM42GaCxUDg6ypm+FtFj4sJchjli6zITBWcKDSbJV?=
- =?us-ascii?Q?9vlqB86ejy+lCyzx76OGDU7Bp9c4WRH9e1VoI/Z3wkbvWDCmU4mxfzX9SEEN?=
- =?us-ascii?Q?+IBGX21DFUs/+5azxZ7/8H1NWCvG2bc4Apn0fQy9hiLeb27su63WCNScfzFU?=
- =?us-ascii?Q?+bx6yLKrhGqvzqqqYpnr1jWMV1TmluyWotpAmBaPjseXipvaVl8KpuWl2oi4?=
- =?us-ascii?Q?keNPo949LiuVhf/QMyjp1xiZh+mZMVH9i7uJqM2j6pwu9jgr1e1Nb0gJaVxV?=
- =?us-ascii?Q?Pjsm10McMALIvCVodwbTxumuJ2lky2FFrum6XRUiN0p53Oh7LZkhqmwjKtz4?=
- =?us-ascii?Q?TYKyQteA5itGURb1Lo+KTvnBVX0JY+NajVl/wS8JMQdeSkqkn82hTi1cx9WX?=
- =?us-ascii?Q?1Kle2fdYXN7brvR9GgHSO57x+s6FT2tSXCXkuoLmTAgHwWXLoNC2YhW8zYnS?=
- =?us-ascii?Q?t3QLma2l1UsEvgZmqnAVog/5GxDEuhxa8zg0TQPi+yQkJhCdHQa6hu5wrOMV?=
- =?us-ascii?Q?zMatrJEBSS4j0chSfZR5AGDEJX0jVePgvit2BEI3t6gxT/VCSia0Usv0subv?=
- =?us-ascii?Q?jR2iJHV7TwLRhgHVZJRbXrcutfJd852ILk93sN4hn6ttDAKKQgUT+VusiT5V?=
- =?us-ascii?Q?Tplhg7ob6lwTBA53etJEc6hUzKE9VmACGK+gv6oitmApouKfpK+4/EJHdwCT?=
- =?us-ascii?Q?FsL+VJSIYvOmKp9RG9vItMnoK8NNyS5CLMdBA0ShYi30ogVVmYM2WilpQSZm?=
- =?us-ascii?Q?xJvS+NBG64X+ygo+RVp2pvv+xnEFVPKYXLfVqiTZ3qRAI4ln1ZjhV+sbcAqd?=
- =?us-ascii?Q?7l2HyS7uNonP8uG89aD1Y2QCVaTPFTUR89lbzwvRmpLoM+VGctXGaAZNlpWL?=
- =?us-ascii?Q?9oWeQd/gEnZkuiSCykSSFg+Dg8e+S3PulGGFpKMWEKPHPQwR0i9iPIuyvmqV?=
- =?us-ascii?Q?wAbEKcQhYyYHs1AibAbclVblU7L8YlC658zmGirpajn5Cpu23LVFEm1jikob?=
- =?us-ascii?Q?VlW6aNEgv8QTBMkn8lOx+riViKqTcWJgk1/7YNvxx2F6fSY5YG0rCy3f4XoT?=
- =?us-ascii?Q?LdnuQlgQAZqV6gAB5Y41AK+lbaqI8BCHrs5fgt1W+n3YP5za7e2MM+PJNfEM?=
- =?us-ascii?Q?X6v3UYTpqm23gXGMJFSa6jW3xb3mTjuGZdqwkgLt1+nIB/f0uhw6GEiMJ8PJ?=
- =?us-ascii?Q?8JuC+KbzyHKfKjUl4KHGpIwEqeE99Yp/gUROj7WZr3AMvaj+/O02yfLXFsod?=
- =?us-ascii?Q?dyIAJXmTrKFYgFK9sw627iLERwaUbXt9avPuqiN8SJnJ5ZwGNVhCPUjDe0CY?=
- =?us-ascii?Q?NaOQm0+BWTQJ4osvHTeaHJSC36PrRZG5FYmQ8TAIoq/jhOr21f6f?=
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e8c084b2-68d4-4ea2-8899-08de76250c11
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11947.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Feb 2026 17:24:22.5360
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rYJdhZYGmLZio7wMRoCPhyzfQ9k8SQnUzwv/cOIVQ9guWKZPP/hml8LO/39YatpIF6VMpJReRQsRRt/kZQM14eTaqAOeVZQ407hmNsD6c8rY4OblkclBZ3EmlRLln34I
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB9777
+References: <cover.1770996493.git.tommaso.merciai.xr@bp.renesas.com>
+ <53c8d9e7fde7b176e05503a72af81e74c7a8a1c1.1770996493.git.tommaso.merciai.xr@bp.renesas.com>
+ <CAMuHMdVAf=GyDR95BFD0Q3Wbjo5n5vnqSsfue=7fRWxs6=Hdgg@mail.gmail.com> <aaHTMGQHZwutlBIv@tom-desktop>
+In-Reply-To: <aaHTMGQHZwutlBIv@tom-desktop>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 27 Feb 2026 19:29:44 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVs1L-eRLDkGWx58WbwzjD-+yFxxNLLbrQ=kzQ7_P9y0w@mail.gmail.com>
+X-Gm-Features: AaiRm50fiYKFClgCr0aKEdOOuTixihvNu690WG65tXaKE8BtTScAymOURaJQ5yg
+Message-ID: <CAMuHMdVs1L-eRLDkGWx58WbwzjD-+yFxxNLLbrQ=kzQ7_P9y0w@mail.gmail.com>
+Subject: Re: [PATCH v5 01/20] clk: renesas: rzv2h: Add PLLDSI clk mux support
+To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Cc: tomm.merciai@gmail.com, laurent.pinchart@ideasonboard.com, 
+	linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, dri-devel@lists.freedesktop.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-clk@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.84 / 15.00];
+X-Spamd-Result: default: False [0.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
-	R_DKIM_ALLOW(-0.20)[bp.renesas.com:s=selector1];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-28585-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[22];
 	FREEMAIL_CC(0.00)[gmail.com,ideasonboard.com,vger.kernel.org,bp.renesas.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,glider.be,baylibre.com,lists.freedesktop.org];
-	DKIM_TRACE(0.00)[bp.renesas.com:+];
+	TAGGED_FROM(0.00)[bounces-28586-lists,linux-renesas-soc=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[linux-m68k.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tommaso.merciai.xr@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	MIME_TRACE(0.00)[0:+];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,init.name:url,bp.renesas.com:dkim,linux-m68k.org:email]
-X-Rspamd-Queue-Id: E3E8F1BB769
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	NEURAL_HAM(-0.00)[-0.946];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	R_DKIM_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid,renesas.com:email,linux-m68k.org:email,init.name:url]
+X-Rspamd-Queue-Id: CFE7B1BC0AD
 X-Rspamd-Action: no action
 
-Hi Geert,
-Thanks for your review!
+Hi Tommaso,
 
-On Fri, Feb 27, 2026 at 11:47:58AM +0100, Geert Uytterhoeven wrote:
-> Hi Tommaso,
-> 
-> On Fri, 13 Feb 2026 at 17:28, Tommaso Merciai
-> <tommaso.merciai.xr@bp.renesas.com> wrote:
-> > Add PLLDSI clk mux support to select PLLDSI clock from different clock
-> > sources.
+On Fri, 27 Feb 2026 at 18:24, Tommaso Merciai
+<tommaso.merciai.xr@bp.renesas.com> wrote:
+> On Fri, Feb 27, 2026 at 11:47:58AM +0100, Geert Uytterhoeven wrote:
+> > On Fri, 13 Feb 2026 at 17:28, Tommaso Merciai
+> > <tommaso.merciai.xr@bp.renesas.com> wrote:
+> > > Add PLLDSI clk mux support to select PLLDSI clock from different clock
+> > > sources.
+> > >
+> > > Introduce the DEF_PLLDSI_SMUX() macro to define these muxes and register
+> > > them in the clock driver.
+> > >
+> > > Extend the determine_rate callback to calculate and propagate PLL
+> > > parameters via rzv2h_get_pll_dtable_pars() when LVDS output is selected,
+> > > using a new helper function rzv2h_cpg_plldsi_smux_lvds_determine_rate().
+> > >
+> > > The CLK_SMUX2_DSI{0,1}_CLK clock multiplexers select between two paths
+> > > with different duty cycles:
+> > >
+> > > - CDIV7_DSIx_CLK (LVDS path, parent index 0): asymmetric H/L=4/3 duty (4/7)
+> > > - CSDIV_DSIx (DSI/RGB path, parent index 1): symmetric 50% duty (1/2)
+> > >
+> > > Implement rzv2h_cpg_plldsi_smux_{get,set}_duty_cycle clock operations to
+> > > allow the DRM driver to query and configure the appropriate clock path
+> > > based on the required output duty cycle.
+> > >
+> > > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 > >
-> > Introduce the DEF_PLLDSI_SMUX() macro to define these muxes and register
-> > them in the clock driver.
+> > Thanks for your patch!
 > >
-> > Extend the determine_rate callback to calculate and propagate PLL
-> > parameters via rzv2h_get_pll_dtable_pars() when LVDS output is selected,
-> > using a new helper function rzv2h_cpg_plldsi_smux_lvds_determine_rate().
+> > > --- a/drivers/clk/renesas/rzv2h-cpg.c
+> > > +++ b/drivers/clk/renesas/rzv2h-cpg.c
+
+> > > +       clk_hw_data = devm_kzalloc(priv->dev, sizeof(*clk_hw_data), GFP_KERNEL);
+> > > +       if (!clk_hw_data)
+> > > +               return ERR_PTR(-ENOMEM);
+> > > +
+> > > +       clk_hw_data->priv = priv;
+> > > +
+> > > +       init.name = core->name;
+> > > +       init.ops = &rzv2h_cpg_plldsi_smux_ops;
+> > > +       init.flags = core->flag;
+> > > +       init.parent_names = core->parent_names;
+> > > +       init.num_parents = core->num_parents;
+> > > +
+> > > +       clk_hw_data->mux.reg = priv->base + smux.offset;
+> > > +
+> > > +       clk_hw_data->mux.shift = smux.shift;
+> > > +       clk_hw_data->mux.mask = smux.width;
 > >
-> > The CLK_SMUX2_DSI{0,1}_CLK clock multiplexers select between two paths
-> > with different duty cycles:
-> >
-> > - CDIV7_DSIx_CLK (LVDS path, parent index 0): asymmetric H/L=4/3 duty (4/7)
-> > - CSDIV_DSIx (DSI/RGB path, parent index 1): symmetric 50% duty (1/2)
-> >
-> > Implement rzv2h_cpg_plldsi_smux_{get,set}_duty_cycle clock operations to
-> > allow the DRM driver to query and configure the appropriate clock path
-> > based on the required output duty cycle.
-> >
-> > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> 
-> Thanks for your patch!
-> 
-> > --- a/drivers/clk/renesas/rzv2h-cpg.c
-> > +++ b/drivers/clk/renesas/rzv2h-cpg.c
-> 
-> > +static struct clk * __init
-> > +rzv2h_cpg_plldsi_smux_clk_register(const struct cpg_core_clk *core,
-> > +                                  struct rzv2h_cpg_priv *priv)
-> > +{
-> > +       struct rzv2h_plldsi_mux_clk *clk_hw_data;
-> > +       struct clk_init_data init;
-> > +       struct clk_hw *clk_hw;
-> > +       struct smuxed smux;
-> > +       u8 width, mask;
-> > +       int ret;
-> > +
-> > +       smux = core->cfg.smux;
-> > +       mask = smux.width;
-> > +       width = fls(mask) - ffs(mask) + 1;
-> > +
-> > +       if (width + smux.width > 16) {
-> > +               dev_err(priv->dev, "mux value exceeds LOWORD field\n");
-> > +               return ERR_PTR(-EINVAL);
-> > +       }
-> 
-> I am totally confused by this: smux.width is not a mask, but the size
-> of a register bitifield.
-> Perhaps:
-> 
->     if (smux.shift + smux.width > 16) { ... }
-> 
+> > Again, smux.width is not a mask.
+> > Perhaps GENMASK_U16(smux.shift - 1, 0)?
+>
+> Or maybe we can use:
+>
+>         clk_hw_data->mux.mask = clk_div_mask(smux.width);
 > ?
 
-Ouch, you are right.
-Should be:
+Thanks, I forgot about clk_div_mask(), which is definitely a better
+choice here.
 
-	if (smux.shift + smux.width > 16) {
-		dev_err(priv->dev, "mux value exceeds LOWORD field\n");
-		return ERR_PTR(-EINVAL);
-	}
+Gr{oetje,eeting}s,
 
-Will fix this in v6.
+                        Geert
 
-> 
-> > +
-> > +       clk_hw_data = devm_kzalloc(priv->dev, sizeof(*clk_hw_data), GFP_KERNEL);
-> > +       if (!clk_hw_data)
-> > +               return ERR_PTR(-ENOMEM);
-> > +
-> > +       clk_hw_data->priv = priv;
-> > +
-> > +       init.name = core->name;
-> > +       init.ops = &rzv2h_cpg_plldsi_smux_ops;
-> > +       init.flags = core->flag;
-> > +       init.parent_names = core->parent_names;
-> > +       init.num_parents = core->num_parents;
-> > +
-> > +       clk_hw_data->mux.reg = priv->base + smux.offset;
-> > +
-> > +       clk_hw_data->mux.shift = smux.shift;
-> > +       clk_hw_data->mux.mask = smux.width;
-> 
-> Again, smux.width is not a mask.
-> Perhaps GENMASK_U16(smux.shift - 1, 0)?
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Or maybe we can use:
-
-	clk_hw_data->mux.mask = clk_div_mask(smux.width);
-?
-
-I'll fix this in v6.
-Thanks.
-
-Kind Regards,
-Tommaso
-
-> 
-> > +       clk_hw_data->mux.flags = core->mux_flags;
-> > +       clk_hw_data->mux.lock = &priv->rmw_lock;
-> > +
-> > +       clk_hw = &clk_hw_data->mux.hw;
-> > +       clk_hw->init = &init;
-> > +
-> > +       ret = devm_clk_hw_register(priv->dev, clk_hw);
-> > +       if (ret)
-> > +               return ERR_PTR(ret);
-> > +
-> > +       return clk_hw->clk;
-> > +}
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-> -- 
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
