@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-28610-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28611-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oBB9OzCZo2neHgUAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28610-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 01 Mar 2026 02:41:04 +0100
+	id AFL4BQudo2l2IQUAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28611-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 01 Mar 2026 02:57:31 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 170F11CB536
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 01 Mar 2026 02:41:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E8DD1CC603
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 01 Mar 2026 02:57:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 02C7D31B509D
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  1 Mar 2026 01:30:18 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 438D332BA986
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  1 Mar 2026 01:40:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7D6F1EDA0F;
-	Sun,  1 Mar 2026 01:30:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 205FC2E36F8;
+	Sun,  1 Mar 2026 01:39:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZCojlGCZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J6agGvEu"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B492B13B58A;
-	Sun,  1 Mar 2026 01:30:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F15B42D948D;
+	Sun,  1 Mar 2026 01:39:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772328617; cv=none; b=LrQr4YV+jXbLpynR/aJd7My0dVYfrVBD9n2rpifJ7inrPw7/4PEuha85PywtK+WxSFlIHZ6VM0npu+XpcsKhOAzoT/LBQpVMIdP4mO8BKSyQdmcCTbo7oU2QxPApxTCSstMyk3Xo7GVp1oh61J7qmY9Wn7Pp4w9OkuBxPFo286o=
+	t=1772329193; cv=none; b=S570dm0uwfwRzvkjwG9BHAn4i3sHYeDPeO1F1I6bwBR9C0369EBCIWwMLYPw5SEbQNL/DVDhgZWlkNs1HgsZJ+79T+cgP7QiYufBqp4TJ61LFWYVYgHPuvhTK/qCSnQN6BLHLk8EiOyUl4zNbKNJDTeAk4efmB+zBDOe03pjyQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772328617; c=relaxed/simple;
-	bh=Mn//afI2TfMreNTiemEzn8uwD8NcUG9QuPWmMtvn80w=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aufZopIxHc7L5rNMWQD7jhvpbpE56gn6/DQ8TtpVGYYgRfSshQJCCU3W88u0Xcv6yNkJsiCmzLnOyCq23GHPxWxn3PErSmfM/5VhupUctdCniZJbxqujjXfa0Bn84ps0vK2DXFqgEpEetj+kc4PjO1AyNM8IqJuLM747KgJbfGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZCojlGCZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED931C19421;
-	Sun,  1 Mar 2026 01:30:16 +0000 (UTC)
+	s=arc-20240116; t=1772329193; c=relaxed/simple;
+	bh=QmY453AXwD4mPrBeO7AHb93Fv7VSEIN9xrMLMeODI/M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=epCUNwBcSzekekN8gF3X9JwQhG+jNpobaTyPwn1MJF5gR0cZjSOd/wOt17o/1aLAyzPxGQbPtn6ZXeWDO2M/Xv64vBi5cMmInjQImfnbm19RwCJCwH41oXzsv52UCh6KZmx92LykxxtIEuzuRFFCpwG38vQCGMO/GiG66RLD72o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J6agGvEu; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3527FC19421;
+	Sun,  1 Mar 2026 01:39:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772328617;
-	bh=Mn//afI2TfMreNTiemEzn8uwD8NcUG9QuPWmMtvn80w=;
+	s=k20201202; t=1772329192;
+	bh=QmY453AXwD4mPrBeO7AHb93Fv7VSEIN9xrMLMeODI/M=;
 	h=From:To:Cc:Subject:Date:From;
-	b=ZCojlGCZHTQudUmy+8fY5e8OzsGr/zU2JnCKgd+75PbBNLvhjKaJYTh0arnSqgAMD
-	 VbJfZxiBU5EYPtM9P0za9f8LnVZAziDhmlpEakl423oeU7qEx0Fz6d7jg7hkbgR6tU
-	 MqEiZmgnpWT2CgSRCwhgBXwWys0Tnjo1DFpmjO5yVrSP4xZgfbfIzGfzPLOE0T0x5m
-	 ZK5vJXGaVx38YesDTXaUc29HVlOujyBJkrWRQAOdMOatMbxRVbW/rscV66SHqIJQI0
-	 LuB2/nn/C+cz1lI6cjdtfM/6UxZ/LaakyKehJjKEGNj8BoPIPo/4bNURzsZ/s/Aopa
-	 mxnrGjGu+Tp/g==
+	b=J6agGvEunkSvStGh0dSuOjsltMfc7gzm1Gknxftfm6DJiytJnWQLFQSwOlCEdXL38
+	 geOZqnjsaJbi2YcW9mpmV2O3D8v86NXbYbX3BdZdkDbQsNRhZjXK2Y6rat5fFencC9
+	 vmGUdvIL5xj0rYoEOTO0IINreBSSQno47mQh2QiwLKFeQmPwbuw92yWoCyQUMK+0om
+	 npnS1p4c6ZNTeujwG1OeZW7W5oBo5tCe8V17JyfzZcrm/P+NRUNIvNZUDQT1YhoBRH
+	 6f7rI3l+qzJo46oCm0rY6PzYjmWJI8XVaR4AQQ/jL+06jtZhOsy42lqToxmeLjAwt2
+	 SxiSUAQWseyEw==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
 	chris.brandt@renesas.com
@@ -50,9 +50,9 @@ Cc: Hugo Villeneuve <hugo@hugovil.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	linux-renesas-soc@vger.kernel.org,
 	linux-clk@vger.kernel.org
-Subject: FAILED: Patch "clk: renesas: rzg2l: Fix intin variable size" failed to apply to 6.6-stable tree
-Date: Sat, 28 Feb 2026 20:30:15 -0500
-Message-ID: <20260301013015.1688256-1-sashal@kernel.org>
+Subject: FAILED: Patch "clk: renesas: rzg2l: Fix intin variable size" failed to apply to 6.1-stable tree
+Date: Sat, 28 Feb 2026 20:39:50 -0500
+Message-ID: <20260301013951.1700954-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -68,33 +68,34 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-28610-lists,linux-renesas-soc=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-28611-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCPT_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-0.996];
+	NEURAL_HAM(-0.00)[-0.994];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: 170F11CB536
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,msgid.link:url,glider.be:email,renesas.com:email]
+X-Rspamd-Queue-Id: 6E8DD1CC603
 X-Rspamd-Action: no action
 
-The patch below does not apply to the 6.6-stable tree.
+The patch below does not apply to the 6.1-stable tree.
 If someone wants it applied there, or to any other stable or longterm
 tree, then please email the backport, including the original git commit
 id to <stable@vger.kernel.org>.
