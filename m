@@ -1,206 +1,148 @@
-Return-Path: <linux-renesas-soc+bounces-28606-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28607-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kN16EsPHommy5QQAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28606-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 28 Feb 2026 11:47:31 +0100
+	id kMwmHQeUo2khHQUAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28607-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 01 Mar 2026 02:19:03 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id E53481C23F2
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 28 Feb 2026 11:47:30 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B86A1CA272
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 01 Mar 2026 02:19:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 52442302EC8D
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 28 Feb 2026 10:47:30 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 464793021D2F
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  1 Mar 2026 01:17:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1AF44279F3;
-	Sat, 28 Feb 2026 10:47:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1497A2472A6;
+	Sun,  1 Mar 2026 01:17:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lJf9mkAM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47BB035A394;
-	Sat, 28 Feb 2026 10:47:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E574424677F;
+	Sun,  1 Mar 2026 01:17:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772275648; cv=none; b=imRzE48LSvqwnZw+BbKw6FjxansjDo75ssM01ttIcfxbcrg2H8CgmZ0+lXNts9kDYFjv+9qQ6t5YskZ7x4dP3spYiDFMK2qZSfGdrMkdWjU4ivvCpFcxOIvTldxZYbhumZzUsJO1ukmlKQei9LwVt1GwOOQJUcfSwKLB2s563v8=
+	t=1772327876; cv=none; b=sGayhK3DrOA+70RiVyEeG2A4n1DWqOrcVobJNFzgxRV7+QxD+P1Je4IBsepUcj7bU2EopUNWvYyVU9O9HNms5BHA7dFrnP2fX6yA7IHrsKyrp220/X/84oehnL4FDnlGzB+uEi1HDStHOZqId9tlG+hqZLLM2isk8jNmx39SoI8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772275648; c=relaxed/simple;
-	bh=nzAk7/QowEGPMrlDONM9TR2kjxqD1F41usJmvt9CiyQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N34Dnv4Ja3SAQIHCnMPNff6sToHCPPs5zldK1yodTgiOMq5b1SaRHooDPvzWqdU3ep+bZsWgM1WYtySPty+Xh5YIGbLROFvi6YkFOMm9zJgpBA3gTZoU2elIZFMz9mW8d/qpeI/oZXHwcOBcwlcHaYSoN/JyBuxDHBK5sY41oRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6AB711516;
-	Sat, 28 Feb 2026 02:47:20 -0800 (PST)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 17A713F7BD;
-	Sat, 28 Feb 2026 02:47:22 -0800 (PST)
-Date: Sat, 28 Feb 2026 10:47:20 +0000
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Peng Fan <peng.fan@oss.nxp.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, sudeep.holla@arm.com,
-	philip.radford@arm.com, james.quinlan@broadcom.com,
-	f.fainelli@gmail.com, vincent.guittot@linaro.org,
-	etienne.carriere@foss.st.com, michal.simek@amd.com,
-	dan.carpenter@linaro.org, geert+renesas@glider.be,
-	kuninori.morimoto.gx@renesas.com, marek.vasut+renesas@gmail.com
-Subject: Re: [PATCH 11/11] firmware: arm_scmi: Introduce all_rates_get clock
- operation
-Message-ID: <aaLHuHFpcxdyqf9P@pluto>
-References: <20260227153225.2778358-1-cristian.marussi@arm.com>
- <20260227153225.2778358-12-cristian.marussi@arm.com>
- <aaJXy2V7oI1tH4Ac@shlinux89>
+	s=arc-20240116; t=1772327876; c=relaxed/simple;
+	bh=wTygH+xhz+i31doTptf0UOJ9r+rsY43zNFTAhuR5u4g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=P8IWuM5k5Vban49A0cjhTTtY6SdtQ364P2yWmJ24GOlmfGI8QV13s29M5l/1/vZV/tthb3piG64js1/IG97hCalZrzm/c505nJhFPpX+dA9ki1O/JLFheFnCxIM/cbYOgTppLZKYPorNvN1730NNPw8rTubB7gOLDoSvoTlW2bE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lJf9mkAM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25956C19421;
+	Sun,  1 Mar 2026 01:17:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772327875;
+	bh=wTygH+xhz+i31doTptf0UOJ9r+rsY43zNFTAhuR5u4g=;
+	h=From:To:Cc:Subject:Date:From;
+	b=lJf9mkAM08VQaE7hM94/IO770+xyglPY4Wh/YZV86sEj7w92lS+hB6pyLtpQUextG
+	 g/w1//gW2AhHHiV8jTUa7wZHust/ZUiaAInBIC34Dptb4WtH8syRrmePjNR9FBjhtj
+	 d780XcZC+S7gvT10w9VBr+gDFZJurOCHQDS/NNTQ4rL8ePSgAZmp31DB6XOFZXWc+b
+	 SltVjYwpN3nbhi83I5Jgj/yjucwbP2K5+2CsQfc511MlwM8RuYW+4jZjC972Ni10rA
+	 3QjD8MPOfS5r29koNb8c6KwHwOomZijgI0RKtPdU/smXvDXlfcgEOma+nx95H+hQpg
+	 jQw5MywVQAaqQ==
+From: Sasha Levin <sashal@kernel.org>
+To: stable@vger.kernel.org,
+	chris.brandt@renesas.com
+Cc: stable@kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org
+Subject: FAILED: Patch "clk: renesas: rzg2l: Select correct div round macro" failed to apply to 6.12-stable tree
+Date: Sat, 28 Feb 2026 20:17:53 -0500
+Message-ID: <20260301011754.1671964-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aaJXy2V7oI1tH4Ac@shlinux89>
+X-Patchwork-Hint: ignore
+X-stable: review
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.64 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[arm.com : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-28606-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[arm.com,vger.kernel.org,lists.infradead.org,broadcom.com,gmail.com,linaro.org,foss.st.com,amd.com,glider.be,renesas.com];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_FROM(0.00)[bounces-28607-lists,linux-renesas-soc=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[cristian.marussi@arm.com,linux-renesas-soc@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.992];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	R_DKIM_NA(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	NEURAL_HAM(-0.00)[-0.997];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,arm.com:email]
-X-Rspamd-Queue-Id: E53481C23F2
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[glider.be:email,msgid.link:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 1B86A1CA272
 X-Rspamd-Action: no action
 
-On Sat, Feb 28, 2026 at 10:49:47AM +0800, Peng Fan wrote:
-> On Fri, Feb 27, 2026 at 03:32:25PM +0000, Cristian Marussi wrote:
-> >Add a clock operation to get the whole set of rates available to a specific
-> >clock: when needed this request could transparently trigger a full rate
-> >discovery enumeration if this specific clock-rates were previously only
-> >lazily enumerated.
-> >
-> >Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
-> >---
-> > drivers/firmware/arm_scmi/clock.c | 85 +++++++++++++++++++++----------
-> > include/linux/scmi_protocol.h     |  9 ++++
-> > 2 files changed, 67 insertions(+), 27 deletions(-)
-> >
-> >diff --git a/drivers/firmware/arm_scmi/clock.c b/drivers/firmware/arm_scmi/clock.c
-> >index a0de10652abe..c2fd9a1c3316 100644
-> >--- a/drivers/firmware/arm_scmi/clock.c
-> >+++ b/drivers/firmware/arm_scmi/clock.c
-> >@@ -159,10 +159,8 @@ struct scmi_clock_rate_notify_payld {
-> > 
-> > struct scmi_clock_desc {
-> > 	u32 id;
-> >-	bool rate_discrete;
-> > 	unsigned int tot_rates;
-> >-	unsigned int num_rates;
-> >-	u64 *rates;
-> >+	struct scmi_clock_rates r;
-> > #define	RATE_MIN	0
-> > #define	RATE_MAX	1
-> > #define	RATE_STEP	2
-> >@@ -469,10 +467,10 @@ iter_clk_describe_update_state(struct scmi_iterator_state *st,
-> > 	flags = le32_to_cpu(r->num_rates_flags);
-> > 	st->num_remaining = NUM_REMAINING(flags);
-> > 	st->num_returned = NUM_RETURNED(flags);
-> >-	p->clkd->rate_discrete = RATE_DISCRETE(flags);
-> >+	p->clkd->r.rate_discrete = RATE_DISCRETE(flags);
-> > 
-> > 	/* Warn about out of spec replies ... */
-> >-	if (!p->clkd->rate_discrete &&
-> >+	if (!p->clkd->r.rate_discrete &&
-> > 	    (st->num_returned != 3 || st->num_remaining != 0)) {
-> > 		dev_warn(p->dev,
-> > 			 "Out-of-spec CLOCK_DESCRIBE_RATES reply for %s - returned:%d remaining:%d rx_len:%zd\n",
-> >@@ -486,9 +484,9 @@ iter_clk_describe_update_state(struct scmi_iterator_state *st,
-> > 	if (!st->max_resources) {
-> > 		unsigned int tot_rates = st->num_returned + st->num_remaining;
-> > 
-> >-		p->clkd->rates = devm_kcalloc(p->dev, tot_rates,
-> >-					      sizeof(*p->clkd->rates), GFP_KERNEL);
-> >-		if (!p->clkd->rates)
-> >+		p->clkd->r.rates = devm_kcalloc(p->dev, tot_rates,
-> >+						sizeof(*p->clkd->r.rates), GFP_KERNEL);
-> >+		if (!p->clkd->r.rates)
-> > 			return -ENOMEM;
-> > 
-> > 		/* max_resources is used by the iterators to control bounds */
-> >@@ -507,10 +505,10 @@ iter_clk_describe_process_response(const struct scmi_protocol_handle *ph,
-> > 	struct scmi_clk_ipriv *p = priv;
-> > 	const struct scmi_msg_resp_clock_describe_rates *r = response;
-> > 
-> >-	p->clkd->rates[p->clkd->num_rates] = RATE_TO_U64(r->rate[st->loop_idx]);
-> >+	p->clkd->r.rates[p->clkd->r.num_rates] = RATE_TO_U64(r->rate[st->loop_idx]);
-> > 
-> > 	/* Count only effectively discovered rates */
-> >-	p->clkd->num_rates++;
-> >+	p->clkd->r.num_rates++;
-> > 
-> > 	return 0;
-> > }
-> >@@ -531,7 +529,13 @@ scmi_clock_describe_rates_get_full(const struct scmi_protocol_handle *ph,
-> > 		.dev = ph->dev,
-> > 	};
-> > 
-> >-	iter = ph->hops->iter_response_init(ph, &ops, 0, CLOCK_DESCRIBE_RATES,
-> >+	/*
-> >+	 * Using tot_rates as max_resources parameter here so as to trigger
-> >+	 * the dynamic allocation only when strictly needed: when trying a
-> >+	 * full enumeration after a lazy one tot_rates will be non-zero.
-> >+	 */
-> >+	iter = ph->hops->iter_response_init(ph, &ops, clkd->tot_rates,
-> >+					    CLOCK_DESCRIBE_RATES,
-> > 					    sizeof(struct scmi_msg_clock_describe_rates),
-> > 					    &cpriv);
-> > 	if (IS_ERR(iter))
-> >@@ -542,12 +546,12 @@ scmi_clock_describe_rates_get_full(const struct scmi_protocol_handle *ph,
-> > 		return ret;
-> > 
-> > 	/* empty set ? */
-> >-	if (!clkd->num_rates)
-> >+	if (!clkd->r.num_rates)
-> > 		return 0;
-> > 
-> >-	if (clkd->rate_discrete)
-> >-		sort(clkd->rates, clkd->num_rates,
-> >-		     sizeof(clkd->rates[0]), rate_cmp_func, NULL);
-> >+	if (clkd->r.rate_discrete && PROTOCOL_REV_MAJOR(ph->version) == 0x1)
-> 
-> Not understand well "PROTOCOL_REV_MAJOR(ph->version) == 0x1", I may
-> get something wrong, should use ">="?
-
-I have NOT double checked BUT I think fro Etienne original patch, you
-can assume that clock rates are returned by the platform in ascending
-order (already sorted) only after Clock protocol version 0x01, the first
-ever, so ONLY when teh used version is 0x1 we must perform a full scan
-(no lazy optimization since we cannot assume that rates[last-1] is max
-AND we must sort the obtained list of clocks...
+The patch below does not apply to the 6.12-stable tree.
+If someone wants it applied there, or to any other stable or longterm
+tree, then please email the backport, including the original git commit
+id to <stable@vger.kernel.org>.
 
 Thanks,
-Cristian
+Sasha
+
+------------------ original commit in Linus's tree ------------------
+
+From f9451374dcfdfe669ee55b58ee6c11e8638980e4 Mon Sep 17 00:00:00 2001
+From: Chris Brandt <chris.brandt@renesas.com>
+Date: Fri, 14 Nov 2025 14:45:29 -0500
+Subject: [PATCH] clk: renesas: rzg2l: Select correct div round macro
+
+Variable foutvco_rate is an unsigned long, not an unsigned long long.
+
+Cc: stable@kernel.org
+Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Closes: https://lore.kernel.org/CAMuHMdVf7dSeqAhtyxDCFuCheQRzwS-8996Rr2Ntui21uiBgdA@mail.gmail.com
+Fixes: dabf72b85f29 ("clk: renesas: rzg2l: Fix FOUTPOSTDIV clk")
+Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Link: https://patch.msgid.link/20251114194529.3304361-1-chris.brandt@renesas.com
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ drivers/clk/renesas/rzg2l-cpg.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-cpg.c
+index dfe0f5e87d8cf..0bcf64b152e07 100644
+--- a/drivers/clk/renesas/rzg2l-cpg.c
++++ b/drivers/clk/renesas/rzg2l-cpg.c
+@@ -572,8 +572,8 @@ rzg2l_cpg_get_foutpostdiv_rate(struct rzg2l_pll5_param *params,
+ 	foutvco_rate = div_u64(mul_u32_u32(EXTAL_FREQ_IN_MEGA_HZ * MEGA,
+ 					   (params->pl5_intin << 24) + params->pl5_fracin),
+ 			       params->pl5_refdiv) >> 24;
+-	foutpostdiv_rate = DIV_ROUND_CLOSEST_ULL(foutvco_rate,
+-						 params->pl5_postdiv1 * params->pl5_postdiv2);
++	foutpostdiv_rate = DIV_ROUND_CLOSEST(foutvco_rate,
++					     params->pl5_postdiv1 * params->pl5_postdiv2);
+ 
+ 	return foutpostdiv_rate;
+ }
+-- 
+2.51.0
+
+
+
+
 
