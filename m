@@ -1,169 +1,146 @@
-Return-Path: <linux-renesas-soc+bounces-28671-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28672-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mIYJLajHpWnEFgAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28671-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 02 Mar 2026 18:23:52 +0100
+	id UNcCDcQTpmnlJgAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28672-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 02 Mar 2026 23:48:36 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 341261DDC23
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 02 Mar 2026 18:23:52 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CB4C1E5E7B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 02 Mar 2026 23:48:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id D9ADC3029A4C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Mar 2026 17:23:48 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id DCD08377D845
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Mar 2026 21:45:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8D4B428490;
-	Mon,  2 Mar 2026 17:23:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5C0A382F0A;
+	Mon,  2 Mar 2026 21:34:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="2bZcrrQ3"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="LAxHCE/S"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1FDA4266A4;
-	Mon,  2 Mar 2026 17:23:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03AF0382F05;
+	Mon,  2 Mar 2026 21:34:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772472228; cv=none; b=UYbIXv5VE+dFVoFZ2zMNJDAO2No+iLSentqMwcFMefggtQTARPGJYOwTG8pjTVOzBOnWNNF3isGGM8riSxVK9XsZ+FJFl/4JKZneipJ33RlG+EDgy6XGat6RMPIEpPZegaap6d1X0ohn7xfblvaGC6vm8aXg+OJwKU6/J/ny99I=
+	t=1772487286; cv=none; b=d0opz3GtTdwv9mSCz1rq0ZNroq794xhwZLos8kQA5PnzxOrWUqxBB6t8z/SzWXSY3D+HfCanDYY1laG/9CqKKx1xIkaik5YSkxuo2a/CBdLj5aKW3hmIjwN4jXlzezMqbaUhFaAa3tnQS1dZjaWWqR6qE56U6sTNLC/YQJb2vTA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772472228; c=relaxed/simple;
-	bh=lsqoijld0gAdVfIcfMKRJZDiGviXR1wEv1HLS/9y7b4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lU5zPugqF6QaF7qshoQBP6PIfg3yjXLOjgZwyn54AZOToNMOC5RHgGWF0xzqwoSDlT9WBKWc2KlayU9etSn+WREbCcYFwX35NIBJbLKohtV3GMvEbjaJDdzlhHDt/Air+0PWz4w4WwOzwmkTxfc6bgXKIB31wRP0FlAogj6Z9/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=2bZcrrQ3; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 587734E41126;
-	Mon,  2 Mar 2026 17:23:43 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 1337C5FE89;
-	Mon,  2 Mar 2026 17:23:43 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8545E103686D8;
-	Mon,  2 Mar 2026 18:23:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1772472222; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=/aeeLY5nCjJLoCOrscAC1ow5AwnqUo867Edx/KaGydM=;
-	b=2bZcrrQ3nyqiGFzPmuml2QFGFv2Sj5GXVH1NYS5Rynl5ah9/35dlksWhR3LH0JN1aF+/au
-	a+O/tG6gT0Gtmicxzm7yFzr9AUwIogZbbRL2SKZnNR1SzANYZ9d5euwhA1ZubW8tQitqHM
-	+Rpt0kZK6/9X6dwQO9hNSre3IuK2txxlhn29e1RyO+CFqa4b3sMzxoAPNA2pvvUul6N5Yr
-	hXdELycHMylOxKSg7bbycYQqaWTm07blL4orH6rVqacCBrqc/M8dwUe/wrDghN3PGLC4W7
-	UOCjFtYAk2jjKUSRR8fSL2CyC1MCTc2kQY1ldsR4E7SqN/zK4H/yrY8+x3Vcwg==
-Date: Mon, 2 Mar 2026 18:23:35 +0100
-From: Herve Codina <herve.codina@bootlin.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, Magnus Damm
- <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Pascal Eberhard <pascal.eberhard@se.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v2] ARM: dts: renesas: r9a06g032: Add support for CPU
- frequency scaling
-Message-ID: <20260302182335.312e0c3a@bootlin.com>
-In-Reply-To: <CAMuHMdUi+FsBveQ9HU+NT7iE7QOX0tKn4Jt_1mfDdq_D0=czJA@mail.gmail.com>
-References: <20260115164905.1203453-1-herve.codina@bootlin.com>
-	<CAMuHMdUi+FsBveQ9HU+NT7iE7QOX0tKn4Jt_1mfDdq_D0=czJA@mail.gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1772487286; c=relaxed/simple;
+	bh=UQGveZAg1RdW8UUbtNEC9Z8+VEui6RAonhnhCSGXybI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qxxbrW4wuqdQ9IW/huTRHb9GpnK2oRQ1y7i+aswt7t705Bp/qlWsgFf62PE3tQW1xHnrN0T6XnMOhqjOIOfApSHdLlo+0+jSVhePmve366Q0wVMvBSquES0oqKW3523Cxha8EstepyHQeEbgHVYJOdSy7eDzQJAwfbVqYVG93zA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=LAxHCE/S; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4fPsdl6jx7z9sdH;
+	Mon,  2 Mar 2026 22:34:35 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1772487276;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xp8sg5gVtxoKedtyD9+EqXP+jjBRz+jOb9nPGoQLblA=;
+	b=LAxHCE/SWju9DJ7RUefqhrCGp/HxEgKgZ+/Dn4G6+umv0DfVTRTARwej2JbHvjkbae3e86
+	I7juJ3W6XjL5gZsRcp/14sFIcfOTsH3dr4SyM24H95VQbjAND8Y1vuz/o1Wv2zp36YbJPy
+	vgtKGAiOJB0vWg6J/sLCWcOk+MNx+b7o8ezil2X2haqDe/TLBASWyRFLse+UxNdfVzF6uI
+	oK35F4svLhLIpWYI2cetsGNsgKflH0y0DQdyypP34WcIJVUsRTeCuKEOcfg8dOLhWNWOt8
+	WX5ao+JEpVJfNO8Q5eUge9km80LTrW72+GjwXWoMTZQZaiqqr8/kMiLGKkSbSA==
+Message-ID: <e9c7f67d-bfba-411a-80fb-956fd96e1037@mailbox.org>
+Date: Mon, 2 Mar 2026 22:34:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
-X-Rspamd-Queue-Id: 341261DDC23
+Subject: Re: [PATCH v2] drm/bridge: waveshare-dsi: Register and attach our DSI
+ device at probe
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>, dri-devel@lists.freedesktop.org
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, David Airlie
+ <airlied@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20260206125801.78705-1-marek.vasut+renesas@mailbox.org>
+ <DG7YBVU2COFT.2JP8PKR4ZAKFT@bootlin.com>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <DG7YBVU2COFT.2JP8PKR4ZAKFT@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: 0a60f08183c5a211308
+X-MBO-RS-META: z3bdwrxqqkiyhhkwi8xtr3eyg31pu438
+X-Rspamd-Queue-Id: 8CB4C1E5E7B
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
-	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[sang-engineering.com,gmail.com,kernel.org,vger.kernel.org,se.com,bootlin.com];
-	TAGGED_FROM(0.00)[bounces-28671-lists,linux-renesas-soc=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-28672-lists,linux-renesas-soc=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[intel.com,gmail.com,kwiboo.se,ideasonboard.com,linux.intel.com,kernel.org,linaro.org,ffwll.ch,suse.de,vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	MIME_TRACE(0.00)[0:+];
-	HAS_ORG_HEADER(0.00)[];
-	DKIM_TRACE(0.00)[bootlin.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[herve.codina@bootlin.com,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.998];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[marek.vasut@mailbox.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[mailbox.org:+];
 	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,linux-m68k.org:email,0.0.0.1:email,bootlin.com:dkim,bootlin.com:email,bootlin.com:url,bootlin.com:mid,0.0.0.0:email]
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,bootlin.com:email]
 X-Rspamd-Action: no action
 
-On Mon, 2 Mar 2026 18:04:36 +0100
-Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-
-> Hi Hervé,
+On 2/6/26 3:34 PM, Luca Ceresoli wrote:
+> Hi Marek,
 > 
-> On Thu, 15 Jan 2026 at 17:49, Herve Codina (Schneider Electric)
-> <herve.codina@bootlin.com> wrote:
-> > In RZ/N1 SoCs, CPUs are allowed to work at 125, 250 or 500 MHz when the
-> > 'ref' clock frequency value is set to 500 MHz which is the default 'ref'
-> > clock frequency value.
-> >
-> > Add support for CPU frequency scaling defining those 3 frequencies in
-> > the opp-table with the assumption that the 'ref' clock is set to its
-> > default value.
-> >
-> > Signed-off-by: Herve Codina (Schneider Electric) <herve.codina@bootlin.com>  
+> On Fri Feb 6, 2026 at 1:57 PM CET, Marek Vasut wrote:
+>> In order to avoid any probe ordering issue, the best practice is to move
+>> the secondary MIPI-DSI device registration and attachment to the
+>> MIPI-DSI host at probe time.
+>>
+>> Besides solving the probe ordering problems, this makes the bridge work
+>> with R-Car DU. The R-Car DU will attempt to locate the DSI host bridge in
+>> its own rcar_du_probe()->rcar_du_modeset_init()->rcar_du_encoder_init()
+>> by calling of_drm_find_bridge() which calls of_drm_find_and_get_bridge()
+>> and iterates over bridge_list to locate the DSI host bridge.
+>>
+>> However, unless the WS driver calls mipi_dsi_attach() in probe(), the
+>> DSI host bridge .attach callback rcar_mipi_dsi_host_attach() is not
+>> called and the DSI host bridge is not added into bridge_list. Therefore
+>> the of_drm_find_and_get_bridge() called from du_probe() will never find
+>> the DSI host bridge and probe will indefinitelly fail with -EPROBE_DEFER.
+>>
+>> The circular dependency here is, that if rcar_du_encoder_init() would
+>> manage to find the DSI host bridge, it would call the WS driver .attach
+>> callback ws_bridge_bridge_attach(), but this is too late and can never
+>> happen. This change avoids the circular dependency.
+>>
+>> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+>> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 > 
-> Thanks for your patch, which LGTM.
-> 
-> > --- a/arch/arm/boot/dts/renesas/r9a06g032.dtsi
-> > +++ b/arch/arm/boot/dts/renesas/r9a06g032.dtsi  
-> 
-> > @@ -24,6 +57,7 @@ cpu@0 {
-> >                         compatible = "arm,cortex-a7";
-> >                         reg = <0>;
-> >                         clocks = <&sysctrl R9A06G032_CLK_A7MP>;
-> > +                       operating-points-v2 = <&cpu_opp_table>;
-> >                 };
-> >
-> >                 cpu@1 {  
-> 
-> Unless I am missing something, the RZ/N1 clock driver does not support
-> the A7MP clock yet, so how can cpufreq work for you?
-
-R9A06G032_CLK_A7MP is DIV_CA7
-
-https://elixir.bootlin.com/linux/v6.19.3/source/include/dt-bindings/clock/r9a06g032-sysctrl.h#L78
-https://elixir.bootlin.com/linux/v6.19.3/source/drivers/clk/renesas/r9a06g032-clocks.c#L261
-https://elixir.bootlin.com/linux/v6.19.3/source/drivers/clk/renesas/r9a06g032-clocks.c#L455
-
-And on my system, got the following:
-  # cat /sys/devices/system/cpu/cpufreq/policy0/stats/time_in_state 
-  125000 4574
-  250000 108
-  500000 392
-  #
-
-All defined opp-hz values seems to be used without any errors. I hope that
-any errors would be reported in kernel logs. At least this one:
-  https://elixir.bootlin.com/linux/v6.19.3/source/drivers/cpufreq/cpufreq.c#L2329
-
-
-Best regards,
-Hervé
+> Thanks for the very clear description! R-by confirmed.
+Can this be applied now ?
 
