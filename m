@@ -1,196 +1,193 @@
-Return-Path: <linux-renesas-soc+bounces-28637-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28638-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YDFoGlyQpWkAEAYAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28637-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 02 Mar 2026 14:27:56 +0100
+	id eHPYNlKYpWnXEgYAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28638-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 02 Mar 2026 15:01:54 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE9EC1D9BC4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 02 Mar 2026 14:27:55 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B97AF1DA47C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 02 Mar 2026 15:01:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B5FA330743CE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Mar 2026 13:25:41 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 37518301B878
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Mar 2026 13:57:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFA493E5578;
-	Mon,  2 Mar 2026 13:25:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A0043F23DD;
+	Mon,  2 Mar 2026 13:57:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="CYP98OVL"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B52F93E717D
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  2 Mar 2026 13:25:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7AED36C9D0
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  2 Mar 2026 13:57:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772457927; cv=none; b=KkveqVBFLLyRSn80ssp1Y2wX1illV7+1/CZMf6gIIgOLo4RgDGVCCTEt19Sf5RHn+9gULT94PnHDhpfwxCKkZmyCsW6ylHEp2l2Np9mcDFlVlNtpear/w0B8/iZJFiy1qfLwl3HSYC2ifr4vlne37CVe0tM0kDWgV60j+btUikk=
+	t=1772459832; cv=none; b=S51KHZaY5UySUQy8tSvVnQQ7xj0l9qIzdNbysLJ5Lktwb4BYIFUEeFBscpyXssqqdLKGH2IWf0B0emEM31UqeyeTnEhscBwmaSYPjio6wDkXzYBmARoXYBq+msJw9Vq1zoWfGw8Mp3pm69HXnSDRpTLbJzZ+LTsKS4YmwP1Vpmc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772457927; c=relaxed/simple;
-	bh=sgxnmhj2rQgljJRNTMAEIU71ZOKKmdvca0WN6HsSkl4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Pxs3bApYikVWRF4K3OaEB27unhW9cMGnlwu8Py4pyHQcTCR8VJEkiV92ileHCHNnAm2M6QbomIGPUIIdxuRZxs1YIPQaHTvmRvFKkKwjCSrWGZQ4gD6tQkjx+jQgtEY/cAVXHX8+b+PzWxfZnWlr/KzCk7lPeNhvvNBme0cWmGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-56739adfa1aso3642528e0c.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 02 Mar 2026 05:25:15 -0800 (PST)
+	s=arc-20240116; t=1772459832; c=relaxed/simple;
+	bh=lEvdwJ+CQGGibJGfq/7IQEzrKZqm5RUSu5rpuUx4oAY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=rnluRl77F3z0THQXLg5uscOdlCILXTvGZ6fOHdRiJIRflzb9yl9/n+KqzZL45WHnQwVFUAiTQ5UqCkt+IpDl0rIUAGPmGxyaczUElnh8GgUNq4ptUslO5DbxdvzsXyp596lTvO8/UVsVLKfojcWXqxW6LOLUIea+lL0q5xKMqq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=CYP98OVL; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-439af7d77f0so1434705f8f.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 02 Mar 2026 05:57:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1772459828; x=1773064628; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3KEA74Fj3pMLuFpC+9hfiR3S8SjTOgau41zhCYgt1Xo=;
+        b=CYP98OVLHsI6CN+Og2ukksJbVRqkuq5XqlYCRL7mxgtBDLrESuUkaMgHjrnVmVjEox
+         VmKhfo3JyxFMgfkwQp9myKfLLayEn8oF8z0sWPisefDUaH41/pUUpK5phZwJ9SJefxEh
+         mNay6OzYyjvk0f8OsuODh+E8hPLUA0/BVgLRe2gi5L52UfgigQAkHMJSUDPpq+kqlFx3
+         lH3tLwLPVW25nMPY7iWiegZkTQWaz4DIsFVVzT8eFh+lCu0fHwkm2OX3Fx/N9nObTuz0
+         ruHCD3OjuXDmRzehQY57Zd5YLzrGopk2KoJnwyGJkFrLYb4zzTs7XXonwgFfSjUDKHGC
+         f0OA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772457914; x=1773062714;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1772459828; x=1773064628;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=u/KgeLtXmZOUh5kr82wm/EePACuyTgS6gfBGBNvywTM=;
-        b=kAmL5mACdvA+13k3vFns1htr1JW1Pzfta5tWoU0gVP285VuzY2I6krf1Vv3fDjcvaF
-         Qz/j/tDFhy0oQ2gNjpy3+b+z0SJgNYX38/ITBYRWRvlcBWsmbyZQcsFwGdXhPmKTGZMN
-         LiRE3T/7RiYaZLGZE9C3Ng8XAUkv0U3bxsAXQirSC/52rd8jjau98ycdLr8Gm64gJx9E
-         9+jrHyCBcRJOm5xfVALor2/2lZNwIriCwP6SHJcNQ+5e0v+Iz/zYwkLJVIfQUWExL4Fw
-         keMPlksZltO76Pps+EABfamOD8ZtwoXdj+o6fL8tbepnCs9s+S4HjLiVISqyiw970jnQ
-         RHIA==
-X-Forwarded-Encrypted: i=1; AJvYcCUPIrWoGhMPjzbu1lzz0apZkZaSHgeOx6bVv71nUNkkg1C5uXZbCV3H4ND8pj2py37kdMznO5pEuN0duVE85nqKhQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyVxZ7SFYfr2VKfQrSeQK7rLAMyD2mJhDaGNBnWE5Qo58y+SjNG
-	MlEF/3XmePxfuFFz105clwlWvL9ZvSqErcZcuTNIcetCqloSzXr/2N6HbNOzKmWR
-X-Gm-Gg: ATEYQzydKM51T8FHELutaLzYqOAvyomw76ztPPV0wdOmthY4nsSl8miuMtEeZ+9nl1W
-	9tdHVB3IVGN0MXjMmlu/kgTwQYBO9jFSTUHJfcd04cYUeqF4TMzEaha6G5d9tclhf1zAC5nm294
-	LIJmaySLHwgrO9g3SAL5t1w50kWRhlx0jJCmAkrNo3DHGATC+08/eTTRIHuSTF5efquo785c9qY
-	hiIuXMSTHvdqjd+MDbvJ6PObKCf8xGzjQv1y6vDchY6oBSiNCJPwGwhNMnH5zE8zUUrAt2+6bY3
-	HYZqYvRg6lBydxOmGZ8AR5edl4kxCflBBEhEXpcjb5fcFHG34+E61Kkk582J/kmXs6yxB26j62r
-	d44dFnti5qMYl3cKcsunlXRlktGDy8RqYeut3CQmIxAeruQaXsmZvUFHxLGjfUx4X6wTV8RN5Eq
-	zNjyuag6d4n5o1b0Lzyir3GhUr80IdM1XXkC/RYZa87KSHRgHKf6xjgHxTJele
-X-Received: by 2002:a05:6122:3b05:b0:55b:305b:4e31 with SMTP id 71dfb90a1353d-56aa0ab1495mr4725230e0c.17.1772457914633;
-        Mon, 02 Mar 2026 05:25:14 -0800 (PST)
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com. [209.85.217.46])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56a91b8c7ddsm15430030e0c.3.2026.03.02.05.25.12
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Mar 2026 05:25:12 -0800 (PST)
-Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-5ff07cb35efso2953241137.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 02 Mar 2026 05:25:12 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWUHgm8Le8Rs1BM7XsmVUz8Mck4U9Fnc8KZ3W1Y2AZFQMudo7wTMvGUmQcbcmOEARzNsDSTJRbBfgsE6TfdUF0QRA==@vger.kernel.org
-X-Received: by 2002:a05:6102:304c:b0:5ff:1d94:b746 with SMTP id
- ada2fe7eead31-5ff32519f2emr6218672137.27.1772457912000; Mon, 02 Mar 2026
- 05:25:12 -0800 (PST)
+        bh=3KEA74Fj3pMLuFpC+9hfiR3S8SjTOgau41zhCYgt1Xo=;
+        b=wy45pLH0xeSV5TARQkfKoqpxKifxPlqls8dpg25Wv9jyp30+uC3wV5sXrOx064UnzS
+         mf4hOQh0kAAsWVQyv/sPNNrM06V0kaWAn5SQfSUpvCyHLSwJB70vSHRID1jbmHeQwrS1
+         4eu+aSQ4RIb6clFBShSkJP1RSdDKvKupKmaPMb78rWG6yIj8NxTuZ6u3SVU2QBIaj8XH
+         ho9c5PkhKP4IeWiVL1bqml71yACIsLoTIRlV9egU/+FqLvCdiLNgqa7IAFfIMlNC9vkP
+         z3KbkslzLq3lOeR/K+2MXwM2lVpIWChjYZucPdje/pCrrT296VaivD6c2BIiUVZFwiZ8
+         /mig==
+X-Forwarded-Encrypted: i=1; AJvYcCUxNfe8eFoGOfzZI/g+ZIAzlXoZ15NVhz4y/2XSw+M+tGs1QVYCIBo25kqQ9y2yTsQnDexXYuAzg8AxSfI3RNYLPg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzWS7SROeBEL5Bc5N0FHzd2g2LA8TCUNlyMgCGLeeB8Un74tCHb
+	0aR6aOhoMhJCsPMGEkEnqA5+4qvBn/QxdgF91yC1x5Jh49pbJWkoF6WZspx7fNVG/g7ZJAbrwK7
+	Jtfu2
+X-Gm-Gg: ATEYQzy0zYVNyT1l8D2W+O61K1DdLnX/TE+yJ3PJsUmqrjbenPgS6hAnmIgQnTRNnzB
+	XKRCr9PV/GmwNrfXXcsb+SRZod8wj4azvhv0S9CfXIziiAZxPjCXSvmKGJjsbeGihlwJmaeXHVg
+	adpc3aLDmlAXwwE78O1j6zV+DliMPFwss3O38n/asmbXMaYVAhRSaXULxg5VGpr80lPW+YRmj5p
+	zTMIih8Kvl34WM+W/PGbpKP9XfLu/zM4Ju1NdWnebB+JF93oF+AI0Fq0JR8g1lHy791Cokyyglx
+	Cf4NjFc2VzdWGgCA9B7RzFufVDh3nW+MXnWyrCjawwoTpbwytLfckRsIbZqveHkLqecU9NyoTZe
+	YmRq5xK8v3j26xfuXIP01Lt4it8nIgituUGpmAYTQdEzLeSd+hyg3EvIKD5tlmTsOHEOVtBdWmi
+	BdQq6lpBkMjuDBxFEWjFV8AZO/uHlS1I1F2X5TfV8+qbBge6qAdlar81U=
+X-Received: by 2002:a05:6000:220c:b0:439:ac8f:5db2 with SMTP id ffacd0b85a97d-439ac8f618cmr13123694f8f.22.1772459827690;
+        Mon, 02 Mar 2026 05:57:07 -0800 (PST)
+Received: from claudiu-X670E-Pro-RS.. ([213.233.104.147])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439ba2a58dasm5031094f8f.27.2026.03.02.05.57.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Mar 2026 05:57:07 -0800 (PST)
+From: Claudiu <claudiu.beznea@tuxon.dev>
+X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
+To: geert+renesas@glider.be,
+	magnus.damm@gmail.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	biju.das.jz@bp.renesas.com
+Cc: claudiu.beznea@tuxon.dev,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH] arm64: dts: renesas: rzg3s-smarc-som: Set bypass for Versa3 PLL2
+Date: Mon,  2 Mar 2026 15:57:03 +0200
+Message-ID: <20260302135703.162601-1-claudiu.beznea.uj@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260227153225.2778358-1-cristian.marussi@arm.com>
-In-Reply-To: <20260227153225.2778358-1-cristian.marussi@arm.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 2 Mar 2026 14:25:00 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW9dtAnT2E103kp1zK=LJrER7k1ib8_WPk5aorPRw80uQ@mail.gmail.com>
-X-Gm-Features: AaiRm50Tkxhc-oCHlHPyabn9QxR4wbHw_RTC9z1g5dQZe_w9JY9CV7dca6PXC-4
-Message-ID: <CAMuHMdW9dtAnT2E103kp1zK=LJrER7k1ib8_WPk5aorPRw80uQ@mail.gmail.com>
-Subject: Re: [PATCH 00/11] SCMI Clock rates discovery rework
-To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	arm-scmi@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, sudeep.holla@arm.com, 
-	philip.radford@arm.com, james.quinlan@broadcom.com, f.fainelli@gmail.com, 
-	vincent.guittot@linaro.org, etienne.carriere@foss.st.com, 
-	peng.fan@oss.nxp.com, michal.simek@amd.com, dan.carpenter@linaro.org, 
-	kuninori.morimoto.gx@renesas.com, marek.vasut+renesas@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.04 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[tuxon.dev:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.infradead.org,arm.com,broadcom.com,gmail.com,linaro.org,foss.st.com,oss.nxp.com,amd.com,renesas.com];
-	TAGGED_FROM(0.00)[bounces-28637-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-28638-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[linux-m68k.org];
+	DMARC_NA(0.00)[tuxon.dev];
+	FREEMAIL_TO(0.00)[glider.be,gmail.com,kernel.org,bp.renesas.com];
+	RSPAMD_URIBL_FAIL(0.00)[tuxon.dev:server fail,renesas.com:server fail];
+	DKIM_TRACE(0.00)[tuxon.dev:+];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	NEURAL_HAM(-0.00)[-0.571];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	R_DKIM_NA(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[claudiu.beznea@tuxon.dev,linux-renesas-soc@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	NEURAL_HAM(-0.00)[-0.998];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[arm.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid,linux-m68k.org:email,glider.be:email]
-X-Rspamd-Queue-Id: BE9EC1D9BC4
+	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,tuxon.dev:dkim,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,0.0.0.68:email]
+X-Rspamd-Queue-Id: B97AF1DA47C
 X-Rspamd-Action: no action
 
-Hi Cristian,
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Thanks for your series!
+The default settings for the Versa3 device on the Renesas RZ/G3S SMARC
+SoM board have PLL2 disabled. PLL2 was later enabled together with audio
+support, as it is required to support both 44.1 kHz and 48 kHz audio.
 
-On Fri, 27 Feb 2026 at 16:33, Cristian Marussi <cristian.marussi@arm.com> wrote:
-> it was a known limitation, in the SCMI Clock protocol support, the lack of
-> dynamic allocation around per-clock rates discovery: fixed size statically
-> per-clock rates arrays did not scale and was increasingly a waste of memory
-> (see [1]).
->
-> This series aim at solving this in successive steps:
->
->  - simplify and reduce to the minimum possible the rates data info exposed
->    to the SCMI driver by scmi_clock_info
->  - move away from static fixed allocation of per-clock rates arrays in
->    favour of a completely dynamic runtime allocation: just allocate what
->    is needed based on the effectively discovered
->
-> This is done in patches 1-6.
->
-> A further bigger optimization suggested in a past series [1] by Etienne
+With PLL2 enabled, it was observed that Linux occasionally either hangs
+during boot (the last log message being related to the I2C probe) or
+randomly crashes. This was mainly reproducible on cold boots. During
+debugging, it was also noticed that the Unicode replacement character (�)
+sometimes appears on the serial console. Further investigation traced this
+to the configuration applied through the Versa3 register at offset 0x1c,
+which controls PLL enablement.
 
-s/[1]/[2]/
+The appearance of the Unicode replacement character suggested an issue
+with the SoC reference clock. The RZ/G3S reference clock is provided by
+the Versa3 clock generator (REF output).
 
-> would be, whenever allowed by the spec, to limit upfront the number of
-> queries in order to simply retrieve min and max rate, that are indeed the
-> only rates needed by the CLK SCMI driver.
->
-> The approach proposed in [1] was open coding and duplicating some of the
+After checking with the Renesas Versa3 hardware team, it was found that
+this is related to the PLL2 lock bit being set through the
+renesas,settings DT property.
 
-What does [1] refer to?
+The PLL lock bit must be set to avoid unstable clock output from the PLL.
+However, due to the Versa3 hardware design, when a PLL lock bit is set,
+all outputs (including the REF clock) are temporarily disabled until the
+configured PLLs become stable.
 
-> functionalities already provided by SCMI iterators, though.
->
-> Patch 7-10 implement such optimization instead by:
->
->  - reworking core SCMI iterators to support bound enumerations
->  - use such new bound iterators to perform the minimum number of queries
->    in order to ony retrieve min an max rate
->
-> As a final result now the rates enumeration triggered by the CLK SCMI
-> driver, while still allocating for all the existent rates, miminize the
-> number of SCMI CLK_DESCRIBE_RATE messages needed to obtain min and max.
->
-> Finally, patch 11 introduces a new clock protocol operation to be able to
-> trigger anytime on demand a full enumeration and obtain the full list of
-> rates when needed, not only min/max: this latter method is really only used
-> currently by some dowstream SCMI Test driver of mine.
->
-> Based on v7.0-rc1.
->
-> Tested on JUNO and an emulated environment.
+As an alternative, the bypass bit can be used. This does not interrupt the
+PLL2 output or any other Versa3 outputs, but it may result in temporary
+instability on PLL2 output while the configuration is applied. Since PLL2
+feeds only the audio path and audio is not used during early boot, this is
+acceptable and does not affect system boot.
 
-Thank you, this removes the need for increasing SCMI_MAX_NUM_RATES on
-R-Car X5H, while decreasing memory usage.
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Drop the PLL2 lock bit and set the bypass bit instead.
 
-> [1]: https://lore.kernel.org/arm-scmi/aZsX-oplR6fiLBBN@pluto/T/#t
-> [2]: https://lore.kernel.org/20241203173908.3148794-2-etienne.carriere@foss.st.com
+This has been tested with more than 1000 cold boots.
 
-Gr{oetje,eeting}s,
+Fixes: a94253232b04 ("arm64: dts: renesas: rzg3s-smarc-som: Add versa3 clock generator node")
+Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+---
+ arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-                        Geert
-
+diff --git a/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi b/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
+index 982f17aafbc5..b45acfe6288a 100644
+--- a/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
++++ b/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
+@@ -162,7 +162,7 @@ versa3: clock-generator@68 {
+ 				       <100000000>;
+ 		renesas,settings = [
+ 		  80 00 11 19 4c 42 dc 2f 06 7d 20 1a 5f 1e f2 27
+-		  00 40 00 00 00 00 00 00 06 0c 19 02 3f f0 90 86
++		  00 40 00 00 00 00 00 00 06 0c 19 02 3b f0 90 86
+ 		  a0 80 30 30 9c
+ 		];
+ 	};
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.43.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
