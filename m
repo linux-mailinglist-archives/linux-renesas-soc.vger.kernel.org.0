@@ -1,97 +1,79 @@
-Return-Path: <linux-renesas-soc+bounces-28638-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28639-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eHPYNlKYpWnXEgYAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28638-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 02 Mar 2026 15:01:54 +0100
+	id oD6xOBKqpWmpDgAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28639-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 02 Mar 2026 16:17:38 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B97AF1DA47C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 02 Mar 2026 15:01:51 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 483071DBA61
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 02 Mar 2026 16:17:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 37518301B878
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Mar 2026 13:57:31 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9850E30B389C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Mar 2026 15:12:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A0043F23DD;
-	Mon,  2 Mar 2026 13:57:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE70140FDA9;
+	Mon,  2 Mar 2026 15:11:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="CYP98OVL"
+	dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="noBkohPQ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.andi.de1.cc (mail.andi.de1.cc [178.238.236.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7AED36C9D0
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  2 Mar 2026 13:57:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67D7640FDA1;
+	Mon,  2 Mar 2026 15:11:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.238.236.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772459832; cv=none; b=S51KHZaY5UySUQy8tSvVnQQ7xj0l9qIzdNbysLJ5Lktwb4BYIFUEeFBscpyXssqqdLKGH2IWf0B0emEM31UqeyeTnEhscBwmaSYPjio6wDkXzYBmARoXYBq+msJw9Vq1zoWfGw8Mp3pm69HXnSDRpTLbJzZ+LTsKS4YmwP1Vpmc=
+	t=1772464317; cv=none; b=Z6c+hEvufVbkNQMsUWBeHocOAepNFC6KvSsJWn7SmRt1pc1QubKlGzq2HpVjXgjjLCAkrJ/jiO3aoY/FI2QP3l5zpti8HkVD0nkfiDjvcirEDZ9SI1DC4x8DK1CwSYRNFV0wSGr09cQdhX+YxIwYyqG19saKNCRMQKo8Jr9+gZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772459832; c=relaxed/simple;
-	bh=lEvdwJ+CQGGibJGfq/7IQEzrKZqm5RUSu5rpuUx4oAY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=rnluRl77F3z0THQXLg5uscOdlCILXTvGZ6fOHdRiJIRflzb9yl9/n+KqzZL45WHnQwVFUAiTQ5UqCkt+IpDl0rIUAGPmGxyaczUElnh8GgUNq4ptUslO5DbxdvzsXyp596lTvO8/UVsVLKfojcWXqxW6LOLUIea+lL0q5xKMqq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=CYP98OVL; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-439af7d77f0so1434705f8f.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 02 Mar 2026 05:57:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1772459828; x=1773064628; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3KEA74Fj3pMLuFpC+9hfiR3S8SjTOgau41zhCYgt1Xo=;
-        b=CYP98OVLHsI6CN+Og2ukksJbVRqkuq5XqlYCRL7mxgtBDLrESuUkaMgHjrnVmVjEox
-         VmKhfo3JyxFMgfkwQp9myKfLLayEn8oF8z0sWPisefDUaH41/pUUpK5phZwJ9SJefxEh
-         mNay6OzYyjvk0f8OsuODh+E8hPLUA0/BVgLRe2gi5L52UfgigQAkHMJSUDPpq+kqlFx3
-         lH3tLwLPVW25nMPY7iWiegZkTQWaz4DIsFVVzT8eFh+lCu0fHwkm2OX3Fx/N9nObTuz0
-         ruHCD3OjuXDmRzehQY57Zd5YLzrGopk2KoJnwyGJkFrLYb4zzTs7XXonwgFfSjUDKHGC
-         f0OA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772459828; x=1773064628;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3KEA74Fj3pMLuFpC+9hfiR3S8SjTOgau41zhCYgt1Xo=;
-        b=wy45pLH0xeSV5TARQkfKoqpxKifxPlqls8dpg25Wv9jyp30+uC3wV5sXrOx064UnzS
-         mf4hOQh0kAAsWVQyv/sPNNrM06V0kaWAn5SQfSUpvCyHLSwJB70vSHRID1jbmHeQwrS1
-         4eu+aSQ4RIb6clFBShSkJP1RSdDKvKupKmaPMb78rWG6yIj8NxTuZ6u3SVU2QBIaj8XH
-         ho9c5PkhKP4IeWiVL1bqml71yACIsLoTIRlV9egU/+FqLvCdiLNgqa7IAFfIMlNC9vkP
-         z3KbkslzLq3lOeR/K+2MXwM2lVpIWChjYZucPdje/pCrrT296VaivD6c2BIiUVZFwiZ8
-         /mig==
-X-Forwarded-Encrypted: i=1; AJvYcCUxNfe8eFoGOfzZI/g+ZIAzlXoZ15NVhz4y/2XSw+M+tGs1QVYCIBo25kqQ9y2yTsQnDexXYuAzg8AxSfI3RNYLPg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWS7SROeBEL5Bc5N0FHzd2g2LA8TCUNlyMgCGLeeB8Un74tCHb
-	0aR6aOhoMhJCsPMGEkEnqA5+4qvBn/QxdgF91yC1x5Jh49pbJWkoF6WZspx7fNVG/g7ZJAbrwK7
-	Jtfu2
-X-Gm-Gg: ATEYQzy0zYVNyT1l8D2W+O61K1DdLnX/TE+yJ3PJsUmqrjbenPgS6hAnmIgQnTRNnzB
-	XKRCr9PV/GmwNrfXXcsb+SRZod8wj4azvhv0S9CfXIziiAZxPjCXSvmKGJjsbeGihlwJmaeXHVg
-	adpc3aLDmlAXwwE78O1j6zV+DliMPFwss3O38n/asmbXMaYVAhRSaXULxg5VGpr80lPW+YRmj5p
-	zTMIih8Kvl34WM+W/PGbpKP9XfLu/zM4Ju1NdWnebB+JF93oF+AI0Fq0JR8g1lHy791Cokyyglx
-	Cf4NjFc2VzdWGgCA9B7RzFufVDh3nW+MXnWyrCjawwoTpbwytLfckRsIbZqveHkLqecU9NyoTZe
-	YmRq5xK8v3j26xfuXIP01Lt4it8nIgituUGpmAYTQdEzLeSd+hyg3EvIKD5tlmTsOHEOVtBdWmi
-	BdQq6lpBkMjuDBxFEWjFV8AZO/uHlS1I1F2X5TfV8+qbBge6qAdlar81U=
-X-Received: by 2002:a05:6000:220c:b0:439:ac8f:5db2 with SMTP id ffacd0b85a97d-439ac8f618cmr13123694f8f.22.1772459827690;
-        Mon, 02 Mar 2026 05:57:07 -0800 (PST)
-Received: from claudiu-X670E-Pro-RS.. ([213.233.104.147])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439ba2a58dasm5031094f8f.27.2026.03.02.05.57.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Mar 2026 05:57:07 -0800 (PST)
-From: Claudiu <claudiu.beznea@tuxon.dev>
-X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
-To: geert+renesas@glider.be,
-	magnus.damm@gmail.com,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	biju.das.jz@bp.renesas.com
-Cc: claudiu.beznea@tuxon.dev,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH] arm64: dts: renesas: rzg3s-smarc-som: Set bypass for Versa3 PLL2
-Date: Mon,  2 Mar 2026 15:57:03 +0200
-Message-ID: <20260302135703.162601-1-claudiu.beznea.uj@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1772464317; c=relaxed/simple;
+	bh=3iYO0kg6ueKYDxo+WUqxQW/1ohu/Io5iWqOcMOoZVaY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QssdM/O35g7ViXM5tIHHDoiMt1NW4MBvyMGz91fwp48riO+A3zao7k5PLnBPQD3GhjfrOZ8yZHeXlsLeK31H1FBes71YOktETSfoZwjxFR9bpPDONPY/61KlmS5rsmsHV8i1JvkNRh0+vaZlMA7+oXf7XU16/Yj6I8Pgzs0JurA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=noBkohPQ; arc=none smtp.client-ip=178.238.236.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=kemnade.info; s=20220719; h=References:In-Reply-To:Cc:From:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=fOE00VOY5CO+udhbXmZXmQz9cKeY+YffWZiDPf2sZPk=; b=noBkohPQtvbuoZmsWo6lCfVC0v
+	wnxzq1SQ5Lj/pBCMSx747FmzuCK3eO9Ch94CEp6EBHx2GpGzcEerfJlEq3n25yBTSh935UFK8DGD4
+	SzpfFNUZZdnGXXIg7FSlb6nQN0crQj1+1RVt0ZZrhPMu/VabG3RzgYsd+0pDI8YtVWoftgAogzXGG
+	/Kt60pHaK6B/3iUjTMbmMNc/i8GCJHUQ93IX3MyLxeBxH+Y2VHs239W1HoqMHwAv+BQ0YU39VuaD6
+	rxdtCJn8AyOra+wikSbvm26LeV9ISHk9b2tds38fBYg7DDQIVOZYTRpNq1xyd648ZITveXnM4+DWx
+	DsvP98lQ==;
+Date: Mon, 2 Mar 2026 16:09:23 +0100
+From: Andreas Kemnade <andreas@kemnade.info>
+To: Kalle Niemi <kaleposti@gmail.com>
+Cc: Bartosz Golaszewski <brgl@kernel.org>, Wolfram Sang
+ <wsa+renesas@sang-engineering.com>, Bartosz Golaszewski
+ <bartosz.golaszewski@oss.qualcomm.com>, Mukesh Kumar Savaliya
+ <mukesh.savaliya@oss.qualcomm.com>, Viken Dadhaniya
+ <viken.dadhaniya@oss.qualcomm.com>, Andi Shyti <andi.shyti@kernel.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui
+ <rjui@broadcom.com>, Branden Scott <sbranden@broadcom.com>,
+ bcm-kernel-feedback-list@broadcom.com, Vignesh R <vigneshr@ti.com>, Aaro
+ Koskinen <aaro.koskinen@iki.fi>, Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+ Tony Lindgren <tony@atomide.com>, Kevin Hilman <khilman@baylibre.com>,
+ Roger Quadros <rogerq@kernel.org>, Geert Uytterhoeven
+ <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, Patrice
+ Chotard <patrice.chotard@foss.st.com>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team
+ <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Linus Walleij
+ <linusw@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+ linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-omap@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ imx@lists.linux.dev, linux-rpi-kernel@lists.infradead.org, Matti Vaittinen
+ <mazziesaccount@gmail.com>
+Subject: Re: [PATCH v2 01/12] i2c: allow setting the parent device and OF
+ node through the adapter struct
+Message-ID: <20260302160923.53abf2ea@kemnade.info>
+In-Reply-To: <EDF3FB58-4747-442E-8463-6F1C6E568962@gmail.com>
+References: <EDF3FB58-4747-442E-8463-6F1C6E568962@gmail.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -99,95 +81,88 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: 483071DBA61
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[tuxon.dev:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[kemnade.info,none];
+	R_DKIM_ALLOW(-0.20)[kemnade.info:s=20220719];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-28638-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[tuxon.dev];
-	FREEMAIL_TO(0.00)[glider.be,gmail.com,kernel.org,bp.renesas.com];
-	RSPAMD_URIBL_FAIL(0.00)[tuxon.dev:server fail,renesas.com:server fail];
-	DKIM_TRACE(0.00)[tuxon.dev:+];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-28639-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCPT_COUNT_TWELVE(0.00)[35];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kemnade.info:+];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	NEURAL_HAM(-0.00)[-0.995];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[claudiu.beznea@tuxon.dev,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	NEURAL_HAM(-0.00)[-0.998];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,tuxon.dev:dkim,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,0.0.0.68:email]
-X-Rspamd-Queue-Id: B97AF1DA47C
+	FROM_NEQ_ENVFROM(0.00)[andreas@kemnade.info,linux-renesas-soc@vger.kernel.org];
+	FREEMAIL_CC(0.00)[kernel.org,sang-engineering.com,oss.qualcomm.com,broadcom.com,ti.com,iki.fi,gmail.com,atomide.com,baylibre.com,glider.be,foss.st.com,pengutronix.de,nxp.com,vger.kernel.org,lists.infradead.org,lists.linux.dev];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[kemnade.info:dkim,kemnade.info:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,qualcomm.com:email]
 X-Rspamd-Action: no action
 
-From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+On Mon, 2 Mar 2026 12:38:27 +0200
+Kalle Niemi <kaleposti@gmail.com> wrote:
 
-The default settings for the Versa3 device on the Renesas RZ/G3S SMARC
-SoM board have PLL2 disabled. PLL2 was later enabled together with audio
-support, as it is required to support both 44.1 kHz and 48 kHz audio.
+> =EF=BB=BFOn 3/2/26 10:55, Bartosz Golaszewski wrote:
+> > On Mon, Mar 2, 2026 at 8:47=E2=80=AFAM Kalle Niemi <kaleposti@gmail.com=
+> wrote: =20
+> >> On 2/23/26 11:05, Bartosz Golaszewski wrote: =20
+> >>> In order to stop i2c bus drivers from dereferencing the struct device
+> >>> embedded in struct i2c_adapter, let's allow configuring the parent
+> >>> device and OF-node of the adapter directly through dedicated fields.
+> >>> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.=
+com>
+> >>> --- =20
+> >> Hello,
+> >> Automated driver test system bisected this commit to be the first bad
+> >> commit, linux-next next-20260227 was tested. Failed tests include driv=
+er
+> >> tests for ROHM PMIC and accelerometers, which are connected to
+> >> BeagleBone Black.
+> >> The failed driver tests all fail to first i2cget and the tests stop
+> >> there: "Could not open file '/dev/i2c-2' or 'dev/i2c/2': No such file =
+or
+> >> directory". =20
+> > Wolfram: well, now it would actually be useful to know which commit
+> > exactly is the culprit so maybe splitting the changes is not a bad
+> > idea after all.
+> > Kalle: which i2c bus driver fails here? Any errors in kernel log?
+> > Bart =20
+>=20
+> Hello Bart,
+>=20
+> i2c-1 and i2c-2 are failing. I am not seeing any i2c errors in kernel log=
+. I got two failures without the dmesg available (this is bugged test seque=
+nce, and not a kernel crash), but those got the same stdout message "Could =
+not open file ...." as all others.
+>=20
+Probably I am using the same host driver
 
-With PLL2 enabled, it was observed that Linux occasionally either hangs
-during boot (the last log message being related to the I2C probe) or
-randomly crashes. This was mainly reproducible on cold boots. During
-debugging, it was also noticed that the Unicode replacement character (�)
-sometimes appears on the serial console. Further investigation traced this
-to the configuration applied through the Versa3 register at offset 0x1c,
-which controls PLL enablement.
+tested on OMAP3 DM3730, result: i2c drivers get bound to their devices,
+no obvious trouble. But controllers are registered with high indexes.
 
-The appearance of the Unicode replacement character suggested an issue
-with the SoC reference clock. The RZ/G3S reference clock is provided by
-the Versa3 clock generator (REF output).
+localhost:~# i2cdetect -l
+i2c-3	i2c       	OMAP I2C adapter                	I2C adapter
+i2c-4	i2c       	OMAP I2C adapter                	I2C adapter
+i2c-5	i2c       	OMAP I2C adapter                	I2C adapter
+localhost:~# uname -a
+Linux localhost 7.0.0-rc1-next-20260227 #27 SMP Mon Mar  2 11:56:27 CET 202=
+6 armv7l Linux
 
-After checking with the Renesas Versa3 hardware team, it was found that
-this is related to the PLL2 lock bit being set through the
-renesas,settings DT property.
-
-The PLL lock bit must be set to avoid unstable clock output from the PLL.
-However, due to the Versa3 hardware design, when a PLL lock bit is set,
-all outputs (including the REF clock) are temporarily disabled until the
-configured PLLs become stable.
-
-As an alternative, the bypass bit can be used. This does not interrupt the
-PLL2 output or any other Versa3 outputs, but it may result in temporary
-instability on PLL2 output while the configuration is applied. Since PLL2
-feeds only the audio path and audio is not used during early boot, this is
-acceptable and does not affect system boot.
-
-Drop the PLL2 lock bit and set the bypass bit instead.
-
-This has been tested with more than 1000 cold boots.
-
-Fixes: a94253232b04 ("arm64: dts: renesas: rzg3s-smarc-som: Add versa3 clock generator node")
-Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
----
- arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi b/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
-index 982f17aafbc5..b45acfe6288a 100644
---- a/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
-@@ -162,7 +162,7 @@ versa3: clock-generator@68 {
- 				       <100000000>;
- 		renesas,settings = [
- 		  80 00 11 19 4c 42 dc 2f 06 7d 20 1a 5f 1e f2 27
--		  00 40 00 00 00 00 00 00 06 0c 19 02 3f f0 90 86
-+		  00 40 00 00 00 00 00 00 06 0c 19 02 3b f0 90 86
- 		  a0 80 30 30 9c
- 		];
- 	};
--- 
-2.43.0
-
+Regards,
+Andreas
 
