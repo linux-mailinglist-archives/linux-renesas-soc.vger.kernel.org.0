@@ -1,166 +1,146 @@
-Return-Path: <linux-renesas-soc+bounces-28658-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28659-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AHcBAAnDpWnEFgAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28658-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 02 Mar 2026 18:04:09 +0100
+	id MBg7GJbEpWnEFgAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28659-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 02 Mar 2026 18:10:46 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46ACC1DD789
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 02 Mar 2026 18:04:08 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 012B51DD94F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 02 Mar 2026 18:10:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7BF1331902B8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Mar 2026 16:47:48 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BD0983016538
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Mar 2026 16:54:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76B69426D02;
-	Mon,  2 Mar 2026 16:45:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="f0SLSt9W"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C1FC41C2EC;
+	Mon,  2 Mar 2026 16:54:57 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63110423A64
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  2 Mar 2026 16:45:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5ADBC3D7D78;
+	Mon,  2 Mar 2026 16:54:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772469957; cv=none; b=apmPkuPGynUqfqVcCzjYHN6rT9uLadabief0uUfyi3HLDnzCCCS6SpQF8O8D8plWW/kPwiFrxcAxmBVSaA1y25CAauh0jpEcFvX0F6fPQzrbXKoCE6KrGl8g5vqwVhiBkTtYoLVKtlb4TLQx6H1YfC+iUqgQOGL6H8zLQ+fvMlE=
+	t=1772470497; cv=none; b=go5n6c5GYIZhacPFOSccft3cNn2HFqpW98UjYeraqiZtZcDDQDdO8TzFgkTR4Hm1Nz4yOzEzm7ZX3fCZ+T3xLWSSjKTb3tYqCD6to+9VM3/upy8xsQKxb0Uapgj2mH0+nmS4iwVJ+01cmi6dxlFPpcGnxPlHdLDcMjT1IwDnr1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772469957; c=relaxed/simple;
-	bh=IY+pADVyOt4IdaEW2ITv8LOxR11XszCFtF7QuOEJw2I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FKifYGLoR4oIXw2bZYOMoGMMxngGBOcRoShLEb58UK9LXVKJPf8N2az7hXimWDOUrE3WOgbSw0U0JtTdK3oh0KAxLIolhWR50XSIW7adiFGh1FiX66Xsm+Hn9QWXX7jFv9RV6t6+lt9Mba7tDWb+/BpSaTv7P5RWrsbtCCUWH08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=f0SLSt9W; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=c4v1
-	pZVcK3gfnjvX6rdgcZ/Gtv2nmLUn3pkGZ+d3xac=; b=f0SLSt9WWEJrwyK7E+3d
-	vRthqUhVGtZ+I8dHZKJxLCaXsMoYHMGFRVFQCuySY2HL2oPcMaM+EMd8zkbfFI//
-	utxYoG9ScUAtdHxvz0rH2deoYmaX0XD1FRC9rS7FaLjnmvO2Qyp/TBhdnYr7Lb9W
-	FH7IqaqOEbp+M5J7d1kCPnJKHpt4HIax/TjG5JBb0Inu2BNifVPkYAxkpDClEDP5
-	Xnvjiiw0j4Ki7Yw+dHJPaFz6PoHMB2Og5NS8IYbjwSW7h9QV/tZZZXukTzKBRmJ0
-	oPF9BDIwxkMjhIiqFlKDiJybcTpliFh+Vr15mRJc2RAz9gePGjfD23+yy50cJKHy
-	ew==
-Received: (qmail 2759963 invoked from network); 2 Mar 2026 17:45:42 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 2 Mar 2026 17:45:42 +0100
-X-UD-Smtp-Session: l3s3148p1@ELdIUQ1MPCVtKXG8
-Date: Mon, 2 Mar 2026 17:45:41 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: phucduc.bui@gmail.com
-Cc: geert+renesas@glider.be, magnus.damm@gmail.com, conor+dt@kernel.org,
-	devicetree@vger.kernel.org, krzk+dt@kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	robh@kernel.org
-Subject: Re: [PATCH v2] arm: dts: renesas: r8a7740-armadillo800eva: Enable
- SDHI1
-Message-ID: <aaW-tf_lagkvPnq4@shikoro>
-References: <20260212073819.41304-1-phucduc.bui@gmail.com>
- <20260224074532.60046-1-phucduc.bui@gmail.com>
+	s=arc-20240116; t=1772470497; c=relaxed/simple;
+	bh=M+KWW9jtWNzuJh3BnQ4NQ9icmYIMfuXtVW2CigPCsx8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=It9xlxUt62RCDZcjOkI8dfL+C+R6VnHd4yh7qSBfRokHwLLkH02danC2GglXpFWdtJvrO6cOKV/MTOn+GUXvj9eoGW9KmxSiWdHLqAHXOK0wLdpnfE2K4t7uLncFk2s85QYKNFmUK84Lc+DaqByPX2NRlTiR9inDGzdRMe8Ly1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+X-CSE-ConnectionGUID: FwUjZZ3OTgaAZhCtl+FtyA==
+X-CSE-MsgGUID: NDMpaP98T8apridYVDL24w==
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 03 Mar 2026 01:54:47 +0900
+Received: from vm01.adwin.renesas.com (unknown [10.226.92.15])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 53FEF401C226;
+	Tue,  3 Mar 2026 01:54:43 +0900 (JST)
+From: Ovidiu Panait <ovidiu.panait.rb@renesas.com>
+To: geert+renesas@glider.be,
+	magnus.damm@gmail.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	mturquette@baylibre.com,
+	sboyd@kernel.org,
+	biju.das.jz@bp.renesas.com,
+	fabrizio.castro.jz@renesas.com
+Cc: linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-clk@vger.kernel.org
+Subject: [PATCH v4 0/7] Add versaclock3 support for RZ/V2H
+Date: Mon,  2 Mar 2026 16:54:34 +0000
+Message-ID: <20260302165441.4457-1-ovidiu.panait.rb@renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Q7wHeybMwUCoAZn8"
-Content-Disposition: inline
-In-Reply-To: <20260224074532.60046-1-phucduc.bui@gmail.com>
-X-Rspamd-Queue-Id: 46ACC1DD789
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 012B51DD94F
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-3.26 / 15.00];
-	SIGNED_PGP(-2.00)[];
+X-Spamd-Result: default: False [1.64 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[sang-engineering.com:s=k1];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[renesas.com : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-28658-lists,linux-renesas-soc=lfdr.de,renesas];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	DMARC_NA(0.00)[sang-engineering.com];
-	FREEMAIL_CC(0.00)[glider.be,gmail.com,kernel.org,vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	DKIM_TRACE(0.00)[sang-engineering.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	MISSING_XM_UA(0.00)[];
+	TAGGED_FROM(0.00)[bounces-28659-lists,linux-renesas-soc=lfdr.de];
 	TO_DN_NONE(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[wsa@sang-engineering.com,linux-renesas-soc@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[glider.be,gmail.com,kernel.org,baylibre.com,bp.renesas.com,renesas.com];
+	MIME_TRACE(0.00)[0:+];
+	FROM_NEQ_ENVFROM(0.00)[ovidiu.panait.rb@renesas.com,linux-renesas-soc@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.979];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	R_DKIM_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.816];
+	RCVD_COUNT_FIVE(0.00)[5];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	PRECEDENCE_BULK(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,renesas.com:mid]
 X-Rspamd-Action: no action
 
+Hi,
 
---Q7wHeybMwUCoAZn8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This series extends the versaclock3 driver to support registering multiple
+devices at the same time, and adds support for the internal freerunning
+32.768 kHz clock. The 32k clock is used on the Renesas RZ/V2H SoC as RTC
+counter clock.
 
-On Tue, Feb 24, 2026 at 02:45:32PM +0700, phucduc.bui@gmail.com wrote:
-> From: bui duc phuc <phucduc.bui@gmail.com>
->=20
-> The Armadillo-800EVA board provides an SD card slot and an AWL13 SDIO
-> interface connected to the SDHI1 controller. Routing between these two
-> interfaces is controlled by a mechanical DIP switch and a set of
-> multiplexers.
->=20
-> This patch adds:
->=20
->   - A fixed 3.3V regulator for SDHI1 power, controlled by PORT16 (G2).
->   - SDHI1 pinmux groups for data, control, and card detection.
->   - A gpio-hog for PORT6 (J5) to control the SDHI1/AWLAN multiplexer.
->=20
-> PORT176 (N21) is already configured as output-high in this DTS (via
-> lcd0-mux-hog), routing the SDSLOT2_ENABLE signal to PORT6. Since the
-> hardware includes an external 10k pull-up resistor (R94) on this line,
-> PORT6 is configured as an input to allow the physical DIP switch to
-> determine the routing without SoC interference.
->=20
-> Both configurations have been verified:
->=20
->   - SD card (CON8): detected as mmcblk1, high-speed SDHC.
->   - SDIO (CON14): detected as mmc1, high-speed SDIO.
->=20
-> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+The dts nodes for the RZ/V2H EVK was updated to describe the versa3
+devices found on the boards.
 
-I don't have any schematics for the Armadillo, but the SDHI parts here
-look good to me.
+Best regards,
+Ovidiu
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+v4:
+- Used the I2C device name to make the clock names unique, instaed of the
+  dts node name.
+- Dropped the RZ/V2N dts patch from this series, as the latest RZ/V2N EVK
+  board revision (v2) does not connect the versa3 chip to the I2C bus
+  anymore. The PCIe and audio cloks will be added when support for those
+  respective interfaces is added.
 
+v3: https://lore.kernel.org/all/20260203135139.28151-1-ovidiu.panait.rb@renesas.com/
+- Fixed a NULL pointer dereference on the error paths.
+- Added support for registering multiple versa3 instances at the same time.
+- Made clock names unique by prefixing them with the DT node name.
+- Rebased the internal 32k clock patch to match the new logic.
+- Added comments in RZ/V2H and RZ/V2N board dts to document rtxin_clk and
+  qextal_clk routing.
 
---Q7wHeybMwUCoAZn8
-Content-Type: application/pgp-signature; name="signature.asc"
+v2: https://lore.kernel.org/all/20260120150606.7356-1-ovidiu.panait.rb@renesas.com/
+- Added versaclock3 dts node for RZ/V2N EVK.
 
------BEGIN PGP SIGNATURE-----
+v1: https://lore.kernel.org/all/20251021175311.19611-1-ovidiu.panait.rb@renesas.com/
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmmlvrEACgkQFA3kzBSg
-KbZOVw//Q988XkJxW2Ccg/43h+HGuAzMancHAAX+v7PzK81HwYDWWHOaAoFno17h
-UwHY5AtByRlkWgXpv5KMgIDmfNYWuT+rhHZJTtlm9m3DNl1NCB77kI13QX2JNQzX
-UPN5JjjedVAsuvLwyRur5GAkLJuC7Sd+rnPC2q8rizRMkV+DMcn8UgBpKUHWfPiZ
-izZSl6MidBfz1KxWCMvYk4HjGdLM11HtVXcr7MZA9EN3Juf4YjYl3eV0MEkSEjri
-dGhN8Etks1wfiwvKcN691R9ciZjRQSEmnX9QLtLMBl2oi8Kqp78hv0KpbdGzEarS
-WLwiOks444mpXDTXyyFWSJo3H+fBNcYWwYieSfkowKcuI/4BsR1aJbc7Ik+OVgfJ
-356la+xEWGIg78hB0XmQ96FT6UZguseetCVbjU1tAalqcy22pUExAbvzwkTKDlNv
-Bonbv1ybva5BAhvj66+u2e+CWZRmORKOx0rC0+HVfB4nO9Q2HJlnG/6dTMCdWxta
-cek8GLMA+pmBzhFiUSyMISUhWMGpt3oJ7vTVefysg/I4wJQgovs1MiHG69wfrHiv
-T4al8EvRzW7dfQP42z4sW9QKaXqZkHdWqJWX1/QFsrYs/wPyztK1jQn/LOP0ax2M
-56tgd9hy6JnFAzK65op6wVaAWM0+r0RVLVljBTQwrNLAUfL3/GM=
-=QphJ
------END PGP SIGNATURE-----
+Ovidiu Panait (7):
+  clk: versaclock3: Fix NULL pointer dereference in error path
+  clk: versaclock3: Remove unused SE2 clock select macro
+  clk: versaclock3: Reference parent clocks by type and index
+  clk: versaclock3: Add per-device clock data structure
+  clk: versaclock3: Prefix clock names with device name
+  clk: versaclock3: Add freerunning 32.768kHz clock support
+  arm64: dts: renesas: r9a09g057h44-rzv2h-evk: Add versa3 clock
+    generator node
 
---Q7wHeybMwUCoAZn8--
+ .../dts/renesas/r9a09g057h44-rzv2h-evk.dts    |  25 +
+ drivers/clk/clk-versaclock3.c                 | 618 +++++++++++++-----
+ 2 files changed, 481 insertions(+), 162 deletions(-)
+
+-- 
+2.51.0
+
 
