@@ -1,227 +1,169 @@
-Return-Path: <linux-renesas-soc+bounces-28683-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28684-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MOoLL0qBpmn4QgAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28683-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 03 Mar 2026 07:35:54 +0100
+	id 2EVyM7KPpmnxRAAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28684-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 03 Mar 2026 08:37:22 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72F1F1E9AC1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 03 Mar 2026 07:35:52 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0282F1EA3CE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 03 Mar 2026 08:37:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 9541B301081D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Mar 2026 06:35:49 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 778F1304C96F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Mar 2026 07:36:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EF923845D1;
-	Tue,  3 Mar 2026 06:35:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="cAcUUDMu"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F29D130C63B;
+	Tue,  3 Mar 2026 07:35:58 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011061.outbound.protection.outlook.com [52.101.125.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84DA331D367;
-	Tue,  3 Mar 2026 06:35:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.61
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772519749; cv=fail; b=DW65/Dyl4JqJCDICa+iME2yFHC35xDg0niyW4XecboVh0nISEJj8w+KNW4E9yad8lEbO91RRfMSl+fcIOVbMNIMsPAr0VqD3QDUXeOTNDrqL0TLCUdUVw3eLusvHKwalDeBinKVWXWXXZfOJcghRJK/qNFF0Y1S7AuPU/rMoVkA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772519749; c=relaxed/simple;
-	bh=6gB3Em1Z1xzYljvUkd7eZQjSpfs9YGQCS1OKY091Ix4=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=CTZgRtQjeWbpXI90qlusBiMUlRnXPBY42xwODQ2KZ7+3Ch3mWtBqQct0xpflvVXfUxtWXPpTqhysRK7OsmJs43F1QO/sWWrFu+bGvhmq8S/59VoqJbZREXII/zgb0955HOzR9PrTAQMKM6RHgod1x/Fp4ITEakgnN++Q+yz9vDw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=cAcUUDMu; arc=fail smtp.client-ip=52.101.125.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QAb8i0sPYCtgxEqowBZGNwUsJFwfgRv0epPXnnVITPjnbKF0pKI7LeTh1eXPrlYFf5uAyfAduX+E+y89CckVWdCsNqb+8uz0TDYULnjAs30BqF6XzMiDKKnYQoONE6Y+vAiUrxugaR1tb/3ZyMgpqxNTp/lbRlkiOqsnuPXvaqT3XBAk/r7PF94JSoaDI8USyxKIsK13+X1LHBR8gzPLDTQS3hxWKRpmJixzeHVGrarZOe2hGHsmLlpZzAsuMg7IbOrUZfoG0o1k1L4fKnayF255nvABtfbil3HL8VIqJXoJlBUoNPIj6e/zi3X6Q/3MIESv9EqkhenVQ8iv5p4kKw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6gB3Em1Z1xzYljvUkd7eZQjSpfs9YGQCS1OKY091Ix4=;
- b=QUguXJqkmWphPAntGaSuUAbKWJawZo1xtTRQy1ectSnCc2T42K/BL2fSXI1ggEior57BciFUpkKzpppMxDXiEkUyyoCovxHy5Kh3u85lCLH/N+81yjyNIalOkiPLSBDi7oqxLW0QkjO3NYP5qqm9acqNFqTbGm+/C9HzUhHwHEWfDp9bXafCGHa/VvX4R8suvNH1RaHHV5hZuV6vTFqwqyXLezZexGljuSmCEsDfNtVsHOxHL1XdO8IR7gxccC8XHqgqXs/AG/16LL4YXTtRXY3HvIo8dwGnTt6+P1Z2YFC4xB7mjoGvXA/8GROo23J0AP+yH2cn1Zl3sWfi3DWbWA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6gB3Em1Z1xzYljvUkd7eZQjSpfs9YGQCS1OKY091Ix4=;
- b=cAcUUDMuMQFixbavDOAklLTdVpk6EuzfHXZozcaRq1eIuRfJoY9buiaXeurXuf8J+u7IoxB1Y3uDkC7AamPY4DuqsyZf2ncyk6Ti3GMj7V04tGRVOtwBhYsFk3+nn3rbGcVWr4uobo9jvaKJIme/i1M8mMbXDGn62jmmzYyrXjc=
-Received: from TY6PR01MB17377.jpnprd01.prod.outlook.com (2603:1096:405:35b::6)
- by OS9PR01MB17219.jpnprd01.prod.outlook.com (2603:1096:604:40d::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.21; Tue, 3 Mar
- 2026 06:35:45 +0000
-Received: from TY6PR01MB17377.jpnprd01.prod.outlook.com
- ([fe80::f373:26d6:86c4:6aa3]) by TY6PR01MB17377.jpnprd01.prod.outlook.com
- ([fe80::f373:26d6:86c4:6aa3%4]) with mapi id 15.20.9654.020; Tue, 3 Mar 2026
- 06:35:44 +0000
-From: John Madieu <john.madieu.xa@bp.renesas.com>
-To: Claudiu.Beznea <claudiu.beznea@tuxon.dev>, Claudiu Beznea
-	<claudiu.beznea.uj@bp.renesas.com>, "lpieralisi@kernel.org"
-	<lpieralisi@kernel.org>, "kwilczynski@kernel.org" <kwilczynski@kernel.org>,
-	"mani@kernel.org" <mani@kernel.org>, "geert+renesas@glider.be"
-	<geert+renesas@glider.be>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>
-CC: "robh@kernel.org" <robh@kernel.org>, "bhelgaas@google.com"
-	<bhelgaas@google.com>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
-	magnus.damm <magnus.damm@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>,
-	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-	"john.madieu@gmail.com" <john.madieu@gmail.com>
-Subject: RE: [PATCH v7 11/15] PCI: rzg3s-host: Add PCIe Gen3 (8.0 GT/s) link
- speed support
-Thread-Topic: [PATCH v7 11/15] PCI: rzg3s-host: Add PCIe Gen3 (8.0 GT/s) link
- speed support
-Thread-Index: AQHcp/6HFvMGp9Sx9UuT4qAndDWP9rWbclSAgADtbSA=
-Date: Tue, 3 Mar 2026 06:35:44 +0000
-Message-ID:
- <TY6PR01MB17377C5D0EF8CBE1C98DD8C32FF7FA@TY6PR01MB17377.jpnprd01.prod.outlook.com>
-References: <20260227153236.55988-1-john.madieu.xa@bp.renesas.com>
- <20260227153236.55988-12-john.madieu.xa@bp.renesas.com>
- <3b30df38-3a68-4d1b-9e61-77a80d3fe8a2@tuxon.dev>
-In-Reply-To: <3b30df38-3a68-4d1b-9e61-77a80d3fe8a2@tuxon.dev>
-Accept-Language: en-US, en-GB
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY6PR01MB17377:EE_|OS9PR01MB17219:EE_
-x-ms-office365-filtering-correlation-id: b4b98e04-562b-4acb-150d-08de78ef1909
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|7416014|366016|1800799024|38070700021;
-x-microsoft-antispam-message-info:
- SPVc31Po/l4o9GYwxEn+u4CHamzD3FnTHRvmH/WxP0tK1/nzchRwmRmGhpGmi/E8dF4xSV/ERXC8HG1OEup2gcgJkWk/5gdmyFSwChvvydEqPoLDdG+T3p5DoISCgpfojrwXgB2koxCAqZ5HSZYBteItJxYJivg7sTRjWKi+mQbZ/LV/u5NfKcP7YDV635Q8OujbRMNH5nTk+2GsVRXEjpTBGLDzCR9XEn0Zhh6vB3acP4nkWrh4QKVlV/YiJXj0W6Pc/Jv0YZ700IoUab+6590ZahWF6FVVblao+56Cqa94gIcfRQrE9bQwKBoB4jNqSyW141e6bxtkorIaDhFGck1XUXvFku6B9cL6DvFCN8KIzB00VB3hEIqNOW+7ynBqASyHT2/oUEjXeKVo9WW43krlrrtEK0i5TT2kTzAK5i9LbXYkMTcGDpMQ5s+Xyvjzxpr/Ii2Ctpuu/FsCCSz/JpM6e5XSJrvQH+G4fKF0UCJLNUI89YVRTqJEZ+IVtM302NCCVgL257mXwjaiMbSI4k2hqsPc6nfV7BlPPypqRo0z/AqRKFRdtoUilhhrHr9UlYcBJSA4gcvGw1fn13EN1VY4WBKJ/WFgcKNZriBrqpE1tctPIR70qIo8/JpruOKqhVUH0/gpMBTPURX6/hKImayhYranxgRNzejBzfLaqKXDFZ8qZyuT8jSQhnRnh97p8GJJnVsWOZNLGXMR6D9Vp8H3XThSodlEHjig9dFftPGeNTGOX1WbUAaKUWo7PBvxXegFU0OKmepSWfhU4tK96jA4+1zY/8K77H7dwy1l5O8=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY6PR01MB17377.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?TjdjZzJDcXgybnZ4MjQ4SmZiblYxM210TXdKZEJMOTk5L2x6YlNnSVdna1BE?=
- =?utf-8?B?WXRQNmtjbVljcmdnc2JYY0FtS1lXRU8wOHJFYnVRQld3emY5eklpRmNsT1RK?=
- =?utf-8?B?U09xQW5Xek0rK0NocGxaNFA1QkZ4Q3NDT2o5WW9WNHNkNElwSmZPbjZmVEhE?=
- =?utf-8?B?QTdUb2doTGVrdm1mbnpuYmdHTjd2dXdNdkxsbEphSFZvaGsrNitZUjRtTzda?=
- =?utf-8?B?eExBUXBXS0IyVk9QdGpROWwyaXdZdnFvVExqMVRUMnVlUkFYQ3krUGJyTGtM?=
- =?utf-8?B?ZkJCenRjN0Zoa3VjTUt6QkpXYkUzeTlQbUVOQWFla3VKcGNmZ1FsN3NIc1NI?=
- =?utf-8?B?cXl5TGdOT0hIRDVFYWk3ekhsQ1dmaTlmRmI3MjJkTlNQVXNKaEZCcjUvZERn?=
- =?utf-8?B?emZhWVJ3ckJzMkhDTTh2dm52YzBFdkRNYVB0U1NUMG1FOE1ZaHJVUi8zVlpp?=
- =?utf-8?B?QXJWSTN3YkRiV1Z2OVpWUXAxWU5vbGd0UWdaWnJHM3NTcjliK1NWT2phZUcz?=
- =?utf-8?B?dlozcWFKeS9lOUo4NGtaV3FhRC9FOHB4Y0pKMlY1ZUNOSndwRThtWnovczAx?=
- =?utf-8?B?bi96LzFCRGx3QlFUeXhxWnRPUWNCQnZsTSszWW9lYTE3Ni80aWtUTzh4Y2Jo?=
- =?utf-8?B?MHNSRzZkUXA1OUkyTm91RnM0OGczTHM1NFhwdFZoTVFUa3BhTGY1QUVWWUZB?=
- =?utf-8?B?eTBoTHg3Nm80WUtCNWd3dmovU0JjdTZJOHUrY3VLMnNLMDUxSTdBZHM4M0dT?=
- =?utf-8?B?RUx4b2piaU5iOWxSSnkvTkxkWVdHbkFYaDVkQ1Z2WE9ITkNOY2Z2djJHdHBF?=
- =?utf-8?B?VlFqQk5DVjZvOFRTcW1QZ1BFS3NubVI5aFE0UjZOdzVXUDY0cFcwY1ZyUHdu?=
- =?utf-8?B?UjloK1Z6dGUyTmpEUVZ6ZE5SdVNObFUrdjliK3ZNVU9Pc2xtMGZqWXlXVWhC?=
- =?utf-8?B?UWRKMGlhWnhEVmJDOVVzV2lIU3JNK2dwT3VKL0xLL1BOajlRME1hcCt1VCts?=
- =?utf-8?B?VEZ3UE9Hay9iNTZvUWJjc3VLMzBxa1UvRXBOb0tNUllVRTQ4amNDMzN6RnJG?=
- =?utf-8?B?YnZ5YXdKdUx3d3dyVG5jVjJ3cnVkTDZLQmZGYll3UnRjdS9wODVVMGZ1V0lq?=
- =?utf-8?B?aE5pU2g2ejlOc1dtbS9xYTkyNCsyOTFYTEp5QUVmL25PVkZSZXBhL0VZZkh4?=
- =?utf-8?B?SjNlYW1vM1RRbTl4dDdWRzFEYk51SC9vYVdVamMzeDNnSmlCWFpvVlh3Y2gx?=
- =?utf-8?B?MGtycHFxbTNYSjFaTTBLM0hxU0l4N0VCY0FxNVlmdzB5Y0xNeHlqcG1majlT?=
- =?utf-8?B?TWJBclpMREZROTBwbEo5cFhYNTloNU9tRiszTVVnNk9oTW1SUUFRR0crdThD?=
- =?utf-8?B?MldHaHFiSEFkeGt3Z29maWZ5SC9iYk9naDZPY0Vrdm5EbFVBdjlZT0Q0Z0d2?=
- =?utf-8?B?UnlPekRGQ1B5eERJZS95RFA0c3U4R0VDb3AzeE85QW1EbjhPZ1RRMVErYXdG?=
- =?utf-8?B?cEZGYTQ5ZmVDLy9WYkQrQWI1V0NRYS9BYk9rdkdGK3U0ekh4N3lqSFl4Nzc0?=
- =?utf-8?B?c0FkcFRHUkpVRTRET1ZhSCt4TEpZR2l2SlhidlQvZDd3VFY2OWJRTml1TUx4?=
- =?utf-8?B?K09kSjk2RlRyQ0VYUEViSGJhRHIxTEVoZ2lzUEJEMitUb3M4UGQ1MXhhZDRn?=
- =?utf-8?B?bzI5S0EwaUQvVTgvUWE2Nklrbi9MaUtlaE1iSzkzTGdvUGQ1cjgwR0Vpbm9H?=
- =?utf-8?B?VnlveE5QeXgxcjh6RnR1R2hFMUpiWEJ6L3doMFE1Y0FmemZKWjJSVVJEL1po?=
- =?utf-8?B?OWxkandScFpoUmEvTGN5ZWtPcDY2TmJEWmNLMG5Xd0czRDBRdDFGa0NJYXF6?=
- =?utf-8?B?UGxvRU9EeVVBQ1pMbTdpSFpESEwxOHBzeGw4bVkvTEltTU5xZkx2RzVaUDNM?=
- =?utf-8?B?QmxhZWxLZTlyMmNIVStYeERvUk9lbW9XbGU2Z1NuR1BNUlpQRnZ0aUduYmhm?=
- =?utf-8?B?Q09ZUHhmZ0IyNnRqL1g0SUVkYXJPVnd1NXJqcnJMNFhRU1ZtVU50N094eXFw?=
- =?utf-8?B?VXg5YTJ6MzFhbW1yOW9WMTY1MmZLQkxwOTc4T21wejQyUlNMTU1BdExJRE5E?=
- =?utf-8?B?V1JRaGtxRVNFYXliMjM3YUs1Tkh1VmlHL1lJOGVPd1Znc2poUzZnaWFHWDNz?=
- =?utf-8?B?TlFJcFVKdTVaUTVPMTAvYmkwZG95VVUxVVlJYkl5d3F1ZHQ4cENyV3NBanZq?=
- =?utf-8?B?NjZEa29MNmNsQ2FoTlNqV2RIU0hNM2xMUEhqTWRWTmNuVWVQRWRCSWx5dTc0?=
- =?utf-8?B?NUxHd1RJdCtiaGNlaWJWbEtuUUNzU3cvZGtIb04vU25Ncm5QNk9BNkwwRU1J?=
- =?utf-8?Q?1fZHLVY3xQn+JGZU=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from zg8tmja2lje4os4yms4ymjma.icoremail.net (zg8tmja2lje4os4yms4ymjma.icoremail.net [206.189.21.223])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DB202FF641;
+	Tue,  3 Mar 2026 07:35:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.21.223
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772523358; cv=none; b=km+jayQmU9+jNQra+E5W1Bnm+bQ/V9LkKvRqZVNZST3KkridZQEr7fHZ1VCSlojwpxfMCiECKXFGyWdcgmVTDbQrrG7cExpXHBs6n8OLWsfpg0s1Pkd+7X8F7/gWgIoUBf5+n9IFOwcxf1tGmuRfm4lf9C2eNcurRy1ZPCLUJ7Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772523358; c=relaxed/simple;
+	bh=6RkYdmxbx+pPZJYPNhL0TiA+j/uhNhn1kXS00ieT6qM=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=abdFNH1N3Q+lRK3TTaVxY9cio7FgxxLohg/jvL7RgnU31bKQGVAGhaANIyYx8EhpwFdjDAS2Hr8tGNQfSVUXpvl7BBEU1/WqH8JEeG8Y9JGfgPR9zW73n17XHWPXFXORRicSGV61/AcZn7JNzhmI3xr8PuQs074QqKRi9ahdXgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=206.189.21.223
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
+Received: from zju.edu.cn (unknown [10.98.66.117])
+	by mtasvr (Coremail) with SMTP id _____wA3UIZKj6ZpXW79AA--.4295S3;
+	Tue, 03 Mar 2026 15:35:39 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.98.66.117])
+	by mail-app2 (Coremail) with SMTP id zC_KCgDnSz5Jj6Zpg3EXBg--.6544S2;
+	Tue, 03 Mar 2026 15:35:38 +0800 (CST)
+From: Fan Wu <fanwu01@zju.edu.cn>
+To: yoshihiro.shimoda.uh@renesas.com,
+	stern@rowland.harvard.edu,
+	gregkh@linuxfoundation.org
+Cc: claudiu.beznea.uj@bp.renesas.com,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	kuninori.morimoto.gx@renesas.com,
+	geert+renesas@glider.be,
+	linux-usb@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Fan Wu <fanwu01@zju.edu.cn>
+Subject: [PATCH v2] usb: renesas_usbhs: fix use-after-free in ISR during device removal
+Date: Tue,  3 Mar 2026 07:33:44 +0000
+Message-Id: <20260303073344.34577-1-fanwu01@zju.edu.cn>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <db402599-e105-45d7-82b1-0216b6f5e729@rowland.harvard.edu>
+References: <db402599-e105-45d7-82b1-0216b6f5e729@rowland.harvard.edu>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY6PR01MB17377.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b4b98e04-562b-4acb-150d-08de78ef1909
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Mar 2026 06:35:44.5633
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: OAjUBbeb+GGlpzFn+4D1TySAHCKT3MJoPiSTZX2hnm/kztxOnmwj8Vf/OlppetwsW0cFxY6vFg08pEBC5piiBZ/+e0TteQ+RpH4npAYlhWk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS9PR01MB17219
-X-Rspamd-Queue-Id: 72F1F1E9AC1
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zC_KCgDnSz5Jj6Zpg3EXBg--.6544S2
+X-CM-SenderInfo: qrstjiaswqq6lmxovvfxof0/
+X-CM-DELIVERINFO: =?B?aYjHSgXKKxbFmtjJiESix3B1w3vZ3A9ovKVTomAyoQazvoRs/NHSP8GI2EvgeEEW7R
+	sfncp7Oa4RjKRyNF7NkJaR8oIeD53r/O4AKTiBwD/dtqtv2NTNgAaF/ubij9N4b2NUrcwH
+	/wVBClYzN2bJohOYX+0=
+X-Coremail-Antispam: 1Uk129KBj93XoW7ArWUAw4xuFy5Jw1UZr15ZFc_yoW8tw1xpr
+	W8Gay5GrW0qr1j9F43Aw48ZF1ruanYgrWUu3s2k3yfZw1aya4DAr1F9a4jgFy5A3srtanF
+	krnay3Wrua4DCrXCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUP0b4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
+	xVW0oVCq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804V
+	CY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AK
+	xVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48Icx
+	kI7VAKI48JM4x0Y48IcxkI7VAKI48G6xCjnVAKz4kxM4IIrI8v6xkF7I0E8cxan2IY04v7
+	MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr
+	0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0E
+	wIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJV
+	W8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAI
+	cVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU85l1PUUUUU==
+X-Rspamd-Queue-Id: 0282F1EA3CE
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [2.44 / 15.00];
+X-Spamd-Result: default: False [1.54 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	MIME_BASE64_TEXT_BOGUS(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[bp.renesas.com:s=selector1];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	MIME_BASE64_TEXT(0.10)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-28683-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	FREEMAIL_CC(0.00)[kernel.org,google.com,gmail.com,bp.renesas.com,vger.kernel.org];
-	DKIM_TRACE(0.00)[bp.renesas.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[john.madieu.xa@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-28684-lists,linux-renesas-soc=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[zju.edu.cn];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[fanwu01@zju.edu.cn,linux-renesas-soc@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	PRECEDENCE_BULK(0.00)[];
+	R_DKIM_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.960];
 	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	NEURAL_HAM(-0.00)[-0.999];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,renesas.com:email,bp.renesas.com:dkim,TY6PR01MB17377.jpnprd01.prod.outlook.com:mid]
+	RCPT_COUNT_SEVEN(0.00)[11];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,harvard.edu:email,zju.edu.cn:mid,zju.edu.cn:email]
 X-Rspamd-Action: no action
 
-SGkgQ2xhdWRpdSwNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBDbGF1
-ZGl1IEJlem5lYSA8Y2xhdWRpdS5iZXpuZWFAdHV4b24uZGV2Pg0KPiBTZW50OiBNb25kYXksIE1h
-cmNoIDIsIDIwMjYgNToyNSBQTQ0KPiBUbzogSm9obiBNYWRpZXUgPGpvaG4ubWFkaWV1LnhhQGJw
-LnJlbmVzYXMuY29tPjsgQ2xhdWRpdSBCZXpuZWENCj4gPGNsYXVkaXUuYmV6bmVhLnVqQGJwLnJl
-bmVzYXMuY29tPjsgbHBpZXJhbGlzaUBrZXJuZWwub3JnOw0KPiBrd2lsY3p5bnNraUBrZXJuZWwu
-b3JnOyBtYW5pQGtlcm5lbC5vcmc7IGdlZXJ0K3JlbmVzYXNAZ2xpZGVyLmJlOw0KPiBrcnprK2R0
-QGtlcm5lbC5vcmcNCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2NyAxMS8xNV0gUENJOiByemczcy1o
-b3N0OiBBZGQgUENJZSBHZW4zICg4LjAgR1QvcykNCj4gbGluayBzcGVlZCBzdXBwb3J0DQo+IA0K
-PiBIaSwgSm9obiwNCj4gDQo+IFNvbWV0aGluZyBnb3Qgd3Jvbmcgd2l0aCB0aGUgcGF0Y2ggZGVz
-Y3JpcHRpb24gZm9yIHRoaXMgdmVyc2lvbi4gU2VlDQo+IGJlbG93Lg0KPiANCj4gT24gMi8yNy8y
-NiAxNzozMiwgSm9obiBNYWRpZXUgd3JvdGU6DQo+ID4gRXh0ZW5kIHRoZSBsaW5rIHNwZWVkIGNv
-bmZpZ3VyYXRpb24gdG8gc3VwcG9ydCBHZW4zICg4LjAgR1QvcykgaW4NCj4gPiBhZGRpdGlvbnZ0
-byBHZW4yICg1LjAgR1QvcykuIFRoaXMgaXMgcmVxdWlyZWQgZm9yIFJaL0czRSBQQ0llIGhvc3QN
-Cj4gDQo+IHMvYWRkaXRpb252dG8vYWRkaXRpb24gdG8NCj4gDQo+ID4gc3VwcG9ydCwgd2hpY2gg
-aXMgR2VuMyBjYXBhYmxlLg0KPiA+DQo+ID4gSW5zdGVhZCBvZiByZWx5aW5nIG9uIERUIG1heC1s
-aW5rLXNwZWVkIGZvciBjb25maWd1cmF0aW9uLCByZWFkIHRoZQ0KPiA+IGhhcmR3YXJlIGNhcGFi
-aWxpdGllcyBmcm9tIHRoZSBQQ0lfRVhQX0xOS0NBUCByZWdpc3RlciB0byBkZXRlcm1pbmUNCj4g
-PiB0aGUgbWF4aW11bXZzdXBwb3J0ZWQgc3BlZWQuIFRoZSBEVCBtYXgtbGluay1zcGVlZCBwcm9w
-ZXJ0eSBpcyBub3cNCj4gPiBvbmx5IHVzZWQNCj4gDQo+IHMvbWF4aW11bXZzdXBwb3J0ZWQvbWF4
-aW11bSBzdXBwb3J0ZWQNCj4gDQo+ID4gYXMgYW52b3B0aW9uYWwgbGltaXQgd2hlbiBleHBsaWNp
-dGx5IHNwZWNpZmllZCwgd2hpY2ggYWxpZ25zIHdpdGggUENJZQ0KPiANCj4gcy9hbnZvcHRpb25h
-bC9hbiBvcHRpb25hbA0KPiANCj4gPiBzdWJzeXN0ZW12ZXhwZWN0YXRpb25zLg0KPiANCj4gcy9z
-dWJzeXN0ZW12ZXhwZWN0YXRpb25zL3N1YnN5c3RlbSBleHBlY3RhdGlvbnMNCj4gDQpXaWxsIGZp
-eCB0aGUgYWJvdmUgdHlwb3MgaW4gdjguDQoNClJlZ2FyZHMsDQpKb2huDQoNCj4gVGhhbmsgeW91
-LA0KPiBDbGF1ZGl1DQo+IA0KPiA+DQo+ID4gUmV2aWV3ZWQtYnk6IENsYXVkaXUgQmV6bmVhIDxj
-bGF1ZGl1LmJlem5lYS51akBicC5yZW5lc2FzLmNvbT4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBKb2hu
-IE1hZGlldSA8am9obi5tYWRpZXUueGFAYnAucmVuZXNhcy5jb20+DQo=
+In usbhs_remove(), the driver frees resources (including the pipe array)
+while the interrupt handler (usbhs_interrupt) is still registered. If an
+interrupt fires after usbhs_pipe_remove() but before the driver is fully
+unbound, the ISR may access freed memory, causing a use-after-free.
+
+Fix this by calling devm_free_irq() before freeing resources. This ensures
+the interrupt handler is both disabled and synchronized (waits for any
+running ISR to complete) before usbhs_pipe_remove() is called.
+
+Fixes: f1407d5c6624 ("usb: renesas_usbhs: Add Renesas USBHS common code")
+Suggested-by: Alan Stern <stern@rowland.harvard.edu>
+Signed-off-by: Fan Wu <fanwu01@zju.edu.cn>
+---
+
+v2:
+  - Replace disable_irq() with devm_free_irq() as suggested by
+    Alan Stern. While disable_irq() only masks the interrupt line,
+    devm_free_irq() (via free_irq()) implicitly calls synchronize_irq()
+    to wait for any in-progress handler to complete, and also ensures
+    the interrupt is fully unregistered. This prevents both future
+    interrupts and pending handlers from accessing freed resources.
+  - Verified the fix in a QEMU environment with KASAN enabled.
+    By injecting a delay in usbhs_remove() and using a high-frequency
+    timer to simulate concurrent ISR execution, the original UAF
+    report was reliably reproduced and is now confirmed to be
+    eliminated with this patch.
+
+ drivers/usb/renesas_usbhs/common.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/drivers/usb/renesas_usbhs/common.c b/drivers/usb/renesas_usbhs/common.c
+index cf4a0367d6d6..8c93bde4b816 100644
+--- a/drivers/usb/renesas_usbhs/common.c
++++ b/drivers/usb/renesas_usbhs/common.c
+@@ -815,6 +815,15 @@ static void usbhs_remove(struct platform_device *pdev)
+ 
+ 	usbhs_platform_call(priv, hardware_exit, pdev);
+ 	reset_control_assert(priv->rsts);
++
++	/*
++	 * Explicitly free the IRQ to ensure the interrupt handler is
++	 * disabled and synchronized before freeing resources.
++	 * devm_free_irq() calls free_irq() which waits for any running
++	 * ISR to complete, preventing UAF.
++	 */
++	devm_free_irq(&pdev->dev, priv->irq, priv);
++
+ 	usbhs_mod_remove(priv);
+ 	usbhs_fifo_remove(priv);
+ 	usbhs_pipe_remove(priv);
+-- 
+2.34.1
+
 
