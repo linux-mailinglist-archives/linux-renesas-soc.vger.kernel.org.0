@@ -1,150 +1,162 @@
-Return-Path: <linux-renesas-soc+bounces-28711-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28712-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gF0/BmXmpmnjZAAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28711-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 03 Mar 2026 14:47:17 +0100
+	id +Kr0Nc3npmlWZgAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28712-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 03 Mar 2026 14:53:17 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCD901F0A47
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 03 Mar 2026 14:47:16 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CF971F0CA0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 03 Mar 2026 14:53:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 6E0B53048D9A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Mar 2026 13:45:34 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 64EC031525D1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Mar 2026 13:46:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35E9230DD2A;
-	Tue,  3 Mar 2026 13:45:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A01A226A0A7;
+	Tue,  3 Mar 2026 13:46:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="J4/2zGuw"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8D2C261B6D
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  3 Mar 2026 13:45:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30C3C30DD2A
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  3 Mar 2026 13:46:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772545533; cv=none; b=uo6tE4pKZg5K9kYs43cCz5/8k9+AdCh2Tp1cOGfqqWqyg2zBqFt1BTrayTRGqpIGd9Y9kaUoH5kAQK7KI2fAech+yum4aVrem+DKK0LgkGLNUHEz/YQLr+g/Nl2f/bYqQ1dcyA7wln6i4OL0fHNp6MPN5Tfnamu5/mCT3Dg4Nx0=
+	t=1772545598; cv=none; b=aGStVT7eP9OdpO1yQWq+0C4VL4eslMW2MLHzWcodu4N6UTEh7sJklgWUorVZx4+4O1t9mY7kfG3tcBPXux9bvUOO4uJRxGFdd7cy11ve/U64JELxKdaWV6s5gwGJBXsd6FR5356obpTZhT1w/UaRTVpxAQ8mGPEgfSVgGbDHNw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772545533; c=relaxed/simple;
-	bh=SNR2xpDpa8W7QuRujmnxUoyX2RpkimCf5xkJXD338gI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EKJkQ2ecV14+odOBbge+6XlKC7Xf4/6rEkMPDC3JGPWsMHWD9kJMZ6ls+QzpGbeZZR8y3+O6JqmTPqnJzHw/jR9nUfruqOPgeBq/BdUwnnCwGpRnHosKp7AOEtien8xkU4vd3APrFMiBm7EAz173+T3f/tfuNk/+30586UbogbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-5ff9d225a0eso145280137.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 03 Mar 2026 05:45:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772545531; x=1773150331;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mkmGwXveHkztkZyIBSY0oYR0tIf3nTxHZrajuRtCfLY=;
-        b=beG179FG9BozlBe1RgBcvN0xF15mB+kvpHy2ynm+KHfvnreJwKlK/683aPPEV283N9
-         zPjUEStKpfeJZtQ3hKIUyPV/n3VBmk3eJWcS6he1Fj2tgqaSxktdP/u6z/mMMuH8tvo0
-         gm5dbZLwwknyIh5VdOsQq18FPOzEYZVN/cd1Jec0fvvpmeOUSV31z1UYXOni5t3oLbzL
-         /jHBjzIF0iT49FckznMc+9n9ioE8cix5TuYZadOZgxvkYRvhhgVE8YaeTxb9H+YQZS1o
-         RRO55pOGQIlVUDpv6TM9A4r/pIlAN0G5cqD5QgePAOiysk4/93qyTilX+g7Jg2pjZxbU
-         hpWQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXUFDF8t0ZpGCAz2gbYa22no4PPtsgPt7hpgbSmhuuMc/tEDqCUPyoipZF4gkQzYA+Zs5LCywWNOr/0IsGEVEHWiw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzbqgz+fs/KwtVFoE+PKCLBUT7loXyO/X8YROzDBq3Duhd7zZJG
-	2NeGP7C/lvT0StOdElQhTYmi29m9osmQeEYUfXus1UUJ9n0Yk3LwxJOcWWgEH/HU
-X-Gm-Gg: ATEYQzyQ2OlQNnYKykmBYWbduzuX9mC1N6sChhLx36sGTdWvbRwOzftXhXthyNNHI1C
-	vtueTbirpKVJ76sDm2JTkxX0fLL6t6SS+ErO8mouXKjgVa374KsMikdl/y3dzql0YpRVOFaq8rR
-	T803zNbOLw1s0CDnuSitPmj0ICBVKztWmngifCosa5TuZT6VPwQCf3t6AlUiSScnBOFgLMGV7Tc
-	0CVvjMVMRnsm807QnOiHoSO62d+y3zEYeSGQI1HyND9mcAuM+IEagfIkI+jOM3jUIPG+p1EG2mb
-	6V+qVCxFz5Ki8KZHe2BQd/WnhbeAqPXBOHRyZm3fRdJPfUnxRSfzHp2DC9ioudIsBhW//qDZNZ1
-	J9qpRApwty+s988GQN1ng3fb8gxb5vC6J5YO/ZLsdnTwPmKtFOD2sEiW8fyGg4wuVR/0qeG5cjl
-	X2P9L9wmDVgfyXIjy7aLXFz5wOB8qXQOyxz8cGyQVLZARVgE6m27QMugkhikOs
-X-Received: by 2002:a05:6102:390a:b0:5fe:c17:a2aa with SMTP id ada2fe7eead31-5ff322d3488mr7931825137.5.1772545530823;
-        Tue, 03 Mar 2026 05:45:30 -0800 (PST)
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com. [209.85.217.51])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5ff1e3e6013sm17013031137.0.2026.03.03.05.45.30
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Mar 2026 05:45:30 -0800 (PST)
-Received: by mail-vs1-f51.google.com with SMTP id ada2fe7eead31-5ff9d225a0eso145266137.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 03 Mar 2026 05:45:30 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWi2dH2Dl7qh72DWQPHFcEJjJRpW/0JkWBBfiAvvQCohiL6HzjfAw1jYBrKVvp+xhwozw1Os1Da+N6JPDqQtpSa3g==@vger.kernel.org
-X-Received: by 2002:a05:6102:c47:b0:5f5:487c:83d2 with SMTP id
- ada2fe7eead31-5ff325d53c9mr7848373137.38.1772545530401; Tue, 03 Mar 2026
- 05:45:30 -0800 (PST)
+	s=arc-20240116; t=1772545598; c=relaxed/simple;
+	bh=tziw53490D9dLBPgoajUHk6E3hNYGEt7eHXmICjRHUw=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
+	 References:In-Reply-To; b=bJWHjABUMh8F32fKPrR96OYmJtIoKJlfwuc+8dqjTbpbO7IJP065NxnykY2WYcMFgzho/n+gWz8LWZU2A9KqwbZwLBKImsspQDcIaSQVKBH5snXoh7DhWwG77InEWaDFCbfTnNoc1QmDahtdzS0Gqpgbc1dToR8LG3qp4VitMGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=J4/2zGuw; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id B335A4E42500
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  3 Mar 2026 13:46:35 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 822595FF87;
+	Tue,  3 Mar 2026 13:46:35 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 70C2C103695E2;
+	Tue,  3 Mar 2026 14:46:32 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1772545594; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=XDRpvBtYzC34KJ2LgpsbI01brcrkDd6rfNwNv6anEv4=;
+	b=J4/2zGuwaWqYyv4I21zejYDFYxBN3Fgy20I5xGwVPpjl9rTCySOIPU1yAmxpx6GO2LYyWo
+	YvuF9uPEme6AhEz0Vvi8qsfc7T5TRUg8upSniC3XxWz8DnQKwwQUrof8aF2+ZU1w3bpPbV
+	2nVnd1EW0elrOOUtsDxqCyrm6DpShSOORtOfYxT/MLmeYWuOPn0iHWFbAlTyHX1xVu0IIz
+	C3DAtx3GG3LpKZE5RycUx0GGBSTf4Uyg9X9Q+Ky9LayNVrIEn6q/ZlRH++TuCsDvlFcw78
+	pfCLugJLBnJN1lcYW8pM5ADAEKGqzx/tA2xPrDKkIwTesFYKPtRA8kDO81dBfw==
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260213131742.3606334-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20260213131742.3606334-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20260213131742.3606334-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 3 Mar 2026 14:45:19 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVxz_PywgAAJk-ogGtQSxokw0=Rdd6QRU9kuFm5ZfdkpA@mail.gmail.com>
-X-Gm-Features: AaiRm530N02eB2qKZhtE3cDoZ7vWzVsvl_vuwpysdaQWZ03UidaUkNSht_tuOvM
-Message-ID: <CAMuHMdVxz_PywgAAJk-ogGtQSxokw0=Rdd6QRU9kuFm5ZfdkpA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] arm64: dts: renesas: r9a09g087: Fix CPG register
- region sizes
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Rspamd-Queue-Id: CCD901F0A47
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 03 Mar 2026 14:46:31 +0100
+Message-Id: <DGT6YZGAMK2M.1NLHXMQI54ZW5@bootlin.com>
+Cc: "Marek Vasut" <marek.vasut+renesas@mailbox.org>,
+ <dri-devel@lists.freedesktop.org>, "David Airlie" <airlied@gmail.com>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Simona Vetter"
+ <simona@ffwll.ch>, "Thomas Zimmermann" <tzimmermann@suse.de>,
+ <linux-kernel@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>
+To: "Maxime Ripard" <mripard@kernel.org>, "Geert Uytterhoeven"
+ <geert@linux-m68k.org>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH] drm: of: Fix drm_of_get_data_lanes_count_ep() return
+ value documentation
+X-Mailer: aerc 0.20.1
+References: <20260115024610.661624-1-marek.vasut+renesas@mailbox.org>
+ <20260303-uppish-finicky-mustang-cd135f@houat>
+ <CAMuHMdW4HwgwiBJFkA43MpYWOScG8n7p4p3_KBL+Cg3_P_a18w@mail.gmail.com>
+ <20260303-delectable-just-clam-d25e08@houat>
+In-Reply-To: <20260303-delectable-just-clam-d25e08@houat>
+X-Last-TLS-Session-Version: TLSv1.3
+X-Rspamd-Queue-Id: 4CF971F0CA0
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.46 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
+	MV_CASE(0.50)[];
+	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,vger.kernel.org,bp.renesas.com,renesas.com];
-	TAGGED_FROM(0.00)[bounces-28711-lists,linux-renesas-soc=lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[mailbox.org,lists.freedesktop.org,gmail.com,linux.intel.com,ffwll.ch,suse.de,vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-28712-lists,linux-renesas-soc=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[linux-m68k.org];
-	FREEMAIL_TO(0.00)[gmail.com];
-	NEURAL_SPAM(0.00)[0.516];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[bootlin.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	R_DKIM_NA(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	FROM_NEQ_ENVFROM(0.00)[luca.ceresoli@bootlin.com,linux-renesas-soc@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[glider.be:email,renesas.com:email,linux-m68k.org:email,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,mail.gmail.com:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[glider.be:email,bootlin.com:dkim,bootlin.com:url,bootlin.com:mid,mailbox.org:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-On Fri, 13 Feb 2026 at 14:18, Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Hello,
+
+On Tue Mar 3, 2026 at 9:39 AM CET, Maxime Ripard wrote:
+> On Tue, Mar 03, 2026 at 09:14:53AM +0100, Geert Uytterhoeven wrote:
+>> Hi Maxime,
+>>
+>> On Tue, 3 Mar 2026 at 09:07, Maxime Ripard <mripard@kernel.org> wrote:
+>> > On Thu, Jan 15, 2026 at 03:45:53AM +0100, Marek Vasut wrote:
+>> > > Update drm_of_get_data_lanes_count_ep() return value documentation
+>> > > to match the drm_of_get_data_lanes_count() return value documentatio=
+n.
+>> > > The drm_of_get_data_lanes_count_ep() is only a wrapper around the
+>> > > drm_of_get_data_lanes_count() and therefore returns the same error
+>> > > codes.
+>> > >
+>> > > Fixes: fc801750b197 ("drm: of: Add drm_of_get_data_lanes_count and d=
+rm_of_get_data_lanes_ep")
+>> > > Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>> > > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+>>
+>> > > --- a/drivers/gpu/drm/drm_of.c
+>> > > +++ b/drivers/gpu/drm/drm_of.c
+>> > > @@ -539,8 +539,8 @@ EXPORT_SYMBOL_GPL(drm_of_get_data_lanes_count);
+>> > >   *
+>> > >   * Return:
+>> > >   * * min..max - positive integer count of "data-lanes" elements
+>> > > - * * -EINVAL - the "data-mapping" property is unsupported
+>> > > - * * -ENODEV - the "data-mapping" property is missing
+>> > > + * * -ve - the "data-lanes" property is missing or invalid
+>> >
+>> > I have no idea what "ve" means in that context. We should rephrase or
+>> > pick something more obvious.
+>>
+>> "-ve" =3D negative, "+ve" =3D positive.
 >
-> The CPG register regions were incorrectly sized. Update them to match
-> the actual hardware specification:
-> - First region (0x80280000): 0x1000 -> 0x10000 (64KB)
-> - Second region (0x81280000): 0x9000 -> 0x10000 (64KB)
+> Thanks!
 >
-> Fixes: 4b3d31f0b81fe ("arm64: dts: renesas: Add initial SoC DTSI for the RZ/N2H SoC")
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> My point still stands though.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-fixes for v7.0.
+I also stared at "-ve" cluelessly, so I vote for plain English too.
 
-Gr{oetje,eeting}s,
+Luca
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
