@@ -1,75 +1,97 @@
-Return-Path: <linux-renesas-soc+bounces-28733-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28734-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mFgGEz04p2mofwAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28733-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 03 Mar 2026 20:36:29 +0100
+	id YMAiOs84p2mofwAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28734-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 03 Mar 2026 20:38:55 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F08B1F621E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 03 Mar 2026 20:36:28 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB71A1F62F0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 03 Mar 2026 20:38:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 9DB6B3050528
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Mar 2026 19:33:08 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id DE91C300BC9C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Mar 2026 19:33:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5240397FAF;
-	Tue,  3 Mar 2026 19:32:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8043B397697;
+	Tue,  3 Mar 2026 19:32:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="ZHoHeDLa"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="cw10SYVS"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96619397F86
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  3 Mar 2026 19:32:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52D9F3890ED
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  3 Mar 2026 19:32:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772566323; cv=none; b=pOfuaUfnPQKT0gx8PcO1lErw2UpWEEiLGzK59vQr0XGeEEfCqT2Q4I0iiTDGrcVU+6S9ORMh7WRaTwG4PZRfUuKQkuJ1w6HT6JBcbXAxAalL5UzK4kKmqJoUX6/vfY3t7LQVwnSq5mwMh3997vStWMP4u6xlnn5MCB3OXA+hUD4=
+	t=1772566326; cv=none; b=oPl1IxkvMWZyn07cOPMI/zqcTb63MZBrrBiQQD0SRqS9v57NVHUMjr4Gv1BVrbr2YvlUiFtDCnE5yKCtqYz/yTXYADxh9TXQo2YG8LdBeHI1Z2uQPr2VvSatSUP/qtwXBbT955iZNUdWHhgDOaSXci2rwgNGqcTfWDcFBp5amcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772566323; c=relaxed/simple;
-	bh=CMEMA/jUchVe1HBb8fOTDUiDC+B6BR4ggGFWb5lwEgY=;
+	s=arc-20240116; t=1772566326; c=relaxed/simple;
+	bh=Gf5eeNAe7Cr11h709c9BHil3kb9/QlMdiA0MqCeCitE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WpR9me77QApCSYuDfQrNGCFj4WpBQu4GSchsSWRv287aDAnAjzUmVp7KDB6C4onHJDSO7k5ZtcMkimRYBp1pQIdqlwIQF0aJXC7JzMNu9ALj4jhbMaQdmkADnJcrv+DUIui8n3JVUwStyIxiG3SUl6kOkIi+mkYEDRh9dzyfH8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=ZHoHeDLa; arc=none smtp.client-ip=194.117.254.33
+	 MIME-Version; b=kJIvDv7KXVek8JlJjfrpPMnmM9jG3lBjuhsJftXgOA47TXEJJjbS226hOZq1bl3ynie9B+WD/LXvjlngYP3+D7KUH1R75t2sUhHiqDnI49FDj66dtIzI/7MO8RhBa9LOvbFxrkCaKw/VQDQ16FoyBl4WDh2Oc5GQeNouRPto88U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=cw10SYVS; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=from:to:cc:subject:date:message-id
 	:in-reply-to:references:mime-version:content-transfer-encoding;
-	 s=k1; bh=eZSTpzKDUIc2vRfE3Wkr3hk5q7loVov9yTUGLtbVCIE=; b=ZHoHeD
-	LaNFIEPzgUNb7jPaYhPLxLZ8z3Kv3IHmL6E2nMPE6gfl4RoSUobYEcEfGy6GErxW
-	JG/bm6oMWHGbGwfXxsKJdcqlWutQwccwhGo1Dulman9zT0wbNt66ofswJrVs6Eki
-	pGqiNnEVGAakMhcKcRZ9aqDq2Y42Q6tCNqeSHIKpjgZHpM2B7J7p2MpAgYqGTe6F
-	hGnuGZEARs2R+sjsO1xy/BqzRfiILXhNpdR80+YWDKFRZLdGaSlvlknPe5iO2zBL
-	UsiBiMCkD0U3wh3ka4U4+LWb2cK1+lXEm5H8sjLcnqYYU0cZ9TgHj9rapvlrERdC
-	1ozFnV2lzVFyygCw==
-Received: (qmail 430845 invoked from network); 3 Mar 2026 20:31:41 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 3 Mar 2026 20:31:41 +0100
-X-UD-Smtp-Session: l3s3148p1@Y364wCNMTqgujnu+
+	 s=k1; bh=j/Bo7yrFMAchCRfI3p9FgYu/8TRsrIClVI/vqJrM62s=; b=cw10SY
+	VSDDBIMncjsw9I85vcm2bgHLq7GMJJRqXG4XOCLpKthxayrGp0paHslau+AHGd1s
+	dR41SlnooKWBRS8WQoeERXhsFMeKBFnUJHbpmo0xuvwX11+tn20s+k0HMLsgSdLY
+	xjO7f7YY6NifLL67g3Pa2rMyTfIz/05/F4/m0Sa53CMoMzd260GMPJQiALXfCYOb
+	aTFMxQa0XV8IO7FniitASuMiiUYnduYueiKjggYfTq83Ux53lIZcymTfSxrbz1bO
+	Rk6viyJBLq9nz++IZTB+sXzV85siip/fIdJy0H5nZjq5esig8X24Hlkx9QtEe41R
+	eAsC59fy2I51GD0A==
+Received: (qmail 430895 invoked from network); 3 Mar 2026 20:31:43 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 3 Mar 2026 20:31:43 +0100
+X-UD-Smtp-Session: l3s3148p1@/BzYwCNMXKgujnu+
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: linux-renesas-soc@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>,
 	Bjorn Andersson <andersson@kernel.org>,
 	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Will Deacon <will@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Waiman Long <longman@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
 	Orson Zhai <orsonzhai@gmail.com>,
 	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Thomas Gleixner <tglx@kernel.org>,
 	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
 	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Wilken Gottwalt <wilken.gottwalt@posteo.net>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
+	Lee Jones <lee@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Antonio Borneo <antonio.borneo@foss.st.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
 	linux-remoteproc@vger.kernel.org,
-	linux-omap@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-iio@vger.kernel.org,
 	linux-stm32@st-md-mailman.stormreply.com,
 	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH v3 14/15] hwspinlock: refactor provider.h from public header
-Date: Tue,  3 Mar 2026 20:26:06 +0100
-Message-ID: <20260303192600.7224-31-wsa+renesas@sang-engineering.com>
+	linux-gpio@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-spi@vger.kernel.org
+Subject: [PATCH v3 15/15] hwspinlock/treewide: refactor consumer.h from public header
+Date: Tue,  3 Mar 2026 20:26:07 +0100
+Message-ID: <20260303192600.7224-32-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260303192600.7224-17-wsa+renesas@sang-engineering.com>
 References: <20260303192600.7224-17-wsa+renesas@sang-engineering.com>
@@ -80,26 +102,26 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 6F08B1F621E
+X-Rspamd-Queue-Id: EB71A1F62F0
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[sang-engineering.com:s=k1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-28733-lists,linux-renesas-soc=lfdr.de,renesas];
+	TAGGED_FROM(0.00)[bounces-28734-lists,linux-renesas-soc=lfdr.de,renesas];
 	DMARC_NA(0.00)[sang-engineering.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[19];
+	RCPT_COUNT_TWELVE(0.00)[41];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[vger.kernel.org,sang-engineering.com,kernel.org,linux.alibaba.com,gmail.com,foss.st.com,posteo.net,sholland.org,st-md-mailman.stormreply.com,lists.infradead.org,lists.linux.dev];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	FREEMAIL_CC(0.00)[vger.kernel.org,sang-engineering.com,kernel.org,huawei.com,linux.alibaba.com,infradead.org,redhat.com,lwn.net,linuxfoundation.org,baylibre.com,analog.com,gmail.com,foss.st.com,arndb.de,lists.linux.dev,st-md-mailman.stormreply.com,lists.infradead.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[wsa@sang-engineering.com,linux-renesas-soc@vger.kernel.org];
@@ -110,252 +132,234 @@ X-Spamd-Result: default: False [0.34 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sang-engineering.com:dkim,sang-engineering.com:email,sang-engineering.com:mid,ti.com:url,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ti.com:url,intel.com:email,sang-engineering.com:dkim,sang-engineering.com:email,sang-engineering.com:mid,huawei.com:email,wizery.com:email]
 X-Rspamd-Action: no action
 
-Factor out the entries only needed for providers from the generic public
+Factor out the entries only needed for consumers from the generic public
 header. This allows for a clean separation between providers and
-consumers. All providers are in the hwspinlock subsystem currently and
-are trivially converted here as well.
+consumers. Also remove contact field in favor of MAINTAINERS entries.
+Fix the users, too.
 
 Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Acked-by: Mark Brown <broonie@kernel.org>
+Acked-by: Jonathan Cameron <jonathan.cameron@huawei.com> # for IIO
 ---
- MAINTAINERS                           |  1 +
- drivers/hwspinlock/hwspinlock_core.c  |  1 +
- drivers/hwspinlock/omap_hwspinlock.c  |  2 +-
- drivers/hwspinlock/qcom_hwspinlock.c  |  2 +-
- drivers/hwspinlock/sprd_hwspinlock.c  |  2 +-
- drivers/hwspinlock/stm32_hwspinlock.c |  2 +-
- drivers/hwspinlock/sun6i_hwspinlock.c |  2 +-
- include/linux/hwspinlock.h            | 44 --------------------
- include/linux/hwspinlock/provider.h   | 60 +++++++++++++++++++++++++++
- 9 files changed, 67 insertions(+), 49 deletions(-)
- create mode 100644 include/linux/hwspinlock/provider.h
+ Documentation/locking/hwspinlock.rst              |  2 +-
+ MAINTAINERS                                       |  1 -
+ drivers/base/regmap/regmap.c                      |  2 +-
+ drivers/hwspinlock/hwspinlock_core.c              |  2 +-
+ drivers/iio/adc/sc27xx_adc.c                      |  2 +-
+ drivers/irqchip/irq-stm32mp-exti.c                |  2 +-
+ drivers/mfd/syscon.c                              |  2 +-
+ drivers/nvmem/sc27xx-efuse.c                      |  2 +-
+ drivers/nvmem/sprd-efuse.c                        |  2 +-
+ drivers/pinctrl/stm32/pinctrl-stm32.c             |  2 +-
+ drivers/soc/qcom/smem.c                           |  2 +-
+ drivers/spi/spi-sprd-adi.c                        |  2 +-
+ .../linux/{hwspinlock.h => hwspinlock/consumer.h} | 15 ++++++---------
+ 13 files changed, 17 insertions(+), 21 deletions(-)
+ rename include/linux/{hwspinlock.h => hwspinlock/consumer.h} (98%)
 
+diff --git a/Documentation/locking/hwspinlock.rst b/Documentation/locking/hwspinlock.rst
+index a737c702a7d1..001bcab86690 100644
+--- a/Documentation/locking/hwspinlock.rst
++++ b/Documentation/locking/hwspinlock.rst
+@@ -306,7 +306,7 @@ Typical usage
+ 
+ ::
+ 
+-	#include <linux/hwspinlock.h>
++	#include <linux/hwspinlock/consumer.h>
+ 	#include <linux/err.h>
+ 
+ 	int hwspinlock_example(void)
 diff --git a/MAINTAINERS b/MAINTAINERS
-index b4cb7a63e800..4e95cbb48dd8 100644
+index 4e95cbb48dd8..e1acfc1d6656 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -11215,6 +11215,7 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/andersson/remoteproc.git hw
- F:	Documentation/devicetree/bindings/hwlock/
+@@ -11216,7 +11216,6 @@ F:	Documentation/devicetree/bindings/hwlock/
  F:	Documentation/locking/hwspinlock.rst
  F:	drivers/hwspinlock/
-+F:	include/linux/hwspinlock/
- F:	include/linux/hwspinlock.h
+ F:	include/linux/hwspinlock/
+-F:	include/linux/hwspinlock.h
  
  HARDWARE TRACING FACILITIES
+ M:	Alexander Shishkin <alexander.shishkin@linux.intel.com>
+diff --git a/drivers/base/regmap/regmap.c b/drivers/base/regmap/regmap.c
+index 607c1246d994..d25494495469 100644
+--- a/drivers/base/regmap/regmap.c
++++ b/drivers/base/regmap/regmap.c
+@@ -16,7 +16,7 @@
+ #include <linux/sched.h>
+ #include <linux/delay.h>
+ #include <linux/log2.h>
+-#include <linux/hwspinlock.h>
++#include <linux/hwspinlock/consumer.h>
+ #include <linux/unaligned.h>
+ 
+ #define CREATE_TRACE_POINTS
 diff --git a/drivers/hwspinlock/hwspinlock_core.c b/drivers/hwspinlock/hwspinlock_core.c
-index adf6fefb382f..6c8a03deb00c 100644
+index 6c8a03deb00c..e78ec4b5cfa3 100644
 --- a/drivers/hwspinlock/hwspinlock_core.c
 +++ b/drivers/hwspinlock/hwspinlock_core.c
-@@ -13,6 +13,7 @@
+@@ -12,7 +12,7 @@
+ #include <linux/delay.h>
  #include <linux/device.h>
  #include <linux/err.h>
- #include <linux/hwspinlock.h>
-+#include <linux/hwspinlock/provider.h>
+-#include <linux/hwspinlock.h>
++#include <linux/hwspinlock/consumer.h>
+ #include <linux/hwspinlock/provider.h>
  #include <linux/jiffies.h>
  #include <linux/kernel.h>
- #include <linux/module.h>
-diff --git a/drivers/hwspinlock/omap_hwspinlock.c b/drivers/hwspinlock/omap_hwspinlock.c
-index 96fdc35ef642..338ae9fa89f0 100644
---- a/drivers/hwspinlock/omap_hwspinlock.c
-+++ b/drivers/hwspinlock/omap_hwspinlock.c
-@@ -19,7 +19,7 @@
- #include <linux/pm_runtime.h>
- #include <linux/slab.h>
- #include <linux/spinlock.h>
+diff --git a/drivers/iio/adc/sc27xx_adc.c b/drivers/iio/adc/sc27xx_adc.c
+index 6209499c5c37..8a881d63b7dd 100644
+--- a/drivers/iio/adc/sc27xx_adc.c
++++ b/drivers/iio/adc/sc27xx_adc.c
+@@ -1,7 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0
+ // Copyright (C) 2018 Spreadtrum Communications Inc.
+ 
 -#include <linux/hwspinlock.h>
-+#include <linux/hwspinlock/provider.h>
++#include <linux/hwspinlock/consumer.h>
+ #include <linux/iio/iio.h>
+ #include <linux/module.h>
+ #include <linux/mutex.h>
+diff --git a/drivers/irqchip/irq-stm32mp-exti.c b/drivers/irqchip/irq-stm32mp-exti.c
+index a24f4f1a4f8f..25d5aa67728a 100644
+--- a/drivers/irqchip/irq-stm32mp-exti.c
++++ b/drivers/irqchip/irq-stm32mp-exti.c
+@@ -6,7 +6,7 @@
+  */
+ 
+ #include <linux/bitops.h>
+-#include <linux/hwspinlock.h>
++#include <linux/hwspinlock/consumer.h>
+ #include <linux/interrupt.h>
+ #include <linux/io.h>
+ #include <linux/irq.h>
+diff --git a/drivers/mfd/syscon.c b/drivers/mfd/syscon.c
+index 21a7fcdd2737..8ec74f8513d7 100644
+--- a/drivers/mfd/syscon.c
++++ b/drivers/mfd/syscon.c
+@@ -11,7 +11,7 @@
+ #include <linux/cleanup.h>
+ #include <linux/clk.h>
+ #include <linux/err.h>
+-#include <linux/hwspinlock.h>
++#include <linux/hwspinlock/consumer.h>
+ #include <linux/list.h>
+ #include <linux/mutex.h>
+ #include <linux/of.h>
+diff --git a/drivers/nvmem/sc27xx-efuse.c b/drivers/nvmem/sc27xx-efuse.c
+index 4e2ffefac96c..309090cd4ff0 100644
+--- a/drivers/nvmem/sc27xx-efuse.c
++++ b/drivers/nvmem/sc27xx-efuse.c
+@@ -1,7 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0
+ // Copyright (C) 2018 Spreadtrum Communications Inc.
+ 
+-#include <linux/hwspinlock.h>
++#include <linux/hwspinlock/consumer.h>
+ #include <linux/module.h>
  #include <linux/of.h>
  #include <linux/platform_device.h>
+diff --git a/drivers/nvmem/sprd-efuse.c b/drivers/nvmem/sprd-efuse.c
+index 1a7e4e5d8b86..92e3092719ba 100644
+--- a/drivers/nvmem/sprd-efuse.c
++++ b/drivers/nvmem/sprd-efuse.c
+@@ -3,7 +3,7 @@
  
-diff --git a/drivers/hwspinlock/qcom_hwspinlock.c b/drivers/hwspinlock/qcom_hwspinlock.c
-index 22cc6f9003df..7fdbb1e58b29 100644
---- a/drivers/hwspinlock/qcom_hwspinlock.c
-+++ b/drivers/hwspinlock/qcom_hwspinlock.c
+ #include <linux/clk.h>
+ #include <linux/delay.h>
+-#include <linux/hwspinlock.h>
++#include <linux/hwspinlock/consumer.h>
+ #include <linux/io.h>
+ #include <linux/module.h>
+ #include <linux/nvmem-provider.h>
+diff --git a/drivers/pinctrl/stm32/pinctrl-stm32.c b/drivers/pinctrl/stm32/pinctrl-stm32.c
+index 6a99708a5a23..17b2072d609e 100644
+--- a/drivers/pinctrl/stm32/pinctrl-stm32.c
++++ b/drivers/pinctrl/stm32/pinctrl-stm32.c
+@@ -10,7 +10,7 @@
+ #include <linux/clk.h>
+ #include <linux/export.h>
+ #include <linux/gpio/driver.h>
+-#include <linux/hwspinlock.h>
++#include <linux/hwspinlock/consumer.h>
+ #include <linux/io.h>
+ #include <linux/irq.h>
+ #include <linux/mfd/syscon.h>
+diff --git a/drivers/soc/qcom/smem.c b/drivers/soc/qcom/smem.c
+index d5c94b47f431..6d574d65b4a3 100644
+--- a/drivers/soc/qcom/smem.c
++++ b/drivers/soc/qcom/smem.c
 @@ -4,7 +4,7 @@
-  * Copyright (c) 2015, Sony Mobile Communications AB
+  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
   */
  
 -#include <linux/hwspinlock.h>
-+#include <linux/hwspinlock/provider.h>
- #include <linux/io.h>
- #include <linux/kernel.h>
- #include <linux/mfd/syscon.h>
-diff --git a/drivers/hwspinlock/sprd_hwspinlock.c b/drivers/hwspinlock/sprd_hwspinlock.c
-index d2aa4714e2ea..f6014b314432 100644
---- a/drivers/hwspinlock/sprd_hwspinlock.c
-+++ b/drivers/hwspinlock/sprd_hwspinlock.c
-@@ -7,7 +7,7 @@
- #include <linux/clk.h>
- #include <linux/delay.h>
- #include <linux/device.h>
--#include <linux/hwspinlock.h>
-+#include <linux/hwspinlock/provider.h>
- #include <linux/io.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
-diff --git a/drivers/hwspinlock/stm32_hwspinlock.c b/drivers/hwspinlock/stm32_hwspinlock.c
-index 08762cd96cee..a22ebabe1921 100644
---- a/drivers/hwspinlock/stm32_hwspinlock.c
-+++ b/drivers/hwspinlock/stm32_hwspinlock.c
-@@ -6,7 +6,7 @@
- 
- #include <linux/clk.h>
- #include <linux/delay.h>
--#include <linux/hwspinlock.h>
-+#include <linux/hwspinlock/provider.h>
- #include <linux/io.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
-diff --git a/drivers/hwspinlock/sun6i_hwspinlock.c b/drivers/hwspinlock/sun6i_hwspinlock.c
-index 5c6d20eb24b5..4dab91800745 100644
---- a/drivers/hwspinlock/sun6i_hwspinlock.c
-+++ b/drivers/hwspinlock/sun6i_hwspinlock.c
-@@ -7,7 +7,7 @@
- #include <linux/clk.h>
- #include <linux/debugfs.h>
- #include <linux/errno.h>
--#include <linux/hwspinlock.h>
-+#include <linux/hwspinlock/provider.h>
++#include <linux/hwspinlock/consumer.h>
  #include <linux/io.h>
  #include <linux/module.h>
  #include <linux/of.h>
-diff --git a/include/linux/hwspinlock.h b/include/linux/hwspinlock.h
-index 4f5b6932712e..4fe1c8831cd1 100644
+diff --git a/drivers/spi/spi-sprd-adi.c b/drivers/spi/spi-sprd-adi.c
+index e7d83c16b46c..04313e4a63dd 100644
+--- a/drivers/spi/spi-sprd-adi.c
++++ b/drivers/spi/spi-sprd-adi.c
+@@ -5,7 +5,7 @@
+  */
+ 
+ #include <linux/delay.h>
+-#include <linux/hwspinlock.h>
++#include <linux/hwspinlock/consumer.h>
+ #include <linux/init.h>
+ #include <linux/io.h>
+ #include <linux/kernel.h>
+diff --git a/include/linux/hwspinlock.h b/include/linux/hwspinlock/consumer.h
+similarity index 98%
+rename from include/linux/hwspinlock.h
+rename to include/linux/hwspinlock/consumer.h
+index 4fe1c8831cd1..f476222ec924 100644
 --- a/include/linux/hwspinlock.h
-+++ b/include/linux/hwspinlock.h
-@@ -27,34 +27,6 @@ struct hwspinlock_ops;
++++ b/include/linux/hwspinlock/consumer.h
+@@ -1,17 +1,16 @@
+ /* SPDX-License-Identifier: GPL-2.0 */
+ /*
+- * Hardware spinlock public header
++ * Hardware spinlock public header for consumers
+  *
+  * Copyright (C) 2010 Texas Instruments Incorporated - http://www.ti.com
+- *
+- * Contact: Ohad Ben-Cohen <ohad@wizery.com>
++ * Copyright (C) 2026 Sang Engineering
++ * Copyright (C) 2026 Renesas Solutions Corp.
+  */
+ 
+-#ifndef __LINUX_HWSPINLOCK_H
+-#define __LINUX_HWSPINLOCK_H
++#ifndef __LINUX_HWSPINLOCK_CONSUMER_H
++#define __LINUX_HWSPINLOCK_CONSUMER_H
+ 
+ #include <linux/err.h>
+-#include <linux/sched.h>
+ 
+ /* hwspinlock mode argument */
+ #define HWLOCK_IRQSTATE		0x01 /* Disable interrupts, save state */
+@@ -22,8 +21,6 @@
+ struct device;
+ struct device_node;
+ struct hwspinlock;
+-struct hwspinlock_device;
+-struct hwspinlock_ops;
  
  #ifdef CONFIG_HWSPINLOCK
  
--/**
-- * struct hwspinlock_ops - platform-specific hwspinlock handlers
-- *
-- * @trylock:	make a single attempt to take the lock. returns 0 on
-- *		failure and true on success. may _not_ sleep.
-- * @unlock:	release the lock. always succeed. may _not_ sleep.
-- * @bust:	optional, platform-specific bust handler, called by hwspinlock
-- *		core to bust a specific lock.
-- * @relax:	optional, platform-specific relax handler, called by hwspinlock
-- *		core while spinning on a lock, between two successive
-- *		invocations of @trylock. may _not_ sleep.
-- * @init_priv:	optional, callback used when registering the hwspinlock device.
-- *		Its return value will be used to fill the per-lock 'priv' data.
-- */
--struct hwspinlock_ops {
--	int (*trylock)(struct hwspinlock *lock);
--	void (*unlock)(struct hwspinlock *lock);
--	int (*bust)(struct hwspinlock *lock, unsigned int id);
--	void (*relax)(struct hwspinlock *lock);
--	void *(*init_priv)(int local_id, void *init_data);
--};
--
--void *hwspin_lock_get_priv(struct hwspinlock *hwlock);
--struct device *hwspin_lock_get_dev(struct hwspinlock *hwlock);
--int hwlock_to_id(struct hwspinlock *hwlock);
--struct hwspinlock_device *hwspin_lock_register(struct device *dev, const struct hwspinlock_ops *ops,
--					       int base_id, int num_locks, void *init_data);
--int hwspin_lock_unregister(struct hwspinlock_device *bank);
- struct hwspinlock *hwspin_lock_request_specific(unsigned int id);
- int hwspin_lock_free(struct hwspinlock *hwlock);
- int of_hwspin_lock_get_id(struct device_node *np, int index);
-@@ -67,18 +39,6 @@ int hwspin_lock_bust(struct hwspinlock *hwlock, unsigned int id);
- int devm_hwspin_lock_free(struct device *dev, struct hwspinlock *hwlock);
- struct hwspinlock *devm_hwspin_lock_request_specific(struct device *dev,
- 						     unsigned int id);
--int devm_hwspin_lock_unregister(struct device *dev,
--				struct hwspinlock_device *bank);
--struct hwspinlock_device *devm_hwspin_lock_register(struct device *dev, const struct hwspinlock_ops *ops,
--						    int base_id, int num_locks, void *init_data);
--
--static inline int devm_hwspin_lock_register_errno(struct device *dev,
--						  const struct hwspinlock_ops *ops,
--						  int base_id, int num_locks, void *init_data)
--{
--	return PTR_ERR_OR_ZERO(devm_hwspin_lock_register(dev, ops, base_id, num_locks, init_data));
--}
--
- #else /* !CONFIG_HWSPINLOCK */
+@@ -403,4 +400,4 @@ static inline void hwspin_unlock(struct hwspinlock *hwlock)
+ 	__hwspin_unlock(hwlock, 0, NULL);
+ }
  
- /*
-@@ -87,10 +47,6 @@ static inline int devm_hwspin_lock_register_errno(struct device *dev,
-  * code path get compiled away. This way, if CONFIG_HWSPINLOCK is not
-  * required on a given setup, users will still work.
-  *
-- * The only exception is hwspin_lock_register/hwspin_lock_unregister, with which
-- * we _do_ want users to fail (no point in registering hwspinlock instances if
-- * the framework is not available).
-- *
-  * Note: ERR_PTR(-ENODEV) will still be considered a success for NULL-checking
-  * users. Others, which care, can still check this with IS_ERR.
-  */
-diff --git a/include/linux/hwspinlock/provider.h b/include/linux/hwspinlock/provider.h
-new file mode 100644
-index 000000000000..73c7b0cb6735
---- /dev/null
-+++ b/include/linux/hwspinlock/provider.h
-@@ -0,0 +1,60 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Hardware spinlock public header for providers
-+ *
-+ * Copyright (C) 2010 Texas Instruments Incorporated - http://www.ti.com
-+ * Copyright (C) 2026 Sang Engineering
-+ * Copyright (C) 2026 Renesas Solutions Corp.
-+ */
-+
-+#ifndef __LINUX_HWSPINLOCK_PROVIDER_H
-+#define __LINUX_HWSPINLOCK_PROVIDER_H
-+
-+#include <linux/err.h>
-+
-+struct device;
-+struct hwspinlock;
-+struct hwspinlock_device;
-+
-+/**
-+ * struct hwspinlock_ops - platform-specific hwspinlock handlers
-+ *
-+ * @trylock:	make a single attempt to take the lock. returns 0 on
-+ *		failure and true on success. may _not_ sleep.
-+ * @unlock:	release the lock. always succeed. may _not_ sleep.
-+ * @bust:	optional, platform-specific bust handler, called by hwspinlock
-+ *		core to bust a specific lock.
-+ * @relax:	optional, platform-specific relax handler, called by hwspinlock
-+ *		core while spinning on a lock, between two successive
-+ *		invocations of @trylock. may _not_ sleep.
-+ * @init_priv:	optional, callback used when registering the hwspinlock device.
-+ *		Its return value will be used to fill the per-lock 'priv' data.
-+ */
-+struct hwspinlock_ops {
-+	int (*trylock)(struct hwspinlock *lock);
-+	void (*unlock)(struct hwspinlock *lock);
-+	int (*bust)(struct hwspinlock *lock, unsigned int id);
-+	void (*relax)(struct hwspinlock *lock);
-+	void *(*init_priv)(int local_id, void *init_data);
-+};
-+
-+void *hwspin_lock_get_priv(struct hwspinlock *hwlock);
-+struct device *hwspin_lock_get_dev(struct hwspinlock *hwlock);
-+int hwlock_to_id(struct hwspinlock *hwlock);
-+struct hwspinlock_device *hwspin_lock_register(struct device *dev, const struct hwspinlock_ops *ops,
-+					       int base_id, int num_locks, void *init_data);
-+int hwspin_lock_unregister(struct hwspinlock_device *bank);
-+
-+struct hwspinlock_device *devm_hwspin_lock_register(struct device *dev, const struct hwspinlock_ops *ops,
-+						    int base_id, int num_locks, void *init_data);
-+int devm_hwspin_lock_unregister(struct device *dev,
-+				struct hwspinlock_device *bank);
-+
-+static inline int devm_hwspin_lock_register_errno(struct device *dev,
-+						  const struct hwspinlock_ops *ops,
-+						  int base_id, int num_locks, void *init_data)
-+{
-+	return PTR_ERR_OR_ZERO(devm_hwspin_lock_register(dev, ops, base_id, num_locks, init_data));
-+}
-+
-+#endif /* __LINUX_HWSPINLOCK_PROVIDER_H */
+-#endif /* __LINUX_HWSPINLOCK_H */
++#endif /* __LINUX_HWSPINLOCK_CONSUMER_H */
 -- 
 2.51.0
 
