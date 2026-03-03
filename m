@@ -1,162 +1,162 @@
-Return-Path: <linux-renesas-soc+bounces-28712-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28713-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +Kr0Nc3npmlWZgAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28712-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 03 Mar 2026 14:53:17 +0100
+	id KOEIKvHopmlWZgAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28713-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 03 Mar 2026 14:58:09 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CF971F0CA0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 03 Mar 2026 14:53:17 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92D831F0DF9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 03 Mar 2026 14:58:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 64EC031525D1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Mar 2026 13:46:42 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 3A67B304EEE2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Mar 2026 13:52:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A01A226A0A7;
-	Tue,  3 Mar 2026 13:46:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="J4/2zGuw"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1DA135BDB8;
+	Tue,  3 Mar 2026 13:50:17 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30C3C30DD2A
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  3 Mar 2026 13:46:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 370FA36D503
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  3 Mar 2026 13:50:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772545598; cv=none; b=aGStVT7eP9OdpO1yQWq+0C4VL4eslMW2MLHzWcodu4N6UTEh7sJklgWUorVZx4+4O1t9mY7kfG3tcBPXux9bvUOO4uJRxGFdd7cy11ve/U64JELxKdaWV6s5gwGJBXsd6FR5356obpTZhT1w/UaRTVpxAQ8mGPEgfSVgGbDHNw4=
+	t=1772545817; cv=none; b=DOo6fDWSfXHmHWIEFz94vfflDFd8R4X3r3WJV+ZQr2HY0uhK0sYgmarFAXbFvBkmrZi9sIW1y5plic1KhIVt0mxoMAIpSbtZptZUKmMlddbLvfc5q39oMlxkM+OrSzZPrnpESWoqp+dKwiNAHJbz1tjWVCE1py/LhRjiUbCP0Js=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772545598; c=relaxed/simple;
-	bh=tziw53490D9dLBPgoajUHk6E3hNYGEt7eHXmICjRHUw=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
-	 References:In-Reply-To; b=bJWHjABUMh8F32fKPrR96OYmJtIoKJlfwuc+8dqjTbpbO7IJP065NxnykY2WYcMFgzho/n+gWz8LWZU2A9KqwbZwLBKImsspQDcIaSQVKBH5snXoh7DhWwG77InEWaDFCbfTnNoc1QmDahtdzS0Gqpgbc1dToR8LG3qp4VitMGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=J4/2zGuw; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id B335A4E42500
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  3 Mar 2026 13:46:35 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 822595FF87;
-	Tue,  3 Mar 2026 13:46:35 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 70C2C103695E2;
-	Tue,  3 Mar 2026 14:46:32 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1772545594; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=XDRpvBtYzC34KJ2LgpsbI01brcrkDd6rfNwNv6anEv4=;
-	b=J4/2zGuwaWqYyv4I21zejYDFYxBN3Fgy20I5xGwVPpjl9rTCySOIPU1yAmxpx6GO2LYyWo
-	YvuF9uPEme6AhEz0Vvi8qsfc7T5TRUg8upSniC3XxWz8DnQKwwQUrof8aF2+ZU1w3bpPbV
-	2nVnd1EW0elrOOUtsDxqCyrm6DpShSOORtOfYxT/MLmeYWuOPn0iHWFbAlTyHX1xVu0IIz
-	C3DAtx3GG3LpKZE5RycUx0GGBSTf4Uyg9X9Q+Ky9LayNVrIEn6q/ZlRH++TuCsDvlFcw78
-	pfCLugJLBnJN1lcYW8pM5ADAEKGqzx/tA2xPrDKkIwTesFYKPtRA8kDO81dBfw==
+	s=arc-20240116; t=1772545817; c=relaxed/simple;
+	bh=RDYgonMLZZgBvRizzxm+UNJ3z8Y0vv51l3EtJhZlR0A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PrFZKMTrx3l+/vW2tSdTkErPXuvJctqoAlKaDbZZWOU+zpLCaZ/mVpYFLF3TBF10Dc9UoW1Wlg1pz0ghbDD3uufSRr5duu7n0BfpDWKK+2+yrcuX7rc4bqjknWF600u1T7URXpjJzyA8kmR6yl+1XYkvee/yTDLKAFG2U4B3HyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-5688c221fd3so2475735e0c.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 03 Mar 2026 05:50:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772545812; x=1773150612;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=y4n4UKmZ6iVKu4X1jPmC0GNiXXYHBrOv1cdLwQZ4FC0=;
+        b=AP2HYqaDe+P9/plK6sfKPXHGD+x6VgynA7Yt0f9+ztEOuiCIrUYDjGlkCq+qkuGPXo
+         YE3jH7+xCM5watt2C5GHoDpEJkOZOhO4mHN3dfJy2LmaCEwyjUTVVXKcI2GzuQqSeE0K
+         0vaBTtRriJ3sqGUWhdXJwZ85/CHNGXTlzqUTcGktCgbbWfHh7Hx20bo9z3PTCSI15pvi
+         lDMrOW6gJ7aBT6z/8ian7kvfpkSSVsBbkY2s/yskW1ZogrML6dG8RtMX5U3jfCpW/LE1
+         2m6GLA8p+sHouVCGcea/YK2XEkEiUNUDuaYiH5zbE6HqQLSud8hICf1UkX6IdlYfNDdr
+         uFqw==
+X-Forwarded-Encrypted: i=1; AJvYcCVF8+bm7U4wxu0V/238SyJFGij2nS0hl+kuV7yq6/UUIUHaHHm+HHtVZbGHnf4NTFAtDk6AXLmOMZ/Q4i0Nu6BqzA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwVGR1k7Aoltul1l8jjoqU//bbNuCS6ElbplCePxjo8WstZEoTX
+	2CeckmUbrTKhQGUgoVlCCTXqCkCtyOWRgQnafzPwpnIkYJQzkOu3vFQV52BsOvru
+X-Gm-Gg: ATEYQzwzL3O2r+G2NxmJX7SqAIyGGA5IdPK9vU6ZBSbWbBDN8HtL2cbAnPljGBM4Eha
+	gYYvxeArjRX30TJ6g87YEtqk6h2XXds85DEj2LgNAmsUaUB9tm6hf36USIyYLinj2IQPHCmckCe
+	3CtYEibLxM8pGFFWpPfyuGJtzHqH0Njfi9axgJb1QQnJl8f2aHIT+8yc9NRE0PSMQ/i4sXz1S0F
+	2Q14rmYyVuzCJ210zu/yuQFpVW/APGvhGGVtbYe8sksZJ5yFuzVV60wt/Dw39DKVVoD79EIwq7l
+	ZVy9p0K8rm1DFxbAVmCEe3FEo3r8mBT2YGC43cMmdszC+5NZkahkVurmzqI78gOOux6rviXGOiL
+	Bx1V30w1OQn9uwcyZIb495yoZdfofASdtOO2CZz7oQNi+Bv3aLH4LK8cHtF7Op2jMC2QfYgWFJt
+	EdY55sAIs1psVE8DNTpXy+JmHLxe3gGhiD9wF4+y03+m70RoKo0b9WFfTNs/RUGmZd
+X-Received: by 2002:a05:6122:1684:b0:55b:1a1b:3273 with SMTP id 71dfb90a1353d-56aa09edea9mr6259916e0c.6.1772545811970;
+        Tue, 03 Mar 2026 05:50:11 -0800 (PST)
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com. [209.85.221.175])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56a91bbd85csm19651090e0c.7.2026.03.03.05.50.10
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Mar 2026 05:50:10 -0800 (PST)
+Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-5674d8be45eso2313010e0c.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 03 Mar 2026 05:50:10 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVwlD6UEOC3MRfgAjNp+Sws+Yhe0PCAU6T5KA6yZsCBRwpHsuUtJ9xoP416ZOmP0sevRd5kdTgsobZ/bfKi5clIDg==@vger.kernel.org
+X-Received: by 2002:a05:6102:2ad5:b0:5f5:2ab7:cef4 with SMTP id
+ ada2fe7eead31-5ff323530c3mr5306088137.12.1772545810046; Tue, 03 Mar 2026
+ 05:50:10 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 03 Mar 2026 14:46:31 +0100
-Message-Id: <DGT6YZGAMK2M.1NLHXMQI54ZW5@bootlin.com>
-Cc: "Marek Vasut" <marek.vasut+renesas@mailbox.org>,
- <dri-devel@lists.freedesktop.org>, "David Airlie" <airlied@gmail.com>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Simona Vetter"
- <simona@ffwll.ch>, "Thomas Zimmermann" <tzimmermann@suse.de>,
- <linux-kernel@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>
-To: "Maxime Ripard" <mripard@kernel.org>, "Geert Uytterhoeven"
- <geert@linux-m68k.org>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH] drm: of: Fix drm_of_get_data_lanes_count_ep() return
- value documentation
-X-Mailer: aerc 0.20.1
-References: <20260115024610.661624-1-marek.vasut+renesas@mailbox.org>
- <20260303-uppish-finicky-mustang-cd135f@houat>
- <CAMuHMdW4HwgwiBJFkA43MpYWOScG8n7p4p3_KBL+Cg3_P_a18w@mail.gmail.com>
- <20260303-delectable-just-clam-d25e08@houat>
-In-Reply-To: <20260303-delectable-just-clam-d25e08@houat>
-X-Last-TLS-Session-Version: TLSv1.3
-X-Rspamd-Queue-Id: 4CF971F0CA0
+MIME-Version: 1.0
+References: <20260205103930.666051-1-cosmin-gabriel.tanislav.xa@renesas.com>
+In-Reply-To: <20260205103930.666051-1-cosmin-gabriel.tanislav.xa@renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 3 Mar 2026 14:49:59 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXe2EXW7j7_Z9KSb1tYFbsEfC63HSvDBycdCYH4us2MDQ@mail.gmail.com>
+X-Gm-Features: AaiRm5373kqYXoPI1qibK4QKFV_2fpSfHkF0McTh9iV8GZ-ZNcR_4rReTQoXHNw
+Message-ID: <CAMuHMdXe2EXW7j7_Z9KSb1tYFbsEfC63HSvDBycdCYH4us2MDQ@mail.gmail.com>
+Subject: Re: [PATCH v2] pinctrl: renesas: rzt2h: fix invalid wait context
+To: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+Cc: Linus Walleij <linusw@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Bartosz Golaszewski <brgl@kernel.org>, linux-renesas-soc@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+X-Rspamd-Queue-Id: 92D831F0DF9
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.46 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
-	MV_CASE(0.50)[];
-	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[mailbox.org,lists.freedesktop.org,gmail.com,linux.intel.com,ffwll.ch,suse.de,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-28712-lists,linux-renesas-soc=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-28713-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	MIME_TRACE(0.00)[0:+];
+	DMARC_NA(0.00)[linux-m68k.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[bootlin.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[luca.ceresoli@bootlin.com,linux-renesas-soc@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[glider.be:email,bootlin.com:dkim,bootlin.com:url,bootlin.com:mid,mailbox.org:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	NEURAL_HAM(-0.00)[-0.797];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	R_DKIM_NA(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,linux-m68k.org:email,glider.be:email,mail.gmail.com:mid]
 X-Rspamd-Action: no action
 
-Hello,
-
-On Tue Mar 3, 2026 at 9:39 AM CET, Maxime Ripard wrote:
-> On Tue, Mar 03, 2026 at 09:14:53AM +0100, Geert Uytterhoeven wrote:
->> Hi Maxime,
->>
->> On Tue, 3 Mar 2026 at 09:07, Maxime Ripard <mripard@kernel.org> wrote:
->> > On Thu, Jan 15, 2026 at 03:45:53AM +0100, Marek Vasut wrote:
->> > > Update drm_of_get_data_lanes_count_ep() return value documentation
->> > > to match the drm_of_get_data_lanes_count() return value documentatio=
-n.
->> > > The drm_of_get_data_lanes_count_ep() is only a wrapper around the
->> > > drm_of_get_data_lanes_count() and therefore returns the same error
->> > > codes.
->> > >
->> > > Fixes: fc801750b197 ("drm: of: Add drm_of_get_data_lanes_count and d=
-rm_of_get_data_lanes_ep")
->> > > Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
->> > > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
->>
->> > > --- a/drivers/gpu/drm/drm_of.c
->> > > +++ b/drivers/gpu/drm/drm_of.c
->> > > @@ -539,8 +539,8 @@ EXPORT_SYMBOL_GPL(drm_of_get_data_lanes_count);
->> > >   *
->> > >   * Return:
->> > >   * * min..max - positive integer count of "data-lanes" elements
->> > > - * * -EINVAL - the "data-mapping" property is unsupported
->> > > - * * -ENODEV - the "data-mapping" property is missing
->> > > + * * -ve - the "data-lanes" property is missing or invalid
->> >
->> > I have no idea what "ve" means in that context. We should rephrase or
->> > pick something more obvious.
->>
->> "-ve" =3D negative, "+ve" =3D positive.
+On Thu, 5 Feb 2026 at 11:40, Cosmin Tanislav
+<cosmin-gabriel.tanislav.xa@renesas.com> wrote:
+> The rzt2h_gpio_get_direction() function is called from
+> gpiod_get_direction(), which ends up being used within the __setup_irq()
+> call stack when requesting an interrupt.
 >
-> Thanks!
+> __setup_irq() holds a raw_spinlock_t with IRQs disabled, which creates
+> an atomic context. spinlock_t cannot be used within atomic context
+> when PREEMPT_RT is enabled, since it may become a sleeping lock.
 >
-> My point still stands though.
+> An "[ BUG: Invalid wait context ]" splat is observed when running with
+> CONFIG_PROVE_LOCKING enabled, describing exactly the aforementioned call
+> stack.
+>
+> __setup_irq() needs to hold a raw_spinlock_t with IRQs disabled to
+> serialize access against a concurrent hard interrupt.
+>
+> Switch to raw_spinlock_t to fix this.
+>
+> Fixes: 829dde3369a9 ("pinctrl: renesas: rzt2h: Add GPIO IRQ chip to handle interrupts")
+> Signed-off-by: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+> ---
+>
+> V2:
+>  * reword commit message to better describe why
+>    rzt2h_gpio_get_direction() needs to use raw_spinlock_t
 
-I also stared at "-ve" cluelessly, so I vote for plain English too.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-pinctrl-fixes for v7.0.
 
-Luca
+Gr{oetje,eeting}s,
 
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
