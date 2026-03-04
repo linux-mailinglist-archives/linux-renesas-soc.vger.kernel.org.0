@@ -1,452 +1,181 @@
-Return-Path: <linux-renesas-soc+bounces-28798-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28799-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MIc9H61oqGl3uQAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28798-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Mar 2026 18:15:25 +0100
+	id CGB0D8RpqGnYuQAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28799-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Mar 2026 18:20:04 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7884E204FD0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Mar 2026 18:15:24 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4BB6205110
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Mar 2026 18:20:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 54D903040DBE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Mar 2026 17:11:57 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id CF81B30B8E01
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Mar 2026 17:13:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B43D37AA6B;
-	Wed,  4 Mar 2026 17:11:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EAF7371D15;
+	Wed,  4 Mar 2026 17:13:20 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81338351C12;
-	Wed,  4 Mar 2026 17:11:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B439C378D9E
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  4 Mar 2026 17:13:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772644308; cv=none; b=TN77+SUjjhhupRvf5Re4+EnSk2ABPpSs6OKWIlCua81pHKoRrRj2Cpymxdp7QblUF6K6RQrda2H0A/HJIIQMcbtYRPfVyyocA5Pw9Ai5JXGrG/cE+eZF9dMj84I413jyPR2bRwG4XW7BLwDITqzsoW9KOIInGrUsTimqdnuCD9o=
+	t=1772644400; cv=none; b=qKNQH5SNn/vZrt+P7aOvHtudO4okAx9hDSILXrKKWZKBicpr2qP7YCUFiaygpjctw6BeYt66JCVRN/hlZFVtsUEr/3goSAEr2qh5j+iUKWcq+vxzfqnIg59pZJdInHwVYidaeVZ5HZnEFwHOs+zhzb1ARFzXBu7qHcaoh8IObXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772644308; c=relaxed/simple;
-	bh=nsW/CNhBmA7xCLvSiNtS9hKz/ueam3UhqEFQ7qBNoIA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SzRnjGAoFjnFSFYFmJJFUAuBzihxLnOPryDKZiMLMdqNidGFL9EY/7PJSaNw3Nvt7+KN0NPF7imtK1g8fcaejleTP9ZTxprx8EyotFQjIcFbIGi9Ab3TM7ZLgPuVSQBbewaXRsiAo35BWxh3EyuHqe4WULq0L4ri9klwbS3hu+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8EB4C19425;
-	Wed,  4 Mar 2026 17:11:43 +0000 (UTC)
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Marc Zyngier <marc.zyngier@arm.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Peter Griffin <peter.griffin@linaro.org>,
-	=?UTF-8?q?Andr=C3=A9=20Draszik?= <andre.draszik@linaro.org>,
-	Tudor Ambarus <tudor.ambarus@linaro.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Dinh Nguyen <dinguyen@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Thierry Reding <treding@nvidia.com>
-Cc: linux-arm-kernel@lists.infradead.org,
-	linux-amlogic@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 7/7] arm64: dts: qcom: Drop CPU masks from GICv3 PPI interrupts
-Date: Wed,  4 Mar 2026 18:11:04 +0100
-Message-ID: <226c5d1005a6e295e0581b2c89e5510dbb7aa9d1.1772643434.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1772643434.git.geert+renesas@glider.be>
-References: <cover.1772643434.git.geert+renesas@glider.be>
+	s=arc-20240116; t=1772644400; c=relaxed/simple;
+	bh=lF3iBjuHgKRvZeTOEwkNNAPLnI7XHHUrvS30lr5/dGI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=L/CZYM16hyNCc+zgDPoU1a3JKq+YmhV1ZFtkd0SE7S+UX61RwZ7n3q7yofrPcT60BtP3I0xexD5yt+sEEZejQ5cfgwd+xZsfFOGIJ73ur47BwZ0oidQeLOVhqnw5LQkeR+fiy0dfLxA4D7JUMlUYp7NOGYoR+ud3CT4ubTAn+bA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-5ff0f61abd7so1779065137.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 04 Mar 2026 09:13:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772644398; x=1773249198;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/prTTpQhW620yX2PYVk5yWIkWxklh3YEhELl29vkzfw=;
+        b=idHOps3ThwRwBXiqmOd9W1fMtjvC0w/Ve6kukzexRetf9yqUb1LRCl2RUTxbX3RsXQ
+         M+Y5zZK7bsecdpiaDpMq5RRB27rDgo0/M+ZbSCEZHb+hA1Kc8KbrE4sWd6GKA7QkcHyh
+         1DTbixT5yUa5USH7bTvnnLbaZXWaDUgB1nvrAAhW9MkZB3rWuiOiqqP20ofa/ntpyhK9
+         ZctwLOLaqL0LpxDqBCdl1Pt3TTe0Ddo1t1IE8jFQ0jFXZdPSUo/hsUcMlBsR9oethkIF
+         LdoKOyp2IS/TTvzPkKFBR9Hbqk/lA/V0tHIgl+n1hwpz35Zr1xVfJjHtBxp3mgfZoGSr
+         gM3Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVl/Wo6CMwTCyW/xxs1pCxYgm+JohNBiPgXJin/rBuNJgt4sTD0Wrpvo8vnbd770L5LVOtqGmyt0pya9EP+iZE5Ow==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwVan7Y8VJqVWp11HQUPiXNZAYLSFkueHOlyXHq0dCxr4he1u7h
+	FRGoXMKGPiPxnSIAc1ZUU+mRPWU05piGJZqi+6EShyy1v259Sv41XSbPD1h7jJsL
+X-Gm-Gg: ATEYQzxnwpEoNjN68s+Nk9w20TAZPMdRQqXlLNKH6WgnZYvsfQBslnOFtsYe1N5JAoV
+	WrUVoys4I4pwZJ6RJfA+OxDog2sZ0qSkzVDCu+w+oxsHU9NKuGfv0G/5DiSVgfqIPN4s51d2b25
+	ZJoZXPfSYoW8Ik39owci1MN4y2gEMJ6zVarSXwLZWK+45yFc63iPAGtBxjHiQSQNBT4kylhmWha
+	uDAbNCG6IQWw2JO6TwV9LlE6xGVzY6pXC7wrcEKEvgBeGorKCvS9CzVGPTCmpbx5JaMCuNzRIdq
+	+1sPZTxrK+5LpIphVwSCNzJund4K8AtBZjSnp6u7I96647mKu9aJ+Xj9YXjD5JC1a+dn+foOMiy
+	iw6QBmwRW20E5UbVQwHADuc831IweKzWpzx40eQ9cIa5VWxLfg1Wf+1dRwPQS0brDeFLCK1XySw
+	36Tqj2YnV1SRRXbaWjAJ7xeyjxYFhutO0FtzAP+LRfcHqTcLImbAfkc3j/LKdm
+X-Received: by 2002:a05:6102:2922:b0:5fc:2b19:f7de with SMTP id ada2fe7eead31-5ffaae9984fmr1108210137.25.1772644397658;
+        Wed, 04 Mar 2026 09:13:17 -0800 (PST)
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com. [209.85.222.45])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5ffaa208aeesm2731625137.12.2026.03.04.09.13.16
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 04 Mar 2026 09:13:17 -0800 (PST)
+Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-94dda16ff9fso2137484241.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 04 Mar 2026 09:13:16 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWNPBSlK6+eD6coRYMRv+vjJjgm0zZ6IyFGuXsczhrHTQmgY4P2x5VD4CZb8e8slI4ckzRx2MvfLlM6AXxIzlszVw==@vger.kernel.org
+X-Received: by 2002:a05:6102:3e86:b0:5f1:b7b2:8929 with SMTP id
+ ada2fe7eead31-5ffaac72c15mr1143974137.15.1772644396647; Wed, 04 Mar 2026
+ 09:13:16 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 7884E204FD0
+References: <62b849967d71d73e028fb65efee717986ef847e6.1772641758.git.geert+renesas@glider.be>
+ <535cfe49-4f70-4ed9-ae4f-92215140e6f6@gmail.com>
+In-Reply-To: <535cfe49-4f70-4ed9-ae4f-92215140e6f6@gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 4 Mar 2026 18:13:05 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVhznozaH8=jPGBf_aKEged+pjtAeDTBmukd2B4KMJkwg@mail.gmail.com>
+X-Gm-Features: AaiRm53SGuxzi6WBseORNxFfXVIwmT8pmyVVW-tzwjBIYdQXKlr-Hu8waR2QV74
+Message-ID: <CAMuHMdVhznozaH8=jPGBf_aKEged+pjtAeDTBmukd2B4KMJkwg@mail.gmail.com>
+Subject: Re: [PATCH] irqchip/gic-v3: Print a warning for out-of-range
+ interrupt numbers
+To: Sergey Shtylyov <sergei.shtylyov@gmail.com>
+Cc: Marc Zyngier <maz@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Rspamd-Queue-Id: A4BB6205110
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.54 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.46 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	TAGGED_FROM(0.00)[bounces-28798-lists,linux-renesas-soc=lfdr.de,renesas];
-	FREEMAIL_TO(0.00)[arm.com,linaro.org,baylibre.com,googlemail.com,samsung.com,nxp.com,pengutronix.de,gmail.com,kernel.org,nvidia.com];
+	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-28799-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	DMARC_NA(0.00)[glider.be];
+	DMARC_NA(0.00)[linux-m68k.org];
+	FREEMAIL_TO(0.00)[gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	NEURAL_SPAM(0.00)[0.073];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCPT_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@glider.be,linux-renesas-soc@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	DBL_PROHIBIT(0.00)[1.23.150.56:email];
+	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
 	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.904];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,glider.be:mid,glider.be:email,f200000:email,12b:email,1.35.113.96:email]
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,glider.be:email,linux-m68k.org:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-Unlike older GIC variants, the GICv3 DT bindings do not support
-specifying a CPU mask in PPI interrupt specifiers.  Drop the masks.
+Hi Sergey,
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- arch/arm64/boot/dts/qcom/agatti.dtsi   |  8 ++++----
- arch/arm64/boot/dts/qcom/lemans.dtsi   |  8 ++++----
- arch/arm64/boot/dts/qcom/monaco.dtsi   |  8 ++++----
- arch/arm64/boot/dts/qcom/qdu1000.dtsi  | 10 +++++-----
- arch/arm64/boot/dts/qcom/sc8280xp.dtsi |  8 ++++----
- arch/arm64/boot/dts/qcom/sdm630.dtsi   |  8 ++++----
- arch/arm64/boot/dts/qcom/sdx75.dtsi    |  8 ++++----
- arch/arm64/boot/dts/qcom/sm4450.dtsi   |  8 ++++----
- arch/arm64/boot/dts/qcom/sm6115.dtsi   |  8 ++++----
- arch/arm64/boot/dts/qcom/sm6125.dtsi   |  8 ++++----
- arch/arm64/boot/dts/qcom/sm6350.dtsi   |  8 ++++----
- arch/arm64/boot/dts/qcom/sm6375.dtsi   |  8 ++++----
- arch/arm64/boot/dts/qcom/sm8250.dtsi   | 12 ++++--------
- arch/arm64/boot/dts/qcom/sm8350.dtsi   |  8 ++++----
- arch/arm64/boot/dts/qcom/sm8450.dtsi   |  8 ++++----
- arch/arm64/boot/dts/qcom/sm8550.dtsi   |  8 ++++----
- arch/arm64/boot/dts/qcom/talos.dtsi    |  8 ++++----
- 17 files changed, 69 insertions(+), 73 deletions(-)
+On Wed, 4 Mar 2026 at 18:05, Sergey Shtylyov <sergei.shtylyov@gmail.com> wrote:
+> On 3/4/26 7:31 PM, Geert Uytterhoeven wrote:
+> > gic_irq_domain_translate() does not check if an interrupt number lies
+> > within the valid range of the specified interrupt type.  Add these
+> > checks, and print a warning if the interrupt number is out of range.
+> >
+> > This can help flagging incorrectly described Extended SPI and PPI
+> > interrupts in DT.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > ---
+> > This would have prevented the issue fixed by "[PATCH] arm64: dts:
+> > renesas: r8a78000: Fix out-of-range SPI interrupt numbers"[1].
+> >
+> > [1] https://lore.kernel.org/1f9dd274720ea1b66617a5dd84f76c3efc829dc8.1772641415.git.geert+renesas@glider.be
+> > ---
+> >  drivers/irqchip/irq-gic-v3.c | 12 ++++++++++++
+> >  1 file changed, 12 insertions(+)
+> >
+> > diff --git a/drivers/irqchip/irq-gic-v3.c b/drivers/irqchip/irq-gic-v3.c
+> > index 20f13b686ab22faf..d75163e71bf22473 100644
+> > --- a/drivers/irqchip/irq-gic-v3.c
+> > +++ b/drivers/irqchip/irq-gic-v3.c
+> > @@ -1603,15 +1603,27 @@ static int gic_irq_domain_translate(struct irq_domain *d,
+> >
+> >               switch (fwspec->param[0]) {
+> >               case 0:                 /* SPI */
+> > +                     if (fwspec->param[1] > 987)
+> > +                             pr_warn_once("SPI %u out of range (use ESPI?)\n",
+> > +                                          fwspec->param[1]);
+> >                       *hwirq = fwspec->param[1] + 32;
+> >                       break;
+> >               case 1:                 /* PPI */
+> > +                     if (fwspec->param[1] > 16)
+>
+>    Not 15? Don't PPIs use INTIDs 16-31?
 
-diff --git a/arch/arm64/boot/dts/qcom/agatti.dtsi b/arch/arm64/boot/dts/qcom/agatti.dtsi
-index 76b93b7bd50f9c61..6ee71c3895a9d402 100644
---- a/arch/arm64/boot/dts/qcom/agatti.dtsi
-+++ b/arch/arm64/boot/dts/qcom/agatti.dtsi
-@@ -2839,9 +2839,9 @@ camera_crit: camera-crit {
- 
- 	timer {
- 		compatible = "arm,armv8-timer";
--		interrupts = <GIC_PPI 1 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 2 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 3 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 0 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>;
-+		interrupts = <GIC_PPI 1 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 2 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 3 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 0 IRQ_TYPE_LEVEL_LOW>;
- 	};
- };
-diff --git a/arch/arm64/boot/dts/qcom/lemans.dtsi b/arch/arm64/boot/dts/qcom/lemans.dtsi
-index 808827b83553dd70..09226bbc2aa6d6e3 100644
---- a/arch/arm64/boot/dts/qcom/lemans.dtsi
-+++ b/arch/arm64/boot/dts/qcom/lemans.dtsi
-@@ -8575,10 +8575,10 @@ trip-point1 {
- 
- 	arch_timer: timer {
- 		compatible = "arm,armv8-timer";
--		interrupts = <GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>;
-+		interrupts = <GIC_PPI 13 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 14 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 11 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 10 IRQ_TYPE_LEVEL_LOW>;
- 	};
- 
- 	turing-llm-tpdm {
-diff --git a/arch/arm64/boot/dts/qcom/monaco.dtsi b/arch/arm64/boot/dts/qcom/monaco.dtsi
-index 5d2df4305d1c1c45..372518ab7f1c08dc 100644
---- a/arch/arm64/boot/dts/qcom/monaco.dtsi
-+++ b/arch/arm64/boot/dts/qcom/monaco.dtsi
-@@ -7707,9 +7707,9 @@ cpuss1-critical {
- 
- 	timer {
- 		compatible = "arm,armv8-timer";
--		interrupts = <GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>;
-+		interrupts = <GIC_PPI 13 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 14 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 11 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 10 IRQ_TYPE_LEVEL_LOW>;
- 	};
- };
-diff --git a/arch/arm64/boot/dts/qcom/qdu1000.dtsi b/arch/arm64/boot/dts/qcom/qdu1000.dtsi
-index cdfe40da5d333297..952d4270d1181eb5 100644
---- a/arch/arm64/boot/dts/qcom/qdu1000.dtsi
-+++ b/arch/arm64/boot/dts/qcom/qdu1000.dtsi
-@@ -1638,10 +1638,10 @@ multi_chan_ddr: multi-chan-ddr@12b {
- 
- 	timer {
- 		compatible = "arm,armv8-timer";
--		interrupts = <GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 12 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>;
-+		interrupts = <GIC_PPI 13 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 14 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 11 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 10 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 12 IRQ_TYPE_LEVEL_LOW>;
- 	};
- };
-diff --git a/arch/arm64/boot/dts/qcom/sc8280xp.dtsi b/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
-index 706eb1309d3f0844..1f41295433561f94 100644
---- a/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
-@@ -6652,9 +6652,9 @@ trip-point0 {
- 
- 	timer {
- 		compatible = "arm,armv8-timer";
--		interrupts = <GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>;
-+		interrupts = <GIC_PPI 13 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 14 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 11 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 10 IRQ_TYPE_LEVEL_LOW>;
- 	};
- };
-diff --git a/arch/arm64/boot/dts/qcom/sdm630.dtsi b/arch/arm64/boot/dts/qcom/sdm630.dtsi
-index f4b8e8f468f2479d..0b6448650471a798 100644
---- a/arch/arm64/boot/dts/qcom/sdm630.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sdm630.dtsi
-@@ -2755,10 +2755,10 @@ trip-point2 {
- 
- 	timer {
- 		compatible = "arm,armv8-timer";
--		interrupts = <GIC_PPI 1 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 2 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 3 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 0 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>;
-+		interrupts = <GIC_PPI 1 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 2 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 3 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 0 IRQ_TYPE_LEVEL_LOW>;
- 	};
- };
- 
-diff --git a/arch/arm64/boot/dts/qcom/sdx75.dtsi b/arch/arm64/boot/dts/qcom/sdx75.dtsi
-index eff4c9055d663da7..d1b61530b562f019 100644
---- a/arch/arm64/boot/dts/qcom/sdx75.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sdx75.dtsi
-@@ -1580,9 +1580,9 @@ gem_noc: interconnect@19100000 {
- 
- 	timer {
- 		compatible = "arm,armv8-timer";
--		interrupts = <GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 12 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>;
-+		interrupts = <GIC_PPI 13 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 14 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 11 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 12 IRQ_TYPE_LEVEL_LOW>;
- 	};
- };
-diff --git a/arch/arm64/boot/dts/qcom/sm4450.dtsi b/arch/arm64/boot/dts/qcom/sm4450.dtsi
-index d217d922811e8442..696e2e0841ad9ab0 100644
---- a/arch/arm64/boot/dts/qcom/sm4450.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sm4450.dtsi
-@@ -678,9 +678,9 @@ cpufreq_hw: cpufreq@17d91000 {
- 
- 	timer {
- 		compatible = "arm,armv8-timer";
--		interrupts = <GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>;
-+		interrupts = <GIC_PPI 13 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 14 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 11 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 10 IRQ_TYPE_LEVEL_LOW>;
- 	};
- };
-diff --git a/arch/arm64/boot/dts/qcom/sm6115.dtsi b/arch/arm64/boot/dts/qcom/sm6115.dtsi
-index e9336adbc3918437..a2a6cdad9a97b836 100644
---- a/arch/arm64/boot/dts/qcom/sm6115.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sm6115.dtsi
-@@ -3460,9 +3460,9 @@ trip-point1 {
- 
- 	timer {
- 		compatible = "arm,armv8-timer";
--		interrupts = <GIC_PPI 1 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 2 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 3 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 0 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>;
-+		interrupts = <GIC_PPI 1 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 2 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 3 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 0 IRQ_TYPE_LEVEL_LOW>;
- 	};
- };
-diff --git a/arch/arm64/boot/dts/qcom/sm6125.dtsi b/arch/arm64/boot/dts/qcom/sm6125.dtsi
-index 80c42dff5399b7c6..31cff36144c569a2 100644
---- a/arch/arm64/boot/dts/qcom/sm6125.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sm6125.dtsi
-@@ -1592,10 +1592,10 @@ intc: interrupt-controller@f200000 {
- 
- 	timer {
- 		compatible = "arm,armv8-timer";
--		interrupts = <GIC_PPI 1 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 2 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 3 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 0 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>;
-+		interrupts = <GIC_PPI 1 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 2 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 3 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 0 IRQ_TYPE_LEVEL_LOW>;
- 		clock-frequency = <19200000>;
- 	};
- };
-diff --git a/arch/arm64/boot/dts/qcom/sm6350.dtsi b/arch/arm64/boot/dts/qcom/sm6350.dtsi
-index 9f9b9f9af0da9ddd..70f61c6b6ff6a313 100644
---- a/arch/arm64/boot/dts/qcom/sm6350.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sm6350.dtsi
-@@ -3509,9 +3509,9 @@ video-crit {
- 	timer {
- 		compatible = "arm,armv8-timer";
- 		clock-frequency = <19200000>;
--		interrupts = <GIC_PPI 1 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 2 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 3 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 0 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>;
-+		interrupts = <GIC_PPI 1 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 2 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 3 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 0 IRQ_TYPE_LEVEL_LOW>;
- 	};
- };
-diff --git a/arch/arm64/boot/dts/qcom/sm6375.dtsi b/arch/arm64/boot/dts/qcom/sm6375.dtsi
-index 87d6600ccbd94e60..ccf572bb1549bf6b 100644
---- a/arch/arm64/boot/dts/qcom/sm6375.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sm6375.dtsi
-@@ -2469,9 +2469,9 @@ video_crit: video-crit {
- 
- 	timer {
- 		compatible = "arm,armv8-timer";
--		interrupts = <GIC_PPI 1 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 2 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 3 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 0 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>;
-+		interrupts = <GIC_PPI 1 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 2 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 3 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 0 IRQ_TYPE_LEVEL_LOW>;
- 	};
- };
-diff --git a/arch/arm64/boot/dts/qcom/sm8250.dtsi b/arch/arm64/boot/dts/qcom/sm8250.dtsi
-index c7dffa440074073b..c511b516327487b6 100644
---- a/arch/arm64/boot/dts/qcom/sm8250.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sm8250.dtsi
-@@ -6285,14 +6285,10 @@ sound: sound {
- 
- 	timer {
- 		compatible = "arm,armv8-timer";
--		interrupts = <GIC_PPI 13
--				(GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 14
--				(GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 11
--				(GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 10
--				(GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>;
-+		interrupts = <GIC_PPI 13 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 14 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 11 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 10 IRQ_TYPE_LEVEL_LOW>;
- 	};
- 
- 	thermal-zones {
-diff --git a/arch/arm64/boot/dts/qcom/sm8350.dtsi b/arch/arm64/boot/dts/qcom/sm8350.dtsi
-index 5c8fe213f5e4ecbb..bc07c51049e7ace2 100644
---- a/arch/arm64/boot/dts/qcom/sm8350.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sm8350.dtsi
-@@ -4523,9 +4523,9 @@ camera2_alert0: trip-point0 {
- 
- 	timer {
- 		compatible = "arm,armv8-timer";
--		interrupts = <GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>;
-+		interrupts = <GIC_PPI 13 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 14 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 11 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 10 IRQ_TYPE_LEVEL_LOW>;
- 	};
- };
-diff --git a/arch/arm64/boot/dts/qcom/sm8450.dtsi b/arch/arm64/boot/dts/qcom/sm8450.dtsi
-index 920a2d1c04d0c5a8..3e5b4b1c2406b83f 100644
---- a/arch/arm64/boot/dts/qcom/sm8450.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sm8450.dtsi
-@@ -6327,10 +6327,10 @@ reset-mon-cfg {
- 
- 	timer {
- 		compatible = "arm,armv8-timer";
--		interrupts = <GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
--			     <GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>;
-+		interrupts = <GIC_PPI 13 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 14 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 11 IRQ_TYPE_LEVEL_LOW>,
-+			     <GIC_PPI 10 IRQ_TYPE_LEVEL_LOW>;
- 		clock-frequency = <19200000>;
- 	};
- };
-diff --git a/arch/arm64/boot/dts/qcom/sm8550.dtsi b/arch/arm64/boot/dts/qcom/sm8550.dtsi
-index e3f93f4f412ded95..980ced8c961e465b 100644
---- a/arch/arm64/boot/dts/qcom/sm8550.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sm8550.dtsi
-@@ -6758,9 +6758,9 @@ trip-point2 {
- 
- 	timer {
- 		compatible = "arm,armv8-timer";
--		interrupts = <GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW) 0>,
--			     <GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW) 0>,
--			     <GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW) 0>,
--			     <GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW) 0>;
-+		interrupts = <GIC_PPI 13 IRQ_TYPE_LEVEL_LOW 0>,
-+			     <GIC_PPI 14 IRQ_TYPE_LEVEL_LOW 0>,
-+			     <GIC_PPI 11 IRQ_TYPE_LEVEL_LOW 0>,
-+			     <GIC_PPI 10 IRQ_TYPE_LEVEL_LOW 0>;
- 	};
- };
-diff --git a/arch/arm64/boot/dts/qcom/talos.dtsi b/arch/arm64/boot/dts/qcom/talos.dtsi
-index 75716b4a58d6d331..b1c3abcc2fc896a9 100644
---- a/arch/arm64/boot/dts/qcom/talos.dtsi
-+++ b/arch/arm64/boot/dts/qcom/talos.dtsi
-@@ -4714,10 +4714,10 @@ cpufreq_hw: cpufreq@18323000 {
- 
- 	arch_timer: timer {
- 		compatible = "arm,armv8-timer";
--		interrupts = <GIC_PPI 1 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW) 0>,
--			     <GIC_PPI 2 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW) 0>,
--			     <GIC_PPI 3 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW) 0>,
--			     <GIC_PPI 0 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW) 0>;
-+		interrupts = <GIC_PPI 1 IRQ_TYPE_LEVEL_LOW 0>,
-+			     <GIC_PPI 2 IRQ_TYPE_LEVEL_LOW 0>,
-+			     <GIC_PPI 3 IRQ_TYPE_LEVEL_LOW 0>,
-+			     <GIC_PPI 0 IRQ_TYPE_LEVEL_LOW 0>;
- 	};
- 
- 	thermal-zones {
+Thank you, that is indeed an off-by-one bug.
+Will fix.
+
+>
+> > +                             pr_warn_once("PPI %u out of range (use EPPI?)\n",
+> > +                                          fwspec->param[1]);
+> >                       *hwirq = fwspec->param[1] + 16;
+> >                       break;
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.43.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
