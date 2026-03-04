@@ -1,181 +1,151 @@
-Return-Path: <linux-renesas-soc+bounces-28799-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28800-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CGB0D8RpqGnYuQAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28799-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Mar 2026 18:20:04 +0100
+	id IGUDLC5uqGkkugAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28800-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Mar 2026 18:38:54 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4BB6205110
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Mar 2026 18:20:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 284CE20542B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Mar 2026 18:38:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id CF81B30B8E01
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Mar 2026 17:13:22 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id B9FC130120FA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Mar 2026 17:34:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EAF7371D15;
-	Wed,  4 Mar 2026 17:13:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28A1F35BDAC;
+	Wed,  4 Mar 2026 17:34:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W4awxQI6"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B439C378D9E
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  4 Mar 2026 17:13:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05C0239A05F;
+	Wed,  4 Mar 2026 17:34:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772644400; cv=none; b=qKNQH5SNn/vZrt+P7aOvHtudO4okAx9hDSILXrKKWZKBicpr2qP7YCUFiaygpjctw6BeYt66JCVRN/hlZFVtsUEr/3goSAEr2qh5j+iUKWcq+vxzfqnIg59pZJdInHwVYidaeVZ5HZnEFwHOs+zhzb1ARFzXBu7qHcaoh8IObXQ=
+	t=1772645656; cv=none; b=Yy80bVntLG5MKWWgsPena6tU4b5yqjmKeGxkV1YK5x6/8w/vhuVMRiKqyZmmgTDV2FJv56d2QqZb7R/l6KBX5fwPbA9AYZBOtFFhxCPn/jUiJk02FlvLq/+QcQtt2aq3PqgekEYmPAwvfuX23/pTY6YyD+CReqiwiyhyaiN+bkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772644400; c=relaxed/simple;
-	bh=lF3iBjuHgKRvZeTOEwkNNAPLnI7XHHUrvS30lr5/dGI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=L/CZYM16hyNCc+zgDPoU1a3JKq+YmhV1ZFtkd0SE7S+UX61RwZ7n3q7yofrPcT60BtP3I0xexD5yt+sEEZejQ5cfgwd+xZsfFOGIJ73ur47BwZ0oidQeLOVhqnw5LQkeR+fiy0dfLxA4D7JUMlUYp7NOGYoR+ud3CT4ubTAn+bA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-5ff0f61abd7so1779065137.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 04 Mar 2026 09:13:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772644398; x=1773249198;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/prTTpQhW620yX2PYVk5yWIkWxklh3YEhELl29vkzfw=;
-        b=idHOps3ThwRwBXiqmOd9W1fMtjvC0w/Ve6kukzexRetf9yqUb1LRCl2RUTxbX3RsXQ
-         M+Y5zZK7bsecdpiaDpMq5RRB27rDgo0/M+ZbSCEZHb+hA1Kc8KbrE4sWd6GKA7QkcHyh
-         1DTbixT5yUa5USH7bTvnnLbaZXWaDUgB1nvrAAhW9MkZB3rWuiOiqqP20ofa/ntpyhK9
-         ZctwLOLaqL0LpxDqBCdl1Pt3TTe0Ddo1t1IE8jFQ0jFXZdPSUo/hsUcMlBsR9oethkIF
-         LdoKOyp2IS/TTvzPkKFBR9Hbqk/lA/V0tHIgl+n1hwpz35Zr1xVfJjHtBxp3mgfZoGSr
-         gM3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVl/Wo6CMwTCyW/xxs1pCxYgm+JohNBiPgXJin/rBuNJgt4sTD0Wrpvo8vnbd770L5LVOtqGmyt0pya9EP+iZE5Ow==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwVan7Y8VJqVWp11HQUPiXNZAYLSFkueHOlyXHq0dCxr4he1u7h
-	FRGoXMKGPiPxnSIAc1ZUU+mRPWU05piGJZqi+6EShyy1v259Sv41XSbPD1h7jJsL
-X-Gm-Gg: ATEYQzxnwpEoNjN68s+Nk9w20TAZPMdRQqXlLNKH6WgnZYvsfQBslnOFtsYe1N5JAoV
-	WrUVoys4I4pwZJ6RJfA+OxDog2sZ0qSkzVDCu+w+oxsHU9NKuGfv0G/5DiSVgfqIPN4s51d2b25
-	ZJoZXPfSYoW8Ik39owci1MN4y2gEMJ6zVarSXwLZWK+45yFc63iPAGtBxjHiQSQNBT4kylhmWha
-	uDAbNCG6IQWw2JO6TwV9LlE6xGVzY6pXC7wrcEKEvgBeGorKCvS9CzVGPTCmpbx5JaMCuNzRIdq
-	+1sPZTxrK+5LpIphVwSCNzJund4K8AtBZjSnp6u7I96647mKu9aJ+Xj9YXjD5JC1a+dn+foOMiy
-	iw6QBmwRW20E5UbVQwHADuc831IweKzWpzx40eQ9cIa5VWxLfg1Wf+1dRwPQS0brDeFLCK1XySw
-	36Tqj2YnV1SRRXbaWjAJ7xeyjxYFhutO0FtzAP+LRfcHqTcLImbAfkc3j/LKdm
-X-Received: by 2002:a05:6102:2922:b0:5fc:2b19:f7de with SMTP id ada2fe7eead31-5ffaae9984fmr1108210137.25.1772644397658;
-        Wed, 04 Mar 2026 09:13:17 -0800 (PST)
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com. [209.85.222.45])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5ffaa208aeesm2731625137.12.2026.03.04.09.13.16
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Mar 2026 09:13:17 -0800 (PST)
-Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-94dda16ff9fso2137484241.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 04 Mar 2026 09:13:16 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWNPBSlK6+eD6coRYMRv+vjJjgm0zZ6IyFGuXsczhrHTQmgY4P2x5VD4CZb8e8slI4ckzRx2MvfLlM6AXxIzlszVw==@vger.kernel.org
-X-Received: by 2002:a05:6102:3e86:b0:5f1:b7b2:8929 with SMTP id
- ada2fe7eead31-5ffaac72c15mr1143974137.15.1772644396647; Wed, 04 Mar 2026
- 09:13:16 -0800 (PST)
+	s=arc-20240116; t=1772645656; c=relaxed/simple;
+	bh=/LPKmotmI8lUo2wOICNb9tp9KvlZLh5e3yBDGvs7odI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SMaz631I3Xza+vgfafdJq3+PmuDtoBwrXdmNEqvyj568F6cyFhfIcr0NUx2o/AixJB8RGvaNTqeVBf83pjL69y3+NVwxpjNhqONloTHhfss9HTEhJhdZCuPfpKyyyW4gJiu1v1Gm6g4w7oALUGwQCXjq780viuRNzWEpLtIBdrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W4awxQI6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B094DC4CEF7;
+	Wed,  4 Mar 2026 17:34:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772645655;
+	bh=/LPKmotmI8lUo2wOICNb9tp9KvlZLh5e3yBDGvs7odI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=W4awxQI684hgnexGb8x/nbZK4CZq777X84LG4misRieZ4d417/DBDBb6n5EmrQZ0s
+	 5mEYwK5wW/q/g/in5GgDaIdWq2JJYGWfIko2Z6j+7cFFh48ZYrBgNpt3fPdrWkKgBE
+	 VbzjAuCdkuAWgV0iK+0+zy8Gh8mFZcpyCXozcdtRk7kGsiQXDKAIrFUAXbLYFd3vVZ
+	 nNTjaVFCmo5ERwxoyLcEKHNBHn5vZAqzi4CvYxR5d0Ml0glo3phc3xGHxWfJ9uDgUH
+	 R0aKEg1QJ4fTqZfDD9Y99iWFbA4DD2OrMFkfTwEV2JojfAK5MXxK6G0NYL+LdCVNn/
+	 BJo15HaPyI9jQ==
+Date: Wed, 4 Mar 2026 18:34:09 +0100
+From: Niklas Cassel <cassel@kernel.org>
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: Koichiro Den <den@valinux.co.jp>, Bjorn Helgaas <helgaas@kernel.org>,
+	marek.vasut+renesas@gmail.com, yoshihiro.shimoda.uh@renesas.com,
+	lpieralisi@kernel.org, kwilczynski@kernel.org, robh@kernel.org,
+	bhelgaas@google.com, geert+renesas@glider.be, magnus.damm@gmail.com,
+	linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] PCI: dwc: rcar-gen4-ep: Mark BAR0 and BAR2 as
+ Resizable BARs
+Message-ID: <aahtEe3Klcg4QDyJ@ryzen>
+References: <20260210160315.2272930-1-den@valinux.co.jp>
+ <20260302223150.GA4022590@bhelgaas>
+ <ns62mpoyrskr5q3uoy7gfjzideede2xqpixsllwhc3ozkz4us3@ltdzzshbgxla>
+ <aag0bu6Me7aUNAdK@ryzen>
+ <sreho2ezzdlndgzazx5alj3cx2snli4yemtrhiamjmr2v3myj5@yudnnbek4wbq>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <62b849967d71d73e028fb65efee717986ef847e6.1772641758.git.geert+renesas@glider.be>
- <535cfe49-4f70-4ed9-ae4f-92215140e6f6@gmail.com>
-In-Reply-To: <535cfe49-4f70-4ed9-ae4f-92215140e6f6@gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 4 Mar 2026 18:13:05 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVhznozaH8=jPGBf_aKEged+pjtAeDTBmukd2B4KMJkwg@mail.gmail.com>
-X-Gm-Features: AaiRm53SGuxzi6WBseORNxFfXVIwmT8pmyVVW-tzwjBIYdQXKlr-Hu8waR2QV74
-Message-ID: <CAMuHMdVhznozaH8=jPGBf_aKEged+pjtAeDTBmukd2B4KMJkwg@mail.gmail.com>
-Subject: Re: [PATCH] irqchip/gic-v3: Print a warning for out-of-range
- interrupt numbers
-To: Sergey Shtylyov <sergei.shtylyov@gmail.com>
-Cc: Marc Zyngier <maz@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Rspamd-Queue-Id: A4BB6205110
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <sreho2ezzdlndgzazx5alj3cx2snli4yemtrhiamjmr2v3myj5@yudnnbek4wbq>
+X-Rspamd-Queue-Id: 284CE20542B
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.46 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-28799-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-28800-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[linux-m68k.org];
-	FREEMAIL_TO(0.00)[gmail.com];
+	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[valinux.co.jp,kernel.org,gmail.com,renesas.com,google.com,glider.be,vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	NEURAL_SPAM(0.00)[0.073];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	RCPT_COUNT_FIVE(0.00)[6];
+	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	R_DKIM_NA(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[cassel@kernel.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,glider.be:email,linux-m68k.org:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-Hi Sergey,
+On Wed, Mar 04, 2026 at 08:04:52PM +0530, Manivannan Sadhasivam wrote:
+> > 
+> > So this is not something unique to BAR type/sizing scheme, the same arguments,
+> > for/against, also applies for msi_capable/msix_capable.
+> > 
+> > Manivannan, would it be possible to automatically initialize msi/msix_capable
+> > on Qcom once a reference is provided, or would this be too late?
+> > 
+> 
+> Yes, with a valid reference clock, it should be possible to read the
+> capabilities and detect these. But there is no way we can make sure that the
+> reference clock is always be present. Maybe we can do it using a devicetree
+> property that you tried upstreaming some time before:
+> https://lore.kernel.org/linux-pci/20250425092012.95418-2-cassel@kernel.org
 
-On Wed, 4 Mar 2026 at 18:05, Sergey Shtylyov <sergei.shtylyov@gmail.com> wrote:
-> On 3/4/26 7:31 PM, Geert Uytterhoeven wrote:
-> > gic_irq_domain_translate() does not check if an interrupt number lies
-> > within the valid range of the specified interrupt type.  Add these
-> > checks, and print a warning if the interrupt number is out of range.
-> >
-> > This can help flagging incorrectly described Extended SPI and PPI
-> > interrupts in DT.
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> > This would have prevented the issue fixed by "[PATCH] arm64: dts:
-> > renesas: r8a78000: Fix out-of-range SPI interrupt numbers"[1].
-> >
-> > [1] https://lore.kernel.org/1f9dd274720ea1b66617a5dd84f76c3efc829dc8.1772641415.git.geert+renesas@glider.be
-> > ---
-> >  drivers/irqchip/irq-gic-v3.c | 12 ++++++++++++
-> >  1 file changed, 12 insertions(+)
-> >
-> > diff --git a/drivers/irqchip/irq-gic-v3.c b/drivers/irqchip/irq-gic-v3.c
-> > index 20f13b686ab22faf..d75163e71bf22473 100644
-> > --- a/drivers/irqchip/irq-gic-v3.c
-> > +++ b/drivers/irqchip/irq-gic-v3.c
-> > @@ -1603,15 +1603,27 @@ static int gic_irq_domain_translate(struct irq_domain *d,
-> >
-> >               switch (fwspec->param[0]) {
-> >               case 0:                 /* SPI */
-> > +                     if (fwspec->param[1] > 987)
-> > +                             pr_warn_once("SPI %u out of range (use ESPI?)\n",
-> > +                                          fwspec->param[1]);
-> >                       *hwirq = fwspec->param[1] + 32;
-> >                       break;
-> >               case 1:                 /* PPI */
-> > +                     if (fwspec->param[1] > 16)
->
->    Not 15? Don't PPIs use INTIDs 16-31?
+I was thinking something more like, e.g. dw_pcie_ep_init_registers() calling:
+1) A function that hides broken features.
 
-Thank you, that is indeed an off-by-one bug.
-Will fix.
+2) A function that allocates and initializes features in epc_features.
+   E.g. msi_capable = true, msix_capable = true, barX = resizable,
+   based on the information it can parse from the capabilities list.
 
->
-> > +                             pr_warn_once("PPI %u out of range (use EPPI?)\n",
-> > +                                          fwspec->param[1]);
-> >                       *hwirq = fwspec->param[1] + 16;
-> >                       break;
+The allocation done in 2) could be dynamically allocated memory, so the
+information could be kept even if the reference clock is lost at a later
+time.
 
-Gr{oetje,eeting}s,
+At least during dw_pcie_ep_init_registers(), I would assume that there is
+a reference clock, even when using Common Clock, e.g. as default on Qcom.
 
-                        Geert
+Anyway, while I kind of like this idea, it would be a significant change
+from the current design.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+E.g. pci-epf-test makes use of epc_features already in .bind().
+I don't know exactly how e.g. Qcom works, do we know that we will have
+a reference clock in .bind() ?  If I remember correctly, we only know that
+we have a reference clock in .epc_init(). So this change would also need
+to modify all existing EPF drivers to not make use of epc_features in
+.bind(), and only make use of epc_features first after .epc_init().
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+So it sounds like quite a big change. Probably a design we would want if
+we designed the PCI endpoint framework today, but doubt it will happen now.
+
+
+Kind regards,
+Niklas
 
