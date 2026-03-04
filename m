@@ -1,191 +1,227 @@
-Return-Path: <linux-renesas-soc+bounces-28752-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28753-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AK2MESf5p2mtmwAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28752-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Mar 2026 10:19:35 +0100
+	id +MPbNQoQqGk8ngAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28753-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Mar 2026 11:57:14 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC2AA1FD77B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Mar 2026 10:19:34 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 323241FE9D2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Mar 2026 11:57:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 32E9D3012E6E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Mar 2026 09:19:34 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E42AC302411E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Mar 2026 10:56:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 459B1390C98;
-	Wed,  4 Mar 2026 09:19:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5318D3A451B;
+	Wed,  4 Mar 2026 10:56:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="YuwAzi+F";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="BPqHNVpI"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TdQtjZ5X"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7295D38836D
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  4 Mar 2026 09:19:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772615973; cv=none; b=N1IlVJk1JYp6LQq5KaBtvsrB2T9yOgUEgKVPhyYV3tzlhT8C68uYrgJypHE6U/C1cPc6VuIGOIYscrPQ0QPUwU52NiHc1iCjklipBwcXUcRdZj5TW+hYJCuJgSK2RXU1IoPQsb+0Fw+U91jL4DF54NFXL8HoZpL97yrZm5cv+vg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772615973; c=relaxed/simple;
-	bh=CgUIX/j8xbNBZepU+kcoSbBhv8dHEWhS+UNWzvSI4TY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NFcCg/QMieHmd4W53qxYpoj3uAreB5yrPP/mNw+ggspX47Eo6JA0nA8GWHUC4GjcvMw+r0lsRcfto+PnElY2+g6ZKaO7uopaIkJID+NCksj/nl+9Yi0TMYnJAvr4b+kmlReulai5kgxXGxGGnnsyc+hzYwOVkhVoQ/wDDwuugiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=YuwAzi+F; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=BPqHNVpI; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6245SUOr2861188
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 4 Mar 2026 09:19:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	yrXi13Z30e/iaNuSMOSCmABJiJllICGpM6/FbLGTct8=; b=YuwAzi+F4fbeBVFB
-	iREDt9xOK25QxQJrQD9qQLEEn7kx2IJoRsk3BfYgaRyb88tda99pF21X1qL7flJU
-	B37R1lKTaD6s423Pz2yvng3ji646s54i1y01ONE5m0qTyIAMDPkS5Ns1sS9uL89T
-	/dRz88Y/PXbreMlfbaR3yuhJ3svEX2/6P5MZkYjQIvuHJ+bIIkftl8UyKQO02TNY
-	AzK+ubTyRCCYt4FYGWXG656WriKN4Rq7MuuvKTc10kgV64qh6439oWyGUsfDGgeB
-	a2+QuynkoYxCj4v+hAMXmQs+/JlW8XFO4/ktDxvKBF4fGvi+cFKMIQm01XZbHfXW
-	5r2cKQ==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cp2c9kb29-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 04 Mar 2026 09:19:29 +0000 (GMT)
-Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-89a012f8ab7so17808186d6.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 04 Mar 2026 01:19:29 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD4F73A1D10
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  4 Mar 2026 10:56:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.181
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772621798; cv=pass; b=hq9D2GbwqSfbun/171UIv5AFxG7NtSE/GiO1xllJJ7knmTDODLS2y1UtDX5P2MDsDomUbPwxmNYUKsMfN/8yWnEuQ4N2QWhpESEVPkijtZz6hsEhB8uvmf4NpNh2qUMKpoud1mss42ymEsg/EqzXq6fJI1Q8azZHTws4RiwsvmA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772621798; c=relaxed/simple;
+	bh=gFAXJW6wqNB4bFP8Bd67zykCDJIItcLQlhgPjD2ytvs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=o89EOk68fYj/CZ8uRYcb7Q3xgw1Nt0rqaPmQoLi4i/o7zD5mQhruXUDqhNKFVuirdfwds5qXu9FFl0sDktAa9AbdjdzcP8KrTFS9DQ6Avu/zkuSxdRVn02g1eoZXEeXFCrOeFutlHQMRpf0ltFL/YGn9+ZVUfHHuWE+/hMJyvGk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TdQtjZ5X; arc=pass smtp.client-ip=209.85.208.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-38a3066b68bso3144831fa.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 04 Mar 2026 02:56:36 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772621795; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Z5f5H4BTgb2+WNs6/CHHBSmn8NBhJSL3aXOofW3O8eyF75v4lmpFdABGvdNYTY3fiV
+         6guEtvDQfslxgQC38uvTm3WpwlDM3v59fjFGDt5C9f4iCVEARf9VKHy7RPGOYWeZDPWw
+         LbmJkhrzvmJOQktAVI2Wzz+WGn0StQZfSX6rhPUp4QVRQ8CmbxXHNdJzz4Vk5iqw92Yk
+         pmttIx99WNifb5Qtll4L3Em0f47gOmJAirjfseUgiTFllqga9Mr5uSL9uGBOZvLoTOA1
+         samtgDImT0ov3Vw1jR5gqvi+4GlxleANqQfQLSrZX6eOCjHwNEkwy2pfbcbHx6hoJ0Ff
+         jUug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=Fo/8L1vqlOfM+seM66MGkBVDWRE/a0s5YAa4O57zdbc=;
+        fh=8JHRunmW6gMOxlSLm5Zgt3j46o/dyVFCPxkKr/URpX4=;
+        b=VqdlqsWVYj8PSpB73bF9UUbW6PTpwIEjecYGGdGJImLEJ2LokENfXfc/TRREs9a243
+         HHNQV2qxZXflYkbWGYEXb+g5puEATv79axpSgGuT6k2+FCeoHX3XfcFgw3cq4fYmP328
+         m88SUBAhwm/CzwRrodBNnvX276kI1catGBUUygIUX2nELnwTSSdwfaBiUpHwIb9Vkbp+
+         +jjWUp23NLXzEFgFHkf2p0j2JJvIHKP70na7uIyXgL7L6oAcflUSUvFGQMe+E/pPOcao
+         dalcJ8yAjnddRZdT6zfQqD/pZJcAdkyLBkFsEggrHYRBz522C4JQIgNdi8fozBtRS93G
+         4D2w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1772615969; x=1773220769; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=yrXi13Z30e/iaNuSMOSCmABJiJllICGpM6/FbLGTct8=;
-        b=BPqHNVpI5jrQXhlBuFJjv0QZzmUbTXxpRVDxAiLdl2O/bs9Vcf9ZrqLfQjgsvG8KoI
-         Pzo4Y07zPZz6Y0a96gX4S3pfTlOCrCLZthc8TAtY6Y4yUbKgRnQYUsfWfG3+UlEMy+4N
-         iRhZm7OUdLD60YG2a9FakfQ4D80Ju3/uMppi8za92V+/GebmGHptk5j1evnrNFoEqYuE
-         uidy08KS58xCg96ajjg92LsWAuNwd979T5iAk2M8HhdeaTqT+G2BN8vUZKl/VwxWFWxM
-         PKfXoISs7VV2QPaoOP16T4wXzrl08SfeXK9LhP8WD9xS4TLrFcpgD3KUxSQzBNfBb07D
-         xGDQ==
+        d=linaro.org; s=google; t=1772621795; x=1773226595; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Fo/8L1vqlOfM+seM66MGkBVDWRE/a0s5YAa4O57zdbc=;
+        b=TdQtjZ5Xn9e1vshCgilzGsR8u1s7gp/1zt2uIc2EvSPyB7Tf8WlCryQnGJ7cDZVmmq
+         BOPCX1yU2LgZCneCArCIJ5h6kL2b/KZXqrYZR7tSsBuDnEKcqDCbaihbghd1E7agjlnT
+         BH69l91bxRpB8rJlx7I4ijQi3yOOQYHoqdSD23vkF9ch2wBqX0zt4sYfFPushWg0sN5P
+         F8ujZ/l3Rzwugj+5DySqx+h0AF6fIMfPiq8VZ+9j6JgUfnAB4wzDP7O9MTvu+hiOcoqZ
+         0M+4mDv16D7i9widoo/8/xQ6wuse4FVBdNX7G7/m+7jASWRqdUn+Tw+if0EiNgunYu8y
+         60eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772615969; x=1773220769;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yrXi13Z30e/iaNuSMOSCmABJiJllICGpM6/FbLGTct8=;
-        b=v3hT6ata5e/+Za06XQ3b5o+H49+Ic+ybrP5F+ErP0EXLuzfDA4BcW9h0EBbthJEgz+
-         saGbNO12R2EsEReJWzEWlI18pyJNEC2ePyv7+dbDXPuQiIrhQ2sUBv5ak8IthFSHbdE3
-         IkcK+ukgjtmb9Bq8VCoTbyD8uTie2M0zR4XDN3XF3OPGVmz9XxCTHICOONIpi4FQkSQ7
-         RPxhIlDgYbEwNOdbyFHQk0AdRMHoN+KCb9+ylz1v/bxJ7Bd5d/ckUUm8RABDol97q6iU
-         +WKISKcjGLXbJFdiU2ShA5TuUTgduHOSUpPV9KYLeMCpvZxir98MXxkCm21SJJ7qHM0q
-         NJ+A==
-X-Forwarded-Encrypted: i=1; AJvYcCWhkBRglOdw5AhtLRhYuIxn3HLLiOf3DOQ6hm5wGw++Yz8HVuIKTNnrYCf2PyD+D16+KcSZZAy/5iPankbtTmSKiw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzx9rCK917Bphvzo0z4qjEdBLRo0YNWKtZRvzkU6r5AbA6hivtv
-	BjSYCyWFko/RP3NtY6ppcXDzYV0Mp4S2EbzRVWQ4BvhzfykB6Ci9nySpK9lRbY7L2ZSNq2fFpG1
-	wIR8xFUAFxtjbImjEGqhKQypsHxPMrA78BKdC0134h9PGUl6zoHjory7yaWgpF2FEcAQ+UmI/7Q
-	==
-X-Gm-Gg: ATEYQzwsQmYAWEHhkznbFJbA6Cy1XsGJr6ya5RPnIdUrLWO6uFrpVegWNeS8zgu7Rgb
-	gANzB8eHf1iNWwcMUXG2XeMqFpCUHezf9unoSm/C/DLCopYq4zVvAuZAvP92NDQU/y1PDufLbKE
-	swL7kQr1jQVtHBw9bVTdc1jnxPwQIah0oQixMgmg50GUCiNqGtTCFA/Ly7v3c5KQhba5aeck157
-	ydJri/CXhdB0KW21n0DCtFO8mo+gzDx+2MitbDqBpqpDUWhZ0EdlQT0rUA8d+CKOfKpufbRnUUm
-	39rtg7+mZ6s/Rg9AL8HxyuhaGSiEEUZE+V1GK23Fz1LavC2YsiyAWN9y0tZatQDiWu9oTf8VNaL
-	tuyIQYBQYrE47ZuniQ8gawYBbdYWS5Jy8C3GjTidY7/zBgGO7cz7hjhyx7EJzKPXzcbveddjd+j
-	FZD38=
-X-Received: by 2002:a05:6214:8090:b0:899:f3a9:19dc with SMTP id 6a1803df08f44-89a1998b809mr10047286d6.1.1772615968865;
-        Wed, 04 Mar 2026 01:19:28 -0800 (PST)
-X-Received: by 2002:a05:6214:8090:b0:899:f3a9:19dc with SMTP id 6a1803df08f44-89a1998b809mr10047116d6.1.1772615968446;
-        Wed, 04 Mar 2026 01:19:28 -0800 (PST)
-Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b935ae613ddsm716364666b.33.2026.03.04.01.19.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Mar 2026 01:19:27 -0800 (PST)
-Message-ID: <e2fec324-c2fe-4055-82d9-f5c6aaef420e@oss.qualcomm.com>
-Date: Wed, 4 Mar 2026 10:19:26 +0100
+        d=1e100.net; s=20230601; t=1772621795; x=1773226595;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Fo/8L1vqlOfM+seM66MGkBVDWRE/a0s5YAa4O57zdbc=;
+        b=Q9vwv0W4hTM7+PqYoG6R5iIdsob3K5+kwQLohtewVuRuKBvRDlQY1iSVZNq+M//sje
+         SBbX+s48J1Vp++h4S68fOM4G65GxNobNo7ChFvolqVOtgv2lc6gCgyJOrWJbXSFYzLcM
+         9Cf82dE1MUTc1xR1gDgL5DH38uOI7lnJP0bSQUNxmYSRbba8xzTMctKTuptOiTkaJvSW
+         RuTmGLFmlEtuGNbspYWcA2lt7CJNKbWIAJpCxvzcfV620lSbHT1kVKKScIpjXNQcx+m6
+         Wb85+5iB9xyQiiqTBW8s+tlSW5ggmtD/7M/pRfC5zIJyPhDa+YZwaOJMvm0wd8tgzuG2
+         D2Aw==
+X-Forwarded-Encrypted: i=1; AJvYcCUgaB0/Sb+81ADZA+GtNgDec+ED05KvBtdsZcWvT8UEb+u/kjaCPe4hGGyH8tMBUmSxUeuYZuQTZEf7MUZTh1Frqg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxa4Pahxc0BtDXQMabt3twD8MCujrYXl20GMjFrVx5T9DSOMatn
+	2t6YuifbcYpNtQq7fEVqsg4HsUXiY9QPgpwL0HhKupYeygV2jGtPTbrgpX1D6FQItsGwBS5+lPz
+	xHSoSgPbXL/mT7x8pwM437iCBAyuVPpP2CllMSDlkZw==
+X-Gm-Gg: ATEYQzyh9eYAf0MgUlvpBCi77z4xw2NrniltJD1FcHkCkJb16oRRPdzxBE8K09n4AVI
+	dLjo0BpF3KHNBxKq4C0gyprDCf0Ire0mUDnVG5TKMr2cz+LfF//9Xt7lO06Dpe3GTqEutpywvDn
+	w+z62cMaYn7UXM+0K23ZQzdY62bYnGOq7XvizaBoNfYkdjNDPV7MrqKyOcjHIwkqEW7zEABrrR/
+	U+0Xv1/c9h9pfdawwGZzR9naM0JAlDPUgqdAtF2AWZoR3AzYKePi2H13cgjC3HniL1NbmxUwDjo
+	+qQw8OK5
+X-Received: by 2002:a05:651c:19a7:b0:38a:921:ddfa with SMTP id
+ 38308e7fff4ca-38a2c7bb11emr16394421fa.34.1772621794800; Wed, 04 Mar 2026
+ 02:56:34 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 06/15] hwspinlock: qcom: use new callback to initialize
- hwspinlock priv
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-renesas-soc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        linux-arm-msm@vger.kernel.org, linux-remoteproc@vger.kernel.org
-References: <20260303192600.7224-17-wsa+renesas@sang-engineering.com>
- <20260303192600.7224-23-wsa+renesas@sang-engineering.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20260303192600.7224-23-wsa+renesas@sang-engineering.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA0MDA2OSBTYWx0ZWRfXxrj0WMKMJzqP
- +0IdkjxtT1p8X4JEx5hmGkb9C6ztkrXC9ZIjJcm/QX8O6L2FUD6NvKDlZ3JEdimU0dDZA/VhW5b
- Gsqhd/saP+w5fxm0Lch+rtzsb2yKgD34A2N0S8X8OH+1SgwoIc7oOLDZNi3gtFsvuRjrAxNgSK9
- PIKH76D7k4e9CSIjh8QyxWrZwctcHipuLfBDvXTHi0P8SQ71uIfx6pV0aUoVt4yf3L+ozgdmuCp
- saVnkKFfcw3PfpzvYvatHsA9iuuAyZieFnaVoER9BmgwQnpodpTSFHEQgb47860sTCbDxzw/qaS
- f3nuhi3V/EVicx0YAcq8Ql5MarwwrQEabxvJnlZm6yhi15BFPFlTehv6AYH1c+9KkaGlIEUmTc+
- zQl4XdsDIJJ2guWpjnAXmKxMOtmS4aM09rCJIXgy16TVLNF7qCGbQ/s7QInvgb4fSSRyL0WPmYT
- 0qhoHe6RwLcCrQQfjow==
-X-Proofpoint-ORIG-GUID: Ld4jGHlrP_Ip_5-BXOU2YNGHHabRz8cf
-X-Proofpoint-GUID: Ld4jGHlrP_Ip_5-BXOU2YNGHHabRz8cf
-X-Authority-Analysis: v=2.4 cv=EefFgfmC c=1 sm=1 tr=0 ts=69a7f921 cx=c_pps
- a=wEM5vcRIz55oU/E2lInRtA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
- a=LDBv8-xUAAAA:8 a=EUspDBNiAAAA:8 a=7CJMOFuoybIo_9NlnXUA:9 a=QEXdDO2ut3YA:10
- a=zZCYzV9kfG8A:10 a=OIgjcC2v60KrkQgK7BGD:22 a=DZeXCJrVpAJBw65Qk4Ds:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-04_04,2026-03-03_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 spamscore=0 bulkscore=0 adultscore=0 impostorscore=0
- phishscore=0 clxscore=1015 priorityscore=1501 lowpriorityscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2602130000
- definitions=main-2603040069
-X-Rspamd-Queue-Id: DC2AA1FD77B
+References: <1cfa86b72b2a5aa2ade92f247dd318c9cb6ef2a1.1771267504.git.geert+renesas@glider.be>
+In-Reply-To: <1cfa86b72b2a5aa2ade92f247dd318c9cb6ef2a1.1771267504.git.geert+renesas@glider.be>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Wed, 4 Mar 2026 11:55:59 +0100
+X-Gm-Features: AaiRm50xV0aTIf57r0Zo9-XIoeEBUsqVQ_XIKC2m6BAZ6n8Tqg5EToJh3NdooZ0
+Message-ID: <CAPDyKFotV3bUEQic6X3PEC8m4fcXtc0JF0u7HTj9nRF1koowgA@mail.gmail.com>
+Subject: Re: [PATCH/RFC] pmdomain: core: Support pd_ignore_unused with sync_state
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-pm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Rspamd-Queue-Id: 323241FE9D2
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,qualcomm.com:email,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,oss.qualcomm.com:dkim,oss.qualcomm.com:mid,sang-engineering.com:email];
+	TAGGED_FROM(0.00)[bounces-28753-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-28752-lists,linux-renesas-soc=lfdr.de];
+	DKIM_TRACE(0.00)[linaro.org:+];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[konrad.dybcio@oss.qualcomm.com,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ulf.hansson@linaro.org,linux-renesas-soc@vger.kernel.org];
+	RCPT_COUNT_THREE(0.00)[4];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	RCVD_COUNT_SEVEN(0.00)[7]
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,glider.be:email,linaro.org:dkim]
 X-Rspamd-Action: no action
 
-On 3/3/26 8:25 PM, Wolfram Sang wrote:
-> Apply the new helper to avoid using internal structures from the core.
-> Remove superfluous setting of drvdata while here.
-> 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+On Mon, 16 Feb 2026 at 19:47, Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+>
+> Since the introduction of the sync_state mechanism, the
+> "pd_ignore_unused" kernel command line option doesn't really work
+> anymore.  While genpd_power_off_unused() still checks for that flag
+> before powering down unused domains, the new sync_state callbacks lack
+> such checks, thus powering down unused domains regardless.
+>
+> Fix this by adding checks to the sync_state helpers and callbacks.
+> Factor out the printing of the warning message, to make sure it is
+> printed only once.
+>
+> Fixes: 002ebddd695a5399 ("pmdomain: core: Restore behaviour for disabling unused PM domains")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
+> RFC as I have no need for this in upstream.
 
-Acked-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+I am trying to understand the use case and whether we should consider
+to land this upstream.
 
-Konrad
+Would you mind elaborating on how this is useful for you?
+
+Kind regards
+Uffe
+
+> ---
+>  drivers/pmdomain/core.c | 20 +++++++++++++++++---
+>  1 file changed, 17 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/pmdomain/core.c b/drivers/pmdomain/core.c
+> index 7b563757935071dd..1f7d90bcc30d12e5 100644
+> --- a/drivers/pmdomain/core.c
+> +++ b/drivers/pmdomain/core.c
+> @@ -1366,6 +1366,16 @@ static int __init pd_ignore_unused_setup(char *__unused)
+>  }
+>  __setup("pd_ignore_unused", pd_ignore_unused_setup);
+>
+> +static bool genpd_ignore_unused(void)
+> +{
+> +       if (pd_ignore_unused) {
+> +               pr_warn_once("genpd: Not disabling unused power domains\n");
+> +               return true;
+> +       }
+> +
+> +       return false;
+> +}
+> +
+>  /**
+>   * genpd_power_off_unused - Power off all PM domains with no devices in use.
+>   */
+> @@ -1373,10 +1383,8 @@ static int __init genpd_power_off_unused(void)
+>  {
+>         struct generic_pm_domain *genpd;
+>
+> -       if (pd_ignore_unused) {
+> -               pr_warn("genpd: Not disabling unused power domains\n");
+> +       if (genpd_ignore_unused())
+>                 return 0;
+> -       }
+>
+>         pr_info("genpd: Disabling unused power domains\n");
+>         mutex_lock(&gpd_list_lock);
+> @@ -3510,6 +3518,9 @@ void of_genpd_sync_state(struct device_node *np)
+>  {
+>         struct generic_pm_domain *genpd;
+>
+> +       if (genpd_ignore_unused())
+> +               return;
+> +
+>         if (!np)
+>                 return;
+>
+> @@ -3544,6 +3555,9 @@ static void genpd_provider_sync_state(struct device *dev)
+>                 break;
+>
+>         case GENPD_SYNC_STATE_SIMPLE:
+> +               if (genpd_ignore_unused())
+> +                       return;
+> +
+>                 genpd_lock(genpd);
+>                 genpd->stay_on = false;
+>                 genpd_power_off(genpd, false, 0);
+> --
+> 2.43.0
+>
 
