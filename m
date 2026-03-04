@@ -1,53 +1,53 @@
-Return-Path: <linux-renesas-soc+bounces-28788-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28789-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8EfeDKhmqGl3uQAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28788-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Mar 2026 18:06:48 +0100
+	id MMEVK+RnqGl3uQAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28789-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Mar 2026 18:12:04 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 897A9204D8A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Mar 2026 18:06:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35092204F1B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Mar 2026 18:12:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1EB3D300EABD
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Mar 2026 17:00:10 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 52EC230E3839
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Mar 2026 17:04:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42C893659E5;
-	Wed,  4 Mar 2026 17:00:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33B1E35F182;
+	Wed,  4 Mar 2026 17:04:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="a6Ks94yw"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="WMfmVQ5P"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94EA835C1BE
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  4 Mar 2026 17:00:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41622376BDC
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  4 Mar 2026 17:04:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772643609; cv=none; b=C9erUdJWSuMvvbG1DqN48Gr75UQyJqkGRHS7FT3fAPChRlNolI3FcGKIw+56HUCYxyGq99d8s/2E/ueKb3S064LHAg7F2NFL6nz5c/VSDAVaZ+HnyWO0XPprUhdx7ER/e8knrzoF1P/1MPma8hUOTEQH7VAQN1rgGN0LW8JOh+g=
+	t=1772643879; cv=none; b=o1oFy4ADZfqSIJwoi74E5NjidWFNz8WoaDZsD62GljahIX6OLn2z0zmgsN3gzBXiGz31bRy8Yxsvn+IyEbQWQCkSwvPSPM8jU++clm5cGvcqxlh2HQFkxUmGoKnuD6jqKuXUfpkwQ+A4ejyaYO29B9IkzAVOW52fvlaqYOCH03I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772643609; c=relaxed/simple;
-	bh=QUNQZzy2gMF/iQdbfBJiw3hFxMJcsPqTzYWg7DcCsk4=;
+	s=arc-20240116; t=1772643879; c=relaxed/simple;
+	bh=caNVgAbko22YQBRKAA/SlwJ2LxiJSjEJIUPq8p751lQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nbc9uHdTvCOZEljA+iMUNsyXTBGVB7s4o5x4zxF9zXBy9yEJ+w8vRxCV8AUoYkVbgPIxFgle4MzsS3WtNERwv5DQqjZZ+e6RQvU7RMoxLph6Swvy8LITtr18jebcowM31NyRC/ZUn7HFlU6CfIxzf1wI+8mhTzuQWKDYG6wCjTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=a6Ks94yw; arc=none smtp.client-ip=194.117.254.33
+	 Content-Type:Content-Disposition:In-Reply-To; b=rsHZy0xJ94aWX8zQK9ZWFcs3xhmPy3dRKtxqjFYdVOc/ZJLWB00c/Al4SEJmJU1mqLMpLg5QDKjTwkMIRkGylx/PIZtnvkxpaTQbpN45Nb8ILcDP5QBow0d9y8ji5+XcjvdzoCNovqF+nDO0Dtt/cA6mmsUBqfNRgwPgkWVToYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=WMfmVQ5P; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=etQP
-	hLiLJwJwQTaiOopYG4DbDv9RsVnIJcJL0UAnY/Y=; b=a6Ks94yw+4UxbDxuYqIi
-	x6bXIKnrXR/gKAXO8+nMUHBtetO0xbSjY976yx5x7fnNtVB1DgDHGjGIPCQNDVBS
-	7f3zHzn2aa8c1BTJMQMr0/R7F/il9OWBL/S5pBg+M8etzeNwcYJpLQeEszb+g4Rq
-	nc4w1ZsK77R9T+2QsFzGSH+IoVi/G83kQiEiSWFqcy/kHy9EI2PAcftIJTJrrzXU
-	PsTcmkGALP+bjA807bxrPTz2rpTTlR9DMUcwKgS8d5hU4m/jBI8XfgFmJp8fCkZp
-	BEXJJLYZ3efRGvAgdaX5Vcmv2TZz+6IRszK3udOP0g6dtXIf1UB1u9E338SKUPvj
-	mA==
-Received: (qmail 827664 invoked from network); 4 Mar 2026 18:00:01 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 4 Mar 2026 18:00:01 +0100
-X-UD-Smtp-Session: l3s3148p1@wBEjwDVMkhZtKXFP
-Date: Wed, 4 Mar 2026 18:00:00 +0100
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=caNV
+	gAbko22YQBRKAA/SlwJ2LxiJSjEJIUPq8p751lQ=; b=WMfmVQ5Pr03d1Odibz/A
+	Skm77dmCQ20lfikyo4zSTJGIi4T7LeoBIAG8qRYpDPDq0YbpoHk6j9kKsvB9m4t3
+	plL1HaxgIVe77YheB3PAULbbPhUKBle+mx1t8rYOhVN9evQL9qxglEjulGatlC8R
+	QLqUTZrsBCCBDX3h1I2VZVLsbt8BcYeMbkyhamjFlvnfPLIzWF++4KD5I4eFt0QP
+	emf3r1XvNfKqOeJzl3570RGQAc5PTALSFrWd06jqvxNyNQLpZYIzptmNtFNm5LQm
+	IvRhs4NEcV1n5dHmE+SXPbCgMeaU53qNtU63/Tkzpn8rmrHDwI/GNGhER7Lqje/q
+	8g==
+Received: (qmail 829194 invoked from network); 4 Mar 2026 18:04:35 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 4 Mar 2026 18:04:35 +0100
+X-UD-Smtp-Session: l3s3148p1@Dud30DVMWCFtKXFP
+Date: Wed, 4 Mar 2026 18:04:34 +0100
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: Krzysztof Kozlowski <krzk@kernel.org>
 Cc: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>,
@@ -59,11 +59,12 @@ Cc: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>,
 	Chris Paterson <Chris.Paterson2@renesas.com>,
 	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Subject: Re: Lack of review from Renesas
-Message-ID: <aahlEKyKF7x2JSuB@shikoro>
+Message-ID: <aahmIijr9PT36Llk@shikoro>
 References: <a3f0cb6c-cff7-419f-839b-13bb1ff4960a@kernel.org>
  <aZW0GL8ufBgZlUbU@shikoro>
  <aagmDTa3KM3EYx0N@shikoro>
  <8efddf8f-a9d3-4c29-b54f-201304339843@kernel.org>
+ <c1a7223c-42d3-45d2-a57d-6d990e38a78a@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -71,10 +72,10 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="zT1/Oa99lnMOCBpb"
+	protocol="application/pgp-signature"; boundary="V0Z0USM99W4u5Y0a"
 Content-Disposition: inline
-In-Reply-To: <8efddf8f-a9d3-4c29-b54f-201304339843@kernel.org>
-X-Rspamd-Queue-Id: 897A9204D8A
+In-Reply-To: <c1a7223c-42d3-45d2-a57d-6d990e38a78a@kernel.org>
+X-Rspamd-Queue-Id: 35092204F1B
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.76 / 15.00];
 	SIGNED_PGP(-2.00)[];
@@ -87,7 +88,7 @@ X-Spamd-Result: default: False [-1.76 / 15.00];
 	MAILLIST(-0.15)[generic];
 	HAS_LIST_UNSUB(-0.01)[];
 	TO_DN_ALL(0.00)[];
-	TAGGED_FROM(0.00)[bounces-28788-lists,linux-renesas-soc=lfdr.de,renesas];
+	TAGGED_FROM(0.00)[bounces-28789-lists,linux-renesas-soc=lfdr.de,renesas];
 	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	DMARC_NA(0.00)[sang-engineering.com];
@@ -109,44 +110,35 @@ X-Spamd-Result: default: False [-1.76 / 15.00];
 X-Rspamd-Action: no action
 
 
---zT1/Oa99lnMOCBpb
+--V0Z0USM99W4u5Y0a
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Krzysztof,
 
-> No problem, I will be marking patches as N/A in patchwork. Just have in
-> mind that they will not re-appear on the queue and pinging won't work,
-> because it does not change status of Patchwork.
+> That's pretty convenient actually, thanks for the idea of less work.
 
-Okay, if changing status is the only way to get attention: can I then
-get the patchwork permission to change the status when we think they are
-ready?
-
-Happy hacking,
-
-   Wolfram
+Yes, you having less work is in deed the whole idea.
 
 
---zT1/Oa99lnMOCBpb
+--V0Z0USM99W4u5Y0a
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmmoZQwACgkQFA3kzBSg
-KbZ4PhAAs38U8GRftnT2JxmEsbRTneHIT2fqz1/akNRRMGcYLwlEcMl7SPiwzv8b
-uHZ91UDJ77EuMQqDap9BlV7/ON0KDlKe7EUNnIOv50NQp7FGahA1EXeM2XW4kPCm
-mix8piD3506fhQqj5pTw+jyq2mRnNAwrlwrjmRL4xmYbWVS0VfJtH2M5ehWx4tOo
-ZFmduMy7SgNcDA5dTpMNUJKKKKban+ZY3XXsVDhff58z6MqmAqP2yDXjYGF+z+X4
-6C4at6zGhGn63cEMjahumv73ElEa2j23MK01UhZOvCpzXFNn5uWfhO/wB0GNqILw
-JmfMSbiypHfm/oaZYpMtFMOhBmDyVCz9beYwU/ZYVt2Rnu/cuDpe6mFELKb+9NIO
-IzXMyGXSW6LcXzQbsuLrqt7Y3AtIOxQALXsXZt7zjCUdXEiJ0cQvY2vCx3ftfI1N
-KFkyqAoS/LICKRbxoBR7YkxllY5H02cxXspuq5CwA25VvbB42UQ3F+rk6RFACYpl
-TalEBTAHwI9T4mjyB+HfFHSEPITJyKJthETIJqVC5XYTRsIMK73SEhMUM/CtyPPk
-93n4nrOC63palNEakDbb3Vn7AEzMfVfL/kbopXfR9/aOi5dR6c62u4fnCYxFyBzX
-lLGXz9yfwOrCYbyNsog+Lxuz18fgwRcbsJRRZUOyIfmFGZbHYZc=
-=xDiz
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmmoZiIACgkQFA3kzBSg
+KbZ81RAAiFhZ0h5IMUM8UBCfu78sdLMBeC9nA/UZmp3TgS73Ew0CX0eI7q1laV0O
+G9evdxY1coPqTUGqWUjVT4ZO/0N5JwfkZuo8T/9mzXn9Brhln7XTtsWOHznbWC0p
+VkbtlFEjtqZPiwS7CjWcFGh7Qg4PBu7P9tNvZI8s/IaNxkvrsSijifS3KrujLjr8
+ACVTK704ZUU11q7axwHSyOryn1h7yRijoIE1p/DbFV7BA0ATSAC3FadEhrX/Shfn
+dn5LgKp3ezgqBfc9Rd4FkO0hmc3bflXUu74Db+Jey4m9hp90CHQxkvAcjybR+abl
+VjbFYfj4uSb7dW5BUA9Nb817jYLuG54RxAInTjbvdO2qpYxS47sWmfPUCAHy0CwG
+BAx3vI3qo0qrgebOAQoiE5T6MVQJoaUTXDyOXlH9uq8L+JXzxMSqzbibHew8zKBX
+FV1WTAQNQklv270vch2FOXSaHiq9TPP8M4a//VfD5/4bsckgC3Cnr0CtbaOrYH59
+ojnpAROyXbEE9KdTB/DxSYUSaHiKixCKtYaxZa5krivLrBUXg7bT3oWCo1ZdIqVy
+XYlreQTcuPSvj8yHaF7j/OALMtF5HL+VFriUIEvmEQoxnAX8K240/xITGRXNGd8Q
+vN1h3NZbxKMxQ/QVVpg+yLbn0NyK6BSp8NOJ9sY5Qkh1Q0RoEzk=
+=5yfL
 -----END PGP SIGNATURE-----
 
---zT1/Oa99lnMOCBpb--
+--V0Z0USM99W4u5Y0a--
 
