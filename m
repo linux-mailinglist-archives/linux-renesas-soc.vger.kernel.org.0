@@ -1,49 +1,46 @@
-Return-Path: <linux-renesas-soc+bounces-28786-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28787-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yGKvIPFiqGlauQAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28786-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Mar 2026 17:50:57 +0100
+	id QOKJA8JfqGmduAAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28787-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Mar 2026 17:37:22 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5F4020498E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Mar 2026 17:50:56 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64EDD2046E2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Mar 2026 17:37:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id B200330A87E6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Mar 2026 16:29:09 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id F1C1C3036D55
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Mar 2026 16:31:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB52235DA56;
-	Wed,  4 Mar 2026 16:29:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD04936605C;
+	Wed,  4 Mar 2026 16:31:21 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B374135AC2D
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  4 Mar 2026 16:29:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B40ED35FF66;
+	Wed,  4 Mar 2026 16:31:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772641747; cv=none; b=IWUtoAiQcIwayiHV8ZiKaS6kNMidRFi1Wx4cNJ7mtv2rDcbmljjpO+bdEucqbA760WWvrdnoMXF6y3RgY3DMUvHRA9dGr6bN0lkCBjfnRquWIYJg5gZ2N0qFfC7MclYq5yAukJV8QozwJmXRxYv/ut1S25LcMSP273Fx3YXui1Q=
+	t=1772641881; cv=none; b=NC3l47lDPbsdAnvjFClg14NDapmyvwXDII70qOBGEnUqnSlIT1ikG1F6857AGJR5hVxBtcmooXaC8wFThHSzE0uqcNG3OM73RE38KPHNv0SxsZ0JVHJvyqODxb1jev5etRLxv6HLcDB3v7Cn0bDoltNvdQqz2mOw59ejHRU9whE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772641747; c=relaxed/simple;
-	bh=4A1PAvCusZdQTAZFIitZEMeV9ZZ1H3pp2IolGN6EZ9Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=syfUn2VOBDbzjjuqWu8gIrC8tGvttodSkUfLH4qPLC1FbXQUKVC324ZEdrkUjrPX3Lf5SL3kVa4Ve6UPt5UAfCh23KYZL9VWf6jWFmUqmEX1BH0TcrzKVmYhsykcXgjjMAmII00xM2q8n7j7tPHB38bvwnbhLV9nk5BifTVDbhs=
+	s=arc-20240116; t=1772641881; c=relaxed/simple;
+	bh=wg6dD9if9LqHGsnTHEWChL4qpDH/xts8LY8JazLgvWQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tl87fO60JH1xkKrRKQ3VhqoxKDdj0kC0FCaRpFCYuFC+HFRWuD8uxduJnb9oS3bHMsS8doZYY5d4g9jfYSy/0HIDB6r1ctPAOfXmWgj8vHAx3sd0EIY+zKEiqH69DB2Age56GbuGO01/zXYx70RAvgw8m3FRo6oImmr2E2P/b2c=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69933C4CEF7;
-	Wed,  4 Mar 2026 16:29:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A16DC4CEF7;
+	Wed,  4 Mar 2026 16:31:19 +0000 (UTC)
 From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Huy Bui <huy.bui.wm@renesas.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Hai Pham <hai.pham.ud@renesas.com>,
-	Khanh Le <khanh.le.xr@renesas.com>,
-	Marc Zyngier <maz@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
+To: Marc Zyngier <maz@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] arm64: dts: renesas: r8a78000: Fix out-of-range SPI interrupt numbers
-Date: Wed,  4 Mar 2026 17:29:01 +0100
-Message-ID: <1f9dd274720ea1b66617a5dd84f76c3efc829dc8.1772641415.git.geert+renesas@glider.be>
+Subject: [PATCH] irqchip/gic-v3: Print a warning for out-of-range interrupt numbers
+Date: Wed,  4 Mar 2026 17:31:14 +0100
+Message-ID: <62b849967d71d73e028fb65efee717986ef847e6.1772641758.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -52,125 +49,85 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: E5F4020498E
+X-Rspamd-Queue-Id: 64EDD2046E2
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.54 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.96 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-28786-lists,linux-renesas-soc=lfdr.de,renesas];
+	TAGGED_FROM(0.00)[bounces-28787-lists,linux-renesas-soc=lfdr.de,renesas];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[renesas.com,kernel.org,gmail.com];
-	DMARC_NA(0.00)[glider.be];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DMARC_NA(0.00)[glider.be];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[geert@glider.be,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.891];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	RCPT_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
 	R_DKIM_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.997];
 	MID_RHS_MATCH_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[glider.be:mid,glider.be:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,c0708000:email,c0718000:email,c0710000:email,c071c000:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,glider.be:mid,glider.be:email]
 X-Rspamd-Action: no action
 
-SPI interrupts are in the range 0-987.  Extended SPI interrupts should
-use GIC_ESPI, instead of abusing GIC_SPI with a manual offset of 4064.
+gic_irq_domain_translate() does not check if an interrupt number lies
+within the valid range of the specified interrupt type.  Add these
+checks, and print a warning if the interrupt number is out of range.
 
-Fixes: 63500d12cf76d003 ("arm64: dts: renesas: Add R8A78000 SoC support")
+This can help flagging incorrectly described Extended SPI and PPI
+interrupts in DT.
+
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-To be queued in renesas-fixes for v7.0.
+This would have prevented the issue fixed by "[PATCH] arm64: dts:
+renesas: r8a78000: Fix out-of-range SPI interrupt numbers"[1].
 
- arch/arm64/boot/dts/renesas/r8a78000.dtsi | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+[1] https://lore.kernel.org/1f9dd274720ea1b66617a5dd84f76c3efc829dc8.1772641415.git.geert+renesas@glider.be
+---
+ drivers/irqchip/irq-gic-v3.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a78000.dtsi b/arch/arm64/boot/dts/renesas/r8a78000.dtsi
-index 03639d0e5e339b14..3ec1b53d27828296 100644
---- a/arch/arm64/boot/dts/renesas/r8a78000.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a78000.dtsi
-@@ -698,7 +698,7 @@ scif0: serial@c0700000 {
- 			compatible = "renesas,scif-r8a78000",
- 				     "renesas,rcar-gen5-scif", "renesas,scif";
- 			reg = <0 0xc0700000 0 0x40>;
--			interrupts = <GIC_SPI 4074 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupts = <GIC_ESPI 10 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&dummy_clk_sgasyncd16>, <&dummy_clk_sgasyncd16>, <&scif_clk>;
- 			clock-names = "fck", "brg_int", "scif_clk";
- 			status = "disabled";
-@@ -708,7 +708,7 @@ scif1: serial@c0704000 {
- 			compatible = "renesas,scif-r8a78000",
- 				     "renesas,rcar-gen5-scif", "renesas,scif";
- 			reg = <0 0xc0704000 0 0x40>;
--			interrupts = <GIC_SPI 4075 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupts = <GIC_ESPI 11 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&dummy_clk_sgasyncd16>, <&dummy_clk_sgasyncd16>, <&scif_clk>;
- 			clock-names = "fck", "brg_int", "scif_clk";
- 			status = "disabled";
-@@ -718,7 +718,7 @@ scif3: serial@c0708000 {
- 			compatible = "renesas,scif-r8a78000",
- 				     "renesas,rcar-gen5-scif", "renesas,scif";
- 			reg = <0 0xc0708000 0 0x40>;
--			interrupts = <GIC_SPI 4076 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupts = <GIC_ESPI 12 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&dummy_clk_sgasyncd16>, <&dummy_clk_sgasyncd16>, <&scif_clk>;
- 			clock-names = "fck", "brg_int", "scif_clk";
- 			status = "disabled";
-@@ -728,7 +728,7 @@ scif4: serial@c070c000 {
- 			compatible = "renesas,scif-r8a78000",
- 				     "renesas,rcar-gen5-scif", "renesas,scif";
- 			reg = <0 0xc070c000 0 0x40>;
--			interrupts = <GIC_SPI 4077 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupts = <GIC_ESPI 13 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&dummy_clk_sgasyncd16>, <&dummy_clk_sgasyncd16>, <&scif_clk>;
- 			clock-names = "fck", "brg_int", "scif_clk";
- 			status = "disabled";
-@@ -738,7 +738,7 @@ hscif0: serial@c0710000 {
- 			compatible = "renesas,hscif-r8a78000",
- 				     "renesas,rcar-gen5-hscif", "renesas,hscif";
- 			reg = <0 0xc0710000 0 0x60>;
--			interrupts = <GIC_SPI 4078 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupts = <GIC_ESPI 14 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&dummy_clk_sgasyncd4>, <&dummy_clk_sgasyncd4>, <&scif_clk>;
- 			clock-names = "fck", "brg_int", "scif_clk";
- 			status = "disabled";
-@@ -748,7 +748,7 @@ hscif1: serial@c0714000 {
- 			compatible = "renesas,hscif-r8a78000",
- 				     "renesas,rcar-gen5-hscif", "renesas,hscif";
- 			reg = <0 0xc0714000 0 0x60>;
--			interrupts = <GIC_SPI 4079 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupts = <GIC_ESPI 15 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&dummy_clk_sgasyncd4>, <&dummy_clk_sgasyncd4>, <&scif_clk>;
- 			clock-names = "fck", "brg_int", "scif_clk";
- 			status = "disabled";
-@@ -758,7 +758,7 @@ hscif2: serial@c0718000 {
- 			compatible = "renesas,hscif-r8a78000",
- 				     "renesas,rcar-gen5-hscif", "renesas,hscif";
- 			reg = <0 0xc0718000 0 0x60>;
--			interrupts = <GIC_SPI 4080 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupts = <GIC_ESPI 16 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&dummy_clk_sgasyncd4>, <&dummy_clk_sgasyncd4>, <&scif_clk>;
- 			clock-names = "fck", "brg_int", "scif_clk";
- 			status = "disabled";
-@@ -768,7 +768,7 @@ hscif3: serial@c071c000 {
- 			compatible = "renesas,hscif-r8a78000",
- 				     "renesas,rcar-gen5-hscif", "renesas,hscif";
- 			reg = <0 0xc071c000 0 0x60>;
--			interrupts = <GIC_SPI 4081 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupts = <GIC_ESPI 17 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&dummy_clk_sgasyncd4>, <&dummy_clk_sgasyncd4>, <&scif_clk>;
- 			clock-names = "fck", "brg_int", "scif_clk";
- 			status = "disabled";
+diff --git a/drivers/irqchip/irq-gic-v3.c b/drivers/irqchip/irq-gic-v3.c
+index 20f13b686ab22faf..d75163e71bf22473 100644
+--- a/drivers/irqchip/irq-gic-v3.c
++++ b/drivers/irqchip/irq-gic-v3.c
+@@ -1603,15 +1603,27 @@ static int gic_irq_domain_translate(struct irq_domain *d,
+ 
+ 		switch (fwspec->param[0]) {
+ 		case 0:			/* SPI */
++			if (fwspec->param[1] > 987)
++				pr_warn_once("SPI %u out of range (use ESPI?)\n",
++					     fwspec->param[1]);
+ 			*hwirq = fwspec->param[1] + 32;
+ 			break;
+ 		case 1:			/* PPI */
++			if (fwspec->param[1] > 16)
++				pr_warn_once("PPI %u out of range (use EPPI?)\n",
++					     fwspec->param[1]);
+ 			*hwirq = fwspec->param[1] + 16;
+ 			break;
+ 		case 2:			/* ESPI */
++			if (fwspec->param[1] > 1023)
++				pr_warn_once("ESPI %u out of range\n",
++					     fwspec->param[1]);
+ 			*hwirq = fwspec->param[1] + ESPI_BASE_INTID;
+ 			break;
+ 		case 3:			/* EPPI */
++			if (fwspec->param[1] > 63)
++				pr_warn_once("EPPI %u out of range\n",
++					     fwspec->param[1]);
+ 			*hwirq = fwspec->param[1] + EPPI_BASE_INTID;
+ 			break;
+ 		case GIC_IRQ_TYPE_LPI:	/* LPI */
 -- 
 2.43.0
 
