@@ -1,51 +1,51 @@
-Return-Path: <linux-renesas-soc+bounces-28782-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28783-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QFE4GO5bqGmZtgAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28782-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Mar 2026 17:21:02 +0100
+	id 8J+GNPxTqGnUtAAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28783-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Mar 2026 16:47:08 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id D01772041C6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Mar 2026 17:21:01 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 970A42032C9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 04 Mar 2026 16:47:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id B38D430FC5E2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Mar 2026 15:43:56 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 475DE3061855
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Mar 2026 15:45:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24B3C34F255;
-	Wed,  4 Mar 2026 15:40:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 997D635DA52;
+	Wed,  4 Mar 2026 15:43:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DdXgoniq"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OSfgjIxv"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F361D34EF1B;
-	Wed,  4 Mar 2026 15:40:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74B2735DA4C;
+	Wed,  4 Mar 2026 15:43:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772638809; cv=none; b=GwymxRIfakd4u1nI7wFXo/hKbivU2GLfsprKnUU8H5C3Fy/8ufQjTtHJ6LE9XFGKVSUEAgy44Z06qC8rq+6s2PMYAt4U+3D6NRAm8ip8m2EKqWGFrbdS/R0IcN2SsIp7jllk+N8QWGR9h2zZu3Boji1sCdEvJTT8JZIF22qpScQ=
+	t=1772638998; cv=none; b=ODy24spTL7rosoThg3VGcDCmr6LUXcbW6Mg9RvqKvAjsurQtE9YYCn2TyJq0a1C8hOKDKg42dYRrUOr3bUViSR9C5TOOmCsKKRqtEPlFD0x43Ln8zbKN3b3sPLxuyhDMcbLM1u0pBZYre7eHWo0qccEgV3mvMOANuMTzA1MgKg4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772638809; c=relaxed/simple;
-	bh=TUWMou4+whaMnKROx6i7OVcdKtxGyx/B7BxRNxURkJI=;
+	s=arc-20240116; t=1772638998; c=relaxed/simple;
+	bh=cHornxVgCUjRkH9b82t/BlVdEKRZylLiJcrFeSQuJNg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lNqV2BujrZqIvGwy7In5XnZNUsuGdSnHoemu7DWNgokA1Mr50gWt6MAMpakKun4VkqpqPrjbk5boU9KwFpBCayePdQCtu6wMR6qLn9OmHMnfGoCvY28LKWzZKnD8NwxOx2Lhy/1F+4h/xLnxs4lxTKvh0/fAdObsi0GqUx59L50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DdXgoniq; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38816C4CEF7;
-	Wed,  4 Mar 2026 15:40:05 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=imsveam3wBGgdx5MZl7Jeo/tsvmQbe2hcmKi+kMG+bYcaPrfFZ0cq1SJwx5/oGUJ2FnxqOxwj5FcQJcHzsZLwZ9dKfayCVOafmY1RlvYCowdmTWAcp0iv6K9lhqNFTZ+GiWcRI7TPL9gTgmSF3F9Y/KVsxzAiqqdfawnv7UEUTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OSfgjIxv; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F208C2BCB1;
+	Wed,  4 Mar 2026 15:43:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772638808;
-	bh=TUWMou4+whaMnKROx6i7OVcdKtxGyx/B7BxRNxURkJI=;
+	s=k20201202; t=1772638998;
+	bh=cHornxVgCUjRkH9b82t/BlVdEKRZylLiJcrFeSQuJNg=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=DdXgoniqeLuEZijr38abDmvs4yrhcdvBAwvtKekYFELbn1q1dRJ/s6AHDi2SxhRes
-	 KlCAyEgBo+QCz9ULyFl43rw7XDJeHE6f4iwvTz7l4pd/k+pETbSXAvtgBMvdHRG4t/
-	 cwhckc3WCVvVUE+tWbJcjM29AJySdcRhrxBlne/JEo07eZkLr2xU3G12zhhsVBeIvv
-	 +93hyunhJ9MPfI4+WtrfKB9OOocEOunMVKz9h2ywxlKO6lWiAqtfXwL3zyxGZsHPyF
-	 FxnNVxDro2cOAx+fwG5YRj0t7ZXFVID3ljKATpHX0aLji4moopBMvDLtX97YpNliCZ
-	 VsFgAmst13pBQ==
-Message-ID: <39db1990-5004-4bba-8e2b-3b5e066fccdb@kernel.org>
-Date: Wed, 4 Mar 2026 16:40:03 +0100
+	b=OSfgjIxvD9gA+fPo95umKghL9rKBwcJ/17f+yViRamVh5bDMjtAE/wzcuu7+RKZlf
+	 thaIeDW1VPS4W552V0EKK8OBo1ZWwhQwhr9D3pGOI+FYtqvWccJHQ0ufqnIAWqD1aV
+	 3obO/qAdjtc6adzy55aC5I8UiPuql/NjUgrbFmLBi8X4EtbTZZpExRLkrWAyftSnmf
+	 hcOE/2kK+p0L/ZYttZcgr7oGvhfX2NlkDifMvYJ3y1qH2+8EbGRD942BgPKzeEYS9h
+	 Bs30h8Gcan3JZgnfaUpSDzEgVqnwUQe5sBUozsF5YV20C+IXbQ5GBwIcgZM+BzOdpo
+	 QaZ7YEpyTfdcA==
+Message-ID: <dde6b95c-2d18-4a44-9127-bce26c99901e@kernel.org>
+Date: Wed, 4 Mar 2026 16:43:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -53,27 +53,23 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/5] spi: dt-bindings: renesas,rzv2h-rspi: Document RZ/G3E
- SoC support
-To: Biju Das <biju.das.jz@bp.renesas.com>,
- Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: Tommaso Merciai <tomm.merciai@gmail.com>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+Subject: Re: [PATCH 1/2] dt-bindings: spi: renesas,rzv2h-rspi: Document RZ/G3L
+ SoC
+To: Biju Das <biju.das.jz@bp.renesas.com>, "biju.das.au"
+ <biju.das.au@gmail.com>, Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
  Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
  <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
- "magnus.damm" <magnus.damm@gmail.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
+ "magnus.damm" <magnus.damm@gmail.com>
+Cc: "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
  "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>
-References: <cover.1771344527.git.tommaso.merciai.xr@bp.renesas.com>
- <f6b43f0dc64e13b1c9942c164dea30002d4c4466.1771344527.git.tommaso.merciai.xr@bp.renesas.com>
- <20260218-qualified-octopus-of-luck-5fcbf1@quoll>
- <3cec7787-0787-4b97-8eb6-5fe28f4c2a14@kernel.org>
- <TY3PR01MB113466BB56D07926CD00A8EC4867CA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20260304074907.9697-1-biju.das.jz@bp.renesas.com>
+ <20260304074907.9697-2-biju.das.jz@bp.renesas.com>
+ <13d4fd79-784e-407a-9f2b-41cd9a86f232@kernel.org>
+ <TY3PR01MB11346B3A18D2EDE88B8A45C1B867CA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -119,87 +115,127 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <TY3PR01MB113466BB56D07926CD00A8EC4867CA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY3PR01MB11346B3A18D2EDE88B8A45C1B867CA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: D01772041C6
+X-Rspamd-Queue-Id: 970A42032C9
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-28782-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-28783-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,renesas.com,kernel.org,glider.be,baylibre.com];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[bp.renesas.com,gmail.com,renesas.com,kernel.org,glider.be];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
 	MID_RHS_MATCH_FROM(0.00)[];
-	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,renesas.com:email]
 X-Rspamd-Action: no action
 
-On 04/03/2026 16:34, Biju Das wrote:
+On 04/03/2026 16:18, Biju Das wrote:
 > Hi Krzysztof Kozlowski,
+> 
+> Thanks for the review.
 > 
 >> -----Original Message-----
 >> From: Krzysztof Kozlowski <krzk@kernel.org>
->> Sent: 04 March 2026 15:06
->> Subject: Re: [PATCH 3/5] spi: dt-bindings: renesas,rzv2h-rspi: Document RZ/G3E SoC support
+>> Sent: 04 March 2026 15:04
+>> Subject: Re: [PATCH 1/2] dt-bindings: spi: renesas,rzv2h-rspi: Document RZ/G3L SoC
 >>
->> On 18/02/2026 08:50, Krzysztof Kozlowski wrote:
->>> On Tue, Feb 17, 2026 at 05:23:47PM +0100, Tommaso Merciai wrote:
->>>> Document the RSPI controller on the Renesas RZ/G3E SoC. The block is
->>>> compatible with the RSPI implementation found on the RZ/V2H(P) family.
->>>>
->>>> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
->>>> ---
->>>>  - This patch depend up on [0]
->>>>  - [0]
->>>> https://lore.kernel.org/all/20260128215132.1353381-2-cosmin-gabriel.t
->>>> anislav.xa@renesas.com/
+>> On 04/03/2026 08:49, Biju wrote:
+>>> From: Biju Das <biju.das.jz@bp.renesas.com>
 >>>
->>> I am not even looking there, start reviewing each other patches, so
->>> you won't be sending FIXES instead of reviews.
+>>> Document RSPI IP found on the RZ/G3L SoC. The RSPI IP is compatible
+>>> with the RZ/V2H RSPI IP, but has 2 clocks compared to 3 on RZ/V2H.
+>>>
+>>> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+>>> ---
+>>>  .../bindings/spi/renesas,rzv2h-rspi.yaml      | 26 +++++++++++++++++++
+>>>  1 file changed, 26 insertions(+)
+>>>
+>>> diff --git
+>>> a/Documentation/devicetree/bindings/spi/renesas,rzv2h-rspi.yaml
+>>> b/Documentation/devicetree/bindings/spi/renesas,rzv2h-rspi.yaml
+>>> index cf8b733b766d..599c06ff08e5 100644
+>>> --- a/Documentation/devicetree/bindings/spi/renesas,rzv2h-rspi.yaml
+>>> +++ b/Documentation/devicetree/bindings/spi/renesas,rzv2h-rspi.yaml
+>>> @@ -13,6 +13,7 @@ properties:
+>>>    compatible:
+>>>      oneOf:
+>>>        - enum:
+>>> +          - renesas,r9a08g046-rspi # RZ/G3L
+>>>            - renesas,r9a09g057-rspi # RZ/V2H(P)
+>>>            - renesas,r9a09g077-rspi # RZ/T2H
+>>>        - items:
+>>> @@ -85,6 +86,31 @@ required:
+>>>
+>>>  allOf:
+>>>    - $ref: spi-controller.yaml#
+>>> +  - if:
+>>> +      properties:
+>>> +        compatible:
+>>> +          contains:
+>>> +            enum:
+>>> +              - renesas,r9a08g046-rspi
+>>> +    then:
+>>> +      properties:
+>>> +        clocks:
+>>> +          maxItems: 2
+>>> +
+>>> +        clock-names:
+>>> +          items:
+>>> +            - const: pclk
+>>> +            - const: tclk
+>>> +        dmas:
+>>> +          maxItems: 2
+>>> +
+>>> +        dma-names:
+>>> +          maxItems: 2
 >>
->> You kind of ignored the problem and the other patch got merged.
+>> So even after my objections here:
+>> https://lore.kernel.org/all/9d08ddda-403e-458d-95e4-4e76915df85d@kernel.org/
+>>
+>> this was not fixed and Renesas did not provide actual cross-patch review.
 > 
-> We prepared a patch updating the description and it is under internal review:
-
-That's not the point. The point was that you give PUBLIC review that
-mentioned patch is incomplete and must be changed.
-
-Not prepare a follow-up patch. That's exactly my complain I raised, so
-you solved nothing.
-
+> That patch is not correct. See below.
 > 
-> This will cover any combinations.
+>>
+>> This is still probably wrong as pointed out by other patches by Renesas.
+>> Also, you cannot have flexible names.
 > 
->   description:
->       Must contain unique references to DMA specifiers, with at least one
->       for transmission and one for reception. Each category may include
->       multiple entries, constrained only by the total number of DMACs
->       available on the SoC.
+> You can have "rx", "tx" in any order and {rx, tx} should be unique dma specifier
 
-No. Solves nothing. Renesas folks were supposed to review patches
-instead of letting poor code be merged to THEN develop fixes.
+No. You cannot. I just told you so. Please read writing-bindings for
+arguments.
 
+Look at the code which was here before that incomplete solution was merged.
+
+
+
+> and  it should have at least 1 tx and 1 rx for multiple DMAC.
+> 
+> For RZ/G3L SoC, only 1 DMA and Nothing prevent us to specify it as { rx, tx} or {rx, tx}
+> 
+
+Well, I prevent you. So NAK.
 
 Best regards,
 Krzysztof
