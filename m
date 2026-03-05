@@ -1,76 +1,74 @@
-Return-Path: <linux-renesas-soc+bounces-28842-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28843-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SH7LBLsvqWmO2wAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28842-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 05 Mar 2026 08:24:43 +0100
+	id kDsqD/gxqWnM2wAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28843-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 05 Mar 2026 08:34:16 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D29020C9BC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 05 Mar 2026 08:24:42 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 925BE20CBA8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 05 Mar 2026 08:34:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 6DADD3018C20
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Mar 2026 07:24:41 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 83389302257B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Mar 2026 07:34:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3BC230F92D;
-	Thu,  5 Mar 2026 07:24:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E967331985C;
+	Thu,  5 Mar 2026 07:34:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lnfaComR"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KboFec8T"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEFAF191F91;
-	Thu,  5 Mar 2026 07:24:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5AB230B53A;
+	Thu,  5 Mar 2026 07:34:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772695480; cv=none; b=qj2FtqYCZT04UzEHqbAXZnwKajDQK90eijJsOdCael5oI/5+YGhrERdkp0GuP9gMrqZsQfwxgkLdYDXEuELxGXuob72giSJFm/A/WussW4mo8+xHOC46a+Tjbw6kBOk4trxauPIBJnx5Fi+zSlxADbetRomzmKDrzZXVAwHBcaU=
+	t=1772696049; cv=none; b=CI+aEfK2wn97gB/mBpOTm8oh2IaYKKA8nz0t0GXa/F7FaJoexvJm85AakoBt9DPoh8TbhwgM9YFJI6vW/OtjUJCQE/fi/NMNsVrT//X9Vv7TT7J/BH+03A/rbKc3S1Ah+t9wk+sIpJiciKt7NQ6Rh+RyfE3a4NKAQWavR9OyjtQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772695480; c=relaxed/simple;
-	bh=SqAxJif48hn5wMCG4M87dJcdnDhhNcOcYRdFJfc8YDA=;
+	s=arc-20240116; t=1772696049; c=relaxed/simple;
+	bh=wWFqo5nwh874o4c6BqL2MJLfKZGw+dGSVb34n7B7llM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cm5K3fIH8SJYnQCs31l59uFD8KUdwMcGCL6KW8f2ABiyyg0AVBXr2pta42Y4N1XsVtCyQjnFx4ImZdLTViafYK1WbQR8P2eQYmKxMWZLyqMYkWhefjtvdJaiSabbRxrWR+zclSCUMkEVQF/E0SyCrOnIPsrysEaB8OUruER32W4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lnfaComR; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A51ABC116C6;
-	Thu,  5 Mar 2026 07:24:33 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=WapZFNS2TCohMKb7gMpJV0LTqvA65Q9viEp+lwS9n7+ocuqXVZsgc187VSfpP7zdIWasu/WpRQ9/QQeUyQSwSobet+OqY6TydJwaj90wZsfRIIc/tPzLPI9LbXsNFbpiUc5Gg8bndxRW47ZjKot/ekG8hDGkbBBrKuJo40kgV8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KboFec8T; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9CA4C19425;
+	Thu,  5 Mar 2026 07:34:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772695480;
-	bh=SqAxJif48hn5wMCG4M87dJcdnDhhNcOcYRdFJfc8YDA=;
+	s=k20201202; t=1772696049;
+	bh=wWFqo5nwh874o4c6BqL2MJLfKZGw+dGSVb34n7B7llM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lnfaComR5UCb151SD6jDFra15uT8o/zUc66FlKXSyBKpa/mkNwVTpOZ9sfomEKYIq
-	 ObYqO+wc2ML3Oi8OH6JiD2+i8hoVNL60NioUMu57HLF5ObCNlgdtnJq37VIAjD6T3A
-	 dUe2JWDLHhx9AftYUqOPbxCCCa18TigUYefJEPEA8wF8x/QR8hwWoCux8Prqm9mVy1
-	 xee0D8ycpoXFebufVAS8ATObgmSY4sAh4qRvAE0ReW+aX43s9ex8rF3eOIMnRwhqFa
-	 yyqGjSgTyZQNGllxhd+Yo7xFJ8pzu3AXnUiY7TbZ1WBvrEHVA6SLLv5fBK0s3Szl+B
-	 TFq3RRwJxUX3A==
-Date: Thu, 5 Mar 2026 12:54:24 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Magnus Damm <magnus.damm@gmail.com>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konradybcio@kernel.org>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v5 3/9] pci: pwrctrl: rename pci-pwrctrl-slot as generic
-Message-ID: <twcdswrgibd3ydrb7ebmxdmyfi32c7yamii6pmrthiecryiyyt@3o6nexlweyzv>
-References: <20260220-topic-sm8650-ayaneo-pocket-s2-base-v5-0-1ad79caa1efa@linaro.org>
- <20260220-topic-sm8650-ayaneo-pocket-s2-base-v5-3-1ad79caa1efa@linaro.org>
+	b=KboFec8TUIZ5Jy1W4wNYuTsQQTfoLaBsILtowDkXRzPI/6kMtHmfWElNV/V6lmOIe
+	 /UatEFysQcbacES7wTpokbIU5+O2r6cfYAPndaY5tAus+5KeWpDfPvnsQK9zUcN3NO
+	 q/TU1NfGX2xjmWC94/xTB9YYxFy+y/FWKDUxbDGLM0rX5DrfisQzKFPCWp/D1ortaQ
+	 hu3wYXE3Rvk0owSkm2Q57h4Yko1yqBbD1uf96SO4G9weFvUfEWT05PpJPVix6ffgS8
+	 Dr6xhHsW/6yvU837b44I3gcq+Er31QAL3xK8uCLIy/h9r5N4ktcx6Svn9fGGX0YYmH
+	 GbKQKF9lPjOrw==
+Date: Thu, 5 Mar 2026 08:34:03 +0100
+From: Niklas Cassel <cassel@kernel.org>
+To: Koichiro Den <den@valinux.co.jp>
+Cc: Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, linux-pci@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] PCI: dwc: rcar-gen4: Use 4K EPC BAR alignment
+Message-ID: <aakx63RZ-4ayvRAX@ryzen>
+References: <20260305015439.1529006-1-den@valinux.co.jp>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260220-topic-sm8650-ayaneo-pocket-s2-base-v5-3-1ad79caa1efa@linaro.org>
-X-Rspamd-Queue-Id: 7D29020C9BC
+In-Reply-To: <20260305015439.1529006-1-den@valinux.co.jp>
+X-Rspamd-Queue-Id: 925BE20CBA8
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -78,104 +76,73 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-28842-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-28843-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[19];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[linuxfoundation.org,kernel.org,glider.be,gmail.com,google.com,vger.kernel.org];
+	FREEMAIL_CC(0.00)[gmail.com,renesas.com,kernel.org,google.com,glider.be,vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mani@kernel.org,linux-renesas-soc@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[cassel@kernel.org,linux-renesas-soc@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,valinux.co.jp:email]
 X-Rspamd-Action: no action
 
-On Fri, Feb 20, 2026 at 04:04:42PM +0100, Neil Armstrong wrote:
-> The driver is pretty generic and would fit for either
-> PCI Slots or endpoints connected to PCI ports, so rename
-> the driver and module as pci-pwrctrl-generic.
+On Thu, Mar 05, 2026 at 10:54:39AM +0900, Koichiro Den wrote:
+> R-Car S4 Series (R8A779F[4-7]*) uses a 4K minimum iATU region size
+> (CX_ATU_MIN_REGION_SIZE = 4K) as per R19UH0161EJ0130 Rev.1.30.
 > 
-> Suggested-by: Manivannan Sadhasivam <mani@kernel.org>
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-
-One comment below, but that can be fixed while applying. So,
-
-Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
-
+> Update the advertised alignment to 4K, as described in
+> commit 2a9a801620ef ("PCI: endpoint: Add support to specify alignment
+> for buffers allocated to BARs").
+> 
+> With the previous 1MB alignment requirement, iATU programming for BAR4
+> on this platform often cannot be performed, since a 1MB-aligned target
+> address may fall outside the tiny 256B BAR4 window.
+> 
+> Signed-off-by: Koichiro Den <den@valinux.co.jp>
 > ---
->  drivers/pci/controller/dwc/Kconfig |   4 +-
->  drivers/pci/pwrctrl/Kconfig        |  13 ++--
->  drivers/pci/pwrctrl/Makefile       |   4 +-
->  drivers/pci/pwrctrl/generic.c      | 139 +++++++++++++++++++++++++++++++++++++
->  drivers/pci/pwrctrl/slot.c         | 137 ------------------------------------
->  5 files changed, 150 insertions(+), 147 deletions(-)
+>  drivers/pci/controller/dwc/pcie-rcar-gen4.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/pci/controller/dwc/Kconfig b/drivers/pci/controller/dwc/Kconfig
-> index d0aa031397fa..4bd36e133ca6 100644
-> --- a/drivers/pci/controller/dwc/Kconfig
-> +++ b/drivers/pci/controller/dwc/Kconfig
-> @@ -309,7 +309,7 @@ config PCIE_QCOM
->  	select CRC8
->  	select PCIE_QCOM_COMMON
->  	select PCI_HOST_COMMON
-> -	select PCI_PWRCTRL_SLOT
-> +	select PCI_PWRCTRL_GENERIC
->  	help
->  	  Say Y here to enable PCIe controller support on Qualcomm SoCs. The
->  	  PCIe controller uses the DesignWare core plus Qualcomm-specific
-> @@ -431,7 +431,7 @@ config PCIE_SPACEMIT_K1
->  	depends on ARCH_SPACEMIT || COMPILE_TEST
->  	depends on HAS_IOMEM
->  	select PCIE_DW_HOST
-> -	select PCI_PWRCTRL_SLOT
-> +	select PCI_PWRCTRL_GENERIC
->  	default ARCH_SPACEMIT
->  	help
->  	  Enables support for the DesignWare based PCIe controller in
-> diff --git a/drivers/pci/pwrctrl/Kconfig b/drivers/pci/pwrctrl/Kconfig
-> index cd3aa15bad00..ff67bec5b500 100644
-> --- a/drivers/pci/pwrctrl/Kconfig
-> +++ b/drivers/pci/pwrctrl/Kconfig
-> @@ -11,17 +11,18 @@ config PCI_PWRCTRL_PWRSEQ
->  	select POWER_SEQUENCING
->  	select PCI_PWRCTRL
+> diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4.c b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> index 3d4a889e38cc..396ef9432299 100644
+> --- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> @@ -428,7 +428,7 @@ static const struct pci_epc_features rcar_gen4_pcie_epc_features = {
+>  	.bar[BAR_3] = { .type = BAR_RESERVED, },
+>  	.bar[BAR_4] = { .type = BAR_FIXED, .fixed_size = 256 },
+>  	.bar[BAR_5] = { .type = BAR_RESERVED, },
+> -	.align = SZ_1M,
+> +	.align = SZ_4K,
+>  };
 >  
-> -config PCI_PWRCTRL_SLOT
-> -	tristate "PCI Power Control driver for PCI slots"
-> +config PCI_PWRCTRL_GENERIC
-> +	tristate "Generic PCI Power Control driver for PCI slots and endpoints"
->  	select POWER_SEQUENCING
->  	select PCI_PWRCTRL
->  	help
-> -	  Say Y here to enable the PCI Power Control driver to control the power
-> -	  state of PCI slots.
-> +	  Say Y here to enable the generic PCI Power Control driver to control
-> +	  the power state of PCI slots and endpoints.
->  
->  	  This is a generic driver that controls the power state of different
-> -	  PCI slots. The voltage regulators powering the rails of the PCI slots
-> -	  are expected to be defined in the devicetree node of the PCI bridge.
-> +	  PCI slots and endpoints. The voltage regulators powering the rails
-> +	  of the PCI slots or endpoints are expected to be defined in the
-> +	  devicetree node of the PCI bridge.
+>  static const struct pci_epc_features*
+> -- 
+> 2.51.0
+> 
 
-'PCI bridge or endpoint'
+CX_ATU_MIN_REGION_SIZE has
+Label: Minimum Size of Translation Region
+Value Range: 4, 8, 16, 32, 64 kB
+Default: 64 kB
 
-- Mani
+1 MB is larger than 64 kB, so it is clearly wrong.
 
--- 
-மணிவண்ணன் சதாசிவம்
+
+Kind regards,
+Niklas
 
