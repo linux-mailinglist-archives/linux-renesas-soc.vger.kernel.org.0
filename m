@@ -1,226 +1,260 @@
-Return-Path: <linux-renesas-soc+bounces-28850-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28851-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AHO0BVxBqWkZ3gAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28850-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 05 Mar 2026 09:39:56 +0100
+	id yE1LEtpDqWlV3gAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28851-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 05 Mar 2026 09:50:34 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CADEB20D938
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 05 Mar 2026 09:39:55 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B564520DBD4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 05 Mar 2026 09:50:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id F2880302E123
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Mar 2026 08:39:51 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 6C268306CF77
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Mar 2026 08:49:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00B9D374E7D;
-	Thu,  5 Mar 2026 08:39:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83817375F83;
+	Thu,  5 Mar 2026 08:49:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Zhs1szgR";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="jftXYqSq"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oeBENYUV"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B97D1372EF8
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  5 Mar 2026 08:39:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F36C375F67;
+	Thu,  5 Mar 2026 08:49:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772699983; cv=none; b=dwb9f1EZ5B8X1sdqiTcYLzpUu6/76outUFsoJx+bIHCchr4su8a1HVOjMDOzemaxfNbvJkG2bfYCRrSojh0JAg4oLDny93PsT5nuvZzVZgyOngculCIB1tX1OyluN8GTYVcIE/hg+O3lw+Qvsh+TKNerCuNuKu6S5oftE1kDwJw=
+	t=1772700560; cv=none; b=Bgg6igBuBhrsW1W0Xe/9jnWniSf3mzLvWo5WWHsb9O54etW5armGumTXQIZL1C9IDb41JGu7E/TrzKA2YHQZdUTF7Zc9oRjHS3tKOyD15Xe7+PB3GxEfkca9EHmKgCeCBvi+jLP+XtP/TD0L+YdIKe9zJSQOI4VJtlGHKvw/Hm4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772699983; c=relaxed/simple;
-	bh=6xaS693NEPvMsmPDTvB8J6q5UsLGM4wm4qipY7xfOGE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cgTe0q7m7j1NKTtYNv139E66TgtaQLNyzLwI9EWXMHh2i5HZdkNqFBlpffJraGOur7YSh4NPQRfTikfPvWH32TQv/zeoihfDPPODDJrfiZG6/btGPrNkNkrqkz8gGd/0k5FZcdnAjuyWiuWvd1v9QAz4bQiJZnNdF7OXpFi3NnM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Zhs1szgR; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=jftXYqSq; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6251C9Ab3473476
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 5 Mar 2026 08:39:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	kdWMwgc8nLSwvc7+zSIUZsTz2pEGRMvswxdPfflnvOo=; b=Zhs1szgRs6PvG6yC
-	/K6l0Og7co3C6ED8icQT7ngtsI9G5Zp17IaIYa/MOFJSyTxAUHo39qtMLOBGQhpj
-	JO9fE/F/E4F4LvhAKnAlFKn+fH9sEpkGqfNT9M43WTCJkjqaFeUzfOGpTrDAGNtC
-	tA5poP4iW9oFEFa2er9A5XyBDJ8CedmbmCYM1jjJmOXgrD4UqsM96/EbUTiVA/x+
-	+Hq4ib0d4uJFejDRNFTAYPM9OxAzG41cfjw0IJBJVDWkmbFbGS1eLwFkvUDxUI+x
-	i9yGzbk3U3z2KxBfUGbK5GoyOmpZPSUHhrYGJ9ek999ywA1Q/YTR3XTo5MWWFrPw
-	1lqwYw==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cpj183y2g-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 05 Mar 2026 08:39:40 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8cb50fb0abdso615773185a.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 05 Mar 2026 00:39:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1772699980; x=1773304780; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=kdWMwgc8nLSwvc7+zSIUZsTz2pEGRMvswxdPfflnvOo=;
-        b=jftXYqSqtrokdujho1rSZ8RV2+df0VSJJ/M8ZUZxSfL+guycXk5e5Oa+/kyiYv6qq7
-         wDt7pgwE82GoCanbnE56n+QEoFdpyD0IDJAXa2uedcbQvZQWJRRzpQWeE+FA2evLbImb
-         HHx25k81XwtVs8AYIfGmGN1Heris1W4EH+3TjG9IsAQO2tfFNcYJFHacx8H5ixGQjhjp
-         YhLkHjONVRBKpyl+EoAHQo2i8UAnKVr+iozz53JeeF4uhO8r6lRrGpcB/0Hhik80AyD3
-         +bPbUwPZDvHgZwinc1JyJ5+XebVWXjYBrsXBjFQwXL48HKIXO1qH/SWx+i+izxWR3tKA
-         fXjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772699980; x=1773304780;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kdWMwgc8nLSwvc7+zSIUZsTz2pEGRMvswxdPfflnvOo=;
-        b=cKGvAU/TdO5yDn5VTh9buGKjUt+DDaQoyF8wwje1j3mt9Dp5BlxRPXYw2TjvuQpsLM
-         Aj6VGvsX5RxKL9gM8eXMBQRzEDJXLZeOKuYYrjEy7eGhkI4x/f3KHsQnkG75XlYtMuAn
-         +OviWnYzRV1YAQO/ex0XT9RguRT6WVq8C7BJcquuof1q3bndd+DeFnaJRw9z+Xu6YdGI
-         GNma/aF4/1/ynmlj8AVR67hFDBrglRt6hFA2tPVcbr2dQLxpsAqHn4IitqQAmt21u4EA
-         X+s1tdjKThZVmrhAudGS2RKouMM6Iyo4LC6sNMR+7RNbIMUsOITdgZCxJbJ+2WcXKBpF
-         ixDw==
-X-Forwarded-Encrypted: i=1; AJvYcCUq05MHZLeUCzjBfdqA1xTpOEY7fWoaUzvdedLYkP/Zgv4ArcvoBhpgqUKy1L6tjFtl0TYyU6x554AA7wNHqERiVA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwKEhzH+fsTBPE8y47lj+7XI8axoonfqOeiSdC/e+NIhYO0QeJH
-	IW9y6aaMem4OaXE0baVGwR3rLu2MktKvedk5BU1tKyHmCJ/w1AmR8ztREAmtbQe+oilAGiawf6w
-	JUtwBlFjTOxjSQ2RXhi1o4b9t77AWpXihfNaDj3JG2Er/RMv1bhANz6kdDC2yhCp2ZAtcmI2dWw
-	==
-X-Gm-Gg: ATEYQzzQVwmCX1QBmcFmJCLuY++0IpTjL5gZbmavHLobFTP2yGYNzJ72oR4q+64yKhB
-	uUtNFM9Go7QV90C+0V+4bErCYpmBM8K5udaEjHZ/Q7UswokjkIrlCuFx5VAgkHYa/lrON993hBE
-	ZKiMSEg81a8nmaiB9OtNlUFCJJdc29QYBZGOvIuk/GrD16z4U3qlW0HQbL5LYmpCMk4BqcJAxK7
-	HAIlTVzPMU2jYhgbzCWvCt9NqQgh+8iVCO5Q9ez/giocO9zUnzQS6DFvxmhLBzSmME7pShiYKrI
-	fahOYNFmmOmJDunrXPC24PiNKCQwS9/UMGVQBfvfKbFLaPv5I0IJEK+hZDEfJgAPZjgncIDg6Mh
-	Xxb7mZ6Y9w+9VBOPtzQKm6BAw5rJV9tOtkkRgdOdNlL45vu34Cd6jvoQl0I8WK4OdKg3pXoEE4m
-	o4kcw=
-X-Received: by 2002:a05:620a:404c:b0:8c7:1b40:d096 with SMTP id af79cd13be357-8cd5afcdcfbmr452359385a.9.1772699980151;
-        Thu, 05 Mar 2026 00:39:40 -0800 (PST)
-X-Received: by 2002:a05:620a:404c:b0:8c7:1b40:d096 with SMTP id af79cd13be357-8cd5afcdcfbmr452356985a.9.1772699979710;
-        Thu, 05 Mar 2026 00:39:39 -0800 (PST)
-Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-65fac06e3fasm6657504a12.25.2026.03.05.00.39.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Mar 2026 00:39:38 -0800 (PST)
-Message-ID: <a8fee1cd-1e69-4a9e-8533-c0988c480fb9@oss.qualcomm.com>
-Date: Thu, 5 Mar 2026 09:39:35 +0100
+	s=arc-20240116; t=1772700560; c=relaxed/simple;
+	bh=UEwttngTQsmLLtKJ8DFAkKkPp9TkJbnDTb161dzvgCo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gWpV8PjPttthJGo93kSW2JdcNnmiJxEjOLuf/KA5Wz+E8aUJelkqDlcybkOR9KKOYKptO7u0zI5cnVR2vXKtrjEIM720D8L4O0HovKt7BuQm3yfBhE6LRNQN/UM9xdIRKHVvcPvRgOYVjSj+guv6w+VSROMD7Tl4l6zqZ/HhigI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oeBENYUV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 926E0C116C6;
+	Thu,  5 Mar 2026 08:49:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772700560;
+	bh=UEwttngTQsmLLtKJ8DFAkKkPp9TkJbnDTb161dzvgCo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oeBENYUVSaUIgTeVFRD5YBJxrw75e0yO3ekO3RJ5WXmoWo3cZ8gL9GakH+D84ZtKS
+	 qK6fR73ch5JgXbzyaZs303hpQGym5CQrHRjfKmXwKnza3IglQrzyfeuUAmoxewkYcr
+	 JI/rq5Lvmrqcod1d2hi5HA6nKV518xfNYDs6S0WaYW10tZ01vqPhaTRDAbL+2yQNam
+	 /xu1RdzmrY3gv8ZUm5EUmvtRQ57yR41xdtYAG1RXLNUkM1kioldrmuoZBMLN4bqhgM
+	 gIWZQlTY33jhfLSudmIdi8e/jnpT4Rfbc+9lDyQuKNaDU7sDCoyFg+D9AKpGRqJgwh
+	 TkFg/lCX+vQhQ==
+Date: Thu, 5 Mar 2026 09:49:17 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>, 
+	William Breathitt Gray <wbg@kernel.org>, Lee Jones <lee@kernel.org>, 
+	Thierry Reding <thierry.reding@gmail.com>, linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
+Subject: Re: [PATCH 0/5] Renesas MTU3 PWM / counter fixes
+Message-ID: <aak9_ran81EPmjpm@monoceros>
+References: <20260130122353.2263273-1-cosmin-gabriel.tanislav.xa@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH phy-next 22/22] MAINTAINERS: add regex for linux-phy
-To: Vladimir Oltean <vladimir.oltean@nxp.com>, linux-phy@lists.infradead.org
-Cc: Vinod Koul <vkoul@kernel.org>, Neil Armstrong
- <neil.armstrong@linaro.org>,
-        dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
-        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-        linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-        spacemit@lists.linux.dev, UNGLinuxDriver@microchip.com
-References: <20260304175735.2660419-1-vladimir.oltean@nxp.com>
- <20260304175735.2660419-23-vladimir.oltean@nxp.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20260304175735.2660419-23-vladimir.oltean@nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: zaspKN_2LpQbbzJKnAwklRZoRfSrzJUe
-X-Proofpoint-ORIG-GUID: zaspKN_2LpQbbzJKnAwklRZoRfSrzJUe
-X-Authority-Analysis: v=2.4 cv=Ed7FgfmC c=1 sm=1 tr=0 ts=69a9414c cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
- a=8AirrxEcAAAA:8 a=GJStlgXwfe-SXQdWLvAA:9 a=QEXdDO2ut3YA:10
- a=PEH46H7Ffwr30OY-TuGO:22 a=ST-jHhOKWsTCqRlWije3:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA1MDA2OCBTYWx0ZWRfX2AVcOpVz8LYe
- 93ttJEg3vGiYk6WgN8+34naxNuzEmH9sLjyBxhynnQT6EJcBivZev85o+BwDlodtBocrUoOIvsj
- gn6WWPD4PvBPt9fZItseHPHRF6DkBvu8Q8DgGKwcKzM/16KvnHhQlyYA0Dvwv/Tv2Fj4dDpJ51R
- 7WfS113Pxkb4DLdcrwj6aVs6dLD731VyT0dlos3014C5k84ELlKKy2dqe2N756wf4jjtKVnddEA
- 7UB8662Uu1IScf16W7Dx48NLq2Wqi5UyxpxoGK47xkILJ5+XxFpvhjB1YxolDH4ouB6PRHX0f13
- cHpw9TF+gtv/cnvblnJ37fQNiFSX0+Xxz4qGfcVVjahmQsihwG0rEvQyWqJx94KFcnknTZWx0HS
- SQx46A/aWgqN0VEnlJ+11OnOrAXXWkO7vc2deLLPhIqqOiV/qOPKvyhBr435sG3bWwADxhEr8nR
- x968VmhA3/XD21Ak/Tg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-05_02,2026-03-04_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 suspectscore=0 spamscore=0 adultscore=0 lowpriorityscore=0
- clxscore=1011 malwarescore=0 impostorscore=0 priorityscore=1501 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603050068
-X-Rspamd-Queue-Id: CADEB20D938
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="73k3u4jandqqyizn"
+Content-Disposition: inline
+In-Reply-To: <20260130122353.2263273-1-cosmin-gabriel.tanislav.xa@renesas.com>
+X-Rspamd-Queue-Id: B564520DBD4
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-2.26 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[24];
-	TAGGED_FROM(0.00)[bounces-28850-lists,linux-renesas-soc=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	TAGGED_FROM(0.00)[bounces-28851-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:dkim,oss.qualcomm.com:mid,nxp.com:email,qualcomm.com:dkim,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[konrad.dybcio@oss.qualcomm.com,linux-renesas-soc@vger.kernel.org];
+	FREEMAIL_CC(0.00)[bp.renesas.com,kernel.org,gmail.com,vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	MID_RHS_MATCH_FROM(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ukleinek@kernel.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-On 3/4/26 6:57 PM, Vladimir Oltean wrote:
-> Some pragmatic shortcuts are being taken by PHY consumer driver authors,
-> which put a burden on the framework. A lot of these can be caught during
-> review.
-> 
-> Make sure the linux-phy list is copied on as many keywords that a regex
-> can reasonably catch.
-> 
-> For simplicity sake this is not perfect (devm_ and of_ are not valid
-> prefixes for all function names), but I tried to pay attention on
-> avoiding false matches on things like:
-> - drivers/net/vendor/device/phy.h
-> - include/linux/phy.h - network PHY, not generic PHY
-> 
-> So I used \b to try to match on actual word boundaries and be explicit
-> about what is matched on.
-> 
-> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
-> ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 55af015174a5..bdfa47d9c774 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -10713,6 +10713,7 @@ F:	Documentation/devicetree/bindings/phy/
->  F:	drivers/phy/
->  F:	include/dt-bindings/phy/
->  F:	include/linux/phy/
-> +K:	\b(devm_)?(of_)?phy_(create|destroy|init|exit|reset|power_(on|off)|configure|validate|calibrate|(get|set)_(mode|media|speed|bus_width|drvdata)|get_max_link_rate|pm_runtime_(get|put)|notify_(connect|disconnect|state)|get|put|optional_get|provider_(un)?register|simple_xlate|(create|remove)_lookup)\b|(struct\s+)?phy(_ops|_attrs|_lookup|_provider)?\b|linux/phy/phy\.h|phy-props\.h|phy-provider\.h
 
-Would looking for the devm/of_phy_ prefix followed by an open parentheses
-not suffice for the 'has function call' case, instead of listing all
-currently present exported functions?
+--73k3u4jandqqyizn
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 0/5] Renesas MTU3 PWM / counter fixes
+MIME-Version: 1.0
 
-My worry is that this approach is overbuilt and absolutely no one will
-remember to update it
+On Fri, Jan 30, 2026 at 02:23:48PM +0200, Cosmin Tanislav wrote:
+> The Renesas MTU3 PWM and counter drivers have some issues which have
+> been observed while adding support for the Renesas RZ/T2H and RZ/N2H
+> SoCs.
+>=20
+> This series fixes the most important issues which prevent normal
+> functioning of the driver, while other less important issues will be
+> handled in a future series.
+>=20
+> Questions for the PWM maintainer:
+>=20
+> 1)
+>=20
+> The handling introduced in patches 1 and 2 is similar to the approach
+> taken in commits [1] and [2].
+>=20
+> Is this the right approach?
+>=20
+> This code snippet below extracted from drivers/pwm/pwm-rzg2l-gpt.c
+> entirely prevents the period ticks from changing at all when two PWM
+> channels backed by the same HW channel are in use.
 
-Konrad
+Yes, this is a known issue. But there is no sane alternative I'm aware
+of as one consumer must not change the settings affecting a different
+consumer.
+
+> if (rzg2l_gpt->channel_request_count[ch] > 1) {
+>   u8 sibling_ch =3D rzg2l_gpt_sibling(pwm->hwpwm);
+>=20
+>   if (rzg2l_gpt_is_ch_enabled(rzg2l_gpt, sibling_ch)) {
+>     if (period_ticks < rzg2l_gpt->period_ticks[ch])
+>       return -EBUSY;
+>=20
+>     period_ticks =3D rzg2l_gpt->period_ticks[ch];
+>   }
+> }
+>=20
+> Same logic has been imposed in patches 1 and 2 as the HW limitation is
+> similar.
+>=20
+> Based on the logic here, a second channel can be enabled as long as its
+> period is larger than the period of the first enabled channel, and the
+> period and duty cycle will be adjusted to be <=3D to the period of the
+> first enabled channel.
+>=20
+> But once the second channel is enabled, there's no way to adjust the
+> period of either channels anymore.
+>=20
+> Wouldn't a better solution be that the smallest period between the two
+> channels is used, so that adjustment is still possible dynamically?
+>=20
+> Here is an example.
+>=20
+> echo 0 > /sys/class/pwm/pwmchip0/export
+> echo 1 > /sys/class/pwm/pwmchip0/export
+> echo 0xFFF000 > /sys/class/pwm/pwmchip0/pwm0/period
+> echo 0x7FF800 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle
+> echo 0xFFF000 > /sys/class/pwm/pwmchip0/pwm1/period
+> echo 0x7FF800 > /sys/class/pwm/pwmchip0/pwm1/duty_cycle
+> echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable
+> echo 1 > /sys/class/pwm/pwmchip0/pwm1/enable
+>=20
+> Now both LEDs are on, let's increase the period.
+>=20
+> echo 0xFFFF000 > /sys/class/pwm/pwmchip0/pwm0/period
+> echo 0x7FFF800 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle
+>=20
+> The effective period did not change.
+
+Yeah, so pwm0 still runs at 0xFFF000. And setting the duty_cycle to
+0x7FFF800 also results in it being 0xFFF000.
+=20
+> echo 0xFFFF000 > /sys/class/pwm/pwmchip0/pwm1/period
+> echo 0x7FFF800 > /sys/class/pwm/pwmchip0/pwm1/duty_cycle
+>=20
+> The effective period didn't change now either.
+>=20
+> echo 0 > /sys/class/pwm/pwmchip0/pwm0/enable
+> echo 0 > /sys/class/pwm/pwmchip0/pwm1/enable
+>=20
+> echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable
+> echo 1 > /sys/class/pwm/pwmchip0/pwm1/enable
+>=20
+> After turning the PWMs off and on again, the effective period is
+> updated.
+
+Yes, let's note that the sysfs API is strange.
+
+> If we were to change the period dynamically to the smallest one, the
+> LEDs would have changed their effective period without needing to be
+> turned off and on again.
+
+Not all consumers only care about the relative duty cycle. So changing
+the period behind the back of a consumer even when keeping the relative
+duty cycle is a no go.
+
+> Would this approach be better than the current approach? I can see that
+> other drivers just refuse updating the period entirely when the PWM
+> channels must share the same period.
+>=20
+>=20
+> 2)
+>=20
+> Another issue that I've encountered is that PWM is left enabled even if
+> the channel is unexported.
+>=20
+> Here is an example.
+>=20
+> echo 0 > /sys/class/pwm/pwmchip0/export
+> echo 0xFFFF000 > /sys/class/pwm/pwmchip0/pwm0/period
+> echo 0x7FFF800 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle
+> echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable
+> echo 0 > /sys/class/pwm/pwmchip0/unexport
+>=20
+> The connected LED is kept blinking as 0 was not written to enable.
+>=20
+> Is this intended? Or should the PWM turn off on unexport?
+
+For in-kernel users of a PWM it's the consumer's responsibility to
+disable a PWM before pwm_put(). I think it's more natural to have the
+same for /sys (and also the chardev interface).
+
+> 3)
+>=20
+> Should the .get_state() ops read the period and duty cycle from the
+> hardware if the PWM is not enabled?
+
+It doesn't need to.
+
+> Currently the MTU3 driver guards reading period and duty cycle based on
+> whether the PWM is enabled.
+
+Best regards
+Uwe
+
+--73k3u4jandqqyizn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmmpQ4oACgkQj4D7WH0S
+/k7iMAgAu3Ml0H8KBG9SsCnSyS32BCqDIneFx3upsHvm+1/N1Byeof1cdv/5Thov
+pJ2JwexrpimVz643rpBvkZ/utEkmbIbDW5NOp8GlD0HK6G56sr2HhZ4r9cktv5bQ
+YmNoTfwT2JJpC/MsZnrk2olNf1w4nRtL1WcFCEAmfFAYYBSyUB62VUq/huYh5fyC
+whkeOgQ55YOmHZ0vVr2F7ksvo1AI0sJgJglmdwvhB9lUiB/FuRw1f+oqv55V8J73
+rUqcGV6EHDStiimRD6bxJ95obAq2pT5zzlzjaK8Ctjg3/0fOasUBD3kB6EuwUbAo
+fn7FrqywEgUnBZ5vXnav8uNmiHVWQw==
+=01q9
+-----END PGP SIGNATURE-----
+
+--73k3u4jandqqyizn--
 
