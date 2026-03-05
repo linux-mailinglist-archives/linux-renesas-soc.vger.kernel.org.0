@@ -1,81 +1,63 @@
-Return-Path: <linux-renesas-soc+bounces-28911-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28913-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eHKQB53uqWkBIQEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28911-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 05 Mar 2026 21:59:09 +0100
+	id AL0vJw79qWl+JAEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28913-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 05 Mar 2026 23:00:46 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 681A42185A0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 05 Mar 2026 21:59:08 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F35F218BDD
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 05 Mar 2026 23:00:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id ABC38307E843
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Mar 2026 20:59:06 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id ABB9030095C9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Mar 2026 22:00:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B146347FED;
-	Thu,  5 Mar 2026 20:59:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DA2F311957;
+	Thu,  5 Mar 2026 22:00:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="w+Fwnm7c";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="V8cmIE+8"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="WbmwTcln"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D117F2F1FE4;
-	Thu,  5 Mar 2026 20:59:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A414130EF92
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  5 Mar 2026 22:00:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772744345; cv=none; b=SAdxnqLV/Otej3mGW2+2S3EO81uTrn8CaQE3GsNILN4hNCVMPz/e8o/A5UgtJ642U14SOPKGUtyuX3DAHn/xDJhmUfvG3Wg5X5kubrMZZ5CMZ8cGMP3bd8Mp5ardI3c18CF5fWgDNxRK1spjpZClEj2VDPu6AWHHTG37J+nSKYI=
+	t=1772748040; cv=none; b=Ta5iV8BWw/tZ8saPMT3oVWp+9FvFXvVfcshjjgSYxhUR+t1KMpnFDp9AIXd4Td6FrRDExglf05R60FfBDnkT6JVorPnP8NsU410Tvba/lm+Z0dN85DdpGHHB67HtoZoxx7EOp8uDCIvjkO5WvM6FvmQVZ8WdueSZm+MMaQvm91o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772744345; c=relaxed/simple;
-	bh=jPBdXMqfUo7wwEIj2HJo9F19V8ubUhRdIXmXwoAiyZk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bjE6jCws1vfWLa2J1EtPUaf3vpCQaxwscWm7y8mtZ6UlA3l2hwukGYW8NmZERcH/K/f11bVNkeNnQmOly7qcCkPl0NnV9hjGk8Th+NmsFIOT18S/eIZpRWntIKnbrzz0mN1fPbB1lCffNuiytgUfmac5+edUZmNt61xBZHu0LIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=w+Fwnm7c; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=V8cmIE+8; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4fRhjC4z1Mz9tpn;
-	Thu,  5 Mar 2026 21:58:55 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1772744335;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=GyEq1uEoXZyZP4GaI0/iSVZpkJoA/M6saV77VFx5CQ8=;
-	b=w+Fwnm7c24w57/Q4ryyq7ifG3FvrjPaiS2hVmMzaEdL2aQPtUdI7PjUvEVjXR/CK4NE/lv
-	vRgGTQQn6BZFYhSQL1Z5DgDHZBnXlGCbvhdgnEbYnUD0FQnAzj9gRjebmkuT0xW9MWvoZF
-	Adl93Fl+vjEgdZTEbpZWeagSLNgFNCAj+2zXC+iksDOoJiV4dRDpYyeBtvWoJIvgxGkt+U
-	PnJ+GbRovqRoPamKOscnmCuKF1M+jS0Cnyrn2bKqfl5SLlraXH1kcXPLO7KQ3lm1QfWpq1
-	gSjICAcUoaORXh1KEd4V7ASMWLIdIzzq6/BKNZlyuPY50rhEZKVD/qJLInH+5w==
-From: Marek Vasut <marek.vasut+renesas@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1772744334;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=GyEq1uEoXZyZP4GaI0/iSVZpkJoA/M6saV77VFx5CQ8=;
-	b=V8cmIE+8z3iLHeLmaFrOPA9uUN/iO2VASNI24vgU08tnEeAsetQ27NoIzScNmRJ3XwlGPF
-	oIsnE39PfWTI5Os1vfPu+R5xjd2f+4m4fittJaAzyOIqe0hZG5nf+zRJM2768Uzt840zYU
-	jHxvwiWmtodMR0F7+p1m2hyiS3+w2BefduItjz9HKJT0TPNcCNDuKs3KPSIMf1GQ/OusBv
-	woKG0drBW1/iAsCtG1lkLvUSh8W7FzNYpDZ83dHwEYlm0EljDwecuZvBy5dJfYAxk1eqcQ
-	ngWBIZuMGx48MTg5ajYJ+9C7J3Zc+o+TMYvxc0FVUfGXuZhS1D5Dzwgg8nqbOA==
-To: dri-devel@lists.freedesktop.org
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	s=arc-20240116; t=1772748040; c=relaxed/simple;
+	bh=NcyaCipCrb3L7ejX/E+xZZI3B4F+Kcp8rHWDP8HnOeU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KAqzrtHyBSa+/63Dutd+5aKcA/pDX1THkezKekmnjLjwyTX+SR6D8jCulBW/wFpQETT0mASMbug9TVZmZ82OGfXsq9psxf4jUP+YASC0HG/4GrgvVjDAvwec6TJv+ExfKgupybADmsbADdBtyhRL4vRMLeDp8r6DjOZPcyvIRMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=WbmwTcln; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=38fUtNK13Iz/fi
+	0tPvgUDoQHQMIMQNDReTs8VIdeB5s=; b=WbmwTcln677sVckY2ZW9/zKaG2dj4p
+	6tSyIINHtTI4+2lPaZrSjWyD0Vrgvf1eajH0EN12gblf4KE4v3LUqDiQEiA01dwV
+	glU3xxuWvnlma1xbLnZ5SsPTFGxXYz/FNbnZduB29NkRN8dMRmJbQHPIaoYTRqmW
+	WAqsLkzTOJw3KMmJJwCV03udQhX6t/hi90GI8efe9W+7IqiZxfceQ0L9oQETxZUI
+	E93KJlm+fYbA/fF3OOq6QppIBpux1aph+5nW8dlXVGDHEa31+K6X9h07vUuUY0At
+	hHS3izh+ZFWaPUuf+teyYAasqnVSCr6mO3Pi4r9SK+NzeGkzrGZILjaw==
+Received: (qmail 1349977 invoked from network); 5 Mar 2026 23:00:33 +0100
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Mar 2026 23:00:33 +0100
+X-UD-Smtp-Session: l3s3148p1@x57OEE5MHOMujns5
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	David Airlie <airlied@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Simona Vetter <simona@ffwll.ch>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2] drm: of: Fix drm_of_get_data_lanes_count_ep() return value documentation
-Date: Thu,  5 Mar 2026 21:58:15 +0100
-Message-ID: <20260305205840.95978-1-marek.vasut+renesas@mailbox.org>
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	devicetree@vger.kernel.org
+Subject: [PATCH v2] ARM: dts: renesas: r9a06g032-rzn1d400-db: add QSPI node including NOR flash
+Date: Thu,  5 Mar 2026 22:54:04 +0100
+Message-ID: <20260305220023.28257-2-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -83,97 +65,150 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: zkedbg6co371x7ef5sfns7p3bkmde69j
-X-MBO-RS-ID: 6718394f5440abbd735
-X-Rspamd-Queue-Id: 681A42185A0
+X-Rspamd-Queue-Id: 9F35F218BDD
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[sang-engineering.com:s=k1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[mailbox.org,glider.be,gmail.com,linux.intel.com,kernel.org,ffwll.ch,suse.de,vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-28913-lists,linux-renesas-soc=lfdr.de,renesas];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-28911-lists,linux-renesas-soc=lfdr.de,renesas];
-	DKIM_TRACE(0.00)[mailbox.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	DMARC_NA(0.00)[sang-engineering.com];
+	FREEMAIL_CC(0.00)[sang-engineering.com,glider.be,gmail.com,kernel.org,vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[sang-engineering.com:+];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[marek.vasut@mailbox.org,linux-renesas-soc@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[wsa@sang-engineering.com,linux-renesas-soc@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	MID_RHS_MATCH_FROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,ffwll.ch:email,suse.de:email,glider.be:email,lists.freedesktop.org:email,mailbox.org:dkim,mailbox.org:email,mailbox.org:mid,intel.com:email]
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	FROM_HAS_DN(0.00)[]
 X-Rspamd-Action: no action
 
-Update drm_of_get_data_lanes_count_ep() return value documentation
-to match the drm_of_get_data_lanes_count() return value documentation.
-The drm_of_get_data_lanes_count_ep() is only a wrapper around the
-drm_of_get_data_lanes_count() and therefore returns the same error
-codes.
+Enable the QSPI controller to access the connected SPI NOR flash. The
+NOR datasheet may suggest faster tuning parameters but those did not
+work on my board.
 
-Simplify the return code description of drm_of_get_data_lanes_count()
-and drm_of_get_data_lanes_count_ep() to -ENODATA and -EINVAL.
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
 
-Fixes: fc801750b197 ("drm: of: Add drm_of_get_data_lanes_count and drm_of_get_data_lanes_ep")
-Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
----
-Cc: David Airlie <airlied@gmail.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org
----
-V2: Simplify the return code description of drm_of_get_data_lanes_count()
-    and drm_of_get_data_lanes_count_ep() to -ENODATA and -EINVAL.
----
- drivers/gpu/drm/drm_of.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Depends on "[v5,4/4] ARM: dts: r9a06g032: Describe the QSPI controller":
+https://patchwork.kernel.org/project/linux-renesas-soc/patch/20260205-schneider-6-19-rc1-qspi-v5-4-843632b3c674@bootlin.com/
 
-diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
-index 4f65ce729a473..e99645103b23d 100644
---- a/drivers/gpu/drm/drm_of.c
-+++ b/drivers/gpu/drm/drm_of.c
-@@ -507,8 +507,8 @@ EXPORT_SYMBOL_GPL(drm_of_lvds_get_data_mapping);
-  *
-  * Return:
-  * * min..max - positive integer count of "data-lanes" elements
-- * * -ve - the "data-lanes" property is missing or invalid
-- * * -EINVAL - the "data-lanes" property is unsupported
-+ * * -ENODATA - the property does not have a value.
-+ * * -EINVAL - the "data-lanes" property is missing or invalid
-  */
- int drm_of_get_data_lanes_count(const struct device_node *endpoint,
- 				const unsigned int min, const unsigned int max)
-@@ -539,8 +539,8 @@ EXPORT_SYMBOL_GPL(drm_of_get_data_lanes_count);
-  *
-  * Return:
-  * * min..max - positive integer count of "data-lanes" elements
-- * * -EINVAL - the "data-mapping" property is unsupported
-- * * -ENODEV - the "data-mapping" property is missing
-+ * * -ENODATA - the property does not have a value.
-+ * * -EINVAL - the "data-lanes" property is missing or invalid
-  */
- int drm_of_get_data_lanes_count_ep(const struct device_node *port,
- 				   int port_reg, int reg,
+Changes since RFC v1:
+* dropped RFC status, QSPI driver updates are upstream now
+* use KiB and MiB
+* use reg address in node names
+* dropped "qspi0:" prefix from partition names
+* explicitly describe size in the "remaining" partition
+
+Thanks, Geert, for all the suggestions!
+
+Works on my N1D board and patch passes 'dtbs_check'.
+
+ .../dts/renesas/r9a06g032-rzn1d400-db.dts     | 78 +++++++++++++++++++
+ 1 file changed, 78 insertions(+)
+
+diff --git a/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts
+index 4a72aa7663f2..80f78998500b 100644
+--- a/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts
++++ b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts
+@@ -300,6 +300,84 @@ pins_mdio1: pins_mdio1 {
+ 		pinmux = <RZN1_PINMUX(152, RZN1_FUNC_MDIO1_SWITCH)>,
+ 			 <RZN1_PINMUX(153, RZN1_FUNC_MDIO1_SWITCH)>;
+ 	};
++
++	pins_qspi0: pins_qspi0 {
++		pinmux = <RZN1_PINMUX(74, RZN1_FUNC_QSPI)>,
++			 <RZN1_PINMUX(75, RZN1_FUNC_QSPI)>,
++			 <RZN1_PINMUX(76, RZN1_FUNC_QSPI)>,
++			 <RZN1_PINMUX(77, RZN1_FUNC_QSPI)>,
++			 <RZN1_PINMUX(78, RZN1_FUNC_QSPI)>,
++			 <RZN1_PINMUX(79, RZN1_FUNC_QSPI)>;
++		bias-disable;
++	};
++};
++
++&qspi0 {
++	pinctrl-0 = <&pins_qspi0>;
++	pinctrl-names = "default";
++	status = "okay";
++	bootph-all;
++
++	flash@0 {
++		reg = <0>;
++		compatible = "jedec,spi-nor";
++		spi-max-frequency = <62500000>;
++		spi-rx-bus-width = <4>;
++		spi-tx-bus-width = <4>;
++		cdns,read-delay = <1>;
++		cdns,tshsl-ns = <200>;
++		cdns,tsd2d-ns = <255>;
++		cdns,tchsh-ns = <20>;
++		cdns,tslch-ns = <20>;
++		bootph-all;
++
++		partitions {
++			compatible = "fixed-partitions";
++			#address-cells = <1>;
++			#size-cells = <1>;
++
++			partition@0 {
++				/* 64KiB */
++				label = "spl";
++				reg = <0x0000000 0x00010000>;
++			};
++			partition@10000 {
++				/* 64KiB */
++				label = "pkgt";
++				reg = <0x0010000 0x00010000>;
++			};
++			partition@20000 {
++				/* 512KiB */
++				label = "u-boot";
++				reg = <0x0020000 0x00080000>;
++			};
++			partition@a0000 {
++				/* 64KiB */
++				label = "env";
++				reg = <0x00a0000 0x00010000>;
++			};
++			partition@b0000 {
++				/* 128KiB */
++				label = "dtb";
++				reg = <0x00b0000 0x00020000>;
++			};
++			partition@d0000 {
++				/* 1MiB */
++				label = "cm3";
++				reg = <0x00d0000 0x00100000>;
++			};
++			partition@1d0000 {
++				/* 6MiB */
++				label = "kernel";
++				reg = <0x01d0000 0x00600000>;
++			};
++			partition@7d0000 {
++				/* Remaining */
++				label = "data";
++				reg = <0x07d0000 0x1830000>;
++			};
++		};
++	};
+ };
+ 
+ &rtc0 {
 -- 
-2.51.0
+2.47.3
 
 
