@@ -1,160 +1,113 @@
-Return-Path: <linux-renesas-soc+bounces-28864-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28866-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EDB4C1tWqWli5gAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28864-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 05 Mar 2026 11:09:31 +0100
+	id iBQZImpXqWkh5wAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28866-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 05 Mar 2026 11:14:02 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF97D20F6EE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 05 Mar 2026 11:09:30 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FA6D20F812
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 05 Mar 2026 11:14:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 4A45630D927C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Mar 2026 10:03:15 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E9CBC300F50A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Mar 2026 10:13:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1BEF37EFF6;
-	Thu,  5 Mar 2026 10:02:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cD4UFgoA"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD0B837B017;
+	Thu,  5 Mar 2026 10:13:19 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48CCC37EFF1
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  5 Mar 2026 10:02:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 575F5375F96
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  5 Mar 2026 10:13:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772704943; cv=none; b=FaH485pVUOlDDx1zvgDo5tHBlZJPEdPVLmcrvdU81SJ6nfqnOemZPO0XmDS+bn4xNEnpZP1lDBSCcUm0i64JDuXZYOp73Hbl3aLnFNaqm0dQZcqPkyc9r4FaYtblN97yNNuwltKEuYVmOL1dH/bzw0uDgNzG5tvf3FTqCr1lJIQ=
+	t=1772705599; cv=none; b=VDf6HR/2+fUBzkxYJM4ixzHOfk0enI191cdUPRq8fq4G4N03zZyp0PVDErbyg0c/j6iYTtjF4q3Nebo2oj2++w1GipZylgzn4T2i2UumPMETbqS6nk+Ho2s7KKl4FYQUWRg0nFFPhzxwnhJsKN7xI9EwTzwPqk3H44llqiH9tRI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772704943; c=relaxed/simple;
-	bh=PLN3jU+WSp15lmHsKDg7F21c9tIpGoZokDbnzqxSsGE=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Qs8DZSKl9AcGifDwFOiz37rcfRsuTiwc6x4typyGeYD3fNXwgUNA8wgkcd9oy3p0dyhu86Kb1SBra6s7gKImeyzScnmyRoC0NT4R0cEQK71ijQE7h55tkKojESVyuG5d9wcdY0kq5B7a1yGiTElFssjq+VRm5y/7ebFR/He0kuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cD4UFgoA; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-48371119eacso93559675e9.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 05 Mar 2026 02:02:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1772704940; x=1773309740; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=PLN3jU+WSp15lmHsKDg7F21c9tIpGoZokDbnzqxSsGE=;
-        b=cD4UFgoAocJuZT5S6/FT4tLvo8eHic6win/PVVlM7THi42GfYkSi1TmQKp9oFjEvC9
-         4DuAmh8ioVJ3l0t9cfDz1F4uH57IMEgeY61EKqf0J4hgzotd10bzAWeqkIY3qxwq+gtt
-         KyD/BEhAcZymLIC+jEV+iqZhfRlSpIO7G5fxOWyrn6ZeoxUBzXJNaGNiXGXdwAwygc++
-         SJ3ShMbEL/2wC0WJ/VhDdOAftX90PfAz60BcupIG8OAGaPrCOCMIA27aaK++isLH44Iv
-         ENO8y4ePFW102JPN00G4qmjO8l3H2KXaQyAiU4DD52kTRmizIQUzeyakkq8kcPe749lH
-         0MxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772704940; x=1773309740;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PLN3jU+WSp15lmHsKDg7F21c9tIpGoZokDbnzqxSsGE=;
-        b=b2/Rxs6otrDntzS7Z/Xl+dYbnpkZzqZisPzNjnXU2TahXD7EwlmRCWFh7VbKR+xKPz
-         LVIQJwgAVxvPQ4+Safkwo9shDAQF1SEAJvJ7p4OEKrLyInBPSZU/7jXwxba/MYEpckJH
-         ZQo2NDJCefL+Qm4rIypwZyaVKlQZkxyu5H+P2YBK3NGyGOMhwrl6pgNOdu7IPRdOpAKz
-         I4Md4X3T50jkKktW7tHsZhLsc0VrFAPQK0DmpEfNmqY/vOvG5vxG1jefdzo6Gdz2iCIU
-         GtKemePp+k1gVFnzKz9QBsR8TbYH6WuVSi6rarARHpm80T3L5bT1ai39hGFxaNKH587D
-         0OOw==
-X-Forwarded-Encrypted: i=1; AJvYcCWsBntV26DqAJPr+TzLWDEd7ICnA3gidTRz5XBeDX6r5mxn5m3JL4ktKXvPlZb4znnsle7UuRY88c/CmAslsrC1wg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyHrjh6uVZrLeFg31TWMUZXBkhLTYuofMkriWcJLOa+Z7Pe5wml
-	FJn8J9hlSGSi4WgIe+oCaL280aaq/uTmguUN4Phd+3lIyY9pn9xJGtO/PbRlEZwEbrM=
-X-Gm-Gg: ATEYQzw8mv/IIb/lO0dBMxy47EdYV/6ga2kltmzGcuQfHOwFuphuG3BUWtN/ZiAVyI0
-	+GxC/w5wSVj3T2M9yRQKDRQX1EN0YNWwjpDPJ5O9P2d+8eXog9ysJpY5D7duXC09XiXnbSOlfB0
-	PWINWpfsXbYsXXi/1EbMsuFFv8749tWW6jLzEP1gdeIWTICwyVYcLtGotAxtmNcCYlA4zR6Sg3B
-	5StjwSE+BhOGGkg9u+NRrCwhDRSJc4ih2QbsfgzA9os1JcIQ46ZBel9Usn2az7SCyDSk32sg41Z
-	GnfUPObIcZEkMSJtNRCujZjF8AW7hcRwC+pjSU+gaz1jPnMO1pkXHhhXAYJf0NcvmC9Lz+25XSt
-	SaW5TUlACBcEhoQxNC1Acdzw9YbYUqY2kPPBhWOFO4UTzUp+WT/bpdYdKvLwf9nj0jaLE04SRlR
-	Gdkt/YgW+UUMIJuS9jKXgXIRuPw7lm
-X-Received: by 2002:a05:600c:a07:b0:47f:b737:5ce0 with SMTP id 5b1f17b1804b1-4851988f31dmr86977045e9.23.1772704939633;
-        Thu, 05 Mar 2026 02:02:19 -0800 (PST)
-Received: from salami.lan ([212.129.84.244])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4851fade9fdsm59453655e9.4.2026.03.05.02.02.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Mar 2026 02:02:19 -0800 (PST)
-Message-ID: <030737fd255a49288349f06e8c1217a126ea9081.camel@linaro.org>
-Subject: Re: [PATCH phy-next 05/22] phy: add <linux/pm_runtime.h> where
- missing
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>
-To: Vladimir Oltean <vladimir.oltean@nxp.com>, linux-phy@lists.infradead.org
-Cc: Vinod Koul <vkoul@kernel.org>, Neil Armstrong
- <neil.armstrong@linaro.org>, 	dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, 	linux-arm-kernel@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, 	linux-can@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-ide@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
- netdev@vger.kernel.org, 	spacemit@lists.linux.dev,
- UNGLinuxDriver@microchip.com, Peter Griffin	 <peter.griffin@linaro.org>,
- Tudor Ambarus <tudor.ambarus@linaro.org>, Geert Uytterhoeven
- <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, Heiko
- Stuebner <heiko@sntech.de>
-Date: Thu, 05 Mar 2026 10:02:16 +0000
-In-Reply-To: <20260304175735.2660419-6-vladimir.oltean@nxp.com>
-References: <20260304175735.2660419-1-vladimir.oltean@nxp.com>
-	 <20260304175735.2660419-6-vladimir.oltean@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-8 
+	s=arc-20240116; t=1772705599; c=relaxed/simple;
+	bh=I5jm2vbvlqMyoZLw8umeWGzTjvrs7DhcB9VwEd9/xdY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=t1lrJiOBrBl6JqKzJU+4Q+kBOEEU3rjwpE3RmjJvryhT4vZoxiltDEyb2dyt6Dsxvn62yv2uTZdEEHrNc3diYhKJoVsMEYbriGTU+jI7Od4tXCnV+4OrCpQGoLmtYY6LWpLUexOY1otiyINnbBkWZ9N8OSOFvFYLkJ3fKMg+Yx0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B69A2C116C6;
+	Thu,  5 Mar 2026 10:13:16 +0000 (UTC)
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Biju Das <biju.das.jz@bp.renesas.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org,
+	linux-renesas-soc@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] drm: renesas: rz-du: mipi_dsi: Convert to FIELD_MODIFY()
+Date: Thu,  5 Mar 2026 11:13:14 +0100
+Message-ID: <da7709d50894d422442401e6e3ff4c4715a33fa5.1772705564.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Rspamd-Queue-Id: DF97D20F6EE
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 0FA6D20F812
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [0.54 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,linaro.org,lists.freedesktop.org,lists.infradead.org,vger.kernel.org,lists.linux.dev,microchip.com,glider.be,gmail.com,sntech.de];
-	TAGGED_FROM(0.00)[bounces-28864-lists,linux-renesas-soc=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[29];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andre.draszik@linaro.org,linux-renesas-soc@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_FROM(0.00)[bounces-28866-lists,linux-renesas-soc=lfdr.de,renesas];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[bp.renesas.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch];
+	DMARC_NA(0.00)[glider.be];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,linaro.org:dkim,linaro.org:email,linaro.org:mid]
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[geert@glider.be,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.906];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	R_DKIM_NA(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,glider.be:mid,glider.be:email]
 X-Rspamd-Action: no action
 
-On Wed, 2026-03-04 at 19:57 +0200, Vladimir Oltean wrote:
-> It appears that the phy-mapphone-mdm6600, phy-qcom-snps-femto-v2,
-> phy-rcar-gen3-pcie, r8a779f0-ether-serdes and phy-rockchip-typec drivers
-> call runtime PM operations without including the proper header.
->=20
-> This was provided by <linux/phy/phy.h> but no function exported by this
-> header directly needs it. So we need to drop it from there, and fix up
-> drivers that used to depend on that.
->=20
-> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
+Use the FIELD_MODIFY() helper instead of open-coding the same operation.
 
-> =C2=A0drivers/phy/phy-google-usb.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1 +
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+No changes in generated code.
+---
+ drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-For Google:
-Reviewed-by: Andr=C3=A9 Draszik <andre.draszik@linaro.org>
+diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+index 29f2b7d24fe59717..a87a301326c7aa43 100644
+--- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
++++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+@@ -808,8 +808,7 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
+ 	 * commands payload not being saved to memory.
+ 	 */
+ 	dsisetr = rzg2l_mipi_dsi_link_read(dsi, DSISETR);
+-	dsisetr &= ~DSISETR_MRPSZ;
+-	dsisetr |= FIELD_PREP(DSISETR_MRPSZ, RZG2L_DCS_BUF_SIZE);
++	FIELD_MODIFY(DSISETR_MRPSZ, &dsisetr, RZG2L_DCS_BUF_SIZE);
+ 	rzg2l_mipi_dsi_link_write(dsi, DSISETR, dsisetr);
+ 
+ 	return 0;
+-- 
+2.43.0
+
 
