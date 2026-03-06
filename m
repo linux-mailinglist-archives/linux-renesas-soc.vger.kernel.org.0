@@ -1,42 +1,42 @@
-Return-Path: <linux-renesas-soc+bounces-28962-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28963-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2HLPA+rpqmmOYAEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28962-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Mar 2026 15:51:22 +0100
+	id aIT0FEznqmkTYAEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28963-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Mar 2026 15:40:12 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66590223173
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Mar 2026 15:51:21 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EAF5222DF3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Mar 2026 15:40:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 80CE831BD0C5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Mar 2026 14:35:56 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 0FF6C303B7F4
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Mar 2026 14:35:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A456B34A76B;
-	Fri,  6 Mar 2026 14:35:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEFE434EF05;
+	Fri,  6 Mar 2026 14:35:09 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B45C830AACD;
-	Fri,  6 Mar 2026 14:35:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20E937E0E4;
+	Fri,  6 Mar 2026 14:35:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772807704; cv=none; b=egVebCjB9q7FlIMlkrM3uVBDjfUHUOkUTIf1D71BYhQlvat7Dx/9Vja9XAmyYyCnhc9NYIhBTsWMylsosQb7hojj145jznJD6rDu6HtD8wIL0+5eJfmODry+ZPnuBrPVVKNZENZsOG3fHP11oekvoUkaeCyfvHiHxBpgtOw+Ca4=
+	t=1772807709; cv=none; b=UmcwImibderef+g6FNmGaCBXuadb6z0wCB+1jHw+rzuOMTeraa32gygLEhXTqOXkiTfp2dc49FloKG4ehDYq/NtZfnW1h0cEZNzlyDKBT8G80XT+he9BOvZ7+znac8wxWmGdQ+bZw0AZMdlbIuR3pZzzWnyOkOuLWtOY+i9UBRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772807704; c=relaxed/simple;
-	bh=LXRJt4JfbvhubuzDQHIlXLfj76IO4PciN19IzVAI4zg=;
+	s=arc-20240116; t=1772807709; c=relaxed/simple;
+	bh=7dOAFTE8x9ngpjg9qUpt+IDY84O3Hrylv8BVeH6CjIE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DZkZIB6lGMxLiIWnZMFUa3Q1xceIv4iqFpGVAMBhH7rtmXECeMBInH79zn9VRKf/ak5oANNLbkdNO5rbgc02Fpj77e/dtHWTCLXmGvGmNOjxDn+qZnUoGsHtrhbMxjha0HpHRS6gB7uhMh57U3U1pmYppj37aqk1WB1AR3QDrPU=
+	 MIME-Version; b=Jq9Jgjvp9kECZUh7puhxghGuFt/LskXCeazi5WWw37PAvFqlP93Lgw3OJbUd/ylR1axdI8bHt7ZvQpVKNqZX4CgJZA5FFoOFKLRvX7uFx2NwqqseIpe4tz9SiAMtHi7nbHy67qeQdl9tMdfeIpbfYB3fRCJcrU8TTK7s5D0iAwY=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: vqhrXBb+S6mDs18IM6EY5g==
-X-CSE-MsgGUID: 8WlIbmiHRxajz+J9bUZXNg==
+X-CSE-ConnectionGUID: UNAkmmZnR0aSRJgQ7znbUQ==
+X-CSE-MsgGUID: UZYa339yQiiEWn6htS7+qQ==
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 06 Mar 2026 23:35:01 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 06 Mar 2026 23:35:07 +0900
 Received: from ubuntu.adwin.renesas.com (unknown [10.226.92.98])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 67B3C4008546;
-	Fri,  6 Mar 2026 23:34:56 +0900 (JST)
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 657FB4008546;
+	Fri,  6 Mar 2026 23:35:02 +0900 (JST)
 From: John Madieu <john.madieu.xa@bp.renesas.com>
 To: claudiu.beznea.uj@bp.renesas.com,
 	lpieralisi@kernel.org,
@@ -55,9 +55,9 @@ Cc: robh@kernel.org,
 	linux-clk@vger.kernel.org,
 	john.madieu@gmail.com,
 	John Madieu <john.madieu.xa@bp.renesas.com>
-Subject: [PATCH v8 03/15] PCI: rzg3s-host: Rework inbound window algorithm for multi-SoC support
-Date: Fri,  6 Mar 2026 15:34:10 +0100
-Message-ID: <20260306143423.19562-4-john.madieu.xa@bp.renesas.com>
+Subject: [PATCH v8 04/15] clk: renesas: r9a09g047: Add PCIe clocks and reset
+Date: Fri,  6 Mar 2026 15:34:11 +0100
+Message-ID: <20260306143423.19562-5-john.madieu.xa@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260306143423.19562-1-john.madieu.xa@bp.renesas.com>
 References: <20260306143423.19562-1-john.madieu.xa@bp.renesas.com>
@@ -68,20 +68,20 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 66590223173
+X-Rspamd-Queue-Id: 4EAF5222DF3
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [1.64 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	DMARC_POLICY_SOFTFAIL(0.10)[renesas.com : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-28962-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-28963-lists,linux-renesas-soc=lfdr.de];
 	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -91,151 +91,64 @@ X-Spamd-Result: default: False [1.64 / 15.00];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.985];
+	NEURAL_HAM(-0.00)[-0.990];
 	FROM_NEQ_ENVFROM(0.00)[john.madieu.xa@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bp.renesas.com:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,renesas.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,renesas.com:email,bp.renesas.com:mid,glider.be:email]
 X-Rspamd-Action: no action
 
-The existing inbound window configuration algorithm has two issues that
-prevent proper operation on RZ/G3E:
+Add necessary clocks and reset entries for the PCIe controller
 
-1. Over-mapping: Using roundup_pow_of_two() on the remaining region size
-   can result in windows that extend beyond the intended memory region.
-
-2. Alignment violation: Addresses are only aligned to 4K regardless of
-   the actual window size. According to the RZ/G3S HW manual (Rev.1.10,
-   section 34.6.6.7) and RZ/G3E HW manual (Rev.1.15, section 6.6.7.6),
-   bit carry must not occur when adding AXI Window Base and AXI Window
-   Mask registers. This effectively requires the base address to be
-   aligned to the window size.
-
-RZ/G3E strictly enforces these constraints and requires precise window
-boundaries with properly aligned addresses.
-
-Rework the algorithm to properly handle arbitrary region sizes and
-alignment constraints by splitting non-power-of-2 regions into multiple
-windows. The new approach iteratively selects the largest power-of-2
-size that:
- - Fits within the remaining region (__fls of remaining size)
- - Does not exceed the natural alignment of the CPU address (__ffs)
- - Does not exceed the natural alignment of the PCI address (__ffs)
-
-This ensures windows never over-map beyond the intended region and
-satisfies the hardware requirement that base address + mask must not
-cause bit carry, while maintaining the 4K * 2^N byte window size
-constraint.
-
-The reworked algorithm is required for RZ/G3E support and remains
-fully compatible with RZ/G3S.
-
-Reviewed-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
 ---
 
 Changes:
 
-v8: Reworded patch description
-v7: No changes
+v8: No changes
+v7:
+ - Reused standard clock/reset definition macros
+
 v6: No changes
-
-v5:
- - Updated HW manual section specification
- - Collected Rb tag
-
+v5: No changes
 v4: No changes
-v3: No changes
-v2: New patch
 
- drivers/pci/controller/pcie-rzg3s-host.c | 53 +++++++++++++-----------
- 1 file changed, 29 insertions(+), 24 deletions(-)
+v3:
+ - Collected Rb tag
+ - Preserved sort order (by _onindex, _onbit); 
 
-diff --git a/drivers/pci/controller/pcie-rzg3s-host.c b/drivers/pci/controller/pcie-rzg3s-host.c
-index 222891324374..7f5ffc5c218a 100644
---- a/drivers/pci/controller/pcie-rzg3s-host.c
-+++ b/drivers/pci/controller/pcie-rzg3s-host.c
-@@ -1270,50 +1270,55 @@ static int rzg3s_pcie_set_inbound_windows(struct rzg3s_pcie_host *host,
- 	u64 pci_addr = entry->res->start - entry->offset;
- 	u64 cpu_addr = entry->res->start;
- 	u64 cpu_end = entry->res->end;
--	u64 size_id = 0;
- 	int id = *index;
- 	u64 size;
- 
--	while (cpu_addr < cpu_end) {
-+	/*
-+	 * According to the RZ/G3S HW manual (Rev.1.10, section 34.6.6.7) and
-+	 * RZ/G3E HW manual (Rev.1.15, section 6.6.7.6):
-+	 * - Each window must be a single memory size of power of two
-+	 * - Mask registers must be set to (2^N - 1)
-+	 * - Bit carry must not occur when adding base and mask registers,
-+	 *   meaning the base address must be aligned to the window size
-+	 *
-+	 * Split non-power-of-2 regions into multiple windows to satisfy
-+	 * these constraints without over-mapping.
-+	 */
-+	while (cpu_addr <= cpu_end) {
-+		u64 remaining_size = cpu_end - cpu_addr + 1;
-+		u64 align_limit;
-+
- 		if (id >= RZG3S_MAX_WINDOWS)
- 			return dev_err_probe(host->dev, -ENOSPC,
- 					     "Failed to map inbound window for resource (%s)\n",
- 					     entry->res->name);
- 
--		size = resource_size(entry->res) - size_id;
-+		/* Start with largest power-of-two that fits in remaining size */
-+		size = 1ULL << __fls(remaining_size);
- 
- 		/*
--		 * According to the RZ/G3S HW manual (Rev.1.10,
--		 * section 34.3.1.71 AXI Window Mask (Lower) Registers) the min
--		 * size is 4K.
-+		 * The "no bit carry" rule requires base addresses to be
-+		 * aligned to the window size. Find the maximum window size
-+		 * that both addresses can support based on their natural
-+		 * alignment (lowest set bit).
- 		 */
--		size = max(size, SZ_4K);
-+		align_limit = min(cpu_addr ? (1ULL << __ffs(cpu_addr)) : ~0ULL,
-+				  pci_addr ? (1ULL << __ffs(pci_addr)) : ~0ULL);
- 
--		/*
--		 * According the RZ/G3S HW manual (Rev.1.10, sections:
--		 * - 34.3.1.69 AXI Window Base (Lower) Registers
--		 * - 34.3.1.71 AXI Window Mask (Lower) Registers
--		 * - 34.3.1.73 AXI Destination (Lower) Registers)
--		 * the CPU addr, PCIe addr, size should be 4K aligned and be a
--		 * power of 2.
--		 */
--		size = ALIGN(size, SZ_4K);
--		size = roundup_pow_of_two(size);
--
--		cpu_addr = ALIGN(cpu_addr, SZ_4K);
--		pci_addr = ALIGN(pci_addr, SZ_4K);
-+		size = min(size, align_limit);
- 
- 		/*
--		 * According to the RZ/G3S HW manual (Rev.1.10, section
--		 * 34.3.1.71 AXI Window Mask (Lower) Registers) HW expects first
--		 * 12 LSB bits to be 0xfff. Subtract 1 from size for this.
-+		 * Minimum window size is 4KB.
-+		 * See RZ/G3S HW manual (Rev.1.10, section 34.3.1.71) and
-+		 * RZ/G3E HW manual (Rev.1.15, section 6.6.4.1.3.(74)).
- 		 */
-+		size = max(size, SZ_4K);
-+
- 		rzg3s_pcie_set_inbound_window(host, cpu_addr, pci_addr,
- 					      size - 1, id);
- 
- 		pci_addr += size;
- 		cpu_addr += size;
--		size_id = size;
- 		id++;
- 	}
- 	*index = id;
+v2:
+ - Fixed clock names
+ - Used assert-variant for reset
+
+ drivers/clk/renesas/r9a09g047-cpg.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/drivers/clk/renesas/r9a09g047-cpg.c b/drivers/clk/renesas/r9a09g047-cpg.c
+index 1e9896742a06..6f5c4b0a6256 100644
+--- a/drivers/clk/renesas/r9a09g047-cpg.c
++++ b/drivers/clk/renesas/r9a09g047-cpg.c
+@@ -424,6 +424,10 @@ static const struct rzv2h_mod_clk r9a09g047_mod_clks[] __initconst = {
+ 						BUS_MSTOP(8, BIT(6))),
+ 	DEF_MOD("gbeth_1_aclk_i",		CLK_PLLDTY_DIV8, 12, 3, 6, 3,
+ 						BUS_MSTOP(8, BIT(6))),
++	DEF_MOD("pcie_0_aclk",			CLK_PLLDTY_ACPU_DIV2, 12, 4, 6, 4,
++						BUS_MSTOP(1, BIT(15))),
++	DEF_MOD("pcie_0_clk_pmu",		CLK_PLLDTY_ACPU_DIV2, 12, 5, 6, 5,
++						BUS_MSTOP(1, BIT(15))),
+ 	DEF_MOD("cru_0_aclk",			CLK_PLLDTY_ACPU_DIV2, 13, 2, 6, 18,
+ 						BUS_MSTOP(9, BIT(4))),
+ 	DEF_MOD_NO_PM("cru_0_vclk",		CLK_PLLVDO_CRU0, 13, 3, 6, 19,
+@@ -503,6 +507,7 @@ static const struct rzv2h_reset r9a09g047_resets[] __initconst = {
+ 	DEF_RST(10, 15, 5, 0),		/* USB2_0_PRESETN */
+ 	DEF_RST(11, 0, 5, 1),		/* GBETH_0_ARESETN_I */
+ 	DEF_RST(11, 1, 5, 2),		/* GBETH_1_ARESETN_I */
++	DEF_RST(11, 2, 5, 3),		/* PCIE_0_ARESETN */
+ 	DEF_RST(12, 5, 5, 22),		/* CRU_0_PRESETN */
+ 	DEF_RST(12, 6, 5, 23),		/* CRU_0_ARESETN */
+ 	DEF_RST(12, 7, 5, 24),		/* CRU_0_S_RESETN */
 -- 
 2.25.1
 
