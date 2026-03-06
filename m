@@ -1,51 +1,51 @@
-Return-Path: <linux-renesas-soc+bounces-28929-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28930-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QBdHJRCwqmnZVQEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28929-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Mar 2026 11:44:32 +0100
+	id uJ9sF/6vqmnZVQEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28930-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Mar 2026 11:44:14 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAB6E21F103
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Mar 2026 11:44:31 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECC0F21F0E7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Mar 2026 11:44:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3F80C3043011
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Mar 2026 10:42:30 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 032FC3010793
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Mar 2026 10:44:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B41B4371D0D;
-	Fri,  6 Mar 2026 10:42:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F94F37CD49;
+	Fri,  6 Mar 2026 10:44:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kryygtY7"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kassbQb5"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E4A934AAE9;
-	Fri,  6 Mar 2026 10:42:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B69437C91E;
+	Fri,  6 Mar 2026 10:44:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772793749; cv=none; b=BV3SA6/OrGrQEbuHDNGOpwPNkS2DsS4kou+pc7tW/d8J9BVlX8DIcHZh0CUX+CMpX6vFyQqB9jLZLbKnyF1o9BUb7Kov2RVjV/vszl34FYOS0hLx+C7KAoVPJF61+xpKbCscm+O/GI4dLRz29PMGyF4voNBhoeafq3M12D34vqc=
+	t=1772793851; cv=none; b=YVDlX49pjGix2kfhUm3McWpshPJ5qkKnMcwOop2fOMo9qFkdRC84ZormorfNYtL9xnbvB4yt24qXbKpmr5LXs3A2+5vXUdIBxkpvx6FXz4aPsZKIezOUJC7j6qpWPFYJc5c431slXxDMFuKUzIJ9rGHU2209U3KnYf59TLophgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772793749; c=relaxed/simple;
-	bh=pYI9yvFGAFxgvdf8BJTBovGGmqHXBbeG0GwwmRztm3c=;
+	s=arc-20240116; t=1772793851; c=relaxed/simple;
+	bh=LDQtb7Z/V7TGdHgOAXjL8465Y35w6L3DlU01n/+cPFw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p1peWlbDsjgKI+WO2jbCCj0BlCG2ce4avhJKFJI6Z8Xz9H/eyWDYc6/GZvP7vxdNfreQqe95N4WA8///kS5vKzCVUTfCqBI+2mo7PAr8bGIF0KvJjY0cTy9fy/bRsM9xZ5/8GtvVW5rYK783PdYEdlgPM+Rq6mMbwjWsQYU/T+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kryygtY7; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8669C4CEF7;
-	Fri,  6 Mar 2026 10:42:25 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=fl1jyVfGVwIK93WDjEkY1PgOREqjwSEK5rdaVhVmuqrMCilD2qBIk6ZZwBodZCDVe7qrLQbyMMrssClUEFrj6VLX14qZYS49ItybVID1GijKXNJ1NGe4h3wh20BS2ZbZZ7QMRCxZz1RU4/WB03AQ2ihsmgrcaHv842M1KpmeGe0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kassbQb5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81EB2C4CEF7;
+	Fri,  6 Mar 2026 10:44:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772793749;
-	bh=pYI9yvFGAFxgvdf8BJTBovGGmqHXBbeG0GwwmRztm3c=;
+	s=k20201202; t=1772793850;
+	bh=LDQtb7Z/V7TGdHgOAXjL8465Y35w6L3DlU01n/+cPFw=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=kryygtY7b++5tmfWupeISmwUFu+pyZZCWqcXBKdKrxWQU8G6vd0YLE0j5xv7xnL8z
-	 YGU8PTywOk8OyL7nm6i7IOV3YmubzpFlEq3mGC/PGK9zxx2G6z4lQFido8O5obvnEA
-	 Y+EjnEueshLo68rM+we/fSReDYktZ08PfGwGEDbx1sD+z8rbJNmPZmYqSaBFmJ6Krm
-	 D2ESSznwnfljFgc9iOrCN+z/0XkuXH0v8DoLFh7rwThaZLxWCMx7bXZrRPv8RM797h
-	 sXD0V1/AFpT3DnV+abfCbV03odBCm35EwR0/BM0/J3KbjyoCW4sWQEAoXmXRmn7XaN
-	 tfKIRsPcrktpw==
-Message-ID: <45fc7e39-3174-432a-9994-9de528759348@kernel.org>
-Date: Fri, 6 Mar 2026 11:42:23 +0100
+	b=kassbQb5eYDn4EYFfgGXtQbbiTR6QqeQGRWu31YXg1vKio2J6c+nqbx/R96Zyh4CN
+	 O0QrVwdgN9XwyX9NxZIqjoFiPMCTDUyevWiMwFdz3J1gwMPPfwCNO+vUpRGME3xDVg
+	 T9v7WvgJF0Wyg0EUa6i7t/ioCHrJ+RzaU0AxEHrzWa6Lk70E4yxn75luE2+tvwjxXS
+	 31AeqTfvAZAXJZCqctqRFIman1NXzIO/L86gpbs6tDzzURIwqIpmGuihvvikT2atZP
+	 XHnFAnUKHUMcWrfJdUXi0p5EoChQ6FMda5ugS/U8Jl0MwIfCuiEwiucBXCnGs2rc4T
+	 Hhbn4hKBt/9kA==
+Message-ID: <ff7a9a31-2dfb-4588-83bd-1a3aa7809972@kernel.org>
+Date: Fri, 6 Mar 2026 11:44:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -53,8 +53,8 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] dt-bindings: input: touchscreen: sitronix,st1232:
- Add wakeup-source
+Subject: Re: [PATCH v2 3/3] input: touchscreen: st1232: add system wakeup
+ support
 To: phucduc.bui@gmail.com, Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>,
@@ -64,11 +64,10 @@ Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Jeff LaBundy <jeff@labundy.com>, Bastian Hecht <hechtb@gmail.com>,
  Javier Carrasco <javier.carrasco@wolfvision.net>,
  linux-input@vger.kernel.org, devicetree@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20260305113512.227269-1-phucduc.bui@gmail.com>
  <20260306104025.43970-1-phucduc.bui@gmail.com>
- <20260306104025.43970-2-phucduc.bui@gmail.com>
+ <20260306104025.43970-4-phucduc.bui@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -114,29 +113,29 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20260306104025.43970-2-phucduc.bui@gmail.com>
+In-Reply-To: <20260306104025.43970-4-phucduc.bui@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: EAB6E21F103
+X-Rspamd-Queue-Id: ECC0F21F0E7
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-28929-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-28930-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_TO(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[16];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[kernel.org,glider.be,gmail.com,sang-engineering.com,labundy.com,wolfvision.net,vger.kernel.org,oss.qualcomm.com];
+	FREEMAIL_CC(0.00)[kernel.org,glider.be,gmail.com,sang-engineering.com,labundy.com,wolfvision.net,vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
@@ -146,26 +145,86 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,qualcomm.com:email,bootlin.com:url]
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
 On 06/03/2026 11:40, phucduc.bui@gmail.com wrote:
 > From: bui duc phuc <phucduc.bui@gmail.com>
 > 
-> Document the 'wakeup-source' property for Sitronix ST1232 touchscreen
-> controllers to allow the device to wake the system from suspend.
+> The ST1232 touchscreen controller can generate an interrupt when the
+> panel is touched, which may be used as a wakeup source for the system.
 > 
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> Add support for system wakeup by initializing the device wakeup
+> capability in probe() based on the "wakeup-source" device property.
+> When wakeup is enabled, the driver enables IRQ wake during suspend
+> so that touch events can wake the system.
+> 
+> Additionally, report wakeup events from the interrupt handler when
+> the device is allowed to wake the system. This allows the PM core to
+> track touch-generated wakeup events and helps avoid potential races
+> with system suspend.
+> 
+> If wakeup is not enabled, the driver retains the existing behavior of
+> disabling the IRQ and powering down the controller during suspend.
+> 
 > Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 > ---
+>  drivers/input/touchscreen/st1232.c | 27 ++++++++++++++++++++++-----
+>  1 file changed, 22 insertions(+), 5 deletions(-)
 > 
+> diff --git a/drivers/input/touchscreen/st1232.c b/drivers/input/touchscreen/st1232.c
+> index 9b3901eec0a5..2bab06cf099b 100644
+> --- a/drivers/input/touchscreen/st1232.c
+> +++ b/drivers/input/touchscreen/st1232.c
+> @@ -183,6 +183,9 @@ static irqreturn_t st1232_ts_irq_handler(int irq, void *dev_id)
+>  	int count;
+>  	int error;
+>  
+> +	if (device_may_wakeup(&ts->client->dev))
+> +		pm_wakeup_event(&ts->client->dev, 0);
+> +
+>  	error = st1232_ts_read_data(ts, REG_XY_COORDINATES, ts->read_buf_len);
+>  	if (error)
+>  		goto out;
+> @@ -356,6 +359,9 @@ static int st1232_ts_probe(struct i2c_client *client)
+>  
+>  	i2c_set_clientdata(client, ts);
+>  
+> +	device_init_wakeup(&client->dev,
+> +			device_property_read_bool(&client->dev, "wakeup-source"));
+> +
+>  	return 0;
+>  }
+>  
+> @@ -363,11 +369,20 @@ static int st1232_ts_suspend(struct device *dev)
+>  {
+>  	struct i2c_client *client = to_i2c_client(dev);
+>  	struct st1232_ts_data *ts = i2c_get_clientdata(client);
+> +	int ret;
+>  
+> -	disable_irq(client->irq);
+> +	dev_info(dev, "st1232: suspend called\n");
+> +	dev_info(dev, "st1232: irq=%d wakeup=%d\n", client->irq, device_may_wakeup(dev));
+
+No, there is no need to add success messages.
+
+>  
+> -	if (!device_may_wakeup(&client->dev))
+> +	if (device_may_wakeup(dev)) {
+> +		ret = enable_irq_wake(client->irq);
+> +		dev_info(dev, "st1232: Supend use wakeup\n");
+> +		dev_info(dev, "enable_irq_wake ret=%d\n", ret);
+
+Drop both
 
 
-Do not attach (thread) your patchsets to some other threads (unrelated
-or older versions). This buries them deep in the mailbox and might
-interfere with applying entire sets. See also:
-https://elixir.bootlin.com/linux/v6.16-rc2/source/Documentation/process/submitting-patches.rst#L830
+> +	} else {
+> +		dev_info(dev, "st1232: Suspend Don't use wakeup\n");
+
+Drop
+
+
 
 Best regards,
 Krzysztof
