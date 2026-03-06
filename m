@@ -1,81 +1,81 @@
-Return-Path: <linux-renesas-soc+bounces-28926-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28927-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UC4/C2uvqmluVQEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28926-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Mar 2026 11:41:47 +0100
+	id 2CEmF4yvqmluVQEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28927-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Mar 2026 11:42:20 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id A04EC21EFFD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Mar 2026 11:41:46 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B648621F05A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Mar 2026 11:42:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 088E13037893
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Mar 2026 10:41:09 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 46F1430965AE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Mar 2026 10:41:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A17053254B3;
-	Fri,  6 Mar 2026 10:41:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 683A137C0F0;
+	Fri,  6 Mar 2026 10:41:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iIt9u1A7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cg+h5f9o"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A0AF330641
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  6 Mar 2026 10:41:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37B38361649
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  6 Mar 2026 10:41:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772793668; cv=none; b=L2uYQjOGHaSHYcJbIsdRKdQYetgnzRWoMa4Eu+0j+IyUg0PE5T1ahs4m8bXHdxoAOqnOeIz17So4rLCJhCVmK8SHNLUrEoufl88hkQPSC3UsZ6QfeZsYcyg4jNye9oOUM7Q3dP9Dzg9E2axoY/2PtMV3xtgTX+k/gkFUg4SNGX0=
+	t=1772793674; cv=none; b=U2tvZVk5Ut7wAJ5t4e+dXFh2Gfd81Azsv82wsQYKPWYtzGp7O9/jWqJvBA9x0Gcpw8sGQ5w9YiMy7OFXD57QLPkIbcZAcQxUcpQ35oPSc04tG+j9MrxUty96KzM1IHWNNHqWx+35kGz3MgsBgI2AcdG9e6xFM92vfT4WifMGYFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772793668; c=relaxed/simple;
-	bh=TJITmyCLoFI4WevaGgqd7twsgtYri7xyyfq6zwNFpz0=;
+	s=arc-20240116; t=1772793674; c=relaxed/simple;
+	bh=wPZiFdqCiDOOFye8FKOQoufL7cyIaxgiXa67+xHsn0s=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jPYfwqrTBFtVXN1Y9rT7Yg6Rg+hWAjwinnjmPmOyd69bItdTPROxbw33Ntl96cQ3/y+RmJY4tus5RYbzvk0XVOKhTEse0FKb/soLml38mY019OyoGet68z7AlvDtTbE/npwfqzHHFMwABl9iqTzIjRiw+sJNXqZ14e+nWvgFsFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iIt9u1A7; arc=none smtp.client-ip=209.85.214.170
+	 MIME-Version; b=LeNmctGkwvX3zb0ALkAp7mfXqHXqZehBwWSpMCJj7G7oVLsKtVwffuLDGDfjt27VRp55MvEbjLViks2SeTlGritn4Zn79+mkbKl0xWfsQEQad65EorvOLeiKVu5g8XjXK7I4nZEF8uYeK2cgVbor5f+xJJrIMh+f0cMe9Kf1vkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cg+h5f9o; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2ad4d639db3so41403915ad.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 06 Mar 2026 02:41:07 -0800 (PST)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2ae3a2f6007so46233225ad.2
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 06 Mar 2026 02:41:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772793667; x=1773398467; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1772793672; x=1773398472; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7rhUejIrQCco2TAE64/xhR9iZ0UV/0oq0FcF9FFdRas=;
-        b=iIt9u1A7mNtUo+PCWlehO7WCzPmbWM5ogGqyJEITZdFxKPP+0qG2+2HFkQYG+dG/lG
-         jlkWdM+HrgJkWMQyzB1G+dVb+Qzu8w8yd667VbkUQ2y93xKTrAsrG2+dfhEypcZ5SfQ6
-         8Ee25rEnUAIMPI/Wb9WJCPLDT34BLTbfSSsoaThyd25RVAuWQ9ZDt2ZeOLI0Zc6hjIb2
-         KM4y432WNRTTCBvTh8n59+R+El0iTdcKJ3VvpN9nTFwSULBMJ1J1WMWpa4xDXW32vDAQ
-         Fzb8WB9pWDDcaGS/aXDhP+SYJcDLw5lmVt9aq5WQ3Ae5Iuxg5tohaikPUzIbHmlDrZkW
-         cVrQ==
+        bh=HkTY0vM9EzW6XUSGNuKIJpMIFfDu1qpzZf7r+qP4u6M=;
+        b=cg+h5f9oKbyf0fsdPUspoF/BDaA6nqPOX86U4ECGVQP9hJMuAvd8kdqlAbljG/rV5y
+         SQIHlOqFlnrXIvVQKmbqCkT787dO81tjTS9YeJ6Rqn9fUU6uET64T8S8EYZv7SUP2Y9+
+         xUOG3G1Eeggivm8oYVG7jlRbhCGVR85BRWkp9Q3rWkUueqH+wkxkWiK8icJFDRv7Kh9X
+         jIDbH8ln+yaRIZ2qmOBWQaaaEWJTuuMdRtXMWaJmpVEHF/+zuYvm4UtTgf4rPW+Je2iv
+         CTPBkLCvROhhe11RJPQP4e8C77T3Vw4mnP8bJCX3sQlIImTgbt+67YVeMhOljDDHzzBu
+         ap0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772793667; x=1773398467;
+        d=1e100.net; s=20230601; t=1772793672; x=1773398472;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=7rhUejIrQCco2TAE64/xhR9iZ0UV/0oq0FcF9FFdRas=;
-        b=HS/bZW8uu2CBxORrhPKBr9r0qnDPI6HjMBf2lmsLr+E3RDG6FIHFWwEUAL+nb9Vwzc
-         HyOXkFYUPJxi9c5yvQV8MJFLhAovb370FHnML/wv0qavCKi+jHPZcws5Kd7LHB2D0lA5
-         Z6wKhYm0Z9XIN3TudfMTc1ykTGF7yLHvD0akmFzWzPaHfHgfawDh5aa8vAt6BKvEiKxp
-         8DlAd6kBKDSYFWFnYkm2lAyvFpxYIp9mhQJ6yqMQ7yWwuUNJnKg1eNsNtzAPxQlRGKPX
-         hNywNFcmpuMLqDVh6TUvwRwq9w/MxRaA3KF/j+uNI7SZ3WKHGhaJW7wtMWBUF7kkDibN
-         4lXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV3NQd2p6oMYu4iSsqku2MShmPKD7SeD1K/u4M0geO+iaZa43eovXHHV710EAown9S2is2w3q8X2qUEbykRGIqlRQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwazMweqsuslqsmMY5SxpIdV4qZn59CHqHrxOsN10miV+9n19yc
-	TvKn4L71Zj9QVwitL23vs+HbsXvO4llAI6SOwD/0iQRcq7Q7KsJ3Qi88
-X-Gm-Gg: ATEYQzxdFNmf8zOrS4dADUvsRliiMsV0P2adSlwphm1V3RgnR60HHeNTKSvaqmrLf9T
-	GQiSfptQfzfDzUUGjfb+IPyAXWg8Ui2lV1cdBPsXW6OSaxQfEBdOU7eiwmRpMao1uzpurKrmo/h
-	UbWEtQpC3L1y2dnlVv+TnX2XhY7VuibbpbfADpZdk4hN291ziAaPfG/hrkCWs2cr4h+AGWQOb2a
-	04HQWrU73KThIzRf/riPPBTS4kJQwj2fNAD4fz7RrKW9DnW9c7FRdEbdIsP2luapNqub4N31cDI
-	Or3/eNojDAwBjvaT5eETp7FDFaFJRJptqdsuYNrlTtHGU+V6kQP7I/AbFzIqtW4qFOSPNaqpiRd
-	F4oyCF2y74piUBTtTOV+Qy0lKAUmyOuNKJDwSZL2oZnh3tNomKaKOw3WM7uYNZey6KFhwTfoVU4
-	rNMcZ9XM0PnJsU4euhre0ZcZ8tC6TtcgcprjQHRP0ptqnueXE337XKKXrCEQ==
-X-Received: by 2002:a17:902:ec87:b0:2ae:5a70:4786 with SMTP id d9443c01a7336-2ae823a958fmr20001125ad.25.1772793666799;
-        Fri, 06 Mar 2026 02:41:06 -0800 (PST)
+        bh=HkTY0vM9EzW6XUSGNuKIJpMIFfDu1qpzZf7r+qP4u6M=;
+        b=JvRvXpmyecSwMaPMgjPnFlbezjsWR4nNeMImP2Lu8QUkHZCPLq6oEOAkcahulfqLo5
+         Jk/cHnsTUHSyMpgVCYkWix/QY7Es27+gy4JG2LeBNYT2n+yhQybyZFT6wJFNdK/zq5bF
+         aVlg4vmv5aOqqf6ziNs59Aoh60nlpzgBzb+D67Sx4NbWxjvWz0TcLjfzAlcEFiW+99gV
+         ucJQXnutY/nHquzzTW/JamiMUmB9kiSlUGafCV0JVmBIjYOzq5HP/T0kDqbV1OGm1Y47
+         8OZx6wRj8SdvoQCofUeCqsQ/Oj2X5/akxHCezIFMzIswwGYdsvJcirYVpSAhtW6FbHHT
+         /Iig==
+X-Forwarded-Encrypted: i=1; AJvYcCWoZ6sLz9Hslv302baiM3ezUUGGckZBJgvLsiZX2m5qm07/+KXX0bVB6DL3xX9LMB+8rbtsWWzy18wSry795JZqLw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwV62Y7JWZI8VnKgkdXa+yPfCm+XEtfaZI7Rlg0hfavXPytPz/M
+	IfmdlUDp6l9sZzPBQXn/Ask7jCQUaAQWkWJPKezMb090VAN/g4Uri/Gi
+X-Gm-Gg: ATEYQzyTLtmWI/rBBGlGJbZbvzU1CRxdI6+Gv+UHyFRaN6CoGpL50i0nSq7Ll9wKUZN
+	8WQhllCHabr6QYvH21Nl73GW3w41VDKEPaZ0HM4bpU1g2H1cdSAgF90cdDZUv3xLBxfkNhkjXDB
+	+nNAUmYCuwRMi2ZPg1V1RcJSgPJhdxoC7dFbCAZMDrYLkP3MVPzDbopMMxPdUv6CaKV3O/+bAWY
+	FRD6GFtgFGym/yKPEpouQlLcezYkla/fSmKTrsPesirwZ6D7Q977ylQR3nt76Doe1Xm8e8Zxp6U
+	TG2N1BQZh8EsTzqCKGVHFdaX8u9JY2OPW0nH03Jo/a2CfT7plsaWcbsBDmh9764YiFiOBaQhaVq
+	F9s7wyzjhmsPAFB4LdcFXsavg6FjNe3bWOMVXjMwbu21QdixME/SPWnNNLIpv40L//zt2q5CH1S
+	3mYSMT6oslz84yFWyyW3XRzvYgI1RaoXwn1OvwhS9QGABFScVlTMFAyMQE4VHmSYhm3nch
+X-Received: by 2002:a17:903:985:b0:2ae:8293:74ee with SMTP id d9443c01a7336-2ae8293797emr18095625ad.48.1772793672405;
+        Fri, 06 Mar 2026 02:41:12 -0800 (PST)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae83fa2fa5sm16107775ad.70.2026.03.06.02.41.03
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae83fa2fa5sm16107775ad.70.2026.03.06.02.41.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Mar 2026 02:41:06 -0800 (PST)
+        Fri, 06 Mar 2026 02:41:12 -0800 (PST)
 From: phucduc.bui@gmail.com
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc: Rob Herring <robh@kernel.org>,
@@ -91,11 +91,10 @@ Cc: Rob Herring <robh@kernel.org>,
 	devicetree@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	bui duc phuc <phucduc.bui@gmail.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Subject: [PATCH v2 1/3] dt-bindings: input: touchscreen: sitronix,st1232: Add wakeup-source
-Date: Fri,  6 Mar 2026 17:40:23 +0700
-Message-ID: <20260306104025.43970-2-phucduc.bui@gmail.com>
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH v2 2/3] arm: dts: renesas: r8a7740-armadillo800eva: Add wakeup-source to st1232
+Date: Fri,  6 Mar 2026 17:40:24 +0700
+Message-ID: <20260306104025.43970-3-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260306104025.43970-1-phucduc.bui@gmail.com>
 References: <20260305113512.227269-1-phucduc.bui@gmail.com>
@@ -107,7 +106,7 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: A04EC21EFFD
+X-Rspamd-Queue-Id: B648621F05A
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -115,17 +114,17 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-28926-lists,linux-renesas-soc=lfdr.de];
-	FREEMAIL_CC(0.00)[kernel.org,glider.be,gmail.com,sang-engineering.com,labundy.com,wolfvision.net,vger.kernel.org,oss.qualcomm.com];
+	TAGGED_FROM(0.00)[bounces-28927-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_CC(0.00)[kernel.org,glider.be,gmail.com,sang-engineering.com,labundy.com,wolfvision.net,vger.kernel.org];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[16];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	FREEMAIL_TO(0.00)[gmail.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
@@ -137,47 +136,33 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
 	FROM_NO_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FROM_NEQ_ENVFROM(0.00)[phucducbui@gmail.com,linux-renesas-soc@vger.kernel.org]
 X-Rspamd-Action: no action
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Document the 'wakeup-source' property for Sitronix ST1232 touchscreen
-controllers to allow the device to wake the system from suspend.
+Add the wakeup-source property to the ST1232 touchscreen node
+in the device tree so that the touchscreen interrupt can wake
+the system from suspend when the panel is touched.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
+ arch/arm/boot/dts/renesas/r8a7740-armadillo800eva.dts | 1 +
+ 1 file changed, 1 insertion(+)
 
-Changes in v2:
- - Drop redundant description for wakeup-source property as requested 
-   by Krzysztof Kozlowski.
- .../bindings/input/touchscreen/sitronix,st1232.yaml           | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/sitronix,st1232.yaml b/Documentation/devicetree/bindings/input/touchscreen/sitronix,st1232.yaml
-index 978afaa4fcef..fe1fa217d842 100644
---- a/Documentation/devicetree/bindings/input/touchscreen/sitronix,st1232.yaml
-+++ b/Documentation/devicetree/bindings/input/touchscreen/sitronix,st1232.yaml
-@@ -32,6 +32,9 @@ properties:
-     description: A phandle to the reset GPIO
-     maxItems: 1
+diff --git a/arch/arm/boot/dts/renesas/r8a7740-armadillo800eva.dts b/arch/arm/boot/dts/renesas/r8a7740-armadillo800eva.dts
+index 04d24b6d8056..d47a6cc3e756 100644
+--- a/arch/arm/boot/dts/renesas/r8a7740-armadillo800eva.dts
++++ b/arch/arm/boot/dts/renesas/r8a7740-armadillo800eva.dts
+@@ -228,6 +228,7 @@ touchscreen@55 {
+ 		pinctrl-0 = <&st1232_pins>;
+ 		pinctrl-names = "default";
+ 		gpios = <&pfc 166 GPIO_ACTIVE_LOW>;
++		wakeup-source;
+ 	};
+ };
  
-+  wakeup-source:
-+    type: boolean
-+
- required:
-   - compatible
-   - reg
-@@ -51,6 +54,7 @@ examples:
-                     reg = <0x55>;
-                     interrupts = <2 0>;
-                     gpios = <&gpio1 166 0>;
-+                    wakeup-source;
- 
-                     touch-overlay {
-                             segment-0 {
 -- 
 2.43.0
 
