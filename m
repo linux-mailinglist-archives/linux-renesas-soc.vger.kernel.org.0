@@ -1,158 +1,148 @@
-Return-Path: <linux-renesas-soc+bounces-28935-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28936-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kLw0Kdi6qmmiVwEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28935-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Mar 2026 12:30:32 +0100
+	id oPXYIli/qmlXWQEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28936-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Mar 2026 12:49:44 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40F2721FAB6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Mar 2026 12:30:32 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F3DC21FE14
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Mar 2026 12:49:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 48E9A306C526
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Mar 2026 11:29:32 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id EA724300B2B3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Mar 2026 11:49:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55764387352;
-	Fri,  6 Mar 2026 11:29:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27459363C55;
+	Fri,  6 Mar 2026 11:49:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KqRr2BgD"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="dRRi9AoR"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A23A3596E1;
-	Fri,  6 Mar 2026 11:29:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB7F733F392
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  6 Mar 2026 11:49:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772796570; cv=none; b=lEA/pu8Gln3vfFrUNo9kVSkGJypqgV7aRlZKXF2gxl/94B9E5DOOWXmUFZg2SLX4j2wADgcaNhKzPfHRGJvEeAKh4RJq18t1i0jbFl64EQdnFJx8OTP+UIxJKsT/TuHDmF7gMv0Oxs5XWq7Xq+NMoF9toVU+JirL557jkozoGeA=
+	t=1772797778; cv=none; b=Oby8/Z/eW1n+Nu57e5YPrgfbbbJdb2qBScS7kqkKsrEoEOy3Q5zpdEduEt9aMAc63JuhZtQvYLJhq191sYI1C92MG7YyVdfqFYQjy0bvMxYrp42xmB9d+f6QafpfbmiPtBJv9kd8CwE9YAjoEaxi2Yk/6A3pRoeAS1HQNN8lPCA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772796570; c=relaxed/simple;
-	bh=XryNqzJpAbwoPPJDceu+o/RMktCv0sL78kkwIFXfp2Q=;
+	s=arc-20240116; t=1772797778; c=relaxed/simple;
+	bh=Wjq113QW0k+KgsnYyZwGU0Xj1t4ADCVrZtdHXKgwzx8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MOgBWwgizguscq8jIQ/mwve/p7V2i1CfEyscdd9Zld2jYhWiFZLu6ZIs0kwIj6ZgIgfakqnXBMSo4ndggom8aCFNBAcx/3l99c0O6iQGfKw9ZojNHYWuCKpU2P8E3mq+nLz5D4cexIIfHoImLfNqS/jl1BQCDIH0tpMoLGFWFwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KqRr2BgD; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEE51C4CEF7;
-	Fri,  6 Mar 2026 11:29:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772796569;
-	bh=XryNqzJpAbwoPPJDceu+o/RMktCv0sL78kkwIFXfp2Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KqRr2BgDwmSvs5Hlh9XDngsdSc53G1yIc7aGX1uFjRRiZqnxwB1lRMQoq7QTxqesg
-	 JLfbnw7piKywWe9WtsSPASsCyxqBVPcdadgdgT3IM8ZM5CnX6N5rvkonx1QbasGG2s
-	 rOhRetD5OuGYkCOvvj+lWOYRVK7S6HfjiFhA0xcOZd9JPaT8sATuB85OOD8aiJnfRX
-	 y5ayFUc3Fe6Q8fXtNA6kFZrQTFk7fF/KAxeM4RQp7S34+xaBsSDpmKw6i5ncas/DuK
-	 yUG1/h2o/p2YUu+Yaxam0qqlC+uixpO1i7fkgLzVRc7uyVhZAefMsB+SrgcbquCpaD
-	 A65RtASmO4M2g==
-Date: Fri, 6 Mar 2026 11:29:18 +0000
-From: Lee Jones <lee@kernel.org>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Mark Brown <broonie@kernel.org>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-	Boqun Feng <boqun@kernel.org>, Waiman Long <longman@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Orson Zhai <orsonzhai@gmail.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Antonio Borneo <antonio.borneo@foss.st.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	linux-remoteproc@vger.kernel.org, linux-doc@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-iio@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-spi@vger.kernel.org
-Subject: Re: [PATCH v3 15/15] hwspinlock/treewide: refactor consumer.h from
- public header
-Message-ID: <20260306112918.GG183676@google.com>
-References: <20260303192600.7224-17-wsa+renesas@sang-engineering.com>
- <20260303192600.7224-32-wsa+renesas@sang-engineering.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=cZzqXVxpHjlDMTmvWQY4gSARQr1aQWsPEXXj1IRtw/TPnDcPGT5EgGNBt+KtE8eFhU9/e/zhk8OlFGwbMLwuQKK+khb0a2ktcm1lHBqGBJVe0mkJ/lTsGA2zVv+YowtJcKWt/6UI+aHtfPc/Svvj/5pasaeQ/Ge0cM64ZqlqMsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=dRRi9AoR; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=Wjq1
+	13QW0k+KgsnYyZwGU0Xj1t4ADCVrZtdHXKgwzx8=; b=dRRi9AoR7gRVGd251cTE
+	dHVicZ7trstUtUl3yYzsOtVT5SX8UyfZRZYEb2dC9lGH0Zz20jj6lmUqXJXCMlqY
+	6ug2WCNbMhICS036H6M1yyNtA3hPB6m0XHb5lYmRgTZI/KvO8UaMifrsffKfQsnE
+	Ay+nFRrjGHu1s+X4bKSzvJqKPfN6OOzC/PpIDxXjJUNGv5WSJolkIwQHKENu4ztw
+	Z++URVXQ5YzCI2EXsjJ3Dy5r8bx2Mq2mLW8R8AlZbBeb2oIVYl0cQTDZKQzGx1cl
+	K8Bu0wq7Kbrkj/12vIuLmGU8CIaj6yXotg34EmEHUj7/qyfpbE0Y31DMmhcK11U1
+	DQ==
+Received: (qmail 1611070 invoked from network); 6 Mar 2026 12:49:26 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 6 Mar 2026 12:49:26 +0100
+X-UD-Smtp-Session: l3s3148p1@9uYapVlMmNsgAwDPXzF+ANZpdrMKUeLI
+Date: Fri, 6 Mar 2026 12:49:25 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: phucduc.bui@gmail.com
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Jeff LaBundy <jeff@labundy.com>, Bastian Hecht <hechtb@gmail.com>,
+	Javier Carrasco <javier.carrasco@wolfvision.net>,
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/3] Input: st1232 - add system wakeup support
+Message-ID: <aaq_Rft0gvVqxmMD@shikoro>
+References: <20260306104025.43970-1-phucduc.bui@gmail.com>
+ <20260306111912.58388-1-phucduc.bui@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="GiP2FLOrzOJ6xXEk"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260303192600.7224-32-wsa+renesas@sang-engineering.com>
-X-Rspamd-Queue-Id: 40F2721FAB6
+In-Reply-To: <20260306111912.58388-1-phucduc.bui@gmail.com>
+X-Rspamd-Queue-Id: 8F3DC21FE14
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-1.76 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[sang-engineering.com:s=k1];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-28935-lists,linux-renesas-soc=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-28936-lists,linux-renesas-soc=lfdr.de,renesas];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	DMARC_NA(0.00)[sang-engineering.com];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,huawei.com,linux.alibaba.com,infradead.org,redhat.com,lwn.net,linuxfoundation.org,baylibre.com,analog.com,gmail.com,foss.st.com,arndb.de,lists.linux.dev,st-md-mailman.stormreply.com,lists.infradead.org];
-	RCPT_COUNT_TWELVE(0.00)[40];
-	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	DKIM_TRACE(0.00)[sang-engineering.com:+];
+	NEURAL_HAM(-0.00)[-0.998];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lee@kernel.org,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[wsa@sang-engineering.com,linux-renesas-soc@vger.kernel.org];
+	FREEMAIL_CC(0.00)[gmail.com,kernel.org,glider.be,labundy.com,wolfvision.net,vger.kernel.org];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sang-engineering.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,huawei.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:url,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,sang-engineering.com:dkim]
 X-Rspamd-Action: no action
 
-On Tue, 03 Mar 2026, Wolfram Sang wrote:
 
-> Factor out the entries only needed for consumers from the generic public
-> header. This allows for a clean separation between providers and
-> consumers. Also remove contact field in favor of MAINTAINERS entries.
-> Fix the users, too.
-> 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Acked-by: Mark Brown <broonie@kernel.org>
-> Acked-by: Jonathan Cameron <jonathan.cameron@huawei.com> # for IIO
-> ---
->  Documentation/locking/hwspinlock.rst              |  2 +-
->  MAINTAINERS                                       |  1 -
->  drivers/base/regmap/regmap.c                      |  2 +-
->  drivers/hwspinlock/hwspinlock_core.c              |  2 +-
->  drivers/iio/adc/sc27xx_adc.c                      |  2 +-
->  drivers/irqchip/irq-stm32mp-exti.c                |  2 +-
->  drivers/mfd/syscon.c                              |  2 +-
+--GiP2FLOrzOJ6xXEk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Acked-by: Lee Jones <lee@kernel.org>
 
->  drivers/nvmem/sc27xx-efuse.c                      |  2 +-
->  drivers/nvmem/sprd-efuse.c                        |  2 +-
->  drivers/pinctrl/stm32/pinctrl-stm32.c             |  2 +-
->  drivers/soc/qcom/smem.c                           |  2 +-
->  drivers/spi/spi-sprd-adi.c                        |  2 +-
->  .../linux/{hwspinlock.h => hwspinlock/consumer.h} | 15 ++++++---------
+Krzysztof already adviced you to not attach new series to old threads.
+Please follow this suggestion:
 
--- 
-Lee Jones [李琼斯]
+Do not attach (thread) your patchsets to some other threads (unrelated
+or older versions). This buries them deep in the mailbox and might
+interfere with applying entire sets. See also:
+https://elixir.bootlin.com/linux/v6.16-rc2/source/Documentation/process/submitting-patches.rst#L830
+
+
+--GiP2FLOrzOJ6xXEk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmmqv0EACgkQFA3kzBSg
+Kbbo6A//YpGu96Gn41EiQBLt67gdeLRRmQVTEg60skkWpxPhAtqQiqF8vTIb+jXo
+DuTrk5LJttrqkSTImDpOSIqU8BaM/R6jcJuUaMj+2idFJw5U/krC5pzB5PpbE+DZ
+LCIDviIpvL88CZApBziiQGSQeQPSXCOZThTw1uu84OxoGFccsoWyHD/cryg3Nk47
+6Z1oNyYrzpWxASSjZMxZyHElJyCWADvm8CUdczIkES/hwuiylQE4m+SvuypUg/Gb
+WpA+nHrQTM42U0E98Gew3CssKnjQFKwDQO2agd9YNAujwSCT9GfLfD/J9Fv6M9nX
+l69PjOayu5+Y/lt6ij7qVf/2Nuez0tqLtRzKuuKHA+BD5IWx9upzGhpLd5q3IfWI
+5IW6wcwt+t8X/uF9rGSbn39ltUZfqIZjtFs8N0qjAwZQtCtoXWqH20Nmj1eNt3M2
+23+LXThZlA5vP9fs8cjANBdWf7Wx+9OV0aemReWMA1KsPxoThnqaW9hE9xvDEklQ
+Go4xk+OKUi8FwJSJp70ve+L0wmHv6iFrzRFYBaLcqQcZ+j5AUWJEaAay+EwyKfRb
+1L7045oF4U8Q/XhF4yr/9FQF63njbdeVH9jsn9uC/2WnMDhvqENoAh4lgcTpSsbd
+t2dFptv8kGc7tA5OwPmimuNmXXyXcCdr6AswimzABUddjrpAQWo=
+=zukW
+-----END PGP SIGNATURE-----
+
+--GiP2FLOrzOJ6xXEk--
 
