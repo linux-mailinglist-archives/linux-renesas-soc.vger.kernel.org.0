@@ -1,167 +1,133 @@
-Return-Path: <linux-renesas-soc+bounces-28914-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28915-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2GouJeIBqmm9JQEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28914-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 05 Mar 2026 23:21:22 +0100
+	id FR3UOv+Oqmm/TgEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28915-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Mar 2026 09:23:27 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 370A7218DD7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 05 Mar 2026 23:21:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EC7221D062
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Mar 2026 09:23:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D250230D06B0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Mar 2026 22:19:50 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 200273052629
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Mar 2026 08:18:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EFCC3630A6;
-	Thu,  5 Mar 2026 22:19:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95587372691;
+	Fri,  6 Mar 2026 08:18:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="gcwjW17t"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a0el0AhV"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14B493537FA
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  5 Mar 2026 22:19:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F452347527;
+	Fri,  6 Mar 2026 08:18:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772749189; cv=none; b=n6dqbeh07L/vyeC7j4uUecGNamNu3oxNSdbshu0csNuIu8SeQxzR4s3TquThfyfGR8UCud2v2k15GxvRyMcl+JigMeJi+17nMJKGCL+y7i2Ok3vUw+xYiUdGxnQHtV8CqvXlxdjy9FgawW/j7l/Qyfx05l55colUeL/XfX59Upg=
+	t=1772785104; cv=none; b=CwPJ5WmuIHQS7A6ndHwwyjSbq82M6AIDoR4GZPwm2y/LHG8pQ9xfrqeulrShd9esQhWikRKUn8PFT3jAQ7lbA1M3YVq5yS00LFlRkbtudPDrqDC/rJun15YvAvpLfTaBkzTE57pP4U5JeChAw+keWF5Z9yrF/PXgtKkeUDCYzXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772749189; c=relaxed/simple;
-	bh=ve27/23CkRPhQ3axcIh4mjZYu7U1Bp5w5heJng5xG24=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RL7t8sZyLghG6A/3tiz85T8JfL/hO8iD5Nh3U3yBNCCF4InDwlCdUxGqKd8kmhjCNkN2X0u7lFgplFLv5A6luu/a7p4b5EYbt7+I3SZHl6sNOmRBxMhsm1uQOljjuou6A7ptkUYxLy1zON8u8IO00OGjVQxKf+uVNyZUtkfsHRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=gcwjW17t; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=fCYk96rdRbd7XG
-	ma/c4T8oweeYvi9rvqv8vWDIk/zWo=; b=gcwjW17tDwG0klo4ixS7vpJs7nRUKC
-	42jwtvwoT4Z9xlsHTarr2O16W/J27/x+pbOI/b24MnG7oWjzEQsawnV/957rVTM6
-	FKuoLzl7JLkCaHRMJbpepCgP9vr2zuqJjneUM1O/2ygxh2y1ygtZ0mw/+Hd1ztTj
-	C8kPnF8W+NWswxoDhNSuRbUqQ1PVB7yk1dkNQVM5xiRlnd3r7XemFhQj2aZRQSSQ
-	1nAh7WLIHZ/nGaXdKmn0f9zVV5p21dgHA7NrBhu04mjglIvtbyoauuZJmPDZwsxu
-	HBCKeBHjT1ZjkvTdpTGPKLVseePGGxq1XxTwRuKYZPb05lYV+ZSe9cgw==
-Received: (qmail 1354238 invoked from network); 5 Mar 2026 23:19:45 +0100
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Mar 2026 23:19:45 +0100
-X-UD-Smtp-Session: l3s3148p1@MkNvVU5MKsAujns5
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Herve Codina <herve.codina@bootlin.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	devicetree@vger.kernel.org
-Subject: [PATCH v2] ARM: dts: renesas: r9a06g032-rzn1d400-db: use interrupt for Micrel PHYs
-Date: Thu,  5 Mar 2026 23:16:58 +0100
-Message-ID: <20260305221939.32643-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.47.3
+	s=arc-20240116; t=1772785104; c=relaxed/simple;
+	bh=IuG+vsZROFDb7NeVDqWVEGbfJg4FLMzqUC6J2najeSI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jhbNQup7P6sYdE78VjD2D+W1ylNzeeSucIevuAbRJmgNgSY4Q3AGl3qhWdTxe0U4lSBi5VsjXzCFDe+t8D5dx3Uxi69ZvhGyra2jI26i0PFwg6gc4cQ9HoFiDFV87gsecJVtQvccUiTofe5w62dfhTwaItt9VhDIEOWrFyUKXFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a0el0AhV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 762C5C4CEF7;
+	Fri,  6 Mar 2026 08:18:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772785104;
+	bh=IuG+vsZROFDb7NeVDqWVEGbfJg4FLMzqUC6J2najeSI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=a0el0AhVp7tvh4fNnLUed+ARY0AUUV5WbxJCXnU41KcRWBiKElkzcQNnpNpRH851g
+	 qAuAe2vZRkdAbu388yiczDhpVgmOx1sGMd9KgHnCorrcGej4/YUmXTI9FoZseHylr8
+	 IP74jCXxkZy2yfLrWMkrTF2DhWnqwD7/AI7DxP++w//DS2Jrbhl8UJiTAtBQYQjqv5
+	 knqUK/dbeLV0W3o8b2V74DzeEu/rLYwTYDUDd/06yLVhBrhGtB84sogJ520k3e8cHr
+	 Bm/BLIvSmK7qUqC2RAU6pUcS1fRzFULrFerFJ197175lLD79sDMAdJsHM9B9LYBWcL
+	 SLp71mTfcAW5g==
+Date: Fri, 6 Mar 2026 09:18:21 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: phucduc.bui@gmail.com
+Cc: dmitry.torokhov@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, geert+renesas@glider.be, magnus.damm@gmail.com, 
+	javier.carrasco@wolfvision.net, hechtb@gmail.com, wsa+renesas@sang-engineering.com, 
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: input: touchscreen: sitronix,st1232:
+ Add wakeup-source
+Message-ID: <20260306-fossa-of-unnatural-authority-29e0ed@quoll>
+References: <20260305113512.227269-1-phucduc.bui@gmail.com>
+ <20260305113512.227269-2-phucduc.bui@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 370A7218DD7
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260305113512.227269-2-phucduc.bui@gmail.com>
+X-Rspamd-Queue-Id: 8EC7221D062
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.16 / 15.00];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[sang-engineering.com:s=k1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-28914-lists,linux-renesas-soc=lfdr.de,renesas];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-28915-lists,linux-renesas-soc=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	DMARC_NA(0.00)[sang-engineering.com];
-	FREEMAIL_CC(0.00)[sang-engineering.com,bootlin.com,glider.be,gmail.com,kernel.org,vger.kernel.org];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[gmail.com,kernel.org,glider.be,wolfvision.net,sang-engineering.com,vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[sang-engineering.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[wsa@sang-engineering.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_NONE(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	FROM_HAS_DN(0.00)[]
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-Make use of the interrupts wired to the Micrel PHYs via the GPIO IRQ
-mux.
+On Thu, Mar 05, 2026 at 06:35:11PM +0700, phucduc.bui@gmail.com wrote:
+> From: bui duc phuc <phucduc.bui@gmail.com>
+> 
+> Document the 'wakeup-source' property for Sitronix ST1232 touchscreen
+> controllers to allow the device to wake the system from suspend.
+> 
+> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+> ---
+>  .../bindings/input/touchscreen/sitronix,st1232.yaml          | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/sitronix,st1232.yaml b/Documentation/devicetree/bindings/input/touchscreen/sitronix,st1232.yaml
+> index 978afaa4fcef..672544e5a26e 100644
+> --- a/Documentation/devicetree/bindings/input/touchscreen/sitronix,st1232.yaml
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/sitronix,st1232.yaml
+> @@ -32,6 +32,10 @@ properties:
+>      description: A phandle to the reset GPIO
+>      maxItems: 1
+>  
+> +  wakeup-source:
+> +    description: Device can be used as a wakeup source.
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Reviewed-by: Herve Codina <herve.codina@bootlin.com>
----
-Changes since RFC v1:
-* rebased to 7.0-rc2
-* drop RFC status, irqmux is now upstream
-* added tag from Herve (Thanks!)
+Drop description
 
- .../dts/renesas/r9a06g032-rzn1d400-db.dts     | 21 +++++++++++++++++++
- 1 file changed, 21 insertions(+)
+> +    type: boolean
 
-diff --git a/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts
-index 80f78998500b..bf456130878e 100644
---- a/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts
-+++ b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts
-@@ -185,6 +185,18 @@ fixed-link {
- 	};
- };
- 
-+&gpioirqmux {
-+	interrupt-map = <89 &gic GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>, /* pin 147: phy@4 */
-+			<91 &gic GIC_SPI 104 IRQ_TYPE_LEVEL_HIGH>; /* pin 149: phy@5 */
-+	status = "okay";
-+};
-+
-+&gpio2 {
-+	pinctrl-0 = <&pins_gpio2>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+};
-+
- &i2c2 {
- 	pinctrl-0 = <&pins_i2c2>;
- 	pinctrl-names = "default";
-@@ -256,6 +268,13 @@ pins_cpld: pins-cpld {
- 			 <RZN1_PINMUX(122, RZN1_FUNC_USB)>;
- 	};
- 
-+	pins_gpio2: pins-gpio2 {
-+		pinmux = <RZN1_PINMUX(147, RZN1_FUNC_GPIO)>,
-+			 <RZN1_PINMUX(149, RZN1_FUNC_GPIO)>;
-+		drive-strength = <6>;
-+		bias-disable;
-+	};
-+
- 	pins_eth3: pins_eth3 {
- 		pinmux = <RZN1_PINMUX(36, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
- 			 <RZN1_PINMUX(37, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-@@ -401,11 +420,13 @@ mdio {
- 		switch0phy4: ethernet-phy@4 {
- 			reg = <4>;
- 			micrel,led-mode = <1>;
-+			interrupts-extended = <&gpio2a 25 IRQ_TYPE_LEVEL_LOW>;
- 		};
- 
- 		switch0phy5: ethernet-phy@5 {
- 			reg = <5>;
- 			micrel,led-mode = <1>;
-+			interrupts-extended = <&gpio2a 27 IRQ_TYPE_LEVEL_LOW>;
- 		};
- 	};
- };
--- 
-2.47.3
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+
+Best regards,
+Krzysztof
 
 
