@@ -1,81 +1,81 @@
-Return-Path: <linux-renesas-soc+bounces-28956-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-28957-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SIXYE97ZqmnmXgEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-28956-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Mar 2026 14:42:54 +0100
+	id 0HKnOPXbqmkZXwEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-28957-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Mar 2026 14:51:49 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E20CA221F87
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Mar 2026 14:42:53 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67599222207
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 06 Mar 2026 14:51:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id C46183014633
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Mar 2026 13:42:44 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 22957316131C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Mar 2026 13:42:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59940340A6F;
-	Fri,  6 Mar 2026 13:42:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B66230EF88;
+	Fri,  6 Mar 2026 13:42:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YC9Oq7/h"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CkI9fPu+"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 627FC3126C0
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  6 Mar 2026 13:42:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AC50313556
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  6 Mar 2026 13:42:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772804557; cv=none; b=lzc53PX4q3d11RgldReLKZt2PJBKOhrkQSGf6PVaMZKnY5Hl3jaf1hUPMcPkGeKX0JzQVGh++c/AHS3p9blhduiQ8Ru8XCbfJGxWK0l0GP27Ug7Tfn4by95uoJVkogH9MKCHfZGDWjxLOf5H1b7hnIR3DO37vi8dlCR7iUV7A60=
+	t=1772804558; cv=none; b=N5EQziGQF/oHgFqSk3yMpUc0hFfzV6q69TgbHmejSHPUbUjsHUAzaLW6TMUiM3imYbEIbiB5CGUCTqgcLuGsdn+hkl+jIhwbrY6nnyUgpLHEk8TSSzdaaJJag37iZm7pK0ED2uxcJZmf4jrQsk8vJ7oTajRuvQMFJeFthrfv06I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772804557; c=relaxed/simple;
-	bh=nzB4vn1IjWBHrbgZS/e94Dund4pW6w6VdfFOAfcUVCA=;
+	s=arc-20240116; t=1772804558; c=relaxed/simple;
+	bh=S9/Fzkiyb07FiSnwrS8MQmvi6Fitnuo1uoT04N7PIvE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ia3jKmNXgHowEEg0kDnkfal4T9NCTR19OScWFTxiScitXC29wxUHAjI2EjgF/WVdcwkqZrUYgD6YQ0reyhiGSDzsCbqlYeBdaz1rDNY2u/F9dws5deyecxVrYomDlLOf7QjnCeTsFSnEssrXK+3jy9i1M44JOKzXZ9ec7k6bsrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YC9Oq7/h; arc=none smtp.client-ip=209.85.221.41
+	 MIME-Version; b=sUCaM3liFMJIO/tGDtkxso1rzjy0mAJnU89mxp33TjVEUROMuB6kSclhO89wNHf89fs8eaiASBJcH2cwQCNTMpdS8aMJ00r+fgFNZwNssqCkzddKXvKKTlr3e+wvQQYsMM1Do3YIhL+OpGFhnKQnwjUqDHeyKDjAyKP1Vnou9do=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CkI9fPu+; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-439b94a19fdso5273021f8f.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 06 Mar 2026 05:42:35 -0800 (PST)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-439ce3605ecso1416907f8f.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 06 Mar 2026 05:42:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772804554; x=1773409354; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1772804555; x=1773409355; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=o6IrVxXy7CXsl37mE9WFjkK5uiaupuO7eK2CML6ou7w=;
-        b=YC9Oq7/hSZsqpVQhhEJcMFvm2hsDb4UFGUcs1Sc5g3V+aK4VkC4bVkV2FISeLXr2Q+
-         PN73/ROnpud4snalhBychcaQkjQrX4Ew9jlEDHY/OMH7puONU9YpDqslWSCe6hmbK8fh
-         6uNkdWO2Kak/lMqA/cMwTzdPuJSmwrzJHdb9AkgnfAbVZ4RKA5vk30HQQN0v8ViGnwfs
-         5rNl4d38UtlKqOun5HqF0Hjp+Jr5WDsmAH7OjCbIzOuzru16dnZcWakUS65bkmwe/qDd
-         VFAe6Zb7mb75WItvqhvj3Q9bGQFxiQemG3XjGCRp5y1sfO222xXNZIsGwzmz9+278Irz
-         7Kyg==
+        bh=o0Ng/uajvfzozXdQpYK5vG2wa/u2Xjabl4u/B9UNDME=;
+        b=CkI9fPu+4f/I4luh/7QtYvHZV6uOXYAphvjNk8iEaWpTQ1lFjD0nEHbztDCihwdWx+
+         Ee2j9SehyGjRh/zQ85uvtnuFohrI/k7JbOymNxt0fxPrLOobx8aBWDuJl6lFS3740LQd
+         HCpLz+qauSHPZOnxvJnx2BCcdk+jSKyCI709i/9o+jnz0w1EFvn9MboUMViWVMD8evDG
+         0vxb+9Imt3LqARayhWBzn5tGXX+oHdpXJ97cH9U2tvEzyu+MqFRw1ZLQbCyy8pS1QDR4
+         jYzdIHxXxqy+fz+y/mVPf0jHtd8xw70Tn5dr2X0VAnJDviqpWjjCOQquC6tVIJbOxAeP
+         Hd0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772804554; x=1773409354;
+        d=1e100.net; s=20230601; t=1772804555; x=1773409355;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=o6IrVxXy7CXsl37mE9WFjkK5uiaupuO7eK2CML6ou7w=;
-        b=slgsW1QWA7rmutYTJUR14f9G4iquPX82bepgW5eFXH8ms15nNvwwIJl3bFN1jquSUv
-         el92+UXW98XVhLP9wGfQ3OEvQaM+qhqoQisE5RGZq+UUR3OaGAXZMaKyZyc9vWsqQooL
-         FvxIjYEZ5BWW2gVLPQgY6JnELh2NeQbJftJjr/wCmxuRYYEic3lUwdH0DZa60gwuREQs
-         a2MoUbqkvgOhHu9iQoQ0NBCP//ZvDxRk/Lv0+cRGny/Sc2q87rjpxq8jtlWZOkMcR2+K
-         /fD6HfK852adE1mNQjXUA9A0fY6DW+NfEuHpORHe0HXznuB+xIbXUbawhuxG/Qunupy1
-         7ETw==
-X-Forwarded-Encrypted: i=1; AJvYcCWQ1bGBkGMgubSxxP8IpS85g/autUubRczmBggh+XcgjNRu4PflfZ95+brGoljuntq6cBZPY5oGisR9xJDQNC2fHg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwqFM1hogJoI2HuY/xIrZ/CsSoAntOg4o+mDLrphrp+3vRgF1uU
-	XxdX94FcRiRVi8kZYSDwZ+Na9oA593UdpfPT12tpG7cCjh09IJATXLfK
-X-Gm-Gg: ATEYQzxKDWB19GDZyFI3gwVp6aZefuE2mJH/a2gXUua0/wF1WezFXiIx9qZTEs5Lk6f
-	UuX2fXB6awiQIcM7e7iax+wSbt95OCWiV+rhr9Whe0WDy2jlEM2ez1/7eh1t2m6QSRuIGIo4Cv/
-	UkMeuHx+g1+oYA+YpTHwOSblKdVt7geOplT0/SWjK06T6VIfJHGq/pcl9neoQ6FHdjtIBUoqTwZ
-	g+ZnuOFgUIg8IZbiBTxRkjXJvJVnr2s8fI8feNB6LWyeTiSEqaIx90oM129ewDa75m8KYvn9nMD
-	3UTQgBwo1YxRp/cmwByCwwV4asFGz6euIMtiEIlAgD+sR+Ajf4qAY7rUNZ5BCTJvW2TcASTweyu
-	LpUinHCpQxD67zcKKCFyxl7IECosGi55zk6fOpo8L7jGQYr6qYhZrfB2MvDkMpndAorfVMan83i
-	EEDA1scsPI8D1oFNBnSH7g668lJV45Xe9WZm9YrO29tmtnbHI=
-X-Received: by 2002:a05:6000:430d:b0:439:b82d:3b97 with SMTP id ffacd0b85a97d-439da662378mr3547221f8f.17.1772804553685;
-        Fri, 06 Mar 2026 05:42:33 -0800 (PST)
+        bh=o0Ng/uajvfzozXdQpYK5vG2wa/u2Xjabl4u/B9UNDME=;
+        b=HgnuVAMqo1RqS5kBYu9xlCAzDsUgxg/tsAthrw71klog+zXOVrFaCEofFKq55HYhxN
+         TKz+dNSQHweIbpIKLTYhFrc+if1KCFClYbZ2LgFf2AeYgQAf0EY/Kz498ZwcExfaSdJ5
+         WAKi+FnwEeam6rYxWFdVXsHaIcmEPZarJfsGtI18VMF2WkvA61fu2YTZD3HqAsrIM4BR
+         MBvh3GbCOJJOEsA0pJC1t86t6LZ4riYYAdBv5ALf+zoJXZzmt2dieUHEz8Nw2MClu4x3
+         vZlksEA9qK6L/DynLUp6+ZWMkTNF/oigIIdgXZMWbJPj1Ui9rgmtAIop+7RbZeaWfIdE
+         UpQg==
+X-Forwarded-Encrypted: i=1; AJvYcCVr1SpyTn2f96hKAOAV6iMoftD5DS0+ISO3KxyZUYNvGX6CXKA0WSWx6/s00L+FCrOl6/kOQgFiNTn2cs3OBFb39g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx1EILXZOiRvquC462NpVC+BfpgI00Smr91Uskk7hXzyPYK4h0w
+	hhWoptTZHYPxETuEWka/Fa2X4Lt47yPvE+eEXkUyCTasijJO2pOxXhsy
+X-Gm-Gg: ATEYQzwy7ftfQQQIdyfOvlOSlhBxKAOd6rE4dz8OUL/g0iA+9YyCZY4EmI2tgJa+skq
+	IEdw5UEQ9unWIFOm+ENtmAEiVL3ejK01Yz9wdYY7p3SupFDeUZERw0At/X9QAGC51RBxvwphg/b
+	95Zpy+UUTSbMGuCn2R8f0cDmO4Hp7x2rM0hGJdnm8jWNqZC8UEZNDVQXl4wvVT+BdDxvz4M4m8t
+	Fa46FEa7PCYdFCHpM12jXD55CqEYJorgbU1kfH95CEzYSOB/JJfe56sAe5+7/4WpW/yrnB5sfeA
+	8+73TiiLTdjTU5GUwcaD8ye3BmZAC0VyFQqzpVekkLUBu1y35ccQ16uHvbR9d/RSOUbhyhHXZjG
+	Px/v+PkA9vA9iIT2CSbKctTR3qdErQNgqjzVBx9uSDlm59Cv4MwffneOYBGuqI53zmL6AG1CybZ
+	DDt/Loc6xtygWZ1DotvTjtcWwBI0qPW8cnxebaTVs2CoUv7n0=
+X-Received: by 2002:a5d:6384:0:b0:439:de1d:74ae with SMTP id ffacd0b85a97d-439de1d7642mr933964f8f.22.1772804554816;
+        Fri, 06 Mar 2026 05:42:34 -0800 (PST)
 Received: from localhost.localdomain ([2a00:23c4:a758:8a01:d0f3:534:36a3:523a])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439dadb85b8sm4223790f8f.17.2026.03.06.05.42.32
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439dadb85b8sm4223790f8f.17.2026.03.06.05.42.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Mar 2026 05:42:33 -0800 (PST)
+        Fri, 06 Mar 2026 05:42:34 -0800 (PST)
 From: Biju <biju.das.au@gmail.com>
 X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -88,9 +88,9 @@ Cc: Biju Das <biju.das.jz@bp.renesas.com>,
 	linux-kernel@vger.kernel.org,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH 2/3] clk: renesas: r9a07g04{3,4}/r9a08g045-cpg: Add critical reset entries
-Date: Fri,  6 Mar 2026 13:42:24 +0000
-Message-ID: <20260306134228.871815-3-biju.das.jz@bp.renesas.com>
+Subject: [PATCH 3/3] clk: renesas: rzg2l-cpg: Re-enable critical module clocks during resume
+Date: Fri,  6 Mar 2026 13:42:25 +0000
+Message-ID: <20260306134228.871815-4-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260306134228.871815-1-biju.das.jz@bp.renesas.com>
 References: <20260306134228.871815-1-biju.das.jz@bp.renesas.com>
@@ -101,7 +101,7 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: E20CA221F87
+X-Rspamd-Queue-Id: 67599222207
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -109,13 +109,13 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-28956-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-28957-lists,linux-renesas-soc=lfdr.de];
 	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -130,117 +130,121 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,renesas.com:email,bp.renesas.com:mid]
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,bp.renesas.com:mid]
 X-Rspamd-Action: no action
 
 From: Biju Das <biju.das.jz@bp.renesas.com>
 
-The RZ/G2L SoC family requires DMA resets to be deasserted for routing
-some peripheral interrupts to the CPU. Asserting these resets after boot
-would silently break interrupt delivery with no driver to restore them.
+After a suspend/resume cycle, critical module clocks may be left
+disabled as the hardware state is not automatically restored. Unlike
+regular clocks which are re-enabled by their respective drivers, critical
+clocks (CLK_IS_CRITICAL) have no owning driver to restore them, so the
+CPG driver must take responsibility for re-enabling them on resume.
 
-Mark the DMA resets as critical by adding them to the crit_resets table
-in the SoC-specific rzg2l_cpg_info for r9a07g043, r9a07g044, and
-r9a08g045, preventing __rzg2l_cpg_assert() from driving them active and
-ensuring they are deasserted on probe and resume.
+Introduce struct rzg2l_crit_clk_hw to track critical module clock
+hardware entries in a singly-linked list anchored at crit_clk_hw_head
+in rzg2l_cpg_priv. Populate the list during module clock registration
+by checking for the CLK_IS_CRITICAL flag after clk_hw_register()
+succeeds.
+
+On resume, walk the list and re-enable any critical module clock that
+is found to be disabled, before deassering critical resets, ensuring
+the correct clock-before-reset restore ordering.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- drivers/clk/renesas/r9a07g043-cpg.c |  8 ++++++++
- drivers/clk/renesas/r9a07g044-cpg.c | 13 +++++++++++++
- drivers/clk/renesas/r9a08g045-cpg.c |  9 +++++++++
- 3 files changed, 30 insertions(+)
+ drivers/clk/renesas/rzg2l-cpg.c | 42 ++++++++++++++++++++++++++++++++-
+ 1 file changed, 41 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/clk/renesas/r9a07g043-cpg.c b/drivers/clk/renesas/r9a07g043-cpg.c
-index 33e9a1223c72..01d741ed8dc5 100644
---- a/drivers/clk/renesas/r9a07g043-cpg.c
-+++ b/drivers/clk/renesas/r9a07g043-cpg.c
-@@ -379,6 +379,11 @@ static const unsigned int r9a07g043_crit_mod_clks[] __initconst = {
- 	MOD_CLK_BASE + R9A07G043_DMAC_ACLK,
+diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-cpg.c
+index 8165c163143a..f16c3962e0bd 100644
+--- a/drivers/clk/renesas/rzg2l-cpg.c
++++ b/drivers/clk/renesas/rzg2l-cpg.c
+@@ -130,6 +130,12 @@ struct div_hw_data {
+ 	u32 width;
  };
  
-+static const unsigned int r9a07g043_critical_resets[] = {
-+	R9A07G043_DMAC_ARESETN,
-+	R9A07G043_DMAC_RST_ASYNC,
++/* Critical clk list  */
++struct rzg2l_crit_clk_hw {
++	struct clk_hw *hw;
++	struct rzg2l_crit_clk_hw *next;
 +};
 +
- #ifdef CONFIG_ARM64
- static const unsigned int r9a07g043_no_pm_mod_clks[] = {
- 	MOD_CLK_BASE + R9A07G043_CRU_SYSCLK,
-@@ -420,5 +425,8 @@ const struct rzg2l_cpg_info r9a07g043_cpg_info = {
- 	.num_resets = R9A07G043_IAX45_RESETN + 1, /* Last reset ID + 1 */
- #endif
+ #define to_div_hw_data(_hw)	container_of(_hw, struct div_hw_data, hw_data)
  
-+	/* Critical Resets */
-+	.crit_resets = r9a07g043_critical_resets,
-+	.num_crit_resets = ARRAY_SIZE(r9a07g043_critical_resets),
- 	.has_clk_mon_regs = true,
- };
-diff --git a/drivers/clk/renesas/r9a07g044-cpg.c b/drivers/clk/renesas/r9a07g044-cpg.c
-index 0dd264877b9a..7f1405cab9c3 100644
---- a/drivers/clk/renesas/r9a07g044-cpg.c
-+++ b/drivers/clk/renesas/r9a07g044-cpg.c
-@@ -489,6 +489,11 @@ static const unsigned int r9a07g044_crit_mod_clks[] __initconst = {
- 	MOD_CLK_BASE + R9A07G044_DMAC_ACLK,
- };
+ struct rzg2l_pll5_param {
+@@ -168,6 +174,7 @@ struct rzg2l_pll5_mux_dsi_div_param {
+  * @info: Pointer to platform data
+  * @genpd: PM domain
+  * @mux_dsi_div_params: pll5 mux and dsi div parameters
++ * @crit_clk_hw_head: Head of the linked list critical clk entries
+  */
+ struct rzg2l_cpg_priv {
+ 	struct reset_controller_dev rcdev;
+@@ -186,8 +193,26 @@ struct rzg2l_cpg_priv {
+ 	struct generic_pm_domain genpd;
  
-+static const unsigned int r9a07g044_critical_resets[] = {
-+	R9A07G044_DMAC_ARESETN,
-+	R9A07G044_DMAC_RST_ASYNC,
-+};
+ 	struct rzg2l_pll5_mux_dsi_div_param mux_dsi_div_params;
 +
- static const unsigned int r9a07g044_no_pm_mod_clks[] = {
- 	MOD_CLK_BASE + R9A07G044_CRU_SYSCLK,
- 	MOD_CLK_BASE + R9A07G044_CRU_VCLK,
-@@ -519,6 +524,10 @@ const struct rzg2l_cpg_info r9a07g044_cpg_info = {
- 	.resets = r9a07g044_resets,
- 	.num_resets = R9A07G044_TSU_PRESETN + 1, /* Last reset ID + 1 */
- 
-+	/* Critical Resets */
-+	.crit_resets = r9a07g044_critical_resets,
-+	.num_crit_resets = ARRAY_SIZE(r9a07g044_critical_resets),
-+
- 	.has_clk_mon_regs = true,
- };
- #endif
-@@ -548,6 +557,10 @@ const struct rzg2l_cpg_info r9a07g054_cpg_info = {
- 	.resets = r9a07g044_resets,
- 	.num_resets = R9A07G054_STPAI_ARESETN + 1, /* Last reset ID + 1 */
- 
-+	/* Critical Resets */
-+	.crit_resets = r9a07g044_critical_resets,
-+	.num_crit_resets = ARRAY_SIZE(r9a07g044_critical_resets),
-+
- 	.has_clk_mon_regs = true,
- };
- #endif
-diff --git a/drivers/clk/renesas/r9a08g045-cpg.c b/drivers/clk/renesas/r9a08g045-cpg.c
-index 79e7b19c7882..87ee43f9fe18 100644
---- a/drivers/clk/renesas/r9a08g045-cpg.c
-+++ b/drivers/clk/renesas/r9a08g045-cpg.c
-@@ -361,6 +361,11 @@ static const unsigned int r9a08g045_crit_mod_clks[] __initconst = {
- 	MOD_CLK_BASE + R9A08G045_VBAT_BCLK,
++	struct rzg2l_crit_clk_hw *crit_clk_hw_head;
  };
  
-+static const unsigned int r9a08g045_critical_resets[] = {
-+	R9A08G045_DMAC_ARESETN,
-+	R9A08G045_DMAC_RST_ASYNC,
-+};
++static int rzg2l_cpg_add_crit_clk_hw_entry(struct rzg2l_cpg_priv *priv,
++					   struct clk_hw *hw)
++{
++	struct rzg2l_crit_clk_hw *node;
 +
- static const unsigned int r9a08g045_no_pm_mod_clks[] = {
- 	MOD_CLK_BASE + R9A08G045_PCI_CLKL1PM,
- };
-@@ -389,5 +394,9 @@ const struct rzg2l_cpg_info r9a08g045_cpg_info = {
- 	.resets = r9a08g045_resets,
- 	.num_resets = R9A08G045_VBAT_BRESETN + 1, /* Last reset ID + 1 */
++	node = devm_kzalloc(priv->dev, sizeof(*node), GFP_KERNEL);
++	if (!node)
++		return -ENOMEM;
++
++	node->hw = hw;
++	node->next = priv->crit_clk_hw_head;
++	priv->crit_clk_hw_head = node;
++
++	return 0;
++}
++
+ static inline u8 rzg2l_cpg_div_ab(u8 a, u8 b)
+ {
+ 	return (b + 1) << a;
+@@ -1737,10 +1762,16 @@ rzg2l_cpg_register_mod_clk(const struct rzg2l_mod_clk *mod,
+ 		goto fail;
+ 	}
  
-+	/* Critical Resets */
-+	.crit_resets = r9a08g045_critical_resets,
-+	.num_crit_resets = ARRAY_SIZE(r9a08g045_critical_resets),
++	if (init.flags & CLK_IS_CRITICAL) {
++		if (rzg2l_cpg_add_crit_clk_hw_entry(priv, &clock->hw)) {
++			clk = ERR_PTR(-ENOMEM);
++			goto fail;
++		}
++	}
 +
- 	.has_clk_mon_regs = true,
- };
+ 	clk = clock->hw.clk;
+ 	dev_dbg(dev, "Module clock %pC at %lu Hz\n", clk, clk_get_rate(clk));
+ 	priv->clks[id] = clk;
+-
+ 	return;
+ 
+ fail:
+@@ -2086,8 +2117,17 @@ static int __init rzg2l_cpg_probe(struct platform_device *pdev)
+ static int rzg2l_cpg_resume(struct device *dev)
+ {
+ 	struct rzg2l_cpg_priv *priv = dev_get_drvdata(dev);
++	struct rzg2l_crit_clk_hw *node;
+ 	int ret;
+ 
++	for (node = priv->crit_clk_hw_head; node; node = node->next) {
++		if (!rzg2l_mod_clock_is_enabled(node->hw)) {
++			ret = rzg2l_mod_clock_endisable(node->hw, true);
++			if (ret)
++				return ret;
++		}
++	}
++
+ 	ret = rzg2l_cpg_deassert_crit_resets(&priv->rcdev, priv->info);
+ 	if (ret)
+ 		return ret;
 -- 
 2.43.0
 
