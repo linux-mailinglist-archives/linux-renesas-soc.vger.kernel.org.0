@@ -1,86 +1,86 @@
-Return-Path: <linux-renesas-soc+bounces-29128-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29129-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oJbwMvIpsGlHgwIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29128-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 15:25:54 +0100
+	id mBV/GUEksGnYgQIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29129-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 15:01:37 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41DA7251E7E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 15:25:54 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0273A251321
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 15:01:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 7BCE0317D33C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 13:20:57 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 7EDD234F5974
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 13:21:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADE6F39BFF7;
-	Tue, 10 Mar 2026 13:08:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F6DA3BF67C;
+	Tue, 10 Mar 2026 13:08:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="c4tQ0F7o"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="J2y6R9l/"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD5E33BE654
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2026 13:08:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA9FD3C0605
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2026 13:08:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773148114; cv=none; b=GIgEOi49niR5XeQlBPH5YgbG8Ac19P4bKkFrkgr8dkG8LNldc2Th2SHyNg8Dv9BpCVnMacZkbixfIOC+PxCuedddFEn9MhsFDGh82EsVlWlx3xgdUcm8Aa0H2ISdj8Xg6KmC0yTE8nMrR4rcoPMQxi98RRIMjSre1kEXC/F2Yhw=
+	t=1773148132; cv=none; b=Wp/TFR1eXt/Iv/ZANaZ25H61aShEY13bkEHY7o1c+TOTsB5ELgjPq9+MlFjCYnxOqaqXwoBvthMsDlpIdLZ0kIt0zwzJQprc3S+MGZHXDnDdSyY0JNrYDpFUJ+sTIzGybBr2lb+W6OkkAjormnzE8kLG9qa3tvnKhiCNCtWWVd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773148114; c=relaxed/simple;
-	bh=wKVs27EEt0N9M8uATMnOjSiqYHdpeLtqcMeHE7FPGtU=;
+	s=arc-20240116; t=1773148132; c=relaxed/simple;
+	bh=rvB11H6RMQeais6nkVdvS8yMsyVqI53mLo3GtCuFQkc=;
 	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=gryr+/gir1mDcztSkCAiLzA832PGQb+6hAu/n4Bhoa0Xx+FCo4645TuV/uY/EXv91Y/aC41jvVWHfAKXVMMJ+l3Ojr1pc9djvdEGgp07eNjcEgtQ1jR392RqXtc4MyYfQE3+BfGuEhDWAit4PSoMoHBItB3gWUKk0LNp307OQb8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=c4tQ0F7o; arc=none smtp.client-ip=209.85.128.53
+	 In-Reply-To:Content-Type; b=BsWBzNAWYxytYQf5qO1tw0USPfCKYAnFsr1Fo1ZqZ2Uz5PkrQ3zgskAEfT1UNn3q44Wp/DzqkhmQzyUtQIRDvO530L7fO4DOTeaHVF94diPqDXIfYVw1AJ1jaMqIKnjCxB1JjW3skN9GzYD6RzoV+p+QxGtOrR637JkFwgRj6nA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=J2y6R9l/; arc=none smtp.client-ip=209.85.128.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-48539d21b76so18122645e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2026 06:08:32 -0700 (PDT)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4852ff06541so31586145e9.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2026 06:08:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1773148111; x=1773752911; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1773148128; x=1773752928; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:references:cc:to:subject:reply-to:from:user-agent
          :mime-version:date:message-id:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=3Qwiu5L5HKkB/c02A8Q4VnU+0vuAdi7H59d55yhEY5A=;
-        b=c4tQ0F7o1CDCBVY3E4CsXgHbDH5kfWjhJE72kdFVOXs1bQCWwx0uajF9UoUlWS0+uP
-         5eKtdPZysVoOf3VStqyVzozMKePwrnPwq7YzFB7HXEmpl+0hN7qh5J6G1cMvlCTaXq6l
-         VrNXuM39Wv+Ws6VvcB8Ihe13otXOoVG+ZlDj+7Pf/+2eqlfGKEYyI+KTckkNZ5iqQNWQ
-         rwEL4N/qc1kj4fMpk8HibTxN+XRdk5nhcshrQRBmkTLYLS4K9wdqlmfrPrivO0X51SD3
-         7PsgxvHr3OAdb/kN7+F42FHevcfwuEDStFSBTeF5O3yeG275OXbUN8yZA8itW5RV3s0c
-         L/Ww==
+        bh=2TRBpSzG7oKf4unFVV/7GqP3xJjjnnjPULashk6tmNc=;
+        b=J2y6R9l/tTku+85TWCzzLOAocgWp/84jgMEkas+XwWLARIr5zMxw15rv5pgMryWyMV
+         QdOC/QMPG14BwzaXizrbMGN1ZZPEvZ9fcSFWFthGo4ndkjzkkiOFss2zjPiOKS4Ry/HU
+         IDbn7IVN9t/Es9ReOEoLVFQDJkjP2iO8MMmihoI7u/g6g+oLBRFWnBt1okdeHWQbnSJt
+         Cf4I2wxIAedyLcLxI8NW3Fht64NvjnIFAh1Vz/DMWRvfJe2emBZnZ5gSJyuXU7VRltqE
+         zJ3XuxV0akVjpOHnnxZ2C8BDrNtPbGz3tDzh6UbkATSjwN53m72gdAkpGpHNgkmytKUM
+         KJfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773148111; x=1773752911;
+        d=1e100.net; s=20230601; t=1773148128; x=1773752928;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:references:cc:to:subject:reply-to:from:user-agent
          :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3Qwiu5L5HKkB/c02A8Q4VnU+0vuAdi7H59d55yhEY5A=;
-        b=CwpDv6WyY200ty+Z7t2TOvM6ug8iuRlW27I3Ini8O9I3JG58wY5TbzCK+EGnhDdd4n
-         euJ8aZPAmCj24Bj4zCZ1jXYGKc4o2liRVLKNHqHJq/5nnL6nYU78x/5AY/yhFBH+3ST3
-         hktibs+oEf+siBCoAgrvJ0OJaYyA3TGvT1sdi55AqhUWI/VJjA2cId+ppHgHiYVs+aLv
-         vZSIEBsdgVZFN3UPdLXJZpRVtJonZLlNNWFOC4ZHdHa5cqLsJF5f663gPVmGs92o6oYl
-         dAsAXzisY9cIrdiAb2/K2yrF3vaeVpuZgEHQ7hhSkjvNzHicYvsSCtUQ1nJcuNwtMNQD
-         Ar9A==
-X-Forwarded-Encrypted: i=1; AJvYcCW41I7FMF9f3L7Pda/hYU5971nDsXeekrFBRM+s8UPNNWjM7wmKyPD030O0TW+E3VBZkEaIJiRqwNicgJFgQ8LMfA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwTNnUKZP0ria7Jygyqac0uE+TrpdggRhA7/7yHs1PSHL540XO2
-	gdh2mbpL3S/rL7qvFlN7oJlbBt88Mbz7Y74GlLfqujjXp6h3RPRQ7XF9MP8+svlP+nk=
-X-Gm-Gg: ATEYQzyiklzRRh7aAbBpH8O8vNq2dyzg9Q04m7aAhO/TnmJOXg7utDhAP/ZGJop+9IG
-	ULAXrIeQCoTHmbrAD6f+smOucfG2QRPEjohld4YlyRMR7cP1W/3RW6NAo037ABFm14h3SP1lBpM
-	A6nBlzUTTCblRPn3Ar+bAZf+fBaXdu1qlFGmf3x6tyRFbzbQVQjmNktQpYOFUN5gbB+uPqHnJMA
-	X44i2htUpoVeFrVi/hFv0WbgojziVYqSxchZDInfFydK/ew+cUqNu9w2/wEkVcEKXPQh4k98wNA
-	9wDT54qne1cK/ISP4GGa/00+FgYc5NxCcfwmddAKap/26K2P6XpnamsdZ0MqlpOGN3Z/LJqblHz
-	lny0r+GCi168lJX2YqoTf10UoL1qehpSDpnKsLUFaVpN7GKjQ7Uca+1R60dj4luEVXfmFfs1hsE
-	/ZfvdyHakJUfpNC6PYY4/VdQq2WzS3zaDXpYLYzohE85BN2AZLJCvM/R4y6qzM6Dr4YhNC25BR/
-	F3f
-X-Received: by 2002:a05:600c:608c:b0:485:419c:4eab with SMTP id 5b1f17b1804b1-485419c50a9mr57466295e9.6.1773148111022;
-        Tue, 10 Mar 2026 06:08:31 -0700 (PDT)
+        bh=2TRBpSzG7oKf4unFVV/7GqP3xJjjnnjPULashk6tmNc=;
+        b=OfiSFjrVchcd3i5SpBOyLUdV3htNooFF6wYaQIcQlgVTyHTS9K8LMsuwXKFi/Gvqw5
+         TFnw7LjF8iYJUS7lAIJ4mp7Kf7y5DTIRzBs2UwCwwsBmuTEjEk8itYn9i0qEzl/vGFY1
+         9/CmbPQs1qCS1sh/neqQtMeDBbp3C32ObLLZvPID9bYiRlp2FOMWhjYdIkBPdefl6hUF
+         5yPWLVqlcu/YY+qdpuoKqI1eIIDY5PV0WLFefa2rFIlrXOyROQNEuUHITBXLn6tdH1u2
+         w/catYdX6M1vObBnsheqa7+FSB3T5AnhQOwJiM6YPpfUtqfWSYUPG6Tz8eyMWR4TIKLO
+         lxCw==
+X-Forwarded-Encrypted: i=1; AJvYcCVbeRsuw3zv1b9px68zOizptpiZKqbt+fOMZz8ARENElr4uYEIeF1gieRqSJbhK6UylyBAuXna7CnH0JpddOsUSKg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxjtJvYsVrl3KpmAkxBVZl7TofeJlZkhdvlg7tfM9J6zbpQGfSL
+	kZ+c88V3GWa9RZKiz4i4r7IKYqXkVWER0BgG3mzxjgvgRt11iQcbaUHjKlljbi3HHRg=
+X-Gm-Gg: ATEYQzyWl/uw9LN7AB4UgYcB32B7QAWEp1duv9WkhqQQZpbX1uIptJggFr+LC+bYUaE
+	44dX2UuE+Bi0UMYGEDUbbljS8fEKr7ye57yL1eTm46y64vT9sqWwiQCfKz72MQMbTSh5VRuadeN
+	yFxdi1CSbypQ8lrQzLdxmC+P2L2AnlAuriUr3wJ7WkDZ7DsYE3I5VAOZX3VhJl0adQs1MEMz+W1
+	K8R8y82W81u/X/EDO25IqWbnSzCYh4qVl2VES5E6ZFA45Sln5yOcME7DQQ4eP3D9stTSC5Ufm+K
+	9bHUHB/Y10lsY2O1ZcOJiWMBE5/3ePvU/pV5m45Jrhz21hNjcRKpePt8LwrnhpH7/9ucovOdQLy
+	+9NYDafSye1FvN4fSFKP1xNv91MP8oUX7BQVoy+tDtuqOf7ROmjoqRJ2JxIEbzerdp5tZ7OTGop
+	MLJgAdAHpfAJ1ZZYGkV0e8W56+MLxBp6Zy+aeExqGbKpULGLVmz8mQ4F5JmnRiTi4F3gOg4tvW1
+	z17
+X-Received: by 2002:a05:600c:e40b:b0:485:3f1c:d887 with SMTP id 5b1f17b1804b1-4853f1cd968mr77411645e9.26.1773148128029;
+        Tue, 10 Mar 2026 06:08:48 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:106d:1080:4d81:e92:c4c0:3c45? ([2a01:e0a:106d:1080:4d81:e92:c4c0:3c45])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-485237e8095sm216735465e9.2.2026.03.10.06.08.29
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48541b8d4easm78639805e9.15.2026.03.10.06.08.47
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Mar 2026 06:08:30 -0700 (PDT)
-Message-ID: <d6ae5f54-1471-4427-a95e-d5c40d2d1d2f@linaro.org>
-Date: Tue, 10 Mar 2026 14:08:29 +0100
+        Tue, 10 Mar 2026 06:08:47 -0700 (PDT)
+Message-ID: <c3e57d35-06e6-4865-b206-90f2579ce70c@linaro.org>
+Date: Tue, 10 Mar 2026 14:08:46 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -90,8 +90,8 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
 Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 4/5] dt-bindings: display: panel: Align style of
- additionalProperties
+Subject: Re: [PATCH 5/5] dt-bindings: display: panel: Align style of "true"
+ properties
 To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
  Artur Weber <aweber.kernel@gmail.com>, Jessica Zhang
  <jesszhan0024@gmail.com>,
@@ -106,7 +106,7 @@ To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 References: <20260306-dt-bindings-display-panel-clean-v1-0-3086eda1efaf@oss.qualcomm.com>
- <20260306-dt-bindings-display-panel-clean-v1-4-3086eda1efaf@oss.qualcomm.com>
+ <20260306-dt-bindings-display-panel-clean-v1-5-3086eda1efaf@oss.qualcomm.com>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -133,22 +133,22 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20260306-dt-bindings-display-panel-clean-v1-4-3086eda1efaf@oss.qualcomm.com>
+In-Reply-To: <20260306-dt-bindings-display-panel-clean-v1-5-3086eda1efaf@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 41DA7251E7E
+X-Rspamd-Queue-Id: 0273A251321
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-29128-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-29129-lists,linux-renesas-soc=lfdr.de];
 	FREEMAIL_TO(0.00)[oss.qualcomm.com,gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,ti.com,ideasonboard.com];
 	HAS_ORG_HEADER(0.00)[];
 	TO_DN_SOME(0.00)[];
@@ -156,13 +156,13 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCPT_COUNT_TWELVE(0.00)[19];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.0:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,linaro.org:dkim,linaro.org:email,linaro.org:mid,linaro.org:replyto,qualcomm.com:email,0.0.0.1:email];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,qualcomm.com:email,linaro.org:dkim,linaro.org:email,linaro.org:mid,linaro.org:replyto];
 	HAS_REPLYTO(0.00)[neil.armstrong@linaro.org];
 	PRECEDENCE_BULK(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	FROM_NEQ_ENVFROM(0.00)[neil.armstrong@linaro.org,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt];
 	MID_RHS_MATCH_FROM(0.00)[];
@@ -172,390 +172,239 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 X-Rspamd-Action: no action
 
 On 3/6/26 13:02, Krzysztof Kozlowski wrote:
-> For code readability the bindings are expected to follow order shown in
-> example-schema.yaml - put the additionalProperties/unevaluatedProperties
-> entry at the end, after listing all required properties and possible
-> "allOf:if:then:" conditions.  Meaning of this style is to close the
-> schema, after listing what it contains, with final "nothing more is
-> allowed".
-> 
-> Move the code around adjusting it to coding style.  No functional
+> For code readability, several bindings which list allowed properties
+> with ": true" syntax group them in one place, without line breaks
+> between each.  Align a few bindings to match this style.  No functional
 > impact.
 > 
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 > ---
->   .../devicetree/bindings/display/panel/advantech,idk-1110wr.yaml       | 4 ++--
->   .../devicetree/bindings/display/panel/advantech,idk-2121wr.yaml       | 4 ++--
->   .../devicetree/bindings/display/panel/bananapi,s070wv20-ct16.yaml     | 4 ++--
->   Documentation/devicetree/bindings/display/panel/dlc,dlc0700yzg-1.yaml | 4 ++--
->   Documentation/devicetree/bindings/display/panel/himax,hx8394.yaml     | 4 ++--
->   Documentation/devicetree/bindings/display/panel/ilitek,ili9341.yaml   | 4 ++--
->   .../devicetree/bindings/display/panel/mitsubishi,aa104xd12.yaml       | 4 ++--
->   .../devicetree/bindings/display/panel/mitsubishi,aa121td01.yaml       | 4 ++--
->   .../devicetree/bindings/display/panel/orisetech,otm8009a.yaml         | 4 ++--
->   Documentation/devicetree/bindings/display/panel/pda,91-00156-a0.yaml  | 4 ++--
->   Documentation/devicetree/bindings/display/panel/raydium,rm68200.yaml  | 4 ++--
->   .../devicetree/bindings/display/panel/samsung,atna33xc20.yaml         | 4 ++--
->   .../devicetree/bindings/display/panel/sgd,gktw70sdae4se.yaml          | 4 ++--
->   .../devicetree/bindings/display/panel/startek,kd070fhfid015.yaml      | 4 ++--
->   Documentation/devicetree/bindings/display/panel/visionox,r66451.yaml  | 4 ++--
->   Documentation/devicetree/bindings/display/panel/visionox,rm69299.yaml | 4 ++--
->   .../devicetree/bindings/display/panel/visionox,vtdr6130.yaml          | 4 ++--
->   17 files changed, 34 insertions(+), 34 deletions(-)
+>   .../devicetree/bindings/display/panel/feiyang,fy07024di26a30d.yaml | 1 -
+>   Documentation/devicetree/bindings/display/panel/himax,hx8394.yaml  | 3 ---
+>   .../devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml      | 2 --
+>   .../devicetree/bindings/display/panel/leadtek,ltk050h3146w.yaml    | 1 +
+>   .../devicetree/bindings/display/panel/leadtek,ltk500hd1829.yaml    | 1 +
+>   .../devicetree/bindings/display/panel/mantix,mlaf057we51-x.yaml    | 5 ++---
+>   .../devicetree/bindings/display/panel/novatek,nt35510.yaml         | 3 ++-
+>   .../devicetree/bindings/display/panel/renesas,r61307.yaml          | 3 +--
+>   .../devicetree/bindings/display/panel/renesas,r69328.yaml          | 1 -
+>   .../devicetree/bindings/display/panel/rocktech,jh057n00900.yaml    | 5 ++---
+>   .../bindings/display/panel/sony,tulip-truly-nt35521.yaml           | 2 --
+>   .../devicetree/bindings/display/panel/startek,kd070fhfid015.yaml   | 7 ++-----
+>   12 files changed, 11 insertions(+), 23 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/panel/advantech,idk-1110wr.yaml b/Documentation/devicetree/bindings/display/panel/advantech,idk-1110wr.yaml
-> index f6fea9085aab..76b48836ddf6 100644
-> --- a/Documentation/devicetree/bindings/display/panel/advantech,idk-1110wr.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/advantech,idk-1110wr.yaml
-> @@ -41,8 +41,6 @@ properties:
->     panel-timing: true
+> diff --git a/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.yaml b/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.yaml
+> index 92df69e80a82..f288fa2390c9 100644
+> --- a/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.yaml
+> @@ -28,7 +28,6 @@ properties:
+>   
 >     port: true
->   
-> -additionalProperties: false
+>     reset-gpios: true
 > -
->   required:
->     - compatible
->     - data-mapping
-> @@ -51,6 +49,8 @@ required:
->     - panel-timing
->     - port
->   
-> +additionalProperties: false
-> +
->   examples:
->     - |+
->       panel {
-> diff --git a/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml b/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml
-> index 05ca3b2385f8..c9b066e69e2f 100644
-> --- a/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml
-> @@ -56,8 +56,6 @@ properties:
->         - port@0
->         - port@1
->   
-> -additionalProperties: false
-> -
->   required:
->     - compatible
->     - width-mm
-> @@ -65,6 +63,8 @@ required:
->     - data-mapping
->     - panel-timing
->   
-> +additionalProperties: false
-> +
->   examples:
->     - |+
->       panel-lvds {
-> diff --git a/Documentation/devicetree/bindings/display/panel/bananapi,s070wv20-ct16.yaml b/Documentation/devicetree/bindings/display/panel/bananapi,s070wv20-ct16.yaml
-> index bbf127fb28f7..46e7cff5b2fa 100644
-> --- a/Documentation/devicetree/bindings/display/panel/bananapi,s070wv20-ct16.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/bananapi,s070wv20-ct16.yaml
-> @@ -22,10 +22,10 @@ properties:
->     enable-gpios: true
->     port: true
->   
-> -additionalProperties: false
-> -
->   required:
->     - compatible
->     - power-supply
->   
-> +additionalProperties: false
-> +
->   ...
-> diff --git a/Documentation/devicetree/bindings/display/panel/dlc,dlc0700yzg-1.yaml b/Documentation/devicetree/bindings/display/panel/dlc,dlc0700yzg-1.yaml
-> index 287e2feb6533..9a2c532dbc92 100644
-> --- a/Documentation/devicetree/bindings/display/panel/dlc,dlc0700yzg-1.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/dlc,dlc0700yzg-1.yaml
-> @@ -22,10 +22,10 @@ properties:
 >     backlight: true
->     port: true
 >   
-> -additionalProperties: false
-> -
 >   required:
->     - compatible
->     - power-supply
->   
-> +additionalProperties: false
-> +
->   ...
 > diff --git a/Documentation/devicetree/bindings/display/panel/himax,hx8394.yaml b/Documentation/devicetree/bindings/display/panel/himax,hx8394.yaml
-> index 5725a587e35c..182a2b825e1c 100644
+> index 182a2b825e1c..84e840e0224f 100644
 > --- a/Documentation/devicetree/bindings/display/panel/himax,hx8394.yaml
 > +++ b/Documentation/devicetree/bindings/display/panel/himax,hx8394.yaml
-> @@ -54,8 +54,6 @@ required:
->     - vcc-supply
->     - iovcc-supply
->   
-> -additionalProperties: false
-> -
->   allOf:
->     - $ref: panel-common.yaml#
->     - if:
-> @@ -68,6 +66,8 @@ allOf:
->         required:
->           - reset-gpios
->   
-> +additionalProperties: false
-> +
->   examples:
->     - |
->       #include <dt-bindings/gpio/gpio.h>
-> diff --git a/Documentation/devicetree/bindings/display/panel/ilitek,ili9341.yaml b/Documentation/devicetree/bindings/display/panel/ilitek,ili9341.yaml
-> index 3cada0f82951..aeb7cb26c058 100644
-> --- a/Documentation/devicetree/bindings/display/panel/ilitek,ili9341.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/ilitek,ili9341.yaml
-> @@ -49,8 +49,6 @@ properties:
->     vddi-led-supply:
->       description: Voltage supply for the LED driver (1.65 .. 3.3 V)
->   
-> -unevaluatedProperties: false
-> -
->   required:
->     - compatible
->     - reg
-> @@ -66,6 +64,8 @@ then:
->     required:
->       - port
->   
-> +unevaluatedProperties: false
-> +
->   examples:
->     - |+
->       #include <dt-bindings/gpio/gpio.h>
-> diff --git a/Documentation/devicetree/bindings/display/panel/mitsubishi,aa104xd12.yaml b/Documentation/devicetree/bindings/display/panel/mitsubishi,aa104xd12.yaml
-> index 96621b89ae9e..43e98bb07c38 100644
-> --- a/Documentation/devicetree/bindings/display/panel/mitsubishi,aa104xd12.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/mitsubishi,aa104xd12.yaml
-> @@ -47,8 +47,6 @@ properties:
->     panel-timing: true
->     port: true
->   
-> -additionalProperties: false
-> -
->   required:
->     - compatible
->     - data-mapping
-> @@ -57,6 +55,8 @@ required:
->     - panel-timing
->     - port
->   
-> +additionalProperties: false
-> +
->   examples:
->     - |+
->   
-> diff --git a/Documentation/devicetree/bindings/display/panel/mitsubishi,aa121td01.yaml b/Documentation/devicetree/bindings/display/panel/mitsubishi,aa121td01.yaml
-> index 37f01d847aac..2af993d73619 100644
-> --- a/Documentation/devicetree/bindings/display/panel/mitsubishi,aa121td01.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/mitsubishi,aa121td01.yaml
-> @@ -44,8 +44,6 @@ properties:
->     panel-timing: true
->     port: true
->   
-> -additionalProperties: false
-> -
->   required:
->     - compatible
->     - vcc-supply
-> @@ -55,6 +53,8 @@ required:
->     - panel-timing
->     - port
->   
-> +additionalProperties: false
-> +
->   examples:
->     - |+
->       panel {
-> diff --git a/Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.yaml b/Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.yaml
-> index 1e4f140f48b8..1f697dab832b 100644
-> --- a/Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/orisetech,otm8009a.yaml
-> @@ -31,12 +31,12 @@ properties:
->     reset-gpios:
+> @@ -33,11 +33,8 @@ properties:
 >       maxItems: 1
 >   
-> -additionalProperties: false
+>     reset-gpios: true
 > -
->   required:
->     - compatible
->     - reg
+>     backlight: true
+> -
+>     rotation: true
+> -
+>     port: true
 >   
-> +additionalProperties: false
-> +
->   examples:
->     - |
->       dsi {
-> diff --git a/Documentation/devicetree/bindings/display/panel/pda,91-00156-a0.yaml b/Documentation/devicetree/bindings/display/panel/pda,91-00156-a0.yaml
-> index ccd3623b4955..871e4c2d9824 100644
-> --- a/Documentation/devicetree/bindings/display/panel/pda,91-00156-a0.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/pda,91-00156-a0.yaml
-> @@ -21,11 +21,11 @@ properties:
+>     vcc-supply:
+> diff --git a/Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml b/Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml
+> index 5802fb3c9ffe..2fa07ec55b08 100644
+> --- a/Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml
+> @@ -35,9 +35,7 @@ properties:
+>       description: supply regulator for VCCIO, usually 1.8V
+>   
+>     reset-gpios: true
+> -
+>     backlight: true
+> -
+>     port: true
+>   
+>   required:
+> diff --git a/Documentation/devicetree/bindings/display/panel/leadtek,ltk050h3146w.yaml b/Documentation/devicetree/bindings/display/panel/leadtek,ltk050h3146w.yaml
+> index 5fcea62fd58f..2f49a6bbf3d7 100644
+> --- a/Documentation/devicetree/bindings/display/panel/leadtek,ltk050h3146w.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/leadtek,ltk050h3146w.yaml
+> @@ -25,6 +25,7 @@ properties:
 >     backlight: true
 >     port: true
+>     reset-gpios: true
+> +
+>     iovcc-supply:
+>       description: regulator that supplies the iovcc voltage
+>     vci-supply:
+> diff --git a/Documentation/devicetree/bindings/display/panel/leadtek,ltk500hd1829.yaml b/Documentation/devicetree/bindings/display/panel/leadtek,ltk500hd1829.yaml
+> index b0e2c82232d3..3f56047f4469 100644
+> --- a/Documentation/devicetree/bindings/display/panel/leadtek,ltk500hd1829.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/leadtek,ltk500hd1829.yaml
+> @@ -24,6 +24,7 @@ properties:
+>     backlight: true
+>     port: true
+>     reset-gpios: true
+> +
+>     iovcc-supply:
+>       description: regulator that supplies the iovcc voltage
+>     vcc-supply:
+> diff --git a/Documentation/devicetree/bindings/display/panel/mantix,mlaf057we51-x.yaml b/Documentation/devicetree/bindings/display/panel/mantix,mlaf057we51-x.yaml
+> index 74ff772973d6..b8b153a6e6cc 100644
+> --- a/Documentation/devicetree/bindings/display/panel/mantix,mlaf057we51-x.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/mantix,mlaf057we51-x.yaml
+> @@ -22,7 +22,6 @@ properties:
+>         - mantix,mlaf057we51-x
+>         - ys,ys57pss36bh5gq
 >   
-> -additionalProperties: false
+> -  port: true
+>     reg:
+>       maxItems: 1
+>       description: DSI virtual channel
+> @@ -36,13 +35,13 @@ properties:
+>     vddi-supply:
+>       description: 1.8V I/O voltage supply
+>   
+> -  reset-gpios: true
 > -
+>     mantix,tp-rstn-gpios:
+>       maxItems: 1
+>       description: second reset line that triggers DSI config load
+>   
+>     backlight: true
+> +  port: true
+> +  reset-gpios: true
+>   
 >   required:
 >     - compatible
->     - power-supply
->     - backlight
->   
-> +additionalProperties: false
-> +
->   ...
-> diff --git a/Documentation/devicetree/bindings/display/panel/raydium,rm68200.yaml b/Documentation/devicetree/bindings/display/panel/raydium,rm68200.yaml
-> index 46fe1014ebc4..8fb7c013dfb8 100644
-> --- a/Documentation/devicetree/bindings/display/panel/raydium,rm68200.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/raydium,rm68200.yaml
-> @@ -33,13 +33,13 @@ properties:
->     reset-gpios:
+> diff --git a/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml b/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml
+> index b39fd0c5a48a..43d134daf0ac 100644
+> --- a/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml
+> @@ -28,13 +28,14 @@ properties:
+>     reg:
 >       maxItems: 1
 >   
-> -additionalProperties: false
-> -
+> -  reset-gpios: true
+>     vdd-supply:
+>       description: regulator that supplies the vdd voltage
+>     vddi-supply:
+>       description: regulator that supplies the vddi voltage
+> +
+>     backlight: true
+>     port: true
+> +  reset-gpios: true
+>   
 >   required:
 >     - compatible
->     - power-supply
->     - reg
+> diff --git a/Documentation/devicetree/bindings/display/panel/renesas,r61307.yaml b/Documentation/devicetree/bindings/display/panel/renesas,r61307.yaml
+> index 90cce221c0d1..3d7761717b74 100644
+> --- a/Documentation/devicetree/bindings/display/panel/renesas,r61307.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/renesas,r61307.yaml
+> @@ -33,8 +33,6 @@ properties:
+>     iovcc-supply:
+>       description: Regulator for 1.8V IO power supply.
 >   
-> +additionalProperties: false
-> +
->   examples:
->     - |
->       dsi {
-> diff --git a/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml b/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml
-> index f1723e910252..1bbe0da3997c 100644
-> --- a/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml
-> @@ -43,13 +43,13 @@ properties:
->     no-hpd: true
->     hpd-gpios: true
->   
-> -additionalProperties: false
+> -  backlight: true
 > -
->   required:
->     - compatible
->     - enable-gpios
->     - power-supply
+>     renesas,gamma:
+>       $ref: /schemas/types.yaml#/definitions/uint32
+>       description:
+> @@ -51,6 +49,7 @@ properties:
+>       type: boolean
+>       description: digital contrast adjustment
 >   
-> +additionalProperties: false
-> +
->   examples:
->     - |
->       #include <dt-bindings/clock/qcom,rpmh.h>
-> diff --git a/Documentation/devicetree/bindings/display/panel/sgd,gktw70sdae4se.yaml b/Documentation/devicetree/bindings/display/panel/sgd,gktw70sdae4se.yaml
-> index e32d9188a3e0..1beb4ba92248 100644
-> --- a/Documentation/devicetree/bindings/display/panel/sgd,gktw70sdae4se.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/sgd,gktw70sdae4se.yaml
-> @@ -41,8 +41,6 @@ properties:
->     panel-timing: true
+> +  backlight: true
+>     reset-gpios: true
 >     port: true
 >   
-> -additionalProperties: false
-> -
->   required:
->     - compatible
->     - port
-> @@ -51,6 +49,8 @@ required:
->     - height-mm
->     - panel-timing
+> diff --git a/Documentation/devicetree/bindings/display/panel/renesas,r69328.yaml b/Documentation/devicetree/bindings/display/panel/renesas,r69328.yaml
+> index 1cd219b510ee..740185f778a1 100644
+> --- a/Documentation/devicetree/bindings/display/panel/renesas,r69328.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/renesas,r69328.yaml
+> @@ -33,7 +33,6 @@ properties:
+>       description: Regulator for 1.8V IO power supply.
 >   
-> +additionalProperties: false
-> +
->   examples:
->     - |+
->       panel {
+>     backlight: true
+> -
+>     reset-gpios: true
+>     port: true
+>   
+> diff --git a/Documentation/devicetree/bindings/display/panel/rocktech,jh057n00900.yaml b/Documentation/devicetree/bindings/display/panel/rocktech,jh057n00900.yaml
+> index 4ae152cc55e0..ebfc825b8346 100644
+> --- a/Documentation/devicetree/bindings/display/panel/rocktech,jh057n00900.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/rocktech,jh057n00900.yaml
+> @@ -33,7 +33,6 @@ properties:
+>         # Xingbangda XBD599 5.99" 720x1440 TFT LCD panel
+>         - xingbangda,xbd599
+>   
+> -  port: true
+>     reg:
+>       maxItems: 1
+>       description: DSI virtual channel
+> @@ -44,9 +43,9 @@ properties:
+>     iovcc-supply:
+>       description: I/O voltage supply
+>   
+> -  reset-gpios: true
+> -
+>     backlight: true
+> +  port: true
+> +  reset-gpios: true
+>     rotation: true
+>   
+>   required:
+> diff --git a/Documentation/devicetree/bindings/display/panel/sony,tulip-truly-nt35521.yaml b/Documentation/devicetree/bindings/display/panel/sony,tulip-truly-nt35521.yaml
+> index a58a31349757..85c5dee65383 100644
+> --- a/Documentation/devicetree/bindings/display/panel/sony,tulip-truly-nt35521.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/sony,tulip-truly-nt35521.yaml
+> @@ -31,9 +31,7 @@ properties:
+>       description: Negative 5V supply
+>   
+>     reset-gpios: true
+> -
+>     enable-gpios: true
+> -
+>     port: true
+>   
+>   required:
 > diff --git a/Documentation/devicetree/bindings/display/panel/startek,kd070fhfid015.yaml b/Documentation/devicetree/bindings/display/panel/startek,kd070fhfid015.yaml
-> index d817f998cddc..0819f38a9d2c 100644
+> index 0819f38a9d2c..7fd9364fa385 100644
 > --- a/Documentation/devicetree/bindings/display/panel/startek,kd070fhfid015.yaml
 > +++ b/Documentation/devicetree/bindings/display/panel/startek,kd070fhfid015.yaml
-> @@ -31,8 +31,6 @@ properties:
+> @@ -16,8 +16,6 @@ properties:
+>     compatible:
+>       const: startek,kd070fhfid015
 >   
+> -  enable-gpios: true
+> -
+>     iovcc-supply:
+>       description: Reference to the regulator powering the panel IO pins.
+>   
+> @@ -25,11 +23,10 @@ properties:
+>       maxItems: 1
+>       description: DSI virtual channel
+>   
+> -  reset-gpios: true
+> -
+> +  enable-gpios: true
+>     port: true
+> -
 >     power-supply: true
+> +  reset-gpios: true
 >   
-> -additionalProperties: false
-> -
 >   required:
 >     - compatible
->     - enable-gpios
-> @@ -42,6 +40,8 @@ required:
->     - port
->     - power-supply
->   
-> +additionalProperties: false
-> +
->   examples:
->     - |
->       #include <dt-bindings/gpio/gpio.h>
-> diff --git a/Documentation/devicetree/bindings/display/panel/visionox,r66451.yaml b/Documentation/devicetree/bindings/display/panel/visionox,r66451.yaml
-> index 187840bb76c7..49ef45c03593 100644
-> --- a/Documentation/devicetree/bindings/display/panel/visionox,r66451.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/visionox,r66451.yaml
-> @@ -25,8 +25,6 @@ properties:
->     port: true
->     reset-gpios: true
->   
-> -additionalProperties: false
-> -
->   required:
->     - compatible
->     - reg
-> @@ -35,6 +33,8 @@ required:
->     - reset-gpios
->     - port
->   
-> +additionalProperties: false
-> +
->   examples:
->     - |
->       #include <dt-bindings/gpio/gpio.h>
-> diff --git a/Documentation/devicetree/bindings/display/panel/visionox,rm69299.yaml b/Documentation/devicetree/bindings/display/panel/visionox,rm69299.yaml
-> index f0a82f0ff790..f61a528c0413 100644
-> --- a/Documentation/devicetree/bindings/display/panel/visionox,rm69299.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/visionox,rm69299.yaml
-> @@ -36,8 +36,6 @@ properties:
->     port: true
->     reset-gpios: true
->   
-> -additionalProperties: false
-> -
->   required:
->     - compatible
->     - reg
-> @@ -46,6 +44,8 @@ required:
->     - reset-gpios
->     - port
->   
-> +additionalProperties: false
-> +
->   examples:
->     - |
->       dsi {
-> diff --git a/Documentation/devicetree/bindings/display/panel/visionox,vtdr6130.yaml b/Documentation/devicetree/bindings/display/panel/visionox,vtdr6130.yaml
-> index d5a8295106c1..c99f4146f1bb 100644
-> --- a/Documentation/devicetree/bindings/display/panel/visionox,vtdr6130.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/visionox,vtdr6130.yaml
-> @@ -26,8 +26,6 @@ properties:
->     port: true
->     reset-gpios: true
->   
-> -additionalProperties: false
-> -
->   required:
->     - compatible
->     - reg
-> @@ -37,6 +35,8 @@ required:
->     - reset-gpios
->     - port
->   
-> +additionalProperties: false
-> +
->   examples:
->     - |
->       #include <dt-bindings/gpio/gpio.h>
 > 
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
