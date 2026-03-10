@@ -1,80 +1,80 @@
-Return-Path: <linux-renesas-soc+bounces-29161-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29162-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cDXEHWqNsGkukgIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29161-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 22:30:18 +0100
+	id UD9jCGiNsGkukgIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29162-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 22:30:16 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E74E2584E1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 22:30:18 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9D882584D2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 22:30:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id D22D63053BC0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 21:29:56 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 359623026B5F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 21:30:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47B213EE1CE;
-	Tue, 10 Mar 2026 21:29:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 054023EE1E5;
+	Tue, 10 Mar 2026 21:29:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="msKtcptS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DZ5szW7o"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5325C3ED131
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2026 21:29:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 401563CFF6E
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2026 21:29:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773178192; cv=none; b=tjYhxQmz1Q2MW20bmnravP0JbqyPd2Jw2z5Oin+mwVIboXMJ2KMVik7xgU3hOnt3VzeAVgvXxUyBJw1XK9lKrEpuT3VR+arzj0IxNxuVitp7OcKJarWU2pw0ogpN4ZAnb43lYOCC8uDZF5DwSOYVeznUQWdG30ZWDlQtY4XZD9M=
+	t=1773178194; cv=none; b=jufD+++lah+1BAjG7UD6KC3ygVTOXfhCF5elbwgqAnQCbNUm5cJQ6wcuTudhn1LoaXJ15l3jOlYqm34F9MZKSvnFQ8fTkTgxJzIDAhiGgIzZbrVvwFZ+s2JD8a6xruyk+D3RfnDpUWApeDq6DNMkxPlDZ9h8HNNnPoinMStJVQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773178192; c=relaxed/simple;
-	bh=DzpIfCbwM6vKhLFzRzo9xoVVQJBktFpsxzl4DK7l6eg=;
+	s=arc-20240116; t=1773178194; c=relaxed/simple;
+	bh=ogXyPVzKzbJQ53vkSS2qbngNk39fkQyG1JxarA4s1mE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HvY6zXu9tEk8BLpJJsg6YHmMvpKHg1s2udESMUBUNAsGra8E/fv+2UZdGei25cdDBvXsFYGNrUzdEbngCj52Zi02QZTPNRsKGKRafetEAs1tmhKyDsst/jvN3pYiYYyiDdC4rZm3GO5DHd8S7R9TgtIK7gHq8ggObUr+wwy4f90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=msKtcptS; arc=none smtp.client-ip=209.85.221.51
+	 MIME-Version; b=hpfR9jZgtP9LAYkp0XjH++HJ7n53lhqzn1WpdY3gcTTKxZJSeObWs1dFup+18gff/nfYSPC6SlOexT85mlfGldIt28of3dCxJlS2J9//bxOFAbm7lc2BNTj7T56kbs5KJ6lCMQ3jXbsfXkzeRT2WlI5j5tccAsOE8LtDkNE5tog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DZ5szW7o; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-439b611274bso6532803f8f.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2026 14:29:49 -0700 (PDT)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-48535a0ef86so25610285e9.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2026 14:29:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773178187; x=1773782987; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1773178188; x=1773782988; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5NgqHv/g3elLCqPvt60P5KwNeI0nXk/rRJivDr29tuA=;
-        b=msKtcptSHt1rIa/eEITehzKqQO14GY9wxdtchpLiJ1CFcD9IXA87rRIu8ZG9OXr3kp
-         2UQgyU3V+0HNYsP10xkQSHpJ+6RIKGtxzcIZ2iv9K3U6QDZu45KwdYlL6bE7XBiGIdm6
-         geHFiyweAIW/1M3V1fTbo5MVP+AIEYIdc6KYQY1Jb7xNjXwz/o/AnrRPYspgUhzTtMW7
-         kxtD8oxk0EXX7SeM00WXekPK3/mEx0PEzMFWupwEF8ANbK28CAvzI01Gam2O0tIo2MCc
-         eQQ54/Ia6weS37KsZINmLTIN5mczWYp7HFi5FKW5M7eg9Zk7JbbfV8sDn69eLryrBLc/
-         otzA==
+        bh=txwgTwUpWJVP1W5FlgZT0bJMXVPZO5xS2ZVTbzY6hVg=;
+        b=DZ5szW7oEauAO7ms8SG/B6UeIj8FQmP+4C47LgSZCbgnNfqtt2A8ke7pqX2hKM8Qwj
+         hjXOXnNBqhAQUhHDILCQHMxgn/7uzA3ucafuT4Y6tkQ7FlKl5aYlVzY5qSb1P+XflLHy
+         WljqsCgYWC4M6SUFiV/pFGv10bms7jCbbsowhHIyQS2sTWpVqbVucmOglJDCjhjk/cQk
+         iGw34vLMEz4Fk5bO8b8ldq50Ro/9X3jzI8yD5tOp4fnikp1e4aPr54WnLJ8WVUca70Uw
+         b37FVKUIeF/6fBIrNcRlYUZuEsr4cg9EsYYp+U+ksILtVoY6JFR7aqyHmXuyv0NKeQys
+         05qA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773178187; x=1773782987;
+        d=1e100.net; s=20230601; t=1773178188; x=1773782988;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=5NgqHv/g3elLCqPvt60P5KwNeI0nXk/rRJivDr29tuA=;
-        b=bxVw2dDO6f8HpnzAaJvHKIX+GH2RekwtbkiNAviax1SEyzFPaaDN9YsE4WzfUjxigW
-         HOsNSv1onq/bmYC9istG9Q5tqj3bIDU1W0Edh8rP7dDcMxzBk4m7J39QHlTIG5cra3m1
-         iKs6+ob2jtttAgJ86tv3T09bADZ3+nOQK+11+KQ5AvmhGd6IuHcQnrs1qqQ00eMD8rgd
-         vfSGdYKAljTQyKhYDjDSEyOcKqwUjgOwYvGNFdDqd6SbMygHZlG/EWmKfhShMc+STxvT
-         n+aa7Alvoe1pWbSsBRlUP7+D8+J8U/QY4WpVCj9++JbLOwwwNnB30M6jjXEP5pyB1MQF
-         /GUg==
-X-Forwarded-Encrypted: i=1; AJvYcCX9KpiE2mXG/tkZ5xN1TFoZtwzGwn1k9ybLfw/7866JPQzk6j4rlp3y0V97f21k6j2eWA/Vk0vIkhtsrOguawYBTA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx3tjB5WrNgQc4ctzqDrghJFsJIzEWGjthPKnS8r9dm747NyAgf
-	/mrXMiJvMwCg83zUaUDxdVvnopvoCnOrOq2pA/f403u5ZQmm5g6/gHOE
-X-Gm-Gg: ATEYQzx+DRsjPOa1sCx7zgy3lCMXmiuY7RTuhiJyOgypUH3316VuuHt8jC7vJv1dVip
-	21OqrBf3G8rsFxgkL7iisow5SGc7kUE90UTCvDUEJGlJZ4glU4NwEKoGRz5MQZA9kynCx/iyDrL
-	VDpEclrs6qRgEAV7MalhQao2zMmHGeuHLN2O19R+6FTqfKOQBNQFWn79A/5f5ZjPmya8RaYqHeE
-	TwlFPAqXvi83F2/T7oSiUsy+8wgOw9ZN7/h+gSiR4ND3R6FGLYfvyGHV6Y1qrGK/6uX6LPscq9S
-	GjewUY7UlOwMNEet1mUeoT44Oz4+ZDOt8CH5BWxbkh3cR4eNd4bwKYevWritm3NOI2GN/p08ZTb
-	14I1fdYugmNlrQ4VSG99QK5BezEIeR8BfKE9gcLYAXXXUZbxCl+ufslLJ3zhP6/d1rgsQQ3oZS7
-	4v1yTQGMMqS/oyyq1Urph9IFNyruQGqDoDMW6AUp8LmMd9wERxXJHxLtvUWtC1kuehuZXklSXHi
-	iY9mVXwdeCQFU39eroq8wlPOcaIkE4Bjx23pQ==
-X-Received: by 2002:a05:6000:2c04:b0:439:8bee:b986 with SMTP id ffacd0b85a97d-439f8222ea7mr743968f8f.32.1773178187469;
-        Tue, 10 Mar 2026 14:29:47 -0700 (PDT)
+        bh=txwgTwUpWJVP1W5FlgZT0bJMXVPZO5xS2ZVTbzY6hVg=;
+        b=r++5oiVwA19sqSuYJ6z215pXEK3EoGmj9x6B94TGarN11xRshX77c0uvYeqafuMNq1
+         mz+56fvqgK1VdMyw2fhrehfOo+DaAv93HTNemURmUXysYyr9taaYZSsGs6C25wNO6MBv
+         rkaEv8+E15Z/6d8avpmaVztMDUUSr5aySSxSOkMpAbBQftHvEqh8rCjPGAUb0MPyh62U
+         0jhyvI0KucW0Dlf8Dhr7ZfH2wq/KAymvtYfxt9m6o3IO0H8oa/AmZMhheyyMjz99z2lY
+         T2DwYBreikgMpBShg6hJ6Xvqyln1U6h4z+4GkbfLDfDHY3Ttkx16cV9JvA7bs/MTChp9
+         bnaw==
+X-Forwarded-Encrypted: i=1; AJvYcCXoZhMpYbLFD1SWb+Q8RlOIfE8rKVoJH+kr5W7D/6CNA5INkGuG0RFgJFxhz/9Og1m25Afcg+MZNzt9bKXlCHMi8w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyX8IJqRuNrcKhS9mrvDYEZeZAEM1niKmpoT2LBVIF6/WX5fbMm
+	+qddjEoSYD+M7Ej1ekV31KrdvFCxz0oWsTIh/fq1wo2mI2rWOqAOUUrH
+X-Gm-Gg: ATEYQzyKcQYep9QvRktXaMsKxaE5I4SwMnxQ0tH9L4fWhqX7ZrkrpCQ8Log/Q6MzU7+
+	V1Gq608mONt738w5+JwCgW7H2mlqP1kd5R8vaC18uBRiNnkxBr5JNAX5MWqchsTwgSFFFxws6AF
+	HKEXHVFx1QpJ7KgmXgRpuDJL13GkD/OSVse+bq0RKiF9QivY+I0tKvKqUBumsJMLDfnM5WUgbM0
+	u7j/vdFLqd5gKv3F0kOvhiVa5QplaPu4yfNa5o/OuZMSKbWGtmGVWWc/qIcxc86JSiAvvT/47LW
+	tP+xS/lsjouAZS1BHnyJxcb2YW9+NHGCQkMiIUgZ7iFrha0LE876eM/UuxierteGuVPgdHR9CCR
+	y2nnHUPVFNVf2MTT8WVs0uCEpPwp/GZztdbKiiC/03QancvyM+DoGmqIzC9Qv8wTTW9Ibbotb+n
+	1HiC5MRjbGPFee1WYTXCW986rVUcSOxi2zcn7sfpY2Tlr41CR/j5xsYdUdfmKiqyZQ+ywqk67T3
+	TLRxSgjWMNGIZSVRoSoMWa8Kiy0x04p9BNfoQ7PzWM2jd0A
+X-Received: by 2002:a05:600c:4591:b0:480:4a90:1afe with SMTP id 5b1f17b1804b1-4854b123a76mr4529995e9.34.1773178188460;
+        Tue, 10 Mar 2026 14:29:48 -0700 (PDT)
 Received: from iku.Home ([2a06:5906:61b:2d00:82df:eef6:d0c5:70a5])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439f818d37fsm1247104f8f.6.2026.03.10.14.29.46
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439f818d37fsm1247104f8f.6.2026.03.10.14.29.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 10 Mar 2026 14:29:47 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
@@ -92,9 +92,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Prabhakar <prabhakar.csengg@gmail.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 2/3] memory: renesas-rpc-if: Fix duplicate device name on multi-instance platforms
-Date: Tue, 10 Mar 2026 21:29:26 +0000
-Message-ID: <20260310212927.3372410-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 3/3] memory: renesas-rpc-if: Add support for RZ/T2H SoC
+Date: Tue, 10 Mar 2026 21:29:27 +0000
+Message-ID: <20260310212927.3372410-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260310212927.3372410-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20260310212927.3372410-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -105,26 +105,26 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 2E74E2584E1
+X-Rspamd-Queue-Id: D9D882584D2
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-29161-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-29162-lists,linux-renesas-soc=lfdr.de];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_TO(0.00)[kernel.org,glider.be,gmail.com,bp.renesas.com,sang-engineering.com];
 	RCPT_COUNT_TWELVE(0.00)[13];
 	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,renesas.com,bp.renesas.com];
 	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
@@ -135,42 +135,38 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On platforms with multiple xSPI instances, the driver fails to probe
-additional instances due to duplicate sysfs entries:
+Add xSPI (Extended SPI) support for the RZ/T2H SoC. The xSPI IP on RZ/T2H
+is closely related to the RZ/G3E variant with some register bit differences
+in the configuration registers.
 
-  [   86.878242] sysfs: cannot create duplicate filename '/bus/platform/devices/rpc-if-spi'
-
-This occurs because platform_device_alloc() uses pdev->id for the device
-ID, which may be PLATFORM_DEVID_NONE (-1) for multiple instances, causing
-all instances to attempt registration with the same name.
-
-Fix this by using PLATFORM_DEVID_AUTO instead, which automatically assigns
-unique IDs to each device instance, allowing multiple xSPI controllers to
-coexist without naming conflicts.
+Add a new compatible string "renesas,r9a09g077-xspi" for RZ/T2H while
+reusing the existing xspi_info_r9a09g047 OF data. This allows the driver
+to bind correctly on RZ/T2H while the register differences can be handled
+in future updates as the affected configuration registers are not currently
+accessed by the driver.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- drivers/memory/renesas-rpc-if.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/memory/renesas-rpc-if.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/drivers/memory/renesas-rpc-if.c b/drivers/memory/renesas-rpc-if.c
-index 0fb568456164..3755956ae906 100644
+index 3755956ae906..028bd3b4b9e3 100644
 --- a/drivers/memory/renesas-rpc-if.c
 +++ b/drivers/memory/renesas-rpc-if.c
-@@ -1034,7 +1034,7 @@ static int rpcif_probe(struct platform_device *pdev)
- 		return dev_err_probe(dev, PTR_ERR(rpc->spi_clk),
- 				     "cannot get enabled spi clk\n");
- 
--	vdev = platform_device_alloc(name, pdev->id);
-+	vdev = platform_device_alloc(name, PLATFORM_DEVID_AUTO);
- 	if (!vdev)
- 		return -ENOMEM;
- 	vdev->dev.parent = dev;
+@@ -1145,6 +1145,7 @@ static const struct rpcif_info xspi_info_r9a09g047 = {
+ static const struct of_device_id rpcif_of_match[] = {
+ 	{ .compatible = "renesas,r8a7796-rpc-if", .data = &rpcif_info_r8a7796 },
+ 	{ .compatible = "renesas,r9a09g047-xspi", .data = &xspi_info_r9a09g047 },
++	{ .compatible = "renesas,r9a09g077-xspi", .data = &xspi_info_r9a09g047 },
+ 	{ .compatible = "renesas,rcar-gen3-rpc-if", .data = &rpcif_info_gen3 },
+ 	{ .compatible = "renesas,rcar-gen4-rpc-if", .data = &rpcif_info_gen4 },
+ 	{ .compatible = "renesas,rzg2l-rpc-if", .data = &rpcif_info_rz_g2l },
 -- 
 2.53.0
 
