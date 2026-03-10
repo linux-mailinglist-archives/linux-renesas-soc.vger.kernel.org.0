@@ -1,247 +1,295 @@
-Return-Path: <linux-renesas-soc+bounces-29116-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29117-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uI13LnfYr2kLdAIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29116-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 09:38:15 +0100
+	id WBm3JwnZr2kLdAIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29117-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 09:40:41 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35A5124765A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 09:38:15 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D97C24770E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 09:40:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id AEB143072190
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 08:38:13 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id B6D6A301DB96
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 08:40:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A26640FD9A;
-	Tue, 10 Mar 2026 08:38:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B22B442B729;
+	Tue, 10 Mar 2026 08:40:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="cI2HDijV"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="eQ2iiqRd"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011032.outbound.protection.outlook.com [40.107.130.32])
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011047.outbound.protection.outlook.com [40.107.74.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90DCF3EDAD9;
-	Tue, 10 Mar 2026 08:38:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B5F942EEA4
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2026 08:40:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.47
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773131893; cv=fail; b=unljW2e+9JjTACYHMlUI1EXrYpBLVD2t6R/8UC77Lzrxa+9ejbU/K8k7SnllrfKxPp9osbixS7CwF4cCHuAgAlKCS30w5zLK7HY4MIV9gyUN32BdGjPfixQ5qW5aOq2yAI9D7kti7goPor8q/m0QHZsgC1zuPAexp4aFPjXDQuE=
+	t=1773132038; cv=fail; b=cm1cHJHkoTIDJ7PaRaLW8ArYnohaXWBNpk1xUoCsbPK9z6T+AYt4BANABxXFa7KWrcg4xhXJKkznry7zpf57JHHIG0Ona51+JAPFHUOAMjMyhE+8IHZGpdnKLIDrPMjzbaG8aUxiEq7godIRu+gJ4lmJPXsdVjJ2ypvnjpp1dnM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773131893; c=relaxed/simple;
-	bh=cQqb0o+x09W/IvCyHAWg0sZFOHLK3BcUhP1r0oYOkIc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=CgSwAYKpW1nOPxWkYqr/DSZtUXsp9SZRZtDhi6xwqrEKrn7lWpmbGnwYnmkky72ahjM5qmdJvos3TwKJiYbA+PCblHMwjezVKdKaWZPFzaweIVdDybQRALz3tgSIJCPo5VWZDnKnFA2mPAXcDGDtwTWuEK5FovmlPmrcOuxVWzI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=fail (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=cI2HDijV reason="signature verification failed"; arc=fail smtp.client-ip=40.107.130.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	s=arc-20240116; t=1773132038; c=relaxed/simple;
+	bh=o3yjZal8CRHK6MzK2Zyej1MKH8fpfEBFUFauj9ZpLL4=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=DX1J+DkS7x0PQrlhehh0vFYG4ergO/4wz5UKvbQKfJ1Vzdo8hrPb/KFgyEN2/3f8RECs1h8neGgcCuMbBEKi1nVVLrnqRyJhD/gCMG/D04jYaOgxHHld92C7FMY7kzlex/WdmAbSDGuIKqLzoZ4OV8EGR9/HG0+8nwaALVxOkpo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=eQ2iiqRd; arc=fail smtp.client-ip=40.107.74.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OR/11+mCfgNKg8r3o/8i0kaJ7O233jzaXp+pyjsDG1K79btBAyyyW/tP3z4RVVoqGmwzZ3xct6emxSiDFNmN6dUC4452oOMd6yJIvCW3eV2pmfi3C2teHibZqrtjHfd8h0LuPshIQW8fr4IBvexeNnedjycnBy63IuhSvogBFDgfdoZcgI988EYBXbdxPl1Zo5emkdns0uHMQyRL0QT0K4WDaMqW0ejdUnlKZrSmn2AL8xjm3jBtgbRc9DwxxqbO04DjMC+AbWHzb6sSdy3J663FWio9j8+95ItUJS+BuKIla8wAdJvoRwJN7BjqoPtLbuFZoROCZhxLNzijEVcdzQ==
+ b=PtONFQNkmCiKpEtWc4orBd2UsxdQ3lVMsL9/xn39pLQgEeHkLZjjvR9e+mmZF572r6ED7Iv1r4AcJ3IsawjsmyQJV+/e8TDw+IVFVwZ2d3BLghpO0/mCWB7uK58zqBobQM00b7EeWvb5oeOJdAlYU5yC7h74mKtJwjI/xK1PYN3YTgq9kUYmgksrmFR/RXYkGL44WCBY6rsCf5czBk/9nRCu+dzlSAaOvnIFKhiurVAQi3jCAVRlO/iWhNolG3tf2mFHcfBJWwHnFRuTHjzWC1I+UTtFF+/ZSymW7HgMlWWTyXSXppnK1D3MF21bYQ0jDW+XvsGyp4/h/ghV9nWHUw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4DC/WAtPBttyO3YieGx/3i+uqZRqK9wrBUGkfPza3Tg=;
- b=yVEAsFhF2xjP1PtHcShjo5vCoJ6YQDqj7VHEgY2pKjx7skLiBuKdLHqQ+a6RS9ZcFbt3f0LT/Hzd+m+IPfaqcYVeb54BvzvoyW7VKD5O4cKnM+2m0WQnaozt5iEgwTXSuTeb/CHoLnc0T/SFKMhEldPpyKMe1EoYGNlsaVMdHboi4NeEONv+nHjt+wEAtQlbse1TKZCPNA4VwdWm9rzOI54msFOa8hW2qr3FDgFttWNbjQrIzJKh5VUGo0CHxpXuBysaVUxyEaq8vYfWkMLXNjQwT2SnL7qRF6hUDeFTEFY3rcV/Er+8krq+7QmDCtjBgrSiycp31KUHGNUpTxVbAA==
+ bh=qm7NZckmxbrCZpcYiQ2Qd/8WgEQrw7G0GIgeJsn2RNo=;
+ b=EJKSYJlxbVQwJF/YgM80x/MsHtiTVha8iWWoH9H+peV+y+0T9QYjTyuRXH/eig52lJ8yDa0oHValsbUcbPwZjve29hXFov+4Mivti/KbXplZ8lcaFUfaEFQS/knQw6ibhg47vKadt4ydHanGQcZdmdgSrQ1y72qaZFpWxbJF2zj5qaCNa94iiCebZnfhvN8J4pPhGnzSmvYDv7z1caULJzp/Iwyal9lINXbZuaYsDX/lRnOEWpusLVdN6sKIBIVmpOse7OcSMsbnqnNmjU/c+IBYLVPcBVG4+7Z/rqwoifqFSAcViWJ4sTaWkFnwnW9Y6HtUBp2eLyelqs4ey/34fg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4DC/WAtPBttyO3YieGx/3i+uqZRqK9wrBUGkfPza3Tg=;
- b=cI2HDijV8u4poMLbMgSAKiqHQYao38kFB6rI6uWM4tWEOov4BdjYDHNY49qQumGNbOMDbUwQQ+LF+xEycN6t78Q3axGv7LH48QEAD9n/jY7FJSTN89awXWBXzhEQcrWEkMLe8TOGrEsLl1JnKM6lqaDrv5GSpSbNWKCz9oKH2Ze73oVH8DzcqGtggc64p4ZDhwqHSv5A5p5e5X8zk25HuUyhm8UYCBYk0NYWQbq9u5xTi7TcU4NN9DveHMoqghNdnamwm3jeySW0/edPjCgrkWUTdolrZx0uqXQnYPpjvDiY0n9zPeU/7M0KoqVgX0Vz5IKfQZLyhAP2O16eQaUtdg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM9PR04MB8585.eurprd04.prod.outlook.com (2603:10a6:20b:438::13)
- by VI0PR04MB11537.eurprd04.prod.outlook.com (2603:10a6:800:2cb::17) with
+ bh=qm7NZckmxbrCZpcYiQ2Qd/8WgEQrw7G0GIgeJsn2RNo=;
+ b=eQ2iiqRdCAhqRJvXD1lc4voIHKg9hEG5CSlOjbJ98TElpytxRj/Q4eorCuv00edA9TgL6nKTxSci2hftIiJ1NaFHvTTf99NtFhk8udaz5ie5VHsWze/NRGIfPVCBGcVDCTEuPQOmz66XhkWd0sWGHIQjGwFKILSnw7c/bVDwvhk=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by OS3PR01MB9899.jpnprd01.prod.outlook.com (2603:1096:604:1ef::5) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.25; Tue, 10 Mar
- 2026 08:38:03 +0000
-Received: from AM9PR04MB8585.eurprd04.prod.outlook.com
- ([fe80::f010:fca8:7ef:62f4]) by AM9PR04MB8585.eurprd04.prod.outlook.com
- ([fe80::f010:fca8:7ef:62f4%4]) with mapi id 15.20.9678.023; Tue, 10 Mar 2026
- 08:38:03 +0000
-Date: Tue, 10 Mar 2026 10:37:52 +0200
-From: Vladimir Oltean <vladimir.oltean@nxp.com>
-To: Heiko Stuebner <heiko@sntech.de>
-Cc: linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-scsi@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-	spacemit@lists.linux.dev, UNGLinuxDriver@microchip.com,
-	Sandy Huang <hjc@rock-chips.com>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Subject: Re: [PATCH v3 phy-next 10/24] drm/rockchip: dw_hdmi: avoid direct
- dereference of phy->dev.of_node
-Message-ID: <20260310083752.ms6u4qpy3snl4h6w@skbuf>
-References: <20260309190842.927634-1-vladimir.oltean@nxp.com>
- <20260309190842.927634-11-vladimir.oltean@nxp.com>
- <2218670.OBFZWjSADL@phil>
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2218670.OBFZWjSADL@phil>
-X-ClientProxiedBy: WA2P291CA0036.POLP291.PROD.OUTLOOK.COM
- (2603:10a6:1d0:1f::9) To AM9PR04MB8585.eurprd04.prod.outlook.com
- (2603:10a6:20b:438::13)
+ 2026 08:40:24 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::87d1:4928:d55:97de]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::87d1:4928:d55:97de%4]) with mapi id 15.20.9678.024; Tue, 10 Mar 2026
+ 08:40:24 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+	<mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+	<airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+CC: "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, Chris
+ Brandt <Chris.Brandt@renesas.com>, Chris Brandt <Chris.Brandt@renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>, Hien Huynh
+	<hien.huynh.px@renesas.com>, Hugo Villeneuve <hugo@hugovil.com>
+Subject: RE: [PATCH v7] drm: renesas: rz-du: mipi_dsi: Set DSI divider
+Thread-Topic: [PATCH v7] drm: renesas: rz-du: mipi_dsi: Set DSI divider
+Thread-Index: AQHcp4u/eZzblQs3SEG9Nd1aSbBwPLWbGdAQgAxo2AA=
+Date: Tue, 10 Mar 2026 08:40:24 +0000
+Message-ID:
+ <TY3PR01MB11346DFF8DB3E27FDA9467E1B8646A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20260227015216.2721504-1-chris.brandt@renesas.com>
+ <TY3PR01MB11346E1B951F1EEB5474E2005867EA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+In-Reply-To:
+ <TY3PR01MB11346E1B951F1EEB5474E2005867EA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|OS3PR01MB9899:EE_
+x-ms-office365-filtering-correlation-id: 39314290-eef7-4e9e-d130-08de7e80ac1e
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|38070700021;
+x-microsoft-antispam-message-info:
+ VKzvevA8E8ggib8gWYrHPPuXhKr9aM6xT9YfX/+p425LmCumcC8eY+hxJENXn9CEGpLwjA1NcWyg7tgDgqpy5VuanrXXYY5SgsgS1or7sQVtME5hnuZNgrRjWvrBCpqmtBi6uloZuwjyEcYAk/RZ1ADytQ6SH8JrFpk7TRYyNQrsZbz8PYVFnZw/emc/kzZjcNlrKXINiZWPJcHwfZJfUGkyT2hwqIGLwMjlyN6ishn4lk6UDmi3X7lgNfivsqnekpGr4bwZcNRb3oY8j9DK83dlgG/rHkxnnyhmWcupFgoMlDljHFFM+UBix9RT2I4BteZ6yTfhgstsOkOBqM70pVaoiwsqxq8en0SQ1aXeMJgfT4mdrPQhZfP8n80dckC/tx2b1h84h78HGXwnBxgaF1tzmin8KrL09lxKMdM69fFcEy+EZPhUcY9YNnpAnusduapv7rujm9T5JTCX6WKe2g4alUlh7ZHIh64fy2gI+ADmhIjvoV/ldbVrPaHZZEqyb1Xnc7HW6+G6KBK/9vsJ4nGYjeLlnaB2FYc+w0Nr/Gkotq63PQhME4fzZUxvVe8vjM/npCfBZG3oX3c77ZIPDKZVpr+AgFBrfolh3wTZxqF/Qred6Rfdgkb33O+wlVGgEtPkzHxzg5yWH1RE9i1uTTrR62MMMkUNPp2yISc1Thi16tft3V7xycfOykP3blMiwFP95yrnBvrcwmLLUKKSZWjynXjEasXKYpYoJXCC/g0SXUBKu4ChvhxOEqP9K4t8poJ39pin0B7jtw7Drg8xlCAuFmXfNNfuazFRDgpxlJM=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?GA4S2o6/k8CQuZfqJDo8ow7YAq8iKbYe0fsyyob/41j6iOpsVBw/DqNpcKi6?=
+ =?us-ascii?Q?Naa46JijFOOPMmaaXPa6qgLcy6mymGGfkX/r2vowfiPZFsC2SVcXtTVziMOR?=
+ =?us-ascii?Q?bya+SUajBUknvYOjm2SrQSaV/ohua6vQqrsxhKSoq6UJmzlXQqXwicv72Iy9?=
+ =?us-ascii?Q?qGvnTJTxqZ45KzHZvWpBfLfUuI376gvkC1sWUnYosjYfjKoIMbXpvzJTZbQy?=
+ =?us-ascii?Q?2YJo5hhpQzC0MzFBNugiS9J1trLbBYCsVq4F6OYLjkQ9hSrdJsljHDTc9UbA?=
+ =?us-ascii?Q?jQWjDfI4d0EehbmsTUiYpr4RpOsn/M0J6kRnCc9uzLihhjxuu7rkvFrBaJRn?=
+ =?us-ascii?Q?1DhZOkyXL3Hs0mhFiFw3/HMb557kvuEupzoEIpoyL0vpnxyD7BzOPegmfhoa?=
+ =?us-ascii?Q?lYjoGeebaxIFVEgwZ++CJNiPpw3xLvSfXHMNB8lTd5z3nyq62zBGNaQqrB3k?=
+ =?us-ascii?Q?iOr9I8b0/WqunkEiYKs5KUKxJxOaNIbyQWVf+4y6tfm9mY5Cq2R6B9UXzeW+?=
+ =?us-ascii?Q?Ua4fbfJUMLiOhtSqWFRgz+yjL8fzfOU/9r6+ZwDnHzk/wSeoEPTf5wPAzdjD?=
+ =?us-ascii?Q?oqMGfKvfOtsmWgBdGP8GpOX1HzRdHYGwkq68tRxK2mF7cYfx+jSrjULUMhOO?=
+ =?us-ascii?Q?cqKEJxRzHyJFythQ8eKvQfSDa3gUW1ctk0Cd39NU2PgZKSnyPMJA01HJvxLA?=
+ =?us-ascii?Q?E6qtPvXELXPO2T3+H9aiUyrrdCGIqXO7S0x9+xSOm2GkuRrYho9vSHXRv0fm?=
+ =?us-ascii?Q?I/URlWjnkNmNMiW1Upl91FARu7S3T0IgvgXDpIAqkrPMRqeIeJuIhesXfx5A?=
+ =?us-ascii?Q?+J6uXRmz14Ryl+lurlb/QoSbUA0vAqx0SWacF7XDunyCUTCIit/9WTIZzMCH?=
+ =?us-ascii?Q?h+i9KsRUmg37gaBO/dzgXb3relKR3EaltpGX18rwX2C5+dxn071oijxPXJGM?=
+ =?us-ascii?Q?qP7iG0IokSWYQWP7z7v3EF3q/tHGFRdaQQshE0FahFJQ/6jk+MFxSXfKUKDk?=
+ =?us-ascii?Q?iXOJQ8bII2cwDCErw6GIQSlY+X+QISaLugJHhiwIwDbIMBDJ5NPG24HYuTv5?=
+ =?us-ascii?Q?t/YT3jd4wzh16Ed/1rG/HKbR3T2sl/kdHOhelxEozN0/wXGG9qKYPnN9TyCW?=
+ =?us-ascii?Q?Ymy2ZqgKcAR5BsUKUhdAOZtBJaWtlIrQ25mhHEaGZPO/xn93RlVLO35NeBQy?=
+ =?us-ascii?Q?OEt/aq0jRCV6ZRv+4ol0hOUZtAkzTAHs26FiDp58cuuGN1n39HMoLiy74wWd?=
+ =?us-ascii?Q?HHqp+ABlqzKp8ZXffPu4M9pvNYJgjtG0Z6vefsQpsMdnS6a0aeRnwzjuJDQ3?=
+ =?us-ascii?Q?mJlukFulf03y6vbQdBB/KpYm+yD6SkhDABgRQjV01aTl53inbCX2Yx3sPU5n?=
+ =?us-ascii?Q?Z2VYaBhJwaF3G+gUE+n7yJil9dO/9QvUANNDbH4063cUJ0l5p09K9pQaVTZg?=
+ =?us-ascii?Q?iGrUPVOA05EIHV7PHTVbwCvrlpVWH9qiy8GKvPW6sUxenXBlSPnEBRGcAe+t?=
+ =?us-ascii?Q?hpZGXanYQFw3u2p8bBhTvwUEm9dO2I/lxyHkfPcfB35aBlEJeWhpIrQ8tB9M?=
+ =?us-ascii?Q?NLgfnLvaZtTfiQb9UIG9/ATeh4pPSkWkMw09Fwi9risLBZkqomT8Y8BIG1B5?=
+ =?us-ascii?Q?48JrBJMw5kl4pWGlUsawSxhrywj6Fxz/7GnZgQVXGnVBpg0221C41GlEuZRS?=
+ =?us-ascii?Q?fmWwDPLe8YSxVj/x7wo7UdZCBlVTAc4D9l0I1/HXkDUnmxwMdbp0JmM0Ydae?=
+ =?us-ascii?Q?MHjUKtJWDA=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9PR04MB8585:EE_|VI0PR04MB11537:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9313eb4b-b391-4082-879f-08de7e8057f9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|19092799006|7416014|1800799024|10070799003|366016|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	7zpY0fGF0FZqFMnBqsVHmqIGFfq+MhYwIEKQtvt6B3eHRjhzALOhIpxh9EF6nGj1Iroa+q9xGMzJDP4On1vBSs+mlNE37hLxx202BmTFe4QS2ECrvsGE51Gcg92ciRi+hJ6GhkGUBTDQatmfMFGkCoQuQS5QehVBvh9B23EDX+QWPxS9xdH1y/9gvF/FBK/H8+zOXkgtYel3/47Lq26oKZAq5YMmqeIE9head2wiQtgL4fBQlGsR2uFxMwB89geDucdbLO20kM8rEcel84vcVNGErfur+eT3tyRaZEG8GOwBdQMulQEil+B/imwBpwbnAnFJAQY6rWT6qmgK1/v85+/MSnzsj0MxGYe9gozUmXO+EmKAwUmjc5x7A4Wr/94rtSM9o7z9InmSRfgzchtMmK01UR55Bn1NR55CBrzlGiMbA1hOdUbO/CTgqVoh6jOBxdgQyb7gW+KuwKr/EEaTz+Ba1naftgcIi1DaFqvljdKzsE1ZsdCv41VWF5tsRqjf3l4ySxGrEjrZXKjS7BIRXbr3J7cuNydsuUectf76+TmP1ajQitFbFdz6dhjiHq4J2pF3buSYgtirggdoBhBOw/JHN5Wnz0964H0ScPwdXaJ1UXaxS87oDaNfRo7EsYd7KABIobrT5H81mU6S76WUiXGkSAAj3MbUz2+rs+haJu0C6olfbO69PeJEJZOkuka4fxYrhwRUosPFeRCjbb3uzVEK5ZQ1Fw2XOipZ8UZ953I=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8585.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(19092799006)(7416014)(1800799024)(10070799003)(366016)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?iso-8859-1?Q?/X9TwhBn8TlngGFdwqJeM7SRp3oOxjqQHJG3h93PXwdwM0PAsIrwLTb/Q+?=
- =?iso-8859-1?Q?OTU/u5l1m8PcjtDtbXnSQ7OSTlR96gnL7ogDNAHpHuLNinnGuyaf29tg2y?=
- =?iso-8859-1?Q?58/xA3TUnhxSgqHXTKm68uF8jiZUbWF3n7Y9cdmE4oKGrOoczYaQyKg9eB?=
- =?iso-8859-1?Q?jvgtntx1JsG1x5lI6BL1Ljd+jIjIWU/tvUs0Bvm8/VNUfceMY1E/yBjRqH?=
- =?iso-8859-1?Q?9/ku7pZtj2FFYkVYfZQovOuKNmIbRxEO07Skp9OOVyBbKfKMDf07yq8ldn?=
- =?iso-8859-1?Q?+Wj44LU5q0AYdarTPlSaCfDhGzkEg+O94xZTgQxFvqNsPuQn1K3f9v3/lV?=
- =?iso-8859-1?Q?sZq87629tddQm/h3xwSTBr1BEIwkDIRV1LGBJQeY8gvtLI82c8yjNCAd++?=
- =?iso-8859-1?Q?0mB6+VXoqfnaDt/gahH2kONhmwap//YHpkbEl1QIpAVDwOJDtD/sV6CZBI?=
- =?iso-8859-1?Q?VRltTEWOiqitXOgBtd9SYMvZZ8/tIS1h5eq4ZZo35ZSv1erJKdBv3vNVev?=
- =?iso-8859-1?Q?rVugQfmPwZ33kv0pCsfOAIUURU5MIuysxq4umj1egNB0sJy3JbQ3gtH+l/?=
- =?iso-8859-1?Q?Ae/RgkEkcGqEj5n3NTHuWdlG4b38B7rLTW9FOo/fm7ZNpE80iXGzLcny4R?=
- =?iso-8859-1?Q?+mUEfpI3jLrEb01ggaQXkZ2ROraXHjsojXHx7PxYxnVCqfoKqAN+0jRKUc?=
- =?iso-8859-1?Q?ll39zidn+kli2ld9xRSSA2MK08GPDxe3WHXr9xm9bqqyjrKqfHH6+31Cj5?=
- =?iso-8859-1?Q?cMRGssaxqS2sxhZqd028kq5FP88tGee9yJuLByiaDh6rVY8pJmV5VHnaHm?=
- =?iso-8859-1?Q?eSaJRFYDwAYr2ozn03EzXV8vqAMrer1dXTWxOT8Fo0mco5KVYgdgEyZrnn?=
- =?iso-8859-1?Q?iWpnvjtbUSdV2k7E641NSIr3ysaMP+ognJivPUL8J5YBmQMegOFshhBApS?=
- =?iso-8859-1?Q?ME67nM63aEK691+Ar/h78E0FSF0oYlSH/77kAsalpik/jydjENVrSMWnkv?=
- =?iso-8859-1?Q?2h4klmgd3EdfsH8s+uQPuWXZGEM9jrP9QZ4Y/9P4TxQR9GgX+jTC+56ulA?=
- =?iso-8859-1?Q?DBg+9vv+LNzU1kSsatdtGREczrbT2TUD0ONXQmwcV0wVmAfIsu4oyHaVA1?=
- =?iso-8859-1?Q?eVl82pFfy1/MDdKEigU4OqrvLIB1KYSeCfrcPrdsQCMERCy6F1VoJWDn84?=
- =?iso-8859-1?Q?n85F76hJ1WJ3lGmj8pvCFicS20DPeCDjYz9SN2rUEgfouT+m5qi4bccPlv?=
- =?iso-8859-1?Q?1GfJscobDR5VEEz0yJekQreGfOaFt+7mIow64OL7MaXs5Z/oOFNmpPGa7P?=
- =?iso-8859-1?Q?T4ECeL9sUCwq9RDmlt8g2sYvNd/5i9YPfUC8IlXca8GHsNJAuMy3mA6E/2?=
- =?iso-8859-1?Q?iNt3x5GZLHcfqVDy/9PJWaFSox3ZiBbaDcUfwm9skOKcc4fyiXmYY2EHJ+?=
- =?iso-8859-1?Q?Zx3QE7UC0/0NBPnjYug0wOnJ5gWXvh8Dqaj7nB7aYTRcu88q0U6XSt81yi?=
- =?iso-8859-1?Q?JQs6IOgH1d7txktwluYzDhRNxwlrO2uXDIT6Rof+1E6CXL+O3nHJV+weNS?=
- =?iso-8859-1?Q?V8CGER6uO5PIB9DKLCNCt8kT3pQTOnh/131tKCkJEb0v8C808G7gL8nuMQ?=
- =?iso-8859-1?Q?PjYvkD+XSD/iYnvN/tgJsNyInPVL1KUc1Q9wc6h9VvL5/+pR0P9zTnNO9M?=
- =?iso-8859-1?Q?/gjVf0pvAUPzn9kNEhUEsiz0vZ7nqAnkpX1AzxG6rYmE4egw98vjJ65ZxJ?=
- =?iso-8859-1?Q?K3bSlNHEH6FRafc+17wIlBFhvEK5QYsfSH5cVV7gnxluV+ogMZWAUHiVqF?=
- =?iso-8859-1?Q?XlQck/aLilftiqo7q0V6dXubxPq67zRJrCr+n+Aq/5FOnhoC+cg2TUFZDk?=
- =?iso-8859-1?Q?Xm?=
-X-MS-Exchange-AntiSpam-MessageData-1: Ycz3yQtf/aP+NzPqFzdy0Ogc6SF+HawrRt4=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9313eb4b-b391-4082-879f-08de7e8057f9
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8585.eurprd04.prod.outlook.com
+X-OriginatorOrg: bp.renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2026 08:38:03.1560
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 39314290-eef7-4e9e-d130-08de7e80ac1e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Mar 2026 08:40:24.1333
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EqVT2VgSBkKdIPyFRLndoMcUU0mT8iZiPoQKwY8Q6MPgw+kH+GA1YCWUTG7iTIjZ6W6EfGE76Ztq1MwGKx9K1A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB11537
-X-Rspamd-Queue-Id: 35A5124765A
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 1Ltf/MClfwqTqS7nH7YpBf7cdun0mql5IqA0XIo05BUfMuxsPAL0fjgcjzWqNMkrY31qjI9j97dBHzXA/iMY45vh0jMjEDLcG1ajEkBYkNw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB9899
+X-Rspamd-Queue-Id: 4D97C24770E
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [2.14 / 15.00];
-	R_DKIM_REJECT(1.00)[nxp.com:s=selector1];
+X-Spamd-Result: default: False [1.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_REJECT(1.00)[cv is fail on i=2];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
+	R_DKIM_ALLOW(-0.20)[bp.renesas.com:s=selector1];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[nxp.com : SPF not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-29116-lists,linux-renesas-soc=lfdr.de];
-	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-29117-lists,linux-renesas-soc=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	MIME_TRACE(0.00)[0:+];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[32];
-	FREEMAIL_CC(0.00)[lists.infradead.org,kernel.org,linaro.org,lists.freedesktop.org,vger.kernel.org,lists.linux.dev,microchip.com,rock-chips.com,linux.intel.com,suse.de,gmail.com,ffwll.ch];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[vladimir.oltean@nxp.com,linux-renesas-soc@vger.kernel.org];
 	PRECEDENCE_BULK(0.00)[];
-	DKIM_TRACE(0.00)[nxp.com:-];
-	NEURAL_HAM(-0.00)[-0.867];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	FROM_NEQ_ENVFROM(0.00)[biju.das.jz@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[bp.renesas.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	NEURAL_HAM(-0.00)[-1.000];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sntech.de:email,ffwll.ch:email,intel.com:email,suse.de:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,rock-chips.com:email]
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,TY3PR01MB11346.jpnprd01.prod.outlook.com:mid,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-On Tue, Mar 10, 2026 at 09:24:43AM +0100, Heiko Stuebner wrote:
-> Am Montag, 9. März 2026, 20:08:28 Mitteleuropäische Normalzeit schrieb Vladimir Oltean:
-> > The dw_hdmi-rockchip driver validates pixel clock rates against the
-> > HDMI PHY's internal clock provider on certain SoCs like RK3328.
-> > This is currently achieved by dereferencing hdmi->phy->dev.of_node
-> > to obtain the provider node, which violates the Generic PHY API's
-> > encapsulation (the goal is for struct phy to be an opaque pointer).
-> > 
-> > Refactor dw_hdmi_rockchip_bind() to perform a manual phandle lookup
-> > on the "hdmi" PHY index within the controller's DT node. This provides
-> > a parallel path to the clock provider's OF node without relying on the
-> > internal structure of the struct phy handle.
-> > 
-> > Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
+Hi All,
+
+This patch is now present in drm-fixes, linux-next and linux 7.0-rc3. But i=
+t is not present in drm-misc-next.
+I see it is tagged as drm-misc-fixes-2026-03-05.
+
+I am not sure about the process for merging a patch in drm-fixes to drm-mis=
+c-next?
+
+Please let me know.
+
+
+Cheers,
+Biju
+
+
+
+> -----Original Message-----
+> From: Biju Das
+> Sent: 02 March 2026 11:07
+> Subject: RE: [PATCH v7] drm: renesas: rz-du: mipi_dsi: Set DSI divider
+>=20
+> Hi,
+>=20
+> > -----Original Message-----
+> > From: Chris Brandt <chris.brandt@renesas.com>
+> > Sent: 27 February 2026 01:52
+> > Subject: [PATCH v7] drm: renesas: rz-du: mipi_dsi: Set DSI divider
+> >
+> > Before the MIPI DSI clock source can be configured, the target divide r=
+atio needs to be set.
+> >
+> > Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
+> > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > Tested-by: Biju Das <biju.das.jz@bp.renesas.com>
+>=20
+> Thanks, applied to drm-misc-fixes after adding fixes tag.
+>=20
+> Cheers,
+> Biju
+> >
 > > ---
-> > Cc: Sandy Huang <hjc@rock-chips.com>
-> > Cc: "Heiko Stübner" <heiko@sntech.de>
-> > Cc: Andy Yan <andy.yan@rock-chips.com>
-> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > Cc: Maxime Ripard <mripard@kernel.org>
-> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > Cc: David Airlie <airlied@gmail.com>
-> > Cc: Simona Vetter <simona@ffwll.ch>
-> > 
-> > v1->v3: none
+> > v1->v2:
+> > - Add spaces around '/' in comments
+> > - Add target argument in new API
+> >
+> > v2->v3:
+> > - Add missing period in comment (Hugo)
+> > - Changed '1' to 'PLL5_TARGET_DSI' (Hugo)
+> > - Added Reviewed-by and Tested-by (Biju)
+> >
+> > v3->v4:
+> > - Fixed up the comments
+> > - Fixed the match for the divider to set (was missing a * 2)
+> >
+> > v4->v5:
+> > - Rename patch title (Hugo)
+> > - Add bpp varable for easy reuse (Hugo)
+> >
+> > v5->v6:
+> > - Remove clock diagram that was wrong (Chris)
+> >
+> > v6->v7:
+> > - Rebase to v7.0-rc1
 > > ---
-> 
-> [...]
-> 
-> > @@ -588,13 +589,17 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
-> >  		return dev_err_probe(hdmi->dev, ret, "failed to get phy\n");
+> >  drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c | 16 +++++++++++++++-
+> >  1 file changed, 15 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > b/drivers/gpu/drm/renesas/rz- du/rzg2l_mipi_dsi.c index
+> > f74a0aa85ba8..29f2b7d24fe5 100644
+> > --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > @@ -1122,6 +1122,7 @@ static int rzg2l_mipi_dsi_host_attach(struct mipi=
+_dsi_host *host,
+> >  				      struct mipi_dsi_device *device)  {
+> >  	struct rzg2l_mipi_dsi *dsi =3D host_to_rzg2l_mipi_dsi(host);
+> > +	int bpp;
+> >  	int ret;
+> >
+> >  	if (device->lanes > dsi->num_data_lanes) { @@ -1131,7 +1132,8 @@
+> > static int rzg2l_mipi_dsi_host_attach(struct mipi_dsi_host *host,
+> >  		return -EINVAL;
 > >  	}
-> >  
-> > -	if (hdmi->phy) {
-> 
-> nit: a comment would be nice here. I.e. hdmi->phy being an opaque pointer
-> so checking hdmi->phy != NULL is not possible.
-> 
-> With that being a "goal", I assume that information is not widely spread
-> so this would prevent the next developer trying to change it back to
-> "if (hdmi->phy)" while that handling change trickles down.
+> >
+> > -	switch (mipi_dsi_pixel_format_to_bpp(device->format)) {
+> > +	bpp =3D mipi_dsi_pixel_format_to_bpp(device->format);
+> > +	switch (bpp) {
+> >  	case 24:
+> >  		break;
+> >  	case 18:
+> > @@ -1162,6 +1164,18 @@ static int rzg2l_mipi_dsi_host_attach(struct
+> > mipi_dsi_host *host,
+> >
+> >  	drm_bridge_add(&dsi->bridge);
+> >
+> > +	/*
+> > +	 * Report the required division ratio setting for the MIPI clock divi=
+ders.
+> > +	 *
+> > +	 * vclk * bpp =3D hsclk * 8 * num_lanes
+> > +	 *
+> > +	 * vclk * DSI_AB_divider =3D hsclk * 16
+> > +	 *
+> > +	 *   which simplifies to...
+> > +	 * DSI_AB_divider =3D bpp * 2 / num_lanes
+> > +	 */
+> > +	rzg2l_cpg_dsi_div_set_divider(bpp * 2 / dsi->lanes,
+> > +PLL5_TARGET_DSI);
+> > +
+> >  	return 0;
+> >  }
+> >
+> > --
+> > 2.52.0
 
-Testing the NULL quality of "struct phy *phy" is still possible and legal.
-It means that you called an "optional" variant of phy_get(), and there
-was no PHY.
-
-Just that here, the ultimate intention isn't that. It is to abuse the
-struct phy to get to something completely unrelated to the PHY API.
-I wouldn't have had any problem if there was "just" a hdmi->phy NULL
-pointer check.
-
-> apart from that:
-> 
-> Reviewed-by: Heiko Stueber <heiko@sntech.de>
-
-Thanks for the review.
 
