@@ -1,201 +1,165 @@
-Return-Path: <linux-renesas-soc+bounces-29134-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29135-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oJerOswpsGn/ggIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29134-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 15:25:16 +0100
+	id cEzzGNdVsGkJiQIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29135-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 18:33:11 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50726251E02
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 15:25:16 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BA1E2559A9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 18:33:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1EE5133C07F6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 13:36:57 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 8F3D53013A4B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 17:33:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 136A338AC8C;
-	Tue, 10 Mar 2026 13:32:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E82853C9452;
+	Tue, 10 Mar 2026 17:33:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="t6oY9xeF"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="zHPWFiF/"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE873374752
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2026 13:32:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5920E3A168B;
+	Tue, 10 Mar 2026 17:33:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773149535; cv=none; b=KzTrsCw8Zkt5IKLhwiVuKrotAFf6iHTB8Xf8CVb6x0z7l0nohuW6jfjVXltvMe8ZP3Cn8Y521Iad3lI5KqQdK6YVOerR300rzgeL+FSJyvpQ5PYoq61MS8tDhDuezaF4Mlyvb6giGyCr6VUKfAl+Ijyv4NvYcDeb5bwtdREk+Fg=
+	t=1773163986; cv=none; b=hkpUHsQywCcpw1reaFTrtpcNIcw1lWZP/IFFGFze4NmIP+ld8s1X42ti10kTjow2EmkKHVNYrqpbk5rL3rZcQ7F5Xa7slTltlDV4JHZjNM0/Rq8VLBydTu9ys+EIU6fP9QT0nKMMcy8kU/415TlgqUlZT1yJhhzLrxZoqnlAFak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773149535; c=relaxed/simple;
-	bh=JZnB1Im94T2fdND96sAVNsxHwb6+Zefxec2EDteNkcE=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=uQoAaed8ycLzN0ouraIEZ+nJqIIARdXa/pJTLLvsEUuWCGf/0djpf+6gt77A90q8hjSnXEz+HVFzu/jO4bP0SvT2/JQJHktSPHyRWpLr6dZ7B85dwu17TbpWp1lzPbh2fDHBc6vgv2q9AV5EivBRn8ZhkMnD54XIqcibFFlFjDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=t6oY9xeF; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-485409ab264so10668385e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2026 06:32:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1773149532; x=1773754332; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:from:subject:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UvqV6dapH2OVx1j1j7Q1WNL2fvhvQyWnQIfWQtbA8EY=;
-        b=t6oY9xeFgVXgudMAH7wXBo8D1NQbQ/Ffu2xaWnYlC+azy5pr+qXirLUYnHjaV5RQuj
-         JvsVPJTmdGJFIHbPKFQbMGRLrJf028hqnz2fRrB+8jJ30kxxMOZhpvhKAtJptsdIqfQ9
-         d+qqj1XMuzYo22hqGiLo0micgLWfWsAByglqPENoJMWalh1xl9r03CXfZOMQMP+vJfe4
-         EWa3Y6BA6SInFiOC7ywrHwNWe867dQ5ItY6pBX7frx7YWGyYo7iKSCzRFjkW4BrXfgTs
-         7rUghhbjAKCgPZVu//Uo8iPJz3OK7Aag9GMNJ2l+h0rKbuOQ6skOJc6aW3nldme/eN5z
-         OSCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773149532; x=1773754332;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:from:subject:user-agent
-         :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UvqV6dapH2OVx1j1j7Q1WNL2fvhvQyWnQIfWQtbA8EY=;
-        b=nTFIb+roUHcxL3BQxquu4VyqWBRUNggLouJLkPhRrTtOeSzYv0y7KUhk7bvPR7FFQ1
-         7e2L2HwUagbeEDowaI6//kwLUHze/kArjpDBIKaQEATLm17vD2uengpVO8xqPi7YGX/x
-         X+M+RP/rQHiKSuJ7nu/c40cB1WAALBU6XUV92PFUD9aH5ImtehXgOUc+cjFuJqYH41h2
-         oKn6pPwzN+I6p857tN+As1NM/skPdYHR6EZPJGuFr6MBDxTOuPvq+aLYQdNrf+1ErGTR
-         z7ck40xl9rfKwUDRj/rnPhKiKxwbWILvc/F1FyL7X7yQwEFDkjkGLWDUPyvQEUfi+la6
-         Va7g==
-X-Forwarded-Encrypted: i=1; AJvYcCXZu2kA1RA/DBXyPkYXcEDBpEUFXPtWgwMSaTw4az+LmeJx8Hj0wS7Ee6QYsmn1NKOCsEiYQF95ChFWaR780jESbg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzsoIIE1GpJWSNrEXqyA+H8bLyF1jusvxlUtaMmyYOyOCaxKCoJ
-	5WNDKxyrQu+q12cwNsBEnvX0tW/wJvBXfm5jbS2Wtw7BlfcvDLMSUNW3OLnO3fygtm0=
-X-Gm-Gg: ATEYQzyHrfr9LjSkV86pGi9cWTwGjtNqpNOwz/61vVJPxVp183d6WmWqJ71o2hXWJyG
-	F1g7nM6ZREo0EyDBC6uCjWwBlbokLgUsDh+yOl3Mkw/aZP/SGPIiwu86y6Z63cJJ2TEuBfkrx46
-	UgUPrIAMn8jLyZUGbKHi4A+Dnwa8fs7n1lMJ561sBsxfIwiXKh2wfpyfYuwhiGZV3rOYMZ6Rekw
-	PkJfOTMHgSS1pW6o1Dd464g8lBp9CqZKmM3qq+uWKV7gXzN28uz5ziZuM+eD7WrBhUCrXXe3cfM
-	0GbUk8T/naAV0iQdncldAof3dN2H+OdXzqGMltswNs3WFUa6swy9wdHWq6U5O1kSjcW4brecQQy
-	XGyyMBfVCKYCCPfe4JfkIpVbUyAY+oKveAp/mNHLScBu0rZh6y68wE6DiMXIqPlXF+e7SBeR/d7
-	8NjP+W+s/8BWGdnLgBgooh7IGi0g5UFtGHUPzidPA+/1xBsrsrGXE+IxKB+oIxcrmMJqm1rnpul
-	RXF
-X-Received: by 2002:a05:600c:1d89:b0:485:3c2e:60d5 with SMTP id 5b1f17b1804b1-485419a2774mr51690425e9.2.1773149531651;
-        Tue, 10 Mar 2026 06:32:11 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:106d:1080:4d81:e92:c4c0:3c45? ([2a01:e0a:106d:1080:4d81:e92:c4c0:3c45])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48529f019a4sm110277825e9.12.2026.03.10.06.32.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Mar 2026 06:32:11 -0700 (PDT)
-Message-ID: <95ac5123-32d7-4e87-825d-5ebb424e2641@linaro.org>
-Date: Tue, 10 Mar 2026 14:32:10 +0100
+	s=arc-20240116; t=1773163986; c=relaxed/simple;
+	bh=tKpuYF4SZR5lkozkhfn8XfbK2UfIoUqnYkKbMoA133c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=pCJhy5DxayTK9a0w6l8RmlPtXLJz6NVi6iA8jj87mncdqKpGTSVNOKfs04hRDFbm7WiqZwRAQNccgeHYA94NUX9r4TXJb5Xlef52tptbswx3IuP6xvgYFozSCDV6QlTefVb7QQU74lmj6arNPvgMNcjj1fgJ9fWQCed4pHOMHT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=zHPWFiF/; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 7523BC40416;
+	Tue, 10 Mar 2026 17:33:23 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 8591060002;
+	Tue, 10 Mar 2026 17:33:02 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5FF741036891C;
+	Tue, 10 Mar 2026 18:32:57 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1773163981; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=GV/3yyZ/K5WPAlPx10KVrpjD34hKneXHwsacFm5yDNk=;
+	b=zHPWFiF/U1qmeqt696VrBIHDjnldCPoHr6tmMQwbmcp53DwLjD6Zgpv9BTCRz2FPTTYA5h
+	c/vjHW9wRtidn0qowanw4btRtvhiQzyYeiCQvH6QGZNK8pmv3ZUvFgsqaTmBezeAfeGynd
+	tfclbhTFoadOd3XyXyrTvf3hgUZoL3eFJ7Q1PQqIy2cwqaFBCewQT/cuirN5oYvE/SEg3y
+	k5/z5qC9QNn+KwtCHXVVI5GfIQGrCzpycusii2Mst4K840wue0GosU0jng5deGPmsF+OGx
+	j5df5QrqotqBdPQtDiYb0dAds082NviHpmnkEGiau3xRwpikI8is+eXo+n7nwA==
+From: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
+To: Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-watchdog@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	Pascal Eberhard <pascal.eberhard@se.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	"Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
+Subject: [PATCH 0/5] watchdog: rzn1: Add support for direct hardware reset
+Date: Tue, 10 Mar 2026 18:32:41 +0100
+Message-ID: <20260310173249.161354-1-herve.codina@bootlin.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/5] dt-bindings: display: panel: Few cleanups and fixes
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: Artur Weber <aweber.kernel@gmail.com>,
- Jessica Zhang <jesszhan0024@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Dzmitry Sankouski
- <dsankouski@gmail.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20260306-dt-bindings-display-panel-clean-v1-0-3086eda1efaf@oss.qualcomm.com>
- <177314934075.2052605.970030122356003827.b4-ty@linaro.org>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <177314934075.2052605.970030122356003827.b4-ty@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 50726251E02
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
+X-Rspamd-Queue-Id: 9BA1E2559A9
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114];
+	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	HAS_ORG_HEADER(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[19];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-29134-lists,linux-renesas-soc=lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,ti.com,ideasonboard.com,oss.qualcomm.com];
+	TAGGED_FROM(0.00)[bounces-29135-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[neil.armstrong@linaro.org,linux-renesas-soc@vger.kernel.org];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FREEMAIL_TO(0.00)[linux-watchdog.org,roeck-us.net,kernel.org,glider.be,baylibre.com,gmail.com,sang-engineering.com];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_COUNT_FIVE(0.00)[5];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[herve.codina@bootlin.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[bootlin.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:dkim,linaro.org:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,gitlab.freedesktop.org:url]
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,bootlin.com:dkim,bootlin.com:mid]
 X-Rspamd-Action: no action
 
-On 3/10/26 14:29, Neil Armstrong wrote:
-> Hi,
-> 
-> On Fri, 06 Mar 2026 13:02:53 +0100, Krzysztof Kozlowski wrote:
->> I would expect this going via display, but that does not happen often,
->> so Rob's tree?
->>
->> BR,
->> Krzysztof
->>
-> 
-> Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
-> 
-> [1/5] dt-bindings: display: samsung,s6d7aa0: Document port
->        https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/1f5a1ebddc170197348d203b11a05799966dbef6
-> [2/5] dt-bindings: display: innolux,p097pfg: Document ports
->        https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/32003681e575a9a02cb6814e99157dfab0b9f70d
-> [3/5] dt-bindings: display: panel: Drop redundant properties
->        https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/72cfe73347fac6252ab77d8dcd405f0a5b1a5a24
-> [4/5] dt-bindings: display: panel: Align style of additionalProperties
->        https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/66b0baaabd35d302698d0a2c98671bf4e1b87f92
-> [5/5] dt-bindings: display: panel: Align style of "true" properties
->        (no commit info)
+Hi,
 
-Last one did not apply anymore, could you rebase it on drm-misc-next ?
+The current watchdog driver handling wachdogs of the RZ/N1 SoCs is based
+on interrupt only to perform the reset. On the watchdog timeout, an
+interrupt is triggered and the software initiates the reset.
 
-Thanks,
-Neil
+The watchdogs available in the RZ/N1 SoCs can directly perform an
+hardware reset using their dedicated reset line.
 
-> 
+On timeout, the watchdog also asserts its dedicated reset line. This
+reset line is connected to the reset controller (part of sysctrl) and,
+if this line is enabled as a possible reset source at the reset
+controller level, it initiates a system reset.
+
+This series adds support for this feature allowing watchdogs to directly
+reset the system with any software needs when a watchdog timeout occurs.
+
+The first two patches are minor fixes and improvements without changing
+the current functional behavior.
+
+Patches 3 to 5 add support for the feature adding:
+  - The reset line description in the RZ/N1 watchdog binding,
+  - A new helper at sysctrl level (sysctrl is handled by the clock
+    driver in RZ/N1) to enable watchdog reset sources,
+  - The support itself in the watchdog driver putting everything together.
+
+Best regards,
+Hervé
+
+Herve Codina (Schneider Electric) (5):
+  watchdog: rzn1: Fix reverse xmas tree declaration
+  watchdog: rzn1: Use dev_err_probe()
+  dt-bindings: watchdog: renesas,rzn1-wdt: Document the reset line
+  clk: renesas: r9a06g032: Introduce a helper to set rsten register
+  watchdog: rzn1: Add support for direct hardware reset
+
+ .../bindings/watchdog/renesas,rzn1-wdt.yaml   | 22 +++++++
+ drivers/clk/renesas/r9a06g032-clocks.c        | 32 ++++++++++
+ drivers/watchdog/rzn1_wdt.c                   | 63 ++++++++++++++-----
+ .../dt-bindings/watchdog/renesas,rzn1-wdt.h   | 16 +++++
+ include/linux/soc/renesas/r9a06g032-sysctrl.h | 12 ++++
+ 5 files changed, 131 insertions(+), 14 deletions(-)
+ create mode 100644 include/dt-bindings/watchdog/renesas,rzn1-wdt.h
+
+-- 
+2.53.0
 
 
