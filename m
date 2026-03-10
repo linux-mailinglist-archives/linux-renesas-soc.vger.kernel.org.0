@@ -1,220 +1,176 @@
-Return-Path: <linux-renesas-soc+bounces-29093-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29094-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AHKkIO5wr2m6YQIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29093-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 02:16:30 +0100
+	id KHl6DMGFr2lvaAIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29094-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 03:45:21 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id D269E2436FC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 02:16:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BF642444EB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 03:45:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 95A8C30197E7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 01:10:53 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 61D8D3014288
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 02:45:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8C04283FC5;
-	Tue, 10 Mar 2026 01:10:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EB333ACA5D;
+	Tue, 10 Mar 2026 02:45:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dbD6HfYZ";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="KZXjQUJc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OYQ4GzGr"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22FB924169D
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2026 01:10:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDF773A9D9B
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2026 02:45:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773105051; cv=none; b=qy/VB+bFGdhtxkCAi5GfWpXwKhriNvTAhIli4M8HraDyvyAPWs+q+KZ+QBwssVPOfYLDuhjncEO0+hvof2aW42SdwY4XXoy/Wb4T85GaJ7mP4x6E5jUhSxNQc62lvvvn5gtY0P8vE2gTD7ZoU/y7qItIIKm5qaElLE48YH//eTQ=
+	t=1773110715; cv=none; b=oW3DpJQ4pkSnF/uDubhiWvGZPPWn/I2AhXDkQpfM09mfCHimU/y2WfQ1wd8cU+7p1NKQVHStOndV2+b5mpcPBVPlQo4VN9d63acHHKSymtDFkKPd5qJueYkIo7x5SihAgZjHku+6VFr00e3xwJDgVr21JAEfGFlScYr8RdMLWPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773105051; c=relaxed/simple;
-	bh=KTWcRe1uEdBcdV3dSWnFRmmQqhKcuVtF4VSklt2P5Ak=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ekwt8hMzzTJn5uuKY+MyvqVDRg8nRr7DIdkNwj3Uqis/gD+jNvwq8uUxDaqeTcpcx9DeeLUo8LyQTdjCeAh49r+s+ZbBNUiDEhQPevRxQh7SZYoDkjl9YvHgl216EB+p8inks9jj26M1CKyXHJz+/7zUVT9JkpZLfUToQsJU1wQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dbD6HfYZ; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=KZXjQUJc; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1773105049;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KTWcRe1uEdBcdV3dSWnFRmmQqhKcuVtF4VSklt2P5Ak=;
-	b=dbD6HfYZofQSkCjS5/sPHuH7qID8izBljRHgUoXkIRLTM9ozInJNInbRTdi+jXqKTR/FqO
-	f6FtQfLGpsEX+k+FdD58u4uip101yQzCnhH9fQ3aifBC9+2DzV/6NxvDeDfv9PEvoSxceZ
-	b3Y1iInSfF5lvpx8O5XT9xEJ7Nj5UzU=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-35-qNIMj8YrP5qe-Td5pLWyzw-1; Mon, 09 Mar 2026 21:10:47 -0400
-X-MC-Unique: qNIMj8YrP5qe-Td5pLWyzw-1
-X-Mimecast-MFC-AGG-ID: qNIMj8YrP5qe-Td5pLWyzw_1773105047
-Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-899f671c5c1so412295086d6.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 09 Mar 2026 18:10:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1773105047; x=1773709847; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=KTWcRe1uEdBcdV3dSWnFRmmQqhKcuVtF4VSklt2P5Ak=;
-        b=KZXjQUJcjgAHJDetunx4foLlQCvQaZjkAubtSBZ/Xb6KdQx4sq/PHRRIHywxiIxORW
-         kmi06fwVKuHqaA9W/mKKq5aDE298F0xRx1jBVAIOPtonDJqxxOCgiJNB13hldcEaVOrm
-         h56qVNjQ6gzSZlAZqnc7hysf2SqW/rIG9ndGme9t5ntz8eTwHOMTsKJvd1G+cRMZxpQK
-         xudYNP77IsqOvCdBjdxrCUTBLL9NJUgi+Ns7pPdt9d2j7rMjZHPdlFepp6WDlrDs3LK3
-         4E/ikrvQoHYUU7/kHmubyH7T4tCdzqSsudkcXCyM5dxFgrxQPcNqnM7bTe6y+tnArFn7
-         Ej/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773105047; x=1773709847;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KTWcRe1uEdBcdV3dSWnFRmmQqhKcuVtF4VSklt2P5Ak=;
-        b=ZjMkxOLaKOVKvnB/oor4MM6LX+CeTFYQBEcOyghtH/7sGHwu9vANplQX5+lq+efLn5
-         Z0K96iNWkiy0q4yAxz8yfQ/ZfMmMnDnQhkr0B8KjLiEfJl7BCyXhPxaehFVtCYQVYpk5
-         2awFK1KXB6mz5m7noJGrhmrIKUAC+/wesaSdPUiLFyAkNLEKBDg8J3+VISRn2Z4xhtL7
-         bPHyRdXW4r0gfhKISwlFezjgeM4/i4snXivBrUR06N+Uei/196U3CQb8NRrQeK/C6oSG
-         Deu+vCwRXaZEQimZfn8Urz76cy97SQK/GBFJ0eXfd0E+hcAvq6oFbaD3xcld0BI65xx8
-         OB1w==
-X-Forwarded-Encrypted: i=1; AJvYcCXkp902N09NFThXqkgY5o5TA/dCdTx13KrRYvUAK/Gn9g0VpgKQeSU3uSwX2w54hnKcgB5cjAES40K3TFMFp9a99Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwKRCm5fqvK3fFhtHoMgqH4kfhD2K9j/tiBwZdDD9Bj32inraMM
-	FBZhYzpJGV9LZIibPAou8Ku0JXWDG2bjyPT1nhv4dnK5OrZ9OeR6UTqr2l9s3q09uID7CorggBE
-	SzaziE9TgCHtySYpjK/irbPmSQK8l7gBY67h96RX0IywqKje+a5UPZL0hR0GXQdysWHkdYJBd
-X-Gm-Gg: ATEYQzzEK+5b5MAuU0JgOvJgDPBlPjVptfnzZR41dDMnfL09xVbqf42yJ8XCZqWt7+1
-	gEugxPIDQMW/XuRKAlyslXSWYq6AwWL36il/7WckZMULTw2sKxcfNu80BWFj3rvr4uey6K24RHW
-	cWeXwPIKPqst99MHmY1LdfNdD0KF54FNE1u+kxTwkmcWyfERnDhnzzYQfg9OpbwZwPcEWtQiQyT
-	duspgJyF2USNi6NVAOpgU/ZnfGvRrLvbVYxizzpOnb2kr6J0z1VTHos2aStfF4zCEb4Dtis4f4w
-	ihI84ia/mR70xuSPSd7kS1G+BzvE5jrRjaY/lkhl7F45/HQgcd+Ue9BLdhwuX1Ip7xnmmVDZxKf
-	PCPbuGKqeTjqWblRb7S4HnW/uDMJwXZHeuz0aEF1PLA1BeDRapkAdpWJsp0Co5XhmMUiuBkQ+Zu
-	qzUhHjYQ5X9DklDw==
-X-Received: by 2002:a05:6214:d8b:b0:89a:258:c1d1 with SMTP id 6a1803df08f44-89a30ad1c78mr197364906d6.42.1773105047084;
-        Mon, 09 Mar 2026 18:10:47 -0700 (PDT)
-X-Received: by 2002:a05:6214:d8b:b0:89a:258:c1d1 with SMTP id 6a1803df08f44-89a30ad1c78mr197364236d6.42.1773105046575;
-        Mon, 09 Mar 2026 18:10:46 -0700 (PDT)
-Received: from thinkpad-p1.localdomain (pool-174-112-193-187.cpe.net.cable.rogers.com. [174.112.193.187])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89a57a18252sm10681656d6.10.2026.03.09.18.10.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Mar 2026 18:10:45 -0700 (PDT)
-Message-ID: <4728554b256f016d9a5f3e019ed831387b0f059b.camel@redhat.com>
-Subject: Re: [PATCH net-next v7 0/7] net: stmmac: qcom-ethqos: add support
- for SCMI power domains
-From: Radu Rendec <rrendec@redhat.com>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Bjorn
- Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
- Rob Herring <robh@kernel.org>,  Krzysztof Kozlowski	 <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Richard Cochran	
- <richardcochran@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
- Kicinski <kuba@kernel.org>,  Paolo Abeni <pabeni@redhat.com>, Maxime
- Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue	
- <alexandre.torgue@foss.st.com>, Vinod Koul <vkoul@kernel.org>, Giuseppe
- Cavallaro <peppe.cavallaro@st.com>, Jose Abreu <joabreu@synopsys.com>,
- Chen-Yu Tsai <wens@kernel.org>,  Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Matthew Gerlach	
- <matthew.gerlach@altera.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl	 <martin.blumenstingl@googlemail.com>, Keguang Zhang
- <keguang.zhang@gmail.com>,  Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>, Pengutronix Kernel Team	 <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Jan Petrous	 <jan.petrous@oss.nxp.com>,
- s32@nxp.com, Romain Gantois	 <romain.gantois@bootlin.com>, Lad Prabhakar	
- <prabhakar.mahadev-lad.rj@bp.renesas.com>, Heiko Stuebner
- <heiko@sntech.de>,  Chen Wang <unicorn_wang@outlook.com>, Inochi Amaoto
- <inochiama@gmail.com>, Emil Renner Berthing	 <kernel@esmil.dk>, Minda Chen
- <minda.chen@starfivetech.com>, Drew Fustini	 <fustini@kernel.org>, Guo Ren
- <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,  Nobuhiro Iwamatsu
- <nobuhiro.iwamatsu.x90@mail.toshiba>, Geert Uytterhoeven
- <geert+renesas@glider.be>, Magnus Damm	 <magnus.damm@gmail.com>, Maxime
- Ripard <mripard@kernel.org>, Shuang Liang	
- <liangshuang@eswincomputing.com>, Zhi Li <lizhi2@eswincomputing.com>, 
- Shangjuan Wei <weishangjuan@eswincomputing.com>, "G. Jaya Kumaran"
- <vineetha.g.jaya.kumaran@intel.com>,  Clark Wang <xiaoning.wang@nxp.com>,
- Linux Team <linux-imx@nxp.com>, Frank Li <Frank.Li@nxp.com>, David Wu	
- <david.wu@rock-chips.com>, Samin Guo <samin.guo@starfivetech.com>, 
- Christophe Roullier <christophe.roullier@foss.st.com>, Swathi K S
- <swathi.ks@samsung.com>, Bartosz Golaszewski	 <brgl@kernel.org>, Mohd Ayaan
- Anwar <mohd.anwar@oss.qualcomm.com>
-Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org,  Drew Fustini
- <dfustini@tenstorrent.com>, linux-sunxi@lists.linux.dev,
- linux-amlogic@lists.infradead.org, 	linux-mips@vger.kernel.org,
- imx@lists.linux.dev, 	linux-renesas-soc@vger.kernel.org,
- linux-rockchip@lists.infradead.org, 	sophgo@lists.linux.dev,
- linux-riscv@lists.infradead.org, Bartosz Golaszewski	
- <bartosz.golaszewski@linaro.org>, Krzysztof Kozlowski	
- <krzysztof.kozlowski@oss.qualcomm.com>, Konrad Dybcio	
- <konrad.dybcio@oss.qualcomm.com>
-Date: Mon, 09 Mar 2026 21:10:41 -0400
-In-Reply-To: <20260306-qcom-sa8255p-emac-v7-0-d6a3013094b7@oss.qualcomm.com>
-References: <20260306-qcom-sa8255p-emac-v7-0-d6a3013094b7@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+	s=arc-20240116; t=1773110715; c=relaxed/simple;
+	bh=AiuSbGc4gyF+r0NsVvYBegnqTPdAIt4V0L/szs51RLs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jF7XuggBzxCWcW6RnyJgRa7MEGFk1moZMV/w+jpQUuGAAIfODUwiXABCRpM4BYvPGS4iwz/KaDocqpEHK+lIzeBiIccFXmq4durReC2S1qdkWGCrR0bDWgcx4Jb7tLau32g67jXIQlZl9hWCi5HbwkX3meV85q8DE213F6HQqaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OYQ4GzGr; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDA30C2BCB2
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2026 02:45:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773110715;
+	bh=AiuSbGc4gyF+r0NsVvYBegnqTPdAIt4V0L/szs51RLs=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+	b=OYQ4GzGrjp8DJFWsl2mM6ocePlwxv12ixt2gG1IoJH8dIMcy2K9jYlYp0xrXUr1hj
+	 vdJ1Hmp0SjmxQ+VCPPiqJlGt8YHvrtJ6IjbgXtVQ4LMZbCg9LwXbL8lu4+PBO7sjsL
+	 4s38j0P9Pc/iUqjSuchyjIAcNbjA/RLX+hPcWwe8rEaxzhE3zj7CNgU19ws9MZxPyz
+	 jVvlhgVmpbBARm+YBqB5I7YjjmX/kwY2NwSC8hyTJgVaSFIJVMQTWw9r0B2mnIUaZ+
+	 dgdQe+dNt9cNuRA9+q+H8NVNiXnbOpLUOvVf27C6ZPPIJpRz4lQ5Rxab9sF8pu86xC
+	 ckfjVXnxFH4qg==
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-38a4118c4f7so43022881fa.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 09 Mar 2026 19:45:15 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWLA3pjSoRgS2zjIe5f7ZwjVrITyzviH1UPen1mQ33cQekloBsyqPmeTa54eT+CVH8TPvUmAY1K8WePCttSXdLRbQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzRQt3InBLswxJ5BumJoU008A87zukyxpMrrRxMoXsoGLBaaGNn
+	oSv8lp2j8OSEdeZPSsG/Ix+XCGYG0AXfus9yqr8byUs7XH0jWgT4rFnDgeaiVHRfXMOAqf3WVap
+	KMAs2quK+XGmR/qsAXipF5xZCH9SLkng=
+X-Received: by 2002:a05:651c:1104:b0:385:c21f:37e1 with SMTP id
+ 38308e7fff4ca-38a40b6a2d2mr40186201fa.15.1773110714064; Mon, 09 Mar 2026
+ 19:45:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Rspamd-Queue-Id: D269E2436FC
+References: <20260309190842.927634-1-vladimir.oltean@nxp.com> <20260309190842.927634-18-vladimir.oltean@nxp.com>
+In-Reply-To: <20260309190842.927634-18-vladimir.oltean@nxp.com>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Tue, 10 Mar 2026 10:45:01 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65surpnqrmv4tbH4TSrx6SaTpdbsQtCsNqwse5xwdb8fA@mail.gmail.com>
+X-Gm-Features: AaiRm535EaFxYtCAjq5FIkHiBmgOxc7_e434rO98DZfg5NrM7RTttw3IOCzqW1Y
+Message-ID: <CAGb2v65surpnqrmv4tbH4TSrx6SaTpdbsQtCsNqwse5xwdb8fA@mail.gmail.com>
+Subject: Re: [PATCH v3 phy-next 17/24] media: sunxi: a83-mips-csi2: include
+ PHY provider header
+To: Vladimir Oltean <vladimir.oltean@nxp.com>
+Cc: linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, dri-devel@lists.freedesktop.org, 
+	freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-can@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-ide@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
+	linux-usb@vger.kernel.org, netdev@vger.kernel.org, spacemit@lists.linux.dev, 
+	UNGLinuxDriver@microchip.com, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: 2BF642444EB
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719,redhat.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[oss.qualcomm.com,kernel.org,gmail.com,lunn.ch,davemloft.net,google.com,redhat.com,foss.st.com,st.com,synopsys.com,sholland.org,altera.com,linaro.org,baylibre.com,googlemail.com,pengutronix.de,oss.nxp.com,nxp.com,bootlin.com,bp.renesas.com,sntech.de,outlook.com,esmil.dk,starfivetech.com,mail.toshiba,glider.be,eswincomputing.com,intel.com,rock-chips.com,samsung.com];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-29093-lists,linux-renesas-soc=lfdr.de];
-	DKIM_TRACE(0.00)[redhat.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[lists.infradead.org,kernel.org,linaro.org,lists.freedesktop.org,vger.kernel.org,lists.linux.dev,microchip.com,gmail.com,sholland.org];
 	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	RCPT_COUNT_TWELVE(0.00)[28];
+	TAGGED_FROM(0.00)[bounces-29094-lists,linux-renesas-soc=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_FIVE(0.00)[5];
+	REPLYTO_ADDR_EQ_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[wens@kernel.org,linux-renesas-soc@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[rrendec@redhat.com,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	RCPT_COUNT_GT_50(0.00)[77];
-	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
 	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,netdev,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
+	HAS_REPLYTO(0.00)[wens@kernel.org]
 X-Rspamd-Action: no action
 
-On Fri, 2026-03-06 at 16:46 +0100, Bartosz Golaszewski wrote:
-> Add support for the firmware-managed variant of the DesignWare MAC on
-> the sa8255p platform. This series contains new DT bindings and driver
-> changes required to support the MAC in the STMMAC driver.
->=20
-> It also reorganizes the ethqos code quite a bit to make the introduction
-> of power domains into the driver a bit easier on the eye.
->=20
-> The DTS changes will go in separately.
+On Tue, Mar 10, 2026 at 3:10=E2=80=AFAM Vladimir Oltean <vladimir.oltean@nx=
+p.com> wrote:
+>
+> The introduction commit 576d196c522b ("media: sunxi: Add support for the
+> A83T MIPI CSI-2 controller") says:
+>
+>     This implementation splits the protocol and D-PHY registers and
+>     uses the PHY framework internally. The D-PHY is not registered as a
+>     standalone PHY driver since it cannot be used with any other
+>     controller.
+>
+> However, this does not matter, and is not the only instance of tight PHY
+> provider <-> consumer pairing. According to Vinod Koul, having PHY
+> provider drivers outside of drivers/phy/ is discouraged, although it
+> would be difficult for me to address a proper movement here.
+>
+> So just include the private provider API header from drivers/phy/ and
+> leave a FIXME in place.
+>
+> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
 
-As Jakub pointed out, it conflicts with the latest net-next, but does
-apply cleanly on the latest mainline, so I tested there (on a SA8775P
-board running the SCMI firmware).
+Acked-by: Chen-Yu Tsai <wens@kernel.org>
 
-The two NICs come up as expected. Basic iperf3 throughput and jitter
-tests look good. I would offer a Tested-by tag and a summary of the
-test results, but I think it's a moot point because you'll have to
-submit a new version anyway.
-
-I will wait for you to rebase, then test again and come back with the
-results.
-
---=20
-Best regards,
-Radu
-
+> ---
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Chen-Yu Tsai <wens@kernel.org>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Cc: Samuel Holland <samuel@sholland.org>
+>
+> v1->v3: none
+> ---
+>  .../media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_dphy.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t=
+_dphy.c b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_dphy=
+.c
+> index 24bbcc85013d..1143feeb4fcb 100644
+> --- a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_dphy.c
+> +++ b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_dphy.c
+> @@ -4,9 +4,9 @@
+>   * Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+>   */
+>
+> -#include <linux/phy/phy.h>
+>  #include <linux/regmap.h>
+>
+> +#include "../../../../phy/phy-provider.h" /* FIXME */
+>  #include "sun8i_a83t_dphy.h"
+>  #include "sun8i_a83t_mipi_csi2.h"
+>
+> --
+> 2.43.0
+>
 
