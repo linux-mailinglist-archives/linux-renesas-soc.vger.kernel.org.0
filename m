@@ -1,173 +1,173 @@
-Return-Path: <linux-renesas-soc+bounces-29162-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29163-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UD9jCGiNsGkukgIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29162-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 22:30:16 +0100
+	id GNAoK5OUsGkukgIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29163-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 23:00:51 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9D882584D2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 22:30:15 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CBA92589B4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 23:00:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 359623026B5F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 21:30:15 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id E389930B993E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 21:59:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 054023EE1E5;
-	Tue, 10 Mar 2026 21:29:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD8123F166C;
+	Tue, 10 Mar 2026 21:59:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DZ5szW7o"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="mQjQs8H0"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 401563CFF6E
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2026 21:29:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 567B73EC2F8
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2026 21:59:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773178194; cv=none; b=jufD+++lah+1BAjG7UD6KC3ygVTOXfhCF5elbwgqAnQCbNUm5cJQ6wcuTudhn1LoaXJ15l3jOlYqm34F9MZKSvnFQ8fTkTgxJzIDAhiGgIzZbrVvwFZ+s2JD8a6xruyk+D3RfnDpUWApeDq6DNMkxPlDZ9h8HNNnPoinMStJVQQ=
+	t=1773179990; cv=none; b=bYPSqSdKtyMwbXbaJ0qdH1vglyuKPYHgyWxDk9EUAwzo7ZXTOWRUGdsgFMAkQEzYVnyKqoRommHcuDKvtob/kumksozbokkQ2Bn9uAdDX/klQzUT40/Vog+O/SzMqnhV5qOmZjd1J7tZtWLUaf46DmxlochjPhli3/Q7HxB71AY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773178194; c=relaxed/simple;
-	bh=ogXyPVzKzbJQ53vkSS2qbngNk39fkQyG1JxarA4s1mE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hpfR9jZgtP9LAYkp0XjH++HJ7n53lhqzn1WpdY3gcTTKxZJSeObWs1dFup+18gff/nfYSPC6SlOexT85mlfGldIt28of3dCxJlS2J9//bxOFAbm7lc2BNTj7T56kbs5KJ6lCMQ3jXbsfXkzeRT2WlI5j5tccAsOE8LtDkNE5tog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DZ5szW7o; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-48535a0ef86so25610285e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2026 14:29:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773178188; x=1773782988; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=txwgTwUpWJVP1W5FlgZT0bJMXVPZO5xS2ZVTbzY6hVg=;
-        b=DZ5szW7oEauAO7ms8SG/B6UeIj8FQmP+4C47LgSZCbgnNfqtt2A8ke7pqX2hKM8Qwj
-         hjXOXnNBqhAQUhHDILCQHMxgn/7uzA3ucafuT4Y6tkQ7FlKl5aYlVzY5qSb1P+XflLHy
-         WljqsCgYWC4M6SUFiV/pFGv10bms7jCbbsowhHIyQS2sTWpVqbVucmOglJDCjhjk/cQk
-         iGw34vLMEz4Fk5bO8b8ldq50Ro/9X3jzI8yD5tOp4fnikp1e4aPr54WnLJ8WVUca70Uw
-         b37FVKUIeF/6fBIrNcRlYUZuEsr4cg9EsYYp+U+ksILtVoY6JFR7aqyHmXuyv0NKeQys
-         05qA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773178188; x=1773782988;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=txwgTwUpWJVP1W5FlgZT0bJMXVPZO5xS2ZVTbzY6hVg=;
-        b=r++5oiVwA19sqSuYJ6z215pXEK3EoGmj9x6B94TGarN11xRshX77c0uvYeqafuMNq1
-         mz+56fvqgK1VdMyw2fhrehfOo+DaAv93HTNemURmUXysYyr9taaYZSsGs6C25wNO6MBv
-         rkaEv8+E15Z/6d8avpmaVztMDUUSr5aySSxSOkMpAbBQftHvEqh8rCjPGAUb0MPyh62U
-         0jhyvI0KucW0Dlf8Dhr7ZfH2wq/KAymvtYfxt9m6o3IO0H8oa/AmZMhheyyMjz99z2lY
-         T2DwYBreikgMpBShg6hJ6Xvqyln1U6h4z+4GkbfLDfDHY3Ttkx16cV9JvA7bs/MTChp9
-         bnaw==
-X-Forwarded-Encrypted: i=1; AJvYcCXoZhMpYbLFD1SWb+Q8RlOIfE8rKVoJH+kr5W7D/6CNA5INkGuG0RFgJFxhz/9Og1m25Afcg+MZNzt9bKXlCHMi8w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyX8IJqRuNrcKhS9mrvDYEZeZAEM1niKmpoT2LBVIF6/WX5fbMm
-	+qddjEoSYD+M7Ej1ekV31KrdvFCxz0oWsTIh/fq1wo2mI2rWOqAOUUrH
-X-Gm-Gg: ATEYQzyKcQYep9QvRktXaMsKxaE5I4SwMnxQ0tH9L4fWhqX7ZrkrpCQ8Log/Q6MzU7+
-	V1Gq608mONt738w5+JwCgW7H2mlqP1kd5R8vaC18uBRiNnkxBr5JNAX5MWqchsTwgSFFFxws6AF
-	HKEXHVFx1QpJ7KgmXgRpuDJL13GkD/OSVse+bq0RKiF9QivY+I0tKvKqUBumsJMLDfnM5WUgbM0
-	u7j/vdFLqd5gKv3F0kOvhiVa5QplaPu4yfNa5o/OuZMSKbWGtmGVWWc/qIcxc86JSiAvvT/47LW
-	tP+xS/lsjouAZS1BHnyJxcb2YW9+NHGCQkMiIUgZ7iFrha0LE876eM/UuxierteGuVPgdHR9CCR
-	y2nnHUPVFNVf2MTT8WVs0uCEpPwp/GZztdbKiiC/03QancvyM+DoGmqIzC9Qv8wTTW9Ibbotb+n
-	1HiC5MRjbGPFee1WYTXCW986rVUcSOxi2zcn7sfpY2Tlr41CR/j5xsYdUdfmKiqyZQ+ywqk67T3
-	TLRxSgjWMNGIZSVRoSoMWa8Kiy0x04p9BNfoQ7PzWM2jd0A
-X-Received: by 2002:a05:600c:4591:b0:480:4a90:1afe with SMTP id 5b1f17b1804b1-4854b123a76mr4529995e9.34.1773178188460;
-        Tue, 10 Mar 2026 14:29:48 -0700 (PDT)
-Received: from iku.Home ([2a06:5906:61b:2d00:82df:eef6:d0c5:70a5])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439f818d37fsm1247104f8f.6.2026.03.10.14.29.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2026 14:29:47 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>,
-	Rob Herring <robh@kernel.org>,
+	s=arc-20240116; t=1773179990; c=relaxed/simple;
+	bh=/YeGWB9oc7O8AA1akAsfiN+5RGMmexVob0+4KmRyzxo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lpSvgPpevVfDu3LONkhab+vmCgnVtjaj2RtRCqcEg4Tjcckdax9/64F1LbOQfw1qoDi6XmkiUzCYICwgf5VOEZDEgUEZZXCnpGbEknAy6Vnzp0UKQN5x1ENslavhpFgXq4PUsuk1dHUdccLlin86mZvSKAiFKyQbSz9GLElpJf8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=mQjQs8H0; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=6O0p
+	tGpA6us9oqpqFz8mGRim2bmGuDcoP2CRwTmZzpE=; b=mQjQs8H0tX7w5SncIAki
+	dNw7X9PlmsNIBtTcqyqI3nWQClN/XQfB3vYCx/Y+skFChTqYZ/7cpgbgz1GHu/RR
+	tUIDIruXFrcjRW7EJwrOUlSRDZalRo2hersel96Y6AZNrcpQ0HOgqU16q2+e3Npw
+	rssryH919aWgXoOtQHpNCWqN9Qx0Bn2oToolE/7+w1Za+F8qj6DSS8oszoPowoKf
+	3L3AgDpXSkkOFL0z9pZLhOo5eYxe5NaSvoPiAQDAfQ3xpVPar4jLJTI6T+b+rsbQ
+	+uWTc38hSDpltF4oAkudG1bp75EqOeaAYojXIMiJGwNvi2ubno/lkMJ9rwJgdu0q
+	hw==
+Received: (qmail 3383014 invoked from network); 10 Mar 2026 22:53:03 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 Mar 2026 22:53:03 +0100
+X-UD-Smtp-Session: l3s3148p1@a2Qri7JMJu4ujntP
+Date: Tue, 10 Mar 2026 22:53:01 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
+Cc: Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 3/3] memory: renesas-rpc-if: Add support for RZ/T2H SoC
-Date: Tue, 10 Mar 2026 21:29:27 +0000
-Message-ID: <20260310212927.3372410-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260310212927.3372410-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20260310212927.3372410-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>, linux-watchdog@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+	Pascal Eberhard <pascal.eberhard@se.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH 0/5] watchdog: rzn1: Add support for direct hardware reset
+Message-ID: <abCSvdToaQG20uWT@shikoro>
+References: <20260310173249.161354-1-herve.codina@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: D9D882584D2
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="slnxGfaK/KqUypIu"
+Content-Disposition: inline
+In-Reply-To: <20260310173249.161354-1-herve.codina@bootlin.com>
+X-Rspamd-Queue-Id: 2CBA92589B4
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-1.76 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[sang-engineering.com:s=k1];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-29162-lists,linux-renesas-soc=lfdr.de];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_COUNT_THREE(0.00)[4];
+	DMARC_NA(0.00)[sang-engineering.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,glider.be,gmail.com,bp.renesas.com,sang-engineering.com];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,renesas.com,bp.renesas.com];
-	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-29163-lists,linux-renesas-soc=lfdr.de,renesas];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[sang-engineering.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[wsa@sang-engineering.com,linux-renesas-soc@vger.kernel.org];
+	FREEMAIL_CC(0.00)[linux-watchdog.org,roeck-us.net,kernel.org,glider.be,baylibre.com,gmail.com,vger.kernel.org,se.com,bootlin.com];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
+	TO_DN_SOME(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Add xSPI (Extended SPI) support for the RZ/T2H SoC. The xSPI IP on RZ/T2H
-is closely related to the RZ/G3E variant with some register bit differences
-in the configuration registers.
+--slnxGfaK/KqUypIu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Add a new compatible string "renesas,r9a09g077-xspi" for RZ/T2H while
-reusing the existing xspi_info_r9a09g047 OF data. This allows the driver
-to bind correctly on RZ/T2H while the register differences can be handled
-in future updates as the affected configuration registers are not currently
-accessed by the driver.
+Hi Herve,
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- drivers/memory/renesas-rpc-if.c | 1 +
- 1 file changed, 1 insertion(+)
+> On timeout, the watchdog also asserts its dedicated reset line. This
+> reset line is connected to the reset controller (part of sysctrl) and,
+> if this line is enabled as a possible reset source at the reset
+> controller level, it initiates a system reset.
 
-diff --git a/drivers/memory/renesas-rpc-if.c b/drivers/memory/renesas-rpc-if.c
-index 3755956ae906..028bd3b4b9e3 100644
---- a/drivers/memory/renesas-rpc-if.c
-+++ b/drivers/memory/renesas-rpc-if.c
-@@ -1145,6 +1145,7 @@ static const struct rpcif_info xspi_info_r9a09g047 = {
- static const struct of_device_id rpcif_of_match[] = {
- 	{ .compatible = "renesas,r8a7796-rpc-if", .data = &rpcif_info_r8a7796 },
- 	{ .compatible = "renesas,r9a09g047-xspi", .data = &xspi_info_r9a09g047 },
-+	{ .compatible = "renesas,r9a09g077-xspi", .data = &xspi_info_r9a09g047 },
- 	{ .compatible = "renesas,rcar-gen3-rpc-if", .data = &rpcif_info_gen3 },
- 	{ .compatible = "renesas,rcar-gen4-rpc-if", .data = &rpcif_info_gen4 },
- 	{ .compatible = "renesas,rzg2l-rpc-if", .data = &rpcif_info_rz_g2l },
--- 
-2.53.0
+Okay, this seems similar to R-Car SoCs, so multiple things to add from
+my side:
 
+* I agree with Krzysztof that the renesas-vendor-binding is not the way
+  to go. The information could be either deduced from the register range
+  or you could have a link to the syscon describing somehow which reset
+  to allow.
+
+But:
+
+* On R-Car, we require the firmware to correctly setup which resets are
+  allowed. Only in cases of broken firmware, we override it in the
+  system controller driver. The latter could probably be argued here.
+  The firmware is old and will probably be not updated anymore.
+
+* If the watchdog driver kind of unconditionally allows its own reset,
+  we could keep it very simple and just unconditionally allow watchdog
+  resets when probing the sysctrl driver?
+
+* If you don't like this, you could also parse the DT for enabled
+  watchdogs when probing the sysctrl driver and act upon findings?
+
+Happy hacking,
+
+   Wolfram
+
+
+--slnxGfaK/KqUypIu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmmwkroACgkQFA3kzBSg
+KbbmLg/+OeUZerBrTF1ZxtcrfFFw8YZX5GHblMhKK9GGpfWCnCgk0Py+8Yzfz3hn
+F6rQ81eD2T3X7+4MVWw+fXP/c0MhFdXS61cqAW7gqCpqrwk8k11pvMJisJFUV71W
+8zyVR8iOGxQX9D6ngf8loTjewE/9zPOqz06XzynDm6zcg/e6kiUW5ApFEH0RgF34
+BiM6DOYADem/e0E3s0/Ger77sNxC8vdp+8l7DqytBX1+ovuhbuEHBD0Ll8f2Ll/F
+LHvok84w4k6cIEv25a817tnmLePXQxzMW+yVRyrI/49ya/1DQRci9ez2U+vpZZh9
+TJb+GgKCjqpE1kjq+ku+T2B2KlhsN/T2HWH8zCNoLHTlG32ZoWezPtkmqCPnILNb
+665I9MpYjMeQemqvRxyROm1kQe5whoqMO8pqxZf4Ae7ju1449TyGBYZPU/ik/t68
+K3vRpK9HN78VehOx+yVbKHCL2LZz7tIr0BP2eN7aR+qNBvw3RGt3xTcbiaCpMlag
+vJrAta1CAi7+h/S1w3odiSX4m/WR2pKQ9rmlPuT1/KRv8L/OzgNs8B6rauAgB4Fu
+oQVxdR2YZ4rAU6N7qrQVamh/tHnVDqU7gSD6XI5CJcHpGvojHWtK3lp7XtI21iA2
+YwFEWezHmGeGzctie8G1b58JPj9HnMs8u0TUi5nr3SPU2ukGpAE=
+=YPCo
+-----END PGP SIGNATURE-----
+
+--slnxGfaK/KqUypIu--
 
