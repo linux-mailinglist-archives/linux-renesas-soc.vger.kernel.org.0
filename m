@@ -1,91 +1,120 @@
-Return-Path: <linux-renesas-soc+bounces-29118-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29119-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SI0MGfXZr2kzdAIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29118-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 09:44:37 +0100
+	id ACm6DSLer2kzdAIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29119-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 10:02:26 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 045F8247861
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 09:44:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D72AD247D2F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 10:02:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id EC03830DEC1A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 08:42:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C33D1316D90E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 08:58:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EB9A4301B8;
-	Tue, 10 Mar 2026 08:42:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1834943CEEB;
+	Tue, 10 Mar 2026 08:58:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GTvciSqq"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tZDQM11q"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C305430B84
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2026 08:42:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7B324301C2
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2026 08:58:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773132140; cv=none; b=DsEfg6QVSDTJB3XadRFO8Ovj9I5H2/oWcC5Kz+p5gjH1iGjnwOl2U0x0JEV/Ftogw452PFK90NYKwn/1rXpoRskC9F8bqwvgr0qYFtF7Obj+PatjLGrOT67d4FX27iUgHtKWh+5uP5LLRhCw2yiUa5M0fHc3cIxwV/ZQInimnDI=
+	t=1773133099; cv=none; b=AwqDCdm6mFT55r/DRP+9orSEiNGiuumb9citBzKD8C2d1Ldl++VQm5r4yYB9KWQwy1nLtENtm+5+0aANxaXC8JFtHvNgeYmnuiuwl8r4K46SuVN4p0zOBWrMcHQlKB+5E65h6AE6WWmZ+Uoeq0hZYTXkQ+Ojb0PfFAjs5RmG3Nk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773132140; c=relaxed/simple;
-	bh=+hdxOVwm077ylsjLu0wR0T6SVFeW4T69FussqsDDRHA=;
+	s=arc-20240116; t=1773133099; c=relaxed/simple;
+	bh=M6JPfbr9d5IciKIoqHHW920nfQtcVt9K8aP07ynrnlo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DNe4no7rUWWTEn+TeqWnHg6W8KAcZ7tXbMdkzn+Dd68tjATDc2y+FAUfibpdUN7WOhwoOqFsFbv3XbmEOwxL3y7VmSXTdpjjYnjsQyUwiJPwHk/Szd+RrfGhB/XDas2Xze3hr8TnqohagS8Mh6ao3tw/gJJRq3dS1PaB1m9usbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GTvciSqq; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18F66C2BCB6
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2026 08:42:20 +0000 (UTC)
+	 To:Cc:Content-Type; b=AVu7gK6lK/Mvc0pHo53sKQhY+dqXZQ7+MaxK4Sv/yxQWXySmW9B3yJBV886E0Yt88Zkyb+wxZFOTXzDwIcGvtkpuaBCmiLn5uLq1w28Llj0OIjEL1B+OQuT4HO7C21evJTqdeRkkNPeQynOKLjIj8326fBSQAIfBLrl2YLJMi7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tZDQM11q; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB817C4AF0C
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2026 08:58:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773132140;
-	bh=+hdxOVwm077ylsjLu0wR0T6SVFeW4T69FussqsDDRHA=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=GTvciSqq+x8/zCMOtuyLli8n1vUX944BWGl817kV9StHpWn/ZCnegugKuRQsP31zc
-	 BzAgQT7AReGa+w9FNTeP0MAZpzB8BrfJNqjl8scrI0LyBvBQY7rG+irphiVi9e9Pay
-	 H9kcdpBYkJtzeYMnQcffp0/6DqalOD85Ero6OlpmOhuOcyq6hlw5qVhAebzG2/YIXB
-	 DnMhuDw8gGVkaM59hP3I087c+z0UZ4KsUJrbnznXy+njrrp6YDnmMQ++sMxHFuRr6G
-	 HFUyohjET/eAy2mVYsy+9Qp1f3+sfdypP6FF2U5DFevqkN4m7+QA91ws+sAjszCwIj
-	 fWqe+XRjm8C8A==
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5a13d6a2d7bso3429656e87.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2026 01:42:20 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVzAvuQ0NitBbqE8Iw3orMns0cHSMZ85M/QuMy8b43RAllapREjXYczDWFge096x4DCFBxdIkLwuw9OM8eq0BqlSA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzNQ49oo+1YUeRwO2z4Eh9K31b/fBJ7Jcgd5RGdGr/txbKskTOA
-	fEMF8KNYmpe7xrFOIaGj3laJUSVjaP/dkPt0tnUmMBNO9t2z0T24Y4SpNAyGq+AujbMLpbYPgIp
-	R3M5oYXuKb26+704ImM2mHPYpgQcVOGA=
-X-Received: by 2002:a2e:880b:0:b0:388:4329:c054 with SMTP id
- 38308e7fff4ca-38a5d04ed61mr6094121fa.15.1773132138304; Tue, 10 Mar 2026
- 01:42:18 -0700 (PDT)
+	s=k20201202; t=1773133098;
+	bh=M6JPfbr9d5IciKIoqHHW920nfQtcVt9K8aP07ynrnlo=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=tZDQM11qneSYqNndJJ+rDgCWCXaubztC0EU2cNYNl/DrHnKZ5Laa4TpxPCIr1Tr6A
+	 PCrDcHv6Dr+xwk0QDncYwcPtzLnCmHNdMwjuU0NrvakPKmAKW7k+3L6nvvlJD0ih2/
+	 PgVHQ6tQTtVwn6bAzDrJCbfg2qQHfwElUiTysHN8dwnn/Q2Rskunb3ViyCzBvLDBOB
+	 +gh0Ubvtbj7EF+ns8yNPoWO6SsLO0Wg79q7JFUVqTg9W/ek+Cjtdwq3h7GxILDIGiS
+	 vgWjY4s7SNRl8FPprWwQ3ndAPjFXStqqRlON74Ufj5u74XwPToW4LvPUfh5TVENmZb
+	 iWWiL4NaGQI4A==
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-38a5584e31fso16806731fa.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2026 01:58:18 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXeoevOodshSs9pNK71R/TBYamHcntRoZunO83aq18e5gKpazrGOUEOXIdoBAq2snaEUWIeXkf1tE0tWi2UPlpDzw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0eBhHwlalopNE8LfancsAVVeGSX/H6IRZfMarPi63XkIK/c4n
+	Yy33rzZx9PAMGENryVun5QbvmWxQ+mzqNZ9fMpNPj7gp3QCGuuXgxEZb5ERoTkENRzMCsz0Kk5I
+	341164XbNQ55TEH2kWEMRFAnPNkXuTcBduQ2eq7OgkA==
+X-Received: by 2002:a2e:b012:0:b0:389:e2e8:4f4c with SMTP id
+ 38308e7fff4ca-38a5d05131dmr6527231fa.21.1773133095795; Tue, 10 Mar 2026
+ 01:58:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260309190842.927634-1-vladimir.oltean@nxp.com> <20260309190842.927634-22-vladimir.oltean@nxp.com>
-In-Reply-To: <20260309190842.927634-22-vladimir.oltean@nxp.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Tue, 10 Mar 2026 16:42:04 +0800
-X-Gmail-Original-Message-ID: <CAGb2v649jsoT9Uw5=gg5Zzxmgd4E04f8B8St_vUseP3JOrGG5g@mail.gmail.com>
-X-Gm-Features: AaiRm50ffNFGTkd49hJolMVvUoYaIAAtO7JRlAyrrCfXMo0y-iPLjdkpqATmeN0
-Message-ID: <CAGb2v649jsoT9Uw5=gg5Zzxmgd4E04f8B8St_vUseP3JOrGG5g@mail.gmail.com>
-Subject: Re: [PATCH v3 phy-next 21/24] phy: include PHY provider header (1/2)
-To: Vladimir Oltean <vladimir.oltean@nxp.com>
-Cc: linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, dri-devel@lists.freedesktop.org, 
-	freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-can@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-ide@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org, spacemit@lists.linux.dev, 
-	UNGLinuxDriver@microchip.com
+References: <20260306-qcom-sa8255p-emac-v7-0-d6a3013094b7@oss.qualcomm.com> <4728554b256f016d9a5f3e019ed831387b0f059b.camel@redhat.com>
+In-Reply-To: <4728554b256f016d9a5f3e019ed831387b0f059b.camel@redhat.com>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Tue, 10 Mar 2026 09:58:03 +0100
+X-Gmail-Original-Message-ID: <CAMRc=Me8pw5ROaopJ8bcon_NGR5TEZdkJL-F4H1-8b-U2FU9GQ@mail.gmail.com>
+X-Gm-Features: AaiRm50drSEJRzFk2cE1mtMmfBxUomqwHAi_2o4urYZsnhjuUaH2OaO1HdaVg_g
+Message-ID: <CAMRc=Me8pw5ROaopJ8bcon_NGR5TEZdkJL-F4H1-8b-U2FU9GQ@mail.gmail.com>
+Subject: Re: [PATCH net-next v7 0/7] net: stmmac: qcom-ethqos: add support for
+ SCMI power domains
+To: Radu Rendec <rrendec@redhat.com>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Richard Cochran <richardcochran@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Vinod Koul <vkoul@kernel.org>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, 
+	Jose Abreu <joabreu@synopsys.com>, Chen-Yu Tsai <wens@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Matthew Gerlach <matthew.gerlach@altera.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+	Keguang Zhang <keguang.zhang@gmail.com>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Jan Petrous <jan.petrous@oss.nxp.com>, s32@nxp.com, 
+	Romain Gantois <romain.gantois@bootlin.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, Heiko Stuebner <heiko@sntech.de>, 
+	Chen Wang <unicorn_wang@outlook.com>, Inochi Amaoto <inochiama@gmail.com>, 
+	Emil Renner Berthing <kernel@esmil.dk>, Minda Chen <minda.chen@starfivetech.com>, 
+	Drew Fustini <fustini@kernel.org>, Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>, 
+	Nobuhiro Iwamatsu <nobuhiro.iwamatsu.x90@mail.toshiba>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Maxime Ripard <mripard@kernel.org>, Shuang Liang <liangshuang@eswincomputing.com>, 
+	Zhi Li <lizhi2@eswincomputing.com>, Shangjuan Wei <weishangjuan@eswincomputing.com>, 
+	"G. Jaya Kumaran" <vineetha.g.jaya.kumaran@intel.com>, Clark Wang <xiaoning.wang@nxp.com>, 
+	Linux Team <linux-imx@nxp.com>, Frank Li <Frank.Li@nxp.com>, David Wu <david.wu@rock-chips.com>, 
+	Samin Guo <samin.guo@starfivetech.com>, 
+	Christophe Roullier <christophe.roullier@foss.st.com>, Swathi K S <swathi.ks@samsung.com>, 
+	Mohd Ayaan Anwar <mohd.anwar@oss.qualcomm.com>, linux-arm-msm@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, Drew Fustini <dfustini@tenstorrent.com>, 
+	linux-sunxi@lists.linux.dev, linux-amlogic@lists.infradead.org, 
+	linux-mips@vger.kernel.org, imx@lists.linux.dev, 
+	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	sophgo@lists.linux.dev, linux-riscv@lists.infradead.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, 
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 045F8247861
+X-Rspamd-Queue-Id: D72AD247D2F
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
@@ -93,63 +122,58 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-29118-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_CC(0.00)[oss.qualcomm.com,kernel.org,gmail.com,lunn.ch,davemloft.net,google.com,redhat.com,foss.st.com,st.com,synopsys.com,sholland.org,altera.com,linaro.org,baylibre.com,googlemail.com,pengutronix.de,oss.nxp.com,nxp.com,bootlin.com,bp.renesas.com,sntech.de,outlook.com,esmil.dk,starfivetech.com,mail.toshiba,glider.be,eswincomputing.com,intel.com,rock-chips.com,samsung.com,vger.kernel.org,st-md-mailman.stormreply.com,lists.infradead.org,tenstorrent.com,lists.linux.dev];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	RCPT_COUNT_TWELVE(0.00)[25];
 	MIME_TRACE(0.00)[0:+];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	TAGGED_FROM(0.00)[bounces-29119-lists,linux-renesas-soc=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	MISSING_XM_UA(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	REPLYTO_ADDR_EQ_FROM(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[wens@kernel.org,linux-renesas-soc@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	FROM_NEQ_ENVFROM(0.00)[brgl@kernel.org,linux-renesas-soc@vger.kernel.org];
+	RSPAMD_EMAILBL_FAIL(0.00)[rrendec.redhat.com:query timed out];
+	RCPT_COUNT_GT_50(0.00)[77];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,netdev,renesas];
 	NEURAL_HAM(-0.00)[-1.000];
-	HAS_REPLYTO(0.00)[wens@kernel.org];
+	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,mail.gmail.com:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,mail.gmail.com:mid]
 X-Rspamd-Action: no action
 
-On Tue, Mar 10, 2026 at 3:10=E2=80=AFAM Vladimir Oltean <vladimir.oltean@nx=
-p.com> wrote:
+On Tue, Mar 10, 2026 at 2:10=E2=80=AFAM Radu Rendec <rrendec@redhat.com> wr=
+ote:
 >
-> The majority of PHY drivers are PHY providers (obviously).
+> On Fri, 2026-03-06 at 16:46 +0100, Bartosz Golaszewski wrote:
+> > Add support for the firmware-managed variant of the DesignWare MAC on
+> > the sa8255p platform. This series contains new DT bindings and driver
+> > changes required to support the MAC in the STMMAC driver.
+> >
+> > It also reorganizes the ethqos code quite a bit to make the introductio=
+n
+> > of power domains into the driver a bit easier on the eye.
+> >
+> > The DTS changes will go in separately.
 >
-> Some are providers *and* consumers (phy-meson-axg-mipi-dphy,
-> phy-meson-axg-pcie). These are the Amlogic AXG SoCs, which split the
-> physical layer into two chained PHYs: the digital layer and the analog
-> layer. The DSI or PCIe controller interacts only with the digital PHY,
-> presumably for simplicity.
+> As Jakub pointed out, it conflicts with the latest net-next, but does
+> apply cleanly on the latest mainline, so I tested there (on a SA8775P
+> board running the SCMI firmware).
 >
-> The rest of PHY drivers which include <linux/phy/phy.h> do so because
-> they call phy_set_bus_width(), a consumer function.
+> The two NICs come up as expected. Basic iperf3 throughput and jitter
+> tests look good. I would offer a Tested-by tag and a summary of the
+> test results, but I think it's a moot point because you'll have to
+> submit a new version anyway.
 >
-> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
-> ---
-> Conflicts in drivers/phy/canaan/phy-k230-usb.c with commit 8787fa1da603
-> ("phy: usb: Add driver for Canaan K230 USB 2.0 PHY").
-> Conflicts in drivers/phy/eswin/phy-eic7700-sata.c with commit
-> 67ee9ccaa34a ("phy: eswin: Create eswin directory and add EIC7700 SATA
-> PHY driver")
+> I will wait for you to rebase, then test again and come back with the
+> results.
 >
-> Both drivers are newly added in linux-phy/next and not present in
-> v7.0-rc1. The recommendation is to drop the changes in this patch and
-> readd them when merging into linux-phy/next.
->
-> v2->v3: add conflict resolution details
-> v1->v2: split in two parts to pass through linux-phy mailing list
-> moderation
-> ---
->  drivers/phy/allwinner/phy-sun4i-usb.c                 | 3 ++-
->  drivers/phy/allwinner/phy-sun50i-usb3.c               | 3 ++-
->  drivers/phy/allwinner/phy-sun6i-mipi-dphy.c           | 4 ++--
->  drivers/phy/allwinner/phy-sun9i-usb.c                 | 3 ++-
 
-Acked-by: Chen-Yu Tsai <wens@kernel.org> # allwinner
+Thank you for the tests. The rework after the changes turned out to be
+quite extensive. I should have it ready by the end of the week. I will
+appreciate if you could retest it again by then and leave your tag.
+
+Bart
 
