@@ -1,180 +1,162 @@
-Return-Path: <linux-renesas-soc+bounces-29114-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29115-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YF2/LSvVr2kfcgIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29114-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 09:24:11 +0100
+	id GNHdM7nVr2kfcgIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29115-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 09:26:33 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C03A24740F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 09:24:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A1CD2474F5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 09:26:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4C1FF3013A59
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 08:22:06 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4118E306743E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 08:25:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 803FA3EDAA6;
-	Tue, 10 Mar 2026 08:22:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D34853EFD0D;
+	Tue, 10 Mar 2026 08:25:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="JuC/yhxD"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C356F3E8C64
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2026 08:22:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F4D13B8D6B;
+	Tue, 10 Mar 2026 08:24:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773130925; cv=none; b=NevOGyN7IQSEnNXQWC3TyzyOEsnMCgs76la+yvIRXQJsySGNOI9ztUvdkYLe+3Hz/Mt06x9VaUuatU6g++Mk0jPNwt6cYKwbJ7YAYGdPh/7Jvmhp9LB6qvskot5WdVRC74WKfbh+rgHaSRN99e9nKAH+e++d7b64v7FrtW70b5M=
+	t=1773131100; cv=none; b=XpJvxGBoIUnUylry7mynfLhUo5YFehiWv2z6dmzq1hEab2YxbbY4b8C97RRQr8daNQtm3gvljH8x69Gm94BscTVGgES/4EGMuouu1LE5gfkhq+1XQ3mzgCuo7lyJ9xgtglbJg1DcMvJrsJEPfbs44FSr72EdsUJ1nsMnDqX7DRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773130925; c=relaxed/simple;
-	bh=8eG9h4oNIHd3WkVYJ0CiryGcrS2dUFm0LrdqFBGuGHI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MDia95PeIvaxdUAT/QXEgOLqg0YgrcL8JK7rsN37Od65X3GWGjUI/nJEuZC1NF/XxXk5dAGxRItP0psSc26LlAHtTHEorrncMTqjLVk0wIqUSMEDVBmssB62GMcAdrvQkm+WQM7en+91i18K45eguepGpytFOIBmxuDvR63SaWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-5fff77ff69bso654047137.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2026 01:22:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773130923; x=1773735723;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ME7mYFO5cSxoraTNGXEpjmzWMS/MMckOG3Vu7nhm3yw=;
-        b=xN5BiMl0DeLLRBuAq/5TYiVoXLyNIHyf/WbXC6wF20CCP5DGVkHPzpqNZ+80y2WFLn
-         GjP+sEg2fOzt8mM1YP9IxcwQXEk2nXlZTCsm4aKZ6kkOGk2jxwrNwS72zf+k9juezEEa
-         z7KT13a5wn88vqOUdDjLnf4DpGAyfV7DRtj8HNKf2+18pEHX70xU2syNulAv7NHfsIJ2
-         6lfu0KdbSwOsC0f0tx6zLORB2mgEoybnv/+Ni91wCvL8Amx4YXVSE8LxiPwlGLCV7ZKC
-         p64Ti1AgyTNM5uylyl7VA1TsXdKrXQuNcpBFOt32oLcO+ORJR27HdIY28DTxmlpl11Jg
-         dOXg==
-X-Forwarded-Encrypted: i=1; AJvYcCUNEHy1aO32tGGlcC+scBasq3okoK0R2rEQn3YEsObVOf81b9NcflPq44vn4u3KRAlVVxiKUlvC8wwnylHsqe7lrg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyfUZnli1XVH2dnIvw0gnFgVd5FPYewQ6ahw56hftw1zdZFam3m
-	++dflosbpsNzr3KuY0ESbAvgS2zdhnF7U8Oz/v0LdZfD2ZHy9IG52Sti+TScd0qD
-X-Gm-Gg: ATEYQzyhDEvGgL576iCAXu7MIIF1FXlb4VRoPjxP2hIVlLEVuDzOJHeJ+/MBQ/sfhFM
-	+itnI76cxI6OqEBpS4d0CuIQ+6xBTrKF6PUapXU4R66mVYliZIvxq0g3PXqQLL7cJi9D5kMwyKI
-	rSNUWIX1KhZNaalBlEecmgy9EPmKZtRfNi3DEo9a66Wfq5Jh+OoQhdeU6/ISTu27m4ab3tx3/BN
-	iI0Ph5LWyWjcYxjRRI1S7lowE27oe4zEyKh8V/EIx546lWS/EcRGzntlYR+0cKS2S4JOCsF2rdu
-	K2VRoq4pvTuyP/vHWAYc8vTvcH+U6KFV5cfI+yG1Rl50O9xu8D3nAujbpIdlQWyquRVgd5Ej+gi
-	svm7gcItojftPK4Xq+f4vrnO4ESdWsLkk3RDIc0OwAdxvVl5lT9sxfLqyJnEC6wHjwObUn4PLYh
-	wSEwrP+YmBewX2A6zvtKu3zt75XwLCLH1zlSxoEvPsNGvWc/gUOi1I3wyqEBJqPcaC
-X-Received: by 2002:a05:6102:3583:b0:5ff:17bd:9e83 with SMTP id ada2fe7eead31-5ffe5f567f0mr4668493137.14.1773130922448;
-        Tue, 10 Mar 2026 01:22:02 -0700 (PDT)
-Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com. [209.85.221.182])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-94e7b35f67bsm9573872241.5.2026.03.10.01.22.02
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Mar 2026 01:22:02 -0700 (PDT)
-Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-56af30dde0cso1898843e0c.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2026 01:22:02 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU43jfpOcBYYCEcYcpwkTosWMUSM256V+1NgjIsaqKeUO+ABMvfhP6cn/Ff8CdiHvrIvRNK7K9gZRucSY0RTDsrOQ==@vger.kernel.org
-X-Received: by 2002:a05:6102:3a11:b0:5ff:2391:45c0 with SMTP id
- ada2fe7eead31-5ffe619f7a7mr5819578137.31.1773130922022; Tue, 10 Mar 2026
- 01:22:02 -0700 (PDT)
+	s=arc-20240116; t=1773131100; c=relaxed/simple;
+	bh=XRYHG+1OFO9B3BzHm+YXgweT4NhjII3UvBtiXddp6VI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OGb3OegcJxbwICanihnWiL/HDrBg0uTIOyjecOXd47iLlptCnlGxoFDFlGtOo+q54VtLXW05Txa8L+24sJLJYKbSQpB9tsQl73xJGznplLe3Sk1yWkykN79gFh5xvG39hBqUDEJfW7H0Ajktw2/Trk4utb0AfYHdn23SfLuedRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=JuC/yhxD; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
+	bh=2W8R6JKoSWBQ/NVWe1VH8DTpdfOcfJODkzczD104anE=; b=JuC/yhxDoPy5BzKCllx+4lcx/F
+	aT/7U8Uk8l3EzePnMXUbbxXawsxzRHryg8fghP2VOHv5kHVBckllNBimOOiJ0d8LfnHjtGmniMUoP
+	q+tI4zY5GQIiNsEUe+qxnask3JoIfvvZdpBRFnoZGdldxQgpw2opTa6+/x5nJBA//K40leHf2j3eZ
+	QL1kjydLamseRW0i8hF8yC9BA+ISD2o9MPNpUsGC0DfntkB9k4h7pa/Fd+8ADCPiSf0DDEzQCBI5M
+	9HJQrDTSAcTC9UmZ18rrV1bkPrtisS78iMGtNExAIokgAvG70PlOoOoPpo/Lna+ZPaU1pgFFTLn9P
+	iDkZROYQ==;
+From: Heiko Stuebner <heiko@sntech.de>
+To: linux-phy@lists.infradead.org, Vladimir Oltean <vladimir.oltean@nxp.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
+ netdev@vger.kernel.org, spacemit@lists.linux.dev,
+ UNGLinuxDriver@microchip.com, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Subject:
+ Re: [PATCH v3 phy-next 10/24] drm/rockchip: dw_hdmi: avoid direct dereference
+ of phy->dev.of_node
+Date: Tue, 10 Mar 2026 09:24:43 +0100
+Message-ID: <2218670.OBFZWjSADL@phil>
+In-Reply-To: <20260309190842.927634-11-vladimir.oltean@nxp.com>
+References:
+ <20260309190842.927634-1-vladimir.oltean@nxp.com>
+ <20260309190842.927634-11-vladimir.oltean@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <aZYnyl-Nf4S1U2yj@google.com> <CAD++jLmvck+_UG5cNKLCVs2PJb2zynvhr8EbVbB6cYU9925+Vg@mail.gmail.com>
- <aa-3BYKrONKrHvTq@google.com>
-In-Reply-To: <aa-3BYKrONKrHvTq@google.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 10 Mar 2026 09:21:50 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUtWf8vp4mDu5RaWQs_YQ4w5Judk-GsQ4ih45DMEKQ7SA@mail.gmail.com>
-X-Gm-Features: AaiRm50gcawarxu3kmNtLb8Q9J-FKWy-3ateeFJv7I6B_cUkGbMzYEJyPcISy-c
-Message-ID: <CAMuHMdUtWf8vp4mDu5RaWQs_YQ4w5Judk-GsQ4ih45DMEKQ7SA@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: renesas: rza1: normalize return value of gpio_get
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Andy Shevchenko <andy@kernel.org>, Marek Vasut <marek.vasut+renesas@mailbox.org>, 
-	linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 2C03A24740F
+Content-Type: text/plain; charset="utf-8"
+X-Rspamd-Queue-Id: 3A1CD2474F5
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.46 / 15.00];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[sntech.de,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[sntech.de:s=gloria202408];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-29114-lists,linux-renesas-soc=lfdr.de];
-	DMARC_NA(0.00)[linux-m68k.org];
-	FREEMAIL_TO(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-29115-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[32];
+	FREEMAIL_CC(0.00)[kernel.org,linaro.org,lists.freedesktop.org,lists.infradead.org,vger.kernel.org,lists.linux.dev,microchip.com,rock-chips.com,linux.intel.com,suse.de,gmail.com,ffwll.ch];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.926];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux-m68k.org:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,mail.gmail.com:mid]
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[heiko@sntech.de,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[sntech.de:+];
+	NEURAL_HAM(-0.00)[-0.999];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,suse.de:email,ffwll.ch:email,nxp.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,rock-chips.com:email,sntech.de:dkim,sntech.de:email]
 X-Rspamd-Action: no action
 
-Hi Dmitry,
+Am Montag, 9. M=C3=A4rz 2026, 20:08:28 Mitteleurop=C3=A4ische Normalzeit sc=
+hrieb Vladimir Oltean:
+> The dw_hdmi-rockchip driver validates pixel clock rates against the
+> HDMI PHY's internal clock provider on certain SoCs like RK3328.
+> This is currently achieved by dereferencing hdmi->phy->dev.of_node
+> to obtain the provider node, which violates the Generic PHY API's
+> encapsulation (the goal is for struct phy to be an opaque pointer).
+>=20
+> Refactor dw_hdmi_rockchip_bind() to perform a manual phandle lookup
+> on the "hdmi" PHY index within the controller's DT node. This provides
+> a parallel path to the clock provider's OF node without relying on the
+> internal structure of the struct phy handle.
+>=20
+> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
+> ---
+> Cc: Sandy Huang <hjc@rock-chips.com>
+> Cc: "Heiko St=C3=BCbner" <heiko@sntech.de>
+> Cc: Andy Yan <andy.yan@rock-chips.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Simona Vetter <simona@ffwll.ch>
+>=20
+> v1->v3: none
+> ---
 
-On Tue, 10 Mar 2026 at 07:16, Dmitry Torokhov <dmitry.torokhov@gmail.com> w=
-rote:
-> On Tue, Feb 24, 2026 at 10:04:15AM +0100, Linus Walleij wrote:
-> > On Wed, Feb 18, 2026 at 9:58=E2=80=AFPM Dmitry Torokhov
-> > <dmitry.torokhov@gmail.com> wrote:
-> >
-> > > The GPIO get callback is expected to return 0 or 1 (or a negative err=
-or
-> > > code). Ensure that the value returned by rza1_gpio_get() is normalize=
-d
-> > > to the [0, 1] range.
-> > >
-> > > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> >
-> > Reviewed-by: Linus Walleij <linusw@kernel.org>
-> >
-> > I expect Geert will pick this up, else tell me & I'll queue it.
->
-> Geert, will you pick it up please?
+[...]
 
-Sorry, I am seriously running behind with patch review.  I hadn't
-realized this is a serious issue, but apparently the 0/1 behavior is
-enforced since commit 86ef402d805d606a ("gpiolib: sanitize the return
-value of gpio_chip::get()"), thus rendering the RZ/A1 GPIO driver
-broken since v6.15-rc1.  Unfortunately this doesn't show up in my
-limited boot testing of RSK+RZA1 :-(
+> @@ -588,13 +589,17 @@ static int dw_hdmi_rockchip_bind(struct device *dev=
+, struct device *master,
+>  		return dev_err_probe(hdmi->dev, ret, "failed to get phy\n");
+>  	}
+> =20
+> -	if (hdmi->phy) {
 
-So:
-Fixes: 86ef402d805d606a ("gpiolib: sanitize the return value of
-gpio_chip::get()")
+nit: a comment would be nice here. I.e. hdmi->phy being an opaque pointer
+so checking hdmi->phy !=3D NULL is not possible.
 
-Oh, that got relaxed again in commit ec2cceadfae72304 ("gpiolib:
-normalize the return value of gc->get() on behalf of buggy drivers")
-in v7.0-rc3, so apparently we're not the only ones...
-
-BTW, that's all info I would have liked to see before ;-)
-
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-pinctrl-fixes for v7.0.
-
-Gr{oetje,eeting}s,
-
-                        Geert
+With that being a "goal", I assume that information is not widely spread
+so this would prevent the next developer trying to change it back to
+"if (hdmi->phy)" while that handling change trickles down.
 
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+apart from that:
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Reviewed-by: Heiko Stueber <heiko@sntech.de>
+
+
+
 
