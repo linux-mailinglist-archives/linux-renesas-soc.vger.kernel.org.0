@@ -1,53 +1,53 @@
-Return-Path: <linux-renesas-soc+bounces-29165-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29166-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gNhtL2uksGnQlQIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29165-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 00:08:27 +0100
+	id +O0FGcuksGnQlQIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29166-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 00:10:03 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B24825927D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 00:08:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3C242592C3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 00:10:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E206F313ADE6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 23:08:23 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E542A3137619
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 23:09:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9650836F439;
-	Tue, 10 Mar 2026 23:08:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A6D7372B3B;
+	Tue, 10 Mar 2026 23:09:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="cVQdS4hQ"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="W4jfCE0x"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4637336F430
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2026 23:08:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DA6A2D9EFF
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2026 23:09:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773184103; cv=none; b=OZ/sm6tV4CE6WQ25DlGCTfHFh0obl67sAYW5nmF3DkIh++qzLxVE8k+sxhTgUYD8I6j/j0yp4ZZTu8Y/Rd04Z3/LyVyZjb8Blo470MeJNixawh9e/ahDVMMu8pSXcbfY54k1IxlKz3TtFMdEIIEZsupKqUWhPvgWe5vjyuVEoWE=
+	t=1773184190; cv=none; b=AffmFoVdLkm6vNfQyr8UnbnnvHiSGuUQ3A6icvhtkvSmx2vRcs3ffTVLK6wp6wRlpRf5FkbQ4pvY56TkxKGnYEHLVQ7xi8in4xtIcnPG8Q0eoD7odQoirW3rKY5duBb/NsuO319rtHoG3Pe8OAxGYw8e5iWyKuXLZStxBf9RBks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773184103; c=relaxed/simple;
-	bh=wqfaf2eTZuwG23CDujZzRmwZTxfCvmxgD+NxKTNbhb8=;
+	s=arc-20240116; t=1773184190; c=relaxed/simple;
+	bh=tvxfEPo+gdJgHh01uCZf5wLBgdbC4fQGClyZ8m9Ht3U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LDIEVoWNokDmsvTlruSSB00EQvedJ6p+wIDPaBbdcBNJWiJcZi+GNJ3PVOa45JzqwzsHlonpanj0YvLMXfhJ79S0aNt0UUnrcV8BhYEizAKU8fGyK5j+u5dVLmqN9jn3AUtmpOzspJzNe8LjrVMqK1jELzdo8qNrXdV1DzkSc4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=cVQdS4hQ; arc=none smtp.client-ip=194.117.254.33
+	 Content-Type:Content-Disposition:In-Reply-To; b=pCeVTi5CMrLSmJIGmh1nYNk10SHrKRLFfPPx6AwdFlcSoomOhyKN9IyWh1kXxmW/EiGeDGQcYi2O9PBh9UvjjOimnyIe403MXo5nahCVrr2MiMO3CQ2wwQagi0OiAAD7VvZG3LsLa7Na/ye9/Zg/WpeKV6iwVurm2hpePYZwHJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=W4jfCE0x; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=wqfa
-	f2eTZuwG23CDujZzRmwZTxfCvmxgD+NxKTNbhb8=; b=cVQdS4hQD+9l6bXns4fp
-	ZFQqyRYo5yOW41faMeqagSKUXduFetD4CYxyRkKu/G9y6tRyT+jXnllG5PtjA4CV
-	lKurV8GZVGxQqYOJIYu/zn8+WquK/ZV/15GDkkINj9HJ9iy+B+MFkULUWYuaO/Cb
-	kcp3OR0axPQJJZm83mfyEq1Tjrwjs2TLm+w5flLYhPzGk7H4QUuZy/SI6cFVcBdk
-	wtpr271lj5HYKSI9Bl9wTP1E0ilTkmrcW3JLO4tSx9ZELE0FOskLf663kxUFD+m8
-	lBDKGu+4iatqlxq41PWca53g/6xYSPH92cGclrtc2uqWeN2MLrYU8d5Jd8DXoX6R
-	lw==
-Received: (qmail 3401458 invoked from network); 11 Mar 2026 00:08:16 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 11 Mar 2026 00:08:16 +0100
-X-UD-Smtp-Session: l3s3148p1@ycMqmLNMRL0ujntP
-Date: Wed, 11 Mar 2026 00:08:15 +0100
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=R1Fz
+	WpugAaJ/+Bq6pMXLKwsRLGEgvyjwk4uFAKO1uq0=; b=W4jfCE0xq8Xr3wei9m7J
+	6f7G92G6G5UXy+68Cas1IOE4LajLWhNWEa2VOjgKs1HLSx1XGPAaC7DH2wb0fV5U
+	URWnm/s3U4zZl0B/hXsNTZH4A/RdgC4/Cov1h/T1v0McFKzWXNrPbAR1px/kOacH
+	S0xR0sWRbkgwHWYr0YWpa1VkzPkZW3kU5C5zIGm5NJYQH1K/DzOcDz8HC/hT3ori
+	PcUWsn3UhG5d77xw9yg1hExyiSubXqNc3h9IiqbHx1PVGXofLmiUZPqB7MB3meuN
+	64R0ZT0Z1OQ61hnxU5ImjK61ERsIdPxuNqN82iHgPBB10l0RoAvk0DCkh4Dsd5e8
+	fQ==
+Received: (qmail 3401801 invoked from network); 11 Mar 2026 00:09:47 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 11 Mar 2026 00:09:47 +0100
+X-UD-Smtp-Session: l3s3148p1@EWSSnbNMVLIujntP
+Date: Wed, 11 Mar 2026 00:09:46 +0100
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: phucduc.bui@gmail.com
 Cc: krzk+dt@kernel.org, geert+renesas@glider.be, krzk@kernel.org,
@@ -57,11 +57,9 @@ Cc: krzk+dt@kernel.org, geert+renesas@glider.be, krzk@kernel.org,
 	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org, magnus.damm@gmail.com,
 	robh@kernel.org
-Subject: Re: [PATCH v4 2/2] arm: dts: renesas: r8a7740-armadillo800eva: Add
- wakeup-source to st1232
-Message-ID: <abCkX_oyqaa9jM5F@shikoro>
+Subject: Re: [PATCH v4 0/2] Input: st1232 - add system wakeup support
+Message-ID: <abCkulmW8XDXkXiT@shikoro>
 References: <20260309000319.74880-1-phucduc.bui@gmail.com>
- <20260309000319.74880-3-phucduc.bui@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -69,10 +67,10 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="9CYyCg7OPXyepk84"
+	protocol="application/pgp-signature"; boundary="awZPapTNl2nZOXsf"
 Content-Disposition: inline
-In-Reply-To: <20260309000319.74880-3-phucduc.bui@gmail.com>
-X-Rspamd-Queue-Id: 6B24825927D
+In-Reply-To: <20260309000319.74880-1-phucduc.bui@gmail.com>
+X-Rspamd-Queue-Id: E3C242592C3
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.76 / 15.00];
 	SIGNED_PGP(-2.00)[];
@@ -84,7 +82,7 @@ X-Spamd-Result: default: False [-1.76 / 15.00];
 	R_DKIM_ALLOW(-0.20)[sang-engineering.com:s=k1];
 	MAILLIST(-0.15)[generic];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-29165-lists,linux-renesas-soc=lfdr.de,renesas];
+	TAGGED_FROM(0.00)[bounces-29166-lists,linux-renesas-soc=lfdr.de,renesas];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	DMARC_NA(0.00)[sang-engineering.com];
@@ -104,46 +102,47 @@ X-Spamd-Result: default: False [-1.76 / 15.00];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
 	RCPT_COUNT_TWELVE(0.00)[16];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,youtu.be:url,sang-engineering.com:dkim]
 X-Rspamd-Action: no action
 
 
---9CYyCg7OPXyepk84
+--awZPapTNl2nZOXsf
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 09, 2026 at 07:03:19AM +0700, phucduc.bui@gmail.com wrote:
-> From: bui duc phuc <phucduc.bui@gmail.com>
->=20
-> Add the wakeup-source property to the ST1232 touchscreen node
-> in the device tree so that the touchscreen interrupt can wake
-> the system from suspend when the panel is touched.
->=20
-> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+Hi,
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Demo video showing wakeup from suspend:
+> https://youtu.be/POJhbguiA7A
+
+Nice video! You really put some effort here, kudos.
+
+Really awesome seeing Linux 7 on this old platform :)
+
+Happy hacking,
+
+   Wolfram
 
 
---9CYyCg7OPXyepk84
+--awZPapTNl2nZOXsf
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmmwpFsACgkQFA3kzBSg
-KbZXuQ//aBkV34TZL+EFdJVtJaw0EQqMNPXoK2C9t5Yqec+JWTDz31R/1WkArR+y
-z8+52bjsO5yxKzFSvXsaWi4BOq/MlUAgRG2F6rprT16cD97U37Faoe2uIFuqwfFp
-vlcNVHO5Z6PWVXL9lle4PikOU073fl/8ycLlrr+WodFd/QxJrqXvPmievjWfBfsp
-cpgKCiQK/Fetl+pfODIQJQJQzffn9jdU+69o33t/aUVADFXtQCJjL/77LWmom23e
-LmprjE4PduX5+i0yn3iskJpOtqELiZNwJYS02PyQtu8i1AOXlCPJc1Wzgged0CL6
-LKejTSddlS79ThaJVgnDYjqMOGhEbqo8yk0atKiH4tUebL01r3t7hiWHQnFeNFwZ
-i84rC1kvWV+9nONBNM3cArcwzvVQfKt6m1+1W7WvOGQtvJsMDHSongAv1ypRYO7N
-1hBBBg5JlhsGD9JjZL7KS4SofcEDxj/mSIUMHWdDlpD3hzRym6z1Kjpii7FY2bsr
-ez0OiMynVJP7yp2tNVdez+UQ2eTz4kHMBHQlAIURmwo5zq331bT4ki8GlWlTSYls
-xpe89fjhznC1wSn70dUZFWDnYhGHq2x5P9ZOGwEP3oCqgnNPgnIE8uEhysrGUC3J
-glCl1PXQOAFxPbJV+3yRKwBpAbQS78eyohuD9lK9wXHyspa7Vc8=
-=FSV2
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmmwpLoACgkQFA3kzBSg
+KbbIQRAAoZK4e//jULOzL1yFbhFsEGwYhnvQ7h6+SBunlCcFjZIxoqOPhJ4acEsh
+qNwKnmMwbY5DOsVK3PsGdrXyjLFoAShlU1G2wxpqr/k7BFxOmPSjg/9XaaHlY0wT
+s3KB9x0G0iAvVSi3XQvOK8suvuYw7zvQjcLQr+rKQRgQfZ1eRKLGk/xqvupOcjSy
+19YjKDJ/46FbPr+QzhhHAXTxZZ2awHEacrqvq4QCLojSmCOWyyMeUeyJ9Nua4IMd
+J8YhBl+yr7Ykf7VF8fm92GxPBw9ADIiF9nMT2Q/kA9w7mjzMLuXZAQ3EMWQACd+l
+V3biiKZ6uT/RmTkcAHHNngHYqvE7QOHpLh1Hv3MNHIRCn4gOoFFR0zbHfhmxOywk
+gzMPb/o82dG4J4Tz9oHDV8GSKTPR200n3P2I+l8RhOqBPXKrh8t9mhDCUqCilMCh
+FvLpriEvQElchUe3Ist85YMv0TjGfeajr+Dv6IGiAQH1/eJpSapYz4rTo09odaOv
+FTn7+D/PJgtfYneccY0zhn4WR4BpBeNX6/T3afLWH3lfovVA9jead1BY5ISjnU96
+qzmaMlAgdK4nh9S9Jo2g6HslIQQSv7JIpkQOhTk1qeyrUGT5i85vJN0U6wley+vZ
+N/gbZnJo5CrGhPu2fSRffddLR2x28BZ2cpIFZ5tOt+/CD/ZT0tE=
+=fB3I
 -----END PGP SIGNATURE-----
 
---9CYyCg7OPXyepk84--
+--awZPapTNl2nZOXsf--
 
