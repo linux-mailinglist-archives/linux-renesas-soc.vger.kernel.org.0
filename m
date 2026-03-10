@@ -1,82 +1,82 @@
-Return-Path: <linux-renesas-soc+bounces-29160-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29161-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aCkXKmeNsGkukgIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29160-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 22:30:15 +0100
+	id cDXEHWqNsGkukgIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29161-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 22:30:18 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C3742584CB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 22:30:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E74E2584E1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 22:30:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A59A0305B5C8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 21:29:54 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id D22D63053BC0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 21:29:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFE233EE1CB;
-	Tue, 10 Mar 2026 21:29:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47B213EE1CE;
+	Tue, 10 Mar 2026 21:29:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FvCZ3hyT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="msKtcptS"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C8D13ECBF7
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2026 21:29:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5325C3ED131
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2026 21:29:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773178192; cv=none; b=H9+6GgMUMMmJp2xKeGxJu29Jo5LbxSODkGk9x4uBQTGAJKo6Juo9hYRHRjFZuTrLEI/f2bA9U/4pFdupuq/DFtB73agOGClm/kv1M+pnKHOTMQOLxwZZ7vsmxPJ64AfdHx4m/ls6qbJprEvoN5HqJwOW5rVFErDwz4yYd3kKr30=
+	t=1773178192; cv=none; b=tjYhxQmz1Q2MW20bmnravP0JbqyPd2Jw2z5Oin+mwVIboXMJ2KMVik7xgU3hOnt3VzeAVgvXxUyBJw1XK9lKrEpuT3VR+arzj0IxNxuVitp7OcKJarWU2pw0ogpN4ZAnb43lYOCC8uDZF5DwSOYVeznUQWdG30ZWDlQtY4XZD9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1773178192; c=relaxed/simple;
-	bh=gFnXvymCEzoOcbtohhO71PytBlzyoyx7Ut5b833dFLQ=;
+	bh=DzpIfCbwM6vKhLFzRzo9xoVVQJBktFpsxzl4DK7l6eg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZhiwJupFRqgMljxCQMCs7dHT4GEBH0RQVLqKjelDIbgODnOcJtU5u+G6K9itp6xApqI7QXHfVKNMXvXvQXLYLCD7dW9hbn8eM8NIM3CZu+4MNdIXMHuU+BdFnBKZ9/hxuigVr60bFGqTmnRQVjnSS4XGy8X7tCGrLPUF5HA9kXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FvCZ3hyT; arc=none smtp.client-ip=209.85.221.44
+	 MIME-Version; b=HvY6zXu9tEk8BLpJJsg6YHmMvpKHg1s2udESMUBUNAsGra8E/fv+2UZdGei25cdDBvXsFYGNrUzdEbngCj52Zi02QZTPNRsKGKRafetEAs1tmhKyDsst/jvN3pYiYYyiDdC4rZm3GO5DHd8S7R9TgtIK7gHq8ggObUr+wwy4f90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=msKtcptS; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-439b7a87fb5so6501787f8f.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2026 14:29:48 -0700 (PDT)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-439b611274bso6532803f8f.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2026 14:29:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1773178187; x=1773782987; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wgRXvl1sY8HiSSfFUcnoj1jeHlznucddaU4Ukjd4GSs=;
-        b=FvCZ3hyT9APC0W5oextcULrI0x+lb1AJrprQtYM+Y+xlNp1d/q9esYxmwqzh0UOpfR
-         r+8r5yXEc4zyQIenDr+QkqSjwvNjCMPlKHeL0Xw+zWVwsISdwjr+t85akmWVdx9rXHiE
-         e3KxM1/rv0Qa+PTjD6sC6M8SxETD7Yhty+Tl+h9dZtowZT6iFK1rRE2XbGqs/Ia/K4nO
-         SOjBoVZy4RrpzRsPeoX3vi8FAGQiV1MZG+1y97oBxqhzpenF2ExJrQGjakfq42WNAFKZ
-         JTDhvgQqoPgCGisVv35EV6dI3D/7y07Iap9p9x/SrY57Q4xi/9FAhllaiDLyfEKHNIje
-         UL0A==
+        bh=5NgqHv/g3elLCqPvt60P5KwNeI0nXk/rRJivDr29tuA=;
+        b=msKtcptSHt1rIa/eEITehzKqQO14GY9wxdtchpLiJ1CFcD9IXA87rRIu8ZG9OXr3kp
+         2UQgyU3V+0HNYsP10xkQSHpJ+6RIKGtxzcIZ2iv9K3U6QDZu45KwdYlL6bE7XBiGIdm6
+         geHFiyweAIW/1M3V1fTbo5MVP+AIEYIdc6KYQY1Jb7xNjXwz/o/AnrRPYspgUhzTtMW7
+         kxtD8oxk0EXX7SeM00WXekPK3/mEx0PEzMFWupwEF8ANbK28CAvzI01Gam2O0tIo2MCc
+         eQQ54/Ia6weS37KsZINmLTIN5mczWYp7HFi5FKW5M7eg9Zk7JbbfV8sDn69eLryrBLc/
+         otzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1773178187; x=1773782987;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=wgRXvl1sY8HiSSfFUcnoj1jeHlznucddaU4Ukjd4GSs=;
-        b=jm5PZgKa5ZJaNw2Id0duGLKawfc07vxa6ieXRgUKYc3xznh7TsTQAeC3mCRx7h0hR+
-         IIhazqsiBq+j7xwPC4Jpk4oJTIjKO1QYEA1Nww4jCcXoHiPe0OyxYS6b2sGTKfzbQpNH
-         N+ejgs9bQsPpZR4TZ7tcpLeEeEMd5fm34xlsllKnymmOtlRn7z9wW7f1xelSkiWqd/50
-         ITdOvFn+xVhk1mf3wBYD5Wvsc0xJKZQTGGJuusobvmxTc5DjL3pWEvAUdj5HV/aMck56
-         7hDeOg94IQbVrBdkb+Y/x+rD4xdCHOkifz2r14Fovd19zHJTwuyncUjA++5DaaOQfG3X
-         LOhQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXTwA0C9By1Rky4v7IkO2/Iv4CliU842AojQEuZxhl7ZYysNpo8YCO2PzXumOEe2Nw/RnE2v9/cwtpM9qnRMmKm2Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YytzFEo4AJ4zV+MP0WvQwbkCjyE7siUIj+27f6KAPqP+On+6LWn
-	0xeFLzg5FshO8nYFfk1rqRAbGpxS7z+jnru5/Irnx1HmOZhCn+rqoDgJ
-X-Gm-Gg: ATEYQzzrDzN41UIEqmXCL9qE7MRsMXLz6hi8AdfVe9YfvHrcnJ5xTnPhGJqgtxHyuYs
-	t8K5rxvdZ9lZw/kEaSNnQormVTDUvF9vXV9xY2a6kaxV/4FtOoCl+Y/NhXCDuvsjfi80aKboCUG
-	FzvBRO6F0f+np4ilu5wE9ScVE17Kfil6jtuAfhhyTxVF7jp28ERGk13DMGK6VrX/xpFi3t8YI1a
-	CwUApwPZlcfGTOuz45A6hhBwrvSyUg4jmaBhqgaMHCSOY+l9U0MOFWnMbUKlvpIC+oelxnqoW+u
-	1zHCAefAI1SXgu+zwj2pecCIlml1DsGnD2+JUzmK5+RUr1AYKIB1OAe5YRTnQu82PG2QH0JFIfI
-	S04hs7qeFhZTsmuF2caYfJ71cxYWgZOynHLQDrmLjk9dmHtdG/YJ7l39IiB3Q8cs0uhb3bbVhDf
-	stNPEri9wLLmrP4CicBgYfKpxQqTH0DcGon3oJXngiggSDoBfHo2AROi+B2k68YEBDQAfCpwhts
-	uU3B2l0n4DeVNJczdArvKyDK4rKX4DywlJUFg==
-X-Received: by 2002:a05:6000:310c:b0:439:c4bf:d9cb with SMTP id ffacd0b85a97d-439f8434fc1mr726372f8f.43.1773178186814;
-        Tue, 10 Mar 2026 14:29:46 -0700 (PDT)
+        bh=5NgqHv/g3elLCqPvt60P5KwNeI0nXk/rRJivDr29tuA=;
+        b=bxVw2dDO6f8HpnzAaJvHKIX+GH2RekwtbkiNAviax1SEyzFPaaDN9YsE4WzfUjxigW
+         HOsNSv1onq/bmYC9istG9Q5tqj3bIDU1W0Edh8rP7dDcMxzBk4m7J39QHlTIG5cra3m1
+         iKs6+ob2jtttAgJ86tv3T09bADZ3+nOQK+11+KQ5AvmhGd6IuHcQnrs1qqQ00eMD8rgd
+         vfSGdYKAljTQyKhYDjDSEyOcKqwUjgOwYvGNFdDqd6SbMygHZlG/EWmKfhShMc+STxvT
+         n+aa7Alvoe1pWbSsBRlUP7+D8+J8U/QY4WpVCj9++JbLOwwwNnB30M6jjXEP5pyB1MQF
+         /GUg==
+X-Forwarded-Encrypted: i=1; AJvYcCX9KpiE2mXG/tkZ5xN1TFoZtwzGwn1k9ybLfw/7866JPQzk6j4rlp3y0V97f21k6j2eWA/Vk0vIkhtsrOguawYBTA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx3tjB5WrNgQc4ctzqDrghJFsJIzEWGjthPKnS8r9dm747NyAgf
+	/mrXMiJvMwCg83zUaUDxdVvnopvoCnOrOq2pA/f403u5ZQmm5g6/gHOE
+X-Gm-Gg: ATEYQzx+DRsjPOa1sCx7zgy3lCMXmiuY7RTuhiJyOgypUH3316VuuHt8jC7vJv1dVip
+	21OqrBf3G8rsFxgkL7iisow5SGc7kUE90UTCvDUEJGlJZ4glU4NwEKoGRz5MQZA9kynCx/iyDrL
+	VDpEclrs6qRgEAV7MalhQao2zMmHGeuHLN2O19R+6FTqfKOQBNQFWn79A/5f5ZjPmya8RaYqHeE
+	TwlFPAqXvi83F2/T7oSiUsy+8wgOw9ZN7/h+gSiR4ND3R6FGLYfvyGHV6Y1qrGK/6uX6LPscq9S
+	GjewUY7UlOwMNEet1mUeoT44Oz4+ZDOt8CH5BWxbkh3cR4eNd4bwKYevWritm3NOI2GN/p08ZTb
+	14I1fdYugmNlrQ4VSG99QK5BezEIeR8BfKE9gcLYAXXXUZbxCl+ufslLJ3zhP6/d1rgsQQ3oZS7
+	4v1yTQGMMqS/oyyq1Urph9IFNyruQGqDoDMW6AUp8LmMd9wERxXJHxLtvUWtC1kuehuZXklSXHi
+	iY9mVXwdeCQFU39eroq8wlPOcaIkE4Bjx23pQ==
+X-Received: by 2002:a05:6000:2c04:b0:439:8bee:b986 with SMTP id ffacd0b85a97d-439f8222ea7mr743968f8f.32.1773178187469;
+        Tue, 10 Mar 2026 14:29:47 -0700 (PDT)
 Received: from iku.Home ([2a06:5906:61b:2d00:82df:eef6:d0c5:70a5])
         by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439f818d37fsm1247104f8f.6.2026.03.10.14.29.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2026 14:29:46 -0700 (PDT)
+        Tue, 10 Mar 2026 14:29:47 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Krzysztof Kozlowski <krzk@kernel.org>,
@@ -92,9 +92,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Prabhakar <prabhakar.csengg@gmail.com>,
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 1/3] dt-bindings: memory: renesas,rzg3e-xspi: Add RZ/T2H and RZ/N2H support
-Date: Tue, 10 Mar 2026 21:29:25 +0000
-Message-ID: <20260310212927.3372410-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 2/3] memory: renesas-rpc-if: Fix duplicate device name on multi-instance platforms
+Date: Tue, 10 Mar 2026 21:29:26 +0000
+Message-ID: <20260310212927.3372410-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260310212927.3372410-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20260310212927.3372410-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -105,7 +105,7 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 3C3742584CB
+X-Rspamd-Queue-Id: 2E74E2584E1
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
@@ -117,7 +117,7 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-29160-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-29161-lists,linux-renesas-soc=lfdr.de];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_TO(0.00)[kernel.org,glider.be,gmail.com,bp.renesas.com,sang-engineering.com];
@@ -140,133 +140,37 @@ X-Rspamd-Action: no action
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Add device tree binding support for the xSPI Interface on Renesas
-RZ/T2H and RZ/N2H SoCs. The xSPI IP on these SoCs is closely related
-to that found on the RZ/G3E SoC with some register bit differences
-in the configuration registers.
+On platforms with multiple xSPI instances, the driver fails to probe
+additional instances due to duplicate sysfs entries:
 
-The RZ/T2H variant has a reduced clock configuration, requiring only
-the AHB and SPI clocks (without the AXI and spix2 clocks). It also
-requires only the hardware reset (hresetn), without the AXI reset
-(aresetn).
+  [   86.878242] sysfs: cannot create duplicate filename '/bus/platform/devices/rpc-if-spi'
 
-The RZ/N2H variant is compatible with RZ/T2H and uses the same clock
-and reset configuration.
+This occurs because platform_device_alloc() uses pdev->id for the device
+ID, which may be PLATFORM_DEVID_NONE (-1) for multiple instances, causing
+all instances to attempt registration with the same name.
 
-Update the binding schema to accommodate these differences using
-conditional constraints based on the compatible string, while
-maintaining backward compatibility with existing RZ/G3E and RZ/V2H(P)
-implementations.
+Fix this by using PLATFORM_DEVID_AUTO instead, which automatically assigns
+unique IDs to each device instance, allowing multiple xSPI controllers to
+coexist without naming conflicts.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- .../renesas,rzg3e-xspi.yaml                   | 60 +++++++++++++++----
- 1 file changed, 49 insertions(+), 11 deletions(-)
+ drivers/memory/renesas-rpc-if.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/memory-controllers/renesas,rzg3e-xspi.yaml b/Documentation/devicetree/bindings/memory-controllers/renesas,rzg3e-xspi.yaml
-index 7a84f5bb7284..bf50d90051c9 100644
---- a/Documentation/devicetree/bindings/memory-controllers/renesas,rzg3e-xspi.yaml
-+++ b/Documentation/devicetree/bindings/memory-controllers/renesas,rzg3e-xspi.yaml
-@@ -24,7 +24,9 @@ allOf:
- properties:
-   compatible:
-     oneOf:
--      - const: renesas,r9a09g047-xspi  # RZ/G3E
-+      - enum:
-+          - renesas,r9a09g047-xspi  # RZ/G3E
-+          - renesas,r9a09g077-xspi  # RZ/T2H
+diff --git a/drivers/memory/renesas-rpc-if.c b/drivers/memory/renesas-rpc-if.c
+index 0fb568456164..3755956ae906 100644
+--- a/drivers/memory/renesas-rpc-if.c
++++ b/drivers/memory/renesas-rpc-if.c
+@@ -1034,7 +1034,7 @@ static int rpcif_probe(struct platform_device *pdev)
+ 		return dev_err_probe(dev, PTR_ERR(rpc->spi_clk),
+ 				     "cannot get enabled spi clk\n");
  
-       - items:
-           - enum:
-@@ -32,6 +34,10 @@ properties:
-               - renesas,r9a09g057-xspi  # RZ/V2H(P)
-           - const: renesas,r9a09g047-xspi
- 
-+      - items:
-+          - const: renesas,r9a09g087-xspi # RZ/N2H
-+          - const: renesas,r9a09g077-xspi
-+
-   reg:
-     items:
-       - description: xSPI registers
-@@ -53,28 +59,38 @@ properties:
-       - const: err_pulse
- 
-   clocks:
--    items:
--      - description: AHB clock
--      - description: AXI clock
--      - description: SPI clock
--      - description: Double speed SPI clock
-+    oneOf:
-+      - items:
-+          - description: AHB clock
-+          - description: AXI clock
-+          - description: SPI clock
-+          - description: Double speed SPI clock
-+      - items:
-+          - description: AHB clock
-+          - description: SPI clock
- 
-   clock-names:
--    items:
--      - const: ahb
--      - const: axi
--      - const: spi
--      - const: spix2
-+    oneOf:
-+      - items:
-+          - const: ahb
-+          - const: axi
-+          - const: spi
-+          - const: spix2
-+      - items:
-+          - const: ahb
-+          - const: spi
- 
-   power-domains:
-     maxItems: 1
- 
-   resets:
-+    minItems: 1
-     items:
-       - description: Hardware reset
-       - description: AXI reset
- 
-   reset-names:
-+    minItems: 1
-     items:
-       - const: hresetn
-       - const: aresetn
-@@ -109,6 +125,28 @@ required:
-   - '#address-cells'
-   - '#size-cells'
- 
-+if:
-+  properties:
-+    compatible:
-+      contains:
-+        const: renesas,r9a09g077-xspi
-+then:
-+  properties:
-+    clocks:
-+      maxItems: 2
-+    clock-names:
-+      maxItems: 2
-+else:
-+  properties:
-+    clocks:
-+      minItems: 4
-+    clock-names:
-+      minItems: 4
-+    resets:
-+      minItems: 2
-+    resets-names:
-+      minItems: 2
-+
- unevaluatedProperties: false
- 
- examples:
+-	vdev = platform_device_alloc(name, pdev->id);
++	vdev = platform_device_alloc(name, PLATFORM_DEVID_AUTO);
+ 	if (!vdev)
+ 		return -ENOMEM;
+ 	vdev->dev.parent = dev;
 -- 
 2.53.0
 
