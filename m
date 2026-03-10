@@ -1,153 +1,232 @@
-Return-Path: <linux-renesas-soc+bounces-29096-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29097-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YLwBD2G3r2mKbwIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29096-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 07:17:05 +0100
+	id KFojCrrOr2kfcgIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29097-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 08:56:42 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90843245C3F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 07:17:04 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9E11246BF8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 08:56:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4A91E30038E3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 06:16:34 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 85BE83017526
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 07:56:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7CB12E285C;
-	Tue, 10 Mar 2026 06:16:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35174364EA3;
+	Tue, 10 Mar 2026 07:56:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HwS1ehNU"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="grFET2Q/"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DFB531D726
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2026 06:16:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01672365A10
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2026 07:55:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773123393; cv=none; b=mF0miuhXhcS5I15Znwa3w/7ojxKN7QwcdP0fe5vhDyuSLAQvPtIHrIPc8HA5/rzV0WvmB/HC45DIq/VyKJ47AE9LZpaNx1eK9mVK7hAIu0cS0Q7gcjmSW6zeMsG01yvh61vkAOEkczDYqkD+kvuZI5BUB/oHJPUeERECpPeTNxU=
+	t=1773129362; cv=none; b=Kg2LRdcKDyPsiGt+kT3Q1NXWu8MzN/OVd41YpJK3mL3k5zIYAB9QcqHR5audR78RfWPFUxfflt6ulKoAVyDTK2driGQvV13OArWazshHNOGUoUNTA1z4qFpIX6vTkiTZYLz45E2Cw3WkcFBZ2glAxAEXTjPFRsWMyCSN/HALd44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773123393; c=relaxed/simple;
-	bh=NhI6oA643rmBAg3KYT86ia+E/Pf+LDBAwNCdXohHikk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VO25lQwuV24gCg9bB6WJsMA7P8aeFKsA2rPD3wnAl77eOt+TfFy2lQqAw61DrB/nkuaYDgm94JfjCK4Yx4m2YSwnfa+U/gCM1brpqQDdR4Odp5961+X1fj1EwRn6q43nYzsCgbIU03Sf170tGxE5chMtyXfGStyOcshyXe0YuG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HwS1ehNU; arc=none smtp.client-ip=74.125.82.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-2bdcf5970cdso8272790eec.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 09 Mar 2026 23:16:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773123392; x=1773728192; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=s+/i4XWfcbGmIxwJyix2mZgFR0owAbkzFlUtp0W0WII=;
-        b=HwS1ehNU8drHfiy2pBF/CrewofP6+T1VxYXDmIWCTimDhsM5oQvN/+u0tpBH0R4UbM
-         TtnJpjMO347Qg7WtQ+oc1Do2uvSHPiLlcfu3SyxcKRmMLR7xGNvjs8XXndxr3kv/3Z16
-         vU2K8jnEY9sDVf4QTgMqx3E7LGzmLLYYAFDEB/TjjT+lxi1UqVcj5fHIEZg4W2AnZAwS
-         oTttxSd5urYSNROBr3uYDB4cY+BQ6wPZ131srHGqzNCm8e/VKHdOj9WXIkFxpKn86+JW
-         nszjJW/DSVE9MmYHP3stxRt2y9sFCVtrrxDZwUO6uS2a3jQ5Xb6p0Laww7gG5UqhsUnO
-         ZNQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773123392; x=1773728192;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=s+/i4XWfcbGmIxwJyix2mZgFR0owAbkzFlUtp0W0WII=;
-        b=BaUpGCvyrgZ2vB8Np4msBSd2cuhWs0YLV4cpqXnkjmIx6qd6oguKEGPv98pGrJu85s
-         HsZV5oNVDsIu8pXAYVcjnTQffoq+qFa5HtT7f5fX+AwWajiDjaghaG/kjZYqe0iFshpF
-         SBNT6rTISf+6gn4UKO7AfrjObkEsYPmA1z4GOlACAewWLfM3AvWn3mPJ2lfzgxvnDLNa
-         UDN8f+X+elexxzlMTjB0xkoBhl3WEOCcszPcTebkRWGVtzxgpNco8bNzGaZ0gb/OXcfV
-         5C2S4fg5/lSte2PBNKtb31B1hRB0AqDwOPQPsLg984F0n7SRAt4VP0dDo7eTiYMOD6vt
-         GLHA==
-X-Forwarded-Encrypted: i=1; AJvYcCV8Mjh/DdGIkv2p8kR8IExKgGHY7p7dDRDLUyE/oGTPN7uAkcwFUQJI2dQkD5MkHkJ6hXbmUkkJAbfbzcYZXhtejA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwMsVMoO1xeM0JHPnFwuAPb4GTo9+3KfusJgezy5Rd0eQRW25t9
-	C07zFjRT7yMHb/BkaaIbkK7mP/MxJJf7l2RznoZPiTTXO3wGVMKmdpro
-X-Gm-Gg: ATEYQzy4BSlT8s/3fZ9kI2K0ltgOif7C7MbEm8du7l3DTvDZuTEg6B0wSUCMWMcFZKi
-	hdd2+l0Bhytq/9D/4kunZhzzMAWuwZx9a3kLqN3eTJ+FsDhnmSkyHtMJSGjRfQnkS+rYbaC8KCr
-	/N9L+HOQVBaRacpPpcCPZZT2LNLWdOZS83yftnis2nqbKcbANEBsQG0JL7v3/aO1FNvBL+o+EOw
-	xIMUPWKwDo80strQ8RAOZoWggJOF3n2jfJY7aQUrn9LrGNfbDRU5YVNwkQecjon77AFZK4JVT40
-	pCqXIgoE7hfcpam0YyWBvp62xc5eJp2tAOdS7RLE1frLrBlglyIVoXpC+3ljj65rYjhE50I8p9b
-	2z7J2NG5wbuudJqV4yHglfgccWkw0WbZlDXQVAHvtSN7BLfH88DNbRcL9gnO+CHgZicsfQokcmU
-	iOdONqT9kDZiwDH1wrWeqSHi0jrBnbDVWRLFFUT6Ad1CEisLrTdnhe0eC7vPcgRvRw
-X-Received: by 2002:a05:7300:dc88:b0:2be:617:1f3b with SMTP id 5a478bee46e88-2be7a0aa471mr958397eec.5.1773123391485;
-        Mon, 09 Mar 2026 23:16:31 -0700 (PDT)
-Received: from google.com ([2a00:79e0:2ebe:8:2a0a:17c2:21e7:dcfb])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2be4f984ceasm14385368eec.32.2026.03.09.23.16.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Mar 2026 23:16:31 -0700 (PDT)
-Date: Mon, 9 Mar 2026 23:16:28 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Linus Walleij <linusw@kernel.org>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Bartosz Golaszewski <brgl@kernel.org>, Andy Shevchenko <andy@kernel.org>, 
-	Marek Vasut <marek.vasut+renesas@mailbox.org>, linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] pinctrl: renesas: rza1: normalize return value of
- gpio_get
-Message-ID: <aa-3BYKrONKrHvTq@google.com>
-References: <aZYnyl-Nf4S1U2yj@google.com>
- <CAD++jLmvck+_UG5cNKLCVs2PJb2zynvhr8EbVbB6cYU9925+Vg@mail.gmail.com>
+	s=arc-20240116; t=1773129362; c=relaxed/simple;
+	bh=FMS4BVUajKAUxKcjzcddBgaLVt+yOxMuuGFj9UUkSaM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=teXJR1rrD2rkyWTFcOs/gaE+GPAO4wEWZG4FyY4/gEYVRZQ7hNQynC3BO9VfUHy07rG5GGyJvq5qoPrBB4hMs+Q5OKbUbuHKccnobb/lkpZL8z0Z/RvnngwBW36ZS8LEzOgeZTR5tP+dVd8NQWc61KW5S9+PQYbA8ZSMsf0ABX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=grFET2Q/; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=/a0tRwE4WB1N7m
+	bM38o7pQ2y610kAMXzD8AqisAnlgU=; b=grFET2Q/L5BDbD2xTndWCxfWXxtyl2
+	MrNW6Nu3qAN1EmBl/MYyb9CKwe54CLj7IvlqLMC5IMLgb11+UnMtwsIpNOpeZHWa
+	GVPU+ybqbKsVtIcDblhf8AAmfEvK69zbgwZTCdiSqJFfuZQ3G9lnG2U3m4tzAMVJ
+	QnwiFLc/jqMR9GpmUHV3igEQ4pjuUCRsM0Hm2OZQ1Li9cwvsXq2py2+kvdhFHYP2
+	jC6TKSVnNybFyfIppa6NtLkCKTYZrYUqHsFkz7SYD5URwCS66vb5yN0vG/p3qKDq
+	87t1xNh8zF1QjL/xdXPPlibUyKgxw31YNVsxPQuxV575FpunGlhflHgw==
+Received: (qmail 3112474 invoked from network); 10 Mar 2026 08:55:47 +0100
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 Mar 2026 08:55:47 +0100
+X-UD-Smtp-Session: l3s3148p1@UTnb2KZMmJAujntP
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Antonio Borneo <antonio.borneo@foss.st.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	driver-core@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Lee Jones <lee@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org,
+	linux-spi@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev,
+	Mark Brown <broonie@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Waiman Long <longman@redhat.com>,
+	Wilken Gottwalt <wilken.gottwalt@posteo.net>,
+	Will Deacon <will@kernel.org>
+Subject: [PATCH v4 00/15] hwspinlock: move device alloc into core and refactor includes
+Date: Tue, 10 Mar 2026 08:55:15 +0100
+Message-ID: <20260310075539.11701-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAD++jLmvck+_UG5cNKLCVs2PJb2zynvhr8EbVbB6cYU9925+Vg@mail.gmail.com>
-X-Rspamd-Queue-Id: 90843245C3F
+X-Rspamd-Queue-Id: D9E11246BF8
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [0.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[sang-engineering.com:s=k1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-29096-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-29097-lists,linux-renesas-soc=lfdr.de,renesas];
+	DMARC_NA(0.00)[sang-engineering.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[46];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[vger.kernel.org,sang-engineering.com,foss.st.com,kernel.org,arndb.de,linux.alibaba.com,gmail.com,baylibre.com,lists.linux.dev,linuxfoundation.org,redhat.com,lwn.net,lists.infradead.org,st-md-mailman.stormreply.com,analog.com,infradead.org,sholland.org,posteo.net];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_COUNT_FIVE(0.00)[5];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dmitrytorokhov@gmail.com,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[wsa@sang-engineering.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[sang-engineering.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,sang-engineering.com:dkim,sang-engineering.com:mid]
 X-Rspamd-Action: no action
 
-On Tue, Feb 24, 2026 at 10:04:15AM +0100, Linus Walleij wrote:
-> On Wed, Feb 18, 2026 at 9:58 PM Dmitry Torokhov
-> <dmitry.torokhov@gmail.com> wrote:
-> 
-> > The GPIO get callback is expected to return 0 or 1 (or a negative error
-> > code). Ensure that the value returned by rza1_gpio_get() is normalized
-> > to the [0, 1] range.
-> >
-> > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> 
-> Reviewed-by: Linus Walleij <linusw@kernel.org>
-> 
-> I expect Geert will pick this up, else tell me & I'll queue it.
+Changes since v3:
 
-Geert, will you pick it up please?
+* removed useless __iomem annotations (Thanks, sparse + buildbots)
+  So, the newly introduced callback only operates on void* and doesn't
+  use __iomem annotations now. Note that most of the drivers will still
+  trigger a sparse warning because they use an __iomem pointer in
+  .con_priv. But they also did so before this series, so it keeps
+  current behaviour. Fixing these sparse warnings should be done
+  independently IMO.
+* rebased to 7.0-rc3
+* added tags (Thanks!)
 
-Thanks.
+My ultimate goal is to allow hwspinlock provider drivers outside of the
+subsystem directory. It turned out that a simple split of the headers
+files into a public provider and a public consumer header file is not
+enough because core internal structures need to stay hidden. Even more,
+their opaqueness could and should even be increased. That would also
+allow the core to handle the de-/allocation of the hwspinlock device
+itself.
+
+This series does all that. Patches 1-2 remove the meanwhile unused
+platform_data to ease further refactoring. Patches 3-9 abstract access
+to internal structures away using helpers. Patch 10 then moves
+hwspinlock device handling to the core, simplifying drivers. The
+remaining patches refactor the headers until the internal one is gone
+and the public ones are divided into provider and consumer parts. More
+details are given in the patch descriptions.
+
+One note about using a callback to initialize hwspinlock priv: I also
+experimented with a dedicated 'set_priv' helper function. It felt a bit
+clumsy to me. Drivers would need to save the 'bank' pointer again and
+iterate over it. Because most drivers will only have a simple callback
+anyhow, it looked leaner to me.
+
+This series has been tested on a Renesas SparrowHawk board (R-Car V4H)
+with a yet-to-be-upstreamed hwspinlock driver for the MFIS IP core. A
+branch can be found here (without the MFIS driver currently):
+
+git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/hwspinlock/refactor-alloc-buildtest
+
+Happy hacking,
+
+   Wolfram
+
+
+Wolfram Sang (15):
+  hwspinlock: u8500: delete driver
+  hwspinlock: remove now unused pdata from header file
+  hwspinlock: add helpers to retrieve core data
+  hwspinlock: add callback to fill private data of a hwspinlock
+  hwspinlock: omap: use new callback to initialize hwspinlock priv
+  hwspinlock: qcom: use new callback to initialize hwspinlock priv
+  hwspinlock: sprd: use new callback to initialize hwspinlock priv
+  hwspinlock: stm32: use new callback to initialize hwspinlock priv
+  hwspinlock: sun6i: use new callback to initialize hwspinlock priv
+  hwspinlock: handle hwspinlock device allocation in the core
+  hwspinlock: move entries from internal to public header
+  hwspinlock: remove internal header
+  hwspinlock: sort include and update copyright
+  hwspinlock: refactor provider.h from public header
+  hwspinlock/treewide: refactor consumer.h from public header
+
+ Documentation/locking/hwspinlock.rst          |   2 +-
+ MAINTAINERS                                   |   3 +-
+ drivers/base/regmap/regmap.c                  |   2 +-
+ drivers/hwspinlock/Kconfig                    |  10 --
+ drivers/hwspinlock/Makefile                   |   1 -
+ drivers/hwspinlock/hwspinlock_core.c          | 129 +++++++++++----
+ drivers/hwspinlock/hwspinlock_internal.h      |  72 --------
+ drivers/hwspinlock/omap_hwspinlock.c          |  27 ++-
+ drivers/hwspinlock/qcom_hwspinlock.c          |  69 ++++----
+ drivers/hwspinlock/sprd_hwspinlock.c          |  39 ++---
+ drivers/hwspinlock/stm32_hwspinlock.c         |  26 +--
+ drivers/hwspinlock/sun6i_hwspinlock.c         |  36 ++--
+ drivers/hwspinlock/u8500_hsem.c               | 155 ------------------
+ drivers/iio/adc/sc27xx_adc.c                  |   2 +-
+ drivers/irqchip/irq-stm32mp-exti.c            |   2 +-
+ drivers/mfd/syscon.c                          |   2 +-
+ drivers/nvmem/sc27xx-efuse.c                  |   2 +-
+ drivers/nvmem/sprd-efuse.c                    |   2 +-
+ drivers/pinctrl/stm32/pinctrl-stm32.c         |   2 +-
+ drivers/soc/qcom/smem.c                       |   2 +-
+ drivers/spi/spi-sprd-adi.c                    |   2 +-
+ .../{hwspinlock.h => hwspinlock/consumer.h}   |  57 +------
+ include/linux/hwspinlock/provider.h           |  60 +++++++
+ 23 files changed, 260 insertions(+), 444 deletions(-)
+ delete mode 100644 drivers/hwspinlock/hwspinlock_internal.h
+ delete mode 100644 drivers/hwspinlock/u8500_hsem.c
+ rename include/linux/{hwspinlock.h => hwspinlock/consumer.h} (87%)
+ create mode 100644 include/linux/hwspinlock/provider.h
 
 -- 
-Dmitry
+2.47.3
+
 
