@@ -1,86 +1,86 @@
-Return-Path: <linux-renesas-soc+bounces-29129-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29130-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mBV/GUEksGnYgQIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29129-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 15:01:37 +0100
+	id mPpWFlcosGn1ggIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29130-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 15:19:03 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0273A251321
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 15:01:36 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78BB1251B5B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 15:19:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 7EDD234F5974
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 13:21:21 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id E9E7F30C5718
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2026 13:27:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F6DA3BF67C;
-	Tue, 10 Mar 2026 13:08:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A34C3A6B96;
+	Tue, 10 Mar 2026 13:21:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="J2y6R9l/"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CgH5gprp"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA9FD3C0605
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2026 13:08:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D38643A75AF
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2026 13:21:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773148132; cv=none; b=Wp/TFR1eXt/Iv/ZANaZ25H61aShEY13bkEHY7o1c+TOTsB5ELgjPq9+MlFjCYnxOqaqXwoBvthMsDlpIdLZ0kIt0zwzJQprc3S+MGZHXDnDdSyY0JNrYDpFUJ+sTIzGybBr2lb+W6OkkAjormnzE8kLG9qa3tvnKhiCNCtWWVd8=
+	t=1773148896; cv=none; b=cP40eJU8FjDPxWHor4GYCQhQvI0w71w8iFYk0fiQruhUcTXDBF2R2cYrqc3gsaXNYH2NleTPw9KLjl3g0upoJ90EZOUJcJq9G1evfYYAC67HV7xmMVFbN4qdc1VBoHWhgJANm1XhAuXvgjXWI7flcoRkCGgmLUctsJ2qXH51ujY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773148132; c=relaxed/simple;
-	bh=rvB11H6RMQeais6nkVdvS8yMsyVqI53mLo3GtCuFQkc=;
+	s=arc-20240116; t=1773148896; c=relaxed/simple;
+	bh=+YY/g5qi0FhgJdJMriCI0m5KvACdvMSw1aJFKwiiZco=;
 	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=BsWBzNAWYxytYQf5qO1tw0USPfCKYAnFsr1Fo1ZqZ2Uz5PkrQ3zgskAEfT1UNn3q44Wp/DzqkhmQzyUtQIRDvO530L7fO4DOTeaHVF94diPqDXIfYVw1AJ1jaMqIKnjCxB1JjW3skN9GzYD6RzoV+p+QxGtOrR637JkFwgRj6nA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=J2y6R9l/; arc=none smtp.client-ip=209.85.128.50
+	 In-Reply-To:Content-Type; b=EBY1glH0f5VoVvjiv1z8FWtvPAyR/4mRs2YHANzDoq0+GtqfLpYVzu8mrGm4WWw4iWIDXYG3N+2pcXQDIA0s9oPUfwZzd76C+Aa9wUlz+vZJg89F4bYCu/1mGH1F/KVCR2izaxtA07vAWiqeNLLLcmKSUlBjz8iWGjbt/Ladknk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CgH5gprp; arc=none smtp.client-ip=74.125.224.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4852ff06541so31586145e9.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2026 06:08:49 -0700 (PDT)
+Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-64ca09f2170so13261791d50.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2026 06:21:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1773148128; x=1773752928; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1773148893; x=1773753693; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:references:cc:to:subject:reply-to:from:user-agent
          :mime-version:date:message-id:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2TRBpSzG7oKf4unFVV/7GqP3xJjjnnjPULashk6tmNc=;
-        b=J2y6R9l/tTku+85TWCzzLOAocgWp/84jgMEkas+XwWLARIr5zMxw15rv5pgMryWyMV
-         QdOC/QMPG14BwzaXizrbMGN1ZZPEvZ9fcSFWFthGo4ndkjzkkiOFss2zjPiOKS4Ry/HU
-         IDbn7IVN9t/Es9ReOEoLVFQDJkjP2iO8MMmihoI7u/g6g+oLBRFWnBt1okdeHWQbnSJt
-         Cf4I2wxIAedyLcLxI8NW3Fht64NvjnIFAh1Vz/DMWRvfJe2emBZnZ5gSJyuXU7VRltqE
-         zJ3XuxV0akVjpOHnnxZ2C8BDrNtPbGz3tDzh6UbkATSjwN53m72gdAkpGpHNgkmytKUM
-         KJfQ==
+        bh=hkZc0W99TIcJIaq65PEzokBugjmAdM8IFJxUeAlAQ+w=;
+        b=CgH5gprp4oTCMJDr+ONjqtqABJvxfrACEtEpsXdNKxsxhWzy6hJfOCygfaKQOG2uR6
+         U8/RoZN45ZLDdjk5kivuoUATLfNvIq86t3kwfB7jsNq7rNEqFYeOCpR9ACb9ecUth0jQ
+         DYLFOaqwq1KKii5XAPEIbDvcs3nQEgRYoDM7+pVDkoU35pW6zR+zVoHhZlLxTinK7sJ4
+         LMTKovvOatvfvwUa3uiKbvgZ56aVZLjSO64RcPcHWTqktbCVqvwJ/qP2cORkd/MgLJRU
+         8S/2c9CgxKgK4XmjOtUHAzD95u0ALljJlfz52wYqf+9pUb9iaIuB5Q1bwubeg/HrDWFg
+         CHnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773148128; x=1773752928;
+        d=1e100.net; s=20230601; t=1773148893; x=1773753693;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:references:cc:to:subject:reply-to:from:user-agent
          :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2TRBpSzG7oKf4unFVV/7GqP3xJjjnnjPULashk6tmNc=;
-        b=OfiSFjrVchcd3i5SpBOyLUdV3htNooFF6wYaQIcQlgVTyHTS9K8LMsuwXKFi/Gvqw5
-         TFnw7LjF8iYJUS7lAIJ4mp7Kf7y5DTIRzBs2UwCwwsBmuTEjEk8itYn9i0qEzl/vGFY1
-         9/CmbPQs1qCS1sh/neqQtMeDBbp3C32ObLLZvPID9bYiRlp2FOMWhjYdIkBPdefl6hUF
-         5yPWLVqlcu/YY+qdpuoKqI1eIIDY5PV0WLFefa2rFIlrXOyROQNEuUHITBXLn6tdH1u2
-         w/catYdX6M1vObBnsheqa7+FSB3T5AnhQOwJiM6YPpfUtqfWSYUPG6Tz8eyMWR4TIKLO
-         lxCw==
-X-Forwarded-Encrypted: i=1; AJvYcCVbeRsuw3zv1b9px68zOizptpiZKqbt+fOMZz8ARENElr4uYEIeF1gieRqSJbhK6UylyBAuXna7CnH0JpddOsUSKg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxjtJvYsVrl3KpmAkxBVZl7TofeJlZkhdvlg7tfM9J6zbpQGfSL
-	kZ+c88V3GWa9RZKiz4i4r7IKYqXkVWER0BgG3mzxjgvgRt11iQcbaUHjKlljbi3HHRg=
-X-Gm-Gg: ATEYQzyWl/uw9LN7AB4UgYcB32B7QAWEp1duv9WkhqQQZpbX1uIptJggFr+LC+bYUaE
-	44dX2UuE+Bi0UMYGEDUbbljS8fEKr7ye57yL1eTm46y64vT9sqWwiQCfKz72MQMbTSh5VRuadeN
-	yFxdi1CSbypQ8lrQzLdxmC+P2L2AnlAuriUr3wJ7WkDZ7DsYE3I5VAOZX3VhJl0adQs1MEMz+W1
-	K8R8y82W81u/X/EDO25IqWbnSzCYh4qVl2VES5E6ZFA45Sln5yOcME7DQQ4eP3D9stTSC5Ufm+K
-	9bHUHB/Y10lsY2O1ZcOJiWMBE5/3ePvU/pV5m45Jrhz21hNjcRKpePt8LwrnhpH7/9ucovOdQLy
-	+9NYDafSye1FvN4fSFKP1xNv91MP8oUX7BQVoy+tDtuqOf7ROmjoqRJ2JxIEbzerdp5tZ7OTGop
-	MLJgAdAHpfAJ1ZZYGkV0e8W56+MLxBp6Zy+aeExqGbKpULGLVmz8mQ4F5JmnRiTi4F3gOg4tvW1
-	z17
-X-Received: by 2002:a05:600c:e40b:b0:485:3f1c:d887 with SMTP id 5b1f17b1804b1-4853f1cd968mr77411645e9.26.1773148128029;
-        Tue, 10 Mar 2026 06:08:48 -0700 (PDT)
+        bh=hkZc0W99TIcJIaq65PEzokBugjmAdM8IFJxUeAlAQ+w=;
+        b=lWKL39xZhwnIgnUHSl+GUmf903u6dr00u+eXyTMXs+uDnIzcwwhNbgmrUCn4s2zgkm
+         1goRCfeJG25eozEFfO+1jWSuelVvStkxcGbc+16uFpgFXrcASi8VjJMRKOd2Kt/OuTFz
+         xjuSpcKE11IWKYU58CYTvskhcZ3VLLRxyqKVjD+wm3985lmcT2Yh1JXeahD+beR9YIfr
+         fZNp6M5tgweoom553lBt0ylkBW+fKL0KxwDjB411+sKsi6K8yzupb6BclSv7a/ac8t6c
+         XGHnyLD7ShZr73IbpW9x1758Im0iMq9svKCyoTGMH3ZmMC5MHPAO5s2FWtzPN1dQG4JD
+         F6BQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUfo9AjYyiOq8Hp+PIU215fB5fAVFmAJxVvEV1IXUcZrT2BaQeuB0n+6ha3OJzpU8EFuH6+XtpnX0j8o8kNm5EmMA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yydh609V9MP06Pn3X5sPjudLk/u8LGjcbiG4egl6l6AwIuDN/aZ
+	zz18yj5FEXQmmderjX3dzu6xAfzrEtHr93ePr1kHw8kE054n1bS8n3XmU2GTCT44Wus=
+X-Gm-Gg: ATEYQzzosUa+YdcHet/SSu2pv1+QpcEwXbIVeL7hnrU+eSblAdUDFTiYizoMAf2bn6a
+	6XvUkMPyG3WB/LN8nwH+LnfSwFq079rVao0vf/F0FAY4oZqFzIOshbDiMtfzmf6yqh4dVm1dj+D
+	boarBfrwcpAITbZktNuvahwU2d2n0OomdX350nBgXfwE6vvfM40kLA4YW48c/33+UxNlUTJqsik
+	59HUTx3+zchwrVNEseOnCAA3HZnYqdKosGLJV4JE27khfhddfTZ5fBg9IVARZJJtA2O5sECCwfg
+	jELw9YyjnZKR+yLozvE9rcHMTls/C8aP9JUoOhNeY64/eZYHQb/UQHqI+6NbGJHSv4izeQyVHcu
+	nb4cOEIqBUHxYI72EdD5jEw5W9dmYQK8R30GprWWZ0yO5wt69vcFcXuZXvQ/ZplMJnDUqBjHIZI
+	Bnsque2EWnrmpwT1e1Kj4qr3SyM0uqh5X0HvZP2QFUPopDS75xeKtGpJmT76fEjMVydIjo5grjb
+	HXn
+X-Received: by 2002:a05:690e:1286:b0:64a:d541:bc3d with SMTP id 956f58d0204a3-64d141271f3mr13562084d50.25.1773148892559;
+        Tue, 10 Mar 2026 06:21:32 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:106d:1080:4d81:e92:c4c0:3c45? ([2a01:e0a:106d:1080:4d81:e92:c4c0:3c45])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48541b8d4easm78639805e9.15.2026.03.10.06.08.47
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-64d176e70e7sm6575823d50.20.2026.03.10.06.21.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Mar 2026 06:08:47 -0700 (PDT)
-Message-ID: <c3e57d35-06e6-4865-b206-90f2579ce70c@linaro.org>
-Date: Tue, 10 Mar 2026 14:08:46 +0100
+        Tue, 10 Mar 2026 06:21:32 -0700 (PDT)
+Message-ID: <68b001cf-7e49-4ebc-b325-21620579cd00@linaro.org>
+Date: Tue, 10 Mar 2026 14:21:28 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -90,8 +90,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
 Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 5/5] dt-bindings: display: panel: Align style of "true"
- properties
+Subject: Re: [PATCH 1/5] dt-bindings: display: samsung,s6d7aa0: Document port
 To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
  Artur Weber <aweber.kernel@gmail.com>, Jessica Zhang
  <jesszhan0024@gmail.com>,
@@ -106,7 +105,7 @@ To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 References: <20260306-dt-bindings-display-panel-clean-v1-0-3086eda1efaf@oss.qualcomm.com>
- <20260306-dt-bindings-display-panel-clean-v1-5-3086eda1efaf@oss.qualcomm.com>
+ <20260306-dt-bindings-display-panel-clean-v1-1-3086eda1efaf@oss.qualcomm.com>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -133,278 +132,82 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20260306-dt-bindings-display-panel-clean-v1-5-3086eda1efaf@oss.qualcomm.com>
+In-Reply-To: <20260306-dt-bindings-display-panel-clean-v1-1-3086eda1efaf@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 0273A251321
+X-Rspamd-Queue-Id: 78BB1251B5B
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-29129-lists,linux-renesas-soc=lfdr.de];
-	FREEMAIL_TO(0.00)[oss.qualcomm.com,gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,ti.com,ideasonboard.com];
-	HAS_ORG_HEADER(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[linaro.org:+];
 	RCPT_COUNT_TWELVE(0.00)[19];
+	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[oss.qualcomm.com,gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,ti.com,ideasonboard.com];
+	TAGGED_FROM(0.00)[bounces-29130-lists,linux-renesas-soc=lfdr.de];
+	HAS_ORG_HEADER(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[linaro.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,qualcomm.com:email,linaro.org:dkim,linaro.org:email,linaro.org:mid,linaro.org:replyto];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:dkim,linaro.org:email,linaro.org:mid,linaro.org:replyto,qualcomm.com:email,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo];
 	HAS_REPLYTO(0.00)[neil.armstrong@linaro.org];
 	PRECEDENCE_BULK(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	FROM_NEQ_ENVFROM(0.00)[neil.armstrong@linaro.org,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DBL_PROHIBIT(0.00)[0.0.0.0:email];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt];
 	REPLYTO_EQ_FROM(0.00)[]
 X-Rspamd-Action: no action
 
 On 3/6/26 13:02, Krzysztof Kozlowski wrote:
-> For code readability, several bindings which list allowed properties
-> with ": true" syntax group them in one place, without line breaks
-> between each.  Align a few bindings to match this style.  No functional
-> impact.
+> This MIPI-DSI LCD panel must be connected to something, thus add missing
+> port property, already used in DTS.  Reported by dtbs_check:
+> 
+>    qcom/msm8916-samsung-gt58.dtb: panel@0 (samsung,lsl080al03): 'port' does not match any of the regexes: '^pinctrl-[0-9]+$'
 > 
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 > ---
->   .../devicetree/bindings/display/panel/feiyang,fy07024di26a30d.yaml | 1 -
->   Documentation/devicetree/bindings/display/panel/himax,hx8394.yaml  | 3 ---
->   .../devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml      | 2 --
->   .../devicetree/bindings/display/panel/leadtek,ltk050h3146w.yaml    | 1 +
->   .../devicetree/bindings/display/panel/leadtek,ltk500hd1829.yaml    | 1 +
->   .../devicetree/bindings/display/panel/mantix,mlaf057we51-x.yaml    | 5 ++---
->   .../devicetree/bindings/display/panel/novatek,nt35510.yaml         | 3 ++-
->   .../devicetree/bindings/display/panel/renesas,r61307.yaml          | 3 +--
->   .../devicetree/bindings/display/panel/renesas,r69328.yaml          | 1 -
->   .../devicetree/bindings/display/panel/rocktech,jh057n00900.yaml    | 5 ++---
->   .../bindings/display/panel/sony,tulip-truly-nt35521.yaml           | 2 --
->   .../devicetree/bindings/display/panel/startek,kd070fhfid015.yaml   | 7 ++-----
->   12 files changed, 11 insertions(+), 23 deletions(-)
+>   .../devicetree/bindings/display/panel/samsung,s6d7aa0.yaml        | 8 ++++++++
+>   1 file changed, 8 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.yaml b/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.yaml
-> index 92df69e80a82..f288fa2390c9 100644
-> --- a/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.yaml
-> @@ -28,7 +28,6 @@ properties:
+> diff --git a/Documentation/devicetree/bindings/display/panel/samsung,s6d7aa0.yaml b/Documentation/devicetree/bindings/display/panel/samsung,s6d7aa0.yaml
+> index 939da65114bf..1f753b706911 100644
+> --- a/Documentation/devicetree/bindings/display/panel/samsung,s6d7aa0.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/samsung,s6d7aa0.yaml
+> @@ -44,6 +44,8 @@ properties:
+>     vmipi-supply:
+>       description: VMIPI supply, usually 1.8v.
 >   
->     port: true
->     reset-gpios: true
-> -
->     backlight: true
->   
->   required:
-> diff --git a/Documentation/devicetree/bindings/display/panel/himax,hx8394.yaml b/Documentation/devicetree/bindings/display/panel/himax,hx8394.yaml
-> index 182a2b825e1c..84e840e0224f 100644
-> --- a/Documentation/devicetree/bindings/display/panel/himax,hx8394.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/himax,hx8394.yaml
-> @@ -33,11 +33,8 @@ properties:
->       maxItems: 1
->   
->     reset-gpios: true
-> -
->     backlight: true
-> -
->     rotation: true
-> -
->     port: true
->   
->     vcc-supply:
-> diff --git a/Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml b/Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml
-> index 5802fb3c9ffe..2fa07ec55b08 100644
-> --- a/Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml
-> @@ -35,9 +35,7 @@ properties:
->       description: supply regulator for VCCIO, usually 1.8V
->   
->     reset-gpios: true
-> -
->     backlight: true
-> -
->     port: true
->   
->   required:
-> diff --git a/Documentation/devicetree/bindings/display/panel/leadtek,ltk050h3146w.yaml b/Documentation/devicetree/bindings/display/panel/leadtek,ltk050h3146w.yaml
-> index 5fcea62fd58f..2f49a6bbf3d7 100644
-> --- a/Documentation/devicetree/bindings/display/panel/leadtek,ltk050h3146w.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/leadtek,ltk050h3146w.yaml
-> @@ -25,6 +25,7 @@ properties:
->     backlight: true
->     port: true
->     reset-gpios: true
-> +
->     iovcc-supply:
->       description: regulator that supplies the iovcc voltage
->     vci-supply:
-> diff --git a/Documentation/devicetree/bindings/display/panel/leadtek,ltk500hd1829.yaml b/Documentation/devicetree/bindings/display/panel/leadtek,ltk500hd1829.yaml
-> index b0e2c82232d3..3f56047f4469 100644
-> --- a/Documentation/devicetree/bindings/display/panel/leadtek,ltk500hd1829.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/leadtek,ltk500hd1829.yaml
-> @@ -24,6 +24,7 @@ properties:
->     backlight: true
->     port: true
->     reset-gpios: true
-> +
->     iovcc-supply:
->       description: regulator that supplies the iovcc voltage
->     vcc-supply:
-> diff --git a/Documentation/devicetree/bindings/display/panel/mantix,mlaf057we51-x.yaml b/Documentation/devicetree/bindings/display/panel/mantix,mlaf057we51-x.yaml
-> index 74ff772973d6..b8b153a6e6cc 100644
-> --- a/Documentation/devicetree/bindings/display/panel/mantix,mlaf057we51-x.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/mantix,mlaf057we51-x.yaml
-> @@ -22,7 +22,6 @@ properties:
->         - mantix,mlaf057we51-x
->         - ys,ys57pss36bh5gq
->   
-> -  port: true
->     reg:
->       maxItems: 1
->       description: DSI virtual channel
-> @@ -36,13 +35,13 @@ properties:
->     vddi-supply:
->       description: 1.8V I/O voltage supply
->   
-> -  reset-gpios: true
-> -
->     mantix,tp-rstn-gpios:
->       maxItems: 1
->       description: second reset line that triggers DSI config load
->   
->     backlight: true
 > +  port: true
-> +  reset-gpios: true
->   
->   required:
->     - compatible
-> diff --git a/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml b/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml
-> index b39fd0c5a48a..43d134daf0ac 100644
-> --- a/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml
-> @@ -28,13 +28,14 @@ properties:
->     reg:
->       maxItems: 1
->   
-> -  reset-gpios: true
->     vdd-supply:
->       description: regulator that supplies the vdd voltage
->     vddi-supply:
->       description: regulator that supplies the vddi voltage
 > +
->     backlight: true
->     port: true
-> +  reset-gpios: true
->   
 >   required:
 >     - compatible
-> diff --git a/Documentation/devicetree/bindings/display/panel/renesas,r61307.yaml b/Documentation/devicetree/bindings/display/panel/renesas,r61307.yaml
-> index 90cce221c0d1..3d7761717b74 100644
-> --- a/Documentation/devicetree/bindings/display/panel/renesas,r61307.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/renesas,r61307.yaml
-> @@ -33,8 +33,6 @@ properties:
->     iovcc-supply:
->       description: Regulator for 1.8V IO power supply.
+>     - reg
+> @@ -65,6 +67,12 @@ examples:
+>               power-supply = <&display_3v3_supply>;
+>               reset-gpios = <&gpf0 4 GPIO_ACTIVE_LOW>;
+>               backlight = <&backlight>;
+> +
+> +            port {
+> +                panel_in: endpoint {
+> +                    remote-endpoint = <&mdss_dsi0_out>;
+> +                };
+> +            };
+>           };
+>       };
 >   
-> -  backlight: true
-> -
->     renesas,gamma:
->       $ref: /schemas/types.yaml#/definitions/uint32
->       description:
-> @@ -51,6 +49,7 @@ properties:
->       type: boolean
->       description: digital contrast adjustment
->   
-> +  backlight: true
->     reset-gpios: true
->     port: true
->   
-> diff --git a/Documentation/devicetree/bindings/display/panel/renesas,r69328.yaml b/Documentation/devicetree/bindings/display/panel/renesas,r69328.yaml
-> index 1cd219b510ee..740185f778a1 100644
-> --- a/Documentation/devicetree/bindings/display/panel/renesas,r69328.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/renesas,r69328.yaml
-> @@ -33,7 +33,6 @@ properties:
->       description: Regulator for 1.8V IO power supply.
->   
->     backlight: true
-> -
->     reset-gpios: true
->     port: true
->   
-> diff --git a/Documentation/devicetree/bindings/display/panel/rocktech,jh057n00900.yaml b/Documentation/devicetree/bindings/display/panel/rocktech,jh057n00900.yaml
-> index 4ae152cc55e0..ebfc825b8346 100644
-> --- a/Documentation/devicetree/bindings/display/panel/rocktech,jh057n00900.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/rocktech,jh057n00900.yaml
-> @@ -33,7 +33,6 @@ properties:
->         # Xingbangda XBD599 5.99" 720x1440 TFT LCD panel
->         - xingbangda,xbd599
->   
-> -  port: true
->     reg:
->       maxItems: 1
->       description: DSI virtual channel
-> @@ -44,9 +43,9 @@ properties:
->     iovcc-supply:
->       description: I/O voltage supply
->   
-> -  reset-gpios: true
-> -
->     backlight: true
-> +  port: true
-> +  reset-gpios: true
->     rotation: true
->   
->   required:
-> diff --git a/Documentation/devicetree/bindings/display/panel/sony,tulip-truly-nt35521.yaml b/Documentation/devicetree/bindings/display/panel/sony,tulip-truly-nt35521.yaml
-> index a58a31349757..85c5dee65383 100644
-> --- a/Documentation/devicetree/bindings/display/panel/sony,tulip-truly-nt35521.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/sony,tulip-truly-nt35521.yaml
-> @@ -31,9 +31,7 @@ properties:
->       description: Negative 5V supply
->   
->     reset-gpios: true
-> -
->     enable-gpios: true
-> -
->     port: true
->   
->   required:
-> diff --git a/Documentation/devicetree/bindings/display/panel/startek,kd070fhfid015.yaml b/Documentation/devicetree/bindings/display/panel/startek,kd070fhfid015.yaml
-> index 0819f38a9d2c..7fd9364fa385 100644
-> --- a/Documentation/devicetree/bindings/display/panel/startek,kd070fhfid015.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/startek,kd070fhfid015.yaml
-> @@ -16,8 +16,6 @@ properties:
->     compatible:
->       const: startek,kd070fhfid015
->   
-> -  enable-gpios: true
-> -
->     iovcc-supply:
->       description: Reference to the regulator powering the panel IO pins.
->   
-> @@ -25,11 +23,10 @@ properties:
->       maxItems: 1
->       description: DSI virtual channel
->   
-> -  reset-gpios: true
-> -
-> +  enable-gpios: true
->     port: true
-> -
->     power-supply: true
-> +  reset-gpios: true
->   
->   required:
->     - compatible
 > 
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
