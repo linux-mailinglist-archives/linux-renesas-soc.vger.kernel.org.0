@@ -1,173 +1,142 @@
-Return-Path: <linux-renesas-soc+bounces-29178-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29179-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2PMOKlcesWmOqwIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29178-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 08:48:39 +0100
+	id UBZ5AjEpsWkBrgIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29179-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 09:34:57 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 155ED25E2D3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 08:48:39 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 134E825F693
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 09:34:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DB468324AEA9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 07:35:58 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id A1D1A3052CF1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 08:30:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7B3F3B27C6;
-	Wed, 11 Mar 2026 07:35:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E80F3AF658;
+	Wed, 11 Mar 2026 08:29:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hsIzdf3O"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="I3QH+Xuc"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 234DA3B0AF5;
-	Wed, 11 Mar 2026 07:35:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B5A535A3B4
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Mar 2026 08:29:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773214557; cv=none; b=LIYl7fftsjFc3KtN3k30z4a1FERZLuDOkuopSnijYw44BXk+wA5z5HghAlePNcNEC4bHqx0+HFmC3S32fX/v7YAJQGpsPUXqZrKyYSLKIGGsn/YCXgfLRprQrpOMVFRNfOFXkHL0+c7s6qOnfQhlTP0GYJuloAIpSq4KSvG/2n4=
+	t=1773217776; cv=none; b=XE7EGjO62ZAKESg35f3xecehWNYG6/xAQlCagFt/zTiRFgJgp+pTAkxxnfaoljcyxapY3Y8B1tFvb1nJpOHTVtUuazZAVJIK0UJnGEskl7tPG89KRFYfHlmtIMqtIb8kemwelwrfDo9QnRxzuLo0RW8d0qcWmLCHs173NO5InZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773214557; c=relaxed/simple;
-	bh=N9JsIgwE9McaCLlcfRpcZ+hjDAdDPG1Ws2WMZXuiqJc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QSy0T0Egb+7sQeOGV2v921VNP5Y552BaoFXmTR2CB3e5EtwBSF5abmALTsmffI1m+TDAiVp/Jc8xW93yQ135du5p8OEUNvl1oFyTE9iz7yseTHIX9uxGlnvJGexoaMoCASoJCRrfasUdxvsS3gGOYvAEagKyU8WI0+bvir/ohGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hsIzdf3O; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCC63C2BC9E;
-	Wed, 11 Mar 2026 07:35:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773214556;
-	bh=N9JsIgwE9McaCLlcfRpcZ+hjDAdDPG1Ws2WMZXuiqJc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=hsIzdf3O0jQfojByeN6NVrvYIDR97gvgPUgj5XcwqVLiT+NVIuMji7cdqoRfLGOQr
-	 +VPb9gwvRKSWulxHQ79P3CtBZLGG+1jr7XXg0WqG8TvmDxjg+BMW/YwsJDqTdpcry8
-	 Tc6GqT7J2WgUp9lBmLHi9Pe3OT82DuV6S2WbYxZ39HzWtwJHU4VnuDnwgI+2pq+p0v
-	 iLmmgHycVpN5f2I57hm0KEQU9b16P8kwsMcNxewNVVrflNyKQMsYCAiQEhovYxQPOQ
-	 1AstDrkntey+z6DYP9rL1Ro4vNGTNTty6fFEjcn+8j3J0pbeg06l/glaGrSCZyIfTL
-	 ak7SkKsrR0dZA==
-Message-ID: <eb4bd3f1-60f6-4c05-88ea-7a215d2b4849@kernel.org>
-Date: Wed, 11 Mar 2026 08:35:51 +0100
+	s=arc-20240116; t=1773217776; c=relaxed/simple;
+	bh=gwlTfr7vU13jo+B7K+RhuMhIRQGNp0Y8x670Pk/RspE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t0kAZZic6zVXc8WVFj42aeIlF7qeVrVJuEAd8f7J5MGmf3Mtkh8bRHw3rdFSuuS+OAaW/3NHlMAvY44/jyQjkirjd946kfeItYmeFCSTWKqG1hE71oVPvmkhVyhAnFJTeY0L81rSTUHmVNrfXF6b4455MgXDvNNKisIB6u2Dnp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=I3QH+Xuc; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=gwlT
+	fr7vU13jo+B7K+RhuMhIRQGNp0Y8x670Pk/RspE=; b=I3QH+XucnnyTu3v7yH8j
+	ihOj5m1rSkSks+vcXyXsR5iKjTHh8TUs2HsPGNDncaW+mSwXMhzK57rLd5BDuzFh
+	1dsAG+4ZuoQNXj6GNwmnG7g3+ZAepdKpSPg3vx/XCJ6MnCqzy1X20j9HvjLw0NZm
+	l28WH5fMb8FoK2KLbAPKUw603nEXtaj5nGwZY3GEAw96uklmQ/xUa8nkScJ1HUdh
+	xZ+WMnp52obrycbz5uodYZOsD6NKzethSB2XSORsW3XyVltJ/m9swJLkAg+yXrB0
+	Lmwb46ObjK0aO7/rDpoP2R7slyRrZZpiOR7rSXTCAx3nrTHOqkx+vOWTE14fdr9N
+	Vg==
+Received: (qmail 3563424 invoked from network); 11 Mar 2026 09:29:21 +0100
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 11 Mar 2026 09:29:21 +0100
+X-UD-Smtp-Session: l3s3148p1@sjW/brtMZrQujnut
+Date: Wed, 11 Mar 2026 09:29:20 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Herve Codina <herve.codina@bootlin.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Pascal Eberhard <pascal.eberhard@se.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH] ARM: dts: r9a06g032: Add #address-cells in the GIC node
+Message-ID: <abEn4La90AJTthjj@ninjato>
+References: <20260303102029.147359-1-herve.codina@bootlin.com>
+ <abCWATS9MiRhcqlM@shikoro>
+ <20260311083021.259ffc9d@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ARM: dts: r9a06g032: Add #address-cells in the GIC node
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, linux-renesas-soc@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Pascal Eberhard <pascal.eberhard@se.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-References: <20260303102029.147359-1-herve.codina@bootlin.com>
- <abCWATS9MiRhcqlM@shikoro>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <abCWATS9MiRhcqlM@shikoro>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 155ED25E2D3
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="oGSmIdU1e1wqyPhk"
+Content-Disposition: inline
+In-Reply-To: <20260311083021.259ffc9d@bootlin.com>
+X-Rspamd-Queue-Id: 134E825F693
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-3.26 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MID_RHS_NOT_FQDN(0.50)[];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[sang-engineering.com:s=k1];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-29178-lists,linux-renesas-soc=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[glider.be,gmail.com,kernel.org,vger.kernel.org,se.com,bootlin.com];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[sang-engineering.com];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	TAGGED_FROM(0.00)[bounces-29179-lists,linux-renesas-soc=lfdr.de,renesas];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.997];
+	DKIM_TRACE(0.00)[sang-engineering.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[wsa@sang-engineering.com,linux-renesas-soc@vger.kernel.org];
+	FREEMAIL_CC(0.00)[glider.be,gmail.com,kernel.org,vger.kernel.org,se.com,bootlin.com];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,bootlin.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-On 10/03/2026 23:06, Wolfram Sang wrote:
-> On Tue, Mar 03, 2026 at 11:20:29AM +0100, Herve Codina (Schneider Electric) wrote:
->> When checking dts involving the r9a06g032.dtsi file, the following kind
->> of warnings are reported:
->>    Missing property '#address-cells' in node xxx, using 0 as fallback
->>
->> Indeed, #address-cells is not present in the GIC interrupt controller
->> node.
->>
->> Fix it adding the missing property.
->>
->> No functional change.
->>
->> Signed-off-by: Herve Codina (Schneider Electric) <herve.codina@bootlin.com>
-> 
-> How did you trigger this? It doesn't show up with the upstream DTs for
-> N1D. Can you share the snippet which causes the problem for you?
 
-That's just standard DTC warning. I was fixing most of the arm64
-platforms already:
+--oGSmIdU1e1wqyPhk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-https://lore.kernel.org/all/?q=f%3Akrzysztof+%22Add+default+GIC+address+cells%22
 
-Best regards,
-Krzysztof
+> I compiled the dtb with W=1 and CHECK_DTBS=1
+
+W=1 adds extra warnings? I am surprised I didn't know this yet. Updated
+my build scripts, thanks! Confirming the issue.
+
+
+--oGSmIdU1e1wqyPhk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmmxJ9sACgkQFA3kzBSg
+KbYE7g/+ON2Zj2rgKu1i5xUsyQZHtpmT1Z01qs6mK8hgSsCaAsH5+4nJ2pKzhb92
+7baPPzeWQGJXPjJGDI9mUqfDcPaE+1FJ9Q/keXwIyUWqxTYWR81pHx3u3TDr/vMw
+X6lAMr1y3k3tOtlXWFbMyzV2WEPY63e8Z03MeWq937SGyry5Kbced1d0griUKiBk
++bwU8NBftpX1Ju+Eq9ZDAwbIZninS5dPcgEMrR3TJU7Fee6dbN8bjjwSRUxR/iBI
+6XPZ1PD56VH3caseUDvVPpOfBFuilWz0AxU1iJ9qji9G4z6VxoC63rrrG5xCVt3C
+PkDW0gS8K+clydtabvrQPJVfJFIGL52F1vAsbSk2NVxDxSoRCNAczlY16jorKolc
+NxjDkMfPb8nn7kzQgIUmILcP6y07dbSS9KiSA4k0CB5CIfQJqR2eZFVFBe+1AjKs
+4nINsNVx9iWZ5aFa2geL32U7+QyOAJgv1ij++H+ymu3vkJXPOum4oBtXywnoj/DS
+P734yI78T8J9WyFl9fmQW5x/etUmSaiyzv7iZ/NqyvydARZJG5TvMEkJtH4JOkLf
+HiCWGRB89VnH5/qm+vNWpahR3e+aM5FpL77b4i7kX7EsccVdWFqxYikc89Evz3fc
+lAE46ydZzTAFA/Usqh/Xgy/r8lWZyQkqDsJtbXooOf9PgtFtd0E=
+=0thC
+-----END PGP SIGNATURE-----
+
+--oGSmIdU1e1wqyPhk--
 
