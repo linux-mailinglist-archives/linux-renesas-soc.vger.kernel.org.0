@@ -1,183 +1,171 @@
-Return-Path: <linux-renesas-soc+bounces-29234-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29235-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uGmbKcGjsWn4EAAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29234-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 18:17:53 +0100
+	id IHu4KRyksWn4EAAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29235-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 18:19:24 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C35A267E40
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 18:17:53 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB61D267EA5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 18:19:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C6D3531DCD18
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 17:13:15 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C4AF03026167
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 17:14:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A89663E276F;
-	Wed, 11 Mar 2026 17:13:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 448273E0C4C;
+	Wed, 11 Mar 2026 17:14:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RcjXj8/D"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="QDKs4pct"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81B1A3451AF;
-	Wed, 11 Mar 2026 17:13:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AED6212542;
+	Wed, 11 Mar 2026 17:14:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773249194; cv=none; b=CHDGXmEJIEte5JVYlCLGY4ZqzNj//9LHDK9ofdbqjvO6ZdcWrQV6j77lrkXQJD+SrI/KYcxi4spG+CBTq36oV79Ag8Db2T0vM8amgHlTB7/nt5wFVQbbBfBc0y2OzzjAyRun97rh++8UF3tvl0WcQeuqo+RvpPlHviBCN0QgcKg=
+	t=1773249258; cv=none; b=QYSaZrl6SuR6gNUZ8wL5cQTNqt6bpRp5rjXW14a0MdUG9qCVfLZ+mwyrACeTlg00+aaVJQ4CeadliGmNEpGj+q4mcVVJiArml+ILKzrP66QN2TwFp84EooIhHzZzfX3rPCuOY/37QZEndEBW5JH4U/dOFBpBWVJGyr9v6Roqizk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773249194; c=relaxed/simple;
-	bh=HnZ43XwIpl7dh8HMwqHbhWOqb5h5K/qibXtHrWYtI2M=;
+	s=arc-20240116; t=1773249258; c=relaxed/simple;
+	bh=hNUdCgOx+QzbB/404jp/eAhs9W1ETeqREpvUGd+e3KM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Igu3zhcxQ55+NVige/xl5U8x8c5xL8A5VWHPkJw8sIbo3yEpda5aU3j9mW/slO0ZF6lLmxATQZobJecpxlAXprtnhNwDY8rgOFzJkhvhkugCCJhdlI/8A/WLecDi/w0kkXYrF0WTdVybPv5KIa64W9kG5Sh6RHzKB7L2U/7Z+5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RcjXj8/D; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9331FC4CEF7;
-	Wed, 11 Mar 2026 17:13:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773249194;
-	bh=HnZ43XwIpl7dh8HMwqHbhWOqb5h5K/qibXtHrWYtI2M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RcjXj8/DHiK3t9Ki5/dVU994YOCV7pkhmvdfHpP4Ni5RfLuvggNyoukzjJy+iUcM/
-	 yYF4laxETNu7z5UX4GLlXBVcBKhNJCJHqn6mM3E6eHbZq7wMw2ouAYu1SN2ILjvQYw
-	 J8A0r77BE53yNF+8d7rbvjB6vSmCFGwqsiLHpGE/KW2Dt37kEJJc9RlFVidiyXemGr
-	 p5YdhtPe4yojoe38FQJsWiCJ6ye2eC5KbXlgTUSM8cF8v1rQrqBC/ZvzQa1rfEeFJm
-	 k4tniKn4qUAyyWP4hNn60exginXUH7wdQa2jvpFX2LMzC2CHmbNC5do1atv2h6UAyW
-	 cn5vNsYhBsrUw==
-Date: Wed, 11 Mar 2026 22:42:56 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Niklas Cassel <cassel@kernel.org>
-Cc: Minghuan Lian <minghuan.Lian@nxp.com>, Mingkai Hu <mingkai.hu@nxp.com>, 
-	Roy Zang <roy.zang@nxp.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Srikanth Thokala <srikanth.thokala@intel.com>, 
-	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Marek Vasut <marek.vasut+renesas@gmail.com>, Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Kishon Vijay Abraham I <kishon@kernel.org>, Manikanta Maddireddy <mmaddireddy@nvidia.com>, 
-	Koichiro Den <den@valinux.co.jp>, Damien Le Moal <dlemoal@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
-	linuxppc-dev@lists.ozlabs.org, linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	imx@lists.linux.dev, linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 1/9] PCI: endpoint: Introduce pci_epc_bar_type
- BAR_64BIT_UPPER
-Message-ID: <6b6w7ni62ty3oimj3cwfzyv75evslx2vhojp3f6rpnbxtamv7g@o35zul3tkbrf>
-References: <20260302095913.48155-11-cassel@kernel.org>
- <20260302095913.48155-12-cassel@kernel.org>
- <dtxdgxrewfby5hu3cu3pu5kljylm627uc43sw75gk7loimmm6r@ei4w6wmqgd6a>
- <abFGOoZUX_vexLWR@fedora>
+	 Content-Type:Content-Disposition:In-Reply-To; b=WcRHo42xlBotaAibJj+TXLeF23DKqLRB5HpkjBvtv6csU3QCULNRB2JanuLrPSqcsyAEM0/qhgNzUpUXH5ddWdFKu2O/bBAnRCRK3K11sm4WaPy0nqvjmqK6VTDSEuWmaAwYoKpPp+X8iq5Bi+bSD1nZWsZDoaKquuCuE+mQZKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=QDKs4pct; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=x01hAO3TQhEkNTRQuJv5i7eh7PE4cEs/nk3QRJjTLic=; b=QDKs4pct3Mr+LhBHHosL5eL4J7
+	bOVSWTK+3Xy3C8pZNHQlZUwFPStThWCzv83qPt0oMC2/PVomfUVNwK5AFzeAQ/ViN34vRUcJPBDnD
+	laWGqMhj58PJHmyWqUPUvu0kThik/Qd7tMZTW4jqoAD2Qpvp8c1Z2QzxBzatcWHg/BCDey39MrA4Y
+	6WZv9QvY0bK0w+CX4aUiI2ppzUYzVhQDqqlnA3B5Ga7y+WDBUArkcKYb6nR/ZG7KqEJQ7ErdBzqmJ
+	YhFhLfYQoDORoEV21ok/m+2lH9np5iIhbsDQFmh127DVNapjwc3N0RD4pFmavfl9dhfTX4aoumvaH
+	p/ZyTQgQ==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:33828)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1w0N85-000000006iY-0o9T;
+	Wed, 11 Mar 2026 17:13:53 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1w0N81-000000006Pm-0aYD;
+	Wed, 11 Mar 2026 17:13:49 +0000
+Date: Wed, 11 Mar 2026 17:13:48 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Shawn Guo <shawnguo@kernel.org>, Fabio Estevam <festevam@gmail.com>,
+	Jan Petrous <jan.petrous@oss.nxp.com>, s32@nxp.com,
+	Romain Gantois <romain.gantois@bootlin.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Christophe Roullier <christophe.roullier@foss.st.com>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Radu Rendec <rrendec@redhat.com>, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	Drew Fustini <dfustini@tenstorrent.com>,
+	linux-sunxi@lists.linux.dev, linux-amlogic@lists.infradead.org,
+	linux-mips@vger.kernel.org, imx@lists.linux.dev,
+	linux-renesas-soc@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, sophgo@lists.linux.dev,
+	linux-riscv@lists.infradead.org,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: Re: [PATCH net-next v8 2/6] net: stmmac: qcom-ethqos: use generic
+ device properties
+Message-ID: <abGizL-uYnahlcEt@shell.armlinux.org.uk>
+References: <20260311-qcom-sa8255p-emac-v8-0-58227bcf1018@oss.qualcomm.com>
+ <20260311-qcom-sa8255p-emac-v8-2-58227bcf1018@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <abFGOoZUX_vexLWR@fedora>
-X-Spamd-Result: default: False [-0.16 / 15.00];
+In-Reply-To: <20260311-qcom-sa8255p-emac-v8-2-58227bcf1018@oss.qualcomm.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+X-Spamd-Result: default: False [1.14 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_REJECT(1.00)[armlinux.org.uk:s=pandora-2019];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[armlinux.org.uk : SPF not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-29234-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-29235-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[29];
+	FREEMAIL_CC(0.00)[kernel.org,lunn.ch,davemloft.net,google.com,redhat.com,gmail.com,foss.st.com,st.com,linaro.org,baylibre.com,oss.nxp.com,nxp.com,bootlin.com,glider.be,vger.kernel.org,st-md-mailman.stormreply.com,lists.infradead.org,tenstorrent.com,lists.linux.dev];
+	RCPT_COUNT_TWELVE(0.00)[47];
+	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[nxp.com,kernel.org,google.com,intel.com,gmail.com,nvidia.com,socionext.com,renesas.com,glider.be,valinux.co.jp,lists.ozlabs.org,vger.kernel.org,lists.infradead.org,lists.linux.dev];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mani@kernel.org,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[armlinux.org.uk:-];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 0C35A267E40
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[linux@armlinux.org.uk,linux-renesas-soc@vger.kernel.org];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.954];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,netdev,renesas];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[shell.armlinux.org.uk:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linaro.org:email,qualcomm.com:email,armlinux.org.uk:url]
+X-Rspamd-Queue-Id: EB61D267EA5
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed, Mar 11, 2026 at 11:38:50AM +0100, Niklas Cassel wrote:
-> Hello Mani,
+On Wed, Mar 11, 2026 at 06:03:37PM +0100, Bartosz Golaszewski wrote:
+> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 > 
-> On Wed, Mar 11, 2026 at 12:05:59PM +0530, Manivannan Sadhasivam wrote:
+> In order to drop the dependency on CONFIG_OF, convert all device property
+> getters from OF-specific to generic device properties and stop pulling
+> in any linux/of.h symbols.
 > 
-> (snip)
-> 
-> > This also brings the question, do we really need to mark the preceding BAR?
-> 
-> From a pure code PoV, marking the preceding BAR is enough even with the
-> current code:
-> https://github.com/torvalds/linux/blob/v7.0-rc3/drivers/pci/endpoint/pci-epc-core.c#L101-L103
-> 
-> However, the current documentation claims that the succeeding BAR must be
-> marked as BAR_RESERVED:
-> https://github.com/torvalds/linux/blob/v7.0-rc3/include/linux/pci-epc.h#L207-L210
-> 
-> I want to change this to BAR_64BIT_UPPER / BAR_64BIT_UPPER_BASE, so we can use
-> BAR_RESERVED for BARs that expose fixed hardware resources (e.g. eDMA regs).
-> 
-> 
-> Thus, an EPC driver does not strictly need mark the succeeding BAR with anything.
-> This was done mostly for clarity. (E.g. with BAR_64BIT_UPPER_BASE it is obvious
-> that this BAR cannot be a standalone 32-bit BAR.)
-> 
-> If we don't mark the succeeding BAR with anything, IMO, it is less obvious that
-> the succeeding BAR cannot be used as a standalone 32-bit BAR.
-> 
-> But... since the code already does the "right thing". We could simply nuke this
-> part of the documentation, and drop the .type for all BARs succeeding a
-> .only_64bit BAR, if you prefer that option over having a dedicated type for the
-> "upper base of a 64-bit BAR".
-> 
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
-Yes, let's just remove that comment.
+Please postpone this for the time being - I'm trying to get stmmac's
+pain-in-the-arse PCS support sorted, and I've patch series out there
+and pending that make a large number of changes to this driver. This
+is likely to conflict with my work.
 
-> 
-> > Why can't we let the PCI EPC core to always assume that if the previous BAR
-> > has 'only_64bit' bit set, next BAR cannot be used as a standalone 32bit BAR?
-> > 
-> > I find it weird or redundant to mark both BARs.
-> 
-> Redundant, yes, but in my opinion marking both BARs makes it unambigious
-> that two BARs are used when a BAR is "only_64bit".
-> 
-> E.g. Manikanta originally wanted to add code comments for the upper part of
-> the 64-bit BAR:
-> https://lore.kernel.org/linux-pci/20260217-master-v1-2-727e26cdfaf5@nvidia.com/
-> 
-> Sure, we can just skip the .type for the succeeding BAR...
-> But is that really better than clearly showing that a "forced" 64-bit BAR will
-> always occupy two BARs?
-> 
+I'm limited by the rate at which patches can be applied to net-next
+and the rate at which Mohd can provide me feedback. On that, I notice
+you haven't Cc'd Mohd who is now in MAINTAINERS for qcom-ethqos.
 
-To whom are we showing? If it is a developer, then he should understand that a
-64bit BAR occupies two consecutive 32bit BARs. The flag should only be set for
-the code not for the reader.
-
-> 
-> Tell me what you prefer:
-> 1) s/BAR_RESERVED/BAR_64BIT_UPPER_BASE/
-> 2) Change documentation and drop .type for a BAR following a .only_64bit BAR.
-> 
-
-Let's go with 2.
-
-- Mani
+Thanks.
 
 -- 
-மணிவண்ணன் சதாசிவம்
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
 
