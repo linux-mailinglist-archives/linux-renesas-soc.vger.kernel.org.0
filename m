@@ -1,172 +1,151 @@
-Return-Path: <linux-renesas-soc+bounces-29213-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29214-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GA98ERh+sWmjCwAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29213-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 15:37:12 +0100
+	id +LK5Dp2EsWmjCwAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29214-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 16:05:01 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB001265847
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 15:37:11 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5DC9265FB3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 16:05:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B3E3330D382B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 14:34:48 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E9B473048B2B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 14:58:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D1FA3BA255;
-	Wed, 11 Mar 2026 14:34:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3F2C344DB7;
+	Wed, 11 Mar 2026 14:58:12 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA6DA3C3450
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Mar 2026 14:34:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BA4428000F
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Mar 2026 14:58:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773239688; cv=none; b=nYySZoOpldDV0SUvYlhTVY/PQnjQUeiD64KNlrcObXKAP3Ns3BTfxHArY7n83vqm2A4m04LZdWh4sUkBWDbNaE0cqnA8Si3aE2T9iA/qLcqDQKVGv11S6oxmQMKelibS+JjCO3loCgjK7T8Yoh6MnwJBqNWBvTKAcpsgcnGuKKQ=
+	t=1773241092; cv=none; b=lJaN9Dzf6m0JnjNm/d79RexuNp94MUUXsTlNx4YOw9mtOx1DdfKPeDqCPJkZ66Gqbbx4WSPM9CRruwhVv92JxzdRQrQsx1+9wGr+jLkumSPn4/sTjUuSYt2atXHvZwTYuBPVLfBCWUBR7ZEHArU2o+4ChkVPVkzO93VKLkHhl4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773239688; c=relaxed/simple;
-	bh=h0DZuW9sYYcJamuzoLXZHLvqI13ncnNrtDS51eDhLzM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RCaCCbV9zP0ilvToI0TqjSLKU49SWWf/wj58/QJhUm/RHHb68tWwWDkNsB5wxi+sWI/aH8KYTA7g6mkJa2Q/3dHn6Hf5NBaN0p3WZh0Eg4UenMW/Fdgp4ehtNGhxZCjOSanJ0QYvwqYrSbd83bKOLAMRM2b0flETbiS4Ph4KRhg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-56af41d1e0bso2857130e0c.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Mar 2026 07:34:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773239686; x=1773844486;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6/8nBsnGoOuvPOKFHrGieQ7jCFEIsrq8dvQknaSfKDE=;
-        b=aJP5Wj3OWvOM315qcD4eOVZRCAWpHUsjCkYhLdgvGbqlojOOic72/Lvnm6TEhqxJQY
-         Rfvi27pJR9A78HdUGOEoQlcObTZXbHgniQJ0gvDjXpzK/o4JOxJ4mEPcpVcOv77VBjHt
-         Z+4q9jzdTbby39U83cl2XI3Y0iqfJ0hN0y5EXAhU2KNx7tvLkQBGXQ7xoZ+OHS3EKuyI
-         mraJyI9mcQxHTecQmEKUSGXwIyCqSSgrcDwYlA+pIF2QaqTiDjq6zmw7WS+HR60vY4/K
-         DGhwVQu9LgOjLTwRYzwkmb6Ek9mAotKvHQR9EgVtOS4ABZcozJOuxpRHPJnBhuR/lJEU
-         /f7g==
-X-Gm-Message-State: AOJu0YyO4/Yt/YCTmiaT9HKy4GMdehn6FRovI2Cc+57U5v2Je2CChuTE
-	t+Gehwz0+BCQVBEWPde5jcMl808Gca/M/QRUiFMa2YC/glpx6JXTa0M4dz4deWPeHW0=
-X-Gm-Gg: ATEYQzyfjrFm22LaEVvYV4ma5V+1V2PVYJCwa/IxkyqUxNwvLGF8IYqjhRNaqmYz0qa
-	T8i/O507Cg+y95qB78JZzo+V42sfhICPYMObCoC+F7wEJA8qXfnvo9MM4eOtqtzK4qSA0n8VwCr
-	fWN4poM+y0doCLjW+uX69cg8tvUrn5iRpetrFOpInxJ514nzlAZqpYqZLIuFV6gn+Lua/3girwF
-	nGr2yiOVb8TiVjK8JEtrJrWjOuCAkowJrCvpgVReDMa0i4UZArrjGRVRBA2DZDQhgCQDOaqAtbq
-	Lqul4m0TcxciZUBP5J1OUFbteMwWB7DHNDNpcBTBkAn0jF6bll85VO4yV6G9n29NYnwFIhWVZjD
-	iCQx+Jp797zPP/WcVGZoHzOOwpBF2+7oZ209Tmpq1Pc6Oz/cQtOpRNecJIB5TbpxKYetWG9dNnN
-	OSfzmNZsQk5wrR+cmjlxIBhVilgK+8DyuPdNzBvmFSu7CAIBmf22zFnWLEeEMX6ldn
-X-Received: by 2002:a05:6122:a0a:b0:54c:da0:f711 with SMTP id 71dfb90a1353d-56b47483858mr856774e0c.7.1773239685765;
-        Wed, 11 Mar 2026 07:34:45 -0700 (PDT)
-Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com. [209.85.221.180])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56b464a4235sm1045646e0c.16.2026.03.11.07.34.45
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Mar 2026 07:34:45 -0700 (PDT)
-Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-56b49b943c1so277577e0c.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Mar 2026 07:34:45 -0700 (PDT)
-X-Received: by 2002:a05:6122:1dac:b0:566:36e7:8934 with SMTP id
- 71dfb90a1353d-56b476770ebmr874061e0c.16.1773239684796; Wed, 11 Mar 2026
- 07:34:44 -0700 (PDT)
+	s=arc-20240116; t=1773241092; c=relaxed/simple;
+	bh=x+69OvlsC3W4IsTFqwQ8NuafbHViL9ICwh/vnOJg3to=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JgJ74WDfAJEfxIFRH9w6WgftEXtBsZCB+Fn3Wgd/E2dYMqDQ8tBEOCRi2JouJZz5iP60C+pagNIhUUcIJMEYHzuiNCXy/k/YLY8hBshGc3t18MfIoXw0STWp+16L3mteJy4QXCikOS7SpRtiqJTqh64B9Z5bd0XncLtvxRbVo0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA66BC4CEF7;
+	Wed, 11 Mar 2026 14:58:10 +0000 (UTC)
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	=?UTF-8?q?Herv=C3=A9=20Codina?= <herve.codina@bootlin.com>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] ARM: dts: renesas: r9a06g032-rzn1d400-db: Do not use underscores in node names
+Date: Wed, 11 Mar 2026 15:58:07 +0100
+Message-ID: <1c1fc11f1f183a8e72f168bf6eb35a40e01ecacb.1773240961.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260305221939.32643-2-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20260305221939.32643-2-wsa+renesas@sang-engineering.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 11 Mar 2026 15:34:33 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVFsxsJW46Xb6BSXztAAvXqBgbD6N7A7jL_Xc-FEBCnVQ@mail.gmail.com>
-X-Gm-Features: AaiRm51mmgYpVi1_pO89qn1P3q9K9zLqFKfY7oYAMzssuYebMabvxkW732abDY8
-Message-ID: <CAMuHMdVFsxsJW46Xb6BSXztAAvXqBgbD6N7A7jL_Xc-FEBCnVQ@mail.gmail.com>
-Subject: Re: [PATCH v2] ARM: dts: renesas: r9a06g032-rzn1d400-db: use
- interrupt for Micrel PHYs
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, Herve Codina <herve.codina@bootlin.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spamd-Result: default: False [-1.46 / 15.00];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [0.54 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,bootlin.com,glider.be,gmail.com,kernel.org];
+	TAGGED_FROM(0.00)[bounces-29214-lists,linux-renesas-soc=lfdr.de,renesas];
 	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[linux-m68k.org];
-	TAGGED_FROM(0.00)[bounces-29213-lists,linux-renesas-soc=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[sang-engineering.com,bootlin.com,gmail.com];
+	DMARC_NA(0.00)[glider.be];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[geert@glider.be,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	NEURAL_HAM(-0.00)[-0.989];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux-m68k.org:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,sang-engineering.com:email,bootlin.com:email,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: CB001265847
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,glider.be:email,glider.be:mid]
+X-Rspamd-Queue-Id: B5DC9265FB3
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Wolfram,
+Node names should not contain underscores; replace them by hyphens.
 
-On Thu, 5 Mar 2026 at 23:19, Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> Make use of the interrupts wired to the Micrel PHYs via the GPIO IRQ
-> mux.
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Reviewed-by: Herve Codina <herve.codina@bootlin.com>
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+To be queued in renesas-devel for v7.1.
 
-Thanks for your patch!
+ arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-> --- a/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts
-> +++ b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts
-> @@ -256,6 +268,13 @@ pins_cpld: pins-cpld {
->                          <RZN1_PINMUX(122, RZN1_FUNC_USB)>;
->         };
->
-> +       pins_gpio2: pins-gpio2 {
-
-Please move this below, to preserve sort order (alphabetical,
-and ignoring underscores that will be removed soon).
-
-> +               pinmux = <RZN1_PINMUX(147, RZN1_FUNC_GPIO)>,
-> +                        <RZN1_PINMUX(149, RZN1_FUNC_GPIO)>;
-> +               drive-strength = <6>;
-> +               bias-disable;
-
-Shouldn't this be bias-pull-up, given the pull-up resistors R20 and
-R78 on the interrupt lines are marked "not assembled" in the schematics?
-
-
-> +       };
-> +
->         pins_eth3: pins_eth3 {
->                 pinmux = <RZN1_PINMUX(36, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
->                          <RZN1_PINMUX(37, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
-
-The rest LGTM, so with the above clarified:
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts
+index b720c001e77680a9..d0956950472c1fde 100644
+--- a/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts
++++ b/arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts
+@@ -237,13 +237,13 @@ &pinctrl {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&pins_cpld>;
+ 
+-	pins_can0: pins_can0 {
++	pins_can0: pins-can0 {
+ 		pinmux = <RZN1_PINMUX(162, RZN1_FUNC_CAN)>,	/* CAN0_TXD */
+ 			 <RZN1_PINMUX(163, RZN1_FUNC_CAN)>;	/* CAN0_RXD */
+ 		drive-strength = <6>;
+ 	};
+ 
+-	pins_can1: pins_can1 {
++	pins_can1: pins-can1 {
+ 		pinmux = <RZN1_PINMUX(109, RZN1_FUNC_CAN)>,	/* CAN1_TXD */
+ 			 <RZN1_PINMUX(110, RZN1_FUNC_CAN)>;	/* CAN1_RXD */
+ 		drive-strength = <6>;
+@@ -256,7 +256,7 @@ pins_cpld: pins-cpld {
+ 			 <RZN1_PINMUX(122, RZN1_FUNC_USB)>;
+ 	};
+ 
+-	pins_eth3: pins_eth3 {
++	pins_eth3: pins-eth3 {
+ 		pinmux = <RZN1_PINMUX(36, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
+ 			 <RZN1_PINMUX(37, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
+ 			 <RZN1_PINMUX(38, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
+@@ -273,7 +273,7 @@ pins_eth3: pins_eth3 {
+ 		bias-disable;
+ 	};
+ 
+-	pins_eth4: pins_eth4 {
++	pins_eth4: pins-eth4 {
+ 		pinmux = <RZN1_PINMUX(48, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
+ 			 <RZN1_PINMUX(49, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
+ 			 <RZN1_PINMUX(50, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)>,
+@@ -290,13 +290,13 @@ pins_eth4: pins_eth4 {
+ 		bias-disable;
+ 	};
+ 
+-	pins_i2c2: pins_i2c2 {
++	pins_i2c2: pins-i2c2 {
+ 		pinmux = <RZN1_PINMUX(115, RZN1_FUNC_I2C)>,
+ 			 <RZN1_PINMUX(116, RZN1_FUNC_I2C)>;
+ 		drive-strength = <12>;
+ 	};
+ 
+-	pins_mdio1: pins_mdio1 {
++	pins_mdio1: pins-mdio1 {
+ 		pinmux = <RZN1_PINMUX(152, RZN1_FUNC_MDIO1_SWITCH)>,
+ 			 <RZN1_PINMUX(153, RZN1_FUNC_MDIO1_SWITCH)>;
+ 	};
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.43.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
