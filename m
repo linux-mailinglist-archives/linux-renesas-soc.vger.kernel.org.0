@@ -1,179 +1,189 @@
-Return-Path: <linux-renesas-soc+bounces-29191-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29192-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gOSnJX1JsWlCtAIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29191-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 11:52:45 +0100
+	id gA1eCtdTsWlHtwIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29192-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 12:36:55 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 079B0262976
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 11:52:45 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C061262FA0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 12:36:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 282AA329B5FD
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 10:39:09 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id D8C2E3073400
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 11:36:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D835B3CFF6A;
-	Wed, 11 Mar 2026 10:39:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EPXTMuVt"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BF683CEBB9;
+	Wed, 11 Mar 2026 11:36:37 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC5F83CF04D;
-	Wed, 11 Mar 2026 10:39:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EBA73112C1
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Mar 2026 11:36:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773225540; cv=none; b=UzOBBPCxAQQv5kg/zT1hqixT4xTLLs+gTWtS1wkcU1tZ19mDujasgiPAVcvmrCwJnEAnfa21Fi/vSQIkFKb36bEELD1Wvs+N/C/IyEt4cgmL/uUkag5oMprTJuBTchAA3/UWkOO0+5OOQYvqPC4K5DD28voZiB1JsSdBfItRC8A=
+	t=1773228997; cv=none; b=d+kSrWfG2Eb3pNSe70RwwCfLFJmHE9wFFYKLhY2kwmuNpH/YLBbMTjdxsQcQovQXCpY4Vu80FPIe/qNsb8Kl63Cnvp0Lhm9YTo3EQ0jxcKqx+HJanbAPVCP4iSNbhnSQj1yXxHpWvKIW0rtTq2yJBTS+vjnauDH/mxcOyVgIIDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773225540; c=relaxed/simple;
-	bh=W7ULGNJxGs/DGU9Myuy1oXiG5LI/4bcuMikaWvPhafA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vm+aP3yctBDRtCWqnFAbrhsLMv+GvCt7vAiOubkbb6owKfm1QtaPFF2r1dRxYhrliQ5saMHzH6WYaSEkEd8vQklpxTi+JQbZIB6rJ1YAW/iXzsBJtnbdRnPx1pr9l7rOqQuwGg+a/ZLITo4LFcdwOWRrTa0jestAHF7/3OD4AjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EPXTMuVt; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4256C2BC86;
-	Wed, 11 Mar 2026 10:38:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773225540;
-	bh=W7ULGNJxGs/DGU9Myuy1oXiG5LI/4bcuMikaWvPhafA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EPXTMuVttZqUZ/o7JPPcYnite3Um4wggHLpvXqpIoWuC2usNA6k425SfK6rMs77rB
-	 CYWeP0jsQTNUcUIy8PnTh9S3O1nsMJGjNBhq2Dq0SHWq7cP3w5ZyXyw9RdDTA3R1eW
-	 S440F5uh0GmInYEkvybjOxJt938zdDJqpyKVdapOCNKsje+vi1+1YLP/xkfpiLNDws
-	 05TBCJ8PNE7rD4f12++HjlcvSoHkNaTbYC0bbQKnbCiOof2KrsmYEZaZiY5R+JFXdj
-	 /8xPc+/68mvyzrREgIspZOqMj2/RD7sCmgpK/s0D84g4YnUN/WpSgEaH93P51o62GI
-	 KrW++eDJAd9HA==
-Date: Wed, 11 Mar 2026 11:38:50 +0100
-From: Niklas Cassel <cassel@kernel.org>
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Minghuan Lian <minghuan.Lian@nxp.com>, Mingkai Hu <mingkai.hu@nxp.com>,
-	Roy Zang <roy.zang@nxp.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Srikanth Thokala <srikanth.thokala@intel.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Marek Vasut <marek.vasut+renesas@gmail.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Manikanta Maddireddy <mmaddireddy@nvidia.com>,
-	Koichiro Den <den@valinux.co.jp>,
-	Damien Le Moal <dlemoal@kernel.org>, Frank Li <Frank.Li@nxp.com>,
-	linuxppc-dev@lists.ozlabs.org, linux-pci@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 1/9] PCI: endpoint: Introduce pci_epc_bar_type
- BAR_64BIT_UPPER
-Message-ID: <abFGOoZUX_vexLWR@fedora>
-References: <20260302095913.48155-11-cassel@kernel.org>
- <20260302095913.48155-12-cassel@kernel.org>
- <dtxdgxrewfby5hu3cu3pu5kljylm627uc43sw75gk7loimmm6r@ei4w6wmqgd6a>
+	s=arc-20240116; t=1773228997; c=relaxed/simple;
+	bh=+3Q5cvF0zoX3Fs6Oo+yHNZCoRTKFJVHEonlQPpaB+j8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dTHWlI0QQtM8cHQDW7i+3t5k83J+jrGJobsiROgVpZ86AFdtOBxVl3VDxpfoMDa2/i85bqZ9j/gYcVrr10kYDfooybImbar1E/DrjJe3XsR4SnuqRFUHk1rXG3qBzx5YKi2iLSn8uDfE+XVAgx/0/yO5/hBBoF1iGyycnmlB4Ek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.161.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-67bc1b08afdso865090eaf.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Mar 2026 04:36:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773228994; x=1773833794;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SFUwPWUa2C8RyPEgXtS/bViQ1F3uFE3QYAtTuWHnxcc=;
+        b=R744Wvcdp8jkO8RFxSsJ/Omy4uAzUJs+jr+3SNyhPY2bBHBm8agJyL75IRsjR2tb9W
+         sDqy1r+CIaNDHscpjKETrFkTB7kc2HZLlN1raJJCRGKYn6EtZw1S3+Xi1gHFBXUTP/aO
+         OMit4eJgb75TCAL2StpoxfaRXWQxegsGChDpzBkgl6txnhfjp5yTTJ8azeBxQVERnEzq
+         yVk7QCrLC8fktneUuWEAbv8T2C69lQvFbRsYtE3clMOsp1uJgazFy6g+5WyYBp5obgWj
+         55+yzoA43ZU/UZ6wO21vOYLDHnmkaeXYQhxCNhOWtMww7bBxvncnC/+kHnMSY48NROU1
+         MgQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUgVv7g1TXw+677lETe5ZBbSNVU+cbgOuudvCNc80IrqCKl9roQ5Jf+pqfBY4HeNakQiwXWT/GlBn0HLaNK9aNlBA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyzQ4ML9qbOA9E6/Mo5FrDWucGVc0ZSLSFEJz6IAvxp76S12hqX
+	MXRHFVV6oFXMqFf3EE/1ich7nEw8A8n16Jftm4M8n4rLCbCuuRibiVlyYUK74dEX
+X-Gm-Gg: ATEYQzyHyoMSoZTk2eJwELDN9bcdg6bJiqVGU8V7kgSjfeji5dDRcn7ZP1y52bWy1Ek
+	IhuEEL6zPnNvnaueq5kLlYzJK3M7G4DLKoWcM+KKsNWCuKR2ECpveHJrU+qC07m/ZJZn9eVSRIS
+	9LJi5aJB5SIdqk+qTupJkpj8qWqz/Lv5Na5UAJm2il19Ir05mboyChuXk0ZZ9sS3jeFRFnL1dA7
+	sj2bAWv4c0Bu1lBNShd+EsNrz74db9f+lCx67kpSvlq/6BWkINfTqiynz2W/Et5iG/HLYxBL8HV
+	vSCr5cuL9NB0fbI0GFv1+WDvHVRz7fOcMM5cIniQqgsgDYhusz4sCWgzT7aiHTwHNPJP/fH2Ovy
+	D04du44jWGmvVix6fzRli1feUjNqO3rPgsHmhJH1qbUKB3DvDakNfMVYpx8NjCr4p36m4+H/FI6
+	bX6DDtlr7lpAgXIHWZHFhhuVMWiH1T1aVCmQZGzAdpyuxxgpbDtzUe9EbUts9ArMFdhvj/H90=
+X-Received: by 2002:a05:6820:1519:b0:667:7e1a:203a with SMTP id 006d021491bc7-67bc8a1a464mr1554853eaf.58.1773228994507;
+        Wed, 11 Mar 2026 04:36:34 -0700 (PDT)
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com. [209.85.210.51])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4177e268f37sm1856317fac.6.2026.03.11.04.36.34
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 Mar 2026 04:36:34 -0700 (PDT)
+Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-7d74c1157a4so2901732a34.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Mar 2026 04:36:34 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWs1lkwMfOPZGn0JXNt2BU6Y6DD3awesBy+jW+KZNIv3YjgTlJWK8otfH4mWoklgXsMXUipLETl+RoKvQmoKR2eUQ==@vger.kernel.org
+X-Received: by 2002:a05:6122:4b14:b0:566:2711:d8ab with SMTP id
+ 71dfb90a1353d-56b47474538mr661085e0c.6.1773228645230; Wed, 11 Mar 2026
+ 04:30:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <dtxdgxrewfby5hu3cu3pu5kljylm627uc43sw75gk7loimmm6r@ei4w6wmqgd6a>
-X-Rspamd-Queue-Id: 079B0262976
+References: <20260310184030.3669330-1-cristian.marussi@arm.com> <20260310184030.3669330-2-cristian.marussi@arm.com>
+In-Reply-To: <20260310184030.3669330-2-cristian.marussi@arm.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 11 Mar 2026 12:30:34 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX5T-7ERcjEK_=z7joEftC2cMLqDkyy8iO65U21S-umng@mail.gmail.com>
+X-Gm-Features: AaiRm531V7pPeKFeCYpwBljOpOuuWMHfwPn8-oVZZtZhYt-YNy5G1WfiCBuIrko
+Message-ID: <CAMuHMdX5T-7ERcjEK_=z7joEftC2cMLqDkyy8iO65U21S-umng@mail.gmail.com>
+Subject: Re: [PATCH v2 01/13] clk: scmi: Fix clock rate rounding
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	arm-scmi@vger.kernel.org, linux-clk@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, sudeep.holla@arm.com, 
+	philip.radford@arm.com, james.quinlan@broadcom.com, f.fainelli@gmail.com, 
+	vincent.guittot@linaro.org, etienne.carriere@foss.st.com, 
+	peng.fan@oss.nxp.com, michal.simek@amd.com, dan.carpenter@linaro.org, 
+	geert+renesas@glider.be, kuninori.morimoto.gx@renesas.com, 
+	marek.vasut+renesas@gmail.com, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Rspamd-Queue-Id: 9C061262FA0
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [0.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-29191-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.infradead.org,arm.com,broadcom.com,gmail.com,linaro.org,foss.st.com,oss.nxp.com,amd.com,glider.be,renesas.com,baylibre.com,kernel.org];
+	TAGGED_FROM(0.00)[bounces-29192-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	DMARC_NA(0.00)[linux-m68k.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[29];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[nxp.com,kernel.org,google.com,intel.com,gmail.com,nvidia.com,socionext.com,renesas.com,glider.be,valinux.co.jp,lists.ozlabs.org,vger.kernel.org,lists.infradead.org,lists.linux.dev];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[cassel@kernel.org,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	MIME_TRACE(0.00)[0:+];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	NEURAL_HAM(-0.00)[-0.755];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	R_DKIM_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,baylibre.com:email,linux-m68k.org:email,arm.com:email]
 X-Rspamd-Action: no action
 
-Hello Mani,
+Hi Cristian,
 
-On Wed, Mar 11, 2026 at 12:05:59PM +0530, Manivannan Sadhasivam wrote:
+On Tue, 10 Mar 2026 at 19:40, Cristian Marussi <cristian.marussi@arm.com> wrote:
+> While the do_div() helper used for rounding expects its divisor argument
+> to be a 32bits quantity, the currently provided divisor parameter is a
+> 64bit value that, as a consequence, is silently truncated and a possible
+> source of bugs.
+>
+> Fix by using the proper div64_ul helper.
+>
+> Cc: Michael Turquette <mturquette@baylibre.com>
+> Cc: Stephen Boyd <sboyd@kernel.org>
+> Cc: linux-clk@vger.kernel.org
+> Fixes: 7a8655e19bdb ("clk: scmi: Fix the rounding of clock rate")
+> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
 
-(snip)
+Thanks for your patch!
 
-> This also brings the question, do we really need to mark the preceding BAR?
+> --- a/drivers/clk/clk-scmi.c
+> +++ b/drivers/clk/clk-scmi.c
 
-From a pure code PoV, marking the preceding BAR is enough even with the
-current code:
-https://github.com/torvalds/linux/blob/v7.0-rc3/drivers/pci/endpoint/pci-epc-core.c#L101-L103
+> @@ -83,7 +83,7 @@ static int scmi_clk_determine_rate(struct clk_hw *hw,
+>
+>         ftmp = req->rate - fmin;
+>         ftmp += clk->info->range.step_size - 1; /* to round up */
+> -       do_div(ftmp, clk->info->range.step_size);
+> +       ftmp = div64_ul(ftmp, clk->info->range.step_size);
 
-However, the current documentation claims that the succeeding BAR must be
-marked as BAR_RESERVED:
-https://github.com/torvalds/linux/blob/v7.0-rc3/include/linux/pci-epc.h#L207-L210
+include/linux/math64.h has:
 
-I want to change this to BAR_64BIT_UPPER / BAR_64BIT_UPPER_BASE, so we can use
-BAR_RESERVED for BARs that expose fixed hardware resources (e.g. eDMA regs).
+    #if BITS_PER_LONG == 64
+    #define div64_ul(x, y)   div64_u64((x), (y))
+    #elif BITS_PER_LONG == 32
+    #define div64_ul(x, y)   div_u64((x), (y))
+    #endif
 
+I.e. div64_ul() is meant for the case where the divisor is unsigned
+long.  Hence div64_ul() may still truncate step_size on 32-bit
+platforms, and thus should use div64_u64() unconditionally.
 
-Thus, an EPC driver does not strictly need mark the succeeding BAR with anything.
-This was done mostly for clarity. (E.g. with BAR_64BIT_UPPER_BASE it is obvious
-that this BAR cannot be a standalone 32-bit BAR.)
+I am aware clock rates are "unsigned long" on 32-bit platforms, and
+thus cannot support rates that do not fit in a 32-bit value.
+If that is the reason you are using div64_ul(), it should be documented
+properly.  And probably the SCMI core code should reject any rate values
+(incl. min, max, step) that do not fit in unsigned long, as such clocks
+cannot be used on 32-bit platforms.
 
-If we don't mark the succeeding BAR with anything, IMO, it is less obvious that
-the succeeding BAR cannot be used as a standalone 32-bit BAR.
+>
+>         req->rate = ftmp * clk->info->range.step_size + fmin;
+>
 
-But... since the code already does the "right thing". We could simply nuke this
-part of the documentation, and drop the .type for all BARs succeeding a
-.only_64bit BAR, if you prefer that option over having a dedicated type for the
-"upper base of a 64-bit BAR".
+Gr{oetje,eeting}s,
 
+                        Geert
 
-> Why can't we let the PCI EPC core to always assume that if the previous BAR
-> has 'only_64bit' bit set, next BAR cannot be used as a standalone 32bit BAR?
-> 
-> I find it weird or redundant to mark both BARs.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Redundant, yes, but in my opinion marking both BARs makes it unambigious
-that two BARs are used when a BAR is "only_64bit".
-
-E.g. Manikanta originally wanted to add code comments for the upper part of
-the 64-bit BAR:
-https://lore.kernel.org/linux-pci/20260217-master-v1-2-727e26cdfaf5@nvidia.com/
-
-Sure, we can just skip the .type for the succeeding BAR...
-But is that really better than clearly showing that a "forced" 64-bit BAR will
-always occupy two BARs?
-
-
-Tell me what you prefer:
-1) s/BAR_RESERVED/BAR_64BIT_UPPER_BASE/
-2) Change documentation and drop .type for a BAR following a .only_64bit BAR.
-
-And I will respin with that.
-
-
-Kind regards,
-Niklas
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
