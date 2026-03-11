@@ -1,124 +1,177 @@
-Return-Path: <linux-renesas-soc+bounces-29183-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29185-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cFSFOFdMsWlCtAIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29183-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 12:04:55 +0100
+	id GMJtEvowsWm0rwIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29185-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 10:08:10 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43147262B46
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 12:04:55 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id C207E26000B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 10:08:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 70A8C311DCB1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 09:06:40 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id B6DF23009F0C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 09:08:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89A5A271471;
-	Wed, 11 Mar 2026 09:06:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D9263C65FC;
+	Wed, 11 Mar 2026 09:08:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aSasD2ug"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JUuREP4d"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AECD3B6370;
-	Wed, 11 Mar 2026 09:06:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D9873C1961;
+	Wed, 11 Mar 2026 09:07:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773219999; cv=none; b=pieU4XmSb3AlfM6SZsa+jtBiOwc7hJd/L2ZcDMlLxUsMmvubf2miFSCRses+V9rSPxd8+6iMjXPtsRcKMtuJ8h+7nlAk+8t4QgF7fA0+moTk4V9Ks6RuIXOh1HPC5CVR88cLweTZOG2Vl4JV46vvYXSnGEx34h4M/KUIN0U1f4M=
+	t=1773220084; cv=none; b=VlTthohuRQWBKseNl4YDJL2BydWJJ/L9BG4xVzr8qlyDZI2wI02zvbyoKnEUR82s6vlibFIcQdjvwA7YjrKsXdscX2c4wQHAz6/hkB76/plFe5dcXnP2GwfqRO/XQfOW7PymDNIlsG3wWbbosNCNL4Wa4xMQwleL+i50j+vMFuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773219999; c=relaxed/simple;
-	bh=mTr7cQ9QzJXMfN7Y4ISFlnlvutFXAKxC4eVakUeUfP4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=uIgQOMufMr6IceHMicJvq0x9x8/ymKmg2zTuHZEglS1RQiG9VNgsJJqTd2H1yevCEKLVdKss0SUlrFqwLyfZG8lwgYt1ovSvcMgPzO3Bj8clpW45VGfRsGQ3l34qFVku66UmCYd8O128+YC0zIAHXmcVFsL5auHVffpRRvKbGIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aSasD2ug; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0847EC4CEF7;
-	Wed, 11 Mar 2026 09:06:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773219998;
-	bh=mTr7cQ9QzJXMfN7Y4ISFlnlvutFXAKxC4eVakUeUfP4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=aSasD2ugM4jugjfbRzAyQdVmAMphNu7E7uVEPKylec3deBtYLtuMukrOokZMWGSmm
-	 zEzl+ExXFpc2PHIyqkrWYE87OJM/S/ws4ZuBbKdTs9U6soiCnxN1bTYcH0K8ofs4GK
-	 pkVAhK6Z6P2bqL9QBWeWtxXBTqSQdXfojjtGVtKIdzoyGyV9p1bL5HC2+LoNZJZtZv
-	 rw8I8W/WvQVh3ffL6hFuVnNxJVNxHGeUr65zp/sKi8j3k+g3iJ/Ku/nhPkMikPY/CA
-	 itmtc+gbI709ayUio5p8rjelwRr3fKasiBmKvnirK7seXdOXOKXA3byUABkwmDmPWk
-	 f1PH8q3Zswa0A==
-From: Thomas Gleixner <tglx@kernel.org>
-To: Biju <biju.das.au@gmail.com>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>, linux-kernel@vger.kernel.org,
- Geert Uytterhoeven <geert+renesas@glider.be>, Prabhakar Mahadev Lad
- <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das
- <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v4 4/9] irqchip/renesas-rzg2l: Drop IRQC_NUM_IRQ macro
-In-Reply-To: <20260227140316.308106-5-biju.das.jz@bp.renesas.com>
-References: <20260227140316.308106-1-biju.das.jz@bp.renesas.com>
- <20260227140316.308106-5-biju.das.jz@bp.renesas.com>
-Date: Wed, 11 Mar 2026 10:06:34 +0100
-Message-ID: <87jyvirazp.ffs@tglx>
+	s=arc-20240116; t=1773220084; c=relaxed/simple;
+	bh=l0NY2xtEHPjp+H8rgkKWL4QitRlo/A7rCDhYtuhmGTQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WdiyNSyX5sTXYMiTdLTCa9Z/yATQDuNroiaXekyyz8LxmJ+evNG0J0m2dh9B7zDK77lHBlThb4QCs2ZF6WqcCdXQeB153cFj4XHrxIrMskaFqg6ehbuhSyCM1wTZ3yysJs9PM/McwBcoysbh/Mld8ZQKxrSAtbkdOnZYJKnn2IQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JUuREP4d; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BFB9C82A;
+	Wed, 11 Mar 2026 10:06:45 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1773220006;
+	bh=l0NY2xtEHPjp+H8rgkKWL4QitRlo/A7rCDhYtuhmGTQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=JUuREP4dhkWLg17qHmtnbH4rCzX8XTLz8Y9pQ2ns9vqz883JnLoO4h8B0e/FlT7bt
+	 8hCalz/9IzlDkJfsGiRVmiQCUJeikcTkLyEEfOtwhTu8RRsItakV88OAOqSbSpDL17
+	 pp3+xygtz+GOx8wcp5wq5zF3dJ+aO8ewgGPpWeEg=
+Message-ID: <17915103-09f7-40a3-8330-dc4ecb6c3bd6@ideasonboard.com>
+Date: Wed, 11 Mar 2026 11:07:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Rspamd-Queue-Id: 43147262B46
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: renesas: vsp1: Fix NULL pointer deref on module
+ unload
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hverkuil@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+References: <20260115-rcar-vsp-crash-fix-v1-1-247bd51767fd@ideasonboard.com>
+ <0a8c0467-04f7-4b8f-8988-cb5665ca1d68@ideasonboard.com>
+ <abEwF39-dSVPWVAb@zed>
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Content-Language: en-US
+In-Reply-To: <abEwF39-dSVPWVAb@zed>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: C207E26000B
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [4.34 / 15.00];
-	MID_END_EQ_FROM_USER_PART(4.00)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-29183-lists,linux-renesas-soc=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	GREYLIST(0.00)[pass,body];
-	FREEMAIL_CC(0.00)[bp.renesas.com,vger.kernel.org,glider.be,gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-29185-lists,linux-renesas-soc=lfdr.de,renesas];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[tglx@kernel.org,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tomi.valkeinen@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-On Fri, Feb 27 2026 at 14:03, Biju wrote:
-> @@ -136,7 +145,7 @@ static void rzg2l_irqc_eoi(struct irq_data *d)
->  	raw_spin_lock(&priv->lock);
->  	if (hw_irq >= IRQC_IRQ_START && hw_irq <= IRQC_IRQ_COUNT)
->  		rzg2l_clear_irq_int(priv, hw_irq);
-> -	else if (hw_irq >= IRQC_TINT_START && hw_irq < IRQC_NUM_IRQ)
-> +	else if (hw_irq >= IRQC_TINT_START && hw_irq < priv->info.num_irq)
->  		rzg2l_clear_tint_int(priv, hw_irq);
+Hi,
 
-As I pointed out in the review of the RZV2H driver:
+On 11/03/2026 11:06, Jacopo Mondi wrote:
+> Hi Tomi
+> 
+>    I intend to send out soon a series for other Renesas components
+> which shouldn't be controversial. If I can get tags quickly I intend
+> to send a pull request for v7.0 next week.
+> 
+> I can include this patch and your other one which I don't see collected yet:
+> [PATCH] media: renesas: vin: Fix RAW8 (again)
+> 
+> unless someone else intends to handle it.
 
-   https://lore.kernel.org/all/87ecmavbs0.ffs@tglx/
+Sounds fine to me.
 
-this really begs for separate interrupt chips so that the decision is
-made at setup time and not at every interrupt delivery in the hotpath.
+ Tomi
 
-Aren't you guys working together?
+> 
+> On Wed, Mar 11, 2026 at 08:15:43AM +0200, Tomi Valkeinen wrote:
+>> Hi,
+>>
+>> Ping. Would be good to have this fix merged.
+>>
+>>  Tomi
+>>
+>> On 15/01/2026 11:22, Tomi Valkeinen wrote:
+>>> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>>>
+>>> When unloading the module on gen 4, we hit a NULL pointer dereference.
+>>> This is caused by the cleanup code calling vsp1_drm_cleanup() where it
+>>> should be calling vsp1_vspx_cleanup().
+>>>
+>>> Fix this by checking the IP version and calling the drm or vspx function
+>>> accordingly, the same way as the init code does.
+>>>
+>>> Fixes: d06c1a9f348d ("media: vsp1: Add VSPX support")
+>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>>> ---
+>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>>> ---
+>>>  drivers/media/platform/renesas/vsp1/vsp1_drv.c | 8 ++++++--
+>>>  1 file changed, 6 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+>>> index 6c64657fc4f3..30df9b36642d 100644
+>>> --- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+>>> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+>>> @@ -240,8 +240,12 @@ static void vsp1_destroy_entities(struct vsp1_device *vsp1)
+>>>  		media_device_unregister(&vsp1->media_dev);
+>>>  	media_device_cleanup(&vsp1->media_dev);
+>>>
+>>> -	if (!vsp1->info->uapi)
+>>> -		vsp1_drm_cleanup(vsp1);
+>>> +	if (!vsp1->info->uapi) {
+>>> +		if (vsp1->info->version == VI6_IP_VERSION_MODEL_VSPX_GEN4)
+>>> +			vsp1_vspx_cleanup(vsp1);
+>>> +		else
+>>> +			vsp1_drm_cleanup(vsp1);
+>>> +	}
+>>>  }
+>>>
+>>>  static int vsp1_create_entities(struct vsp1_device *vsp1)
+>>>
+>>> ---
+>>> base-commit: 7d0a66e4bb9081d75c82ec4957c50034cb0ea449
+>>> change-id: 20260115-rcar-vsp-crash-fix-8d4871f0f39e
+>>>
+>>> Best regards,
+>>
 
-Thanks,
-
-        tglx
 
