@@ -1,119 +1,129 @@
-Return-Path: <linux-renesas-soc+bounces-29223-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29224-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uPB3DAaMsWnkDAAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29223-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 16:36:38 +0100
+	id 0Ne4IVCSsWnkDAAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29224-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 17:03:28 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E4A2266A87
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 16:36:37 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id B67DF266EE0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 17:03:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 5F9B93004415
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 15:36:34 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 936A23013704
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 16:03:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5E643AF64C;
-	Wed, 11 Mar 2026 15:36:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9ACED1E8320;
+	Wed, 11 Mar 2026 16:03:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="hW1dSVPn"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="FbS8cv5m"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A38B3282F29;
-	Wed, 11 Mar 2026 15:36:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADA3B36F405
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Mar 2026 16:03:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773243392; cv=none; b=Rg+1Xs3QWz9jtbC9Zik3OTBoxgJbrejXVuovjtTKqWXdk/3CcuU+34SpBziU+Q8sKgogJelVpejeacFfi7r9LxNzpTu6S8YVrNYDOcazb5H5e7iYH3zI2OHBjEClFZrnUV+KbMEHcsTPTfqmV3/8HH/diZ27FXs/dYgS1YAeP/E=
+	t=1773244982; cv=none; b=iQLjZgan5RI3KXjiMD+mFem4MA2cJ7sWu0G639wPqV7Ng8nnBRxWdkrOFUfCKrPa95s+OmDllbxgMENKgTQgVn6aFZv0Vz9ySn+Sbk7gNv+PbrlPQJ6wzBN5bKmYl20LAcQyIm5EBTYduannv518/QPgOL+6mNKKvlYZVYo/yR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773243392; c=relaxed/simple;
-	bh=JU81ngG/QD2/DdGE4t9EFaLgUSkfx/1x3FALX2tPOmU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XxMmw6+5GzCAIeKiQjOWkL8gB17O2u8suv0pgTO7K7n6+kFNd6pQoYs1rxX2LJMVMWdN52FRCmUUseNhv25zsQXhrB1jGwSi6fEF9pTML3pJcuh+ZmoOEJD1LarEqv+5TqUmIGUX+h6t+uLZ/xtp76Yfil1iMuvL+ly63ROJ3KA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=hW1dSVPn; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4fWFGK6Ptgz9tjp;
-	Wed, 11 Mar 2026 16:36:25 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1773243386;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Dvu4bOl1HAw2CbBdsUzLZ35Lks5obRihjJ/HUy2GJa0=;
-	b=hW1dSVPnW+V1aKqdDGDGXxlPkZmbcT1pywBiapFuhjBk+Myr6ITo7iWYfNsKWcr0CioaDr
-	mdnmIvKw+N5Sw0yC6cUbkT//jE6Supe6s7yqczpgT/YeLDf10wKi7qfVLhP72TOa8hXTIR
-	kvUKAD0NfKsXssove/9o1TTi5jiAPsnmhlOKPdVtm1bBEa3MoC6euL1c48gdJThWOwyW/D
-	3r3qP1kuh+vG3tZlD6BDE+5FwCWScgY6Rys0ix44Ex3YS1rL9j2cUcqFkv8GcrxaKXuv6D
-	LhxgjzklWTedCUsJBjwjilPIk8qeiUInUEjy8t+aSJx4Ar3LWk6Jw9WYViXNlw==
-Message-ID: <1ca77005-f14d-4754-9f78-7598f75a940c@mailbox.org>
-Date: Wed, 11 Mar 2026 16:36:23 +0100
+	s=arc-20240116; t=1773244982; c=relaxed/simple;
+	bh=7Xuw1f+5K/y//40WsEaZUVMHHpm/0gR1thyqMvwPzJk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UsZV6foX+vbxjRLF1g5aUco+6mMFBkuDtSMcIxXvG3clVaizBUQ7r79X+n6WM28rwaP7QdcJVSb0ImvY5iWFS5XnF+xGyJd4KXVJ+qhdFtnbN5LY6m0ZWajEMzpSLt8Lv9rFt7oKuk4RsrFvTt2J966dlGzjhMybKQg1I6MnBDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=FbS8cv5m; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 2DF004E4261D
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Mar 2026 16:02:59 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id E463660004;
+	Wed, 11 Mar 2026 16:02:58 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 27E3310369D16;
+	Wed, 11 Mar 2026 17:02:54 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1773244977; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=8qN+dhQ7pIipgV9gAXix/V7hiZX0XYifLWQqq8RuMIw=;
+	b=FbS8cv5mqEBnW0ck1ma310L2cGQcGkF5hEZeu83lpF6B+nYICwGlCj6iQXp2YyMOkWXFUm
+	sSUdKuk9yYOmDy968oeK2ApUGWr1Rt+J1B90oHVbd2eibMpYjUa04u2PRADlQ1SeG939kt
+	Gxs/rsPjauEJ3VdeC2N+Q1Eg6y1rYtEqXrZH4CUA1T5ELG6dD5N2yn11YFclh/eN7vWwX0
+	sRl/2Y2tDRorqpEtgIUDpGIIws4wd3AtKDBr/pGOhWO2P+Lwr7wHRZchtw0uuKGYcr4HXQ
+	F+QylaO9rmPCkOixXr7A1YlovW+CIi80sfDEs7ScbApCUGH9PIn6AJStoWDQlQ==
+Date: Wed, 11 Mar 2026 17:02:53 +0100
+From: Herve Codina <herve.codina@bootlin.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, Miquel Raynal
+ <miquel.raynal@bootlin.com>, Magnus Damm <magnus.damm@gmail.com>,
+ linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] ARM: dts: renesas: r9a06g032-rzn1d400-db: Do not use
+ underscores in node names
+Message-ID: <20260311170253.1636929e@bootlin.com>
+In-Reply-To: <1c1fc11f1f183a8e72f168bf6eb35a40e01ecacb.1773240961.git.geert+renesas@glider.be>
+References: <1c1fc11f1f183a8e72f168bf6eb35a40e01ecacb.1773240961.git.geert+renesas@glider.be>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v4 1/2] clk: rs9: Add clock index range check to
- rs9_of_clk_get()
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>
-Cc: linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <cover.1773241119.git.geert+renesas@glider.be>
- <9b4e40b1d543e11bfdf229a6a8af1b836f79df16.1773241119.git.geert+renesas@glider.be>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <9b4e40b1d543e11bfdf229a6a8af1b836f79df16.1773241119.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: hr56umzhrya71dry7txd5t714su8yt5k
-X-MBO-RS-ID: 1c469b7c85f343ce7a5
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
-	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-29224-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-29223-lists,linux-renesas-soc=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[sang-engineering.com,bootlin.com,gmail.com,vger.kernel.org,lists.infradead.org];
 	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[marek.vasut@mailbox.org,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[mailbox.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
 	RCPT_COUNT_FIVE(0.00)[6];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,glider.be:email,mailbox.org:dkim,mailbox.org:email,mailbox.org:mid]
-X-Rspamd-Queue-Id: 2E4A2266A87
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[herve.codina@bootlin.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[bootlin.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,bootlin.com:dkim,bootlin.com:email,bootlin.com:mid,glider.be:email]
+X-Rspamd-Queue-Id: B67DF266EE0
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 3/11/26 4:06 PM, Geert Uytterhoeven wrote:
-> rs9_of_clk_get() does not validate the clock index in the passed
-> DT clock specifier.  If DT specifies an incorrect and out-of-range
-> index, this will access memory beyond the end of the clk_dif[] array.
+Hi Geert,
+
+On Wed, 11 Mar 2026 15:58:07 +0100
+Geert Uytterhoeven <geert+renesas@glider.be> wrote:
+
+> Node names should not contain underscores; replace them by hyphens.
 > 
-> Fix by this adding a range check to rs9_of_clk_get().
-> 
-> Fixes: 892e0ddea1aa6f70 ("clk: rs9: Add Renesas 9-series PCIe clock generator driver")
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> ---
+> To be queued in renesas-devel for v7.1.
+> 
+>  arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dts | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+> 
+
+Reviewed-by: Herve Codina <herve.codina@bootlin.com>
+
+Best regards,
+Hervé
 
