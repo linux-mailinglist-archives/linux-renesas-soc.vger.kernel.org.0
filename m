@@ -1,141 +1,156 @@
-Return-Path: <linux-renesas-soc+bounces-29188-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29189-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gPPpJJU+sWmtswIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29188-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 11:06:13 +0100
+	id WAARMlZDsWlCtAIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29189-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 11:26:30 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7891261BD5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 11:06:12 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89D592621A9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 11:26:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1F20234B15F7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 09:34:27 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 5B71B30AF38C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 10:21:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15A8F3DDDD1;
-	Wed, 11 Mar 2026 09:25:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 522A43C9436;
+	Wed, 11 Mar 2026 10:21:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MF3vSz27"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="HSNjnK8F"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8DF33DDDD0
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Mar 2026 09:25:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BC5F3BF68A;
+	Wed, 11 Mar 2026 10:21:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773221112; cv=none; b=LoCX1sdllOtmaD+HqJMhYzEsRNVbQ3GWCc8dfggd5uxW/J76qI+nt3AtMly+mRfz3znXZIWjDvWqdkG16L8KvcEtSS5PhdU2tIa7IIM4Y55WUTyCFJNH7roeFon8i5w2vj+poN+IUpBa6/nrlpC/7LE6kwlcSaA1wVfqDkgdttc=
+	t=1773224485; cv=none; b=VwqyFVQ9XryfpzGyWMyfapbWQciC04IrTnzKbWBQ/aw3y57T3qdDyMGwMowTXlIPqGvICG2TpuHnvv70hDjsrFgbLxOIgRSuV0GHG5cCY+WvOcxS18msu1JAn3eR0K8CI/cUb84DYqXproNEpvcWZJedo9Q/Yukg6kA83TKBLX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773221112; c=relaxed/simple;
-	bh=01GKf65j/jScrwoKQ+C2Gxr6oYYNcBqF+y3kaUEjbLo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NR4TzslWN0VTZ5REEpAvaFvtaBSF2mfetU2UoxiqLvJkpxAh/grAaIbzbzHQLOAweayzhPw3tFliuocnjYVrBfBEnLuYBTo/mf2yafEwAK1eCf5ESy7gfodIgMPXEC195qc+VWIsiwrRm21g7rBWPuQLHk+NgR4OpZa6EnrvIfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MF3vSz27; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69265C2BCAF
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Mar 2026 09:25:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773221112;
-	bh=01GKf65j/jScrwoKQ+C2Gxr6oYYNcBqF+y3kaUEjbLo=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=MF3vSz279c7gxTZF7NgmWXEwUO6gRL13DHvShsuI2CRziUEddwspHwDaaJCHkRV8i
-	 1e8zOtRrOs0iqe9JzaJ68RtW/nQ1cvGHa1wiWmmW48FlI7kwj/kEddAkxcXjR1yDzp
-	 SJIQlrnxZuj6GGfdBmJRR8x1vTwehdyhvu4FbSRfBaZTFT8aPShUh3ZNLiLOPgRB95
-	 yQdLMmafhM6TBUlKOPZylVs34PzLhbNs5nvhVRvc3stp3hfCZaU9UkVuxIOh1zjH1Z
-	 +6oVrXcP7tP8GQ//avpnN2ZW+fNxiu/UD5Y1l3+K74rROfInQkbqpAvv3i0u6ejBkK
-	 xqNFoTovsi7HQ==
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-7986d231b3cso11579457b3.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Mar 2026 02:25:12 -0700 (PDT)
-X-Gm-Message-State: AOJu0YxtuTPoxRmjQKXbd8tz0ah1ej5x2CibS2p4QNHW85Vf7MR5WkOE
-	xyuC415WcmpUFroDzHI/L/LSDsx8JjE9QWGc77Im96o8OS8fWifQNd8zgfHKMalAOHMMg05LNl/
-	Moj1kcd7r8QfqEwjFZgpc2h0qtjn6tvM=
-X-Received: by 2002:a05:690c:6d84:b0:794:f400:2bfb with SMTP id
- 00721157ae682-79917f593b5mr14822137b3.26.1773221111798; Wed, 11 Mar 2026
- 02:25:11 -0700 (PDT)
+	s=arc-20240116; t=1773224485; c=relaxed/simple;
+	bh=NYEzxXwCjjB9jXQZwWbzlfrhqRkrR5nBQe83EMGp9ms=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pI/VuRt7niZThEw4cJliSYKPfS0YcCCWlmqARZ2E4zhHjP69QLxiMh+2DpwSsSgKekItXeT8bOK5ud7kTbf4L2o1LmkINHYE92G8o+zMVb5Mg6GCOq3LzBnZ+VlAWxNy2HMra/AZ2/i8VAwWLvX8seJVHyqbsBB16fXyAp00VX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=HSNjnK8F; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 941031A2CD1;
+	Wed, 11 Mar 2026 10:21:15 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 6434760004;
+	Wed, 11 Mar 2026 10:21:15 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id DB43510369CA2;
+	Wed, 11 Mar 2026 11:21:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1773224474; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=xc3f0j/XZyXDLXf8euWdBo9aYc/Z1fnksBlM+sWhSNo=;
+	b=HSNjnK8Fqi6KDQimKyif2DCt8Ml4ODd2Ae5YBZn/WMno6Hymu3jP+ZoewoqkS4OlASSJMN
+	joffF+yugKol6KHMmOV7vAzWwEb0g2qlpkPMrAhbDp8frIMLHtDQnTgtYnHhhaTlpEYzJV
+	wEp8SpYh4sx5NZ8Kln2BKaC0jS7FNGNEqYcOWFflPG2fYyyHkSxis/5ka3pE9BoHTAZuzL
+	vE6AY+hjNDPLtDnIhVeHPT6xeBfB0+yBrmoBkABd3CqjEcxHXk/+A4PZQG15nZ0VG4ss8A
+	pyXV1I0N66KNJzGIJ62ByB23GNQ4dC3O7LfbPnyz/E4UEe7pNKwZM/Yh74b8gg==
+Date: Wed, 11 Mar 2026 11:21:09 +0100
+From: Herve Codina <herve.codina@bootlin.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, Magnus Damm
+ <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Pascal Eberhard <pascal.eberhard@se.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH] ARM: dts: r9a06g032: Add #address-cells in the GIC node
+Message-ID: <20260311112109.061a1e4b@bootlin.com>
+In-Reply-To: <CAMuHMdX01rwBMGn1FLGm-fHA0w-7+BCskMiucgxcui+PTVF7rA@mail.gmail.com>
+References: <20260303102029.147359-1-herve.codina@bootlin.com>
+	<abEotS0ZbGwqEmO5@ninjato>
+	<CAMuHMdX01rwBMGn1FLGm-fHA0w-7+BCskMiucgxcui+PTVF7rA@mail.gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260310075539.11701-1-wsa+renesas@sang-engineering.com> <20260310075539.11701-16-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20260310075539.11701-16-wsa+renesas@sang-engineering.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Wed, 11 Mar 2026 10:24:59 +0100
-X-Gmail-Original-Message-ID: <CAD++jLkoWCcBvB4G-2EDYU4kezPhVF6943TY6PmK5ooGwruLzA@mail.gmail.com>
-X-Gm-Features: AaiRm52-5ccgCpLSKuxxaehFi73jWhXjY0Lv_AX860GJVRZU0Kw14nXERH-rf2Y
-Message-ID: <CAD++jLkoWCcBvB4G-2EDYU4kezPhVF6943TY6PmK5ooGwruLzA@mail.gmail.com>
-Subject: Re: [PATCH v4 15/15] hwspinlock/treewide: refactor consumer.h from
- public header
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Mark Brown <broonie@kernel.org>, Jonathan Cameron <jonathan.cameron@huawei.com>, 
-	Lee Jones <lee@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	Waiman Long <longman@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Jonathan Cameron <jic23@kernel.org>, 
-	David Lechner <dlechner@baylibre.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Orson Zhai <orsonzhai@gmail.com>, 
-	Chunyan Zhang <zhang.lyra@gmail.com>, Thomas Gleixner <tglx@kernel.org>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Srinivas Kandagatla <srini@kernel.org>, 
-	Antonio Borneo <antonio.borneo@foss.st.com>, Konrad Dybcio <konradybcio@kernel.org>, 
-	linux-remoteproc@vger.kernel.org, linux-doc@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-iio@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-spi@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: E7891261BD5
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
+X-Rspamd-Queue-Id: 89D592621A9
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
+	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-29188-lists,linux-renesas-soc=lfdr.de];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,huawei.com,linux.alibaba.com,infradead.org,redhat.com,lwn.net,linuxfoundation.org,baylibre.com,analog.com,gmail.com,foss.st.com,arndb.de,lists.linux.dev,st-md-mailman.stormreply.com,lists.infradead.org];
-	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[sang-engineering.com,gmail.com,kernel.org,vger.kernel.org,se.com,bootlin.com];
+	TAGGED_FROM(0.00)[bounces-29189-lists,linux-renesas-soc=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[40];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MISSING_XM_UA(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	DKIM_TRACE(0.00)[bootlin.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[linusw@kernel.org,linux-renesas-soc@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[herve.codina@bootlin.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	MID_RHS_MATCH_FROM(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,mail.gmail.com:mid,huawei.com:email,sang-engineering.com:email]
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,bootlin.com:dkim,bootlin.com:email,bootlin.com:mid]
 X-Rspamd-Action: no action
 
-On Tue, Mar 10, 2026 at 8:56=E2=80=AFAM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
+Hi Geert,
 
-> Factor out the entries only needed for consumers from the generic public
-> header. This allows for a clean separation between providers and
-> consumers. Also remove contact field in favor of MAINTAINERS entries.
-> Fix the users, too.
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Acked-by: Mark Brown <broonie@kernel.org>
-> Acked-by: Jonathan Cameron <jonathan.cameron@huawei.com> # for IIO
-> Acked-by: Lee Jones <lee@kernel.org> # for MFD
+On Wed, 11 Mar 2026 09:39:40 +0100
+Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 
-Acked-by: Linus Walleij <linusw@kernel.org>
+> Hi Wolfram,
+> 
+> On Wed, 11 Mar 2026 at 09:32, Wolfram Sang
+> <wsa+renesas@sang-engineering.com> wrote:
+> > On Tue, Mar 03, 2026 at 11:20:29AM +0100, Herve Codina (Schneider Electric) wrote:  
+> > > When checking dts involving the r9a06g032.dtsi file, the following kind
+> > > of warnings are reported:
+> > >    Missing property '#address-cells' in node xxx, using 0 as fallback
+> > >
+> > > Indeed, #address-cells is not present in the GIC interrupt controller
+> > > node.
+> > >
+> > > Fix it adding the missing property.
+> > >
+> > > No functional change.
+> > >
+> > > Signed-off-by: Herve Codina (Schneider Electric) <herve.codina@bootlin.com>  
+> >
+> > Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> >
+> > I like Krzysztof's explanation "Value '0' is correct because GIC
+> > interrupt controller does not have children." Maybe it can be added to
+> > the commit message?  
+> 
+> Some of the examples in the GIC DT bindings, do?
+> But #address-cells is not a required property in the GIC DT bindings,
+> so why should it be added at all?
+> 
+> BTW, I never understood why an interrupt-controller should have
+> #address-cells (according to dtc)?
 
-Yours,
-Linus Walleij
+I think this comes from the interrupt-map definition:
+  https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#interrupt-map
+
+Best regards,
+Hervé
 
