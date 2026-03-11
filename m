@@ -1,162 +1,179 @@
-Return-Path: <linux-renesas-soc+bounces-29190-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29191-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +IKjE7dGsWlCtAIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29190-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 11:40:55 +0100
+	id gOSnJX1JsWlCtAIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29191-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 11:52:45 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id C35B926264F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 11:40:54 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 079B0262976
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 11:52:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 790C93083FBA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 10:38:55 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 282AA329B5FD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 10:39:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F4C03CFF4B;
-	Wed, 11 Mar 2026 10:38:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D835B3CFF6A;
+	Wed, 11 Mar 2026 10:39:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J8E+qNcz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EPXTMuVt"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E7223CF679
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Mar 2026 10:38:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC5F83CF04D;
+	Wed, 11 Mar 2026 10:39:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773225528; cv=none; b=bUmJ3AwYyQ1Zb8PwPWvCdkMQFjdhDNCVBWvVXeSl17/rX7VPpBe2prkj8Nt64WqAwI7fzj8HEiwkP58EKhlXYoD+Hlr4UnZTsxiAe/+mXNnPXWIPfqoKIUn3g02nN+llTC0DcZTiktT06KV7wHD4zEFEcVYKj4uSD6CIkDE4rIE=
+	t=1773225540; cv=none; b=UzOBBPCxAQQv5kg/zT1hqixT4xTLLs+gTWtS1wkcU1tZ19mDujasgiPAVcvmrCwJnEAnfa21Fi/vSQIkFKb36bEELD1Wvs+N/C/IyEt4cgmL/uUkag5oMprTJuBTchAA3/UWkOO0+5OOQYvqPC4K5DD28voZiB1JsSdBfItRC8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773225528; c=relaxed/simple;
-	bh=i7nUMXQbtZArZGnsatx9qQeykbtPVUo/SqQprsinRno=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=tuMYgWekzNE6esVGzjbyDe2AI1hKzwvLqsl6aVdzS/PUqDNuwOB3nlrR3wfmLqKTHrFEg3yRrQ/RnqC1Lp72WyiDHi5biBsPnyhg4oHYHTStL1Nk+lCsCAwSCTdjuPEKzZGLHI02BGaGixBrUJ+r29Hos+qXi2UpVoIXWYv9dlo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J8E+qNcz; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-82989744ee0so5580087b3a.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Mar 2026 03:38:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773225527; x=1773830327; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=trxODt72+ZLmM73SSgKB2PrCW34S11oS3WsSFeUrg74=;
-        b=J8E+qNczqifmPq/ZFjhO3BYc1oRJN/PB3QhnQEsTSjTWa59nnf3Gyc27YH2UpdA3cd
-         Mv0+LI//wgiqAEOLdjLa5V8ncUgKiweo5oQWMHFkaMhfCD3Nsl7g6a419u6bN1U8rJsR
-         hnjnmd+m8tabfPNvYR2qj3f4ge2CFBKKieX70VZq/tBZWxLSs+eGNUKCVOs5HPZ7vB1w
-         ygmKehbSGLP0jLLRlnUw6AzOpq81DpVAyOLZpC7Yz4xuo01+WNYvZ85bTIqnrIRnE3kb
-         Wdk9JbIWB41dUzfA0SkorSZPljMyUwAjyYLxSHt45uIoIMQArNAI3NGVcrlHsqbVggsQ
-         HbrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773225527; x=1773830327;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=trxODt72+ZLmM73SSgKB2PrCW34S11oS3WsSFeUrg74=;
-        b=L8jKPu0SDwzZQ+KSUVOqKZHB2z/Wz6PpBvCPHAZumAxkQzIYLNe98p6TBtHdvA9slF
-         9tDBHmki2lfFSZBsp+Pt9xrmhNTAfDB+2lfIs/ElZAEVXn+7+HwZ1T+HhfrDJBsCI3hq
-         psZwxfj9T33yM3+zbM8l6Z2BN8ke2yTllHHIcabhTgzkgko+ofFTbNphQnkikSB0NhUD
-         sg9+Zn4WPmKnkdPpJHgHzLsXHXtsc8luhPXTez7SDIt4cWerW08W4Z0uJQ0tTfR0UoHo
-         +LU1ph0kndPGjWTyqFIRKqCC5dZnTjfWE+9CC64PHcfT6TXaMmlYrqHnMLFEIyTohn8J
-         iSSQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVzqLskK5bU5+AIIoNBJefEH+1UFR7xshIsmiaCZlHGHBkzQHllGWrazj8FuC4AmfXuQZFTYnkqXZ5vUbLD05+lkw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyN74fy7nFbbs4C3sHhloHWthmkyiLXkwCey4hLbB7H9BPVzp5P
-	dTQWPoDjAK5zyLxoiNzoB01cujmlu+RZTG5j0KuosOxmQhxIvolmsb+j
-X-Gm-Gg: ATEYQzwRTNWMnpbEgl3VlXnQ8ZiUfQFD3iKXkS8iX2mX89lHBh2F0J0r0ZHjbF55Nap
-	HRqYEBYey+2ZTjW25hcjYCEeH9sYFnmZzBr0cjaSZSx2mQ15M5Scx65p2K6RjSKLK8R6s9lu2IF
-	V+EsH85RCLTmijeGw/e5Vilh+9BkSh5xDw1RRp+iG1Q1vtEIzoPQoAxic5EO7jeJ0a3ID88dfzL
-	t39Yc/jcK8aQoDzblz+lqTi7pE8A0kL8h/kabQT1UuNIXKDN3QvNNamOHDFmLy9pz/CrUoDYlja
-	e+ku2a4F8rcNIkmrRcurqCzNGwKf3NdaHwxUup0gB60bLemFeEc4MAjDS1wH6mXiJ6C3Fo+J/zC
-	Bl+u5GVYDjTiju95stMvwCbtZ98dbbJuUP75PdynY48vHhHnSEtxpH0Ot4vdIry1Ot+G/7jao9w
-	VSUkqbPtUnFnz2nC8wpcdzYLSpIFsXY/Qqi+/Xf3m5ryG+NzJABf+WCfOq5Ab5HqNC2lrfE016n
-	dBkFA==
-X-Received: by 2002:a05:6a00:189d:b0:81f:38f4:d774 with SMTP id d2e1a72fcca58-829f6ee156dmr2271399b3a.27.1773225526679;
-        Wed, 11 Mar 2026 03:38:46 -0700 (PDT)
-Received: from localhost.localdomain ([14.160.25.72])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-829f6f1e374sm1785635b3a.44.2026.03.11.03.38.42
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 11 Mar 2026 03:38:46 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: wsa+renesas@sang-engineering.com
-Cc: conor+dt@kernel.org,
-	devicetree@vger.kernel.org,
-	dmitry.torokhov@gmail.com,
-	geert+renesas@glider.be,
-	hechtb@gmail.com,
-	javier.carrasco@wolfvision.net,
-	jeff@labundy.com,
-	krzk+dt@kernel.org,
-	krzk@kernel.org,
-	krzysztof.kozlowski@oss.qualcomm.com,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	magnus.damm@gmail.com,
-	phucduc.bui@gmail.com,
-	robh@kernel.org
-Subject: Re: [PATCH v4 0/2] Input: st1232 - add system wakeup support
-Date: Wed, 11 Mar 2026 17:38:38 +0700
-Message-Id: <20260311103838.5541-1-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.37.1 (Apple Git-137.1)
-In-Reply-To: <abCkulmW8XDXkXiT@shikoro>
-References: <abCkulmW8XDXkXiT@shikoro>
+	s=arc-20240116; t=1773225540; c=relaxed/simple;
+	bh=W7ULGNJxGs/DGU9Myuy1oXiG5LI/4bcuMikaWvPhafA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Vm+aP3yctBDRtCWqnFAbrhsLMv+GvCt7vAiOubkbb6owKfm1QtaPFF2r1dRxYhrliQ5saMHzH6WYaSEkEd8vQklpxTi+JQbZIB6rJ1YAW/iXzsBJtnbdRnPx1pr9l7rOqQuwGg+a/ZLITo4LFcdwOWRrTa0jestAHF7/3OD4AjE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EPXTMuVt; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4256C2BC86;
+	Wed, 11 Mar 2026 10:38:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773225540;
+	bh=W7ULGNJxGs/DGU9Myuy1oXiG5LI/4bcuMikaWvPhafA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EPXTMuVttZqUZ/o7JPPcYnite3Um4wggHLpvXqpIoWuC2usNA6k425SfK6rMs77rB
+	 CYWeP0jsQTNUcUIy8PnTh9S3O1nsMJGjNBhq2Dq0SHWq7cP3w5ZyXyw9RdDTA3R1eW
+	 S440F5uh0GmInYEkvybjOxJt938zdDJqpyKVdapOCNKsje+vi1+1YLP/xkfpiLNDws
+	 05TBCJ8PNE7rD4f12++HjlcvSoHkNaTbYC0bbQKnbCiOof2KrsmYEZaZiY5R+JFXdj
+	 /8xPc+/68mvyzrREgIspZOqMj2/RD7sCmgpK/s0D84g4YnUN/WpSgEaH93P51o62GI
+	 KrW++eDJAd9HA==
+Date: Wed, 11 Mar 2026 11:38:50 +0100
+From: Niklas Cassel <cassel@kernel.org>
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: Minghuan Lian <minghuan.Lian@nxp.com>, Mingkai Hu <mingkai.hu@nxp.com>,
+	Roy Zang <roy.zang@nxp.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Srikanth Thokala <srikanth.thokala@intel.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Manikanta Maddireddy <mmaddireddy@nvidia.com>,
+	Koichiro Den <den@valinux.co.jp>,
+	Damien Le Moal <dlemoal@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	linuxppc-dev@lists.ozlabs.org, linux-pci@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3 1/9] PCI: endpoint: Introduce pci_epc_bar_type
+ BAR_64BIT_UPPER
+Message-ID: <abFGOoZUX_vexLWR@fedora>
+References: <20260302095913.48155-11-cassel@kernel.org>
+ <20260302095913.48155-12-cassel@kernel.org>
+ <dtxdgxrewfby5hu3cu3pu5kljylm627uc43sw75gk7loimmm6r@ei4w6wmqgd6a>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: C35B926264F
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <dtxdgxrewfby5hu3cu3pu5kljylm627uc43sw75gk7loimmm6r@ei4w6wmqgd6a>
+X-Rspamd-Queue-Id: 079B0262976
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,gmail.com,glider.be,wolfvision.net,labundy.com,oss.qualcomm.com];
+	TAGGED_FROM(0.00)[bounces-29191-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	TAGGED_FROM(0.00)[bounces-29190-lists,linux-renesas-soc=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[29];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[nxp.com,kernel.org,google.com,intel.com,gmail.com,nvidia.com,socionext.com,renesas.com,glider.be,valinux.co.jp,lists.ozlabs.org,vger.kernel.org,lists.infradead.org,lists.linux.dev];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[phucducbui@gmail.com,linux-renesas-soc@vger.kernel.org];
-	FROM_NO_DN(0.00)[];
-	TO_DN_NONE(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[cassel@kernel.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,youtu.be:url]
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-Hi,
+Hello Mani,
 
-> > Demo video showing wakeup from suspend:
-> > https://youtu.be/POJhbguiA7A
-> 
-> Nice video! You really put some effort here, kudos.
-> 
-> Really awesome seeing Linux 7 on this old platform :)
-> 
-> Happy hacking,
+On Wed, Mar 11, 2026 at 12:05:59PM +0530, Manivannan Sadhasivam wrote:
 
-Thanks for the kind words and encouragement.
-I'll keep learning from the feedback here and 
-continue hacking on it.
+(snip)
 
-Best regards,
-Phuc
+> This also brings the question, do we really need to mark the preceding BAR?
+
+From a pure code PoV, marking the preceding BAR is enough even with the
+current code:
+https://github.com/torvalds/linux/blob/v7.0-rc3/drivers/pci/endpoint/pci-epc-core.c#L101-L103
+
+However, the current documentation claims that the succeeding BAR must be
+marked as BAR_RESERVED:
+https://github.com/torvalds/linux/blob/v7.0-rc3/include/linux/pci-epc.h#L207-L210
+
+I want to change this to BAR_64BIT_UPPER / BAR_64BIT_UPPER_BASE, so we can use
+BAR_RESERVED for BARs that expose fixed hardware resources (e.g. eDMA regs).
+
+
+Thus, an EPC driver does not strictly need mark the succeeding BAR with anything.
+This was done mostly for clarity. (E.g. with BAR_64BIT_UPPER_BASE it is obvious
+that this BAR cannot be a standalone 32-bit BAR.)
+
+If we don't mark the succeeding BAR with anything, IMO, it is less obvious that
+the succeeding BAR cannot be used as a standalone 32-bit BAR.
+
+But... since the code already does the "right thing". We could simply nuke this
+part of the documentation, and drop the .type for all BARs succeeding a
+.only_64bit BAR, if you prefer that option over having a dedicated type for the
+"upper base of a 64-bit BAR".
+
+
+> Why can't we let the PCI EPC core to always assume that if the previous BAR
+> has 'only_64bit' bit set, next BAR cannot be used as a standalone 32bit BAR?
+> 
+> I find it weird or redundant to mark both BARs.
+
+Redundant, yes, but in my opinion marking both BARs makes it unambigious
+that two BARs are used when a BAR is "only_64bit".
+
+E.g. Manikanta originally wanted to add code comments for the upper part of
+the 64-bit BAR:
+https://lore.kernel.org/linux-pci/20260217-master-v1-2-727e26cdfaf5@nvidia.com/
+
+Sure, we can just skip the .type for the succeeding BAR...
+But is that really better than clearly showing that a "forced" 64-bit BAR will
+always occupy two BARs?
+
+
+Tell me what you prefer:
+1) s/BAR_RESERVED/BAR_64BIT_UPPER_BASE/
+2) Change documentation and drop .type for a BAR following a .only_64bit BAR.
+
+And I will respin with that.
+
+
+Kind regards,
+Niklas
 
