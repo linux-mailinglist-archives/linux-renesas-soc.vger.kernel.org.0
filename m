@@ -1,153 +1,196 @@
-Return-Path: <linux-renesas-soc+bounces-29173-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29174-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yJZqMdPxsGn2owIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29173-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 05:38:43 +0100
+	id 9j1NIcAGsWnhpwIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29174-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 07:08:00 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E24725C008
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 05:38:43 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCB6425CA6F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 07:07:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 88AA6301AF5E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 04:38:40 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 94C3630F837D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2026 06:07:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9698E2DA76C;
-	Wed, 11 Mar 2026 04:38:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3544D3542DE;
+	Wed, 11 Mar 2026 06:07:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mtK1JOGN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q1zcR9ON"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FFDA19DF6A
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Mar 2026 04:38:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C89FC29B795;
+	Wed, 11 Mar 2026 06:07:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773203919; cv=none; b=mk/6NksrcX6VyVIkJwqp9js5314/xBbdckhWKYD2hWDhS2zBtGQ6cFCfIP3QsPD/QzI176BlToXoQTbUZ5j/7G4XOh2I0p01KnCrVrpgExsQuKxgyTlqLunfIHJjxkMxkSnFvRSF+j6Z9DIYm+zQSkY7xzg3+ZQfo5blp0HatL8=
+	t=1773209278; cv=none; b=deyq2hlpt95o4RPk+1EMBHYuu9NDEo0jPZWO+DROWDbEOh7h8RsDObuw6s0+mtffQL8vMVb6O1RLcxSFvNUQT4N979F48cfeEXdTDKcg33Qz74nUZZu7RJC4kU91/8haxqCnr1upM/nmHY+1K18JXB7gEO7np8OP46FZx6AOHCo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773203919; c=relaxed/simple;
-	bh=b73m/0G4bp9qlKbyGpXs2BmQnhyq68YsG8re+bxd7zk=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=OOvSvTt7KxS7JJOQWVaU4Gg8YDc6MhkqL8B18YIXvZHjbG8ToaMrCXcNaz46vsHaU4a3yxSjZGVufULWQP1OaWB1xUZl6dgfeNNyqM3h2S2cehHqgaRqNtof+JIONlBQKejNlYCHJd/vY0WKsjqNnWHQ7mF+0o8doD4kTnTZw0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mtK1JOGN; arc=none smtp.client-ip=209.85.216.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-354bc7c2c46so8355661a91.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2026 21:38:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773203918; x=1773808718; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rOpJyc/uxw9YcZ5bYmcC7bF77XfwHzZK7dfWyiG9If0=;
-        b=mtK1JOGNkUqANef7tcws9FG9uYdBx8rECyqe+z1NGsmn/MlG8YoLc42wGLz/f2Hnkx
-         maoAr9hnvvC4zKx6qJL6x8QFH5tXsbCHt4X4GsY76XrAJeTCSxrjKlcydGzA7ZCavOVZ
-         o9+aBhEwa8+tQS2gqSJrtg3adUCkLkmLp1Tr5h3fk6McCvVUnjKbb7u5uzqIaldZe6am
-         8eUy/nbiM8O/r/raMQgVj21LKlbJDYA/ySlohnBhIeFRFh1tpOKvn0DTBPzgcsLK457r
-         HX79GxnfpwQ3jHgGPGum1Lc/nLNPrqKQOqtD7Tqf2RXZ0bo8PPcl/BonHkzwYfGhU+9A
-         PJpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773203918; x=1773808718;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=rOpJyc/uxw9YcZ5bYmcC7bF77XfwHzZK7dfWyiG9If0=;
-        b=fhi6PlAvRHykMUSo4orFO+v7qBWBlyi5nvOfsFJW1aewtZCr5UKrixSRI0lC5pYB9O
-         Z+5oayPTl4I9Hef+hf2qrSzx1sGCUe1nrNc3V+iHwJ3JuzyOgz/m1NS4nU9jbnkmz17C
-         l7axei9sIPLPM8bvAQzSViLweRH2VkKq1GDVyuJUO3EBFlzfqTHAZCeh05gmsrXlYLYz
-         LFJvYv6fhDXJTbrRdNMN1j0BqknL6ntRPrYPtnZzkPrUwfHa9uXFRMuRKG/pVfRd0Rtb
-         VrTfw4g182HLMz+zVB/hWetR9g43VIfj0gNd5+WVEM0hSj28rA3lM9kjIwBc5wISWbR3
-         ieHA==
-X-Forwarded-Encrypted: i=1; AJvYcCVYP3b2REvwDYA7V6UYXQu3ApEW7Nkm7lnGAyHf+zMoulPrOEQEOvjPymZvnCur32KxzPAJxqaHjh2+SiMoXUDWmg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz3iJXchnkiN9/Q+AYDvRv8nrNeS+nD+DOoDJ0OTA/xJjTb6+YZ
-	i2PueB/x1PqoHFi3O6iHxoXgTPDfTfPJYVndDr6CEqgEnlBcRq21fWTJ
-X-Gm-Gg: ATEYQzw/NeoAoBRhJz/BGP9kVrDtpV/SHuHxgqGrEa6xs444BA/QLpWAuO4AE8uGniN
-	c2vfPzZrY7KbuSCosiN26vLO0VWw6vbZGOy3ir4wMRlR0YYH8Gsu+O5Klo8wSbyWLXK/j5ISDJa
-	/Es+6kNDOM/zCuftIhnrUZXuvxNSy1rnFCfYxSS+lOzxm3B6lvByuaug4f0ZubiOWp44a4YL5RA
-	mSgpKmrlJA5ck5c1gVN+TbipjJTEwTG7n39aaM/bF1/+4GzKNYx6dr9OxcSZPN8sK1gBtzPe6I/
-	FvmrxrcXum2e8VVxQwB99vfUJ6Ok/7/+xeNN3TB/YqgJSoWbuVQMydJh8QFM6cjLYLtio0TYAQH
-	8egezG32sxCZjLdRuNmIMxp+qu4uv7fFLoctmWSxscX7TCDHx7MAoxSWPQ1zYtEALkijW/Bf69z
-	tsgMCEkldRGfQ2qR+orqQyLRhlNMVwJYLwCsFTiHjrkE9r0T/nBUtFHb42gmavYOyqfsExNmLa8
-	R4YRw==
-X-Received: by 2002:a17:90b:3c90:b0:354:c6f3:d365 with SMTP id 98e67ed59e1d1-35a012eacd0mr1283571a91.17.1773203917898;
-        Tue, 10 Mar 2026 21:38:37 -0700 (PDT)
-Received: from localhost.localdomain ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-359f06fa04esm4679484a91.6.2026.03.10.21.38.33
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 10 Mar 2026 21:38:37 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: john.madieu.xa@bp.renesas.com
-Cc: bhelgaas@google.com,
-	biju.das.jz@bp.renesas.com,
-	claudiu.beznea.uj@bp.renesas.com,
-	conor+dt@kernel.org,
-	devicetree@vger.kernel.org,
-	geert+renesas@glider.be,
-	john.madieu@gmail.com,
-	krzk+dt@kernel.org,
-	kwilczynski@kernel.org,
-	linux-clk@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	lpieralisi@kernel.org,
-	magnus.damm@gmail.com,
-	mani@kernel.org,
-	robh@kernel.org
-Subject: Re: [PATCH v8 15/15] arm64: dts: renesas: r9a09g047e57-smarc: 
-Date: Wed, 11 Mar 2026 11:38:31 +0700
-Message-Id: <20260311043831.2576-1-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.37.1 (Apple Git-137.1)
-In-Reply-To: <20260306143423.19562-16-john.madieu.xa@bp.renesas.com>
-References: <20260306143423.19562-16-john.madieu.xa@bp.renesas.com>
+	s=arc-20240116; t=1773209278; c=relaxed/simple;
+	bh=69qFIYtyDr9znxfjTU2cf/MvY/d5dOWbtA3vFY5B9f4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E7MLvJW5rRjylhLIALxQzVzSEDo/FOBRgv0vnnnUmWD5mhub8e/78SwCEc3rRSeTFN5lV0YvXth6K85QgnY5QggrgiKIURUeqpH/0pBOkBWfipReMfauX07oJaRc3MYSagqcW+Hb1wYHBfM68keCw0zjRrhn05QthZU2F6YkT4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q1zcR9ON; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773209276; x=1804745276;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=69qFIYtyDr9znxfjTU2cf/MvY/d5dOWbtA3vFY5B9f4=;
+  b=Q1zcR9ON6pJRl7ibNLcL61NcOTlXUTspS5ZWsWqrAAz16KP4hZklUJ/s
+   Z3GDAnO+zFm91d7F/H37Py/uocfB83jnN0ahXtpDBwlAyfrZzIQR7AVK0
+   8bvPJH5Siz2vJatmj/6ENUpY4GDil2s19gCUVNVQZ6EVHxbgsVNT7oBTo
+   GwoNzWXA1ogUe2YTySg3XMuZjFzR4Zf+Bd6NIvyKzT+QKN+NfeWWoKdM1
+   KrULDOpzmuM7OrZsqo26UgswgoOzd0TbF4e95cgC1hSeKPvFUKBhvilmI
+   avp5C0OBsnozmqs2MiSFHuzgwxUKualxL2wBd4qB/RXmzhPW+OZURohEn
+   A==;
+X-CSE-ConnectionGUID: ua5w7RbMQ1uIKfSM6jNB8Q==
+X-CSE-MsgGUID: 90B5BJdgRiCThNmz81mB1A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="84975135"
+X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
+   d="scan'208";a="84975135"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 23:07:55 -0700
+X-CSE-ConnectionGUID: Xmc022qnT6WtfTEcvw9BXA==
+X-CSE-MsgGUID: p4Bvvj27TQ+YgBR+E2RUsA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
+   d="scan'208";a="250861493"
+Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 10 Mar 2026 23:07:50 -0700
+Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w0CjS-000000000mj-1txg;
+	Wed, 11 Mar 2026 06:07:46 +0000
+Date: Wed, 11 Mar 2026 14:07:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Wolfram Sang <wsa-dev@sang-engineering.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org, Pascal Eberhard <pascal.eberhard@se.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	"Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
+Subject: Re: [PATCH 5/5] watchdog: rzn1: Add support for direct hardware reset
+Message-ID: <202603111437.eGpzXcOB-lkp@intel.com>
+References: <20260310173249.161354-6-herve.codina@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 2E24725C008
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260310173249.161354-6-herve.codina@bootlin.com>
+X-Rspamd-Queue-Id: DCB6425CA6F
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	SUBJECT_ENDS_SPACES(0.50)[];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[phucducbui@gmail.com,linux-renesas-soc@vger.kernel.org];
-	FREEMAIL_CC(0.00)[google.com,bp.renesas.com,kernel.org,vger.kernel.org,glider.be,gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-29173-lists,linux-renesas-soc=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[17];
 	RCVD_TLS_LAST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	TAGGED_FROM(0.00)[bounces-29174-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_TO(0.00)[bootlin.com,linux-watchdog.org,roeck-us.net,kernel.org,glider.be,baylibre.com,gmail.com,sang-engineering.com];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NO_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[intel.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TO_DN_NONE(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,01.org:url,intel.com:dkim,intel.com:email,intel.com:mid]
 X-Rspamd-Action: no action
 
-I noticed that for gpio-hog nodes, the kernel already uses the node name 
-as the default label in /sys/kernel/debug/gpio if line-name is missing. 
-Since the node name here is already pcie-clkreq-n, the line-name property 
-seems redundant. Should we remove it to keep the DTS more concise?
+Hi Herve,
 
-Best regards, 
-Phuc
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on geert-renesas-drivers/renesas-clk geert-renesas-devel/next groeck-staging/hwmon-next linus/master v7.0-rc3 next-20260310]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Herve-Codina-Schneider-Electric/watchdog-rzn1-Fix-reverse-xmas-tree-declaration/20260311-015157
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20260310173249.161354-6-herve.codina%40bootlin.com
+patch subject: [PATCH 5/5] watchdog: rzn1: Add support for direct hardware reset
+config: x86_64-buildonly-randconfig-003-20260311 (https://download.01.org/0day-ci/archive/20260311/202603111437.eGpzXcOB-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260311/202603111437.eGpzXcOB-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603111437.eGpzXcOB-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+   In file included from drivers/watchdog/rzn1_wdt.c:20:
+>> include/linux/soc/renesas/r9a06g032-sysctrl.h:17:53: warning: declaration of 'enum r9a06g032_sysctrl_rst_src' will not be visible outside of this function [-Wvisibility]
+      17 | static inline int r9a06g032_sysctrl_enable_rst(enum r9a06g032_sysctrl_rst_src rst_src)
+         |                                                     ^
+>> include/linux/soc/renesas/r9a06g032-sysctrl.h:17:79: error: variable has incomplete type 'enum r9a06g032_sysctrl_rst_src'
+      17 | static inline int r9a06g032_sysctrl_enable_rst(enum r9a06g032_sysctrl_rst_src rst_src)
+         |                                                                               ^
+   include/linux/soc/renesas/r9a06g032-sysctrl.h:17:53: note: forward declaration of 'enum r9a06g032_sysctrl_rst_src'
+      17 | static inline int r9a06g032_sysctrl_enable_rst(enum r9a06g032_sysctrl_rst_src rst_src)
+         |                                                     ^
+>> drivers/watchdog/rzn1_wdt.c:105:33: error: variable has incomplete type 'enum r9a06g032_sysctrl_rst_src'
+     105 |         enum r9a06g032_sysctrl_rst_src rst_src;
+         |                                        ^
+   drivers/watchdog/rzn1_wdt.c:105:7: note: forward declaration of 'enum r9a06g032_sysctrl_rst_src'
+     105 |         enum r9a06g032_sysctrl_rst_src rst_src;
+         |              ^
+>> drivers/watchdog/rzn1_wdt.c:119:13: error: use of undeclared identifier 'R9A06G032_RST_WATCHDOG_CA7_0'
+     119 |                 rst_src = R9A06G032_RST_WATCHDOG_CA7_0;
+         |                           ^
+>> drivers/watchdog/rzn1_wdt.c:122:13: error: use of undeclared identifier 'R9A06G032_RST_WATCHDOG_CA7_1'
+     122 |                 rst_src = R9A06G032_RST_WATCHDOG_CA7_1;
+         |                           ^
+   1 warning and 4 errors generated.
+
+
+vim +17 include/linux/soc/renesas/r9a06g032-sysctrl.h
+
+21c34edbcc67b0 Herve Codina (Schneider Electric  2026-03-10  14) 
+885525c1e7e27e Miquel Raynal                     2022-04-27  15  #else
+885525c1e7e27e Miquel Raynal                     2022-04-27  16  static inline int r9a06g032_sysctrl_set_dmamux(u32 mask, u32 val) { return -ENODEV; }
+21c34edbcc67b0 Herve Codina (Schneider Electric  2026-03-10 @17) static inline int r9a06g032_sysctrl_enable_rst(enum r9a06g032_sysctrl_rst_src rst_src)
+21c34edbcc67b0 Herve Codina (Schneider Electric  2026-03-10  18) {
+21c34edbcc67b0 Herve Codina (Schneider Electric  2026-03-10  19) 	return -ENODEV;
+21c34edbcc67b0 Herve Codina (Schneider Electric  2026-03-10  20) }
+885525c1e7e27e Miquel Raynal                     2022-04-27  21  #endif
+885525c1e7e27e Miquel Raynal                     2022-04-27  22  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
