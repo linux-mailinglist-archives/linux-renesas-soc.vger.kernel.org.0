@@ -1,64 +1,65 @@
-Return-Path: <linux-renesas-soc+bounces-29285-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29286-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kHudAe3SsmnrPwAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29285-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Mar 2026 15:51:25 +0100
+	id KDmdAfLSsmnrPwAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29286-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Mar 2026 15:51:30 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C345273A2F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Mar 2026 15:51:24 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C83B273A37
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Mar 2026 15:51:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id CFEEC3008C83
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Mar 2026 14:51:19 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id F2E113026A8B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Mar 2026 14:51:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5339F3750D3;
-	Thu, 12 Mar 2026 14:51:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65A9B377EB6;
+	Thu, 12 Mar 2026 14:51:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="ZItsYmS6"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="peOy32VE"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010021.outbound.protection.outlook.com [52.101.229.21])
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011030.outbound.protection.outlook.com [40.107.74.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3552D377EA7;
-	Thu, 12 Mar 2026 14:51:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B4C935B12D;
+	Thu, 12 Mar 2026 14:51:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.30
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773327078; cv=fail; b=ULE9KclGieKyzdXbm2BQgzk7TbYqBtD4xuLJtOYFQOMWodrpF2r0GpIaeBr+7GJEYhNQ4zraDThgzgC9UhqmEC94sbVNOlqvpqFJfu6zj+22AMEDKuTwcxY5XfJj09obwaBTzZKUW72G8YDR3+iL9AQSixFytipGmlHqzcBmAZ4=
+	t=1773327086; cv=fail; b=uXYovNGI4di90ZFJzeLKJAeJHAHYKLy9MGB5gTULA6nNIp9DM1sRZ0fuU7CGm83DUM0EoKD1x8Q4XyRBrQviuycn8ocpcLXFmheHARXUt6iX2FnFhlKghrApB4qnXMFI/Ksni/nePjAj15HfUWOoePWLGjwKm08yxfp/nuw4+IA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773327078; c=relaxed/simple;
-	bh=8h7zO7Jxta05/W5RZ0n9K61JASY5UYbMafA2Q0GgTtk=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=AI9qG5CcIjl7k2v/UFtlImESiQ5DUsJzyhzOjwIXeHfYj2IDxVnKtTs8k9kZwqRzB3avMx+jkhV4sA8Cx2qY4KPRYkYC0FnoXvAg+HXvGtQDMD3qsRSFwMmd/czegSXLmmBd1avgDsPFWuSut1WEh03z7r2F6PEBl+KV+1OZCEQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=ZItsYmS6; arc=fail smtp.client-ip=52.101.229.21
+	s=arc-20240116; t=1773327086; c=relaxed/simple;
+	bh=Ab30OY7FCfXpDRcrO20HjcPdw1vJlaXs6A0sTz9BKhA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=S+cNGkygqnzKiSoZeplkFHs+GxJEBENOfsowthebKN20XMc+HSjklg6HvfkY2XjbznFhNTViwVuEYj9qm0qw0tiALVZQdhI0TWBcuW0pOWHlH47ydCf/q+IhlwgSvTOxhW8Prxd6PirrxmOvDOXC7YgyLOdZ0UPXCYxl2yDskjI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=peOy32VE; arc=fail smtp.client-ip=40.107.74.30
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xTkeHbd4zbMDeDYSiusHnhGprZsEPvxqxVmO0EQUAf8WRIpdovO9sowphFoF0kpm+2FSUdHHIaM3xn3p819dUv4sFiyWLA3rtlLu+BoBG3Ud6RC6xqPX6qxCWO09YmpWBpEYGuYzMKIjHczp62lCHm7gmfJTyXzfw0Jy2DGXXwr5Bh3WWF0CK3I0OD3eqCs6zp2DZ3hRoY3EaYec5nUFk3Zdd7kmAhuG37m0pmSq/prr6M7Tf/ScRQyTVQFWYgf5F50mAgINM6jscfiNor9R9zQUPbVcNBJ2NAO3OAlBAYWhM8XZ+VimME8tktPiEltDa9TCG8gPzWUBl2wxGagf8w==
+ b=UjQH/Lw4fDj5UCN5W1rESHdy2ZU4ZcQPx7gnIwNGgT3IDQVaqgpw40h0/A1ZbCSVN/98k8JSzOi/MI4hwpj1Z+n0NyBb3GwylOjfzABtIgKFaE8OIUOH+5/xAzx1X1R/RreG470fSTPz5HgAzgHU1IYCbxMy0LlCd3owc1MsEhmVktq1i7sCrR+8XzQlASs7Y3oPiyR9+RiUBgpd0iSIMmGbb3ZPbOWfIhqknDc8Cp82V34U06BN7PzeEG9Vcewckc6TPw/tvavNWGlU+e8gQ0l7MmrxSI6IB7g+yh9/Z6XQXJRwSy38WUZ7+66FUPOAGJDYQUW70W2/H1sWeLL29g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2XI0xNe5MGnym0R/tLroW8aQ+SKvD9/NQ60ppZP7zdg=;
- b=kikfQy4cHKaIhZNKjNUtQgp25/7OufrfHypxOdkWNu0OSX3MziY4/g/pAr9Zjv6LcXAXPIq9Sj8pPfl97odHvNzYo+HOkbVK+jOXkuR57UFZqNgU6zuo3lTbCR5ifPQDTimXgKAfuUVhPJz3JQC+sMymibUqpXh9XbpPaMWzKFnikk88koiuGcnzJQchLZYjjlNNtBruxAujse2zxaO4AE/JFxOIfp9GIUxoXSgewjw/Op6VDfjWNG4SCg3wY5jq2pketXX2+wSNzzyfMB5paUDbdjy61NQXBBLtYBXDVEJtDCO+WxahvX+PFYYaXUFpLesvl+CHidd+Ec897idjYA==
+ bh=2QVAG5QRU3iEvN3YobKJO8YV1cAFkZYhvcw5UZb7JuQ=;
+ b=q5FB1any15r24lYElydUQaV3z/rleh6PLSS49UcPUfnlG+P6Myyh2ZF0LQyruw2KcWSnNuN13K1pkmnUNkZpHE/3UfsFOfNI2s2jexjNKtTLCWcNC0gF3yHiCm+pj2eTdU8z1D3oq9sJndSJjjFnMqWvCQUGWXpJuoY0FK1F2uvLJ8AXGyAeg9x1iwn1yy8RSn7NtDPGJhgl2BJzkzvWl/SkPhf1ZTAUPPa/ykF8sDEteRNx7g9GmtqwQ3e8gX7NdsxvNli2EAoaReqt9NAl5hpYFzZ9Vv1qQW3bLDFWKl3QQLVGN9Mb7uTWYoTrx4E6z1pob6dIL59wGKcwx8PuQg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
  header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2XI0xNe5MGnym0R/tLroW8aQ+SKvD9/NQ60ppZP7zdg=;
- b=ZItsYmS6aBR0LwUQaLSl5udIZ9TxxKuS36BKmyj2+/EOMGEogL+Y9w6ev0gQ3CO2ULpRIh/fMMYAdgYqkZLUUgcsUck2lHVQp0tMUach3jJvTaT1piOtzESvlfOOdqRcFPkNgcQCQlZst3eRc3B80Q6JriIg3WVZw9GFfM2v7zo=
+ bh=2QVAG5QRU3iEvN3YobKJO8YV1cAFkZYhvcw5UZb7JuQ=;
+ b=peOy32VEHWnP8XXmF1huNMxya0tkbtqIXhBLrtSqc4WhyDfZmMAl9g2ruKZfltRMB9oVefJ2kX6fnt2UjX2hZ3Hh8/K3/fRqj8CzOtW60kT3pzDsc7W3b9z70yUhy7EOf/55Yg1J1DY68IN5vOkRQxGWLPQugqbvFisNHG4t9I8=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=bp.renesas.com;
 Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com (2603:1096:400:3e1::6)
  by TYRPR01MB13770.jpnprd01.prod.outlook.com (2603:1096:405:216::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.16; Thu, 12 Mar
- 2026 14:51:05 +0000
+ 2026 14:51:12 +0000
 Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com
  ([fe80::33f1:f7cd:46be:e4d8]) by TYCPR01MB11947.jpnprd01.prod.outlook.com
  ([fe80::33f1:f7cd:46be:e4d8%5]) with mapi id 15.20.9700.015; Thu, 12 Mar 2026
- 14:51:05 +0000
+ 14:51:12 +0000
 From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 To: tomm.merciai@gmail.com,
 	peda@axentia.se,
@@ -79,10 +80,12 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	Arnd Bergmann <arnd@arndb.de>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v8 0/5] Add USB2.0 VBUS mux driver and extend rzv2h-usb2phy reset for RZ/G3E support
-Date: Thu, 12 Mar 2026 15:50:34 +0100
-Message-ID: <cover.1773319566.git.tommaso.merciai.xr@bp.renesas.com>
+Subject: [PATCH v8 1/5] mux: Add driver for Renesas RZ/V2H USB VBENCTL VBUS_SEL mux
+Date: Thu, 12 Mar 2026 15:50:35 +0100
+Message-ID: <67a38e592551e1a8ac4f9810fd4cdbab729169db.1773319566.git.tommaso.merciai.xr@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1773319566.git.tommaso.merciai.xr@bp.renesas.com>
+References: <cover.1773319566.git.tommaso.merciai.xr@bp.renesas.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: FR4P281CA0129.DEUP281.PROD.OUTLOOK.COM
@@ -96,58 +99,58 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: TYCPR01MB11947:EE_|TYRPR01MB13770:EE_
-X-MS-Office365-Filtering-Correlation-Id: a94b1290-0664-45d4-b38e-08de8046c9be
+X-MS-Office365-Filtering-Correlation-Id: a5ec6973-a81f-46fa-4920-08de8046cde8
 X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|52116014|376014|7416014|1800799024|366016|38350700014|56012099003|18002099003;
+	BCL:0;ARA:13230040|52116014|376014|7416014|1800799024|366016|38350700014|22082099003|56012099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	KTXa7fgxYzw+3+UIplmZVRckB9164ZrY9sLaWZ0kzrCT2Zu6puDQg0gjZirkZ0AwBTBIkQFy4p+i4IXvPMuWLs6tj6eAbGr3YXRSwk/kBjS8miWjTwXiMKk8x6u+rCuz3yIUnY2UsZe9/UqfdCZAnK+AurERgEzk/CCAvlCsdKEliNaeqp0TQKR3hLGfmvEFpFW8PcRY0zE2hamzFTxilrsaLpEi0yYZf8qz7b/0Kdq0PcEhgtD/Fyr0Ii+q1xe4129s5imnCk1c0gzgknq19/KUI5F2DwmqLJE9kLMAIVdYmcve9ub9f7vhtjMeNCN8zWtNruLtrfq8x+N1omw0gCrMCYgG7WdQhlRqT2yZDfecf9l4HsGz4e5c3buB6DEy9RIoPoKIo43OHUJEQikeDFZz4XUZ+K1RdNIWV7hwKGzmYVx9FYnv9J8wgjAitC6IO4F7uz3OrpHxZFSdDMN2xQKY/YsCYtju1oKr+MhyvVJ2x6S9ro4CgYObjyML+ZWVvRtEXavdsIp/PADY5ColxxoPCPAGenaZMWy5tgJ1jkUzAdprw2muMZqsOrSSxq+lflhMXIuH2Qz/RkZn1zVt3HHZozBV30iOV3bJRzDl/SweyDv6ihEwf2IHpU9Li6SX12BsBxTUI43tLO5l+J1kS/eH4x9APnhW2I/ubhbV8jBtK1Nd2nXKb/efIf4BcPHUgo5odsswmnTJpkofVxWwFf2U0nJRnDb7c2UL9dPzV0wl/Kc3YGYSdqkAKwZLqEEo68B3H++1si5j5PU04wbrFUAW6l80pRM7RYqgJZg7Jyc=
+	44EnpfxaQvuCq0H1KY9t319wTkVnFhEa7wCexyB6itY61+Q484gh0LL/i3kX17ZXBxqQikIxdPse2r4MoH/IUUZQcpmVJTtaSOJvedwZuWt+0YXSkqguOH2gdSc2K9cwbiw90jaz/4CMgC6WdYiZnXSyzAgn2GQ0xoyPsyHuP9j7tK2SDjm570kncG2p/Su1h87M11pmgRSE46KWdSzyKhldDpof2ea0Kx2PHzpOf6Y054qgeFZB+JiHQp9LlLicDkE0ua4zKLiLbVtY2W3G4GcpEFupmgLzC+j40dOeoIK4J2WZUDpfXRiRK4QVVFwDwl9+rdKneZVyzBCAPWfOk5ttcYFUV01fJTMhfLF8e2Yq9DBuSXvE20Ach4QUEnIMcR5btsJL9Sj8lG2/dgDKwloR8m2xRO+3D+uOwfnxyxH3tQsgJgAl25/OQOkNwglFYlUCVl45FEH7dUN0BeoP+KLSwra4k8dsBEAV4wM1OnSWDNF4l83u0ublupQAeX7pPCKfOMCpCHammpwmoaprExUbquUOa0dONATsjVTwcH7IWNvMmR83ZzjZXhShZQK3LQfUqz/SSuPUOxMpEiMHpgunCVznO4kjLheXz9lC49f6gmn6cOax65StFWOKTM2E9uR64Vd55/7sm16CGRgJYN7SyxAL1ddhGSLKXFOqe0q8serY1vmqXzH8r41b5KlVXwX6Z7sskMtnhuR9YZ3feDOsb5+wbtUEyi93dnNaiofbWYn1wMBP1TxX/Q72G5txU5DbMD0GQYigNxx8AjWsfHC+wVZg+K86DGc/R5yaN9I=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11947.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(7416014)(1800799024)(366016)(38350700014)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11947.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(7416014)(1800799024)(366016)(38350700014)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?8VUhf4/Xif33EFNOGMdbZxN7dvKDSuPIF5FuctjOxtuvMglUpvH62x2+2Y20?=
- =?us-ascii?Q?sRNiD3FhCTIiAexnIjli5fG2thN2m2LsLMa1uy92seTCLAd6DfHzSpXhe0ot?=
- =?us-ascii?Q?st7J+UbnhDNdJzJSspDsGfQ2R2kpiYQ1F6iNJ1CNavuq6DHb18C0+tqKwzA+?=
- =?us-ascii?Q?d6H7ADkmUeadETGJMLsLzH7v89yEzYNvHP/HW5FOTsByc5S3BGNujG3visaz?=
- =?us-ascii?Q?rQchqayISCq8z8H5Ez4LKqffwoET9xP5db5MX6Khgy3yjKGmlb//Q8ZBlEDq?=
- =?us-ascii?Q?1kpQt/rkw1uFSWn+VZWTIlTwWapDJaUr062QcHVWAYQlm5Jo2CdSBqHBvw+S?=
- =?us-ascii?Q?SGWACbxMnynmyjgsRCwm4Fvkuwr+KXGLNp6HV4Vgh+U9fDMnRjLC3vZWKeT8?=
- =?us-ascii?Q?7WXedoyZy8reCrky/DkkzMn46uAdrGn26za14H8Nit0DUcxeHWGxFT+R+Q7M?=
- =?us-ascii?Q?mNdomGx5o+G0XBnNpV4CSqRdLqDZ5smys1JJ+3pumCRB8EYp+BZ++QviuqCS?=
- =?us-ascii?Q?XaYVogjYTD3RG7wqtbiQEL9pqDiq6Fju1P9hHxMZaXYit6b9fwP1ajpJvvek?=
- =?us-ascii?Q?6e6seJB1yilmgTzfSB3laHsX6NQtfauWpdk0LK7A9v+zj67hZbBYPNJEn9y+?=
- =?us-ascii?Q?uTDIaV7hfW0D09p8TLaKXZG1Blk4nOJxtgbUEo8/04UdpRv+MDEAfd+FSVO+?=
- =?us-ascii?Q?Tv55DK77fBT6Fvm0NMODhoXovA9fwyI6SGRsHbML7a9+YGoD79lOVjIe10lB?=
- =?us-ascii?Q?ffN2uVeajv0tH0X9XrJmdK3HTjR94wMu29tdVV2F1MrmhgKvIWHAhRQzdKSo?=
- =?us-ascii?Q?hOaI1LnAVRWsY3HW5wxJQcARlxGgytSngFc9kov1WxhM686Fv6d8KLsz1SDQ?=
- =?us-ascii?Q?ggFxAsU563jiTly5EGEK8SRAAR0/iNk0/V2aV9QDb5mW4gB3XccdV1OIIC76?=
- =?us-ascii?Q?yjHTe+b9QZkgw/wXh7aXSl5l8RufYlJ44njyYjhI39QvF1GA8ikmXmkcmD3y?=
- =?us-ascii?Q?cJRV4iOEgrpnu5RijIKlsQ5ElrvXkPLB3XVUOw2k6C7MZq49yUU6QGbQcaed?=
- =?us-ascii?Q?tiDVxjD+wWBia/qReGLMOOJLcvAKvHZeZskPPNM0JnrzB9NEe01C/CfU7ar3?=
- =?us-ascii?Q?yCEwRdQaDaLIgntAoaFMdUNWKlq0DavkdVswj8lB2n8NZWGtkV2jBm5Zrc+e?=
- =?us-ascii?Q?UXLXJtbpkXl+hr77k2sTb1Tb9GBgvVHvHwTgc9y7F2CMZ4UGHzkSdo2BWQMm?=
- =?us-ascii?Q?R+cTXKKaaJsOONyPOQ++tIiKZTqDVxCjsG9EjIPJVMSH1FCKM9jXz++CIZdr?=
- =?us-ascii?Q?320Bf1FsipyAJNjeCtfjj3Uz1SQQxtK7mdHd1n62Ut2LAgu3GOxNqmLmfmuD?=
- =?us-ascii?Q?MSTtKyK93LbLaM3xHor20YAKzOpy0FYPAiK81PjEuCfdf3h6lSDSRbKpSEEI?=
- =?us-ascii?Q?WU1SdvlteQn3EdY1Z2I/Uj1tKAnr4TskprRgpF8g09/C2YPJLeXMZa/JsG7s?=
- =?us-ascii?Q?c2AEnradvvcWV8muM1dFv/AZWo1ByDie0FgEJ9JUxhm4mof1Y2a24Pi9nfXn?=
- =?us-ascii?Q?BnapSqOHFi6T6qFQlLU8+vHGSi0b7bcxt6UZweXoVzgkqmbLtMcCeqiEiGKB?=
- =?us-ascii?Q?ikFRy0eeaHvP/AZDcqLiG4lsM4Ua1TFNv4gWIW0FNPelEc1jygXKysCrb4JW?=
- =?us-ascii?Q?oJoZs1we4e/wdysNQ+Uf4FiPw3I6ufG7JoNJtSlZaApOZnzRr7DU/853OfpN?=
- =?us-ascii?Q?SldKMJsHxqPelVMBHM5a2CjZGrJRhw2+lJMKUQQ9te6og9k4oTRG?=
+	=?us-ascii?Q?FsgY4fLY8/VpIL3u2o1JGkZdLgvxHXoHdIiTc2tX3sfAkq4SPr39ZtF7iSSw?=
+ =?us-ascii?Q?J+ZNIQQiFbcjZl52qK1WMVYVOdbyJuNugcPJjoCg8hln9xT11INiiQiTwFpR?=
+ =?us-ascii?Q?0XSrRDRUStRYVG1j4YzoS4hgZbCH2DNurIg6aJRspjMW5GDPzIJyaKuY8kdP?=
+ =?us-ascii?Q?RwWQDvRaixgA/65eQ6qiRK5L422VnRfD54/+T1ZvQPU27Okc6JWtetCrcKSC?=
+ =?us-ascii?Q?4wpKVkyuKncUW7cUcXz090lyVVFyzB2wtJQFa+zOd3e6tu2rO3eIkY2qpkvU?=
+ =?us-ascii?Q?M2/ZyGPjhKi2NkG9N7hCaC9+kXzOS/lHPwsH/CK8SFhDhBuK0/f2F/jwdPfN?=
+ =?us-ascii?Q?OXMQvCxmY3FnHKyTbl9QFdMFVeDXDfQvxUA9EReOduqcFnJZQnYTQwuI7tjU?=
+ =?us-ascii?Q?XwkedUxMyKnOW14USAuNH8ZITzwLYS83fcZ8ZWvn10pmeVCY3IdvisgCZccL?=
+ =?us-ascii?Q?dQqQVlhCzDK/2HCENooOW/TL5etDfGKnIEiUQKd9P9TFN9SkjMbHA/eQ5lh2?=
+ =?us-ascii?Q?c771WT8Ye8RcoW8Qui3TmPMDu3fdrYYvf3/R4sgJ0/buK9rn3oy9lcjfsLVS?=
+ =?us-ascii?Q?vOjWB6E9gtDpfKJbvUhZJ8DMCBff5/LFdg5oJwbWzOlH3ZI4kfZQEe2+5UH5?=
+ =?us-ascii?Q?5/tZefsvgBetl6CruJ6NwhpAY5doI/WpQI1WpqVa5C1ZfBkwcM3Sai/HcCV0?=
+ =?us-ascii?Q?0dp6e53455DZ4zNx0F/iJAiscl+O0mYDTWLdUWwNA5Yf0lE2h0ANi5sgpsWs?=
+ =?us-ascii?Q?gKIOCzs9cBlAUh9FO6NswctAkYoAucqc10RaoQRxJRtipOs4FFn/sEKhuYYy?=
+ =?us-ascii?Q?9zPA+3FXeYQIBh1Yc6F6s7kGP6RJiP1bnbm/7xaDHi3bGmRBflPqfXTMs9k9?=
+ =?us-ascii?Q?ecOxubZX7856kCVjiMVE+nJmlyWqLKTYaw0yyPH+aJqf//Xrbx7iiv/+TW7P?=
+ =?us-ascii?Q?Rjw506blqEPakOR+KTXuZSM/I4wQpD250vz/MbgbLaDZq9GA3PMgVSAnuCsm?=
+ =?us-ascii?Q?7v86UEcpj19zATrrc4qPYpLDd60To+F9QTArJhD1hNLtUFWtt3NqYK5QH+EG?=
+ =?us-ascii?Q?E1tw0wI0wdZZrg+uHLHOLpCh07PMphfGy9XrMmneFrgMKNR71ORk6Pw7NPFT?=
+ =?us-ascii?Q?BeGJvetBs7u0QieHzfzqb2mZSlfhgziBe3zWARokw9NhldiI1taoU6norS7m?=
+ =?us-ascii?Q?50/3xODml3BApH4EA8geCHJMkYEZUnzLqvzBZKfTDReuhSOqPtStLlJJ5vp2?=
+ =?us-ascii?Q?tetXK2qvAdgbtaTgFiQjEhwYTU7SOH9g+IEV2ZAogOWsMOgMHhG2GQra+HQ6?=
+ =?us-ascii?Q?KDJVta0auYdJpFOVekniJTJgQbUq4VczsGR9wVgjPEcqClACKQurT1rhAclk?=
+ =?us-ascii?Q?9stK/hzFPYzsVZ0I62R1qZB24kssC5BohfEAwPVemX41Jn3Qs8un1i0udcDh?=
+ =?us-ascii?Q?j5+rZdNCB+jA3OPRffCoLoxO1J0/z/Ue22c6kppqxfqv4m2jTfI+k0xWbOu9?=
+ =?us-ascii?Q?jt9Rmad7u18eVN+vxSjoDNoEFjBq+HDlTK1M7H42dSrrbFUORHLwqy59vzUg?=
+ =?us-ascii?Q?WtB9verKWjC5NWFWffZOdaSIIA2C05EjgGFmXFP7ktmubkbLIjOunlWR0/uG?=
+ =?us-ascii?Q?wmuNMMV17e/KR9Sh7u2O608NgbJYJ0DGCHIVbLDumBtKvIAwkOunPHXvHOo4?=
+ =?us-ascii?Q?qbWOnWvpJlQk9fn7sW0xiaXjnn8/WO0fCwKJ727vioIzylJ7CCJQ4LHWXFVd?=
+ =?us-ascii?Q?VYiqaoRai6YQYi0BJqhwJ7VBgBlBxZUxCOFwMv3ZxeAdD37zoIik?=
 X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a94b1290-0664-45d4-b38e-08de8046c9be
+X-MS-Exchange-CrossTenant-Network-Message-Id: a5ec6973-a81f-46fa-4920-08de8046cde8
 X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11947.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Mar 2026 14:51:05.7739
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Mar 2026 14:51:12.7231
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1y4KaZ3WJw5k7jEkoBNnXd3+VIjjsFtUB4mohnuTvCPAcVLr7FSCIRVRqeW9bqTSoYBtsjDXAkYjLrVySY8QM43zEIr0MSR+JZ1Rwvqh0we4gMK2SlaWzO9PvhRXVWNf
+X-MS-Exchange-CrossTenant-UserPrincipalName: TzAgPczXL8ykN2Bx8jqE2k9FJBsRq5p2kTYDFUr2z7gH4zh0WCC6PEJ+YvRJmTqOYScCbnqrph6yfPU04vPC2UwJqkeUyq3zCi8dYwLKZ0EbByIoK7ZaHde6AHMUWWyN
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYRPR01MB13770
 X-Spamd-Result: default: False [2.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -155,7 +158,7 @@ X-Spamd-Result: default: False [2.84 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	R_DKIM_ALLOW(-0.20)[bp.renesas.com:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -163,7 +166,7 @@ X-Spamd-Result: default: False [2.84 / 15.00];
 	MIME_TRACE(0.00)[0:+];
 	RCPT_COUNT_TWELVE(0.00)[19];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-29285-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-29286-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_TO(0.00)[gmail.com,axentia.se,pengutronix.de];
 	FREEMAIL_CC(0.00)[vger.kernel.org,bp.renesas.com,renesas.com,kernel.org,glider.be,gmail.com,linaro.org,linuxfoundation.org,solid-run.com,arndb.de];
@@ -176,116 +179,216 @@ X-Spamd-Result: default: False [2.84 / 15.00];
 	RCVD_COUNT_FIVE(0.00)[5];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,bp.renesas.com:dkim,bp.renesas.com:mid]
-X-Rspamd-Queue-Id: 2C345273A2F
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,bp.renesas.com:dkim,bp.renesas.com:mid]
+X-Rspamd-Queue-Id: 9C83B273A37
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Dear All,
+As per the RZ/V2H(P) HW manual, VBUSEN can be controlled by the VBUS_SEL
+bit of the VBENCTL Control Register. This register is mapped in the
+reset framework. The reset driver expose this register as mux-controller
+and instantiates this driver. The consumer will use the mux API to
+control the VBUS_SEL bit.
 
-The series adds:
- - A new mux driver for RZ/V2H USB VBENCTL VBUS_SEL
- - Updates to the rzv2h-usb2phy reset driver/bindings to support RZ/G3E..
-
-Merge strategy, if any:
-
-- patches 1/5 can go through the MUX tree
-- patches 2-5/5 can go through the Reset tree
-
-Note:
- - Reset driver (reset-rzv2h-usb2phy.c)
-   has build dependency on Mux header file
-   (reset_rzv2h_usb2phy.h).
-
-Thanks & Regards,
-Tommaso
-
+Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+---
 v7->v8:
- - Rebased on top of next-20260311
- - Updated series cover letter as part of the series was already merged.
+ - No changes.
 
 v6->v7:
-  - Rebased on top of next-20260128
-  - Split series into per subsystem series, no changes.
+ - No changes.
 
 v5->v6:
- - Rebased on top of next-20251219
- - Re-arranged series order per subsystem patches.
- - Patch: 3/14: Collected tag.
- - Patch: 4/14: Fixed commit message.
- - Split from dts patches will send separate series.
- - Added merge strategy in cover letter.
+ - No changes.
 
 v4->v5:
- - Rebased on top of next-20251127
- - Patch 01/22: Added Reviewed-by tag from Conor Dooley.
- - Patch 06/22: Changed file name to rzv2h-usb-vbenctl.c and Fixed
+ - Changed file name to rzv2h-usb-vbenctl.c and Fixed
    Makefile, Kconfig, function names accordingly.
-   Changed driver .name to "vbenctl" and fix auxiliary_device_id name.
-   Updated commit msg.
- - Patch 07/22: Update mux_name to "vbenctl" to match the driver name.
-   Updated commit message.
- - Patch 11/22: Fixed if statement for mux_state error check.
+ - Changed driver .name to "vbenctl" and fix auxiliary_device_id name.
+ - Updated commit msg.
 
 v3->v4:
- - Rebased on top of next-20251121
- - Added patch 01/22 to remove nodename pattern from mux-controller schema.
- - Switch back to v2 implementation for mux controller in patches
-   5/22, 15/22, 16/22, 21/22.
- - Improved commit bodies for patches 5/22, 15/22, 16/22, 21/22.
- - Removed mux_chip->dev.of_node not needed in patch 06/22.
- - Collected CDooley tag in patch 09/22.
- - Added missing select MULTIPLEXER into Kconfig in patch 11/22.
+ - Removed mux_chip->dev.of_node not needed.
 
 v2->v3:
- - Rebased on top of next-20251110 + [1] + [2]
- - Add missing Cc: stable@vger.kernel.org in patch 03/21
- - Patch 03/21: Added missing Cc: stable@vger.kernel.org.
-   Improved commit body describing the removal of rzv2h_usbphy_assert_helper()
-   from rzv2h_usb2phy_reset_probe().
- - Patch 04/21: Manipulate mux-controller as an internal node.
-   Improved commit body.
- - Patch 05/21: The main driver is using now __devm_auxiliary_device_create()
-   then update the aux driver accordingly.
- - Patch 06/21: Use __devm_auxiliary_device_create() to create the aux device.
- - Patch 08/21: Improved commit body and mux-states description.
- - Patch 14/21: Manipulate the mux controller as an internal node,
-   and update commit body accordingly.
- - Patch 15/21: Manipulate the mux controller as an internal node,
-   and update commit body accordingly.
- - Patch 20/21: Manipulate the mux controller as an internal node.
+ - Added mux_chip->dev.of_node = dev->of_node->child as the mux-controller
+   is an internal node.
+ - Fixed auxiliary_device_id name.
+ - Get rdev using from platform_data.
+ - Drop struct auxiliary_device adev from reset_rzv2h_usb2phy_adev
+   as it is needed.
+ - Drop to_reset_rzv2h_usb2phy_adev() as it is not needed.
 
 v1->v2:
- - Rebased on top of next-20251103 + [1] + [2]
- - Reworked series to use mux-state for controlling VBUS_SEL
-   as suggested by PZabel added also mux bindings documentation
-   on phy and rst side.
- - Collected Conor Dooley tags
- - Dropped unnecessary rzv2h_usbphy_assert_helper() function from
-   rzv2h_usb2phy_reset_probe()
+ - New patch
 
-Tommaso Merciai (5):
-  mux: Add driver for Renesas RZ/V2H USB VBENCTL VBUS_SEL mux
-  dt-bindings: reset: renesas,rzv2h-usb2phy: Add '#mux-state-cells'
-    property
-  dt-bindings: reset: renesas,rzv2h-usb2phy: Document RZ/G3E USB2PHY
-    reset
-  reset: rzv2h-usb2phy: Keep PHY clock enabled for entire device
-    lifetime
-  reset: rzv2h-usb2phy: Add support for VBUS mux controller registration
-
- .../reset/renesas,rzv2h-usb2phy-reset.yaml    |   9 +-
- drivers/mux/Kconfig                           |  11 ++
- drivers/mux/Makefile                          |   2 +
- drivers/mux/rzv2h-usb-vbenctl.c               |  97 ++++++++++++++++
- drivers/reset/Kconfig                         |   1 +
- drivers/reset/reset-rzv2h-usb2phy.c           | 108 ++++++++++--------
- include/linux/reset/reset_rzv2h_usb2phy.h     |  11 ++
- 7 files changed, 192 insertions(+), 47 deletions(-)
+ drivers/mux/Kconfig                       | 11 +++
+ drivers/mux/Makefile                      |  2 +
+ drivers/mux/rzv2h-usb-vbenctl.c           | 97 +++++++++++++++++++++++
+ include/linux/reset/reset_rzv2h_usb2phy.h | 11 +++
+ 4 files changed, 121 insertions(+)
  create mode 100644 drivers/mux/rzv2h-usb-vbenctl.c
  create mode 100644 include/linux/reset/reset_rzv2h_usb2phy.h
 
+diff --git a/drivers/mux/Kconfig b/drivers/mux/Kconfig
+index 6d17dfa25dad..fe00b15ea67a 100644
+--- a/drivers/mux/Kconfig
++++ b/drivers/mux/Kconfig
+@@ -70,6 +70,17 @@ config MUX_MMIO
+ 	  To compile the driver as a module, choose M here: the module will
+ 	  be called mux-mmio.
+ 
++config MUX_RZV2H_USB_VBENCTL
++	tristate "Renesas RZ/V2H USB VBENCTL VBUS_SEL mux driver"
++	depends on RESET_RZV2H_USB2PHY || COMPILE_TEST
++	depends on OF
++	select REGMAP_MMIO
++	select AUXILIARY_BUS
++	default RESET_RZV2H_USB2PHY
++	help
++	  Support for USB VBENCTL VBUS_SEL mux implemented on Renesas
++	  RZ/V2H SoCs.
++
+ endmenu
+ 
+ endif # MULTIPLEXER
+diff --git a/drivers/mux/Makefile b/drivers/mux/Makefile
+index 6e9fa47daf56..3bd9b3846835 100644
+--- a/drivers/mux/Makefile
++++ b/drivers/mux/Makefile
+@@ -8,9 +8,11 @@ mux-adg792a-objs		:= adg792a.o
+ mux-adgs1408-objs		:= adgs1408.o
+ mux-gpio-objs			:= gpio.o
+ mux-mmio-objs			:= mmio.o
++mux-rzv2h-usb-vbenctl-objs	:= rzv2h-usb-vbenctl.o
+ 
+ obj-$(CONFIG_MULTIPLEXER)	+= mux-core.o
+ obj-$(CONFIG_MUX_ADG792A)	+= mux-adg792a.o
+ obj-$(CONFIG_MUX_ADGS1408)	+= mux-adgs1408.o
+ obj-$(CONFIG_MUX_GPIO)		+= mux-gpio.o
+ obj-$(CONFIG_MUX_MMIO)		+= mux-mmio.o
++obj-$(CONFIG_MUX_RZV2H_USB_VBENCTL)	+= mux-rzv2h-usb-vbenctl.o
+diff --git a/drivers/mux/rzv2h-usb-vbenctl.c b/drivers/mux/rzv2h-usb-vbenctl.c
+new file mode 100644
+index 000000000000..f15d648bd4d6
+--- /dev/null
++++ b/drivers/mux/rzv2h-usb-vbenctl.c
+@@ -0,0 +1,97 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Renesas RZ/V2H(P) USB VBENCTL VBUS_SEL mux driver
++ *
++ * Copyright (C) 2025 Renesas Electronics Corp.
++ */
++
++#include <linux/auxiliary_bus.h>
++#include <linux/bitops.h>
++#include <linux/err.h>
++#include <linux/module.h>
++#include <linux/mux/driver.h>
++#include <linux/of.h>
++#include <linux/property.h>
++#include <linux/regmap.h>
++#include <linux/reset/reset_rzv2h_usb2phy.h>
++
++#define RZV2H_VBENCTL		0xf0c
++
++struct mux_rzv2h_usb_vbenctl_priv {
++	struct regmap_field *field;
++};
++
++static int mux_rzv2h_usb_vbenctl_set(struct mux_control *mux, int state)
++{
++	struct mux_rzv2h_usb_vbenctl_priv *priv = mux_chip_priv(mux->chip);
++
++	return regmap_field_write(priv->field, state);
++}
++
++static const struct mux_control_ops mux_rzv2h_usb_vbenctl_ops = {
++	.set = mux_rzv2h_usb_vbenctl_set,
++};
++
++static const struct regmap_config rzv2h_usb_vbenctl_regconf = {
++	.reg_bits = 32,
++	.val_bits = 32,
++	.reg_stride = 4,
++	.max_register = RZV2H_VBENCTL,
++};
++
++static int mux_rzv2h_usb_vbenctl_probe(struct auxiliary_device *adev,
++				       const struct auxiliary_device_id *id)
++{
++	struct reset_rzv2h_usb2phy_adev *rdev = adev->dev.platform_data;
++	struct mux_rzv2h_usb_vbenctl_priv *priv;
++	struct device *dev = &adev->dev;
++	struct mux_chip *mux_chip;
++	struct regmap *regmap;
++	struct reg_field reg_field = {
++		.reg = RZV2H_VBENCTL,
++		.lsb = 0,
++		.msb = 0,
++	};
++	int ret;
++
++	regmap = devm_regmap_init_mmio(dev, rdev->base, &rzv2h_usb_vbenctl_regconf);
++	if (IS_ERR(regmap))
++		return PTR_ERR(regmap);
++
++	mux_chip = devm_mux_chip_alloc(dev, 1, sizeof(*priv));
++	if (IS_ERR(mux_chip))
++		return PTR_ERR(mux_chip);
++
++	priv = mux_chip_priv(mux_chip);
++
++	priv->field = devm_regmap_field_alloc(dev, regmap, reg_field);
++	if (IS_ERR(priv->field))
++		return PTR_ERR(priv->field);
++
++	mux_chip->ops = &mux_rzv2h_usb_vbenctl_ops;
++	mux_chip->mux[0].states = 2;
++	mux_chip->mux[0].idle_state = MUX_IDLE_AS_IS;
++
++	ret = devm_mux_chip_register(dev, mux_chip);
++	if (ret < 0)
++		return dev_err_probe(dev, ret, "Failed to register mux chip\n");
++
++	return 0;
++}
++
++static const struct auxiliary_device_id mux_rzv2h_usb_vbenctl_ids[] = {
++	{ .name = "rzv2h_usb2phy_reset.vbenctl" },
++	{ /* sentinel */ }
++};
++MODULE_DEVICE_TABLE(auxiliary, mux_rzv2h_usb_vbenctl_ids);
++
++static struct auxiliary_driver mux_rzv2h_usb_vbenctl_driver = {
++	.name		= "vbenctl",
++	.probe		= mux_rzv2h_usb_vbenctl_probe,
++	.id_table	= mux_rzv2h_usb_vbenctl_ids,
++};
++module_auxiliary_driver(mux_rzv2h_usb_vbenctl_driver);
++
++MODULE_DESCRIPTION("RZ/V2H USB VBENCTL VBUS_SEL mux driver");
++MODULE_AUTHOR("Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>");
++MODULE_LICENSE("GPL");
+diff --git a/include/linux/reset/reset_rzv2h_usb2phy.h b/include/linux/reset/reset_rzv2h_usb2phy.h
+new file mode 100644
+index 000000000000..06247080a66c
+--- /dev/null
++++ b/include/linux/reset/reset_rzv2h_usb2phy.h
+@@ -0,0 +1,11 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#ifndef _RESET_RZV2H_USB2PHY_H
++#define _RESET_RZV2H_USB2PHY_H
++
++#include <linux/auxiliary_bus.h>
++
++struct reset_rzv2h_usb2phy_adev {
++	void __iomem *base;
++};
++
++#endif
 -- 
 2.43.0
 
