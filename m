@@ -1,100 +1,55 @@
-Return-Path: <linux-renesas-soc+bounces-29264-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29265-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iH9pKh15sml/MwAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29264-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Mar 2026 09:28:13 +0100
+	id mIseGEaNsmkQNgAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29265-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Mar 2026 10:54:14 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 230AD26EEB5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Mar 2026 09:28:13 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90B1726FE98
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Mar 2026 10:54:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id F3AB830BFD75
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Mar 2026 08:27:20 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 73D9F3017304
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Mar 2026 09:54:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86E1837700C;
-	Thu, 12 Mar 2026 08:27:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H9XGb8Pj"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C907D3BB9EF;
+	Thu, 12 Mar 2026 09:54:04 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45009355F4D
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 12 Mar 2026 08:27:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73DC73AD51B;
+	Thu, 12 Mar 2026 09:54:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773304038; cv=none; b=Y2GwKLlrL4ZcWZyboZW8o/tAFDgVqrH3jRfJuMIJeFzTmthUyX7Rho/vkZOJpYD2P29vHMJNIay+3XoLuiBjC+1C/WjekQspm89ghvpocp87D5wrOSEf+BFiWAlnk3DI7JG4SWcoHBCktBYcNs/6aNwjMjYY+fHKqETimFffzJ4=
+	t=1773309244; cv=none; b=ghdcvLKx29s/zD0F39bK3YqaDFUIMgkHin237+xSpYpKfPEJjPi9v15uifubMMG1Z4vdGk5VUcViU99A0U6n0+PjclDoWTtwTqBsGSqKKZSmk92dn1dhn1moHqfxoFX/jpnnTPugPNBMGeGoXFqv0BBsAKDLbums9MsG/7jL2/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773304038; c=relaxed/simple;
-	bh=W7n9PFfmbHD9bBHfSmJxQdqiBTG9ld7PAttPVTL2itA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IqwgQ7pgEbfI84rP8kR+oBZklg/QL6cwwTRjOgoF2t0ssx04f29rkIJUsOdS+jx0CF26BF1o/b5HNqg1bIRuhBDJisnjwkMstVVWtEViJkZhLGhM8YGeXNIbRuP6vJKQqEsXZnms/QiKu0GKmqXNwIZ9I2dhnZR8nntT/KEEYlc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H9XGb8Pj; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4853aec185aso5932535e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 12 Mar 2026 01:27:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773304035; x=1773908835; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Z+fTCUzr1yf+dyuiZw+j1NGb2VJLMPVc0xP+QNm1+WA=;
-        b=H9XGb8PjHMIpjA7OfqB3R9gKSNfRYDOwQTsTiaFBNiap/U2GwBp0YN8x3BSjJH/tGs
-         mdOLlLiZc9WYJZdh84GUwxNjlacqCYyW3e9/d07qup7BxXkPHXrK+1KqfNSeLLLXAq9D
-         /scB8eANGm8kYdkfuVLwr4gzg3KpcsdZqdpgJBkXNKN5HT/CNkvSaBjuSsXNslpKJMKl
-         Njy8VsK2Wq+rQxDnj3YRCYCNrxLzHkIa7n7YWCN0aE0QrhOPlZz+zxd2d20CnYrQdxVS
-         TgpkPK3KuPPtwDOYRCagDvOXPXWVRGPDKIcsZnJRhEigq1/urEBbaEGq/mmJl9oan6u9
-         iAYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773304035; x=1773908835;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Z+fTCUzr1yf+dyuiZw+j1NGb2VJLMPVc0xP+QNm1+WA=;
-        b=Xnl9v4mFKsEYFizpSAozfXe2jeUCtyxPTBedTZwj5mMqzrCNwlxIILYZty1fHPVivo
-         A9a5DOY0j1E3V4GOkZOsXzsvXfW3xprTZ9XoyfJNEl4wY8ScuclpuRRVyV9UxCjFPs5r
-         cAEeaXZAbr5wEMdcVWj2QBRtv45iwiecSq9It2Td9QO4wXqjNWbsB9GKXezJWrbgS0N6
-         fAnS+c9KUGb8OA3x6qAQhCYZBkWDw5NIiMt2Sx+xuGJ/vfWWDhscYbsO/lorGDervT02
-         6nOYABWp3bqort9XOn1yAAm/EtSqULyWzM+r+HbsYHnru4q5+OpzJQBoC1QN1f+JbvIh
-         H9Dw==
-X-Forwarded-Encrypted: i=1; AJvYcCWoOeQE/bsCtHJOC5PqJy9t+nlaMjCFOKt9Qw3l36jEzz9T6a1v1lRCgUuyJiRYaJEfmB0dFLShS3bQWwVbBsDjtQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwfKdhinXGTeUnCeJKk3zP0ijSFKcb88HptlIvn9WiWOflyvN9O
-	O2DteTUJ+Wv2wNOL9Xm8jSahuwrmnvzZCuqTs4Xu8kzjMmLjP3kKgxvv
-X-Gm-Gg: ATEYQzwiiuKfHVDC/Y1/Cz3mLSaGGEKA/7AazjpWw+SAfVvRWLGpw5v5XjqKhyiY5p6
-	d5FXraeblVUYlAMrE2eIbxGXd8VQAhnbXQrOoYoGI9PNiBzj0KuorfwAZ2DaoA/csHB24k+TGPE
-	i+8ufn42h9jTCpFsWLzcPY17aWDG++lJoq7QMFMvTWCzeiZB85XtXpFJxQUt5IJpqREUhOOsAK2
-	kzjdZ8KDNDQEHxKrTEKxB0YcmUkoobJZ5IFvehYvVJ7I6u4nZbI4R4JNhc+FTjIbShVz3z+coNL
-	/veoGI9TfOh2d8rXuP/dQldjRsxxQVXEXX8vDtPFC3dQGHj7pkBqEmQjTXyITlc5mZU8VpDQZWq
-	oDQYSUFG3w0iDKJvdlp3EJlumYSX72QDzgSLIhRu8TOU7Qe5YGLBZlGTsrc7xKF1h0zKjukpINl
-	oGM/RYsWEYEboB27xfzCV9hHnkqy1kEzT+K8YcLpXySOZgpu8=
-X-Received: by 2002:a05:600c:5298:b0:485:445a:87d1 with SMTP id 5b1f17b1804b1-4854b0bb3d3mr90512615e9.8.1773304034486;
-        Thu, 12 Mar 2026 01:27:14 -0700 (PDT)
-Received: from localhost.localdomain ([2a00:23c4:a758:8a01:775:4d0d:d776:157e])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4854a2eea84sm65925065e9.1.2026.03.12.01.27.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Mar 2026 01:27:14 -0700 (PDT)
-From: Biju <biju.das.au@gmail.com>
-X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org,
+	s=arc-20240116; t=1773309244; c=relaxed/simple;
+	bh=lHZVhCzulzdzkAtiVdpksnpGYjt4BLJ/buQ/uz/EETg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lqxv4fV6N/Z8+LDMDjExn12QOPw4UjXjkEcvu7tgmc/VhOaGWb1YlUwwWDh7R/SaAZXfxWPoQjfGEFwkCJL7PeqJOJooNypCZMwM/rlmjPxCSt+sDmB3sFHpWn9iULwuXnA8prtcYHfSHt0xktkX2Z4uVlJ31+//ryEZZSD2i0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27515C19424;
+	Thu, 12 Mar 2026 09:54:00 +0000 (UTC)
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Ulf Hansson <ulf.hansson@linaro.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Len Brown <lenb@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Frank Binns <frank.binns@imgtec.com>,
+	Matt Coster <matt.coster@imgtec.com>,
+	Marek Vasut <marek.vasut@mailbox.org>
+Cc: linux-pm@vger.kernel.org,
+	driver-core@lists.linux.dev,
 	linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH 2/2] serial: sh-sci: Add support for RZ/G3L RSCI
-Date: Thu, 12 Mar 2026 08:26:59 +0000
-Message-ID: <20260312082708.98835-3-biju.das.jz@bp.renesas.com>
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH/RFC] PM: domains: Call pm_runtime_barrier() before dev_pm_domain_{attach*,detach}()
+Date: Thu, 12 Mar 2026 10:53:39 +0100
+Message-ID: <15510cee649959281d9554965cacd0c06531c1f3.1773308898.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260312082708.98835-1-biju.das.jz@bp.renesas.com>
-References: <20260312082708.98835-1-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -102,173 +57,243 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [0.54 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[bp.renesas.com,sang-engineering.com,vger.kernel.org,gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-29265-lists,linux-renesas-soc=lfdr.de,renesas];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-29264-lists,linux-renesas-soc=lfdr.de];
-	FREEMAIL_TO(0.00)[linuxfoundation.org,kernel.org,glider.be,gmail.com];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bijudasau@gmail.com,linux-renesas-soc@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DMARC_NA(0.00)[glider.be];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[geert@glider.be,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	NEURAL_HAM(-0.00)[-0.984];
+	MID_RHS_MATCH_FROM(0.00)[];
+	R_DKIM_NA(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bp.renesas.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email]
-X-Rspamd-Queue-Id: 230AD26EEB5
+	DBL_BLOCKED_OPENRESOLVER(0.00)[glider.be:email,glider.be:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,mailbox.org:email]
+X-Rspamd-Queue-Id: 90B1726FE98
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Biju Das <biju.das.jz@bp.renesas.com>
+If a device has multiple PM Domains, dev_pm_domain_detach() is called
+multiple times on unbind or probe failure.  If the PM Domain is also a
+Clock Domain, and thus calls pm_clk_destroy() from its .detach()
+callback, dev_pm_put_subsys_data() will set dev->power.subsys_data to
+NULL when psd->refcount reaches zero.
 
-Add support for RZ/G3L RSCI. The RSCI IP found on the RZ/G3L SoC is
-similar to RZ/G3E, but it has 3 clocks (2 module clocks + 1 external
-clock) instead of 6 clocks (5 module clocks + 1 external clock) on the
-RZ/G3E. Both RZ/G3L and RZ/G3E have a 32-bit FIFO, but RZ/G3L has a
-single TCLK with internal dividers, whereas the RZ/G3E has explicit
-clocks for TCLK and its dividers. Add a new port type
-RSCI_PORT_SCIF32_SINGLE_TCLK to handle this clock difference.
+Later/in parallel, default_suspend_ok() calls dev_gpd_data():
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+    static inline struct generic_pm_domain_data *dev_gpd_data(struct device *dev)
+    {
+	    return to_gpd_data(dev->power.subsys_data->domain_data);
+    }
+
+which may trigger a NULL pointer dereference.
+
+All dev_pm_domain_{at,de}tach*() functions document that callers must
+ensure proper synchronization of these functions with power management
+callbacks.  Unfortunately no callers seem to actually do so.  This
+includes dev_pm_domain_attach_list() and dev_pm_domain_detach_list():
+they call dev_pm_domain_{attach*,detach}() internally, which means they
+should take care of this synchronization themselves.
+
+Add synchronization to dev_pm_domain_{at,de}tach_list() by calling
+pm_runtime_barrier() before dev_pm_domain_{attach*,detach}(), and drop
+the now obsolete comments.
+
+Suggested-by: Marek Vasut <marek.vasut@mailbox.org>
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/tty/serial/rsci.c          | 13 +++++++++++++
- drivers/tty/serial/rsci.h          |  1 +
- drivers/tty/serial/sh-sci-common.h |  1 +
- drivers/tty/serial/sh-sci.c        | 14 +++++++++++---
- 4 files changed, 26 insertions(+), 3 deletions(-)
+This issue was reported first in "drm/imagination:
+genpd_runtime_suspend() crash"[1] and "Re: [PATCH 2/5] arm64: dts:
+renesas: r8a77960-salvator-x: Enable GPU support"[2].
+Unfortunately this patch does not fix the issue for good, it just
+becomes much harder to trigger (like needing tens of thousands of
+tries).
 
-diff --git a/drivers/tty/serial/rsci.c b/drivers/tty/serial/rsci.c
-index c3f12df693ad..b00c9e385169 100644
---- a/drivers/tty/serial/rsci.c
-+++ b/drivers/tty/serial/rsci.c
-@@ -695,6 +695,13 @@ struct sci_of_data of_rsci_rzg3e_data = {
- 	.params = &rsci_rzg3e_port_params,
- };
+How to trigger:
+
+  1. Check out drm-next[3]
+
+  2. Enable the gpu node in one of the following DTS files, depending on
+     your board (Salvator-X(S), ULCB, or Falcon):
+
+	 arch/arm64/boot/dts/renesas/r8a77960.dtsi
+	 arch/arm64/boot/dts/renesas/r8a77961.dtsi
+	 arch/arm64/boot/dts/renesas/r8a77965.dtsi
+	 arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+
+     These nodes are not yet enabled in any board DTS because of this
+     crash.
+
+  3. Build and boot a kernel using renesas_defconfig[4]
+
+  4. The PowerVR driver will fail to probe (since [5], which is IMHO a
+     regression):
+
+	 powervr fd000000.gpu: [drm] *ERROR* Unknown GPU! Set 'exp_hw_support' to bypass this check.
+
+  5. Try to bind the driver again:
+
+      $ for i in $(seq 1000000); do echo $i; echo fd000000.gpu > /sys/bus/platform/drivers/powervr/bind; done
+
+     Eventually, the kernel will crash:
+
+         [...]
+         powervr fd000000.gpu: [drm] *ERROR* Unknown GPU! Set 'exp_hw_support' to bypass this check.
+         Unable to handle kernel NULL pointer dereference at virtual address 0000000000000040
+         Mem abort info:
+           ESR = 0x0000000096000004
+           EC = 0x25: DABT (current EL), IL = 32 bits
+           SET = 0, FnV = 0
+           EA = 0, S1PTW = 0
+           FSC = 0x04: level 0 translation fault
+         Data abort info:
+           ISV = 0, ISS = 0x00000004, ISS2 = 0x00000000
+           CM = 0, WnR = 0, TnD = 0, TagAccess = 0
+           GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
+         user pgtable: 4k pages, 48-bit VAs, pgdp=0000000049993000
+         [0000000000000040] pgd=0000000000000000, p4d=0000000000000000
+         Internal error: Oops: 0000000096000004 [#1]  SMP
+         CPU: 1 UID: 0 PID: 12 Comm: kworker/u8:0 Not tainted 7.0.0-rc2-arm64-renesas-00540-g5f0a63f81a02-dirty #3502 PREEMPT
+         Hardware name: Renesas Salvator-X 2nd version board based on r8a77965 (DT)
+         Workqueue: pm pm_runtime_work
+         pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+         pc : genpd_runtime_suspend+0x134/0x28c
+         lr : genpd_runtime_suspend+0x124/0x28c
+         sp : ffff80008174bc50
+         x29: ffff80008174bc50 x28: 0000000000000000 x27: 0000000000000000
+         x26: 0000003ca1f7104b x25: ffff0000090ba580 x24: ffff00000e7d92a0
+         x23: ffff0000081612f8 x22: 0000000000000001 x21: ffff000008161000
+         x20: 0000000000000000 x19: ffff00000b6ef400 x18: 0000000000000000
+         x17: 0000000000000000 x16: 0000000000000000 x15: ffff000008065600
+         x14: 0000000000000058 x13: ffff0000080254e0 x12: 0000000000000000
+         x11: ffff000008065608 x10: 00000000001343d0 x9 : ffff0000080656c0
+         x8 : ffff000008161800 x7 : 000001f3fffffc18 x6 : 0000000000000000
+         x5 : ffff000008161c10 x4 : 0000000000000000 x3 : 0000000000000000
+         x2 : 0000000000000000 x1 : 0000000000000000 x0 : 0000000000000000
+         Call trace:
+          genpd_runtime_suspend+0x134/0x28c (P)
+          __rpm_callback+0x44/0x1cc
+          rpm_callback+0x6c/0x78
+          rpm_suspend+0x108/0x564
+          pm_runtime_work+0xb8/0xbc
+          process_one_work+0x144/0x280
+          worker_thread+0x180/0x2f8
+          kthread+0x114/0x120
+          ret_from_fork+0x10/0x20
+         Code: d503201f f940fe60 52800002 f9410e61 (f9402003)
+         ---[ end trace 0000000000000000 ]---
+
+The issue is easier to trigger, and may prevent the kernel from booting
+at all, by adding extra debug prints like:
+
+    diff --git a/drivers/pmdomain/core.c b/drivers/pmdomain/core.c
+    index 52ea84e548ff6d27..2fe666c2170194ab 100644
+    --- a/drivers/pmdomain/core.c
+    +++ b/drivers/pmdomain/core.c
+    @@ -256,12 +256,14 @@ struct device *dev_to_genpd_dev(struct device *dev)
+     static int genpd_stop_dev(const struct generic_pm_domain *genpd,
+			      struct device *dev)
+     {
+    +pr_info("==== %s/%s: stop\n", genpd->name, dev_name(dev));
+	    return GENPD_DEV_CALLBACK(genpd, int, stop, dev);
+     }
+
+     static int genpd_start_dev(const struct generic_pm_domain *genpd,
+			       struct device *dev)
+     {
+    +pr_info("==== %s/%s: start\n", genpd->name, dev_name(dev));
+	    return GENPD_DEV_CALLBACK(genpd, int, start, dev);
+     }
+
+Thanks for your comments and suggestions!
+
+[1] https://lore.kernel.org/CAMuHMdWapT40hV3c+CSBqFOW05aWcV1a6v_NiJYgoYi0i9_PDQ@mail.gmail.com
+[2] https://lore.kernel.org/CAMuHMdWyKeQq31GEK+-y4BoaZFcCxJNac63S7NoocMj1cYKniw@mail.gmail.com/
+[3] commit 5f0a63f81a027bec ("Merge tag 'drm-misc-next-2026-03-05' of https://gitlab.freedesktop.org/drm/misc/kernel into drm-next")
+[4] https://web.git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git/tree/arch/arm64/configs/renesas_defconfig?h=topic/renesas-defconfig
+[5] commit 1c21f240fbc1e47b ("drm/imagination: Warn or error on unsupported hardware") in v7.0-rc1
+---
+ drivers/base/power/common.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/base/power/common.c b/drivers/base/power/common.c
+index 9bef9248a70529bf..af690ce38ac3a086 100644
+--- a/drivers/base/power/common.c
++++ b/drivers/base/power/common.c
+@@ -12,6 +12,7 @@
+ #include <linux/acpi.h>
+ #include <linux/pm_domain.h>
+ #include <linux/pm_opp.h>
++#include <linux/pm_runtime.h>
  
-+struct sci_of_data of_rsci_rzg3l_data = {
-+	.type = RSCI_PORT_SCIF32_SINGLE_TCLK,
-+	.ops = &rsci_port_ops,
-+	.uart_ops = &rsci_uart_ops,
-+	.params = &rsci_rzg3e_port_params,
-+};
-+
- struct sci_of_data of_rsci_rzt2h_data = {
- 	.type = RSCI_PORT_SCIF16,
- 	.ops = &rsci_port_ops,
-@@ -703,6 +710,11 @@ struct sci_of_data of_rsci_rzt2h_data = {
- };
+ #include "power.h"
  
- #ifdef CONFIG_SERIAL_SH_SCI_EARLYCON
-+static int __init rsci_rzg3l_early_console_setup(struct earlycon_device *device,
-+						 const char *opt)
-+{
-+	return scix_early_console_setup(device, &of_rsci_rzg3l_data);
-+}
+@@ -183,9 +184,6 @@ EXPORT_SYMBOL_GPL(dev_pm_domain_attach_by_name);
+  * may also provide an empty list, in case the attach should be done for all of
+  * the available PM domains.
+  *
+- * Callers must ensure proper synchronization of this function with power
+- * management callbacks.
+- *
+  * Returns the number of attached PM domains or a negative error code in case of
+  * a failure. Note that, to detach the list of PM domains, the driver shall call
+  * dev_pm_domain_detach_list(), typically during the remove phase.
+@@ -240,6 +238,7 @@ int dev_pm_domain_attach_list(struct device *dev,
+ 		link_flags |= DL_FLAG_RPM_ACTIVE;
  
- static int __init rsci_rzg3e_early_console_setup(struct earlycon_device *device,
- 						 const char *opt)
-@@ -716,6 +728,7 @@ static int __init rsci_rzt2h_early_console_setup(struct earlycon_device *device,
- 	return scix_early_console_setup(device, &of_rsci_rzt2h_data);
- }
+ 	for (i = 0; i < num_pds; i++) {
++		pm_runtime_barrier(dev);
+ 		if (by_id)
+ 			pd_dev = dev_pm_domain_attach_by_id(dev, i);
+ 		else
+@@ -284,12 +283,14 @@ int dev_pm_domain_attach_list(struct device *dev,
  
-+OF_EARLYCON_DECLARE(rsci, "renesas,r9a08g046-rsci", rsci_rzg3l_early_console_setup);
- OF_EARLYCON_DECLARE(rsci, "renesas,r9a09g047-rsci", rsci_rzg3e_early_console_setup);
- OF_EARLYCON_DECLARE(rsci, "renesas,r9a09g077-rsci", rsci_rzt2h_early_console_setup);
- 
-diff --git a/drivers/tty/serial/rsci.h b/drivers/tty/serial/rsci.h
-index 2aa2ba3973ee..0985fd1b3348 100644
---- a/drivers/tty/serial/rsci.h
-+++ b/drivers/tty/serial/rsci.h
-@@ -6,6 +6,7 @@
- #include "sh-sci-common.h"
- 
- extern struct sci_of_data of_rsci_rzg3e_data;
-+extern struct sci_of_data of_rsci_rzg3l_data;
- extern struct sci_of_data of_rsci_rzt2h_data;
- 
- #endif /* __RSCI_H__ */
-diff --git a/drivers/tty/serial/sh-sci-common.h b/drivers/tty/serial/sh-sci-common.h
-index f363a659c46a..01ff9fced803 100644
---- a/drivers/tty/serial/sh-sci-common.h
-+++ b/drivers/tty/serial/sh-sci-common.h
-@@ -9,6 +9,7 @@
- enum SCI_PORT_TYPE {
- 	RSCI_PORT_SCIF16 = BIT(7) | 0,
- 	RSCI_PORT_SCIF32 = BIT(7) | 1,
-+	RSCI_PORT_SCIF32_SINGLE_TCLK = BIT(7) | 2,
- };
- 
- enum SCI_CLKS {
-diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
-index bd7486315338..6c819b6b2425 100644
---- a/drivers/tty/serial/sh-sci.c
-+++ b/drivers/tty/serial/sh-sci.c
-@@ -1184,7 +1184,8 @@ static int sci_handle_errors(struct uart_port *port)
- 
- static bool sci_is_rsci_type(u8 type)
+ err_link:
+ 	dev_pm_opp_clear_config(pds->opp_tokens[i]);
++	pm_runtime_barrier(pd_dev);
+ 	dev_pm_domain_detach(pd_dev, true);
+ err_attach:
+ 	while (--i >= 0) {
+ 		dev_pm_opp_clear_config(pds->opp_tokens[i]);
+ 		if (pds->pd_links[i])
+ 			device_link_del(pds->pd_links[i]);
++		pm_runtime_barrier(pds->pd_devs[i]);
+ 		dev_pm_domain_detach(pds->pd_devs[i], true);
+ 	}
+ 	kfree(pds->pd_devs);
+@@ -370,9 +371,6 @@ EXPORT_SYMBOL_GPL(dev_pm_domain_detach);
+  *
+  * This function reverse the actions from dev_pm_domain_attach_list().
+  * Typically it should be invoked during the remove phase from drivers.
+- *
+- * Callers must ensure proper synchronization of this function with power
+- * management callbacks.
+  */
+ void dev_pm_domain_detach_list(struct dev_pm_domain_list *list)
  {
--	return (type == RSCI_PORT_SCIF16 || type == RSCI_PORT_SCIF32);
-+	return (type == RSCI_PORT_SCIF16 || type == RSCI_PORT_SCIF32 ||
-+		type == RSCI_PORT_SCIF32_SINGLE_TCLK);
- }
+@@ -385,6 +383,7 @@ void dev_pm_domain_detach_list(struct dev_pm_domain_list *list)
+ 		dev_pm_opp_clear_config(list->opp_tokens[i]);
+ 		if (list->pd_links[i])
+ 			device_link_del(list->pd_links[i]);
++		pm_runtime_barrier(list->pd_devs[i]);
+ 		dev_pm_domain_detach(list->pd_devs[i], true);
+ 	}
  
- static int sci_handle_fifo_overrun(struct uart_port *port)
-@@ -3181,7 +3182,8 @@ static int sci_init_clocks(struct sci_port *sci_port, struct device *dev)
- 
- 	if (sci_port->type == PORT_HSCIF) {
- 		clk_names[SCI_SCK] = "hsck";
--	} else if (sci_port->type == RSCI_PORT_SCIF16) {
-+	} else if (sci_port->type == RSCI_PORT_SCIF16 ||
-+		   sci_port->type == RSCI_PORT_SCIF32_SINGLE_TCLK) {
- 		clk_names[SCI_FCK] = "operation";
- 		clk_names[SCI_BRG_INT] = "bus";
- 	} else if (sci_port->type == RSCI_PORT_SCIF32) {
-@@ -3196,7 +3198,8 @@ static int sci_init_clocks(struct sci_port *sci_port, struct device *dev)
- 		if (IS_ERR(clk))
- 			return PTR_ERR(clk);
- 
--		if (!clk && sci_port->type == RSCI_PORT_SCIF16 &&
-+		if (!clk && (sci_port->type == RSCI_PORT_SCIF16 ||
-+			     sci_port->type == RSCI_PORT_SCIF32_SINGLE_TCLK) &&
- 		    (i == SCI_FCK || i == SCI_BRG_INT))
- 			return dev_err_probe(dev, -ENODEV, "failed to get %s\n", name);
- 
-@@ -3330,6 +3333,7 @@ static int sci_init_single(struct platform_device *dev,
- 		break;
- 	case PORT_SCIFA:
- 	case RSCI_PORT_SCIF32:
-+	case RSCI_PORT_SCIF32_SINGLE_TCLK:
- 		sci_port->rx_trigger = 32;
- 		break;
- 	case PORT_SCIF:
-@@ -3663,6 +3667,10 @@ static const struct of_device_id of_sci_match[] __maybe_unused = {
- 		.data = &of_sci_scif_rzv2h,
- 	},
- #ifdef CONFIG_SERIAL_RSCI
-+	{
-+		.compatible = "renesas,r9a08g046-rsci",
-+		.data = &of_rsci_rzg3l_data,
-+	},
- 	{
- 		.compatible = "renesas,r9a09g047-rsci",
- 		.data = &of_rsci_rzg3e_data,
 -- 
 2.43.0
 
