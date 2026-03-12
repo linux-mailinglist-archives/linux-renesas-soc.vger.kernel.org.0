@@ -1,147 +1,175 @@
-Return-Path: <linux-renesas-soc+bounces-29295-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29296-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SBLQG2LcsmlMQQAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29295-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Mar 2026 16:31:46 +0100
+	id CBpmNiDesmmtQQAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29296-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Mar 2026 16:39:12 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCE01274839
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Mar 2026 16:31:45 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 555B8274AED
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Mar 2026 16:39:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 01F01321A650
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Mar 2026 15:25:11 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id E3945300C834
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Mar 2026 15:33:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E64C33263F;
-	Thu, 12 Mar 2026 15:24:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE15A3C73E9;
+	Thu, 12 Mar 2026 15:33:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pvh5st06"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34518391856
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 12 Mar 2026 15:24:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A92F13590A9;
+	Thu, 12 Mar 2026 15:33:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773329088; cv=none; b=jtznHyMdDTDFXp0ITrBTlB3S8Vk1Na0hMt+MeG3qsmpPdlpD4lY6CDLm1lGTI8wGucE+OorEkWVWjIODviUorGJkhv3hGBKtYfXmz+QIig1r3gcDgJaEJtJHorPuewIbxsVTD/uXjuWcmvgSQnLkLU+leMXV6y/tDLuZ3+DhNu0=
+	t=1773329637; cv=none; b=Qw7KZsOroRgzuR2Jy6NrGhLzhs2feNvvE3UlayB0DqYQQH+x8IELynz85U8TXsvIaTpV1k2acjBO7RLMo9/UzNSTNQXG74kca6Jhe07aREzrM/M8bcpMh3HcLhgZJGSMib5hSsDrGheOBS9WwnqET/5myLPYlA+0yJbamnu+XBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773329088; c=relaxed/simple;
-	bh=gAhoZZtaU0dLQM0X7vjE0h9pHAa9S+Tp5bClV1KsDUU=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=dGLbOrh8gPbWhvwnEEiITBeQq3qTLJue7ZVs55F1DHLUVKGLoxuQNAw7sD6ufp6LmRFHOlc/RkomoehdIlyiQ5xCE/4hE1fI8Z05kUHWy4a4I+zpWgW3b6EE8uimUf0y/LOKmIDMoWc/UnZO7uN0SlLPScDZcgnevW7rOS2fPME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1w0htl-0004bz-BF; Thu, 12 Mar 2026 16:24:29 +0100
-Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1w0htj-0052iJ-0c;
-	Thu, 12 Mar 2026 16:24:28 +0100
-Received: from pza by lupine with local (Exim 4.98.2)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1w0htk-00000000Cdx-1r4T;
-	Thu, 12 Mar 2026 16:24:28 +0100
-Message-ID: <37f389274e5c0e33c0e8fad8ffed0237b0127b07.camel@pengutronix.de>
-Subject: Re: [PATCH v8 4/5] reset: rzv2h-usb2phy: Keep PHY clock enabled for
- entire device lifetime
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, 
-	tomm.merciai@gmail.com, peda@axentia.se
-Cc: linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com, Fabrizio
- Castro <fabrizio.castro.jz@renesas.com>, Lad Prabhakar
- <prabhakar.mahadev-lad.rj@bp.renesas.com>,  Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>,  Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Ulf Hansson <ulf.hansson@linaro.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Josua Mayer
- <josua@solid-run.com>, Arnd Bergmann <arnd@arndb.de>, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-Date: Thu, 12 Mar 2026 16:24:28 +0100
-In-Reply-To: <6584aed8dc4fddb28c2184c83b92b4f3b419bc31.1773319566.git.tommaso.merciai.xr@bp.renesas.com>
-References: <cover.1773319566.git.tommaso.merciai.xr@bp.renesas.com>
-	 <6584aed8dc4fddb28c2184c83b92b4f3b419bc31.1773319566.git.tommaso.merciai.xr@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+	s=arc-20240116; t=1773329637; c=relaxed/simple;
+	bh=dVSsINl4rZ0yvdCaAErEMIpSKseEOm3DREgLhMbctcM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rk6NdORjrfy7LOZBjdSdtosfQEFqV4dRoJQXR4qMo4LC89zJ2eZcE0wk94HfqHZ/toXHrFujRperIKKFdwPMpZoVxJHxway4euWeXmwCLhuLdzf2z6mpJJLVCsoo5lHzSvSmGR3CeqQVn1AsBHlMVOXwgqtr5wN7cpYbvYs5vj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pvh5st06; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D7BEC4CEF7;
+	Thu, 12 Mar 2026 15:33:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773329637;
+	bh=dVSsINl4rZ0yvdCaAErEMIpSKseEOm3DREgLhMbctcM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pvh5st06BDwVPuJAvJHJsIQZKSBm+Nsh20mpKGTLvGfZZupguVKKeH8dTz6VWYmW0
+	 EXy4wln6jk3fMpcyOapCpcwS8ZQUoiCGJRMl1l5EiF2jJSwjSUJV7/bugtLKQU6k+1
+	 vQJkYwja4nnLihddXMveBquC5GcNUfyIXNhWA0EAG00GwarXBsamgN/IjCA97X5BTx
+	 Buc9glyyRIPVkgZMZ4zlJLupwsT0M5V6fxouCJrknGB1Lx6NolIoMoRJTNer+9mPc5
+	 Rf05NjoiFIUh2b4f8DhOxD6ZwO0H3U1gcJCne3aoVie/YK0SttvuuJmjvNWjSyipuu
+	 CwJHLatrT+0Bg==
+Date: Thu, 12 Mar 2026 15:33:52 +0000
+From: Sudeep Holla <sudeep.holla@kernel.org>
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, arm-scmi@vger.kernel.org,
+	Sudeep Holla <sudeep.holla@kernel.org>, linux-clk@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, philip.radford@arm.com,
+	james.quinlan@broadcom.com, f.fainelli@gmail.com,
+	vincent.guittot@linaro.org, etienne.carriere@foss.st.com,
+	peng.fan@oss.nxp.com, michal.simek@amd.com,
+	dan.carpenter@linaro.org, geert+renesas@glider.be,
+	kuninori.morimoto.gx@renesas.com, marek.vasut+renesas@gmail.com
+Subject: Re: [PATCH v2 08/13] firmware: arm_scmi: Harden clock protocol
+ initialization
+Message-ID: <20260312-classy-misty-platypus-5baea1@sudeepholla>
+References: <20260310184030.3669330-1-cristian.marussi@arm.com>
+ <20260310184030.3669330-9-cristian.marussi@arm.com>
+ <CAMuHMdUdqrA9kYeDpjwj-y6-4aALkAi2g2Od81Kxh-EVW2e2Nw@mail.gmail.com>
+ <abG4VfyB2C-gBa5Q@pluto>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
-X-Spamd-Result: default: False [0.04 / 15.00];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <abG4VfyB2C-gBa5Q@pluto>
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-29295-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-29296-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[pengutronix.de];
-	FREEMAIL_TO(0.00)[bp.renesas.com,gmail.com,axentia.se];
+	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,bp.renesas.com,renesas.com,kernel.org,glider.be,gmail.com,linaro.org,linuxfoundation.org,solid-run.com,arndb.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCPT_COUNT_TWELVE(0.00)[19];
 	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[linux-m68k.org,vger.kernel.org,lists.infradead.org,kernel.org,arm.com,broadcom.com,gmail.com,linaro.org,foss.st.com,oss.nxp.com,amd.com,glider.be,renesas.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[p.zabel@pengutronix.de,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	NEURAL_HAM(-0.00)[-0.993];
-	MID_RHS_MATCH_FROM(0.00)[];
-	R_DKIM_NA(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,pengutronix.de:email,pengutronix.de:mid]
-X-Rspamd-Queue-Id: CCE01274839
+	FROM_NEQ_ENVFROM(0.00)[sudeep.holla@kernel.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 555B8274AED
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Do, 2026-03-12 at 15:50 +0100, Tommaso Merciai wrote:
-> The driver was disabling the USB2 PHY clock immediately after register
-> initialization in probe() and after each reset operation. This left the
-> PHY unclocked even though it must remain active for USB functionality.
->=20
-> The behavior appeared to work only when another driver
-> (e.g., USB controller) had already enabled the clock, making operation
-> unreliable and hardware-dependent. In configurations where this driver
-> is the sole clock user, USB functionality would fail.
->=20
-> Fix this by:
-> - Enabling the clock once in probe() via pm_runtime_resume_and_get()
-> - Removing all pm_runtime_put() calls from assert/deassert/status
-> - Registering a devm cleanup action to release the clock at removal
-> - Removed rzv2h_usbphy_assert_helper() and its call in
->   rzv2h_usb2phy_reset_probe()
->=20
-> This ensures the PHY clock remains enabled for the entire device lifetime=
-,
-> preventing instability and aligning with hardware requirements.
->=20
-> Cc: stable@vger.kernel.org
-> Fixes: e3911d7f865b ("reset: Add USB2PHY port reset driver for Renesas RZ=
-/V2H(P)")
-> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+On Wed, Mar 11, 2026 at 06:45:41PM +0000, Cristian Marussi wrote:
+> On Wed, Mar 11, 2026 at 05:59:43PM +0100, Geert Uytterhoeven wrote:
+> > Hi Cristian,
+> > 
+> > On Tue, 10 Mar 2026 at 19:56, Cristian Marussi <cristian.marussi@arm.com> wrote:
+> > > Add proper error handling on failure to enumerate clocks features or
+> > > rates.
+> > >
+> > > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+> 
+> Hi,
+> 
+> > 
+> > Thanks for your patch!
+> > 
+> > > --- a/drivers/firmware/arm_scmi/clock.c
+> > > +++ b/drivers/firmware/arm_scmi/clock.c
+> > 
+> > > @@ -1143,8 +1149,12 @@ static int scmi_clock_protocol_init(const struct scmi_protocol_handle *ph)
+> > >         for (clkid = 0; clkid < cinfo->num_clocks; clkid++) {
+> > >                 cinfo->clkds[clkid].id = clkid;
+> > >                 ret = scmi_clock_attributes_get(ph, clkid, cinfo);
+> > > -               if (!ret)
+> > > -                       scmi_clock_describe_rates_get(ph, clkid, cinfo);
+> > > +               if (ret)
+> > > +                       return ret;
+> > 
+> > This change breaks R-Car X5H with SCP FW SDKv4.28.0, as some clocks
+> > do not support the SCMI CLOCK_ATTRIBUTES command.
+> > Before, these clocks were still instantiated, but were further unusable.
+> > After, the whole clock driver fails to initialize, and no SCMI clocks
+> > are available at all.
+> 
+> ...and this is exactly what I feared while doing this sort of hardening :P
+> 
+> So there are a few possible solutions (beside reverting this straight away)
+> 
+> The easy fix would be instead change the above in a
+> 
+> 	if (ret)
+> 		continue;
+> 
+> ...with a bit of annoying accompanying FW_BUG logs, of course, to cause future
+> FW releases to fix this :D
+> 
+> Another option could be leave it as it is, since indeed it is the correct enforced
+> behaviour, being CLOCK_ATTRIBUTES a mandatory command, BUT add on top an ad-hoc SCMI
+> quirk targeting the affected FW releases...
+> 
+> This latter option, though, while enforcing the correct behaviour AND
+> fixing your R-Car issue, leaves open the door for a number of possible
+> failures of other unknowingly buggy Vendors similarly deployed firmwares...
+> 
+> ...that could be solved with more quirks of course...but...worth it ?
+> 
+> Thoughts ?
+> 
+> Let's see also what @Sudeep thinks about this...
+> 
 
-Given the Cc: stable tag I assume I can apply this first, independently
-of the other patches?
+I prefer to fix it as a quirk to prevent similar issues on newer platforms if
+the firmware baselines are derived from it. In the worst case, we can relax
+the hardening until we figure out a proper quirk-based solution.
 
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
-
-regards
-Philipp
+-- 
+Regards,
+Sudeep
 
