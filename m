@@ -1,88 +1,79 @@
-Return-Path: <linux-renesas-soc+bounces-29384-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29383-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kOsSHGVVtGk4kAAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29384-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2026 19:20:21 +0100
+	id IJXAIBhVtGk4kAAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29383-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2026 19:19:04 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4B79288AA8
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2026 19:20:20 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B111288A3F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2026 19:19:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id F2CE23066E5B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2026 18:19:22 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 6CF6630041D3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2026 18:19:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C1013AB267;
-	Fri, 13 Mar 2026 18:19:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E7AA369206;
+	Fri, 13 Mar 2026 18:19:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F5pK6hhj"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WkuBmUY5"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 601E5364946;
-	Fri, 13 Mar 2026 18:19:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8B753537D0;
+	Fri, 13 Mar 2026 18:18:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773425962; cv=none; b=l+4Akc+iRlY7b71U7DXkcTvcrdxdzI3US9iMBMQMGtFhF6LD/bPDHnsUkzQz/XDZDILuVxQzzGZouatC8dvWFuIPoXpamyQEtWEtV6Uzz02H2JIhUxpaoQ1yUhTwaqxgSWqB2PhQP87GxHfZZnGnXieSiYocLYhfYs9nDzGq/WQ=
+	t=1773425939; cv=none; b=u2eRhWdZ3ljPwVyhhIzLNbd6MrCCzMlsHM0RrIFBaCyuKJKTNSutS1lUDYiHjS9Kfc3UbZ8O1+0QoELj6t2SdkELV8urmUAaid5ne/w6kyAREdmVEXRn2BpVXQEhBZKD82q7e9IrwyQVlEf4SLP763SJ20tzXSeFIEHl5uQ3p4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773425962; c=relaxed/simple;
-	bh=wGHHmea18QzDv20CIQ8/NkoCGCljzKpgR/2yblyc0Sk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C9DFHzR5TZVWh1zJGLsvEuJ4e1V4nD2TR9ECbEXObLiMhmTxrl5jYXupN2M+LDHi33KQZ5bnHBwbUpgzNRF8l/ecpdtmJg8FGihn4ozrvsoLV/JnD7fCwc4W2cBUBFxIWyVh92Owiu5Lr6HboVQfMHoeGrfSQd3smPM3p6ciZpk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F5pK6hhj; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773425960; x=1804961960;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wGHHmea18QzDv20CIQ8/NkoCGCljzKpgR/2yblyc0Sk=;
-  b=F5pK6hhjocPrUn74BVv8E0HdKeSxqJd+lLfIar4C9o8xJvaIph+2St+x
-   xX36Rc4E141yyudPXfjAopNIs1hjfRYtMlLJnP5Rt/WWdtL9rpgw7VPwI
-   jRuLN9ZB7e9Nj21Xfz2fJGFfJiqcjSxYjsbgTP71kg6h+hzFsZN/EDN2+
-   VVuldfo539nWKub339SyWAuD6g3Liv2g2pemV12tHytIm/I0iVJXS9J8z
-   jo+ZuWhleGOyiyr2bwlp314UVwFMkWK+Au/T+mtktlzh9M6BMzDBxm32I
-   Ye38iFGflFxs/R4V+Wd4uJrQZ27beRXYimRMBsRqLF+GaK0y3Oq/wOnhp
-   w==;
-X-CSE-ConnectionGUID: TDsYYxbBQOGWR0aW5QS12g==
-X-CSE-MsgGUID: JMFk49YyRr+g5Oxi2iKKHA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11728"; a="74618906"
-X-IronPort-AV: E=Sophos;i="6.23,118,1770624000"; 
-   d="scan'208";a="74618906"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2026 11:19:20 -0700
-X-CSE-ConnectionGUID: IsUab5fAS8+RjETs0meTqA==
-X-CSE-MsgGUID: tK2pfwEHS9KDtmikB151zw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,118,1770624000"; 
-   d="scan'208";a="225347842"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 13 Mar 2026 11:19:15 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w176O-000000003h3-2O4L;
-	Fri, 13 Mar 2026 18:19:12 +0000
-Date: Fri, 13 Mar 2026 19:18:54 +0100
-From: kernel test robot <lkp@intel.com>
-To: Hans Zhang <18255117159@163.com>, lpieralisi@kernel.org,
-	jingoohan1@gmail.com, mani@kernel.org, kwilczynski@kernel.org,
-	bhelgaas@google.com, helgaas@kernel.org,
-	florian.fainelli@broadcom.com, jim2101024@gmail.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, robh@kernel.org,
-	ilpo.jarvinen@linux.intel.com, linux-arm-msm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org, claudiu.beznea.uj@bp.renesas.com,
-	linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org,
-	linux-omap@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Hans Zhang <18255117159@163.com>
-Subject: Re: [PATCH v8 1/5] PCI: Add pcie_get_link_speed() helper for safe
- array access
-Message-ID: <202603131934.SHJnSGL9-lkp@intel.com>
-References: <20260312163652.113228-2-18255117159@163.com>
+	s=arc-20240116; t=1773425939; c=relaxed/simple;
+	bh=2NXO+yF+55T7F+hpfAb0nuG4E5nybIth2x/Lfeit0v0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=XdwrgaZZAJv4G6I2UYoHtplsnchdY864Qi/qvJk+Xqy+XDc4jRVhZloSebu+7pIWdk1cSgcI6A4W80mmNYDf2T47G4VdFANHSMLbCOn4Yf0mcZ9nprQJpDyw3AV55v3l/uRPUJh6/jwUAqjKgtgvcIRDDlihMozx6u9HKWkkcnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WkuBmUY5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49944C19421;
+	Fri, 13 Mar 2026 18:18:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773425939;
+	bh=2NXO+yF+55T7F+hpfAb0nuG4E5nybIth2x/Lfeit0v0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=WkuBmUY5zECY4w8HigOp4c5Dc0Y7y2nfHD6yuEYwFaBxRHSoHOnEVTjF7hkT0eQkA
+	 AFvQ0/U9ShmNbMyzF+0wQhrhDsQwyNxKjC32q2tl+0EsRInNZqjgNxUjA0SajeBrn6
+	 kHFj31oHvk4O5GY8i8NmF5RD6dgQrjiCuW1ZNS0TlFAoxlpUagAwvkYpFuqyVtZphY
+	 QVlHtHnRkgjRr9/4FntuZCDQbU9JYgsYDVeDARhaRlMuvQRsZqk8X1fkK1i1jrac4k
+	 8sYPWv4uyylodoV2LcLxP/nDTVvuq2bcgK0cxCWY0hcOSstFpl3VMDzH3SGAkgADCP
+	 f+nDIUI0cgl7Q==
+Date: Fri, 13 Mar 2026 13:18:58 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Christian Bruel <christian.bruel@foss.st.com>
+Cc: Koichiro Den <den@valinux.co.jp>, jingoohan1@gmail.com, mani@kernel.org,
+	lpieralisi@kernel.org, kwilczynski@kernel.org, robh@kernel.org,
+	bhelgaas@google.com, cassel@kernel.org, Frank.Li@nxp.com,
+	vigneshr@ti.com, s-vadapalli@ti.com, hongxing.zhu@nxp.com,
+	l.stach@pengutronix.de, shawnguo@kernel.org, s.hauer@pengutronix.de,
+	kernel@pengutronix.de, festevam@gmail.com, minghuan.Lian@nxp.com,
+	mingkai.hu@nxp.com, roy.zang@nxp.com, jesper.nilsson@axis.com,
+	heiko@sntech.de, srikanth.thokala@intel.com,
+	marek.vasut+renesas@gmail.com, yoshihiro.shimoda.uh@renesas.com,
+	geert+renesas@glider.be, magnus.damm@gmail.com,
+	mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
+	thierry.reding@gmail.com, jonathanh@nvidia.com,
+	hayashi.kunihiko@socionext.com, mhiramat@kernel.org,
+	kishon@kernel.org, jirislaby@kernel.org, rongqianfeng@vivo.com,
+	18255117159@163.com, shawn.lin@rock-chips.com,
+	nicolas.frattaroli@collabora.com, linux.amoon@gmail.com,
+	vidyas@nvidia.com, shuah@kernel.org, linux-omap@vger.kernel.org,
+	linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, imx@lists.linux.dev,
+	linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@axis.com,
+	linux-rockchip@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-tegra@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v10 3/8] PCI: dwc: Advertise dynamic inbound mapping
+ support
+Message-ID: <20260313181858.GA1427542@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -91,63 +82,83 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260312163652.113228-2-18255117159@163.com>
-X-Spamd-Result: default: False [-1.16 / 15.00];
+In-Reply-To: <b2b03ebe-9482-4a13-b22f-7b44da096eed@foss.st.com>
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-29384-lists,linux-renesas-soc=lfdr.de];
-	FREEMAIL_CC(0.00)[lists.linux.dev,kernel.org,linux.intel.com,vger.kernel.org,lists.infradead.org,bp.renesas.com,broadcom.com,163.com];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[163.com,kernel.org,gmail.com,google.com,broadcom.com];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[24];
+	FREEMAIL_CC(0.00)[valinux.co.jp,gmail.com,kernel.org,google.com,nxp.com,ti.com,pengutronix.de,axis.com,sntech.de,intel.com,renesas.com,glider.be,foss.st.com,nvidia.com,socionext.com,vivo.com,163.com,rock-chips.com,collabora.com,vger.kernel.org,lists.infradead.org,lists.linux.dev,lists.ozlabs.org,st-md-mailman.stormreply.com];
+	TAGGED_FROM(0.00)[bounces-29383-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[intel.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:dkim,intel.com:email,intel.com:mid]
-X-Rspamd-Queue-Id: C4B79288AA8
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_GT_50(0.00)[56];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[helgaas@kernel.org,linux-renesas-soc@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 2B111288A3F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Hans,
+On Fri, Mar 13, 2026 at 04:59:26PM +0100, Christian Bruel wrote:
+> Hello,
+> 
+> While testing after this series, I encountered regressions on the STM32MP2,
+> which I am unsure how to fix. The failures depend on the order in which the
+> tests are run.
 
-kernel test robot noticed the following build warnings:
+c0f1506f6354 ("PCI: dwc: Advertise dynamic inbound mapping support")
+appeared in v7.0-rc1, so apparently we added a regression in v7.0?  Do
+we need to revert this?
 
-[auto build test WARNING on 80234b5ab240f52fa45d201e899e207b9265ef91]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hans-Zhang/PCI-Add-pcie_get_link_speed-helper-for-safe-array-access/20260313-220734
-base:   80234b5ab240f52fa45d201e899e207b9265ef91
-patch link:    https://lore.kernel.org/r/20260312163652.113228-2-18255117159%40163.com
-patch subject: [PATCH v8 1/5] PCI: Add pcie_get_link_speed() helper for safe array access
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260313/202603131934.SHJnSGL9-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260313/202603131934.SHJnSGL9-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603131934.SHJnSGL9-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> Warning: drivers/pci/probe.c:793 expecting prototype for pcie_link_speed_value(). Prototype was for pcie_get_link_speed() instead
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> The STM32 ATU has 4 inbound entries. After enumeration, the first 4 ATU
+> entries are allocated within ib_window_map.
+> 
+> On the first run of ./pci_endpoint_test -v BAR3(for example),
+> SUBRRANGE_SETUP calls dw_pcie_ep_ib_atu_addr(), which frees only one ATU
+> entry (BAR3), because we were in the bar_to_atu case, for the first submap
+> but fails to allocate the second submap. So the test FAILs.
+> 
+> On the second run with a different BAR, SUBRRANGE_SETUP test calls
+> dw_pcie_ep_ib_atu_addr() again, freeing the required ATU entry (BAR1) and
+> successfully using the second ATU entry (3), which was left unallocated by
+> the first test. then now the test PASSes
+> 
+> Therefore, the first invocation of ./pci_endpoint_test on any BAR always
+> fails. Other invocations are fine because the first one has left the missing
+> necessary ATU entry free. Whatever initial BAR number is used
+> 
+> I am unsure how to fix this. Always freeing all BARs before calling
+> set_bar() in the epf-test seems overkill, but safe.
+> I am also considering modifying dw_pcie_ep_clear_ib_maps() to clear N
+> num_submap entries even if ib_atu_indexes was not used yet, since only the
+> full BAR is used during the first invocation from bar_to_atu. But the
+> question is which ATU entry to select ? BAR+1 ?. This seems empirical.
+> 
+> I am not bothered by test failures due to an insufficient number of BARs
+> (this is already the case for BAR5,6), but the fact that the failures depend
+> on the test order is frustrating and show a regression.
+> 
+> But I'm not satisfied with either of the 2 possible fixes mentioned above.
+> 
+> Do you have any other thought ?
+> 
+> thank you
+> 
+> Christian
 
