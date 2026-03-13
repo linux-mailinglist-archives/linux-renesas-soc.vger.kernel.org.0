@@ -1,85 +1,51 @@
-Return-Path: <linux-renesas-soc+bounces-29358-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29359-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GJRtNvs0tGn4igAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29358-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2026 17:02:03 +0100
+	id qBaSCfk3tGnTiwAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29359-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2026 17:14:49 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F7332868AF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2026 17:02:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96C9C286CA1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2026 17:14:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 946C530CA58B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2026 15:59:44 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id A998131516EE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2026 16:08:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 304D938CFE9;
-	Fri, 13 Mar 2026 15:59:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AB283C3C15;
+	Fri, 13 Mar 2026 16:07:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="gpKJdbeR"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="D81dyjpc"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013035.outbound.protection.outlook.com [40.107.159.35])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 734822E093E;
-	Fri, 13 Mar 2026 15:59:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.35
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773417583; cv=fail; b=oVi2w3y/iUmhvzh8h5Y+Cff9bHhUJOsTJF0WSxJslHzpoNpYbNS+jZ77TZNiolcjimXJ/fU5hNMv1eTae8bJ5/UsSbb3J9cO+xxza1vitsoxisqL8Xqvq86kiXogVSghUM9R1KTX8+mNyyMq2DTGzxpruIQgQLUD9WWhM9bPQ0s=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773417583; c=relaxed/simple;
-	bh=TlcahFzEnWiwmMQ0Xk4y3N8StEKBKOgmeht1mjDKBbM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Q8iEfMqcvUM4Q3hDBKB2bbdtat8Mhkbh7TPFAChWiAg0bOraXhkdSqFcnJ5zHQDMkSTipnj0zUElwlBtGG2SXvffNT7Os0dn8uPMvYwj/09a+qUFeTlvYBCwLzPNKy108VHpt1DRkuV2czGwNvo8rzE+ou2sHTY7tWERL4KG5VM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=gpKJdbeR; arc=fail smtp.client-ip=40.107.159.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Kb2x55vBrTYcc2Z8cQkLBP2JBxckso1Vd/XKmsxuEs9jS60Pwz+HUIyrioi9EiozhaToGXZPSFA3/LexDzG2FTKZ4rSj24unlNpb9ChtpXz7GrCBagBTQpnOSSKWJEml/VIRPZScPr8qkghc+K6GoUd3qwYGvc0hyqXZ9yPKk3SbMnuj0DccHkrrHgqC35z2EuGU0uibNJXpIJivS7XVHVA9NsKLXj+ivglYoMxF9QzAqOGeC7cBHcIHXDDtVpIDD5u3qXWEgLE4iN29Oh6elDQS8xnENRhkemxVvlR8ztk9RyccAGI7lsm7nX8ZEzZdanm5HFLBBdEv5kdabb3g/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fR2dh5GSPHSR2HP3TQPobfR4vXyawiK37BD3N2AYz60=;
- b=Rb/qXHaRRy6G3izSZRn9qcIZj4KnSpVJDsvdmlA5oH5MllcISK9IMxBsek6LUGF8HcL1gSFHaxO9THhp3xJAzJDf1LKdTzpit+Yz3odec5XmqOoZP+2eGqThz+9hm1Fn3Vut+FEO30r8TwO6SvE5J81QSC96tSSBDe/CUFsBRriB0oYcosDgLXGhtvM0kQvUZ8zED6yyPfbLyEad4zE/elFTH9SL3Es5NWER8NjZ41IVh3vixAi/oPkHuEFRtG+LDy8jpfW3hXu39YPIn27a8o9JoEJOdnyAET7dXVMBho9J+2mYdHzyAPxhrE0smMLq2+yNog+t3uuv6+dC9JyOdw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 164.130.1.59) smtp.rcpttodomain=valinux.co.jp smtp.mailfrom=foss.st.com;
- dmarc=fail (p=none sp=none pct=100) action=none header.from=foss.st.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fR2dh5GSPHSR2HP3TQPobfR4vXyawiK37BD3N2AYz60=;
- b=gpKJdbeRfkT4L2/Wj8/QU3w6hl73nu1DQsr30U+niIAI+lWJzghnjO9wRZfm0QHyk8xqLnYA5w73dVx3ub3bGbTGvf8iJrLT2tc5Pd5NN54bm9cmwErIrHgdxt1yvfcMhaMC5ax8gOMcgo3OojElHxj0/YAUro83gSZSqVcxXg22dZohLVWLbf07EMOQURQcyXewaUKm9mDS2H2pRXrV+N4nmN0kxT+ualyFWldTyv/Rt6if2nfbDmYGxyswbHja0jI/UNAD4nD8AD+RBFwQoTGNbrfoW4UgNmpoIbCjAkYveGi2eyNg5wJMRNNdqcwQYS6E6DEhUbXtSS0ckMnoRg==
-Received: from DU2PR04CA0283.eurprd04.prod.outlook.com (2603:10a6:10:28c::18)
- by AS1PR10MB5529.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:474::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.16; Fri, 13 Mar
- 2026 15:59:35 +0000
-Received: from DB1PEPF000509E9.eurprd03.prod.outlook.com
- (2603:10a6:10:28c:cafe::89) by DU2PR04CA0283.outlook.office365.com
- (2603:10a6:10:28c::18) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9678.26 via Frontend Transport; Fri,
- 13 Mar 2026 15:59:35 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 164.130.1.59)
- smtp.mailfrom=foss.st.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=none header.from=foss.st.com;
-Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
- designate 164.130.1.59 as permitted sender) receiver=protection.outlook.com;
- client-ip=164.130.1.59; helo=smtpO365.st.com;
-Received: from smtpO365.st.com (164.130.1.59) by
- DB1PEPF000509E9.mail.protection.outlook.com (10.167.242.59) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9678.18 via Frontend Transport; Fri, 13 Mar 2026 15:59:34 +0000
-Received: from STKDAG1NODE2.st.com (10.75.128.133) by smtpo365.st.com
- (10.250.44.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.29; Fri, 13 Mar
- 2026 17:02:05 +0100
-Received: from [10.130.77.120] (10.130.77.120) by STKDAG1NODE2.st.com
- (10.75.128.133) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.29; Fri, 13 Mar
- 2026 16:59:32 +0100
-Message-ID: <b2b03ebe-9482-4a13-b22f-7b44da096eed@foss.st.com>
-Date: Fri, 13 Mar 2026 16:59:26 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42A7F2153D8;
+	Fri, 13 Mar 2026 16:07:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773418074; cv=none; b=bfJdLDYUp1yz5NLs0wHKUu1deVuPRZr0VJH3bp3u1XXRN+Ys6nt4aTqXXI0/Cc4y1k76xbTuo4nosLL8JnwHlNiL44G2tyAvLTggbFGIrN6WTPLb/sLcTciEtljSIkSKnJHbJCmwMXJ2Xe9RMOEc/XgFdrddNbzL+0oiLiSFE8s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773418074; c=relaxed/simple;
+	bh=sKc7wymN8ddHQKZHzBiSzy32Einw2qz8y0P3gg8Kyw4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OljLPq0jMvmPN796tdGOb8eGiDNQwUx8cPeqn5QvpRsTIkGt/+H7HWZ4ppljXKyk7PUsmBdFtbx6e5vJsaabSormOztOKxgwJv+SV+PzRrDXni3ZV/bC0migXTvkCyMb4/8bkOpWxehLbX8lYu/6T4Q1Gwg2JBsfZYVLQ3wOfqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=D81dyjpc; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 24E38D0;
+	Fri, 13 Mar 2026 17:06:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1773418001;
+	bh=sKc7wymN8ddHQKZHzBiSzy32Einw2qz8y0P3gg8Kyw4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=D81dyjpcaIj/OGdKzTmn0hnyiO2HmRLfmGppkdpRzwymc7tvxQvjjO+amTOEcCJxd
+	 8KeDdMgzySMZ7Zy8bQ1KPlyTtEhG/fqo+GzUBB1CRB18MUMGrPNh3pGf/vnezOgvka
+	 OvJ4gauXQjmP4C3+QUBEGJxesoPoa3IHHcNBsNR4=
+Message-ID: <75c4cacf-9f52-4904-9cf6-44425fabaea1@ideasonboard.com>
+Date: Fri, 13 Mar 2026 16:07:47 +0000
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -87,138 +53,113 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 3/8] PCI: dwc: Advertise dynamic inbound mapping
- support
-To: Koichiro Den <den@valinux.co.jp>, <jingoohan1@gmail.com>,
-	<mani@kernel.org>, <lpieralisi@kernel.org>, <kwilczynski@kernel.org>,
-	<robh@kernel.org>, <bhelgaas@google.com>, <cassel@kernel.org>,
-	<Frank.Li@nxp.com>
-CC: <vigneshr@ti.com>, <s-vadapalli@ti.com>, <hongxing.zhu@nxp.com>,
-	<l.stach@pengutronix.de>, <shawnguo@kernel.org>, <s.hauer@pengutronix.de>,
-	<kernel@pengutronix.de>, <festevam@gmail.com>, <minghuan.Lian@nxp.com>,
-	<mingkai.hu@nxp.com>, <roy.zang@nxp.com>, <jesper.nilsson@axis.com>,
-	<heiko@sntech.de>, <srikanth.thokala@intel.com>,
-	<marek.vasut+renesas@gmail.com>, <yoshihiro.shimoda.uh@renesas.com>,
-	<geert+renesas@glider.be>, <magnus.damm@gmail.com>,
-	<mcoquelin.stm32@gmail.com>, <alexandre.torgue@foss.st.com>,
-	<thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-	<hayashi.kunihiko@socionext.com>, <mhiramat@kernel.org>, <kishon@kernel.org>,
-	<jirislaby@kernel.org>, <rongqianfeng@vivo.com>, <18255117159@163.com>,
-	<shawn.lin@rock-chips.com>, <nicolas.frattaroli@collabora.com>,
-	<linux.amoon@gmail.com>, <vidyas@nvidia.com>, <shuah@kernel.org>,
-	<linux-omap@vger.kernel.org>, <linux-pci@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<imx@lists.linux.dev>, <linuxppc-dev@lists.ozlabs.org>,
-	<linux-arm-kernel@axis.com>, <linux-rockchip@lists.infradead.org>,
-	<linux-arm-msm@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-	<linux-stm32@st-md-mailman.stormreply.com>, <linux-tegra@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>
-References: <20260124145012.2794108-1-den@valinux.co.jp>
- <20260124145012.2794108-4-den@valinux.co.jp>
+Subject: Re: [PATCH 3/7] media: rzv2h-ivc: Write AXIRX_PIXFMT once
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ =?UTF-8?Q?Barnab=C3=A1s_P=C5=91cze?= <barnabas.pocze@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>,
+ =?UTF-8?Q?Barnab=C3=A1s_P=C5=91cze?=
+ <barnabas.pocze+renesas@ideasonboard.com>, stable@vger.kernel.org
+References: <20260313-mali-ivc-fixes-v7-0-v1-0-cb0714cd1279@ideasonboard.com>
+ <20260313-mali-ivc-fixes-v7-0-v1-3-cb0714cd1279@ideasonboard.com>
 Content-Language: en-US
-From: Christian Bruel <christian.bruel@foss.st.com>
-In-Reply-To: <20260124145012.2794108-4-den@valinux.co.jp>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: STKCAS1NODE1.st.com (10.75.128.134) To STKDAG1NODE2.st.com
- (10.75.128.133)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB1PEPF000509E9:EE_|AS1PR10MB5529:EE_
-X-MS-Office365-Filtering-Correlation-Id: c8426537-1976-4da1-02e9-08de811985b6
-X-LD-Processed: 75e027c9-20d5-47d5-b82f-77d7cd041e8f,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|36860700016|7416014|376014|1800799024|82310400026|18002099003|56012099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
- fw2s3TSC4OSqWB3QSZGwaozOdRgLbvywUwgpMs4/8C8noz+YqHSBbIk0xvKn7FDYLV+/7rDpQPaRj9mzp/+5nJ0M9+irRlN9HlqIru0wjxOnhfi6/ng0fcD8MvhuxAZZfmxZzFpSFBeD6l5Rx1BZkcI8OH9IdD9oDZhMMMvdH4qkEcGONUeos7qhxS3Pm7kwMFRQdKMRcM28FG2Z3/VsESf0e0S09FAC5R38EEulZdO1A61DWBIUVj8Cj04xOUt70Ef2QqO/Qn3oSFbE33Fsbnt4WTQ5LkFUXXgt1XsfmLvRlkJ4d2BJIi8m5+DGPIHXOLoreyYVBonUVAJZrCV0c8Mimg+DEcf+9MbjF+kYSDl+jJHk89xcmRqCIeNrWIL7rLa0D/ZSEg8XkYuVKb6HILjktp9tlmiSbmB7P1cM9xfKT17m1ic37wqI2Eli4+D1DP8L2kzev01LbIYZtQEjjrMTBQ3X2f4QI21IbuPJHqlNQG0XL8Kv5l7iBhnRTr4onyJGIHwywo7Ts/Jmol+61A27irVIgQh17r+VqUUm+m0SRPuJWebSl+M7zIJe7D3+scKVXZfwRFnnjqqKE7Yw+plGOSSmrJ7SAQ1W9gTt3PDuG9evFIHKoKdBw59C1RlTchruEKoycqPPHOzxs1eBFwySto1fw2QUtDwa1y+bb/NRjGA7SoVs4ShNzCXr7sCT4fk6W3zE1aqGvA9gYhp25kINGwoBqrZ/T9MJmEloAtYKAZ7XbE3bGsveIqZ9Aa4HmBTUMNKPW3UE3YuAv4Sr+Q==
-X-Forefront-Antispam-Report:
- CIP:164.130.1.59;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(7416014)(376014)(1800799024)(82310400026)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- TCChnitx4bv7GwJxbg2co3WJ1o0/vLzxAZ+5RWjFIj9Fi+VADGhjsGJ8wL+BXhF1Zrkfc0QVyUOEBn8OA5F4CCvXUHAKGFytDzYgfkRNaN7iU3nri9WaRnkWiYG4TZkJBSvx6t7jztw1cf+6kRsBEzZpkyYJRIPemkL7AlQB7JAYkE4vHJrh2bEdLblFDJH3kSxG+1ZdZi58LWTr/dTK8/itfj80yDV1a2wC0A1cwrcJDEzA8d3VAEe34YJC72HjHXmR8HJxwSIzQH6B/wDLVd3aR4ysgjJhz2IYU3+hNZnPzulF70Pg16pKF24YPXqVKQjBsW1PVDVHMAo566SBkUq0TdloOvBfCohZEC+nNo9T078fY3EinexDbWyG8KB4AdAxERHYJnRYYL6UIhCOwolidheRqRKmVrImhRtFNz7BNGkiMTAbob3djDiIXc53
-X-OriginatorOrg: foss.st.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2026 15:59:34.9843
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c8426537-1976-4da1-02e9-08de811985b6
-X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.59];Helo=[smtpO365.st.com]
-X-MS-Exchange-CrossTenant-AuthSource: DB1PEPF000509E9.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS1PR10MB5529
-X-Spamd-Result: default: False [1.34 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[foss.st.com,none];
+From: Dan Scally <dan.scally@ideasonboard.com>
+In-Reply-To: <20260313-mali-ivc-fixes-v7-0-v1-3-cb0714cd1279@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[foss.st.com:s=selector2];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[valinux.co.jp,gmail.com,kernel.org,google.com,nxp.com];
+	TAGGED_FROM(0.00)[bounces-29359-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-29358-lists,linux-renesas-soc=lfdr.de];
-	FREEMAIL_CC(0.00)[ti.com,nxp.com,pengutronix.de,kernel.org,gmail.com,axis.com,sntech.de,intel.com,renesas.com,glider.be,foss.st.com,nvidia.com,socionext.com,vivo.com,163.com,rock-chips.com,collabora.com,vger.kernel.org,lists.infradead.org,lists.linux.dev,lists.ozlabs.org,st-md-mailman.stormreply.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[christian.bruel@foss.st.com,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[foss.st.com:+];
-	RCPT_COUNT_GT_50(0.00)[55];
-	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dan.scally@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
 	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	RCVD_COUNT_SEVEN(0.00)[8]
-X-Rspamd-Queue-Id: 8F7332868AF
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,cisco,renesas];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 96C9C286CA1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hello,
+Hi Jacopo (and Barnabás)
 
-While testing after this series, I encountered regressions on the 
-STM32MP2, which I am unsure how to fix. The failures depend on the order 
-in which the tests are run.
+On 13/03/2026 11:13, Jacopo Mondi wrote:
+> From: Barnabás Pőcze <barnabas.pocze+renesas@ideasonboard.com>
+> 
+> The documentation prescribes that invalid formats should not be set,
+> so do a single write to ensure that both the CLFMT and DTYPE fields
+> are set to valid values.
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: f0b3984d821b ("media: platform: Add Renesas Input Video Control block driver")
+> Signed-off-by: Barnabás Pőcze <barnabas.pocze+renesas@ideasonboard.com>
+> Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+> ---
+>   drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c | 8 ++++----
+>   drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc.h       | 7 ++++---
+>   2 files changed, 8 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c b/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c
+> index bfe5b0c7045e..d894a880c33f 100644
+> --- a/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c
+> +++ b/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c
+> @@ -215,10 +215,10 @@ static void rzv2h_ivc_format_configure(struct rzv2h_ivc *ivc)
+>   
+>   	/* Currently only CRU packed pixel formats are supported */
+>   	rzv2h_ivc_write(ivc, RZV2H_IVC_REG_AXIRX_PXFMT,
+> -			RZV2H_IVC_INPUT_FMT_CRU_PACKED);
+> -
+> -	rzv2h_ivc_update_bits(ivc, RZV2H_IVC_REG_AXIRX_PXFMT,
+> -			      RZV2H_IVC_PXFMT_DTYPE, fmt->dtype);
+> +			FIELD_PREP(RZV2H_IVC_AXIRX_PXFMT_FIELD_DTYPE,
+> +				   fmt->dtype) |
+> +			FIELD_PREP(RZV2H_IVC_AXIRX_PXFMT_FIELD_CLFMT,
+> +				   RZV2H_IVC_CLFMT_CRU_PACKED));
 
-The STM32 ATU has 4 inbound entries. After enumeration, the first 4 ATU 
-entries are allocated within ib_window_map.
+TIL of FIELD_PREP(), I like that! Maybe #include <linux/bitfield.h> though?
 
-On the first run of ./pci_endpoint_test -v BAR3(for example), 
-SUBRRANGE_SETUP calls dw_pcie_ep_ib_atu_addr(), which frees only one ATU 
-entry (BAR3), because we were in the bar_to_atu case, for the first 
-submap but fails to allocate the second submap. So the test FAILs.
+Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
 
-On the second run with a different BAR, SUBRRANGE_SETUP test calls 
-dw_pcie_ep_ib_atu_addr() again, freeing the required ATU entry (BAR1) 
-and successfully using the second ATU entry (3), which was left 
-unallocated by the first test. then now the test PASSes
+>   
+>   	rzv2h_ivc_write(ivc, RZV2H_IVC_REG_AXIRX_HSIZE, pix->width);
+>   	rzv2h_ivc_write(ivc, RZV2H_IVC_REG_AXIRX_VSIZE, pix->height);
+> diff --git a/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc.h b/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc.h
+> index 4ef44c8b4656..54c70de31c1e 100644
+> --- a/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc.h
+> +++ b/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc.h
+> @@ -24,9 +24,10 @@
+>   #define RZV2H_IVC_ONE_EXPOSURE				0x00
+>   #define RZV2H_IVC_TWO_EXPOSURE				0x01
+>   #define RZV2H_IVC_REG_AXIRX_PXFMT			0x0004
+> -#define RZV2H_IVC_INPUT_FMT_MIPI			(0 << 16)
+> -#define RZV2H_IVC_INPUT_FMT_CRU_PACKED			BIT(16)
+> -#define RZV2H_IVC_PXFMT_DTYPE				GENMASK(7, 0)
+> +#define RZV2H_IVC_AXIRX_PXFMT_FIELD_CLFMT		GENMASK(17, 16)
+> +#define RZV2H_IVC_CLFMT_MIPI				0
+> +#define RZV2H_IVC_CLFMT_CRU_PACKED			1
+> +#define RZV2H_IVC_AXIRX_PXFMT_FIELD_DTYPE		GENMASK(7, 0)
+>   #define RZV2H_IVC_REG_AXIRX_SADDL_P0			0x0010
+>   #define RZV2H_IVC_REG_AXIRX_SADDH_P0			0x0014
+>   #define RZV2H_IVC_REG_AXIRX_SADDL_P1			0x0018
+> 
 
-Therefore, the first invocation of ./pci_endpoint_test on any BAR always 
-fails. Other invocations are fine because the first one has left the 
-missing necessary ATU entry free. Whatever initial BAR number is used
-
-I am unsure how to fix this. Always freeing all BARs before calling 
-set_bar() in the epf-test seems overkill, but safe.
-I am also considering modifying dw_pcie_ep_clear_ib_maps() to clear N 
-num_submap entries even if ib_atu_indexes was not used yet, since only 
-the full BAR is used during the first invocation from bar_to_atu. But 
-the question is which ATU entry to select ? BAR+1 ?. This seems empirical.
-
-I am not bothered by test failures due to an insufficient number of BARs 
-(this is already the case for BAR5,6), but the fact that the failures 
-depend on the test order is frustrating and show a regression.
-
-But I'm not satisfied with either of the 2 possible fixes mentioned above.
-
-Do you have any other thought ?
-
-thank you
-
-Christian
 
