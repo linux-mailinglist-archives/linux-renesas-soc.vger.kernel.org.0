@@ -1,47 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-29369-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29374-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4JneGoZEtGk4kAAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29369-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2026 18:08:22 +0100
+	id 6F5LLKFDtGk4kAAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29374-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2026 18:04:33 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3034287D45
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2026 18:08:21 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4123287C77
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2026 18:04:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1AE72332BD2E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2026 16:57:00 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 16EC13078920
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2026 16:58:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A5133CB2CF;
-	Fri, 13 Mar 2026 16:56:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F4023CD8DB;
+	Fri, 13 Mar 2026 16:57:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="ilnG01lu"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="cK0MmJDl"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B923C3CBE67;
-	Fri, 13 Mar 2026 16:56:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A0D83CAE77;
+	Fri, 13 Mar 2026 16:56:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773421010; cv=none; b=MIlgiPYZQnAllq6aSBskCpvz0Sj6CxMSxDULLKnmxzoEP2xF85fefiSWnquxI+yECRT06lAcCZ2B8NW+nuA/fq4gxxxwY56dLUfG117Cr0ZY/M1b5+pCU5qASWJBDy0pDVzkm5rVqdHYyujCsbRMFouJ/EndlJRTocrrmdH47go=
+	t=1773421025; cv=none; b=MsqVHG4WHzK6gi238L7Af54Usd4+9GYc/S7feFfjP/6kEUAFsOs2INTT1OuZgM2PDINPo2NDKqwqDfNZ9AQuZU/2j22wjl6vylKgmxzu5j7jOqBGZ6C3hQmofH19Deb5B9CWLWtIYz2k2OXX3+STdOMlhc2IUmvsUTelWpIbymE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773421010; c=relaxed/simple;
-	bh=D8t9qvxgpZ++Yo3oPbHQfrf9aK/b9K0vIff2MtOGlN0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=p2SE3krEORjNq40AWVG0hQ/u60H+PlQOrG6NfV2fV1BiDNmVFThmUD8UXFsHCuWgQln/p2gzicpiBU6NslGZLWr4eCPl64naX4JVfYSlLnmri5VSODm535tAgUWPJAILD2mcFLjrLoekFUF1kdJlnfaRTByhopWB1fIQo4xhdPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=ilnG01lu; arc=none smtp.client-ip=220.197.31.5
+	s=arc-20240116; t=1773421025; c=relaxed/simple;
+	bh=dyqnxGxLuqnzGkcZLb43xdRPAjbpvPuyh3PA8tlPYCg=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=f9Lj31QFCFMqKDddXbBpBgwVs45/IoupxS7bu4oT34O5HSWd+keaPiLiIUTZMGrvKJkPxHCpO5QU0Y6gqkAnLm5Kl039xpApirR7jjHNKHzgWfzOmcuXrk8FtG73rOUx0oLhf5u5kgCi5ah5l4wsQdOthBbiMvFiboStrLNFOjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=cK0MmJDl; arc=none smtp.client-ip=220.197.31.5
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=Ok
-	Jydil17J/bKKSpOmhf5pXuHazCRZk9UtAzqTsen3Q=; b=ilnG01luwp4pP7OtqS
-	TeutnXAU6Ie9XpK9O0LxT8hJVpPwJeTyCsUp07tSOFcvHSSbbTrwFIMmG4J1wpqE
-	bbPVjL2lOpuHzhAYmvO8SowPA/HrN3pCfsAcwjQ4cZkJ95DZfFr6jHHolzwk/W2q
-	RSKrp86ldpZmjMP11D7JsY9RU=
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=OS
+	3wNR44a9Lcr5qeJNGEMIZI1am9Rwc0ZQ9oLaGb9Ro=; b=cK0MmJDlf9ZvYmwmn+
+	asRAiFE8eoyXUOJsmYCxDBQz4hZkk5pzhR4bpX3KaQTISy0u9fWlHOxJx0EPB2Ve
+	Ra4sm9qGjJbaKKOw2CeJyJWIlWobu7F6oI+2bKft3852HZ7vHMC4Jhzk1rwYlzLg
+	Lyxn1TtkDyMJ6LCTXcJf+0IR4=
 Received: from zhb.. (unknown [])
-	by gzga-smtp-mtada-g0-4 (Coremail) with SMTP id _____wAX2JV7QbRpTApJAw--.54345S2;
-	Sat, 14 Mar 2026 00:55:24 +0800 (CST)
+	by gzga-smtp-mtada-g0-4 (Coremail) with SMTP id _____wAX2JV7QbRpTApJAw--.54345S3;
+	Sat, 14 Mar 2026 00:55:25 +0800 (CST)
 From: Hans Zhang <18255117159@163.com>
 To: lpieralisi@kernel.org,
 	jingoohan1@gmail.com,
@@ -65,10 +66,12 @@ Cc: robh@kernel.org,
 	linux-kernel@vger.kernel.org,
 	shawn.lin@rock-chips.com,
 	Hans Zhang <18255117159@163.com>
-Subject: [PATCH v9 0/5] PCI: of: Remove max-link-speed generation validation
-Date: Sat, 14 Mar 2026 00:55:17 +0800
-Message-Id: <20260313165522.123518-1-18255117159@163.com>
+Subject: [PATCH v9 1/5] PCI: Add pcie_get_link_speed() helper for safe array access
+Date: Sat, 14 Mar 2026 00:55:18 +0800
+Message-Id: <20260313165522.123518-2-18255117159@163.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260313165522.123518-1-18255117159@163.com>
+References: <20260313165522.123518-1-18255117159@163.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -76,19 +79,19 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wAX2JV7QbRpTApJAw--.54345S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxAw1kuw17CF4kAF4DCFyfZwb_yoWrtr1fpa
-	y2qFWFyF1xtF4ava17J3WUuFyYg3ZxAFWjkryfWw17ZFnxCF13XFySgF4FvF9rKrZF9r12
-	q3W2q3W7KFyjyaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pi2-esUUUUU=
-X-CM-SenderInfo: rpryjkyvrrlimvzbiqqrwthudrp/xtbCxB32mmm0QX3JqwAA32
+X-CM-TRANSID:_____wAX2JV7QbRpTApJAw--.54345S3
+X-Coremail-Antispam: 1Uf129KBjvJXoW7WF48JF4fKFW8CrWUXr13urg_yoW8ZFy5pF
+	W2kw1Fyr10qF13Xr43Z3Z8ZFy5X3ZxGFW7GrW7GasFvF43Jr9xXrySgrWfJr9akrsrury2
+	qF13tr4UCF12yF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0z_uWlZUUUUU=
+X-CM-SenderInfo: rpryjkyvrrlimvzbiqqrwthudrp/xtbC7B72mmm0QX4ApgAA3a
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[163.com,none];
 	R_DKIM_ALLOW(-0.20)[163.com:s=s110527];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -99,7 +102,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_FROM(0.00)[163.com];
 	RCPT_COUNT_TWELVE(0.00)[22];
-	TAGGED_FROM(0.00)[bounces-29369-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-29374-lists,linux-renesas-soc=lfdr.de];
 	DKIM_TRACE(0.00)[163.com:+];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
@@ -107,117 +110,71 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FROM_HAS_DN(0.00)[];
 	FREEMAIL_CC(0.00)[kernel.org,linux.intel.com,vger.kernel.org,lists.infradead.org,bp.renesas.com,broadcom.com,rock-chips.com,163.com];
 	NEURAL_HAM(-0.00)[-0.999];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-renesas-soc];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: F3034287D45
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: D4123287C77
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi,
+The pcie_link_speed[] array is indexed by PCIe generation numbers
+(1 = 2.5 GT/s, 2 = 5 GT/s, ...).  Several drivers use it directly,
+which can lead to out-of-bounds accesses if an invalid generation
+number is used.
 
-This series moves the validation from the common OF function to the
-individual PCIe controller drivers.  To protect against out-of-bounds
-accesses to the pcie_link_speed[] array, we first introduce a helper
-function pcie_get_link_speed() that safely returns the speed value
-(or PCI_SPEED_UNKNOWN) for a given generation number.
+Introduce a helper function pcie_get_link_speed() that returns the
+corresponding enum pci_bus_speed value for a given generation number,
+or PCI_SPEED_UNKNOWN if the generation is out of range.  This will
+allow us to safely handle invalid values after the range check is
+removed from of_pci_get_max_link_speed().
 
-Then all direct uses of pcie_link_speed[] as an array are converted to
-use the new helper, ensuring that even if an invalid generation number
-reaches those code paths, no out-of-bounds access occurs.
-
-For several drivers that read the "max-link-speed" property
-(pci-j721e, brcmstb, mediatek-gen3, rzg3s-host), we add an explicit
-validation step: if the value is missing, out of range, or unsupported
-by the hardware, a safe default is used (usually Gen2). Other drivers
-(mainly DesignWare glue drivers) rely on the helper to safely handle
-invalid values, but do not yet include fallback logic or warnings.
-
-Finally, the range check is removed from of_pci_get_max_link_speed(),
-so that future PCIe generations can be supported without modifying
-drivers/pci/of.c.
-
+Signed-off-by: Hans Zhang <18255117159@163.com>
 ---
-Changes for v9:
-- Modify the parameter passed to pcie_get_link_speed to unsigned int. If the DT
-  configuration specifies max-link-speed = -1, the obtained max_link_speed will
-  be 0xff. Therefore, it will be greater than the length of the array pcie_link_speed.
-  Thus, the condition speed <= 0 is removed. (For patch 0001. Shawn)
-- Modify the commit message for patch 0005. (Shawn)
+ drivers/pci/pci.h   |  2 ++
+ drivers/pci/probe.c | 16 ++++++++++++++++
+ 2 files changed, 18 insertions(+)
 
-Changes for v8:
-https://patchwork.kernel.org/project/linux-pci/cover/20260312163652.113228-1-18255117159@163.com/
-
-- Expand series from 2 to 5 patches to introduce pcie_get_link_speed() helper
-  and split validation into per-driver changes.
-- Add pcie_get_link_speed() helper for safe pcie_link_speed[] array access (Bjorn)
-- Move max-link-speed validation from DWC core to individual drivers; add explicit
-  fallback logic only for pci-j721e, brcmstb, mediatek-gen3, rzg3s-host.
-- Convert all remaining direct pcie_link_speed[] accesses to use the new helper.
-- Update commit messages to reflect the new design.
-
-Changes for v7:
-https://patchwork.kernel.org/project/linux-pci/cover/20260308142629.75392-1-18255117159@163.com/
-
-- Add validation in dw_pcie_get_link_speed() (Bjorn)
-- Modify it so that two patches constitute one series.
-
-Changes for v6:
-https://patchwork.kernel.org/project/linux-pci/patch/20251218132036.308094-1-18255117159@163.com/
-
-- It'd be good to return the actual errno as of_property_read_u32() can return
-  -EINVAL, -ENODATA and -EOVERFLOW. (Mani)
-
-Changes for v5:
-https://patchwork.kernel.org/project/linux-pci/patch/20251218125909.305300-1-18255117159@163.com/
-
-- Delete the check for speed. (Mani)
-
-Changes for v4:
-https://patchwork.kernel.org/project/linux-pci/patch/20251105134701.182795-1-18255117159@163.com/
-
-- Add pcie_max_supported_link_speed.(Ilpo)
-
-Changes for v3:
-https://patchwork.kernel.org/project/linux-pci/patch/20251101164132.14145-1-18255117159@163.com/
-
-- Modify the commit message.
-- Add Reviewed-by tag.
-
-Changes for v2:
-https://patchwork.kernel.org/project/linux-pci/cover/20250529021026.475861-1-18255117159@163.com/
-- The following files have been deleted:
-  Documentation/devicetree/bindings/pci/pci.txt
-
-  Update to this file again:
-  dtschema/schemas/pci/pci-bus-common.yaml
----
-
-Hans Zhang (5):
-  PCI: Add pcie_get_link_speed() helper for safe array access
-  PCI: dwc: Use pcie_get_link_speed() and validate max-link-speed
-  PCI: j721e: Validate max-link-speed from DT
-  PCI: controller: Validate max-link-speed
-  PCI: of: Remove max-link-speed generation validation
-
- drivers/pci/controller/cadence/pci-j721e.c       |  3 ++-
- .../pci/controller/dwc/pcie-designware-host.c    |  2 +-
- drivers/pci/controller/dwc/pcie-designware.c     |  2 +-
- drivers/pci/controller/dwc/pcie-qcom-common.c    |  2 +-
- drivers/pci/controller/dwc/pcie-qcom-ep.c        |  4 ++--
- drivers/pci/controller/dwc/pcie-qcom.c           |  6 +++---
- drivers/pci/controller/dwc/pcie-tegra194.c       |  2 +-
- drivers/pci/controller/pcie-brcmstb.c            |  5 +++--
- drivers/pci/controller/pcie-mediatek-gen3.c      |  2 +-
- drivers/pci/controller/pcie-rzg3s-host.c         |  2 +-
- drivers/pci/of.c                                 | 16 ++++++++--------
- drivers/pci/pci.h                                |  2 ++
- drivers/pci/probe.c                              | 16 ++++++++++++++++
- 13 files changed, 42 insertions(+), 22 deletions(-)
-
-
-base-commit: 80234b5ab240f52fa45d201e899e207b9265ef91
+diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
+index 13d998fbacce..409aca7d737a 100644
+--- a/drivers/pci/pci.h
++++ b/drivers/pci/pci.h
+@@ -108,6 +108,8 @@ struct pcie_tlp_log;
+ 				 PCI_EXP_DEVCTL_FERE | PCI_EXP_DEVCTL_URRE)
+ 
+ extern const unsigned char pcie_link_speed[];
++unsigned char pcie_get_link_speed(unsigned int speed);
++
+ extern bool pci_early_dump;
+ 
+ extern struct mutex pci_rescan_remove_lock;
+diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+index bccc7a4bdd79..d6592898330c 100644
+--- a/drivers/pci/probe.c
++++ b/drivers/pci/probe.c
+@@ -783,6 +783,22 @@ const unsigned char pcie_link_speed[] = {
+ };
+ EXPORT_SYMBOL_GPL(pcie_link_speed);
+ 
++/**
++ * pcie_link_speed_value - Get speed value from PCIe generation number
++ * @speed: PCIe speed (1-based: 1 = 2.5GT, 2 = 5GT, ...)
++ *
++ * Returns the speed value (e.g., PCIE_SPEED_2_5GT) if @speed is valid,
++ * otherwise returns PCI_SPEED_UNKNOWN.
++ */
++unsigned char pcie_get_link_speed(unsigned int speed)
++{
++	if (speed >= ARRAY_SIZE(pcie_link_speed))
++		return PCI_SPEED_UNKNOWN;
++
++	return pcie_link_speed[speed];
++}
++EXPORT_SYMBOL_GPL(pcie_get_link_speed);
++
+ const char *pci_speed_string(enum pci_bus_speed speed)
+ {
+ 	/* Indexed by the pci_bus_speed enum */
 -- 
 2.34.1
 
