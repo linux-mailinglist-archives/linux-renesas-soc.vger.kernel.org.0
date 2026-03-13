@@ -1,171 +1,138 @@
-Return-Path: <linux-renesas-soc+bounces-29311-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29312-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KH/cOgpDs2l6TgAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29311-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Mar 2026 23:49:46 +0100
+	id kBY/EI1ls2mVVwAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29312-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2026 02:17:01 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1FCE27B1E3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Mar 2026 23:49:45 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A92C527C348
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2026 02:17:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 1EA473014894
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Mar 2026 22:49:43 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 932B13040FBC
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2026 01:16:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF756394498;
-	Thu, 12 Mar 2026 22:49:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A703313520;
+	Fri, 13 Mar 2026 01:16:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="hU2e/Jlu";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="tR7big1g"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jFllOpLR"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8A4B326928;
-	Thu, 12 Mar 2026 22:49:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D0DD15665C;
+	Fri, 13 Mar 2026 01:16:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773355781; cv=none; b=vEhCdmeN+I3UKlqrO25YJPXkR4DRVymMwUCAXf2gGeyBjL2/cWcHbOVbhRsPcUTK642T8CxOzsod5URsoknZMg2BFGGgBbEdEcQIE3owOZaHtxvlgj+YIu4jWZrgfiLXQzNq0yc4IVMTsBgieXhrFeQ+vql0GL26o+4ypUKy/2Q=
+	t=1773364617; cv=none; b=mjGKNmb2MlYTrwSMlQuT0wUcgpRdbMKBPcoVthHHh9oVOyLV4kGlS7o2gjiJZrw9fIiopLqq6s3j4DDo5NBlL6Xz6asevl/BR88PCbt5u0Gdo5tdZZUR1gAxLIFgaYejACZPUJRlUuayCcjk4ADKcM+8pAgzZj5BzGEC3OwvbVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773355781; c=relaxed/simple;
-	bh=SPYlkGlzcRTZp+SchLjy4dTRJNBK6DMGNOC3k3ofL5g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XfuxSLGBRL1weYgKs+B7Le587+jtDhUVSaLx9B0jxt1OqelccK3Rls3ESyVANAFrAtPesJUOvexPgHuFBnco7bpGcYh0t3fnDNdIOA6HX7q1vyN01AfOfiWnvw16wn3FaFqcR8WeOgLKll5vM0gdLDhcC5poJfGADCaVnADfm98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=hU2e/Jlu; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=tR7big1g; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4fX2qZ4M9Zz9sjG;
-	Thu, 12 Mar 2026 23:49:30 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1773355770;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=BrMJ1rwOOlJZeWOhtfl5114396LYytDQ1D6kbadPMDM=;
-	b=hU2e/Jlu1IYttT88I8Rd3IXPx9GUoIX5HmRFj6/MyOWuFMG6dC3mDTDI+7tZ/AdIToZ1iX
-	sK7JMxaKcylLa63HnqDN0PZ/VUgwUW7tiaU2gAXZXY2Ehc1U4/u9IduvhNqQoQFvWFL2Kb
-	X9qMQlASg4Ez7ojcLL7iWwIXFW7+DK5p340hQF4WiTkQqyUC8VsdDjVcvRHsclx1AHcUou
-	oAM2Yzseq8e5fL03kUIepmZCOoSdi9NdF2TIK3hB7vXLFL2fa+inHMzKAdKKqlaF8FCy6k
-	kyo6iZymAQeyfdiPNvEShK0AJZp6tEeTktykoqA6T+98wEUAnKWFEM9/ny1Pfg==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=tR7big1g;
-	spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org designates 2001:67c:2050:b231:465::102 as permitted sender) smtp.mailfrom=marek.vasut+renesas@mailbox.org
-From: Marek Vasut <marek.vasut+renesas@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1773355768;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=BrMJ1rwOOlJZeWOhtfl5114396LYytDQ1D6kbadPMDM=;
-	b=tR7big1g2fylDeqiS5oZPnRl8V09dC3kK4LStT5pJXVncakUeHr5xvvWheoo/FCGMjYRVG
-	y1uXSxZ/SaIAqsqH8IUjIcpqUhPPJObfhYtZTAlie4eQhLTltBE1rXNNu7M+XiI8Nb0Fcx
-	XTWoENBh1JFYCP+UPfAQBErfLAT/uIlWy73EbvqmV8ttlzbX7Ws4zMrewCvCx8sUMbxX5H
-	7Yrx9R7Ce3cyeNaOoOE3lRwf0BMaaGcJrE2OaSDK0r6aG/oyiwKyeMSOavHspBW543hwq+
-	DMYqukrQkDLsmwOg5dmUMKARzNnAin/oTuF4VghD2tnca0HJieHjAxzy7H45Bg==
-To: devicetree@vger.kernel.org
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Frank Li <Frank.Li@nxp.com>,
-	Job Noorman <job@noorman.info>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	linux-input@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] dt-bindings: touchscreen: trivial-touch: Move allOf: after required:
-Date: Thu, 12 Mar 2026 23:49:01 +0100
-Message-ID: <20260312224925.186077-1-marek.vasut+renesas@mailbox.org>
+	s=arc-20240116; t=1773364617; c=relaxed/simple;
+	bh=zPEcR98I4xhUijv+qJNI6kaevc+I8oOwAq51hsyZIN4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GFidzKx/mkwZZ5ju5GaElScOXb1bqKf7DuumaPaTMypxa3w4Gf7rhx/pVZKkGepn1P8H2IXPlTkehmc95UsQObCJircBR9Ztwc+IzXW+zyxnsGbmxlmWNzOnEwzyjr8xbr/bv01Yp7lXhI4f4OuiD9X3ahGPV/QMkSCcdqBiCRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jFllOpLR; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF82BC4CEF7;
+	Fri, 13 Mar 2026 01:16:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773364617;
+	bh=zPEcR98I4xhUijv+qJNI6kaevc+I8oOwAq51hsyZIN4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=jFllOpLRMRE2IGfEDXUEY9ba4b3cNJWvEbGvGBw5ZGzoCW8DWdJj0BqcNiQ/Y8GUJ
+	 cRhG0Zmu/MtyrpDtIKMli5RfjyB/7DdinXkjUxwC3r2xHYzxZbVE1PbUsIBtNBGdXT
+	 zBg/De8hBSG2RiGNlB9aDCTKJRuiv+r9Rg4ZJ3giPiudOiLXMS1iDeGg6PQ7NkTCtQ
+	 CN1f3+8XC3U+KAwErIpoSpBRfdv6Z/+4x5hJTBdsFVOCyayhVGj6jeZHQfgm+zMlxj
+	 EQv4E9b4SZXOVU2lIIor9NApwk4IbuDYgD3C03BfACceOsz9wt5jUmHqlze9bYvBTs
+	 DJoY+01DWokAA==
+Date: Thu, 12 Mar 2026 18:16:54 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio
+ <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Andrew
+ Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Maxime
+ Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Vinod Koul <vkoul@kernel.org>, Giuseppe
+ Cavallaro <peppe.cavallaro@st.com>, Chen-Yu Tsai <wens@kernel.org>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, Jerome
+ Brunet <jbrunet@baylibre.com>, Shawn Guo <shawnguo@kernel.org>, Fabio
+ Estevam <festevam@gmail.com>, Jan Petrous <jan.petrous@oss.nxp.com>,
+ s32@nxp.com, Romain Gantois <romain.gantois@bootlin.com>, Geert
+ Uytterhoeven <geert+renesas@glider.be>, Magnus Damm
+ <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>, Christophe
+ Roullier <christophe.roullier@foss.st.com>, Bartosz Golaszewski
+ <brgl@kernel.org>, Radu Rendec <rrendec@redhat.com>,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, Drew Fustini
+ <dfustini@tenstorrent.com>, linux-sunxi@lists.linux.dev,
+ linux-amlogic@lists.infradead.org, linux-mips@vger.kernel.org,
+ imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, sophgo@lists.linux.dev,
+ linux-riscv@lists.infradead.org, Bartosz Golaszewski
+ <bartosz.golaszewski@linaro.org>, Martin Blumenstingl
+ <martin.blumenstingl@googlemail.com>, Krzysztof Kozlowski
+ <krzysztof.kozlowski@oss.qualcomm.com>, Lad Prabhakar
+ <prabhakar.mahadev-lad.rj@bp.renesas.com>, Konrad Dybcio
+ <konrad.dybcio@oss.qualcomm.com>
+Subject: Re: [PATCH net-next v8 0/6] net: stmmac: qcom-ethqos: add support
+ for SCMI power domains
+Message-ID: <20260312181654.2d9ba69c@kernel.org>
+In-Reply-To: <20260311-qcom-sa8255p-emac-v8-0-58227bcf1018@oss.qualcomm.com>
+References: <20260311-qcom-sa8255p-emac-v8-0-58227bcf1018@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: g8inqgxx61bp6qgxh48fr6dhjsusrk41
-X-MBO-RS-ID: 8ad9291e0188dee46cc
-X-Spamd-Result: default: False [-0.16 / 15.00];
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[mailbox.org,kernel.org,gmail.com,nxp.com,noorman.info,vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,lunn.ch,davemloft.net,google.com,redhat.com,gmail.com,foss.st.com,st.com,linaro.org,baylibre.com,oss.nxp.com,nxp.com,bootlin.com,glider.be,vger.kernel.org,st-md-mailman.stormreply.com,lists.infradead.org,tenstorrent.com,lists.linux.dev,googlemail.com,oss.qualcomm.com,bp.renesas.com];
+	TAGGED_FROM(0.00)[bounces-29312-lists,linux-renesas-soc=lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-29311-lists,linux-renesas-soc=lfdr.de,renesas];
-	DKIM_TRACE(0.00)[mailbox.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[50];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[marek.vasut@mailbox.org,linux-renesas-soc@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[kuba@kernel.org,linux-renesas-soc@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,netdev,renesas];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,mailbox.org:dkim,mailbox.org:email,mailbox.org:mid]
-X-Rspamd-Queue-Id: F1FCE27B1E3
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: A92C527C348
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Majority of schemas place allOf: after required: . Documentation
-Documentation/devicetree/bindings/writing-schema.rst also hints at
-this ordering. Trivially update this schema. No functional change.
+On Wed, 11 Mar 2026 18:03:35 +0100 Bartosz Golaszewski wrote:
+> Add support for the firmware-managed variant of the DesignWare MAC on
+> the sa8255p platform. This series contains new DT bindings and driver
+> changes required to support the MAC in the STMMAC driver.
+> 
+> It also reorganizes the ethqos code quite a bit to make the introduction
+> of power domains into the driver a bit easier on the eye.
 
-Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
----
-NOTE: This comes from https://lore.kernel.org/all/20260117-grinning-heavy-crab-11f245@quoll/
-      where krzk comments "allOf: should be placed after required: block."
----
-Cc: Conor Dooley <conor+dt@kernel.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Frank Li <Frank.Li@nxp.com>
-Cc: Job Noorman <job@noorman.info>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Rob Herring <robh@kernel.org>
-Cc: devicetree@vger.kernel.org
-Cc: linux-input@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org
----
- .../bindings/input/touchscreen/trivial-touch.yaml           | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/trivial-touch.yaml b/Documentation/devicetree/bindings/input/touchscreen/trivial-touch.yaml
-index 6441d21223caf..6316a8d32f39b 100644
---- a/Documentation/devicetree/bindings/input/touchscreen/trivial-touch.yaml
-+++ b/Documentation/devicetree/bindings/input/touchscreen/trivial-touch.yaml
-@@ -53,14 +53,14 @@ properties:
- 
-   wakeup-source: true
- 
--allOf:
--  - $ref: touchscreen.yaml
--
- required:
-   - compatible
-   - reg
-   - interrupts
- 
-+allOf:
-+  - $ref: touchscreen.yaml
-+
- unevaluatedProperties: false
- 
- examples:
--- 
-2.51.0
-
+Not entirely sure what the conclusion was in the sub-thread with Russell
+but FWIW this doesn't apply to net-next as posted so respin will be
+needed either way.
 
