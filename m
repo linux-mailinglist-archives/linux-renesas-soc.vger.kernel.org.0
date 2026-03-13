@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-29374-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29373-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6F5LLKFDtGk4kAAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29374-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2026 18:04:33 +0100
+	id YHdvCatDtGk4kAAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29373-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2026 18:04:43 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4123287C77
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2026 18:04:32 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F90E287C8F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2026 18:04:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 16EC13078920
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2026 16:58:03 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 29B5030E18F2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2026 16:57:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F4023CD8DB;
-	Fri, 13 Mar 2026 16:57:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CC903CAE6F;
+	Fri, 13 Mar 2026 16:57:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="cK0MmJDl"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="m2cjwkog"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A0D83CAE77;
-	Fri, 13 Mar 2026 16:56:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50D253C73FD;
+	Fri, 13 Mar 2026 16:56:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773421025; cv=none; b=MsqVHG4WHzK6gi238L7Af54Usd4+9GYc/S7feFfjP/6kEUAFsOs2INTT1OuZgM2PDINPo2NDKqwqDfNZ9AQuZU/2j22wjl6vylKgmxzu5j7jOqBGZ6C3hQmofH19Deb5B9CWLWtIYz2k2OXX3+STdOMlhc2IUmvsUTelWpIbymE=
+	t=1773421023; cv=none; b=TsS2c82h9rjf3thvKkPFZiCZd8pdTA6qmkgkIt/ynqib/UM9vnuU7zfp+C8djZ+aOsrsOv8ggErOP9N8fo5DSPGQ3KECe65oDlawe0FuziZCl9mWrytbv+m7ZN/Dq3aKdsErmhK7RZlvXT63M/ZGrO47JG19NbPOiedxKRRysRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773421025; c=relaxed/simple;
-	bh=dyqnxGxLuqnzGkcZLb43xdRPAjbpvPuyh3PA8tlPYCg=;
+	s=arc-20240116; t=1773421023; c=relaxed/simple;
+	bh=dLBK1diKeZlLb7ErFd5QdJ4eb2kSmDhcrwFtiWopAxI=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=f9Lj31QFCFMqKDddXbBpBgwVs45/IoupxS7bu4oT34O5HSWd+keaPiLiIUTZMGrvKJkPxHCpO5QU0Y6gqkAnLm5Kl039xpApirR7jjHNKHzgWfzOmcuXrk8FtG73rOUx0oLhf5u5kgCi5ah5l4wsQdOthBbiMvFiboStrLNFOjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=cK0MmJDl; arc=none smtp.client-ip=220.197.31.5
+	 MIME-Version; b=hj+nMHw2ho7FdVSGbViL7juOnmbobFu5wpXD8EUw+Ah/mMVQREH5dLsc1kqY3zIYObi+xtF2qAO7UMlrZjTgyjbhWl2Y4MvONMptnHgpHOLi3623FGVH9ppQHPYFady7VrAvfijqVOG9W4lzqKQZQ+znxmwp/ciBk8e/qm0Co3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=m2cjwkog; arc=none smtp.client-ip=220.197.31.2
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=OS
-	3wNR44a9Lcr5qeJNGEMIZI1am9Rwc0ZQ9oLaGb9Ro=; b=cK0MmJDlf9ZvYmwmn+
-	asRAiFE8eoyXUOJsmYCxDBQz4hZkk5pzhR4bpX3KaQTISy0u9fWlHOxJx0EPB2Ve
-	Ra4sm9qGjJbaKKOw2CeJyJWIlWobu7F6oI+2bKft3852HZ7vHMC4Jhzk1rwYlzLg
-	Lyxn1TtkDyMJ6LCTXcJf+0IR4=
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=q8
+	94oIJ4bYAg9Q9C0Fcsffh5Nho2Uop1nYGfUhyAYk8=; b=m2cjwkogHtHe/O5pqd
+	kWiwyVGQ8lSJ/meJz2zbEGfPfBRorzSQ4FlJsI3+6O/rr4YMXjNgzb+OU8j3mEXG
+	EKjoClLTg3FD4cNd3b0B2Z52Mm7Pba82yphj+Kw1VRw5RhG8x527BTL8+3u6s43U
+	pGElVMECG/vRE0mB8nSMlWq+8=
 Received: from zhb.. (unknown [])
-	by gzga-smtp-mtada-g0-4 (Coremail) with SMTP id _____wAX2JV7QbRpTApJAw--.54345S3;
-	Sat, 14 Mar 2026 00:55:25 +0800 (CST)
+	by gzga-smtp-mtada-g0-4 (Coremail) with SMTP id _____wAX2JV7QbRpTApJAw--.54345S4;
+	Sat, 14 Mar 2026 00:55:27 +0800 (CST)
 From: Hans Zhang <18255117159@163.com>
 To: lpieralisi@kernel.org,
 	jingoohan1@gmail.com,
@@ -66,9 +66,9 @@ Cc: robh@kernel.org,
 	linux-kernel@vger.kernel.org,
 	shawn.lin@rock-chips.com,
 	Hans Zhang <18255117159@163.com>
-Subject: [PATCH v9 1/5] PCI: Add pcie_get_link_speed() helper for safe array access
-Date: Sat, 14 Mar 2026 00:55:18 +0800
-Message-Id: <20260313165522.123518-2-18255117159@163.com>
+Subject: [PATCH v9 2/5] PCI: dwc: Use pcie_get_link_speed() helper for safe array access
+Date: Sat, 14 Mar 2026 00:55:19 +0800
+Message-Id: <20260313165522.123518-3-18255117159@163.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260313165522.123518-1-18255117159@163.com>
 References: <20260313165522.123518-1-18255117159@163.com>
@@ -79,19 +79,19 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wAX2JV7QbRpTApJAw--.54345S3
-X-Coremail-Antispam: 1Uf129KBjvJXoW7WF48JF4fKFW8CrWUXr13urg_yoW8ZFy5pF
-	W2kw1Fyr10qF13Xr43Z3Z8ZFy5X3ZxGFW7GrW7GasFvF43Jr9xXrySgrWfJr9akrsrury2
-	qF13tr4UCF12yF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0z_uWlZUUUUU=
-X-CM-SenderInfo: rpryjkyvrrlimvzbiqqrwthudrp/xtbC7B72mmm0QX4ApgAA3a
+X-CM-TRANSID:_____wAX2JV7QbRpTApJAw--.54345S4
+X-Coremail-Antispam: 1Uf129KBjvJXoW3GFWrCFW8Jr4UXw15GF4UArb_yoW7KFWUpa
+	y5tFyIyF18JF45ur4Yyas5ZFyYqFnxCrW7GwsxW3Z29FyakrZxKa48tFWftryfKFsFvry3
+	Kr17t3W7CF13tr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0ziksqXUUUUU=
+X-CM-SenderInfo: rpryjkyvrrlimvzbiqqrwthudrp/xtbC7B-2mmm0QX8AsgAA3O
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[163.com,none];
 	R_DKIM_ALLOW(-0.20)[163.com:s=s110527];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -102,7 +102,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_FROM(0.00)[163.com];
 	RCPT_COUNT_TWELVE(0.00)[22];
-	TAGGED_FROM(0.00)[bounces-29374-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-29373-lists,linux-renesas-soc=lfdr.de];
 	DKIM_TRACE(0.00)[163.com:+];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
@@ -110,71 +110,139 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FROM_HAS_DN(0.00)[];
 	FREEMAIL_CC(0.00)[kernel.org,linux.intel.com,vger.kernel.org,lists.infradead.org,bp.renesas.com,broadcom.com,rock-chips.com,163.com];
 	NEURAL_HAM(-0.00)[-0.999];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-renesas-soc];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: D4123287C77
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 8F90E287C8F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The pcie_link_speed[] array is indexed by PCIe generation numbers
-(1 = 2.5 GT/s, 2 = 5 GT/s, ...).  Several drivers use it directly,
-which can lead to out-of-bounds accesses if an invalid generation
-number is used.
+Replace direct indexing of pcie_link_speed[] with the new helper
+pcie_get_link_speed() in all DesignWare core and glue drivers. This
+ensures that out-of-range generation numbers do not cause out-of-bounds
+accesses when the helper returns PCI_SPEED_UNKNOWN, and prepares for
+the removal of the range check in of_pci_get_max_link_speed().
 
-Introduce a helper function pcie_get_link_speed() that returns the
-corresponding enum pci_bus_speed value for a given generation number,
-or PCI_SPEED_UNKNOWN if the generation is out of range.  This will
-allow us to safely handle invalid values after the range check is
-removed from of_pci_get_max_link_speed().
+The actual validation of the "max-link-speed" DT property (e.g., fallback
+to a safe default and warning) is added in subsequent patches for each
+driver that reads the property.
 
 Signed-off-by: Hans Zhang <18255117159@163.com>
 ---
- drivers/pci/pci.h   |  2 ++
- drivers/pci/probe.c | 16 ++++++++++++++++
- 2 files changed, 18 insertions(+)
+ drivers/pci/controller/dwc/pcie-designware-host.c | 2 +-
+ drivers/pci/controller/dwc/pcie-designware.c      | 2 +-
+ drivers/pci/controller/dwc/pcie-qcom-common.c     | 2 +-
+ drivers/pci/controller/dwc/pcie-qcom-ep.c         | 4 ++--
+ drivers/pci/controller/dwc/pcie-qcom.c            | 6 +++---
+ drivers/pci/controller/dwc/pcie-tegra194.c        | 2 +-
+ 6 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-index 13d998fbacce..409aca7d737a 100644
---- a/drivers/pci/pci.h
-+++ b/drivers/pci/pci.h
-@@ -108,6 +108,8 @@ struct pcie_tlp_log;
- 				 PCI_EXP_DEVCTL_FERE | PCI_EXP_DEVCTL_URRE)
- 
- extern const unsigned char pcie_link_speed[];
-+unsigned char pcie_get_link_speed(unsigned int speed);
-+
- extern bool pci_early_dump;
- 
- extern struct mutex pci_rescan_remove_lock;
-diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
-index bccc7a4bdd79..d6592898330c 100644
---- a/drivers/pci/probe.c
-+++ b/drivers/pci/probe.c
-@@ -783,6 +783,22 @@ const unsigned char pcie_link_speed[] = {
- };
- EXPORT_SYMBOL_GPL(pcie_link_speed);
- 
-+/**
-+ * pcie_link_speed_value - Get speed value from PCIe generation number
-+ * @speed: PCIe speed (1-based: 1 = 2.5GT, 2 = 5GT, ...)
-+ *
-+ * Returns the speed value (e.g., PCIE_SPEED_2_5GT) if @speed is valid,
-+ * otherwise returns PCI_SPEED_UNKNOWN.
-+ */
-+unsigned char pcie_get_link_speed(unsigned int speed)
-+{
-+	if (speed >= ARRAY_SIZE(pcie_link_speed))
-+		return PCI_SPEED_UNKNOWN;
-+
-+	return pcie_link_speed[speed];
-+}
-+EXPORT_SYMBOL_GPL(pcie_get_link_speed);
-+
- const char *pci_speed_string(enum pci_bus_speed speed)
+diff --git a/drivers/pci/controller/dwc/pcie-designware-host.c b/drivers/pci/controller/dwc/pcie-designware-host.c
+index 6ae6189e9b8a..0e05c5280344 100644
+--- a/drivers/pci/controller/dwc/pcie-designware-host.c
++++ b/drivers/pci/controller/dwc/pcie-designware-host.c
+@@ -1081,7 +1081,7 @@ static void dw_pcie_program_presets(struct dw_pcie_rp *pp, enum pci_bus_speed sp
+ static void dw_pcie_config_presets(struct dw_pcie_rp *pp)
  {
- 	/* Indexed by the pci_bus_speed enum */
+ 	struct dw_pcie *pci = to_dw_pcie_from_pp(pp);
+-	enum pci_bus_speed speed = pcie_link_speed[pci->max_link_speed];
++	enum pci_bus_speed speed = pcie_get_link_speed(pci->max_link_speed);
+ 
+ 	/*
+ 	 * Lane equalization settings need to be applied for all data rates the
+diff --git a/drivers/pci/controller/dwc/pcie-designware.c b/drivers/pci/controller/dwc/pcie-designware.c
+index 5741c09dde7f..06792ba92aa7 100644
+--- a/drivers/pci/controller/dwc/pcie-designware.c
++++ b/drivers/pci/controller/dwc/pcie-designware.c
+@@ -861,7 +861,7 @@ static void dw_pcie_link_set_max_speed(struct dw_pcie *pci)
+ 	ctrl2 = dw_pcie_readl_dbi(pci, offset + PCI_EXP_LNKCTL2);
+ 	ctrl2 &= ~PCI_EXP_LNKCTL2_TLS;
+ 
+-	switch (pcie_link_speed[pci->max_link_speed]) {
++	switch (pcie_get_link_speed(pci->max_link_speed)) {
+ 	case PCIE_SPEED_2_5GT:
+ 		link_speed = PCI_EXP_LNKCTL2_TLS_2_5GT;
+ 		break;
+diff --git a/drivers/pci/controller/dwc/pcie-qcom-common.c b/drivers/pci/controller/dwc/pcie-qcom-common.c
+index 01c5387e53bf..5aa73c628737 100644
+--- a/drivers/pci/controller/dwc/pcie-qcom-common.c
++++ b/drivers/pci/controller/dwc/pcie-qcom-common.c
+@@ -22,7 +22,7 @@ void qcom_pcie_common_set_equalization(struct dw_pcie *pci)
+ 	 * applied.
+ 	 */
+ 
+-	for (speed = PCIE_SPEED_8_0GT; speed <= pcie_link_speed[pci->max_link_speed]; speed++) {
++	for (speed = PCIE_SPEED_8_0GT; speed <= pcie_get_link_speed(pci->max_link_speed); speed++) {
+ 		if (speed > PCIE_SPEED_32_0GT) {
+ 			dev_warn(dev, "Skipped equalization settings for unsupported data rate\n");
+ 			break;
+diff --git a/drivers/pci/controller/dwc/pcie-qcom-ep.c b/drivers/pci/controller/dwc/pcie-qcom-ep.c
+index 18460f01b2c6..4b7184d4a6fa 100644
+--- a/drivers/pci/controller/dwc/pcie-qcom-ep.c
++++ b/drivers/pci/controller/dwc/pcie-qcom-ep.c
+@@ -152,7 +152,7 @@
+ #define WAKE_DELAY_US				2000 /* 2 ms */
+ 
+ #define QCOM_PCIE_LINK_SPEED_TO_BW(speed) \
+-		Mbps_to_icc(PCIE_SPEED2MBS_ENC(pcie_link_speed[speed]))
++		Mbps_to_icc(PCIE_SPEED2MBS_ENC(pcie_get_link_speed(speed)))
+ 
+ #define to_pcie_ep(x)				dev_get_drvdata((x)->dev)
+ 
+@@ -531,7 +531,7 @@ static int qcom_pcie_perst_deassert(struct dw_pcie *pci)
+ 
+ 	qcom_pcie_common_set_equalization(pci);
+ 
+-	if (pcie_link_speed[pci->max_link_speed] == PCIE_SPEED_16_0GT)
++	if (pcie_get_link_speed(pci->max_link_speed) == PCIE_SPEED_16_0GT)
+ 		qcom_pcie_common_set_16gt_lane_margining(pci);
+ 
+ 	/*
+diff --git a/drivers/pci/controller/dwc/pcie-qcom.c b/drivers/pci/controller/dwc/pcie-qcom.c
+index 67a16af69ddc..5c7c105bb745 100644
+--- a/drivers/pci/controller/dwc/pcie-qcom.c
++++ b/drivers/pci/controller/dwc/pcie-qcom.c
+@@ -170,7 +170,7 @@
+ #define QCOM_PCIE_CRC8_POLYNOMIAL		(BIT(2) | BIT(1) | BIT(0))
+ 
+ #define QCOM_PCIE_LINK_SPEED_TO_BW(speed) \
+-		Mbps_to_icc(PCIE_SPEED2MBS_ENC(pcie_link_speed[speed]))
++		Mbps_to_icc(PCIE_SPEED2MBS_ENC(pcie_get_link_speed(speed)))
+ 
+ struct qcom_pcie_resources_1_0_0 {
+ 	struct clk_bulk_data *clks;
+@@ -320,7 +320,7 @@ static int qcom_pcie_start_link(struct dw_pcie *pci)
+ 
+ 	qcom_pcie_common_set_equalization(pci);
+ 
+-	if (pcie_link_speed[pci->max_link_speed] == PCIE_SPEED_16_0GT)
++	if (pcie_get_link_speed(pci->max_link_speed) == PCIE_SPEED_16_0GT)
+ 		qcom_pcie_common_set_16gt_lane_margining(pci);
+ 
+ 	/* Enable Link Training state machine */
+@@ -1579,7 +1579,7 @@ static void qcom_pcie_icc_opp_update(struct qcom_pcie *pcie)
+ 				ret);
+ 		}
+ 	} else if (pcie->use_pm_opp) {
+-		freq_mbps = pcie_dev_speed_mbps(pcie_link_speed[speed]);
++		freq_mbps = pcie_dev_speed_mbps(pcie_get_link_speed(speed));
+ 		if (freq_mbps < 0)
+ 			return;
+ 
+diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
+index 06571d806ab3..47f08adfbd79 100644
+--- a/drivers/pci/controller/dwc/pcie-tegra194.c
++++ b/drivers/pci/controller/dwc/pcie-tegra194.c
+@@ -310,7 +310,7 @@ static void tegra_pcie_icc_set(struct tegra_pcie_dw *pcie)
+ 	speed = FIELD_GET(PCI_EXP_LNKSTA_CLS, val);
+ 	width = FIELD_GET(PCI_EXP_LNKSTA_NLW, val);
+ 
+-	val = width * PCIE_SPEED2MBS_ENC(pcie_link_speed[speed]);
++	val = width * PCIE_SPEED2MBS_ENC(pcie_get_link_speed(speed));
+ 
+ 	if (icc_set_bw(pcie->icc_path, Mbps_to_icc(val), 0))
+ 		dev_err(pcie->dev, "can't set bw[%u]\n", val);
 -- 
 2.34.1
 
