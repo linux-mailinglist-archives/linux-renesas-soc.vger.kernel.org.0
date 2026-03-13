@@ -1,180 +1,152 @@
-Return-Path: <linux-renesas-soc+bounces-29372-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29376-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +Ej6FLBEtGk4kAAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29372-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2026 18:09:04 +0100
+	id EM4UOhxGtGl2kgAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29376-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2026 18:15:08 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0A58287D89
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2026 18:09:03 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B25D287F18
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2026 18:15:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3315332D86FC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2026 16:57:43 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8BAF7307EDCF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2026 17:10:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C1043CCFD7;
-	Fri, 13 Mar 2026 16:56:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4835B3C65E0;
+	Fri, 13 Mar 2026 17:09:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="oG71UXqY"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Kfukbwqp"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 457863CAE91;
-	Fri, 13 Mar 2026 16:56:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A44F35BDA8
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 13 Mar 2026 17:09:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773421015; cv=none; b=G9wHj8uCVy8uKB3ykrjBXdU8hpfbx3BUFWA7NUNZh2SvS2preSUd9voQRYpJ3byBT/Lo9TXtQwSAwN64rdXYO3AlYz1Mqsd9ytpt6kTD27osp6AK8oRuEALjh5lTMvvN8sBFN42SZ3ai07gunuH4MQpv7q9xcg/TABdU/aCkP6I=
+	t=1773421799; cv=none; b=X2e0Pk4gOFOIaThkglGmN6DQSOXxr6BDQeLCxe9k7NCgrVYOKp4XZSK5OkGcEp+d0ZRcoq2y8iLYSPAseZnSXxNDgzTXmtlzU4uuTBDyIlou4Yr13K/+Vy4+7mfPcKX9U1o/BO8/PQ4gz3zpUGYTbxXXavnt12ku3MXvkZRXVNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773421015; c=relaxed/simple;
-	bh=G1AB0C3qS2kTKGH00VmTDcw0q84SibXoxp08vzs/DQ4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=bhyd/DhvZJzAQ0fURxRMiPnOpt0/LWdQPbHbEsuDrOo0qHLd7QdgNaiEZbiKROVyyrAaUHx+2ijlgBkXTXNdWCiBxH1sCRTcRjkOaipxAK9zucTm2K63ZpdPp1txMoLVVdNsn7bGFvVfQXAFoDUUdGaGQsiE02/cdTvlf5fA6U8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=oG71UXqY; arc=none smtp.client-ip=220.197.31.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=jj
-	DNm/XzahkRhGQzN2/ls50FUOrDxUcWtH7f1FncHjY=; b=oG71UXqYCXt2nWkn/c
-	ijnOrcy8X4LK/CHjGC54b+5PKvlRDgNV9E9rj2ho8TLda9metMKkvnc1Toglbwto
-	OccRPnIDwOT+h1HWznW3/Y8s9c24oaIYJRwRzXUa2v7K+2D/iFH/Tnl/0bBrBEGc
-	ueSXwsRlVKQTVrqH7D4L0spaM=
-Received: from zhb.. (unknown [])
-	by gzga-smtp-mtada-g0-4 (Coremail) with SMTP id _____wAX2JV7QbRpTApJAw--.54345S7;
-	Sat, 14 Mar 2026 00:55:30 +0800 (CST)
-From: Hans Zhang <18255117159@163.com>
-To: lpieralisi@kernel.org,
-	jingoohan1@gmail.com,
-	mani@kernel.org,
-	kwilczynski@kernel.org,
-	bhelgaas@google.com,
-	helgaas@kernel.org,
-	florian.fainelli@broadcom.com,
-	jim2101024@gmail.com
-Cc: robh@kernel.org,
-	ilpo.jarvinen@linux.intel.com,
-	linux-arm-msm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org,
-	claudiu.beznea.uj@bp.renesas.com,
-	linux-mediatek@lists.infradead.org,
-	linux-tegra@vger.kernel.org,
-	linux-omap@vger.kernel.org,
-	bcm-kernel-feedback-list@broadcom.com,
-	linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	shawn.lin@rock-chips.com,
-	Hans Zhang <18255117159@163.com>
-Subject: [PATCH v9 5/5] PCI: of: Remove max-link-speed generation validation
-Date: Sat, 14 Mar 2026 00:55:22 +0800
-Message-Id: <20260313165522.123518-6-18255117159@163.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260313165522.123518-1-18255117159@163.com>
-References: <20260313165522.123518-1-18255117159@163.com>
+	s=arc-20240116; t=1773421799; c=relaxed/simple;
+	bh=zgKdsEGdjdvUuCuj3NXoEiAo/0AGLqUvRArM22toq5c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xus5rdDPoz/F8SlSdhxKt74Rx55KYobaUYsE6Cxj0+EdMnjDr1h524nXh5ZUEOqabt0EsfHo0kl6sLL8Ap6advg+TdUpBwnthAxsGV9961IQHLX2C2HiNH+Ol4OM14Uc89DCiy0mbNTfAmXkAJN7bX/EHmEDWpcOWs77g4fOOL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Kfukbwqp; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=zgKd
+	sEGdjdvUuCuj3NXoEiAo/0AGLqUvRArM22toq5c=; b=KfukbwqpzJhNoAxRs1CM
+	usGPS8xUhNq/i0LNijPkJ5tsnRW7JS2r3Muh8oAaRnPmruMbo8YpjJFshAyVw2kx
+	WDaWXlJOIfmzuxlVfkm8fSAvB1WhxWGkLbAo/1u6HL3ChLY8r05hn+pi7lI161Bc
+	gWkApd5TCAHJvuNH5vqmcTne0hCuOzOP5aF4eLupZ4PHQhJT4n1chU9DO6e6cN47
+	qBilPS2nJ6DrmfGnxuoVVz7FfgMe/3iX1Zl60ClRU1poS9oes8WWpZHJkUttgh0x
+	m997CSXkdCfe+NKFUQMjh46Siln+qUPgab6Fr9zd8qbJpkw4SRpN5ucj0Oq/o6M9
+	1A==
+Received: (qmail 387518 invoked from network); 13 Mar 2026 18:09:46 +0100
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 13 Mar 2026 18:09:46 +0100
+X-UD-Smtp-Session: l3s3148p1@yLGd7+pMtJ0ujnuR
+Date: Fri, 13 Mar 2026 18:09:46 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
+	Pascal Eberhard <pascal.eberhard@se.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v2 1/3] watchdog: rzn1: Fix reverse xmas tree declaration
+Message-ID: <abRE2v-raiGhGuQ2@ninjato>
+References: <20260313092417.294356-1-herve.codina@bootlin.com>
+ <20260313092417.294356-2-herve.codina@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wAX2JV7QbRpTApJAw--.54345S7
-X-Coremail-Antispam: 1Uf129KBjvJXoW7tr43tw43CryDXw1DJrWrXwb_yoW8tw43pa
-	y3AryY9r1DJr4rWr4UJF4rZa4jgF1rWrW8Kr15C3sruwnxXrWYqry2vF4aqFySkFykuF17
-	X3WagF4UCayjkaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0piWCJhUUUUU=
-X-CM-SenderInfo: rpryjkyvrrlimvzbiqqrwthudrp/xtbCxAL3m2m0QYLKGgAA3k
-X-Spamd-Result: default: False [-0.66 / 15.00];
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="uqZG+egNaPCPpGfS"
+Content-Disposition: inline
+In-Reply-To: <20260313092417.294356-2-herve.codina@bootlin.com>
+X-Spamd-Result: default: False [-1.76 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[163.com,none];
-	R_DKIM_ALLOW(-0.20)[163.com:s=s110527];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[sang-engineering.com:s=k1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[kernel.org,gmail.com,google.com,broadcom.com];
-	MIME_TRACE(0.00)[0:+];
+	DMARC_NA(0.00)[sang-engineering.com];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[163.com];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	TAGGED_FROM(0.00)[bounces-29372-lists,linux-renesas-soc=lfdr.de];
-	DKIM_TRACE(0.00)[163.com:+];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	TAGGED_FROM(0.00)[bounces-29376-lists,linux-renesas-soc=lfdr.de,renesas];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[18255117159@163.com,linux-renesas-soc@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,linux.intel.com,vger.kernel.org,lists.infradead.org,bp.renesas.com,broadcom.com,rock-chips.com,163.com];
-	NEURAL_HAM(-0.00)[-0.999];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: D0A58287D89
+	FROM_NEQ_ENVFROM(0.00)[wsa@sang-engineering.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[sang-engineering.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,sang-engineering.com:dkim,sang-engineering.com:email]
+X-Rspamd-Queue-Id: 4B25D287F18
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The of_pci_get_max_link_speed() function currently validates the
-"max-link-speed" DT property to be in the range 1..4 (Gen1..Gen4).
-This imposes a maintenance burden because each new PCIe generation
-would require updating this validation.
 
-Remove the range check so the function returns the raw property value
-(or a negative error code if the property is missing or malformed).
-Callers must now validate the returned speed against the range they
-support. A subsequent patch adds such validation to the DWC driver,
-which is the primary user of this function.
+--uqZG+egNaPCPpGfS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Removing the validation from this common function allows future PCIe
-generations to be supported without modifying drivers/pci/of.c.
+On Fri, Mar 13, 2026 at 10:24:14AM +0100, Herve Codina (Schneider Electric)=
+ wrote:
+> Variables declared in probe() don't follow the reverse xmas
+> tree convention.
+>=20
+> Fix the declaration in order to follow the convention.
+>=20
+> Signed-off-by: Herve Codina (Schneider Electric) <herve.codina@bootlin.co=
+m>
 
-Signed-off-by: Hans Zhang <18255117159@163.com>
----
- drivers/pci/of.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+Not a fan of such changes. But it works and I am not opposing it:
 
-diff --git a/drivers/pci/of.c b/drivers/pci/of.c
-index 9f8eb5df279e..d645041f5125 100644
---- a/drivers/pci/of.c
-+++ b/drivers/pci/of.c
-@@ -875,24 +875,24 @@ EXPORT_SYMBOL_GPL(of_pci_supply_present);
-  * of_pci_get_max_link_speed - Find the maximum link speed of the given device node.
-  * @node: Device tree node with the maximum link speed information.
-  *
-- * This function will try to find the limitation of link speed by finding
-- * a property called "max-link-speed" of the given device node.
-+ * This function will try to read the "max-link-speed" property of the given
-+ * device tree node. It does NOT validate the value of the property.
-  *
-  * Return:
-  * * > 0	- On success, a maximum link speed.
-- * * -EINVAL	- Invalid "max-link-speed" property value, or failure to access
-- *		  the property of the device tree node.
-+ * * -EINVAL	- Failure to access the property of the device tree node.
-  *
-  * Returns the associated max link speed from DT, or a negative value if the
-- * required property is not found or is invalid.
-+ * required property is not found.
-  */
- int of_pci_get_max_link_speed(struct device_node *node)
- {
- 	u32 max_link_speed;
-+	int ret;
- 
--	if (of_property_read_u32(node, "max-link-speed", &max_link_speed) ||
--	    max_link_speed == 0 || max_link_speed > 4)
--		return -EINVAL;
-+	ret = of_property_read_u32(node, "max-link-speed", &max_link_speed);
-+	if (ret)
-+		return ret;
- 
- 	return max_link_speed;
- }
--- 
-2.34.1
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
+
+--uqZG+egNaPCPpGfS
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmm0RNYACgkQFA3kzBSg
+KbYikw//cv3cIz0tCzQsRnSS2RRZIjN+OyIBjFzKFjBdxShhG41SWNZ5/pwN/7Ah
+u7VMLIP9b30N8Ec9yGOdyKReEGCe2rW4ESf6Mp7ePdIoi++RnBsNZ0EjXVy04wcG
+vktacTR9K/N3NowEjlfnPdY6e1hap6gPDIhTTYWSWacmlsLcRe/LzpwFJV9RujYz
+kPwv7XAZ9E+citlLfC+JndMqQ6JS6IpDnEU7bjrfsq58xkSHzLQc7PkEuWJuH847
+Vg2NPYDwMnQOV3USX9aLyOX4yYhXHI0SynmuEKc8x4YCxh+z942ozaJfXmuqwVD4
+X5Ib158VRwOjw6iZXuYQsi746OXfMiiTtm7qszC5NbQ41nBIkl59zWlkNlvIfPUk
+jxyopg/rDEVvUPJWSQIN3DEaYeW6IO291x8IEaYjGO/CUMEkpfhGuGjTJeoY0wNL
+eH2wFC+y9LdgQBa3e+Y3SXgmJJ3bnu6jdjySuRDfCNsFUuxzgSbMruM/wkT8c2ZT
+plj/1rTGcyGRdxR9wx3B9BdxD0GOtQ9RNaKe7YH34nUKkoj54aSN1Gw5wBygvxIB
+gtwbxXziF0+FIkPuWfQq9wzrphLyy0fUKO8xo5rR8R8ZAt/oQiFr3RV34tZbwXSS
+OZIf11GV9SFhpHZELwOPc8ZL1lv4FOXztxoXlzHzpdEuaeNKFZ4=
+=j4b3
+-----END PGP SIGNATURE-----
+
+--uqZG+egNaPCPpGfS--
 
