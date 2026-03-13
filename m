@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-29370-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29372-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wIcDKIhEtGk4kAAAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29370-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2026 18:08:24 +0100
+	id +Ej6FLBEtGk4kAAAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29372-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2026 18:09:04 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47FB7287D4C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2026 18:08:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0A58287D89
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2026 18:09:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6F571333405B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2026 16:57:02 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3315332D86FC
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2026 16:57:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C1FD3CB2E6;
-	Fri, 13 Mar 2026 16:56:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C1043CCFD7;
+	Fri, 13 Mar 2026 16:56:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="Lwvqmfx2"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="oG71UXqY"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD3D83CAE68;
-	Fri, 13 Mar 2026 16:56:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 457863CAE91;
+	Fri, 13 Mar 2026 16:56:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773421010; cv=none; b=ZhHCfiSpZkAD4fmlliQUjrMI/S4gYsf+KqukGZGiNjLpKwd7CGIul5R5g5obV9O8JBeSBwpA+E17b+1JJeWX9Qn4R87tgCmAencc8jxL9/g8XIX6eoi1GGGV4BpWkCOm9Q3KPTpe/NcG4TRYvegv5kKX4/q3ftBWnQvV8DY8hn4=
+	t=1773421015; cv=none; b=G9wHj8uCVy8uKB3ykrjBXdU8hpfbx3BUFWA7NUNZh2SvS2preSUd9voQRYpJ3byBT/Lo9TXtQwSAwN64rdXYO3AlYz1Mqsd9ytpt6kTD27osp6AK8oRuEALjh5lTMvvN8sBFN42SZ3ai07gunuH4MQpv7q9xcg/TABdU/aCkP6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773421010; c=relaxed/simple;
-	bh=Dcw+sstqEEl+GfJmTNCmY4ECojIpOSogXcJzVcb1fR8=;
+	s=arc-20240116; t=1773421015; c=relaxed/simple;
+	bh=G1AB0C3qS2kTKGH00VmTDcw0q84SibXoxp08vzs/DQ4=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=NHmrvyVrEi6x6pdmF55rRo+ggn46MgeBZoNSLodlYeZ8gqL3odBEHax57WRG0i2m+7DVaKs+0cLEQ04TwggLpdT1rCv77jVMgBmA7m7onNu74gbGgdanOs9yJpUzhwuWDf1/dEHpxrT+32lu+HOJdDj28QRft0zS1V5/heBhhxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=Lwvqmfx2; arc=none smtp.client-ip=117.135.210.2
+	 MIME-Version; b=bhyd/DhvZJzAQ0fURxRMiPnOpt0/LWdQPbHbEsuDrOo0qHLd7QdgNaiEZbiKROVyyrAaUHx+2ijlgBkXTXNdWCiBxH1sCRTcRjkOaipxAK9zucTm2K63ZpdPp1txMoLVVdNsn7bGFvVfQXAFoDUUdGaGQsiE02/cdTvlf5fA6U8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=oG71UXqY; arc=none smtp.client-ip=220.197.31.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=Ok
-	paxYlsToPKG5PCwsUr7hGf9f4Il4PfIr73LI8TjoI=; b=Lwvqmfx2r7vzhzKL86
-	cNaSlDoz6WFzRjorwb3MWnR/mt1beOAiAe1yvOdjyQbUAoXCFPwcG97T8r6nHxIr
-	km+dPDoNHlO2N4A6fGms7XRADi+LLPkt0PzUTN7qPd/OmEIM+UO0v4wO5pmHezmT
-	lrPjPklTVnyLQdt/1eUXjifQM=
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=jj
+	DNm/XzahkRhGQzN2/ls50FUOrDxUcWtH7f1FncHjY=; b=oG71UXqYCXt2nWkn/c
+	ijnOrcy8X4LK/CHjGC54b+5PKvlRDgNV9E9rj2ho8TLda9metMKkvnc1Toglbwto
+	OccRPnIDwOT+h1HWznW3/Y8s9c24oaIYJRwRzXUa2v7K+2D/iFH/Tnl/0bBrBEGc
+	ueSXwsRlVKQTVrqH7D4L0spaM=
 Received: from zhb.. (unknown [])
-	by gzga-smtp-mtada-g0-4 (Coremail) with SMTP id _____wAX2JV7QbRpTApJAw--.54345S6;
-	Sat, 14 Mar 2026 00:55:29 +0800 (CST)
+	by gzga-smtp-mtada-g0-4 (Coremail) with SMTP id _____wAX2JV7QbRpTApJAw--.54345S7;
+	Sat, 14 Mar 2026 00:55:30 +0800 (CST)
 From: Hans Zhang <18255117159@163.com>
 To: lpieralisi@kernel.org,
 	jingoohan1@gmail.com,
@@ -66,9 +66,9 @@ Cc: robh@kernel.org,
 	linux-kernel@vger.kernel.org,
 	shawn.lin@rock-chips.com,
 	Hans Zhang <18255117159@163.com>
-Subject: [PATCH v9 4/5] PCI: controller: Validate max-link-speed
-Date: Sat, 14 Mar 2026 00:55:21 +0800
-Message-Id: <20260313165522.123518-5-18255117159@163.com>
+Subject: [PATCH v9 5/5] PCI: of: Remove max-link-speed generation validation
+Date: Sat, 14 Mar 2026 00:55:22 +0800
+Message-Id: <20260313165522.123518-6-18255117159@163.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260313165522.123518-1-18255117159@163.com>
 References: <20260313165522.123518-1-18255117159@163.com>
@@ -79,12 +79,12 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wAX2JV7QbRpTApJAw--.54345S6
-X-Coremail-Antispam: 1Uf129KBjvJXoWxur1rGryftF1rKryUGFyDKFg_yoW5Zr18pa
-	9rA3WIyF1UJF45ur4Dt3Z8WF1Yq3ZxZrWDJ3s3W3W7uFnxGFZ8GFyj9FyftF97KFs7ur17
-	X3W7tF47GanFyF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pim9aLUUUUU=
-X-CM-SenderInfo: rpryjkyvrrlimvzbiqqrwthudrp/xtbCxAH3m2m0QYHKAAAA3+
+X-CM-TRANSID:_____wAX2JV7QbRpTApJAw--.54345S7
+X-Coremail-Antispam: 1Uf129KBjvJXoW7tr43tw43CryDXw1DJrWrXwb_yoW8tw43pa
+	y3AryY9r1DJr4rWr4UJF4rZa4jgF1rWrW8Kr15C3sruwnxXrWYqry2vF4aqFySkFykuF17
+	X3WagF4UCayjkaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0piWCJhUUUUU=
+X-CM-SenderInfo: rpryjkyvrrlimvzbiqqrwthudrp/xtbCxAL3m2m0QYLKGgAA3k
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
@@ -102,7 +102,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_FROM(0.00)[163.com];
 	RCPT_COUNT_TWELVE(0.00)[22];
-	TAGGED_FROM(0.00)[bounces-29370-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-29372-lists,linux-renesas-soc=lfdr.de];
 	DKIM_TRACE(0.00)[163.com:+];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
@@ -114,78 +114,66 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	TAGGED_RCPT(0.00)[linux-renesas-soc];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 47FB7287D4C
+X-Rspamd-Queue-Id: D0A58287D89
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Add validation for the "max-link-speed" DT property in three more
-drivers, using the pcie_get_link_speed() helper.
+The of_pci_get_max_link_speed() function currently validates the
+"max-link-speed" DT property to be in the range 1..4 (Gen1..Gen4).
+This imposes a maintenance burden because each new PCIe generation
+would require updating this validation.
 
-- brcmstb: If the value is missing or invalid, fall back to no
-  limitation (pcie->gen = 0).  Fix the previous incorrect logic.
-- mediatek-gen3: If the value is missing or invalid, use the maximum
-  speed supported by the controller.
-- rzg3s-host: If the value is missing or invalid, fall back to Gen2.
+Remove the range check so the function returns the raw property value
+(or a negative error code if the property is missing or malformed).
+Callers must now validate the returned speed against the range they
+support. A subsequent patch adds such validation to the DWC driver,
+which is the primary user of this function.
 
-This ensures that all users of of_pci_get_max_link_speed() are ready
-for the removal of the central range check.
+Removing the validation from this common function allows future PCIe
+generations to be supported without modifying drivers/pci/of.c.
 
 Signed-off-by: Hans Zhang <18255117159@163.com>
 ---
- drivers/pci/controller/pcie-brcmstb.c       | 5 +++--
- drivers/pci/controller/pcie-mediatek-gen3.c | 2 +-
- drivers/pci/controller/pcie-rzg3s-host.c    | 2 +-
- 3 files changed, 5 insertions(+), 4 deletions(-)
+ drivers/pci/of.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/pci/controller/pcie-brcmstb.c b/drivers/pci/controller/pcie-brcmstb.c
-index 062f55690012..714bcab97b60 100644
---- a/drivers/pci/controller/pcie-brcmstb.c
-+++ b/drivers/pci/controller/pcie-brcmstb.c
-@@ -1442,7 +1442,7 @@ static int brcm_pcie_start_link(struct brcm_pcie *pcie)
- 	cls = FIELD_GET(PCI_EXP_LNKSTA_CLS, lnksta);
- 	nlw = FIELD_GET(PCI_EXP_LNKSTA_NLW, lnksta);
- 	dev_info(dev, "link up, %s x%u %s\n",
--		 pci_speed_string(pcie_link_speed[cls]), nlw,
-+		 pci_speed_string(pcie_get_link_speed(cls)), nlw,
- 		 ssc_good ? "(SSC)" : "(!SSC)");
+diff --git a/drivers/pci/of.c b/drivers/pci/of.c
+index 9f8eb5df279e..d645041f5125 100644
+--- a/drivers/pci/of.c
++++ b/drivers/pci/of.c
+@@ -875,24 +875,24 @@ EXPORT_SYMBOL_GPL(of_pci_supply_present);
+  * of_pci_get_max_link_speed - Find the maximum link speed of the given device node.
+  * @node: Device tree node with the maximum link speed information.
+  *
+- * This function will try to find the limitation of link speed by finding
+- * a property called "max-link-speed" of the given device node.
++ * This function will try to read the "max-link-speed" property of the given
++ * device tree node. It does NOT validate the value of the property.
+  *
+  * Return:
+  * * > 0	- On success, a maximum link speed.
+- * * -EINVAL	- Invalid "max-link-speed" property value, or failure to access
+- *		  the property of the device tree node.
++ * * -EINVAL	- Failure to access the property of the device tree node.
+  *
+  * Returns the associated max link speed from DT, or a negative value if the
+- * required property is not found or is invalid.
++ * required property is not found.
+  */
+ int of_pci_get_max_link_speed(struct device_node *node)
+ {
+ 	u32 max_link_speed;
++	int ret;
  
- 	return 0;
-@@ -2072,7 +2072,8 @@ static int brcm_pcie_probe(struct platform_device *pdev)
- 		return PTR_ERR(pcie->clk);
+-	if (of_property_read_u32(node, "max-link-speed", &max_link_speed) ||
+-	    max_link_speed == 0 || max_link_speed > 4)
+-		return -EINVAL;
++	ret = of_property_read_u32(node, "max-link-speed", &max_link_speed);
++	if (ret)
++		return ret;
  
- 	ret = of_pci_get_max_link_speed(np);
--	pcie->gen = (ret < 0) ? 0 : ret;
-+	if (pcie_get_link_speed(ret) == PCI_SPEED_UNKNOWN)
-+		pcie->gen = 0;
- 
- 	pcie->ssc = of_property_read_bool(np, "brcm,enable-ssc");
- 
-diff --git a/drivers/pci/controller/pcie-mediatek-gen3.c b/drivers/pci/controller/pcie-mediatek-gen3.c
-index 75ddb8bee168..3b903ef7d3cf 100644
---- a/drivers/pci/controller/pcie-mediatek-gen3.c
-+++ b/drivers/pci/controller/pcie-mediatek-gen3.c
-@@ -1150,7 +1150,7 @@ static int mtk_pcie_setup(struct mtk_gen3_pcie *pcie)
- 		return err;
- 
- 	err = of_pci_get_max_link_speed(pcie->dev->of_node);
--	if (err) {
-+	if (pcie_get_link_speed(err) != PCI_SPEED_UNKNOWN) {
- 		/* Get the maximum speed supported by the controller */
- 		max_speed = mtk_pcie_get_controller_max_link_speed(pcie);
- 
-diff --git a/drivers/pci/controller/pcie-rzg3s-host.c b/drivers/pci/controller/pcie-rzg3s-host.c
-index 2809112e6317..00a11f986117 100644
---- a/drivers/pci/controller/pcie-rzg3s-host.c
-+++ b/drivers/pci/controller/pcie-rzg3s-host.c
-@@ -966,7 +966,7 @@ static int rzg3s_pcie_set_max_link_speed(struct rzg3s_pcie_host *host)
- 	ls = readw_relaxed(host->pcie + pcie_cap + PCI_EXP_LNKSTA);
- 	cs2 = readl_relaxed(host->axi + RZG3S_PCI_PCSTAT2);
- 
--	switch (pcie_link_speed[host->max_link_speed]) {
-+	switch (pcie_get_link_speed(host->max_link_speed)) {
- 	case PCIE_SPEED_5_0GT:
- 		max_supported_link_speeds = GENMASK(PCI_EXP_LNKSTA_CLS_5_0GB - 1, 0);
- 		link_speed = PCI_EXP_LNKCTL2_TLS_5_0GT;
+ 	return max_link_speed;
+ }
 -- 
 2.34.1
 
