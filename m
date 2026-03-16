@@ -1,353 +1,237 @@
-Return-Path: <linux-renesas-soc+bounces-29491-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29492-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EAY+ARgOuGkWYQEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29491-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 15:05:12 +0100
+	id WN6UFl4OuGkWYQEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29492-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 15:06:22 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C86929AF77
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 15:05:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF92329AFF0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 15:06:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id D6C92304810A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 14:02:13 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id B439E30300F9
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 14:02:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A32FA39B96C;
-	Mon, 16 Mar 2026 14:02:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26006280A5B;
+	Mon, 16 Mar 2026 14:02:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="GlilErIv"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fBATUmFe"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6DAA39B95B
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Mar 2026 14:02:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FDEB39B4A2;
+	Mon, 16 Mar 2026 14:02:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773669733; cv=none; b=OBseZvRBB/rrpS3IKUxIOVHZ7RsUaqK9k25xmLRyDdMaU9P/LoBVpHs35IXsGroEoYXTiW9CyXPKH31ZBr452im5RNegrTDb1oAB1Ug+Yki1QKkiHsKHSfa0oDLtErphe7Vb1L7B+8z4MSuAACLuccOQSooIA2gT2YH/lxuAr1Y=
+	t=1773669758; cv=none; b=sqr6OVSewKZC3aO1Z5d7lCkWIi0KGS7uwCag+T+UGq/744GBe9C8gbubA61a+jJFX40MzaqtxfooTdtMOO8zc2NFAMJA/K8SPld1Wm6RzlS5Og5tXYAyVoUqIjIIteACtcF4mkWZbrugruXry5vLBZrftOh91pPe8r8KTcICzJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773669733; c=relaxed/simple;
-	bh=PZ0J6PzQQlFB79MggTtpj7KejTL/7iuZbV9ZGwEnoFc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ta/g5b47nrtFRu0ROwS1UQMzmzulSTZTPAMddA7h9Ch/SnneRvgHN16ow0MsvIU/HiMtxivXzGNt3bTLULjR53MF2n+CuwtCWbJXA7koqpDeZwa1PfiOjJvOW+LTaXY96MlL6u2PanRUJgo8AGwEPFqQeEvpCcI9CLrERru60sU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=GlilErIv; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-43b3cfc38edso1949803f8f.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Mar 2026 07:02:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1773669730; x=1774274530; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=dmbI3WtmHgbU8oxdywIQFrT/S/wwrbUfPeX2aJLJT48=;
-        b=GlilErIvq6D5x7QhNoy/MfbpU1pwqnUAmnPbVSBlMpz8SjfalZb9rZo/fVdHAJMRIn
-         SgrVlLPLGv0fJS4H/8zxXPf7i+5JouSU/qeUhwKgJ2RneW2EtAv7KGIYgt6swXKs9u6Q
-         HtjpKY7uFetlbH0o9dRoyGZgFnhEhP5fXF4wAOdLPly6sBbDU4xkDC1aPmKbFcryJii8
-         N/N3SJT4Kp62fRROZs14pF8EJQihPAI/v32oRQy5IcPtI7gNzkZOYBt2GiWoohEETWji
-         kAmN9SktL3t192CSk8ej5um5kg4QK39oiVdK6gTDxfOBJnkWN8NBBEbEJ7twTUteum7e
-         uMFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773669730; x=1774274530;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dmbI3WtmHgbU8oxdywIQFrT/S/wwrbUfPeX2aJLJT48=;
-        b=DEMU6v+m4OBfsxLu+sL3fjheLnfVbIxTCxaKN1lQG+Dy4LBcoNJIKmLX0aU7b3jZLi
-         tOb1PVe1anQHI7JYY0xybskSTk1K32PI6cILJY7RPzP1+vngaC9S2DuM4Qs2tIXhzApK
-         CtgbbLc5KMKXuT80u6FcPnidLZgOoqS/zdvIp6/zmNVYAXdccxue868xMta62bY8yRhB
-         KRehfm/Vm2O4H6xqgtzw9w47iZ/G3aYOJefGbk9LmORfp6Xhui6ExanU6gDNQMI4HdCD
-         gQdDXkyPGupLiaIsdL8x/4ab8jD/duHyMCzkwjelTk3uJEapFiOIzw1+lX7S+VTaMiwA
-         wSiA==
-X-Forwarded-Encrypted: i=1; AJvYcCX+nCw51rmto535jbfjtj4fyMfQN4d6Q8Pzzshs2Ob6DMddXqrZZF+Jf9mDnNaUkC49shyXzOlCqNFYH2IfaIR3sA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxpl7LhgZT6gWAVk4Y81E3ax9bqLFWLbJmR6cG8jiv6oTcUmK5H
-	whvmDq5kKXoyUmXYSIDvqcb09BO7up7Ai07vFuyv4fQKS1SZF01mC4je6xa9mSUvXBI=
-X-Gm-Gg: ATEYQzxVjKOOS+lO1Mmgf7CzylIWg1yFkFnb/vm4KEU3XjoKL6lv+RhCkTcs/hPab5V
-	zy/HRAqSq8d3eTwhzVBll+pEFuTMeKPb1dxfYCAXDqkKEFBjkJDbSE/+h8Cr69GwOrOheHudN7X
-	70WOxtIKCfxBnUpkMNMSj0THkz8P2ZyIeHtPVELyTSWNz6aWXFFA61Efh+bD6LnyKapEy01tz+m
-	+OtQNCRPFn2zvugjJAcNe0Uiz8HZvixqQhmxZajqg0InGgR4W/bB6hvA3WrxDlVoN+17+n5QjiE
-	nW4LlWIzg5ZhfXmjuXRuhYCbNFC5TUsuubn4JpRFO5s8oraddqJfQtYgwl3E7fjYvN91wpgRyG6
-	s4KzsB2haUwdZ3GO9lB0+9eyGlIrIwJ05bU/NMtOYI2gfaJFE2YE3slWOCIu+L9/iOswjOaLDIg
-	mCw0u3I15K1RbitNWO41iQhes/xnEcNd85Y0b+vZVQFtz8vAYPQY4URHnPy51y2kvwhKPQ
-X-Received: by 2002:a05:6000:2c08:b0:439:cd10:aaf1 with SMTP id ffacd0b85a97d-43a04dcbbb0mr24617391f8f.53.1773669728802;
-        Mon, 16 Mar 2026 07:02:08 -0700 (PDT)
-Received: from ?IPV6:2a02:2f04:6208:0:c5e3:3624:ad1c:6b4? ([2a02:2f04:6208:0:c5e3:3624:ad1c:6b4])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fe22529csm42738759f8f.31.2026.03.16.07.02.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Mar 2026 07:02:08 -0700 (PDT)
-Message-ID: <513dec51-b417-41f2-bcbe-015ad99d6034@tuxon.dev>
-Date: Mon, 16 Mar 2026 16:02:05 +0200
+	s=arc-20240116; t=1773669758; c=relaxed/simple;
+	bh=rnC9ZWruT8P234OiKFoEBR1WUr45WgRnghL0ZijnQnM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DUPvmfcUkfpN50iGNpcLn9QR3WMziLWSrnhfgsH8aZlfPozlifSzJhfSr8lAvFi6ebdBB0mSz8JHBG1bU06GPIMNmI8VRoMq+mOJXZpov4QM69WZ+5aU4uO/ujPVvjssOLyizVRQH5RyraB/CJlocJDKPBnvavFpppFR7LHvUxA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=fBATUmFe; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 8524622E;
+	Mon, 16 Mar 2026 15:01:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1773669682;
+	bh=rnC9ZWruT8P234OiKFoEBR1WUr45WgRnghL0ZijnQnM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fBATUmFeL0g6mBXRZZPIWVMRnJ9VL6l3LMjYQJtRsya6FJCcz8woLDRxgIUSw1JbM
+	 z6zfFHE5EYQMy2jNVjOOAnOZ3d0+YsyZAc/svT0zPMM/t2fIIMKcmfEE4aI3B0BEnF
+	 P6vgKw5xSxiXO+k2YxDIw+U0B3TuOm/6YNExs8cQ=
+Date: Mon, 16 Mar 2026 16:02:32 +0200
+From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To: Biju <biju.das.au@gmail.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
+	Andy Yan <andy.yan@rock-chips.com>,
+	Douglas Anderson <dianders@chromium.org>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Jesse Van Gavere <jesseevg@gmail.com>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] drm/bridge: adv7511: Clear HPD IRQ before powering on
+ device during resume()
+Message-ID: <20260316140232.GB31616@killaraus.ideasonboard.com>
+References: <20251219104659.114032-1-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/7] dmaengine: sh: rz-dmac: Add suspend to RAM support
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: vkoul@kernel.org, biju.das.jz@bp.renesas.com,
- prabhakar.mahadev-lad.rj@bp.renesas.com, lgirdwood@gmail.com,
- broonie@kernel.org, perex@perex.cz, tiwai@suse.com, p.zabel@pengutronix.de,
- geert+renesas@glider.be, fabrizio.castro.jz@renesas.com,
- dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20260126103155.2644586-1-claudiu.beznea.uj@bp.renesas.com>
- <20260126103155.2644586-6-claudiu.beznea.uj@bp.renesas.com>
- <abKw8GKjaWHR5RtU@tom-desktop>
-Content-Language: en-US
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <abKw8GKjaWHR5RtU@tom-desktop>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-0.16 / 15.00];
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251219104659.114032-1-biju.das.jz@bp.renesas.com>
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[tuxon.dev:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-29491-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[tuxon.dev];
+	TAGGED_FROM(0.00)[bounces-29492-lists,linux-renesas-soc=lfdr.de,renesas];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,bp.renesas.com,gmail.com,perex.cz,suse.com,pengutronix.de,glider.be,renesas.com,vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[16];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[23];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[tuxon.dev:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[claudiu.beznea@tuxon.dev,linux-renesas-soc@vger.kernel.org];
+	FREEMAIL_CC(0.00)[intel.com,linaro.org,kernel.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,bp.renesas.com,kwiboo.se,oss.qualcomm.com,rock-chips.com,chromium.org,bootlin.com,lists.freedesktop.org,vger.kernel.org,glider.be];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,renesas.com:email,tuxon.dev:dkim,tuxon.dev:mid]
-X-Rspamd-Queue-Id: 6C86929AF77
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,renesas.com:email,killaraus.ideasonboard.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: CF92329AFF0
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi, Tommaso,
+Hi Biju,
 
-On 3/12/26 14:26, Tommaso Merciai wrote:
-> Hi Claudiu,
-> Thanks for your patch.
-> 
-> On Mon, Jan 26, 2026 at 12:31:53PM +0200, Claudiu wrote:
->> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>
->> The Renesas RZ/G3S SoC supports a power saving mode in which power to most
->> SoC components is turned off, including the DMA IP. Add suspend to RAM
->> support to save and restore the DMA IP registers.
->>
->> Cyclic DMA channels require special handling. Since they can be paused and
->> resumed during system suspend and resume, the driver restores additional
->> registers for these channels during the resume phase. If a channel was not
->> explicitly paused during suspend, the driver ensures that it is paused and
->> resumed as part of the system suspend/resume flow. This might be the
->> case of a serial device being used with no_console_suspend.
->>
->> For non-cyclic channels, the dev_pm_ops::prepare callback waits for all
->> ongoing transfers to complete before allowing suspend-to-RAM to proceed.
->>
->> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->> ---
+Thank you for the patch.
 
-[ ... ]
+On Fri, Dec 19, 2025 at 10:46:53AM +0000, Biju wrote:
+> From: Biju Das <biju.das.jz@bp.renesas.com>
+> 
+> On RZ/G3E SMARC EVK using PSCI, s2ram powers down the SoC. Testing ADV7535
+> IRQ configured as edge-triggered interrupt on RZ/G3E SMARC EVK shows that
+> it is missing HPD IRQ during system resume, as the status change occurs
+> before the IRQ/pincontrol resume. Once the status bit is set, there won't
+> be any further IRQ unless the status bit is cleared.
+> 
+> Clear any pending HPD IRQs before powering on the ADV7535 device to
+> deliver HPD interrupts after resume().
 
->> +static int rz_dmac_suspend(struct device *dev)
->> +{
->> +	struct rz_dmac *dmac = dev_get_drvdata(dev);
->> +	int ret;
->> +
->> +	for (unsigned int i = 0; i < dmac->n_channels; i++) {
->> +		struct rz_dmac_chan *channel = &dmac->channels[i];
->> +
->> +		guard(spinlock_irqsave)(&channel->vc.lock);
->> +
->> +		if (!(channel->status & BIT(RZ_DMAC_CHAN_STATUS_CYCLIC)))
->> +			continue;
->> +
->> +		if (!(channel->status & BIT(RZ_DMAC_CHAN_STATUS_PAUSED))) {
->> +			ret = rz_dmac_device_pause_internal(channel);
->> +			if (ret) {
->> +				dev_err(dev, "Failed to suspend channel %s\n",
->> +					dma_chan_name(&channel->vc.chan));
->> +				continue;
->> +			}
->> +		}
->> +
->> +		channel->pm_state.nxla = rz_dmac_ch_readl(channel, NXLA, 1);
->> +		channel->status |= BIT(RZ_DMAC_CHAN_STATUS_SYS_SUSPENDED);
->> +	}
->> +
->> +	pm_runtime_put_sync(dmac->dev);
->> +
->> +	ret = reset_control_assert(dmac->rstc);
->> +	if (ret) {
->> +		pm_runtime_resume_and_get(dmac->dev);
->> +		rz_dmac_suspend_recover(dmac);
->> +	}
->> +
->> +	return ret;
->> +}
-> 
-> Testing suspend/resume support on RZ/G3E (DMAC + RSPI) I'm seeing the
-> following when suspending:
-> 
-> rz_dmac_suspend()
-> 
->      [   50.657802] rz-dmac 11400000.dma-controller: PM: device_prepare(): genpd_prepare returns -11
->      [   50.667577] rz-dmac 11400000.dma-controller: PM: device_prepare(): genpd_prepare returns -11
->      [   50.675984] rz-dmac 11400000.dma-controller: PM: device_prepare(): genpd_prepare returns -11
->      [   50.684394] rz-dmac 11400000.dma-controller: PM: device_prepare(): genpd_prepare returns -11
->      [   50.692804] rz-dmac 11400000.dma-controller: PM: device_prepare(): genpd_prepare returns -11
->      [   50.701221] rz-dmac 11400000.dma-controller: PM: device_prepare(): genpd_prepare returns -11
->      [   50.709642] rz-dmac 11400000.dma-controller: PM: device_prepare(): genpd_prepare returns -11
->      [   50.718062] rz-dmac 11400000.dma-controller: PM: device_prepare(): genpd_prepare returns -11
->      [   50.726480] rz-dmac 11400000.dma-controller: PM: device_prepare(): genpd_prepare returns -11
->      [   50.734900] rz-dmac 11400000.dma-controller: PM: device_prepare(): genpd_prepare returns -11
-> 
-> I found out that this issue can be solved by:
-> 
-> When the IRQ handler thread completes a non-cyclic transfer and there
-> are no more descriptors queued (ld_queue is empty), invalidate all
-> link-mode descriptor headers and clear the RZ_DMAC_CHAN_STATUS_ENABLED
-> bit into the rz_dmac_irq_handler_thread():
-> 
-> static irqreturn_t rz_dmac_irq_handler_thread(int irq, void *dev_id)
-> {
-> 	struct rz_dmac_chan *channel = dev_id;
-> 	struct rz_dmac_desc *desc = NULL;
-> 	unsigned long flags;
-> 
-> 	spin_lock_irqsave(&channel->vc.lock, flags);
-> 
-> 	if (list_empty(&channel->ld_active)) {
-> 		/* Someone might have called terminate all */
-> 		goto out;
-> 	}
-> 
-> 	desc = list_first_entry(&channel->ld_active, struct rz_dmac_desc, node);
-> 
-> 	if (channel->status & BIT(RZ_DMAC_CHAN_STATUS_CYCLIC)) {
-> 		desc = channel->desc;
-> 		vchan_cyclic_callback(&desc->vd);
-> 		goto out;
-> 	} else {
-> 		vchan_cookie_complete(&desc->vd);
-> 	}
-> 
-> 	list_move_tail(channel->ld_active.next, &channel->ld_free);
-> 	if (!list_empty(&channel->ld_queue)) {
-> 		desc = list_first_entry(&channel->ld_queue, struct rz_dmac_desc,
-> 					node);
-> 		channel->desc = desc;
-> 		if (rz_dmac_xfer_desc(channel) == 0)
-> 			list_move_tail(channel->ld_queue.next, &channel->ld_active);
-> +	} else {
-> +		rz_dmac_invalidate_lmdesc(channel);
-> +		channel->status &= ~BIT(RZ_DMAC_CHAN_STATUS_ENABLED);
-> 	}
-> out:
-> 	spin_unlock_irqrestore(&channel->vc.lock, flags);
-> 
-> 	return IRQ_HANDLED;
-> }
-> 
-> 
-> 
->> +
->> +static int rz_dmac_resume(struct device *dev)
->> +{
->> +	struct rz_dmac *dmac = dev_get_drvdata(dev);
->> +	int ret;
->> +
->> +	ret = reset_control_deassert(dmac->rstc);
->> +	if (ret)
->> +		return ret;
->> +
->> +	ret = pm_runtime_resume_and_get(dmac->dev);
->> +	if (ret) {
->> +		reset_control_assert(dmac->rstc);
->> +		return ret;
->> +	}
->> +
->> +	rz_dmac_writel(dmac, DCTRL_DEFAULT, CHANNEL_0_7_COMMON_BASE + DCTRL);
->> +	rz_dmac_writel(dmac, DCTRL_DEFAULT, CHANNEL_8_15_COMMON_BASE + DCTRL);
->> +
->> +	for (unsigned int i = 0; i < dmac->n_channels; i++) {
->> +		struct rz_dmac_chan *channel = &dmac->channels[i];
->> +
->> +		guard(spinlock_irqsave)(&channel->vc.lock);
->> +
->> +		rz_dmac_set_dma_req_no(dmac, channel->index, channel->mid_rid);
->> +
->> +		if (!(channel->status & BIT(RZ_DMAC_CHAN_STATUS_CYCLIC))) {
->> +			rz_dmac_ch_writel(&dmac->channels[i], CHCTRL_DEFAULT, CHCTRL, 1);
->> +			continue;
->> +		}
->> +
->> +		rz_dmac_ch_writel(channel, channel->pm_state.nxla, NXLA, 1);
->> +		rz_dmac_ch_writel(channel, channel->chcfg, CHCFG, 1);
->> +		rz_dmac_ch_writel(channel, CHCTRL_SWRST, CHCTRL, 1);
->> +		rz_dmac_ch_writel(channel, channel->chctrl, CHCTRL, 1);
->> +
->> +		if (channel->status & BIT(RZ_DMAC_CHAN_STATUS_PAUSED_INTERNAL)) {
->> +			ret = rz_dmac_device_resume_internal(channel);
->> +			if (ret) {
->> +				dev_err(dev, "Failed to resume channel %s\n",
->> +					dma_chan_name(&channel->vc.chan));
->> +				continue;
->> +			}
->> +		}
->> +	}
->> +
->> +	return 0;
->> +}
-> 
-> Then on resume I'm seeing the following when testing DMAC + RSPI:
-> 
-> [   52.831840] spi-nor spi0.0: SPI transfer failed: -110
-> [   52.836950] spi_master spi0: failed to transfer one message from queue
-> [   52.843474] spi_master spi0: noqueue transfer failed
-> 
-> Which I found out that can be solved by moving:
-> 
-> 	rz_dmac_set_dma_req_no(dmac, channel->index, channel->mid_rid);
-> 
-> after the cyclic check:
-> 
-> 	if (!(channel->status & BIT(RZ_DMAC_CHAN_STATUS_CYCLIC))) {
-> 		rz_dmac_ch_writel(&dmac->channels[i], CHCTRL_DEFAULT, CHCTRL, 1);
-> 		continue;
-> 	}
-> 
-> +	rz_dmac_set_dma_req_no(dmac, channel->index, channel->mid_rid);
-> 	rz_dmac_ch_writel(channel, channel->pm_state.nxla, NXLA, 1);
-> 	rz_dmac_ch_writel(channel, channel->chcfg, CHCFG, 1);
-> 	rz_dmac_ch_writel(channel, CHCTRL_SWRST, CHCTRL, 1);
-> 
-> In this way
-> 	
-> 	rz_dmac_set_dma_req_no()
-> 
-> Is only called for cyclic channels
-> 
-> What do you think?
+This issue doesn't seem to be specific to the ADV7511. Any device that
+uses an edge-triggered interrupt could suffer from the same problem.
+Implementing a work around in the driver doesn't seem to be a solution
+that would scale.
 
-Thank you for trying this series and looking to provide fixes. Unfortunatelly, I 
-currently don't have at hand a platform with SPI enabled to check it. I'm going 
-to investigate the fixes you provided and integrate them in the next version.
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+>  drivers/gpu/drm/bridge/adv7511/adv7511.h     |  1 +
+>  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 32 ++++++++++++++++++++
+>  2 files changed, 33 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h b/drivers/gpu/drm/bridge/adv7511/adv7511.h
+> index 8be7266fd4f4..03aa23836ca4 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
+> @@ -393,6 +393,7 @@ struct adv7511 {
+>  	bool cec_enabled_adap;
+>  	struct clk *cec_clk;
+>  	u32 cec_clk_freq;
+> +	bool suspended;
+>  };
+>  
+>  static inline struct adv7511 *bridge_to_adv7511(struct drm_bridge *bridge)
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> index b9be86541307..8d9467187d7c 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> @@ -790,6 +790,25 @@ static void adv7511_bridge_atomic_enable(struct drm_bridge *bridge,
+>  	struct drm_connector_state *conn_state;
+>  	struct drm_crtc_state *crtc_state;
+>  
+> +	if (adv->i2c_main->irq && adv->suspended) {
+> +		unsigned int irq;
+> +
+> +		/*
+> +		 * If ADV7511 IRQ is configured as edge triggered interrupt, it
+> +		 * will miss the IRQ during system resume as the status change
+> +		 * occurs before IRQ/pincontrol resume. Once the status bit is
 
-Thank you,
-Claudiu
+That seems very platform-specific.
+
+> +		 * set there won't be any further IRQ unless the status bit is
+> +		 * cleared. So, clear the IRQ status bit for further delivery
+> +		 * of HPD IRQ.
+> +		 */
+> +		regmap_read(adv->regmap, ADV7511_REG_INT(0), &irq);
+> +		if (irq & ADV7511_INT0_HPD)
+> +			regmap_write(adv->regmap, ADV7511_REG_INT(0),
+> +				     ADV7511_INT0_HPD);
+
+Why do you need to read and test the IRQ here ? If ADV7511_INT0_HPD
+isn't set, a write will be a no-op and will keep it cleared. If it is
+set, it will clear it. It seems that an unconditional
+
+		regmap_write(adv->regmap, ADV7511_REG_INT(0),
+			     ADV7511_INT0_HPD);
+
+should be enough.
+
+> +
+> +		adv->suspended = false;
+> +	}
+> +
+>  	adv7511_power_on(adv);
+>  
+>  	connector = drm_atomic_get_new_connector_for_encoder(state, bridge->encoder);
+> @@ -1407,6 +1426,16 @@ static void adv7511_remove(struct i2c_client *i2c)
+>  	i2c_unregister_device(adv7511->i2c_edid);
+>  }
+>  
+> +static int adv7511_suspend(struct device *dev)
+> +{
+> +	struct i2c_client *i2c = to_i2c_client(dev);
+> +	struct adv7511 *adv7511 = i2c_get_clientdata(i2c);
+> +
+> +	adv7511->suspended = true;
+> +
+> +	return 0;
+> +}
+> +
+>  static const struct adv7511_chip_info adv7511_chip_info = {
+>  	.type = ADV7511,
+>  	.name = "ADV7511",
+> @@ -1439,6 +1468,8 @@ static const struct adv7511_chip_info adv7535_chip_info = {
+>  	.hpd_override_enable = true,
+>  };
+>  
+> +static DEFINE_SIMPLE_DEV_PM_OPS(adv7511_pm_ops, adv7511_suspend, NULL);
+> +
+>  static const struct i2c_device_id adv7511_i2c_ids[] = {
+>  	{ "adv7511", (kernel_ulong_t)&adv7511_chip_info },
+>  	{ "adv7511w", (kernel_ulong_t)&adv7511_chip_info },
+> @@ -1467,6 +1498,7 @@ static struct i2c_driver adv7511_driver = {
+>  	.driver = {
+>  		.name = "adv7511",
+>  		.of_match_table = adv7511_of_ids,
+> +		.pm = pm_sleep_ptr(&adv7511_pm_ops),
+>  	},
+>  	.id_table = adv7511_i2c_ids,
+>  	.probe = adv7511_probe,
+
+-- 
+Regards,
+
+Laurent Pinchart
 
