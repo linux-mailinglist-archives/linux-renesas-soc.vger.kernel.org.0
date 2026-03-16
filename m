@@ -1,51 +1,51 @@
-Return-Path: <linux-renesas-soc+bounces-29510-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29511-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6MZHDi4ouGnhZgEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29510-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 16:56:30 +0100
+	id mG2BMmYouGnhZgEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29511-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 16:57:26 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id E610229CD59
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 16:56:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84DA129CD89
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 16:57:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 874793056646
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 15:53:42 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 3ED523058ECD
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 15:53:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 418FD3B8D7A;
-	Mon, 16 Mar 2026 15:52:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC22E3B9DB8;
+	Mon, 16 Mar 2026 15:53:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ikpzjgNS"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ee4lljvO"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3A063B8BD8;
-	Mon, 16 Mar 2026 15:52:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 511B53B9609;
+	Mon, 16 Mar 2026 15:53:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773676370; cv=none; b=kMIWRR+3zyMCq8KXxIe7Ukbtp6g9qQI+L2S7xtjjsU3WDwuEEXgT45jBwSe5TPkj2GR1XZj9i/3wWNnz2d3lAIFOVeeA7UweJjIeeyCEK5yk70TkduH/RKGlX26JyvKfjwqymAioazWFWslkUkzWYN0WN9yg6dfwjQvCL5/YhFU=
+	t=1773676387; cv=none; b=fpJgboQkcRhB/l5xSKj3Gchovk5/S9YqasN4KFQ5BaF96kroEgrC2OSDM4ck8EvNgvbTlXVdFKjO1HhoAWoZGrCfJ/uJ1kWa9ZrzlRiKD3CQ4Cf8isDHrtbqSdfABvjLKCL3xYvxV3N4N26FVLP64DejfGQRBdw6vO/ClGf6uN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773676370; c=relaxed/simple;
-	bh=h540B9y5R36xQApSZ+k6e24S141YzbHY01zru+ZNj48=;
+	s=arc-20240116; t=1773676387; c=relaxed/simple;
+	bh=+DUB05VhdXfx4QMFIX0abllmoRqd3R/aE8T81dsGNsk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NhXKZjg2Ms7g4Ya65PvCug05PzySO73dE06sI/cpuqR3iNGqL8Emduqg5gA2NoOgJrysCNtWqkqLTK3xB2E7XB+qoXKg5VHL/3HpPVLv9nMMr0kCUiqoj1b7moOUOa7f8G2reM/fwpc2kCr7nOdgbUHqHhHZveQ1oZU0cK+/ZaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ikpzjgNS; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B669C19421;
-	Mon, 16 Mar 2026 15:52:46 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=B11RJQJr8Ykvj8cEYMGR5qBi9tHt5Eyr8ccJACf7vZIbNh2rY31RjiRnGyygoTFzm4crYWPZZCmkIEjnixuas7pomQSBcst9UoXO8EzZH/WLiYCQnJSbs28PVVqtshToQUsL+a1sDHG+qNTBvZhoE9ZzHuHetCXBGH2QX8z2P8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ee4lljvO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 777BBC19421;
+	Mon, 16 Mar 2026 15:53:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773676370;
-	bh=h540B9y5R36xQApSZ+k6e24S141YzbHY01zru+ZNj48=;
+	s=k20201202; t=1773676386;
+	bh=+DUB05VhdXfx4QMFIX0abllmoRqd3R/aE8T81dsGNsk=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ikpzjgNS9eBGMoNr6mLghiYpLqOKhd2t1iybP7lKzmevMliyqo39iiNfY0hXTNthQ
-	 3jMDPtoNqb+D7aL0wDsJd7NFUlKKk0yJyawXiNolJlYFX/YhQZJM/ndrdd9s25KLBq
-	 7IKEBIq63pNg5ZbyGsMWUaVoWREKp4lckhWu+nI9x/ndaj6U4R6zxZrZrZEwTs3Rwm
-	 h2Qe+FIqtzNIbSUQ8xBjM2PxqaCRVKZxEo29FstXS4JggNVJZUbdYF3AnMX2iMLbju
-	 oBRXhO5S+EaU76j/DdUEDUX+p/m92DZJk+LnX63+TCVzupzEjajqc3MYPA9W+Syv0Q
-	 7zsDeyu5cexKg==
-Message-ID: <05f294c3-ce68-4b9e-9d1d-b4bde4d5986f@kernel.org>
-Date: Mon, 16 Mar 2026 16:52:44 +0100
+	b=Ee4lljvO/Q6zIkSRTshvtKm8bKRW8fqCXaseeXZR4KlMEh4NiNL9X7Qz1Psr2s5tQ
+	 hib7DNcBpjsHuK4msHTby9f8sE96VA6I+neUuCUrH3EgveP6b8W446J0yp3AsuT+pb
+	 d0RNgg1pr8buAVSqMf2zGw2e2UzU3mvLIkJtRuAtRfxWOT4YTuyi1UCD5H2xTJ4F4P
+	 kEqtx8pt0H70BXPgl3TExFGq2QWSbgJnvihJzA+ZUKV6QpiqvOWOFAOML3nXHt2Ohh
+	 O76m7gljyCmILIK+6YfsdHW0tfFyxWPYbuaYA12A/HpVDo+IJAuz8glcsAeN0VJDIo
+	 cjMut0UlTlHnQ==
+Message-ID: <0e8a5ab4-3922-4a74-a751-146de5fa381b@kernel.org>
+Date: Mon, 16 Mar 2026 16:53:01 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -53,7 +53,7 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] arm64: dts: add tqma9596la-mba95xxca
+Subject: Re: [PATCH 3/3] arm64: defconfig: enable EMC2305 driver
 To: Alexander Stein <alexander.stein@ew.tq-group.com>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>,
@@ -62,12 +62,11 @@ To: Alexander Stein <alexander.stein@ew.tq-group.com>,
  Fabio Estevam <festevam@gmail.com>,
  Geert Uytterhoeven <geert+renesas@glider.be>,
  Magnus Damm <magnus.damm@gmail.com>, Shawn Guo <shawnguo@kernel.org>
-Cc: Markus Niebel <Markus.Niebel@ew.tq-group.com>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux@ew.tq-group.com, linux-renesas-soc@vger.kernel.org
 References: <20260316150535.786122-1-alexander.stein@ew.tq-group.com>
- <20260316150535.786122-2-alexander.stein@ew.tq-group.com>
+ <20260316150535.786122-3-alexander.stein@ew.tq-group.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -113,7 +112,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20260316150535.786122-2-alexander.stein@ew.tq-group.com>
+In-Reply-To: <20260316150535.786122-3-alexander.stein@ew.tq-group.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-0.66 / 15.00];
@@ -126,11 +125,11 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-29510-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-29511-lists,linux-renesas-soc=lfdr.de];
 	FREEMAIL_TO(0.00)[ew.tq-group.com,kernel.org,nxp.com,pengutronix.de,gmail.com,glider.be];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[18];
+	RCPT_COUNT_TWELVE(0.00)[17];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
@@ -144,35 +143,20 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
 	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: E610229CD59
+X-Rspamd-Queue-Id: 84DA129CD89
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 On 16/03/2026 16:04, Alexander Stein wrote:
-> +
-> +	reg_3v3a_10g: regulator-3v3a-10g {
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "3V3A_10G";
-> +		regulator-min-microvolt = <3300000>;
-> +		regulator-max-microvolt = <3300000>;
-> +		gpio = <&expander2 15 GPIO_ACTIVE_HIGH>;
-> +		startup-delay-us = <2000>;
-> +		enable-active-high;
-> +		vin-supply = <&reg_5v0>;
-> +	};
-> +
-> +	reg_5v0: regulator-5v0 {
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "5V0";
-> +		regulator-min-microvolt = <5000000>;
-> +		regulator-max-microvolt = <5000000>;
-> +		regulator-always-on;
-> +	};
+> EMC2301 is used on MBa95xxCA mainboard.
 
-This is a pointless regulator, unused. Defining non-controlalble
-supplies for fixed regulators brings no benefits. It has only drawbacks:
-bigger DT, slower boot times. We do not define in DTS every transistor,
-every non-controllable IC on the board.
+Defconfig goes via different branch, thus when applied this:
+	git grep -i MBa95xxCA
+will give 0 results.
+
+Please use fuller board name, e.g. "TQ-Systems i.MX95 MBa95xxCA" (or
+TQMa95xxLA ...)
+
 
 Best regards,
 Krzysztof
