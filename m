@@ -1,152 +1,221 @@
-Return-Path: <linux-renesas-soc+bounces-29506-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29507-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2AYuDKUkuGmNZgEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29506-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 16:41:25 +0100
+	id GJl1OFUnuGnhZgEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29507-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 16:52:53 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C55F529C9BD
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 16:41:24 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ADA829CCA9
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 16:52:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 0F92C308F419
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 15:35:28 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 37DE53041A5A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 15:47:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 558983A257B;
-	Mon, 16 Mar 2026 15:34:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 288B33A4528;
+	Mon, 16 Mar 2026 15:47:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LIp015W9"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E94403A1A58;
-	Mon, 16 Mar 2026 15:34:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6104C3A4F25
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Mar 2026 15:47:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773675286; cv=none; b=FqLDKzqf5F6KdqyAzmWAdt/uHf+VAGHSywWNpyxNOQVc0WSWc+22szxwWFNpM1t2TGoC4wiENBahqZ/B+CJBYfJJ5UCaG5Vr3FUB2GblBQ5T4f6BkMl4ADScEs1Hvb4r0ibQ32mvZH0raKzHtrx+l7VDKqYnHmR0BouADzvhYuM=
+	t=1773676067; cv=none; b=L5bQCCtq+QJHoNQXAUYHXY6elyF8+lrdcDyL/X67JrjoW/eR0eLkV2Q+hykBQzPmyNrkm3C9MtJO0A+lNLHQbDyqzsceIFJXnd2OYoFx8GfnfJbnIS2IgW7/lh1L2ThxBXy7v9uxS1Mo5RW6BXOiJX2vY7U4DbYWNvoGVDk8fzM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773675286; c=relaxed/simple;
-	bh=hgJeKgBY4U40ZkWG3ClIAvOZajorwkZCIEnPHGOxvqQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=k018H6AikXqtQW9Hv1mO82sqJ0Sv4mbUuQl/1NaGhdRHqdLM7q0MQDkPOgDzV9rmbLRjspLrWyfLE2oIxr54UdSEp6aEEDk+K4IIHkSGQeVGu2G69O6Wcan83ttRIL2iCQ2UGv+xaziv6L8ZEbCfBZDO89HwCIl6QbvCo3t6+II=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 011E5C19421;
-	Mon, 16 Mar 2026 15:34:43 +0000 (UTC)
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Sudeep Holla <sudeep.holla@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>
-Cc: arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] firmware: arm_scmi: Support loop control in quirk code snippets
-Date: Mon, 16 Mar 2026 16:34:40 +0100
-Message-ID: <51de914cddef8fa86c2e7dd5397e5df759c45464.1773675224.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1773676067; c=relaxed/simple;
+	bh=mt7njM8AMm3366rY9bZXkt/iQj9L9Y+U9ts2fzBUnT8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q+zAv87hcUN44qFd5uQ3RL0UMwo0XAIPKhOsvcqlYGLFOHG6bkfSR43Tja/RMBYCzf2g4ZSKR9R1pwvm5ZZ1wrtSyrZU7ShOu2J0fJcWf1QiwlnSgSiM9mMlgme80q1brnbrc73rsPp6mTZf8Vq0089iFx/G61AILg8zmHyDqWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LIp015W9; arc=none smtp.client-ip=74.125.82.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-2beab594d8eso6934322eec.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Mar 2026 08:47:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773676064; x=1774280864; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=KIbl9qFxJrmkiuonu3RjguYUay2gXS+vKFLd6XX8oOc=;
+        b=LIp015W9YoJTicgjk8ovsupZRgmsJQjS/JWd+D3F2zRM8dRflWQ9O8pcbzHALWr6ay
+         9cQF+ZcnVTSrsFqHkIIHNFqWfZaEq+1lgy4XIbG6ieETcUgYajTiN4QvZh2gaT3qucd1
+         Zg4H3IUGbStHSpwJPOJLvOHPdeSScVPe6T+wSdv4BbLUcLgpGd9yzKuMFr7BhgbrKOSQ
+         NH/CGbu2DnWSeBqhTQnok+jjBh6NuXn7lnBMsNk5bp+JwKbGPddB69ZM5hIGyYZyF3fM
+         5nwh/APwOD+TjBxorMJ++ysRR9ltIxDKNlrjea7DuZtZcquUMscD4y+bJg7qqjc2QWxu
+         h0Yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773676064; x=1774280864;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KIbl9qFxJrmkiuonu3RjguYUay2gXS+vKFLd6XX8oOc=;
+        b=YB80jY4J4KGaVMiXrLQRUUgFDKov+p/cYZmVCJUfBd019VYb2o5KB03AxfLApUA3Kf
+         ox8RGwI/w4f0LWKcj2/Ivz8B2/nqiAcOKjKI/xOhPh6UJMZOnZ07xp9nOUkdMz9daABJ
+         faHp3WgJOUhRUVevgkn+r2i0f4WKed4O0+Ak48zCJxQHxBjF673RMX3lEMYD4IKPBffn
+         MnncSwGjt6HydSecze1/Rd6cSNVt5rDSINJClHPdTaoRLP0Vmdj1NjAmULHgXh+xShL9
+         K5+H9s9hXkMaEbqqXt0WaKmUw/c7XS/OaHjxTpW86MUod5V0vJjP0sqWEZ45g9JchMB3
+         tuow==
+X-Forwarded-Encrypted: i=1; AJvYcCVDMET8QYtK2dHt/iMGqVRWVQFJZ+qAnR8z3mucq5PxdGDaB6pa7ohgeMxqqq+Kl+2DthBlOxyf87px9vtlkLu+jQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxy+p84wYPdeWIahyzIXtGfkBArFbSFN9PLXLPk6Dmg8Lmcvbjj
+	7QFiUTOXlINu2IV0m8dNGA/fVKXlKHd00PocTfsFofbRSb00ivOYr+6j
+X-Gm-Gg: ATEYQzwwjt4A7buktBvqGNzZkYnr39/mYwmbqLQDBJfPllcv+3/NZJGKzPAFFpIsCZm
+	gV9+kCwWiVJoyFikLjEF8tyiwha3SgKqlGqeSat2oUaa6EfKP1zaqywFnGu5TZ4wIG0zR1yarhE
+	MIixYkopJVfBPE7SUfPB9WPSaRuxIJkRdzSKBxzrqyX4P8bOwwiozBPZ2ugsiwQpo9b6Jsh/b9y
+	gYiPJy3aVLfbFNYnlMsbOJW65YyhOe6SxsAwo3EleGhXV9CkXkKm3uLJwgSilQ45UXBoSbdTfY5
+	W+ajvypB0sFynBNNslsn3e3vmcAxQqVEsusjxPd37Ut6jr2gHXuPVhRmDVJZY3+v1vPr9Sutpzy
+	PkpbQ2nG5V56OgevCa9L5kFZyJfzA0hQeVWwB2VdAlY1qgKR5siETMm7TC0y0S26MudbLoCHIQ2
+	JLOWq8PhZIGKgLNvg+oN8DMKd6rkcf1eCc2C4z
+X-Received: by 2002:a05:7300:c9e:b0:2ba:6b03:909b with SMTP id 5a478bee46e88-2bea558f037mr6495235eec.19.1773676064417;
+        Mon, 16 Mar 2026 08:47:44 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c0b1fc876csm9911380eec.29.2026.03.16.08.47.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Mar 2026 08:47:43 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Mon, 16 Mar 2026 08:47:35 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Dawei Liu <dawei.liu.jy@renesas.com>
+Cc: linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
+	skhan@linuxfoundation.org, geert+renesas@glider.be,
+	magnus.damm@gmail.com, grant.peltier.jg@renesas.com
+Subject: Re: [PATCH 1/2] hwmon/pmbus: (isl68137) Add support for Renesas
+ RAA228942 and RAA228943
+Message-ID: <35c39de7-773a-4f94-b495-97eb25555a71@roeck-us.net>
+References: <20260316053541.3903-1-dawei.liu.jy@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [0.54 / 15.00];
+In-Reply-To: <20260316053541.3903-1-dawei.liu.jy@renesas.com>
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-29506-lists,linux-renesas-soc=lfdr.de,renesas];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DMARC_NA(0.00)[glider.be];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@glider.be,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	NEURAL_HAM(-0.00)[-0.922];
+	TAGGED_FROM(0.00)[bounces-29507-lists,linux-renesas-soc=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[roeck-us.net];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,lwn.net,linuxfoundation.org,glider.be,gmail.com,renesas.com];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[linux@roeck-us.net,linux-renesas-soc@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
 	MID_RHS_MATCH_FROM(0.00)[];
-	R_DKIM_NA(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,glider.be:email,glider.be:mid]
-X-Rspamd-Queue-Id: C55F529C9BD
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,roeck-us.net:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 4ADA829CCA9
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Each SCMI firmware quirk contains a code snippet, which handles the
-quirk, and has full access to the surrounding context.  When this
-context is (part of) a loop body, the code snippet may want to use loop
-control statements like "break" and "continue".  Unfortunately the
-SCMI_QUIRK() macro implementation contains a dummy loop, taking
-precedence over any outer loops.  Hence quirk code cannot use loop
-control statements, but has to resort to polluting the surrounding
-context with a label, and use goto.
+On Mon, Mar 16, 2026 at 01:35:40PM +0800, Dawei Liu wrote:
+> Both RAA228942 and RAA228943 are digital dual-output
+> 16-Phase(X+Y ≤ 16) PWM controllers
+> 
+> Signed-off-by: Dawei Liu <dawei.liu.jy@renesas.com>
+> ---
+>  Documentation/hwmon/isl68137.rst | 20 ++++++++++++++++++++
+>  drivers/hwmon/pmbus/isl68137.c   |  6 ++++++
+>  2 files changed, 26 insertions(+)
+> 
+> diff --git a/Documentation/hwmon/isl68137.rst b/Documentation/hwmon/isl68137.rst
+> index e77f582c2..0ce20d091 100644
+> --- a/Documentation/hwmon/isl68137.rst
+> +++ b/Documentation/hwmon/isl68137.rst
+> @@ -394,6 +394,26 @@ Supported chips:
+>  
+>        Provided by Renesas upon request and NDA
+>  
+> +  * Renesas RAA228942
+> +
+> +    Prefix: 'raa228942'
+> +
+> +    Addresses scanned: -
+> +
+> +    Datasheet:
+> +
+> +      Provided by Renesas upon request and NDA
+> +
+> +  * Renesas RAA228943
+> +
+> +    Prefix: 'raa228943'
+> +
+> +    Addresses scanned: -
+> +
+> +    Datasheet:
+> +
+> +      Provided by Renesas upon request and NDA
+> +
+>    * Renesas RAA229001
+>  
+>      Prefix: 'raa229001'
+> diff --git a/drivers/hwmon/pmbus/isl68137.c b/drivers/hwmon/pmbus/isl68137.c
+> index 78cff9712..da2484d42 100644
+> --- a/drivers/hwmon/pmbus/isl68137.c
+> +++ b/drivers/hwmon/pmbus/isl68137.c
+> @@ -63,6 +63,8 @@ enum chips {
+>  	raa228228,
+>  	raa228244,
+>  	raa228246,
+> +	raa228942,
+> +	raa228943,
 
-Fix this by replacing the "do { ... } while (0)" construct in the
-SCMI_QUIRK() implementation by "({ ... })".
+AI:
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-Example:
+  Is it necessary to add these entries to enum chips?
+  Looking at the rest of the driver, this enum does not appear to be used
+  anywhere. The device data mapping seems to rely on the variants enum
+  (e.g., raa_dmpvr2_2rail_nontc) instead.
 
-    #define QUIRK_EXAMPLE					\
-	    ({							\
-		    if (ret == -EOPNOTSUPP)			\
-			    continue;				\
-	    })
+It has a point. 
 
-    for (unsigned int i = 0; i < n; i++) {
-	    ret = foo(handle, i);
-	    SCMI_QUIRK(example_quirk, QUIRK_EXAMPLE);
-	    if (ret)
-		    return ret;
+Guenter
 
-	    ret = bar(handle, i);
-	    if (ret)
-		    return ret;
-    }
----
- drivers/firmware/arm_scmi/quirks.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/firmware/arm_scmi/quirks.h b/drivers/firmware/arm_scmi/quirks.h
-index a71fde85a5272aff..d8ba60b956522d04 100644
---- a/drivers/firmware/arm_scmi/quirks.h
-+++ b/drivers/firmware/arm_scmi/quirks.h
-@@ -20,10 +20,10 @@
-  * named as _qn.
-  */
- #define SCMI_QUIRK(_qn, _blk)						\
--	do {								\
-+	({								\
- 		if (static_branch_unlikely(&(scmi_quirk_ ## _qn)))	\
- 			(_blk);						\
--	} while (0)
-+	})
- 
- void scmi_quirks_initialize(void);
- void scmi_quirks_enable(struct device *dev, const char *vend,
-@@ -34,10 +34,10 @@ void scmi_quirks_enable(struct device *dev, const char *vend,
- #define DECLARE_SCMI_QUIRK(_qn)
- /* Force quirks compilation even when SCMI Quirks are disabled */
- #define SCMI_QUIRK(_qn, _blk)						\
--	do {								\
-+	({								\
- 		if (0)							\
- 			(_blk);						\
--	} while (0)
-+	})
- 
- static inline void scmi_quirks_initialize(void) { }
- static inline void scmi_quirks_enable(struct device *dev, const char *vend,
--- 
-2.43.0
-
+>  	raa229001,
+>  	raa229004,
+>  	raa229141,
+> @@ -478,6 +480,8 @@ static const struct i2c_device_id raa_dmpvr_id[] = {
+>  	{"raa228228", raa_dmpvr2_2rail_nontc},
+>  	{"raa228244", raa_dmpvr2_2rail_nontc},
+>  	{"raa228246", raa_dmpvr2_2rail_nontc},
+> +	{"raa228942", raa_dmpvr2_2rail_nontc},
+> +	{"raa228943", raa_dmpvr2_2rail_nontc},
+>  	{"raa229001", raa_dmpvr2_2rail},
+>  	{"raa229004", raa_dmpvr2_2rail},
+>  	{"raa229141", raa_dmpvr2_2rail_pmbus},
+> @@ -529,6 +533,8 @@ static const struct of_device_id isl68137_of_match[] = {
+>  	{ .compatible = "renesas,raa228228", .data = (void *)raa_dmpvr2_2rail_nontc },
+>  	{ .compatible = "renesas,raa228244", .data = (void *)raa_dmpvr2_2rail_nontc },
+>  	{ .compatible = "renesas,raa228246", .data = (void *)raa_dmpvr2_2rail_nontc },
+> +	{ .compatible = "renesas,raa228942", .data = (void *)raa_dmpvr2_2rail_nontc },
+> +	{ .compatible = "renesas,raa228943", .data = (void *)raa_dmpvr2_2rail_nontc },
+>  	{ .compatible = "renesas,raa229001", .data = (void *)raa_dmpvr2_2rail },
+>  	{ .compatible = "renesas,raa229004", .data = (void *)raa_dmpvr2_2rail },
+>  	{ .compatible = "renesas,raa229621", .data = (void *)raa_dmpvr2_2rail },
 
