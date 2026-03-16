@@ -1,160 +1,369 @@
-Return-Path: <linux-renesas-soc+bounces-29527-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29528-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sBPqFXVLuGlTbgEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29527-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 19:27:01 +0100
+	id sAwRKH1MuGlHbwEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29528-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 19:31:25 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6D6729F04F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 19:27:00 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AAE729F0F4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 19:31:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 58D43304707B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 18:26:35 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2D2613032078
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 18:31:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81C133DBD7E;
-	Mon, 16 Mar 2026 18:26:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD7563DE44D;
+	Mon, 16 Mar 2026 18:31:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GCF00AJC";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="SXK1MoJQ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 261DA3DBD59
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Mar 2026 18:26:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AE993DB628
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Mar 2026 18:31:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773685592; cv=none; b=qxG6AInKWFuaqkeBMi13o8LVfyv00/XoATU4/7sNZqc30eB8qVG2IaoMAzEDAQALiAn8VVPztTQPGv1OccSR3+vxXMDDOMAvG6xPtlnXsHsAB1TqKIE8d74s5opoWIiS70pOTd664bc4n5WDOj0RsA35qOaR6+w8Wuw27ulRNYM=
+	t=1773685882; cv=none; b=ixLHD1ylwMW8SDM4raaWIlg5SSxkqpZYy+//mgMC7oweL+k1cDZoVbZpTygjtDvL2B2MTALZdDw03C63QI+rDoCsJZv2ug2jd0zDI/rGjOZPENKsKgeQon5asvgEEZAH9GJU4b1aBkr/QwJ4LqoUc9Ndq6jZ7CnC4Q5uglxNjA4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773685592; c=relaxed/simple;
-	bh=eLT608Iu65e75yFDY2ephL+DnmrFksL+EdNUoRvOM1w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Q3sjyuKMma6/38Y7rReOrWwMz1BIoIkzvjymsraMx3p6WKxOo3MDhZTra+0pSrNQ9jdyUrCjzEoY9CPUw4My1kqB63YsWhok3OazHqjV2v6NdyHLwWJDnj1Lv525LE7b/pklKqBdZ6PsU7/1VwdootKvLi16m98gCD8VtoVZZh4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-950b801b75fso595985241.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Mar 2026 11:26:25 -0700 (PDT)
+	s=arc-20240116; t=1773685882; c=relaxed/simple;
+	bh=0ZYtisBfFCEDlffU86ZXcFsWQWlCFQ0yAs36eyfQuEk=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=gw/3/gzTwAyNg+B/C2jWO5Dp6ev6rA0gXPz6BxxST7By5hZwM9fwTYfOlO0iORn1I+Wm1ifBoTzQ707dqcbSeKyd0arnnryjlso9HEV1cc/r8NiQidAF78b3rMBsLThCmPuyFPdUSlLVJC2w/EdEhxRVl20Of1Dm7GEKWOYyjMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GCF00AJC; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=SXK1MoJQ; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1773685876;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BNBEVCAdHGNat6EhquVBIDr5xmo+EfnKaRHucm6TIJk=;
+	b=GCF00AJCWBZj0OUPqiPEMdeL890VLT/mPqSGORudiJBEWiaXmCBogpjb0wPc64OjiAwluP
+	pESnVfD8TrRfO1eyRnVBbk02ol7/aUJMHiE9t1EKwbf6QtufW39nI9qHonUkX+CwzPFcti
+	xfa0EQrtfde6c29fny7fZfgI1NwaLiw=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-589-7CnLsoqzPgC-GX4EdyvSqg-1; Mon, 16 Mar 2026 14:31:14 -0400
+X-MC-Unique: 7CnLsoqzPgC-GX4EdyvSqg-1
+X-Mimecast-MFC-AGG-ID: 7CnLsoqzPgC-GX4EdyvSqg_1773685874
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-50921f7da6dso53286641cf.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Mar 2026 11:31:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1773685874; x=1774290674; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=BNBEVCAdHGNat6EhquVBIDr5xmo+EfnKaRHucm6TIJk=;
+        b=SXK1MoJQP7oC2fJZQd3cMTxZzqAET9o8TPMM6SLDPzqtghfLlH1tzTXbypTo99+OGV
+         kYzQMap8DoxQhya9nvb0GM00f0tl8RrwPfK2/IpKvXpDlFP5czOwQJ9aWWCkZ3JnhQAk
+         HgSBYdeVLHKFZV3dvSe9zgckmrXYQu4+uHTTC1AyUMOA7Ng0+FpnMp7u96GaPoLcoWF9
+         1d6p77qcm6uilXR9L/fLDRrZI6iz2z2F+ntb2FWo33fzBW4fp1r6RjVILTnogweRjpPw
+         jV+6NBBO/LoAb7i9ON2rTr/MF/L4Fma3zOa4lO8i2nbDHGIdesCY9qnF16jpr9ezLBGy
+         Ixdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773685585; x=1774290385;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vpQ1JDIESkHS70bwkrVznor7mYifAlL8o6+MvzPijrw=;
-        b=H6stAHx/ifCW58opb9CnF5BH84Y3XsfT4iJn2S8WQPnbh6PiYLGQIqEzZrm9FHUENQ
-         kOiqrzj73DaP74LCUo5V1cH+msPH0ku81XchgQucQVJRK/pwsfYI9lF/6qgNdqvVOt1S
-         U7tnb0k+xp9WsDp2dPnG/1n5uOYUdltM9qpEQpFP+yyZhEYCxnmt5kvHglkKqjSlZnz6
-         Y5WKt+V4kEQAitpOw8EBl1WjGQ+pV4CWg42I8vMwVVkjVWQDLhSZIuvQgbt5MR0/ckcU
-         t0GHmBRGbngvtVCWBSA15Fxqj54EmgfB7H4gyLooy3Jjzql0fmv6pjhSnInQmfLxRiFq
-         kJKg==
-X-Forwarded-Encrypted: i=1; AJvYcCWFLCK2DQkcA07hHyzzmn1Kn608kBBFxTZcr4tnARmc/nj3l95zbz1h/Six98buB6bRzJ/8g+vOYhFbITrWoP24NA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyVcw/6ewmwYOeZWQQgAyeJ9i06CKdmB3TAaUYZQVJQK5NwOOp6
-	AfPuVRhy4uwwVaUtWwd8ft5hFVFWB9Pp3mFw2u19j9wo9oTtZ10GUQPm1wQkPEIg
-X-Gm-Gg: ATEYQzyAzCEDhMYjEG2AMUCpZItP+twbRZIMF6b9853GX6VVhSA3/zle/Me5ALBTDgF
-	s9V7wa88YD4wJ3mCvKl/cAyKT4hLLJOtQe3SYaiaDouJ3EKERh2R68jPc37JzZkZXvcn+Yoc2fm
-	kJ5FGE8WoJpBSBBfaUTJ3d9iCT3Aya2DX6uB+84W1DqTKgzxU/kzfhJF3CyVEpvHvjOqivIAC88
-	2uPOlgIoeM7bUYfRn4idKR5rq9Hef9htRwQXY+8TwNGDKRZB5PIutQPRVqC0Ff38zecDZ4cOx7a
-	lwIwZ5VVdvtMVr2N2l86N36wnTk/mCTDpDyWNP8n5CvTD82+ARTAcydsnvZLFd0732iyR5tJsRL
-	3M/fNAu7ID9eUfABdztqPIr1eV7r2KG++WBmB3L+me5SBK27RMnu4P/bOQdZB8QlnknpH6I9BGa
-	HGyOWmjwrsMlEGnk2zz9iwlbRsB7+CJ5i/ZUxhm6KlmzQft6tyN6Eur5htzV/9ctF+HJAsM5YjG
-	Ow=
-X-Received: by 2002:a05:6102:d87:b0:5e8:1d93:921a with SMTP id ada2fe7eead31-6020e2823b8mr5824552137.15.1773685584879;
-        Mon, 16 Mar 2026 11:26:24 -0700 (PDT)
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com. [209.85.221.177])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-94ecfc9c9fcsm6092016241.4.2026.03.16.11.26.24
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Mar 2026 11:26:24 -0700 (PDT)
-Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-56b71eef805so831422e0c.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Mar 2026 11:26:24 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU6vlTfvt40U6KmiMM4mPJu14EpFtflHcFKDBgTPSooAVpTOKmAciGFrBdLLTdMepKhArba3bnhI8yGibUAdmB2Pg==@vger.kernel.org
-X-Received: by 2002:a05:6122:6286:b0:566:2711:d8ab with SMTP id
- 71dfb90a1353d-56b628474b4mr4749468e0c.6.1773685583889; Mon, 16 Mar 2026
- 11:26:23 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1773685874; x=1774290674;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BNBEVCAdHGNat6EhquVBIDr5xmo+EfnKaRHucm6TIJk=;
+        b=Q1zN077wS1FXnTj0JK86qecnMV00NAH1GnfoTFY/p6CKdecqyl4DWLWvcrZHbJwwRE
+         eBj+i+VZ8ehQte7PphJJZ0mJgjINv3ffQf6sv3PCiGc9P+gjEDRxFm9YhFEs6C2TGHjs
+         J1dvDkki7CUgKJqJ5fD6RMcV0WAnVmq9kA5TkmhjfbZwysrvZjpEI8Iv2kClCOXjNwhL
+         9kmNYi1dHu7QIhyVge7PyT9MXlCHP3g1VxfEgRO/pojl0ADaNT7v3zCzF9oKcTLGcQCV
+         yRHDlNLeZgefG9off/FYRQ9LzdCOoY4DYVrBw1DoNpi4JQ0Ny5IPBgH6asSfceWjRPE3
+         2qyw==
+X-Forwarded-Encrypted: i=1; AJvYcCWA2xnG16eg650Il6oa+9nLD27Vi80SrN9ywvHmox6nLmsDG2rvIoOBmwcRAPTjfKe9Q/1Jgx1ARDLMR9T/drxzFg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJC3ttfq9z6K+hn0dq29T+4wULekPuPk5iQWx/aOlNOfqoq/IU
+	ZYxXQDUb4VpLmsIjfZy5fOPNykBaM7JgEPKMCwDK1CgQH8390gghSqu5XzgYO5/xhcJw3kYinw5
+	wwW5fWVoy1wouN42vg064OfN/mHZrEXVag+64tqM/IOKa7QGl3X6kgVWFSmSnjR1AI9FxtIeg
+X-Gm-Gg: ATEYQzxB2rP/HkgvAZ9Tc/WceaqA6oS1ZsRMToDwur2gowD68GBoSixQg1Fbv19WDXJ
+	aPJ5tDECcwKLA+bdnufcmVeEbeJmm+k0ijlDEwVAkRAFGWdTrfecAindj4wQHXYSico+1X/eSj7
+	E8QhAagxJsf6KgcseygVmo3hzYGDCeOPpoeeyvfX46dtPy/Nf0HHC2f7IIAYEQ/cMLTGSU5aMyG
+	Zdk7W2JivYRFXZLgV3R4eFdyakoC0ucp3jenjx5kNc1gfiozlJByqu58oGh1Cqm5nAKT7nmkAFt
+	wZWJ3NyQKuL6OxeP1qW2HMiZvSUjQcu5Xr2nK9fY86yUScklIW0tWwiDydgAHrIrgAUeDnk5xs7
+	TJwwFbzCPfaLbLl9K2xVLCAnxoqW8mFLOJVK4XsuX2jetLNwar0fuWf1goIO4YeyMsV3aw22n5v
+	/7CDUzuPtX0hFriA==
+X-Received: by 2002:a05:622a:15d3:b0:509:17e4:ceed with SMTP id d75a77b69052e-50957cb5a7amr187473261cf.9.1773685873589;
+        Mon, 16 Mar 2026 11:31:13 -0700 (PDT)
+X-Received: by 2002:a05:622a:15d3:b0:509:17e4:ceed with SMTP id d75a77b69052e-50957cb5a7amr187471881cf.9.1773685872774;
+        Mon, 16 Mar 2026 11:31:12 -0700 (PDT)
+Received: from thinkpad-p1.localdomain (pool-174-112-193-187.cpe.net.cable.rogers.com. [174.112.193.187])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5093a0ea244sm124136001cf.16.2026.03.16.11.31.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Mar 2026 11:31:12 -0700 (PDT)
+Message-ID: <64d282fd94be1546df75d7df5b47eacc0479797a.camel@redhat.com>
+Subject: Re: [PATCH net-next v9 0/6] net: stmmac: qcom-ethqos: add support
+ for SCMI power domains
+From: Radu Rendec <rrendec@redhat.com>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Bjorn
+ Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
+ Rob Herring <robh@kernel.org>,  Krzysztof Kozlowski	 <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Andrew Lunn	 <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet	
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni	
+ <pabeni@redhat.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre
+ Torgue <alexandre.torgue@foss.st.com>, Vinod Koul <vkoul@kernel.org>,
+ Giuseppe Cavallaro	 <peppe.cavallaro@st.com>, Chen-Yu Tsai
+ <wens@kernel.org>, Jernej Skrabec	 <jernej.skrabec@gmail.com>, Neil
+ Armstrong <neil.armstrong@linaro.org>,  Kevin Hilman
+ <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, Shawn Guo
+ <shawnguo@kernel.org>,  Fabio Estevam <festevam@gmail.com>, Jan Petrous
+ <jan.petrous@oss.nxp.com>, s32@nxp.com, Mohd Ayaan Anwar	
+ <mohd.anwar@oss.qualcomm.com>, Romain Gantois <romain.gantois@bootlin.com>,
+  Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm
+ <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,  Christophe
+ Roullier <christophe.roullier@foss.st.com>, Bartosz Golaszewski
+ <brgl@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org,  Drew Fustini
+ <dfustini@tenstorrent.com>, linux-sunxi@lists.linux.dev,
+ linux-amlogic@lists.infradead.org, 	linux-mips@vger.kernel.org,
+ imx@lists.linux.dev, 	linux-renesas-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, 	sophgo@lists.linux.dev,
+ linux-riscv@lists.infradead.org, Bartosz Golaszewski	
+ <bartosz.golaszewski@linaro.org>, Martin Blumenstingl	
+ <martin.blumenstingl@googlemail.com>, Krzysztof Kozlowski	
+ <krzysztof.kozlowski@oss.qualcomm.com>, Lad Prabhakar	
+ <prabhakar.mahadev-lad.rj@bp.renesas.com>, Konrad Dybcio	
+ <konrad.dybcio@oss.qualcomm.com>
+Date: Mon, 16 Mar 2026 14:31:08 -0400
+In-Reply-To: <20260316-qcom-sa8255p-emac-v9-0-c58934e76ff2@oss.qualcomm.com>
+References: <20260316-qcom-sa8255p-emac-v9-0-c58934e76ff2@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260130122353.2263273-1-cosmin-gabriel.tanislav.xa@renesas.com>
- <20260130122353.2263273-2-cosmin-gabriel.tanislav.xa@renesas.com>
- <aaqTVDQa7xn70bR_@monoceros> <TYRPR01MB156191C8E77BDA44AE23A7D4F857AA@TYRPR01MB15619.jpnprd01.prod.outlook.com>
- <TYRPR01MB156192CC838EC0B3DD66246158540A@TYRPR01MB15619.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYRPR01MB156192CC838EC0B3DD66246158540A@TYRPR01MB15619.jpnprd01.prod.outlook.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 16 Mar 2026 19:26:12 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVqqGTmxiKRQBbphw8KmtG66HLaZhDVvtSK81cfiMsXcQ@mail.gmail.com>
-X-Gm-Features: AaiRm52-cBzLFzQh3BVzaTMxkTLnHu9mSUGosGUtI9IHFak7XQqS486mq62zz2g
-Message-ID: <CAMuHMdVqqGTmxiKRQBbphw8KmtG66HLaZhDVvtSK81cfiMsXcQ@mail.gmail.com>
-Subject: Re: [PATCH 1/5] pwm: rz-mtu3: fix prescale check when enabling 2nd channel
-To: Cosmin-Gabriel Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-Cc: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, William Breathitt Gray <wbg@kernel.org>, Lee Jones <lee@kernel.org>, 
-	Thierry Reding <thierry.reding@gmail.com>, 
-	"linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>, 
-	"stable@vger.kernel.org" <stable@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spamd-Result: default: False [0.04 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719,redhat.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,bp.renesas.com,gmail.com,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-29527-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[linux-m68k.org];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[vger.kernel.org,st-md-mailman.stormreply.com,lists.infradead.org,tenstorrent.com,lists.linux.dev,linaro.org,googlemail.com,oss.qualcomm.com,bp.renesas.com];
+	FREEMAIL_TO(0.00)[oss.qualcomm.com,kernel.org,lunn.ch,davemloft.net,google.com,redhat.com,gmail.com,foss.st.com,st.com,linaro.org,baylibre.com,oss.nxp.com,nxp.com,bootlin.com,glider.be];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-29528-lists,linux-renesas-soc=lfdr.de];
+	DKIM_TRACE(0.00)[redhat.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	NEURAL_HAM(-0.00)[-0.871];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	R_DKIM_NA(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[rrendec@redhat.com,linux-renesas-soc@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCPT_COUNT_GT_50(0.00)[51];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux-m68k.org:email,renesas.com:email,mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: C6D6729F04F
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,netdev,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linaro.org:email,qualcomm.com:email,msgid.link:url]
+X-Rspamd-Queue-Id: 0AAE729F0F4
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Cosmin,
+On Mon, 2026-03-16 at 13:05 +0100, Bartosz Golaszewski wrote:
+> Add support for the firmware-managed variant of the DesignWare MAC on
+> the sa8255p platform. This series contains new DT bindings and driver
+> changes required to support the MAC in the STMMAC driver.
+>=20
+> It also reorganizes the ethqos code quite a bit to make the introduction
+> of power domains into the driver a bit easier on the eye.
+>=20
+> The DTS changes will go in separately.
 
-On Mon, 16 Mar 2026 at 16:52, Cosmin-Gabriel Tanislav
-<cosmin-gabriel.tanislav.xa@renesas.com> wrote:
-> static int rz_mtu3_sibling_hwpwm(u32 hwpwm, u32 *sibling_hwpwm)
+I'm seeing some weird behavior with this version. The probe part looks
+good (but see below), but when I try to bring an interface up, it fails
+with ETIMEDOUT. The relevant part of the stack trace leading to the
+error is this:
 
-Unused sibling_hwpwm?
+dwmac4_dma_reset+0x208/0x220 [stmmac]
+stmmac_reset+0x2c/0x68 [stmmac]
+stmmac_init_dma_engine+0x108/0x400 [stmmac]
+stmmac_hw_setup+0x5c/0x538 [stmmac]
+__stmmac_open+0xc8/0x2a0 [stmmac]
+stmmac_open+0xcc/0x238 [stmmac]
+__dev_open+0x138/0x2a8
 
-> {
->         if (!rz_mtu3_hwpwm_is_primary(hwpwm))
->                 return hwpwm - 1;
->
->         if (rz_mtu3_hwpwm_is_primary(hwpwm + 1))
->                 return -EINVAL;
->
->         return hwpwm + 1;
-> }
+Now dwmac4_dma_reset() is very simple. It sets the soft reset bit in
+the DMA_BUS_MODE register, then waits for the hardware to clear it, and
+that never happens.
 
-Gr{oetje,eeting}s,
+Now, getting back to the probe part, there is one extra message
+(compared to my previous successful test on v7), which I see at the
+very end of the probing:
 
-                        Geert
+  qcom-ethqos 23040000.ethernet: clk_csr value out of range (0xffffff00
+  exceeds mask 0x00000f00), truncating
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+This is a sa8775p ride board, so there are two stmmac devices. I only
+see that message for the 2nd one, which is also the one I'm trying to
+enable, and which fails.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+I realize this may or may not be related to your changes. But there is
+no way to test on a SCMI-pd board without them. I'm not sure how
+relevant it would be to test on the non-SCMI variant. I'm assuming the
+DMA part should work the same way (regardless of SCMI-pd), so if I can
+reproduce it there, and since I know it works on mainline Linux (that's
+where I tested v7), I could bisect and see which commit in net-next
+breaks it. If you don't have any better idea, let me know and I can
+try. Meanwhile, I'll keep poking at v9.
+
+Radu
+
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> ---
+> Changes in v9:
+> - Rebase on top of current linux-next again
+> - Link to v8: https://patch.msgid.link/20260311-qcom-sa8255p-emac-v8-0-58=
+227bcf1018@oss.qualcomm.com
+>=20
+> Changes in v8:
+> - Rebase on top of recent changes in linux-next which required an
+> =C2=A0 extensive rework
+> - Drop partial R-b tags
+> - Link to v7: https://patch.msgid.link/20260306-qcom-sa8255p-emac-v7-0-d6=
+a3013094b7@oss.qualcomm.com
+>=20
+> Changes in v7:
+> - Restored the correct authorship after learning git uses .mailmap for
+> =C2=A0 the --author switch
+> - Rebased on top of changes from Russell
+> - Fixed resource management issues in error paths
+> - Link to v6: https://lore.kernel.org/r/20260112-qcom-sa8255p-emac-v6-0-8=
+6a3d4b2ad83@oss.qualcomm.com
+>=20
+> Changes in v6:
+> - Fix $id value in the bindings
+> - Drop patch 3/8 from the series
+> - Update init/exit callback signatures
+> - Link to v5: https://lore.kernel.org/r/20251107-qcom-sa8255p-emac-v5-0-0=
+1d3e3aaf388@linaro.org
+> - Link to v6: https://lore.kernel.org/r/20251219-qcom-sa8255p-emac-v6-0-4=
+87f1082461e@oss.qualcomm.com
+>=20
+> Changes in v5:
+> - Name the DT binding document after the new compatbile
+> - Add missing space
+> - Make the power-domains limits stricter
+> - Link to v4: https://lore.kernel.org/r/20251104-qcom-sa8255p-emac-v4-0-f=
+76660087cea@linaro.org
+>=20
+> Changes in v4:
+> - Remove the phys property from the SCMI bindings
+> - Mark the power-domain-names property as required
+> - Set maxItems for power-domains to 1 for all existing bindings to
+> =C2=A0 maintain the current requirements after modifying the value in the
+> =C2=A0 top-level document
+> - Link to v3: https://lore.kernel.org/r/20251027-qcom-sa8255p-emac-v3-0-7=
+5767b9230ab@linaro.org
+>=20
+> Changes in v3:
+> - Drop 'power' and 'perf' prefixes from power domain names
+> - Rebase on top of Russell's changes to dwmac
+> - Rebase on top of even more changes from Russell that are not yet
+> =C2=A0 in next (E1vB6ld-0000000BIPy-2Qi4@rmk-PC.armlinux.org.uk)
+> - Link to v2: https://lore.kernel.org/all/20251008-qcom-sa8255p-emac-v2-0=
+-92bc29309fce@linaro.org/
+>=20
+> Changes in v2:
+> - Fix the power-domains property in DT bindings
+> - Rework the DT bindings example
+> - Drop the DTS patch, it will go upstream separately
+> - Link to v1: https://lore.kernel.org/r/20250910-qcom-sa8255p-emac-v1-0-3=
+2a79cf1e668@linaro.org
+>=20
+> ---
+> Bartosz Golaszewski (6):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dt-bindings: net: qcom: document the ethqo=
+s device for SCMI-based systems
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 net: stmmac: qcom-ethqos: use generic devi=
+ce properties
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 net: stmmac: qcom-ethqos: wrap emac driver=
+ data in additional structure
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 net: stmmac: qcom-ethqos: split power mana=
+gement fields into a separate structure
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 net: stmmac: qcom-ethqos: split power mana=
+gement context into a separate struct
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 net: stmmac: qcom-ethqos: add support for =
+sa8255p
+>=20
+> =C2=A0.../bindings/net/allwinner,sun7i-a20-gmac.yaml=C2=A0=C2=A0=C2=A0=C2=
+=A0 |=C2=A0=C2=A0 3 +
+> =C2=A0.../bindings/net/altr,socfpga-stmmac.yaml=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 3 +
+> =C2=A0.../bindings/net/amlogic,meson-dwmac.yaml=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 3 +
+> =C2=A0.../devicetree/bindings/net/eswin,eic7700-eth.yaml |=C2=A0=C2=A0 3 =
++
+> =C2=A0.../devicetree/bindings/net/intel,dwmac-plat.yaml=C2=A0 |=C2=A0=C2=
+=A0 3 +
+> =C2=A0.../bindings/net/loongson,ls1b-gmac.yaml=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 3 +
+> =C2=A0.../bindings/net/loongson,ls1c-emac.yaml=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 3 +
+> =C2=A0.../devicetree/bindings/net/nxp,dwmac-imx.yaml=C2=A0=C2=A0=C2=A0=C2=
+=A0 |=C2=A0=C2=A0 3 +
+> =C2=A0.../devicetree/bindings/net/nxp,lpc1850-dwmac.yaml |=C2=A0=C2=A0 3 =
++
+> =C2=A0.../devicetree/bindings/net/nxp,s32-dwmac.yaml=C2=A0=C2=A0=C2=A0=C2=
+=A0 |=C2=A0=C2=A0 3 +
+> =C2=A0.../devicetree/bindings/net/qcom,ethqos.yaml=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 3 +
+> =C2=A0.../bindings/net/qcom,sa8255p-ethqos.yaml=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 98 +++++
+> =C2=A0.../devicetree/bindings/net/renesas,rzn1-gmac.yaml |=C2=A0=C2=A0 3 =
++
+> =C2=A0.../bindings/net/renesas,rzv2h-gbeth.yaml=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 3 +
+> =C2=A0.../devicetree/bindings/net/rockchip-dwmac.yaml=C2=A0=C2=A0=C2=A0 |=
+=C2=A0=C2=A0 3 +
+> =C2=A0.../devicetree/bindings/net/snps,dwmac.yaml=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 5 +-
+> =C2=A0.../bindings/net/sophgo,cv1800b-dwmac.yaml=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 3 +
+> =C2=A0.../bindings/net/sophgo,sg2044-dwmac.yaml=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 3 +
+> =C2=A0.../bindings/net/starfive,jh7110-dwmac.yaml=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 3 +
+> =C2=A0.../devicetree/bindings/net/stm32-dwmac.yaml=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 3 +
+> =C2=A0.../devicetree/bindings/net/tesla,fsd-ethqos.yaml=C2=A0 |=C2=A0=C2=
+=A0 3 +
+> =C2=A0.../devicetree/bindings/net/thead,th1520-gmac.yaml |=C2=A0=C2=A0 3 =
++
+> =C2=A0.../bindings/net/toshiba,visconti-dwmac.yaml=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 3 +
+> =C2=A0MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
+> =C2=A0drivers/net/ethernet/stmicro/stmmac/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +-
+> =C2=A0.../ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c=C2=A0=C2=A0=C2=A0 |=
+ 401 +++++++++++++++++----
+> =C2=A026 files changed, 498 insertions(+), 72 deletions(-)
+> ---
+> base-commit: dac1315bf558e4895665aa1c278fd30113ca119d
+> change-id: 20250704-qcom-sa8255p-emac-8460235ac512
+>=20
+> Best regards,
+
 
