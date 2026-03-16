@@ -1,270 +1,489 @@
-Return-Path: <linux-renesas-soc+bounces-29486-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29487-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QImaFOIFuGkWYQEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29486-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 14:30:10 +0100
+	id cPwvGJoJuGkWYQEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29487-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 14:46:02 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id F238829A631
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 14:30:09 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 050EF29AAFE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 14:46:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1C8623012C7A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 13:30:08 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id E59A3301137B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 13:45:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94A6B397E62;
-	Mon, 16 Mar 2026 13:30:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D67F0397E9F;
+	Mon, 16 Mar 2026 13:45:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="Wl8JXgAK"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="GIwNuJ/d";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="TIQmzHRA"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010005.outbound.protection.outlook.com [52.101.69.5])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BB8A28BAB9;
-	Mon, 16 Mar 2026 13:30:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.5
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773667807; cv=fail; b=WEuvkOKS4rxdvx8F9IR1+8+rGrhj11qlLJeYBAiLkeDRQw9OUR/OAQRMyKkFiVZHWFF/qWHnrFOumG8qy1GMOVoI2REGrwQycJqZCBkKJE/WjXKu+9adQY22+ImpYP26PdvViIAkHD2W2BXFNHkM8ecBq6gUQBZDBiuoCNsdjX0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773667807; c=relaxed/simple;
-	bh=OgW+3g4ZtwEG3HQy3uBrpDjbmSzRl2c6VsRU6jjfmoQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=FgZ8KrFEEhNdjETmxfKlLuFwiisZAIDzrNbzPguQbAs95yMi61lOoPXnw1SX0LSw9FbjPhhP/URx/0/rb7BGT4fD7hkF4MhMPjQ9WymEk81DvSp8WURtzsmHQ68Xm/HX4rZLx73J19LU9bsX5WkU2avelWhjC4dEU08fffknhx4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=Wl8JXgAK; arc=fail smtp.client-ip=52.101.69.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=caRSxI2H1FSt52og450186K7J0hbEvLOCBnRoImqx476oODEGPoR0ictPR5sVptHcRWJ7rXuxNh+gHPWmjhPJa3UiZkCZNQ3Y8TkvvgRtcNkFmu2BwIhgMTYRcy3Kf/92a0Na6Vz5LEGfLIjCq9Ri+B7s9v6G9WjmUgFtHjVnV+2JkXkH0ZyUBmvVJw5H+vhF3pwQmHGSI1YVkpMHJ4sEzqkxfqorsOg2oFQPTGK1H16aA+f46cip7lDscbPFKxV4wTM6Co+ZanU2b/Ry6aJz6Bx6M+gLennpiPM8/7ERiOKiXvTElrGRMuT8pmIEpUOJP+zVZsn+ch7gf+FCduaQA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jPEC+zuO/pn/G+M5SaOjIZmt9JY9xQeBNzANAeikaWQ=;
- b=uOS+NiuHZkVzGZ2u3uO1iis1UKmm0O1NsAWdgGyRj63WCQySuHa5LPI7aOhlRN+YZQQO+RIQEFRALPMCrKZtT5e3OBvC0ElAAie7FjGQQG2KfoL9qUaigq2Mw+hy4Neh+sDDUanqaqaA0IQZCdTS1huHB93tNFCuwKVPEeBoM6tAXazdRtGSSsVGzAzosYGEddtkoqyX2uyyK+JwQji/mqTX3/T1YL/N5InOl4z7G/gMDJb31ksEO6RzvtyqF5gzjA+rTpkjmAsd+BFxztNoxrTV7tSh3eUEy71nW5M5+unTaxPeAe9xHOkWsP2ZsgOQXKye4Q1q1XI441KvBh+wRw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 164.130.1.60) smtp.rcpttodomain=kernel.org smtp.mailfrom=foss.st.com;
- dmarc=fail (p=none sp=none pct=100) action=none header.from=foss.st.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jPEC+zuO/pn/G+M5SaOjIZmt9JY9xQeBNzANAeikaWQ=;
- b=Wl8JXgAKnnbMaS+XOvXrYb5Vpe6zZfqRppXeI55Fu0yipzOlaZUyyEGZPUWOgyXXp8Bo0ja+qFCNShvXpm0m37nwabvMKH/lRTmrbJrdGDQlUpjS8D3DBsmxLOQuto4OW7bNxbtZqpsvaDe3QvkATknAjrRZPlVZ619ogM1N5KeRNB9jlLR11eOqLQO0DkImwcfD8b9uMPsS6T5buRVuFVy6EHrX1HN6o0Er5z192D/ZEbPEMLccagjDbdIUZ3Ht97eGrgIQLAlRjE8gXU8KD3Aohp6aJgaleenjcLCUFn+TYrAYWvH5ynHvWSdGA/Beg+zGuXxjYUqy6M2Ie4ErzQ==
-Received: from DB9PR01CA0015.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:1d8::20) by PRAPR10MB5251.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:102:291::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.24; Mon, 16 Mar
- 2026 13:29:57 +0000
-Received: from DB1PEPF000509F5.eurprd02.prod.outlook.com
- (2603:10a6:10:1d8:cafe::fe) by DB9PR01CA0015.outlook.office365.com
- (2603:10a6:10:1d8::20) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9700.24 via Frontend Transport; Mon,
- 16 Mar 2026 13:29:46 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 164.130.1.60)
- smtp.mailfrom=foss.st.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=none header.from=foss.st.com;
-Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
- designate 164.130.1.60 as permitted sender) receiver=protection.outlook.com;
- client-ip=164.130.1.60; helo=smtpO365.st.com;
-Received: from smtpO365.st.com (164.130.1.60) by
- DB1PEPF000509F5.mail.protection.outlook.com (10.167.242.151) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9700.17 via Frontend Transport; Mon, 16 Mar 2026 13:29:57 +0000
-Received: from STKDAG1NODE2.st.com (10.75.128.133) by smtpO365.st.com
- (10.250.44.72) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.29; Mon, 16 Mar
- 2026 14:32:14 +0100
-Received: from [10.130.77.120] (10.130.77.120) by STKDAG1NODE2.st.com
- (10.75.128.133) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.29; Mon, 16 Mar
- 2026 14:29:54 +0100
-Message-ID: <ba3ae9a0-11ba-4000-b2ed-08aeede0dc54@foss.st.com>
-Date: Mon, 16 Mar 2026 14:29:54 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D45FF21D3E4
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Mar 2026 13:45:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773668747; cv=none; b=DQqz4HHuFu/nmTWUG3T39L7DR9xcGf+xMNNC5bTOxgZStFTDWeZIk3g4cow3ZiD+8++FuoaAsVmsUvwmf5qaLg7/Hxq7fIeoWPqSb517z82IH84dAbdwParnvrk9pVpxPBx5Qi7w/VWehTVeYOdPY226CarVh2dDWVbhUziDD5k=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773668747; c=relaxed/simple;
+	bh=t8h9C0qrhILq+5Zys16fRrCe9qjnoZrF/6Ha+44N1jI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YIwvoynL5Op9Bi8If0zw8uBA1L4hbqoTNtUvgihGe3AcG80FhUiPYxbAdiNvp/6R6Dd2zoTSrTO3G0V3NpRnLSmpZNDAD07b0O60AHxBK1yh7cxHprsOlhUGK2XXFcDIuOEtx3GOXGvQmGv65F1XY8az+q+RSgvEi8j7JKgKlTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=GIwNuJ/d; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=TIQmzHRA; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62G7n24d041968
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Mar 2026 13:45:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=GP1eV7PL30/lxFgTAbjPosrwLpCstR2UQ+g
+	SV7rTO4s=; b=GIwNuJ/d0zJhJbQyNiUk5I4IVNuselKxgn1qsjJ13Cz2B3mlV+i
+	DHGh0bJLsoKYiURZ/GiUarP2+ShGv5uxka+dnwW02AUPIKVVHELj2k06rRawxIIi
+	7ppkGbQvntkJXQFChrXgMRl/NLB880cHdGvYXmSyAerhZps4oO/LWD4R9jyOh47u
+	znMfpinQYiVa6KtxsLkMsoBEa+0tl+LlrpN5NcnviAgslTXcwvA2n7e72TVFYz6m
+	7DvF25s+m8l0ZZLdq33+D5BKTesWEegsfbRpTFs2YvUWD9YcjUI6Xfy/0CKHRnMl
+	4iJfwtB2mkS/ompbWng4vABuCmiwQ3/bGXw==
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com [209.85.219.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cxdt81c9c-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Mar 2026 13:45:44 +0000 (GMT)
+Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-89c4ec516e5so182368176d6.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Mar 2026 06:45:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1773668744; x=1774273544; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GP1eV7PL30/lxFgTAbjPosrwLpCstR2UQ+gSV7rTO4s=;
+        b=TIQmzHRAcMOCkMfYLweByEwKjUL4ap8V6N9w38NOl+2Oh2Wyuiu1o6nD0y5suj9r4m
+         DhaGoQuwdjHMaL6vlb4hmLuVeP17/e0eQsJojmU1NyqsFc2vCLJIb66tk7CfLAvEe7jz
+         iRL3lwaMXl0p9fq/u6JqLZS9VNtmM89GlXYjiLnbJUxebmPVY0E75cHRXNwIS3uNa044
+         JxVwItpZu05jE0Va/IiLzy5qRXR/ABTBWP1aHqoXyykC5O8hb60+alvaU2SN46gTd7MZ
+         arMrInfqcvOn63y4obtUWlWqDxIh9tL/zyovDPMe/bNonQWSumWD0MumiAeDqz7XHo/Y
+         QNCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773668744; x=1774273544;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GP1eV7PL30/lxFgTAbjPosrwLpCstR2UQ+gSV7rTO4s=;
+        b=hhw4yU4l1QLRhyDZ6+65NEiGHhuGH02ETUv6lKUfOhmlSqjasINfeLNnCtNIWwwQTi
+         G5xT5lSBP8rdZpj7B4zcKVx0nScfvwxGrxIgBU1+193D1k0+l8h8EmiNYVoDKVPFnpuV
+         uY8qrdiLAd7rAu9m6FLEwrBLwuVT5csKRarFaRvAMgXcFgZ+FK/wboVxHLMmWxwFmGoe
+         CA0s/ddRgDvtcFvxcdLP/PvY87ZnDeD6dbdndjiK3ZwSFIlnqpN4PSWPP/fS8hGbt3cp
+         uD3KxFja3QoAh8NlN5O6/RCPta2mvuY6y+WFH/qBfI5o50rK1aysxSA5lb2aTpGSa+XU
+         tNnw==
+X-Forwarded-Encrypted: i=1; AJvYcCXxRO/z7zh9TgAcGhL8mkNrP1ROKjttQHlHOwGBIOZdi654LwTt93pRFzZq6slU8UOrbJ6pP68Nuu07rXVZQGUkbA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyTp3ZVm960d9fRWu8mr4qo4C7izxGRZ6E3uHjFvl+MPhAypEsv
+	00Oc57M07L2PZWqa7iysRacJBtV2Xdy8vwybgABlm77f6jaLkzo9GYgbq93KFoAED2wvXaLjSMt
+	CrVI/iO/mUu+K7h7bwgmkgDzBzjJH8oqD41dANMi98GLLsaWgYD+O7hHl7HCYXgkUyRct6x1yHA
+	==
+X-Gm-Gg: ATEYQzwgdN9bqMufjBBpBboP4zR4fopFBTbWS5ueBx/zK0d2b/Ak7D606MpYXyoIA2i
+	j/acujkftKkloVeN2q43jVvKuFeMuqSQBNQ9s3gB4j/MYYrduyQJigJDPpXBEAcoZI+XguHC5QH
+	DDdFoKXRriqkBHbLrY4pkzKAUCkFEjf4DF6ChL4iIq+RfEpYYZj+57NAPlhBJE/+s8koPdI/C+B
+	kOlbZD5tJojhIOUdoseCRpB44yH3m4z4JA/jtKovXbBvXd+P6UudLjr1PmdrTd1HJO/ORcuXwRA
+	m1T3gFGLScvR2G7L7+vloC79jD/6pg7CozjE+VLnGJ2F40SeZMOb0E5aKQNEHu8gfZaJCM1GSLM
+	GII/2DuAG2bXYSvj+mdqePPStTvjOLWE5qlKB
+X-Received: by 2002:a05:620a:7103:b0:8bb:1a5b:5a47 with SMTP id af79cd13be357-8cdb5a4abd1mr1692420385a.17.1773668743553;
+        Mon, 16 Mar 2026 06:45:43 -0700 (PDT)
+X-Received: by 2002:a05:620a:7103:b0:8bb:1a5b:5a47 with SMTP id af79cd13be357-8cdb5a4abd1mr1692414785a.17.1773668743019;
+        Mon, 16 Mar 2026 06:45:43 -0700 (PDT)
+Received: from quoll ([178.197.219.94])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b416e3678sm14307231f8f.17.2026.03.16.06.45.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Mar 2026 06:45:42 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+To: Tommaso Merciai <tomm.merciai@gmail.com>,
+        Martin Hecht <mhecht73@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Sebastian Reichel <sre@kernel.org>,
+        Alain Volmat <alain.volmat@foss.st.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+        Dongchun Zhu <dongchun.zhu@mediatek.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Quentin Schulz <quentin.schulz@theobroma-systems.com>,
+        Todor Tomov <todor.too@gmail.com>,
+        "Paul J. Murphy" <paul.j.murphy@intel.com>,
+        Daniele Alessandrelli <daniele.alessandrelli@gmail.com>,
+        Marco Felsch <kernel@pengutronix.de>, Lubomir Rintel <lkundrak@v3.sk>,
+        linux-renesas-soc@vger.kernel.org,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Subject: [PATCH 1/2] media: dt-bindings: i2c: Drop redundant endpoint properties
+Date: Mon, 16 Mar 2026 14:45:34 +0100
+Message-ID: <20260316134533.56941-3-krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 3/8] PCI: dwc: Advertise dynamic inbound mapping
- support
-To: Niklas Cassel <cassel@kernel.org>
-CC: Koichiro Den <den@valinux.co.jp>, <jingoohan1@gmail.com>,
-	<mani@kernel.org>, <lpieralisi@kernel.org>, <kwilczynski@kernel.org>,
-	<robh@kernel.org>, <bhelgaas@google.com>, <Frank.Li@nxp.com>,
-	<vigneshr@ti.com>, <s-vadapalli@ti.com>, <hongxing.zhu@nxp.com>,
-	<l.stach@pengutronix.de>, <shawnguo@kernel.org>, <s.hauer@pengutronix.de>,
-	<kernel@pengutronix.de>, <festevam@gmail.com>, <minghuan.Lian@nxp.com>,
-	<mingkai.hu@nxp.com>, <roy.zang@nxp.com>, <jesper.nilsson@axis.com>,
-	<heiko@sntech.de>, <srikanth.thokala@intel.com>,
-	<marek.vasut+renesas@gmail.com>, <yoshihiro.shimoda.uh@renesas.com>,
-	<geert+renesas@glider.be>, <magnus.damm@gmail.com>,
-	<mcoquelin.stm32@gmail.com>, <alexandre.torgue@foss.st.com>,
-	<thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-	<hayashi.kunihiko@socionext.com>, <mhiramat@kernel.org>, <kishon@kernel.org>,
-	<jirislaby@kernel.org>, <rongqianfeng@vivo.com>, <18255117159@163.com>,
-	<shawn.lin@rock-chips.com>, <nicolas.frattaroli@collabora.com>,
-	<linux.amoon@gmail.com>, <vidyas@nvidia.com>, <shuah@kernel.org>,
-	<linux-omap@vger.kernel.org>, <linux-pci@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<imx@lists.linux.dev>, <linuxppc-dev@lists.ozlabs.org>,
-	<linux-arm-kernel@axis.com>, <linux-rockchip@lists.infradead.org>,
-	<linux-arm-msm@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-	<linux-stm32@st-md-mailman.stormreply.com>, <linux-tegra@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>
-References: <20260124145012.2794108-1-den@valinux.co.jp>
- <20260124145012.2794108-4-den@valinux.co.jp>
- <b2b03ebe-9482-4a13-b22f-7b44da096eed@foss.st.com>
- <tkfhaovpmaoodo35attvmbnpukcqgmwyrxmfgiwjy2dga65cgl@hmj4mx2n44ki>
- <5e485218-becf-499b-8a07-d25358504807@foss.st.com> <abf-LKj8V2MpJFEE@ryzen>
-Content-Language: en-US
-From: Christian Bruel <christian.bruel@foss.st.com>
-In-Reply-To: <abf-LKj8V2MpJFEE@ryzen>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: ENXCAS1NODE2.st.com (10.75.128.138) To STKDAG1NODE2.st.com
- (10.75.128.133)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB1PEPF000509F5:EE_|PRAPR10MB5251:EE_
-X-MS-Office365-Filtering-Correlation-Id: 53be0679-0954-4526-d233-08de83601dd0
-X-LD-Processed: 75e027c9-20d5-47d5-b82f-77d7cd041e8f,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|1800799024|7416014|376014|82310400026|36860700016|56012099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
- w/ld2OerSgnEdqrgQ0RdamQ21qOEylZeCydFipF8mJnZyAVIS7CJvynj4Imj+jErIi3dya6aV0FWrRJuj2UjGLBck7fXBv713rOD/Hxy2L+hBQGVFOm0Hjuh9ZvhFzRSsvi9iPDGR2DR6Xs/lyhQs1dAPtGiLz84/oUTbPj7T2TwJ6Ikpp1/w6xqTpQMeDz6CQ94PSSxFcbP7QuiwsSSZ8FUWMf3a94en8oblHV3RSpAa19s6HUbNfK/I6isGHcgvpYbBNwYiRgFtPoEH1gOfRk85Y+7xf3/tyqY+2Ypz9QVMrQ9N/S1hWMVPKE42TSc3E8FUExABtP6BjWpOE5l6jv0N/xFlaMjbtfCZYlrEh9vPRpksc3x4ZgHUeGVCD0lNiKAmyj+hdrKInnS/I0LgIEEXlcptlP7pwoOgJUhNuhrsoeY0wOWR6n7rix3cT/VhHRUFHUOvI3QzTtkdCfDVUPpn9Rqq1ytswA2/ygyTbIsz0Rbee3KlHyO/p4Iil86T4FxAuQfVoI2DbQdsbo/6OXVXswdaz8SPIJUhyWvt9ymHl+yiELmBJkNUVVvU+PP9+TzSeLzv7fkW6dLmgWcQGiPNKnZ5r94Qq7fCI1B6PVjZLskCCRdwE331Evk7xEvMFd+HjyjUmFZo00lIbFaN/FpXuAlLC+HT5cZbg0X2/7HqnFc3kRc6KTAGV8QZyuGmLWQKDX2w3KvHGpSr2fl1Sqv3tIU/goN6bqV6jp7DkAqc9JZTnEwZH0HFr3BrIO6ghrFxI43KtROnq5IlcrERA==
-X-Forefront-Antispam-Report:
- CIP:164.130.1.60;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(82310400026)(36860700016)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- 8jXt8t9NF+j+2zWoWJ2RHif/fjiC+LJpZ5mXgstTilWjXM0hjIWwv4Ruf3iDOGqG4386AfahhGwiMjnXI6ZULQOT/TBE1weqINTN+gobmxVs/ZLPxoSWnHKcNX2PihUb8CtWGGh7tMxtmeOYy/c3XTI4G4B/tJb9wzM7XuWF/pqubP4bxSSQKo5LvkH9DOZArMPFXLTUR0lbqEq5/HwLz9HU+fvn6WkTnANc8sr5r6uhHcIXFYYr02qe8oZOtF0+VvDClxax/ZEHPWwOhb+lkSyXRKAPySIx4JebMl2utrKoj6rj2IOXXTf72Knm4JN2q80/Hb4X4qiA9vziJJ2q6gee2+42M10I+Xyqz2/nI/iBycO2Tct3fk+wqf531GAmRLNFMapHAoFbuMjQ98SQUTTnap2lb1dZgXQwsEFWRl0WzznsFYbYHMKTI7nqBbi3
-X-OriginatorOrg: foss.st.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Mar 2026 13:29:57.2710
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 53be0679-0954-4526-d233-08de83601dd0
-X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.60];Helo=[smtpO365.st.com]
-X-MS-Exchange-CrossTenant-AuthSource: DB1PEPF000509F5.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PRAPR10MB5251
-X-Spamd-Result: default: False [1.34 / 15.00];
+X-Developer-Signature: v=1; a=openpgp-sha256; l=11781; i=krzysztof.kozlowski@oss.qualcomm.com;
+ h=from:subject; bh=t8h9C0qrhILq+5Zys16fRrCe9qjnoZrF/6Ha+44N1jI=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBpuAl9YgBvP32SjYWo80scAqVVEVAf3vCg36Tgh
+ 00ORW56KwyJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCabgJfQAKCRDBN2bmhouD
+ 12IwD/0YGAwVGszr0xaWr778UXYyxWM3NBBhAE0GyZhy3Apy0zpcIKBwlLycZItBw6M9p9r9ijH
+ Ukikbu5fVSKjZ+yKGvsoPo9IV53t6mwhSB+U9B/3+MeEa5Hvu7DdoBcPXCIF0ZrUMGBcK/BA8Z9
+ 0F2M38hSuSQaniKB5W4n0GhHke/Ffmz2MWg2YI0N68O7E8Z3PsVKObQNPpTG+uy4kUP1+fy3eB+
+ nmLlRFK96RGxiYSy+DVFEjkRJ+IqpXdpjUYd5nUi1tEjNEbvxOv4ghaI1l6kFCobhikCRlcbqln
+ KrzCjECNNFQkwmdA2cDt7ltiYgiX7VzDadTfRL29qyj8TM/HqWNEBFtGpgkiJdvXS9YjteYZVwC
+ RWZgRygb+TVskiFJ8/AkuVBMb1bCisFgZtPM3DkhyjEyBtgEaGOvUL8TV+zM2zs+Z/g2Uc2QpqK
+ ePk3GPFf7rcQk5G4Bh0h25WTDOPw/yd/wSFoiGRNY4y/u4U//pToYbU/HwAWXlvDffsRuTuA0nC
+ GzMa7R6ljF8ILfG2Me8ddwTrbty1a6xjCPuczkeui17n3YeC9hswAdZyl81H0+HlRRbhk00YYuV
+ LZNvzPKasQnbdf+fvkMvhJGVeVOjMTdt9U2YhXYWacrCAEZoei+DjXKbWNN3qGJVt+WUD0NGwCb /psZdl3mwmr6R+Q==
+X-Developer-Key: i=krzysztof.kozlowski@oss.qualcomm.com; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: up53aGWwb9TVrz74MAq1rp2SmS-qP55w
+X-Authority-Analysis: v=2.4 cv=CKInnBrD c=1 sm=1 tr=0 ts=69b80988 cx=c_pps
+ a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=gOEeR9iKwsj33Yj5oN/cWg==:17
+ a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22 a=EUspDBNiAAAA:8
+ a=RqNHlvAEXZaMOB3n50YA:9 a=pJ04lnu7RYOZP9TFuWaZ:22
+X-Proofpoint-ORIG-GUID: up53aGWwb9TVrz74MAq1rp2SmS-qP55w
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzE2MDEwNCBTYWx0ZWRfX2UC/qIRTM/tu
+ wNiNnfZRuR8DmJv+ZHl4R7tdCn2BEird6Gflo8xGdr6IlTGUHxBAUipIbEYYjfj7gBcxbcWhZOV
+ PDODaRkDQ5fMOpfTIBM2E1u3yZxU4LChTfa49d5rt2PNqIbwqcmVTb3Y/Odu0VXyugDqoJtnrYX
+ EPEYnHtjwuXaLoikebMMEKx0/nzWXF1AVMUqNmZb5aC26F+GUFLG8N3iRTUkHGDTPmxH1THZL6k
+ j+03GriJgmKiUWpy9Gwqu6roico2VlK2msPyY6OEn7lhb86owRxxPO+zVAOytLZ6+0RrZOFVIBE
+ zOoS7L7MTQz/aBb6U+5e9MylmmrcAJj0HFzpI8CU39Qyrnt+nXFhbscqWA6w/2Ge0Dl+bu9dHOp
+ RdmAsj2qobCJFsEIYmxEzzIx1hQg9hZxF2sHTYfeqCYP+UUKOMO/cZ48NxGRf2Y40OUHLgDlqG0
+ cI9qNQrgh5wt9oeTY3A==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-16_04,2026-03-16_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 lowpriorityscore=0 phishscore=0 priorityscore=1501 bulkscore=0
+ adultscore=0 impostorscore=0 suspectscore=0 spamscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603160104
+X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[foss.st.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[foss.st.com:s=selector2];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[valinux.co.jp,gmail.com,kernel.org,google.com,nxp.com,ti.com,pengutronix.de,axis.com,sntech.de,intel.com,renesas.com,glider.be,foss.st.com,nvidia.com,socionext.com,vivo.com,163.com,rock-chips.com,collabora.com,vger.kernel.org,lists.infradead.org,lists.linux.dev,lists.ozlabs.org,st-md-mailman.stormreply.com];
+	FREEMAIL_TO(0.00)[gmail.com,kernel.org,foss.st.com,jmondi.org,ideasonboard.com,ragnatech.se,linux.intel.com,raspberrypi.com,glider.be,linaro.org,mediatek.com,bootlin.com,theobroma-systems.com,intel.com,pengutronix.de,v3.sk,vger.kernel.org,bp.renesas.com];
+	RCPT_COUNT_TWELVE(0.00)[31];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-29486-lists,linux-renesas-soc=lfdr.de];
-	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-29487-lists,linux-renesas-soc=lfdr.de];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[55];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[christian.bruel@foss.st.com,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[foss.st.com:+];
+	FROM_NEQ_ENVFROM(0.00)[krzysztof.kozlowski@oss.qualcomm.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,qualcomm.com:email,oss.qualcomm.com:dkim,oss.qualcomm.com:mid];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_COUNT_SEVEN(0.00)[8]
-X-Rspamd-Queue-Id: F238829A631
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 050EF29AAFE
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+The "endpoint" node references video-interfaces.yaml schema with
+"unevaluatedProperties: false" which means that all properties from
+referenced schema apply.  Listing some of them with ": true" is simply
+redundant and does not make this code easier to read.
 
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+---
+ .../bindings/media/i2c/alliedvision,alvium-csi2.yaml      | 2 --
+ .../devicetree/bindings/media/i2c/galaxycore,gc0308.yaml  | 8 --------
+ .../devicetree/bindings/media/i2c/galaxycore,gc2145.yaml  | 3 ---
+ .../devicetree/bindings/media/i2c/maxim,max9286.yaml      | 3 ---
+ .../devicetree/bindings/media/i2c/maxim,max96712.yaml     | 1 -
+ Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml | 2 --
+ .../devicetree/bindings/media/i2c/ovti,og01a1b.yaml       | 2 --
+ .../devicetree/bindings/media/i2c/ovti,ov02a10.yaml       | 1 -
+ .../devicetree/bindings/media/i2c/ovti,ov5647.yaml        | 3 ---
+ .../devicetree/bindings/media/i2c/ovti,ov5648.yaml        | 2 --
+ .../devicetree/bindings/media/i2c/ovti,ov5675.yaml        | 4 +---
+ .../devicetree/bindings/media/i2c/ovti,ov7251.yaml        | 2 --
+ .../devicetree/bindings/media/i2c/ovti,ov8865.yaml        | 2 --
+ .../devicetree/bindings/media/i2c/ovti,ov9282.yaml        | 4 ----
+ .../devicetree/bindings/media/i2c/sony,imx334.yaml        | 4 ----
+ .../devicetree/bindings/media/i2c/sony,imx412.yaml        | 4 ----
+ .../devicetree/bindings/media/i2c/toshiba,tc358746.yaml   | 5 -----
+ 17 files changed, 1 insertion(+), 51 deletions(-)
 
-On 3/16/26 13:57, Niklas Cassel wrote:
-> On Mon, Mar 16, 2026 at 01:41:03PM +0100, Christian Bruel wrote:
->> Hi Koichiro,
->>
->>>
->>> If I understood the problem correctly, would something like the patch below
->>> address it? My expectation is that the subrange mapping test would then fail
->>> consistently on platforms that do not have enough free IB iATU regions.
->>>
->>
->> Thank you for your patch. Yes, now the bar subrange tests fail consistently,
->> so that is enough to say this is not a regression.
->>
->> However, I think there was a clear BAR missing somewhere before running the
->> tests in the EPF driver, as the BARs could be reallocated during the other
->> tests. This is not due to the subrange tests, but the EPF test driver
->> supposes a 1:1 BAR/ATU mapping. Now this assumption is broken. I'm wondering
->> if this could be improved to make the subrange tests pass on all platforms
-> 
-> Normally, you want one inbound iATU per enabled BAR, since you want the host
-> to be able to access all the enabled BARs at any time.
-> 
-> If you are thinking that we should somehow temporarily disable inbound
-> address translation for one of the enabled BARs, such that we can do "steal"
-> that iATU to test inbound subrange mapping, then I think that is a bad idea.
-
-yes, I was thinking something about restricting the iATU entry lifetime 
-during the BAR test duration and restoring after. But OK I agree, not good.
-
-> 
-> I think we should just let the test fail. Possibly we could call some API that
-> tells us that all inbound iATUs are occupied, and then SKIP instead of FAIL
-> the inbound subrange test case.
-> 
-> If you really want to test/use inbound subrange mapping, even if your SoC has
-> a very limited number of inbound iATUs, then I think a better solution is to
-> mark one or multiple of your BARs as disabled:
-> https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git/commit/?h=endpoint&id=33642e9e36dc084e4fc9245a266c9843bc8303b9
-> 
-> Then you should have at least one more inbound iATU available, and should be
-> able to run the inbound subrange test case.
-
-Yes cherry-picking the BAR_DISABLED support, I can now test the subrange 
-with Koichiro's fixup.
-
-  ./pci_endpoint_test -t BAR_SUBRANGE_TEST
-TAP version 13
-1..6
-# Starting 6 tests from 6 test cases.
-#  RUN           pci_ep_bar.BAR0.BAR_SUBRANGE_TEST ...
-#      SKIP      BAR is test register space
-#            OK  pci_ep_bar.BAR0.BAR_SUBRANGE_TEST
-ok 1 pci_ep_bar.BAR0.BAR_SUBRANGE_TEST # SKIP BAR is test register space
-#  RUN           pci_ep_bar.BAR1.BAR_SUBRANGE_TEST ...
-#            OK  pci_ep_bar.BAR1.BAR_SUBRANGE_TEST
-ok 2 pci_ep_bar.BAR1.BAR_SUBRANGE_TEST
-#  RUN           pci_ep_bar.BAR2.BAR_SUBRANGE_TEST ...
-#            OK  pci_ep_bar.BAR2.BAR_SUBRANGE_TEST
-ok 3 pci_ep_bar.BAR2.BAR_SUBRANGE_TEST
-#  RUN           pci_ep_bar.BAR3.BAR_SUBRANGE_TEST ...
-#      SKIP      BAR is disabled
-#            OK  pci_ep_bar.BAR3.BAR_SUBRANGE_TEST
-ok 4 pci_ep_bar.BAR3.BAR_SUBRANGE_TEST # SKIP BAR is disabled
-#  RUN           pci_ep_bar.BAR4.BAR_SUBRANGE_TEST ...
-#      SKIP      BAR is disabled
-#            OK  pci_ep_bar.BAR4.BAR_SUBRANGE_TEST
-ok 5 pci_ep_bar.BAR4.BAR_SUBRANGE_TEST # SKIP BAR is disabled
-#  RUN           pci_ep_bar.BAR5.BAR_SUBRANGE_TEST ...
-#      SKIP      BAR is disabled
-#            OK  pci_ep_bar.BAR5.BAR_SUBRANGE_TEST
-ok 6 pci_ep_bar.BAR5.BAR_SUBRANGE_TEST # SKIP BAR is disabled
-# PASSED: 6 / 6 tests passed.
-# 4 skipped test(s) detected. Consider enabling relevant config options 
-to improve coverage.
-# Totals: pass:2 fail:0 xfail:0 xpass:0 skip:4 error:0
-
-Thank you,
-
-Christian
-> 
-> 
-> Kind regards,
-> Niklas
+diff --git a/Documentation/devicetree/bindings/media/i2c/alliedvision,alvium-csi2.yaml b/Documentation/devicetree/bindings/media/i2c/alliedvision,alvium-csi2.yaml
+index d3329e991d16..c2ae33532700 100644
+--- a/Documentation/devicetree/bindings/media/i2c/alliedvision,alvium-csi2.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/alliedvision,alvium-csi2.yaml
+@@ -35,8 +35,6 @@ properties:
+         unevaluatedProperties: false
+ 
+         properties:
+-          link-frequencies: true
+-
+           data-lanes:
+             minItems: 1
+             items:
+diff --git a/Documentation/devicetree/bindings/media/i2c/galaxycore,gc0308.yaml b/Documentation/devicetree/bindings/media/i2c/galaxycore,gc0308.yaml
+index 2bf1a81feaf4..fcf79f4c5a0d 100644
+--- a/Documentation/devicetree/bindings/media/i2c/galaxycore,gc0308.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/galaxycore,gc0308.yaml
+@@ -53,14 +53,6 @@ properties:
+         $ref: /schemas/media/video-interfaces.yaml#
+         unevaluatedProperties: false
+ 
+-        properties:
+-          bus-width: true
+-          data-shift: true
+-          hsync-active: true
+-          vsync-active: true
+-          data-active: true
+-          pclk-sample: true
+-
+         required:
+           - bus-width
+ 
+diff --git a/Documentation/devicetree/bindings/media/i2c/galaxycore,gc2145.yaml b/Documentation/devicetree/bindings/media/i2c/galaxycore,gc2145.yaml
+index 9eac588de0bc..ccac2cb85d57 100644
+--- a/Documentation/devicetree/bindings/media/i2c/galaxycore,gc2145.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/galaxycore,gc2145.yaml
+@@ -58,9 +58,6 @@ properties:
+         $ref: /schemas/media/video-interfaces.yaml#
+         unevaluatedProperties: false
+ 
+-        properties:
+-          link-frequencies: true
+-
+         required:
+           - link-frequencies
+ 
+diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+index a37447256f8d..d806b821dae3 100644
+--- a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+@@ -137,9 +137,6 @@ properties:
+             $ref: /schemas/media/video-interfaces.yaml#
+             unevaluatedProperties: false
+ 
+-            properties:
+-              data-lanes: true
+-
+             required:
+               - data-lanes
+ 
+diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
+index 26f85151afbd..4b9afc73de62 100644
+--- a/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
+@@ -67,7 +67,6 @@ properties:
+             unevaluatedProperties: false
+ 
+             properties:
+-              data-lanes: true
+               bus-type:
+                 enum:
+                   - 1 # MEDIA_BUS_TYPE_CSI2_CPHY
+diff --git a/Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml b/Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml
+index 217b08c8cbbd..9ba8a17c62e0 100644
+--- a/Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml
+@@ -78,8 +78,6 @@ properties:
+         unevaluatedProperties: false
+ 
+         properties:
+-          link-frequencies: true
+-          data-lanes: true
+           bus-type:
+             enum:
+               - 1 # CSI-2 C-PHY
+diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,og01a1b.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,og01a1b.yaml
+index ca57c01739d2..efdac2e91589 100644
+--- a/Documentation/devicetree/bindings/media/i2c/ovti,og01a1b.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/ovti,og01a1b.yaml
+@@ -64,8 +64,6 @@ properties:
+             items:
+               enum: [1, 2]
+ 
+-          link-frequencies: true
+-
+         required:
+           - data-lanes
+           - link-frequencies
+diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
+index 0e1d9c390180..b98260d5e6a3 100644
+--- a/Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
+@@ -81,7 +81,6 @@ properties:
+         unevaluatedProperties: false
+ 
+         properties:
+-          link-frequencies: true
+           ovti,mipi-clock-voltage:
+             $ref: /schemas/types.yaml#/definitions/uint32
+             description:
+diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov5647.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5647.yaml
+index 2d7937a372a2..7a05a1eda58d 100644
+--- a/Documentation/devicetree/bindings/media/i2c/ovti,ov5647.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5647.yaml
+@@ -51,9 +51,6 @@ properties:
+         $ref: /schemas/media/video-interfaces.yaml#
+         unevaluatedProperties: false
+ 
+-        properties:
+-          clock-noncontinuous: true
+-
+ required:
+   - compatible
+   - reg
+diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov5648.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5648.yaml
+index 8028c8b107c4..ec53e55b2290 100644
+--- a/Documentation/devicetree/bindings/media/i2c/ovti,ov5648.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5648.yaml
+@@ -48,8 +48,6 @@ properties:
+         unevaluatedProperties: false
+ 
+         properties:
+-          link-frequencies: true
+-
+           data-lanes:
+             minItems: 1
+             maxItems: 2
+diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov5675.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5675.yaml
+index ad07204057f9..90b2c6d35df6 100644
+--- a/Documentation/devicetree/bindings/media/i2c/ovti,ov5675.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5675.yaml
+@@ -21,6 +21,7 @@ description: |
+ 
+   This chip is programmable through I2C and two-wire SCCB. The sensor output
+   is available via CSI-2 serial data output (up to 2-lane).
++  It supports max data transfer of 900 Mbps per lane.
+ 
+ properties:
+   compatible:
+@@ -67,9 +68,6 @@ properties:
+             minItems: 1
+             maxItems: 2
+ 
+-          # Supports max data transfer of 900 Mbps per lane
+-          link-frequencies: true
+-
+ required:
+   - compatible
+   - reg
+diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov7251.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov7251.yaml
+index 922996da59b2..0ad271a4bf39 100644
+--- a/Documentation/devicetree/bindings/media/i2c/ovti,ov7251.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov7251.yaml
+@@ -63,8 +63,6 @@ properties:
+           data-lanes:
+             maxItems: 1
+ 
+-          link-frequencies: true
+-
+         required:
+           - data-lanes
+           - link-frequencies
+diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml
+index 320b9aacbb8b..c535a5257a3e 100644
+--- a/Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml
+@@ -48,8 +48,6 @@ properties:
+         unevaluatedProperties: false
+ 
+         properties:
+-          link-frequencies: true
+-
+           data-lanes:
+             minItems: 1
+             maxItems: 4
+diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov9282.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov9282.yaml
+index 401c8613f840..20dc0885e30e 100644
+--- a/Documentation/devicetree/bindings/media/i2c/ovti,ov9282.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov9282.yaml
+@@ -53,10 +53,6 @@ properties:
+         $ref: /schemas/media/video-interfaces.yaml#
+         unevaluatedProperties: false
+ 
+-        properties:
+-          data-lanes: true
+-          link-frequencies: true
+-
+         required:
+           - data-lanes
+           - link-frequencies
+diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml
+index 3842e5130463..e90ebe6a0a24 100644
+--- a/Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml
+@@ -40,10 +40,6 @@ properties:
+         $ref: /schemas/media/video-interfaces.yaml#
+         unevaluatedProperties: false
+ 
+-        properties:
+-          data-lanes: true
+-          link-frequencies: true
+-
+         required:
+           - data-lanes
+           - link-frequencies
+diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx412.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx412.yaml
+index 5447ab0768a6..dec428d46937 100644
+--- a/Documentation/devicetree/bindings/media/i2c/sony,imx412.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/sony,imx412.yaml
+@@ -52,10 +52,6 @@ properties:
+         $ref: /schemas/media/video-interfaces.yaml#
+         unevaluatedProperties: false
+ 
+-        properties:
+-          data-lanes: true
+-          link-frequencies: true
+-
+         required:
+           - data-lanes
+           - link-frequencies
+diff --git a/Documentation/devicetree/bindings/media/i2c/toshiba,tc358746.yaml b/Documentation/devicetree/bindings/media/i2c/toshiba,tc358746.yaml
+index 1c476b635b69..505c6d22ef7c 100644
+--- a/Documentation/devicetree/bindings/media/i2c/toshiba,tc358746.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/toshiba,tc358746.yaml
+@@ -78,8 +78,6 @@ properties:
+             unevaluatedProperties: false
+ 
+             properties:
+-              hsync-active: true
+-              vsync-active: true
+               bus-type:
+                 enum: [ 5, 6 ]
+ 
+@@ -103,9 +101,6 @@ properties:
+                 minItems: 1
+                 maxItems: 4
+ 
+-              clock-noncontinuous: true
+-              link-frequencies: true
+-
+             required:
+               - data-lanes
+               - link-frequencies
+-- 
+2.51.0
 
 
