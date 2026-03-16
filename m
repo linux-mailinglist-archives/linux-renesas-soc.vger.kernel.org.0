@@ -1,179 +1,152 @@
-Return-Path: <linux-renesas-soc+bounces-29514-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29515-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8J9uOFQquGnhZgEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29514-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 17:05:40 +0100
+	id gGLQBrUruGnhZgEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29515-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 17:11:33 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C62F29D057
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 17:05:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E13529D1BF
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 17:11:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 923D5303B4F4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 15:59:37 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 4BF4D3023E20
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 16:02:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BE2E3B95F1;
-	Mon, 16 Mar 2026 15:59:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="PnTea7iO"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0B94324B1E;
+	Mon, 16 Mar 2026 16:02:13 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F388E3B95ED;
-	Mon, 16 Mar 2026 15:59:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 875CA324718
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Mar 2026 16:02:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773676775; cv=none; b=jkMBC/Mudh1B3FhENjT8+BxNLFuRrxrj31xoggEat8dI1H8xSgNbBd/Q9xGyzNwwwbM/jBYqI1FiSvgXohkXEEEKnL6V2YnerxZzSCFhc5YvvXitLFvmeqM6H1C+SKgAA4uDShRzWSI6SaeeXg8ew+rZ5FUVoBR01gs1R59rUWc=
+	t=1773676933; cv=none; b=A1EgXeRE/ekfn8EJ4XO1K/2LpqaLdTK816+F8eTdYJL+D6j92dVd57dUoAMT4fysEWV3SIEhpzjKVymEBGbEw+gyMdpWDX3L+Nvsj1z8PPmGxUyNnjPCd8Uf2BETyiIkkUovNculhXCAVVnEtuJMtx2gRWQ3sxqNzLTsksF1kF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773676775; c=relaxed/simple;
-	bh=W3/aqEHr4f+dl3R/F2nCBCei9LbuG+ABw2wNyR7NSU4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=badoiTHxteJ05CgMUyxLfhgH0HkB5j19gNzc8YEypYITiufiC3KT2+XhqYiNDmO+NJmACpN4DtwXi0bIAhkawGUmEXle40XCR8cjEyYpn1bMu1GkpSJr1Ul9GUYy3/UxsMVrsKnBJnb/ZSgOlSuJD5mNBl50JT3SO9zSGW1Mdrk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=PnTea7iO; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id B808FC55044;
-	Mon, 16 Mar 2026 15:59:55 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 15DF85FC9A;
-	Mon, 16 Mar 2026 15:59:32 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 820EE103721D8;
-	Mon, 16 Mar 2026 16:59:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1773676768; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=FZY21WVCh7c8tZeHp10QX3BK4g8IIBPl4iC5dqseA4U=;
-	b=PnTea7iOGokpmAn1gpLIkkS6Nd0yGlc32SP/zNZvtylTZgU/Z1Ybnij3ZXYHCeC0U4d09o
-	BRZE1yUVjD6Qmz+8IbH5O78mpzRxZFVRAOgUrCMag55DutlsW94ck10nmmgpEW8m17kUFB
-	VkFeXkZ/kIUAIGK0CYRdfaJUttWVEJCY0yeTVJBm3ckYagrbCPSqUej+/DdEwMHpQyOzOo
-	8MiEFF5MN/OJ/MlEHmatCqK6k/97aTMH2f9dIHKPkhmoT252RKvR8n9bPQsmgBgalSXrhs
-	sfgPzez5nSsPBiDxgAwqxCX0rAYf6cWo5wKbaXugCpuXG2yIuwNhrzWMpUZZKQ==
-Date: Mon, 16 Mar 2026 16:59:08 +0100
-From: Herve Codina <herve.codina@bootlin.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: "Martin =?UTF-8?B?UG92acOFwqFlcg==?=" <povik+lin@cutebit.org>, Alexandre
- Belloni <alexandre.belloni@bootlin.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Andrei Simion
- <andrei.simion@microchip.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Arnaud Pouliquen
- <arnaud.pouliquen@foss.st.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Bard Liao
- <yung-chuan.liao@linux.intel.com>, Benson Leung <bleung@chromium.org>, Biju
- Das <biju.das.jz@bp.renesas.com>, Cezary Rojewski
- <cezary.rojewski@intel.com>, Cheng-Yi Chiang <cychiang@chromium.org>,
- Chunyan Zhang <zhang.lyra@gmail.com>, Claudiu Beznea
- <claudiu.beznea@tuxon.dev>, Cyril Chao <Cyril.Chao@mediatek.com>, Dan
- Carpenter <dan.carpenter@linaro.org>, Daniel Baluta
- <daniel.baluta@nxp.com>, Daniel Mack <daniel@zonque.org>, Fabio Estevam
- <festevam@gmail.com>, Frank Li <Frank.Li@nxp.com>, Geert Uytterhoeven
- <geert+renesas@glider.be>, Guenter Roeck <groeck@chromium.org>, Haojian
- Zhuang <haojian.zhuang@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Jonathan Hunter <jonathanh@nvidia.com>, Kai Vehmanen
- <kai.vehmanen@linux.intel.com>, Kunihiko Hayashi
- <hayashi.kunihiko@socionext.com>, Lad Prabhakar
- <prabhakar.mahadev-lad.rj@bp.renesas.com>, Lars-Peter Clausen
- <lars@metafoo.de>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
- <broonie@kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>, Matthias
- Brugger <matthias.bgg@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>, Maxime
- Coquelin <mcoquelin.stm32@gmail.com>, Michal Simek <michal.simek@amd.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>, Nicolin Chen
- <nicoleotsuka@gmail.com>, Oder Chiou <oder_chiou@realtek.com>, Olivier
- Moysan <olivier.moysan@foss.st.com>, Orson Zhai <orsonzhai@gmail.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, Pierre-Louis Bossart
- <pierre-louis.bossart@linux.dev>, Ranjani Sridharan
- <ranjani.sridharan@linux.intel.com>, Ray Jui <rjui@broadcom.com>, Robert
- Jarzmik <robert.jarzmik@free.fr>, Sascha Hauer <s.hauer@pengutronix.de>,
- Scott Branden <sbranden@broadcom.com>, Sheetal <sheetal@nvidia.com>,
- Shengjiu Wang <shengjiu.wang@gmail.com>, Srinivas Kandagatla
- <srini@kernel.org>, Sylwester Nawrocki <s.nawrocki@samsung.com>, Takashi
- Iwai <tiwai@suse.com>, Thierry Reding <thierry.reding@gmail.com>, Tim Bird
- <tim.bird@sony.com>, Tzung-Bi Shih <tzungbi@kernel.org>, Venkata Prasad
- Potturu <venkataprasad.potturu@amd.com>, Vijendar Mukunda
- <Vijendar.Mukunda@amd.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>,
- Xiubo Li <Xiubo.Lee@gmail.com>, chrome-platform@lists.linux.dev,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 10/29] ASoC: fsl: name back to pcm_new()/pcm_free()
-Message-ID: <20260316165908.6a272e81@bootlin.com>
-In-Reply-To: <87wlzcjyrn.wl-kuninori.morimoto.gx@renesas.com>
-References: <87bjgoldf9.wl-kuninori.morimoto.gx@renesas.com>
-	<87wlzcjyrn.wl-kuninori.morimoto.gx@renesas.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1773676933; c=relaxed/simple;
+	bh=Ypla/kOENH07xh/k/3FUKlYHUPddmaGsQDJ5tt+zBdk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=R86fqAq4Rc9guVZ1CJ0vcYtGw6+Cfiy+06914is2yAxF+djnqDshJOeJwJMqVPTfsWZh4O7zG/wan/lumyWe3yhcMPF/msBAQoSJQl8szuKxVcN8p85KvzN5bX4efFFAGRhgu//akpoOJGkONJ30moNbRc4utI6d4nlj5n7Q8+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-56a86f0a23bso3737019e0c.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Mar 2026 09:02:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773676931; x=1774281731;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gxIv5A/7LppNvLw/5xO3s1KDlHKvNsqys1mKlpYe60I=;
+        b=EMQ17ImXmEp4J852UTSMKz1sWs2XseHCIKu9fSaEkUzhUNfBDPEnWailFVnEopfXxs
+         xeRknqqeyJuavqQG8fdKBqqQyWvRjdqPJu5e6Sh2n73RSbl6vZEUu+c9XVJtlfRkAm9u
+         0OHNiMTmi44GNE6xXEfuaRPm4bGuTlnnLpwJ4Zk1HJ08oTqT7pegvdUx72KIgP7FfjV2
+         3oQ4TcM6K0Xt5TtM20hiyuNxQl3KJqYS2MkHi303+wjYuYu8BMV/cwjUi1BMoC1PzQHt
+         ZTb9dHmWoroPbSBT6MJZBRnbGLqgiM1neKmeObHxCp6M26X/GCLQxU+b8TEB61EcqBPx
+         cuQw==
+X-Forwarded-Encrypted: i=1; AJvYcCX62K81OLZF7dLIm6G8RkrUnFFgeTXIJKGo2yDfl3yjOYVpQ692G+6gQTKtFw6I86+6CAZW/ukNjEqzZYG5VDm/rQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyfCog6057HvCWSD5F4i7ba6SQlyHnU65vRm1a14cBUnwCw1zRD
+	vWY0olvDqU5IdMKTdzSxvwc4SiJvXyTgJZ+9vgTQWpkCCTT+QuNvEYiFFQuORfAD
+X-Gm-Gg: ATEYQzwFGz+n26V8y6rxYCabNP/gEuWFq3AS5HU5P8c7IaNkOc39AUrupTdtdKj4lhR
+	WIfRez0qD3tMzr0GamxizzdohSV3ZzdEhwwBwmhkIuNjz0DUnOIEkqIRVijttbmu7ZsnRKT134F
+	x7739ok4l1DJOe8NNp93jsjxiL42QzT6XQ7ZzivoGjZ4oyrzz29UQ7yiCGjg9IED+EVpAvYu9Ti
+	5JB3RWTJ2d9VLPb1u65fJBphCVPfYX9K/IwfZ9Bwss2/CHovjUAtGIUSrWitE32B334ZYv+rs1F
+	rcuyFwHOC23V+IP6umF+L1a51Nf0rG68Oz2jVuU58uCTSO3m8Sv3x6tHC1E6v2ZPPup2+PNmDLI
+	c0qjy7Ly38fxlVChrUIGF/ZVNEkkJKcY+GsePT4ijSstjZo906/JqmNUus6yVIi+rJyxQdbxJog
+	0UIoqGTrPMJMkmgvAoKfRUlpbepZCLaWLiDzLjuw0jVXY7xsb5ywOIO+R1bEDXs0IX
+X-Received: by 2002:a05:6122:82a3:b0:56b:9188:5ede with SMTP id 71dfb90a1353d-56b918861edmr929831e0c.14.1773676931338;
+        Mon, 16 Mar 2026 09:02:11 -0700 (PDT)
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com. [209.85.221.179])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-950cb55c975sm1845580241.5.2026.03.16.09.02.09
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Mar 2026 09:02:10 -0700 (PDT)
+Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-56b91ead558so405771e0c.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Mar 2026 09:02:09 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCX4MfPsWDm+k+ayNC7baYX3WEiF0+38q1ZdRQPF+JQzQjUlluCZBoZip7JzkJh0D9xr7Xrr+ZwHTjlbLp9BEuAPmw==@vger.kernel.org
+X-Received: by 2002:a05:6122:35c7:b0:559:6960:be0d with SMTP id
+ 71dfb90a1353d-56b62971a27mr4668648e0c.13.1773676929318; Mon, 16 Mar 2026
+ 09:02:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+References: <51de914cddef8fa86c2e7dd5397e5df759c45464.1773675224.git.geert+renesas@glider.be>
+ <abgn70W3kYZcZpg_@pluto>
+In-Reply-To: <abgn70W3kYZcZpg_@pluto>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 16 Mar 2026 17:01:56 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUb0=kMhCWk4tD4dJTGvSp8fShO=4xM8k6iqcYU0-wG=g@mail.gmail.com>
+X-Gm-Features: AaiRm53uOIxgf_DJ9NKvMNXm8lHCsReBFW-7ybb2n7U6nhLuqhnqvVgwyg7V9po
+Message-ID: <CAMuHMdUb0=kMhCWk4tD4dJTGvSp8fShO=4xM8k6iqcYU0-wG=g@mail.gmail.com>
+Subject: Re: [PATCH] firmware: arm_scmi: Support loop control in quirk code snippets
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: Sudeep Holla <sudeep.holla@kernel.org>, arm-scmi@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spamd-Result: default: False [-1.46 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
 	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	HAS_ORG_HEADER(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[cutebit.org,bootlin.com,foss.st.com,microchip.com,collabora.com,linux.alibaba.com,linux.intel.com,chromium.org,bp.renesas.com,intel.com,gmail.com,tuxon.dev,mediatek.com,linaro.org,nxp.com,zonque.org,glider.be,perex.cz,nvidia.com,socionext.com,metafoo.de,kernel.org,amd.com,realtek.com,linux.dev,broadcom.com,free.fr,pengutronix.de,samsung.com,suse.com,sony.com,arm.com,lists.linux.dev,lists.infradead.org,vger.kernel.org];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-29514-lists,linux-renesas-soc=lfdr.de];
-	DKIM_TRACE(0.00)[bootlin.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[herve.codina@bootlin.com,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	RCPT_COUNT_GT_50(0.00)[67];
-	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,lin,renesas];
-	FORGED_SENDER_MAILLIST(0.00)[]
-X-Rspamd-Queue-Id: 7C62F29D057
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	NEURAL_HAM(-0.00)[-0.956];
+	R_DKIM_NA(0.00)[];
+	DMARC_NA(0.00)[linux-m68k.org];
+	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	TAGGED_FROM(0.00)[bounces-29515-lists,linux-renesas-soc=lfdr.de];
+	RCVD_COUNT_FIVE(0.00)[6];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[]
+X-Rspamd-Queue-Id: 5E13529D1BF
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Kuninori,
+Hi Christian,
 
-On Mon, 16 Mar 2026 02:25:56 +0000
-Kuninori Morimoto <kuninori.morimoto.gx@renesas.com> wrote:
+On Mon, 16 Mar 2026 at 16:55, Cristian Marussi <cristian.marussi@arm.com> wrote:
+> On Mon, Mar 16, 2026 at 04:34:40PM +0100, Geert Uytterhoeven wrote:
+> > Each SCMI firmware quirk contains a code snippet, which handles the
+> > quirk, and has full access to the surrounding context.  When this
+> > context is (part of) a loop body, the code snippet may want to use loop
+> > control statements like "break" and "continue".  Unfortunately the
+> > SCMI_QUIRK() macro implementation contains a dummy loop, taking
+> > precedence over any outer loops.  Hence quirk code cannot use loop
+> > control statements, but has to resort to polluting the surrounding
+> > context with a label, and use goto.
+>
+> I was just now writing the quirk for the Renesas issue and realized
+> this limitation :P
+>
+> Do you want me to pick this up with the quirk template for Renesas issue
+> that I am writing and post all in V3, or you have already the quirk too ?
 
-> We have been used pcm_new()/pcm_free(), but switched to
-> pcm_construct()/pcm_destruct() to use extra parameters [1].
-> 
-> pcm_new()/free() had been removed [2], but each drivers are still
-> using such function naming. Let's name back to pcm_new()/pcm_free()
-> again.
-> 
-> [1] commit c64bfc906600 ("ASoC: soc-core: add new pcm_construct/pcmdestruct")
-> [2] commit e9067bb50278 ("ASoC: soc-component: remove snd_pcm_ops from component driver")
-> 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
->  sound/soc/fsl/fsl_asrc_dma.c  | 2 +-
->  sound/soc/fsl/fsl_dma.c       | 2 +-
->  sound/soc/fsl/fsl_qmc_audio.c | 6 +++---
->  sound/soc/fsl/imx-pcm-fiq.c   | 4 ++--
->  sound/soc/fsl/imx-pcm-rpmsg.c | 2 +-
->  sound/soc/fsl/mpc5200_dma.c   | 2 +-
->  6 files changed, 9 insertions(+), 9 deletions(-)
-> 
+I do have a preliminary quirk, but I don't think it is ready for
+merging yet.  Getting this limitation relaxed is something that can
+already move forward, though.
 
-Reviewed-by: Herve Codina <herve.codina@bootlin.com>
+Gr{oetje,eeting}s,
 
-Best regards,
-Hervé
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
