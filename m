@@ -1,300 +1,179 @@
-Return-Path: <linux-renesas-soc+bounces-29509-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29510-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yGXcDqwouGnhZgEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29509-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 16:58:36 +0100
+	id 6MZHDi4ouGnhZgEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29510-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 16:56:30 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CA0429CDCF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 16:58:35 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id E610229CD59
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 16:56:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 09E8830C451E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 15:51:11 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 874793056646
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 15:53:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0720D3B3C06;
-	Mon, 16 Mar 2026 15:50:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 418FD3B8D7A;
+	Mon, 16 Mar 2026 15:52:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ikpzjgNS"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B51693B38B7
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Mar 2026 15:50:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3A063B8BD8;
+	Mon, 16 Mar 2026 15:52:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773676237; cv=none; b=aEj3t8MCfIMoqpLFf/IY0X2Bph2PdMGm8QYMR6Osp7N90hlA1BHhSVKKl8YM4fdK4qZb/BI9BFg/DKUOdbD13naBUsCN7afo47gid5oX1zw6yOW28leRMj7IPNJyJPF0nuMaQrU/NlIJjuhIweIzFChRG9efAJlj8b3WW38R9OY=
+	t=1773676370; cv=none; b=kMIWRR+3zyMCq8KXxIe7Ukbtp6g9qQI+L2S7xtjjsU3WDwuEEXgT45jBwSe5TPkj2GR1XZj9i/3wWNnz2d3lAIFOVeeA7UweJjIeeyCEK5yk70TkduH/RKGlX26JyvKfjwqymAioazWFWslkUkzWYN0WN9yg6dfwjQvCL5/YhFU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773676237; c=relaxed/simple;
-	bh=b8GE4QZEzUOI/sCp5v2olWVKdWQuMuH1Ks+9LBxnb2U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QtbvRgxLA7iaqF9/POviWoqQN35iuyC/iPgvaiJCkmNq7JMj+3xw5USjDMji0YAz+Q3x56LSpPIcTze0tR0btWUaM0Q/f4GjoXhllHqgKDLbMDDy2ll4wXe0Zdz/MAtEc+5xK8KURBjbw7CdkTIU/SiohyfQITlMnXbYcOk60W8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-56a9c5cb48bso1908597e0c.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Mar 2026 08:50:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773676231; x=1774281031;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nMV00VBJWKkaqpEtH1LAiLdHckZZ6qshJN4iQQpaP6g=;
-        b=am+2xOxZqhrE5SL9f9BGeSDijmk+OD/dxNHpNeAlWAksuZh2KdwSCLsKK+SxAmvybm
-         vGFmvgTx1JV7iIaidmxakn7WUGY4vCOdnOM/7+zrq/wQVIm1f3w4gH/WOO008Z1vOUhZ
-         XW3D/hC6wPxWxHE+U2XADkUgqUBcN1m9peTZN5fsP412Qc1nTDumI3VZtWNq7rfqInQs
-         3HT73345eL2/pJ2aeVNbyKN40ot9+UEv3VHRGwx4rjoUt8DYSzcLLFQUzCnl72beKHMZ
-         68vyYQvI4VPISmy+NG+uZYKqvQRjJF/FvvXDBgERhmyCP+ut3c5a+xzR2zmu5K9cFHED
-         ClJg==
-X-Forwarded-Encrypted: i=1; AJvYcCUcrZmycalgqihLrY0OFNH+IUGtRXT6iJfGLSXpqaDoOtcBRWHgNx6ypZNnmnmRLNL2jLN26u7YF1TvcCP60pFZZA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzwIGZVh4Y1AlsalCKXJs16gNc8KCBSC9HE4U1kCnAQXNtEd/Xx
-	XxMkpxcwcMs5uEtVMje3e5kxR1e0lVG1q7/aMAFIxX6IjZlXF/VZV/q3JRUq7vW8
-X-Gm-Gg: ATEYQzwsiIeZGU85qqxM9gAdyDaROA6aGENe8940ScFPfRjth/Z54OlRXy1uARCZOzr
-	ToH64oGB3bYCQP2vQO253ezTBXFcLt4Oc88vCznHc7k4L7NW45W5pGjsYqaPOphI/5bQW841C94
-	0EnrLWGgvO3v3Y/+tJymcZr3kylUpM5UPMRPVqXWpohD+GM+Lhjbg9Ke+DWnaCldVsaEy6Hwd+X
-	7aRWdjTI8AJVaCh/BLMwWh+Fq2BwNSrpeJ/K+iMVPTBIcP4CxZpNDrar1t6OQQfc6XPVLyfiNkL
-	OQ6UASFqfwN+OrtzkiWl4qira9ewwz75Y1ZECLS3cslTaeDbjhTwfel7ecUivv2/xsKfRa/eorP
-	wIrrqSsXbEjiUqmzpGHhHHG5KTg00dh7wtk9w9zX4OrKwRuVwPmbauHVTEjsy3/ZPP5Z6tBjTv4
-	66HDtQXjmOpsZPZzzTK0UjyPhee4R3sqEel3qdQKzwoNvA8SbrzOKkNo31GNBF
-X-Received: by 2002:a05:6122:e18d:b0:56b:8023:b86e with SMTP id 71dfb90a1353d-56b8023bfc6mr2382290e0c.11.1773676231349;
-        Mon, 16 Mar 2026 08:50:31 -0700 (PDT)
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com. [209.85.217.49])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56b7e7623e3sm2650126e0c.7.2026.03.16.08.50.30
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Mar 2026 08:50:30 -0700 (PDT)
-Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-5ffd76e4c89so866120137.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Mar 2026 08:50:30 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXc55fYSWhsc/lxLPMy5bjpC7tzb1nC0Jy+/lHrS7rwO6Pkq4nZixx6bQ7v7aTqbCBV/QB3pi+DMuio/j14wvWlow==@vger.kernel.org
-X-Received: by 2002:a05:6102:d87:b0:5e8:1d93:921a with SMTP id
- ada2fe7eead31-6020e2823b8mr5534337137.15.1773676230555; Mon, 16 Mar 2026
- 08:50:30 -0700 (PDT)
+	s=arc-20240116; t=1773676370; c=relaxed/simple;
+	bh=h540B9y5R36xQApSZ+k6e24S141YzbHY01zru+ZNj48=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NhXKZjg2Ms7g4Ya65PvCug05PzySO73dE06sI/cpuqR3iNGqL8Emduqg5gA2NoOgJrysCNtWqkqLTK3xB2E7XB+qoXKg5VHL/3HpPVLv9nMMr0kCUiqoj1b7moOUOa7f8G2reM/fwpc2kCr7nOdgbUHqHhHZveQ1oZU0cK+/ZaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ikpzjgNS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B669C19421;
+	Mon, 16 Mar 2026 15:52:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773676370;
+	bh=h540B9y5R36xQApSZ+k6e24S141YzbHY01zru+ZNj48=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ikpzjgNS9eBGMoNr6mLghiYpLqOKhd2t1iybP7lKzmevMliyqo39iiNfY0hXTNthQ
+	 3jMDPtoNqb+D7aL0wDsJd7NFUlKKk0yJyawXiNolJlYFX/YhQZJM/ndrdd9s25KLBq
+	 7IKEBIq63pNg5ZbyGsMWUaVoWREKp4lckhWu+nI9x/ndaj6U4R6zxZrZrZEwTs3Rwm
+	 h2Qe+FIqtzNIbSUQ8xBjM2PxqaCRVKZxEo29FstXS4JggNVJZUbdYF3AnMX2iMLbju
+	 oBRXhO5S+EaU76j/DdUEDUX+p/m92DZJk+LnX63+TCVzupzEjajqc3MYPA9W+Syv0Q
+	 7zsDeyu5cexKg==
+Message-ID: <05f294c3-ce68-4b9e-9d1d-b4bde4d5986f@kernel.org>
+Date: Mon, 16 Mar 2026 16:52:44 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260310184030.3669330-1-cristian.marussi@arm.com>
- <20260310184030.3669330-9-cristian.marussi@arm.com> <CAMuHMdUdqrA9kYeDpjwj-y6-4aALkAi2g2Od81Kxh-EVW2e2Nw@mail.gmail.com>
- <abG4VfyB2C-gBa5Q@pluto> <20260312-classy-misty-platypus-5baea1@sudeepholla> <abLrm7x8ggzAhYOg@pluto>
-In-Reply-To: <abLrm7x8ggzAhYOg@pluto>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 16 Mar 2026 16:50:17 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVWL4rVTPnsMofPKFKCozjCPqF0K95ZFmrdrBD8EUt22A@mail.gmail.com>
-X-Gm-Features: AaiRm50iTDhKDonU-J5qpw3zzDb9304AIvkxbNozshzVrNKZQ64ZXXeHYUSrWsA
-Message-ID: <CAMuHMdVWL4rVTPnsMofPKFKCozjCPqF0K95ZFmrdrBD8EUt22A@mail.gmail.com>
-Subject: Re: [PATCH v2 08/13] firmware: arm_scmi: Harden clock protocol initialization
-To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: Sudeep Holla <sudeep.holla@kernel.org>, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, arm-scmi@vger.kernel.org, 
-	linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	philip.radford@arm.com, james.quinlan@broadcom.com, f.fainelli@gmail.com, 
-	vincent.guittot@linaro.org, etienne.carriere@foss.st.com, 
-	peng.fan@oss.nxp.com, michal.simek@amd.com, dan.carpenter@linaro.org, 
-	geert+renesas@glider.be, kuninori.morimoto.gx@renesas.com, 
-	marek.vasut+renesas@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spamd-Result: default: False [0.04 / 15.00];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] arm64: dts: add tqma9596la-mba95xxca
+To: Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Shawn Guo <shawnguo@kernel.org>
+Cc: Markus Niebel <Markus.Niebel@ew.tq-group.com>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux@ew.tq-group.com, linux-renesas-soc@vger.kernel.org
+References: <20260316150535.786122-1-alexander.stein@ew.tq-group.com>
+ <20260316150535.786122-2-alexander.stein@ew.tq-group.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20260316150535.786122-2-alexander.stein@ew.tq-group.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,lists.infradead.org,arm.com,broadcom.com,gmail.com,linaro.org,foss.st.com,oss.nxp.com,amd.com,glider.be,renesas.com];
-	TAGGED_FROM(0.00)[bounces-29509-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[linux-m68k.org];
+	TAGGED_FROM(0.00)[bounces-29510-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_TO(0.00)[ew.tq-group.com,kernel.org,nxp.com,pengutronix.de,gmail.com,glider.be];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCPT_COUNT_TWELVE(0.00)[18];
 	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	NEURAL_HAM(-0.00)[-0.788];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	R_DKIM_NA(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,linux-m68k.org:email,arm.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 7CA0429CDCF
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: E610229CD59
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Cristian,
+On 16/03/2026 16:04, Alexander Stein wrote:
+> +
+> +	reg_3v3a_10g: regulator-3v3a-10g {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "3V3A_10G";
+> +		regulator-min-microvolt = <3300000>;
+> +		regulator-max-microvolt = <3300000>;
+> +		gpio = <&expander2 15 GPIO_ACTIVE_HIGH>;
+> +		startup-delay-us = <2000>;
+> +		enable-active-high;
+> +		vin-supply = <&reg_5v0>;
+> +	};
+> +
+> +	reg_5v0: regulator-5v0 {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "5V0";
+> +		regulator-min-microvolt = <5000000>;
+> +		regulator-max-microvolt = <5000000>;
+> +		regulator-always-on;
+> +	};
 
-On Thu, 12 Mar 2026 at 17:36, Cristian Marussi <cristian.marussi@arm.com> wrote:
-> On Thu, Mar 12, 2026 at 03:33:52PM +0000, Sudeep Holla wrote:
-> > On Wed, Mar 11, 2026 at 06:45:41PM +0000, Cristian Marussi wrote:
-> > > On Wed, Mar 11, 2026 at 05:59:43PM +0100, Geert Uytterhoeven wrote:
-> > > > Hi Cristian,
-> > > >
-> > > > On Tue, 10 Mar 2026 at 19:56, Cristian Marussi <cristian.marussi@arm.com> wrote:
-> > > > > Add proper error handling on failure to enumerate clocks features or
-> > > > > rates.
-> > > > >
-> > > > > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
-> > >
-> > > > > --- a/drivers/firmware/arm_scmi/clock.c
-> > > > > +++ b/drivers/firmware/arm_scmi/clock.c
-> > > >
-> > > > > @@ -1143,8 +1149,12 @@ static int scmi_clock_protocol_init(const struct scmi_protocol_handle *ph)
-> > > > >         for (clkid = 0; clkid < cinfo->num_clocks; clkid++) {
-> > > > >                 cinfo->clkds[clkid].id = clkid;
-> > > > >                 ret = scmi_clock_attributes_get(ph, clkid, cinfo);
-> > > > > -               if (!ret)
-> > > > > -                       scmi_clock_describe_rates_get(ph, clkid, cinfo);
-> > > > > +               if (ret)
-> > > > > +                       return ret;
-> > > >
-> > > > This change breaks R-Car X5H with SCP FW SDKv4.28.0, as some clocks
-> > > > do not support the SCMI CLOCK_ATTRIBUTES command.
+This is a pointless regulator, unused. Defining non-controlalble
+supplies for fixed regulators brings no benefits. It has only drawbacks:
+bigger DT, slower boot times. We do not define in DTS every transistor,
+every non-controllable IC on the board.
 
-Apparently it is not just CLOCK_ATTRIBUTES, but also
-CLOCK_DESCRIBE_RATES.
-
-> > > > Before, these clocks were still instantiated, but were further unusable.
-> > > > After, the whole clock driver fails to initialize, and no SCMI clocks
-> > > > are available at all.
-> > >
-> > > ...and this is exactly what I feared while doing this sort of hardening :P
-> > >
-> > > So there are a few possible solutions (beside reverting this straight away)
-> > >
-> > > The easy fix would be instead change the above in a
-> > >
-> > >     if (ret)
-> > >             continue;
-> > >
-> > > ...with a bit of annoying accompanying FW_BUG logs, of course, to cause future
-> > > FW releases to fix this :D
-> > >
-> > > Another option could be leave it as it is, since indeed it is the correct enforced
-> > > behaviour, being CLOCK_ATTRIBUTES a mandatory command, BUT add on top an ad-hoc SCMI
-> > > quirk targeting the affected FW releases...
-> > >
-> > > This latter option, though, while enforcing the correct behaviour AND
-> > > fixing your R-Car issue, leaves open the door for a number of possible
-> > > failures of other unknowingly buggy Vendors similarly deployed firmwares...
-> > >
-> > > ...that could be solved with more quirks of course...but...worth it ?
-> > >
-> > > Thoughts ?
-> > >
-> > > Let's see also what @Sudeep thinks about this...
-> >
-> > I prefer to fix it as a quirk to prevent similar issues on newer platforms if
-> > the firmware baselines are derived from it. In the worst case, we can relax
-> > the hardening until we figure out a proper quirk-based solution.
->
-> Ok, I can post a V3 with a dummy quirk 'template' RFC to be filled by
-> Geert with proper versioning....so I can check that there are no
-> surprises round the (quirked) corner...
-
-Unfortunately you cannot "continue" from a quirk, without resorting
-to a goto, so I sent a fix: "[PATCH] firmware: arm_scmi: Support loop
-control in quirk code snippets"[1].
-
-Then I came up with the following preliminary (have to check more
-firmware versions) quirk (Gmail whitespace-damaged):
-
-diff --git a/drivers/firmware/arm_scmi/clock.c
-b/drivers/firmware/arm_scmi/clock.c
-index f62f9492bd42afbc..6f2af6e9084836c6 100644
---- a/drivers/firmware/arm_scmi/clock.c
-+++ b/drivers/firmware/arm_scmi/clock.c
-@@ -1230,6 +1230,18 @@ static const struct scmi_protocol_events
-clk_protocol_events = {
-        .num_events = ARRAY_SIZE(clk_events),
- };
-
-+#define QUIRK_RCAR_X5H_NO_ATTRIBUTES                                   \
-+       ({                                                              \
-+               if (ret == -EREMOTEIO || ret == -EOPNOTSUPP)            \
-+                       continue;                                       \
-+       })
-+
-+#define QUIRK_RCAR_X5H_NO_RATES
-         \
-+       ({                                                              \
-+               if (ret == -EOPNOTSUPP)                                 \
-+                       ret = 0;                                        \
-+       })
-+
- static int scmi_clock_protocol_init(const struct scmi_protocol_handle *ph)
- {
-        int clkid, ret;
-@@ -1254,10 +1266,12 @@ static int scmi_clock_protocol_init(const
-struct scmi_protocol_handle *ph)
-        for (clkid = 0; clkid < cinfo->num_clocks; clkid++) {
-                cinfo->clkds[clkid].id = clkid;
-                ret = scmi_clock_attributes_get(ph, clkid, cinfo);
-+               SCMI_QUIRK(clock_rcar_x5h_no_attributes,
-QUIRK_RCAR_X5H_NO_ATTRIBUTES);
-                if (ret)
-                        return ret;
-
-                ret = scmi_clock_describe_rates_get(ph, clkid, cinfo);
-+               SCMI_QUIRK(clock_rcar_x5h_no_attributes,
-QUIRK_RCAR_X5H_NO_RATES);
-                if (ret)
-                        return ret;
-        }
-diff --git a/drivers/firmware/arm_scmi/quirks.c
-b/drivers/firmware/arm_scmi/quirks.c
-index 3772139a758c8a78..5a69f119e1b6c806 100644
---- a/drivers/firmware/arm_scmi/quirks.c
-+++ b/drivers/firmware/arm_scmi/quirks.c
-@@ -172,6 +172,8 @@ struct scmi_quirk {
- /* Global Quirks Definitions */
- DEFINE_SCMI_QUIRK(clock_rates_triplet_out_of_spec, NULL, NULL, NULL);
- DEFINE_SCMI_QUIRK(perf_level_get_fc_force, "Qualcomm", NULL, "0x20000-");
-+DEFINE_SCMI_QUIRK(clock_rcar_x5h_no_attributes, "Renesas", NULL, "0x10a0000",
-+                 "renesas,r8a78000");
-
- /*
-  * Quirks Pointers Array
-@@ -182,6 +184,7 @@ DEFINE_SCMI_QUIRK(perf_level_get_fc_force,
-"Qualcomm", NULL, "0x20000-");
- static struct scmi_quirk *scmi_quirks_table[] = {
-        __DECLARE_SCMI_QUIRK_ENTRY(clock_rates_triplet_out_of_spec),
-        __DECLARE_SCMI_QUIRK_ENTRY(perf_level_get_fc_force),
-+       __DECLARE_SCMI_QUIRK_ENTRY(clock_rcar_x5h_no_attributes),
-        NULL
- };
-
-diff --git a/drivers/firmware/arm_scmi/quirks.h
-b/drivers/firmware/arm_scmi/quirks.h
-index 74bf6406dd043049..13f28d13bbd74d4c 100644
---- a/drivers/firmware/arm_scmi/quirks.h
-+++ b/drivers/firmware/arm_scmi/quirks.h
-@@ -48,5 +48,6 @@ static inline void scmi_quirks_enable(struct device
-*dev, const char *vend,
- /* Quirk delarations */
- DECLARE_SCMI_QUIRK(clock_rates_triplet_out_of_spec);
- DECLARE_SCMI_QUIRK(perf_level_get_fc_force);
-+DECLARE_SCMI_QUIRK(clock_rcar_x5h_no_attributes);
-
- #endif /* _SCMI_QUIRKS_H */
-
-Does that look like what you have in mind?
-Thanks!
-
-[1] https://lore.kernel.org/51de914cddef8fa86c2e7dd5397e5df759c45464.1773675224.git.geert+renesas@glider.be/
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Best regards,
+Krzysztof
 
