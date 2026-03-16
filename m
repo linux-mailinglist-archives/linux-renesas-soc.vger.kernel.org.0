@@ -1,177 +1,175 @@
-Return-Path: <linux-renesas-soc+bounces-29495-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29496-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SCeZLlwSuGk7YwEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29495-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 15:23:24 +0100
+	id yM+CIc8VuGl/YwEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29496-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 15:38:07 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AE0529B425
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 15:23:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4C1A29B878
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 15:38:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C2222300694E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 14:21:19 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4B6FD308182F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 14:35:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02BF526F476;
-	Mon, 16 Mar 2026 14:21:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JOk/Clan"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D6EE29DB6C;
+	Mon, 16 Mar 2026 14:35:14 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07D3267B05;
-	Mon, 16 Mar 2026 14:21:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 169B129AAFA
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Mar 2026 14:35:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773670878; cv=none; b=d9Tb5/WdNLcMFnD8aTF7H4PeiV+LrnUC9k1+6tvetJlzacR7pSkiks2RYNaZ2oKyPgDyKXe6xnOdiyOM3+ICP03uBmkvfdCz52Bx1B4Zlztx753X0GErFHWnVSGryF4dXbl0Hvn0qEMzEk5fNBtwR8E2s83XlT0Wslla0X8Medk=
+	t=1773671714; cv=none; b=GdQ445KhFFnQd99h0N1DNtY8Gy11H6JpGiddbr5UjSiCqSmpTF6nubegKTyB1u/uPxYgVB+7g6k4MNS+d122OUMPpLNI6RItCfIENsbugWNOQkB9rH00dutYsRR02yYvTpDHYnkFNI55rkGDs5yOCJJdpHBkofHlmQROjr5WkfA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773670878; c=relaxed/simple;
-	bh=zh7kzq6IXE7fmpIHNvZtPWXZQztvbl6jS1cH5lX/jkk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XkjUHACPXKsgJ3KanKgyPWusKpKOjxJM9vs/4dxfcoXJySSkb3Tv5+BCcL6yWWbWGSoeH/Fxzxkw2Ax5+Xcoaq/FeIQr4e+m95Ghcv6lZpc77zhaEz/q0YilmP2yb4hNECARhghNqRLIUf8hl4yKDW03SAU1q2WsrJvvfOqzIWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JOk/Clan; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D45C0C19421;
-	Mon, 16 Mar 2026 14:21:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773670878;
-	bh=zh7kzq6IXE7fmpIHNvZtPWXZQztvbl6jS1cH5lX/jkk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=JOk/ClanckMAuCrgavQgClQPgB+pFYzYyK9Zf1XjG9UjCoQjOGtaWt2nJ3XpOD//3
-	 sfPAJeXYDDOsCKjBNbJM7C5Ti0hGXdbeVq0+uaFH5gk7ZyiafEakOjWtjJJsC+U+1K
-	 0dW6m434+q1R+p/oSKjuYKJxAkyZs9hNXdszv/Z5lzT60M11Pe0ipPxp6bojuDODGw
-	 iQMUxBty4ylLJbpKycOvcNRvnYgbrnqgbgghMzBnflUgifWPbv1GW6/8NdpXkDefzD
-	 84UPgzap/neY5yvZm0BdNEyFKHVKJcOMHP+3DwatPb16goNXEoFnYHgfzrqmOv3NnH
-	 bJve1tuW75moA==
-Message-ID: <c3af22f6-d937-4539-8eb7-d7f0b0892ca2@kernel.org>
-Date: Mon, 16 Mar 2026 15:21:14 +0100
+	s=arc-20240116; t=1773671714; c=relaxed/simple;
+	bh=iy9mAbo+s/T9dKdx46UM1/G3Wgr+pl5kUIJdFdPPHoc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Kwk1Hvd2PboSHQ+VO2EK8KBY1MfMp9+/RkYnz2AeVqOBRB1CjZuBbktUkpiObLl4Z3wMMszep08IFoaK3hBGxOdP3opbMPWMxQOjdwnnhotXWjbcF3QKuHrSNKkXmhc9W8NhcOCUiGRjLqsRnUoFgG60+501R0RnX1i/eH4Vr4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-56afbcd8adbso2067018e0c.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Mar 2026 07:35:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773671712; x=1774276512;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cEi22uqCpnp8wHRA2MLlWKOoRU5kiNMxo6iy2SBbAHQ=;
+        b=P+4AGnCLAfg0aAMX+16vsL2Vje/yJRxLbQSYhPF6bp1T01x0z6xXrGaTROa8IFjUcw
+         vkzbU3/7B2roByFLngYxdiFgtr+XhakllADsY0XH3pr177eeSNHGixj3WC3ENTvznC8c
+         KNpuHFoGypZSC67nq5s8EsD/WcCwPN78+sEmomV4FHeuSR9DPOgfwHRTAfWgAWG8IwpO
+         n/XXq67Gd9q4+YiZKBOqUkZVT+RGn057qNPl0cEDpSfC5JTdiHmHXWhtaKW5/SumSrkM
+         05Dx8d4LaUa57SvXptFEixXiwrlFbMtOp+xLpYk93KA4WhOXeHkXMryBXJ6GZlgb8sPm
+         OGQA==
+X-Forwarded-Encrypted: i=1; AJvYcCXYcEnEbwHfp5lLVsJgAXHB89COcfWoPB+qoZsgCc541vP7VAAjpSg3ZAdjccW+i26bJTESclB2/JdWt4gEJ2g8xg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwIAw4TmowFYfATMDzyRgkRlUM1UpwZT8J5KZDL9k4XNBy/RYJd
+	zHK6xp97VwvZSudm9TBkOXz95qtMIHjmQvl+gw9RC/9PjHD6Pn1NboUeonu/z9EK
+X-Gm-Gg: ATEYQzwoRTeo3mVnhuRwJGaRtZbKbbxCddU4Sl9RuL3le4ftb6V0qqmHXfKn6ygVu9D
+	shzN4aomqu1DicUJ6X/2qOMEXVsRMtWY9fIkssEal5A2+aUfjJbpCl703/UqjGxNQpMI5xJ/lUV
+	qjE3iiMJS4XRMa1wdkYUW8fEiAUop04N/3+RiWo8E0icy1klpwoZ2h5TbnngakyKUK7qyXP2qDx
+	uPUqVtJJ5VczxPaCSzK2y7So1omK7s8qQrKHwpGE3cwav3ozA4keS2LTBjKZIjjWKJ6El4gnR63
+	IMB0OrITUw+1znBRcOrEmTr4INBK8YF0PkBHUSX9arvakHHTvEDrxsi92ZtrdQob2EVuF0zZPVZ
+	MBwg5PvFZvsoHOUWZuOppAbJWdWBIkUA89OUE65k+JuUMO/K+bDkiDgqFDBUUJaCAdkgucG8ili
+	Y67yL37wK7o/LULk805zHpI4yz8+TewiPtryYmbM0PDTOq+OR6k1D0wnkX36Zk
+X-Received: by 2002:a05:6122:46a5:b0:566:eb31:4715 with SMTP id 71dfb90a1353d-56b6284a2e6mr5163251e0c.8.1773671711808;
+        Mon, 16 Mar 2026 07:35:11 -0700 (PDT)
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com. [209.85.222.46])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56b768d76e1sm3042574e0c.4.2026.03.16.07.35.10
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Mar 2026 07:35:10 -0700 (PDT)
+Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-950b801b75fso497953241.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Mar 2026 07:35:10 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXS7ibme5CKK5UsfjQtyLk0rY2nEpsVNNdNw1z0HUvbxGwyybycNiA0nkJNfiUPJrfp4KrnKg3XoQI8YO3ZZJna1Q==@vger.kernel.org
+X-Received: by 2002:a05:6102:3711:b0:5ff:be25:8934 with SMTP id
+ ada2fe7eead31-6020e176ecemr4558310137.8.1773671710334; Mon, 16 Mar 2026
+ 07:35:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] memory: renesas-rpc-if: Add support for RZ/T2H SoC
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20260310212927.3372410-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
  <20260310212927.3372410-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <abgQpsArW3VrCAns@shikoro>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <abgQpsArW3VrCAns@shikoro>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-2.16 / 15.00];
+ <abgQpsArW3VrCAns@shikoro> <c3af22f6-d937-4539-8eb7-d7f0b0892ca2@kernel.org>
+In-Reply-To: <c3af22f6-d937-4539-8eb7-d7f0b0892ca2@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 16 Mar 2026 15:34:59 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWdyK6YKSrExmvzG9sPdr-xihJROAeZGLh=xAB6sObVsw@mail.gmail.com>
+X-Gm-Features: AaiRm53dfSLRgvt3HKUnwt4jeNK1RNa3l_ZjqMoT8LvOA5hXcJ4fFaeKP7Uw9XE
+Message-ID: <CAMuHMdWdyK6YKSrExmvzG9sPdr-xihJROAeZGLh=xAB6sObVsw@mail.gmail.com>
+Subject: Re: [PATCH 3/3] memory: renesas-rpc-if: Add support for RZ/T2H SoC
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Prabhakar <prabhakar.csengg@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spamd-Result: default: False [-1.46 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-29495-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[sang-engineering.com,gmail.com];
-	FREEMAIL_CC(0.00)[kernel.org,glider.be,gmail.com,bp.renesas.com,vger.kernel.org,renesas.com];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[sang-engineering.com,gmail.com,kernel.org,glider.be,bp.renesas.com,vger.kernel.org,renesas.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	TAGGED_FROM(0.00)[bounces-29496-lists,linux-renesas-soc=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[linux-m68k.org];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 3AE0529B425
+	NEURAL_HAM(-0.00)[-0.951];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	R_DKIM_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid,linux-m68k.org:email]
+X-Rspamd-Queue-Id: E4C1A29B878
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 16/03/2026 15:16, Wolfram Sang wrote:
-> 
->> Add a new compatible string "renesas,r9a09g077-xspi" for RZ/T2H while
->> reusing the existing xspi_info_r9a09g047 OF data. This allows the driver
->> to bind correctly on RZ/T2H while the register differences can be handled
->> in future updates as the affected configuration registers are not currently
->> accessed by the driver.
-> 
-> This sounds fragile to me. Can you add a comment somewhere in the driver
-> or headers so people wanting to use these registers will find out that
-> the SoCs are not compatible anymore?
+Hi Krzysztof,
 
-IMO, this patch is not needed. If you need to handle differences in
-registers, then you add dedicated OF data.
+On Mon, 16 Mar 2026 at 15:21, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> On 16/03/2026 15:16, Wolfram Sang wrote:
+> >> Add a new compatible string "renesas,r9a09g077-xspi" for RZ/T2H while
+> >> reusing the existing xspi_info_r9a09g047 OF data. This allows the driver
+> >> to bind correctly on RZ/T2H while the register differences can be handled
+> >> in future updates as the affected configuration registers are not currently
+> >> accessed by the driver.
+> >
+> > This sounds fragile to me. Can you add a comment somewhere in the driver
+> > or headers so people wanting to use these registers will find out that
+> > the SoCs are not compatible anymore?
+>
+> IMO, this patch is not needed. If you need to handle differences in
+> registers, then you add dedicated OF data.
+>
+> The change here (with the bindings) is actually confusing, because
+> effectively it says two contradictory statements:
+> 1. Driver patch: devices are different but they are compatible in
+> meaning of DT,
+> 2. Bindings: devices are not compatible
+>
+> So you need to decide which above, but not both.
+>
+> Eventually provide extensive arguments in terms of how DT understands
+> compatibility.
 
-The change here (with the bindings) is actually confusing, because
-effectively it says two contradictory statements:
-1. Driver patch: devices are different but they are compatible in
-meaning of DT,
-2. Bindings: devices are not compatible
+I disagree.  Using the same of_data can does not mean the devices are
+100% compatible.  It can also mean that the devices are different, but
+  a) The differences are not handled yet, because the extra features of
+     one variant (or both variants)  are not yet supported by the driver,
+  b) The differences are not handled explicitly, but implicitly,
+     or elsewhere.
+     E.g. the different number of resets is handled implicitly through
+     devm_reset_control_array_get_exclusive().
 
-So you need to decide which above, but not both.
+Gr{oetje,eeting}s,
 
-Eventually provide extensive arguments in terms of how DT understands
-compatibility.
+                        Geert
 
-Best regards,
-Krzysztof
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
