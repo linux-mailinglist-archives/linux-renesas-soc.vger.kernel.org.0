@@ -1,144 +1,220 @@
-Return-Path: <linux-renesas-soc+bounces-29471-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29472-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +IL9BK7ot2mzWwEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29471-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 12:25:34 +0100
+	id aK94JL7ot2mzWwEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29472-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 12:25:50 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 754E9298A29
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 12:25:33 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12FDF298A33
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 12:25:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E538C3004C5C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 11:22:36 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id D579C301B15D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2026 11:25:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4681F2848BE;
-	Mon, 16 Mar 2026 11:22:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0409328B4FD;
+	Mon, 16 Mar 2026 11:25:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="yQc/dk0+"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KaemV8UV"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A1AB1A9FBA
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Mar 2026 11:22:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B75F3282F03
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Mar 2026 11:25:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773660156; cv=none; b=iQ+FoNVJgggt3VfJN/uk2nOjHxxC68JHxNzMbULJfN6kQVMfQzN0FD/9RB5/YYWGyP6QHry7AZVhMOuC37kzEaJU1SWcsjhGFrH4g3+3Rv8KltDRgTIjDHRW2AtKhk0JxRzH/MzBDlvplIrDi55pquK1piYzk3/DoLdetzuVaM4=
+	t=1773660346; cv=none; b=e41lPIB/wkiED2oh/qfi/CxdsnWilTa2GLrgjublMBejnPDNEI4I7oIaQcMvawWIg08mEhjEFoKNRHQlC1WoEILd0GTyUcyZUypeftiK2+nCxy+vj3ChKH4/I7FKI03uiDnLyAmBmg0/EqTfX/gWTRCVVNJKlzKfmF/QM1YZjfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773660156; c=relaxed/simple;
-	bh=Vq342JcV2FeiEZGDKh1ajgkGt8udEwhu3JEGM5ZjURY=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=plsQq3c+TGbjttoMJSM/MimT0Yb8Fmwl/m94Al9R10QNNqMjaII5FVhd7C0am6ZjZEVwtXUlS4bNtnBmd7GLIeUyQ1tczpwVPJ2S46cI9x9mb8cEpJMmyDzmH1g4wtMjzqtjggel41VX8j0UVBhM/UDwufDTjUQVkqcry6Po/34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=yQc/dk0+; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 7413D1A2DFB;
-	Mon, 16 Mar 2026 11:22:32 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 3C30A5FC4A;
-	Mon, 16 Mar 2026 11:22:32 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4286D10368682;
-	Mon, 16 Mar 2026 12:22:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1773660151; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=Vq342JcV2FeiEZGDKh1ajgkGt8udEwhu3JEGM5ZjURY=;
-	b=yQc/dk0+Fu7bj8MfrlBwp/h6g+7/hV5V3WXjYAWG03UjSveuXfsS8tABdGLhOQPc8ZX6Go
-	vlty2OFtxCGIX12PpXxv5eZrDFKMJ7ImgfILM7HHfeXZxFPtzSuXE3CK3CzesgaHGS67PR
-	aH71cQ/JHIK4N+6TzQRkoIBwpViQ9o8vxy+wKG8i1Mx0K5TJTH5AqF8JEX62bDl3u49JBO
-	dne0FH1JNaCJ8mg8kmCQP4IWckTuf20v9ZhCoU2pMDp+xy9+GtVkypkdxbpgJ8sMpOzfGj
-	H32RLx2aeURiL73s1r5auIw8l1pprDegurU3ynzLKHCFyebXKShKzUMLT3cKLg==
+	s=arc-20240116; t=1773660346; c=relaxed/simple;
+	bh=wgmZwA5aTm7ncl3DyHbavGYhjXi/iScqCoLnw+YPzBw=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=PXpdYHkn6vsVqR4MVsmo7ye90I3L/Lf7tQO2oqkLJYhYj3EVzMgDRm26ukzepWcAk66rA7zwMxpXBz3w8yhPAnlRmUvyYo8fJpQei33N0VrsOicT2SYCGllCVfgK88k6Sj5dJrbZcm/QgLehNXr1B3XO9F4mRntbB74PhaKQdWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KaemV8UV; arc=none smtp.client-ip=209.85.215.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-c7382731edfso3109241a12.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Mar 2026 04:25:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773660345; x=1774265145; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wgmZwA5aTm7ncl3DyHbavGYhjXi/iScqCoLnw+YPzBw=;
+        b=KaemV8UVTXGHkz2vF5hVy6ScsiEhHS1LRzf5Q7bp6tONWM/yU4ai2+s7Ff3xy+I+8m
+         VKBskrudzQaIS0j6aBtjsOwcGXDAjLqO38zLsvcgGpREyPPDgnli0gIrRU9ot7uqs39M
+         udweoICqMdqexP5PiUCWerOB9JsnrvkWY4hr4rOm4BQelGJCdAMkR4n3H1zyCj7Gu+bm
+         TUPjY1ocBpw705lTDraxnuE+pxxeLgetncKC6YWxwuo1eXUkcYzN4CmmUveSOvUQTIZ5
+         6ACDRclT+nXq1vpxh+cdHcqhYRSwQYbt4fRQbcqpoyjPXw6THka4QmxBYCOfrpZZd0Md
+         LcnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773660345; x=1774265145;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=wgmZwA5aTm7ncl3DyHbavGYhjXi/iScqCoLnw+YPzBw=;
+        b=ptDT9udyBGFvRwcsV9f9pH3JWN8fJBX9KHD65PZew6MNWSzlwF0G+axPHxEBMbjUBv
+         3Qo4SmDQOiwhnlaAzJ3SgMRCU19KlHc7iBnBwa7LG6siutXEpgKxii1jPcsskfkIfOrm
+         X8Cy1LDO2KUBkB9OZZH3DNYsjeRaCX4nZjjsY7I0U0yF6SaltJ3beMUfZv1PVWKOsWs/
+         EvBesoxoCkdyNwScPis6hYrAd7RFal1xmjaTWfSnh7epH8o2VAIsIFVN1zwbH0IcMxjE
+         BVgEYv0Ntha/sobURS7faVSFzVvLzbx2txczChrSqnG42PdehS0LCGjTnMWWSqul2RpE
+         UWGQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWVa8FSPewppn8HEk+X6UQ7WmyFwRIdrxQTqDG9efOqWqlDUwAmxEygfMYhM8fj+2u0eaDtwvz/G/Ogm7nuO2RQhA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx1cDYieAF1zPTsivKaEkof0mgxjU6VR6FLCRSGnhZBl2ZfPcFA
+	NPkx+GTFTH1xiDbJrNW7LTaIOFVV1lc9qpJtmNcndnamv+4xWy3GunMN
+X-Gm-Gg: ATEYQzy71gvJzd9450JYxJLKYaoJbZZJKqFwJ+m9yL+aHCeXrZBRGGgnocqEqYRBZgi
+	rWfnB3A+vH0EscSDbsTFRtBxOZ4BMkXR6WrZNdd1LkEiLzCcurI75Ocot4MRujPKoDll6VgVVph
+	s6BHNuW0aO1drUv2fpHT7UPxSgyo/yiC0GFRd9eUAXLUZLPM/F/yaC7JrzK2xfhK+oHVIEqe+kQ
+	VAPb6zmonceUyDMEfwexY6xwA+OW+atEd9IhTlom2Oqj+IvEqYBDYehtqtS/EF9r/uRfMgiracs
+	Q4o8+ehyWxmhpG1WcSK2y0GOaousvFdqY3YioHbA+SsKY6LvdtqLiqRyOLRJ+7ORZAJImHhLsdW
+	ilWKGuPfnXF3Vv+9o5gp6OKTXKEXOs7xFRgCt/d/X2eKuDtzM1C3amni97AE1LH/cih/WN8zEaG
+	9gS60MEA5EaNfX6A5uJDQpZUFiB/jWP9f/j4t9UUWKbMl+GKAomjjX0+XrJG4hb3M/LrPtv8QD5
+	bmrn5g5+dkIqoKh
+X-Received: by 2002:a05:6a21:a345:b0:398:9820:f6ed with SMTP id adf61e73a8af0-398ecd67b1cmr13269758637.56.1773660345183;
+        Mon, 16 Mar 2026 04:25:45 -0700 (PDT)
+Received: from localhost.localdomain ([14.160.25.72])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c73fc935ad4sm4744131a12.2.2026.03.16.04.25.42
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Mon, 16 Mar 2026 04:25:44 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: geert@linux-m68k.org
+Cc: airlied@gmail.com,
+	dri-devel@lists.freedesktop.org,
+	laurent.pinchart@ideasonboard.com,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	phucduc.bui@gmail.com,
+	simona@ffwll.ch,
+	tzimmermann@suse.de,
+	wsa+renesas@sang-engineering.com
+Subject: Re: [PATCH v2] drm: shmobile: Fix blank screen after resume when LCDC is stopped
+Date: Mon, 16 Mar 2026 18:25:40 +0700
+Message-Id: <20260316112540.8636-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.37.1 (Apple Git-137.1)
+In-Reply-To: <CAMuHMdXJQmfU0p=yk1kROTm=ZiiQoUHZQpw5kj813x=RWCS1fg@mail.gmail.com>
+References: <CAMuHMdXJQmfU0p=yk1kROTm=ZiiQoUHZQpw5kj813x=RWCS1fg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 16 Mar 2026 12:22:23 +0100
-Message-Id: <DH461P9VAQXP.19TV6E01YQMS9@bootlin.com>
-Subject: Re: [PATCH] drm/bridge: adv7511: Clear HPD IRQ before powering on
- device during resume()
-Cc: "Biju Das" <biju.das.jz@bp.renesas.com>, "Laurent Pinchart"
- <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman" <jonas@kwiboo.se>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Dmitry Baryshkov"
- <dmitry.baryshkov@oss.qualcomm.com>, "Tommaso Merciai"
- <tommaso.merciai.xr@bp.renesas.com>, "Andy Yan" <andy.yan@rock-chips.com>,
- "Douglas Anderson" <dianders@chromium.org>, "Jesse Van Gavere"
- <jesseevg@gmail.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, "Geert Uytterhoeven"
- <geert+renesas@glider.be>, "Prabhakar Mahadev Lad"
- <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- <linux-renesas-soc@vger.kernel.org>
-To: "Biju" <biju.das.au@gmail.com>, "Andrzej Hajda"
- <andrzej.hajda@intel.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
- "Robert Foss" <rfoss@kernel.org>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-X-Mailer: aerc 0.20.1
-References: <20251219104659.114032-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20251219104659.114032-1-biju.das.jz@bp.renesas.com>
-X-Last-TLS-Session-Version: TLSv1.3
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
-	MV_CASE(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-29471-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,intel.com,linaro.org,kernel.org,linux.intel.com,suse.de,ffwll.ch];
-	FREEMAIL_CC(0.00)[bp.renesas.com,ideasonboard.com,kwiboo.se,gmail.com,oss.qualcomm.com,rock-chips.com,chromium.org,lists.freedesktop.org,vger.kernel.org,glider.be];
-	RCPT_COUNT_TWELVE(0.00)[23];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FREEMAIL_CC(0.00)[gmail.com,lists.freedesktop.org,ideasonboard.com,vger.kernel.org,linux.intel.com,kernel.org,ffwll.ch,suse.de,sang-engineering.com];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-29472-lists,linux-renesas-soc=lfdr.de];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FROM_NO_DN(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[luca.ceresoli@bootlin.com,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[bootlin.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,bootlin.com:dkim,bootlin.com:mid,bootlin.com:email,bootlin.com:url,renesas.com:email]
-X-Rspamd-Queue-Id: 754E9298A29
+	FROM_NEQ_ENVFROM(0.00)[phucducbui@gmail.com,linux-renesas-soc@vger.kernel.org]
+X-Rspamd-Queue-Id: 12FDF298A33
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Fri Dec 19, 2025 at 11:46 AM CET, Biju wrote:
-> From: Biju Das <biju.das.jz@bp.renesas.com>
->
-> On RZ/G3E SMARC EVK using PSCI, s2ram powers down the SoC. Testing ADV753=
-5
-> IRQ configured as edge-triggered interrupt on RZ/G3E SMARC EVK shows that
-> it is missing HPD IRQ during system resume, as the status change occurs
-> before the IRQ/pincontrol resume. Once the status bit is set, there won't
-> be any further IRQ unless the status bit is cleared.
->
-> Clear any pending HPD IRQs before powering on the ADV7535 device to
-> deliver HPD interrupts after resume().
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Hi Geert,
 
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> Your MIRROR value is truncated (I don't trust the final zero)
 
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+I apologize for the inconvenience. The displayed value was
+truncated due to a missing newline character in my debug print
+function. As you suspected, the value is indeed not zero.
+
+>>>Enter: shmob_drm_crtc_atomic_enable
+>>>ENTER: shmob_drm_plane_atomic_update
+>>>ENTER: shmob_drm_primary_plane_setup
+shmob-drm fe940000.lcd-controller:
+[BEFORE] LDSA1R: A=0x00000000 B=0x5c100000 MIRROR=0x5c100000
+shmob-drm fe940000.lcd-controller:
+[AFTER MIRROR] LDSA1R: A=0x00000000 B=0x5c100000 MIRROR=0x5c100000
+shmob-drm fe940000.lcd-controller:
+[AFTER SWAP] LDSA1R: A=0x00000000 B=0x5c100000 MIRROR=0x5c100000
+OOM killer enabled.
+Restarting tasks: Starting
+Restarting tasks: Done
+PM: suspend exit
+
+> TL;DR it depends on kernel config.
+> With my .config, your patch is not needed (but it doesn't hurt).
+> With your .config, your patch is needed.
+> Unfortunately I haven't found yet which config options causes this.
+> I will send you my .config by personal email.
+
+Thank you for sharing your configuration file. I noticed there are
+numerous differences between our configurations. After further
+investigation, I narrowed down the main cause to the following debug
+options:
+
+CONFIG_PROVE_LOCKING=n
+
+CONFIG_DEBUG_LOCK_ALLOC=n
+
+CONFIG_DEBUG_RT_MUTEXES=n
+
+CONFIG_DEBUG_SPINLOCK=n
+
+CONFIG_DEBUG_MUTEXES=n
+
+CONFIG_DEBUG_WW_MUTEX_SLOWPATH=n
+
+CONFIG_DEBUG_RWSEMS=n
+
+CONFIG_DEBUG_LOCKING_API_SELFTESTS=n
+
+CONFIG_LOCK_STAT=n
+
+CONFIG_DEBUG_ATOMIC_SLEEP=n
+
+
+These options are enabled in your configuration but disabled in mine.
+Enabling these debug features introduces additional overhead, which
+slows down the resume process. This delay unintentionally provides
+enough time for the hardware to generate the Frame End interrupt,
+effectively masking the issue on your system.
+
+It is also worth mentioning that this behavior is not new. I have been
+able to reproduce it consistently for a long time, dating back to the
+Kernel 3.x era when armadillo800eva_defconfig was used upstream. In
+fact, the issue can be reproduced as far back as Kernel 3.12. While the
+exact configurations may have changed over time, the underlying
+behavior has remained the same across multiple kernel versions.
+
+This observation suggests the presence of a systemic race condition.
+If the resume process completes too quickly, the Frame End interrupt
+may not occur in time to trigger the transfer from Side B to Side A.
+As a result, explicitly initializing Side A (priming) during resume,
+as proposed in my patch, provides a more robust and deterministic
+solution. This ensures correct behavior regardless of CPU speed,
+system load, or debug configuration, rather than relying on the
+incidental timing introduced by debug options.
+
+
+Best regard,
+
+Phuc
+
 
