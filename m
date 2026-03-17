@@ -1,303 +1,336 @@
-Return-Path: <linux-renesas-soc+bounces-29639-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29640-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iAgUOBueuWk1LQIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29639-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 19:31:55 +0100
+	id SHnwOfeiuWmiLQIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29640-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 19:52:39 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AAB32B0F73
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 19:31:55 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BACA2B13AD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 19:52:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 49C9E30BDEC5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 18:26:39 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 696AC304F32F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 18:52:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 064B23803C4;
-	Tue, 17 Mar 2026 18:26:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F15F63F660D;
+	Tue, 17 Mar 2026 18:52:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hI7phL2R"
+	dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b="H7qLQ8Ee"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C063EC2F2
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Mar 2026 18:26:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0616D3F54CB;
+	Tue, 17 Mar 2026 18:52:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.120.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773771990; cv=none; b=LNrWkzBOss2+Yk+NKyO1bPRx/RXOaLXyTqKpMDUa5Jd0aLWkCgUmsLnqqQAU0FL+yXRpgNor6rKB67TzQxdJxBH8cB/N96neKHX3nlU5YnV/lGBuRxh/Ej4bBnU/DEApd457YLIirfqwPRiKQopQIEKoDAkXns2QhG7DZyeXtGA=
+	t=1773773556; cv=none; b=Lm1uzDwPM7gGcvEv2P+aWuXcgvlP50Y6VoPX364PvnxrrK9bs+Ab2JmdExlSHHD9MQtNkNhA0XEMKiaxJt1Hk2aHmD2Lts05I7QOSSDZu/vX0ZvoCu71HN2VSz+2jXAbItucBqrETN7XMMZ52VD4Qd2pYDn6o5x9XRnUjZZ+1p8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773771990; c=relaxed/simple;
-	bh=AumNNvEqd+dedeNydkzFkGwzMrbfYzIvEBNkbFGLllg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=GaWtPdk7+MpPVgem1dLyxyk5lM/qgaWiPEJCmcIaacAQ9VHZ5f5DKy1VLCCFjA8tTOTUH9J6AACrku+xSz7tJ+WLX0agHI15IldeJOxXYTeOBUpTCCDEaNLrnwaL8YVVRPmRqIj+I2iq9p8yhVsDZSFrsQXdFc7xuIW7RvQzb5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hI7phL2R; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773771989; x=1805307989;
-  h=date:from:to:cc:subject:message-id;
-  bh=AumNNvEqd+dedeNydkzFkGwzMrbfYzIvEBNkbFGLllg=;
-  b=hI7phL2RlyfrwUJkMrbYiFBeRXB2iwsExin8yGvO7FsO1KRH2WbWI9mC
-   N51bd+/kJVAtKNmuHZL3Dj0t8mWLdmxKeHqTEWqaTshvNwibqrRBu6zOL
-   +9cU2aJUIh/qUFUc65ERsAIXjK5SjewDZPgSZQbLUFyjRILZcHha3mKwR
-   WkNU25XQNbm735FyOyo+qwAlbMHeYYhYJVniV6Z/bS/dwO6qScE2mIMMD
-   Tsrlao0Y27AfIDnnLrBJRV7kxPQ7jjNJ4B4mNLMfLXS7kn/11Y96Cl3uq
-   hpfUwmBzZ4LdFGmc+BLfZUJn9OP4hSIw+Lik4C/YigXA81ylCS8EU0GDB
-   A==;
-X-CSE-ConnectionGUID: XZd+7N2TSjiioKxWzYUAmA==
-X-CSE-MsgGUID: HT4R/MCXSnyUtKA4+FFaLg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="86289076"
-X-IronPort-AV: E=Sophos;i="6.23,126,1770624000"; 
-   d="scan'208";a="86289076"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 11:26:29 -0700
-X-CSE-ConnectionGUID: rOv9SQWVTyqRRhEtFuBbrg==
-X-CSE-MsgGUID: SIvyGVO0QnmWrLZPH16GMA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,126,1770624000"; 
-   d="scan'208";a="221423722"
-Received: from lkp-server01.sh.intel.com (HELO 63737dd503cb) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 17 Mar 2026 11:26:27 -0700
-Received: from kbuild by 63737dd503cb with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w2Z7Y-000000001nV-1MnE;
-	Tue, 17 Mar 2026 18:26:24 +0000
-Date: Wed, 18 Mar 2026 02:26:22 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:renesas-drivers-for-v7.1] BUILD SUCCESS
- abf3502033cfc2797126f054eb081857f8e7e939
-Message-ID: <202603180216.7zMbANpw-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1773773556; c=relaxed/simple;
+	bh=S52PQamOIiS7FO0lbQLNo7CLHPkPo8RyVB6dE/Wr1Ug=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=rRPw/nd7tzz/RP+796lp+SJlt7jKf+H10tXSlL0HScswlcqb79PC+kw/qW1pF/dGFynNbWfyOaBKeNE2/Bnf4PmIwdr6/9DF28942nxpbPTv+YX/Rhq+ipfBKc+/xoA6/GjbwEZ2bw1VW2MaAaYOdZnxFRFofGDaNgnjvcShIUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hugovil.com; spf=pass smtp.mailfrom=hugovil.com; dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b=H7qLQ8Ee; arc=none smtp.client-ip=162.243.120.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hugovil.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hugovil.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
+	; s=default; h=Content-Transfer-Encoding:Mime-Version:Message-Id:Subject:Cc:
+	To:From:Date:subject:date:message-id:reply-to;
+	bh=lbEMV683ybNlBJAFBbt85OiP3go1IJLUYEyx22C0aAY=; b=H7qLQ8EeNnB2mDF9GiJZyAsruI
+	CpiwnefLXZYYSCtqFNvJ8Ubba2H9bbPBk4misDxmqBGkykboZxe3e9xn4L5EDgVBQBqUxFggaMQEq
+	63pCg7G72R1rQezkgb7GFa3uhb7xs4P6BigEKsog3zD3nlMnfMwOXkD8V/fyZXTPHrEE=;
+Received: from modemcable061.19-161-184.mc.videotron.ca ([184.161.19.61] helo=debian-lenovo)
+	by mail.hugovil.com with esmtpa (Exim 4.98.2)
+	(envelope-from <hugo@hugovil.com>)
+	id 1w2ZWl-000000004y3-0Uv6;
+	Tue, 17 Mar 2026 14:52:27 -0400
+Date: Tue, 17 Mar 2026 14:52:26 -0400
+From: Hugo Villeneuve <hugo@hugovil.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: biju.das.au <biju.das.au@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Geert
+ Uytterhoeven <geert+renesas@glider.be>, Chris Brandt
+ <Chris.Brandt@renesas.com>, Prabhakar Mahadev Lad
+ <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 2/2] drm: renesas: rzg2l_mipi_dsi: Fix the power-on
+ sequence
+Message-Id: <20260317145226.b84c29335c5badfdd257d0df@hugovil.com>
+In-Reply-To: <TY3PR01MB11346B55F3F5C28FE9E763AF48641A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20260317123610.329630-1-biju.das.jz@bp.renesas.com>
+	<20260317123610.329630-3-biju.das.jz@bp.renesas.com>
+	<20260317110112.338259354289bb60a57fc259@hugovil.com>
+	<TY3PR01MB113462F9E8CEA0506984299768641A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+	<20260317112052.3dc4b56b42b906381df80e94@hugovil.com>
+	<TY3PR01MB1134627E19FCEA40819F8C6578641A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+	<20260317121232.39b1728e4d53d7243856a403@hugovil.com>
+	<TY3PR01MB11346B55F3F5C28FE9E763AF48641A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-X-Spamd-Result: default: False [-0.66 / 15.00];
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[hugovil.com,none];
+	MV_CASE(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[hugovil.com:s=default];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWO(0.00)[2];
+	TAGGED_FROM(0.00)[bounces-29640-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-29639-lists,linux-renesas-soc=lfdr.de];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-renesas-soc@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,pengutronix.de,lists.freedesktop.org,vger.kernel.org,glider.be,renesas.com,bp.renesas.com];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[hugo@hugovil.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[hugovil.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:dkim,intel.com:mid]
-X-Rspamd-Queue-Id: 1AAB32B0F73
+	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 6BACA2B13AD
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-drivers-for-v7.1
-branch HEAD: abf3502033cfc2797126f054eb081857f8e7e939  soc: renesas: r9a09g056-sys: Mark rzv2n_sys_init_data as __initconst
+Hi Biju,
 
-elapsed time: 1913m
+On Tue, 17 Mar 2026 16:36:05 +0000
+Biju Das <biju.das.jz@bp.renesas.com> wrote:
 
-configs tested: 178
-configs skipped: 2
+> Hi Hugo,
+> 
+> > -----Original Message-----
+> > From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of Hugo Villeneuve
+> > Sent: 17 March 2026 16:13
+> > Subject: Re: [PATCH 2/2] drm: renesas: rzg2l_mipi_dsi: Fix the power-on sequence
+> > 
+> > Hi Biju,
+> > 
+> > On Tue, 17 Mar 2026 15:45:29 +0000
+> > Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > 
+> > > Hi Hugo,
+> > >
+> > > > -----Original Message-----
+> > > > From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf
+> > > > Of Hugo Villeneuve
+> > > > Sent: 17 March 2026 15:21
+> > > > Subject: Re: [PATCH 2/2] drm: renesas: rzg2l_mipi_dsi: Fix the
+> > > > power-on sequence
+> > > >
+> > > > Hi Biju,
+> > > >
+> > > > On Tue, 17 Mar 2026 15:13:07 +0000
+> > > > Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > > >
+> > > > > Hi Hugo,
+> > > > >
+> > > > > Thanks for the feedback.
+> > > > >
+> > > > > > -----Original Message-----
+> > > > > > From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On
+> > > > > > Behalf Of Hugo Villeneuve
+> > > > > > Sent: 17 March 2026 15:01
+> > > > > > Subject: Re: [PATCH 2/2] drm: renesas: rzg2l_mipi_dsi: Fix the
+> > > > > > power-on sequence
+> > > > > >
+> > > > > > Hi Biju,
+> > > > > >
+> > > > > > On Tue, 17 Mar 2026 12:36:01 +0000 Biju <biju.das.au@gmail.com>
+> > > > > > wrote:
+> > > > > >
+> > > > > > > From: Biju Das <biju.das.jz@bp.renesas.com>
+> > > > > > >
+> > > > > > > Move reset_control_deassert() and reset_control_assert() from
+> > > > > > > rzg2l_mipi_dsi_dphy_init()/rzg2l_mipi_dsi_dphy_exit() to
+> > > > > > > atomic_pre_enable() and atomic_post_disable() respectively,
+> > > > > > > and move
+> > > > > > > rzg2l_mipi_dsi_set_display_timing() from atomic_pre_enable()
+> > > > > > > to atomic_enable(), to align with the power-on sequence
+> > > > > > > described in Figure 34.5 of section "34.4.2.1 Reset" of the
+> > > > > > > RZ/G2L hardware manual
+> > > > > > > Rev.1.50 May 2025.
+> > > > > > >
+> > > > > > > According to the hardware manual, LINK registers must be
+> > > > > > > written before deasserting CMN_RSTB, and the 1ms delay is
+> > > > > > > retained in
+> > > > > > > atomic_pre_enable() after the deassert.
+> > > > > > >
+> > > > > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > > > >
+> > > > > > Seems to me like this should be backported to stable branches (missing Fixes / Cc: stable
+> > tags)?
+> > > > >
+> > > > > OK, will add fixes/stable tags.
+> > > > >
+> > > > > >
+> > > > > >
+> > > > > > > ---
+> > > > > > >  .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    | 27 +++++++++++--------
+> > > > > > >  1 file changed, 16 insertions(+), 11 deletions(-)
+> > > > > > >
+> > > > > > > diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > > > > > > b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > > > > > > index e53b48e4de56..9053ce037b75 100644
+> > > > > > > --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > > > > > > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > > > > > > @@ -484,7 +484,6 @@ static int rzg2l_mipi_dsi_dphy_init(struct rzg2l_mipi_dsi *dsi,
+> > > > > > >  	u32 dphytim1;
+> > > > > > >  	u32 dphytim2;
+> > > > > > >  	u32 dphytim3;
+> > > > > > > -	int ret;
+> > > > > > >
+> > > > > > >  	/* All DSI global operation timings are set with recommended setting */
+> > > > > > >  	for (i = 0; i < ARRAY_SIZE(rzg2l_mipi_dsi_global_timings);
+> > > > > > > ++i) { @@
+> > > > > > > -524,12 +523,6 @@ static int rzg2l_mipi_dsi_dphy_init(struct rzg2l_mipi_dsi *dsi,
+> > > > > > >  	rzg2l_mipi_dsi_phy_write(dsi, DSIDPHYTIM2, dphytim2);
+> > > > > > >  	rzg2l_mipi_dsi_phy_write(dsi, DSIDPHYTIM3, dphytim3);
+> > > > > > >
+> > > > > > > -	ret = reset_control_deassert(dsi->rstc);
+> > > > > > > -	if (ret < 0)
+> > > > > > > -		return ret;
+> > > > > > > -
+> > > > > > > -	fsleep(1000);
+> > > > > > > -
+> > > > > > >  	return 0;
+> > > > > > >  }
+> > > > > > >
+> > > > > > > @@ -541,8 +534,6 @@ static void
+> > > > > > > rzg2l_mipi_dsi_dphy_exit(struct rzg2l_mipi_dsi *dsi)
+> > > > > > >
+> > > > > > >  	dphyctrl0 &= ~(DSIDPHYCTRL0_EN_LDO1200 | DSIDPHYCTRL0_EN_BGR);
+> > > > > > >  	rzg2l_mipi_dsi_phy_write(dsi, DSIDPHYCTRL0, dphyctrl0);
+> > > > > > > -
+> > > > > > > -	reset_control_assert(dsi->rstc);
+> > > > > > >  }
+> > > > > > >
+> > > > > > >  static int rzg2l_dphy_conf_clks(struct rzg2l_mipi_dsi *dsi,
+> > > > > > > unsigned long mode_freq, @@ -1030,24 +1021,37 @@ static void
+> > > > > > > rzg2l_mipi_dsi_atomic_pre_enable(struct
+> > > > > > drm_bridge *bridge,
+> > > > > > >  	connector = drm_atomic_get_new_connector_for_encoder(state, bridge->encoder);
+> > > > > > >  	crtc = drm_atomic_get_new_connector_state(state, connector)->crtc;
+> > > > > > >  	mode = &drm_atomic_get_new_crtc_state(state,
+> > > > > > > crtc)->adjusted_mode;
+> > > > > > > -
+> > > > > >
+> > > > > > This is not related to your commit message (coding style change).
+> > > > >
+> > > > > Ack. Will restore it.
+> > > > >
+> > > > > >
+> > > > > >
+> > > > > > >  	ret = rzg2l_mipi_dsi_startup(dsi, mode);
+> > > > > > >  	if (ret < 0)
+> > > > > > >  		return;
+> > > > > > >
+> > > > > > > -	rzg2l_mipi_dsi_set_display_timing(dsi, mode);
+> > > > > > > +	ret = reset_control_deassert(dsi->rstc);
+> > > > > > > +	if (ret < 0)
+> > > > > > > +		return;
+> > > > > > > +
+> > > > > > > +	if (dsi->rstc)
+> > > > > >
+> > > > > > This seems new and not documented in the commit message? Is this a fix?
+> > > > >
+> > > > > RZ/V2H does not need this as it uses different IP. Previously
+> > > > > fsleep() is in RZ/G2L specific function. I will update commit description for this change.
+> > > >
+> > > > Suggestion: maybe move this to a separate patch, to facilitate review/understanding...
+> > >
+> > > The only way is to introduce a new callback to handle it for RZ/G2L SoC.
+> > > Then we won't be able to apply fixes tag as it is not fixing anything.
+> > 
+> > I am not sure what you mean by that callback? How a callback is needed only if you split the patch?
+> 
+> You cannot split the patch.
+> 
+> Before:
+>   atomic_pre_enable():
+>     startup()
+>       dphy_init()
+>         write DSIDPHYTIMx         (F) PHY timing regs
+>         reset_control_deassert()  (G) deassert CMN_RSTB
+>         udelay(1)                 (H)
+> 	  setting below link registers
+>         − TXSETR
+> 	  − ULPSSETR
+>         − DSISETR
+>         − CLSTPTSETR
+>         − LPTRNSTSETR
+> 
+> Current patch:
+> 
+> atomic_pre_enable():
+>     startup()
+>       dphy_init()
+>         write DSIDPHYTIMx         (F) PHY timing regs
+> 	setting below link registers
+>         − TXSETR
+> 	  − ULPSSETR
+>         − DSISETR
+>         − CLSTPTSETR
+>         − LPTRNSTSETR
+> 
+>       reset_control_deassert()  (G) deassert CMN_RSTB
+>       fsleep(1000)              (H)
+> 
+> > 
+> > In this original patch you test for the validity of dsi->rstc to determine if you apply the delay or
+> > not. So in the case of RZ/V2H, I understand that it is NULL?
+> 
+> Yes, that is correct.
+> 
+> > 
+> > > Currently this is optional reset, and it is no-op for RZ/V2H.
+> > 
+> > Does this means that the call to reset_control_deassert(dsi->rstc) should not occur for RZ/V2H?
+> 
+> reset_control_deassert(dsi->rstc) will return immediately as it is null.
+> 
+> or
+> 
+> We could add this check instead
+> 
+> 	if (dsi->rstc) {
+> 	    ret = reset_control_deassert(dsi->rstc);
+> 	    if (ret < 0)
+> 		return;
+> 
+> 	    fsleep(1000);
+> 	}
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Yes, like Tommaso suggested.
 
-tested configs:
-alpha                             allnoconfig    gcc-15.2.0
-alpha                            allyesconfig    gcc-15.2.0
-arc                              allmodconfig    gcc-15.2.0
-arc                               allnoconfig    gcc-15.2.0
-arc                              allyesconfig    gcc-15.2.0
-arc                   randconfig-001-20260317    clang-23
-arc                   randconfig-002-20260317    clang-23
-arm                               allnoconfig    clang-23
-arm                               allnoconfig    gcc-15.2.0
-arm                              allyesconfig    gcc-15.2.0
-arm                   randconfig-001-20260317    clang-23
-arm                   randconfig-002-20260317    clang-23
-arm                   randconfig-003-20260317    clang-23
-arm                   randconfig-004-20260317    clang-23
-arm64                            allmodconfig    clang-19
-arm64                             allnoconfig    gcc-15.2.0
-arm64                 randconfig-001-20260317    clang-23
-arm64                 randconfig-002-20260317    clang-23
-arm64                 randconfig-003-20260317    clang-23
-arm64                 randconfig-004-20260317    clang-16
-csky                             allmodconfig    gcc-15.2.0
-csky                              allnoconfig    gcc-15.2.0
-csky                  randconfig-001-20260317    gcc-15.2.0
-csky                  randconfig-002-20260317    gcc-15.2.0
-hexagon                          allmodconfig    clang-17
-hexagon                          allmodconfig    gcc-15.2.0
-hexagon                           allnoconfig    clang-23
-hexagon                           allnoconfig    gcc-15.2.0
-hexagon               randconfig-001-20260317    gcc-8.5.0
-hexagon               randconfig-002-20260317    gcc-8.5.0
-i386                             allmodconfig    gcc-14
-i386                              allnoconfig    gcc-14
-i386                              allnoconfig    gcc-15.2.0
-i386                             allyesconfig    gcc-14
-i386        buildonly-randconfig-001-20260317    clang-20
-i386        buildonly-randconfig-002-20260317    clang-20
-i386        buildonly-randconfig-003-20260317    clang-20
-i386        buildonly-randconfig-004-20260317    clang-20
-i386        buildonly-randconfig-005-20260317    clang-20
-i386        buildonly-randconfig-006-20260317    clang-20
-i386                  randconfig-001-20260317    gcc-14
-i386                  randconfig-002-20260317    gcc-14
-i386                  randconfig-003-20260317    gcc-14
-i386                  randconfig-004-20260317    gcc-14
-i386                  randconfig-005-20260317    gcc-14
-i386                  randconfig-006-20260317    gcc-14
-i386                  randconfig-007-20260317    gcc-14
-i386                  randconfig-011-20260317    clang-20
-i386                  randconfig-012-20260317    clang-20
-i386                  randconfig-013-20260317    clang-20
-i386                  randconfig-014-20260317    clang-20
-i386                  randconfig-015-20260317    clang-20
-i386                  randconfig-016-20260317    clang-20
-i386                  randconfig-017-20260317    clang-20
-loongarch                        allmodconfig    clang-19
-loongarch                         allnoconfig    clang-23
-loongarch                         allnoconfig    gcc-15.2.0
-loongarch                           defconfig    clang-19
-loongarch             randconfig-001-20260317    gcc-8.5.0
-loongarch             randconfig-002-20260317    gcc-8.5.0
-m68k                             allmodconfig    gcc-15.2.0
-m68k                              allnoconfig    gcc-15.2.0
-m68k                             allyesconfig    gcc-15.2.0
-m68k                                defconfig    clang-19
-microblaze                        allnoconfig    gcc-15.2.0
-microblaze                       allyesconfig    gcc-15.2.0
-microblaze                          defconfig    clang-19
-mips                             allmodconfig    gcc-15.2.0
-mips                              allnoconfig    gcc-15.2.0
-mips                             allyesconfig    gcc-15.2.0
-mips                 decstation_r4k_defconfig    gcc-15.2.0
-nios2                            allmodconfig    clang-23
-nios2                            allmodconfig    gcc-11.5.0
-nios2                             allnoconfig    clang-23
-nios2                             allnoconfig    gcc-11.5.0
-nios2                               defconfig    clang-19
-nios2                 randconfig-001-20260317    gcc-8.5.0
-nios2                 randconfig-002-20260317    gcc-8.5.0
-openrisc                         allmodconfig    clang-23
-openrisc                         allmodconfig    gcc-15.2.0
-openrisc                          allnoconfig    clang-23
-openrisc                          allnoconfig    gcc-15.2.0
-openrisc                            defconfig    gcc-15.2.0
-parisc                           allmodconfig    gcc-15.2.0
-parisc                            allnoconfig    clang-23
-parisc                            allnoconfig    gcc-15.2.0
-parisc                           allyesconfig    gcc-15.2.0
-parisc                              defconfig    gcc-15.2.0
-parisc                randconfig-001-20260317    gcc-8.5.0
-parisc                randconfig-002-20260317    gcc-8.5.0
-parisc64                            defconfig    clang-19
-powerpc                          allmodconfig    gcc-15.2.0
-powerpc                           allnoconfig    clang-23
-powerpc                           allnoconfig    gcc-15.2.0
-powerpc               randconfig-001-20260317    gcc-8.5.0
-powerpc               randconfig-002-20260317    gcc-8.5.0
-powerpc64             randconfig-001-20260317    gcc-8.5.0
-powerpc64             randconfig-002-20260317    gcc-8.5.0
-riscv                            allmodconfig    clang-23
-riscv                             allnoconfig    clang-23
-riscv                             allnoconfig    gcc-15.2.0
-riscv                            allyesconfig    clang-16
-riscv                               defconfig    gcc-15.2.0
-riscv                 randconfig-001-20260317    gcc-10.5.0
-riscv                 randconfig-002-20260317    gcc-10.5.0
-s390                             allmodconfig    clang-18
-s390                              allnoconfig    clang-23
-s390                             allyesconfig    gcc-15.2.0
-s390                                defconfig    gcc-15.2.0
-s390                  randconfig-001-20260317    gcc-10.5.0
-s390                  randconfig-002-20260317    gcc-10.5.0
-sh                               allmodconfig    gcc-15.2.0
-sh                                allnoconfig    clang-23
-sh                                allnoconfig    gcc-15.2.0
-sh                               allyesconfig    gcc-15.2.0
-sh                                  defconfig    gcc-14
-sh                                  defconfig    gcc-15.2.0
-sh                    randconfig-001-20260317    gcc-10.5.0
-sh                    randconfig-002-20260317    gcc-10.5.0
-sparc                             allnoconfig    clang-23
-sparc                             allnoconfig    gcc-15.2.0
-sparc                               defconfig    gcc-15.2.0
-sparc                 randconfig-001-20260317    gcc-12.5.0
-sparc                 randconfig-002-20260317    gcc-12.5.0
-sparc64                          allmodconfig    clang-23
-sparc64                             defconfig    clang-20
-sparc64                             defconfig    gcc-14
-sparc64               randconfig-001-20260317    gcc-12.5.0
-sparc64               randconfig-002-20260317    gcc-12.5.0
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-23
-um                               allyesconfig    gcc-14
-um                               allyesconfig    gcc-15.2.0
-um                                  defconfig    clang-23
-um                                  defconfig    gcc-14
-um                             i386_defconfig    gcc-14
-um                    randconfig-001-20260317    gcc-12.5.0
-um                    randconfig-002-20260317    gcc-12.5.0
-um                           x86_64_defconfig    clang-23
-um                           x86_64_defconfig    gcc-14
-x86_64                           allmodconfig    clang-20
-x86_64                            allnoconfig    clang-20
-x86_64                            allnoconfig    clang-23
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20260317    clang-20
-x86_64      buildonly-randconfig-002-20260317    gcc-14
-x86_64      buildonly-randconfig-003-20260317    clang-20
-x86_64      buildonly-randconfig-004-20260317    clang-20
-x86_64      buildonly-randconfig-005-20260317    clang-20
-x86_64      buildonly-randconfig-006-20260317    gcc-14
-x86_64                              defconfig    gcc-14
-x86_64                                  kexec    clang-20
-x86_64                randconfig-001-20260317    gcc-14
-x86_64                randconfig-002-20260317    gcc-14
-x86_64                randconfig-011-20260317    clang-20
-x86_64                randconfig-012-20260317    clang-20
-x86_64                randconfig-013-20260317    clang-20
-x86_64                randconfig-014-20260317    clang-20
-x86_64                randconfig-015-20260317    clang-20
-x86_64                randconfig-016-20260317    clang-20
-x86_64                randconfig-071-20260317    clang-20
-x86_64                randconfig-072-20260317    clang-20
-x86_64                randconfig-073-20260317    clang-20
-x86_64                randconfig-074-20260317    clang-20
-x86_64                randconfig-075-20260317    clang-20
-x86_64                randconfig-076-20260317    clang-20
-x86_64                               rhel-9.4    clang-20
-x86_64                           rhel-9.4-bpf    gcc-14
-x86_64                          rhel-9.4-func    clang-20
-x86_64                    rhel-9.4-kselftests    clang-20
-x86_64                         rhel-9.4-kunit    gcc-14
-x86_64                           rhel-9.4-ltp    gcc-14
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                            allnoconfig    clang-23
-xtensa                            allnoconfig    gcc-15.2.0
-xtensa                           allyesconfig    clang-23
-xtensa                randconfig-001-20260317    gcc-12.5.0
-xtensa                randconfig-002-20260317    gcc-12.5.0
+But I don't see why you cannot simply implement (split) this change as a
+separate commit just after commit #1, or after commit #2?
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+This seems like an optimization for RZ/V2H, so I think it doesnt really matter if
+it does not go to stable branches?
+
+Hugo Villeneuve <hugo@hugovil.com>
 
