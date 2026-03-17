@@ -1,282 +1,200 @@
-Return-Path: <linux-renesas-soc+bounces-29626-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29627-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IG9JJzx/uWmxHAIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29626-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 17:20:12 +0100
+	id KKAVO6d/uWmxHAIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29627-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 17:21:59 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 830742ADD12
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 17:20:10 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CEDB2ADDB6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 17:21:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 3C3B930A9892
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 16:12:42 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 45CC530F4EED
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 16:15:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAE862F745E;
-	Tue, 17 Mar 2026 16:12:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b="WaB5EpFn"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6E4D20DD52;
+	Tue, 17 Mar 2026 16:15:30 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 083B312B94;
-	Tue, 17 Mar 2026 16:12:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.120.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C94E3B28D
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Mar 2026 16:15:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773763961; cv=none; b=vBBqkmVI8zxxzZVVRuoTfBJ8lmqdsb1+YR/axn4eEGn8mL5gStFndItwXYihRul7m6kiMqvXLyC1YXGjyMAIlS+g/q533Kr+W7PPvKZsvHP0Rt18FYBrX+tX1ZZ03k6ib98fIkJPwvxb6AT2V/Jq609ngOX2HFNOsrdk9QLtiYw=
+	t=1773764130; cv=none; b=G6vBbfpGls9zrDNRUrxS8f84vC+Lfrnoyh6CQAce1YYMWxbl7olHkr9u1BD11gUT7OMkUtXGMGDoHMIX0cF4cbhwvgxqOZarr70IETgZEccPRU+f1xydypBbiAuwaB9qZonNmBUoLYnSIDJr7JxuAkQvzMNtRdwZ94vZGD8qO90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773763961; c=relaxed/simple;
-	bh=95w+DDgq3I6/ZpF4r24BiFmrV6w4aVuCUBaL2AHor+w=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=HCI7edQQ1xGIfjc4w62PAoGLvp9LNF8qXt3ERTo/FOiHNPi6eR3yEtsz7gYowTS8NW5BFgoanIOtohYNdfPCKIqyjkgUNJtu2di3tCbIYNYYuHyP8Hcie+p5mEaJNH45H3PCcB40NTsjHyscjVtszS8O4ie6rD2aOMoZMnQ1zQQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hugovil.com; spf=pass smtp.mailfrom=hugovil.com; dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b=WaB5EpFn; arc=none smtp.client-ip=162.243.120.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hugovil.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hugovil.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
-	; s=default; h=Content-Transfer-Encoding:Mime-Version:Message-Id:Subject:Cc:
-	To:From:Date:subject:date:message-id:reply-to;
-	bh=9/w7ZQzKEiVu3Egq9hMs8p2o6EnEgfhhXP/GmR+mqfE=; b=WaB5EpFnStc4yIdAA7RNRwL/xf
-	SRNlVpdmg58xLXQQdPy6bg+MopBOayeDkUzdTCUoZosv/n3N3sOUn0NrDYXT0k/wuGri/fpv29+OI
-	Fvt0o+Z4vd3amtUPhxzinPT+kc1fFFZ5pcVSzoi0agYrJpHpORz0QUaZId+Za3hX5efw=;
-Received: from modemcable061.19-161-184.mc.videotron.ca ([184.161.19.61] helo=debian-lenovo)
-	by mail.hugovil.com with esmtpa (Exim 4.98.2)
-	(envelope-from <hugo@hugovil.com>)
-	id 1w2X21-00000000399-0sav;
-	Tue, 17 Mar 2026 12:12:33 -0400
-Date: Tue, 17 Mar 2026 12:12:32 -0400
-From: Hugo Villeneuve <hugo@hugovil.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: biju.das.au <biju.das.au@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Geert
- Uytterhoeven <geert+renesas@glider.be>, Chris Brandt
- <Chris.Brandt@renesas.com>, Prabhakar Mahadev Lad
- <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH 2/2] drm: renesas: rzg2l_mipi_dsi: Fix the power-on
- sequence
-Message-Id: <20260317121232.39b1728e4d53d7243856a403@hugovil.com>
-In-Reply-To: <TY3PR01MB1134627E19FCEA40819F8C6578641A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20260317123610.329630-1-biju.das.jz@bp.renesas.com>
-	<20260317123610.329630-3-biju.das.jz@bp.renesas.com>
-	<20260317110112.338259354289bb60a57fc259@hugovil.com>
-	<TY3PR01MB113462F9E8CEA0506984299768641A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-	<20260317112052.3dc4b56b42b906381df80e94@hugovil.com>
-	<TY3PR01MB1134627E19FCEA40819F8C6578641A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1773764130; c=relaxed/simple;
+	bh=JpuNcXAUnz9p4OJygOPh4/7FUlRl3uj4sIh8x/TCmn8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BI6GDo1+8r5EYOQoSV+aZPkz2Z0bC5hlgLhTv1wV02+qQ4rjtx3fI6cCiW3GE5eVnW3G2VE7P64ZLGvaAbnhoODOYbtxGKCjKMuSqzOa//9eAq6w9z+XVPMyQnYtDT+ElQ1iKEjCJVJc+pnBqCmMj2S/ZjeIBKJnOUy7kycDpms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-56b8804f37cso906972e0c.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Mar 2026 09:15:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773764128; x=1774368928;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dICWkMmyuTmNF364Pzh8uUC2Sv1l+UoGtlNAuC5g+WY=;
+        b=GNsR7qfkNbxG8zt5kVXTTOXMto9w32aDs/9et9T1aJzeySti/7E6nIyLkYgO878P+T
+         NVQrbW7nPSUBx+7vdiRjo0EAW8+H5JBnMSKRQwrsqIEJdq+iNH1cXZVz/TDgf4sV3aM4
+         vwO5KR/2siQG/5J9qmn+sTDiVui1TB/VL/ws9F//gPN6DNOHq4HVmst+Zmz4GM21YzsL
+         BgFRLtUhAPJn3kOQItRFuB5wqbxGErqu5RvdYcL04ue42YRhh1VS9W3m+P+VbdWUkQAW
+         ctyPwf77fgfupxDr35cYShTWysoQ83O+AaftEzdqCfA3gPvFv3Oo9hVoGoV8H99QC7fc
+         aZqQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXL8XPG5debs5BSHg+0KJBknVf7i51mqr77iRFK21jA2zG9DDrfglrR6p4RZGGRgHXHB1GRv/aKxNJzka/NDOAwNw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz1zoAcuweW5L7n5LqwhpWwkTgc2dZG3lVnSAqMxR6W44JbigWH
+	2FtIJFWqC5XXfUheNcu5A4wVhPmFhygh9nha6tRuGnqOWbhrxEYtFFhckhBjtenLOYo=
+X-Gm-Gg: ATEYQzzb5Dt48djcXmDsQfNwjLjlc4YkLMlRlL7NMdXpzGktwZq5Ai2ss6rlrU2MkRx
+	4tNYeLONRPMuLMqtlZ02DfL3JJxuNW6/iqEEzgNjOQBdmIJiKSNeinpawGNc+kYWfhC20YxDnYk
+	LDnLFmwLl3l8oqLR8oKcu/P+HJclSplabJFrDzk+tN9dbOdtqkrEgYKjOORSEnZGhr2esBSD2Pd
+	6h5lbi+JN9Z/zNeVCouJbiPoWk30Co8aWgm0k1Bvcxp0zm8b6OnYyJ/dN01xUExwu1ctG6orI3h
+	SKnBRRINl24RXn4rXSfHzPAXa1xkItn5XAur9/SqwCjBeFO654jAiR6sEuKozES8OI1R20oklCn
+	XaSXWAmz+6WWzqfM3MXl+GafE6n9cwU1LJy8aMNC57pxQ6IHr5WG9t1ACskXBaOfP1+Ry94YX1K
+	LvGA2k0czG6oYx4D3Z6Lotnkjee77iKdwFnMkwea7u3ZGc4fK3mgXT/LDvsrl8
+X-Received: by 2002:a05:6122:d08:b0:56b:8e1c:582d with SMTP id 71dfb90a1353d-56ba717f6b1mr163141e0c.14.1773764128222;
+        Tue, 17 Mar 2026 09:15:28 -0700 (PDT)
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com. [209.85.222.52])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56ba6fed64csm116952e0c.9.2026.03.17.09.15.26
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 17 Mar 2026 09:15:27 -0700 (PDT)
+Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-950de852f31so620642241.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Mar 2026 09:15:26 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCX3hJP48GslIlmGp4iAnAp0qtFmrfMri/7eQN3idBvAdoVWru6bHtGNQxPf+U2kVbnC5HD9an+eyQjNrHFChbJGjA==@vger.kernel.org
+X-Received: by 2002:a05:6102:358d:b0:5ff:2426:94ed with SMTP id
+ ada2fe7eead31-6027d3bc90bmr139185137.28.1773764126619; Tue, 17 Mar 2026
+ 09:15:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spamd-Result: default: False [-0.16 / 15.00];
+MIME-Version: 1.0
+References: <20260317-rswitch_add_vlans-v1-0-3a57bfa0f2d1@renesas.com> <20260317-rswitch_add_vlans-v1-6-3a57bfa0f2d1@renesas.com>
+In-Reply-To: <20260317-rswitch_add_vlans-v1-6-3a57bfa0f2d1@renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 17 Mar 2026 17:15:14 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXKthoDYtNKimB6S8m+ukWQVMEOuLbZFkWrwqre4c1V5A@mail.gmail.com>
+X-Gm-Features: AaiRm537AkTROl3nLdQemkDiRiXSF3TuQr0OjAH_I1sZc0Qa1zvlHweun1p94TQ
+Message-ID: <CAMuHMdXKthoDYtNKimB6S8m+ukWQVMEOuLbZFkWrwqre4c1V5A@mail.gmail.com>
+Subject: Re: [PATCH net-next 06/13] net: renesas: rswitch: add forwarding
+ rules for gwca
+To: Michael Dege <michael.dege@renesas.com>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spamd-Result: default: False [0.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[hugovil.com,none];
-	MV_CASE(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[hugovil.com:s=default];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-29626-lists,linux-renesas-soc=lfdr.de];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,pengutronix.de,lists.freedesktop.org,vger.kernel.org,glider.be,renesas.com,bp.renesas.com];
-	RCPT_COUNT_TWELVE(0.00)[14];
+	DMARC_NA(0.00)[linux-m68k.org];
+	TAGGED_FROM(0.00)[bounces-29627-lists,linux-renesas-soc=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hugo@hugovil.com,linux-renesas-soc@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[hugovil.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	NEURAL_HAM(-0.00)[-1.000];
-	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,lists.freedesktop.org:email,renesas.com:email,hugovil.com:dkim,hugovil.com:email,hugovil.com:mid]
-X-Rspamd-Queue-Id: 830742ADD12
+	TAGGED_RCPT(0.00)[linux-renesas-soc,netdev];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	R_DKIM_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.898];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux-m68k.org:email,renesas.com:email,mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 5CEDB2ADDB6
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Biju,
+Hi Michael,
 
-On Tue, 17 Mar 2026 15:45:29 +0000
-Biju Das <biju.das.jz@bp.renesas.com> wrote:
+On Tue, 17 Mar 2026 at 10:45, Michael Dege <michael.dege@renesas.com> wrote:
+> Add rules to forward packets from the Ethernet ports to the CPU port (GWCA)
+> using L2 forwarding instead of port forwarding.
+>
+> Signed-off-by: Michael Dege <michael.dege@renesas.com>
 
-> Hi Hugo,
-> 
-> > -----Original Message-----
-> > From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of Hugo Villeneuve
-> > Sent: 17 March 2026 15:21
-> > Subject: Re: [PATCH 2/2] drm: renesas: rzg2l_mipi_dsi: Fix the power-on sequence
-> > 
-> > Hi Biju,
-> > 
-> > On Tue, 17 Mar 2026 15:13:07 +0000
-> > Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > 
-> > > Hi Hugo,
-> > >
-> > > Thanks for the feedback.
-> > >
-> > > > -----Original Message-----
-> > > > From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf
-> > > > Of Hugo Villeneuve
-> > > > Sent: 17 March 2026 15:01
-> > > > Subject: Re: [PATCH 2/2] drm: renesas: rzg2l_mipi_dsi: Fix the
-> > > > power-on sequence
-> > > >
-> > > > Hi Biju,
-> > > >
-> > > > On Tue, 17 Mar 2026 12:36:01 +0000
-> > > > Biju <biju.das.au@gmail.com> wrote:
-> > > >
-> > > > > From: Biju Das <biju.das.jz@bp.renesas.com>
-> > > > >
-> > > > > Move reset_control_deassert() and reset_control_assert() from
-> > > > > rzg2l_mipi_dsi_dphy_init()/rzg2l_mipi_dsi_dphy_exit() to
-> > > > > atomic_pre_enable() and atomic_post_disable() respectively, and
-> > > > > move
-> > > > > rzg2l_mipi_dsi_set_display_timing() from atomic_pre_enable() to
-> > > > > atomic_enable(), to align with the power-on sequence described in
-> > > > > Figure 34.5 of section "34.4.2.1 Reset" of the RZ/G2L hardware
-> > > > > manual
-> > > > > Rev.1.50 May 2025.
-> > > > >
-> > > > > According to the hardware manual, LINK registers must be written
-> > > > > before deasserting CMN_RSTB, and the 1ms delay is retained in
-> > > > > atomic_pre_enable() after the deassert.
-> > > > >
-> > > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > >
-> > > > Seems to me like this should be backported to stable branches (missing Fixes / Cc: stable tags)?
-> > >
-> > > OK, will add fixes/stable tags.
-> > >
-> > > >
-> > > >
-> > > > > ---
-> > > > >  .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    | 27 +++++++++++--------
-> > > > >  1 file changed, 16 insertions(+), 11 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> > > > > b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> > > > > index e53b48e4de56..9053ce037b75 100644
-> > > > > --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> > > > > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> > > > > @@ -484,7 +484,6 @@ static int rzg2l_mipi_dsi_dphy_init(struct rzg2l_mipi_dsi *dsi,
-> > > > >  	u32 dphytim1;
-> > > > >  	u32 dphytim2;
-> > > > >  	u32 dphytim3;
-> > > > > -	int ret;
-> > > > >
-> > > > >  	/* All DSI global operation timings are set with recommended setting */
-> > > > >  	for (i = 0; i < ARRAY_SIZE(rzg2l_mipi_dsi_global_timings); ++i)
-> > > > > { @@
-> > > > > -524,12 +523,6 @@ static int rzg2l_mipi_dsi_dphy_init(struct rzg2l_mipi_dsi *dsi,
-> > > > >  	rzg2l_mipi_dsi_phy_write(dsi, DSIDPHYTIM2, dphytim2);
-> > > > >  	rzg2l_mipi_dsi_phy_write(dsi, DSIDPHYTIM3, dphytim3);
-> > > > >
-> > > > > -	ret = reset_control_deassert(dsi->rstc);
-> > > > > -	if (ret < 0)
-> > > > > -		return ret;
-> > > > > -
-> > > > > -	fsleep(1000);
-> > > > > -
-> > > > >  	return 0;
-> > > > >  }
-> > > > >
-> > > > > @@ -541,8 +534,6 @@ static void rzg2l_mipi_dsi_dphy_exit(struct
-> > > > > rzg2l_mipi_dsi *dsi)
-> > > > >
-> > > > >  	dphyctrl0 &= ~(DSIDPHYCTRL0_EN_LDO1200 | DSIDPHYCTRL0_EN_BGR);
-> > > > >  	rzg2l_mipi_dsi_phy_write(dsi, DSIDPHYCTRL0, dphyctrl0);
-> > > > > -
-> > > > > -	reset_control_assert(dsi->rstc);
-> > > > >  }
-> > > > >
-> > > > >  static int rzg2l_dphy_conf_clks(struct rzg2l_mipi_dsi *dsi,
-> > > > > unsigned long mode_freq, @@ -1030,24 +1021,37 @@ static void
-> > > > > rzg2l_mipi_dsi_atomic_pre_enable(struct
-> > > > drm_bridge *bridge,
-> > > > >  	connector = drm_atomic_get_new_connector_for_encoder(state, bridge->encoder);
-> > > > >  	crtc = drm_atomic_get_new_connector_state(state, connector)->crtc;
-> > > > >  	mode = &drm_atomic_get_new_crtc_state(state,
-> > > > > crtc)->adjusted_mode;
-> > > > > -
-> > > >
-> > > > This is not related to your commit message (coding style change).
-> > >
-> > > Ack. Will restore it.
-> > >
-> > > >
-> > > >
-> > > > >  	ret = rzg2l_mipi_dsi_startup(dsi, mode);
-> > > > >  	if (ret < 0)
-> > > > >  		return;
-> > > > >
-> > > > > -	rzg2l_mipi_dsi_set_display_timing(dsi, mode);
-> > > > > +	ret = reset_control_deassert(dsi->rstc);
-> > > > > +	if (ret < 0)
-> > > > > +		return;
-> > > > > +
-> > > > > +	if (dsi->rstc)
-> > > >
-> > > > This seems new and not documented in the commit message? Is this a fix?
-> > >
-> > > RZ/V2H does not need this as it uses different IP. Previously fsleep()
-> > > is in RZ/G2L specific function. I will update commit description for this change.
-> > 
-> > Suggestion: maybe move this to a separate patch, to facilitate review/understanding...
-> 
-> The only way is to introduce a new callback to handle it for RZ/G2L SoC.
-> Then we won't be able to apply fixes tag as it is not fixing anything.
+Thanks for your patch!
 
-I am not sure what you mean by that callback? How a callback is needed
-only if you split the patch?
+> --- a/drivers/net/ethernet/renesas/rswitch_l2.c
+> +++ b/drivers/net/ethernet/renesas/rswitch_l2.c
+> @@ -93,10 +93,36 @@ static void rswitch_update_l2_hw_forwarding(struct rswitch_private *priv)
+>         }
+>  }
+>
+> +static void rswitch_update_l2_hw_forwarding_gwca(struct rswitch_private *priv)
+> +{
+> +       struct rswitch_device *rdev;
+> +
+> +       if (priv->offload_brdev) {
+> +               rswitch_modify(priv->addr, FWPC0(AGENT_INDEX_GWCA),
+> +                              0, FWPC0_MACSSA | FWPC0_MACDSA | FWPC0_MACRUDA);
+> +
+> +               rswitch_for_all_ports(priv, rdev) {
+> +                       rswitch_modify(priv->addr, FWPC2(rdev->etha->index),
+> +                                      FIELD_PREP(FWPC2_LTWFW, BIT(AGENT_INDEX_GWCA)),
+> +                                      0);
+> +               }
+> +       } else {
+> +               rswitch_modify(priv->addr, FWPC0(AGENT_INDEX_GWCA),
+> +                              FWPC0_MACSSA | FWPC0_MACDSA | FWPC0_MACRUDA,
+> +                              0);
+> +               rswitch_for_all_ports(priv, rdev) {
+> +                       rswitch_modify(priv->addr, FWPC2(rdev->etha->index),
+> +                                      0,
+> +                                      FIELD_PREP(FWPC2_LTWFW, BIT(AGENT_INDEX_GWCA)));
+> +               }
+> +       }
+> +}
 
-In this original patch you test for the validity of dsi->rstc to
-determine if you apply the delay or not. So in the case of RZ/V2H, I
-understand that it is NULL?
+This looks a bit hard to read: are the bitfield values in the two
+branches the same or not?
 
-> Currently this is optional reset, and it is no-op for RZ/V2H.
+I came up with the following, which avoids duplication of the field values,
+and of the control logic, but I am still not 100% happy with it:
 
-Does this means that the call to reset_control_deassert(dsi->rstc)
-should not occur for RZ/V2H?
+    u32 fwpc0_clr, fwpc0_set, fwpc2_clr, fwpc2_set;
 
- 
-> What do you think? 
-> 
-> Patch #1) 1 us-> 1ms  
-> Patch #2) Introduce SoC specific callback to handle reset_deassert followed by delay
-> Patch #3) Move the code as per this patch  
-> 
-> Or
-> 
-> Patch #1) 1 us-> 1ms
-> Patch #2) Use this patch as it is, with updated commit description
-> So that fixes tag can be applied
-> 
-> Cheers,
-> Biju
-> 
+    fwpc0_clr = fwpc0_set = FWPC0_MACSSA | FWPC0_MACDSA | FWPC0_MACRUDA;
+    fwpc2_clr = fwpc2_set = FIELD_PREP(FWPC2_LTWFW, BIT(AGENT_INDEX_GWCA);
+    if (priv->offload_brdev) {
+            fwpc0_clr = fwpc2_set = 0;
+    } else {
+            fwpc0_set = fwpc2_clr = 0;
+    }
 
+    rswitch_modify(priv->addr, FWPC0(AGENT_INDEX_GWCA), fwpc0_clr, fwpc0_set);
+
+    rswitch_for_all_ports(priv, rdev) {
+            rswitch_modify(priv->addr, FWPC2(rdev->etha->index), fwpc2_clr,
+                           fwpc2_set);
+    }
+
+Can this be improved?
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Hugo Villeneuve <hugo@hugovil.com>
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
