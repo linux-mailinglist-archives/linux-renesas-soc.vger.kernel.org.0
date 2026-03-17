@@ -1,487 +1,224 @@
-Return-Path: <linux-renesas-soc+bounces-29590-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29591-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GFxOGpkruWmVtQEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29590-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 11:23:21 +0100
+	id YJLHBFosuWmVtQEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29591-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 11:26:34 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id F27BB2A7CC9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 11:23:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C1B22A7DA5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 11:26:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E71AE30B2213
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 10:17:23 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 98EF13016CB1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 10:21:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15DBB3A6F19;
-	Tue, 17 Mar 2026 10:16:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 644203A451B;
+	Tue, 17 Mar 2026 10:21:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fx8z1JAi"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="c+zWif+I"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010033.outbound.protection.outlook.com [52.101.228.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E99403A6F1E
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Mar 2026 10:16:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773742603; cv=none; b=HDpC+rkcwYdKMSluYjjzQINpSX5wy0NM+onGNaetvTDzXFWAQSZ+ePtgIaGbqOPFOV2SjqEfbxdsEs1lmjIccUUxsUIvmao2N558RMLhX4ICml8a1NKs9b5UkVEmF8ZnBezC8amvGhxjBa3dpRhJJxmid/x85ncKG8g35PD0Sec=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773742603; c=relaxed/simple;
-	bh=MToUqiQLSOCiKLLmLKpsTiluVNFD5qK7fzHRpHV2EL4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Mr38rwA0ZR6Vbg/wC1UYRoxvnjaOUV+/ALhMLetaI0BZL3d61xshveo9OqPKg4/nB2l44uRpwsBDBoiFWPIz8lg2ezmFQDQUIka+WVWRiwGNlGbEeDbCt5UpY3kok5hIj1TJT4kw9fDGRzfBRjEGgl9Wl61nKNp/CVLbUOd3Bbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fx8z1JAi; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-439fe4985efso4922694f8f.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Mar 2026 03:16:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773742599; x=1774347399; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=V35Cp1YeMeEi1oS2JHcbUtKh1eWOizu2qXICGsho11k=;
-        b=fx8z1JAiTwzubCllYwb3LiKyHEDhvUg7Wy9CBEL0BToTwvwtyJC1+yNbwDlnj1xjBe
-         CM0GK1CDBJbMleh3mytw5gAuULdJWA1kGKJh+NhvfzV7pOlfMXCcGrbZatP5v4F7XohK
-         wUUuGcYZuIqHPsWl4GzbLtHG8e+S9x72sj3neku3gEbagHv4VaNFYUH/wwtjvtZaR2gw
-         JiOR5WhBClUgfIAMs41kTLqwddmYt3LKJUIg1JcG/2AOQF8DDQRDEHYe3vSf1OdnjydE
-         bfp2dmfgq1cmdpZk0ySbcqnTQxkZzV/6aj7Z/iGPl8PJho1BJD741BjHfJ+QE+pzA6cY
-         7UZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773742599; x=1774347399;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=V35Cp1YeMeEi1oS2JHcbUtKh1eWOizu2qXICGsho11k=;
-        b=pJxNGJ/IKuZE4A4QzQh+97JoVBh59CofLsVA/9hdvJHFJ+bl4HSgVwYPghH3qdMZ/O
-         x4/FkB4l6omRsIceVulbowHb0FZKSRT6Za6K3tDxjRX/MgwIfRUrNd25sykZ4XYXjx+7
-         J43N1J+aKPHTWvUR/4I9D+XDA+qem6lIKi06rFuTIcZWrlBnzRsIU6ayqvorFVQlPHbh
-         B5OdH0Z+xoLjBFSSks6IjVeO8mY0MisnKF9d6wd1cefdClyY9PbkdXBg6vUGcevkN0Cs
-         IwLoQ6aRGcXFDqq/FY9PN6FUZy+AcUnk6S6c6vZWm+daa6uAw1THHSxnbvW2DjVosNfh
-         oT4w==
-X-Forwarded-Encrypted: i=1; AJvYcCVeaDOeTHvplx4e85Y8nEe4wqnUy4H41uAkAxXUAj+vVd/JTcWgo9JtujAp4E7bNbC9wkAkQQ6T63inimaTyAF5qQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw5FSaIyjQBx5tGFZQufsriBB0UJ4pZpxut839HWSmiNgpSij9L
-	0L9hZgKIfElil2Ao5ixKsKKNSZcrbjWE0cWhcvvqAv1paVgcOG5LcLoT
-X-Gm-Gg: ATEYQzyzM4y6nF8EaJWXnGnKZ+SkyQHDQu3YL4Najh2kkTYHbXhpa81cv82Ko5Lkaq+
-	4A3D50rMI6t2xMC+dpKckpD5orbI3ADhD1BGlam3xoPRS1piC8rdnnzsmy6RIuwqxFwxtwMFchz
-	+vx4pFQ7vyatk4jF7qZ0SJLaWCFvF9OrUgD7ZxfCZeG4bxDpS+iehGFp2R1wIQmRmJIWH/csx3+
-	rhRs2wLoQQLuT0jOZ8eeiL4Un3pn22XqVCDrHNeE8aAQoeo6YnK/kau6vtM0xUFIGLdteNnvb7A
-	4nsSpLAZzPDT1ItHXHdmLdS6AUaLheab4DGXxCfJ1zBoCaaueUVBQBXZXaedKRKy8YF655I6cj4
-	RaFNeapqK+7JrGNRwSJaqa5XHqk+EXqoLCZ49WRlwG6h/w8TW4QOcD/MFERqDQuI8sW2Xuq0dzv
-	vhQdLsHFushCVMwpbcfqnW6hGG4FDKTt4F55R7H2ulBeBrJaL0
-X-Received: by 2002:a05:600c:8a09:10b0:483:badb:618e with SMTP id 5b1f17b1804b1-485566d6e33mr193059745e9.8.1773742598976;
-        Tue, 17 Mar 2026 03:16:38 -0700 (PDT)
-Received: from localhost.localdomain ([2a00:23c4:a758:8a01:e16b:fc56:e220:9aa9])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4856eaee510sm53903275e9.14.2026.03.17.03.16.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Mar 2026 03:16:38 -0700 (PDT)
-From: Biju <biju.das.au@gmail.com>
-X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Linus Walleij <linusw@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	linux-renesas-soc@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH v3 8/8] pinctrl: renesas: rzg2l: Add support for clone channel control
-Date: Tue, 17 Mar 2026 10:16:21 +0000
-Message-ID: <20260317101627.174491-9-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260317101627.174491-1-biju.das.jz@bp.renesas.com>
-References: <20260317101627.174491-1-biju.das.jz@bp.renesas.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E4C1139D;
+	Tue, 17 Mar 2026 10:21:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.33
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773742902; cv=fail; b=Dc3v5f8dJQuQ56J10ky1K8CZ6FmxoO4GofwZEUvRieZc+7vo3VJtE8F1FM6JtgsnVLTfyHVImel0TlCYY6/PGespiIgIYLKYfEtijQmHbcU0q/fna4nJMypsxpilX03QrioBy6uZFDvHNda+B8NsDhrocTS2bVmXuPYEeX9q0vI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773742902; c=relaxed/simple;
+	bh=G5N5aHLpqPCSnX542mfrdR3b8V0lGCsHdxlz0b5BqE4=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=R2hCVoFLse4ejGIuoV95TNULg7UupY+FR73zziL7KXaAmJxUt89tiurQCLZJxQLcEescED9FObIjhoPRH0sP8Ra12omQYFm6x9PFofleQW2y7qL8lu1uQb9RQbRxn8bXDkyhkl0pBnX4ymzcxNvvS+RHKfnd8Isf7S59loWyUR8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=c+zWif+I; arc=fail smtp.client-ip=52.101.228.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FcSQ5HAzBxQitbL/oTxXYaMvnCqUZ1N/3hLk+wiI3S6PMJ76fUKD75UB343rSE4vlIJjs0CaH2NqF+jJBxHWAvyNgxUy1nvVs/XvjwNMetXpeznuQRgX72Op1xfzQEv4Quf4tpoMK3u1sU0ZRS1385tl+un9FRgcgTN+ahJFocBQAji4xpoTbs4v2lj+y9GvgGmiCznMiDRBr49cmVRXk/Q2hD6h47PP5Jlv75LRw7Xq3SC3IGvkpGjp2SoSovElMipkfEnHRAqUl1tGNN7xara6VkwFD3zqUCDa3I+JNJUOazGWqDmARHd9ksHLF+tl+nhCPrJNzcCytZT9VWb5xQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xSR+0ejuQIWIK9+F6pPtcvHK9nbaJUXBGpVIvJqbHg0=;
+ b=L2oqltBKo+2uqUp7pXENR0d5HDOcpXNgVJlu0RQWODPQh6vWP9r+S5WC06UFJfsAI+iw0zRbqDTtGoY5PfqDFHyXeKUJntxIXjwtbus/N/7SjGsx9P4aZ/P6cKlZI2lZ77kF+MI33Ll8VJXQVTISTSmHaQTJ4ISLxgKGZG/cTUGw90kuuCyWd7aRra21zhbfeQnAarNT4H1rKw5R8NFBvy9VZTGEnt/nQy9SLXMwu/47caB9jcGL6K5SvQrq4Ite/Lq9S7B1saSafyRtTdcWF2Svujmv7akVS2eGX4YZUYSVSD4ydsa5/L9/jy5ejLyZtLieEPByhSkIbaokSrvIZA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xSR+0ejuQIWIK9+F6pPtcvHK9nbaJUXBGpVIvJqbHg0=;
+ b=c+zWif+IUEXZbNzsEQAWShItZuEeGvjVgxxZqbFKWqE8mrsVu9o74aZi7/Du8/7pLLnfn+j5FwDEU9MdCjFVKCnTC47+gRtqM9iddFFeFGi5s/OaR+1avj6m1vWtHNbh25UyRNlZA75sDdPVEKPiGMBGmxfddyRiFXygPchf2Dw=
+Received: from TYCPR01MB11332.jpnprd01.prod.outlook.com (2603:1096:400:3c0::7)
+ by TYRPR01MB15539.jpnprd01.prod.outlook.com (2603:1096:405:284::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.25; Tue, 17 Mar
+ 2026 10:21:33 +0000
+Received: from TYCPR01MB11332.jpnprd01.prod.outlook.com
+ ([fe80::2511:10cd:e497:4d97]) by TYCPR01MB11332.jpnprd01.prod.outlook.com
+ ([fe80::2511:10cd:e497:4d97%5]) with mapi id 15.20.9700.022; Tue, 17 Mar 2026
+ 10:21:28 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: biju.das.au <biju.das.au@gmail.com>, John Madieu
+	<john.madieu.xa@bp.renesas.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>
+CC: Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	"linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Geert
+ Uytterhoeven <geert+renesas@glider.be>, Prabhakar Mahadev Lad
+	<prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
+	<biju.das.au@gmail.com>, "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH] thermal: renesas: rzg3e: Drop unused kernel-doc comments
+Thread-Topic: [PATCH] thermal: renesas: rzg3e: Drop unused kernel-doc comments
+Thread-Index: AQHcmN1Z6UkJ4av95ECQBJc8l9MOQ7WyvZ9w
+Date: Tue, 17 Mar 2026 10:21:28 +0000
+Message-ID:
+ <TYCPR01MB113323FD2F63C1E7DE9C0E07E8641A@TYCPR01MB11332.jpnprd01.prod.outlook.com>
+References: <20260208092848.5313-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20260208092848.5313-1-biju.das.jz@bp.renesas.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYCPR01MB11332:EE_|TYRPR01MB15539:EE_
+x-ms-office365-filtering-correlation-id: 3c8eebdd-a2b6-48d6-45eb-08de840ef399
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|376014|1800799024|56012099003|18002099003|22082099003|38070700021;
+x-microsoft-antispam-message-info:
+ e5tqKvBitOg4k3gxxeVi5h6G3CnVwYfhV5Mzj+RulfvCTf6rZJriNoRhpM97XgyFsu5Jwp7x2nbfRIYbWv2gtv21LBl66otywlklFLudpd813E65tXuqWDxbjcPN9GzXZcY52U8YZM759GMGqv64sGzQZXH24uRXCMmB+wgB4pQXUOwPO+yHOtNK0AenezqxxyNL9BE5vIvKWNWmiegpRxNUx/FjtY8HtnAgVfkxJifI+18e/S3QJE9Q7qkZ4dz1T7B+KSjagvbdXoynA7HLxNVRd400XehZ+/cO6RMWuX6uDQJreQymCXDGvnex7t+Ck7dkR1KsVRlerlR/vOKFp2oJrfAAgZItUfwd/Tkq3yDrZA9i83ehhorpqaW59tIXyboB+WjKp2D5grxRczcyXT0ZPoq+DNgC8H3AG15kBaPpcCugMaJwUL9ih4YksCHE7HvSbaAE0Da4kj/k3s00ic8hPP/SH5y2hExiJ2oI0t4tqtu1wQgBwgXO8hJ3xVqoLBF7+iU4WWxYNgIxVS1MCNC4D9MOctAMI/XHIk+3+4lzwsaXo7gE+2a9wVBzKeN85VCVzlY09Mw5LBacSTx+hiXI9yUIW57LYmJ+vaPAwXG9u2bxTte6/lAITPzRAnMMeqYnHk5ZPWXG/qaINoE7MGND6HOaNkKSzM55CTjWI1wvBX4T4ndZbycp/CmPejiTBIxbEPLlfSjQjw3NHe57AKWpaMvEzxa8XOGMRL+v2ZYfQtQKKk6fTvZM+Usg6ti0yOqjmvLfOIEliWX9VK4UkIPIOVObVEZpFJourb7IFOk=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11332.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(56012099003)(18002099003)(22082099003)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?T2Rv2lDqOXWRRjPN1j0ErbDkel1OcK+I/9meL+NP8W6VSD1Bq2ShDN2rM/dX?=
+ =?us-ascii?Q?1w2PmkIkvxG5EvhGT1AvZ+jFOkfN/s3XHl5jQZpU/KuEeBoiPHAW1qDuT2Cq?=
+ =?us-ascii?Q?O5yDeZz6A/kfnDLTjn8YNIbt2TOhC66fBouFK+iMUqoGXN7+0HlZHD2gcNXN?=
+ =?us-ascii?Q?oyiJ5ZjxDfCxKhhbpz6njAz56eLZnrznAOtNxsX1VGW0s/ad701LVOge++7P?=
+ =?us-ascii?Q?4w0wY5NjEihBurdKFWz5Gx8smemot0VxEVFxgIuRBuvLoT+DFTyKgjhiMXSU?=
+ =?us-ascii?Q?NWT3qw6GBdZnS+Rm2GD9E6NqVPwBX6BVs4A9o0jkUQ8ieGQyVWz2ZTsCfTJy?=
+ =?us-ascii?Q?+HuMf8Qq43FGrD3++NC/LHUDYrPdeBlUcQU9RThalE2wl6A3FSYvUSUEjtQ4?=
+ =?us-ascii?Q?2H9dHITCJUOfezGhdRY7zKQKeC8x0ZxLSOwQsN92RNalkMjc5r68W4w0Wk29?=
+ =?us-ascii?Q?yIjc+zAiSW4jPJepmcucJ+7TjyEbF2yxjsy+Je8/Gvx3mUX8/RS9db5diS+p?=
+ =?us-ascii?Q?2e0oiQdhYUaQ+/X7jL3hPNWLx/GEK7il1/ggdmZOZ1SJx7JlFJp/I416Y9NZ?=
+ =?us-ascii?Q?xa4PzLDetYDOkmvNhySFp445iQh+ByRJO7PD5Qg4Qz1ny0b7KUikEkhjiKhx?=
+ =?us-ascii?Q?IlggLjJ0I1SvtqCfr4w1X2Nf/xAbTPR4kMChEQgyTUrrIN5s2LoQRiZnbY/d?=
+ =?us-ascii?Q?Q6UWBOXxRS+wlLQyTJsttSHtwz8FXEtigi5k9A6iUem3p0LQG+LnN0ANSi4z?=
+ =?us-ascii?Q?GZ4m3RknN6eG3mM6R6U8sbeGtXvcjGG2zyF969KL0Iw4KM84XXbAAh2CGiID?=
+ =?us-ascii?Q?SnrPLiZvoEVCgEyr3Pg8387TKLzcOHx32xn+AAlqpPBtr+09QRhcGASaAx/p?=
+ =?us-ascii?Q?4uxZEBXRirNVCHnTtGd0kNHXYpLHFfivUHcLWEKV7LNsCD9ws6QFJQPmBxHX?=
+ =?us-ascii?Q?jESGk+k1lNmeYNQ67ra2AeI/WzOK9UU3qQnSwE4psdoAkAG4Gg2+zk+OO6bk?=
+ =?us-ascii?Q?Bnyp23ZXq3Wqoh3XCVP+vk76jSDcjaP4GlfXV8xmLC0x6BqAS514YKHJTtyQ?=
+ =?us-ascii?Q?XVpI9LfMZmhDwtwrVVlOj/Y53nIDHPiuRBaCQGt0Rq0lsWoIk/rEvqrAM8kY?=
+ =?us-ascii?Q?Ag3h/J1l0pw5F3d9WsRBLYwMtgFFFjXTyLvXX2eoiUpOjQ2+VGmTGgc6mgQ9?=
+ =?us-ascii?Q?WQZjpJ9a1ClR4JQMQZ89reQCz9hqsHWXEIMSxN0M9nCGcaHfkCbYd2KfO1T4?=
+ =?us-ascii?Q?PSLrhp0y3ATOgzyqsBHmQZSQUnRdu/GDGEYqRZJOGQaZ+8z1ejGKVSlf0ym5?=
+ =?us-ascii?Q?+FUE4uvd8HLOb9OWWKMZa5yUnjnLwR4I4wRo7IYfY31E7xygWId9XVmaZw9/?=
+ =?us-ascii?Q?FVI+RXQVUYAFP/C1pP2ZDxMF1PlZ/Jl+zkY3Vol9z3E7M6Oo4VMdhVr64Dyb?=
+ =?us-ascii?Q?TiTf/Z3uKQPNM4A6qsR+onyCvrmfL6b3AdgrlGcmIKxLmgjtYy384jUU/P56?=
+ =?us-ascii?Q?+j2bgKLo8eipmTijB1vUUd6h13Rr8V6nmTa4iN9NVWBworHI7o0HZFDg1j9F?=
+ =?us-ascii?Q?p+VFMAAMIn2YS2/zHiSv7ss0UppkZxOu2VCs/W0Kqfch2Z5PYWqT5y37HYH3?=
+ =?us-ascii?Q?7q3YAYgeWHhPfEPRcN6c2L+8Ph0a2usetrzrHmw7PQxUQvk3ulWlo6uxsQA4?=
+ =?us-ascii?Q?1HlYdQGE3+KUWidK8zQn29nK+OgDkeUheHSCDzQ6BwI9y6TZJKlrQlUMnX2J?=
+ =?us-ascii?Q?WtfEC8riuw=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-1.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11332.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3c8eebdd-a2b6-48d6-45eb-08de840ef399
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Mar 2026 10:21:28.4436
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 7Lf90zQJmBFL+3Emap4sfpGEzRVvl9acHfcktd9gRXz8ef/mWDXRHMRulFUDEVWSlcEzBxgQp0QAk+zNm+mfWTTyDTOSvCxq+O1ZJjo4EjQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYRPR01MB15539
+X-Spamd-Result: default: False [1.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_DKIM_ALLOW(-0.20)[bp.renesas.com:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-29590-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[bp.renesas.com,vger.kernel.org,gmail.com];
-	FREEMAIL_TO(0.00)[glider.be,kernel.org,gmail.com];
-	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-29591-lists,linux-renesas-soc=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,bp.renesas.com,kernel.org,linaro.org];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[intel.com,arm.com,vger.kernel.org,glider.be,bp.renesas.com,gmail.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bijudasau@gmail.com,linux-renesas-soc@vger.kernel.org];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[biju.das.jz@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[bp.renesas.com:+];
 	RCVD_COUNT_FIVE(0.00)[5];
-	DKIM_TRACE(0.00)[gmail.com:+];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,bp.renesas.com:mid,renesas.com:email]
-X-Rspamd-Queue-Id: F27BB2A7CC9
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email,bp.renesas.com:dkim]
+X-Rspamd-Queue-Id: 6C1B22A7DA5
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Biju Das <biju.das.jz@bp.renesas.com>
+Hi All,
 
-The RZ/G3L SoC has some IP such as I2C ch{2,3},SCIF ch{3,4,5},
-RSPI ch{1,2} and RSCI ch{1,2,3} need to control the clone channel for
-proper operation. As per the RZ/G3L hardware manual, the clone channel
-setting is to be done before the mux setting.
+> -----Original Message-----
+> From: Biju <biju.das.au@gmail.com>
+> Sent: 08 February 2026 09:29
+> Subject: [PATCH] thermal: renesas: rzg3e: Drop unused kernel-doc comments
+>=20
+> From: Biju Das <biju.das.jz@bp.renesas.com>
+>=20
+> Drop unused kernel-doc comments from struct rzg3e_thermal_priv.
+>=20
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+>  drivers/thermal/renesas/rzg3e_thermal.c | 2 --
+>  1 file changed, 2 deletions(-)
+>=20
+> diff --git a/drivers/thermal/renesas/rzg3e_thermal.c b/drivers/thermal/re=
+nesas/rzg3e_thermal.c
+> index dde021e283b7..086bd3da10e1 100644
+> --- a/drivers/thermal/renesas/rzg3e_thermal.c
+> +++ b/drivers/thermal/renesas/rzg3e_thermal.c
+> @@ -87,13 +87,11 @@ struct rzg3e_thermal_info {
+>   * struct rzg3e_thermal_priv - RZ/G3E TSU private data
+>   * @base: TSU register base
+>   * @dev: device pointer
+> - * @syscon: regmap for calibration values
+>   * @zone: thermal zone device
+>   * @rstc: reset control
+>   * @info: chip type specific information
+>   * @trmval0: calibration value 0 (b)
+>   * @trmval1: calibration value 1 (c)
+> - * @trim_offset: offset for trim registers in syscon
+>   * @lock: protects hardware access during conversions
+>   */
+>  struct rzg3e_thermal_priv {
+> --
+> 2.43.0
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v3:
- * New patch.
----
- drivers/pinctrl/renesas/pinctrl-rzg2l.c | 218 ++++++++++++++++++++++++
- 1 file changed, 218 insertions(+)
+Gentle ping.
 
-diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-index 3cef8a8d3712..b8ce110f95d8 100644
---- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-+++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-@@ -11,12 +11,14 @@
- #include <linux/gpio/driver.h>
- #include <linux/interrupt.h>
- #include <linux/io.h>
-+#include <linux/mfd/syscon.h>
- #include <linux/module.h>
- #include <linux/mutex.h>
- #include <linux/of.h>
- #include <linux/of_irq.h>
- #include <linux/platform_device.h>
- #include <linux/property.h>
-+#include <linux/regmap.h>
- #include <linux/seq_file.h>
- #include <linux/spinlock.h>
- 
-@@ -152,6 +154,26 @@
- 	 FIELD_PREP_CONST(VARIABLE_PIN_CFG_PORT_MASK, (port)) | \
- 	 FIELD_PREP_CONST(PIN_CFG_MASK, (cfg)))
- 
-+#define RZG3L_CLONE_CHANNEL_CFG_PIN_START_MASK	GENMASK(31, 29)
-+#define RZG3L_CLONE_CHANNEL_CFG_PIN_END_MASK	GENMASK(28, 26)
-+#define RZG3L_CLONE_CHANNEL_CFG_PORT_MASK	GENMASK(25, 21)
-+#define RZG3L_CLONE_CHANNEL_CFG_DATA_MASK	GENMASK(9, 0)
-+#define RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(port, start_pin, end_pin, cfg) \
-+	(FIELD_PREP_CONST(RZG3L_CLONE_CHANNEL_CFG_PIN_START_MASK, (start_pin)) | \
-+	 FIELD_PREP_CONST(RZG3L_CLONE_CHANNEL_CFG_PIN_END_MASK, (end_pin)) | \
-+	 FIELD_PREP_CONST(RZG3L_CLONE_CHANNEL_CFG_PORT_MASK, (port)) | \
-+	 FIELD_PREP_CONST(RZG3L_CLONE_CHANNEL_CFG_DATA_MASK, (cfg)))
-+
-+#define RZG3L_CLONE_CHANNEL_BIT_MASK		GENMASK(9, 6)
-+#define RZG3L_CLONE_CHANNEL_VAL_MASK		BIT(5)
-+#define RZG3L_CLONE_CHANNEL_SHARED_PIN_MASK	BIT(4)
-+#define RZG3L_CLONE_CHANNEL_PFC_MASK		GENMASK(3, 0)
-+#define RZG3L_CLONE_CHANNEL_PACK(bit, val, shared_pin, pfc) \
-+	(FIELD_PREP_CONST(RZG3L_CLONE_CHANNEL_BIT_MASK, (bit)) | \
-+	 FIELD_PREP_CONST(RZG3L_CLONE_CHANNEL_VAL_MASK, (val)) | \
-+	 FIELD_PREP_CONST(RZG3L_CLONE_CHANNEL_SHARED_PIN_MASK, (shared_pin)) | \
-+	 FIELD_PREP_CONST(RZG3L_CLONE_CHANNEL_PFC_MASK, (pfc)))
-+
- #define P(off)			(0x0000 + (off))
- #define PM(off)			(0x0100 + (off) * 2)
- #define PMC(off)		(0x0200 + (off))
-@@ -311,6 +333,8 @@ struct rzg2l_pinctrl_data {
- 	const struct rzg2l_dedicated_configs *dedicated_pins;
- 	unsigned int n_port_pins;
- 	unsigned int n_dedicated_pins;
-+	const u32 *clone_pin_configs;
-+	unsigned int n_clone_pins;
- 	const struct rzg2l_hwcfg *hwcfg;
- 	const u64 *variable_pin_cfg;
- 	unsigned int n_variable_pin_cfg;
-@@ -346,6 +370,7 @@ struct rzg2l_pinctrl_pin_settings {
-  * @pupd: PUPD registers cache
-  * @ien: IEN registers cache
-  * @smt: SMT registers cache
-+ * @clone: Clone registers cache
-  * @sd_ch: SD_CH registers cache
-  * @eth_poc: ET_POC registers cache
-  * @other_poc: OTHER_POC register cache
-@@ -361,6 +386,7 @@ struct rzg2l_pinctrl_reg_cache {
- 	u32	*ien[2];
- 	u32	*pupd[2];
- 	u32	*smt;
-+	u32	*clone;
- 	u8	sd_ch[2];
- 	u8	eth_poc[2];
- 	u8	oen;
-@@ -379,6 +405,8 @@ struct rzg2l_pinctrl {
- 
- 	struct clk			*clk;
- 
-+	struct regmap			*syscon;
-+
- 	struct gpio_chip		gpio_chip;
- 	struct pinctrl_gpio_range	gpio_range;
- 	DECLARE_BITMAP(tint_slot, RZG2L_TINT_MAX_INTERRUPT);
-@@ -392,6 +420,7 @@ struct rzg2l_pinctrl {
- 	struct rzg2l_pinctrl_reg_cache	*cache;
- 	struct rzg2l_pinctrl_reg_cache	*dedicated_cache;
- 	atomic_t			wakeup_path;
-+	u32				clone_offset;
- };
- 
- static const u16 available_ps[] = { 1800, 2500, 3300 };
-@@ -617,6 +646,54 @@ static int rzg2l_validate_pin(struct rzg2l_pinctrl *pctrl,
- 	return 0;
- }
- 
-+static int rzg2l_pinctrl_set_clone_mode(struct rzg2l_pinctrl *pctrl,
-+					u8 port, u8 pin, u8 func)
-+{
-+	static const u8 pfc_table_lut[] = { 2, 4, 5, 6, 7 };
-+	u8 start_pin, end_pin;
-+	unsigned int i;
-+
-+	if (!pctrl->data->clone_pin_configs)
-+		return 0;
-+
-+	for (i = 0; i < ARRAY_SIZE(pfc_table_lut); i++)
-+		if (pfc_table_lut[i] == func)
-+			break;
-+
-+	if (i == ARRAY_SIZE(pfc_table_lut))
-+		return 0;
-+
-+	for (i = 0; i < pctrl->data->n_clone_pins; i++) {
-+		u32 pin_data = pctrl->data->clone_pin_configs[i];
-+		bool is_shared_pin = FIELD_GET(RZG3L_CLONE_CHANNEL_SHARED_PIN_MASK, pin_data);
-+		u8 pin_func = FIELD_GET(RZG3L_CLONE_CHANNEL_PFC_MASK, pin_data);
-+		unsigned int j, num_pins;
-+
-+		if ((pin_func != func && !(is_shared_pin && (pin_func + 1) == func)) ||
-+		    FIELD_GET(RZG3L_CLONE_CHANNEL_CFG_PORT_MASK, pin_data) != port)
-+			continue;
-+
-+		start_pin = FIELD_GET(RZG3L_CLONE_CHANNEL_CFG_PIN_START_MASK, pin_data);
-+		end_pin = FIELD_GET(RZG3L_CLONE_CHANNEL_CFG_PIN_END_MASK, pin_data);
-+		num_pins = end_pin - start_pin + 1;
-+
-+		for (j = 0; j < num_pins; j++) {
-+			u32 bit, val;
-+
-+			if ((start_pin + j) != pin)
-+				continue;
-+
-+			bit = FIELD_GET(RZG3L_CLONE_CHANNEL_BIT_MASK, pin_data);
-+			val = FIELD_GET(RZG3L_CLONE_CHANNEL_VAL_MASK, pin_data);
-+
-+			return regmap_update_bits(pctrl->syscon, pctrl->clone_offset,
-+						  BIT(bit), field_prep(BIT(bit), val));
-+		}
-+	}
-+
-+	return 0;
-+}
-+
- static void rzg2l_pinctrl_set_pfc_mode(struct rzg2l_pinctrl *pctrl,
- 				       u8 pin, u8 off, u8 func)
- {
-@@ -692,6 +769,10 @@ static int rzg2l_pinctrl_set_mux(struct pinctrl_dev *pctldev,
- 		func = psel_val[i] - hwcfg->func_base;
- 		dev_dbg(pctrl->dev, "port:%u pin: %u off:%x PSEL:%u\n", port, pin, off, func);
- 
-+		ret = rzg2l_pinctrl_set_clone_mode(pctrl, port, pin, func);
-+		if (ret)
-+			return ret;
-+
- 		rzg2l_pinctrl_set_pfc_mode(pctrl, pin, off, func);
- 	}
- 
-@@ -2647,6 +2728,110 @@ static const struct rzg2l_dedicated_configs rzg3l_dedicated_pins[] = {
- 	  (PIN_CFG_IOLH_B | PIN_CFG_IEN | PIN_CFG_PUPD)) },
- };
- 
-+static const u32 r9a08g046_clone_channel_pin_cfg[] = {
-+	/* I2C ch2 Bit:0 Value:0 PFC:4 */
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PG, 6, 7, RZG3L_CLONE_CHANNEL_PACK(0, 0, 0, 4)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PH, 2, 3, RZG3L_CLONE_CHANNEL_PACK(0, 0, 0, 4)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PK, 0, 1, RZG3L_CLONE_CHANNEL_PACK(0, 0, 0, 4)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PA, 0, 1, RZG3L_CLONE_CHANNEL_PACK(0, 0, 0, 4)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PA, 4, 5, RZG3L_CLONE_CHANNEL_PACK(0, 0, 0, 4)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PB, 0, 1, RZG3L_CLONE_CHANNEL_PACK(0, 0, 0, 4)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PB, 4, 5, RZG3L_CLONE_CHANNEL_PACK(0, 0, 0, 4)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PC, 0, 1, RZG3L_CLONE_CHANNEL_PACK(0, 0, 0, 4)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PD, 2, 3, RZG3L_CLONE_CHANNEL_PACK(0, 0, 0, 4)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PD, 6, 7, RZG3L_CLONE_CHANNEL_PACK(0, 0, 0, 4)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PE, 2, 3, RZG3L_CLONE_CHANNEL_PACK(0, 0, 0, 4)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PE, 6, 7, RZG3L_CLONE_CHANNEL_PACK(0, 0, 0, 4)),
-+	/* I2C ch2 Bit:0 Value:1 PFC:4 */
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_P5, 0, 1, RZG3L_CLONE_CHANNEL_PACK(0, 1, 0, 4)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_P5, 4, 5, RZG3L_CLONE_CHANNEL_PACK(0, 1, 0, 4)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_P6, 1, 2, RZG3L_CLONE_CHANNEL_PACK(0, 1, 0, 4)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_P6, 5, 6, RZG3L_CLONE_CHANNEL_PACK(0, 1, 0, 4)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_P8, 0, 1, RZG3L_CLONE_CHANNEL_PACK(0, 1, 0, 4)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_P8, 4, 5, RZG3L_CLONE_CHANNEL_PACK(0, 1, 0, 4)),
-+	/* I2C ch3 Bit:1 Value:0 PFC:4 */
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PF, 0, 1, RZG3L_CLONE_CHANNEL_PACK(1, 0, 0, 4)),
-+	/* I2C ch3 Bit:1 Value:1 PFC:4 */
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_P2, 0, 1, RZG3L_CLONE_CHANNEL_PACK(1, 1, 0, 4)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_P5, 2, 3, RZG3L_CLONE_CHANNEL_PACK(1, 1, 0, 4)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_P5, 6, 6, RZG3L_CLONE_CHANNEL_PACK(1, 1, 0, 4)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_P6, 0, 0, RZG3L_CLONE_CHANNEL_PACK(1, 1, 0, 4)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_P6, 3, 4, RZG3L_CLONE_CHANNEL_PACK(1, 1, 0, 4)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_P7, 6, 7, RZG3L_CLONE_CHANNEL_PACK(1, 1, 0, 4)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_P8, 2, 3, RZG3L_CLONE_CHANNEL_PACK(1, 1, 0, 4)),
-+	/* SCIF ch3 Bit:4 Value:0 PFC:{6,7} */
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PG, 4, 6, RZG3L_CLONE_CHANNEL_PACK(4, 0, 0, 6)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PH, 3, 5, RZG3L_CLONE_CHANNEL_PACK(4, 0, 0, 7)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PA, 2, 4, RZG3L_CLONE_CHANNEL_PACK(4, 0, 0, 7)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PB, 3, 5, RZG3L_CLONE_CHANNEL_PACK(4, 0, 0, 7)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PD, 0, 2, RZG3L_CLONE_CHANNEL_PACK(4, 0, 0, 7)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PE, 1, 3, RZG3L_CLONE_CHANNEL_PACK(4, 0, 0, 7)),
-+	/* SCIF ch3 Bit:4 Value:1 PFC:7 */
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_P5, 0, 2, RZG3L_CLONE_CHANNEL_PACK(4, 1, 0, 7)),
-+	/* SCIF ch4 Bit:5 Value:0 PFC:7 */
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PK, 0, 2, RZG3L_CLONE_CHANNEL_PACK(5, 0, 0, 7)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PA, 5, 7, RZG3L_CLONE_CHANNEL_PACK(5, 0, 0, 7)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PB, 6, 7, RZG3L_CLONE_CHANNEL_PACK(5, 0, 0, 7)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PC, 0, 0, RZG3L_CLONE_CHANNEL_PACK(5, 0, 0, 7)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PD, 3, 5, RZG3L_CLONE_CHANNEL_PACK(5, 0, 0, 7)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PE, 4, 6, RZG3L_CLONE_CHANNEL_PACK(5, 0, 0, 7)),
-+	/* SCIF ch4 Bit:5 Value:1 PFC:7 */
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_P5, 3, 5, RZG3L_CLONE_CHANNEL_PACK(5, 1, 0, 7)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_P6, 2, 4, RZG3L_CLONE_CHANNEL_PACK(5, 1, 0, 7)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_P7, 5, 7, RZG3L_CLONE_CHANNEL_PACK(5, 1, 0, 7)),
-+	/* SCIF ch5 Bit:6 Value:0 PFC:7 */
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PE, 7, 7, RZG3L_CLONE_CHANNEL_PACK(6, 0, 0, 7)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PF, 0, 1, RZG3L_CLONE_CHANNEL_PACK(6, 0, 0, 7)),
-+	/* SCIF ch5 Bit:6 Value:1 PFC:7 */
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_P5, 6, 6, RZG3L_CLONE_CHANNEL_PACK(6, 1, 0, 7)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_P6, 0, 1, RZG3L_CLONE_CHANNEL_PACK(6, 1, 0, 7)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_P6, 5, 6, RZG3L_CLONE_CHANNEL_PACK(6, 1, 0, 7)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_P7, 0, 0, RZG3L_CLONE_CHANNEL_PACK(6, 1, 0, 7)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_P7, 2, 4, RZG3L_CLONE_CHANNEL_PACK(6, 1, 0, 7)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_P8, 0, 2, RZG3L_CLONE_CHANNEL_PACK(6, 1, 0, 7)),
-+	/* RSPI ch1 Bit:8 Value:0 PFC:2 */
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PH, 0, 5, RZG3L_CLONE_CHANNEL_PACK(8, 0, 0, 2)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PD, 5, 7, RZG3L_CLONE_CHANNEL_PACK(8, 0, 0, 2)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PE, 0, 3, RZG3L_CLONE_CHANNEL_PACK(8, 0, 0, 2)),
-+	/* RSPI ch1 Bit:8 Value:1 PFC:2 */
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_P5, 0, 6, RZG3L_CLONE_CHANNEL_PACK(8, 1, 0, 2)),
-+	/* RSPI ch2 Bit:9 Value:0 PFC:2 */
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PE, 4, 7, RZG3L_CLONE_CHANNEL_PACK(9, 0, 0, 2)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PF, 0, 2, RZG3L_CLONE_CHANNEL_PACK(9, 0, 0, 2)),
-+	/* RSPI ch2 Bit:9 Value:1 PFC:2 */
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_P6, 0, 6, RZG3L_CLONE_CHANNEL_PACK(9, 1, 0, 2)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_P7, 7, 7, RZG3L_CLONE_CHANNEL_PACK(9, 1, 0, 2)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_P8, 0, 5, RZG3L_CLONE_CHANNEL_PACK(9, 1, 0, 2)),
-+	/* RSCI ch1 Bit:12 Value:0 PFC:{5,6} shared pins based on RSCI mode */
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PG, 0, 3, RZG3L_CLONE_CHANNEL_PACK(12, 0, 1, 5)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PA, 0, 3, RZG3L_CLONE_CHANNEL_PACK(12, 0, 1, 5)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PB, 6, 7, RZG3L_CLONE_CHANNEL_PACK(12, 0, 1, 5)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PC, 0, 1, RZG3L_CLONE_CHANNEL_PACK(12, 0, 1, 5)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PD, 4, 7, RZG3L_CLONE_CHANNEL_PACK(12, 0, 1, 5)),
-+	/* RSCI ch1 Bit:12 Value:1 PFC:{5,6} shared pins based on RSCI mode */
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_P5, 0, 3, RZG3L_CLONE_CHANNEL_PACK(12, 1, 1, 5)),
-+	/* RSCI ch2 Bit:13 Value:0 PFC:{5,6} shared pins based on RSCI mode */
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PH, 0, 3, RZG3L_CLONE_CHANNEL_PACK(13, 0, 1, 5)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PK, 0, 3, RZG3L_CLONE_CHANNEL_PACK(13, 0, 1, 5)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PA, 4, 7, RZG3L_CLONE_CHANNEL_PACK(13, 0, 1, 5)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PD, 0, 3, RZG3L_CLONE_CHANNEL_PACK(13, 0, 1, 5)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PE, 0, 3, RZG3L_CLONE_CHANNEL_PACK(13, 0, 1, 5)),
-+	/* RSCI ch2 Bit:13 Value:1 PFC:{5,6} shared pins based on RSCI mode */
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_P5, 4, 6, RZG3L_CLONE_CHANNEL_PACK(13, 1, 1, 5)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_P6, 0, 0, RZG3L_CLONE_CHANNEL_PACK(13, 1, 1, 5)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_P6, 5, 6, RZG3L_CLONE_CHANNEL_PACK(13, 1, 1, 5)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_P7, 0, 1, RZG3L_CLONE_CHANNEL_PACK(13, 1, 1, 5)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_P7, 6, 7, RZG3L_CLONE_CHANNEL_PACK(13, 1, 1, 5)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_P8, 0, 1, RZG3L_CLONE_CHANNEL_PACK(13, 1, 1, 5)),
-+	/* RSCI ch3 Bit:14 Value:0 PFC:{5,6} shared pins based on RSCI mode */
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PE, 6, 7, RZG3L_CLONE_CHANNEL_PACK(14, 0, 1, 5)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_PF, 0, 1, RZG3L_CLONE_CHANNEL_PACK(14, 0, 1, 5)),
-+	/* RSCI ch3 Bit:14 Value:1 PFC:{5,6} shared pins based on RSCI mode */
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_P6, 1, 4, RZG3L_CLONE_CHANNEL_PACK(14, 1, 1, 5)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_P7, 2, 5, RZG3L_CLONE_CHANNEL_PACK(14, 1, 1, 5)),
-+	RZG3L_CLONE_CHANNEL_PIN_CFG_PACK(RZG3L_P8, 2, 5, RZG3L_CLONE_CHANNEL_PACK(14, 1, 1, 5)),
-+};
-+
- static int rzg2l_gpio_get_gpioint(unsigned int virq, struct rzg2l_pinctrl *pctrl)
- {
- 	const struct pinctrl_pin_desc *pin_desc = &pctrl->desc.pins[virq];
-@@ -2961,6 +3146,10 @@ static int rzg2l_pinctrl_reg_cache_alloc(struct rzg2l_pinctrl *pctrl)
- 	if (!cache->smt)
- 		return -ENOMEM;
- 
-+	cache->clone = devm_kzalloc(pctrl->dev, sizeof(*cache->clone), GFP_KERNEL);
-+	if (!cache->clone)
-+		return -ENOMEM;
-+
- 	for (u8 i = 0; i < 2; i++) {
- 		u32 n_dedicated_pins = pctrl->data->n_dedicated_pins;
- 
-@@ -3204,6 +3393,19 @@ static int rzg2l_pinctrl_probe(struct platform_device *pdev)
- 				     "failed to enable GPIO clk\n");
- 	}
- 
-+	if (pctrl->data->clone_pin_configs) {
-+		struct device_node *np = pctrl->dev->of_node;
-+		u32 offset;
-+
-+		pctrl->syscon = syscon_regmap_lookup_by_phandle_args(np, "renesas,clonech",
-+								     1, &offset);
-+		if (IS_ERR(pctrl->syscon))
-+			return dev_err_probe(pctrl->dev, PTR_ERR(pctrl->syscon),
-+					     "Failed to parse renesas,clonech\n");
-+
-+		pctrl->clone_offset = offset;
-+	}
-+
- 	raw_spin_lock_init(&pctrl->lock);
- 	spin_lock_init(&pctrl->bitmap_lock);
- 	mutex_init(&pctrl->mutex);
-@@ -3437,6 +3639,14 @@ static int rzg2l_pinctrl_suspend_noirq(struct device *dev)
- 	if (regs->other_poc)
- 		cache->other_poc = readb(pctrl->base + regs->other_poc);
- 
-+	if (pctrl->syscon) {
-+		int ret;
-+
-+		ret = regmap_read(pctrl->syscon, pctrl->clone_offset, cache->clone);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	if (!atomic_read(&pctrl->wakeup_path))
- 		clk_disable_unprepare(pctrl->clk);
- 	else
-@@ -3454,6 +3664,12 @@ static int rzg2l_pinctrl_resume_noirq(struct device *dev)
- 	unsigned long flags;
- 	int ret;
- 
-+	if (pctrl->syscon) {
-+		ret = regmap_write(pctrl->syscon, pctrl->clone_offset, *cache->clone);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	if (!atomic_read(&pctrl->wakeup_path)) {
- 		ret = clk_prepare_enable(pctrl->clk);
- 		if (ret)
-@@ -3667,6 +3883,8 @@ static struct rzg2l_pinctrl_data r9a08g046_data = {
- 	.dedicated_pins = rzg3l_dedicated_pins,
- 	.n_port_pins = ARRAY_SIZE(r9a08g046_gpio_configs) * RZG2L_PINS_PER_PORT,
- 	.n_dedicated_pins = ARRAY_SIZE(rzg3l_dedicated_pins),
-+	.clone_pin_configs = r9a08g046_clone_channel_pin_cfg,
-+	.n_clone_pins = ARRAY_SIZE(r9a08g046_clone_channel_pin_cfg),
- 	.hwcfg = &rzg3l_hwcfg,
- 	.pwpr_pfc_lock_unlock = &rzg2l_pwpr_pfc_lock_unlock,
- 	.pmc_writeb = &rzg2l_pmc_writeb,
--- 
-2.43.0
-
+Cheers,
+Biju
 
