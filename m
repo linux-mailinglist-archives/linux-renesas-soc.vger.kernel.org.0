@@ -1,261 +1,127 @@
-Return-Path: <linux-renesas-soc+bounces-29698-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29699-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iMEpHmDguWlhPAIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29698-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Mar 2026 00:14:40 +0100
+	id +ImeJf/iuWmnPAIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29699-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Mar 2026 00:25:51 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A86D2B3FF6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Mar 2026 00:14:40 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04C8F2B4516
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Mar 2026 00:25:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 3C884309CFC5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 23:11:51 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8BC0930C8A20
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 23:19:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90B02413226;
-	Tue, 17 Mar 2026 23:06:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 266FC29BDB5;
+	Tue, 17 Mar 2026 23:19:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="FxiDZhiN"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OwrK27ZH"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013010.outbound.protection.outlook.com [40.107.159.10])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4129340FDA1;
-	Tue, 17 Mar 2026 23:06:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.10
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773788792; cv=fail; b=U/ZVq/VRWAwPQ/BiWMNQlFekr0uqxHD/AbH1g0C8iYF1M1SYxL1oZowJkz/vXn2TNUwqnB3MBG9kcWHhRJJxY37uuEB5Bk4l/YoT0PGGAex8ptBv3VeThqJFo+J4j1lYRlaRcadLqV3k+imFeSbLRABgvD3xPeyuAs+w0GK1Usw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773788792; c=relaxed/simple;
-	bh=lwUIB8nTMgyITA9JfD4pa1X2kpkj3PL6fYE3xAWCGFc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=IxVZwqS4gIQMnCtjhy7RE8qmF6UqEnOsPLYUSt2qitWQwJh3ZDSjpD6+fXoIEPcx/gC0QggNtu9wu+Fj7elDMKV2Z2svKcs+nDtrIw36/wHes52zG8/M4NhTo5LIjIHstucWhPaEQZb8xwINg+SwgLrZZDYjJ0w43zj9NEb+928=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=FxiDZhiN; arc=fail smtp.client-ip=40.107.159.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xHrEMWt4IfRZ239bQyHZ/p+l827kY40aNR7Vw/80h5uyg1hHMb0ODpUKBUbBHMiEskJWvAhHtK9qR9RF5K84dnvhSc+qidZsxHDYz38Zy1v6aeMM04U/IBpHeUmVPZXRtQRqgNrLqzRWKBW8dAzC2bPNsm1sPw+phKdcqVoe6W8cwyUYmAq7EcLfaS3JKTRS+MhCNn0b5LYNnIZuzC9RX5Dh9jJY3kvCZjKR/1jMy6tOge5K5tRhUDnbOwXo4r0EsA5o4GHbl7GUBeIsKseTvcuDvw7WBnuNf+/4AhtpX6c6wHHYRw98wCEQFmBMiRjwgi2M9Rk/6lz9pMXK7EYVZw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=E8Hn/LMKXfQtV3rgy7V0S9c2vIPq86UUMXtQNhoA2vk=;
- b=JxkTAS2RQeju6I8uPgYsJ7vEK9YJ1XNvRe80/U7sSAxSl9+LJ3vbiQKYHTVjsZ1CMQHxv4mT/U1IcxzzGrl3cS5Suz5SWnQI+qLin6CWzPrT0EP0WM57NBdsMjXuBBVtpMUt1rXX5VW1pmoEIb0Mcom3kXADBM/u4XhXU9sjkJnV+n6NxInLvI1L6OGbNvYR/HdISDBxdRBWWwwHMBUyFjS4Y3D6OcvWuKKucUyUjGTJ1RrhRHh/jO00W4ZLhm83yOgB85Vb1FmFrXCYmk0UCeeYpIgcIFkkzinXN2lwQlnNnxogDVj5/fXLAj/tXhVTCkbBTX7lmcQokvXfs+e9Mw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=E8Hn/LMKXfQtV3rgy7V0S9c2vIPq86UUMXtQNhoA2vk=;
- b=FxiDZhiN6GicpbqBomAvjrIobbc9qM5iRhGg23oBW6gPE7tl4CMo/ThtY0qiqb3RiRJVSnbMZxqSptCueajXEGIS9Y/g18eClQO45POj3APxYjR8l5HGA+BBXybTkbykkCMPBBXiMKCtWImLwCgjobyiIIkTV+hnk2Ow5Y2zAjeDBFF4k/gO6m7VTWcIYakTbONes8Rj3ULU89kK8gnqZtSaXrPnluWzrMhzRLwLAN0lx/pnrDT8QNFdCqfOq03WtCY9RpVN9YpQLvqlJ703ErZdGG/zQVQ8JSftFRiRGoK6aOesUdjGFjsdm+IsLQjVTT2ory2mXgRajnZO2DUkuQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM9PR04MB8585.eurprd04.prod.outlook.com (2603:10a6:20b:438::13)
- by DBBPR04MB7643.eurprd04.prod.outlook.com (2603:10a6:10:203::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.27; Tue, 17 Mar
- 2026 23:06:00 +0000
-Received: from AM9PR04MB8585.eurprd04.prod.outlook.com
- ([fe80::f010:fca8:7ef:62f4]) by AM9PR04MB8585.eurprd04.prod.outlook.com
- ([fe80::f010:fca8:7ef:62f4%4]) with mapi id 15.20.9700.022; Tue, 17 Mar 2026
- 23:06:00 +0000
-From: Vladimir Oltean <vladimir.oltean@nxp.com>
-To: linux-phy@lists.infradead.org
-Cc: Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	dri-devel@lists.freedesktop.org,
-	freedreno@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-can@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-ide@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	netdev@vger.kernel.org,
-	spacemit@lists.linux.dev,
-	UNGLinuxDriver@microchip.com,
-	Joe Perches <joe@perches.com>
-Subject: [PATCH v4 phy-next 24/24] MAINTAINERS: add regexes for linux-phy
-Date: Wed, 18 Mar 2026 01:05:00 +0200
-Message-ID: <20260317230500.2056077-25-vladimir.oltean@nxp.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260317230500.2056077-1-vladimir.oltean@nxp.com>
-References: <20260317230500.2056077-1-vladimir.oltean@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: VI1PR0102CA0041.eurprd01.prod.exchangelabs.com
- (2603:10a6:803::18) To AM9PR04MB8585.eurprd04.prod.outlook.com
- (2603:10a6:20b:438::13)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EDC618872A
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Mar 2026 23:19:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773789576; cv=none; b=jVHjAvEGGxcxb7+I1aWrSuajWE6dEBOyGIuQxcS4xEU2DhnRf7p4gKwXNSwcD1j5sjSflZt1RavSqfW8/uFhfqYwCeUfFssWRcc4vj/VXI76dIPzMzju+8gIpNxkpWof4f50MQxvcqRFbrRBgybeEKzPZyUj1d3tqGl9efbKQwc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773789576; c=relaxed/simple;
+	bh=DrHNjKCY83c3T2yOBShpNx5lHPWPMdQOlezrNGqFKY4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BLY8EB/bQVN/3gHpyYSqBj1mVFs2UPDP8Ij7WaqYSFIS5smoc3hnc+RsBIdAMBGgMB5DoIXwaY/aGswCM7HjIsOvRLq8XsxVa4MmmJZZPzAwjs1myZMhgBz0a6DE1ipEg9sm2n6dN/cvc3qfQEzu57N7Q/sCo5h3v5pq3JiYWqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=OwrK27ZH; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 01A9F986;
+	Wed, 18 Mar 2026 00:18:19 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1773789500;
+	bh=DrHNjKCY83c3T2yOBShpNx5lHPWPMdQOlezrNGqFKY4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=OwrK27ZHN2o11kg2FOvYQePbHLRocas+N2RG8+SUzJsEPc3jB06h8M2yNBIKjrv8w
+	 xbmYG7XGq6s24BMt7LzBHopN2jDrLHI9HHMmDEmy9d49YEi/q6HGDA/hAx/LUVTw+8
+	 85WvYjnebDi6rkYYNCJhIvxdriRmgA0apdbAUcEg=
+From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To: dri-devel@lists.freedesktop.org
+Cc: linux-renesas-soc@vger.kernel.org,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Subject: [PATCH 0/4] drm: rcar-du: Improve device_link handling
+Date: Wed, 18 Mar 2026 01:19:26 +0200
+Message-ID: <20260317231930.595719-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9PR04MB8585:EE_|DBBPR04MB7643:EE_
-X-MS-Office365-Filtering-Correlation-Id: 79462e4b-d455-47bf-f634-08de8479c11f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|19092799006|10070799003|1800799024|376014|7416014|366016|22082099003|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	YespgONs2DDl7GOcblybxKGg6iHJbD8qjQ7M/RLDZ2LcEJvP+P5re7NN3orYg8lOZ8y6yNmPJYa+sN4P6teiwZ0+niMg3O+Qj7VGSVYj+AVUemPFJntcYvueai6lhGShGOqAAePfHVpW5Hd2b7UIQ5lADcn+Sq4FRqKQSPhEtACC0k0DSl/ObKQAEcCuZezKy07lRktFyHBm1WQGI2sP6HwMiJzfvZM2Qk3om9FMHMC2AvfzphySS2mgkg2WdrSAMFRS50GPNiqRZUqLrjnWWA6EWXikWNKaBoEwgNZKXlAAv7pzZtMpC/JrukGGry8Kd+DL75Re+8jZNOIoDPURQrSoG8ilgmizF1AcGSSA0j139TOqyUEO2OuXk55OEXFp+Fmv4G5y3WbzfzJ4sUXIVo/AMhJ0cUkZwuN6R74yVsB7fAJZgm395ZCNMS2zQ28atWx+QWwjK8UFNgMU5N/fLXq/uKm8okMkgJBt8C/LWjB5Nqjo+gtJ/M2nm18mENHA8HqBuqanP/1KsJSFmThAgevKu8jR33v8ZsUvYVTgIIW1UCvFirxTO6DH+cjAwlrmdwNDb4FecltaqMHEPsKDKXgH+wfLXjwFu7O8Ju7cvl0Fp8+mJNVBR40T1AMLefsPKZumcoSV2g0kbpm7FE7WwWW9GsVGp3ORqrLjsZ60FO64xotYQY5bA1YavooKOaJYMhvFQU9DpWdykdF4swI9MrTv1VIWWauJr824sIcYuBE=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8585.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(10070799003)(1800799024)(376014)(7416014)(366016)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?594FUG5RmhKOO6XFFiU6HjEcrYvACWipdketJ3hfr/2KkPusQUr6eN3tF2pq?=
- =?us-ascii?Q?swwZH+MSB6Qa92LO7jG5/vHdSKkf1DAA2ap5LLQoC27QnvdWFUm55UPOnzO/?=
- =?us-ascii?Q?doMNmw1QgkPmSC7fBWCZZ18R272IRjN0rij9wY6YDl124nIKk0eGx/R9gA+d?=
- =?us-ascii?Q?bkqKrwUpiuPiSLUtU9qPOgc8XPgW2fIk7U6nlgLGrl5+Vd09l7DrNGhN1FcI?=
- =?us-ascii?Q?b2tqGgoC2UmGYALMTL0U5hZd0Dp+FaqalVW1/go3npaJtu3wa1ZwjmyV936K?=
- =?us-ascii?Q?0qnevCH0IFxuIwMfKEPxioJQ15yq3OAhuqjiuu6Zc0PPqUk+k+/nH+dkmCvl?=
- =?us-ascii?Q?fyzfLXMOAsJX21FO7Hbds4vGqoag+9N2nkfhQj8XFGX1EuRLOCdkiplr2hTL?=
- =?us-ascii?Q?A0pzknC4g4xTfoQbF4o2FprMHW6LeaxuzvObQnr+9XrjwFvsvLG2UO4vG52n?=
- =?us-ascii?Q?p1P92TIXB8XjvBG68remkpLDPcZ4+21/0EVm5xIOYOSJsRmJ1jbVYTPkgi1Q?=
- =?us-ascii?Q?3jpb+TzQbYXMfhaG1FCRUK8fto04GLsAHIEXDx3WAL8gcPX9QdH6qVvRGmFp?=
- =?us-ascii?Q?x9xDvihB3yxgwl1HCyFzHayN2wZDX9Y3yYA3Fqnr388l+ngzrUaLoXtspClM?=
- =?us-ascii?Q?XC5vEEB4ukutkyjIROegku3OfKFworWONjZy2SJjSqaOPVoqs42GnLE/h/U0?=
- =?us-ascii?Q?NgG7Q01c3yz6A7VTA+33pP9JdFYc12GgdoIw77N2qQO8Vo/umIW8warl28tx?=
- =?us-ascii?Q?3Uxaq5f6T7zcQMV2uiWPUTGtjwbcfu5KybeooVFpZzB3mQBC0sQdIOwOwZqU?=
- =?us-ascii?Q?scFwmQvnzD+jOAv20TD5FBOW49OWw4Q0wqM3Iab5Jfri4mtpIe1xRPU2eviw?=
- =?us-ascii?Q?0uMERKJNkOlEiSZRijbswHDBUQzLO+iDivkIqiWnq6xeEWP3yjyGqIq+OdS5?=
- =?us-ascii?Q?ItW7++uqeRrIclH+AUj8iOUQzjZBSsb+adEWUB2M0Esgo9bE6vjle5H1WMyu?=
- =?us-ascii?Q?2GVBc0vHdQfjlsG7Ylgx7FaK2KyyagF3dTNEx4XP+5uKMdJt90PbvOyXeWSv?=
- =?us-ascii?Q?Ma5R4IQyx143YMq5qOHOBiF27PwpbOtb7RAyeNXqoEe4AfLLYAwXi8p8eUea?=
- =?us-ascii?Q?YgrEZu/xNgTRQyJf8B31nOiE6jkGawq1M1k05BdKhKTlYQrAyeVAKOvABBeF?=
- =?us-ascii?Q?ARh+TzOu9zYPW8PS3YMY/M2deCn4rGhqD8B0Bg7fXf6fQSU4WqsWjFn9Ugia?=
- =?us-ascii?Q?fTxefy+G3Atza7+o1LG1cKQsOTb7lWNWv1C5e1iXNZHrSMqh5ZB4IKDJOhfX?=
- =?us-ascii?Q?y+6zS1qCoCvcA08JifGindOhIiOmHL/vCOZ03zpRVxHhz0ayKP/848GPLzcQ?=
- =?us-ascii?Q?WJEeDiLBLvHqknbOVjuJbcyYaNX4zkNVZGbGbpnK5uzlyyWhLc6Xo7fmpYZo?=
- =?us-ascii?Q?RApqTA4sUv+3TUU9RoWoGSWOn9WVSJZVoeAyaN0zSf4PrVVnvwitkDYtl6zv?=
- =?us-ascii?Q?M8oEO3BxJRGoGN/RrnTY3+J5f07WV0rETfcG4OT2F7pS7sSbKs3Y8kqE5gzD?=
- =?us-ascii?Q?pYFEg6vjLtd2R4k+EQuYK0HjY9GFffbQETwOhQ9/pqQ2hFC12RxYZYInE18N?=
- =?us-ascii?Q?cU9HqTMxyX8bEoo68ACw87IvIB1u46pg/0o6aRKy9IkRYg1/sR6ABqSEoVp5?=
- =?us-ascii?Q?ztonKsnrWM1YcSaM2d59f+ffq4qEcDLXTLC6IbzLa4WEVYnhlxdFEBhC0BdY?=
- =?us-ascii?Q?auBZ1aLx4dth6tyn/kc6ap544OHglYlJ/ARKrgIXOwp1clntAUQ3mIGTlzQc?=
-X-MS-Exchange-AntiSpam-MessageData-1: 7NTM5pggdFSJZ2cCYG8wK+kUHaPXZd8bZwg=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 79462e4b-d455-47bf-f634-08de8479c11f
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8585.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2026 23:06:00.1618
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iYq8izQWzR6T+6vW2KgHfT/LjN0LUr1zqCB5fJRSZCO1H5KcrLyYIv/qB3cmRPsswAjziyoG4axbKjD5PmMfsg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR04MB7643
-X-Spamd-Result: default: False [1.34 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-1.66 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
-	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-29698-lists,linux-renesas-soc=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-29699-lists,linux-renesas-soc=lfdr.de,renesas];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[vladimir.oltean@nxp.com,linux-renesas-soc@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[nxp.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,perches.com:email,nxp.com:dkim,nxp.com:email,nxp.com:mid,sang-engineering.com:email]
-X-Rspamd-Queue-Id: 3A86D2B3FF6
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,ideasonboard.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 04C8F2B4516
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Some pragmatic shortcuts are being taken by PHY consumer driver authors,
-which put a burden on the framework. A lot of these can be caught during
-review.
+Hello,
 
-Make sure the linux-phy list is copied on as many keywords that regexes
-can reasonably catch.
+This small patch series came out of the review of [1].
 
-Some considerations that led to this solution and not a simpler one:
-- Consumers may be located anywhere, and their file naming provides no
-  indication whatsoever that they are PHY API consumers.
-- The network PHY API has similarly sounding API: phy_start(),
-  phy_connect(), etc. Similarly, matching on "phy" would hit
-  phys_addr_t, "cryptography", etc.
-- The header files themselves need attention to avoid matching on
-  include/linux/phy.h (network PHY), include/linux/usb/phy.h,
-  drivers/net/vendor/device/phy.h, etc.
-- At least for a transitional period, I suppose developers will still
-  try to add PHY providers outside the subsystem (which is discouraged).
+I noticed that the DU driver enforces suspend/resume ordering with the
+CMMs but not with the VSPs, which patch 1/4 fixes. This in turn made me
+notice that the driver leaks the device_link instances to the CMM.
+Patches 2/4 and 3/4 refactor CMM handling a bit, to prepare for 4/4 that
+fixes the leak.
 
-So I used \b to try to match on actual word boundaries and I went for
-listing all markers of PHY API use as they may appear in patch contexts.
+[1] https://lore.kernel.org/r/02669d4630e04fe24c17dd2576ec8b27ded458f0.1765541401.git.tommaso.merciai.xr@bp.renesas.com
 
-Bit rot is a valid concern. I will add a test to the build automation
-that newly introduced struct and function names in include/linux/phy.h,
-include/linux/phy-props.h and drivers/phy/phy-provider.h are matched by
-the MAINTAINERS entry K: patterns.
+Laurent Pinchart (4):
+  drm: rcar-du: Ensure correct suspend/resume ordering with VSP
+  drm: rcar-du: Store CMM device pointer instead of platform_device
+  drm: rcar-du: Use __free() to simplify device_node handling
+  drm: rcar-du: Don't leak device_link to CMM
 
-The keyword patterns were written with great help from Joe Perches
-<joe@perches.com>.
+ drivers/gpu/drm/renesas/rcar-du/rcar_cmm.c    | 26 +++++-----
+ drivers/gpu/drm/renesas/rcar-du/rcar_cmm.h    | 18 +++----
+ .../gpu/drm/renesas/rcar-du/rcar_du_crtc.c    | 16 +++---
+ .../gpu/drm/renesas/rcar-du/rcar_du_crtc.h    |  3 +-
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h |  8 ++-
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c | 52 +++++++++----------
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c | 16 ++++++
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.h |  2 +
+ 8 files changed, 81 insertions(+), 60 deletions(-)
 
-Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
----
-Cc: Joe Perches <joe@perches.com>
 
-v3->v4: none
-v2->v3:
-- escape forward slash in linux/phy/phy.h in regex pattern:
-  https://lore.kernel.org/linux-phy/9fd14d166e860f26febfbc9061a6dcae6a166961.camel@perches.com/
-v1->v2:
-- split into multiple regex patterns
-- use matching-only (insted of capturing) regex patterns
-- adjust commit message to reflect the Q&A from v1
----
- MAINTAINERS | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 55af015174a5..cd920f14abde 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10713,6 +10713,17 @@ F:	Documentation/devicetree/bindings/phy/
- F:	drivers/phy/
- F:	include/dt-bindings/phy/
- F:	include/linux/phy/
-+K:	(?:linux\/phy\/phy\.h|phy-props\.h|phy-provider\.h)
-+K:	\b(?:__)?(?:devm_)?(?:of_)?phy_(?:create|destroy|provider_(?:un)?register)\b
-+K:	\bphy_(?:create|remove)_lookup\b
-+K:	\bphy_(?:get|set)_drvdata\b
-+K:	\b(?:devm_)?(?:of_)?phy_(?:optional_)?(?:get|put)(?:_by_index)?\b
-+K:	\bphy_pm_runtime_(?:get|put)(?:_sync)?\b
-+K:	\bphy_(?:init|exit|power_(?:on|off))\b
-+K:	\bphy_(?:get|set)_(?:mode(?:_ext)?|media|speed|bus_width|max_link_rate)\b
-+K:	\bphy_(?:reset|configure|validate|calibrate)\b
-+K:	\bphy_notify_(?:connect|disconnect|state)\b
-+K:	\bstruct\s+phy(?:_ops|_attrs|_lookup|_provider)?\b
- 
- GENERIC PINCTRL I2C DEMULTIPLEXER DRIVER
- M:	Wolfram Sang <wsa+renesas@sang-engineering.com>
+base-commit: 3f071d00fc9478344f3231f585a5e39ceb6c63e6
 -- 
-2.43.0
+Regards,
+
+Laurent Pinchart
 
 
