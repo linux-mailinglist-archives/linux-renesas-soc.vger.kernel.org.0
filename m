@@ -1,178 +1,192 @@
-Return-Path: <linux-renesas-soc+bounces-29581-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29583-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MGheCRoluWm1sQEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29581-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 10:55:38 +0100
+	id gPg/GgcruWmVtQEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29583-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 11:20:55 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBC502A7577
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 10:55:37 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0093E2A7C34
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 11:20:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id E5CE13033BFA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 09:53:42 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 182F730699AE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 10:16:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B1063A3819;
-	Tue, 17 Mar 2026 09:53:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1F653A5421;
+	Tue, 17 Mar 2026 10:16:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GGVBg3UU"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bt8f7Jel"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73CC339D6D5;
-	Tue, 17 Mar 2026 09:53:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20BA034EF07
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Mar 2026 10:16:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773741213; cv=none; b=echm0eyF/R5dJi7nKmEiGT2DBEp88bUegJsIUxaz7EJflmroe8vwFHoofVklSYYovOvha7WZLX7ETmVeSvdJrt90lUMyxXYJoJ05znshR0VL4MDlXlAWaiCtv+knIWtDYV/LQpXmu5wTJDsN/kxxazvwfsR3e+HQ8MWTGVGwe4k=
+	t=1773742594; cv=none; b=bs604w/6SG9+J6Cb58SKtFigMbHaqto6fiudTydqnj98JWytsek/nv/AIlpWl1fnyjC/wuEwSXhnExD/V1LauPM84U/fRFohaJcTebmgmpRhU9bNYzaWeRJrY0B0uwEbwxmR0/w00QBuje+a99jyN2XLLVHzGKxh/kNgMEjsQWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773741213; c=relaxed/simple;
-	bh=lvTj9FI5N2EKRsJMc1HzB6JFMEGudkjHKx3OFuSywvA=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=tJ6OTHT+lWNT26+E+f17bPXYo10e7rSaRDk1i3P1EFPWOElUDdpS8YoR/+IWTEknS+lE3dWlGyR2IFUW0bvawUmP7tu8FdzpG+dAsr82uCMFApf44l6WVOHfqR7+DWy8PVf0PRjbTOOPEMQIGf9AeWZ31rRK+T0plX0x/XJDSFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GGVBg3UU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7A63C19425;
-	Tue, 17 Mar 2026 09:53:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773741213;
-	bh=lvTj9FI5N2EKRsJMc1HzB6JFMEGudkjHKx3OFuSywvA=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=GGVBg3UUJ4T4YZihBXHwBey/Snpk9DIdBaG0ctWJ42SXHunPinPE+yWAM48FMshAN
-	 dhAc69UBKYIV5RQ5oWpaf2lO6AKMDE28zV0CrrqttSjeR0QzuFpdBXYp3NzgHJu7Zu
-	 oyJ/XS8rrCfCLQcKixO9SA7AKsmUgMz5me9JIisBJxBXOcIqe2LEYRzxF/87DvsyS2
-	 fp3kzhITkPd4pTeb7HW8/oK1DJucv7ntiZuXfb59ZizGaHHV/3WhdWGTQ0kvU2hn/a
-	 yW3JXc+Id5E4wUbcOKW9qyQEFlHSLjFkrNFVwp/ItTwGrTCVmUrbikMnQADTNXwIFP
-	 sZ2WpuOsxfF4Q==
-Message-ID: <69927bd8-d476-4a24-91af-f21cdc0bce80@kernel.org>
-Date: Tue, 17 Mar 2026 10:53:29 +0100
+	s=arc-20240116; t=1773742594; c=relaxed/simple;
+	bh=ABn9Ni57R0ZkpGLX2ZIwE8vOk53v0f5Zak751TrF5w8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LQL8Q7GhaClC2r+HTNc9CuAeh5cqWY4/2eajoKs3w9axKA4zVRDyoSCD8UTI4Zh6wDe2O2AJ12YdRpFXDt+tlP9GCxzpfF9zYd5nX+iKQwlRVhBEhLESeOjUpBR09i5EuMmDJl+kvApbJEPwdL9ZUNe2ng/blYy4dEp1Z1UcJf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bt8f7Jel; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4852b81c73aso49399215e9.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Mar 2026 03:16:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773742590; x=1774347390; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=oxpIVyCSKVrX2DiLGUQhb5TMOZpG4m6V2TbsqVVpj04=;
+        b=Bt8f7JeljAb+cWcPNtxImOJ9/dmJjqgIF5JVMEXx+dz3VU7/h4oPprOGZXEzB6nWtN
+         IhnCIrTVELTYstyYJRzJAuSoW2wEqDgj4TG8ME9fzK8EcCPm6OmW2j/O9EXviRkm+bPB
+         MG83lytosBI6+mZuqR+oXHBI0hVMjTqfoYtI0n3qhNixxMhSgKYvY+tfP1FWWaN3/D7N
+         xHPLgBp4NMoOYpA+TB1ohksEwc6zQA0/ayJq84ce2KuSuZyCL9UTAZEWrTQza0C/LErD
+         EuQAUeo7ZRSiN+//luaux8Y4pu49fgHZM5yevQziRCdM9soFZCcBIWgoozBnY0D4taMA
+         l4vA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773742590; x=1774347390;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oxpIVyCSKVrX2DiLGUQhb5TMOZpG4m6V2TbsqVVpj04=;
+        b=NAhWlafUofOYLlQF3MAhzAg4qbiLPOv4UsGtQQjcHOnTWjDrmlFNW3nP8qGEoPlf9I
+         ka8lqc9aRxAY2aY/TdfCy3xagMSe7B/ikv/aVonfsyUDMnRRZMIpAIPQNR2mWxR0vj2E
+         UQP2ujoBUfB2lAqxHRkTQNlKcKKcF4eTgZVlGMae1wS3fd2IncCiujsaWpJeTdFOFWw+
+         o83wD6J1aiZvCKQXDQRBro6ezogjY/EHC5z8SkL63fdRDP+uCrJ53wMcvXx8hXF7gbDq
+         p1ghn9vsZGf04lP+qJAV1EEXS7OIZEMknY193NJVDcQVWAFFJj1tBxTYlglZIiY5eR9X
+         XBow==
+X-Forwarded-Encrypted: i=1; AJvYcCX9RIHSk77mhz8VIy0vXaLQulk8KB+4ObjMhGViNajXjmyMhXl24uKHzlULGpVLit58UEydBtC9Fu4OQ0KXq+ElFQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzfYSiiUJAXmOxt8H0HVUCOBSDwKwNWitw48E3Incj+MpgHAuBh
+	Sn89qA6kU7Bbvj+A1/TwRdLxy6UeAuvediyyX4tmgCM7kDBanQR1x3Nk
+X-Gm-Gg: ATEYQzw94FpK1ZMHgdHN5YWIwI5+oXs4xGz8FtHi0g+rbqk1N1iZgptwi+ZFgpy6RNn
+	czFX3DlzrAG0jfqR+MvhbaoZp+VdOr0/FqVeJhsITyD2LvkKDJx5u4Iguta+Nj9avOJhNZRqvd1
+	VtkYpAuEBOrLQdH42MqFlOXzA/GqpNAO95UhjnZPoDJyQBJ0mdOvsbwkIeJiUhvsRpCh/kkjTS8
+	G7aXlFm5FTLcL6Fc9iSnrKSWZUyRPbD0iuIAv++C+n5dUMPlbv9WTgRli7p3Og+DtMImDmHiU7d
+	cAcQTsaHyLSEzyP35WGSLl4f6GXmT+smJJ5WCbx/ijTZRMStgQpmrrj9RusctSm6263PHaDHdfv
+	uS5Yrk5kkWccFZRy1/8rh1eUlKcaWFgOsjRixoJechI4O4FF5PWPKEgivfWd+ZWSKSSytcLZdbH
+	C/fCPjPI5V7ETgt2/v6bjIqRfDVCMIuxdMRBoWPzBUQJHGO3BRlWrla1tUtow=
+X-Received: by 2002:a05:600c:a15:b0:485:34a2:919e with SMTP id 5b1f17b1804b1-48556710fd5mr284691515e9.33.1773742590244;
+        Tue, 17 Mar 2026 03:16:30 -0700 (PDT)
+Received: from localhost.localdomain ([2a00:23c4:a758:8a01:e16b:fc56:e220:9aa9])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4856eaee510sm53903275e9.14.2026.03.17.03.16.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Mar 2026 03:16:29 -0700 (PDT)
+From: Biju <biju.das.au@gmail.com>
+X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Linus Walleij <linusw@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	linux-renesas-soc@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH v3 0/8] Add Renesas RZ/G3L PINCONTROL support
+Date: Tue, 17 Mar 2026 10:16:13 +0000
+Message-ID: <20260317101627.174491-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT PULL 3/4] Renesas DT binding updates for v7.1
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: soc@lists.linux.dev, Magnus Damm <magnus.damm@gmail.com>,
- linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org
-References: <cover.1773399669.git.geert+renesas@glider.be>
- <cover.1773399673.git.geert+renesas@glider.be>
- <20260314-quick-gray-saluki-0f96ff@quoll>
- <CAMuHMdXJx14SDXq7oQ-m-576GRQztRybs1HSinzf03ttvF3c_g@mail.gmail.com>
- <bdefa3d7-353c-4aa1-a013-685b46773fe7@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <bdefa3d7-353c-4aa1-a013-685b46773fe7@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-29581-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-29583-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[lists.linux.dev,gmail.com,lists.infradead.org,vger.kernel.org];
-	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[glider.be,kernel.org,gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	FREEMAIL_CC(0.00)[bp.renesas.com,vger.kernel.org,gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bijudasau@gmail.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: EBC502A7577
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,bp.renesas.com:mid,renesas.com:email]
+X-Rspamd-Queue-Id: 0093E2A7C34
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 17/03/2026 10:29, Krzysztof Kozlowski wrote:
-> 
->>
->>> See also submitting patches in DT dir.
->>
->> So the second commit is subject to II.3:
->>
->>   3) For a series going through multiple trees, the binding patch should be
->>      kept with the driver using the binding.
->>
->> In this particular case, I could have included it in my drivers branch.
->> Where do I put SoC-specific DT binding changes that are not picked
->> up by anyone else (I don't have any this time)?
-> 
-> What is "SoC-specific"? You put the DT binding with the user, that was
-> always the rule and that is implied by submitting patches. If you do not
-> have any user, why would you pick that up?
+From: Biju Das <biju.das.jz@bp.renesas.com>
 
-Actually I want to correct myself or explain more. If you document ABI
-for existing driver with DTS user of the ABI, but without driver change,
-e.g. new front compatible when using already documented fallback, I
-would keep the change in the driver branch, even  though technically the
-DTS is the user of new compatible. That is what I was always doing at least.
+Hi All,
 
-Why? Because I expect there might be a next patchset with binding+driver
-adding new fallback to the same binding, which would have to go via
-driver branch because of mentioned submitting patches rule. Therefore if
-I put that first binding in DTS branch and in the future I want to put
-next change in the driver branch I would have unnecessary conflicts.
+This patch series aims to add basic pin-control support for the Renesas
+RZ/G3L SoC. The RZ/G3L pinctrl has an OTHER_POC register compared to other
+SoCs for setting the IO domain voltage for AWO, ISO, and WDT.
 
+Document the bindings for the RZ/G3L SoC and add pinctrl definitions in
+the driver. Some IPs need to set the register IPCONT_SEL_CLONECH in SYSC
+to control the clone channel of the IP. Document the reset-names, as all
+SoCs have multiple resets.
 
-Best regards,
-Krzysztof
+v2->v3:
+ * Dropped clk, pincontrol device node and pincontrol support for SCIF0
+   and GBETH nodes from this series. Will add this later.
+ * Documented renesas,clonech property for controlling clone channel
+   control register located on SYSC IP block on RZ/G3L SoC.
+ * Retained the tag as it is similar change for RZ/G3E thermal bindings.
+ * Updated r9a08g046_gpio_configs[] by replacing the typo AWO->ISO.
+ * Added PIN_CFG_PUPD to RZG3L_MPXED_ETH_PIN_FUNCS macro
+ * Replaced RZG2L_MPXED_COMMON_PIN_FUNCS->RZG3L_MPXED_PIN_FUNCS in 
+   RZG3L_MPXED_PIN_FUNCS_POC macro for setting power source for pins.
+ * Added clone channel control support in the driver
+v1->v2:
+ * Split DTSI patches from bindings
+ * Fix typo maxItems->minItems in bindings
+ * Collected the tag
+
+Biju Das (8):
+  dt-bindings: pinctrl: renesas: Document reset-names
+  dt-bindings: pinctrl: renesas: Document RZ/G3L SoC
+  arm64: dts: renesas: Add reset-names for RZ/G2L and RZ/V2H family SoCs
+  pinctrl: renesas: rzg2l: Add support for selecting power source for
+    {WDT,AWO,ISO}
+  pinctrl: renesas: rzg2l: Add OEN support for RZ/G3L
+  pinctrl: renesas: rzg2l: Add support for RZ/G3L SoC
+  pinctrl: renesas: rzg2l: Simplify rzg2l_pinctrl_set_mux()
+  pinctrl: renesas: rzg2l: Add support for clone channel control
+
+ .../pinctrl/renesas,rzg2l-pinctrl.yaml        |  35 ++
+ arch/arm64/boot/dts/renesas/r9a07g043.dtsi    |   1 +
+ arch/arm64/boot/dts/renesas/r9a07g044.dtsi    |   1 +
+ arch/arm64/boot/dts/renesas/r9a07g054.dtsi    |   1 +
+ arch/arm64/boot/dts/renesas/r9a08g045.dtsi    |   1 +
+ arch/arm64/boot/dts/renesas/r9a09g047.dtsi    |   1 +
+ arch/arm64/boot/dts/renesas/r9a09g056.dtsi    |   1 +
+ arch/arm64/boot/dts/renesas/r9a09g057.dtsi    |   1 +
+ drivers/pinctrl/renesas/pinctrl-rzg2l.c       | 514 +++++++++++++++++-
+ .../pinctrl/renesas,r9a08g046-pinctrl.h       |  39 ++
+ 10 files changed, 588 insertions(+), 7 deletions(-)
+ create mode 100644 include/dt-bindings/pinctrl/renesas,r9a08g046-pinctrl.h
+
+-- 
+2.43.0
+
 
