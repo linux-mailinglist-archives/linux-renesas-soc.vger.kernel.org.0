@@ -1,46 +1,45 @@
-Return-Path: <linux-renesas-soc+bounces-29575-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29576-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aOMRET0juWkrrwEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29575-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 10:47:41 +0100
+	id qK2BGU0juWkrrwEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29576-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 10:47:57 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B47F2A7295
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 10:47:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4F712A72AF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 10:47:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id F274030F84BD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 09:42:40 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 131A83104B17
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 09:42:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D4D13A1E69;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA6E83A2550;
 	Tue, 17 Mar 2026 09:42:31 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86AB93A1A27;
-	Tue, 17 Mar 2026 09:42:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBD5C39E17B;
+	Tue, 17 Mar 2026 09:42:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773740551; cv=none; b=hl4VTDIew8VifCpYk0UJdRGdAjWOw1XLyRVpS4BAZN+K7rsjJRNUwnlABNwMwvekXWsLn+x3zm75VuVXUCizLHjg7I2lnVk5ohPH8qUww4mEGOCflFZWj9NvZHUGvdNRicMwvSvm7dbXk3sBIVig6HKdQHKJRZ2Hw/9Sn4ioG/4=
+	t=1773740551; cv=none; b=YfyW9VRyA5nm8ZiPB9U/gTrGRIMdJluHLRUXNoSHyzIRzZ1C9bQzGSZUS5xJggc4oBetW7sLbssoEDcjblpU+icYJqyBr/Skc2ycyZ2OnaL35luQeSodmD0kJt/wUrLqzMyJ+uWnIm86NhcWOICVPrqit0UwYpgck4pp5uNBjW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1773740551; c=relaxed/simple;
-	bh=be72gMXAAPLEEl16TU8jP7s7AtiEA7bNqEE8ajTJQZE=;
+	bh=OefNjGkxEG5kTziyf+/8NB1KQyg+CiOUkHHInvBgL+8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ka9MEhB9h3b+1pbSq2bQwgi7cekqlTASg0B5XUT8OGWK2HU0pC5vAHuCMsk5NOyY0BUufTBo1DKbci/jH/Z3eZ9731anduHEZEukLvXeG9D6b81+3rLKrncQdY3X1f6rqdNOo000kawBnrilZiOKGEEGHChMVnjMyJ8De91GhPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.172
+	 In-Reply-To:To:Cc; b=GgkWhz+m/C6+HhzvtHt71bKug3el/WHHs29g4p7mcJ+x0zK4UuDPK80thntNqx+Z+9aUa/A1e/3HtoqWzedO9A5B/fyKG9R7GTKc/9FXKoOu6I/pvMGkrTh1kQY7gpBRfbrh0AZAKOb2ljsItNObFy/uYqn6b0G4IAkvicDNRIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-X-CSE-ConnectionGUID: NqW9jM4wTO2k/mh0Lsor1w==
-X-CSE-MsgGUID: 4NzH5/3OQkusjAwQ0XIglA==
+X-CSE-ConnectionGUID: WGC18th2Rq+Un34SRS3xlQ==
+X-CSE-MsgGUID: OBex4MIiQ2maL5QQlpgocQ==
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 17 Mar 2026 18:42:26 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 17 Mar 2026 18:42:29 +0900
 Received: from [127.0.1.1] (unknown [10.226.78.135])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id CBF294016D6A;
-	Tue, 17 Mar 2026 18:42:23 +0900 (JST)
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id DC41D4016D6A;
+	Tue, 17 Mar 2026 18:42:26 +0900 (JST)
 From: Michael Dege <michael.dege@renesas.com>
-Date: Tue, 17 Mar 2026 10:42:01 +0100
-Subject: [PATCH net-next 08/13] net: renesas: rswitch: add basic vlan init
- to rswitch_fwd_init
+Date: Tue, 17 Mar 2026 10:42:02 +0100
+Subject: [PATCH net-next 09/13] net: renesas: rswitch: update port HW init
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -49,7 +48,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260317-rswitch_add_vlans-v1-8-3a57bfa0f2d1@renesas.com>
+Message-Id: <20260317-rswitch_add_vlans-v1-9-3a57bfa0f2d1@renesas.com>
 References: <20260317-rswitch_add_vlans-v1-0-3a57bfa0f2d1@renesas.com>
 In-Reply-To: <20260317-rswitch_add_vlans-v1-0-3a57bfa0f2d1@renesas.com>
 To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
@@ -59,11 +58,11 @@ To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
 Cc: netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
  linux-kernel@vger.kernel.org, Michael Dege <michael.dege@renesas.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1773740518; l=1893;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1773740518; l=2575;
  i=michael.dege@renesas.com; s=20251023; h=from:subject:message-id;
- bh=be72gMXAAPLEEl16TU8jP7s7AtiEA7bNqEE8ajTJQZE=;
- b=MFjCirNrzHzQGbQctEGilbGxiRxemWdC25iOKwCQErwGI4bl+rHtAc0JXQYxkjexcZzXvO1C6
- 20WvfmNk2oDC/5KDp6mQQuNBnW076f1Pj9r0YUwhzEEcSLANFs1i+BT
+ bh=OefNjGkxEG5kTziyf+/8NB1KQyg+CiOUkHHInvBgL+8=;
+ b=wmAKPtLX6jX280EyiTqs3F+b2ufi0q9p7kHxwRePxomjwNF6kCeGqy1yChBZeJKuDXx9ha3Ni
+ T7GY1sdZMuxD+zVSiQg1jdBTi21GJIEKOzr4T2KkAuWYWAxovQyrGSj
 X-Developer-Key: i=michael.dege@renesas.com; a=ed25519;
  pk=gu1rwIcCrAxNMv2I8fIfiQvt51xzZwnQy4Ua/DscQt8=
 X-Spamd-Result: default: False [0.14 / 15.00];
@@ -77,7 +76,7 @@ X-Spamd-Result: default: False [0.14 / 15.00];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-29575-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-29576-lists,linux-renesas-soc=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
@@ -88,63 +87,84 @@ X-Spamd-Result: default: False [0.14 / 15.00];
 	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.601];
+	NEURAL_HAM(-0.00)[-0.613];
 	RCPT_COUNT_SEVEN(0.00)[10];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email,renesas.com:mid]
-X-Rspamd-Queue-Id: 9B47F2A7295
+X-Rspamd-Queue-Id: D4F712A72AF
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Add basic vlan related register initialization.
+Certain Ethernet and cpu port settings need to be updated for vlan
+support.
 
 Signed-off-by: Michael Dege <michael.dege@renesas.com>
 ---
- drivers/net/ethernet/renesas/rswitch_main.c | 17 ++++++++++++++---
- 1 file changed, 14 insertions(+), 3 deletions(-)
+ drivers/net/ethernet/renesas/rswitch.h      |  4 ----
+ drivers/net/ethernet/renesas/rswitch_main.c | 15 ++++++++++++---
+ 2 files changed, 12 insertions(+), 7 deletions(-)
 
+diff --git a/drivers/net/ethernet/renesas/rswitch.h b/drivers/net/ethernet/renesas/rswitch.h
+index ff2a84057f01..42c8bbafa27d 100644
+--- a/drivers/net/ethernet/renesas/rswitch.h
++++ b/drivers/net/ethernet/renesas/rswitch.h
+@@ -766,8 +766,6 @@ enum vlan_egress_mode {
+ 	HW_SC_TAG_VLAN,
+ };
+ 
+-#define EAVCC_VEM_SC_TAG	(0x3 << 16)
+-
+ #define MPIC_PIS		GENMASK(2, 0)
+ #define MPIC_PIS_GMII		2
+ #define MPIC_PIS_XGMII		4
+@@ -806,8 +804,6 @@ enum rswitch_gwca_mode {
+ #define GWMTIRM_MTIOG		BIT(0)
+ #define GWMTIRM_MTR		BIT(1)
+ 
+-#define GWVCC_VEM_SC_TAG	(0x3 << 16)
+-
+ #define GWARIRM_ARIOG		BIT(0)
+ #define GWARIRM_ARR		BIT(1)
+ 
 diff --git a/drivers/net/ethernet/renesas/rswitch_main.c b/drivers/net/ethernet/renesas/rswitch_main.c
-index b16f7aca4a69..ac87175b918e 100644
+index ac87175b918e..d1be588fb625 100644
 --- a/drivers/net/ethernet/renesas/rswitch_main.c
 +++ b/drivers/net/ethernet/renesas/rswitch_main.c
-@@ -120,6 +120,7 @@ static int rswitch_fwd_init(struct rswitch_private *priv)
- 	u32 all_ports_mask = GENMASK(RSWITCH_NUM_AGENTS - 1, 0);
- 	unsigned int i;
- 	u32 reg_val;
-+	int ret;
+@@ -735,8 +735,11 @@ static int rswitch_gwca_hw_init(struct rswitch_private *priv)
+ 	if (err < 0)
+ 		return err;
  
- 	/* Start with empty configuration */
- 	for (i = 0; i < RSWITCH_NUM_AGENTS; i++) {
-@@ -154,17 +155,27 @@ static int rswitch_fwd_init(struct rswitch_private *priv)
- 	}
- 
- 	/* For GWCA port, allow direct descriptor forwarding */
--	rswitch_modify(priv->addr, FWPC1(priv->gwca.index), FWPC1_DDE, FWPC1_DDE);
-+	rswitch_modify(priv->addr, FWPC1(priv->gwca.index), 0, FWPC1_DDE);
- 
- 	/* Initialize hardware L2 forwarding table */
- 
--	/* Allow entire table to be used for "unsecure" entries */
-+	/* Allow entire table to be used for "un-secure" entries */
- 	rswitch_modify(priv->addr, FWMACHEC, 0, FWMACHEC_MACHMUE_MASK);
- 
- 	/* Initialize MAC hash table */
- 	iowrite32(FWMACTIM_MACTIOG, priv->addr + FWMACTIM);
- 
--	return rswitch_reg_wait(priv->addr, FWMACTIM, FWMACTIM_MACTIOG, 0);
-+	ret = rswitch_reg_wait(priv->addr, FWMACTIM, FWMACTIM_MACTIOG, 0);
-+	if (ret)
-+		return ret;
+-	iowrite32(GWVCC_VEM_SC_TAG, priv->addr + GWVCC);
+-	iowrite32(0, priv->addr + GWTTFC);
++	iowrite32(0, priv->addr + GWIRC);
++	iowrite32(FIELD_PREP(DQD, DES_RAM_DP), priv->addr + GWRDQDC0);
++	/* Drop frames with unknown tags */
++	iowrite32(UT, priv->addr + GWTTFC);
 +
-+	/* Allow entire VLAN table to be used for "un-secure" entries */
-+	iowrite32(VLANTMUE, priv->addr + FWVLANTEC);
-+
-+	/* Initialize VLAN table */
-+	iowrite32(VLANTIOG, priv->addr + FWVLANTIM);
-+
-+	return rswitch_reg_wait(priv->addr, FWVLANTIM, VLANTIOG, 0);
- }
+ 	iowrite32(lower_32_bits(priv->gwca.linkfix_table_dma), priv->addr + GWDCBAC1);
+ 	iowrite32(upper_32_bits(priv->gwca.linkfix_table_dma), priv->addr + GWDCBAC0);
+ 	iowrite32(lower_32_bits(priv->gwca.ts_queue.ring_dma), priv->addr + GWTDCAC10);
+@@ -878,6 +881,7 @@ static bool rswitch_rx(struct net_device *ndev, int *quota)
+ 	limit = boguscnt;
  
- /* Gateway CPU agent block (GWCA) */
+ 	desc = &gq->rx_ring[gq->cur];
++
+ 	while ((desc->desc.die_dt & DT_MASK) != DT_FEMPTY) {
+ 		dma_rmb();
+ 		skb = rswitch_rx_handle_desc(ndev, gq, desc);
+@@ -1267,7 +1271,12 @@ static int rswitch_etha_hw_init(struct rswitch_etha *etha, const u8 *mac)
+ 	if (err < 0)
+ 		return err;
+ 
+-	iowrite32(EAVCC_VEM_SC_TAG, etha->addr + EAVCC);
++	iowrite32(0, etha->addr + EAIRC);
++	iowrite32(FIELD_PREP(DQD, DES_RAM_DP), etha->addr + EATDQDC0);
++
++	/* Drop frames with unknown tags */
++	iowrite32(UT, etha->addr + EARTFC);
++
+ 	rswitch_rmac_setting(etha, mac);
+ 	rswitch_etha_enable_mii(etha);
+ 
 
 -- 
 2.43.0
