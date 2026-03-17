@@ -1,346 +1,214 @@
-Return-Path: <linux-renesas-soc+bounces-29623-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29624-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gNnKHCF3uWnQGQIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29623-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 16:45:37 +0100
+	id gMcyIWt8uWmxHAIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29624-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 17:08:11 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16C0F2AD423
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 16:45:37 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B840C2ADA21
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 17:08:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 7B5A230266FC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 15:45:36 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 67C2B315EE71
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 16:02:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C70AA1A9F90;
-	Tue, 17 Mar 2026 15:45:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="fvXr3IQQ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54DCF2C3260;
+	Tue, 17 Mar 2026 16:02:32 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010060.outbound.protection.outlook.com [52.101.229.60])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCBAC1386DA;
-	Tue, 17 Mar 2026 15:45:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.60
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773762334; cv=fail; b=WknVHKvlwp4v3gPgO6N3EufbNy8FSmT/a75zDSi0u2j65fAShniWK7m89+za1QOEDIQOGIPtsc9VZGd9GzU05RnPbc5s/1eVTgw8HRPV7ghOpgIi9tXCDfQgRkUREZ3xC8xlKHoSRdjFMpEssflDKx3Z6NkJFPZGasPjKxVPv4Q=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773762334; c=relaxed/simple;
-	bh=iDQNIPD2rl+MUG+WVY2fEgAp+Z59xjCky5/kRYY3blc=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=jmI9C28qec2SGWviE1Hf7WlHprgvTGFyydyQlBSolnSKs2XRpbYjjQc9OoVi9ek2n8oKrISezH0nkICed+9d2UIJeq0Qfe9im6nq0zNljIdqoHhcUSna3ZhS89r03pRoNSVK/pDDAcoC01uBPEa8afsty+7R2DzgBHzO+Thu2xI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=fvXr3IQQ; arc=fail smtp.client-ip=52.101.229.60
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bSUfxIg78ktbnWf0zvWzhrrM2W1McpM2nY5JZFISDA9Au335+Lk1hNUepwkCatkDjBi+sVubkGyB473N+Bc9vluY1veNvtWGhCZjkH2wIn9xzQOChUSWsGmDp+Zab7+T7mMNXC+nH9A5HuBe6uhX8HX+zTGBE882Hw/FKpxo0tSpooqZzxziZxtpPcTpeaPxszrYlfjYrF/4KlolcyBS8pdrTNL3AsmPGC2zuN7byoGf7/YgOfYAjYVvCknmuEl0YuWhakHSHIDU4wmgqdtGUHts/GM15h5QpVTIz2SGOQ9/qnXCRwpD4ODUmaih3rhF+vkRlqmn6VErT8LbQJJDYg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=typWSBdR8Hsmb46NDDU7C75vE6ivf2q353Nv2ALI/1A=;
- b=B5r0gvEifEPlftjKBiK3w4+6UeAKRonk6dNHDp475X7yWRWYYNFBj/D2kj23MwI+HfIMu2/f3KxqT5G5Lda2o9kqrHm3VovzRRrDeOILRNnBrZub2ofPjiLLzYrEiRMkLI3EzFHIPtY7OIUjO1OfBViMOvegdcEan9yzaeIq+RBwN7qKu51iZkAp/iqr5RH8oShISgk4elDxdSty0yPNDVguifh07cySYNPdKmIuwrb7eT2helzYLuCNnKiEgQUkk9IH5dJLXR2z+eswSJtEH7/yyl6iLE0qw7rFJ9NrSRtaV2NBPBBQ2zQnRzFWpDoZjpsHbqec56ZXUS4zsy2RtA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=typWSBdR8Hsmb46NDDU7C75vE6ivf2q353Nv2ALI/1A=;
- b=fvXr3IQQbufkB2CodPdVqXzpp+8HCMLolGMS+n3qyUnE07+coLHOfPe7wx67fy+Mkzgfpx3w0Kh6mZk7eRxUXyG0jpVfVN/SXW8wHn+ytvLesm0HHbDml+omRBURJm7vhgxDfE7+0i3T4z4jhIIU5pw+W/HLn2ssy2dfugJhUY4=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by TYCPR01MB6770.jpnprd01.prod.outlook.com (2603:1096:400:b1::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.19; Tue, 17 Mar
- 2026 15:45:29 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::87d1:4928:d55:97de]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::87d1:4928:d55:97de%4]) with mapi id 15.20.9723.018; Tue, 17 Mar 2026
- 15:45:29 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Hugo Villeneuve <hugo@hugovil.com>
-CC: biju.das.au <biju.das.au@gmail.com>, Maarten Lankhorst
-	<maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Geert
- Uytterhoeven <geert+renesas@glider.be>, Chris Brandt
-	<Chris.Brandt@renesas.com>, Prabhakar Mahadev Lad
-	<prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: RE: [PATCH 2/2] drm: renesas: rzg2l_mipi_dsi: Fix the power-on
- sequence
-Thread-Topic: [PATCH 2/2] drm: renesas: rzg2l_mipi_dsi: Fix the power-on
- sequence
-Thread-Index: AQHctgqqun0iZdWPQkGCYHsU3REA1bWy0bQAgAAAR5CAAAU4AIAAAlBA
-Date: Tue, 17 Mar 2026 15:45:29 +0000
-Message-ID:
- <TY3PR01MB1134627E19FCEA40819F8C6578641A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20260317123610.329630-1-biju.das.jz@bp.renesas.com>
- <20260317123610.329630-3-biju.das.jz@bp.renesas.com>
- <20260317110112.338259354289bb60a57fc259@hugovil.com>
- <TY3PR01MB113462F9E8CEA0506984299768641A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <20260317112052.3dc4b56b42b906381df80e94@hugovil.com>
-In-Reply-To: <20260317112052.3dc4b56b42b906381df80e94@hugovil.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYCPR01MB6770:EE_
-x-ms-office365-filtering-correlation-id: ab55b4a0-e1a8-4693-991e-08de843c3741
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|1800799024|376014|7416014|38070700021|18002099003|56012099003|22082099003;
-x-microsoft-antispam-message-info:
- T8eGBSwQCDyuZ5z1OWvto2iJ2UBj+/xmlYnhV5rpuPQPh4LM+/WNMp1z+rFvFClQJlJOCP8PYrl1ZtDKWMWxnZQr9p5qyLPeZMzBUOkl00fUSr2mOqhYpzRvunPgeX/P7uXDFLBYbTYOuJOfss4BDTrNeB137Vc8jgm5hd3ITOfLz8ugnBz6EvcqZx3eQbxtTGUTi5uCBv3zcPhLwP1afMgJOQlYugYapqiHx5xzgCpLPVhtp7Y4T2qKsw7j5gyS5Gcv6ziAYgWSkqZc5taR1KwGP8zvsLT63rV59OOvY1e01sLdmtsCbMqTPnU+TsDMIWYWlM2pXTW5sA7iPp7LJW1jZkyZ90z5kEOQd6h96Bt8I/9YdtL/eaCZkKshEEV3+BnwJZ3QM2iOos2LvxASV17CTXbwglpkAq/tgvdR1EZzAg4HSYO0WnpyxdLj+ORcFlC4FqIpIldR9FzJZ7a8qtWAYy0/HM/TQhaNMbxim4goPXFC97BBDGxwbMOd5pN2kpcuI6HxRgwjPe6iAVqqV0WgQ8djFXg6yGNCeNlbzeRKXrbmXiKw34+uV3PW4mtbGeVr3mJFgHg5n+6VRjdz0BYafHNIMgwdRBRiUie/wiTWCwGTLkMqugKfWcmZ3Y4GZ26oDA/2DouwJbCQzVFsNTIqYfD38m4OEIQK4aggK0qar7V9dEITNqRud0HJgN1UMw91C+emMal4nNv1xmM5wN+/5nE/T2HJfC9fIFYSgCIQVAR9W8umDKayGoDllSh0Dn1NOekm+RtIg/mLk1WQLvNJWr1HkjRPS/GLaqQTDWA=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(38070700021)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?3f1gQF15nsfhikK3nMsek6HfwWuyoAE/ayksJ7kHlRIJnCViuqpCaZG0nv9U?=
- =?us-ascii?Q?m4WQjUoHhxxa0Ttl0+1KPZjIpra87pG2DUw5x4nfGQac5m78p+rv7g3CS7Gm?=
- =?us-ascii?Q?aZiM/8TPjkvz0Pe4aNtvRUe6mZWO6UgzlEvwJWBBB0Km1pw3rSQwTJezY9/z?=
- =?us-ascii?Q?aEEMV7QzedFb1PegNwvN4CsO7B+NOlU0JiB/qO9ODRzC7pnn6Uodil5ePdZo?=
- =?us-ascii?Q?MFSib5EjNoMgnMVSkmXhnORd5wZuyoaYbMFWbtyzZpZCkwpByN8sAH+kx8kD?=
- =?us-ascii?Q?NTOJe0CzC91/d+oGlLVa9U6g0S12UW9WvXJvIH/r1Q4DuMWjtv/YtW3TVD6o?=
- =?us-ascii?Q?4LtKmZ3KSCELJ1HLLrClnxtzI31RpPrCuIvKs6sg4aBmxA1mVNAxRlub0Xaf?=
- =?us-ascii?Q?4FFkiQY/2wWesxenK3GdChR/GwZE8JMgscglddKIEAgweYw49mSl1dqzQI/7?=
- =?us-ascii?Q?9gz1vCFqGhHmFEGv2MbUZ+mGu9WyaqQcyBu9Io14X4BjHygNiQ9KWUgMeKNc?=
- =?us-ascii?Q?PNxUPEehGQLk9pfLlxZx2aRtueibAfLR00le746kv5df9jW4zIKWLE0AHYvR?=
- =?us-ascii?Q?pK3+V9v3uDgke+IZDyieD5i3foznjR6p4RlWrkMxYRU2e3f0bvpEt1m0Ygz4?=
- =?us-ascii?Q?W33qwlKKZLzSEoJNB4bzciC9UYUOTeFncdY7oBWi293igwySDhnDfOM71OGE?=
- =?us-ascii?Q?+/HGMkml8S9mFAjVgIjC/IH3Dcf0hs0W4jUbBqbOb/VhWOzzeU76nMpbHs3d?=
- =?us-ascii?Q?hjMd/jY7Cn9LzC16c+tcTvYtiCIvrMzzAjUsuJx3mPW6SGWsxBHK9tBmdF9G?=
- =?us-ascii?Q?h5uF+OWfa1Y/mHpZDwitTcxgH3lSBa40tVkx2RI/pI2JSROMJeoIZA7Qw4Q3?=
- =?us-ascii?Q?qIs21GDaW1RQ1QjolRoJwW0EVgPLO6oi27NzJxiRrRUUp2KQsO7Lp7RttMHe?=
- =?us-ascii?Q?wDs2zWT6F6BKVW2KvZMtsJ2zvur4CubWZf4rqnVaYlkuMZyLbr1h78G6ASHv?=
- =?us-ascii?Q?eqTwC3Yu7EnISoVJ104UiDkGc10EEkOTgQx3UYtgKfEtMDFUOkgbb8rhjKVp?=
- =?us-ascii?Q?Kg5gHBNu9YNRB5ZVtjs4rs5oDld5c7NH7VUQO8fSbiugaQGLZu/wVzBjxvHI?=
- =?us-ascii?Q?cApgbDx46zzNUFuqpFFToblZzKebnI/+nsNviOLAIyHEsTqtDlQvB961hSMf?=
- =?us-ascii?Q?D9pQz7rY7ZiHYXzfRSJjt89appUip+LVstnlsaW45nd0fQ8IXmtuApaPkbL1?=
- =?us-ascii?Q?5rOcYQ5LbT3tYFxkufCWQ4PXgNa3WgQNPfIMWC3rFpiqkG/msADK5VO87237?=
- =?us-ascii?Q?qSKNtDV9OeXopW57Q+3J1/kOBufMg1NFaHKzHNtWlhW5TJuKq6Fl+gFQgcTs?=
- =?us-ascii?Q?PRv4Ru5MhsktPdkAJhWzCoLGR6AW11xdG+0KLgHK0hFSlMO6BiaI9kSDqpuA?=
- =?us-ascii?Q?maoDIf9sFzeiHYEdiOC/DaKtlXj6/Yz8IQe/XI9uzn94vx+rhywXVgNYs6f6?=
- =?us-ascii?Q?6MuVnG6z75YPWFiu1zd89hqMH3fzzjDiuSToPPYC0zjgpGMnSylTVYDuCnYE?=
- =?us-ascii?Q?bAvh2BWGuOddb/uou3FSZPWV2kRCDpRLetIdOfROV2eGmhGhNtc595bQSVl4?=
- =?us-ascii?Q?dSJsdIWIm2/3LylQ37FhGsEcNMuwl1MCZKgy0i2sxbEuo1yL2CVXwoXcHFVV?=
- =?us-ascii?Q?7vOrvnAa1XJmFjJAW0p8DUx4gI9lX8r94OYtsw7URGjpFO1OphHOVTAUPU7T?=
- =?us-ascii?Q?ioMP8zGEqA=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB7D1257845
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Mar 2026 16:02:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773763352; cv=none; b=n1qm45Vvf7NQB5BBvnefVY+y7g+Qpjupuv7+aU+N2uR1NEDkimMEwOy7Iehv5xskipgaGV4MrdOAFsWixeXFUTjV875pGHqT2HPTK4dye8wa3BsqF0RSuooQYqawHqSVZasXDFgz2Npzy69FYQ8jrM2y9DuhzDWOQ0qR6LuR6hs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773763352; c=relaxed/simple;
+	bh=sIXRyKcBB8QlxcJr7L52j/3CiZELN2iAHmA6Aw4pzm0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QVU/BLKQ/C0pOyG8/c0AS/PGHMmHhjX4OttApgQqmNOF8V438TrPUE7DHmAPmj7sfH7ikKlezNYLdkFXVw5YcbxbjnyvBnyepEbZfTVh51lRPk6TJqQvXK+MhnwDgTXhQZHQjOr2p3/NfSDqi8fz5DNedUILI2ip0/kLiLdNvb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-38a723b2b29so42782451fa.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Mar 2026 09:02:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773763345; x=1774368145;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=twLG+LiXs44QUcz9Iwy6OkpeTFkusmg+ejXI1TbxJ+E=;
+        b=TZSmzYN9apYXQEWBFf/mz/EMn+gXZekTPLWuBMVXElYWeG/wDNJ/rH6N3J+BiidIFN
+         rMxOP60iRUTH+qc7xt6ho5i/VbGtCDIcY5exmugATzEV1YWSjPlU6GONGSVXnxUjqUKa
+         clD3PWg3+WG79HqOlm8bANUH7rNRwiuIIX3QaD6UyBLL+kSRI+wZMX1jULLO6zwjfZk7
+         ow49f/8IYu/eCupWslW3loEgBi89nYKJJg63vJvxQynmfAODImmimYZPBwEW2tjhna1R
+         duCD5EiFa2OsOV0/bt71duM7o++gm1VrE9+SqE0SJvjAUqSEdCuhy4wu0iG7LwJWjQox
+         JaKw==
+X-Forwarded-Encrypted: i=1; AJvYcCUmyNK+YLvn30LRKMZpbZ2Yzc7bKxaAIGhYV6hPM1N1tBi0WI4p42qRCLdYaQuo2NEDGFDwig32X58xJCYlwXTjqQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/Ah0mhBAfyRmmBTVKUVfknzh4ZscBhoZ39KiqtHpQEFDZnTN+
+	zcAdDIP2xMm1/xeOc0a9hT1LSaG4E3GG/gvhxiPU7yvNJo4CaeKvGg7Y8s152fMHloI=
+X-Gm-Gg: ATEYQzzVk83SG8lHX/DjBpKwBWSAjW/OPsL3P+d2kDQJ7/uYO4yPgqdDBjUgcsmCDcP
+	qYn+Wm3+XHklcl/zB5rI9zzz+0ZAP4J/favgj/G+ylxYsY/MTL3TsYuzqzWrGfvSi/nZ8bYal88
+	7nKvIxDENLjOtEEyk6X0hj4K/6kl9yAlVYS3/YWn0HyBnvLX5i5hVl1/fZr8AJoDTO4iYncAFqO
+	v49HXgQcbDu3L88vp8iL+2gVPoKJS6xaBMY6c609q0MCAgTNIiTSqIsq51y/eQqFKy5qRblXxe5
+	upv0UJzaOfkzKFmjMJdl+hXJk+bK/wtnc9RD/axnwfVQ7SE5s9c90c8WsXrTLoZYw+Xmq7UQZbh
+	EGqW6rYzqr7MCw6CkB5jI+PKW7XdC10dr3wFD+PhcGfnQCyaFrVN1tMI2/k1iQMxeVoFSWdcXPP
+	Q6eva1kVUhZYrNJ/XprNzuogQtVQBYvAP0bev78rjVeHs8fUOI0pJBhT6farQ9
+X-Received: by 2002:a2e:96cf:0:b0:38a:34c8:9dad with SMTP id 38308e7fff4ca-38bd58b8233mr466491fa.31.1773763344613;
+        Tue, 17 Mar 2026 09:02:24 -0700 (PDT)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com. [209.85.167.48])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38bd5157108sm376841fa.1.2026.03.17.09.02.23
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 17 Mar 2026 09:02:24 -0700 (PDT)
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5a133b686f7so728775e87.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Mar 2026 09:02:23 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWtBE4GfgHCp/4ftipO+i+UrCGflkaOR9hzidlORgcTZHc6RDy1EDoZG9/sabHHIMWi0/i0hWBX9fjaL3GRMzFk3g==@vger.kernel.org
+X-Received: by 2002:a17:907:d1e:b0:b94:1d92:7eb with SMTP id
+ a640c23a62f3a-b976505a45fmr1113540866b.18.1773762847178; Tue, 17 Mar 2026
+ 08:54:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ab55b4a0-e1a8-4693-991e-08de843c3741
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Mar 2026 15:45:29.2523
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: gcoQC77Kxq0W45D03CyY6gaTIYfS1EwQfuMSM3Ap2l3Ndq9ilNbWI3hgSs28XrsKVA2ZaTp3lJmCXjyYExtvvPddT0NhT4IB2chNCNYfc1c=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB6770
-X-Spamd-Result: default: False [1.34 / 15.00];
+References: <20260317-arm_defconf_cleanup-v1-0-8eecb7fdd24d@kernel.org> <20260317-arm_defconf_cleanup-v1-3-8eecb7fdd24d@kernel.org>
+In-Reply-To: <20260317-arm_defconf_cleanup-v1-3-8eecb7fdd24d@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 17 Mar 2026 16:53:54 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdV50nOT06wKfj_X5LU2z=1XZZGd6Gac0C41qWWNZHRLXg@mail.gmail.com>
+X-Gm-Features: AaiRm53kA4BcUnu8DzmJWc_bmCImw2GJpSjbqTP7vNJFqk2-PxsMkq0NOVh2FgU
+Message-ID: <CAMuHMdV50nOT06wKfj_X5LU2z=1XZZGd6Gac0C41qWWNZHRLXg@mail.gmail.com>
+Subject: Re: [PATCH 3/9] configs: remove obsolete assignments to CONFIG_NFS_V4_1
+To: "Vincent Mailhol (Arm)" <mailhol@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+	Mikko Rapeli <mikko.rapeli@linaro.org>, Richard Henderson <richard.henderson@linaro.org>, 
+	Matt Turner <mattst88@gmail.com>, Magnus Lindholm <linmag7@gmail.com>, 
+	Russell King <linux@armlinux.org.uk>, Aaro Koskinen <aaro.koskinen@iki.fi>, 
+	Andreas Kemnade <andreas@kemnade.info>, Kevin Hilman <khilman@baylibre.com>, 
+	Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>, 
+	Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
+	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
+	Alexander Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
+	Sven Schnelle <svens@linux.ibm.com>, Yoshinori Sato <ysato@users.sourceforge.jp>, 
+	Rich Felker <dalias@libc.org>, John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Pablo Neira Ayuso <pablo@netfilter.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Frank Li <Frank.Li@nxp.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Vladimir Zapolskiy <vz@mleia.com>, 
+	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, Liviu Dudau <liviu.dudau@arm.com>, 
+	Sudeep Holla <sudeep.holla@kernel.org>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>, 
+	Gregory CLEMENT <gregory.clement@bootlin.com>, =?UTF-8?B?VGjDqW8gTGVicnVu?= <theo.lebrun@bootlin.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Janusz Krzysztofik <jmkrzyszt@gmail.com>, =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
+	Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>, Heiko Stuebner <heiko@sntech.de>, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Mark Brown <broonie@kernel.org>, 
+	Eric Biggers <ebiggers@kernel.org>, Ard Biesheuvel <ardb@kernel.org>, 
+	Sricharan Ramabadhran <quic_srichara@quicinc.com>, Bjorn Andersson <andersson@kernel.org>, 
+	Michael Walle <mwalle@kernel.org>, Guenter Roeck <linux@roeck-us.net>, 
+	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
+	"Rob Herring (Arm)" <robh@kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Anna Schumaker <anna.schumaker@oracle.com>, 
+	Alexandre Gonzalo <alexandre.gonzalo@arm.com>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org, 
+	loongarch@lists.linux.dev, linux-mips@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev, linux-samsung-soc@vger.kernel.org, 
+	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org, 
+	linux-parisc@vger.kernel.org, openbmc@lists.ozlabs.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spamd-Result: default: False [0.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[bp.renesas.com:s=selector1];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-29623-lists,linux-renesas-soc=lfdr.de];
-	FREEMAIL_CC(0.00)[gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,pengutronix.de,lists.freedesktop.org,vger.kernel.org,glider.be,renesas.com,bp.renesas.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[biju.das.jz@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
+	FREEMAIL_CC(0.00)[kernel.org,linaro.org,gmail.com,armlinux.org.uk,iki.fi,kemnade.info,baylibre.com,atomide.com,xen0n.name,alpha.franken.de,linux.ibm.com,ellerman.id.au,dabbelt.com,eecs.berkeley.edu,ghiti.fr,users.sourceforge.jp,libc.org,physik.fu-berlin.de,redhat.com,alien8.de,linux.intel.com,zytor.com,linutronix.de,goodmis.org,netfilter.org,samsung.com,nxp.com,pengutronix.de,mleia.com,timesys.com,arm.com,glider.be,mobileye.com,bootlin.com,hansenpartnership.com,gmx.de,gmx.net,zankel.net,suse.de,arndb.de,sntech.de,renesas.com,quicinc.com,roeck-us.net,oss.qualcomm.com,linuxfoundation.org,oracle.com,vger.kernel.org,lists.infradead.org,lists.linux.dev,lists.ozlabs.org];
+	TAGGED_FROM(0.00)[bounces-29624-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[bp.renesas.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	NEURAL_HAM(-0.00)[-1.000];
+	DMARC_NA(0.00)[linux-m68k.org];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,lists.freedesktop.org:email]
-X-Rspamd-Queue-Id: 16C0F2AD423
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCPT_COUNT_GT_50(0.00)[98];
+	R_DKIM_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.822];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,linux-m68k.org:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: B840C2ADA21
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Hugo,
+Hi Vincent,
 
-> -----Original Message-----
-> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of Hu=
-go Villeneuve
-> Sent: 17 March 2026 15:21
-> Subject: Re: [PATCH 2/2] drm: renesas: rzg2l_mipi_dsi: Fix the power-on s=
-equence
->=20
-> Hi Biju,
->=20
-> On Tue, 17 Mar 2026 15:13:07 +0000
-> Biju Das <biju.das.jz@bp.renesas.com> wrote:
->=20
-> > Hi Hugo,
-> >
-> > Thanks for the feedback.
-> >
-> > > -----Original Message-----
-> > > From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf
-> > > Of Hugo Villeneuve
-> > > Sent: 17 March 2026 15:01
-> > > Subject: Re: [PATCH 2/2] drm: renesas: rzg2l_mipi_dsi: Fix the
-> > > power-on sequence
-> > >
-> > > Hi Biju,
-> > >
-> > > On Tue, 17 Mar 2026 12:36:01 +0000
-> > > Biju <biju.das.au@gmail.com> wrote:
-> > >
-> > > > From: Biju Das <biju.das.jz@bp.renesas.com>
-> > > >
-> > > > Move reset_control_deassert() and reset_control_assert() from
-> > > > rzg2l_mipi_dsi_dphy_init()/rzg2l_mipi_dsi_dphy_exit() to
-> > > > atomic_pre_enable() and atomic_post_disable() respectively, and
-> > > > move
-> > > > rzg2l_mipi_dsi_set_display_timing() from atomic_pre_enable() to
-> > > > atomic_enable(), to align with the power-on sequence described in
-> > > > Figure 34.5 of section "34.4.2.1 Reset" of the RZ/G2L hardware
-> > > > manual
-> > > > Rev.1.50 May 2025.
-> > > >
-> > > > According to the hardware manual, LINK registers must be written
-> > > > before deasserting CMN_RSTB, and the 1ms delay is retained in
-> > > > atomic_pre_enable() after the deassert.
-> > > >
-> > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > >
-> > > Seems to me like this should be backported to stable branches (missin=
-g Fixes / Cc: stable tags)?
-> >
-> > OK, will add fixes/stable tags.
-> >
-> > >
-> > >
-> > > > ---
-> > > >  .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    | 27 +++++++++++----=
-----
-> > > >  1 file changed, 16 insertions(+), 11 deletions(-)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> > > > b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> > > > index e53b48e4de56..9053ce037b75 100644
-> > > > --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> > > > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> > > > @@ -484,7 +484,6 @@ static int rzg2l_mipi_dsi_dphy_init(struct rzg2=
-l_mipi_dsi *dsi,
-> > > >  	u32 dphytim1;
-> > > >  	u32 dphytim2;
-> > > >  	u32 dphytim3;
-> > > > -	int ret;
-> > > >
-> > > >  	/* All DSI global operation timings are set with recommended sett=
-ing */
-> > > >  	for (i =3D 0; i < ARRAY_SIZE(rzg2l_mipi_dsi_global_timings); ++i)
-> > > > { @@
-> > > > -524,12 +523,6 @@ static int rzg2l_mipi_dsi_dphy_init(struct rzg2l_=
-mipi_dsi *dsi,
-> > > >  	rzg2l_mipi_dsi_phy_write(dsi, DSIDPHYTIM2, dphytim2);
-> > > >  	rzg2l_mipi_dsi_phy_write(dsi, DSIDPHYTIM3, dphytim3);
-> > > >
-> > > > -	ret =3D reset_control_deassert(dsi->rstc);
-> > > > -	if (ret < 0)
-> > > > -		return ret;
-> > > > -
-> > > > -	fsleep(1000);
-> > > > -
-> > > >  	return 0;
-> > > >  }
-> > > >
-> > > > @@ -541,8 +534,6 @@ static void rzg2l_mipi_dsi_dphy_exit(struct
-> > > > rzg2l_mipi_dsi *dsi)
-> > > >
-> > > >  	dphyctrl0 &=3D ~(DSIDPHYCTRL0_EN_LDO1200 | DSIDPHYCTRL0_EN_BGR);
-> > > >  	rzg2l_mipi_dsi_phy_write(dsi, DSIDPHYCTRL0, dphyctrl0);
-> > > > -
-> > > > -	reset_control_assert(dsi->rstc);
-> > > >  }
-> > > >
-> > > >  static int rzg2l_dphy_conf_clks(struct rzg2l_mipi_dsi *dsi,
-> > > > unsigned long mode_freq, @@ -1030,24 +1021,37 @@ static void
-> > > > rzg2l_mipi_dsi_atomic_pre_enable(struct
-> > > drm_bridge *bridge,
-> > > >  	connector =3D drm_atomic_get_new_connector_for_encoder(state, bri=
-dge->encoder);
-> > > >  	crtc =3D drm_atomic_get_new_connector_state(state, connector)->cr=
-tc;
-> > > >  	mode =3D &drm_atomic_get_new_crtc_state(state,
-> > > > crtc)->adjusted_mode;
-> > > > -
-> > >
-> > > This is not related to your commit message (coding style change).
-> >
-> > Ack. Will restore it.
-> >
-> > >
-> > >
-> > > >  	ret =3D rzg2l_mipi_dsi_startup(dsi, mode);
-> > > >  	if (ret < 0)
-> > > >  		return;
-> > > >
-> > > > -	rzg2l_mipi_dsi_set_display_timing(dsi, mode);
-> > > > +	ret =3D reset_control_deassert(dsi->rstc);
-> > > > +	if (ret < 0)
-> > > > +		return;
-> > > > +
-> > > > +	if (dsi->rstc)
-> > >
-> > > This seems new and not documented in the commit message? Is this a fi=
-x?
-> >
-> > RZ/V2H does not need this as it uses different IP. Previously fsleep()
-> > is in RZ/G2L specific function. I will update commit description for th=
-is change.
->=20
-> Suggestion: maybe move this to a separate patch, to facilitate review/und=
-erstanding...
+On Tue, 17 Mar 2026 at 10:16, Vincent Mailhol (Arm) <mailhol@kernel.org> wrote:
+> CONFIG_NFS_V4_1 was revomed in commit 7537db24806f ("NFS: Merge
+> CONFIG_NFS_V4_1 with CONFIG_NFS_V4"). However, some defconfigs are
+> still referring the old configuration.
+>
+> Clean-up all the leftover references to CONFIG_NFS_V4_1.
+>
+> FYI, the suppressions were done using:
+>
+>   git grep -z -l '^CONFIG_NFS_V4=' -- 'arch/*/configs/*defconfig' |\
+>     xargs -0 sed -i -E '/^CONFIG_NFS_V4_1=/d'
+>
+> CONFIG_NFS_V4_1_IMPLEMENTATION_ID_DOMAIN and CONFIG_NFS_V4_1_MIGRATION
+> were not in scope of the renaming and still use V4_1 in their name, so
+> keep those two untouched.
+>
+> Fixes: 7537db24806f ("NFS: Merge CONFIG_NFS_V4_1 with CONFIG_NFS_V4")
+> Signed-off-by: Vincent Mailhol (Arm) <mailhol@kernel.org>
 
-The only way is to introduce a new callback to handle it for RZ/G2L SoC.
-Then we won't be able to apply fixes tag as it is not fixing anything.
+Thanks for your patch!
 
-Currently this is optional reset, and it is no-op for RZ/V2H.
+> --- a/arch/arm/configs/shmobile_defconfig
+> +++ b/arch/arm/configs/shmobile_defconfig
+> @@ -217,7 +217,6 @@ CONFIG_TMPFS=y
+>  CONFIG_NFS_FS=y
+>  CONFIG_NFS_V3_ACL=y
+>  CONFIG_NFS_V4=y
+> -CONFIG_NFS_V4_1=y
+>  CONFIG_ROOT_NFS=y
+>  CONFIG_NLS_CODEPAGE_437=y
+>  CONFIG_NLS_ISO8859_1=y
 
-What do you think?=20
+Already done, cfr. commit 8c6cccefb33e2022 ("ARM: shmobile: defconfig:
+Refresh for v7.0-rc1") in next-20260309 and later.
 
-Patch #1) 1 us-> 1ms =20
-Patch #2) Introduce SoC specific callback to handle reset_deassert followed=
- by delay
-Patch #3) Move the code as per this patch =20
+Gr{oetje,eeting}s,
 
-Or
+                        Geert
 
-Patch #1) 1 us-> 1ms
-Patch #2) Use this patch as it is, with updated commit description
-So that fixes tag can be applied
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Cheers,
-Biju
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
