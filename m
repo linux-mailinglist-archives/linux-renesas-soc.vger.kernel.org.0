@@ -1,198 +1,282 @@
-Return-Path: <linux-renesas-soc+bounces-29551-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29552-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IIv2OsAbuWm+qwEAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29551-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 10:15:44 +0100
+	id UOerIcsbuWkyrAEAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29552-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 10:15:55 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38B962A6543
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 10:15:44 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 174AF2A658F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 10:15:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 979F93075F40
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 09:11:41 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 55A5C307C252
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 09:11:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DE44359A97;
-	Tue, 17 Mar 2026 09:11:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B62A435B633;
+	Tue, 17 Mar 2026 09:11:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fvfH09Ox"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MeSsBWqP"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE97235836F;
-	Tue, 17 Mar 2026 09:11:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 923F2359A9F;
+	Tue, 17 Mar 2026 09:11:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773738701; cv=none; b=bzD6KgEUOrGJ77xaULTY5YQvaH+qwDtssxNdpFC506J78fFgCyQfceS1f/zaW0S2SDRAC7aRBEMLd9GDvmJK125KartK6iFgL7zkLDluj8x4Snsqj5BNNz9b2bT5k9LNJ183jvQN17vTeaKGkWq5SMF9+skYnQupjD83wf7aQuE=
+	t=1773738713; cv=none; b=Iiqw0LxhS7/QAm+/u00a1XOEpzIsaoVjy/rutXggGsTAVOsjmN7MB6ED2O1V5Row6+PrtlQkaZYz8tpfiobBfXJcijmNsPvC/cGp6phbgN/snqffiuJOFmF0YvGuw2sJtIvqUAg7WHNswD6dgk8SYNUSDdD62w0rixI4r4dSFEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773738701; c=relaxed/simple;
-	bh=BzmkYmqk+b2RtlUzCdKWXMzHPnRFieI71IicbZl0NgE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZvG1WOyJNeIhy+vYvS+55xSUfIN5bCFSwcAmD9KJTXNNfZLipe2Q2Ej0F9krBR7VJAQEVziiWdo9PRaDt59Fk4ZMyt25J9AD+sDyxb5e0i69fZCdf4rHUeBeZr9bLwCL8y7Enp/XFOAFHfq0thE+FtgHeUGNR6rfJ4O9iQ/lzE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fvfH09Ox; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2DCBC4CEF7;
-	Tue, 17 Mar 2026 09:11:38 +0000 (UTC)
+	s=arc-20240116; t=1773738713; c=relaxed/simple;
+	bh=0l/t4CYYEEuOnqrcSlC1/kHh+SqwOHv3bW2imv6CkdM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OFi2zweDrFsQvRV3ZaMgjAZRgHFwiOOxg/DwhxeFmnJBtFsQlpH73hR98RM3XREvSFsP6dOyTM6fVi18r0e+KLA1jjPZ/oXgYIZo2caVQIHGfEPzNjBCb+l2HoHLeNk9wm7G65Uz+YmD8CaPam4Y+Rv0EStrAhWpjdQtESQxPL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MeSsBWqP; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6116C19425;
+	Tue, 17 Mar 2026 09:11:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773738700;
-	bh=BzmkYmqk+b2RtlUzCdKWXMzHPnRFieI71IicbZl0NgE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=fvfH09OxPAvRaBYMrJKcAXFUYB48JQx8i2ukLbEZCkgje2HfdhFxCuK/C/Ngafy8i
-	 tG6asppJKODyIRXkzx+NgYSs5bVDQV7f+WMGerog6qN8/Uj95V8QLlWstuwJODkP0R
-	 +Pgmb53IiI+WrsKw/HZN90LCqq3HmjV52/r6RojY5/b/PgO3woqQEm2zJfIn5pTVpF
-	 NIf6lUc6tpw7lDttMWrSDt/47CjNZA2LIZaCTAILNyygh9ptM/Oz/9kazsu/He5scB
-	 Zazt6GeX7QFAnztzYmfAHUykXFdep+kJvbkOcCLIXLwi0bKjSQUYnpwARle1dOyPQ3
-	 yuOKGE1VuRWlg==
-Message-ID: <0234dc75-b042-4408-bbad-a777c0bddb3f@kernel.org>
-Date: Tue, 17 Mar 2026 10:11:37 +0100
+	s=k20201202; t=1773738713;
+	bh=0l/t4CYYEEuOnqrcSlC1/kHh+SqwOHv3bW2imv6CkdM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MeSsBWqPfpZBsUSt6TPTi+zNR+hwQIp/QBF9B/3XBvowELF+YzpAdZrkD3obDQQHS
+	 +i56lWkjYNVdH19g7cMhJ4rBuRVJkaEA/Gl/Tu/8l35vmdFpzXzvI3hCSm4sqIByW7
+	 dMpeYIn2znqMvGHuzI0Ybm682ety0XBWiesIUVa6jhQ41cGSfozzeZ1m/XwL6zUXVS
+	 ukKoj3oKMLxarbAsn3fLCuTGPWtitkncsDH/iuD5Vr2yu8fVZcL1An1j4stBo0vYKG
+	 fStdm1+ICXgFhc3+zJxr089Dr5YcFFBsi74hWvwbky4maXvCZuAeFQ1RgJqkxym2Fv
+	 hS6P5qsu5sTOA==
+Date: Tue, 17 Mar 2026 10:11:50 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Cosmin-Gabriel Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>, 
+	William Breathitt Gray <wbg@kernel.org>, Lee Jones <lee@kernel.org>, 
+	Thierry Reding <thierry.reding@gmail.com>, "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>, "stable@vger.kernel.org" <stable@vger.kernel.org>
+Subject: Re: [PATCH 1/5] pwm: rz-mtu3: fix prescale check when enabling 2nd
+ channel
+Message-ID: <abkX1ssLhkGxryfM@monoceros>
+References: <20260130122353.2263273-1-cosmin-gabriel.tanislav.xa@renesas.com>
+ <20260130122353.2263273-2-cosmin-gabriel.tanislav.xa@renesas.com>
+ <aaqTVDQa7xn70bR_@monoceros>
+ <TYRPR01MB156191C8E77BDA44AE23A7D4F857AA@TYRPR01MB15619.jpnprd01.prod.outlook.com>
+ <TYRPR01MB156192CC838EC0B3DD66246158540A@TYRPR01MB15619.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT PULL 0/4] Renesas SoC updates for v7.1
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Konstantin Ryabitsev <mricon@kernel.org>
-Cc: soc@lists.linux.dev, soc <soc@kernel.org>,
- Magnus Damm <magnus.damm@gmail.com>, linux-arm-kernel@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org
-References: <cover.1773399669.git.geert+renesas@glider.be>
- <20260317-spirited-mahogany-swift-b1ac53@quoll>
- <CAMuHMdX4wKWPvRR=BBAr+1wAK2ZmW3kKxEN4W_vwNyGuzB=-gw@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <CAMuHMdX4wKWPvRR=BBAr+1wAK2ZmW3kKxEN4W_vwNyGuzB=-gw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="hkbpaws2c2rivpjg"
+Content-Disposition: inline
+In-Reply-To: <TYRPR01MB156192CC838EC0B3DD66246158540A@TYRPR01MB15619.jpnprd01.prod.outlook.com>
+X-Spamd-Result: default: False [-2.26 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[lists.linux.dev,kernel.org,gmail.com,lists.infradead.org,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-29551-lists,linux-renesas-soc=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TAGGED_FROM(0.00)[bounces-29552-lists,linux-renesas-soc=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[bp.renesas.com,kernel.org,gmail.com,vger.kernel.org];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-renesas-soc@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ukleinek@kernel.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 38B962A6543
+X-Rspamd-Queue-Id: 174AF2A658F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 17/03/2026 09:46, Geert Uytterhoeven wrote:
-> Hi Krzysztof,
-> 
-> On Tue, 17 Mar 2026 at 09:33, Krzysztof Kozlowski <krzk@kernel.org> wrote:
->> On Fri, Mar 13, 2026 at 12:12:56PM +0100, Geert Uytterhoeven wrote:
->>> This is my first pull request for the inclusion of Renesas SoC updates
->>> for v7.1.
->>>
->>> It consists of 4 parts:
->>
->> I think pw-bot did not reply to any of these pulls, but I applied now
->> all of them.
-> 
-> That is correct: no replies from the pw-bot.
-> renesas-dts-for-v7.1-tag1 does not seem to be in soc/for-next yet,
-> perhaps you forgot to push? No need to confirm if that is true,
 
-I pushed for-next a bit after this email.
+--hkbpaws2c2rivpjg
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 1/5] pwm: rz-mtu3: fix prescale check when enabling 2nd
+ channel
+MIME-Version: 1.0
 
-The workflow is far from optimal, because it has two stages:
-1. Iterate over each pull email, check, merge and eventually push only
-this branch,
+Hello,
 
-2. Merge to for-next and document the merges for internal
-accounting/tracing. I guess I could merge it after each stage (1) above.
+On Mon, Mar 16, 2026 at 03:49:35PM +0000, Cosmin-Gabriel Tanislav wrote:
+> What do you think about this setup for mapping from PWM to HW?
+>=20
+> #define RZ_MTU3_PWM_IO(ch, secondary) \
+> 	(((ch) << 1) | (secondary))
+>=20
+> #define RZ_MTU3_PWM_1_IO(ch) \
+> 	RZ_MTU3_PWM_IO(ch, 0)
+>=20
+> #define RZ_MTU3_PWM_2_IO(ch) \
+> 	RZ_MTU3_PWM_IO(ch, 0), \
+> 	RZ_MTU3_PWM_IO(ch, 1)
+>=20
+> static const u8 rz_mtu3_pwm_io_map[] =3D {
+> 	RZ_MTU3_PWM_2_IO(0), /* MTU0 */
+> 	RZ_MTU3_PWM_1_IO(1), /* MTU1 */
+> 	RZ_MTU3_PWM_1_IO(2), /* MTU2 */
+> 	RZ_MTU3_PWM_2_IO(3), /* MTU3 */
+> 	RZ_MTU3_PWM_2_IO(4), /* MTU4 */
+> 	RZ_MTU3_PWM_2_IO(5), /* MTU6 */
+> 	RZ_MTU3_PWM_2_IO(6), /* MTU7 */
+> };
+> static_assert(ARRAY_SIZE(rz_mtu3_pwm_io_map) =3D=3D RZ_MTU3_MAX_PWM_CHANN=
+ELS);
 
-The bigger problem is lack of replies from pw-bot.
+I think the RZ_MTU3_PWM_1_IO and RZ_MTU3_PWM_2_IO macros are a bit too
+magic and would use
 
+static const u8 rz_mtu3_pwm_io_map[] =3D {
+	RZ_MTU3_PWM_IO(0, 0),
+	RZ_MTU3_PWM_IO(0, 1),
+	RZ_MTU3_PWM_IO(1, 0),
+	RZ_MTU3_PWM_IO(2, 0),
+	RZ_MTU3_PWM_IO(3, 0),
+	RZ_MTU3_PWM_IO(3, 1),
+	RZ_MTU3_PWM_IO(4, 0),
+	RZ_MTU3_PWM_IO(4, 1),
+	RZ_MTU3_PWM_IO(5, 0),
+	RZ_MTU3_PWM_IO(5, 1),
+	RZ_MTU3_PWM_IO(6, 0),
+	RZ_MTU3_PWM_IO(6, 1),
+};
 
-@Konstantin,
-I use modified Rob's script to go over patch/pull queue in Patchwork:
-https://patchwork.kernel.org/project/linux-soc/list/?state=*
+and then maybe just:
 
-I deal with them one-by-one, so when I finish merging, I want to be sure
-that Patchwork status is updated, thus through the script I mark it
-"Accepted".
-Like this one:
-https://patchwork.kernel.org/project/linux-soc/patch/cover.1773399675.git.geert+renesas@glider.be/
+#define RZ_MTU3_NUM_PWM_CHANNELS ARRAY_SIZE(rz_mtu3_pwm_io_map)
 
-Around then - can be just before or after - I push the updated branch to
-git.kernel.org. I fear that because the pull is manually updated in
-Patchwork to "Accepted", pw-bot ignores it and does not send the
-notification.
+instead of the static_assert. But I guess this is mostly subjective and
+I won't try to convince you of my approach if you prefer your
+suggestion.
 
-Is it feasible to change pw-bot so it will notify even if it is marked
-as "Accepted"? Or any ideas how to change the flow to have both:
-A. pw-bot reply,
-B. Be 100% sure that Patchwork status is updated (allow my manual update
-via script)?
+> static unsigned int rz_mtu3_hwpwm_ch(u32 hwpwm)
+> {
+> 	return rz_mtu3_pwm_io_map[hwpwm] >> 1;
+> }
+>=20
+> static bool rz_mtu3_hwpwm_is_primary(u32 hwpwm)
+> {
+> 	return !(rz_mtu3_pwm_io_map[hwpwm] & 1);
+> }
+>=20
+> static struct rz_mtu3_pwm_channel *
+> rz_mtu3_get_channel(struct rz_mtu3_pwm_chip *rz_mtu3_pwm, u32 hwpwm)
+> {
+> 	unsigned int ch =3D rz_mtu3_hwpwm_ch(hwpwm);
+>=20
+> 	return &rz_mtu3_pwm->channel_data[ch];
+> }
+>=20
+> This gets rid of the loop inside rz_mtu3_get_channel() quite nicely.
+>=20
+> priv->map->base_pwm_number =3D=3D hwpwm checks will in turn be reduced to
+> rz_mtu3_hwpwm_is_primary(hwpwm).
+>=20
+> If you decide that we should keep the sibling check inside
+> rz_mtu3_pwm_config() as-is then we can do the following, without having
+> to encode the number of channels for each HW channel explicitly.
+>=20
+> Please note that hwpwm + 1 is fine in this case as the last hwpwm of
+> rz_mtu3_pwm_io_map is never primary.
 
+This needs a comment plus (if possible) an assert.
 
-Best regards,
-Krzysztof
+> static int rz_mtu3_sibling_hwpwm(u32 hwpwm, u32 *sibling_hwpwm)
+> {
+> 	if (!rz_mtu3_hwpwm_is_primary(hwpwm))
+> 		return hwpwm - 1;
+>=20
+> 	if (rz_mtu3_hwpwm_is_primary(hwpwm + 1))
+> 		return -EINVAL;
+>=20
+> 	return hwpwm + 1;
+> }
+>=20
+> Although, I would much rather have the following logic rather than the
+> sibling check, which matches one of the alternatives you proposed earlier.
+>=20
+> Hopefully, the comment explains the situation well.
+
+I got it, thanks.
+
+> static int rz_mtu3_pwm_config(struct pwm_chip *chip, struct pwm_device *p=
+wm,
+> 			      const struct pwm_state *state)
+> {
+> 	...
+>=20
+> 	u32 enable_count;
+>=20
+> 	...
+>=20
+> 	/*
+> 	 * Account for the case where one IO is already enabled and this call
+> 	 * enables the second one, to prevent the prescale from being changed.
+> 	 * If this PWM is currently disabled it will be enabled by this call,
+> 	 * so include it in the enable count. If it is already enabled, it has
+> 	 * already been accounted for.
+> 	 */
+> 	enable_count =3D rz_mtu3_pwm->enable_count[ch] + (pwm->state.enabled ? 0=
+ : 1);
+>=20
+> 	...
+>=20
+> 	if (enable_count > 1) {
+> 		if (rz_mtu3_pwm->prescale[ch] > prescale)
+> 			return -EBUSY;
+>=20
+> 		prescale =3D rz_mtu3_pwm->prescale[ch];
+> 	}
+>=20
+> Please let me know what you think so we can proceed with the work
+> internally.
+
+I'd prefer the `rz_mtu3_pwm->enable_count[ch] + (pwm->state.enabled ? 0 : 1=
+);`
+variant. I understand that this is also the variant you prefer, so
+that's great, but I wouldn't stop you using the sibling option.
+
+You can gain some extra points for not using pwm->state. This is a relic
+=66rom the legacy pwm abstraction and doesn't make much sense with the
+waveform callbacks. The alternative would be to check the hardware for
+being on or not. But there are many users of this member, that I also
+won't yell at you for also using it.
+
+Best regards
+Uwe
+
+--hkbpaws2c2rivpjg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmm5GtQACgkQj4D7WH0S
+/k4Rwwf9Hut4P4Qx1G7RdoBINBH/21rIgc1qZkpDovIq6qmB1grJs2EFSNviWTp3
+7ANYEwouj4hNWBkQERzDT46d3kHkVqpxuP9Lqk5KmJpx1Qkt+zLBgL2Na30Nt1PP
+9U1YYQSCkLXOJXCH6RR+B/1GD0VU5pm4oxbBMlfBehFD1XXk3DJP2IJF1vFi/4FL
+EVBV0IIr63Vy9jKhTwB2qQl4KlowI/B6VPH3n7EFr6EyUR0dF6rlYbtJd16eoKJu
+EL1aNGKblInghfnbXd8r81ScCb3MuO/wmwIdJ5P5HJn+eAv2cDDGR5uDUu1XAfTI
+urSPuimscoRgY5KtF/soj0iroNek5Q==
+=6oTZ
+-----END PGP SIGNATURE-----
+
+--hkbpaws2c2rivpjg--
 
