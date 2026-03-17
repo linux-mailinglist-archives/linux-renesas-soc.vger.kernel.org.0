@@ -1,247 +1,366 @@
-Return-Path: <linux-renesas-soc+bounces-29652-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29653-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kBl9EPSvuWkkMQIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29652-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 20:48:04 +0100
+	id UC1+BICxuWmDMQIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29653-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 20:54:40 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6BB42B1B7C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 20:48:03 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7173A2B1CB4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 20:54:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C29713094738
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 19:47:32 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 26AA43123CF4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 19:50:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0287E2DBF75;
-	Tue, 17 Mar 2026 19:47:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A8772DBF75;
+	Tue, 17 Mar 2026 19:49:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nSxKhaTu"
+	dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b="A3evknzh"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73B44285C88
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Mar 2026 19:47:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86CA215624B;
+	Tue, 17 Mar 2026 19:49:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.120.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773776851; cv=none; b=Kj3iJPBk4seC9s1NuASkoprcOPTuiABpqbS/tKcNVUobP05IOyUCLcHspm808wMXao+kdi6C4sEiZ7Wjds/xp3JejT4R/UcsBYE1TyWE5UMLz7hI54Ev4t8Z3RhJPREc7naBTziOfkmQyxLdW35xL8rcpoe6IAu/OTMlY9zGXdg=
+	t=1773776999; cv=none; b=cB6m7Khj9sxD2RWPXsMV3FKaxrDMODltlutKgF3BbXXxjtG+2FXRFOm/pteBYAkuTZxoPHvoKtfo0y/Gu/dLiJjn1/5zdSBRILOm8zmmpcsZ6YqWe1uK7xqqQYFLoMJv6KrPK3F7oTyCS/pJt7D2BfVvIGs0/zECosE7/rPc1mg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773776851; c=relaxed/simple;
-	bh=/pfeBRZlSAeIZP2jyTAgG02IfuvKN3sK7yiMk55tNm0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OP92JnWyfMby2SzfDVr+hVHQq2BQaz6yhyfA0QjlMaBGBzNwXz28c4b7D8s+GaVfwgdYtH79qrltFonTIe4L0eqRlDoEh6k6UpntgxgBCmCpQr5na8Y6GxezeI3r63yhWzoD4ynyrOi8gnf3utk8M+bIcNGfDuUp38pClxlN2i4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nSxKhaTu; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-439c9bdc1eeso6084434f8f.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Mar 2026 12:47:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773776849; x=1774381649; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qy4MN32IlylccBxs69pXyCRPQ6AWrwsSuWmABVQKBWQ=;
-        b=nSxKhaTuBRv332k9NLLC6N8vRMBXs0T/TkRV44UQLdIMHxp0lmd9zNmUA/o0GfgFa8
-         xthlPMoCsTXg7zwOtNcoiESj9775TglTA/swuQAsRzeHNZ2mZfzDT3VBHU7yUn+YUdDI
-         PLQ6NODpZQoccnTJwzcKp+cfnDm1uUAJ8E6FzX1NmjPQlwHktgYgFF9EhEXfPOrzJP4W
-         f2BxvVs/7Onsbse24WeavEiLw74p4fXg9avfzRSpKxo5cbrJzdUpERx4feMn1XN3l0Bj
-         N04qOEExNjkjc/Et+NQBuMnqX2s7OVxgD8/GmBUvTgYIcHteaEpwb30koarVl0mSC2DI
-         T95g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773776849; x=1774381649;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qy4MN32IlylccBxs69pXyCRPQ6AWrwsSuWmABVQKBWQ=;
-        b=ih1VooGEloDwXKjhqml9fSSqZVdk2RS0W5cZsLZHOpbfxG1Bc/u7RAs1mBAQssizEZ
-         wNkLC6PGlU3kwcKSjROuwH+qRDxebwGoQOm87Zz0hsfAHYUxC2poK9qjggR+69dnaFLv
-         95eb9vAeVBJ67jXBYqtjJmTV0N2iE2Xo1cKSMamzLF5JCykKKk8E0udajCE8lD+MQwWi
-         1yNRSrPb+xq8q36MsEQzAIkKCapbarbC0HY9DV+Cd+u8C5pzsalhVgBiHnF3/yfGjS7q
-         bgsP9BHnzHIWtp4He4ao1uTDPUXGhqt3KzC88qWQMb+AE5S6CD7FlFBlJeTttRncln1w
-         c9DQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUYt2UTRixC5kM7kCK6hv8ZE0mlFHO1eoqoCoV90jR9HgNDutKnEj+j8G8NiBgJUPbkGMQJuTB5Zil2Ry/eEh7IIw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx6nq8LYFaOtIFht0j4fHu+TH1P+hrHOuxbo2Zz9wD4E0sY8dFr
-	sF/x8z+E42/FD7502YosQ3r3Ng+JirjJY7+MH2BbmEQTSqiznhWzvi2g
-X-Gm-Gg: ATEYQzxehJprn1YUdjSBypy9QUB2JQ0cZirG9uodeSgSYTMoG4UlEAwt+Lebq5GnXg8
-	UKRnoS3vR4dj0EM2VHzUmGmSI1mU4mXcf0MD37MJn1h2lxPAzsWKn3rCMaQAb06oXuxBDaqQAAr
-	FV4BwlT5PjO1DpFgGas8RI7IQFkre2rEHDsU1RfWXUGiclCk/XE17jT9wB7bH+feEqLgyVur0G9
-	r7G58Yys91OhSGXSIsw2GtpjAMlYvN8YDfd4pMKJ9Sb3V60GYSMqhzkvjnbWksd9fix3zlKD6+N
-	pzWm/0V+E9jAG//vt2net+z3ZF9LNP+1wNSygDCZC+Uu11Ih6Y6N6/MmdyVHRz2NnIdlb5q/j2u
-	77gqe7TS3szFSgnt7Bqe1utEgQnS2+OltCWvV46/gLHcAY6fHv6YVGiBY5jWtBTrBuFVgn0kVKG
-	+t4Uxjt0cx6CupG981bWA0kSQKAtYy5BjstRIjHjaf93IMXZGX
-X-Received: by 2002:a05:6000:40cb:b0:43b:4f97:9608 with SMTP id ffacd0b85a97d-43b527a7368mr921067f8f.14.1773776848667;
-        Tue, 17 Mar 2026 12:47:28 -0700 (PDT)
-Received: from localhost.localdomain ([2a00:23c4:a758:8a01:e16b:fc56:e220:9aa9])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b5189970fsm1767511f8f.27.2026.03.17.12.47.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Mar 2026 12:47:28 -0700 (PDT)
-From: Biju <biju.das.au@gmail.com>
-X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH v4 4/9] clk: renesas: rzg2l-cpg: Re-enable critical module clocks during resume
-Date: Tue, 17 Mar 2026 19:47:22 +0000
-Message-ID: <20260317194726.468270-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1773776999; c=relaxed/simple;
+	bh=2n/S3BCZbvQgkBUBDJBmqX7hc0qQhU0r06B7871yyzM=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=WajUqi/BJIHIqaIjMaTDj8wf/LzpWDNWbWoT/Wq6cM9v6KADw5sSHPe8bLqppGigvOO3y4yd5zfvPYfjFzHgOehRAnpV26vzG/EMa1z7krldt/HC+nv6+ENXaW+F539v4GuP3WPwEdw/0/Q8FjSP+OxrbkoXyqvJ1nbyYMzmOpI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hugovil.com; spf=pass smtp.mailfrom=hugovil.com; dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b=A3evknzh; arc=none smtp.client-ip=162.243.120.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hugovil.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hugovil.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
+	; s=default; h=Content-Transfer-Encoding:Mime-Version:Message-Id:Subject:Cc:
+	To:From:Date:subject:date:message-id:reply-to;
+	bh=UajxUvnJteCR2aLz+P2+Z+nPCZyF8DFquT2mGrIUmsk=; b=A3evknzhpbDH2WLxXkkH6/NKPJ
+	SgNfilv+Zk1tMBS1xsTgE6rqep+js3JZ/MjWqC2xnWmN13tntagQOlVALNq9afbDQHsNGzzUhXYy7
+	eN33aYeyDcdfSXSxX6ngE2ezvon4wlQcl6v86WXfTg83d3mSm9s2GTtY2POydUte2ty0=;
+Received: from modemcable061.19-161-184.mc.videotron.ca ([184.161.19.61] helo=debian-lenovo)
+	by mail.hugovil.com with esmtpa (Exim 4.98.2)
+	(envelope-from <hugo@hugovil.com>)
+	id 1w2aQJ-000000005ZT-42LN;
+	Tue, 17 Mar 2026 15:49:52 -0400
+Date: Tue, 17 Mar 2026 15:49:51 -0400
+From: Hugo Villeneuve <hugo@hugovil.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: biju.das.au <biju.das.au@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Geert
+ Uytterhoeven <geert+renesas@glider.be>, Chris Brandt
+ <Chris.Brandt@renesas.com>, Prabhakar Mahadev Lad
+ <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 2/2] drm: renesas: rzg2l_mipi_dsi: Fix the power-on
+ sequence
+Message-Id: <20260317154951.2670d458fae59adcffa0d497@hugovil.com>
+In-Reply-To: <TY3PR01MB113469B2E916BDD343BD516F78641A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20260317123610.329630-1-biju.das.jz@bp.renesas.com>
+	<20260317123610.329630-3-biju.das.jz@bp.renesas.com>
+	<20260317110112.338259354289bb60a57fc259@hugovil.com>
+	<TY3PR01MB113462F9E8CEA0506984299768641A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+	<20260317112052.3dc4b56b42b906381df80e94@hugovil.com>
+	<TY3PR01MB1134627E19FCEA40819F8C6578641A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+	<20260317121232.39b1728e4d53d7243856a403@hugovil.com>
+	<TY3PR01MB11346B55F3F5C28FE9E763AF48641A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+	<20260317145226.b84c29335c5badfdd257d0df@hugovil.com>
+	<TY3PR01MB113469B2E916BDD343BD516F78641A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Spam_score: -2.0
+X-Spam_bar: --
 X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	DMARC_POLICY_ALLOW(-0.50)[hugovil.com,none];
+	MV_CASE(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[hugovil.com:s=default];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[bp.renesas.com,vger.kernel.org,gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-29653-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-29652-lists,linux-renesas-soc=lfdr.de];
-	FREEMAIL_TO(0.00)[glider.be,baylibre.com,kernel.org,gmail.com];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bijudasau@gmail.com,linux-renesas-soc@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,pengutronix.de,lists.freedesktop.org,vger.kernel.org,glider.be,renesas.com,bp.renesas.com];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[hugo@hugovil.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[hugovil.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,bp.renesas.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: B6BB42B1B7C
+	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email,lists.freedesktop.org:email]
+X-Rspamd-Queue-Id: 7173A2B1CB4
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Biju Das <biju.das.jz@bp.renesas.com>
+Hi Biju,
 
-After a suspend/resume cycle, critical module clocks may be left disabled
-as the hardware state is not automatically restored. Unlike regular clocks
-which are re-enabled by their respective drivers, critical clocks
-(CLK_IS_CRITICAL) have no owning driver to restore them, so the CPG driver
-must take responsibility for re-enabling them on resume.
+On Tue, 17 Mar 2026 19:37:35 +0000
+Biju Das <biju.das.jz@bp.renesas.com> wrote:
 
-Introduce struct rzg2l_crit_clk_hw to track critical module clock hardware
-entries in a singly-linked list anchored at crit_clk_hw_head in
-rzg2l_cpg_priv. Populate the list during module clock registration by
-checking for the CLK_IS_CRITICAL flag after clk_hw_register() succeeds.
+> Hi Hugo,
+> 
+> > -----Original Message-----
+> > From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of Hugo Villeneuve
+> > Sent: 17 March 2026 18:52
+> > Subject: Re: [PATCH 2/2] drm: renesas: rzg2l_mipi_dsi: Fix the power-on sequence
+> > 
+> > Hi Biju,
+> > 
+> > On Tue, 17 Mar 2026 16:36:05 +0000
+> > Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > 
+> > > Hi Hugo,
+> > >
+> > > > -----Original Message-----
+> > > > From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf
+> > > > Of Hugo Villeneuve
+> > > > Sent: 17 March 2026 16:13
+> > > > Subject: Re: [PATCH 2/2] drm: renesas: rzg2l_mipi_dsi: Fix the
+> > > > power-on sequence
+> > > >
+> > > > Hi Biju,
+> > > >
+> > > > On Tue, 17 Mar 2026 15:45:29 +0000
+> > > > Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > > >
+> > > > > Hi Hugo,
+> > > > >
+> > > > > > -----Original Message-----
+> > > > > > From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On
+> > > > > > Behalf Of Hugo Villeneuve
+> > > > > > Sent: 17 March 2026 15:21
+> > > > > > Subject: Re: [PATCH 2/2] drm: renesas: rzg2l_mipi_dsi: Fix the
+> > > > > > power-on sequence
+> > > > > >
+> > > > > > Hi Biju,
+> > > > > >
+> > > > > > On Tue, 17 Mar 2026 15:13:07 +0000 Biju Das
+> > > > > > <biju.das.jz@bp.renesas.com> wrote:
+> > > > > >
+> > > > > > > Hi Hugo,
+> > > > > > >
+> > > > > > > Thanks for the feedback.
+> > > > > > >
+> > > > > > > > -----Original Message-----
+> > > > > > > > From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On
+> > > > > > > > Behalf Of Hugo Villeneuve
+> > > > > > > > Sent: 17 March 2026 15:01
+> > > > > > > > Subject: Re: [PATCH 2/2] drm: renesas: rzg2l_mipi_dsi: Fix
+> > > > > > > > the power-on sequence
+> > > > > > > >
+> > > > > > > > Hi Biju,
+> > > > > > > >
+> > > > > > > > On Tue, 17 Mar 2026 12:36:01 +0000 Biju
+> > > > > > > > <biju.das.au@gmail.com>
+> > > > > > > > wrote:
+> > > > > > > >
+> > > > > > > > > From: Biju Das <biju.das.jz@bp.renesas.com>
+> > > > > > > > >
+> > > > > > > > > Move reset_control_deassert() and reset_control_assert()
+> > > > > > > > > from
+> > > > > > > > > rzg2l_mipi_dsi_dphy_init()/rzg2l_mipi_dsi_dphy_exit() to
+> > > > > > > > > atomic_pre_enable() and atomic_post_disable()
+> > > > > > > > > respectively, and move
+> > > > > > > > > rzg2l_mipi_dsi_set_display_timing() from
+> > > > > > > > > atomic_pre_enable() to atomic_enable(), to align with the
+> > > > > > > > > power-on sequence described in Figure 34.5 of section
+> > > > > > > > > "34.4.2.1 Reset" of the RZ/G2L hardware manual
+> > > > > > > > > Rev.1.50 May 2025.
+> > > > > > > > >
+> > > > > > > > > According to the hardware manual, LINK registers must be
+> > > > > > > > > written before deasserting CMN_RSTB, and the 1ms delay is
+> > > > > > > > > retained in
+> > > > > > > > > atomic_pre_enable() after the deassert.
+> > > > > > > > >
+> > > > > > > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > > > > > >
+> > > > > > > > Seems to me like this should be backported to stable
+> > > > > > > > branches (missing Fixes / Cc: stable
+> > > > tags)?
+> > > > > > >
+> > > > > > > OK, will add fixes/stable tags.
+> > > > > > >
+> > > > > > > >
+> > > > > > > >
+> > > > > > > > > ---
+> > > > > > > > >  .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    | 27 +++++++++++--------
+> > > > > > > > >  1 file changed, 16 insertions(+), 11 deletions(-)
+> > > > > > > > >
+> > > > > > > > > diff --git
+> > > > > > > > > a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > > > > > > > > b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > > > > > > > > index e53b48e4de56..9053ce037b75 100644
+> > > > > > > > > --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > > > > > > > > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > > > > > > > > @@ -484,7 +484,6 @@ static int rzg2l_mipi_dsi_dphy_init(struct rzg2l_mipi_dsi *dsi,
+> > > > > > > > >  	u32 dphytim1;
+> > > > > > > > >  	u32 dphytim2;
+> > > > > > > > >  	u32 dphytim3;
+> > > > > > > > > -	int ret;
+> > > > > > > > >
+> > > > > > > > >  	/* All DSI global operation timings are set with recommended setting */
+> > > > > > > > >  	for (i = 0; i <
+> > > > > > > > > ARRAY_SIZE(rzg2l_mipi_dsi_global_timings);
+> > > > > > > > > ++i) { @@
+> > > > > > > > > -524,12 +523,6 @@ static int rzg2l_mipi_dsi_dphy_init(struct rzg2l_mipi_dsi *dsi,
+> > > > > > > > >  	rzg2l_mipi_dsi_phy_write(dsi, DSIDPHYTIM2, dphytim2);
+> > > > > > > > >  	rzg2l_mipi_dsi_phy_write(dsi, DSIDPHYTIM3, dphytim3);
+> > > > > > > > >
+> > > > > > > > > -	ret = reset_control_deassert(dsi->rstc);
+> > > > > > > > > -	if (ret < 0)
+> > > > > > > > > -		return ret;
+> > > > > > > > > -
+> > > > > > > > > -	fsleep(1000);
+> > > > > > > > > -
+> > > > > > > > >  	return 0;
+> > > > > > > > >  }
+> > > > > > > > >
+> > > > > > > > > @@ -541,8 +534,6 @@ static void
+> > > > > > > > > rzg2l_mipi_dsi_dphy_exit(struct rzg2l_mipi_dsi *dsi)
+> > > > > > > > >
+> > > > > > > > >  	dphyctrl0 &= ~(DSIDPHYCTRL0_EN_LDO1200 | DSIDPHYCTRL0_EN_BGR);
+> > > > > > > > >  	rzg2l_mipi_dsi_phy_write(dsi, DSIDPHYCTRL0, dphyctrl0);
+> > > > > > > > > -
+> > > > > > > > > -	reset_control_assert(dsi->rstc);
+> > > > > > > > >  }
+> > > > > > > > >
+> > > > > > > > >  static int rzg2l_dphy_conf_clks(struct rzg2l_mipi_dsi
+> > > > > > > > > *dsi, unsigned long mode_freq, @@ -1030,24 +1021,37 @@
+> > > > > > > > > static void rzg2l_mipi_dsi_atomic_pre_enable(struct
+> > > > > > > > drm_bridge *bridge,
+> > > > > > > > >  	connector = drm_atomic_get_new_connector_for_encoder(state, bridge->encoder);
+> > > > > > > > >  	crtc = drm_atomic_get_new_connector_state(state, connector)->crtc;
+> > > > > > > > >  	mode = &drm_atomic_get_new_crtc_state(state,
+> > > > > > > > > crtc)->adjusted_mode;
+> > > > > > > > > -
+> > > > > > > >
+> > > > > > > > This is not related to your commit message (coding style change).
+> > > > > > >
+> > > > > > > Ack. Will restore it.
+> > > > > > >
+> > > > > > > >
+> > > > > > > >
+> > > > > > > > >  	ret = rzg2l_mipi_dsi_startup(dsi, mode);
+> > > > > > > > >  	if (ret < 0)
+> > > > > > > > >  		return;
+> > > > > > > > >
+> > > > > > > > > -	rzg2l_mipi_dsi_set_display_timing(dsi, mode);
+> > > > > > > > > +	ret = reset_control_deassert(dsi->rstc);
+> > > > > > > > > +	if (ret < 0)
+> > > > > > > > > +		return;
+> > > > > > > > > +
+> > > > > > > > > +	if (dsi->rstc)
+> > > > > > > >
+> > > > > > > > This seems new and not documented in the commit message? Is this a fix?
+> > > > > > >
+> > > > > > > RZ/V2H does not need this as it uses different IP. Previously
+> > > > > > > fsleep() is in RZ/G2L specific function. I will update commit description for this change.
+> > > > > >
+> > > > > > Suggestion: maybe move this to a separate patch, to facilitate review/understanding...
+> > > > >
+> > > > > The only way is to introduce a new callback to handle it for RZ/G2L SoC.
+> > > > > Then we won't be able to apply fixes tag as it is not fixing anything.
+> > > >
+> > > > I am not sure what you mean by that callback? How a callback is needed only if you split the
+> > patch?
+> > >
+> > > You cannot split the patch.
+> > >
+> > > Before:
+> > >   atomic_pre_enable():
+> > >     startup()
+> > >       dphy_init()
+> > >         write DSIDPHYTIMx         (F) PHY timing regs
+> > >         reset_control_deassert()  (G) deassert CMN_RSTB
+> > >         udelay(1)                 (H)
+> > > 	  setting below link registers
+> > >         − TXSETR
+> > > 	  − ULPSSETR
+> > >         − DSISETR
+> > >         − CLSTPTSETR
+> > >         − LPTRNSTSETR
+> > >
+> > > Current patch:
+> > >
+> > > atomic_pre_enable():
+> > >     startup()
+> > >       dphy_init()
+> > >         write DSIDPHYTIMx         (F) PHY timing regs
+> > > 	setting below link registers
+> > >         − TXSETR
+> > > 	  − ULPSSETR
+> > >         − DSISETR
+> > >         − CLSTPTSETR
+> > >         − LPTRNSTSETR
+> > >
+> > >       reset_control_deassert()  (G) deassert CMN_RSTB
+> > >       fsleep(1000)              (H)
+> > >
+> > > >
+> > > > In this original patch you test for the validity of dsi->rstc to
+> > > > determine if you apply the delay or not. So in the case of RZ/V2H, I understand that it is NULL?
+> > >
+> > > Yes, that is correct.
+> > >
+> > > >
+> > > > > Currently this is optional reset, and it is no-op for RZ/V2H.
+> > > >
+> > > > Does this means that the call to reset_control_deassert(dsi->rstc) should not occur for RZ/V2H?
+> > >
+> > > reset_control_deassert(dsi->rstc) will return immediately as it is null.
+> > >
+> > > or
+> > >
+> > > We could add this check instead
+> > >
+> > > 	if (dsi->rstc) {
+> > > 	    ret = reset_control_deassert(dsi->rstc);
+> > > 	    if (ret < 0)
+> > > 		return;
+> > >
+> > > 	    fsleep(1000);
+> > > 	}
+> > 
+> > Yes, like Tommaso suggested.
+> > 
+> > But I don't see why you cannot simply implement (split) this change as a separate commit just after
+> > commit #1, or after commit #2?
+> > 
+> > This seems like an optimization for RZ/V2H, so I think it doesnt really matter if it does not go to
+> > stable branches?
+> 
+> Previously RZ/V2H do not call reset_control_deassert(dsi->rstc) as it is called from SoC-specific
+> function.
 
-On resume, walk the list and re-enable any critical module clock that is
-found to be disabled, before deasserting critical resets, ensuring the
-correct clock-before-reset restore ordering.
+Ok, so this change could be split, if you want, as commit #3. This would make commit #2
+easier to understand IMHO.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v4:
- * Moved this patch from [1] as it is boot-dependent
- [1] https://lore.kernel.org/all/20260306134228.871815-1-biju.das.jz@bp.renesas.com/
----
- drivers/clk/renesas/rzg2l-cpg.c | 41 +++++++++++++++++++++++++++++++++
- 1 file changed, 41 insertions(+)
+Thank you for the clarifications.
 
-diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-cpg.c
-index 8165c163143a..c2d31b93f62b 100644
---- a/drivers/clk/renesas/rzg2l-cpg.c
-+++ b/drivers/clk/renesas/rzg2l-cpg.c
-@@ -130,6 +130,12 @@ struct div_hw_data {
- 	u32 width;
- };
- 
-+/* Critical clk list  */
-+struct rzg2l_crit_clk_hw {
-+	struct clk_hw *hw;
-+	struct rzg2l_crit_clk_hw *next;
-+};
-+
- #define to_div_hw_data(_hw)	container_of(_hw, struct div_hw_data, hw_data)
- 
- struct rzg2l_pll5_param {
-@@ -168,6 +174,7 @@ struct rzg2l_pll5_mux_dsi_div_param {
-  * @info: Pointer to platform data
-  * @genpd: PM domain
-  * @mux_dsi_div_params: pll5 mux and dsi div parameters
-+ * @crit_clk_hw_head: Head of the linked list critical clk entries
-  */
- struct rzg2l_cpg_priv {
- 	struct reset_controller_dev rcdev;
-@@ -186,8 +193,26 @@ struct rzg2l_cpg_priv {
- 	struct generic_pm_domain genpd;
- 
- 	struct rzg2l_pll5_mux_dsi_div_param mux_dsi_div_params;
-+
-+	struct rzg2l_crit_clk_hw *crit_clk_hw_head;
- };
- 
-+static int rzg2l_cpg_add_crit_clk_hw_entry(struct rzg2l_cpg_priv *priv,
-+					   struct clk_hw *hw)
-+{
-+	struct rzg2l_crit_clk_hw *node;
-+
-+	node = devm_kzalloc(priv->dev, sizeof(*node), GFP_KERNEL);
-+	if (!node)
-+		return -ENOMEM;
-+
-+	node->hw = hw;
-+	node->next = priv->crit_clk_hw_head;
-+	priv->crit_clk_hw_head = node;
-+
-+	return 0;
-+}
-+
- static inline u8 rzg2l_cpg_div_ab(u8 a, u8 b)
- {
- 	return (b + 1) << a;
-@@ -1737,6 +1762,13 @@ rzg2l_cpg_register_mod_clk(const struct rzg2l_mod_clk *mod,
- 		goto fail;
- 	}
- 
-+	if (init.flags & CLK_IS_CRITICAL) {
-+		if (rzg2l_cpg_add_crit_clk_hw_entry(priv, &clock->hw)) {
-+			clk = ERR_PTR(-ENOMEM);
-+			goto fail;
-+		}
-+	}
-+
- 	clk = clock->hw.clk;
- 	dev_dbg(dev, "Module clock %pC at %lu Hz\n", clk, clk_get_rate(clk));
- 	priv->clks[id] = clk;
-@@ -2086,8 +2118,17 @@ static int __init rzg2l_cpg_probe(struct platform_device *pdev)
- static int rzg2l_cpg_resume(struct device *dev)
- {
- 	struct rzg2l_cpg_priv *priv = dev_get_drvdata(dev);
-+	struct rzg2l_crit_clk_hw *node;
- 	int ret;
- 
-+	for (node = priv->crit_clk_hw_head; node; node = node->next) {
-+		if (!rzg2l_mod_clock_is_enabled(node->hw)) {
-+			ret = rzg2l_mod_clock_endisable(node->hw, true);
-+			if (ret)
-+				return ret;
-+		}
-+	}
-+
- 	ret = rzg2l_cpg_deassert_crit_resets(&priv->rcdev, priv->info);
- 	if (ret)
- 		return ret;
--- 
-2.43.0
-
+Hugo Villeneuve <hugo@hugovil.com>
 
