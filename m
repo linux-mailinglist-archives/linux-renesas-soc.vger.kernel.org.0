@@ -1,426 +1,146 @@
-Return-Path: <linux-renesas-soc+bounces-29671-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29672-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eFQWMZu/uWnJMQIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29671-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 21:54:51 +0100
+	id eGnhGZ/DuWmcNQIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29672-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 22:11:59 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0ACE2B2730
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 21:54:50 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11AA02B287E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 22:11:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id EBBA0301A685
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 20:54:47 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4E02F315C7E0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 21:09:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E6AA38BF60;
-	Tue, 17 Mar 2026 20:54:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B275938F243;
+	Tue, 17 Mar 2026 21:09:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b="SuSWHbR4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PJAbZ52j"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 414E1EAC7;
-	Tue, 17 Mar 2026 20:54:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.120.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8864F346AE8;
+	Tue, 17 Mar 2026 21:09:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773780885; cv=none; b=doq8PZCjVEpkIQmddIo2sUtrlM8quKsTOTge87JGTRTTgth6m/2RVudWg7s6U4oyZbUjBlKYKXBR3u+MC6C1ANyByjAGU+8j+K+UO3ukwhnJ+5VCS9uQ3APBtf3uct8nwrhY0zoPtAPkoD4IVRnwgAk4Rc4oC813VWrTPIF8Urc=
+	t=1773781794; cv=none; b=N1PXU8RXwKrpW9YZj2dUk5m9JrGJSI/Bfw40MAzSq0pnk55hehzUINz9aaLdJaI3nM47oAj8j12nZiWSzO+i+BtYDvxUJ3v31FuVWrCSw3lTjvrYBJafp6u2RwtXoeo6ZsqY4qx8X8PWQWLz1bLIAupuh5RBiG4OPElnm+HVVCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773780885; c=relaxed/simple;
-	bh=V30PQIUPTTUWfrKyCBsXqtxDpRC/oumixEaWvJOmA6k=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=DEezVBAoqxrb9IaV2oEi09nBJ0Vy4qpgy3HEPVVVCelEFoPoyxxuVvc8CI4Bnx2XJ7+gUDq6V2yOijR0GtaXKkyTI0crwGvo/xGDdiY/FsbLI/fNzuKOXob5Tl4gpvnFet2Dlnr5/8U0Da7iTTMkJIWRgkEGw3UOb6b8YcBNHZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hugovil.com; spf=pass smtp.mailfrom=hugovil.com; dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b=SuSWHbR4; arc=none smtp.client-ip=162.243.120.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hugovil.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hugovil.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
-	; s=default; h=Content-Transfer-Encoding:Mime-Version:Message-Id:Subject:Cc:
-	To:From:Date:subject:date:message-id:reply-to;
-	bh=OXAoW1xbrM4n6AOheI3eiA1P3NihltU5wytjjG7W9Vo=; b=SuSWHbR46wfDfQbeXl9rwVFRLm
-	JFlwSSicH8S2015d0g8MXQfeuLX6/mJp3DZHGBywbS5nPeY8+VDXVObFuyyMGBIl3AjAhQy1viemh
-	1wZtjJmHvLdvBTu2SjxFFfU36Oag4umKyDVfAKM4wGJFgU3OSk8KX6poNDZCHh+SyunU=;
-Received: from modemcable061.19-161-184.mc.videotron.ca ([184.161.19.61] helo=debian-lenovo)
-	by mail.hugovil.com with esmtpa (Exim 4.98.2)
-	(envelope-from <hugo@hugovil.com>)
-	id 1w2bQx-000000006Gd-3B4a;
-	Tue, 17 Mar 2026 16:54:36 -0400
-Date: Tue, 17 Mar 2026 16:54:34 -0400
-From: Hugo Villeneuve <hugo@hugovil.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: biju.das.au <biju.das.au@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Geert
- Uytterhoeven <geert+renesas@glider.be>, Chris Brandt
- <Chris.Brandt@renesas.com>, Prabhakar Mahadev Lad
- <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH 2/2] drm: renesas: rzg2l_mipi_dsi: Fix the power-on
- sequence
-Message-Id: <20260317165434.ac87d685c844df896492c384@hugovil.com>
-In-Reply-To: <TY3PR01MB11346CB2BD3779E8E0D7F67FB8641A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20260317123610.329630-1-biju.das.jz@bp.renesas.com>
-	<20260317123610.329630-3-biju.das.jz@bp.renesas.com>
-	<20260317110112.338259354289bb60a57fc259@hugovil.com>
-	<TY3PR01MB113462F9E8CEA0506984299768641A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-	<20260317112052.3dc4b56b42b906381df80e94@hugovil.com>
-	<TY3PR01MB1134627E19FCEA40819F8C6578641A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-	<20260317121232.39b1728e4d53d7243856a403@hugovil.com>
-	<TY3PR01MB11346B55F3F5C28FE9E763AF48641A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-	<20260317145226.b84c29335c5badfdd257d0df@hugovil.com>
-	<TY3PR01MB113469B2E916BDD343BD516F78641A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-	<20260317154951.2670d458fae59adcffa0d497@hugovil.com>
-	<TY3PR01MB11346CB2BD3779E8E0D7F67FB8641A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1773781794; c=relaxed/simple;
+	bh=MnWGC7HeMn0onQGdlxyusL98lBFK6f+bwyuj7KV5zBg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cfNgxQlqpTb5AKC4DBLiph6oOwZdDWHqzwrLTAqQ4AqaM7TK8wfzWHjo1mYIkxkcpud+tAiI+aools6jWfYF3Qcss3EhhXJ4YbkThgGHy0eqhlkCZPL6x99NeNt/a7OoQnGQM/MAK+iCeytpOSAsG0Ckv+Rx/JCJawUgRPd/eh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PJAbZ52j; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773781794; x=1805317794;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MnWGC7HeMn0onQGdlxyusL98lBFK6f+bwyuj7KV5zBg=;
+  b=PJAbZ52jet52i/7guvv2ZWg4f77JvkYLwAdHc8USAK5IS2ZrR69UZ/uF
+   VQR9mw+JCLeTbmoiNUzqL/4EgP9NCsK09e1BmtFfMf7144NB3zf7qjwod
+   f4hzQxB+ALHu6FmoY69n/AOiDcZB2q9XaWUhuqrr3l3hudMczo3rHYo+T
+   /ttTTrrKi5xwxeMy1Kd5DmWV7kIbaxLgtNmzE5eR2m4ZdlH6UL1Um+89t
+   7KeP3ZUo997DVwNncHS3W4WtoRNZrRIbVEWBXHIHU+eNlORZmAV1xYlGj
+   JEW/FhoSeAtwYqLebnBCRSdybNzTtiGq5kZfmnWIrDFVvv1JBPrBKgjXt
+   A==;
+X-CSE-ConnectionGUID: qxDFp6IhREWHgeoLM0NqrA==
+X-CSE-MsgGUID: 9KfeBDPrQ6u5Zc39JSltEA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="74527868"
+X-IronPort-AV: E=Sophos;i="6.23,126,1770624000"; 
+   d="scan'208";a="74527868"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 14:09:53 -0700
+X-CSE-ConnectionGUID: oDXPjczDS/iIXulXJNalJA==
+X-CSE-MsgGUID: 26dPCyrGTAOavifEgRFBXA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,126,1770624000"; 
+   d="scan'208";a="226535489"
+Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.245.97])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 14:09:51 -0700
+Date: Tue, 17 Mar 2026 23:09:48 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Carsten =?iso-8859-1?Q?Spie=DF?= <mail@carsten-spiess.de>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>
+Subject: Re: [PATCH v1 1/1] hwmon: (isl28022) Don't check for specific errors
+ when parsing properties
+Message-ID: <abnDHK_uWcZ_Vdxs@ashevche-desk.local>
+References: <20260219140532.2259235-1-andriy.shevchenko@linux.intel.com>
+ <CAMuHMdX9CdQNBGegrfHz+-UpuyO-rmHEQ2HUa=JjVpG_0ryacg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spamd-Result: default: False [-0.16 / 15.00];
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdX9CdQNBGegrfHz+-UpuyO-rmHEQ2HUa=JjVpG_0ryacg@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[hugovil.com,none];
-	MV_CASE(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[hugovil.com:s=default];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-29671-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,pengutronix.de,lists.freedesktop.org,vger.kernel.org,glider.be,renesas.com,bp.renesas.com];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hugo@hugovil.com,linux-renesas-soc@vger.kernel.org];
+	FREEMAIL_CC(0.00)[vger.kernel.org,carsten-spiess.de,roeck-us.net,glider.be,gmail.com];
+	TAGGED_FROM(0.00)[bounces-29672-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[hugovil.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	NEURAL_HAM(-0.00)[-1.000];
+	HAS_ORG_HEADER(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.freedesktop.org:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: D0ACE2B2730
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[intel.com:+];
+	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@linux.intel.com,linux-renesas-soc@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,ashevche-desk.local:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 11AA02B287E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Biju,
+On Thu, Feb 19, 2026 at 03:21:29PM +0100, Geert Uytterhoeven wrote:
+> On Thu, 19 Feb 2026 at 15:06, Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+> > Instead of checking for the specific error codes (that can be considered
+> > a layering violation to some extent) check for the property existence first
+> > and then either parse it, or apply a default value.
 
-On Tue, 17 Mar 2026 20:10:31 +0000
-Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> IIRC, we have removed superfluous presence checks all over the tree
+> during the past few years? E.g. of_property_read_*() is documented to
+> return -EINVAL if a property does not exist.
 
-> Hi Hugo,
-> 
-> > -----Original Message-----
-> > From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of Hugo Villeneuve
-> > Sent: 17 March 2026 19:50
-> > Subject: Re: [PATCH 2/2] drm: renesas: rzg2l_mipi_dsi: Fix the power-on sequence
-> > 
-> > Hi Biju,
-> > 
-> > On Tue, 17 Mar 2026 19:37:35 +0000
-> > Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > 
-> > > Hi Hugo,
-> > >
-> > > > -----Original Message-----
-> > > > From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf
-> > > > Of Hugo Villeneuve
-> > > > Sent: 17 March 2026 18:52
-> > > > Subject: Re: [PATCH 2/2] drm: renesas: rzg2l_mipi_dsi: Fix the
-> > > > power-on sequence
-> > > >
-> > > > Hi Biju,
-> > > >
-> > > > On Tue, 17 Mar 2026 16:36:05 +0000
-> > > > Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > > >
-> > > > > Hi Hugo,
-> > > > >
-> > > > > > -----Original Message-----
-> > > > > > From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On
-> > > > > > Behalf Of Hugo Villeneuve
-> > > > > > Sent: 17 March 2026 16:13
-> > > > > > Subject: Re: [PATCH 2/2] drm: renesas: rzg2l_mipi_dsi: Fix the
-> > > > > > power-on sequence
-> > > > > >
-> > > > > > Hi Biju,
-> > > > > >
-> > > > > > On Tue, 17 Mar 2026 15:45:29 +0000 Biju Das
-> > > > > > <biju.das.jz@bp.renesas.com> wrote:
-> > > > > >
-> > > > > > > Hi Hugo,
-> > > > > > >
-> > > > > > > > -----Original Message-----
-> > > > > > > > From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On
-> > > > > > > > Behalf Of Hugo Villeneuve
-> > > > > > > > Sent: 17 March 2026 15:21
-> > > > > > > > Subject: Re: [PATCH 2/2] drm: renesas: rzg2l_mipi_dsi: Fix
-> > > > > > > > the power-on sequence
-> > > > > > > >
-> > > > > > > > Hi Biju,
-> > > > > > > >
-> > > > > > > > On Tue, 17 Mar 2026 15:13:07 +0000 Biju Das
-> > > > > > > > <biju.das.jz@bp.renesas.com> wrote:
-> > > > > > > >
-> > > > > > > > > Hi Hugo,
-> > > > > > > > >
-> > > > > > > > > Thanks for the feedback.
-> > > > > > > > >
-> > > > > > > > > > -----Original Message-----
-> > > > > > > > > > From: dri-devel
-> > > > > > > > > > <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
-> > > > > > > > > > Hugo Villeneuve
-> > > > > > > > > > Sent: 17 March 2026 15:01
-> > > > > > > > > > Subject: Re: [PATCH 2/2] drm: renesas: rzg2l_mipi_dsi:
-> > > > > > > > > > Fix the power-on sequence
-> > > > > > > > > >
-> > > > > > > > > > Hi Biju,
-> > > > > > > > > >
-> > > > > > > > > > On Tue, 17 Mar 2026 12:36:01 +0000 Biju
-> > > > > > > > > > <biju.das.au@gmail.com>
-> > > > > > > > > > wrote:
-> > > > > > > > > >
-> > > > > > > > > > > From: Biju Das <biju.das.jz@bp.renesas.com>
-> > > > > > > > > > >
-> > > > > > > > > > > Move reset_control_deassert() and
-> > > > > > > > > > > reset_control_assert() from
-> > > > > > > > > > > rzg2l_mipi_dsi_dphy_init()/rzg2l_mipi_dsi_dphy_exit()
-> > > > > > > > > > > to
-> > > > > > > > > > > atomic_pre_enable() and atomic_post_disable()
-> > > > > > > > > > > respectively, and move
-> > > > > > > > > > > rzg2l_mipi_dsi_set_display_timing() from
-> > > > > > > > > > > atomic_pre_enable() to atomic_enable(), to align with
-> > > > > > > > > > > the power-on sequence described in Figure 34.5 of
-> > > > > > > > > > > section
-> > > > > > > > > > > "34.4.2.1 Reset" of the RZ/G2L hardware manual
-> > > > > > > > > > > Rev.1.50 May 2025.
-> > > > > > > > > > >
-> > > > > > > > > > > According to the hardware manual, LINK registers must
-> > > > > > > > > > > be written before deasserting CMN_RSTB, and the 1ms
-> > > > > > > > > > > delay is retained in
-> > > > > > > > > > > atomic_pre_enable() after the deassert.
-> > > > > > > > > > >
-> > > > > > > > > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > > > > > > > >
-> > > > > > > > > > Seems to me like this should be backported to stable
-> > > > > > > > > > branches (missing Fixes / Cc: stable
-> > > > > > tags)?
-> > > > > > > > >
-> > > > > > > > > OK, will add fixes/stable tags.
-> > > > > > > > >
-> > > > > > > > > >
-> > > > > > > > > >
-> > > > > > > > > > > ---
-> > > > > > > > > > >  .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    | 27 +++++++++++--------
-> > > > > > > > > > >  1 file changed, 16 insertions(+), 11 deletions(-)
-> > > > > > > > > > >
-> > > > > > > > > > > diff --git
-> > > > > > > > > > > a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> > > > > > > > > > > b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> > > > > > > > > > > index e53b48e4de56..9053ce037b75 100644
-> > > > > > > > > > > --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> > > > > > > > > > > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> > > > > > > > > > > @@ -484,7 +484,6 @@ static int rzg2l_mipi_dsi_dphy_init(struct rzg2l_mipi_dsi *dsi,
-> > > > > > > > > > >  	u32 dphytim1;
-> > > > > > > > > > >  	u32 dphytim2;
-> > > > > > > > > > >  	u32 dphytim3;
-> > > > > > > > > > > -	int ret;
-> > > > > > > > > > >
-> > > > > > > > > > >  	/* All DSI global operation timings are set with recommended setting */
-> > > > > > > > > > >  	for (i = 0; i <
-> > > > > > > > > > > ARRAY_SIZE(rzg2l_mipi_dsi_global_timings);
-> > > > > > > > > > > ++i) { @@
-> > > > > > > > > > > -524,12 +523,6 @@ static int rzg2l_mipi_dsi_dphy_init(struct rzg2l_mipi_dsi *dsi,
-> > > > > > > > > > >  	rzg2l_mipi_dsi_phy_write(dsi, DSIDPHYTIM2, dphytim2);
-> > > > > > > > > > >  	rzg2l_mipi_dsi_phy_write(dsi, DSIDPHYTIM3,
-> > > > > > > > > > > dphytim3);
-> > > > > > > > > > >
-> > > > > > > > > > > -	ret = reset_control_deassert(dsi->rstc);
-> > > > > > > > > > > -	if (ret < 0)
-> > > > > > > > > > > -		return ret;
-> > > > > > > > > > > -
-> > > > > > > > > > > -	fsleep(1000);
-> > > > > > > > > > > -
-> > > > > > > > > > >  	return 0;
-> > > > > > > > > > >  }
-> > > > > > > > > > >
-> > > > > > > > > > > @@ -541,8 +534,6 @@ static void
-> > > > > > > > > > > rzg2l_mipi_dsi_dphy_exit(struct rzg2l_mipi_dsi *dsi)
-> > > > > > > > > > >
-> > > > > > > > > > >  	dphyctrl0 &= ~(DSIDPHYCTRL0_EN_LDO1200 | DSIDPHYCTRL0_EN_BGR);
-> > > > > > > > > > >  	rzg2l_mipi_dsi_phy_write(dsi, DSIDPHYCTRL0,
-> > > > > > > > > > > dphyctrl0);
-> > > > > > > > > > > -
-> > > > > > > > > > > -	reset_control_assert(dsi->rstc);
-> > > > > > > > > > >  }
-> > > > > > > > > > >
-> > > > > > > > > > >  static int rzg2l_dphy_conf_clks(struct rzg2l_mipi_dsi
-> > > > > > > > > > > *dsi, unsigned long mode_freq, @@ -1030,24 +1021,37 @@
-> > > > > > > > > > > static void rzg2l_mipi_dsi_atomic_pre_enable(struct
-> > > > > > > > > > drm_bridge *bridge,
-> > > > > > > > > > >  	connector = drm_atomic_get_new_connector_for_encoder(state, bridge->encoder);
-> > > > > > > > > > >  	crtc = drm_atomic_get_new_connector_state(state, connector)->crtc;
-> > > > > > > > > > >  	mode = &drm_atomic_get_new_crtc_state(state,
-> > > > > > > > > > > crtc)->adjusted_mode;
-> > > > > > > > > > > -
-> > > > > > > > > >
-> > > > > > > > > > This is not related to your commit message (coding style change).
-> > > > > > > > >
-> > > > > > > > > Ack. Will restore it.
-> > > > > > > > >
-> > > > > > > > > >
-> > > > > > > > > >
-> > > > > > > > > > >  	ret = rzg2l_mipi_dsi_startup(dsi, mode);
-> > > > > > > > > > >  	if (ret < 0)
-> > > > > > > > > > >  		return;
-> > > > > > > > > > >
-> > > > > > > > > > > -	rzg2l_mipi_dsi_set_display_timing(dsi, mode);
-> > > > > > > > > > > +	ret = reset_control_deassert(dsi->rstc);
-> > > > > > > > > > > +	if (ret < 0)
-> > > > > > > > > > > +		return;
-> > > > > > > > > > > +
-> > > > > > > > > > > +	if (dsi->rstc)
-> > > > > > > > > >
-> > > > > > > > > > This seems new and not documented in the commit message? Is this a fix?
-> > > > > > > > >
-> > > > > > > > > RZ/V2H does not need this as it uses different IP.
-> > > > > > > > > Previously
-> > > > > > > > > fsleep() is in RZ/G2L specific function. I will update commit description for this
-> > change.
-> > > > > > > >
-> > > > > > > > Suggestion: maybe move this to a separate patch, to facilitate review/understanding...
-> > > > > > >
-> > > > > > > The only way is to introduce a new callback to handle it for RZ/G2L SoC.
-> > > > > > > Then we won't be able to apply fixes tag as it is not fixing anything.
-> > > > > >
-> > > > > > I am not sure what you mean by that callback? How a callback is
-> > > > > > needed only if you split the
-> > > > patch?
-> > > > >
-> > > > > You cannot split the patch.
-> > > > >
-> > > > > Before:
-> > > > >   atomic_pre_enable():
-> > > > >     startup()
-> > > > >       dphy_init()
-> > > > >         write DSIDPHYTIMx         (F) PHY timing regs
-> > > > >         reset_control_deassert()  (G) deassert CMN_RSTB
-> > > > >         udelay(1)                 (H)
-> > > > > 	  setting below link registers
-> > > > >         − TXSETR
-> > > > > 	  − ULPSSETR
-> > > > >         − DSISETR
-> > > > >         − CLSTPTSETR
-> > > > >         − LPTRNSTSETR
-> > > > >
-> > > > > Current patch:
-> > > > >
-> > > > > atomic_pre_enable():
-> > > > >     startup()
-> > > > >       dphy_init()
-> > > > >         write DSIDPHYTIMx         (F) PHY timing regs
-> > > > > 	setting below link registers
-> > > > >         − TXSETR
-> > > > > 	  − ULPSSETR
-> > > > >         − DSISETR
-> > > > >         − CLSTPTSETR
-> > > > >         − LPTRNSTSETR
-> > > > >
-> > > > >       reset_control_deassert()  (G) deassert CMN_RSTB
-> > > > >       fsleep(1000)              (H)
-> > > > >
-> > > > > >
-> > > > > > In this original patch you test for the validity of dsi->rstc to
-> > > > > > determine if you apply the delay or not. So in the case of RZ/V2H, I understand that it is
-> > NULL?
-> > > > >
-> > > > > Yes, that is correct.
-> > > > >
-> > > > > >
-> > > > > > > Currently this is optional reset, and it is no-op for RZ/V2H.
-> > > > > >
-> > > > > > Does this means that the call to reset_control_deassert(dsi->rstc) should not occur for
-> > RZ/V2H?
-> > > > >
-> > > > > reset_control_deassert(dsi->rstc) will return immediately as it is null.
-> > > > >
-> > > > > or
-> > > > >
-> > > > > We could add this check instead
-> > > > >
-> > > > > 	if (dsi->rstc) {
-> > > > > 	    ret = reset_control_deassert(dsi->rstc);
-> > > > > 	    if (ret < 0)
-> > > > > 		return;
-> > > > >
-> > > > > 	    fsleep(1000);
-> > > > > 	}
-> > > >
-> > > > Yes, like Tommaso suggested.
-> > > >
-> > > > But I don't see why you cannot simply implement (split) this change
-> > > > as a separate commit just after commit #1, or after commit #2?
-> > > >
-> > > > This seems like an optimization for RZ/V2H, so I think it doesnt
-> > > > really matter if it does not go to stable branches?
-> > >
-> > > Previously RZ/V2H do not call reset_control_deassert(dsi->rstc) as it
-> > > is called from SoC-specific function.
-> > 
-> > Ok, so this change could be split, if you want, as commit #3. This would make commit #2 easier to
-> > understand IMHO.
-> 
-> 
-> atomic_pre_enable():
-> 	startup()
-> 		dphy_init() -> SoC specific
-> 		write DSIDPHYTIMx         (F) PHY timing regs
-> 
-> The below calls are in common path. So, no way you can split.
-> 	setting below link registers
-> 		   − TXSETR
-> 		   − ULPSSETR
-> 		   − DSISETR
-> 		   − CLSTPTSETR
-> 		   − LPTRNSTSETR
-> 	reset_control_deassert()  (G) deassert CMN_RSTB
-> 	fsleep(1000)              (H)
+Implementation detail and actually not accurate.
 
-I do understand now, with your previous explanations, why you add the
-reset guard for RZ/V2H).
+> So this patch looks like a step back to me...
 
-I do not understand why you say "no way you can split", because
-my suggestion was merely to split the change in two commits instead of
-a single one, and the final source code would be 100% identical...
+Not to me, just sent
+20260317210828.2117631-1-andriy.shevchenko@linux.intel.com
+to clarify in the documentation what's this about.
 
-> Patch#1 1usec to 1 msec
-> Patch#2 Move rzg2l_mipi_dsi_set_display_timing() to rzg2l_mipi_dsi_atomic_enable()
->         after starting hs clock.     
-> Patch#3 Move reset assert/deassert from rzg2l_mipi_dsi_dphy_{init, exit} to 
->         rzg2l_mipi_dsi_atomic_pre_enable and rzg2l_mipi_dsi_atomic_post_disable,
->         with a guard for RZ/V2H by checking (dsi->rstc), as it is in the common path.
-> 	  Like previous case assert/deassert won't be called.
-> 
-> Are you OK?
+-- 
+With Best Regards,
+Andy Shevchenko
 
-My suggestion was only... a suggestion :) Feel free to do what you
-think is best, as long as it is very well documented.
 
-Hugo Villeneuve <hugo@hugovil.com>
 
