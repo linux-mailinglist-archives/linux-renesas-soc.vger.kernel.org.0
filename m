@@ -1,214 +1,358 @@
-Return-Path: <linux-renesas-soc+bounces-29624-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29625-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gMcyIWt8uWmxHAIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29624-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 17:08:11 +0100
+	id IGjWKNB8uWmxHAIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29625-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 17:09:52 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B840C2ADA21
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 17:08:10 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CE2E2ADA9A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 17:09:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 67C2B315EE71
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 16:02:32 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E26823068DB5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 16:05:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54DCF2C3260;
-	Tue, 17 Mar 2026 16:02:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 897152DA769;
+	Tue, 17 Mar 2026 16:05:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="KggmiKJc"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011017.outbound.protection.outlook.com [40.107.74.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB7D1257845
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Mar 2026 16:02:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773763352; cv=none; b=n1qm45Vvf7NQB5BBvnefVY+y7g+Qpjupuv7+aU+N2uR1NEDkimMEwOy7Iehv5xskipgaGV4MrdOAFsWixeXFUTjV875pGHqT2HPTK4dye8wa3BsqF0RSuooQYqawHqSVZasXDFgz2Npzy69FYQ8jrM2y9DuhzDWOQ0qR6LuR6hs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773763352; c=relaxed/simple;
-	bh=sIXRyKcBB8QlxcJr7L52j/3CiZELN2iAHmA6Aw4pzm0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QVU/BLKQ/C0pOyG8/c0AS/PGHMmHhjX4OttApgQqmNOF8V438TrPUE7DHmAPmj7sfH7ikKlezNYLdkFXVw5YcbxbjnyvBnyepEbZfTVh51lRPk6TJqQvXK+MhnwDgTXhQZHQjOr2p3/NfSDqi8fz5DNedUILI2ip0/kLiLdNvb0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-38a723b2b29so42782451fa.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Mar 2026 09:02:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773763345; x=1774368145;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=twLG+LiXs44QUcz9Iwy6OkpeTFkusmg+ejXI1TbxJ+E=;
-        b=TZSmzYN9apYXQEWBFf/mz/EMn+gXZekTPLWuBMVXElYWeG/wDNJ/rH6N3J+BiidIFN
-         rMxOP60iRUTH+qc7xt6ho5i/VbGtCDIcY5exmugATzEV1YWSjPlU6GONGSVXnxUjqUKa
-         clD3PWg3+WG79HqOlm8bANUH7rNRwiuIIX3QaD6UyBLL+kSRI+wZMX1jULLO6zwjfZk7
-         ow49f/8IYu/eCupWslW3loEgBi89nYKJJg63vJvxQynmfAODImmimYZPBwEW2tjhna1R
-         duCD5EiFa2OsOV0/bt71duM7o++gm1VrE9+SqE0SJvjAUqSEdCuhy4wu0iG7LwJWjQox
-         JaKw==
-X-Forwarded-Encrypted: i=1; AJvYcCUmyNK+YLvn30LRKMZpbZ2Yzc7bKxaAIGhYV6hPM1N1tBi0WI4p42qRCLdYaQuo2NEDGFDwig32X58xJCYlwXTjqQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw/Ah0mhBAfyRmmBTVKUVfknzh4ZscBhoZ39KiqtHpQEFDZnTN+
-	zcAdDIP2xMm1/xeOc0a9hT1LSaG4E3GG/gvhxiPU7yvNJo4CaeKvGg7Y8s152fMHloI=
-X-Gm-Gg: ATEYQzzVk83SG8lHX/DjBpKwBWSAjW/OPsL3P+d2kDQJ7/uYO4yPgqdDBjUgcsmCDcP
-	qYn+Wm3+XHklcl/zB5rI9zzz+0ZAP4J/favgj/G+ylxYsY/MTL3TsYuzqzWrGfvSi/nZ8bYal88
-	7nKvIxDENLjOtEEyk6X0hj4K/6kl9yAlVYS3/YWn0HyBnvLX5i5hVl1/fZr8AJoDTO4iYncAFqO
-	v49HXgQcbDu3L88vp8iL+2gVPoKJS6xaBMY6c609q0MCAgTNIiTSqIsq51y/eQqFKy5qRblXxe5
-	upv0UJzaOfkzKFmjMJdl+hXJk+bK/wtnc9RD/axnwfVQ7SE5s9c90c8WsXrTLoZYw+Xmq7UQZbh
-	EGqW6rYzqr7MCw6CkB5jI+PKW7XdC10dr3wFD+PhcGfnQCyaFrVN1tMI2/k1iQMxeVoFSWdcXPP
-	Q6eva1kVUhZYrNJ/XprNzuogQtVQBYvAP0bev78rjVeHs8fUOI0pJBhT6farQ9
-X-Received: by 2002:a2e:96cf:0:b0:38a:34c8:9dad with SMTP id 38308e7fff4ca-38bd58b8233mr466491fa.31.1773763344613;
-        Tue, 17 Mar 2026 09:02:24 -0700 (PDT)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com. [209.85.167.48])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38bd5157108sm376841fa.1.2026.03.17.09.02.23
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Mar 2026 09:02:24 -0700 (PDT)
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5a133b686f7so728775e87.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Mar 2026 09:02:23 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWtBE4GfgHCp/4ftipO+i+UrCGflkaOR9hzidlORgcTZHc6RDy1EDoZG9/sabHHIMWi0/i0hWBX9fjaL3GRMzFk3g==@vger.kernel.org
-X-Received: by 2002:a17:907:d1e:b0:b94:1d92:7eb with SMTP id
- a640c23a62f3a-b976505a45fmr1113540866b.18.1773762847178; Tue, 17 Mar 2026
- 08:54:07 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C42612989B5;
+	Tue, 17 Mar 2026 16:05:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.17
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773763514; cv=fail; b=UgsAfa/xBOQF+CO3ZeDuHyzeW9VMtLdJ7HLNJyQrGwXtCwOqeEqdcaXnYrx0Wv0gydBdSAXTC9yZeIVqTcuI5Vbczyfd3DlHNKTlYK1OX1YDdSoRwRfTZrA5RMv4zkTpVH93Ggdk5HU2kyW8d6GUEs6CdEWi8Ihvqmh4QGbcHpQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773763514; c=relaxed/simple;
+	bh=ZrtFmbMldH8yZDFuMMujpj9ybGATCpHz5ffmhyqF+Jo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=rOl+AxUjcY6uHAC60iVr06pAoEfnxjwjnjTEwtQJL8jz0jnCIjYN44JgUHcWoPiluH09OxtSr9KvDWu6UTJG/UWKLbB/rJRPZ4n5WC3DCVJ5OZEBq9Ay8JUWNDTw6vps/gMRZiEDC/remRNE78N/ujjCLZWOmYk9JXqEkTPr7vc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=KggmiKJc; arc=fail smtp.client-ip=40.107.74.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=n4TBwfdyYxjhUrwKqO8XXG7O3nmqQiuBCTwNMSx9G6R9CiuEuoAHNY7HXr+B/Jd1Cj96rSz9hcFWH/YOXbsyLdQuE1TSlScTWy1ScyQgVwLBYt+jpMNlUIjiU2j8otPh1f+xCGZ4wUYrCd0puuSBTKzCxD9r/b6desqR290E6YZzl8NidEMShNEgfOQwXKJRPy88KlpC8s1X/pJgaX0jGVj14JbLzjSqgnaszenYdWROg1fk4uHDUT0XcVhzdCT1PJTmOH/JcHE/5C3zKk2eDKNC+yYZpWqNnkkFQeiMJtuYI3VNC/lLQD/sM6+Ox5YofJ2gPse8SGWqI2rUPs3q0w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3FakKGO9ZAwJs9gFyBaFdy8JsAylH2qo+VSa0NFgXsI=;
+ b=nB5+OnLorQ4Du599kEVaS/PjMJAiym22w399PxIsAjxnmJpKsnQwbGw7sTrQ21Dr5pzw4A7GS3QRvOLU7bc8dhvWpEkyhKCyzwbwWDPy3JGgqREbqBdHZ65WIZoigRlzaQ/vlUATJCVxCm7wDzYFL1gwGcXG910B4uO0nqRwrs8ZbxJlKQvXUL7soFRVm3fQf8gXafm43EfsImUAqIljly2Ji/C40HduytoBTDJTgMiDMi4YmbIyWQhnWaOSG+AMba/LQWGeAwZYwOj60oq4ihsecpgj7S7EZsNTEbBg5FEQ9SVxvB6gFT4gjXzbVgRFLgGbgOFeiUuhrkIIkNHtwQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3FakKGO9ZAwJs9gFyBaFdy8JsAylH2qo+VSa0NFgXsI=;
+ b=KggmiKJcqITirhnw5lCdcBOnzHRFes7h9pqSiS+d3wI0pDTS7Di/JYy4rcV2j1IVzB8QVA7+P5wm0ms+/5CYwsUj5Ht1jVbIhRa+0AsBZv6yvYyPBiaex60RalLdISOecHhho1udSCz3XJePW3qw/fdak39LDXlZoAmLkip4/9w=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com (2603:1096:400:3e1::6)
+ by OSZPR01MB9485.jpnprd01.prod.outlook.com (2603:1096:604:1d1::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.24; Tue, 17 Mar
+ 2026 16:05:08 +0000
+Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com
+ ([fe80::33f1:f7cd:46be:e4d8]) by TYCPR01MB11947.jpnprd01.prod.outlook.com
+ ([fe80::33f1:f7cd:46be:e4d8%5]) with mapi id 15.20.9700.024; Tue, 17 Mar 2026
+ 16:05:08 +0000
+Date: Tue, 17 Mar 2026 17:04:50 +0100
+From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+To: Biju <biju.das.au@gmail.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Chris Brandt <chris.brandt@renesas.com>,
+	Hugo Villeneuve <hugo@hugovil.com>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 2/2] drm: renesas: rzg2l_mipi_dsi: Fix the power-on
+ sequence
+Message-ID: <abl7ovx8e7zToQfp@tom-desktop>
+References: <20260317123610.329630-1-biju.das.jz@bp.renesas.com>
+ <20260317123610.329630-3-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260317123610.329630-3-biju.das.jz@bp.renesas.com>
+X-ClientProxiedBy: FR4P281CA0049.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:cc::13) To TYCPR01MB11947.jpnprd01.prod.outlook.com
+ (2603:1096:400:3e1::6)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260317-arm_defconf_cleanup-v1-0-8eecb7fdd24d@kernel.org> <20260317-arm_defconf_cleanup-v1-3-8eecb7fdd24d@kernel.org>
-In-Reply-To: <20260317-arm_defconf_cleanup-v1-3-8eecb7fdd24d@kernel.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 17 Mar 2026 16:53:54 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdV50nOT06wKfj_X5LU2z=1XZZGd6Gac0C41qWWNZHRLXg@mail.gmail.com>
-X-Gm-Features: AaiRm53kA4BcUnu8DzmJWc_bmCImw2GJpSjbqTP7vNJFqk2-PxsMkq0NOVh2FgU
-Message-ID: <CAMuHMdV50nOT06wKfj_X5LU2z=1XZZGd6Gac0C41qWWNZHRLXg@mail.gmail.com>
-Subject: Re: [PATCH 3/9] configs: remove obsolete assignments to CONFIG_NFS_V4_1
-To: "Vincent Mailhol (Arm)" <mailhol@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-	Mikko Rapeli <mikko.rapeli@linaro.org>, Richard Henderson <richard.henderson@linaro.org>, 
-	Matt Turner <mattst88@gmail.com>, Magnus Lindholm <linmag7@gmail.com>, 
-	Russell King <linux@armlinux.org.uk>, Aaro Koskinen <aaro.koskinen@iki.fi>, 
-	Andreas Kemnade <andreas@kemnade.info>, Kevin Hilman <khilman@baylibre.com>, 
-	Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>, 
-	Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
-	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
-	Alexander Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
-	Sven Schnelle <svens@linux.ibm.com>, Yoshinori Sato <ysato@users.sourceforge.jp>, 
-	Rich Felker <dalias@libc.org>, John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Pablo Neira Ayuso <pablo@netfilter.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, Frank Li <Frank.Li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Vladimir Zapolskiy <vz@mleia.com>, 
-	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, Liviu Dudau <liviu.dudau@arm.com>, 
-	Sudeep Holla <sudeep.holla@kernel.org>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>, 
-	Gregory CLEMENT <gregory.clement@bootlin.com>, =?UTF-8?B?VGjDqW8gTGVicnVu?= <theo.lebrun@bootlin.com>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Janusz Krzysztofik <jmkrzyszt@gmail.com>, =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
-	Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>, Heiko Stuebner <heiko@sntech.de>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Mark Brown <broonie@kernel.org>, 
-	Eric Biggers <ebiggers@kernel.org>, Ard Biesheuvel <ardb@kernel.org>, 
-	Sricharan Ramabadhran <quic_srichara@quicinc.com>, Bjorn Andersson <andersson@kernel.org>, 
-	Michael Walle <mwalle@kernel.org>, Guenter Roeck <linux@roeck-us.net>, 
-	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
-	"Rob Herring (Arm)" <robh@kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Anna Schumaker <anna.schumaker@oracle.com>, 
-	Alexandre Gonzalo <alexandre.gonzalo@arm.com>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org, 
-	loongarch@lists.linux.dev, linux-mips@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev, linux-samsung-soc@vger.kernel.org, 
-	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org, 
-	linux-parisc@vger.kernel.org, openbmc@lists.ozlabs.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spamd-Result: default: False [0.04 / 15.00];
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB11947:EE_|OSZPR01MB9485:EE_
+X-MS-Office365-Filtering-Correlation-Id: dd5dddf6-1263-4058-8f86-08de843ef5c9
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|52116014|1800799024|376014|7416014|18002099003|22082099003|56012099003|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	BLTWN70Jx0fRBV9K+cfivB0wi4BkHsp6YIFRZjOvd6EcpOZD+VWGunE0BK1pAntJTVfFw++gS2rG5qyXAme/N0pNGMIJWIvOTZ1Bwus/vUyLGpHNzAb3dn643erVojpIb0gy7fzrrObFOkUcVm+oAGAZiPPqDT5tzsmluk1532+Yt5yMGpQpa5NelZTGKMZRSroym2KBJkF+RipBMocGW//y5xsOIYqz+ac7k+2IYSMRbctoVSySedbu9QmWY5op4K2uOloScDwxXKnU5pukKEKHcdzs3iBCbkvaTogVJzbifUFcCUVOvmp5VBj9+OZ4+KMGoy70SdRA0UpEJ4GZOEKwyYRqg7Wg5Ec99vmA8hS/3jXzhTHMTV8msstK9YqUFfN0lC4UyZ2WEyUpk7xhrUuFvquaHoNl9b0mfIUXlqk7l22WMpnlDXIAGyYC5fp9ppFnF0NE3gq3sVK8nwS7JWJuU1pMI87reN1l6OBfbI1rpFRxAnFkvkPGApv2syALIQw1SU9ODrM9w7om9TMNRc1PvzRFvzi/Kj465g1+qhgxDJcx40bcx4Iia5QPuzQEI4uttEoyjrkFRRObrbq1Wflo8nO6Hqa1HM8CgS0Hv349En4yHr35n/1+GfF+tnsePNZy0P4I2EwIEOwDeIylVWfWcRxUGWIxtwyuLyBRNGyPXaOhbfIGHbwIQZuzfAlovxi90ezqtsWJF6erQBbJ2GJWDJejLq/ihxcZbMemapTlsSioimcVYP6s+gbE5ExDWr35NMxa0bNkl24l3+xEHnNFWew+d6G/AM9EXAPoYrw=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11947.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(1800799024)(376014)(7416014)(18002099003)(22082099003)(56012099003)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?JWxoeq8nAQeliJEPnUEjG/9Br170eSHWO4nFEpd4oO0LrtDsP9772dKXN8qy?=
+ =?us-ascii?Q?uC0ybGFMiyKlCvRmG0wr4opEDQCsg2kC738O547v+kl2fu/5VlnjBXacWDuP?=
+ =?us-ascii?Q?mHvUDpB+XlZOlcCv/FnHsGE4FJcNOUNdkIMQDlgjk18nwaFGnYgfTrxLdeYp?=
+ =?us-ascii?Q?cMpP7SlVfB1wfOUElSbIm9dvslGtxeRe5ZRUo/vzTBH1tItePZSYDEv6Bh33?=
+ =?us-ascii?Q?+WNSYRzOX2xr0TlMBRl4f4Fvz2265gwjkemIPf1JYZXT+MMWODSi53sIR6gF?=
+ =?us-ascii?Q?3z1YUEjZjiAMs6MSVmmhMPamWa7IyT7XT4I0/NfKQkbsCd2F/M4xPVkGykdC?=
+ =?us-ascii?Q?Z8lf6+WWlb5FeHvnyOTzgM8dR94lu8NCTyj6y9hl31B6+jAOi77/FulORmt0?=
+ =?us-ascii?Q?pyjhfbyVbjO3x5+6hFkbme3Jsfv5riHuRVgHXdneLQly3CmCScWb1mwpzFsE?=
+ =?us-ascii?Q?XXNb1HXAoFoOokuHcUjYg91UKIVk+MezC5GlRxWPnCOeqPY6693atelJMHX3?=
+ =?us-ascii?Q?i4oKgIyWVh/0rQxKbOXdup5+K8HQnbrZS1fvPEmuHniEzU3nc2udfAVLjdfB?=
+ =?us-ascii?Q?Y9nKSPJWJqqNjh/UObeeUX+k7iyI8nwQe8PldNw1j7lE+4W8gy0Y+1fSO9eu?=
+ =?us-ascii?Q?bW8P4vmv6vjwbaeukeYhO+av3aUhcdAy84OJHs3ifOvkSGHMJXDLih1RknLb?=
+ =?us-ascii?Q?KAw2lsaR2ZOyB5GJzz13mMlxmBVgHJlUvFxEsg/SFOMA7Pxz8Jy4V/oY21hs?=
+ =?us-ascii?Q?yoAn27YwSuAmgJ420pHcfkKc9N9kxPEUwrTKLKoAbcpCQlHf06dkTM/JDeyH?=
+ =?us-ascii?Q?OmBTKv/DIJYU5RfPLuMhqK0tMUF5/ZRDdvN+e/6EgC425gst4Ecw3ttSlvBg?=
+ =?us-ascii?Q?JfMafW+LjTregxqwx/OJC+oNZJkbST5jAcbGLWtoPCgAJKfsOy8zaMvV+cwh?=
+ =?us-ascii?Q?6+iT6y39z1qN/mLIOjBiObMeyPWyCa+Ok4w237lBx5RXbLIN1L6nD7IYMaUX?=
+ =?us-ascii?Q?FrtMvu6IA/yTxgfxcM5EYIhy1uUuBLkK+FiF0RYCwB2cxhB9VOEDT+dJHtXy?=
+ =?us-ascii?Q?vp3qd9L2Hxy14fHjFORR8wlYnkzbLYBvTKlOde3z+pivSaUXklXTwysfT10x?=
+ =?us-ascii?Q?aDNre3qM4Cu/Op5cMgcImTD/7clE9cESJfbrSWYx/aOSG29pOg5qJLOUOSDz?=
+ =?us-ascii?Q?bozR/ZKhdUYFQst40xAxj3W0oJ5bj6xP7dVzY5pkS5HE3myVM76loEa9Oz7B?=
+ =?us-ascii?Q?wwUukhiUAuNlPrL/hI/K6P0wF0Nu6Wv4aGyoWlTlD8sBgDMGutju0KfQygJ5?=
+ =?us-ascii?Q?T1yfBpYWO8WyYPUs9RcdZonfeNqmZjo0OOf3rCzn+flDzXHgirlYHzliZSgL?=
+ =?us-ascii?Q?gjL7rwc1JVZZZDW2iU9qfa/UONMU8yvyRyMWC8t6FI3T0DIPSrWBFlV3J1XQ?=
+ =?us-ascii?Q?dkm/K6RvlF99VH/kiYClxRzZQ+IDR2lCddp+QmOrdd4yzJ74VyYDuGYmagNP?=
+ =?us-ascii?Q?VuISYHMgWSGnEqDgqr0khEeBQxwgij0SLysXOt8oHmmE3BNa3dN1ycdvLdId?=
+ =?us-ascii?Q?5z2RCN5ROMG8IGoou5E4UG/dVXnDU43mPxtWXYg05n13hX994WY/hT3n4NX4?=
+ =?us-ascii?Q?wgpgli111X5qLvharzZXMOzjtp7fvwLND9852XXBQe+oEQeqr7avF5mzGxSm?=
+ =?us-ascii?Q?NggEQRdv5m+teR0RgE17AEe6WOJx1g9Ey+yxhLeL3Hu9BlDbDah3A4d7ck/a?=
+ =?us-ascii?Q?LJACiL6XbNZq9HyJFs7sTFhN9XGgGm+zoIBiYYDYZsCV/G3jnwua?=
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dd5dddf6-1263-4058-8f86-08de843ef5c9
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11947.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2026 16:05:08.3552
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lLIBnoLl3/h0mEcu1s0Lhfr08+VQPlxLAAKr1zibX6Ot8or4fiLRn8nyk1S+XpfVbviHFIZQQANS7de+yuDWk6RDTvm+za3MEka1XLlFqVcsGLHpfod4p05MIhM1Tk+d
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB9485
+X-Spamd-Result: default: False [1.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[bp.renesas.com:s=selector1];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,linaro.org,gmail.com,armlinux.org.uk,iki.fi,kemnade.info,baylibre.com,atomide.com,xen0n.name,alpha.franken.de,linux.ibm.com,ellerman.id.au,dabbelt.com,eecs.berkeley.edu,ghiti.fr,users.sourceforge.jp,libc.org,physik.fu-berlin.de,redhat.com,alien8.de,linux.intel.com,zytor.com,linutronix.de,goodmis.org,netfilter.org,samsung.com,nxp.com,pengutronix.de,mleia.com,timesys.com,arm.com,glider.be,mobileye.com,bootlin.com,hansenpartnership.com,gmx.de,gmx.net,zankel.net,suse.de,arndb.de,sntech.de,renesas.com,quicinc.com,roeck-us.net,oss.qualcomm.com,linuxfoundation.org,oracle.com,vger.kernel.org,lists.infradead.org,lists.linux.dev,lists.ozlabs.org];
-	TAGGED_FROM(0.00)[bounces-29624-lists,linux-renesas-soc=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	DMARC_NA(0.00)[linux-m68k.org];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-29625-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[bp.renesas.com:+];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCPT_COUNT_GT_50(0.00)[98];
-	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.822];
+	FROM_NEQ_ENVFROM(0.00)[tommaso.merciai.xr@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
+	FREEMAIL_CC(0.00)[bp.renesas.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,pengutronix.de,lists.freedesktop.org,vger.kernel.org,glider.be,renesas.com,hugovil.com];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,linux-m68k.org:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: B840C2ADA21
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[bp.renesas.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email]
+X-Rspamd-Queue-Id: 0CE2E2ADA9A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Vincent,
+Hi Biju,
+Thanks for your patch.
 
-On Tue, 17 Mar 2026 at 10:16, Vincent Mailhol (Arm) <mailhol@kernel.org> wrote:
-> CONFIG_NFS_V4_1 was revomed in commit 7537db24806f ("NFS: Merge
-> CONFIG_NFS_V4_1 with CONFIG_NFS_V4"). However, some defconfigs are
-> still referring the old configuration.
->
-> Clean-up all the leftover references to CONFIG_NFS_V4_1.
->
-> FYI, the suppressions were done using:
->
->   git grep -z -l '^CONFIG_NFS_V4=' -- 'arch/*/configs/*defconfig' |\
->     xargs -0 sed -i -E '/^CONFIG_NFS_V4_1=/d'
->
-> CONFIG_NFS_V4_1_IMPLEMENTATION_ID_DOMAIN and CONFIG_NFS_V4_1_MIGRATION
-> were not in scope of the renaming and still use V4_1 in their name, so
-> keep those two untouched.
->
-> Fixes: 7537db24806f ("NFS: Merge CONFIG_NFS_V4_1 with CONFIG_NFS_V4")
-> Signed-off-by: Vincent Mailhol (Arm) <mailhol@kernel.org>
+On Tue, Mar 17, 2026 at 12:36:01PM +0000, Biju wrote:
+> From: Biju Das <biju.das.jz@bp.renesas.com>
+> 
+> Move reset_control_deassert() and reset_control_assert() from
+> rzg2l_mipi_dsi_dphy_init()/rzg2l_mipi_dsi_dphy_exit() to
+> atomic_pre_enable() and atomic_post_disable() respectively, and move
+> rzg2l_mipi_dsi_set_display_timing() from atomic_pre_enable() to
+> atomic_enable(), to align with the power-on sequence described in
+> Figure 34.5 of section "34.4.2.1 Reset" of the RZ/G2L hardware manual
+> Rev.1.50 May 2025.
+> 
+> According to the hardware manual, LINK registers must be written before
+> deasserting CMN_RSTB, and the 1ms delay is retained in atomic_pre_enable()
+> after the deassert.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+>  .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    | 27 +++++++++++--------
+>  1 file changed, 16 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> index e53b48e4de56..9053ce037b75 100644
+> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> @@ -484,7 +484,6 @@ static int rzg2l_mipi_dsi_dphy_init(struct rzg2l_mipi_dsi *dsi,
+>  	u32 dphytim1;
+>  	u32 dphytim2;
+>  	u32 dphytim3;
+> -	int ret;
+>  
+>  	/* All DSI global operation timings are set with recommended setting */
+>  	for (i = 0; i < ARRAY_SIZE(rzg2l_mipi_dsi_global_timings); ++i) {
+> @@ -524,12 +523,6 @@ static int rzg2l_mipi_dsi_dphy_init(struct rzg2l_mipi_dsi *dsi,
+>  	rzg2l_mipi_dsi_phy_write(dsi, DSIDPHYTIM2, dphytim2);
+>  	rzg2l_mipi_dsi_phy_write(dsi, DSIDPHYTIM3, dphytim3);
+>  
+> -	ret = reset_control_deassert(dsi->rstc);
+> -	if (ret < 0)
+> -		return ret;
+> -
+> -	fsleep(1000);
+> -
+>  	return 0;
+>  }
+>  
+> @@ -541,8 +534,6 @@ static void rzg2l_mipi_dsi_dphy_exit(struct rzg2l_mipi_dsi *dsi)
+>  
+>  	dphyctrl0 &= ~(DSIDPHYCTRL0_EN_LDO1200 | DSIDPHYCTRL0_EN_BGR);
+>  	rzg2l_mipi_dsi_phy_write(dsi, DSIDPHYCTRL0, dphyctrl0);
+> -
+> -	reset_control_assert(dsi->rstc);
+>  }
+>  
+>  static int rzg2l_dphy_conf_clks(struct rzg2l_mipi_dsi *dsi, unsigned long mode_freq,
+> @@ -1030,24 +1021,37 @@ static void rzg2l_mipi_dsi_atomic_pre_enable(struct drm_bridge *bridge,
+>  	connector = drm_atomic_get_new_connector_for_encoder(state, bridge->encoder);
+>  	crtc = drm_atomic_get_new_connector_state(state, connector)->crtc;
+>  	mode = &drm_atomic_get_new_crtc_state(state, crtc)->adjusted_mode;
+> -
+>  	ret = rzg2l_mipi_dsi_startup(dsi, mode);
+>  	if (ret < 0)
+>  		return;
+>  
+> -	rzg2l_mipi_dsi_set_display_timing(dsi, mode);
+> +	ret = reset_control_deassert(dsi->rstc);
+> +	if (ret < 0)
+> +		return;
+> +
+> +	if (dsi->rstc)
+> +		fsleep(1000);
 
-Thanks for your patch!
+What about?
 
-> --- a/arch/arm/configs/shmobile_defconfig
-> +++ b/arch/arm/configs/shmobile_defconfig
-> @@ -217,7 +217,6 @@ CONFIG_TMPFS=y
->  CONFIG_NFS_FS=y
->  CONFIG_NFS_V3_ACL=y
->  CONFIG_NFS_V4=y
-> -CONFIG_NFS_V4_1=y
->  CONFIG_ROOT_NFS=y
->  CONFIG_NLS_CODEPAGE_437=y
->  CONFIG_NLS_ISO8859_1=y
+	if (dsi->rstc) {
+	    ret = reset_control_deassert(dsi->rstc);
+	    if (ret < 0)
+		return;
 
-Already done, cfr. commit 8c6cccefb33e2022 ("ARM: shmobile: defconfig:
-Refresh for v7.0-rc1") in next-20260309 and later.
+	    fsleep(1000);
+	}
 
-Gr{oetje,eeting}s,
 
-                        Geert
+>  }
+>  
+>  static void rzg2l_mipi_dsi_atomic_enable(struct drm_bridge *bridge,
+>  					 struct drm_atomic_state *state)
+>  {
+>  	struct rzg2l_mipi_dsi *dsi = bridge_to_rzg2l_mipi_dsi(bridge);
+> +	const struct drm_display_mode *mode;
+> +	struct drm_connector *connector;
+> +	struct drm_crtc *crtc;
+>  	int ret;
+>  
+>  	ret = rzg2l_mipi_dsi_start_hs_clock(dsi);
+>  	if (ret < 0)
+>  		goto err_stop;
+>  
+> +	connector = drm_atomic_get_new_connector_for_encoder(state, bridge->encoder);
+> +	crtc = drm_atomic_get_new_connector_state(state, connector)->crtc;
+> +	mode = &drm_atomic_get_new_crtc_state(state, crtc)->adjusted_mode;
+> +
+> +	rzg2l_mipi_dsi_set_display_timing(dsi, mode);
+> +
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Manual/Patch says that LINK registers must be written before
+deasserting CMN_RSTB:
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+  atomic_pre_enable():
+	  startup()                  (F) PHY timing regs + LINK
+	  set_display_timing()       (F) writing VICH1* (LINK regs)
+	  reset_control_deassert()   (G)
+	  fsleep(1000)               (H)
+
+Before this series we have:
+
+  atomic_pre_enable():
+    startup()
+      dphy_init()
+        write DSIDPHYTIMx         (F) PHY timing regs
+        reset_control_deassert()  (G) deassert CMN_RSTB
+        udelay(1)                 (H)
+    set_display_timing()          (F) writing VICH1* (LINK regs)  
+
+
+Moving set_display_timing() here you are setting LINK regs after
+reset_control_deassert() and the sequence will be:
+
+ atomic_pre_enable():
+	 startup()		  (F) PHY timing regs + LINK
+	 reset_control_deassert() (G) CMN_RSTB deassert
+	 fsleep(1000)             (H) wait 1ms
+
+ atomic_enable():
+	 start_hs_clock()
+	 set_display_timing()     (F) writing VICH1* (LINK regs)
+	 start_video()
+
+I think to provide the right sequence we need to just move
+
+	reset_control_deassert(dsi->rstc);
+
+From rzg2l_mipi_dsi_dphy_init() to rzg2l_mipi_dsi_atomic_pre_enable()
+just after rzg2l_mipi_dsi_set_display_timing() call.
+
+
+>  	ret = rzg2l_mipi_dsi_start_video(dsi);
+>  	if (ret < 0)
+>  		goto err_stop_clock;
+> @@ -1074,6 +1078,7 @@ static void rzg2l_mipi_dsi_atomic_post_disable(struct drm_bridge *bridge,
+>  {
+>  	struct rzg2l_mipi_dsi *dsi = bridge_to_rzg2l_mipi_dsi(bridge);
+>  
+> +	reset_control_assert(dsi->rstc);
+>  	rzg2l_mipi_dsii_stop(dsi);
+
+rzg2l_mipi_dsi_stop() is writing DSIDPHYCTRL0 reg via dphy_exit().
+I think the right order should be:
+
+	rzg2l_mipi_dsii_stop(dsi);
+	reset_control_assert(dsi->rstc);
+
+What do you think?
+
+
+Kind Regards,
+Tommaso
+
+>  }
+>  
+> -- 
+> 2.43.0
+> 
 
