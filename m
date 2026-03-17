@@ -1,290 +1,151 @@
-Return-Path: <linux-renesas-soc+bounces-29703-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29704-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KFW8ApfiuWmnPAIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29703-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Mar 2026 00:24:07 +0100
+	id eIlpOs3juWmnPAIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29704-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Mar 2026 00:29:17 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE9132B444A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Mar 2026 00:24:06 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FEE52B4586
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Mar 2026 00:29:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id CF5F9300D604
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 23:19:44 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A4B743172F08
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2026 23:24:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD3EC29BDB5;
-	Tue, 17 Mar 2026 23:19:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64B7D3A5E69;
+	Tue, 17 Mar 2026 23:23:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SUEny50W"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lTgAx5wo"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A4D137E30D
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Mar 2026 23:19:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA9A53A63FB;
+	Tue, 17 Mar 2026 23:23:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773789582; cv=none; b=J74DrJ1lngLB/dVndTWRFVFXi+GmmWgMcJayLslJ7aApCPcE/Rpb+inOb9Q5cJeSUpgYg37XusU/D7GPP339QO4x84EbDX/ELgZ758mRJbOyNbSHggb3xdkwHbh4cr1Oxli14Ldnl+Qw08Of01hD2tkTPlVLR7GeBw0Y03672xk=
+	t=1773789835; cv=none; b=MdNgq5dYV40I3/HJhdmoxy5Zz3lA823lpy6VLltz+w+JtKR8sL176X0ZsSf0rCiLHowpOUJPrbdsSdrtU2rtf/U4lHr3xE9Bxg7WK7ZbpTgbZbwUAMF4SdbzHmHKCLyMH8cajDbRXC6duWD8HadL0GjOQ+z7n67OhiYthK0XMAU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773789582; c=relaxed/simple;
-	bh=X7rmBsT/VLu4cXnU/1jFT5MXtJ/cKZy9Of0fz7nPLBw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bFS3+15qpyn9KQEbHm1LQn8pLopCwC47UIKDLz6F+nbipW7l1rui1dnX+8u1pjk1Ra6RXD0wRj/MR1hmQie4//TSkg7yCibWw0eZWy70uWEKx/AQ2hYxHTHSP7m52sHj/ZMFGKtNmxVZyhlh9cASdqT0fbhso9ddwn5UdQjIH4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SUEny50W; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1773789835; c=relaxed/simple;
+	bh=Fw+uM4wTTXCSRR9MahDnwSuow3iiEXTBETD9qPOq2BU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aLfTyRLpN2FmV9UeiMcBM35n+9OUwr15yeirLmww18qC2ERdYG5I7oCq6ZUsiP+ZMOKKm2xishTwrcbN4p3ax8js2DA+LzDmUTgIXGlGceTB6ygO2M9ZSK8KBjOkH9PzqAgjOaFJP3O7tXskjKXucJJUr1rYL2l0RPVLngc/y9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=lTgAx5wo; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 4CA00DF3;
-	Wed, 18 Mar 2026 00:18:25 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 48367B3;
+	Wed, 18 Mar 2026 00:22:38 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1773789505;
-	bh=X7rmBsT/VLu4cXnU/1jFT5MXtJ/cKZy9Of0fz7nPLBw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=SUEny50Wyw5/zZdrkDoyfpzv3I7P7Tz0bWwxfeDJN4LsMtl/W56c3GR0sEFAABm0X
-	 zddo7SYB/JLHfdwi6blfonUrbutHPOoZDWF7+11nUgR86L8dOOOGWYEFh93gubKF3j
-	 vIy66h9mC9DnjZTFUbabMmH7W8cmLMcTzeED6x4M=
-From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To: dri-devel@lists.freedesktop.org
-Cc: linux-renesas-soc@vger.kernel.org,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Subject: [PATCH 4/4] drm: rcar-du: Don't leak device_link to CMM
-Date: Wed, 18 Mar 2026 01:19:30 +0200
-Message-ID: <20260317231930.595719-5-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260317231930.595719-1-laurent.pinchart+renesas@ideasonboard.com>
-References: <20260317231930.595719-1-laurent.pinchart+renesas@ideasonboard.com>
+	s=mail; t=1773789758;
+	bh=Fw+uM4wTTXCSRR9MahDnwSuow3iiEXTBETD9qPOq2BU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lTgAx5woBeOApOsVWgf5AwBCZeboTmY1rtwbqicrrOyNrOkDXN71bs7OC0HKJIAOP
+	 e/xHZ2AHauxAnMgEBR420X+ITeCr44t1jHqGJQbGwLVyR4CH0pP6hRGuHFv9Sf/l2N
+	 TrvjxDHHczV4cljEyABQSdWBc6hFS+zAJN95sITY=
+Date: Wed, 18 Mar 2026 01:23:49 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org,
+	biju.das.jz@bp.renesas.com,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: renesas: vsp1: Move suspend/resume handling to
+ LATE phase
+Message-ID: <20260317232349.GC408929@killaraus.ideasonboard.com>
+References: <02669d4630e04fe24c17dd2576ec8b27ded458f0.1765541401.git.tommaso.merciai.xr@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-1.66 / 15.00];
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <02669d4630e04fe24c17dd2576ec8b27ded458f0.1765541401.git.tommaso.merciai.xr@bp.renesas.com>
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114];
 	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-29703-lists,linux-renesas-soc=lfdr.de,renesas];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
+	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,bp.renesas.com,ideasonboard.com,kernel.org];
+	TAGGED_FROM(0.00)[bounces-29704-lists,linux-renesas-soc=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	MISSING_XM_UA(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid]
-X-Rspamd-Queue-Id: BE9132B444A
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-renesas-soc@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email,ideasonboard.com:dkim,killaraus.ideasonboard.com:mid]
+X-Rspamd-Queue-Id: 4FEE52B4586
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The DU driver creates device_link instances between the DU and CMMs, but
-never deletes them. Fix it by introducing a rcar_du_cmm structure to
-group the CMM device and device_link, and deleting the links at cleanup
-time.
+Hi Tommaso,
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
- .../gpu/drm/renesas/rcar-du/rcar_du_crtc.c    | 16 +++++-----
- .../gpu/drm/renesas/rcar-du/rcar_du_crtc.h    |  3 +-
- drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h |  8 ++++-
- drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c | 29 ++++++++++++-------
- 4 files changed, 35 insertions(+), 21 deletions(-)
+Thank you for the patch.
 
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c
-index 28a5aa5a14d8..7c36c30a75b6 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c
-@@ -513,13 +513,13 @@ static void rcar_du_cmm_setup(struct drm_crtc *crtc)
- 	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
- 	struct rcar_cmm_config cmm_config = {};
- 
--	if (!rcrtc->cmm)
-+	if (!rcrtc->cmm->dev)
- 		return;
- 
- 	if (drm_lut)
- 		cmm_config.lut.table = (struct drm_color_lut *)drm_lut->data;
- 
--	rcar_cmm_setup(rcrtc->cmm, &cmm_config);
-+	rcar_cmm_setup(rcrtc->cmm->dev, &cmm_config);
- }
- 
- /* -----------------------------------------------------------------------------
-@@ -667,8 +667,8 @@ static void rcar_du_crtc_stop(struct rcar_du_crtc *rcrtc)
- 	if (rcar_du_has(rcrtc->dev, RCAR_DU_FEATURE_VSP1_SOURCE))
- 		rcar_du_vsp_disable(rcrtc);
- 
--	if (rcrtc->cmm)
--		rcar_cmm_disable(rcrtc->cmm);
-+	if (rcrtc->cmm->dev)
-+		rcar_cmm_disable(rcrtc->cmm->dev);
- 
- 	/*
- 	 * Select switch sync mode. This stops display operation and configures
-@@ -726,8 +726,8 @@ static void rcar_du_crtc_atomic_enable(struct drm_crtc *crtc,
- 	struct rcar_du_crtc_state *rstate = to_rcar_crtc_state(crtc->state);
- 	struct rcar_du_device *rcdu = rcrtc->dev;
- 
--	if (rcrtc->cmm)
--		rcar_cmm_enable(rcrtc->cmm);
-+	if (rcrtc->cmm->dev)
-+		rcar_cmm_enable(rcrtc->cmm->dev);
- 	rcar_du_crtc_get(rcrtc);
- 
- 	/*
-@@ -1300,8 +1300,8 @@ int rcar_du_crtc_create(struct rcar_du_group *rgrp, unsigned int swindex,
- 		return ret;
- 
- 	/* CMM might be disabled for this CRTC. */
--	if (rcdu->cmms[swindex]) {
--		rcrtc->cmm = rcdu->cmms[swindex];
-+	if (rcdu->cmms[swindex].dev) {
-+		rcrtc->cmm = &rcdu->cmms[swindex];
- 		rgrp->cmms_mask |= BIT(hwindex % 2);
- 
- 		drm_mode_crtc_set_gamma_size(crtc, CM2_LUT_SIZE);
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.h b/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.h
-index 07a40b305be8..8857926e109a 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.h
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.h
-@@ -19,6 +19,7 @@
- 
- #include <media/vsp1.h>
- 
-+struct rcar_du_cmm;
- struct rcar_du_group;
- struct rcar_du_vsp;
- 
-@@ -65,7 +66,7 @@ struct rcar_du_crtc {
- 	unsigned int vblank_count;
- 
- 	struct rcar_du_group *group;
--	struct device *cmm;
-+	struct rcar_du_cmm *cmm;
- 	struct rcar_du_vsp *vsp;
- 	unsigned int vsp_pipe;
- 
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h
-index 9e160dede4e6..de9c6617a2d4 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h
-@@ -22,6 +22,7 @@
- 
- struct clk;
- struct device;
-+struct device_link;
- struct drm_bridge;
- struct drm_property;
- struct rcar_du_device;
-@@ -88,6 +89,11 @@ struct rcar_du_device_info {
- 	unsigned int lvds_clk_mask;
- };
- 
-+struct rcar_du_cmm {
-+	struct device *dev;
-+	struct device_link *link;
-+};
-+
- #define RCAR_DU_MAX_CRTCS		4
- #define RCAR_DU_MAX_GROUPS		DIV_ROUND_UP(RCAR_DU_MAX_CRTCS, 2)
- #define RCAR_DU_MAX_VSPS		4
-@@ -106,7 +112,7 @@ struct rcar_du_device {
- 	unsigned int num_crtcs;
- 
- 	struct rcar_du_group groups[RCAR_DU_MAX_GROUPS];
--	struct device *cmms[RCAR_DU_MAX_CRTCS];
-+	struct rcar_du_cmm cmms[RCAR_DU_MAX_CRTCS];
- 	struct rcar_du_vsp vsps[RCAR_DU_MAX_VSPS];
- 	struct drm_bridge *lvds[RCAR_DU_MAX_LVDS];
- 	struct drm_bridge *dsi[RCAR_DU_MAX_DSI];
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
-index 9a53b5a86c82..b2d0e4651e35 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
-@@ -769,23 +769,23 @@ static int rcar_du_cmm_init(struct rcar_du_device *rcdu)
- 	}
- 
- 	for (i = 0; i < cells; ++i) {
--		struct device_node *cmm __free(device_node) = NULL;
-+		struct device_node *cmm_node __free(device_node) = NULL;
-+		struct rcar_du_cmm *cmm = &rcdu->cmms[i];
- 		struct platform_device *pdev;
--		struct device_link *link;
- 		int ret;
- 
--		cmm = of_parse_phandle(np, "renesas,cmms", i);
--		if (!cmm) {
-+		cmm_node = of_parse_phandle(np, "renesas,cmms", i);
-+		if (!cmm_node) {
- 			dev_err(rcdu->dev,
- 				"Failed to parse 'renesas,cmms' property\n");
- 			return -EINVAL;
- 		}
- 
--		if (!of_device_is_available(cmm))
-+		if (!of_device_is_available(cmm_node))
- 			/* It's fine to have a phandle to a non-enabled CMM. */
- 			continue;
- 
--		pdev = of_find_device_by_node(cmm);
-+		pdev = of_find_device_by_node(cmm_node);
- 		if (!pdev) {
- 			dev_err(rcdu->dev, "No device found for CMM%u\n", i);
- 			return -EINVAL;
-@@ -801,14 +801,15 @@ static int rcar_du_cmm_init(struct rcar_du_device *rcdu)
- 			return ret == -ENODEV ? 0 : ret;
- 		}
- 
--		rcdu->cmms[i] = &pdev->dev;
-+		cmm->dev = &pdev->dev;
- 
- 		/*
- 		 * Enforce suspend/resume ordering by making the CMM a provider
- 		 * of the DU: CMM is suspended after and resumed before the DU.
- 		 */
--		link = device_link_add(rcdu->dev, &pdev->dev, DL_FLAG_STATELESS);
--		if (!link) {
-+		cmm->link = device_link_add(rcdu->dev, cmm->dev,
-+					    DL_FLAG_STATELESS);
-+		if (!cmm->link) {
- 			dev_err(rcdu->dev,
- 				"Failed to create device link to CMM%u\n", i);
- 			return -EINVAL;
-@@ -823,8 +824,14 @@ static void rcar_du_modeset_cleanup(struct drm_device *dev, void *res)
- 	struct rcar_du_device *rcdu = to_rcar_du_device(dev);
- 	unsigned int i;
- 
--	for (i = 0; i < ARRAY_SIZE(rcdu->cmms); ++i)
--		put_device(rcdu->cmms[i]);
-+	for (i = 0; i < ARRAY_SIZE(rcdu->cmms); ++i) {
-+		struct rcar_du_cmm *cmm = &rcdu->cmms[i];
-+
-+		if (cmm->link)
-+			device_link_del(cmm->link);
-+
-+		put_device(cmm->dev);
-+	}
- }
- 
- int rcar_du_modeset_init(struct rcar_du_device *rcdu)
+On Fri, Dec 12, 2025 at 01:11:50PM +0100, Tommaso Merciai wrote:
+> Switch the VSP1 driver's dev_pm_ops to LATE_SYSTEM_SLEEP_PM_OPS to ensure
+> that suspend and resume callbacks are executed after DSI/DU suspend and
+> before DSI/DU resume.
+
+Have you considered handling this through device links ? Using late
+system sleep is a hack that doesn't scale when more than two devices are
+involved.
+
+I've just written and posted [1] to address the issue in the rcar-du
+driver (the suspend/resume ordering was right, but apparently only by
+chance), it should be easy to replicate it in the rz-du driver..
+
+[1] https://lore.kernel.org/dri-devel/20260317231930.595719-2-laurent.pinchart+renesas@ideasonboard.com/T/#u
+
+> This prevents timeouts and vblank wait errors during
+> system resume, such as:
+> 
+> [drm] *ERROR* flip_done timed out [CRTC:43:crtc-0] vblank wait timed out
+> 
+> This addresses display commit and vblank timeouts seen with DRM atomic
+> helpers during s2ram.
+> 
+> Co-developed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> ---
+>  drivers/media/platform/renesas/vsp1/vsp1_drv.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> index 2de515c497eb..0fbd27df1f46 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> @@ -693,7 +693,7 @@ static int vsp1_pm_runtime_resume(struct device *dev)
+>  }
+>  
+>  static const struct dev_pm_ops vsp1_pm_ops = {
+> -	SYSTEM_SLEEP_PM_OPS(vsp1_pm_suspend, vsp1_pm_resume)
+> +	LATE_SYSTEM_SLEEP_PM_OPS(vsp1_pm_suspend, vsp1_pm_resume)
+>  	RUNTIME_PM_OPS(vsp1_pm_runtime_suspend, vsp1_pm_runtime_resume, NULL)
+>  };
+>  
+
 -- 
 Regards,
 
 Laurent Pinchart
-
 
