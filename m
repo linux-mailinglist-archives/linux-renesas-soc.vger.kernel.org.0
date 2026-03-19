@@ -1,445 +1,144 @@
-Return-Path: <linux-renesas-soc+bounces-29898-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29899-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mBpWOETzu2lkqgIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29898-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 13:59:48 +0100
+	id gPJqE1H1u2nkqQIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29899-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 14:08:33 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B3092CB949
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 13:59:48 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C83FA2CBA87
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 14:08:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A1E8C304465D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 12:59:12 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id AC446309F6BE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 13:08:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E6F33D413F;
-	Thu, 19 Mar 2026 12:59:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2BFC3D3335;
+	Thu, 19 Mar 2026 13:08:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PLF4kov8"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE0133D3492
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Mar 2026 12:59:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EDA43C5558
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Mar 2026 13:08:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773925144; cv=none; b=swk0bXdDf6pHHpt/hBEW0o3qI9PXGCGSlGxXE/1bCk5Az7rWeyBdn/b4VZeYkEVZ/QcT/c9RfDYL2FuegC1l+iZqCEBkRhKswHjWjSd9jhnXkglnXV+UYJlCQg68pvQbIgYcSrFrBlU35VF6Q2BPpESusWgD+Bs4PerqkYuQ/E8=
+	t=1773925686; cv=none; b=dsuVuHxrhe8PR5FHgM0dQlAnPAsaj8bmsnysFZQgFXNy3vfrS8kaKlZD2MuMFk05J8aVKvCWvYYPI3O49PmvACkZs8njauYoSJ/HdONmH0YxehfpyaLlaVhRW+JOod7w48/X25E9xUb8xaj73cPzuLaa2Vz4lc+8ytUe07SKGV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773925144; c=relaxed/simple;
-	bh=0N/8WtKVotwWrreFUlfaV5m9aUHPsPh5U3Ko09fb/j4=;
+	s=arc-20240116; t=1773925686; c=relaxed/simple;
+	bh=PLIQNmpARgORTyPtKiscw4UfX4zOOAigpCDT2JYNybY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=V/4MfsM+9J/XmLE4JGIW2rRFfhprmgW84iHVYpk1ks1BtztR/wtkeD0TUvT+TUCm6sGc8n+fZu3OfHF0m9yQzqnLLaU1Kd3TL7Jt0lf+xf0DTJt+joAy99Mu4cUNgFDwzvBcWaAokqYf0p9L04l2g3i/rrvlMK9gbO5dkvcv54M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-6027ef7e068so591040137.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Mar 2026 05:59:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773925141; x=1774529941;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0RSiEbcDdKg9ZBTs+EHZe4/O3U8u7buQLYBqLbYChew=;
-        b=GpqSedRYu8gv/a2ugTGqGFWdVNJ/tPfQhge6Oc561Vyymi/ZxR5/RYZ99y9APebiT0
-         GG72paB0KPCHAIevj17cYEc2SLKu/yVgHO2kNajKtLvE2nLrDIp1YN1bPpgH37eNware
-         yOh6heBfObCwNa53b/Rh9PX7T8IZCgIM1/pnkeeEpHR89wUzG7h+ScY+/gk4scXoAo84
-         87t1xPcKSbvAb6/hP5U1Om9DTwRlo9LpB9IvGFL+I3qyBQsOl4DIPUEygnVI8VCBFRK8
-         RKCD1iaqZFb/I4Mxr3l5dq8SAEqiK6uPk72kR4+DLWOqZv4n1u6ebBDc0hgLCgcuU0Dz
-         /iqg==
-X-Gm-Message-State: AOJu0YxFLEBXIPN8x+9/OjkKUyJoION2I9ra314gIQk/Fb888922zZmy
-	HXelWdg7vFnt6/g3s5gsTGafwCcaFBZrYjMwTQuvCdZCm924zUc6FdP5t3DwSXdp
-X-Gm-Gg: ATEYQzxBiVp0si0pIb+pOjvrPso+x920FnN4VWl1zy2koHBlLJ7DjsEVBElUbwywLMn
-	/QmQ97CQrXs1GzrwAGOf6y8gU93aI/hmn+ZCBL3iBnVkovnHAqjxq+MKap2YDD46L3SyIiHmDaY
-	asBKupopXwNUOKxOHZD2vvOPjRIuQFYV5KM4f9zl779/df+pf0XwYLwTnyYMb744dIEOTyYJGg3
-	paevdnywCrmhgpl8m0b/cKv+AzRB7BAkYbKT5AFFYtGoAu6Hhv7dx6VRO140LrUqyDwKxPISYZX
-	6n9SuAxUE1epIhBOEWAc0eeZjbohaGF+xOzEigix08mG84lHO6vWyLKuS+py0Pd60osI4TruCrn
-	oM5Psk7NChjmen8oEJDOu6BKbjmmnnP5FIESnOhIHdvPgRaSO0tmIHBYjaN8pBHeMEoTs2oZJ1V
-	tHwAbFSQhAKCJ30QrKb+R1c0aMM3kaWNH8AVeFThcjBdEJQ6CkkNID094fxahb
-X-Received: by 2002:a05:6102:a53:b0:5ff:ea89:44b5 with SMTP id ada2fe7eead31-6027d3bf72dmr3763698137.32.1773925140595;
-        Thu, 19 Mar 2026 05:59:00 -0700 (PDT)
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com. [209.85.217.41])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-951034737d0sm2655632241.13.2026.03.19.05.59.00
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Mar 2026 05:59:00 -0700 (PDT)
-Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-6027ef7e068so591028137.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Mar 2026 05:59:00 -0700 (PDT)
-X-Received: by 2002:a05:6102:3ec6:b0:600:a2:138c with SMTP id
- ada2fe7eead31-6027d2cedaemr3739367137.23.1773925140124; Thu, 19 Mar 2026
- 05:59:00 -0700 (PDT)
+	 To:Cc:Content-Type; b=Vkv3Csum2OmxouiTCcA5sz9gClgPN/HwdxKr7y/abLh/cfDkZErqaJxe1SrosJj61eUtzUuAbYJKI1eYAWNC7yxRZR02Y7iO+RnW/RgVGEu0U1BOXnSXFaRY1bL172Gkp2YpXSGPKqinaYhbqvZWzZD1Capsg2sfcfscsspDyes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PLF4kov8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60BE1C2BCAF
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Mar 2026 13:08:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773925686;
+	bh=PLIQNmpARgORTyPtKiscw4UfX4zOOAigpCDT2JYNybY=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+	b=PLF4kov8VHF5Sz3cCLnIzd9CB3vRVzrNjXvudGe6zNM9EioZ5xUNAjtWGfOSMaeay
+	 lvq+NQihEbdMoSP9Jiq1NdWLcEhKx0vpVO9lGPcLGB4pqxvKGe/Aak/3Xq2Hbbyn3I
+	 9uMMge3POiG3mLoH0PFauIh+4/wXlbhnx0S/DBSgx81OPUwDhJYiCaGEgaalECQ/Re
+	 OICBDCGhdAHSQ6zYFduWEAhPkfM9k+NCePHEqCIjsaCSJ4KY1ZfZg9lSij+ytrOd63
+	 9ngQGI/xbOH0TpHR2JehTFci96wF/M9JIQb0wCz3HmT4DSc2qVUwu/qiII139nm9JO
+	 YaZVg7FnQY3TA==
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-38b3ee785a5so7606051fa.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Mar 2026 06:08:06 -0700 (PDT)
+X-Gm-Message-State: AOJu0YwgY/orEWZF7S03ROaXbCrjImC0HcidbTaF7ZzdQGHX3H44GUIv
+	s5C1YwrQXOmnWEdf9bKvRdHpDtwQOdpmgty5i9ZTc3bhGp4S15ixv6mexD48JsJ5bgEviL7Q/6B
+	gh3kHikf3wKS8vy5lqqMXy/9nY9vW3wc=
+X-Received: by 2002:a2e:bc20:0:b0:383:789:3c3 with SMTP id 38308e7fff4ca-38be5e6e7ebmr10670061fa.2.1773925684481;
+ Thu, 19 Mar 2026 06:08:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260317130638.2804-1-wsa+renesas@sang-engineering.com> <20260317130638.2804-3-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20260317130638.2804-3-wsa+renesas@sang-engineering.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 19 Mar 2026 13:58:49 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW7jAfXmOHdmd77sB-7aXz3H8xDfAjJUWbU=7SUHiEfSw@mail.gmail.com>
-X-Gm-Features: AaiRm52k5SFQocG3WYyTenDg8QkAR8gHfFPyDS2z7NwCFwCXEzGhzBOR3rInhVE
-Message-ID: <CAMuHMdW7jAfXmOHdmd77sB-7aXz3H8xDfAjJUWbU=7SUHiEfSw@mail.gmail.com>
-Subject: Re: [PATCH 2/3] soc: renesas: Add Renesas R-Car MFIS driver
+References: <20260319105947.6237-1-wsa+renesas@sang-engineering.com> <20260319105947.6237-5-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20260319105947.6237-5-wsa+renesas@sang-engineering.com>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Thu, 19 Mar 2026 21:07:52 +0800
+X-Gmail-Original-Message-ID: <CAGb2v67NVc0QD=_Ftwx5LSCQ8n1cEwuX1oMWZgEzowfGf7gMKA@mail.gmail.com>
+X-Gm-Features: AaiRm51rluS_yVFu6WIEO2l7ox-ygOi8igmHKgG-QVsILV0f84uRCi8SrIk-dv0
+Message-ID: <CAGb2v67NVc0QD=_Ftwx5LSCQ8n1cEwuX1oMWZgEzowfGf7gMKA@mail.gmail.com>
+Subject: Re: [PATCH v5 04/15] hwspinlock: add callback to fill private data of
+ a hwspinlock
 To: Wolfram Sang <wsa+renesas@sang-engineering.com>
 Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Jassi Brar <jassisinghbrar@gmail.com>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>
+	Bjorn Andersson <andersson@kernel.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, 
+	Boqun Feng <boqun@kernel.org>, Waiman Long <longman@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Orson Zhai <orsonzhai@gmail.com>, 
+	Chunyan Zhang <zhang.lyra@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Wilken Gottwalt <wilken.gottwalt@posteo.net>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	linux-remoteproc@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-omap@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
-X-Spamd-Result: default: False [-1.46 / 15.00];
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-29899-lists,linux-renesas-soc=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,linux.alibaba.com,infradead.org,redhat.com,lwn.net,linuxfoundation.org,gmail.com,foss.st.com,posteo.net,sholland.org,st-md-mailman.stormreply.com,lists.infradead.org,lists.linux.dev];
+	RCPT_COUNT_TWELVE(0.00)[26];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,renesas.com,glider.be];
-	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[linux-m68k.org];
-	TAGGED_FROM(0.00)[bounces-29898-lists,linux-renesas-soc=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	REPLYTO_ADDR_EQ_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[wens@kernel.org,linux-renesas-soc@vger.kernel.org];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	NEURAL_HAM(-0.00)[-0.526];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.383];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,renesas.com:email,mail.gmail.com:mid,sang-engineering.com:email]
-X-Rspamd-Queue-Id: 5B3092CB949
+	HAS_REPLYTO(0.00)[wens@kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,sang-engineering.com:email]
+X-Rspamd-Queue-Id: C83FA2CBA87
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Wolfram,
-
-On Tue, 17 Mar 2026 at 14:06, Wolfram Sang
+On Thu, Mar 19, 2026 at 7:00=E2=80=AFPM Wolfram Sang
 <wsa+renesas@sang-engineering.com> wrote:
-> Renesas R-Car MFIS offers multiple features but most importantly
-> mailboxes and hwspinlocks. Because they share a common register space
-> and a common register unprotection mechanism, a single driver was chosen
-> to handle all dependencies. (MFD and auxiliary bus have been tried as
-> well, but they failed because of circular dependencies.)
 >
-> In this first step, the driver implements common register access and a
-> mailbox controller. hwspinlock support will be added incrementally, once
-> the subsystem allows out-of-directory drivers.
+> To hide internal core structures from providers, a callback is added to
+> the ops which allows to set the 'priv' field of a hwspinlock. It is
+> called when a hwspinlock device is registered and, thus, iterated over
+> all locks. The register-functions are also extended to pass a data
+> pointer to this callback, so it can do necessary calculations for the
+> priv field of each hwspinlock. Providers are added only an empty
+> placeholder and are converted separately because these changes need
+> dedicated reviews.
 >
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+>  Documentation/locking/hwspinlock.rst     |  3 ++-
+>  drivers/hwspinlock/hwspinlock_core.c     | 19 +++++++++++++++----
+>  drivers/hwspinlock/hwspinlock_internal.h | 19 +++++++++++--------
+>  drivers/hwspinlock/omap_hwspinlock.c     |  2 +-
+>  drivers/hwspinlock/qcom_hwspinlock.c     |  2 +-
+>  drivers/hwspinlock/sprd_hwspinlock.c     |  2 +-
+>  drivers/hwspinlock/stm32_hwspinlock.c    |  2 +-
+>  drivers/hwspinlock/sun6i_hwspinlock.c    |  2 +-
 
-Thanks for your patch!
-
-> --- /dev/null
-> +++ b/drivers/soc/renesas/rcar-mfis.c
-
-> +struct mfis_info {
-> +       u32 unprotect_mask;
-> +       unsigned int mb_num_channels;
-> +       unsigned int mb_reg_comes_from_dt:1;
-> +       unsigned int mb_tx_uses_eicr:1;
-> +       unsigned int mb_channels_are_unidir:1;
-> +};
-> +
-> +struct mfis_per_chan_priv {
-
-I would drop the "per_".
-
-> +       u32 reg;
-> +       int irq;
-> +};
-> +
-> +struct mfis_priv {
-> +       struct device *dev;
-> +       struct mfis_reg common_reg;
-> +       struct mfis_reg mbox_reg;
-> +       const struct mfis_info *info;
-> +
-> +       /* mailbox private data */
-> +       struct mbox_controller mbox;
-> +       struct mfis_per_chan_priv *per_chan_privs;
-
-Likewise.
-This could be a flexible array, if it weren't for the hwspinlock array
-you will have to add later, right?
-
-> +};
-> +
-> +static u32 mfis_read(struct mfis_reg *mreg, unsigned int reg)
-> +{
-> +       return ioread32(mreg->base + reg);
-> +}
-> +
-> +static void mfis_write(struct mfis_reg *mreg, u32 reg, u32 val)
-
-Both writel() and iowrite32() use the inverse order of "reg" and "val".
-But I can understand you want to keep "mreg" and "reg" together.
-
-> +{
-> +       struct mfis_priv *priv = mreg->priv;
-> +       u32 unprotect_mask = priv->info->unprotect_mask;
-> +       u32 unprotect_code;
-> +
-> +       /*
-> +        * [Gen4] key: 0xACCE0000, mask: 0x0000FFFF
-> +        * [Gen5] key: 0xACC00000, mask: 0x000FFFFF
-> +        */
-> +       unprotect_code = (MFIS_UNPROTECT_KEY & ~unprotect_mask) |
-> +                        ((mreg->start | reg) & unprotect_mask);
-> +
-> +       iowrite32(unprotect_code, priv->common_reg.base + MFISWACNTR);
-> +       iowrite32(val, mreg->base + reg);
-> +}
-> +
-> +/****************************************************
-> + *                     Mailbox
-
-Missing closing asterisk ;-)
-
-> + ****************************************************/
-> +
-> +#define mfis_mb_mbox_to_priv(_m) container_of((_m), struct mfis_priv, mbox)
-
-Both "mb" and "mbox", so perhaps mfis_mbox_to_priv()?
-And perhaps s/mb_/mbox_/ everywhere?
-
-> +static int mfis_mb_startup(struct mbox_chan *chan)
-> +{
-> +       struct mfis_per_chan_priv *per_chan_priv = chan->con_priv;
-> +       int ret = 0;
-> +
-> +       if (per_chan_priv->irq)
-> +               ret = request_irq(per_chan_priv->irq, mfis_mb_iicr_interrupt, 0,
-> +                                 dev_name(chan->mbox->dev), chan);
-> +
-> +       return ret;
-
-You can reduce indentation, and get rid of ret, by inverting the
-conditional.
-
-> +}
-> +
-> +static void mfis_mb_shutdown(struct mbox_chan *chan)
-> +{
-> +       struct mfis_per_chan_priv *per_chan_priv = chan->con_priv;
-> +
-> +       free_irq(per_chan_priv->irq, chan);
-
-if (per_chan_priv->irq) ...
-
-free_irq() seems to support zero, but irq_to_desc() still has to
-traverse the mtree.
-
-> +}
-
-> +static struct mbox_chan *mfis_mb_of_xlate(struct mbox_controller *mbox,
-> +                                         const struct of_phandle_args *sp)
-> +{
-> +       struct mfis_priv *priv = mfis_mb_mbox_to_priv(mbox);
-> +       struct mfis_per_chan_priv *per_chan_priv;
-> +       struct mbox_chan *chan;
-> +       u32 chan_num, chan_flags;
-> +       bool tx_uses_eicr, is_only_rx;
-> +
-> +       if (sp->args_count != 2)
-> +               return ERR_PTR(-EINVAL);
-> +
-> +       chan_num = sp->args[0];
-
-"chan_num" is the hardware channel number, and should be validated
-against mpriv->info->mb_num_channels.
-
-> +       chan_flags = sp->args[1];
-> +
-> +       /* Channel layout is described in mfis_mb_probe() */
-
-Given you already use "chan += ..." below, perhaps:
-
-    chan = mbox->chans + chan_num;
-
-> +       if (priv->info->mb_channels_are_unidir) {
-> +               is_only_rx = chan_flags & MFIS_CHANNEL_RX;
-> +               chan = mbox->chans + 2 * chan_num + is_only_rx;
-
-...and:
-
-    chan += chan_num + is_only_rx;
-
-> +       } else {
-> +               is_only_rx = false;
-> +               chan = mbox->chans + chan_num;
-
-... and drop this line?
-With a proper preinitalization of is_only_rx, the whole "else" branch
-can be dropped.
-
-> +       }
-> +
-> +       if (priv->info->mb_reg_comes_from_dt) {
-> +               tx_uses_eicr = chan_flags & MFIS_CHANNEL_EICR;
-> +               if (tx_uses_eicr)
-> +                       chan += mbox->num_chans / 2;
-> +       } else {
-> +               tx_uses_eicr = priv->info->mb_tx_uses_eicr;
-> +       }
-
-"chan - mbox->chans" is the logical channel number, and should be
-validated against mbox_num_chans, to avoid out-of-bound accesses.
-
-> +
-> +       per_chan_priv = chan->con_priv;
-> +       per_chan_priv->reg = chan_num * 0x1000 + (tx_uses_eicr ^ is_only_rx) * 4;
-
-I think it would be good to document this register is either an IICR
-or EICR register offset, through:
-  1. A comment, or
-  2. Definitions and code, e.g
-
-         #define MFISIICR 0x00
-         #define MFISEICR 0x04
-
-         if (tx_uses_eicr ^ is_only_rx)
-             per_chan_priv->reg = chan_num * 0x1000 + MFISEICR;
-         else
-             per_chan_priv->reg = chan_num * 0x1000 + MFISIICR;
-
-     Or:
-
-         #define MFISIICR(i) ((i) * 0x1000 + 0x00)
-         #define MFISEICR(i) ((i) * 0x1000 + 0x04)
-
-         per_chan_priv->reg = (tx_uses_eicr ^ is_only_rx) ? MFISEICR(chan_num)
-                                                          : MFISIICR(chan_num);
-
-> +
-> +       if (!priv->info->mb_channels_are_unidir || is_only_rx) {
-> +               char irqname[8];
-> +               char suffix = tx_uses_eicr ? 'i' : 'e';
-> +
-> +               /* "ch0i" or "ch0e" */
-> +               scnprintf(irqname, sizeof(irqname), "ch%d%c", chan_num, suffix);
-
-"%u" for unsigned chan_num.
-
-> +
-> +               per_chan_priv->irq = of_irq_get_byname(mbox->dev->of_node, irqname);
-> +               if (per_chan_priv->irq < 0)
-> +                       return ERR_PTR(per_chan_priv->irq);
-> +               else if (per_chan_priv->irq == 0)
-
-No need for "else" after "return".
-
-> +                       return ERR_PTR(-ENOENT);
-> +       }
-> +
-> +       return chan;
-> +}
-> +
-> +static int mfis_mb_probe(struct mfis_priv *priv)
-> +{
-> +       struct device *dev = priv->dev;
-> +       struct mbox_chan *chan;
-> +       struct mbox_controller *mbox;
-> +       unsigned int i, num_chan = priv->info->mb_num_channels;
-
-"i" is only used in the for-loop below, so you could declare it in the
-for-statement. As a bonus, that would avoid mixing the declaration of
-uninitialized and initialized variables.
-
-> +
-> +       if (priv->info->mb_channels_are_unidir)
-> +               /* Channel layout: Ch0-TX, Ch0-RX, Ch1-TX... */
-> +               num_chan *= 2;
-> +
-> +       if (priv->info->mb_reg_comes_from_dt)
-> +               /* Channel layout: <n> IICR channels, <n> EICR channels */
-> +               num_chan *= 2;
-
-Curly braces around multi-line if-branches (even if they are comments)?
-
-> +
-> +       chan  = devm_kcalloc(dev, num_chan, sizeof(*chan), GFP_KERNEL);
-> +       if (!chan)
-> +               return -ENOMEM;
-> +
-> +       priv->per_chan_privs = devm_kcalloc(dev, num_chan, sizeof(*priv->per_chan_privs),
-> +                                           GFP_KERNEL);
-> +       if (!priv->per_chan_privs)
-> +               return -ENOMEM;
-> +
-> +       mbox = &priv->mbox;
-> +
-> +       for (i = 0; i < num_chan; i++)
-> +               chan[i].con_priv = &priv->per_chan_privs[i];
-> +
-> +       mbox->chans = chan;
-> +       mbox->num_chans = num_chan;
-> +       mbox->txdone_poll = true;
-> +       mbox->ops = &mfis_iicr_ops;
-> +       mbox->dev = dev;
-> +       mbox->of_xlate = mfis_mb_of_xlate;
-> +
-> +       return mbox_controller_register(mbox);
-> +}
-> +
-> +/****************************************************
-> + *             Common
-
-Missing closing asterisk.
-
-> + ****************************************************/
->
-> +static int mfis_reg_probe(struct platform_device *pdev, struct mfis_priv *priv,
-> +                         struct mfis_reg *mreg, const char *name, bool required)
-> +{
-> +       struct resource *res;
-> +       void __iomem *base;
-> +
-> +       res = platform_get_resource_byname(pdev, IORESOURCE_MEM, name);
-> +
-> +       /* If there is no mailbox resource, registers are in the common space */
-> +       if (!res && !required) {
-
-Given you only test for the negated "!required", perhaps invert the
-logic, and replace "required" by "optional"?
-
-> +               priv->mbox_reg = priv->common_reg;
-
-This left me looking for an assignment to priv->mbox_reg in the "else"
-branch ;-) Then I realized "&priv->mbox_reg" is passed as the "mreg"
-parameter.  Hence perhaps:
-
-    *mreg = priv->common_reg;
-
-?
-
-> +       } else {
-> +               base = devm_ioremap_resource(&pdev->dev, res);
-> +               if (IS_ERR(base))
-> +                       return PTR_ERR(base);
-> +
-> +               mreg->base = base;
-> +               mreg->start = res->start;
-> +               mreg->priv = priv;
-> +       }
-> +
-> +       return 0;
-> +}
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Acked-by: Chen-Yu Tsai <wens@kernel.org> # for sun6i
 
