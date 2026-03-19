@@ -1,135 +1,159 @@
-Return-Path: <linux-renesas-soc+bounces-29947-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29948-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WA52BSMvvGmiuQIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29947-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 18:15:15 +0100
+	id uNcqHRY1vGl3uwIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29948-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 18:40:38 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1A7E2CFADD
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 18:15:14 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1718B2D0249
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 18:40:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id E8B88300B9F9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 17:15:13 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3F36B30A4ADF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 17:38:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8D4E3EF0BE;
-	Thu, 19 Mar 2026 17:15:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABEF9391E69;
+	Thu, 19 Mar 2026 17:37:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="dFKmxQsx"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mNDQyT9c"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from 011.lax.mailroute.net (011.lax.mailroute.net [199.89.1.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A90DE2DFA5B;
-	Thu, 19 Mar 2026 17:15:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3360391E4E;
+	Thu, 19 Mar 2026 17:37:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773940509; cv=none; b=OPTemgyt749x37dKsPXhKQk26t1kRsci5XHM6vX4CZcYXvbL+bxxP9Nuv8a9btOqVWkaoGxkaiAwlbMHpjcb0L37zU0axLhBETDbkacfptnZMcutNjtnfofgHsSKQlMMqboTrYnR/nT3XdrzjlfdradCgfhDFmZc4EZziRIf23E=
+	t=1773941879; cv=none; b=QpxnrkjG68V9hd+c8Dapt0w8kUWyGiBGx6267T1f1zrKkjrLVvjG1Ber7u6fhNi0V2e5HyH53BgojGjsi9ktylWD1nO9X7z7S/PCF8hehwpVgyr8zkLOQrTqlTJ6qbAllazUgss/cjMxBZbwfElCF+MfIAqiA+e2Wh3A9vn4FhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773940509; c=relaxed/simple;
-	bh=UHJsWGTSlJTfY7QnX97XerQUNMUaLpd7tP4C0EEZkzg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Jgysmc9L+qDQBccbN/eoymwLldbrsbi262YHAoobvJZRp6Vzf+5qJglERs1JSWtpse6hfFEaqLa5E1QIadJODbo7F0OJHa3IwAaRfoNFALLdADBDWw67SlOaF2HTAyaPlBUyZPld7rjM2ZlR9c6qa1yY27CbAoyhp5zjcqM1UvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=dFKmxQsx; arc=none smtp.client-ip=199.89.1.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
-Received: from localhost (localhost [127.0.0.1])
-	by 011.lax.mailroute.net (Postfix) with ESMTP id 4fcC4X1zKzz1XM5kY;
-	Thu, 19 Mar 2026 17:15:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1773940495; x=1776532496; bh=UHJsWGTSlJTfY7QnX97XerQU
-	NMUaLpd7tP4C0EEZkzg=; b=dFKmxQsxM8O2hO+PntnmCfQmA2VsxQt1I9BWP45v
-	e99xashdlvnQ0iqpzna366213RNXzYUgf1v3+givoQ4OAgp6jhkArR0HgCsDDvLP
-	5u4QOdYjX9pUJlOX2DE3toANf60hlf5yDeqMcuMD1kjAv9XaSRRnHc2imlEmPZqQ
-	YiM5s2CDkWV6Mdk4AFzavdqTRL89qGFkfAxKt3lZ3gbdurzVjr4dSZvtrHFIkz0p
-	eIImjdzfLZxX4edUA95TsTfOxQ31EJmzDgr27Ispq2YeMv+HqZqSJu2XoNuEf+ZO
-	v8YxxK8gPLxPwbUnDpqGfT41WYhoPLQKKf/Ytf8IZrNWLA==
-X-Virus-Scanned: by MailRoute
-Received: from 011.lax.mailroute.net ([127.0.0.1])
- by localhost (011.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id kgNEXQsIxXTY; Thu, 19 Mar 2026 17:14:55 +0000 (UTC)
-Received: from [100.119.48.131] (unknown [104.135.180.219])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 011.lax.mailroute.net (Postfix) with ESMTPSA id 4fcC482cLFz1XM5kW;
-	Thu, 19 Mar 2026 17:14:48 +0000 (UTC)
-Message-ID: <ea7a5729-3df0-49ef-ab8d-47ade75cc393@acm.org>
-Date: Thu, 19 Mar 2026 10:14:47 -0700
+	s=arc-20240116; t=1773941879; c=relaxed/simple;
+	bh=UUWot43aWRLnUev4xtyp/4LzVdlfOnkeR4C3S3s58IM=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=Zsp8DWNwBxE4+ZZMUGyHhdV1JH5nMN6iWmlfxohKpYTLWBNRTHMVrB5HPm1lbcXSBLQSL09QFmkiNv855pTLgWuET8tdspGjtg2c/EvDVJzyP70VpjdiVQwjqO9MwXfjgVudrfYPnApjXvY6NGY5daLd8ZkZnu3pjJUcb458Igk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mNDQyT9c; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08C09C19424;
+	Thu, 19 Mar 2026 17:37:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773941878;
+	bh=UUWot43aWRLnUev4xtyp/4LzVdlfOnkeR4C3S3s58IM=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=mNDQyT9c4y48XRSi2QtA8QkcDHLa/S0NIYX6zK0UwpVWo+0DHSaQ74dQcyVCymhse
+	 5pxHmBIUukDCcFoOV+WvddBeXJrd6h848hjdccL3q8Cv8xQce9Uh1lxE8ntTGvcvwR
+	 SoDDOPme0vBsxWCfXeI7Q04KBPoku6bQsiR2zESJyf1F0EZJXjTK2UwHFv6B8YpEy3
+	 ZtulK7yBoEQrTEMf0DkEvVI3MThkLBsXOUGVGEPEgE26dWfNao+DsuPLMQqqy/k7zZ
+	 emoYCU+Z8Fidcr+jCDFp26Q1ybW/GE3GIpgijGc3Xp9j+unAMAxO2AggEs+WRzGXIO
+	 usXN0SUjLkmcw==
+Date: Thu, 19 Mar 2026 12:37:57 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 phy-next 09/24] ufs: exynos: stop poking into struct
- phy guts
-To: Vladimir Oltean <vladimir.oltean@nxp.com>, linux-phy@lists.infradead.org
-Cc: Vinod Koul <vkoul@kernel.org>, Neil Armstrong
- <neil.armstrong@linaro.org>, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-can@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-ide@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
- linux-usb@vger.kernel.org, netdev@vger.kernel.org, spacemit@lists.linux.dev,
- UNGLinuxDriver@microchip.com, Alim Akhtar <alim.akhtar@samsung.com>,
- Peter Griffin <peter.griffin@linaro.org>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Chanho Park <chanho61.park@samsung.com>
-References: <20260309190842.927634-1-vladimir.oltean@nxp.com>
- <20260309190842.927634-10-vladimir.oltean@nxp.com>
-Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20260309190842.927634-10-vladimir.oltean@nxp.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-2.16 / 15.00];
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
+ Magnus Damm <magnus.damm@gmail.com>, Stephen Boyd <sboyd@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Biju Das <biju.das.jz@bp.renesas.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, Vinod Koul <vkoul@kernel.org>, 
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+ linux-sound@vger.kernel.org, Frank Li <Frank.Li@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ John Madieu <john.madieu@gmail.com>, linux-renesas-soc@vger.kernel.org, 
+ Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, 
+ Thomas Gleixner <tglx@kernel.org>, linux-kernel@vger.kernel.org, 
+ dmaengine@vger.kernel.org, linux-clk@vger.kernel.org
+To: John Madieu <john.madieu.xa@bp.renesas.com>
+In-Reply-To: <20260319155334.51278-2-john.madieu.xa@bp.renesas.com>
+References: <20260319155334.51278-1-john.madieu.xa@bp.renesas.com>
+ <20260319155334.51278-2-john.madieu.xa@bp.renesas.com>
+Message-Id: <177394187724.2938936.10407132258338013690.robh@kernel.org>
+Subject: Re: [PATCH 01/22] dt-bindings: clock: renesas: Add audio clock
+ inputs for RZ/V2H family
+X-Spamd-Result: default: False [0.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[acm.org,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[acm.org:s=mr01];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-29947-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[27];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[acm.org:+];
-	RCPT_COUNT_TWELVE(0.00)[31];
+	FREEMAIL_CC(0.00)[kernel.org,suse.com,gmail.com,perex.cz,renesas.com,bp.renesas.com,glider.be,pengutronix.de,tuxon.dev,vger.kernel.org,baylibre.com];
+	TAGGED_FROM(0.00)[bounces-29948-lists,linux-renesas-soc=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	NEURAL_HAM(-0.00)[-0.962];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bvanassche@acm.org,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: F1A7E2CFADD
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,devicetree.org:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 1718B2D0249
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 3/9/26 12:08 PM, Vladimir Oltean wrote:
-> The Exynos host controller driver is clearly a PHY consumer (gets the
-> ufs->phy using devm_phy_get()), but pokes into the guts of struct phy
-> to get the generic_phy->power_count.
 
-Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+On Thu, 19 Mar 2026 16:53:13 +0100, John Madieu wrote:
+> RZ/V2H, RZ/V2N, and RZ/G3E support external audio clock inputs
+> (AUDIO_CLKA, AUDIO_CLKB, AUDIO_CLKC) that can be used by the Audio Clock
+> Generator (ADG) to derive internal audio clocks. These clocks are optional
+> and their frequencies are set by the board.
+> 
+> Update the bindings to allow these optional clocks for all RZ/V2H family
+> SoCs.
+> 
+> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
+> ---
+>  .../devicetree/bindings/clock/renesas,rzv2h-cpg.yaml   | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+
+My bot found errors running 'make dt_binding_check' on your patch:
+
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/clock/renesas,rzv2h-cpg.yaml: properties:clocks: {'minItems': 3, 'maxItems': 6, 'items': [{'description': 'AUDIO_EXTAL clock input'}, {'description': 'RTXIN clock input'}, {'description': 'QEXTAL clock input'}, {'description': 'AUDIO_CLKA clock input'}, {'description': 'AUDIO_CLKB clock input'}, {'description': 'AUDIO_CLKC clock input'}]} should not be valid under {'required': ['maxItems']}
+	hint: "maxItems" is not needed with an "items" list
+	from schema $id: http://devicetree.org/meta-schemas/items.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/clock/renesas,rzv2h-cpg.yaml: properties:clock-names: {'minItems': 3, 'maxItems': 6, 'items': [{'const': 'audio_extal'}, {'const': 'rtxin'}, {'const': 'qextal'}, {'const': 'audio_clka'}, {'const': 'audio_clkb'}, {'const': 'audio_clkc'}]} should not be valid under {'required': ['maxItems']}
+	hint: "maxItems" is not needed with an "items" list
+	from schema $id: http://devicetree.org/meta-schemas/items.yaml
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.kernel.org/project/devicetree/patch/20260319155334.51278-2-john.madieu.xa@bp.renesas.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
 
