@@ -1,79 +1,79 @@
-Return-Path: <linux-renesas-soc+bounces-29943-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29944-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4CA3E6QqvGn4twIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29943-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 17:56:04 +0100
+	id 2FJzLzMrvGn4twIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29944-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 17:58:27 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4D6F2CF35E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 17:56:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 204AA2CF3C8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 17:58:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id ACB46330FEE3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 16:48:48 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 88A1932ADAAE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 16:48:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37C3A3EE1C1;
-	Thu, 19 Mar 2026 16:48:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 501743EDAAE;
+	Thu, 19 Mar 2026 16:48:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L3mA3qet"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cys1qTs3"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6359D3EB7F4
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Mar 2026 16:48:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 516313EE1EA
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Mar 2026 16:48:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773938922; cv=none; b=dtsqM6zwIy9FohXKdyAYgMJwRLZMSLS+y3Hl2iIMU5N/6eKRinJMtBE4QNXyhhyrWVAJk02CJ5N5L5ueSRbdRygE0sqMOhXcLm4B6JvZrHMWOpRxtlaLGjjkzIV8KnJPhDkoNvJP+gHaJ9An8eRJEWjnDID/6WQOLUhIlda/y+0=
+	t=1773938923; cv=none; b=q10svcNZIa+l1GGj9/tWspZ9XrnNrsdZIjJB6GshfeNvBTYMIRFM7DZZAatbeRw68KhLiEE9lPPdRG7UxIx1ZjaEWOXl0/9WXcmEEe3CzENxApgpIQMtLMjSJQGHtcfxdw8W5ZA1qXaZdAcQofq5Kpz6WJFS2yZuhErs/RvskLs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773938922; c=relaxed/simple;
-	bh=wSrtoof78gY7cl0/kTqen6G7IMto9m9YkmvWmlpqlNg=;
+	s=arc-20240116; t=1773938923; c=relaxed/simple;
+	bh=lG7q/6k0q0qW2KK6r9Mb23Fu+RroCNbNZ7rN3IIIBjQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aT54PIcqXtZkeS2tMcTW4pI+lYDCqP9BwW+GVuBb0UiKO3ypqP/7qBPZgBhCb3vXUp19kff+KNQ2XuWv7FowpyuRzlhzvqSUePWE2qdT7WYQesfsDmtY1LB+jbbfZ1N7U56YuP0BC4RkBD4mAeNpXEIcupDYZZ/UOUF8GCvfroI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L3mA3qet; arc=none smtp.client-ip=209.85.128.44
+	 MIME-Version; b=Dyn5kIl9OzvgcQzeHDcljncaYYlLhUjijgwMsU34pCqLx4XX8ydGh39SOZTkqrTq/dl7iuPcDcQTEQK3MgVAfXq6Tz76AIJ6oPWezUOD88vBkcSFyhK2F1GybnoJCaKlnksBDASSa7G/g+xQU0fH+jHkVrRzUKq12NV3469EaEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cys1qTs3; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-48538c5956bso10451235e9.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Mar 2026 09:48:38 -0700 (PDT)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-486fb14227cso10164785e9.3
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Mar 2026 09:48:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773938916; x=1774543716; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1773938917; x=1774543717; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=aIvSNKXz4qc5DB7Emu7Dw1mSZJPjUbF0QIFG+kNxKiA=;
-        b=L3mA3qetVfn3JvgWmB2Cf1QnBoHJH46AeHIxw9WCw/VouIA6MAywnMjF95EjkMdEH9
-         d3sx9mf9hKqE118PPJvZjzmupAMDiq7zxmFRJxqjKbCcJJBhEeQ/+3eLR7su+n6gTeS2
-         qj7n71ibNBeETQAL+OpEaY8CGo7Ct22Rak0T1M/Zc6woYyroBIzaNoMzy4R1x9zdfVZc
-         53C8qZSs91tT4RWXH2er5sK9lfxpjtpwTqXzGMcIt6mhhf+NOUHDdAeEJui9UXS+/cVH
-         oeesdEuwv7xR9Fv2EY2f4tcBP42rrWu1Er4uGR748vH+/sYfYHmHTWzACpJMZeeuxioc
-         2sww==
+        bh=Bng5/yZC9lrbuKxC9dU3uqE7D/V7iSIEJ7NDOj06TGk=;
+        b=Cys1qTs3o5xUjdEgBxYpXHx1X+CLAXAkA3iVPOf3haNJCKVgT4nLzRwLFLSG690SFd
+         R2k5PpXNe92Ki02g3IsJHOmCqRmrju0tj02NbTIJMYzIWLuMT64xJ8AOTiCtdUlTXDNH
+         NQxEvKJ10OIMUuwFqgyD3pJ5aLFD+WcjXLwUVzaVxXEjz8hoQFUCo7WnYTQq32UpA+Pa
+         d75GCmMOBkKlqvIJvFPu1njhUVH304ah0391HeM+BB3n8waC+a/oS6rNeNzJwYczfGWi
+         5eMVT4R7bCLC9Jl1VY7jkExOcSPqXUtGC/7WJxYVN8iE1wXJvyHwl33SYc+nTA5B3Bu3
+         Raog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773938916; x=1774543716;
+        d=1e100.net; s=20251104; t=1773938917; x=1774543717;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=aIvSNKXz4qc5DB7Emu7Dw1mSZJPjUbF0QIFG+kNxKiA=;
-        b=kgDSX+t8Vk7c67AA53yFYLmWwO8cn5PdQVFif1NsCExOiMtyyW4YdKRi1N768h/xLd
-         MMciyQJx80Ooll8gu+W337qh2d6cEmZNbsebqVvjgp+LVA4ve9yK7Ho6BAeXMgTQVwIn
-         4oSQVovd1/pknSTdBLxqVPQ4XcmNWI0Llj601dIpbgX/A8zf0UfKaTsWj4BoIynS6ycI
-         MeGB7SAlAYTjBbwfXdoxWED8ZPnjlUzH4GMePbQhjHzrFqLZdegboNO+zcnIpEYPomxg
-         XZQPwYCKwwSj9SDVZO2cXYM14RqF+erBqO8vXyOLoULoAUo6rZ8J7gLA+3pgNITxnBGv
-         2XMQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWgvhjXu7qnwyWL/01xTr1r9AJRYxsWbHaD2b9+2eRtsSCph5HbU89sj4GjUjj66cseRb1UJ6aoafPchJCB4mpEXA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxyqk+D0LIxNDYo0jpsJ26tIMxO8J7BQ9AQ8/cSLmaZ8xmsfqrG
-	wq0RF6mt3lfzCUj/fdnpAfsFTOfn9R6KTLCgB8tmSmXtqlsedb21N7mi
-X-Gm-Gg: ATEYQzx9Q1NyiO+8bUlv0nNlPoCCeRsDvGDrhup7xu9vN1QQHHDxs56wEKz3zw2nTCF
-	OsiFZXroaCIcEBcMFdt3LE5rhQ5vO9tEP+N8wtmmr6cHU0W7Yo2/Cq3Dv2FF2pqGeYjMAhFRFTf
-	kPm1o8FfHMg1kJjp2KGA+d9/7YwueX2QS57cvpLPqSPniH0Y1/s/fXf9Ctw9PmPg4Rho3wIES5o
-	ATJH3+46Pyn9g2eo+hy4Xd3KJktzpc3B37IjcEbepT+Bfcr59ax4QZ75bpXNdaDQKh+uW06Luks
-	2mwZunuD9KHZWj9UF1Y6MMq8I1Z/M6pN0rwZfv8WZGPJz5L/aTho2PR3gGgc/hDsOJexu44O9c7
-	R+4t2LPavUFCpUh6DpLy1UTxqPAB2/+yIv8VvO8+c4kwyJDt0tkFoVsrKHwh5wXJwzbjeLvYsEn
-	s/d/PyBndlLcTKnXhjyYzb5brEfT3IJiBF0DNxAH7raA==
-X-Received: by 2002:a05:600c:3e10:b0:485:3428:774c with SMTP id 5b1f17b1804b1-486fe8b0073mr521675e9.4.1773938916334;
+        bh=Bng5/yZC9lrbuKxC9dU3uqE7D/V7iSIEJ7NDOj06TGk=;
+        b=FagmaocPFQzoUaOFn75mnCFiMYBF6ikQSMlZkcCzLuR+HQvw5bFH7NQG6JCqSArExo
+         yCmVb+6Sg5KOjdvUQ4gU3wzFhFW1HxOdqzpQlSoXHdD6Czjyl1NxBnepkEJTofI++/z+
+         FqxAlvJJULpGLbGvb0gQLO4Qj8XxcHzu40KmK9a9yN83m5rEWVzm5zIm0WqlAEnYv2Xq
+         VahqmRysMRCEXIC31CzgU8E03MCQzlNta4zRg4+X14cMQTSmtgptVQBf4PBTju2uOFZe
+         GbXaQkgTApHF33GOLbk3b7V3nnCPFLoQwoF2E+O+SVaTeBhP1E43Q0qNhoCQ3Z9bt1mO
+         ns7Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUcHA7GbmuVrrgM+MeCuODeU+O2IUeegVS2Oq2ECy1eHynw8+gTP3Q56oqAWj1fXAQJL1zkhq1QCWAuaiEaPLkUUA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxvYT+cOUk/xlu31CAGoJlilujGvtxE/gLT9U8oJAdrO5uGoepR
+	YPO6ACl6biTQUioE8xuq0itLsssP6gAyixVxDzqQaOQ4M1srhy7BjSBk
+X-Gm-Gg: ATEYQzzAkMuYw6Rcm1shoXL8dqZTG7J1wQUS20qUPKn++YFHadtvK2UJzUu3l80Frtm
+	rgSCPdnqGvt7PI5vgZni6IFtl3iKUoM4WIkcOTgQ19RiP7ZLFjIzrXOmM7OWRBbWxG86ikWNpiI
+	0oSZLh1nOevIJ+Sx0P0VWlqiy8P9rS0c8D2MFgY3ktmBcb1OWw14p5Vs6bTrOUINeNaQ1qW4FeI
+	8x4HdFLFFvOr/mrckJVLXvagfs0tTfB3ex7P1sVFKnfImmomrAsbDRw3Op6XUZl+3X6voq0vViJ
+	SjGn4TKEYoEsPlqhsuvxxhC2Eup5fIAdY9rkaa4c+Q+iufs3JcESQQeXyhKbxyHFlYNkQfIP8EE
+	dlVTpufY3VVgPZ0tXv6r0/310zhqdP2g0qGxprKYFydl11LSWDoDL1ckZEqsT4oKeBu3Gl0pq1X
+	NlqojbvYa66euIxTTBAGCKQc+e4wtcZJw=
+X-Received: by 2002:a05:600c:c490:b0:485:379b:57bb with SMTP id 5b1f17b1804b1-486f441bc19mr132327915e9.3.1773938916947;
         Thu, 19 Mar 2026 09:48:36 -0700 (PDT)
 Received: from biju.lan ([2a00:23c4:a758:8a01:8326:7b31:bf82:d2d0])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486fe68ec05sm5238505e9.0.2026.03.19.09.48.35
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486fe68ec05sm5238505e9.0.2026.03.19.09.48.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 19 Mar 2026 09:48:36 -0700 (PDT)
 From: Biju <biju.das.au@gmail.com>
@@ -95,9 +95,9 @@ Cc: Chris Brandt <chris.brandt@renesas.com>,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>,
 	stable@vger.kernel.org
-Subject: [PATCH v2 1/4] drm: renesas: rzg2l_mipi_dsi: Move rzg2l_mipi_dsi_set_display_timing()
-Date: Thu, 19 Mar 2026 16:48:25 +0000
-Message-ID: <20260319164833.409126-2-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v2 2/4] drm: renesas: rzg2l_mipi_dsi: Fix assert of CMN_RSTB signal
+Date: Thu, 19 Mar 2026 16:48:26 +0000
+Message-ID: <20260319164833.409126-3-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260319164833.409126-1-biju.das.jz@bp.renesas.com>
 References: <20260319164833.409126-1-biju.das.jz@bp.renesas.com>
@@ -119,7 +119,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-29943-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-29944-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_TO(0.00)[bp.renesas.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch];
 	MIME_TRACE(0.00)[0:+];
@@ -138,75 +138,50 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	NEURAL_HAM(-0.00)[-0.837];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email,bp.renesas.com:mid]
-X-Rspamd-Queue-Id: A4D6F2CF35E
+	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,bp.renesas.com:mid]
+X-Rspamd-Queue-Id: 204AA2CF3C8
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 From: Biju Das <biju.das.jz@bp.renesas.com>
 
-The RZ/G2L hardware manual (Rev. 1.50, May 2025), Section 34.4.2.4
-Video-Input Operation, requires display timings to be set after the
-HS clock is started. Move rzg2l_mipi_dsi_set_display_timing() from
-rzg2l_mipi_dsi_atomic_pre_enable() to rzg2l_mipi_dsi_atomic_enable(),
-placing it after rzg2l_mipi_dsi_start_hs_clock(). Drop the unused ret
-variable from rzg2l_mipi_dsi_atomic_pre_enable().
+The CMN_RSTB reset signal is not required for reading PHY registers in the
+probe. Move reset_control_assert() from rzg2l_mipi_dsi_dphy_exit() to
+rzg2l_mipi_dsi_stop(), placing it before the dphy_exit() call. Since this
+reset signal is optional for RZ/V2H, the call is a no-op on that SoC.
 
-Fixes: 5ce16c169a4c ("drm: renesas: rz-du: Add atomic_pre_enable")
-Fixes: 7a043f978ed1 ("drm: rcar-du: Add RZ/G2L DSI driver")
+Fixes: 2991c3f0ca86 ("drm: renesas: rz-du: mipi_dsi: Add OF data support")
+Fixes: 418bb3a69e13 ("drm: rcar-du: rzg2l_mipi_dsi: Enhance device lanes check")
 Cc: stable@vger.kernel.org
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
 v2:
  * New patch
 ---
- drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-index a87a301326c7..ff95cb9a7de5 100644
+index ff95cb9a7de5..d2da247abf05 100644
 --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
 +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-@@ -1025,29 +1025,33 @@ static void rzg2l_mipi_dsi_atomic_pre_enable(struct drm_bridge *bridge,
- 	const struct drm_display_mode *mode;
- 	struct drm_connector *connector;
- 	struct drm_crtc *crtc;
--	int ret;
+@@ -541,8 +541,6 @@ static void rzg2l_mipi_dsi_dphy_exit(struct rzg2l_mipi_dsi *dsi)
  
- 	connector = drm_atomic_get_new_connector_for_encoder(state, bridge->encoder);
- 	crtc = drm_atomic_get_new_connector_state(state, connector)->crtc;
- 	mode = &drm_atomic_get_new_crtc_state(state, crtc)->adjusted_mode;
- 
--	ret = rzg2l_mipi_dsi_startup(dsi, mode);
--	if (ret < 0)
--		return;
+ 	dphyctrl0 &= ~(DSIDPHYCTRL0_EN_LDO1200 | DSIDPHYCTRL0_EN_BGR);
+ 	rzg2l_mipi_dsi_phy_write(dsi, DSIDPHYCTRL0, dphyctrl0);
 -
--	rzg2l_mipi_dsi_set_display_timing(dsi, mode);
-+	rzg2l_mipi_dsi_startup(dsi, mode);
+-	reset_control_assert(dsi->rstc);
  }
  
- static void rzg2l_mipi_dsi_atomic_enable(struct drm_bridge *bridge,
- 					 struct drm_atomic_state *state)
+ static int rzg2l_dphy_conf_clks(struct rzg2l_mipi_dsi *dsi, unsigned long mode_freq,
+@@ -822,6 +820,7 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
+ 
+ static void rzg2l_mipi_dsi_stop(struct rzg2l_mipi_dsi *dsi)
  {
- 	struct rzg2l_mipi_dsi *dsi = bridge_to_rzg2l_mipi_dsi(bridge);
-+	const struct drm_display_mode *mode;
-+	struct drm_connector *connector;
-+	struct drm_crtc *crtc;
- 	int ret;
- 
- 	ret = rzg2l_mipi_dsi_start_hs_clock(dsi);
- 	if (ret < 0)
- 		goto err_stop;
- 
-+	connector = drm_atomic_get_new_connector_for_encoder(state, bridge->encoder);
-+	crtc = drm_atomic_get_new_connector_state(state, connector)->crtc;
-+	mode = &drm_atomic_get_new_crtc_state(state, crtc)->adjusted_mode;
-+
-+	rzg2l_mipi_dsi_set_display_timing(dsi, mode);
-+
- 	ret = rzg2l_mipi_dsi_start_video(dsi);
- 	if (ret < 0)
- 		goto err_stop_clock;
++	reset_control_assert(dsi->rstc);
+ 	dsi->info->dphy_exit(dsi);
+ 	pm_runtime_put(dsi->dev);
+ }
 -- 
 2.43.0
 
