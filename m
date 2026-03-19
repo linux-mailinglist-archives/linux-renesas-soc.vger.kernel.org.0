@@ -1,489 +1,252 @@
-Return-Path: <linux-renesas-soc+bounces-29908-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29909-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yM4OIzoHvGkArgIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29908-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 15:24:58 +0100
+	id 2IpBGiYLvGkArgIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29909-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 15:41:42 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31F582CCBAC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 15:24:58 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 446C72CD09B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 15:41:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9C868321B646
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 14:15:43 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 5FF8030288CC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 14:29:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 718FC35DA6B;
-	Thu, 19 Mar 2026 14:15:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 101E6374747;
+	Thu, 19 Mar 2026 14:29:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PNqMXb1l"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="h3qAbZKI"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010036.outbound.protection.outlook.com [52.101.228.36])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8150C33A717
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Mar 2026 14:15:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773929723; cv=none; b=fHiluVZhJiDUF5nBgqXL+ib4wtrqAoHhNiRo/nXa37bm8R8lIAA+wgjmgDp2j2RR0Nyi17BYSQftOA/NxPmGz+jnswGEegWbrcwBs5DWf2iM8m0uRPosAGGT4UX3s1HG2e4OZCEt5ftMTMus6La8PaEsCmMJd+sUKio8lZucZnE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773929723; c=relaxed/simple;
-	bh=5OWbKo0bnPPX/uAkzghoRyxLyG5BO+fqwknUdYaJO3I=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=u90ylajQMNkX1a0r1MCccJqiO54tgavVBo+788VHbm7rzu+Ol7hcOc6amZf+VNylY3F2IzN44ik1H2occ7AVc2mEr5w/suYOBYFcwhMvEF7pQSiLCVOFnvgKwT9bD3jpG4UN0ELFwSrKENzwiyiLvj5ySnBKuKfmN3cVDTYUphA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PNqMXb1l; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-43b44c0bcdbso650583f8f.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Mar 2026 07:15:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773929720; x=1774534520; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gIv35/KzrQ2qam4V8o0AJp6SBCk+vFfEGwItpEITTHI=;
-        b=PNqMXb1lW/v7S0QnMu+kb8ykT4hqA9farpomtHy8Mpu18MFnpg/QQXWqmFIOrT3GEk
-         lgTQmeLaXnq5Vl31JvrVoxN//d7jDqDDym0sV63ONLp8gO0FP+fHXy1kT2ANS6urZfs3
-         5VxDIw0vOYLmEDp8bFtHONMdab3LcBWK5udUu8Abd4hXzCVpY7q3THYtO2wF3uWyUM/P
-         denrVkhnvBem1kOzHgsEvMpY/Wmogd6rLisrenXti06tnGO60LRA2voC4PdnJy+1KZS7
-         b5tciylZlxyf+x+fsx2I69x2sz9bU7PIAf8VeqITeRzprAz17VNXLrIJW73PgcdXp9JF
-         Z+9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773929720; x=1774534520;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=gIv35/KzrQ2qam4V8o0AJp6SBCk+vFfEGwItpEITTHI=;
-        b=BzYV+t3xVnLL3TlPCJ9lS/mYZqwWcmrS7cAcxkg++FXw1J8tMdIwoRJQMYikIepZhL
-         u4HFL5Sg1BMcXY0B+KVN54uZRp2jaGYMR/PWKLPAlRzE73ygixKahhakxfi7ijWmtv5A
-         g/w3RsMXylha09PODp2xZWjRmor9scWKymMeaRpN649EQ1po5Yq80qvTwnU3TOnWwPxR
-         c0BgobKnFF0gfXL8U5JSksvUrWBY9HG3fWopwktWzd8A5WyO6+lwUhSUQgjGAmeALP2c
-         42QRn/B55S3VFIgSa9yan+AYcH87/GoafHIA/GUuQ9mNj3J8jwk+ORGpYuRDhiGuUeGz
-         3X5A==
-X-Gm-Message-State: AOJu0YyS0RgCfz9D74s6YBIBtu6BwnFpdMHkR7AYhFivUupArAzT+ior
-	P9IfVwarzVQIMHr1RQeKtyh5yZXHbTvu7Mqdzgqzmd9HHWZjuZz7c2tw
-X-Gm-Gg: ATEYQzzF5mzLf0l5wCcbvui5P0eQZwtaaZo2RUrBtjaOnTpPqhuaS7t85XKYKymZ3kU
-	ukFWN6jFs2QCMh/9D1D1acPJlNoDIGka/GzM0lBs/z1+HxRfhio7Fk9uZjrSMpIDHF5kG14iF+W
-	A1l+NJgx9u4bEmLHXs7J5VJ6Aka7ajxtNN+qvpOrTobiY1ByTY4271ri1dMUgftO+TfnsuDR8Th
-	o6oWUYEk6Jgqjis9mq7E60N+0ojD/Mdu5dGQDfbbRYPc4IWoEmfAd/Vd5u8QBWy+vHJCRKt/0PF
-	KlCRaSoIXdx37dAmpJN3lFr9jGZMGGxj5udg+4nzc9JJi4CeDpX4h8vC2/qLCfTM1ZdTJota/KG
-	e8J4kciNaWqY2zfq+D77K+scTYhQcsH3+geDSuKSqSq1695H2VNPUMI8R/fsDCNzXPV3zW4P0+E
-	b9QOzws5ikz4zFxwTgv/h4iP5YW9ETzMCw2E6e4ydYgAQaUTsQNMt6uE0WOY/Ij7B44aiv8GymY
-	k9dG4enXTUWLQ4XRL0lRb4hMwYskOnmuZ705znGW6nIe1U=
-X-Received: by 2002:a05:6000:22c7:b0:439:b886:20d3 with SMTP id ffacd0b85a97d-43b527a714dmr13516886f8f.15.1773929719654;
-        Thu, 19 Mar 2026 07:15:19 -0700 (PDT)
-Received: from iku.example.org ([2a06:5906:61b:2d00:f7c0:c444:6359:4c21])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b5184957bsm17824618f8f.5.2026.03.19.07.15.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Mar 2026 07:15:19 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Linus Walleij <linusw@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 2/2] pinctrl: renesas: rzt2h: Add pin configuration support
-Date: Thu, 19 Mar 2026 14:15:15 +0000
-Message-ID: <20260319141515.2053556-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260319141515.2053556-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20260319141515.2053556-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ED5E374172;
+	Thu, 19 Mar 2026 14:29:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.36
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773930567; cv=fail; b=PvjVXjLQQB1SivKMPSaa/2xTh75aXaOY280JAyQQ8obpaSftmz12hJcttyhG0qQkaws17Zw7MpmazrUE9/XjZdnGnC+r+5xWxBv4lEI8wwY2eNcwtBxMHy8a0i/8pUcfQAZnlFCOV1DAI4a+qoP+UOg5Ei8p7S7bLFTdd0MGvXw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773930567; c=relaxed/simple;
+	bh=0pshBAOiWz6/WFOoonh40jg6d0Hg/H7jFD5ZYadKtdE=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=IONmEKZvvspdNPupkt3w1S/+AtqMoSbwMw2g25yuVaFmygHzcKnfJrUc8Ml7yfP/58mjoi3EvkEOgc3O/4Nq36Gdb2xJZd3xcYLxY7qCmbNnxDTRjNUVWEGsTyznbzbpDo7RWIquCINf1+aGMnLjc1FfchiXXtEOWfk2rZNRvgU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=h3qAbZKI; arc=fail smtp.client-ip=52.101.228.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Oe5oEihhZDPn5fjpMqXitZYSsQAxdGzxPJu8fyA19rgHrdix230pzmi7MeO8+jo4dwDjgxG0e/zOVaD/qpQCAeOxx+1Q6STaQwXFXAMqrf5zw9Sn/UWaGWrBAjNWkDWbjotkUmadHWzX0uNid1YRq8NDntKfrZiVMeixOJXVLXCiyBMHRoAtOip1XeR6ByhkHRl/iis6jlTAur+QS5csXuwqnRTMoAiIM2VlCJpGX9mu9DT6T8qyYcfjm784SN2209DKcFolbB2Qp+CqAtYSd4qgP5r81owfMlJB41korf1E/O+6CwB4bhns7RJpQEhvTUjwMgDg2EPoa0c41JSMFA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0pshBAOiWz6/WFOoonh40jg6d0Hg/H7jFD5ZYadKtdE=;
+ b=XO+Pkwa8akV4BlalWaiCcbGyohfRPkOec8FcYF/OiSppXEPVffOlehu26Ap96uqM21c94CqDEytzW5OTMZFemP9a8cZg8s//oL0VXpFZ8b+DBeAoTryOqqTBxRhILh99/TSNd+aKqR0vdNKegDwBOeNK3V8OvhmbDW4yPAxUMDM7BFbcTdeFndGpT6mqCM0Cx/tuaS8Avi4a7oJ0yQMbTtqm1/t5FNrwfZD4V7jEG0SddOt8MAIB0cCpPKcNxDZBSpxtL+z+UWK0Sdu05uoksxB/ODOotSnqYps+EvVDmEWX97RZG990vi8Oz94lM+KJF0Z56xjgd4oBzmAInLgtMw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0pshBAOiWz6/WFOoonh40jg6d0Hg/H7jFD5ZYadKtdE=;
+ b=h3qAbZKI3ucBiImaAKdFLapGadiyT9yqL2tTH42KIeH8ILAcgfBCmyUKODB1GjhHCDzwDSWC62vwOpCcFfWTUGEQB6bwW85rRcijRuVGX91ElmSrM9LGs3sRAOXKx0CVXKfKVrTIaVCZr8j0jOPHl10XD71JPeiKwiWRf4Iin14=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by TYWPR01MB8462.jpnprd01.prod.outlook.com (2603:1096:400:175::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.15; Thu, 19 Mar
+ 2026 14:29:15 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::87d1:4928:d55:97de]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::87d1:4928:d55:97de%4]) with mapi id 15.20.9723.019; Thu, 19 Mar 2026
+ 14:29:15 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>, Maarten Lankhorst
+	<maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>, Anitha Chrisanthus
+	<anitha.chrisanthus@intel.com>, Linus Walleij <linusw@kernel.org>, Laurent
+ Pinchart <laurent.pinchart+renesas@ideasonboard.com>, Tomi Valkeinen
+	<tomi.valkeinen+renesas@ideasonboard.com>, Kieran Bingham
+	<kieran.bingham+renesas@ideasonboard.com>, Geert Uytterhoeven
+	<geert+renesas@glider.be>, magnus.damm <magnus.damm@gmail.com>,
+	tomi.valkeinen <tomi.valkeinen@ideasonboard.com>
+CC: Hui Pu <Hui.Pu@gehealthcare.com>, Ian Ray <ian.ray@gehealthcare.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v3 1/4] drm: renesas: rz-du: rzg2l_du_encoder: convert to
+ of_drm_find_and_get_bridge()
+Thread-Topic: [PATCH v3 1/4] drm: renesas: rz-du: rzg2l_du_encoder: convert to
+ of_drm_find_and_get_bridge()
+Thread-Index: AQHctrtX0XLGirkclU+u9oPCbIs747W16xwA
+Date: Thu, 19 Mar 2026 14:29:15 +0000
+Message-ID:
+ <TY3PR01MB113461503F797D8EBE58D2CE5864FA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References:
+ <20260318-drm-bridge-alloc-getput-drm_of_find_bridge-4-v3-0-10f502520357@bootlin.com>
+ <20260318-drm-bridge-alloc-getput-drm_of_find_bridge-4-v3-1-10f502520357@bootlin.com>
+In-Reply-To:
+ <20260318-drm-bridge-alloc-getput-drm_of_find_bridge-4-v3-1-10f502520357@bootlin.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYWPR01MB8462:EE_
+x-ms-office365-filtering-correlation-id: dd957fd3-f566-4984-3d3c-08de85c3e5cc
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|376014|7416014|1800799024|921020|38070700021|18002099003|56012099003|22082099003;
+x-microsoft-antispam-message-info:
+ 8UByie2kZJ+MegpC2sxXRzNpCZYHRAqY73gZkDye/N7dDXEr8smNWeYxNx2s/CfZgUuqOL1PTfIRxdIuQrl+XsmroogdmUzx5xkX6udo9wPubiGPyhKFcOptS4FAeod+X32ib+FDwO5QGRwr51YblPRjQ9ezth9cY7zVaMHmFAk0d5vtnzMd7uUqpYzQ+LBrKOQ3Jpxp8EAX+nk+q0oEE8YPXtwd4Lqx53TMBgF0aZD+0EY5xZlPcYVZjMsaqWwtLmFnvBVX3/dQhSWvNyktfUlvE+16DuJKf/h013qD7nLditcNkCUgjRfpOTYw9aA/w61X4le3lzKLuDjFTyiNl8QuBNmRhvz3OTTi6jLsLmhdmyTle2fv4Flv8Zxs6/tT+sxh55rANdUM5Uq3cdf27PQbE/cRpmxq1y5M25Q+0Xs6vopsxKCd5H38eDmq/Z3CMBqdrZYuY4FlbVrRxqhR/nfitjP2AyfEna9iT87Fm6zLsCkfSQaVyJsF6M1B9hEUHoGudhmAN8TfpLA/gE9WAL3SWNfpFJafxldeq25cztveE2dvpoPIeoo+kjnGR+99m6AbBVMna84pcF8mI4OL4VFTg73PmShds7UbLPTsxm7JKfH/BE1f9t3j27uMTK1dFDLxtN2zhGM49GLydklJCeiCGzwbRasKpG4gDCE+jxdXR8S2tI9TIc8E+53488dVlgjeBQ6BX69tuxSBayWbpaDQEkmbO73fJdNtGHU/hciw/BvfkVgq7nRL9n5uBC8KA0T5VpDhIzzfsfZJcTn+2riEdPcFQSEZ+nCADERiZ6Zr1nkT/DvFZx0UjKjlUJjt
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(921020)(38070700021)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?bmlIYmExVmhYRFdnMFRISUpUWitaTDlMcDBKa2U3eFdXTWtnVXFPYTZlenhv?=
+ =?utf-8?B?M2dKUUZzUVc3Um0wTFhEMVdPQzVqQjBaMmx5RkwxampXaUYra2xsQk5teVJP?=
+ =?utf-8?B?SVNDVGZBdzA1TjZtNUZ0MHFYalpTLzhnbEN0V05SZFZldHpVSXBPV3Vzb2tW?=
+ =?utf-8?B?aGZLcFRyMThSZG5lM0JRWjRPYnFsN3YvRkM5cUl1c090S2plTGJoT1FoYklj?=
+ =?utf-8?B?Z1ZkVXB1YlBFa1lpWjJNMEZ3TEFiVlN5anhGeTJpQ3pRd2I4KzNBY1RSazRX?=
+ =?utf-8?B?VHNLbGNhUzBRTXp5YUsvM3daSlcrT3hNbzRLWkVNZk92MmRqNWw5Rk9BWFBR?=
+ =?utf-8?B?dC9HUlJPSFBTOUd1Mm1lNENKd1ZEdE54TTQwUE5KdG82aXVVT1FZRStxb09H?=
+ =?utf-8?B?K2tJT25xV1B0VkRlZmY1UGF1WTRLQ2xUOUNkL1RaRVFUUGcvVFliczI3SGlh?=
+ =?utf-8?B?UnBoQ2VlUGY3TjAvdDlzZVR3czNWZnNqN0xBdy9FaENmR0RaOTVLb1V2cGN6?=
+ =?utf-8?B?a1pFeSsvWnBhaHMybVgxTlFqajJCbVJxMjNFSVZiNWVRcG5HM2Q4RmExY1Z6?=
+ =?utf-8?B?YUtoMGdJOFNMR3ptMzBDS1k0M0xiTGVuSldubHVqMEVFU2RDa0ZlUEdQSk8v?=
+ =?utf-8?B?TExmM01qK1ZydGErZkZqZndBVHFnMVhPN1hTSWsvUWpZMzRTNWY0UGUzVGl6?=
+ =?utf-8?B?UmNwTDc1cWJVWHFYWHNwc2szUlBsN0tWWnFZQ0JhVlMyWGhoN3hHVktXNmIw?=
+ =?utf-8?B?dDRZY2Mxak9nWWdwT3Mxa2g2OUc2a3pMQ2tLVXRWaGZVV3hsWFpFMFBVQ2Nw?=
+ =?utf-8?B?Qk05ZVBSQ05qNGpxUjdFREVEc3pqeWtkMzMwOHVhV3FFQ0hCOXJFbEZQY2gv?=
+ =?utf-8?B?VDhmWjFtRVpyTWYwTmRrdDVPTmhtRmVjZnBZOVlUNjJHbVNJMzZlTy90TXFE?=
+ =?utf-8?B?aVJqcjBDeUp2bGR1OFRtWHBvZHBGOUJ1L1BPVFo1d3A2NWN1cThmOWVwRUlM?=
+ =?utf-8?B?YndpU3h1MnMyOEk0NFdsOWlncWNzUHNMWGhuNUlUa09OOWIvYWR5RHJRcTd4?=
+ =?utf-8?B?SjJGSHNPTjhPR1FxZ3MrVmtiWXZJSlpWTWk4Z28xdDFERTYva1E2TDJteC93?=
+ =?utf-8?B?dDNIclI5aUlBTHBCNURWSzlHNms0bFluZ2RHRUFSUzN4cnBoelkvd0dTZ04w?=
+ =?utf-8?B?b0lCcnkvWEV3T0tkUkVxZ2RXS2dWUm8rU09oNjBYTU10T3AzV05mYlZCakJw?=
+ =?utf-8?B?bVVaelBsQzNnajljNElTbWtRYlVGemsrVGZ5OUhmY1hPNEV1WDByaFVwaU9O?=
+ =?utf-8?B?OEhxbTFXOW9BNkZ4ODZzbVFWNHVjc05qR1dpSFN3bmY4WG9pd2F4d2JmUFFr?=
+ =?utf-8?B?aVVQa1FXQVJEUkVNWkJSTDRCSmhHaWhtVzBoZ2cybkMyUG9neTROSnNRSEsy?=
+ =?utf-8?B?Yzh3ZjJBR2JyZGkxdytlRDlSdHZiRUNHcTVSQUI2NFJOMGF1MDllQWl0d204?=
+ =?utf-8?B?c3lGK0VLaGh6SXI5ZnFIK0haMk52YXhTQVllL0FOT2JJTG9QNGxsYXd2RnlP?=
+ =?utf-8?B?ak9MWUZscG1BNDdtS2V0VnJSTjZyZFcreWFPQWY0VGZHcUNLRy9QRTFCM0tz?=
+ =?utf-8?B?dExvRSt6TThzMTJTZzRwMlVGYlh4NFlsTEhYczlUMVdLMEdHeklnRFBYS3pF?=
+ =?utf-8?B?dEc1cGVNdEhVRzBQTGZwY3M1dVRsd0RwTFZxTTMraWw3M0g3SXZ3Sm4wL21a?=
+ =?utf-8?B?Q2tVdEdLMytNU0VDNHRkaU5wT0d3cytrQ3MxNTBhbjFwNWN6WHlvVHQrMDh1?=
+ =?utf-8?B?L0xJT2pCVzNUVDVNMGRnUktnRkVpVzhsUFZIQXcxbXdnQjlOYjVkME16VTN5?=
+ =?utf-8?B?TjAybXNlZGFra3ZZcEg0aG0zRVdMTmp4YnBLNjdDMXJ4ZjR5Z2loNEpEbDdB?=
+ =?utf-8?B?TkpuVzZJc3ArbDlVQi9VTWVyY09vM0RjVXFJL2E2TkgxUFRKNUk1dHNlS285?=
+ =?utf-8?B?NUphWU92a1NOVkhEL3NLMWxLd1ZETGpiTVNhQzlPTGVQVzdOR2hLeFVkYyti?=
+ =?utf-8?B?M2lJTGNmZmpKSDMyQjVlY2podFZ0WTdpQVBySXZySFpIL2tTTlh6bllBaG5p?=
+ =?utf-8?B?OTZ4WDVxZzVCMmJqTTVKL2dnTzdSM3dJR3ZhZE5OS2E2R1dZbXMxUFNLSEdS?=
+ =?utf-8?B?Y2d4ZHlCMk56a0FZbWNxMlZmUitkdDFDa0ZUUzdHNEJ5MnhuSkdVTm44OUQ2?=
+ =?utf-8?B?MkczdnZYbEdCaDlsYzgrcHE2S3Y2QTVVQVJtNUFJNkZPdU0xdXRadksrWmxu?=
+ =?utf-8?B?SUhlU2YxOVlpZERvRVlUQVBpTi9aYXdrOGt0S0FHS01lTUJQejdKdz09?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-1.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dd957fd3-f566-4984-3d3c-08de85c3e5cc
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Mar 2026 14:29:15.3076
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ESuIM193Hox2RsSi6D2tJ7NDIwTjrMwATSJKu9zVGbj3s1gZddavsg72ikieg1N2XGEc/ds3h6CkI5aG5HvJHRI8AFfvuv9FkZH2RehGrRM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB8462
+X-Spamd-Result: default: False [2.44 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	MIME_BASE64_TEXT_BOGUS(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
+	R_DKIM_ALLOW(-0.20)[bp.renesas.com:s=selector1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
+	MIME_BASE64_TEXT(0.10)[];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	TAGGED_FROM(0.00)[bounces-29909-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-29908-lists,linux-renesas-soc=lfdr.de];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[glider.be,kernel.org,gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,bp.renesas.com,renesas.com];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[bootlin.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,intel.com,ideasonboard.com,glider.be];
 	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[bp.renesas.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[biju.das.jz@bp.renesas.com,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	NEURAL_HAM(-0.00)[-0.954];
 	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bp.renesas.com:mid,renesas.com:email]
-X-Rspamd-Queue-Id: 31F582CCBAC
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	NEURAL_HAM(-0.00)[-0.980];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,bp.renesas.com:dkim,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,bootlin.com:email,TY3PR01MB11346.jpnprd01.prod.outlook.com:mid]
+X-Rspamd-Queue-Id: 446C72CD09B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-Add pin configuration support for the Renesas RZ/T2H SoC. The RZ/T2H SoC
-allows configuring several electrical characteristics through the DRCTLm
-(I/O Buffer Function Switching) registers. These registers control bias
-configuration, Schmitt trigger input, output slew rate, and drive
-strength.
-
-Implement pinconf_ops to allow reading and updating these properties
-through the generic pin configuration framework. The implementation
-supports bias-disable, bias-pull-up, bias-pull-down,
-input-schmitt-enable, slew-rate, and drive-strength-microamp.
-
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-v1->v2:
-- Updated commit description
-- Dropped 32 bit reg access for DRCTLm registers
-- Switched using to guard for locking in rzt2h_pinctrl_drctl_rmwq
-  helper function
-- Dropped using RENESAS_RZT2H_PIN_CONFIG_DRIVE_STRENGTH instead
-  switched to using the standard PIN_CONFIG_DRIVE_STRENGTH_UA
----
- drivers/pinctrl/renesas/pinctrl-rzt2h.c | 259 ++++++++++++++++++++++++
- 1 file changed, 259 insertions(+)
-
-diff --git a/drivers/pinctrl/renesas/pinctrl-rzt2h.c b/drivers/pinctrl/renesas/pinctrl-rzt2h.c
-index 5927744c7a96..6e60d1bb0c8b 100644
---- a/drivers/pinctrl/renesas/pinctrl-rzt2h.c
-+++ b/drivers/pinctrl/renesas/pinctrl-rzt2h.c
-@@ -7,6 +7,7 @@
-  * Copyright (C) 2025 Renesas Electronics Corporation.
-  */
- 
-+#include <linux/array_size.h>
- #include <linux/bitfield.h>
- #include <linux/bitops.h>
- #include <linux/bits.h>
-@@ -43,6 +44,7 @@
- #define PMC(m)		(0x400 + (m))
- #define PFC(m)		(0x600 + 8 * (m))
- #define PIN(m)		(0x800 + (m))
-+#define DRCTL(n)	(0xa00 + 8 * (n))
- #define RSELP(m)	(0xc00 + (m))
- 
- #define PM_MASK			GENMASK(1, 0)
-@@ -54,6 +56,16 @@
- #define PFC_PIN_MASK(pin)	(PFC_MASK << ((pin) * 8))
- #define PFC_FUNC_INTERRUPT	0
- 
-+#define DRCTL_PIN_SHIFT(pin)	((pin) << 3)
-+#define DRCTL_DRV_PIN_MASK(pin)	(GENMASK_ULL(1, 0) << DRCTL_PIN_SHIFT(pin))
-+#define DRCTL_PUD_PIN_MASK(pin)	(GENMASK_ULL(3, 2) << DRCTL_PIN_SHIFT(pin))
-+#define DRCTL_SMT_PIN_MASK(pin)	(BIT_ULL(4) << DRCTL_PIN_SHIFT(pin))
-+#define DRCTL_SR_PIN_MASK(pin)	(BIT_ULL(5) << DRCTL_PIN_SHIFT(pin))
-+
-+#define DRCTL_PUD_NONE		0
-+#define DRCTL_PUD_PULL_UP	1
-+#define DRCTL_PUD_PULL_DOWN	2
-+
- /*
-  * Use 16 lower bits [15:0] for pin identifier
-  * Use 8 higher bits [23:16] for pin mux function
-@@ -91,6 +103,8 @@ struct rzt2h_pinctrl {
- 	atomic_t			wakeup_path;
- };
- 
-+static const unsigned int rzt2h_drive_strength_ua[] = { 2500, 5000, 9000, 11800 };
-+
- #define RZT2H_GET_BASE(pctrl, port) \
- 	((port) > RZT2H_MAX_SAFETY_PORTS ? (pctrl)->base0 : (pctrl)->base1)
- 
-@@ -110,6 +124,37 @@ RZT2H_PINCTRL_REG_ACCESS(b, u8)
- RZT2H_PINCTRL_REG_ACCESS(w, u16)
- RZT2H_PINCTRL_REG_ACCESS(q, u64)
- 
-+static int rzt2h_drive_strength_ua_to_idx(unsigned int ua)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(rzt2h_drive_strength_ua); i++) {
-+		if (rzt2h_drive_strength_ua[i] == ua)
-+			return i;
-+	}
-+
-+	return -EINVAL;
-+}
-+
-+static int rzt2h_drive_strength_idx_to_ua(unsigned int idx)
-+{
-+	if (idx >= ARRAY_SIZE(rzt2h_drive_strength_ua))
-+		return -EINVAL;
-+
-+	return rzt2h_drive_strength_ua[idx];
-+}
-+
-+static void rzt2h_pinctrl_drctl_rmwq(struct rzt2h_pinctrl *pctrl,
-+				     u32 port, u64 mask, u64 val)
-+{
-+	u32 offset = DRCTL(port);
-+	u64 drctl;
-+
-+	guard(raw_spinlock_irqsave)(&pctrl->lock);
-+	drctl = rzt2h_pinctrl_readq(pctrl, port, offset) & ~mask;
-+	rzt2h_pinctrl_writeq(pctrl, port, drctl | val, offset);
-+}
-+
- static int rzt2h_validate_pin(struct rzt2h_pinctrl *pctrl, unsigned int offset)
- {
- 	u8 port = RZT2H_PIN_ID_TO_PORT(offset);
-@@ -443,6 +488,210 @@ static int rzt2h_dt_node_to_map(struct pinctrl_dev *pctldev,
- 	return ret;
- }
- 
-+static int rzt2h_pinctrl_pinconf_get(struct pinctrl_dev *pctldev,
-+				     unsigned int pin,
-+				     unsigned long *config)
-+{
-+	struct rzt2h_pinctrl *pctrl = pinctrl_dev_get_drvdata(pctldev);
-+	u32 port, param = pinconf_to_config_param(*config);
-+	unsigned int arg;
-+	u8 port_pin;
-+	u64 drctl;
-+	int ret;
-+
-+	ret = rzt2h_validate_pin(pctrl, pin);
-+	if (ret)
-+		return ret;
-+
-+	port = RZT2H_PIN_ID_TO_PORT(pin);
-+	port_pin = RZT2H_PIN_ID_TO_PIN(pin);
-+
-+	switch (param) {
-+	case PIN_CONFIG_SLEW_RATE:
-+		drctl = rzt2h_pinctrl_readq(pctrl, port, DRCTL(port));
-+		arg = field_get(DRCTL_SR_PIN_MASK(port_pin), drctl);
-+		break;
-+
-+	case PIN_CONFIG_BIAS_DISABLE:
-+	case PIN_CONFIG_BIAS_PULL_UP:
-+	case PIN_CONFIG_BIAS_PULL_DOWN:
-+		drctl = rzt2h_pinctrl_readq(pctrl, port, DRCTL(port));
-+		arg = field_get(DRCTL_PUD_PIN_MASK(port_pin), drctl);
-+		/* for PIN_CONFIG_BIAS_PULL_UP/DOWN when enabled we just return 1 */
-+		switch (arg) {
-+		case DRCTL_PUD_NONE:
-+			if (param != PIN_CONFIG_BIAS_DISABLE)
-+				return -EINVAL;
-+			break;
-+		case DRCTL_PUD_PULL_UP:
-+			if (param != PIN_CONFIG_BIAS_PULL_UP)
-+				return -EINVAL;
-+			arg = 1;
-+			break;
-+		case DRCTL_PUD_PULL_DOWN:
-+			if (param != PIN_CONFIG_BIAS_PULL_DOWN)
-+				return -EINVAL;
-+			arg = 1;
-+			break;
-+		default:
-+			return -EINVAL;
-+		}
-+		break;
-+
-+	case PIN_CONFIG_INPUT_SCHMITT_ENABLE:
-+		drctl = rzt2h_pinctrl_readq(pctrl, port, DRCTL(port));
-+		arg = field_get(DRCTL_SMT_PIN_MASK(port_pin), drctl);
-+		if (!arg)
-+			return -EINVAL;
-+		break;
-+
-+	case PIN_CONFIG_DRIVE_STRENGTH_UA: {
-+		int idx_drv;
-+
-+		drctl = rzt2h_pinctrl_readq(pctrl, port, DRCTL(port));
-+		arg = field_get(DRCTL_DRV_PIN_MASK(port_pin), drctl);
-+		idx_drv = rzt2h_drive_strength_idx_to_ua(arg);
-+		if (idx_drv < 0)
-+			return idx_drv;
-+		arg = idx_drv;
-+		break;
-+	}
-+
-+	default:
-+		return -ENOTSUPP;
-+	}
-+
-+	*config = pinconf_to_config_packed(param, arg);
-+	return 0;
-+}
-+
-+static int rzt2h_pinctrl_pinconf_set(struct pinctrl_dev *pctldev,
-+				     unsigned int pin,
-+				     unsigned long *configs,
-+				     unsigned int num_configs)
-+{
-+	struct rzt2h_pinctrl *pctrl = pinctrl_dev_get_drvdata(pctldev);
-+	unsigned int i;
-+	u8 port_pin;
-+	int ret;
-+
-+	ret = rzt2h_validate_pin(pctrl, pin);
-+	if (ret)
-+		return ret;
-+
-+	port_pin = RZT2H_PIN_ID_TO_PIN(pin);
-+
-+	for (i = 0; i < num_configs; i++) {
-+		u32 arg = pinconf_to_config_argument(configs[i]);
-+		u32 param = pinconf_to_config_param(configs[i]);
-+		u64 mask, val;
-+
-+		switch (param) {
-+		case PIN_CONFIG_SLEW_RATE:
-+			mask = DRCTL_SR_PIN_MASK(port_pin);
-+			val = field_prep(mask, !!arg);
-+			break;
-+
-+		case PIN_CONFIG_BIAS_DISABLE:
-+		case PIN_CONFIG_BIAS_PULL_UP:
-+		case PIN_CONFIG_BIAS_PULL_DOWN: {
-+			u32 bias;
-+
-+			switch (param) {
-+			case PIN_CONFIG_BIAS_DISABLE:
-+				bias = DRCTL_PUD_NONE;
-+				break;
-+			case PIN_CONFIG_BIAS_PULL_UP:
-+				bias = DRCTL_PUD_PULL_UP;
-+				break;
-+			case PIN_CONFIG_BIAS_PULL_DOWN:
-+				bias = DRCTL_PUD_PULL_DOWN;
-+				break;
-+			}
-+
-+			mask = DRCTL_PUD_PIN_MASK(port_pin);
-+			val = field_prep(mask, bias);
-+			break;
-+		}
-+
-+		case PIN_CONFIG_INPUT_SCHMITT_ENABLE:
-+			mask = DRCTL_SMT_PIN_MASK(port_pin);
-+			val = field_prep(mask, !!arg);
-+			break;
-+
-+		case PIN_CONFIG_DRIVE_STRENGTH_UA: {
-+			int drv_idx;
-+
-+			drv_idx = rzt2h_drive_strength_ua_to_idx(arg);
-+			if (drv_idx < 0)
-+				return drv_idx;
-+
-+			mask = DRCTL_DRV_PIN_MASK(port_pin);
-+			val = field_prep(mask, drv_idx);
-+			break;
-+		}
-+
-+		default:
-+			return -ENOTSUPP;
-+		}
-+
-+		rzt2h_pinctrl_drctl_rmwq(pctrl, RZT2H_PIN_ID_TO_PORT(pin), mask, val);
-+	}
-+
-+	return 0;
-+}
-+
-+static int rzt2h_pinctrl_pinconf_group_get(struct pinctrl_dev *pctldev,
-+					   unsigned int group,
-+					   unsigned long *config)
-+{
-+	unsigned long prev_config = 0;
-+	const unsigned int *pins;
-+	unsigned int i, npins;
-+	int ret;
-+
-+	ret = pinctrl_generic_get_group_pins(pctldev, group, &pins, &npins);
-+	if (ret)
-+		return ret;
-+
-+	for (i = 0; i < npins; i++) {
-+		ret = rzt2h_pinctrl_pinconf_get(pctldev, pins[i], config);
-+		if (ret)
-+			return ret;
-+
-+		/* Check config matches previous pins */
-+		if (i && prev_config != *config)
-+			return -ENOTSUPP;
-+
-+		prev_config = *config;
-+	}
-+
-+	return 0;
-+}
-+
-+static int rzt2h_pinctrl_pinconf_group_set(struct pinctrl_dev *pctldev,
-+					   unsigned int group,
-+					   unsigned long *configs,
-+					   unsigned int num_configs)
-+{
-+	const unsigned int *pins;
-+	unsigned int i, npins;
-+	int ret;
-+
-+	ret = pinctrl_generic_get_group_pins(pctldev, group, &pins, &npins);
-+	if (ret)
-+		return ret;
-+
-+	for (i = 0; i < npins; i++) {
-+		ret = rzt2h_pinctrl_pinconf_set(pctldev, pins[i], configs,
-+						num_configs);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+
- static const struct pinctrl_ops rzt2h_pinctrl_pctlops = {
- 	.get_groups_count = pinctrl_generic_get_group_count,
- 	.get_group_name = pinctrl_generic_get_group_name,
-@@ -459,6 +708,15 @@ static const struct pinmux_ops rzt2h_pinctrl_pmxops = {
- 	.strict = true,
- };
- 
-+static const struct pinconf_ops rzt2h_pinctrl_confops = {
-+	.is_generic = true,
-+	.pin_config_get = rzt2h_pinctrl_pinconf_get,
-+	.pin_config_set = rzt2h_pinctrl_pinconf_set,
-+	.pin_config_group_set = rzt2h_pinctrl_pinconf_group_set,
-+	.pin_config_group_get = rzt2h_pinctrl_pinconf_group_get,
-+	.pin_config_config_dbg_show = pinconf_generic_dump_config,
-+};
-+
- static int rzt2h_gpio_request(struct gpio_chip *chip, unsigned int offset)
- {
- 	struct rzt2h_pinctrl *pctrl = gpiochip_get_data(chip);
-@@ -890,6 +1148,7 @@ static int rzt2h_pinctrl_register(struct rzt2h_pinctrl *pctrl)
- 	desc->npins = pctrl->data->n_port_pins;
- 	desc->pctlops = &rzt2h_pinctrl_pctlops;
- 	desc->pmxops = &rzt2h_pinctrl_pmxops;
-+	desc->confops = &rzt2h_pinctrl_confops;
- 	desc->owner = THIS_MODULE;
- 
- 	pins = devm_kcalloc(dev, desc->npins, sizeof(*pins), GFP_KERNEL);
--- 
-2.53.0
-
+SGkgTHVjYSBDZXJlc29saSwNCg0KVGhhbmtzIGZvciB0aGUgcGF0Y2guDQoNCj4gLS0tLS1Pcmln
+aW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogTHVjYSBDZXJlc29saSA8bHVjYS5jZXJlc29saUBi
+b290bGluLmNvbT4NCj4gU2VudDogMTggTWFyY2ggMjAyNiAwOTo0MA0KPiBTdWJqZWN0OiBbUEFU
+Q0ggdjMgMS80XSBkcm06IHJlbmVzYXM6IHJ6LWR1OiByemcybF9kdV9lbmNvZGVyOiBjb252ZXJ0
+IHRvIG9mX2RybV9maW5kX2FuZF9nZXRfYnJpZGdlKCkNCj4gDQo+IG9mX2RybV9maW5kX2JyaWRn
+ZSgpIGlzIGRlcHJlY2F0ZWQuIE1vdmUgdG8gaXRzIHJlcGxhY2VtZW50DQo+IG9mX2RybV9maW5k
+X2FuZF9nZXRfYnJpZGdlKCkgd2hpY2ggZ2V0cyBhIGJyaWRnZSByZWZlcmVuY2UsIGFuZCBlbnN1
+cmUgaXQgaXMgcHV0IHdoZW4gZG9uZS4NCj4gDQo+IFRoaXMgaXMgbWFkZSBzb21ld2hhdCBzaW1w
+bGVyIGJ5IHRoZSBmYWN0IHRoYXQgJ2JyaWRnZScgaXMgYSBsb2NhbCB2YXJpYWJsZS4NCj4gDQo+
+IEhvd2V2ZXIgd2UgbmVlZCB0byBoYW5kbGUgYm90aCBicmFuY2hlcyBvZiB0aGUgbWFpbiBpZigp
+Lg0KPiANCj4gSW4gdGhlICdlbHNlJyBjYXNlLCBqdXN0IHN3aXRjaCB0byBvZl9kcm1fZmluZF9h
+bmRfZ2V0X2JyaWRnZSgpIHRvIGVuc3VyZSB0aGUgYnJpZGdlIGlzIG5vdCBmcmVlZA0KPiB3aGls
+ZSBpbiB1c2UgaW4gdGhlIGZ1bmN0aW9uIHRhaWwNCj4gKGRybV9icmlkZ2VfYXR0YWNoKCkgbWFp
+bmx5KS4NCj4gDQo+IEluIHRoZSAndGhlbicgY2FzZSwgZGV2bV9kcm1fcGFuZWxfYnJpZGdlX2Fk
+ZF90eXBlZCgpIGFscmVhZHkgaW5jcmVtZW50cyB0aGUgcmVmY291bnQgdXNpbmcgZGV2cmVzDQo+
+IHdoaWNoIHRpZXMgdGhlIGJyaWRnZSBhbGxvY2F0aW9uIGxpZmV0aW1lIHRvIHRoZSBkZXZpY2Ug
+bGlmZXRpbWUsIHNvIHdlIHdvdWxkIG5vdCBuZWVkIHRvIGRvIGFueXRoaW5nLg0KPiBIb3dldmVy
+IHRvIGhhdmUgdGhlIHNhbWUgYmVoYXZpb3VyIGluIGJvdGggYnJhbmNoZXMgdGFrZSBhbiBhZGRp
+dGlvbmFsIHJlZmVyZW5jZSBoZXJlLCBzbyB0aGF0IHRoZQ0KPiBicmlkZ2UgbmVlZHMgdG8gYmUg
+cHV0IHdoaWNoZXZlciBicmFuY2ggaXMgdGFrZW4gd2l0aG91dCBtb3JlIGNvbXBsaWNhdGVkIGxv
+Z2ljLiBFbnN1cmUgdG8gY2xlYXIgdGhlDQo+IGJyaWRnZSBwb2ludGVyIGhvd2V2ZXIsIHRvIGF2
+b2lkIGNhbGxpbmcgZHJtX2JyaWRnZV9wdXQoKSBvbiBhbiBFUlJfUFRSLg0KPiANCj4gU2lnbmVk
+LW9mZi1ieTogTHVjYSBDZXJlc29saSA8bHVjYS5jZXJlc29saUBib290bGluLmNvbT4NCg0KUmV2
+aWV3ZWQtYnk6IEJpanUgRGFzIDxiaWp1LmRhcy5qekBicC5yZW5lc2FzLmNvbT4NCg0KVGVzdGVk
+IG9uIFJlbmVzYXMgUlovVjJMIFNNQVJDIEVWSw0KDQpTbywNCg0KVGVzdGVkLWJ5OiBCaWp1IERh
+cyA8YmlqdS5kYXMuanpAYnAucmVuZXNhcy5jb20+DQoNCkNoZWVycywNCkJpanUNCg0KDQoNCj4g
+LS0tDQo+ICBkcml2ZXJzL2dwdS9kcm0vcmVuZXNhcy9yei1kdS9yemcybF9kdV9lbmNvZGVyLmMg
+fCAxNCArKysrKysrKysrLS0tLQ0KPiAgMSBmaWxlIGNoYW5nZWQsIDEwIGluc2VydGlvbnMoKyks
+IDQgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JlbmVz
+YXMvcnotZHUvcnpnMmxfZHVfZW5jb2Rlci5jIGIvZHJpdmVycy9ncHUvZHJtL3JlbmVzYXMvcnot
+DQo+IGR1L3J6ZzJsX2R1X2VuY29kZXIuYw0KPiBpbmRleCA1ZTZkZDE2NzA1ZTYuLjliNjViY2Vm
+ZGI4NiAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3JlbmVzYXMvcnotZHUvcnpnMmxf
+ZHVfZW5jb2Rlci5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9yZW5lc2FzL3J6LWR1L3J6ZzJs
+X2R1X2VuY29kZXIuYw0KPiBAQCAtNjcsNyArNjcsNyBAQCBpbnQgcnpnMmxfZHVfZW5jb2Rlcl9p
+bml0KHN0cnVjdCByemcybF9kdV9kZXZpY2UgICpyY2R1LCAgew0KPiAgCXN0cnVjdCByemcybF9k
+dV9lbmNvZGVyICpyZW5jOw0KPiAgCXN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3I7DQo+
+IC0Jc3RydWN0IGRybV9icmlkZ2UgKmJyaWRnZTsNCj4gKwlzdHJ1Y3QgZHJtX2JyaWRnZSAqYnJp
+ZGdlIF9fZnJlZShkcm1fYnJpZGdlX3B1dCkgPSBOVUxMOw0KPiAgCWludCByZXQ7DQo+IA0KPiAg
+CS8qDQo+IEBAIC04MywxMCArODMsMTYgQEAgaW50IHJ6ZzJsX2R1X2VuY29kZXJfaW5pdChzdHJ1
+Y3QgcnpnMmxfZHVfZGV2aWNlICAqcmNkdSwNCj4gDQo+ICAJCWJyaWRnZSA9IGRldm1fZHJtX3Bh
+bmVsX2JyaWRnZV9hZGRfdHlwZWQocmNkdS0+ZGV2LCBwYW5lbCwNCj4gIAkJCQkJCQkgRFJNX01P
+REVfQ09OTkVDVE9SX0RQSSk7DQo+IC0JCWlmIChJU19FUlIoYnJpZGdlKSkNCj4gLQkJCXJldHVy
+biBQVFJfRVJSKGJyaWRnZSk7DQo+ICsJCWlmIChJU19FUlIoYnJpZGdlKSkgew0KPiArCQkJLy8g
+SW5oaWJpdCB0aGUgY2xlYW51cCBhY3Rpb24gb24gYW4gRVJSX1BUUg0KPiArCQkJcmV0ID0gUFRS
+X0VSUihicmlkZ2UpOw0KPiArCQkJYnJpZGdlID0gTlVMTDsNCj4gKwkJCXJldHVybiByZXQ7DQo+
+ICsJCX0NCj4gKw0KPiArCQlkcm1fYnJpZGdlX2dldChicmlkZ2UpOw0KPiAgCX0gZWxzZSB7DQo+
+IC0JCWJyaWRnZSA9IG9mX2RybV9maW5kX2JyaWRnZShlbmNfbm9kZSk7DQo+ICsJCWJyaWRnZSA9
+IG9mX2RybV9maW5kX2FuZF9nZXRfYnJpZGdlKGVuY19ub2RlKTsNCj4gIAkJaWYgKCFicmlkZ2Up
+DQo+ICAJCQlyZXR1cm4gLUVQUk9CRV9ERUZFUjsNCj4gIAl9DQo+IA0KPiAtLQ0KPiAyLjUzLjAN
+Cg0K
 
