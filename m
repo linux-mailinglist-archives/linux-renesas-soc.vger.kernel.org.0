@@ -1,144 +1,170 @@
-Return-Path: <linux-renesas-soc+bounces-29899-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29900-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gPJqE1H1u2nkqQIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29899-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 14:08:33 +0100
+	id uC0XF3n1u2nkqQIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29900-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 14:09:13 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C83FA2CBA87
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 14:08:32 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE11C2CBAB4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 14:09:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id AC446309F6BE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 13:08:07 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5255A317E1B7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 13:08:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2BFC3D3335;
-	Thu, 19 Mar 2026 13:08:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PLF4kov8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6E943D47B3;
+	Thu, 19 Mar 2026 13:08:08 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EDA43C5558
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Mar 2026 13:08:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46D3F3D4134
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Mar 2026 13:08:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773925686; cv=none; b=dsuVuHxrhe8PR5FHgM0dQlAnPAsaj8bmsnysFZQgFXNy3vfrS8kaKlZD2MuMFk05J8aVKvCWvYYPI3O49PmvACkZs8njauYoSJ/HdONmH0YxehfpyaLlaVhRW+JOod7w48/X25E9xUb8xaj73cPzuLaa2Vz4lc+8ytUe07SKGV8=
+	t=1773925688; cv=none; b=CSNn+IE2XUDuHAPPygsQoGYddaEVOl4lwuUp0JZ/mJ7MOTnR3ziqaFGamgRyha+GYtaLqL538Nb4XehRJae3iQZ3Kz2kNdCwSZ7eOZt67Zk8Oy/0Ym1nDjj+WlhPr2EjuHk6YtEggplJX0VdrOosb8s2SizjkwSPIa7ZzxYqyvY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773925686; c=relaxed/simple;
-	bh=PLIQNmpARgORTyPtKiscw4UfX4zOOAigpCDT2JYNybY=;
+	s=arc-20240116; t=1773925688; c=relaxed/simple;
+	bh=7MsYjH/9iUjhWy8P8Ia09suPqhf/e9RibAkv2+s9j5U=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Vkv3Csum2OmxouiTCcA5sz9gClgPN/HwdxKr7y/abLh/cfDkZErqaJxe1SrosJj61eUtzUuAbYJKI1eYAWNC7yxRZR02Y7iO+RnW/RgVGEu0U1BOXnSXFaRY1bL172Gkp2YpXSGPKqinaYhbqvZWzZD1Capsg2sfcfscsspDyes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PLF4kov8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60BE1C2BCAF
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Mar 2026 13:08:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773925686;
-	bh=PLIQNmpARgORTyPtKiscw4UfX4zOOAigpCDT2JYNybY=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=PLF4kov8VHF5Sz3cCLnIzd9CB3vRVzrNjXvudGe6zNM9EioZ5xUNAjtWGfOSMaeay
-	 lvq+NQihEbdMoSP9Jiq1NdWLcEhKx0vpVO9lGPcLGB4pqxvKGe/Aak/3Xq2Hbbyn3I
-	 9uMMge3POiG3mLoH0PFauIh+4/wXlbhnx0S/DBSgx81OPUwDhJYiCaGEgaalECQ/Re
-	 OICBDCGhdAHSQ6zYFduWEAhPkfM9k+NCePHEqCIjsaCSJ4KY1ZfZg9lSij+ytrOd63
-	 9ngQGI/xbOH0TpHR2JehTFci96wF/M9JIQb0wCz3HmT4DSc2qVUwu/qiII139nm9JO
-	 YaZVg7FnQY3TA==
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-38b3ee785a5so7606051fa.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Mar 2026 06:08:06 -0700 (PDT)
-X-Gm-Message-State: AOJu0YwgY/orEWZF7S03ROaXbCrjImC0HcidbTaF7ZzdQGHX3H44GUIv
-	s5C1YwrQXOmnWEdf9bKvRdHpDtwQOdpmgty5i9ZTc3bhGp4S15ixv6mexD48JsJ5bgEviL7Q/6B
-	gh3kHikf3wKS8vy5lqqMXy/9nY9vW3wc=
-X-Received: by 2002:a2e:bc20:0:b0:383:789:3c3 with SMTP id 38308e7fff4ca-38be5e6e7ebmr10670061fa.2.1773925684481;
- Thu, 19 Mar 2026 06:08:04 -0700 (PDT)
+	 To:Cc:Content-Type; b=ebWqwW9d2FM0rmdEycLwSNY87SOb99K+sr0rUbpVtXuZCe0uitngq+rxg90ztvhQ0XFa0EgTlVF8pPXocTrKMK0LKDZRe1CCs/ujR3RgIxbyss62Co2rq2bflEsgif67/tiyO/Gi6CU+Fzg8P1llVf0z0cdwQxuT4rkX5+awrtY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-56a86f0a23bso668183e0c.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Mar 2026 06:08:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773925686; x=1774530486;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fjLOUfcSKffRbXIYff9Rhip3Lpi++Tfs6RDOszYrfHU=;
+        b=k/WbUuzogETglCt3W67YBFjp5+4dgYp0VNvFclZHwfgatzHFNPSMBmm3hIvDssnL3I
+         LnpRo/aj/haxs/3uu22Sh/pG18dZLv+aR8yPYv9eJl14209vpJfCAm1Ub2/FJSzd7r4t
+         7yMnpDn+bK1shK10nO3zvde3UfdMjBsWM9CH2cUCOUyuIB+T4qcD4OAl76buP4kGhikR
+         QnrogsAg7Nfk6EhkTjygs7WlNUl60rNQ/6/nIfgLFOC3pQPgcwMmpRN+eYfn57snNxlC
+         uEhqs8UqizjsIFmb1b3eot8lWi+ezIlZO7sZcN86ZyskDPnY+tupsUr6O8cC0PbqlHiL
+         PymQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV03PKljMcIlZj6G/09RZtzJbILf3tWQfgLcc/r4mvezr+mDxpdvKVh1XOecmLKjaNA0Ymm/f6krSqkNXhpr9B6Gw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxZCviMTfAgLPV8FdAFY4KcGrd8RE3mU+uPgW6R/KdpHchD1uj5
+	IhyesKHQa6VI7y9C1RyjjZZQ63g0hsYjEG3EZEsBa52vSQ9zGaqN7Oc6hxp88LEK
+X-Gm-Gg: ATEYQzwJ6AF+ghQkKm/Zo32lBCaexl/b7Q42t2Kzk+/NjSIsvbUn+W0X5GgfHEBY2uJ
+	Z7h/M2eTEUYvMI8VDaXtlSes/h9ZTLaRxm+dcadAOAoYsRBu/tqHor/YAwQDOK8tbmwMwVrrIkR
+	igf33yD0af9i7aBjhxq/YoqGBcwWnyVni2AsWcnzutA9wowlK1+CWYH2gA97M4FJQatZAt10n1y
+	HH6wxoh1ofa7/M8Gg/eCyLZ+GRRI9GL2ZJe13CEopURUMiFtnAfiu7YE5roArlLVQA9PJ58haDE
+	nCDqHr5Hs0ZEWVID95gwGncHdkoOuwMlOP0pekdOtdY8HC6rw1pZBw3J8n9xcLrKi41XM6w2//0
+	wnWKyO7i1NMh+GTbK5ORaINZloK0ysAAExzoFl2fJCwKAMsFkfFXId4bfxMpAMPaO/JbFNKVdb3
+	Bu+ErJR787oIm2aN0z2O+Kc9/wgwhTIs9xbHCjyYJheOCzasxvfdRPUJdzAA6PxhW1
+X-Received: by 2002:a05:6122:c8b:b0:567:433b:e903 with SMTP id 71dfb90a1353d-56ba704a51fmr4202141e0c.6.1773925686178;
+        Thu, 19 Mar 2026 06:08:06 -0700 (PDT)
+Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com. [209.85.221.177])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56ba7048d4esm3268850e0c.13.2026.03.19.06.08.04
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Mar 2026 06:08:05 -0700 (PDT)
+Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-56b91ead558so779463e0c.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Mar 2026 06:08:04 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCX7Uyb1nLOu6pEP5N+z0UBz9zH9L4YAjpjVWX7lbHcRDjKT8G7OGGDoAgTI22DjpCmVNzAZJc4Es+v6LYszYMY+Ng==@vger.kernel.org
+X-Received: by 2002:a05:6122:319a:b0:56b:7252:cbbe with SMTP id
+ 71dfb90a1353d-56ba71adbfamr4114004e0c.15.1773925684650; Thu, 19 Mar 2026
+ 06:08:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260319105947.6237-1-wsa+renesas@sang-engineering.com> <20260319105947.6237-5-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20260319105947.6237-5-wsa+renesas@sang-engineering.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Thu, 19 Mar 2026 21:07:52 +0800
-X-Gmail-Original-Message-ID: <CAGb2v67NVc0QD=_Ftwx5LSCQ8n1cEwuX1oMWZgEzowfGf7gMKA@mail.gmail.com>
-X-Gm-Features: AaiRm51rluS_yVFu6WIEO2l7ox-ygOi8igmHKgG-QVsILV0f84uRCi8SrIk-dv0
-Message-ID: <CAGb2v67NVc0QD=_Ftwx5LSCQ8n1cEwuX1oMWZgEzowfGf7gMKA@mail.gmail.com>
-Subject: Re: [PATCH v5 04/15] hwspinlock: add callback to fill private data of
- a hwspinlock
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Bjorn Andersson <andersson@kernel.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, 
-	Boqun Feng <boqun@kernel.org>, Waiman Long <longman@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Orson Zhai <orsonzhai@gmail.com>, 
-	Chunyan Zhang <zhang.lyra@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Wilken Gottwalt <wilken.gottwalt@posteo.net>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	linux-remoteproc@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-omap@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+References: <20260319125143.230377-1-biju.das.jz@bp.renesas.com> <20260319125143.230377-4-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20260319125143.230377-4-biju.das.jz@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 19 Mar 2026 14:07:52 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUOU7fZS0eShPJon4z6v_fea7YjP19rX+Z57b+acJ0Hrg@mail.gmail.com>
+X-Gm-Features: AaiRm50gi7Y9EQKJ2SmUg1rxd2DUh1wC-OtlGU9PhNwDlWiLJtXmuaffqKLo2Hk
+Message-ID: <CAMuHMdUOU7fZS0eShPJon4z6v_fea7YjP19rX+Z57b+acJ0Hrg@mail.gmail.com>
+Subject: Re: [PATCH v6 03/10] clk: renesas: r9a07g04{3,4}/r9a08g045-cpg: Add
+ critical reset entries
+To: Biju <biju.das.au@gmail.com>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [0.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-29899-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,linux.alibaba.com,infradead.org,redhat.com,lwn.net,linuxfoundation.org,gmail.com,foss.st.com,posteo.net,sholland.org,st-md-mailman.stormreply.com,lists.infradead.org,lists.linux.dev];
-	RCPT_COUNT_TWELVE(0.00)[26];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	REPLYTO_ADDR_EQ_FROM(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[wens@kernel.org,linux-renesas-soc@vger.kernel.org];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	NEURAL_HAM(-0.00)[-0.526];
+	TAGGED_FROM(0.00)[bounces-29900-lists,linux-renesas-soc=lfdr.de];
+	DMARC_NA(0.00)[linux-m68k.org];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	HAS_REPLYTO(0.00)[wens@kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,sang-engineering.com:email]
-X-Rspamd-Queue-Id: C83FA2CBA87
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	NEURAL_HAM(-0.00)[-0.003];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	R_DKIM_NA(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,renesas.com:email,linux-m68k.org:email,glider.be:email]
+X-Rspamd-Queue-Id: AE11C2CBAB4
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Thu, Mar 19, 2026 at 7:00=E2=80=AFPM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
->
-> To hide internal core structures from providers, a callback is added to
-> the ops which allows to set the 'priv' field of a hwspinlock. It is
-> called when a hwspinlock device is registered and, thus, iterated over
-> all locks. The register-functions are also extended to pass a data
-> pointer to this callback, so it can do necessary calculations for the
-> priv field of each hwspinlock. Providers are added only an empty
-> placeholder and are converted separately because these changes need
-> dedicated reviews.
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->  Documentation/locking/hwspinlock.rst     |  3 ++-
->  drivers/hwspinlock/hwspinlock_core.c     | 19 +++++++++++++++----
->  drivers/hwspinlock/hwspinlock_internal.h | 19 +++++++++++--------
->  drivers/hwspinlock/omap_hwspinlock.c     |  2 +-
->  drivers/hwspinlock/qcom_hwspinlock.c     |  2 +-
->  drivers/hwspinlock/sprd_hwspinlock.c     |  2 +-
->  drivers/hwspinlock/stm32_hwspinlock.c    |  2 +-
->  drivers/hwspinlock/sun6i_hwspinlock.c    |  2 +-
+Hi Biju,
 
-Acked-by: Chen-Yu Tsai <wens@kernel.org> # for sun6i
+On Thu, 19 Mar 2026 at 13:51, Biju <biju.das.au@gmail.com> wrote:
+> From: Biju Das <biju.das.jz@bp.renesas.com>
+>
+> The RZ/G2L SoC family requires DMA resets to be deasserted for routing
+> some peripheral interrupts to the CPU. Asserting these resets after boot
+> would silently break interrupt delivery with no driver to restore them.
+>
+> Mark the DMA resets as critical by adding them to the crit_resets table
+> in the SoC-specific rzg2l_cpg_info for r9a07g043, r9a07g044, and
+> r9a08g045, preventing __rzg2l_cpg_assert() from asserting them and
+> ensuring they are deasserted during probe and resume.
+>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v5->v6:
+>  * Replaced r9a07g043_critical_resets[] -> r9a07g043_crit_resets[] for
+>    consistency
+>  * Collected tag
+
+Thanks for the update!
+
+> --- a/drivers/clk/renesas/r9a07g044-cpg.c
+> +++ b/drivers/clk/renesas/r9a07g044-cpg.c
+> @@ -489,6 +489,11 @@ static const unsigned int r9a07g044_crit_mod_clks[] __initconst = {
+>         MOD_CLK_BASE + R9A07G044_DMAC_ACLK,
+>  };
+>
+> +static const unsigned int r9a07g044_critical_resets[] = {
+
+With "everywhere", of course I meant for all SoCs ;-)
+No need to resend just for this.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
