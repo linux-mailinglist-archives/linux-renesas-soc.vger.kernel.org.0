@@ -1,140 +1,146 @@
-Return-Path: <linux-renesas-soc+bounces-29847-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29848-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wOOiBLGFu2khlQIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29847-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 06:12:17 +0100
+	id 6D2JLbyHu2lvlQIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29848-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 06:21:00 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B06462C61B5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 06:12:16 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35BCC2C61EE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 06:21:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C5B0B3040A82
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 05:12:14 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 638EC302C342
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 05:20:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02BAA38655B;
-	Thu, 19 Mar 2026 05:12:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71DF53988EE;
+	Thu, 19 Mar 2026 05:20:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lr0htdfT"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="FoR3pa8B"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 945F638A71A
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Mar 2026 05:12:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D3D3386C32
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Mar 2026 05:20:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773897132; cv=none; b=p0vigDdNjf+WCkFGYu+lMZ2TM7MSTPVfpim99vg9+43kgYz4dI9HQXWYLXVcAJmb014+Q50gikN2MukgjK3H2RL3KF4PmhJXM3OiNDUVZB+l82/9CR27tTnCg3LK9Aq/2iOmBalFPEhUC+IthH+FT8VfLsYaRo/K/J0ZJi0sou4=
+	t=1773897653; cv=none; b=DeOl2qJKaOQPRws4ZrfFZSjceRbi7OEfmSf60RcJfrX5SYVpsBk20xsIU/0MNMSMiBp6QAD9069NClZIKZ0CU5P9jMyDYb5G8YzsuULwce5fp9dfZML5wDOdcD/t2PnPFTinVEtjUMU66AwFX2C3xNqgB9N7WZ1ZNxNTfnVUmTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773897132; c=relaxed/simple;
-	bh=vIW79JnLiLXSaAv76cZHGspHo3wFZfnh6SIto6S7T/Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f3zPP/kbknKFv+0FMFeJ5SyQhNCwKV7GP7lfWaF+0Kd4Zfv7IQKqu2d2mcSFd+Eg8JF9IL8ZzJQ2edkTd8uip8aKJUi2HhcVFGB3Q3HCP1bblX1Q2AzQ+EfmuS7xGpIZPSepu0zncreBH7zXlcskhUuz4yjUgrscCNTE7G16S1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Lr0htdfT; arc=none smtp.client-ip=74.125.82.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-2b4520f6b32so1073789eec.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 18 Mar 2026 22:12:09 -0700 (PDT)
+	s=arc-20240116; t=1773897653; c=relaxed/simple;
+	bh=l9Ghg1lKC5KBtvHd3ReD9qqDmQaFSG1U2lkL8FMJZCQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Oywvr+P8HZOv5Ql1HA7JNF+M2nbc1P5Guvy8dTXqlAtWEMQbEVOqcA9fshqTpHA3h4oqwntloo/4yqfuH/0NbuRokQGucQ7vPPj+e7bxK5oIfX9YbbDsxQ9AH1dMD20jE6KqEm6hLc51alaYgPToBF1UrRvptweCceM5s6byI8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=FoR3pa8B; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-48541edecf9so6028045e9.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 18 Mar 2026 22:20:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773897128; x=1774501928; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hqb9SO+Q6nFQgrXLgRcpJBL/MmDsCN3sih/lzoBOP1Y=;
-        b=Lr0htdfT7HXjnl4oNCdrDa+tgBhjY5N6n2Kvh11tMS6xTlisYPXVL0byvAjI45qpFJ
-         d5cUjfrB+e6DuMm+Iwq44nefDpzgwmT/Tn2m9HRzG/pQLYLveWWt+1Th4W+b5JYebNrW
-         OCRCDdnXQylOdc+1NVxXLVrvbRnuMy/HLFBm+HsDdqGPpQXbMYIyyfEPCxCBZAK8bLqv
-         3VBjuXHhjUcra9Kv6qX+wJfBysk/q+w8RnPK3PeiwmOouqmvz9f1xCGmMQY0V96eYapF
-         +NAaJAeG06NGnSdxWKZGGsdwwDSTzXt/UfrLEko9IShK/OYMdG12NTmMK5mwtx/98Iks
-         FlCw==
+        d=tuxon.dev; s=google; t=1773897649; x=1774502449; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6m4wPVx0RUZL7feW+5IYMoR5otTJB2gZZIBBvDsNZf4=;
+        b=FoR3pa8BV5AqYg+CYAPMa1VT+Vr14Q/341j0BuxyLyo4O3i8TwMhMLOVryYH6MUVrn
+         N8nI44dCiCYjP2FttSMtOGRiwV597ZGGBmngqtR/B6QyDvCyemdEEKytZInDmhD9neSo
+         h9ZtN+3ZCCg3bRkkwH+EyR8Planw1PjKk8W+1iSFfxa/CzLnwG5wsQGEuIYJl4NI+QmL
+         drjodO5dqbcYJ1td8shKwZlyKYA6Kj9Kvv4kiybI4mBJ7OzRz5R6g7Ri+1rykc5DNMRL
+         yahpw/dkYyyeUDswo7Pw2x8TRGaEao+94RoU7EWVo0qQrjd/yCYVtf7Pk2IQaHqRZYet
+         JRgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773897128; x=1774501928;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hqb9SO+Q6nFQgrXLgRcpJBL/MmDsCN3sih/lzoBOP1Y=;
-        b=TeGBYLh8RAz7YjTQZY4ANOR4ro3w/9WoCWjezoFRw6bwZ5YLytZWFKP2do+fMMXkvo
-         xl9sDW1rsarh3fuNGxjortdZ7IAh/k3dUqCC0XZDvU+DBvjqqRcfkMy/TdEPDigvh9cM
-         zYvOPG0WjKQ8jLcqTjuWd8czxpUb3ZvzqRwLbfa09pIGfHzshv4b4hZMxDp6+iwPtX/q
-         0SlsDn6A/459fzl7Rzj5/WSveFmOdSXMF3UX5hXcWb7Av6W3liq9uD30+rW4RdJCuod4
-         1cQUIAidTZIOvwv0K6a83rwMrHkUWv+MhPcArnqMUHb8rytcbjUmbH0MSn5zXCoLaL+l
-         FxqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVzhK2cq9yo1TtMNk4IZ7tuwF6CGzGDMJjw9XrKe0zCeTd0KmgLUVXMusnPkpiKe+mMsBFnSPuGtiaH8t+TUD+pxw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyo2idFp5fjORMrgkoxO3OGLjYxVyd7HIe+QPeeamvMNyXeqSwg
-	KKnNCSeT29nVJSM/ECI2H/WmyCLpVertl1m40bN1+zzuV4rgzRQaE6sX
-X-Gm-Gg: ATEYQzxYHhcUVyAvksipl4Elg+keAgcnbBZC+HgSiajQnHk7AgnD62ltei0m6gSe6s6
-	0ZDkLe2hrBd4j7RZ4mk6Z+6L8E1LY5Vyn/v5vE5dj+WwY9YXdxw4G/hbN0Va/u2K0R7qfxJaJmT
-	R8W6C2XnorBz94Q+2j5kBH7SwXg51LFz/n7ffSgDC3ci9/KRebsBdrcTMQDDMIvtnaoEE3AIz5w
-	ZfiC1Ads52mr8ANyW5z8hMogPt6c8/yZ2mF1D6z/ZEpjENbO+Zc/ktriOCueAn9yVD9rk9kkn73
-	FKauTuzzw51D4cRYpXHAvOBVBwbUomBhESoj+mwdNMWmOBm+NpZE67de4S+H5GPIZ98LFPC9Vzu
-	v1cvvo046ricgsKI4vzOe1WrM9dPv8KmrtS1t7sTCDaLkphFYGpz/Vz7QwSsO2vXe9I/sM6pvAG
-	rSiNZnrK1KAONpet5zkqBM3Att2szzAuuwaZaoRdPcSD5c9GWmABfRGMReS09f8FU=
-X-Received: by 2002:a05:7300:fd16:b0:2ba:85d6:e777 with SMTP id 5a478bee46e88-2c0e4f79dc9mr2238568eec.2.1773897128303;
-        Wed, 18 Mar 2026 22:12:08 -0700 (PDT)
-Received: from google.com ([2a00:79e0:2ebe:8:5966:2bd9:1ed:e7c4])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c0e55ca0f6sm6652882eec.25.2026.03.18.22.12.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Mar 2026 22:12:07 -0700 (PDT)
-Date: Wed, 18 Mar 2026 22:12:04 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
-	Frank Li <Frank.Li@nxp.com>, Job Noorman <job@noorman.info>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, linux-input@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: touchscreen: trivial-touch: Move allOf:
- after required:
-Message-ID: <abuFoZWWra-hVitk@google.com>
-References: <20260312224925.186077-1-marek.vasut+renesas@mailbox.org>
+        d=1e100.net; s=20251104; t=1773897649; x=1774502449;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6m4wPVx0RUZL7feW+5IYMoR5otTJB2gZZIBBvDsNZf4=;
+        b=VCcvMOxv8CFHqHbci8asEdBigMMLmW5o4KYg5LIFAt3tqgPoacUAr0PFHEl0/nyPRc
+         R6vxQV4QRgYyzG9WUj8VPIxDXn97ObnPWCyDX02fuMf4QtkgbJopvY2ProEpt1ZXTbgz
+         hl/HFUs3cnJg95bDmNXFqdYKETae/aEwWSrACl+BByYztkU0QZLABy182TXm9kCCyJxx
+         +pMsCTL3WF0bj3C9FSXJA+N71HIWtb3F28L/QRyyu2yKkJN89xhbCXzV8QC7mQFZgOU9
+         C1d+Wf9F8YbZwUR5y2cRgt2Nun+yaCqzVK6qFNgyRH7+j1QhKeZbeDPpB2FpzenghUrG
+         z2rw==
+X-Gm-Message-State: AOJu0YxB6Xwmpd1r3U87ltj7flZ7ADWomwxtuZ6oyyzg7DFnC0cbDCAR
+	VUNPReiDkc12h4QVuZCl85RkvUkASCU2/O1eCPVP8yARIvkI8SRSxy2Qy9rZ+BSav5Vkyojmt7M
+	msNWJ
+X-Gm-Gg: ATEYQzysb6xQv1oR47PbFV81K/cUqCzLnoLOTEU4aZiee96Ckd2OLOna8/BTz54faSL
+	sADwZgU9oZq82Bgn5vJnDWw94cm/RwSBT40iBt+dziSYBQkdhhdFd8Dl1LZXKGiTIGJlb/7IhiK
+	LAP/QuGMkgjx2Q6rCIiP53e9w42AyQNYWV/h67QB6w2NB4CpqdyEjH0H45kv2xk0sZYUXA4PrmA
+	1JFHBfPonm2v6O+fGSbWyTsAD4RDrK+4SZ+0MPO/c28riLMAy0iUf5mEO9VqR0llYxuOkmL8/lK
+	5Rv8P8heKeIDZYJgvkRXAGaHmEgjsB42mNXQe3YU0+CHOVS1phqLHxckxdWDZBiuAIMfV5zJkU6
+	WKU2iz/ba2B5ftH0BO6/VXpXXtrB3g3YOdaXRcG5op6CeUH4RPoOASJMb/hn3A34AomNCYg31ru
+	iPcjU+7v3/9tWES+S3kilLZWvIYsG91A==
+X-Received: by 2002:a05:600c:c163:b0:485:304a:58cd with SMTP id 5b1f17b1804b1-486f441bbfcmr105559845e9.4.1773897648298;
+        Wed, 18 Mar 2026 22:20:48 -0700 (PDT)
+Received: from [192.168.50.4] ([82.78.167.56])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486f8ba4a74sm39975085e9.12.2026.03.18.22.20.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Mar 2026 22:20:47 -0700 (PDT)
+Message-ID: <6270d271-066e-47d4-8e2f-eda119b69fbe@tuxon.dev>
+Date: Thu, 19 Mar 2026 07:20:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260312224925.186077-1-marek.vasut+renesas@mailbox.org>
-X-Spamd-Result: default: False [-0.66 / 15.00];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] clk: renesas: r9a09g056: Add PCIe clocks and reset
+To: Prabhakar <prabhakar.csengg@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>
+Cc: linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20260312111521.115392-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20260312111521.115392-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Language: en-US
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <20260312111521.115392-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[tuxon.dev:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	TAGGED_FROM(0.00)[bounces-29848-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-29847-lists,linux-renesas-soc=lfdr.de];
+	DMARC_NA(0.00)[tuxon.dev];
+	FREEMAIL_TO(0.00)[gmail.com,glider.be,baylibre.com,kernel.org];
+	DKIM_TRACE(0.00)[tuxon.dev:+];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dmitrytorokhov@gmail.com,linux-renesas-soc@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	NEURAL_HAM(-0.00)[-0.918];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	FROM_NEQ_ENVFROM(0.00)[claudiu.beznea@tuxon.dev,linux-renesas-soc@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	NEURAL_HAM(-0.00)[-0.997];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com]
-X-Rspamd-Queue-Id: B06462C61B5
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tuxon.dev:dkim,tuxon.dev:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,renesas.com:email]
+X-Rspamd-Queue-Id: 35BCC2C61EE
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Thu, Mar 12, 2026 at 11:49:01PM +0100, Marek Vasut wrote:
-> Majority of schemas place allOf: after required: . Documentation
-> Documentation/devicetree/bindings/writing-schema.rst also hints at
-> this ordering. Trivially update this schema. No functional change.
+
+
+On 3/12/26 13:15, Prabhakar wrote:
+> From: Lad Prabhakar<prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> Add clocks and reset entries for the PCIe controller.
+> 
+> Signed-off-by: Lad Prabhakar<prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Applied, thank you.
-
--- 
-Dmitry
+Reviewed-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
