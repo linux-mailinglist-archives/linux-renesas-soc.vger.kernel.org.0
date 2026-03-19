@@ -1,349 +1,340 @@
-Return-Path: <linux-renesas-soc+bounces-29886-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29887-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +LayFt7pu2kKqQIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29886-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 13:19:42 +0100
+	id 8DsiAmnxu2nkqQIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29887-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 13:51:53 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AFF62CB104
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 13:19:41 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D8632CB5EE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 13:51:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4549C305E379
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 12:17:19 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id D80963007B9D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 12:51:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD84F175A78;
-	Thu, 19 Mar 2026 12:17:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1578B3D3CE6;
+	Thu, 19 Mar 2026 12:51:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SNHvFdiz"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AJf+ysW8"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3641F2030A
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Mar 2026 12:17:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773922638; cv=pass; b=W6+rnwMMyu0ZqgZ+OWoBpppFzqnPX0Q2l4LuzhGm70+ml8Fu34pnF6ySQYKNg/sSVljrTDxMIXBgc0madtoo1S49rQMrZjeKpQxpwPcJAtqCQ2XhzSDBsxR8eYMDkjHG2HeoLy0kSqYZiyCjtm2gUHNK+RxzSim8p+xakAoqvTw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773922638; c=relaxed/simple;
-	bh=SwCggdTxaOgnzm4dGDW5IWh8viu0UqplPRQKc2PqBJc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FACMyH04if3jiHeXeList0FB8y7IwxbXwYaRxN/mb8IFnnJpaV1a/g6m2pJFlYwG75qpbM243TwT/dwUq2N1on+s6x0/Ui4L5kHrL/bvKknfpWT3Zw2bbuTNJ5D7IkQ44B3O9ejWjJS8nlV2fH3nXcUI2YY2fPjPFgKeoa3jK/Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SNHvFdiz; arc=pass smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB9013AD536
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Mar 2026 12:51:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773924709; cv=none; b=aE1dhdRXcLkc036yhQvsFJ2zUji/5kg6VbBFlY0hn/dvuYtOq5TzJqD9GO1YdbS7BZPiv71ZpURxqidudvczJ3mS0KYs7pqnHdAW+XbYR/9OAhSxUHWPxicK4O1BFSLi9tf3xep14p45hpMHtB7QWIkrsrpmenTQqYt7bniivw4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773924709; c=relaxed/simple;
+	bh=/l1bnVkGem4MqEzfBQblyxg6B14I7jMa74xvB9xjGGk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CCaGLCx5vCofguo7saJIjG4FXQMb8/ZBxsSdRodOy77ayO7ZE40MkztUfVv81YeroetfcXC29LxuXdNw4v/KlZI9Ggwyp3/duCN3WwAM8R1mfQgo3fI4xJYa2Rdt3FDIh0ekKZB/wIElOtBfWqAMw/gYGY9uNoiRc0/Jb4JEyVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AJf+ysW8; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-48557c8ad47so6954235e9.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Mar 2026 05:17:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773922635; cv=none;
-        d=google.com; s=arc-20240605;
-        b=N3+dBOmlZRjKFoKVER4SeaU6Fim/Gntem6Bdz3Wsf6zQb1IRMlAdPtS8R20JkIhgi5
-         ovfZgI8bUmI0WhpmJeFAc5eKitj8rWNJmxvXDo/fgbAA5LgDLMjInOk7DLjNwAsjgqsW
-         jTygs8jL2XFZvYOBAm9GtC39hnPMShLNkr8M22ml+6Wo9bbV+vu2IjrnRE33cnqVE0vi
-         3UKvbn+pcgA/zmvvqDSM8y/iu3u/XJ9PQEkhHNAtBkitScm9ES7vG+iYISItcV6dQarw
-         qbjEkMlJfknlBNHSkfg97Lbk5/Z5eGYxYwgzw6Tj8qc+NgLVslVcm8/4CWKocEZsziuc
-         dyRQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=21ilbjuNC0oBqcKWgZWCjkwsXOw1Gq5+6ZwV8kiRzTM=;
-        fh=cWT/lRYj+/CNIikECdN62ijcdrbXoh5IOhhgXpSI7LQ=;
-        b=Bsgo7Js4U6IhURo8gyAdm2YIjaHdU6xex5yJbEzf50Dex1PaHtNk66509rqcaPzdXS
-         LyCxWauRcWYGhXcXuiSfezOzkhltNuEWsDZMwpcc+9UwhsCi1xckcxVQcphgBTOXzsLY
-         5v63aDuVuc/gf/+lUFY+KGVmFMAFkG4DXYhbYW6RTsHCHUuRxQDgASowHy83/ocxsoyW
-         ICTCYkKJp4ZBmN7ULHxuvsC15eQy9gLAzo/mWhgraUYbiB2WoBJ9FIhFr2pC/+IP/iL2
-         NggVLbWJag3INVxZRJChmD8mcLGeeZQ4vY1f+Tt1+xYgHSVIVHGVRz3SVIrPdSDDTt5c
-         G1zQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-486fba7ce4cso4719115e9.3
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Mar 2026 05:51:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773922635; x=1774527435; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=21ilbjuNC0oBqcKWgZWCjkwsXOw1Gq5+6ZwV8kiRzTM=;
-        b=SNHvFdizZZKLlvUnYVb8XsjfMWGytA2DeySCUel0XxUaHVHRU7exfLfM9QZtmWAN+h
-         uLzvF/BCiQCXtGfAh4gH4kUSBO7son5d+QMTJMdbT+09X0wedjWSFf/b2ZsFbaZencHU
-         nr4gh2JmNbup4LXwd8QwRwOIgd/ZhvIanwZ91RBywLNHkNd0iNjTltecj8huVtOVS/Zw
-         QPHMNiLLIWPkMMSgu+feLMpolnQIre+sswRVcsww4wc6/lOWeay0f41wvFTaBrFbbdb8
-         H82Dm5w4KGcXhuxhLz+b9GFUiRR3z+JTVnK9+BQ9mHAXZJ/WcrWqWzhjyjBA/hxaMfZo
-         0IGg==
+        d=gmail.com; s=20230601; t=1773924706; x=1774529506; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=foXJbJoB4vuNc/wW0ZQIJuxNe/SnQleGWDy81kgaI84=;
+        b=AJf+ysW85VrNRFGlnHYFfxsHM4ZvN2Rl0qwxAUt6idxG78qrFqzJY3LC9CuEAvdMuH
+         7NuAGDVttfSH+xqQADDdTt4805yGI9EJkrH+iMcnwRWAVxJWd+ki9VOJrfpqXsJMnOZ4
+         P+1mO9nk2Rbepr4lFXy4Gfpoxh0sSov0kx64c9krB3Y1LoqfcuFK/5Tpu0o89m0VcWjR
+         BWHmqXpy3ZKOvH5EuoEWhX4ALXrHXXC7bDFhyQ4fGsQziJ7eAVmMWwstf4yC6zRl1lHy
+         O9H1HHHes2tYmYdUqSMzOY63EcWM56Zai2VBEYlx0FsGneGXp0WpxRCX7hfE9Dsb06MT
+         rQoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773922635; x=1774527435;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=21ilbjuNC0oBqcKWgZWCjkwsXOw1Gq5+6ZwV8kiRzTM=;
-        b=kF85KYKx1edVCSvJ7TPgp7a7VS5Ov7/NItMvf4jKirx3mz23sRmloIiHIkHoVBf7bB
-         KcKAolWpPRW2PoPE7ZRtyzVnXp/XHNP3ux03EqwaoqNrNooy277/kOEfuNs/XlTtwuni
-         jXg0HDpcrAjRAJ1piWcvPkGILliQkzdYGGXrIa2j+OQiaL4Y1I4ARNIpBC0SxAbiUavO
-         GgeCE2Kah2nqc+2hueAaOkk2L/bEly5Taa/ANK5zuYBqSpGcMPvt/kyySM8pgKgp8D1D
-         PkqhNkU2acufWRVYDYIOMUYoYTfPKlBbWZk7FWrxPRF4M16BpcNRVpvqhOlM/gA25hIu
-         W8ug==
-X-Forwarded-Encrypted: i=1; AJvYcCUgJAvp6aVQ4hCX9iuH9Mixhz+s+1vNESDfwP9HnggO4WHD8DZh6QNol29BQfJH4FJ2kZh9cd73E9iFysR6GPrTXQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyU7qtJsPGqiHhRvAdnuGpVAe/8XbN6SzKeXDYkWjGyqTgTA6b8
-	l1QHZC6l0Jj5KjhIgN+3G5M/6MdYqL8OiWpudWKqp4wJqvsbVx0/8i5wJYK4yk7BcnKzmM3KPvT
-	7yz5CDdHVSrv7vJvh9U7e0kGBQm8yfiFQbgRMi5UaBQ==
-X-Gm-Gg: ATEYQzyNkCWiq/DRPUeLiT3Qp9JfvaVkZuUp7pQYhU2ZUjedGlrr5KZwNfuGcgWXBl0
-	1RX9xzG4FWxGkrBdvje4t5/6ZzmknTGdj4iRjQ6ZpM4c7pmfawpA1DrIi7kMZZ5LATA+QdsUgMw
-	unsVTRC5dNZQgummn0wA0wSjhslQm/lz2WnHKNGEHAZuJrP1QOk0SCtwcfR3kb3aEtqyBz44OaD
-	zOwbGEiQm7HDISKVPHh/ubzGtTrOb4Q43SJ8TTa/pYQNqzYT4IpNcZRTf0hqWqAJs4wOUzo0kzp
-	IkI69SF5VM9kteOD8XcvdhBsr2TDwN8AKAmPrJGA7A4Oi+ylkDbv4WU8JY1K2kqvoyL30Ehx3Pm
-	aEV7STEFt7ogJfiHT1p28FjNsWw==
-X-Received: by 2002:a05:600c:810c:b0:477:b642:9dc1 with SMTP id
- 5b1f17b1804b1-486f4475342mr116479195e9.20.1773922635175; Thu, 19 Mar 2026
- 05:17:15 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1773924706; x=1774529506;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=foXJbJoB4vuNc/wW0ZQIJuxNe/SnQleGWDy81kgaI84=;
+        b=M07HQ+fN8TqIplWicawev28RPXYZC3Hl45QfnW+vt7K8s6veyzNhQxBNN+VJlmRm/G
+         Yvtiz+Nn/acGM+sI0UzqOMhVkRyHkczdxmOW6+E+jnONS1avB/EM3T+ovGTokbxaomcV
+         zWGSdIYDAvAoycdvWLBADKsZIvSxdrtMc+QNvJBBchukHjHruudK6rkvFqzjdXoltPVP
+         b2o8mBFw0A/dYLr7bFQ9XOV0j3ustI8UitqjujIC1bJdI8B4ZMlmvhD7VRxBmTbJfQq2
+         suK7eY8vc3Pj8n50B+r9l7egRF9i4iDh7GJT9HkZAkLW2+xT+JRjuPDqcAfOn1XJZNQt
+         1D/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVrQG1NEAgoC+cfY4cJBMc2aalUUSLGLQDbuaqcJS5J0k9TDxj6BkqSoWvRSIbtO/3LVdZWA6ytOq8Ufg0MUtAd2w==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw3KpguHZheoj0yZRaQUUTAOvuhk71Wwn9YsoBR0S0dmPPl9cKr
+	j62nlOW+EK8Rcr+Pl6CyBp5QjcahjYZbmuYp7IUtgDd6Yt7XnDM9EPd+
+X-Gm-Gg: ATEYQzxN+nC+k1KwZefTCN+t2Z6SxRjNl+yXsSlX7Xa/a46A2Pf3WxWq0pYd3FrlW5W
+	eL09aJ4n3LgRinRnin0M22fNigFDUV/bk1qk9i9AyFf2odm3X6tMllpeuLOy0Y4QisPoD4gXzYp
+	kAFXVz1Rk3MCqLd6qD0OIExhOvwUeREAT0x5JjXKuwU5ltui5EmyQPpBD9bLekbCqayZnLzdfWl
+	fMYmpeCPbePJTZlp2zBEosNnS/0T8J2+p6qZOtT5opzkzkOWglBfoBL3rb4dnjSwIz4xXSxYkUb
+	AWb4KRWFAeeUFaXMkVHa4+cT8rBcLsonaAtt9HcgOWFLfC3SVbvvqMxztjnlM5nflgZIRvcyziq
+	jRESG1Eb+uYg/ToOnwiQovZvQtxdgWXWqCFQi0SOcE7OiMrwvKqHNp6jbpVm5ex7zVpzTeffiXm
+	pMQydvaAuVMA+XQF4CB3DnyQ+bD2k31aA=
+X-Received: by 2002:a05:600c:1d0c:b0:485:4278:24f0 with SMTP id 5b1f17b1804b1-486f4581e2bmr123234545e9.30.1773924705784;
+        Thu, 19 Mar 2026 05:51:45 -0700 (PDT)
+Received: from biju.lan ([2a00:23c4:a758:8a01:8326:7b31:bf82:d2d0])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486f4bc96c6sm72382035e9.5.2026.03.19.05.51.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Mar 2026 05:51:45 -0700 (PDT)
+From: Biju <biju.das.au@gmail.com>
+X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	linux-kernel@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH v6 00/10] Add support for Renesas RZ/G3L SoC and SMARC-EVK platform
+Date: Thu, 19 Mar 2026 12:51:24 +0000
+Message-ID: <20260319125143.230377-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <4ce75f75a0569a4cc6f74dfda8b75f6f1a2495c1.1773842409.git.geert+renesas@glider.be>
-In-Reply-To: <4ce75f75a0569a4cc6f74dfda8b75f6f1a2495c1.1773842409.git.geert+renesas@glider.be>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Thu, 19 Mar 2026 12:16:47 +0000
-X-Gm-Features: AaiRm51lDKJiyDMRjLR6PdRV65bY-qlwMnmYthicRSEOPW0Z71EeuFLE0ovF12g
-Message-ID: <CA+V-a8vtA4-779BNJERDoKP6ZE7Xdmap3bS3d8Z_OHGjAfk8-g@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: rzt2h-rzn2h-evk: Fix GMAC pins sort order
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-0.66 / 15.00];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-29886-lists,linux-renesas-soc=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-29887-lists,linux-renesas-soc=lfdr.de];
 	FREEMAIL_FROM(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[bp.renesas.com,gmail.com,vger.kernel.org,lists.infradead.org];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[bp.renesas.com,vger.kernel.org,gmail.com];
+	FREEMAIL_TO(0.00)[linuxfoundation.org,kernel.org,baylibre.com,glider.be,gmail.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	NEURAL_HAM(-0.00)[-0.400];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[prabhakarcsengg@gmail.com,linux-renesas-soc@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[bijudasau@gmail.com,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid,glider.be:email]
-X-Rspamd-Queue-Id: 9AFF62CB104
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
+	NEURAL_HAM(-0.00)[-0.572];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 9D8632CB5EE
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed, Mar 18, 2026 at 2:16=E2=80=AFPM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
->
-> Restore alphabetical sort order of the pin control subnodes by
-> exchanging the gmac1-pins and gmac2-pins nodes.
-> While at it, fix the index in an incorrect "GMAC2" comment.
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> To be queued in renesas-devel for v7.1.
->
->  .../dts/renesas/r9a09g077m44-rzt2h-evk.dts    | 58 +++++++++---------
->  .../dts/renesas/r9a09g087m44-rzn2h-evk.dts    | 60 +++++++++----------
->  2 files changed, 59 insertions(+), 59 deletions(-)
->
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Biju Das <biju.das.jz@bp.renesas.com>
 
-Cheers,
-Prabhakar
+Hi all,
 
-> diff --git a/arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts b/arc=
-h/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts
-> index 52e5f6c3ab67d177..4c0e52850ca97250 100644
-> --- a/arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts
-> +++ b/arch/arm64/boot/dts/renesas/r9a09g077m44-rzt2h-evk.dts
-> @@ -253,6 +253,35 @@ can0_pins: can0-pins {
->                          <RZT2H_PORT_PINMUX(24, 4, 0x19)>; /* CANTX0 */
->         };
->
-> +       /*
-> +        * GMAC1 Pin Configuration:
-> +        *
-> +        * SW2[8] ON - use pins P33_2-P33_7, P34_0-P34_5, P34_7 and
-> +        * P35_0-P35_2 for Ethernet port 3
-> +        */
-> +       gmac1_pins: gmac1-pins {
-> +               pinmux =3D <RZT2H_PORT_PINMUX(33, 2, 0xf)>, /* ETH3_TXCLK=
- */
-> +                        <RZT2H_PORT_PINMUX(33, 3, 0xf)>, /* ETH3_TXD0 */
-> +                        <RZT2H_PORT_PINMUX(33, 4, 0xf)>, /* ETH3_TXD1 */
-> +                        <RZT2H_PORT_PINMUX(33, 5, 0xf)>, /* ETH3_TXD2 */
-> +                        <RZT2H_PORT_PINMUX(33, 6, 0xf)>, /* ETH3_TXD3 */
-> +                        <RZT2H_PORT_PINMUX(33, 7, 0xf)>, /* ETH3_TXEN */
-> +                        <RZT2H_PORT_PINMUX(34, 0, 0xf)>, /* ETH3_RXCLK *=
-/
-> +                        <RZT2H_PORT_PINMUX(34, 1, 0xf)>, /* ETH3_RXD0 */
-> +                        <RZT2H_PORT_PINMUX(34, 2, 0xf)>, /* ETH3_RXD1 */
-> +                        <RZT2H_PORT_PINMUX(34, 3, 0xf)>, /* ETH3_RXD2 */
-> +                        <RZT2H_PORT_PINMUX(34, 4, 0xf)>, /* ETH3_RXD3 */
-> +                        <RZT2H_PORT_PINMUX(34, 5, 0xf)>, /* ETH3_RXDV */
-> +                        <RZT2H_PORT_PINMUX(34, 7, 0xf)>, /* ETH3_TXER */
-> +                        <RZT2H_PORT_PINMUX(35, 0, 0xf)>, /* ETH3_RXER */
-> +                        <RZT2H_PORT_PINMUX(35, 1, 0xf)>, /* ETH3_CRS */
-> +                        <RZT2H_PORT_PINMUX(35, 2, 0xf)>, /* ETH3_COL */
-> +                        <RZT2H_PORT_PINMUX(26, 1, 0x10)>, /* GMAC1_MDC *=
-/
-> +                        <RZT2H_PORT_PINMUX(26, 2, 0x10)>, /* GMAC1_MDIO =
-*/
-> +                        <RZT2H_PORT_PINMUX(34, 6, 0x2)>, /* ETH3_REFCLK =
-*/
-> +                        <RZT2H_PORT_PINMUX(27, 2, 0x0)>; /* IRQ3 */
-> +       };
-> +
->         /*
->          * GMAC2 Pin Configuration:
->          *
-> @@ -283,35 +312,6 @@ gmac2_pins: gmac2-pins {
->                          <RZT2H_PORT_PINMUX(31, 1, 0x0)>; /* IRQ13 */
->         };
->
-> -       /*
-> -        * GMAC1 Pin Configuration:
-> -        *
-> -        * SW2[8] ON - use pins P33_2-P33_7, P34_0-P34_5, P34_7 and
-> -        * P35_0-P35_2 for Ethernet port 3
-> -        */
-> -       gmac1_pins: gmac1-pins {
-> -               pinmux =3D <RZT2H_PORT_PINMUX(33, 2, 0xf)>, /* ETH3_TXCLK=
- */
-> -                        <RZT2H_PORT_PINMUX(33, 3, 0xf)>, /* ETH3_TXD0 */
-> -                        <RZT2H_PORT_PINMUX(33, 4, 0xf)>, /* ETH3_TXD1 */
-> -                        <RZT2H_PORT_PINMUX(33, 5, 0xf)>, /* ETH3_TXD2 */
-> -                        <RZT2H_PORT_PINMUX(33, 6, 0xf)>, /* ETH3_TXD3 */
-> -                        <RZT2H_PORT_PINMUX(33, 7, 0xf)>, /* ETH3_TXEN */
-> -                        <RZT2H_PORT_PINMUX(34, 0, 0xf)>, /* ETH3_RXCLK *=
-/
-> -                        <RZT2H_PORT_PINMUX(34, 1, 0xf)>, /* ETH3_RXD0 */
-> -                        <RZT2H_PORT_PINMUX(34, 2, 0xf)>, /* ETH3_RXD1 */
-> -                        <RZT2H_PORT_PINMUX(34, 3, 0xf)>, /* ETH3_RXD2 */
-> -                        <RZT2H_PORT_PINMUX(34, 4, 0xf)>, /* ETH3_RXD3 */
-> -                        <RZT2H_PORT_PINMUX(34, 5, 0xf)>, /* ETH3_RXDV */
-> -                        <RZT2H_PORT_PINMUX(34, 7, 0xf)>, /* ETH3_TXER */
-> -                        <RZT2H_PORT_PINMUX(35, 0, 0xf)>, /* ETH3_RXER */
-> -                        <RZT2H_PORT_PINMUX(35, 1, 0xf)>, /* ETH3_CRS */
-> -                        <RZT2H_PORT_PINMUX(35, 2, 0xf)>, /* ETH3_COL */
-> -                        <RZT2H_PORT_PINMUX(26, 1, 0x10)>, /* GMAC1_MDC *=
-/
-> -                        <RZT2H_PORT_PINMUX(26, 2, 0x10)>, /* GMAC1_MDIO =
-*/
-> -                        <RZT2H_PORT_PINMUX(34, 6, 0x2)>, /* ETH3_REFCLK =
-*/
-> -                        <RZT2H_PORT_PINMUX(27, 2, 0x0)>; /* IRQ3 */
-> -       };
-> -
->         /*
->          * I2C0 Pin Configuration:
->          * ------------------------
-> diff --git a/arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dts b/arc=
-h/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dts
-> index 3c636c92f3d6f445..ef6cc7497c2c4c8c 100644
-> --- a/arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dts
-> +++ b/arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dts
-> @@ -336,6 +336,36 @@ can1_pins: can1-pins {
->                          <RZT2H_PORT_PINMUX(12, 1, 0x19)>; /* CANTX1 */
->         };
->
-> +       /*
-> +        * GMAC1 Pin Configuration:
-> +        *
-> +        * DSW5[8] ON - use pins P00_0-P00_2, P33_2-P33_7, P34_0-P34_6
-> +        * for Ethernet port 3
-> +        * DSW12[1] OFF; DSW12[2] ON - use pin P00_3 for Ethernet port 3
-> +        */
-> +       gmac1_pins: gmac1-pins {
-> +               pinmux =3D <RZT2H_PORT_PINMUX(33, 2, 0xf)>, /* ETH3_TXCLK=
- */
-> +                        <RZT2H_PORT_PINMUX(33, 3, 0xf)>, /* ETH3_TXD0 */
-> +                        <RZT2H_PORT_PINMUX(33, 4, 0xf)>, /* ETH3_TXD0 */
-> +                        <RZT2H_PORT_PINMUX(33, 5, 0xf)>, /* ETH3_TXD2 */
-> +                        <RZT2H_PORT_PINMUX(33, 6, 0xf)>, /* ETH3_TXD3 */
-> +                        <RZT2H_PORT_PINMUX(33, 7, 0xf)>, /* ETH3_TXEN */
-> +                        <RZT2H_PORT_PINMUX(34, 0, 0xf)>, /* ETH3_RXCLK *=
-/
-> +                        <RZT2H_PORT_PINMUX(34, 1, 0xf)>, /* ETH3_RXD0 */
-> +                        <RZT2H_PORT_PINMUX(34, 2, 0xf)>, /* ETH3_RXD1 */
-> +                        <RZT2H_PORT_PINMUX(34, 3, 0xf)>, /* ETH3_RXD2 */
-> +                        <RZT2H_PORT_PINMUX(34, 4, 0xf)>, /* ETH3_RXD3 */
-> +                        <RZT2H_PORT_PINMUX(34, 5, 0xf)>, /* ETH3_RXDV */
-> +                        <RZT2H_PORT_PINMUX(0, 0, 0xf)>, /* ETH3_TXER */
-> +                        <RZT2H_PORT_PINMUX(0, 1, 0xf)>, /* ETH3_RXER */
-> +                        <RZT2H_PORT_PINMUX(0, 2, 0xf)>, /* ETH3_CRS */
-> +                        <RZT2H_PORT_PINMUX(0, 3, 0xf)>, /* ETH3_COL */
-> +                        <RZT2H_PORT_PINMUX(26, 1, 0x10)>, /* GMAC1_MDC *=
-/
-> +                        <RZT2H_PORT_PINMUX(26, 2, 0x10)>, /* GMAC1_MDIO =
-*/
-> +                        <RZT2H_PORT_PINMUX(34, 6, 0x2)>, /* ETH3_REFCLK =
-*/
-> +                        <RZT2H_PORT_PINMUX(17, 3, 0x0)>; /* IRQ15 */
-> +       };
-> +
->         /*
->          * GMAC2 Pin Configuration:
->          *
-> @@ -368,36 +398,6 @@ gmac2_pins: gmac2-pins {
->
->         };
->
-> -       /*
-> -        * GMAC2 Pin Configuration:
-> -        *
-> -        * DSW5[8] ON - use pins P00_0-P00_2, P33_2-P33_7, P34_0-P34_6
-> -        * for Ethernet port 3
-> -        * DSW12[1] OFF; DSW12[2] ON - use pin P00_3 for Ethernet port 3
-> -        */
-> -       gmac1_pins: gmac1-pins {
-> -               pinmux =3D <RZT2H_PORT_PINMUX(33, 2, 0xf)>, /* ETH3_TXCLK=
- */
-> -                        <RZT2H_PORT_PINMUX(33, 3, 0xf)>, /* ETH3_TXD0 */
-> -                        <RZT2H_PORT_PINMUX(33, 4, 0xf)>, /* ETH3_TXD0 */
-> -                        <RZT2H_PORT_PINMUX(33, 5, 0xf)>, /* ETH3_TXD2 */
-> -                        <RZT2H_PORT_PINMUX(33, 6, 0xf)>, /* ETH3_TXD3 */
-> -                        <RZT2H_PORT_PINMUX(33, 7, 0xf)>, /* ETH3_TXEN */
-> -                        <RZT2H_PORT_PINMUX(34, 0, 0xf)>, /* ETH3_RXCLK *=
-/
-> -                        <RZT2H_PORT_PINMUX(34, 1, 0xf)>, /* ETH3_RXD0 */
-> -                        <RZT2H_PORT_PINMUX(34, 2, 0xf)>, /* ETH3_RXD1 */
-> -                        <RZT2H_PORT_PINMUX(34, 3, 0xf)>, /* ETH3_RXD2 */
-> -                        <RZT2H_PORT_PINMUX(34, 4, 0xf)>, /* ETH3_RXD3 */
-> -                        <RZT2H_PORT_PINMUX(34, 5, 0xf)>, /* ETH3_RXDV */
-> -                        <RZT2H_PORT_PINMUX(0, 0, 0xf)>, /* ETH3_TXER */
-> -                        <RZT2H_PORT_PINMUX(0, 1, 0xf)>, /* ETH3_RXER */
-> -                        <RZT2H_PORT_PINMUX(0, 2, 0xf)>, /* ETH3_CRS */
-> -                        <RZT2H_PORT_PINMUX(0, 3, 0xf)>, /* ETH3_COL */
-> -                        <RZT2H_PORT_PINMUX(26, 1, 0x10)>, /* GMAC1_MDC *=
-/
-> -                        <RZT2H_PORT_PINMUX(26, 2, 0x10)>, /* GMAC1_MDIO =
-*/
-> -                        <RZT2H_PORT_PINMUX(34, 6, 0x2)>, /* ETH3_REFCLK =
-*/
-> -                        <RZT2H_PORT_PINMUX(17, 3, 0x0)>; /* IRQ15 */
-> -       };
-> -
->         /*
->          * I2C0 Pin Configuration:
->          * ------------------------
-> --
-> 2.43.0
->
->
+This patch series adds initial support for the Renesas RZ/G3L SoC and
+RZ/G3L SMARC EVK platform. The RZ/G3L device is a general-purpose
+microprocessor with a quad-core CA-55, single core CM-33, Mali-G31
+3-D Graphics and other peripherals.
+
+Support for the below list of blocks is added in the SoC DTSI (r9a08g046.dtsi):
+
+ - EXT CLK
+ - 4X CA55
+ - SCIF
+ - CPG
+ - GIC
+ - ARMv8 Timer
+
+This series also adds SCIF support for the RZ/G3L SMARC EVK board (r9a08g046l48-smarc.dts).
+
+v5->v6:
+ * Collected tags
+ * Moved loop variable declaration inside for loops in
+   __rzg2l_cpg_assert() and rzg2l_cpg_deassert_crit_resets()
+ * Replaced r9a07g043_critical_resets[] -> r9a07g043_crit_resets[] for
+   consistency
+ * Introduced rzg2l_mod_clock_init_mstop_helper() for code reuse
+   in probe() and resume().
+ * Dropped the list implementation.
+ * Replaced  rzg2l_mod_clock_init_mstop->rzg2l_mod_enable_crit_clock_init_mstop()
+   for enabling critical clks and restoring mstop state during resume.
+ * Dropped dma-ranges, bus-range and comment from the pcie device node
+v4->v5:
+ * Rebased to next-20260317.
+v3->v4:
+ * Dropped SoC identification patches as it is accepted for renesas-devel.
+ * Updated commit description related to core clocks section in the
+    hardware manual
+ * Dropped CLK_P4_DIV2 from core clocks
+ * Added MIPI_DSI_PLLCLK and USB_SCLK to core clocks
+ * Dropped LVDS_PCLK  module clock
+ * Added BSC_X_PRESET_BSC reset
+ * Moved the patch series from [1] to here as it is boot-dependent.
+ * Updated commit description
+ * Updated LAST_DT_CORE_CLK with R9A08G046_USB_SCLK
+ * Fixed typo 2->8 in dtable_4_128[].
+ * Added critical reset table r9a08g046_critical_resets[]
+ * Updated num_resets
+ * Added crit_resets and num_crit_resets to r9a08g046_cpg_info.
+ * Fixed typo R0A08G046L->R9A08G046L in commit description
+ * Dropped R9A08G046L46 from commit description
+ * Dropped unused audio_clk{1,2} andcan_clk device nodes
+ * Reordered i2c device node and updated reg entries by using lower-case
+   hexadecimal number
+ * Added placeholder in pinctrl node
+ * Dropped unused DMAC device node
+ * Added pcie node with placeholder
+ * Collected the tags.
+ * Updated commit description for patch#8
+
+[1] https://lore.kernel.org/all/20260306134228.871815-1-biju.das.jz@bp.renesas.com/
+v2->v3:
+ * Added macros R9A08G046_ETH{0,1}_CLK_{TX,RX}_I_RMII in r9a08g046-cpg.h.
+ * Keep the tag from Conor as it is trivial change for just adding macros.
+v1->v2:
+ * Dropped scif bindings patch as it is accepted.
+ * Collected tags.
+ * Squashed the patch#3 and #4
+ * Documented GE3D/VCP for all SoC variants
+ * Documented external ethernet clocks as it is a clock source for MUX
+   inside CPG
+ * Updated commit description for bindings.
+ * Keep the tag from Conor as it is trivial change for adding more
+   clks.
+ * Added CLK_ETH{0,1}_TXC_TX_CLK_IN and CLK_ETH{0,1}_RXC_RX_CLK_IN clocks
+   in clk table.
+ * Dropped R9A08G046_IA55_PCLK from critical clock list.
+ * Added external clocks eth{0,1}_txc_tx_clk and eth{0,1}_rxc_rx_clk
+   in soc dtsi as it needed for cpg as it is a clock source for mux.
+ * Updated cpg node.
+ * Dropped gpio.h header from SoM dtsi.
+ * Dropped scif node as it is already included in common platform
+   file.
+
+Test logs:
+/ #  uname -r
+7.0.0-rc4-next-20260317-gb478da6183c1
+/ # cat /proc/cpuinfo
+processor       : 0
+BogoMIPS        : 48.00
+Features        : fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm lrcpc dcpop asimddp
+CPU implementer : 0x41
+CPU architecture: 8
+CPU variant     : 0x2
+CPU part        : 0xd05
+CPU revision    : 0
+
+processor       : 1
+BogoMIPS        : 48.00
+Features        : fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm lrcpc dcpop asimddp
+CPU implementer : 0x41
+CPU architecture: 8
+CPU variant     : 0x2
+CPU part        : 0xd05
+CPU revision    : 0
+
+processor       : 2
+BogoMIPS        : 48.00
+Features        : fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm lrcpc dcpop asimddp
+CPU implementer : 0x41
+CPU architecture: 8
+CPU variant     : 0x2
+CPU part        : 0xd05
+CPU revision    : 0
+
+processor       : 3
+BogoMIPS        : 48.00
+Features        : fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm lrcpc dcpop asimddp
+CPU implementer : 0x41
+CPU architecture: 8
+CPU variant     : 0x2
+CPU part        : 0xd05
+CPU revision    : 0
+
+/ # cat /proc/interrupts
+           CPU0       CPU1       CPU2       CPU3
+ 11:        104        191        429         62    GICv3  27 Level     arch_timer
+ 14:          0          0          0          0    GICv3 418 Level     100ac000.serial:rx err
+ 15:          4          0          0          0    GICv3 420 Level     100ac000.serial:rx full
+ 16:        229          0          0          0    GICv3 421 Level     100ac000.serial:tx empty
+ 17:          0          0          0          0    GICv3 419 Level     100ac000.serial:break
+ 18:         17          0          0          0    GICv3 422 Level     100ac000.serial:rx ready
+IPI0:         3         16         13         21       Rescheduling interrupts
+IPI1:       315        240        180        217       Function call interrupts
+IPI2:         0          0          0          0       CPU stop interrupts
+IPI3:         0          0          0          0       CPU stop NMIs
+IPI4:         0          0          0          0       Timer broadcast interrupts
+IPI5:         0          0          0          0       IRQ work interrupts
+IPI6:         0          0          0          0       CPU backtrace interrupts
+IPI7:         0          0          0          0       KGDB roundup interrupts
+Err:          0
+/ # cat /proc/meminfo
+MemTotal:        1887304 kB
+MemFree:         1852164 kB
+MemAvailable:    1819524 kB
+/ # cat /sys/devices/soc0/family
+RZ/G3L
+/ # cat /sys/devices/soc0/machine
+Renesas SMARC EVK version 2 based on r9a08g046l48
+/ # cat /sys/devices/soc0/soc_id
+r9a08g046
+/ # cat /sys/devices/soc0/revision
+0
+dmesg | grep r9a
+[    0.000000] Machine model: Renesas SMARC EVK version 2 based on r9a08g046l48
+[    0.066480] renesas-rz-sysc 11020000.system-controller: Detected Renesas RZ/G3L r9a08g046 Rev 0
+
+Biju Das (10):
+  dt-bindings: clock: Document RZ/G3L SoC
+  clk: renesas: rzg2l-cpg: Add support for critical resets
+  clk: renesas: r9a07g04{3,4}/r9a08g045-cpg: Add critical reset entries
+  clk: renesas: rzg2l-cpg: Add rzg2l_mod_clock_init_mstop_helper()
+  clk: renesas: rzg2l-cpg: Re-enable critical module clocks during
+    resume
+  clk: renesas: Add support for RZ/G3L SoC
+  arm64: dts: renesas: Add initial DTSI for RZ/G3L SoC
+  arm64: dts: renesas: Add initial support for RZ/G3L SMARC SoM
+  arm64: dts: renesas: renesas-smarc2: Move usb3 nodes to board DTS
+  arm64: dts: renesas: Add initial device tree for RZ/G3L SMARC EVK
+    board
+
+ .../bindings/clock/renesas,rzg2l-cpg.yaml     |  40 +-
+ arch/arm64/boot/dts/renesas/Makefile          |   2 +
+ arch/arm64/boot/dts/renesas/r9a08g046.dtsi    | 212 +++++++++++
+ .../boot/dts/renesas/r9a08g046l48-smarc.dts   |  37 ++
+ arch/arm64/boot/dts/renesas/r9a08g046l48.dtsi |  13 +
+ .../boot/dts/renesas/r9a09g047e57-smarc.dts   |   6 +
+ .../boot/dts/renesas/renesas-smarc2.dtsi      |   8 -
+ .../boot/dts/renesas/rzg3l-smarc-som.dtsi     |  20 +
+ drivers/clk/renesas/Kconfig                   |   7 +-
+ drivers/clk/renesas/Makefile                  |   1 +
+ drivers/clk/renesas/r9a07g043-cpg.c           |   8 +
+ drivers/clk/renesas/r9a07g044-cpg.c           |  13 +
+ drivers/clk/renesas/r9a08g045-cpg.c           |   9 +
+ drivers/clk/renesas/r9a08g046-cpg.c           | 153 ++++++++
+ drivers/clk/renesas/rzg2l-cpg.c               |  79 +++-
+ drivers/clk/renesas/rzg2l-cpg.h               |   8 +
+ include/dt-bindings/clock/r9a08g046-cpg.h     | 342 ++++++++++++++++++
+ 17 files changed, 934 insertions(+), 24 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a08g046.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a08g046l48-smarc.dts
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a08g046l48.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/rzg3l-smarc-som.dtsi
+ create mode 100644 drivers/clk/renesas/r9a08g046-cpg.c
+ create mode 100644 include/dt-bindings/clock/r9a08g046-cpg.h
+
+-- 
+2.43.0
+
 
