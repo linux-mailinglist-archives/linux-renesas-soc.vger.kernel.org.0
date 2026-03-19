@@ -1,101 +1,67 @@
-Return-Path: <linux-renesas-soc+bounces-29869-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29870-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oJsWMKHXu2k4owIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29869-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 12:01:53 +0100
+	id aAl1N+XXu2k6pAIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29870-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 12:03:01 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 620582C9E9A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 12:01:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 335E72C9F3E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 12:03:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BF465314C8C8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 11:00:05 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 40C7F31F9D01
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2026 11:00:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40D5A3C65F7;
-	Thu, 19 Mar 2026 11:00:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A45AF3C5DA8;
+	Thu, 19 Mar 2026 11:00:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="PcDkGLK+"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="VDM70dsv"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D6013C3C01
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Mar 2026 10:59:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A4083C6A3A
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Mar 2026 11:00:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773918003; cv=none; b=UNETrPk0autNnYLbuPPIito/jv2Of2m3JHI3TTPbXTfqe5opoTGWqHkj7zznp/RcD/B6lHG6AB6X5WtIMJO+6wLJx0SH1FdNwNz8PseT8YBH6HXN6k0sDHnKxqBMV80GqNB93ozz02DI4Pfs9DnuxuuVVfgMht6UuFrlTW28URU=
+	t=1773918010; cv=none; b=cELwliP9y9L6Mp3gXwk5RNdWbone4K8IAU9QbsNOHVGzeGRdG8HyPNd7bY5zEKimNq5Vt/F6gni2pAhWgbdFF5ZVmFIyG2bAFHERkdNizcUlZ1z2JMulZqjxIpE04DXEeqa3kwBGC7rrCrIZJNQwbKQ+8hsBFnpH9jSLNPsuq9k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773918003; c=relaxed/simple;
-	bh=lDsTKKOW0M02gxeWI5CUcjsdvvgs0U6RXB5vNRUgEMA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iVL4A7gzFig25gyzTPN/fUp3HRSIOL9LKe5+e3hpoN0c9AAfTorEmA+Y1gaBSHVdpXvazQMSkGcl9IvNdo0zNYHtUm1aRquCMvNp/LUFMlh0eNOlSwVboedMsfFVFqPmilre+FdMVaFyco/Q+ts3GWKIfg3xz+at7o8/CXU8i/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=PcDkGLK+; arc=none smtp.client-ip=194.117.254.33
+	s=arc-20240116; t=1773918010; c=relaxed/simple;
+	bh=z38a3cLh4UkRj9AZR94BRZpkDcDOXITt/wbT8smF0PQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Aq2FTOn/I5x6hDcoLRkmVX5AE+cMM75W61CLLaVOhcl0c7nL+CURv96YFqK9ofExW2nRnAHJEpKs7FZOwiY3aV7PMJgfQl1giyeZUwLsfdwRxaEWaag5ckF5rIh3GaFXef1Ug3JwAfrAHn72COEkCZrYEru4nMxJiTHO93CJsis=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=VDM70dsv; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=KB81XvoxVzxPeO
-	i/26wCRtiORDc5p8n0JHh4CTp/OTA=; b=PcDkGLK+SGUtnsfgW6hOFscnOGL+BT
-	dKa1bQM2q3f+KMWLx51FbKecyKl3CTTGMdyGB6dqrwuL5JkEEudobAqxgeU6ZFMr
-	Q/egIiyx6OHRYc21xA0Sg6RHS9duWIff1CFbEaPP2CfF36ozg9i4SuaRZ7MV6c5H
-	eCWWVJZ5KtG2AIocqV87rCfe50t4kw5N3wmJEAYynvgH2nsxCmP0QR9PCNreuRFf
-	mKmqzGl/3S3bTfYmXZSe0hhxeuBYswfqzt+swtd5l3aIkB5Df3owLfa84N3Fk1B2
-	xEr2d5idm1V67Pg0LjLzpw4DgNEnINr8JKle2ffApkdPHx/l3cXj3/1g==
-Received: (qmail 1099341 invoked from network); 19 Mar 2026 11:59:51 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 19 Mar 2026 11:59:51 +0100
-X-UD-Smtp-Session: l3s3148p1@AI+1d15Nvt0gAwDPXzF+ANZpdrMKUeLI
+	:in-reply-to:references:mime-version:content-transfer-encoding;
+	 s=k1; bh=x2flKYzYfRk7gyeSwNtIj63y7Q+BDaqLHhMzsOZftOs=; b=VDM70d
+	svdIQsic3xl0Yqt59t+QPZhBcpFBSeTQuPhOYFi6oZeaxqkRWSypkJq0XfpGECec
+	DmFzchKtG/FknbZY3cyvHQvI/SD75uLHbFhENLCOCMamwjgcNGk4uFIzQ1Sb+yHb
+	q8KC6qoQgSsPWSvrFsNBaySyHf+Vgd8E7mAa7pc2427T2SvvHK39et2pV8yEc1Wj
+	snlGo5uqBQnYY2JzFAsCEOfFahmRZxOa5gwDVa2P1d6dr42GcXWwdRrRERTqLF2l
+	B5vJpxzyNXM8F2pjf3mzRY8la2LZV/YneI1Toa4KoAxaBopmCZth1QpWIJ6iAMF1
+	U+vtiStcsISkl1Zw==
+Received: (qmail 1099457 invoked from network); 19 Mar 2026 11:59:52 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 19 Mar 2026 11:59:52 +0100
+X-UD-Smtp-Session: l3s3148p1@xpHId15Nyt0gAwDPXzF+ANZpdrMKUeLI
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: linux-renesas-soc@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Antonio Borneo <antonio.borneo@foss.st.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	driver-core@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Lee Jones <lee@kernel.org>,
 	Linus Walleij <linusw@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-omap@vger.kernel.org,
-	linux-remoteproc@vger.kernel.org,
-	linux-spi@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev,
-	Mark Brown <broonie@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Waiman Long <longman@redhat.com>,
-	Wilken Gottwalt <wilken.gottwalt@posteo.net>,
-	Will Deacon <will@kernel.org>
-Subject: [PATCH v5 00/15] hwspinlock: move device alloc into core and refactor includes
-Date: Thu, 19 Mar 2026 11:59:22 +0100
-Message-ID: <20260319105947.6237-1-wsa+renesas@sang-engineering.com>
+	Andy Shevchenko <andriy.shevchenko@intel.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	linux-remoteproc@vger.kernel.org
+Subject: [PATCH v5 01/15] hwspinlock: u8500: delete driver
+Date: Thu, 19 Mar 2026 11:59:23 +0100
+Message-ID: <20260319105947.6237-2-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260319105947.6237-1-wsa+renesas@sang-engineering.com>
+References: <20260319105947.6237-1-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -113,115 +79,245 @@ X-Spamd-Result: default: False [0.34 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-29869-lists,linux-renesas-soc=lfdr.de,renesas];
-	DMARC_NA(0.00)[sang-engineering.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[46];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[vger.kernel.org,sang-engineering.com,foss.st.com,kernel.org,arndb.de,linux.alibaba.com,gmail.com,baylibre.com,lists.linux.dev,linuxfoundation.org,redhat.com,lwn.net,lists.infradead.org,st-md-mailman.stormreply.com,analog.com,infradead.org,sholland.org,posteo.net];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-29870-lists,linux-renesas-soc=lfdr.de,renesas];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[wsa@sang-engineering.com,linux-renesas-soc@vger.kernel.org];
+	DMARC_NA(0.00)[sang-engineering.com];
 	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	DKIM_TRACE(0.00)[sang-engineering.com:+];
-	NEURAL_HAM(-0.00)[-0.962];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[wsa@sang-engineering.com,linux-renesas-soc@vger.kernel.org];
 	MID_RHS_MATCH_FROM(0.00)[];
-	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.983];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sang-engineering.com:dkim,sang-engineering.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 620582C9E9A
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sang-engineering.com:dkim,sang-engineering.com:email,sang-engineering.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linaro.org:email,ti.com:email,wizery.com:email,intel.com:email]
+X-Rspamd-Queue-Id: 335E72C9F3E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Changes since v4:
+The U8500 platform was converted to DT around 2013 and is DT only
+meanwhile. This driver has never been converted to a DT driver, so it
+clearly hasn't been used since then. To ease upcoming refactoring in the
+hwspinlock subsystem, remove this obsolete driver.
 
-* update Documentation, too, when ABI gets changed (Thanks Antonio!)
-* rebased to 7.0-rc4
-* added more tags (Thanks!)
-
-My ultimate goal is to allow hwspinlock provider drivers outside of the
-subsystem directory. It turned out that a simple split of the headers
-files into a public provider and a public consumer header file is not
-enough because core internal structures need to stay hidden. Even more,
-their opaqueness could and should even be increased. That would also
-allow the core to handle the de-/allocation of the hwspinlock device
-itself.
-
-This series does all that. Patches 1-2 remove the meanwhile unused
-platform_data to ease further refactoring. Patches 3-9 abstract access
-to internal structures away using helpers. Patch 10 then moves
-hwspinlock device handling to the core, simplifying drivers. The
-remaining patches refactor the headers until the internal one is gone
-and the public ones are divided into provider and consumer parts. More
-details are given in the patch descriptions.
-
-One note about using a callback to initialize hwspinlock priv: I also
-experimented with a dedicated 'set_priv' helper function. It felt a bit
-clumsy to me. Drivers would need to save the 'bank' pointer again and
-iterate over it. Because most drivers will only have a simple callback
-anyhow, it looked leaner to me.
-
-This series has been tested on a Renesas SparrowHawk board (R-Car V4H)
-with a yet-to-be-upstreamed hwspinlock driver for the MFIS IP core. A
-branch can be found here (without the MFIS driver currently):
-
-git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/hwspinlock/refactor-alloc-buildtest
-
-Build bots reported success.
-
-Happy hacking,
-
-   Wolfram
-
-Wolfram Sang (15):
-  hwspinlock: u8500: delete driver
-  hwspinlock: remove now unused pdata from header file
-  hwspinlock: add helpers to retrieve core data
-  hwspinlock: add callback to fill private data of a hwspinlock
-  hwspinlock: omap: use new callback to initialize hwspinlock priv
-  hwspinlock: qcom: use new callback to initialize hwspinlock priv
-  hwspinlock: sprd: use new callback to initialize hwspinlock priv
-  hwspinlock: stm32: use new callback to initialize hwspinlock priv
-  hwspinlock: sun6i: use new callback to initialize hwspinlock priv
-  hwspinlock: handle hwspinlock device allocation in the core
-  hwspinlock: move entries from internal to public header
-  hwspinlock: remove internal header
-  hwspinlock: sort include and update copyright
-  hwspinlock: refactor provider.h from public header
-  hwspinlock/treewide: refactor consumer.h from public header
-
- Documentation/locking/hwspinlock.rst          |   7 +-
- MAINTAINERS                                   |   3 +-
- drivers/base/regmap/regmap.c                  |   2 +-
- drivers/hwspinlock/Kconfig                    |  10 --
- drivers/hwspinlock/Makefile                   |   1 -
- drivers/hwspinlock/hwspinlock_core.c          | 129 +++++++++++----
- drivers/hwspinlock/hwspinlock_internal.h      |  72 --------
- drivers/hwspinlock/omap_hwspinlock.c          |  27 ++-
- drivers/hwspinlock/qcom_hwspinlock.c          |  69 ++++----
- drivers/hwspinlock/sprd_hwspinlock.c          |  39 ++---
- drivers/hwspinlock/stm32_hwspinlock.c         |  26 +--
- drivers/hwspinlock/sun6i_hwspinlock.c         |  36 ++--
- drivers/hwspinlock/u8500_hsem.c               | 155 ------------------
- drivers/iio/adc/sc27xx_adc.c                  |   2 +-
- drivers/irqchip/irq-stm32mp-exti.c            |   2 +-
- drivers/mfd/syscon.c                          |   2 +-
- drivers/nvmem/sc27xx-efuse.c                  |   2 +-
- drivers/nvmem/sprd-efuse.c                    |   2 +-
- drivers/pinctrl/stm32/pinctrl-stm32.c         |   2 +-
- drivers/soc/qcom/smem.c                       |   2 +-
- drivers/spi/spi-sprd-adi.c                    |   2 +-
- .../{hwspinlock.h => hwspinlock/consumer.h}   |  57 +------
- include/linux/hwspinlock/provider.h           |  60 +++++++
- 23 files changed, 263 insertions(+), 446 deletions(-)
- delete mode 100644 drivers/hwspinlock/hwspinlock_internal.h
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Reviewed-by: Linus Walleij <linusw@kernel.org>
+Acked-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+---
+ MAINTAINERS                     |   1 -
+ drivers/hwspinlock/Kconfig      |  10 ---
+ drivers/hwspinlock/Makefile     |   1 -
+ drivers/hwspinlock/u8500_hsem.c | 155 --------------------------------
+ 4 files changed, 167 deletions(-)
  delete mode 100644 drivers/hwspinlock/u8500_hsem.c
- rename include/linux/{hwspinlock.h => hwspinlock/consumer.h} (87%)
- create mode 100644 include/linux/hwspinlock/provider.h
 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 96ea84948d76..59bccd940fe0 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3155,7 +3155,6 @@ F:	drivers/clocksource/clksrc-dbx500-prcmu.c
+ F:	drivers/dma/ste_dma40*
+ F:	drivers/pmdomain/st/ste-ux500-pm-domain.c
+ F:	drivers/gpio/gpio-nomadik.c
+-F:	drivers/hwspinlock/u8500_hsem.c
+ F:	drivers/i2c/busses/i2c-nomadik.c
+ F:	drivers/iio/adc/ab8500-gpadc.c
+ F:	drivers/mfd/ab8500*
+diff --git a/drivers/hwspinlock/Kconfig b/drivers/hwspinlock/Kconfig
+index 3874d15b0e9b..d84e00084ee2 100644
+--- a/drivers/hwspinlock/Kconfig
++++ b/drivers/hwspinlock/Kconfig
+@@ -53,14 +53,4 @@ config HWSPINLOCK_SUN6I
+ 
+ 	  If unsure, say N.
+ 
+-config HSEM_U8500
+-	tristate "STE Hardware Semaphore functionality"
+-	depends on ARCH_U8500 || COMPILE_TEST
+-	help
+-	  Say y here to support the STE Hardware Semaphore functionality, which
+-	  provides a synchronisation mechanism for the various processor on the
+-	  SoC.
+-
+-	  If unsure, say N.
+-
+ endif # HWSPINLOCK
+diff --git a/drivers/hwspinlock/Makefile b/drivers/hwspinlock/Makefile
+index a0f16c9aaa82..3a740805949d 100644
+--- a/drivers/hwspinlock/Makefile
++++ b/drivers/hwspinlock/Makefile
+@@ -9,4 +9,3 @@ obj-$(CONFIG_HWSPINLOCK_QCOM)		+= qcom_hwspinlock.o
+ obj-$(CONFIG_HWSPINLOCK_SPRD)		+= sprd_hwspinlock.o
+ obj-$(CONFIG_HWSPINLOCK_STM32)		+= stm32_hwspinlock.o
+ obj-$(CONFIG_HWSPINLOCK_SUN6I)		+= sun6i_hwspinlock.o
+-obj-$(CONFIG_HSEM_U8500)		+= u8500_hsem.o
+diff --git a/drivers/hwspinlock/u8500_hsem.c b/drivers/hwspinlock/u8500_hsem.c
+deleted file mode 100644
+index 5a2d8c3e0d80..000000000000
+--- a/drivers/hwspinlock/u8500_hsem.c
++++ /dev/null
+@@ -1,155 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/*
+- * u8500 HWSEM driver
+- *
+- * Copyright (C) 2010-2011 ST-Ericsson
+- *
+- * Implements u8500 semaphore handling for protocol 1, no interrupts.
+- *
+- * Author: Mathieu Poirier <mathieu.poirier@linaro.org>
+- * Heavily borrowed from the work of :
+- *   Simon Que <sque@ti.com>
+- *   Hari Kanigeri <h-kanigeri2@ti.com>
+- *   Ohad Ben-Cohen <ohad@wizery.com>
+- */
+-
+-#include <linux/module.h>
+-#include <linux/delay.h>
+-#include <linux/io.h>
+-#include <linux/slab.h>
+-#include <linux/spinlock.h>
+-#include <linux/hwspinlock.h>
+-#include <linux/platform_device.h>
+-
+-#include "hwspinlock_internal.h"
+-
+-/*
+- * Implementation of STE's HSem protocol 1 without interrutps.
+- * The only masterID we allow is '0x01' to force people to use
+- * HSems for synchronisation between processors rather than processes
+- * on the ARM core.
+- */
+-
+-#define U8500_MAX_SEMAPHORE		32	/* a total of 32 semaphore */
+-#define RESET_SEMAPHORE			(0)	/* free */
+-
+-/*
+- * CPU ID for master running u8500 kernel.
+- * Hswpinlocks should only be used to synchonise operations
+- * between the Cortex A9 core and the other CPUs.  Hence
+- * forcing the masterID to a preset value.
+- */
+-#define HSEM_MASTER_ID			0x01
+-
+-#define HSEM_REGISTER_OFFSET		0x08
+-
+-#define HSEM_CTRL_REG			0x00
+-#define HSEM_ICRALL			0x90
+-#define HSEM_PROTOCOL_1			0x01
+-
+-static int u8500_hsem_trylock(struct hwspinlock *lock)
+-{
+-	void __iomem *lock_addr = lock->priv;
+-
+-	writel(HSEM_MASTER_ID, lock_addr);
+-
+-	/* get only first 4 bit and compare to masterID.
+-	 * if equal, we have the semaphore, otherwise
+-	 * someone else has it.
+-	 */
+-	return (HSEM_MASTER_ID == (0x0F & readl(lock_addr)));
+-}
+-
+-static void u8500_hsem_unlock(struct hwspinlock *lock)
+-{
+-	void __iomem *lock_addr = lock->priv;
+-
+-	/* release the lock by writing 0 to it */
+-	writel(RESET_SEMAPHORE, lock_addr);
+-}
+-
+-/*
+- * u8500: what value is recommended here ?
+- */
+-static void u8500_hsem_relax(struct hwspinlock *lock)
+-{
+-	ndelay(50);
+-}
+-
+-static const struct hwspinlock_ops u8500_hwspinlock_ops = {
+-	.trylock	= u8500_hsem_trylock,
+-	.unlock		= u8500_hsem_unlock,
+-	.relax		= u8500_hsem_relax,
+-};
+-
+-static int u8500_hsem_probe(struct platform_device *pdev)
+-{
+-	struct hwspinlock_pdata *pdata = pdev->dev.platform_data;
+-	struct hwspinlock_device *bank;
+-	struct hwspinlock *hwlock;
+-	void __iomem *io_base;
+-	int i, num_locks = U8500_MAX_SEMAPHORE;
+-	ulong val;
+-
+-	if (!pdata)
+-		return -ENODEV;
+-
+-	io_base = devm_platform_ioremap_resource(pdev, 0);
+-	if (IS_ERR(io_base))
+-		return PTR_ERR(io_base);
+-
+-	/* make sure protocol 1 is selected */
+-	val = readl(io_base + HSEM_CTRL_REG);
+-	writel((val & ~HSEM_PROTOCOL_1), io_base + HSEM_CTRL_REG);
+-
+-	/* clear all interrupts */
+-	writel(0xFFFF, io_base + HSEM_ICRALL);
+-
+-	bank = devm_kzalloc(&pdev->dev, struct_size(bank, lock, num_locks),
+-			    GFP_KERNEL);
+-	if (!bank)
+-		return -ENOMEM;
+-
+-	platform_set_drvdata(pdev, bank);
+-
+-	for (i = 0, hwlock = &bank->lock[0]; i < num_locks; i++, hwlock++)
+-		hwlock->priv = io_base + HSEM_REGISTER_OFFSET + sizeof(u32) * i;
+-
+-	return devm_hwspin_lock_register(&pdev->dev, bank,
+-					 &u8500_hwspinlock_ops,
+-					 pdata->base_id, num_locks);
+-}
+-
+-static void u8500_hsem_remove(struct platform_device *pdev)
+-{
+-	struct hwspinlock_device *bank = platform_get_drvdata(pdev);
+-	void __iomem *io_base = bank->lock[0].priv - HSEM_REGISTER_OFFSET;
+-
+-	/* clear all interrupts */
+-	writel(0xFFFF, io_base + HSEM_ICRALL);
+-}
+-
+-static struct platform_driver u8500_hsem_driver = {
+-	.probe		= u8500_hsem_probe,
+-	.remove		= u8500_hsem_remove,
+-	.driver		= {
+-		.name	= "u8500_hsem",
+-	},
+-};
+-
+-static int __init u8500_hsem_init(void)
+-{
+-	return platform_driver_register(&u8500_hsem_driver);
+-}
+-/* board init code might need to reserve hwspinlocks for predefined purposes */
+-postcore_initcall(u8500_hsem_init);
+-
+-static void __exit u8500_hsem_exit(void)
+-{
+-	platform_driver_unregister(&u8500_hsem_driver);
+-}
+-module_exit(u8500_hsem_exit);
+-
+-MODULE_LICENSE("GPL v2");
+-MODULE_DESCRIPTION("Hardware Spinlock driver for u8500");
+-MODULE_AUTHOR("Mathieu Poirier <mathieu.poirier@linaro.org>");
 -- 
 2.51.0
 
