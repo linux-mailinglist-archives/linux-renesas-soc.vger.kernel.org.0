@@ -1,210 +1,132 @@
-Return-Path: <linux-renesas-soc+bounces-29985-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29986-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OEuLD1EEvWkO5gIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29985-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Mar 2026 09:24:49 +0100
+	id WBOnFXoLvWkO5gIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29986-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Mar 2026 09:55:22 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id D99592D72C3
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Mar 2026 09:24:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1B052D790C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Mar 2026 09:55:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7E61A309A618
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Mar 2026 08:22:49 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id EFFC6318265C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Mar 2026 08:42:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B05A937266E;
-	Fri, 20 Mar 2026 08:22:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA14D3750A6;
+	Fri, 20 Mar 2026 08:42:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="Y0bTES89"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X6/goNLb"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013005.outbound.protection.outlook.com [40.107.159.5])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5249037188B;
-	Fri, 20 Mar 2026 08:22:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.5
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773994967; cv=fail; b=g/Yl6eIzIOVszN4qjAaWx+McNqdBMSy87r3x8oSZJVAU551NJNs2eFilBQWAqOTIOZ+SBbcG3vaHIVSM80sboxO7wmkTD57mJHvzqIX+NWmpdz4bmTN8bfNdze5Uf9Gw4SM6YlM0Rf/rJc3PqtpV5xDFFY24jtPbSlLx5tDyAP8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773994967; c=relaxed/simple;
-	bh=c9RBJcZsPemyWEqrhhsaMpc/uEampX+Hd+YiAxpWpGQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=bzBCDvt7QYaCPuJsI2R6gnMTC5DR22o4v/04cepH2CQKtD5hx4YGdyjXgyGNYXJaoszWSvgdAcp796ZtSjle3Rdp6hhy1gwPsznf8NfNiHvMqt2PnrdTs4N4FexrZ4Ars5j+E3tw4Zn3DxS1YDdm5o3SiRYCpqOw+nEs0fdzzeM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=Y0bTES89; arc=fail smtp.client-ip=40.107.159.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YrELaGUKA5AMczp/z8XngTtQoSA2abxH58PllfABOV229eLx4wvq/R71ITyuf8Si9YFbwWzPSd9KqkH+LF1PFeTi91/FEKVKVohhprbAQrc9u9Q3IL0M95NP/desjTb16+V0AWBePWaN+6yxi3MnDB86ZWuV8jy6BKcQItbbXmEVrGvUKmNBfutZpZfNG4jlKMrRetFdtfu51hLQJMMrMPJdTXzdyZNsLXRSxhy9J0At4C9P1yqVJXonxJ/GU/3xDnu54u4fGNYOnQfWxrXRSXoAI1BFloPu1OE+KZna4ce99u3BZq+jomGlXnDJ1pJkRy5oDsKGNZyVXwko3PPQHw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mesJYUtib9nKtwcaJlsnUUlULi/SAVVOAzqcMuQR7HU=;
- b=yWoeXBD9DDBrO/SORhms38l4WM1sHS23GaPvHqDl4eZxDTexbH0mITNOmGB8V/85VXNb9yqvoUtiSMCxTwfeo0C+j50yqnePz/4rI5VAmiGxwMm8LTLQfjimJVWMs1zNeTZnnbdeC4KUDFHtU+BjT8B4wg4y3BjkziEdAUJ0xpydz3ymuUFQWOP+st1D9QC7y8kBfK6ey8tArrlih8VZ+Y/mX8YoWJJ8soprnNW4n/F1L+ZkDL8tVKF0U0Iuee3r3CIGIYDJ24iGMhdl4Fmw3imM7jve9WkzGMe5dYkqj/Qzsa+XSLh8N3ROLw2WKbs/CpSCSTFWGtF5Ic0r2xoRHw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mesJYUtib9nKtwcaJlsnUUlULi/SAVVOAzqcMuQR7HU=;
- b=Y0bTES89+uun6WZO1209xWTE5nmT6ngkJ2JSE9PSN+B4pFj+2Tzfo/653kiliIILb9QTzv+IrCpJVH1gJ7Ai1BebVDgmq/o1t+a/BjdD/cXrLlZqNrk1KskcI1lX5PY4YHSCpz6+VeJ5cCO1/ElWA1SOGl2gPgusR2+L97ZJhVMSl45rT8QobYyvwxig8SRQo8fdIeErfFW7HXzMhEPCJRJM4fFLOiCBvDa7m2+UHSFsyP4vsErL3I379KkcrbQjvPESEC/SYOz8SuF428NVjeSZH1YpjYTn/xvoPwuqXo+oYyeGwkTQKUhznbBo3aKAqACMGVNKx5wUb9iqxJglig==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM9PR04MB8585.eurprd04.prod.outlook.com (2603:10a6:20b:438::13)
- by AMBPR04MB12334.eurprd04.prod.outlook.com (2603:10a6:20b:732::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.21; Fri, 20 Mar
- 2026 08:22:43 +0000
-Received: from AM9PR04MB8585.eurprd04.prod.outlook.com
- ([fe80::f010:fca8:7ef:62f4]) by AM9PR04MB8585.eurprd04.prod.outlook.com
- ([fe80::f010:fca8:7ef:62f4%4]) with mapi id 15.20.9723.018; Fri, 20 Mar 2026
- 08:22:32 +0000
-Date: Fri, 20 Mar 2026 10:22:38 +0200
-From: Vladimir Oltean <vladimir.oltean@nxp.com>
-To: "Martin K. Petersen" <martin.petersen@oracle.com>
-Cc: linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-scsi@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-	spacemit@lists.linux.dev, UNGLinuxDriver@microchip.com,
-	Bart Van Assche <bvanassche@acm.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Peter Griffin <peter.griffin@linaro.org>,
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Chanho Park <chanho61.park@samsung.com>
-Subject: Re: [PATCH v5 phy-next 09/27] scsi: ufs: exynos: stop poking into
- struct phy guts
-Message-ID: <20260320082238.mujsvowmf2ue62yu@skbuf>
-References: <20260319223241.1351137-1-vladimir.oltean@nxp.com>
- <20260319223241.1351137-10-vladimir.oltean@nxp.com>
- <yq1a4w3l04g.fsf@ca-mkp.ca.oracle.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <yq1a4w3l04g.fsf@ca-mkp.ca.oracle.com>
-X-ClientProxiedBy: WA2P291CA0035.POLP291.PROD.OUTLOOK.COM
- (2603:10a6:1d0:1f::11) To AM9PR04MB8585.eurprd04.prod.outlook.com
- (2603:10a6:20b:438::13)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8754737474A;
+	Fri, 20 Mar 2026 08:42:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773996156; cv=none; b=fBYJprIk61kqvSN8VS2ES/jF/uGwe1ILDRx3rrr0E+5DgT+esCh6VvEhUK00NdroCa7bqcC6veu7n8mPUnZX3dQBl5gK/ir4mlwb/FrtVgCUEdRqgpQ5jzFpIA0ptO2hQp0gz0FpgCizhbkz3IiQc2QByFtWhnFHbcyksFeVgxc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773996156; c=relaxed/simple;
+	bh=0yHGHy2n+Wnju0cJWKZDinXzldzBeapTGCeLcuDCzJk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=P7fYO4QEUQDnomr/yfRenYaDpuaILpfT3W6+lTjDjn92eKMTnJLbwsUIc9KFYhEubH6RLoFjPBBcnPuxvzV80IY2yW2E6Y4pr0usGt+pDGZsOJfm71UGN4dd2ro6PvlVWtpZ47KQ5Kb6pfNDk4NVKacbFeGHfDuRMJC08I8ozdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X6/goNLb; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BA75C2BCAF;
+	Fri, 20 Mar 2026 08:42:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773996156;
+	bh=0yHGHy2n+Wnju0cJWKZDinXzldzBeapTGCeLcuDCzJk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=X6/goNLb3nk6R48Uk/YjcRMMrfH9P9BaHf+GYni7pzfzMxtL5d7ud3wnBhxxEZjNA
+	 l7aW1TJQty9ZRFydPsqVKuXMfbI+PMQ0GGd+W9eb0LSHIKon7ObXmsxPSjZJ9pdMvA
+	 kcaTALVG2J2vZJT33C7PGVc3Oqpd6RCcThBRCQhJALOhHAeQivZCydQlJRhj3v/fy8
+	 pSNsOHLcuXCyvCIaP3gL2E8gVuBx+8UL2LtE3k+i0ngUGUQjmmN2QoGdytrxBnXel/
+	 8PhV7kOd1gy4HFLy3gpqN/zRzfFtVaJcGIVtdH6I86zrUr0BPo5sL/dwc6Wzv194n3
+	 JqxP19lqGElkQ==
+From: Thomas Gleixner <tglx@kernel.org>
+To: Biju <biju.das.au@gmail.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>, linux-kernel@vger.kernel.org,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Prabhakar Mahadev Lad
+ <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das
+ <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v5 05/15] irqchip/renesas-rzg2l: Split EOI handler into
+ separate IRQ and TINT functions
+In-Reply-To: <20260311192459.609064-6-biju.das.jz@bp.renesas.com>
+References: <20260311192459.609064-1-biju.das.jz@bp.renesas.com>
+ <20260311192459.609064-6-biju.das.jz@bp.renesas.com>
+Date: Fri, 20 Mar 2026 09:42:32 +0100
+Message-ID: <87qzpelwnb.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9PR04MB8585:EE_|AMBPR04MB12334:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4ea7b023-86d4-46dd-fe20-08de8659d575
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|366016|10070799003|1800799024|19092799006|376014|7416014|22082099003|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
- pkz7kcZdM+jAorJHtSGPO0qJEb94cBi7DqQt5NXq2LXJEzorOLVVjEATJbdzrkDmUviB7Xs/zMX2djYYaOorDypiHD4TrogzACnywH9Vad3K0QrFrkht1quwyNCJqy34g4Fpi3qakvQUBofnmTQwF7LvyJ1Zahn1aZp77ku1i/ikMXa5mAsQPs89XdrOAyO+ZXCAnldp7AzpisrJR5OK/s+Bz0vT0kCVz+VkLYmCm52sHlAk8n0fuUH7v6qXlkV+u5d7+xRvk9U81fPpZlvfIgHR/2GkNre47NYqvzPs3KLoTR46Hkl1rW/SJrZcXgwA3Jw3Z+5aVr1kTOwMNyIka05Lb2eCU92tj/x/xAYCXsRji77zr7HLqm9W95plT6bZ03jEZCVFYqWyzY4IY6ilP0RNhJ+z1qOKdP98vgRZvrjzHFf0DjHXNDX7XHbwHBxvkXKlk1JyPn6XcYCBvIxckCTk6gxVA2jlORtWoCcDQkHq6hoyJC+8Gl2yVSqabC0qcT85Y1V/eDo9ctDcbhXAK3xnwCcZEZKoZmAGmeiSj+9ipLus5G9jVOLyXzv0AwJS7VtZ6QsCKHuzAb5NdNYSzbknK+CtXUn9f/7KEr+k+FAI49TA4nfwPL90fRlLNy0vg1yuKGqCZUGT+HmRk+Hz0qZmXtIBel5OW2DrXApmMryOKFhQ0mf/3scdShljhIgz4G4n2M6Wix09H/+0yOCxlR1pxTFT4oAC7btACwBC5Ab1tR8eEMBH1j5eKujxdw+I
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8585.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(10070799003)(1800799024)(19092799006)(376014)(7416014)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?GFS32UVMCc13GFvEY6o95RJxCw1BsDwd12hZo1tRFTsoB+puMqF/CKSDR7ro?=
- =?us-ascii?Q?2BXzyrPQqmRdoLMFNaysp8ZP8U1NBQorSuopcqm3fEkry46N0SBiBZB2i3qN?=
- =?us-ascii?Q?eFJdk52WFA/7BA37o/rmdmqtLWecOgNGg8KEMC9QhzX9CJt006l7RPxQvdLQ?=
- =?us-ascii?Q?eJLPvQyfBHqHWNqqQ2CmZqYwtIGCqHIL7oUsvHJqId2sWVRcHQ7ezA43QcvG?=
- =?us-ascii?Q?r0X3jV1iw9AjoMnl19JPcgtsRwO2+RyBbI/MJ9EfwYrWCd82CHpYmeDXqTK9?=
- =?us-ascii?Q?yisUCu6FIpWpKkkbNfJs3qR1/alKyubWgbyoziWSs2IzNx9iFG8vOad4ElHB?=
- =?us-ascii?Q?mGksILRv6ZMKdHxHF/GGmPUXoz+wZ1J0B9Kxix3VvS876LQY1Fi6G3EyV/4m?=
- =?us-ascii?Q?jF4wcmHqXvbgtNeYY/ByE+njLwJEJATtQPi1btcw8P6HzEIaXsM1cLeOXJBH?=
- =?us-ascii?Q?GPyuoW/1rPkBabmfLpugJZ7STo5FnadspL9XLZQTvnhJOcQMvzzXMAmXGMzP?=
- =?us-ascii?Q?b7oU+QCJ9xOWCcK4J+/E1cnqIlS36LvS4bzxaAPq6R1KXlMNwynbTh5Fv11D?=
- =?us-ascii?Q?+6hvbbay3xhF26C9fABe7PeGzFjN6vIXhTqHuRJN5Jpz39Dmh1+zxVytJKnl?=
- =?us-ascii?Q?tAYnjUHTK5blpJjmM9xNofdHcvNKZvui+R5rEY/m/YtSr9iOWiXSlPEnBzel?=
- =?us-ascii?Q?2UjajxLabwyaRzXXuvlxidLD0CUo+wuJhCDa9IBOg+lftRIFoARlqjRQZNwE?=
- =?us-ascii?Q?p1Yb4di9btKR51FND2EuesYk9Xo8sP4PW/qA7pML8qQNFAPGoEARGtxxonNU?=
- =?us-ascii?Q?644IiyljKZFakwAeCWUhZgRcilAUCFL5aJZXXQrHj/NHcRqpkXXXCX4/JAlT?=
- =?us-ascii?Q?bRuQUKaXP+eskFCrr+9IWvtXDecDpLCSx8ap5gh35kpO5ZRedm+pv3Hu4szM?=
- =?us-ascii?Q?dsx06/ww6EB7M4c/H3h25gKmDiJBbv69LXIeASWnv8ClteYLOGjLq7VniGtE?=
- =?us-ascii?Q?j5s82nH2VVzwuNwtdx9O5RYJgE/jxheY6DjXa+f6LUIXFjhdP02mi++dn8jR?=
- =?us-ascii?Q?2tuRJv3UbcIUmDYQbQJkue9UaZT6Y4lAzbWlgK3EXM7e3JRnAnWCp6S4yH0o?=
- =?us-ascii?Q?6maNcLouhJy60ik5YHm5KSu2RfIDE64k3nbl+jsCpo/mVSQBxhx2nrScTux1?=
- =?us-ascii?Q?AE/TTLb+ronEIgCs0tv+sd4q8TjPT39lU9q2P5u+9Jl9i3TlCCmzpEQl94bh?=
- =?us-ascii?Q?TLRXFc2fQslgTF/8i51Of1mhbhDQpAlIE9PpQcYJ4eqV1KQAmkkoaOcR8DIk?=
- =?us-ascii?Q?ZYht6ToTkdm87bRi3vSIYbUZBR2aBBfQjl3TUYrhlR9LJ8sCx5et2D3qJitw?=
- =?us-ascii?Q?O8PpNRzV1nF5TpqAO/diuN4KGWJ4L+wfLc4j/cMnST61k5S6ENdpeDdZt1JD?=
- =?us-ascii?Q?HRhU3HOJGY+nQbebdD/xEcQCHCrsm4adUoxCL5rRjzjHp51ZLm6yLZcPPqm7?=
- =?us-ascii?Q?IiE6Z9XtU//2XlcGLg8Wjzl7jwycwJdOQDiOc5IL2OKYpGi6ju9v54BFdG22?=
- =?us-ascii?Q?Y5ggaV3Ym3fSKrW7u2Wg8HIU41kuTV82BwO9tdrMDf+SwWwxoMThA2TicIg+?=
- =?us-ascii?Q?hhAkr5+gcc9ryC3zmPZh9lySj4DDzT9uGcoAh0KNHGoRG25cMA4+Sfjk7q7E?=
- =?us-ascii?Q?Smbxd+ZVMxk/Xp1+f8J3bHKOlFGub45uo9/y9Ar/tv3YZ7JjDXRceeloq1Mh?=
- =?us-ascii?Q?bDN58JpO43qndaYOjKyev08sgTppYVO+wXWwrqOrbBoowpfwZUjRKW7Yqw+8?=
-X-MS-Exchange-AntiSpam-MessageData-1: lFVYL7pCYyUwwSBezvrndy/h+TxIiowhtNU=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4ea7b023-86d4-46dd-fe20-08de8659d575
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8585.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2026 08:22:32.6361
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: d5rPahVXvK+7FABaVi349sVAUQ1hMPPNb+qGKAI52PcEmwPK1ekiNizxzafc5ddT7Q4oOotICuOonYruHcuw+w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMBPR04MB12334
-X-Spamd-Result: default: False [0.34 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
+Content-Type: text/plain
+X-Spamd-Result: default: False [4.34 / 15.00];
+	MID_END_EQ_FROM_USER_PART(4.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-29985-lists,linux-renesas-soc=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[31];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-29986-lists,linux-renesas-soc=lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	GREYLIST(0.00)[pass,body];
+	FREEMAIL_CC(0.00)[bp.renesas.com,vger.kernel.org,glider.be,gmail.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[vladimir.oltean@nxp.com,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[nxp.com:+];
-	NEURAL_HAM(-0.00)[-0.989];
+	FROM_NEQ_ENVFROM(0.00)[tglx@kernel.org,linux-renesas-soc@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	NEURAL_SPAM(0.00)[0.215];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: D99592D72C3
+	FROM_HAS_DN(0.00)[]
+X-Rspamd-Queue-Id: F1B052D790C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Martin,
+On Wed, Mar 11 2026 at 19:24, Biju wrote:
+> -static void rzg2l_irqc_eoi(struct irq_data *d)
+> +static void rzg2l_irqc_irq_eoi(struct irq_data *d)
+>  {
+>  	struct rzg2l_irqc_priv *priv = irq_data_to_priv(d);
+>  	unsigned int hw_irq = irqd_to_hwirq(d);
+>  
+>  	raw_spin_lock(&priv->lock);
+> -	if (hw_irq >= IRQC_IRQ_START && hw_irq <= IRQC_IRQ_COUNT)
+> -		rzg2l_clear_irq_int(priv, hw_irq);
+> -	else if (hw_irq >= IRQC_TINT_START && hw_irq < IRQC_NUM_IRQ)
+> -		rzg2l_clear_tint_int(priv, hw_irq);
+> +	rzg2l_clear_irq_int(priv, hw_irq);
+> +	raw_spin_unlock(&priv->lock);
+> +	irq_chip_eoi_parent(d);
 
-On Thu, Mar 19, 2026 at 10:15:17PM -0400, Martin K. Petersen wrote:
-> 
-> Vladimir,
-> 
-> > The Exynos host controller driver is clearly a PHY consumer (gets the
-> > ufs->phy using devm_phy_get()), but pokes into the guts of struct phy
-> > to get the generic_phy->power_count.
-> 
-> Ah, newer version. Would still like an ack from Samsung.
-> 
-> And I hit the wrong key, I did not actually apply this...
-> 
-> -- 
-> Martin K. Petersen
+Please convert the locking to use guards while you are changing these
+functions. So this one becomes:
 
-Sorry, due to an error I did not CC you to the cover letter:
-https://lore.kernel.org/linux-phy/20260319223241.1351137-1-vladimir.oltean@nxp.com/
+  	scoped_guard(raw_spin_lock, &priv->lock))
+        	rzg2l_clear_irq_int(priv, hw_irq);
 
-In short, the plan is to take the entire set through linux-phy once it
-passes build testing.
+	irq_chip_eoi_parent(d);
+
+See?
+
+Thanks,
+
+        tglx
 
