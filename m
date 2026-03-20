@@ -1,226 +1,145 @@
-Return-Path: <linux-renesas-soc+bounces-30004-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30005-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UG+PKX0mvWmr6wIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30004-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Mar 2026 11:50:37 +0100
+	id ODweLAgtvWmI7QIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30005-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Mar 2026 12:18:32 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 883BE2D90EC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Mar 2026 11:50:37 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14F7A2D9691
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Mar 2026 12:18:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 09578302051F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Mar 2026 10:50:30 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9A0BB317F5F0
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Mar 2026 11:14:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2A69396D25;
-	Fri, 20 Mar 2026 10:50:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N3pQwizO"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85F843A1684;
+	Fri, 20 Mar 2026 11:14:58 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE811399367
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 20 Mar 2026 10:50:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B06F38E10A
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 20 Mar 2026 11:14:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774003806; cv=none; b=J2kCX/WpRKtjLED5c6QU3Wh/JVKpisuGAy8vsEAGC7okDNbDXDRWR5L22m2AvMnHRZObHwG/F/fdAik3qW0R++q1f8OqHUzpGwSjV4mnye0N6yqNdkGC4uYCCZJeBGSE7sw+qvNaviAuWuO1Xn+uEAzoW9z12pdjcexj58q0Lso=
+	t=1774005298; cv=none; b=mBJIO+1KWN1c5haoyhdLBqLvZD3b/HruqJZuC7agfMrt3TBw5gUm2tSJi0x2DXahLwFmi2kOZXIfFsA5doEcOCVfKr3ZuPsXHOlMPSTz8qrzvt2+55NGL6PgkBMTmVl/l3pFlSddMkUk1TaqdxrgqQwB2BM3HjP6X4HqGWo0tV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774003806; c=relaxed/simple;
-	bh=PNKTzdrtAWiBT6BvQVGM2hId5XOrWv5D1PEL2Jf3qck=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rYjzH5pPpdhQ1Hr1LBfEye2KvjGTSa+EHRKonuMLYIei7qUCoOaE1nvfE8ziO/cuL3s2OoexJ//nlQWG+l4XWJf6U7iE3CDxu9y+xnftXPmgAtDNZQQpAoOUbQuhcWUOnh64cpQY5wgrZc/xauxyLltEQX0k5IdmwUS+lSx9tnY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N3pQwizO; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1774005298; c=relaxed/simple;
+	bh=9ieM0PKneLc9XAFn1kgI0QbNwUio1Qq6fWkxlV5z1Fc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=icPJhCezoMV7JS+73bTq5I9BwGrJwDhjpS5iIyve6SuaOhL6vyGOgAJaUhjQ5r8uqwshQDzH40cTxKGfy/2BS5N3YwswQaucjQdc8bvERyLRhbrnqACaWO/rUyrZ/Ab3HC+fwNma8BUWdTFsQudAxzorchJuGh17TXppRGmsBTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-439b2965d4bso344614f8f.2
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 20 Mar 2026 03:50:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774003799; x=1774608599; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FU589jD2JKROuFlCbIY16RQahML1VqnyV6oSI6Eb8AE=;
-        b=N3pQwizOLgI+1bSWCvEj/dB0+4tbHwFq6hjBx9d6/cOn5Finm1hPBegzUmOkgVf6/3
-         klH6/pKzlJlfM6p13+pqk7iriQpsf2CKicBU4It25V2xinNJHGa5ep4Zd0wL2p26P8tj
-         OCByMeb7L6pgYNkNsuXDbMfqcF/OCQufryja3RT1bOhfsYJcQvUma1kMOGtZcsStiwXE
-         X3Dar/PDl1ZKTBlpYygTQ6ZOvUz08O06c9M+FOFzDHmzfA+uo5kXotvuXDs9ICaTMuJp
-         CknJCm+PmogK5eAdwqmzoZ+WpdHOg9/YiNWSokalHEtqJA1I2YEpJ8ZHWFZmyhsrrDw7
-         NxCw==
+Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-56739adfa1aso1203453e0c.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 20 Mar 2026 04:14:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774003799; x=1774608599;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=FU589jD2JKROuFlCbIY16RQahML1VqnyV6oSI6Eb8AE=;
-        b=qA/i37ccXnaCbq2jShXaWPtf9sBHgpRKNMgA2F68cY/Y9Gb/hP44QrwMP+nbT7U3pn
-         GFO2Z6k2W8O4ZiNTxGl35FTtkIGDUvkkXO8eY8MtstxjqiVds011MEQu7aevQy60V7zr
-         aWhT5h2mdpIw+Q4gDxpJeF/V03HXl+EFvUp9Bb6NmX85M9ReIg7hRLMaKUIHnBQ7F91F
-         wAmVyAXOSBWp2apyO4qqn+SnZPDlLJPZnZ5cQaXOf8Xeac8Y9Em88OKXinKrGJUC/XWy
-         q+hni3lKGngpr1WmoQH1nMwr6cUCtjmH1ss2trWxkqqo2A6Vm5zmHREyP2HfNPcOvDVg
-         IIpA==
-X-Forwarded-Encrypted: i=1; AJvYcCWUROUgsI+L0d3By1XFP1s6nVvtsw0j97vQFv3fKrqoTYzqDpbTtv70CDo0yIVTBPcQcrAMXsu74RKUzw5KqWokvA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxwfQNG0GYILpQpPiXYsc2OhXF8s1h6yBwQVWrSi0vRT3YTfcEM
-	M7vt1/xRiLgWk2Pr3EHXiWQBpYxXBNlHLRnGOwf3MXy0IYtdJF2rrpkm
-X-Gm-Gg: ATEYQzxAn6Pzwj8bqO554h50WAT6bJg88jUo6V1RNXUszLlIMsXzbBzL210rJzQTEoJ
-	KCYKMQRuSM4dzlr3z+xEsFZRgRKzNQ8+b/Z7/jWkalmk+fKPBiSEgrsxQ8VO43ANzGGDz+bwAv5
-	eg7H1gPQduHZ9ecxTwBf0bbzWuwyVb3zDwDWZnAvtVptXJ+RrtzqmcpdiQbY96RWhdLwMg8Tzg+
-	QXYKgbEkSfnqFC+NVqAUtHJNZH3DQ+RkWvJrbv3ZZArhY8hH/iBkLytn2Xt1I+iH40isamvpK+r
-	NrY2ShlQf/jwdM99MAk1+spNGK2reSwdM9PpIRhm7l7F4OiUE1F9HcB6ECBDPhWLbrqonuAPOS1
-	oiKYbJoNIeyGNQ53l6/YMrkdunSQbFI+KgIZqjcGfcOmOn4PnD0GRpRQb43zyToetGWPTXX6U7z
-	jyZd8lKZjf5GO47KDuQz79Nww4Qf1kkRY=
-X-Received: by 2002:a05:6000:290d:b0:439:d242:e8fe with SMTP id ffacd0b85a97d-43b64242fddmr4539113f8f.11.1774003798606;
-        Fri, 20 Mar 2026 03:49:58 -0700 (PDT)
-Received: from biju.lan ([2a00:23c4:a758:8a01:5b93:d2b1:bc5c:9231])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b644ae619sm6203062f8f.5.2026.03.20.03.49.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Mar 2026 03:49:58 -0700 (PDT)
-From: Biju <biju.das.au@gmail.com>
-X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH v7 10/10] arm64: dts: renesas: Add initial device tree for RZ/G3L SMARC EVK board
-Date: Fri, 20 Mar 2026 10:49:44 +0000
-Message-ID: <20260320104950.42220-11-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260320104950.42220-1-biju.das.jz@bp.renesas.com>
-References: <20260320104950.42220-1-biju.das.jz@bp.renesas.com>
+        d=1e100.net; s=20251104; t=1774005296; x=1774610096;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QM2QQuood2CIqMt6ghdF4q02+bVScicBaTi5mQcy40E=;
+        b=LL/GQK65SRRtte8/x6MfoaU93l/bZjL+phowBWzuob9dv3RkrHT2v7GEX2wjcHrQa4
+         rJJwWxdh7ZbgK+cpf3rfrLoLkpuWqi3cPCbeOpLdLdGJKR9ZM3waLfCX8/ZhdUcc96Fi
+         afGtus8qbsjVf9J7nivuHUIGNT0Px/6NOhH49/KRLoMpbwp1wyMh9fMSk50HpcD5AqPL
+         BWmQ02kkXzbrLbuGhkdpB5VtOZ4HOOpetbVTdm1iODY9kRv0nCp2SIfxxBZd57jn/u/l
+         OS4S5kauNf+5QQiI/mvHI9orhoXnN3ntcIsNXR3+7Xj00qHFv1tzLmWoW0tVNq4GhPHs
+         TuuA==
+X-Forwarded-Encrypted: i=1; AJvYcCU44Zfgzs9kuucsjuvODpfNpx26VvVIxYgR0wY+klde0GmddcH/SyprI/F+cy4PvUTzeV1yjqVPKBYU+y/ZQw6I2A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxbK5j8uXgsNCZvmHbG5narYartGHURPwAd8UD+StppaaQUYq6J
+	hrHrMuL56UtuTkWLurOx6Y+8B4bXD//5qg6LaLwfN5V2blkjt0KeCyAWTwSS5AKJBE4=
+X-Gm-Gg: ATEYQzwxN45vKIWH9JSnvRi4Hb7QnfAorzqIHxm2w5hZ0LtoCClsjFojoPVau174Dt8
+	P8CdwrPCJiKHdYCsjV4LLbjf7j6fYpWOMxDoTpy3qGYrcw0Opz5uNOJ3FaA8GozO90S292jvmn5
+	GglPi7JuQIOjgDi8n1ssLGmovaveLUF/xaHz/bK/a27qMYbnrJ8jbc0kovPdflkoTlbIANuveSq
+	Fd20whE/Uqx4QOzn40dE5Js8LsE06GWQJrq86gnsWTmeusHF/EqQASYKQ8zHCJOZWmIA7fbNcxb
+	dbI/QsYMzBW42SkPtHXhKlyWzzs/JeRDyOAiC/oA+Hm1qrjyS04vm+ozysK5tlDYurtsoC0JZtM
+	eBZ5RcZCf4jBoYYDi6Pu4xJSgunDY+I9juylt9P+koZiGUjMQhhJPylg3XGi/e7Prc1rldfPglO
+	40Nhpp3CZmplxJq+ZU+EaIhtu9De8Mvo168IQ0WIYXJC9B1Y9Km/I7/dhL1n76
+X-Received: by 2002:a05:6102:3910:b0:5ff:bbc1:509a with SMTP id ada2fe7eead31-602aeb01718mr1544635137.14.1774005295925;
+        Fri, 20 Mar 2026 04:14:55 -0700 (PDT)
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com. [209.85.217.43])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-602af853b1dsm1003164137.2.2026.03.20.04.14.54
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Mar 2026 04:14:55 -0700 (PDT)
+Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-6028bb29cc9so948797137.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 20 Mar 2026 04:14:54 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXp0c9SXcslO6u1YyDhY0qSOEcRFOEzPoUUI0danKJQxcIIRyLojPu8Yk/QpdRAVf6SudreH4SCcd1J2qJbG67xmA==@vger.kernel.org
+X-Received: by 2002:a05:6102:3713:b0:602:9228:34a3 with SMTP id
+ ada2fe7eead31-602ae79cdfamr1587306137.0.1774005294541; Fri, 20 Mar 2026
+ 04:14:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-1.66 / 15.00];
+References: <cover.1771344527.git.tommaso.merciai.xr@bp.renesas.com> <c8df5202caf4e36ee5beafe78ad0940643edcbb6.1771344527.git.tommaso.merciai.xr@bp.renesas.com>
+In-Reply-To: <c8df5202caf4e36ee5beafe78ad0940643edcbb6.1771344527.git.tommaso.merciai.xr@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 20 Mar 2026 12:14:43 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWTOPYxC7r0ztuPc72T5xeDgcfo6CUi8sRcupjiJbRLGg@mail.gmail.com>
+X-Gm-Features: AaiRm506QxR9HoC6NaRd9ZijJZ6-iF5Bj8kjApAjQvVWwUbRpOpkLxT5Tya6COA
+Message-ID: <CAMuHMdWTOPYxC7r0ztuPc72T5xeDgcfo6CUi8sRcupjiJbRLGg@mail.gmail.com>
+Subject: Re: [PATCH 4/5] arm64: dts: renesas: r9a09g047: Add RSPI nodes
+To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org, 
+	biju.das.jz@bp.renesas.com, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, linux-spi@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spamd-Result: default: False [0.04 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-30004-lists,linux-renesas-soc=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[bp.renesas.com,vger.kernel.org,gmail.com];
-	FREEMAIL_TO(0.00)[glider.be,gmail.com,kernel.org];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-30005-lists,linux-renesas-soc=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[linux-m68k.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,bp.renesas.com,renesas.com,kernel.org,baylibre.com];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bijudasau@gmail.com,linux-renesas-soc@vger.kernel.org];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	NEURAL_HAM(-0.00)[-0.958];
-	RCVD_COUNT_FIVE(0.00)[5];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
+	NEURAL_SPAM(0.00)[0.483];
+	R_DKIM_NA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bp.renesas.com:mid,glider.be:email,renesas.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 883BE2D90EC
+	TAGGED_RCPT(0.00)[linux-renesas-soc,dt];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linux-m68k.org:email,renesas.com:email,glider.be:email]
+X-Rspamd-Queue-Id: 14F7A2D9691
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Biju Das <biju.das.jz@bp.renesas.com>
-
-Add the initial device tree for the Renesas RZ/G3L SMARC EVK board.
-
-Added placeholders to avoid compilation error with the common code in
-renesas-smarc2.dtsi.
+On Tue, 17 Feb 2026 at 17:25, Tommaso Merciai
+<tommaso.merciai.xr@bp.renesas.com> wrote:
+> Add nodes for the RSPI IPs found in the Renesas RZ/G3E SoC.
+>
+> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v6->v7:
- * No change
-v5->v6:
- * No change
-v4->v5:
- * No change
-v3->v4:
- * Collected the tag
-v2->v3:
- * No change.
-v1->v2:
- * Dropped scif node as it is already included in common platform
-   file.
----
- arch/arm64/boot/dts/renesas/Makefile          |  2 +
- .../boot/dts/renesas/r9a08g046l48-smarc.dts   | 37 +++++++++++++++++++
- 2 files changed, 39 insertions(+)
- create mode 100644 arch/arm64/boot/dts/renesas/r9a08g046l48-smarc.dts
+i.e. will queue in renesas-devel for v7.1.
 
-diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
-index d4dfb7fd973b..76df20d2fd29 100644
---- a/arch/arm64/boot/dts/renesas/Makefile
-+++ b/arch/arm64/boot/dts/renesas/Makefile
-@@ -179,6 +179,8 @@ dtb-$(CONFIG_ARCH_R9A08G045) += r9a08g045s33-smarc-pmod1-type-3a.dtbo
- r9a08g045s33-smarc-pmod1-type-3a-dtbs := r9a08g045s33-smarc.dtb r9a08g045s33-smarc-pmod1-type-3a.dtbo
- dtb-$(CONFIG_ARCH_R9A08G045) += r9a08g045s33-smarc-pmod1-type-3a.dtb
- 
-+dtb-$(CONFIG_ARCH_R9A08G046) += r9a08g046l48-smarc.dtb
-+
- dtb-$(CONFIG_ARCH_R9A09G011) += r9a09g011-v2mevk2.dtb
- 
- dtb-$(CONFIG_ARCH_R9A09G047) += r9a09g047e57-smarc.dtb
-diff --git a/arch/arm64/boot/dts/renesas/r9a08g046l48-smarc.dts b/arch/arm64/boot/dts/renesas/r9a08g046l48-smarc.dts
-new file mode 100644
-index 000000000000..86db86335d5e
---- /dev/null
-+++ b/arch/arm64/boot/dts/renesas/r9a08g046l48-smarc.dts
-@@ -0,0 +1,37 @@
-+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+/*
-+ * Device Tree Source for the RZ/G3L SMARC EVK board
-+ *
-+ * Copyright (C) 2026 Renesas Electronics Corp.
-+ */
-+
-+/dts-v1/;
-+
-+/* Add place holder to avoid compilation error with renesas-smarc2.dtsi */
-+#define KEY_1_GPIO		1
-+#define KEY_2_GPIO		2
-+#define KEY_3_GPIO		3
-+
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/input/input.h>
-+#include "r9a08g046l48.dtsi"
-+#include "rzg3l-smarc-som.dtsi"
-+#include "renesas-smarc2.dtsi"
-+
-+/ {
-+	model = "Renesas SMARC EVK version 2 based on r9a08g046l48";
-+	compatible = "renesas,smarc2-evk", "renesas,rzg3l-smarcm",
-+		     "renesas,r9a08g046l48", "renesas,r9a08g046";
-+
-+	aliases {
-+		serial3 = &scif0;
-+	};
-+};
-+
-+&keys {
-+	status = "disabled";
-+
-+	/delete-node/ key-1;
-+	/delete-node/ key-2;
-+	/delete-node/ key-3;
-+};
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.43.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
