@@ -1,258 +1,263 @@
-Return-Path: <linux-renesas-soc+bounces-29983-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29984-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OLk3E92tvGkb2AIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29983-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Mar 2026 03:15:57 +0100
+	id DI/RJby2vGmU2QIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29984-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Mar 2026 03:53:48 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 293242D5116
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Mar 2026 03:15:57 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F10D2D53F7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Mar 2026 03:53:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 866343015D94
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Mar 2026 02:15:56 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 6ACF830172CE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Mar 2026 02:53:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FA4831716D;
-	Fri, 20 Mar 2026 02:15:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57D6B285419;
+	Fri, 20 Mar 2026 02:53:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="NCm+1Hqh";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="dYWjLkUZ"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="X3yzj5Ma";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="gbaOHn8G"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7026521B9F6;
-	Fri, 20 Mar 2026 02:15:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773972948; cv=fail; b=PCQbfwWXNfcWS/kI2CHIMcn/G8wn04XpDtDI9Hu/Em7LLMRhUW26AbeT4R/Hr7wy+jqoSN/mfWhxE3ruqV6dFh2DBXrmSfAVnVUq3sW+ksPBrLHhPqirTsL6f52f5i6ZV8bcjFAt0CzCmUjT9LF/Z0Mb+pqgU5sCR7teTw3KvbQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773972948; c=relaxed/simple;
-	bh=1ZoeDOxMhnex72tLDU2sZJlkSp6Y2R1ch09tJfrzIRw=;
-	h=To:Cc:Subject:From:In-Reply-To:Message-ID:References:Date:
-	 Content-Type:MIME-Version; b=c8p06M05hX626XxFXTgiG9UVIdzJoN7zx+d+SQsh5dHCf09Mnm6SgYTAWF7L1ohhFDF2Qf1uMgn6SfX7Aabm6m1tHOH6UaN21j4gyXF5EGJOjPslAsvMQfhg0zbiO9456jsZRm9PY+HlPVYodC84oj7QS6ng4JHXdhqmE9KccHU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=NCm+1Hqh; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=dYWjLkUZ; arc=fail smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62JFudhc1949233;
-	Fri, 20 Mar 2026 02:15:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=e4LFMg2KiFC1HRlDK/
-	EH75+9Wt/J7M2f9XJJkwjZW0k=; b=NCm+1Hqh4Zz/N+Y8NYoccvlviaEs8jA3Wx
-	K0mzWQBO2DRvDYqD1GnJknzRbcZ9FiTCsFqb6FSP5p+bgLArETde4dd5FYOOcZJy
-	nFdjXr991KfHuMKQrx7+GxTj0ud/xEy1bX6TFLX/4CXf8cA+Q5guZL16HFTQaoue
-	PpOKRfBFBAwF+tLjVzgsQ0+J7Ru3/uyIkUNZPGhZICdAgP7yrri7UOEEW/vA/JP0
-	daEV2GDW3RqQ1QbMPacTfJlBXuDO3jzLXSyX8w3NJfYHD3CRmt7iysKZn/12HHo9
-	2Kzmc24eTBAesjipYJFORVQOKeIM6QRtJP0y9CARdtSosw2LaG0w==
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4cvyj68vsh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 20 Mar 2026 02:15:25 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 62K1iJS9014100;
-	Fri, 20 Mar 2026 02:15:24 GMT
-Received: from dm5pr21cu001.outbound.protection.outlook.com (mail-centralusazon11011070.outbound.protection.outlook.com [52.101.62.70])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4cvx4dn74n-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 20 Mar 2026 02:15:24 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Wkxkx1m5lqxchbh4xs6iimUG961baTvxttfY9bBuMbmezddL8k8q2FwNGJtpRxJOc3zKNdFKiKlBC6oRU4gyQhmh8UWX8UvGXwAeKmnLY4moF97CKqFEN19LLDFte0l6Au8cWdFprsRyzdDG1r03ZBGxD9PVnRrw7nHTIpZ/ahCucUyd58g8Df6kl45PTz738Q/f4KXLp3726d7x8IB8TT0HvD7klYttfX1JCH0go61p/P/bY/gELbLfD1s7LnLieAQ6N8sqZouKndAtUSK0gf53RHpNGJywbhc6f2M74MHv2I+CrSgTcTAFVu+4iU1Xk1X0ZYTD5ztQFiQeKQX9Sw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=e4LFMg2KiFC1HRlDK/EH75+9Wt/J7M2f9XJJkwjZW0k=;
- b=BPIaHJyP5d2/vP4gcOLx2UNWdBSfboyCS7yK1B/0Ilb2rh5K2hd3VM8/WRjjZaQLZOd332eiBkxe46cT9v4lf3WyEDzhTf2wmEVdyYSyF7Jt8/5JCRtQWn8bS4QLd+HwppJe0QGyKjXTcpM/OkRmwnf+Toh+ue3+BA9bB/GZqHPmh5xNiJc3FEu/x8TQT5OKkuqagHHTJJN+jzo1KhgxRI80E+4tvH4e5usPTI+Q9RdqkM39asdEhlcBHTzp6XeeHtPpeDMMVRUXsbD1C6SV+YjnVLW6K6LoT+1yObKOOFNDcFUnmNVYzVILpiiSYpI4f0nk6JiJMSQsUtL3x4zBTQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=e4LFMg2KiFC1HRlDK/EH75+9Wt/J7M2f9XJJkwjZW0k=;
- b=dYWjLkUZuXuVlZmPikv6rIW5O14PwPFXeHrvDgQMCv5br7FZMQgcpK0sir9yuU263Dqp+jksu7rC+XQ88/YjsG8YmHdbc7cvpI1C/K1F3MO/1qSgJK9fIrl1tK/VjPly+Sk4rut4sHBtxgUE2/JnoASHjeuR6VZza/K5JJ5D3J0=
-Received: from CH0PR10MB5338.namprd10.prod.outlook.com (2603:10b6:610:cb::8)
- by IA4PR10MB8587.namprd10.prod.outlook.com (2603:10b6:208:55c::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.19; Fri, 20 Mar
- 2026 02:15:19 +0000
-Received: from CH0PR10MB5338.namprd10.prod.outlook.com
- ([fe80::e525:dd71:b002:6ad5]) by CH0PR10MB5338.namprd10.prod.outlook.com
- ([fe80::e525:dd71:b002:6ad5%6]) with mapi id 15.20.9723.019; Fri, 20 Mar 2026
- 02:15:19 +0000
-To: Vladimir Oltean <vladimir.oltean@nxp.com>
-Cc: <linux-phy@lists.infradead.org>, Vinod Koul <vkoul@kernel.org>,
-        Neil
- Armstrong <neil.armstrong@linaro.org>,
-        <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-can@vger.kernel.org>,
-        <linux-gpio@vger.kernel.org>, <linux-ide@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-pci@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        <linux-riscv@lists.infradead.org>,
-        <linux-rockchip@lists.infradead.org>,
-        <linux-samsung-soc@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
-        <linux-sunxi@lists.linux.dev>, <linux-tegra@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <netdev@vger.kernel.org>,
-        <spacemit@lists.linux.dev>, <UNGLinuxDriver@microchip.com>,
-        Bart Van
- Assche <bvanassche@acm.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Peter Griffin <peter.griffin@linaro.org>,
-        "James E.J. Bottomley"
- <James.Bottomley@HansenPartnership.com>,
-        "Martin K. Petersen"
- <martin.petersen@oracle.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Chanho Park <chanho61.park@samsung.com>
-Subject: Re: [PATCH v5 phy-next 09/27] scsi: ufs: exynos: stop poking into
- struct phy guts
-From: "Martin K. Petersen" <martin.petersen@oracle.com>
-In-Reply-To: <20260319223241.1351137-10-vladimir.oltean@nxp.com> (Vladimir
-	Oltean's message of "Fri, 20 Mar 2026 00:32:23 +0200")
-Organization: Oracle Corporation
-Message-ID: <yq1a4w3l04g.fsf@ca-mkp.ca.oracle.com>
-References: <20260319223241.1351137-1-vladimir.oltean@nxp.com>
-	<20260319223241.1351137-10-vladimir.oltean@nxp.com>
-Date: Thu, 19 Mar 2026 22:15:17 -0400
-Content-Type: text/plain
-X-ClientProxiedBy: YQZPR01CA0118.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:83::6) To CH0PR10MB5338.namprd10.prod.outlook.com
- (2603:10b6:610:cb::8)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0D1819DF6A;
+	Fri, 20 Mar 2026 02:53:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773975226; cv=none; b=MWT/3BulyiRDj4R9bX+FWyFDE/QnYY4i6BbDFyZnxZRByciRhPqQlkaPKydTYWTBk+rLhGriwsr7RgMX2TUFPAVTxpudAvGc+vB6Exhm2If+nSJUnq7YjR9jCb/d5zKZefDpcmpRAM+7f/N5Frg7/QbhZTzC5bweGJ5APrDN8bI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773975226; c=relaxed/simple;
+	bh=FSsNdEyFnwi3BirjJJdMIilHqXdQGnPsdS3Pn2WHrFs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EQF/qIZemGeixwi3dV2xVQngZrLGURnvnzwgpZuWYu7FBd/WwXf7CbKFArx2NfCmeV+WYmk1KMQX851jbzqIL6U1H3a0zrcknGulgvb52g7lzk59al0GsSsCWFmyLJpKlw7aulp0a6QYR0eaSGVqBQWdLstNVa4cTjH1utUCUnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=X3yzj5Ma; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=gbaOHn8G; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4fcRvz2gbdz9ss3;
+	Fri, 20 Mar 2026 03:53:35 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1773975215;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=wMCO4+v8DqcOSCfe4vtyKw5oSMUcn+2yn/EtWBir/Ck=;
+	b=X3yzj5MaBvsKAI+Oi70dIy4kDjtl8bqtuUvK+LN4Nz4JCK9UAKXltMx29vA00+lUKqX2uV
+	9yaDTpbyBSuubNpZFnNNwFzqIOTi8j8B0CvtTDRo5s3xcGo6aHnJPpfMonl+O8C4KlljKg
+	A9/F9wXA9fDPTdL8Cx66Swa8v1PdSyG4DHJPbLwpHSm/qzTXlQuIm9a5nOLzfRmMVf8dkp
+	T7mc48/e134+Q+23E+wz5q3uVHqU+ccmhpuTkUPa0hUbCgdxqO5+iPzO2SGgYRAZoL39pu
+	cS6akPmldZ0McmVDkpR0dq6lafWah9cu+1DgxcMQ4QCPW1+hh2p3JAw5VIlxVQ==
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1773975213;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=wMCO4+v8DqcOSCfe4vtyKw5oSMUcn+2yn/EtWBir/Ck=;
+	b=gbaOHn8GWHHwl1PFSIqVyIWOF23N+owSDtcnRJWo8X23Rvd1zzT71hnTySXSRC09CUOmr9
+	zDkEf0yLXc/H31CuCyEwd8yW5lM5lGoaxWUP+gUmF8YHH4pCzoy+bpMLsLJVR3m0cUN7rZ
+	QucSwdmnqGPc0dEyqBNDIpsZGTJ5BTt6Nat1Pot5KznRX4lC5eY3An1ZzHu0ko6R151FtO
+	0e0ejv/+nMlrv073bwGXV8EQvU1AkWbZsVdohrwomL46tf4H6lnu8qbxpEnWLNqgCqpAYi
+	rErx4uzXshtuaAhQS2lGa27pDyt31734g4C22st5LUpDCzKUVOSWYwCZ5KxFUw==
+To: linux-arm-kernel@lists.infradead.org
+Cc: Scott Murray <scott.murray@konsulko.com>,
+	Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] arm64: dts: renesas: sparrow-hawk: Add overlay for Olimex MIPI-HDMI adapter
+Date: Fri, 20 Mar 2026 03:52:57 +0100
+Message-ID: <20260320025328.509003-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH0PR10MB5338:EE_|IA4PR10MB8587:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9597bd68-9e17-433c-490c-08de86268867
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|1800799024|366016|18002099003|56012099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	Isij4SalK5vkUb6Sph8ACbKn/vLNdxeK5hYB5pt7n7NkbclMmRMLXUO1JdlxVu8V4t26O6Qgjv6E++vh4Fgg7kxQzrHclDWrxwodpFk4Rf4gbmamLqRYE0xHmtGYkF+2XVmEuTiHnRryu/ynWZIRvN0PrSauHV36bzQCXRZtt4p0EMzHTP9lDfQl+cizsKPX40qrodq9HZFLLIIDKvGFLi6PD2J+r3BZOD1mnwtj2rdEXsL6YI0oeQCGI29NNwhLAZozT6Nd0j/sn8VjPuJq8FkZBBVS0USawqSdPmr5dZTHkC7jP8KoZhPbOUKxHCOCQuoVZ/YbWYPDvFsJeeOtf7Ni4cvPpdu6hve/Kv6eKgZ0FnlCy+zxpERaUKcgeTzikQ6BCoilsO2sL0PjanNWyv1Thcwea/NJoKEIIAz0khAGXtvQf4ZpzvG5BrwejQYsnjQJ2XgdE5WsriBtEn9/hocwqfIZy6KpyqpgIfN+Pav1eun3IYBnpW/F9F70xCg9PzpTnnjVAu3q4MyDSGK5a5gVMyBgFNRNu+EnXCcadQqjwc0PJsJZr1ngYuWRSM06LJZLk9mpPRlSn06CH5OFckfuY7javhy+m51E8SwkCjQCFtNlY1dlWVZ1488BsDdiw0t0Vor0nT0YOVAi2Iqq3ws74VcE0G5NzTk/nhWQEW7p5fb2GxV1aYn4MyENN6OC1tYnXiawVA6ogaJiTxYV+aP2Qnq67KHYVQOzTdaXuSQ=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH0PR10MB5338.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?GADOBKCndiyZeNbnf8HfwAAJB3xS13V5z7jgy2z5BlkNuLjd5/vTJR3gIe1U?=
- =?us-ascii?Q?RUtuekBA/lYmg2yRS+gSIc+1jARl+VlI9Fs2i5x0UY0I6WLC7faivhYKDv8f?=
- =?us-ascii?Q?tALAS9XsuSzia1D0p3+akxmoBRnS2C4eulYWaFyezUo76eAQH14Hv2OpIxRE?=
- =?us-ascii?Q?Fj/XeKcXZ/pGdxAE1AiZ3Oa8BrQ4xcOYlY3ObT+5rzQYtH4z4NgU2PwWuQut?=
- =?us-ascii?Q?9he1wbaTp7YWTcseTQFUbwhKvLFyU2diIg1Kg+sZrD4dwCopYa0ZYxP7IyMS?=
- =?us-ascii?Q?svY7+wCdI6j0CWO0uIJFlDHaGcnW+eFgoPSBNSiTmOqn4fNpHIbyagQmNPMl?=
- =?us-ascii?Q?n5NpwsVZp9Dmvs0f8EiEOSQIEoG2xIZjw3Y9cLutrgRvgcwnbolE8zM4If8f?=
- =?us-ascii?Q?jP89k5Y0h/fH/IhLfkvpbkLGsJp0sbTUqXXChS6qZyWN5gOn/VRdbaetYpB3?=
- =?us-ascii?Q?KLUfnoPudm1SDQMU54hbUIoVkwDckQYH85niv4kPe9QCBWZIqGm14nZKqlPD?=
- =?us-ascii?Q?xTRBoFTX7kWtqqi1YIp7Kpn98cinr8wNuNfBl4XsPh2McMxu6tjLApq6Si/w?=
- =?us-ascii?Q?lJ3O7Zc5qqsC0nqA6x1xUQFu3kldPAvaosXh6zV50Xq4ntYMr9ykxI0mEg/T?=
- =?us-ascii?Q?0ladsb8qImvtaBhL+H3rQJYqq6rKg/rPAFJ0ZyAeIEO1nQ0PGKwp+2wSTzVM?=
- =?us-ascii?Q?oRqxSN06z475lOxoK3Oe/8IBz6j5wiWlwphm+TkVAio7c2vekagFcZDxzCHB?=
- =?us-ascii?Q?JZXNgtMJNFuO6jXDm4kZ6rgoK6dbPEA+WRMD9nlyVzu0ekzKS5StvNTFJIEC?=
- =?us-ascii?Q?qPz6bUOuHyFg0ZSTIiUKkRFkPQwV65Zh1gYY5GNkffHjPByzB0sa0KmeN74M?=
- =?us-ascii?Q?Ixxkg8D4YBSuNnkBya1C9wwvwg49VdY8nmEyCV4RI61xU1qtCYHL82eCPX+k?=
- =?us-ascii?Q?OR5r4ODhaiekUKmyTtNet1ptWR6k5iDNcookM/CrgfdHru1m8r4hWAKyN7pc?=
- =?us-ascii?Q?15ln1ZhNCrpgHe9/YZPl7g2F1i1/MN/tUb7iX+rPr6mOlivNiK/bU7UGqkgp?=
- =?us-ascii?Q?/nAkaJQRp0T33dZdMAUhVhNomMA7SfkysQf/zpDLDamIb5kA57JsDG6gNfbx?=
- =?us-ascii?Q?BEME7V230bftQe1PauICAte633l38H/NJJhWcHz1oS3efI/YP4Rx6AMvyHiP?=
- =?us-ascii?Q?eiw95SlKMZiDlVzepQP64x+Zln9kVpx6XYn/9MjMS2okFyy+UTwBDdDuLxqg?=
- =?us-ascii?Q?LaxyLRtfJ4PEsMrrSlhJGspmekS5l4i1cQ7o2TLZEiudcv7ilLj5+FME9WiR?=
- =?us-ascii?Q?QlU4nCteXk6MN0aRwBaOeCw7yQGZesGgi8H/1JLBu3hRIGf00ZxPfRFkl9vN?=
- =?us-ascii?Q?Dt5QjzJkNCk8YopNaGLSCAcyOyMfOAyqI6DZuhXYPzEnmtOJ1+syK/IgC84J?=
- =?us-ascii?Q?Hp8V6SEGOJRtnU5r4Vv5r4M2FvhghqwyQuoQvWEKqF+RgGIeG+eCuY2oOYTX?=
- =?us-ascii?Q?h3gB+9UadCT8M30d+Y30Ewzzsy/cXr/UlHnYMWlDcWOBzC4C1xD7gYQ4VzWN?=
- =?us-ascii?Q?sPn5SVcKn0LrFf8jJZxrM5XlVmeTfh3uwoi+p/LVEQ49JHA1yBsbmjrq8tAP?=
- =?us-ascii?Q?nUhjnbf5DCAhzVGdyhyMn9Wy1Zeig9+uoeSpVd0Qbn3BuxDAUqe4Uxj1Y/uS?=
- =?us-ascii?Q?7ApPYXgv5eRXx3Yik5ZKZwpFwwQTv67N/nIMuL9ZGBiCaztev+ZYq/bRkjap?=
- =?us-ascii?Q?dvfu3Cbau1E1UOsxSCkoYAyjCR+xbqg=3D?=
-X-Exchange-RoutingPolicyChecked:
-	nT+dhkAx6s9DfOKC67xMe4B3rWj0mPlg/55wTOMCxyrOXqOFHLhJefT2JWaJiHaT3oo0amqzAN3Cz2fXH515s8NnkLTLzF2P5Kgn4HhXkVgyHd5BeV0SZCTAVCZ5AH4hDqMpRlntz5hMlbMn22oI5RCpwZihNfXmbuRyOicq4Bdy56bjLSxaz+h5x8PKXqX4nX2wiqy3EA4sPRgWr2gu4W30PoeFUmNXzn+HNv0CsxqLB03TSCcPs0R97culdBZT23U9a8EJOHaYz6CDf8pR2Sb2BgYax50AZ3XBlAmaQgjhqbL2Jw/ItDnQ4E4b2g+xUg4Xfs24wDwk51iH9UqUGA==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	mhc2D9TyLR68DlFIdp+gaKJqoq98VOrvsExHMWs/jC0qqymj9nUWAhUgpKmGlg7iBCoAOg29Mb/+B9QLlgV8ORL3SDSrym/pCuAdHWzRoHu9NtpVYupU7YW4XRfHG35h8qPLOA/HP2ve6OarB9uurG5QOqZVk0VEwbzDTzOJEbw1EO69/X8DBRBQjTO6LPYqqDq9YIIIq8GijLWvQVy6p/ccB83/6XvWqwURCBSOIueAXiLrb1YSfMCPegkN/TKc8pN4PD7eEXfnnAeIk8bHhjVSTNjpzAEB1ECsffxJfKxbsc/H6FwDrEnQLCRvgrhTwKUxe014qB6yk0KHl9n8Tym9uXag+kNrGPlCqFMJcVgj33Ksxm+aGKyCLDCzEfZkHwaE6rWCbjUtetZvgCN5BDIzimKPQ8c+qklTnvxMe/x3cJIFdNJ0xWdy/hmm93U2rqTfjtKy+0+r5jE/wjVhhHsk0gyKWKtF2bfG7AFzJ/cHhP9TduRZ7XWOAnHKLSkzxu6dN7Rj03AXiPbS2AX0E7Mr8R+SkTI+ogXZnWdHFXlYgv6dgIrChl6rUjjkzyy/8v73Yn7y1w65LswK6rjdi/CqguKzcIBFgx/uEL8y2Ns=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9597bd68-9e17-433c-490c-08de86268867
-X-MS-Exchange-CrossTenant-AuthSource: CH0PR10MB5338.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2026 02:15:19.0787
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: e6DJcmw4KePw8UOMFfe+7DYbwBYNUYfLf9gAtUIsoqwwn9IMF2CXZM4FwTBt/yyS6n75ff1hy8Nq4red+2jQMQK/ABvFhO2XxSHaBRZUVxY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR10MB8587
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-19_04,2026-03-19_05,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 adultscore=0 bulkscore=0
- phishscore=0 mlxscore=0 mlxlogscore=750 malwarescore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2603050001
- definitions=main-2603200016
-X-Authority-Analysis: v=2.4 cv=LKFrgZW9 c=1 sm=1 tr=0 ts=69bcadbd cx=c_pps
- a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=Yq5XynenixoA:10
- a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22 a=jiCTI4zE5U7BLdzWsZGv:22
- a=EIcjfB9IiI4px24ztqRk:22 a=MazYMTbE4VX3fH07rsQA:9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzIwMDAxNiBTYWx0ZWRfX8Npg2O1Td+kZ
- tFOGPjoqnEYilc1YHWXI0NIOol/WEca1t0Lj9F3mXZ9wgzUu9hCjsLSzVehdAl11R9Nidpc8JoM
- VKxKt59DR8oOYM3JqibxOybvbF8Vq0ywNfhW68y0zghEsBewiB5iHIwXifpr2nseFr+DD+UukT0
- 1g5GbkE1ipZHohNkKs9ungfa/PrHih6Zl5ghvV5bXXzzUzpBCqqSdcdsCCiee1/pECeWAJOG5/q
- Qiu80QGVxX4SB/MuaurYzIeATlVKX2ITmqePhMD/pjw3yqAD/TFSnLYcXuqMYFNNWr6HSpMVrv3
- GVrS+ToNX6gG3RrWAtTpnEM1McdmC8KO6JyxNSRk33Xk+NJNEGPncR828SgZIxmyR/kE7qWCbht
- ZFN5LsWCJ6X1czAJpp+Jb29Lr+vRvaQeyZQt0TklZgQnTnm8VtytJQwuFQQy72ircSKr34Huug+
- jXgDeE951jbaLC0GQ1Q==
-X-Proofpoint-GUID: HsO257hzTrCyeZFJCkd6SsHTExLTVyyP
-X-Proofpoint-ORIG-GUID: HsO257hzTrCyeZFJCkd6SsHTExLTVyyP
-X-Spamd-Result: default: False [0.34 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 269d16c30b3fa8e3270
+X-MBO-RS-META: yrbg1mpq4p78qc6fxzidjxwxaogxj7mj
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[oracle.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[oracle.com:s=corp-2025-04-25,oracle.onmicrosoft.com:s=selector2-oracle-onmicrosoft-com];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[32];
-	HAS_ORG_HEADER(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-29983-lists,linux-renesas-soc=lfdr.de];
-	DKIM_TRACE(0.00)[oracle.com:+,oracle.onmicrosoft.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[martin.petersen@oracle.com,linux-renesas-soc@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oracle.com:dkim,ca-mkp.ca.oracle.com:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	NEURAL_HAM(-0.00)[-0.994];
+	FREEMAIL_CC(0.00)[konsulko.com,mailbox.org,kernel.org,glider.be,gmail.com,vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_RCPT(0.00)[linux-renesas-soc];
-	RCVD_COUNT_SEVEN(0.00)[9]
-X-Rspamd-Queue-Id: 293242D5116
+	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-29984-lists,linux-renesas-soc=lfdr.de,renesas];
+	DKIM_TRACE(0.00)[mailbox.org:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	MISSING_XM_UA(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[marek.vasut@mailbox.org,linux-renesas-soc@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.761];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 2F10D2D53F7
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+From: Scott Murray <scott.murray@konsulko.com>
 
-Vladimir,
+Add a DT overlay to bind the Olimex MIPI-HDMI dual-lane DSI-to-HDMI adapter
+on the Retronix R-Car V4H Sparrow Hawk board.
 
-> The Exynos host controller driver is clearly a PHY consumer (gets the
-> ufs->phy using devm_phy_get()), but pokes into the guts of struct phy
-> to get the generic_phy->power_count.
+Current device link is at https://www.olimex.com/Products/IoT/ESP32-P4/MIPI-HDMI/open-source-hardware
 
-Ah, newer version. Would still like an ack from Samsung.
+Signed-off-by: Scott Murray <scott.murray@konsulko.com>
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+---
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Magnus Damm <magnus.damm@gmail.com>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Scott Murray <scott.murray@konsulko.com>
+Cc: devicetree@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-renesas-soc@vger.kernel.org
+---
+ arch/arm64/boot/dts/renesas/Makefile          |  3 +
+ ...r8a779g3-sparrow-hawk-olimex-dsi-hdmi.dtso | 94 +++++++++++++++++++
+ 2 files changed, 97 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-olimex-dsi-hdmi.dtso
 
-And I hit the wrong key, I did not actually apply this...
-
+diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
+index bca532eb67b44..65df431adeb6b 100644
+--- a/arch/arm64/boot/dts/renesas/Makefile
++++ b/arch/arm64/boot/dts/renesas/Makefile
+@@ -114,6 +114,9 @@ dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk-fan-argon40.dtb
+ dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk-fan-pwm.dtbo
+ r8a779g3-sparrow-hawk-fan-pwm-dtbs := r8a779g3-sparrow-hawk.dtb r8a779g3-sparrow-hawk-fan-pwm.dtbo
+ dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk-fan-pwm.dtb
++dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk-olimex-dsi-hdmi.dtbo
++r8a779g3-sparrow-hawk-olimex-dsi-hdmi-dtbs := r8a779g3-sparrow-hawk.dtb r8a779g3-sparrow-hawk-olimex-dsi-hdmi.dtbo
++dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk-olimex-dsi-hdmi.dtb
+ dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk-rpi-display-2-5in.dtbo
+ r8a779g3-sparrow-hawk-rpi-display-2-5in-dtbs := r8a779g3-sparrow-hawk.dtb r8a779g3-sparrow-hawk-rpi-display-2-5in.dtbo
+ dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk-rpi-display-2-5in.dtb
+diff --git a/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-olimex-dsi-hdmi.dtso b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-olimex-dsi-hdmi.dtso
+new file mode 100644
+index 0000000000000..dde4122221133
+--- /dev/null
++++ b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-olimex-dsi-hdmi.dtso
+@@ -0,0 +1,94 @@
++// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++/*
++ * Device Tree Overlay for Olimex MIPI-HDMI adapter connected to J4:DSI
++ * on R-Car V4H ES3.0 Sparrow Hawk board
++ *
++ * Copyright (C) 2026 Scott Murray <scott.murray@konsulko.com>
++ */
++
++/dts-v1/;
++/plugin/;
++
++#include <dt-bindings/gpio/gpio.h>
++
++&{/} {
++	hdmi-connector {
++		compatible = "hdmi-connector";
++		label = "HDMI1";
++		type = "a";
++		ddc-i2c-bus = <&i2c0_mux3>;
++
++		port {
++			hdmi_connector_in: endpoint {
++				remote-endpoint = <&lt8912b_out>;
++			};
++		};
++	};
++
++	reg_vr1: regulator-vr1 {
++		compatible = "regulator-fixed";
++		regulator-name = "VR1-1.8V";
++		regulator-min-microvolt = <1800000>;
++		regulator-max-microvolt = <1800000>;
++		regulator-boot-on;
++		regulator-always-on;
++		vin-supply = <&reg_3p3v>;
++	};
++};
++
++&i2c0_mux3 {
++	#address-cells = <1>;
++	#size-cells = <0>;
++
++	hdmi-bridge@48 {
++		compatible = "lontium,lt8912b";
++		reg = <0x48>;
++		vcchdmipll-supply = <&reg_vr1>;
++		vcchdmitx-supply = <&reg_vr1>;
++		vcclvdspll-supply = <&reg_vr1>;
++		vcclvdstx-supply = <&reg_vr1>;
++		vccmipirx-supply = <&reg_vr1>;
++		vccsysclk-supply = <&reg_vr1>;
++		vdd-supply = <&reg_vr1>;
++
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			port@0 {
++				reg = <0>;
++
++				hdmi_out_in: endpoint {
++					data-lanes = <1 2>;
++					remote-endpoint = <&dsi0_out>;
++				};
++			};
++
++			port@1 {
++				reg = <1>;
++
++				lt8912b_out: endpoint {
++					remote-endpoint = <&hdmi_connector_in>;
++				};
++			};
++		};
++	};
++};
++
++&dsi0 {
++	status = "okay";
++
++	ports {
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		port@1 {
++			reg = <1>;
++
++			dsi0_out: endpoint {
++				remote-endpoint = <&hdmi_out_in>;
++				data-lanes = <1 2>;
++			};
++		};
++	};
++};
 -- 
-Martin K. Petersen
+2.51.0
+
 
