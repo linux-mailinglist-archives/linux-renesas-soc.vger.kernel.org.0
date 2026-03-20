@@ -1,188 +1,199 @@
-Return-Path: <linux-renesas-soc+bounces-29989-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29990-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0JEuM8EOvWkz6QIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29989-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Mar 2026 10:09:21 +0100
+	id kLhHH64TvWnG6QIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29990-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Mar 2026 10:30:22 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45E032D7C45
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Mar 2026 10:09:21 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8CA92D8091
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Mar 2026 10:30:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E75A4303C511
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Mar 2026 09:00:34 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id B95AA3004401
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Mar 2026 09:29:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74FE4328616;
-	Fri, 20 Mar 2026 09:00:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2716335AC1A;
+	Fri, 20 Mar 2026 09:29:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="idzU29BZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="btdOSa/R"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5205A328B7D;
-	Fri, 20 Mar 2026 09:00:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02B772E2850;
+	Fri, 20 Mar 2026 09:29:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773997234; cv=none; b=DTaIxs8/mM2xDA8hcbtUdXYiMlPLorVaTJpXIKQgPUORmqSUMdZSmIiGlmxz9BOKLEzi8yxSW6/svIy3vrmX8WBnJYfCvpI9PawGV+n4xoHYedvnSGqjqts70aUgc6qRutYiCFW9KCqYEDl8C3SmpihvcEEC/jgFtbf+odpwOJM=
+	t=1773998993; cv=none; b=psDYThbVxBMyLcAWD3QnocY6rTCDX7VOObkFfC3JY6k3qMkTW+1pkoVIfntNUCHADdVxLMWV5mJTBZcpQO1LTun1fr+oAnrgWVEi7+ghWcqlOcULCmECrvWqQN0j2PykIWOJ8ajg4+o2yYiDNxbZ7+oxic42+0jH1UMVxJWr9pY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773997234; c=relaxed/simple;
-	bh=fRiRWT6T3RGiyzohfCBp2WnuxT9XIeIAMw872dKHltY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=g32NeOWPN/tJzuD4OVhi2AygSwiQni6Y6Qqe6Ax/xwEtBxMRdtlhdP/JorChdfYyy/DVnZmwLjkdull5L8sJzd7q9d3DntLvCvJGx7KuYbXVhlLgOUhoRskdXq+ZsZHSyk5pGsdJINoj36LeJhD2t43fCOXTG7K6ZIYCthDuxaQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=idzU29BZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DFC0C4CEF7;
-	Fri, 20 Mar 2026 09:00:33 +0000 (UTC)
+	s=arc-20240116; t=1773998993; c=relaxed/simple;
+	bh=LfFmVCPsvjpc+MzWiP7Uv1vwUKJcyLzLQ4f89tdstFY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=M7Bf65HgPUVmktLlCienPUEmGaGqA9xaVyjBQTzmW8cliWWTBxDFgGoFsTprOXD/bncMNSxux2boRZrfzxLKMSCtkiNbBQjSgAAj+nhkaQltX7bJU7KN8byDZasOfIU29GQ83UUoJIWQdD0FJfQqxrBsTsI5DjF/HBB2I3co7QE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=btdOSa/R; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DD9AC4CEF7;
+	Fri, 20 Mar 2026 09:29:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773997234;
-	bh=fRiRWT6T3RGiyzohfCBp2WnuxT9XIeIAMw872dKHltY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=idzU29BZIQnTJ75paSfi7ZNWYm7ko+ZuNAYd0rLy/v4+lYn4Z6nedf8nB0jCCWbCC
-	 RDhFntcCv2FH0rIE2sqA8ha1ffHVycfEHbnIcGi0w3qbfQzYJaCIwgUSBNmLHkDnAQ
-	 pqtM7wEAuPeAF8854R3bEajXAPgUH8/hjXOPolhGDohjfwDzypDwxHV9mH+p1UKPZS
-	 MIi17PmHEaaagAeLJK3Z+O5TioGqXUH+ebUSyc5DQ2ENnnhI224pEb3IA4vQIvXOAE
-	 d7Bej+wHCAAs8Q50JTnXFLwrCXAP89BPVm4hrGmn0McXPGd8jXyevbC6owOcsNYEGD
-	 fbOtU8G/ZBl8Q==
-From: Thomas Gleixner <tglx@kernel.org>
-To: Biju <biju.das.au@gmail.com>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>, linux-kernel@vger.kernel.org,
- Geert Uytterhoeven <geert+renesas@glider.be>, Prabhakar Mahadev Lad
- <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das
- <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v5 15/15] irqchip/renesas-rzg2l: Add shared interrupt
- support
-In-Reply-To: <20260311192459.609064-16-biju.das.jz@bp.renesas.com>
-References: <20260311192459.609064-1-biju.das.jz@bp.renesas.com>
- <20260311192459.609064-16-biju.das.jz@bp.renesas.com>
-Date: Fri, 20 Mar 2026 10:00:30 +0100
-Message-ID: <87fr5ulvtd.ffs@tglx>
+	s=k20201202; t=1773998992;
+	bh=LfFmVCPsvjpc+MzWiP7Uv1vwUKJcyLzLQ4f89tdstFY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=btdOSa/RRTxID46FD+SM3Vu5F71uwvI4JsAhBN97H9RFqrroiS9Te5NeZv+Suce7g
+	 FDqdgqs8SeJyLBQW2/0htwGiOcOcw0eHb9JmJvf6o2q9S/NKZ2MrHT6cufR6+HyMU7
+	 5olUllZ40xuvL5/RYXTt2a4+HXmrcDMySr9SruCaiLDV8qvIBTVWcPElWFXWkgHDyC
+	 qb7W/xXf4fEiXv08Fs49cdCl6CSpaaJWijiy3A5PtecB/vYGCiE/YEFD4bbNLT5p5s
+	 DkS4hF1/cqMAxvd2CPsSiYq7am/6A8eSZeUTWMiyQMHjqp+rJCcshrD2X5P+2PspMz
+	 y4xPC+IAxfrHw==
+Date: Fri, 20 Mar 2026 10:29:50 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: John Madieu <john.madieu.xa@bp.renesas.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Vinod Koul <vkoul@kernel.org>, Mark Brown <broonie@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Magnus Damm <magnus.damm@gmail.com>, 
+	Thomas Gleixner <tglx@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, John Madieu <john.madieu@gmail.com>, 
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 07/22] ASoC: dt-bindings: renesas,rsnd: Add RZ/G3E support
+Message-ID: <20260320-peculiar-cat-of-acumen-c6f6b3@quoll>
+References: <20260319155334.51278-1-john.madieu.xa@bp.renesas.com>
+ <20260319155334.51278-8-john.madieu.xa@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spamd-Result: default: False [4.34 / 15.00];
-	MID_END_EQ_FROM_USER_PART(4.00)[];
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260319155334.51278-8-john.madieu.xa@bp.renesas.com>
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-29989-lists,linux-renesas-soc=lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-29990-lists,linux-renesas-soc=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	GREYLIST(0.00)[pass,body];
-	FREEMAIL_CC(0.00)[bp.renesas.com,vger.kernel.org,glider.be,gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[28];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[glider.be,renesas.com,kernel.org,baylibre.com,gmail.com,perex.cz,suse.com,pengutronix.de,tuxon.dev,bp.renesas.com,vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	NEURAL_HAM(-0.00)[-0.927];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tglx@kernel.org,linux-renesas-soc@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-renesas-soc@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	NEURAL_SPAM(0.00)[0.787];
 	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: 45E032D7C45
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: A8CA92D8091
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed, Mar 11 2026 at 19:24, Biju wrote:
-> +static int rzg2l_irqc_irq_request_resources(struct irq_data *d)
-> +{
-> +	unsigned int hw_irq = irqd_to_hwirq(d);
-> +	struct rzg2l_irqc_priv *priv = irq_data_to_priv(d);
-> +	u32 offset, tssr_offset;
-> +	u8 tssr_index, tssel_shift;
-> +	u32 reg, inttsel_reg;
-> +	u8 value;
+On Thu, Mar 19, 2026 at 04:53:19PM +0100, John Madieu wrote:
+> Add support for the RZ/G3E (R9A09G047) SoC audio subsystem.
+> 
+> RZ/G3E has a different audio architecture from R-Car Gen2/Gen3/Gen4,
+> with additional clocks and resets:
+> - Per-SSI ADG clocks (adg.ssi.0-9)
+> - SCU related clocks (scu, scu_x2, scu_supply)
+> - SSIF supply clock
+> - AUDMAC peri-peri clock
+> - ADG clock
+> - Additional resets for SCU, ADG, and AUDMAC peri-peri
+> 
+> RZ/G3E has 5 DMA controllers that can all be used by audio peripherals.
+> To allow the DMA core to distribute channels across all available
+> controllers, increase the maximum number of DMA entries in DVC, SRC,
+> and SSIU sub-nodes so that multiple providers can be listed with
+> repeated channel names.
+> 
+> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
+> ---
+>  .../bindings/sound/renesas,rsnd.yaml          | 169 +++++++++++++++---
+>  1 file changed, 148 insertions(+), 21 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml b/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
+> index e8a2acb92646..bc8885c4fa24 100644
+> --- a/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
+> +++ b/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
+> @@ -58,6 +58,7 @@ properties:
+>            - renesas,rcar_sound-gen2
+>            - renesas,rcar_sound-gen3
+>            - renesas,rcar_sound-gen4
+> +          - renesas,rcar_sound-r9a09g047     # RZ/G3E
 
-Once again: Proper variable declaration ordering please. Do I have to
-repeat that every other week?
+Do not use underscores in compatibles. Previously used wrong style is
+not the excuse here, just like previously poor code, mistakes, bugs,
+unreadable approches is not justification to repeat the same.
 
-Again the same type salad.
+>  
+>    reg:
+>      minItems: 1
+> @@ -97,20 +98,22 @@ properties:
+>  
+>    resets:
+>      minItems: 1
+> -    maxItems: 11
+> +    maxItems: 14
+>  
+>    reset-names:
+>      minItems: 1
+> -    maxItems: 11
+> +    maxItems: 14
+>  
+>    clocks:
+>      description: References to SSI/SRC/MIX/CTU/DVC/AUDIO_CLK clocks.
+>      minItems: 1
+> -    maxItems: 31
+> +    maxItems: 47
+>  
+>    clock-names:
+>      description: List of necessary clock names.
+>      # details are defined below
+> +    minItems: 1
+> +    maxItems: 47
+>  
+>    # ports is below
+>    port:
+> @@ -136,9 +139,17 @@ properties:
+>  
+>          properties:
+>            dmas:
+> -            maxItems: 1
+> +            description:
+> +              Must contain unique DMA specifiers, one per available
+> +              DMAC. On RZ/G3E, up to 5 for transmission.
+> +            minItems: 1
+> +            maxItems: 5
+>            dma-names:
+> -            const: tx
+> +            minItems: 1
+> +            maxItems: 5
+> +            items:
+> +              enum:
+> +                - tx
 
-> +	if (!priv->info.shared_irq_cnt)
-> +		return 0;
-> +
-> +	if (rzg2l_irqc_is_shared_irqc(priv->info, hw_irq)) {
-> +		offset = hw_irq + IRQC_TINT_COUNT - priv->info.tint_start;
-> +		tssr_offset = TSSR_OFFSET(offset);
-> +		tssr_index = TSSR_INDEX(offset);
-> +		tssel_shift = TSSEL_SHIFT(tssr_offset);
-> +
-> +		reg = readl_relaxed(priv->base + TSSR(tssr_index));
-> +		value = (reg & (TIEN << tssel_shift)) >> tssel_shift;
-> +		if (value)
-> +			goto err_conflict;
-> +
-> +		raw_spin_lock(&priv->lock);
+Multiple levels, multiple if:then: (further) - I don't find this binding
+manageable/readable. You should split it, with common binding defining
+common part of hardware or interface if there is such.
 
-scoped_guard()
+Best regards,
+Krzysztof
 
-> +		inttsel_reg = readl_relaxed(priv->base + INTTSEL);
-> +		inttsel_reg |= TINTSEL(offset);
-> +		writel_relaxed(inttsel_reg, priv->base + INTTSEL);
-> +		raw_spin_unlock(&priv->lock);
-> +	} else if (rzg2l_irqc_is_shared_tint(priv->info, hw_irq)) {
-> +		offset = hw_irq - priv->info.tint_start;
-> +		tssr_offset = TSSR_OFFSET(offset);
-> +		tssr_index = TSSR_INDEX(offset);
-> +
-> +		inttsel_reg = readl_relaxed(priv->base + INTTSEL);
-> +		value = (inttsel_reg & TINTSEL(offset)) >> offset;
-> +		if (value)
-> +			goto err_conflict;
-> +	}
-> +
-> +	return 0;
-> +
-> +err_conflict:
-> +	pr_err("%s: Shared SPI conflict!\n", __func__);
-> +	return -EBUSY;
-> +}
-> +
-> +static void rzg2l_irqc_irq_release_resources(struct irq_data *d)
-> +{
-> +	unsigned int hw_irq = irqd_to_hwirq(d);
-> +	struct rzg2l_irqc_priv *priv = irq_data_to_priv(d);
-> +	u32 offset;
-> +	u8 inttsel_reg;
-
-Your type choices are really interresting and both variables are not
-used in the outer scope. Declare them in the scope where they are used.
-
-> +	if (!priv->info.shared_irq_cnt)
-> +		return;
-> +
-> +	if (rzg2l_irqc_is_shared_irqc(priv->info, hw_irq)) {
-> +		offset = hw_irq + IRQC_TINT_COUNT - priv->info.tint_start;
-> +
-> +		raw_spin_lock(&priv->lock);
-> +		inttsel_reg = readl_relaxed(priv->base + INTTSEL);
-                ^^^^          ^^^
-                u8            u32
-
-Seriously?
-
-> +		inttsel_reg &= ~TINTSEL(offset);
-> +		writel_relaxed(inttsel_reg, priv->base + INTTSEL);
-> +		raw_spin_unlock(&priv->lock);
-
-Thanks,
-
-        tglx
 
