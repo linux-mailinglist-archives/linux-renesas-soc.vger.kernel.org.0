@@ -1,199 +1,198 @@
-Return-Path: <linux-renesas-soc+bounces-29990-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29991-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kLhHH64TvWnG6QIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29990-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Mar 2026 10:30:22 +0100
+	id QE8mIp8YvWnG6QIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29991-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Mar 2026 10:51:27 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8CA92D8091
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Mar 2026 10:30:21 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E27292D849E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Mar 2026 10:51:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id B95AA3004401
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Mar 2026 09:29:55 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 69D3D305185E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Mar 2026 09:48:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2716335AC1A;
-	Fri, 20 Mar 2026 09:29:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="btdOSa/R"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A5BC35BDB7;
+	Fri, 20 Mar 2026 09:48:13 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02B772E2850;
-	Fri, 20 Mar 2026 09:29:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C65893612D5
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 20 Mar 2026 09:48:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773998993; cv=none; b=psDYThbVxBMyLcAWD3QnocY6rTCDX7VOObkFfC3JY6k3qMkTW+1pkoVIfntNUCHADdVxLMWV5mJTBZcpQO1LTun1fr+oAnrgWVEi7+ghWcqlOcULCmECrvWqQN0j2PykIWOJ8ajg4+o2yYiDNxbZ7+oxic42+0jH1UMVxJWr9pY=
+	t=1774000093; cv=none; b=S2oW8WcbvEUHwrLoHIXu246+NVtAS1wxCk4r2CAraLWhg2NWj4Ot8W3oG7ITUf9o6AvRjqnG9iuKeomzzXxaXzU+aUxcIqeAQwmyhixiIHIsB0ZEb0u6iozW6UfIyTbQfZ6+TkJAy3sIfyEZvrI8a/LM0whtuDzgbfNUEzR4R+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773998993; c=relaxed/simple;
-	bh=LfFmVCPsvjpc+MzWiP7Uv1vwUKJcyLzLQ4f89tdstFY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M7Bf65HgPUVmktLlCienPUEmGaGqA9xaVyjBQTzmW8cliWWTBxDFgGoFsTprOXD/bncMNSxux2boRZrfzxLKMSCtkiNbBQjSgAAj+nhkaQltX7bJU7KN8byDZasOfIU29GQ83UUoJIWQdD0FJfQqxrBsTsI5DjF/HBB2I3co7QE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=btdOSa/R; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DD9AC4CEF7;
-	Fri, 20 Mar 2026 09:29:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773998992;
-	bh=LfFmVCPsvjpc+MzWiP7Uv1vwUKJcyLzLQ4f89tdstFY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=btdOSa/RRTxID46FD+SM3Vu5F71uwvI4JsAhBN97H9RFqrroiS9Te5NeZv+Suce7g
-	 FDqdgqs8SeJyLBQW2/0htwGiOcOcw0eHb9JmJvf6o2q9S/NKZ2MrHT6cufR6+HyMU7
-	 5olUllZ40xuvL5/RYXTt2a4+HXmrcDMySr9SruCaiLDV8qvIBTVWcPElWFXWkgHDyC
-	 qb7W/xXf4fEiXv08Fs49cdCl6CSpaaJWijiy3A5PtecB/vYGCiE/YEFD4bbNLT5p5s
-	 DkS4hF1/cqMAxvd2CPsSiYq7am/6A8eSZeUTWMiyQMHjqp+rJCcshrD2X5P+2PspMz
-	 y4xPC+IAxfrHw==
-Date: Fri, 20 Mar 2026 10:29:50 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Vinod Koul <vkoul@kernel.org>, Mark Brown <broonie@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Magnus Damm <magnus.damm@gmail.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, John Madieu <john.madieu@gmail.com>, 
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 07/22] ASoC: dt-bindings: renesas,rsnd: Add RZ/G3E support
-Message-ID: <20260320-peculiar-cat-of-acumen-c6f6b3@quoll>
-References: <20260319155334.51278-1-john.madieu.xa@bp.renesas.com>
- <20260319155334.51278-8-john.madieu.xa@bp.renesas.com>
+	s=arc-20240116; t=1774000093; c=relaxed/simple;
+	bh=7APFMvqa0gCQJ5T8+qHwOHyoZaMkXMNBK/5TVY+s4UI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Z0Qe4U4OdApIBokOAW2Bn/MbqqVYx7KVdChRT1qcD8i4gJQZ887oswBQKqaj0qEBy3aLgnKF+OE9xgnbDcUyA99kkUE0pJGLYH0NMKDvz4sLgqPxUUfTZ7bvNcuGeWNvVVSaAKsgss+WEFI+KBgZcE3rHvl6lvVfAAoiJhqRGkw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-5673804da95so615182e0c.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 20 Mar 2026 02:48:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774000091; x=1774604891;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2iGUIJ7TvYbGTB2SBBw+JWXRbj4mLmqq0A0KfQHtxXA=;
+        b=imXjeEnUv0XxP6pi6ieCA6v/yHlf9nCpi/q6ymiJDzVGzBUaKU7Z1YY+JPvgFf3uXI
+         3dQIdpTrLnnqrdioToa7kQWPrUfPK1BCHohZxpJr996RyFTWUywXa1/xMRUz5fSAtdBA
+         BeBGDvIDSFCHEOdHD8JZY+7nx2adm0SqKlhnjBeJexHeRgzGVVFaDtOWG94xU0zezNVU
+         VAgZktfuGgGuaDnxGs+yXjDfJouYwlbME8FmzupRB+HngOCM0JZM5RNt1eO50LwaUdT/
+         hteshJVhqj43kwPKaxbp4UrpnUFN+jghAI8iUP/d6nBCl6Lt5xLVveXaaUymUGjH+ARY
+         e+FQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXXlR28lM3TrWo21H/F1NrWliyEaLfmhWtwJTZK3GmzfwhVnYSSg4P1UOVmcYhAN94pA/Jk06S1mxqXG55gE8n/uQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxbyUpoznCF0eXkhr+3qxt5TmIfwvUzyqDYkpv2+DT8aZlXfOkd
+	sxS4SLx4Acgd2VzLfAdbR0HSRxMI80DmYUpy+sbeqb87de47I+n4ExLiLg13IuW5ubE=
+X-Gm-Gg: ATEYQzycDrIgtivT64STZT8Q8ANpbfU1mFhnAq1Xp6uq1iTLBjs8ZnIRM0hZBMuDs1e
+	wB/IK8CGdEzK7oEZXBsZuZVfwcF38yiktC0CHPKB1QNTK4a9ehPd3zdxCfvVf2sLlZ1BIzNzV2H
+	bZ0R5mnzLZNA4QUIrfvWxDeQ1x2hT2OfDOqt1+ae/9KXTpANzJ9WbR/yXUnw6heChgK624XTeF+
+	zpWSBIFNBJHoTL7zSMm0AblLKs3ngvhBCSL94nQHHmCquRAGqhoXSqovd7IOcmhfjvkrxh4IW/D
+	UFFgNcGTE/kEznI9TW4kcVV0JgsDlgnGVDVUTNPGJNwJsWKs/jtJq296coUyGEafVZyxhUAJ1/A
+	gWNK1NwMd73sbJucPi3dVxzAIRsJsbAl+glA1Q8DGeWb1VtRmcAeU9zL0ng2nMRasBbsUj/z8L2
+	g1qo7GVFTXLh3tG5ZvpL6VO0uiAzs5aYVHUGoqi0kG3wSsdehhKDep6wz8rtYK
+X-Received: by 2002:a05:6102:2c0a:b0:5f9:39e9:3562 with SMTP id ada2fe7eead31-602aeac0ee2mr1090619137.2.1774000090648;
+        Fri, 20 Mar 2026 02:48:10 -0700 (PDT)
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com. [209.85.222.48])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-602afb5b832sm938876137.12.2026.03.20.02.48.09
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Mar 2026 02:48:10 -0700 (PDT)
+Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-94e2ad66abcso469013241.1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 20 Mar 2026 02:48:09 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWG7+KIaO00KvIUI9+gDpvtV3JpzWnXmef0cdNFWjpKyLGO8EAe7B7hfxx86H7meo2El1CZL9VLptU8gEI14RGvJA==@vger.kernel.org
+X-Received: by 2002:a05:6102:4b85:b0:602:8ad9:1f6f with SMTP id
+ ada2fe7eead31-602aeabedb1mr1161798137.5.1774000089201; Fri, 20 Mar 2026
+ 02:48:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260319155334.51278-8-john.madieu.xa@bp.renesas.com>
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+References: <15510cee649959281d9554965cacd0c06531c1f3.1773308898.git.geert+renesas@glider.be>
+ <CAPDyKFrMtsp5tRSAOx=ytfQ0xSONtRbC24gq2v4QdSh2wWSw1A@mail.gmail.com>
+In-Reply-To: <CAPDyKFrMtsp5tRSAOx=ytfQ0xSONtRbC24gq2v4QdSh2wWSw1A@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 20 Mar 2026 10:47:58 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXupFRDV7AQUwem7Jd2MJyepyONUtTXr8Xdow=zB_qcYg@mail.gmail.com>
+X-Gm-Features: AaiRm53jo1Kzi6wdd9BDyM25xGy57mtBCx3HvMxUoZBMKfg4MkiWLGZ43AKoUH4
+Message-ID: <CAMuHMdXupFRDV7AQUwem7Jd2MJyepyONUtTXr8Xdow=zB_qcYg@mail.gmail.com>
+Subject: Re: [PATCH/RFC] PM: domains: Call pm_runtime_barrier() before dev_pm_domain_{attach*,detach}()
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>, Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>, 
+	Marek Vasut <marek.vasut@mailbox.org>, linux-pm@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-renesas-soc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spamd-Result: default: False [-1.46 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-29990-lists,linux-renesas-soc=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-29991-lists,linux-renesas-soc=lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[28];
+	DMARC_NA(0.00)[linux-m68k.org];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[glider.be,renesas.com,kernel.org,baylibre.com,gmail.com,perex.cz,suse.com,pengutronix.de,tuxon.dev,bp.renesas.com,vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.927];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: A8CA92D8091
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-renesas-soc@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_COUNT_FIVE(0.00)[6];
+	R_DKIM_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.527];
+	TAGGED_RCPT(0.00)[linux-renesas-soc];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linaro.org:email,linux-m68k.org:email,glider.be:email,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: E27292D849E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Thu, Mar 19, 2026 at 04:53:19PM +0100, John Madieu wrote:
-> Add support for the RZ/G3E (R9A09G047) SoC audio subsystem.
-> 
-> RZ/G3E has a different audio architecture from R-Car Gen2/Gen3/Gen4,
-> with additional clocks and resets:
-> - Per-SSI ADG clocks (adg.ssi.0-9)
-> - SCU related clocks (scu, scu_x2, scu_supply)
-> - SSIF supply clock
-> - AUDMAC peri-peri clock
-> - ADG clock
-> - Additional resets for SCU, ADG, and AUDMAC peri-peri
-> 
-> RZ/G3E has 5 DMA controllers that can all be used by audio peripherals.
-> To allow the DMA core to distribute channels across all available
-> controllers, increase the maximum number of DMA entries in DVC, SRC,
-> and SSIU sub-nodes so that multiple providers can be listed with
-> repeated channel names.
-> 
-> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
-> ---
->  .../bindings/sound/renesas,rsnd.yaml          | 169 +++++++++++++++---
->  1 file changed, 148 insertions(+), 21 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml b/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
-> index e8a2acb92646..bc8885c4fa24 100644
-> --- a/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
-> +++ b/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
-> @@ -58,6 +58,7 @@ properties:
->            - renesas,rcar_sound-gen2
->            - renesas,rcar_sound-gen3
->            - renesas,rcar_sound-gen4
-> +          - renesas,rcar_sound-r9a09g047     # RZ/G3E
+Hi Ulf,
 
-Do not use underscores in compatibles. Previously used wrong style is
-not the excuse here, just like previously poor code, mistakes, bugs,
-unreadable approches is not justification to repeat the same.
+On Thu, 19 Mar 2026 at 11:59, Ulf Hansson <ulf.hansson@linaro.org> wrote:
+> On Thu, 12 Mar 2026 at 10:54, Geert Uytterhoeven
+> <geert+renesas@glider.be> wrote:
+> > If a device has multiple PM Domains, dev_pm_domain_detach() is called
+> > multiple times on unbind or probe failure.  If the PM Domain is also a
+> > Clock Domain, and thus calls pm_clk_destroy() from its .detach()
+> > callback, dev_pm_put_subsys_data() will set dev->power.subsys_data to
+> > NULL when psd->refcount reaches zero.
+> >
+> > Later/in parallel, default_suspend_ok() calls dev_gpd_data():
+> >
+> >     static inline struct generic_pm_domain_data *dev_gpd_data(struct device *dev)
+> >     {
+> >             return to_gpd_data(dev->power.subsys_data->domain_data);
+> >     }
+> >
+> > which may trigger a NULL pointer dereference.
+> >
+> > All dev_pm_domain_{at,de}tach*() functions document that callers must
+> > ensure proper synchronization of these functions with power management
+> > callbacks.  Unfortunately no callers seem to actually do so.  This
+> > includes dev_pm_domain_attach_list() and dev_pm_domain_detach_list():
+> > they call dev_pm_domain_{attach*,detach}() internally, which means they
+> > should take care of this synchronization themselves.
+> >
+> > Add synchronization to dev_pm_domain_{at,de}tach_list() by calling
+> > pm_runtime_barrier() before dev_pm_domain_{attach*,detach}(), and drop
+> > the now obsolete comments.
+>
+> My apologies for not being able to respond earlier to your
+> suggestions/questions. I have started looking into this now, and I
+> will follow up with more replies and perhaps a patch shortly.
+>
+> Anyway, the principle is that callers of dev_pm_domain_detach() must
+> manage the runtime PM enabling/disabling for its device. If runtime PM
+> was enabled, it must typically be disabled before calling
+> dev_pm_domain_detach().
+>
+> What makes this a bit more complicated is that we have two different
+> scenarious to consider.
+>
+> 1) The legacy case, attachment via dev_pm_domain_attach() for the
+> single PM domain case. Runtime PM should be enabled/disabled for the
+> device, from its corresponding driver/bus. I assume this isn't the
+> problem you are facing, right?
 
->  
->    reg:
->      minItems: 1
-> @@ -97,20 +98,22 @@ properties:
->  
->    resets:
->      minItems: 1
-> -    maxItems: 11
-> +    maxItems: 14
->  
->    reset-names:
->      minItems: 1
-> -    maxItems: 11
-> +    maxItems: 14
->  
->    clocks:
->      description: References to SSI/SRC/MIX/CTU/DVC/AUDIO_CLK clocks.
->      minItems: 1
-> -    maxItems: 31
-> +    maxItems: 47
->  
->    clock-names:
->      description: List of necessary clock names.
->      # details are defined below
-> +    minItems: 1
-> +    maxItems: 47
->  
->    # ports is below
->    port:
-> @@ -136,9 +139,17 @@ properties:
->  
->          properties:
->            dmas:
-> -            maxItems: 1
-> +            description:
-> +              Must contain unique DMA specifiers, one per available
-> +              DMAC. On RZ/G3E, up to 5 for transmission.
-> +            minItems: 1
-> +            maxItems: 5
->            dma-names:
-> -            const: tx
-> +            minItems: 1
-> +            maxItems: 5
-> +            items:
-> +              enum:
-> +                - tx
+No, this is not the problem I am facing.
 
-Multiple levels, multiple if:then: (further) - I don't find this binding
-manageable/readable. You should split it, with common binding defining
-common part of hardware or interface if there is such.
+> 2) Attachment via dev_pm_domain_attach_by_id|name() (which is called
+> for the *attach_list() case too), for the single/multi PM domain
+> cases. In these cases, runtime PM is enabled in
+> genpd_dev_pm_attach_by_id().
+>
+> For 2), I am inclined to think that the proper action is to call
+> pm_runtime_disable() in genpd_dev_pm_detach() before it calls
+> genpd_remove_device(). Although, I need to check more closely how
+> suitable that would be.
 
-Best regards,
-Krzysztof
+Thanks, that sounds reasonable: genpd_dev_pm_attach_by_id() calls
+pm_runtime_enable(), but there is no pm_runtime_disable() call to
+balance that...
 
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
