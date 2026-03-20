@@ -1,101 +1,96 @@
-Return-Path: <linux-renesas-soc+bounces-29997-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-29995-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cPG3E3cmvWmr6wIAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-29997-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	id EPWnFncmvWmr6wIAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-29995-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
 	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Mar 2026 11:50:31 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C6B62D90A4
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Mar 2026 11:50:29 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A5D92D90AB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Mar 2026 11:50:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 0CCEC30197D5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Mar 2026 10:50:13 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 6830630470B1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Mar 2026 10:50:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7A91399004;
-	Fri, 20 Mar 2026 10:49:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7655391E6F;
+	Fri, 20 Mar 2026 10:49:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zy0KZfv0"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QVzgizIS"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C8BA387576
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 20 Mar 2026 10:49:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44E5831F994
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 20 Mar 2026 10:49:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774003799; cv=none; b=cLqSG3wyAidE2F/g9j4P5YZPojJO5yTeklxyZUp5iT9Ghj9y7ftknvniYZ9reocQE7p9pLoOaK069ARG6KfIvVyigk26Sf6tPiuNyi+3NLjm2cC6bHfGakuw8rTaYTJdqQ7js9T2vOX/+ZB4uMi6BCiLST8wqBOq+yHv7517vPs=
+	t=1774003798; cv=none; b=GyLpb4g39vEfBBFLMxk8/ZgVyvYkDcPdt79fRDeDYr1u7FbDYgUb7gik/D4/iDcEfEZ7SXKNSWlpdVgwPH9MNFjp2E6angXp2EfT4AzV3D9agP0eFw9/cPTUpT1dlSjmryBNCzlPv/W/4P53PLnbZKxqo3iqA0ZvMP1v+ByTgOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774003799; c=relaxed/simple;
-	bh=vqUmNuZj52eWNkWg55dwSRao6XeDjeIG2dI+qktTd/g=;
+	s=arc-20240116; t=1774003798; c=relaxed/simple;
+	bh=IiVbDpGGDD4RSyLv3c7fTfBYylUyvZwXxZ1DAs2PfOE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=C+a2mfdtcrBGMFEjG+7IC/GMolffoVn8RRcwZs6G2jHv+VST8QxbtNQG6KUB/nbyDdKMQXpDfH87yGvQ2KSAnZn6Y17buZ1SeHo/LP9YJLy0hf6PlQcGiEd9n2r27lGBlcCQWIMompavMBGfN/wqiGM385ej716oaY2El+9q8gI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zy0KZfv0; arc=none smtp.client-ip=209.85.221.51
+	 MIME-Version; b=ZBXf7cja6OjNidy8roEI42mEiW+eOb3MExvdU0BH1+t8XX9n9+/dkVhan259i9r21aKAWgNg6OKx5vXpa5JJFkkwS0/2F4xegnu934xJoCGMa6lUk+pQN5ulOoJoeMTQuNW/JPrqTjLL1/YQPrQgPA9V87MeWawKHVUAuEt1I/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QVzgizIS; arc=none smtp.client-ip=209.85.221.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-439bc14dcf4so2039230f8f.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 20 Mar 2026 03:49:54 -0700 (PDT)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-439d8dc4ae4so1422272f8f.2
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 20 Mar 2026 03:49:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1774003793; x=1774608593; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=GV49k1lm/KZcY+LkXt+dp5/TqrAzZMlAkeWnImFuMOE=;
-        b=Zy0KZfv03QKR7JtEyAmYKK9Juf/PH3s4oImfJdljdOdFsKB95iOOlJGLe2AXZXquPh
-         uwD9kNg01mCEASMbHnnVTwxeBo1/vJWcXFqY//zKm1NO4Id8KIqRdxq5ChuYlQ5HnAwX
-         eXRnjJETbDAfqSeL8ys7oAea/D99z66Eri+hI3ebPhNjOeuR7D3XeN9AekfXBeRdHLrd
-         EiFBfVy9E1sZf4H5C4pkWjRueerHQI7VdfSUbD/xboIKLRRsT8JFuR3P1sE0VzsqFhGF
-         IhnbjhI4t7Mi2uw0koDw7XxWUEnWCvOtoRzTUqm6ELFfxsUS1/R6WsYhabYduRXvE8+a
-         Pttw==
+        bh=xEEA7I0ZvUlQhKijbyn5xZAb8FKf9j9NUypo5/H5hDY=;
+        b=QVzgizISLt3b/hNHIH72ZgDmhIm5urwQqzXpvp9qub/Ysqy6n1CNtI+0qaUy4vdQji
+         KfPU1717/+VlbBGRxjMn6KyXk5KduP1mTE0EghFlRUUUxEzaosh+Ti+Gtye13hSAq1JR
+         IxDmYU6m/rTbSH4AjWwR5HXD9d8/aljAADCLHVXnD/CuFKoYvMpozZqB+HavwQmbB2PR
+         Nn6jbRNxpQ2JE8DodPdStdtIqDeXtcQhwD9k7YRMtw2MP6U6TeG++yZEQGjaQ5zuC3Yx
+         q2TpEl6uGj6kTT+DD1BdamqerWkdD17nTAODTkyo9Ed4Z9gskyIHXPuRbcJTl4Yex/fO
+         Bycg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20251104; t=1774003793; x=1774608593;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=GV49k1lm/KZcY+LkXt+dp5/TqrAzZMlAkeWnImFuMOE=;
-        b=sTseyV17vb1UvyriF8K+SIVsmVvyj+f0UvVntpf0v9jtMVdj3NduDot0Ik/W8S3RI7
-         qtfQrKXh02HxPBs+tknkgXhlmQtNoMtmIX4oHPprbfNlfDOoOFnMTHbGn1zLun/9iFXK
-         Sq5my/odWV7MgXj6zI4JYPbQucxsZvLaful5OYcHgk6jsIpoMyGxiXhZk6TiEBrPOtFC
-         yrjDXkY3idFHoXeMNKZ8s0WidbtWfrxZaBG7P3B3s7vJz56+reAHpeVRDl3jVjeKlnqB
-         qcgWKc6Ta80gX/6z7yr/eh6CRCmvXjpYZ7EyA9vSCRu+Hhg9l5EXxWkjxOAG1FO+eshq
-         yF+w==
-X-Forwarded-Encrypted: i=1; AJvYcCVphzmRaA+x0+HtoUwAPP6vajKlKdESoDlbCsYjc9qwB2T2Fwqe+PsBQJq9pwEVmHixZY0fqh1IYSvMqbc9Zv+HbA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzVoGfsbs5RU3DI1cosi8Or5wiaQeliG4RYGYzgxqKIUj2SheO4
-	PYjUspU6MdIi3qA3u/dkF01eMTtGNkQKajGSbeDaqE9V7N2tsbVW6Moh
-X-Gm-Gg: ATEYQzxT9n1iTeJjrSRHmHkSlNtmGGlKf+OVPKBXvyz/oqBekdJgSRmgV4vursbg6Fe
-	HWHC796XsMGOJZNGFc7/cKLGklzj/ZyHCCd99KmAckikcao96O0F+DIhfekuP84sX+6UXNdIfO+
-	hi7okXXRQkaQLAP28n58a7HyHtk2aj4u25I/b/yeTw2/DQxlIExyiOT1hL78R2zrMF5PyxUXw8v
-	7abjqQJ8Dwg5Fg24dB1raxlk6YksnGFQIjKUDjhf8RQGlBTH26WjWdG+NKpvsm5WaZsr2UOqbqA
-	WR0iAsKyhPVYu1RXdidBtFmwf+mKqmzk6Kq5qyqQbywWPCggf7/mDW95Nk0FPYv78bhMK4vv6WO
-	i1e5jMRlaffztvu75YI2gtTWe/WoSjciQfS6PVKCOBjMsPBUZHxKGSGCFGAwHAjWGPh69uCdkwo
-	DhoZnTvPG8aFp71H8s1K1E9xqmjJh0U9INGv9cCB/1gw==
-X-Received: by 2002:a05:6000:270b:b0:43b:3eef:acd9 with SMTP id ffacd0b85a97d-43b57732e0bmr8179563f8f.27.1774003792782;
-        Fri, 20 Mar 2026 03:49:52 -0700 (PDT)
+        bh=xEEA7I0ZvUlQhKijbyn5xZAb8FKf9j9NUypo5/H5hDY=;
+        b=DhiXvZFBna2SbR2C2ztzoVZC4w0gUw7Hyrt7SqowdQbWaQyxI0FwbjXYQWw3MBEOOS
+         Y+fW+ThL6bYlGhp3QJR3tJWCNI6il+xtjgVx/8gRCillLL6+hC04HEA8TaOxCCpNplSQ
+         BHOxP6TQzqMtTQTDuc0ynZIqyWfUYcQZPo1glQZ/nvIEjSi+NVd0/CXSKV/2Rok7+WtE
+         fmYubM/sy06RKVaF7EzBIq/YYukcJXsZ4PMN/84AIWMXfWsogQgwxJ6bJNj8IoAGL1yE
+         +vkOm0Lt3D0RY9qgc0+3xyXcGeFOSpxoWtW9BUAkPE6HAmqvGeUPRQOksQvUsopYIcCk
+         XWQw==
+X-Forwarded-Encrypted: i=1; AJvYcCU7WG9x+uYRK+h0ENPExaaw5hJSj6GY/88hXuEvsbe6n88nlAUxATOfAV+noMn9yiLvxB29ZcOSik7FJlEUo9ujdA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwRFoAGP3k7Am/uPT6S1qkw93uH9Z5PncI4sbufHO93EAUu8ivu
+	bClY4DAbkBo0RB7wM359tNPJi0zWE6szK8uHvps5cuJwvX6dotv5usOS
+X-Gm-Gg: ATEYQzyAQHTuBH9okEvutDjx4oLZNiWS/7W7s88SefEy6mvdMPWkDN56XNH5APai1ez
+	y6zyOWBZ1uCsfe++R2Ex+VZ0426c71g13y5h6uZHbLolrQXFY6K9UX78UnsGlPG3o3RAllmx/9f
+	yX/F+4zhCXAGKd4It+/uS8Go/fTxLGOXs1RgsjnKgCptxB8X5O3zBjtn0x7Ir7C/8RhVUNyj8jQ
+	3SfAVCklzFkdU6DGG46KPDmG6fFx4WGtXJfVZRbEq56YDdTJzkIUc+SwCxUfsz+RpyYhkVtb8Xa
+	HurGJKc8kzRu1FemnyVpbqMEzfezAnpKD3z/YaiS+p7is3O3AnwT+1MtxaycDAqsLf6SeYu4aWQ
+	qx2oGaUcMZZd3poKdXlE8/spBBYNwOAykyERops4VgArfuHQbF5fBR8N6SxKArFL22Gcu1/galc
+	n0pxi7D4B9eDEGLGRgImBbDvbJrCa+7w6H9QtSRELjlg==
+X-Received: by 2002:a05:6000:2f84:b0:439:bd70:6114 with SMTP id ffacd0b85a97d-43b6426d1b1mr4311679f8f.38.1774003793392;
+        Fri, 20 Mar 2026 03:49:53 -0700 (PDT)
 Received: from biju.lan ([2a00:23c4:a758:8a01:5b93:d2b1:bc5c:9231])
         by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b644ae619sm6203062f8f.5.2026.03.20.03.49.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Mar 2026 03:49:52 -0700 (PDT)
+        Fri, 20 Mar 2026 03:49:53 -0700 (PDT)
 From: Biju <biju.das.au@gmail.com>
 X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
 	Michael Turquette <mturquette@baylibre.com>,
 	Stephen Boyd <sboyd@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>
+	Philipp Zabel <p.zabel@pengutronix.de>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
 	linux-renesas-soc@vger.kernel.org,
 	linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: [PATCH v7 01/10] dt-bindings: clock: Document RZ/G3L SoC
-Date: Fri, 20 Mar 2026 10:49:35 +0000
-Message-ID: <20260320104950.42220-2-biju.das.jz@bp.renesas.com>
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH v7 02/10] clk: renesas: rzg2l-cpg: Add support for critical resets
+Date: Fri, 20 Mar 2026 10:49:36 +0000
+Message-ID: <20260320104950.42220-3-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260320104950.42220-1-biju.das.jz@bp.renesas.com>
 References: <20260320104950.42220-1-biju.das.jz@bp.renesas.com>
@@ -109,494 +104,161 @@ Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-29997-lists,linux-renesas-soc=lfdr.de];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[15];
+	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-29995-lists,linux-renesas-soc=lfdr.de];
+	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[bp.renesas.com,vger.kernel.org,gmail.com,microchip.com];
-	FREEMAIL_TO(0.00)[glider.be,baylibre.com,kernel.org,gmail.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[bp.renesas.com,vger.kernel.org,gmail.com];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[bijudasau@gmail.com,linux-renesas-soc@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	NEURAL_HAM(-0.00)[-0.719];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas,dt];
-	NEURAL_HAM(-0.00)[-0.763];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,renesas.com:email]
-X-Rspamd-Queue-Id: 0C6B62D90A4
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[glider.be:email,renesas.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 1A5D92D90AB
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 From: Biju Das <biju.das.jz@bp.renesas.com>
 
-Document the device tree bindings for the Renesas RZ/G3L SoC Clock Pulse
-Generator (CPG). RZ/G3L CPG is similar to RZ/G2L CPG but has 5 clocks
-compared to 1 clock on other SoCs.
+Some reset lines must remain deasserted at all times after boot, as
+asserting them would disable critical system functionality with no owning
+driver to restore them. This mirrors the existing crit_mod_clks mechanism
+which protects critical module clocks from being disabled.
 
-Also define RZ/G3L (R9A08G046) Clock Pulse Generator Core Clocks, as
-listed in section 4.4.4.1 ("Block Diagram of the Clock System"), module
-clock outputs, as listed in section 4.4.2 ("Clock List r1.00") and add
-Reset definitions referring to registers CPG_RST_* in Section 4.4.3
-("Register") of the RZ/G3L Hardware User's Manual (Rev.1.00 Oct, 2025).
+On RZ/G2L family SoCs, the DMA reset must be remain deasserted for routing
+some peripheral interrupts to CPU.
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Add crit_resets and num_crit_resets fields to struct rzg2l_cpg_info to
+allow SoC-specific data tables to declare reset IDs that must never be
+asserted.
+
+Introduce rzg2l_cpg_deassert_crit_resets() to iterate over all critical
+resets and deassert them. Call it both at probe time and during resume to
+ensure critical peripherals are held out of reset after power-on and
+suspend/resume cycles.
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
 v6->v7:
  * No change
 v5->v6:
- * No change
+ * Moved loop variable declaration inside for loops in
+   __rzg2l_cpg_assert() and rzg2l_cpg_deassert_crit_resets()
+ * Collected tag
 v4->v5:
  * No change
-v3->v4:
- * Updated commit description related to core clocks section in
-   the hardware manual
- * Dropped CLK_P4_DIV2 from core clocks
- * Added MIPI_DSI_PLLCLK and USB_SCLK to core clocks
- * Dropped LVDS_PCLK  module clock
- * Added BSC_X_PRESET_BSC reset
-v2->v3:
- * Added macros R9A08G046_ETH{0,1}_CLK_{TX,RX}_I_RMII.
- * Keep the tag from Conor as it is trivial change for just adding macros.
-v1->v2:
- * Documented external ethernet clocks as it is a clock source for MUX
-   inside CPG
- * Updated commit description.
- * Keep the tag from Conor as it is trivial change for adding more
-   clks.
+v4:
+ * Moved this patch from [1] as it is boot-dependent
+ [1] https://lore.kernel.org/all/20260306134228.871815-1-biju.das.jz@bp.renesas.com/
 ---
- .../bindings/clock/renesas,rzg2l-cpg.yaml     |  40 +-
- include/dt-bindings/clock/r9a08g046-cpg.h     | 342 ++++++++++++++++++
- 2 files changed, 377 insertions(+), 5 deletions(-)
- create mode 100644 include/dt-bindings/clock/r9a08g046-cpg.h
+ drivers/clk/renesas/rzg2l-cpg.c | 30 ++++++++++++++++++++++++++++++
+ drivers/clk/renesas/rzg2l-cpg.h |  7 +++++++
+ 2 files changed, 37 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/clock/renesas,rzg2l-cpg.yaml b/Documentation/devicetree/bindings/clock/renesas,rzg2l-cpg.yaml
-index 8c18616e5c4d..c0ce687d83ee 100644
---- a/Documentation/devicetree/bindings/clock/renesas,rzg2l-cpg.yaml
-+++ b/Documentation/devicetree/bindings/clock/renesas,rzg2l-cpg.yaml
-@@ -28,19 +28,30 @@ properties:
-       - renesas,r9a07g044-cpg # RZ/G2{L,LC}
-       - renesas,r9a07g054-cpg # RZ/V2L
-       - renesas,r9a08g045-cpg # RZ/G3S
-+      - renesas,r9a08g046-cpg # RZ/G3L
-       - renesas,r9a09g011-cpg # RZ/V2M
+diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-cpg.c
+index c0584bab58a3..f9e4af7f49d0 100644
+--- a/drivers/clk/renesas/rzg2l-cpg.c
++++ b/drivers/clk/renesas/rzg2l-cpg.c
+@@ -1765,6 +1765,13 @@ static int __rzg2l_cpg_assert(struct reset_controller_dev *rcdev,
+ 	dev_dbg(rcdev->dev, "%s id:%ld offset:0x%x\n",
+ 		assert ? "assert" : "deassert", id, CLK_RST_R(reg));
  
-   reg:
-     maxItems: 1
++	if (assert) {
++		for (unsigned int i = 0; i < priv->info->num_crit_resets; i++) {
++			if (id == priv->info->crit_resets[i])
++				return 0;
++		}
++	}
++
+ 	if (!assert)
+ 		value |= mask;
+ 	writel(value, priv->base + CLK_RST_R(reg));
+@@ -1802,6 +1809,20 @@ static int rzg2l_cpg_deassert(struct reset_controller_dev *rcdev,
+ 	return __rzg2l_cpg_assert(rcdev, id, false);
+ }
  
-   clocks:
--    maxItems: 1
-+    minItems: 1
-+    items:
-+      - description: Clock source to CPG can be either from external clock
-+                     input (EXCLK) or crystal oscillator (XIN/XOUT).
-+      - description: ETH0 TXC clock input
-+      - description: ETH0 RXC clock input
-+      - description: ETH1 TXC clock input
-+      - description: ETH1 RXC clock input
++static int rzg2l_cpg_deassert_crit_resets(struct reset_controller_dev *rcdev,
++					  const struct rzg2l_cpg_info *info)
++{
++	int ret;
++
++	for (unsigned int i = 0; i < info->num_crit_resets; i++) {
++		ret = rzg2l_cpg_deassert(rcdev, info->crit_resets[i]);
++		if (ret)
++			return ret;
++	}
++
++	return 0;
++}
++
+ static int rzg2l_cpg_reset(struct reset_controller_dev *rcdev,
+ 			   unsigned long id)
+ {
+@@ -2051,6 +2072,10 @@ static int __init rzg2l_cpg_probe(struct platform_device *pdev)
+ 	if (error)
+ 		return error;
  
-   clock-names:
--    description:
--      Clock source to CPG can be either from external clock input (EXCLK) or
--      crystal oscillator (XIN/XOUT).
--    const: extal
-+    minItems: 1
-+    items:
-+      - const: extal
-+      - const: eth0_txc_tx_clk
-+      - const: eth0_rxc_rx_clk
-+      - const: eth1_txc_tx_clk
-+      - const: eth1_rxc_rx_clk
++	error = rzg2l_cpg_deassert_crit_resets(&priv->rcdev, info);
++	if (error)
++		return error;
++
+ 	debugfs_create_file("mstop", 0444, NULL, priv, &rzg2l_mod_clock_mstop_fops);
+ 	return 0;
+ }
+@@ -2058,6 +2083,11 @@ static int __init rzg2l_cpg_probe(struct platform_device *pdev)
+ static int rzg2l_cpg_resume(struct device *dev)
+ {
+ 	struct rzg2l_cpg_priv *priv = dev_get_drvdata(dev);
++	int ret;
++
++	ret = rzg2l_cpg_deassert_crit_resets(&priv->rcdev, priv->info);
++	if (ret)
++		return ret;
  
-   '#clock-cells':
-     description: |
-@@ -74,6 +85,25 @@ required:
-   - '#power-domain-cells'
-   - '#reset-cells'
+ 	rzg2l_mod_clock_init_mstop(priv);
  
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: renesas,r9a08g046-cpg
-+    then:
-+      properties:
-+        clocks:
-+          minItems: 5
-+        clock-names:
-+          minItems: 5
-+    else:
-+      properties:
-+        clocks:
-+          maxItems: 1
-+        clock-names:
-+          maxItems: 1
-+
- additionalProperties: false
+diff --git a/drivers/clk/renesas/rzg2l-cpg.h b/drivers/clk/renesas/rzg2l-cpg.h
+index 55e815be16c8..af0a003d93f7 100644
+--- a/drivers/clk/renesas/rzg2l-cpg.h
++++ b/drivers/clk/renesas/rzg2l-cpg.h
+@@ -276,6 +276,9 @@ struct rzg2l_reset {
+  * @crit_mod_clks: Array with Module Clock IDs of critical clocks that
+  *                 should not be disabled without a knowledgeable driver
+  * @num_crit_mod_clks: Number of entries in crit_mod_clks[]
++ * @crit_resets: Array with Reset IDs of critical resets that should not be
++ *               asserted without a knowledgeable driver
++ * @num_crit_resets: Number of entries in crit_resets[]
+  * @has_clk_mon_regs: Flag indicating whether the SoC has CLK_MON registers
+  */
+ struct rzg2l_cpg_info {
+@@ -302,6 +305,10 @@ struct rzg2l_cpg_info {
+ 	const unsigned int *crit_mod_clks;
+ 	unsigned int num_crit_mod_clks;
  
- examples:
-diff --git a/include/dt-bindings/clock/r9a08g046-cpg.h b/include/dt-bindings/clock/r9a08g046-cpg.h
-new file mode 100644
-index 000000000000..56b98e98cf88
---- /dev/null
-+++ b/include/dt-bindings/clock/r9a08g046-cpg.h
-@@ -0,0 +1,342 @@
-+/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+ *
-+ * Copyright (C) 2026 Renesas Electronics Corp.
-+ */
-+#ifndef __DT_BINDINGS_CLOCK_R9A08G046_CPG_H__
-+#define __DT_BINDINGS_CLOCK_R9A08G046_CPG_H__
++	/* Critical Resets that should not be asserted */
++	const unsigned int *crit_resets;
++	unsigned int num_crit_resets;
 +
-+#include <dt-bindings/clock/renesas-cpg-mssr.h>
-+
-+/* R9A08G046 CPG Core Clocks */
-+#define R9A08G046_CLK_I			0
-+#define R9A08G046_CLK_IC0		1
-+#define R9A08G046_CLK_IC1		2
-+#define R9A08G046_CLK_IC2		3
-+#define R9A08G046_CLK_IC3		4
-+#define R9A08G046_CLK_P0		5
-+#define R9A08G046_CLK_P1		6
-+#define R9A08G046_CLK_P2		7
-+#define R9A08G046_CLK_P3		8
-+#define R9A08G046_CLK_P4		9
-+#define R9A08G046_CLK_P5		10
-+#define R9A08G046_CLK_P6		11
-+#define R9A08G046_CLK_P7		12
-+#define R9A08G046_CLK_P8		13
-+#define R9A08G046_CLK_P9		14
-+#define R9A08G046_CLK_P10		15
-+#define R9A08G046_CLK_P13		16
-+#define R9A08G046_CLK_P14		17
-+#define R9A08G046_CLK_P15		18
-+#define R9A08G046_CLK_P16		19
-+#define R9A08G046_CLK_P17		20
-+#define R9A08G046_CLK_P18		21
-+#define R9A08G046_CLK_P19		22
-+#define R9A08G046_CLK_P20		23
-+#define R9A08G046_CLK_M0		24
-+#define R9A08G046_CLK_M1		25
-+#define R9A08G046_CLK_M2		26
-+#define R9A08G046_CLK_M3		27
-+#define R9A08G046_CLK_M4		28
-+#define R9A08G046_CLK_M5		29
-+#define R9A08G046_CLK_M6		30
-+#define R9A08G046_CLK_AT		31
-+#define R9A08G046_CLK_B			32
-+#define R9A08G046_CLK_ETHTX01		33
-+#define R9A08G046_CLK_ETHTX02		34
-+#define R9A08G046_CLK_ETHRX01		35
-+#define R9A08G046_CLK_ETHRX02		36
-+#define R9A08G046_CLK_ETHRM0		37
-+#define R9A08G046_CLK_ETHTX11		38
-+#define R9A08G046_CLK_ETHTX12		39
-+#define R9A08G046_CLK_ETHRX11		40
-+#define R9A08G046_CLK_ETHRX12		41
-+#define R9A08G046_CLK_ETHRM1		42
-+#define R9A08G046_CLK_G			43
-+#define R9A08G046_CLK_HP		44
-+#define R9A08G046_CLK_SD0		45
-+#define R9A08G046_CLK_SD1		46
-+#define R9A08G046_CLK_SD2		47
-+#define R9A08G046_CLK_SPI0		48
-+#define R9A08G046_CLK_SPI1		49
-+#define R9A08G046_CLK_S0		50
-+#define R9A08G046_CLK_SWD		51
-+#define R9A08G046_OSCCLK		52
-+#define R9A08G046_OSCCLK2		53
-+#define R9A08G046_MIPI_DSI_PLLCLK	54
-+#define R9A08G046_USB_SCLK		55
-+
-+/* R9A08G046 Module Clocks */
-+#define R9A08G046_CA55_SCLK		0
-+#define R9A08G046_CA55_PCLK		1
-+#define R9A08G046_CA55_ATCLK		2
-+#define R9A08G046_CA55_GICCLK		3
-+#define R9A08G046_CA55_PERICLK		4
-+#define R9A08G046_CA55_ACLK		5
-+#define R9A08G046_CA55_TSCLK		6
-+#define R9A08G046_CA55_CORECLK0		7
-+#define R9A08G046_CA55_CORECLK1		8
-+#define R9A08G046_CA55_CORECLK2		9
-+#define R9A08G046_CA55_CORECLK3		10
-+#define R9A08G046_SRAM_ACPU_ACLK0	11
-+#define R9A08G046_SRAM_ACPU_ACLK1	12
-+#define R9A08G046_SRAM_ACPU_ACLK2	13
-+#define R9A08G046_GIC600_GICCLK		14
-+#define R9A08G046_IA55_CLK		15
-+#define R9A08G046_IA55_PCLK		16
-+#define R9A08G046_MHU_PCLK		17
-+#define R9A08G046_SYC_CNT_CLK		18
-+#define R9A08G046_DMAC_ACLK		19
-+#define R9A08G046_DMAC_PCLK		20
-+#define R9A08G046_OSTM0_PCLK		21
-+#define R9A08G046_OSTM1_PCLK		22
-+#define R9A08G046_OSTM2_PCLK		23
-+#define R9A08G046_MTU_X_MCK_MTU3	24
-+#define R9A08G046_POE3_CLKM_POE		25
-+#define R9A08G046_GPT_PCLK		26
-+#define R9A08G046_POEG_A_CLKP		27
-+#define R9A08G046_POEG_B_CLKP		28
-+#define R9A08G046_POEG_C_CLKP		29
-+#define R9A08G046_POEG_D_CLKP		30
-+#define R9A08G046_WDT0_PCLK		31
-+#define R9A08G046_WDT0_CLK		32
-+#define R9A08G046_WDT1_PCLK		33
-+#define R9A08G046_WDT1_CLK		34
-+#define R9A08G046_WDT2_PCLK		35
-+#define R9A08G046_WDT2_CLK		36
-+#define R9A08G046_XSPI_HCLK		37
-+#define R9A08G046_XSPI_ACLK		38
-+#define R9A08G046_XSPI_CLK		39
-+#define R9A08G046_XSPI_CLKX2		40
-+#define R9A08G046_SDHI0_IMCLK		41
-+#define R9A08G046_SDHI0_IMCLK2		42
-+#define R9A08G046_SDHI0_CLK_HS		43
-+#define R9A08G046_SDHI0_IACLKS		44
-+#define R9A08G046_SDHI0_IACLKM		45
-+#define R9A08G046_SDHI1_IMCLK		46
-+#define R9A08G046_SDHI1_IMCLK2		47
-+#define R9A08G046_SDHI1_CLK_HS		48
-+#define R9A08G046_SDHI1_IACLKS		49
-+#define R9A08G046_SDHI1_IACLKM		50
-+#define R9A08G046_SDHI2_IMCLK		51
-+#define R9A08G046_SDHI2_IMCLK2		52
-+#define R9A08G046_SDHI2_CLK_HS		53
-+#define R9A08G046_SDHI2_IACLKS		54
-+#define R9A08G046_SDHI2_IACLKM		55
-+#define R9A08G046_GE3D_CLK		56
-+#define R9A08G046_GE3D_AXI_CLK		57
-+#define R9A08G046_GE3D_ACE_CLK		58
-+#define R9A08G046_ISU_ACLK		59
-+#define R9A08G046_ISU_PCLK		60
-+#define R9A08G046_H264_CLK_A		61
-+#define R9A08G046_H264_CLK_P		62
-+#define R9A08G046_CRU_SYSCLK		63
-+#define R9A08G046_CRU_VCLK		64
-+#define R9A08G046_CRU_PCLK		65
-+#define R9A08G046_CRU_ACLK		66
-+#define R9A08G046_MIPI_DSI_SYSCLK	67
-+#define R9A08G046_MIPI_DSI_ACLK		68
-+#define R9A08G046_MIPI_DSI_PCLK		69
-+#define R9A08G046_MIPI_DSI_VCLK		70
-+#define R9A08G046_MIPI_DSI_LPCLK	71
-+#define R9A08G046_LVDS_PLLCLK		72
-+#define R9A08G046_LVDS_CLK_DOT0		73
-+#define R9A08G046_LCDC_CLK_A		74
-+#define R9A08G046_LCDC_CLK_D		75
-+#define R9A08G046_LCDC_CLK_P		76
-+#define R9A08G046_SSI0_PCLK2		77
-+#define R9A08G046_SSI0_PCLK_SFR		78
-+#define R9A08G046_SSI1_PCLK2		79
-+#define R9A08G046_SSI1_PCLK_SFR		80
-+#define R9A08G046_SSI2_PCLK2		81
-+#define R9A08G046_SSI2_PCLK_SFR		82
-+#define R9A08G046_SSI3_PCLK2		83
-+#define R9A08G046_SSI3_PCLK_SFR		84
-+#define R9A08G046_USB_U2H0_HCLK		85
-+#define R9A08G046_USB_U2H1_HCLK		86
-+#define R9A08G046_USB_U2P0_EXR_CPUCLK	87
-+#define R9A08G046_USB_U2P1_EXR_CPUCLK	88
-+#define R9A08G046_USB_PCLK		89
-+#define R9A08G046_ETH0_CLK_AXI		90
-+#define R9A08G046_ETH0_CLK_CHI		91
-+#define R9A08G046_ETH0_CLK_TX_I		92
-+#define R9A08G046_ETH0_CLK_RX_I		93
-+#define R9A08G046_ETH0_CLK_TX_180_I	94
-+#define R9A08G046_ETH0_CLK_RX_180_I	95
-+#define R9A08G046_ETH0_CLK_RMII_I	96
-+#define R9A08G046_ETH0_CLK_PTP_REF_I	97
-+#define R9A08G046_ETH0_CLK_TX_I_RMII	98
-+#define R9A08G046_ETH0_CLK_RX_I_RMII	99
-+#define R9A08G046_ETH1_CLK_AXI		100
-+#define R9A08G046_ETH1_CLK_CHI		101
-+#define R9A08G046_ETH1_CLK_TX_I		102
-+#define R9A08G046_ETH1_CLK_RX_I		103
-+#define R9A08G046_ETH1_CLK_TX_180_I	104
-+#define R9A08G046_ETH1_CLK_RX_180_I	105
-+#define R9A08G046_ETH1_CLK_RMII_I	106
-+#define R9A08G046_ETH1_CLK_PTP_REF_I	107
-+#define R9A08G046_ETH1_CLK_TX_I_RMII	108
-+#define R9A08G046_ETH1_CLK_RX_I_RMII	109
-+#define R9A08G046_I2C0_PCLK		110
-+#define R9A08G046_I2C1_PCLK		111
-+#define R9A08G046_I2C2_PCLK		112
-+#define R9A08G046_I2C3_PCLK		113
-+#define R9A08G046_SCIF0_CLK_PCK		114
-+#define R9A08G046_SCIF1_CLK_PCK		115
-+#define R9A08G046_SCIF2_CLK_PCK		116
-+#define R9A08G046_SCIF3_CLK_PCK		117
-+#define R9A08G046_SCIF4_CLK_PCK		118
-+#define R9A08G046_SCIF5_CLK_PCK		119
-+#define R9A08G046_RSCI0_PCLK		120
-+#define R9A08G046_RSCI0_TCLK		121
-+#define R9A08G046_RSCI1_PCLK		122
-+#define R9A08G046_RSCI1_TCLK		123
-+#define R9A08G046_RSCI2_PCLK		124
-+#define R9A08G046_RSCI2_TCLK		125
-+#define R9A08G046_RSCI3_PCLK		126
-+#define R9A08G046_RSCI3_TCLK		127
-+#define R9A08G046_RSPI0_PCLK		128
-+#define R9A08G046_RSPI0_TCLK		129
-+#define R9A08G046_RSPI1_PCLK		130
-+#define R9A08G046_RSPI1_TCLK		131
-+#define R9A08G046_RSPI2_PCLK		132
-+#define R9A08G046_RSPI2_TCLK		133
-+#define R9A08G046_CANFD_PCLK		134
-+#define R9A08G046_CANFD_CLK_RAM		135
-+#define R9A08G046_GPIO_HCLK		136
-+#define R9A08G046_ADC0_ADCLK		137
-+#define R9A08G046_ADC0_PCLK		138
-+#define R9A08G046_ADC1_ADCLK		138
-+#define R9A08G046_ADC1_PCLK		140
-+#define R9A08G046_TSU_PCLK		141
-+#define R9A08G046_PDM_PCLK		142
-+#define R9A08G046_PDM_CCLK		143
-+#define R9A08G046_PCI_ACLK		144
-+#define R9A08G046_PCI_CLKL1PM		145
-+#define R9A08G046_PCI_CLK_PMU		146
-+#define R9A08G046_SPDIF_PCLK		147
-+#define R9A08G046_I3C_TCLK		148
-+#define R9A08G046_I3C_PCLK		149
-+#define R9A08G046_VBAT_BCLK		150
-+#define R9A08G046_BSC_X_BCK_BSC		151
-+
-+/* R9A08G046 Resets */
-+#define R9A08G046_CA55_RST0_0		0
-+#define R9A08G046_CA55_RST0_1		1
-+#define R9A08G046_CA55_RST0_2		2
-+#define R9A08G046_CA55_RST0_3		3
-+#define R9A08G046_CA55_RST4_0		4
-+#define R9A08G046_CA55_RST4_1		5
-+#define R9A08G046_CA55_RST4_2		6
-+#define R9A08G046_CA55_RST4_3		7
-+#define R9A08G046_CA55_RST8		8
-+#define R9A08G046_CA55_RST9		9
-+#define R9A08G046_CA55_RST10		10
-+#define R9A08G046_CA55_RST11		11
-+#define R9A08G046_CA55_RST12		12
-+#define R9A08G046_CA55_RST13		13
-+#define R9A08G046_CA55_RST14		14
-+#define R9A08G046_CA55_RST15		15
-+#define R9A08G046_CA55_RST16		16
-+#define R9A08G046_SRAM_ACPU_ARESETN0	17
-+#define R9A08G046_SRAM_ACPU_ARESETN1	18
-+#define R9A08G046_SRAM_ACPU_ARESETN2	19
-+#define R9A08G046_GIC600_GICRESET_N	20
-+#define R9A08G046_GIC600_DBG_GICRESET_N	21
-+#define R9A08G046_IA55_RESETN		22
-+#define R9A08G046_MHU_RESETN		23
-+#define R9A08G046_SYC_RESETN		24
-+#define R9A08G046_DMAC_ARESETN		25
-+#define R9A08G046_DMAC_RST_ASYNC	26
-+#define R9A08G046_GTM0_PRESETZ		27
-+#define R9A08G046_GTM1_PRESETZ		28
-+#define R9A08G046_GTM2_PRESETZ		29
-+#define R9A08G046_MTU_X_PRESET_MTU3	30
-+#define R9A08G046_POE3_RST_M_REG	31
-+#define R9A08G046_GPT_RST_C		32
-+#define R9A08G046_POEG_A_RST		33
-+#define R9A08G046_POEG_B_RST		34
-+#define R9A08G046_POEG_C_RST		35
-+#define R9A08G046_POEG_D_RST		36
-+#define R9A08G046_WDT0_PRESETN		37
-+#define R9A08G046_WDT1_PRESETN		38
-+#define R9A08G046_WDT2_PRESETN		39
-+#define R9A08G046_XSPI_HRESETN		40
-+#define R9A08G046_XSPI_ARESETN		41
-+#define R9A08G046_SDHI0_IXRST		42
-+#define R9A08G046_SDHI1_IXRST		43
-+#define R9A08G046_SDHI2_IXRST		44
-+#define R9A08G046_SDHI0_IXRSTAXIM	45
-+#define R9A08G046_SDHI0_IXRSTAXIS	46
-+#define R9A08G046_SDHI1_IXRSTAXIM	47
-+#define R9A08G046_SDHI1_IXRSTAXIS	48
-+#define R9A08G046_SDHI2_IXRSTAXIM	49
-+#define R9A08G046_SDHI2_IXRSTAXIS	50
-+#define R9A08G046_GE3D_RESETN		51
-+#define R9A08G046_GE3D_AXI_RESETN	52
-+#define R9A08G046_GE3D_ACE_RESETN	53
-+#define R9A08G046_ISU_ARESETN		54
-+#define R9A08G046_ISU_PRESETN		55
-+#define R9A08G046_H264_X_RESET_VCP	56
-+#define R9A08G046_H264_CP_PRESET_P	57
-+#define R9A08G046_CRU_CMN_RSTB		58
-+#define R9A08G046_CRU_PRESETN		59
-+#define R9A08G046_CRU_ARESETN		60
-+#define R9A08G046_MIPI_DSI_CMN_RSTB	61
-+#define R9A08G046_MIPI_DSI_ARESET_N	62
-+#define R9A08G046_MIPI_DSI_PRESET_N	63
-+#define R9A08G046_LCDC_RESET_N		64
-+#define R9A08G046_SSI0_RST_M2_REG	65
-+#define R9A08G046_SSI1_RST_M2_REG	66
-+#define R9A08G046_SSI2_RST_M2_REG	67
-+#define R9A08G046_SSI3_RST_M2_REG	68
-+#define R9A08G046_USB_U2H0_HRESETN	69
-+#define R9A08G046_USB_U2H1_HRESETN	70
-+#define R9A08G046_USB_U2P0_EXL_SYSRST	71
-+#define R9A08G046_USB_PRESETN		72
-+#define R9A08G046_USB_U2P1_EXL_SYSRST	73
-+#define R9A08G046_ETH0_ARESET_N		74
-+#define R9A08G046_ETH1_ARESET_N		75
-+#define R9A08G046_I2C0_MRST		76
-+#define R9A08G046_I2C1_MRST		77
-+#define R9A08G046_I2C2_MRST		78
-+#define R9A08G046_I2C3_MRST		79
-+#define R9A08G046_SCIF0_RST_SYSTEM_N	80
-+#define R9A08G046_SCIF1_RST_SYSTEM_N	81
-+#define R9A08G046_SCIF2_RST_SYSTEM_N	82
-+#define R9A08G046_SCIF3_RST_SYSTEM_N	83
-+#define R9A08G046_SCIF4_RST_SYSTEM_N	84
-+#define R9A08G046_SCIF5_RST_SYSTEM_N	85
-+#define R9A08G046_RSPI0_PRESETN		86
-+#define R9A08G046_RSPI1_PRESETN		87
-+#define R9A08G046_RSPI2_PRESETN		88
-+#define R9A08G046_RSPI0_TRESETN		89
-+#define R9A08G046_RSPI1_TRESETN		90
-+#define R9A08G046_RSPI2_TRESETN		91
-+#define R9A08G046_CANFD_RSTP_N		92
-+#define R9A08G046_CANFD_RSTC_N		93
-+#define R9A08G046_GPIO_RSTN		94
-+#define R9A08G046_GPIO_PORT_RESETN	95
-+#define R9A08G046_GPIO_SPARE_RESETN	96
-+#define R9A08G046_ADC0_PRESETN		97
-+#define R9A08G046_ADC0_ADRST_N		98
-+#define R9A08G046_ADC1_PRESETN		99
-+#define R9A08G046_ADC1_ADRST_N		100
-+#define R9A08G046_TSU_PRESETN		101
-+#define R9A08G046_PDM_PRESETN		102
-+#define R9A08G046_PCI_ARESETN		103
-+#define R9A08G046_SPDIF_RST		104
-+#define R9A08G046_I3C_TRESETN		105
-+#define R9A08G046_I3C_PRESETN		106
-+#define R9A08G046_VBAT_BRESETN		107
-+#define R9A08G046_RSCI0_PRESETN		108
-+#define R9A08G046_RSCI1_PRESETN		109
-+#define R9A08G046_RSCI2_PRESETN		110
-+#define R9A08G046_RSCI3_PRESETN		111
-+#define R9A08G046_RSCI0_TRESETN		112
-+#define R9A08G046_RSCI1_TRESETN		113
-+#define R9A08G046_RSCI2_TRESETN		114
-+#define R9A08G046_RSCI3_TRESETN		115
-+#define R9A08G046_LVDS_RESET_N		116
-+#define R9A08G046_BSC_X_PRESET_BSC	117
-+
-+#endif /* __DT_BINDINGS_CLOCK_R9A08G046_CPG_H__ */
+ 	bool has_clk_mon_regs;
+ };
+ 
 -- 
 2.43.0
 
