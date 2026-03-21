@@ -1,142 +1,157 @@
-Return-Path: <linux-renesas-soc+bounces-30043-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-30044-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ydg5F0UFvmlWFgMAu9opvQ
-	(envelope-from <linux-renesas-soc+bounces-30043-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 21 Mar 2026 03:41:09 +0100
+	id YFWLKE8evmmsGwMAu9opvQ
+	(envelope-from <linux-renesas-soc+bounces-30044-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>)
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 21 Mar 2026 05:27:59 +0100
 X-Original-To: lists+linux-renesas-soc@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D67D72E2F01
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 21 Mar 2026 03:41:01 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B51492E3417
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 21 Mar 2026 05:27:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 96B5C302F433
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 21 Mar 2026 02:41:00 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 44C7C3011F1B
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 21 Mar 2026 04:27:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E148629B200;
-	Sat, 21 Mar 2026 02:40:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DEA392D97A6;
+	Sat, 21 Mar 2026 04:27:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="qqCq9bGt";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="v5bKdqCU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rlgx/LgC"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DCFF40DFAC;
-	Sat, 21 Mar 2026 02:40:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D96B29B200
+	for <linux-renesas-soc@vger.kernel.org>; Sat, 21 Mar 2026 04:27:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774060859; cv=none; b=pMBDPh/+8O3RhNvVmig5irOcbcOBbdRg/fqDi1AJ9tSnIbdRe2iA7v4dgapTTj1JE/KrfXP0KwIfeXTq+OPGM7Nz6yeCCVQWe4DJuzjoxyMkXrN2KYy8ut+1GVqnWPRlM0rHqslzQymKxnVXcOGJQYXvEMrpe/OZuGUpP0eBEWs=
+	t=1774067276; cv=none; b=SaoHKx0DzjqSWjbj2RHKcPPY+2pn4kORTWuu5o9u3QDfkqItXpmBlRUWgd6WV/sOHSPs6HnDZVnUIf2EBWNH8+6YwyD3W6uJBV7lG0pdYsmk6/LL0cR+wPH0MTXNllXPjcvUmJ6r7ZkjUaS1TfVVuA+HxtX8F1IYUcCfCvFHKls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774060859; c=relaxed/simple;
-	bh=lCQbNzG2VHRktmTt6VT0DyL3PU8+dP+CoVTHAmze7vU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sbbw1L4QwkvbHJE0MpS2+W1C8cMbh/MBmV16/yNkABMczK5uiEgNfppyZ+sptNr4pw285qf1gpbBm7Udvvj6cfb7HWdE9FDiFVuxalHU8+UZILseFAuFLe2EQ9h/YhegCCzRVypO+TfXNJflmG9BSMI8pbPVqyoe2CKU6K8AjyA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=qqCq9bGt; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=v5bKdqCU; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4fd3Zn5cx2z9tTQ;
-	Sat, 21 Mar 2026 03:40:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1774060849;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qdDMfSVLCo9/lUaNBs87JmokhaKfEhUQFJxxCwYHSgA=;
-	b=qqCq9bGtY+jjjqOX9fhPlyVXgM/Nf4bzMFT5DCXZ66EXnfe5B9DuUBW0fvWgzmk/KqGZRR
-	7beLE+cuUz8uaj1q8s3O8sNkk8V3dPeYoj6CsNum+y/UnPccJpY3BaFhfeG2DMpfaGDQtJ
-	ZXvFE+XilO/E43fQkEYoRozYvjg2oRNyKNlTghd5aG7F3VaeJe5UOPy+Ok1LB/7oXh/k/5
-	BPK5lHpZSi/spm4ciXyg/7Zw/bFD/YIB4Hmrv/WKSJZxMQudu7VbOoaTiLFZnC61IDem/t
-	XIn9+dtaCi5ok3wcYyollfIl/yWR/V5YycWeUJ0Oq0Uy/SDsFopvx7siXIXQTQ==
-Message-ID: <c8d878e2-8ce8-4526-9dbc-96e4f42be4cf@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1774060848;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qdDMfSVLCo9/lUaNBs87JmokhaKfEhUQFJxxCwYHSgA=;
-	b=v5bKdqCU7/3pUMtBJqYDKxL+MheAAKV7YRCwXdVzW8lKw4quA0UBpQvIjuJIGYUKGvJ2Gz
-	9m1Er2wqt49uT41z4BMvNoOEkbNkNTMzhxnwkdk1Qqvui+MFqWkqZGzXL0EqkJ3GA5OHBY
-	xqh0qNfT43pDWF/J1u8L9oLp9bZd8dSMYDWnX5dgW1pkKvxPbRt08exjALgxvfCPxtRFxC
-	zrJp8qdonG+/VK51ya0DzOJP02hMiwVWp49O9/E8NmM9D2nBxhu7NXNdDcICuo0ckETbNi
-	p2q4MK/o/KLFHfeD6E+QRBvNQ4eYsuC9t9gXyxIS4SkX3yayeQdSkRKDv7bBcg==
-Date: Sat, 21 Mar 2026 02:36:27 +0100
+	s=arc-20240116; t=1774067276; c=relaxed/simple;
+	bh=pNN4hBb8lZwBSGAYfJKoU7s49sONueLpgBos8evDX/8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=GE+a4oiRWWhldhbzhWirlwHpX5yVvm1R2HsbuKUEyrvdH33TLD1DL7CZH5A0rcVm4DW6JzUsutGCFc2biZ5htMGqnoEp4+VusODhhowkVJh/cpvDkLXyay2PKUM03pTd0fa0mHGjO/Pw8gtsm+djK8x8IjuBtSsgO/LQnaqVPxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rlgx/LgC; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774067275; x=1805603275;
+  h=date:from:to:cc:subject:message-id;
+  bh=pNN4hBb8lZwBSGAYfJKoU7s49sONueLpgBos8evDX/8=;
+  b=Rlgx/LgCekyyyNt/htiekmRmA+vCwIkTDi1EIk5LB2Ml+H+N/ew4E5h1
+   It8IHnM4T3/gKu1jEO1JKZkOb4IQvlkeHwSX3Whmf4KLOlKtFYu4iEWyO
+   5yHM/0HlRs6+m1VoxI1uruf8vK0WTFCw7pRT0Pco1n+lJtAaBzFGXAM/y
+   Spa4Qz8KBrxd12bDHaEPOWXqrZ3hqeudKHRgqhj/p+Em3iQn8cUTBaPKA
+   wYft5V+C+wpcXNUYsi8Fhqpc6L3gdXEHP2WEve6ix00C+KCzKXCpIQG+e
+   LWivp6HlZh62SY1VtC0OWkNop2KMI944W394isx4TvyYtcpN/zdad5VY9
+   g==;
+X-CSE-ConnectionGUID: BrxH1QV7T3SJ7ZArn2IC0w==
+X-CSE-MsgGUID: 3VfTfn6OTDSck+Tq+QF/jA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11735"; a="75121877"
+X-IronPort-AV: E=Sophos;i="6.23,132,1770624000"; 
+   d="scan'208";a="75121877"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 21:27:54 -0700
+X-CSE-ConnectionGUID: FHL5clzmRmiVKaXSk73EQA==
+X-CSE-MsgGUID: k9pu66oISoWf7T7lBRbSKw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,132,1770624000"; 
+   d="scan'208";a="261385023"
+Received: from lkp-server02.sh.intel.com (HELO d7fefbca0d04) ([10.239.97.151])
+  by orviesa001.jf.intel.com with ESMTP; 20 Mar 2026 21:27:54 -0700
+Received: from kbuild by d7fefbca0d04 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w3nwF-000000000IF-18xZ;
+	Sat, 21 Mar 2026 04:27:51 +0000
+Date: Sat, 21 Mar 2026 12:27:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:renesas-dts-for-v7.1] BUILD SUCCESS
+ cf3a5a77d82cec9f48b4bcb615876d020566e43a
+Message-ID: <202603211218.eRomnKAn-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Subject: Re: [PATCH] dt-bindings: usb: document the Renesas
- UPD720201/UPD720202 USB 3.0 xHCI Host Controller
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
- linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- Marek Vasut <marek.vasut+renesas@mailbox.org>
-References: <20260319-topic-sm8650-ayaneo-pocket-s2-upd-bindings-v1-1-84e4ef564022@linaro.org>
- <CAMuHMdUACGC4rdXfvO-N-cgNAEzhczB0VYbMoxZMyazSAp6jWg@mail.gmail.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <CAMuHMdUACGC4rdXfvO-N-cgNAEzhczB0VYbMoxZMyazSAp6jWg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: 46d1dfa294102950559
-X-MBO-RS-META: mmfk7m44gt9tqixefhmkh5fax4ngkft1
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
-	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-30043-lists,linux-renesas-soc=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[linuxfoundation.org,kernel.org,gmail.com,vger.kernel.org,mailbox.org];
-	RCPT_COUNT_TWELVE(0.00)[12];
 	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWO(0.00)[2];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-30044-lists,linux-renesas-soc=lfdr.de];
+	DKIM_TRACE(0.00)[intel.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-renesas-soc@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[marek.vasut@mailbox.org,linux-renesas-soc@vger.kernel.org];
-	DKIM_TRACE(0.00)[mailbox.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-renesas-soc,dt,renesas];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:dkim,mailbox.org:email,mailbox.org:mid,linaro.org:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: D67D72E2F01
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[linux-renesas-soc,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: B51492E3417
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 3/19/26 10:22 AM, Geert Uytterhoeven wrote:
-> CC Marek (for Sparrow Hawk)
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-dts-for-v7.1
+branch HEAD: cf3a5a77d82cec9f48b4bcb615876d020566e43a  arm64: dts: renesas: rzt2h-rzn2h-evk: Fix GMAC pins sort order
 
-The upstream supplies to which the USB controller on SH would attach are 
-not described in SH DT yet, and they are always on, so I don't think we 
-need to describe the controller in SH DT yet, do we ?
+elapsed time: 787m
 
-> On Thu, 19 Mar 2026 at 09:49, Neil Armstrong <neil.armstrong@linaro.org> wrote:
->> Document the Renesas UPD720201/UPD720202 USB 3.0 xHCI Host Controller,
->> which connects over PCIe and requires specific power supplies to
->> start up.
->>
->> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
->> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-Reviewed-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+configs tested: 32
+configs skipped: 140
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha            allnoconfig    gcc-15.2.0
+arc              allnoconfig    gcc-15.2.0
+arm              allnoconfig    clang-23
+arm              allnoconfig    gcc-15.2.0
+arm             allyesconfig    gcc-15.2.0
+arm          h3600_defconfig    gcc-15.2.0
+arm64           allmodconfig    clang-19
+arm64            allnoconfig    gcc-15.2.0
+csky             allnoconfig    gcc-15.2.0
+hexagon          allnoconfig    gcc-15.2.0
+i386             allnoconfig    gcc-15.2.0
+loongarch        allnoconfig    gcc-15.2.0
+m68k             allnoconfig    gcc-15.2.0
+microblaze       allnoconfig    gcc-15.2.0
+mips             allnoconfig    gcc-15.2.0
+nios2            allnoconfig    clang-23
+openrisc         allnoconfig    clang-23
+parisc           allnoconfig    clang-23
+powerpc          allnoconfig    clang-23
+riscv            allnoconfig    clang-23
+s390             allnoconfig    clang-23
+sh               allnoconfig    clang-23
+sh                 defconfig    gcc-14
+sparc            allnoconfig    clang-23
+sparc64            defconfig    gcc-14
+um               allnoconfig    clang-23
+um                 defconfig    gcc-14
+um            i386_defconfig    gcc-14
+um          x86_64_defconfig    gcc-14
+x86_64           allnoconfig    clang-23
+x86_64             defconfig    gcc-14
+xtensa           allnoconfig    clang-23
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
